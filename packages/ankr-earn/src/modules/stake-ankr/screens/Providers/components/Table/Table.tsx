@@ -37,7 +37,7 @@ export const Table = (): JSX.Element | null => {
         label: t('stake-ankr.table.node-provider'),
       },
       {
-        label: t('stake-ankr.table.apy'),
+        label: t('stake-ankr.table.apr'),
       },
       {
         label: t('stake-ankr.table.staked-pool'),

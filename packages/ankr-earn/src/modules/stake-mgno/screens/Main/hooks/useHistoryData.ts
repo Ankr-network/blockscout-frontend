@@ -2,7 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getHistoryData } from 'modules/stake-mgno/actions/getHistoryData';
-import { IHistoryData } from 'modules/stake-mgno/api/types';
+import { IHistoryData } from 'modules/stake-mgno/api/GnosisStakingSDK/types';
 
 interface IHistory {
   isLoading: boolean;

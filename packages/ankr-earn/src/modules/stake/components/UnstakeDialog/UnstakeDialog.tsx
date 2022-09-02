@@ -41,6 +41,7 @@ export interface IUnstakeDialogProps {
   isWithApprove?: boolean;
   isApproveLoading?: boolean;
   maxAmountDecimals?: number;
+  networkTitleSlot?: JSX.Element;
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
   onClose?: () => void;
   onSubmit: (values: IUnstakeFormValues) => void;
@@ -64,6 +65,7 @@ export const UnstakeDialog = ({
   isWithApprove,
   isApproveLoading,
   maxAmountDecimals,
+  networkTitleSlot,
   onSubmit,
   onClose,
   extraValidation,
@@ -113,6 +115,10 @@ export const UnstakeDialog = ({
                 <Typography className={classes.title} variant="h3">
                   {t('unstake-dialog.title', { token })}
                 </Typography>
+
+                {networkTitleSlot && (
+                  <div className={classes.networkTitle}>{networkTitleSlot}</div>
+                )}
 
                 <Box mb={4}>
                   <AmountInput

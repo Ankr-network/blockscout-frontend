@@ -1,9 +1,10 @@
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
 import { t } from 'common';
 
+import { Token } from 'modules/common/types/token';
 import { NavLink } from 'uiKit/NavLink';
 
 import { PlusMinusBtn } from '../../../common/components/PlusMinusBtn';
@@ -16,7 +17,8 @@ interface ITotalStakedProps {
   isTotalStakedLoading: boolean;
   totalStaked: BigNumber;
   totalStakedUsd: BigNumber;
-  token: string;
+  token: Token;
+  isShowTokenName?: boolean;
   stakeLink: string;
 }
 
@@ -26,6 +28,7 @@ export const TotalStaked = ({
   totalStakedUsd,
   token,
   stakeLink,
+  isShowTokenName = false,
 }: ITotalStakedProps): JSX.Element => {
   const classes = useTotalStakedStyles();
 
@@ -34,42 +37,41 @@ export const TotalStaked = ({
   const stakeBtnText = t('delegated-stake.total-info.stake', { token });
 
   return (
-    <Grid item lg={6} xs={12}>
-      <Paper className={classes.paper}>
-        <TotalIfnoContent
-          amountSlot={
-            <TotalInfoAmount
-              isLoading={isTotalStakedLoading}
-              usdValue={totalStakedUsd}
-              value={totalStaked}
+    <Paper className={classes.paper}>
+      <TotalIfnoContent
+        amountSlot={
+          <TotalInfoAmount
+            isLoading={isTotalStakedLoading}
+            token={isShowTokenName ? token : undefined}
+            usdValue={totalStakedUsd}
+            value={totalStaked}
+          />
+        }
+        buttonSlot={
+          isPlusButton ? (
+            <PlusMinusBtn
+              className={classNames(classes.btn, classes.btnRound)}
+              href={stakeLink}
+              icon="plus"
+              tooltip={stakeBtnText}
+              variant="contained"
             />
-          }
-          buttonSlot={
-            isPlusButton ? (
-              <PlusMinusBtn
-                className={classNames(classes.btn, classes.btnRound)}
-                href={stakeLink}
-                icon="plus"
-                tooltip={stakeBtnText}
-                variant="contained"
-              />
-            ) : (
-              <NavLink
-                className={classNames(classes.btn, classes.btnRegular)}
-                href={stakeLink}
-                variant="contained"
-              >
-                {stakeBtnText}
-              </NavLink>
-            )
-          }
-          titleSlot={
-            <Typography className={classes.title}>
-              {t('delegated-stake.total-info.staked')}
-            </Typography>
-          }
-        />
-      </Paper>
-    </Grid>
+          ) : (
+            <NavLink
+              className={classNames(classes.btn, classes.btnRegular)}
+              href={stakeLink}
+              variant="contained"
+            >
+              {stakeBtnText}
+            </NavLink>
+          )
+        }
+        titleSlot={
+          <Typography className={classes.title}>
+            {t('delegated-stake.total-info.staked')}
+          </Typography>
+        }
+      />
+    </Paper>
   );
 };

@@ -1,3 +1,4 @@
+import { generatePath } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
@@ -23,6 +24,7 @@ export const RoutesConfig = createRouteConfig(
   {
     stake: {
       path: ROOT,
+      generatePath: () => generatePath(ROOT),
     },
     unstake: {
       path: UNSTAKE_MATIC_PATH,

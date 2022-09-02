@@ -72,7 +72,7 @@ export const useStakedMaticCertPolygon = (): IUseStakedMaticCertPolygon => {
     network,
     stakeLink: MaticStakingRoutes.stake.generatePath(token),
     token,
-    unstakeLink: undefined,
+    unstakeLink: MaticStakingRoutes.unstake.generatePath(token),
     tradeLink: DefiRoutes.defi.generatePath(token),
     usdAmount,
   };

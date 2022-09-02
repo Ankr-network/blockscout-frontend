@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles<Theme>(theme => ({
   balanceRoot: {
     flex: 1,
-
+    display: 'flex',
+    flexDirection: 'column',
     width: '100%',
     maxWidth: 616,
     padding: theme.spacing(2.5, 3.75, 3.75),
@@ -56,14 +57,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   balance: {
-    marginBottom: 38,
-
     color: theme.palette.text.primary,
     letterSpacing: '-0.01em',
 
     fontWeight: 600,
     fontSize: 45,
     lineHeight: '52px',
+    height: '100%',
 
     [theme.breakpoints.down('md')]: {
       marginBottom: theme.spacing(1),

@@ -33,7 +33,7 @@ import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
-import { EOpenOceanTokens } from 'modules/stake/types';
+import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -154,6 +154,7 @@ export const StakeBinance = (): JSX.Element => {
         bondToken: EOpenOceanTokens.aBNBb,
         certificateRatio,
         certificateToken: EOpenOceanTokens.aBNBc,
+        network: EOpenOceanNetworks.BSC,
       }),
     );
   }, [certificateRatio, dispatch]);

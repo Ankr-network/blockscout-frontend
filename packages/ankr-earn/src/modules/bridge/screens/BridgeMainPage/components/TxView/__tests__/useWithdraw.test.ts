@@ -2,7 +2,7 @@ import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useDispatch } from 'react-redux';
 
-import { useTxReceipt } from 'modules/bridge/hooks/useTxReceipt';
+import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 import { useWithdraw } from '../useWithdraw';
 
@@ -18,7 +18,7 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('modules/bridge/hooks/useTxReceipt', () => ({
+jest.mock('modules/common/hooks/useTxReceipt', () => ({
   useTxReceipt: jest.fn(),
 }));
 

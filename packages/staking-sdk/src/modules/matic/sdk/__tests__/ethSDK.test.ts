@@ -537,6 +537,18 @@ describe('modules/matic/sdk/ethSDK', () => {
       getPastEvents: jest.fn().mockResolvedValue([
         {
           returnValues: {
+            amount: new BigNumber(777),
+            isRebasing: true,
+          },
+        },
+        {
+          returnValues: {
+            amount: new BigNumber(200),
+            isRebasing: false,
+          },
+        },
+        {
+          returnValues: {
             amount: new BigNumber(200),
             isRebasing: false,
           },
@@ -547,19 +559,13 @@ describe('modules/matic/sdk/ethSDK', () => {
             isRebasing: true,
           },
         },
-        {
-          returnValues: {
-            amount: new BigNumber(700),
-            isRebasing: true,
-          },
-        },
       ]),
       methods: {
         ratio: jest.fn(() => ({
-          call: () => new BigNumber(0.98),
+          call: () => new BigNumber(0.9),
         })),
         pendingMaticClaimsOf: jest.fn(() => ({
-          call: () => new BigNumber(60756),
+          call: () => new BigNumber(500),
         })),
       },
     };
@@ -580,8 +586,8 @@ describe('modules/matic/sdk/ethSDK', () => {
     const data = await sdk.getPendingData();
 
     expect(data).toStrictEqual({
-      pendingBond: new BigNumber(80800),
-      pendingCertificate: new BigNumber(19796),
+      pendingBond: new BigNumber(100),
+      pendingCertificate: new BigNumber(360),
     });
   });
 

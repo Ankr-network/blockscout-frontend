@@ -9,6 +9,29 @@ export const useTotalInfoStyles = makeStyles(theme => ({
     },
   },
 
+  col: {
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(0, 2, 0, 0),
+    },
+  },
+
+  colWithDevider: {
+    marginTop: theme.spacing(3),
+    paddingTop: theme.spacing(2.5),
+    border: `solid ${theme.palette.grey[200]}`,
+    borderWidth: '1px 0 0',
+
+    [theme.breakpoints.up('md')]: {
+      margin: 0,
+      padding: theme.spacing(0, 0, 0, 2),
+      borderWidth: '0 0 0 1px',
+    },
+
+    [theme.breakpoints.up('xl')]: {
+      padding: theme.spacing(0, 0, 0, 4),
+    },
+  },
+
   title: {
     display: 'flex',
     alignItems: 'center',

@@ -17,6 +17,7 @@ import { MessageEventData } from '@ankr.com/provider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { ANKR_CURRENCY } from '../../const';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -24,7 +25,11 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
   return useCallback(() => {
     return (
       <form autoComplete="off" className={classes.form}>
-        <AmountField name={AmountInputField.amount} isDisabled />
+        <AmountField
+          name={AmountInputField.amount}
+          isDisabled
+          currency={ANKR_CURRENCY}
+        />
         <NavLink
           color="primary"
           variant="contained"
@@ -62,6 +67,7 @@ export const useRenderForm = (classes: ClassNameMap) => {
             name={AmountInputField.amount}
             change={change}
             maxDecimals={MAX_DECIMALS}
+            currency={ANKR_CURRENCY}
           />
           <Button
             color="primary"

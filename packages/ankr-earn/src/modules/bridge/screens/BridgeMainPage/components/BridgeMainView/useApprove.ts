@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { approve } from 'modules/bridge/actions/approve';
-import { useTxReceipt } from 'modules/bridge/hooks/useTxReceipt';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { SupportedChainIDS } from 'modules/common/const';
+import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 export interface IUseApproveArgs {
   token: AvailableBridgeTokens;

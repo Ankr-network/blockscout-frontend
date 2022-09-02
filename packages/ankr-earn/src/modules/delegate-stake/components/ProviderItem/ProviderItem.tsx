@@ -28,7 +28,7 @@ export const ProviderItem = ({
         {name}
 
         <div className={classes.nodeAmount}>
-          {t('stake-ankr.staking-table.apy', {
+          {t('stake-ankr.staking-table.apr', {
             value: nodeAPY.decimalPlaces(DEFAULT_ROUNDING).toFixed(),
           })}
         </div>

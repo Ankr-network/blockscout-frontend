@@ -9,7 +9,7 @@ interface IStatsProps {
   yearlyEarningUSD?: string;
   totalStaked?: string;
   totalStakedUSD?: string;
-  stakers?: string;
+  stakers?: number;
   token: string;
   isLoading: boolean;
 }
@@ -28,8 +28,8 @@ export const Stats = ({
     <StatsBox>
       <StatsItem
         isLoading={isLoading}
-        label={t('delegated-stake.staking.stats.apy')}
-        tooltip={t('delegated-stake.staking.stats.apy-tooltip')}
+        label={t('delegated-stake.staking.stats.apr')}
+        tooltip={t('delegated-stake.staking.stats.apr-tooltip')}
         value={apyText}
       />
 

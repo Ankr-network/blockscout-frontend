@@ -364,6 +364,10 @@ export class AnkrStakingReadSDK {
     };
   }
 
+  public async getLatestBlockNumber(): Promise<number> {
+    return this.readProvider.getWeb3().eth.getBlockNumber();
+  }
+
   @Memoize({
     expiring: CACHE_TIME,
     hashFunction: (
@@ -657,7 +661,7 @@ export class AnkrStakingReadSDK {
   /**
    * Internal function to convert wei value to human readable format.
    *
-   * @private
+   * @protected
    * @param {string} amount - value in wei
    * @returns {BigNumber}
    */

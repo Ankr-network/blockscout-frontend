@@ -19,9 +19,15 @@ export interface IContractConfig {
    * only for testnet
    */
   testAnkrToken: string;
-  bridge: string;
   ankrTokenStaking: string;
   ankrStakingChainConfig: string;
+  bridge: string;
+  mGNOToken: string;
+  gnosisStakingContract: string;
+  gnosisInsuranceContract: string;
+  gnosisRewardContract: string;
+  gnosisProviderContract: string;
+  gnosisValidatorManagerContract: string;
 }
 
 export interface IAvalancheConfig {
@@ -99,6 +105,14 @@ const LOCAL_CONFIG: IStkrConfig = {
     ankrTokenStaking: '0x06C2b4dcB69155d1C7Da229AA578BD9b6477A507',
     // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
     ankrStakingChainConfig: '0x916C1e42c41C73941d8319267F0a0E9b592b6058',
+    mGNOToken: '0x4741cB111C61246c6282c97A163AaEfD130C88c3',
+    gnosisStakingContract: '0xBC1940567dd0c593a4f354Be24D04c7d3f6f6c86',
+    gnosisInsuranceContract: '0xD0bbb26828C21Cae18CBFd4136D69f83Bf1b475e',
+    // todo: change it a bit later
+    gnosisRewardContract: '0x6f1b0A814358a9f8E83B7Bb65F0056e99e7162c2',
+    gnosisProviderContract: '0xf9E8E92131EaEAF2c9aAee95A039471Ac693C129',
+    gnosisValidatorManagerContract:
+      '0x4c98cC2D841ba5D801aa9Ba84cae44d786a29C36',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
@@ -110,7 +124,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     aBNBcToken: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
     binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
-    aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
+    aMATICbToken: '0x07Cf0e4544E0f950C7386f83AFDAa696db00Bc94',
     aMATICcToken: '0xA073139a16728DA8e2ceA0EF164820c0476fFf3C',
     aETHToken: '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
     aETHcToken: '0x0ae4837cf3d254e4a1b5a77c0fac591ba253773d',
@@ -173,6 +187,12 @@ const MAINNET_CONFIG: IStkrConfig = {
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     ankrTokenStaking: '0xaB15B0bdDc012092cb23f53953149a7F8C1f9E7f',
     ankrStakingChainConfig: '0x2d3F893c7c45C2BE3Ec63cf5385DeAfD7Ece6AAE',
+    mGNOToken: '0x722fc4DAABFEaff81b97894fC623f91814a1BF68',
+    gnosisStakingContract: ZERO_ADDR,
+    gnosisInsuranceContract: ZERO_ADDR,
+    gnosisRewardContract: ZERO_ADDR,
+    gnosisProviderContract: ZERO_ADDR,
+    gnosisValidatorManagerContract: ZERO_ADDR,
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
@@ -208,10 +228,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
     aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
     maticToken: '0x0000000000000000000000000000000000001010',
-    /**
-     * TODO Add valid token address for Mainnet (MATIC on Polygon)
-     */
-    swapPool: ZERO_ADDR,
+    swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

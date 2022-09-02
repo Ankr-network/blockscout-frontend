@@ -13,6 +13,7 @@ const ROOT = `${STAKING_PATH}test/`;
 const TEST_STAKE_PATH = `${ROOT}eth-stake-without-claim/`;
 const NOTIFICATIONS_PATH = `${ROOT}notifications/`;
 const ANKR_FAUCET_PATH = `${ROOT}ankr-faucet/`;
+const DEV_PATH = `${ROOT}dev/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -34,6 +35,14 @@ export const RoutesConfig = createRouteConfig(
     ankrFaucet: {
       path: ANKR_FAUCET_PATH,
       generatePath: () => generatePath(ANKR_FAUCET_PATH),
+    },
+
+    /**
+     * temporary added for https://ankrnetwork.atlassian.net/browse/STAKAN-1810
+     */
+    devPage: {
+      path: DEV_PATH,
+      generatePath: () => generatePath(DEV_PATH),
     },
   },
   ROOT,
@@ -57,6 +66,10 @@ const AnkrFaucet = loadComponent(() =>
   import('./screens/AnkrFaucet').then(module => module.AnkrFaucet),
 );
 
+const DevPage = loadComponent(() =>
+  import('./screens/DevPage').then(module => module.DevPage),
+);
+
 export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
@@ -64,6 +77,12 @@ export function getRoutes(): JSX.Element {
         <Route exact path={RoutesConfig.main.path}>
           <DefaultLayout>
             <Main />
+          </DefaultLayout>
+        </Route>
+
+        <Route exact path={RoutesConfig.devPage.path}>
+          <DefaultLayout>
+            <DevPage />
           </DefaultLayout>
         </Route>
 

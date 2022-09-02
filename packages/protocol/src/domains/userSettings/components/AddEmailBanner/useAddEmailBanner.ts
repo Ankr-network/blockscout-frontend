@@ -10,15 +10,28 @@ export const useAddEmailBanner = ({
   asCard = false,
   initialContentState = AddEmailFormContentState.ADD_EMAIL,
   initialSubmittedData,
+  resetInviteEmail,
+  formDisabled,
 }: IUseAddEmailBannerProps) => {
   const { isDialogVisible, handleClose, handleDoNotShowAgain } =
     useDialogVisibility(asCard);
 
-  const { title, contentState, setContentState, submittedData, onFormSubmit } =
-    useContent({ initialContentState, initialSubmittedData });
+  const {
+    title,
+    contentState,
+    setContentState,
+    submittedData,
+    onFormSubmit,
+    onAddEmailSubmitSuccess,
+  } = useContent({
+    initialContentState,
+    initialSubmittedData,
+    resetInviteEmail,
+  });
 
   const contentProps = useMemo<IAddEmailBannerContentProps>(
     () => ({
+      formDisabled,
       handleDoNotShowAgain: asCard ? undefined : handleDoNotShowAgain,
 
       contentState,
@@ -26,12 +39,15 @@ export const useAddEmailBanner = ({
 
       submittedData,
       onFormSubmit,
+      onAddEmailSubmitSuccess,
     }),
     [
       asCard,
       contentState,
+      formDisabled,
       handleDoNotShowAgain,
       onFormSubmit,
+      onAddEmailSubmitSuccess,
       setContentState,
       submittedData,
     ],

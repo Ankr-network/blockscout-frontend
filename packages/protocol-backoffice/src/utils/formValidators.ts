@@ -15,6 +15,14 @@ export const web3AddressValidator: Rule = {
   },
 };
 
+export const emailValidator: Rule = {
+  validator: async (_, value: string) => {
+    if (value && !value.match(/\S+@\S+\.\S+/)) {
+      throw new Error('Invalid Email Address');
+    }
+  },
+};
+
 export const getOrganizationFromURL = (
   requestUrl: string,
 ): string | undefined => {

@@ -52,6 +52,7 @@ export interface IStakeFormComponentProps {
   className?: string;
   isMaxBtnShowed?: boolean;
   maxAmountDecimals?: number;
+  networkTitleSlot?: JSX.Element;
   feeSlot?: ReactNode;
   stakingAmountStep?: number;
   labelTooltip?: ReactText | JSX.Element;
@@ -78,6 +79,7 @@ export const StakeForm = ({
   tokenOut = tokenIn,
   isMaxBtnShowed = true,
   maxAmountDecimals,
+  networkTitleSlot,
   feeSlot,
   stakingAmountStep,
   labelTooltip,
@@ -159,6 +161,10 @@ export const StakeForm = ({
     return (
       <StakeFormBox className={className} onSubmit={handleSubmit}>
         <StakeFormTitle>{t('stake.title', { token: tokenIn })}</StakeFormTitle>
+
+        {networkTitleSlot && (
+          <div className={classes.networkTitle}>{networkTitleSlot}</div>
+        )}
 
         <AmountInput
           balance={balance}

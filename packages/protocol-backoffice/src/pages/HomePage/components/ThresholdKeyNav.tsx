@@ -10,7 +10,7 @@ import { ThresholdKeyTable } from 'components/ThresholdKeyTable';
 import { useLocalGridStore } from 'stores/LocalGridStore';
 
 export const ThresholdKeyNav = observer(() => {
-  const api = useMultiRpcSdk().getApiGateway();
+  const api = useMultiRpcSdk().getConsensusGateway();
 
   const formStore = useLocalGridStore(async () => {
     const [players] = await api.getPlayers(0, 1000);

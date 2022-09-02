@@ -1,16 +1,18 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@ankr.com/global-menu/src/assets/fonts/style.css';
-import React from 'react';
 import { hydrate, render } from 'react-dom';
+
+import { initGoogleGtm } from 'common';
 
 import { initializeAnalytics } from 'modules/analytics';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const rootElement = document.getElementById('root');
-
 initializeAnalytics();
+initGoogleGtm();
+
+const rootElement = document.getElementById('root');
 
 if (rootElement?.hasChildNodes()) {
   hydrate(<App />, rootElement);

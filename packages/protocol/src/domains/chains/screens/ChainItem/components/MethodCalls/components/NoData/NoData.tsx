@@ -1,23 +1,14 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { useNoDataStyles } from './useNoDataStyles';
+import { t } from 'common';
 
-interface INoDataProps {
-  title: string;
-  content: string;
-}
-
-export const NoData = ({ title, content }: INoDataProps) => {
+export const NoData = () => {
   const classes = useNoDataStyles();
 
   return (
-    <div className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        {title}
-      </Typography>
-      <Typography variant="body2" className={classes.content}>
-        {content}
-      </Typography>
-    </div>
+    <Typography variant="body2" className={classes.content}>
+      {t('chain-item.no-data')}
+    </Typography>
   );
 };

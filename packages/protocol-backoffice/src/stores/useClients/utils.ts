@@ -47,13 +47,15 @@ export const makeClients = (
       return { ...balance, type: ClientType.UNKNOWN };
     }
 
-    const { ttl, hash } = user;
+    const { ttl, hash, timestamp, createdAt } = user;
 
     return {
       ...balance,
       ttl,
       hash,
       type: getClientType(ttl, hash),
+      timestamp,
+      createdAt,
     };
   });
 

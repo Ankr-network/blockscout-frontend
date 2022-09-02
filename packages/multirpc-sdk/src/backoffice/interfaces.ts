@@ -1,4 +1,5 @@
 import {
+  ICreateTestClientRequest, ICreateTestClientResponse,
   IAddVoucherCreditsRequest,
   IAddVoucherCreditsResponse,
   IBalancesRequest,
@@ -30,6 +31,10 @@ export interface IBackofficeGateway {
   getEmailBindings(
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
+
+  createTestPremiumUser(
+    params: ICreateTestClientRequest,
+  ): Promise<ICreateTestClientResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,

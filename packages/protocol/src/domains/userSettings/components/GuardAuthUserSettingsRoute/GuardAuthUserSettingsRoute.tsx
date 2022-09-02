@@ -1,10 +1,11 @@
 import { Route, RouteProps } from 'react-router-dom';
-
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { Spinner } from 'ui';
+
+import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { isInvitation } from './utils/isInvitation';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export interface IGuardAuthUserSettingsRoute extends RouteProps {
   hasAuthData: boolean;
@@ -31,7 +32,7 @@ export const GuardAuthUserSettingsRoute = ({
     );
   }
 
-  if (hasAuthData) {
+  if (hasAuthData || isInvitation(routeProps)) {
     return authorizedRender;
   }
 

@@ -1,8 +1,10 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ANKR_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
@@ -18,11 +20,16 @@ export interface IStakedANKRData {
   manageLink: string;
   isShowed: boolean;
   loading: boolean;
+  address?: string;
+  walletName?: string;
 }
 
 export const useStakedANKRData = (): IStakedANKRData => {
   const { data, loading } = useQuery({ type: getTotalInfo });
   const { data: ankrPrice } = useQuery({ type: getANKRPrice });
+  const { address, walletName } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const network = t(`chain.${ANKR_NETWORK_BY_ENV}`);
   const stakedAmount = data?.totalDelegatedAmount ?? ZERO;
@@ -48,5 +55,7 @@ export const useStakedANKRData = (): IStakedANKRData => {
     manageLink: RoutesConfig.main.generatePath(),
     isShowed,
     loading,
+    address,
+    walletName,
   };
 };

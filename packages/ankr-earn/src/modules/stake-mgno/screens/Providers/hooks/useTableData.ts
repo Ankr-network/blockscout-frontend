@@ -1,13 +1,12 @@
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { getProviders } from 'modules/stake-mgno/actions/getProviders';
+import { IProvider } from 'modules/stake-mgno/api/GnosisStakingSDK/types';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 
-interface ITableRow {
-  provider: string;
-  nodeKeys: number;
-  slashingProtection: string;
-  insurancePool: string;
-  staked: string;
-  available: string;
-  apr: string;
+interface ITableRow extends IProvider {
+  apr: number;
   stakeLink?: string;
   detailsLink?: string;
 }
@@ -18,31 +17,27 @@ interface ITableData {
 }
 
 export const useTableData = (): ITableData => {
-  const data: ITableRow[] = [
-    {
-      provider: 'test provider 1',
-      nodeKeys: 1,
-      slashingProtection: '98',
-      insurancePool: '10',
-      apr: '0.2',
-      staked: '100',
-      available: '233',
-      stakeLink: RoutesConfig.stake.generatePath(),
-      detailsLink: '',
-    },
-    {
-      provider: 'test provider 2',
-      nodeKeys: 1,
-      slashingProtection: '98',
-      insurancePool: '10',
-      apr: '0.2',
-      staked: '100',
-      available: '233',
-    },
-  ];
+  const dispatchRequest = useDispatchRequest();
+  const { data: providers, loading } = useQuery({
+    type: getProviders,
+  });
+
+  useProviderEffect(() => {
+    dispatchRequest(getProviders());
+  }, [dispatchRequest]);
+
+  const data: ITableRow[] =
+    providers?.map(provider => {
+      return {
+        ...provider,
+        provider: provider.provider,
+        apr: 0,
+        stakeLink: RoutesConfig.stake.generatePath(provider.provider),
+      };
+    }) || [];
 
   return {
-    isLoading: false,
+    isLoading: loading,
     data,
   };
 };

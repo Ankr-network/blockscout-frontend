@@ -34,7 +34,7 @@ import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
-import { EOpenOceanTokens } from 'modules/stake/types';
+import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 
@@ -140,6 +140,7 @@ export const StakeFantom = (): JSX.Element => {
         bondToken: EOpenOceanTokens.aFTMb,
         certificateRatio,
         certificateToken: EOpenOceanTokens.aFTMc,
+        network: EOpenOceanNetworks.FANTOM,
       }),
     );
   }, [certificateRatio, dispatchRequest]);

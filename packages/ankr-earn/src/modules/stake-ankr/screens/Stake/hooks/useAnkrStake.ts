@@ -1,4 +1,3 @@
-import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -12,14 +11,14 @@ import { t, tHTML } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import {
-  IFormState,
   IAnkrStakeFormPayload,
   IAnkrStakeSubmitPayload,
+  IFormState,
 } from 'modules/delegate-stake/components/StakeForm/const';
-import { approve } from 'modules/stake-ankr/actions/approve';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { stake } from 'modules/stake-ankr/actions/stake';
 import { ANKR_STAKE_FORM_ID, TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
@@ -28,6 +27,7 @@ import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderNam
 import { useFormState } from '../../../../forms/hooks/useFormState';
 
 import { useAnalytics } from './useAnalytics';
+import { useApprove } from './useApprove';
 
 interface IUseAnkrStake {
   isStakeLoading: boolean;
@@ -67,11 +67,11 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
-  const { data: approveData, loading: isApproveLoading } = useQuery({
-    type: approve,
-  });
   const { data: apyData, loading: isApyLoading } = useQuery({
     type: getAPY,
+  });
+  const { data: totalInfo, loading: isTotalInfoLoading } = useQuery({
+    type: getTotalInfo,
   });
 
   const amount = formState?.amount ?? ZERO;
@@ -79,14 +79,17 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
+  const {
+    isApproved,
+    isLoading: isApproveLoading,
+    handleApprove,
+  } = useApprove();
+
   useProviderEffect(() => {
     dispatchRequest(getProviders());
     dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
-
-    return () => {
-      dispatch(resetRequests([approve.toString()]));
-    };
+    dispatchRequest(getTotalInfo());
   }, []);
 
   const currentProvider = providers ? providers[0] : null;
@@ -95,11 +98,9 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const apyItem = apyData?.find(x => x.validator === initialProvider);
   const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
 
-  const isApproved = !!approveData;
-
   const { sendAnalytics } = useAnalytics({
     amount,
-    balance,
+    stakedAmount: totalInfo?.totalDelegatedAmount ?? ZERO,
     nodeProvider: initialProvider ?? '',
   });
 
@@ -128,7 +129,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
         }
       });
     } else {
-      dispatchRequest(approve(readyAmount));
+      handleApprove(readyAmount);
     }
   };
 
@@ -142,7 +143,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
       isProvidersLoading ||
       isCommonDataLoading ||
       isStakeLoading ||
-      isApproveLoading,
+      isApproveLoading ||
+      isTotalInfoLoading,
     balance,
     minStake: commonData?.minStake ?? ZERO,
     tokenIn: t('unit.ankr'),

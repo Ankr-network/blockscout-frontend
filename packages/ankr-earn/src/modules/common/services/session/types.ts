@@ -1,3 +1,3 @@
 export enum SessionServiceKeys {
-  HIDE_OLD_UI_POPUP = 'hideOldUIPopup',
+  IS_PROVIDER_BANNER_HIDDEN = 'isProviderBannerHidden',
 }

@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import { t } from 'modules/i18n/utils/intl';
 import { usePlaceholderStyles } from './PlaceholderStyles';
 
@@ -10,7 +11,9 @@ export const Placeholder = () => {
   return (
     <div className={classes.placeholder}>
       <div className={classes.title}>{title}</div>
-      <div className={classes.subtitle}>{subtitle}</div>
+      <Typography variant="body2" className={classes.subtitle}>
+        {subtitle}
+      </Typography>
     </div>
   );
 };
