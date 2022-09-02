@@ -224,3 +224,16 @@ export interface INotificationsSettings {
   balance_7days?: boolean;
   balance_3days?: boolean;
 }
+
+export interface ICanPayByCardResponse {
+  isEligible: boolean;
+}
+
+export interface IGetLinkForCardPaymentRequest {
+  amount: string;
+  publicKey: string;
+}
+
+export interface IGetLinkForCardPaymentResponse {
+  url: string;
+}

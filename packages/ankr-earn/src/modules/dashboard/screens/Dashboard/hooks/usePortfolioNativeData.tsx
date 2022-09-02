@@ -23,8 +23,9 @@ import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/g
 import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
-import { fetchStats as fetchStakePolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/eth/Routes';
+import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/common/Routes';
+import { fetchStats as fetchMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
 import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
@@ -61,9 +62,14 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getMetrics,
   });
 
-  const { data: polygonData, loading: isPolygonDataLoading } = useQuery({
-    type: fetchStakePolygonStats,
+  const { data: ethMaticData, loading: isEthMaticDataLoading } = useQuery({
+    type: fetchMaticEthStats,
   });
+
+  const { data: polygonMaticData, loading: isPolygonMaticDataLoading } =
+    useQuery({
+      type: getMaticPolygonCommonData,
+    });
 
   const { data: avaxData, loading: isAvaxDataLoading } = useQuery({
     type: fetchStakeAVAXStats,
@@ -130,7 +136,9 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     () => [
       {
         name: Token.MATIC,
-        amount: polygonData?.maticBalance ?? ZERO,
+        amount: (ethMaticData?.maticBalance ?? ZERO).plus(
+          polygonMaticData?.maticBalance ?? ZERO,
+        ),
         apy: metrics?.matic.apy ?? ZERO,
         service: EMetricsServiceName.MATIC,
         link: StakeMaticRoutes.stake.generatePath(),
@@ -158,10 +166,9 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       },
       {
         name: Token.ETH,
-        amount:
-          ethData?.ethBalance
-            .plus(ethData.claimableAETHB ?? ZERO)
-            .plus(ethData.claimableAETHC ?? ZERO) ?? ZERO,
+        amount: (ethData?.ethBalance ?? ZERO)
+          .plus(ethData?.claimableAETHB ?? ZERO)
+          .plus(ethData?.claimableAETHC ?? ZERO),
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
         link: StakeEthRoutes.stake.generatePath(),
@@ -207,7 +214,8 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       ankrBalanceData,
       avaxData,
       ftmData,
-      polygonData,
+      ethMaticData,
+      polygonMaticData,
       bnbData,
       ethData,
       dotClaimableBalance,
@@ -279,7 +287,8 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
 
   return {
     isLoading:
-      isPolygonDataLoading ||
+      isEthMaticDataLoading ||
+      isPolygonMaticDataLoading ||
       isAvaxDataLoading ||
       isBnbDataLoading ||
       isEthDataLoading ||

@@ -53,6 +53,8 @@ export const chainGroups: ChainGroup[] = [
       'optimism',
       'optimism_testnet',
       'polygon_mumbai',
+      'heco',
+      'heco_testnet',
     ],
   },
   {

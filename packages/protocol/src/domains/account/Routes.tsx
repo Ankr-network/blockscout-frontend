@@ -8,6 +8,8 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 export const PATH_ACCOUNT = '/account/';
 export const PATH_TOPUP = `${PATH_ACCOUNT}topup/`;
 export const PATH_WITHDRAW = `${PATH_ACCOUNT}withdraw/`;
+export const PATH_CARDPAYMENT_SUCCESS = `${PATH_ACCOUNT}success/`;
+export const PATH_CARDPAYMENT_FAILURE = `${PATH_ACCOUNT}failure/`;
 
 export const AccountRoutesConfig = createRouteConfig(
   {
@@ -25,6 +27,16 @@ export const AccountRoutesConfig = createRouteConfig(
       path: PATH_WITHDRAW,
       generatePath: () => PATH_WITHDRAW,
       breadcrumbs: 'account.withdraw.breadcrumbs',
+    },
+    cardPaymentSuccess: {
+      path: PATH_CARDPAYMENT_SUCCESS,
+      generate: () => PATH_CARDPAYMENT_SUCCESS,
+      breadcrumbs: 'account.card-payment-success.breadcrumbs',
+    },
+    cardPaymentFailure: {
+      path: PATH_CARDPAYMENT_FAILURE,
+      generage: () => PATH_CARDPAYMENT_FAILURE,
+      breadcrumbs: 'account.card-payment-failure.breadcrumbs',
     },
   },
 
@@ -53,6 +65,26 @@ const LoadableWithdrawContainer: LoadableComponent<any> = loadable(
   },
 );
 
+const LoadableCardPaymentSuccessContainer: LoadableComponent<any> = loadable(
+  async () =>
+    import('./screens/CardPaymentSuccess').then(
+      module => module.CardPaymentSuccess,
+    ),
+  {
+    fallback: <Spinner />,
+  },
+);
+
+const LoadableCardPaymentFailureContainer: LoadableComponent<any> = loadable(
+  async () =>
+    import('./screens/CardPaymentFailure').then(
+      module => module.CardPaymentFailure,
+    ),
+  {
+    fallback: <Spinner />,
+  },
+);
+
 export function AccountRoutes() {
   return (
     <>
@@ -70,6 +102,16 @@ export function AccountRoutes() {
         exact
         path={AccountRoutesConfig.withdraw.path}
         component={LoadableWithdrawContainer}
+      />
+      <Route
+        exact
+        path={AccountRoutesConfig.cardPaymentSuccess.path}
+        component={LoadableCardPaymentSuccessContainer}
+      />
+      <Route
+        exact
+        path={AccountRoutesConfig.cardPaymentFailure.path}
+        component={LoadableCardPaymentFailureContainer}
       />
     </>
   );

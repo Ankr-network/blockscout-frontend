@@ -89,7 +89,11 @@ export const UsageDataSection = ({
               <RequestsByIP data={userTopRequestsIp} loading={loading} />
             )}
           {isRequestsMapVisible && (
-            <RequestsMap countries={countries} timeframe={timeframe} />
+            <RequestsMap
+              loading={loading}
+              countries={countries}
+              timeframe={timeframe}
+            />
           )}
         </>
       )}

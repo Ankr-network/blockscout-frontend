@@ -65,7 +65,7 @@ const tableColumns = [
 ];
 
 export const ProposalTable = observer(() => {
-  const api = useMultiRpcSdk().getApiGateway();
+  const api = useMultiRpcSdk().getConsensusGateway();
   const grid = useLocalGridStore((offset, limit) => {
     return api.getProposals(offset, limit);
   });

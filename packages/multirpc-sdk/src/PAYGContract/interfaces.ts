@@ -19,7 +19,7 @@ export interface IPAYGContractManager {
     user: Web3Address,
   ): Promise<PrefixedHex | false>;
 
-  getLatestUserLockedFundsEventLogHash(user: Web3Address): Promise<EventData[]>;
+  getLatestLockedFundsEvents(user: Web3Address): Promise<EventData[]>;
 
   getLatestProviderRequestEvents(user: Web3Address): Promise<EventData[]>;
 

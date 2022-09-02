@@ -1,17 +1,16 @@
 import { ThemeProvider } from '@material-ui/core';
 import { resetRequests, stopPolling } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { mainTheme } from 'ui';
+
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { mainTheme } from 'ui';
 // eslint-disable-next-line import/no-cycle
 import { ChainItem } from './ChainItem';
 import { ChainItemSkeleton } from './ChainItemSkeleton';
@@ -24,34 +23,36 @@ interface ChainItemProps {
 export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
-  const { credentials } = useAuth();
+  const { credentials, loading: walletLoading } = useAuth();
   const classes = useStyles();
-
-  useOnMount(() => {
-    dispatchRequest(fetchChain(chainId));
-  });
 
   useEffect(() => {
     if (credentials) {
       dispatchRequest(fetchPremiumChainFeatures(chainId));
       dispatchRequest(fetchEndpoints());
     }
-  }, [chainId, credentials, dispatchRequest]);
 
-  useOnUnmount(() => {
-    const fetchChainAction = fetchChain.toString();
+    if (!walletLoading) {
+      dispatchRequest(fetchChain(chainId, credentials));
+    }
 
-    dispatch(
-      resetRequests([
-        fetchChainAction,
-        { requestType: fetchChainAction, requestKey: chainId },
-      ]),
-    );
+    return () => {
+      if (!walletLoading) {
+        const fetchChainAction = fetchChain.toString();
 
-    dispatch(
-      stopPolling([{ requestType: fetchChainAction, requestKey: chainId }]),
-    );
-  });
+        dispatch(
+          resetRequests([
+            fetchChainAction,
+            { requestType: fetchChainAction, requestKey: chainId },
+          ]),
+        );
+
+        dispatch(
+          stopPolling([{ requestType: fetchChainAction, requestKey: chainId }]),
+        );
+      }
+    };
+  }, [chainId, credentials, dispatch, dispatchRequest, walletLoading]);
 
   return (
     <ThemeProvider theme={mainTheme}>

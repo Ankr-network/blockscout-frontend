@@ -1,6 +1,6 @@
+import { QUERY_EMAIL } from '../const';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
 
-const QUERY_EMAIL = 'email';
 const QUERY_CODE = 'code';
 
 export const useLinkParams = () => {

@@ -6,13 +6,13 @@ import { t } from 'modules/i18n/utils/intl';
 import { InputField } from 'modules/form/components/InputField';
 import { useStyles } from './AmountFieldStyles';
 import {
-  CURRENCY,
   MAX_DECIMALS,
   normalizeAmount,
   validateAmount,
 } from './AmountFieldUtils';
 import { OnChange } from 'modules/form/utils/OnChange';
 import { AmountInputField } from '../TopUpFormTypes';
+import { ANKR_CURRENCY, USD_CURRENCY } from '../../../const';
 
 interface AmountFieldProps {
   name: AmountInputField.amount;
@@ -21,6 +21,7 @@ interface AmountFieldProps {
   validate?: (value: string) => string | undefined;
   change?: (name: AmountInputField.amount, value: string) => void;
   maxDecimals?: number;
+  currency: typeof ANKR_CURRENCY | typeof USD_CURRENCY;
 }
 
 export const AmountField = ({
@@ -30,6 +31,7 @@ export const AmountField = ({
   change,
   validate = validateAmount,
   maxDecimals = MAX_DECIMALS,
+  currency,
 }: AmountFieldProps) => {
   const classes = useStyles({ size });
 
@@ -50,7 +52,7 @@ export const AmountField = ({
             root: classes.inputBase,
             input: classes.input,
           },
-          endAdornment: <Typography variant="subtitle1">{CURRENCY}</Typography>,
+          endAdornment: <Typography variant="subtitle1">{currency}</Typography>,
         }}
       />
       {change && (

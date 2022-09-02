@@ -63,6 +63,19 @@ export interface IEmailBindingsResponse {
   cursor: string;
 }
 
+export interface ICreateTestClientRequest {
+  address: Web3Address;
+  duration: number;
+}
+
+export interface ICreateTestClientResponse {
+  token: string,
+  id: string,
+  address: Web3Address,
+  tier: number,
+  roles: string,
+}
+
 export interface IUsageDetailEntity {
   count: string;
   method: string;
@@ -122,6 +135,7 @@ export interface IBlockchainEntity {
   features: BlockchainFeature[];
   name: string;
   paths?: string[];
+  premiumOnly?: boolean;
   stats?: {
     reqs: number;
   };
@@ -138,6 +152,10 @@ export interface ICountersEntity {
   address?: Web3Address;
   ttl?: number;
   hash?: string;
+}
+
+export interface ICountersEntityMapped extends ICountersEntity {
+  createdAt: Date;
 }
 
 export interface ICountersResponse {

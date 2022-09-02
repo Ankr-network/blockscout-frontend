@@ -42,7 +42,7 @@ export const MATIC_ON_POLYGON_PROVIDER_READ_ID = isMainnet
 /**
  * Magic number for preventing fee calculation issue in MetaMask
  */
-export const MATIC_ON_POLYGON_ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+export const MATIC_ON_POLYGON_ESTIMATE_GAS_MULTIPLIER = 1.6; // 60%
 
 /**
  * Magic number to avoid issues with max amount and fee calculation in the wallet

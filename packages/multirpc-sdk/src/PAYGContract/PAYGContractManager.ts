@@ -192,9 +192,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     return validEvents[validEvents.length - 1].transactionHash;
   }
 
-  async getLatestUserLockedFundsEventLogHash(
-    user: Web3Address,
-  ): Promise<EventData[]> {
+  async getLatestLockedFundsEvents(user: Web3Address): Promise<EventData[]> {
     return this.getLatestUserEventLogs('FundsLocked', user);
   }
 

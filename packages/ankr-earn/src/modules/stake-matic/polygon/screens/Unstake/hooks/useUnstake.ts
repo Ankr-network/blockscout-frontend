@@ -144,7 +144,7 @@ export const useUnstake = (): IUseUnstakeData => {
       const isCertToken = !isBondToken && acRatio.isGreaterThan(0);
 
       const amountVal = unstakeFeePct
-        ? amount.minus(amount.multipliedBy(unstakeFeePct))
+        ? amount.minus(amount.dividedBy(100).multipliedBy(unstakeFeePct))
         : amount;
 
       if (amountVal.isLessThanOrEqualTo(0)) {

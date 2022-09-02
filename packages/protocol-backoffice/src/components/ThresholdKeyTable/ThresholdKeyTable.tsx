@@ -14,7 +14,7 @@ export interface IThresholdKeyTableProps {
 }
 
 export const ThresholdKeyTable = observer((props: IThresholdKeyTableProps) => {
-  const api = useMultiRpcSdk().getApiGateway();
+  const api = useMultiRpcSdk().getConsensusGateway();
   const store = useLocalFetchDataStore<{
     threshold_key: IThresholdKey;
     deposit_addresses?: Record<PrefixedHex, PrefixedHex>;

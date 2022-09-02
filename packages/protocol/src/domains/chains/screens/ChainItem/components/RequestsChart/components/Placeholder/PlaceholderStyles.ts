@@ -11,7 +11,7 @@ export const usePlaceholderStyles = makeStyles<Theme>(theme => ({
     height: '100%',
   },
   title: {
-    marginBottom: theme.spacing(2.5),
+    marginBottom: theme.spacing(2),
 
     color: theme.palette.text.primary,
     letterSpacing: '-0.01em',
@@ -21,14 +21,13 @@ export const usePlaceholderStyles = makeStyles<Theme>(theme => ({
     lineHeight: `${theme.spacing(4)}px`,
   },
   subtitle: {
-    maxWidth: theme.spacing(71.875),
+    maxWidth: theme.spacing(75),
 
     color: theme.palette.grey[600],
-    letterSpacing: '0.01em',
     textAlign: 'center',
 
     fontWeight: 400,
-    fontSize: theme.spacing(1.75),
-    lineHeight: `${theme.spacing(2.5)}px`,
+    fontSize: 16,
+    lineHeight: `${theme.spacing(3)}px`,
   },
 }));

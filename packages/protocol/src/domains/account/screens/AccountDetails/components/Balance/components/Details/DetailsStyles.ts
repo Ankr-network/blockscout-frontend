@@ -5,14 +5,12 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
   detailsRoot: {
     display: 'flex',
     alignItems: 'flex-start',
-    flexWrap: isPremium => (isPremium ? 'nowrap' : 'wrap'),
     gap: '3px 9px',
 
     color: theme.palette.grey[600],
 
     letterSpacing: '0.01em',
 
-    // fontFamily: 'Inter',
     fontSize: 14,
     lineHeight: '20px',
 

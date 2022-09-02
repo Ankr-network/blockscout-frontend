@@ -1,11 +1,13 @@
 import { DispatchRequest, RequestAction } from '@redux-requests/core';
+import { replace } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { INodeEntity } from 'multirpc-sdk';
-
+import { IJwtToken, INodeEntity } from 'multirpc-sdk';
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
+import { ChainsRoutesConfig } from '../routes/routesConfig';
 import { fetchChainNodes } from './fetchChainNodes';
+import { fetchPrivateChains } from './fetchPrivateChains';
 import { fetchPublicChains } from './fetchPublicChains';
 
 export interface IChainItemDetails {
@@ -14,8 +16,9 @@ export interface IChainItemDetails {
 }
 
 export const fetchChain = createSmartAction<
-  RequestAction<null, IChainItemDetails>
->('chains/fetchChain', (chainId: string) => ({
+  RequestAction<null, IChainItemDetails>,
+  [string, IJwtToken?]
+>('chains/fetchChain', (chainId: string, credentials?: IJwtToken) => ({
   request: {
     promise: (async () => null)(),
   },
@@ -31,13 +34,16 @@ export const fetchChain = createSmartAction<
       return {
         promise: (async (): Promise<IChainItemDetails> => {
           const [{ data: chains }, { data: nodes }] = await Promise.all([
-            store.dispatchRequest(fetchPublicChains()),
+            credentials
+              ? store.dispatchRequest(fetchPrivateChains())
+              : store.dispatchRequest(fetchPublicChains()),
             store.dispatchRequest(fetchChainNodes(chainId)),
           ]);
 
           const chain = chains?.find(item => item.id === chainId);
 
           if (!chain) {
+            store.dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
             throw new Error('ChainId not found');
           }
 
