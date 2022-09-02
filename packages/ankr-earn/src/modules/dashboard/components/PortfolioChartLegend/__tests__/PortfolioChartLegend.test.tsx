@@ -1,5 +1,8 @@
 import { render, screen } from '@testing-library/react';
+import { act } from '@testing-library/react-hooks';
+import userEvent from '@testing-library/user-event';
 import BigNumber from 'bignumber.js';
+import { MemoryRouter } from 'react-router';
 
 import { Token } from 'modules/common/types/token';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
@@ -33,7 +36,9 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   };
 
   test('should render properly', async () => {
-    render(<PortfolioChartLegend {...defaultProps} />);
+    render(<PortfolioChartLegend {...defaultProps} />, {
+      wrapper: MemoryRouter,
+    });
 
     const title = await screen.findByText(/Staked assets/);
 
@@ -41,74 +46,79 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   });
 
   test('should render with loading state', async () => {
-    render(<PortfolioChartLegend {...defaultProps} isLoading />);
+    render(<PortfolioChartLegend {...defaultProps} isLoading />, {
+      wrapper: MemoryRouter,
+    });
 
     const section = await screen.findByTestId('loading-state');
 
     expect(section).toBeInTheDocument();
   });
 
-  // todo: uncomment it and refact. it was made temprorary for release
+  test('should render properly with synthetic mode', async () => {
+    render(<PortfolioChartLegend {...defaultProps} isNative />, {
+      wrapper: MemoryRouter,
+    });
 
-  // test('should render properly with synthetic mode', async () => {
-  //   render(<PortfolioChartLegend {...defaultProps} isNative />);
+    const title = await screen.findByText(/Available to stake/);
 
-  //   const title = await screen.findByText(/Available to stake/);
+    expect(title).toBeInTheDocument();
+  });
 
-  //   expect(title).toBeInTheDocument();
-  // });
+  test('should not render stake button', async () => {
+    render(
+      <PortfolioChartLegend
+        {...defaultProps}
+        isNative
+        legendItems={[
+          {
+            name: Token.aETHb,
+            percent: 30,
+            usdAmount: new BigNumber(3_000),
+            amount: new BigNumber(1),
+            yieldAmount: new BigNumber(1),
+            yieldAmountUsd: new BigNumber(1),
+            apy: new BigNumber(0.3),
+            icon: AETHBIcon,
+            color: '#000',
+            isNative: false,
+          },
+        ]}
+      />,
+      { wrapper: MemoryRouter },
+    );
 
-  // test('should not render stake button', async () => {
-  //   render(
-  //     <PortfolioChartLegend
-  //       {...defaultProps}
-  //       isNative
-  //       legendItems={[
-  //         {
-  //           name: Token.aETHb,
-  //           percent: 30,
-  //           usdAmount: new BigNumber(3_000),
-  //           amount: new BigNumber(1),
-  //           yieldAmount: new BigNumber(1),
-  //           yieldAmountUsd: new BigNumber(1),
-  //           apy: new BigNumber(0.3),
-  //           icon: AETHBIcon,
-  //           color: '#000',
-  //           isNative: false,
-  //         },
-  //       ]}
-  //     />,
-  //   );
+    const item = await screen.findByTestId('legend-aETHb');
 
-  //   const item = await screen.findByTestId('legend-aETHb');
+    act(() => {
+      userEvent.hover(item);
+    });
 
-  //   act(() => {
-  //     userEvent.hover(item);
-  //   });
+    const stakeButton = screen.queryByText('Stake');
 
-  //   const stakeButton = screen.queryByText('Stake');
+    expect(stakeButton).not.toBeInTheDocument();
+  });
 
-  //   expect(stakeButton).not.toBeInTheDocument();
-  // });
+  test('should hover legend item', async () => {
+    render(<PortfolioChartLegend {...defaultProps} isNative />, {
+      wrapper: MemoryRouter,
+    });
 
-  // test('should hover legend item', async () => {
-  //   render(<PortfolioChartLegend {...defaultProps} isNative />);
+    const item = await screen.findByTestId('legend-aETHb');
 
-  //   const item = await screen.findByTestId('legend-aETHb');
+    act(() => {
+      userEvent.hover(item);
+    });
 
-  //   act(() => {
-  //     userEvent.hover(item);
-  //   });
+    const stakeButton = await screen.findByText('Stake');
 
-  //   const stakeButton = await screen.findByText('Stake');
+    expect(stakeButton).toBeInTheDocument();
 
-  //   expect(stakeButton).toBeInTheDocument();
+    act(() => {
+      userEvent.unhover(item);
+    });
 
-  //   act(() => {
-  //     userEvent.unhover(item);
-  //   });
-
-  //   expect(defaultProps.onMouseLeave).toBeCalledTimes(1);
-  //   expect(defaultProps.onMouseOver).toBeCalledTimes(1);
-  // });
+    expect(defaultProps.onMouseLeave).toBeCalledTimes(1);
+    expect(defaultProps.onMouseOver).toBeCalledTimes(1);
+  });
 });
