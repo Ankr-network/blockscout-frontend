@@ -1,6 +1,8 @@
 import { Menu } from 'antd';
 import { PageHeader } from 'components/PageHeader';
 import { observer } from 'mobx-react';
+import { useEffect } from 'react';
+
 import { useClientEmailsStore } from 'stores/ClientEmailsStore';
 import { usePremiumPlanClients } from 'stores/usePremiumPlanClients';
 import { Tab, useInitialTab, useOnTabSelect } from './ClientPageUtils';
@@ -15,6 +17,10 @@ export const ClientPage = observer(() => {
   const onSelect = useOnTabSelect();
 
   const emailStore = useClientEmailsStore();
+
+  useEffect(() => {
+    emailStore.fetchAllEmails();
+  }, [emailStore]);
 
   const gridStorePremiumPlanClients = usePremiumPlanClients();
 

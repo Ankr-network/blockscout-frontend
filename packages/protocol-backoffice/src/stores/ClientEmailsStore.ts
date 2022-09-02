@@ -24,12 +24,10 @@ export class ClientEmailsStore {
     private emailFetcher: IBackofficeGateway['getEmailBindings'],
   ) {
     makeAutoObservable(this);
-
-    this.fetchAllEmails();
   }
 
   @action
-  private async fetchAllEmails(): Promise<void> {
+  async fetchAllEmails(): Promise<void> {
     runInAction(() => {
       this.isLoading = true;
     });
