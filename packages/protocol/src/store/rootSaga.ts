@@ -1,6 +1,6 @@
 import { success } from '@redux-requests/core';
 import { Task } from 'redux-saga';
-import { call, cancel, fork, takeEvery } from 'redux-saga/effects';
+import { put, call, cancel, fork, takeEvery } from 'redux-saga/effects';
 
 import { providerEventsSaga } from '@ankr.com/provider';
 import { connect } from 'domains/auth/actions/connect';
@@ -8,6 +8,11 @@ import { disconnect } from 'domains/auth/actions/disconnect';
 import { notificationSaga } from 'domains/notification/effects/notificationSaga';
 import { MultiService } from 'modules/api/MultiService';
 import { MultiRpcSdk } from 'multirpc-sdk';
+import { checkTheFirstCardPayment } from 'domains/account/actions/usdTopUp/checkTheFirstCardPayment';
+
+function* checkTheFirstCardPaymentSaga() {
+  yield put(checkTheFirstCardPayment());
+}
 
 export function* rootSaga() {
   yield fork(notificationSaga);
@@ -35,4 +40,5 @@ export function* rootSaga() {
   }
 
   yield takeEvery(success(connect.toString()), updateServiceSaga);
+  yield takeEvery(success(connect.toString()), checkTheFirstCardPaymentSaga);
 }

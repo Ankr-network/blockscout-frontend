@@ -6,7 +6,6 @@ import { NoData } from './components/NoData';
 import { StakeBarChart } from 'modules/common/components/StakeBarChart';
 import { Timeframe } from 'domains/chains/types';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
-import { t } from 'common';
 import { useMethodCallStyles } from './useMethodCallStyles';
 
 interface IMethodCallsProps {
@@ -26,18 +25,19 @@ export const MethodCalls = ({
     <Box className={classes.root}>
       <Header timeframe={timeframe} />
       {loading ? (
-        <div className={classes.content}>
+        <div className={classes.loading}>
           <Spinner />
         </div>
       ) : (
         <>
           {data.list.length > 0 ? (
-            <StakeBarChart result={data} timeframe={timeframe} />
+            <div className={classes.content}>
+              <StakeBarChart result={data} timeframe={timeframe} />
+            </div>
           ) : (
-            <NoData
-              title={t('chain-item.method-calls.no-data.title')}
-              content={t('chain-item.method-calls.no-data.content')}
-            />
+            <div className={classes.noData}>
+              <NoData />
+            </div>
           )}
         </>
       )}

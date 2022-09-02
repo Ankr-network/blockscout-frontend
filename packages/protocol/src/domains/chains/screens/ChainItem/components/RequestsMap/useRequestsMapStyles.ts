@@ -1,10 +1,11 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useRequestsMapStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    position: 'relative',
     gap: theme.spacing(3.75),
 
     padding: theme.spacing(3.75),
@@ -31,6 +32,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontWeight: 700,
     fontSize: theme.spacing(2.5),
     lineHeight: `${theme.spacing(3.5)}px`,
+  },
+
+  loading: {
+    height: theme.spacing(26),
+  },
+
+  noData: {
+    height: theme.spacing(26),
   },
 
   container: {

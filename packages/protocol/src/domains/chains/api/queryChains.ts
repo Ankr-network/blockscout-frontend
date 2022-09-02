@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import {
   BlockchainType,
+  BlockchainUrls,
   FetchBlockchainUrlsResult,
   IBlockchainEntity,
 } from 'multirpc-sdk';
@@ -32,24 +33,29 @@ export interface IApiChain {
   urls: IApiChainURL[];
 }
 
-export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
-  const chains = Object.values(data.chains).map<IApiChain>(chain => {
-    const { blockchain, rpcURLs, wsURLs } = chain;
-    const { coinName, id, name, extends: chainExtends, type } = blockchain;
+export const filterMapChains = (
+  data: IFetchChainsResponseData,
+  filterCB: (urls: BlockchainUrls) => boolean = () => true,
+): IApiChain[] => {
+  const chains = Object.values(data.chains)
+    .filter(filterCB)
+    .map<IApiChain>(chain => {
+      const { blockchain, rpcURLs, wsURLs } = chain;
+      const { coinName, id, name, extends: chainExtends, type } = blockchain;
 
-    return {
-      coinName,
-      chainExtends,
-      id,
-      icon: getChainIcon(id),
-      name,
-      type,
-      urls: rpcURLs.map<IApiChainURL>((url, index) => ({
-        rpc: url,
-        ws: wsURLs[index],
-      })),
-    };
-  });
+      return {
+        coinName,
+        chainExtends,
+        id,
+        icon: getChainIcon(id),
+        name,
+        type,
+        urls: rpcURLs.map<IApiChainURL>((url, index) => ({
+          rpc: url,
+          ws: wsURLs[index],
+        })),
+      };
+    });
 
   const extensions = chains.reduce<Record<string, IApiChain[]>>(
     (result, chain) => {

@@ -28,6 +28,7 @@ export const SecondaryTab = ({
       className={classNames(className, classes.secondaryTab)}
       onClick={onClick}
       variant="contained"
+      fullWidth
     >
       {label}
     </Button>

@@ -13,7 +13,10 @@ export const useRequestsByIPStyles = makeStyles<Theme>(theme => ({
     },
   },
   loading: {
-    height: theme.spacing(40),
+    height: theme.spacing(26),
+  },
+  noData: {
+    height: theme.spacing(26),
   },
   titleRow: {
     display: 'flex',

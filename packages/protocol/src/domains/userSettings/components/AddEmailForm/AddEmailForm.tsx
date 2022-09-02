@@ -11,8 +11,9 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
   const {
     contentState,
     onSubmit,
-
     successStepProps,
+    formDisabled,
+    submittedData,
   } = useAddEmailForm(props);
 
   const renderForm = useCallback(
@@ -26,6 +27,8 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
         case AddEmailFormContentState.CHANGE_EMAIL:
           return (
             <FillStep
+              submittedData={submittedData}
+              formDisabled={formDisabled}
               handleSubmit={handleSubmit}
               validating={validating}
               hasValidationErrors={hasValidationErrors}
@@ -39,7 +42,7 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
           return null;
       }
     },
-    [contentState, successStepProps],
+    [contentState, formDisabled, submittedData, successStepProps],
   );
 
   return (

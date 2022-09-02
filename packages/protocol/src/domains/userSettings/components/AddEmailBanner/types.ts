@@ -5,6 +5,8 @@ import {
 
 export interface IUseAddEmailBannerProps {
   asCard?: boolean;
-  initialSubmittedData?: IAddEmailFormData;
   initialContentState?: AddEmailFormContentState;
+  initialSubmittedData?: IAddEmailFormData;
+  resetInviteEmail?: () => void;
+  formDisabled?: boolean;
 }
