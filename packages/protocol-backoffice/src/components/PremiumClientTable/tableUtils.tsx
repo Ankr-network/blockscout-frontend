@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
 import { UserTypeTag } from 'components/UserTypeTag';
 import { PremiumPlanClientEntity } from 'types';
+import { compareNumber, compareString } from 'utils/sortingCompare';
 
 const EMPTY_MESSAGE = 'No information';
 
@@ -40,5 +41,14 @@ export const tableColumns: ColumnsType<PremiumPlanClientEntity> = [
     render: (_, { type, ttl }: PremiumPlanClientEntity) => (
       <UserTypeTag clientType={type} clientTtl={ttl} isTextInline={false} />
     ),
+    sorter: compareString('type'),
+  },
+  {
+    title: 'Date Created',
+    dataIndex: 'timestamp',
+    key: 'timestamp',
+    render: (_, { createdAt }: PremiumPlanClientEntity) =>
+      createdAt.toLocaleDateString(),
+    sorter: compareNumber('timestamp'),
   },
 ];

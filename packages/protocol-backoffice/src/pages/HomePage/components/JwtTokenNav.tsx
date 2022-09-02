@@ -5,7 +5,7 @@ import { useLocalGridStore } from 'stores/LocalGridStore';
 import JwtTokenTable from 'components/JwtTokenTable/JwtTokenTable';
 
 export const JwtTokenNav = observer(() => {
-  const api = useMultiRpcSdk().getApiGateway();
+  const api = useMultiRpcSdk().getConsensusGateway();
   const gridStore = useLocalGridStore((offset, limit) => {
     return api.getJwtTokens(undefined, offset, limit);
   });

@@ -7,7 +7,7 @@ import {
 import { useMemo } from 'react';
 import { useMultiRpcSdk } from 'stores';
 
-const LIMIT_MAX = 100;
+const LIMIT_MAX = 500;
 
 const END_CURSOR = '-1';
 
@@ -16,18 +16,18 @@ type MinimumFieldClient = { email?: string; address?: string };
 export class ClientEmailsStore {
   public isLoading = false;
 
+  public clientsEmails: IEmailBindingEntity[] = [];
+
   private addressToEmailMap: Partial<Record<Web3Address, string>> = {};
 
   public constructor(
     private emailFetcher: IBackofficeGateway['getEmailBindings'],
   ) {
     makeAutoObservable(this);
-
-    this.fetchAllEmails();
   }
 
   @action
-  private async fetchAllEmails(): Promise<void> {
+  async fetchAllEmails(): Promise<void> {
     runInAction(() => {
       this.isLoading = true;
     });
@@ -57,6 +57,8 @@ export class ClientEmailsStore {
 
       this.isLoading = false;
     });
+
+    this.clientsEmails = res;
   }
 
   public enrichClientsWithEmails<T extends MinimumFieldClient>(clients: T[]) {

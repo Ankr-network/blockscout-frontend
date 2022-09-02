@@ -7,6 +7,8 @@ import { ClientEmailsStore } from 'stores/ClientEmailsStore';
 import { LocalGridStore } from 'stores/LocalGridStore';
 import { ClientType, PremiumPlanClientEntity } from 'types';
 import { tableColumns } from './tableUtils';
+import { usePremiumClientFilters } from './usePremiumClientFilters';
+import { PremiumClientFilters } from './PremiumClientFilters';
 
 export type TPremiumClientTableHistoryPushState = Partial<{
   clientTtl: PremiumPlanClientEntity['ttl'];
@@ -52,18 +54,36 @@ const PremiumClientTable = observer(
       emailStore.enrichClientsWithEmails(grid.items),
     ).get();
 
+    const {
+      filterKey,
+      filterClientType,
+      handleFilterClientType,
+      handleFilterKey,
+      filteredData,
+      clientTypeFilters,
+    } = usePremiumClientFilters(dataSource, grid.isLoading);
+
     return (
-      <Table
-        loading={grid.isLoading}
-        pagination={grid.paginationConfig}
-        expandable={{
-          expandRowByClick: true,
-        }}
-        onRow={onRowClick}
-        dataSource={dataSource}
-        rowKey={client => client.user}
-        columns={tableColumns}
-      />
+      <>
+        <PremiumClientFilters
+          filterKey={filterKey}
+          filterClientType={filterClientType}
+          handleFilterClientType={handleFilterClientType}
+          handleFilterKey={handleFilterKey}
+          clientTypeFilters={clientTypeFilters}
+        />
+        <Table
+          loading={grid.isLoading}
+          pagination={grid.paginationConfig}
+          expandable={{
+            expandRowByClick: true,
+          }}
+          onRow={onRowClick}
+          dataSource={filteredData}
+          rowKey={client => client.user}
+          columns={tableColumns}
+        />
+      </>
     );
   },
 );

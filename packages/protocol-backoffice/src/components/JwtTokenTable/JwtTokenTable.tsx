@@ -14,7 +14,7 @@ export interface IJwtTokenTableProps {
 }
 
 const JwtTokenTable = observer((props: IJwtTokenTableProps) => {
-  const api = useMultiRpcSdk().getApiGateway();
+  const api = useMultiRpcSdk().getConsensusGateway();
   const store = useLocalFetchDataStore<IJwtToken>();
 
   return (
