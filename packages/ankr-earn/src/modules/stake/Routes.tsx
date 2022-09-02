@@ -1,11 +1,12 @@
 import { generatePath } from 'react-router';
 import { Route } from 'react-router-dom';
 
+import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const ROOT = `/stake/`;
+const ROOT = `${STAKING_PATH}stake/`;
 
 export const RoutesConfig = createRouteConfig(
   {

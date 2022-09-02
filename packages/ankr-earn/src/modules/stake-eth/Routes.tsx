@@ -4,6 +4,7 @@ import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { STAKING_PATH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -17,7 +18,7 @@ import { ETH_PROVIDER_ID, ETH_STAKING_NETWORKS } from './const';
 const ROOT = `${StakeRoutes.main.path}ethereum/`;
 const STAKE_ETH_PATH = `${ROOT}?token=:token?`;
 const STEP_STAKE_ETH_PATH = `${ROOT}:tokenOut/:txHash/`;
-const CLAIM_ETH_ROOT_PATH = `/claim/ethereum/`;
+const CLAIM_ETH_ROOT_PATH = `${STAKING_PATH}claim/ethereum/`;
 const STEP_CLAIM_ETH_PATH = `${CLAIM_ETH_ROOT_PATH}:tokenOut/:txHash/`;
 const STEP_CLAIM_ETH_WITH_AMOUNT_PATH = `${STEP_CLAIM_ETH_PATH}?amount=:amount?`;
 const TEST_STAKE_PATH = `${ROOT}without-claim/`;

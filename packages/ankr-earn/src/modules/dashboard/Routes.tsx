@@ -1,6 +1,7 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
@@ -8,7 +9,7 @@ import { createRouteConfig } from '../router/utils/createRouteConfig';
 
 import { ConnectGuardRoute } from './components/ConnectGuardRoute';
 
-const ROOT = '/';
+const ROOT = `${STAKING_PATH}dashboard/`;
 
 const Dashboard = loadComponent(() =>
   import('./screens/Dashboard').then(module => module.Dashboard),
@@ -20,25 +21,15 @@ export const RoutesConfig = createRouteConfig(
       path: ROOT,
       generatePath: () => generatePath(ROOT),
     },
-    dashboardSpare: {
-      path: `${ROOT}dashboard/`,
-      generatePath: () => generatePath(`${ROOT}dashboard/`),
-    },
   },
   ROOT,
 );
 
 export function getRoutes(): JSX.Element {
   return (
-    <Route
-      exact
-      path={[RoutesConfig.dashboard.path, RoutesConfig.dashboardSpare.path]}
-    >
+    <Route path={RoutesConfig.root}>
       <Switch>
-        <ConnectGuardRoute
-          exact
-          path={[RoutesConfig.dashboard.path, RoutesConfig.dashboardSpare.path]}
-        >
+        <ConnectGuardRoute exact path={ROOT}>
           <DefaultLayout>
             <Dashboard />
           </DefaultLayout>

@@ -44,7 +44,7 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
     () => ({
       dashboard: {
         label: t('main-navigation.dashboard'),
-        href: DashboardRoutes.dashboardSpare.generatePath(),
+        href: DashboardRoutes.dashboard.generatePath(),
       },
       staking: {
         label: t('main-navigation.staking'),

@@ -2,7 +2,7 @@ import { generatePath, Redirect, useParams } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { isMainnet } from 'modules/common/const';
+import { STAKING_PATH, isMainnet } from 'modules/common/const';
 import { EParachainPolkadotNetwork } from 'modules/common/types';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 
@@ -17,7 +17,7 @@ export interface IRouteClaimData {
   network: string;
 }
 
-const ROOT = `/liquid-crowdloan/`;
+const ROOT = `${STAKING_PATH}liquid-crowdloan/`;
 const CROWDLOANS_PATH = `${ROOT}:network/`;
 const LEND_PATH = `${CROWDLOANS_PATH}lend/:id/:name/`;
 const REWARDS_CLAIM_PATH = `${CROWDLOANS_PATH}rewards-claim/:id/`;
