@@ -2,7 +2,9 @@ import { Box, BoxProps, Typography } from '@material-ui/core';
 
 import { t } from 'common';
 
+import { featuresConfig } from 'modules/common/const';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
+import { EmptyState } from 'modules/dashboard/components/EmptyState';
 import { NoAssets } from 'modules/dashboard/components/NoAssets';
 
 import { BridgedAETHCBSC } from '../BridgedAETHCBSC';
@@ -71,6 +73,10 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
     isMGNOShowed,
     isStakedMaticCertPolygonShowed,
   } = useStakedTokens();
+
+  const renderedEmptyState =
+    !isAssetsShowed &&
+    (featuresConfig.newEmptyStateForDashboard ? <EmptyState /> : <NoAssets />);
 
   return (
     <Box {...props}>
@@ -151,7 +157,7 @@ export const StakedTokens = (props: BoxProps): JSX.Element => {
           )}
         </>
       ) : (
-        <NoAssets />
+        renderedEmptyState
       )}
     </Box>
   );

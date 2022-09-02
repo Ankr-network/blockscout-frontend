@@ -6,9 +6,6 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingBottom: theme.spacing(4),
-    borderBottom: `1px solid ${theme.palette.grey[400]}`,
-    marginBottom: theme.spacing(4),
   },
   button: {
     width: 112,

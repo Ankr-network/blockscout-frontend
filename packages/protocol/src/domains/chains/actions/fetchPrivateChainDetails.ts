@@ -1,8 +1,10 @@
-import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
 import { getQuery, RequestAction } from '@redux-requests/core';
+import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { replace } from 'connected-react-router';
 import { IApiChain } from '../api/queryChains';
+import { ChainsRoutesConfig } from '../routes/routesConfig';
 
 export const fetchPrivateChainDetails = createSmartAction<
   RequestAction<null, IApiChain>
@@ -25,6 +27,7 @@ export const fetchPrivateChainDetails = createSmartAction<
           );
 
           if (!privateChainDetails) {
+            store.dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
             throw new Error('ChainId not found');
           }
 

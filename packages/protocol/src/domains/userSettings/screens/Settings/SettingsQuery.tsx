@@ -1,76 +1,82 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { Spinner } from 'ui';
 
-import { getEmailBindings } from 'domains/userSettings/actions/email/getEmailBindings';
 import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
 import {
   AddEmailFormContentState,
   AddEmailFormFields,
 } from 'domains/userSettings/components/AddEmailForm/types';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
-import { makeEmailStatuses } from 'domains/userSettings/utils/makeEmailStatuses';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { EmailBlock } from './components/EmailBlock';
 import { NotificationsBlock } from './components/NotificationsBlock';
-import { useSettingsBreadcrumbs } from './SettingsUtils';
+import { useSettingsQuery } from './hooks/useSettings';
 
 export const SettingsQuery = () => {
-  useSettingsBreadcrumbs();
+  const {
+    confirmedEmail,
+    inviteEmail,
+    isInviteEmailValid,
+    loading,
+    pendingEmail,
+    resetInviteEmail,
+  } = useSettingsQuery();
 
-  const dispatchRequest = useDispatchRequest();
+  if (loading) {
+    return <Spinner />;
+  }
 
-  useOnMount(() => {
-    dispatchRequest(getEmailBindings());
-  });
+  if (confirmedEmail) {
+    return (
+      <>
+        <EmailBlock />
+        <NotificationsBlock />
+      </>
+    );
+  }
 
-  return (
-    <Queries<ResponseData<typeof getEmailBindings> | null>
-      disableEmptyRender
-      disableErrorRender
-      requestActions={[getEmailBindings]}
-    >
-      {({ data }) => {
-        const { confirmedEmail, pendingEmail } = makeEmailStatuses(data);
+  if (pendingEmail) {
+    const initialSubmittedData = {
+      [AddEmailFormFields.email]: pendingEmail,
+    };
 
-        if (confirmedEmail) {
-          return (
-            <>
-              <EmailBlock />
-              <NotificationsBlock />
-            </>
-          );
-        }
+    return (
+      <CenterContainer>
+        <AddEmailBanner
+          asCard
+          initialContentState={AddEmailFormContentState.SUCCESS}
+          initialSubmittedData={initialSubmittedData}
+        />
+      </CenterContainer>
+    );
+  }
 
-        if (pendingEmail) {
-          const initialSubmittedData = {
-            [AddEmailFormFields.email]: pendingEmail,
-          };
+  if (inviteEmail && isInviteEmailValid) {
+    const initialSubmittedData = {
+      [AddEmailFormFields.email]: inviteEmail,
+    };
 
-          return (
-            <CenterContainer>
-              <AddEmailBanner
-                asCard
-                initialContentState={AddEmailFormContentState.SUCCESS}
-                initialSubmittedData={initialSubmittedData}
-              />
-            </CenterContainer>
-          );
-        }
+    return (
+      <CenterContainer>
+        <AddEmailBanner
+          asCard
+          formDisabled
+          initialContentState={AddEmailFormContentState.ADD_EMAIL}
+          initialSubmittedData={initialSubmittedData}
+          resetInviteEmail={resetInviteEmail}
+        />
+      </CenterContainer>
+    );
+  }
 
-        if (!confirmedEmail && !pendingEmail) {
-          return (
-            <CenterContainer>
-              <AddEmailBanner
-                asCard
-                initialContentState={AddEmailFormContentState.ADD_EMAIL}
-              />
-            </CenterContainer>
-          );
-        }
+  if (!confirmedEmail && !pendingEmail) {
+    return (
+      <CenterContainer>
+        <AddEmailBanner
+          asCard
+          initialContentState={AddEmailFormContentState.ADD_EMAIL}
+        />
+      </CenterContainer>
+    );
+  }
 
-        return null;
-      }}
-    </Queries>
-  );
+  return null;
 };

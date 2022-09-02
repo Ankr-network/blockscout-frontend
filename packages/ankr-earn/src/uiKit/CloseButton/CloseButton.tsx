@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { NavLink } from 'uiKit/NavLink';
@@ -6,11 +8,15 @@ import { useCloseButtonStyles } from './useCloseButtonStyles';
 
 interface ICloseButtonProps {
   href?: string;
+  className?: string;
+  isAbsoluteRight?: boolean;
   onClose?: () => void;
 }
 
 export const CloseButton = ({
-  href,
+  href = '',
+  className = '',
+  isAbsoluteRight = true,
   onClose,
 }: ICloseButtonProps): JSX.Element => {
   const classes = useCloseButtonStyles();
@@ -19,8 +25,10 @@ export const CloseButton = ({
 
   return (
     <CloseBtn
-      className={classes.root}
-      href={href ?? ''}
+      className={classNames(classes.root, className, {
+        [classes.absoluteRight]: isAbsoluteRight,
+      })}
+      href={href}
       variant="outlined"
       onClick={onClose}
     >

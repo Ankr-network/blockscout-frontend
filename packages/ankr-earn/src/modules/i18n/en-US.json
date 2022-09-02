@@ -103,7 +103,8 @@
     "mgno-value": "{value} mGNO",
     "usd-value": "${value}",
     "percentage-value": "{value}%",
-    "milliseconds-value": "{value}ms"
+    "milliseconds-value": "{value}ms",
+    "days-value": "{value} days"
   },
   "common": {
     "successTx": "Transaction successful.",
@@ -134,7 +135,9 @@
     "2018": "Dev",
     "250": "Fantom Opera",
     "4002": "Fantom Testnet",
-    "80001": "Mumbai"
+    "80001": "Mumbai",
+    "100": "Gnosis Chain",
+    "77": "POA Network Sokol"
   },
   "audit-info": {
     "label": "Audited by",
@@ -183,7 +186,9 @@
       "kusama": "Kusama",
       "polkadot": "Polkadot",
       "rococo": "Rococo",
-      "westend": "Westend"
+      "westend": "Westend",
+      "gnosis": "Gnosis Chain",
+      "sokol": "POA Network Sokol"
     }
   },
   "polkadot-slot-auction": {
@@ -366,6 +371,9 @@
       "description": "You will be able to see your {token} exposure on Ankr Staking Dashboard.",
       "add-to-wallet": "Add {token} to wallet"
     },
+    "token-variant": {
+      "coming-soon-label": "Coming Soon"
+    },
     "pending": {
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     }
@@ -389,8 +397,8 @@
       "submit": "Stake",
       "get-mgno": "Get mGNO",
       "stats": {
-        "apy": "APY",
-        "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
+        "apr": "APR",
+        "apr-tooltip": "Annual percentage rate (or APR) shows the rate of return you earn over a year including the effect of compounding.",
         "yearly-earning": "Yearly earning",
         "tvl": "Staked with pool",
         "stakers": "Stakers"
@@ -693,14 +701,16 @@
   },
   "stake-matic-polygon": {
     "fee": "Fee",
-    "stake": {
-      "liquidity-pool": "Current crosschain staking pool capacity: <b>{value} MATIC</b>"
-    },
+    "liquidity-pool-label": "Current crosschain staking pool capacity: <b>{value} MATIC</b>",
     "tooltips": {
-      "liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances."
+      "stake-liquidity-pool": "If your stake exceeds the current pool capacity, use the available capacity and stake the rest once the pool rebalances.",
+      "unstake-liquidity-pool": "If your unstake exceeds current capacity of cross chain staking pool, you can split your amount to parts and unstake more once pool is top up."
     },
     "validation": {
       "low-pool": "Your stake exceeds current pool capacity"
+    },
+    "unstake": {
+      "success-title": "Unstake successful!"
     }
   },
   "stake-fantom": {
@@ -842,17 +852,32 @@
     },
     "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
   },
+  "calc": {
+    "title": "Staking calculator",
+    "yield": {
+      "period": "Staking period",
+      "apy": "Average APY:",
+      "profit": "Potential Profit",
+      "btn": "Go to staking"
+    }
+  },
   "dashboard": {
     "title": "Stakable tokens",
     "portfolio": "My portfolio",
     "stakedAssets": "Staked assets ({percent}%)",
     "availableAssets": "Available to stake ({percent}%)",
-    "yearlyYield": "Yearly Yield <b>${value}</b>",
-    "potentialYield": "Potential Yield <b>${value}</b>",
+    "yearlyYieldUsd": "Yearly Yield <b>${value}</b>",
+    "potentialYieldUsd": "Potential Yield <b>${value}</b>",
+    "yearlyYield": "Yearly Yield",
+    "potentialYield": "Potential Yield",
     "totalAssets": "Total assets",
     "portfolioUSD": "$ {value}",
-    "portfolioToken": "{amount} {token} <small>({percent}%)</small>",
+    "portfolioToken": "{amount} {token}",
+    "apy": "APY <b>{value}%</b>",
     "apr": "APR <b>{value}%</b>",
+    "potentialAprTooltip": "Potential yield based on average APY for your available to stake assets if you stake them for a year.",
+    "aprTooltip": "Yearly yield based on average APY for your current staked assets.",
+    "averageAprTooltip": "Average APY for your total assets. You can increase your capital efficiency by ${potentialYield} if you stake available assets.",
     "balance": "Estimated balance",
     "liquidAssets": "Liquid staking",
     "delegateAssets": "Delegate staking",
@@ -879,6 +904,7 @@
     "usd-tooltip": "USD equivalent of staked token and accumulated reward.",
     "stakable-portfolio": "My stakable portfolio",
     "wallet-balance": "{value} {token}",
+    "stakable-asset-apr": "APR: {value, number, ::.0#}%",
     "stakable-asset-apy": "APY: {value, number, ::.0#}%",
     "stakable-asset-stake": "Stake {token}",
     "networks": "in {value} networks",
@@ -913,6 +939,11 @@
       "connect-btn": "Connect wallet",
       "title": "Please connect your wallet to continue"
     },
+    "empty": {
+      "title": "Stake and earn with your favorite blockchains",
+      "btn": "Go to staking",
+      "calc-btn": "Staking calculator"
+    },
     "token-info": {
       "title": "What is {token}?",
       "addToken": "Add {token} to wallet",
@@ -932,7 +963,7 @@
       "aWNDb": "aWNDb represents your staked WND and provides liquidity for your staked position.<br/><br/>aWNDb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aWNDb = 1 WND.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aWNDb for trading and other DeFi opportunities.",
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
       "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position. <br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number. <br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC. <br/><br/>You can unstake it anytime and receive your stake and earned rewards. For MATIC staked on Ethereum, you’ll receive them after the ~{period} days unbonding period, while for MATIC staked on Polygon, you’ll receive them instantly. <br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities.",
-      "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APY."
+      "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APR."
     }
   },
   "defi": {
@@ -962,6 +993,7 @@
     "ethereum": "Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
+    "apr": "APR",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
     "staked-amount": "{value} {token}",
@@ -1000,11 +1032,6 @@
     "hash-cell": "{hash}",
     "empty": "There are no transactions",
     "hash": "Hash"
-  },
-  "switch-banner": {
-    "img-alt": "Two arrows",
-    "text": "Switch to old version",
-    "btn": "Switch"
   },
   "bridge": {
     "main": {
@@ -1094,8 +1121,8 @@
       "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only."
     },
     "provider": {
-      "cur-highest-apy": "Current Highest APY",
-      "cur-highest-apy-tooltip": "The highest current Annual Percentage Yield offered by one of the Node provider.",
+      "cur-highest-apr": "Current Highest APR",
+      "cur-highest-apr-tooltip": "The highest current Annual Percentage Rate offered by one of the Node provider.",
       "tvl": "TVL",
       "tvl-tooltip": "Total value  locked by all stakers to all Node providers",
       "locking-period": "Locking Period",
@@ -1141,7 +1168,7 @@
     },
     "table": {
       "node-provider": "Node Provider",
-      "apy": "Current APY",
+      "apr": "Current APR",
       "staked-pool": "Staked Pool",
       "rps": "RPS",
       "rps-tooltip": "Requests per second. Number of RPC calls served by Node provider per second.",
@@ -1160,7 +1187,7 @@
       "your-stake": "Your Stake",
       "rewards": "Rewards",
       "unstake-amount": "Unstake Amount",
-      "apy": "APY: {value}%",
+      "apr": "APR: {value}%",
       "unlocked": "Unlocked",
       "partially-unlocked": "Partially unlocked",
       "restake": "Restake",
@@ -1207,8 +1234,6 @@
       "locking-period-tooltip": "The period of 84–91 days when you cannot withdraw your stake.<br/>When it’s over, your stake keeps generating rewards until you manually unstake it.",
       "locking-period-value": "{days} days",
       "new-total-stake": "New Total Stake",
-      "apy": "APY",
-      "add-amount": "Add Amount",
       "locking-info": "Your new stake will be locked for {value} days. You will earn rewards during this period that will be claimable when the locking period is over.",
       "fee-info": "Friendly reminder to make sure the amount you're staking is higher than the current network transaction fee"
     },
@@ -1254,7 +1279,7 @@
         "success-rate": "Success Rate:",
         "latency": "Latency:",
         "uptime": "Uptime:",
-        "current-apy": "Current APY",
+        "current-apr": "Current APR",
         "staked-pool": "Staked Pool",
         "nodes": "Nodes",
         "shared-revenue": "Shared Revenue",
@@ -1282,7 +1307,7 @@
       "table": {
         "node-provider": "Node Provider",
         "nodes-count": "{value} nodes",
-        "apy": "Current APY",
+        "apr": "Current APR",
         "staked-pool": "Staked Pool",
         "uptime": "30d Uptime",
         "rps": "RPS",
@@ -1319,23 +1344,26 @@
       "stake": "Stake mGNO",
       "claim-all": "Claim all",
       "staked": "Total Staked",
-      "rewards": "Total Rewards",
-      "total-rewards": "Total Rewards"
+      "priority-tips": "Priority tips",
+      "priority-tips-tooltip": "Paid by the sender in addition to the base gas fee. Decreases transaction processing time. Node Providers share a portion of them with stakers who stake with said providers.",
+      "validation-rewards": "Validation rewards",
+      "validation-rewards-tooltip": "Rewards from transaction fees Node Providers receive for validating transaction blocks. Providers share a portion of them with stakers who stake with said providers."
     },
     "tabs": {
       "active-staking": "Active Staking",
       "history": "History"
     },
     "staking": {
-      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max. This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max.<br/>This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
       "slashing-protection": "New slashing protection",
-      "slashing-protection-tooltip": "tooltip"
+      "slashing-protection-tooltip": "The protection level of staking to this validator is calculated by the ratio of the total delegated amount to the size of the insurance pool."
     },
     "staking-table": {
       "node-provider": "Node Provider",
       "slashing-protection": "Slashing protection",
       "your-stake": "Your Stake",
-      "rewards": "Rewards",
+      "priority-tips": "Priority tips",
+      "validation-rewards": "Validation rewards",
       "unstake-amount": "Unstake Amount",
       "apr": "APR: {value}%",
       "details": "Details",
@@ -1362,5 +1390,15 @@
     "title": "Switch",
     "description": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Staking Dashboard.",
     "add-to-wallet": "Add {token} to wallet"
+  },
+  "provider-info": {
+    "title": "ETH provider service will no longer be supported.",
+    "details": "Details",
+    "text": {
+      "p1": "Validating keys will be gradually revoked from September 1st to September 6th.",
+      "p2": "After Sept 6, 2022, your ANKR insurance deposit will be sent back to you automatically. If your insurance deposit was in ETH, you can claim it on the dashboard after Sept. 6th in aETHc or aETHb. You can also choose to claim your deposit and rewards in ETH after the Shanghai update (following The Merge in 6–12 months), appr. Q2/Q3 2023."
+    },
+    "rewards": "Your Rewards",
+    "rewards-info": "Earned rewards can be claimed after ETH2 withdrawals are enabled."
   }
 }

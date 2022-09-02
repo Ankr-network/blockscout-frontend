@@ -7,6 +7,7 @@ import { INetworkItem } from 'modules/auth/common/components/GuardRoute';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { GnosisIcon } from 'uiKit/Icons/Gnosis';
 import { PolygonIcon } from 'uiKit/Icons/Polygon';
 
 export interface IETHNetwork extends INetworkItem<EEthereumNetworkId> {}
@@ -63,6 +64,16 @@ export const useETHNetworks = (): IETHNetwork[] =>
         title: t('connect.networks.mumbai'),
         icon: <PolygonIcon size="xmd" />,
         chainId: EEthereumNetworkId.mumbai,
+      },
+      {
+        title: t('connect.networks.gnosis'),
+        icon: <GnosisIcon size="xmd" />,
+        chainId: EEthereumNetworkId.gnosis,
+      },
+      {
+        title: t('connect.networks.sokol'),
+        icon: <GnosisIcon size="xmd" />,
+        chainId: EEthereumNetworkId.sokol,
       },
     ],
     [],

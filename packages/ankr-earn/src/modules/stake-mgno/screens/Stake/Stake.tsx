@@ -1,7 +1,7 @@
 import { Section } from 'modules/delegate-stake/components/Section';
 import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
 import { Stats } from 'modules/delegate-stake/components/Stats';
-import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
+import { GNOSIS_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
 import { BuyMgnoLink } from 'modules/stake-mgno/components/BuyMgnoLink';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
@@ -18,14 +18,13 @@ export const Stake = (): JSX.Element => {
     isApproved,
     isApproveLoading,
     isBalanceLoading,
-    isApyLoading,
     isDisabled,
     isStakeLoading,
     minStake,
+    maxAmount,
     providerName,
     providerSelectHref,
     tokenIn,
-    apy,
     quoteText,
     additionalText,
     additionalTooltip,
@@ -43,8 +42,7 @@ export const Stake = (): JSX.Element => {
     stakers,
   } = useStats({
     amount,
-    apy,
-    isApyLoading,
+    provider: initialProvider,
   });
 
   return (
@@ -64,7 +62,8 @@ export const Stake = (): JSX.Element => {
           isBalanceLoading={isBalanceLoading}
           isDisabled={isDisabled}
           loading={isStakeLoading}
-          maxAmountDecimals={ANKR_STAKING_MAX_DECIMALS_LENGTH}
+          maxAmount={maxAmount}
+          maxAmountDecimals={GNOSIS_STAKING_MAX_DECIMALS_LENGTH}
           minAmount={minStake}
           providerName={providerName}
           providerSelectHref={providerSelectHref}

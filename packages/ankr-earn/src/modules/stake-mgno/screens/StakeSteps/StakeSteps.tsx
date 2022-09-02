@@ -12,11 +12,11 @@ export const StakeSteps = (): JSX.Element => {
     <ProgressStep
       amount={amount}
       error={error}
-      hint={t('stake.pending.description', { token: t('unit.ankr') })}
+      hint={t('stake.pending.description', { token: t('unit.mgno') })}
       isLoading={isLoading}
       isPending={isPending}
       nodeProvider={nodeProvider}
-      symbol={t('unit.ankr')}
+      symbol={t('unit.mgno')}
       title={t('stake.progressTitle')}
       txHash={transactionId}
     />

@@ -6,7 +6,7 @@ import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 
 import { useDialogStyles as useStyles } from './useDialogStyles';
 
-interface IDialogProps extends DialogProps {
+export interface IDialogProps extends DialogProps {
   isHiddenCloseBtn?: boolean;
   onClose?: () => void;
 }

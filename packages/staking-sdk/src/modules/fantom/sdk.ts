@@ -485,10 +485,13 @@ export class FantomSDK implements ISwitcher, IStakable {
       value: hexAmount,
     });
 
+    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
+
     const tx = await contractMethod.send({
       from: this.currentAccount,
       value: hexAmount,
       gas: this.getIncreasedGasLimit(gasLimit),
+      gasPrice: gasPrice.toString(10),
     });
 
     return { txHash: tx.transactionHash };
@@ -693,9 +696,12 @@ export class FantomSDK implements ISwitcher, IStakable {
       from: this.currentAccount,
     });
 
+    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
+
     return txn.send({
       from: this.currentAccount,
       gas: this.getIncreasedGasLimit(gasLimit),
+      gasPrice: gasPrice.toString(10),
     });
   }
 
@@ -721,7 +727,6 @@ export class FantomSDK implements ISwitcher, IStakable {
    * Get stake gas fee.
    *
    * @public
-   * @note Caches computed gas fee value for future computations.
    * @param {BigNumber} amount - amount to stake
    * @param {TFtmSyntToken} token - token symbol (aFTMb or aFTMc)
    * @returns {Promise<BigNumber>}

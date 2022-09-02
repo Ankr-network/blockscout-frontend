@@ -2,14 +2,16 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import {
+  getTxReceipt,
+  getTxReceiptRequestKey,
+} from 'modules/common/actions/getTxReceipt';
 import { SupportedChainIDS } from 'modules/common/const';
 
 import { BridgeSDK } from '../api/BridgeSDK';
 import { IBridgeApproveResponse } from '../api/types/types';
 import { AvailableBridgeTokens } from '../types';
 import { getTokenAddr } from '../utils/getTokenAddr';
-
-import { getTxReceiptRequestKey, getTxReceipt } from './getTxReceipt';
 
 export const approve = createAction<
   RequestAction<IBridgeApproveResponse, IBridgeApproveResponse>,

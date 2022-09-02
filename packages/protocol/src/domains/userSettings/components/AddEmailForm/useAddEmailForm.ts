@@ -2,6 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { connect } from 'domains/auth/actions/connect';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { addNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
 import { editEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
@@ -21,25 +22,33 @@ import {
 const ENABLE_CHANGE_EMAIL = false;
 
 export interface IUseAddEmailFormProps {
-  submittedData: IAddEmailFormData | undefined;
   contentState: AddEmailFormContentState;
   onFormStateChange: (state: AddEmailFormContentState) => void;
   onFormSubmit: (data: IAddEmailFormData | undefined) => void;
+  onAddEmailSubmitSuccess?: () => void;
+  submittedData: IAddEmailFormData | undefined;
+  formDisabled?: boolean;
 }
 
 export const useAddEmailForm = ({
-  submittedData,
   contentState,
   onFormStateChange,
   onFormSubmit,
+  onAddEmailSubmitSuccess,
+  submittedData,
+  formDisabled,
 }: IUseAddEmailFormProps) => {
   const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { address } = useAuth();
+  const { address, isWalletConnected } = useAuth();
 
   const handleAddEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
+      if (!isWalletConnected) {
+        await dispatchRequest(connect());
+      }
+
       const { data, error } = await dispatchRequest(
         addNewEmailBinding({ email }),
       );
@@ -54,17 +63,18 @@ export const useAddEmailForm = ({
 
       if (data) {
         onFormStateChange(AddEmailFormContentState.SUCCESS);
-        dispatch(
-          disableBanner({
-            bannerToDisable: UserSettingsBanners.ADD_EMAIl,
-            address,
-          }),
-        );
+
+        onAddEmailSubmitSuccess?.();
       }
 
       return undefined;
     },
-    [address, dispatch, dispatchRequest, onFormStateChange],
+    [
+      dispatchRequest,
+      isWalletConnected,
+      onFormStateChange,
+      onAddEmailSubmitSuccess,
+    ],
   );
 
   const handleChangeEmailSubmit = useCallback(
@@ -83,6 +93,7 @@ export const useAddEmailForm = ({
 
       if (data) {
         onFormStateChange(AddEmailFormContentState.SUCCESS);
+
         dispatch(
           disableBanner({
             bannerToDisable: UserSettingsBanners.ADD_EMAIl,
@@ -157,8 +168,10 @@ export const useAddEmailForm = ({
   );
 
   return {
-    successStepProps,
+    submittedData,
+    formDisabled,
     contentState,
     onSubmit,
+    successStepProps,
   };
 };

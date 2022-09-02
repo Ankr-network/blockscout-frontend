@@ -2,17 +2,16 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import {
+  getTxReceipt,
+  getTxReceiptRequestKey,
+  IGetTxReceipt,
+} from 'modules/common/actions/getTxReceipt';
 import { SupportedChainIDS } from 'modules/common/const';
 
 import { BridgeSDK } from '../api/BridgeSDK';
 import { AvailableBridgeTokens } from '../types';
 import { getTokenAddr } from '../utils/getTokenAddr';
-
-import {
-  getTxReceipt,
-  getTxReceiptRequestKey,
-  IGetTxReceipt,
-} from './getTxReceipt';
 
 export interface IDepositArgs {
   amount: BigNumber;

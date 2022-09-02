@@ -1,8 +1,10 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ZERO } from 'modules/common/const';
 import { getActiveStakingData } from 'modules/stake-mgno/actions/getActiveStakingData';
-import { IActiveStakingData } from 'modules/stake-mgno/api/types';
+import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
+import { IActiveStakingData } from 'modules/stake-mgno/api/GnosisStakingSDK/types';
 
 interface IActiveStaking {
   isLoading: boolean;
@@ -15,13 +17,16 @@ export const useActiveStakingData = (): IActiveStaking => {
   const { data, loading } = useQuery({
     type: getActiveStakingData,
   });
+  const { data: usdPrice, loading: isUsdPriceLoading } = useQuery({
+    type: getMGNOPrice,
+  });
 
   useProviderEffect(() => {
-    dispatchRequest(getActiveStakingData());
-  }, [dispatchRequest]);
+    dispatchRequest(getActiveStakingData({ usdPrice: usdPrice ?? ZERO }));
+  }, [dispatchRequest, usdPrice]);
 
   return {
-    isLoading: loading,
+    isLoading: loading || isUsdPriceLoading,
     data,
   };
 };

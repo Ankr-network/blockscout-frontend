@@ -116,7 +116,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     aBNBcToken: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
     binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
-    aMATICbToken: '0xE453C6EA55FF55c560cf6c391bF0FA630A34BB02',
+    aMATICbToken: '0x07Cf0e4544E0f950C7386f83AFDAa696db00Bc94',
     aMATICcToken: '0xA073139a16728DA8e2ceA0EF164820c0476fFf3C',
     aETHToken: '0xd5B19516c8E3ec07a388f36dDC3A6e02c8AbD5c5',
     aETHcToken: '0x0ae4837cf3d254e4a1b5a77c0fac591ba253773d',
@@ -226,10 +226,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMATICbToken: '0x03A97594aA5ecE130E2E956fc0cEd2fea8ED8989',
     aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
     maticToken: '0x0000000000000000000000000000000000001010',
-    /**
-     * TODO Add valid token address for Mainnet (MATIC on Polygon)
-     */
-    swapPool: ZERO_ADDRESS,
+    swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

@@ -28,17 +28,17 @@ import ABI_AMATICC from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
 import ABI_POLYGON_POOL from '../../contracts/PolygonPoolV3.json';
 import {
-  IPendingData,
-  ITxEventsHistoryGroupItem,
-  ITxEventsHistoryData,
-  IStakable,
-  IGetPastEvents,
-  IEventsBatch,
-  ITxHistoryEventData,
-  IStakeData,
   getFilteredContractEvents,
+  IEventsBatch,
+  IGetPastEvents,
+  IPendingData,
+  IStakable,
+  IStakeData,
+  ITxEventsHistoryData,
+  ITxEventsHistoryGroupItem,
+  ITxHistoryEventData,
 } from '../../stake';
-import { ISwitcher, IFetchTxData, IShareArgs } from '../../switcher';
+import { IFetchTxData, IShareArgs, ISwitcher } from '../../switcher';
 import { convertNumberToHex } from '../../utils';
 import {
   ALLOWANCE_RATE,
@@ -47,12 +47,12 @@ import {
   MAX_BLOCK_RANGE,
 } from '../const';
 import {
-  TMaticSyntToken,
+  EMaticSDKErrorCodes,
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
   IMaticSDKProviders,
-  EMaticSDKErrorCodes,
   IUnstakeFeeData,
+  TMaticSyntToken,
 } from '../types';
 
 /**
@@ -65,7 +65,7 @@ import {
 export class MaticEthSDK implements ISwitcher, IStakable {
   /**
    * instance — SDK instance.
-   * 
+   *
    * @type {MaticEthSDK}
    * @static
    * @private
@@ -74,7 +74,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
 
   /**
    * writeProvider — provider which has signer for signing transactions.
-   * 
+   *
    * @type {Web3KeyWriteProvider}
    * @private
    * @readonly
@@ -83,7 +83,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
 
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
-   * 
+   *
    * @type {Web3KeyReadProvider}
    * @private
    * @readonly
@@ -92,7 +92,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
 
   /**
    * apiGateWay — gateway instance.
-   * 
+   *
    * @type {ApiGateway}
    * @private
    */
@@ -100,7 +100,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
 
   /**
    * currentAccount — connected account.
-   * 
+   *
    * @type {string}
    * @private
    */
@@ -622,53 +622,54 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
-    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
-    let totalUnstakingValue = await this.getPendingClaim();
+    const pendingClaim = await this.getPendingClaim();
 
-    let pendingRawEvents: EventData[] = [];
-
-    if (totalUnstakingValue.isGreaterThan(ZERO)) {
-      const unstakePendingReverse: EventData[] = unstakeRawEvents.reverse();
-
-      for (
-        let i = 0;
-        i < unstakePendingReverse.length && !totalUnstakingValue.isZero();
-        i += 1
-      ) {
-        const unstakeEventItem = unstakePendingReverse[i];
-        const isCert = !unstakeEventItem.returnValues.isRebasing;
-
-        const itemAmount =
-          isCert && !ratio.isZero()
-            ? this.convertFromWei(
-                unstakeEventItem.returnValues.amount,
-              ).dividedBy(ratio)
-            : this.convertFromWei(unstakeEventItem.returnValues.amount);
-
-        totalUnstakingValue = totalUnstakingValue.minus(itemAmount);
-
-        pendingRawEvents = [...pendingRawEvents, unstakeEventItem];
-      }
+    // If there are no pending amount we do not need any calculations
+    if (pendingClaim.isZero()) {
+      return {
+        pendingBond: ZERO,
+        pendingCertificate: ZERO,
+      };
     }
 
-    const {
-      bondEvents: pendingBondEvents,
-      certEvents: pendingCertificateEvents,
-    } = getFilteredContractEvents(pendingRawEvents);
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
 
-    return {
-      pendingBond: pendingBondEvents.reduce(
-        (sum, item) => sum.plus(this.convertFromWei(item.returnValues.amount)),
-        ZERO,
-      ),
-      pendingCertificate: pendingCertificateEvents.reduce(
-        (sum, item) =>
-          sum.plus(
-            this.convertFromWei(item.returnValues.amount).multipliedBy(ratio),
+    // the reverse is necessary to get new unstake events first
+    const reversedUnstakeEvents = unstakeRawEvents.reverse();
+    let unstakingValue = pendingClaim;
+
+    return reversedUnstakeEvents.reduce<IPendingData>(
+      (result, unstakeEvent) => {
+        // as soon as the unstakingValue value is 0,
+        // other events are already claimed
+        if (unstakingValue.isLessThanOrEqualTo(0)) {
+          return result;
+        }
+
+        const amount = this.convertFromWei(unstakeEvent.returnValues.amount);
+        unstakingValue = unstakingValue.minus(amount);
+
+        const isUnstakeBondEvent = unstakeEvent.returnValues.isRebasing;
+
+        if (isUnstakeBondEvent) {
+          return {
+            ...result,
+            pendingBond: result.pendingBond.plus(amount),
+          };
+        }
+
+        return {
+          ...result,
+          pendingCertificate: result.pendingCertificate.plus(
+            amount.multipliedBy(ratio),
           ),
-        ZERO,
-      ),
-    };
+        };
+      },
+      {
+        pendingBond: ZERO,
+        pendingCertificate: ZERO,
+      },
+    );
   }
 
   /**
@@ -753,16 +754,10 @@ export class MaticEthSDK implements ISwitcher, IStakable {
         i += 1
       ) {
         const unstakeRawEventItem = unstakeRawEventsReverse[i];
-        const isCert = !unstakeRawEventItem.returnValues.isRebasing;
-
-        const itemAmount = isCert
-          ? this.convertFromWei(
-              unstakeRawEventItem.returnValues.amount,
-            ).dividedBy(ratio)
-          : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
-
+        const itemAmount = this.convertFromWei(
+          unstakeRawEventItem.returnValues.amount,
+        );
         pendingUnstakes = pendingUnstakes.minus(itemAmount);
-
         pendingRawEvents = [...pendingRawEvents, unstakeRawEventItem];
       }
 

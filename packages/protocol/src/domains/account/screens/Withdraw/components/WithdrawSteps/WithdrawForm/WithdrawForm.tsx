@@ -10,6 +10,7 @@ import { useStyles } from './WithdrawFormStyles';
 import { AmountInputField, WithdrawFormValues } from './WithdrawFormTypes';
 import { MAX_DECIMALS, validate } from './WithdrawFormUtils';
 import { WithdrawBalanceInfo } from './WithdrawBalanceInfo';
+import { ANKR_CURRENCY } from 'domains/account/screens/AccountDetails/components/const';
 
 interface WithdrawFormProps {
   onSubmit: (values: WithdrawFormValues) => void;
@@ -41,6 +42,7 @@ export const WithdrawForm = ({
             size="l"
             validate={value => validate(value, ankrBalanceWithoutVouchers)}
             maxDecimals={MAX_DECIMALS}
+            currency={ANKR_CURRENCY}
           />
           <WithdrawBalanceInfo
             ankrBalanceWithoutVouchers={ankrBalanceWithoutVouchers}

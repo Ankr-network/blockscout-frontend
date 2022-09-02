@@ -18,7 +18,7 @@ export const fetchPublicKey = createSmartAction<RequestAction<string, string>>(
         store: RequestsStore,
       ) => {
         return {
-          promise: (async (): Promise<any> => {
+          promise: (async (): Promise<string> => {
             let { encryptionPublicKey } = selectAuthData(store.getState());
 
             if (!encryptionPublicKey) {

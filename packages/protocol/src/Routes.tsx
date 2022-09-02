@@ -56,6 +56,8 @@ export const Routes = () => {
           AccountRoutesConfig.accountDetails.path,
           AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.withdraw.path,
+          AccountRoutesConfig.cardPaymentSuccess.path,
+          AccountRoutesConfig.cardPaymentFailure.path,
         ]}
         hasAuthData={Boolean(cachedAuthData.authorizationToken)}
         isManualDisconnected={Boolean(cachedAuthData.isManualDisconnected)}

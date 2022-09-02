@@ -85,10 +85,9 @@ export const RequestsByIP = ({
               </div>
             </>
           ) : (
-            <NoData
-              title={t('chain-item.requests-by-ip.no-data.title')}
-              content={t('chain-item.requests-by-ip.no-data.content')}
-            />
+            <div className={classes.noData}>
+              <NoData />
+            </div>
           )}
         </>
       )}

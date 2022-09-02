@@ -1,6 +1,8 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import BigNumber from 'bignumber.js';
+import { MemoryRouter } from 'react-router';
 
 import { Token } from 'modules/common/types/token';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
@@ -23,6 +25,10 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
         icon: AETHBIcon,
         color: '#000',
         link: 'link',
+        yieldAmount: new BigNumber(1),
+        yieldAmountUsd: new BigNumber(1),
+        apy: new BigNumber(0.3),
+        isNative: false,
       },
     ],
     onMouseOver: jest.fn(),
@@ -30,7 +36,9 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   };
 
   test('should render properly', async () => {
-    render(<PortfolioChartLegend {...defaultProps} />);
+    render(<PortfolioChartLegend {...defaultProps} />, {
+      wrapper: MemoryRouter,
+    });
 
     const title = await screen.findByText(/Staked assets/);
 
@@ -38,7 +46,9 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   });
 
   test('should render with loading state', async () => {
-    render(<PortfolioChartLegend {...defaultProps} isLoading />);
+    render(<PortfolioChartLegend {...defaultProps} isLoading />, {
+      wrapper: MemoryRouter,
+    });
 
     const section = await screen.findByTestId('loading-state');
 
@@ -46,7 +56,9 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   });
 
   test('should render properly with synthetic mode', async () => {
-    render(<PortfolioChartLegend {...defaultProps} isNative />);
+    render(<PortfolioChartLegend {...defaultProps} isNative />, {
+      wrapper: MemoryRouter,
+    });
 
     const title = await screen.findByText(/Available to stake/);
 
@@ -64,11 +76,16 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
             percent: 30,
             usdAmount: new BigNumber(3_000),
             amount: new BigNumber(1),
+            yieldAmount: new BigNumber(1),
+            yieldAmountUsd: new BigNumber(1),
+            apy: new BigNumber(0.3),
             icon: AETHBIcon,
             color: '#000',
+            isNative: false,
           },
         ]}
       />,
+      { wrapper: MemoryRouter },
     );
 
     const item = await screen.findByTestId('legend-aETHb');
@@ -83,7 +100,9 @@ describe('modules/dashboard/components/PortfolioChartLegend', () => {
   });
 
   test('should hover legend item', async () => {
-    render(<PortfolioChartLegend {...defaultProps} isNative />);
+    render(<PortfolioChartLegend {...defaultProps} isNative />, {
+      wrapper: MemoryRouter,
+    });
 
     const item = await screen.findByTestId('legend-aETHb');
 

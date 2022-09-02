@@ -2,6 +2,7 @@ import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
@@ -19,6 +20,8 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 const ROOT = `${StakeRoutes.main.path}matic/polygon/`;
 const STAKE_MATIC_PATH = `${ROOT}?token=:token?`;
 const STAKE_STEP_MATIC_PATH = `${ROOT}:tokenOut/:txHash/`;
+const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/polygon/`;
+const UNSTAKE_MATIC_BY_TOKEN_PATH = `${UNSTAKE_MATIC_PATH}?token=:token?`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -38,6 +41,16 @@ export const RoutesConfig = createRouteConfig(
           txHash,
         }),
     },
+    unstake: {
+      path: UNSTAKE_MATIC_PATH,
+      generatePath: (token?: TMaticSyntToken): string =>
+        token
+          ? generatePath(UNSTAKE_MATIC_BY_TOKEN_PATH, { token })
+          : generatePath(UNSTAKE_MATIC_PATH),
+      useParams: () => ({
+        token: useQueryParams().get('token') ?? undefined,
+      }),
+    },
   },
   ROOT,
 );
@@ -50,9 +63,13 @@ const StakeStep = loadComponent(() =>
   import('./screens/StakeStep').then(module => module.StakeStep),
 );
 
+const Unstake = loadComponent(() =>
+  import('./screens/Unstake').then(module => module.Unstake),
+);
+
 export function getRoutes(): JSX.Element {
   return (
-    <Route path={[RoutesConfig.root]}>
+    <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
         <GuardETHRoute
           exact
@@ -73,6 +90,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <StakeStep />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={MATIC_ON_POLYGON_STAKING_NETWORKS}
+          path={RoutesConfig.unstake.path}
+          providerId={MATIC_PROVIDER_ID}
+        >
+          <DefaultLayout verticalAlign="center">
+            <Unstake />
           </DefaultLayout>
         </GuardETHRoute>
 

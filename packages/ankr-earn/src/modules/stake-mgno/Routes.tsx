@@ -3,7 +3,7 @@ import { generatePath, Route, Switch } from 'react-router';
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
-import { DefaultLayout } from 'modules/polkadot-slot-auction/components/DefautLayout';
+import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 

@@ -2,6 +2,7 @@ import { CountryMap } from 'domains/chains/actions/fetchChainTimeframeData';
 import { Timeframe } from 'domains/chains/types';
 
 export interface RequestsMapProps {
+  loading: boolean;
   countries?: CountryMap;
   timeframe: Timeframe;
 }

@@ -14,7 +14,15 @@ export const useMethodCallStyles = makeStyles<Theme>(theme => ({
       zIndex: 100,
     },
   },
+  loading: {
+    height: theme.spacing(30),
+  },
   content: {
-    height: theme.spacing(50),
+    borderTop: `1px solid ${theme.palette.grey[400]}`,
+    paddingTop: theme.spacing(4),
+    marginTop: theme.spacing(4),
+  },
+  noData: {
+    height: theme.spacing(30),
   },
 }));

@@ -6,7 +6,7 @@ export const featuresConfig = {
   testingUi: currentEnv !== Env.Production,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
-  isActivePolkadotLedgerNanoX: false,
+  isActivePolkadotLedgerNanoX: true,
   /**
    * Please remove extra feature flag
    * @deprecated
@@ -15,7 +15,6 @@ export const featuresConfig = {
   localeSwitcher: false,
   dashboardLiquidCrowdloanAssets: false,
   bridgeAnotherAddr: false,
-  showOldBanner: false,
   /**
    * Please remove extra feature flag
    * @deprecated
@@ -26,12 +25,22 @@ export const featuresConfig = {
    * @deprecated
    */
   isActivePolkadotStaking: true,
-  newDashboard: isLocal,
   /**
    * Please remove extra feature flag
    * @deprecated
    */
   ankrStaking: true,
   mgnoStaking: currentEnv !== Env.Production,
-  maticPolygonStaking: isLocal,
+  /**
+   * Please remove extra feature flag
+   * @deprecated
+   */
+  maticPolygonStaking: true,
+  maticPolygonStakingFAQ: false,
+  /**
+   * https://ankrnetwork.atlassian.net/browse/STAKAN-1810
+   */
+  newEmptyStateForDashboard: isLocal,
+  isCalcActive: isLocal,
+  providerNotification: true,
 };
