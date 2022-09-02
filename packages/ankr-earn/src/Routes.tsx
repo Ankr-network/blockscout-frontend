@@ -1,6 +1,7 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { getRoutes as getBridgeRoutes } from 'modules/bridge/Routes';
+import { getRoutes as getCalcRoutes } from 'modules/calc/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { featuresConfig, STAKING_PATH } from 'modules/common/const';
 import {
@@ -57,13 +58,15 @@ export function Routes(): JSX.Element {
 
       {getStakeEthereumRoutes()}
 
-      {featuresConfig.ankrStaking && getStakeAnkrRoutes()}
+      {getStakeAnkrRoutes()}
 
       {featuresConfig.mgnoStaking && getStakeGnosisRoutes()}
 
       {getStakePolkadotRoutes()}
 
       {getSwapRoutes()}
+
+      {featuresConfig.isCalcActive && getCalcRoutes()}
 
       <Route>
         <DefaultLayout>

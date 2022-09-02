@@ -7,7 +7,7 @@ import { useAuth } from 'modules/auth/common/hooks/useAuth';
 
 interface IUseAnalyticsArgs {
   amount: BigNumber;
-  balance: BigNumber;
+  stakedAmount: BigNumber;
   nodeProvider: string;
 }
 
@@ -17,7 +17,7 @@ interface IUseAnalytics {
 
 export const useAnalytics = ({
   amount,
-  balance,
+  stakedAmount,
   nodeProvider,
 }: IUseAnalyticsArgs): IUseAnalytics => {
   const { address, walletName } = useAuth(
@@ -29,7 +29,8 @@ export const useAnalytics = ({
       walletPublicAddress: address,
       walletType: walletName,
       stakeAmount: amount.toFixed(),
-      newStakedBalance: amount.plus(balance).toFixed(),
+      newStakedBalance: amount.plus(stakedAmount).toFixed(),
+      addingStake: !stakedAmount.isZero(),
       nodeProvider,
     });
   };

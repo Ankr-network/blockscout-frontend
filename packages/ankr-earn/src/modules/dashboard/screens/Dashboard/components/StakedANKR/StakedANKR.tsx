@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from '@material-ui/core';
 
 import { t, tHTML } from 'common';
 
-import { trackEnterAnkrTokenManage } from 'modules/analytics/tracking-actions/trackEnterAnkrTokenManage';
+import { trackDelegatedStakingFlow } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import {
   DEFAULT_ROUNDING,
@@ -43,6 +43,8 @@ export const StakedANKR = (): JSX.Element => {
     network,
     manageLink,
     loading,
+    address,
+    walletName,
   } = useStakedANKRData();
 
   const stakedUsdValue = t('unit.usd-value', {
@@ -58,7 +60,12 @@ export const StakedANKR = (): JSX.Element => {
   }
 
   const onClick = () => {
-    trackEnterAnkrTokenManage();
+    trackDelegatedStakingFlow({
+      walletType: walletName,
+      walletPublicAddress: address,
+      accessPoint: 'dashboard',
+      tokenName: Token.ANKR,
+    });
   };
 
   return (

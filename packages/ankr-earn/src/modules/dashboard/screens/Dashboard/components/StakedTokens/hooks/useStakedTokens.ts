@@ -134,7 +134,7 @@ export const useStakedTokens = (): IUseStakedTokensData => {
 
   const isUnclaimedEthShowed = unclaimedEthData.isShowed;
 
-  const isANKRShowed = featuresConfig.ankrStaking && stakedANKRData.isShowed;
+  const isANKRShowed = stakedANKRData.isShowed;
 
   const isMGNOShowed = featuresConfig.mgnoStaking && stakedMGNOData.isShowed;
 

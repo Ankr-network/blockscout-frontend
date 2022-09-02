@@ -23,8 +23,9 @@ import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/g
 import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
-import { fetchStats as fetchStakePolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/eth/Routes';
+import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/common/Routes';
+import { fetchStats as fetchMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
 import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
@@ -32,6 +33,8 @@ import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+
+import { SMALL_PRICE_TOKENS } from '../const';
 
 export interface IUsePortfolioData {
   isLoading: boolean;
@@ -46,6 +49,9 @@ interface IPortfolioItem {
   percent: number;
   usdAmount: BigNumber;
   amount: BigNumber;
+  yieldAmount: BigNumber;
+  yieldAmountUsd: BigNumber;
+  apy: BigNumber;
   icon: TIcon;
   isNative: boolean;
   link?: string;
@@ -56,9 +62,14 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getMetrics,
   });
 
-  const { data: polygonData, loading: isPolygonDataLoading } = useQuery({
-    type: fetchStakePolygonStats,
+  const { data: ethMaticData, loading: isEthMaticDataLoading } = useQuery({
+    type: fetchMaticEthStats,
   });
+
+  const { data: polygonMaticData, loading: isPolygonMaticDataLoading } =
+    useQuery({
+      type: getMaticPolygonCommonData,
+    });
 
   const { data: avaxData, loading: isAvaxDataLoading } = useQuery({
     type: fetchStakeAVAXStats,
@@ -125,7 +136,9 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     () => [
       {
         name: Token.MATIC,
-        amount: polygonData?.maticBalance ?? ZERO,
+        amount: (ethMaticData?.maticBalance ?? ZERO).plus(
+          polygonMaticData?.maticBalance ?? ZERO,
+        ),
         apy: metrics?.matic.apy ?? ZERO,
         service: EMetricsServiceName.MATIC,
         link: StakeMaticRoutes.stake.generatePath(),
@@ -153,18 +166,16 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       },
       {
         name: Token.ETH,
-        amount:
-          ethData?.ethBalance
-            .plus(ethData.claimableAETHB ?? ZERO)
-            .plus(ethData.claimableAETHC ?? ZERO) ?? ZERO,
+        amount: (ethData?.ethBalance ?? ZERO)
+          .plus(ethData?.claimableAETHB ?? ZERO)
+          .plus(ethData?.claimableAETHC ?? ZERO),
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
         link: StakeEthRoutes.stake.generatePath(),
       },
       {
         name: Token.ANKR,
-        amount:
-          ankrBalanceData?.ankrBalance.multipliedBy(ankrPrice ?? ZERO) ?? ZERO,
+        amount: ankrBalanceData?.ankrBalance ?? ZERO,
         apy: maxAnkrApy ?? ZERO,
         link: StakeAnkrRoutes.stake.generatePath(),
       },
@@ -203,10 +214,10 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       ankrBalanceData,
       avaxData,
       ftmData,
-      polygonData,
+      ethMaticData,
+      polygonMaticData,
       bnbData,
       ethData,
-      ankrPrice,
       dotClaimableBalance,
       ksmClaimableBalance,
       wndClaimableBalance,
@@ -220,19 +231,20 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
           totalStaked: metrics?.[item.service]?.totalStaked,
           totalStakedUsd: metrics?.[item.service]?.totalStakedUsd,
         }) ?? ZERO
-      : item.amount,
+      : item.amount.multipliedBy(ankrPrice ?? ZERO),
   );
 
-  const yieldAmouts = nativeData.map((item, index) =>
-    usdAmounts[index]
-      .multipliedBy(item.apy)
-      .dividedBy(100)
-      .plus(usdAmounts[index]),
+  const yieldAmoutsUsd = nativeData.map((item, index) =>
+    usdAmounts[index].multipliedBy(item.apy).dividedBy(100),
   );
 
   const totalYieldAmountUsd = useMemo(
-    () => yieldAmouts.reduce((acc, item) => acc.plus(item), ZERO),
-    [yieldAmouts],
+    () =>
+      yieldAmoutsUsd.reduce(
+        (acc, item, index) => acc.plus(item).plus(usdAmounts[index]),
+        ZERO,
+      ),
+    [yieldAmoutsUsd, usdAmounts],
   );
 
   const totalAmountUsd = useMemo(
@@ -250,24 +262,33 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         .map((item, index) => ({
           ...item,
           isNative: true,
-          amount: item.amount.decimalPlaces(DECIMAL_PLACES),
+          amount: item.amount.decimalPlaces(
+            !SMALL_PRICE_TOKENS.includes(item.name) ? DECIMAL_PLACES : 0,
+          ),
           usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
+          yieldAmount: item.amount
+            .multipliedBy(item.apy)
+            .dividedBy(100)
+            .decimalPlaces(DEFAULT_ROUNDING),
+          yieldAmountUsd: yieldAmoutsUsd[index].decimalPlaces(DEFAULT_ROUNDING),
           percent: !totalAmountUsd.isZero()
             ? usdAmounts[index]
                 .multipliedBy(100)
                 .dividedBy(totalAmountUsd)
-                .decimalPlaces(DEFAULT_ROUNDING)
+                .decimalPlaces(1)
                 .toNumber()
             : 0,
+          apy: item.apy.decimalPlaces(1),
           icon: iconByTokenMap[item.name],
         }))
         .filter(({ amount }) => !amount.isZero()),
-    [totalAmountUsd, usdAmounts, nativeData],
+    [totalAmountUsd, usdAmounts, nativeData, yieldAmoutsUsd],
   );
 
   return {
     isLoading:
-      isPolygonDataLoading ||
+      isEthMaticDataLoading ||
+      isPolygonMaticDataLoading ||
       isAvaxDataLoading ||
       isBnbDataLoading ||
       isEthDataLoading ||

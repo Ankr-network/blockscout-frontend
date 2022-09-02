@@ -58,7 +58,7 @@ export const STAKE_LEGACY_LINKS = {
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 
-export const OPENOCEAN_CLASSIC_URL = 'https://openocean.finance/classic#';
+export const OPENOCEAN_CLASSIC_URL = 'https://app.openocean.finance/CLASSIC#';
 
 export const OPENOCEAN_QUOTE_URL =
   'https://open-api.openocean.finance/v1/cross/quote';
@@ -74,4 +74,6 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.FANTOM_TESTNET]: 'https://testnet.ftmscan.com',
   [SupportedChainIDS.POLYGON]: 'https://polygonscan.com',
   [SupportedChainIDS.POLYGON_MUMBAI_TESTNET]: 'https://mumbai.polygonscan.com',
+  [SupportedChainIDS.GNOSIS]: 'https://gnosisscan.io',
+  [SupportedChainIDS.GNOSIS_SOKOL]: 'https://blockscout.com/poa/sokol',
 };

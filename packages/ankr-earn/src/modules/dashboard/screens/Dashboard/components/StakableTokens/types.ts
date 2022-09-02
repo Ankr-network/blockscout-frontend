@@ -18,4 +18,5 @@ export interface IUseStakableToken<
   isStakeLoading: boolean;
   networks: NetworkItem[];
   token: Token;
+  isDelegatedStaking?: boolean;
 }

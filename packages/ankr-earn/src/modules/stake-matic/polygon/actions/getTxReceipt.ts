@@ -15,12 +15,11 @@ const POLL_INTERVAL: Seconds = 3;
 export const getTxReceipt = createSmartAction<
   RequestAction<TData, TData>,
   [IStakeData]
->(`${MATIC_POLYGON_ACTIONS_PREFIX}/getTxReceipt`, ({ txHash }) => ({
+>(`${MATIC_POLYGON_ACTIONS_PREFIX}getTxReceipt`, ({ txHash }) => ({
   request: {
     promise: (async () => null)(),
   },
   meta: {
-    asMutation: false,
     poll: POLL_INTERVAL,
     showNotificationOnError: true,
     onRequest: request => {

@@ -1,4 +1,4 @@
-import { Box, ButtonBase } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 import { t, tHTML } from 'common';
 
@@ -8,25 +8,30 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_ROUNDING,
+  featuresConfig,
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
+import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
+import { StakeStats } from 'modules/stake/components/StakeStats';
+import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-import { Tooltip } from 'uiKit/Tooltip';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStyles } from './useStakeStyles';
@@ -37,15 +42,18 @@ export const Stake = (): JSX.Element => {
   const {
     acPoolLiquidityInMATIC,
     acRatio,
+    amount,
     balance,
+    extraValidation,
+    gasFee,
     getStatsError,
+    isGasFeeLoading,
     isGetStatsLoading,
     isStakeLoading,
     stakeFeePct,
     tokenIn,
     tokenOut,
     totalAmount,
-    extraValidation,
     onFormChange,
     onFormSubmit,
     onTokenSelect,
@@ -53,27 +61,25 @@ export const Stake = (): JSX.Element => {
 
   const faqItems = useMaticFaq();
 
-  const renderStats = () => (
+  const renderStats = (): JSX.Element => (
     <>
       <div className={classes.liquidityPoolArea}>
         <div>
-          {tHTML('stake-matic-polygon.stake.liquidity-pool', {
+          {tHTML('stake-matic-polygon.liquidity-pool-label', {
             value: acPoolLiquidityInMATIC
               .decimalPlaces(DEFAULT_ROUNDING)
               .toFormat(),
           })}
         </div>
 
-        <Tooltip title={t('stake-matic-polygon.tooltips.liquidity-pool')}>
-          <ButtonBase className={classes.questionBtn}>
-            <QuestionIcon size="xs" />
-          </ButtonBase>
-        </Tooltip>
+        <QuestionWithTooltip className={classes.questionBtn}>
+          {t('stake-matic-polygon.tooltips.stake-liquidity-pool')}
+        </QuestionWithTooltip>
       </div>
 
       <TokenVariantList my={5}>
         <TokenVariant
-          isDisabled
+          isUnsupported
           description={tHTML('stake-matic-eth.amaticb-descr')}
           iconSlot={<AMATICBIcon />}
           isActive={tokenOut === Token.aMATICb}
@@ -144,6 +150,8 @@ export const Stake = (): JSX.Element => {
 
       {getStatsError === null && !!balance && (
         <StakeContainer>
+          {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+
           <StakeForm
             auditSlot={
               <AuditInfo>
@@ -152,8 +160,17 @@ export const Stake = (): JSX.Element => {
             }
             balance={balance}
             extraValidation={extraValidation}
+            feeSlot={
+              <StakeFeeInfo
+                isLoading={isGasFeeLoading}
+                mt={-1.5}
+                token={Token.MATIC}
+                value={gasFee}
+              />
+            }
             loading={isStakeLoading}
             maxAmount={balance}
+            networkTitleSlot={<NetworkTitle />}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}
@@ -161,7 +178,12 @@ export const Stake = (): JSX.Element => {
             onSubmit={onFormSubmit}
           />
 
-          <Faq data={faqItems} />
+          <StakeStats
+            amount={amount}
+            metricsServiceName={EMetricsServiceName.MATIC}
+          />
+
+          {featuresConfig.maticPolygonStakingFAQ && <Faq data={faqItems} />}
         </StakeContainer>
       )}
     </section>

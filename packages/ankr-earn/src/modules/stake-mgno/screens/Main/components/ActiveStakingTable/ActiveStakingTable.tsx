@@ -17,15 +17,15 @@ import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenU
 import { ProviderItem } from 'modules/delegate-stake/components/ProviderItem';
 import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { getDemoProviderName } from 'modules/stake-mgno/utils/getDemoProviderName';
+import { RoutesConfig } from 'modules/stake-mgno/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
 
-const SKELETON_ROWS_COUNT = 3;
-const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 300];
+const SKELETON_ROWS_COUNT = 1;
+const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 200, 300];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
 );
@@ -55,7 +55,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
         label: t('stake-mgno.staking-table.your-stake'),
       },
       {
-        label: t('stake-mgno.staking-table.rewards'),
+        label: t('stake-mgno.staking-table.validation-rewards'),
       },
       {
         label: ' ',
@@ -86,7 +86,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
     <Table
       className={classes.table}
       columnsCount={captions.length}
-      customCell="250px 200px 250px 250px 1fr"
+      customCell="200px 200px 1fr 1fr 150px"
       minWidth={800}
     >
       <TableHead>
@@ -111,17 +111,16 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 className={classes.cell}
                 label={`${captions[ELabel.provider].label}`}
               >
-                <ProviderItem
-                  name={getDemoProviderName(row.provider) ?? row.provider}
-                  nodeAPY={row.apr}
-                />
+                <ProviderItem name={row.providerName} nodeAPY={row.apr} />
               </TableBodyCell>
 
               <TableBodyCell
                 className={classes.cell}
                 label={`${captions[ELabel.slashingProtection].label}`}
               >
-                {t('unit.percentage-value', { value: row.slashingProtection })}
+                {t('unit.percentage-value', {
+                  value: row.slashingProtection.toFixed(),
+                })}
               </TableBodyCell>
 
               <TableBodyCell
@@ -131,7 +130,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 <YourStakeItem
                   unstakeDisabled
                   amount={row.stakeAmount}
-                  stakeLink={' '}
+                  stakeLink={RoutesConfig.stake.generatePath(row.provider)}
                   token={Token.mGNO}
                   unstakeLink={' '}
                   usdAmount={row.usdStakeAmount}

@@ -21,8 +21,9 @@ export enum AnalyticsEvents {
   StakeTokens = 'stake_tokens',
   SwitchToken = 'switch_token',
   UnstakeTokens = 'unstake_tokens',
-  EnterAnkrTokenManage = 'enter_ankr_token_staking_manage',
-  AnkrTokenStaking = 'enter_ankr_token_staking',
-  AnkrTokenUnstaking = 'enter_ankr_token_unstaking',
   ClickDefiAggregator = 'click_defi_aggregator',
+  DelegatedStakingFlow = 'delegated_staking_flow',
+  AnkrTokenStake = 'ankr_token_stake',
+  EnterAnkrTokenManage = 'ankr_token_staking_manage',
+  AnkrTokenUnstake = 'ankr_token_unstake',
 }

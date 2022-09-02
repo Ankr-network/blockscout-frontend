@@ -46,6 +46,12 @@ export const Main = (): JSX.Element => {
         icon: AnkrIcon,
         link: RoutesConfig.ankrFaucet.generatePath(),
       },
+      {
+        title: 'For devs',
+        descr: 'temp',
+        icon: QuestionIcon,
+        link: RoutesConfig.devPage.generatePath(),
+      },
     ],
     [],
   );

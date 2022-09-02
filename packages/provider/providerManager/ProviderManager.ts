@@ -10,22 +10,24 @@ import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider
 import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvider';
 import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { sleep } from './utils/sleep';
-import { Web3KeyWriteProvider } from './Web3KeyWriteProvider';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
+import { Web3KeyWriteProvider } from './Web3KeyWriteProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
   [AvailableReadProviders.ethGoerli]: 'https://rpc.ankr.com/eth_goerli',
   [AvailableReadProviders.avalancheChain]: 'https://rpc.ankr.com/avalanche',
   [AvailableReadProviders.avalancheChainTest]:
-    'https://avax-fujitestnet-01.dccn.ankr.com/ext/bc/C/rpc',
+    'https://rpc.ankr.com/avalanche_fuji',
   [AvailableReadProviders.binanceChain]: 'https://rpc.ankr.com/bsc',
   [AvailableReadProviders.binanceChainTest]:
-    'https://data-seed-prebsc-2-s2.binance.org:8545',
+    'https://rpc.ankr.com/bsc_testnet_chapel',
   [AvailableReadProviders.ftmOpera]: 'https://rpc.ankr.com/fantom',
   [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
   [AvailableReadProviders.mumbai]: 'https://matic-mumbai.chainstacklabs.com',
   [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
+  [AvailableReadProviders.gnosis]: 'https://rpc.ankr.com/gnosis',
+  [AvailableReadProviders.sokol]: 'https://sokol.poa.network',
 };
 
 interface IProviders {
@@ -41,6 +43,8 @@ interface IProviders {
   [AvailableReadProviders.ftmTestnet]: Web3KeyReadProvider;
   [AvailableReadProviders.mumbai]: Web3KeyReadProvider;
   [AvailableReadProviders.polygon]: Web3KeyReadProvider;
+  [AvailableReadProviders.gnosis]: Web3KeyReadProvider;
+  [AvailableReadProviders.sokol]: Web3KeyReadProvider;
 }
 
 const POLKADOT_CONNECT_WAIT_MS = 250;
@@ -110,6 +114,11 @@ export class ProviderManager {
 
       case AvailableReadProviders.ftmOpera:
       case AvailableReadProviders.ftmTestnet: {
+        return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
+
+      case AvailableReadProviders.gnosis:
+      case AvailableReadProviders.sokol: {
         return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
 

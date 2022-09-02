@@ -24,7 +24,9 @@ interface IFeatureItemProps {
   isTvlLoading?: boolean;
   isIntegerTvl?: boolean;
   stakedTvl?: BigNumber;
+  isDelegatedStaking?: boolean;
   onStakeClick?: () => void;
+  onManageClick?: () => void;
 }
 
 export const FeatureItem = ({
@@ -37,9 +39,11 @@ export const FeatureItem = ({
   isApyLoading = false,
   isTvlLoading = false,
   isIntegerTvl = false,
+  isDelegatedStaking = false,
   apy = 0,
   stakedTvl,
   onStakeClick,
+  onManageClick,
 }: IFeatureItemProps): JSX.Element => {
   const classes = useFeatureItemStyles();
 
@@ -89,6 +93,8 @@ export const FeatureItem = ({
                 className={classes.button}
                 href={manageHref}
                 variant="outlined"
+                onMouseDown={onManageClick}
+                onTouchStart={onManageClick}
               >
                 {t('features.manage')}
               </NavLink>
@@ -112,7 +118,7 @@ export const FeatureItem = ({
             {shouldRenderAPY && (
               <>
                 <Typography className={classNames(classes.statLabel)}>
-                  {t('features.apy')}
+                  {isDelegatedStaking ? t('features.apr') : t('features.apy')}
                 </Typography>
 
                 <Typography className={classNames(classes.statValue)}>
@@ -123,7 +129,7 @@ export const FeatureItem = ({
           </Grid>
 
           <Grid item>
-            {isTvlLoading && (
+            {isTvlLoading && !stakedTvl && (
               <Skeleton
                 className={classes.skeleton}
                 height={48}
@@ -132,7 +138,7 @@ export const FeatureItem = ({
               />
             )}
 
-            {!isTvlLoading && shouldRenderTvl && (
+            {shouldRenderTvl && (
               <>
                 <Typography className={classNames(classes.statLabel)}>
                   {t('features.staked-tvl')}

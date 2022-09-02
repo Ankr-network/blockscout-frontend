@@ -39,12 +39,15 @@ export const useStakeStep = (): IUseStakeStepData => {
   const { txHash, tokenOut } = useParams<IStakeStepRouteData>();
 
   const { data: stats } = useQuery({ type: getStakeStats });
+
   const { data: commonData } = useQuery({ type: getCommonData });
+
   const {
     loading: isLoading,
     data: txData,
     error,
   } = useQuery({ type: getTxData });
+
   const { data: receipt } = useQuery({ type: getTxReceipt });
 
   const isPending = !receipt && !!txData?.isPending;
@@ -82,25 +85,22 @@ export const useStakeStep = (): IUseStakeStepData => {
   }, [dispatch, receipt]);
 
   useProviderEffect(() => {
-    if (!stats) {
-      dispatch(getStakeStats());
-    }
-
     dispatch(getCommonData());
+    dispatch(getStakeStats());
     dispatch(getTxData({ txHash }));
     dispatch(getTxReceipt({ txHash }));
 
     return () => {
       dispatch(
         resetRequests([
+          getCommonData.toString(),
           getStakeStats.toString(),
           getTxData.toString(),
           getTxReceipt.toString(),
-          getCommonData.toString(),
         ]),
       );
     };
-  }, [dispatch, stats, txHash]);
+  }, [dispatch, txHash]);
 
   return {
     amount: txAmount,

@@ -13,7 +13,7 @@ const EXPIRED_TOKEN_ERROR = 'this token has already expired';
 export class LocalGridStore<T> {
   public currentPage = 0;
 
-  public pageSize = 10;
+  public pageSize = 500;
 
   public items: T[] = [];
 
@@ -61,7 +61,7 @@ export class LocalGridStore<T> {
           });
       },
       pageSize: this.pageSize,
-      pageSizeOptions: ['10', '50', '100'],
+      pageSizeOptions: ['10', '50', '100', '500'],
       showSizeChanger: true,
     };
     if (this.items.length > this.pageSize) {

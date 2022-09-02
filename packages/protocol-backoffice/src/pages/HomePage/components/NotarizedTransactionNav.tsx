@@ -10,7 +10,7 @@ import NotarizedTransactionTable from 'components/NotarizedTransactionTable/Nota
 import { useLocalGridStore } from 'stores/LocalGridStore';
 
 export const NotarizedTransactionNav = observer(() => {
-  const api = useMultiRpcSdk().getApiGateway();
+  const api = useMultiRpcSdk().getConsensusGateway();
   const formStore = useLocalGridStore(() => api.getThresholdKeys(0, 100));
 
   const gridStore = useLocalGridStore((offset, limit) => {

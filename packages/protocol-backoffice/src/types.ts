@@ -1,6 +1,10 @@
-import { IBalancesEntity, ICountersEntity, Web3Address } from 'multirpc-sdk';
+import {
+  IBalancesEntity,
+  ICountersEntityMapped,
+  Web3Address,
+} from 'multirpc-sdk';
 
-export type TCountersEntityWithAddress = ICountersEntity & {
+export type TCountersEntityWithAddress = ICountersEntityMapped & {
   address: Web3Address;
 };
 
@@ -16,9 +20,11 @@ export type ClientEntity = IBalancesEntity & {
   type: ClientType;
   ttl?: number;
   email?: string;
+  timestamp?: number;
+  createdAt?: Date;
 };
 
-export type PremiumPlanClientEntity = ICountersEntity & {
+export type PremiumPlanClientEntity = ICountersEntityMapped & {
   type: ClientType;
   email?: string;
 };

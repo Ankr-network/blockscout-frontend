@@ -24,6 +24,9 @@ export const useTokenVariantStyles = makeStyles(theme => ({
       transform: 'none',
     },
   },
+  unsupported: {
+    backgroundColor: theme.palette.background.default,
+  },
 
   label: {
     display: 'block',
@@ -33,5 +36,15 @@ export const useTokenVariantStyles = makeStyles(theme => ({
 
   icon: {
     marginRight: theme.spacing(1),
+  },
+
+  comingSoonLabel: {
+    margin: theme.spacing(-3, -1, 0, 0),
+    padding: theme.spacing(0.625, 1.25, 0.625, 1.25),
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.primary.main,
+    fontSize: 13,
+    fontWeight: 500,
+    borderRadius: 6,
   },
 }));

@@ -167,3 +167,8 @@ export interface IGetPastEvents {
   rangeStep: number;
   filter?: Filter;
 }
+
+export interface IApproveResponse {
+  isApproved: boolean;
+  txHash?: string;
+}

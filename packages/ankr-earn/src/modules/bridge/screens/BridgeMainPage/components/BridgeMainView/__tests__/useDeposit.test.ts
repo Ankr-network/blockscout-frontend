@@ -2,9 +2,9 @@ import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { useTxReceipt } from 'modules/bridge/hooks/useTxReceipt';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { SupportedChainIDS } from 'modules/common/const';
+import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 import { IUseDepositArgs, useDeposit } from '../useDeposit';
 
@@ -21,7 +21,7 @@ jest.mock('react-router', () => ({
   useHistory: jest.fn(),
 }));
 
-jest.mock('modules/bridge/hooks/useTxReceipt', () => ({
+jest.mock('modules/common/hooks/useTxReceipt', () => ({
   useTxReceipt: jest.fn(),
 }));
 

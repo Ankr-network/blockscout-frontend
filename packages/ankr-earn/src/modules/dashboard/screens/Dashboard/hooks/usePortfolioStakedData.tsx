@@ -30,6 +30,8 @@ import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotR
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
+import { SMALL_PRICE_TOKENS } from '../const';
+
 export interface IUsePortfolioData {
   isLoading: boolean;
   totalAmountUsd: BigNumber;
@@ -43,6 +45,9 @@ interface IPortfolioItem {
   percent: number;
   usdAmount: BigNumber;
   amount: BigNumber;
+  yieldAmount: BigNumber;
+  yieldAmountUsd: BigNumber;
+  apy: BigNumber;
   icon: TIcon;
   isNative: boolean;
 }
@@ -132,19 +137,17 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     () => [
       {
         name: Token.aMATICb,
-        amount:
-          maticEthData?.aMATICbBalance
-            .plus(aMATICbBridgeBscBalance ?? ZERO)
-            .plus(maticPolygonBalances?.maticBondBalance ?? ZERO) ?? ZERO,
+        amount: (maticEthData?.aMATICbBalance ?? ZERO)
+          .plus(aMATICbBridgeBscBalance ?? ZERO)
+          .plus(maticPolygonBalances?.maticBondBalance ?? ZERO),
         apy: metrics?.matic.apy ?? ZERO,
         service: EMetricsServiceName.MATIC,
       },
       {
         name: Token.aMATICc,
-        amount:
-          maticEthData?.aMATICcBalance
-            .plus(maticPolygonBalances?.maticCertBalance ?? ZERO)
-            .plus(aMATICcBridgeBscBalance ?? ZERO) ?? ZERO,
+        amount: (maticEthData?.aMATICcBalance ?? ZERO)
+          .plus(maticPolygonBalances?.maticCertBalance ?? ZERO)
+          .plus(aMATICcBridgeBscBalance ?? ZERO),
         service: EMetricsServiceName.MATIC,
         apy: metrics?.matic.apy ?? ZERO,
         ratio: maticEthData?.aMATICcRatio,
@@ -177,19 +180,17 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       },
       {
         name: Token.aETHb,
-        amount:
-          ethData?.aETHbBalance
-            .plus(ethData?.claimableAETHB ?? ZERO)
-            .plus(aETHbBridgeBalance ?? ZERO) ?? ZERO,
+        amount: (ethData?.aETHbBalance ?? ZERO)
+          .plus(ethData?.claimableAETHB ?? ZERO)
+          .plus(aETHbBridgeBalance ?? ZERO),
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
       },
       {
         name: Token.aETHc,
-        amount:
-          ethData?.aETHcBalance
-            .plus(ethData?.claimableAETHC ?? ZERO)
-            .plus(aETHcBridgeBalance ?? ZERO) ?? ZERO,
+        amount: (ethData?.aETHcBalance ?? ZERO)
+          .plus(ethData?.claimableAETHC ?? ZERO)
+          .plus(aETHcBridgeBalance ?? ZERO),
         service: EMetricsServiceName.ETH,
         apy: metrics?.eth.apy ?? ZERO,
         ratio: ethData?.aETHcRatio,
@@ -228,15 +229,12 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       {
         name: Token.ANKR,
         apy: maxAnkrApy ?? ZERO,
-        amount:
-          ankrData?.totalDelegatedAmount.multipliedBy(ankrPrice ?? ZERO) ??
-          ZERO,
+        amount: ankrData?.totalDelegatedAmount ?? ZERO,
       },
     ],
     [
       metrics,
       maxAnkrApy,
-      ankrPrice,
       avaxData,
       ftmData,
       aMATICbBridgeBscBalance,
@@ -262,14 +260,11 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
           totalStaked: metrics?.[item.service]?.totalStaked,
           totalStakedUsd: metrics?.[item.service]?.totalStakedUsd,
         }) ?? ZERO
-      : item.amount,
+      : item.amount.multipliedBy(ankrPrice ?? ZERO),
   );
 
-  const yieldAmouts = stakedData.map((item, index) =>
-    usdAmounts[index]
-      .multipliedBy(item.apy)
-      .dividedBy(100)
-      .plus(usdAmounts[index]),
+  const yieldAmoutsUsd = stakedData.map((item, index) =>
+    usdAmounts[index].multipliedBy(item.apy).dividedBy(100),
   );
 
   const totalAmountUsd = useMemo(
@@ -278,8 +273,12 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
   );
 
   const totalYieldAmountUsd = useMemo(
-    () => yieldAmouts.reduce((acc, item) => acc.plus(item), ZERO),
-    [yieldAmouts],
+    () =>
+      yieldAmoutsUsd.reduce(
+        (acc, item, index) => acc.plus(item).plus(usdAmounts[index]),
+        ZERO,
+      ),
+    [yieldAmoutsUsd, usdAmounts],
   );
 
   const apr = !totalAmountUsd.isZero()
@@ -292,19 +291,27 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
         .map((item, index) => ({
           ...item,
           isNative: false,
-          amount: item.amount.decimalPlaces(DECIMAL_PLACES),
+          amount: item.amount.decimalPlaces(
+            !SMALL_PRICE_TOKENS.includes(item.name) ? DECIMAL_PLACES : 0,
+          ),
           usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
+          yieldAmount: item.amount
+            .multipliedBy(item.apy)
+            .dividedBy(100)
+            .decimalPlaces(DEFAULT_ROUNDING),
+          yieldAmountUsd: yieldAmoutsUsd[index].decimalPlaces(DEFAULT_ROUNDING),
           percent: !totalAmountUsd.isZero()
             ? usdAmounts[index]
                 .multipliedBy(100)
                 .dividedBy(totalAmountUsd)
-                .decimalPlaces(DEFAULT_ROUNDING)
+                .decimalPlaces(1)
                 .toNumber()
             : 0,
+          apy: item.apy.decimalPlaces(1),
           icon: iconByTokenMap[item.name],
         }))
         .filter(({ amount }) => !amount.isZero()),
-    [totalAmountUsd, usdAmounts, stakedData],
+    [totalAmountUsd, usdAmounts, stakedData, yieldAmoutsUsd],
   );
 
   return {

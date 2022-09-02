@@ -1,5 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
+import { TAccessPoint } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
@@ -11,13 +12,18 @@ import { useStakeAnalytics } from './useStakeAnalytics';
 
 interface IUseStakeMainScreen {
   onTrackEnterStakingFlow: (tokenName: Token) => () => void;
+  onTrackEnterDelegatedStakingFlow: (
+    tokenName: Token,
+    accessPoint: TAccessPoint,
+  ) => () => void;
   metrics?: TMetrics;
   loading: boolean;
 }
 
 export const useStakeMainScreen = (): IUseStakeMainScreen => {
   const dispatchRequest = useDispatchRequest();
-  const { onTrackEnterStakingFlow } = useStakeAnalytics();
+  const { onTrackEnterStakingFlow, onTrackEnterDelegatedStakingFlow } =
+    useStakeAnalytics();
 
   useProviderEffect(() => {
     dispatchRequest(getMetrics());
@@ -28,5 +34,10 @@ export const useStakeMainScreen = (): IUseStakeMainScreen => {
 
   const { data: metrics, loading } = useQuery({ type: getMetrics });
 
-  return { onTrackEnterStakingFlow, metrics: metrics ?? undefined, loading };
+  return {
+    onTrackEnterStakingFlow,
+    onTrackEnterDelegatedStakingFlow,
+    metrics: metrics ?? undefined,
+    loading,
+  };
 };
