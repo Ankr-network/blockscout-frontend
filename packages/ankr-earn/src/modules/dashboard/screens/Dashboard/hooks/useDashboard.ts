@@ -4,7 +4,6 @@ import {
 } from '@redux-requests/core';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
@@ -85,13 +84,10 @@ export const useDashboard = (): void => {
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     dispatch(getMaticPolygonCommonData());
-
-    if (featuresConfig.ankrStaking) {
-      dispatch(getANKRCommonData());
-      dispatch(getANKRPrice());
-      dispatch(getANKRTotalInfo());
-      dispatch(getMaxApy());
-    }
+    dispatch(getANKRCommonData());
+    dispatch(getANKRPrice());
+    dispatch(getANKRTotalInfo());
+    dispatch(getMaxApy());
 
     return () => {
       dispatch(abortRequests());

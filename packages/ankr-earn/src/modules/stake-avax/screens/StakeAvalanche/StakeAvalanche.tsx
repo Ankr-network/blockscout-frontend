@@ -31,7 +31,7 @@ import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
-import { EOpenOceanTokens } from 'modules/stake/types';
+import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { QueryError } from 'uiKit/QueryError';
@@ -128,6 +128,7 @@ export const StakeAvalanche = (): JSX.Element => {
         bondToken: EOpenOceanTokens.aAVAXb,
         certificateRatio,
         certificateToken: EOpenOceanTokens.aAVAXc,
+        network: EOpenOceanNetworks.AVAX,
       }),
     );
   }, [certificateRatio, dispatch]);

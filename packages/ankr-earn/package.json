@@ -4,7 +4,6 @@
   "private": true,
   "homepage": "/staking",
   "dependencies": {
-    "typescript-memoize": "1.1.0",
     "@ankr.com/provider": "^1.5.27",
     "@ankr.com/staking-sdk": "^1.0.0",
     "@loadable/component": "^5.15.2",
@@ -54,6 +53,7 @@
     "redux-saga": "^1.1.3",
     "redux-smart-actions": "^1.0.0",
     "typescript": "^4.1.2",
+    "typescript-memoize": "1.1.0",
     "use-debounce": "^7.0.1",
     "web-vitals": "^1.0.1",
     "web3": "^1.6.1",
@@ -155,12 +155,15 @@
     "include": [
       "/bridge/",
       "/liquid-crowdloan/",
+      "/stake/matic/eth/",
+      "/stake/matic/polygon/",
       "/unstake/avax/",
       "/unstake/bnb/",
       "/unstake/dot/",
       "/unstake/fantom/",
       "/unstake/ksm/",
-      "/unstake/matic/",
+      "/unstake/matic/eth/",
+      "/unstake/matic/polygon/",
       "/ankr-stake/providers/",
       "/mgno-stake/providers/"
     ],

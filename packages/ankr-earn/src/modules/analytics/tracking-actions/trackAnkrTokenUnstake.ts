@@ -11,5 +11,5 @@ interface IUnstakeTokensEvent extends IBaseWaletData {
 export const trackAnkrTokenUnstake = async (
   properties: IUnstakeTokensEvent,
 ): Promise<void> => {
-  trackAnalyticEvent({ event: AnalyticsEvents.AnkrTokenUnstaking, properties });
+  trackAnalyticEvent({ event: AnalyticsEvents.AnkrTokenUnstake, properties });
 };

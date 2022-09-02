@@ -12,6 +12,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { fetchTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
 import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -171,6 +172,7 @@ export const UnstakePolygon = (): JSX.Element => {
             isBalanceLoading={isFetchStatsLoading}
             isLoading={isUnstakeLoading}
             isWithApprove={isWithApprove}
+            networkTitleSlot={<NetworkTitle />}
             renderFormFooter={onRenderFormFooter}
             submitDisabled={isUnstakeLoading}
             token={selectedToken}

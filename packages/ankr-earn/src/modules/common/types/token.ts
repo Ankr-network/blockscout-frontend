@@ -23,4 +23,5 @@ export enum Token {
   aWNDb = 'aWNDb',
   ANKR = 'ANKR',
   mGNO = 'mGNO',
+  xDAI = 'xDAI',
 }

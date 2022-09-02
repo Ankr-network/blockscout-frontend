@@ -608,7 +608,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Allowance is the amount which spender is still allowed to withdraw from owner.
-   * @param {string} [amount] - amount
+   * @param {string} [hexAmount] - amount in HEX
    * @returns {Promise<boolean>} - true if amount doesn't exceed allowance, false - otherwise.
    */
   public async checkAllowance(hexAmount: string): Promise<boolean> {

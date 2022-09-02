@@ -2,9 +2,6 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useCloseButtonStyles = makeStyles<Theme>(theme => ({
   root: {
-    position: 'absolute',
-    top: theme.spacing(2.5),
-    right: theme.spacing(2.5),
     width: theme.spacing(4),
     minWidth: 0,
     height: theme.spacing(4),
@@ -20,5 +17,11 @@ export const useCloseButtonStyles = makeStyles<Theme>(theme => ({
     '&:hover': {
       color: theme.palette.primary.main,
     },
+  },
+
+  absoluteRight: {
+    position: 'absolute',
+    top: theme.spacing(2.5),
+    right: theme.spacing(2.5),
   },
 }));

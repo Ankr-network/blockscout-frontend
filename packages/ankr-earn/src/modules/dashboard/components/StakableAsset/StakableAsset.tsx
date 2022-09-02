@@ -6,6 +6,7 @@ import React from 'react';
 import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { trackDelegatedStakingFlow } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import {
   INetworkItem,
@@ -27,6 +28,7 @@ interface IStakableAssetProps {
   href: string;
   apy: number;
   isStakeLoading?: boolean;
+  isDelegatedStaking?: boolean;
 }
 
 export const StakableAsset = ({
@@ -37,6 +39,7 @@ export const StakableAsset = ({
   href,
   apy,
   isStakeLoading = false,
+  isDelegatedStaking = false,
 }: IStakableAssetProps): JSX.Element => {
   const classes = useStyles();
   const { address, walletName } = useAuth(
@@ -44,12 +47,21 @@ export const StakableAsset = ({
   );
 
   const onStakeClick = () => {
-    trackEnterStakingFlow({
-      walletType: walletName,
-      walletPublicAddress: address,
-      accessPoint: 'portfolio',
-      tokenName: token,
-    });
+    if (isDelegatedStaking) {
+      trackDelegatedStakingFlow({
+        walletType: walletName,
+        walletPublicAddress: address,
+        accessPoint: 'dashboard',
+        tokenName: token,
+      });
+    } else {
+      trackEnterStakingFlow({
+        walletType: walletName,
+        walletPublicAddress: address,
+        accessPoint: 'portfolio',
+        tokenName: token,
+      });
+    }
   };
 
   const networksDisplay =
@@ -102,7 +114,9 @@ export const StakableAsset = ({
         onClick={onStakeClick}
       >
         <Typography className={classes.apy}>
-          {t('dashboard.stakable-asset-apy', { value: apy })}
+          {isDelegatedStaking
+            ? t('dashboard.stakable-asset-apr', { value: apy })
+            : t('dashboard.stakable-asset-apy', { value: apy })}
         </Typography>
 
         <Typography className={classes.stake}>

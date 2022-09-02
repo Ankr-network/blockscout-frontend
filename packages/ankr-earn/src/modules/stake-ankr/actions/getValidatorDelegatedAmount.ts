@@ -11,17 +11,17 @@ interface IGetDelegatedAmountDataProps {
   validator: string;
 }
 
-export const getValidatorDelegatedAmount = createAction<
+export const getProviderDelegatedAmount = createAction<
   RequestAction<BigNumber, BigNumber>
 >(
-  `${ANKR_ACTIONS_PREFIX}getValidatorDelegatedAmount`,
+  `${ANKR_ACTIONS_PREFIX}getProviderDelegatedAmount`,
   ({ validator }: IGetDelegatedAmountDataProps) => ({
     request: {
       promise: async (): Promise<BigNumber> => {
         const sdk = await AnkrStakingSDK.getInstance();
         const provider = await sdk.getProvider();
 
-        return sdk.getDelegatedAmountByValidator(
+        return sdk.getDelegatedAmountByProvider(
           validator,
           await provider.getBlockNumber(),
         );

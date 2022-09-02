@@ -7,7 +7,8 @@ import { t, tHTML } from 'common';
 
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
-import { Button } from 'uiKit/Button';
+import { NavLink } from 'uiKit/NavLink';
+import { Tooltip } from 'uiKit/Tooltip';
 
 import { usePortfolioChartLegendStyles } from './usePortfolioChartLegendStyles';
 
@@ -30,7 +31,11 @@ export interface ILegendItem {
   percent: number;
   amount: BigNumber;
   usdAmount: BigNumber;
+  yieldAmount: BigNumber;
+  yieldAmountUsd: BigNumber;
+  apy: BigNumber;
   icon: TIcon;
+  isNative: boolean;
   link?: string;
 }
 
@@ -96,17 +101,26 @@ export const PortfolioChartLegend = ({
         })}
       </Typography>
 
-      <div className={classes.wrapper}>
-        <Typography className={classes.apr}>
-          {tHTML('dashboard.apr', { value: apr.toFormat() })}
-        </Typography>
+      <Tooltip
+        title={
+          isNative
+            ? t('dashboard.potentialAprTooltip')
+            : t('dashboard.aprTooltip')
+        }
+      >
+        <div className={classes.wrapper}>
+          <Typography className={classes.apr}>
+            {tHTML('dashboard.apr', { value: apr.toFormat() })}
+          </Typography>
 
-        <Typography className={classes.yield}>
-          {tHTML(`dashboard.${!isNative ? 'yearlyYield' : 'potentialYield'}`, {
-            value: yearlYield.toFormat(),
-          })}
-        </Typography>
-      </div>
+          <Typography className={classes.yield}>
+            {tHTML(
+              `dashboard.${!isNative ? 'yearlyYieldUsd' : 'potentialYieldUsd'}`,
+              { value: yearlYield.toFormat() },
+            )}
+          </Typography>
+        </div>
+      </Tooltip>
 
       <Grid container className={classes.items}>
         {legendItems.map(item => (
@@ -120,14 +134,19 @@ export const PortfolioChartLegend = ({
           >
             <div
               className={classNames(
-                activeLegendItem?.name === item.name && classes.legendItemHover,
+                activeLegendItem &&
+                  activeLegendItem.name === item.name &&
+                  activeLegendItem.isNative === item.isNative &&
+                  classes.legendItemHover,
                 classes.legendItem,
               )}
             >
-              <div
-                className={classes.color}
-                style={{ backgroundColor: item.color }}
-              />
+              {!isNative && (
+                <div
+                  className={classes.color}
+                  style={{ backgroundColor: item.color }}
+                />
+              )}
 
               <item.icon className={classes.icon} />
 
@@ -136,7 +155,6 @@ export const PortfolioChartLegend = ({
                   {tHTML('dashboard.portfolioToken', {
                     token: item.name,
                     amount: item.amount.toFormat(),
-                    percent: item.percent,
                   })}
                 </Typography>
 
@@ -144,13 +162,19 @@ export const PortfolioChartLegend = ({
                   {t('dashboard.portfolioUSD', {
                     value: item.usdAmount.toFormat(),
                   })}
+
+                  <small>{item.percent}%</small>
                 </Typography>
               </div>
 
               {isNative && item.link && (
-                <Button className={classes.stake} href={item.link}>
+                <NavLink
+                  className={classes.stake}
+                  href={item.link ?? ''}
+                  variant="contained"
+                >
                   {t('dashboard.stake')}
-                </Button>
+                </NavLink>
               )}
             </div>
           </Grid>

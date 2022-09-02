@@ -9,21 +9,21 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(0.25),
   },
 
   amount: {
     color: theme.palette.text.primary,
     fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1.25),
   },
 
   wrapper: {
-    borderBottom: `1px solid ${lighten(theme.palette.text.secondary, 0.5)}`,
+    borderBottom: `1px solid ${lighten(theme.palette.text.secondary, 0.8)}`,
 
     display: 'flex',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1.5),
     paddingBottom: theme.spacing(2),
     whiteSpace: 'nowrap',
   },
@@ -62,7 +62,7 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
   },
 
   items: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(0),
     marginBottom: theme.spacing(3),
   },
 
@@ -70,6 +70,7 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
     alignItems: 'center',
     display: 'flex',
     padding: theme.spacing(1.25),
+    marginLeft: theme.spacing(-1.25),
     width: '100%',
 
     borderRadius: theme.spacing(1),
@@ -100,19 +101,23 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
     display: 'flex',
     fontSize: 14,
     fontWeight: 'bold',
-
-    '& small': {
-      color: theme.palette.text.secondary,
-    },
   },
 
   legendItemSubtitle: {
     color: theme.palette.text.secondary,
     fontSize: 13,
+
+    '& small': {
+      color: theme.palette.text.secondary,
+      fontSize: 13,
+      borderLeft: `1px solid ${lighten(theme.palette.text.secondary, 0.8)}`,
+      marginLeft: theme.spacing(1),
+      paddingLeft: theme.spacing(1),
+    },
   },
 
   icon: {
-    margin: theme.spacing(0, 1),
+    marginRight: theme.spacing(1),
     height: 26,
     width: 28,
   },
@@ -120,6 +125,7 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
   color: {
     backgroundColor: theme.palette.text.secondary,
     borderRadius: '50%',
+    marginRight: theme.spacing(1),
 
     alignItems: 'center',
     display: 'flex',

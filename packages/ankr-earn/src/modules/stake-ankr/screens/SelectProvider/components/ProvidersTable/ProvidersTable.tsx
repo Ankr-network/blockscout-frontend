@@ -68,7 +68,7 @@ export const ProvidersTable = ({
         label: t('stake-ankr.select-provider.table.node-provider'),
       },
       {
-        label: t('stake-ankr.select-provider.table.apy'),
+        label: t('stake-ankr.select-provider.table.apr'),
       },
       {
         label: t('stake-ankr.select-provider.table.staked-pool'),

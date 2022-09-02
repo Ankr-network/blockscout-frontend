@@ -23,7 +23,7 @@ interface IUseStats {
   yearlyEarningUSD?: string;
   totalStaked?: string;
   totalStakedUSD?: string;
-  stakers?: string;
+  stakers?: number;
   isLoading: boolean;
 }
 

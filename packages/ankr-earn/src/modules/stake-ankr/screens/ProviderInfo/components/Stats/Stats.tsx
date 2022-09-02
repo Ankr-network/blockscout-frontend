@@ -30,7 +30,7 @@ export const Stats = (): JSX.Element => {
             value: apy,
           },
         )}
-        title={t('stake-ankr.provider-info.provider-stats.current-apy')}
+        title={t('stake-ankr.provider-info.provider-stats.current-apr')}
       />
 
       <StatsItem

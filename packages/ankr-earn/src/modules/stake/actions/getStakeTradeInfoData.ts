@@ -8,7 +8,7 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { MIN_STAKE_TRADE_INFO_DISCOUNT_VAL } from '../const';
-import { EOpenOceanTokens } from '../types';
+import { EOpenOceanNetworks, EOpenOceanTokens } from '../types';
 
 import { getStakeTradeInfoTokenPrice } from './getStakeTradeInfoTokenPrice';
 
@@ -19,6 +19,7 @@ interface IGetStakeTradeInfoDataProps {
   bondToken: EOpenOceanTokens;
   certificateRatio: BigNumber;
   certificateToken: EOpenOceanTokens;
+  network: EOpenOceanNetworks;
 }
 
 interface IGetStakeTradeInfoDataItem {
@@ -27,29 +28,11 @@ interface IGetStakeTradeInfoDataItem {
   token: EOpenOceanTokens;
 }
 
-const getNetwork = (baseToken: EOpenOceanTokens): string => {
-  switch (baseToken) {
-    case EOpenOceanTokens.AVAX:
-      return 'AVAX';
-
-    case EOpenOceanTokens.BNB:
-      return 'BSC';
-
-    case EOpenOceanTokens.FTM:
-      return 'FANTOM';
-
-    case EOpenOceanTokens.ETH:
-    case EOpenOceanTokens.MATIC:
-    default:
-      return 'ETH';
-  }
-};
-
 const getLink = (
+  network: EOpenOceanNetworks,
   baseToken: EOpenOceanTokens,
   targetToken: EOpenOceanTokens,
 ): string => {
-  const network = getNetwork(baseToken);
   const base = (baseToken as unknown as string).toUpperCase();
   const target = (targetToken as unknown as string).toUpperCase();
 
@@ -66,6 +49,7 @@ export const getStakeTradeInfoData = createAction<
     bondToken,
     certificateRatio,
     certificateToken,
+    network,
   }): RequestAction => ({
     request: {
       promise: async ({
@@ -79,12 +63,14 @@ export const getStakeTradeInfoData = createAction<
           dispatchRequest(
             getStakeTradeInfoTokenPrice({
               baseToken,
+              network,
               targetToken: bondToken,
             }),
           ),
           dispatchRequest(
             getStakeTradeInfoTokenPrice({
               baseToken,
+              network,
               targetToken: certificateToken,
             }),
           ),
@@ -116,7 +102,7 @@ export const getStakeTradeInfoData = createAction<
               ...result,
               {
                 discountPct,
-                link: getLink(baseToken, symbol),
+                link: getLink(network, baseToken, symbol),
                 token: symbol,
               } as IGetStakeTradeInfoDataItem,
             ];
