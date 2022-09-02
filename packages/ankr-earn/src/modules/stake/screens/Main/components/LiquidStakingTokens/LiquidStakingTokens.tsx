@@ -4,8 +4,10 @@ import { Typography } from '@material-ui/core';
 import { t } from 'common';
 
 import {
+  ANKR_AVAX_LANDING,
   ANKR_BNB_LANDING,
   ANKR_ETH_LANDING,
+  ANKR_FTM_LANDING,
   ANKR_MATIC_LANDING,
   featuresConfig,
   STAKE_LEGACY_LINKS,
@@ -93,7 +95,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
           isApyLoading={loading}
           isTvlLoading={loading}
           mainHref={FantomRoutes.stake.generatePath()}
-          moreHref={getStakingOverviewUrl(Token.FTM)}
+          moreHref={ANKR_FTM_LANDING}
           stakedTvl={metrics?.ftm.totalStaked}
           title={t('features.fantom')}
           token={Token.FTM}
@@ -106,7 +108,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
           isApyLoading={loading}
           isTvlLoading={loading}
           mainHref={AvalancheRoutes.stake.generatePath()}
-          moreHref={getStakingOverviewUrl(Token.AVAX)}
+          moreHref={ANKR_AVAX_LANDING}
           stakedTvl={metrics?.avax.totalStaked}
           title={t('features.avalanche')}
           token={Token.AVAX}
