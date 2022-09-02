@@ -5,8 +5,7 @@ import { useHistory } from 'react-router';
 import { GlobalMenu } from '@ankr.com/global-menu';
 import { useIsSMDown, useIsXLUp } from 'ui';
 
-import { featuresConfig } from 'modules/common/const';
-import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { STAKING_PATH, featuresConfig } from 'modules/common/const';
 import { Container } from 'uiKit/Container';
 
 import { useLocale } from '../../../i18n/hooks/useLocale';
@@ -51,10 +50,7 @@ export const Header = ({
         <div className={classes.leftSide}>
           <GlobalMenu isMobile={isMobile} locale={locale} project="staking" />
 
-          <Logo
-            className={classes.logo}
-            href={DashboardRoutes.dashboard.generatePath()}
-          />
+          <Logo className={classes.logo} href={STAKING_PATH} />
         </div>
 
         <div className={classes.center}>{mainNavigationSlot}</div>

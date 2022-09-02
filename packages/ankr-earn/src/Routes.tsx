@@ -1,10 +1,13 @@
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { getRoutes as getBridgeRoutes } from 'modules/bridge/Routes';
 import { getRoutes as getCalcRoutes } from 'modules/calc/Routes';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig } from 'modules/common/const';
-import { getRoutes as getDashboardRoutes } from 'modules/dashboard/Routes';
+import { featuresConfig, STAKING_PATH } from 'modules/common/const';
+import {
+  getRoutes as getDashboardRoutes,
+  RoutesConfig as DashboardRoutes,
+} from 'modules/dashboard/Routes';
 import { getRoutes as getDeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
@@ -25,6 +28,10 @@ import { getRoutes as getTestUIRoutes } from 'modules/testing-ui/Routes';
 export function Routes(): JSX.Element {
   return (
     <Switch>
+      <Route exact path={['/', STAKING_PATH]}>
+        <Redirect to={DashboardRoutes.dashboard.generatePath()} />
+      </Route>
+
       {featuresConfig.testingUi && getTestUIRoutes()}
 
       {getDeFiRoutes()}
@@ -41,6 +48,8 @@ export function Routes(): JSX.Element {
 
       {getStakeFantomRoutes()}
 
+      {getDashboardRoutes()}
+
       {getSwitcherRoutes()}
 
       {getBridgeRoutes()}
@@ -56,8 +65,6 @@ export function Routes(): JSX.Element {
       {getStakePolkadotRoutes()}
 
       {getSwapRoutes()}
-
-      {getDashboardRoutes()}
 
       {featuresConfig.isCalcActive && getCalcRoutes()}
 

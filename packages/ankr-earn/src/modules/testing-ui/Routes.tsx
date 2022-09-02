@@ -3,12 +3,13 @@ import { Route } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { ETH_PROVIDER_ID, ETH_STAKING_NETWORKS } from 'modules/stake-eth/const';
 
-const ROOT = `/test/`;
+const ROOT = `${STAKING_PATH}test/`;
 const TEST_STAKE_PATH = `${ROOT}eth-stake-without-claim/`;
 const NOTIFICATIONS_PATH = `${ROOT}notifications/`;
 const ANKR_FAUCET_PATH = `${ROOT}ankr-faucet/`;

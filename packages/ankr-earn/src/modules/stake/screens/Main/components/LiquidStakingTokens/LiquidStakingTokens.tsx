@@ -3,13 +3,13 @@ import { Typography } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { featuresConfig } from 'modules/common/const';
 import {
   ANKR_BNB_LANDING,
   ANKR_ETH_LANDING,
   ANKR_MATIC_LANDING,
+  featuresConfig,
   STAKE_LEGACY_LINKS,
-} from 'modules/common/const/links';
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';

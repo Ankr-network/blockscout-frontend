@@ -2,6 +2,7 @@ import { generatePath, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import { PageNotFound } from 'modules/common/components/PageNotFound';
+import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
@@ -9,7 +10,7 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 import { Nav } from './components';
 
-const ROOT = `/defi/`;
+const ROOT = `${STAKING_PATH}defi/`;
 const ROOT_WITH_QUERY_PARAMS = `${ROOT}?assets=:asset`;
 
 export const RoutesConfig = createRouteConfig(

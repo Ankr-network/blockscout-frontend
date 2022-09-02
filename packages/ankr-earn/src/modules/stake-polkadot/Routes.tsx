@@ -10,7 +10,11 @@ import {
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { GuardPolkadotRoute } from 'modules/auth/polkadot/components/GuardPolkadotRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
+import {
+  featuresConfig,
+  STAKING_PATH,
+  UNSTAKE_PATH,
+} from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
@@ -29,7 +33,7 @@ import {
 import { getPolkadotPath } from './utils/getPolkadotPath';
 import { getPolkadotStakingNetworks } from './utils/getPolkadotStakingNetworks';
 
-const CLAIM_POLKADOT_PATH = `/claim/:network/`;
+const CLAIM_POLKADOT_PATH = `${STAKING_PATH}claim/:network/`;
 const STAKE_POLKADOT_PATH = `${StakeRoutes.main.path}:network/`;
 const UNSTAKE_POLKADOT_PATH = `${UNSTAKE_PATH}:network/`;
 

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 
 import { t } from 'common';
 
-import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
+import { STAKING_PATH } from 'modules/common/const';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { NavLink } from 'uiKit/NavLink';
@@ -36,7 +36,7 @@ export const PageNotFound = (): JSX.Element => {
               <NavLink
                 className={classes.button}
                 color="primary"
-                href={DashboardRoutes.dashboard.generatePath()}
+                href={STAKING_PATH}
                 variant="contained"
               >
                 {t('not-found.btn-home')}
