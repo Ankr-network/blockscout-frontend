@@ -17,7 +17,6 @@ function App() {
           <ToastContainer />
           <AppBase>
             <ScrollToTop />
-            MRPC Admin panel
           </AppBase>
         </PersistGate>
       </Provider>

@@ -1,3 +1,11 @@
 {
-  "title": "Multi RPC Admin Panel"
+  "title": "Multi RPC Admin Panel",
+  "header": {
+    "wallet-button": "Connect",
+    "disconnect": "Disconnect"
+  },
+  "error": {
+    "access-token-error": "Access token error",
+    "insufficient-permissions": "Insufficient permissions"
+  }
 }

@@ -1,22 +1,29 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { persistReducer, persistStore } from 'redux-persist';
-import { queryErrorLogger } from './errorMiddleware';
+
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
+import { authPersistConfig } from 'modules/auth/storage/authPersistConfig';
+import { authReducer } from 'modules/auth/store/authSlice';
+
+import { queryErrorLogger } from './errorMiddleware';
+import { web3Api } from './queries/web3Api';
 
 const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
+  [web3Api.reducerPath]: web3Api.reducer,
+  auth: persistReducer(authPersistConfig, authReducer),
 });
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      // TODO: fix serializable error
-      // https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data
       serializableCheck: false,
-    }).concat(queryErrorLogger),
+    })
+      .concat(web3Api.middleware)
+      .concat(queryErrorLogger),
 });
 
 setupListeners(store.dispatch);
