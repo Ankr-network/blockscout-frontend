@@ -321,7 +321,8 @@ export class MaticPolygonSDK implements IStakable {
       .dividedBy(ratio)
       .decimalPlaces(0, BigNumber.ROUND_DOWN);
 
-    return poolLiquidityAmount.isZero() || poolLiquidityAmount.isNaN()
+    return poolLiquidityAmount.isLessThanOrEqualTo(0) ||
+      !poolLiquidityAmount.isFinite()
       ? ZERO
       : this.convertFromWei(poolLiquidityAmount.toString(10));
   }
