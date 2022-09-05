@@ -15,6 +15,8 @@ export const useSectionStyles = makeStyles(theme => ({
     padding: 0,
 
     [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      flexDirection: 'column',
       maxWidth: 715,
       padding: theme.spacing(0, 2.5),
     },
