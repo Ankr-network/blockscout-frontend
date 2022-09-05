@@ -854,6 +854,13 @@
   },
   "calc": {
     "title": "Staking calculator",
+    "table": {
+      "token": "Token",
+      "amount": "Staking amount",
+      "staked": "Already staked",
+      "yield": "Potential Yield",
+      "apy": "APY: {value}%"
+    },
     "yield": {
       "period": "Staking period",
       "apy": "Average APY:",
