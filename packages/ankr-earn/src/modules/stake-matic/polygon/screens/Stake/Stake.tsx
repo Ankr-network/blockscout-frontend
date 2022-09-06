@@ -69,6 +69,7 @@ export const Stake = (): JSX.Element => {
             value: acPoolLiquidityInMATIC
               .decimalPlaces(DEFAULT_ROUNDING)
               .toFormat(),
+            token: t('unit.matic'),
           })}
         </div>
 

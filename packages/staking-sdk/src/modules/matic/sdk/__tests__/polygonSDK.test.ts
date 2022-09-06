@@ -6,6 +6,7 @@ import {
 } from '@ankr.com/provider';
 
 import { ZERO } from '../../../common';
+import { IPendingData } from '../../../stake';
 import { EMaticSDKErrorCodes } from '../../types';
 import { MaticPolygonSDK } from '../polygonSDK';
 
@@ -59,6 +60,38 @@ describe('modules/matic/sdk/polygonSDK', () => {
     });
 
     expect(sdk).toBeDefined();
+  });
+
+  test('should return minimum stake data', async () => {
+    const sdk = await MaticPolygonSDK.getInstance();
+    const data = await sdk.getMinimumStake();
+
+    expect(data).toBe(ZERO);
+  });
+
+  test('should return pending claim data', async () => {
+    const sdk = await MaticPolygonSDK.getInstance();
+    const data = await sdk.getPendingClaim();
+
+    expect(data).toBe(ZERO);
+  });
+
+  test('should return pending data', async () => {
+    const sdk = await MaticPolygonSDK.getInstance();
+    const data = await sdk.getPendingData();
+
+    expect(data).toStrictEqual({
+      pendingBond: ZERO,
+      pendingCertificate: ZERO,
+    } as IPendingData);
+  });
+
+  test('should throw error if stake amount is less than or equals to zero', async () => {
+    const sdk = await MaticPolygonSDK.getInstance();
+
+    expect(sdk.stake(ZERO, 'aMATICc')).rejects.toThrow(
+      EMaticSDKErrorCodes.ZERO_AMOUNT,
+    );
   });
 
   test('should throw error if unstake amount is less than or equals to zero', async () => {
