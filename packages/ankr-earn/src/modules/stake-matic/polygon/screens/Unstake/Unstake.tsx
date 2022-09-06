@@ -21,7 +21,6 @@ export const Unstake = (): JSX.Element => {
   const classes = useUnstakeStyles();
 
   const {
-    acPoolLiquidityInMATIC,
     closeHref,
     extraValidation,
     getTotalVal,
@@ -31,6 +30,7 @@ export const Unstake = (): JSX.Element => {
     isSuccessOpened,
     isUnstakeLoading,
     isWithApprove,
+    maticPoolLiquidityInAC,
     selectedToken,
     syntTokenBalance,
     tokenOut,
@@ -50,9 +50,10 @@ export const Unstake = (): JSX.Element => {
         <div className={classes.liquidityPoolArea}>
           <div>
             {tHTML('stake-matic-polygon.liquidity-pool-label', {
-              value: acPoolLiquidityInMATIC
+              value: maticPoolLiquidityInAC
                 .decimalPlaces(DEFAULT_ROUNDING)
                 .toFormat(),
+              token: t('unit.amaticc'),
             })}
           </div>
 
