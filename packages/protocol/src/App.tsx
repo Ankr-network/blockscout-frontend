@@ -9,8 +9,7 @@ import { Notifications } from './domains/notification/components/Notifications';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
 import { persistor, store } from './store';
-
-import { ZendeskMounter } from 'modules/common/components/ZendeskMounter';
+import { JiraServiceDeskMounter } from 'modules/common/components/JiraServiceDeskMounter';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
@@ -25,7 +24,7 @@ function App() {
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <AppBase>
             <NoReactSnap>
-              <ZendeskMounter />
+              <JiraServiceDeskMounter />
             </NoReactSnap>
             <ScrollToTop />
             <BreadcrumbsProvider>
