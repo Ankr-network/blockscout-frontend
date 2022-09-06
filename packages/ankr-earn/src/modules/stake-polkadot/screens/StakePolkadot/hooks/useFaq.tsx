@@ -93,21 +93,21 @@ export const useFaq = ({ ethToken, network }: IUseFaqProps): IFaqItem[] => {
       },
       {
         question: t('stake-polkadot.faq.question-10'),
-        answer: t('stake-polkadot.faq.answer-10', {
+        answer: tHTML('stake-polkadot.faq.answer-10'),
+      },
+      {
+        question: t('stake-polkadot.faq.question-11'),
+        answer: t('stake-polkadot.faq.answer-11', {
           network,
         }),
       },
       {
-        question: t('stake-polkadot.faq.question-11', {
+        question: t('stake-polkadot.faq.question-12', {
           network,
         }),
-        answer: tHTML('stake-polkadot.faq.answer-11', {
+        answer: tHTML('stake-polkadot.faq.answer-12', {
           link: tradeLink,
         }),
-      },
-      {
-        question: t('stake-polkadot.faq.question-12'),
-        answer: t('stake-polkadot.faq.answer-12'),
       },
     ],
     [network, stats?.minStake, tradeLink],

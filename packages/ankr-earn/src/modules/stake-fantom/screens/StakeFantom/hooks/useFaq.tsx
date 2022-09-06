@@ -3,14 +3,19 @@ import { useQuery } from '@redux-requests/react';
 import { t, tHTML, tHTMLWithRouter } from 'common';
 
 import { IFaqItem } from 'modules/common/components/Faq';
-import { DOCS_DEFI_DEX_LINK, DOCS_DEFI_FARM_LINK } from 'modules/common/const';
+import {
+  DOCS_DEFI_DEX_LINK,
+  DOCS_DEFI_FARM_LINK,
+  DOCS_DEFI_VAULTS_LINK,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { FANTOM_UNSTAKE_PERIOD } from 'modules/stake-fantom/const';
 
-const tradeLink: string = DefiRoutes.defi.generatePath(Token.FTM);
+const tradeBondLink: string = DefiRoutes.defi.generatePath(Token.aFTMb);
+const tradeCertLink: string = DefiRoutes.defi.generatePath(Token.aFTMc);
 
 export const useFaq = (): IFaqItem[] => {
   const { data } = useQuery({
@@ -74,12 +79,14 @@ export const useFaq = (): IFaqItem[] => {
         answer: (
           <>
             {tHTMLWithRouter('stake-fantom.faq.answer-12.p1', {
-              link: tradeLink,
+              link1: tradeBondLink,
+              link2: tradeCertLink,
             })}
 
             {tHTML('stake-fantom.faq.answer-12.p2', {
               link1: DOCS_DEFI_DEX_LINK,
               link2: DOCS_DEFI_FARM_LINK,
+              link3: DOCS_DEFI_VAULTS_LINK,
             })}
           </>
         ),
@@ -89,7 +96,7 @@ export const useFaq = (): IFaqItem[] => {
         answer: tHTML('stake-fantom.faq.answer-13'),
       },
     ],
-    [minAmount, tradeLink],
+    [minAmount, tradeBondLink],
   );
 
   return faqItems;

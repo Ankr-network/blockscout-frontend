@@ -4,16 +4,19 @@ import { t, tHTML, tHTMLWithRouter } from 'common';
 
 import { IFaqItem } from 'modules/common/components/Faq';
 import {
+  DOCS_DEFI_DEX_LINK,
   DOCS_DEFI_FARM_LINK,
-  DOCS_DEFI_POOLS_LINK,
   DOCS_DEFI_VAULTS_LINK,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { RoutesConfig } from 'modules/defi-aggregator/Routes';
+import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { fetchStats as fetchMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
 
 import { UNSTAKE_PERIOD } from '../const';
+
+const tradeBondLink = DefiRoutes.defi.generatePath(Token.aMATICb);
+const tradeCertLink = DefiRoutes.defi.generatePath(Token.aMATICc);
 
 export const useMaticFaq = (): IFaqItem[] => {
   const { data: maticEthStats } = useQuery({
@@ -28,13 +31,13 @@ export const useMaticFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-matic-common.faq.question-2'),
-        answer: t('stake-matic-common.faq.answer-2', {
+        answer: tHTML('stake-matic-common.faq.answer-2', {
           value: maticEthStats?.minimumStake.toFormat() ?? 1,
         }),
       },
       {
         question: t('stake-matic-common.faq.question-3'),
-        answer: t('stake-matic-common.faq.answer-3'),
+        answer: tHTML('stake-matic-common.faq.answer-3'),
       },
       {
         question: t('stake-matic-common.faq.question-4'),
@@ -44,9 +47,7 @@ export const useMaticFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-matic-common.faq.question-5'),
-        answer: tHTML('stake-matic-common.faq.answer-5', {
-          period: UNSTAKE_PERIOD,
-        }),
+        answer: tHTML('stake-matic-common.faq.answer-5'),
       },
       {
         question: t('stake-matic-common.faq.question-6'),
@@ -66,65 +67,28 @@ export const useMaticFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-matic-common.faq.question-10'),
-        answer: tHTML('stake-matic-common.faq.answer-10'),
+        answer: t('stake-matic-common.faq.answer-10'),
       },
       {
         question: t('stake-matic-common.faq.question-11'),
-        answer: t('stake-matic-common.faq.answer-11'),
-      },
-      {
-        question: t('stake-matic-common.faq.question-12'),
         answer: (
           <>
-            <p>{t('stake-matic-common.faq.answer-12.title-trade')}</p>
+            {tHTMLWithRouter('stake-matic-common.faq.answer-11.p1', {
+              link1: tradeBondLink,
+              link2: tradeCertLink,
+            })}
 
-            <ul>
-              <li>
-                {tHTMLWithRouter(
-                  'stake-matic-common.faq.answer-12.list-trade.bond',
-                  {
-                    link: RoutesConfig.defi.generatePath(Token.aMATICb),
-                  },
-                )}
-              </li>
-
-              <li>
-                {tHTMLWithRouter(
-                  'stake-matic-common.faq.answer-12.list-trade.cert',
-                  {
-                    link: RoutesConfig.defi.generatePath(Token.aMATICc),
-                  },
-                )}
-              </li>
-            </ul>
-
-            <p>{t('stake-matic-common.faq.answer-12.title-use')}</p>
-
-            <ul>
-              <li>
-                {tHTML('stake-matic-common.faq.answer-12.list-use.pools', {
-                  link: DOCS_DEFI_POOLS_LINK,
-                })}
-              </li>
-
-              <li>
-                {tHTML('stake-matic-common.faq.answer-12.list-use.farm', {
-                  link: DOCS_DEFI_FARM_LINK,
-                })}
-              </li>
-
-              <li>
-                {tHTML('stake-matic-common.faq.answer-12.list-use.vaults', {
-                  link: DOCS_DEFI_VAULTS_LINK,
-                })}
-              </li>
-            </ul>
+            {tHTML('stake-matic-common.faq.answer-11.p2', {
+              link1: DOCS_DEFI_DEX_LINK,
+              link2: DOCS_DEFI_FARM_LINK,
+              link3: DOCS_DEFI_VAULTS_LINK,
+            })}
           </>
         ),
       },
       {
-        question: t('stake-matic-common.faq.question-13'),
-        answer: tHTML('stake-matic-common.faq.answer-13'),
+        question: t('stake-matic-common.faq.question-12'),
+        answer: tHTML('stake-matic-common.faq.answer-12'),
       },
     ],
     [maticEthStats?.minimumStake],
