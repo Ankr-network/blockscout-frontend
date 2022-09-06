@@ -304,10 +304,10 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
             ? usdAmounts[index]
                 .multipliedBy(100)
                 .dividedBy(totalAmountUsd)
-                .decimalPlaces(1)
+                .decimalPlaces(DEFAULT_ROUNDING)
                 .toNumber()
             : 0,
-          apy: item.apy.decimalPlaces(1),
+          apy: item.apy.decimalPlaces(DEFAULT_ROUNDING),
           icon: iconByTokenMap[item.name],
         }))
         .filter(({ amount }) => !amount.isZero()),
