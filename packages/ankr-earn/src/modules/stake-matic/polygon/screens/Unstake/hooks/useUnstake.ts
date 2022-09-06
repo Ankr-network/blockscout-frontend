@@ -31,7 +31,6 @@ import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseUnstakeData {
-  acPoolLiquidityInMATIC: BigNumber;
   closeHref: string;
   extraValidation?: (
     data: Partial<IUnstakeFormValues>,
@@ -44,6 +43,7 @@ interface IUseUnstakeData {
   isSuccessOpened: boolean;
   isUnstakeLoading: boolean;
   isWithApprove: boolean;
+  maticPoolLiquidityInAC: BigNumber;
   selectedToken: TMaticSyntToken;
   syntTokenBalance?: BigNumber;
   tokenOut: string;
@@ -105,11 +105,9 @@ export const useUnstake = (): IUseUnstakeData => {
 
   const isShouldBeApproved = isWithApprove && !isApproved;
 
-  const acPoolLiquidity = getStatsData?.acPoolLiquidity ?? ZERO;
-
-  const acPoolLiquidityInMATIC = getStatsData?.acPoolLiquidityInMATIC ?? ZERO;
-
   const acRatio = commonData?.ratio ?? ZERO;
+
+  const maticPoolLiquidityInAC = getStatsData?.maticPoolLiquidityInAC ?? ZERO;
 
   const syntTokenBalance = commonData?.maticCertBalance;
 
@@ -124,7 +122,7 @@ export const useUnstake = (): IUseUnstakeData => {
     if (typeof userAmount === 'string') {
       const currAmount = new BigNumber(userAmount);
 
-      if (currAmount.isGreaterThan(acPoolLiquidity)) {
+      if (currAmount.isGreaterThan(maticPoolLiquidityInAC)) {
         errors.amount = t('stake-matic-polygon.validation.low-pool');
       }
     }
@@ -239,7 +237,6 @@ export const useUnstake = (): IUseUnstakeData => {
   }, [dispatch]);
 
   return {
-    acPoolLiquidityInMATIC,
     closeHref: CLOSE_HREF,
     extraValidation,
     getTotalVal,
@@ -249,6 +246,7 @@ export const useUnstake = (): IUseUnstakeData => {
     isSuccessOpened,
     isUnstakeLoading,
     isWithApprove,
+    maticPoolLiquidityInAC,
     selectedToken,
     syntTokenBalance,
     tokenOut: MAIN_TOKEN,
