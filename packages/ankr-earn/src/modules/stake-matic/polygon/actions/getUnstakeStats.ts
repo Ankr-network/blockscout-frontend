@@ -10,8 +10,7 @@ import { withStore } from 'modules/common/utils/withStore';
 import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
 
 export interface IGetUnstakeStatsData {
-  acPoolLiquidity: BigNumber;
-  acPoolLiquidityInMATIC: BigNumber;
+  maticPoolLiquidityInAC: BigNumber;
   unstakeFeePct: TBNPercent;
 }
 
@@ -22,16 +21,13 @@ export const getUnstakeStats = createSmartAction<
     promise: async (): Promise<IGetUnstakeStatsData> => {
       const sdk = await MaticPolygonSDK.getInstance();
 
-      const [acPoolLiquidity, acPoolLiquidityInMATIC, unstakeFeePct] =
-        await Promise.all([
-          sdk.getACPoolLiquidity(),
-          sdk.getACPoolLiquidityInMATIC(),
-          sdk.getUnstakeFeePct(),
-        ]);
+      const [maticPoolLiquidityInAC, unstakeFeePct] = await Promise.all([
+        sdk.getMATICPoolLiquidityInAC(),
+        sdk.getUnstakeFeePct(),
+      ]);
 
       return {
-        acPoolLiquidity,
-        acPoolLiquidityInMATIC,
+        maticPoolLiquidityInAC,
         unstakeFeePct,
       };
     },

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { TransactionReceipt } from 'web3-core';
+import { Log, TransactionReceipt } from 'web3-core';
 
 import {
   EEthereumNetworkId,
@@ -9,17 +9,18 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { POLYGON_NETWORK_BY_ENV, ZERO } from '../../../common';
+import { configFromEnv, POLYGON_NETWORK_BY_ENV, ZERO } from '../../../common';
 import { IPendingData, IStakeData, ITxEventsHistoryData } from '../../../stake';
-import { IFetchTxData } from '../../../switcher';
 import { MATIC_DECIMALS, MATIC_SCALE_FACTOR } from '../../const';
 import { EMaticSDKErrorCodes, TMaticSyntToken } from '../../types';
-import { MaticPolygonSDK } from '../polygonSDK';
+import { IGetTxData, MaticPolygonSDK } from '../polygonSDK';
 
 jest.mock('@ankr.com/provider', () => ({
   ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
+
+const { polygonConfig } = configFromEnv();
 
 describe('modules/matic/sdk/polygonSDK', () => {
   const FEE_MAX = '100000';
@@ -57,6 +58,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
     },
     utils: {
       fromWei: (value: string): string => value,
+      toBN: (value: string): string => value,
     },
   };
 
@@ -537,21 +539,28 @@ describe('modules/matic/sdk/polygonSDK', () => {
   });
 
   test('should return transaction data', async () => {
-    defaultWeb3.eth.getTransaction.mockReturnValue(
+    defaultWeb3.eth.getTransactionReceipt.mockReturnValue(
       Promise.resolve({
         from: TX_ADDR,
-        value: 1,
+        logs: [
+          {
+            address: polygonConfig.aMATICcToken,
+            data: `${1 ** MATIC_SCALE_FACTOR}`,
+          } as Log,
+        ],
+        status: true,
       }),
     );
 
     const sdk = await MaticPolygonSDK.getInstance();
-    const data = await sdk.getTxData(TX_HASH);
+    const data = await sdk.getTxData(polygonConfig.aMATICcToken, TX_HASH);
 
     expect(data).toStrictEqual({
       amount: ONE,
       destinationAddress: TX_ADDR,
       isPending: false,
-    } as IFetchTxData);
+      status: true,
+    } as IGetTxData);
   });
 
   test('should return events history data', async () => {

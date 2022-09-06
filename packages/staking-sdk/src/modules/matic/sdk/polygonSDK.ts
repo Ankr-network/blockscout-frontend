@@ -43,6 +43,10 @@ import {
   TMaticSyntToken,
 } from '../types';
 
+export interface IGetTxData extends IFetchTxData {
+  status: boolean;
+}
+
 const { polygonConfig } = configFromEnv();
 
 export class MaticPolygonSDK implements IStakable {
@@ -347,6 +351,33 @@ export class MaticPolygonSDK implements IStakable {
     return this.convertFromWei(balance);
   }
 
+  public async getMATICPoolLiquidityInAC(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+    const swapPoolContract = await this.getSwapPoolContract();
+
+    const [nativeTokenPool, ratio]: [string, string] = await Promise.all([
+      swapPoolContract.methods.nativeTokenAmount().call(),
+      acTokenContract.methods.ratio().call(),
+    ]);
+
+    if (nativeTokenPool === '0') {
+      return ZERO;
+    }
+
+    // Note: (nativeTokenPool / MATIC_SCALE_FACTOR) * ratio
+    const poolLiquidityAmount = new BigNumber(nativeTokenPool)
+      .dividedBy(MATIC_SCALE_FACTOR)
+      .multipliedBy(ratio)
+      .decimalPlaces(0, BigNumber.ROUND_DOWN);
+
+    return poolLiquidityAmount.isLessThanOrEqualTo(0) ||
+      !poolLiquidityAmount.isFinite()
+      ? ZERO
+      : this.convertFromWei(poolLiquidityAmount.toString(10));
+  }
+
   /**
    * @note Method for interface covering only. Not applicable here
    */
@@ -415,16 +446,26 @@ export class MaticPolygonSDK implements IStakable {
     return stakeGasFee;
   }
 
-  public async getTxData(txHash: string): Promise<IFetchTxData> {
+  public async getTxData(
+    targetTokenAddr: string,
+    txHash: string,
+  ): Promise<IGetTxData> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
 
-    const tx = await web3.eth.getTransaction(txHash);
+    const tx = await web3.eth.getTransactionReceipt(txHash);
+
+    const amountLog = tx.logs.find(
+      ({ address }) => address.toLowerCase() === targetTokenAddr.toLowerCase(),
+    );
+
+    const amount = web3.utils.toBN(amountLog?.data ?? '0');
 
     return {
-      amount: new BigNumber(web3.utils.fromWei(tx.value)),
+      amount: new BigNumber(web3.utils.fromWei(amount.toString(10))),
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
+      status: tx.status,
     };
   }
 
