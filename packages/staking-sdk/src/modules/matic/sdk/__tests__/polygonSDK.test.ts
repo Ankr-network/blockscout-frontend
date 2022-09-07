@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import web3 from 'web3';
 import { Log, TransactionReceipt } from 'web3-core';
 
 import {
@@ -57,8 +58,8 @@ describe('modules/matic/sdk/polygonSDK', () => {
       getTransactionReceipt: jest.fn(),
     },
     utils: {
-      fromWei: (value: string): string => value,
-      toBN: (value: string): string => value,
+      fromWei: web3.utils.fromWei,
+      toBN: web3.utils.toBN,
     },
   };
 
@@ -230,7 +231,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
       ...defaultContract,
       methods: {
         allowance: () => ({
-          call: (): string => `${2 ** MATIC_SCALE_FACTOR}`,
+          call: (): string => `${2 * MATIC_SCALE_FACTOR}`,
         }),
       },
     };
@@ -244,13 +245,13 @@ describe('modules/matic/sdk/polygonSDK', () => {
   });
 
   test('should return token balances', async () => {
-    const value = '7';
+    const result = '0.000000000000000007';
 
     const contract = {
       ...defaultContract,
       methods: {
         balanceOf: () => ({
-          call: (): string => value,
+          call: (): string => '7',
         }),
       },
     };
@@ -261,8 +262,8 @@ describe('modules/matic/sdk/polygonSDK', () => {
     const abBalance = await sdk.getABBalance();
     const acBalance = await sdk.getACBalance();
 
-    expect(abBalance.toString(10)).toBe(value);
-    expect(acBalance.toString(10)).toBe(value);
+    expect(abBalance.toString(10)).toBe(result);
+    expect(acBalance.toString(10)).toBe(result);
   });
 
   test('should return zero certificate pool liquidity data if "cerosTokenAmount" is zero', async () => {
@@ -284,13 +285,11 @@ describe('modules/matic/sdk/polygonSDK', () => {
   });
 
   test('should return correct certificate pool liquidity data', async () => {
-    const value = '47';
-
     const contract = {
       ...defaultContract,
       methods: {
         cerosTokenAmount: () => ({
-          call: (): string => value,
+          call: (): string => '47',
         }),
       },
     };
@@ -300,7 +299,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
     const sdk = await MaticPolygonSDK.getInstance();
     const data = await sdk.getACPoolLiquidity();
 
-    expect(data.toString(10)).toBe(value);
+    expect(data.toString(10)).toBe('0.000000000000000047');
   });
 
   describe('should return zero certificate pool liquidity data in MATIC if some internal data are invalid', () => {
@@ -407,17 +406,15 @@ describe('modules/matic/sdk/polygonSDK', () => {
     const sdk = await MaticPolygonSDK.getInstance();
     const data = await sdk.getACPoolLiquidityInMATIC();
 
-    expect(data.toString(10)).toBe('3400000000000000');
+    expect(data.toString(10)).toBe('0.0034');
   });
 
   test('should return certificate ratio', async () => {
-    const value = '1';
-
     const contract = {
       ...defaultContract,
       methods: {
         ratio: () => ({
-          call: (): string => value,
+          call: (): string => '1',
         }),
       },
     };
@@ -427,17 +424,15 @@ describe('modules/matic/sdk/polygonSDK', () => {
     const sdk = await MaticPolygonSDK.getInstance();
     const acRatio = await sdk.getACRatio();
 
-    expect(acRatio.toString(10)).toBe(value);
+    expect(acRatio.toString(10)).toBe('0.000000000000000001');
   });
 
   test('should return matic balance', async () => {
-    const value = '9';
-
     const contract = {
       ...defaultContract,
       methods: {
         balanceOf: () => ({
-          call: (): string => value,
+          call: (): string => '9',
         }),
       },
     };
@@ -447,7 +442,114 @@ describe('modules/matic/sdk/polygonSDK', () => {
     const sdk = await MaticPolygonSDK.getInstance();
     const data = await sdk.getMaticBalance();
 
-    expect(data.toString(10)).toBe(value);
+    expect(data.toString(10)).toBe('0.000000000000000009');
+  });
+
+  describe('should return zero MATIC pool liquidity data as certificates if some internal data are invalid', () => {
+    test('should return zero data if "nativeTokenAmount" is negative', async () => {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          nativeTokenAmount: () => ({
+            call: (): string => '-1',
+          }),
+          ratio: () => ({
+            call: (): string => '1000',
+          }),
+        },
+      };
+
+      defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      const sdk = await MaticPolygonSDK.getInstance();
+      const data = await sdk.getMATICPoolLiquidityInAC();
+
+      expect(data).toBe(ZERO);
+    });
+
+    test('should return zero data if "ratio" is negative', async () => {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          nativeTokenAmount: () => ({
+            call: (): string => '7',
+          }),
+          ratio: () => ({
+            call: (): string => '-1',
+          }),
+        },
+      };
+
+      defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      const sdk = await MaticPolygonSDK.getInstance();
+      const data = await sdk.getMATICPoolLiquidityInAC();
+
+      expect(data).toBe(ZERO);
+    });
+
+    test('should return zero data if "nativeTokenAmount" is zero', async () => {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          nativeTokenAmount: () => ({
+            call: (): string => '0',
+          }),
+          ratio: () => ({
+            call: (): string => '1000',
+          }),
+        },
+      };
+
+      defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      const sdk = await MaticPolygonSDK.getInstance();
+      const data = await sdk.getMATICPoolLiquidityInAC();
+
+      expect(data).toBe(ZERO);
+    });
+
+    test('should return zero data if "ratio" is zero', async () => {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          nativeTokenAmount: () => ({
+            call: (): string => '5',
+          }),
+          ratio: () => ({
+            call: (): string => '0',
+          }),
+        },
+      };
+
+      defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      const sdk = await MaticPolygonSDK.getInstance();
+      const data = await sdk.getMATICPoolLiquidityInAC();
+
+      expect(data).toBe(ZERO);
+    });
+  });
+
+  test('should return correct MATIC pool liquidity data as certificates', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        nativeTokenAmount: () => ({
+          call: (): string => `${24 * MATIC_SCALE_FACTOR}`,
+        }),
+        ratio: () => ({
+          call: (): string => '10000',
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    const sdk = await MaticPolygonSDK.getInstance();
+    const data = await sdk.getMATICPoolLiquidityInAC();
+
+    expect(data.toString(10)).toBe('0.00000000000024');
   });
 
   test('should return minimum stake data', async () => {
@@ -538,6 +640,31 @@ describe('modules/matic/sdk/polygonSDK', () => {
     expect(data).toBe(ONE);
   });
 
+  test('should return transaction data if "targetTokenAddr" is unavailable', async () => {
+    defaultWeb3.eth.getTransactionReceipt.mockReturnValue(
+      Promise.resolve({
+        from: TX_ADDR,
+        logs: [
+          {
+            address: polygonConfig.aMATICbToken,
+            data: `${MATIC_SCALE_FACTOR}`,
+          } as Log,
+        ],
+        status: true,
+      }),
+    );
+
+    const sdk = await MaticPolygonSDK.getInstance();
+    const data = await sdk.getTxData(polygonConfig.aMATICcToken, TX_HASH);
+
+    expect(data).toStrictEqual({
+      amount: ZERO,
+      destinationAddress: TX_ADDR,
+      isPending: false,
+      status: true,
+    } as IGetTxData);
+  });
+
   test('should return transaction data', async () => {
     defaultWeb3.eth.getTransactionReceipt.mockReturnValue(
       Promise.resolve({
@@ -545,7 +672,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
         logs: [
           {
             address: polygonConfig.aMATICcToken,
-            data: `${1 ** MATIC_SCALE_FACTOR}`,
+            data: `${MATIC_SCALE_FACTOR}`,
           } as Log,
         ],
         status: true,
@@ -656,7 +783,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
   });
 
   test('should stake tokens if amount is greater than "maxAllowedAmount"', async () => {
-    const value = ONE.multipliedBy(10);
+    const value = new BigNumber(10).multipliedBy(MATIC_SCALE_FACTOR);
 
     const contract = {
       ...defaultContract,
@@ -696,7 +823,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
       ...defaultContract,
       methods: {
         balanceOf: () => ({
-          call: (): string => '12',
+          call: (): string => `${12 * MATIC_SCALE_FACTOR}`,
         }),
         swapEth: () => ({
           estimateGas: (): Promise<BigNumber> =>
