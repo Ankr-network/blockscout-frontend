@@ -35,7 +35,6 @@ export const PageNotFound = (): JSX.Element => {
             <Box mt={2} px={2}>
               <NavLink
                 className={classes.button}
-                color="primary"
                 href={STAKING_PATH}
                 variant="contained"
               >
