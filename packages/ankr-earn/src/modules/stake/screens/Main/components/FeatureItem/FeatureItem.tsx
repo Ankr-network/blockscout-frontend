@@ -78,6 +78,7 @@ export const FeatureItem = ({
               <NavLink
                 fullWidth
                 className={classes.button}
+                color="primary"
                 href={moreHref}
                 variant="outlined"
               >
@@ -91,6 +92,7 @@ export const FeatureItem = ({
               <NavLink
                 fullWidth
                 className={classes.button}
+                color="primary"
                 href={manageHref}
                 variant="outlined"
                 onMouseDown={onManageClick}

@@ -265,7 +265,7 @@ export const mainTheme = createTheme({
         backgroundColor: defaultTheme.palette.background.default,
 
         '&:hover, &.Mui-focused': {
-          borderColor: defaultTheme.palette.background.default,
+          borderColor: defaultTheme.palette.primary.main,
           backgroundColor: defaultTheme.palette.background.paper,
         },
 
@@ -293,6 +293,14 @@ export const mainTheme = createTheme({
       },
     },
 
+    MuiFormLabel: {
+      root: {
+        '&.Mui-error': {
+          color: defaultTheme.palette.text.primary,
+        },
+      },
+    },
+
     MuiInputLabel: {
       shrink: {
         position: 'static',
@@ -301,6 +309,13 @@ export const mainTheme = createTheme({
         fontWeight: 700,
         color: '#000',
         transform: 'none',
+      },
+    },
+
+    MuiFormHelperText: {
+      contained: {
+        marginLeft: 0,
+        marginRight: 0,
       },
     },
 

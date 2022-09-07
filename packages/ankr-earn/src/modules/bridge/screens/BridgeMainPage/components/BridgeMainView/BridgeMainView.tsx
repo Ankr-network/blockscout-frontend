@@ -128,6 +128,7 @@ export const BridgeMainView = (): JSX.Element => {
 
           <NavLink
             className={classes.finishBridge}
+            color="primary"
             href={RoutesConfig.restore.generatePath()}
             variant="outlined"
           >
