@@ -6,6 +6,7 @@ import { IFaqItem } from 'modules/common/components/Faq';
 import {
   DOCS_DEFI_DEX_LINK,
   DOCS_DEFI_FARM_LINK,
+  DOCS_DEFI_VAULTS_LINK,
   DOCS_STAKE_ETH_LINK,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -14,7 +15,8 @@ import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
 
-const tradelink = RoutesConfig.defi.generatePath(Token.aETHb);
+const tradeBondLink = RoutesConfig.defi.generatePath(Token.aETHb);
+const tradeCertLink = RoutesConfig.defi.generatePath(Token.aETHc);
 
 export const useFaq = (): IFaqItem[] => {
   const { data } = useQuery({ type: getCommonData });
@@ -47,15 +49,15 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-ethereum.faq.question-5'),
-        answer: t('stake-ethereum.faq.answer-5'),
+        answer: tHTML('stake-ethereum.faq.answer-5'),
       },
       {
         question: t('stake-ethereum.faq.question-6'),
-        answer: tHTML('stake-ethereum.faq.answer-6'),
+        answer: t('stake-ethereum.faq.answer-6'),
       },
       {
         question: t('stake-ethereum.faq.question-7'),
-        answer: t('stake-ethereum.faq.answer-7'),
+        answer: tHTML('stake-ethereum.faq.answer-7'),
       },
       {
         question: t('stake-ethereum.faq.question-8'),
@@ -63,37 +65,30 @@ export const useFaq = (): IFaqItem[] => {
       },
       {
         question: t('stake-ethereum.faq.question-9'),
-        answer: tHTML('stake-ethereum.faq.answer-9'),
+        answer: t('stake-ethereum.faq.answer-9'),
       },
       {
         question: t('stake-ethereum.faq.question-10'),
-        answer: t('stake-ethereum.faq.answer-10'),
+        answer: tHTML('stake-ethereum.faq.answer-10'),
       },
       {
         question: t('stake-ethereum.faq.question-11'),
+        answer: t('stake-ethereum.faq.answer-11'),
+      },
+      {
+        question: t('stake-ethereum.faq.question-12'),
         answer: (
           <>
-            <p>
-              {tHTMLWithRouter('stake-ethereum.faq.answer-11.p1', {
-                link: tradelink,
-              })}
-            </p>
+            {tHTMLWithRouter('stake-ethereum.faq.answer-12.p1', {
+              link1: tradeBondLink,
+              link2: tradeCertLink,
+            })}
 
-            <p>{tHTML('stake-ethereum.faq.answer-11.p2')}</p>
-
-            <ul>
-              <li>
-                {tHTML('stake-ethereum.faq.answer-11.p3', {
-                  link: DOCS_DEFI_DEX_LINK,
-                })}
-              </li>
-
-              <li>
-                {tHTML('stake-ethereum.faq.answer-11.p4', {
-                  link: DOCS_DEFI_FARM_LINK,
-                })}
-              </li>
-            </ul>
+            {tHTML('stake-ethereum.faq.answer-12.p2', {
+              link1: DOCS_DEFI_DEX_LINK,
+              link2: DOCS_DEFI_FARM_LINK,
+              link3: DOCS_DEFI_VAULTS_LINK,
+            })}
           </>
         ),
       },
