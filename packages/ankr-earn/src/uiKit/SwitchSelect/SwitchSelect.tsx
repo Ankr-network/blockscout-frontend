@@ -7,8 +7,6 @@ import {
   useMemo,
 } from 'react';
 
-import { t } from 'common';
-
 import { Button } from 'uiKit/Button';
 import { ArrowIcon } from 'uiKit/Icons/ArrowIcon';
 
@@ -69,7 +67,7 @@ export const SwitchSelect = ({
   );
 
   const renderValue = useCallback(
-    (direction: string) => (value: unknown) =>
+    () => (value: unknown) =>
       (
         <Chip
           classes={{ label: classes.chipLabel }}
@@ -79,8 +77,6 @@ export const SwitchSelect = ({
           icon={icons[value as string]}
           label={
             <div className={classes.chipLabelContainer}>
-              <span className={classes.direction}>{direction}</span>
-
               <div>{labels[value as string]}</div>
             </div>
           }
@@ -143,13 +139,14 @@ export const SwitchSelect = ({
   return (
     <div className={classes.root}>
       <Select
+        withoutDivider
         autoWidth={false}
         classes={{ select: classes.select }}
         className={classes.select}
         data-testid="switch-from"
         disabled={isDisabled || fromOptions.length === 1}
         options={fromOptions}
-        renderValue={renderValue(t('common.labels.from'))}
+        renderValue={renderValue()}
         rootClassName={classes.selectContainer}
         value={values.from || fromOptions[0]?.value}
         onChange={handleChangeFrom}
@@ -166,13 +163,14 @@ export const SwitchSelect = ({
       </Button>
 
       <Select
+        withoutDivider
         autoWidth={false}
         classes={{ select: classes.select }}
         className={classes.select}
         data-testid="switch-to"
         disabled={isDisabled || toOptions.length === 1}
         options={toOptions}
-        renderValue={renderValue(t('common.labels.to'))}
+        renderValue={renderValue()}
         rootClassName={classes.selectContainer}
         value={values.to || toOptions[0]?.value}
         onChange={handleChangeTo}
