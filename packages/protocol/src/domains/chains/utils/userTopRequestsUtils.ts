@@ -125,6 +125,17 @@ const calculateBarCounts = (
   return oneStakeCounts;
 };
 
+const getChartFormat = (timeframe: Timeframe) => {
+  switch (timeframe) {
+    case Timeframe.Day:
+    case Timeframe.Hour:
+      return 'h:mmaaa';
+
+    default:
+      return 'LLL dd';
+  }
+};
+
 export const formatChartData = (
   timeframe: Timeframe,
   total?: PrivateTotalRequestsInfo,
@@ -185,11 +196,12 @@ export const formatChartData = (
     });
   }
 
-  if (timeframe !== Timeframe.Month) {
+  if (timeframe === Timeframe.Day || timeframe === Timeframe.Week) {
     counts = calculateBarCounts(timeframe, counts);
   }
 
-  const chartFormat = timeframe === Timeframe.Day ? 'h:mmaaa' : 'LLL dd';
+  const chartFormat = getChartFormat(timeframe);
+
   const chartData: PrivateStatTopRequestsData[] = [];
 
   Object.keys(counts).forEach(timestamp => {
