@@ -164,7 +164,7 @@ export const PortfolioChart = ({
             d.data.name === activeItem.name &&
             d.data.isNative === activeItem.isNative
             ? radius / 1.2
-            : radius / 1.15;
+            : radius / 1.1;
         })
         .innerRadius(radius);
 
@@ -250,7 +250,7 @@ export const PortfolioChart = ({
             className={classes.chartWrapper}
             lg={12}
             md={12}
-            xl={5}
+            xl={6}
             xs={12}
           >
             {isLoading ? (
@@ -331,7 +331,7 @@ export const PortfolioChart = ({
             />
           </Grid>
 
-          <Grid item lg={6} md={12} xl={4} xs={12}>
+          <Grid item lg={6} md={12} xl={3} xs={12}>
             <PortfolioChartLegend
               isNative
               activeLegendItem={activeItem}

@@ -4,6 +4,7 @@ import { t } from 'common';
 
 import { RoutesConfig as CalcRoutes } from 'modules/calc/Routes';
 import { featuresConfig } from 'modules/common/const';
+import { RoutesConfig } from 'modules/referrals/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -23,6 +24,9 @@ const imgSources = {
   mobile2x: coinsMobileImg2x,
 };
 
+// todo: change it
+const IS_ACTIVE_REFERRAL_USER = true;
+
 export const EmptyState = (): JSX.Element => {
   const classes = useEmptyStateStyles();
 
@@ -31,6 +35,17 @@ export const EmptyState = (): JSX.Element => {
       <Typography className={classes.title} variant="h2">
         {t('dashboard.empty.title')}
       </Typography>
+
+      {IS_ACTIVE_REFERRAL_USER && (
+        <NavLink
+          className={classes.referralsLink}
+          color="primary"
+          href={RoutesConfig.main.generatePath()}
+          variant="inline-text"
+        >
+          {t('dashboard.empty.referral-program')}
+        </NavLink>
+      )}
 
       <picture className={classes.imgWrap}>
         <source

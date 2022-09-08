@@ -6,7 +6,6 @@ import { IProvider } from 'modules/stake-mgno/api/GnosisStakingSDK/types';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 
 interface ITableRow extends IProvider {
-  apr: number;
   stakeLink?: string;
   detailsLink?: string;
 }
@@ -30,8 +29,6 @@ export const useTableData = (): ITableData => {
     providers?.map(provider => {
       return {
         ...provider,
-        provider: provider.provider,
-        apr: 0,
         stakeLink: RoutesConfig.stake.generatePath(provider.provider),
       };
     }) || [];

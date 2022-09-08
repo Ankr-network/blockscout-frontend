@@ -826,6 +826,13 @@
   },
   "calc": {
     "title": "Staking calculator",
+    "table": {
+      "token": "Token",
+      "amount": "Staking amount",
+      "staked": "Already staked",
+      "yield": "Potential Yield",
+      "apy": "APY: {value}%"
+    },
     "yield": {
       "period": "Staking period",
       "apy": "Average APY:",
@@ -914,7 +921,8 @@
     "empty": {
       "title": "Stake and earn with your favorite blockchains",
       "btn": "Go to staking",
-      "calc-btn": "Staking calculator"
+      "calc-btn": "Staking calculator",
+      "referral-program": "Referral Program"
     },
     "token-info": {
       "title": "What is {token}?",
@@ -1355,7 +1363,8 @@
       "staked-available": "Staked/Available",
       "staked-available-tooltip": "Amount already delegated to this Validator and free validation capacity.",
       "net-apr": "Net APR",
-      "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties."
+      "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties.",
+      "keys-value": "{value} Keys"
     }
   },
   "convert": {

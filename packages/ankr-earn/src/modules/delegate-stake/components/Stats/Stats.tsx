@@ -51,7 +51,7 @@ export const Stats = ({
         />
       )}
 
-      {stakers && (
+      {!!stakers && stakers > 0 && (
         <StatsItem
           isLoading={isLoading}
           label={t('delegated-stake.staking.stats.stakers')}

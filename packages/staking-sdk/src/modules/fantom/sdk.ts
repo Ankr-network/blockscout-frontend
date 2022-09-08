@@ -500,8 +500,8 @@ export class FantomSDK implements ISwitcher, IStakable {
   /**
    * Internal function to return increased gas limit.
    *
-   * @param {number} gasLimit - initial gas limit
    * @private
+   * @param {number} gasLimit - initial gas limit
    * @returns {number}
    */
   private getIncreasedGasLimit(gasLimit: number): number {

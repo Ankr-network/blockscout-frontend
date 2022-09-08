@@ -1,4 +1,4 @@
-import { alpha, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 export const useConnectedWalletsButtonStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +27,7 @@ export const useConnectedWalletsButtonStyles = makeStyles(theme => ({
     color: theme.palette.text.primary,
 
     '&:hover': {
-      background: alpha(theme.palette.background.paper, 0.4),
+      background: theme.palette.action.disabledBackground,
       color: theme.palette.text.primary,
     },
   },
@@ -50,7 +50,7 @@ export const useConnectedWalletsButtonStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.common.white,
 
       '&:hover': {
-        backgroundColor: alpha(theme.palette.background.paper, 0.4),
+        background: theme.palette.action.disabledBackground,
       },
     },
 

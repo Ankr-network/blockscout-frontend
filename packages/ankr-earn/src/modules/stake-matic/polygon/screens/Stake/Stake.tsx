@@ -184,7 +184,7 @@ export const Stake = (): JSX.Element => {
             metricsServiceName={EMetricsServiceName.MATIC}
           />
 
-          {featuresConfig.maticPolygonStakingFAQ && <Faq data={faqItems} />}
+          <Faq data={faqItems} />
         </StakeContainer>
       )}
     </section>

@@ -55,7 +55,10 @@ export const Yield = ({
 
   return (
     <>
-      <Paper className={classes.root} variant="outlined">
+      <Paper
+        className={classes.root}
+        variant={isMDUp ? 'outlined' : 'elevation'}
+      >
         <Box mb={5}>
           <Grid container alignItems="center" spacing={3}>
             <Grid item xs>

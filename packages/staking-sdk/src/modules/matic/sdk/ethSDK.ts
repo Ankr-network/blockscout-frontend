@@ -228,8 +228,9 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Internal function to get aMATICb token contract.
    *
    * @private
+   * @static
    * @param {Web3} web3 - Web3 instance
-   * @returns {Promise<Contract>}
+   * @returns {Contract}
    */
   private static getAMATICBTokenContract(web3: Web3): Contract {
     const { contractConfig } = configFromEnv();
@@ -244,8 +245,9 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Internal function to get aMATICc token contract.
    *
    * @private
+   * @static
    * @param {Web3} web3 - Web3 instance
-   * @returns {Promise<Contract>}
+   * @returns {Contract}
    */
   private static getAMATICCTokenContract(web3: Web3): Contract {
     const { contractConfig } = configFromEnv();
@@ -314,7 +316,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to convert wei value to human readable format.
+   * Internal function to convert wei value to human-readable format.
    *
    * @private
    * @param {string} amount - value in wei
@@ -405,7 +407,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Return MATIC token balance.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable balance
+   * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getMaticBalance(): Promise<BigNumber> {
     const maticTokenContract = await this.getMaticTokenContract();
@@ -421,7 +423,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Return aMATICb token balance.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable balance
+   * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
@@ -439,7 +441,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Return aMATICc token balance.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable balance
+   * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
@@ -457,7 +459,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Return aMATICc/MATIC ratio.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable ratio
+   * @returns {Promise<BigNumber>} - human-readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();

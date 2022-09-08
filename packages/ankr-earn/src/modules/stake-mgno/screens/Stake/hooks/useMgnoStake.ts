@@ -19,10 +19,7 @@ import { getProviderContributed } from 'modules/stake-mgno/actions/getProviderCo
 import { getProviderStats } from 'modules/stake-mgno/actions/getProviderStats';
 import { stake } from 'modules/stake-mgno/actions/stake';
 import { TEST_PROVIDER_ID } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
-import {
-  MGNO_STAKE_FORM_ID,
-  SLASHING_PROTECTION_VAR,
-} from 'modules/stake-mgno/const';
+import { MGNO_STAKE_FORM_ID } from 'modules/stake-mgno/const';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 import {
   IMgnoFormState,
@@ -51,7 +48,7 @@ interface IUseMgnoStake {
   quoteText: string;
   additionalText?: string;
   additionalTooltip?: string;
-  additionalValue?: string;
+  contributed: BigNumber;
   onSubmit: (values: IMgnoStakeSubmitPayload) => void;
   onChange?: (values: IMgnoStakeFormPayload, invalid: boolean) => void;
 }
@@ -75,12 +72,6 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const { data: providerStats } = useQuery({
     type: getProviderStats,
   });
-
-  const slashingProtection = providerStats?.provider.totalKeys
-    ? (contributed ?? ZERO).dividedBy(
-        SLASHING_PROTECTION_VAR * providerStats.provider.totalKeys,
-      )
-    : ZERO;
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -159,9 +150,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
     quoteText: tHTML('stake-mgno.staking.lock-info'),
     additionalText: t('stake-mgno.staking.slashing-protection'),
     additionalTooltip: t('stake-mgno.staking.slashing-protection-tooltip'),
-    additionalValue: t('unit.percentage-value', {
-      value: slashingProtection.integerValue(),
-    }),
+    contributed: contributed ?? ZERO,
     onChange,
     onSubmit,
   };

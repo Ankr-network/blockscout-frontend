@@ -12,7 +12,7 @@ export const PROVIDER_STATS = 'v1alpha/beacon/gnosis/providers/';
 
 export const MGNO_TOKEN_PRICE = 'v1alpha/rate/gno';
 
-export const SLASHING_PROTECTION_VAR = 0.5;
+export const SLASHING_PROTECTION_VAR = 6_400;
 
 export const GNO_TO_MGNO_DIVIDER = 32;
 

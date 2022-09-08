@@ -17,6 +17,7 @@ import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
+import { SLASHING_PROTECTION_VAR } from 'modules/stake-mgno/const';
 import { getProviderStatsUrl } from 'modules/stake-mgno/utils/getProviderStatsUrl';
 
 import INSURANCE_ABI from '../contracts/InsuranceContract.json';
@@ -40,6 +41,8 @@ import {
   IGetPastEvents,
   IHistoryData,
   IProvider,
+  IProvidersStakedData,
+  IProviderStakedData,
   IProviderStats,
 } from './types';
 
@@ -179,19 +182,16 @@ export class GnosisStakingSDK {
   public async getContributed(provider: string): Promise<BigNumber> {
     const insuranceContract = await this.getInsuranceContract();
     const contributed = await insuranceContract.methods
-      .getContributed(provider)
+      .getTotalContributed(provider)
       .call();
 
     return this.convertFromWei(contributed);
   }
 
+  // todo: will implement it later
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   public async getTipRewards(provider: string): Promise<BigNumber> {
-    const validatorManagerContract = await this.getValidatorManagerContract();
-
-    const tipRewards = await validatorManagerContract.methods
-      .getStakerTipReward(provider, this.currentAccount)
-      .call();
-    return this.convertFromWei(tipRewards);
+    return ZERO;
   }
 
   public async getAllMyTipRewards(): Promise<BigNumber> {
@@ -207,12 +207,12 @@ export class GnosisStakingSDK {
   }
 
   public async getRewards(provider: string): Promise<BigNumber> {
-    const validatorManagerContract = await this.getValidatorManagerContract();
+    const stakingContract = await this.getStakingContract();
 
-    const tipRewards = await validatorManagerContract.methods
-      .getStakerKeyReward(provider, this.currentAccount)
+    const rewards = await stakingContract.methods
+      .getValidationReward(provider, this.currentAccount)
       .call();
-    return this.convertFromWei(tipRewards);
+    return this.convertFromWei(rewards);
   }
 
   public async getAllMyRewards(): Promise<BigNumber> {
@@ -221,10 +221,7 @@ export class GnosisStakingSDK {
       providers.map(provider => this.getRewards(provider)),
     );
 
-    return rewards.reduce((acc, reward) => {
-      acc.plus(reward);
-      return acc;
-    }, ZERO);
+    return rewards.reduce((acc, reward) => acc.plus(reward), ZERO);
   }
 
   /**
@@ -282,7 +279,7 @@ export class GnosisStakingSDK {
   public async getMinimumStake(): Promise<BigNumber> {
     const stakingConfig = await this.getStakingContract();
 
-    const minStake = await stakingConfig.methods.getMinStake().call();
+    const minStake = await stakingConfig.methods.minStakeAmount().call();
 
     return this.convertFromWei(minStake);
   }
@@ -346,10 +343,10 @@ export class GnosisStakingSDK {
     const stakingContract = await this.getStakingContract();
 
     const data = await stakingContract.methods
-      .getStake(provider, staker)
+      .getStaker(provider, staker)
       .call();
 
-    return this.convertFromWei(data);
+    return this.convertFromWei(data[0]);
   }
 
   public async getMyDelegatedAmount(provider: string): Promise<BigNumber> {
@@ -358,6 +355,56 @@ export class GnosisStakingSDK {
 
   public async getProviderStats(provider: string): Promise<IProviderStats> {
     return (await this.api.get(getProviderStatsUrl(provider))).data;
+  }
+
+  public async getProvidersStakedAvailable(): Promise<IProvidersStakedData> {
+    const stakingConfig = await this.getStakingContract();
+
+    const allProviders = await this.getAllProviderAddresses();
+    const data = await stakingConfig.methods
+      .getProvidersBalance(allProviders)
+      .call();
+
+    return {
+      totalStaked: data[0].map((item: string) => this.convertFromWei(item)),
+      availableToStake: data[1].map((item: string) =>
+        this.convertFromWei(item),
+      ),
+    };
+  }
+
+  private async getProviderStakedAvailable(
+    provider: string,
+  ): Promise<IProviderStakedData> {
+    const stakingConfig = await this.getStakingContract();
+
+    const data = await stakingConfig.methods
+      .getProviderBalance(provider)
+      .call();
+
+    return {
+      totalStaked: this.convertFromWei(data[0]),
+      availableToStake: this.convertFromWei(data[1]),
+    };
+  }
+
+  public async getMaxApr(): Promise<BigNumber> {
+    const providers = await this.getAllProviderAddresses();
+
+    const providersStats = (
+      await Promise.all(
+        providers.map(provider => this.getProviderStats(provider)),
+      )
+    ).sort((stats1, stats2) =>
+      new BigNumber(+stats1.apr).minus(new BigNumber(+stats2.apr)).toNumber(),
+    );
+
+    return new BigNumber(+providersStats[0].apr);
+  }
+
+  public async getApr(provider: string): Promise<BigNumber> {
+    const providerStats = await this.getProviderStats(provider);
+    return new BigNumber(+providerStats.apr);
   }
 
   public async getHistoryData(): Promise<IHistoryData[]> {
@@ -398,18 +445,20 @@ export class GnosisStakingSDK {
       timestamp: block.timestamp as number,
     }));
 
-    return rawData.map(event => {
-      const { provider, amount } = event.returnValues;
+    return rawData
+      .map(event => {
+        const { provider, amount } = event.returnValues;
 
-      return {
-        date: new Date(event.timestamp * 1_000),
-        hash: event.transactionHash,
-        link: '',
-        event: this.getTxType(event.event),
-        provider: providersStatsMap.get(provider)?.provider.name ?? provider,
-        amount: this.convertFromWei(amount),
-      };
-    });
+        return {
+          date: new Date(event.timestamp * 1_000),
+          hash: event.transactionHash,
+          link: '',
+          event: this.getTxType(event.event),
+          provider: providersStatsMap.get(provider)?.provider.name ?? provider,
+          amount: this.convertFromWei(amount),
+        };
+      })
+      .sort((a, b) => b.date.getTime() - a.date.getTime());
   }
 
   public async getDelegatedAmountByProvider(
@@ -445,17 +494,27 @@ export class GnosisStakingSDK {
     return validatorsWithInfo;
   }
 
-  // todo: change it
-  private async loadValidatorInfo(validator: Web3Address): Promise<IProvider> {
+  private async loadValidatorInfo(provider: Web3Address): Promise<IProvider> {
+    const providerStats = await this.getProviderStats(provider);
+    const contributed = await this.getContributed(provider);
+    const providerStakedData = await this.getProviderStakedAvailable(provider);
+    const { totalStaked, availableToStake } = providerStakedData;
+
+    const slashingProtection =
+      contributed
+        .multipliedBy(SLASHING_PROTECTION_VAR)
+        .dividedBy(totalStaked) ?? ZERO;
+
     return {
-      provider: validator,
-      owner: '0xz0312bk132bhj312jvh',
+      provider,
+      providerName: providerStats?.provider.name ?? provider,
       status: ' ',
-      nodeKeys: 4,
-      slashingProtection: 99,
-      insurancePool: ZERO,
-      staked: ZERO,
-      available: ZERO,
+      nodeKeys: providerStats?.provider.totalKeys ?? 0,
+      slashingProtection,
+      insurancePool: contributed ?? ZERO,
+      staked: totalStaked,
+      available: availableToStake,
+      apr: new BigNumber(+providerStats?.apr) ?? ZERO,
     };
   }
 
@@ -586,7 +645,7 @@ export class GnosisStakingSDK {
    * @param {string} amount - value in wei
    * @returns {BigNumber}
    */
-  private convertFromWei(amount: string): BigNumber {
+  public convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
 }

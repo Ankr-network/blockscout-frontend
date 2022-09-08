@@ -1,8 +1,14 @@
+import { useMemo } from 'react';
+
+import { t } from 'common';
+
+import { ZERO } from 'modules/common/const';
 import { Section } from 'modules/delegate-stake/components/Section';
 import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
 import { Stats } from 'modules/delegate-stake/components/Stats';
 import { GNOSIS_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
 import { BuyMgnoLink } from 'modules/stake-mgno/components/BuyMgnoLink';
+import { SLASHING_PROTECTION_VAR } from 'modules/stake-mgno/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
 import { useMgnoStake } from './hooks/useMgnoStake';
@@ -28,7 +34,7 @@ export const Stake = (): JSX.Element => {
     quoteText,
     additionalText,
     additionalTooltip,
-    additionalValue,
+    contributed,
     onChange,
     onSubmit,
   } = useMgnoStake();
@@ -37,6 +43,7 @@ export const Stake = (): JSX.Element => {
     apyText,
     yearlyEarning,
     yearlyEarningUSD,
+    delegatedAmount,
     totalStaked,
     totalStakedUSD,
     stakers,
@@ -45,13 +52,23 @@ export const Stake = (): JSX.Element => {
     provider: initialProvider,
   });
 
+  const slashingProtection = useMemo(() => {
+    return !delegatedAmount.isZero()
+      ? contributed
+          .multipliedBy(SLASHING_PROTECTION_VAR)
+          .dividedBy(delegatedAmount.plus(amount))
+      : ZERO;
+  }, [amount, contributed, delegatedAmount]);
+
   return (
     <Section withContainer={false}>
       <StakeContainer>
         <StakeForm
           additionalText={additionalText}
           additionalTooltip={additionalTooltip}
-          additionalValue={additionalValue}
+          additionalValue={t('unit.percentage-value', {
+            value: slashingProtection.integerValue(),
+          })}
           balance={balance}
           balanceLinkSlot={<BuyMgnoLink />}
           closeHref={closeHref}

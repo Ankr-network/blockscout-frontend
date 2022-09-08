@@ -1,12 +1,12 @@
-import { SvgIcon, Theme, useTheme, makeStyles } from '@material-ui/core';
+import { makeStyles, SvgIcon, Theme, useTheme } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon/SvgIcon';
 import {
   ForwardedRef,
   forwardRef,
-  memo,
-  ReactNode,
-  MemoExoticComponent,
   ForwardRefExoticComponent,
+  memo,
+  MemoExoticComponent,
+  ReactNode,
 } from 'react';
 
 export type IconSize =
@@ -17,9 +17,13 @@ export type IconSize =
   | 'xmd'
   | 'lg'
   | 'xl'
+  | 'inherit'
   | number;
 
 const styles = {
+  inherit: {
+    fontSize: 'inherit',
+  },
   xxs: {
     fontSize: 12,
   },
