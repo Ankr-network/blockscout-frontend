@@ -9,6 +9,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
+import { getApr } from 'modules/stake-mgno/actions/getApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getProviderDelegatedAmount } from 'modules/stake-mgno/actions/getProviderDelegatedAmount';
 import { getProviderStats } from 'modules/stake-mgno/actions/getProviderStats';
@@ -22,6 +23,7 @@ interface IUseStats {
   apyText: string;
   yearlyEarning: string;
   yearlyEarningUSD?: string;
+  delegatedAmount: BigNumber;
   totalStaked?: string;
   totalStakedUSD?: string;
   stakers?: number;
@@ -41,24 +43,30 @@ export const useStats = ({ amount, provider }: IStatsProps): IUseStats => {
   const { data: delegatedAmount, loading: isDelegatedAmounLoading } = useQuery({
     type: getProviderDelegatedAmount,
   });
+  const { data: apr, loading: isAprLoading } = useQuery({
+    type: getApr,
+  });
 
   useProviderEffect(() => {
     dispatchRequest(getProviderStats({ provider }));
     dispatchRequest(getMGNOPrice());
     dispatchRequest(getProviderDelegatedAmount({ provider }));
+    dispatchRequest(getApr({ provider }));
 
     return () => {
       dispatch(
         resetRequests([
           getMGNOPrice.toString(),
           getProviderDelegatedAmount.toString(),
+          getApr.toString(),
         ]),
       );
     };
   }, []);
 
+  const statsApr = apr ?? ZERO;
   const usdPrice = usdRatio ?? ZERO;
-  const yearlyEarning = calculateYearlyEarning(amount, ZERO);
+  const yearlyEarning = calculateYearlyEarning(amount, statsApr);
 
   const totalStaked = delegatedAmount ?? ZERO;
   const totalStakedUsd = totalStaked.multipliedBy(usdPrice);
@@ -72,21 +80,25 @@ export const useStats = ({ amount, provider }: IStatsProps): IUseStats => {
 
   return {
     apyText: t('stake.stats.apy-value', {
-      value: ZERO.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      value: statsApr.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     }),
     yearlyEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     yearlyEarningUSD,
-    stakers: providerStats?.stakers,
+    stakers: providerStats?.stakers ?? undefined,
+    delegatedAmount: totalStaked,
     totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(),
     isLoading:
-      isProviderStatsLoading || isUsdRatioLoading || isDelegatedAmounLoading,
+      isProviderStatsLoading ||
+      isUsdRatioLoading ||
+      isDelegatedAmounLoading ||
+      isAprLoading,
   };
 };
 
 function calculateYearlyEarning(
   amount: BigNumberish,
-  apy: BigNumberish,
+  apr: BigNumberish,
 ): BigNumber {
-  return new BigNumber(amount).multipliedBy(apy).dividedBy(100);
+  return new BigNumber(amount).multipliedBy(apr).dividedBy(100);
 }

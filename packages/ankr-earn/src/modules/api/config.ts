@@ -106,13 +106,13 @@ const LOCAL_CONFIG: IStkrConfig = {
     // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
     ankrStakingChainConfig: '0x916C1e42c41C73941d8319267F0a0E9b592b6058',
     mGNOToken: '0x4741cB111C61246c6282c97A163AaEfD130C88c3',
-    gnosisStakingContract: '0xBC1940567dd0c593a4f354Be24D04c7d3f6f6c86',
-    gnosisInsuranceContract: '0xD0bbb26828C21Cae18CBFd4136D69f83Bf1b475e',
+    gnosisStakingContract: '0x632173973cdF9CBe4B497541BAF2C5Db0Ec8Ba18',
+    gnosisInsuranceContract: '0x9BdABc8743CCD8999E5D2c04E6873179CD61f27f',
     // todo: change it a bit later
     gnosisRewardContract: '0x6f1b0A814358a9f8E83B7Bb65F0056e99e7162c2',
-    gnosisProviderContract: '0xf9E8E92131EaEAF2c9aAee95A039471Ac693C129',
+    gnosisProviderContract: '0x40854D6dDB05Ab345853Ed51ebEca7A7650B5138',
     gnosisValidatorManagerContract:
-      '0x4c98cC2D841ba5D801aa9Ba84cae44d786a29C36',
+      '0x803472cac24Eb4cD4168B4301210FB5063cef082',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',

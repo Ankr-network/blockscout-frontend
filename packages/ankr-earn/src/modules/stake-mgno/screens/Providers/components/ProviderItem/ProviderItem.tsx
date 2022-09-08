@@ -1,35 +1,26 @@
-import BigNumber from 'bignumber.js';
-import { ReactNode } from 'react';
-
 import { t } from 'common';
-
-import { DEFAULT_ROUNDING } from 'modules/common/const';
 
 import { useProviderItemStyles } from './useProviderItemStyles';
 
 interface IProviderItemProps {
   name: string;
-  nodeAPY: BigNumber;
-  statusSlot?: ReactNode;
+  keys: number;
 }
 
 export const ProviderItem = ({
   name,
-  nodeAPY,
-  statusSlot,
+  keys,
 }: IProviderItemProps): JSX.Element => {
   const classes = useProviderItemStyles();
 
   return (
     <div className={classes.root}>
-      {statusSlot}
-
       <div className={classes.infoWrapper}>
         {name}
 
-        <div className={classes.apr}>
-          {t('stake-ankr.staking-table.apr', {
-            value: nodeAPY.decimalPlaces(DEFAULT_ROUNDING).toFixed(),
+        <div className={classes.keyAmount}>
+          {t('stake-mgno.provider.keys-value', {
+            value: keys,
           })}
         </div>
       </div>

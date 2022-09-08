@@ -44,18 +44,20 @@ export const ProviderStats = ({
         tooltip={t('stake-ankr.provider.tvl-tooltip')}
       />
 
-      <StatsItem
-        isLoading={statsLoading}
-        primaryValue={
-          lockingPeriod
-            ? t('stake-ankr.provider.days-value', {
-                value: lockingPeriod,
-              })
-            : undefined
-        }
-        title={t('stake-ankr.provider.locking-period')}
-        tooltip={tHTML('stake-ankr.provider.locking-period-tooltip')}
-      />
+      {lockingPeriod && (
+        <StatsItem
+          isLoading={statsLoading}
+          primaryValue={
+            lockingPeriod
+              ? t('stake-ankr.provider.days-value', {
+                  value: lockingPeriod,
+                })
+              : undefined
+          }
+          title={t('stake-ankr.provider.locking-period')}
+          tooltip={tHTML('stake-ankr.provider.locking-period-tooltip')}
+        />
+      )}
 
       {rewards24h && (
         <StatsItem

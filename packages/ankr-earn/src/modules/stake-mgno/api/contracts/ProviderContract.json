@@ -114,6 +114,12 @@
         "internalType": "uint16",
         "name": "commission",
         "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "providersCount",
+        "type": "uint256"
       }
     ],
     "name": "ProviderRegistered",
@@ -172,32 +178,6 @@
       }
     ],
     "name": "changeIssueLimit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "stakingPool",
-        "type": "address"
-      }
-    ],
-    "name": "changeStakingPool",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "validatorManager",
-        "type": "address"
-      }
-    ],
-    "name": "changeValidatorManager",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -314,7 +294,26 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "governance",
+        "name": "provider",
+        "type": "address"
+      }
+    ],
+    "name": "getTotalCommission",
+    "outputs": [
+      {
+        "internalType": "uint16",
+        "name": "",
+        "type": "uint16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IStakingConfig",
+        "name": "config",
         "type": "address"
       }
     ],

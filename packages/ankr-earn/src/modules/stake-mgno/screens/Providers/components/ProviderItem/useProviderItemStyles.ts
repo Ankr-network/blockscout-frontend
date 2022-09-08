@@ -20,7 +20,7 @@ export const useProviderItemStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
   },
 
-  apr: {
+  keyAmount: {
     fontSize: 13,
     color: theme.palette.text.secondary,
   },
