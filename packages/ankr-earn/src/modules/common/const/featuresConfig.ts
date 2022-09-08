@@ -41,5 +41,6 @@ export const featuresConfig = {
    */
   newEmptyStateForDashboard: isLocal,
   isCalcActive: isLocal,
+  isReferralDashboardActive: isLocal,
   providerNotification: true,
 };
