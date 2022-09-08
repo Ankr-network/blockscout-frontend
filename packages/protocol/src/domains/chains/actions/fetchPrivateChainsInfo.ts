@@ -3,11 +3,11 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
 import { fetchChainNodes } from './fetchChainNodes';
-import { fetchPublicChains } from './fetchPublicChains';
+import { fetchPrivateChains } from './fetchPrivateChains';
 
-export const fetchPublicChainsInfo = createSmartAction<
+export const fetchPrivateChainsInfo = createSmartAction<
   RequestAction<null, IApiChain[]>
->('chains/fetchPublicChainsInfo', () => ({
+>('chains/fetchPrivateChainsInfo', () => ({
   request: {
     promise: (async () => null)(),
   },
@@ -21,7 +21,7 @@ export const fetchPublicChainsInfo = createSmartAction<
       return {
         promise: (async (): Promise<IApiChain[]> => {
           const [{ data: chains }, { data: nodes }] = await Promise.all([
-            store.dispatchRequest(fetchPublicChains()),
+            store.dispatchRequest(fetchPrivateChains()),
             store.dispatchRequest(fetchChainNodes()),
           ]);
 
