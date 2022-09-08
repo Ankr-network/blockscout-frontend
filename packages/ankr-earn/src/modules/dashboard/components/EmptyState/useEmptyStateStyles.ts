@@ -34,6 +34,14 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     },
   },
 
+  referralsLink: {
+    position: 'absolute',
+    top: 30,
+    fontSize: 16,
+    fontWeight: 600,
+    right: 30,
+  },
+
   imgWrap: {
     display: 'block',
     position: 'relative',

@@ -921,7 +921,8 @@
     "empty": {
       "title": "Stake and earn with your favorite blockchains",
       "btn": "Go to staking",
-      "calc-btn": "Staking calculator"
+      "calc-btn": "Staking calculator",
+      "referral-program": "Referral Program"
     },
     "token-info": {
       "title": "What is {token}?",
