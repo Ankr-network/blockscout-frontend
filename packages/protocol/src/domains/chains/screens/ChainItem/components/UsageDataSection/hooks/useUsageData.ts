@@ -26,7 +26,12 @@ export const useUsageData = ({
   timeframe,
 }: UsageDataParams): UsageData => {
   const { isWalletConnected, loading: isConnecting } = useAuth();
-  const chainId = getChainId({ chain, chainType, group, isWalletConnected });
+  const chainId = getChainId({
+    chain,
+    chainType,
+    group,
+    withExceptions: !isWalletConnected,
+  });
 
   const publicStats = usePublicStats({ chainId, isWalletConnected, timeframe });
 
