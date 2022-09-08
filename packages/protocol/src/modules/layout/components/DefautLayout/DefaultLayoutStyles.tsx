@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme, { hasGradient?: boolean }>(
     root: {
       display: 'flex',
       minWidth: 375,
-      background: theme.palette.background.paper,
+      background: theme.palette.background.default,
       fontVariantNumeric: 'tabular-nums',
     },
     gradient: {

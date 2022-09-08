@@ -28,7 +28,7 @@ export const useAddNetworkButton = ({
         chain,
         chainType,
         group,
-        isWalletConnected,
+        withExceptions: false,
       }) as ChainID;
 
       const flatChains = flattenAllChainTypes(chain);
@@ -39,7 +39,7 @@ export const useAddNetworkButton = ({
     }
 
     return getMappedNetwork(chain, chain.id as ChainID);
-  }, [chain, chainType, group, isWalletConnected]);
+  }, [chain, chainType, group]);
 
   const handleButtonClick = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
