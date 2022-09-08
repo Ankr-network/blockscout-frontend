@@ -1,13 +1,14 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import { ReactText, useState } from 'react';
+import { useState } from 'react';
 
 import { t } from 'common';
 import { useIsMDUp } from 'ui';
 
+import { DEFAULT_YIELD_DAYS_VALUE } from 'modules/calc/const';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
-import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { RoutesConfig } from 'modules/stake/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -15,31 +16,30 @@ import { YieldSlider } from '../YieldSlider';
 
 import { useYieldStyles } from './useYieldStyles';
 
-const DEFAULT_VALUE = 100;
 const DAYS_IN_YEAR: Days = 365;
 const DECIMAL_PLACES = 0;
 const STAKE_PATH = RoutesConfig.main.generatePath();
 
 interface IYieldProps {
-  apy?: ReactText;
+  apy?: BigNumber;
   isLoading?: boolean;
-  totalUsd?: BigNumberish;
+  totalUsd?: BigNumber;
 }
 
 export const Yield = ({
-  apy = 0,
+  apy = ZERO,
   isLoading = false,
-  totalUsd = 0,
+  totalUsd = ZERO,
 }: IYieldProps): JSX.Element => {
   const classes = useYieldStyles();
   const isMDUp = useIsMDUp();
-  const [value, setValue] = useState(DEFAULT_VALUE);
+  const [value, setValue] = useState(DEFAULT_YIELD_DAYS_VALUE);
 
   const handleChange = (_event: unknown, newValue: number | number[]) => {
     setValue(newValue as number);
   };
 
-  const dailyYield = new BigNumber(totalUsd).dividedBy(DAYS_IN_YEAR);
+  const dailyYield = totalUsd.dividedBy(DAYS_IN_YEAR);
   const totalValue = dailyYield
     .multipliedBy(value)
     .decimalPlaces(DECIMAL_PLACES)
@@ -76,7 +76,9 @@ export const Yield = ({
                     <Skeleton width={30} />
                   </Box>
                 ) : (
-                  t('unit.percentage-value', { value: apy })
+                  t('unit.percentage-value', {
+                    value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+                  })
                 )}
               </Typography>
             </Grid>
@@ -85,23 +87,25 @@ export const Yield = ({
 
         <YieldSlider
           className={classes.slider}
-          defaultValue={DEFAULT_VALUE}
+          defaultValue={DEFAULT_YIELD_DAYS_VALUE}
           disabled={isLoading}
           max={DAYS_IN_YEAR}
           onChange={handleChange}
         />
 
         <Grid container alignItems="center" spacing={3}>
-          <Grid item xs>
+          <Grid item xs={5}>
             <Typography className={classes.label}>
               {t('calc.yield.profit')}
             </Typography>
           </Grid>
 
-          <Grid item xs="auto">
-            <Typography className={classes.value} component="h4" variant="h3">
+          <Grid item xs={7}>
+            <Typography className={classes.value} variant="h4">
               {isLoading ? (
-                <Skeleton width={120} />
+                <Box component="span" display="inline-block">
+                  <Skeleton width={120} />
+                </Box>
               ) : (
                 t('unit.usd-value', { value: totalValue })
               )}

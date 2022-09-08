@@ -8,11 +8,12 @@ import {
 } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { ChangeEvent, ReactText, useCallback } from 'react';
 
 import { t } from 'common';
 import { useIsMDUp } from 'ui';
 
-import { DEFAULT_FIXED, DEFAULT_ROUNDING } from 'modules/common/const';
+import { DEFAULT_FIXED, DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 
 import { TokenWithIcon } from '../TokenWithIcon';
@@ -21,15 +22,20 @@ import { useTokensTableStyles } from './useTokensTableStyles';
 
 const LOW_USD_VALUE = 10;
 const ZERO_DECIMAL_PLACES = 0;
+const MAX_DECIMALS_LENGTH = 18;
+const FRACTIONAL_NUMBERS = new RegExp(
+  `^(\\d*\\.{0,1}\\d{0,${MAX_DECIMALS_LENGTH}}$)`,
+);
 
 export interface ITokensItemProps {
-  value: number;
+  value?: ReactText;
   staked: BigNumber;
-  apy: number;
-  usdTokenPrice: number;
-  onChange: () => null;
+  apy: BigNumber;
+  usdTokenPrice: BigNumber;
   iconSlot: JSX.Element;
   token: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onCloseClick?: () => void;
 }
 
 export const TokensItem = ({
@@ -37,26 +43,48 @@ export const TokensItem = ({
   staked,
   apy,
   usdTokenPrice,
-  onChange,
   iconSlot,
   token,
+  onChange,
+  onCloseClick,
 }: ITokensItemProps): JSX.Element => {
   const classes = useTokensTableStyles();
   const isMDUp = useIsMDUp();
 
-  const amount = new BigNumber(value);
-
-  const yieldAmount = amount.dividedBy(100).multipliedBy(apy);
+  const amount = value ? new BigNumber(value) : ZERO;
+  const yieldAmount = amount.plus(staked).dividedBy(100).multipliedBy(apy);
   const yieldAmountUsd = yieldAmount.multipliedBy(usdTokenPrice);
   const decimalPlacesUsd = yieldAmountUsd.isLessThan(LOW_USD_VALUE)
     ? DEFAULT_ROUNDING
     : ZERO_DECIMAL_PLACES;
 
+  const formattedYieldAmountUsd = yieldAmountUsd
+    .decimalPlaces(decimalPlacesUsd)
+    .toFormat();
+
+  const formattedYieldAmount = yieldAmount
+    .decimalPlaces(DEFAULT_FIXED)
+    .toFormat();
+
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const isValidated = event.target.value.match(FRACTIONAL_NUMBERS);
+      if (isValidated) {
+        onChange(event);
+      }
+    },
+    [onChange],
+  );
+
   return (
     <Paper className={classes.item} variant={isMDUp ? 'outlined' : 'elevation'}>
       <div className={classes.row}>
         <div className={classes.col}>
-          <TokenWithIcon apy={apy} iconSlot={iconSlot} token={token} />
+          <TokenWithIcon
+            apy={apy.decimalPlaces(DEFAULT_ROUNDING).toFormat()}
+            iconSlot={iconSlot}
+            token={token}
+          />
         </div>
 
         <div className={classes.col}>
@@ -67,6 +95,7 @@ export const TokensItem = ({
           </Hidden>
 
           <TextField
+            autoComplete="off"
             classes={{
               root: classes.textField,
             }}
@@ -77,7 +106,7 @@ export const TokensItem = ({
             }}
             name={`${token}-amount`}
             value={value}
-            onChange={onChange}
+            onChange={handleChange}
           />
         </div>
 
@@ -92,28 +121,29 @@ export const TokensItem = ({
         <div className={classNames(classes.col, classes.colXsBordered)}>
           <div className={classes.label}>{t('calc.table.yield')}</div>
 
-          <div>
-            <Typography className={classes.text}>
-              {yieldAmount.decimalPlaces(DEFAULT_FIXED).toFormat()}
+          <Box minWidth={0}>
+            <Typography className={classes.text} title={formattedYieldAmount}>
+              {formattedYieldAmount}
             </Typography>
 
             <Typography
               className={classNames(classes.text, classes.textSecondary)}
               color="textSecondary"
+              title={formattedYieldAmountUsd}
             >
               {t('unit.usd-value', {
-                value: yieldAmountUsd
-                  .decimalPlaces(decimalPlacesUsd)
-                  .toFormat(),
+                value: formattedYieldAmountUsd,
               })}
             </Typography>
-          </div>
+          </Box>
         </div>
       </div>
 
-      <ButtonBase className={classes.close}>
-        <CloseIcon htmlColor="inherit" size="inherit" />
-      </ButtonBase>
+      {onCloseClick && (
+        <ButtonBase className={classes.close} onClick={onCloseClick}>
+          <CloseIcon htmlColor="inherit" size="inherit" />
+        </ButtonBase>
+      )}
     </Paper>
   );
 };

@@ -24,6 +24,13 @@ export const useYieldStyles = makeStyles(theme => ({
   },
 
   value: {
-    fonSize: 28,
+    fontSize: 24,
+    textAlign: 'right',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+
+    [theme.breakpoints.up('md')]: {
+      fontSize: 28,
+    },
   },
 }));
