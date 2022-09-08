@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from '@material-ui/core';
+import { Box, Divider, TextField, Typography } from '@material-ui/core';
 import { FormApi } from 'final-form';
 import { ReactText, useCallback } from 'react';
 import {
@@ -18,7 +18,11 @@ import {
   IBridgeBlockchainPanelItem,
 } from 'modules/bridge/types';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
-import { AUDIT_LINKS, featuresConfig } from 'modules/common/const';
+import {
+  AUDIT_LINKS,
+  DEFAULT_FIXED,
+  featuresConfig,
+} from 'modules/common/const';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
@@ -142,6 +146,21 @@ export const BridgeMainView = (): JSX.Element => {
           </Box>
         )}
 
+        {isBalanceShowed && (
+          <Typography className={classes.balance}>
+            {t('bridge.main.your-balance')}
+
+            <span>
+              {t('unit.token-value', {
+                token: tokenValue,
+                value: balance
+                  ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
+                  : 0,
+              })}
+            </span>
+          </Typography>
+        )}
+
         <Field
           fullWidth
           className={classes.tokenInputControl}
@@ -171,20 +190,7 @@ export const BridgeMainView = (): JSX.Element => {
           validate={validateAmount}
         />
 
-        {isBalanceShowed && (
-          <Box className={classes.balance}>
-            {t('bridge.main.your-balance')}
-
-            <span>
-              {t('unit.token-value', {
-                token: tokenValue,
-                value: balance ? balance.toFormat() : 0,
-              })}
-            </span>
-          </Box>
-        )}
-
-        <Box className={classes.switcher} mb={2}>
+        <Box className={classes.switcher} mb={3}>
           <SwitchSelect
             from={networksOptionsFrom}
             isDisabled={isDisabledForm}
@@ -214,6 +220,8 @@ export const BridgeMainView = (): JSX.Element => {
                 ) : null}
               </Box>
             )}
+
+            <Divider />
 
             <Box className={classes.willReceive}>
               <span>{t('bridge.main.you-will-receive')}</span>
