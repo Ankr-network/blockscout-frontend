@@ -11,7 +11,7 @@ export interface ChainIdParams {
   chain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
-  isWalletConnected: boolean;
+  withExceptions: boolean;
 }
 
 const chainTypesMap: Record<ChainType, keyof DecomposedChainIds> = {
@@ -24,9 +24,8 @@ export const getChainId = ({
   chain,
   chainType,
   group,
-  isWalletConnected,
+  withExceptions,
 }: ChainIdParams): ChainID => {
-  const withExceptions = !isWalletConnected;
   const decomposed = decomposeChainIntoIds(chain, withExceptions);
   const chainIds = decomposed[chainTypesMap[chainType]];
 
