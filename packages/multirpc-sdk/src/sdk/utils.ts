@@ -144,5 +144,5 @@ export const getFirstActiveToken = (tokens: JwtTokens) => {
     token => Number(token.expires_at) * 1000000 > Date.now(),
   );
 
-  return firstActiveToken;
+  return firstActiveToken || sortedTokens[sortedTokens.length - 1];
 };
