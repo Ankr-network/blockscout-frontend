@@ -1,4 +1,9 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { Grid } from '@material-ui/core';
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
+import classNames from 'classnames';
 
 import { t, tHTML } from 'common';
 
@@ -30,24 +35,41 @@ import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { Button } from 'uiKit/Button';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
+import { NumericStepper } from 'uiKit/Stepper';
 
+import { approveMATICStake } from '../../actions/approveMATICStake';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
+const resetRequests = () =>
+  resetReduxRequests([
+    approveMATICStake.toString(),
+    getMetrics.toString(),
+    fetchStats.toString(),
+  ]);
+
 export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
-  const dispatchRequest = useDispatchRequest();
+
+  const dispatch = useAppDispatch();
 
   const {
     aMATICcRatio,
+    activeStep,
     amount,
     certificateRatio,
+    isApproveLoading,
+    isApproved,
     isFetchStatsLoading,
+    isShouldBeApproved,
     isStakeLoading,
     tokenIn,
     tokenOut,
@@ -101,17 +123,75 @@ export const StakePolygon = (): JSX.Element => {
     );
   };
 
+  const renderFooter = (): JSX.Element => (
+    <>
+      <Grid container spacing={3}>
+        <Grid item xs>
+          <Button
+            fullWidth
+            color="primary"
+            disabled={isApproved || isApproveLoading}
+            endIcon={
+              <QuestionWithTooltip
+                className={classNames(
+                  isApproved
+                    ? classes.questionBtnDisabled
+                    : classes.questionBtnActive,
+                )}
+              >
+                {t('common.tooltips.allowance')}
+              </QuestionWithTooltip>
+            }
+            isLoading={isApproveLoading}
+            size="large"
+            type="submit"
+          >
+            {t('stake-matic-eth.btn.approve')}
+          </Button>
+        </Grid>
+
+        <Grid item xs>
+          <Button
+            fullWidth
+            color="primary"
+            disabled={isStakeLoading || isShouldBeApproved}
+            isLoading={isStakeLoading}
+            size="large"
+            type="submit"
+          >
+            {t('stake-matic-eth.btn.submit', {
+              token: tokenOut,
+            })}
+          </Button>
+        </Grid>
+      </Grid>
+
+      <NumericStepper
+        activeStep={activeStep}
+        className={classes.stepper}
+        stepsCount={2}
+      />
+    </>
+  );
+
   useProviderEffect(() => {
-    dispatchRequest(getMetrics());
-    dispatchRequest(fetchStats());
-  }, [dispatchRequest]);
+    dispatch(resetRequests());
+
+    dispatch(getMetrics());
+    dispatch(fetchStats());
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
+    };
+  }, [dispatch]);
 
   useProviderEffect(() => {
     if (!featuresConfig.isActiveStakeTradeInfo) {
       return;
     }
 
-    dispatchRequest(
+    dispatch(
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.MATIC,
         bondToken: EOpenOceanTokens.aMATICb,
@@ -120,7 +200,7 @@ export const StakePolygon = (): JSX.Element => {
         network: EOpenOceanNetworks.ETH,
       }),
     );
-  }, [certificateRatio, dispatchRequest]);
+  }, [certificateRatio, dispatch]);
 
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
@@ -136,10 +216,12 @@ export const StakePolygon = (): JSX.Element => {
                 </AuditInfo>
               }
               balance={data.maticBalance}
+              isDisabled={isApproved}
               loading={isStakeLoading}
               maxAmount={data.maticBalance}
               minAmount={data.minimumStake}
               networkTitleSlot={<NetworkTitle />}
+              renderFooter={renderFooter}
               renderStats={renderStats}
               tokenIn={tokenIn}
               tokenOut={tokenOut}
