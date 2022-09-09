@@ -8,6 +8,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     height: '40px',
     alignItems: 'center',
 
+    '& .MuiInputBase-root': {
+      borderColor: 'transparent',
+    },
+
     '& div': {
       color: theme.palette.text.secondary,
       borderRadius: 18,
