@@ -121,19 +121,17 @@ export const StakingAsset = ({
   );
 
   const menuSlot = (
-    <Box component="span" display="flex" sx={{ mt: 0.5 }}>
-      <Menu>
-        <Menu.Item disabled={!onHistoryBtnClick} onClick={handleHistoryClick}>
-          {onHistoryBtnClick
-            ? t('dashboard.card.stakingHistory')
-            : t('dashboard.card.stakingHistoryComingSoon')}
-        </Menu.Item>
+    <Menu>
+      <Menu.Item disabled={!onHistoryBtnClick} onClick={handleHistoryClick}>
+        {onHistoryBtnClick
+          ? t('dashboard.card.stakingHistory')
+          : t('dashboard.card.stakingHistoryComingSoon')}
+      </Menu.Item>
 
-        <Menu.Item disabled={!onTokenInfoClick} onClick={onTokenInfoClick}>
-          {t('dashboard.card.tokenInfo')}
-        </Menu.Item>
-      </Menu>
-    </Box>
+      <Menu.Item disabled={!onTokenInfoClick} onClick={onTokenInfoClick}>
+        {t('dashboard.card.tokenInfo')}
+      </Menu.Item>
+    </Menu>
   );
 
   return (
