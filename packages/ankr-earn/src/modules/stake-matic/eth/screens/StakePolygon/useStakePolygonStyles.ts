@@ -9,8 +9,11 @@ export const useStakePolygonStyles = makeStyles(theme => ({
     },
   },
 
-  questionBtn: {
+  questionBtnActive: {
     color: theme.palette.common.white,
+  },
+  questionBtnDisabled: {
+    color: 'inherit',
   },
 
   stepper: {

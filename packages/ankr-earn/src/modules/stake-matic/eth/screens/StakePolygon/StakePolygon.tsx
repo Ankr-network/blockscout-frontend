@@ -3,6 +3,7 @@ import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
+import classNames from 'classnames';
 
 import { t, tHTML } from 'common';
 
@@ -131,7 +132,13 @@ export const StakePolygon = (): JSX.Element => {
             color="primary"
             disabled={isApproved || isApproveLoading}
             endIcon={
-              <QuestionWithTooltip className={classes.questionBtn}>
+              <QuestionWithTooltip
+                className={classNames(
+                  isApproved
+                    ? classes.questionBtnDisabled
+                    : classes.questionBtnActive,
+                )}
+              >
                 {t('common.tooltips.allowance')}
               </QuestionWithTooltip>
             }
@@ -209,6 +216,7 @@ export const StakePolygon = (): JSX.Element => {
                 </AuditInfo>
               }
               balance={data.maticBalance}
+              isDisabled={isApproved}
               loading={isStakeLoading}
               maxAmount={data.maticBalance}
               minAmount={data.minimumStake}
