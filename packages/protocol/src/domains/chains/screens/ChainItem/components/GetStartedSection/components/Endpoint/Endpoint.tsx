@@ -8,13 +8,18 @@ import { MetamaskButtonLabel } from '../MetamaskButtonLabel';
 import { useEndpointStyles } from './EndpointStyles';
 
 export interface EndpointProps {
-  chain?: IApiChain;
+  publicChain?: IApiChain;
   chainType?: ChainType;
   group?: EndpointGroup;
   url: string;
 }
 
-export const Endpoint = ({ chain, chainType, group, url }: EndpointProps) => {
+export const Endpoint = ({
+  publicChain,
+  chainType,
+  group,
+  url,
+}: EndpointProps) => {
   const classes = useEndpointStyles();
 
   return (
@@ -27,10 +32,10 @@ export const Endpoint = ({ chain, chainType, group, url }: EndpointProps) => {
         text={url}
         textColor="textPrimary"
       />
-      {chain && (
+      {publicChain && (
         <AddNetworkButton
           className={classes.addNetworkButton}
-          chain={chain}
+          publicChain={publicChain}
           chainType={chainType}
           group={group}
           label={<MetamaskButtonLabel />}

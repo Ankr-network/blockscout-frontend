@@ -1,21 +1,23 @@
 import { useQuery } from '@redux-requests/react';
 
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import {
-  IPremiumFeatures,
   fetchPremiumChainFeatures,
+  IPremiumFeatures,
 } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 
 const { useParams } = ChainsRoutesConfig.chainDetails;
 
 export const useChain = (): IApiChain => {
   const { chainId } = useParams();
 
-  const { data: publicChains } = useQuery<IApiChain[]>({
-    defaultData: [],
+  const {
+    data: { chains: publicChains },
+  } = useQuery({
     type: fetchPublicChains,
+    defaultData: {},
   });
   const {
     data: { privateChains },

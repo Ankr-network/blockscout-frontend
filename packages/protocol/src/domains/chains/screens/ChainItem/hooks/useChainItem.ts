@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { getChainName } from 'uiKit/utils/useMetatags';
 
-import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-import { ChainType } from 'domains/chains/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { IChainItemDetails as Details } from 'domains/chains/actions/fetchChain';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { useChain } from './useChain';
 import { useChainType } from './useChainType';
 import { useGroup } from './useGroup';
-import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { useNetId } from './useNetId';
 
 export interface ChainItem {

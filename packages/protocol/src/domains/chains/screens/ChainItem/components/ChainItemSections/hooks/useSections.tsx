@@ -35,7 +35,7 @@ export const useSections = ({
   data,
   group,
 }: SectionsParams): Sections => {
-  const { chain } = data;
+  const { chain, publicChain } = data;
   const chainId = chain.id;
 
   const initialTabID = useInitialSection();
@@ -47,7 +47,7 @@ export const useSections = ({
         id: SectionID.GetStarted,
         content: (
           <GetStartedSection
-            chain={chain}
+            publicChain={publicChain}
             chainType={chainType}
             group={group}
           />

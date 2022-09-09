@@ -9,13 +9,13 @@ import { UpgradeBanner } from './components/UpgradeBanner/UpgradeBanner';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 
 export interface GetStartedSectionProps {
-  chain: IApiChain;
+  publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
 }
 
 export const GetStartedSection = ({
-  chain,
+  publicChain,
   chainType,
   group,
 }: GetStartedSectionProps) => {
@@ -25,7 +25,11 @@ export const GetStartedSection = ({
 
   return (
     <div className={classes.getStartedSection}>
-      <Endpoints chain={chain} chainType={chainType} group={group} />
+      <Endpoints
+        publicChain={publicChain}
+        chainType={chainType}
+        group={group}
+      />
       {!isUpgraded && <UpgradeBanner />}
       {isGroupEvmBased(group) && <ConnectionSnippet group={group} />}
     </div>

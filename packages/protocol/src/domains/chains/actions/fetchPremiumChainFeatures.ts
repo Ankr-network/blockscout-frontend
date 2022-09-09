@@ -34,21 +34,33 @@ export const fetchPremiumChainFeatures = createSmartAction<
         await store.dispatchRequest(fetchProvider());
       }
 
-      let { data: publicChains } = getQuery(store.getState(), {
+      let {
+        data: { chains: publicChains },
+      } = getQuery(store.getState(), {
         type: fetchPublicChains.toString(),
         action: fetchPublicChains,
+        defaultData: {},
       });
 
+      const blockchains = await service.getPublicGateway().getBlockchains();
+
       if (!publicChains) {
-        const chains = await MultiService.getPublicInstance().getPublicUrls();
+        const formattedPublicChains =
+          await MultiService.getPublicInstance().formatPublicChains(
+            blockchains,
+          );
+
         publicChains = filterMapChains(
-          { chains },
+          formattedPublicChains,
           ({ blockchain }) => !blockchain.premiumOnly,
         );
       }
 
-      const chains = await service.fetchPrivateUrls(jwtToken);
-      const privateChains = filterMapChains({ chains });
+      const formattedPrivateChains = await service.formatPrivateChains(
+        blockchains,
+        jwtToken,
+      );
+      const privateChains = filterMapChains(formattedPrivateChains);
 
       const privateChainDetails = privateChains.find(
         item => item.id === chainId,

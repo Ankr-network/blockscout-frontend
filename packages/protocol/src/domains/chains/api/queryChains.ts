@@ -10,6 +10,7 @@ import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
 export interface IFetchChainsResponseData {
   chains: FetchBlockchainUrlsResult;
+  allChains: FetchBlockchainUrlsResult;
 }
 
 export interface IApiChainURL {
@@ -34,10 +35,10 @@ export interface IApiChain {
 }
 
 export const filterMapChains = (
-  data: IFetchChainsResponseData,
+  data: FetchBlockchainUrlsResult = {}, // TODO: fix action types
   filterCB: (urls: BlockchainUrls) => boolean = () => true,
 ): IApiChain[] => {
-  const chains = Object.values(data.chains)
+  const chains = Object.values(data)
     .filter(filterCB)
     .map<IApiChain>(chain => {
       const { blockchain, rpcURLs, wsURLs } = chain;

@@ -8,17 +8,25 @@ import { WSEndpoints } from '../WSEndpoints';
 import { useEndpointsStyles } from './EndpointsStyles';
 
 export interface EndpointsProps {
-  chain: IApiChain;
+  publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
 }
 
-export const Endpoints = ({ chain, chainType, group }: EndpointsProps) => {
+export const Endpoints = ({
+  publicChain,
+  chainType,
+  group,
+}: EndpointsProps) => {
   const classes = useEndpointsStyles();
 
   return (
     <Box className={classes.endpointsList}>
-      <RPCEndpoints chain={chain} chainType={chainType} group={group} />
+      <RPCEndpoints
+        publicChain={publicChain}
+        chainType={chainType}
+        group={group}
+      />
       <WSEndpoints group={group} />
     </Box>
   );

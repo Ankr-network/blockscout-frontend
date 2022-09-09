@@ -1,20 +1,7 @@
+import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import { EventData } from 'web3-eth-contract';
-import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
 
-import { IConsensusGateway } from '../consensus';
-import { Base64, IJwtToken, PrefixedHex, UUID, Web3Address } from '../common';
-import { IPremiumPlanContractManager } from '../PremiumPlanContract';
-import {
-  IPrivateEndpoint,
-  IProvider,
-  IWorkerEndpoint,
-  IWorkerGateway,
-  RestrictedDomains,
-  RestrictedIps,
-} from '../worker';
-import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
-import { RpcGateway } from '../rpc/RpcGateway';
 import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
@@ -25,8 +12,21 @@ import {
   PrivateStatsInterval,
 } from '../account';
 import { IBackofficeGateway, IBlockchainEntity } from '../backoffice';
+import { Base64, IJwtToken, PrefixedHex, UUID, Web3Address } from '../common';
+import { IConsensusGateway } from '../consensus';
 import { IPAYGContractManager } from '../PAYGContract';
+import { IPremiumPlanContractManager } from '../PremiumPlanContract';
 import { IWorkerGlobalStatus, IWorkerNodesWeight, Timeframe } from '../public';
+import { RpcGateway } from '../rpc/RpcGateway';
+import {
+  IPrivateEndpoint,
+  IProvider,
+  IWorkerEndpoint,
+  IWorkerGateway,
+  RestrictedDomains,
+  RestrictedIps,
+} from '../worker';
+import { FetchBlockchainUrlsResult, IIssueJwtTokenResult } from './types';
 
 export interface IMultiRpcSdk {
   addPrivateEndpoint(
@@ -55,7 +55,10 @@ export interface IMultiRpcSdk {
 
   fetchPrivateEndpoints(jwtToken: IJwtToken): Promise<IWorkerEndpoint>;
 
-  fetchPrivateUrls(jwtToken: IJwtToken): Promise<FetchBlockchainUrlsResult>;
+  formatPrivateChains(
+    blockchains: IBlockchainEntity[],
+    jwtToken: IJwtToken,
+  ): Promise<FetchBlockchainUrlsResult>;
 
   fetchProvider(jwtToken: IJwtToken): Promise<IProvider>;
 
@@ -132,7 +135,9 @@ export interface IProtocolPublicSdk {
 
   getNodesWeight(): Promise<IWorkerNodesWeight[]>;
 
-  getPublicUrls(): Promise<FetchBlockchainUrlsResult>;
+  formatPublicChains(
+    blockchains: IBlockchainEntity[],
+  ): Promise<FetchBlockchainUrlsResult>;
 
   getTimeframeStats(
     blockchain: string,
