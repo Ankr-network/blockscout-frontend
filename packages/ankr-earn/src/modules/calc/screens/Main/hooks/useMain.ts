@@ -74,15 +74,15 @@ export const useMain = (): IUseMain => {
       SUPPORTED_TOKENS.reduce(
         (acc, token, index) => {
           const { apy, usdTokenPrice } = metrics[token];
-          if (apy.isZero() || usdTokenPrice.isZero()) {
-            return acc;
-          }
-
           const { data: balanceData, loading: isBalanceloading } =
             balanceQueries[index];
 
           acc.isAllBalancesLoading =
             acc.isAllBalancesLoading || isBalanceloading;
+
+          if (apy.isZero() || usdTokenPrice.isZero()) {
+            return acc;
+          }
 
           const staked = balanceData ? balanceData.staked : ZERO;
           const balance = balanceData ? balanceData.balance : ZERO;
