@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { forwardRef, LegacyRef, ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { t } from 'common';
@@ -11,18 +11,21 @@ export interface ICopyTokenAddressProps {
   wrapper?: ({ children }: { children: ReactNode }) => JSX.Element;
 }
 
-export const CopyTokenAddress = ({
-  address,
-}: ICopyTokenAddressProps): JSX.Element => {
-  const { isCopied, handleCopy } = useCopyTokenAddressHook();
+export const CopyTokenAddress = forwardRef(
+  (
+    { address }: ICopyTokenAddressProps,
+    ref: LegacyRef<CopyToClipboard>,
+  ): JSX.Element => {
+    const { isCopied, handleCopy } = useCopyTokenAddressHook();
 
-  return (
-    <CopyToClipboard text={address} onCopy={handleCopy}>
-      <Menu.Item>
-        {isCopied
-          ? t('dashboard.copied')
-          : t('dashboard.card.copyTokenAddress')}
-      </Menu.Item>
-    </CopyToClipboard>
-  );
-};
+    return (
+      <CopyToClipboard ref={ref} text={address} onCopy={handleCopy}>
+        <Menu.Item>
+          {isCopied
+            ? t('dashboard.copied')
+            : t('dashboard.card.copyTokenAddress')}
+        </Menu.Item>
+      </CopyToClipboard>
+    );
+  },
+);

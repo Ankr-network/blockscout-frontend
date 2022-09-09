@@ -1,4 +1,5 @@
 import { Box } from '@material-ui/core';
+import { useMemo } from 'react';
 
 import { SUPPORTED_TOKENS } from 'modules/calc/const';
 
@@ -34,34 +35,43 @@ export const Main = (): JSX.Element => {
   const isAddTokensShowed =
     visibleCount < SUPPORTED_TOKENS.length && !isLoading;
 
-  const renderedAddButtons = visibilityState.map(({ visible, token }) => {
-    const handleClick = () => handleAdd(token);
-    return !visible ? (
-      <AddTokenBtn
-        key={token}
-        iconSlot={tokens[token].icon}
-        token={tokens[token].name}
-        onClick={handleClick}
-      />
-    ) : null;
-  });
+  const renderedAddButtons = useMemo(
+    () =>
+      visibilityState.map(({ visible, token }) => {
+        const handleClick = () => handleAdd(token);
+        return !visible ? (
+          <AddTokenBtn
+            key={token}
+            iconSlot={tokens[token].icon}
+            token={tokens[token].name}
+            onClick={handleClick}
+          />
+        ) : null;
+      }),
+    [handleAdd, tokens, visibilityState],
+  );
 
   const renderedTokens = visibilityState.map(({ visible, token }) => {
-    if (!visible) {
+    const { apy, staked, usdTokenPrice, handleChange, handleCloseClick } =
+      dataByToken[token];
+
+    const shouldNotRender = apy.isZero();
+
+    if (shouldNotRender || !visible) {
       return null;
     }
 
     return (
       <TokensItem
         key={token}
-        apy={dataByToken[token].apy}
+        apy={apy}
         iconSlot={tokens[token].icon}
-        staked={dataByToken[token].staked}
+        staked={staked}
         token={tokens[token].name}
-        usdTokenPrice={dataByToken[token].usdTokenPrice}
+        usdTokenPrice={usdTokenPrice}
         value={valuesState[token]}
-        onChange={dataByToken[token].handleChange}
-        onCloseClick={dataByToken[token].handleCloseClick}
+        onChange={handleChange}
+        onCloseClick={handleCloseClick}
       />
     );
   });

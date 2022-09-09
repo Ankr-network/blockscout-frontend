@@ -15,6 +15,7 @@ export const SUPPORTED_TOKENS = [
   Token.ANKR,
   Token.AVAX,
   Token.FTM,
+  Token.mGNO,
   ...(isMainnet ? [Token.DOT, Token.KSM] : [Token.WND]),
 ] as TCalcToken[];
 

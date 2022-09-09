@@ -8,14 +8,10 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getBalance } from 'modules/calc/actions/getBalance';
 import { TCalcToken } from 'modules/calc/types';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getMaxApy as getMaxAnkrApy } from 'modules/stake-ankr/actions/getMaxApy';
-import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { SUPPORTED_TOKENS } from '../../../const';
 
+import { useMetrics } from './useMetrics';
 import { TFormValues, useTokensValues } from './useTokensValues';
 import {
   ITokenVisibility,
@@ -70,17 +66,7 @@ export const useMain = (): IUseMain => {
     setDefaultVisibilityState,
   } = useTokensVisibility();
 
-  const { data: metricsData, loading: isMetricsLoading } = useQuery({
-    type: getMetrics,
-  });
-
-  const { data: ankrApyData, loading: isAnkrApyLoading } = useQuery({
-    type: getMaxAnkrApy,
-  });
-
-  const { data: ankrPriceData, loading: isAnkrPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
+  const { isLoading: isMetricsLoading, metrics } = useMetrics();
 
   const balanceQueries = SUPPORTED_TOKENS.map(token =>
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -93,10 +79,6 @@ export const useMain = (): IUseMain => {
         (acc, token, index) => {
           const { data: balanceData, loading: isBalanceloading } =
             balanceQueries[index];
-
-          const tokenMetrics = (metricsData ?? {})[
-            token.toLowerCase() as EMetricsServiceName
-          ];
 
           const staked = balanceData ? balanceData.staked : ZERO;
           const balance = balanceData ? balanceData.balance : ZERO;
@@ -115,22 +97,11 @@ export const useMain = (): IUseMain => {
           acc.dataByToken[token] = {
             balance,
             staked,
-            apy: ZERO,
-            usdTokenPrice: ZERO,
+            apy: metrics[token].apy,
+            usdTokenPrice: metrics[token].usdTokenPrice,
             handleChange,
             handleCloseClick,
           };
-
-          if (tokenMetrics) {
-            const { apy, totalStaked, totalStakedUsd } = tokenMetrics;
-            const usdTokenPrice = totalStakedUsd.dividedBy(totalStaked);
-
-            acc.dataByToken[token].apy = apy;
-            acc.dataByToken[token].usdTokenPrice = usdTokenPrice;
-          } else if (token === Token.ANKR) {
-            acc.dataByToken[token].apy = ankrApyData ?? ZERO;
-            acc.dataByToken[token].usdTokenPrice = ankrPriceData ?? ZERO;
-          }
 
           acc.isAllBalancesLoading =
             acc.isAllBalancesLoading || isBalanceloading;
@@ -138,14 +109,7 @@ export const useMain = (): IUseMain => {
         },
         { dataByToken: {} as TDataByToken, isAllBalancesLoading: false },
       ),
-    [
-      ankrApyData,
-      ankrPriceData,
-      balanceQueries,
-      metricsData,
-      handleRemove,
-      setTokenValue,
-    ],
+    [balanceQueries, metrics, handleRemove, setTokenValue],
   );
 
   const { totalBalanceUsd, totalYearlyYieldUsd } = useMemo(
@@ -194,10 +158,6 @@ export const useMain = (): IUseMain => {
     SUPPORTED_TOKENS.forEach(token => {
       dispatchRequest(getBalance(token));
     });
-
-    dispatchRequest(getMetrics());
-    dispatchRequest(getMaxAnkrApy());
-    dispatchRequest(getANKRPrice());
 
     return () => {
       dispatch(resetRequests(balanceRequests));
@@ -251,11 +211,7 @@ export const useMain = (): IUseMain => {
   return {
     avarageApy,
     dataByToken,
-    isLoading:
-      isAllBalancesLoading ||
-      isMetricsLoading ||
-      isAnkrApyLoading ||
-      isAnkrPriceLoading,
+    isLoading: isAllBalancesLoading || isMetricsLoading,
     totalYearlyYieldUsd,
     visibilityState,
     valuesState,

@@ -9,6 +9,7 @@ import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { GnosisIcon } from 'uiKit/Icons/Gnosis';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
@@ -55,6 +56,10 @@ export const useTokenIcon = (): Record<TCalcToken, IToken> => {
       [Token.WND]: {
         icon: <DotIcon />,
         name: t('unit.wnd'),
+      },
+      [Token.mGNO]: {
+        icon: <GnosisIcon />,
+        name: t('unit.mgno'),
       },
     }),
     [],
