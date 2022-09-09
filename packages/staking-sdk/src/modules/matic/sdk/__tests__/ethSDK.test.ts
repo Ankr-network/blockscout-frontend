@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import nock from 'nock';
+import { TransactionReceipt } from 'web3-core';
 
 import {
   ProviderManager,
@@ -22,6 +23,24 @@ jest.mock('@ankr.com/provider', (): unknown => ({
 }));
 
 describe('modules/matic/sdk/ethSDK', () => {
+  const ONE = new BigNumber(1);
+  const TX_HASH = 'test-hash';
+
+  const TX_RECEIPT: TransactionReceipt = {
+    blockHash: TX_HASH,
+    blockNumber: 1,
+    cumulativeGasUsed: 1,
+    effectiveGasPrice: 1,
+    from: '1',
+    gasUsed: 1,
+    logs: [],
+    logsBloom: '1',
+    status: true,
+    to: '2',
+    transactionHash: TX_HASH,
+    transactionIndex: 1,
+  };
+
   const defaultContract = {
     methods: {},
   };
@@ -81,6 +100,66 @@ describe('modules/matic/sdk/ethSDK', () => {
     });
 
     expect(sdk).toBeDefined();
+  });
+
+  test('should return "false" on approve MATIC token', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => '0',
+        }),
+        approve: () => ({
+          send: (): undefined => undefined,
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    const sdk = await MaticEthSDK.getInstance();
+    const data = await sdk.approveMATICToken(ONE);
+
+    expect(data).toBe(false);
+  });
+
+  test('should approve MATIC token', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => '0',
+        }),
+        approve: () => ({
+          send: (): TransactionReceipt => TX_RECEIPT,
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    const sdk = await MaticEthSDK.getInstance();
+    const data = await sdk.approveMATICToken(ONE);
+
+    expect(data).toBe(true);
+  });
+
+  test('should approve MATIC token if approved', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => `${2 * ETH_SCALE_FACTOR}`,
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    const sdk = await MaticEthSDK.getInstance();
+    const data = await sdk.approveMATICToken(ONE);
+
+    expect(data).toBe(true);
   });
 
   test('should add token to wallet with connect', async () => {

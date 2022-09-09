@@ -404,6 +404,50 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Approve MATIC for PolygonPool, i.e. allow PolygonPool smart contract to access and transfer MATIC tokens.
+   *
+   * @public
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber | undefined} [amount = MAX_UINT256] - amount to approve
+   * @param {number | undefined} [scale = ETH_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<boolean>}
+   */
+  public async approveMATICToken(
+    amount: BigNumber = MAX_UINT256,
+    scale = ETH_SCALE_FACTOR,
+  ): Promise<boolean> {
+    const { contractConfig } = configFromEnv();
+
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const maticTokenContract = await this.getMaticTokenContract();
+
+    const amountHex = convertNumberToHex(amount, scale);
+
+    const allowance = new BigNumber(
+      await maticTokenContract.methods
+        .allowance(this.currentAccount, contractConfig.polygonPool)
+        .call(),
+    );
+
+    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
+      return true;
+    }
+
+    const approve: TransactionReceipt | undefined =
+      await maticTokenContract.methods
+        .approve(contractConfig.polygonPool, amountHex)
+        .send({
+          from: this.currentAccount,
+        });
+
+    return !!approve;
+  }
+
+  /**
    * Return MATIC token balance.
    *
    * @public

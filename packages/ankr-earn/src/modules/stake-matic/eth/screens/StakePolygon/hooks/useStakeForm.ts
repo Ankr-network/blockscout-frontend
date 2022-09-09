@@ -1,3 +1,4 @@
+import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -16,6 +17,7 @@ import { Token } from 'modules/common/types/token';
 import { useStakableMaticInEth } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMaticInEth';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
+import { approveMATICStake } from 'modules/stake-matic/eth/actions/approveMATICStake';
 import {
   fetchStats,
   IFetchStatsResponseData,
@@ -25,16 +27,21 @@ import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
   aMATICcRatio: BigNumber;
+  activeStep: number;
   amount: BigNumber;
   certificateRatio: BigNumber;
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
+  isApproveLoading: boolean;
+  isApproved: boolean;
   isFetchStatsLoading: boolean;
+  isShouldBeApproved: boolean;
   isStakeLoading: boolean;
   tokenIn: string;
   tokenOut: string;
@@ -45,12 +52,23 @@ interface IUseStakeFormData {
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
-  const [amount, setAmount] = useState(ZERO);
-  const [isError, setIsError] = useState(false);
+  const dispatch = useAppDispatch();
+  const dispatchRequest = useDispatchRequest();
+
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
+
+  const { loading: isStakeLoading } = useMutation({ type: stake });
+
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
-  const dispatchRequest = useDispatchRequest();
-  const { loading: isStakeLoading } = useMutation({ type: stake });
+  const stakableMATICData = useStakableMaticInEth();
+
+  const { data: approveData, loading: isApproveLoading } = useQuery({
+    type: approveMATICStake,
+  });
+
   const {
     data: fetchStatsData,
     loading: isFetchStatsLoading,
@@ -59,11 +77,15 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: fetchStats,
   });
 
-  const { address, walletName } = useAuth(
-    AvailableWriteProviders.ethCompatible,
-  );
+  const [amount, setAmount] = useState(ZERO);
 
-  const stakableMATICData = useStakableMaticInEth();
+  const [isError, setIsError] = useState(false);
+
+  const isApproved = !!approveData;
+
+  const isShouldBeApproved = !isApproved;
+
+  const activeStep = isApproved ? 1 : 0;
 
   const aMATICcRatio = fetchStatsData?.aMATICcRatio;
 
@@ -115,13 +137,23 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   const handleSubmit = (values: IStakeSubmitPayload): void => {
+    const val = new BigNumber(values.amount);
+
+    if (isShouldBeApproved) {
+      dispatchRequest(approveMATICStake(val));
+
+      return;
+    }
+
     dispatchRequest(
       stake({
-        amount: new BigNumber(values.amount),
+        amount: val,
         token: selectedToken,
       }),
     ).then(({ error }) => {
       if (!error) {
+        dispatch(resetRequests([approveMATICStake.toString()]));
+
         sendAnalytics();
       }
     });
@@ -133,11 +165,15 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   return {
     aMATICcRatio: tokenCertRatio,
+    activeStep,
     amount,
     certificateRatio: aMATICcRatio ?? ZERO,
     fetchStatsData,
     fetchStatsError,
+    isApproveLoading,
+    isApproved,
     isFetchStatsLoading,
+    isShouldBeApproved,
     isStakeLoading,
     tokenIn: Token.MATIC,
     tokenOut: selectedToken,

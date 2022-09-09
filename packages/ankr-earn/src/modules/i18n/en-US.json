@@ -634,6 +634,10 @@
     }
   },
   "stake-matic-eth": {
+    "btn": {
+      "approve": "Approve",
+      "submit": "Get {token}"
+    },
     "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
     "matic-tooltip-title": "1 MATIC = 1 aMATICb",
     "matic-tooltip-body": "aMATICb grows daily just being in your wallet. It represents your staked MATIC plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aMATICb = 1 MATIC anytime after 3-4 days unbonding period.",
