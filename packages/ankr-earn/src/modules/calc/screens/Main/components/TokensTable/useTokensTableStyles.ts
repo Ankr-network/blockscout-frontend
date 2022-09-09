@@ -33,6 +33,7 @@ export const useTokensTableStyles = makeStyles(theme => ({
   item: {
     position: 'relative',
     padding: theme.spacing(2, 2.5),
+    minWidth: 0,
 
     [theme.breakpoints.up('md')]: {
       padding: theme.spacing(1.75, 3),
@@ -91,6 +92,8 @@ export const useTokensTableStyles = makeStyles(theme => ({
   text: {
     textAlign: 'right',
     fontSize: 14,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
 
     [theme.breakpoints.up('md')]: {
       textAlign: 'left',
@@ -116,6 +119,10 @@ export const useTokensTableStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       width: 130,
     },
+  },
+
+  textFieldSkeleton: {
+    borderRadius: 12,
   },
 
   input: {

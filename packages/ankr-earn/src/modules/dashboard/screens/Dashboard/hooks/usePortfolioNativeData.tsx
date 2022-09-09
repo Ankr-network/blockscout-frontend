@@ -26,6 +26,10 @@ import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/common/Routes';
 import { fetchStats as fetchMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { getBalance as fetchMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
+import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
+import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
+import { RoutesConfig as StakeMgnoRoutes } from 'modules/stake-mgno/Routes';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
 import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
@@ -95,6 +99,14 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getANKRPrice,
   });
 
+  const { data: mgnoBalanceData, loading: isLoadingMgnoBalanceData } = useQuery(
+    { type: fetchMgnoBalance },
+  );
+
+  const { data: mgnoPrice, loading: isMgnoPriceLoading } = useQuery({
+    type: getMGNOPrice,
+  });
+
   const { data: dotBalance, loading: isLoadingDotBalance } = useQuery({
     type: fetchPolkadotAccountFullBalance,
     requestKey: getPolkadotRequestKey(EPolkadotNetworks.DOT),
@@ -130,6 +142,10 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
 
   const { data: maxAnkrApy } = useQuery({
     type: getMaxApy,
+  });
+
+  const { data: maxMgnoApr } = useQuery({
+    type: getMGNOMaxApr,
   });
 
   const nativeData = useMemo(
@@ -180,6 +196,12 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         link: StakeAnkrRoutes.stake.generatePath(),
       },
       {
+        name: Token.mGNO,
+        amount: mgnoBalanceData ?? ZERO,
+        apy: maxMgnoApr ?? ZERO,
+        link: StakeMgnoRoutes.stake.generatePath(),
+      },
+      {
         name: Token.DOT,
         amount:
           dotBalance?.plus(dotClaimableBalance?.claimable ?? ZERO) ?? ZERO,
@@ -221,18 +243,32 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       dotClaimableBalance,
       ksmClaimableBalance,
       wndClaimableBalance,
+      mgnoBalanceData,
+      maxMgnoApr,
     ],
   );
 
-  const usdAmounts = nativeData.map(item =>
-    item.service
-      ? getUSDAmount({
+  const usdAmounts = nativeData.map(item => {
+    if (item.service) {
+      return (
+        getUSDAmount({
           amount: item.amount,
           totalStaked: metrics?.[item.service]?.totalStaked,
           totalStakedUsd: metrics?.[item.service]?.totalStakedUsd,
         }) ?? ZERO
-      : item.amount.multipliedBy(ankrPrice ?? ZERO),
-  );
+      );
+    }
+
+    if (item.name === Token.ANKR) {
+      return item.amount.multipliedBy(ankrPrice ?? ZERO);
+    }
+
+    if (item.name === Token.mGNO) {
+      return item.amount.multipliedBy(mgnoPrice ?? ZERO);
+    }
+
+    return ZERO;
+  });
 
   const yieldAmoutsUsd = nativeData.map((item, index) =>
     usdAmounts[index].multipliedBy(item.apy).dividedBy(100),
@@ -300,7 +336,9 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       isDotClaimableBalanceLoading ||
       isKsmClaimableBalanceLoading ||
       isWndClaimableBalanceLoading ||
-      isAnkrPriceLoading,
+      isAnkrPriceLoading ||
+      isLoadingMgnoBalanceData ||
+      isMgnoPriceLoading,
     totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
     totalYieldAmountUsd: totalYieldAmountUsd

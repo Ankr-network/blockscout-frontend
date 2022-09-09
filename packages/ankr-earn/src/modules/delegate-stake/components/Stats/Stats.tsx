@@ -5,8 +5,8 @@ import { StatsItem } from './StatsItem';
 
 interface IStatsProps {
   apyText: string;
-  yearlyEarning: string;
-  yearlyEarningUSD?: string;
+  annualEarning: string;
+  annualEarningUSD?: string;
   totalStaked?: string;
   totalStakedUSD?: string;
   stakers?: number;
@@ -16,8 +16,8 @@ interface IStatsProps {
 
 export const Stats = ({
   apyText,
-  yearlyEarning,
-  yearlyEarningUSD,
+  annualEarning: yearlyEarning,
+  annualEarningUSD: yearlyEarningUSD,
   totalStaked,
   totalStakedUSD,
   stakers,
@@ -35,7 +35,7 @@ export const Stats = ({
 
       <StatsItem
         isLoading={isLoading}
-        label={t('delegated-stake.staking.stats.yearly-earning')}
+        label={t('delegated-stake.staking.stats.annual-earning')}
         token={token}
         usdEquivalent={yearlyEarningUSD}
         value={yearlyEarning}

@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
+import { GnosisStakingReadSDK } from '../api/GnosisStakingSDK/GnosisStakingReadSDK';
 import { MGNO_ACTIONS_PREFIX } from '../const';
 
 export const getMaxApr = createAction<RequestAction<BigNumber, BigNumber>>(
@@ -10,7 +10,7 @@ export const getMaxApr = createAction<RequestAction<BigNumber, BigNumber>>(
   () => ({
     request: {
       promise: (async (): Promise<BigNumber> => {
-        const sdk = await GnosisStakingSDK.getInstance();
+        const sdk = await GnosisStakingReadSDK.getInstance();
         return sdk.getMaxApr();
       })(),
     },

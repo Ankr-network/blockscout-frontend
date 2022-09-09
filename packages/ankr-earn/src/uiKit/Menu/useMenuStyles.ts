@@ -9,7 +9,6 @@ export const useMenuStyles = makeStyles(theme => ({
     cursor: 'pointer',
     transition: '0.2s all',
 
-    marginTop: -3,
     padding: 0,
     position: 'relative',
     height: 44,
@@ -37,20 +36,31 @@ export const useMenuStyles = makeStyles(theme => ({
     fontSize: 13,
     padding: theme.spacing(1.5, 2),
 
+    '&:after': {
+      content: `''`,
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+
+      display: 'block',
+      height: 1,
+      width: `calc(100% - ${theme.spacing(4)}px)`,
+      margin: 'auto',
+
+      backgroundColor: darken(theme.palette.background.default, 0.1),
+    },
+
     '&:first-child': {
       paddingTop: theme.spacing(2),
     },
 
     '&:last-child': {
       paddingBottom: theme.spacing(2),
+
+      '&:after': {
+        display: 'none',
+      },
     },
-  },
-
-  divider: {
-    backgroundColor: darken(theme.palette.background.default, 0.1),
-
-    margin: 'auto',
-    height: 1,
-    width: `calc(100% - ${theme.spacing(4)}px)`,
   },
 }));

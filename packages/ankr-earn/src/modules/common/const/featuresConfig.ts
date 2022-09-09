@@ -39,8 +39,8 @@ export const featuresConfig = {
   /**
    * https://ankrnetwork.atlassian.net/browse/STAKAN-1810
    */
-  newEmptyStateForDashboard: isLocal,
-  isCalcActive: isLocal,
+  newEmptyStateForDashboard: currentEnv !== Env.Production,
+  isCalcActive: currentEnv !== Env.Production,
   isReferralDashboardActive: isLocal,
   providerNotification: true,
 };

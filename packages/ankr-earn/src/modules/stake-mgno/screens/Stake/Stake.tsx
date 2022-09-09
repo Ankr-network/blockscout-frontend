@@ -41,8 +41,8 @@ export const Stake = (): JSX.Element => {
 
   const {
     apyText,
-    yearlyEarning,
-    yearlyEarningUSD,
+    annualEarning,
+    annualEarningUSD,
     delegatedAmount,
     totalStaked,
     totalStakedUSD,
@@ -91,14 +91,14 @@ export const Stake = (): JSX.Element => {
         />
 
         <Stats
+          annualEarning={annualEarning}
+          annualEarningUSD={annualEarningUSD}
           apyText={apyText}
           isLoading={false}
           stakers={stakers}
           token={tokenIn}
           totalStaked={totalStaked}
           totalStakedUSD={totalStakedUSD}
-          yearlyEarning={yearlyEarning}
-          yearlyEarningUSD={yearlyEarningUSD}
         />
       </StakeContainer>
     </Section>

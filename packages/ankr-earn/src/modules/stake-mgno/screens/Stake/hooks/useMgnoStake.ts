@@ -78,7 +78,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const { setFormState, formState } =
     useFormState<IMgnoFormState>(MGNO_STAKE_FORM_ID);
 
-  const amount = formState?.amount;
+  const amount = formState?.amount ?? ZERO;
 
   const initialProvider = TEST_PROVIDER_ID;
   const providerName = providerStats?.provider.name;
@@ -136,7 +136,12 @@ export const useMgnoStake = (): IUseMgnoStake => {
       isBalanceLoading || isMinStakeLoading || isMaxStakeLoading,
     isApproveLoading,
     isApproved,
-    isDisabled: false,
+    isDisabled:
+      isBalanceLoading ||
+      isMinStakeLoading ||
+      isMaxStakeLoading ||
+      isApproveLoading ||
+      isStakeLoading,
     balance: balance ?? ZERO,
     minStake: minStakeAmount ?? ZERO,
     maxAmount: maxStakeAmount ?? ZERO,

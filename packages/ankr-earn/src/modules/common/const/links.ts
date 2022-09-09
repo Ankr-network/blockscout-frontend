@@ -13,6 +13,8 @@ export const DOCS_DEFI_FARM_LINK = `${DOCS_ROOT_LINK}staking/defi/yield-farm`;
 export const DOCS_DEFI_POOLS_LINK = `${DOCS_ROOT_LINK}staking/defi/liquidity-pools/`;
 export const DOCS_DEFI_VAULTS_LINK = `${DOCS_ROOT_LINK}staking/defi/vaults`;
 export const DOCS_ANKR_TOKEN_STAKING_LINK = `${DOCS_ROOT_LINK}staking/delegated-staking/ankr/overview`;
+export const DOCS_MGNO_TOKEN_STAKING_LINK =
+  'https://docs.gnosischain.com/specs/gbc/faq#what-is-mgno';
 
 export const ANKR_ETH_LANDING = 'https://www.ankr.com/ethereum-liquid-staking/';
 export const ANKR_MATIC_LANDING =
@@ -59,6 +61,9 @@ export const STAKE_LEGACY_LINKS = {
 
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
+
+export const CONVERT_MGNO_MANUAL_LINK =
+  'https://docs.gnosischain.com/node/validator-deposits#convert-gno-to-mgno-special-cases';
 
 export const OPENOCEAN_CLASSIC_URL = 'https://app.openocean.finance/CLASSIC#';
 
