@@ -1,12 +1,9 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
-import { Contract, EventData } from 'web3-eth-contract';
 
 import {
-  EEthereumNetworkId,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -17,15 +14,7 @@ import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import { SLASHING_PROTECTION_VAR } from 'modules/stake-mgno/const';
 import { getProviderStatsUrl } from 'modules/stake-mgno/utils/getProviderStatsUrl';
-
-import INSURANCE_ABI from '../contracts/InsuranceContract.json';
-import MGNO_ABI from '../contracts/mGNO.json';
-import PROVIDER_ABI from '../contracts/ProviderContract.json';
-import REWARD_ABI from '../contracts/RewardContract.json';
-import STAKING_ABI from '../contracts/StakingContract.json';
-import VALIDATOR_MANAGER_ABI from '../contracts/ValidatorManagerContract.json';
 
 import {
   GNOSIS_HISTORY_BLOCK_RANGE,
@@ -33,16 +22,13 @@ import {
   GNOSIS_PROVIDER_READ_ID,
   GNOSIS_STAKING_MAX_DECIMALS_LENGTH,
 } from './const';
+import { GnosisStakingReadSDK } from './GnosisStakingReadSDK';
 import {
   EGnosisEvents,
   EGnosisEventsMap,
   IDelegatorEventData,
   IFetchTxData,
-  IGetPastEvents,
   IHistoryData,
-  IProvider,
-  IProvidersStakedData,
-  IProviderStakedData,
   IProviderStats,
 } from './types';
 
@@ -53,12 +39,10 @@ interface IGnosisStakingSDKProviders {
   readProvider: Web3KeyReadProvider;
 }
 
-export class GnosisStakingSDK {
+export class GnosisStakingSDK extends GnosisStakingReadSDK {
   private static instance?: GnosisStakingSDK;
 
   private readonly writeProvider: Web3KeyWriteProvider;
-
-  private readonly readProvider: Web3KeyReadProvider;
 
   public api: AxiosInstance;
 
@@ -68,10 +52,11 @@ export class GnosisStakingSDK {
     readProvider,
     writeProvider,
   }: IGnosisStakingSDKProviders) {
+    super({ readProvider });
+
     GnosisStakingSDK.instance = this;
 
     this.writeProvider = writeProvider;
-    this.readProvider = readProvider;
     this.currentAccount = this.writeProvider.currentAccount;
 
     const { gatewayConfig } = configFromEnv();
@@ -96,8 +81,7 @@ export class GnosisStakingSDK {
       GnosisStakingSDK.instance?.currentAccount ===
       writeProvider.currentAccount;
     const hasNewProvider =
-      GnosisStakingSDK.instance?.writeProvider === writeProvider &&
-      GnosisStakingSDK.instance.readProvider === readProvider;
+      GnosisStakingSDK.instance?.writeProvider === writeProvider;
 
     if (GnosisStakingSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
       return GnosisStakingSDK.instance;
@@ -113,79 +97,15 @@ export class GnosisStakingSDK {
     return instance;
   }
 
-  private async isGnosisNetwork(
-    provider: Web3KeyWriteProvider,
-  ): Promise<boolean> {
-    const web3 = provider.getWeb3();
-    const chainId = await web3.eth.getChainId();
-
-    return [EEthereumNetworkId.gnosis, EEthereumNetworkId.sokol].includes(
-      chainId,
+  public async getMgnoBalance(): Promise<BigNumber> {
+    const provider = await this.getProvider();
+    const mgnoContract = await this.getMgnoContract();
+    const balance = await provider.getErc20Balance(
+      mgnoContract,
+      this.currentAccount,
     );
-  }
 
-  private async getProvider(): Promise<
-    Web3KeyWriteProvider | Web3KeyReadProvider
-  > {
-    const isGnosisChain = await this.isGnosisNetwork(this.writeProvider);
-
-    if (isGnosisChain && !this.writeProvider.isConnected()) {
-      await this.writeProvider.connect();
-    }
-
-    if (isGnosisChain) {
-      return this.writeProvider;
-    }
-
-    return this.readProvider;
-  }
-
-  private async getMgnoContract(): Promise<Contract> {
-    return this.readProvider.createContract(MGNO_ABI, contractConfig.mGNOToken);
-  }
-
-  private async getProviderContract(): Promise<Contract> {
-    return this.readProvider.createContract(
-      PROVIDER_ABI,
-      contractConfig.gnosisProviderContract,
-    );
-  }
-
-  private async getStakingContract(): Promise<Contract> {
-    return this.readProvider.createContract(
-      STAKING_ABI,
-      contractConfig.gnosisStakingContract,
-    );
-  }
-
-  private async getInsuranceContract(): Promise<Contract> {
-    return this.readProvider.createContract(
-      INSURANCE_ABI,
-      contractConfig.gnosisInsuranceContract,
-    );
-  }
-
-  private async getRewardContract(): Promise<Contract> {
-    return this.readProvider.createContract(
-      REWARD_ABI,
-      contractConfig.gnosisRewardContract,
-    );
-  }
-
-  private async getValidatorManagerContract(): Promise<Contract> {
-    return this.readProvider.createContract(
-      VALIDATOR_MANAGER_ABI,
-      contractConfig.gnosisValidatorManagerContract,
-    );
-  }
-
-  public async getContributed(provider: string): Promise<BigNumber> {
-    const insuranceContract = await this.getInsuranceContract();
-    const contributed = await insuranceContract.methods
-      .getTotalContributed(provider)
-      .call();
-
-    return this.convertFromWei(contributed);
+    return balance;
   }
 
   // todo: will implement it later
@@ -224,85 +144,11 @@ export class GnosisStakingSDK {
     return rewards.reduce((acc, reward) => acc.plus(reward), ZERO);
   }
 
-  /**
-   * Internal function to get past events, using the defined range.
-   *
-   * @private
-   * @param {IGetPastEvents}
-   * @returns {Promise<EventData[]>}
-   */
-  private async getPastEvents({
-    contract,
-    eventName,
-    startBlock,
-    // rangeStep,
-    filter,
-    latestBlockNumber,
-  }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    // for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-    //   const fromBlock = i;
-    //   const toBlock = fromBlock + rangeStep;
-
-    eventsPromises.push(
-      contract.getPastEvents(eventName, {
-        fromBlock: startBlock,
-        toBlock: latestBlockNumber,
-        filter,
-      }),
-    );
-    // }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
-  }
-
-  public async getMgnoBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const mgnoContract = await this.getMgnoContract();
-    const balance = await provider.getErc20Balance(
-      mgnoContract,
-      this.currentAccount,
-    );
-
-    return balance;
-  }
-
-  /**
-   * Get minimum stake amount.
-   *
-   * @public
-   * @returns {Promise<BigNumber>}
-   */
-  public async getMinimumStake(): Promise<BigNumber> {
-    const stakingConfig = await this.getStakingContract();
-
-    const minStake = await stakingConfig.methods.minStakeAmount().call();
-
-    return this.convertFromWei(minStake);
-  }
-
-  /**
-   * Get max available for stake amount.
-   *
-   * @public
-   * @returns {Promise<BigNumber>}
-   */
-  public async getMaxStake(provider: string): Promise<BigNumber> {
-    const stakingConfig = await this.getStakingContract();
-
-    const maxStake = await stakingConfig.methods.getAvailable(provider).call();
-
-    return this.convertFromWei(maxStake);
-  }
-
   public async mintMgno(): Promise<string> {
     const mgnoContract = await this.getMgnoContract();
 
     const hexAmount = convertNumberToHex(
-      new BigNumber(10_000_000).decimalPlaces(8),
+      new BigNumber(1_000).decimalPlaces(8),
       ETH_SCALE_FACTOR,
     );
 
@@ -336,75 +182,8 @@ export class GnosisStakingSDK {
     return result;
   }
 
-  public async getDelegatedAmount(
-    provider: string,
-    staker: string,
-  ): Promise<BigNumber> {
-    const stakingContract = await this.getStakingContract();
-
-    const data = await stakingContract.methods
-      .getStaker(provider, staker)
-      .call();
-
-    return this.convertFromWei(data[0]);
-  }
-
   public async getMyDelegatedAmount(provider: string): Promise<BigNumber> {
     return this.getDelegatedAmount(provider, this.currentAccount);
-  }
-
-  public async getProviderStats(provider: string): Promise<IProviderStats> {
-    return (await this.api.get(getProviderStatsUrl(provider))).data;
-  }
-
-  public async getProvidersStakedAvailable(): Promise<IProvidersStakedData> {
-    const stakingConfig = await this.getStakingContract();
-
-    const allProviders = await this.getAllProviderAddresses();
-    const data = await stakingConfig.methods
-      .getProvidersBalance(allProviders)
-      .call();
-
-    return {
-      totalStaked: data[0].map((item: string) => this.convertFromWei(item)),
-      availableToStake: data[1].map((item: string) =>
-        this.convertFromWei(item),
-      ),
-    };
-  }
-
-  private async getProviderStakedAvailable(
-    provider: string,
-  ): Promise<IProviderStakedData> {
-    const stakingConfig = await this.getStakingContract();
-
-    const data = await stakingConfig.methods
-      .getProviderBalance(provider)
-      .call();
-
-    return {
-      totalStaked: this.convertFromWei(data[0]),
-      availableToStake: this.convertFromWei(data[1]),
-    };
-  }
-
-  public async getMaxApr(): Promise<BigNumber> {
-    const providers = await this.getAllProviderAddresses();
-
-    const providersStats = (
-      await Promise.all(
-        providers.map(provider => this.getProviderStats(provider)),
-      )
-    ).sort((stats1, stats2) =>
-      new BigNumber(+stats1.apr).minus(new BigNumber(+stats2.apr)).toNumber(),
-    );
-
-    return new BigNumber(+providersStats[0].apr);
-  }
-
-  public async getApr(provider: string): Promise<BigNumber> {
-    const providerStats = await this.getProviderStats(provider);
-    return new BigNumber(+providerStats.apr);
   }
 
   public async getHistoryData(): Promise<IHistoryData[]> {
@@ -459,63 +238,6 @@ export class GnosisStakingSDK {
         };
       })
       .sort((a, b) => b.date.getTime() - a.date.getTime());
-  }
-
-  public async getDelegatedAmountByProvider(
-    provider: string,
-  ): Promise<BigNumber> {
-    const stakingConfig = await this.getStakingContract();
-
-    const maxStake = await stakingConfig.methods
-      .getProviderBalance(provider)
-      .call();
-
-    return this.convertFromWei(maxStake[0]);
-  }
-
-  public async getAllProviders(): Promise<IProvider[]> {
-    const validators = await this.getAllProviderAddresses();
-
-    return this.loadValidatorsInfo(validators);
-  }
-
-  public async getAllProviderAddresses(): Promise<string[]> {
-    const providerContract = await this.getProviderContract();
-    return providerContract.methods.getProviders().call();
-  }
-
-  private async loadValidatorsInfo(
-    validators: Web3Address[],
-  ): Promise<IProvider[]> {
-    const validatorsWithInfo = await Promise.all(
-      validators.map(validator => this.loadValidatorInfo(validator)),
-    );
-
-    return validatorsWithInfo;
-  }
-
-  private async loadValidatorInfo(provider: Web3Address): Promise<IProvider> {
-    const providerStats = await this.getProviderStats(provider);
-    const contributed = await this.getContributed(provider);
-    const providerStakedData = await this.getProviderStakedAvailable(provider);
-    const { totalStaked, availableToStake } = providerStakedData;
-
-    const slashingProtection =
-      contributed
-        .multipliedBy(SLASHING_PROTECTION_VAR)
-        .dividedBy(totalStaked) ?? ZERO;
-
-    return {
-      provider,
-      providerName: providerStats?.provider.name ?? provider,
-      status: ' ',
-      nodeKeys: providerStats?.provider.totalKeys ?? 0,
-      slashingProtection,
-      insurancePool: contributed ?? ZERO,
-      staked: totalStaked,
-      available: availableToStake,
-      apr: new BigNumber(+providerStats?.apr) ?? ZERO,
-    };
   }
 
   public async stake(
@@ -636,16 +358,5 @@ export class GnosisStakingSDK {
       default:
         return undefined;
     }
-  }
-
-  /**
-   * Internal function to convert wei value to human readable format.
-   *
-   * @private
-   * @param {string} amount - value in wei
-   * @returns {BigNumber}
-   */
-  public convertFromWei(amount: string): BigNumber {
-    return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
 }

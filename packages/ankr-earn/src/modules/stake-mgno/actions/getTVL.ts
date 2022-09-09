@@ -4,7 +4,7 @@ import { createAction } from 'redux-smart-actions';
 
 import { ZERO } from 'modules/common/const';
 
-import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
+import { GnosisStakingReadSDK } from '../api/GnosisStakingSDK/GnosisStakingReadSDK';
 import { MGNO_ACTIONS_PREFIX } from '../const';
 
 export const getTVL = createAction<RequestAction<BigNumber, BigNumber>>(
@@ -12,7 +12,7 @@ export const getTVL = createAction<RequestAction<BigNumber, BigNumber>>(
   () => ({
     request: {
       promise: (async (): Promise<BigNumber> => {
-        const sdk = await GnosisStakingSDK.getInstance();
+        const sdk = await GnosisStakingReadSDK.getInstance();
         const providersStakedData = await sdk.getProvidersStakedAvailable();
         return providersStakedData.totalStaked.reduce(
           (acc, staked) => acc.plus(staked),

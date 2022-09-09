@@ -21,8 +21,8 @@ interface IStatsProps {
 
 interface IUseStats {
   apyText: string;
-  yearlyEarning: string;
-  yearlyEarningUSD?: string;
+  annualEarning: string;
+  annualEarningUSD?: string;
   delegatedAmount: BigNumber;
   totalStaked?: string;
   totalStakedUSD?: string;
@@ -82,8 +82,8 @@ export const useStats = ({ amount, provider }: IStatsProps): IUseStats => {
     apyText: t('stake.stats.apy-value', {
       value: statsApr.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     }),
-    yearlyEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-    yearlyEarningUSD,
+    annualEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    annualEarningUSD: yearlyEarningUSD,
     stakers: providerStats?.stakers ?? undefined,
     delegatedAmount: totalStaked,
     totalStaked: getShortNumber(totalStaked),

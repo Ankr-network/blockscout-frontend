@@ -4,6 +4,7 @@ import {
 } from '@redux-requests/core';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
@@ -11,7 +12,7 @@ import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBr
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
+import { getMaxApy as getANKRMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getTotalInfo as getANKRTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
@@ -26,6 +27,10 @@ import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHis
 import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
+import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
+import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
+import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -51,7 +56,11 @@ const resetRequests = () =>
     getANKRCommonData.toString(),
     getANKRPrice.toString(),
     getANKRTotalInfo.toString(),
-    getMaxApy.toString(),
+    getANKRMaxApy.toString(),
+    getMGNOTotalInfo.toString(),
+    getMGNOMaxApr.toString(),
+    getMGNOPrice.toString(),
+    getMgnoBalance.toString(),
     getEthCommonData.toString(),
     getFTMHistory.toString(),
     getFTMStats.toString(),
@@ -87,7 +96,14 @@ export const useDashboard = (): void => {
     dispatch(getANKRCommonData());
     dispatch(getANKRPrice());
     dispatch(getANKRTotalInfo());
-    dispatch(getMaxApy());
+    dispatch(getANKRMaxApy());
+
+    if (featuresConfig.mgnoStaking) {
+      dispatch(getMGNOTotalInfo());
+      dispatch(getMGNOMaxApr());
+      dispatch(getMGNOPrice());
+      dispatch(getMgnoBalance());
+    }
 
     return () => {
       dispatch(abortRequests());

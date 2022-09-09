@@ -2,6 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { TAccessPoint } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
@@ -32,8 +33,11 @@ export const useStakeMainScreen = (): IUseStakeMainScreen => {
     dispatchRequest(getMaxApy());
     dispatchRequest(getTotalTvl());
     dispatchRequest(getANKRPrice());
-    dispatchRequest(getMaxApr());
-    dispatchRequest(getTVL());
+
+    if (featuresConfig.mgnoStaking) {
+      dispatchRequest(getMaxApr());
+      dispatchRequest(getTVL());
+    }
   }, [dispatchRequest]);
 
   const { data: metrics, loading } = useQuery({ type: getMetrics });
