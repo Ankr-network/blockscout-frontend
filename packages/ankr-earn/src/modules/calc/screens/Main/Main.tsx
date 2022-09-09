@@ -1,7 +1,4 @@
 import { Box } from '@material-ui/core';
-import { useMemo } from 'react';
-
-import { SUPPORTED_TOKENS } from 'modules/calc/const';
 
 import { AddTokenBtn } from './components/AddTokenBtn';
 import { AddTokens } from './components/AddTokens';
@@ -27,59 +24,52 @@ export const Main = (): JSX.Element => {
     totalYearlyYieldUsd,
     visibilityState,
     valuesState,
-    visibleCount,
-    handleAdd,
+    setTokenVisibility,
   } = useMain();
 
-  const isTokensShowed = visibleCount > 0;
-  const isAddTokensShowed =
-    visibleCount < SUPPORTED_TOKENS.length && !isLoading;
+  const { renderedAddButtons, renderedTokens } = dataByToken.reduce(
+    (
+      acc,
+      { apy, staked, usdTokenPrice, token, handleChange, handleCloseClick },
+    ) => {
+      const isTokenItemVisible = visibilityState[token];
 
-  const renderedAddButtons = useMemo(
-    () =>
-      visibilityState.map(({ visible, token }) => {
-        const handleClick = () => handleAdd(token);
-        return !visible ? (
+      if (isTokenItemVisible) {
+        acc.renderedTokens.push(
+          <TokensItem
+            key={token}
+            apy={apy}
+            iconSlot={tokens[token].icon}
+            staked={staked}
+            token={tokens[token].name}
+            usdTokenPrice={usdTokenPrice}
+            value={valuesState[token]}
+            onChange={handleChange}
+            onCloseClick={handleCloseClick}
+          />,
+        );
+      } else {
+        const handleClick = () => setTokenVisibility(token, true);
+        acc.renderedAddButtons.push(
           <AddTokenBtn
             key={token}
             iconSlot={tokens[token].icon}
             token={tokens[token].name}
             onClick={handleClick}
-          />
-        ) : null;
-      }),
-    [handleAdd, tokens, visibilityState],
+          />,
+        );
+      }
+
+      return acc;
+    },
+    {
+      renderedAddButtons: [] as JSX.Element[],
+      renderedTokens: [] as JSX.Element[],
+    },
   );
 
-  const renderedTokens = visibilityState.map(({ visible, token }) => {
-    const { apy, staked, usdTokenPrice, handleChange, handleCloseClick } =
-      dataByToken[token];
-
-    const shouldNotRender = apy.isZero();
-
-    if (shouldNotRender || !visible) {
-      return null;
-    }
-
-    return (
-      <TokensItem
-        key={token}
-        apy={apy}
-        iconSlot={tokens[token].icon}
-        staked={staked}
-        token={tokens[token].name}
-        usdTokenPrice={usdTokenPrice}
-        value={valuesState[token]}
-        onChange={handleChange}
-        onCloseClick={handleCloseClick}
-      />
-    );
-  });
-
-  const tokensTableOffset = {
-    xs: 3,
-    md: isAddTokensShowed ? 3 : 5,
-  };
+  const isTokensShowed = !!renderedTokens.length;
+  const isAddTokensShowed = !!renderedAddButtons.length && !isLoading;
 
   return (
     <Section>
@@ -90,7 +80,7 @@ export const Main = (): JSX.Element => {
       )}
 
       {isLoading && (
-        <TokensTable mb={tokensTableOffset}>
+        <TokensTable mb={3}>
           <TokensItemSkeleton />
 
           <TokensItemSkeleton />
@@ -100,7 +90,7 @@ export const Main = (): JSX.Element => {
       )}
 
       {isTokensShowed && !isLoading && (
-        <TokensTable mb={tokensTableOffset}>{renderedTokens}</TokensTable>
+        <TokensTable mb={3}>{renderedTokens}</TokensTable>
       )}
 
       <Box order={{ md: 1 }}>

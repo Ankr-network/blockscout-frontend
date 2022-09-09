@@ -14,8 +14,8 @@ import { SUPPORTED_TOKENS } from '../../../const';
 import { useMetrics } from './useMetrics';
 import { TFormValues, useTokensValues } from './useTokensValues';
 import {
-  ITokenVisibility,
   IUseTokensVisibility,
+  TVisibilityState,
   useTokensVisibility,
 } from './useTokensVisibility';
 
@@ -25,6 +25,7 @@ const balanceRequests = SUPPORTED_TOKENS.map(token => ({
 }));
 
 interface IToken {
+  token: TCalcToken;
   apy: BigNumber;
   staked: BigNumber;
   balance: BigNumber;
@@ -33,17 +34,14 @@ interface IToken {
   handleCloseClick: () => void;
 }
 
-type TDataByToken = Record<TCalcToken, IToken>;
-
 interface IUseMain {
   avarageApy: BigNumber;
-  dataByToken: TDataByToken;
+  dataByToken: IToken[];
   isLoading: boolean;
   totalYearlyYieldUsd: BigNumber;
-  visibilityState: IUseTokensVisibility['state'];
+  visibilityState: TVisibilityState;
   valuesState: TFormValues;
-  visibleCount: number;
-  handleAdd: IUseTokensVisibility['handleAdd'];
+  setTokenVisibility: IUseTokensVisibility['setTokenVisibility'];
 }
 
 export const useMain = (): IUseMain => {
@@ -59,9 +57,7 @@ export const useMain = (): IUseMain => {
 
   const {
     state: visibilityState,
-    visibleCount,
-    handleRemove,
-    handleAdd,
+    setTokenVisibility,
     updateState: updateVisibilityState,
     setDefaultVisibilityState,
   } = useTokensVisibility();
@@ -77,8 +73,16 @@ export const useMain = (): IUseMain => {
     () =>
       SUPPORTED_TOKENS.reduce(
         (acc, token, index) => {
+          const { apy, usdTokenPrice } = metrics[token];
+          if (apy.isZero() || usdTokenPrice.isZero()) {
+            return acc;
+          }
+
           const { data: balanceData, loading: isBalanceloading } =
             balanceQueries[index];
+
+          acc.isAllBalancesLoading =
+            acc.isAllBalancesLoading || isBalanceloading;
 
           const staked = balanceData ? balanceData.staked : ZERO;
           const balance = balanceData ? balanceData.balance : ZERO;
@@ -87,45 +91,40 @@ export const useMain = (): IUseMain => {
             setTokenValue(event.target.value, token);
 
           const handleCloseClick = () => {
-            handleRemove(token);
+            setTokenVisibility(token, false);
             setTokenValue(
               balance.decimalPlaces(DEFAULT_ROUNDING).toString(),
               token,
             );
           };
 
-          acc.dataByToken[token] = {
+          acc.dataByToken.push({
+            token,
             balance,
             staked,
-            apy: metrics[token].apy,
-            usdTokenPrice: metrics[token].usdTokenPrice,
+            apy,
+            usdTokenPrice,
             handleChange,
             handleCloseClick,
-          };
+          });
 
-          acc.isAllBalancesLoading =
-            acc.isAllBalancesLoading || isBalanceloading;
           return acc;
         },
-        { dataByToken: {} as TDataByToken, isAllBalancesLoading: false },
+        { dataByToken: [] as IToken[], isAllBalancesLoading: false },
       ),
-    [balanceQueries, metrics, handleRemove, setTokenValue],
+    [balanceQueries, metrics, setTokenValue, setTokenVisibility],
   );
 
   const { totalBalanceUsd, totalYearlyYieldUsd } = useMemo(
     () =>
-      Object.keys(dataByToken).reduce(
-        (acc, key) => {
-          const token = key as TCalcToken;
-          const isTokenActive = !!visibilityState.find(
-            state => state.token === token,
-          )?.visible;
+      dataByToken.reduce(
+        (acc, { staked, apy, usdTokenPrice, token }) => {
+          const isTokenActive = visibilityState[token];
 
           if (!isTokenActive) {
             return acc;
           }
 
-          const { staked, apy, usdTokenPrice } = dataByToken[token];
           const value = valuesState[token];
 
           const totalTokenBalanceUsd = staked
@@ -182,10 +181,7 @@ export const useMain = (): IUseMain => {
             .decimalPlaces(DEFAULT_ROUNDING)
             .toString();
 
-          acc.newVisibilityState.push({
-            visible: isVisible,
-            token,
-          });
+          acc.newVisibilityState[token] = isVisible;
 
           acc.isAtLeastOneVisible = acc.isAtLeastOneVisible || isVisible;
 
@@ -193,7 +189,7 @@ export const useMain = (): IUseMain => {
         },
         {
           newValuesState: {} as TFormValues,
-          newVisibilityState: [] as ITokenVisibility[],
+          newVisibilityState: {} as TVisibilityState,
           isAtLeastOneVisible: false,
         },
       );
@@ -215,7 +211,6 @@ export const useMain = (): IUseMain => {
     totalYearlyYieldUsd,
     visibilityState,
     valuesState,
-    visibleCount,
-    handleAdd,
+    setTokenVisibility,
   };
 };
