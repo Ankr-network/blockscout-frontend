@@ -1,5 +1,5 @@
 import { store } from 'store';
-import { resetAuthData, setAuthData } from 'modules/auth/store/authSlice';
+import { resetAuthData } from 'modules/auth/store/authSlice';
 import { disconnectService } from './connectUtils';
 import { web3Api } from 'store/queries/web3Api';
 
@@ -10,7 +10,6 @@ export const {
   endpoints: build => ({
     authDisconnect: build.query<boolean, void>({
       queryFn: async () => {
-        store.dispatch(setAuthData({ isManualDisconnected: true }));
         await disconnectService();
 
         store.dispatch(resetAuthData());

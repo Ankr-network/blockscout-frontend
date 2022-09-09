@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Box, Button, Fade, Menu, MenuItem } from '@material-ui/core';
+import { Button, Fade, Menu, MenuItem } from '@material-ui/core';
 
 import { LoadableButton } from 'ui';
 import { t } from 'modules/i18n/utils/intl';
@@ -12,12 +12,8 @@ import { useLazyAuthDisconnectQuery } from '../../actions/disconnect';
 
 import { useStyles } from './useStyles';
 
-interface ConnectButtonProps {
-  isMobile?: boolean;
-}
-
-export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
-  const classes = useStyles(isMobile);
+export const ConnectButton = () => {
+  const classes = useStyles();
   const address = useAppSelector(store => store.auth.address);
   const [authConnect, { isLoading: isLoadingConnect }] =
     useLazyAuthConnectQuery();
@@ -45,7 +41,6 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
         className={classes.menuButton}
         disabled={loading}
       >
-        {!isMobile && <Box mr={1.5}>Metamask icon</Box>}
         {shrinkAddress(address)}
       </Button>
       <Menu

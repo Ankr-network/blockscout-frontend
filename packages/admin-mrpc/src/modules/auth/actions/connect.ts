@@ -1,12 +1,13 @@
-import { IJwtToken, Web3Address } from 'multirpc-sdk';
+import { Web3Address } from 'multirpc-sdk';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { setAuthData } from 'modules/auth/store/authSlice';
+import { TOKEN_LIFETIME } from 'modules/common/const';
 import { connectProvider } from './connectUtils';
 
 interface IResponseData {
-  credentials: false | IJwtToken;
   address: Web3Address;
+  backofficeAuthorizationToken: string;
 }
 
 export const {
@@ -18,15 +19,15 @@ export const {
       queryFn: async () => {
         await connectProvider();
         const service = await MultiService.getInstance();
-        const key = await service.requestUserEncryptionKey();
         const { currentAccount: address } = service.getKeyProvider();
-        const credentials = await service.loginAsUser(address, key);
+        const backofficeAuthorizationToken = await service.authorizeBackoffice(
+          TOKEN_LIFETIME,
+        );
 
         return {
           data: {
-            credentials,
             address,
-            encryptionPublicKey: key,
+            backofficeAuthorizationToken,
           },
         };
       },

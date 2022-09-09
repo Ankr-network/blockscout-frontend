@@ -14,6 +14,11 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
+"@ankr.com/utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ankr.com/utils/-/utils-1.0.0.tgz#3373d96b234ac7766365acb332f7bc6e09c60aa0"
+  integrity sha512-C1mW1+Xzlij1CjQEW4HRvpwzFrq4qqcoKeR65A/LhHtC5V3dHgIyIqQgY9VDz0UfvhIAhuHJgfaHKKWwegZY1g==
+
 "@ant-design/colors@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@ant-design/colors/-/colors-6.0.0.tgz#9b9366257cffcc47db42b9d0203bb592c13c0298"
@@ -11417,6 +11422,11 @@ bignumber.js@^9.0.0, bignumber.js@^9.0.1:
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.2.tgz#71c6c6bed38de64e24a65ebe16cfcf23ae693673"
   integrity sha512-GAcQvbpsM0pUb0zw1EI0KhQEZ+lRwR5fYaAp3vPOYuP7aDvGy6cVN6XHLauvF8SOga2y0dcLcjt3iQDTSEliyw==
+
+bignumber.js@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.1.0.tgz#8d340146107fe3a6cb8d40699643c302e8773b62"
+  integrity sha512-4LwHK4nfDOraBCtst+wOWIHbu1vhvAPJK8g8nROd4iuc3PSEjWif/qwbkh8jwCJz6yDBvtU4KPynETgrfh7y3A==
 
 binary-extensions@^1.0.0:
   version "1.13.1"
