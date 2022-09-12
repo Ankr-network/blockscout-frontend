@@ -188,11 +188,12 @@ const MAINNET_CONFIG: IStkrConfig = {
     ankrTokenStaking: '0xaB15B0bdDc012092cb23f53953149a7F8C1f9E7f',
     ankrStakingChainConfig: '0x2d3F893c7c45C2BE3Ec63cf5385DeAfD7Ece6AAE',
     mGNOToken: '0x722fc4DAABFEaff81b97894fC623f91814a1BF68',
-    gnosisStakingContract: ZERO_ADDR,
-    gnosisInsuranceContract: ZERO_ADDR,
+    gnosisStakingContract: '0xFd0f61255913825DA1c194b985F04982966c34d6',
+    gnosisInsuranceContract: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
     gnosisRewardContract: ZERO_ADDR,
-    gnosisProviderContract: ZERO_ADDR,
-    gnosisValidatorManagerContract: ZERO_ADDR,
+    gnosisProviderContract: '0x8A2f83347f0E59faeFe2320B7422f8AA432cE27a',
+    gnosisValidatorManagerContract:
+      '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
