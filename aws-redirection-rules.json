@@ -495,5 +495,55 @@
       "Protocol": "https",
       "ReplaceKeyPrefixWith": "docs/staking/defi/liquidity-pools"
     }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/liquid-staking/avax/sdk"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/liquid-staking/sdk/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/liquid-staking/bnb/sdk"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/liquid-staking/sdk/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/liquid-staking/eth/sdk"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/liquid-staking/sdk/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/liquid-staking/ftm/sdk"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/liquid-staking/sdk/"
+    }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "docs/staking/liquid-staking/matic/sdk"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "docs/staking/liquid-staking/sdk/"
+    }
   }
 ]
