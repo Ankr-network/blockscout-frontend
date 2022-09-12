@@ -10,6 +10,7 @@ import { MobileGroupSelector } from './components/MobileGroupSelector';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;
+  publicChain: IApiChain;
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
@@ -23,6 +24,7 @@ export interface ChainItemHeaderProps {
 
 export const ChainItemHeader = ({
   chain,
+  publicChain,
   chainType,
   chainTypeTab,
   chainTypeTabs,
@@ -64,7 +66,11 @@ export const ChainItemHeader = ({
           />
         </div>
       )}
-      <Endpoints publicChain={chain} chainType={chainType} group={group} />
+      <Endpoints
+        publicChain={publicChain}
+        chainType={chainType}
+        group={group}
+      />
     </div>
   );
 };

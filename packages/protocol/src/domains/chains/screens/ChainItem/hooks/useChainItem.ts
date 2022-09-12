@@ -13,6 +13,7 @@ import { useNetId } from './useNetId';
 
 export interface ChainItem {
   chain: IApiChain;
+  publicChain: IApiChain;
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
@@ -27,7 +28,8 @@ export interface ChainItem {
 
 export const useChainItem = ({
   nodes,
-  unfilteredChain: chain,
+  chain,
+  unfilteredChain: publicChain,
 }: Details): ChainItem => {
   const isChainArchived = useMemo(
     () => !!nodes?.some(item => item.isArchive),
@@ -54,6 +56,7 @@ export const useChainItem = ({
 
   return {
     chain,
+    publicChain,
     chainType,
     chainTypeTab,
     chainTypeTabs,

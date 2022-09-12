@@ -15,6 +15,7 @@ export interface ChainItemProps {
 export const ChainItem = ({ data }: ChainItemProps) => {
   const {
     chain,
+    publicChain,
     chainType,
     chainTypeTab,
     chainTypeTabs,
@@ -35,6 +36,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader
         chain={chain}
+        publicChain={publicChain}
         chainType={chainType}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
