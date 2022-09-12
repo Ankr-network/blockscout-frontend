@@ -321,7 +321,7 @@
         "trace_replayBlockTransactions": "Replays all transactions in a block returning the requested traces for each transaction.",
         "trace_replayTransaction": "Replays a transaction, returning the traces.",
         "trace_filter": "Returns traces matching given filter.",
-        "trace_call": "Executes the given call and returns a number of possible traces for it."
+        "trace_call": "🚫 This method is not YET supported!"
       }
     },
     "nodes-table": {
