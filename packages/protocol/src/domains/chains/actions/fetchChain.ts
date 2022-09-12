@@ -12,7 +12,7 @@ import { fetchPublicChains } from './fetchPublicChains';
 
 export interface IChainItemDetails {
   chain: IApiChain;
-  publicChain: IApiChain;
+  unfilteredChain: IApiChain;
   nodes?: INodeEntity[];
 }
 
@@ -45,16 +45,16 @@ export const fetchChain = createSmartAction<
           ]);
 
           const chain = chains.find(item => item.id === chainId);
-          const publicChain = allChains.find(item => item.id === chainId);
+          const unfilteredChain = allChains.find(item => item.id === chainId);
 
-          if (!chain || !publicChain) {
+          if (!chain || !unfilteredChain) {
             store.dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
             throw new Error('ChainId not found');
           }
 
           return {
             chain,
-            publicChain,
+            unfilteredChain,
             nodes,
           };
         })(),

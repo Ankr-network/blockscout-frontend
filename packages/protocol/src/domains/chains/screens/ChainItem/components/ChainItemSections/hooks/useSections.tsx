@@ -35,7 +35,7 @@ export const useSections = ({
   data,
   group,
 }: SectionsParams): Sections => {
-  const { chain, publicChain } = data;
+  const { chain, unfilteredChain: publicChain } = data;
   const chainId = chain.id;
 
   const initialTabID = useInitialSection();

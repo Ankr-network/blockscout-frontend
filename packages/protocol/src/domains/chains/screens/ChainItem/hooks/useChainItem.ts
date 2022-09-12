@@ -7,7 +7,6 @@ import { ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-import { useChain } from './useChain';
 import { useChainType } from './useChainType';
 import { useGroup } from './useGroup';
 import { useNetId } from './useNetId';
@@ -26,8 +25,11 @@ export interface ChainItem {
   selectGroup: (id: ChainGroupID) => void;
 }
 
-export const useChainItem = ({ nodes }: Details): ChainItem => {
-  const chain = useChain();
+export const useChainItem = ({
+  nodes,
+  unfilteredChain,
+}: Details): ChainItem => {
+  const chain = unfilteredChain;
 
   const isChainArchived = useMemo(
     () => !!nodes?.some(item => item.isArchive),
