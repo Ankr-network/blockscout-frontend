@@ -1232,74 +1232,86 @@ export const ethersJSConfig: ILibraryConfig = {
     ],
   },
   trace_call: {
-    exec: (provider, ...args) => {
-      // eslint-disable-next-line
-      let [traceType, block, from, value, contract, abi, method, ...rest] =
-        args;
-      const iface = new ethers.utils.Interface(abi);
-      const data = iface.encodeFunctionData(method, rest);
-      if (value === '') value = null;
-      if (from === '') from = null;
-      const transaction = {
-        from,
-        to: contract,
-        value,
-        data,
-      };
-      return provider.send('trace_call', [
-        transaction,
-        traceType.split(', '),
-        block,
-      ]);
-    },
-    codeSample: (httpUrl, ...args) => {
-      const [traceType, block, ...rest] = args;
-      return contractTraceTemplate(httpUrl, [
-        JSON.stringify(traceType.split(', ')),
-        JSON.stringify(block),
-        ...rest,
-      ]);
-    },
-    args: [
-      {
-        type: 'textfield',
-        description:
-          'Type of trace, one or more of: `vmTrace`, `trace`, `stateDiff`',
-        placeholder: 'i.e. vmTrace, trace',
-      },
-      {
-        type: 'textfield',
-        description:
-          'Hex block number, or the string "latest", "earliest" or "pending"',
-        placeholder: 'i.e. latest or pending',
-      },
-      {
-        type: 'textarea',
-        description:
-          'address: (optional) The address the transaction is sent from',
-        placeholder: 'i.e. 0x19624ffa41f...',
-      },
-      {
-        type: 'textfield',
-        description:
-          'value: (optional) Integer formatted as a hex string of the value sent with this transaction',
-        placeholder: 'i.e. 0x19624ffa41f...',
-      },
-      {
-        type: 'textarea',
-        description: 'Address of contract',
-        placeholder: 'i.e. 0x91b51c173a4...',
-      },
-      {
-        type: 'textarea',
-        description: 'Contract ABI (URL or single function object)',
-        placeholder:
-          'i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json',
-      },
-      {
-        type: 'dropdown',
-        description: 'Function name (READ only)',
-      },
-    ],
+    exec: IS_ETH_CALL_DISABLED
+      ? () => {
+          return new Promise((resolve, reject) =>
+            // eslint-disable-next-line
+            reject('Not Supported'),
+          );
+        }
+      : (provider, ...args) => {
+          // eslint-disable-next-line
+          let [traceType, block, from, value, contract, abi, method, ...rest] =
+            args;
+          const iface = new ethers.utils.Interface(abi);
+          const data = iface.encodeFunctionData(method, rest);
+          if (value === '') value = null;
+          if (from === '') from = null;
+          const transaction = {
+            from,
+            to: contract,
+            value,
+            data,
+          };
+          return provider.send('trace_call', [
+            transaction,
+            traceType.split(', '),
+            block,
+          ]);
+        },
+    codeSample: (httpUrl, ...args) =>
+      IS_ETH_CALL_DISABLED
+        ? '/* Not Supported */'
+        : () => {
+            const [traceType, block, ...rest] = args;
+            return contractTraceTemplate(httpUrl, [
+              JSON.stringify(traceType.split(', ')),
+              JSON.stringify(block),
+              ...rest,
+            ]);
+          },
+    args: IS_ETH_CALL_DISABLED
+      ? []
+      : [
+          {
+            type: 'textfield',
+            description:
+              'Type of trace, one or more of: `vmTrace`, `trace`, `stateDiff`',
+            placeholder: 'i.e. vmTrace, trace',
+          },
+          {
+            type: 'textfield',
+            description:
+              'Hex block number, or the string "latest", "earliest" or "pending"',
+            placeholder: 'i.e. latest or pending',
+          },
+          {
+            type: 'textarea',
+            description:
+              'address: (optional) The address the transaction is sent from',
+            placeholder: 'i.e. 0x19624ffa41f...',
+          },
+          {
+            type: 'textfield',
+            description:
+              'value: (optional) Integer formatted as a hex string of the value sent with this transaction',
+            placeholder: 'i.e. 0x19624ffa41f...',
+          },
+          {
+            type: 'textarea',
+            description: 'Address of contract',
+            placeholder: 'i.e. 0x91b51c173a4...',
+          },
+          {
+            type: 'textarea',
+            description: 'Contract ABI (URL or single function object)',
+            placeholder:
+              'i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json',
+          },
+          {
+            type: 'dropdown',
+            description: 'Function name (READ only)',
+          },
+        ],
   },
 };
