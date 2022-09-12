@@ -20,6 +20,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
     chainTypeTab,
     chainTypeTabs,
     group,
+    unfilteredGroup,
     groupID,
     groupTab,
     groupTabs,
@@ -47,7 +48,12 @@ export const ChainItem = ({ data }: ChainItemProps) => {
         isChainArchived={isChainArchived}
         selectGroup={selectGroup}
       />
-      <ChainItemSections chainType={chainType} data={data} group={group} />
+      <ChainItemSections
+        chainType={chainType}
+        data={data}
+        group={group}
+        unfilteredGroup={unfilteredGroup}
+      />
     </>
   );
 };

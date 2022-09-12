@@ -8,14 +8,18 @@ import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 
 export interface GetStartedSectionProps {
   group: EndpointGroup;
+  unfilteredGroup: EndpointGroup;
 }
 
-export const GetStartedSection = ({ group }: GetStartedSectionProps) => {
+export const GetStartedSection = ({
+  group,
+  unfilteredGroup,
+}: GetStartedSectionProps) => {
   const { credentials, loading } = useAuth();
   const isUpgraded = credentials || loading;
   const classes = useGetStartedSectionStyles();
 
-  const publicUrl = group?.urls[0]?.rpc;
+  const publicUrl = unfilteredGroup?.urls[0]?.rpc;
 
   return (
     <div className={classes.getStartedSection}>

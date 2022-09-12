@@ -21,6 +21,7 @@ export interface SectionsParams {
   chainType: ChainType;
   data: IChainItemDetails;
   group: EndpointGroup;
+  unfilteredGroup: EndpointGroup;
 }
 
 export interface Sections {
@@ -38,6 +39,7 @@ export const useSections = ({
   chainType,
   data,
   group,
+  unfilteredGroup,
 }: SectionsParams): Sections => {
   const { chain } = data;
   const chainId = chain.id;
@@ -48,12 +50,14 @@ export const useSections = ({
   const getStartedSection = useMemo(
     () => ({
       id: SectionID.GetStarted,
-      content: <GetStartedSection group={group} />,
+      content: (
+        <GetStartedSection group={group} unfilteredGroup={unfilteredGroup} />
+      ),
       title: (isSelected: boolean) => (
         <PrimaryTab isSelected={isSelected} label={getStarted} />
       ),
     }),
-    [group],
+    [group, unfilteredGroup],
   );
 
   const tabs: Tab<SectionID>[] = useLocaleMemo(

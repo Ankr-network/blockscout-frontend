@@ -24,6 +24,7 @@ export interface ChainItem {
   isChainArchived: boolean;
   name: string;
   selectGroup: (id: ChainGroupID) => void;
+  unfilteredGroup: EndpointGroup;
 }
 
 export const useChainItem = ({
@@ -54,6 +55,15 @@ export const useChainItem = ({
     netId,
   });
 
+  const publicEndpoints = useGroupedEndpoints(publicChain);
+
+  const { group: unfilteredGroup } = useGroup({
+    chain: publicChain,
+    chainType,
+    endpoints: publicEndpoints,
+    netId,
+  });
+
   return {
     chain,
     publicChain,
@@ -67,5 +77,6 @@ export const useChainItem = ({
     isChainArchived,
     name,
     selectGroup,
+    unfilteredGroup,
   };
 };
