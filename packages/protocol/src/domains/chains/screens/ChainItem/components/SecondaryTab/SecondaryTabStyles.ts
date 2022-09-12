@@ -5,6 +5,7 @@ export interface SecondaryTabStylesParams {
   isLast?: boolean;
   isSelected?: boolean;
   size: TabSize;
+  isDarkTheme?: boolean;
 }
 
 export const useSecondaryTabStyles = makeStyles<
@@ -44,7 +45,7 @@ export const useSecondaryTabStyles = makeStyles<
   };
 
   return {
-    secondaryTab: ({ isLast, isSelected, size }) => ({
+    secondaryTab: ({ isLast, isSelected, size, isDarkTheme }) => ({
       height: 'auto',
       marginRight: isLast ? 0 : 2,
 
@@ -52,15 +53,24 @@ export const useSecondaryTabStyles = makeStyles<
 
       ...(isSelected
         ? {
-            backgroundColor: theme.palette.common.white,
+            backgroundColor: isDarkTheme
+              ? theme.palette.primary.main
+              : theme.palette.common.white,
             boxShadow:
               '0 0 5px rgba(31, 34, 38, 0.1), 0 0 15px rgba(31, 34, 38, 0.1)',
 
-            color: theme.palette.primary.main,
+            color: isDarkTheme
+              ? theme.palette.common.white
+              : theme.palette.primary.main,
 
             '&:hover': {
-              backgroundColor: theme.palette.common.white,
-              color: theme.palette.primary.main,
+              backgroundColor: isDarkTheme
+                ? theme.palette.primary.main
+                : theme.palette.common.white,
+
+              color: isDarkTheme
+                ? theme.palette.common.white
+                : theme.palette.primary.main,
             },
           }
         : {

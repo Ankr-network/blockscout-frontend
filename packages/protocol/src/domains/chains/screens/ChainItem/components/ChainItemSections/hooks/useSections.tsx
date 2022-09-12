@@ -50,6 +50,7 @@ export const useSections = ({
             publicChain={publicChain}
             chainType={chainType}
             group={group}
+            publicUrl={publicChain.urls[0].rpc}
           />
         ),
         title: (isSelected: boolean) => (

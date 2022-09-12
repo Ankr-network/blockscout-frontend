@@ -40,7 +40,9 @@ export function TabsManager<TI = DefaultTabID>({
           <div className={classes.left}>{additionalContent}</div>
         )}
       </div>
-      {selectedTab?.content}
+      {typeof selectedTab?.content === 'function'
+        ? selectedTab.content(selectedTab?.id)
+        : selectedTab?.content}
     </>
   );
 }
