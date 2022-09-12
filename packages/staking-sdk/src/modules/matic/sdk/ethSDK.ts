@@ -448,6 +448,49 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Get stake gas fee.
+   *
+   * @public
+   * @param {BigNumber} amount - amount to stake
+   * @param {TMaticSyntToken} token - token symbol (aMATICb or aMATICc)
+   * @param {number | undefined} [scale = ETH_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<BigNumber>}
+   */
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+    scale = ETH_SCALE_FACTOR,
+  ): Promise<BigNumber> {
+    const amountHex = convertNumberToHex(amount, scale);
+
+    const minimumStake = await this.getMinimumStake();
+
+    if (amount.isLessThan(minimumStake)) {
+      return ZERO;
+    }
+
+    const [provider, polygonPoolContract] = await Promise.all([
+      this.getProvider(),
+      this.getPolygonPoolContract(),
+    ]);
+
+    const stakeMethodName = this.getStakeMethodName(token);
+    const contractStakeMethod = polygonPoolContract.methods[stakeMethodName];
+
+    let estimatedGas: number;
+
+    try {
+      estimatedGas = await contractStakeMethod(amountHex).estimateGas({
+        from: this.currentAccount,
+      });
+    } catch {
+      estimatedGas = 0;
+    }
+
+    return provider.getContractMethodFee(estimatedGas);
+  }
+
+  /**
    * Return MATIC token balance.
    *
    * @public

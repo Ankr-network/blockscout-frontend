@@ -29,6 +29,7 @@ import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptio
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
+import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
@@ -44,6 +45,7 @@ import { NumericStepper } from 'uiKit/Stepper';
 
 import { approveMATICStake } from '../../actions/approveMATICStake';
 import { fetchStats } from '../../actions/fetchStats';
+import { getStakeGasFee } from '../../actions/getStakeGasFee';
 
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -52,8 +54,9 @@ import { useStakePolygonStyles } from './useStakePolygonStyles';
 const resetRequests = () =>
   resetReduxRequests([
     approveMATICStake.toString(),
-    getMetrics.toString(),
     fetchStats.toString(),
+    getMetrics.toString(),
+    getStakeGasFee.toString(),
   ]);
 
 export const StakePolygon = (): JSX.Element => {
@@ -66,10 +69,12 @@ export const StakePolygon = (): JSX.Element => {
     activeStep,
     amount,
     certificateRatio,
+    gasFee,
     isApproveLoading,
     isApproved,
     isFetchStatsLoading,
     isShouldBeApproved,
+    isShowGasFee,
     isStakeLoading,
     tokenIn,
     tokenOut,
@@ -90,7 +95,7 @@ export const StakePolygon = (): JSX.Element => {
             description={tHTML('stake-matic-eth.amaticb-descr')}
             iconSlot={<AMATICBIcon />}
             isActive={tokenOut === Token.aMATICb}
-            isDisabled={isStakeLoading}
+            isDisabled={isApproveLoading || isStakeLoading}
             title={t('unit.amaticb')}
             onClick={onTokenSelect(Token.aMATICb)}
           />
@@ -103,7 +108,7 @@ export const StakePolygon = (): JSX.Element => {
             })}
             iconSlot={<AMATICCIcon />}
             isActive={tokenOut === Token.aMATICc}
-            isDisabled={isStakeLoading}
+            isDisabled={isApproveLoading || isStakeLoading}
             title={t('unit.amaticc')}
             onClick={onTokenSelect(Token.aMATICc)}
           />
@@ -177,8 +182,8 @@ export const StakePolygon = (): JSX.Element => {
   useProviderEffect(() => {
     dispatch(resetRequests());
 
-    dispatch(getMetrics());
     dispatch(fetchStats());
+    dispatch(getMetrics());
 
     return () => {
       dispatch(abortRequests());
@@ -216,7 +221,12 @@ export const StakePolygon = (): JSX.Element => {
                 </AuditInfo>
               }
               balance={data.maticBalance}
-              isDisabled={isApproved}
+              feeSlot={
+                isShowGasFee && (
+                  <StakeFeeInfo mt={-1.5} token={Token.ETH} value={gasFee} />
+                )
+              }
+              isDisabled={isApproved || isApproveLoading}
               loading={isStakeLoading}
               maxAmount={data.maticBalance}
               minAmount={data.minimumStake}

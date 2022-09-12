@@ -22,6 +22,7 @@ import {
   fetchStats,
   IFetchStatsResponseData,
 } from 'modules/stake-matic/eth/actions/fetchStats';
+import { getStakeGasFee } from 'modules/stake-matic/eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-matic/eth/actions/stake';
 import {
   IStakeFormPayload,
@@ -38,15 +39,17 @@ interface IUseStakeFormData {
   certificateRatio: BigNumber;
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
+  gasFee: BigNumber;
   isApproveLoading: boolean;
   isApproved: boolean;
   isFetchStatsLoading: boolean;
   isShouldBeApproved: boolean;
+  isShowGasFee: boolean;
   isStakeLoading: boolean;
   tokenIn: string;
   tokenOut: string;
   totalAmount: BigNumber;
-  handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
+  handleFormChange: (values: IStakeFormPayload, isInvalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
 }
@@ -77,6 +80,10 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: fetchStats,
   });
 
+  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
+    type: getStakeGasFee,
+  });
+
   const [amount, setAmount] = useState(ZERO);
 
   const [isError, setIsError] = useState(false);
@@ -84,6 +91,9 @@ export const useStakeForm = (): IUseStakeFormData => {
   const isApproved = !!approveData;
 
   const isShouldBeApproved = !isApproved;
+
+  const isShowGasFee =
+    !isGasFeeLoading && gasFee !== null && gasFee.isGreaterThan(0);
 
   const activeStep = isApproved ? 1 : 0;
 
@@ -97,10 +107,24 @@ export const useStakeForm = (): IUseStakeFormData => {
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
     // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
-    invalid: boolean,
+    isInvalid: boolean,
   ) => {
-    setIsError(invalid);
+    setIsError(isInvalid);
+
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
+
+    if (isInvalid) {
+      dispatch(resetRequests([getStakeGasFee.toString()]));
+    } else if (formAmount) {
+      const readyAmount = new BigNumber(formAmount);
+
+      dispatch(
+        getStakeGasFee({
+          amount: readyAmount,
+          token: selectedToken,
+        }),
+      );
+    }
   };
 
   const totalAmount = useMemo(() => {
@@ -140,7 +164,12 @@ export const useStakeForm = (): IUseStakeFormData => {
     const val = new BigNumber(values.amount);
 
     if (isShouldBeApproved) {
-      dispatchRequest(approveMATICStake(val));
+      dispatchRequest(
+        approveMATICStake({
+          amount: val,
+          token: selectedToken,
+        }),
+      );
 
       return;
     }
@@ -161,6 +190,17 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const onTokenSelect = (token: TMaticSyntToken) => () => {
     handleTokenSelect(token);
+
+    const isUpdateGasFee = !totalAmount.isZero() && !isError;
+
+    if (isUpdateGasFee) {
+      dispatch(
+        getStakeGasFee({
+          amount,
+          token,
+        }),
+      );
+    }
   };
 
   return {
@@ -170,10 +210,12 @@ export const useStakeForm = (): IUseStakeFormData => {
     certificateRatio: aMATICcRatio ?? ZERO,
     fetchStatsData,
     fetchStatsError,
+    gasFee: gasFee ?? ZERO,
     isApproveLoading,
     isApproved,
     isFetchStatsLoading,
     isShouldBeApproved,
+    isShowGasFee,
     isStakeLoading,
     tokenIn: Token.MATIC,
     tokenOut: selectedToken,
