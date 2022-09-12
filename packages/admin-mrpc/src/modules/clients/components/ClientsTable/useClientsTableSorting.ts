@@ -2,10 +2,14 @@ import { useEffect, useState } from 'react';
 import { ClientMapped } from '../../store/clientsSlice';
 import { sortData } from './clientTableUtils';
 
-export const useClientsTable = ({ rows }: { rows: ClientMapped[] }) => {
+export const useClientsTableSorting = ({
+  clients,
+}: {
+  clients: ClientMapped[];
+}) => {
   const [sortBy, setSortBy] = useState<keyof ClientMapped>();
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>();
-  const [sortedData, setSortedData] = useState<ClientMapped[]>(rows);
+  const [sortedData, setSortedData] = useState<ClientMapped[]>(clients);
 
   const handleOrder = (sortByValue: keyof ClientMapped) => {
     setSortBy(sortByValue);
@@ -13,8 +17,8 @@ export const useClientsTable = ({ rows }: { rows: ClientMapped[] }) => {
   };
 
   useEffect(() => {
-    setSortedData(sortData(rows, sortBy, sortOrder));
-  }, [rows, sortBy, sortOrder]);
+    setSortedData(sortData(clients, sortBy, sortOrder));
+  }, [clients, sortBy, sortOrder]);
 
   return {
     handleOrder,

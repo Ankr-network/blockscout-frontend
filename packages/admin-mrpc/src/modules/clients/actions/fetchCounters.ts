@@ -38,6 +38,7 @@ export const {
             ...c,
             clientType: getClientType(c.ttl),
             email: emails.bindings?.find(i => i.address === c.address)?.email,
+            createdDate: new Date(c.timestamp),
             ...balances.balances.find(i => i.address === c.address),
           };
         });

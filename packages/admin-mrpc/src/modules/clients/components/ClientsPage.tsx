@@ -10,7 +10,9 @@ export const ClientsPage = () => {
       {isLoading ? (
         <Spinner />
       ) : data?.counters ? (
-        <ClientsTable rows={data.counters} />
+        <>
+          <ClientsTable clients={data.counters} />
+        </>
       ) : (
         'No data'
       )}

@@ -4,7 +4,7 @@ import { ClientEntity } from '../../types';
 
 type TUserTypeTagProps = {
   clientType: ClientEntity['type'];
-  clientTtl: ClientEntity['ttl'];
+  clientTtl?: ClientEntity['ttl'];
 };
 
 export const UserTypeTag = ({ clientType, clientTtl }: TUserTypeTagProps) => {

@@ -12,6 +12,7 @@ export type ClientMapped = ICountersEntity & {
   amountUsd?: string;
   voucherAmount?: string;
   reference?: string;
+  createdDate: Date;
 };
 
 export interface IClientsSlice {
