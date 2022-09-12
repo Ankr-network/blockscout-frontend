@@ -27,10 +27,8 @@ export interface ChainItem {
 
 export const useChainItem = ({
   nodes,
-  unfilteredChain,
+  unfilteredChain: chain,
 }: Details): ChainItem => {
-  const chain = unfilteredChain;
-
   const isChainArchived = useMemo(
     () => !!nodes?.some(item => item.isArchive),
     [nodes],
