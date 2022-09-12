@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { ChainType, Timeframe } from 'domains/chains/types';
@@ -6,7 +8,6 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { useMemo } from 'react';
 import { GetStartedSection } from '../../GetStartedSection';
 import { InfrastructureSection } from '../../InfrastructureSection';
 import { PrimaryTab } from '../../PrimaryTab';
@@ -38,7 +39,7 @@ export const useSections = ({
   data,
   group,
 }: SectionsParams): Sections => {
-  const { chain, unfilteredChain: publicChain } = data;
+  const { chain } = data;
   const chainId = chain.id;
 
   let initialTabID = useInitialSection();
@@ -47,14 +48,12 @@ export const useSections = ({
   const getStartedSection = useMemo(
     () => ({
       id: SectionID.GetStarted,
-      content: (
-        <GetStartedSection group={group} publicUrl={publicChain.urls[0].rpc} />
-      ),
+      content: <GetStartedSection group={group} />,
       title: (isSelected: boolean) => (
         <PrimaryTab isSelected={isSelected} label={getStarted} />
       ),
     }),
-    [group, publicChain.urls],
+    [group],
   );
 
   const tabs: Tab<SectionID>[] = useLocaleMemo(

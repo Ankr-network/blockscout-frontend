@@ -2,7 +2,7 @@ import { H1Tag } from 'uiKit/H1Tag';
 
 import { t } from 'common';
 import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
-import { IChainItemDetails } from '../../actions/fetchChain';
+import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemSections } from './components/ChainItemSections';
 import { useChainItem } from './hooks/useChainItem';

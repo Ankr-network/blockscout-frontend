@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
 import { t } from 'common';
 
 import { useDispatchRequest } from '@redux-requests/react';
 import { fetchLastBlockNumber } from 'domains/requestComposer/actions/fetchLastBlockNumber';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useHeaderStyles } from './useHeaderStyles';
@@ -23,9 +22,9 @@ export const Header = ({ publicUrl }: IHeaderProps) => {
   const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  useOnMount(() => {
+  useEffect(() => {
     dispatchRequest(fetchLastBlockNumber(publicUrl));
-  });
+  }, [dispatchRequest, publicUrl]);
 
   useOnUnmount(() => {
     dispatch(stopPolling([fetchLastBlockNumber.toString()]));
