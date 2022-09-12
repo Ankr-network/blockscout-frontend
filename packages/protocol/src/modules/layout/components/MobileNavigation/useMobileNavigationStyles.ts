@@ -17,6 +17,12 @@ export const useMobileNavigationStyles = makeStyles<Theme>(theme => ({
       boxShadow:
         '0px 0px 25px rgba(31, 34, 38, 0.05), 0px 5px 100px rgba(31, 34, 38, 0.05)',
 
+      '& span svg:nth-child(1)': {
+        display: 'block',
+      },
+      '& span svg:nth-child(2)': {
+        display: 'none',
+      },
       [theme.breakpoints.down('sm')]: {
         display: 'flex',
       },
@@ -60,5 +66,11 @@ export const useMobileNavigationStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.primary.main,
     cursor: 'default',
     fontWeight: 'bold',
+    '&& span svg:nth-child(1)': {
+      display: 'none',
+    },
+    '&& span svg:nth-child(2)': {
+      display: 'block',
+    },
   },
 }));
