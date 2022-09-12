@@ -1,9 +1,12 @@
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+import { useMemo } from 'react';
 import { GetStartedSection } from '../../GetStartedSection';
 import { InfrastructureSection } from '../../InfrastructureSection';
 import { PrimaryTab } from '../../PrimaryTab';
@@ -38,25 +41,24 @@ export const useSections = ({
   const { chain, unfilteredChain: publicChain } = data;
   const chainId = chain.id;
 
-  const initialTabID = useInitialSection();
+  let initialTabID = useInitialSection();
   const { timeframe, timeframeTabs } = useTimeframe();
+
+  const getStartedSection = useMemo(
+    () => ({
+      id: SectionID.GetStarted,
+      content: (
+        <GetStartedSection group={group} publicUrl={publicChain.urls[0].rpc} />
+      ),
+      title: (isSelected: boolean) => (
+        <PrimaryTab isSelected={isSelected} label={getStarted} />
+      ),
+    }),
+    [group, publicChain.urls],
+  );
 
   const tabs: Tab<SectionID>[] = useLocaleMemo(
     () => [
-      {
-        id: SectionID.GetStarted,
-        content: (
-          <GetStartedSection
-            publicChain={publicChain}
-            chainType={chainType}
-            group={group}
-            publicUrl={publicChain.urls[0].rpc}
-          />
-        ),
-        title: (isSelected: boolean) => (
-          <PrimaryTab isSelected={isSelected} label={getStarted} />
-        ),
-      },
       {
         id: SectionID.UsageData,
         content: (
@@ -82,6 +84,20 @@ export const useSections = ({
     ],
     [chain, chainType, data, group, timeframe, timeframeTabs],
   );
+
+  // TODO: Remove after adding ChainFlow to GetStartedSection
+  const { credentials, loading } = useAuth();
+  const isUpgraded = credentials || loading;
+  const getStartedHasContent = !isUpgraded || isGroupEvmBased(group);
+
+  if (!getStartedHasContent && initialTabID === SectionID.GetStarted) {
+    initialTabID = SectionID.UsageData;
+  }
+
+  if (getStartedHasContent) {
+    tabs.unshift(getStartedSection);
+  }
+  //
 
   const onTabSelect = useRedirect(chainId);
 
