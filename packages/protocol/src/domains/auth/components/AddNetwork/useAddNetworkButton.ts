@@ -10,13 +10,13 @@ import { useAuth } from '../../hooks/useAuth';
 import { flattenAllChainTypes, getMappedNetwork } from './AddNetworkUtils';
 
 interface IUseAddNetworkButtonParams {
-  chain: IApiChain;
+  publicChain: IApiChain;
   chainType?: ChainType;
   group?: EndpointGroup;
 }
 
 export const useAddNetworkButton = ({
-  chain,
+  publicChain,
   chainType,
   group,
 }: IUseAddNetworkButtonParams) => {
@@ -25,36 +25,35 @@ export const useAddNetworkButton = ({
   const mappedNetwork = useMemo(() => {
     if (chainType && group) {
       const flatChainId = getChainId({
-        chain,
+        publicChain,
         chainType,
         group,
         withExceptions: false,
       }) as ChainID;
 
-      const flatChains = flattenAllChainTypes(chain);
+      const flatChains = flattenAllChainTypes(publicChain);
 
       const flatChain = getChainById(flatChains, flatChainId);
 
       return getMappedNetwork(flatChain, flatChainId);
     }
 
-    return getMappedNetwork(chain, chain.id as ChainID);
-  }, [chain, chainType, group]);
+    return getMappedNetwork(publicChain, publicChain.id as ChainID);
+  }, [publicChain, chainType, group]);
 
-  const handleButtonClick = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
-  ) => {
-    /* stop propagation for click event to avoid parent element click */
-    event.preventDefault();
-    event.stopPropagation();
+  const handleButtonClick = mappedNetwork
+    ? (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        /* stop propagation for click event to avoid parent element click */
+        event.preventDefault();
+        event.stopPropagation();
 
-    return handleAddNetwork(mappedNetwork);
-  };
+        return handleAddNetwork(mappedNetwork);
+      }
+    : undefined;
 
   return {
     isWalletConnected,
     loading,
-    mappedNetwork,
     handleButtonClick,
   };
 };

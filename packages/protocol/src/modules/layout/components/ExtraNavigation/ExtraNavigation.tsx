@@ -9,6 +9,7 @@ import {
 } from 'modules/common/components/Navigation';
 import { FAQ_URL } from '../MainNavigation/MainNavigationUtils';
 import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
+import { ReactComponent as ActiveSettingsIcon } from 'uiKit/Icons/activeSetting.svg';
 
 const HAS_FAQ_LINK = false;
 
@@ -18,6 +19,7 @@ export const ExtraNavigation = () => {
       {
         label: t('extra-navigation.settings'),
         StartIcon: SettingsIcon,
+        ActiveIcon: ActiveSettingsIcon,
         href: UserSettingsRoutesConfig.settings.generatePath(),
       },
     ];
@@ -26,6 +28,7 @@ export const ExtraNavigation = () => {
       mainItems.unshift({
         label: t('extra-navigation.faq'),
         StartIcon: ChatIcon,
+        ActiveIcon: ChatIcon,
         href: FAQ_URL,
       });
     }

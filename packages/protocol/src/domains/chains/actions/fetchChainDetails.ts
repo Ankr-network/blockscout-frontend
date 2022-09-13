@@ -2,12 +2,29 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { fetchPublicChainsInfo } from './fetchPublicChainsInfo';
 import { ResponseData } from 'modules/api/utils/ResponseData';
+import { ChainID } from 'modules/chains/types';
+import { IApiChain } from '../api/queryChains';
 import {
   fetchChainTimeframeData,
   IApiChainDetails,
 } from './fetchChainTimeframeData';
+import { fetchPublicChainsInfo } from './fetchPublicChainsInfo';
+
+const addTotalRequests = (
+  chain: IApiChain,
+  chainId: ChainID,
+  mutationData: IApiChainDetails,
+) => {
+  if (chain.id === chainId) {
+    return {
+      ...chain,
+      totalRequests: mutationData.totalRequests,
+    };
+  }
+
+  return chain;
+};
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
@@ -42,20 +59,19 @@ export const fetchChainDetails = createSmartAction<
       asMutation: true,
       mutations: {
         [fetchPublicChainsInfo.toString()]: (
-          data: ResponseData<typeof fetchPublicChainsInfo>,
+          {
+            chains = [],
+            allChains = [],
+          }: ResponseData<typeof fetchPublicChainsInfo>,
           mutationData: IApiChainDetails,
-        ): ResponseData<typeof fetchPublicChainsInfo> => {
-          return data.map(item => {
-            if (item.id === chainId) {
-              return {
-                ...item,
-                totalRequests: mutationData.totalRequests,
-              };
-            }
-
-            return item;
-          });
-        },
+        ): ResponseData<typeof fetchPublicChainsInfo> => ({
+          chains: chains.map(chain =>
+            addTotalRequests(chain, chainId as ChainID, mutationData),
+          ),
+          allChains: allChains.map(chain =>
+            addTotalRequests(chain, chainId as ChainID, mutationData),
+          ),
+        }),
       },
     },
   }),

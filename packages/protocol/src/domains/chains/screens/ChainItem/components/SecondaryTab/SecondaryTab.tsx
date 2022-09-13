@@ -11,6 +11,7 @@ export interface SecondaryTabProps {
   label: string;
   onClick?: () => void;
   size?: TabSize;
+  isDarkTheme?: boolean;
 }
 
 export const SecondaryTab = ({
@@ -19,9 +20,15 @@ export const SecondaryTab = ({
   isSelected,
   label,
   onClick,
+  isDarkTheme,
   size = TabSize.Medium,
 }: SecondaryTabProps) => {
-  const classes = useSecondaryTabStyles({ isLast, isSelected, size });
+  const classes = useSecondaryTabStyles({
+    isLast,
+    isSelected,
+    size,
+    isDarkTheme,
+  });
 
   return (
     <Button
