@@ -1,18 +1,18 @@
-import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { mainTheme } from 'ui';
-import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
-import { ChainsItem } from './ChainsItem';
 import BigNumber from 'bignumber.js';
 import { Timeframe } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
+import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
+import { mainTheme } from 'ui';
+import { ChainsItem } from './ChainsItem';
 
 const chain = {
   isLoading: false,
   totalRequests: new BigNumber(10000),
-  id: 'id',
+  id: 'id' as ChainID,
   name: 'namenamenamename',
   icon: chainLogo,
   urls: [{ rpc: 'chainLinkchainLinkchainLinkchainLinkchainLink' }],

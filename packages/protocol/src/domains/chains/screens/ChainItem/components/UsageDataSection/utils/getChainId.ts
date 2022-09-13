@@ -1,6 +1,7 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
-import { ChainID, EndpointGroup } from 'modules/endpoints/types';
+import { ChainID } from 'modules/chains/types';
+import { EndpointGroup } from 'modules/endpoints/types';
 import {
   decomposeChainIntoIds,
   DecomposedChainIds,

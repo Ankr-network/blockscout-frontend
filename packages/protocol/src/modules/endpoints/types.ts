@@ -1,6 +1,5 @@
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-
-export type ChainID = IApiChain['id'];
+import { ChainID } from 'modules/chains/types';
 
 export interface ChainGroup {
   id: ChainGroupID;
