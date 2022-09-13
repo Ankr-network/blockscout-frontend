@@ -1,4 +1,12 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import isEqual from 'lodash.isequal';
 
 export type DefaultTabID = string | number;
 export type TabID<TI> = TI extends DefaultTabID ? TI : DefaultTabID;
@@ -34,9 +42,16 @@ export const useTabs = <TI = DefaultTabID>({
   const [selectedTabID, setSelectedTabID] = useState(
     getSelectedTabID(tabs, initialTabID),
   );
+  const tabsRef = useRef<Tab<TI>[]>(tabs);
 
   useEffect(() => {
-    setSelectedTabID(getSelectedTabID(tabs, initialTabID));
+    const tabsIds = tabs.map(item => item.id);
+    const refIds = tabsRef.current.map(item => item.id);
+
+    if (!isEqual(tabsIds, refIds)) {
+      setSelectedTabID(getSelectedTabID(tabs, initialTabID));
+      tabsRef.current = tabs;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabs]);
 

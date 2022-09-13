@@ -10,6 +10,7 @@ import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { useChainType } from './useChainType';
 import { useGroup } from './useGroup';
 import { useNetId } from './useNetId';
+import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 
 export interface ChainItem {
   chain: IApiChain;
@@ -57,12 +58,11 @@ export const useChainItem = ({
 
   const publicEndpoints = useGroupedEndpoints(publicChain);
 
-  const { group: unfilteredGroup } = useGroup({
-    chain: publicChain,
-    chainType,
-    endpoints: publicEndpoints,
-    netId,
-  });
+  const publicGroups = publicEndpoints[chainType];
+
+  const unfilteredGroup =
+    publicGroups.find(gr => gr.id === groupID) ||
+    getFallbackEndpointGroup(chain.name);
 
   return {
     chain,
