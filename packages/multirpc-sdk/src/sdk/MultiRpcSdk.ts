@@ -425,7 +425,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     this.publicGateway =
       this.publicGateway ||
       new PublicGateway({
-        baseURL: this.config.workerUrl,
+        workerUrl: this.config.workerUrl,
+        accountUrl: this.config.accountUrl,
       });
 
     return this.publicGateway;

@@ -1,26 +1,28 @@
-export interface ICountry {
+export interface ICountry<T> {
   country: string;
-  bytes: number;
-  requests: number;
+  bytes: T;
+  requests: T;
 }
 
 export type TotalRequestsHistoryTimestamp = string;
 
-export type TotalRequestsHistory =
-  Record<TotalRequestsHistoryTimestamp, number>;
+export type TotalRequestsHistory = Record<
+  TotalRequestsHistoryTimestamp,
+  number
+>;
 
-export interface IWorkerGlobalStatus {
-  uniqueVisitors: number;
-  uniqueVisitorsHistory: Record<string, number>;
-  totalRequests: number;
+export interface IWorkerGlobalStatus<T = number> {
+  uniqueVisitors: T;
+  uniqueVisitorsHistory: Record<string, T>;
+  totalRequests: T;
   totalRequestsHistory: TotalRequestsHistory;
-  totalCached: number;
-  totalCachedHistory: Record<string, number>;
-  totalServed: number;
-  totalServedHistory: Record<string, number>;
-  dataCached: number;
-  dataCachedHistory: Record<string, number>;
-  countries: Record<string, ICountry>;
+  totalCached: T;
+  totalCachedHistory: Record<string, T>;
+  totalServed: T;
+  totalServedHistory: Record<string, T>;
+  dataCached: T;
+  dataCachedHistory: Record<string, T>;
+  countries: Record<string, ICountry<T>>;
 }
 
 export interface IWorkerNodesWeight {
@@ -33,3 +35,8 @@ export interface IWorkerNodesWeight {
 }
 
 export type Timeframe = '1h' | '24h' | '7d' | '30d';
+
+export interface Config {
+  workerUrl: string;
+  accountUrl: string;
+}
