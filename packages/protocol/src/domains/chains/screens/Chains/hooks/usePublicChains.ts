@@ -1,16 +1,21 @@
-import { IJwtToken } from 'multirpc-sdk';
 import { resetRequests } from '@redux-requests/core';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import { useQuery } from '@redux-requests/react';
+import { IJwtToken } from 'multirpc-sdk';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { fetchPublicChainsInfo } from 'domains/chains/actions/fetchPublicChainsInfo';
+import { IApiChain } from 'domains/chains/api/queryChains';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
-export const usePublicChains = (token?: IJwtToken): [IApiChain[], boolean] => {
-  const { data: chains, loading } = useQuery<IApiChain[]>({
-    defaultData: [],
+export type PublicChains = [IApiChain[], IApiChain[], boolean];
+
+export const usePublicChains = (token?: IJwtToken): PublicChains => {
+  const {
+    data: { chains = [], allChains = [] },
+    loading,
+  } = useQuery({
+    defaultData: {},
     type: fetchPublicChainsInfo,
   });
   const dispatch = useDispatch();
@@ -25,5 +30,5 @@ export const usePublicChains = (token?: IJwtToken): [IApiChain[], boolean] => {
     dispatch(resetRequests([fetchPublicChainsInfo.toString()]));
   });
 
-  return [chains, loading];
+  return [chains, allChains, loading];
 };

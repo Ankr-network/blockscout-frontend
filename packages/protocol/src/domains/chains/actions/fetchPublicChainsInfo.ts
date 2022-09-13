@@ -2,11 +2,17 @@ import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
+import { getAddIsArchiveCB } from '../utils/addIsArchive';
 import { fetchChainNodes } from './fetchChainNodes';
 import { fetchPublicChains } from './fetchPublicChains';
 
+export interface IFetchPublicChainsInfoResult {
+  chains: IApiChain[];
+  allChains: IApiChain[];
+}
+
 export const fetchPublicChainsInfo = createSmartAction<
-  RequestAction<null, IApiChain[]>
+  RequestAction<null, IFetchPublicChainsInfoResult>
 >('chains/fetchPublicChainsInfo', () => ({
   request: {
     promise: (async () => null)(),
@@ -19,20 +25,21 @@ export const fetchPublicChainsInfo = createSmartAction<
       store: Store & { dispatchRequest: DispatchRequest },
     ) => {
       return {
-        promise: (async (): Promise<IApiChain[]> => {
-          const [{ data: chains }, { data: nodes }] = await Promise.all([
+        promise: (async (): Promise<IFetchPublicChainsInfoResult> => {
+          const [
+            { data: { chains = [], allChains = [] } = {} },
+            { data: nodes },
+          ] = await Promise.all([
             store.dispatchRequest(fetchPublicChains()),
             store.dispatchRequest(fetchChainNodes()),
           ]);
 
-          if (!chains) return [];
+          const addIsArchive = getAddIsArchiveCB(nodes);
 
-          return chains?.map((chain: IApiChain) => ({
-            ...chain,
-            isArchive: nodes?.some(
-              item => item.blockchain === chain.id && item.isArchive,
-            ),
-          }));
+          return {
+            chains: chains.map(addIsArchive),
+            allChains: allChains.map(addIsArchive),
+          };
         })(),
       };
     },

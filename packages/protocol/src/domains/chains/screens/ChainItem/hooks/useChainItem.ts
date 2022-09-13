@@ -1,19 +1,20 @@
 import { useMemo } from 'react';
 import { getChainName } from 'uiKit/utils/useMetatags';
 
-import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-import { ChainType } from 'domains/chains/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { IChainItemDetails as Details } from 'domains/chains/actions/fetchChain';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { useChain } from './useChain';
+import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { useChainType } from './useChainType';
 import { useGroup } from './useGroup';
-import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { useNetId } from './useNetId';
+import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 
 export interface ChainItem {
   chain: IApiChain;
+  publicChain: IApiChain;
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
@@ -24,11 +25,14 @@ export interface ChainItem {
   isChainArchived: boolean;
   name: string;
   selectGroup: (id: ChainGroupID) => void;
+  unfilteredGroup: EndpointGroup;
 }
 
-export const useChainItem = ({ nodes }: Details): ChainItem => {
-  const chain = useChain();
-
+export const useChainItem = ({
+  nodes,
+  chain,
+  unfilteredChain: publicChain,
+}: Details): ChainItem => {
   const isChainArchived = useMemo(
     () => !!nodes?.some(item => item.isArchive),
     [nodes],
@@ -52,8 +56,17 @@ export const useChainItem = ({ nodes }: Details): ChainItem => {
     netId,
   });
 
+  const publicEndpoints = useGroupedEndpoints(publicChain);
+
+  const publicGroups = publicEndpoints[chainType];
+
+  const unfilteredGroup =
+    publicGroups.find(gr => gr.id === groupID) ||
+    getFallbackEndpointGroup(chain.name);
+
   return {
     chain,
+    publicChain,
     chainType,
     chainTypeTab,
     chainTypeTabs,
@@ -64,5 +77,6 @@ export const useChainItem = ({ nodes }: Details): ChainItem => {
     isChainArchived,
     name,
     selectGroup,
+    unfilteredGroup,
   };
 };

@@ -6,6 +6,7 @@ import { SortType, Timeframe } from 'domains/chains/types';
 
 export interface ChainsListProps {
   chains: IApiChain[];
+  allChains: IApiChain[];
   sortType: SortType;
   timeframe: Timeframe;
 }

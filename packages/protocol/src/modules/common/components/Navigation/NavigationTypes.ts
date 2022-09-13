@@ -7,7 +7,7 @@ export interface NavigationItem {
   label: string;
   href?: string;
   StartIcon: (props: SvgIconProps) => ReactElement | null;
-  EndIcon?: (props: SvgIconProps) => ReactElement;
+  ActiveIcon?: (props: SvgIconProps) => ReactElement | null;
   isDisabled?: boolean;
   isActive?: IsActive;
 }

@@ -6,9 +6,13 @@ import { fetchPublicChains } from '../actions/fetchPublicChains';
 export const usePublicChainsRoutes = () => {
   const dispatchRequest = useDispatchRequest();
 
-  const { data, pristine } = useQuery({
+  const {
+    data: { chains = [] },
+    pristine,
+  } = useQuery({
     type: fetchPublicChains.toString(),
     action: fetchPublicChains,
+    defaultData: {},
   });
 
   useEffect(() => {
@@ -17,5 +21,5 @@ export const usePublicChainsRoutes = () => {
     }
   }, [dispatchRequest, pristine]);
 
-  return (data || [])?.map(item => item?.id);
+  return chains.map(item => item?.id);
 };

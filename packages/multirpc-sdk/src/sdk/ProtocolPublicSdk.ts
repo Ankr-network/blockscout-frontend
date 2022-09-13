@@ -1,3 +1,4 @@
+import { IBlockchainEntity } from '../backoffice';
 import { IConfig } from '../common';
 import { IPublicGateway, PublicGateway, Timeframe } from '../public';
 import { IProtocolPublicSdk } from './interfaces';
@@ -35,9 +36,9 @@ export class ProtocolPublicSdk implements IProtocolPublicSdk {
     return this.getGateway().getNodesWeight();
   }
 
-  async getPublicUrls(): Promise<FetchBlockchainUrlsResult> {
-    const blockchainsApiResponse = await this.getGateway().getBlockchains();
-
-    return formatPublicUrls(blockchainsApiResponse, this.config.publicRpcUrl);
+  async formatPublicChains(
+    blockchains: IBlockchainEntity[],
+  ): Promise<FetchBlockchainUrlsResult> {
+    return formatPublicUrls(blockchains, this.config.publicRpcUrl);
   }
 }

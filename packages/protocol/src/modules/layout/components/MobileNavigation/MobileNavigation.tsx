@@ -55,43 +55,48 @@ export const MobileNavigation = ({
       {!loading && (
         <nav className={classNames(classes.root, classes.custom, className)}>
           <Container className={classes.container} maxWidth={false}>
-            {items.map(({ label, href = '', StartIcon, isActive }) => {
-              return isExternalPath(href) ? (
-                <Button
-                  key={label}
-                  component="a"
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="text"
-                  className={classes.link}
-                  color="primary"
-                  classes={{
-                    label: classes.label,
-                  }}
-                >
-                  <StartIcon />
-                  {label}
-                </Button>
-              ) : (
-                <Button
-                  key={label}
-                  component={NavLink}
-                  to={href}
-                  activeClassName={classes.activeLink}
-                  variant="text"
-                  className={classes.link}
-                  color="primary"
-                  classes={{
-                    label: classes.label,
-                  }}
-                  isActive={isActive}
-                >
-                  <StartIcon />
-                  {label}
-                </Button>
-              );
-            })}
+            {items.map(
+              ({ label, href = '', StartIcon, ActiveIcon, isActive }) => {
+                return isExternalPath(href) ? (
+                  <Button
+                    key={label}
+                    component="a"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="text"
+                    className={classes.link}
+                    color="primary"
+                    classes={{
+                      label: classes.label,
+                    }}
+                  >
+                    <StartIcon />
+                    {label}
+                  </Button>
+                ) : (
+                  <Button
+                    key={label}
+                    component={NavLink}
+                    to={href}
+                    activeClassName={classes.activeLink}
+                    variant="text"
+                    className={classes.link}
+                    color="primary"
+                    classes={{
+                      label: classes.label,
+                    }}
+                    isActive={isActive}
+                  >
+                    <StartIcon />
+                    {ActiveIcon && (
+                      <ActiveIcon className={classes.activeIcon} />
+                    )}
+                    {label}
+                  </Button>
+                );
+              },
+            )}
             <MobileDetails
               isOpened={isOpened}
               onClose={() => setIsOpened(false)}

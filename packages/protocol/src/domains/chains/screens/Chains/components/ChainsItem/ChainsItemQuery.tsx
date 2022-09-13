@@ -1,11 +1,10 @@
-import React from 'react';
-
 import { ChainsItem } from './ChainsItem';
 import { ChainsItemQueryProps } from './ChainsItemTypes';
 import { useChainsItem } from './hooks/useChainsItem';
 
 export const ChainsItemQuery = ({
   chain,
+  publicChain,
   chainId,
   timeframe,
   ...props
@@ -19,6 +18,7 @@ export const ChainsItemQuery = ({
     <ChainsItem
       {...props}
       chain={chain}
+      publicChain={publicChain}
       isLoading={loading}
       isPremium={isPremium}
       timeframe={timeframe}

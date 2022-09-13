@@ -1,32 +1,9 @@
+import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
-import { bytesToHex } from 'web3-utils';
 import { TransactionReceipt } from 'web3-core';
 import { EventData } from 'web3-eth-contract';
-import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
+import { bytesToHex } from 'web3-utils';
 
-import {
-  IPrivateEndpoint,
-  IProvider,
-  IWorkerEndpoint,
-  IWorkerGateway,
-  RestrictedDomains,
-  RestrictedIps,
-  WorkerGateway,
-} from '../worker';
-import { ConsensusGateway, IConsensusGateway } from '../consensus';
-import {
-  Base64,
-  IConfig,
-  IJwtToken,
-  PrefixedHex,
-  UUID,
-  Web3Address,
-} from '../common';
-import {
-  PremiumPlanContractManager,
-  IPremiumPlanContractManager,
-} from '../PremiumPlanContract';
-import { IIssueJwtTokenResult, FetchBlockchainUrlsResult } from './types';
 import {
   AccountGateway,
   IAccountGateway,
@@ -41,16 +18,43 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from '../account';
-import { IMultiRpcSdk } from './interfaces';
+import {
+  BackofficeGateway,
+  IBackofficeGateway,
+  IBlockchainEntity,
+} from '../backoffice';
+import {
+  Base64,
+  IConfig,
+  IJwtToken,
+  PrefixedHex,
+  UUID,
+  Web3Address,
+} from '../common';
+import { ConsensusGateway, IConsensusGateway } from '../consensus';
+import { IPAYGContractManager, PAYGContractManager } from '../PAYGContract';
+import {
+  IPremiumPlanContractManager,
+  PremiumPlanContractManager,
+} from '../PremiumPlanContract';
+import { IPublicGateway, PublicGateway } from '../public';
 import { RpcGateway } from '../rpc/RpcGateway';
-import { PAYGContractManager, IPAYGContractManager } from '../PAYGContract';
+import {
+  IPrivateEndpoint,
+  IProvider,
+  IWorkerEndpoint,
+  IWorkerGateway,
+  RestrictedDomains,
+  RestrictedIps,
+  WorkerGateway,
+} from '../worker';
+import { IMultiRpcSdk } from './interfaces';
+import { FetchBlockchainUrlsResult, IIssueJwtTokenResult } from './types';
 import {
   catchSignError,
   formatPrivateUrls,
   getFirstActiveToken,
 } from './utils';
-import { BackofficeGateway, IBackofficeGateway } from '../backoffice';
-import { IPublicGateway, PublicGateway } from '../public';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
   private premiumPlanContractManager?: IPremiumPlanContractManager;
@@ -180,11 +184,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return updatedJwtToken;
   }
 
-  async fetchPrivateUrls(
+  async formatPrivateChains(
+    blockchains: IBlockchainEntity[],
     jwtToken: IJwtToken,
   ): Promise<FetchBlockchainUrlsResult> {
-    const blockchains = await this.getPublicGateway().getBlockchains();
-
     return formatPrivateUrls(blockchains, this.config, jwtToken.endpoint_token);
   }
 

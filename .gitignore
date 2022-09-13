@@ -9,6 +9,7 @@ todo.md
 yarn-error.log
 .eslintcache
 .idea
+*.code-workspace
 coverage
 lerna-debug.log
 dist

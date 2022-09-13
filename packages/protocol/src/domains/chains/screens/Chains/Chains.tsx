@@ -5,19 +5,20 @@ import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { Spinner } from 'ui';
 import { H1Tag } from 'uiKit/H1Tag';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { useChainsStyles } from './ChainsStyles';
 import { InfoBanner } from './components/Banner';
 import { ChainsList } from './components/ChainsList';
 import { ChainsSortSelect } from './components/ChainsSortSelect';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 
-import { UsageSummary } from './components/UsageSummary';
 import { ReactSnapChainsLinksGenerator } from './components/ReactSnapChainsLinksGenerator';
+import { UsageSummary } from './components/UsageSummary';
 import { useChains } from './hooks/useChains';
 
 export const Chains = () => {
   const {
     chains,
+    allChains,
     credentials,
     isConnecting,
     isWalletConnected,
@@ -54,12 +55,15 @@ export const Chains = () => {
         title={t('chains.title')}
         select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
       />
-      <NoReactSnap fallback={<ReactSnapChainsLinksGenerator chains={chains} />}>
+      <NoReactSnap
+        fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
+      >
         {loading ? (
           <Spinner />
         ) : (
           <ChainsList
             chains={chains}
+            allChains={allChains}
             sortType={sortType}
             timeframe={timeframe}
           />

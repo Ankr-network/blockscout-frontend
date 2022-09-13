@@ -12,6 +12,7 @@ import { fetchPublicChains } from './fetchPublicChains';
 
 export interface IChainItemDetails {
   chain: IApiChain;
+  unfilteredChain: IApiChain;
   nodes?: INodeEntity[];
 }
 
@@ -33,22 +34,27 @@ export const fetchChain = createSmartAction<
     ) => {
       return {
         promise: (async (): Promise<IChainItemDetails> => {
-          const [{ data: chains }, { data: nodes }] = await Promise.all([
+          const [
+            { data: { chains = [], allChains = [] } = {} },
+            { data: nodes },
+          ] = await Promise.all([
             credentials
               ? store.dispatchRequest(fetchPrivateChains())
               : store.dispatchRequest(fetchPublicChains()),
             store.dispatchRequest(fetchChainNodes(chainId)),
           ]);
 
-          const chain = chains?.find(item => item.id === chainId);
+          const chain = chains.find(item => item.id === chainId);
+          const unfilteredChain = allChains.find(item => item.id === chainId);
 
-          if (!chain) {
+          if (!chain || !unfilteredChain) {
             store.dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
             throw new Error('ChainId not found');
           }
 
           return {
             chain,
+            unfilteredChain,
             nodes,
           };
         })(),

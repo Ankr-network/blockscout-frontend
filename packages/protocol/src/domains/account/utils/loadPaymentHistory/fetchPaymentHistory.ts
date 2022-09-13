@@ -7,6 +7,7 @@ import {
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { getDeductionsTypes } from './getDeductionsTypes';
 import { parseTypes } from './parseTypes';
 
 export interface FetchPaymentHistoryParams {
@@ -58,7 +59,7 @@ export const fetchPaymentHistory = async ({
           order_by: 'timestamp',
           order: 'desc',
           to,
-          type: types,
+          type: getDeductionsTypes(types),
         })
       : defaultRequest,
     deductionsCursor >= 0 && withDeductions
