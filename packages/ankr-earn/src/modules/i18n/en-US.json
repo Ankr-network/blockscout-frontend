@@ -154,13 +154,9 @@
     "liquidity-mining": "Liquidity mining"
   },
   "connect": {
-    "access-request": "Access Request",
-    "ask-connect": "Do you wish to connect Ankr Staking to your wallet?",
-    "grant": "Grant Access",
-    "info": "Click and select a wallet to connect",
+    "title": "Please connect your wallet to continue",
     "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
-    "available-networks": "Ensure your wallet is connected to the following networks:",
     "unsupported-network-header": "Wrong network",
     "unsupported-network-description": "Please select a supported network to continue",
     "unsupported-network-single-description": "The current page is not available on {currentNetwork} network",
@@ -168,6 +164,7 @@
     "unsupported-network-single-network": "{newNetwork}",
     "switch-network": "Switch network",
     "connect": "Connect",
+    "connect-wallet": "Connect wallet",
     "unsupported-polkadot-network": "Please, choose required network for unstake:",
     "current": "current",
     "networks": {
