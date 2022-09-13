@@ -72,7 +72,6 @@
     "account-details": "Account Details",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
-    "request-explorer": "Request Explorer",
     "endpoints": "Endpoints",
     "billing": "Billing",
     "pricing": "Pricing",
@@ -89,7 +88,6 @@
     "account-details": "Account Details",
     "plan": "Premium Plan",
     "protocol": "Node Providers",
-    "request-explorer": "Request Explorer",
     "more": "More"
   },
   "language": {
@@ -234,6 +232,97 @@
       "title": "Requests by IP",
       "ip": "IP",
       "http": "HTTP"
+    },
+    "request-composer": {
+      "header": {
+        "title": "Test RPC Methods",
+        "chain": "Chain",
+        "evm": "EVM",
+        "connection": "Connection",
+        "https": "HTTPS",
+        "last-block-number": "Last block number"
+      },
+      "form": {
+        "methods-label": "Methods",
+        "methods-placeholder": "Please select method",
+        "methods-no-options-text": "No such methods available",
+        "arguments-title": "Possible Arguments",
+        "button": "Send Request"
+      },
+      "logger": {
+        "title": "Response logs",
+        "clear-button": "Clear",
+        "prefixes": {
+          "error": "Error response: ",
+          "time": "Response time: ",
+          "success": "Node response: "
+        },
+        "messages": {
+          "init": "Web3 URL detected…",
+          "send-request": "Sending request for **{method}**: ",
+          "response-time": "{ms}ms"
+        }
+      },
+      "sample-code": {
+        "copy": "Copy",
+        "button": "View Sample Code"
+      },
+      "method-description": {
+        "web3_clientVersion": "Returns the current client version.",
+        "web3_sha3": "Returns Keccak-256 (not the standardized SHA3-256) of the given data.",
+        "net_version": "Returns the current network id.",
+        "net_listening": "Returns `true` if client is actively listening for network connections.",
+        "net_peerCount": "Returns number of peers currently connected to the client.",
+        "eth_protocolVersion": "Returns the current ethereum protocol version.",
+        "eth_syncing": "Returns an object with data about the sync status or false.",
+        "eth_coinbase": "Returns the client coinbase address.",
+        "eth_mining": "Returns `true` if client is actively mining new blocks.",
+        "eth_hashrate": "Returns the number of hashes per second that the node is mining with.",
+        "eth_gasPrice": "Returns the current price per gas in wei.",
+        "eth_accounts": "Returns a list of addresses owned by client.",
+        "eth_blockNumber": "Returns the number of most recent block.",
+        "eth_getBalance": "Returns the balance of the account of given address.",
+        "eth_getStorageAt": "Returns the value from a storage position at a given address.",
+        "eth_getTransactionCount": "Returns the number of transactions sent from an address.",
+        "eth_getBlockTransactionCountByHash": "Returns the number of transactions in a block from a block matching the given block hash.",
+        "eth_getBlockTransactionCountByNumber": "Returns the number of transactions in a block matching the given block number.",
+        "eth_getUncleCountByBlockHash": "Returns the number of uncles in a block from a block matching the given block hash.",
+        "eth_getUncleCountByBlockNumber": "Returns the number of uncles in a block from a block matching the given block number.",
+        "eth_getCode": "Returns code at a given address.",
+        "eth_sign": "🚫 This method is not supported!",
+        "eth_signTransaction": "🚫 This method is not supported!",
+        "eth_sendTransaction": "🚫 This method is not supported!",
+        "eth_sendRawTransaction": "Creates new message call transaction or a contract creation for signed transactions.",
+        "eth_call": "🚫 This method is not YET supported!",
+        "eth_estimateGas": "🚫 This method is not YET supported!",
+        "eth_getBlockByHash": "Returns information about a block by hash.",
+        "eth_getBlockByNumber": "Returns information about a block by block number.",
+        "eth_getTransactionByHash": "Returns the information about a transaction requested by transaction hash.",
+        "eth_getTransactionByBlockHashAndIndex": "Returns information about a transaction by block hash and transaction index position.",
+        "eth_getTransactionByBlockNumberAndIndex": "Returns information about a transaction by block number and transaction index position.",
+        "eth_getTransactionReceipt": "Returns the receipt of a transaction by transaction hash.",
+        "eth_getUncleByBlockHashAndIndex": "Returns information about a uncle of a block by hash and uncle index position.",
+        "eth_getUncleByBlockNumberAndIndex": "Returns information about a uncle of a block by number and uncle index position.",
+        "eth_getCompilers": "Returns a list of available compilers in the client.",
+        "eth_compileSolidity": "Returns compiled solidity code + ABI.",
+        "eth_compileSerpent": "Returns compiled serpent code.",
+        "eth_newFilter": "Creates a filter object, based on filter options, to notify when the state changes (logs).  The resulting value from the filter is immediately returned using `eth_getFilterChanges`.",
+        "eth_newBlockFilter": "Creates a filter in the node, to notify when a new block arrives. The resulting value from the filter is immediately returned using `eth_getFilterChanges`.",
+        "eth_newPendingTransactionFilter": "Creates a filter in the node, to notify when new pending transactions arrive. The resulting value from the filter is immediately returned using `eth_getFilterChanges`.",
+        "eth_uninstallFilter": "🚫 This method is not YET supported!",
+        "eth_getFilterChanges": "This method is covered by eth_newFilter, eth_newBlockFilter and eth_newPendingTransactionFilter.",
+        "eth_getFilterLogs": "This method is covered by eth_newFilter, eth_newBlockFilter and eth_newPendingTransactionFilter.",
+        "eth_getLogs": "This method is covered by eth_newFilter, eth_newBlockFilter and eth_newPendingTransactionFilter.",
+        "eth_getWork": "Returns the hash of the current block, the seedHash, and the boundary condition to be met ('target').",
+        "trace_block": "Returns traces created at given block (OpenEthereum or Parity only).",
+        "trace_transaction": "Returns all traces of given transaction (OpenEthereum or Parity only).",
+        "trace_get": "Returns trace at given position (OpenEthereum or Parity only).",
+        "trace_rawTransaction": "Traces a call to `eth_sendRawTransaction` without making the call, returning the traces.",
+        "trace_replayBlockTransactions": "Replays all transactions in a block returning the requested traces for each transaction.",
+        "trace_replayTransaction": "Replays a transaction, returning the traces.",
+        "trace_filter": "Returns traces matching given filter.",
+        "trace_call": "🚫 This method is not YET supported!"
+      }
     },
     "nodes-table": {
       "header": "Nodes",

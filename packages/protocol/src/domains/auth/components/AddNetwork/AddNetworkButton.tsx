@@ -8,7 +8,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { useAddNetworkButton } from './useAddNetworkButton';
 
 interface IAddNetworkProps {
-  chain: Chain;
+  publicChain: Chain;
   chainType?: ChainType;
   group?: EndpointGroup;
   className?: string;
@@ -18,7 +18,7 @@ interface IAddNetworkProps {
 }
 
 export const AddNetworkButton = ({
-  chain,
+  publicChain,
   chainType,
   group,
   className,
@@ -26,14 +26,14 @@ export const AddNetworkButton = ({
   label,
   size,
 }: IAddNetworkProps) => {
-  const { mappedNetwork, handleButtonClick, loading } = useAddNetworkButton({
-    chain: chain as IApiChain,
+  const { handleButtonClick, loading } = useAddNetworkButton({
+    publicChain: publicChain as IApiChain,
     chainType,
     group,
   });
 
   /* hiding the addNetwork button for networks not supported in MetaMask */
-  if (!mappedNetwork) {
+  if (!handleButtonClick) {
     return null;
   }
 

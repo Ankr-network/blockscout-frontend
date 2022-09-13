@@ -2,31 +2,41 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
-import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import {
   filterMapChains,
   IApiChain,
   IFetchChainsResponseData,
 } from '../api/queryChains';
 
+export interface IFetchPublicChainsResult {
+  chains: IApiChain[];
+  allChains: IApiChain[];
+}
+
 export const fetchPublicChains = createSmartAction<
-  RequestAction<IFetchChainsResponseData, IApiChain[]>
+  RequestAction<IFetchChainsResponseData, IFetchPublicChainsResult>
 >('chains/fetchPublicChains', () => ({
   request: {
     promise: (async () => {
-      const chains = await MultiService.getPublicInstance().getPublicUrls();
+      const service = await MultiService.getPublicInstance();
+      const chains = await service.getBlockchains();
+
+      const formattedPublicChains = await service.formatPublicChains(chains);
 
       return {
-        chains,
+        chains: formattedPublicChains,
+        allChains: formattedPublicChains,
       };
     })(),
   },
   meta: {
     cache: true,
-    getData: data =>
-      filterMapChains(
-        data,
-        isReactSnap() ? undefined : ({ blockchain }) => !blockchain.premiumOnly,
+    getData: ({ chains, allChains }) => ({
+      chains: filterMapChains(
+        chains,
+        ({ blockchain }) => !blockchain.premiumOnly,
       ),
+      allChains: filterMapChains(allChains),
+    }),
   },
 }));

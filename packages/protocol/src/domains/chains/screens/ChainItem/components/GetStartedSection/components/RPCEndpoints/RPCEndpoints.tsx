@@ -9,7 +9,7 @@ import { EndpointsHeader } from '../EndpointsHeader';
 import { useRPCEndpointsStyles } from './RPCEndpointsStyles';
 
 export interface RPCEndpointsProps {
-  chain: IApiChain;
+  publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
 }
@@ -17,7 +17,7 @@ export interface RPCEndpointsProps {
 const header = `${root}.endpoints.title`;
 
 export const RPCEndpoints = ({
-  chain,
+  publicChain,
   chainType,
   group,
 }: RPCEndpointsProps) => {
@@ -34,7 +34,7 @@ export const RPCEndpoints = ({
       <EndpointsHeader isPremium={!!credentials} title={title} />
       {rpcs.map(url => (
         <Endpoint
-          chain={chain}
+          publicChain={publicChain}
           chainType={chainType}
           group={group}
           url={url}

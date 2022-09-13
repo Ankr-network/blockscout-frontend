@@ -23,6 +23,7 @@ import { notificationSlice } from '../domains/notification/store/notificationSli
 import { extractMessage } from '../modules/common/utils/extractError';
 import { historyInstance } from '../modules/common/utils/historyInstance';
 import { rootSaga } from './rootSaga';
+import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
 
 const TOKEN_EXPIRED_ERROR = 'this token has already expired';
 const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';
@@ -92,6 +93,7 @@ const rootReducer = combineReducers({
     userSettingsDisabledBannersPersistConfig,
     userSettingsDisabledBannersSlice.reducer,
   ),
+  requestComposer: requestComposerSlice.reducer,
   requests: requestsReducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,

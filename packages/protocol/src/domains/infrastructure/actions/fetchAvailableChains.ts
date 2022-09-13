@@ -1,10 +1,10 @@
-import { DispatchRequest, RequestAction, getQuery } from '@redux-requests/core';
+import { DispatchRequest, getQuery, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { Store } from 'store';
 import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
-import { fetchProvider } from './fetchProvider';
 import { IApiChain } from 'domains/chains/api/queryChains';
+import { Store } from 'store';
+import { fetchProvider } from './fetchProvider';
 
 export const fetchAvailableChains = createSmartAction<
   RequestAction<null, IApiChain[]>
@@ -22,7 +22,9 @@ export const fetchAvailableChains = createSmartAction<
     ) => {
       return {
         promise: (async (): Promise<IApiChain[]> => {
-          const { data } = await store.dispatchRequest(fetchPublicChains());
+          const { data: { chains = [] } = {} } = await store.dispatchRequest(
+            fetchPublicChains(),
+          );
 
           const { data: providerData } = getQuery(store.getState(), {
             type: fetchProvider.toString(),
@@ -33,11 +35,11 @@ export const fetchAvailableChains = createSmartAction<
             const { blockchains } = providerData;
 
             if (!blockchains || blockchains.length === 0) {
-              return data || [];
+              return chains;
             }
 
             return blockchains
-              .map(item => data?.find(el => el.id === item))
+              .map(item => chains.find(el => el.id === item))
               .filter(Boolean) as IApiChain[];
           }
 

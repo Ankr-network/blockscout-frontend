@@ -17,6 +17,7 @@ const privateKey = 'chains.links.private';
 
 export const ChainsItem = ({
   chain,
+  publicChain,
   description,
   isLoading,
   logoSrc,
@@ -84,11 +85,13 @@ export const ChainsItem = ({
           )}
         </div>
         <div className={classes.buttonsWrapper}>
-          <AddNetworkButton
-            chain={chain}
-            size="medium"
-            className={classes.buttonAddNetwork}
-          />
+          {publicChain && (
+            <AddNetworkButton
+              publicChain={publicChain}
+              size="medium"
+              className={classes.buttonAddNetwork}
+            />
+          )}
           <Button variant="outlined" color="primary" className={classes.button}>
             {t('chains.more-details')}
           </Button>

@@ -11,17 +11,20 @@ export interface IChainItemTabsProps {
   chainType: ChainType;
   data: IChainItemDetails;
   group: EndpointGroup;
+  unfilteredGroup: EndpointGroup;
 }
 
 export const ChainItemSections = ({
   chainType,
   data,
   group,
+  unfilteredGroup,
 }: IChainItemTabsProps) => {
   const { section, sections, timeframe, timeframeTabs } = useSections({
     chainType,
     data,
     group,
+    unfilteredGroup,
   });
 
   const classes = useChainItemSectionsStyles();

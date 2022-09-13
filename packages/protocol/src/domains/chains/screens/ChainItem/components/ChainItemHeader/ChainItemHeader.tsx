@@ -1,7 +1,8 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { ChainGroupID } from 'modules/endpoints/types';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { Endpoints } from '../GetStartedSection/components/Endpoints';
 import { SecondaryTabs } from '../SecondaryTabs';
 import { useChainItemHeaderStyles } from './ChainItemHeaderStyles';
 import { ChainOverview } from './components/ChainOverview';
@@ -9,8 +10,11 @@ import { MobileGroupSelector } from './components/MobileGroupSelector';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;
+  publicChain: IApiChain;
+  chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
+  group: EndpointGroup;
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
@@ -20,8 +24,11 @@ export interface ChainItemHeaderProps {
 
 export const ChainItemHeader = ({
   chain,
+  publicChain,
+  chainType,
   chainTypeTab,
   chainTypeTabs,
+  group,
   groupID,
   groupTab,
   groupTabs,
@@ -59,6 +66,11 @@ export const ChainItemHeader = ({
           />
         </div>
       )}
+      <Endpoints
+        publicChain={publicChain}
+        chainType={chainType}
+        group={group}
+      />
     </div>
   );
 };

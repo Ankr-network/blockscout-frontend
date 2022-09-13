@@ -8,10 +8,11 @@ import { useCopyToClip } from 'uiKit/CopyToClipIcon/CopyToClipIconUtils';
 import { useStyles } from './CopyCodeButtonStyles';
 
 export interface CopyCodeButtonProps {
+  text?: string;
   code: string;
 }
 
-export const CopyCodeButton = ({ code }: CopyCodeButtonProps) => {
+export const CopyCodeButton = ({ code, text }: CopyCodeButtonProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
 
   const classes = useStyles();
@@ -23,7 +24,7 @@ export const CopyCodeButton = ({ code }: CopyCodeButtonProps) => {
         startIcon={<CopyIcon />}
         variant="outlined"
       >
-        {isCopied ? copyMessage : label}
+        {isCopied ? copyMessage : text || label}
       </Button>
     </CopyToClipboard>
   );

@@ -12,6 +12,18 @@ export const useNavigationStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(1.5),
     fontWeight: 400,
     cursor: 'pointer',
+    position: 'relative',
+    paddingLeft: 36,
+    '&& span span:nth-child(1)': {
+      position: 'absolute',
+      left: -24,
+      display: 'block',
+    },
+    '&& span span:nth-child(2)': {
+      position: 'absolute',
+      left: -36,
+      display: 'none',
+    },
 
     '&& svg': {
       [theme.breakpoints.down('sm')]: {
@@ -48,9 +60,12 @@ export const useNavigationStyles = makeStyles<Theme>(theme => ({
     cursor: 'default',
     fontWeight: 600,
     background: theme.palette.background.default,
-  },
-  endIcon: {
-    color: theme.palette.primary.main,
+    '&& span span:nth-child(1)': {
+      display: 'none',
+    },
+    '&& span span:nth-child(2)': {
+      display: 'block',
+    },
   },
   item: {
     width: '100%',
