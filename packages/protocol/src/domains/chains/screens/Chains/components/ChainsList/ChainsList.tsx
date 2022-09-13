@@ -1,19 +1,22 @@
-import React from 'react';
-
 import { ChainsItemQuery } from '../ChainsItem/ChainsItemQuery';
+import { useChainListStyles } from './ChainsListStyles';
 import { ChainsListProps } from './ChainsListTypes';
 import { PERIOD } from './ChainsListUtils';
-import { useChainListStyles } from './ChainsListStyles';
 import { useChains } from './hooks/useChains';
 
 export const ChainsList = ({
   chains,
+  allChains,
   sortType,
   timeframe,
 }: ChainsListProps) => {
   const classes = useChainListStyles();
 
-  const processedChains = useChains({ chains, sortType });
+  const { processedChains, publicChainsMap } = useChains({
+    chains,
+    allChains,
+    sortType,
+  });
 
   return (
     <div className={classes.root}>
@@ -24,6 +27,7 @@ export const ChainsList = ({
           <div className={classes.wrapper} key={id}>
             <ChainsItemQuery
               chain={item}
+              publicChain={publicChainsMap[id]}
               chainId={id}
               links={urls}
               logoSrc={item.icon}

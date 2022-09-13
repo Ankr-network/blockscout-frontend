@@ -1,14 +1,14 @@
-import { ChainType } from 'domains/chains/types';
-import {
-  DecomposedChainIds,
-  decomposeChainIntoIds,
-} from 'modules/endpoints/utils/decomposeChainIntoIds';
-import { ChainID, EndpointGroup } from 'modules/endpoints/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
+import { ChainType } from 'domains/chains/types';
+import { ChainID, EndpointGroup } from 'modules/endpoints/types';
+import {
+  decomposeChainIntoIds,
+  DecomposedChainIds,
+} from 'modules/endpoints/utils/decomposeChainIntoIds';
 import { filterChainIdsByGroup } from 'modules/endpoints/utils/filterChainIdsByGroup';
 
 export interface ChainIdParams {
-  chain: IApiChain;
+  publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
   withExceptions: boolean;
@@ -21,12 +21,12 @@ const chainTypesMap: Record<ChainType, keyof DecomposedChainIds> = {
 };
 
 export const getChainId = ({
-  chain,
+  publicChain,
   chainType,
   group,
   withExceptions,
 }: ChainIdParams): ChainID => {
-  const decomposed = decomposeChainIntoIds(chain, withExceptions);
+  const decomposed = decomposeChainIntoIds(publicChain, withExceptions);
   const chainIds = decomposed[chainTypesMap[chainType]];
 
   // In general case we may get more than one chain id for a specific group,

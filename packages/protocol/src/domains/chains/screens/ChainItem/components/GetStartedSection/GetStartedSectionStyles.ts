@@ -8,4 +8,9 @@ export const useGetStartedSectionStyles = makeStyles<Theme>(theme => ({
 
     paddingTop: theme.spacing(3.75),
   },
+  requestComposer: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
 }));

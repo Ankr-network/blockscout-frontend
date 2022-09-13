@@ -17,9 +17,12 @@ export const fetchPrivateChainDetails = createSmartAction<
     onRequest: (_request, _action, store) => {
       return {
         promise: (async (): Promise<IApiChain> => {
-          const { data: privateChains } = getQuery(store.getState(), {
+          const {
+            data: { chains: privateChains = [] },
+          } = getQuery(store.getState(), {
             type: fetchPrivateChains.toString(),
             action: fetchPrivateChains,
+            defaultData: {},
           });
 
           const privateChainDetails = privateChains.find(

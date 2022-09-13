@@ -10,23 +10,40 @@ import {
   IFetchChainsResponseData,
 } from '../api/queryChains';
 
+export interface IFetchPrivateChainsResult {
+  chains: IApiChain[];
+  allChains: IApiChain[];
+}
+
 export const fetchPrivateChains = createSmartAction<
-  RequestAction<IFetchChainsResponseData, IApiChain[]>
+  RequestAction<IFetchChainsResponseData, IFetchPrivateChainsResult>
 >('chains/fetchPrivateChains', () => ({
   request: {
     promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
       const service = await MultiService.getInstance();
+      const chains = await service.getPublicGateway().getBlockchains();
+      const formattedPrivateChains = await service.formatPrivateChains(
+        chains,
+        jwtToken,
+      );
 
-      const chains = await service.fetchPrivateUrls(jwtToken);
+      const publicService = await MultiService.getPublicInstance();
+      const formattedPublicChains = await publicService.formatPublicChains(
+        chains,
+      );
 
       return {
-        chains,
+        chains: formattedPrivateChains,
+        allChains: formattedPublicChains,
       };
     },
   },
   meta: {
     asMutation: false,
-    getData: data => filterMapChains(data),
+    getData: ({ chains, allChains }) => ({
+      chains: filterMapChains(chains),
+      allChains: filterMapChains(allChains),
+    }),
     onRequest: credentialsGuard,
   },
 }));

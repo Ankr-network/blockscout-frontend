@@ -1,17 +1,16 @@
-import React from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
 
-import { AddEndpointForm } from './components/AddEndpointForm';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { ResponseData } from 'modules/api/utils/ResponseData';
 import { fetchChainNodes } from 'domains/chains/actions/fetchChainNodes';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { getScheme } from './AddEndpointUtils';
 import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
-import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
+import { ResponseData } from 'modules/api/utils/ResponseData';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';
+import { getScheme } from './AddEndpointUtils';
+import { AddEndpointForm } from './components/AddEndpointForm';
 
 export const AddEndpoint = () => {
   const dispatchRequest = useDispatchRequest();
@@ -42,9 +41,9 @@ export const AddEndpoint = () => {
       >
         {(
           { data },
-          { data: privateChains },
+          { data: { chains: privateChains = [] } = {} },
           { data: endpoints },
-          { data: publicChains },
+          { data: { chains: publicChains = [] } = {} },
         ) => {
           const privateChain = getChainById(privateChains, chainId);
           const publicChain = getChainById(publicChains, chainId);
