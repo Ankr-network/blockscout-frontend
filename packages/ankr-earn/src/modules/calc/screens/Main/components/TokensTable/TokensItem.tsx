@@ -13,7 +13,12 @@ import { ChangeEvent, ReactText, useCallback } from 'react';
 import { t } from 'common';
 import { useIsMDUp } from 'ui';
 
-import { DEFAULT_FIXED, DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import {
+  DEFAULT_ROUNDING,
+  ZERO,
+  ZERO_DECIMAL_PLACES,
+} from 'modules/common/const';
+import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 
 import { TokenWithIcon } from '../TokenWithIcon';
@@ -21,7 +26,6 @@ import { TokenWithIcon } from '../TokenWithIcon';
 import { useTokensTableStyles } from './useTokensTableStyles';
 
 const LOW_USD_VALUE = 10;
-const ZERO_DECIMAL_PLACES = 0;
 const MAX_DECIMALS_LENGTH = 18;
 const FRACTIONAL_NUMBERS = new RegExp(
   `^(\\d*\\.{0,1}\\d{0,${MAX_DECIMALS_LENGTH}}$)`,
@@ -63,7 +67,7 @@ export const TokensItem = ({
     .toFormat();
 
   const formattedYieldAmount = yieldAmount
-    .decimalPlaces(DEFAULT_FIXED)
+    .decimalPlaces(getDecimalPlaces(yieldAmount))
     .toFormat();
 
   const handleChange = useCallback(
@@ -114,7 +118,7 @@ export const TokensItem = ({
           <div className={classes.label}>{t('calc.table.staked')}</div>
 
           <Typography className={classes.text}>
-            {staked.decimalPlaces(DEFAULT_FIXED).toFormat()}
+            {staked.decimalPlaces(getDecimalPlaces(staked)).toFormat()}
           </Typography>
         </div>
 

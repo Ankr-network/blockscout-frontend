@@ -11,9 +11,11 @@ import {
   MaticPolygonSDK,
 } from '@ankr.com/staking-sdk';
 
-import { ZERO } from 'modules/common/const';
+import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { DashboardSDK } from 'modules/dashboard/api/DashboardSDK';
 import { AnkrStakingSDK } from 'modules/stake-ankr/api/AnkrStakingSDK';
+import { GnosisStakingSDK } from 'modules/stake-mgno/api/GnosisStakingSDK/GnosisStakingSDK';
 import { PolkadotStakeSDK } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 
@@ -47,6 +49,21 @@ export const getBalance = createAction<
             staked,
           };
         }
+
+        case Token.mGNO: {
+          const sdk = await GnosisStakingSDK.getInstance();
+
+          const [balance, staked] = await Promise.all([
+            sdk.getMgnoBalance(),
+            sdk.getMyTotalDelegatedAmount(),
+          ]);
+
+          return {
+            balance,
+            staked,
+          };
+        }
+
         case Token.AVAX: {
           const sdk = await AvalancheSDK.getInstance();
           const [nativeBalance, bondBalance, certBalance, ratio] =
@@ -62,6 +79,7 @@ export const getBalance = createAction<
             staked: bondBalance.plus(certBalance.dividedBy(ratio)),
           };
         }
+
         case Token.BNB: {
           const sdk = await BinanceSDK.getInstance();
           const [nativeBalance, bondBalance, certBalance, ratio] =
@@ -77,22 +95,45 @@ export const getBalance = createAction<
             staked: bondBalance.plus(certBalance.dividedBy(ratio)),
           };
         }
+
         case Token.ETH: {
-          const sdk = await EthereumSDK.getInstance();
+          const [ethSdk, dashboardSdk] = await Promise.all([
+            EthereumSDK.getInstance(),
+            DashboardSDK.getInstance(),
+          ]);
+
           const isFormatted = true;
-          const [nativeBalance, bondBalance, certBalance, ratio] =
-            await Promise.all([
-              sdk.getEthBalance(),
-              sdk.getABBalance(isFormatted),
-              sdk.getACBalance(isFormatted),
-              sdk.getACRatio(isFormatted),
-            ]);
+          const [
+            nativeBalance,
+            ethereumEthBondBalance,
+            ethereumEthCertBalance,
+            ratio,
+            binanceEthBondBalance,
+            binanceEthCertBalance,
+          ] = await Promise.all([
+            ethSdk.getEthBalance(),
+            ethSdk.getABBalance(isFormatted),
+            ethSdk.getACBalance(isFormatted),
+            ethSdk.getACRatio(isFormatted),
+            dashboardSdk.getBalance({
+              token: Token.aETHb,
+              networkID: BSC_NETWORK_BY_ENV,
+            }),
+            dashboardSdk.getBalance({
+              token: Token.aETHc,
+              networkID: BSC_NETWORK_BY_ENV,
+            }),
+          ]);
+
+          const bonds = ethereumEthBondBalance.plus(binanceEthBondBalance);
+          const certs = ethereumEthCertBalance.plus(binanceEthCertBalance);
 
           return {
             balance: nativeBalance,
-            staked: bondBalance.plus(certBalance.dividedBy(ratio)),
+            staked: bonds.plus(certs.dividedBy(ratio)),
           };
         }
+
         case Token.FTM: {
           const sdk = await FantomSDK.getInstance();
           const [nativeBalance, bondBalance, certBalance, ratio] =
@@ -108,9 +149,14 @@ export const getBalance = createAction<
             staked: bondBalance.plus(certBalance.dividedBy(ratio)),
           };
         }
+
         case Token.MATIC: {
-          const ethSdk = await MaticEthSDK.getInstance();
-          const polygonSdk = await MaticPolygonSDK.getInstance();
+          const [ethSdk, polygonSdk, dashboardSdk] = await Promise.all([
+            MaticEthSDK.getInstance(),
+            MaticPolygonSDK.getInstance(),
+            DashboardSDK.getInstance(),
+          ]);
+
           const [
             polygonMaticBalance,
             polygonMaticBondBalance,
@@ -119,6 +165,8 @@ export const getBalance = createAction<
             ethereumMaticBondBalance,
             ethereumMaticCertBalance,
             ratio,
+            binanceMaticBondBalance,
+            binanceMaticCertBalance,
           ] = await Promise.all([
             polygonSdk.getMaticBalance(),
             polygonSdk.getABBalance(),
@@ -127,10 +175,23 @@ export const getBalance = createAction<
             ethSdk.getABBalance(),
             ethSdk.getACBalance(),
             ethSdk.getACRatio(),
+            dashboardSdk.getBalance({
+              token: Token.aMATICb,
+              networkID: BSC_NETWORK_BY_ENV,
+            }),
+            dashboardSdk.getBalance({
+              token: Token.aMATICc,
+              networkID: BSC_NETWORK_BY_ENV,
+            }),
           ]);
 
-          const bonds = polygonMaticBondBalance.plus(ethereumMaticBondBalance);
-          const certs = polygonMaticCertBalance.plus(ethereumMaticCertBalance);
+          const bonds = polygonMaticBondBalance
+            .plus(ethereumMaticBondBalance)
+            .plus(binanceMaticBondBalance);
+
+          const certs = polygonMaticCertBalance
+            .plus(ethereumMaticCertBalance)
+            .plus(binanceMaticCertBalance);
 
           return {
             balance: polygonMaticBalance.plus(ethereumMaticBalance),

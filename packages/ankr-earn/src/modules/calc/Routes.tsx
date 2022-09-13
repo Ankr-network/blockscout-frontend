@@ -9,6 +9,7 @@ import {
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
+  GNO_NETWORK_BY_ENV,
   POLYGON_NETWORK_BY_ENV,
   STAKING_PATH,
 } from 'modules/common/const';
@@ -25,6 +26,7 @@ const AVAILABLE_NETWORKS = [
   BSC_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
   POLYGON_NETWORK_BY_ENV,
+  GNO_NETWORK_BY_ENV,
 ];
 
 const Main = loadComponent(() =>

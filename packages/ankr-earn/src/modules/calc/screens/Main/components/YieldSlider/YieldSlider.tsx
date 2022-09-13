@@ -21,7 +21,7 @@ export const YieldSlider = ({
     <Slider
       {...restProps}
       ValueLabelComponent={ValueLabel}
-      valueLabelDisplay="auto"
+      valueLabelDisplay="on"
     />
   );
 };
