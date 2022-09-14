@@ -1,6 +1,7 @@
 import { Box, Card, Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import * as d3 from 'd3';
+import debounce from 'lodash/debounce';
 import { useCallback, useMemo, useState } from 'react';
 
 import { t, tHTML } from 'common';
@@ -44,8 +45,6 @@ export interface IChartSlice {
   link?: string;
 }
 
-const TRANSITION_DURATION_MS: Milliseconds = 200;
-
 const COLORS = [
   '#356DF3',
   '#46E8FE',
@@ -62,6 +61,8 @@ const COLORS = [
 ];
 
 const NATIVE_HOVER_COLOR = '#9AA1B0';
+
+const TRANSITION_DURATION_MS: Milliseconds = 200;
 
 const TOKENS_WITH_APR = [Token.ANKR, Token.mGNO];
 
@@ -91,16 +92,36 @@ export const PortfolioChart = ({
     () =>
       items
         .filter(({ isNative }) => isNative)
-        .map(item => ({ ...item, color: COLORS[COLORS.length - 1] })),
-    [items],
+        .map(item => ({
+          ...item,
+          color: COLORS[COLORS.length - 1],
+          percent: !totalAmountUsd.isZero()
+            ? item.usdAmount
+                .multipliedBy(100)
+                .dividedBy(totalAmountUsd)
+                .decimalPlaces(DEFAULT_ROUNDING)
+                .toNumber()
+            : 0,
+        })),
+    [items, totalAmountUsd],
   );
 
   const syntheticTokens = useMemo(
     () =>
       items
         .filter(({ isNative }) => !isNative)
-        .map((item, index) => ({ ...item, color: COLORS[index] })),
-    [items],
+        .map((item, index) => ({
+          ...item,
+          color: COLORS[index],
+          percent: !totalAmountUsd.isZero()
+            ? item.usdAmount
+                .multipliedBy(100)
+                .dividedBy(totalAmountUsd)
+                .decimalPlaces(DEFAULT_ROUNDING)
+                .toNumber()
+            : 0,
+        })),
+    [items, totalAmountUsd],
   );
 
   const chartData = useMemo(
@@ -136,6 +157,16 @@ export const PortfolioChart = ({
       setActiveItem(item);
     },
     [setActiveItem],
+  );
+
+  const debouncedHandleMouseOver = debounce(
+    handleMouseOver,
+    TRANSITION_DURATION_MS,
+  );
+
+  const debouncedHandleMouseLeave = debounce(
+    handleMouseLeave,
+    TRANSITION_DURATION_MS,
   );
 
   const renderChart = useCallback(
@@ -176,21 +207,7 @@ export const PortfolioChart = ({
         .append('g')
         .attr('class', 'arc')
         .attr('opacity', 1)
-        .attr('data-testid', d => d.data.name)
-        .on('mouseover', function mouseover(_, d) {
-          setActiveItem(d.data);
-          d3.select(this)
-            .transition()
-            .duration(TRANSITION_DURATION_MS)
-            .attr('opacity', 0.85);
-        })
-        .on('mouseout', function mouseout() {
-          setActiveItem(null);
-          d3.select(this)
-            .transition()
-            .duration(TRANSITION_DURATION_MS)
-            .attr('opacity', 1);
-        });
+        .attr('data-testid', d => d.data.name);
 
       arc
         .append('path')
@@ -199,9 +216,22 @@ export const PortfolioChart = ({
           activeItem && d.data.name === activeItem.name && activeItem.isNative
             ? NATIVE_HOVER_COLOR
             : d.data.color,
-        );
+        )
+        .on('mouseover', (_, d) => {
+          debouncedHandleMouseOver(d.data);
+        })
+        .on('mouseout', () => {
+          debouncedHandleMouseLeave();
+        });
     },
-    [chartData, activeItem, width, height],
+    [
+      chartData,
+      activeItem,
+      width,
+      height,
+      debouncedHandleMouseOver,
+      debouncedHandleMouseLeave,
+    ],
   );
 
   const { ref } = usePortfolioChart(renderChart, [width, height, chartData]);
@@ -216,7 +246,7 @@ export const PortfolioChart = ({
         value: totalAmountUsd.toFormat(),
       });
 
-  const aprTitle = tHTML('dashboard.apr', { value: totalApr });
+  const aprTitle = tHTML('dashboard.apy', { value: totalApr });
 
   const dollarTitle = activeItem
     ? t('dashboard.portfolioUSD', {

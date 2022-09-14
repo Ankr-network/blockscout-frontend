@@ -22,7 +22,7 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
     fontWeight: 700,
 
     [theme.breakpoints.up('md')]: {
-      fontSize: 36,
+      fontSize: 32,
     },
   },
 
@@ -78,7 +78,7 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
     borderTop: `1px solid ${lighten(theme.palette.text.secondary, 0.8)}`,
     padding: theme.spacing(1.5, 0),
     marginTop: theme.spacing(1),
-    width: 174,
+    width: 230,
   },
 
   hoverInfoBlock: {
