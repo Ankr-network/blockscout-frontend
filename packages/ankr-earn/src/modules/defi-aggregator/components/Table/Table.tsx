@@ -12,6 +12,7 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ScrollableTable } from 'modules/common/components/ScrollableTable';
 import { IDeFiItem } from 'modules/defi-aggregator/actions/getDeFiData';
 import {
+  useProtocols,
   useStakingTypes,
   useTokenNetworks,
 } from 'modules/defi-aggregator/hooks';
@@ -19,11 +20,7 @@ import { Button } from 'uiKit/Button';
 import { OutLinkIcon } from 'uiKit/Icons/OutLinkIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import {
-  TOKEN_ASSET_ICON_MAP,
-  TOKEN_NETWORK_ICON_MAP,
-  TOKEN_PROTOCOL_ICON_MAP,
-} from '../../utils';
+import { TOKEN_ASSET_ICON_MAP, TOKEN_NETWORK_ICON_MAP } from '../../utils';
 
 import { useTableStyles } from './useTableStyles';
 
@@ -38,6 +35,7 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
 
   const stakingTypes = useStakingTypes();
   const tokenNetworks = useTokenNetworks();
+  const protocols = useProtocols();
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
@@ -166,10 +164,10 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                 <ScrollableTable.Cell noWrap>
                   <div className={styles.vertAligned}>
                     <span className={styles.vertAligned}>
-                      {TOKEN_PROTOCOL_ICON_MAP[item.protocol]}
+                      {protocols[item.protocol].icon}
                     </span>
 
-                    <span>{t(`defi.protocols.${item.protocol}`)}</span>
+                    <span>{protocols[item.protocol].title}</span>
                   </div>
                 </ScrollableTable.Cell>
 
