@@ -48,7 +48,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.IOTEX,
       ChainID.IOTEX_TESTNET,
       ChainID.MOONBEAM,
-      ChainID.NEAR,
       ChainID.SYSCOIN,
       ChainID.OPTIMISM,
       ChainID.OPTIMISM_TESTNET,
@@ -111,6 +110,12 @@ export const chainGroups: ChainGroup[] = [
     name: 'Sepolia',
     pluralName: 'Sepolia',
     chains: [ChainID.ETH_SEPOLIA],
+  },
+  {
+    id: ChainGroupID.NEAR,
+    name: 'Near',
+    pluralName: 'Near',
+    chains: [ChainID.NEAR],
   },
   {
     id: ChainGroupID.NERVOS_EVM,
