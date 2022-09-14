@@ -16,9 +16,10 @@ import { getBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxStakeAmount } from 'modules/stake-mgno/actions/getMaxStakeAmount';
 import { getMinStakeAmount } from 'modules/stake-mgno/actions/getMinStakeAmount';
 import { getProviderContributed } from 'modules/stake-mgno/actions/getProviderContributed';
+import { getProviders } from 'modules/stake-mgno/actions/getProviders';
 import { getProviderStats } from 'modules/stake-mgno/actions/getProviderStats';
 import { stake } from 'modules/stake-mgno/actions/stake';
-import { TEST_PROVIDER_ID } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
+import { DEFAULT_PROVIDER_ID } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
 import { MGNO_STAKE_FORM_ID } from 'modules/stake-mgno/const';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 import {
@@ -57,7 +58,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
 
-  const { data: balance, loading: isBalanceLoading } = useQuery({
+  const { data: balanceData, loading: isBalanceLoading } = useQuery({
     type: getBalance,
   });
   const { data: minStakeAmount, loading: isMinStakeLoading } = useQuery({
@@ -72,6 +73,9 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const { data: providerStats } = useQuery({
     type: getProviderStats,
   });
+  const { data: providers, loading: isProvidersLoading } = useQuery({
+    type: getProviders,
+  });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
@@ -80,7 +84,8 @@ export const useMgnoStake = (): IUseMgnoStake => {
 
   const amount = formState?.amount ?? ZERO;
 
-  const initialProvider = TEST_PROVIDER_ID;
+  const currentProvider = providers ? providers[0] : null;
+  const initialProvider = currentProvider?.provider ?? DEFAULT_PROVIDER_ID;
   const providerName = providerStats?.provider.name;
 
   const {
@@ -90,6 +95,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
   } = useApprove();
 
   useProviderEffect(() => {
+    dispatchRequest(getProviders());
     dispatchRequest(getBalance());
     dispatchRequest(getMinStakeAmount());
     dispatchRequest(getProviderContributed({ provider: initialProvider }));
@@ -130,6 +136,9 @@ export const useMgnoStake = (): IUseMgnoStake => {
     }
   };
 
+  const balance = balanceData ?? ZERO;
+  const maxAmount = maxStakeAmount ?? ZERO;
+
   return {
     isStakeLoading,
     isBalanceLoading:
@@ -141,10 +150,11 @@ export const useMgnoStake = (): IUseMgnoStake => {
       isMinStakeLoading ||
       isMaxStakeLoading ||
       isApproveLoading ||
-      isStakeLoading,
-    balance: balance ?? ZERO,
+      isStakeLoading ||
+      isProvidersLoading,
+    balance,
     minStake: minStakeAmount ?? ZERO,
-    maxAmount: maxStakeAmount ?? ZERO,
+    maxAmount: maxAmount.isGreaterThan(balance) ? balance : maxAmount,
     tokenIn: t('unit.mgno'),
     closeHref: RoutesConfig.main.generatePath(),
     providerSelectHref: '', // RoutesConfig.selectProvider.generatePath(),

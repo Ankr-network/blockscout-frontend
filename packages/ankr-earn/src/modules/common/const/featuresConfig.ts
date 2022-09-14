@@ -30,7 +30,7 @@ export const featuresConfig = {
    * @deprecated
    */
   ankrStaking: true,
-  mgnoStaking: currentEnv !== Env.Production,
+  mgnoStaking: true,
   /**
    * Please remove extra feature flag
    * @deprecated
