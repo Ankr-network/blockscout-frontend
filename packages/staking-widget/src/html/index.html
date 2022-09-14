@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staking modal iframe</title>
+</head>
+
+<body>
+  <button id="test-btn" type="button">Open modal</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function handleBtnClick() {
+        const modal = new AnkrStakingModal.init();
+        modal.open();
+      }
+
+      function addButtonListener() {
+        const btn = document.getElementById('test-btn');
+
+        if (!btn) {
+          console.error('Unable to add button listener');
+          return;
+        }
+
+        btn.addEventListener('click', handleBtnClick);
+      }
+
+      addButtonListener()
+    });
+  </script>
+</body>
+
+</html>
