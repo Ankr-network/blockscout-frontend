@@ -1,9 +1,0 @@
-{
-  "extends": "../../.common-eslintrc",
-  "ignorePatterns": [
-    "**/coverage",
-    "**/dist",
-    "**/node_modules",
-    "**/*.config.js"
-  ],
-}
