@@ -14,6 +14,7 @@ export const useTableStyles = makeStyles(theme => ({
   table: {
     width: '100%',
     borderCollapse: 'collapse',
+    minWidth: 1040,
   },
 
   tr: {

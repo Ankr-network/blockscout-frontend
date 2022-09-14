@@ -10,10 +10,15 @@ import { t } from 'common';
 import { trackClickDefiAggregator } from 'modules/analytics/tracking-actions/trackClickDefiAggregator';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ScrollableTable } from 'modules/common/components/ScrollableTable';
+import { IDeFiItem } from 'modules/defi-aggregator/actions/getDeFiData';
+import {
+  useStakingTypes,
+  useTokenNetworks,
+} from 'modules/defi-aggregator/hooks';
 import { Button } from 'uiKit/Button';
 import { OutLinkIcon } from 'uiKit/Icons/OutLinkIcon';
+import { Tooltip } from 'uiKit/Tooltip';
 
-import { DeFiItem } from '../../hooks';
 import {
   TOKEN_ASSET_ICON_MAP,
   TOKEN_NETWORK_ICON_MAP,
@@ -23,13 +28,16 @@ import {
 import { useTableStyles } from './useTableStyles';
 
 interface ITableProps {
-  data: DeFiItem[];
+  data: IDeFiItem[];
 }
 
 export const Table = ({ data }: ITableProps): JSX.Element => {
-  const [sortKey, setSortKey] = useState<keyof DeFiItem | null>(null);
+  const [sortKey, setSortKey] = useState<keyof IDeFiItem | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
   const styles = useTableStyles();
+
+  const stakingTypes = useStakingTypes();
+  const tokenNetworks = useTokenNetworks();
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
@@ -40,11 +48,11 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
       return data;
     }
 
-    return data.sort((a: DeFiItem, b: DeFiItem) => {
+    return data.sort((a: IDeFiItem, b: IDeFiItem) => {
       if (sortOrder === 'asc') {
-        return a[sortKey as keyof DeFiItem].localeCompare(b[sortKey]);
+        return a[sortKey as keyof IDeFiItem].localeCompare(b[sortKey]);
       }
-      return b[sortKey as keyof DeFiItem].localeCompare(a[sortKey]);
+      return b[sortKey as keyof IDeFiItem].localeCompare(a[sortKey]);
     });
   }, [data, sortKey, sortOrder]);
 
@@ -53,7 +61,7 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
 
     const handleClick = () => {
       if (!isSelected) {
-        setSortKey(title.toLowerCase() as keyof DeFiItem);
+        setSortKey(title.toLowerCase() as keyof IDeFiItem);
         setSortOrder('asc');
       } else if (sortOrder === 'desc') {
         setSortOrder('asc');
@@ -72,13 +80,13 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
     );
   };
 
-  const onDepositClick = (item: DeFiItem) => {
+  const onDepositClick = (item: IDeFiItem) => {
     trackClickDefiAggregator({
       assets: item.assets,
       network: item.network,
       protocol: item.protocol,
       type: item.type,
-      rewards: item.rewardedToken,
+      rewards: item.baseRewards,
       walletType: walletName,
       walletPublicAddress: address,
     });
@@ -100,7 +108,11 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
             {renderTableHeadCell(t('defi.type'))}
 
             <ScrollableTable.HeadCell>
-              {t('defi.rewards')}
+              {t('defi.base-rewards')}
+            </ScrollableTable.HeadCell>
+
+            <ScrollableTable.HeadCell>
+              {t('defi.farming-rewards')}
             </ScrollableTable.HeadCell>
           </ScrollableTable.HeadRow>
         </ScrollableTable.Head>
@@ -110,6 +122,13 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
             const assets = item.assets.split('/');
             const firstAsset = assets[0];
             const secondAsset = assets[1].match(/[^\s]+/g)?.[0];
+            const handleDepositClick = () => onDepositClick(item);
+            const typeText = stakingTypes.find(
+              ({ value }) => value === item.type,
+            )?.label;
+            const networkText =
+              tokenNetworks.find(({ value }) => value === item.network)
+                ?.label ?? '';
 
             return (
               <ScrollableTable.Row key={uid(item)} className={styles.tr}>
@@ -136,11 +155,11 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
 
                 <ScrollableTable.Cell noWrap>
                   <div className={styles.vertAligned}>
-                    <span className={styles.vertAligned}>
-                      {TOKEN_NETWORK_ICON_MAP[item.network]}
-                    </span>
-
-                    <span>{item.network}</span>
+                    <Tooltip arrow title={networkText}>
+                      <span className={styles.vertAligned}>
+                        {TOKEN_NETWORK_ICON_MAP[item.network]}
+                      </span>
+                    </Tooltip>
                   </div>
                 </ScrollableTable.Cell>
 
@@ -150,22 +169,26 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                       {TOKEN_PROTOCOL_ICON_MAP[item.protocol]}
                     </span>
 
-                    <span>{item.protocol}</span>
+                    <span>{t(`defi.protocols.${item.protocol}`)}</span>
                   </div>
                 </ScrollableTable.Cell>
 
-                <ScrollableTable.Cell noWrap>{item.type}</ScrollableTable.Cell>
+                <ScrollableTable.Cell noWrap>{typeText}</ScrollableTable.Cell>
+
+                <ScrollableTable.Cell noWrap>
+                  {item.baseRewards}
+                </ScrollableTable.Cell>
 
                 <ScrollableTable.Cell noWrap>
                   <Box className={styles.rewardCell}>
-                    {item.rewardedToken}
+                    <span>{item.farmingRewards}</span>
 
                     <a
                       href={item.protocolLink}
                       rel="noreferrer"
                       target="_blank"
-                      onMouseDown={() => onDepositClick(item)}
-                      onTouchStart={() => onDepositClick(item)}
+                      onMouseDown={handleDepositClick}
+                      onTouchStart={handleDepositClick}
                     >
                       <Button
                         className={styles.protocolButton}

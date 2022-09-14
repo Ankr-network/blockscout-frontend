@@ -17,6 +17,7 @@ import { FantomIcon } from '../../../uiKit/Icons/FantomIcon';
 import { KsmIcon } from '../../../uiKit/Icons/KsmIcon';
 import { MaticIcon } from '../../../uiKit/Icons/MaticIcon';
 import { PolygonIcon } from '../../../uiKit/Icons/Polygon';
+import { TDeFiNetwork, TDeFiProtocol } from '../api/defi';
 import { ReactComponent as ProtocolAcryptos } from '../assets/protocol-acryptos.svg';
 import { ReactComponent as ProtocolApeSwap } from '../assets/protocol-apeswap.svg';
 import { ReactComponent as ProtocolBeefyFinance } from '../assets/protocol-beefy-finance.svg';
@@ -34,24 +35,24 @@ import { ReactComponent as ProtocolTraderJoe } from '../assets/protocol-traderjo
 import { ReactComponent as ProtocolUniswap } from '../assets/protocol-uniswap.svg';
 import { ReactComponent as ProtocolYearnFinance } from '../assets/protocol-yearn-finance.svg';
 
-export const TOKEN_PROTOCOL_ICON_MAP: Record<string, ReactNode> = {
-  ACryptoS: <ProtocolAcryptos />,
-  ApeSwap: <ProtocolApeSwap />,
-  'Curve Finance': <ProtocolCurveFinance />,
-  'Convex Finance': <ProtocolConvexFinance />,
-  'Ellipsis Finance': <ProtocolEllipsisFinance />,
-  'OnX Finance': <ProtocolOnxFinance />,
-  SushiSwap: <ProtocolSushiswap />,
-  'Uniswap v3': <ProtocolUniswap />,
-  'Uniswap v2': <ProtocolUniswap />,
-  'Yearn Finance': <ProtocolYearnFinance />,
-  'Beefy Finance': <ProtocolBeefyFinance />,
-  PancakeSwap: <ProtocolPancakeSwap />,
-  QuickSwap: <ProtocolQuickSwap />,
-  Dystopia: <ProtocolDystopia />,
-  'Lydia Finance': <ProtocolLydiaFinance />,
-  Pangolin: <ProtocolPangolin />,
-  TraderJoe: <ProtocolTraderJoe />,
+export const TOKEN_PROTOCOL_ICON_MAP: Record<TDeFiProtocol, ReactNode> = {
+  acryptos: <ProtocolAcryptos />,
+  apeSwap: <ProtocolApeSwap />,
+  curveFinance: <ProtocolCurveFinance />,
+  convexFinance: <ProtocolConvexFinance />,
+  ellipsisFinance: <ProtocolEllipsisFinance />,
+  onxFinance: <ProtocolOnxFinance />,
+  sushiSwap: <ProtocolSushiswap />,
+  uniswapV3: <ProtocolUniswap />,
+  uniswapV2: <ProtocolUniswap />,
+  yearnFinance: <ProtocolYearnFinance />,
+  beefyFinance: <ProtocolBeefyFinance />,
+  pancakeSwap: <ProtocolPancakeSwap />,
+  quickSwap: <ProtocolQuickSwap />,
+  dystopia: <ProtocolDystopia />,
+  lydiaFinance: <ProtocolLydiaFinance />,
+  pangolin: <ProtocolPangolin />,
+  traderJoe: <ProtocolTraderJoe />,
 };
 
 export const TOKEN_ASSET_ICON_MAP: Record<string, ReactNode> = {
@@ -74,10 +75,10 @@ export const TOKEN_ASSET_ICON_MAP: Record<string, ReactNode> = {
   aKSMb: <KsmIcon />,
 };
 
-export const TOKEN_NETWORK_ICON_MAP: Record<string, ReactNode> = {
-  Ethereum: <EthIcon />,
-  'BNB Chain': <BNBIcon />,
-  Polygon: <PolygonIcon />,
-  Avalanche: <AvaxIcon />,
-  Fantom: <FantomIcon />,
+export const TOKEN_NETWORK_ICON_MAP: Record<TDeFiNetwork, ReactNode> = {
+  ethereum: <EthIcon />,
+  bnb: <BNBIcon />,
+  polygon: <PolygonIcon />,
+  avalanche: <AvaxIcon />,
+  fantom: <FantomIcon />,
 };

@@ -73,6 +73,7 @@ interface IPolygonConfig {
 
 export interface IGatewayConfig {
   baseUrl: string;
+  strapiUrl: string;
 }
 
 export interface IStkrConfig {
@@ -152,12 +153,14 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
+    strapiUrl: 'https://strapi-no-cache.ankr.com/',
   },
 };
 
 const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.dev.stkr.io/',
   },
 };
@@ -165,6 +168,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
 const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.goerli.stkr.io/',
   },
 };
@@ -233,6 +237,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
+    strapiUrl: 'https://strapi.ankr.com/',
   },
 };
 
