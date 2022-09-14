@@ -1,4 +1,4 @@
-import { EVMMethod, LibraryID } from './constants';
+import { EVMMethod, EVMLibraryID } from './constants';
 
 export interface EVMMethodsRequest {
   methodName: EVMMethod;
@@ -24,7 +24,7 @@ export type IRPCCallsConfig = {
   [key in EVMMethod]: {
     description: string;
     disabled?: boolean;
-    [LibraryID.WEB3]: ILibraryConfig[key];
-    [LibraryID.ETHERS]: ILibraryConfig[key];
+    [EVMLibraryID.WEB3]: ILibraryConfig[key];
+    [EVMLibraryID.ETHERS]: ILibraryConfig[key];
   };
 };

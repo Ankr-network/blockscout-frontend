@@ -9,29 +9,28 @@ import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 export interface GetStartedSectionProps {
   group: EndpointGroup;
   unfilteredGroup: EndpointGroup;
+  chainId: string;
 }
 
 export const GetStartedSection = ({
   group,
   unfilteredGroup,
+  chainId,
 }: GetStartedSectionProps) => {
   const { credentials, loading } = useAuth();
   const isUpgraded = credentials || loading;
   const classes = useGetStartedSectionStyles();
 
-  const publicUrl = unfilteredGroup?.urls[0]?.rpc;
-
   return (
     <div className={classes.getStartedSection}>
       {!isUpgraded && <UpgradeBanner />}
-      {isGroupEvmBased(group) && (
-        <>
-          <ConnectionSnippet group={group} />
-          <div className={classes.requestComposer}>
-            <RequestComposer group={group} publicUrl={publicUrl} />
-          </div>
-        </>
-      )}
+      {isGroupEvmBased(group) && <ConnectionSnippet group={group} />}
+      <RequestComposer
+        group={group}
+        unfilteredGroup={unfilteredGroup}
+        chainId={chainId}
+        className={classes.requestComposer}
+      />
     </div>
   );
 };
