@@ -26,6 +26,7 @@ export type TDeFiProtocol =
   | 'traderJoe'
   | 'uniswapV2'
   | 'uniswapV3'
+  | 'spookySwap'
   | 'yearnFinance';
 
 export interface IDeFiItemResponse {
