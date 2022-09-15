@@ -1,4 +1,5 @@
-import { ChainGroupID, ChainID } from '../types';
+import { ChainID } from 'modules/chains/types';
+import { ChainGroupID } from '../types';
 import { getGroupById } from './getGroupById';
 
 const { C_CHAIN, FALLBACK, NERVOS_CKB, NERVOS_GW, P_CHAIN, X_CHAIN } =

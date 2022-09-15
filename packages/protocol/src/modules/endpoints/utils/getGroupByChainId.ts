@@ -1,4 +1,4 @@
-import { ChainID } from '../types';
+import { ChainID } from 'modules/chains/types';
 import { chainGroups } from '../constants/groups';
 
 export const getGroupIdByChainId = (chainId?: ChainID) =>

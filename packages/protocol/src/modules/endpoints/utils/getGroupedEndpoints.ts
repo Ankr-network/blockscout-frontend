@@ -1,6 +1,7 @@
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
+import { ChainID } from 'modules/chains/types';
 import { getFallbackEndpointGroup } from '../constants/groups';
-import { ChainGroup, ChainID, EndpointGroup, GroupedEndpoints } from '../types';
+import { ChainGroup, EndpointGroup, GroupedEndpoints } from '../types';
 import { flatChains } from './flatChains';
 
 const flatChainUrls = ({
@@ -18,8 +19,8 @@ const getUrlsCount = (urls: IApiChainURL[]) =>
 
 const getChainToEndpointGroupMap = (
   groups: ChainGroup[],
-): Record<ChainID, EndpointGroup> => {
-  const map: Record<ChainID, EndpointGroup> = {};
+): Partial<Record<ChainID, EndpointGroup>> => {
+  const map: Partial<Record<ChainID, EndpointGroup>> = {};
 
   groups.forEach(group => {
     const endpointGroup: EndpointGroup = {

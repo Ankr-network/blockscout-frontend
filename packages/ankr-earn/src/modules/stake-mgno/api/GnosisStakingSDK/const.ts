@@ -8,10 +8,8 @@ export const GNOSIS_PROVIDER_READ_ID = isMainnet
 
 export const GNOSIS_STAKING_MAX_DECIMALS_LENGTH = 8;
 
-// todo: change it
-export const GNOSIS_HISTORY_START_BLOCK = isMainnet ? 15_275_019 : 27_250_774;
+export const GNOSIS_HISTORY_START_BLOCK = isMainnet ? 24_090_575 : 27_250_774;
 
-// todo: change it
 export const GNOSIS_HISTORY_BLOCK_RANGE = 3_000;
 
 export const DEFAULT_PROVIDER_ID = isMainnet

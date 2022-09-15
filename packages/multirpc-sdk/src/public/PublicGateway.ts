@@ -1,15 +1,34 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG } from '../common';
-import { IWorkerGlobalStatus, IWorkerNodesWeight, Timeframe } from './types';
+import {
+  IWorkerGlobalStatus,
+  IWorkerNodesWeight,
+  Timeframe,
+  Config,
+} from './types';
 import { IPublicGateway } from './interfaces';
 import { IBlockchainEntity, INodeEntity } from '../backoffice';
+import { convertStatsToNumber } from './utils';
 
 export class PublicGateway implements IPublicGateway {
   public api: AxiosInstance;
 
-  constructor(private readonly config: AxiosRequestConfig) {
-    this.api = axios.create({ ...config, ...AXIOS_DEFAULT_CONFIG });
+  public accountApi: AxiosInstance;
+
+  constructor(private readonly config: Config) {
+    const { workerUrl, accountUrl } = config;
+    this.api = axios.create({
+      ...config,
+      ...AXIOS_DEFAULT_CONFIG,
+      baseURL: workerUrl,
+    });
+
+    this.accountApi = axios.create({
+      ...config,
+      ...AXIOS_DEFAULT_CONFIG,
+      baseURL: accountUrl,
+    });
   }
 
   async getBlockchains(): Promise<IBlockchainEntity[]> {
@@ -30,12 +49,12 @@ export class PublicGateway implements IPublicGateway {
   async getTimeframeStats(
     blockchain: string,
     timeframe: Timeframe,
-  ): Promise<IWorkerGlobalStatus> {
-    const { data } = await this.api.get<IWorkerGlobalStatus>(
+  ): Promise<IWorkerGlobalStatus<number>> {
+    const { data } = await this.accountApi.get<IWorkerGlobalStatus<string>>(
       `/api/v1/stats/${blockchain}/${timeframe}`,
     );
 
-    return data;
+    return convertStatsToNumber(data);
   }
 
   async getNodesWeight(): Promise<IWorkerNodesWeight[]> {

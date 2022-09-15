@@ -144,24 +144,24 @@ export class GnosisStakingReadSDK {
     contract,
     eventName,
     startBlock,
-    // rangeStep,
+    rangeStep,
     filter,
     latestBlockNumber,
   }: IGetPastEvents): Promise<EventData[]> {
     const eventsPromises: Promise<EventData[]>[] = [];
 
-    // for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-    //   const fromBlock = i;
-    //   const toBlock = fromBlock + rangeStep;
+    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+      const fromBlock = i;
+      const toBlock = fromBlock + rangeStep;
 
-    eventsPromises.push(
-      contract.getPastEvents(eventName, {
-        fromBlock: startBlock,
-        toBlock: latestBlockNumber,
-        filter,
-      }),
-    );
-    // }
+      eventsPromises.push(
+        contract.getPastEvents(eventName, {
+          fromBlock,
+          toBlock: latestBlockNumber > toBlock ? toBlock : latestBlockNumber,
+          filter,
+        }),
+      );
+    }
 
     const pastEvents = await Promise.all(eventsPromises);
 
