@@ -16,7 +16,7 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
     color: theme.palette.text.primary,
     fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: theme.spacing(1.25),
+    marginBottom: theme.spacing(1),
   },
 
   wrapper: {
@@ -69,7 +69,7 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
   legendItem: {
     alignItems: 'center',
     display: 'flex',
-    padding: theme.spacing(1.25),
+    padding: theme.spacing(1, 1.25),
     marginLeft: theme.spacing(-1.25),
     width: '100%',
 
@@ -101,11 +101,13 @@ export const usePortfolioChartLegendStyles = makeStyles(theme => ({
     display: 'flex',
     fontSize: 14,
     fontWeight: 'bold',
+    whiteSpace: 'nowrap',
   },
 
   legendItemSubtitle: {
     color: theme.palette.text.secondary,
     fontSize: 13,
+    whiteSpace: 'nowrap',
 
     '& small': {
       color: theme.palette.text.secondary,

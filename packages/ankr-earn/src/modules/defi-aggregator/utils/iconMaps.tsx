@@ -1,83 +1,59 @@
 import { ReactNode } from 'react';
 
-import { AAvaxBIcon } from '../../../uiKit/Icons/AAvaxBIcon';
-import { AAvaxCIcon } from '../../../uiKit/Icons/AAvaxCIcon';
-import { ABNBBIcon } from '../../../uiKit/Icons/ABNBBIcon';
-import { ABNBCIcon } from '../../../uiKit/Icons/ABNBCIcon';
-import { ADOTBIcon } from '../../../uiKit/Icons/ADOTBIcon';
-import { AETHBIcon } from '../../../uiKit/Icons/AETHBIcon';
-import { AETHCIcon } from '../../../uiKit/Icons/AETHCIcon';
-import { AFTMBIcon } from '../../../uiKit/Icons/AFTMBIcon';
-import { AMATICBIcon } from '../../../uiKit/Icons/AMATICBIcon';
-import { AMATICCIcon } from '../../../uiKit/Icons/AMATICCIcon';
-import { AvaxIcon } from '../../../uiKit/Icons/AvaxIcon';
-import { BNBIcon } from '../../../uiKit/Icons/BNBIcon';
-import { EthIcon } from '../../../uiKit/Icons/EthIcon';
-import { FantomIcon } from '../../../uiKit/Icons/FantomIcon';
-import { KsmIcon } from '../../../uiKit/Icons/KsmIcon';
-import { MaticIcon } from '../../../uiKit/Icons/MaticIcon';
-import { PolygonIcon } from '../../../uiKit/Icons/Polygon';
-import { ReactComponent as ProtocolAcryptos } from '../assets/protocol-acryptos.svg';
-import { ReactComponent as ProtocolApeSwap } from '../assets/protocol-apeswap.svg';
-import { ReactComponent as ProtocolBeefyFinance } from '../assets/protocol-beefy-finance.svg';
-import { ReactComponent as ProtocolConvexFinance } from '../assets/protocol-convex-finance.svg';
-import { ReactComponent as ProtocolCurveFinance } from '../assets/protocol-curve-finance.svg';
-import { ReactComponent as ProtocolDystopia } from '../assets/protocol-dystopia.svg';
-import { ReactComponent as ProtocolEllipsisFinance } from '../assets/protocol-ellipsis-finance.svg';
-import { ReactComponent as ProtocolLydiaFinance } from '../assets/protocol-lydia-finance.svg';
-import { ReactComponent as ProtocolOnxFinance } from '../assets/protocol-onx-finance.svg';
-import { ReactComponent as ProtocolPancakeSwap } from '../assets/protocol-pancakeswap.svg';
-import { ReactComponent as ProtocolPangolin } from '../assets/protocol-pangolin.svg';
-import { ReactComponent as ProtocolQuickSwap } from '../assets/protocol-quickswap.svg';
-import { ReactComponent as ProtocolSushiswap } from '../assets/protocol-sushiswap.svg';
-import { ReactComponent as ProtocolTraderJoe } from '../assets/protocol-traderjoe.svg';
-import { ReactComponent as ProtocolUniswap } from '../assets/protocol-uniswap.svg';
-import { ReactComponent as ProtocolYearnFinance } from '../assets/protocol-yearn-finance.svg';
+import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
+import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
+import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
+import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
+import { ADOTBIcon } from 'uiKit/Icons/ADOTBIcon';
+import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
+import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
+import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
+import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
+import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
+import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
+import { BNBIcon } from 'uiKit/Icons/BNBIcon';
+import { EthIcon } from 'uiKit/Icons/EthIcon';
+import { FantomIcon } from 'uiKit/Icons/FantomIcon';
+import { KsmIcon } from 'uiKit/Icons/KsmIcon';
+import { MaticIcon } from 'uiKit/Icons/MaticIcon';
+import { PolygonIcon } from 'uiKit/Icons/Polygon';
 
-export const TOKEN_PROTOCOL_ICON_MAP: Record<string, ReactNode> = {
-  ACryptoS: <ProtocolAcryptos />,
-  ApeSwap: <ProtocolApeSwap />,
-  'Curve Finance': <ProtocolCurveFinance />,
-  'Convex Finance': <ProtocolConvexFinance />,
-  'Ellipsis Finance': <ProtocolEllipsisFinance />,
-  'OnX Finance': <ProtocolOnxFinance />,
-  SushiSwap: <ProtocolSushiswap />,
-  'Uniswap v3': <ProtocolUniswap />,
-  'Uniswap v2': <ProtocolUniswap />,
-  'Yearn Finance': <ProtocolYearnFinance />,
-  'Beefy Finance': <ProtocolBeefyFinance />,
-  PancakeSwap: <ProtocolPancakeSwap />,
-  QuickSwap: <ProtocolQuickSwap />,
-  Dystopia: <ProtocolDystopia />,
-  'Lydia Finance': <ProtocolLydiaFinance />,
-  Pangolin: <ProtocolPangolin />,
-  TraderJoe: <ProtocolTraderJoe />,
-};
+import { TDeFiNetwork } from '../api/defi';
+import { ReactComponent as StEthIcon } from '../assets/icon-stETH.svg';
+import { ReactComponent as WstEthIcon } from '../assets/icon-wstETH.svg';
 
-export const TOKEN_ASSET_ICON_MAP: Record<string, ReactNode> = {
+export const TOKEN_ASSET_ICON_MAP: Record<string, JSX.Element> = {
+  ANKR: <AnkrIcon />,
   ETH: <EthIcon />,
+  wETH: <EthIcon />,
   aETHc: <AETHCIcon />,
   aETHb: <AETHBIcon />,
   BNB: <BNBIcon />,
+  wBNB: <BNBIcon />,
   aBNBb: <ABNBBIcon />,
   aBNBc: <ABNBCIcon />,
-  wMATIC: <MaticIcon />,
   MATIC: <MaticIcon />,
+  wMATIC: <MaticIcon />,
   aMATICb: <AMATICBIcon />,
   aMATICc: <AMATICCIcon />,
   AVAX: <AvaxIcon />,
+  wAVAX: <AvaxIcon />,
   aAVAXb: <AAvaxBIcon />,
   aAVAXc: <AAvaxCIcon />,
+  FTM: <FantomIcon />,
   wFTM: <FantomIcon />,
   aFTMb: <AFTMBIcon />,
   aDOTb: <ADOTBIcon />,
   aKSMb: <KsmIcon />,
+  wstETH: <WstEthIcon />,
+  stETH: <StEthIcon />,
 };
 
-export const TOKEN_NETWORK_ICON_MAP: Record<string, ReactNode> = {
-  Ethereum: <EthIcon />,
-  'BNB Chain': <BNBIcon />,
-  Polygon: <PolygonIcon />,
-  Avalanche: <AvaxIcon />,
-  Fantom: <FantomIcon />,
+export const TOKEN_NETWORK_ICON_MAP: Record<TDeFiNetwork, ReactNode> = {
+  ethereum: <EthIcon />,
+  bnb: <BNBIcon />,
+  polygon: <PolygonIcon />,
+  avalanche: <AvaxIcon />,
+  fantom: <FantomIcon />,
 };

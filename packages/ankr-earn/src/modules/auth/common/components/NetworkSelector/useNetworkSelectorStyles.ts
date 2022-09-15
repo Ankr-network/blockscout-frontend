@@ -9,13 +9,15 @@ export const useNetworkSelectorStyles = makeStyles<
   INetworkSelectorStylesProps
 >(theme => ({
   list: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-    flexDirection: ({ direction }: INetworkSelectorStylesProps) =>
-      direction || 'row',
+    display: 'grid',
+    gap: theme.spacing(2, 2),
     alignItems: 'baseline',
-    margin: theme.spacing(-2, 0, 0),
+    width: '100%',
+  },
+
+  listColumns: {
+    gridTemplateColumns: 'repeat(auto-fit, minmax(124px, 1fr))',
+    justifyContent: 'center',
   },
 
   listItem: {
@@ -23,7 +25,6 @@ export const useNetworkSelectorStyles = makeStyles<
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: theme.spacing(2),
     width: '100%',
   },
 

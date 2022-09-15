@@ -3,20 +3,11 @@ import { lighten, makeStyles } from '@material-ui/core';
 export const usePortfolioChartStyles = makeStyles(theme => ({
   root: {
     boxShadow: 'none',
-    marginBottom: theme.spacing(7),
-    padding: theme.spacing(7, 5),
+    padding: theme.spacing(2, 3),
 
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(3.5),
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(7, 5),
     },
-
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(4),
-    },
-  },
-
-  title: {
-    marginBottom: theme.spacing(3),
   },
 
   chartText: {
@@ -28,7 +19,7 @@ export const usePortfolioChartStyles = makeStyles(theme => ({
   total: {
     fill: theme.palette.text.primary,
     fontSize: 24,
-    fontWeight: 600,
+    fontWeight: 700,
 
     [theme.breakpoints.up('md')]: {
       fontSize: 32,

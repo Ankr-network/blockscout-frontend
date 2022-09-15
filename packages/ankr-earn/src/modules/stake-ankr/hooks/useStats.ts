@@ -19,8 +19,8 @@ interface IStatsProps {
 
 interface IUseStats {
   apyText: string;
-  yearlyEarning: string;
-  yearlyEarningUSD?: string;
+  annualEarning: string;
+  annualEarningUSD?: string;
   totalStaked?: string;
   totalStakedUSD?: string;
   stakers?: number;
@@ -66,8 +66,8 @@ export const useStats = ({
     apyText: t('stake.stats.apy-value', {
       value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     }),
-    yearlyEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-    yearlyEarningUSD,
+    annualEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+    annualEarningUSD: yearlyEarningUSD,
     totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
     isLoading: isPriceLoading || isTotalInfoLoading || isApyLoading,

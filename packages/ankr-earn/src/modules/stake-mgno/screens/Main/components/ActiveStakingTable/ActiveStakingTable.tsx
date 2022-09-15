@@ -18,14 +18,13 @@ import { ProviderItem } from 'modules/delegate-stake/components/ProviderItem';
 import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
-import { NavLink } from 'uiKit/NavLink';
 
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
 
 const SKELETON_ROWS_COUNT = 1;
-const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 200, 300];
+const SKELETON_COLUMN_WIDTHS = [200, 200, 200, 200];
 const SKELETON_ROWS = new Array<number[]>(SKELETON_ROWS_COUNT).fill(
   SKELETON_COLUMN_WIDTHS,
 );
@@ -57,9 +56,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       {
         label: t('stake-mgno.staking-table.validation-rewards'),
       },
-      {
-        label: ' ',
-      },
     ],
     [],
   );
@@ -86,7 +82,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
     <Table
       className={classes.table}
       columnsCount={captions.length}
-      customCell="200px 200px 1fr 1fr 150px"
+      customCell="200px 200px 1fr 1fr"
       minWidth={800}
     >
       <TableHead>
@@ -119,7 +115,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 label={`${captions[ELabel.slashingProtection].label}`}
               >
                 {t('unit.percentage-value', {
-                  value: row.slashingProtection.toFixed(),
+                  value: row.slashingProtection.toFormat(),
                 })}
               </TableBodyCell>
 
@@ -146,15 +142,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                   token={Token.mGNO}
                   usdAmount={row.usdRewards}
                 />
-              </TableBodyCell>
-
-              <TableBodyCell
-                align="right"
-                label={`${captions[ELabel.action].label}`}
-              >
-                <NavLink className={classes.btn} href=" " variant="outlined">
-                  {t('stake-mgno.staking-table.details')}
-                </NavLink>
               </TableBodyCell>
             </TableRow>
           ))}

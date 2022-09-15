@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { Address } from '@ankr.com/provider';
 
+export const ZERO_DECIMAL_PLACES = 0;
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
 export const DECIMAL_PLACES = 4;

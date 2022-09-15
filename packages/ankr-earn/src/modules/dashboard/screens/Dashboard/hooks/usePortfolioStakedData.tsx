@@ -16,7 +16,7 @@ import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBr
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
+import { getMaxApy as getANKRMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getTotalInfo as getAnkrTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -24,6 +24,9 @@ import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/g
 import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { fetchStats as fetchStakeMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
+import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
+import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
@@ -130,7 +133,19 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
   });
 
   const { data: maxAnkrApy } = useQuery({
-    type: getMaxApy,
+    type: getANKRMaxApy,
+  });
+
+  const { data: mgnoData, loading: isLoadingMgnoData } = useQuery({
+    type: getMGNOTotalInfo,
+  });
+
+  const { data: mgnoPrice, loading: isMgnoPriceLoading } = useQuery({
+    type: getMGNOPrice,
+  });
+
+  const { data: maxMgnoApr } = useQuery({
+    type: getMGNOMaxApr,
   });
 
   const stakedData = useMemo(
@@ -231,6 +246,11 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
         apy: maxAnkrApy ?? ZERO,
         amount: ankrData?.totalDelegatedAmount ?? ZERO,
       },
+      {
+        name: Token.mGNO,
+        apy: maxMgnoApr ?? ZERO,
+        amount: mgnoData?.myTotalDelegatedAmount ?? ZERO,
+      },
     ],
     [
       metrics,
@@ -249,19 +269,33 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       ethData,
       ankrData,
       maticPolygonBalances,
+      maxMgnoApr,
+      mgnoData,
     ],
   );
 
-  const usdAmounts = stakedData.map(item =>
-    item.service
-      ? getUSDAmount({
+  const usdAmounts = stakedData.map(item => {
+    if (item.service) {
+      return (
+        getUSDAmount({
           amount: item.amount,
           ratio: item.ratio,
           totalStaked: metrics?.[item.service]?.totalStaked,
           totalStakedUsd: metrics?.[item.service]?.totalStakedUsd,
         }) ?? ZERO
-      : item.amount.multipliedBy(ankrPrice ?? ZERO),
-  );
+      );
+    }
+
+    if (item.name === Token.ANKR) {
+      return item.amount.multipliedBy(ankrPrice ?? ZERO);
+    }
+
+    if (item.name === Token.mGNO) {
+      return item.amount.multipliedBy(mgnoPrice ?? ZERO);
+    }
+
+    return ZERO;
+  });
 
   const yieldAmoutsUsd = stakedData.map((item, index) =>
     usdAmounts[index].multipliedBy(item.apy).dividedBy(100),
@@ -304,10 +338,10 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
             ? usdAmounts[index]
                 .multipliedBy(100)
                 .dividedBy(totalAmountUsd)
-                .decimalPlaces(1)
+                .decimalPlaces(DEFAULT_ROUNDING)
                 .toNumber()
             : 0,
-          apy: item.apy.decimalPlaces(1),
+          apy: item.apy.decimalPlaces(DEFAULT_ROUNDING),
           icon: iconByTokenMap[item.name],
         }))
         .filter(({ amount }) => !amount.isZero()),
@@ -330,7 +364,9 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       isETHcBridgeBalanceLoading ||
       isLoadingAnkrData ||
       isMaticPolygonBalancesLoading ||
-      isAnkrPriceLoading,
+      isAnkrPriceLoading ||
+      isLoadingMgnoData ||
+      isMgnoPriceLoading,
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
     totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),
     totalYieldAmountUsd: totalYieldAmountUsd

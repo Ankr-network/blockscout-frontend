@@ -47,9 +47,7 @@ export const NetworkSelectorItem = ({
         <>
           {iconSlot}
 
-          <Typography className={classes.itemTitle} variant="body2">
-            {title}
-          </Typography>
+          <Typography variant="body2">{title}</Typography>
         </>
       ) : (
         <>

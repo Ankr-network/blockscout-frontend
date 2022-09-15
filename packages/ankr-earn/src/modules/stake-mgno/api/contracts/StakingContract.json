@@ -94,6 +94,12 @@
         "internalType": "uint128",
         "name": "totalStaked",
         "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "totalPending",
+        "type": "uint128"
       }
     ],
     "name": "StakePushed",
@@ -117,12 +123,31 @@
       {
         "indexed": false,
         "internalType": "uint128",
+        "name": "totalStaked",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
         "name": "toStake",
         "type": "uint128"
       }
     ],
     "name": "StakedPool",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "depositContract",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [
@@ -166,67 +191,6 @@
       }
     ],
     "name": "getAvailable",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "provider",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "staker",
-        "type": "address"
-      }
-    ],
-    "name": "getKeyReward",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "provider",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "staker",
-        "type": "address"
-      }
-    ],
-    "name": "getKeyShares",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getMinStake",
     "outputs": [
       {
         "internalType": "uint128",
@@ -298,8 +262,13 @@
         "type": "address"
       }
     ],
-    "name": "getStake",
+    "name": "getStaker",
     "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      },
       {
         "internalType": "uint128",
         "name": "",
@@ -332,34 +301,16 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "provider",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
         "name": "staker",
         "type": "address"
       }
     ],
-    "name": "getTipShares",
+    "name": "getTotalValidationReward",
     "outputs": [
       {
-        "internalType": "uint128",
+        "internalType": "uint256",
         "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getTotalStakes",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -369,27 +320,36 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "operator",
+        "name": "provider",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "depositContract",
+        "name": "staker",
+        "type": "address"
+      }
+    ],
+    "name": "getValidationReward",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IStakingConfig",
+        "name": "config",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "providerRegistry",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "stakeToken",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "validatorManager",
+        "name": "_depositContract",
         "type": "address"
       }
     ],
@@ -400,12 +360,12 @@
   },
   {
     "inputs": [],
-    "name": "isNative",
+    "name": "minStakeAmount",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "uint64",
         "name": "",
-        "type": "bool"
+        "type": "uint64"
       }
     ],
     "stateMutability": "view",
@@ -460,19 +420,6 @@
     "name": "stakeGNO",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "stakeToken",
-    "outputs": [
-      {
-        "internalType": "contract IERC20",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {

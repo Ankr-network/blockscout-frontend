@@ -6,7 +6,7 @@ export const useStakeFormStyles = makeStyles(theme => {
       padding: theme.spacing(6, 2, 2.5),
 
       [theme.breakpoints.up('md')]: {
-        padding: theme.spacing(6, 7.5, 7.5),
+        padding: theme.spacing(6, 7.5, 6),
       },
     },
 
@@ -20,7 +20,7 @@ export const useStakeFormStyles = makeStyles(theme => {
       fontSize: 30,
 
       [theme.breakpoints.up('sm')]: {
-        marginBottom: theme.spacing(7.5),
+        marginBottom: theme.spacing(6),
       },
     },
 
@@ -33,7 +33,8 @@ export const useStakeFormStyles = makeStyles(theme => {
     },
 
     submit: {
-      height: 54,
+      height: 50,
+      borderRadius: 16,
     },
   };
 });

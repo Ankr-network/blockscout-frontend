@@ -73,6 +73,7 @@ interface IPolygonConfig {
 
 export interface IGatewayConfig {
   baseUrl: string;
+  strapiUrl: string;
 }
 
 export interface IStkrConfig {
@@ -106,13 +107,13 @@ const LOCAL_CONFIG: IStkrConfig = {
     // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
     ankrStakingChainConfig: '0x916C1e42c41C73941d8319267F0a0E9b592b6058',
     mGNOToken: '0x4741cB111C61246c6282c97A163AaEfD130C88c3',
-    gnosisStakingContract: '0xBC1940567dd0c593a4f354Be24D04c7d3f6f6c86',
-    gnosisInsuranceContract: '0xD0bbb26828C21Cae18CBFd4136D69f83Bf1b475e',
+    gnosisStakingContract: '0x632173973cdF9CBe4B497541BAF2C5Db0Ec8Ba18',
+    gnosisInsuranceContract: '0x9BdABc8743CCD8999E5D2c04E6873179CD61f27f',
     // todo: change it a bit later
     gnosisRewardContract: '0x6f1b0A814358a9f8E83B7Bb65F0056e99e7162c2',
-    gnosisProviderContract: '0xf9E8E92131EaEAF2c9aAee95A039471Ac693C129',
+    gnosisProviderContract: '0x40854D6dDB05Ab345853Ed51ebEca7A7650B5138',
     gnosisValidatorManagerContract:
-      '0x4c98cC2D841ba5D801aa9Ba84cae44d786a29C36',
+      '0x803472cac24Eb4cD4168B4301210FB5063cef082',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
@@ -152,12 +153,14 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
+    strapiUrl: 'https://strapi-no-cache.ankr.com/',
   },
 };
 
 const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.dev.stkr.io/',
   },
 };
@@ -165,6 +168,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
 const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.goerli.stkr.io/',
   },
 };
@@ -188,11 +192,12 @@ const MAINNET_CONFIG: IStkrConfig = {
     ankrTokenStaking: '0xaB15B0bdDc012092cb23f53953149a7F8C1f9E7f',
     ankrStakingChainConfig: '0x2d3F893c7c45C2BE3Ec63cf5385DeAfD7Ece6AAE',
     mGNOToken: '0x722fc4DAABFEaff81b97894fC623f91814a1BF68',
-    gnosisStakingContract: ZERO_ADDR,
-    gnosisInsuranceContract: ZERO_ADDR,
+    gnosisStakingContract: '0xFd0f61255913825DA1c194b985F04982966c34d6',
+    gnosisInsuranceContract: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
     gnosisRewardContract: ZERO_ADDR,
-    gnosisProviderContract: ZERO_ADDR,
-    gnosisValidatorManagerContract: ZERO_ADDR,
+    gnosisProviderContract: '0x8A2f83347f0E59faeFe2320B7422f8AA432cE27a',
+    gnosisValidatorManagerContract:
+      '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
@@ -232,6 +237,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
+    strapiUrl: 'https://strapi.ankr.com/',
   },
 };
 

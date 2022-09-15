@@ -25,6 +25,12 @@
         "internalType": "uint256",
         "name": "shares",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "totalContributed",
+        "type": "uint128"
       }
     ],
     "name": "ContributionConfirmed",
@@ -41,37 +47,6 @@
       }
     ],
     "name": "Initialized",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "provider",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "contributor",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint128",
-        "name": "totalContributed",
-        "type": "uint128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint128",
-        "name": "amount",
-        "type": "uint128"
-      }
-    ],
-    "name": "InsuranceIncreased",
     "type": "event"
   },
   {
@@ -130,6 +105,11 @@
         "internalType": "address",
         "name": "provider",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "contributor",
+        "type": "address"
       }
     ],
     "name": "getContributed",
@@ -138,30 +118,6 @@
         "internalType": "uint128",
         "name": "",
         "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "providers",
-        "type": "address[]"
-      }
-    ],
-    "name": "getInsuranceInfo",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint128[]",
-        "name": "",
-        "type": "uint128[]"
       }
     ],
     "stateMutability": "view",
@@ -187,13 +143,38 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "provider",
+        "type": "address"
+      }
+    ],
     "name": "getTotalContributed",
     "outputs": [
       {
         "internalType": "uint128",
         "name": "",
         "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "providers",
+        "type": "address[]"
+      }
+    ],
+    "name": "getTotalContributions",
+    "outputs": [
+      {
+        "internalType": "uint128[]",
+        "name": "",
+        "type": "uint128[]"
       }
     ],
     "stateMutability": "view",
@@ -210,6 +191,19 @@
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minContribAmount",
+    "outputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

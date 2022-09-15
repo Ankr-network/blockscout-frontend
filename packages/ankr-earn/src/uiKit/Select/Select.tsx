@@ -29,6 +29,7 @@ export interface ISelectProps extends Omit<SelectProps, 'variant'> {
   label?: ReactNode;
   variant?: 'filled' | 'outlined';
   rootClassName?: string;
+  withoutDivider?: boolean;
 }
 
 export const Select = ({
@@ -42,6 +43,7 @@ export const Select = ({
   className,
   rootClassName,
   disabled,
+  withoutDivider = false,
   ...restProps
 }: ISelectProps): JSX.Element => {
   const styles = useSelectStyles();
@@ -52,7 +54,9 @@ export const Select = ({
       <MenuItem
         key={uid(option)}
         classes={{
-          root: styles.item,
+          root: withoutDivider
+            ? styles.item
+            : classNames(styles.item, styles.divider),
           selected: styles.itemSelected,
         }}
         disabled={option.disabled}
@@ -61,7 +65,13 @@ export const Select = ({
         {option.label}
       </MenuItem>
     ));
-  }, [options, styles]);
+  }, [
+    options,
+    styles.divider,
+    styles.item,
+    styles.itemSelected,
+    withoutDivider,
+  ]);
 
   const selectProps = useMemo(
     (): SelectProps => ({

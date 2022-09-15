@@ -1,4 +1,9 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { Grid } from '@material-ui/core';
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
+import classNames from 'classnames';
 
 import { t, tHTML } from 'common';
 
@@ -24,30 +29,52 @@ import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptio
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
+import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { Button } from 'uiKit/Button';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
+import { NumericStepper } from 'uiKit/Stepper';
 
+import { approveMATICStake } from '../../actions/approveMATICStake';
 import { fetchStats } from '../../actions/fetchStats';
+import { getStakeGasFee } from '../../actions/getStakeGasFee';
 
 import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
+const resetRequests = () =>
+  resetReduxRequests([
+    approveMATICStake.toString(),
+    fetchStats.toString(),
+    getMetrics.toString(),
+    getStakeGasFee.toString(),
+  ]);
+
 export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
-  const dispatchRequest = useDispatchRequest();
+
+  const dispatch = useAppDispatch();
 
   const {
     aMATICcRatio,
+    activeStep,
     amount,
     certificateRatio,
+    gasFee,
+    isApproveLoading,
+    isApproved,
     isFetchStatsLoading,
+    isShouldBeApproved,
+    isShowGasFee,
     isStakeLoading,
     tokenIn,
     tokenOut,
@@ -68,7 +95,7 @@ export const StakePolygon = (): JSX.Element => {
             description={tHTML('stake-matic-eth.amaticb-descr')}
             iconSlot={<AMATICBIcon />}
             isActive={tokenOut === Token.aMATICb}
-            isDisabled={isStakeLoading}
+            isDisabled={isApproveLoading || isStakeLoading}
             title={t('unit.amaticb')}
             onClick={onTokenSelect(Token.aMATICb)}
           />
@@ -81,7 +108,7 @@ export const StakePolygon = (): JSX.Element => {
             })}
             iconSlot={<AMATICCIcon />}
             isActive={tokenOut === Token.aMATICc}
-            isDisabled={isStakeLoading}
+            isDisabled={isApproveLoading || isStakeLoading}
             title={t('unit.amaticc')}
             onClick={onTokenSelect(Token.aMATICc)}
           />
@@ -101,17 +128,75 @@ export const StakePolygon = (): JSX.Element => {
     );
   };
 
+  const renderFooter = (): JSX.Element => (
+    <>
+      <Grid container spacing={3}>
+        <Grid item xs>
+          <Button
+            fullWidth
+            color="primary"
+            disabled={isApproved || isApproveLoading}
+            endIcon={
+              <QuestionWithTooltip
+                className={classNames(
+                  isApproved
+                    ? classes.questionBtnDisabled
+                    : classes.questionBtnActive,
+                )}
+              >
+                {t('common.tooltips.allowance')}
+              </QuestionWithTooltip>
+            }
+            isLoading={isApproveLoading}
+            size="large"
+            type="submit"
+          >
+            {t('stake-matic-eth.btn.approve')}
+          </Button>
+        </Grid>
+
+        <Grid item xs>
+          <Button
+            fullWidth
+            color="primary"
+            disabled={isStakeLoading || isShouldBeApproved}
+            isLoading={isStakeLoading}
+            size="large"
+            type="submit"
+          >
+            {t('stake-matic-eth.btn.submit', {
+              token: tokenOut,
+            })}
+          </Button>
+        </Grid>
+      </Grid>
+
+      <NumericStepper
+        activeStep={activeStep}
+        className={classes.stepper}
+        stepsCount={2}
+      />
+    </>
+  );
+
   useProviderEffect(() => {
-    dispatchRequest(getMetrics());
-    dispatchRequest(fetchStats());
-  }, [dispatchRequest]);
+    dispatch(resetRequests());
+
+    dispatch(fetchStats());
+    dispatch(getMetrics());
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
+    };
+  }, [dispatch]);
 
   useProviderEffect(() => {
     if (!featuresConfig.isActiveStakeTradeInfo) {
       return;
     }
 
-    dispatchRequest(
+    dispatch(
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.MATIC,
         bondToken: EOpenOceanTokens.aMATICb,
@@ -120,7 +205,7 @@ export const StakePolygon = (): JSX.Element => {
         network: EOpenOceanNetworks.ETH,
       }),
     );
-  }, [certificateRatio, dispatchRequest]);
+  }, [certificateRatio, dispatch]);
 
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
@@ -136,10 +221,17 @@ export const StakePolygon = (): JSX.Element => {
                 </AuditInfo>
               }
               balance={data.maticBalance}
+              feeSlot={
+                isShowGasFee && (
+                  <StakeFeeInfo mt={-1.5} token={Token.ETH} value={gasFee} />
+                )
+              }
+              isDisabled={isApproved || isApproveLoading}
               loading={isStakeLoading}
               maxAmount={data.maticBalance}
               minAmount={data.minimumStake}
               networkTitleSlot={<NetworkTitle />}
+              renderFooter={renderFooter}
               renderStats={renderStats}
               tokenIn={tokenIn}
               tokenOut={tokenOut}

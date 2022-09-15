@@ -24,7 +24,10 @@ export const QuestionWithTooltip = ({
 
   return children ? (
     <Tooltip arrow title={children}>
-      <ButtonBase className={classNames(classes.btn, className)}>
+      <ButtonBase
+        className={classNames(classes.btn, className)}
+        component="span"
+      >
         <QuestionIcon className={classes.icon} htmlColor="inherit" size="xs" />
       </ButtonBase>
     </Tooltip>

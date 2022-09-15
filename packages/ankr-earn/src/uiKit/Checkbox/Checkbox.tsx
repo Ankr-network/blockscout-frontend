@@ -4,7 +4,6 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 import classNames from 'classnames';
-import React from 'react';
 
 import { useStyles } from './useCheckboxStyles';
 
@@ -24,26 +23,31 @@ export const CheckboxCheckedIcon = (): JSX.Element => {
   return <span className={classNames(classes.icon, classes.checkedIcon)} />;
 };
 
-export const Checkbox = (props: ICheckboxProps): JSX.Element => {
+export const Checkbox = ({
+  label,
+  disabled,
+  className,
+  ...rest
+}: ICheckboxProps): JSX.Element => {
   const classes = useStyles();
-  const { label, checked, disabled, defaultChecked, ...rest } = props;
-
-  const isDisabled = checked ? classes.labelActive : disabled;
-  const labelClassName = isDisabled
-    ? classes.labelDisabled
-    : classes.labelStandart;
 
   return (
     <FormControlLabel
+      classes={{
+        label: classNames(classes.label, {
+          [classes.labelDisabled]: disabled,
+        }),
+      }}
+      className={className}
       control={
         <CheckboxComponent
-          checked={checked}
-          disabled={disabled}
           {...rest}
           className={classes.checkbox}
+          disabled={disabled}
         />
       }
-      label={<span className={labelClassName}>{label}</span>}
+      disabled={disabled}
+      label={label}
     />
   );
 };

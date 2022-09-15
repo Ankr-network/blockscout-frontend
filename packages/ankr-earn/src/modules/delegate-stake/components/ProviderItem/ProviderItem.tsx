@@ -27,7 +27,7 @@ export const ProviderItem = ({
       <div className={classes.infoWrapper}>
         {name}
 
-        <div className={classes.nodeAmount}>
+        <div className={classes.apr}>
           {t('stake-ankr.staking-table.apr', {
             value: nodeAPY.decimalPlaces(DEFAULT_ROUNDING).toFixed(),
           })}

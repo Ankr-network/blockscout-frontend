@@ -1,47 +1,30 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useConnectStyles = makeStyles<Theme>(theme => ({
-  box: {
-    maxWidth: 500,
+export const useConnectStyles = makeStyles(theme => ({
+  root: {
     margin: '0 auto',
-    padding: theme.spacing(6, 3),
+    padding: theme.spacing(8, 2, 8, 2),
     textAlign: 'center',
   },
 
-  headerContainer: {
-    margin: theme.spacing(0, 0, 3),
+  imgArea: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  titleArea: {
+    margin: theme.spacing(3, 0, 2.5, 0),
+    lineHeight: 1.5,
 
-  question: {
-    margin: theme.spacing(0, 0, 7),
-    fontSize: 16,
-  },
-
-  button: {
-    height: 52,
-    margin: theme.spacing(0, 0, 3),
-
-    [theme.breakpoints.up('sm')]: {
-      maxWidth: 262,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 24,
     },
   },
 
-  info: {
-    fontSize: 16,
-    margin: '0 auto',
-
-    '& .highlight': {
-      color: theme.palette.text.primary,
-    },
-  },
-
-  networksWrapper: {
-    borderTop: `1px solid ${theme.palette.background.default}`,
-    margin: theme.spacing(4, -3, 0),
-    padding: theme.spacing(3.5, 3, 0),
-  },
-
-  networksTitle: {
-    marginBottom: theme.spacing(3),
+  img: {
+    width: '100%',
+    maxWidth: 119,
+    height: 'auto',
   },
 }));

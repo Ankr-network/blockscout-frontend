@@ -1,4 +1,5 @@
-import React, { ReactNode, useCallback } from 'react';
+import classNames from 'classnames';
+import { Children, ReactNode, useCallback } from 'react';
 
 import { useNetworkSelectorStyles } from './useNetworkSelectorStyles';
 
@@ -19,8 +20,12 @@ export const NetworkSelector = ({
   );
 
   return (
-    <div className={classes.list}>
-      {React.Children.map(children, child => modifyChildren(child))}
+    <div
+      className={classNames(classes.list, {
+        [classes.listColumns]: direction === 'row',
+      })}
+    >
+      {Children.map(children, modifyChildren)}
     </div>
   );
 };
