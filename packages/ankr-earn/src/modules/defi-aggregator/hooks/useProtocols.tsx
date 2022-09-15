@@ -8,6 +8,7 @@ import { ReactComponent as ProtocolApeSwap } from '../assets/protocol-apeswap.sv
 import { ReactComponent as ProtocolBeefyFinance } from '../assets/protocol-beefy-finance.svg';
 import { ReactComponent as ProtocolConvexFinance } from '../assets/protocol-convex-finance.svg';
 import { ReactComponent as ProtocolCurveFinance } from '../assets/protocol-curve-finance.svg';
+import { ReactComponent as ProtocolDotDot } from '../assets/protocol-dotdot.svg';
 import { ReactComponent as ProtocolDystopia } from '../assets/protocol-dystopia.svg';
 import { ReactComponent as ProtocolEllipsisFinance } from '../assets/protocol-ellipsis-finance.svg';
 import { ReactComponent as ProtocolLydiaFinance } from '../assets/protocol-lydia-finance.svg';
@@ -48,6 +49,10 @@ export const useProtocols = (): Record<TDeFiProtocol, IProtocol> =>
       curveFinance: {
         title: t('defi.protocols.curveFinance'),
         icon: <ProtocolCurveFinance />,
+      },
+      dotdotFinance: {
+        title: t('defi.protocols.dotdotFinance'),
+        icon: <ProtocolDotDot />,
       },
       dystopia: {
         title: t('defi.protocols.dystopia'),

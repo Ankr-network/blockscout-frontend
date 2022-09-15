@@ -20,8 +20,10 @@ import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { PolygonIcon } from 'uiKit/Icons/Polygon';
 
 import { TDeFiNetwork } from '../api/defi';
+import { ReactComponent as StEthIcon } from '../assets/icon-stETH.svg';
+import { ReactComponent as WstEthIcon } from '../assets/icon-wstETH.svg';
 
-export const TOKEN_ASSET_ICON_MAP: Record<string, ReactNode> = {
+export const TOKEN_ASSET_ICON_MAP: Record<string, JSX.Element> = {
   ANKR: <AnkrIcon />,
   ETH: <EthIcon />,
   wETH: <EthIcon />,
@@ -44,6 +46,8 @@ export const TOKEN_ASSET_ICON_MAP: Record<string, ReactNode> = {
   aFTMb: <AFTMBIcon />,
   aDOTb: <ADOTBIcon />,
   aKSMb: <KsmIcon />,
+  wstETH: <WstEthIcon />,
+  stETH: <StEthIcon />,
 };
 
 export const TOKEN_NETWORK_ICON_MAP: Record<TDeFiNetwork, ReactNode> = {

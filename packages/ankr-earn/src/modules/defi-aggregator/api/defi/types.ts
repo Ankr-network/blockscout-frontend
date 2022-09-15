@@ -27,7 +27,8 @@ export type TDeFiProtocol =
   | 'uniswapV2'
   | 'uniswapV3'
   | 'spookySwap'
-  | 'yearnFinance';
+  | 'yearnFinance'
+  | 'dotdotFinance';
 
 export interface IDeFiItemResponse {
   id: number;

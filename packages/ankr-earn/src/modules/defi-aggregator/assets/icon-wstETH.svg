@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 190 190">
+  <circle cx="95" cy="95" r="95" fill="#F2F5FA"/>
+  <ellipse cx="95.5" cy="122" fill="url(#wst-eth-a)" rx="64.5" ry="63"/>
+  <path fill="url(#wst-eth-b)" d="M95.5 100.5V5L141 74l-45.5 26.5Z"/>
+  <path fill="#F2F5FA" d="M95.5 100.5 141 74l7 11.5-52.5 30-52.5-30L50 74l45.5 26.5Z"/>
+  <path fill="url(#wst-eth-c)" d="M50 74 95.5 5v95L50 74Z"/>
+  <defs>
+    <linearGradient id="wst-eth-a" x1="95.5" x2="95.5" y1="59" y2="185" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4A8CEA"/>
+      <stop offset="1" stop-color="#56F2FF"/>
+    </linearGradient>
+    <linearGradient id="wst-eth-b" x1="118.25" x2="118.25" y1="5" y2="100.5" gradientUnits="userSpaceOnUse">
+      <stop offset=".349" stop-color="#FF7F72"/>
+      <stop offset="1" stop-color="#3278EA"/>
+    </linearGradient>
+    <linearGradient id="wst-eth-c" x1="72.75" x2="72.75" y1="5" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset=".349" stop-color="#FFE336"/>
+      <stop offset="1" stop-color="#20C2AF"/>
+    </linearGradient>
+  </defs>
+</svg>
