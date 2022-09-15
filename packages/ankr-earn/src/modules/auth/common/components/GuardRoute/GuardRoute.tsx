@@ -120,22 +120,7 @@ export const GuardRoute = <
   return (
     <DefaultLayout verticalAlign="center">
       <Box component="section" py={{ xs: 5, md: 8 }}>
-        <Connect
-          networksSlot={
-            <NetworkSelector direction="row">
-              {supportedNetworks.map(({ icon, title, chainId: network }) => (
-                <NetworkSelectorItem
-                  key={network}
-                  disabled
-                  oldVersion
-                  iconSlot={icon}
-                  title={title}
-                />
-              ))}
-            </NetworkSelector>
-          }
-          onConnectClick={onOpenModal}
-        />
+        <Connect onConnectClick={onOpenModal} />
       </Box>
 
       <ConnectWalletsModal

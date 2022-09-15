@@ -15,6 +15,7 @@ import { uid } from 'react-uid';
 import { RoutesConfig } from 'modules/testing-ui/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
+import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 
@@ -45,6 +46,12 @@ export const Main = (): JSX.Element => {
         descr: 'Ability to get test ankr tokens',
         icon: AnkrIcon,
         link: RoutesConfig.ankrFaucet.generatePath(),
+      },
+      {
+        title: 'Aka mGNO faucet',
+        descr: 'Ability to get test mGNO tokens',
+        icon: MGNOIcon,
+        link: RoutesConfig.mgnoFaucet.generatePath(),
       },
       {
         title: 'For devs',

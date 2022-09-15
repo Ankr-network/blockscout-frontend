@@ -116,6 +116,7 @@ export const BridgedAsset = ({
           <Grid item className={classes.wrapper}>
             <NavLink
               className={classes.tradeButton}
+              color="primary"
               href={BridgeRoutes.main.generatePath()}
               variant="outlined"
             >
@@ -127,6 +128,7 @@ export const BridgedAsset = ({
             {tradeLink ? (
               <NavLink
                 className={classes.tradeButton}
+                color="primary"
                 href={tradeLink}
                 variant="outlined"
               >

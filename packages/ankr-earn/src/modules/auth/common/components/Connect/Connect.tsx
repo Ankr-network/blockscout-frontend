@@ -1,63 +1,39 @@
 import { Paper, Typography } from '@material-ui/core';
-import React, { ReactNode } from 'react';
 
 import { t } from 'common';
 
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 
+import connectWalletIcon from '../../assets/connect-wallet-icon.jpg';
+import connectWalletIcon2x from '../../assets/connect-wallet-icon@2x.jpg';
+
 import { useConnectStyles } from './useConnectStyles';
 
 interface IConnectProps {
-  btnDisabled?: boolean;
-  info?: ReactNode;
-  networksSlot?: ReactNode;
   onConnectClick?: () => void;
 }
 
-export const Connect = ({
-  onConnectClick,
-  btnDisabled,
-  info,
-  networksSlot,
-}: IConnectProps): JSX.Element => {
+export const Connect = ({ onConnectClick }: IConnectProps): JSX.Element => {
   const classes = useConnectStyles();
 
   return (
     <Container>
-      <Paper className={classes.box}>
-        <div className={classes.headerContainer}>
-          <Typography variant="h3">{t('connect.access-request')}</Typography>
+      <Paper className={classes.root}>
+        <div className={classes.imgArea}>
+          <img
+            alt={t('connect.title')}
+            className={classes.img}
+            src={connectWalletIcon}
+            srcSet={`${connectWalletIcon2x} 2x`}
+          />
         </div>
 
-        <Typography className={classes.question}>
-          {t('connect.ask-connect')}
+        <Typography className={classes.titleArea} variant="h3">
+          {t('connect.title')}
         </Typography>
 
-        <Button
-          fullWidth
-          className={classes.button}
-          color="primary"
-          disabled={btnDisabled}
-          size="large"
-          onClick={onConnectClick}
-        >
-          {t('connect.grant')}
-        </Button>
-
-        <Typography className={classes.info} color="textSecondary">
-          {info || t('connect.info')}
-        </Typography>
-
-        {networksSlot && (
-          <div className={classes.networksWrapper}>
-            <Typography className={classes.networksTitle} variant="h5">
-              {t('connect.available-networks')}
-            </Typography>
-
-            {networksSlot}
-          </div>
-        )}
+        <Button onClick={onConnectClick}>{t('connect.connect-wallet')}</Button>
       </Paper>
     </Container>
   );

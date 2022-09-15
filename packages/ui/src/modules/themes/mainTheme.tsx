@@ -47,7 +47,8 @@ export const PALETTE: PaletteOptions = {
     secondary: '#9AA1B0',
   },
   action: {
-    disabledBackground: '#BFC6D0',
+    disabled: '#BFC6D0',
+    disabledBackground: '#E2E8F3',
   },
   success: {
     main: '#4DB58F',
@@ -269,7 +270,7 @@ export const mainTheme = createTheme({
         backgroundColor: defaultTheme.palette.background.default,
 
         '&:hover, &.Mui-focused': {
-          borderColor: defaultTheme.palette.background.default,
+          borderColor: defaultTheme.palette.primary.main,
           backgroundColor: defaultTheme.palette.background.paper,
         },
 
@@ -297,6 +298,14 @@ export const mainTheme = createTheme({
       },
     },
 
+    MuiFormLabel: {
+      root: {
+        '&.Mui-error': {
+          color: defaultTheme.palette.text.primary,
+        },
+      },
+    },
+
     MuiInputLabel: {
       shrink: {
         position: 'static',
@@ -305,6 +314,13 @@ export const mainTheme = createTheme({
         fontWeight: 700,
         color: '#000',
         transform: 'none',
+      },
+    },
+
+    MuiFormHelperText: {
+      contained: {
+        marginLeft: 0,
+        marginRight: 0,
       },
     },
 
@@ -465,6 +481,7 @@ export const mainTheme = createTheme({
 
       contained: {
         backgroundColor: defaultTheme.palette.primary.main,
+        borderRadius: 16,
         overflow: 'hidden',
         transition: `background-color ${BTN_TRANSITION_TIME}s, color ${BTN_TRANSITION_TIME}s`,
         color: defaultTheme.palette.common.white,
@@ -481,7 +498,7 @@ export const mainTheme = createTheme({
         },
 
         '&$disabled': {
-          color: defaultTheme.palette.common.white,
+          color: '#9AA1B0',
           backgroundColor: defaultTheme.palette.action.disabledBackground,
         },
       },
@@ -495,7 +512,7 @@ export const mainTheme = createTheme({
 
         '&$disabled': {
           border: `2px solid ${defaultTheme.palette.background.default}`,
-          color: defaultTheme.palette.action.disabledBackground,
+          color: defaultTheme.palette.action.disabled,
         },
 
         '&:hover': {

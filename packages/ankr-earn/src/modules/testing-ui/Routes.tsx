@@ -8,11 +8,13 @@ import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { ETH_PROVIDER_ID, ETH_STAKING_NETWORKS } from 'modules/stake-eth/const';
+import { MGNO_STAKING_NETWORKS } from 'modules/stake-mgno/const';
 
 const ROOT = `${STAKING_PATH}test/`;
 const TEST_STAKE_PATH = `${ROOT}eth-stake-without-claim/`;
 const NOTIFICATIONS_PATH = `${ROOT}notifications/`;
 const ANKR_FAUCET_PATH = `${ROOT}ankr-faucet/`;
+const MGNO_FAUCET_PATH = `${ROOT}mgno-faucet/`;
 const DEV_PATH = `${ROOT}dev/`;
 
 export const RoutesConfig = createRouteConfig(
@@ -35,6 +37,11 @@ export const RoutesConfig = createRouteConfig(
     ankrFaucet: {
       path: ANKR_FAUCET_PATH,
       generatePath: () => generatePath(ANKR_FAUCET_PATH),
+    },
+
+    mgnoFaucet: {
+      path: MGNO_FAUCET_PATH,
+      generatePath: () => generatePath(MGNO_FAUCET_PATH),
     },
 
     /**
@@ -64,6 +71,10 @@ const Notifications = loadComponent(() =>
 
 const AnkrFaucet = loadComponent(() =>
   import('./screens/AnkrFaucet').then(module => module.AnkrFaucet),
+);
+
+const MgnoFaucet = loadComponent(() =>
+  import('./screens/MgnoFaucet').then(module => module.MgnoFaucet),
 );
 
 const DevPage = loadComponent(() =>
@@ -111,6 +122,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <AnkrFaucet />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={MGNO_STAKING_NETWORKS}
+          path={RoutesConfig.mgnoFaucet.path}
+          providerId={ETH_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <MgnoFaucet />
           </DefaultLayout>
         </GuardETHRoute>
 

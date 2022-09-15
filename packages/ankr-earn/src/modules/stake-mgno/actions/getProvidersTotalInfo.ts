@@ -4,11 +4,11 @@ import { createAction } from 'redux-smart-actions';
 
 import { ZERO } from 'modules/common/const';
 
+import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
 import { MGNO_ACTIONS_PREFIX } from '../const';
 
 interface IGetProvidersTotalInfo {
   totalTVL: BigNumber;
-  totalDelegatedAmount: BigNumber;
   lockingPeriod: number;
   rewards24h: BigNumber;
   rewards30d: BigNumber;
@@ -19,9 +19,15 @@ export const getProvidersTotalInfo = createAction<
 >(`${MGNO_ACTIONS_PREFIX}getProvidersTotalInfo`, () => ({
   request: {
     promise: (async (): Promise<IGetProvidersTotalInfo> => {
+      const sdk = await GnosisStakingSDK.getInstance();
+      const providersStakedData = await sdk.getProvidersStakedAvailable();
+      const tvl = providersStakedData.totalStaked.reduce(
+        (acc, staked) => acc.plus(staked),
+        ZERO,
+      );
+
       return {
-        totalTVL: ZERO.plus(12),
-        totalDelegatedAmount: ZERO.plus(1231),
+        totalTVL: tvl,
         lockingPeriod: 1,
         rewards24h: ZERO.plus(10),
         rewards30d: ZERO.plus(300),

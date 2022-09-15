@@ -24,7 +24,12 @@ export const FeatureItemLegacy = ({
     <FeatureItemBase
       withAnimations
       buttonsSlot={
-        <NavLink className={classes.button} href={href} variant="outlined">
+        <NavLink
+          className={classes.button}
+          color="primary"
+          href={href}
+          variant="outlined"
+        >
           {t('features.stake-old')}
         </NavLink>
       }

@@ -29,7 +29,10 @@ export const getActiveStakingData = createAction<
             providerStatsData: await sdk.getProviderStats(provider),
             tipRewards: await sdk.getTipRewards(provider),
             rewards: await sdk.getRewards(provider),
-            delegatedAmount: await sdk.getMyDelegatedAmount(provider),
+            myDelegatedAmount: await sdk.getMyDelegatedAmount(provider),
+            totalDelegatedAmount: await sdk.getDelegatedAmountByProvider(
+              provider,
+            ),
             contributed: await sdk.getContributed(provider),
           })),
         );
@@ -37,36 +40,39 @@ export const getActiveStakingData = createAction<
         return providersDataArr.reduce((acc, providerData, index) => {
           const {
             contributed,
-            delegatedAmount,
+            myDelegatedAmount,
+            totalDelegatedAmount,
             rewards,
             tipRewards,
             providerStatsData,
           } = providerData;
 
-          const slashingProtection = providerStatsData
-            ? contributed.dividedBy(
-                SLASHING_PROTECTION_VAR * providerStatsData.provider.totalKeys,
-              )
-            : ZERO;
+          const slashingProtection =
+            contributed
+              .multipliedBy(SLASHING_PROTECTION_VAR)
+              .dividedBy(totalDelegatedAmount) ?? ZERO;
           const tips = tipRewards ?? ZERO;
-          const stakeAmount = delegatedAmount ?? ZERO;
+          const stakeAmount = myDelegatedAmount ?? ZERO;
 
-          acc.push({
-            provider: providers[index],
-            providerName: providerStatsData
-              ? providerStatsData.provider.name
-              : providers[index],
-            apr: providerStatsData
-              ? new BigNumber(providerStatsData.apr)
-              : ZERO,
-            slashingProtection: slashingProtection.integerValue(),
-            stakeAmount,
-            usdStakeAmount: stakeAmount.multipliedBy(usdPrice),
-            tips,
-            usdTips: tips.multipliedBy(usdPrice),
-            rewards,
-            usdRewards: rewards.multipliedBy(usdPrice),
-          });
+          if (!stakeAmount.isZero()) {
+            acc.push({
+              provider: providers[index],
+              providerName: providerStatsData
+                ? providerStatsData.provider.name
+                : providers[index],
+              apr: providerStatsData
+                ? new BigNumber(+providerStatsData.apr)
+                : ZERO,
+              slashingProtection: slashingProtection.integerValue(),
+              stakeAmount,
+              usdStakeAmount: stakeAmount.multipliedBy(usdPrice),
+              tips,
+              usdTips: tips.multipliedBy(usdPrice),
+              rewards,
+              usdRewards: rewards.multipliedBy(usdPrice),
+            });
+          }
+
           return acc;
         }, [] as IActiveStakingData[]);
       })(),

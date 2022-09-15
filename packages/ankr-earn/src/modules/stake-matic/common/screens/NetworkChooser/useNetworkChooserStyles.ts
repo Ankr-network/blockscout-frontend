@@ -35,12 +35,6 @@ export const useNetworkChooserStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: alpha(theme.palette.text.secondary, 0.2),
     },
-    '&[aria-disabled="true"]': {
-      backgroundColor: alpha(theme.palette.text.secondary, 0.2),
-      color: theme.palette.text.primary,
-      opacity: 0.5,
-      cursor: 'not-allowed',
-    },
 
     '& > span': {
       display: 'flex',

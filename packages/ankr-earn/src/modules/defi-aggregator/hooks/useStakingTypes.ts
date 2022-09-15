@@ -3,9 +3,9 @@ import { t } from 'common';
 export enum StakingType {
   All = 'All',
   LiquidStaking = 'Liquid Staking',
-  LiquidityPool = 'Liquidity Pool',
-  Farming = 'Farming',
-  Vault = 'Vault',
+  LiquidityPool = 'liquidityPool',
+  Farming = 'farming',
+  Vault = 'vault',
   Borrowing = 'Borrowing',
 }
 

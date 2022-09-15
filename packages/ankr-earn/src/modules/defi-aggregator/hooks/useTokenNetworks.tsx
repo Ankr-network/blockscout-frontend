@@ -10,11 +10,11 @@ import { PolygonIcon } from '../../../uiKit/Icons/Polygon';
 
 export enum TokenNetwork {
   All = 'All',
-  Ethereum = 'Ethereum',
-  BNBChain = 'BNB Chain',
-  Polygon = 'Polygon',
-  Avalanche = 'Avalanche',
-  Fantom = 'Fantom',
+  Ethereum = 'ethereum',
+  BNBChain = 'bnb',
+  Polygon = 'polygon',
+  Avalanche = 'avalanche',
+  Fantom = 'fantom',
 }
 
 export const useTokenNetworks = (): ISelectOption[] => [

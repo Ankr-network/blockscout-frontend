@@ -228,8 +228,9 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Internal function to get aMATICb token contract.
    *
    * @private
+   * @static
    * @param {Web3} web3 - Web3 instance
-   * @returns {Promise<Contract>}
+   * @returns {Contract}
    */
   private static getAMATICBTokenContract(web3: Web3): Contract {
     const { contractConfig } = configFromEnv();
@@ -244,8 +245,9 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Internal function to get aMATICc token contract.
    *
    * @private
+   * @static
    * @param {Web3} web3 - Web3 instance
-   * @returns {Promise<Contract>}
+   * @returns {Contract}
    */
   private static getAMATICCTokenContract(web3: Web3): Contract {
     const { contractConfig } = configFromEnv();
@@ -314,7 +316,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Internal function to convert wei value to human readable format.
+   * Internal function to convert wei value to human-readable format.
    *
    * @private
    * @param {string} amount - value in wei
@@ -402,10 +404,97 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Approve MATIC for PolygonPool, i.e. allow PolygonPool smart contract to access and transfer MATIC tokens.
+   *
+   * @public
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber | undefined} [amount = MAX_UINT256] - amount to approve
+   * @param {number | undefined} [scale = ETH_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<boolean>}
+   */
+  public async approveMATICToken(
+    amount: BigNumber = MAX_UINT256,
+    scale = ETH_SCALE_FACTOR,
+  ): Promise<boolean> {
+    const { contractConfig } = configFromEnv();
+
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const maticTokenContract = await this.getMaticTokenContract();
+
+    const amountHex = convertNumberToHex(amount, scale);
+
+    const allowance = new BigNumber(
+      await maticTokenContract.methods
+        .allowance(this.currentAccount, contractConfig.polygonPool)
+        .call(),
+    );
+
+    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
+      return true;
+    }
+
+    const approve: TransactionReceipt | undefined =
+      await maticTokenContract.methods
+        .approve(contractConfig.polygonPool, amountHex)
+        .send({
+          from: this.currentAccount,
+        });
+
+    return !!approve;
+  }
+
+  /**
+   * Get stake gas fee.
+   *
+   * @public
+   * @param {BigNumber} amount - amount to stake
+   * @param {TMaticSyntToken} token - token symbol (aMATICb or aMATICc)
+   * @param {number | undefined} [scale = ETH_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<BigNumber>}
+   */
+  public async getStakeGasFee(
+    amount: BigNumber,
+    token: TMaticSyntToken,
+    scale = ETH_SCALE_FACTOR,
+  ): Promise<BigNumber> {
+    const amountHex = convertNumberToHex(amount, scale);
+
+    const minimumStake = await this.getMinimumStake();
+
+    if (amount.isLessThan(minimumStake)) {
+      return ZERO;
+    }
+
+    const [provider, polygonPoolContract] = await Promise.all([
+      this.getProvider(),
+      this.getPolygonPoolContract(),
+    ]);
+
+    const stakeMethodName = this.getStakeMethodName(token);
+    const contractStakeMethod = polygonPoolContract.methods[stakeMethodName];
+
+    let estimatedGas: number;
+
+    try {
+      estimatedGas = await contractStakeMethod(amountHex).estimateGas({
+        from: this.currentAccount,
+      });
+    } catch {
+      estimatedGas = 0;
+    }
+
+    return provider.getContractMethodFee(estimatedGas);
+  }
+
+  /**
    * Return MATIC token balance.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable balance
+   * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getMaticBalance(): Promise<BigNumber> {
     const maticTokenContract = await this.getMaticTokenContract();
@@ -421,7 +510,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Return aMATICb token balance.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable balance
+   * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
@@ -439,7 +528,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Return aMATICc token balance.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable balance
+   * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
@@ -457,7 +546,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Return aMATICc/MATIC ratio.
    *
    * @public
-   * @returns {Promise<BigNumber>} - human readable ratio
+   * @returns {Promise<BigNumber>} - human-readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();

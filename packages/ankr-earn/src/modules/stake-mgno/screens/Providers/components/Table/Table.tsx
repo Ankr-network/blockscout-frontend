@@ -12,12 +12,14 @@ import {
   TableHeadCell,
   TableRow,
 } from 'modules/common/components/TableComponents';
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { NodeExpandBanner } from 'modules/delegate-stake/components/NodeExpandBanner';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { useTableData } from '../../hooks/useTableData';
 import { ButtonsItem } from '../ButtonsItem';
+import { ProviderItem } from '../ProviderItem';
 
 import { useTableStyles } from './useTableStyles';
 
@@ -92,7 +94,7 @@ export const Table = (): JSX.Element | null => {
     <>
       <BasicTable
         columnsCount={captions.length}
-        customCell="1fr 1fr 1fr 1fr 1fr 200px"
+        customCell="1fr 1fr 1fr 1fr 150px 200px"
         minWidth={800}
       >
         <TableHead>
@@ -122,12 +124,12 @@ export const Table = (): JSX.Element | null => {
             data?.map((row, i) => (
               <TableRow key={uid(i)}>
                 <TableBodyCell label={`${captions[0].label}`}>
-                  {row.provider}
+                  <ProviderItem keys={row.nodeKeys} name={row.providerName} />
                 </TableBodyCell>
 
                 <TableBodyCell label={`${captions[1].label}`}>
                   {t('unit.percentage-value', {
-                    value: row.slashingProtection,
+                    value: row.slashingProtection.integerValue().toFormat(),
                   })}
                 </TableBodyCell>
 
@@ -137,12 +139,18 @@ export const Table = (): JSX.Element | null => {
 
                 <TableBodyCell label={`${captions[3].label}`}>
                   {t('unit.mgno-value', {
-                    value: `${row.staked}/${row.available}`,
+                    value: `${row.staked
+                      .decimalPlaces(DEFAULT_ROUNDING)
+                      .toFormat()}/${row.available
+                      .decimalPlaces(DEFAULT_ROUNDING)
+                      .toFormat()}`,
                   })}
                 </TableBodyCell>
 
                 <TableBodyCell label={`${captions[4].label}`}>
-                  {t('unit.percentage-value', { value: row.apr })}
+                  {t('unit.percentage-value', {
+                    value: row.apr.integerValue(),
+                  })}
                 </TableBodyCell>
 
                 <TableBodyCell align="right" label={`${captions[5].label}`}>

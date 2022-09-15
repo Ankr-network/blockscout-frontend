@@ -3,11 +3,13 @@ import { useQuery } from '@redux-requests/react';
 
 import { t } from 'common';
 
-import { featuresConfig, ZERO } from 'modules/common/const';
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getTotalTvl } from 'modules/stake-ankr/actions/getTotalTvl';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
+import { getMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
+import { getTVL } from 'modules/stake-mgno/actions/getTVL';
 import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
@@ -22,14 +24,18 @@ export const DelegateStakingTokens = (): JSX.Element => {
   const classes = useDelegateStakingTokensStyles();
   const { onTrackEnterDelegatedStakingFlow } = useStakeMainScreen();
 
-  const { data: maxAnkrApy, loading: apyLoading } = useQuery({
+  const { data: ankrApr, loading: isANKRAprLoading } = useQuery({
     type: getMaxApy,
   });
-  const { data: totalTvl, loading: tvlLoading } = useQuery({
+  const { data: ankrTvl, loading: isANKRTvlLoading } = useQuery({
     type: getTotalTvl,
   });
-
-  const ankrApy = maxAnkrApy?.toNumber() ?? 0;
+  const { data: mgnoApr, loading: isMGNOApyLoading } = useQuery({
+    type: getMaxApr,
+  });
+  const { data: mgnoTvl, loading: isMGNOTvlLoading } = useQuery({
+    type: getTVL,
+  });
 
   return (
     <Box mb={8}>
@@ -41,13 +47,13 @@ export const DelegateStakingTokens = (): JSX.Element => {
         <FeatureItem
           isDelegatedStaking
           isIntegerTvl
-          apy={ankrApy}
+          apy={ankrApr?.toNumber() ?? 0}
           iconSlot={<AnkrIcon />}
-          isApyLoading={apyLoading}
-          isTvlLoading={tvlLoading}
+          isApyLoading={isANKRAprLoading}
+          isTvlLoading={isANKRTvlLoading}
           mainHref={AnkrRoutes.stake.generatePath()}
           manageHref={AnkrRoutes.main.generatePath()}
-          stakedTvl={totalTvl ?? undefined}
+          stakedTvl={ankrTvl ?? undefined}
           title={t('features.ankr')}
           token={Token.ANKR}
           onManageClick={onTrackEnterDelegatedStakingFlow(
@@ -63,11 +69,13 @@ export const DelegateStakingTokens = (): JSX.Element => {
         {featuresConfig.mgnoStaking && (
           <FeatureItem
             isDelegatedStaking
-            apy={0}
+            apy={mgnoApr?.toNumber() ?? 0}
             iconSlot={<MGNOIcon />}
+            isApyLoading={isMGNOApyLoading}
+            isTvlLoading={isMGNOTvlLoading}
             mainHref={MgnoRoutes.stake.generatePath()}
             manageHref={MgnoRoutes.main.generatePath()}
-            stakedTvl={ZERO}
+            stakedTvl={mgnoTvl ?? undefined}
             title={t('features.mgno')}
             token={Token.mGNO}
             onManageClick={onTrackEnterDelegatedStakingFlow(
