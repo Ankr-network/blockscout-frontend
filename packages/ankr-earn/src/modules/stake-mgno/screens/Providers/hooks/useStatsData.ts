@@ -1,7 +1,9 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
+import { getMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getProvidersTotalInfo } from 'modules/stake-mgno/actions/getProvidersTotalInfo';
 
 interface IStatsData {
@@ -19,19 +21,20 @@ export const useStatsData = (): IStatsData => {
   const { data, loading: statsLoading } = useQuery({
     type: getProvidersTotalInfo,
   });
+  const { data: apr, loading: apyLoading } = useQuery({
+    type: getMaxApr,
+  });
   const tvl = data?.totalTVL;
 
   useProviderEffect(() => {
     dispatchRequest(getProvidersTotalInfo());
+    dispatchRequest(getMaxApr());
   }, [dispatchRequest]);
 
   return {
-    apyLoading: false,
-    highestAPY: '0',
+    apyLoading,
+    highestAPY: (apr ?? ZERO).decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     tvl: tvl ? getShortNumber(tvl) : undefined,
-    lockingPeriod: data ? data.lockingPeriod : undefined,
-    rewards24h: '0',
-    rewards30d: '0',
     statsLoading,
   };
 };

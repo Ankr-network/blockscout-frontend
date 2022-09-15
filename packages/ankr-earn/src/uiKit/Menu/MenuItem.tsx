@@ -1,5 +1,5 @@
 import { MenuItem as MenuItemUI } from '@material-ui/core';
-import { ReactNode } from 'react';
+import { ForwardedRef, forwardRef, ReactNode } from 'react';
 
 import { useMenuStyles } from './useMenuStyles';
 
@@ -9,20 +9,22 @@ export interface IMenuItemProps {
   onClick?: () => void;
 }
 
-export const MenuItem = ({
-  children,
-  disabled = false,
-  onClick,
-}: IMenuItemProps): JSX.Element => {
-  const classes = useMenuStyles();
+export const MenuItem = forwardRef(
+  (
+    { children, disabled = false, onClick }: IMenuItemProps,
+    ref: ForwardedRef<HTMLLIElement>,
+  ): JSX.Element => {
+    const classes = useMenuStyles();
 
-  return (
-    <MenuItemUI
-      className={classes.menuItem}
-      disabled={disabled}
-      onClick={onClick}
-    >
-      {children}
-    </MenuItemUI>
-  );
-};
+    return (
+      <MenuItemUI
+        ref={ref}
+        className={classes.menuItem}
+        disabled={disabled}
+        onClick={onClick}
+      >
+        {children}
+      </MenuItemUI>
+    );
+  },
+);

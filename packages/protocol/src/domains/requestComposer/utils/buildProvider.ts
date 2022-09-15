@@ -1,11 +1,11 @@
 import { ethers } from 'ethers';
 import Web3 from 'web3';
 
-import { LibraryID } from '../constants';
+import { EVMLibraryID } from '../constants';
 
-export const buildProvider = (web3Lib: LibraryID, web3URL: string) => {
+export const buildProvider = (web3Lib: EVMLibraryID, web3URL: string) => {
   switch (web3Lib) {
-    case LibraryID.ETHERS: {
+    case EVMLibraryID.ETHERS: {
       const proto = web3URL.startsWith('wss') ? 'wss' : 'https';
 
       return proto === 'wss'
@@ -13,7 +13,7 @@ export const buildProvider = (web3Lib: LibraryID, web3URL: string) => {
         : new ethers.providers.JsonRpcProvider(web3URL);
     }
 
-    case LibraryID.WEB3:
+    case EVMLibraryID.WEB3:
     default: {
       return new Web3(web3URL);
     }

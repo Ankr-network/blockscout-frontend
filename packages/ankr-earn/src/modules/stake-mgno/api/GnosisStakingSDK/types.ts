@@ -60,13 +60,14 @@ export interface IHistoryData {
 
 export interface IProvider {
   provider: Web3Address;
-  owner: Web3Address;
+  providerName: string;
   nodeKeys: number;
   status: Web3Uint256;
-  slashingProtection: number;
+  slashingProtection: BigNumber;
   insurancePool: BigNumber;
   staked: BigNumber;
   available: BigNumber;
+  apr: BigNumber;
 }
 
 /**
@@ -103,4 +104,14 @@ export interface IProviderStats {
   provider: IProviderItem;
   apr: string;
   stakers: number;
+}
+
+export interface IProvidersStakedData {
+  totalStaked: BigNumber[];
+  availableToStake: BigNumber[];
+}
+
+export interface IProviderStakedData {
+  totalStaked: BigNumber;
+  availableToStake: BigNumber;
 }

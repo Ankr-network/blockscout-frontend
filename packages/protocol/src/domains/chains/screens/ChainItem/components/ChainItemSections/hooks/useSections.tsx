@@ -51,13 +51,17 @@ export const useSections = ({
     () => ({
       id: SectionID.GetStarted,
       content: (
-        <GetStartedSection group={group} unfilteredGroup={unfilteredGroup} />
+        <GetStartedSection
+          group={group}
+          unfilteredGroup={unfilteredGroup}
+          chainId={chainId}
+        />
       ),
       title: (isSelected: boolean) => (
         <PrimaryTab isSelected={isSelected} label={getStarted} />
       ),
     }),
-    [group, unfilteredGroup],
+    [group, unfilteredGroup, chainId],
   );
 
   const tabs: Tab<SectionID>[] = useLocaleMemo(

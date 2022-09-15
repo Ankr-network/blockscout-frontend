@@ -16,13 +16,11 @@ import { getBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxStakeAmount } from 'modules/stake-mgno/actions/getMaxStakeAmount';
 import { getMinStakeAmount } from 'modules/stake-mgno/actions/getMinStakeAmount';
 import { getProviderContributed } from 'modules/stake-mgno/actions/getProviderContributed';
+import { getProviders } from 'modules/stake-mgno/actions/getProviders';
 import { getProviderStats } from 'modules/stake-mgno/actions/getProviderStats';
 import { stake } from 'modules/stake-mgno/actions/stake';
-import { TEST_PROVIDER_ID } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
-import {
-  MGNO_STAKE_FORM_ID,
-  SLASHING_PROTECTION_VAR,
-} from 'modules/stake-mgno/const';
+import { DEFAULT_PROVIDER_ID } from 'modules/stake-mgno/api/GnosisStakingSDK/const';
+import { MGNO_STAKE_FORM_ID } from 'modules/stake-mgno/const';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 import {
   IMgnoFormState,
@@ -51,7 +49,7 @@ interface IUseMgnoStake {
   quoteText: string;
   additionalText?: string;
   additionalTooltip?: string;
-  additionalValue?: string;
+  contributed: BigNumber;
   onSubmit: (values: IMgnoStakeSubmitPayload) => void;
   onChange?: (values: IMgnoStakeFormPayload, invalid: boolean) => void;
 }
@@ -60,7 +58,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
 
-  const { data: balance, loading: isBalanceLoading } = useQuery({
+  const { data: balanceData, loading: isBalanceLoading } = useQuery({
     type: getBalance,
   });
   const { data: minStakeAmount, loading: isMinStakeLoading } = useQuery({
@@ -75,21 +73,19 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const { data: providerStats } = useQuery({
     type: getProviderStats,
   });
-
-  const slashingProtection = providerStats?.provider.totalKeys
-    ? (contributed ?? ZERO).dividedBy(
-        SLASHING_PROTECTION_VAR * providerStats.provider.totalKeys,
-      )
-    : ZERO;
+  const { data: providers, loading: isProvidersLoading } = useQuery({
+    type: getProviders,
+  });
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const { setFormState, formState } =
     useFormState<IMgnoFormState>(MGNO_STAKE_FORM_ID);
 
-  const amount = formState?.amount;
+  const amount = formState?.amount ?? ZERO;
 
-  const initialProvider = TEST_PROVIDER_ID;
+  const currentProvider = providers ? providers[0] : null;
+  const initialProvider = currentProvider?.provider ?? DEFAULT_PROVIDER_ID;
   const providerName = providerStats?.provider.name;
 
   const {
@@ -99,6 +95,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
   } = useApprove();
 
   useProviderEffect(() => {
+    dispatchRequest(getProviders());
     dispatchRequest(getBalance());
     dispatchRequest(getMinStakeAmount());
     dispatchRequest(getProviderContributed({ provider: initialProvider }));
@@ -139,16 +136,25 @@ export const useMgnoStake = (): IUseMgnoStake => {
     }
   };
 
+  const balance = balanceData ?? ZERO;
+  const maxAmount = maxStakeAmount ?? ZERO;
+
   return {
     isStakeLoading,
     isBalanceLoading:
       isBalanceLoading || isMinStakeLoading || isMaxStakeLoading,
     isApproveLoading,
     isApproved,
-    isDisabled: false,
-    balance: balance ?? ZERO,
+    isDisabled:
+      isBalanceLoading ||
+      isMinStakeLoading ||
+      isMaxStakeLoading ||
+      isApproveLoading ||
+      isStakeLoading ||
+      isProvidersLoading,
+    balance,
     minStake: minStakeAmount ?? ZERO,
-    maxAmount: maxStakeAmount ?? ZERO,
+    maxAmount: maxAmount.isGreaterThan(balance) ? balance : maxAmount,
     tokenIn: t('unit.mgno'),
     closeHref: RoutesConfig.main.generatePath(),
     providerSelectHref: '', // RoutesConfig.selectProvider.generatePath(),
@@ -159,9 +165,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
     quoteText: tHTML('stake-mgno.staking.lock-info'),
     additionalText: t('stake-mgno.staking.slashing-protection'),
     additionalTooltip: t('stake-mgno.staking.slashing-protection-tooltip'),
-    additionalValue: t('unit.percentage-value', {
-      value: slashingProtection.integerValue(),
-    }),
+    contributed: contributed ?? ZERO,
     onChange,
     onSubmit,
   };

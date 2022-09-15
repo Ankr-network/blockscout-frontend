@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { ChainID } from 'modules/chains/types';
 
 import {
   BlockchainType,
@@ -24,7 +25,7 @@ export interface IApiChain {
   extenders?: IApiChain[];
   extensions?: IApiChain[];
   icon: string;
-  id: IBlockchainEntity['id'];
+  id: ChainID;
   isArchive?: boolean;
   name: IBlockchainEntity['name'];
   testnets?: IApiChain[];
@@ -47,7 +48,7 @@ export const filterMapChains = (
       return {
         coinName,
         chainExtends,
-        id,
+        id: id as ChainID,
         icon: getChainIcon(id),
         name,
         type,

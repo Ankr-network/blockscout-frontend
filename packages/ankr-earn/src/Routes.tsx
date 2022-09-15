@@ -11,6 +11,7 @@ import {
 import { getRoutes as getDeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { getRoutes as getPolkadotSlotAuctionRoutes } from 'modules/polkadot-slot-auction/Routes';
+import { getRoutes as getReferralsRoutes } from 'modules/referrals/Routes';
 import { getRoutes as getStakeAnkrRoutes } from 'modules/stake-ankr/Routes';
 import { getRoutes as getStakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getRoutes as getStakeBinanceRoutes } from 'modules/stake-bnb/Routes';
@@ -67,6 +68,8 @@ export function Routes(): JSX.Element {
       {getSwapRoutes()}
 
       {featuresConfig.isCalcActive && getCalcRoutes()}
+
+      {featuresConfig.isReferralDashboardActive && getReferralsRoutes()}
 
       <Route>
         <DefaultLayout>

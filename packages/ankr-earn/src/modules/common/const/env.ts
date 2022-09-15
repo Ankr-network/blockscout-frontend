@@ -22,7 +22,6 @@ export const ANKR_NETWORK_BY_ENV =
     ? EEthereumNetworkId.mainnet
     : EEthereumNetworkId.goerli;
 
-// todo: use actual networks
 export const GNO_NETWORK_BY_ENV =
   currentEnv === Env.Production
     ? EEthereumNetworkId.gnosis

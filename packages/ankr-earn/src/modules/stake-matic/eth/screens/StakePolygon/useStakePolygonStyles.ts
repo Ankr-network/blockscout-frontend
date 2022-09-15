@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useStakePolygonStyles = makeStyles<Theme>(theme => ({
+export const useStakePolygonStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(5, 0),
 
@@ -8,7 +8,16 @@ export const useStakePolygonStyles = makeStyles<Theme>(theme => ({
       padding: theme.spacing(8, 0),
     },
   },
-  questionBtn: {
-    margin: 5,
+
+  questionBtnActive: {
+    color: theme.palette.common.white,
+  },
+  questionBtnDisabled: {
+    color: 'inherit',
+  },
+
+  stepper: {
+    maxWidth: 340,
+    margin: theme.spacing(0, 'auto', 0, 'auto'),
   },
 }));

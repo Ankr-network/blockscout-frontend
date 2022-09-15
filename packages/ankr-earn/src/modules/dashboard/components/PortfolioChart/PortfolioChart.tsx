@@ -1,7 +1,7 @@
-import { Card, Typography, Grid } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Box, Card, Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import * as d3 from 'd3';
+import debounce from 'lodash/debounce';
 import { useCallback, useMemo, useState } from 'react';
 
 import { t, tHTML } from 'common';
@@ -10,11 +10,13 @@ import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { TIcon } from 'modules/common/icons';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
+import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { PortfolioChartLegend, ILegendItem } from '../PortfolioChartLegend';
+import { ILegendItem, PortfolioChartLegend } from '../PortfolioChartLegend';
+import { ProtfolioHeader, ProtfolioHeaderMobile } from '../ProtfolioHeader';
 
-import { usePortfolioChart, TSelectSvg } from './usePortfolioChart';
+import { TSelectSvg, usePortfolioChart } from './usePortfolioChart';
 import { usePortfolioChartStyles } from './usePortfolioChartStyles';
 
 export interface IPortfolioChartProps {
@@ -43,8 +45,6 @@ export interface IChartSlice {
   link?: string;
 }
 
-const TRANSITION_DURATION_MS: Milliseconds = 200;
-
 const COLORS = [
   '#356DF3',
   '#46E8FE',
@@ -61,6 +61,8 @@ const COLORS = [
 ];
 
 const NATIVE_HOVER_COLOR = '#9AA1B0';
+
+const TRANSITION_DURATION_MS: Milliseconds = 200;
 
 const TOKENS_WITH_APR = [Token.ANKR, Token.mGNO];
 
@@ -90,16 +92,36 @@ export const PortfolioChart = ({
     () =>
       items
         .filter(({ isNative }) => isNative)
-        .map(item => ({ ...item, color: COLORS[COLORS.length - 1] })),
-    [items],
+        .map(item => ({
+          ...item,
+          color: COLORS[COLORS.length - 1],
+          percent: !totalAmountUsd.isZero()
+            ? item.usdAmount
+                .multipliedBy(100)
+                .dividedBy(totalAmountUsd)
+                .decimalPlaces(DEFAULT_ROUNDING)
+                .toNumber()
+            : 0,
+        })),
+    [items, totalAmountUsd],
   );
 
   const syntheticTokens = useMemo(
     () =>
       items
         .filter(({ isNative }) => !isNative)
-        .map((item, index) => ({ ...item, color: COLORS[index] })),
-    [items],
+        .map((item, index) => ({
+          ...item,
+          color: COLORS[index],
+          percent: !totalAmountUsd.isZero()
+            ? item.usdAmount
+                .multipliedBy(100)
+                .dividedBy(totalAmountUsd)
+                .decimalPlaces(DEFAULT_ROUNDING)
+                .toNumber()
+            : 0,
+        })),
+    [items, totalAmountUsd],
   );
 
   const chartData = useMemo(
@@ -137,6 +159,16 @@ export const PortfolioChart = ({
     [setActiveItem],
   );
 
+  const debouncedHandleMouseOver = debounce(
+    handleMouseOver,
+    TRANSITION_DURATION_MS,
+  );
+
+  const debouncedHandleMouseLeave = debounce(
+    handleMouseLeave,
+    TRANSITION_DURATION_MS,
+  );
+
   const renderChart = useCallback(
     (svg: TSelectSvg) => {
       const svgWidth = width;
@@ -164,7 +196,7 @@ export const PortfolioChart = ({
             d.data.name === activeItem.name &&
             d.data.isNative === activeItem.isNative
             ? radius / 1.2
-            : radius / 1.15;
+            : radius / 1.1;
         })
         .innerRadius(radius);
 
@@ -175,21 +207,7 @@ export const PortfolioChart = ({
         .append('g')
         .attr('class', 'arc')
         .attr('opacity', 1)
-        .attr('data-testid', d => d.data.name)
-        .on('mouseover', function mouseover(_, d) {
-          setActiveItem(d.data);
-          d3.select(this)
-            .transition()
-            .duration(TRANSITION_DURATION_MS)
-            .attr('opacity', 0.85);
-        })
-        .on('mouseout', function mouseout() {
-          setActiveItem(null);
-          d3.select(this)
-            .transition()
-            .duration(TRANSITION_DURATION_MS)
-            .attr('opacity', 1);
-        });
+        .attr('data-testid', d => d.data.name);
 
       arc
         .append('path')
@@ -198,9 +216,22 @@ export const PortfolioChart = ({
           activeItem && d.data.name === activeItem.name && activeItem.isNative
             ? NATIVE_HOVER_COLOR
             : d.data.color,
-        );
+        )
+        .on('mouseover', (_, d) => {
+          debouncedHandleMouseOver(d.data);
+        })
+        .on('mouseout', () => {
+          debouncedHandleMouseLeave();
+        });
     },
-    [chartData, activeItem, width, height],
+    [
+      chartData,
+      activeItem,
+      width,
+      height,
+      debouncedHandleMouseOver,
+      debouncedHandleMouseLeave,
+    ],
   );
 
   const { ref } = usePortfolioChart(renderChart, [width, height, chartData]);
@@ -215,7 +246,7 @@ export const PortfolioChart = ({
         value: totalAmountUsd.toFormat(),
       });
 
-  const aprTitle = tHTML('dashboard.apr', { value: totalApr });
+  const aprTitle = tHTML('dashboard.apy', { value: totalApr });
 
   const dollarTitle = activeItem
     ? t('dashboard.portfolioUSD', {
@@ -238,29 +269,30 @@ export const PortfolioChart = ({
   }
 
   return (
-    <div>
-      <Typography className={classes.title} component="h1" variant="h3">
-        {t('dashboard.portfolio')}
-      </Typography>
+    <Box mb={7}>
+      <ProtfolioHeader />
 
       <Card className={classes.root}>
-        <Grid container spacing={2}>
-          <Grid
-            item
-            className={classes.chartWrapper}
-            lg={12}
-            md={12}
-            xl={5}
-            xs={12}
+        <ProtfolioHeaderMobile />
+
+        {isLoading ? (
+          <Box
+            data-testid="portfolio-chart-loading-state"
+            height={200}
+            position="relative"
           >
-            {isLoading ? (
-              <Skeleton
-                data-testid="portfolio-chart-loading-state"
-                height={height}
-                variant="circle"
-                width={width}
-              />
-            ) : (
+            <QueryLoadingAbsolute />
+          </Box>
+        ) : (
+          <Grid container spacing={2}>
+            <Grid
+              item
+              className={classes.chartWrapper}
+              lg={12}
+              md={12}
+              xl={6}
+              xs={12}
+            >
               <div className={classes.chartContainer}>
                 <svg
                   ref={ref}
@@ -307,53 +339,53 @@ export const PortfolioChart = ({
                   )}
                 </div>
               </div>
-            )}
-          </Grid>
+            </Grid>
 
-          <Grid item lg={6} md={12} xl={3} xs={12}>
-            <PortfolioChartLegend
-              activeLegendItem={activeItem}
-              apr={stakedApr}
-              isLoading={isLoading}
-              legendItems={syntheticTokens}
-              totalAmount={totalStakedAmountUsd}
-              totalPercent={
-                !totalAmountUsd.isZero()
-                  ? totalStakedAmountUsd
-                      .multipliedBy(100)
-                      .dividedBy(totalAmountUsd)
-                      .decimalPlaces(DEFAULT_ROUNDING)
-                  : ZERO
-              }
-              yearlYield={totalStakedYieldAmountUsd}
-              onMouseLeave={handleMouseLeave}
-              onMouseOver={handleMouseOver}
-            />
-          </Grid>
+            <Grid item lg={6} md={12} xl={3} xs={12}>
+              <PortfolioChartLegend
+                activeLegendItem={activeItem}
+                apr={stakedApr}
+                isLoading={isLoading}
+                legendItems={syntheticTokens}
+                totalAmount={totalStakedAmountUsd}
+                totalPercent={
+                  !totalAmountUsd.isZero()
+                    ? totalStakedAmountUsd
+                        .multipliedBy(100)
+                        .dividedBy(totalAmountUsd)
+                        .decimalPlaces(DEFAULT_ROUNDING)
+                    : ZERO
+                }
+                yearlYield={totalStakedYieldAmountUsd}
+                onMouseLeave={handleMouseLeave}
+                onMouseOver={handleMouseOver}
+              />
+            </Grid>
 
-          <Grid item lg={6} md={12} xl={4} xs={12}>
-            <PortfolioChartLegend
-              isNative
-              activeLegendItem={activeItem}
-              apr={nativeApr}
-              isLoading={isLoading}
-              legendItems={nativeTokens}
-              totalAmount={totalNativeAmountUsd}
-              totalPercent={
-                !totalAmountUsd.isZero()
-                  ? totalNativeAmountUsd
-                      .multipliedBy(100)
-                      .dividedBy(totalAmountUsd)
-                      .decimalPlaces(DEFAULT_ROUNDING)
-                  : ZERO
-              }
-              yearlYield={totalNativeYieldAmountUsd}
-              onMouseLeave={handleMouseLeave}
-              onMouseOver={handleMouseOver}
-            />
+            <Grid item lg={6} md={12} xl={3} xs={12}>
+              <PortfolioChartLegend
+                isNative
+                activeLegendItem={activeItem}
+                apr={nativeApr}
+                isLoading={isLoading}
+                legendItems={nativeTokens}
+                totalAmount={totalNativeAmountUsd}
+                totalPercent={
+                  !totalAmountUsd.isZero()
+                    ? totalNativeAmountUsd
+                        .multipliedBy(100)
+                        .dividedBy(totalAmountUsd)
+                        .decimalPlaces(DEFAULT_ROUNDING)
+                    : ZERO
+                }
+                yearlYield={totalNativeYieldAmountUsd}
+                onMouseLeave={handleMouseLeave}
+                onMouseOver={handleMouseOver}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Card>
-    </div>
+    </Box>
   );
 };

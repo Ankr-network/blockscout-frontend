@@ -2,6 +2,7 @@ import { Box } from '@material-ui/core';
 import { ReactNode } from 'react';
 
 import { Container } from 'uiKit/Container';
+import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { TRouteConfig } from '../../../router/utils/createRouteConfig';
 import { Filters, Table } from '../../components';
@@ -24,6 +25,7 @@ export const DeFiAggregator = ({
 }: IDeFiAggregatorProps): JSX.Element => {
   const {
     assets,
+    isLoading,
     networks,
     types,
     data,
@@ -48,7 +50,13 @@ export const DeFiAggregator = ({
           />
         </Box>
 
-        <Table data={data} />
+        {isLoading ? (
+          <Box height={200} position="relative">
+            <QueryLoadingAbsolute />
+          </Box>
+        ) : (
+          <Table data={data} />
+        )}
       </Container>
     </Box>
   );

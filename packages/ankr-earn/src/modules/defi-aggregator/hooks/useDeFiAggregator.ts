@@ -1,19 +1,25 @@
+import { useQuery } from '@redux-requests/react';
 import { useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useRouteMatch } from 'react-router-dom';
 
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { TRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-import { DeFiItem, useDeFiData } from './useDeFiData';
+import { getDeFiData, IDeFiItem } from '../actions/getDeFiData';
+
 import { StakingType } from './useStakingTypes';
 import { TokenAsset } from './useTokenAssets';
 import { TokenNetwork } from './useTokenNetworks';
 
 interface UseDeFiAggregatorResult {
-  data: DeFiItem[];
+  data: IDeFiItem[];
   types: string[];
   assets: string[];
+  error: unknown;
+  isLoading: boolean;
   networks: string[];
   onChangeAssets: (assets: string[]) => void;
   onChangeNetworks: (networks: string[]) => void;
@@ -29,6 +35,7 @@ type RouteConfig = TRouteConfig<{
 export const useDeFiAggregator = (
   routesConfig: RouteConfig,
 ): UseDeFiAggregatorResult => {
+  const dispatch = useDispatch();
   const { path } = useRouteMatch();
   const { replace } = useHistory();
   const query = useQueryParams();
@@ -41,13 +48,13 @@ export const useDeFiAggregator = (
     params?.assets?.length ? params.assets : [TokenAsset.All],
   );
   const [types, setTypes] = useState<string[]>([StakingType.All]);
-  const data = useDeFiData();
+  const { data, loading: isLoading, error } = useQuery({ type: getDeFiData });
 
-  const filteredData = useMemo<DeFiItem[]>(() => {
-    let result = data;
+  const filteredData = useMemo<IDeFiItem[]>(() => {
+    let result = data ?? [];
 
     if (!types.includes(TokenAsset.All)) {
-      result = types.reduce((acc: DeFiItem[], type) => {
+      result = types.reduce((acc: IDeFiItem[], type) => {
         acc.push(
           ...result.filter(item => {
             return item.type.toUpperCase().includes(type.toUpperCase());
@@ -58,7 +65,7 @@ export const useDeFiAggregator = (
     }
 
     if (!assets.includes(TokenAsset.All)) {
-      result = assets.reduce((acc: DeFiItem[], asset) => {
+      result = assets.reduce((acc: IDeFiItem[], asset) => {
         acc.push(
           ...result.filter(item => {
             return item.assets.toUpperCase().includes(asset.toUpperCase());
@@ -69,7 +76,7 @@ export const useDeFiAggregator = (
     }
 
     if (!networks.includes(TokenNetwork.All)) {
-      result = networks.reduce((acc: DeFiItem[], network) => {
+      result = networks.reduce((acc: IDeFiItem[], network) => {
         acc.push(
           ...result.filter(
             item => item.network.toUpperCase() === network.toUpperCase(),
@@ -108,9 +115,15 @@ export const useDeFiAggregator = (
     replace(`${path}?${query.toString()}`);
   };
 
+  useInitEffect(() => {
+    dispatch(getDeFiData());
+  });
+
   return {
     data: filteredData,
     assets,
+    error,
+    isLoading,
     networks,
     types,
     onChangeAssets: handleChangeAssets,

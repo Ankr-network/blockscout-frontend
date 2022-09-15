@@ -59,8 +59,8 @@ export const ConnectGuardRoute = ({
   }
 
   return (
-    <DefaultLayout>
-      <Box component="section" py={{ xs: 6, md: 8 }}>
+    <DefaultLayout verticalAlign="center">
+      <Box component="section" py={{ xs: 5, md: 8 }}>
         <Container>
           <Placeholder
             btnSlot={

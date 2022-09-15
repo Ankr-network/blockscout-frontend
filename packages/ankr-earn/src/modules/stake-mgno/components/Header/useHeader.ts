@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
+import { CONVERT_MGNO_MANUAL_LINK, ZERO } from 'modules/common/const';
 import { getBalance } from 'modules/stake-mgno/actions/getBalance';
 
 interface IUseHeader {
@@ -32,7 +32,6 @@ export const useHeader = (): IUseHeader => {
   return {
     balance: data ?? ZERO,
     isLoading: loading,
-    getTokensLink:
-      'https://docs.gnosischain.com/validator-info/validator-deposits/convert-gno-to-mgno',
+    getTokensLink: CONVERT_MGNO_MANUAL_LINK,
   };
 };

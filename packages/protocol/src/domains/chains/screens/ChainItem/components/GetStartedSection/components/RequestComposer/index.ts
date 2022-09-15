@@ -1,1 +1,1 @@
-export * from './RequestComposer';
+export { RequestComposerContainer as RequestComposer } from './RequestComposerContainer';

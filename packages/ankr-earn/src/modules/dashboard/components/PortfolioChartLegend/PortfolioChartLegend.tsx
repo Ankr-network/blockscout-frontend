@@ -2,6 +2,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
+import { MouseEvent as ReactMouseEvent } from 'react';
 
 import { t, tHTML } from 'common';
 
@@ -22,7 +23,7 @@ export interface IPortfolioChartLegendProps {
   isNative?: boolean;
   activeLegendItem?: ILegendItem | null;
   onMouseOver: (item: ILegendItem) => void;
-  onMouseLeave: (item: ILegendItem) => void;
+  onMouseLeave: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 export interface ILegendItem {
@@ -110,7 +111,7 @@ export const PortfolioChartLegend = ({
       >
         <div className={classes.wrapper}>
           <Typography className={classes.apr}>
-            {tHTML('dashboard.apr', { value: apr.toFormat() })}
+            {tHTML('dashboard.apy', { value: apr.toFormat() })}
           </Typography>
 
           <Typography className={classes.yield}>
@@ -129,7 +130,7 @@ export const PortfolioChartLegend = ({
             item
             data-testid={`legend-${item.name}`}
             xs={12}
-            onMouseLeave={() => onMouseLeave(item)}
+            onMouseLeave={onMouseLeave}
             onMouseOver={() => onMouseOver(item)}
           >
             <div
@@ -170,7 +171,7 @@ export const PortfolioChartLegend = ({
               {isNative && item.link && (
                 <NavLink
                   className={classes.stake}
-                  href={item.link ?? ''}
+                  href={item.link}
                   variant="contained"
                 >
                   {t('dashboard.stake')}

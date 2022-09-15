@@ -15,7 +15,6 @@ export const NoAssets = (): JSX.Element => {
     <Placeholder
       btnSlot={
         <NavLink
-          fullWidth
           className={classes.button}
           href={RoutesConfig.main.generatePath()}
           size="medium"

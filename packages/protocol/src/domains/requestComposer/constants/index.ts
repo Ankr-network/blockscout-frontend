@@ -1,11 +1,11 @@
-export enum LibraryID {
+export enum EVMLibraryID {
   WEB3 = 'web3',
   ETHERS = 'ethers',
 }
 
-export const Library = {
-  [LibraryID.WEB3]: 'web3.js',
-  [LibraryID.ETHERS]: 'ethers.js',
+export const EVMLibrary = {
+  [EVMLibraryID.WEB3]: 'web3.js',
+  [EVMLibraryID.ETHERS]: 'ethers.js',
 };
 
 export enum EVMMethod {

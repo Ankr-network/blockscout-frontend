@@ -154,13 +154,9 @@
     "liquidity-mining": "Liquidity mining"
   },
   "connect": {
-    "access-request": "Access Request",
-    "ask-connect": "Do you wish to connect Ankr Staking to your wallet?",
-    "grant": "Grant Access",
-    "info": "Click and select a wallet to connect",
+    "title": "Please connect your wallet to continue",
     "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
     "install-binance": "You need to <a class=\"highlight\" href={href} target=\"_blank\" rel=\"noopener noreferrer\">install Binance wallet</a> first to proceed",
-    "available-networks": "Ensure your wallet is connected to the following networks:",
     "unsupported-network-header": "Wrong network",
     "unsupported-network-description": "Please select a supported network to continue",
     "unsupported-network-single-description": "The current page is not available on {currentNetwork} network",
@@ -168,6 +164,7 @@
     "unsupported-network-single-network": "{newNetwork}",
     "switch-network": "Switch network",
     "connect": "Connect",
+    "connect-wallet": "Connect wallet",
     "unsupported-polkadot-network": "Please, choose required network for unstake:",
     "current": "current",
     "networks": {
@@ -351,7 +348,7 @@
     "stats": {
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",
-      "yearly-earning": "Yearly earning",
+      "yearly-earning": "Annual earning",
       "staked": "Staked with ANKR",
       "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
@@ -399,7 +396,7 @@
       "stats": {
         "apr": "APR",
         "apr-tooltip": "Annual percentage rate (or APR) shows the rate of return you earn over a year including the effect of compounding.",
-        "yearly-earning": "Yearly earning",
+        "annual-earning": "Annual earning",
         "tvl": "Staked with pool",
         "stakers": "Stakers"
       }
@@ -485,7 +482,6 @@
         "p1": "You can trade them in the listed liquidity pools on ANKR DeFi:<br/><ul><li><a href=\"{link1}\">aBNBb</a> </li><li><a href=\"{link2}\">aBNBc</a></li></ul>",
         "p2": "You can also use your liquid tokens to:<br/><ul ><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Add Liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li><li><a href=\"{link3}\" target='_blank' rel='noreferrer'>Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair.</li></ul>"
       }
-
     },
     "relayer-fee": "Relayer Fee",
     "abnbb-descr": "aBNBb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
@@ -634,6 +630,10 @@
     }
   },
   "stake-matic-eth": {
+    "btn": {
+      "approve": "Approve",
+      "submit": "Get {token}"
+    },
     "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
     "matic-tooltip-title": "1 MATIC = 1 aMATICb",
     "matic-tooltip-body": "aMATICb grows daily just being in your wallet. It represents your staked MATIC plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aMATICb = 1 MATIC anytime after 3-4 days unbonding period.",
@@ -716,7 +716,7 @@
         "p1": "You can trade them in the listed liquidity pools on ANKR DeFi:<br/><ul><li><a href=\"{link1}\">aFTMb</a> </li><li><a href=\"{link2}\">aFTMc</a></li></ul>",
         "p2": "You can also use your liquid tokens to:<br/><ul ><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Add Liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li><li><a href=\"{link3}\" target='_blank' rel='noreferrer'>Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair.</li></ul>"
       },
-      
+
       "question-13": "Can I get staking metrics for my integration?",
       "answer-13": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/extra/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     },
@@ -826,6 +826,13 @@
   },
   "calc": {
     "title": "Staking calculator",
+    "table": {
+      "token": "Token",
+      "amount": "Staking amount",
+      "staked": "Already staked",
+      "yield": "Potential Yield",
+      "apy": "APY: {value}%"
+    },
     "yield": {
       "period": "Staking period",
       "apy": "Average APY:",
@@ -834,13 +841,13 @@
     }
   },
   "dashboard": {
-    "title": "Stakable tokens",
     "portfolio": "My portfolio",
+    "hide-balances": "Hide small balances",
     "stakedAssets": "Staked assets ({percent}%)",
     "availableAssets": "Available to stake ({percent}%)",
-    "yearlyYieldUsd": "Yearly Yield <b>${value}</b>",
+    "yearlyYieldUsd": "Annual Yield <b>${value}</b>",
     "potentialYieldUsd": "Potential Yield <b>${value}</b>",
-    "yearlyYield": "Yearly Yield",
+    "yearlyYield": "Annual Yield",
     "potentialYield": "Potential Yield",
     "totalAssets": "Total assets",
     "portfolioUSD": "$ {value}",
@@ -848,7 +855,7 @@
     "apy": "APY <b>{value}%</b>",
     "apr": "APR <b>{value}%</b>",
     "potentialAprTooltip": "Potential yield based on average APY for your available to stake assets if you stake them for a year.",
-    "aprTooltip": "Yearly yield based on average APY for your current staked assets.",
+    "aprTooltip": "Annual yield based on average APY for your current staked assets.",
     "averageAprTooltip": "Average APY for your total assets. You can increase your capital efficiency by ${potentialYield} if you stake available assets.",
     "balance": "Estimated balance",
     "liquidAssets": "Liquid staking",
@@ -914,7 +921,8 @@
     "empty": {
       "title": "Stake and earn with your favorite blockchains",
       "btn": "Go to staking",
-      "calc-btn": "Staking calculator"
+      "calc-btn": "Staking calculator",
+      "referral-program": "Referral Program"
     },
     "token-info": {
       "title": "What is {token}?",
@@ -935,7 +943,8 @@
       "aWNDb": "aWNDb represents your staked WND and provides liquidity for your staked position.<br/><br/>aWNDb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aWNDb = 1 WND.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aWNDb for trading and other DeFi opportunities.",
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
       "aMATICc": "aMATICc represents your staked MATIC and provides liquidity for your staked position. <br/>All staking rewards are built into the token price, and aMATICc grows daily in value, but never in number. <br/><br/>Redemption ratio now is 1 aMATICc = {ratio} MATIC. <br/><br/>You can unstake it anytime and receive your stake and earned rewards. For MATIC staked on Ethereum, you’ll receive them after the ~{period} days unbonding period, while for MATIC staked on Polygon, you’ll receive them instantly. <br/><br/>While staking, you can also use aMATICc for trading and other DeFi opportunities.",
-      "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APR."
+      "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APR.",
+      "MGNO": "megaGnosis (mGNO) is a metatoken for GNO, the native Gnosis token. The relation is similar to a wrapped token like WETH to ETH, except there are 32 mGNO in 1 GNO..<br/><br/>As Gnosis is built on Ethereum, staking rewards and unstaking mGNO will be available after the Shanghai update when Ethereum enables this functionality. Approximate date is ~Q3-Q4 2023."
     }
   },
   "defi": {
@@ -945,14 +954,36 @@
     "networks": "Networks",
     "protocol": "Protocol",
     "type": "Type",
-    "rewards": "Rewards",
+    "base-rewards": "Base Rewards",
+    "farming-rewards": "Farming Rewards",
     "all": "All",
     "liquidity-pool": "Liquidity pool",
     "farming": "Farming",
     "vault": "Vault",
     "all-assets": "All assets",
     "all-networks": "All networks",
-    "deposit": "Deposit"
+    "deposit": "Deposit",
+    "protocols": {
+      "apeSwap": "ApeSwap",
+      "acryptos": "ACryptoS",
+      "beefyFinance": "Beefy Finance",
+      "convexFinance": "Convex Finance",
+      "curveFinance": "Curve Finance",
+      "dystopia": "Dystopia",
+      "ellipsisFinance": "Ellipsis Finance",
+      "lydiaFinance": "Lydia Finance",
+      "onxFinance": "OnX Finance",
+      "pancakeSwap": "PancakeSwap",
+      "pangolin": "Pangolin",
+      "quickSwap": "QuickSwap",
+      "sushiSwap": "SushiSwap",
+      "traderJoe": "TraderJoe",
+      "uniswapV2": "Uniswap v2",
+      "uniswapV3": "Uniswap v3",
+      "yearnFinance": "Yearn Finance",
+      "spookySwap": "SpookySwap",
+      "dotdotFinance": "DotDot Finance"
+    }
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",
@@ -1093,8 +1124,8 @@
       "claimable-tooltip": "You can restake or claim your earned rewards for completed epochs only."
     },
     "provider": {
-      "cur-highest-apr": "Current Highest APR",
-      "cur-highest-apr-tooltip": "The highest current Annual Percentage Rate offered by one of the Node provider.",
+      "highest-apr": "Highest APR",
+      "highest-apr-tooltip": "The highest current Annual Percentage Rate offered by one of the Node provider.",
       "tvl": "TVL",
       "tvl-tooltip": "Total value  locked by all stakers to all Node providers",
       "locking-period": "Locking Period",
@@ -1326,9 +1357,9 @@
       "history": "History"
     },
     "staking": {
-      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023 max.<br/>This is due to Gnosis plans to enable withdrawals in the Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023.<br/>This is due to Gnosis plans to enable withdrawals with the upcoming Ethereum Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
       "slashing-protection": "New slashing protection",
-      "slashing-protection-tooltip": "The protection level of staking to this validator is calculated by the ratio of the total delegated amount to the size of the insurance pool."
+      "slashing-protection-tooltip": "Validator can make a deposit that protects their and your stake slashing. The protection level of this validator is dynamically calculated by the ratio of the total amount of all delegated stakes to the size of the insurance pool."
     },
     "staking-table": {
       "node-provider": "Node Provider",
@@ -1349,13 +1380,14 @@
     "provider": {
       "node-provider": "Node Provider",
       "slashing-protection": "Slashing protection",
-      "slashing-protection-tooltip": "The protection level of staking to this validator is calculated by the ratio of the total delegated amount to the size of the insurance pool.",
+      "slashing-protection-tooltip": "Validator can make a deposit that protects their and your stake slashing. The protection level of this validator is dynamically calculated by the ratio of the total amount of all delegated stakes to the size of the insurance pool.",
       "insurance-pool": "Insurance pool",
       "insurance-pool-tooltip": "The insurance pool is a reserve of staked amounts from both node providers and stakers that can be used to cover possible slashing.",
       "staked-available": "Staked/Available",
       "staked-available-tooltip": "Amount already delegated to this Validator and free validation capacity.",
       "net-apr": "Net APR",
-      "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties."
+      "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties.",
+      "keys-value": "{value} Keys"
     }
   },
   "convert": {

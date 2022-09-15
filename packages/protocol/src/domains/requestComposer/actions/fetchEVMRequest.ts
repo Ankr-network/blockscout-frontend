@@ -1,7 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { LibraryID } from '../constants';
+import { EVMLibraryID } from '../constants';
 import { RPC_CALLS_CONFIG } from '../utils/RPCCallsConfig';
 import { EVMMethodResponse, EVMMethodsRequest } from '../types';
 import { buildProvider } from '../utils/buildProvider';
@@ -17,7 +17,7 @@ export const fetchEVMRequest = createSmartAction<
   RequestAction<EVMMethodsRequest, FetchEVMRequestResult>
 >(
   'requestComposer/fetchEVMRequest',
-  (libraryID: LibraryID, params: EVMMethodsRequest, web3URL: string) => ({
+  (libraryID: EVMLibraryID, params: EVMMethodsRequest, web3URL: string) => ({
     request: {
       promise: (async () => null)(),
     },

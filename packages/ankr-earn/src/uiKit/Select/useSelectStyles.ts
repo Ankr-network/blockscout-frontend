@@ -57,18 +57,25 @@ export const useSelectStyles = makeStyles<Theme>(theme => ({
     minWidth: 100,
   },
 
+  divider: {
+    '&:not(:last-child)': {
+      borderBottom: '1px solid #EBEDF2',
+    },
+  },
+
   item: {
     fontSize: 'inherit',
     padding: theme.spacing(2, 2.5),
     color: theme.palette.text.primary,
+    height: 42,
+
+    '& svg': {
+      fontSize: 24,
+    },
 
     '&:active': {
       transform: 'translateY(0)',
       color: theme.palette.primary.main,
-    },
-
-    '&:not(:last-child)': {
-      borderBottom: '1px solid #EBEDF2',
     },
 
     '&:hover': {

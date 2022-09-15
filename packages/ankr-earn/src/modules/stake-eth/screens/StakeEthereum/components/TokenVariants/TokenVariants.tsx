@@ -14,7 +14,7 @@ export const TokenVariants = (): JSX.Element => {
     useTokenVariants();
 
   return (
-    <TokenVariantList my={5}>
+    <TokenVariantList my={4}>
       <TokenVariant
         description={tHTML('stake-ethereum.aethb-descr')}
         iconSlot={<AETHBIcon />}
