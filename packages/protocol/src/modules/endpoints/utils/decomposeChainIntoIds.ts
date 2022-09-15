@@ -1,5 +1,5 @@
-import { ChainID } from '../types';
 import { IApiChain } from 'domains/chains/api/queryChains';
+import { ChainID } from 'modules/chains/types';
 import { flatChains } from './flatChains';
 
 export interface DecomposedChainIds {
@@ -8,13 +8,13 @@ export interface DecomposedChainIds {
   testnets: ChainID[];
 }
 
-const exceptions: Record<ChainID, Partial<DecomposedChainIds>> = {
-  avalanche: {
-    mainnets: ['avalanche'],
-    testnets: ['avalanche_fuji'],
+const exceptions: Partial<Record<ChainID, Partial<DecomposedChainIds>>> = {
+  [ChainID.AVALANCHE]: {
+    mainnets: [ChainID.AVALANCHE],
+    testnets: [ChainID.AVALANCHE_FUJI],
   },
-  nervos: {
-    mainnets: ['nervos'],
+  [ChainID.NERVOS]: {
+    mainnets: [ChainID.NERVOS],
   },
 };
 
@@ -43,7 +43,7 @@ export const decomposeChainIntoIds = (
 
   const testnets = getSubchainsIds(chain.testnets)
     // subchain ids with `-evm` suffix refer to their parent chain
-    .map(id => id.replace('-evm', ''));
+    .map(id => id.replace('-evm', '') as ChainID);
 
   const devnets = getSubchainsIds(chain.devnets);
 
