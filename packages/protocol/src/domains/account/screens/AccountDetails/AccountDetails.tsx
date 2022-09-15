@@ -1,21 +1,21 @@
-import React from 'react';
-import { ThemeProvider, Box } from '@material-ui/core';
+import { Box, ThemeProvider } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
 
-import { mainTheme, Spinner } from 'ui';
+import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
+import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
+import { useAuth } from 'domains/account/hooks/useAuth';
+import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { AccountRoutesConfig } from 'domains/account/Routes';
+import { UpcomingUpdateBanner } from 'modules/common/components/UpcomingUpdateBanner';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { AccountRoutesConfig } from 'domains/account/Routes';
+import { mainTheme, Spinner } from 'ui';
+import { useStyles } from './AccountDetailsStyles';
+import { Balance } from './components/Balance';
 import { ExpenseChart } from './components/ExpenseChart';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable/PaymentsHistoryTable';
 import { TopUp } from './components/TopUp';
-import { Balance } from './components/Balance';
-import { useStyles } from './AccountDetailsStyles';
-import { useAuth } from 'domains/account/hooks/useAuth';
 import { USDBanner } from './components/USDBanner';
-import { useCardPayment } from 'domains/account/hooks/useCardPayment';
-import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
-import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 
 export const AccountDetails = () => {
   const classes = useStyles();
@@ -39,6 +39,8 @@ export const AccountDetails = () => {
         <Spinner />
       ) : (
         <Box className={classes.root}>
+          <UpcomingUpdateBanner />
+
           <Box className={classes.top}>
             <Balance />
             <TopUp className={classes.topUp} />

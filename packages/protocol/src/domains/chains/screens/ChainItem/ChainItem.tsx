@@ -1,8 +1,9 @@
 import { H1Tag } from 'uiKit/H1Tag';
 
 import { t } from 'common';
-import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
+import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
+import { UpcomingUpdateBanner } from 'modules/common/components/UpcomingUpdateBanner';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemSections } from './components/ChainItemSections';
 import { useChainItem } from './hooks/useChainItem';
@@ -35,6 +36,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
     <>
       <AddEmailBanner />
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
+      <UpcomingUpdateBanner />
       <ChainItemHeader
         chain={chain}
         publicChain={publicChain}
