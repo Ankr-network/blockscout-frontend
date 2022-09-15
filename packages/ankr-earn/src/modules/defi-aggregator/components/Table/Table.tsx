@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 import _capitalize from 'lodash/capitalize';
-import { useMemo, useState } from 'react';
+import { cloneElement, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
@@ -133,7 +133,10 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                 <ScrollableTable.Cell noWrap>
                   <div className={styles.vertAligned}>
                     <span className={styles.vertAligned}>
-                      {TOKEN_ASSET_ICON_MAP[firstAsset]}
+                      {TOKEN_ASSET_ICON_MAP[firstAsset] &&
+                        cloneElement(TOKEN_ASSET_ICON_MAP[firstAsset], {
+                          className: styles.tokenIcon,
+                        })}
 
                       {secondAsset && (
                         <span
@@ -142,7 +145,10 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                             styles.secondAssetIcon,
                           )}
                         >
-                          {TOKEN_ASSET_ICON_MAP[secondAsset]}
+                          {TOKEN_ASSET_ICON_MAP[secondAsset] &&
+                            cloneElement(TOKEN_ASSET_ICON_MAP[secondAsset], {
+                              className: styles.tokenIcon,
+                            })}
                         </span>
                       )}
                     </span>
@@ -164,10 +170,15 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                 <ScrollableTable.Cell noWrap>
                   <div className={styles.vertAligned}>
                     <span className={styles.vertAligned}>
-                      {protocols[item.protocol].icon}
+                      {protocols[item.protocol] &&
+                        protocols[item.protocol].icon}
                     </span>
 
-                    <span>{protocols[item.protocol].title}</span>
+                    <span>
+                      {protocols[item.protocol]
+                        ? protocols[item.protocol].title
+                        : item.protocol}
+                    </span>
                   </div>
                 </ScrollableTable.Cell>
 

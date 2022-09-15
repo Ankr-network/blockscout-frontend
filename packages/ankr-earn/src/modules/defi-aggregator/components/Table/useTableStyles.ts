@@ -58,4 +58,10 @@ export const useTableStyles = makeStyles(theme => ({
       fill: 'transparent',
     },
   },
+
+  tokenIcon: {
+    fontSize: 24,
+    width: '1em',
+    height: '1em',
+  },
 }));
