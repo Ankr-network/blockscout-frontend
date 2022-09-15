@@ -10,12 +10,11 @@ export const useStyles = makeStyles(theme => ({
     fontSize: '14px',
     color: '#356DF3',
   },
-  labelStandart: {
+  label: {
     fontSize: '14px',
-    color: '#9AA1B0',
+    color: theme.palette.text.secondary,
   },
   labelDisabled: {
-    fontSize: '14px',
     color: '#BFC6D0',
   },
   checkbox: {

@@ -3,6 +3,7 @@ import { PrivateStatsInternal } from 'multirpc-sdk';
 
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { SortType, Timeframe } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 export interface ChainsListProps {
   chains: IApiChain[];
@@ -12,7 +13,7 @@ export interface ChainsListProps {
 }
 
 export interface Chain {
-  id: string;
+  id: ChainID;
   icon: string;
   extenders?: IApiChain[];
   extensions?: IApiChain[];

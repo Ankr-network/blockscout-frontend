@@ -24,12 +24,7 @@ const ICON_SIZE = 70;
 export const NetworkChooser = (): JSX.Element => {
   const classes = useNetworkChooserStyles();
 
-  const {
-    ethBalance,
-    isDisabledEthLink,
-    isDisabledPolygonLink,
-    polygonBalance,
-  } = useNetworkChooser();
+  const { ethBalance, polygonBalance } = useNetworkChooser();
 
   return (
     <DefaultLayout verticalAlign="center">
@@ -50,7 +45,6 @@ export const NetworkChooser = (): JSX.Element => {
           <div className={classes.chooseArea}>
             <NavLink
               className={classes.chooseItemArea}
-              disabled={isDisabledEthLink}
               href={HREF_MATIC_ETH}
               variant="outlined"
             >
@@ -72,7 +66,6 @@ export const NetworkChooser = (): JSX.Element => {
                 classes.chooseItemArea,
                 classes.chooseItemAreaSecond,
               )}
-              disabled={isDisabledPolygonLink}
               href={HREF_MATIC_POLYGON}
               variant="outlined"
             >

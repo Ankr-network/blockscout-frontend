@@ -31,9 +31,9 @@ export const BINANCE_READ_PROVIDER_ID = isMainnet
 
 /**
  * Events block range for stake/unstake history
- * @note  ~4h = 5_000 blocks for testnet, ~2.5h = 2_500 blocks for mainnet
+ * @note  ~3h = 3_000 blocks for testnet, ~2.5h = 2_500 blocks for mainnet
  */
-export const BNB_MAX_BLOCK_RANGE = isMainnet ? 2_500 : 5_000;
+export const BNB_MAX_BLOCK_RANGE = isMainnet ? 2_500 : 3_000;
 
 /**
  * Maximum decimals length for the BNB Staking

@@ -7,8 +7,6 @@ import { getNetworkChooserData } from 'modules/stake-matic/common/actions/getNet
 
 interface IUseNetworkChooserData {
   ethBalance: BigNumber;
-  isDisabledEthLink: boolean;
-  isDisabledPolygonLink: boolean;
   polygonBalance: BigNumber;
 }
 
@@ -22,17 +20,12 @@ export const useNetworkChooser = (): IUseNetworkChooserData => {
   const ethBalance = data?.maticEthBalance ?? ZERO;
   const polygonBalance = data?.maticPolygonBalance ?? ZERO;
 
-  const isDisabledEthLink = ethBalance.isZero();
-  const isDisabledPolygonLink = polygonBalance.isZero();
-
   useProviderEffect(() => {
     dispatchRequest(getNetworkChooserData());
   }, [dispatchRequest]);
 
   return {
     ethBalance,
-    isDisabledEthLink,
-    isDisabledPolygonLink,
     polygonBalance,
   };
 };

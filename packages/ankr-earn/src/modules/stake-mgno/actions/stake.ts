@@ -6,10 +6,11 @@ import { IStoreState } from 'store';
 
 import { TxHash } from 'modules/common/types';
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { resetForm } from 'modules/forms/store/formsSlice';
 import { RoutesConfig } from 'modules/stake-mgno/Routes';
 
 import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
-import { MGNO_ACTIONS_PREFIX } from '../const';
+import { MGNO_ACTIONS_PREFIX, MGNO_STAKE_FORM_ID } from '../const';
 
 import { getBalance } from './getBalance';
 
@@ -43,6 +44,8 @@ export const stake = createSmartAction<
         const txHash = response.data;
 
         if (txHash) {
+          store.dispatch(resetForm(MGNO_STAKE_FORM_ID));
+
           store.dispatch(
             push(
               RoutesConfig.stakeSteps.generatePath({

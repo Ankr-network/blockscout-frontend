@@ -25,9 +25,9 @@ export const AuditInfoItem = ({
       href={link}
       variant="inline-text"
     >
-      {cloneElement(icon, { className: classes.itemIcon })}
-
       {text}
+
+      {cloneElement(icon, { className: classes.itemIcon })}
     </NavLink>
   );
 };

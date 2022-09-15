@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import nock from 'nock';
+import { TransactionReceipt } from 'web3-core';
 
 import {
   ProviderManager,
@@ -13,6 +14,7 @@ import {
   EMaticSDKErrorCodes,
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
+  TMaticSyntToken,
 } from '../../types';
 import { MaticEthSDK } from '../ethSDK';
 
@@ -22,6 +24,25 @@ jest.mock('@ankr.com/provider', (): unknown => ({
 }));
 
 describe('modules/matic/sdk/ethSDK', () => {
+  const ONE = new BigNumber(1);
+  const TOKEN_CERT: TMaticSyntToken = 'aMATICc';
+  const TX_HASH = 'test-hash';
+
+  const TX_RECEIPT: TransactionReceipt = {
+    blockHash: TX_HASH,
+    blockNumber: 1,
+    cumulativeGasUsed: 1,
+    effectiveGasPrice: 1,
+    from: '1',
+    gasUsed: 1,
+    logs: [],
+    logsBloom: '1',
+    status: true,
+    to: '2',
+    transactionHash: TX_HASH,
+    transactionIndex: 1,
+  };
+
   const defaultContract = {
     methods: {},
   };
@@ -48,6 +69,7 @@ describe('modules/matic/sdk/ethSDK', () => {
     currentAccount: 'address',
     isConnected: jest.fn(),
     connect: jest.fn(),
+    getContractMethodFee: jest.fn(),
     addTokenToWallet: jest.fn(),
     sendTransactionAsync: jest.fn(),
   };
@@ -81,6 +103,140 @@ describe('modules/matic/sdk/ethSDK', () => {
     });
 
     expect(sdk).toBeDefined();
+  });
+
+  test('should return "false" on approve MATIC token', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => '0',
+        }),
+        approve: () => ({
+          send: (): undefined => undefined,
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    const sdk = await MaticEthSDK.getInstance();
+    const data = await sdk.approveMATICToken(ONE);
+
+    expect(data).toBe(false);
+  });
+
+  test('should approve MATIC token', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => '0',
+        }),
+        approve: () => ({
+          send: (): TransactionReceipt => TX_RECEIPT,
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    const sdk = await MaticEthSDK.getInstance();
+    const data = await sdk.approveMATICToken(ONE);
+
+    expect(data).toBe(true);
+  });
+
+  test('should approve MATIC token if approved', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => `${2 * ETH_SCALE_FACTOR}`,
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    const sdk = await MaticEthSDK.getInstance();
+    const data = await sdk.approveMATICToken(ONE);
+
+    expect(data).toBe(true);
+  });
+
+  describe('should return stake gas fee data', () => {
+    it('should return zero if amount is less than minimum stake value', async () => {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          getMinimumStake: () => ({
+            call: (): string => '2',
+          }),
+        },
+      };
+
+      defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      const sdk = await MaticEthSDK.getInstance();
+      const data = await sdk.getStakeGasFee(ONE, TOKEN_CERT);
+
+      expect(data).toBe(ZERO);
+    });
+
+    it('should return zero if "estimateGas" throws error', async () => {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          getMinimumStake: () => ({
+            call: (): string => '1',
+          }),
+          stakeAndClaimCerts: () => ({
+            estimateGas: (): void => {
+              throw new Error('test-error');
+            },
+          }),
+        },
+      };
+
+      defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      defaultWriteProvider.getContractMethodFee.mockReturnValue(
+        Promise.resolve(ZERO),
+      );
+
+      const sdk = await MaticEthSDK.getInstance();
+      const data = await sdk.getStakeGasFee(ONE, TOKEN_CERT);
+
+      expect(data).toBe(ZERO);
+    });
+
+    it('should return correct data', async () => {
+      const value = '1';
+
+      const contract = {
+        ...defaultContract,
+        methods: {
+          getMinimumStake: () => ({
+            call: (): string => value,
+          }),
+          stakeAndClaimCerts: () => ({
+            estimateGas: (): string => value,
+          }),
+        },
+      };
+
+      defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      defaultWriteProvider.getContractMethodFee.mockReturnValue(
+        Promise.resolve(ONE),
+      );
+
+      const sdk = await MaticEthSDK.getInstance();
+      const data = await sdk.getStakeGasFee(ONE, TOKEN_CERT);
+
+      expect(data).toBe(ONE);
+    });
   });
 
   test('should add token to wallet with connect', async () => {

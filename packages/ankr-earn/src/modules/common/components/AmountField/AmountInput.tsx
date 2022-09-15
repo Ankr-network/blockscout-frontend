@@ -109,6 +109,7 @@ export const AmountInput = ({
           },
           endAdornment: isMaxBtnShowed && (
             <Button
+              className={classes.maxButton}
               disabled={isDisabledAmountField}
               size="small"
               variant="outlined"

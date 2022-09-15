@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { SortType } from 'domains/chains/types';
-import { ChainID } from 'modules/endpoints/types';
+import { ChainID } from 'modules/chains/types';
 import { Chain } from '../ChainsListTypes';
 import { formatChains, sortChains } from '../ChainsListUtils';
 import { usePrivateStats } from './usePrivateStats';

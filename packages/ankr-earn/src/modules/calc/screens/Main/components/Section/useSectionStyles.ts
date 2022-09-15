@@ -2,13 +2,24 @@ import { makeStyles } from '@material-ui/core';
 
 export const useSectionStyles = makeStyles(theme => ({
   box: {
-    position: 'relative',
-    padding: theme.spacing(7.5, 0),
+    background: 'none',
+
+    [theme.breakpoints.up('md')]: {
+      position: 'relative',
+      padding: theme.spacing(7.5, 0),
+      background: theme.palette.background.paper,
+    },
   },
 
   wrapper: {
-    maxWidth: 715,
-    padding: theme.spacing(0, 2.5),
+    padding: 0,
+
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      maxWidth: 715,
+      padding: theme.spacing(0, 2.5),
+    },
   },
 
   title: {

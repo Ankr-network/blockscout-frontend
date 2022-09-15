@@ -1,9 +1,10 @@
-import { Box, Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 
 import { t } from 'common';
 
 import { RoutesConfig as CalcRoutes } from 'modules/calc/Routes';
 import { featuresConfig } from 'modules/common/const';
+import { RoutesConfig } from 'modules/referrals/Routes';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -22,6 +23,9 @@ const imgSources = {
   mobile: coinsMobileImg,
   mobile2x: coinsMobileImg2x,
 };
+
+// todo: change it
+const IS_ACTIVE_REFERRAL_USER = true;
 
 export const EmptyState = (): JSX.Element => {
   const classes = useEmptyStateStyles();
@@ -48,18 +52,18 @@ export const EmptyState = (): JSX.Element => {
         />
       </picture>
 
-      <NavLink
-        fullWidth
-        className={classes.button}
-        href={STAKE_PATH}
-        size="large"
-        variant="contained"
-      >
-        {t('dashboard.empty.btn')}
-      </NavLink>
+      <div className={classes.buttons}>
+        <NavLink
+          fullWidth
+          className={classes.button}
+          href={STAKE_PATH}
+          size="large"
+          variant="contained"
+        >
+          {t('dashboard.empty.btn')}
+        </NavLink>
 
-      {featuresConfig.isCalcActive && (
-        <Box mt={3}>
+        {featuresConfig.isCalcActive && (
           <div className={classes.header}>
             <div className={classes.buttonWrapper}>
               <NavLink
@@ -72,8 +76,19 @@ export const EmptyState = (): JSX.Element => {
               </NavLink>
             </div>
           </div>
-        </Box>
-      )}
+        )}
+
+        {IS_ACTIVE_REFERRAL_USER && (
+          <NavLink
+            className={classes.referralsLink}
+            color="primary"
+            href={RoutesConfig.main.generatePath()}
+            variant="inline-text"
+          >
+            {t('dashboard.empty.referral-program')}
+          </NavLink>
+        )}
+      </div>
     </Paper>
   );
 };

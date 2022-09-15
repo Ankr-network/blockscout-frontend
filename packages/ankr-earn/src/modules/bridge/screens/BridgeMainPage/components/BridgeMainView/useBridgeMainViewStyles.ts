@@ -67,16 +67,6 @@ export const useBridgeMainViewStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
   },
 
-  balance: {
-    color: theme.palette.text.secondary,
-    display: 'grid',
-    gridTemplateColumns: 'auto auto',
-    justifyContent: 'start',
-    gap: theme.spacing(0, 1),
-    margin: theme.spacing(-1, 0, 4),
-    fontSize: 12,
-  },
-
   switcher: {
     '& [aria-disabled] > div': {
       color: theme.palette.text.secondary,
@@ -131,5 +121,20 @@ export const useBridgeMainViewStyles = makeStyles(theme => ({
     position: 'absolute',
     top: theme.spacing(2.5),
     right: theme.spacing(2.5),
+  },
+
+  balance: {
+    display: 'flex',
+    alignItems: 'center',
+    float: 'right',
+    fontSize: 12,
+    position: 'relative',
+    marginBottom: theme.spacing(1.25),
+    zIndex: 1,
+
+    color: theme.palette.text.secondary,
+    gridTemplateColumns: 'auto auto',
+    justifyContent: 'start',
+    gap: theme.spacing(0, 1),
   },
 }));

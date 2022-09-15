@@ -20,7 +20,7 @@ export const useAuditInfoStyles = makeStyles(theme => ({
   },
 
   itemIcon: {
-    marginRight: '0.1em',
+    marginLeft: '0.2em',
     fontSize: '1.24em',
   },
 }));

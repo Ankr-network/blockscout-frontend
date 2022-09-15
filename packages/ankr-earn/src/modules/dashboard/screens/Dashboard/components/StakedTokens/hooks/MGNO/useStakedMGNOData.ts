@@ -1,8 +1,12 @@
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
 import { GNO_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
+import { getTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
+import { RoutesConfig } from 'modules/stake-mgno/Routes';
 
 export interface IStakedMGNOData {
   stakedAmount: BigNumber;
@@ -14,17 +18,26 @@ export interface IStakedMGNOData {
   network: string;
   manageLink: string;
   isShowed: boolean;
+  loading: boolean;
 }
 
 export const useStakedMGNOData = (): IStakedMGNOData => {
+  const { data, loading } = useQuery({ type: getTotalInfo });
+  const { data: usdRatio, loading: ratioLoading } = useQuery({
+    type: getMGNOPrice,
+  });
+
   const network = t(`chain.${GNO_NETWORK_BY_ENV}`);
-  const stakedAmount = ZERO;
-  const rewardsAmount = ZERO;
 
-  const stakedUsdEquivalent = ZERO;
-  const rewardsUsdEquivalent = ZERO;
+  const stakedAmount = data?.myTotalDelegatedAmount ?? ZERO;
+  const rewardsAmount = data?.myAllValidationRewards ?? ZERO;
 
-  const isShowed = !stakedAmount.isZero() || !rewardsAmount.isZero();
+  const usdPrice = usdRatio ?? ZERO;
+
+  const stakedUsdEquivalent = stakedAmount.multipliedBy(usdPrice);
+  const rewardsUsdEquivalent = rewardsAmount.multipliedBy(usdPrice);
+
+  const isShowed = loading || !stakedAmount.isZero() || !rewardsAmount.isZero();
 
   return {
     stakedAmount,
@@ -34,7 +47,8 @@ export const useStakedMGNOData = (): IStakedMGNOData => {
     rewardsUsdEquivalent,
     rewardsTooltip: '',
     network,
-    manageLink: ' ',
+    manageLink: RoutesConfig.main.generatePath(),
     isShowed,
+    loading: loading || ratioLoading,
   };
 };

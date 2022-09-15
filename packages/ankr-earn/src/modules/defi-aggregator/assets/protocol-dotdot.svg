@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" width="24" height="24">
+  <path fill="#fff" d="M10 20c5.523 0 10-4.477 10-10S15.523 0 10 0 0 4.477 0 10s4.477 10 10 10Z"/>
+  <path fill="url(#dotdot-a)" d="M3.849 7.944 7.944 3.85l4.104 4.104-4.095 4.095a2.9 2.9 0 0 1-4.104 0 2.904 2.904 0 0 1 0-4.104Z"/>
+  <path fill="#00BFFC" d="M7.944 7.953A2.902 2.902 0 1 0 12.05 3.85a2.902 2.902 0 0 0-4.105 4.104Z"/>
+  <path fill="url(#dotdot-b)" d="m12.049 7.953-4.096 4.095 4.104 4.104 4.095-4.095a2.9 2.9 0 0 0 0-4.104 2.904 2.904 0 0 0-4.104 0Z"/>
+  <path fill="#976CF3" d="M12.057 12.048a2.902 2.902 0 1 1-4.104 4.104 2.902 2.902 0 0 1 4.104-4.104Z"/>
+  <defs>
+    <radialGradient id="dotdot-a" cx="0" cy="0" r="1" gradientTransform="rotate(135 3.772 4.98) scale(8.66379)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00BFFC"/>
+      <stop offset="1" stop-color="#00BFFC" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="dotdot-b" cx="0" cy="0" r="1" gradientTransform="rotate(-45 21.949 -4.958) scale(8.66379)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#976CF3"/>
+      <stop offset="1" stop-color="#976CF3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

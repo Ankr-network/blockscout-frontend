@@ -1,5 +1,6 @@
 import { t } from 'common';
 
+import { CONVERT_MGNO_MANUAL_LINK } from 'modules/common/const';
 import { NavLink } from 'uiKit/NavLink';
 
 import { useBuyMgnoLinkStyles } from './useBuyMgnoLinkStyles';
@@ -10,8 +11,7 @@ export const BuyMgnoLink = (): JSX.Element => {
   return (
     <NavLink
       className={classes.balanceLink}
-      // todo: change link to actual one
-      href="test"
+      href={CONVERT_MGNO_MANUAL_LINK}
       variant="text"
     >
       {t('delegated-stake.staking.get-mgno')}

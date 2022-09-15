@@ -19,7 +19,7 @@ export const Placeholder = ({
 
   return (
     <Paper className={classes.root}>
-      <div className={classes.imgWrap}>
+      <div className={classes.imgArea}>
         <img
           alt={title}
           className={classes.img}
@@ -27,9 +27,11 @@ export const Placeholder = ({
         />
       </div>
 
-      <Typography className={classes.title}>{title}</Typography>
+      <Typography className={classes.titleArea} variant="h3">
+        {title}
+      </Typography>
 
-      {btnSlot && <div className={classes.buttonWrap}>{btnSlot}</div>}
+      {btnSlot}
     </Paper>
   );
 };

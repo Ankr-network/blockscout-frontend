@@ -49,13 +49,47 @@ export interface IGetTxData extends IFetchTxData {
 
 const { polygonConfig } = configFromEnv();
 
+/**
+ * MaticPolygonSDK allows you to interact with Polygon Liquid Staking smart contracts on the Polygon blockchain: MATIC, aMATICb, aMATICc, and SwapPool.
+ *
+ * For more information on Polygon Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/matic/staking-mechanics).
+ *
+ * @class
+ */
 export class MaticPolygonSDK implements IStakable {
+  /**
+   * instance — SDK instance.
+   *
+   * @type {MaticPolygonSDK | undefined}
+   * @static
+   * @private
+   */
   private static instance?: MaticPolygonSDK;
 
+  /**
+   * readProvider — provider which allows to read data without connecting the wallet.
+   *
+   * @type {Web3KeyReadProvider}
+   * @private
+   * @readonly
+   */
   private readonly readProvider: Web3KeyReadProvider;
 
+  /**
+   * writeProvider — provider which has signer for signing transactions.
+   *
+   * @type {Web3KeyWriteProvider}
+   * @private
+   * @readonly
+   */
   private readonly writeProvider: Web3KeyWriteProvider;
 
+  /**
+   * currentAccount — connected account.
+   *
+   * @type {Address}
+   * @private
+   */
   private currentAccount: Address;
 
   /**
@@ -66,6 +100,12 @@ export class MaticPolygonSDK implements IStakable {
    */
   private stakeGasFee?: BigNumber;
 
+  /**
+   * Private constructor. Instead, use `MaticPolygonSDK.getInstance`.
+   *
+   * @constructor
+   * @private
+   */
   private constructor({ readProvider, writeProvider }: IMaticSDKProviders) {
     MaticPolygonSDK.instance = this;
 
@@ -74,6 +114,14 @@ export class MaticPolygonSDK implements IStakable {
     this.currentAccount = this.writeProvider.currentAccount;
   }
 
+  /**
+   * Internal function to get aMATICb token contract.
+   *
+   * @private
+   * @static
+   * @param {Web3} web3 - Web3 instance
+   * @returns {Contract}
+   */
   private static getABTokenContract(web3: Web3): Contract {
     return new web3.eth.Contract(
       ABI_MATIC_BOND as AbiItem[],
@@ -81,6 +129,14 @@ export class MaticPolygonSDK implements IStakable {
     );
   }
 
+  /**
+   * Internal function to get aMATICc token contract.
+   *
+   * @private
+   * @static
+   * @param {Web3} web3 - Web3 instance
+   * @returns {Contract}
+   */
   private static getACTokenContract(web3: Web3): Contract {
     return new web3.eth.Contract(
       ABI_MATIC_CERT as AbiItem[],
@@ -88,6 +144,13 @@ export class MaticPolygonSDK implements IStakable {
     );
   }
 
+  /**
+   * Internal function to convert wei value to human-readable format.
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
   private convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
   }
@@ -95,14 +158,21 @@ export class MaticPolygonSDK implements IStakable {
   /**
    * Internal function to return increased gas limit.
    *
-   * @param {number} gasLimit - initial gas limit
    * @private
+   * @param {number} gasLimit - initial gas limit
    * @returns {number}
    */
   private getIncreasedGasLimit(gasLimit: number): number {
     return Math.round(gasLimit * MATIC_ON_POLYGON_ESTIMATE_GAS_MULTIPLIER);
   }
 
+  /**
+   * Internal function to get MATIC token contract.
+   *
+   * @private
+   * @param {boolean | undefined} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
   private async getMaticTokenContract(isForceRead = false): Promise<Contract> {
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
@@ -113,6 +183,13 @@ export class MaticPolygonSDK implements IStakable {
     );
   }
 
+  /**
+   * Internal function to choose the right provider for read or write purpose.
+   *
+   * @private
+   * @param {boolean | undefined} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Web3KeyReadProvider | Web3KeyWriteProvider>}
+   */
   private async getProvider(
     isForceRead = false,
   ): Promise<Web3KeyReadProvider | Web3KeyWriteProvider> {
@@ -133,6 +210,13 @@ export class MaticPolygonSDK implements IStakable {
     return this.readProvider;
   }
 
+  /**
+   * Internal function to get SwapPool contract.
+   *
+   * @private
+   * @param {boolean | undefined} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Contract>}
+   */
   private async getSwapPoolContract(isForceRead = false): Promise<Contract> {
     const provider = await this.getProvider(isForceRead);
     const web3 = provider.getWeb3();
@@ -143,6 +227,13 @@ export class MaticPolygonSDK implements IStakable {
     );
   }
 
+  /**
+   * Internal function to check the current network.
+   *
+   * @private
+   * @param {Web3KeyWriteProvider} provider - current selected provider
+   * @returns {Promise<boolean>}
+   */
   private async isPolygonNetwork(
     provider: Web3KeyWriteProvider,
   ): Promise<boolean> {
@@ -154,6 +245,17 @@ export class MaticPolygonSDK implements IStakable {
     );
   }
 
+  /**
+   * Initialization method for the SDK.
+   *
+   * Auto-connects writeProvider if chains are the same.
+   * Initializes readProvider to support multiple chains.
+   *
+   * @public
+   * @static
+   * @param {Partial<IMaticSDKProviders> | undefined} args - user defined providers
+   * @returns {Promise<MaticPolygonSDK>}
+   */
   public static async getInstance(
     args?: Partial<IMaticSDKProviders>,
   ): Promise<MaticPolygonSDK> {
@@ -194,8 +296,8 @@ export class MaticPolygonSDK implements IStakable {
    * Add token to wallet.
    *
    * @public
-   * @note Initiates connect if writeProvider isn't connected.
-   * @param {string} token - token symbol (aMATICc or aMATICb)
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @param {string} token - token symbol (aMATICb or aMATICc)
    * @returns {Promise<boolean>}
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
@@ -214,6 +316,16 @@ export class MaticPolygonSDK implements IStakable {
     });
   }
 
+  /**
+   * Approve aMATICc for SwapPool, i.e. allow SwapPool smart contract to access and transfer aMATICc tokens.
+   *
+   * @public
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber | undefined} [amount = MAX_UINT256] - amount to approve
+   * @param {number | undefined} [scale = MATIC_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<boolean>}
+   */
   public async approveACToken(
     amount: BigNumber = MAX_UINT256,
     scale = MATIC_SCALE_FACTOR,
@@ -290,6 +402,12 @@ export class MaticPolygonSDK implements IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Returns amount of the aMATICc token pool liquidity from SwapPool contract.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable liquidity
+   */
   public async getACPoolLiquidity(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract();
 
@@ -304,6 +422,12 @@ export class MaticPolygonSDK implements IStakable {
     return this.convertFromWei(acTokensPool);
   }
 
+  /**
+   * Returns amount of the aMATICc token pool liquidity in MATIC from SwapPool contract.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable liquidity
+   */
   public async getACPoolLiquidityInMATIC(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -331,6 +455,12 @@ export class MaticPolygonSDK implements IStakable {
       : this.convertFromWei(poolLiquidityAmount.toString(10));
   }
 
+  /**
+   * Return aMATICc/MATIC ratio.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable ratio
+   */
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -341,6 +471,12 @@ export class MaticPolygonSDK implements IStakable {
     return this.convertFromWei(ratio);
   }
 
+  /**
+   * Return MATIC token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable balance
+   */
   public async getMaticBalance(): Promise<BigNumber> {
     const maticTokenContract = await this.getMaticTokenContract();
 
@@ -351,6 +487,12 @@ export class MaticPolygonSDK implements IStakable {
     return this.convertFromWei(balance);
   }
 
+  /**
+   * Returns amount of the MATIC token pool liquidity in aMATICc from SwapPool contract.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable liquidity
+   */
   public async getMATICPoolLiquidityInAC(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -379,21 +521,34 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * @note Method for interface covering only. Not applicable here
+   * Get minimum stake amount.
+   *
+   * @public
+   * @note Method for interface covering only. Not applicable here.
+   * @returns {Promise<BigNumber>} - returns zero
    */
   public async getMinimumStake(): Promise<BigNumber> {
     return ZERO;
   }
 
   /**
-   * @note Method for interface covering only. Not applicable here
+   * Get total pending unstake amount.
+   *
+   * @public
+   * @note Method for interface covering only. Not applicable here.
+   * @returns {Promise<BigNumber>} - returns zero
    */
   public async getPendingClaim(): Promise<BigNumber> {
     return ZERO;
   }
 
   /**
-   * @note Method for interface covering only. Not applicable here
+   * Get pending data for aMATICb and aMATICc.
+   *
+   * @public
+   * @note Method for interface covering only. Not applicable here.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @returns {Promise<IPendingData>} - returns zero values
    */
   public async getPendingData(): Promise<IPendingData> {
     return {
@@ -402,6 +557,12 @@ export class MaticPolygonSDK implements IStakable {
     };
   }
 
+  /**
+   * Get stake fee in percents.
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getStakeFeePct(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract();
 
@@ -416,7 +577,15 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * @note For aMATICc token only
+   * Get stake gas fee.
+   *
+   * @public
+   * @note For aMATICc token only.
+   * @note Caches computed gas fee value for future computations.
+   * @param {BigNumber} amount - amount to stake
+   * @param {TMaticSyntToken} token - token symbol (aMATICb or aMATICc) as reserved value (not using now)
+   * @param {number | undefined} [scale = MATIC_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<BigNumber>}
    */
   public async getStakeGasFee(
     amount: BigNumber,
@@ -446,6 +615,14 @@ export class MaticPolygonSDK implements IStakable {
     return stakeGasFee;
   }
 
+  /**
+   * Get transaction data.
+   *
+   * @public
+   * @param {string} targetTokenAddr - target token address (aMATICb or aMATICc)
+   * @param {string} txHash - transaction hash
+   * @returns {Promise<IGetTxData>}
+   */
   public async getTxData(
     targetTokenAddr: string,
     txHash: string,
@@ -470,7 +647,12 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * TODO Add implementation for this (MATIC on Polygon)
+   * Get transaction history.
+   *
+   * @public
+   * @note Not implemented yet.
+   * @todo Add implementation for this (MATIC on Polygon).
+   * @returns {Promise<ITxEventsHistoryData>} - returns empty arrays
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     return {
@@ -483,6 +665,13 @@ export class MaticPolygonSDK implements IStakable {
     };
   }
 
+  /**
+   * Get transaction receipt.
+   *
+   * @public
+   * @param {string} txHash - transaction hash
+   * @returns {Promise<TransactionReceipt | null>}
+   */
   public async getTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
@@ -494,6 +683,12 @@ export class MaticPolygonSDK implements IStakable {
     return receipt as TransactionReceipt | null;
   }
 
+  /**
+   * Get unstake fee in percents.
+   *
+   * @public
+   * @returns {Promise<BigNumber>}
+   */
   public async getUnstakeFeePct(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract();
 
@@ -508,7 +703,16 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * @note For aMATICc token only
+   * Stake token.
+   *
+   * @public
+   * @note For aMATICc token only.
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount of token
+   * @param {string} token - choose which token to receive (aMATICb or aMATICc)
+   * @param {number | undefined} [scale = MATIC_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<IStakeData>}
    */
   public async stake(
     amount: BigNumber,
@@ -573,7 +777,17 @@ export class MaticPolygonSDK implements IStakable {
   }
 
   /**
-   * @note For aMATICc token only. You will need "approveACToken" before that
+   * Unstake token.
+   *
+   * @public
+   * @note For aMATICc token only.
+   * @note You will need to call `approveACToken` before that.
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to unstake (aMATICb or aMATICc)
+   * @param {number | undefined} [scale = MATIC_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<void>}
    */
   public async unstake(
     amount: BigNumber,
@@ -591,6 +805,7 @@ export class MaticPolygonSDK implements IStakable {
     const amountHex = convertNumberToHex(amount, scale);
 
     const swapPoolContract = await this.getSwapPoolContract();
+
     const txn = swapPoolContract.methods.swapEth(
       false,
       amountHex,

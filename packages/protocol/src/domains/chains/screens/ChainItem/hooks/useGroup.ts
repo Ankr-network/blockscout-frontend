@@ -1,22 +1,23 @@
 import { useMemo } from 'react';
 
+import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
+import { Tab, useTabs } from 'modules/common/hooks/useTabs';
+import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import {
   ChainGroupID,
   EndpointGroup,
   GroupedEndpoints,
 } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { getGroupTabs } from '../utils/getGroupTabs';
 import { getGroupIdByChainId } from 'modules/endpoints/utils/getGroupByChainId';
-import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
+import { getGroupTabs } from '../utils/getGroupTabs';
 
 export interface GroupParams {
   chain: IApiChain;
   chainType: ChainType;
   endpoints: GroupedEndpoints;
-  netId?: string;
+  netId?: ChainID;
 }
 
 export interface GroupResult {

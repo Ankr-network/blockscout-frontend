@@ -1,6 +1,5 @@
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-
-export type ChainID = IApiChain['id'];
+import { ChainID } from 'modules/chains/types';
 
 export interface ChainGroup {
   id: ChainGroupID;
@@ -14,6 +13,7 @@ export enum ChainGroupID {
   ETH_MAINNET = 'eth-mainnet',
   GOERLI = 'goerli',
   KOVAN = 'kovan',
+  NEAR = 'near',
   NERVOS_EVM = 'nervos-evm',
   NERVOS_GW = 'nervos-gw',
   NERVOS_CKB = 'nervos-ckb',

@@ -153,6 +153,7 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
+      "/calc/",
       "/bridge/",
       "/liquid-crowdloan/",
       "/stake/matic/eth/",

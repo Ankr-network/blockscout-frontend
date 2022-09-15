@@ -14,6 +14,7 @@ export const useTableStyles = makeStyles(theme => ({
   table: {
     width: '100%',
     borderCollapse: 'collapse',
+    minWidth: 1040,
   },
 
   tr: {
@@ -56,5 +57,11 @@ export const useTableStyles = makeStyles(theme => ({
       color: theme.palette.primary.main,
       fill: 'transparent',
     },
+  },
+
+  tokenIcon: {
+    fontSize: 24,
+    width: '1em',
+    height: '1em',
   },
 }));

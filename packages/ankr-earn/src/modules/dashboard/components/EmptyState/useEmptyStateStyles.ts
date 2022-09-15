@@ -34,6 +34,17 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     },
   },
 
+  referralsLink: {
+    fontSize: 16,
+    fontWeight: 600,
+
+    [theme.breakpoints.up('md')]: {
+      position: 'absolute',
+      top: 30,
+      right: 30,
+    },
+  },
+
   imgWrap: {
     display: 'block',
     position: 'relative',
@@ -76,7 +87,14 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     objectFit: 'scale-down',
   },
 
+  buttons: {
+    display: 'grid',
+    justifyItems: 'center',
+    gap: theme.spacing(3, 0),
+  },
+
   header: {
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',

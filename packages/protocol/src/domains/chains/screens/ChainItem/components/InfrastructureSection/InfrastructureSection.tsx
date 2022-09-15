@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointQuery } from '../Endpoint/EndpointQuery';
@@ -22,18 +23,25 @@ export const InfrastructureSection = ({
 
   const { credentials, loading: authLoading } = useAuth();
   const { providerData, loading: providerLoading } = useProvider();
+  const { chains } = group;
+
+  const chainId = useMemo(() => chains[0]?.id, [chains]);
 
   return (
     <div className={classes.root}>
-      {canAddEndpoint(providerData, chain.id) && <TrafficFlow />}
-
-      {!authLoading && !providerLoading && (
+      {chainId && (
         <>
-          {credentials && Boolean(providerData) && (
-            <EndpointQuery chainId={chain.id} />
-          )}
+          {canAddEndpoint(providerData, chainId) && <TrafficFlow />}
 
-          {credentials && <SecuritySettingsQuery chainId={chain.id} />}
+          {!authLoading && !providerLoading && (
+            <>
+              {credentials && Boolean(providerData) && (
+                <EndpointQuery chainId={chain.id} />
+              )}
+
+              {credentials && <SecuritySettingsQuery chainId={chainId} />}
+            </>
+          )}
         </>
       )}
 
