@@ -2,6 +2,7 @@
   "name": "admin-mrpc",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/admin",
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-app-rewired start",
     "start:prod": "env-cmd -f .env.prod react-app-rewired start",

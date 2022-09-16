@@ -6,7 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import { NavLink } from 'ui';
 import { Header } from '../Header';
-import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutes';
+import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 
 const drawerWidth = 180;
 

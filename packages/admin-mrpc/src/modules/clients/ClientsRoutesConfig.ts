@@ -1,8 +1,6 @@
-import { Web3Address } from 'multirpc-sdk';
-import { generatePath, Route, useParams } from 'react-router';
-
+import { generatePath, useParams } from 'react-router';
 import { createRouteConfig } from '@ankr.com/utils';
-import { ClientsPage } from './components/ClientsPage';
+import { Web3Address } from 'multirpc-sdk';
 
 const PATH_CLIENTS = '/clients';
 const PATH_CLIENT_INFO = `${PATH_CLIENTS}/:address`;
@@ -33,15 +31,3 @@ export const ClientsRoutesConfig = createRouteConfig(
 
   PATH_CLIENTS,
 );
-
-export function ClientsRoutes() {
-  return (
-    <>
-      <Route
-        exact
-        path={ClientsRoutesConfig.clients.path}
-        component={ClientsPage}
-      />
-    </>
-  );
-}

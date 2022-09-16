@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Web3Address } from 'multirpc-sdk';
-import { ClientsRoutesConfig } from '../../ClientsRoutes';
+import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useFetchCountersQuery } from '../../actions/fetchCounters';
 import { ClientMapped } from '../../store/clientsSlice';
 

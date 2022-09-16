@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -5,8 +6,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { TableSortLabel } from '@material-ui/core';
+import classNames from 'classnames';
 
+import { TableSortLabel } from '@material-ui/core';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
 
@@ -16,8 +18,12 @@ import { useClientsTableSorting } from './useClientsTableSorting';
 import { columns } from './clientTableUtils';
 import { ClientsFilters } from '../ClientsFilters/ClientsFilters';
 import { useClientsTableFiltering } from './useClientsTableFiltering';
+import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
+import { useClientsTableStyles } from './ClientsTableStyles';
 
 export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
+  const history = useHistory();
+  const classes = useClientsTableStyles();
   const {
     filteredClients,
     filterClientType,
@@ -31,6 +37,16 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
       clients: filteredClients,
     },
   );
+
+  const handleRowClick = (row: ClientMapped) => {
+    if (!row.address) {
+      return;
+    }
+
+    history.push({
+      pathname: ClientsRoutesConfig.clientInfo.generatePath(row.address),
+    });
+  };
 
   return (
     <>
@@ -60,7 +76,11 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
           </TableHead>
           <TableBody>
             {sortedData.map(row => (
-              <TableRow key={row.user}>
+              <TableRow
+                className={classNames(Boolean(row.address) && classes.row)}
+                key={row.user}
+                onClick={() => handleRowClick(row)}
+              >
                 <TableCell>{row.email}</TableCell>
                 <TableCell component="th" scope="row">
                   {shrinkAddress(row.address) || 'No information'}

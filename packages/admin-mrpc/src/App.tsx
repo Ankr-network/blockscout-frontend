@@ -11,9 +11,11 @@ import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes } from './Routes';
 
+import packageJson from '../package.json';
+
 function App() {
   return (
-    <Router>
+    <Router basename={packageJson.homepage}>
       <Provider store={store}>
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <ToastContainer />
