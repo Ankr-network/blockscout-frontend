@@ -17,14 +17,12 @@ import {
   ManageClientVoucherCreditsForm,
 } from 'components/ManageClientVoucherCreditsForm';
 import { PageHeader } from 'components/PageHeader';
-import { UserTypeTag } from 'components/UserTypeTag';
 import { observer } from 'mobx-react';
 import { ITransactionsEntity, Web3Address } from 'multirpc-sdk';
 import { useCallback, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useMultiRpcSdk } from 'stores';
 import { LocalGridStore } from 'stores/LocalGridStore';
-import { TAddressClient, useAddressClient } from 'stores/useAddressClient';
 import { useClientBalance } from 'stores/useClientBalance';
 import { useTransactions } from 'stores/useTransactions';
 import { useUserBlockchainActions } from 'stores/useUserBlockchainActions';
@@ -43,8 +41,6 @@ export const ClientDetailPage = observer(() => {
   const history = useHistory();
   const { address = '' } = useParams<{ address: Web3Address }>();
   const { balance, refetchBalance } = useClientBalance(address);
-
-  const { clientTtl, clientType }: TAddressClient = useAddressClient(balance);
 
   const backoffice = useMultiRpcSdk().getBackofficeGateway();
 
@@ -110,16 +106,6 @@ export const ClientDetailPage = observer(() => {
           <Row gutter={16}>
             <Col>
               Client <RightOutlined style={{ color: '#BBBBBB' }} /> {address}
-            </Col>
-
-            <Col>
-              {clientType && (
-                <UserTypeTag
-                  clientType={clientType}
-                  clientTtl={clientTtl}
-                  isTextInline
-                />
-              )}
             </Col>
           </Row>
         }
