@@ -17,6 +17,7 @@ export interface IPaymentHistoryEntity {
   type: IPaymentHistoryEntityType;
   amountUsd: string;
   amountAnkr: string;
+  amount: string;
 }
 
 export interface IPaymentHistoryRequest {
