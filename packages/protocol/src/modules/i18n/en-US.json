@@ -883,6 +883,7 @@
   },
   "withdraw-steps": {
     "title": "Withdraw",
+    "disabled-content": "We&rsquo;ve pegged the price of&nbsp;our API Credits to&nbsp;USD. For now, with regards to&nbsp;withdrawals, it&nbsp;means that they are to&nbsp;be&nbsp;requested via Support only.",
     "step-content": {
       "0": "I&nbsp;understand my&nbsp;withdrawal could be&nbsp;less after any pending charges are subtracted. The processing time will depend on&nbsp;the Ethereum network load.",
       "1": "How much would you like to withdraw?",
