@@ -87,7 +87,7 @@ jobs:
           DOMAIN: ${{ secrets.MULTIRPC_BACKOFFICE_PROD_DOMAIN }} 
           DISTRIBUTION_ID: ${{ secrets.MULTIRPC_BACKOFFICE_PROD_DISTRIBUTION_ID }} 
         run: |
-          aws s3 sync --delete ./build s3://$DOMAIN --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
+          aws s3 sync --delete ./build s3://$DOMAIN --acl public-read --exclude "admin/*" --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
           echo "Invalidating CDN network"
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
