@@ -6,6 +6,7 @@ import { useStyles } from './TopUpStyles';
 import { TopUpBlockHeader } from './TopUpBlockHeader';
 import { TopUpTabs } from './TopUpTabs';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { useRates } from 'domains/account/hooks/useRates';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { TopUpSkeleton } from './TopUpSkeleton';
 
@@ -19,8 +20,11 @@ export const TopUp = ({ className }: TopUpProps) => {
   const { handleCanPayByCard, isCardPaymentEligible, isCanPayByCardLoading } =
     useCardPayment();
 
+  const { handleFetchRates } = useRates();
+
   useOnMount(() => {
     handleCanPayByCard();
+    handleFetchRates();
   });
 
   return (
