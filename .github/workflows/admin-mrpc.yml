@@ -1,15 +1,15 @@
-name: Admin MRPC deploy
+name: MRPC Admin panel deploy
 
 on:
   workflow_dispatch:
     inputs:
-      environment:
+      domain:
         type: choice
         description: Target
         required: true
         options:
-          - stage #https://multirpc-backoffice-stage.dccn.ankr.com/
-          - prod  #https://multirpc-backoffice.dccn.ankr.com/
+          - STAGE #https://multirpc-backoffice-stage.dccn.ankr.com/admin/
+          - PROD  #https://multirpc-backoffice.dccn.ankr.com/admin/
       api:
         type: choice
         description: API
@@ -30,8 +30,8 @@ jobs:
       - name: Get deployment information
         run: |
           echo "Branch: ${{github.ref}}"
-          echo "Environment: ${{github.event.inputs.api}}"
-          echo "Domain: ${{github.event.inputs.environment}}"
+          echo "Domain: ${{github.event.inputs.domain}}"
+          echo "API: ${{github.event.inputs.api}}"
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.0
@@ -40,11 +40,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-            rm -rf node_modules/.cache
-            yarn install
+          rm -rf node_modules/.cache
+          yarn install
 
       - name: Build stage
-        working-directory: ./packages/protocol-backoffice
+        working-directory: ./packages/admin-mrpc
         if: ${{ github.event.inputs.api == 'STAGE' }}
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
@@ -52,7 +52,7 @@ jobs:
           yarn build:stage
 
       - name: Build production
-        working-directory: ./packages/protocol-backoffice
+        working-directory: ./packages/admin-mrpc
         if: ${{ github.event.inputs.api == 'PROD' }}
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
@@ -66,34 +66,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Copy files to the staging website with the AWS CLI 
-        working-directory: ./packages/protocol-backoffice
-        if: ${{ github.event.inputs.api == 'STAGE' }}
+      - name: Copy files to the production website with the AWS CLI
+        working-directory: ./packages/admin-mrpc
         env:
-          DOMAIN: ${{ secrets.MULTIRPC_BACKOFFICE_STAGE_DOMAIN }} 
-          DISTRIBUTION_ID: ${{ secrets.MULTIRPC_BACKOFFICE_STAGE_DISTRIBUTION_ID }} 
+          DOMAIN: ${{ secrets[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.domain, '_DOMAIN')] }}
+          DISTRIBUTION_ID: ${{ secrets[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.domain, '_DISTRIBUTION_ID')] }}
         run: |
-          aws s3 sync --delete ./build s3://$DOMAIN --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
+          aws s3 sync --delete ./build s3://$DOMAIN/admin/ --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
           echo "Invalidating CDN network"
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
           echo "Invalidation ID is $INVALIDATION_ID"
           echo "CDN Invalidation request is sent."
-
-      - name: Copy files to the production website with the AWS CLI 
-        working-directory: ./packages/protocol-backoffice
-        if: ${{ github.event.inputs.api == 'PROD' }}
-        env:
-          DOMAIN: ${{ secrets.MULTIRPC_BACKOFFICE_PROD_DOMAIN }} 
-          DISTRIBUTION_ID: ${{ secrets.MULTIRPC_BACKOFFICE_PROD_DISTRIBUTION_ID }} 
-        run: |
-          aws s3 sync --delete ./build s3://$DOMAIN --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
-          aws configure set preview.cloudfront true
-          echo "Invalidating CDN network"
-          INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
-          echo "Invalidation ID is $INVALIDATION_ID"
-          echo "CDN Invalidation request is sent."
-
-
-
-
