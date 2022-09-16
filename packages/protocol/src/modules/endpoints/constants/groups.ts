@@ -40,6 +40,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.AVALANCHE_FUJI_EVM,
       ChainID.BSC,
       ChainID.BSC_TESTNET_CHAPEL,
+      ChainID.BTTC,
       ChainID.CELO,
       ChainID.FANTOM,
       ChainID.FANTOM_TESTNET,
