@@ -30,7 +30,7 @@ const hasPendingTransaction = async () => {
 };
 
 export const waitForPendingTransaction = async () => {
-  await timeout(5000);
+  await timeout(7000);
 
   let inProcess = true;
 
