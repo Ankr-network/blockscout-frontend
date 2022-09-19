@@ -25,7 +25,7 @@ const imgSources = {
 };
 
 // todo: change it
-const IS_ACTIVE_REFERRAL_USER = true;
+const IS_ACTIVE_REFERRAL_USER = false;
 
 export const EmptyState = (): JSX.Element => {
   const classes = useEmptyStateStyles();
@@ -78,7 +78,7 @@ export const EmptyState = (): JSX.Element => {
           </div>
         )}
 
-        {IS_ACTIVE_REFERRAL_USER && (
+        {featuresConfig.isReferralDashboardActive && IS_ACTIVE_REFERRAL_USER && (
           <NavLink
             className={classes.referralsLink}
             color="primary"

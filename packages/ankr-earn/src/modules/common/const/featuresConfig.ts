@@ -13,7 +13,6 @@ export const featuresConfig = {
    */
   isActiveStakeTradeInfo: true,
   localeSwitcher: false,
-  dashboardLiquidCrowdloanAssets: false,
   bridgeAnotherAddr: false,
   /**
    * Please remove extra feature flag
@@ -36,10 +35,6 @@ export const featuresConfig = {
    * @deprecated
    */
   maticPolygonStaking: true,
-  /**
-   * https://ankrnetwork.atlassian.net/browse/STAKAN-1810
-   */
-  newEmptyStateForDashboard: true,
   isCalcActive: true,
   isReferralDashboardActive: isLocal,
   providerNotification: true,
