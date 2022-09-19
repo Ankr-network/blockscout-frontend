@@ -93,3 +93,25 @@ jobs:
           labels: |
             backoffice
           base: stage-backoffice
+
+  update-stage-admin-mrpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: stage-admin-mrpc
+
+      - name: Reset stage-admin-mrpc branch
+        run: |
+          git fetch origin main:main
+          git reset --hard main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: 'chore: update stage-admin-mrpc'
+          title: 'chore: update stage-admin-mrpc'
+          branch: chore/update-stage-admin-mrpc
+          labels: |
+            admin-mrpc
+          base: stage-admin-mrpc
