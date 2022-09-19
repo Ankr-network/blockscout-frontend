@@ -2,6 +2,7 @@ import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
+import { useState } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
@@ -70,8 +71,13 @@ const resetRequests = () =>
     getMaticPolygonCommonData.toString(),
   ]);
 
-export const useDashboard = (): void => {
+interface IUseDashboard {
+  isFirstLoad: boolean;
+}
+
+export const useDashboard = (): IUseDashboard => {
   const dispatch = useAppDispatch();
+  const [isFirstLoad, setFirstLoad] = useState(true);
 
   usePolkadot();
 
@@ -105,9 +111,13 @@ export const useDashboard = (): void => {
       dispatch(getMgnoBalance());
     }
 
+    setFirstLoad(false);
+
     return () => {
       dispatch(abortRequests());
       dispatch(resetRequests());
     };
   }, [dispatch]);
+
+  return { isFirstLoad };
 };
