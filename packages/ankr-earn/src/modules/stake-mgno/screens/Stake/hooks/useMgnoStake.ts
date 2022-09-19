@@ -161,7 +161,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
     initialProvider,
     providerName,
     amount: amount ?? ZERO,
-    initialAmount: amount?.toFixed(),
+    initialAmount: amount.isNaN() ? undefined : amount.toFixed(),
     quoteText: tHTML('stake-mgno.staking.lock-info'),
     additionalText: t('stake-mgno.staking.slashing-protection'),
     additionalTooltip: t('stake-mgno.staking.slashing-protection-tooltip'),

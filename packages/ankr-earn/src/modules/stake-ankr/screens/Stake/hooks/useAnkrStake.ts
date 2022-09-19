@@ -153,7 +153,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
     initialProvider,
     providerName,
     amount,
-    initialAmount: amount.toFixed(),
+    initialAmount: amount.isNaN() ? undefined : amount.toFixed(),
     apy,
     quoteText: t('stake-ankr.staking.fee-info'),
     additionalText: t('stake-ankr.staking.locking-period'),
