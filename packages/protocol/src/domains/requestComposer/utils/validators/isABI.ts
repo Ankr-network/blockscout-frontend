@@ -1,4 +1,4 @@
-import { ABIItemType } from 'domains/requestComposer/types';
+import { ABIItemType } from '../../types';
 
 const { CONSTRUCTOR, EVENT, FALLBACK, FUNCTION } = ABIItemType;
 const types = [CONSTRUCTOR, EVENT, FALLBACK, FUNCTION];

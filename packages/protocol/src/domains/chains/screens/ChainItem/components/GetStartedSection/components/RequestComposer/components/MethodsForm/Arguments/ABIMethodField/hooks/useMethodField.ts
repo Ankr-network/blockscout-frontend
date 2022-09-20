@@ -12,7 +12,7 @@ export interface MethodFieldParams {
   abi: string;
   className?: string;
   isABIFieldValid: boolean;
-  name: string;
+  params: Field;
 }
 
 export interface MethodField {
@@ -20,13 +20,11 @@ export interface MethodField {
   field?: Field;
 }
 
-const helperText = 'Function name (READ only)';
-
 export const useMethodField = ({
   abi: input,
   className,
   isABIFieldValid,
-  name,
+  params,
 }: MethodFieldParams): MethodField => {
   const { logError } = useContext(LoggerContext);
   const [abi, setABI] = useState<ABI>();
@@ -38,14 +36,13 @@ export const useMethodField = ({
     return isValid
       ? {
           component: SelectField as any,
-          helperText,
           initialValue: options[0].value.toString(),
-          name,
           options,
           rootClassName: className,
+          ...params,
         }
       : undefined;
-  }, [abi, className, isABIFieldValid, name]);
+  }, [abi, className, isABIFieldValid, params]);
 
   useEffect(() => {
     if (input && isABIFieldValid) {

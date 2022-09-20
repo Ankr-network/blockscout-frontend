@@ -1,8 +1,8 @@
 import { ABI } from 'domains/requestComposer/types';
 import { FetchABIError } from '../types';
 import { fetchABI } from './fetchABI';
-import { isABI } from './isABI';
-import { isURL } from './isURL';
+import { isABI } from 'domains/requestComposer/utils/validators/isABI';
+import { isURL } from 'domains/requestComposer/utils/validators/isURL';
 import { parseABI } from './parseABI';
 
 export const getABI = async (input: string): Promise<ABI | undefined> => {

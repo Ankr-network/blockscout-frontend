@@ -1,6 +1,6 @@
 import { FieldValidator } from 'final-form';
-import { useForm } from 'react-final-form';
 import { useCallback, useMemo } from 'react';
+import { useForm } from 'react-final-form';
 
 import { ABI } from 'domains/requestComposer/types';
 import { getArgsFields } from '../utils/getArgsFields';

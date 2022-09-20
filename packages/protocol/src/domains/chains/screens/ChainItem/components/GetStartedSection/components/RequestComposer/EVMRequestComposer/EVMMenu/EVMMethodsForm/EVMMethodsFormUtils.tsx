@@ -31,7 +31,9 @@ export const getArgumentsBlock = (
 
   return methodArguments
     ?.map((argument: any, index: number) => {
-      const { type, description, options, placeholder, validate } = argument;
+      const { type, description, options, placeholder, subfields, validate } =
+        argument;
+
       const fieldName = getFieldName(index);
 
       if (type === 'textarea') {
@@ -59,7 +61,13 @@ export const getArgumentsBlock = (
       }
 
       if (type === 'abi-method') {
-        return <ABIMethodField name={fieldName} key={fieldName} />;
+        return (
+          <ABIMethodField
+            key={fieldName}
+            name={fieldName}
+            subfields={subfields}
+          />
+        );
       }
 
       if (type === 'dropdown') {
