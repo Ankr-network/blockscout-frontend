@@ -1,38 +1,29 @@
-import React, { useCallback } from 'react';
 import { Field } from 'react-final-form';
-import { FieldValidator } from 'final-form';
 import { FormGroup, Typography } from '@material-ui/core';
+import { ISelectOption } from 'uiKit/Select';
 
-import { InputField } from 'modules/form/components/InputField';
+import { SelectField } from 'modules/form/components/SelectField';
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 
-interface BlockNumberFieldProps {
+export interface DropdownFieldProps {
   helperText: string;
   name: string;
+  options: ISelectOption[];
   placeholder?: string;
-  validate?: (value: string) => boolean;
 }
 
-export const BlockNumberField = ({
+export const DropdownField = ({
   helperText,
-  placeholder,
   name = '',
-  validate: isValid = () => true,
-}: BlockNumberFieldProps) => {
+  options,
+  placeholder,
+}: DropdownFieldProps) => {
   const classes = useEVMMethodsFormStyles();
-
-  const validate: FieldValidator<string> = useCallback(
-    value => !isValid(value),
-    [isValid],
-  );
 
   return (
     <FormGroup className={classes.blockNumber}>
       <Field
-        component={InputField}
-        name={name}
-        variant="outlined"
-        placeholder={placeholder}
+        component={SelectField}
         helperText={
           <Typography
             variant="subtitle1"
@@ -42,7 +33,12 @@ export const BlockNumberField = ({
             {helperText}
           </Typography>
         }
-        validate={validate}
+        initialValue={options?.[0]?.value}
+        name={name}
+        options={options}
+        placeholder={placeholder}
+        rootClassName={classes.selectField}
+        variant="outlined"
       />
     </FormGroup>
   );

@@ -1,12 +1,17 @@
 import { ReactNode } from 'react';
 
+import { ABIMethodField } from '../../../components/MethodsForm/Arguments/ABIMethodField';
+import { DropdownField } from '../../../components/MethodsForm/Arguments/DropdownField';
 import { EVMMethod, EVMLibraryID } from 'domains/requestComposer/constants';
 import { EVMMethodsRequest, MethodOption } from 'domains/requestComposer/types';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
 import { BlockNumberField } from '../../../components/MethodsForm/Arguments/BlockNumberField';
 import { Checkbox } from '../../../components/MethodsForm/Arguments/Checkbox';
 import { HashField } from '../../../components/MethodsForm/Arguments/HashField';
-import { EVMMethodsFormData } from './EVMMethodsFormTypes';
+import {
+  EVMMethodsFieldsData,
+  EVMMethodsFormData,
+} from './EVMMethodsFormTypes';
 
 export const methodsSelectOptions: MethodOption[] = Object.values(
   EVMMethod,
@@ -26,16 +31,17 @@ export const getArgumentsBlock = (
 
   return methodArguments
     ?.map((argument: any, index: number) => {
-      const { type, description, placeholder } = argument;
+      const { type, description, options, placeholder, validate } = argument;
       const fieldName = getFieldName(index);
 
       if (type === 'textarea') {
         return (
           <HashField
             helperText={description}
-            placeholder={placeholder}
-            name={fieldName}
             key={fieldName}
+            name={fieldName}
+            placeholder={placeholder}
+            validate={validate}
           />
         );
       }
@@ -44,9 +50,26 @@ export const getArgumentsBlock = (
         return (
           <BlockNumberField
             helperText={description}
-            placeholder={placeholder}
-            name={fieldName}
             key={fieldName}
+            name={fieldName}
+            placeholder={placeholder}
+            validate={validate}
+          />
+        );
+      }
+
+      if (type === 'abi-method') {
+        return <ABIMethodField name={fieldName} key={fieldName} />;
+      }
+
+      if (type === 'dropdown') {
+        return (
+          <DropdownField
+            helperText={description}
+            key={fieldName}
+            name={fieldName}
+            options={options}
+            placeholder={placeholder}
           />
         );
       }
@@ -68,6 +91,23 @@ export const getMethodDescription = (
   return RPC_CALLS_CONFIG[method?.value as EVMMethod]?.description;
 };
 
+const getComposedParams = (data: EVMMethodsFieldsData, fieldName: string) => {
+  const regexp = new RegExp(`^${fieldName}_*`);
+
+  return Object.entries(data)
+    .filter(([key]) => regexp.test(key))
+    .reduce<string[]>(
+      (args, [key, value]) => {
+        const [, keyindex, subindex = '1'] = key.split('_');
+
+        args[Number(keyindex) + Number(subindex) - 2] = value;
+
+        return args;
+      },
+      [''],
+    );
+};
+
 export const formatDataForRequest = (
   data: EVMMethodsFormData,
   libraryID: EVMLibraryID,
@@ -77,10 +117,10 @@ export const formatDataForRequest = (
 
   const methodArguments = RPC_CALLS_CONFIG[methodName]?.[libraryID]?.args || [];
 
-  const params = methodArguments.map((arg: any, index: number) => {
+  const params = methodArguments.flatMap((arg: any, index: number) => {
     const fieldName = getFieldName(index);
 
-    return others[fieldName] || '';
+    return others[fieldName] || getComposedParams(others, fieldName);
   });
 
   return {

@@ -293,7 +293,7 @@
         "eth_signTransaction": "🚫 This method is not supported!",
         "eth_sendTransaction": "🚫 This method is not supported!",
         "eth_sendRawTransaction": "Creates new message call transaction or a contract creation for signed transactions.",
-        "eth_call": "🚫 This method is not YET supported!",
+        "eth_call": "Call any read-only function on a deployed contract",
         "eth_estimateGas": "🚫 This method is not YET supported!",
         "eth_getBlockByHash": "Returns information about a block by hash.",
         "eth_getBlockByNumber": "Returns information about a block by block number.",
@@ -321,7 +321,7 @@
         "trace_replayBlockTransactions": "Replays all transactions in a block returning the requested traces for each transaction.",
         "trace_replayTransaction": "Replays a transaction, returning the traces.",
         "trace_filter": "Returns traces matching given filter.",
-        "trace_call": "🚫 This method is not YET supported!"
+        "trace_call": "Executes the given call and returns a number of possible traces for it."
       }
     },
     "nodes-table": {

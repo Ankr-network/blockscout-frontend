@@ -1,3 +1,9 @@
+export enum BlockNumberConstant {
+  EARLIEST = 'earliest',
+  LATEST = 'latest',
+  PENDING = 'pending',
+}
+
 export enum EVMLibraryID {
   WEB3 = 'web3',
   ETHERS = 'ethers',
@@ -34,7 +40,6 @@ export enum EVMMethod {
   eth_signTransaction = 'eth_signTransaction',
   eth_sendTransaction = 'eth_sendTransaction',
   eth_sendRawTransaction = 'eth_sendRawTransaction',
-  // TODO eth_call
   eth_call = 'eth_call',
   eth_estimateGas = 'eth_estimateGas',
   eth_getBlockByHash = 'eth_getBlockByHash',
@@ -65,4 +70,10 @@ export enum EVMMethod {
   // TODO trace
   trace_filter = 'trace_filter',
   trace_call = 'trace_call',
+}
+
+export enum TraceType {
+  STATE_DIFF = 'stateDiff',
+  TRACE = 'trace',
+  VM_TRACE = 'vmTrace',
 }

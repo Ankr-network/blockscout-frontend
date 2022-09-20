@@ -8,8 +8,10 @@ export interface EVMMethodsFormProps {
   onSubmit: (data: EVMMethodsRequest) => void;
 }
 
-export type EVMMethodsFormData = {
-  methodName?: MethodOption;
-} & {
+export type EVMMethodsFieldsData = {
   [key: string]: string;
 };
+
+export type EVMMethodsFormData = {
+  methodName?: MethodOption;
+} & EVMMethodsFieldsData;

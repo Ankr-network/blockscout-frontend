@@ -1,4 +1,9 @@
+import Web3 from 'web3';
+
 import { ILibraryConfig } from '../types';
+import { TraceType } from '../constants';
+import { getABIFragment } from './getABIFragment';
+import { isBlockNumberConstant } from './validators/isBlockNumberConstant';
 
 const web3Template = (methodCall: string, varName: string, url: string) => {
   return `const Web3 = require("web3");
@@ -66,6 +71,7 @@ const contractTraceTemplate = (httpUrl: string, args: any[]) => {
     value,
     contract,
     abi,
+    method,
     methodArgumentsString,
   ] = args;
 
@@ -74,7 +80,7 @@ const contractTraceTemplate = (httpUrl: string, args: any[]) => {
 
 // HTTP version
 (async () => {
-  const abiFragment = ${abi && JSON.stringify(abi[0])}
+  const abiFragment = ${abi && JSON.stringify(getABIFragment(abi, method))}
   const web3 = new Web3('${httpUrl}');
   const data = web3.eth.abi.encodeFunctionCall(abiFragment, [${methodArgumentsString}]);${
     from ? `\n  const from = "${from}";` : ''
@@ -136,8 +142,6 @@ ${filter ? `\n${filter}\n` : ''}
   console.log(response);
 })();`;
 };
-
-const IS_ETH_CALL_DISABLED = true;
 
 export const web3JSConfig: ILibraryConfig = {
   web3_clientVersion: {
@@ -509,52 +513,25 @@ export const web3JSConfig: ILibraryConfig = {
     ],
   },
   eth_call: {
-    exec: IS_ETH_CALL_DISABLED
-      ? () => {
-          return new Promise((resolve, reject) =>
-            // eslint-disable-next-line
-            reject('Not Supported'),
-          );
-        }
-      : (provider, ...args) => {
-          const [address, abi, method, ...rest] = args;
-          try {
-            const contract = new provider.eth.Contract(
-              JSON.parse(abi),
-              address,
-            );
-            return contract.methods[method](...rest).call();
-          } catch (e) {
-            // eslint-disable-next-line
-            console.log(e);
-          }
+    exec: (provider, ...args) => {
+      const [address, abi, method, ...rest] = args;
 
-          return undefined;
-        },
-    codeSample: (httpUrl, _wssUrl, ...args) => {
-      return IS_ETH_CALL_DISABLED
-        ? '/* Not Supported */'
-        : contractTemplate(httpUrl, args);
+      const contract = new provider.eth.Contract(JSON.parse(abi), address);
+
+      return contract.methods[method](...rest).call();
     },
-    args: IS_ETH_CALL_DISABLED
-      ? []
-      : [
-          {
-            type: 'textarea',
-            description: 'Address of contract',
-            placeholder: 'i.e. 0x91b51c173a4...',
-          },
-          {
-            type: 'textarea',
-            description: 'Contract ABI (URL or single function object)',
-            placeholder:
-              'i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json',
-          },
-          {
-            type: 'dropdown',
-            description: 'Function name (READ only)',
-          },
-        ],
+    codeSample: (httpUrl, _wssUrl, ...args) => contractTemplate(httpUrl, args),
+    args: [
+      {
+        type: 'textarea',
+        description: 'Address of contract',
+        placeholder: 'i.e. 0x91b51c173a4...',
+        validate: Web3.utils.isAddress,
+      },
+      {
+        type: 'abi-method',
+      },
+    ],
   },
   eth_estimateGas: {
     exec: () => {
@@ -1321,98 +1298,97 @@ export const web3JSConfig: ILibraryConfig = {
     ],
   },
   trace_call: {
-    exec: IS_ETH_CALL_DISABLED
-      ? () => {
-          return new Promise((resolve, reject) =>
-            // eslint-disable-next-line
-            reject('Not Supported'),
-          );
-        }
-      : (provider, ...args) => {
-          // eslint-disable-next-line
-          let [traceType, block, from, value, contract, abi, ...rest] = args;
-          const data = provider.eth.abi.encodeFunctionCall(
-            JSON.parse(abi)[0],
-            rest,
-          );
-          if (value === '') value = null;
-          if (from === '') from = null;
-          const transaction = {
-            from,
-            to: contract,
-            value,
-            data,
-          };
-          provider.extend({
-            methods: [
-              {
-                name: 'parityTraceCall',
-                call: 'trace_call',
-                params: 3,
-                inputFormatter: [null, null, null],
-              },
-            ],
-          });
-          return provider.parityTraceCall(
-            transaction,
-            traceType.split(', '),
-            block,
-          );
-        },
-    codeSample: (httpUrl, _wssUrl, ...args) => {
-      return IS_ETH_CALL_DISABLED
-        ? '/* Not Supported */'
-        : () => {
-            const [traceType, block, ...rest] = args;
-            return contractTraceTemplate(httpUrl, [
-              JSON.stringify(traceType.split(', ')),
-              JSON.stringify(block),
-              ...rest,
-            ]);
-          };
-    },
-    args: IS_ETH_CALL_DISABLED
-      ? []
-      : [
+    exec: (provider, ...args) => {
+      const [traceType, block, from, value, contract, abi, method, ...rest] =
+        args;
+
+      const data = provider.eth.abi.encodeFunctionCall(
+        getABIFragment(abi, method),
+        rest,
+      );
+      const transaction = {
+        from: from === '' ? null : from,
+        to: contract,
+        value: value === '' ? null : value,
+        data,
+      };
+      provider.extend({
+        methods: [
           {
-            type: 'textfield',
-            description:
-              'Type of trace, one or more of: `vmTrace`, `trace`, `stateDiff`',
-            placeholder: 'i.e. vmTrace, trace',
-          },
-          {
-            type: 'textfield',
-            description:
-              'Hex block number, or the string "latest", "earliest" or "pending"',
-            placeholder: 'i.e. latest or pending',
-          },
-          {
-            type: 'textarea',
-            description:
-              'address: (optional) The address the transaction is sent from',
-            placeholder: 'i.e. 0x19624ffa41f...',
-          },
-          {
-            type: 'textfield',
-            description:
-              'value: (optional) Integer formatted as a hex string of the value sent with this transaction',
-            placeholder: 'i.e. 0x19624ffa41f...',
-          },
-          {
-            type: 'textarea',
-            description: 'Address of contract',
-            placeholder: 'i.e. 0x91b51c173a4...',
-          },
-          {
-            type: 'textarea',
-            description: 'Contract ABI (URL or single function object)',
-            placeholder:
-              'i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json',
-          },
-          {
-            type: 'dropdown',
-            description: 'Function name (READ only)',
+            name: 'parityTraceCall',
+            call: 'trace_call',
+            params: 3,
+            inputFormatter: [null, null, null],
           },
         ],
+      });
+      return provider.parityTraceCall(
+        transaction,
+        traceType.split(', '),
+        block,
+      );
+    },
+    codeSample: (httpUrl, _wssUrl, ...args) => {
+      const [traceType, block, ...rest] = args;
+
+      return contractTraceTemplate(httpUrl, [
+        JSON.stringify(traceType.split(', ')),
+        JSON.stringify(block),
+        ...rest,
+      ]);
+    },
+    args: [
+      {
+        type: 'dropdown',
+        description:
+          'Type of trace, one or more of: `vmTrace`, `trace`, `stateDiff`',
+        placeholder: 'i.e. vmTrace, trace',
+        options: [
+          {
+            label: TraceType.VM_TRACE,
+            value: TraceType.VM_TRACE,
+          },
+          {
+            label: TraceType.TRACE,
+            value: TraceType.TRACE,
+          },
+          {
+            label: TraceType.STATE_DIFF,
+            value: TraceType.STATE_DIFF,
+          },
+        ],
+      },
+      {
+        type: 'textfield',
+        description:
+          'Hex block number, or the string "latest", "earliest" or "pending"',
+        placeholder: 'i.e. latest or pending',
+        validate: (value: string) =>
+          Web3.utils.isHex(value) || isBlockNumberConstant(value),
+      },
+      {
+        type: 'textarea',
+        description:
+          'address: (optional) The address the transaction is sent from',
+        placeholder: 'i.e. 0x19624ffa41f...',
+        validate: (value: string) => !value || Web3.utils.isAddress(value),
+      },
+      {
+        type: 'textfield',
+        description:
+          'value: (optional) Integer formatted as a hex string of the value sent with this transaction',
+        placeholder: 'i.e. 0x19624ffa41f...',
+        validate: (value: string) => !value || Web3.utils.isHex(value),
+      },
+      {
+        type: 'textarea',
+        description: 'Address of contract',
+        placeholder: 'i.e. 0x91b51c173a4...',
+        validate: Web3.utils.isAddress,
+      },
+      {
+        type: 'abi-method',
+      },
+    ],
   },
 };
