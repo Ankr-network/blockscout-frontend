@@ -82,7 +82,7 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
-      "/clients/"
+      "/clients"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true
