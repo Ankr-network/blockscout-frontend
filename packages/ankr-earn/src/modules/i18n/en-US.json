@@ -1047,7 +1047,8 @@
       "send-to-another": "Send to another address",
       "approve": "Approve",
       "send": "Send",
-      "fee-banner": "You will need a small gas fee (of native token) to claim"
+      "fee-banner": "You will need a small gas fee (of native token) to claim",
+      "switch-note": "Please switch to {chain} Chain in your wallet to continue."
     },
     "banner": {
       "footer": "Please only send your assets to wallets like MetaMask that allow you to control your private keys! Do not send your assets to crypto exchanges as they may be lost in the process"
