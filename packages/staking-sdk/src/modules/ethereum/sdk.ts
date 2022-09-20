@@ -415,10 +415,14 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aETHb or aETHc)
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
-  // eslint-disable-next-line
-  public async unstake(_amount: BigNumber, _token: string): Promise<void> {
+  public async unstake(
+    // eslint-disable-next-line
+    _amount: BigNumber,
+    // eslint-disable-next-line
+    _token: string,
+  ): Promise<IWeb3SendResult> {
     throw new Error(EEthereumErrorCodes.NOT_SUPPORTED);
   }
 

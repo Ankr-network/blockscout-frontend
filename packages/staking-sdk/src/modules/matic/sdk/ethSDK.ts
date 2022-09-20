@@ -1057,13 +1057,13 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aMATICb or aMATICc)
    * @param {number} [scale = ETH_SCALE_FACTOR] - scale factor for amount
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
   public async unstake(
     amount: BigNumber,
     token: string,
     scale = ETH_SCALE_FACTOR,
-  ): Promise<void> {
+  ): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
     }
@@ -1107,12 +1107,18 @@ export class MaticEthSDK implements ISwitcher, IStakable {
         this.getUnstakeMethodName(token as TMaticSyntToken)
       ];
 
-    await contractUnstake(
+    const data = contractUnstake(
       convertNumberToHex(rawAmount),
       convertNumberToHex(fee),
       convertNumberToHex(useBeforeBlock),
       signature,
-    ).send({ from: this.currentAccount });
+    ).encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.polygonPool,
+      { data, estimate: true },
+    );
   }
 
   /**

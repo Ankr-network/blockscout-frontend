@@ -69,6 +69,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
   const defaultWriteProvider = {
     ...defaultReadProvider,
+    sendTransactionAsync: jest.fn(),
     addTokenToWallet: jest.fn(),
     connect: jest.fn(),
     getContractMethodFee: jest.fn(),
@@ -867,7 +868,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
       methods: {
         swapEth: jest.fn(() => ({
           estimateGas: jest.fn(),
-          send: jest.fn(),
+          encodeABI: jest.fn(),
         })),
       },
     };

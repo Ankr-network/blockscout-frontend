@@ -433,7 +433,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
       binanceConfig.aETHcToken,
     );
   }
-  
+
   /**
    * Internal method for getting a safe amount in HEX format.
    *
@@ -442,8 +442,11 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {string}
    */
   private getSafeBinanceHexAmount(amount: BigNumber): string {
-    const safeAmount = amount.decimalPlaces(BNB_STAKING_MAX_DECIMALS_LEN, BigNumber.ROUND_DOWN);
-  
+    const safeAmount = amount.decimalPlaces(
+      BNB_STAKING_MAX_DECIMALS_LEN,
+      BigNumber.ROUND_DOWN,
+    );
+
     return this.convertToHex(safeAmount);
   }
 
@@ -980,7 +983,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
     }
 
     let gasFee = this.stakeGasFee;
-    
+
     if (!gasFee) {
       gasFee = await this.getStakeGasFee(amount, token as TBnbSyntToken);
     }
@@ -988,21 +991,23 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const balance = await this.getBNBBalance();
     const gasFeeSafeLimit = gasFee.multipliedBy(BNB_GAS_FEE_SAFE_LIMIT);
     const maxSafeAmount = balance.minus(gasFee).minus(gasFeeSafeLimit);
-    const stakeAmount = amount.isGreaterThan(maxSafeAmount) ? maxSafeAmount : amount;
-    
+    const stakeAmount = amount.isGreaterThan(maxSafeAmount)
+      ? maxSafeAmount
+      : amount;
+
     if (stakeAmount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
     }
-    
+
     const binancePoolContract = await this.getBinancePoolContract();
 
     const contractStake =
       binancePoolContract.methods[
         this.getStakeMethodName(token as TBnbSyntToken)
       ];
-    
+
     const safeHexAmount = this.getSafeBinanceHexAmount(stakeAmount);
-    
+
     const gasLimit: number = await contractStake().estimateGas({
       from: this.currentAccount,
       value: safeHexAmount,
@@ -1025,9 +1030,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aBNBb or aBNBc)
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
-  public async unstake(amount: BigNumber, token: string): Promise<void> {
+  public async unstake(
+    amount: BigNumber,
+    token: string,
+  ): Promise<IWeb3SendResult> {
+    const { binanceConfig } = configFromEnv();
+
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EBinanceErrorCodes.ZERO_AMOUNT);
     }
@@ -1044,9 +1054,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
         this.getUnstakeMethodName(token as TBnbSyntToken)
       ];
 
-    await contractUnstake(hexAmount).send({
-      from: this.currentAccount,
-    });
+    const data = contractUnstake(hexAmount).encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.binancePool,
+      { data, estimate: true },
+    );
   }
 
   /**

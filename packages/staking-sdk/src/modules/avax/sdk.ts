@@ -1040,9 +1040,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aAVAXb or aAVAXc)
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
-  public async unstake(amount: BigNumber, token: string): Promise<void> {
+  public async unstake(
+    amount: BigNumber,
+    token: string,
+  ): Promise<IWeb3SendResult> {
+    const { avalancheConfig } = configFromEnv();
+
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EAvalancheErrorCodes.ZERO_AMOUNT);
     }
@@ -1057,8 +1062,12 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     const contractUnstake =
       avalanchePoolContract.methods[this.getUnstakeMethodName(token)];
 
-    await contractUnstake(value).send({
-      from: this.currentAccount,
-    });
+    const data = contractUnstake(value).encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      avalancheConfig.avalanchePool,
+      { data, estimate: true },
+    );
   }
 }

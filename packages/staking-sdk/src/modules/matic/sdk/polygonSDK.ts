@@ -7,6 +7,7 @@ import { AbiItem } from 'web3-utils';
 import {
   Address,
   EEthereumNetworkId,
+  IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
@@ -793,7 +794,7 @@ export class MaticPolygonSDK implements IStakable {
     amount: BigNumber,
     token: string,
     scale = MATIC_SCALE_FACTOR,
-  ): Promise<void> {
+  ): Promise<IWeb3SendResult> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
     }
@@ -816,12 +817,14 @@ export class MaticPolygonSDK implements IStakable {
       from: this.currentAccount,
     });
 
-    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
-
-    await txn.send({
-      from: this.currentAccount,
-      gas: this.getIncreasedGasLimit(gasLimit),
-      gasPrice: gasPrice.toString(10),
-    });
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      polygonConfig.swapPool,
+      {
+        data: txn.encodeABI(),
+        estimate: true,
+        gasLimit: this.getIncreasedGasLimit(gasLimit).toString(),
+      },
+    );
   }
 }

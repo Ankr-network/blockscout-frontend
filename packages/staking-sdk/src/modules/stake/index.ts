@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 import BigNumber from 'bignumber.js';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
+
 import { IPendingData, ITxEventsHistoryData, IStakeData } from './types';
 
 /**
@@ -30,9 +32,13 @@ export interface IStakable {
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (-b or -c)
    * @param {number} [scale] - scale factor for amount
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
-  unstake: (amount: BigNumber, token: string, scale?: number) => Promise<void>;
+  unstake: (
+    amount: BigNumber,
+    token: string,
+    scale?: number,
+  ) => Promise<IWeb3SendResult>;
   /**
    * Get minimum stake amount.
    *

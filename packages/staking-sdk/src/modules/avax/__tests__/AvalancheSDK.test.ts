@@ -393,8 +393,8 @@ describe('modules/avax/sdk', () => {
       methods: {
         allowance: () => ({ call: () => ZERO }),
         approve: jest.fn(() => ({ send: jest.fn() })),
-        claimCerts: jest.fn(() => ({ send: jest.fn() })),
-        claimBonds: jest.fn(() => ({ send: jest.fn() })),
+        claimCerts: jest.fn(() => ({ encodeABI: jest.fn() })),
+        claimBonds: jest.fn(() => ({ encodeABI: jest.fn() })),
       },
     };
 

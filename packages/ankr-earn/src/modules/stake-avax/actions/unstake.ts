@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { AvalancheSDK } from '@ankr.com/staking-sdk';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
@@ -13,10 +14,6 @@ import { TAvaxSyntToken } from '../types';
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
 import { fetchTxHistory } from './fetchTxHistory';
-
-interface IRes {
-  data: void;
-}
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -30,7 +27,7 @@ export const unstake = createSmartAction<
   'avax/unstake',
   ({ amount, token }): RequestAction => ({
     request: {
-      promise: (async (): Promise<void> => {
+      promise: (async (): Promise<IWeb3SendResult> => {
         const sdk = await AvalancheSDK.getInstance();
 
         return sdk.unstake(amount, token);
@@ -39,12 +36,13 @@ export const unstake = createSmartAction<
     meta: {
       asMutation: true,
       showNotificationOnError: true,
-      getData: (data: void): void => data,
-      onSuccess: (
-        response: IRes,
+      onSuccess: async (
+        response,
         _action: RequestAction,
         store: TStore<IStoreState>,
-      ): IRes => {
+      ): Promise<IWeb3SendResult> => {
+        await response.data?.receiptPromise;
+
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
         store.dispatchRequest(fetchTxHistory());

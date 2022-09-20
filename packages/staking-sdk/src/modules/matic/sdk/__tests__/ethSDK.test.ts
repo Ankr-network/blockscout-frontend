@@ -281,8 +281,8 @@ describe('modules/matic/sdk/ethSDK', () => {
       methods: {
         allowance: () => ({ call: () => ZERO }),
         approve: jest.fn(() => ({ send: jest.fn() })),
-        unstakeCerts: jest.fn(() => ({ send: jest.fn() })),
-        unstakeBonds: jest.fn(() => ({ send: jest.fn() })),
+        unstakeCerts: jest.fn(() => ({ encodeABI: jest.fn() })),
+        unstakeBonds: jest.fn(() => ({ encodeABI: jest.fn() })),
       },
     };
 

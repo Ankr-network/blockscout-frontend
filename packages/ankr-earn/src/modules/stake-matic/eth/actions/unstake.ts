@@ -2,6 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { MaticEthSDK } from '@ankr.com/staking-sdk';
 
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
@@ -25,7 +26,7 @@ export const unstake = createSmartAction<
   [IUnstakePayload]
 >(`${MATIC_ETH_ACTIONS_PREFIX}unstake`, ({ amount, token }) => ({
   request: {
-    promise: (async () => {
+    promise: (async (): Promise<IWeb3SendResult> => {
       const sdk = await MaticEthSDK.getInstance();
       return sdk.unstake(amount, token);
     })(),
@@ -33,7 +34,9 @@ export const unstake = createSmartAction<
   meta: {
     showNotificationOnError: true,
     asMutation: true,
-    onSuccess: (response, action, store) => {
+    onSuccess: async (response, action, store) => {
+      await response.data?.receiptPromise;
+
       store.dispatchRequest(fetchStats());
       store.dispatchRequest(fetchTxHistory());
       store.dispatchRequest(getAnkrBalance());

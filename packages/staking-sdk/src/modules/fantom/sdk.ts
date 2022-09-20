@@ -676,9 +676,11 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aFTMb or aFTMc)
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
-  public async unstake(amount: BigNumber, token: string): Promise<void> {
+  public async unstake(amount: BigNumber, token: string): Promise<IWeb3SendResult> {
+    const { fantomConfig } = configFromEnv();
+
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EFantomErrorCodes.ZERO_AMOUNT);
     }
@@ -696,13 +698,15 @@ export class FantomSDK implements ISwitcher, IStakable {
       from: this.currentAccount,
     });
 
-    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
-
-    return txn.send({
-      from: this.currentAccount,
-      gas: this.getIncreasedGasLimit(gasLimit),
-      gasPrice: gasPrice.toString(10),
-    });
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      fantomConfig.fantomPool,
+      {
+        data: txn.encodeABI(),
+        estimate: true,
+        gasLimit: this.getIncreasedGasLimit(gasLimit).toString(),
+      },
+    );
   }
 
   /**
