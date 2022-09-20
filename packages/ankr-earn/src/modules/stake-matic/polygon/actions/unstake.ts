@@ -1,5 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
@@ -10,6 +11,7 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
 import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
+import { RoutesConfig } from '../Routes';
 
 import { getCommonData } from './getCommonData';
 import { getUnstakeStats } from './getUnstakeStats';
@@ -52,6 +54,15 @@ export const unstake = createSmartAction<
 
       store.dispatchRequest(getCommonData());
       store.dispatchRequest(getUnstakeStats());
+
+      if (response.data.transactionHash) {
+        const path = RoutesConfig.unstakeSuccess.generatePath(
+          token,
+          response.data.transactionHash,
+        );
+
+        store.dispatch(push(path));
+      }
 
       return response;
     },

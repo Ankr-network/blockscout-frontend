@@ -818,7 +818,7 @@
     "amount": "Amount",
     "eta": "You will get your {token} in {period}",
     "success": {
-      "title": "Unstake is pending",
+      "title": "Unstake in progress",
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },

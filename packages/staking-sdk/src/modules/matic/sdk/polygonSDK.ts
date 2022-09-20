@@ -44,10 +44,6 @@ import {
   TMaticSyntToken,
 } from '../types';
 
-export interface IGetTxData extends IFetchTxData {
-  status: boolean;
-}
-
 const { polygonConfig } = configFromEnv();
 
 /**
@@ -622,28 +618,23 @@ export class MaticPolygonSDK implements IStakable {
    * @public
    * @param {string} targetTokenAddr - target token address (aMATICb or aMATICc)
    * @param {string} txHash - transaction hash
-   * @returns {Promise<IGetTxData>}
+   * @returns {Promise<IFetchTxData>}
    */
-  public async getTxData(
-    targetTokenAddr: string,
-    txHash: string,
-  ): Promise<IGetTxData> {
+  public async getTxData(txHash: string): Promise<IFetchTxData> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
 
-    const tx = await web3.eth.getTransactionReceipt(txHash);
+    const tx = await web3.eth.getTransaction(txHash);
 
-    const amountLog = tx.logs.find(
-      ({ address }) => address.toLowerCase() === targetTokenAddr.toLowerCase(),
-    );
-
-    const amount = web3.utils.toBN(amountLog?.data ?? '0');
+    const { 1: amount } =
+      tx.value === '0'
+        ? web3.eth.abi.decodeParameters(['bool', 'uint256'], tx.input.slice(10))
+        : { 1: tx.value };
 
     return {
-      amount: new BigNumber(web3.utils.fromWei(amount.toString(10))),
+      amount: new BigNumber(web3.utils.fromWei(amount)),
       destinationAddress: tx.from as string | undefined,
       isPending: tx.transactionIndex === null,
-      status: tx.status,
     };
   }
 

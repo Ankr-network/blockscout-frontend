@@ -42,9 +42,7 @@ interface IUseUnstakeDialog
   calcTotalRecieve: (amount: BigNumber) => BigNumber;
 }
 
-export const useUnstakeDialog = (
-  openSuccess: () => void,
-): IUseUnstakeDialog => {
+export const useUnstakeDialog = (): IUseUnstakeDialog => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
   const { data: commonData, loading: isBalanceLoading } = useQuery({
@@ -111,14 +109,12 @@ export const useUnstakeDialog = (
       dispatchRequest(unstake(resultAmount, selectedToken)).then(
         ({ error }) => {
           if (!error) {
-            openSuccess();
-
             sendAnalytics(resultAmount);
           }
         },
       );
     },
-    [dispatchRequest, openSuccess, sendAnalytics, selectedToken],
+    [dispatchRequest, sendAnalytics, selectedToken],
   );
 
   const onChange = useCallback(

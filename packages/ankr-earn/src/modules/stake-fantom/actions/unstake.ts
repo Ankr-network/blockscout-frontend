@@ -1,5 +1,6 @@
 import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
@@ -33,6 +34,9 @@ export const unstake = createAction<RequestAction, [BigNumber, TFtmSyntToken]>(
         dispatch(resetRequests([getBurnFee.toString()]));
         dispatchRequest(getUnstakeDate());
 
+        if (response.data.transactionHash) {
+          dispatch(push(`${token}/${response.data.transactionHash}/`));
+        }
         return response;
       },
     },

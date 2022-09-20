@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import web3 from 'web3';
-import { Log, TransactionReceipt } from 'web3-core';
+import { TransactionReceipt } from 'web3-core';
 
 import {
   EEthereumNetworkId,
@@ -10,18 +10,17 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { configFromEnv, POLYGON_NETWORK_BY_ENV, ZERO } from '../../../common';
+import { POLYGON_NETWORK_BY_ENV, ZERO } from '../../../common';
 import { IPendingData, IStakeData, ITxEventsHistoryData } from '../../../stake';
+import { IFetchTxData } from '../../../switcher';
 import { MATIC_DECIMALS, MATIC_SCALE_FACTOR } from '../../const';
 import { EMaticSDKErrorCodes, TMaticSyntToken } from '../../types';
-import { IGetTxData, MaticPolygonSDK } from '../polygonSDK';
+import { MaticPolygonSDK } from '../polygonSDK';
 
 jest.mock('@ankr.com/provider', () => ({
   ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
-
-const { polygonConfig } = configFromEnv();
 
 describe('modules/matic/sdk/polygonSDK', () => {
   const FEE_MAX = '100000';
@@ -641,54 +640,23 @@ describe('modules/matic/sdk/polygonSDK', () => {
     expect(data).toBe(ONE);
   });
 
-  test('should return transaction data if "targetTokenAddr" is unavailable', async () => {
-    defaultWeb3.eth.getTransactionReceipt.mockReturnValue(
-      Promise.resolve({
-        from: TX_ADDR,
-        logs: [
-          {
-            address: polygonConfig.aMATICbToken,
-            data: `${MATIC_SCALE_FACTOR}`,
-          } as Log,
-        ],
-        status: true,
-      }),
-    );
-
-    const sdk = await MaticPolygonSDK.getInstance();
-    const data = await sdk.getTxData(polygonConfig.aMATICcToken, TX_HASH);
-
-    expect(data).toStrictEqual({
-      amount: ZERO,
-      destinationAddress: TX_ADDR,
-      isPending: false,
-      status: true,
-    } as IGetTxData);
-  });
-
   test('should return transaction data', async () => {
-    defaultWeb3.eth.getTransactionReceipt.mockReturnValue(
+    defaultWeb3.eth.getTransaction.mockReturnValue(
       Promise.resolve({
         from: TX_ADDR,
-        logs: [
-          {
-            address: polygonConfig.aMATICcToken,
-            data: `${MATIC_SCALE_FACTOR}`,
-          } as Log,
-        ],
-        status: true,
+        input: "0x4f6df21a00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000",
+        value: "1000000000000000000",
       }),
     );
 
     const sdk = await MaticPolygonSDK.getInstance();
-    const data = await sdk.getTxData(polygonConfig.aMATICcToken, TX_HASH);
+    const data = await sdk.getTxData(TX_HASH);
 
     expect(data).toStrictEqual({
       amount: ONE,
       destinationAddress: TX_ADDR,
       isPending: false,
-      status: true,
-    } as IGetTxData);
+    } as IFetchTxData);
   });
 
   test('should return events history data', async () => {

@@ -1,5 +1,6 @@
 import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
@@ -9,6 +10,7 @@ import { BinanceSDK } from '@ankr.com/staking-sdk';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
+import { RoutesConfig } from '../Routes';
 import { TBnbSyntToken } from '../types';
 
 import { approveABNBCUnstake } from './approveABNBCUnstake';
@@ -49,6 +51,15 @@ export const unstake = createSmartAction<
         store.dispatchRequest(fetchTxHistory());
         store.dispatchRequest(getUnstakeDate());
         store.dispatch(resetRequests([approveABNBCUnstake.toString()]));
+
+        if (response.data.transactionHash) {
+          const path = RoutesConfig.unstakeSuccess.generatePath(
+            token,
+            response.data.transactionHash,
+          );
+
+          store.dispatch(push(path));
+        }
 
         return response;
       },

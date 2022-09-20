@@ -10,13 +10,11 @@ import { useHistory } from 'react-router';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
-import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -41,12 +39,6 @@ export const UnstakeAvalanche = (): JSX.Element => {
   const history = useHistory();
 
   const {
-    isOpened: isSuccessOpened,
-    onClose: onSuccessClose,
-    onOpen: onSuccessOpen,
-  } = useDialog();
-
-  const {
     closeHref,
     isFetchStatsLoading,
     isUnstakeLoading,
@@ -55,7 +47,7 @@ export const UnstakeAvalanche = (): JSX.Element => {
     syntTokenBalance,
     calcTotalRecieve,
     onUnstakeSubmit,
-  } = useUnstakeAvalance(onSuccessOpen);
+  } = useUnstakeAvalance();
 
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
     token: Token.AVAX,
@@ -120,21 +112,17 @@ export const UnstakeAvalanche = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
-        {!isSuccessOpened ? (
-          <UnstakeDialog
-            balance={syntTokenBalance}
-            closeHref={closeHref}
-            endText={unstakeLabel}
-            isLoading={isUnstakeLoading}
-            renderFormFooter={onRenderFormFooter}
-            submitDisabled={isUnstakeLoading}
-            token={selectedToken}
-            onClose={onClose}
-            onSubmit={onUnstakeSubmit}
-          />
-        ) : (
-          <UnstakeSuccess infoText={unstakeLabel} onClose={onSuccessClose} />
-        )}
+        <UnstakeDialog
+          balance={syntTokenBalance}
+          closeHref={closeHref}
+          endText={unstakeLabel}
+          isLoading={isUnstakeLoading}
+          renderFormFooter={onRenderFormFooter}
+          submitDisabled={isUnstakeLoading}
+          token={selectedToken}
+          onClose={onClose}
+          onSubmit={onUnstakeSubmit}
+        />
       </Container>
     </Box>
   );

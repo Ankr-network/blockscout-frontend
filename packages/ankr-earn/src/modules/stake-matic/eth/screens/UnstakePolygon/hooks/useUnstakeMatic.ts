@@ -46,7 +46,7 @@ interface IUseUnstakeMatic {
   calcTotalRecieve: (amount: BigNumber) => string;
 }
 
-export const useUnstakeMatic = (onSuccess: () => void): IUseUnstakeMatic => {
+export const useUnstakeMatic = (): IUseUnstakeMatic => {
   const dispatchRequest = useDispatchRequest();
   const { sendAnalytics } = useUnstakeMaticAnalytics();
 
@@ -89,12 +89,11 @@ export const useUnstakeMatic = (onSuccess: () => void): IUseUnstakeMatic => {
         unstake({ amount: resultAmount, token: selectedToken }),
       ).then(({ error }) => {
         if (!error) {
-          onSuccess();
           sendAnalytics(resultAmount, selectedToken);
         }
       });
     },
-    [dispatchRequest, onSuccess, selectedToken, sendAnalytics],
+    [dispatchRequest, selectedToken, sendAnalytics],
   );
 
   const onUnstakeSubmit = useCallback(

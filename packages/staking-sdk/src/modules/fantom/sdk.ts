@@ -680,7 +680,6 @@ export class FantomSDK implements ISwitcher, IStakable {
    */
   public async unstake(amount: BigNumber, token: string): Promise<IWeb3SendResult> {
     const { fantomConfig } = configFromEnv();
-
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EFantomErrorCodes.ZERO_AMOUNT);
     }
