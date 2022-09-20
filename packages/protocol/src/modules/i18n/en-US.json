@@ -321,7 +321,21 @@
         "trace_replayBlockTransactions": "Replays all transactions in a block returning the requested traces for each transaction.",
         "trace_replayTransaction": "Replays a transaction, returning the traces.",
         "trace_filter": "Returns traces matching given filter.",
-        "trace_call": "Executes the given call and returns a number of possible traces for it."
+        "trace_call": "Executes the given call and returns a number of possible traces for it.",
+        "avalanche": {
+          "c-chain": {
+            "getAtomicTx": "Returns the transaction data of a provided transaction ID by calling the node's `getAtomicTx` method.",
+            "export": "🚫 This method is not supported!</br>Export an asset from the C-Chain to X-Chain or P-Chain. After calling this method, you must call the X-Chain's avm.import or P-Chain's platform.import",
+            "exportAVAX": "🚫 This method is not supported!</br>DEPRECATED—instead use avax.export.",
+            "exportKey": "🚫 This method is not supported!</br>Get the private key that controls a given address. The returned private key can be added to a user with avax.importKey.",
+            "getUTXOs": "Retrieves the UTXOs related to the addresses provided from the node's `getUTXOs` method.",
+            "import": "🚫 This method is not supported!</br>Finalize the transfer of a non-AVAX or AVAX from X-Chain or P-Chain to the C-Chain. Before this method is called, you must call the X-Chain’s avm.export or P-Chain’s platform.exportAVAX with assetID AVAX to initiate the transfer.",
+            "importAVAX": "🚫 This method is not supported!</br>DEPRECATED—instead use avax.import",
+            "importKey": "🚫 This method is not supported!</br>Give a user control over an address by providing the private key that controls the address.",
+            "issueTx": "Calls the node's issueTx method from the API and returns the resulting transaction ID as a string.",
+            "getAtomicTxStatus": "Returns the status of a provided atomic transaction ID by calling the node's `getAtomicTxStatus` method."
+          }
+        }
       }
     },
     "nodes-table": {

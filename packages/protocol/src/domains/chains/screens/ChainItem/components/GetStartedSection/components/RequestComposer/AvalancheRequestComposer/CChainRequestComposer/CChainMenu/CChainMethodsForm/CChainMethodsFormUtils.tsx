@@ -1,8 +1,8 @@
-import { EVMMethod } from 'domains/requestComposer/constants';
 import { MethodOption } from 'domains/requestComposer/types';
+import { CChainMethod } from 'domains/requestComposer/constants/avalanche';
 
 export const methodsSelectOptions: MethodOption[] = Object.values(
-  EVMMethod,
+  CChainMethod,
 ).map(name => ({
   label: name,
   value: name,

@@ -36,8 +36,8 @@ export interface ABIOutput {
   type: string;
 }
 
-export interface EVMMethodsRequest {
-  methodName: EVMMethod;
+export interface MethodsRequest<T> {
+  methodName: T;
   params: string[];
 }
 

@@ -22,6 +22,7 @@ export const LibraryTabs = ({
         selectedTab={selectedTab}
         tabs={tabs}
         className={classes.root}
+        allowSingleTab
       />
     </Box>
   );

@@ -1,37 +1,34 @@
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
-import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';
-import { EVMMethodsFormProps } from './EVMMethodsFormTypes';
-import { methodsSelectOptions } from './EVMMethodsFormUtils';
-import { SampleCodeComponent } from '../../../components/SampleCodeComponent';
-import { MethodNameSelectField } from '../../../components/MethodsForm/MethodNameSelectField';
-import { MethodsFormSpy } from '../../../components/MethodsForm/MethodsFormSpy';
-import { MethodsForm } from '../../../components/MethodsForm';
-import { EVMMethodsTabs } from '../../EVMMethodsTabs';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
+import { CChainMethodsFormProps } from './CChainMethodsFormTypes';
+import { methodsSelectOptions } from './CChainMethodsFormUtils';
+import { MethodNameSelectField } from '../../../../components/MethodsForm/MethodNameSelectField';
+import { MethodsFormSpy } from '../../../../components/MethodsForm/MethodsFormSpy';
+import { MethodsForm } from '../../../../components/MethodsForm';
+import {
+  AvalancheLibraryID,
+  CChainMethod,
+} from 'domains/requestComposer/constants/avalanche';
+import { SampleCodeComponent } from '../../../../components/SampleCodeComponent';
+import { CChainMethodsTabs } from '../../CChainMethodsTabs';
+import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
 import {
   formatDataForRequest,
   getArgumentsBlock,
   getMethodDescription,
   isMethodDisabled,
-} from '../../../components/MethodsForm/MethodsFormUtils';
-import { MethodsFormData } from '../../../components/MethodsForm/MethodsFormTypes';
+} from '../../../../components/MethodsForm/MethodsFormUtils';
+import { MethodsFormData } from '../../../../components/MethodsForm/MethodsFormTypes';
 
-export const EVMMethodsForm = ({
+export const CChainMethodsForm = ({
   group,
   libraryID,
   onSubmit,
-}: EVMMethodsFormProps) => {
+}: CChainMethodsFormProps) => {
   const onFormSubmit = useCallback(
     (data: MethodsFormData) =>
-      onSubmit(
-        formatDataForRequest<EVMLibraryID, EVMMethod>(
-          data,
-          libraryID,
-          RPC_CALLS_CONFIG,
-        ),
-      ),
+      onSubmit(formatDataForRequest(data, libraryID, RPC_CALLS_CONFIG)),
     [onSubmit, libraryID],
   );
 
@@ -39,17 +36,16 @@ export const EVMMethodsForm = ({
     ({ handleSubmit, values }: FormRenderProps<MethodsFormData>) => {
       const { methodName, ...otherArguments } = values;
 
-      const { params } = formatDataForRequest<EVMLibraryID, EVMMethod>(
+      const { params } = formatDataForRequest(
         values,
         libraryID,
         RPC_CALLS_CONFIG,
       );
 
-      const argumentsBlock = getArgumentsBlock<EVMMethod, EVMLibraryID>(
-        methodName?.value as EVMMethod,
-        libraryID,
-        RPC_CALLS_CONFIG,
-      );
+      const argumentsBlock = getArgumentsBlock<
+        CChainMethod,
+        AvalancheLibraryID
+      >(methodName?.value as CChainMethod, libraryID, RPC_CALLS_CONFIG);
 
       return (
         <form onSubmit={handleSubmit}>
@@ -65,12 +61,12 @@ export const EVMMethodsForm = ({
             argumentsBlock={argumentsBlock}
             isButtonDisabled={
               !methodName ||
-              isMethodDisabled(methodName?.value as EVMMethod, RPC_CALLS_CONFIG)
+              isMethodDisabled(methodName?.value, RPC_CALLS_CONFIG)
             }
             sampleCodeComponent={
               <SampleCodeComponent methodName={methodName}>
-                <EVMMethodsTabs
-                  title={methodName?.value as EVMMethod}
+                <CChainMethodsTabs
+                  title={methodName?.value as CChainMethod}
                   args={params}
                   group={group}
                   libraryID={libraryID}
@@ -87,7 +83,7 @@ export const EVMMethodsForm = ({
         </form>
       );
     },
-    [group, libraryID],
+    [libraryID, group],
   );
 
   return <Form onSubmit={onFormSubmit} render={renderForm} />;

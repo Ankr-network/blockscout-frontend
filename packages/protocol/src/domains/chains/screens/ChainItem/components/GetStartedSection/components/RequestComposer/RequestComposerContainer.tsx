@@ -1,5 +1,7 @@
+import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { EVMRequestComposer } from './EVMRequestComposer';
 
 interface IRequestComposerContainerProps {
@@ -12,7 +14,6 @@ interface IRequestComposerContainerProps {
 export const RequestComposerContainer = ({
   group,
   unfilteredGroup,
-  // eslint-disable-next-line
   chainId,
   className,
 }: IRequestComposerContainerProps) => {
@@ -28,7 +29,15 @@ export const RequestComposerContainer = ({
     );
   }
 
-  // use chainId here
+  if (chainId === ChainID.AVALANCHE) {
+    return (
+      <AvalancheRequestComposer
+        group={group}
+        publicUrl={publicUrl}
+        className={className}
+      />
+    );
+  }
 
   return null;
 };
