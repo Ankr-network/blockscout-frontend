@@ -30,7 +30,6 @@ module.exports = function (config) {
       path.resolve('../common'),
       path.resolve('../ankr-global-menu'),
       path.resolve('../staking-sdk'),
-      path.resolve('../admin-mrpc'),
     ]),
   )(config);
 };

@@ -3,6 +3,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { ClientMapped } from '../store/clientsSlice';
 import { getClientType } from '../utils/getClientType';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
+import BigNumber from 'bignumber.js';
 
 interface IApiResponse {
   counters?: ClientMapped[];
@@ -26,12 +27,26 @@ export const {
           limit: 500,
         });
         const clients = counters.map(c => {
+          const userBalances = balances.balances.find(
+            i => i.address === c.address,
+          );
           return {
             ...c,
             clientType: getClientType(c.ttl),
             email: emails.bindings?.find(i => i.address === c.address)?.email,
             createdDate: new Date(c.timestamp),
-            ...balances.balances.find(i => i.address === c.address),
+            amount: userBalances?.amount
+              ? new BigNumber(userBalances.amount)
+              : undefined,
+            amountAnkr: userBalances?.amountAnkr
+              ? new BigNumber(userBalances.amountAnkr)
+              : undefined,
+            amountUsd: userBalances?.amountUsd
+              ? new BigNumber(userBalances.amountUsd)
+              : undefined,
+            voucherAmount: userBalances?.voucherAmount
+              ? new BigNumber(userBalances.voucherAmount)
+              : undefined,
           };
         });
 

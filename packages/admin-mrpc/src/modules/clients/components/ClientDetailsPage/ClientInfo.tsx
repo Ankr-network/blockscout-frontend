@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -20,7 +21,7 @@ export const ClientInfo = ({ currentClient }: IClientInfoProps) => {
   }
 
   const renderMainInfo = (client: ClientMapped) => (
-    <>
+    <Fragment key={client.user}>
       <Box
         display="flex"
         alignItems="center"
@@ -48,7 +49,7 @@ export const ClientInfo = ({ currentClient }: IClientInfoProps) => {
         </>
       )}
       <hr />
-    </>
+    </Fragment>
   );
 
   return (

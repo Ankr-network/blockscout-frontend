@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const INPUT_WIDTH = 250;
 
-export const useSearchInputStyles = makeStyles({
+export const useSearchInputStyles = makeStyles((theme: Theme) => ({
   root: {
     marginRight: 20,
   },
@@ -17,7 +17,7 @@ export const useSearchInputStyles = makeStyles({
     zIndex: 99,
     maxHeight: 200,
     overflow: 'auto',
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.background.default,
     boxShadow:
       '0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)',
   },
@@ -27,8 +27,8 @@ export const useSearchInputStyles = makeStyles({
   clientButton: {
     textAlign: 'left',
     width: '100%',
-    alignItems: 'flex-start',
     justifyContent: 'flex-start',
     textTransform: 'none',
+    borderRadius: 0,
   },
-});
+}));
