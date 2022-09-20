@@ -15,6 +15,10 @@ interface IClientInfoProps {
 export const ClientInfo = ({ currentClient }: IClientInfoProps) => {
   const classes = useStyles();
 
+  if (!currentClient[0]) {
+    return null;
+  }
+
   const renderMainInfo = (client: ClientMapped) => (
     <>
       <Box
@@ -56,7 +60,7 @@ export const ClientInfo = ({ currentClient }: IClientInfoProps) => {
         <br />
         {currentClient.map(renderMainInfo)}
 
-        {(currentClient[0].amountAnkr || currentClient[0].amountUsd) && (
+        {(currentClient[0]?.amountAnkr || currentClient[0]?.amountUsd) && (
           <>
             <Typography
               variant="h3"
@@ -68,7 +72,7 @@ export const ClientInfo = ({ currentClient }: IClientInfoProps) => {
             <ClientBalancesInfo currentClient={currentClient[0]} />
           </>
         )}
-        {currentClient[0].address && (
+        {currentClient[0]?.address && (
           <ClientBalancesModal currentClient={currentClient[0]} />
         )}
       </CardContent>

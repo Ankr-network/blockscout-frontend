@@ -50,6 +50,7 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           yarn build:stage
+          yarn postbuild
 
       - name: Build production
         working-directory: ./packages/admin-mrpc
@@ -58,6 +59,7 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           yarn build:prod
+          yarn postbuild
 
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
