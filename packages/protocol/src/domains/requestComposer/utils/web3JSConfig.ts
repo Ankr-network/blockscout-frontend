@@ -3,7 +3,9 @@ import Web3 from 'web3';
 import { ILibraryConfig } from '../types';
 import { TraceType } from '../constants';
 import { getABIFragment } from './getABIFragment';
+import { isABI } from './validators/isABI';
 import { isBlockNumberConstant } from './validators/isBlockNumberConstant';
+import { isURL } from './validators/isURL';
 
 const web3Template = (methodCall: string, varName: string, url: string) => {
   return `const Web3 = require("web3");
@@ -530,6 +532,16 @@ export const web3JSConfig: ILibraryConfig = {
       },
       {
         type: 'abi-method',
+        subfields: [
+          {
+            description: 'Contract ABI (URL or functions array)',
+            placeholder: `i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json''i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json`,
+            validate: (value: string) => isURL(value) || isABI(value),
+          },
+          {
+            description: 'Function name (READ only)',
+          },
+        ],
       },
     ],
   },
@@ -1388,6 +1400,16 @@ export const web3JSConfig: ILibraryConfig = {
       },
       {
         type: 'abi-method',
+        subfields: [
+          {
+            description: 'Contract ABI (URL or functions array)',
+            placeholder: `i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json''i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json`,
+            validate: (value: string) => isURL(value) || isABI(value),
+          },
+          {
+            description: 'Function name (READ only)',
+          },
+        ],
       },
     ],
   },

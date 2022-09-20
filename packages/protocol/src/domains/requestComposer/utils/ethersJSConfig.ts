@@ -2,7 +2,9 @@ import { ethers, BigNumber, utils } from 'ethers';
 
 import { TraceType } from '../constants';
 import { ILibraryConfig } from '../types';
+import { isABI } from './validators/isABI';
 import { isBlockNumberConstant } from './validators/isBlockNumberConstant';
+import { isURL } from './validators/isURL';
 
 const ethersTemplate = (
   methodCall: string,
@@ -543,6 +545,16 @@ export const ethersJSConfig: ILibraryConfig = {
       },
       {
         type: 'abi-method',
+        subfields: [
+          {
+            description: 'Contract ABI (URL or functions array)',
+            placeholder: `i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json''i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json`,
+            validate: (value: string) => isURL(value) || isABI(value),
+          },
+          {
+            description: 'Function name (READ only)',
+          },
+        ],
       },
     ],
   },
@@ -1293,6 +1305,16 @@ export const ethersJSConfig: ILibraryConfig = {
       },
       {
         type: 'abi-method',
+        subfields: [
+          {
+            description: 'Contract ABI (URL or functions array)',
+            placeholder: `i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json''i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json`,
+            validate: (value: string) => isURL(value) || isABI(value),
+          },
+          {
+            description: 'Function name (READ only)',
+          },
+        ],
       },
     ],
   },

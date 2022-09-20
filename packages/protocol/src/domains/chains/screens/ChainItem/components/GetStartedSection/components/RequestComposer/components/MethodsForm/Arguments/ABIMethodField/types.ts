@@ -6,8 +6,8 @@ export enum FetchABIError {
 
 export type Field = FieldProps<string, FieldRenderProps<string>>;
 
-export enum FieldName {
-  ABI = 1,
-  Method = 2,
-  Args = 3,
-}
+export type Subfield = {
+  placeholder?: string;
+  description?: string;
+  validate: (value: string) => boolean;
+};

@@ -4,8 +4,6 @@ import { useForm } from 'react-final-form';
 
 import { Field } from '../types';
 import { InputField } from 'modules/form/components/InputField';
-import { isABI } from '../utils/isABI';
-import { isURL } from '../utils/isURL';
 
 export interface ABIField {
   abi: string;
@@ -18,19 +16,20 @@ const InputProps = {
 };
 
 const ROWS = 8;
-const placeholder = `i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json''i.e. [{"inputs":[{"name":"chainId...\nOR\nhttps://raw.githubusercontent.com/.../build/contracts/ERC20.json`;
-const helperText = 'Contract ABI (URL or functions array)';
 
-const isABIFieldValid = (value: string) => isURL(value) || isABI(value);
-
-export const useABIField = (name: string): ABIField => {
+export const useABIField = ({
+  helperText,
+  name,
+  placeholder,
+  validate: isABIFieldValid = () => true,
+}: Field): ABIField => {
   const form = useForm();
 
   const { valid: isValid = false, value: abi } = form.getFieldState(name) || {};
 
   const validate: FieldValidator<string> = useCallback(
-    (value, _, meta) => meta?.dirty && !isABIFieldValid(value),
-    [],
+    (value, _, meta) => meta?.dirty && !isABIFieldValid(value, _),
+    [isABIFieldValid],
   );
 
   const field: Field = {
