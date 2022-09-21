@@ -27,7 +27,7 @@ export const useAnalytics = ({
 
   const sendAnalytics = async () => {
     trackDelegatedStaking({
-      token: Token.ANKR,
+      token: Token.mGNO,
       walletPublicAddress: address,
       walletType: walletName,
       stakeAmount: amount.toFixed(),

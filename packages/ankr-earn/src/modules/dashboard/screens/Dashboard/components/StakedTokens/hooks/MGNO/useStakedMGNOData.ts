@@ -1,8 +1,10 @@
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { GNO_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
@@ -19,6 +21,8 @@ export interface IStakedMGNOData {
   manageLink: string;
   isShowed: boolean;
   loading: boolean;
+  address?: string;
+  walletName?: string;
 }
 
 export const useStakedMGNOData = (): IStakedMGNOData => {
@@ -26,6 +30,9 @@ export const useStakedMGNOData = (): IStakedMGNOData => {
   const { data: usdRatio, loading: ratioLoading } = useQuery({
     type: getMGNOPrice,
   });
+  const { address, walletName } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const network = t(`chain.${GNO_NETWORK_BY_ENV}`);
 
@@ -50,5 +57,7 @@ export const useStakedMGNOData = (): IStakedMGNOData => {
     manageLink: RoutesConfig.main.generatePath(),
     isShowed,
     loading: loading || ratioLoading,
+    address,
+    walletName,
   };
 };

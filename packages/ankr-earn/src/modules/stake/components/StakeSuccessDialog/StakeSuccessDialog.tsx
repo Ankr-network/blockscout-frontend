@@ -1,7 +1,11 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t } from 'common';
 
+import { trackClickGoToDashboard } from 'modules/analytics/tracking-actions/trackClickGoToDashboard';
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
@@ -25,6 +29,18 @@ export const StakeSuccessDialog = ({
 }: IStakeSuccessful): JSX.Element => {
   const classes = useStakeSuccessDialogStyles();
 
+  const { address, walletName } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
+
+  const onDashboardClick = (): void => {
+    trackClickGoToDashboard({
+      tokenName: tokenName as Token,
+      walletPublicAddress: address,
+      walletType: walletName,
+    });
+  };
+
   return (
     <Paper className={classes.root}>
       <Container className={classes.wrapper}>
@@ -42,6 +58,8 @@ export const StakeSuccessDialog = ({
               fullWidth
               href={DashboardRoutes.dashboard.generatePath()}
               variant="contained"
+              onMouseDown={onDashboardClick}
+              onTouchStart={onDashboardClick}
             >
               {t('stake.buttons.return')}
             </NavLink>

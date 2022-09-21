@@ -14,6 +14,8 @@ import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
+import { useAnalytics } from './useAnalytics';
+
 interface IUseClaimAllRewards {
   availableClaims: IStakingReward[];
   isClaimAllowed: boolean;
@@ -56,11 +58,17 @@ export const useClaimAllRewards = (): IUseClaimAllRewards => {
     [availableClaims],
   );
 
+  const { sendAnalytics } = useAnalytics(total);
+
   const totalUSD = total.multipliedBy(usdTokenPrice);
 
   const onClaim = useCallback(() => {
-    dispatchRequest(claimAllRewards());
-  }, [dispatchRequest]);
+    dispatchRequest(claimAllRewards()).then(({ error }) => {
+      if (!error) {
+        sendAnalytics();
+      }
+    });
+  }, [dispatchRequest, sendAnalytics]);
 
   return {
     isClaimAllowed,

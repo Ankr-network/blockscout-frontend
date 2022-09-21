@@ -15,6 +15,8 @@ import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSecond
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
+import { useAnalytics } from './useAnalytics';
+
 interface IUseClaimRewards {
   loading: boolean;
   amount: BigNumber;
@@ -91,18 +93,38 @@ export const useClaimRewards = (): IUseClaimRewards => {
     value: epochEndMin,
   })}`;
 
+  const claimableRewardsAmount = claimableRewards ?? ZERO;
+  const claimableUnstakesAmount = claimableUnstakes ?? ZERO;
+
+  const { sendClaimAllAnalytics, sendClaimRewardsAnalytics } = useAnalytics({
+    totalAmount: claimableRewardsAmount.plus(claimableUnstakesAmount),
+    rewardsAmount: claimableRewardsAmount,
+  });
+
   const onSubmit = () => {
     if (isClaimUnstakes) {
-      dispatchRequest(claimAllForValidator({ provider: queryProvider ?? '' }));
+      dispatchRequest(
+        claimAllForValidator({ provider: queryProvider ?? '' }),
+      ).then(({ error }) => {
+        if (!error) {
+          sendClaimAllAnalytics();
+        }
+      });
     } else {
-      dispatchRequest(claimRewards({ provider: queryProvider ?? '' }));
+      dispatchRequest(claimRewards({ provider: queryProvider ?? '' })).then(
+        ({ error }) => {
+          if (!error) {
+            sendClaimRewardsAnalytics();
+          }
+        },
+      );
     }
   };
 
   return {
     loading: isClaimableUnstakesLoading || isClaimableRewardsLoading,
-    amount: claimableRewards ?? ZERO,
-    unstakes: claimableUnstakes ?? ZERO,
+    amount: claimableRewardsAmount,
+    unstakes: claimableUnstakesAmount,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     claimLoading: false,
