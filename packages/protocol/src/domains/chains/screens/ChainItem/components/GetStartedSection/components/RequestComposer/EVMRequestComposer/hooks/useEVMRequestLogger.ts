@@ -7,5 +7,8 @@ export const useEVMRequestLogger = () => {
 
   const EVMRequestData = useEVMRequest();
 
-  return useRequestComposerLogs({ ...loggerData, request: EVMRequestData });
+  return {
+    ...useRequestComposerLogs({ ...loggerData, request: EVMRequestData }),
+    logger: loggerData,
+  };
 };

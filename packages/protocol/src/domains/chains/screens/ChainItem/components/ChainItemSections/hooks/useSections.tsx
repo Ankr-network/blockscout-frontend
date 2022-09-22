@@ -4,7 +4,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { EndpointGroup } from 'modules/endpoints/types';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { t } from 'modules/i18n/utils/intl';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -95,7 +95,9 @@ export const useSections = ({
   // TODO: Remove after adding ChainFlow to GetStartedSection
   const { credentials, loading } = useAuth();
   const isUpgraded = credentials || loading;
-  const getStartedHasContent = !isUpgraded || isGroupEvmBased(group);
+  const getStartedHasContent =
+    !isUpgraded || isGroupEvmBased(group) || group.id === ChainGroupID.C_CHAIN;
+
 
   if (!getStartedHasContent && initialTabID === SectionID.GetStarted) {
     initialTabID = SectionID.UsageData;

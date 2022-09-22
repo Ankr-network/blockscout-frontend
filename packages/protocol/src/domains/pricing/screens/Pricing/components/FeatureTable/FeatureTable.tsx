@@ -16,7 +16,7 @@ import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
 import { NavLink, useIsXSDown } from 'ui';
 import { FeatureTableMobile } from './FeatureTableMobile';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
-import { PAYG_DOCS_LINK } from '../../const';
+import { PRICING_LINK } from 'domains/account/screens/AccountDetails/components/const';
 
 export const FeatureTable = () => {
   const classes = useStyles();
@@ -74,7 +74,7 @@ export const FeatureTable = () => {
             </Box>
             <Box mt={1}>
               <NavLink
-                href={PAYG_DOCS_LINK}
+                href={PRICING_LINK}
                 tabIndex={0}
                 className={classes.unblockBtn}
                 endIcon={<ArrowRightIcon className={classes.unblockBtnIcon} />}

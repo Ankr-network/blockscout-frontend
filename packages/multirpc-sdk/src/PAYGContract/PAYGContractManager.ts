@@ -101,7 +101,7 @@ export class PAYGContractManager implements IPAYGContractManager {
     );
   }
 
-  private async canAllowAndDeposit(scaledAmount: BigNumber) {
+  private async canAllow(scaledAmount: BigNumber) {
     const isGreaterThanBalance = await this.isAmountGreaterThanBalance(
       scaledAmount,
     );
@@ -109,7 +109,9 @@ export class PAYGContractManager implements IPAYGContractManager {
     if (isGreaterThanBalance) {
       throw new Error(`You don't have enough Ankr tokens`);
     }
+  }
 
+  private async canDeposit(scaledAmount: BigNumber) {
     const isAllowanceLessThanAmount = await this.isAllowanceLessThanAmount(
       scaledAmount,
     );
@@ -125,7 +127,7 @@ export class PAYGContractManager implements IPAYGContractManager {
 
     const scaledAmount = new BigNumber(web3.utils.toWei(amount.toString(10)));
 
-    await this.canAllowAndDeposit(scaledAmount);
+    await this.canAllow(scaledAmount);
 
     return this.sendAllowance(scaledAmount);
   }
@@ -141,7 +143,8 @@ export class PAYGContractManager implements IPAYGContractManager {
 
     const scaledAmount = new BigNumber(web3.utils.toWei(amount.toString(10)));
 
-    await this.canAllowAndDeposit(scaledAmount);
+    await this.canAllow(scaledAmount);
+    await this.canDeposit(scaledAmount);
 
     return this.sendDepositTransaction(scaledAmount, publicKey, expiresAfter);
   }

@@ -39,7 +39,8 @@ export const decomposeChainIntoIds = (
 ): DecomposedChainIds => {
   const mainnets = flatChains(chain)
     .filter(({ urls }) => urls.length > 0)
-    .map(({ id }) => id);
+    .map(({ id }) => id)
+    .map(id => id.replace('-evm', '') as ChainID);
 
   const testnets = getSubchainsIds(chain.testnets)
     // subchain ids with `-evm` suffix refer to their parent chain

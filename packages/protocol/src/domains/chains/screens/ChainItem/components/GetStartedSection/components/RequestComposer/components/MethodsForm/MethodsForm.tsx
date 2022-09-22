@@ -7,7 +7,7 @@ import { useEVMMethodsFormStyles } from './MethodsFormStyles';
 interface MethodsFormProps {
   argumentsBlock: ReactNode[];
   methodNameSelectComponent: ReactNode;
-  sampleCodeComponent: ReactNode;
+  sampleCodeComponent?: ReactNode;
   isButtonDisabled?: boolean;
   formSpyComponent: ReactNode;
 }

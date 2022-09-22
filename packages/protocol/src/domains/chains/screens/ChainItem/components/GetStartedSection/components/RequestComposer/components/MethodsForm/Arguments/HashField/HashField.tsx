@@ -1,13 +1,16 @@
-import { FormGroup, Typography } from '@material-ui/core';
 import { Field } from 'react-final-form';
+import { FieldValidator } from 'final-form';
+import { FormGroup, Typography } from '@material-ui/core';
+import { useCallback } from 'react';
 
 import { InputField } from 'modules/form/components/InputField';
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 
 interface HashFieldProps {
   helperText: string;
-  placeholder?: string;
   name: string;
+  placeholder?: string;
+  validate: (value: string) => boolean;
 }
 
 const InputProps = {
@@ -16,10 +19,16 @@ const InputProps = {
 
 export const HashField = ({
   helperText,
-  placeholder,
   name,
+  placeholder,
+  validate: isValid = () => true,
 }: HashFieldProps) => {
   const classes = useEVMMethodsFormStyles();
+
+  const validate: FieldValidator<string> = useCallback(
+    value => !isValid(value),
+    [isValid],
+  );
 
   return (
     <FormGroup className={classes.blockNumber}>
@@ -38,6 +47,7 @@ export const HashField = ({
             {helperText}
           </Typography>
         }
+        validate={validate}
       />
     </FormGroup>
   );

@@ -22,7 +22,7 @@ export const useEVMRequest = (): ComposerRequest<
     pristine,
   } = useQuery({ defaultData: { time: 0 }, type: fetchEVMRequest });
 
-  const method = useSelector(selectEVMMethod);
+  const method = useSelector(selectEVMMethod) as [EVMMethod] | undefined;
 
   const dispatch = useDispatch();
 
