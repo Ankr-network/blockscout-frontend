@@ -1,5 +1,5 @@
 export const PRICING_LINK =
-  'https://ankr.com/docs/build-blockchain/concepts/pay-as-you-go';
+  'https://www.ankr.com/docs/build-blockchain/pricing-plans/';
 
 export const DEFAULT_USD_VALUE = 70;
 

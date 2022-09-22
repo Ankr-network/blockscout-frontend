@@ -19,7 +19,7 @@ import { ReactComponent as MinusIcon } from 'uiKit/Icons/minus.svg';
 import { Tooltip2 } from 'uiKit/Tooltip2/Tooltip2';
 import { NavLink } from 'ui';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
-import { PAYG_DOCS_LINK } from '../../const';
+import { PRICING_LINK } from 'domains/account/screens/AccountDetails/components/const';
 
 export const FeatureTableMobile = () => {
   const classes = useStyles();
@@ -163,7 +163,7 @@ export const FeatureTableMobile = () => {
               {t('plan.table.payg')}
             </Typography>
             <NavLink
-              href={PAYG_DOCS_LINK}
+              href={PRICING_LINK}
               tabIndex={0}
               className={classesMobile.unblockBtn}
               endIcon={
