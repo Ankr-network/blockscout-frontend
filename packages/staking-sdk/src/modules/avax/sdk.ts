@@ -39,7 +39,7 @@ import {
   AVALANCHE_READ_PROVIDER_ID,
   AVAX_DECIMALS,
   AVAX_MAX_BLOCK_RANGE,
-  AVAX_MAX_HISTORY_RANGE,
+  AVAX_HISTORY_2_WEEKS_OFFSET,
   AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
   AVAX_ESTIMATE_GAS_MULTIPLIER,
@@ -212,7 +212,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     filter,
     rangeStep,
   }: IGetPastEvents): Promise<EventData[]> {
-    if (latestBlockNumber <= AVAX_MAX_HISTORY_RANGE) {
+    if (latestBlockNumber <= AVAX_HISTORY_2_WEEKS_OFFSET) {
       return [];
     }
 
@@ -715,13 +715,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * Internal function to return raw pool events.
    *
    * @private
+   * @note Currently returns raw pool events for block range.
+   * @param {number} from - from block
+   * @param {number} to - to block
    * @returns {Promise<IEventsBatch>}
    */
-  private async getPoolEventsBatch(): Promise<IEventsBatch> {
+  private async getPoolEventsBatch(from: number, to: number): Promise<IEventsBatch> {
     const avalanchePoolContract = await this.getAvalanchePoolContract(true);
-    const provider = await this.getProvider();
-    const web3 = provider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
       this.getPastEvents({
@@ -729,8 +729,8 @@ export class AvalancheSDK implements ISwitcher, IStakable {
         contract: avalanchePoolContract,
         eventName: EAvalanchePoolEvents.StakePending,
         filter: { staker: this.currentAccount },
-        startBlock: latestBlockNumber - AVAX_MAX_HISTORY_RANGE,
-        latestBlockNumber,
+        startBlock: from,
+        latestBlockNumber: to,
         rangeStep: AVAX_MAX_BLOCK_RANGE,
       }),
       this.getPastEvents({
@@ -738,8 +738,8 @@ export class AvalancheSDK implements ISwitcher, IStakable {
         contract: avalanchePoolContract,
         eventName: EAvalanchePoolEvents.AvaxClaimPending,
         filter: { claimer: this.currentAccount },
-        startBlock: latestBlockNumber - AVAX_MAX_HISTORY_RANGE,
-        latestBlockNumber,
+        startBlock: from,
+        latestBlockNumber: to,
         rangeStep: AVAX_MAX_BLOCK_RANGE,
       }),
       this.getACRatio(),
@@ -777,7 +777,11 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
-    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch(latestBlockNumber - AVAX_HISTORY_2_WEEKS_OFFSET, latestBlockNumber);
     let totalUnstakingValue = await this.getPendingClaim();
 
     let pendingBond: BigNumber = ZERO;
@@ -827,8 +831,25 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    return this.getTxEventsHistoryRange(latestBlockNumber - AVAX_HISTORY_2_WEEKS_OFFSET, latestBlockNumber);
+  }
+
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for block range
+   * @param {number} from - from block
+   * @param {number} to - to block
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+   public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
     const { stakeRawEvents, unstakeRawEvents, ratio } =
-      await this.getPoolEventsBatch();
+      await this.getPoolEventsBatch(from, to);
 
     let totalPendingUnstakes = await this.getPendingClaim();
     let completedRawEvents: EventData[] = [];
@@ -899,6 +920,18 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       unstakeBond: [],
       unstakeCertificate: [],
     };
+   }
+
+ /** 
+   * Get latest block number.
+   * 
+   * @returns {Promise<number>}
+  */
+  public async getLatestBlock(): Promise<number> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return web3.eth.getBlockNumber();
   }
 
   /**

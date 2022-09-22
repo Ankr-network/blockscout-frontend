@@ -17,7 +17,7 @@ import { getMaxApy as getANKRMaxApy } from 'modules/stake-ankr/actions/getMaxApy
 import { getTotalInfo as getANKRTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
-import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
+import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';

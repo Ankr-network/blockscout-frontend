@@ -11,6 +11,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { getChainIdByToken } from 'modules/common/utils/getChainIdByToken';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
+import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
 
 import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
@@ -60,6 +61,13 @@ export const useHistory = ({
     type: getFTMHistory,
   });
 
+  const { loading: avaxHistoryLoading } = useQuery({
+    type: fetchAVAXHistory,
+  });
+  const { loading: isAvaxHistoryMutationLoading } = useMutation({
+    type: fetchAVAXHistory,
+  });
+
   const resetState = () => {
     setStep(DEFAULT_STEP);
     setHistoryData(DEFAULT_HISTORY_DATA);
@@ -107,6 +115,36 @@ export const useHistory = ({
           });
         });
         break;
+      case Token.aAVAXb:
+        dispatchRequest(
+          fetchAVAXHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aAVAXb.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aAVAXb.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
+      case Token.aAVAXc:
+        dispatchRequest(
+          fetchAVAXHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aAVAXc.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aAVAXc.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
 
       default:
         break;
@@ -130,7 +168,11 @@ export const useHistory = ({
     unstakeEvents: historyData.unstakeEvents.map(event =>
       mapTxns(event, token),
     ),
-    loading: ftmHistoryLoading || isFtmHistoryMutationLoading,
+    loading:
+      ftmHistoryLoading ||
+      isFtmHistoryMutationLoading ||
+      avaxHistoryLoading ||
+      isAvaxHistoryMutationLoading,
     weeksAmount: step * 2,
     handleShowMore,
   };

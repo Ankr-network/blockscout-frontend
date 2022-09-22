@@ -9,7 +9,7 @@ import { AVAX_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { fetchTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
+import { fetchTotalHistoryData } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { ITxEventsHistoryGroupItem } from '../../../../types';
@@ -49,7 +49,7 @@ export interface ITxHistoryData {
 
 export const useStakedAVAXTxHistory = (): ITxHistoryData => {
   const { data, loading: isHistoryDataLoading } = useQuery({
-    type: fetchTxHistory,
+    type: fetchTotalHistoryData,
   });
   const dispatch = useAppDispatch();
 
@@ -132,7 +132,7 @@ export const useStakedAVAXTxHistory = (): ITxHistoryData => {
     !!unstakedAAVAXC?.length;
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTxHistory());
+    dispatch(fetchTotalHistoryData());
   }, [dispatch]);
 
   return {

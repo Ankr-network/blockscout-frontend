@@ -5,10 +5,10 @@ import { AvalancheSDK, ITxEventsHistoryData } from '@ankr.com/staking-sdk';
 
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
-export const fetchTxHistory = createSmartAction<
+export const fetchTotalHistoryData = createSmartAction<
   RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>
 >(
-  'avax/fetchTxHistory',
+  'avax/fetchTotalHistoryData',
   (): RequestAction => ({
     request: {
       promise: (async (): Promise<ITxEventsHistoryData> => {

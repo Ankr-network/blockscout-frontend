@@ -271,23 +271,7 @@ export class FantomSDK implements ISwitcher, IStakable {
     const latestBlockNumber = await web3.eth.getBlockNumber();
     const startBlock = latestBlockNumber - FANTOM_BLOCK_WEEK_OFFSET;
 
-    const {
-      completedBond,
-      completedCertificate,
-      pendingBond,
-      pendingCertificate,
-      unstakeBond,
-      unstakeCertificate,
-    } = await this.getTxEventsHistoryRange(startBlock, latestBlockNumber);
-
-    return {
-      completedBond,
-      completedCertificate,
-      pendingBond,
-      pendingCertificate,
-      unstakeBond,
-      unstakeCertificate,
-    };
+    return this.getTxEventsHistoryRange(startBlock, latestBlockNumber);
   }
 
  /** 

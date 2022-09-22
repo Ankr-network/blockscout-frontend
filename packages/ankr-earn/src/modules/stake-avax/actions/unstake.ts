@@ -15,7 +15,7 @@ import { TAvaxSyntToken } from '../types';
 
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
-import { fetchTxHistory } from './fetchTxHistory';
+import { fetchTotalHistoryData } from './fetchTotalHistoryData';
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -47,7 +47,7 @@ export const unstake = createSmartAction<
 
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
-        store.dispatchRequest(fetchTxHistory());
+        store.dispatchRequest(fetchTotalHistoryData());
         store.dispatchRequest(getUnstakeDate());
 
         if (response.data.transactionHash) {
