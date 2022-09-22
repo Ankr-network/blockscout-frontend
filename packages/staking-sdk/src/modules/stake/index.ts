@@ -62,6 +62,21 @@ export interface IStakable {
    * @returns {Promise<ITxEventsHistoryData>}
    */
   getTxEventsHistory: () => Promise<ITxEventsHistoryData>;
+  /**
+   * Get transaction history for block range.
+   *
+   * @param {number} from - from block
+   * @param {number} to - to block
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+
+  getTxEventsHistoryRange?: (from: number, to: number) => Promise<ITxEventsHistoryData>;
+  /** 
+   * Get latest block number.
+   * 
+   * @returns {Promise<number>}
+  */
+ getLatestBlock?: () => Promise<number>;
 }
 
 export * from './types';

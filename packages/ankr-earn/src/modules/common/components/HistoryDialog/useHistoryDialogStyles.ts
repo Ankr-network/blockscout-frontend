@@ -128,7 +128,7 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     width: 'auto',
     minWidth: 0,
 
-    color: theme.palette.text.secondary,
+    color: theme.palette.primary.main,
     fontWeight: 500,
 
     transition: '0.2s all',
@@ -137,5 +137,29 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
       background: 'none',
       color: theme.palette.text.primary,
     },
+  },
+
+  tokenValue: {
+    color: theme.palette.text.primary,
+    textAlign: 'left',
+  },
+
+  selectRoot: {
+    marginBottom: theme.spacing(2),
+  },
+
+  select: {
+    borderRadius: 12,
+  },
+
+  showMoreButton: {
+    marginTop: theme.spacing(2),
+    width: '100%',
+  },
+
+  footer: {
+    marginTop: theme.spacing(2),
+    fontSize: 13,
+    fontWeight: 400,
   },
 }));

@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 
-import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';

@@ -24,7 +24,7 @@ import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/f
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
-import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
+import { getTotalHistoryData as getFTMHistory } from 'modules/stake-fantom/actions/getTotalHistoryData';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';

@@ -5,12 +5,12 @@ import { useCallback } from 'react';
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { getHistory } from 'modules/stake-fantom/actions/getHistory';
+import { getTotalHistoryData } from 'modules/stake-fantom/actions/getTotalHistoryData';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUseStakedFTMTxHistory {
@@ -39,7 +39,7 @@ export const useStakedFTMTxHistory = (
   token: Token.aFTMb | Token.aFTMc,
 ): IUseStakedFTMTxHistory => {
   const { data: historyData, loading: isHistoryLoading } = useQuery({
-    type: getHistory,
+    type: getTotalHistoryData,
   });
   const dispatch = useAppDispatch();
 
@@ -73,7 +73,7 @@ export const useStakedFTMTxHistory = (
     isHistoryLoading;
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(getHistory());
+    dispatch(getTotalHistoryData());
   }, [dispatch]);
 
   return {

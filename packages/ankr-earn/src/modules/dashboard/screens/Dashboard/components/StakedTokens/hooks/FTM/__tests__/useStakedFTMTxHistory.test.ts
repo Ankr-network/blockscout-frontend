@@ -9,7 +9,7 @@ import { t } from 'common';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { IGetHistory } from 'modules/stake-fantom/actions/getHistory';
+import { ITotalGetHistoryData } from 'modules/stake-fantom/actions/getTotalHistoryData';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedFTMTxHistory } from '../useStakedFTMTxHistory';
@@ -22,8 +22,8 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-jest.mock('modules/stake-fantom/actions/getHistory', () => ({
-  getHistory: jest.fn(),
+jest.mock('modules/stake-fantom/actions/getTotalHistoryData', () => ({
+  getTotalHistoryData: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedFTMTxHistory.ts', () => {
@@ -33,7 +33,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
 
   const defaultData: {
     loading: boolean;
-    data: IGetHistory;
+    data: ITotalGetHistoryData;
   } = {
     loading: false,
     data: {

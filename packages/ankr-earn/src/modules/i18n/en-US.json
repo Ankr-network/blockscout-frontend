@@ -1034,7 +1034,12 @@
     "error-cell": "Error",
     "hash-cell": "{hash}",
     "empty": "There are no transactions",
-    "hash": "Hash"
+    "hash": "Hash",
+    "show-more": "Show more",
+    "loading-history": "Loading history",
+    "default-date-range": "By default we show the last 2 weeks transactions",
+    "date-range": "Last {value} weeks history",
+    "loading-date-range": "We call to blockchain for historical data, it may take a moment"
   },
   "bridge": {
     "main": {

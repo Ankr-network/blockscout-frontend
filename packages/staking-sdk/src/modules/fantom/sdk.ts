@@ -36,7 +36,7 @@ import { convertNumberToHex } from '../utils/converters';
 import {
   FANTOM_PROVIDER_READ_ID,
   FANTOM_MAX_BLOCK_RANGE,
-  FANTOM_BLOCK_OFFSET,
+  FANTOM_BLOCK_WEEK_OFFSET,
   FANTOM_ESTIMATE_GAS_MULTIPLIER,
   FANTOM_GAS_FEE_MULTIPLIER,
 } from './const';
@@ -266,6 +266,53 @@ export class FantomSDK implements ISwitcher, IStakable {
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    const startBlock = latestBlockNumber - FANTOM_BLOCK_WEEK_OFFSET;
+
+    const {
+      completedBond,
+      completedCertificate,
+      pendingBond,
+      pendingCertificate,
+      unstakeBond,
+      unstakeCertificate,
+    } = await this.getTxEventsHistoryRange(startBlock, latestBlockNumber);
+
+    return {
+      completedBond,
+      completedCertificate,
+      pendingBond,
+      pendingCertificate,
+      unstakeBond,
+      unstakeCertificate,
+    };
+  }
+
+ /** 
+   * Get latest block number.
+   * 
+   * @returns {Promise<number>}
+  */
+  public async getLatestBlock(): Promise<number> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return web3.eth.getBlockNumber();
+  }
+
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for block range.
+   * @param {number} from - from block
+   * @param {number} to - to block
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+   public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+    const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
     const web3 = provider.getWeb3();
 
@@ -273,17 +320,14 @@ export class FantomSDK implements ISwitcher, IStakable {
       .firstWrId()
       .call();
 
-    const latestBlockNumber = await web3.eth.getBlockNumber();
-    const startBlock = latestBlockNumber - FANTOM_BLOCK_OFFSET;
-
     const [stakeRawEvents, unstakeRawEvents, withdrawnRawEvents] =
       await Promise.all([
         // event StakeReceived is emitted once transaction is successfull
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock,
-          latestBlockNumber,
+          startBlock: from,
+          latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.StakeReceived,
           filter: {
@@ -294,8 +338,8 @@ export class FantomSDK implements ISwitcher, IStakable {
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock,
-          latestBlockNumber,
+          startBlock: from,
+          latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.TokensBurned,
           filter: {
@@ -305,8 +349,8 @@ export class FantomSDK implements ISwitcher, IStakable {
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock,
-          latestBlockNumber,
+          startBlock: from,
+          latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.Withdrawn,
           filter: {
@@ -373,15 +417,15 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents({
-    provider,
     contract,
     eventName,
     startBlock,
+    latestBlockNumber,
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    const web3 = provider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
+    // const web3 = provider.getWeb3();
+    // const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const eventsPromises: Promise<EventData[]>[] = [];
 

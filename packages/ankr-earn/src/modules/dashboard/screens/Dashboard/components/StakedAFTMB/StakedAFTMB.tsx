@@ -6,7 +6,8 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ONE } from 'modules/common/const';
+import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
+import { featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -119,17 +120,25 @@ export const StakedAFTMB = (): JSX.Element | null => {
         onTradeClick={onTradeClick}
       />
 
-      <HistoryDialog
-        history={{
-          staked: stakedAFTMB,
-          stakedToken: Token.aFTMb,
-          unstaked: unstakedAFTMB,
-          unstakedToken: Token.aFTMb,
-        }}
-        isHistoryLoading={isHistoryLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
-      />
+      {featuresConfig.newStakingHistoryDialog ? (
+        <NewHistoryDialog
+          open={isOpenedHistory}
+          token={Token.aFTMb}
+          onClose={onCloseHistory}
+        />
+      ) : (
+        <HistoryDialog
+          history={{
+            staked: stakedAFTMB,
+            stakedToken: Token.aFTMb,
+            unstaked: unstakedAFTMB,
+            unstakedToken: Token.aFTMb,
+          }}
+          isHistoryLoading={isHistoryLoading}
+          open={isOpenedHistory}
+          onClose={onCloseHistory}
+        />
+      )}
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

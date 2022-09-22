@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { t } from 'common';
 
-import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { fetchTxHistory } from 'modules/stake-polkadot/actions/fetchTxHistory';
@@ -109,7 +109,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/Polk
       stakedToken: Token.DOT,
       unstaked: [],
       unstakedToken: Token.aDOTb,
-    } as HistoryDialogData);
+    } as IHistoryDialogData);
   });
 
   it('Case 2: Checking on available data', () => {
@@ -163,7 +163,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/Polk
         },
       ],
       unstakedToken: Token.aDOTb,
-    } as HistoryDialogData);
+    } as IHistoryDialogData);
   });
 
   it('Case 3: Checking on history loading', () => {

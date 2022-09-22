@@ -38,4 +38,5 @@ export const featuresConfig = {
   isCalcActive: true,
   isReferralDashboardActive: isLocal,
   providerNotification: true,
+  newStakingHistoryDialog: isLocal,
 };

@@ -7,7 +7,7 @@ import {
 } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
@@ -26,8 +26,8 @@ const getCompletedTransactions = ({
   network,
   type,
 }: IGetHistoryTransactionsArgs):
-  | HistoryDialogData['staked']
-  | HistoryDialogData['unstaked'] => {
+  | IHistoryDialogData['staked']
+  | IHistoryDialogData['unstaked'] => {
   if (!data) return [];
 
   return data
@@ -41,8 +41,8 @@ const getCompletedTransactions = ({
 };
 
 export interface ITxHistoryData {
-  transactionHistoryAMATICB: HistoryDialogData;
-  transactionHistoryAMATICC: HistoryDialogData;
+  transactionHistoryAMATICB: IHistoryDialogData;
+  transactionHistoryAMATICC: IHistoryDialogData;
   pendingUnstakeHistoryAMATICB: IPendingTableRow[];
   pendingUnstakeHistoryAMATICC: IPendingTableRow[];
   hasHistory: boolean;

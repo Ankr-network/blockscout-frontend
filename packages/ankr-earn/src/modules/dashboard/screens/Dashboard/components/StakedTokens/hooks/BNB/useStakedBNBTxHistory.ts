@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
@@ -32,8 +32,8 @@ const getCompletedTransactions = ({
   data,
   type,
 }: IGetHistoryTransactionsArgs):
-  | HistoryDialogData['staked']
-  | HistoryDialogData['unstaked'] => {
+  | IHistoryDialogData['staked']
+  | IHistoryDialogData['unstaked'] => {
   if (!data) return [];
 
   return data
@@ -47,8 +47,8 @@ const getCompletedTransactions = ({
 };
 
 export interface ITxHistoryData {
-  transactionHistoryABNBB: HistoryDialogData;
-  transactionHistoryABNBC: HistoryDialogData;
+  transactionHistoryABNBB: IHistoryDialogData;
+  transactionHistoryABNBC: IHistoryDialogData;
   pendingUnstakeHistoryABNBB: IPendingTableRow[];
   pendingUnstakeHistoryABNBC: IPendingTableRow[];
   hasHistory: boolean;

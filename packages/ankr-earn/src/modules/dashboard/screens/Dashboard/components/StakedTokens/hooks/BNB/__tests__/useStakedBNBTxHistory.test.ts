@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -97,7 +97,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
         },
       ],
       unstakedToken: Token.aBNBb,
-    } as HistoryDialogData);
+    } as IHistoryDialogData);
   });
 
   test('should handle load history data', () => {
@@ -126,12 +126,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
       stakedToken: Token.aBNBb,
       unstaked: [],
       unstakedToken: Token.aBNBb,
-    } as HistoryDialogData);
+    } as IHistoryDialogData);
     expect(result.current.transactionHistoryABNBC).toStrictEqual({
       staked: [],
       stakedToken: Token.aBNBc,
       unstaked: [],
       unstakedToken: Token.aBNBc,
-    } as HistoryDialogData);
+    } as IHistoryDialogData);
   });
 });

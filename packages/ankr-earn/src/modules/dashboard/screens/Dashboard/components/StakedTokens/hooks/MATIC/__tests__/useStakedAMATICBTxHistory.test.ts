@@ -5,7 +5,7 @@ import { EPolygonPoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -144,7 +144,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
         },
       ],
       unstakedToken: Token.aMATICb,
-    } as HistoryDialogData);
+    } as IHistoryDialogData);
   });
 
   test('should handle load history data', () => {
@@ -174,6 +174,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory
       stakedToken: Token.aMATICb,
       unstaked: [],
       unstakedToken: Token.aMATICb,
-    } as HistoryDialogData);
+    } as IHistoryDialogData);
   });
 });

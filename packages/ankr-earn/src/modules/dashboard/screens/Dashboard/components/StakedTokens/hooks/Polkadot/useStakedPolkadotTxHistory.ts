@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 
 import { t } from 'common';
 
-import { HistoryDialogData } from 'modules/common/components/HistoryDialog';
+import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import {
@@ -22,8 +22,8 @@ import { getPolkadotTxLink } from 'modules/stake-polkadot/utils/getPolkadotTxLin
 import { useAppDispatch } from 'store/useAppDispatch';
 
 type TGetCompletedTransactionsData =
-  | HistoryDialogData['staked']
-  | HistoryDialogData['unstaked'];
+  | IHistoryDialogData['staked']
+  | IHistoryDialogData['unstaked'];
 
 interface IGetCompletedTransactionsProps {
   data?: ITxEventsHistoryGroupItem[];
@@ -35,7 +35,7 @@ export interface ITxHistoryData {
   hasHistory: boolean;
   isHistoryDataLoading: boolean;
   pendingUnstakeHistory: IPendingTableRow[];
-  transactionHistory: HistoryDialogData;
+  transactionHistory: IHistoryDialogData;
   txHistory: ITxEventsHistoryData | null;
   handleLoadTxHistory: () => void;
 }
