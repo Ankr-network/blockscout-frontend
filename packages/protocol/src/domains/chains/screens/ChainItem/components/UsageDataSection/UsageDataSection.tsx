@@ -1,5 +1,4 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { IS_30D_PRIVATE_STATISTICS_DISABLED } from 'domains/chains/constants/timeframes';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -83,11 +82,9 @@ export const UsageDataSection = ({
               timeframe={timeframe}
             />
           )}
-          {isWalletConnected &&
-            userTopRequestsIp &&
-            !IS_30D_PRIVATE_STATISTICS_DISABLED && (
-              <RequestsByIP data={userTopRequestsIp} loading={loading} />
-            )}
+          {isWalletConnected && userTopRequestsIp && (
+            <RequestsByIP data={userTopRequestsIp} loading={loading} />
+          )}
           {isRequestsMapVisible && (
             <RequestsMap
               loading={loading}
