@@ -42,7 +42,7 @@ import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
 
 import {
-  BINANCE_HISTORY_BLOCK_OFFSET,
+  BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET,
   BINANCE_READ_PROVIDER_ID,
   BNB_MAX_BLOCK_RANGE,
   CERT_STAKING_LOG_HASH,
@@ -610,19 +610,16 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @private
    * @returns {Promise<IEventsBatch>}
    */
-  private async getPoolEventsBatch(): Promise<IEventsBatch> {
+  private async getPoolEventsBatch(from: number, to: number): Promise<IEventsBatch> {
     const binancePoolContract = await this.getBinancePoolContract(true);
-    const provider = await this.getProvider();
-    const web3 = provider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const [unstakeRawEvents, rebasingEvents, ratio] = await Promise.all([
       this.getPastEvents({
         provider: this.readProvider,
         contract: binancePoolContract,
         eventName: EBinancePoolEvents.UnstakePending,
-        startBlock: latestBlockNumber - BINANCE_HISTORY_BLOCK_OFFSET,
-        latestBlockNumber,
+        startBlock: from,
+        latestBlockNumber: to,
         rangeStep: BNB_MAX_BLOCK_RANGE,
         filter: { claimer: this.currentAccount },
       }),
@@ -630,8 +627,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
         provider: this.readProvider,
         contract: binancePoolContract,
         eventName: EBinancePoolEvents.IsRebasing,
-        startBlock: latestBlockNumber - BINANCE_HISTORY_BLOCK_OFFSET,
-        latestBlockNumber,
+        startBlock: from,
+        latestBlockNumber: to,
         rangeStep: BNB_MAX_BLOCK_RANGE,
       }),
       this.getACRatio(),
@@ -653,11 +650,15 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
     const {
       unstakeRawEvents,
       rebasingEvents: isRebasingEvents,
       ratio,
-    } = await this.getPoolEventsBatch();
+    } = await this.getPoolEventsBatch(latestBlockNumber - BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET, latestBlockNumber);
     let pendingUnstakes = await this.getPendingClaim();
     let pendingRawEvents: EventData[] = [];
 
@@ -806,20 +807,34 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
-    const binancePoolContract = await this.getBinancePoolContract(true);
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
     const latestBlockNumber = await web3.eth.getBlockNumber();
+    
+    return this.getTxEventsHistoryRange(latestBlockNumber - BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET, latestBlockNumber);
+  }
+
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for block range.
+   * @param {number} from - from block
+   * @param {number} to - to block
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+  public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+    const binancePoolContract = await this.getBinancePoolContract(true);
 
     const { unstakeRawEvents, rebasingEvents, ratio } =
-      await this.getPoolEventsBatch();
+      await this.getPoolEventsBatch(from, to);
 
     const stakeRawEvents = await this.getPastEvents({
       provider: this.readProvider,
       contract: binancePoolContract,
       eventName: EBinancePoolEvents.Staked,
-      startBlock: latestBlockNumber - BINANCE_HISTORY_BLOCK_OFFSET,
-      latestBlockNumber,
+      startBlock: from,
+      latestBlockNumber: to,
       rangeStep: BNB_MAX_BLOCK_RANGE,
       filter: { delegator: this.currentAccount },
     });
@@ -899,6 +914,18 @@ export class BinanceSDK implements ISwitcher, IStakable {
       unstakeBond: [],
       unstakeCertificate: [],
     };
+  }
+
+ /** 
+   * Get latest block number.
+   * 
+   * @returns {Promise<number>}
+  */
+  public async getLatestBlock(): Promise<number> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return web3.eth.getBlockNumber();
   }
 
   /**

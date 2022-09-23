@@ -10,7 +10,7 @@ import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { fetchTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
+import { fetchTotalHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -58,7 +58,7 @@ export interface ITxHistoryData {
 
 export const useStakedBNBTxHistory = (): ITxHistoryData => {
   const { data: txHistory, loading: isHistoryDataLoading } = useQuery({
-    type: fetchTxHistory,
+    type: fetchTotalHistory,
   });
   const dispatch = useAppDispatch();
 
@@ -127,7 +127,7 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
     !!unstakedABNBC?.length;
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTxHistory());
+    dispatch(fetchTotalHistory());
   }, [dispatch]);
 
   return {

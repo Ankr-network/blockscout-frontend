@@ -12,6 +12,7 @@ import { Token } from 'modules/common/types/token';
 import { getChainIdByToken } from 'modules/common/utils/getChainIdByToken';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
+import { fetchHistory as fetchBNBHistory } from 'modules/stake-bnb/actions/fetchHistory';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
 
 import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
@@ -66,6 +67,13 @@ export const useHistory = ({
   });
   const { loading: isAvaxHistoryMutationLoading } = useMutation({
     type: fetchAVAXHistory,
+  });
+
+  const { loading: bnbHistoryLoading } = useQuery({
+    type: fetchBNBHistory,
+  });
+  const { loading: isBnbHistoryMutationLoading } = useMutation({
+    type: fetchBNBHistory,
   });
 
   const resetState = () => {
@@ -145,6 +153,36 @@ export const useHistory = ({
           });
         });
         break;
+      case Token.aBNBb:
+        dispatchRequest(
+          fetchBNBHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aBNBb.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aBNBb.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
+      case Token.aBNBc:
+        dispatchRequest(
+          fetchBNBHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aBNBc.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aBNBc.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
 
       default:
         break;
@@ -172,7 +210,9 @@ export const useHistory = ({
       ftmHistoryLoading ||
       isFtmHistoryMutationLoading ||
       avaxHistoryLoading ||
-      isAvaxHistoryMutationLoading,
+      isAvaxHistoryMutationLoading ||
+      bnbHistoryLoading ||
+      isBnbHistoryMutationLoading,
     weeksAmount: step * 2,
     handleShowMore,
   };

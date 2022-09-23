@@ -19,8 +19,8 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-jest.mock('modules/stake-bnb/actions/fetchTxHistory', () => ({
-  fetchTxHistory: jest.fn(),
+jest.mock('modules/stake-bnb/actions/fetchTotalHistory', () => ({
+  fetchTotalHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory', () => {

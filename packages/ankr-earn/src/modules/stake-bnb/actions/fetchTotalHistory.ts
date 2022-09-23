@@ -5,10 +5,10 @@ import { BinanceSDK, ITxEventsHistoryData } from '@ankr.com/staking-sdk';
 
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
-export const fetchTxHistory = createSmartAction<
+export const fetchTotalHistory = createSmartAction<
   RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>
 >(
-  'bnb/fetchTxHistory',
+  'bnb/fetchTotalHistory',
   (): RequestAction => ({
     request: {
       promise: (async (): Promise<ITxEventsHistoryData> => {

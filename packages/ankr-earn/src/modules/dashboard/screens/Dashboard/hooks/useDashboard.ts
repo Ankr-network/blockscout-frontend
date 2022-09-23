@@ -20,7 +20,7 @@ import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchSt
 import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
-import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
+import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';

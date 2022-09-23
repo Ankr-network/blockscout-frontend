@@ -8,7 +8,7 @@ import {
 
 import { BinanceSDK, EBinanceErrorCodes, EBinancePoolEvents } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
-import { BINANCE_HISTORY_BLOCK_OFFSET, CERT_STAKING_LOG_HASH } from '../const';
+import { BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET, CERT_STAKING_LOG_HASH } from '../const';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
@@ -925,7 +925,7 @@ describe('modules/binance/sdk', () => {
     };
 
     defaultWeb3.eth.getBlockNumber.mockResolvedValue(
-      BINANCE_HISTORY_BLOCK_OFFSET + 1,
+      BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET + 1,
     );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
@@ -959,7 +959,7 @@ describe('modules/binance/sdk', () => {
     };
 
     defaultWeb3.eth.getBlockNumber.mockResolvedValue(
-      BINANCE_HISTORY_BLOCK_OFFSET + 1,
+      BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET + 1,
     );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
@@ -1073,7 +1073,7 @@ describe('modules/binance/sdk', () => {
     };
 
     defaultWeb3.eth.getBlockNumber.mockResolvedValue(
-      BINANCE_HISTORY_BLOCK_OFFSET + 1,
+      BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET + 1,
     );
     defaultReadProvider.executeBatchCalls.mockResolvedValue(blocks);
 
