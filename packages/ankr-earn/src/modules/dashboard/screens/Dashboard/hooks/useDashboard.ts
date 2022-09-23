@@ -22,7 +22,7 @@ import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/a
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
+import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { getTotalHistoryData as getFTMHistory } from 'modules/stake-fantom/actions/getTotalHistoryData';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
@@ -66,7 +66,7 @@ const resetRequests = () =>
     getFTMHistory.toString(),
     getFTMStats.toString(),
     getMetrics.toString(),
-    getTxHistoryETH.toString(),
+    getTotalHistory.toString(),
     getUnstakeDate.toString(),
     getMaticPolygonCommonData.toString(),
   ]);

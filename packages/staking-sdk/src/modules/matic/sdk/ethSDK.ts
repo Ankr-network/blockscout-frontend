@@ -824,7 +824,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
-   * @note Currently returns data for the last 7 days.
+   * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {

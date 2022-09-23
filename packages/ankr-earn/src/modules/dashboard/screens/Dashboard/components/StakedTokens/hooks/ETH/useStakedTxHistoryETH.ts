@@ -8,7 +8,7 @@ import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
+import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUseStakedFTMTxHistory {
@@ -32,7 +32,7 @@ const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
 
 export const useStakedTxHistoryETH = (): IUseStakedFTMTxHistory => {
   const { data: historyData, loading: isHistoryLoading } = useQuery({
-    type: getTxHistoryETH,
+    type: getTotalHistory,
   });
   const dispatch = useAppDispatch();
 
@@ -45,7 +45,7 @@ export const useStakedTxHistoryETH = (): IUseStakedFTMTxHistory => {
     !!stakedAETHB?.length || !pendingValue.isZero() || isHistoryLoading;
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(getTxHistoryETH());
+    dispatch(getTotalHistory());
   }, [dispatch]);
 
   return {

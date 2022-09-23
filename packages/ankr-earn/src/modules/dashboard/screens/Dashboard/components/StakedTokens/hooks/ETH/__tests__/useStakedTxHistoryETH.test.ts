@@ -14,8 +14,8 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-jest.mock('modules/stake-eth/actions/getTxHistoryAETHB', () => ({
-  getTxHistoryETH: jest.fn(),
+jest.mock('modules/stake-eth/actions/getTotalHistory', () => ({
+  getTotalHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedTxHistoryETH', () => {

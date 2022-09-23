@@ -13,6 +13,7 @@ import { getChainIdByToken } from 'modules/common/utils/getChainIdByToken';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
 import { fetchHistory as fetchBNBHistory } from 'modules/stake-bnb/actions/fetchHistory';
+import { getHistory as getETHHistory } from 'modules/stake-eth/actions/getHistory';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
 import { fetchHistory as fetchMATICETHHistory } from 'modules/stake-matic/eth/actions/fetchHistory';
 
@@ -82,6 +83,13 @@ export const useHistory = ({
   });
   const { loading: isMaticEthHistoryMutationLoading } = useMutation({
     type: fetchMATICETHHistory,
+  });
+
+  const { loading: ethHistoryLoading } = useQuery({
+    type: getETHHistory,
+  });
+  const { loading: isEthHistoryMutationLoading } = useMutation({
+    type: getETHHistory,
   });
 
   const resetState = () => {
@@ -221,7 +229,36 @@ export const useHistory = ({
           });
         });
         break;
-
+      case Token.aETHb:
+        dispatchRequest(
+          getETHHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aETHb.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aETHb.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
+      case Token.aETHc:
+        dispatchRequest(
+          getETHHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aETHc.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aETHc.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
       default:
         break;
     }
@@ -252,7 +289,9 @@ export const useHistory = ({
       bnbHistoryLoading ||
       isBnbHistoryMutationLoading ||
       maticEthHistoryLoading ||
-      isMaticEthHistoryMutationLoading,
+      isMaticEthHistoryMutationLoading ||
+      ethHistoryLoading ||
+      isEthHistoryMutationLoading,
     weeksAmount: step * 2,
     handleShowMore,
   };
