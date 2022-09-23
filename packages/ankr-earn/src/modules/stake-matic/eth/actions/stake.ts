@@ -11,7 +11,7 @@ import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 
 import { fetchStats } from './fetchStats';
-import { fetchTxHistory } from './fetchTxHistory';
+import { fetchTotalHistory } from './fetchTotalHistory';
 
 interface IStakePayload {
   amount: BigNumber;
@@ -35,7 +35,7 @@ export const stake = createSmartAction<
     showNotificationOnError: true,
     onSuccess: (response, _action, store) => {
       store.dispatchRequest(fetchStats());
-      store.dispatchRequest(fetchTxHistory());
+      store.dispatchRequest(fetchTotalHistory());
 
       if (response.data.txHash) {
         const path = RoutesConfig.stakeStep.generatePath(

@@ -16,9 +16,9 @@ export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 3_000;
 export const POOL_CONTRACT_START_BLOCK = isMainnet ? 13_396_826 : 5_653_297;
 
 /**
- * Block offset to get latest history events
+ * Block offset to get 14 days history events
  */
-export const BLOCK_OFFSET = 302_400; // 7 days
+export const MATIC_ETH_BLOCK_2_WEEKS_OFFSET = 604_800; // 14 days
 
 /**
  * Internal write provider id

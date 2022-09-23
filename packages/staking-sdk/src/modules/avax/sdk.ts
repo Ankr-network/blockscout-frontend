@@ -842,7 +842,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
-   * @note Currently returns data for block range
+   * @note Currently returns data for block range.
    * @param {number} from - from block
    * @param {number} to - to block
    * @returns {Promise<ITxEventsHistoryData>}

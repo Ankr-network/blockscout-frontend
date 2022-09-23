@@ -16,8 +16,8 @@ import {
   useStakedMATICTxHistory,
 } from '../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
 
-jest.mock('modules/stake-matic/eth/actions/fetchTxHistory', () => ({
-  fetchTxHistory: jest.fn(),
+jest.mock('modules/stake-matic/eth/actions/fetchTotalHistory', () => ({
+  fetchTotalHistory: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({

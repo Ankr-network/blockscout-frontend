@@ -13,7 +13,7 @@ import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 
 import { fetchStats } from './fetchStats';
-import { fetchTxHistory } from './fetchTxHistory';
+import { fetchTotalHistory } from './fetchTotalHistory';
 import { getAnkrBalance } from './getAnkrBalance';
 
 interface IUnstakePayload {
@@ -40,7 +40,7 @@ export const unstake = createSmartAction<
       await response.data?.receiptPromise;
 
       store.dispatchRequest(fetchStats());
-      store.dispatchRequest(fetchTxHistory());
+      store.dispatchRequest(fetchTotalHistory());
       store.dispatchRequest(getAnkrBalance());
       store.dispatchRequest(getUnstakeDate());
 

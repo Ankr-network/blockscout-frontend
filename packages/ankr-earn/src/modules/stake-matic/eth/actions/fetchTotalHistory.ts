@@ -7,9 +7,9 @@ import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
 
-export const fetchTxHistory = createSmartAction<
+export const fetchTotalHistory = createSmartAction<
   RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>
->(`${MATIC_ETH_ACTIONS_PREFIX}fetchTxHistory`, () => ({
+>(`${MATIC_ETH_ACTIONS_PREFIX}fetchTotalHistory`, () => ({
   request: {
     promise: (async (): Promise<ITxEventsHistoryData> => {
       const sdk = await MaticEthSDK.getInstance();

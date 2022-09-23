@@ -24,8 +24,8 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-jest.mock('modules/stake-matic/eth/actions/fetchTxHistory', () => ({
-  fetchTxHistory: jest.fn(),
+jest.mock('modules/stake-matic/eth/actions/fetchTotalHistory', () => ({
+  fetchTotalHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedCard/useTxHistory', () => {

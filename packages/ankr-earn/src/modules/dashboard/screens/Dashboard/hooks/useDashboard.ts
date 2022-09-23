@@ -26,7 +26,7 @@ import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { getTotalHistoryData as getFTMHistory } from 'modules/stake-fantom/actions/getTotalHistoryData';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
+import { fetchTotalHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';

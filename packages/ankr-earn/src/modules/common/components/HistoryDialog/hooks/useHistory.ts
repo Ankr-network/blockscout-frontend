@@ -14,6 +14,7 @@ import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwor
 import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
 import { fetchHistory as fetchBNBHistory } from 'modules/stake-bnb/actions/fetchHistory';
 import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
+import { fetchHistory as fetchMATICETHHistory } from 'modules/stake-matic/eth/actions/fetchHistory';
 
 import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
 
@@ -74,6 +75,13 @@ export const useHistory = ({
   });
   const { loading: isBnbHistoryMutationLoading } = useMutation({
     type: fetchBNBHistory,
+  });
+
+  const { loading: maticEthHistoryLoading } = useQuery({
+    type: fetchMATICETHHistory,
+  });
+  const { loading: isMaticEthHistoryMutationLoading } = useMutation({
+    type: fetchMATICETHHistory,
   });
 
   const resetState = () => {
@@ -183,6 +191,36 @@ export const useHistory = ({
           });
         });
         break;
+      case Token.aMATICb:
+        dispatchRequest(
+          fetchMATICETHHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aMATICb.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aMATICb.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
+      case Token.aMATICc:
+        dispatchRequest(
+          fetchMATICETHHistory({
+            step: stepValue,
+          }),
+        ).then(({ data }) => {
+          setHistoryData({
+            stakeEvents: [...stakeEvents, ...(data?.aMATICc.stakeEvents ?? [])],
+            unstakeEvents: [
+              ...unstakeEvents,
+              ...(data?.aMATICc.unstakeEvents ?? []),
+            ],
+          });
+        });
+        break;
 
       default:
         break;
@@ -212,7 +250,9 @@ export const useHistory = ({
       avaxHistoryLoading ||
       isAvaxHistoryMutationLoading ||
       bnbHistoryLoading ||
-      isBnbHistoryMutationLoading,
+      isBnbHistoryMutationLoading ||
+      maticEthHistoryLoading ||
+      isMaticEthHistoryMutationLoading,
     weeksAmount: step * 2,
     handleShowMore,
   };

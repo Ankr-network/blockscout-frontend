@@ -12,7 +12,7 @@ import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { fetchTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
+import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IGetHistoryTransactionsArgs {
@@ -52,7 +52,7 @@ export interface ITxHistoryData {
 
 export const useStakedMATICTxHistory = (): ITxHistoryData => {
   const { data, loading: isHistoryDataLoading } = useQuery({
-    type: fetchTxHistory,
+    type: fetchTotalHistory,
   });
   const dispatch = useAppDispatch();
 
@@ -115,7 +115,7 @@ export const useStakedMATICTxHistory = (): ITxHistoryData => {
     !!unstakedAMATICC?.length;
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTxHistory());
+    dispatch(fetchTotalHistory());
   }, [dispatch]);
 
   return {

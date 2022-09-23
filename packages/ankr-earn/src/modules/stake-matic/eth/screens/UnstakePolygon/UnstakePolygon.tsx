@@ -12,7 +12,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
-import { fetchTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
+import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -34,7 +34,7 @@ const resetRequests = () =>
   resetReduxRequests([
     approveAMATICCUnstake.toString(),
     fetchStats.toString(),
-    fetchTxHistory.toString(),
+    fetchTotalHistory.toString(),
     getAnkrBalance.toString(),
     getMetrics.toString(),
     getUnstakeDate.toString(),
@@ -68,7 +68,7 @@ export const UnstakePolygon = (): JSX.Element => {
     dispatch(resetRequests());
 
     dispatch(fetchStats());
-    dispatch(fetchTxHistory());
+    dispatch(fetchTotalHistory());
     dispatch(getAnkrBalance());
     dispatch(getMetrics());
     dispatch(getUnstakeDate());

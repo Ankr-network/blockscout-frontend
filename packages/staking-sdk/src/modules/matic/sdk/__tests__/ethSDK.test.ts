@@ -9,7 +9,7 @@ import {
 } from '@ankr.com/provider';
 
 import { ETH_SCALE_FACTOR, ZERO } from '../../../common';
-import { BLOCK_OFFSET } from '../../const';
+import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '../../const';
 import {
   EMaticSDKErrorCodes,
   EPolygonPoolEvents,
@@ -726,7 +726,7 @@ describe('modules/matic/sdk/ethSDK', () => {
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(MATIC_ETH_BLOCK_2_WEEKS_OFFSET + 1);
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
@@ -803,7 +803,7 @@ describe('modules/matic/sdk/ethSDK', () => {
       },
     };
 
-    defaultWeb3.eth.getBlockNumber.mockResolvedValue(BLOCK_OFFSET + 1);
+    defaultWeb3.eth.getBlockNumber.mockResolvedValue(MATIC_ETH_BLOCK_2_WEEKS_OFFSET + 1);
     defaultReadProvider.executeBatchCalls.mockResolvedValue(blocks);
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);

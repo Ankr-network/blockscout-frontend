@@ -42,7 +42,7 @@ import { IFetchTxData, IShareArgs, ISwitcher } from '../../switcher';
 import { convertNumberToHex } from '../../utils';
 import {
   ALLOWANCE_RATE,
-  BLOCK_OFFSET,
+  MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
   MATIC_ON_ETH_PROVIDER_READ_ID,
   MAX_BLOCK_RANGE,
 } from '../const';
@@ -712,6 +712,9 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    */
   public async getPendingData(): Promise<IPendingData> {
     const pendingClaim = await this.getPendingClaim();
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
 
     // If there are no pending amount we do not need any calculations
     if (pendingClaim.isZero()) {
@@ -721,7 +724,7 @@ export class MaticEthSDK implements ISwitcher, IStakable {
       };
     }
 
-    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch();
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch(latestBlockNumber - MATIC_ETH_BLOCK_2_WEEKS_OFFSET, latestBlockNumber);
 
     // the reverse is necessary to get new unstake events first
     const reversedUnstakeEvents = unstakeRawEvents.reverse();
@@ -779,23 +782,21 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * Internal function to return pool raw events.
    *
    * @private
+   * @note Currently returns raw pool events for block range.
+   * @param {number} from - from block
+   * @param {number} to - to block
    * @returns {Promise<IEventsBatch>}
    */
-  private async getPoolEventsBatch(): Promise<IEventsBatch> {
+  private async getPoolEventsBatch(from: number, to: number): Promise<IEventsBatch> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
-
-    const latestBlockNumber = await this.readProvider
-      .getWeb3()
-      .eth.getBlockNumber();
-    const startBlock = latestBlockNumber - BLOCK_OFFSET;
 
     const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
       this.getPastEvents({
         provider: this.readProvider,
         contract: polygonPoolContract,
         eventName: EPolygonPoolEvents.StakePendingV2,
-        startBlock,
-        latestBlockNumber,
+        startBlock: from,
+        latestBlockNumber: to,
         rangeStep: MAX_BLOCK_RANGE,
         filter: { staker: this.currentAccount },
       }),
@@ -803,8 +804,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
         provider: this.readProvider,
         contract: polygonPoolContract,
         eventName: EPolygonPoolEvents.TokensBurned,
-        startBlock,
-        latestBlockNumber,
+        startBlock: from,
+        latestBlockNumber: to,
         rangeStep: MAX_BLOCK_RANGE,
         filter: { staker: this.currentAccount },
       }),
@@ -827,8 +828,26 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    return this.getTxEventsHistoryRange(latestBlockNumber - MATIC_ETH_BLOCK_2_WEEKS_OFFSET, latestBlockNumber);
+  }
+
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for block range.
+   * @param {number} from - from block
+   * @param {number} to - to block
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+   public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+
     const { stakeRawEvents, unstakeRawEvents, ratio } =
-      await this.getPoolEventsBatch();
+      await this.getPoolEventsBatch(from, to);
 
     let pendingUnstakes = await this.getPendingClaim();
     let completedRawEvents: EventData[] = [];
@@ -894,6 +913,18 @@ export class MaticEthSDK implements ISwitcher, IStakable {
       unstakeBond: [],
       unstakeCertificate: [],
     };
+   }
+
+ /** 
+   * Get latest block number.
+   * 
+   * @returns {Promise<number>}
+  */
+  public async getLatestBlock(): Promise<number> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return web3.eth.getBlockNumber();
   }
 
   /**
