@@ -15,14 +15,14 @@ import { IPendingData, IStakeData, ITxEventsHistoryData } from '../../../stake';
 import { IFetchTxData } from '../../../switcher';
 import { MATIC_DECIMALS, MATIC_SCALE_FACTOR } from '../../const';
 import { EMaticSDKErrorCodes, TMaticSyntToken } from '../../types';
-import { MaticPolygonSDK } from '../polygonSDK';
+import { PolygonOnPolygonSDK } from '../polygonSDK';
 
 jest.mock('@ankr.com/provider', () => ({
   ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
 }));
 
-describe('modules/matic/sdk/polygonSDK', () => {
+describe('modules/polygon/sdk/polygonSDK', () => {
   const FEE_MAX = '100000';
   const ONE = new BigNumber(1);
   const TOKEN_BOND: TMaticSyntToken = 'aMATICb';
@@ -92,13 +92,13 @@ describe('modules/matic/sdk/polygonSDK', () => {
   });
 
   test('should initialize SDK', async () => {
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
 
     expect(sdk).toBeDefined();
   });
 
   test('should initialize SDK with user providers', async () => {
-    const sdk = await MaticPolygonSDK.getInstance({
+    const sdk = await PolygonOnPolygonSDK.getInstance({
       readProvider: defaultReadProvider as unknown as Web3KeyReadProvider,
       writeProvider: defaultWriteProvider as unknown as Web3KeyWriteProvider,
     });
@@ -110,7 +110,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
     defaultWriteProvider.isConnected.mockReturnValue(true);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.addTokenToWallet(TOKEN_BOND);
 
     expect(data).toBe(true);
@@ -127,7 +127,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
     defaultWriteProvider.isConnected.mockReturnValue(true);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.addTokenToWallet(TOKEN_CERT);
 
     expect(data).toBe(true);
@@ -144,7 +144,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.addTokenToWallet(TOKEN_BOND);
 
     expect(data).toBe(true);
@@ -161,7 +161,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.addTokenToWallet(TOKEN_CERT);
 
     expect(data).toBe(true);
@@ -194,7 +194,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
       Promise.resolve(ONE),
     );
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.approveACToken(ONE);
 
     expect(data).toBe(false);
@@ -220,7 +220,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
       Promise.resolve(ONE),
     );
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.approveACToken(ONE);
 
     expect(data).toBe(true);
@@ -238,7 +238,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.approveACToken(ONE);
 
     expect(data).toBe(true);
@@ -258,7 +258,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const abBalance = await sdk.getABBalance();
     const acBalance = await sdk.getACBalance();
 
@@ -278,7 +278,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getACPoolLiquidity();
 
     expect(data).toBe(ZERO);
@@ -296,7 +296,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getACPoolLiquidity();
 
     expect(data.toString(10)).toBe('0.000000000000000047');
@@ -318,7 +318,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getACPoolLiquidityInMATIC();
 
       expect(data).toBe(ZERO);
@@ -339,7 +339,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getACPoolLiquidityInMATIC();
 
       expect(data).toBe(ZERO);
@@ -360,7 +360,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getACPoolLiquidityInMATIC();
 
       expect(data).toBe(ZERO);
@@ -381,7 +381,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getACPoolLiquidityInMATIC();
 
       expect(data).toBe(ZERO);
@@ -403,7 +403,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getACPoolLiquidityInMATIC();
 
     expect(data.toString(10)).toBe('0.0034');
@@ -421,7 +421,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const acRatio = await sdk.getACRatio();
 
     expect(acRatio.toString(10)).toBe('0.000000000000000001');
@@ -439,7 +439,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getMaticBalance();
 
     expect(data.toString(10)).toBe('0.000000000000000009');
@@ -461,7 +461,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getMATICPoolLiquidityInAC();
 
       expect(data).toBe(ZERO);
@@ -482,7 +482,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getMATICPoolLiquidityInAC();
 
       expect(data).toBe(ZERO);
@@ -503,7 +503,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getMATICPoolLiquidityInAC();
 
       expect(data).toBe(ZERO);
@@ -524,7 +524,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
       const data = await sdk.getMATICPoolLiquidityInAC();
 
       expect(data).toBe(ZERO);
@@ -546,28 +546,28 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getMATICPoolLiquidityInAC();
 
     expect(data.toString(10)).toBe('0.00000000000024');
   });
 
   test('should return minimum stake data', async () => {
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getMinimumStake();
 
     expect(data).toBe(ZERO);
   });
 
   test('should return pending claim data', async () => {
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getPendingClaim();
 
     expect(data).toBe(ZERO);
   });
 
   test('should return pending data', async () => {
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getPendingData();
 
     expect(data).toStrictEqual({
@@ -591,7 +591,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getStakeFeePct();
 
     expect(data).toBe(ZERO);
@@ -612,7 +612,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getStakeFeePct();
 
     expect(data.toString(10)).toBe('0.1');
@@ -634,7 +634,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
       Promise.resolve(ONE),
     );
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getStakeGasFee(ONE, TOKEN_CERT);
 
     expect(data).toBe(ONE);
@@ -644,12 +644,13 @@ describe('modules/matic/sdk/polygonSDK', () => {
     defaultWeb3.eth.getTransaction.mockReturnValue(
       Promise.resolve({
         from: TX_ADDR,
-        input: "0x4f6df21a00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000",
-        value: "1000000000000000000",
+        input:
+          '0x4f6df21a00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000',
+        value: '1000000000000000000',
       }),
     );
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getTxData(TX_HASH);
 
     expect(data).toStrictEqual({
@@ -660,7 +661,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
   });
 
   test('should return events history data', async () => {
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getTxEventsHistory();
 
     expect(data).toStrictEqual({
@@ -676,7 +677,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
   test('should return transaction receipt', async () => {
     defaultWeb3.eth.getTransactionReceipt.mockReturnValue(TX_HASH);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getTxReceipt(TX_HASH);
 
     expect(data).toBe(TX_HASH);
@@ -697,7 +698,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getUnstakeFeePct();
 
     expect(data).toBe(ZERO);
@@ -718,14 +719,14 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.getUnstakeFeePct();
 
     expect(data.toString(10)).toBe('1');
   });
 
   test('should throw error if stake amount is less than or equals to zero', async () => {
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
 
     expect(sdk.stake(ZERO, TOKEN_CERT)).rejects.toThrow(
       EMaticSDKErrorCodes.ZERO_AMOUNT,
@@ -744,7 +745,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
 
     expect(sdk.stake(ONE, TOKEN_CERT)).rejects.toThrow(
       EMaticSDKErrorCodes.INSUFFICIENT_BALANCE,
@@ -781,7 +782,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWriteProvider.isConnected.mockReturnValue(false);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.stake(value, TOKEN_CERT);
 
     expect(data).toStrictEqual({ txHash: TX_HASH } as IStakeData);
@@ -816,14 +817,14 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWriteProvider.isConnected.mockReturnValue(false);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.stake(ONE, TOKEN_CERT);
 
     expect(data).toStrictEqual({ txHash: TX_HASH } as IStakeData);
   });
 
   test('should throw error if unstake amount is less than or equals to zero', async () => {
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
 
     expect(sdk.unstake(ZERO, TOKEN_CERT)).rejects.toThrow(
       EMaticSDKErrorCodes.ZERO_AMOUNT,
@@ -849,7 +850,7 @@ describe('modules/matic/sdk/polygonSDK', () => {
 
     defaultWriteProvider.isConnected.mockReturnValue(false);
 
-    const sdk = await MaticPolygonSDK.getInstance();
+    const sdk = await PolygonOnPolygonSDK.getInstance();
 
     await sdk.unstake(ONE, TOKEN_CERT);
 

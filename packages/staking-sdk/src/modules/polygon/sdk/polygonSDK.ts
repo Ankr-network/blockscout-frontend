@@ -47,21 +47,21 @@ import {
 const { polygonConfig } = configFromEnv();
 
 /**
- * MaticPolygonSDK allows you to interact with Polygon Liquid Staking smart contracts on the Polygon blockchain: MATIC, aMATICb, aMATICc, and SwapPool.
+ * PolygonOnPolygonSDK allows you to interact with Polygon Liquid Staking smart contracts on the Polygon blockchain: MATIC, aMATICb, aMATICc, and SwapPool.
  *
  * For more information on Polygon Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/matic/staking-mechanics).
  *
  * @class
  */
-export class MaticPolygonSDK implements IStakable {
+export class PolygonOnPolygonSDK implements IStakable {
   /**
    * instance — SDK instance.
    *
-   * @type {MaticPolygonSDK | undefined}
+   * @type {PolygonOnPolygonSDK | undefined}
    * @static
    * @private
    */
-  private static instance?: MaticPolygonSDK;
+  private static instance?: PolygonOnPolygonSDK;
 
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
@@ -98,13 +98,13 @@ export class MaticPolygonSDK implements IStakable {
   private stakeGasFee?: BigNumber;
 
   /**
-   * Private constructor. Instead, use `MaticPolygonSDK.getInstance`.
+   * Private constructor. Instead, use `PolygonOnPolygonSDK.getInstance`.
    *
    * @constructor
    * @private
    */
   private constructor({ readProvider, writeProvider }: IMaticSDKProviders) {
-    MaticPolygonSDK.instance = this;
+    PolygonOnPolygonSDK.instance = this;
 
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
@@ -251,11 +251,11 @@ export class MaticPolygonSDK implements IStakable {
    * @public
    * @static
    * @param {Partial<IMaticSDKProviders> | undefined} args - user defined providers
-   * @returns {Promise<MaticPolygonSDK>}
+   * @returns {Promise<PolygonOnPolygonSDK>}
    */
   public static async getInstance(
     args?: Partial<IMaticSDKProviders>,
-  ): Promise<MaticPolygonSDK> {
+  ): Promise<PolygonOnPolygonSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
 
     const [readProvider, writeProvider] = (await Promise.all([
@@ -265,17 +265,18 @@ export class MaticPolygonSDK implements IStakable {
     ])) as unknown as [Web3KeyReadProvider, Web3KeyWriteProvider];
 
     const isOldAccount =
-      MaticPolygonSDK.instance?.currentAccount === writeProvider.currentAccount;
+      PolygonOnPolygonSDK.instance?.currentAccount ===
+      writeProvider.currentAccount;
 
     const isOldProvider =
-      MaticPolygonSDK.instance?.readProvider === readProvider &&
-      MaticPolygonSDK.instance?.writeProvider === writeProvider;
+      PolygonOnPolygonSDK.instance?.readProvider === readProvider &&
+      PolygonOnPolygonSDK.instance?.writeProvider === writeProvider;
 
-    if (MaticPolygonSDK.instance && isOldAccount && isOldProvider) {
-      return MaticPolygonSDK.instance;
+    if (PolygonOnPolygonSDK.instance && isOldAccount && isOldProvider) {
+      return PolygonOnPolygonSDK.instance;
     }
 
-    const instance = new MaticPolygonSDK({
+    const instance = new PolygonOnPolygonSDK({
       readProvider,
       writeProvider,
     });
@@ -329,7 +330,7 @@ export class MaticPolygonSDK implements IStakable {
   ): Promise<boolean> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+    const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
 
     const amountHex = convertNumberToHex(amount, scale);
 
@@ -372,7 +373,7 @@ export class MaticPolygonSDK implements IStakable {
   public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const abTokenContract = MaticPolygonSDK.getABTokenContract(web3);
+    const abTokenContract = PolygonOnPolygonSDK.getABTokenContract(web3);
 
     const balance = await abTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -390,7 +391,7 @@ export class MaticPolygonSDK implements IStakable {
   public async getACBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+    const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
 
     const balance = await acTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -428,7 +429,7 @@ export class MaticPolygonSDK implements IStakable {
   public async getACPoolLiquidityInMATIC(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+    const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
     const swapPoolContract = await this.getSwapPoolContract();
 
     const [acTokensPool, ratio]: [string, string] = await Promise.all([
@@ -461,7 +462,7 @@ export class MaticPolygonSDK implements IStakable {
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+    const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
 
     const ratio = await acTokenContract.methods.ratio().call();
 
@@ -493,7 +494,7 @@ export class MaticPolygonSDK implements IStakable {
   public async getMATICPoolLiquidityInAC(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const acTokenContract = MaticPolygonSDK.getACTokenContract(web3);
+    const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
     const swapPoolContract = await this.getSwapPoolContract();
 
     const [nativeTokenPool, ratio]: [string, string] = await Promise.all([

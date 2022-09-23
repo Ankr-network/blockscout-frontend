@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-eth';
 
-import { IStakeData, MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { IStakeData, PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 import { IFetchTxData } from 'modules/switcher/api/types';
@@ -15,7 +15,7 @@ export const getTxData = createSmartAction<
 >(`${MATIC_POLYGON_ACTIONS_PREFIX}getTxData`, ({ txHash }) => ({
   request: {
     promise: async (): Promise<IFetchTxData> => {
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
       return sdk.getTxData(txHash);
     },
@@ -41,7 +41,7 @@ export const getTxReceipt = createSmartAction<
       showNotificationOnError: true,
       poll: POLL_INTERVAL_SECONDS,
       onRequest: request => {
-        request.promise = MaticPolygonSDK.getInstance().then(sdk =>
+        request.promise = PolygonOnPolygonSDK.getInstance().then(sdk =>
           sdk.getTxReceipt(txHash),
         );
 

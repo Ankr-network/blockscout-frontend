@@ -5,7 +5,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
@@ -27,7 +27,7 @@ export const unstake = createSmartAction<
 >(`${MATIC_POLYGON_ACTIONS_PREFIX}unstake`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<IWeb3SendResult> => {
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
       return sdk.unstake(amount, token);
     })(),

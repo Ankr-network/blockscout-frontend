@@ -7,8 +7,8 @@ import {
   BinanceSDK,
   EthereumSDK,
   FantomSDK,
-  MaticEthSDK,
-  MaticPolygonSDK,
+  PolygonOnEthereumSDK,
+  PolygonOnPolygonSDK,
 } from '@ankr.com/staking-sdk';
 
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
@@ -152,8 +152,8 @@ export const getBalance = createAction<
 
         case Token.MATIC: {
           const [ethSdk, polygonSdk, dashboardSdk] = await Promise.all([
-            MaticEthSDK.getInstance(),
-            MaticPolygonSDK.getInstance(),
+            PolygonOnEthereumSDK.getInstance(),
+            PolygonOnPolygonSDK.getInstance(),
             DashboardSDK.getInstance(),
           ]);
 

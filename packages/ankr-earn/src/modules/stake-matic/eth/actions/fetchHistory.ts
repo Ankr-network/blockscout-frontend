@@ -1,8 +1,8 @@
-import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk/src/modules/matic/const';
+import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk/src/modules/polygon/const';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
@@ -26,7 +26,7 @@ export const fetchHistory = createAction<
   ({ step }): RequestAction => ({
     request: {
       promise: (async (): Promise<IGetHistoryData> => {
-        const sdk = await MaticEthSDK.getInstance();
+        const sdk = await PolygonOnEthereumSDK.getInstance();
         const latestBlock = await sdk.getLatestBlock();
 
         const from = latestBlock - MATIC_ETH_BLOCK_2_WEEKS_OFFSET * (step + 1);

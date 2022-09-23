@@ -56,21 +56,21 @@ import {
 } from '../types';
 
 /**
- * MaticEthSDK allows you to interact with Polygon Liquid Staking smart contracts on the Ethereum blockchain: MATIC, aMATICb, aMATICc, and polygonPool.
+ * PolygonOnEthereumSDK allows you to interact with Polygon Liquid Staking smart contracts on the Ethereum blockchain: MATIC, aMATICb, aMATICc, and polygonPool.
  *
  * For more information on Polygon Liquid Staking from Ankr, refer to the [development details](https://www.ankr.com/docs/staking/liquid-staking/matic/staking-mechanics).
  *
  * @class
  */
-export class MaticEthSDK implements ISwitcher, IStakable {
+export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   /**
    * instance — SDK instance.
    *
-   * @type {MaticEthSDK}
+   * @type {PolygonOnEthereumSDK}
    * @static
    * @private
    */
-  private static instance?: MaticEthSDK;
+  private static instance?: PolygonOnEthereumSDK;
 
   /**
    * writeProvider — provider which has signer for signing transactions.
@@ -107,13 +107,13 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   private currentAccount: string;
 
   /**
-   * Private constructor. Instead, use `MaticEthSDK.getInstance`.
+   * Private constructor. Instead, use `PolygonOnEthereumSDK.getInstance`.
    *
    * @constructor
    * @private
    */
   private constructor({ writeProvider, readProvider }: IMaticSDKProviders) {
-    MaticEthSDK.instance = this;
+    PolygonOnEthereumSDK.instance = this;
 
     const config = configFromEnv();
     this.readProvider = readProvider;
@@ -131,11 +131,11 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * @public
    * @static
    * @param {Partial<IMaticSDKProviders>} [args] - User defined providers.
-   * @returns {Promise<MaticEthSDK>}
+   * @returns {Promise<PolygonOnEthereumSDK>}
    */
   public static async getInstance(
     args?: Partial<IMaticSDKProviders>,
-  ): Promise<MaticEthSDK> {
+  ): Promise<PolygonOnEthereumSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = (await Promise.all([
       args?.writeProvider ?? providerManager.getETHWriteProvider(),
@@ -144,16 +144,21 @@ export class MaticEthSDK implements ISwitcher, IStakable {
     ])) as unknown as [Web3KeyWriteProvider, Web3KeyReadProvider];
 
     const addressHasNotBeenUpdated =
-      MaticEthSDK.instance?.currentAccount === writeProvider.currentAccount;
+      PolygonOnEthereumSDK.instance?.currentAccount ===
+      writeProvider.currentAccount;
     const hasNewProvider =
-      MaticEthSDK.instance?.writeProvider === writeProvider &&
-      MaticEthSDK.instance?.readProvider === readProvider;
+      PolygonOnEthereumSDK.instance?.writeProvider === writeProvider &&
+      PolygonOnEthereumSDK.instance?.readProvider === readProvider;
 
-    if (MaticEthSDK.instance && addressHasNotBeenUpdated && hasNewProvider) {
-      return MaticEthSDK.instance;
+    if (
+      PolygonOnEthereumSDK.instance &&
+      addressHasNotBeenUpdated &&
+      hasNewProvider
+    ) {
+      return PolygonOnEthereumSDK.instance;
     }
 
-    const instance = new MaticEthSDK({ writeProvider, readProvider });
+    const instance = new PolygonOnEthereumSDK({ writeProvider, readProvider });
     const isEthChain = await instance.isEthNetwork(writeProvider);
 
     if (isEthChain && !writeProvider.isConnected()) {
@@ -515,7 +520,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   public async getABBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticbTokenContract = MaticEthSDK.getAMATICBTokenContract(web3);
+    const aMaticbTokenContract =
+      PolygonOnEthereumSDK.getAMATICBTokenContract(web3);
 
     const balance = await aMaticbTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -533,7 +539,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   public async getACBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract =
+      PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
 
     const balance = await aMaticCTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -551,7 +558,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   public async getACRatio(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract =
+      PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
 
     const ratio = await aMaticCTokenContract.methods.ratio().call();
 
@@ -569,7 +577,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
   public async getACAllowance(spender?: string): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract =
+      PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
     const { contractConfig } = configFromEnv();
 
     const allowance = await aMaticCTokenContract.methods
@@ -602,7 +611,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
 
     const { contractConfig } = configFromEnv();
     const web3 = this.writeProvider.getWeb3();
-    const aMaticCTokenContract = MaticEthSDK.getAMATICCTokenContract(web3);
+    const aMaticCTokenContract =
+      PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
 
     const data = aMaticCTokenContract.methods
       .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, scale))
@@ -638,7 +648,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
 
     const { contractConfig } = configFromEnv();
     const web3 = this.writeProvider.getWeb3();
-    const aMaticbTokenContract = MaticEthSDK.getAMATICBTokenContract(web3);
+    const aMaticbTokenContract =
+      PolygonOnEthereumSDK.getAMATICBTokenContract(web3);
 
     const data = aMaticbTokenContract.methods
       .lockShares(convertNumberToHex(amount, scale))
@@ -674,7 +685,8 @@ export class MaticEthSDK implements ISwitcher, IStakable {
 
     const { contractConfig } = configFromEnv();
     const web3 = this.writeProvider.getWeb3();
-    const aMaticbTokenContract = MaticEthSDK.getAMATICBTokenContract(web3);
+    const aMaticbTokenContract =
+      PolygonOnEthereumSDK.getAMATICBTokenContract(web3);
 
     const data = aMaticbTokenContract.methods
       .unlockShares(convertNumberToHex(amount, scale))
@@ -724,7 +736,10 @@ export class MaticEthSDK implements ISwitcher, IStakable {
       };
     }
 
-    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch(latestBlockNumber - MATIC_ETH_BLOCK_2_WEEKS_OFFSET, latestBlockNumber);
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch(
+      latestBlockNumber - MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
+      latestBlockNumber,
+    );
 
     // the reverse is necessary to get new unstake events first
     const reversedUnstakeEvents = unstakeRawEvents.reverse();
@@ -787,7 +802,10 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * @param {number} to - to block
    * @returns {Promise<IEventsBatch>}
    */
-  private async getPoolEventsBatch(from: number, to: number): Promise<IEventsBatch> {
+  private async getPoolEventsBatch(
+    from: number,
+    to: number,
+  ): Promise<IEventsBatch> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
     const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
@@ -832,7 +850,10 @@ export class MaticEthSDK implements ISwitcher, IStakable {
     const web3 = provider.getWeb3();
     const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    return this.getTxEventsHistoryRange(latestBlockNumber - MATIC_ETH_BLOCK_2_WEEKS_OFFSET, latestBlockNumber);
+    return this.getTxEventsHistoryRange(
+      latestBlockNumber - MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
+      latestBlockNumber,
+    );
   }
 
   /**
@@ -844,8 +865,10 @@ export class MaticEthSDK implements ISwitcher, IStakable {
    * @param {number} to - to block
    * @returns {Promise<ITxEventsHistoryData>}
    */
-   public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
-
+  public async getTxEventsHistoryRange(
+    from: number,
+    to: number,
+  ): Promise<ITxEventsHistoryData> {
     const { stakeRawEvents, unstakeRawEvents, ratio } =
       await this.getPoolEventsBatch(from, to);
 
@@ -913,13 +936,13 @@ export class MaticEthSDK implements ISwitcher, IStakable {
       unstakeBond: [],
       unstakeCertificate: [],
     };
-   }
+  }
 
- /** 
+  /**
    * Get latest block number.
-   * 
+   *
    * @returns {Promise<number>}
-  */
+   */
   public async getLatestBlock(): Promise<number> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();

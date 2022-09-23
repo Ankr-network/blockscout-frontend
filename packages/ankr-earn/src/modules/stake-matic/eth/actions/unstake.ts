@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -29,7 +29,7 @@ export const unstake = createSmartAction<
 >(`${MATIC_ETH_ACTIONS_PREFIX}unstake`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<IWeb3SendResult> => {
-      const sdk = await MaticEthSDK.getInstance();
+      const sdk = await PolygonOnEthereumSDK.getInstance();
       return sdk.unstake(amount, token);
     })(),
   },

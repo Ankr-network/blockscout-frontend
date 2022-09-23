@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -19,7 +19,7 @@ export const getStakeGasFee = createSmartAction<
 >(`${MATIC_POLYGON_ACTIONS_PREFIX}getStakeGasFee`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<BigNumber> => {
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
       return sdk.getStakeGasFee(amount, token);
     })(),

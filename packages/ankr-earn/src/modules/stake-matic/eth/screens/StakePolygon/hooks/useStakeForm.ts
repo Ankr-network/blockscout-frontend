@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
@@ -142,11 +142,11 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
-    const maticEthSDK = await MaticEthSDK.getInstance();
+    const polygonOnEthereumSDK = await PolygonOnEthereumSDK.getInstance();
     const synthBalance =
       selectedToken === Token.aMATICb
-        ? await maticEthSDK.getABBalance()
-        : await maticEthSDK.getACBalance();
+        ? await polygonOnEthereumSDK.getABBalance()
+        : await polygonOnEthereumSDK.getACBalance();
 
     trackStake({
       address,

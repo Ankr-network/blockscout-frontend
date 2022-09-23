@@ -3,7 +3,7 @@ export * from './avax';
 export * from './binance';
 export * from './ethereum';
 export * from './fantom';
-export * from './matic';
+export * from './polygon';
 export * from './switcher';
 export * from './stake';
 export * from './utils';
