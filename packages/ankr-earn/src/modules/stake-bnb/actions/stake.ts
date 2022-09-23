@@ -17,22 +17,22 @@ import { fetchTotalHistory } from './fetchTotalHistory';
 interface IStakeArgs {
   amount: BigNumber;
   token: TBnbSyntToken;
+  code?: string;
 }
 
 export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
   'bnb/stake',
-  ({ amount, token }): RequestAction => ({
+  ({ amount, token, code }): RequestAction => ({
     request: {
       promise: (async (): Promise<{ txHash: string }> => {
         const sdk: BinanceSDK = await BinanceSDK.getInstance();
 
-        return sdk.stake(amount, token);
+        return sdk.stake(amount, token, undefined, code);
       })(),
     },
     meta: {
       asMutation: true,
       showNotificationOnError: true,
-      getData: (data: void): void => data,
       onSuccess: (
         response,
         _action: RequestAction,

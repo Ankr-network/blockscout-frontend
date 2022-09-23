@@ -28,6 +28,7 @@ import {
   ABI_BINANCE_POOL,
   AETHC_BSC_ABI,
   AETH_BSC_ABI,
+  ABI_BINANCE_PARTERS,
 } from '../contracts';
 import {
   ITxEventsHistoryData,
@@ -377,6 +378,24 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return new web3.eth.Contract(
       ABI_BINANCE_POOL as AbiItem[],
       binanceConfig.binancePool,
+    );
+  }
+
+  /**
+   * Internal function to get BinancePartners contract.
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use readProvider
+   * @returns {Promise<Contract>}
+   */
+  private async getBinancePartersContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      ABI_BINANCE_PARTERS as AbiItem[],
+      binanceConfig.binancePartners,
     );
   }
 
@@ -778,13 +797,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @param {TBnbSyntToken} token - token symbol
    * @returns {string}
    */
-  private getStakeMethodName(token: TBnbSyntToken) {
+  private getStakeMethodName(token: TBnbSyntToken, withCode = false) {
     switch (token) {
       case 'aBNBc':
-        return 'stakeAndClaimCerts';
+        return withCode ? 'stakeAndClaimCertsWithCode' : 'stakeAndClaimCerts';
 
       default:
-        return 'stakeAndClaimBonds';
+        return withCode ? 'stakeAndClaimBondsWithCode' : 'stakeAndClaimBonds';
     }
   }
 
@@ -990,6 +1009,18 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Checking whether a code partner exists
+   * 
+   * @param {string} partnerCode - partner code 
+   * @returns {Promise<boolean>}
+   */
+  public async checkExistPartnerCode(partnerCode: string): Promise<boolean> {
+    const binancePartnersContract = await this.getBinancePartersContract();
+
+    return binancePartnersContract.methods.ifExistPartnerByCode(partnerCode).call();
+  }
+
+  /**
    * Stake token.
    *
    * @public
@@ -998,12 +1029,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aBNBb or aBNBc)
+   * @param {string} referralCode - referral code
    * @returns {Promise<IStakeData>}
    */
-  public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
+  public async stake(amount: BigNumber, token: string, scale?: number, referralCode?: string): Promise<IStakeData> {
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EBinanceErrorCodes.ZERO_AMOUNT);
     }
+    const { binanceConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
@@ -1015,6 +1048,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
       gasFee = await this.getStakeGasFee(amount, token as TBnbSyntToken);
     }
 
+    const isUsingRefCode = !!referralCode;
     const balance = await this.getBNBBalance();
     const gasFeeSafeLimit = gasFee.multipliedBy(BNB_GAS_FEE_SAFE_LIMIT);
     const maxSafeAmount = balance.minus(gasFee).minus(gasFeeSafeLimit);
@@ -1030,21 +1064,39 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     const contractStake =
       binancePoolContract.methods[
-        this.getStakeMethodName(token as TBnbSyntToken)
+        this.getStakeMethodName(token as TBnbSyntToken, isUsingRefCode)
       ];
 
     const safeHexAmount = this.getSafeBinanceHexAmount(stakeAmount);
 
-    const gasLimit: number = await contractStake().estimateGas({
-      from: this.currentAccount,
-      value: safeHexAmount,
-    });
+    const gasLimit: number = 
+      isUsingRefCode 
+        ? await contractStake(referralCode).estimateGas({
+          from: this.currentAccount,
+          value: safeHexAmount,
+        })
+        : await contractStake().estimateGas({
+          from: this.currentAccount,
+          value: safeHexAmount,
+        });
+
+    if (isUsingRefCode) {
+      const data = contractStake(referralCode).encodeABI();
+
+      const tx = await this.writeProvider.sendTransactionAsync(
+        this.currentAccount,
+        binanceConfig.binancePool,
+        { data, value: safeHexAmount, estimate: true }
+      )
+
+      return { txHash: tx.transactionHash };
+    }
 
     const tx = await contractStake().send({
-      from: this.currentAccount,
-      value: safeHexAmount,
-      gas: this.getIncreasedGasLimit(gasLimit),
-    });
+          from: this.currentAccount,
+          value: safeHexAmount,
+          gas: this.getIncreasedGasLimit(gasLimit),
+        });
 
     return { txHash: tx.transactionHash };
   }

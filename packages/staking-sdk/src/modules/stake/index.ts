@@ -24,6 +24,7 @@ export interface IStakable {
     amount: BigNumber,
     token: string,
     scale?: number,
+    referralCode?: string,
   ) => Promise<IStakeData>;
   /**
    * Unstake token.

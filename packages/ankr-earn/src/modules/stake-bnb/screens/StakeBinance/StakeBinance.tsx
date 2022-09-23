@@ -7,6 +7,7 @@ import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
+import { CodeInput } from 'modules/common/components/CodeField';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq, IFaqItem } from 'modules/common/components/Faq';
 import {
@@ -16,6 +17,7 @@ import {
   featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { fetchIsStakerExists } from 'modules/referrals/actions/fetchIsStakerExists';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -28,15 +30,17 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
-import { StakeForm } from 'modules/stake/components/StakeForm';
+import { FieldsNames, StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
+import { Checkbox } from 'uiKit/Checkbox';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { fetchStats } from '../../actions/fetchStats';
@@ -54,6 +58,7 @@ export const StakeBinance = (): JSX.Element => {
 
   const {
     aBNBcRatio,
+    address,
     amount,
     bnbBalance,
     certificateRatio,
@@ -66,7 +71,12 @@ export const StakeBinance = (): JSX.Element => {
     tokenIn,
     tokenOut,
     totalAmount,
+    haveCode,
+    isCodeCheckingLoading,
+    isReferralUserExists,
+    handleHaveCodeClick,
     handleFormChange,
+    handleCodeChange,
     handleSubmit,
     onTokenSelect,
   } = useStakeForm();
@@ -137,6 +147,7 @@ export const StakeBinance = (): JSX.Element => {
     dispatch(getMetrics());
     dispatch(fetchStats());
     dispatch(fetchPendingValues());
+    dispatch(fetchIsStakerExists(address));
 
     return () => {
       dispatch(resetRequests([getStakeGasFee.toString()]));
@@ -158,6 +169,9 @@ export const StakeBinance = (): JSX.Element => {
       }),
     );
   }, [certificateRatio, dispatch]);
+
+  const isDisabled =
+    isStakeLoading || isFetchStatsLoading || isCodeCheckingLoading;
 
   return (
     <section className={classes.root}>
@@ -188,15 +202,44 @@ export const StakeBinance = (): JSX.Element => {
             />
           }
           isBalanceLoading={hasError || isFetchStatsLoading}
-          isDisabled={isStakeLoading || isFetchStatsLoading}
+          isDisabled={isDisabled}
           loading={hasError || isStakeLoading || isFetchStatsLoading}
           maxAmount={bnbBalance}
           maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}
           minAmount={minimumStake}
+          partnerCodeSlot={
+            !isReferralUserExists && (
+              <>
+                <StakeDescriptionContainer>
+                  <StakeDescriptionName
+                    className={classes.partnerCode}
+                    color="textSecondary"
+                  >
+                    <Checkbox
+                      checked={haveCode}
+                      disabled={isDisabled}
+                      onChange={handleHaveCodeClick}
+                    />
+
+                    {t('stake.partner-code')}
+
+                    <QuestionWithTooltip>
+                      {t('stake.partner-code-tooltip')}
+                    </QuestionWithTooltip>
+                  </StakeDescriptionName>
+                </StakeDescriptionContainer>
+
+                {haveCode && (
+                  <CodeInput disabled={isDisabled} name={FieldsNames.code} />
+                )}
+              </>
+            )
+          }
           renderStats={onRenderStats}
           tokenIn={tokenIn}
           tokenOut={tokenOut}
           onChange={handleFormChange}
+          onCodeChange={handleCodeChange}
           onSubmit={handleSubmit}
         />
 

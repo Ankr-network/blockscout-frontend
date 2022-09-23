@@ -19,7 +19,10 @@
     "required": "This field is required",
     "multiple-of": "Value must be multiple of {value}",
     "invalid-transaction": "This transaction hash is invalid",
-    "fee-plus-amount-wrong": "Amount with fee greater than your balance"
+    "fee-plus-amount-wrong": "Amount with fee greater than your balance",
+    "short-code": "",
+    "long-code": "",
+    "invalid-code": "invalid code"
   },
   "meta": {
     "title": "Ankr Staking",
@@ -340,6 +343,8 @@
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
     "you-will-get": "You will get",
+    "partner-code": "I have partner code",
+    "partner-code-tooltip": "Referral code from the partner who invited you. Partner program offers benefits for inviting people when they use Liquid Staking.",
     "stake": "Get {token}",
     "balance-label": "Your balance",
     "btn-max": "Max",
@@ -839,6 +844,9 @@
       "profit": "Potential Profit",
       "btn": "Go to staking"
     }
+  },
+  "referral" : {
+    "incorrect-code": "Incorrect code"
   },
   "dashboard": {
     "portfolio": "My portfolio",

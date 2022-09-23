@@ -275,6 +275,7 @@ export const mainTheme = createTheme({
         },
 
         '&&$disabled': {
+          borderColor: defaultTheme.palette.background.default,
           backgroundColor: defaultTheme.palette.background.default,
         },
 
