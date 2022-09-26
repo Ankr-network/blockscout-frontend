@@ -58,7 +58,6 @@ export const SettingsQuery = () => {
       <CenterContainer>
         <AddEmailBanner
           asCard
-          formDisabled
           initialContentState={AddEmailFormContentState.ADD_EMAIL}
           initialSubmittedData={initialSubmittedData}
           resetInviteEmail={resetInviteEmail}
