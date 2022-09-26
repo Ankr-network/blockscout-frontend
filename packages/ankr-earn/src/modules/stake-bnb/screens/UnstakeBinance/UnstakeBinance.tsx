@@ -111,10 +111,10 @@ export const UnstakeBinance = (): JSX.Element => {
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
+          isDisabled={isApproveLoading || isUnstakeLoading}
           isLoading={isUnstakeLoading}
           isWithApprove={isWithApprove}
           renderFormFooter={onRenderFormFooter}
-          submitDisabled={isUnstakeLoading}
           token={selectedToken}
           onSubmit={onUnstakeSubmit}
         />

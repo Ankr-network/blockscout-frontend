@@ -170,6 +170,7 @@ export const StakeFantom = (): JSX.Element => {
             />
           }
           isBalanceLoading={hasError || isCommonDataLoading}
+          isDisabled={loading}
           loading={hasError || loading}
           minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
           renderStats={renderStats}

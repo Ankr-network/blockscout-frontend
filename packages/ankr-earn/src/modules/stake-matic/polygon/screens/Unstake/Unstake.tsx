@@ -101,11 +101,11 @@ export const Unstake = (): JSX.Element => {
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isGetStatsLoading}
+          isDisabled={isApproveLoading || isUnstakeLoading}
           isLoading={isUnstakeLoading}
           isWithApprove={isWithApprove}
           networkTitleSlot={<NetworkTitle />}
           renderFormFooter={renderFormFooter}
-          submitDisabled={isUnstakeLoading}
           token={selectedToken}
           onSubmit={onUnstakeSubmit}
         />

@@ -116,9 +116,9 @@ export const UnstakeAvalanche = (): JSX.Element => {
           balance={syntTokenBalance}
           closeHref={closeHref}
           endText={unstakeLabel}
+          isDisabled={isUnstakeLoading}
           isLoading={isUnstakeLoading}
           renderFormFooter={onRenderFormFooter}
-          submitDisabled={isUnstakeLoading}
           token={selectedToken}
           onClose={onClose}
           onSubmit={onUnstakeSubmit}

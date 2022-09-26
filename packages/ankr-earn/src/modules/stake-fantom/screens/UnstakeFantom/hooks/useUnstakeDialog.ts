@@ -31,9 +31,9 @@ import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseUnstakeDialog
   extends Pick<IUnstakeDialogProps, 'onSubmit' | 'onChange'> {
-  submitDisabled: boolean;
   isBalanceLoading: boolean;
   isBurnFeeLoading: boolean;
+  isDisabled: boolean;
   isLoading: boolean;
   burnFee: BigNumber;
   balance: BigNumber;
@@ -66,7 +66,7 @@ export const useUnstakeDialog = (): IUseUnstakeDialog => {
     ? commonData?.aFTMbBalance || ZERO
     : commonData?.aFTMcBalance || ZERO;
 
-  const submitDisabled = isBalanceLoading || isUnstakeLoading;
+  const isDisabled = isBalanceLoading || isUnstakeLoading;
   const tokenBalance = commonData?.ftmBalance ?? ZERO;
   const burnFee = burnFeeData ?? ZERO;
 
@@ -144,9 +144,9 @@ export const useUnstakeDialog = (): IUseUnstakeDialog => {
   );
 
   return {
-    submitDisabled,
     isBalanceLoading,
     isBurnFeeLoading,
+    isDisabled,
     isLoading: isUnstakeLoading,
     balance: syntTokenBalance,
     selectedToken,

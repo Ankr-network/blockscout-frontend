@@ -10,7 +10,7 @@ import { useCallback } from 'react';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
@@ -26,9 +26,6 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { useUnstakeDialog } from './hooks/useUnstakeDialog';
 import { useUnstakeFantomStyles } from './useUnstakeFantomStyles';
 
-// todo: remove when actual translation will be added
-const isFeeTooltipActual = false;
-
 const resetRequests = () =>
   resetReduxRequests([
     getBurnFee.toString(),
@@ -41,17 +38,17 @@ export const UnstakeFantom = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const {
-    submitDisabled,
-    isBalanceLoading,
-    isBurnFeeLoading,
-    isLoading,
     balance,
     burnFee,
     closeHref,
+    isBalanceLoading,
+    isBurnFeeLoading,
+    isDisabled,
+    isLoading,
     selectedToken,
-    onSubmit,
-    onChange,
     calcTotalRecieve,
+    onChange,
+    onSubmit,
   } = useUnstakeDialog();
 
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
@@ -96,7 +93,7 @@ export const UnstakeFantom = (): JSX.Element => {
             >
               {t('unstake-dialog.unstake-fee')}
 
-              {isFeeTooltipActual && (
+              {featuresConfig.fantomUnstakeFeeTooltip && (
                 <Tooltip title={t('stake-fantom.fee-tooltip')}>
                   <ButtonBase>
                     <QuestionIcon size="xs" />
@@ -165,9 +162,9 @@ export const UnstakeFantom = (): JSX.Element => {
           closeHref={closeHref}
           endText={unstakeLabel}
           isBalanceLoading={isBalanceLoading}
+          isDisabled={isDisabled}
           isLoading={isLoading}
           renderFormFooter={renderFormFooter}
-          submitDisabled={submitDisabled}
           token={selectedToken}
           onChange={onChange}
           onSubmit={onSubmit}

@@ -161,11 +161,11 @@ export const UnstakePolygon = (): JSX.Element => {
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
+          isDisabled={isUnstakeLoading}
           isLoading={isUnstakeLoading}
           isWithApprove={isWithApprove}
           networkTitleSlot={<NetworkTitle />}
           renderFormFooter={onRenderFormFooter}
-          submitDisabled={isUnstakeLoading}
           token={selectedToken}
           onSubmit={onUnstakeSubmit}
         />

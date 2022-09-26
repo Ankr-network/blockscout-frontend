@@ -168,6 +168,7 @@ export const StakeAvalanche = (): JSX.Element => {
                 value={stakeGasFee}
               />
             }
+            isDisabled={isStakeLoading}
             loading={isStakeLoading}
             maxAmount={fetchStatsData.avaxBalance}
             minAmount={ZERO}

@@ -29,6 +29,10 @@ export const featuresConfig = {
    * @deprecated
    */
   ankrStaking: true,
+  /**
+   * TODO Please remove it when actual translation would be added
+   */
+  fantomUnstakeFeeTooltip: false,
   mgnoStaking: true,
   /**
    * Please remove extra feature flag
