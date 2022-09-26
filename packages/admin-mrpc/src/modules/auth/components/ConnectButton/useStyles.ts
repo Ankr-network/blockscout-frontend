@@ -6,6 +6,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     backgroundColor: '#E7EBF3',
     fontWeight: 'bold',
+    marginLeft: 'auto',
   },
   button: {
     [theme.breakpoints.down('sm')]: {

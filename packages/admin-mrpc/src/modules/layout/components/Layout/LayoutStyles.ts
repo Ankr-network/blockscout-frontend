@@ -6,13 +6,13 @@ export const useLayoutStyles = makeStyles((theme: Theme) => ({
   wrapper: {
     display: 'flex',
     position: 'static',
+    background: theme.palette.background.default,
   },
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    backgroundColor: theme.palette.background.paper,
+    background: theme.palette.background.default,
     display: 'flex',
-    alignItems: 'flex-end',
   },
   drawer: {
     width: drawerWidth,
@@ -40,12 +40,16 @@ export const useLayoutStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.primary.main,
     color: 'white',
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    width: '100%',
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    marginBottom: theme.spacing(6),
+  },
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(3),
+    background: theme.palette.background.default,
     minHeight: '100vh',
+    paddingBottom: theme.spacing(4),
   },
 }));
