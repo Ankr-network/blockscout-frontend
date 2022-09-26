@@ -69,7 +69,7 @@ export const TokenInfoDialog = ({
               text={tokenAddress}
               onCopy={handleCopyDestinationAddress}
             >
-              <CopyIcon height={24} width={24} />
+              <CopyIcon className={classes.copyIcon} height={24} width={24} />
             </CopyToClipboard>
           ) : (
             <div className={classes.complete}>

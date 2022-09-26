@@ -66,6 +66,7 @@ export const useFaq = ({ ethToken, network }: IUseFaqProps): IFaqItem[] => {
           network,
         }),
         answer: t('stake-polkadot.faq.answer-5', {
+          network,
           period: getRedeemPeriod(network),
         }),
       },

@@ -5,9 +5,6 @@ export const useStakeDescriptionValueStyles = makeStyles(theme => ({
     display: 'flex',
     fontSize: 16,
   },
-  rootCursor: {
-    cursor: 'help',
-  },
 
   title: {
     whiteSpace: 'nowrap',
