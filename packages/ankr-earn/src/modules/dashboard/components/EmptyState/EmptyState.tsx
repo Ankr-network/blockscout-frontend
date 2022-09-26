@@ -25,7 +25,7 @@ const imgSources = {
 };
 
 // todo: change it
-const IS_ACTIVE_REFERRAL_USER = false;
+const IS_ACTIVE_REFERRAL_USER = true;
 
 export const EmptyState = (): JSX.Element => {
   const classes = useEmptyStateStyles();

@@ -107,7 +107,8 @@
     "usd-value": "${value}",
     "percentage-value": "{value}%",
     "milliseconds-value": "{value}ms",
-    "days-value": "{value} days"
+    "days-value": "{value} days",
+    "ref-percent": "REF: {value}%"
   },
   "common": {
     "successTx": "Transaction successful.",
@@ -845,8 +846,20 @@
       "btn": "Go to staking"
     }
   },
-  "referral" : {
-    "incorrect-code": "Incorrect code"
+  "referrals": {
+    "title": "Referral Program",
+    "incorrect-code": "Incorrect code",
+    "stats-table": {
+      "total-staked": "Total Staked",
+      "total-staked-small-tooltip": "tooltip",
+      "pending-rewards": "Pending rewards",
+      "claimable-rewards": "Claimable rewards",
+      "next-unlock": "Next unlock in: ",
+      "next-unlock-days": "{value}d",
+      "next-unlock-hours": "{value}h",
+      "next-unlock-minutes": "{value}m",
+      "claim": "Claim"
+    }
   },
   "dashboard": {
     "portfolio": "My portfolio",
