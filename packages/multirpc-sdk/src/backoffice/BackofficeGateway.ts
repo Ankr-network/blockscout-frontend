@@ -20,6 +20,7 @@ import {
   ITransactionsResponse,
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
+  IUserStatsRequest, IUserStatsResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -97,6 +98,17 @@ export class BackofficeGateway implements IBackofficeGateway {
       {
         params,
       },
+    );
+
+    return response;
+  }
+
+  async getUserStats(params: IUserStatsRequest): Promise<IUserStatsResponse> {
+    const { data: response } = await this.api.get<IUserStatsResponse>(
+      '/users/stats',
+      {
+        params,
+      }
     );
 
     return response;

@@ -35,8 +35,8 @@ export const {
             clientType: getClientType(c.ttl),
             email: emails.bindings?.find(i => i.address === c.address)?.email,
             createdDate: new Date(c.timestamp),
-            amount: userBalances?.amount
-              ? new BigNumber(userBalances.amount)
+            amount: userBalances?.creditAnkrAmount
+              ? new BigNumber(userBalances.creditAnkrAmount)
               : undefined,
             amountAnkr: userBalances?.amountAnkr
               ? new BigNumber(userBalances.amountAnkr)
@@ -44,8 +44,8 @@ export const {
             amountUsd: userBalances?.amountUsd
               ? new BigNumber(userBalances.amountUsd)
               : undefined,
-            voucherAmount: userBalances?.voucherAmount
-              ? new BigNumber(userBalances.voucherAmount)
+            voucherAmount: userBalances?.creditVoucherAmount
+              ? new BigNumber(userBalances.creditVoucherAmount)
               : undefined,
           };
         });

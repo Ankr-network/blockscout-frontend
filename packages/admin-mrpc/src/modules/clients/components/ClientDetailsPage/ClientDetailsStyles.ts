@@ -1,6 +1,11 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useClientDetailsStyles = makeStyles((theme: Theme) => ({
+  /* Tabs */
+  tabPanel: {
+    padding: 0,
+  },
+
   /* ClientInfo */
   root: {
     minWidth: 275,
@@ -19,15 +24,6 @@ export const useClientDetailsStyles = makeStyles((theme: Theme) => ({
   /* ClientBalancesInfo */
   balancesGridWrapper: {
     width: '100%',
-  },
-
-  /* Transactions */
-  transactionsWrapper: {
-    marginTop: 40,
-  },
-  transactionsTitle: {
-    marginBottom: 10,
-    marginTop: 20,
   },
 
   /* ClientBalancesModal */
