@@ -1,7 +1,10 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import { EPolkadotNetworkId } from '@ankr.com/provider';
+import {
+  AvailableWriteProviders,
+  EPolkadotNetworkId,
+} from '@ankr.com/provider';
 
 import { connect } from 'modules/auth/common/actions/connect';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
@@ -9,6 +12,7 @@ import {
   IUseGuardRouteData,
   IUseGuardRouteProps,
 } from 'modules/auth/common/components/GuardRoute';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
@@ -21,6 +25,7 @@ import { isPolkadotCompatible } from '../../../utils/isPolkadotCompatible';
 
 export const useGuardPolkadotRoute = ({
   availableNetworks,
+  isOpenedConnectModal = true,
   providerId,
 }: IUseGuardRouteProps<EPolkadotNetworkId>): IUseGuardRouteData<
   EPolkadotNetworkId,
@@ -72,6 +77,16 @@ export const useGuardPolkadotRoute = ({
       await dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
     [dispatchRequest, providerId],
+  );
+
+  useProviderEffect(
+    () => {
+      if (isOpenedConnectModal && !isConnected) {
+        onOpenModal();
+      }
+    },
+    [isConnected, isOpenedConnectModal, onOpenModal],
+    AvailableWriteProviders.polkadotCompatible,
   );
 
   return {

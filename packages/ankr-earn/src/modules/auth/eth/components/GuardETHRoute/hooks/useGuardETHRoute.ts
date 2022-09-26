@@ -9,6 +9,7 @@ import {
   IUseGuardRouteData,
   IUseGuardRouteProps,
 } from 'modules/auth/common/components/GuardRoute';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { EEthereumNetworkId } from 'modules/common/types';
@@ -21,6 +22,7 @@ import { useKnownNetworks } from './useKnownNetworks';
 
 export const useGuardETHRoute = ({
   availableNetworks,
+  isOpenedConnectModal = true,
   providerId,
 }: IUseGuardRouteProps<EEthereumNetworkId>): IUseGuardRouteData<
   EEthereumNetworkId,
@@ -82,6 +84,12 @@ export const useGuardETHRoute = ({
     },
     [dispatchRequest, providerId],
   );
+
+  useProviderEffect(() => {
+    if (isOpenedConnectModal && !isConnected) {
+      onOpenModal();
+    }
+  }, [isConnected, isOpenedConnectModal, onOpenModal]);
 
   return {
     currentNetwork,

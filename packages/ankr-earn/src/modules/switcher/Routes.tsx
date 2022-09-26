@@ -55,6 +55,7 @@ export function getRoutes(): JSX.Element {
         <GuardETHRoute
           exact
           availableNetworks={AVAILABLE_NETWORKS}
+          isOpenedConnectModal={false}
           path={RoutesConfig.main.path}
           providerId={AvailableWriteProviders.ethCompatible}
         >
@@ -66,6 +67,7 @@ export function getRoutes(): JSX.Element {
         <GuardETHRoute
           exact
           availableNetworks={AVAILABLE_NETWORKS}
+          isOpenedConnectModal={false}
           path={RoutesConfig.success.path}
           providerId={AvailableWriteProviders.ethCompatible}
         >

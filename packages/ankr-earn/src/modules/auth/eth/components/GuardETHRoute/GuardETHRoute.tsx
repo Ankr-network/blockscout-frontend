@@ -12,12 +12,14 @@ import { useGuardETHRoute } from './hooks/useGuardETHRoute';
 interface IGuardETHRouteProps extends RouteProps {
   availableNetworks: EEthereumNetworkId[];
   isOpenConnectInstantly?: boolean;
+  isOpenedConnectModal?: boolean;
   providerId: AvailableWriteProviders;
 }
 
 export const GuardETHRoute = ({
   availableNetworks,
   isOpenConnectInstantly,
+  isOpenedConnectModal = true,
   providerId,
   ...routeProps
 }: IGuardETHRouteProps): JSX.Element => {
@@ -36,6 +38,7 @@ export const GuardETHRoute = ({
     onSwitchNetwork,
   } = useGuardETHRoute({
     availableNetworks,
+    isOpenedConnectModal,
     providerId,
   });
 
