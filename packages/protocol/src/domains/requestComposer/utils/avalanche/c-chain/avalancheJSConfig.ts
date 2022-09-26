@@ -1,3 +1,5 @@
+/* eslint-disable prefer-promise-reject-errors */
+import { CChainMethod } from 'domains/requestComposer/constants/avalanche';
 import { ILibraryConfig } from 'domains/requestComposer/types/avalanche';
 
 const avalancheJSTemplate = (
@@ -18,7 +20,7 @@ const avalancheJSTemplate = (
 `;
 };
 
-export const avalancheJSConfig: ILibraryConfig = {
+export const avalancheJSConfig: ILibraryConfig<CChainMethod> = {
   'avax.getAtomicTx': {
     exec: (provider, ...args) => {
       return provider.getAtomicTx(...args);
@@ -35,10 +37,7 @@ export const avalancheJSConfig: ILibraryConfig = {
   },
   'avax.export': {
     exec: () => {
-      return new Promise((resolve, reject) =>
-        // eslint-disable-next-line
-        reject('Not Supported'),
-      );
+      return new Promise((resolve, reject) => reject('Not Supported'));
     },
     codeSample: () => {
       return '/* Not Supported */';
@@ -47,10 +46,7 @@ export const avalancheJSConfig: ILibraryConfig = {
   },
   'avax.exportAVAX': {
     exec: () => {
-      return new Promise((resolve, reject) =>
-        // eslint-disable-next-line
-        reject('Not Supported'),
-      );
+      return new Promise((resolve, reject) => reject('Not Supported'));
     },
     codeSample: () => {
       return '/* Not Supported */';
@@ -59,10 +55,7 @@ export const avalancheJSConfig: ILibraryConfig = {
   },
   'avax.exportKey': {
     exec: () => {
-      return new Promise((resolve, reject) =>
-        // eslint-disable-next-line
-        reject('Not Supported'),
-      );
+      return new Promise((resolve, reject) => reject('Not Supported'));
     },
     codeSample: () => {
       return '/* Not Supported */';
@@ -120,10 +113,7 @@ export const avalancheJSConfig: ILibraryConfig = {
   },
   'avax.import': {
     exec: () => {
-      return new Promise((resolve, reject) =>
-        // eslint-disable-next-line
-        reject('Not Supported'),
-      );
+      return new Promise((resolve, reject) => reject('Not Supported'));
     },
     codeSample: () => {
       return '/* Not Supported */';
@@ -132,10 +122,7 @@ export const avalancheJSConfig: ILibraryConfig = {
   },
   'avax.importAVAX': {
     exec: () => {
-      return new Promise((resolve, reject) =>
-        // eslint-disable-next-line
-        reject('Not Supported'),
-      );
+      return new Promise((resolve, reject) => reject('Not Supported'));
     },
     codeSample: () => {
       return '/* Not Supported */';
@@ -144,10 +131,7 @@ export const avalancheJSConfig: ILibraryConfig = {
   },
   'avax.importKey': {
     exec: () => {
-      return new Promise((resolve, reject) =>
-        // eslint-disable-next-line
-        reject('Not Supported'),
-      );
+      return new Promise((resolve, reject) => reject('Not Supported'));
     },
     codeSample: () => {
       return '/* Not Supported */';
