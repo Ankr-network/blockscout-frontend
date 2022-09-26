@@ -9,6 +9,7 @@ import { Header } from '../Header';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { useLayoutStyles as useStyles } from './LayoutStyles';
 import { getTheme } from 'modules/common/utils/getTheme';
+import { Breadcrumbs } from 'modules/layout/components/Breadcrumbs';
 
 const routes = [
   {
@@ -65,6 +66,7 @@ export default function Layout({
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
+          <Breadcrumbs />
           {children}
         </main>
       </ThemeProvider>

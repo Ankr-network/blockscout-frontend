@@ -25,11 +25,7 @@ export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
 
   const renderMainInfo = (user: ClientMapped) => (
     <Fragment key={user.user}>
-      <Box
-        display="flex"
-        alignItems="center"
-        className={classes.clientInfoWrapper}
-      >
+      <Box display="flex" alignItems="center">
         <Typography className={classes.typeText} variant="body2" component="p">
           Type:
         </Typography>
@@ -50,24 +46,7 @@ export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography variant="h3" component="p">
-          Client {client.address}
-        </Typography>
-        <br />
         {currentClient.map(renderMainInfo)}
-
-        {(client.amountAnkr || client.amountUsd) && (
-          <>
-            <Typography
-              variant="h3"
-              component="p"
-              className={classes.balanceTitle}
-            >
-              Balance
-            </Typography>
-            <ClientBalancesInfo currentClient={client} />
-          </>
-        )}
         <br />
         <Typography variant="body2" component="p">
           Total requests:{' '}
@@ -81,6 +60,18 @@ export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
             <Typography variant="body2" component="p">
               Email: {client.email}
             </Typography>
+          </>
+        )}
+        {(client.amountAnkr || client.amountUsd) && (
+          <>
+            <Typography
+              variant="h3"
+              component="p"
+              className={classes.balanceTitle}
+            >
+              Balance
+            </Typography>
+            <ClientBalancesInfo currentClient={client} />
           </>
         )}
         {client.address && <ClientBalancesModal currentClient={client} />}

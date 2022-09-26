@@ -1,6 +1,7 @@
 import { Box, Tab, Tabs, Typography } from '@material-ui/core';
 import { useState } from 'react';
 
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useFetchCountersQuery } from '../../actions/fetchCounters';
 import { useFetchUserTransactionsQuery } from '../../actions/fetchUserTransactions';
@@ -33,6 +34,16 @@ function TabPanel(props: TabPanelProps) {
 
 export const ClientDetailsPage = () => {
   const { address } = ClientsRoutesConfig.clientInfo.useParams();
+  useSetBreadcrumbs([
+    {
+      title: 'clients',
+      link: ClientsRoutesConfig.clients.generatePath(),
+    },
+    {
+      title: `${address}`,
+    },
+  ]);
+
   const { data: clients, isLoading: isLoadingClients } =
     useFetchCountersQuery();
   const { data: transactionsData, isLoading: isLoadingTransactions } =

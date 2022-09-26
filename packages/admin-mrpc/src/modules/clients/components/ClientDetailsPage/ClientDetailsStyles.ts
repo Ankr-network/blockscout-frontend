@@ -9,8 +9,6 @@ export const useClientDetailsStyles = makeStyles((theme: Theme) => ({
   /* ClientInfo */
   root: {
     minWidth: 275,
-  },
-  clientInfoWrapper: {
     marginTop: 20,
   },
   typeText: {
