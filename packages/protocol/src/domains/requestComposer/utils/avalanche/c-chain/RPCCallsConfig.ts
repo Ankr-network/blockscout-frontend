@@ -1,10 +1,11 @@
 import { t, tHTML } from 'common';
+import { CChainMethod } from 'domains/requestComposer/constants/avalanche';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/avalanche';
 import { avalancheJSConfig } from './avalancheJSConfig';
 
 const root = 'chain-item.request-composer.method-description.avalanche.c-chain';
 
-export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
+export const RPC_CALLS_CONFIG: IRPCCallsConfig<CChainMethod> = {
   'avax.getAtomicTx': {
     description: t(`${root}.getAtomicTx`),
     avalanche: avalancheJSConfig['avax.getAtomicTx'],

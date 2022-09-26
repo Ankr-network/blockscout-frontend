@@ -96,8 +96,10 @@ export const useSections = ({
   const { credentials, loading } = useAuth();
   const isUpgraded = credentials || loading;
   const getStartedHasContent =
-    !isUpgraded || isGroupEvmBased(group) || group.id === ChainGroupID.C_CHAIN;
-
+    !isUpgraded ||
+    isGroupEvmBased(group) ||
+    group.id === ChainGroupID.C_CHAIN ||
+    group.id === ChainGroupID.P_CHAIN;
 
   if (!getStartedHasContent && initialTabID === SectionID.GetStarted) {
     initialTabID = SectionID.UsageData;

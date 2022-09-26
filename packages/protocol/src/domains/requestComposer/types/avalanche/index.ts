@@ -1,19 +1,27 @@
-import { AvalancheLibraryID, CChainMethod } from '../../constants/avalanche';
+import {
+  AvalancheLibraryID,
+  CChainMethod,
+  PChainMethod,
+} from '../../constants/avalanche';
 
 export interface CChainMethodResponse {}
 
-export type ILibraryConfig = {
-  [key in CChainMethod]: {
+export interface PChainMethodResponse {}
+
+type AvalancheChain = CChainMethod | PChainMethod;
+
+export type ILibraryConfig<T extends AvalancheChain> = {
+  [key in T]: {
     exec: (...args: any) => any;
     codeSample: (...args: any) => any;
     args: any;
   };
 };
 
-export type IRPCCallsConfig = {
-  [key in CChainMethod]: {
+export type IRPCCallsConfig<T extends AvalancheChain> = {
+  [key in T]: {
     description: string;
     disabled?: boolean;
-    [AvalancheLibraryID.Avalanche]: ILibraryConfig[key];
+    [AvalancheLibraryID.Avalanche]: ILibraryConfig<T>[key];
   };
 };

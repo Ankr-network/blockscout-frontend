@@ -6,17 +6,18 @@ import {
 import {
   AvalancheLibrary,
   AvalancheLibraryID,
-  CChainMethod,
+  PChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
+
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/p-chain/RPCCallsConfig';
 import { AvalancheSampleCode } from '../../AvalancheSampleCode';
 
 export const useMethodsTabsUtils = (
   group: EndpointGroup,
-  title: CChainMethod,
+  title: PChainMethod,
   args: string[],
   libraryID: AvalancheLibraryID,
 ) => {
@@ -25,7 +26,7 @@ export const useMethodsTabsUtils = (
       {
         id: AvalancheLibraryID.Avalanche,
         content: (
-          <AvalancheSampleCode<CChainMethod>
+          <AvalancheSampleCode<PChainMethod>
             group={group}
             title={title}
             args={args}
