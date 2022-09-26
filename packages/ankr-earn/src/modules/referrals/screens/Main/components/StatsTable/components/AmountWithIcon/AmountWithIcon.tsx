@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
-import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { iconByTokenMap, TIconMap } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
@@ -37,7 +36,9 @@ export const AmountWithIcon = ({
 
           <div className={classes.usdAmount}>
             {t('unit.ref-percent', {
-              value: refPercent.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+              value: refPercent
+                .decimalPlaces(getDecimalPlaces(refPercent))
+                .toFormat(),
             })}
 
             <QuestionWithTooltip>tooltip</QuestionWithTooltip>

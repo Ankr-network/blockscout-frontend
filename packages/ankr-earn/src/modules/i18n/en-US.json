@@ -859,6 +859,10 @@
       "next-unlock-hours": "{value}h",
       "next-unlock-minutes": "{value}m",
       "claim": "Claim"
+    },
+    "tabs": {
+      "referrals": "Referrals",
+      "claim-history": "Claim History"
     }
   },
   "dashboard": {
