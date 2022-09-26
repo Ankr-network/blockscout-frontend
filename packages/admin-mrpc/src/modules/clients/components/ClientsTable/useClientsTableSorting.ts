@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react';
 import { ClientMapped } from '../../store/clientsSlice';
 import { sortData } from './clientTableUtils';
 
+const NUMERIC_KEYS: (keyof ClientMapped)[] = [
+  'amount',
+  'amountAnkr',
+  'amountUsd',
+  'voucherAmount',
+];
+
 export const useClientsTableSorting = ({
   clients,
 }: {
@@ -17,7 +24,10 @@ export const useClientsTableSorting = ({
   };
 
   useEffect(() => {
-    setSortedData(sortData(clients, sortBy, sortOrder));
+    const compareType = NUMERIC_KEYS.some(el => sortBy?.includes(el))
+      ? 'number'
+      : 'string';
+    setSortedData(sortData({ rows: clients, compareType, sortBy, sortOrder }));
   }, [clients, sortBy, sortOrder]);
 
   return {

@@ -1,4 +1,4 @@
-import { IPaymentHistoryEntityType } from '../account';
+import { IPaymentHistoryEntityType, PrivateStats, PrivateStatsInterval } from '../account';
 import { EmailConfirmationStatus, Network, Web3Address } from '../common';
 
 export interface ITransactionsEntity {
@@ -25,11 +25,14 @@ export interface ITransactionsResponse {
 
 export interface IBalancesEntity {
   address: Web3Address;
-  amount: string;
+  amount: string; // deprecated. use creditAnkrAmount
   amountAnkr: string;
   amountUsd: string;
-  voucherAmount: string;
+  voucherAmount: string; // deprecated. use creditVoucherAmount
   reference: string;
+  creditAnkrAmount: string;
+  creditVoucherAmount: string;
+  creditUsdAmount: string;
 }
 
 export interface IBalancesRequest {
@@ -76,10 +79,19 @@ export interface ICreateTestClientResponse {
   roles: string,
 }
 
+export interface IUserStatsRequest {
+  address: Web3Address;
+  interval: PrivateStatsInterval;
+}
+
+export type IUserStatsResponse = PrivateStats;
+
 export interface IUsageDetailEntity {
   count: string;
   method: string;
+  totalCost: string;
 }
+
 export interface IUsageEntity {
   blockchain: string;
   details: IUsageDetailEntity[];
@@ -97,9 +109,11 @@ export interface IStatementResponse {
   };
 }
 
+export type IAmountType = 'ankr' | 'usd' | 'credit';
+
 export interface IAddVoucherCreditsRequest {
   address: Web3Address;
-  amountType: 'ankr' | 'usd' | 'credit';
+  amountType: IAmountType;
   amount: string;
   reasonId: string;
 }
@@ -110,7 +124,7 @@ export interface IAddVoucherCreditsResponse {
 
 export interface IUpdateVoucherCreditsRequest {
   address: Web3Address;
-  amountType: 'ankr' | 'usd' | 'credit';
+  amountType: IAmountType;
   amount: string;
   reasonId: string;
 }

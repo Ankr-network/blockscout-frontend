@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import { IAmountType } from 'multirpc-sdk';
 import { useAddUserVoucherCreditsMutation } from '../../actions/addUserVoucherCredits';
 import { useSubtractUserVoucherCreditsMutation } from '../../actions/subtractUserVoucherCredits';
 import { ClientMapped } from '../../store/clientsSlice';
@@ -17,7 +18,7 @@ import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
 
 interface FormElements {
   elements: {
-    unit: { value: 'ankr' | 'usd' | 'credit' };
+    unit: { value: IAmountType };
     amount: { value: number };
     comment: { value: string };
   };
