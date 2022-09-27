@@ -9,6 +9,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     marginLeft: 'auto',
   },
   button: {
+    marginLeft: 'auto',
     [theme.breakpoints.down('sm')]: {
       border: '2px solid rgba(31, 34, 38, 0.1)',
     },
