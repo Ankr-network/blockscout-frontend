@@ -863,6 +863,14 @@
     "tabs": {
       "referrals": "Referrals",
       "claim-history": "Claim History"
+    },
+    "referrals-table": {
+      "registration-date": "Registration date",
+      "date": "{day}.{month}.{year}",
+      "address": "Address",
+      "staked-tokens": "Staked tokens",
+      "staked-amount": "Staked Amount",
+      "my-rewards": "My Rewards"
     }
   },
   "dashboard": {

@@ -6,7 +6,8 @@ import { t } from 'common';
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
 
-import { useHeader } from './useHeader';
+import { useHeader } from '../../hooks/useHeader';
+
 import { useHeaderStyles } from './useHeaderStyles';
 
 export const Header = (): JSX.Element => {

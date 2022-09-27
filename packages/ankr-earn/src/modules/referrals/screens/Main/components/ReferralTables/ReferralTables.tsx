@@ -1,36 +1,40 @@
-import { TabContext } from '@material-ui/lab';
-import TabPanel from '@material-ui/lab/TabPanel';
-
-import { t } from 'common';
-
+import { ReferralsTable } from '../ReferralsTable';
 import { Tabs } from '../Tabs';
 import { Tab } from '../Tabs/Tab';
 
 import { EReferralTabs, useReferralTables } from './useReferralTables';
 
 export const ReferralTables = (): JSX.Element => {
-  const { currentTab, referralsAmount, handleChangeTab } = useReferralTables();
+  const {
+    currentTab,
+    referralsAmount,
+    referralsText,
+    claimHistoryText,
+    handleChangeTab,
+  } = useReferralTables();
 
   return (
-    <TabContext value={currentTab}>
+    <>
       <Tabs activeTab={currentTab} onChangeTab={handleChangeTab}>
         <Tab
+          key={EReferralTabs.referrals}
           activeTab={currentTab}
           amount={referralsAmount}
-          title={t('referrals.tabs.referrals')}
+          title={referralsText}
           value={EReferralTabs.referrals}
         />
 
         <Tab
+          key={EReferralTabs.history}
           activeTab={currentTab}
-          title={t('referrals.tabs.claim-history')}
+          title={claimHistoryText}
           value={EReferralTabs.history}
         />
       </Tabs>
 
-      <TabPanel value={EReferralTabs.referrals}>referralsText</TabPanel>
+      {currentTab === EReferralTabs.referrals && <ReferralsTable />}
 
-      <TabPanel value={EReferralTabs.history}>claimHistoryText</TabPanel>
-    </TabContext>
+      {currentTab === EReferralTabs.history && <>claimHistoryText</>}
+    </>
   );
 };

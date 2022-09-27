@@ -5,22 +5,20 @@ import { t } from 'common';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
-import { useBaseTokenUsdAmountStyles } from './useBaseTokenUsdAmountStyles';
+import { useBaseAmountStyles } from './useBaseAmountStyles';
 
-interface IBaseTokenUsdAmountProps {
+interface IBaseAmountProps {
   amount: BigNumber;
-  usdAmount: BigNumber;
   token: Token;
-  buttonSlot?: JSX.Element;
+  usdAmount: BigNumber;
 }
 
-export const BaseTokenUsdAmount = ({
+export const BaseAmount = ({
   amount,
   usdAmount,
   token,
-  buttonSlot,
-}: IBaseTokenUsdAmountProps): JSX.Element => {
-  const classes = useBaseTokenUsdAmountStyles();
+}: IBaseAmountProps): JSX.Element => {
+  const classes = useBaseAmountStyles();
 
   return (
     <div className={classes.root}>
@@ -33,8 +31,6 @@ export const BaseTokenUsdAmount = ({
           })}
         </div>
       </div>
-
-      {buttonSlot}
     </div>
   );
 };
