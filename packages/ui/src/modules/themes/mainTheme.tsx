@@ -156,6 +156,9 @@ export const mainTheme = createTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
+        body: {
+          fontFeatureSettings: `'calt' off`,
+        },
         a: {
           color: 'inherit',
           fontSize: 'inherit',
