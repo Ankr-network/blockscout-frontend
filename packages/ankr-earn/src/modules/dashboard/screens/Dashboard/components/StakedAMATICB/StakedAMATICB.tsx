@@ -19,8 +19,9 @@ import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHis
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedAMATICBData } from '../StakedTokens/hooks/MATIC/useStakedAMATICBData';
-import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
+
+import { useStakedAMATICBData } from './useStakedAMATICBData';
 
 export const StakedAMATICB = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();

@@ -17,8 +17,9 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedABNBBData } from '../StakedTokens/hooks/BNB/useStakedABNBBData';
-import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
+import { useStakedBNBTxHistory } from '../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
+
+import { useStakedABNBBData } from './useStakedABNBBData';
 
 export const StakedABNBB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();

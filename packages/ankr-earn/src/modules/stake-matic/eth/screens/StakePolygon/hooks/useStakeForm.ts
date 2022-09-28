@@ -14,7 +14,6 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useStakableMaticInEth } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMaticInEth';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
 import { approveMATICStake } from 'modules/stake-matic/eth/actions/approveMATICStake';
@@ -65,8 +64,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const { selectedToken, handleTokenSelect } = useSelectedToken();
-
-  const stakableMATICData = useStakableMaticInEth();
 
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approveMATICStake,
@@ -128,17 +125,23 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   const totalAmount = useMemo(() => {
-    if (isError || stakableMATICData.balance.isLessThan(amount)) {
+    if (isError || fetchStatsData?.maticBalance.isLessThan(amount)) {
       return ZERO;
     }
 
     return calcTotalAmount({
       selectedToken,
       amount: new BigNumber(amount),
-      balance: stakableMATICData.balance,
+      balance: fetchStatsData?.maticBalance ?? ZERO,
       aMATICcRatio,
     });
-  }, [aMATICcRatio, amount, selectedToken, stakableMATICData.balance, isError]);
+  }, [
+    aMATICcRatio,
+    amount,
+    fetchStatsData?.maticBalance,
+    isError,
+    selectedToken,
+  ]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
@@ -155,7 +158,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       willGetAmount: currentAmount,
       tokenIn: Token.MATIC,
       tokenOut: selectedToken,
-      prevStakedAmount: stakableMATICData.balance,
+      prevStakedAmount: fetchStatsData?.maticBalance ?? ZERO,
       synthBalance,
     });
   };

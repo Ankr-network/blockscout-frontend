@@ -7,7 +7,6 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useStakableBnb } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableBnb';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 
 interface IUseAnalyticsArgs {
@@ -33,8 +32,6 @@ export const useAnalytics = ({
     AvailableWriteProviders.ethCompatible,
   );
 
-  const stakableBNBData = useStakableBnb();
-
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount).plus(relayerFee);
 
@@ -50,7 +47,7 @@ export const useAnalytics = ({
       willGetAmount: currentAmount,
       tokenIn: Token.BNB,
       tokenOut: selectedToken,
-      prevStakedAmount: stakableBNBData.balance,
+      prevStakedAmount: data?.bnbBalance ?? ZERO,
       synthBalance,
     });
   };

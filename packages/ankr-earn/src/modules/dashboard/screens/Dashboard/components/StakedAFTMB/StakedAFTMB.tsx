@@ -17,8 +17,9 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAFTMBData } from '../StakedTokens/hooks/FTM/useStakedAFTMBData';
-import { useStakedFTMTxHistory } from '../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
+import { useStakedFTMTxHistory } from '../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory';
+
+import { useStakedAFTMBData } from './useStakedAFTMBData';
 
 export const StakedAFTMB = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();

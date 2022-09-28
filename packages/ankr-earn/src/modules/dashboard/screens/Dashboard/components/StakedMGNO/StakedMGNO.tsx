@@ -21,8 +21,7 @@ import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
 
-import { useStakedMGNOData } from '../StakedTokens/hooks/MGNO/useStakedMGNOData';
-
+import { useStakedMGNOData } from './useStakedMGNOData';
 import { useStakedMGNOStyles } from './useStakedMGNOStyles';
 
 export const StakedMGNO = (): JSX.Element => {

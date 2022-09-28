@@ -14,10 +14,10 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAMATICCData } from '../StakedTokens/hooks/MATIC/useStakedAMATICCData';
-import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
 
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
+import { useStakedAMATICCData } from './useStakedAMATICCData';
 
 export const StakedAMATICC = (): JSX.Element => {
   const unstakePendingData = useUnstakePendingTimestamp({ token: Token.MATIC });

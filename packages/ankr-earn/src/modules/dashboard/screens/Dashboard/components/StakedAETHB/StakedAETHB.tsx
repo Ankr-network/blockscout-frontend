@@ -17,8 +17,9 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAETHBData } from '../StakedTokens/hooks/ETH/useStakedAETHBData';
-import { useStakedTxHistoryETH } from '../StakedTokens/hooks/ETH/useStakedTxHistoryETH';
+import { useStakedTxHistoryETH } from '../../hooks/liquid-tokens/ETH/useStakedTxHistoryETH';
+
+import { useStakedAETHBData } from './useStakedAETHBData';
 
 export const StakedAETHB = (): JSX.Element => {
   const { contractConfig } = configFromEnv();

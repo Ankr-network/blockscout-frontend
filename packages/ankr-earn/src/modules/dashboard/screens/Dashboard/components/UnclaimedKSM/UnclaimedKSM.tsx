@@ -1,11 +1,11 @@
 import { UnclaimedAsset } from 'modules/dashboard/components/UnclaimedAsset';
 
-import { KSM_PROPS } from '../StakedTokens/const';
-import { useUnclaimedPolkadotData } from '../StakedTokens/hooks/Polkadot/useUnclaimedPolkadotData';
+import { KSM_PROPS } from '../../const';
+import { useUnclaimedPolkadotCard } from '../../hooks/liquid-tokens/Polkadot/useUnclaimedPolkadotCard';
 
 export const UnclaimedKSM = (): JSX.Element => {
   const { amount, claimLink, isLoading, networkTxt, polkadotToken, usdAmount } =
-    useUnclaimedPolkadotData(KSM_PROPS);
+    useUnclaimedPolkadotCard(KSM_PROPS);
 
   return (
     <UnclaimedAsset

@@ -16,8 +16,9 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAAVAXCData } from '../StakedTokens/hooks/AVAX/useStakedAAVAXCData';
-import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
+import { useStakedAVAXTxHistory } from '../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory';
+
+import { useStakedAAVAXCData } from './useStakedAAVAXCData';
 
 export const StakedAAVAXC = (): JSX.Element => {
   const { avalancheConfig } = configFromEnv();

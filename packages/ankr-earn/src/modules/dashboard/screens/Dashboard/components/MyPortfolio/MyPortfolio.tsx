@@ -2,8 +2,8 @@ import { useIsMDUp } from 'ui';
 
 import { PortfolioChart } from 'modules/dashboard/components/PortfolioChart';
 
-import { usePortfolioNativeData } from '../../hooks/usePortfolioNativeData';
-import { usePortfolioStakedData } from '../../hooks/usePortfolioStakedData';
+import { usePortfolioNativeData } from './usePortfolioNativeData';
+import { usePortfolioStakedData } from './usePortfolioStakedData';
 
 const CHART_SIZE = 350;
 const CHART_SIZE_MOBILE = 280;

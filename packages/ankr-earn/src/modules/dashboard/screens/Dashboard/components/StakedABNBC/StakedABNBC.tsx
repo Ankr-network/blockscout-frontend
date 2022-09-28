@@ -14,10 +14,10 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedABNBCData } from '../StakedTokens/hooks/BNB/useStakedABNBCData';
-import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
+import { useStakedBNBTxHistory } from '../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
 
 import { useStakedABNBCAnalytics } from './useStakedABNBCAnalytics';
+import { useStakedABNBCData } from './useStakedABNBCData';
 
 export const StakedABNBC = (): JSX.Element => {
   const unstakePendingData = useUnstakePendingTimestamp({ token: Token.BNB });

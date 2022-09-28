@@ -14,7 +14,6 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useStakableAvax } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableAvax';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
 import { stake } from 'modules/stake-avax/actions/stake';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
@@ -71,7 +70,6 @@ export const useStakeForm = (): IUseStakeFormData => {
     AvailableWriteProviders.ethCompatible,
   );
 
-  const stakableAVAXData = useStakableAvax();
   const [amount, setAmount] = useState(ZERO);
 
   const aAVAXcRatio = fetchStatsData?.aAVAXcRatio;
@@ -89,16 +87,10 @@ export const useStakeForm = (): IUseStakeFormData => {
     return calcTotalAmount({
       selectedToken,
       amount: new BigNumber(amount),
-      balance: stakableAVAXData.balance,
+      balance: fetchStatsData.avaxBalance,
       aAVAXcRatio,
     });
-  }, [
-    fetchStatsData,
-    amount,
-    selectedToken,
-    stakableAVAXData.balance,
-    aAVAXcRatio,
-  ]);
+  }, [fetchStatsData, amount, selectedToken, aAVAXcRatio]);
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -134,7 +126,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       willGetAmount: currentAmount,
       tokenIn: Token.AVAX,
       tokenOut: selectedToken,
-      prevStakedAmount: stakableAVAXData.balance,
+      prevStakedAmount: fetchStatsData?.avaxBalance ?? ZERO,
       synthBalance:
         selectedToken === Token.aAVAXb
           ? fetchStatsData?.aAVAXbBalance ?? ZERO

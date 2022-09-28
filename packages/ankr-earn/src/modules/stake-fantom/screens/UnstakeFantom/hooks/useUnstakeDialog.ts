@@ -15,7 +15,6 @@ import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
-import { useStakedAFTMBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/FTM/useStakedAFTMBData';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
@@ -55,7 +54,6 @@ export const useUnstakeDialog = (): IUseUnstakeDialog => {
   const { loading: isUnstakeLoading } = useMutation({
     type: unstake,
   });
-  const stakedAFTMBData = useStakedAFTMBData();
 
   const stakeParamsToken = FantomRoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
@@ -84,14 +82,14 @@ export const useUnstakeDialog = (): IUseUnstakeDialog => {
         syntheticToken: Token.aFTMb,
         fee: burnFee,
         newTokenBalance: tokenBalance,
-        newStakedBalance: stakedAFTMBData.amount,
+        newStakedBalance: commonData?.aFTMbBalance ?? ZERO,
         newSynthTokens: syntTokenBalance,
       });
     },
     [
       address,
       burnFee,
-      stakedAFTMBData.amount,
+      commonData?.aFTMbBalance,
       syntTokenBalance,
       tokenBalance,
       walletName,
