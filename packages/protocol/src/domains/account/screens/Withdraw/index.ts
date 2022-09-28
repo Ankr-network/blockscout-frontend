@@ -1,1 +1,1 @@
-export { WithdrawQuery as Withdraw } from './WithdrawQuery';
+export { WithdrawContainer as Withdraw } from './WithdrawContainer';

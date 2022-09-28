@@ -14,7 +14,7 @@ import {
   ITransactionsRequest,
   ITransactionsResponse,
   IUpdateVoucherCreditsRequest,
-  IUpdateVoucherCreditsResponse,
+  IUpdateVoucherCreditsResponse, IUserStatsRequest, IUserStatsResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -35,6 +35,10 @@ export interface IBackofficeGateway {
   createTestPremiumUser(
     params: ICreateTestClientRequest,
   ): Promise<ICreateTestClientResponse>;
+
+  getUserStats(
+    params: IUserStatsRequest,
+  ): Promise<IUserStatsResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,

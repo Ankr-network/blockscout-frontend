@@ -3,9 +3,14 @@ import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 
+/**
+ *  dayOffset param means offset in days from current moment for fetching actions for this period
+ *  0 returns data for today
+ *  1 returns data for yesterday etc.
+ */
 interface IRequestParams {
   address: Web3Address;
-  dayOffset?: string;
+  dayOffset?: '0' | '1' | '2' | '3';
 }
 
 export const {

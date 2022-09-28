@@ -1,20 +1,22 @@
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
-import { EVMMethod } from 'domains/requestComposer/constants';
-import { EVMMethodsFormData, EVMMethodsFormProps } from './EVMMethodsFormTypes';
-import {
-  formatDataForRequest,
-  getArgumentsBlock,
-  getMethodDescription,
-  isMethodDisabled,
-  methodsSelectOptions,
-} from './EVMMethodsFormUtils';
+import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';
+import { EVMMethodsFormProps } from './EVMMethodsFormTypes';
+import { methodsSelectOptions } from './EVMMethodsFormUtils';
 import { SampleCodeComponent } from '../../../components/SampleCodeComponent';
 import { MethodNameSelectField } from '../../../components/MethodsForm/MethodNameSelectField';
 import { MethodsFormSpy } from '../../../components/MethodsForm/MethodsFormSpy';
 import { MethodsForm } from '../../../components/MethodsForm';
 import { EVMMethodsTabs } from '../../EVMMethodsTabs';
+import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
+import {
+  formatDataForRequest,
+  getArgumentsBlock,
+  getMethodDescription,
+  isMethodDisabled,
+} from '../../../components/MethodsForm/MethodsFormUtils';
+import { MethodsFormData } from '../../../components/MethodsForm/MethodsFormTypes';
 
 export const EVMMethodsForm = ({
   group,
@@ -22,20 +24,31 @@ export const EVMMethodsForm = ({
   onSubmit,
 }: EVMMethodsFormProps) => {
   const onFormSubmit = useCallback(
-    (data: EVMMethodsFormData) =>
-      onSubmit(formatDataForRequest(data, libraryID)),
+    (data: MethodsFormData) =>
+      onSubmit(
+        formatDataForRequest<EVMLibraryID, EVMMethod>(
+          data,
+          libraryID,
+          RPC_CALLS_CONFIG,
+        ),
+      ),
     [onSubmit, libraryID],
   );
 
   const renderForm = useCallback(
-    ({ handleSubmit, values }: FormRenderProps<EVMMethodsFormData>) => {
+    ({ handleSubmit, values }: FormRenderProps<MethodsFormData>) => {
       const { methodName, ...otherArguments } = values;
 
-      const { params } = formatDataForRequest(values, libraryID);
+      const { params } = formatDataForRequest<EVMLibraryID, EVMMethod>(
+        values,
+        libraryID,
+        RPC_CALLS_CONFIG,
+      );
 
-      const argumentsBlock = getArgumentsBlock(
+      const argumentsBlock = getArgumentsBlock<EVMMethod, EVMLibraryID>(
         methodName?.value as EVMMethod,
         libraryID,
+        RPC_CALLS_CONFIG,
       );
 
       return (
@@ -44,12 +57,15 @@ export const EVMMethodsForm = ({
             methodNameSelectComponent={
               <MethodNameSelectField
                 options={methodsSelectOptions}
-                getMethodDescription={getMethodDescription}
+                getMethodDescription={method =>
+                  getMethodDescription(RPC_CALLS_CONFIG, method)
+                }
               />
             }
             argumentsBlock={argumentsBlock}
             isButtonDisabled={
-              !methodName || isMethodDisabled(methodName?.value as EVMMethod)
+              !methodName ||
+              isMethodDisabled(methodName?.value as EVMMethod, RPC_CALLS_CONFIG)
             }
             sampleCodeComponent={
               <SampleCodeComponent methodName={methodName}>

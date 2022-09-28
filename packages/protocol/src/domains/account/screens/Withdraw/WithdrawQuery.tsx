@@ -8,7 +8,6 @@ import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { getWithdrawInitialStep } from 'domains/account/actions/withdraw/getWithdrawInitialStep';
 import { reset } from 'domains/account/actions/withdraw/reset';
 import { Loader } from 'domains/account/components/Loader';
-import { useWithdrawBreadcrumbs } from './WithdrawUtils';
 import { Withdraw } from './Withdraw';
 
 export const WithdrawQuery = () => {
@@ -21,8 +20,6 @@ export const WithdrawQuery = () => {
   useOnUnmount(() => {
     dispatchRequest(reset());
   });
-
-  useWithdrawBreadcrumbs();
 
   return (
     <Queries<ResponseData<typeof getWithdrawInitialStep>>

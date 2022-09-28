@@ -135,7 +135,6 @@ export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
     ethers: ethersJSConfig.eth_sendRawTransaction,
   },
   eth_call: {
-    disabled: true,
     description: t(`${root}.eth_call`),
     web3: web3JSConfig.eth_call,
     ethers: ethersJSConfig.eth_call,
@@ -281,7 +280,6 @@ export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
     ethers: ethersJSConfig.trace_filter,
   },
   trace_call: {
-    disabled: true,
     description: t(`${root}.trace_call`),
     web3: web3JSConfig.trace_call,
     ethers: ethersJSConfig.trace_call,

@@ -8,6 +8,7 @@ import { Spinner } from 'ui';
 import { persistor, store } from 'store';
 import { AppBase } from 'modules/layout/components/AppBase/AppBase';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
+import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes } from './Routes';
 
@@ -21,7 +22,9 @@ function App() {
           <ToastContainer />
           <AppBase>
             <ScrollToTop />
-            <Routes />
+            <BreadcrumbsProvider>
+              <Routes />
+            </BreadcrumbsProvider>
           </AppBase>
         </PersistGate>
       </Provider>

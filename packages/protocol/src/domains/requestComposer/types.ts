@@ -1,7 +1,43 @@
 import { EVMMethod, EVMLibraryID } from './constants';
 
-export interface EVMMethodsRequest {
-  methodName: EVMMethod;
+export type ABI = ABIItem[];
+
+export interface ABIInput {
+  components?: ABIInput[];
+  indexed?: boolean;
+  internalType?: string;
+  name: string;
+  type: string;
+}
+
+export interface ABIItem {
+  anonymous?: boolean;
+  constant?: boolean;
+  gas?: number;
+  inputs?: ABIInput[];
+  name?: string;
+  outputs?: ABIOutput[];
+  payable?: boolean;
+  stateMutability?: StateMutability;
+  type: ABIItemType;
+}
+
+export enum ABIItemType {
+  CONSTRUCTOR = 'constructor',
+  EVENT = 'event',
+  FALLBACK = 'fallback',
+  FUNCTION = 'function',
+}
+
+export interface ABIOutput {
+  components?: ABIOutput[];
+  internalType?: string;
+  name: string;
+  type: string;
+}
+
+export interface MethodsRequest<T> {
+  methodName: T;
   params: string[];
 }
 
@@ -28,3 +64,10 @@ export type IRPCCallsConfig = {
     [EVMLibraryID.ETHERS]: ILibraryConfig[key];
   };
 };
+
+export enum StateMutability {
+  NONPAYABLE = 'nonpayable',
+  PAYABLE = 'payable',
+  PURE = 'pure',
+  VIEW = 'view',
+}

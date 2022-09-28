@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -7,60 +8,61 @@ import { ClientMapped } from '../../store/clientsSlice';
 import { ClientBalancesInfo } from './ClientBalancesInfo';
 import { ClientBalancesModal } from './ClientBalancesModal';
 import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
+import { IUserStatsResponse } from 'multirpc-sdk';
 
 interface IClientInfoProps {
   currentClient: ClientMapped[];
+  statsData?: IUserStatsResponse;
 }
 
-export const ClientInfo = ({ currentClient }: IClientInfoProps) => {
+export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
   const classes = useStyles();
+  const [client] = currentClient;
 
-  if (!currentClient[0]) {
+  if (!client) {
     return null;
   }
 
-  const renderMainInfo = (client: ClientMapped) => (
-    <>
-      <Box
-        display="flex"
-        alignItems="center"
-        className={classes.clientInfoWrapper}
-      >
+  const renderMainInfo = (user: ClientMapped) => (
+    <Fragment key={user.user}>
+      <Box display="flex" alignItems="center">
         <Typography className={classes.typeText} variant="body2" component="p">
           Type:
         </Typography>
-        <UserTypeTag clientType={client.clientType} clientTtl={client.ttl} />
+        <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
       </Box>
       <br />
       <Typography variant="body2" component="p">
-        Created: {client.createdDate.toLocaleString()}
+        Created: {user.createdDate.toLocaleString()}
       </Typography>
       <br />
       <Typography variant="body2" component="p">
-        Token: {client.user}
+        Token: {user.user}
       </Typography>
-      {client.email && (
-        <>
-          <br />
-          <Typography variant="body2" component="p">
-            Email: {client.email}
-          </Typography>
-        </>
-      )}
       <hr />
-    </>
+    </Fragment>
   );
 
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography variant="h3" component="p">
-          Client {currentClient[0]?.address}
-        </Typography>
-        <br />
         {currentClient.map(renderMainInfo)}
-
-        {(currentClient[0]?.amountAnkr || currentClient[0]?.amountUsd) && (
+        <br />
+        <Typography variant="body2" component="p">
+          Total requests:{' '}
+          {statsData?.totalRequests
+            ? `${statsData.totalRequests} in last 30d`
+            : 'Not found'}
+        </Typography>
+        {client.email && (
+          <>
+            <br />
+            <Typography variant="body2" component="p">
+              Email: {client.email}
+            </Typography>
+          </>
+        )}
+        {(client.amountAnkr || client.amountUsd) && (
           <>
             <Typography
               variant="h3"
@@ -69,12 +71,10 @@ export const ClientInfo = ({ currentClient }: IClientInfoProps) => {
             >
               Balance
             </Typography>
-            <ClientBalancesInfo currentClient={currentClient[0]} />
+            <ClientBalancesInfo currentClient={client} />
           </>
         )}
-        {currentClient[0]?.address && (
-          <ClientBalancesModal currentClient={currentClient[0]} />
-        )}
+        {client.address && <ClientBalancesModal currentClient={client} />}
       </CardContent>
     </Card>
   );

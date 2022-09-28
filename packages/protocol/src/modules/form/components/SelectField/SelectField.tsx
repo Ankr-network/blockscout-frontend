@@ -11,12 +11,14 @@ interface ISelectComponent
   extends OutlinedTextFieldProps,
     FieldRenderProps<any> {
   options: ISelectOption[];
+  rootClassName?: string;
 }
 
 export const SelectField = ({
   input: { name, onChange, value },
   meta,
   options,
+  rootClassName,
   ...rest
 }: ISelectComponent) => {
   const items = useMemo(() => {
@@ -34,6 +36,7 @@ export const SelectField = ({
       value={value}
       helperText={getErrorText(meta)}
       onChange={onChange as any}
+      rootClassName={rootClassName}
       {...(rest as any)}
     >
       {items}

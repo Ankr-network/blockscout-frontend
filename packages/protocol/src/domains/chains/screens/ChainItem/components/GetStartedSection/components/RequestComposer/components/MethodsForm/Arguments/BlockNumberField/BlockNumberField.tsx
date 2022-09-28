@@ -1,22 +1,30 @@
-import React from 'react';
-import { FormGroup, Typography } from '@material-ui/core';
+import React, { useCallback } from 'react';
 import { Field } from 'react-final-form';
+import { FieldValidator } from 'final-form';
+import { FormGroup, Typography } from '@material-ui/core';
 
 import { InputField } from 'modules/form/components/InputField';
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 
 interface BlockNumberFieldProps {
   helperText: string;
-  placeholder?: string;
   name: string;
+  placeholder?: string;
+  validate?: (value: string) => boolean;
 }
 
 export const BlockNumberField = ({
   helperText,
   placeholder,
   name = '',
+  validate: isValid = () => true,
 }: BlockNumberFieldProps) => {
   const classes = useEVMMethodsFormStyles();
+
+  const validate: FieldValidator<string> = useCallback(
+    value => !isValid(value),
+    [isValid],
+  );
 
   return (
     <FormGroup className={classes.blockNumber}>
@@ -34,6 +42,7 @@ export const BlockNumberField = ({
             {helperText}
           </Typography>
         }
+        validate={validate}
       />
     </FormGroup>
   );

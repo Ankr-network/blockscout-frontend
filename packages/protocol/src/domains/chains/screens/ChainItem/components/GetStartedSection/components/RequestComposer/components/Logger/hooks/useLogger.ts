@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { Log, Message, MessageType } from '../../../types';
 import { formatResponseTime } from '../utils/formatResponseTime';
@@ -80,14 +80,26 @@ export const useLogger = (): UseLoggerResult => {
     [log],
   );
 
-  return {
-    clear,
-    log,
-    logError,
-    logInit,
-    logRequest,
-    logResponse,
-    logResponseTime,
-    logs,
-  };
+  return useMemo(
+    () => ({
+      clear,
+      log,
+      logError,
+      logInit,
+      logRequest,
+      logResponse,
+      logResponseTime,
+      logs,
+    }),
+    [
+      clear,
+      log,
+      logError,
+      logInit,
+      logRequest,
+      logResponse,
+      logResponseTime,
+      logs,
+    ],
+  );
 };
