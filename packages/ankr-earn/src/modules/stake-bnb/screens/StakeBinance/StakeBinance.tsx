@@ -72,7 +72,6 @@ export const StakeBinance = (): JSX.Element => {
     tokenOut,
     totalAmount,
     haveCode,
-    isCodeCheckingLoading,
     isReferralUserExists,
     handleHaveCodeClick,
     handleFormChange,
@@ -170,8 +169,7 @@ export const StakeBinance = (): JSX.Element => {
     );
   }, [certificateRatio, dispatch]);
 
-  const isDisabled =
-    isStakeLoading || isFetchStatsLoading || isCodeCheckingLoading;
+  const isDisabled = isStakeLoading || isFetchStatsLoading;
 
   return (
     <section className={classes.root}>

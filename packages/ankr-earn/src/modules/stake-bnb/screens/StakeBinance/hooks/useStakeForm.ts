@@ -50,7 +50,6 @@ interface IUseStakeFormData {
   totalAmount: BigNumber;
   haveCode: boolean;
   isValidCode: boolean;
-  isCodeCheckingLoading: boolean;
   isReferralUserExists: boolean;
   handleHaveCodeClick: () => void;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
@@ -80,11 +79,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
-  const {
-    isLoading: isCodeCheckingLoading,
-    isValid: isValidCode,
-    handleCheck,
-  } = useCheckPartnerCode();
+  const { isValid: isValidCode, handleCheck } = useCheckPartnerCode();
 
   const handleHaveCodeClick = useCallback(() => setHaveCode(x => !x), []);
 
@@ -213,7 +208,6 @@ export const useStakeForm = (): IUseStakeFormData => {
     handleCodeChange: debouncedOnCodeChange,
     handleFormChange: debouncedOnChange,
     haveCode,
-    isCodeCheckingLoading,
     isValidCode,
     isReferralUserExists: isReferralUserExistsData ?? false,
     handleHaveCodeClick,
