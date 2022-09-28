@@ -30,8 +30,6 @@ import {
   TNotificationsState,
 } from 'modules/notifications';
 
-import { web3Api } from '../modules/api/web3Api';
-
 import { rootSagas } from './sagas';
 
 export interface IStoreState {
@@ -86,8 +84,7 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = combineReducers({
-  [web3Api.reducerPath]: web3Api.reducer,
+const rootReducer = combineReducers<IStoreState>({
   auth: authPersistReducer,
   dialog,
   i18n: i18nPersistReducer,
@@ -99,17 +96,11 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware => {
-    // Skip throwing middleware
-    const [, ...rest] = getDefaultMiddleware();
-    return [
-      ...rest,
-      ...requestsMiddleware,
-      web3Api.middleware,
-      routerMiddleware(historyInstance),
-      sagaMiddleware,
-    ];
-  },
+  middleware: [
+    ...requestsMiddleware,
+    routerMiddleware(historyInstance),
+    sagaMiddleware,
+  ],
 });
 
 export const persistor = persistStore(store);
