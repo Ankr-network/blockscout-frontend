@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 
-import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 interface IUseTotalClaimedData {
@@ -16,13 +15,13 @@ interface IUseTotalClaimed {
 
 const DEMO_DATA: IUseTotalClaimedData[] = [
   {
-    amount: ZERO.plus(132),
-    amountUsd: ZERO.plus(13_200),
+    amount: new BigNumber(132),
+    amountUsd: new BigNumber(13_200),
     token: Token.AVAX,
   },
   {
-    amount: ZERO.plus(1),
-    amountUsd: ZERO.plus(1_000),
+    amount: new BigNumber(1),
+    amountUsd: new BigNumber(1_000),
     token: Token.ETH,
   },
 ];

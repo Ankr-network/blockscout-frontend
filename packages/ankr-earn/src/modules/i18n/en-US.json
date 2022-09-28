@@ -858,7 +858,13 @@
       "next-unlock-days": "{value}d",
       "next-unlock-hours": "{value}h",
       "next-unlock-minutes": "{value}m",
-      "claim": "Claim"
+      "claim": "Claim",
+      "staking-apy": "{token} Staking APY",
+      "staking-apy-value": "<b>{value}%</b>",
+      "ankr-fees": "Ankr Fees",
+      "ankr-fees-value": "<b>{value}%</b> of Staking APY",
+      "ref-bonuses": "Ref bonuses",
+      "ref-bonuses-value": "<b>{value}%</b> of Ankr Fees"
     },
     "tabs": {
       "referrals": "Referrals",

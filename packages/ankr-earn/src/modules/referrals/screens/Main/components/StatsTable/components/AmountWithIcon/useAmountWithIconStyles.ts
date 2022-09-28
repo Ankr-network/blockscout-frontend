@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { alpha, makeStyles } from '@material-ui/core';
 
 export const useAmountWithIconStyles = makeStyles(theme => ({
   root: {
@@ -41,5 +41,29 @@ export const useAmountWithIconStyles = makeStyles(theme => ({
   usdAmount: {
     fontSize: 13,
     color: theme.palette.text.secondary,
+  },
+
+  tooltipWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 220,
+  },
+
+  row: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: theme.spacing(2, 0),
+
+    borderBottom: `1px solid ${alpha(theme.palette.text.secondary, 0.4)}`,
+
+    '&:last-child': {
+      borderBottom: 'none',
+    },
+  },
+
+  text: {
+    fontSize: 12,
+    fontWeight: 400,
   },
 }));

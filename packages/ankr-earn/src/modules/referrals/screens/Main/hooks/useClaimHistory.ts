@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 
-import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 interface IUseClaimHistoryData {
@@ -18,14 +17,14 @@ interface IUseClaimHistory {
 const DEMO_DATA: IUseClaimHistoryData[] = [
   {
     date: new Date(),
-    amount: ZERO.plus(300),
-    amountUsd: ZERO.plus(30_000),
+    amount: new BigNumber(300),
+    amountUsd: new BigNumber(30_000),
     token: Token.BNB,
   },
   {
     date: new Date(),
-    amount: ZERO.plus(100),
-    amountUsd: ZERO.plus(10_000),
+    amount: new BigNumber(100),
+    amountUsd: new BigNumber(10_000),
     token: Token.MATIC,
   },
 ];

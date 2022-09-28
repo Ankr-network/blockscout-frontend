@@ -1,6 +1,7 @@
+import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
-import { t } from 'common';
+import { t, tHTML } from 'common';
 
 import { iconByTokenMap, TIconMap } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
@@ -13,12 +14,18 @@ interface IAmountWithIconProps {
   token: Token;
   amount: BigNumber;
   refPercent: BigNumber;
+  apy: number;
+  ankrFees: number;
+  refBonuses: number;
 }
 
 export const AmountWithIcon = ({
   amount,
   token,
   refPercent,
+  apy,
+  ankrFees,
+  refBonuses,
 }: IAmountWithIconProps): JSX.Element => {
   const classes = useAmountWithIconStyles();
 
@@ -41,7 +48,47 @@ export const AmountWithIcon = ({
                 .toFormat(),
             })}
 
-            <QuestionWithTooltip>tooltip</QuestionWithTooltip>
+            <QuestionWithTooltip>
+              <div className={classes.tooltipWrapper}>
+                <div className={classes.row}>
+                  <Typography className={classes.text} color="textSecondary">
+                    {t('referrals.stats-table.staking-apy', {
+                      token,
+                    })}
+                  </Typography>
+
+                  <Typography className={classes.text}>
+                    {tHTML('referrals.stats-table.staking-apy-value', {
+                      value: apy,
+                    })}
+                  </Typography>
+                </div>
+
+                <div className={classes.row}>
+                  <Typography className={classes.text} color="textSecondary">
+                    {t('referrals.stats-table.ankr-fees')}
+                  </Typography>
+
+                  <Typography className={classes.text}>
+                    {tHTML('referrals.stats-table.ankr-fees-value', {
+                      value: ankrFees,
+                    })}
+                  </Typography>
+                </div>
+
+                <div className={classes.row}>
+                  <Typography className={classes.text} color="textSecondary">
+                    {t('referrals.stats-table.ref-bonuses')}
+                  </Typography>
+
+                  <Typography className={classes.text}>
+                    {tHTML('referrals.stats-table.ref-bonuses-value', {
+                      value: refBonuses,
+                    })}
+                  </Typography>
+                </div>
+              </div>
+            </QuestionWithTooltip>
           </div>
         </div>
       </div>

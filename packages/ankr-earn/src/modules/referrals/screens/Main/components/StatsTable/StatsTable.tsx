@@ -120,6 +120,9 @@ export const StatsTable = (): JSX.Element | null => {
               <TableBodyCell label={`${captions[ELabel.totalStaked].label}`}>
                 <AmountWithIcon
                   amount={row.totalStaked}
+                  ankrFees={row.ankrFees}
+                  apy={row.apy}
+                  refBonuses={row.refBonuses}
                   refPercent={row.refPercent}
                   token={row.token}
                 />
