@@ -17,9 +17,10 @@ import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getNextUnlockTime } from 'modules/referrals/utils/getNextUnlockTime';
 import { NavLink } from 'uiKit/NavLink';
 
+import { useStatsData } from '../../hooks/useStatsData';
+
 import { AmountWithIcon } from './components/AmountWithIcon';
 import { BaseTokenUsdAmount } from './components/BaseTokenUsdAmount';
-import { useStatsData } from './hooks/useStatsData';
 import { useStatsTableStyles } from './useStatsTableStyles';
 
 const SKELETON_ROWS_COUNT = 1;
@@ -84,8 +85,6 @@ export const StatsTable = (): JSX.Element | null => {
       customCell="1.5fr 1fr 1fr 200px"
       minWidth={800}
     >
-      {/* todo: add unlock timer  */}
-
       <TableHead>
         {captions.map(({ label }, i) => (
           <TableHeadCell

@@ -1,6 +1,8 @@
+import { ClaimHistoryTable } from '../ClaimHistoryTable';
 import { ReferralsTable } from '../ReferralsTable';
 import { Tabs } from '../Tabs';
 import { Tab } from '../Tabs/Tab';
+import { TotalClaimed } from '../TotalClaimed';
 
 import { EReferralTabs, useReferralTables } from './useReferralTables';
 
@@ -34,7 +36,13 @@ export const ReferralTables = (): JSX.Element => {
 
       {currentTab === EReferralTabs.referrals && <ReferralsTable />}
 
-      {currentTab === EReferralTabs.history && <>claimHistoryText</>}
+      {currentTab === EReferralTabs.history && (
+        <>
+          <TotalClaimed />
+
+          <ClaimHistoryTable />
+        </>
+      )}
     </>
   );
 };

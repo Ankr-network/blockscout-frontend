@@ -871,6 +871,12 @@
       "staked-tokens": "Staked tokens",
       "staked-amount": "Staked Amount",
       "my-rewards": "My Rewards"
+    },
+    "claim-history": {
+      "total-claimed": "Total Claimed",
+      "date": "Date",
+      "date-value": "{value, date, long} {hours}:{minutes}",
+      "amount": "Amount"
     }
   },
   "dashboard": {

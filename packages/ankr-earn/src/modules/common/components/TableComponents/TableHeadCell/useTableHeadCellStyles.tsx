@@ -56,6 +56,7 @@ export const useTableHeadCellStyles = makeStyles<
 
     content: {
       fontSize: 14,
+      fontWeight: 600,
       width: '100%',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',

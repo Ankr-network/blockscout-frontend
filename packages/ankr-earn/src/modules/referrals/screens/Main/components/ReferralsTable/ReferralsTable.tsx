@@ -134,19 +134,23 @@ export const ReferralsTable = (): JSX.Element | null => {
                 </TableBodyCell>
 
                 <TableBodyCell label={`${captions[ELabel.stakedAmount].label}`}>
-                  <BaseAmount
-                    amount={row.stakedAmount}
-                    token={row.stakedTokens}
-                    usdAmount={row.stakedAmountUsd}
-                  />
+                  <div className={classes.amount}>
+                    <BaseAmount
+                      amount={row.stakedAmount}
+                      token={row.stakedTokens}
+                      usdAmount={row.stakedAmountUsd}
+                    />
+                  </div>
                 </TableBodyCell>
 
                 <TableBodyCell label={`${captions[ELabel.myRewards].label}`}>
-                  <BaseAmount
-                    amount={row.myRewards}
-                    token={row.stakedTokens}
-                    usdAmount={row.myRewardsUsd}
-                  />
+                  <div className={classes.amount}>
+                    <BaseAmount
+                      amount={row.myRewards}
+                      token={row.stakedTokens}
+                      usdAmount={row.myRewardsUsd}
+                    />
+                  </div>
                 </TableBodyCell>
               </TableRow>
             );
