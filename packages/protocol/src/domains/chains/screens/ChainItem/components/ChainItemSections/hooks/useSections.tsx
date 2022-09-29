@@ -36,6 +36,14 @@ const getStarted = t('chain-item.tabs.get-started');
 const usageData = t('chain-item.tabs.usage-data');
 const infrastructure = t('chain-item.tabs.infrastructure');
 
+const isAvalancheChain = (id: ChainGroupID) => {
+  return (
+    id === ChainGroupID.C_CHAIN ||
+    id === ChainGroupID.P_CHAIN ||
+    id === ChainGroupID.X_CHAIN
+  );
+};
+
 export const useSections = ({
   chainType,
   data,
@@ -96,13 +104,11 @@ export const useSections = ({
   // TODO: Remove after adding ChainFlow to GetStartedSection
   const { credentials, loading } = useAuth();
   const isUpgraded = credentials || loading;
-
   const getStartedHasContent =
     !isUpgraded ||
-    isGroupEvmBased(group) ||
     chainId === ChainID.TRON ||
-    group.id === ChainGroupID.C_CHAIN ||
-    group.id === ChainGroupID.P_CHAIN;
+    isGroupEvmBased(group) ||
+    isAvalancheChain(group.id);
 
   if (!getStartedHasContent && initialTabID === SectionID.GetStarted) {
     initialTabID = SectionID.UsageData;

@@ -2,13 +2,16 @@ import {
   AvalancheLibraryID,
   CChainMethod,
   PChainMethod,
+  XChainMethod,
 } from '../../constants/avalanche';
 
 export interface CChainMethodResponse {}
 
 export interface PChainMethodResponse {}
 
-type AvalancheChain = CChainMethod | PChainMethod;
+export interface XChainMethodResponse {}
+
+type AvalancheChain = CChainMethod | PChainMethod | XChainMethod;
 
 export type ILibraryConfig<T extends AvalancheChain> = {
   [key in T]: {

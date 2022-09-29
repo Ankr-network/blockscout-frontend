@@ -370,6 +370,31 @@
             "sampleValidators": "Sample validators from the specified Subnet.",
             "validatedBy": "Get the Subnet that validates a given blockchain.",
             "validates": "Get the IDs of the blockchains a Subnet validates."
+          },
+          "x-chain": {
+            "buildGenesis": "🚫 This method is not supported!</br>A JSON representing the genesis data",
+            "createAddress": "🚫 This method is not supported!</br>Create a new address controlled by the given user.",
+            "createFixedCapAsset": "🚫 This method is not supported!</br>Create a new fixed-cap, fungible asset.",
+            "mint": "🚫 This method is not supported!</br>Mint units of a variable-cap asset created with avm.createVariableCapAsset",
+            "createVariableCapAsset": "Create a new variable-cap, fungible asset.",
+            "createNFTAsset": "🚫 This method is not supported!</br>Create a new non-fungible asset.",
+            "mintNFT": "🚫 This method is not supported!</br>Mint non-fungible tokens which were created with avm.createNFTAsset",
+            "export": "🚫 This method is not supported!</br>Send an asset from the X-Chain to the P-Chain or C-Chain.",
+            "exportKey": "🚫 This method is not supported!</br>Get the private key that controls a given address.",
+            "getAllBalances": "Get the balances of all assets controlled by a given address.",
+            "getAssetDescription": "Get information about an asset.",
+            "getBalance": "Get the balance of an asset controlled by a given address.",
+            "getAddressTxs": "Returns all transactions that change the balance of the given address.",
+            "getTx": "Returns the specified transaction.",
+            "getTxStatus": "Get the status of a transaction sent to the network.",
+            "getUTXOs": "Gets the UTXOs that reference a given address.",
+            "import": "🚫 This method is not supported!</br>Finalize a transfer of an asset from the P-Chain or C-Chain to the X-Chain.",
+            "importKey": "🚫 This method is not supported!</br>Give a user control over an address by providing the private key that controls the address.",
+            "issueTx": "Send a signed transaction to the network.",
+            "listAddresses":"🚫 This method is not supported!</br>List addresses controlled by the given user.",
+            "send": "🚫 This method is not supported!</br>List addresses controlled by the given user.",
+            "sendMultiple": "🚫 This method is not supported!</br>Sends multiple transfers of amount of assetID, to a specified address from a list of owned addresses.",
+            "sendNFT": "🚫 This method is not supported!</br>Send a non-fungible token."
           }
         },
         "tron": {
