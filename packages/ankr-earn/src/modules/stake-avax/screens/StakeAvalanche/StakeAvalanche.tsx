@@ -17,6 +17,7 @@ import {
 import { Token } from 'modules/common/types/token';
 import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
+import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -39,7 +40,6 @@ import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { fetchStats } from '../../actions/fetchStats';
 
-import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeAvalancheStyles } from './useStakeAvalancheStyles';
 
@@ -49,12 +49,11 @@ export const StakeAvalanche = (): JSX.Element => {
   const classes = useStakeAvalancheStyles();
   const dispatch = useDispatch();
 
-  const faqItems = useFaq();
-
   const {
     aAVAXcRatio,
     amount,
     certificateRatio,
+    faqItems,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,
@@ -108,12 +107,13 @@ export const StakeAvalanche = (): JSX.Element => {
   );
 
   useProviderEffect(() => {
-    dispatch(fetchStats());
     dispatch(fetchPendingValues());
+    dispatch(fetchStats());
+    dispatch(getFAQ(Token.AVAX));
     dispatch(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
     };
   }, [dispatch]);
 

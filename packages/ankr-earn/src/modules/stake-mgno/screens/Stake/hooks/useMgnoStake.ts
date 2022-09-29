@@ -11,6 +11,7 @@ import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { useFormState } from 'modules/forms/hooks/useFormState';
 import { getBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxStakeAmount } from 'modules/stake-mgno/actions/getMaxStakeAmount';
@@ -28,11 +29,13 @@ import {
   IMgnoStakeFormPayload,
   IMgnoStakeSubmitPayload,
 } from 'modules/stake-mgno/types';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 
 import { useAnalytics } from './useAnalytics';
 import { useApprove } from './useApprove';
 
 interface IUseMgnoStake {
+  faqItems: IFAQItem[];
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
   isApproveLoading: boolean;
@@ -62,6 +65,10 @@ export const useMgnoStake = (): IUseMgnoStake => {
 
   const { data: balanceData, loading: isBalanceLoading } = useQuery({
     type: getBalance,
+  });
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
   });
   const { data: minStakeAmount, loading: isMinStakeLoading } = useQuery({
     type: getMinStakeAmount,
@@ -100,24 +107,26 @@ export const useMgnoStake = (): IUseMgnoStake => {
   } = useApprove();
 
   useProviderEffect(() => {
-    dispatchRequest(getProviders());
     dispatchRequest(getBalance());
+    dispatchRequest(getFAQ(Token.mGNO));
+    dispatchRequest(getMaxStakeAmount({ provider: initialProvider }));
     dispatchRequest(getMinStakeAmount());
     dispatchRequest(getProviderContributed({ provider: initialProvider }));
     dispatchRequest(getProviderStats({ provider: initialProvider }));
-    dispatchRequest(getMaxStakeAmount({ provider: initialProvider }));
+    dispatchRequest(getProviders());
     dispatchRequest(getTotalInfo());
 
     return () => {
       dispatch(
         resetRequests([
           getBalance.toString(),
-          getMinStakeAmount.toString(),
+          getFAQ.toString(),
           getMaxStakeAmount.toString(),
+          getMinStakeAmount.toString(),
         ]),
       );
     };
-  }, [dispatchRequest]);
+  }, [dispatch, dispatchRequest, initialProvider]);
 
   const { sendAnalytics } = useAnalytics({
     amount,
@@ -156,6 +165,7 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const maxAmount = maxStakeAmount ?? ZERO;
 
   return {
+    faqItems,
     isStakeLoading,
     isBalanceLoading:
       isBalanceLoading || isMinStakeLoading || isMaxStakeLoading,

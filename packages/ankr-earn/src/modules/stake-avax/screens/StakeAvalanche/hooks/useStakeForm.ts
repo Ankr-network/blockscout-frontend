@@ -18,6 +18,7 @@ import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
 import { stake } from 'modules/stake-avax/actions/stake';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 import { calcTotalAmount } from 'modules/stake-avax/utils/calcTotalAmount';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -36,6 +37,7 @@ interface IUseStakeFormData {
   aAVAXcRatio: BigNumber;
   amount: BigNumber;
   certificateRatio: BigNumber;
+  faqItems: IFAQItem[];
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
   isFetchStatsLoading: boolean;
@@ -55,6 +57,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
+  });
 
   const { data: stakeGasFeeData, loading: isStakeGasLoading } = useQuery({
     type: getStakeGasFee,
@@ -156,6 +163,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     aAVAXcRatio: tokenCertRatio,
     amount,
     certificateRatio: aAVAXcRatio ?? ZERO,
+    faqItems,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,

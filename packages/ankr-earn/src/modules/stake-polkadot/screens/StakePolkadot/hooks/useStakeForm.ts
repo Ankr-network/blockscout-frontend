@@ -10,7 +10,6 @@ import { Dispatch } from 'redux';
 
 import { t } from 'common';
 
-import { IFaqItem } from 'modules/common/components/Faq';
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { ResponseData } from 'modules/common/types/ResponseData';
@@ -28,6 +27,7 @@ import {
 } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
 import { getPolkadotResetRequests } from 'modules/stake-polkadot/utils/getPolkadotResetRequests';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import {
@@ -37,13 +37,12 @@ import {
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useAnalytics } from './useAnalytics';
-import { useFaq } from './useFaq';
 
 interface IUseStakeFormData {
   amount: number;
   balanceLabel: string;
   ethToken: TPolkadotETHToken;
-  faqItems: IFaqItem[];
+  faqItems: IFAQItem[];
   fetchStatsData: ResponseData<typeof fetchStakeStats> | null;
   fetchStatsError: Error | null;
   isActiveStakeClaimForm: boolean;
@@ -68,7 +67,13 @@ const dispatchResetRequests = (dispatch: Dispatch): void => {
     ),
   );
 
-  dispatch(resetRequests([fetchStakeStats.toString(), getMetrics.toString()]));
+  dispatch(
+    resetRequests([
+      fetchStakeStats.toString(),
+      getFAQ.toString(),
+      getMetrics.toString(),
+    ]),
+  );
 };
 
 export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
@@ -101,6 +106,11 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
     type: fetchStakeStats,
   });
 
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
+  });
+
   const isActiveStakeForm = !isStakeClaimOpened && !isSuccessOpened;
   const isActiveStakeClaimForm = isStakeClaimOpened && !isSuccessOpened;
   const isActiveSuccessForm = !isStakeClaimOpened && isSuccessOpened;
@@ -129,12 +139,6 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
     polkadotToken,
     ethToken,
     network,
-  });
-
-  const faqItems = useFaq({
-    ethToken,
-    network,
-    polkadotToken,
   });
 
   const onStakeChange = ({ amount: value }: IStakeFormPayload): void => {
@@ -168,13 +172,14 @@ export const useStakeForm = (network: EPolkadotNetworks): IUseStakeFormData => {
 
     dispatch(fetchPolkadotAccountMaxSafeBalance(network));
     dispatch(fetchStakeStats());
+    dispatch(getFAQ(polkadotToken));
     dispatch(getMetrics());
 
     return () => {
       dispatch(abortRequests());
       dispatchResetRequests(dispatch);
     };
-  }, [dispatch, network]);
+  }, [dispatch, network, polkadotToken]);
 
   return {
     amount,

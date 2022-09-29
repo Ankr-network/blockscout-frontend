@@ -25,6 +25,7 @@ import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData
 import { getStakeGasFee } from 'modules/stake-matic/polygon/actions/getStakeGasFee';
 import { getStakeStats } from 'modules/stake-matic/polygon/actions/getStakeStats';
 import { stake } from 'modules/stake-matic/polygon/actions/stake';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import {
@@ -45,6 +46,7 @@ interface IUseStakeFormData {
     data: Partial<IStakeFormPayload>,
     errors: FormErrors<IStakeFormPayload>,
   ) => FormErrors<IStakeFormPayload>;
+  faqItems: IFAQItem[];
   gasFee: BigNumber;
   getStatsError?: Error;
   isGasFeeLoading: boolean;
@@ -64,6 +66,7 @@ const MAIN_TOKEN = Token.MATIC;
 const resetMainRequests = () =>
   resetReduxRequests([
     getCommonData.toString(),
+    getFAQ.toString(),
     getMetrics.toString(),
     getStakeGasFee.toString(),
     getStakeStats.toString(),
@@ -90,6 +93,11 @@ export const useStakeForm = (): IUseStakeFormData => {
     loading: isCommonDataLoading,
   } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
   });
 
   const { data: gasFee, loading: isGasFeeLoading } = useQuery({
@@ -223,6 +231,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     dispatch(resetMainRequests());
 
     dispatch(getCommonData());
+    dispatch(getFAQ(Token.MATIC));
     dispatch(getMetrics());
     dispatch(getStakeStats());
 
@@ -260,6 +269,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     amount,
     balance: maticBalance,
     extraValidation,
+    faqItems,
     gasFee: gasFee ?? ZERO,
     getStatsError: commonDataError || stakeStatsError,
     isGasFeeLoading,

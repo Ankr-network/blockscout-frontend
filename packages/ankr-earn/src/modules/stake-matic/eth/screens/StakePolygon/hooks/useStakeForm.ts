@@ -23,6 +23,7 @@ import {
 } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getStakeGasFee } from 'modules/stake-matic/eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-matic/eth/actions/stake';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -36,6 +37,7 @@ interface IUseStakeFormData {
   activeStep: number;
   amount: BigNumber;
   certificateRatio: BigNumber;
+  faqItems: IFAQItem[];
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
   gasFee: BigNumber;
@@ -75,6 +77,11 @@ export const useStakeForm = (): IUseStakeFormData => {
     error: fetchStatsError,
   } = useQuery({
     type: fetchStats,
+  });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
   });
 
   const { data: gasFee, loading: isGasFeeLoading } = useQuery({
@@ -211,6 +218,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     activeStep,
     amount,
     certificateRatio: aMATICcRatio ?? ZERO,
+    faqItems,
     fetchStatsData,
     fetchStatsError,
     gasFee: gasFee ?? ZERO,

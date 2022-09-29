@@ -20,7 +20,7 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
-import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
+import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -47,7 +47,6 @@ import { approveMATICStake } from '../../actions/approveMATICStake';
 import { fetchStats } from '../../actions/fetchStats';
 import { getStakeGasFee } from '../../actions/getStakeGasFee';
 
-import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
@@ -55,6 +54,7 @@ const resetRequests = () =>
   resetReduxRequests([
     approveMATICStake.toString(),
     fetchStats.toString(),
+    getFAQ.toString(),
     getMetrics.toString(),
     getStakeGasFee.toString(),
   ]);
@@ -69,6 +69,7 @@ export const StakePolygon = (): JSX.Element => {
     activeStep,
     amount,
     certificateRatio,
+    faqItems,
     gasFee,
     isApproveLoading,
     isApproved,
@@ -83,9 +84,6 @@ export const StakePolygon = (): JSX.Element => {
     handleSubmit,
     onTokenSelect,
   } = useStakeForm();
-
-  const faqItems = useFaq();
-  const commonFaqItems = useMaticFaq();
 
   const renderStats = () => {
     return (
@@ -183,6 +181,7 @@ export const StakePolygon = (): JSX.Element => {
     dispatch(resetRequests());
 
     dispatch(fetchStats());
+    dispatch(getFAQ(Token.MATIC));
     dispatch(getMetrics());
 
     return () => {
@@ -244,11 +243,7 @@ export const StakePolygon = (): JSX.Element => {
               metricsServiceName={EMetricsServiceName.MATIC}
             />
 
-            <Faq
-              data={
-                featuresConfig.maticPolygonStaking ? commonFaqItems : faqItems
-              }
-            />
+            <Faq data={faqItems} />
           </StakeContainer>
         </section>
       )}

@@ -416,37 +416,6 @@
     "progress-title": "Claim"
   },
   "stake-avax": {
-    "faq": {
-      "question-1": "Which wallets are compatible with the aAVAXb/aAVAXc tokens?",
-      "answer-1": "aAVAXb/aAVAXc is an ERC-20 token that is compatible with Ethereum-based wallets like MetaMask.",
-      "question-2": "Are there any docs about the AVAX staking and how I set up my wallet etc.?",
-      "answer-2": "Yes — there is a <a href=\"https://www.ankr.com/docs/staking/liquid-staking/avax/stake-avax\" target=\"_blank\" rel=\"noopener noreferrer\">user guide</a>.",
-      "question-3": "What is the minimum amount of AVAX I can stake?",
-      "answer-3": "{value} AVAX.",
-      "question-4": "Is there a maximum amount I can stake?",
-      "answer-4": "No, you can stake at your discretion, unlimited.",
-      "question-5": "How long does it take to unstake my AVAX?",
-      "answer-5": "You receive the unstaked AVAX after the unbonding period, which is at end of the current validating period. A validating period is 4 weeks.",
-      "question-6": "How do I receive rewards?",
-      "answer-6": "aAVAXb is a rebasing token. When holding aAVAXb, your balance will increase in proportion to your AVAX staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aAVAXb increase by a small amount.<br/><br/>aAVAXc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.",
-      "question-7": "How soon after staking will I begin to receive rewards?",
-      "answer-7": "aAVAXb will increase in number with every rebase; rebasing occurs daily. aAVAXc rewards are built into the token. Effectively, your rewards accumulate daily as aAVAXc grows in value to AVAX.",
-      "question-8": "Does Ankr charge for the service?",
-      "answer-8": "2% commission on the reward.",
-      "question-9": "What determines the amount of reward I receive each rebase of aAVAXb?",
-      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-10": "If I click Unstake, does my stake immediately stop accumulating rewards?",
-      "answer-10": "Your stake <b>continues</b> to accumulate rewards until the moment you receive them.",
-      "question-11": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-11": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction, attacks the network, or goes offline. The delegated staked AVAX is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-12": "Is there any liquidity for my Liquid Staking tokens anywhere?",
-      "answer-12": {
-        "p1": "You can trade them in the listed liquidity pools on ANKR DeFi:<br/><ul><li><a href=\"{link1}\">aAVAXb</a> </li><li><a href=\"{link2}\">aAVAXc</a></li></ul>",
-        "p2": "You can also use your liquid tokens to:<br/><ul><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Add Liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li><li><a href=\"{link3}\" target='_blank' rel='noreferrer'>Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair.</li></ul>"
-      },
-      "question-13": "Can I get staking metrics for my integration?",
-      "answer-13": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/extra/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
-    },
     "tooltips": {
       "you-will-get": "aAVAXb represents your staked AVAX plus accumulated staking rewards. Your wallet’s aAVAXb balance will grow daily to reflect earned rewards.<br/><br/>You can unstake it at fair value (1 aAVAXb = 1 AVAX) anytime after the unbonding period (1-28 days depending on validator's closest unlocking date)."
     },
@@ -458,37 +427,6 @@
     "aavaxc-descr": "aAVAXс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aAVAXc={rate} AVAX</b>"
   },
   "stake-bnb": {
-    "faq": {
-      "question-1": "Which wallets are compatible with the aBNBb/aBNBc tokens?",
-      "answer-1": "aBNBb/aBNBc is an ERC-20 token that is compatible with Ethereum-based wallets like MetaMask.",
-      "question-2": "Are there any docs about the BNB staking and how I set up my wallet etc.?",
-      "answer-2": "Yes — there is a <a href='https://www.ankr.com/docs/staking/liquid-staking/bnb/stake-bnb/' rel='noopener noreferrer' target='_blank'>user guide</a>.",
-      "question-3": "What is the minimum amount of BNB I can stake?",
-      "answer-3": "{total} BNB: {minStake} BNB, plus the relayer fee for cross-chain transfer of your assets applied during the staking — {relayerFee} BNB. You must also count in the gas fee on top for sending the transaction.",
-      "question-4": "Why do I get less aBNBc than aBNBb for my 1 BNB?",
-      "answer-4": "aBNBb is a rebasing token that changes in number, which is why we decided 1 aBNBb is equal to 1 BNB. However, aBNBc only changes in value, which is why the amount of aBNBc you get when staking is calculated by the formula <code>stake * exchange_ratio</code>. The exchange ratio is calculated like this: <code>totals_supply_of_abnbc / (total_staked_bnb + total_rewards_for_staked_bnb - total_unstaked_abnbb_and_abnbc)</code>.",
-      "question-5": "Is there a maximum amount I can stake?",
-      "answer-5": "No, you can stake at your discretion, unlimited.",
-      "question-6": "How long does it take to unstake my BNB?",
-      "answer-6": "You receive the unstaked BNB after the unbonding period of up to {value} {period}",
-      "question-7": "How do I receive rewards?",
-      "answer-7": "aBNBb is a rebasing token. When holding aBNBb, your balance will increase in proportion to your BNB staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aBNBb increase by a small amount.<br/><br/>aBNBc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.",
-      "question-8": "How soon after staking will I begin to receive rewards?",
-      "answer-8": "aBNBb will increase in number with every rebase; rebasing occurs daily. aBNBc rewards are built into the token. Effectively, your rewards accumulate daily as aBNBc grows in value to BNB.",
-      "question-9": "Does Ankr charge for the service?",
-      "answer-9": "5% are subtracted from your Liquid Staking rewards to cover the services and operations provided by Ankr. Your APY already includes the fee so no need to recalculate it, you get what you see.<br/><br/>Note that relayer fee is a fee for cross-chain transfer of your assets applied during staking and is not an Ankr fee.",
-      "question-10": "What determines the amount of reward I receive each rebase of aBNBb?",
-      "answer-10": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to and how much BNB is validated on the network. The less BNB is staked on the network, the higher the rewards to incentivize more BNB to come online, and vice versa. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-11": "If I click Unstake, does my stake immediately stop accumulating rewards?",
-      "answer-11": "Your stake immediately <b>stops</b> accumulating rewards once you clicked <b>Unstake</b>.",
-      "question-12": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-12": "The only risk for stakers is missing out on rewards during any time a validator they staked with is “in jail” (slashed). Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked BNB is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-13": "Is there any liquidity for aBNBb/aBNBc anywhere currently?",
-      "answer-13": {
-        "p1": "You can trade them in the listed liquidity pools on ANKR DeFi:<br/><ul><li><a href=\"{link1}\">aBNBb</a> </li><li><a href=\"{link2}\">aBNBc</a></li></ul>",
-        "p2": "You can also use your liquid tokens to:<br/><ul ><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Add Liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li><li><a href=\"{link3}\" target='_blank' rel='noreferrer'>Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair.</li></ul>"
-      }
-    },
     "relayer-fee": "Relayer Fee",
     "abnbb-descr": "aBNBb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aBNBb=1 BNB</b>",
     "abnbc-descr": "aBNBс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aBNBc={rate} BNB</b>",
@@ -514,32 +452,6 @@
       "claim-ledger-signature-expired": "Signature expired, {token} will be turned back to you. Please try to stake again",
       "invalid-eth-token-address": "Invalid Ethereum's token address",
       "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
-    },
-    "faq": {
-      "question-1": "Which wallets are compatible with the a{network}b tokens?",
-      "answer-1": "a{network}b is an ERC-20 token that is compatible with Ethereum-based wallets like Metamask.",
-      "question-2": "Are there any docs about the {network} staking and how I set up my wallet etc.?",
-      "answer-2": "Yes — there is a <a href='https://www.ankr.com/docs/staking/liquid-staking/{network}/stake-{network}/' rel='noopener noreferrer' target='_blank'>user guide</a>.",
-      "question-3": "What is the minimum amount of {network} I can stake?",
-      "answer-3": "{value} {network}.",
-      "question-4": "Is there a maximum amount I can stake?",
-      "answer-4": "No, you can stake at your discretion, unlimited.",
-      "question-5": "How long does it take to unstake my {network}?",
-      "answer-5": "You receive the unstaked {network} after the unbonding period of up to ~{period} days.",
-      "question-6": "How do I receive rewards?",
-      "answer-6": "a{network}b is a rebasing token. When holding a{network}b, your balance will increase in proportion to your {network} staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your a{network}b increase by a small amount.",
-      "question-7": "How soon after staking will I begin to receive rewards?",
-      "answer-7": "a{network}b will increase with every rebase; rebasing occurs daily.",
-      "question-8": "Does Ankr charge for the service?",
-      "answer-8": "2% commission from the staking reward.",
-      "question-9": "What determines the amount of reward I receive each rebase of a{network}b?",
-      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-10": "If I click Unstake, does my stake immediately stop accumulating rewards?",
-      "answer-10": "Your stake immediately <b>stops</b> accumulating rewards once you clicked <b>Unstake</b>.",
-      "question-11": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-11": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction, attacks the network, or goes offline. The delegated staked {network} is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-12": "Can I get staking metrics for my integration?",
-      "answer-12": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/extra/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     },
     "networks": {
       "DOT": "Polkadot",
@@ -600,39 +512,6 @@
       "ethereum-network": "Ethereum Network",
       "polygon-network": "Polygon Network",
       "title": "In which network you want stake your MATIC"
-    },
-    "faq": {
-      "title": "FAQ",
-      "question-1": "How can I set up my wallet and stake MATIC?",
-      "answer-1": "Check the <a href=\"https://www.ankr.com/docs/staking/liquid-staking/matic/stake-matic\" target=\"_blank\" rel=\"noopener noreferrer\">Stake MATIC</a> user guide.",
-      "question-2": "What is the minimum and maximum amount of MATIC I can stake?",
-      "answer-2": "Minimum amount:<br/><ul><li>Staking MATIC on Ethereum, your minimum amount is {value} MATIC.</li><li>Staking MATIC on Polygon, there is no minimum amount.</li></ul><br/>Maximum amount:<br/><ul><li>Staking MATIC on Ethereum, there is no maximum amount.</li><li>Staking MATIC on Polygon, your maximum amount is limited by the crosschain staking pool capacity. You will see the capacity while staking.</li></ul>",
-      "question-3": "What is the difference between MATIC staking on Ethereum and Polygon?",
-      "answer-3": "MATIC staking happens on Ethereum. You can stake/unstake any MATIC amount at once. Ethereum gas fee applies. Also, when unstaking, you receive your MATIC and rewards after the 3–4 days unbonding period.<br/><br/>MATIC crosschain staking happens on Polygon. You may have to stake/unstake your MATIC in portions, as you’re doing it via a crosschain staking pool, which may not have the amount you need at the moment. Also, an additional fee applies. However, there is no unbonding period, so when unstaking you receive your MATIC and rewards instantly.",
-      "question-4": "How long does it take to unstake my MATIC?",
-      "answer-4": "If you staked on Ethereum, you’ll receive your MATIC and rewards after the unbonding period of 80+ epochs; typically, it takes {period} days.</br></br>If you staked on Polygon via the crosschain staking pool, you’ll receive your MATIC and rewards instantly.",
-      "question-5": "How do I receive rewards?",
-      "answer-5": "aMATICb is a rebasing token. When holding aMATICb, your balance will increase in proportion to your MATIC staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aMATICb increase by a small amount. <br/><br/>aMATICc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.",
-      "question-6": "How soon after staking will I begin to receive rewards?",
-      "answer-6": "aMATICb rewards arrive in your wallet with every rebase. Rebasing occurs daily. <br/><br/>aMATICc rewards are built into the token. Effectively, your rewards accumulate daily as aMATICc grows in value to MATIC.",
-      "question-7": "Does Ankr charge for the service?",
-      "answer-7": "When unstaking, the user pays a fee in ANKR that starts from 100 ANKR. Typical fee range is 500–3500 ANKR.",
-      "question-8": "What determines the amount of reward I receive each rebase of aMATICb?",
-      "answer-8": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to and how much MATIC is validated on the network. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-9": "If I click Unstake, does my stake immediately stop accumulating rewards?",
-      "answer-9": "Your stake <b>continues</b> to accumulate rewards until the moment you receive them.",
-
-      "question-10": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked MATIC is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-
-      "question-11": "Is there any liquidity for my Liquid Staking tokens anywhere?",
-      "answer-11": {
-        "p1": "You can trade them in the listed liquidity pools on ANKR DeFi:<br/><ul><li><a href=\"{link1}\">aMATICb</a> </li><li><a href=\"{link2}\">aMATICc</a></li></ul>",
-        "p2": "You can also use your liquid tokens to:<br/><ul><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Add Liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li><li><a href=\"{link3}\" target='_blank' rel='noreferrer'>Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair.</li></ul>"
-      },
-
-      "question-12": "Can I get staking metrics for my integration?",
-      "answer-12": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/extra/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
     }
   },
   "stake-matic-eth": {
@@ -643,36 +522,6 @@
     "stake-info": "Stake at least 1 MATIC on Ethereum network and claim the same amount of aMATICb liquid staking tokens (aMATICb) on Ethereum network (ERC-20 token). Your aMATICb balance will increase on a daily basis, simulating as such your aMATICb staking rewards.",
     "matic-tooltip-title": "1 MATIC = 1 aMATICb",
     "matic-tooltip-body": "aMATICb grows daily just being in your wallet. It represents your staked MATIC plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aMATICb = 1 MATIC anytime after 3-4 days unbonding period.",
-    "faq": {
-      "title": "FAQ",
-      "question-1": "How can I set up my wallet and stake MATIC?",
-      "answer-1": "Check the <a href=\"https://www.ankr.com/docs/staking/liquid-staking/matic/stake-matic\" target=\"_blank\" rel=\"noopener noreferrer\">Stake MATIC</a> user guide.",
-      "question-2": "What is the minimum amount of MATIC I can stake?",
-      "answer-2": "{value} MATIC.",
-      "question-3": "Is there a maximum amount I can stake?",
-      "answer-3": "No, you can stake at your discretion, unlimited.",
-      "question-4": "What is the unbonding period for aMATICb/aMATICc?",
-      "answer-4": "80 epochs and more depending on the network congestion. Typically, it takes around 1–2 days to receive your unstaked MATIC.",
-      "question-5": "How do I receive rewards?",
-      "answer-5": "aMATICb is a rebasing token. When holding aMATICb, your balance will increase in proportion to your MATIC staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aMATICb increase by a small amount.<br/><br/>aMATICc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.",
-      "question-6": "How soon after staking will I begin to receive rewards?",
-      "answer-6": "aMATICb rewards arrive in your wallet with every rebase. Rebasing occurs daily.<br/><br/>aMATICc rewards are built into the token. Effectively, your rewards accumulate daily as aMATICc grows in value to MATIC.",
-      "question-7": "Does Ankr charge for the service?",
-      "answer-7": "When unstaking, the user pays a fee in ANKR that starts from 100 ANKR. Typical fee range is 500–3500 ANKR.",
-      "question-8": "What determines the amount of reward I receive each rebase of aMATICb?",
-      "answer-8": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to and how much MATIC is validated on the network. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-9": "If I click Unstake, does my stake immediately stop accumulating rewards?",
-      "answer-9": "Your stake <b>continues</b> to accumulate rewards until the moment you receive them.",
-      "question-10": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-10": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked MATIC is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-11": "Is there any liquidity for aMATICb/aMATICc anywhere currently?",
-      "answer-11": {
-        "p1": "You can check all available DeFi platforms on ANKR DeFi:<ul><li><a href=\"{link}\">aMATICb</a> </li><li>aMATICc (coming soon)</li></ul>",
-        "p2": "You can also use your liquid tokens to:<ul><li><a href=\"{link1}\" target=\"_blank\" rel=\"noreferrer\">Provide liquidity to DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target=\"_blank\" rel=\"noreferrer\">Yield farm</a> and earn additional rewards in the form of other tokens.  </li></ul>"
-      },
-      "question-12": "Can I get staking metrics for my integration?",
-      "answer-12": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/extra/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
-    },
     "amaticb-descr": "aMATICb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aMATICb=1 MATIC</b>",
     "amaticc-descr": "aMATICс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aMATICc={rate} MATIC</b>"
   },
@@ -694,38 +543,6 @@
     "aftmb-tooltip": "aFTMb grows daily just being in your wallet. It represents your staked FTM plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aFTMb = 1 FTM anytime after 3-4 days unbonding period.",
     "fee-tooltip": "Unstake fee",
     "unstake-period": "{days} days or earlier",
-    "faq": {
-      "question-1": "Which wallets are compatible with the aFTMb/aFTMc tokens?",
-      "answer-1": "aFTMb/aFTMc is an ERC-20 token that is compatible with Ethereum-based wallets like MetaMask.",
-      "question-2": "Are there any docs about the FTM staking and how I set up my wallet etc.?",
-      "answer-2": "Yes — there is a <a href=\"https://www.ankr.com/docs/staking/liquid-staking/ftm/stake-ftm\" target=\"_blank\" rel=\"noopener noreferrer\">user guide</a>.",
-      "question-3": "What is the minimum amount of FTM I can stake?",
-      "answer-3": "{value} FTM.",
-      "question-4": "Is there a maximum amount I can stake?",
-      "answer-4": "No, you can stake at your discretion, unlimited.",
-      "question-5": "How long does it take to unstake my FTM?",
-      "answer-5": "You receive the unstaked amount after the unbonding period of up to {days} days.",
-      "question-6": "How do I receive rewards?",
-      "answer-6": "aFTMb is a rebasing token. When holding aFTMb, your balance will increase in proportion to your FTM staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aFTMb increase by a small amount.<br/><br/>aFTMc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.",
-      "question-7": "How soon after staking will I begin to receive rewards?",
-      "answer-7": "aFTMb will increase with every rebase; rebasing occurs daily. aFTMc rewards are built into the token. Effectively, your rewards accumulate daily as aFTMc grows in value to FTM.",
-      "question-8": "Does Ankr charge for the service?",
-      "answer-8": "When unstaking, users pay a burn fee that depends on the current liquidity and amount to unstake.",
-      "question-9": "What determines the amount of reward I receive each rebase of aFTMb?",
-      "answer-9": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards.",
-      "question-10": "If I click Unstake, does my stake immediately stop accumulating rewards?",
-      "answer-10": "Your stake immediately <b>stops</b> accumulating rewards once you clicked <b>Unstake</b>.",
-      "question-11": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-11": "If a validator node acts maliciously, delegators will also be slashed as this is an essential part of the Fantom network’s security.<br/>Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-12": "Is there any liquidity for my Liquid Staking tokens anywhere?",
-      "answer-12": {
-        "p1": "You can trade them in the listed liquidity pools on ANKR DeFi:<br/><ul><li><a href=\"{link1}\">aFTMb</a> </li><li><a href=\"{link2}\">aFTMc</a></li></ul>",
-        "p2": "You can also use your liquid tokens to:<br/><ul ><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Add Liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li><li><a href=\"{link3}\" target='_blank' rel='noreferrer'>Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair.</li></ul>"
-      },
-
-      "question-13": "Can I get staking metrics for my integration?",
-      "answer-13": "Yes, if you want to integrate Ankr Liquid Staking into your product, read <a href=\"https://ankr.com/docs/staking/extra/staking-metrics\" target=\"_blank\" rel=\"noopener noreferrer\">Liquid Staking Metrics</a>."
-    },
     "aftmb-descr": "aFTMb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
     "aftmc-descr": "aFTMс (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 aFTMc={rate} FTM</b>",
     "relayer-fee": "Relayer Fee"
@@ -738,36 +555,7 @@
     "unclaimed-label": "Unclaimed ETH balance",
     "unclaimed-descr": "Your unclaimed staked ETH balance will be converted to {token} on top of the selected amount of ETH to be staked.",
     "unstake-tooltip": "Unstaking will be enabled after The Merge of 'Eth1' and 'Eth2' into a single chain and withdrawal activation. Expected ~Q3/Q4 2022.",
-    "amount-tooltip": "Amount must be multiple of {step}",
-    "faq": {
-      "question-1": "Are there any docs about the ETH staking and how I set up my wallet etc.?",
-      "answer-1": "Yes — there is a <a href=\"{link}\" rel=\"noopener noreferrer\" target=\"_blank\">user guide</a>.",
-      "question-2": "What is the minimum amount of ETH I can stake?",
-      "answer-2": "{value} ETH",
-      "question-3": "What is the change interval to increase my stake?",
-      "answer-3": "{step} ETH. It means you can stake {step}, {stepx2}, {stepx3} ETH, but cannot stake, for example, 0.55, 1.1, 1.88 ETH.",
-      "question-4": "Is there a maximum amount I can stake?",
-      "answer-4": "No, you can stake at your discretion, unlimited. You should know that currently staking starts once 32 ETH are accumulated, so if your stake is >32 ETH, it’ll be divided into chunks and the rule will apply to each of them.",
-      "question-5": "When can I unstake?",
-      "answer-5": "Currently, unstaking is not available, as this functionality is not yet supported by Ethereum.<br/><br/>Unstaking will be enabled after in the <a href=\"https://ethereum.org/en/upgrades/merge/#misconceptions\" target=\"_blank\" rel=\"noopener noreferrer\">Shanghai upgrade that will follow The Merge in 6-12 months</a>.<br/><br/>Overall, it looks like Shanghai is going to come in ~Q2/Q3 2023.",
-      "question-6": "How long does it take to unstake my ETH?",
-      "answer-6": "Currently, there is no unbonding period, as there is no unstaking for ETH. This functionality is to be implemented by the Ethereum team in future updates.",
-      "question-7": "How do I receive rewards?",
-      "answer-7": "aETHb is a rebasing token. When holding aETHb, your balance will increase in proportion to your ETH staking rewards. A rebase runs daily, and rewards occur each time this runs. So each day, you will see the quantity of your aETHb increase by a small amount. aETHc is a reward-bearing token, meaning its quantity stays the same from the moment of staking. Instead, it appreciates in value, as the redemption ratio grows because of reward accumulation.<br/><br/>Mind that to pull out your rewards, you’ll need to sell aETHb/aETHc on Ankr DeFi, as Ethereum hasn’t implemented the unstaking functionality yet.",
-      "question-8": "How soon after staking will I begin to receive rewards?",
-      "answer-8": "aETHb will increase with every rebase; rebasing occurs daily. aETHc will increase in value only, daily. aETHc rewards are built into the token. Effectively, your rewards accumulate daily as aETHc grows in value to ETH.",
-      "question-9": "Does Ankr charge for the service?",
-      "answer-9": "ANKR does not charge any service fees for ETH Liquid Staking. However, validators charge a fee deducted from your rewards (Ankr’s validator node charges 10%), representing an indirect cost for liquid staking token holders. Ankr's income comes from running one of the several validator nodes that will be used to stake ETH.      ",
-      "question-10": "What determines the amount of reward I receive each rebase of aETHb or appreciation of aETHc?",
-      "answer-10": "Staking rewards depend mostly on the voting power of the validator node that your stake is delegated to and how much ETH is validated on the network. The less ETH is staked, the higher the rewards to incentivize more ETH to come online, and vice versa. Ankr aims to spread delegations to only the most trustworthy and reliable nodes to increase staking rewards. View the <a href=\"https://launchpad.ethereum.org/\" rel=\"noopener noreferrer\" target=\"_blank\">current amount of staked ETH</a>.",
-      "question-11": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-11": "The only risk for stakers is missing out on rewards during any time a validator they staked with is slashed. Slashing is a protocol-level penalty associated with a validator failure if it validates an invalid transaction or goes offline. The delegated staked ETH is not slashed — slashing impacts only the self-stake of the validator. Ankr only delegates to trusted and reputable validator nodes to avoid any validator that would act maliciously.",
-      "question-12": "Is there any liquidity for my Liquid Staking tokens anywhere?",
-      "answer-12": {
-        "p1": "You can trade them in the listed liquidity pools on ANKR DeFi:<br/><ul><li><a href=\"{link1}\">aETHb</a> </li><li><a href=\"{link2}\">aETHc</a></li></ul>",
-        "p2": "You can also use your liquid tokens to:<br/><ul ><li><a href=\"{link1}\" target='_blank' rel='noreferrer'>Add Liquidity on DEXs</a> and earn from commissions taken when users swap tokens, using the liquidity pool you're a part of.</li><li><a href=\"{link2}\" target='_blank' rel='noreferrer'>Yield farm</a> and earn additional rewards in the form of other tokens.</li><li><a href=\"{link3}\" target='_blank' rel='noreferrer'>Put your tokens in a vault</a> and automatically earn additional rewards in the form of one of both assets from the pair.</li></ul>"
-      }
-    }
+    "amount-tooltip": "Amount must be multiple of {step}"
   },
   "switcher": {
     "title": "ANKR Switch",
@@ -1367,30 +1155,6 @@
         "rps": "RPS",
         "btn": "Select provider"
       }
-    },
-    "faq": {
-      "question-1": "Is staking ANKR compatible for all ANKR token types: ERC20,  BEP2, and BEP20?",
-      "answer-1": "As of now, staking ANKR is only available on ERC20.",
-      "question-2": "What is the minimum and maximum amount of ANKR I can stake?​​",
-      "answer-2": " Min: 1000 ANKR, Max: unlimited.",
-      "question-3": "When can I unstake?",
-      "answer-3": "After the locking period of 84-91 days, which begins after you stake, you’ll be able to unstake your tokens and claim your rewards.",
-      "question-4": "What if I want to stake more after already staking some ANKR?",
-      "answer-4": "For each staking transaction, a new lockup period will apply.",
-      "question-5": "How long does it take to unstake my ANKR?​",
-      "answer-5": "1) Undelegation (Unstake button) lasts one complete epoch. The process can take 7-14 days.<br/>2) Once your ANKR is undelegated, you can claim it.",
-      "question-6": "How soon after staking will I begin to receive rewards?​",
-      "answer-6": "Rewards accruals occur at the end of each epoch (7 days) and are immediately available for claiming.",
-      "question-7": "Can I stake with Ledger if I connect it with Metamask?",
-      "answer-7": "Yes!",
-      "question-8": "Is there any risk from staking, like slashing or any penalties?",
-      "answer-8": " ANKR token staking does not involve any slashing or other penalties.",
-      "question-9": "If I re-invest (Restake button) my rewards, will these have a locking period as well? And of how many days?",
-      "answer-9": "Staking your rewards without claiming them is considered as a regular staking transaction and will have the normal locking period.",
-      "question-10": "If I don’t unstake after the locking period is over, will I continue to earn staking rewards?",
-      "answer-10": "Yes! You will continue to collect rewards until you unstake.",
-      "question-11": "Must rewards be claimed from the site, or will they be automatically sent to the “supplying” wallet?",
-      "answer-11": "Rewards must be claimed from the website."
     }
   },
   "stake-mgno": {

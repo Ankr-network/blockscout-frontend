@@ -9,7 +9,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { CodeInput } from 'modules/common/components/CodeField';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
-import { Faq, IFaqItem } from 'modules/common/components/Faq';
+import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
@@ -20,6 +20,7 @@ import { Token } from 'modules/common/types/token';
 import { fetchIsStakerExists } from 'modules/referrals/actions/fetchIsStakerExists';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
+import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -46,14 +47,13 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { fetchStats } from '../../actions/fetchStats';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
-import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeBinanceStyles } from './useStakeBinanceStyles';
 
 export const StakeBinance = (): JSX.Element => {
   const classes = useStakeBinanceStyles();
   const dispatch = useDispatch();
-  const faqItems: IFaqItem[] = useFaq();
+
   const { onErroMessageClick, hasError } = useErrorMessage();
 
   const {
@@ -62,7 +62,10 @@ export const StakeBinance = (): JSX.Element => {
     amount,
     bnbBalance,
     certificateRatio,
+    faqItems,
+    haveCode,
     isFetchStatsLoading,
+    isReferralUserExists,
     isStakeGasLoading,
     isStakeLoading,
     minimumStake,
@@ -71,11 +74,9 @@ export const StakeBinance = (): JSX.Element => {
     tokenIn,
     tokenOut,
     totalAmount,
-    haveCode,
-    isReferralUserExists,
-    handleHaveCodeClick,
-    handleFormChange,
     handleCodeChange,
+    handleFormChange,
+    handleHaveCodeClick,
     handleSubmit,
     onTokenSelect,
   } = useStakeForm();
@@ -143,15 +144,16 @@ export const StakeBinance = (): JSX.Element => {
   };
 
   useProviderEffect(() => {
-    dispatch(getMetrics());
-    dispatch(fetchStats());
-    dispatch(fetchPendingValues());
     dispatch(fetchIsStakerExists(address));
+    dispatch(fetchPendingValues());
+    dispatch(fetchStats());
+    dispatch(getFAQ(Token.BNB));
+    dispatch(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
     };
-  }, [dispatch]);
+  }, [address, dispatch]);
 
   useProviderEffect(() => {
     if (!featuresConfig.isActiveStakeTradeInfo) {

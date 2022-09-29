@@ -20,6 +20,7 @@ import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -35,10 +36,11 @@ import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
   aBNBcRatio: BigNumber;
-  amount: BigNumber;
   address: string;
+  amount: BigNumber;
   bnbBalance?: BigNumber;
   certificateRatio: BigNumber;
+  faqItems: IFAQItem[];
   isFetchStatsLoading: boolean;
   isStakeGasLoading: boolean;
   isStakeLoading: boolean;
@@ -70,9 +72,16 @@ export const useStakeForm = (): IUseStakeFormData => {
   const { address } = useAuth(AvailableWriteProviders.ethCompatible);
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
+
   const { data: isReferralUserExistsData } = useQuery({
     type: fetchIsStakerExists,
   });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
+  });
+
   const { data: stakeGasFee, loading: isStakeGasLoading } = useQuery({
     type: getStakeGasFee,
   });
@@ -196,6 +205,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     amount,
     bnbBalance,
     certificateRatio: aBNBcRatio ?? ZERO,
+    faqItems,
     isFetchStatsLoading,
     isStakeGasLoading,
     isStakeLoading,
