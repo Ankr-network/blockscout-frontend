@@ -44,7 +44,6 @@ export const useTabsStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    height: 150,
 
     '& .MuiTab-root': {
       fontSize: 24,
@@ -52,10 +51,6 @@ export const useTabsStyles = makeStyles(theme => ({
 
     '& .MuiTabs-indicator': {
       display: 'none',
-    },
-
-    [theme.breakpoints.up('sm')]: {
-      height: 70,
     },
   },
 

@@ -37,10 +37,16 @@ enum ELabel {
   myRewards,
 }
 
-export const ReferralsTable = (): JSX.Element | null => {
+interface IReferralTableProps {
+  searchAddress?: string;
+}
+
+export const ReferralsTable = ({
+  searchAddress,
+}: IReferralTableProps): JSX.Element | null => {
   const classes = useReferralsTableStyles();
 
-  const { data, isLoading } = useReferrals();
+  const { data, isLoading } = useReferrals({ searchAddress });
 
   const captions = useLocaleMemo(
     () => [

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
 import { Address } from '@ankr.com/provider';
 
@@ -31,9 +32,23 @@ const DEMO_DATA: IUseReferralsData[] = [
   },
 ];
 
-export const useReferrals = (): IUseReferrals => {
+interface IUseReferralsProps {
+  searchAddress?: string;
+}
+
+export const useReferrals = ({
+  searchAddress,
+}: IUseReferralsProps): IUseReferrals => {
+  const data = useMemo(() => {
+    if (!searchAddress) return DEMO_DATA;
+
+    return DEMO_DATA.filter(referral =>
+      referral.address.includes(searchAddress),
+    );
+  }, [searchAddress]);
+
   return {
     isLoading: false,
-    data: DEMO_DATA,
+    data,
   };
 };

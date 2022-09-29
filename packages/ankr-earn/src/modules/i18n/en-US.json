@@ -664,7 +664,8 @@
       "address": "Address",
       "staked-tokens": "Staked tokens",
       "staked-amount": "Staked Amount",
-      "my-rewards": "My Rewards"
+      "my-rewards": "My Rewards",
+      "search-placeholder": "Search by Address"
     },
     "claim-history": {
       "total-claimed": "Total Claimed",
