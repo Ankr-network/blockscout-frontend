@@ -96,11 +96,11 @@ export const useSections = ({
   // TODO: Remove after adding ChainFlow to GetStartedSection
   const { credentials, loading } = useAuth();
   const isUpgraded = credentials || loading;
-  
+
   const getStartedHasContent =
     !isUpgraded ||
     isGroupEvmBased(group) ||
-     chainId === ChainID.TRON ||
+    chainId === ChainID.TRON ||
     group.id === ChainGroupID.C_CHAIN ||
     group.id === ChainGroupID.P_CHAIN;
 
@@ -108,7 +108,7 @@ export const useSections = ({
     initialTabID = SectionID.UsageData;
   }
 
-  if (hasStartedContent) {
+  if (getStartedHasContent) {
     tabs.unshift(getStartedSection);
   }
 
