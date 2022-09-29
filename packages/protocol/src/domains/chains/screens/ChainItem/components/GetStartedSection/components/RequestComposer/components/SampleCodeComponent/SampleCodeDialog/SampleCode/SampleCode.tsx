@@ -10,9 +10,10 @@ import { t } from 'common';
 
 interface ISampleCodeProps {
   code: string;
+  copyCode?: string;
 }
 
-export const SampleCode = ({ code = '' }: ISampleCodeProps) => {
+export const SampleCode = ({ code = '', copyCode = code }: ISampleCodeProps) => {
   const classes = useSampleCodeStyles();
 
   const renderThumbHorizontal = ({ style, ...props }: ViewProps) => (
@@ -33,7 +34,7 @@ export const SampleCode = ({ code = '' }: ISampleCodeProps) => {
     <div className={classes.root}>
       <div className={classes.copyButton}>
         <CopyCodeButton
-          code={code}
+          code={copyCode}
           text={t('chain-item.request-composer.sample-code.copy')}
         />
       </div>

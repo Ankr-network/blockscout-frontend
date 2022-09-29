@@ -16,6 +16,7 @@ import { SectionID } from '../types';
 import { useInitialSection } from './useInitialSection';
 import { useRedirect } from './useRedirect';
 import { useTimeframe } from './useTimeframe';
+import { ChainID } from 'modules/chains/types';
 
 export interface SectionsParams {
   chainType: ChainType;
@@ -95,9 +96,11 @@ export const useSections = ({
   // TODO: Remove after adding ChainFlow to GetStartedSection
   const { credentials, loading } = useAuth();
   const isUpgraded = credentials || loading;
+  
   const getStartedHasContent =
     !isUpgraded ||
     isGroupEvmBased(group) ||
+     chainId === ChainID.TRON ||
     group.id === ChainGroupID.C_CHAIN ||
     group.id === ChainGroupID.P_CHAIN;
 
@@ -105,10 +108,9 @@ export const useSections = ({
     initialTabID = SectionID.UsageData;
   }
 
-  if (getStartedHasContent) {
+  if (hasStartedContent) {
     tabs.unshift(getStartedSection);
   }
-  //
 
   const onTabSelect = useRedirect(chainId);
 
