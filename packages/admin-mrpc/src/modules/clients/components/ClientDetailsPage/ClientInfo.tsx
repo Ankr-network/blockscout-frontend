@@ -62,7 +62,10 @@ export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
             </Typography>
           </>
         )}
-        {(client.amountAnkr || client.amountUsd) && (
+        {(client.amountAnkr ||
+          client.amountUsd ||
+          client.amount ||
+          client.voucherAmount) && (
           <>
             <Typography
               variant="h3"

@@ -6,6 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
+import { Typography } from '@material-ui/core';
 
 interface IClientUsageTableProps {
   usage: IUsageEntity[];
@@ -14,6 +15,9 @@ interface IClientUsageTableProps {
 export const ClientUsageTable = ({ usage }: IClientUsageTableProps) => {
   return (
     <TableContainer component={Paper}>
+      <Typography variant="h5" style={{ padding: 10 }}>
+        Last 24 hours
+      </Typography>
       <Table size="small" aria-label="actions table">
         <TableHead>
           <TableRow>

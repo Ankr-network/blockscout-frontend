@@ -1,6 +1,14 @@
 import { ClientType } from '../types';
 
-export const getClientType = (ttl?: number, hash?: string) => {
+export const getClientType = (
+  ttl?: number,
+  hash?: string,
+  walletAddress?: string,
+) => {
+  if (!walletAddress) {
+    return ClientType.UNKNOWN;
+  }
+
   if (!ttl) {
     return ClientType.ForcedExpirationPremium;
   }

@@ -172,8 +172,14 @@ export interface ICountersEntityMapped extends ICountersEntity {
   createdAt: Date;
 }
 
+export interface ICountersRequest {
+  limit?: number
+  cursor?: string;
+}
+
 export interface ICountersResponse {
-  result?: ICountersEntity[];
+  result: ICountersEntity[];
+  cursor?: string;
 }
 
 export interface INodeEntity {
