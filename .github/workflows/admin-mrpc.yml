@@ -8,8 +8,8 @@ on:
         description: Target
         required: true
         options:
-          - STAGE #https://multirpc-backoffice-stage.dccn.ankr.com/admin/
-          - PROD  #https://multirpc-backoffice.dccn.ankr.com/admin/
+          - STAGE #https://multirpc-backoffice-stage.dccn.ankr.com/
+          - PROD  #https://multirpc-backoffice.dccn.ankr.com/
       api:
         type: choice
         description: API
@@ -74,7 +74,7 @@ jobs:
           DOMAIN: ${{ secrets[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.domain, '_DOMAIN')] }}
           DISTRIBUTION_ID: ${{ secrets[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.domain, '_DISTRIBUTION_ID')] }}
         run: |
-          aws s3 sync --delete ./build s3://$DOMAIN/admin/ --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
+          aws s3 sync --delete ./build s3://$DOMAIN/ --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
           echo "Invalidating CDN network"
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`

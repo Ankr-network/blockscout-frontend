@@ -13,6 +13,7 @@ import { useStyles } from './ChainMainInfoStyles';
 export const ChainMainInfo = ({
   className = '',
   description,
+  isHighlighted = false,
   isLoading,
   label,
   logoSrc,
@@ -20,7 +21,7 @@ export const ChainMainInfo = ({
   timeframe = Timeframe.Month,
   totalRequests = '',
 }: ChainMainInfoProps) => {
-  const classes = useStyles();
+  const classes = useStyles(isHighlighted);
 
   return (
     <div className={classNames(classes.root, className)}>

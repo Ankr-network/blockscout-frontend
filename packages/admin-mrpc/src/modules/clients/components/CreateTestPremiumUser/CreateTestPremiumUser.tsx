@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { Button, Modal, TextField, Typography } from '@material-ui/core';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';
+import { ReactComponent as PlusIcon } from './assets/plus.svg';
 
 const DAYS_TO_SECONDS_MULTIPLY_VALUE = 86400;
 
@@ -110,7 +111,12 @@ export const CreateTestPremiumUser = () => {
 
   return (
     <>
-      <Button onClick={handleOpen} className={classes.button} color="primary">
+      <Button
+        onClick={handleOpen}
+        className={classes.button}
+        color="primary"
+        startIcon={<PlusIcon />}
+      >
         Add client
       </Button>
 

@@ -1,11 +1,14 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useClientDetailsStyles = makeStyles(theme => ({
+export const useClientDetailsStyles = makeStyles((theme: Theme) => ({
+  /* Tabs */
+  tabPanel: {
+    padding: 0,
+  },
+
   /* ClientInfo */
   root: {
     minWidth: 275,
-  },
-  clientInfoWrapper: {
     marginTop: 20,
   },
   typeText: {
@@ -19,15 +22,6 @@ export const useClientDetailsStyles = makeStyles(theme => ({
   /* ClientBalancesInfo */
   balancesGridWrapper: {
     width: '100%',
-  },
-
-  /* Transactions */
-  transactionsWrapper: {
-    marginTop: 40,
-  },
-  transactionsTitle: {
-    marginBottom: 10,
-    marginTop: 20,
   },
 
   /* ClientBalancesModal */
