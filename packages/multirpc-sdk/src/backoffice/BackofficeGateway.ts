@@ -3,13 +3,13 @@ import { v4 } from 'uuid';
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import { IBackofficeGateway } from './interfaces';
 import {
-  ICreateTestClientRequest, ICreateTestClientResponse,
+  ICreateTestClientRequest,
+  ICreateTestClientResponse,
   IAddVoucherCreditsRequest,
   IAddVoucherCreditsResponse,
   IBalancesRequest,
   IBalancesResponse,
   IBlockchainEntity,
-  ICountersEntity,
   ICountersResponse,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
@@ -20,7 +20,9 @@ import {
   ITransactionsResponse,
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
-  IUserStatsRequest, IUserStatsResponse,
+  IUserStatsRequest,
+  IUserStatsResponse,
+  ICountersRequest,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -139,16 +141,12 @@ export class BackofficeGateway implements IBackofficeGateway {
     return data;
   }
 
-  async getCounters(limit: number): Promise<ICountersEntity[]> {
-    const {
-      data: { result = [] },
-    } = await this.api.get<ICountersResponse>('/counters', {
-      params: {
-        limit,
-      },
+  async getCounters(params: ICountersRequest): Promise<ICountersResponse> {
+    const { data } = await this.api.get<ICountersResponse>('/counters', {
+      params,
     });
 
-    return result;
+    return data;
   }
 
   async createOrUpdateBlockchain(

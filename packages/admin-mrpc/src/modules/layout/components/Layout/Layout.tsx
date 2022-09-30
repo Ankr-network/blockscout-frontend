@@ -9,6 +9,7 @@ import { NavLink, Themes } from 'ui';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { Breadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Header } from '../Header';
 import { useLayoutStyles as useStyles } from './LayoutStyles';
 
@@ -26,12 +27,14 @@ const routes = [
 interface ILayoutProps {
   children?: ReactChild;
   theme?: Themes;
+  hasNoReactSnap?: boolean;
 }
 
-export default function Layout({
+export const Layout = ({
   children,
   theme = Themes.light,
-}: ILayoutProps) {
+  hasNoReactSnap = false,
+}: ILayoutProps) => {
   const classes = useStyles();
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
@@ -73,10 +76,10 @@ export default function Layout({
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Breadcrumbs />
-            {children}
+            {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </main>
         </Container>
       </ThemeProvider>
     </div>
   );
-}
+};

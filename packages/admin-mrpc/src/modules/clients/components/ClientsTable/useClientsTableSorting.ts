@@ -14,8 +14,8 @@ export const useClientsTableSorting = ({
 }: {
   clients: ClientMapped[];
 }) => {
-  const [sortBy, setSortBy] = useState<keyof ClientMapped>();
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>();
+  const [sortBy, setSortBy] = useState<keyof ClientMapped>('timestamp');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [sortedData, setSortedData] = useState<ClientMapped[]>(clients);
 
   const handleOrder = (sortByValue: keyof ClientMapped) => {

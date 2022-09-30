@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 
 import { IAmountType } from 'multirpc-sdk';
+import { useFetchCountersQuery } from '../../actions/fetchCounters';
+import { useFetchUserTransactionsQuery } from '../../actions/fetchUserTransactions';
 import { useAddUserVoucherCreditsMutation } from '../../actions/addUserVoucherCredits';
 import { useSubtractUserVoucherCreditsMutation } from '../../actions/subtractUserVoucherCredits';
 import { ClientMapped } from '../../store/clientsSlice';
@@ -37,6 +39,10 @@ export const ClientBalancesModal = ({
     useAddUserVoucherCreditsMutation();
   const [subtractUserVoucherCredits, { isLoading: isLoadingSubtractCredits }] =
     useSubtractUserVoucherCreditsMutation();
+  const { refetch: refetchClients } = useFetchCountersQuery();
+  const { refetch: refetchTransactions } = useFetchUserTransactionsQuery({
+    address: currentClient.address!,
+  });
 
   const isLoading = isLoadingAddCredits || isLoadingSubtractCredits;
 
@@ -90,20 +96,20 @@ export const ClientBalancesModal = ({
       reasonId: `${Date.now()} ${commentValue || ''}`,
     };
 
+    const handleResponse = (res: any) => {
+      if ('data' in res && res.data.success) {
+        refetchClients();
+        refetchTransactions();
+        handleClose();
+      }
+    };
+
     if (submitterId === ADD_CREDITS_ID) {
-      addUserVoucherCredits(requestParams).then(res => {
-        if ('data' in res && res.data.success) {
-          handleClose();
-        }
-      });
+      addUserVoucherCredits(requestParams).then(handleResponse);
     }
 
     if (submitterId === SUBTRACT_CREDITS_ID) {
-      subtractUserVoucherCredits(requestParams).then(res => {
-        if ('data' in res && res.data.success) {
-          handleClose();
-        }
-      });
+      subtractUserVoucherCredits(requestParams).then(handleResponse);
     }
   };
 

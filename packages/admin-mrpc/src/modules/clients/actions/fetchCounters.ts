@@ -1,12 +1,18 @@
+import BigNumber from 'bignumber.js';
+import {
+  IBalancesEntity,
+  ICountersEntity,
+  IEmailBindingEntity,
+} from 'multirpc-sdk';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { ClientMapped } from '../store/clientsSlice';
 import { getClientType } from '../utils/getClientType';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
-import BigNumber from 'bignumber.js';
 
 interface IApiResponse {
   counters?: ClientMapped[];
+  cursor?: string;
 }
 
 export const {
@@ -16,24 +22,105 @@ export const {
   endpoints: build => ({
     fetchCounters: build.query<IApiResponse, void>({
       queryFn: async () => {
+        let emailsCollection: IEmailBindingEntity[] = [];
+        let countersCollection: ICountersEntity[] = [];
+        let balancesCollection: IBalancesEntity[] = [];
         const service = await MultiService.getInstance();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
-        const counters = await backofficeGateway.getCounters();
-        const emails = await backofficeGateway.getEmailBindings({
-          limit: 500,
-        });
-        const balances = await backofficeGateway.getBalances({
-          limit: 500,
-        });
-        const clients = counters.map(c => {
-          const userBalances = balances.balances.find(
-            i => i.address === c.address,
+
+        // TODO: tmp fix while waiting for backend features with filtered and sorted request for counters
+        // https://ankrnetwork.atlassian.net/browse/MRPC-1655
+        const fetchAllCounters = async () => {
+          let cursor: string | undefined = '0';
+          while (cursor && cursor !== '-1') {
+            try {
+              // @ts-ignore
+              const counters =
+                // eslint-disable-next-line no-await-in-loop
+                await backofficeGateway.getCounters({ cursor });
+              cursor = counters.cursor;
+
+              countersCollection = [
+                ...countersCollection,
+                ...(counters.result || []),
+              ];
+            } catch (e) {
+              // eslint-disable-next-line no-console
+              console.warn(e);
+              break;
+            }
+          }
+        };
+
+        // TODO: tmp fix while waiting for backend features with filtered and sorted request for counters
+        // https://ankrnetwork.atlassian.net/browse/MRPC-1655
+        const fetchAllEmails = async () => {
+          let cursor: string | undefined = '0';
+          while (cursor && cursor !== '-1') {
+            try {
+              // @ts-ignore
+              const emails =
+                // eslint-disable-next-line no-await-in-loop
+                await backofficeGateway.getEmailBindings({
+                  limit: 500,
+                  cursor,
+                });
+              cursor = emails.cursor;
+
+              emailsCollection = [
+                ...emailsCollection,
+                ...(emails.bindings || []),
+              ];
+            } catch (e) {
+              // eslint-disable-next-line no-console
+              console.warn(e);
+              break;
+            }
+          }
+        };
+
+        // TODO: tmp fix while waiting for backend features with filtered and sorted request for counters
+        // https://ankrnetwork.atlassian.net/browse/MRPC-1655
+        const fetchAllBalances = async () => {
+          let cursor: string | number | undefined = '0';
+          while (cursor && cursor !== '-1' && cursor !== -1) {
+            try {
+              // @ts-ignore
+              const balances =
+                // eslint-disable-next-line no-await-in-loop
+                await backofficeGateway.getBalances({
+                  limit: 500,
+                  cursor: +cursor,
+                });
+              cursor = balances.cursor;
+
+              balancesCollection = [
+                ...balancesCollection,
+                ...(balances.balances || []),
+              ];
+            } catch (e) {
+              // eslint-disable-next-line no-console
+              console.warn(e);
+              break;
+            }
+          }
+        };
+
+        await fetchAllCounters();
+        await fetchAllEmails();
+        await fetchAllBalances();
+
+        const clients = countersCollection.map(c => {
+          const userBalances = balancesCollection.find(
+            i => i.address?.toLowerCase() === c.address?.toLowerCase(),
           );
           return {
             ...c,
-            clientType: getClientType(c.ttl),
-            email: emails.bindings?.find(i => i.address === c.address)?.email,
+            clientType: getClientType(c.ttl, c.hash, c.address),
+            email: emailsCollection?.find(
+              i => i.address?.toLowerCase() === c.address?.toLowerCase(),
+            )?.email,
             createdDate: new Date(c.timestamp),
             amount: userBalances?.creditAnkrAmount
               ? new BigNumber(userBalances.creditAnkrAmount)
