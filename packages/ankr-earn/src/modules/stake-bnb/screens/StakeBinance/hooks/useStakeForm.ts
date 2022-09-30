@@ -15,7 +15,7 @@ import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { showNotification } from 'modules/notifications';
-import { fetchIsStakerExists } from 'modules/referrals/actions/fetchIsStakerExists';
+import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
@@ -74,7 +74,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const { data: isReferralUserExistsData } = useQuery({
-    type: fetchIsStakerExists,
+    type: getIsStakerExists,
   });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({

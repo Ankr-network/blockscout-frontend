@@ -1021,6 +1021,18 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Get partner code by address
+   * 
+   * @param {string} address - partner address 
+   * @returns {Promise<string>}
+   */
+  public async getPartnerCodeByAddress(address: string): Promise<string> {
+    const binancePartnersContract = await this.getBinancePartersContract();
+
+    return binancePartnersContract.methods.getPartnerCodeByAddress(address).call();
+  }
+
+  /**
    * Stake token.
    *
    * @public

@@ -1,4 +1,5 @@
 import { Box, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { t } from 'common';
@@ -13,7 +14,7 @@ import { useHeaderStyles } from './useHeaderStyles';
 export const Header = (): JSX.Element => {
   const classes = useHeaderStyles();
 
-  const { refLLink, isRefLinkCopied, handleCopyRefLink } = useHeader();
+  const { refLLink, loading, isRefLinkCopied, handleCopyRefLink } = useHeader();
 
   return (
     <Box className={classes.root}>
@@ -21,23 +22,29 @@ export const Header = (): JSX.Element => {
         {t('referrals.title')}
       </Typography>
 
-      <div className={classes.codeWrapper}>
-        <Typography className={classes.refCode} color="textSecondary">
-          {refLLink}
-        </Typography>
+      {loading && (
+        <Skeleton className={classes.skeleton} height={48} width={200} />
+      )}
 
-        {isRefLinkCopied ? (
-          <div className={classes.iconWrap}>
-            <CompleteIcon size="xs" />
-          </div>
-        ) : (
-          <CopyToClipboard text={refLLink} onCopy={handleCopyRefLink}>
+      {!loading && (
+        <div className={classes.codeWrapper}>
+          <Typography className={classes.refCode} color="textSecondary">
+            {refLLink}
+          </Typography>
+
+          {isRefLinkCopied ? (
             <div className={classes.iconWrap}>
-              <CopyIcon className={classes.icon} />
+              <CompleteIcon size="xs" />
             </div>
-          </CopyToClipboard>
-        )}
-      </div>
+          ) : (
+            <CopyToClipboard text={refLLink} onCopy={handleCopyRefLink}>
+              <div className={classes.iconWrap}>
+                <CopyIcon className={classes.icon} />
+              </div>
+            </CopyToClipboard>
+          )}
+        </div>
+      )}
     </Box>
   );
 };

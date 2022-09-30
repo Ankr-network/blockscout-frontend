@@ -17,7 +17,7 @@ import {
   featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchIsStakerExists } from 'modules/referrals/actions/fetchIsStakerExists';
+import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
@@ -144,7 +144,7 @@ export const StakeBinance = (): JSX.Element => {
   };
 
   useProviderEffect(() => {
-    dispatch(fetchIsStakerExists(address));
+    dispatch(getIsStakerExists(address));
     dispatch(fetchPendingValues());
     dispatch(fetchStats());
     dispatch(getFAQ(Token.BNB));

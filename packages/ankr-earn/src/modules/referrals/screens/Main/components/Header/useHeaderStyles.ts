@@ -38,6 +38,10 @@ export const useHeaderStyles = makeStyles(theme => ({
     width: 36,
   },
 
+  skeleton: {
+    borderRadius: 12,
+  },
+
   icon: {
     cursor: 'pointer',
     color: theme.palette.primary.main,
