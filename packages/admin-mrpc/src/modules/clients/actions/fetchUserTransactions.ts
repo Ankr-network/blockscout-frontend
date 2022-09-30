@@ -1,4 +1,8 @@
-import { ITransactionsResponse, Web3Address } from 'multirpc-sdk';
+import {
+  ITransactionsEntity,
+  ITransactionsResponse,
+  Web3Address,
+} from 'multirpc-sdk';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
@@ -11,12 +15,20 @@ interface IRequestParams {
   order_by?: string;
 }
 
+export interface MappedTransaction extends ITransactionsEntity {
+  createdDate: Date;
+}
+
+interface IRequestResponse extends ITransactionsResponse {
+  transactions: MappedTransaction[];
+}
+
 export const {
   useFetchUserTransactionsQuery,
   endpoints: { fetchUserTransactions },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchUserTransactions: build.query<ITransactionsResponse, IRequestParams>({
+    fetchUserTransactions: build.query<IRequestResponse, IRequestParams>({
       queryFn: async ({ address, cursor = 0, limit = 500 }) => {
         const service = await MultiService.getInstance();
         const backofficeGateway = await service.getBackofficeGateway();
@@ -30,7 +42,10 @@ export const {
 
         return {
           data: {
-            transactions,
+            transactions: transactions?.map(t => ({
+              ...t,
+              createdDate: new Date(+t.timestamp),
+            })),
             cursor: responseCursor,
           },
         };

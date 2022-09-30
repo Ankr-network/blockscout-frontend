@@ -293,7 +293,7 @@
         "eth_signTransaction": "🚫 This method is not supported!",
         "eth_sendTransaction": "🚫 This method is not supported!",
         "eth_sendRawTransaction": "Creates new message call transaction or a contract creation for signed transactions.",
-        "eth_call": "🚫 This method is not YET supported!",
+        "eth_call": "Call any read-only function on a deployed contract",
         "eth_estimateGas": "🚫 This method is not YET supported!",
         "eth_getBlockByHash": "Returns information about a block by hash.",
         "eth_getBlockByNumber": "Returns information about a block by block number.",
@@ -321,7 +321,57 @@
         "trace_replayBlockTransactions": "Replays all transactions in a block returning the requested traces for each transaction.",
         "trace_replayTransaction": "Replays a transaction, returning the traces.",
         "trace_filter": "Returns traces matching given filter.",
-        "trace_call": "🚫 This method is not YET supported!"
+        "trace_call": "Executes the given call and returns a number of possible traces for it.",
+        "avalanche": {
+          "c-chain": {
+            "getAtomicTx": "Returns the transaction data of a provided transaction ID by calling the node's `getAtomicTx` method.",
+            "export": "🚫 This method is not supported!</br>Export an asset from the C-Chain to X-Chain or P-Chain. After calling this method, you must call the X-Chain's avm.import or P-Chain's platform.import",
+            "exportAVAX": "🚫 This method is not supported!</br>DEPRECATED—instead use avax.export.",
+            "exportKey": "🚫 This method is not supported!</br>Get the private key that controls a given address. The returned private key can be added to a user with avax.importKey.",
+            "getUTXOs": "Retrieves the UTXOs related to the addresses provided from the node's `getUTXOs` method.",
+            "import": "🚫 This method is not supported!</br>Finalize the transfer of a non-AVAX or AVAX from X-Chain or P-Chain to the C-Chain. Before this method is called, you must call the X-Chain’s avm.export or P-Chain’s platform.exportAVAX with assetID AVAX to initiate the transfer.",
+            "importAVAX": "🚫 This method is not supported!</br>DEPRECATED—instead use avax.import",
+            "importKey": "🚫 This method is not supported!</br>Give a user control over an address by providing the private key that controls the address.",
+            "issueTx": "Calls the node's issueTx method from the API and returns the resulting transaction ID as a string.",
+            "getAtomicTxStatus": "Returns the status of a provided atomic transaction ID by calling the node's `getAtomicTxStatus` method."
+          },
+          "p-chain": {
+            "addDelegator": "🚫 This method is not supported!</br>Add a delegator to the Primary Network.",
+            "addValidator": "🚫 This method is not supported!</br>Add a validator to the Primary Network.",
+            "addSubnetValidator": "🚫 This method is not supported!</br>Add a validator to a Subnet other than the Primary Network.",
+            "createAddress": "🚫 This method is not supported!</br>Create a new address controlled by the given user.",
+            "createBlockchain": "🚫 This method is not supported!</br>Create a new blockchain.",
+            "createSubnet": "🚫 This method is not supported!</br>Create a new Subnet.",
+            "exportAVAX": "🚫 This method is not supported!</br>Send AVAX from an address on the P-Chain to an address on the X-Chain or C-Chain.",
+            "exportKey": "🚫 This method is not supported!</br>Get the private key that controls a given address.",
+            "getBalance": "Get the balance of AVAX controlled by a given address.",
+            "getBlockchains": "Get all the blockchains that exist (excluding the P-Chain).",
+            "getBlockchainStatus": "Get the status of a blockchain.",
+            "getCurrentSupply": "Returns an upper bound on the number of AVAX that exist.",
+            "getCurrentValidators": "List the current validators of the given Subnet.",
+            "getHeight": "Returns the height of the last accepted block.",
+            "getMaxStakeAmount": "Returns the maximum amount of nAVAX staking to the named node during a particular time period.",
+            "getMinStake": "Get the minimum amount of AVAX required to validate the Primary Network and the minimum amount of AVAX that can be delegated.",
+            "getPendingValidators": "List the validators in the pending validator set of the specified Subnet. Each validator is not currently validating the Subnet but will in the future.",
+            "getRewardUTXOs": "Returns the UTXOs that were rewarded after the provided transaction's staking or delegation period ended.",
+            "getStakingAssetID": "Retrieve an assetID for a subnet’s staking asset. Currently, this only returns the Primary Network’s staking assetID.",
+            "getSubnets": "Get info about the Subnets.",
+            "getStake": "Get the amount of nAVAX staked by a set of addresses. The amount returned does not include staking rewards.",
+            "getTimestamp": "Get the current P-Chain timestamp.",
+            "getTotalStake": "Get the total amount of nAVAX staked on the Primary Network.",
+            "getTx": "Gets a transaction by its ID.",
+            "getTxStatus": "Gets a transaction’s status by its ID.",
+            "getUTXOs": "Gets the UTXOs that reference a given set of addresses.",
+            "getValidatorsAt": "Get the validators and their weights of a Subnet or the Primary Network at a given P-Chain height.",
+            "importAVAX": "🚫 This method is not supported!</br>Complete a transfer of AVAX from the X-Chain, or C-Chain to the P-Chain.",
+            "importKey": "🚫 This method is not supported!</br>Give a user control over an address by providing the private key that controls the address.",
+            "issueTx": "Issue a transaction to the Platform Chain.",
+            "listAddresses": "🚫 This method is not supported!</br>List addresses controlled by the given user.",
+            "sampleValidators": "Sample validators from the specified Subnet.",
+            "validatedBy": "Get the Subnet that validates a given blockchain.",
+            "validates": "Get the IDs of the blockchains a Subnet validates."
+          }
+        }
       }
     },
     "nodes-table": {
@@ -833,6 +883,7 @@
   },
   "withdraw-steps": {
     "title": "Withdraw",
+    "disabled-content": "We&rsquo;ve pegged the price of&nbsp;our API Credits to&nbsp;USD. For now, with regards to&nbsp;withdrawals, it&nbsp;means that they are to&nbsp;be&nbsp;requested via Support only.",
     "step-content": {
       "0": "I&nbsp;understand my&nbsp;withdrawal could be&nbsp;less after any pending charges are subtracted. The processing time will depend on&nbsp;the Ethereum network load.",
       "1": "How much would you like to withdraw?",

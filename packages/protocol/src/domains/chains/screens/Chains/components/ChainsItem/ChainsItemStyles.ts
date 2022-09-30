@@ -1,8 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { BREAKPOINTS } from 'ui';
+import { Theme, makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles<Theme, boolean>(theme => ({
   root: {
     background: theme.palette.background.paper,
     borderRadius: 18,
@@ -12,6 +11,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     height: '100%',
     cursor: 'pointer',
+
+    border: isHighlighted =>
+      isHighlighted ? `2px solid ${theme.palette.primary.main}` : undefined,
 
     '&:hover $button': {
       backgroundColor: theme.palette.background.default,

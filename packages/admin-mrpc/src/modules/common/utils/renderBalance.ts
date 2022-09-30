@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 const MAX_DECIMALS_LENGTH = 2;
 const MIN_DISPLAY_BALANCE = 0.01;
 
-export const renderBalance = (value = '') => {
+export const renderBalance = (value: string | BigNumber = '') => {
   if (!value) {
     return '—';
   }
@@ -17,7 +17,7 @@ export const renderBalance = (value = '') => {
     : amount.toFormat(MAX_DECIMALS_LENGTH);
 };
 
-export const renderUSD = (value?: string) => {
+export const renderUSD = (value?: string | BigNumber) => {
   if (!value) {
     return '—';
   }
