@@ -752,8 +752,8 @@
       "head": {
         "col-1": "Date & Time",
         "col-2": "Payment type",
-        "col-3": "Amount USD",
-        "col-4": "Amount ANKR"
+        "col-3": "Amount",
+        "col-4": "Credits"
       },
       "csv-title": "Payment charging for {month} {day}, {year}",
       "payment-type": {
