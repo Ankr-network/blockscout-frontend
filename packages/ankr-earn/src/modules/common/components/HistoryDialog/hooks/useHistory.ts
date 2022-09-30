@@ -3,13 +3,12 @@ import {
   useMutation,
   useQuery,
 } from '@redux-requests/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
-import { getChainIdByToken } from 'modules/common/utils/getChainIdByToken';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
 import { fetchHistory as fetchBNBHistory } from 'modules/stake-bnb/actions/fetchHistory';
@@ -27,6 +26,7 @@ interface IUseHistoryData extends IHistoryData {
 
 interface IUseHistoryProps {
   token: Token;
+  network: number;
   open: boolean;
 }
 
@@ -39,10 +39,11 @@ const DEFAULT_HISTORY_DATA = {
 const mapTxns = (
   data: ITxEventsHistoryGroupItem,
   token: Token,
+  network: number,
 ): IHistoryDialogRow => {
   return {
     date: data.txDate,
-    link: getTxLinkByNetwork(data.txHash, getChainIdByToken(token)),
+    link: getTxLinkByNetwork(data.txHash, network),
     hash: data.txHash,
     amount: data.txAmount,
   };
@@ -50,6 +51,7 @@ const mapTxns = (
 
 export const useHistory = ({
   token,
+  network,
   open,
 }: IUseHistoryProps): IUseHistoryData => {
   const [step, setStep] = useState(DEFAULT_STEP);
@@ -276,11 +278,19 @@ export const useHistory = ({
     };
   }, [token, open]);
 
+  const stakeEvents = useMemo(() => {
+    return historyData.stakeEvents.map(event => mapTxns(event, token, network));
+  }, [historyData.stakeEvents, network, token]);
+
+  const unstakeEvents = useMemo(() => {
+    return historyData.unstakeEvents.map(event =>
+      mapTxns(event, token, network),
+    );
+  }, [historyData.unstakeEvents, network, token]);
+
   return {
-    stakeEvents: historyData.stakeEvents.map(event => mapTxns(event, token)),
-    unstakeEvents: historyData.unstakeEvents.map(event =>
-      mapTxns(event, token),
-    ),
+    stakeEvents,
+    unstakeEvents,
     loading:
       ftmHistoryLoading ||
       isFtmHistoryMutationLoading ||

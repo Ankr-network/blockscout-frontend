@@ -7,7 +7,12 @@ import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackE
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { featuresConfig, ONE, ZERO } from 'modules/common/const';
+import {
+  ETH_NETWORK_BY_ENV,
+  featuresConfig,
+  ONE,
+  ZERO,
+} from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -122,6 +127,7 @@ export const StakedAETHC = (): JSX.Element => {
 
       {featuresConfig.newStakingHistoryDialog ? (
         <NewHistoryDialog
+          network={ETH_NETWORK_BY_ENV}
           open={isOpenedHistory}
           token={Token.aETHc}
           onClose={onCloseHistory}

@@ -35,6 +35,7 @@ export interface IHistoryDialogData {
 
 export interface IHistoryDialogProps {
   token: Token;
+  network: number;
   open: boolean;
   onClose?: () => void;
 }
@@ -46,6 +47,7 @@ const TOKEN_OPTIONS = Object.keys(ESynthTokens).map(tokenItem => ({
 
 export const NewHistoryDialog = ({
   token,
+  network,
   open,
   onClose,
 }: IHistoryDialogProps): JSX.Element => {
@@ -53,7 +55,7 @@ export const NewHistoryDialog = ({
   const [selectedToken, setSelectedToken] = useState(token);
 
   const { stakeEvents, unstakeEvents, loading, weeksAmount, handleShowMore } =
-    useHistory({ token: selectedToken, open });
+    useHistory({ token: selectedToken, open, network });
 
   const history: IHistoryDialogData = useMemo(
     () => ({
