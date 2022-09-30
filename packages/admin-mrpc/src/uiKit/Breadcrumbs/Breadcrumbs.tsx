@@ -15,9 +15,9 @@ import { ClientsRoutesConfig } from '../../modules/clients/ClientsRoutesConfig';
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   const { pathname } = useLocation();
-  const isBreadcrumbsHidden = pathname.startsWith(
-    ClientsRoutesConfig.clients.path,
-  );
+  const isBreadcrumbsHidden =
+    pathname === ClientsRoutesConfig.clients.path ||
+    pathname === `${ClientsRoutesConfig.clients.path}/`;
   const isMobile = useIsMDDown();
   const isLessThanMaxWidth = useMediaQuery('(max-width:1100px)');
 
