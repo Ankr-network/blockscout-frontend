@@ -17,17 +17,18 @@ const privateKey = 'chains.links.private';
 
 export const ChainsItem = ({
   chain,
-  publicChain,
   description,
+  isHighlighted = false,
   isLoading,
+  isPremium,
   logoSrc,
   name,
   period,
+  publicChain,
   timeframe,
   totalRequests,
-  isPremium,
 }: ChainsItemProps) => {
-  const classes = useStyles();
+  const classes = useStyles(isHighlighted);
 
   const urls = [
     ...chain.urls,
@@ -55,6 +56,7 @@ export const ChainsItem = ({
             <ChainRequestsLabel description={description} label={period} />
           )
         }
+        isHighlighted={isHighlighted}
         isLoading={isLoading}
         label={chain.isArchive && <ArchiveLabel className={classes.archive} />}
         logoSrc={logoSrc}

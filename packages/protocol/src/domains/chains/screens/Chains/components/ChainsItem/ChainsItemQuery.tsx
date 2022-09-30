@@ -1,3 +1,4 @@
+import { ChainID } from 'modules/chains/types';
 import { ChainsItem } from './ChainsItem';
 import { ChainsItemQueryProps } from './ChainsItemTypes';
 import { useChainsItem } from './hooks/useChainsItem';
@@ -18,9 +19,10 @@ export const ChainsItemQuery = ({
     <ChainsItem
       {...props}
       chain={chain}
-      publicChain={publicChain}
+      isHighlighted={chain.id === ChainID.MULTICHAIN}
       isLoading={loading}
       isPremium={isPremium}
+      publicChain={publicChain}
       timeframe={timeframe}
       totalRequests={totalRequests.toString() ?? ''}
     />
