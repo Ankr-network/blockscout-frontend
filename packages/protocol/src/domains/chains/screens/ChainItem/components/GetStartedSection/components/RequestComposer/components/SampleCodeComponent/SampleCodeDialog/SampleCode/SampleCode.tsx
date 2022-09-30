@@ -12,7 +12,7 @@ interface ISampleCodeProps {
   code: string;
 }
 
-export const SampleCode = ({ code }: ISampleCodeProps) => {
+export const SampleCode = ({ code = '' }: ISampleCodeProps) => {
   const classes = useSampleCodeStyles();
 
   const renderThumbHorizontal = ({ style, ...props }: ViewProps) => (

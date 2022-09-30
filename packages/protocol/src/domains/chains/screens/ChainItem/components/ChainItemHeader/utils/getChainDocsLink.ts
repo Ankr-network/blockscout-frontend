@@ -1,3 +1,5 @@
+import { ChainID } from 'modules/chains/types';
+
 const chainIdToDocsChainIdMap: Record<string, string> = {
   avalanche: 'avalanche',
   arbitrum: 'arbitrum',
@@ -17,6 +19,10 @@ const chainIdToDocsChainIdMap: Record<string, string> = {
 };
 
 export const getChainDocsLink = (chainId: string) => {
+  if (chainId === ChainID.MULTICHAIN) {
+    return `https://www.ankr.com/docs/build/products/advanced-api-sdk/overview/`;
+  }
+
   const docsChainId = chainIdToDocsChainIdMap[chainId];
 
   return docsChainId

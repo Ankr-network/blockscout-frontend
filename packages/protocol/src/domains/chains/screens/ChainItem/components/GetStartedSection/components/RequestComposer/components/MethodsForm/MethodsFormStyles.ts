@@ -21,4 +21,15 @@ export const useEVMMethodsFormStyles = makeStyles<Theme>(theme => ({
   checkboxLabel: {
     fontSize: 14,
   },
+  selectField: {
+    '& div': {
+      '&:hover': {
+        borderColor: theme.palette.background.default,
+      },
+
+      '&.Mui-focused': {
+        borderColor: theme.palette.background.default,
+      },
+    },
+  },
 }));

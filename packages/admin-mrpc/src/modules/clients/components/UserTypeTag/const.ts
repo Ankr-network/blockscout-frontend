@@ -9,7 +9,7 @@ export const expirableClientTypes = new Set([
 export const clientTypeNaming: Record<ClientType, string> = {
   [ClientType.UNKNOWN]: 'Unknown',
   [ClientType.PAYG]: 'PAYG',
-  [ClientType.ForcedExpirationPremium]: 'Premium',
+  [ClientType.ForcedExpirationPremium]: 'Premium Forced Expiration',
   [ClientType.Premium]: 'Premium',
   [ClientType.TestDrivePremium]: 'Test Drive Premium',
 };

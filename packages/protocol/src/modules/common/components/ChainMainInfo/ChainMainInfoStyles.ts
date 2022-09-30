@@ -1,11 +1,10 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { BREAKPOINTS } from 'ui';
+import { Theme, makeStyles } from '@material-ui/core';
 
 const LOGO_WIDTH = 50;
 const LOGO_MARGIN = 15;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles<Theme, boolean>(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -17,7 +16,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   title: {
     marginBottom: 2,
+
     transition: 'color 0.2s',
+
+    color: isHighlighted =>
+      isHighlighted ? theme.palette.primary.main : undefined,
   },
   hasLabel: {
     maxWidth: 'calc(100% - 71px)',

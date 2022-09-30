@@ -1,15 +1,9 @@
-import { EVMLibraryID } from 'domains/requestComposer/constants';
-import { EVMMethodsRequest, MethodOption } from 'domains/requestComposer/types';
+import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';
+import { MethodsRequest } from 'domains/requestComposer/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 
 export interface EVMMethodsFormProps {
   group: EndpointGroup;
   libraryID: EVMLibraryID;
-  onSubmit: (data: EVMMethodsRequest) => void;
+  onSubmit: (data: MethodsRequest<EVMMethod>) => void;
 }
-
-export type EVMMethodsFormData = {
-  methodName?: MethodOption;
-} & {
-  [key: string]: string;
-};

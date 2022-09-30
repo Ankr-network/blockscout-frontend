@@ -28,6 +28,7 @@ export enum ChainID {
   IOTEX_TESTNET = 'iotex_testnet',
   METIS = 'metis',
   MOONBEAM = 'moonbeam',
+  MULTICHAIN = 'multichain',
   NEAR = 'near',
   NERVOS = 'nervos',
   NERVOS_CKB = 'nervos_ckb',

@@ -51,4 +51,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   error: {
     color: theme.palette.warning.main,
   },
+  disabledTitle: {
+    fontSize: 20,
+    lineHeight: '28px',
+    fontWeight: 400,
+    padding: theme.spacing(2.5, 0),
+  },
 }));

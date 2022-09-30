@@ -5,10 +5,14 @@ import { t } from 'common';
 import { useHeaderStyles } from './useHeaderStyles';
 
 interface IHeaderProps {
-  children: ReactNode;
+  children?: ReactNode;
+  chainName?: string;
 }
 
-export const Header = ({ children }: IHeaderProps) => {
+export const Header = ({
+  children,
+  chainName = t('chain-item.request-composer.header.evm'),
+}: IHeaderProps) => {
   const classes = useHeaderStyles();
 
   return (
@@ -22,7 +26,7 @@ export const Header = ({ children }: IHeaderProps) => {
             {t('chain-item.request-composer.header.chain')}
           </Typography>
           <Typography variant="body2" className={classes.content}>
-            {t('chain-item.request-composer.header.evm')}
+            {chainName}
           </Typography>
         </div>
         <div className={classes.define}>
