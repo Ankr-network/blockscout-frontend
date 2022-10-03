@@ -9,6 +9,7 @@ import { ChainsRoutesConfig } from '../routes/routesConfig';
 import { fetchChainNodes } from './fetchChainNodes';
 import { fetchPrivateChains } from './fetchPrivateChains';
 import { fetchPublicChains } from './fetchPublicChains';
+import { t } from 'modules/i18n/utils/intl';
 
 export interface IChainItemDetails {
   chain: IApiChain;
@@ -49,7 +50,7 @@ export const fetchChain = createSmartAction<
 
           if (!chain || !unfilteredChain) {
             store.dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
-            throw new Error('ChainId not found');
+            throw new Error(t('chain-item.not-found'));
           }
 
           return {

@@ -1,10 +1,10 @@
-import { Statistic } from 'antd';
-import { useLocation } from 'react-router-dom';
+import { Divider, Statistic } from 'antd';
 import { observer } from 'mobx-react';
 import { IBalancesEntity, Web3Address } from 'multirpc-sdk';
 import { renderBalance } from 'utils/renderBalance';
 import { IUseClientInfoParams, useClientInfo } from './useClientInfo';
 import { usePremiumPlanClients } from 'stores/usePremiumPlanClients';
+import { UserTypeTag } from '../UserTypeTag';
 
 interface IClientInfoProps extends IUseClientInfoParams {
   amountCredits?: IBalancesEntity['amount'];
@@ -22,25 +22,35 @@ export const ClientInfo = observer(
     voucherAmount,
     address,
   }: IClientInfoProps) => {
-    const { state } = useLocation<{ token?: string }>();
     const { isEmailLoading, email } = useClientInfo({ address });
-    const gridStore = usePremiumPlanClients();
-    const currentClient = gridStore.items.find(
-      client => client.address === address,
-    );
-    const userToken = state?.token || currentClient?.user || 'Not found';
-    const createdDate =
-      currentClient?.timestamp && currentClient.createdAt.toLocaleDateString();
+    const { items, isLoading } = usePremiumPlanClients();
+    const currentClient = items.filter(client => client.address === address);
     return (
       <>
-        <>user token: {userToken}</>
-        <br />
-        <br />
-
-        {createdDate && <>Created: {createdDate}</>}
-        <br />
-        <br />
-
+        {isLoading ? (
+          <>
+            Loading... <br />
+          </>
+        ) : (
+          currentClient.map(client => {
+            return (
+              <>
+                <br />
+                <UserTypeTag
+                  clientType={client.type}
+                  clientTtl={client.ttl}
+                  isTextInline
+                />
+                <br />
+                <>Created: {client.createdAt.toLocaleDateString()}</>
+                <br />
+                <>user token: {client.user}</>
+                <br />
+              </>
+            );
+          })
+        )}
+        <Divider />
         <section
           style={{
             display: 'grid',

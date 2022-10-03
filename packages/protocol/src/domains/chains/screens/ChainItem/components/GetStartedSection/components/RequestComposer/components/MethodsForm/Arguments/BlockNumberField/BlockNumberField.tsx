@@ -9,21 +9,34 @@ import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 interface BlockNumberFieldProps {
   helperText: string;
   name: string;
+  type?: string;
   placeholder?: string;
-  validate?: (value: string) => boolean;
+  validate?: (value: string | number) => boolean;
 }
 
 export const BlockNumberField = ({
   helperText,
   placeholder,
   name = '',
+  type = 'text',
   validate: isValid = () => true,
 }: BlockNumberFieldProps) => {
   const classes = useEVMMethodsFormStyles();
 
-  const validate: FieldValidator<string> = useCallback(
+  const validate: FieldValidator<string | number> = useCallback(
     value => !isValid(value),
     [isValid],
+  );
+
+  const parse = useCallback(
+    value => {
+      if (type === 'number' && value) {
+        return Number(value);
+      }
+
+      return value;
+    },
+    [type],
   );
 
   return (
@@ -31,8 +44,10 @@ export const BlockNumberField = ({
       <Field
         component={InputField}
         name={name}
+        type={type}
         variant="outlined"
         placeholder={placeholder}
+        parse={parse}
         helperText={
           <Typography
             variant="subtitle1"
