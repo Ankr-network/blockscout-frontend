@@ -1,5 +1,12 @@
 import { IPaymentHistoryEntityType } from 'multirpc-sdk';
 
+export const CREDIT_TYPE = [
+  'TRANSACTION_TYPE_UNKNOWN',
+  'TRANSACTION_TYPE_VOUCHER_TOPUP',
+  'TRANSACTION_TYPE_VOUCHER_ADJUST',
+  'TRANSACTION_TYPE_DEDUCTION',
+];
+
 export const getPaymentHistoryItemDirection = (
   type: IPaymentHistoryEntityType,
 ): boolean | undefined => {

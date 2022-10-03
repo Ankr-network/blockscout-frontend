@@ -1,9 +1,9 @@
-import { ChartCurrency } from '../types';
 import { useSwitcher } from 'modules/common/hooks/useSwitcher';
+import { ChartCurrency } from '../types';
 
-const { ANKR, USD } = ChartCurrency;
+const { CREDIT } = ChartCurrency;
 
-const items: ChartCurrency[] = [ANKR, USD];
+const items: ChartCurrency[] = [CREDIT];
 
 export const useCurrency = (): [ChartCurrency, () => void] => {
   const [currency, switchCurrency] = useSwitcher({ items });

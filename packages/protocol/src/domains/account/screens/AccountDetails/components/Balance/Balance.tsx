@@ -1,15 +1,15 @@
-import React from 'react';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import { AccountRoutesConfig } from 'domains/account/Routes';
 import { Balance as BalanceString } from 'domains/account/components/Balance';
-import { BalanceData } from './types';
+import { AccountRoutesConfig } from 'domains/account/Routes';
+import { t } from 'modules/i18n/utils/intl';
+import { SWITCH_CURRENCY_DISABLED } from '../ExpenseChart/const';
+import { useStyles } from './BalanceStyles';
 import { CurrencySwitcher } from './components/CurrencySwitcher';
 import { Details } from './components/Details';
 import { root } from './const';
-import { t } from 'modules/i18n/utils/intl';
-import { useStyles } from './BalanceStyles';
+import { BalanceData } from './types';
 
 const title = t(`${root}.title`);
 
@@ -32,7 +32,9 @@ export const Balance = ({
       <div className={classes.header}>
         <div className={classes.left}>
           <span className={classes.title}>{title}</span>
-          <CurrencySwitcher currency={currency} onClick={switchCurrency} />
+          {!SWITCH_CURRENCY_DISABLED && (
+            <CurrencySwitcher currency={currency} onClick={switchCurrency} />
+          )}
         </div>
         <Button
           className={classes.withdrawButton}

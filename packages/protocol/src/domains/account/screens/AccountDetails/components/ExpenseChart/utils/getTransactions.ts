@@ -1,7 +1,7 @@
 import { IPaymentHistoryEntity } from 'multirpc-sdk';
 
-import { ChartCurrency, ChartTimeframe } from '../types';
 import { IChartData } from 'modules/common/components/Chart';
+import { ChartCurrency, ChartTimeframe } from '../types';
 import { getTimeframeBorders } from './getTimeframeBorders';
 
 export interface TransactionsParams {
@@ -10,11 +10,15 @@ export interface TransactionsParams {
   timeframe: ChartTimeframe;
 }
 
-type ValueKey = keyof Pick<IPaymentHistoryEntity, 'amountAnkr' | 'amountUsd'>;
+type ValueKey = keyof Pick<
+  IPaymentHistoryEntity,
+  'amountAnkr' | 'amountUsd' | 'amount'
+>;
 
 const keysMap: Record<ChartCurrency, ValueKey> = {
   [ChartCurrency.ANKR]: 'amountAnkr',
   [ChartCurrency.USD]: 'amountUsd',
+  [ChartCurrency.CREDIT]: 'amount',
 };
 
 const injectExtremes = (
