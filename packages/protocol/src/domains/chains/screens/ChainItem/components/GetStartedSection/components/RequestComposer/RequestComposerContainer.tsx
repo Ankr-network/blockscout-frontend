@@ -3,6 +3,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { EVMRequestComposer } from './EVMRequestComposer';
+import { TronRequestComposer } from './TronRequestComposer';
 
 interface IRequestComposerContainerProps {
   group: EndpointGroup;
@@ -32,6 +33,16 @@ export const RequestComposerContainer = ({
   if (chainId === ChainID.AVALANCHE) {
     return (
       <AvalancheRequestComposer
+        group={group}
+        publicUrl={publicUrl}
+        className={className}
+      />
+    );
+  }
+
+  if (chainId === ChainID.TRON) {
+    return (
+      <TronRequestComposer
         group={group}
         publicUrl={publicUrl}
         className={className}

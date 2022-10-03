@@ -16,6 +16,7 @@ import { SectionID } from '../types';
 import { useInitialSection } from './useInitialSection';
 import { useRedirect } from './useRedirect';
 import { useTimeframe } from './useTimeframe';
+import { ChainID } from 'modules/chains/types';
 
 export interface SectionsParams {
   chainType: ChainType;
@@ -34,6 +35,14 @@ export interface Sections {
 const getStarted = t('chain-item.tabs.get-started');
 const usageData = t('chain-item.tabs.usage-data');
 const infrastructure = t('chain-item.tabs.infrastructure');
+
+const isAvalancheChain = (id: ChainGroupID) => {
+  return (
+    id === ChainGroupID.C_CHAIN ||
+    id === ChainGroupID.P_CHAIN ||
+    id === ChainGroupID.X_CHAIN
+  );
+};
 
 export const useSections = ({
   chainType,
@@ -97,9 +106,9 @@ export const useSections = ({
   const isUpgraded = credentials || loading;
   const getStartedHasContent =
     !isUpgraded ||
+    chainId === ChainID.TRON ||
     isGroupEvmBased(group) ||
-    group.id === ChainGroupID.C_CHAIN ||
-    group.id === ChainGroupID.P_CHAIN;
+    isAvalancheChain(group.id);
 
   if (!getStartedHasContent && initialTabID === SectionID.GetStarted) {
     initialTabID = SectionID.UsageData;
@@ -108,7 +117,6 @@ export const useSections = ({
   if (getStartedHasContent) {
     tabs.unshift(getStartedSection);
   }
-  //
 
   const onTabSelect = useRedirect(chainId);
 

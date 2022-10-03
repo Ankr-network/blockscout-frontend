@@ -7,7 +7,8 @@ interface IHeight {
 export const useStyles = makeStyles<Theme, IHeight>(theme => ({
   formGroup: {
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      width: 'auto',
+      flexGrow: 1,
     },
   },
   inputBase: {

@@ -1,0 +1,78 @@
+export enum TronLibraryID {
+  Tron = 'tron',
+}
+
+export interface TronChainMethodResponse {}
+
+export const TronLibrary = {
+  [TronLibraryID.Tron]: 'Curl',
+};
+
+export enum TronChainMethod {
+  getblockbylimitnext = 'getblockbylimitnext',
+  getblockbylatestnum = 'getblockbylatestnum',
+
+  broadcasttransaction = 'broadcasttransaction',
+  broadcasthex = 'broadcasthex',
+
+  createtransaction = 'createtransaction',
+  deploycontract = 'deploycontract',
+  triggersmartcontract = 'triggersmartcontract',
+  proposalcreate = 'proposalcreate',
+  exchangecreate = 'exchangecreate',
+  exchangeinject = 'exchangeinject',
+  exchangewithdraw = 'exchangewithdraw',
+  exchangetransaction = 'exchangetransaction',
+
+  getnowblock = 'getnowblock',
+  getblockbynum = 'getblockbynum',
+  getblockbyid = 'getblockbyid',
+  gettransactionbyid = 'gettransactionbyid',
+  getaccountbalance = 'getaccountbalance',
+  gettransactioncountbyblocknum = 'gettransactioncountbyblocknum',
+  gettransactioninfobyblocknum = 'gettransactioninfobyblocknum',
+  getaccount = 'getaccount',
+  getassetissuelist = 'getassetissuelist',
+  getpaginatedassetissuelist = 'getpaginatedassetissuelist',
+  getpaginatedproposallist = 'getpaginatedproposallist',
+  getpaginatedexchangelist = 'getpaginatedexchangelist',
+  getcontract = 'getcontract',
+  getproposalbyid = 'getproposalbyid',
+  listproposals = 'listproposals',
+  getaccountresource = 'getaccountresource',
+  getexchangebyid = 'getexchangebyid',
+  listexchanges = 'listexchanges',
+  getchainparameters = 'getchainparameters',
+  getdelegatedresource = 'getdelegatedresource',
+  getdelegatedresourceaccountindex = 'getdelegatedresourceaccountindex',
+  getaccountbyid = 'getaccountbyid',
+  getdeferredtransactionbyid = 'getdeferredtransactionbyid',
+  getdeferredtransactioninfobyid = 'getdeferredtransactioninfobyid',
+  triggerconstantcontract = 'triggerconstantcontract',
+  getmerkletreevoucherinfo = 'getmerkletreevoucherinfo',
+
+  easytransferbyprivate = 'easytransferbyprivate',
+  easytransferassetbyprivate = 'easytransferassetbyprivate',
+  easytransfer = 'easytransfer',
+  easytransferasset = 'easytransferasset',
+  gettransactionsign = 'gettransactionsign',
+  createaddress = 'createaddress',
+  listnodes = 'listnodes',
+  generateaddress = 'generateaddress',
+  getnodeinfo = 'getnodeinfo',
+  addtransactionsign = 'addtransactionsign',
+  getakfromask = 'getakfromask',
+  getnkfromnsk = 'getnkfromnsk',
+  getspendingkey = 'getspendingkey',
+  getexpandedspendingkey = 'getexpandedspendingkey',
+  getdiversifier = 'getdiversifier',
+  getincomingviewingkey = 'getincomingviewingkey',
+  createspendauthsig = 'createspendauthsig',
+  getnewshieldedaddress = 'getnewshieldedaddress',
+  createshieldedtransaction = 'createshieldedtransaction',
+  createshieldedcontractparameters = 'createshieldedcontractparameters',
+  createshieldedcontractparameterswithoutask = 'createshieldedcontractparameterswithoutask',
+  scanshieldedtrc20notesbyivk = 'scanshieldedtrc20notesbyivk',
+  scanshieldedtrc20notesbyovk = 'scanshieldedtrc20notesbyovk',
+  isshieldedtrc20contractnotespent = 'isshieldedtrc20contractnotespent',
+}

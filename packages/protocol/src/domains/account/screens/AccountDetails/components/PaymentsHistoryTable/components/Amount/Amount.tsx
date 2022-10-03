@@ -10,6 +10,11 @@ export interface AmountProps {
   value: string;
 }
 
+export enum CurrencySymbol {
+  ankr = 'ANKR',
+  usd = '$',
+}
+
 export const Amount = ({ currencySymbol, direction, value }: AmountProps) => {
   const sign = getSign(direction);
 
@@ -24,8 +29,16 @@ export const Amount = ({ currencySymbol, direction, value }: AmountProps) => {
   return (
     <span className={classes.cell} style={style}>
       {sign}
-      {currencySymbol}
-      {value}
+      {currencySymbol === CurrencySymbol.ankr ? (
+        <>
+          {value} {currencySymbol}
+        </>
+      ) : (
+        <>
+          {currencySymbol}
+          {value}
+        </>
+      )}
     </span>
   );
 };
