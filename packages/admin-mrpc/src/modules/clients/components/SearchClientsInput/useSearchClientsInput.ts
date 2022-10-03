@@ -22,7 +22,7 @@ export const useSearchClientsInput = () => {
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setSearchValue(e.target.value);
+    setSearchValue(e.target.value.toLowerCase());
   };
 
   const onClientClick = (address?: Web3Address) => {
