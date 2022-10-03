@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
-import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 
 import { useBaseTokenUsdAmountStyles } from './useBaseTokenUsdAmountStyles';
 
@@ -21,12 +21,14 @@ export const BaseTokenUsdAmount = ({
     <div className={classes.root}>
       <div className={classes.infoWrapper}>
         <div className={classes.bigValue}>
-          {`${amount.decimalPlaces(DEFAULT_ROUNDING).toFormat()}`}
+          {`${amount.decimalPlaces(getDecimalPlaces(amount)).toFormat()}`}
         </div>
 
         <div className={classes.usdAmount}>
           {t('unit.usd-value', {
-            value: usdAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+            value: usdAmount
+              .decimalPlaces(getDecimalPlaces(usdAmount))
+              .toFormat(),
           })}
         </div>
       </div>

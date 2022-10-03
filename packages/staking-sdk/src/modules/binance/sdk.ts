@@ -1033,6 +1033,20 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Get claimable rewards for partner
+   * 
+   * @param {string} code - partner code 
+   * @returns {Promise<string>}
+   */
+   public async getPartnerClaimableRewards(code: string): Promise<BigNumber> {
+    const binancePartnersContract = await this.getBinancePartersContract();
+
+    const data = await binancePartnersContract.methods.getRewardsOf(code).call();
+
+    return this.convertFromWei(data);
+  }
+
+  /**
    * Stake token.
    *
    * @public

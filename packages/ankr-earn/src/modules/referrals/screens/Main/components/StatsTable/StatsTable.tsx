@@ -15,7 +15,7 @@ import {
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { getNextUnlockTime } from 'modules/referrals/utils/getNextUnlockTime';
-import { NavLink } from 'uiKit/NavLink';
+import { Button } from 'uiKit/Button';
 
 import { useStatsData } from '../../hooks/useStatsData';
 
@@ -121,7 +121,7 @@ export const StatsTable = (): JSX.Element | null => {
                 <AmountWithIcon
                   amount={row.totalStaked}
                   ankrFees={row.ankrFees}
-                  apy={row.apy}
+                  apy={row.apy.integerValue().toNumber()}
                   refBonuses={row.refBonuses}
                   refPercent={row.refPercent}
                   token={row.token}
@@ -145,13 +145,9 @@ export const StatsTable = (): JSX.Element | null => {
               </TableBodyCell>
 
               <TableBodyCell label={`${captions[ELabel.nextUnlock].label}`}>
-                <NavLink
-                  className={classes.btn}
-                  href={row.claimLink}
-                  variant="contained"
-                >
+                <Button className={classes.btn} variant="contained">
                   {t('referrals.stats-table.claim')}
-                </NavLink>
+                </Button>
               </TableBodyCell>
             </TableRow>
           ))}
