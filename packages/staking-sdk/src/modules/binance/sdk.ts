@@ -1009,7 +1009,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Checking whether a code partner exists
+   * Checking whether a code partner exists.
    * 
    * @param {string} partnerCode - partner code 
    * @returns {Promise<boolean>}
@@ -1021,7 +1021,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get partner code by address
+   * Get partner code by address.
    * 
    * @param {string} address - partner address 
    * @returns {Promise<string>}
@@ -1033,7 +1033,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Get claimable rewards for partner
+   * Get claimable rewards for partner.
    * 
    * @param {string} code - partner code 
    * @returns {Promise<string>}
@@ -1045,6 +1045,29 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     return this.convertFromWei(data);
   }
+
+  /**
+   * Claim partner rewards.
+   * 
+  */
+  public async claimPartnerRewards(): Promise<IWeb3SendResult> {
+    const { binanceConfig } = configFromEnv();
+    
+    const binancePartnersContract = await this.getBinancePartersContract();
+
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+    
+    const data = binancePartnersContract.methods.claimRewards().encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.binancePartners,
+      { data, estimate: true },
+    );
+  }
+
 
   /**
    * Stake token.

@@ -1,4 +1,3 @@
-import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
@@ -14,7 +13,6 @@ import {
   TableRow,
 } from 'modules/common/components/TableComponents';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
-import { getNextUnlockTime } from 'modules/referrals/utils/getNextUnlockTime';
 import { Button } from 'uiKit/Button';
 
 import { useStatsData } from '../../hooks/useStatsData';
@@ -38,9 +36,7 @@ enum ELabel {
 
 export const StatsTable = (): JSX.Element | null => {
   const classes = useStatsTableStyles();
-  const { data, isLoading, nextUnlock } = useStatsData();
-
-  const nextUnlockText = t('referrals.stats-table.next-unlock');
+  const { data, isLoading } = useStatsData();
 
   const captions = useLocaleMemo(
     () => [
@@ -54,7 +50,7 @@ export const StatsTable = (): JSX.Element | null => {
         label: t('referrals.stats-table.claimable-rewards'),
       },
       {
-        label: nextUnlockText,
+        label: ' ',
       },
     ],
     [],
@@ -92,21 +88,7 @@ export const StatsTable = (): JSX.Element | null => {
             classes={{
               content: classes.thContent,
             }}
-            label={
-              <>
-                {label === nextUnlockText ? (
-                  <div className={classes.unlockWrapper}>
-                    {label}
-
-                    <Typography className={classes.unlockValue} color="primary">
-                      {getNextUnlockTime(nextUnlock)}
-                    </Typography>
-                  </div>
-                ) : (
-                  label
-                )}
-              </>
-            }
+            label={<>{label}</>}
           />
         ))}
       </TableHead>
@@ -131,6 +113,8 @@ export const StatsTable = (): JSX.Element | null => {
               <TableBodyCell label={`${captions[ELabel.pendingRewards].label}`}>
                 <BaseTokenUsdAmount
                   amount={row.pendingRewards}
+                  token={row.token}
+                  unlockDays={row.daysLeft}
                   usdAmount={row.pendingRewardsUsd}
                 />
               </TableBodyCell>
@@ -140,6 +124,7 @@ export const StatsTable = (): JSX.Element | null => {
               >
                 <BaseTokenUsdAmount
                   amount={row.claimableRewards}
+                  token={row.token}
                   usdAmount={row.claimableRewardsUsd}
                 />
               </TableBodyCell>

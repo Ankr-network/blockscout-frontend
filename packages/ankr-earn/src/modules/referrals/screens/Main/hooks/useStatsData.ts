@@ -4,7 +4,6 @@ import { useCallback, useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { Seconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { getClaimableBNBRewards } from 'modules/referrals/actions/getClaimableBNBRewards';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
@@ -18,6 +17,7 @@ interface IStatsData {
   apy: BigNumber;
   ankrFees: number;
   refBonuses: number;
+  daysLeft: number;
   pendingRewards: BigNumber;
   pendingRewardsUsd: BigNumber;
   claimableRewards: BigNumber;
@@ -26,7 +26,6 @@ interface IStatsData {
 
 interface IStats {
   isLoading: boolean;
-  nextUnlock: Seconds;
   data?: IStatsData[];
 }
 
@@ -55,8 +54,6 @@ export const useStatsData = (): IStats => {
     useQuery({ type: getClaimableBNBRewards });
 
   useProviderEffect(() => {
-    dispatchRequest(getMetrics());
-
     if (code) {
       dispatchRequest(getPartnerData(code));
       dispatchRequest(getClaimableBNBRewards(code));
@@ -170,11 +167,12 @@ export const useStatsData = (): IStats => {
 
   const data: IStatsData[] | undefined = useMemo(() => {
     return partnerData?.map(partnerItem => {
-      const token = partnerItem.network as Token;
+      const { token } = partnerItem;
 
       return {
         token,
         totalStaked: partnerItem.totalStaked,
+        daysLeft: partnerItem.daysLeft,
         apy: getApy(token),
         ankrFees: getAnkrFees(token),
         refBonuses: getRefBonuses(token),
@@ -203,7 +201,6 @@ export const useStatsData = (): IStats => {
       isCodeLoading ||
       isMetricsLoading ||
       isBNBClaimableRewardsLoading,
-    nextUnlock: 10_000,
     data,
   };
 };

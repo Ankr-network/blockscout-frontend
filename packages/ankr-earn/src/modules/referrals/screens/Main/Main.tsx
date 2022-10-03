@@ -6,6 +6,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { Container } from 'uiKit/Container';
 
 import { Header } from './components/Header';
@@ -18,6 +19,8 @@ export const Main = (): JSX.Element => {
   const { address } = useAuth(AvailableWriteProviders.ethCompatible);
 
   useProviderEffect(() => {
+    dispatchRequest(getMetrics());
+
     if (address) {
       dispatchRequest(getPartnerCode(address));
     }

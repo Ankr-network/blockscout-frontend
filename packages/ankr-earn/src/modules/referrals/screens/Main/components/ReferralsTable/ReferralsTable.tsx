@@ -111,7 +111,7 @@ export const ReferralsTable = ({
         {!isLoading &&
           data?.map((row, i) => {
             const Icon =
-              iconByTokenMap[row.stakedTokens as keyof TIconMap] ?? 'span';
+              iconByTokenMap[row.stakedToken as keyof TIconMap] ?? 'span';
 
             return (
               <TableRow key={uid(i)}>
@@ -143,7 +143,7 @@ export const ReferralsTable = ({
                   <div className={classes.amount}>
                     <BaseAmount
                       amount={row.stakedAmount}
-                      token={row.stakedTokens}
+                      token={row.stakedToken}
                       usdAmount={row.stakedAmountUsd}
                     />
                   </div>
@@ -153,7 +153,7 @@ export const ReferralsTable = ({
                   <div className={classes.amount}>
                     <BaseAmount
                       amount={row.myRewards}
-                      token={row.stakedTokens}
+                      token={row.stakedToken}
                       usdAmount={row.myRewardsUsd}
                     />
                   </div>

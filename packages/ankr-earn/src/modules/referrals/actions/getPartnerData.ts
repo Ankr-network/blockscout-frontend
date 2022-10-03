@@ -23,7 +23,7 @@ interface IPartnerData {
 
 interface IPartnerDataResult {
   address: string;
-  network: Token;
+  token: Token;
   totalStaked: BigNumber;
   rewards: BigNumber;
   daysLeft: number;
@@ -40,7 +40,7 @@ export const getPartnerData = createSmartAction<
     getData: data =>
       data.records.map(record => ({
         ...record,
-        network: record.network.toUpperCase() as Token,
+        token: record.network.toUpperCase() as Token,
         totalStaked: convertFromWei(record.totalStaked),
         rewards: convertFromWei(record.rewards),
       })),

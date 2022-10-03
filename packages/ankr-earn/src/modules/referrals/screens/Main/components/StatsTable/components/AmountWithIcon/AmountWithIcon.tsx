@@ -37,9 +37,12 @@ export const AmountWithIcon = ({
         <Icon className={classes.icon} />
 
         <div className={classes.values}>
-          <div className={classes.bigValue}>
-            {amount.decimalPlaces(getDecimalPlaces(amount)).toFormat()}
-          </div>
+          <Typography className={classes.bigValue}>
+            {t('unit.token-value', {
+              value: amount.decimalPlaces(getDecimalPlaces(amount)).toFormat(),
+              token,
+            })}
+          </Typography>
 
           <div className={classes.usdAmount}>
             {t('unit.ref-percent', {

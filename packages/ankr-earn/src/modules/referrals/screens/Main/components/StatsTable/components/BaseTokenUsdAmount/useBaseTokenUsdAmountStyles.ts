@@ -23,13 +23,28 @@ export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
     },
   },
 
+  bigValueWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   bigValue: {
     fontSize: 22,
     fontWeight: 700,
+    marginRight: theme.spacing(1),
   },
 
   usdAmount: {
     fontSize: 13,
     color: theme.palette.text.secondary,
+  },
+
+  chip: {
+    height: 28,
+    borderRadius: '12px',
+    fontSize: 13,
+    fontWeight: 500,
+    color: theme.palette.primary.main,
   },
 }));

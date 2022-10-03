@@ -2,6 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { Token } from 'modules/common/types/token';
 import { convertFromWei } from 'modules/common/utils/numbers/convertFromWei';
 
 import { REFERRALS_ACTIONS_PREFIX } from '../api/const';
@@ -21,7 +22,7 @@ interface IStakersData {
 
 interface IStakersDataResult {
   address: string;
-  network: string;
+  network: Token;
   stakedAmount: BigNumber;
   rewards: BigNumber;
   firstStake: Date;
@@ -38,6 +39,7 @@ export const getStakersData = createSmartAction<
     getData: data =>
       data.stakers.map(staker => ({
         ...staker,
+        network: staker.network.toUpperCase() as Token,
         stakedAmount: convertFromWei(staker.stakedAmount),
         rewards: convertFromWei(staker.rewards),
         firstStake: new Date(staker.firstStake * 1_000),
