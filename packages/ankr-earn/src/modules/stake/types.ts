@@ -30,7 +30,7 @@ export enum EOpenOceanTokens {
   aMATICc = Token.aMATICc,
 }
 
-export enum ESynthTokens {
+export enum EHistorySynthTokens {
   aAVAXb = Token.aAVAXb,
   aAVAXc = Token.aAVAXc,
   aBNBb = Token.aBNBb,
@@ -41,7 +41,4 @@ export enum ESynthTokens {
   aFTMc = Token.aFTMc,
   aMATICb = Token.aMATICb,
   aMATICc = Token.aMATICc,
-  aDOTb = Token.aDOTb,
-  aKSMb = Token.aKSMb,
-  aWNDb = Token.aWNDb,
 }

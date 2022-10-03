@@ -9,7 +9,7 @@ import { t } from 'common';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
-import { ESynthTokens } from 'modules/stake/types';
+import { EHistorySynthTokens } from 'modules/stake/types';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 import { NavLink } from 'uiKit/NavLink';
@@ -40,7 +40,7 @@ export interface IHistoryDialogProps {
   onClose?: () => void;
 }
 
-const TOKEN_OPTIONS = Object.keys(ESynthTokens).map(tokenItem => ({
+const TOKEN_OPTIONS = Object.keys(EHistorySynthTokens).map(tokenItem => ({
   label: tokenItem,
   value: tokenItem,
 }));
@@ -135,7 +135,7 @@ export const NewHistoryDialog = ({
 
             <th className={classes.th}>{t('history-dialog.hash')}</th>
 
-            <th className={classes.th}>{t('history-dialog.amount')}</th>
+            <th className={classes.th}>{t('history-dialog.stake')}</th>
           </tr>
         </thead>
 
@@ -176,6 +176,9 @@ export const NewHistoryDialog = ({
     return t('history-dialog.default-date-range');
   }, [loading, weeksAmount]);
 
+  const isInitLoading =
+    loading && (!Array.isArray(tableRows) || !tableRows.length);
+
   return (
     <Dialog className={classes.root} open={open} onClose={onClose}>
       <Container className={classes.container} data-testid="history-dialog">
@@ -215,25 +218,32 @@ export const NewHistoryDialog = ({
           renderValue={renderValue}
           rootClassName={classes.selectRoot}
           value={selectedToken}
+          variant="filled"
           onChange={onSelectedTokenChange}
         />
 
-        {txHistory}
+        <div className={classes.tableWrapper}>
+          {txHistory}
 
-        <Button
-          className={classes.showMoreButton}
-          isLoading={loading}
-          variant="outlined"
-          onClick={handleShowMore}
-        >
-          {loading
-            ? t('history-dialog.loading-history')
-            : t('history-dialog.show-more')}
-        </Button>
+          {!isInitLoading && (
+            <div className={classes.footer}>
+              <Button
+                className={classes.showMoreButton}
+                isLoading={loading}
+                variant="outlined"
+                onClick={handleShowMore}
+              >
+                {loading
+                  ? t('history-dialog.loading-history')
+                  : t('history-dialog.show-more')}
+              </Button>
 
-        <Typography className={classes.footer} color="textSecondary">
-          {getFooterText()}
-        </Typography>
+              <Typography className={classes.footerText} color="textSecondary">
+                {getFooterText()}
+              </Typography>
+            </div>
+          )}
+        </div>
       </Container>
     </Dialog>
   );

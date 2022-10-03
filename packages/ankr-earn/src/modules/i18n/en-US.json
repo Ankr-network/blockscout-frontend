@@ -861,6 +861,7 @@
     "header": "Transactions History",
     "date": "Date",
     "amount": "Amount",
+    "stake": "Stake",
     "staking": "Staking",
     "unstaking": "Unstaking",
     "date-cell": "{month} {day}, {year}",

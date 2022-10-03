@@ -3,7 +3,7 @@ import { alpha, makeStyles, Theme } from '@material-ui/core';
 export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
   root: {
     position: 'relative',
-    padding: theme.spacing(7, 0, 2),
+    padding: theme.spacing(4, 0, 4),
     backgroundColor: theme.palette.background.paper,
     maxWidth: 600,
     margin: '0 auto',
@@ -14,6 +14,15 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
       maxWidth: 600,
       padding: theme.spacing(0, 3.75),
     },
+  },
+
+  tableWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    maxHeight: 500,
+    height: '50vh',
+    overflow: 'scroll',
   },
 
   table: {
@@ -28,7 +37,7 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
   transactionTypeWrapper: {
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(3),
   },
 
   transactionType: {
@@ -39,7 +48,7 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     fontWeight: 600,
     width: 'auto',
     background: alpha(theme.palette.text.secondary, 0.15),
-    borderRadius: 16,
+    borderRadius: 12,
     padding: theme.spacing(0.5),
   },
 
@@ -48,6 +57,7 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     height: 36,
+    minWidth: 76,
     background: 'none',
     color: theme.palette.text.secondary,
     marginRight: theme.spacing(0.5),
@@ -82,6 +92,8 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.secondary,
     height: 40,
+    fontSize: 13,
+    fontWeight: 700,
     textAlign: 'left',
     padding: theme.spacing(0, 2.5),
 
@@ -104,6 +116,8 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
   },
 
   td: {
+    fontSize: 13,
+    fontWeight: 400,
     padding: theme.spacing(0, 2.5),
     textAlign: 'left',
     minHeight: 0,
@@ -116,6 +130,7 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
   },
 
   empty: {
+    margin: 'auto',
     padding: theme.spacing(14, 0, 22),
     textAlign: 'center',
     color: theme.palette.action.disabledBackground,
@@ -123,13 +138,14 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
   },
 
   txLink: {
+    fontSize: 13,
+    fontWeight: 400,
     padding: 0,
     height: 'auto',
     width: 'auto',
     minWidth: 0,
 
     color: theme.palette.primary.main,
-    fontWeight: 500,
 
     transition: '0.2s all',
 
@@ -152,12 +168,15 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     borderRadius: 12,
   },
 
+  footer: {
+    marginTop: theme.spacing(4),
+  },
+
   showMoreButton: {
-    marginTop: theme.spacing(2),
     width: '100%',
   },
 
-  footer: {
+  footerText: {
     marginTop: theme.spacing(2),
     fontSize: 13,
     fontWeight: 400,
