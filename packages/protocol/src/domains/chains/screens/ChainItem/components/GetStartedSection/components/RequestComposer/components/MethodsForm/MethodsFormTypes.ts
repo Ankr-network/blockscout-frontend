@@ -7,3 +7,11 @@ export type MethodsFieldsData = {
 export type MethodsFormData = {
   methodName?: MethodOption;
 } & MethodsFieldsData;
+
+export type TronMethodsFieldsData = {
+  [key: string]: string | number;
+};
+
+export type TronMethodsFormData = {
+  methodName?: MethodOption;
+} & TronMethodsFieldsData;

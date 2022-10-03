@@ -8,9 +8,16 @@ const MAX_ANKR_DECIMAL_PLACES = 5;
 const MIN_USD_DECIMAL_PLACES = 2;
 const MAX_USD_DECIMAL_PLACES = 7;
 
+const MIN_CREDIT_DECIMAL_PLACES = 0;
+const MAX_CREDIT_DECIMAL_PLACES = 0;
+
 const decimalPlacesMap: Record<ChartCurrency, [number, number]> = {
   [ChartCurrency.ANKR]: [MIN_ANKR_DECIMAL_PLACES, MAX_ANKR_DECIMAL_PLACES],
   [ChartCurrency.USD]: [MIN_USD_DECIMAL_PLACES, MAX_USD_DECIMAL_PLACES],
+  [ChartCurrency.CREDIT]: [
+    MIN_CREDIT_DECIMAL_PLACES,
+    MAX_CREDIT_DECIMAL_PLACES,
+  ],
 };
 
 const getDecimalPlaces = (

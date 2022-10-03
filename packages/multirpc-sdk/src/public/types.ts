@@ -40,3 +40,19 @@ export interface Config {
   workerUrl: string;
   accountUrl: string;
 }
+
+export enum CurrencyRateSymbol {
+  'USD/ANKR' = 'USD/ANKR',
+  'CREDIT/ANKR' = 'CREDIT/ANKR',
+  'CREDIT/USD' = 'CREDIT/USD',
+}
+
+export interface CurrencyRate {
+  decimals: number;
+  rate: string;
+  symbol: CurrencyRateSymbol;
+}
+
+export interface IRate {
+  rates: CurrencyRate[];
+}

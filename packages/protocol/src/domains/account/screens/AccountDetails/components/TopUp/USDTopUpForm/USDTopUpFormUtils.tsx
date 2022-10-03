@@ -8,6 +8,7 @@ import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
 import { USD_CURRENCY } from '../../const';
 import { AmountField } from '../TopUpForm/AmountField';
 import { LoadingButton } from 'uiKit/LoadingButton';
+import { RateBlock } from '../TopUpForm/RateBlock';
 
 const MAX_USD_DECIMALS = 1;
 
@@ -42,6 +43,7 @@ export const useRenderForm = (
     ({
       handleSubmit,
       validating,
+      values,
       form: { change },
     }: FormRenderProps<TopUpFormValues>) => {
       return (
@@ -57,6 +59,10 @@ export const useRenderForm = (
             isDisabled={isDisabled}
             currency={USD_CURRENCY}
             validate={validateAmount}
+          />
+          <RateBlock
+            value={values[AmountInputField.amount]}
+            currency={USD_CURRENCY}
           />
           <LoadingButton
             color="primary"

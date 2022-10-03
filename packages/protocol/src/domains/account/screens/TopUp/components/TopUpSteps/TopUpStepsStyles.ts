@@ -35,6 +35,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '& .icon': {
       verticalAlign: 'middle',
     },
+
+    '& ul': {
+      paddingLeft: theme.spacing(2),
+      lineHeight: `${theme.spacing(4)}px`,
+    },
   },
   notice: {
     fontWeight: 'normal',

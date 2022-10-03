@@ -1,5 +1,5 @@
-import { ChartCurrency, ChartTimeframe } from './types';
 import { t } from 'modules/i18n/utils/intl';
+import { ChartCurrency, ChartTimeframe } from './types';
 
 export const root = 'account.account-details.expense-chart';
 
@@ -16,4 +16,7 @@ export const formatDateMap: Record<ChartTimeframe, (value: Date) => string> = {
 export const currenciesMap: Record<ChartCurrency, string> = {
   [ChartCurrency.ANKR]: t('account.currencies.ankr'),
   [ChartCurrency.USD]: t('account.currencies.usd'),
+  [ChartCurrency.CREDIT]: t('account.currencies.credit'),
 };
+
+export const SWITCH_CURRENCY_DISABLED = true;

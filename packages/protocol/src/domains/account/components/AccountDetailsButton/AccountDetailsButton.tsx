@@ -1,12 +1,12 @@
-import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
 
-import { AccountMarker } from '../AccountMarker';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { Balance } from '../Balance';
+import { t } from 'modules/i18n/utils/intl';
 import { LoadableButton } from 'uiKit/LoadableButton';
-import { useAccountData } from './hooks/useAccountData';
+import { AccountMarker } from '../AccountMarker';
+import { Balance } from '../Balance';
 import { useStyles } from './AccountDetailsButtonStyles';
+import { useAccountData } from './hooks/useAccountData';
 
 export interface AccountDetailsButtonProps {
   isMobile?: boolean;
@@ -31,7 +31,9 @@ export const AccountDetailsButton = ({
         <AccountMarker status={status} />
         <span className={classes.label}>
           <Balance balance={balance} className={classes.balance} />
-          <span className={classes.currency}> ANKR</span>
+          <span className={classes.currency}>
+            &nbsp;{t('account.currencies.credit')}
+          </span>
         </span>
       </div>
     </LoadableButton>
