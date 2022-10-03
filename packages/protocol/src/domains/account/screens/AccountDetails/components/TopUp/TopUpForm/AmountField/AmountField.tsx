@@ -12,7 +12,7 @@ import {
 } from './AmountFieldUtils';
 import { OnChange } from 'modules/form/utils/OnChange';
 import { AmountInputField } from '../TopUpFormTypes';
-import { ANKR_CURRENCY, USD_CURRENCY } from '../../../const';
+import { CurrencyType } from '../../../const';
 
 interface AmountFieldProps {
   name: AmountInputField.amount;
@@ -21,7 +21,7 @@ interface AmountFieldProps {
   validate?: (value: string) => string | undefined;
   change?: (name: AmountInputField.amount, value: string) => void;
   maxDecimals?: number;
-  currency: typeof ANKR_CURRENCY | typeof USD_CURRENCY;
+  currency: CurrencyType;
 }
 
 export const AmountField = ({

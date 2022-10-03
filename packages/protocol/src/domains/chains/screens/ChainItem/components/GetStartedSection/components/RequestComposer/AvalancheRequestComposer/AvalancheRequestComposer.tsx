@@ -1,6 +1,7 @@
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { CChainRequestComposer } from './CChainRequestComposer';
 import { PChainRequestComposer } from './PChainRequestComposer';
+import { XChainRequestComposer } from './XChainRequestComposer';
 
 export interface IRequestComposerProps {
   group: EndpointGroup;
@@ -20,6 +21,9 @@ export const AvalancheRequestComposer = ({
 
     case ChainGroupID.P_CHAIN:
       return <PChainRequestComposer group={group} className={className} />;
+
+    case ChainGroupID.X_CHAIN:
+      return <XChainRequestComposer group={group} className={className} />;
 
     default:
       return null;

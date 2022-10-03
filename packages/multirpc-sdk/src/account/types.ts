@@ -17,6 +17,10 @@ export interface IPaymentHistoryEntity {
   type: IPaymentHistoryEntityType;
   amountUsd: string;
   amountAnkr: string;
+  amount: string;
+  creditAnkrAmount: string;
+  creditUsdAmount: string;
+  creditVoucherAmount: string;
 }
 
 export interface IPaymentHistoryRequest {

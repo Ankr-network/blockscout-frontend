@@ -21,9 +21,15 @@ export function getArgumentsBlock<S extends string, T extends string>(
 
   return methodArguments
     ?.map((argument: any, index: number) => {
-      const { type, description, options, placeholder, subfields, validate } =
-        argument;
-      const fieldName = getFieldName(index);
+      const {
+        type,
+        description,
+        options,
+        fieldName = getFieldName(index),
+        placeholder,
+        subfields,
+        validate,
+      } = argument;
 
       if (type === 'textarea') {
         return (
@@ -45,6 +51,18 @@ export function getArgumentsBlock<S extends string, T extends string>(
             name={fieldName}
             placeholder={placeholder}
             validate={validate}
+          />
+        );
+      }
+
+      if (type === 'number') {
+        return (
+          <BlockNumberField
+            helperText={description}
+            placeholder={placeholder}
+            type={type}
+            name={fieldName}
+            key={fieldName}
           />
         );
       }

@@ -6,6 +6,7 @@ import {
   IWorkerNodesWeight,
   Timeframe,
   Config,
+  IRate,
 } from './types';
 import { IPublicGateway } from './interfaces';
 import { IBlockchainEntity, INodeEntity } from '../backoffice';
@@ -59,6 +60,12 @@ export class PublicGateway implements IPublicGateway {
 
   async getNodesWeight(): Promise<IWorkerNodesWeight[]> {
     const { data } = await this.api.get<IWorkerNodesWeight[]>('/api/v1/weight');
+
+    return data;
+  }
+
+  async getRate(): Promise<IRate> {
+    const { data } = await this.accountApi.get<IRate>('/api/v1/rate');
 
     return data;
   }

@@ -1,8 +1,8 @@
+import { PaymentHistoryTableTimeframe } from 'domains/account/types';
 import {
   AggregatedPaymentHistoryTimeGroup,
   IPaymentHistoryEntityType,
 } from 'multirpc-sdk';
-import { PaymentHistoryTableTimeframe } from 'domains/account/types';
 
 export const DEFAULT_LIMIT = 15;
 
@@ -21,6 +21,9 @@ export const MAX_ANKR_DECIMAL_PLACES = 5;
 
 export const MIN_USD_DECIMAL_PLACES = 2;
 export const MAX_USD_DECIMAL_PLACES = 7;
+
+export const MIN_CREDIT_DECIMAL_PLACES = 0;
+export const MAX_CREDIT_DECIMAL_PLACES = 0;
 
 export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
   TRANSACTION_TYPE_UNKNOWN: 'Unknown',
