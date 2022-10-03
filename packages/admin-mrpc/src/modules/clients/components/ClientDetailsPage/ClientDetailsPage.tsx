@@ -18,6 +18,8 @@ interface TabPanelProps {
   value: number;
 }
 
+const TRANSACTION_TYPE_DEDUCTION = 'TRANSACTION_TYPE_DEDUCTION';
+
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -54,6 +56,13 @@ export const ClientDetailsPage = () => {
     { address },
   );
 
+  const transactionsDeduction = transactionsData?.transactions.filter(
+    i => i.type === TRANSACTION_TYPE_DEDUCTION,
+  );
+  const transactionsCost = transactionsDeduction?.reduce(
+    (partialSum, a) => partialSum + +a.amountUsd,
+    0,
+  );
   const currentClient = clients?.counters?.filter(i => i.address === address);
 
   const [value, setValue] = useState(0);
@@ -77,7 +86,11 @@ export const ClientDetailsPage = () => {
 
   return (
     <>
-      <ClientInfo currentClient={currentClient} statsData={statsData} />
+      <ClientInfo
+        currentClient={currentClient}
+        statsData={statsData}
+        transactionsCost={transactionsCost}
+      />
 
       {(transactionsData?.transactions || statementsData?.statement?.usage) && (
         <>
