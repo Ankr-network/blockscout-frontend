@@ -9,13 +9,19 @@ import { ClientBalancesInfo } from './ClientBalancesInfo';
 import { ClientBalancesModal } from './ClientBalancesModal';
 import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
 import { IUserStatsResponse } from 'multirpc-sdk';
+import { renderUSD } from '../../../common/utils/renderBalance';
 
 interface IClientInfoProps {
   currentClient: ClientMapped[];
   statsData?: IUserStatsResponse;
+  transactionsCost?: number;
 }
 
-export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
+export const ClientInfo = ({
+  currentClient,
+  statsData,
+  transactionsCost,
+}: IClientInfoProps) => {
   const classes = useStyles();
   const [client] = currentClient;
 
@@ -27,17 +33,17 @@ export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
     <Fragment key={user.user}>
       <Box display="flex" alignItems="center">
         <Typography className={classes.typeText} variant="body2" component="p">
-          Type:
+          <b>Type:</b>
         </Typography>
         <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
       </Box>
       <br />
       <Typography variant="body2" component="p">
-        Created: {user.createdDate.toLocaleString()}
+        <b>Created:</b> {user.createdDate.toLocaleString()}
       </Typography>
       <br />
       <Typography variant="body2" component="p">
-        Token: {user.user}
+        <b>Token:</b> {user.user}
       </Typography>
       <hr />
     </Fragment>
@@ -46,22 +52,32 @@ export const ClientInfo = ({ currentClient, statsData }: IClientInfoProps) => {
   return (
     <Card className={classes.root}>
       <CardContent>
+        {client.email && (
+          <>
+            <Typography variant="body2" component="p">
+              <b>Email:</b> {client.email}
+            </Typography>
+            <br />
+          </>
+        )}
         {currentClient.map(renderMainInfo)}
         <br />
         <Typography variant="body2" component="p">
-          Total requests:{' '}
+          <b>Total requests:</b>{' '}
           {statsData?.totalRequests
             ? `${statsData.totalRequests} in last 30d`
             : 'Not found'}
         </Typography>
-        {client.email && (
+
+        {transactionsCost !== undefined && +transactionsCost > 0 && (
           <>
             <br />
             <Typography variant="body2" component="p">
-              Email: {client.email}
+              <b>Total revenue:</b> {renderUSD(transactionsCost.toString())}
             </Typography>
           </>
         )}
+
         {(client.amountAnkr ||
           client.amountUsd ||
           client.amount ||
