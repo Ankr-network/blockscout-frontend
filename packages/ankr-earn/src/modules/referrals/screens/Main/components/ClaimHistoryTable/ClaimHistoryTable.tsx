@@ -54,12 +54,18 @@ export const ClaimHistoryTable = (): JSX.Element | null => {
         <TableRow key={uid(i)}>
           {columnWidths.map((width, j) => (
             <TableBodyCell key={uid(`${i}-${j}`)} label={captions[j].label}>
-              <Skeleton width={width} />
+              {j === columnWidths.length - 1 ? (
+                <div className={classes.amountSkeleton}>
+                  <Skeleton width={width} />
+                </div>
+              ) : (
+                <Skeleton width={width} />
+              )}
             </TableBodyCell>
           ))}
         </TableRow>
       )),
-    [captions],
+    [captions, classes],
   );
 
   if (!data?.length && !isLoading) {

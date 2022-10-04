@@ -6,16 +6,16 @@ import { t } from 'common';
 
 import { BaseAmount } from 'modules/referrals/components/BaseAmount';
 
-import { useTotalClaimed } from '../../hooks/useTotalClaimed';
+import { useClaimHistory } from '../../hooks/useClaimHistory';
 
 import { useTotalClaimedStyles } from './useTotalClaimedStyles';
 
 export const TotalClaimed = (): JSX.Element | null => {
   const classes = useTotalClaimedStyles();
 
-  const { data, isLoading } = useTotalClaimed();
+  const { totalClaimed, isLoading } = useClaimHistory();
 
-  if (!data?.length && !isLoading) {
+  if (!totalClaimed?.length && !isLoading) {
     return null;
   }
 
@@ -31,7 +31,7 @@ export const TotalClaimed = (): JSX.Element | null => {
 
       {!isLoading && (
         <div className={classes.wrapper}>
-          {data?.map((tokenItem, i) => (
+          {totalClaimed?.map((tokenItem, i) => (
             <div className={classes.amount}>
               <BaseAmount
                 key={uid(i)}

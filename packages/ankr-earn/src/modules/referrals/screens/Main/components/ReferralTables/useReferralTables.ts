@@ -1,6 +1,9 @@
+import { useQuery } from '@redux-requests/react';
 import { useEffect, useState } from 'react';
 
 import { t } from 'common';
+
+import { getStakersData } from 'modules/referrals/actions/getStakersData';
 
 export enum EReferralTabs {
   referrals = 'referrals',
@@ -8,7 +11,7 @@ export enum EReferralTabs {
 }
 
 interface IUseReferralTables {
-  referralsAmount: number;
+  referralsAmount?: number;
   currentTab: string;
   referralsText: string;
   claimHistoryText: string;
@@ -21,7 +24,10 @@ export const useReferralTables = (): IUseReferralTables => {
   const referralsText = t('referrals.tabs.referrals');
   const claimHistoryText = t('referrals.tabs.claim-history');
 
-  const [newUnstakingAmount] = useState(2);
+  const { data: stakersData } = useQuery({
+    type: getStakersData,
+  });
+
   const [search, setSearch] = useState('');
 
   const [currentTab, setCurrentTab] = useState<string>(EReferralTabs.referrals);
@@ -35,7 +41,7 @@ export const useReferralTables = (): IUseReferralTables => {
 
   return {
     currentTab,
-    referralsAmount: newUnstakingAmount,
+    referralsAmount: stakersData?.length ?? undefined,
     referralsText,
     claimHistoryText,
     searchValue: search,

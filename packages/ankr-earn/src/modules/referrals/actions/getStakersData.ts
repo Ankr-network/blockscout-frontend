@@ -35,7 +35,7 @@ export const getStakersData = createSmartAction<
   request: { url: getStakersDataUrl(code) },
   meta: {
     driver: 'axios',
-    showNotificationOnError: false,
+    showNotificationOnError: true,
     getData: data =>
       data.stakers.map(staker => ({
         ...staker,

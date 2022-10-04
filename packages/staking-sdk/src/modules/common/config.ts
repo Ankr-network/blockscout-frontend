@@ -203,7 +203,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
     aBNBcToken: '0xE85aFCcDaFBE7F2B096f268e31ccE3da8dA2990A',
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
-    binancePartners: ZERO_ADDRESS,
+    binancePartners: '0xCB63Ae9Aa9886495F4e16d14c87De2c5cEd43a35',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
     aMATICcToken: '0x738d96caf7096659db4c1afbf1e1bdfd281f388c',

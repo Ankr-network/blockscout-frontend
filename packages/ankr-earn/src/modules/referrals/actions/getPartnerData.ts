@@ -36,7 +36,7 @@ export const getPartnerData = createSmartAction<
   request: { url: getPartnerDataUrl(code) },
   meta: {
     driver: 'axios',
-    showNotificationOnError: false,
+    showNotificationOnError: true,
     getData: data =>
       data.records.map(record => ({
         ...record,

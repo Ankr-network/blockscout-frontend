@@ -43,4 +43,5 @@ export const featuresConfig = {
   isReferralDashboardActive: isLocal,
   providerNotification: true,
   newStakingHistoryDialog: isLocal,
+  isReferralLinkActive: false,
 };

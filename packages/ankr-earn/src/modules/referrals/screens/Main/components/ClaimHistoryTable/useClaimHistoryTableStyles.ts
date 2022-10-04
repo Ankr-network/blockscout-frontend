@@ -15,6 +15,11 @@ export const useClaimHistoryTableStyles = makeStyles(
     amount: {
       alignItems: 'flex-end',
     },
+
+    amountSkeleton: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
   }),
   { index: 1 },
 );

@@ -38,6 +38,7 @@ import {
   IEventsBatch,
   IStakable,
   IStakeData,
+  IPartnerClaimHistoryData,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
@@ -50,6 +51,7 @@ import {
   BNB_ESTIMATE_GAS_MULTIPLIER,
   BNB_STAKING_MAX_DECIMALS_LEN,
   BNB_GAS_FEE_SAFE_LIMIT,
+  BINANCE_PARTNERS_CONTRACT_START_BLOCK,
 } from './const';
 import {
   TBnbSyntToken,
@@ -58,6 +60,7 @@ import {
   EBinancePoolEvents,
   EBinancePoolEventsMap,
   EBinanceErrorCodes,
+  EBinancePartnersEvents,
 } from './types';
 
 /**
@@ -1047,6 +1050,52 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Get claim history for partner.
+   * 
+  */
+  public async getPartnerClaimHistory(code: string): Promise<IPartnerClaimHistoryData[]> {
+    const binancePartnersContract = await this.getBinancePartersContract();
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+
+    const events = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: binancePartnersContract,
+      eventName: EBinancePartnersEvents.RewardsClaimed,
+      startBlock: BINANCE_PARTNERS_CONTRACT_START_BLOCK,
+      latestBlockNumber,
+      rangeStep: BNB_MAX_BLOCK_RANGE,
+      filter: { code },
+    });
+
+    const calls = events.map(
+      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
+        web3.eth.getBlock.request(event.blockHash, false, callback),
+    );
+
+    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
+      calls,
+    );
+
+    const data = blocks.map((block, index) => ({
+      ...events[index],
+      timestamp: block.timestamp as number,
+    }));
+
+    return data
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .map(
+        ({ returnValues: { rewards }, timestamp }) => ({
+          amount: this.convertFromWei(rewards),
+          date: new Date(timestamp * 1_000),
+        }),
+      );
+  }
+  
+  /**
    * Claim partner rewards.
    * 
   */
@@ -1067,7 +1116,6 @@ export class BinanceSDK implements ISwitcher, IStakable {
       { data, estimate: true },
     );
   }
-
 
   /**
    * Stake token.
