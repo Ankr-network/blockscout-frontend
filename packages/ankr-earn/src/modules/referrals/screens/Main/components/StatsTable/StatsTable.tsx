@@ -62,7 +62,7 @@ export const StatsTable = (): JSX.Element | null => {
         <TableRow key={uid(i)}>
           {columnWidths.map((width, j) => (
             <TableBodyCell key={uid(`${i}-${j}`)} label={captions[j].label}>
-              <Skeleton width={width} />
+              <Skeleton height={56} width={width} />
             </TableBodyCell>
           ))}
         </TableRow>
@@ -130,14 +130,16 @@ export const StatsTable = (): JSX.Element | null => {
               </TableBodyCell>
 
               <TableBodyCell label={`${captions[ELabel.nextUnlock].label}`}>
-                <Button
-                  className={classes.btn}
-                  isLoading={row.claimLoading}
-                  variant="contained"
-                  onClick={row.onClaimClick}
-                >
-                  {t('referrals.stats-table.claim')}
-                </Button>
+                {!row.claimableRewards.isZero() && (
+                  <Button
+                    className={classes.btn}
+                    isLoading={row.claimLoading}
+                    variant="contained"
+                    onClick={row.onClaimClick}
+                  >
+                    {t('referrals.stats-table.claim')}
+                  </Button>
+                )}
               </TableBodyCell>
             </TableRow>
           ))}
