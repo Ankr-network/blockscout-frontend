@@ -5,7 +5,10 @@ import { useDispatchRequest } from '@redux-requests/react';
 import { fetchCChainRequest } from 'domains/requestComposer/actions/avalanche/fetchCChainRequest';
 import { CChainMethodsForm } from '../CChainMethodsForm';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { AvalancheLibraryID, CChainMethod } from 'domains/requestComposer/constants/avalanche';
+import {
+  AvalancheLibraryID,
+  CChainMethod,
+} from 'domains/requestComposer/constants/avalanche';
 import { MethodsRequest } from 'domains/requestComposer/types';
 
 interface ILibraryContentProps {

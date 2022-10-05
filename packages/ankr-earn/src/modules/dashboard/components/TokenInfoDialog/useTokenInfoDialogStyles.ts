@@ -26,10 +26,6 @@ export const useTokenInfoDialogStyles = makeStyles(theme => ({
     margin: theme.spacing(0, 1),
   },
 
-  copyIcon: {
-    cursor: 'pointer',
-  },
-
   description: {
     color: theme.palette.text.primary,
     fontSize: 14,
@@ -65,5 +61,18 @@ export const useTokenInfoDialogStyles = makeStyles(theme => ({
   completeIcon: {
     height: 18,
     width: 18,
+  },
+
+  copyIcon: {
+    height: 24,
+    width: 24,
+    color: theme.palette.text.secondary,
+    transition: '0.2s color',
+    cursor: 'pointer',
+    flexShrink: 0,
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
   },
 }));

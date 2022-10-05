@@ -11,7 +11,7 @@ import { Button } from 'uiKit/Button';
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 
 import { ReactComponent as AngleDownIcon } from '../../../../assets/img/angle-down-icon.svg';
-import { ReactComponent as CopySVG } from '../../assets/copy.svg';
+import { ReactComponent as CopySVG } from '../../../../assets/img/copy.svg';
 import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
 import { WalletIcon } from '../WalletIcon';
 
