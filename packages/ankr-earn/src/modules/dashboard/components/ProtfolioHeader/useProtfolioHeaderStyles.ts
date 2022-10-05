@@ -24,4 +24,14 @@ export const useProtfolioHeaderStyles = makeStyles(theme => ({
     fontWeight: 600,
     padding: theme.spacing(1, 0),
   },
+
+  divider: {
+    display: 'block',
+    height: 16,
+    margin: 'auto',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
 }));

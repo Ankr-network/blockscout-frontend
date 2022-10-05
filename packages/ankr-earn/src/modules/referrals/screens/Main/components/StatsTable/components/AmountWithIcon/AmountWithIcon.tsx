@@ -34,10 +34,12 @@ export const AmountWithIcon = ({
   return (
     <div className={classes.root}>
       <div className={classes.infoWrapper}>
-        <Icon className={classes.icon} />
+        <Icon className={classes.bigIcon} />
 
         <div className={classes.values}>
           <Typography className={classes.bigValue}>
+            <Icon className={classes.smallIcon} />
+
             {t('unit.token-value', {
               value: amount.decimalPlaces(getDecimalPlaces(amount)).toFormat(),
               token,

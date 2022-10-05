@@ -14,12 +14,16 @@ export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
   infoWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'inherit',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     marginBottom: theme.spacing(1),
 
     [theme.breakpoints.up('sm')]: {
       marginBottom: 0,
+    },
+
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'flex-start',
     },
   },
 
@@ -32,7 +36,6 @@ export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
   bigValue: {
     fontSize: 22,
     fontWeight: 700,
-    marginRight: theme.spacing(1),
   },
 
   usdAmount: {
@@ -45,6 +48,7 @@ export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
     borderRadius: '12px',
     fontSize: 13,
     fontWeight: 500,
+    marginLeft: theme.spacing(1),
     color: theme.palette.primary.main,
   },
 }));

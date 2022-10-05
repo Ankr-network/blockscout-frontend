@@ -299,7 +299,9 @@ export const PortfolioChart = ({
       <ProtfolioHeader isCurrentAccountPartner={isCurrentAccountPartner} />
 
       <Card className={classes.root}>
-        <ProtfolioHeaderMobile />
+        <ProtfolioHeaderMobile
+          isCurrentAccountPartner={isCurrentAccountPartner}
+        />
 
         {isLoading ? (
           <Box

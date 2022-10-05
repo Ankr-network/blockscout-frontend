@@ -12,18 +12,38 @@ export const useAmountWithIconStyles = makeStyles(theme => ({
 
   infoWrapper: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginBottom: theme.spacing(1),
 
     [theme.breakpoints.up('sm')]: {
       marginBottom: 0,
     },
+
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'flex-start',
+    },
   },
 
-  icon: {
-    width: 34,
-    height: 34,
+  bigIcon: {
+    display: 'none',
+
+    [theme.breakpoints.up('md')]: {
+      width: 34,
+      height: 34,
+      marginRight: theme.spacing(1),
+      display: 'block',
+    },
+  },
+
+  smallIcon: {
+    display: 'block',
+    width: 24,
+    height: 24,
     marginRight: theme.spacing(1),
+
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
   },
 
   values: {
@@ -34,6 +54,8 @@ export const useAmountWithIconStyles = makeStyles(theme => ({
   },
 
   bigValue: {
+    display: 'flex',
+    alignItems: 'center',
     fontSize: 22,
     fontWeight: 700,
   },
