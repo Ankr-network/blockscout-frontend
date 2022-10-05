@@ -20,7 +20,7 @@ const chainIdToDocsChainIdMap: Record<string, string> = {
 
 export const getChainDocsLink = (chainId: string) => {
   if (chainId === ChainID.MULTICHAIN) {
-    return `https://www.ankr.com/docs/build/products/advanced-api-sdk/overview/`;
+    return `https://www.ankr.com/docs/advanced-api/overview/`;
   }
 
   const docsChainId = chainIdToDocsChainIdMap[chainId];
