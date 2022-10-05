@@ -16,7 +16,6 @@ import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBr
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getMaxApy as getANKRMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getTotalInfo as getAnkrTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -132,10 +131,6 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: getANKRPrice,
   });
 
-  const { data: maxAnkrApy } = useQuery({
-    type: getANKRMaxApy,
-  });
-
   const { data: mgnoData, loading: isLoadingMgnoData } = useQuery({
     type: getMGNOTotalInfo,
   });
@@ -243,7 +238,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       },
       {
         name: Token.ANKR,
-        apy: maxAnkrApy ?? ZERO,
+        apy: metrics?.ankr.apy ?? ZERO,
         amount: ankrData?.totalDelegatedAmount ?? ZERO,
       },
       {
@@ -254,7 +249,6 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     ],
     [
       metrics,
-      maxAnkrApy,
       avaxData,
       ftmData,
       aMATICbBridgeBscBalance,

@@ -17,7 +17,6 @@ import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBr
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getMaxApy as getANKRMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getTotalInfo as getANKRTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
@@ -61,7 +60,6 @@ const resetRequests = () =>
     getANKRCommonData.toString(),
     getANKRPrice.toString(),
     getANKRTotalInfo.toString(),
-    getANKRMaxApy.toString(),
     getMGNOTotalInfo.toString(),
     getMGNOMaxApr.toString(),
     getMGNOPrice.toString(),
@@ -108,7 +106,6 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(getANKRCommonData());
     dispatch(getANKRPrice());
     dispatch(getANKRTotalInfo());
-    dispatch(getANKRMaxApy());
 
     if (address) {
       dispatch(getPartnerCode(address));

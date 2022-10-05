@@ -10,6 +10,7 @@ import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IStatsProps {
   amount: BigNumberish;
@@ -39,6 +40,9 @@ export const useStats = ({
   const { data: totalInfo, loading: isTotalInfoLoading } = useQuery({
     type: getProvidersTotalInfo,
   });
+  const { data: metricsData, loading: isMetricsLoading } = useQuery({
+    type: getMetrics,
+  });
 
   const usdPrice = ankrPrice ?? ZERO;
   const yearlyEarning = calculateYearlyEarning(amount, apy);
@@ -51,6 +55,7 @@ export const useStats = ({
     dispatchRequest(getAPY());
     dispatchRequest(getANKRPrice());
     dispatchRequest(getProvidersTotalInfo());
+    dispatchRequest(getMetrics());
   }, [dispatchRequest]);
 
   const usdRatio = totalStaked && usdPrice;
@@ -70,7 +75,9 @@ export const useStats = ({
     annualEarningUSD: yearlyEarningUSD,
     totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
-    isLoading: isPriceLoading || isTotalInfoLoading || isApyLoading,
+    stakers: metricsData ? +metricsData.ankr.stakers : undefined,
+    isLoading:
+      isPriceLoading || isTotalInfoLoading || isApyLoading || isMetricsLoading,
   };
 };
 
