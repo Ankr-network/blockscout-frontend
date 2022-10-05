@@ -1,6 +1,7 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 import { t } from 'common';
 
 import { connect } from 'modules/auth/common/actions/connect';
@@ -11,12 +12,14 @@ import {
 } from 'modules/auth/common/components/GuardRoute';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import {
+  IETHNetwork,
+  useETHNetworks,
+} from 'modules/auth/eth/hooks/useETHNetworks';
+import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
+import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { EEthereumNetworkId } from 'modules/common/types';
-
-import { IETHNetwork, useETHNetworks } from '../../../hooks/useETHNetworks';
-import { getIsMetaMask } from '../../../utils/getIsMetaMask';
-import { isEVMCompatible } from '../../../utils/isEVMCompatible';
 
 import { useKnownNetworks } from './useKnownNetworks';
 
@@ -51,6 +54,7 @@ export const useGuardETHRoute = ({
     ? writeProviderData?.chainId
     : undefined;
   const isConnected = writeProviderData?.isConnected ?? false;
+  const isInjected = Web3KeyReadProvider.isInjected();
   const isValidWallet = writeProviderData?.walletName
     ? getIsMetaMask(writeProviderData.walletName)
     : false;
@@ -86,10 +90,10 @@ export const useGuardETHRoute = ({
   );
 
   useProviderEffect(() => {
-    if (isOpenedConnectModal && !isConnected) {
+    if (isOpenedConnectModal && isInjected && !isConnected) {
       onOpenModal();
     }
-  }, [isConnected, isOpenedConnectModal, onOpenModal]);
+  }, [isConnected, isInjected, isOpenedConnectModal, onOpenModal]);
 
   return {
     currentNetwork,
