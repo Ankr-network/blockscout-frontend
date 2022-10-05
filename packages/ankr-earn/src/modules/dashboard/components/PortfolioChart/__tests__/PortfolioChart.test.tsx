@@ -83,9 +83,9 @@ describe('modules/dashboard/components/PortfolioChart', () => {
   test('should render tooltips on hover properly', async () => {
     render(<PortfolioChart {...defaultProps} />);
 
-    const aETHb = await screen.findByTestId(Token.aETHb);
-    const aETHc = await screen.findByTestId(Token.aETHc);
-    const eth = await screen.findByTestId(Token.ETH);
+    const aETHb = await screen.findByTestId(`${Token.aETHb}-false`);
+    const aETHc = await screen.findByTestId(`${Token.aETHc}-false`);
+    const eth = await screen.findByTestId(`${Token.ETH}-true`);
 
     expect(aETHb).toBeInTheDocument();
     expect(aETHc).toBeInTheDocument();

@@ -191,7 +191,7 @@ export const PortfolioChart = ({
         .append('g')
         .attr('class', 'arc')
         .attr('opacity', 1)
-        .attr('data-testid', d => d.data.name);
+        .attr('data-testid', d => `${d.data.name}-${d.data.isNative}`);
 
       arc
         .append('path')
@@ -265,7 +265,7 @@ export const PortfolioChart = ({
     }
 
     const activePiePath = d3
-      .select(`g[data-testid="${activeItem.name}"]`)
+      .select(`g[data-testid="${activeItem.name}-${activeItem.isNative}"]`)
       .select('path');
 
     activePiePath.dispatch('mouseout');
@@ -282,7 +282,7 @@ export const PortfolioChart = ({
       }
 
       const activePiePath = d3
-        .select(`g[data-testid="${item.name}"]`)
+        .select(`g[data-testid="${item.name}-${item.isNative}"]`)
         .select('path');
 
       activePiePath.dispatch('mouseover');
