@@ -13,11 +13,15 @@ import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 export interface InfrastructureSectionProps {
   chain: IApiChain;
   group: EndpointGroup;
+  withMyEndpoints?: boolean;
+  withNodes?: boolean;
 }
 
 export const InfrastructureSection = ({
   chain,
   group,
+  withMyEndpoints = true,
+  withNodes = true,
 }: InfrastructureSectionProps) => {
   const classes = useInfrastructureSectionStyles();
 
@@ -31,11 +35,13 @@ export const InfrastructureSection = ({
     <div className={classes.root}>
       {chainId && (
         <>
-          {canAddEndpoint(providerData, chainId) && <TrafficFlow />}
+          {canAddEndpoint(providerData, chainId) && withMyEndpoints && (
+            <TrafficFlow />
+          )}
 
           {!authLoading && !providerLoading && (
             <>
-              {credentials && Boolean(providerData) && (
+              {credentials && Boolean(providerData) && withMyEndpoints && (
                 <EndpointQuery chainId={chain.id} />
               )}
 
@@ -45,9 +51,11 @@ export const InfrastructureSection = ({
         </>
       )}
 
-      <div className={classes.table}>
-        <ChainNodesTableQuery chain={chain} group={group} />
-      </div>
+      {withNodes && (
+        <div className={classes.table}>
+          <ChainNodesTableQuery chain={chain} group={group} />
+        </div>
+      )}
     </div>
   );
 };
