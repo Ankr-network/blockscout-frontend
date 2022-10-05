@@ -4,6 +4,9 @@ import {
 } from '@redux-requests/core';
 import { useState } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
@@ -11,6 +14,7 @@ import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHC
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getMaxApy as getANKRMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
@@ -79,6 +83,8 @@ export const useDashboard = (): IUseDashboard => {
   const dispatch = useAppDispatch();
   const [isFirstLoad, setFirstLoad] = useState(true);
 
+  const { address } = useAuth(AvailableWriteProviders.ethCompatible);
+
   usePolkadot();
 
   useProviderEffect(() => {
@@ -103,6 +109,10 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(getANKRPrice());
     dispatch(getANKRTotalInfo());
     dispatch(getANKRMaxApy());
+
+    if (address) {
+      dispatch(getPartnerCode(address));
+    }
 
     if (featuresConfig.mgnoStaking) {
       dispatch(getMGNOTotalInfo());

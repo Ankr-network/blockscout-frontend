@@ -130,7 +130,12 @@ export const StatsTable = (): JSX.Element | null => {
               </TableBodyCell>
 
               <TableBodyCell label={`${captions[ELabel.nextUnlock].label}`}>
-                <Button className={classes.btn} variant="contained">
+                <Button
+                  className={classes.btn}
+                  isLoading={row.claimLoading}
+                  variant="contained"
+                  onClick={row.onClaimClick}
+                >
                   {t('referrals.stats-table.claim')}
                 </Button>
               </TableBodyCell>

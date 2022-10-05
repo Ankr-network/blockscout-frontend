@@ -4,6 +4,7 @@ import { useIsMDUp } from 'ui';
 
 import { PortfolioChart } from 'modules/dashboard/components/PortfolioChart';
 
+import { usePortfolioCommonData } from './usePortfolioCommonData';
 import { usePortfolioNativeData } from './usePortfolioNativeData';
 import { usePortfolioStakedData } from './usePortfolioStakedData';
 
@@ -20,6 +21,8 @@ export const MyPortfolio = (): JSX.Element => {
     apr: nativeApr,
     data: nativeData,
   } = usePortfolioNativeData();
+
+  const { isCurrentAccountPartner } = usePortfolioCommonData();
 
   const {
     isLoading: isStakedDataLoading,
@@ -38,6 +41,7 @@ export const MyPortfolio = (): JSX.Element => {
     <PortfolioChart
       data={data}
       height={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
+      isCurrentAccountPartner={isCurrentAccountPartner}
       isLoading={isNativeDataLoading || isStakedDataLoading}
       nativeApr={nativeApr}
       stakedApr={stakedApr}

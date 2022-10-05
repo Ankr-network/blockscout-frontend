@@ -12,7 +12,13 @@ import { useProtfolioHeaderStyles } from './useProtfolioHeaderStyles';
 
 const IS_CHECKBOX_SHOWED = isLocal;
 
-export const ProtfolioHeader = (): JSX.Element => {
+interface IProtfolioHeaderProps {
+  isCurrentAccountPartner: boolean;
+}
+
+export const ProtfolioHeader = ({
+  isCurrentAccountPartner,
+}: IProtfolioHeaderProps): JSX.Element => {
   const classes = useProtfolioHeaderStyles();
 
   return (
@@ -49,7 +55,7 @@ export const ProtfolioHeader = (): JSX.Element => {
           </Hidden>
         )}
 
-        {featuresConfig.isReferralDashboardActive && (
+        {featuresConfig.isReferralDashboardActive && isCurrentAccountPartner && (
           <Hidden mdDown>
             <Grid item xs="auto">
               <NavLink

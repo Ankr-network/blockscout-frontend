@@ -51,6 +51,7 @@ describe('modules/dashboard/components/PortfolioChart', () => {
       },
     ],
     isLoading: false,
+    isCurrentAccountPartner: true,
     totalNativeAmountUsd: new BigNumber(3_000),
     totalStakedAmountUsd: new BigNumber(7_000),
     stakedApr: new BigNumber(100),

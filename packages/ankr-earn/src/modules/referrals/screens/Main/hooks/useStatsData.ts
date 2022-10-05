@@ -1,10 +1,15 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  useDispatchRequest,
+  useMutation,
+  useQuery,
+} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { claimBNBRewards } from 'modules/referrals/actions/claimBNBRewards';
 import { getClaimableBNBRewards } from 'modules/referrals/actions/getClaimableBNBRewards';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { getPartnerData } from 'modules/referrals/actions/getPartnerData';
@@ -22,6 +27,8 @@ interface IStatsData {
   pendingRewardsUsd: BigNumber;
   claimableRewards: BigNumber;
   claimableRewardsUsd: BigNumber;
+  claimLoading: boolean;
+  onClaimClick: () => void;
 }
 
 interface IStats {
@@ -52,6 +59,7 @@ export const useStatsData = (): IStats => {
   });
   const { data: bnbClaimableRewards, loading: isBNBClaimableRewardsLoading } =
     useQuery({ type: getClaimableBNBRewards });
+  const { loading: isClaimLoading } = useMutation({ type: claimBNBRewards });
 
   useProviderEffect(() => {
     if (code) {
@@ -165,9 +173,16 @@ export const useStatsData = (): IStats => {
     }
   }, []);
 
+  const getClaimRewards = useCallback(() => {
+    return () => dispatchRequest(claimBNBRewards(code ?? ''));
+  }, [code, dispatchRequest]);
+
   const data: IStatsData[] | undefined = useMemo(() => {
     return partnerData?.map(partnerItem => {
       const { token } = partnerItem;
+      const pendingRewards = !partnerItem.rewards.isNaN()
+        ? partnerItem.rewards
+        : ZERO;
 
       return {
         token,
@@ -177,21 +192,25 @@ export const useStatsData = (): IStats => {
         ankrFees: getAnkrFees(token),
         refBonuses: getRefBonuses(token),
         refPercent: getRefPercent(token),
-        pendingRewards: partnerItem.rewards,
-        pendingRewardsUsd: partnerItem.rewards.multipliedBy(getUsdPrice(token)),
+        pendingRewards,
+        pendingRewardsUsd: pendingRewards.multipliedBy(getUsdPrice(token)),
         claimableRewards: getClaimableRewards(token),
         claimableRewardsUsd: getClaimableRewards(token).multipliedBy(
           getUsdPrice(token),
         ),
+        claimLoading: isClaimLoading,
+        onClaimClick: getClaimRewards(),
       };
     });
   }, [
     getAnkrFees,
     getApy,
+    getClaimRewards,
     getClaimableRewards,
     getRefBonuses,
     getRefPercent,
     getUsdPrice,
+    isClaimLoading,
     partnerData,
   ]);
 

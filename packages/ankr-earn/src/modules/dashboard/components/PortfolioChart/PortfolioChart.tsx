@@ -30,6 +30,7 @@ export interface IPortfolioChartProps {
   isLoading: boolean;
   height: number;
   width: number;
+  isCurrentAccountPartner: boolean;
 }
 
 export interface IChartSlice {
@@ -77,6 +78,7 @@ export const PortfolioChart = ({
   isLoading,
   height,
   width,
+  isCurrentAccountPartner,
 }: IPortfolioChartProps): JSX.Element | null => {
   const classes = usePortfolioChartStyles({ width });
 
@@ -294,7 +296,7 @@ export const PortfolioChart = ({
 
   return (
     <Box mb={7}>
-      <ProtfolioHeader />
+      <ProtfolioHeader isCurrentAccountPartner={isCurrentAccountPartner} />
 
       <Card className={classes.root}>
         <ProtfolioHeaderMobile />

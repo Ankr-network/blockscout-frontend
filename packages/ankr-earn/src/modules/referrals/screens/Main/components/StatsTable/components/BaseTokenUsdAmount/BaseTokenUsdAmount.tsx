@@ -35,7 +35,7 @@ export const BaseTokenUsdAmount = ({
             })}
           </Typography>
 
-          {unlockDays && (
+          {unlockDays && unlockDays !== 0 && (
             <Tooltip title={t('referrals.stats-table.next-unlock')}>
               <Chip
                 className={classes.chip}
