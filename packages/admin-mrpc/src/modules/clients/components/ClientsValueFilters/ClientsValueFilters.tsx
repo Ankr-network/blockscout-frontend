@@ -1,5 +1,4 @@
-import { Button } from '@material-ui/core';
-import classNames from 'classnames';
+import { Button } from '@mui/material';
 import { useClientsTypeFiltersStyles } from '../ClientsTypeFilters/useClientsTypeFiltersStyles';
 import { ClientMapped } from '../../store/clientsSlice';
 
@@ -12,12 +11,12 @@ export const ClientsValueFilters = ({
   filterKey,
   handleFilterKey,
 }: IClientsValueFiltersProps) => {
-  const classes = useClientsTypeFiltersStyles();
+  const { classes, cx } = useClientsTypeFiltersStyles();
   return (
     <>
       <Button
-        variant="outlined"
-        className={classNames(
+        variant="text"
+        className={cx(
           classes.button,
           filterKey === 'email' && classes.buttonActive,
         )}
@@ -27,8 +26,8 @@ export const ClientsValueFilters = ({
       </Button>
 
       <Button
-        variant="outlined"
-        className={classNames(
+        variant="text"
+        className={cx(
           classes.button,
           filterKey === 'amount' && classes.buttonActive,
         )}

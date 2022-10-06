@@ -1,16 +1,19 @@
-import { Box, Tab, Tabs, Typography } from '@material-ui/core';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { useState } from 'react';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
-import { useFetchCountersQuery } from '../../actions/fetchCounters';
-import { useFetchUserTransactionsQuery } from '../../actions/fetchUserTransactions';
-import { useFetchUserStatementQuery } from '../../actions/fetchUserStatement';
-import { useFetchUserStatsQuery } from '../../actions/fetchUserStats';
+import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
+import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
+import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
+import { useFetchUserStatementQuery } from 'modules/clients/actions/fetchUserStatement';
+import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 
 import { ClientTransactionsTable } from './ClientTransactionsTable';
 import { ClientInfo } from './ClientInfo';
 import { ClientUsageTable } from './ClientUsageTable';
+import { Spinner } from 'ui';
+import { useClientDetailsStyles } from './ClientDetailsStyles';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -26,7 +29,7 @@ function TabPanel(props: TabPanelProps) {
   return (
     <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && (
-        <Box sx={{ mt: 3 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -42,7 +45,7 @@ export const ClientDetailsPage = () => {
       link: ClientsRoutesConfig.clients.generatePath(),
     },
     {
-      title: `${address}`,
+      title: `${shrinkAddress(address)}`,
     },
   ]);
 
@@ -55,6 +58,8 @@ export const ClientDetailsPage = () => {
   const { data: statsData, isLoading: isLoadingStats } = useFetchUserStatsQuery(
     { address },
   );
+
+  const { classes } = useClientDetailsStyles();
 
   const transactionsDeduction = transactionsData?.transactions.filter(
     i => i.type === TRANSACTION_TYPE_DEDUCTION,
@@ -71,40 +76,49 @@ export const ClientDetailsPage = () => {
     setValue(newValue);
   };
 
-  if (
-    isLoadingClients ||
-    isLoadingTransactions ||
-    isLoadingStatement ||
-    isLoadingStats
-  ) {
-    return <>Loading...</>;
-  }
-
-  if (!currentClient) {
+  if (!isLoadingClients && !currentClient) {
     return <>Client not found</>;
   }
 
   return (
     <>
       <ClientInfo
+        address={address}
         currentClient={currentClient}
         statsData={statsData}
         transactionsCost={transactionsCost}
+        isLoadingClients={isLoadingClients}
+        isLoadingTransactions={isLoadingTransactions}
+        isLoadingStats={isLoadingStats}
       />
 
-      {(transactionsData?.transactions || statementsData?.statement?.usage) && (
+      {((transactionsData?.transactions &&
+        transactionsData?.transactions?.length > 0) ||
+        statementsData?.statement?.usage) && (
         <>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: 40 }}>
+          <Box sx={{ marginTop: 10 }}>
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="User statistics"
+              TabIndicatorProps={{
+                style: {
+                  display: 'none',
+                },
+              }}
             >
               <Tab
+                className={classes.tab}
+                disableRipple
                 label="Transactions"
                 disabled={!transactionsData?.transactions}
               />
-              <Tab label="Usage" disabled={!statementsData?.statement.usage} />
+              <Tab
+                className={classes.tab}
+                disableRipple
+                label="Usage"
+                disabled={!statementsData?.statement.usage}
+              />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
@@ -112,11 +126,18 @@ export const ClientDetailsPage = () => {
               <ClientTransactionsTable
                 transactions={transactionsData?.transactions}
               />
+            ) : isLoadingTransactions ? (
+              <Spinner
+                className={classes.spinnerTransactions}
+                centered={false}
+                size={50}
+              />
             ) : (
               'No information'
             )}
           </TabPanel>
           <TabPanel value={value} index={1}>
+            {isLoadingStatement && 'Loading...'}
             {statementsData?.statement.usage ? (
               <ClientUsageTable usage={statementsData.statement.usage} />
             ) : (

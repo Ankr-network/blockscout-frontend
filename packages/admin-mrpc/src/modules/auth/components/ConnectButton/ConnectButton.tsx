@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Button, Fade, Menu, MenuItem } from '@material-ui/core';
+import { Button, Fade, Menu, MenuItem } from '@mui/material';
 
 import { LoadableButton } from 'ui';
 import { t } from 'modules/i18n/utils/intl';
@@ -9,11 +9,11 @@ import { useAppSelector } from 'store/useAppSelector';
 
 import { useLazyAuthConnectQuery } from '../../actions/connect';
 import { useLazyAuthDisconnectQuery } from '../../actions/disconnect';
-
+import { ReactComponent as MetamaskIcon } from 'assets/img/metamask.svg';
 import { useStyles } from './useStyles';
 
 export const ConnectButton = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const address = useAppSelector(store => store.auth.address);
   const [authConnect, { isLoading: isLoadingConnect }] =
     useLazyAuthConnectQuery();
@@ -40,7 +40,9 @@ export const ConnectButton = () => {
         onClick={handleOpen}
         className={classes.menuButton}
         disabled={loading}
+        size="large"
       >
+        <MetamaskIcon className={classes.metamaskIcon} />
         {shrinkAddress(address)}
       </Button>
       <Menu
@@ -48,7 +50,6 @@ export const ConnectButton = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        getContentAnchorEl={null}
         TransitionComponent={Fade}
         disableScrollLock
         anchorOrigin={{

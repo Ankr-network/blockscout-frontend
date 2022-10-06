@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { clientTypeNaming, colorMap, getClientTypeExpiration } from './const';
 import { ClientEntity } from '../../types';
 
@@ -17,7 +17,7 @@ export const UserTypeTag = ({ clientType, clientTtl }: TUserTypeTagProps) => {
       <Typography style={{ color: colorMap[clientType] }}>{label}</Typography>
 
       {expiration && (
-        <Typography variant="caption" color="textSecondary">
+        <Typography variant="caption" component="p" color="textSecondary">
           {expiration}
         </Typography>
       )}

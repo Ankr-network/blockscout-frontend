@@ -1,6 +1,8 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
 
-export const useCreateTestPremiumUserStyles = makeStyles((theme: Theme) => ({
+import { makeStyles } from 'tss-react/mui';
+
+export const useCreateTestPremiumUserStyles = makeStyles()((theme: Theme) => ({
   button: {
     marginRight: 20,
     textTransform: 'none',
@@ -11,9 +13,10 @@ export const useCreateTestPremiumUserStyles = makeStyles((theme: Theme) => ({
     transform: `translate(-50%, -50%)`,
     position: 'absolute',
     width: 540,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(6),
+    borderRadius: theme.spacing(6),
   },
   form: {
     '& > *': {
@@ -23,5 +26,6 @@ export const useCreateTestPremiumUserStyles = makeStyles((theme: Theme) => ({
   },
   input: {
     width: '100%',
+    marginBottom: theme.spacing(2),
   },
 }));

@@ -3,12 +3,14 @@ import { toast } from 'react-toastify';
 import {
   Box,
   Button,
+  Input,
   MenuItem,
   Modal,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
+import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { IAmountType } from 'multirpc-sdk';
 import { useFetchCountersQuery } from '../../actions/fetchCounters';
 import { useFetchUserTransactionsQuery } from '../../actions/fetchUserTransactions';
@@ -34,7 +36,7 @@ export const ClientBalancesModal = ({
 }: {
   currentClient: ClientMapped;
 }) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const [addUserVoucherCredits, { isLoading: isLoadingAddCredits }] =
     useAddUserVoucherCreditsMutation();
   const [subtractUserVoucherCredits, { isLoading: isLoadingSubtractCredits }] =
@@ -47,7 +49,11 @@ export const ClientBalancesModal = ({
   const isLoading = isLoadingAddCredits || isLoadingSubtractCredits;
 
   const [unit, setUnit] = useState('');
-  const handleChangeUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeUnit = (
+    event: React.ChangeEvent<
+      HTMLInputElement & { target: { value: string; name: string } }
+    >,
+  ) => {
     setUnit(event.target.value);
   };
 
@@ -115,8 +121,8 @@ export const ClientBalancesModal = ({
 
   const body = (
     <div className={classes.paper}>
-      <Typography variant="h3" id="manage-client-balance-modal">
-        Manage client balance
+      <Typography variant="h5" id="manage-client-balance-modal">
+        Manage Credits
       </Typography>
 
       <form
@@ -126,13 +132,14 @@ export const ClientBalancesModal = ({
         onSubmit={handleSubmit}
       >
         <ClientBalancesInfo currentClient={currentClient} size={6} />
-
+        <br />
+        <Typography variant="caption">Units:</Typography>
         <TextField
+          sx={{ mb: 2 }}
+          className={classes.select}
           select
-          label="Unit"
           id="unit"
           name="unit"
-          variant="outlined"
           required
           disabled={isLoading}
           value={unit}
@@ -143,20 +150,19 @@ export const ClientBalancesModal = ({
           <MenuItem value="credit">Voucher credit</MenuItem>
         </TextField>
 
-        <TextField
+        <Input
           required
           name="amount"
           id="amount"
-          label="amount"
-          variant="outlined"
+          placeholder="amount"
           type="number"
           disabled={isLoading}
         />
-        <TextField
+        <Input
+          sx={{ mt: 2, mb: 6 }}
           name="comment"
           id="comment"
-          label="comment"
-          variant="outlined"
+          placeholder="comment"
           disabled={isLoading}
         />
 
@@ -167,18 +173,20 @@ export const ClientBalancesModal = ({
             type="submit"
             className={classes.button}
             color="primary"
+            size="large"
           >
-            Add Voucher
+            Add Credits
           </Button>
 
           <Button
             id={SUBTRACT_CREDITS_ID}
             disabled={isLoading}
             type="submit"
-            className={classes.button}
+            className={cx(classes.button, classes.buttonSubtract)}
             color="secondary"
+            size="large"
           >
-            Subtract Voucher
+            Remove Credits
           </Button>
         </Box>
       </form>
@@ -189,10 +197,11 @@ export const ClientBalancesModal = ({
     <>
       <Button
         onClick={handleOpen}
-        color="primary"
+        color="secondary"
         className={classes.balancesBtn}
+        startIcon={<IconWallet />}
       >
-        Manage user balance
+        Manage Credits
       </Button>
 
       <Modal

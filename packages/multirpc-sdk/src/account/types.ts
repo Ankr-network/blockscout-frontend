@@ -149,6 +149,7 @@ export interface IApiPrivateStats {
 }
 
 export interface PrivateStats {
+  error?: string;
   stats?: PrivateStatsInternal;
   totalRequests?: number;
 }

@@ -1,14 +1,15 @@
 import { useHistory } from 'react-router-dom';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Box from '@material-ui/core/Box';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Tooltip from '@material-ui/core/Tooltip';
-import classNames from 'classnames';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Box,
+  TableSortLabel,
+  Tooltip,
+} from '@mui/material';
 
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
@@ -25,7 +26,7 @@ import { ClientsValueFilters } from '../ClientsValueFilters/ClientsValueFilters'
 
 export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
   const history = useHistory();
-  const classes = useClientsTableStyles();
+  const { classes, cx } = useClientsTableStyles();
   const {
     filteredClients,
     filterClientType,
@@ -89,7 +90,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
           <TableBody>
             {sortedData.map(row => (
               <TableRow
-                className={classNames(
+                className={cx(
                   classes.row,
                   Boolean(row.address) && classes.rowClickable,
                 )}

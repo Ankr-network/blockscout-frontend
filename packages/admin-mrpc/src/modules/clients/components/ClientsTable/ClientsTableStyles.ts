@@ -1,7 +1,9 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+
+import { makeStyles } from 'tss-react/mui';
 
 const cellBorderRadius = {
-  '&:first-child': {
+  '&:nth-of-type(1)': {
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
   },
@@ -11,13 +13,13 @@ const cellBorderRadius = {
   },
 };
 
-export const useClientsTableStyles = makeStyles((theme: Theme) => ({
+export const useClientsTableStyles = makeStyles()((theme: Theme) => ({
   table: {
     borderCollapse: 'separate',
     borderSpacing: '0 12px',
   },
   headerCell: {
-    backgroundColor: theme.palette.grey['400'],
+    backgroundColor: theme.palette.grey['200'],
     ...cellBorderRadius,
   },
   row: {
@@ -29,8 +31,9 @@ export const useClientsTableStyles = makeStyles((theme: Theme) => ({
   },
   rowClickable: {
     cursor: 'pointer',
+    transition: 'background-color .3s',
     '&:hover': {
-      backgroundColor: theme.palette.grey['400'],
+      backgroundColor: theme.palette.grey['100'],
     },
   },
 }));
