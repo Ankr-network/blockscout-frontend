@@ -165,7 +165,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     if (haveCode && !isValidCode) {
       dispatch(
         showNotification({
-          message: t('referral.incorrect-code'),
+          message: t('referrals.incorrect-code'),
           variant: 'error',
         }),
       );
