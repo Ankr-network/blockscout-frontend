@@ -33,18 +33,18 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={BNB_STAKING_NETWORKS}
-          path={ROOT}
-          providerId={BINANCE_WRITE_PROVIDER_ID}
-        >
-          <ReferralGuard>
+        <ReferralGuard>
+          <GuardETHRoute
+            exact
+            availableNetworks={BNB_STAKING_NETWORKS}
+            path={ROOT}
+            providerId={BINANCE_WRITE_PROVIDER_ID}
+          >
             <DefaultLayout>
               <Main />
             </DefaultLayout>
-          </ReferralGuard>
-        </GuardETHRoute>
+          </GuardETHRoute>
+        </ReferralGuard>
 
         <Route>
           <DefaultLayout>

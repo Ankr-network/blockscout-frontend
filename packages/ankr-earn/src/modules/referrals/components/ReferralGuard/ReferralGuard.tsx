@@ -27,7 +27,7 @@ export const ReferralGuard = ({ children }: IReferralGuard): JSX.Element => {
       dispatchRequest(getPartnerCode(address));
     }
 
-    if (!partnerCode || partnerCode === NOT_PARTNER_CODE) {
+    if (!address || !partnerCode || partnerCode === NOT_PARTNER_CODE) {
       history.push(DashboardRoutesConfig.dashboard.generatePath());
     }
   }, [address, history, partnerCode]);
