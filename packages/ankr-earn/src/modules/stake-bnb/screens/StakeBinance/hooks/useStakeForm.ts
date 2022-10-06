@@ -16,6 +16,7 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { showNotification } from 'modules/notifications';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
+import { checkExistPartnerCode } from 'modules/stake-bnb/actions/checkExistPartnerCode';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { stake } from 'modules/stake-bnb/actions/stake';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
@@ -31,7 +32,6 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { useFetchStats } from '../../../hooks/useFetchStats';
 
 import { useAnalytics } from './useAnalytics';
-import { useCheckPartnerCode } from './useCheckPartnerCode';
 import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
@@ -51,7 +51,6 @@ interface IUseStakeFormData {
   tokenOut: string;
   totalAmount: BigNumber;
   haveCode: boolean;
-  isValidCode: boolean;
   isReferralUserExists: boolean;
   handleHaveCodeClick: () => void;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
@@ -88,8 +87,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
-  const { isValid: isValidCode, handleCheck } = useCheckPartnerCode();
-
   const handleHaveCodeClick = useCallback(() => setHaveCode(x => !x), []);
 
   const { isLoading: isFetchStatsLoading, stats: fetchStatsData } =
@@ -125,18 +122,12 @@ export const useStakeForm = (): IUseStakeFormData => {
     invalid: boolean,
   ): void => {
     setHasErrors(invalid);
-    handleCheck(formCode as string);
     setCode(formCode ? (formCode as string) : '');
   };
 
   const debouncedOnChange = useDebouncedCallback(
     handleFormChange,
     INPUT_DEBOUNCE_TIME,
-  );
-
-  const debouncedOnCodeChange = useDebouncedCallback(
-    handleCodeChange,
-    INPUT_DEBOUNCE_TIME / 5,
   );
 
   const tokenCertRatio = useMemo(
@@ -162,24 +153,38 @@ export const useStakeForm = (): IUseStakeFormData => {
   const handleSubmit = ({ amount: formAmount }: IStakeSubmitPayload): void => {
     const stakeAmount = new BigNumber(formAmount);
 
-    if (haveCode && !isValidCode) {
-      dispatch(
-        showNotification({
-          message: t('referrals.incorrect-code'),
-          variant: 'error',
-        }),
-      );
-      return;
-    }
-
-    if (!haveCode || isValidCode) {
+    if (!haveCode) {
       dispatchRequest(
-        stake({ amount: stakeAmount, token: selectedToken, code }),
+        stake({ amount: stakeAmount, token: selectedToken }),
       ).then(({ error }) => {
         if (!error) {
           sendAnalytics();
         }
       });
+    }
+
+    if (haveCode) {
+      dispatchRequest(checkExistPartnerCode({ partnerCode: code })).then(
+        ({ error: firstError, data }) => {
+          if (firstError || !data) {
+            dispatch(
+              showNotification({
+                message: t('referrals.incorrect-code'),
+                variant: 'error',
+              }),
+            );
+            return;
+          }
+
+          dispatchRequest(
+            stake({ amount: stakeAmount, token: selectedToken, code }),
+          ).then(({ error: secondError }) => {
+            if (!secondError) {
+              sendAnalytics();
+            }
+          });
+        },
+      );
     }
   };
 
@@ -215,10 +220,9 @@ export const useStakeForm = (): IUseStakeFormData => {
     tokenIn: Token.BNB,
     tokenOut: selectedToken,
     totalAmount,
-    handleCodeChange: debouncedOnCodeChange,
+    handleCodeChange,
     handleFormChange: debouncedOnChange,
     haveCode,
-    isValidCode,
     isReferralUserExists: isReferralUserExistsData ?? false,
     handleHaveCodeClick,
     handleSubmit,
