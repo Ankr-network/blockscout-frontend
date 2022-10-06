@@ -792,6 +792,7 @@
     "liquidity-pool": "Liquidity pool",
     "farming": "Farming",
     "vault": "Vault",
+    "landing": "Landing",
     "all-assets": "All assets",
     "all-networks": "All networks",
     "deposit": "Deposit",
@@ -814,7 +815,10 @@
       "uniswapV3": "Uniswap v3",
       "yearnFinance": "Yearn Finance",
       "spookySwap": "SpookySwap",
-      "dotdotFinance": "DotDot Finance"
+      "dotdotFinance": "DotDot Finance",
+      "kalmySwap": "KalmySwap",
+      "lendFlare": "Lend Flare",
+      "midasCapital": "Midas Capital"
     }
   },
   "features": {
