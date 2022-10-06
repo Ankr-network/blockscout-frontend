@@ -18,8 +18,7 @@ export const SearchField = ({
 }: ISearchFieldProps): JSX.Element => {
   const classes = useSearchFieldStyles();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    handleChangeSearch(event.target.value);
+  const handleChange = (searchValue: string) => handleChangeSearch(searchValue);
   const clearValue = () => handleChangeSearch('');
 
   return (
@@ -30,7 +29,16 @@ export const SearchField = ({
         className={classes.input}
         placeholder={t('referrals.referrals-table.search-placeholder')}
         value={value}
-        onChange={handleChange}
+        onChange={event => {
+          const { value: inputValue } = event.target;
+          const validated = inputValue.match(/^[a-zA-Z0-9]*$/);
+          if (validated) {
+            handleChange(inputValue);
+          }
+        }}
+        onKeyPress={e => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
       />
 
       <IconButton className={classes.btn} onClick={clearValue}>

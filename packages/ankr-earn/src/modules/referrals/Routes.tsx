@@ -1,10 +1,17 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
+import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
+import {
+  BINANCE_WRITE_PROVIDER_ID,
+  BNB_STAKING_NETWORKS,
+} from 'modules/stake-bnb/const';
+
+import { ReferralGuard } from './components/ReferralGuard';
 
 const ROOT = `${STAKING_PATH}referrals/`;
 
@@ -26,11 +33,18 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <Route exact path={ROOT}>
-          <DefaultLayout>
-            <Main />
-          </DefaultLayout>
-        </Route>
+        <GuardETHRoute
+          exact
+          availableNetworks={BNB_STAKING_NETWORKS}
+          path={ROOT}
+          providerId={BINANCE_WRITE_PROVIDER_ID}
+        >
+          <ReferralGuard>
+            <DefaultLayout>
+              <Main />
+            </DefaultLayout>
+          </ReferralGuard>
+        </GuardETHRoute>
 
         <Route>
           <DefaultLayout>

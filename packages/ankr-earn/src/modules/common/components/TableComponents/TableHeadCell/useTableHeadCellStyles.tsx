@@ -2,7 +2,7 @@ import { alpha, createStyles, Theme, makeStyles } from '@material-ui/core';
 
 export const useTableHeadCellStyles = makeStyles<
   Theme,
-  { dense?: boolean; paddingCollapse?: boolean },
+  { dense?: boolean; paddingCollapse?: boolean; smallFont?: boolean },
   'cell' | 'headCell' | 'centerCell' | 'leftCell' | 'rightCell' | 'content'
 >(theme =>
   createStyles({
@@ -55,7 +55,7 @@ export const useTableHeadCellStyles = makeStyles<
     rightCell: {},
 
     content: {
-      fontSize: 14,
+      fontSize: ({ smallFont }) => (smallFont ? 13 : 14),
       fontWeight: 600,
       width: '100%',
       textOverflow: 'ellipsis',

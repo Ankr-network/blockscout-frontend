@@ -89,6 +89,7 @@ export const ReferralsTable = ({
 
   return (
     <Table
+      className={classes.table}
       columnsCount={captions.length}
       customCell="1fr 1fr 1fr 1fr 1fr"
       minWidth={800}
@@ -114,8 +115,9 @@ export const ReferralsTable = ({
               iconByTokenMap[row.stakedToken as keyof TIconMap] ?? 'span';
 
             return (
-              <TableRow key={uid(i)}>
+              <TableRow key={uid(i)} className={classes.row}>
                 <TableBodyCell
+                  className={classes.cell}
                   label={`${captions[ELabel.registrationDate].label}`}
                 >
                   <Typography className={classes.simpleText}>
@@ -127,19 +129,28 @@ export const ReferralsTable = ({
                   </Typography>
                 </TableBodyCell>
 
-                <TableBodyCell label={`${captions[ELabel.address].label}`}>
+                <TableBodyCell
+                  className={classes.cell}
+                  label={`${captions[ELabel.address].label}`}
+                >
                   <Typography className={classes.simpleText}>
                     {getShortTxHash(row.address, 7)}
                   </Typography>
                 </TableBodyCell>
 
-                <TableBodyCell label={`${captions[ELabel.stakedTokens].label}`}>
+                <TableBodyCell
+                  className={classes.cell}
+                  label={`${captions[ELabel.stakedTokens].label}`}
+                >
                   <Typography className={classes.simpleText}>
                     <Icon className={classes.icon} />
                   </Typography>
                 </TableBodyCell>
 
-                <TableBodyCell label={`${captions[ELabel.stakedAmount].label}`}>
+                <TableBodyCell
+                  className={classes.cell}
+                  label={`${captions[ELabel.stakedAmount].label}`}
+                >
                   <div className={classes.amount}>
                     <BaseAmount
                       amount={row.stakedAmount}

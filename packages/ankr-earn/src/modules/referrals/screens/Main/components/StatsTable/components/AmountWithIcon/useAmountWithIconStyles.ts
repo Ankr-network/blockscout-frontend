@@ -12,15 +12,11 @@ export const useAmountWithIconStyles = makeStyles(theme => ({
 
   infoWrapper: {
     display: 'flex',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginBottom: theme.spacing(1),
 
     [theme.breakpoints.up('sm')]: {
       marginBottom: 0,
-    },
-
-    [theme.breakpoints.up('md')]: {
-      alignItems: 'flex-start',
     },
   },
 

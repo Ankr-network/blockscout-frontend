@@ -13,6 +13,7 @@ import { claimBNBRewards } from 'modules/referrals/actions/claimBNBRewards';
 import { getClaimableBNBRewards } from 'modules/referrals/actions/getClaimableBNBRewards';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { getPartnerData } from 'modules/referrals/actions/getPartnerData';
+import { NOT_PARTNER_CODE } from 'modules/referrals/api/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IStatsData {
@@ -62,7 +63,7 @@ export const useStatsData = (): IStats => {
   const { loading: isClaimLoading } = useMutation({ type: claimBNBRewards });
 
   useProviderEffect(() => {
-    if (code) {
+    if (code && code !== NOT_PARTNER_CODE) {
       dispatchRequest(getPartnerData(code));
       dispatchRequest(getClaimableBNBRewards(code));
     }

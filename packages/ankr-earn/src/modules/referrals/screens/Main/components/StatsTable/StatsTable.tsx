@@ -85,6 +85,7 @@ export const StatsTable = (): JSX.Element | null => {
         {captions.map(({ label }, i) => (
           <TableHeadCell
             key={uid(i)}
+            smallFont
             classes={{
               content: classes.thContent,
             }}
@@ -98,8 +99,11 @@ export const StatsTable = (): JSX.Element | null => {
 
         {!isLoading &&
           data?.map((row, i) => (
-            <TableRow key={uid(i)}>
-              <TableBodyCell label={`${captions[ELabel.totalStaked].label}`}>
+            <TableRow key={uid(i)} className={classes.row}>
+              <TableBodyCell
+                className={classes.cell}
+                label={`${captions[ELabel.totalStaked].label}`}
+              >
                 <AmountWithIcon
                   amount={row.totalStaked}
                   ankrFees={row.ankrFees}
@@ -110,7 +114,10 @@ export const StatsTable = (): JSX.Element | null => {
                 />
               </TableBodyCell>
 
-              <TableBodyCell label={`${captions[ELabel.pendingRewards].label}`}>
+              <TableBodyCell
+                className={classes.cell}
+                label={`${captions[ELabel.pendingRewards].label}`}
+              >
                 <BaseTokenUsdAmount
                   amount={row.pendingRewards}
                   token={row.token}
@@ -130,16 +137,15 @@ export const StatsTable = (): JSX.Element | null => {
               </TableBodyCell>
 
               <TableBodyCell label={`${captions[ELabel.nextUnlock].label}`}>
-                {!row.claimableRewards.isZero() && (
-                  <Button
-                    className={classes.btn}
-                    isLoading={row.claimLoading}
-                    variant="contained"
-                    onClick={row.onClaimClick}
-                  >
-                    {t('referrals.stats-table.claim')}
-                  </Button>
-                )}
+                <Button
+                  className={classes.btn}
+                  disabled={row.claimableRewards.isZero()}
+                  isLoading={row.claimLoading}
+                  variant="contained"
+                  onClick={row.onClaimClick}
+                >
+                  {t('referrals.stats-table.claim')}
+                </Button>
               </TableBodyCell>
             </TableRow>
           ))}

@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useBaseAmountStyles = makeStyles(theme => ({
+export const useBaseAmountWithIconStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -14,6 +14,16 @@ export const useBaseAmountStyles = makeStyles(theme => ({
     },
   },
 
+  infoWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(1),
+
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: 0,
+    },
+  },
+
   icon: {
     width: 28,
     height: 28,
@@ -23,12 +33,8 @@ export const useBaseAmountStyles = makeStyles(theme => ({
   values: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-
-    [theme.breakpoints.up('md')]: {
-      alignItems: 'flex-start',
-    },
   },
 
   usdAmount: {

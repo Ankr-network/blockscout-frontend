@@ -4,7 +4,7 @@ import { uid } from 'react-uid';
 
 import { t } from 'common';
 
-import { BaseAmount } from 'modules/referrals/components/BaseAmount';
+import { BaseAmountWithIcon } from 'modules/referrals/components/BaseAmountWithIcon';
 
 import { useClaimHistory } from '../../hooks/useClaimHistory';
 
@@ -33,9 +33,8 @@ export const TotalClaimed = (): JSX.Element | null => {
         <div className={classes.wrapper}>
           {totalClaimed?.map((tokenItem, i) => (
             <div className={classes.amount}>
-              <BaseAmount
+              <BaseAmountWithIcon
                 key={uid(i)}
-                withTokenIcon
                 amount={tokenItem.amount}
                 token={tokenItem.token}
                 usdAmount={tokenItem.amountUsd}

@@ -25,5 +25,10 @@ export const useTotalClaimedStyles = makeStyles(theme => ({
 
   amount: {
     marginRight: theme.spacing(3),
+    alignItems: 'flex-start',
+
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'inherit',
+    },
   },
 }));
