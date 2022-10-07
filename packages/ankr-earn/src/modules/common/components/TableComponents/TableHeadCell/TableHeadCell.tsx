@@ -13,6 +13,7 @@ interface ITableHeadCellProps
   className?: string;
   label: React.ReactNode;
   align?: AlignType;
+  smallFont?: boolean;
 }
 
 const TableHeadCellComponent = ({
@@ -22,10 +23,12 @@ const TableHeadCellComponent = ({
   label,
   dense,
   paddingCollapse,
+  smallFont = false,
 }: ITableHeadCellProps & IStyleProps): JSX.Element => {
   const classes = useTableHeadCellStyles({
     dense,
     paddingCollapse,
+    smallFont,
   });
 
   return (

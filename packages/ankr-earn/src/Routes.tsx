@@ -69,7 +69,7 @@ export function Routes(): JSX.Element {
 
       {featuresConfig.isCalcActive && getCalcRoutes()}
 
-      {featuresConfig.isReferralDashboardActive && getReferralsRoutes()}
+      {getReferralsRoutes()}
 
       <Route>
         <DefaultLayout>

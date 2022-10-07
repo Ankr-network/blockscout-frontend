@@ -435,7 +435,7 @@ describe('modules/ethereum/sdk', () => {
       txHash: 'hash1',
       txType: 'event1',
     });
-    expect(completedBond).toHaveLength(4);
+    expect(completedBond).toHaveLength(34);
     expect(completedCertificate).toHaveLength(0);
   });
 

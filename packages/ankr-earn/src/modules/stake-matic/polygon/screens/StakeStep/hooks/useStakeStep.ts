@@ -7,7 +7,10 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { addMATICTokenToWallet } from 'modules/stake-matic/polygon/actions/addMATICTokenToWallet';
-import { getTxData } from 'modules/stake-matic/polygon/actions/getTxData';
+import {
+  getTxData,
+  getTxReceipt,
+} from 'modules/stake-matic/polygon/actions/getTxData';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IStakeStepRouteData {
@@ -36,13 +39,14 @@ export const useStakeStep = (): IUseStakeStepData => {
     data: txData,
     error,
   } = useQuery({ type: getTxData });
+  const { data: receipt } = useQuery({ type: getTxReceipt });
 
   const isPending = !!txData?.isPending;
 
   const txAmount = txData?.amount ? new BigNumber(txData.amount) : undefined;
 
   const txFailError =
-    txData?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
+    receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   const onAddTokenClick = (): void => {
     dispatch(addMATICTokenToWallet(tokenOut));
@@ -51,7 +55,6 @@ export const useStakeStep = (): IUseStakeStepData => {
   useProviderEffect(() => {
     dispatch(
       getTxData({
-        token: tokenOut,
         txHash,
       }),
     );

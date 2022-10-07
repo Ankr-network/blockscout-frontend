@@ -20,16 +20,19 @@ import { StakeFormTitle } from './StakeFormTitle';
 import { useStakeFormAnalytics } from './useStakeFormAnalytics';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
-enum FieldsNames {
+export enum FieldsNames {
   amount = 'amount',
+  code = 'code',
 }
 
 export interface IStakeFormPayload {
   amount?: ReactText;
+  code?: ReactText;
 }
 
 export interface IStakeSubmitPayload extends IStakeFormPayload {
   amount: string;
+  code: string;
 }
 
 export interface IStakeFormComponentProps {
@@ -56,10 +59,13 @@ export interface IStakeFormComponentProps {
   feeSlot?: ReactNode;
   stakingAmountStep?: number;
   labelTooltip?: ReactText | JSX.Element;
+  partnerCodeSlot?: ReactNode;
+  handleHaveCodeClick?: () => void;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
+  onCodeChange?: (values: IStakeFormPayload, invalid: boolean) => void;
 }
 
 export const StakeForm = ({
@@ -83,10 +89,12 @@ export const StakeForm = ({
   feeSlot,
   stakingAmountStep,
   labelTooltip,
+  partnerCodeSlot,
   renderStats,
   renderFooter,
   onSubmit,
   onChange,
+  onCodeChange,
 }: IStakeFormComponentProps): JSX.Element => {
   const classes = useStakeFormStyles();
   const withFee = !!feeSlot;
@@ -142,6 +150,7 @@ export const StakeForm = ({
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
+      code: partnerCodeSlot ? payload.code : undefined,
     } as IStakeSubmitPayload);
 
   const renderForm = ({
@@ -194,6 +203,8 @@ export const StakeForm = ({
 
         {feeSlot}
 
+        {partnerCodeSlot}
+
         <StakeFormFooter>
           {typeof renderFooter === 'function' ? (
             renderFooter(amountNumber)
@@ -220,6 +231,14 @@ export const StakeForm = ({
           {() => {
             if (typeof onChange === 'function') {
               onChange(values, invalid);
+            }
+          }}
+        </OnChange>
+
+        <OnChange name={FieldsNames.code}>
+          {() => {
+            if (typeof onCodeChange === 'function') {
+              onCodeChange(values, invalid);
             }
           }}
         </OnChange>

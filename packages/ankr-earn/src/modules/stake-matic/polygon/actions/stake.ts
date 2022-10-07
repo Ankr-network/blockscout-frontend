@@ -7,7 +7,7 @@ import { IStoreState } from 'store';
 import {
   EMaticSDKErrorCodes,
   IStakeData,
-  MaticPolygonSDK,
+  PolygonOnPolygonSDK,
 } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
@@ -36,7 +36,7 @@ export const stake = createSmartAction<
 >(`${MATIC_POLYGON_ACTIONS_PREFIX}stake`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<IStakeData> => {
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
       return sdk.stake(amount, token);
     })(),

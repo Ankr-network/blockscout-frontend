@@ -24,7 +24,6 @@ export const fetchBalance = createSmartAction<
     })(),
   },
   meta: {
-    asMutation: false,
-    getData: data => data,
+    showNotificationOnError: true,
   },
 }));

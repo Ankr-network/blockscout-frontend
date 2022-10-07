@@ -4,6 +4,9 @@ import {
 } from '@redux-requests/core';
 import { useState } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
@@ -11,22 +14,22 @@ import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHC
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getMaxApy as getANKRMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { getTotalInfo as getANKRTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
-import { fetchTxHistory as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTxHistory';
+import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
-import { fetchTxHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTxHistory';
+import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getTxHistoryETH } from 'modules/stake-eth/actions/getTxHistoryAETHB';
+import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
-import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
+import { getTotalHistoryData as getFTMHistory } from 'modules/stake-fantom/actions/getTotalHistoryData';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { fetchTxHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
+import { fetchTotalHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
@@ -57,7 +60,6 @@ const resetRequests = () =>
     getANKRCommonData.toString(),
     getANKRPrice.toString(),
     getANKRTotalInfo.toString(),
-    getANKRMaxApy.toString(),
     getMGNOTotalInfo.toString(),
     getMGNOMaxApr.toString(),
     getMGNOPrice.toString(),
@@ -66,7 +68,7 @@ const resetRequests = () =>
     getFTMHistory.toString(),
     getFTMStats.toString(),
     getMetrics.toString(),
-    getTxHistoryETH.toString(),
+    getTotalHistory.toString(),
     getUnstakeDate.toString(),
     getMaticPolygonCommonData.toString(),
   ]);
@@ -78,6 +80,8 @@ interface IUseDashboard {
 export const useDashboard = (): IUseDashboard => {
   const dispatch = useAppDispatch();
   const [isFirstLoad, setFirstLoad] = useState(true);
+
+  const { address } = useAuth(AvailableWriteProviders.ethCompatible);
 
   usePolkadot();
 
@@ -102,7 +106,10 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(getANKRCommonData());
     dispatch(getANKRPrice());
     dispatch(getANKRTotalInfo());
-    dispatch(getANKRMaxApy());
+
+    if (address) {
+      dispatch(getPartnerCode(address));
+    }
 
     if (featuresConfig.mgnoStaking) {
       dispatch(getMGNOTotalInfo());

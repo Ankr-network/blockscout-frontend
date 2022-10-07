@@ -69,3 +69,11 @@ export interface ITxEventsHistoryGroupItem {
 export interface IStakeData {
   txHash: string;
 }
+
+/**
+ * Claim history data for partner
+ */
+export interface IPartnerClaimHistoryData {
+  date: Date;
+  amount: BigNumber;
+}

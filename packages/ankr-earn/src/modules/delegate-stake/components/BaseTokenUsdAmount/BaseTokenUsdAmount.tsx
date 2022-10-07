@@ -15,7 +15,7 @@ interface IBaseTokenUsdAmountProps {
 }
 
 export const BaseTokenUsdAmount = ({
-  amount: ankrAmount,
+  amount,
   usdAmount,
   token,
   buttonSlot,
@@ -25,7 +25,7 @@ export const BaseTokenUsdAmount = ({
   return (
     <div className={classes.root}>
       <div className={classes.infoWrapper}>
-        {`${ankrAmount.decimalPlaces(DEFAULT_ROUNDING).toFormat()} ${token}`}
+        {`${amount.decimalPlaces(DEFAULT_ROUNDING).toFormat()} ${token}`}
 
         <div className={classes.usdAmount}>
           {t('unit.usd-value', {

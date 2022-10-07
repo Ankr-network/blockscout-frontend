@@ -2,8 +2,14 @@ import { makeStyles } from '@material-ui/core';
 
 export const useConnectStyles = makeStyles(theme => ({
   root: {
-    margin: '0 auto',
-    padding: theme.spacing(8, 2, 8, 2),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 440,
+    maxHeight: 560,
+    height: '58vh',
+    padding: theme.spacing(2, 2, 2, 2),
     textAlign: 'center',
   },
 

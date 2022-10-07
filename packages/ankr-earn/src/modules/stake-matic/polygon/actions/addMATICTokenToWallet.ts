@@ -1,7 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -13,7 +13,7 @@ export const addMATICTokenToWallet = createSmartAction<
 >(`${MATIC_POLYGON_ACTIONS_PREFIX}addMATICTokenToWallet`, token => ({
   request: {
     promise: (async (): Promise<boolean> => {
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
       return sdk.addTokenToWallet(token);
     })(),

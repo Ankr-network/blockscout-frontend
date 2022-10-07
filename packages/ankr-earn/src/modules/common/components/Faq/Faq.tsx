@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import {
   Accordion,
   AccordionDetails,
@@ -5,8 +6,9 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import { ChangeEvent, ReactChild, RefObject } from 'react';
+import { ChangeEvent, RefObject } from 'react';
 import { uid } from 'react-uid';
+import sanitizeHtml from 'sanitize-html';
 
 import { t } from 'common';
 
@@ -16,7 +18,7 @@ import { useFaqStyles as useStyles } from './useFaqStyles';
 
 export interface IFaqItem {
   question: string;
-  answer: ReactChild;
+  answer: string;
   ref?: RefObject<unknown>;
   expanded?: boolean;
   onChange?: (
@@ -29,7 +31,7 @@ export interface IFaq {
   data: IFaqItem[];
 }
 
-export const Faq = ({ data }: IFaq): JSX.Element => {
+export const Faq = ({ data }: IFaq): JSX.Element | null => {
   const classes = useStyles();
 
   const FaqList = data.map((el, i) => (
@@ -48,10 +50,14 @@ export const Faq = ({ data }: IFaq): JSX.Element => {
       </AccordionSummary>
 
       <AccordionDetails className={classes.answer}>
-        {el.answer}
+        <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(el.answer) }} />
       </AccordionDetails>
     </Accordion>
   ));
+
+  if (!data.length) {
+    return null;
+  }
 
   return (
     <Paper className={classes.box} square={false} variant="outlined">

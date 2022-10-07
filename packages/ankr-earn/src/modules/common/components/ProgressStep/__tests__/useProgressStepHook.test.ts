@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { Token } from 'modules/common/types/token';
 
 import { useProgressStepHook } from '../useProgressStepHook';
 
@@ -20,7 +21,7 @@ describe('modules/common/components/ProgressStep/useProgressStepHook', () => {
   });
 
   test('should return initial data', () => {
-    const { result } = renderHook(() => useProgressStepHook());
+    const { result } = renderHook(() => useProgressStepHook(Token.ANKR));
 
     expect(result.current.chainId).toBe(1);
     expect(result.current.isAddressCopied).toBe(false);
@@ -30,7 +31,7 @@ describe('modules/common/components/ProgressStep/useProgressStepHook', () => {
   });
 
   test('should handle copy tx hash', () => {
-    const { result } = renderHook(() => useProgressStepHook());
+    const { result } = renderHook(() => useProgressStepHook(Token.ANKR));
 
     act(() => result.current.handleCopyTxHash());
 
@@ -44,7 +45,7 @@ describe('modules/common/components/ProgressStep/useProgressStepHook', () => {
   });
 
   test('should handle copy destination address', () => {
-    const { result } = renderHook(() => useProgressStepHook());
+    const { result } = renderHook(() => useProgressStepHook(Token.ANKR));
 
     act(() => result.current.handleCopyDestinationAddress());
 

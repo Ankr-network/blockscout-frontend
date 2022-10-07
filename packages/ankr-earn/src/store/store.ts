@@ -33,15 +33,14 @@ import {
 import { rootSagas } from './sagas';
 
 export interface IStoreState {
-  auth: TAuthState;
-  dialog: IDialogState;
-  i18n: Ti18nState;
-  notifications: TNotificationsState;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   requests: any;
-  router: RouterState<unknown>;
+  auth: TAuthState;
+  dialog: IDialogState;
   forms: IFormsState;
-  // user: IUserState; // @TODO Add a logic for this
+  i18n: Ti18nState;
+  notifications: TNotificationsState;
+  router: RouterState<unknown>;
 }
 
 const { requestsReducer, requestsMiddleware } = handleRequests({

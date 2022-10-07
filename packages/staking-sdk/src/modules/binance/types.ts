@@ -20,6 +20,13 @@ export enum EBinancePoolEvents {
 }
 
 /**
+ * Binance partners contract events
+ */
+ export enum EBinancePartnersEvents {
+  RewardsClaimed = 'RewardsClaimed',
+}
+
+/**
  * Transaction types for history
  */
 export enum EBinancePoolEventsMap {

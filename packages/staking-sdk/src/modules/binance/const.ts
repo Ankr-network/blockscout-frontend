@@ -13,9 +13,17 @@ export const BINANCE_POOL_CONTRACT_START_BLOCK = isMainnet
   : 16_716_904;
 
 /**
- * Block offset to get latest history events
+ * Start block to check events for BinancePartners
  */
-export const BINANCE_HISTORY_BLOCK_OFFSET = 28_800 * 19;
+ export const BINANCE_PARTNERS_CONTRACT_START_BLOCK = isMainnet
+ ? 20_956_307
+ : 22_056_801;
+
+
+/**
+ * Block offset to get 14 days history events
+ */
+export const BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET = 28_800 * 14;
 
 /**
  * Internal write provider id

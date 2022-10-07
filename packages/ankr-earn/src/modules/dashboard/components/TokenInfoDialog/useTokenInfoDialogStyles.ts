@@ -62,4 +62,17 @@ export const useTokenInfoDialogStyles = makeStyles(theme => ({
     height: 18,
     width: 18,
   },
+
+  copyIcon: {
+    height: 24,
+    width: 24,
+    color: theme.palette.text.secondary,
+    transition: '0.2s color',
+    cursor: 'pointer',
+    flexShrink: 0,
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+  },
 }));

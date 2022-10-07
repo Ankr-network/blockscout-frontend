@@ -15,9 +15,10 @@ import { TAvaxSyntToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}avax/`;
 const STAKE_AVAX_PATH = `${ROOT}?token=:token?`;
-const UNSTAKE_AVAX_PATH = `${UNSTAKE_PATH}avax/`;
-const UNSTAKE_AVAX_BY_TOKEN_PATH = `${UNSTAKE_AVAX_PATH}?token=:token?`;
 const STAKE_STEP_AVAX_PATH = `${ROOT}:tokenOut/:txHash/`;
+const UNSTAKE_AVAX_PATH = `${UNSTAKE_PATH}avax/`;
+const STEP_UNSTAKE_AVAX_PATH = `${UNSTAKE_AVAX_PATH}:token/:txHash/`;
+const UNSTAKE_AVAX_BY_TOKEN_PATH = `${UNSTAKE_AVAX_PATH}?token=:token?`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -50,6 +51,12 @@ export const RoutesConfig = createRouteConfig(
       generatePath: (options: { tokenOut: TAvaxSyntToken; txHash: string }) =>
         generatePath(STAKE_STEP_AVAX_PATH, options),
     },
+
+    unstakeSuccess: {
+      path: STEP_UNSTAKE_AVAX_PATH,
+      generatePath: (token: TAvaxSyntToken, txHash: string) =>
+        generatePath(STEP_UNSTAKE_AVAX_PATH, { token, txHash }),
+    },
   },
   ROOT,
 );
@@ -65,6 +72,12 @@ const Unstake = loadComponent(() =>
 const StakeSteps = loadComponent(() =>
   import('./screens/StakeAvalancheSteps').then(
     module => module.StakeAvalancheSteps,
+  ),
+);
+
+const UnstakeSuccess = loadComponent(() =>
+  import('./screens/UnstakeAvalancheSuccess').then(
+    module => module.UnstakeAvalancheSuccess,
   ),
 );
 
@@ -102,6 +115,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <StakeSteps />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={AVAX_STAKING_NETWORKS}
+          path={RoutesConfig.unstakeSuccess.path}
+          providerId={AVALANCHE_WRITE_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <UnstakeSuccess />
           </DefaultLayout>
         </GuardETHRoute>
 

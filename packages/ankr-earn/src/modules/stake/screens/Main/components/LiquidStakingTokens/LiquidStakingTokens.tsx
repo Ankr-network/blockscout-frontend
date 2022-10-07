@@ -6,14 +6,14 @@ import { t } from 'common';
 import {
   ANKR_AVAX_LANDING,
   ANKR_BNB_LANDING,
+  ANKR_DOT_LANDING,
   ANKR_ETH_LANDING,
   ANKR_FTM_LANDING,
+  ANKR_KSM_LANDING,
   ANKR_MATIC_LANDING,
   featuresConfig,
-  STAKE_LEGACY_LINKS,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
 import { RoutesConfig as BinanceRoutes } from 'modules/stake-bnb/Routes';
 import { RoutesConfig as EthereumRoutes } from 'modules/stake-eth/Routes';
@@ -31,7 +31,7 @@ import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 import { useStakeMainScreen } from '../../hooks/useStakeMainScreen';
-import { FeatureItem, FeatureItemLegacy } from '../FeatureItem';
+import { FeatureItem } from '../FeatureItem';
 import { Features } from '../Features';
 
 import { useLiquidStakingTokensStyles } from './useLiquidStakingTokensStyles';
@@ -115,56 +115,48 @@ export const LiquidStakingTokens = (): JSX.Element => {
           onStakeClick={onTrackEnterStakingFlow(Token.AVAX)}
         />
 
-        {featuresConfig.isActivePolkadotStaking && isMainnet ? (
-          <FeatureItem
-            apy={metrics && +metrics.dot.apy}
-            iconSlot={<DotIcon />}
-            isApyLoading={loading}
-            isTvlLoading={loading}
-            mainHref={PolkadotRoutes.stake.generatePath(EPolkadotNetworks.DOT)}
-            moreHref={getStakingOverviewUrl(Token.DOT)}
-            stakedTvl={metrics?.dot.totalStaked}
-            title={t('features.polkadot')}
-            token={Token.DOT}
-            onStakeClick={onTrackEnterStakingFlow(Token.DOT)}
-          />
-        ) : (
-          <FeatureItemLegacy
-            href={STAKE_LEGACY_LINKS.DOT}
-            iconSlot={<DotIcon />}
-            title={t('features.polkadot')}
-          />
-        )}
+        <FeatureItem
+          apy={metrics && +metrics.dot.apy}
+          iconSlot={<DotIcon />}
+          isApyLoading={loading}
+          isTvlLoading={loading}
+          mainHref={
+            isMainnet
+              ? PolkadotRoutes.stake.generatePath(EPolkadotNetworks.DOT)
+              : undefined
+          }
+          moreHref={ANKR_DOT_LANDING}
+          stakedTvl={metrics?.dot.totalStaked}
+          title={t('features.polkadot')}
+          token={Token.DOT}
+          onStakeClick={onTrackEnterStakingFlow(Token.DOT)}
+        />
 
-        {featuresConfig.isActivePolkadotStaking && isMainnet ? (
-          <FeatureItem
-            apy={metrics && +metrics.ksm.apy}
-            iconSlot={<KsmIcon />}
-            isApyLoading={loading}
-            isTvlLoading={loading}
-            mainHref={PolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM)}
-            moreHref={getStakingOverviewUrl(Token.KSM)}
-            stakedTvl={metrics?.ksm.totalStaked}
-            title={t('features.ksm')}
-            token={Token.KSM}
-            onStakeClick={onTrackEnterStakingFlow(Token.KSM)}
-          />
-        ) : (
-          <FeatureItemLegacy
-            href={STAKE_LEGACY_LINKS.KSM}
-            iconSlot={<KsmIcon />}
-            title={t('features.ksm')}
-          />
-        )}
+        <FeatureItem
+          apy={metrics && +metrics.ksm.apy}
+          iconSlot={<KsmIcon />}
+          isApyLoading={loading}
+          isTvlLoading={loading}
+          mainHref={
+            isMainnet
+              ? PolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM)
+              : undefined
+          }
+          moreHref={ANKR_KSM_LANDING}
+          stakedTvl={metrics?.ksm.totalStaked}
+          title={t('features.ksm')}
+          token={Token.KSM}
+          onStakeClick={onTrackEnterStakingFlow(Token.KSM)}
+        />
 
-        {featuresConfig.isActivePolkadotStaking && !isMainnet && (
+        {!isMainnet && (
           <FeatureItem
             apy={metrics && +metrics.wnd.apy}
             iconSlot={<DotIcon />}
             isApyLoading={loading}
             isTvlLoading={loading}
             mainHref={PolkadotRoutes.stake.generatePath(EPolkadotNetworks.WND)}
-            moreHref={getStakingOverviewUrl(Token.WND)}
+            moreHref={ANKR_DOT_LANDING}
             stakedTvl={metrics?.wnd.totalStaked}
             title={t('features.wnd')}
             token={Token.WND}

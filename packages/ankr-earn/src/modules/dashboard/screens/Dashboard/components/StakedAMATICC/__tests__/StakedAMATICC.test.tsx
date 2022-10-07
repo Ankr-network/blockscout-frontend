@@ -8,18 +8,18 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
-  IStakedAMATICCData,
-  useStakedAMATICCData,
-} from '../../StakedTokens/hooks/MATIC/useStakedAMATICCData';
-import {
   ITxHistoryData,
   useStakedMATICTxHistory,
-} from '../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+} from '../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
 import { StakedAMATICC } from '../StakedAMATICC';
 import {
   IUseStakedAMATICCAnalytics,
   useStakedAMATICCAnalytics,
 } from '../useStakedAMATICCAnalytics';
+import {
+  IStakedAMATICCData,
+  useStakedAMATICCData,
+} from '../useStakedAMATICCData';
 
 jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
   useUnstakePendingTimestamp: () => ({ MATIC: { label: '' } }),
@@ -32,7 +32,7 @@ jest.mock('modules/common/const', () => ({
   },
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedAMATICCData', () => ({
+jest.mock('../useStakedAMATICCData', () => ({
   useStakedAMATICCData: jest.fn(),
 }));
 
@@ -40,13 +40,12 @@ jest.mock('../useStakedAMATICCAnalytics', () => ({
   useStakedAMATICCAnalytics: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
+jest.mock('../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMATICTxHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
   const defaultStakedMATICHookData: IStakedAMATICCData = {
-    isShowed: true,
     amount: new BigNumber(1),
     isLoading: false,
     isStakeLoading: false,

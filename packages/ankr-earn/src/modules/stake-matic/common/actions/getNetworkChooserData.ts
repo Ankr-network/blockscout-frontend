@@ -2,7 +2,10 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MaticEthSDK, MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import {
+  PolygonOnEthereumSDK,
+  PolygonOnPolygonSDK,
+} from '@ankr.com/staking-sdk';
 
 interface IGetNetworkChooserData {
   maticEthBalance: BigNumber;
@@ -15,8 +18,8 @@ export const getNetworkChooserData = createSmartAction<
   request: {
     promise: (async (): Promise<IGetNetworkChooserData> => {
       const [ethSDK, polygonSDK] = await Promise.all([
-        MaticEthSDK.getInstance(),
-        MaticPolygonSDK.getInstance(),
+        PolygonOnEthereumSDK.getInstance(),
+        PolygonOnPolygonSDK.getInstance(),
       ]);
 
       const [maticEthBalance, maticPolygonBalance] = await Promise.all([

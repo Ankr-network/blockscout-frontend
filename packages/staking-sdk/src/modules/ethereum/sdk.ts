@@ -37,7 +37,7 @@ import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
 import { convertNumberToHex } from '../utils';
 
 import {
-  ETH_BLOCK_OFFSET,
+  ETH_BLOCK_2_WEEKS_OFFSET,
   ETH_HISTORY_RANGE_STEP,
   METHOD_NAME_BY_SYMBOL,
   TOKENS_CONFIG_BY_SYMBOL,
@@ -415,10 +415,14 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aETHb or aETHc)
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
-  // eslint-disable-next-line
-  public async unstake(_amount: BigNumber, _token: string): Promise<void> {
+  public async unstake(
+    // eslint-disable-next-line
+    _amount: BigNumber,
+    // eslint-disable-next-line
+    _token: string,
+  ): Promise<IWeb3SendResult> {
     throw new Error(EEthereumErrorCodes.NOT_SUPPORTED);
   }
 
@@ -574,24 +578,40 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
-   * @note Currently returns data for the last 7 days.
+   * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
 
     const latestBlockNumber = await web3.eth.getBlockNumber();
-    const startBlock = latestBlockNumber - ETH_BLOCK_OFFSET;
+    const startBlock = latestBlockNumber - ETH_BLOCK_2_WEEKS_OFFSET;
+
+    return this.getTxEventsHistoryRange(startBlock, latestBlockNumber);
+  }
+
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for block range.
+   * @param {number} from - from block
+   * @param {number} to - to block
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+  public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
 
     const [claimEvents, ratio] = await Promise.all([
       this.getPastEvents({
         provider: this.readProvider,
         contract: ethPoolContract,
         eventName: EPoolEvents.RewardClaimed,
-        startBlock,
-        latestBlockNumber,
+        startBlock: from,
+        latestBlockNumber: to,
         rangeStep: ETH_HISTORY_RANGE_STEP,
         filter: {
           staker: this.currentAccount,
@@ -635,6 +655,18 @@ export class EthereumSDK implements ISwitcher, IStakable {
       unstakeBond: [],
       unstakeCertificate: [],
     };
+  }
+
+ /** 
+   * Get latest block number.
+   * 
+   * @returns {Promise<number>}
+  */
+  public async getLatestBlock(): Promise<number> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return web3.eth.getBlockNumber();
   }
 
   /**
