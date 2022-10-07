@@ -12,27 +12,27 @@ import { TBnbSyntToken } from '../types';
 
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
-import { fetchTxHistory } from './fetchTxHistory';
+import { fetchTotalHistory } from './fetchTotalHistory';
 
 interface IStakeArgs {
   amount: BigNumber;
   token: TBnbSyntToken;
+  code?: string;
 }
 
 export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
   'bnb/stake',
-  ({ amount, token }): RequestAction => ({
+  ({ amount, token, code }): RequestAction => ({
     request: {
       promise: (async (): Promise<{ txHash: string }> => {
         const sdk: BinanceSDK = await BinanceSDK.getInstance();
 
-        return sdk.stake(amount, token);
+        return sdk.stake(amount, token, undefined, code);
       })(),
     },
     meta: {
       asMutation: true,
       showNotificationOnError: true,
-      getData: (data: void): void => data,
       onSuccess: (
         response,
         _action: RequestAction,
@@ -40,7 +40,7 @@ export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
       ) => {
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
-        store.dispatchRequest(fetchTxHistory());
+        store.dispatchRequest(fetchTotalHistory());
 
         if (response.data.txHash) {
           store.dispatch(push(`${token}/${response.data.txHash}/`));

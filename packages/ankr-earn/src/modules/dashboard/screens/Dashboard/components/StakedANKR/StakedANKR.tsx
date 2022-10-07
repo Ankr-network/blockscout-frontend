@@ -21,8 +21,7 @@ import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
 
-import { useStakedANKRData } from '../StakedTokens/hooks/ANKR/useStakedANKRData';
-
+import { useStakedANKRData } from './useStakedANKRData';
 import { useStakedANKRStyles } from './useStakedANKRStyles';
 
 export const StakedANKR = (): JSX.Element => {

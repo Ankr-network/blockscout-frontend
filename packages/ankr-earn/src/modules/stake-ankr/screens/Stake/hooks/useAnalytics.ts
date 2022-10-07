@@ -2,8 +2,9 @@ import BigNumber from 'bignumber.js';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { trackAnkrTokenStake } from 'modules/analytics/tracking-actions/trackAnkrTokenStake';
+import { trackDelegatedStaking } from 'modules/analytics/tracking-actions/trackDelegatedStaking';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { Token } from 'modules/common/types/token';
 
 interface IUseAnalyticsArgs {
   amount: BigNumber;
@@ -25,7 +26,8 @@ export const useAnalytics = ({
   );
 
   const sendAnalytics = async () => {
-    trackAnkrTokenStake({
+    trackDelegatedStaking({
+      token: Token.ANKR,
       walletPublicAddress: address,
       walletType: walletName,
       stakeAmount: amount.toFixed(),

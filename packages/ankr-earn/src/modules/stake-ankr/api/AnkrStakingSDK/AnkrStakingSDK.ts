@@ -177,7 +177,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;

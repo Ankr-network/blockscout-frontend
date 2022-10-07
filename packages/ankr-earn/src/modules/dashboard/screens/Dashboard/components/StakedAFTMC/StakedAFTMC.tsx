@@ -6,7 +6,13 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ONE, ZERO } from 'modules/common/const';
+import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
+import {
+  featuresConfig,
+  FTM_NETWORK_BY_ENV,
+  ONE,
+  ZERO,
+} from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -16,8 +22,9 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAFTMCData } from '../StakedTokens/hooks/FTM/useStakedAFTMCData';
-import { useStakedFTMTxHistory } from '../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
+import { useStakedFTMTxHistory } from '../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory';
+
+import { useStakedAFTMCData } from './useStakedAFTMCData';
 
 export const StakedAFTMC = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();
@@ -119,17 +126,26 @@ export const StakedAFTMC = (): JSX.Element | null => {
         onTradeClick={onTradeClick}
       />
 
-      <HistoryDialog
-        history={{
-          staked: stakedAFTMC,
-          stakedToken: Token.aFTMc,
-          unstaked: unstakedAFTMC,
-          unstakedToken: Token.aFTMc,
-        }}
-        isHistoryLoading={isHistoryLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
-      />
+      {featuresConfig.newStakingHistoryDialog ? (
+        <NewHistoryDialog
+          network={FTM_NETWORK_BY_ENV}
+          open={isOpenedHistory}
+          token={Token.aFTMc}
+          onClose={onCloseHistory}
+        />
+      ) : (
+        <HistoryDialog
+          history={{
+            staked: stakedAFTMC,
+            stakedToken: Token.aFTMc,
+            unstaked: unstakedAFTMC,
+            unstakedToken: Token.aFTMc,
+          }}
+          isHistoryLoading={isHistoryLoading}
+          open={isOpenedHistory}
+          onClose={onCloseHistory}
+        />
+      )}
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

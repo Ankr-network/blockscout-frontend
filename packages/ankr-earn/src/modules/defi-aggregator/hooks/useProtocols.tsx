@@ -3,6 +3,7 @@ import { t } from 'common';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { TDeFiProtocol } from '../api/defi';
+import midasCapitalImg from '../assets/platform-midas.png';
 import { ReactComponent as ProtocolAcryptos } from '../assets/protocol-acryptos.svg';
 import { ReactComponent as ProtocolApeSwap } from '../assets/protocol-apeswap.svg';
 import { ReactComponent as ProtocolBeefyFinance } from '../assets/protocol-beefy-finance.svg';
@@ -11,6 +12,8 @@ import { ReactComponent as ProtocolCurveFinance } from '../assets/protocol-curve
 import { ReactComponent as ProtocolDotDot } from '../assets/protocol-dotdot.svg';
 import { ReactComponent as ProtocolDystopia } from '../assets/protocol-dystopia.svg';
 import { ReactComponent as ProtocolEllipsisFinance } from '../assets/protocol-ellipsis-finance.svg';
+import kalmyswapImg from '../assets/protocol-kalmyswap.png';
+import lendFlareImg from '../assets/protocol-lend-flare.png';
 import { ReactComponent as ProtocolLydiaFinance } from '../assets/protocol-lydia-finance.svg';
 import { ReactComponent as ProtocolOnxFinance } from '../assets/protocol-onx-finance.svg';
 import { ReactComponent as ProtocolPancakeSwap } from '../assets/protocol-pancakeswap.svg';
@@ -21,6 +24,7 @@ import { ReactComponent as ProtocolSushiswap } from '../assets/protocol-sushiswa
 import { ReactComponent as ProtocolTraderJoe } from '../assets/protocol-traderjoe.svg';
 import { ReactComponent as ProtocolUniswap } from '../assets/protocol-uniswap.svg';
 import { ReactComponent as ProtocolYearnFinance } from '../assets/protocol-yearn-finance.svg';
+import { ProtocolIcon } from '../components/ProtocolIcon';
 
 interface IProtocol {
   icon: JSX.Element;
@@ -105,6 +109,18 @@ export const useProtocols = (): Record<TDeFiProtocol, IProtocol> =>
       spookySwap: {
         title: t('defi.protocols.spookySwap'),
         icon: <ProtocolSpookySwap />,
+      },
+      kalmySwap: {
+        title: t('defi.protocols.kalmySwap'),
+        icon: <ProtocolIcon src={kalmyswapImg} />,
+      },
+      lendFlare: {
+        title: t('defi.protocols.lendFlare'),
+        icon: <ProtocolIcon src={lendFlareImg} />,
+      },
+      midasCapital: {
+        title: t('defi.protocols.midasCapital'),
+        icon: <ProtocolIcon src={midasCapitalImg} />,
       },
     }),
     [],

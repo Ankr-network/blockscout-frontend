@@ -29,6 +29,19 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "gasLeft",
+        "type": "uint256"
+      }
+    ],
+    "name": "DistributeGasLeftChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "intermediary",
@@ -112,6 +125,19 @@
     "anonymous": false,
     "inputs": [],
     "name": "PendingGapReseted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "code",
+        "type": "uint256"
+      }
+    ],
+    "name": "ReferralCode",
     "type": "event"
   },
   {
@@ -362,8 +388,34 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "code",
+        "type": "uint256"
+      }
+    ],
+    "name": "stakeAndClaimBondsWithCode",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "stakeAndClaimCerts",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "code",
+        "type": "uint256"
+      }
+    ],
+    "name": "stakeAndClaimCertsWithCode",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -397,6 +449,24 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "unstakeBondsFor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "shares",
         "type": "uint256"
@@ -410,11 +480,23 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
-        "name": "maxClaimers",
+        "name": "shares",
         "type": "uint256"
       }
     ],
+    "name": "unstakeCertsFor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "distributeRewards",
     "outputs": [],
     "stateMutability": "payable",
@@ -501,6 +583,19 @@
       }
     ],
     "name": "setMinimumStake",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "gasLeft",
+        "type": "uint256"
+      }
+    ],
+    "name": "setDistributeGasLeft",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

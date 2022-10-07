@@ -4,7 +4,6 @@ import { Section } from 'modules/delegate-stake/components/Section';
 import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
 import { Stats } from 'modules/delegate-stake/components/Stats';
 import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
-import { useFaq } from 'modules/stake-ankr/hooks/useFaq';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
 import { useStats } from '../../hooks/useStats';
@@ -13,31 +12,30 @@ import { useAnkrStake } from './hooks/useAnkrStake';
 
 export const Stake = (): JSX.Element => {
   const {
+    additionalText,
+    additionalTooltip,
+    additionalValue,
     amount,
+    apy,
     balance,
     closeHref,
+    faqItems,
     initialAmount,
     initialProvider,
-    isApproved,
     isApproveLoading,
-    isBalanceLoading,
+    isApproved,
     isApyLoading,
+    isBalanceLoading,
     isDisabled,
     isStakeLoading,
     minStake,
     providerName,
     providerSelectHref,
-    tokenIn,
-    apy,
     quoteText,
-    additionalText,
-    additionalTooltip,
-    additionalValue,
+    tokenIn,
     onChange,
     onSubmit,
   } = useAnkrStake();
-
-  const faqItems = useFaq();
 
   const {
     apyText,

@@ -1,35 +1,23 @@
-import { configFromEnv } from '@ankr.com/staking-sdk/src/modules/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+import { TransactionReceipt } from 'web3-eth';
 
-import { IGetTxData, IStakeData, MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { IStakeData, PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
-import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
-import { TMaticSyntToken } from 'modules/stake-matic/common/types';
+import { IFetchTxData } from 'modules/switcher/api/types';
 
 import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
 
-interface IGetTxDataProps extends IStakeData {
-  token: TMaticSyntToken;
-}
-
-const { polygonConfig } = configFromEnv();
-
 export const getTxData = createSmartAction<
-  RequestAction<IGetTxData, IGetTxData>,
-  [IGetTxDataProps]
->(`${MATIC_POLYGON_ACTIONS_PREFIX}getTxData`, ({ token, txHash }) => ({
+  RequestAction<IFetchTxData, IFetchTxData>,
+  [IStakeData]
+>(`${MATIC_POLYGON_ACTIONS_PREFIX}getTxData`, ({ txHash }) => ({
   request: {
-    promise: async (): Promise<IGetTxData> => {
-      const targetTokenAddr =
-        token === Token.aMATICc
-          ? polygonConfig.aMATICcToken
-          : polygonConfig.aMATICbToken;
+    promise: async (): Promise<IFetchTxData> => {
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
-      const sdk = await MaticPolygonSDK.getInstance();
-
-      return sdk.getTxData(targetTokenAddr, txHash);
+      return sdk.getTxData(txHash);
     },
   },
   meta: {
@@ -37,3 +25,28 @@ export const getTxData = createSmartAction<
     onRequest: withStore,
   },
 }));
+
+const POLL_INTERVAL_SECONDS = 3;
+
+export const getTxReceipt = createSmartAction<
+  RequestAction<TransactionReceipt, TransactionReceipt>
+>(
+  `${MATIC_POLYGON_ACTIONS_PREFIX}getTxReceipt`,
+  ({ txHash }: { txHash: string }) => ({
+    request: {
+      promise: (async () => null)(),
+    },
+    meta: {
+      asMutation: false,
+      showNotificationOnError: true,
+      poll: POLL_INTERVAL_SECONDS,
+      onRequest: request => {
+        request.promise = PolygonOnPolygonSDK.getInstance().then(sdk =>
+          sdk.getTxReceipt(txHash),
+        );
+
+        return request;
+      },
+    },
+  }),
+);

@@ -1,6 +1,5 @@
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import classNames from 'classnames';
 
 import { t } from 'common';
 
@@ -26,13 +25,7 @@ export const StakeDescriptionAmount = ({
   const classes = useStakeDescriptionValueStyles();
 
   const descriptionAmountElm = (
-    <Typography
-      classes={{
-        root: classNames(classes.root, isWithTooltip && classes.rootCursor),
-      }}
-      component="div"
-      variant="h5"
-    >
+    <Typography classes={{ root: classes.root }} component="div" variant="h5">
       {isLoading ? (
         <Skeleton className={classes.titleSkeleton} width={30} />
       ) : (

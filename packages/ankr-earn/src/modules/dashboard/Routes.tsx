@@ -48,6 +48,7 @@ export function getRoutes(): JSX.Element {
             POLYGON_NETWORK_BY_ENV,
             GNO_NETWORK_BY_ENV,
           ]}
+          isOpenedConnectModal={false}
           path={RoutesConfig.dashboard.path}
           providerId={AvailableWriteProviders.ethCompatible}
         >

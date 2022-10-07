@@ -17,7 +17,6 @@ import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
@@ -40,7 +39,6 @@ interface IUseUnstakeData {
   isApproveLoading: boolean;
   isApproved: boolean;
   isGetStatsLoading: boolean;
-  isSuccessOpened: boolean;
   isUnstakeLoading: boolean;
   isWithApprove: boolean;
   maticPoolLiquidityInAC: BigNumber;
@@ -48,7 +46,6 @@ interface IUseUnstakeData {
   syntTokenBalance?: BigNumber;
   tokenOut: string;
   unstakeFeePct: BigNumber | null;
-  onSuccessClose: () => void;
   onUnstakeSubmit: (data: IUnstakeFormValues) => void;
 }
 
@@ -72,12 +69,6 @@ export const useUnstake = (): IUseUnstakeData => {
   const { address, walletName } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
-
-  const {
-    isOpened: isSuccessOpened,
-    onClose: onSuccessDialogClose,
-    onOpen: onSuccessOpen,
-  } = useDialog();
 
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
 
@@ -182,12 +173,6 @@ export const useUnstake = (): IUseUnstakeData => {
     ],
   );
 
-  const onSuccessClose = useCallback((): void => {
-    dispatch(resetReduxRequests([approveACUnstake.toString()]));
-
-    onSuccessDialogClose();
-  }, [dispatch, onSuccessDialogClose]);
-
   const onUnstakeSubmit = useCallback(
     (data: IUnstakeFormValues): void => {
       if (!data.amount) {
@@ -209,16 +194,15 @@ export const useUnstake = (): IUseUnstakeData => {
         }),
       ).then(({ error }) => {
         if (!error) {
-          onSuccessOpen();
-
           sendAnalytics(amount);
+          dispatch(resetReduxRequests([approveACUnstake.toString()]));
         }
       });
     },
     [
+      dispatch,
       dispatchRequest,
       isShouldBeApproved,
-      onSuccessOpen,
       selectedToken,
       sendAnalytics,
     ],
@@ -243,7 +227,6 @@ export const useUnstake = (): IUseUnstakeData => {
     isApproveLoading,
     isApproved,
     isGetStatsLoading: isUnstakeStatsLoading || isCommonDataLoading,
-    isSuccessOpened,
     isUnstakeLoading,
     isWithApprove,
     maticPoolLiquidityInAC,
@@ -251,7 +234,6 @@ export const useUnstake = (): IUseUnstakeData => {
     syntTokenBalance,
     tokenOut: MAIN_TOKEN,
     unstakeFeePct,
-    onSuccessClose,
     onUnstakeSubmit,
   };
 };

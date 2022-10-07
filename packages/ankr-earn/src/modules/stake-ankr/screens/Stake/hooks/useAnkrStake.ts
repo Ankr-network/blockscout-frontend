@@ -1,3 +1,4 @@
+import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
   useMutation,
@@ -10,11 +11,13 @@ import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import {
   IAnkrStakeFormPayload,
   IAnkrStakeSubmitPayload,
   IFormState,
 } from 'modules/delegate-stake/components/StakeForm/const';
+import { useFormState } from 'modules/forms/hooks/useFormState';
 import { getAPY } from 'modules/stake-ankr/actions/getAPY';
 import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { getProviders } from 'modules/stake-ankr/actions/getProviders';
@@ -23,13 +26,13 @@ import { stake } from 'modules/stake-ankr/actions/stake';
 import { ANKR_STAKE_FORM_ID, TEMPORARY_APY } from 'modules/stake-ankr/const';
 import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
-
-import { useFormState } from '../../../../forms/hooks/useFormState';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 
 import { useAnalytics } from './useAnalytics';
 import { useApprove } from './useApprove';
 
 interface IUseAnkrStake {
+  faqItems: IFAQItem[];
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
   isApproveLoading: boolean;
@@ -61,6 +64,10 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const { setFormState, formState } =
     useFormState<IFormState>(ANKR_STAKE_FORM_ID);
 
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
+  });
   const { data: providers, loading: isProvidersLoading } = useQuery({
     type: getProviders,
   });
@@ -86,11 +93,16 @@ export const useAnkrStake = (): IUseAnkrStake => {
   } = useApprove();
 
   useProviderEffect(() => {
-    dispatchRequest(getProviders());
-    dispatchRequest(getCommonData());
     dispatchRequest(getAPY());
+    dispatchRequest(getCommonData());
+    dispatchRequest(getFAQ(Token.ANKR));
+    dispatchRequest(getProviders());
     dispatchRequest(getTotalInfo());
-  }, []);
+
+    return () => {
+      dispatch(resetRequests([getFAQ.toString()]));
+    };
+  }, [dispatch, dispatchRequest]);
 
   const currentProvider = providers ? providers[0] : null;
   const initialProvider = currentProvider?.validator;
@@ -134,6 +146,7 @@ export const useAnkrStake = (): IUseAnkrStake => {
   };
 
   return {
+    faqItems,
     isStakeLoading,
     isBalanceLoading: isCommonDataLoading,
     isApproveLoading,

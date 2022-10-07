@@ -14,6 +14,7 @@ export interface INetworkItem<NetworkId extends TNetworkId> {
 
 export interface IUseGuardRouteProps<NetworkId extends TNetworkId> {
   availableNetworks: NetworkId[];
+  isOpenedConnectModal?: boolean;
   providerId: AvailableWriteProviders;
 }
 

@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { t, tHTML } from 'common';
 
+import { trackDelegatedStakingFlow } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import {
   DEFAULT_ROUNDING,
@@ -20,8 +21,7 @@ import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
 
-import { useStakedMGNOData } from '../StakedTokens/hooks/MGNO/useStakedMGNOData';
-
+import { useStakedMGNOData } from './useStakedMGNOData';
 import { useStakedMGNOStyles } from './useStakedMGNOStyles';
 
 export const StakedMGNO = (): JSX.Element => {
@@ -42,11 +42,22 @@ export const StakedMGNO = (): JSX.Element => {
     network,
     manageLink,
     loading,
+    address,
+    walletName,
   } = useStakedMGNOData();
 
   if (loading) {
     return <DashboardCardSkeleton />;
   }
+
+  const onClick = () => {
+    trackDelegatedStakingFlow({
+      walletType: walletName,
+      walletPublicAddress: address,
+      accessPoint: 'dashboard',
+      tokenName: Token.mGNO,
+    });
+  };
 
   const renderUsdAmount = (value: BigNumber) =>
     t('unit.usd-value', {
@@ -103,6 +114,8 @@ export const StakedMGNO = (): JSX.Element => {
                 className={classes.manageButton}
                 href={manageLink}
                 variant="outlined"
+                onMouseDown={onClick}
+                onTouchStart={onClick}
               >
                 {t('dashboard.card.manage')}
               </NavLink>

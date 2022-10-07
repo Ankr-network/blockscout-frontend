@@ -26,4 +26,10 @@ export enum AnalyticsEvents {
   AnkrTokenStake = 'ankr_token_stake',
   EnterAnkrTokenManage = 'ankr_token_staking_manage',
   AnkrTokenUnstake = 'ankr_token_unstake',
+  DelegatedStaking = 'delegated_staking',
+  ClickClaimAllRewards = 'click_claim_all_rewards',
+  ClickClaimRewards = 'click_claim_rewards',
+  ClickClaimUnstake = 'click_claim_unstake',
+  ClickClaimAll = 'click_claim_all',
+  СlickGoToDashboard = 'click_go_to_dashboard',
 }

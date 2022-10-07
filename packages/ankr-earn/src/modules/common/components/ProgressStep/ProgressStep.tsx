@@ -5,6 +5,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { t } from 'common';
 
+import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
@@ -59,7 +60,8 @@ export const ProgressStep = ({
     chainId,
     handleCopyTxHash,
     handleCopyDestinationAddress,
-  } = useProgressStepHook();
+    onDashboardClick,
+  } = useProgressStepHook(symbol as Token);
 
   const pageTitle = isPending
     ? t('progress.pendingTitle', { title })
@@ -217,6 +219,8 @@ export const ProgressStep = ({
             className={classes.button}
             href={DashboardRoutes.dashboard.generatePath()}
             variant="contained"
+            onMouseDown={onDashboardClick}
+            onTouchStart={onDashboardClick}
           >
             {t('switcher.buttons.dashboard')}
           </NavLink>

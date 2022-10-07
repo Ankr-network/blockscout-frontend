@@ -17,9 +17,9 @@ import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { KSM_PROPS } from '../StakedTokens/const';
-import { useStakedPolkadotData } from '../StakedTokens/hooks/Polkadot/useStakedPolkadotData';
-import { useStakedPolkadotTxHistory } from '../StakedTokens/hooks/Polkadot/useStakedPolkadotTxHistory';
+import { KSM_PROPS } from '../../const';
+import { useStakedPolkadotCard } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotCard';
+import { useStakedPolkadotTxHistory } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotTxHistory';
 
 export const StakedAKSMB = (): JSX.Element => {
   const { polkadotConfig } = configFromEnv();
@@ -52,6 +52,7 @@ export const StakedAKSMB = (): JSX.Element => {
     isShowedTradeLink,
     isStakeLoading,
     isUnstakeLoading,
+    isPendingUnstakeLoading,
     network,
     pendingValue,
     stakeLink,
@@ -61,7 +62,7 @@ export const StakedAKSMB = (): JSX.Element => {
     usdAmount,
     walletName,
     handleAddTokenToWallet,
-  } = useStakedPolkadotData(KSM_PROPS);
+  } = useStakedPolkadotCard(KSM_PROPS);
 
   const onTradeClick = (): void => {
     trackClickTrade({
@@ -87,7 +88,9 @@ export const StakedAKSMB = (): JSX.Element => {
     handleLoadTxHistory();
   }, [handleLoadTxHistory, onOpenHistory]);
 
-  const renderedPendingSlot = !pendingValue.isZero() && (
+  const isPendingShowed = isPendingUnstakeLoading || !pendingValue.isZero();
+
+  const renderedPendingSlot = isPendingShowed && (
     <Pending
       isLoading={isHistoryDataLoading}
       token={Token.aKSMb}

@@ -6,7 +6,8 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ONE } from 'modules/common/const';
+import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
+import { BSC_NETWORK_BY_ENV, featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -16,8 +17,9 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedABNBBData } from '../StakedTokens/hooks/BNB/useStakedABNBBData';
-import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
+import { useStakedBNBTxHistory } from '../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
+
+import { useStakedABNBBData } from './useStakedABNBBData';
 
 export const StakedABNBB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
@@ -125,12 +127,21 @@ export const StakedABNBB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      <HistoryDialog
-        history={transactionHistoryABNBB}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
-      />
+      {featuresConfig.newStakingHistoryDialog ? (
+        <NewHistoryDialog
+          network={BSC_NETWORK_BY_ENV}
+          open={isOpenedHistory}
+          token={Token.aBNBb}
+          onClose={onCloseHistory}
+        />
+      ) : (
+        <HistoryDialog
+          history={transactionHistoryABNBB}
+          isHistoryLoading={isHistoryDataLoading}
+          open={isOpenedHistory}
+          onClose={onCloseHistory}
+        />
+      )}
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

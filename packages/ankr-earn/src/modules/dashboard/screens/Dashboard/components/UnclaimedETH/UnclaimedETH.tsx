@@ -1,6 +1,6 @@
 import { UnclaimedAsset } from 'modules/dashboard/components/UnclaimedAsset';
 
-import { useUnclaimedEth } from '../StakedTokens/hooks/ETH/useUnclaimedEth';
+import { useUnclaimedEth } from './useUnclaimedEth';
 
 export const UnclaimedETH = (): JSX.Element => {
   const { amount, chainId, claimLink, isLoading, token, usdAmount } =

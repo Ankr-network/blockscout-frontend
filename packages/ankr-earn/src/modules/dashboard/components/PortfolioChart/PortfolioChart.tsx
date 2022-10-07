@@ -1,7 +1,7 @@
 import { Box, Card, Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import * as d3 from 'd3';
-import debounce from 'lodash/debounce';
+import cloneDeep from 'lodash/cloneDeep';
 import { useCallback, useMemo, useState } from 'react';
 
 import { t, tHTML } from 'common';
@@ -30,6 +30,7 @@ export interface IPortfolioChartProps {
   isLoading: boolean;
   height: number;
   width: number;
+  isCurrentAccountPartner: boolean;
 }
 
 export interface IChartSlice {
@@ -62,9 +63,9 @@ const COLORS = [
 
 const NATIVE_HOVER_COLOR = '#9AA1B0';
 
-const TRANSITION_DURATION_MS: Milliseconds = 200;
-
 const TOKENS_WITH_APR = [Token.ANKR, Token.mGNO];
+
+const TRANSITION_DURATION: Milliseconds = 150;
 
 export const PortfolioChart = ({
   data,
@@ -77,14 +78,19 @@ export const PortfolioChart = ({
   isLoading,
   height,
   width,
+  isCurrentAccountPartner,
 }: IPortfolioChartProps): JSX.Element | null => {
   const classes = usePortfolioChartStyles({ width });
+
   const [activeItem, setActiveItem] = useState<ILegendItem | null>(null);
 
-  const totalAmountUsd = totalNativeAmountUsd.plus(totalStakedAmountUsd);
+  const totalAmountUsd = useMemo(
+    () => totalNativeAmountUsd.plus(totalStakedAmountUsd),
+    [totalNativeAmountUsd, totalStakedAmountUsd],
+  );
 
   const items = useMemo(
-    () => data.slice().sort((a, b) => b.percent - a.percent),
+    () => cloneDeep(data).sort((a, b) => b.percent - a.percent),
     [data],
   );
 
@@ -125,7 +131,7 @@ export const PortfolioChart = ({
   );
 
   const chartData = useMemo(
-    () => nativeTokens.concat(syntheticTokens),
+    () => cloneDeep([...nativeTokens, ...syntheticTokens]),
     [syntheticTokens, nativeTokens],
   );
 
@@ -146,27 +152,6 @@ export const PortfolioChart = ({
       totalNativeAmountUsd,
       totalAmountUsd,
     ],
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    setActiveItem(null);
-  }, [setActiveItem]);
-
-  const handleMouseOver = useCallback(
-    (item: ILegendItem) => {
-      setActiveItem(item);
-    },
-    [setActiveItem],
-  );
-
-  const debouncedHandleMouseOver = debounce(
-    handleMouseOver,
-    TRANSITION_DURATION_MS,
-  );
-
-  const debouncedHandleMouseLeave = debounce(
-    handleMouseLeave,
-    TRANSITION_DURATION_MS,
   );
 
   const renderChart = useCallback(
@@ -191,13 +176,12 @@ export const PortfolioChart = ({
 
       const path = d3
         .arc<d3.PieArcDatum<ILegendItem>>()
-        .outerRadius(d => {
-          return activeItem &&
-            d.data.name === activeItem.name &&
-            d.data.isNative === activeItem.isNative
-            ? radius / 1.2
-            : radius / 1.1;
-        })
+        .outerRadius(radius / 1.1)
+        .innerRadius(radius);
+
+      const pathActive = d3
+        .arc<d3.PieArcDatum<ILegendItem>>()
+        .outerRadius(radius / 1.2)
         .innerRadius(radius);
 
       const arc = g
@@ -207,34 +191,45 @@ export const PortfolioChart = ({
         .append('g')
         .attr('class', 'arc')
         .attr('opacity', 1)
-        .attr('data-testid', d => d.data.name);
+        .attr('data-testid', d => `${d.data.name}-${d.data.isNative}`);
 
       arc
         .append('path')
         .attr('d', path)
-        .attr('fill', d =>
-          activeItem && d.data.name === activeItem.name && activeItem.isNative
-            ? NATIVE_HOVER_COLOR
-            : d.data.color,
-        )
-        .on('mouseover', (_, d) => {
-          debouncedHandleMouseOver(d.data);
+        .attr('fill', d => d.data.color)
+        .on('mouseover', function mouseOver(_, d): void {
+          d3.select(this)
+            .attr('d', path(d) ?? '')
+            .transition()
+            .duration(TRANSITION_DURATION)
+            .ease(d3.easeLinear)
+            .attr('d', pathActive(d) ?? '');
+
+          if (d.data.isNative) {
+            d3.select(this).attr('fill', NATIVE_HOVER_COLOR);
+          }
+
+          setActiveItem(d.data);
         })
-        .on('mouseout', () => {
-          debouncedHandleMouseLeave();
+        .on('mouseout', function mouseOut(_, d): void {
+          d3.select(this)
+            .attr('d', pathActive(d) ?? '')
+            .transition()
+            .duration(TRANSITION_DURATION)
+            .ease(d3.easeLinear)
+            .attr('d', path(d) ?? '');
+
+          if (d.data.isNative) {
+            d3.select(this).attr('fill', d.data.color);
+          }
+
+          setActiveItem(null);
         });
     },
-    [
-      chartData,
-      activeItem,
-      width,
-      height,
-      debouncedHandleMouseOver,
-      debouncedHandleMouseLeave,
-    ],
+    [chartData, height, width],
   );
 
-  const { ref } = usePortfolioChart(renderChart, [width, height, chartData]);
+  const { ref } = usePortfolioChart(renderChart, [chartData, height, width]);
 
   const yieldTitle = activeItem?.link
     ? t('dashboard.potentialYield')
@@ -264,16 +259,49 @@ export const PortfolioChart = ({
       )
     : '';
 
+  const handleMouseLeave = useCallback(() => {
+    if (!activeItem) {
+      return;
+    }
+
+    const activePiePath = d3
+      .select(`g[data-testid="${activeItem.name}-${activeItem.isNative}"]`)
+      .select('path');
+
+    activePiePath.dispatch('mouseout');
+  }, [activeItem]);
+
+  const handleMouseOver = useCallback(
+    (item: ILegendItem) => {
+      if (
+        activeItem &&
+        activeItem.name === item.name &&
+        activeItem.isNative === item.isNative
+      ) {
+        return;
+      }
+
+      const activePiePath = d3
+        .select(`g[data-testid="${item.name}-${item.isNative}"]`)
+        .select('path');
+
+      activePiePath.dispatch('mouseover');
+    },
+    [activeItem],
+  );
+
   if (!isLoading && data.length === 0) {
     return null;
   }
 
   return (
     <Box mb={7}>
-      <ProtfolioHeader />
+      <ProtfolioHeader isCurrentAccountPartner={isCurrentAccountPartner} />
 
       <Card className={classes.root}>
-        <ProtfolioHeaderMobile />
+        <ProtfolioHeaderMobile
+          isCurrentAccountPartner={isCurrentAccountPartner}
+        />
 
         {isLoading ? (
           <Box

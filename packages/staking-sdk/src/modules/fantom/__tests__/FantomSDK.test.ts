@@ -397,11 +397,11 @@ describe('modules/fantom/sdk', () => {
         allowance: () => ({ call: () => ZERO }),
         approve: jest.fn(() => ({ send: jest.fn() })),
         burnCerts: jest.fn(() => ({
-          send: jest.fn(),
+          encodeABI: jest.fn(),
           estimateGas: () => Promise.resolve('1'),
         })),
         burnBonds: jest.fn(() => ({
-          send: jest.fn(),
+          encodeABI: jest.fn(),
           estimateGas: () => Promise.resolve('1'),
         })),
       },

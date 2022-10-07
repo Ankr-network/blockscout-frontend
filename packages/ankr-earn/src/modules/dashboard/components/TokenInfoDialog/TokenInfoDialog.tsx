@@ -3,11 +3,14 @@ import { useCallback, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { t } from 'common';
+import { useIsSMDown } from 'ui';
 
+import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { Dialog } from 'uiKit/Dialog';
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
-import { CopyIcon } from 'uiKit/Icons/CopyIcon';
 import { NavLink } from 'uiKit/NavLink';
+
+import { ReactComponent as CopyIcon } from '../../../../assets/img/copy.svg';
 
 import { useTokenInfoDialogStyles as useStyles } from './useTokenInfoDialogStyles';
 
@@ -21,6 +24,8 @@ export interface IHistoryDialogProps {
   onClose?: () => void;
 }
 
+const MAX_TX_HASH_SIZE = 6;
+
 export const TokenInfoDialog = ({
   open,
   tokenName,
@@ -32,6 +37,11 @@ export const TokenInfoDialog = ({
 }: IHistoryDialogProps): JSX.Element => {
   const classes = useStyles();
   const [isAddressCopied, setIsAddressCopied] = useState(false);
+  const isSMDown = useIsSMDown();
+
+  const shortHash = isSMDown
+    ? getShortTxHash(tokenAddress, MAX_TX_HASH_SIZE)
+    : tokenAddress;
 
   const handleCopyDestinationAddress = useCallback(() => {
     setIsAddressCopied(isCopied => !isCopied);
@@ -59,9 +69,7 @@ export const TokenInfoDialog = ({
             {t('dashboard.token-info.contract')}
           </Typography>
 
-          <Typography className={classes.tokenAddress}>
-            {tokenAddress}
-          </Typography>
+          <Typography className={classes.tokenAddress}>{shortHash}</Typography>
 
           {!isAddressCopied ? (
             <CopyToClipboard
@@ -69,7 +77,7 @@ export const TokenInfoDialog = ({
               text={tokenAddress}
               onCopy={handleCopyDestinationAddress}
             >
-              <CopyIcon height={24} width={24} />
+              <CopyIcon className={classes.copyIcon} height={24} width={24} />
             </CopyToClipboard>
           ) : (
             <div className={classes.complete}>

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-export type TDeFiType = 'liquidityPool' | 'farming' | 'vault';
+export type TDeFiType = 'liquidityPool' | 'farming' | 'vault' | 'landing';
 
 export type TDeFiNetwork =
   | 'bnb'
@@ -28,7 +28,10 @@ export type TDeFiProtocol =
   | 'uniswapV3'
   | 'spookySwap'
   | 'yearnFinance'
-  | 'dotdotFinance';
+  | 'dotdotFinance'
+  | 'kalmySwap'
+  | 'lendFlare'
+  | 'midasCapital';
 
 export interface IDeFiItemResponse {
   id: number;

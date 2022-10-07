@@ -6,25 +6,22 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
-import { StakedABNBB } from '..';
-import {
-  IStakedABNBBData,
-  useStakedABNBBData,
-} from '../../StakedTokens/hooks/BNB/useStakedABNBBData';
 import {
   ITxHistoryData,
   useStakedBNBTxHistory,
-} from '../../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
+} from '../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
+import { StakedABNBB } from '../StakedABNBB';
+import { IStakedABNBBData, useStakedABNBBData } from '../useStakedABNBBData';
 
 jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
   useUnstakePendingTimestamp: () => ({ BNB: { label: '' } }),
 }));
 
-jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBBData', () => ({
+jest.mock('../useStakedABNBBData', () => ({
   useStakedABNBBData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/BNB/useStakedBNBTxHistory', () => ({
+jest.mock('../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
 }));
 
@@ -40,7 +37,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
-    isShowed: false,
     isPendingUnstakeLoading: false,
     handleAddTokenToWallet: jest.fn(),
   };

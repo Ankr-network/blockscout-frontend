@@ -43,7 +43,7 @@ interface IUseUnstakeBnb {
   calcTotalRecieve: (amount: BigNumber) => string;
 }
 
-export const useUnstakeBnb = (onSuccess: () => void): IUseUnstakeBnb => {
+export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const dispatchRequest = useDispatchRequest();
   const { sendAnalytics } = useUnstakeBNBAnalytics();
 
@@ -103,12 +103,11 @@ export const useUnstakeBnb = (onSuccess: () => void): IUseUnstakeBnb => {
         unstake({ amount: resultAmount, token: selectedToken }),
       ).then(({ error }) => {
         if (!error) {
-          onSuccess();
           sendAnalytics(resultAmount, selectedToken);
         }
       });
     },
-    [dispatchRequest, onSuccess, selectedToken, sendAnalytics],
+    [dispatchRequest, selectedToken, sendAnalytics],
   );
 
   const onUnstakeSubmit = useCallback(

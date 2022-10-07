@@ -17,6 +17,7 @@ const ROOT = `${StakeRoutes.main.path}bnb/`;
 const STAKE_BNB_PATH = `${ROOT}?token=:token?`;
 const STEP_STAKE_BNB_PATH = `${ROOT}:tokenOut/:txHash/`;
 const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
+const STEP_UNSTAKE_BNB_PATH = `${UNSTAKE_BNB_PATH}:token/:txHash`;
 const UNSTAKE_BNB_BY_TOKEN_PATH = `${UNSTAKE_BNB_PATH}?token=:token?`;
 
 export const RoutesConfig = createRouteConfig(
@@ -49,6 +50,12 @@ export const RoutesConfig = createRouteConfig(
       path: STEP_STAKE_BNB_PATH,
       generatePath: () => generatePath(STEP_STAKE_BNB_PATH),
     },
+
+    unstakeSuccess: {
+      path: STEP_UNSTAKE_BNB_PATH,
+      generatePath: (token: TBnbSyntToken, txHash: string) =>
+        generatePath(STEP_UNSTAKE_BNB_PATH, { token, txHash }),
+    },
   },
   ROOT,
 );
@@ -64,6 +71,12 @@ const Unstake = loadComponent(() =>
 const StakeSteps = loadComponent(() =>
   import('./screens/StakeBinanceSteps').then(
     module => module.StakeBinanceSteps,
+  ),
+);
+
+const UnstakeSuccess = loadComponent(() =>
+  import('./screens/UnstakeBinanceSuccess').then(
+    module => module.UnstakeBinanceSuccess,
   ),
 );
 
@@ -101,6 +114,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <StakeSteps />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={BNB_STAKING_NETWORKS}
+          path={RoutesConfig.unstakeSuccess.path}
+          providerId={BINANCE_WRITE_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <UnstakeSuccess />
           </DefaultLayout>
         </GuardETHRoute>
 

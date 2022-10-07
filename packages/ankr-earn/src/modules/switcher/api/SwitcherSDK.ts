@@ -13,7 +13,7 @@ import {
   IFetchTxData,
   IFetchTxReceiptData,
   ISwitcher,
-  MaticEthSDK,
+  PolygonOnEthereumSDK,
   ProviderManagerSingleton,
 } from '@ankr.com/staking-sdk';
 
@@ -79,7 +79,7 @@ export class SwitcherSDK {
         await Promise.all([
           BinanceSDK.getInstance(),
           EthereumSDK.getInstance(),
-          MaticEthSDK.getInstance(),
+          PolygonOnEthereumSDK.getInstance(),
           FantomSDK.getInstance(),
           AvalancheSDK.getInstance(),
         ]);

@@ -6,18 +6,18 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { Token } from 'modules/common/types/token';
 
+import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
 import {
   IUseStakedMaticCertPolygon,
   useStakedMaticCertPolygon,
-} from '../../StakedTokens/hooks/MATIC/useStakedMaticCertPolygon';
-import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
+} from '../useStakedMaticCertPolygon';
 import {
   IUseStakedMaticCertPolygonAnalytics,
   useStakedMaticCertPolygonAnalytics,
 } from '../useStakedMaticCertPolygonAnalytics';
 import { IUseTokenInfoDialog, useTokenInfoDialog } from '../useTokenInfoDialog';
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticCertPolygon', () => ({
+jest.mock('../useStakedMaticCertPolygon', () => ({
   useStakedMaticCertPolygon: jest.fn(),
 }));
 
@@ -31,7 +31,6 @@ jest.mock('../useTokenInfoDialog', () => ({
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
   const defaultStakedMATICHookData: IUseStakedMaticCertPolygon = {
-    isShowed: true,
     amount: new BigNumber(1),
     isLoading: false,
     isStakeLoading: false,

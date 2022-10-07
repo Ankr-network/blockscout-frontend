@@ -33,6 +33,7 @@ export interface IUnstakeDialogProps {
   isLoading?: boolean;
   submitDisabled?: boolean;
   isBalanceLoading?: boolean;
+  isDisabled?: boolean;
   endText?: string;
   endDate?: Date;
   token?: Token;
@@ -54,6 +55,7 @@ export interface IUnstakeDialogProps {
 
 export const UnstakeDialog = ({
   isBalanceLoading,
+  isDisabled,
   isLoading,
   submitDisabled,
   balance,
@@ -86,7 +88,8 @@ export const UnstakeDialog = ({
 
   const activeStep = isApproved ? 1 : 0;
 
-  const isUnstakeBtnDisabled = submitDisabled || (isWithApprove && !isApproved);
+  const isUnstakeBtnDisabled =
+    isDisabled || submitDisabled || (isWithApprove && !isApproved);
 
   const validate = useCallback(
     (data: IUnstakeFormValues) => {
@@ -123,7 +126,7 @@ export const UnstakeDialog = ({
                 <Box mb={4}>
                   <AmountInput
                     balance={balance}
-                    disabled={isApproved}
+                    disabled={isDisabled || isApproved}
                     isBalanceLoading={isBalanceLoading}
                     label={t('unstake-dialog.amount')}
                     maxDecimals={maxAmountDecimals}
@@ -164,7 +167,9 @@ export const UnstakeDialog = ({
                         <Button
                           fullWidth
                           color="primary"
-                          disabled={isApproved || isApproveLoading}
+                          disabled={
+                            isDisabled || isApproved || isApproveLoading
+                          }
                           endIcon={
                             <Tooltip
                               arrow

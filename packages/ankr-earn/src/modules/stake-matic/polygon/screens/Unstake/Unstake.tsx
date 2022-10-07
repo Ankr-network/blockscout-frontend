@@ -10,7 +10,6 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
-import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { Container } from 'uiKit/Container';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
@@ -27,7 +26,6 @@ export const Unstake = (): JSX.Element => {
     isApproveLoading,
     isApproved,
     isGetStatsLoading,
-    isSuccessOpened,
     isUnstakeLoading,
     isWithApprove,
     maticPoolLiquidityInAC,
@@ -35,7 +33,6 @@ export const Unstake = (): JSX.Element => {
     syntTokenBalance,
     tokenOut,
     unstakeFeePct,
-    onSuccessClose,
     onUnstakeSubmit,
   } = useUnstake();
 
@@ -97,30 +94,21 @@ export const Unstake = (): JSX.Element => {
   return (
     <section className={classes.root}>
       <Container>
-        {!isSuccessOpened ? (
-          <UnstakeDialog
-            balance={syntTokenBalance}
-            closeHref={closeHref}
-            extraValidation={extraValidation}
-            isApproved={isApproved}
-            isApproveLoading={isApproveLoading}
-            isBalanceLoading={isGetStatsLoading}
-            isLoading={isUnstakeLoading}
-            isWithApprove={isWithApprove}
-            networkTitleSlot={<NetworkTitle />}
-            renderFormFooter={renderFormFooter}
-            submitDisabled={isUnstakeLoading}
-            token={selectedToken}
-            onSubmit={onUnstakeSubmit}
-          />
-        ) : (
-          <UnstakeSuccess
-            infoText=""
-            title={t('stake-matic-polygon.unstake.success-title')}
-            tokenName={tokenOut}
-            onClose={onSuccessClose}
-          />
-        )}
+        <UnstakeDialog
+          balance={syntTokenBalance}
+          closeHref={closeHref}
+          extraValidation={extraValidation}
+          isApproved={isApproved}
+          isApproveLoading={isApproveLoading}
+          isBalanceLoading={isGetStatsLoading}
+          isDisabled={isApproveLoading || isUnstakeLoading}
+          isLoading={isUnstakeLoading}
+          isWithApprove={isWithApprove}
+          networkTitleSlot={<NetworkTitle />}
+          renderFormFooter={renderFormFooter}
+          token={selectedToken}
+          onSubmit={onUnstakeSubmit}
+        />
       </Container>
     </section>
   );

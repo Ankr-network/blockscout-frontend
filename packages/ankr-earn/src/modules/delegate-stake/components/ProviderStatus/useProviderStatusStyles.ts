@@ -21,8 +21,6 @@ export const useProviderStatusStyles = makeStyles(theme => ({
   },
 
   statusWithTooltip: {
-    cursor: 'help',
-
     '&:before': {
       transition: '0.2s',
     },

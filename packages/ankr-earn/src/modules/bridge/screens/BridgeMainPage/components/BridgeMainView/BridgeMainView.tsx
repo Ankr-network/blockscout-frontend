@@ -89,7 +89,7 @@ export const BridgeMainView = (): JSX.Element => {
 
   const isDisabledForm =
     isBalanceLoading || isApproved || isApproveButtonLoading;
-  const isSwitchNetworkShowed = isConnected && !isActualNetwork && isMetaMask;
+  const isSwitchNetworkShowed = isConnected && !isActualNetwork;
   const isBalanceShowed = isConnected && isActualNetwork;
 
   const handleChangeFrom = useCallback(
@@ -271,7 +271,7 @@ export const BridgeMainView = (): JSX.Element => {
           </>
         )}
 
-        {isSwitchNetworkShowed && (
+        {isSwitchNetworkShowed && isMetaMask && (
           <Button
             className={classes.submitBtn}
             color="primary"
@@ -280,6 +280,14 @@ export const BridgeMainView = (): JSX.Element => {
           >
             {t('connect.switch-network')}
           </Button>
+        )}
+
+        {isSwitchNetworkShowed && !isMetaMask && (
+          <Quote mt={4} variant="warning">
+            {t('bridge.main.switch-note', {
+              chain: t(`chain.${swapNetworkItem.from}`),
+            })}
+          </Quote>
         )}
 
         {!isConnected && (

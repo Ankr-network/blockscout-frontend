@@ -15,9 +15,10 @@ import { TFtmSyntToken } from './types/TFtmSyntToken';
 
 const ROOT = `${StakeRoutes.main.path}fantom/`;
 const STAKE_FANTOM_PATH = `${ROOT}?token=:token?`;
+const STEP_STAKE_FANTOM_PATH = `${ROOT}:tokenOut/:txHash/`;
 const UNSTAKE_FANTOM_PATH = `${UNSTAKE_PATH}fantom/`;
 const UNSTAKE_FANTOM_BY_TOKEN_PATH = `${UNSTAKE_FANTOM_PATH}?token=:token?`;
-const STEP_STAKE_FANTOM_PATH = `${ROOT}:tokenOut/:txHash/`;
+const STEP_UNSTAKE_FANTOM_PATH = `${UNSTAKE_FANTOM_PATH}:token/:txHash/`;
 
 export const RoutesConfig = createRouteConfig(
   {
@@ -32,6 +33,7 @@ export const RoutesConfig = createRouteConfig(
         token: useQueryParams().get('token') ?? undefined,
       }),
     },
+
     unstake: {
       path: UNSTAKE_FANTOM_PATH,
       generatePath: (token?: TFtmSyntToken) => {
@@ -43,10 +45,16 @@ export const RoutesConfig = createRouteConfig(
         token: useQueryParams().get('token') ?? undefined,
       }),
     },
+
     stakeStep: {
       path: STEP_STAKE_FANTOM_PATH,
       generatePath: (options: { txHash: string; tokenOut: TFtmSyntToken }) =>
         generatePath(STEP_STAKE_FANTOM_PATH, options),
+    },
+
+    unstakeSuccess: {
+      path: STEP_UNSTAKE_FANTOM_PATH,
+      generatePath: () => generatePath(STEP_UNSTAKE_FANTOM_PATH),
     },
   },
   ROOT,
@@ -62,6 +70,12 @@ const Unstake = loadComponent(() =>
 
 const StakeSteps = loadComponent(() =>
   import('./screens/StakeFantomSteps').then(module => module.StakeFantomSteps),
+);
+
+const UnstakeSuccess = loadComponent(() =>
+  import('./screens/UnstakeFantomSuccess').then(
+    module => module.UnstakeFantomSuccess,
+  ),
 );
 
 export function getRoutes(): JSX.Element {
@@ -98,6 +112,17 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <StakeSteps />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={FANTOM_STAKING_NETWORKS}
+          path={RoutesConfig.unstakeSuccess.path}
+          providerId={FANTOM_PROVIDER_ID}
+        >
+          <DefaultLayout>
+            <UnstakeSuccess />
           </DefaultLayout>
         </GuardETHRoute>
 

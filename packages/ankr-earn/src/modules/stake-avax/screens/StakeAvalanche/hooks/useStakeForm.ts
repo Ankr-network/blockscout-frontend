@@ -14,11 +14,11 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useStakableAvax } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableAvax';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
 import { stake } from 'modules/stake-avax/actions/stake';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 import { calcTotalAmount } from 'modules/stake-avax/utils/calcTotalAmount';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -37,6 +37,7 @@ interface IUseStakeFormData {
   aAVAXcRatio: BigNumber;
   amount: BigNumber;
   certificateRatio: BigNumber;
+  faqItems: IFAQItem[];
   fetchStatsData: IUseFetchStatsData['stats'];
   fetchStatsError: Error | null;
   isFetchStatsLoading: boolean;
@@ -57,6 +58,11 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
+  });
+
   const { data: stakeGasFeeData, loading: isStakeGasLoading } = useQuery({
     type: getStakeGasFee,
   });
@@ -71,7 +77,6 @@ export const useStakeForm = (): IUseStakeFormData => {
     AvailableWriteProviders.ethCompatible,
   );
 
-  const stakableAVAXData = useStakableAvax();
   const [amount, setAmount] = useState(ZERO);
 
   const aAVAXcRatio = fetchStatsData?.aAVAXcRatio;
@@ -89,16 +94,10 @@ export const useStakeForm = (): IUseStakeFormData => {
     return calcTotalAmount({
       selectedToken,
       amount: new BigNumber(amount),
-      balance: stakableAVAXData.balance,
+      balance: fetchStatsData.avaxBalance,
       aAVAXcRatio,
     });
-  }, [
-    fetchStatsData,
-    amount,
-    selectedToken,
-    stakableAVAXData.balance,
-    aAVAXcRatio,
-  ]);
+  }, [fetchStatsData, amount, selectedToken, aAVAXcRatio]);
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -134,7 +133,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       willGetAmount: currentAmount,
       tokenIn: Token.AVAX,
       tokenOut: selectedToken,
-      prevStakedAmount: stakableAVAXData.balance,
+      prevStakedAmount: fetchStatsData?.avaxBalance ?? ZERO,
       synthBalance:
         selectedToken === Token.aAVAXb
           ? fetchStatsData?.aAVAXbBalance ?? ZERO
@@ -164,6 +163,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     aAVAXcRatio: tokenCertRatio,
     amount,
     certificateRatio: aAVAXcRatio ?? ZERO,
+    faqItems,
     fetchStatsData,
     fetchStatsError,
     isFetchStatsLoading,

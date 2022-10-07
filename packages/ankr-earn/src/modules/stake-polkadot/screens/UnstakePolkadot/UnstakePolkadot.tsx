@@ -33,6 +33,7 @@ export const UnstakePolkadot = ({
   const renderFormFooter = (amount: BigNumber): JSX.Element => (
     <UnstakeFormFooter
       amount={amount}
+      isDisabled={isUnstakeLoading}
       network={network}
       polkadotToken={polkadotToken}
     />
@@ -58,10 +59,10 @@ export const UnstakePolkadot = ({
               balance={fetchStatsData.ethTokenBalance}
               endText={unstakeLabel}
               extraValidation={unstakeExtraValidation}
+              isDisabled={isUnstakeLoading}
               isLoading={isUnstakeLoading}
               maxAmountDecimals={maxAmountDecimals}
               renderFormFooter={renderFormFooter}
-              submitDisabled={isUnstakeLoading}
               token={ethToken}
               onClose={onUnstakeFormClose}
               onSubmit={onUnstakeSubmit}
