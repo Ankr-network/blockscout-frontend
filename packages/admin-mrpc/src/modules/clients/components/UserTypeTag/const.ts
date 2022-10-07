@@ -11,7 +11,7 @@ export const clientTypeNaming: Record<ClientType, string> = {
   [ClientType.PAYG]: 'PAYG',
   [ClientType.ForcedExpirationPremium]: 'Premium Forced Expiration',
   [ClientType.Premium]: 'Premium',
-  [ClientType.TestDrivePremium]: 'Test Drive Premium',
+  [ClientType.TestDrivePremium]: 'Test',
 };
 
 const FORCED_EXPIRATION_DATE = new Date(2023, 1, 25).toLocaleDateString();

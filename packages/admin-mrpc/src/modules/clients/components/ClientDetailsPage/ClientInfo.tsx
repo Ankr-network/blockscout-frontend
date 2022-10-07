@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import {
   CardContent,
   Typography,
@@ -9,14 +8,15 @@ import {
   Paper,
 } from '@mui/material';
 
-import { UserTypeTag } from '../UserTypeTag';
+import { Spinner } from 'ui';
+import { IUserStatsResponse, Web3Address } from 'multirpc-sdk';
+
+import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
+import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
 import { ClientMapped } from '../../store/clientsSlice';
+import { UserTypeTag } from '../UserTypeTag';
 import { ClientBalancesModal } from './ClientBalancesModal';
 import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
-import { IUserStatsResponse, Web3Address } from 'multirpc-sdk';
-import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
-import { Spinner } from 'ui';
-import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 
 interface IClientInfoProps {
   address: Web3Address;
@@ -51,28 +51,30 @@ export const ClientInfo = ({
   );
 
   const renderMainInfo = (user: ClientMapped) => (
-    <Fragment key={user.user}>
-      <Box display="flex" alignItems="center">
-        <Typography className={classes.typeText} variant="body2" component="p">
-          <b>Type:</b>
-        </Typography>
-        {isLoadingClients ? (
-          'Loading...'
-        ) : (
+    <Card key={user.user} className={classes.root}>
+      <CardContent>
+        <Box display="flex" alignItems="center">
           <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
-        )}
-      </Box>
-      <br />
-      <Typography variant="body2" component="p">
-        <b>Created:</b>{' '}
-        {isLoadingClients ? 'Loading...' : user.createdDate.toLocaleString()}
-      </Typography>
-      <br />
-      <Typography variant="body2" component="p">
-        <b>Token:</b> {isLoadingClients ? 'Loading...' : user.user}
-      </Typography>
-      <hr />
-    </Fragment>
+        </Box>
+        <br />
+        <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
+          <b>Created:</b>{' '}
+       user?.createdDate?.toLocaleString()
+        </Typography>
+        <br />
+        <Typography variant="body2" component="p">
+          <b>Token:</b>{' '}
+          {isLoadingClients ? (
+            'Loading...'
+          ) : (
+            <>
+              {user.user}
+              <ButtonCopy valueToCopy={user.user} />
+            </>
+          )}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 
   const statsText = statsData?.totalRequests
@@ -83,6 +85,9 @@ export const ClientInfo = ({
       ? renderUSD(transactionsCost.toString())
       : 'Not found';
   const clientEmailText = client && client.email ? client.email : 'Not found';
+  const voucherCreditsText = client?.voucherAmount ? (
+    <>{renderBalance(client?.voucherAmount)} Voucher Credits</>
+  ) : null;
 
   return (
     <>
@@ -97,15 +102,14 @@ export const ClientInfo = ({
           <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
         </Typography>
       </Paper>
-      <Card className={classes.root}>
-        <CardContent>
-          {isLoadingClients ? (
-            <Spinner size={40} centered={false} />
-          ) : (
-            currentClient.map(renderMainInfo)
-          )}
-        </CardContent>
-      </Card>
+      {isLoadingClients ? (
+        <>
+          <br />
+          <Spinner size={40} centered={false} />
+        </>
+      ) : (
+        currentClient.map(renderMainInfo)
+      )}
 
       <Grid
         className={classes.gridContainer}
@@ -118,9 +122,7 @@ export const ClientInfo = ({
             Current Funds Balance
           </Typography>
           <Typography variant="subtitle1" component="p">
-            <b>
-              {isLoadingClients ? skeleton : renderUSD(client?.amountUsd) || 0}
-            </b>
+            <b>{isLoadingClients ? skeleton : renderUSD(client?.amountUsd)}</b>
           </Typography>
         </Grid>
 
@@ -129,14 +131,10 @@ export const ClientInfo = ({
             Current API Credit Balance
           </Typography>
           <Typography variant="subtitle1" component="p">
-            <b>
-              {isLoadingClients ? skeleton : renderBalance(client?.amount) || 0}
-            </b>
+            <b>{isLoadingClients ? skeleton : renderBalance(client?.amount)}</b>
           </Typography>
           <Typography variant="caption" component="p">
-            {isLoadingClients
-              ? skeleton
-              : `${renderBalance(client?.voucherAmount) || 0} Voucher Credits`}
+            {isLoadingClients ? skeleton : voucherCreditsText}
           </Typography>
         </Grid>
 

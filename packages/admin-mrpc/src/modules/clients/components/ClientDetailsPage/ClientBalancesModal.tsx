@@ -28,13 +28,19 @@ interface FormElements {
   };
 }
 
+interface FormTarget {
+  target: { value: string; name: string };
+}
+
 const ADD_CREDITS_ID = 'add';
 const SUBTRACT_CREDITS_ID = 'subtract';
 
 export const ClientBalancesModal = ({
   currentClient,
+  isMenuElement,
 }: {
   currentClient: ClientMapped;
+  isMenuElement?: boolean;
 }) => {
   const { classes, cx } = useStyles();
   const [addUserVoucherCredits, { isLoading: isLoadingAddCredits }] =
@@ -50,9 +56,7 @@ export const ClientBalancesModal = ({
 
   const [unit, setUnit] = useState('');
   const handleChangeUnit = (
-    event: React.ChangeEvent<
-      HTMLInputElement & { target: { value: string; name: string } }
-    >,
+    event: React.ChangeEvent<HTMLInputElement & FormTarget>,
   ) => {
     setUnit(event.target.value);
   };
@@ -193,16 +197,28 @@ export const ClientBalancesModal = ({
     </div>
   );
 
+  const handleClickMenuButton = (e: React.MouseEvent<HTMLLIElement>) => {
+    e.stopPropagation();
+    handleOpen();
+  };
+
   return (
     <>
-      <Button
-        onClick={handleOpen}
-        color="secondary"
-        className={classes.balancesBtn}
-        startIcon={<IconWallet />}
-      >
-        Manage Credits
-      </Button>
+      {isMenuElement ? (
+        <MenuItem onClick={handleClickMenuButton}>
+          <IconWallet style={{ marginRight: 8 }} />
+          Manage credits
+        </MenuItem>
+      ) : (
+        <Button
+          onClick={handleOpen}
+          color="secondary"
+          className={classes.balancesBtn}
+          startIcon={<IconWallet />}
+        >
+          Manage Credits
+        </Button>
+      )}
 
       <Modal
         open={open}

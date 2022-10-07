@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Table,
@@ -9,6 +10,7 @@ import {
   Box,
   TableSortLabel,
   Tooltip,
+  Button,
 } from '@mui/material';
 
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
@@ -23,6 +25,7 @@ import { useClientsTableFiltering } from './useClientsTableFiltering';
 import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useClientsTableStyles } from './ClientsTableStyles';
 import { ClientsValueFilters } from '../ClientsValueFilters/ClientsValueFilters';
+import { ButtonOptions } from './ButtonOptions';
 
 export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
   const history = useHistory();
@@ -40,6 +43,10 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
       clients: filteredClients,
     },
   );
+
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const collapsedData = isCollapsed ? sortedData.slice(0, 50) : sortedData;
 
   const handleRowClick = (row: ClientMapped) => {
     if (!row.address) {
@@ -73,7 +80,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                 return (
                   <TableCell
                     key={key}
-                    onClick={() => handleOrder(key)}
+                    onClick={() => handleOrder(key as keyof ClientMapped)}
                     className={classes.headerCell}
                   >
                     <TableSortLabel
@@ -88,7 +95,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedData.map(row => (
+            {collapsedData.map(row => (
               <TableRow
                 className={cx(
                   classes.row,
@@ -97,7 +104,9 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                 key={row.user}
                 onClick={() => handleRowClick(row)}
               >
-                <TableCell className={classes.cell}>{row.email}</TableCell>
+                <TableCell title={row.email} className={classes.cell}>
+                  {row.email}
+                </TableCell>
                 <Tooltip title={row.address || ''}>
                   <TableCell className={classes.cell}>
                     <>{shrinkAddress(row.address) || 'No information'}</>
@@ -124,10 +133,23 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                 <TableCell className={classes.cell}>
                   {row.createdDate.toLocaleDateString()}
                 </TableCell>
+                <TableCell className={classes.cell}>
+                  <ButtonOptions client={row} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        {isCollapsed && (
+          <Button
+            size="extraLarge"
+            fullWidth
+            color="secondary"
+            onClick={() => setIsCollapsed(false)}
+          >
+            Show All
+          </Button>
+        )}
       </TableContainer>
     </>
   );

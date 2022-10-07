@@ -6,10 +6,10 @@ import { t } from 'modules/i18n/utils/intl';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { useAppSelector } from 'store/useAppSelector';
+import { ReactComponent as MetamaskIcon } from 'assets/img/metamask.svg';
 
 import { useLazyAuthConnectQuery } from '../../actions/connect';
 import { useLazyAuthDisconnectQuery } from '../../actions/disconnect';
-import { ReactComponent as MetamaskIcon } from 'assets/img/metamask.svg';
 import { useStyles } from './useStyles';
 
 export const ConnectButton = () => {

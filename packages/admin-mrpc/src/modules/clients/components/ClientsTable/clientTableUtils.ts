@@ -37,7 +37,9 @@ export function sortData({
   return itemsToSort.sort(compareFn);
 }
 
-export const columns: { key: keyof ClientMapped; label: string }[] = [
+type Key = keyof ClientMapped | 'options';
+
+export const columns: { key: Key; label: string }[] = [
   { key: 'email', label: 'Email' },
   { key: 'address', label: 'Wallet' },
   { key: 'amount', label: 'Amount of Credits' },
@@ -46,4 +48,5 @@ export const columns: { key: keyof ClientMapped; label: string }[] = [
   { key: 'amountUsd', label: 'Equivalent in USD' },
   { key: 'clientType', label: 'Type of the User' },
   { key: 'timestamp', label: 'Date Created' },
+  { key: 'options', label: '' },
 ];
