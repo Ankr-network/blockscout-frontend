@@ -16,6 +16,7 @@ import {
   useStakingTypes,
   useTokenNetworks,
 } from 'modules/defi-aggregator/hooks';
+import { parseAssets } from 'modules/defi-aggregator/utils/parseAssets';
 import { Button } from 'uiKit/Button';
 import { OutLinkIcon } from 'uiKit/Icons/OutLinkIcon';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -117,9 +118,7 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
 
         <ScrollableTable.Body>
           {sortedData.map(item => {
-            const assets = item.assets.split('/');
-            const firstAsset = assets[0];
-            const secondAsset = assets[1].match(/[^\s]+/g)?.[0];
+            const { firstAsset, secondAsset } = parseAssets(item.assets);
             const handleDepositClick = () => onDepositClick(item);
             const typeText = stakingTypes.find(
               ({ value }) => value === item.type,
