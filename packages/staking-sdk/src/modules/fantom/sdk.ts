@@ -36,7 +36,7 @@ import { convertNumberToHex } from '../utils/converters';
 import {
   FANTOM_PROVIDER_READ_ID,
   FANTOM_MAX_BLOCK_RANGE,
-  FANTOM_BLOCK_OFFSET,
+  FANTOM_BLOCK_WEEK_OFFSET,
   FANTOM_ESTIMATE_GAS_MULTIPLIER,
   FANTOM_GAS_FEE_MULTIPLIER,
 } from './const';
@@ -266,6 +266,37 @@ export class FantomSDK implements ISwitcher, IStakable {
    */
   public async getTxEventsHistory(): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    const startBlock = latestBlockNumber - FANTOM_BLOCK_WEEK_OFFSET;
+
+    return this.getTxEventsHistoryRange(startBlock, latestBlockNumber);
+  }
+
+ /** 
+   * Get latest block number.
+   * 
+   * @returns {Promise<number>}
+  */
+  public async getLatestBlock(): Promise<number> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return web3.eth.getBlockNumber();
+  }
+
+  /**
+   * Get transaction history.
+   *
+   * @public
+   * @note Currently returns data for block range.
+   * @param {number} from - from block
+   * @param {number} to - to block
+   * @returns {Promise<ITxEventsHistoryData>}
+   */
+   public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+    const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
     const web3 = provider.getWeb3();
 
@@ -273,17 +304,14 @@ export class FantomSDK implements ISwitcher, IStakable {
       .firstWrId()
       .call();
 
-    const latestBlockNumber = await web3.eth.getBlockNumber();
-    const startBlock = latestBlockNumber - FANTOM_BLOCK_OFFSET;
-
     const [stakeRawEvents, unstakeRawEvents, withdrawnRawEvents] =
       await Promise.all([
         // event StakeReceived is emitted once transaction is successfull
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock,
-          latestBlockNumber,
+          startBlock: from,
+          latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.StakeReceived,
           filter: {
@@ -294,8 +322,8 @@ export class FantomSDK implements ISwitcher, IStakable {
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock,
-          latestBlockNumber,
+          startBlock: from,
+          latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.TokensBurned,
           filter: {
@@ -305,8 +333,8 @@ export class FantomSDK implements ISwitcher, IStakable {
         this.getPastEvents({
           provider,
           contract: fantomPoolContract,
-          startBlock,
-          latestBlockNumber,
+          startBlock: from,
+          latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.Withdrawn,
           filter: {
@@ -373,15 +401,15 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents({
-    provider,
     contract,
     eventName,
     startBlock,
+    latestBlockNumber,
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    const web3 = provider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
+    // const web3 = provider.getWeb3();
+    // const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const eventsPromises: Promise<EventData[]>[] = [];
 
@@ -676,9 +704,10 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
    * @param {string} token - choose which token to unstake (aFTMb or aFTMc)
-   * @returns {Promise<void>}
+   * @returns {Promise<IWeb3SendResult>}
    */
-  public async unstake(amount: BigNumber, token: string): Promise<void> {
+  public async unstake(amount: BigNumber, token: string): Promise<IWeb3SendResult> {
+    const { fantomConfig } = configFromEnv();
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EFantomErrorCodes.ZERO_AMOUNT);
     }
@@ -696,13 +725,15 @@ export class FantomSDK implements ISwitcher, IStakable {
       from: this.currentAccount,
     });
 
-    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
-
-    return txn.send({
-      from: this.currentAccount,
-      gas: this.getIncreasedGasLimit(gasLimit),
-      gasPrice: gasPrice.toString(10),
-    });
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      fantomConfig.fantomPool,
+      {
+        data: txn.encodeABI(),
+        estimate: true,
+        gasLimit: this.getIncreasedGasLimit(gasLimit).toString(),
+      },
+    );
   }
 
   /**

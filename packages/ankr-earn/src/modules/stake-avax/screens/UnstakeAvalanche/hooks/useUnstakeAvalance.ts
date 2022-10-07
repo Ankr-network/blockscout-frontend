@@ -29,7 +29,7 @@ interface IUseUnstakeAvax {
   calcTotalRecieve: (amount: BigNumber) => string;
 }
 
-export const useUnstakeAvalance = (onSuccess: () => void): IUseUnstakeAvax => {
+export const useUnstakeAvalance = (): IUseUnstakeAvax => {
   const dispatchRequest = useDispatchRequest();
   const { sendAnalytics } = useUnstakeAvaxAnalytics();
 
@@ -60,12 +60,11 @@ export const useUnstakeAvalance = (onSuccess: () => void): IUseUnstakeAvax => {
         unstake({ amount: resultAmount, token: selectedToken }),
       ).then(({ error }) => {
         if (!error) {
-          onSuccess();
           sendAnalytics(resultAmount, selectedToken);
         }
       });
     },
-    [dispatchRequest, onSuccess, selectedToken, sendAnalytics],
+    [dispatchRequest, selectedToken, sendAnalytics],
   );
 
   const onUnstakeSubmit = useCallback(

@@ -20,6 +20,7 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
+import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -39,7 +40,6 @@ import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
 import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
-import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeFantomStyles } from './useStakeFantomStyles';
 
@@ -56,6 +56,7 @@ export const StakeFantom = (): JSX.Element => {
     amount,
     balance,
     certificateRatio,
+    faqItems,
     gasFee,
     isCommonDataLoading,
     isGasFeeLoading,
@@ -69,8 +70,6 @@ export const StakeFantom = (): JSX.Element => {
     onSubmit,
     onTokenSelect,
   } = useStakeForm();
-
-  const faqItems = useFaq();
 
   const renderStats = useCallback(() => {
     return (
@@ -122,12 +121,13 @@ export const StakeFantom = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
+    dispatchRequest(getFAQ(Token.FTM));
     dispatchRequest(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
     };
-  }, [dispatchRequest]);
+  }, [dispatch, dispatchRequest]);
 
   useProviderEffect(() => {
     if (!featuresConfig.isActiveStakeTradeInfo) {
@@ -170,6 +170,7 @@ export const StakeFantom = (): JSX.Element => {
             />
           }
           isBalanceLoading={hasError || isCommonDataLoading}
+          isDisabled={loading}
           loading={hasError || loading}
           minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
           renderStats={renderStats}

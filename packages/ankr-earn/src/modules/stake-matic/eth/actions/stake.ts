@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -11,7 +11,7 @@ import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 
 import { fetchStats } from './fetchStats';
-import { fetchTxHistory } from './fetchTxHistory';
+import { fetchTotalHistory } from './fetchTotalHistory';
 
 interface IStakePayload {
   amount: BigNumber;
@@ -26,7 +26,7 @@ export const stake = createSmartAction<
 >(`${MATIC_ETH_ACTIONS_PREFIX}stake`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<{ txHash: string }> => {
-      const sdk = await MaticEthSDK.getInstance();
+      const sdk = await PolygonOnEthereumSDK.getInstance();
       return sdk.stake(amount, token);
     })(),
   },
@@ -35,7 +35,7 @@ export const stake = createSmartAction<
     showNotificationOnError: true,
     onSuccess: (response, _action, store) => {
       store.dispatchRequest(fetchStats());
-      store.dispatchRequest(fetchTxHistory());
+      store.dispatchRequest(fetchTotalHistory());
 
       if (response.data.txHash) {
         const path = RoutesConfig.stakeStep.generatePath(

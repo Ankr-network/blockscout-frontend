@@ -14,6 +14,7 @@ import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { stake } from 'modules/stake-fantom/actions/stake';
 import { calcTotalAmount } from 'modules/stake-fantom/utils/calcTotalAmount';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -30,6 +31,7 @@ interface IUseStakeForm {
   amount: BigNumber;
   balance?: BigNumber;
   certificateRatio: BigNumber;
+  faqItems: IFAQItem[];
   gasFee: BigNumber;
   isCommonDataLoading: boolean;
   isGasFeeLoading: boolean;
@@ -54,6 +56,11 @@ export const useStakeForm = (): IUseStakeForm => {
   const { selectedToken, handleTokenSelect } = useSelectedToken();
   const { data, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
   });
 
   const { data: gasFee, loading: isGasFeeLoading } = useQuery({
@@ -132,6 +139,7 @@ export const useStakeForm = (): IUseStakeForm => {
     amount,
     balance,
     certificateRatio: aFTMcRatio,
+    faqItems,
     gasFee: gasFee ?? ZERO,
     isCommonDataLoading,
     isGasFeeLoading,

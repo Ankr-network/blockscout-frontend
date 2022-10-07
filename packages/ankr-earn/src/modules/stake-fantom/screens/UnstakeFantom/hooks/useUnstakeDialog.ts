@@ -15,7 +15,6 @@ import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
-import { useStakedAFTMBData } from 'modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/FTM/useStakedAFTMBData';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { unstake } from 'modules/stake-fantom/actions/unstake';
@@ -31,9 +30,9 @@ import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseUnstakeDialog
   extends Pick<IUnstakeDialogProps, 'onSubmit' | 'onChange'> {
-  submitDisabled: boolean;
   isBalanceLoading: boolean;
   isBurnFeeLoading: boolean;
+  isDisabled: boolean;
   isLoading: boolean;
   burnFee: BigNumber;
   balance: BigNumber;
@@ -42,9 +41,7 @@ interface IUseUnstakeDialog
   calcTotalRecieve: (amount: BigNumber) => BigNumber;
 }
 
-export const useUnstakeDialog = (
-  openSuccess: () => void,
-): IUseUnstakeDialog => {
+export const useUnstakeDialog = (): IUseUnstakeDialog => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
   const { data: commonData, loading: isBalanceLoading } = useQuery({
@@ -57,7 +54,6 @@ export const useUnstakeDialog = (
   const { loading: isUnstakeLoading } = useMutation({
     type: unstake,
   });
-  const stakedAFTMBData = useStakedAFTMBData();
 
   const stakeParamsToken = FantomRoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
@@ -68,7 +64,7 @@ export const useUnstakeDialog = (
     ? commonData?.aFTMbBalance || ZERO
     : commonData?.aFTMcBalance || ZERO;
 
-  const submitDisabled = isBalanceLoading || isUnstakeLoading;
+  const isDisabled = isBalanceLoading || isUnstakeLoading;
   const tokenBalance = commonData?.ftmBalance ?? ZERO;
   const burnFee = burnFeeData ?? ZERO;
 
@@ -86,14 +82,14 @@ export const useUnstakeDialog = (
         syntheticToken: Token.aFTMb,
         fee: burnFee,
         newTokenBalance: tokenBalance,
-        newStakedBalance: stakedAFTMBData.amount,
+        newStakedBalance: commonData?.aFTMbBalance ?? ZERO,
         newSynthTokens: syntTokenBalance,
       });
     },
     [
       address,
       burnFee,
-      stakedAFTMBData.amount,
+      commonData?.aFTMbBalance,
       syntTokenBalance,
       tokenBalance,
       walletName,
@@ -111,14 +107,12 @@ export const useUnstakeDialog = (
       dispatchRequest(unstake(resultAmount, selectedToken)).then(
         ({ error }) => {
           if (!error) {
-            openSuccess();
-
             sendAnalytics(resultAmount);
           }
         },
       );
     },
-    [dispatchRequest, openSuccess, sendAnalytics, selectedToken],
+    [dispatchRequest, sendAnalytics, selectedToken],
   );
 
   const onChange = useCallback(
@@ -148,9 +142,9 @@ export const useUnstakeDialog = (
   );
 
   return {
-    submitDisabled,
     isBalanceLoading,
     isBurnFeeLoading,
+    isDisabled,
     isLoading: isUnstakeLoading,
     balance: syntTokenBalance,
     selectedToken,

@@ -2,7 +2,7 @@ import { configFromEnv } from 'modules/api/config';
 import { Token } from 'modules/common/types/token';
 import { BridgedAsset } from 'modules/dashboard/components/BridgedAsset';
 
-import { useBridgedMaticBondBSC } from '../StakedTokens/hooks/MATIC/useBridgedMaticBondBSC';
+import { useBridgedMaticBondBSC } from './useBridgedMaticBondBSC';
 
 export const BridgedMaticBondBSC = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();

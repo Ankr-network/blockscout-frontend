@@ -6,7 +6,7 @@ export enum StakingType {
   LiquidityPool = 'liquidityPool',
   Farming = 'farming',
   Vault = 'vault',
-  Borrowing = 'Borrowing',
+  Landing = 'landing',
 }
 
 export type StakingTypeOption = {
@@ -32,5 +32,9 @@ export const useStakingTypes = (): StakingTypeOption[] => [
   {
     label: t('defi.vault'),
     value: StakingType.Vault,
+  },
+  {
+    label: t('defi.landing'),
+    value: StakingType.Landing,
   },
 ];

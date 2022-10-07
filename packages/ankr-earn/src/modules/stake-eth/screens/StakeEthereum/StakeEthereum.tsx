@@ -9,9 +9,11 @@ import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import { AUDIT_LINKS, featuresConfig } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
+import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -26,7 +28,6 @@ import { TokenVariants } from './components/TokenVariants';
 import { TotalAmount } from './components/TotalAmount';
 import { Unclaimed } from './components/Unclaimed';
 import { useErrorMessage } from './hooks/useErrorMessage';
-import { useFaq } from './hooks/useFaq';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeEthereumStyles } from './useStakeEthereumStyles';
 
@@ -40,6 +41,7 @@ export const StakeEthereum = (): JSX.Element => {
     amount,
     balance,
     certificateRatio,
+    faqItems,
     fee,
     isCommonDataLoading,
     isFeeLoading,
@@ -51,14 +53,13 @@ export const StakeEthereum = (): JSX.Element => {
     onSubmit,
   } = useStakeForm();
 
-  const faqItems = useFaq();
-
   useProviderEffect(() => {
     dispatch(getCommonData());
+    dispatch(getFAQ(Token.ETH));
     dispatch(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
     };
   }, [dispatch]);
 

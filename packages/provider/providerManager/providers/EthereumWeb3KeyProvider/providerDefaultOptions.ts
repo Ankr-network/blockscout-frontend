@@ -122,6 +122,8 @@ export const providerDefaultOptions: IProviderOptions = {
         5: 'https://rpc.ankr.com/eth_goerli',
         56: 'https://rpc.ankr.com/bsc',
         97: 'https://rpc.ankr.com/bsc_testnet_chapel',
+        137: 'https://rpc.ankr.com/polygon',
+        80001: 'https://rpc.ankr.com/polygon_mumbai',
       },
     },
   },

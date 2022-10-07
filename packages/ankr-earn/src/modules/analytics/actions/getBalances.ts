@@ -3,7 +3,7 @@ import {
   BinanceSDK,
   EthereumSDK,
   FantomSDK,
-  MaticEthSDK,
+  PolygonOnEthereumSDK,
 } from '@ankr.com/staking-sdk';
 
 interface IGetBalances {
@@ -20,12 +20,12 @@ interface IGetBalances {
 }
 
 export const getBalances = async (): Promise<IGetBalances> => {
-  const [binanceSDK, avalancheSDK, ethSDK, maticEthSDK, fantomSDK] =
+  const [binanceSDK, avalancheSDK, ethSDK, polygonOnEthereumSDK, fantomSDK] =
     await Promise.all([
       BinanceSDK.getInstance(),
       AvalancheSDK.getInstance(),
       EthereumSDK.getInstance(),
-      MaticEthSDK.getInstance(),
+      PolygonOnEthereumSDK.getInstance(),
       FantomSDK.getInstance(),
     ]);
 
@@ -47,8 +47,8 @@ export const getBalances = async (): Promise<IGetBalances> => {
     avalancheSDK.getABBalance(),
     ethSDK.getABBalance(),
     ethSDK.getEthBalance(),
-    maticEthSDK.getMaticBalance(),
-    maticEthSDK.getABBalance(),
+    polygonOnEthereumSDK.getMaticBalance(),
+    polygonOnEthereumSDK.getABBalance(),
     fantomSDK.getFtmBalance(),
     fantomSDK.getABBalance(),
   ]);

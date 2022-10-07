@@ -69,10 +69,4 @@ export const useTxViewStyles = makeStyles<Theme>(theme => ({
   gridCellValue: {
     justifySelf: 'flex-end',
   },
-  footerBtn: {
-    '& button': {
-      width: '100%',
-      marginTop: theme.spacing(3),
-    },
-  },
 }));

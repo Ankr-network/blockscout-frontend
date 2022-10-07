@@ -11,8 +11,7 @@ import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { Button } from 'uiKit/Button';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { useStakedAETHBSCData } from '../StakedTokens/hooks/ETH/useStakedAETHBSCData';
-
+import { useStakedAETHBSCData } from './useStakedAETHBSCData';
 import { useStyles } from './useStakedAETHBSCStyles';
 
 export const StakedAETHBSC = (): JSX.Element => {

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
@@ -27,7 +27,7 @@ export const approveMATICStake = createSmartAction<
 >(`${MATIC_ETH_ACTIONS_PREFIX}approveMATICStake`, ({ amount, token }) => ({
   request: {
     promise: (async (): Promise<boolean> => {
-      const sdk = await MaticEthSDK.getInstance();
+      const sdk = await PolygonOnEthereumSDK.getInstance();
 
       return sdk.approveMATICToken(amount);
     })(),

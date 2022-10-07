@@ -2,7 +2,7 @@ import { configFromEnv } from 'modules/api/config';
 import { Token } from 'modules/common/types/token';
 import { BridgedAsset } from 'modules/dashboard/components/BridgedAsset';
 
-import { useStakedBridgeAETHBData } from '../StakedTokens/hooks/ETH/useStakedBridgeAETHBData';
+import { useStakedBridgeAETHBData } from './useStakedBridgeAETHBData';
 
 export const BridgedEthBond = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();

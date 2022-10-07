@@ -1,9 +1,12 @@
+import { useMemo } from 'react';
+
 import { useIsMDUp } from 'ui';
 
 import { PortfolioChart } from 'modules/dashboard/components/PortfolioChart';
 
-import { usePortfolioNativeData } from '../../hooks/usePortfolioNativeData';
-import { usePortfolioStakedData } from '../../hooks/usePortfolioStakedData';
+import { usePortfolioCommonData } from './usePortfolioCommonData';
+import { usePortfolioNativeData } from './usePortfolioNativeData';
+import { usePortfolioStakedData } from './usePortfolioStakedData';
 
 const CHART_SIZE = 350;
 const CHART_SIZE_MOBILE = 280;
@@ -19,6 +22,8 @@ export const MyPortfolio = (): JSX.Element => {
     data: nativeData,
   } = usePortfolioNativeData();
 
+  const { isCurrentAccountPartner } = usePortfolioCommonData();
+
   const {
     isLoading: isStakedDataLoading,
     totalAmountUsd: totalStakedAmountUsd,
@@ -27,10 +32,16 @@ export const MyPortfolio = (): JSX.Element => {
     data: stakedData,
   } = usePortfolioStakedData();
 
+  const data = useMemo(
+    () => [...nativeData, ...stakedData],
+    [nativeData, stakedData],
+  );
+
   return (
     <PortfolioChart
-      data={nativeData.concat(stakedData)}
+      data={data}
       height={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
+      isCurrentAccountPartner={isCurrentAccountPartner}
       isLoading={isNativeDataLoading || isStakedDataLoading}
       nativeApr={nativeApr}
       stakedApr={stakedApr}

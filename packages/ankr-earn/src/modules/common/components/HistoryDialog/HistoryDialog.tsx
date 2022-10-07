@@ -1,5 +1,4 @@
 import { Container, Typography } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import { useMemo, useState } from 'react';
@@ -16,6 +15,7 @@ import { NavLink } from 'uiKit/NavLink';
 import { Spinner } from 'uiKit/Spinner';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { IHistoryDialogRow } from './types';
 import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
 
 enum EHistoryTypes {
@@ -23,14 +23,7 @@ enum EHistoryTypes {
   Unstaked = 'unstaked',
 }
 
-export interface IHistoryDialogRow {
-  amount?: BigNumber;
-  date?: Date;
-  hash?: string;
-  link?: string;
-}
-
-export interface HistoryDialogData {
+export interface IHistoryDialogData {
   staked: IHistoryDialogRow[];
   stakedToken: Token;
   unstaked: IHistoryDialogRow[];
@@ -38,7 +31,7 @@ export interface HistoryDialogData {
 }
 
 export interface IHistoryDialogProps {
-  history: HistoryDialogData;
+  history: IHistoryDialogData;
   isHistoryLoading: boolean;
   open: boolean;
   unsupportedUnstakeHistoryTxt?: string;

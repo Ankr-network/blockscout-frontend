@@ -1,11 +1,11 @@
 import { UnclaimedAsset } from 'modules/dashboard/components/UnclaimedAsset';
 
-import { WND_PROPS } from '../StakedTokens/const';
-import { useUnclaimedPolkadotData } from '../StakedTokens/hooks/Polkadot/useUnclaimedPolkadotData';
+import { WND_PROPS } from '../../const';
+import { useUnclaimedPolkadotCard } from '../../hooks/liquid-tokens/Polkadot/useUnclaimedPolkadotCard';
 
 export const UnclaimedWND = (): JSX.Element => {
   const { amount, claimLink, isLoading, networkTxt, polkadotToken, usdAmount } =
-    useUnclaimedPolkadotData(WND_PROPS);
+    useUnclaimedPolkadotCard(WND_PROPS);
 
   return (
     <UnclaimedAsset

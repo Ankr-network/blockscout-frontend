@@ -14,7 +14,7 @@ import { CloseButton } from 'uiKit/CloseButton';
 import { Container } from 'uiKit/Container';
 import { Spinner } from 'uiKit/Spinner';
 
-import { useClaimAllRewards } from './useClaimAllRewards';
+import { useClaimAllRewards } from './hooks/useClaimAllRewards';
 import { useClaimAllRewardsStyles } from './useClaimAllRewardsStyles';
 
 export const ClaimAllRewards = (): JSX.Element => {

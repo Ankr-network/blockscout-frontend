@@ -6,7 +6,8 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ONE } from 'modules/common/const';
+import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
+import { ETH_NETWORK_BY_ENV, featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -14,12 +15,13 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
-import { fetchTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
+import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useStakedAMATICBData } from '../StakedTokens/hooks/MATIC/useStakedAMATICBData';
-import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
+
+import { useStakedAMATICBData } from './useStakedAMATICBData';
 
 export const StakedAMATICB = (): JSX.Element | null => {
   const { contractConfig } = configFromEnv();
@@ -81,7 +83,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
   };
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTxHistory());
+    dispatch(fetchTotalHistory());
   }, [dispatch]);
 
   const handleOpenHistoryDialog = useCallback(() => {
@@ -126,12 +128,21 @@ export const StakedAMATICB = (): JSX.Element | null => {
         onTradeClick={onTradeClick}
       />
 
-      <HistoryDialog
-        history={transactionHistoryAMATICB}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
-      />
+      {featuresConfig.newStakingHistoryDialog ? (
+        <NewHistoryDialog
+          network={ETH_NETWORK_BY_ENV}
+          open={isOpenedHistory}
+          token={Token.aMATICb}
+          onClose={onCloseHistory}
+        />
+      ) : (
+        <HistoryDialog
+          history={transactionHistoryAMATICB}
+          isHistoryLoading={isHistoryDataLoading}
+          open={isOpenedHistory}
+          onClose={onCloseHistory}
+        />
+      )}
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

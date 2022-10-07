@@ -17,9 +17,9 @@ import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { WND_PROPS } from '../StakedTokens/const';
-import { useStakedPolkadotData } from '../StakedTokens/hooks/Polkadot/useStakedPolkadotData';
-import { useStakedPolkadotTxHistory } from '../StakedTokens/hooks/Polkadot/useStakedPolkadotTxHistory';
+import { WND_PROPS } from '../../const';
+import { useStakedPolkadotCard } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotCard';
+import { useStakedPolkadotTxHistory } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotTxHistory';
 
 export const StakedAWNDB = (): JSX.Element => {
   const { polkadotConfig } = configFromEnv();
@@ -61,7 +61,7 @@ export const StakedAWNDB = (): JSX.Element => {
     usdAmount,
     walletName,
     handleAddTokenToWallet,
-  } = useStakedPolkadotData(WND_PROPS);
+  } = useStakedPolkadotCard(WND_PROPS);
 
   const onTradeClick = (): void => {
     trackClickTrade({

@@ -10,14 +10,12 @@ import { useCallback } from 'react';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
-import { useDialog } from 'modules/common/hooks/useDialog';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
-import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -27,9 +25,6 @@ import { Tooltip } from 'uiKit/Tooltip';
 
 import { useUnstakeDialog } from './hooks/useUnstakeDialog';
 import { useUnstakeFantomStyles } from './useUnstakeFantomStyles';
-
-// todo: remove when actual translation will be added
-const isFeeTooltipActual = false;
 
 const resetRequests = () =>
   resetReduxRequests([
@@ -43,24 +38,18 @@ export const UnstakeFantom = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const {
-    isOpened: isSuccessOpened,
-    onClose: onSuccessClose,
-    onOpen: onSuccessOpen,
-  } = useDialog();
-
-  const {
-    submitDisabled,
-    isBalanceLoading,
-    isBurnFeeLoading,
-    isLoading,
     balance,
     burnFee,
     closeHref,
+    isBalanceLoading,
+    isBurnFeeLoading,
+    isDisabled,
+    isLoading,
     selectedToken,
-    onSubmit,
-    onChange,
     calcTotalRecieve,
-  } = useUnstakeDialog(onSuccessOpen);
+    onChange,
+    onSubmit,
+  } = useUnstakeDialog();
 
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
     token: Token.FTM,
@@ -104,7 +93,7 @@ export const UnstakeFantom = (): JSX.Element => {
             >
               {t('unstake-dialog.unstake-fee')}
 
-              {isFeeTooltipActual && (
+              {featuresConfig.fantomUnstakeFeeTooltip && (
                 <Tooltip title={t('stake-fantom.fee-tooltip')}>
                   <ButtonBase>
                     <QuestionIcon size="xs" />
@@ -168,26 +157,18 @@ export const UnstakeFantom = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
-        {!isSuccessOpened ? (
-          <UnstakeDialog
-            balance={balance}
-            closeHref={closeHref}
-            endText={unstakeLabel}
-            isBalanceLoading={isBalanceLoading}
-            isLoading={isLoading}
-            renderFormFooter={renderFormFooter}
-            submitDisabled={submitDisabled}
-            token={selectedToken}
-            onChange={onChange}
-            onSubmit={onSubmit}
-          />
-        ) : (
-          <UnstakeSuccess
-            infoText={unstakeLabel}
-            tokenName={Token.FTM}
-            onClose={onSuccessClose}
-          />
-        )}
+        <UnstakeDialog
+          balance={balance}
+          closeHref={closeHref}
+          endText={unstakeLabel}
+          isBalanceLoading={isBalanceLoading}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          renderFormFooter={renderFormFooter}
+          token={selectedToken}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        />
       </Container>
     </Box>
   );

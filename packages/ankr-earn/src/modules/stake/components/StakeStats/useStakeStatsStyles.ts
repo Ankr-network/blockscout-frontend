@@ -73,8 +73,6 @@ export const useStakeStatsStyles = makeStyles<Theme>(theme => ({
   },
 
   statisticValueWrapper: {
-    cursor: 'help',
-
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',

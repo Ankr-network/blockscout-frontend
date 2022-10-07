@@ -8,12 +8,10 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
-import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
@@ -37,12 +35,6 @@ export const UnstakeBinance = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const {
-    isOpened: isSuccessOpened,
-    onClose: onSuccessClose,
-    onOpen: onSuccessOpen,
-  } = useDialog();
-
-  const {
     closeHref,
     isApproved,
     isApproveLoading,
@@ -55,7 +47,7 @@ export const UnstakeBinance = (): JSX.Element => {
     calcTotalRecieve,
     onExtraValidation,
     onUnstakeSubmit,
-  } = useUnstakeBnb(onSuccessOpen);
+  } = useUnstakeBnb();
 
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
     token: Token.BNB,
@@ -111,29 +103,21 @@ export const UnstakeBinance = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
-        {!isSuccessOpened ? (
-          <UnstakeDialog
-            balance={syntTokenBalance}
-            closeHref={closeHref}
-            endText={unstakeLabel}
-            extraValidation={onExtraValidation}
-            isApproved={isApproved}
-            isApproveLoading={isApproveLoading}
-            isBalanceLoading={isFetchStatsLoading}
-            isLoading={isUnstakeLoading}
-            isWithApprove={isWithApprove}
-            renderFormFooter={onRenderFormFooter}
-            submitDisabled={isUnstakeLoading}
-            token={selectedToken}
-            onSubmit={onUnstakeSubmit}
-          />
-        ) : (
-          <UnstakeSuccess
-            infoText={unstakeLabel}
-            tokenName={Token.BNB}
-            onClose={onSuccessClose}
-          />
-        )}
+        <UnstakeDialog
+          balance={syntTokenBalance}
+          closeHref={closeHref}
+          endText={unstakeLabel}
+          extraValidation={onExtraValidation}
+          isApproved={isApproved}
+          isApproveLoading={isApproveLoading}
+          isBalanceLoading={isFetchStatsLoading}
+          isDisabled={isApproveLoading || isUnstakeLoading}
+          isLoading={isUnstakeLoading}
+          isWithApprove={isWithApprove}
+          renderFormFooter={onRenderFormFooter}
+          token={selectedToken}
+          onSubmit={onUnstakeSubmit}
+        />
       </Container>
     </Box>
   );
