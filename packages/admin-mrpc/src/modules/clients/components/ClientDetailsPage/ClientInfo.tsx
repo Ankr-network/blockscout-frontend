@@ -58,8 +58,7 @@ export const ClientInfo = ({
         </Box>
         <br />
         <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
-          <b>Created:</b>{' '}
-       user?.createdDate?.toLocaleString()
+          <b>Created:</b> {user?.createdDate?.toLocaleString()}
         </Typography>
         <br />
         <Typography variant="body2" component="p">
