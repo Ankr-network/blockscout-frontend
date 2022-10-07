@@ -4,6 +4,7 @@ export { default as AAVAXC_ABI } from './aAVAXc.json';
 export { default as ABI_ABNBB } from './aBNBb.json';
 export { default as ABI_ABNBC } from './aBNBc.json';
 export { default as ABI_BINANCE_POOL } from './BinancePool.json';
+export { default as ABI_BINANCE_PARTERS } from './BinanceParters.json';
 export { default as ABI_ERC20 } from './IERC20.json';
 export { default as AETHB_ABI } from './aETHb.json';
 export { default as AETHC_ABI } from './aETHc.json';

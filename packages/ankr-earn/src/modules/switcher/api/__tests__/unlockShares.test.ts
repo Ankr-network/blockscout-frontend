@@ -6,7 +6,7 @@ import {
   BinanceSDK,
   EthereumSDK,
   FantomSDK,
-  MaticEthSDK,
+  PolygonOnEthereumSDK,
 } from '@ankr.com/staking-sdk';
 
 import { Token } from 'modules/common/types/token';
@@ -16,11 +16,11 @@ import { SwitcherSDK } from '../SwitcherSDK';
 
 jest.mock('@ankr.com/staking-sdk', (): unknown => ({
   ...jest.requireActual('@ankr.com/staking-sdk'),
-  MaticEthSDK: { getInstance: jest.fn() },
-  EthereumSDK: { getInstance: jest.fn() },
-  BinanceSDK: { getInstance: jest.fn() },
   AvalancheSDK: { getInstance: jest.fn() },
+  BinanceSDK: { getInstance: jest.fn() },
+  EthereumSDK: { getInstance: jest.fn() },
   FantomSDK: { getInstance: jest.fn() },
+  PolygonOnEthereumSDK: { getInstance: jest.fn() },
 }));
 
 describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
@@ -53,7 +53,9 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
 
     (BinanceSDK.getInstance as jest.Mock).mockReturnValue(defaultBinanceSDK);
 
-    (MaticEthSDK.getInstance as jest.Mock).mockReturnValue(defaultMaticSDK);
+    (PolygonOnEthereumSDK.getInstance as jest.Mock).mockReturnValue(
+      defaultMaticSDK,
+    );
 
     (FantomSDK.getInstance as jest.Mock).mockReturnValue(defaultFantomSDK);
 

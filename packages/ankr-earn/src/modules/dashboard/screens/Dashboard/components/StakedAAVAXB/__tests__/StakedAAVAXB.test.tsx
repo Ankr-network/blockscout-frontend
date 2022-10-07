@@ -9,15 +9,12 @@ import { Token } from 'modules/common/types/token';
 
 import { StakedAAVAXB } from '..';
 import {
-  IStakedAAVAXBData,
-  useStakedAAVAXBData,
-} from '../../StakedTokens/hooks/AVAX/useStakedAAVAXBData';
-import {
   ITxHistoryData,
   useStakedAVAXTxHistory,
-} from '../../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
+} from '../../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory';
+import { IStakedAAVAXBData, useStakedAAVAXBData } from '../useStakedAAVAXBData';
 
-jest.mock('../../StakedTokens/hooks/AVAX/useStakedAAVAXBData', () => ({
+jest.mock('../useStakedAAVAXBData', () => ({
   useStakedAAVAXBData: jest.fn(),
 }));
 
@@ -25,7 +22,7 @@ jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
   useUnstakePendingTimestamp: () => ({ AVAX: { label: '' } }),
 }));
 
-jest.mock('../../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory', () => ({
+jest.mock('../../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory', () => ({
   useStakedAVAXTxHistory: jest.fn(),
 }));
 
@@ -45,7 +42,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
-    isShowed: false,
     handleAddTokenToWallet: jest.fn(),
     isPendingUnstakeLoading: false,
   };

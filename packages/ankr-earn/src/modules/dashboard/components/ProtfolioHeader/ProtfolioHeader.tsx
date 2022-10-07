@@ -2,8 +2,9 @@ import { Box, Grid, Hidden, Typography } from '@material-ui/core';
 
 import { t } from 'common';
 
-import { RoutesConfig } from 'modules/calc/Routes';
+import { RoutesConfig as RoutesCalcConfig } from 'modules/calc/Routes';
 import { featuresConfig, isLocal } from 'modules/common/const';
+import { RoutesConfig as RoutesReferralsConfig } from 'modules/referrals/Routes';
 import { Checkbox } from 'uiKit/Checkbox';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -11,7 +12,13 @@ import { useProtfolioHeaderStyles } from './useProtfolioHeaderStyles';
 
 const IS_CHECKBOX_SHOWED = isLocal;
 
-export const ProtfolioHeader = (): JSX.Element => {
+interface IProtfolioHeaderProps {
+  isCurrentAccountPartner: boolean;
+}
+
+export const ProtfolioHeader = ({
+  isCurrentAccountPartner,
+}: IProtfolioHeaderProps): JSX.Element => {
   const classes = useProtfolioHeaderStyles();
 
   return (
@@ -39,10 +46,24 @@ export const ProtfolioHeader = (): JSX.Element => {
             <Grid item xs="auto">
               <NavLink
                 className={classes.button}
-                href={RoutesConfig.main.generatePath()}
+                href={RoutesCalcConfig.main.generatePath()}
                 variant="text"
               >
                 {t('calc.title')}
+              </NavLink>
+            </Grid>
+          </Hidden>
+        )}
+
+        {isCurrentAccountPartner && (
+          <Hidden mdDown>
+            <Grid item xs="auto">
+              <NavLink
+                className={classes.button}
+                href={RoutesReferralsConfig.main.generatePath()}
+                variant="text"
+              >
+                {t('referrals.title')}
               </NavLink>
             </Grid>
           </Hidden>

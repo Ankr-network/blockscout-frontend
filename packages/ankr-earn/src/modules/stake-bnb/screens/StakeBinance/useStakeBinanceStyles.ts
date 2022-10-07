@@ -12,4 +12,12 @@ export const useStakeBinanceStyles = makeStyles(theme => ({
   questionBtn: {
     margin: theme.spacing(0, 0, 0, 0.75),
   },
+
+  checkBox: {
+    marginRight: 0,
+  },
+
+  partnerCode: {
+    fontWeight: 500,
+  },
 }));

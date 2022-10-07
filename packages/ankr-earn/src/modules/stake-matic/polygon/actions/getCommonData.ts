@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { MATIC_POLYGON_ACTIONS_PREFIX } from '../const';
 
@@ -18,7 +18,7 @@ export const getCommonData = createAction<
 >(`${MATIC_POLYGON_ACTIONS_PREFIX}getCommonData`, () => ({
   request: {
     promise: (async (): Promise<IGetCommonData> => {
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
       const [maticBondBalance, maticCertBalance, maticBalance, ratio] =
         await Promise.all([

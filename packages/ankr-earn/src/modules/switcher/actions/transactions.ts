@@ -1,12 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
-import capitalize from 'lodash/capitalize';
 import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { Token } from 'modules/common/types/token';
+import { onTransactionError } from 'modules/common/utils/getErrorMessage';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { SwitcherSDK } from '../api/SwitcherSDK';
@@ -25,25 +25,6 @@ export interface ISwapAssetsArgs {
   ratio: BigNumber;
   chainId: AvailableSwitchNetwork;
 }
-
-interface RequestError extends Error {
-  code?: number;
-}
-
-const METAMASK_INSUFFICIENT_FUNDS_ERROR_MSG = 'insufficient funds for transfer';
-const METAMASK_USER_REJECT_ERROR_CODE = 4001;
-
-const onError = (error: RequestError) => {
-  const [message, , , codeMsg] = error.message.split('\n');
-
-  if (codeMsg?.includes(METAMASK_INSUFFICIENT_FUNDS_ERROR_MSG)) {
-    throw new Error(capitalize(METAMASK_INSUFFICIENT_FUNDS_ERROR_MSG));
-  }
-
-  throw error.code !== METAMASK_USER_REJECT_ERROR_CODE
-    ? new Error(message || error.message)
-    : new Error('');
-};
 
 export const swapAssets = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
@@ -73,7 +54,7 @@ export const swapAssets = createAction<
       asMutation: true,
       showNotificationOnError: false,
       onRequest: withStore,
-      onError,
+      onError: onTransactionError,
       onSuccess: async (response, _action, store) => {
         const {
           transactionHash,
@@ -113,7 +94,7 @@ export const approve = createAction<
     asMutation: true,
     showNotificationOnError: false,
     onRequest: withStore,
-    onError,
+    onError: onTransactionError,
     onSuccess: async (response, _action, store) => {
       await response.data?.receiptPromise;
 

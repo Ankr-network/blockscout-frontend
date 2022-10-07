@@ -156,6 +156,9 @@ export const mainTheme = createTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
+        body: {
+          fontFeatureSettings: `'calt' off`,
+        },
         a: {
           color: 'inherit',
           fontSize: 'inherit',
@@ -275,6 +278,7 @@ export const mainTheme = createTheme({
         },
 
         '&&$disabled': {
+          borderColor: defaultTheme.palette.background.default,
           backgroundColor: defaultTheme.palette.background.default,
         },
 

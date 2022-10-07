@@ -2,8 +2,7 @@ import { Token } from 'modules/common/types/token';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
-import { useStakedMaticCertPolygon } from '../StakedTokens/hooks/MATIC/useStakedMaticCertPolygon';
-
+import { useStakedMaticCertPolygon } from './useStakedMaticCertPolygon';
 import { useStakedMaticCertPolygonAnalytics } from './useStakedMaticCertPolygonAnalytics';
 import { useTokenInfoDialog } from './useTokenInfoDialog';
 

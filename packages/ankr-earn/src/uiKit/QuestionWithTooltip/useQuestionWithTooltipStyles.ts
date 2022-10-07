@@ -10,7 +10,6 @@ export const useQuestionWithTooltipStyles = makeStyles<
 >(theme => ({
   btn: {
     marginLeft: ({ marginLeft }) => theme.spacing(marginLeft),
-    cursor: 'help',
     color: theme.palette.text.secondary,
   },
 

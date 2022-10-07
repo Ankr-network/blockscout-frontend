@@ -13,6 +13,7 @@ import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -27,6 +28,7 @@ interface IUseStakeForm {
   amount?: BigNumber;
   balance?: BigNumber;
   certificateRatio: BigNumber;
+  faqItems: IFAQItem[];
   fee: BigNumber;
   isCommonDataLoading: boolean;
   isFeeLoading: boolean;
@@ -46,6 +48,11 @@ export const useStakeForm = (): IUseStakeForm => {
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
   });
 
   const { loading: isStakeLoading } = useMutation({
@@ -95,6 +102,7 @@ export const useStakeForm = (): IUseStakeForm => {
     amount,
     balance: commonData?.ethBalance,
     certificateRatio: commonData?.aETHcRatio ?? ZERO,
+    faqItems,
     fee: stakeGasFee ?? ZERO,
     isCommonDataLoading,
     isFeeLoading,

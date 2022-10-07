@@ -11,7 +11,23 @@ export const useQuoteStyles = makeStyles(theme => ({
       width: 4,
 
       borderRadius: '2px',
-      background: theme.palette.primary.main,
+      background: 'var(--type-color, #ccc)',
     },
+  },
+
+  error: {
+    '--type-color': theme.palette.error.main,
+  },
+
+  info: {
+    '--type-color': theme.palette.primary.main,
+  },
+
+  warning: {
+    '--type-color': theme.palette.warning.main,
+  },
+
+  success: {
+    '--type-color': theme.palette.success.main,
   },
 }));

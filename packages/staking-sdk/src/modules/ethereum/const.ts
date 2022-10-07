@@ -8,14 +8,14 @@ import { TEthToken } from './types';
 export const ETH_POOL_START_BLOCK = isMainnet ? 11_225_126 : 3_829_233;
 
 /**
- * Block offset to get latest history events
+ * Block offset to get 14 days history events
  */
-export const ETH_BLOCK_OFFSET = 50_400; // 7 days
+export const ETH_BLOCK_2_WEEKS_OFFSET = 100_800; // 14 days
 
 /**
  * Block step range for events
  */
-export const ETH_HISTORY_RANGE_STEP = isMainnet ? 3_000 : 15_000;
+export const ETH_HISTORY_RANGE_STEP = 3_000;
 
 /**
  * Methods by token symbol

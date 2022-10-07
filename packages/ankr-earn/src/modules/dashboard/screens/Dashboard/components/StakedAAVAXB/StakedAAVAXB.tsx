@@ -6,7 +6,8 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ONE } from 'modules/common/const';
+import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
+import { AVAX_NETWORK_BY_ENV, featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -16,8 +17,9 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAAVAXBData } from '../StakedTokens/hooks/AVAX/useStakedAAVAXBData';
-import { useStakedAVAXTxHistory } from '../StakedTokens/hooks/AVAX/useStakedAVAXTxHistory';
+import { useStakedAVAXTxHistory } from '../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory';
+
+import { useStakedAAVAXBData } from './useStakedAAVAXBData';
 
 export const StakedAAVAXB = (): JSX.Element => {
   const { avalancheConfig } = configFromEnv();
@@ -122,12 +124,21 @@ export const StakedAAVAXB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      <HistoryDialog
-        history={transactionHistoryAAVAXB}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
-      />
+      {featuresConfig.newStakingHistoryDialog ? (
+        <NewHistoryDialog
+          network={AVAX_NETWORK_BY_ENV}
+          open={isOpenedHistory}
+          token={Token.aAVAXb}
+          onClose={onCloseHistory}
+        />
+      ) : (
+        <HistoryDialog
+          history={transactionHistoryAAVAXB}
+          isHistoryLoading={isHistoryDataLoading}
+          open={isOpenedHistory}
+          onClose={onCloseHistory}
+        />
+      )}
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

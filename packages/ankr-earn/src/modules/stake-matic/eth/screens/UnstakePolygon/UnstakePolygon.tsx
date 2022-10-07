@@ -10,15 +10,13 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
-import { fetchTxHistory } from 'modules/stake-matic/eth/actions/fetchTxHistory';
+import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
-import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
@@ -36,7 +34,7 @@ const resetRequests = () =>
   resetReduxRequests([
     approveAMATICCUnstake.toString(),
     fetchStats.toString(),
-    fetchTxHistory.toString(),
+    fetchTotalHistory.toString(),
     getAnkrBalance.toString(),
     getMetrics.toString(),
     getUnstakeDate.toString(),
@@ -46,12 +44,6 @@ const resetRequests = () =>
 export const UnstakePolygon = (): JSX.Element => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-
-  const {
-    isOpened: isSuccessOpened,
-    onClose: onSuccessClose,
-    onOpen: onSuccessOpen,
-  } = useDialog();
 
   const {
     closeHref,
@@ -66,7 +58,7 @@ export const UnstakePolygon = (): JSX.Element => {
     onExtraValidation,
     calcTotalRecieve,
     onUnstakeSubmit,
-  } = useUnstakeMatic(onSuccessOpen);
+  } = useUnstakeMatic();
 
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
     token: Token.MATIC,
@@ -76,7 +68,7 @@ export const UnstakePolygon = (): JSX.Element => {
     dispatch(resetRequests());
 
     dispatch(fetchStats());
-    dispatch(fetchTxHistory());
+    dispatch(fetchTotalHistory());
     dispatch(getAnkrBalance());
     dispatch(getMetrics());
     dispatch(getUnstakeDate());
@@ -161,30 +153,22 @@ export const UnstakePolygon = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
-        {!isSuccessOpened ? (
-          <UnstakeDialog
-            balance={syntTokenBalance}
-            closeHref={closeHref}
-            endText={unstakeLabel}
-            extraValidation={onExtraValidation}
-            isApproved={isApproved}
-            isApproveLoading={isApproveLoading}
-            isBalanceLoading={isFetchStatsLoading}
-            isLoading={isUnstakeLoading}
-            isWithApprove={isWithApprove}
-            networkTitleSlot={<NetworkTitle />}
-            renderFormFooter={onRenderFormFooter}
-            submitDisabled={isUnstakeLoading}
-            token={selectedToken}
-            onSubmit={onUnstakeSubmit}
-          />
-        ) : (
-          <UnstakeSuccess
-            infoText={unstakeLabel}
-            tokenName={Token.MATIC}
-            onClose={onSuccessClose}
-          />
-        )}
+        <UnstakeDialog
+          balance={syntTokenBalance}
+          closeHref={closeHref}
+          endText={unstakeLabel}
+          extraValidation={onExtraValidation}
+          isApproved={isApproved}
+          isApproveLoading={isApproveLoading}
+          isBalanceLoading={isFetchStatsLoading}
+          isDisabled={isUnstakeLoading}
+          isLoading={isUnstakeLoading}
+          isWithApprove={isWithApprove}
+          networkTitleSlot={<NetworkTitle />}
+          renderFormFooter={onRenderFormFooter}
+          token={selectedToken}
+          onSubmit={onUnstakeSubmit}
+        />
       </Container>
     </Box>
   );

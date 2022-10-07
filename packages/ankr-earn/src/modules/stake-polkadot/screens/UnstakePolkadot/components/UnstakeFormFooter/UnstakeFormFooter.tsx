@@ -28,12 +28,14 @@ export interface IFormPayload extends IUnstakeFormValues {
 
 interface IUnstakeFormFooterProps {
   amount: BigNumber;
+  isDisabled: boolean;
   network: EPolkadotNetworks;
   polkadotToken: TPolkadotToken;
 }
 
 export const UnstakeFormFooter = ({
   amount,
+  isDisabled,
   network,
   polkadotToken,
 }: IUnstakeFormFooterProps): JSX.Element => {
@@ -107,6 +109,7 @@ export const UnstakeFormFooter = ({
             fullWidth
             className={classes.addressField}
             component={InputField}
+            disabled={isDisabled}
             name={EFieldNames.externalWallet}
             type="string"
           />

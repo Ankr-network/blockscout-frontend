@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { t } from 'common';
 
+import { Faq } from 'modules/common/components/Faq';
 import { ZERO } from 'modules/common/const';
 import { Section } from 'modules/delegate-stake/components/Section';
 import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
@@ -16,25 +17,26 @@ import { useStats } from './hooks/useStats';
 
 export const Stake = (): JSX.Element => {
   const {
+    additionalText,
+    additionalTooltip,
     amount,
     balance,
     closeHref,
+    contributed,
+    faqItems,
     initialAmount,
     initialProvider,
-    isApproved,
     isApproveLoading,
+    isApproved,
     isBalanceLoading,
     isDisabled,
     isStakeLoading,
-    minStake,
     maxAmount,
+    minStake,
     providerName,
     providerSelectHref,
-    tokenIn,
     quoteText,
-    additionalText,
-    additionalTooltip,
-    contributed,
+    tokenIn,
     onChange,
     onSubmit,
   } = useMgnoStake();
@@ -100,6 +102,8 @@ export const Stake = (): JSX.Element => {
           totalStaked={totalStaked}
           totalStakedUSD={totalStakedUSD}
         />
+
+        <Faq data={faqItems} />
       </StakeContainer>
     </Section>
   );

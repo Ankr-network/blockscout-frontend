@@ -104,7 +104,10 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     isUnstakeLoading,
     isAvailableUnstakeLoading: isDelegatedAmountLoading,
     isDisabled:
-      isProvidersLoading || isBalanceLoading || isDelegatedAmountLoading,
+      isProvidersLoading ||
+      isBalanceLoading ||
+      isDelegatedAmountLoading ||
+      isUnstakeLoading,
     availableUnstake,
     minAmount: data?.minStake ?? ZERO,
     tokenIn: t('unit.ankr'),

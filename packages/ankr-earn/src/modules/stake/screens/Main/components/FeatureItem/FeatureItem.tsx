@@ -14,7 +14,7 @@ import { useFeatureItemStyles } from './useFeatureItemStyles';
 
 interface IFeatureItemProps {
   title: string;
-  mainHref: string;
+  mainHref?: string;
   moreHref?: string;
   manageHref?: string;
   iconSlot: JSX.Element;
@@ -31,7 +31,7 @@ interface IFeatureItemProps {
 
 export const FeatureItem = ({
   title,
-  mainHref,
+  mainHref = '',
   moreHref,
   manageHref,
   iconSlot,
@@ -64,6 +64,7 @@ export const FeatureItem = ({
             <NavLink
               fullWidth
               className={classes.button}
+              disabled={!mainHref}
               href={mainHref}
               variant="contained"
               onMouseDown={onStakeClick}

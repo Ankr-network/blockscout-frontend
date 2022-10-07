@@ -12,12 +12,14 @@ import { useGuardPolkadotRoute } from './hooks/useGuardPolkadotRoute';
 interface IGuardPolkadotRouteProps extends RouteProps {
   availableNetworks: EPolkadotNetworkId[];
   isOpenConnectInstantly?: boolean;
+  isOpenedConnectModal?: boolean;
   providerId: AvailableWriteProviders;
 }
 
 export const GuardPolkadotRoute = ({
   availableNetworks,
   isOpenConnectInstantly,
+  isOpenedConnectModal = true,
   providerId,
   ...routeProps
 }: IGuardPolkadotRouteProps): JSX.Element => {
@@ -35,6 +37,7 @@ export const GuardPolkadotRoute = ({
     onSwitchNetwork,
   } = useGuardPolkadotRoute({
     availableNetworks,
+    isOpenedConnectModal,
     providerId,
   });
 

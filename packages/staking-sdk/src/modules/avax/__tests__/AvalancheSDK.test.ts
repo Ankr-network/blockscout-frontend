@@ -9,7 +9,7 @@ import {
 import { AvalancheSDK, EAvalanchePoolEvents, EAvalancheErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
 import { convertNumberToHex } from '../../utils';
-import { AVAX_MAX_HISTORY_RANGE } from '../const';
+import { AVAX_HISTORY_2_WEEKS_OFFSET } from '../const';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
@@ -393,8 +393,8 @@ describe('modules/avax/sdk', () => {
       methods: {
         allowance: () => ({ call: () => ZERO }),
         approve: jest.fn(() => ({ send: jest.fn() })),
-        claimCerts: jest.fn(() => ({ send: jest.fn() })),
-        claimBonds: jest.fn(() => ({ send: jest.fn() })),
+        claimCerts: jest.fn(() => ({ encodeABI: jest.fn() })),
+        claimBonds: jest.fn(() => ({ encodeABI: jest.fn() })),
       },
     };
 
@@ -668,7 +668,7 @@ describe('modules/avax/sdk', () => {
     };
 
     defaultWeb3.eth.getBlockNumber.mockResolvedValue(
-      AVAX_MAX_HISTORY_RANGE + 1,
+      AVAX_HISTORY_2_WEEKS_OFFSET + 1,
     );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
@@ -686,8 +686,8 @@ describe('modules/avax/sdk', () => {
     const data = await sdk.getPendingData();
 
     expect(data).toStrictEqual({
-      pendingBond: new BigNumber(200_000),
-      pendingCertificate: new BigNumber(49_000),
+      pendingBond: new BigNumber(108_000),
+      pendingCertificate: new BigNumber(26_460),
     });
   });
 
@@ -706,7 +706,7 @@ describe('modules/avax/sdk', () => {
     };
 
     defaultWeb3.eth.getBlockNumber.mockResolvedValue(
-      AVAX_MAX_HISTORY_RANGE - 1,
+      AVAX_HISTORY_2_WEEKS_OFFSET - 1,
     );
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
@@ -823,7 +823,7 @@ describe('modules/avax/sdk', () => {
     };
 
     defaultWeb3.eth.getBlockNumber.mockResolvedValue(
-      AVAX_MAX_HISTORY_RANGE + 1,
+      AVAX_HISTORY_2_WEEKS_OFFSET + 1,
     );
     defaultReadProvider.executeBatchCalls.mockResolvedValue(blocks);
 

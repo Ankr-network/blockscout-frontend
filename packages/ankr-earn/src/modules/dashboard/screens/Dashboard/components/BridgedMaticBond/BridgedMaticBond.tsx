@@ -2,7 +2,7 @@ import { configFromEnv } from 'modules/api/config';
 import { Token } from 'modules/common/types/token';
 import { BridgedAsset } from 'modules/dashboard/components/BridgedAsset';
 
-import { useBridgedMaticBond } from '../StakedTokens/hooks/MATIC/useBridgedMaticBond';
+import { useBridgedMaticBond } from './useBridgedMaticBond';
 
 export const BridgedMaticBond = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
