@@ -25,6 +25,7 @@ import {
 
 import { LibraryConfig } from 'domains/requestComposer/types/solana';
 import { SolanaMethod } from 'domains/requestComposer/constants/solana';
+import { getCodeSample } from './getCodeSample';
 import { isBase58 } from './validators/isBase58';
 import { isBase64 } from './validators/isBase64';
 import { isCommitment } from './validators/isCommitment';
@@ -50,7 +51,26 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getAccountInfo(new PublicKey(publicKey), config);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      publicKey: string,
+      commitment?: string,
+      minContextSlot?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection', 'PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getAccountInfo,
+        params: [
+          `new PublicKey('${publicKey}')`,
+          `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'A public key for accessing an account',
@@ -86,7 +106,26 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getBalance(new PublicKey(publicKey), config);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      publicKey: string,
+      commitment?: string,
+      minContextSlot?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection', 'PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getBalance,
+        params: [
+          `new PublicKey('${publicKey}')`,
+          `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'A public key for accessing an account',
@@ -124,7 +163,26 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getBlock(Number(rawSlot), config);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      slot: string,
+      commitment?: string,
+      maxSupportedTransactionVersion?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getAccountInfo,
+        params: [
+          `${slot}`,
+          `{ commitment: '${commitment}', maxSupportedTransactionVersion: ${maxSupportedTransactionVersion} }`,
+        ],
+      }),
     args: [
       {
         description: 'The slot, as integer',
@@ -161,7 +219,20 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getBlockHeight(config);
     },
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string, minContextSlot?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getBlockHeight,
+        params: [
+          `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -203,7 +274,26 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getBlockProduction(configOrCommitment);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      commitment?: string,
+      firstSlot?: string,
+      lastSlot?: string,
+      identity?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getBlockHeight,
+        params: [
+          `{ commitment: '${commitment}', identity: '${identity}', range: { firstSlot: ${firstSlot}, lastSlot: ${lastSlot} } }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -246,7 +336,23 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getBlocks(parsedStartSlot, parsedEndSlot, finality);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      startSlot: string,
+      endSlot?: string,
+      commitment?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getBlocks,
+        params: [`${startSlot}`, `${endSlot}`, `'${commitment}'`],
+      }),
     args: [
       {
         description: 'The start slot number, as integer',
@@ -279,7 +385,18 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getBlockTime(parsedSlot);
     },
-    codeSample: () => {},
+    codeSample: (url: string, slot: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getBlockTime,
+        params: [`${slot}`],
+      }),
     args: [
       {
         description: 'The slot number, as integer',
@@ -291,7 +408,17 @@ export const solanaWeb3Config: LibraryConfig = {
   },
   [SolanaMethod.getClusterNodes]: {
     exec: provider => provider.getClusterNodes(),
-    codeSample: () => {},
+    codeSample: (url: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getClusterNodes,
+      }),
     args: [],
   },
   [SolanaMethod.getEpochInfo]: {
@@ -303,7 +430,20 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getEpochInfo(config);
     },
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string, minContextSlot?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getEpochInfo,
+        params: [
+          `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -321,7 +461,17 @@ export const solanaWeb3Config: LibraryConfig = {
   },
   [SolanaMethod.getEpochSchedule]: {
     exec: provider => provider.getEpochSchedule(),
-    codeSample: () => {},
+    codeSample: (url: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getEpochSchedule,
+      }),
     args: [],
   },
   [SolanaMethod.getFeeForMessage]: {
@@ -330,7 +480,18 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getFeeForMessage(parsedMessage, commitment as Commitment);
     },
-    codeSample: () => {},
+    codeSample: (url: string, message: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection', 'Message'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getFeeForMessage,
+        params: [`Message.from(Buffer.from('${message}'))`, `'${commitment}'`],
+      }),
     args: [
       {
         description: 'Base-64 encoded Message',
@@ -350,12 +511,32 @@ export const solanaWeb3Config: LibraryConfig = {
   },
   [SolanaMethod.getFirstAvailableBlock]: {
     exec: provider => provider.getFirstAvailableBlock(),
-    codeSample: () => {},
+    codeSample: (url: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getFirstAvailableBlock,
+      }),
     args: [],
   },
   [SolanaMethod.getGenesisHash]: {
     exec: provider => provider.getGenesisHash(),
-    codeSample: () => {},
+    codeSample: (url: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getGenesisHash,
+      }),
     args: [],
   },
   [SolanaMethod.getHealth]: {
@@ -376,7 +557,18 @@ export const solanaWeb3Config: LibraryConfig = {
   [SolanaMethod.getInflationGovernor]: {
     exec: (provider, commitment?: string) =>
       provider.getInflationGovernor(commitment as Commitment),
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getInflationGovernor,
+        params: [commitment ? `'${commitment}'` : ''],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -415,14 +607,43 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getInflationReward(parsedAddresses, parsedEpoch, config);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      addresses: string,
+      epoch?: string,
+      commitment?: string,
+      minContextSlot?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection', 'PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getInflationReward,
+        params: [
+          `[${(addresses || '')
+            .split(',')
+            .map(address => `new PublicKey('${address.trim()}')`)
+            .join(', ')}]`,
+          `${epoch}`,
+          `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'Comma separated list of public keys',
         placeholder:
           'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33, HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH',
         type: 'textarea',
-        validate: value => !!value && value.split(',').every(isEd25519),
+        validate: value =>
+          !!value &&
+          value
+            .split(',')
+            .map(address => address.trim())
+            .every(isEd25519),
       },
       {
         description:
@@ -454,7 +675,18 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getLargestAccounts(config);
     },
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string, filter?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getLargestAccounts,
+        params: [`{ commitment: '${commitment}', filter: '${filter}' }`],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -480,7 +712,20 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getLatestBlockhash(config);
     },
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string, minContextSlot?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getLatestBlockhash,
+        params: [
+          `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -498,7 +743,17 @@ export const solanaWeb3Config: LibraryConfig = {
   },
   [SolanaMethod.getLeaderSchedule]: {
     exec: provider => provider.getLeaderSchedule(),
-    codeSample: () => {},
+    codeSample: (url: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getLeaderSchedule,
+      }),
     args: [],
   },
   [SolanaMethod.getMaxRetransmitSlot]: {
@@ -517,13 +772,26 @@ export const solanaWeb3Config: LibraryConfig = {
         Number(dataLength),
         commitment as Commitment,
       ),
-    codeSample: () => {},
+    codeSample: (url: string, dataLength: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getMinimumBalanceForRentExemption,
+        params: [dataLength, commitment ? `'${commitment}'` : ''].filter(
+          Boolean,
+        ),
+      }),
     args: [
       {
         description: 'The size from rent',
         placeholder: 'i.e. 430',
         type: 'textfield',
-        validate: isInteger,
+        validate: value => !!value && isInteger(value),
       },
       {
         description: 'The level of commitment desired',
@@ -546,7 +814,18 @@ export const solanaWeb3Config: LibraryConfig = {
   [SolanaMethod.getRecentPerformanceSamples]: {
     exec: (provider, limit?: string) =>
       provider.getRecentPerformanceSamples(limit ? Number(limit) : undefined),
-    codeSample: () => {},
+    codeSample: (url: string, limit?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getRecentPerformanceSamples,
+        params: [`${limit}`],
+      }),
     args: [
       {
         description: 'The limit, as integer',
@@ -579,7 +858,30 @@ export const solanaWeb3Config: LibraryConfig = {
         commitment as Finality,
       );
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      address: string,
+      before?: string,
+      until?: string,
+      limit?: string,
+      minContextSlot?: string,
+      commitment?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection, PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getSignaturesForAddress,
+        params: [
+          `new PublicKey('${address}')`,
+          `{ before: '${before}', until: '${until}', limit: ${limit}, minContextSlot: ${minContextSlot} }`,
+          commitment ? `'${commitment}'` : '',
+        ].filter(Boolean),
+      }),
     args: [
       {
         description: 'A queried address',
@@ -640,7 +942,28 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getSignatureStatuses(signatures, config);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      signatures: string,
+      searchTransactionHistory?: boolean,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getSignatureStatuses,
+        params: [
+          `[${(signatures || '')
+            .split(',')
+            .map(signature => `'${signature}'`)
+            .join(', ')}]`,
+          `{ searchTransactionHistory: ${(!!searchTransactionHistory).toString()} }`,
+        ],
+      }),
     args: [
       {
         description:
@@ -653,7 +976,7 @@ export const solanaWeb3Config: LibraryConfig = {
       {
         description:
           'If checked, a Solana node will search its ledger cache for any signatures not found in the recent status cache',
-        type: 'checkbox',
+        type: 'boolean',
       },
     ],
   },
@@ -666,7 +989,20 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getSlot(config);
     },
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string, minContextSlot?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getSlot,
+        params: [
+          `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -691,7 +1027,22 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getSlotLeader(config);
     },
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string, minContextSlot?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getSlotLeader,
+        params: [
+          `{ commitment: ${
+            commitment ? `'${commitment}'` : 'undefiend'
+          }, minContextSlot: ${minContextSlot || 'undefined'} }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -710,7 +1061,18 @@ export const solanaWeb3Config: LibraryConfig = {
   [SolanaMethod.getSlotLeaders]: {
     exec: (provider, startSlot: string, limit: string) =>
       provider.getSlotLeaders(Number(startSlot), Number(limit)),
-    codeSample: () => {},
+    codeSample: (url: string, startSlot: string, limit: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getSlotLeaders,
+        params: [startSlot, limit],
+      }),
     args: [
       {
         description: 'The start slot, as integer',
@@ -734,8 +1096,8 @@ export const solanaWeb3Config: LibraryConfig = {
     exec: (
       provider,
       rawPublicKey: string,
-      commitment?: string,
       rawEpoch?: string,
+      commitment?: string,
       minContextSlot?: string,
     ) => {
       const publicKey = new PublicKey(rawPublicKey);
@@ -749,7 +1111,27 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getStakeActivation(publicKey, config, epoch);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      publicKey: string,
+      epoch?: string,
+      commitment?: string,
+      minContextSlot?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection, PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getStakeActivation,
+        params: [
+          `new PublicKey('${publicKey}')`,
+          `{ commitment: '${commitment}', epoch: ${epoch}, minContextSlot: ${minContextSlot} }`,
+        ],
+      }),
     args: [
       {
         description: 'A public key of stake account to query',
@@ -783,7 +1165,18 @@ export const solanaWeb3Config: LibraryConfig = {
       provider.getStakeMinimumDelegation({
         commitment: commitment as Commitment,
       }),
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getStakeMinimumDelegation,
+        params: [commitment ? `'${commitment}'` : ''],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -803,7 +1196,26 @@ export const solanaWeb3Config: LibraryConfig = {
         commitment: commitment as Commitment,
         excludeNonCirculatingAccountsList,
       }),
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      commitment?: string,
+      excludeNonCirculatingAccountsList?: boolean,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getSupply,
+        params: [
+          `{ commitment: ${
+            commitment ? `'${commitment}'` : 'undefined'
+          }, excludeNonCirculatingAccountsList: ${(!!excludeNonCirculatingAccountsList).toString()} }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -813,7 +1225,7 @@ export const solanaWeb3Config: LibraryConfig = {
       },
       {
         description: 'Exclude non circulating accounts list from response',
-        type: 'checkbox',
+        type: 'boolean',
       },
     ],
   },
@@ -823,7 +1235,21 @@ export const solanaWeb3Config: LibraryConfig = {
         new PublicKey(rawTokenAddress),
         commitment as Commitment,
       ),
-    codeSample: () => {},
+    codeSample: (url: string, rawTokenAddress: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection, PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getTokenAccountBalance,
+        params: [
+          `new PublicKey('${rawTokenAddress}')`,
+          commitment ? `'${commitment}'` : 'undefined',
+        ],
+      }),
     args: [
       {
         description: 'A public key of a token account to query',
@@ -867,7 +1293,30 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getTokenAccountsByOwner(ownerAddress, filter, config);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      ownerAddress: string,
+      mintOrProgramId: string,
+      commitment?: string,
+      minContextSlot?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection, PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getTokenAccountsByOwner,
+        params: [
+          `new PublicKey('${ownerAddress}')`,
+          `{ mint: '${mintOrProgramId}', programId: '${mintOrProgramId}' }`,
+          `{ commitment: '${commitment || 'undefined'}', minContextSlot: ${
+            minContextSlot || 'undefined'
+          } }`,
+        ],
+      }),
     args: [
       {
         description: 'A public key of an owner account to query',
@@ -902,7 +1351,21 @@ export const solanaWeb3Config: LibraryConfig = {
         new PublicKey(mintAddress),
         commitment as Commitment,
       ),
-    codeSample: () => {},
+    codeSample: (url: string, mintAddress: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection, PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getTokenLargestAccounts,
+        params: [
+          `new PublicKey('${mintAddress}')`,
+          commitment ? `'${commitment}'` : 'undefined',
+        ],
+      }),
     args: [
       {
         description: 'A public key of the specific token Mint',
@@ -924,7 +1387,21 @@ export const solanaWeb3Config: LibraryConfig = {
         new PublicKey(mintAddress),
         commitment as Commitment,
       ),
-    codeSample: () => {},
+    codeSample: (url: string, mintAddress: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection, PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getTokenSupply,
+        params: [
+          `new PublicKey('${mintAddress}')`,
+          commitment ? `'${commitment}'` : 'undefined',
+        ],
+      }),
     args: [
       {
         description: 'A public key of the specific token Mint',
@@ -956,7 +1433,30 @@ export const solanaWeb3Config: LibraryConfig = {
 
       return provider.getTransaction(signature, config);
     },
-    codeSample: () => {},
+    codeSample: (
+      url: string,
+      signature: string,
+      commitment?: string,
+      maxSupportedTransactionVersion?: string,
+    ) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection, PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getTransaction,
+        params: [
+          `'${signature}'`,
+          `{ commitment: ${
+            commitment ? `'${commitment}'` : 'undefined'
+          }, maxSupportedTransactionVersion: ${
+            maxSupportedTransactionVersion || 'undefined'
+          } }`,
+        ],
+      }),
     args: [
       {
         description: 'Transaction signature as base-58 encoded string',
@@ -986,7 +1486,22 @@ export const solanaWeb3Config: LibraryConfig = {
         commitment: commitment as Commitment,
         minContextSlot: minContextSlot ? Number(minContextSlot) : undefined,
       }),
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string, minContextSlot?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getTransactionCount,
+        params: [
+          `{ commitment: ${
+            commitment ? `'${commitment}'` : 'undefiend'
+          }, minContextSlot: ${minContextSlot || 'undefined'} }`,
+        ],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -1004,13 +1519,34 @@ export const solanaWeb3Config: LibraryConfig = {
   },
   [SolanaMethod.getVersion]: {
     exec: provider => provider.getVersion(),
-    codeSample: () => {},
+    codeSample: (url: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getVersion,
+      }),
     args: [],
   },
   [SolanaMethod.getVoteAccounts]: {
     exec: (provider, commitment?: string) =>
       provider.getVoteAccounts(commitment as Commitment),
-    codeSample: () => {},
+    codeSample: (url: string, commitment?: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.getVoteAccounts,
+        params: [commitment ? `'${commitment}'` : ''],
+      }),
     args: [
       {
         description: 'The level of commitment desired',
@@ -1033,7 +1569,18 @@ export const solanaWeb3Config: LibraryConfig = {
   [SolanaMethod.requestAirdrop]: {
     exec: (provider, to: string, lamports: string) =>
       provider.requestAirdrop(new PublicKey(to), Number(lamports)),
-    codeSample: () => {},
+    codeSample: (url: string, to: string, lamports: string) =>
+      getCodeSample({
+        url,
+        imports: [
+          {
+            items: ['Connection', 'PublicKey'],
+            library: '@solana/web3.js',
+          },
+        ],
+        method: SolanaMethod.requestAirdrop,
+        params: [`new PublicKey('${to}')`, lamports],
+      }),
     args: [
       {
         description: 'A public key of an account to receive lamports',

@@ -24,11 +24,10 @@ export const SolanaSampleCode = ({
   title,
 }: SolanaSampleCodeProps) => {
   const httpUrl = useMemo(() => group.urls[0].rpc, [group]);
-  const wssUrl = useMemo(() => group.urls[0]?.ws ?? '', [group]);
 
   const code = useMemo(
-    () => config[title]?.[libraryID]?.codeSample(httpUrl, wssUrl, ...args),
-    [httpUrl, wssUrl, title, args, libraryID, config],
+    () => config[title]?.[libraryID]?.codeSample(httpUrl, ...args),
+    [httpUrl, title, args, libraryID, config],
   );
 
   return <SampleCode code={code} />;
