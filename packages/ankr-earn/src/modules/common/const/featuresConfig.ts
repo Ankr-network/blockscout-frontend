@@ -40,7 +40,6 @@ export const featuresConfig = {
    */
   maticPolygonStaking: true,
   isCalcActive: true,
-  isReferralDashboardActive: true,
   providerNotification: true,
   newStakingHistoryDialog: isLocal,
   isReferralLinkActive: false,

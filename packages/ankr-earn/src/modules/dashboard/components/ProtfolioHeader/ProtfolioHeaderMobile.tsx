@@ -32,7 +32,7 @@ export const ProtfolioHeaderMobile = ({
           </NavLink>
         )}
 
-        {featuresConfig.isReferralDashboardActive && isCurrentAccountPartner && (
+        {isCurrentAccountPartner && (
           <>
             <Divider
               className={classes.divider}

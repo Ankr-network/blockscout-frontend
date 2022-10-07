@@ -55,7 +55,7 @@ export const ProtfolioHeader = ({
           </Hidden>
         )}
 
-        {featuresConfig.isReferralDashboardActive && isCurrentAccountPartner && (
+        {isCurrentAccountPartner && (
           <Hidden mdDown>
             <Grid item xs="auto">
               <NavLink
