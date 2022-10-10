@@ -1,3 +1,4 @@
+import aptosIcon from './aptos.svg';
 import arbitrumIcon from './arbitrum.svg';
 import avaxIcon from './avax.svg';
 import bscIcon from './bsc.svg';
@@ -24,6 +25,7 @@ import syscoinIcon from './syscoin.svg';
 import tronIcon from './tron.svg';
 
 const chainIcons = {
+  aptos_testnet: aptosIcon,
   arbitrum: arbitrumIcon,
   avalanche: avaxIcon,
   bsc: bscIcon,

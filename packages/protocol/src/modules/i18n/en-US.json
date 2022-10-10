@@ -52,6 +52,13 @@
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
       "og-description": "Use a decentralized and free Ethereum public RPC endpoint"
+    },
+    "chain-item-aptos-testnet": {
+      "title": "Your Instant RPC Gateway to Aptos Testnet",
+      "description": "Experience unrestricted access to a decentralized Aptos Testnet RPC for developers and DeFi users.",
+      "og-title": "Build on Aptos Testnet With Instant RPC Endpoint",
+      "og-description": "Use a fast, reliable & free Aptos Testnet public RPC endpoint",
+      "h1-tag": "Access a fast, reliable, and decentralized Aptos Testnet RPC"
     }
   },
   "error": {
@@ -392,7 +399,7 @@
             "import": "🚫 This method is not supported!</br>Finalize a transfer of an asset from the P-Chain or C-Chain to the X-Chain.",
             "importKey": "🚫 This method is not supported!</br>Give a user control over an address by providing the private key that controls the address.",
             "issueTx": "Send a signed transaction to the network.",
-            "listAddresses":"🚫 This method is not supported!</br>List addresses controlled by the given user.",
+            "listAddresses": "🚫 This method is not supported!</br>List addresses controlled by the given user.",
             "send": "🚫 This method is not supported!</br>List addresses controlled by the given user.",
             "sendMultiple": "🚫 This method is not supported!</br>Sends multiple transfers of amount of assetID, to a specified address from a list of owned addresses.",
             "sendNFT": "🚫 This method is not supported!</br>Send a non-fungible token."

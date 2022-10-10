@@ -140,6 +140,7 @@ export enum BlockchainType {
   Extension = 'extension',
   Testnet = 'testnet',
   Devnet = 'devnet',
+  Customized = 'customized',
 }
 
 export interface IBlockchainEntity {
@@ -150,9 +151,6 @@ export interface IBlockchainEntity {
   name: string;
   paths?: string[];
   premiumOnly?: boolean;
-  stats?: {
-    reqs: number;
-  };
   type: BlockchainType;
 }
 

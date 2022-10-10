@@ -13,13 +13,14 @@ export interface ChainsListProps {
 }
 
 export interface Chain {
-  id: ChainID;
-  icon: string;
   extenders?: IApiChain[];
   extensions?: IApiChain[];
+  icon: string;
+  id: ChainID;
+  isArchive?: boolean;
   name: string;
   totalRequests?: BigNumber;
-  isArchive?: boolean;
+  type: IApiChain['type'];
   urls: IApiChainURL[];
 }
 

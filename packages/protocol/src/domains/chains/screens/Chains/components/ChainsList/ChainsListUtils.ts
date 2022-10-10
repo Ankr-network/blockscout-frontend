@@ -1,6 +1,7 @@
-import { SortType } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
+import { BlockchainType } from 'multirpc-sdk';
+
 import { Chain, ChainsListProps, SortChainsParams } from './ChainsListTypes';
+import { SortType } from 'domains/chains/types';
 
 export const PERIOD = '24h';
 
@@ -10,25 +11,27 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
   return data.map(item => {
     const {
       coinName,
+      extenders,
+      extensions,
       icon,
       id,
       isArchive,
-      extenders,
-      extensions,
       name,
       totalRequests,
+      type,
       urls,
     } = item;
 
     return {
       coinName,
+      extenders,
+      extensions,
       icon,
       id,
       isArchive,
-      extenders,
-      extensions,
       name,
       totalRequests,
+      type,
       urls,
     };
   });
@@ -37,18 +40,18 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
 const publicChainsSorter = (a: Chain, b: Chain) =>
   (b?.totalRequests?.toNumber() || 0) - (a?.totalRequests?.toNumber() || 0);
 
-const extractMultichain = (chains: Chain[]) =>
-  chains.reduce<[Chain[], Chain | undefined]>(
+const extractCustomizedChains = (chains: Chain[]) =>
+  chains.reduce<[Chain[], Chain[]]>(
     (acc, chain) => {
-      if (chain.id === ChainID.MULTICHAIN) {
-        acc[1] = chain;
+      if (chain.type === BlockchainType.Customized) {
+        acc[1].push(chain);
       } else {
         acc[0].push(chain);
       }
 
       return acc;
     },
-    [[], undefined],
+    [[], []],
   );
 
 export const sortChains = ({
@@ -59,7 +62,7 @@ export const sortChains = ({
 }: SortChainsParams): Chain[] => {
   if (!Array.isArray(rawChains)) return [];
 
-  const [chains, multichain] = extractMultichain(rawChains);
+  const [chains, customizedChains] = extractCustomizedChains(rawChains);
 
   const privateChainsSorter = (a: Chain, b: Chain) =>
     (stats[b.id]?.total_requests || 0) - (stats[a.id]?.total_requests || 0);
@@ -72,5 +75,5 @@ export const sortChains = ({
 
   const sortedChains = [...chains].sort(sorter);
 
-  return multichain ? [multichain, ...sortedChains] : sortedChains;
+  return [...customizedChains, ...sortedChains];
 };
