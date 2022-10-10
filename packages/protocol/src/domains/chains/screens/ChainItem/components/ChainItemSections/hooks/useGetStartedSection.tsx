@@ -7,6 +7,7 @@ import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
 import { t } from 'modules/i18n/utils/intl';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
@@ -29,7 +30,8 @@ const isSectionVisible = (
   !isUpgraded ||
   chainId === ChainID.TRON ||
   isGroupEvmBased(group) ||
-  isAvalancheChain(group.id);
+  isAvalancheChain(group.id) ||
+  isGroupSolanaBased(group);
 
 const label = t('chain-item.tabs.get-started');
 
