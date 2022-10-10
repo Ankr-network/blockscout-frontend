@@ -132,7 +132,10 @@ export const filterMapChains = (
     (result, chain) => {
       const { id, type } = chain;
 
-      if (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) {
+      if (
+        (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) ||
+        id === ChainID.APTOS_TESTNET
+      ) {
         result.push({
           ...chain,
           testnets: testnets[id],
@@ -162,7 +165,7 @@ export const filterMapChains = (
   return chainsWithTestnetsOrDevnets.reduce<IApiChain[]>((result, chain) => {
     const { chainExtends, id } = chain;
 
-    if (!chainExtends) {
+    if (!chainExtends || id === ChainID.APTOS_TESTNET) {
       result.push({
         ...chain,
         extenders: extenders[id],
