@@ -1,6 +1,6 @@
+import { BlockchainType } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { InfrastructureSection } from '../../InfrastructureSection';
@@ -23,8 +23,8 @@ export const useInfrastructureSection = ({
 }: InfrastructureSectionParams) => {
   const { credentials } = useAuth();
 
-  const isNotMultichain = chain.id !== ChainID.MULTICHAIN;
-  const isVisible = !!credentials || isNotMultichain;
+  const isNotCustomizedChain = chain.type !== BlockchainType.Customized;
+  const isVisible = !!credentials || isNotCustomizedChain;
 
   return useMemo(
     (): Tab<SectionID> | undefined =>
@@ -35,8 +35,8 @@ export const useInfrastructureSection = ({
               <InfrastructureSection
                 chain={chain}
                 group={group}
-                withMyEndpoints={isNotMultichain}
-                withNodes={isNotMultichain}
+                withMyEndpoints={isNotCustomizedChain}
+                withNodes={isNotCustomizedChain}
               />
             ),
             title: (isSelected: boolean) => (
@@ -44,6 +44,6 @@ export const useInfrastructureSection = ({
             ),
           }
         : undefined,
-    [chain, group, isNotMultichain, isVisible],
+    [chain, group, isNotCustomizedChain, isVisible],
   );
 };

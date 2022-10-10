@@ -1,4 +1,5 @@
-import { ChainID } from 'modules/chains/types';
+import { BlockchainType } from 'multirpc-sdk';
+
 import { ChainsItem } from './ChainsItem';
 import { ChainsItemQueryProps } from './ChainsItemTypes';
 import { useChainsItem } from './hooks/useChainsItem';
@@ -19,7 +20,7 @@ export const ChainsItemQuery = ({
     <ChainsItem
       {...props}
       chain={chain}
-      isHighlighted={chain.id === ChainID.MULTICHAIN}
+      isHighlighted={chain.type === BlockchainType.Customized}
       isLoading={loading}
       isPremium={isPremium}
       publicChain={publicChain}

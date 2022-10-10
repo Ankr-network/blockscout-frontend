@@ -1,3 +1,4 @@
+import { BlockchainType } from 'multirpc-sdk';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -10,11 +11,12 @@ import { mainTheme } from 'ui';
 import { ChainsItem } from './ChainsItem';
 
 const chain = {
-  isLoading: false,
-  totalRequests: new BigNumber(10000),
-  id: 'id' as ChainID,
-  name: 'namenamenamename',
   icon: chainLogo,
+  id: 'id' as ChainID,
+  isLoading: false,
+  name: 'namenamenamename',
+  totalRequests: new BigNumber(10000),
+  type: BlockchainType.Mainnet,
   urls: [{ rpc: 'chainLinkchainLinkchainLinkchainLinkchainLink' }],
 };
 
