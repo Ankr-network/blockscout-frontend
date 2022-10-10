@@ -150,9 +150,6 @@ export interface IBlockchainEntity {
   name: string;
   paths?: string[];
   premiumOnly?: boolean;
-  stats?: {
-    reqs: number;
-  };
   type: BlockchainType;
 }
 

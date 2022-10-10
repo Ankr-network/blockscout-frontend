@@ -30,6 +30,10 @@ export const formatPublicUrls = (
 
   const tronItem = blockchainsApiResponse.find(item => item.id === 'tron');
 
+  const aptosTestnetItem = blockchainsApiResponse.find(
+    item => item.id === 'aptos_testnet',
+  );
+
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
     const hasRPC = blockchain.features.includes('rpc');
 
@@ -39,6 +43,12 @@ export const formatPublicUrls = (
 
     if (blockchain.id === 'tron') {
       blockchain.paths = tronItem?.paths ? [tronItem.paths[0]] : [];
+    }
+
+    if (blockchain.id === 'aptos_testnet') {
+      blockchain.paths = aptosTestnetItem?.paths
+        ? [`${aptosTestnetItem.paths[0]}/v1`]
+        : [];
     }
 
     const rpcURLs: string[] = hasRPC
@@ -56,10 +66,11 @@ export const formatPublicUrls = (
 
 const getPaths = (blockchain: IBlockchainEntity) => {
   const isTron = blockchain.id === 'tron';
+  const isAptosTestnet = blockchain.id === 'aptos_testnet';
 
   let paths = blockchain?.paths ?? [];
 
-  if (isTron) {
+  if (isTron || isAptosTestnet) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
   }
 
@@ -76,21 +87,34 @@ export const formatPrivateUrls = (
     const hasWS = blockchain.features.includes('ws');
 
     const paths = getPaths(blockchain);
+    const isAptosTestnet = blockchain.id === 'aptos_testnet';
 
     const rpcURLs: string[] = hasRPC
-      ? paths.map(path =>
-          config.privateRpcUrl
+      ? paths.map(path => {
+          let url = config.privateRpcUrl
             .replace('{blockchain}', path)
-            .replace('{user}', tokenHash),
-        ) || []
+            .replace('{user}', tokenHash);
+
+          if (isAptosTestnet) {
+            url += '/v1';
+          }
+
+          return url;
+        }) || []
       : [];
 
     const wsURLs: string[] = hasWS
-      ? paths.map(path =>
-          config.privateWsUrl
+      ? paths.map(path => {
+          let url = config.privateWsUrl
             .replace('{blockchain}', path)
-            .replace('{user}', tokenHash),
-        ) || []
+            .replace('{user}', tokenHash);
+
+          if (isAptosTestnet) {
+            url += '/v1';
+          }
+
+          return url;
+        }) || []
       : [];
 
     result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
