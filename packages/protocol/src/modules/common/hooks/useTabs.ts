@@ -45,6 +45,10 @@ export const useTabs = <TI = DefaultTabID>({
   const tabsRef = useRef<Tab<TI>[]>(tabs);
 
   useEffect(() => {
+    setSelectedTabID(getSelectedTabID(tabs, initialTabID));
+  }, [tabs, initialTabID]);
+
+  useEffect(() => {
     const tabsIds = tabs.map(item => item.id);
     const refIds = tabsRef.current.map(item => item.id);
 
@@ -84,7 +88,8 @@ export const useTabs = <TI = DefaultTabID>({
     [getTabSelectHandler, tabs],
   );
 
-  const selectedTab = processedTabs.find(({ id }) => id === selectedTabID);
+  const selectedTab =
+    processedTabs.find(({ id }) => id === selectedTabID) || processedTabs[0];
 
   return [processedTabs, selectedTab, selectTab];
 };
