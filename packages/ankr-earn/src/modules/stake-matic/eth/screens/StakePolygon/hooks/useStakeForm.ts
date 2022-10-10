@@ -8,13 +8,12 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useStakableMaticInEth } from 'modules/dashboard/screens/Dashboard/components/StakableTokens/hooks/useStakableMaticInEth';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
 import { approveMATICStake } from 'modules/stake-matic/eth/actions/approveMATICStake';
@@ -24,6 +23,7 @@ import {
 } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getStakeGasFee } from 'modules/stake-matic/eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-matic/eth/actions/stake';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -37,6 +37,7 @@ interface IUseStakeFormData {
   activeStep: number;
   amount: BigNumber;
   certificateRatio: BigNumber;
+  faqItems: IFAQItem[];
   fetchStatsData: IFetchStatsResponseData | null;
   fetchStatsError?: Error;
   gasFee: BigNumber;
@@ -66,8 +67,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
-  const stakableMATICData = useStakableMaticInEth();
-
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approveMATICStake,
   });
@@ -78,6 +77,11 @@ export const useStakeForm = (): IUseStakeFormData => {
     error: fetchStatsError,
   } = useQuery({
     type: fetchStats,
+  });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
   });
 
   const { data: gasFee, loading: isGasFeeLoading } = useQuery({
@@ -128,25 +132,31 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   const totalAmount = useMemo(() => {
-    if (isError || stakableMATICData.balance.isLessThan(amount)) {
+    if (isError || fetchStatsData?.maticBalance.isLessThan(amount)) {
       return ZERO;
     }
 
     return calcTotalAmount({
       selectedToken,
       amount: new BigNumber(amount),
-      balance: stakableMATICData.balance,
+      balance: fetchStatsData?.maticBalance ?? ZERO,
       aMATICcRatio,
     });
-  }, [aMATICcRatio, amount, selectedToken, stakableMATICData.balance, isError]);
+  }, [
+    aMATICcRatio,
+    amount,
+    fetchStatsData?.maticBalance,
+    isError,
+    selectedToken,
+  ]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
-    const maticEthSDK = await MaticEthSDK.getInstance();
+    const polygonOnEthereumSDK = await PolygonOnEthereumSDK.getInstance();
     const synthBalance =
       selectedToken === Token.aMATICb
-        ? await maticEthSDK.getABBalance()
-        : await maticEthSDK.getACBalance();
+        ? await polygonOnEthereumSDK.getABBalance()
+        : await polygonOnEthereumSDK.getACBalance();
 
     trackStake({
       address,
@@ -155,7 +165,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       willGetAmount: currentAmount,
       tokenIn: Token.MATIC,
       tokenOut: selectedToken,
-      prevStakedAmount: stakableMATICData.balance,
+      prevStakedAmount: fetchStatsData?.maticBalance ?? ZERO,
       synthBalance,
     });
   };
@@ -208,6 +218,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     activeStep,
     amount,
     certificateRatio: aMATICcRatio ?? ZERO,
+    faqItems,
     fetchStatsData,
     fetchStatsError,
     gasFee: gasFee ?? ZERO,

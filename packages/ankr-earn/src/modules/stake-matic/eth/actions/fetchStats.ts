@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
@@ -25,7 +25,7 @@ export const fetchStats = createSmartAction<
 >(`${MATIC_ETH_ACTIONS_PREFIX}fetchStats`, () => ({
   request: {
     promise: async (): Promise<IFetchStatsResponseData> => {
-      const sdk = await MaticEthSDK.getInstance();
+      const sdk = await PolygonOnEthereumSDK.getInstance();
       const { unstakeFee } = await sdk.getUnstakeFee();
 
       const [

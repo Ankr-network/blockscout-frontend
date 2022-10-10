@@ -22,6 +22,8 @@ export const ANKR_MATIC_LANDING =
 export const ANKR_BNB_LANDING = 'https://www.ankr.com/bnb-liquid-staking/';
 export const ANKR_AVAX_LANDING = 'https://www.ankr.com/avax-liquid-staking/';
 export const ANKR_FTM_LANDING = 'https://www.ankr.com/ftm-liquid-staking/';
+export const ANKR_DOT_LANDING = 'https://www.ankr.com/dot-liquid-staking/';
+export const ANKR_KSM_LANDING = 'https://www.ankr.com/ksm-liquid-staking/';
 
 export const STAKEFI_LINK = 'https://old-stakefi.ankr.com/liquid-staking';
 

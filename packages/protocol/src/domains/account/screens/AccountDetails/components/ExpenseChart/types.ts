@@ -11,6 +11,7 @@ export enum ExpenseChartTimeframe {
 export enum ChartCurrency {
   ANKR,
   USD,
+  CREDIT,
 }
 
 export enum ChartTimeframe {

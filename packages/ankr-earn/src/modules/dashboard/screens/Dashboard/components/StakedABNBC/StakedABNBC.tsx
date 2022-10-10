@@ -3,7 +3,13 @@ import { useCallback } from 'react';
 import { tHTML } from 'common';
 
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ONE, ZERO } from 'modules/common/const';
+import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
+import {
+  BSC_NETWORK_BY_ENV,
+  featuresConfig,
+  ONE,
+  ZERO,
+} from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -13,10 +19,10 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedABNBCData } from '../StakedTokens/hooks/BNB/useStakedABNBCData';
-import { useStakedBNBTxHistory } from '../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
+import { useStakedBNBTxHistory } from '../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
 
 import { useStakedABNBCAnalytics } from './useStakedABNBCAnalytics';
+import { useStakedABNBCData } from './useStakedABNBCData';
 
 export const StakedABNBC = (): JSX.Element => {
   const unstakePendingData = useUnstakePendingTimestamp({ token: Token.BNB });
@@ -105,12 +111,21 @@ export const StakedABNBC = (): JSX.Element => {
         onTokenInfoClick={onOpenInfo}
       />
 
-      <HistoryDialog
-        history={transactionHistoryABNBC}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
-      />
+      {featuresConfig.newStakingHistoryDialog ? (
+        <NewHistoryDialog
+          network={BSC_NETWORK_BY_ENV}
+          open={isOpenedHistory}
+          token={Token.aBNBc}
+          onClose={onCloseHistory}
+        />
+      ) : (
+        <HistoryDialog
+          history={transactionHistoryABNBC}
+          isHistoryLoading={isHistoryDataLoading}
+          open={isOpenedHistory}
+          onClose={onCloseHistory}
+        />
+      )}
 
       <TokenInfoDialog
         addTokenToWallet={onAddTokenToWallet}

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Form } from 'react-final-form';
 import BigNumber from 'bignumber.js';
 

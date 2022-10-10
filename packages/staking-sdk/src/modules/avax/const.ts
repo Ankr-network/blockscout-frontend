@@ -36,9 +36,9 @@ export const AVAX_MAX_BLOCK_RANGE = 3_000;
 /**
  * Events block range for stake/unstake history
  *
- * @note 750_000 blocks = ~26 days
+ * @note 404_000 blocks = ~14 days
  */
-export const AVAX_MAX_HISTORY_RANGE = AVAX_MAX_BLOCK_RANGE * 250;
+export const AVAX_HISTORY_2_WEEKS_OFFSET = AVAX_MAX_BLOCK_RANGE * 135;
 
 /**
  * Max block parallel requests to rpc

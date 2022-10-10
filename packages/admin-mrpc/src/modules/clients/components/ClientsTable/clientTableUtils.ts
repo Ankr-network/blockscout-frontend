@@ -1,14 +1,21 @@
 import { ClientMapped } from '../../store/clientsSlice';
 
-export function sortData(
-  rows: ClientMapped[],
-  sortBy?: keyof ClientMapped,
-  sortOrder?: 'asc' | 'desc',
-) {
+export function sortData({
+  rows,
+  compareType,
+  sortBy,
+  sortOrder,
+}: {
+  rows: ClientMapped[];
+  compareType: 'string' | 'number';
+  sortBy?: keyof ClientMapped;
+  sortOrder?: 'asc' | 'desc';
+}) {
   const itemsToSort = [...rows];
   if (!sortBy || !sortOrder) {
     return rows;
   }
+
   const compareFn = (i: ClientMapped, j: ClientMapped): 1 | -1 | 0 => {
     if (!i[sortBy]) {
       return 1;
@@ -16,10 +23,12 @@ export function sortData(
     if (!j[sortBy]) {
       return -1;
     }
-    if (i[sortBy]! < j[sortBy]!) {
+    const a = compareType === 'number' ? +i[sortBy]! : i[sortBy]!;
+    const b = compareType === 'number' ? +j[sortBy]! : j[sortBy]!;
+    if (a < b) {
       return sortOrder === 'asc' ? -1 : 1;
     }
-    if (i[sortBy]! > j[sortBy]!) {
+    if (a > b) {
       return sortOrder === 'asc' ? 1 : -1;
     }
     return 0;

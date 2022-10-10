@@ -45,6 +45,7 @@ export interface IBinanceConfig {
   aETHToken: string;
   aETHcToken: string;
   binancePool: string;
+  binancePartners: string;
   WBNBContract: string;
   bridge: string;
 }
@@ -115,6 +116,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
     aBNBcToken: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
     binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
+    binancePartners: '0x4023d843251D58e29103062878C225072edBfB5d',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     aMATICbToken: '0x07Cf0e4544E0f950C7386f83AFDAa696db00Bc94',
     aMATICcToken: '0xA073139a16728DA8e2ceA0EF164820c0476fFf3C',
@@ -201,6 +203,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aBNBbToken: '0xBb1Aa6e59E5163D8722a122cd66EBA614b59df0d',
     aBNBcToken: '0xE85aFCcDaFBE7F2B096f268e31ccE3da8dA2990A',
     binancePool: '0x66BEA595AEFD5a65799a920974b377Ed20071118',
+    binancePartners: '0xCB63Ae9Aa9886495F4e16d14c87De2c5cEd43a35',
     WBNBContract: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     aMATICbToken: '0x7465b49f83bfd74e8df8574d43bfff34edbc1758',
     aMATICcToken: '0x738d96caf7096659db4c1afbf1e1bdfd281f388c',

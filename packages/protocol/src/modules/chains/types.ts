@@ -1,4 +1,5 @@
 export enum ChainID {
+  APTOS_TESTNET = 'aptos_testnet',
   ARBITRUM = 'arbitrum',
   AVALANCHE = 'avalanche',
   AVALANCHE_C = 'avalanche-c',
@@ -28,6 +29,7 @@ export enum ChainID {
   IOTEX_TESTNET = 'iotex_testnet',
   METIS = 'metis',
   MOONBEAM = 'moonbeam',
+  MULTICHAIN = 'multichain',
   NEAR = 'near',
   NERVOS = 'nervos',
   NERVOS_CKB = 'nervos_ckb',

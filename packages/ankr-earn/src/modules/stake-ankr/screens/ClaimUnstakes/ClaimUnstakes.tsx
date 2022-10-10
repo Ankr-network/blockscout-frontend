@@ -16,7 +16,7 @@ import { CloseButton } from 'uiKit/CloseButton';
 import { Container } from 'uiKit/Container';
 import { Spinner } from 'uiKit/Spinner';
 
-import { useClaimUnstakes } from './useClaimUnstakes';
+import { useClaimUnstakes } from './hooks/useClaimUnstakes';
 import { useClaimUnstakesStyles } from './useClaimUnstakesStyles';
 
 export const ClaimUnstakes = (): JSX.Element => {

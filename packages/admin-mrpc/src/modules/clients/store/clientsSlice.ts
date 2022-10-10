@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICountersEntity } from 'multirpc-sdk';
 
@@ -7,10 +8,10 @@ import { ClientType } from '../types';
 export type ClientMapped = ICountersEntity & {
   clientType: ClientType;
   email?: string;
-  amount?: string;
-  amountAnkr?: string;
-  amountUsd?: string;
-  voucherAmount?: string;
+  amount?: BigNumber;
+  amountAnkr?: BigNumber;
+  amountUsd?: BigNumber;
+  voucherAmount?: BigNumber;
   reference?: string;
   createdDate: Date;
 };

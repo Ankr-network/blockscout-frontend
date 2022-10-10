@@ -58,5 +58,12 @@ export const METRICS_MOCK: IMetricsResponse = {
       apy: '9.5800886',
       totalStakedUsd: '5312.93398',
     },
+    {
+      serviceName: 'ankr',
+      totalStaked: '373399016.590406894683837891',
+      stakers: '0',
+      apy: '9.5800886',
+      totalStakedUsd: '11664985.28',
+    },
   ],
 };

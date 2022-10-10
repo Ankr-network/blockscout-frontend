@@ -20,27 +20,27 @@ Here is a codesandbox sample how to get balance using `@ankr.com/staking-sdk` [h
 
 ```typescript
 // stake aMATICc token
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
-const sdk = await MaticEthSDK.getInstance();
+const sdk = await PolygonOnEthereumSDK.getInstance();
 
 const { txHash } = await sdk.stake(new BigNumber(1_200), 'aMATICc');
 ```
 
 ```typescript
 // unstake aMATICc token
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
-const sdk = await MaticEthSDK.getInstance();
+const sdk = await PolygonOnEthereumSDK.getInstance();
 
 await sdk.unstake(new BigNumber(1_200), 'aMATICc');
 ```
 
 ```typescript
 // switch aMATICb and aMATICc
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
-const sdk = await MaticEthSDK.getInstance();
+const sdk = await PolygonOnEthereumSDK.getInstance();
 
 const lockResponse = await sdk.lockShares({ amount: new BigNumber(2.65) });
 
@@ -49,9 +49,9 @@ const unlockResponse = await sdk.unlockShares({ amount: new BigNumber(1.98) });
 
 ```typescript
 // Get MATIC transaction history
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
-const sdk = await MaticEthSDK.getInstance();
+const sdk = await PolygonOnEthereumSDK.getInstance();
 
 const history = await sdk.getTxEventsHistory();
 ```
@@ -116,11 +116,11 @@ const unlockResponse = await sdk.unlockShares({ amount: new BigNumber(1.98) });
 
 ```typescript
 // User defined providers
-import { MaticEthSDK, Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK, Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
 const readProvider: Web3KeyReadProvider = { ... };
 const writeProvider: Web3KeyWriteProvider = { ... };
-const sdk = await MaticEthSDK.getInstance({ readProvider, writeProvider });
+const sdk = await PolygonOnEthereumSDK.getInstance({ readProvider, writeProvider });
 
 const { txHash } = await sdk.stake(new BigNumber(1_200), 'aMATICc');
 ```

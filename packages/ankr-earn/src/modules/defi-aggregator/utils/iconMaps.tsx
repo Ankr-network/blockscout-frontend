@@ -8,6 +8,7 @@ import { ADOTBIcon } from 'uiKit/Icons/ADOTBIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
+import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
@@ -21,6 +22,7 @@ import { PolygonIcon } from 'uiKit/Icons/Polygon';
 
 import { TDeFiNetwork } from '../api/defi';
 import { ReactComponent as StEthIcon } from '../assets/icon-stETH.svg';
+import { ReactComponent as StMATICIcon } from '../assets/icon-stMATIC.svg';
 import { ReactComponent as WstEthIcon } from '../assets/icon-wstETH.svg';
 
 export const TOKEN_ASSET_ICON_MAP: Record<string, JSX.Element> = {
@@ -28,6 +30,7 @@ export const TOKEN_ASSET_ICON_MAP: Record<string, JSX.Element> = {
   ETH: <EthIcon />,
   wETH: <EthIcon />,
   aETHc: <AETHCIcon />,
+  aETHCrv: <AETHCIcon />,
   aETHb: <AETHBIcon />,
   BNB: <BNBIcon />,
   wBNB: <BNBIcon />,
@@ -37,11 +40,13 @@ export const TOKEN_ASSET_ICON_MAP: Record<string, JSX.Element> = {
   wMATIC: <MaticIcon />,
   aMATICb: <AMATICBIcon />,
   aMATICc: <AMATICCIcon />,
+  stMATIC: <StMATICIcon />,
   AVAX: <AvaxIcon />,
   wAVAX: <AvaxIcon />,
   aAVAXb: <AAvaxBIcon />,
   aAVAXc: <AAvaxCIcon />,
   FTM: <FantomIcon />,
+  aFTMc: <AFTMCIcon />,
   wFTM: <FantomIcon />,
   aFTMb: <AFTMBIcon />,
   aDOTb: <ADOTBIcon />,

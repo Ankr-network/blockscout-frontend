@@ -17,7 +17,7 @@ import { Container } from 'uiKit/Container';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Spinner } from 'uiKit/Spinner';
 
-import { useClaimRewards } from './useClaimRewards';
+import { useClaimRewards } from './hooks/useClaimRewards';
 import { useClaimRewardsStyles } from './useClaimRewardsStyles';
 
 export const ClaimRewards = (): JSX.Element => {

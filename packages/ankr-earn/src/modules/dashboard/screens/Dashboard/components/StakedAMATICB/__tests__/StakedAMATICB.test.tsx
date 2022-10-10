@@ -6,18 +6,18 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
-import { StakedAMATICB } from '..';
-import {
-  IStakedAMATICBData,
-  useStakedAMATICBData,
-} from '../../StakedTokens/hooks/MATIC/useStakedAMATICBData';
 import {
   ITxHistoryData,
   useStakedMATICTxHistory,
-} from '../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+} from '../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
+import { StakedAMATICB } from '../StakedAMATICB';
+import {
+  IStakedAMATICBData,
+  useStakedAMATICBData,
+} from '../useStakedAMATICBData';
 
-jest.mock('modules/stake-matic/eth/actions/fetchTxHistory', () => ({
-  fetchTxHistory: jest.fn(),
+jest.mock('modules/stake-matic/eth/actions/fetchTotalHistory', () => ({
+  fetchTotalHistory: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -35,11 +35,11 @@ jest.mock('modules/common/const', () => ({
   },
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedAMATICBData', () => ({
+jest.mock('../useStakedAMATICBData', () => ({
   useStakedAMATICBData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/MATIC/useStakedMaticTxHistory', () => ({
+jest.mock('../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMATICTxHistory: jest.fn(),
 }));
 
@@ -55,7 +55,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
-    isShowed: true,
     handleAddTokenToWallet: jest.fn(),
   };
 

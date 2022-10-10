@@ -30,6 +30,7 @@ import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
+import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 
 import { Progress } from '../Progress';
@@ -116,7 +117,7 @@ export const TxView = ({
     isConnected && !isReceived && !isWrongNetwork && isNotarizeCompleted;
   const showConnectBtn = !isConnected;
   const showAddTokenBtn = isConnected && isReceived && isMetaMask && !isFirefox;
-  const showSwitchNetworkBtn = isConnected && isWrongNetwork && isMetaMask;
+  const showSwitchNetworkBtn = isConnected && isWrongNetwork;
 
   useEffect(() => {
     if (isNotarizeCompleted || !isConnected) {
@@ -217,9 +218,10 @@ export const TxView = ({
           </Box>
         </Box>
 
-        <Box className={classes.footerBtn}>
+        <Box display="flex" justifyContent="center" marginTop={3}>
           {showWithdrawlBtn && (
             <Button
+              fullWidth
               color="primary"
               disabled={isWithdrawalLoading}
               isLoading={isWithdrawalLoading}
@@ -232,6 +234,7 @@ export const TxView = ({
 
           {showAddTokenBtn && (
             <Button
+              fullWidth
               color="default"
               size="large"
               variant="outlined"
@@ -241,8 +244,9 @@ export const TxView = ({
             </Button>
           )}
 
-          {showSwitchNetworkBtn && (
+          {showSwitchNetworkBtn && isMetaMask && (
             <Button
+              fullWidth
               color="primary"
               disabled={isSwitchNetworkPending}
               isLoading={isSwitchNetworkPending}
@@ -255,8 +259,21 @@ export const TxView = ({
             </Button>
           )}
 
+          {showSwitchNetworkBtn && !isMetaMask && (
+            <Quote mt={3} variant="warning">
+              {t('bridge.main.switch-note', {
+                chain: t(`chain.${chainIdTo}`),
+              })}
+            </Quote>
+          )}
+
           {showConnectBtn && (
-            <Button color="primary" size="large" onClick={handleConnectOpen}>
+            <Button
+              fullWidth
+              color="primary"
+              size="large"
+              onClick={handleConnectOpen}
+            >
               {t('bridge.tx.buttons.connect-wallet')}
             </Button>
           )}

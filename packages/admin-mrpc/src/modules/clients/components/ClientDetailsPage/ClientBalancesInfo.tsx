@@ -19,27 +19,21 @@ export const ClientBalancesInfo = ({
     <Box>
       <Grid className={classes.balancesGridWrapper} container spacing={3}>
         <Grid item xs={size}>
-          <Typography variant="h4">Amount of credits</Typography>
+          <Typography variant="h4">Total amount of credits</Typography>
           <Typography variant="body2">
             {renderBalance(currentClient.amount)}
-          </Typography>
-        </Grid>
-        <Grid item xs={size}>
-          <Typography variant="h4">Amount of ANKR</Typography>
-          <Typography variant="body2">
-            {renderBalance(currentClient.amountAnkr)}
-          </Typography>
-        </Grid>
-        <Grid item xs={size}>
-          <Typography variant="h4">Equivalent in USD</Typography>
-          <Typography variant="body2">
-            {renderUSD(currentClient.amountUsd)}
           </Typography>
         </Grid>
         <Grid item xs={size}>
           <Typography variant="h4">Amount of voucher credits</Typography>
           <Typography variant="body2">
             {renderBalance(currentClient.voucherAmount)}
+          </Typography>
+        </Grid>
+        <Grid item xs={size}>
+          <Typography variant="h4">Equivalent in USD</Typography>
+          <Typography variant="body2">
+            {renderUSD(currentClient.amountUsd)}
           </Typography>
         </Grid>
       </Grid>

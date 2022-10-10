@@ -5,15 +5,12 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { ONE_ETH } from 'modules/common/const';
 
-import { StakedAFTMB } from '..';
-import {
-  IStakedAFTMBData,
-  useStakedAFTMBData,
-} from '../../StakedTokens/hooks/FTM/useStakedAFTMBData';
 import {
   IUseStakedFTMTxHistory,
   useStakedFTMTxHistory,
-} from '../../StakedTokens/hooks/FTM/useStakedFTMTxHistory';
+} from '../../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory';
+import { StakedAFTMB } from '../StakedAFTMB';
+import { IStakedAFTMBData, useStakedAFTMBData } from '../useStakedAFTMBData';
 
 jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
   useUnstakePendingTimestamp: () => ({ FTM: { label: '' } }),
@@ -23,11 +20,11 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/FTM/useStakedAFTMBData', () => ({
+jest.mock('../useStakedAFTMBData', () => ({
   useStakedAFTMBData: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/FTM/useStakedFTMTxHistory', () => ({
+jest.mock('../../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory', () => ({
   useStakedFTMTxHistory: jest.fn(),
 }));
 
@@ -36,7 +33,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     amount: ONE_ETH.dividedBy(10 ** 18),
     chainId: EEthereumNetworkId.fantomTestnet,
     pendingUnstakes: ONE_ETH.dividedBy(10 ** 17),
-    isShowed: true,
     network: 'Fantom Opera',
     isBalancesLoading: false,
     stakeLink: '/stake',

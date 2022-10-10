@@ -1,11 +1,11 @@
 import {
-  ICreateTestClientRequest, ICreateTestClientResponse,
+  ICreateTestClientRequest,
+  ICreateTestClientResponse,
   IAddVoucherCreditsRequest,
   IAddVoucherCreditsResponse,
   IBalancesRequest,
   IBalancesResponse,
   IBlockchainEntity,
-  ICountersEntity,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
   INodeEntity,
@@ -15,6 +15,10 @@ import {
   ITransactionsResponse,
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
+  IUserStatsRequest,
+  IUserStatsResponse,
+  ICountersResponse,
+  ICountersRequest,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -36,6 +40,10 @@ export interface IBackofficeGateway {
     params: ICreateTestClientRequest,
   ): Promise<ICreateTestClientResponse>;
 
+  getUserStats(
+    params: IUserStatsRequest,
+  ): Promise<IUserStatsResponse>;
+
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,
   ): Promise<IAddVoucherCreditsResponse>;
@@ -56,7 +64,7 @@ export interface IBackofficeGateway {
 
   getBlockchains(): Promise<IBlockchainEntity[]>;
 
-  getCounters(limit?: number): Promise<ICountersEntity[]>;
+  getCounters(params: ICountersRequest): Promise<ICountersResponse>;
 
   getNodes(blockchain?: string): Promise<INodeEntity[]>;
 

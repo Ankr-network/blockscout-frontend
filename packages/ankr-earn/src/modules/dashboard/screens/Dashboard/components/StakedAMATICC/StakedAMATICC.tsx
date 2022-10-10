@@ -3,7 +3,13 @@ import { useCallback } from 'react';
 import { tHTML } from 'common';
 
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { ONE, ZERO } from 'modules/common/const';
+import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
+import {
+  ETH_NETWORK_BY_ENV,
+  featuresConfig,
+  ONE,
+  ZERO,
+} from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -13,10 +19,10 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedAMATICCData } from '../StakedTokens/hooks/MATIC/useStakedAMATICCData';
-import { useStakedMATICTxHistory } from '../StakedTokens/hooks/MATIC/useStakedMaticTxHistory';
+import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
 
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
+import { useStakedAMATICCData } from './useStakedAMATICCData';
 
 export const StakedAMATICC = (): JSX.Element => {
   const unstakePendingData = useUnstakePendingTimestamp({ token: Token.MATIC });
@@ -103,12 +109,21 @@ export const StakedAMATICC = (): JSX.Element => {
         onTokenInfoClick={onOpenInfo}
       />
 
-      <HistoryDialog
-        history={transactionHistoryAMATICC}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        onClose={onCloseHistory}
-      />
+      {featuresConfig.newStakingHistoryDialog ? (
+        <NewHistoryDialog
+          network={ETH_NETWORK_BY_ENV}
+          open={isOpenedHistory}
+          token={Token.aMATICc}
+          onClose={onCloseHistory}
+        />
+      ) : (
+        <HistoryDialog
+          history={transactionHistoryAMATICC}
+          isHistoryLoading={isHistoryDataLoading}
+          open={isOpenedHistory}
+          onClose={onCloseHistory}
+        />
+      )}
 
       <TokenInfoDialog
         addTokenToWallet={onAddTokenToWallet}

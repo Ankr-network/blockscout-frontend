@@ -8,24 +8,21 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
-  IStakedABNBCData,
-  useStakedABNBCData,
-} from '../../StakedTokens/hooks/BNB/useStakedABNBCData';
-import {
   ITxHistoryData,
   useStakedBNBTxHistory,
-} from '../../StakedTokens/hooks/BNB/useStakedBNBTxHistory';
+} from '../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
 import { StakedABNBC } from '../StakedABNBC';
 import {
   IUseStakedABNBCAnalytics,
   useStakedABNBCAnalytics,
 } from '../useStakedABNBCAnalytics';
+import { IStakedABNBCData, useStakedABNBCData } from '../useStakedABNBCData';
 
 jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
   useUnstakePendingTimestamp: () => ({ BNB: { label: '' } }),
 }));
 
-jest.mock('../../StakedTokens/hooks/BNB/useStakedABNBCData', () => ({
+jest.mock('../useStakedABNBCData', () => ({
   useStakedABNBCData: jest.fn(),
 }));
 
@@ -33,7 +30,7 @@ jest.mock('../useStakedABNBCAnalytics.ts', () => ({
   useStakedABNBCAnalytics: jest.fn(),
 }));
 
-jest.mock('../../StakedTokens/hooks/BNB/useStakedBNBTxHistory', () => ({
+jest.mock('../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
 }));
 
@@ -45,7 +42,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     stakeLink: 'stake',
     isLoading: false,
     isStakeLoading: false,
-    isShowed: false,
     tokenAddress: '0x22',
     token: Token.aBNBc,
     unstakeLink: 'unstake',

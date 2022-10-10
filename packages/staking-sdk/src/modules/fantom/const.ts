@@ -13,9 +13,9 @@ export const FANTOM_POOL_START_BLOCK = isMainnet ? 31_218_797 : 7_729_481;
 export const FANTOM_MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
 
 /**
- * Block offset to get latest history events for 7 days
+ * Block offset to get history events for 7 days
  */
-export const FANTOM_BLOCK_OFFSET = 201_600;
+export const FANTOM_BLOCK_WEEK_OFFSET = isMainnet ? 604_800 : 120_960;
 
 /**
  * Internal read provider id

@@ -13,7 +13,6 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
-import { useMaticFaq } from 'modules/stake-matic/common/hooks/useMaticFaq';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -45,6 +44,7 @@ export const Stake = (): JSX.Element => {
     amount,
     balance,
     extraValidation,
+    faqItems,
     gasFee,
     getStatsError,
     isGasFeeLoading,
@@ -58,8 +58,6 @@ export const Stake = (): JSX.Element => {
     onFormSubmit,
     onTokenSelect,
   } = useStakeForm();
-
-  const faqItems = useMaticFaq();
 
   const renderStats = (): JSX.Element => (
     <>
@@ -169,6 +167,7 @@ export const Stake = (): JSX.Element => {
                 value={gasFee}
               />
             }
+            isDisabled={isStakeLoading}
             loading={isStakeLoading}
             maxAmount={balance}
             networkTitleSlot={<NetworkTitle />}

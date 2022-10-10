@@ -6,7 +6,6 @@ import { Balance as AccountBalance } from 'domains/account/actions/balance/types
 import { useAuth } from 'domains/account/hooks/useAuth';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { UpcomingUpdateBanner } from 'modules/common/components/UpcomingUpdateBanner';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { mainTheme, Spinner } from 'ui';
@@ -39,8 +38,6 @@ export const AccountDetails = () => {
         <Spinner />
       ) : (
         <Box className={classes.root}>
-          <UpcomingUpdateBanner />
-
           <Box className={classes.top}>
             <Balance />
             <TopUp className={classes.topUp} />

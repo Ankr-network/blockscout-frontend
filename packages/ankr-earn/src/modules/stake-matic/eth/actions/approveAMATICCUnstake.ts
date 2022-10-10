@@ -2,7 +2,7 @@ import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { MaticEthSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
@@ -25,7 +25,7 @@ export const approveAMATICCUnstake = createAction<
         return true;
       }
 
-      const sdk = await MaticEthSDK.getInstance();
+      const sdk = await PolygonOnEthereumSDK.getInstance();
 
       const result = await sdk.approveACForAB(amount, ETH_SCALE_FACTOR);
 

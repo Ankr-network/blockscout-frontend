@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MaticPolygonSDK } from '@ankr.com/staking-sdk';
+import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { TBNPercent } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
@@ -19,7 +19,7 @@ export const getStakeStats = createSmartAction<
 >(`${MATIC_POLYGON_ACTIONS_PREFIX}getStakeStats`, () => ({
   request: {
     promise: async (): Promise<IGetStakeStatsData> => {
-      const sdk = await MaticPolygonSDK.getInstance();
+      const sdk = await PolygonOnPolygonSDK.getInstance();
 
       const [acPoolLiquidityInMATIC, stakeFeePct] = await Promise.all([
         sdk.getACPoolLiquidityInMATIC(),

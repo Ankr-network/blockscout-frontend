@@ -1,14 +1,14 @@
 import BigNumber from 'bignumber.js';
 
-import { AccountType, BalanceStatus } from 'domains/account/types';
-import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
-import { getAccountType } from 'domains/account/utils/getAccountType';
 import { useAuth } from 'domains/account/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
-import { useAppSelector } from 'store/useAppSelector';
+import { AccountType, BalanceStatus } from 'domains/account/types';
+import { getAccountType } from 'domains/account/utils/getAccountType';
+import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { useMemo } from 'react';
+import { useAppSelector } from 'store/useAppSelector';
 
 export interface AccountData {
   accountType: AccountType;
@@ -32,7 +32,8 @@ export const useAccountData = (): AccountData => {
     [isWallectConnected, cachedAuthData.isManualDisconnected],
   );
 
-  const { ankrBalance: balance, isLoadingInitially: isBalanceLoading } =
+  // const { ankrBalance: balance, isLoadingInitially: isBalanceLoading } =
+  const { creditBalance: balance, isLoadingInitially: isBalanceLoading } =
     useBalance(isConnected);
 
   const { endTime, isLoading: isBalanceEndTimeLoading } =

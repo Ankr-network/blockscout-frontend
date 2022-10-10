@@ -1,11 +1,10 @@
-import React from 'react';
 import { Box } from '@material-ui/core';
 
 import { Chart } from './components/Chart';
 import { Header } from './components/Header';
 
-import { useChart } from './hooks/useChart';
 import { useStyles } from './ExpenseChartStyles';
+import { useChart } from './hooks/useChart';
 
 export const ExpenseChart = () => {
   const {

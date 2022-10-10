@@ -1,51 +1,55 @@
 import { RequestAction } from '@redux-requests/core';
-import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { ITxEventsHistoryGroupItem, FantomSDK } from '@ankr.com/staking-sdk';
+import { FantomSDK, FANTOM_BLOCK_WEEK_OFFSET } from '@ankr.com/staking-sdk';
 
-import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
+import { Token } from 'modules/common/types/token';
 
 import { ACTIONS_PREFIX } from '../const';
 
-export interface IGetHistory {
-  stakeEventsAFTMB: ITxEventsHistoryGroupItem[];
-  stakeEventsAFTMC: ITxEventsHistoryGroupItem[];
-  pendingEventsAFTMB: ITxEventsHistoryGroupItem[];
-  pendingEventsAFTMC: ITxEventsHistoryGroupItem[];
-  withdrawnEventsAFTMB: ITxEventsHistoryGroupItem[];
-  withdrawnEventsAFTMC: ITxEventsHistoryGroupItem[];
-  totalPending: BigNumber;
+export interface IGetHistoryData {
+  [Token.aFTMb]: IBaseHistoryData;
+  [Token.aFTMc]: IBaseHistoryData;
 }
 
-export const getHistory = createAction<RequestAction<IGetHistory, IGetHistory>>(
-  `${ACTIONS_PREFIX}getHistory`,
-  () => ({
-    request: {
-      promise: (async (): Promise<IGetHistory> => {
-        const sdk = await FantomSDK.getInstance();
+interface IGetHistoryArgs {
+  step: number; // 1 step == 2 weeks
+}
 
-        const [historyData, totalPending] = await Promise.all([
-          sdk.getTxEventsHistory(),
-          sdk.getPendingClaim(),
-        ]);
+const FANTOM_BLOCK_2_WEEKS_OFFSET = FANTOM_BLOCK_WEEK_OFFSET * 2;
+
+export const getHistory = createAction<
+  RequestAction<IGetHistoryData, IGetHistoryData>,
+  [IGetHistoryArgs]
+>(
+  `${ACTIONS_PREFIX}getHistory`,
+  ({ step }): RequestAction => ({
+    request: {
+      promise: (async (): Promise<IGetHistoryData> => {
+        const sdk = await FantomSDK.getInstance();
+        const latestBlock = await sdk.getLatestBlock();
+
+        const from = latestBlock - FANTOM_BLOCK_2_WEEKS_OFFSET * (step + 1);
+        const to = latestBlock - FANTOM_BLOCK_2_WEEKS_OFFSET * step;
+
+        const historyData = await sdk.getTxEventsHistoryRange(from, to);
 
         return {
-          stakeEventsAFTMB: historyData.completedBond,
-          stakeEventsAFTMC: historyData.completedCertificate,
-          pendingEventsAFTMB: historyData.pendingBond,
-          pendingEventsAFTMC: historyData.pendingCertificate,
-          withdrawnEventsAFTMB: historyData.unstakeBond,
-          withdrawnEventsAFTMC: historyData.unstakeCertificate,
-          totalPending,
+          [Token.aFTMb]: {
+            stakeEvents: historyData.completedBond,
+            unstakeEvents: historyData.unstakeBond,
+          },
+          [Token.aFTMc]: {
+            stakeEvents: historyData.completedCertificate,
+            unstakeEvents: historyData.unstakeCertificate,
+          },
         };
       })(),
     },
     meta: {
       asMutation: false,
       showNotificationOnError: true,
-      getData: data => data,
-      cache: ACTION_CACHE_SEC,
     },
   }),
 );

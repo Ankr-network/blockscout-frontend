@@ -5,8 +5,6 @@ import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
-import { getTotalTvl } from 'modules/stake-ankr/actions/getTotalTvl';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
 import { getMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getTVL } from 'modules/stake-mgno/actions/getTVL';
@@ -22,14 +20,9 @@ import { useDelegateStakingTokensStyles } from './useDelegateStakingTokensStyles
 
 export const DelegateStakingTokens = (): JSX.Element => {
   const classes = useDelegateStakingTokensStyles();
-  const { onTrackEnterDelegatedStakingFlow } = useStakeMainScreen();
+  const { onTrackEnterDelegatedStakingFlow, metrics, loading } =
+    useStakeMainScreen();
 
-  const { data: ankrApr, loading: isANKRAprLoading } = useQuery({
-    type: getMaxApy,
-  });
-  const { data: ankrTvl, loading: isANKRTvlLoading } = useQuery({
-    type: getTotalTvl,
-  });
   const { data: mgnoApr, loading: isMGNOApyLoading } = useQuery({
     type: getMaxApr,
   });
@@ -47,13 +40,13 @@ export const DelegateStakingTokens = (): JSX.Element => {
         <FeatureItem
           isDelegatedStaking
           isIntegerTvl
-          apy={ankrApr?.toNumber() ?? 0}
+          apy={metrics && +metrics.ankr.apy}
           iconSlot={<AnkrIcon />}
-          isApyLoading={isANKRAprLoading}
-          isTvlLoading={isANKRTvlLoading}
+          isApyLoading={loading}
+          isTvlLoading={loading}
           mainHref={AnkrRoutes.stake.generatePath()}
           manageHref={AnkrRoutes.main.generatePath()}
-          stakedTvl={ankrTvl ?? undefined}
+          stakedTvl={metrics?.ankr.totalStaked}
           title={t('features.ankr')}
           token={Token.ANKR}
           onManageClick={onTrackEnterDelegatedStakingFlow(

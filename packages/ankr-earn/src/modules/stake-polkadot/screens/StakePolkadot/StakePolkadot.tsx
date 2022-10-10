@@ -118,6 +118,7 @@ export const StakePolkadot = ({
                 balance={polkadotBalance}
                 balanceLabel={balanceLabel}
                 balanceLinkSlot={balanceLinkSlot}
+                isDisabled={isStakeLoading}
                 loading={isStakeLoading}
                 maxAmount={polkadotBalance}
                 maxAmountDecimals={fetchStatsData.maxPolkadotNetworkDecimals.toNumber()}
