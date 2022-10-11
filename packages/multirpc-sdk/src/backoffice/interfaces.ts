@@ -18,7 +18,7 @@ import {
   IUserStatsRequest,
   IUserStatsResponse,
   ICountersResponse,
-  ICountersRequest,
+  ICountersRequest, IGetUserTotalRequest, IGetUserTotalResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -35,6 +35,10 @@ export interface IBackofficeGateway {
   getEmailBindings(
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
+
+  getUserTotal(
+    params: IGetUserTotalRequest,
+  ): Promise<IGetUserTotalResponse>;
 
   createTestPremiumUser(
     params: ICreateTestClientRequest,

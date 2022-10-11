@@ -8,6 +8,7 @@ import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
 import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 import { useFetchUserStatementQuery } from 'modules/clients/actions/fetchUserStatement';
 import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
+import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
 
 import { ClientTransactionsTable } from './ClientTransactionsTable';
 import { ClientInfo } from './ClientInfo';
@@ -62,6 +63,9 @@ export const ClientDetailsPage = () => {
     isFetching: isFetchingStatement,
   } = useFetchUserStatementQuery({ address, dayOffset: periodStatement });
   const { data: statsData, isLoading: isLoadingStats } = useFetchUserStatsQuery(
+    { address },
+  );
+  const { data: totalData, isLoading: isLoadingTotal } = useFetchUserTotalQuery(
     { address },
   );
 

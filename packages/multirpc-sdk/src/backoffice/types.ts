@@ -133,6 +133,13 @@ export interface IUpdateVoucherCreditsResponse {
   success: boolean;
 }
 
+export interface IGetUserTotalRequest {
+  address: Web3Address;
+}
+export interface IGetUserTotalResponse {
+  // TODO
+}
+
 export type BlockchainFeature = 'rpc' | 'ws';
 
 export enum BlockchainType {
