@@ -732,8 +732,8 @@ export const solanaWeb3Config: LibraryConfig = {
       commitment?: string,
     ) => {
       const options: SignaturesForAddressOptions = {
-        before,
-        until,
+        before: before || undefined,
+        until: before || undefined,
         limit: limit ? Number(limit) : undefined,
         minContextSlot: minContextSlot ? Number(minContextSlot) : undefined,
       };
