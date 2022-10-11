@@ -20,7 +20,6 @@ import { Features } from './components/Features';
 const parallaxStyles = {
   backgroundPosition: 'center bottom',
   top: 90,
-  height: 840,
   backgroundSize: 'contain',
 };
 
