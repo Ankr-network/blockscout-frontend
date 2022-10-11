@@ -416,7 +416,7 @@ export const solanaWeb3Config: LibraryConfig = {
   },
   [SolanaMethod.getFeeForMessage]: {
     exec: (provider, message: string, commitment?: string) => {
-      const parsedMessage = Message.from(Buffer.from(message));
+      const parsedMessage = Message.from(Buffer.from(message, 'base64'));
 
       return provider.getFeeForMessage(parsedMessage, commitment as Commitment);
     },
