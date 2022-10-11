@@ -806,7 +806,9 @@ export const solanaWeb3Config: LibraryConfig = {
     ) => {
       const signatures = rawSignatures.split(',');
 
-      const config: SignatureStatusConfig = { searchTransactionHistory };
+      const config: SignatureStatusConfig = {
+        searchTransactionHistory: !!searchTransactionHistory,
+      };
 
       return provider.getSignatureStatuses(signatures, config);
     },
@@ -1011,7 +1013,7 @@ export const solanaWeb3Config: LibraryConfig = {
     ) =>
       provider.getSupply({
         commitment: commitment as Commitment,
-        excludeNonCirculatingAccountsList,
+        excludeNonCirculatingAccountsList: !!excludeNonCirculatingAccountsList,
       }),
     codeSample: (
       url: string,
