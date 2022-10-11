@@ -1,12 +1,17 @@
 import { Theme, makeStyles } from '@material-ui/core';
 
-export const usePremiumLabelStyles = makeStyles<Theme>(theme => ({
+interface Props {
+  size: 's' | 'm' | 'l';
+}
+
+export const usePremiumLabelStyles = makeStyles<Theme, Props>(theme => ({
   premiumLabel: {
-    padding: `${theme.spacing(0.25)}px ${theme.spacing(1)}px`,
+    padding: (props: Props) =>
+      props.size === 's' ? `${theme.spacing(0.25)}px ${theme.spacing(1)}px` : 0,
 
     borderRadius: theme.spacing(1),
 
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: 'transparent',
   },
   gradient: {
     '-webkit-background-clip': 'text',
@@ -17,8 +22,13 @@ export const usePremiumLabelStyles = makeStyles<Theme>(theme => ({
 
     letterSpacing: '0.01em',
 
-    fontWeight: 400,
-    fontSize: theme.spacing(1.75),
+    fontWeight: (props: Props) => (props.size === 's' ? 400 : 700),
+    fontSize: (props: Props) =>
+      props.size === 'm'
+        ? theme.spacing(2.5)
+        : props.size === 'l'
+        ? 35
+        : theme.spacing(1.75),
     lineHeight: `${theme.spacing(2.5)}px`,
   },
 }));

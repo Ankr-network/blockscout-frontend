@@ -1,3 +1,4 @@
+import { Box } from '@material-ui/core';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import {
   AddEmailBanner,
@@ -61,16 +62,18 @@ export const Chains = () => {
       <NoReactSnap
         fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        {loading ? (
-          <Spinner />
-        ) : (
-          <ChainsList
-            chains={chains}
-            allChains={allChains}
-            sortType={sortType}
-            timeframe={timeframe}
-          />
-        )}
+        <Box className={classes.container}>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <ChainsList
+              chains={chains}
+              allChains={allChains}
+              sortType={sortType}
+              timeframe={timeframe}
+            />
+          )}
+        </Box>
       </NoReactSnap>
     </>
   );

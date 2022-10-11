@@ -66,6 +66,7 @@ export const PALETTE: PaletteOptions = {
     500: '#808692',
     600: '#82899A',
     700: '#2E343C',
+    800: '#1F2226',
     900: '#DFE3EB',
   },
 };
@@ -156,6 +157,9 @@ export const mainTheme = createTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
+        html: {
+          scrollBehavior: 'smooth',
+        },
         body: {
           fontFeatureSettings: `'calt' off`,
         },

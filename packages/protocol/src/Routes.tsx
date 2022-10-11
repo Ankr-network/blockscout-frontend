@@ -45,7 +45,12 @@ export const Routes = () => {
         hasCredentials={hasCredentials}
         isManualConnected={Boolean(cachedAuthData.isManualConnected)}
         render={() => (
-          <DefaultLayout theme={Themes.light} hasNoReactSnap disableGutters>
+          <DefaultLayout
+            theme={Themes.light}
+            hasNoReactSnap
+            disableGutters
+            hasMaxWidth={false}
+          >
             <PricingRoutes />
           </DefaultLayout>
         )}

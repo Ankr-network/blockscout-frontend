@@ -1,5 +1,6 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import classNames from 'classnames';
+import { Box } from '@material-ui/core';
 
 import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 import { useCollapse } from './hooks/useCollapse';
@@ -9,19 +10,19 @@ export interface CollapseProps {
   className?: string;
   content: ReactNode;
   header: ReactNode;
-  icon?: ReactNode;
   isCollapsed?: boolean;
   isCollapsible?: boolean;
   onCollapse?: (isCollapsed: boolean) => void;
+  collapsedIcon?: ReactNode;
+  uncollapsedIcon?: ReactNode;
 }
-
-const defaultIcon = <AngleDownIcon />;
 
 export const Collapse = ({
   className,
   content,
   header,
-  icon,
+  collapsedIcon = <AngleDownIcon />,
+  uncollapsedIcon,
   isCollapsed: isCollapsed_ = true,
   isCollapsible = true,
   onCollapse = () => {},
@@ -36,17 +37,15 @@ export const Collapse = ({
 
   return (
     <>
-      <div
-        className={classNames(className, classes.header)}
-        onClick={onClick}
-        role="button"
-        tabIndex={0}
-      >
+      <Box className={classNames(className, classes.header)} onClick={onClick}>
         {header}
-        {isCollapsible && (
-          <div className={classes.icon}>{icon || defaultIcon}</div>
-        )}
-      </div>
+        {isCollapsible &&
+          (!isCollapsed && uncollapsedIcon ? (
+            uncollapsedIcon
+          ) : (
+            <Box className={classes.icon}>{collapsedIcon}</Box>
+          ))}
+      </Box>
       {!isCollapsed && content}
     </>
   );

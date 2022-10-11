@@ -1,19 +1,21 @@
+import classNames from 'classnames';
+
 import { root } from '../../const';
 import { t } from 'modules/i18n/utils/intl';
 import { usePremiumLabelStyles } from './PremiumLabelStyles';
 
-export interface EndpointsHeaderProps {
-  isPremium?: boolean;
-  title: string;
+export interface PremiumLabelProps {
+  size?: 's' | 'm' | 'l';
+  className?: string;
 }
 
 const label = t(`${root}.endpoints.premium-label`);
 
-export const PremiumLabel = () => {
-  const classes = usePremiumLabelStyles();
+export const PremiumLabel = ({ size = 's', className }: PremiumLabelProps) => {
+  const classes = usePremiumLabelStyles({ size });
 
   return (
-    <div className={classes.premiumLabel}>
+    <div className={classNames(classes.premiumLabel, className)}>
       <span className={classes.gradient}>{label}</span>
     </div>
   );

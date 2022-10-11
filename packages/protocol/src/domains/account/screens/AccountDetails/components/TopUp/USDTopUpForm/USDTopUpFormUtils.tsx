@@ -38,6 +38,7 @@ export const useRenderForm = (
   classes: ClassNameMap,
   isLoading: boolean,
   isDisabled: boolean,
+  hasRateBlock?: boolean,
 ) => {
   return useCallback(
     ({
@@ -60,10 +61,12 @@ export const useRenderForm = (
             currency={USD_CURRENCY}
             validate={validateAmount}
           />
-          <RateBlock
-            value={values[AmountInputField.amount]}
-            currency={USD_CURRENCY}
-          />
+          {hasRateBlock && (
+            <RateBlock
+              value={values[AmountInputField.amount]}
+              currency={USD_CURRENCY}
+            />
+          )}
           <LoadingButton
             color="primary"
             fullWidth
@@ -77,6 +80,6 @@ export const useRenderForm = (
         </form>
       );
     },
-    [classes.button, classes.form, isLoading, isDisabled],
+    [classes.button, classes.form, isLoading, isDisabled, hasRateBlock],
   );
 };

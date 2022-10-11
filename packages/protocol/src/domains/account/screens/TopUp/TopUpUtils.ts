@@ -6,17 +6,30 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
 
-export const useTopUpBreadcrumbs = () => {
-  useSetBreadcrumbs([
-    {
-      title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
-      link: AccountRoutesConfig.accountDetails.generatePath(),
-    },
-    {
-      title: t(AccountRoutesConfig.topUp.breadcrumbs),
-    },
-  ]);
+export const useTopUpBreadcrumbs = (hasCredentials: boolean) => {
+  const breadcrumbs = hasCredentials
+    ? [
+        {
+          title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
+          link: AccountRoutesConfig.accountDetails.generatePath(),
+        },
+        {
+          title: t(AccountRoutesConfig.topUp.breadcrumbs),
+        },
+      ]
+    : [
+        {
+          title: t(PricingRoutesConfig.pricing.breadcrumbs),
+          link: PricingRoutesConfig.pricing.generatePath(),
+        },
+        {
+          title: t(AccountRoutesConfig.topUp.breadcrumbs),
+        },
+      ];
+
+  useSetBreadcrumbs(breadcrumbs);
 };
 
 export const useTopupSteps = (initialStep: TopUpStep) => {
