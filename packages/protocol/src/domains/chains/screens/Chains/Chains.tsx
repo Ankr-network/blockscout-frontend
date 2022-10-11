@@ -1,5 +1,8 @@
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
+import {
+  AddEmailBanner,
+  IS_ADD_EMAIL_BANNER_ENABLED,
+} from 'domains/userSettings/components/AddEmailBanner';
 import { PageHeader } from 'modules/common/components/PageHeader';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
@@ -41,7 +44,7 @@ export const Chains = () => {
     <>
       {!credentials && !isConnecting && <InfoBanner />}
 
-      <AddEmailBanner />
+      {IS_ADD_EMAIL_BANNER_ENABLED && <AddEmailBanner />}
 
       {isWalletConnected && (
         <UsageSummary
