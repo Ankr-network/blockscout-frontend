@@ -33,13 +33,17 @@ export class PAYGContractManager implements IPAYGContractManager {
     );
   }
 
-  private async isAmountGreaterThanBalance(scaledAmount: BigNumber) {
+  public async getCurrentAccountBalance() {
     const { currentAccount } = this.keyProvider;
 
-    // make sure user have enough balance
-    const balance = await (this.ankrTokenContract.methods as IAnkrToken)
+    return (this.ankrTokenContract.methods as IAnkrToken)
       .balanceOf(currentAccount)
       .call();
+  }
+
+  private async isAmountGreaterThanBalance(scaledAmount: BigNumber) {
+    // make sure user have enough balance
+    const balance = await this.getCurrentAccountBalance();
 
     const scaledBalance = new BigNumber(balance);
 

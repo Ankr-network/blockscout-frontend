@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { Button } from '@material-ui/core';
 
@@ -8,10 +8,13 @@ import { t } from 'common';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
 
 export const CardPaymentSuccess = () => {
   const classes = useCardPaymentSuccessStyles();
   const history = useHistory();
+  const { credentials } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -19,9 +22,13 @@ export const CardPaymentSuccess = () => {
     },
   ]);
 
-  const handleClick = () => {
-    history.push(AccountRoutesConfig.accountDetails.generatePath());
-  };
+  const handleClick = useCallback(() => {
+    history.push(
+      credentials
+        ? AccountRoutesConfig.accountDetails.generatePath()
+        : PricingRoutesConfig.pricing.generatePath(),
+    );
+  }, [history, credentials]);
 
   return (
     <CenterContainer>
@@ -33,7 +40,11 @@ export const CardPaymentSuccess = () => {
         align="center"
         actionSlot={
           <Button onClick={handleClick} size="large">
-            {t('account.card-payment-success.button')}
+            {t(
+              `account.card-payment-success.button-${
+                credentials ? 'billing' : 'pricing'
+              }`,
+            )}
           </Button>
         }
       />

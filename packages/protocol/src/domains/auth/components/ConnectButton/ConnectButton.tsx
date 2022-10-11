@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
-import { Box, Button, Fade, Menu, MenuItem } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  ButtonTypeMap,
+  Fade,
+  Menu,
+  MenuItem,
+} from '@material-ui/core';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -11,9 +18,13 @@ import { LoadableButton } from 'uiKit/LoadableButton';
 
 interface ConnectButtonProps {
   isMobile?: boolean;
+  variant?: ButtonTypeMap['props']['variant'];
 }
 
-export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
+export const ConnectButton = ({
+  isMobile = false,
+  variant = 'text',
+}: ConnectButtonProps) => {
   const classes = useStyles(isMobile);
   const { handleConnect, handleDisconnect, address, loading } = useAuth();
   const { open, anchorEl, handleOpen, handleClose } = useMenu();
@@ -64,7 +75,7 @@ export const ConnectButton = ({ isMobile = false }: ConnectButtonProps) => {
     </>
   ) : (
     <LoadableButton
-      variant="text"
+      variant={variant}
       color="primary"
       className={classes.button}
       disableElevation={false}

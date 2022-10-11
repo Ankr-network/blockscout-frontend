@@ -4,6 +4,8 @@ import { ContainerCard } from './components/ContainerCard/ContainerCard';
 import { IUseAddEmailBannerProps } from './types';
 import { useAddEmailBanner } from './useAddEmailBanner';
 
+export const IS_ADD_EMAIL_BANNER_ENABLED = false;
+
 export const AddEmailBanner = (props: IUseAddEmailBannerProps) => {
   const {
     title,

@@ -1,18 +1,28 @@
-import { Box, Button, Container, Typography } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router';
+import { Parallax } from 'react-parallax';
+
 import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useEffect } from 'react';
-import { useHistory } from 'react-router';
 import { Spinner, useIsXSDown } from 'ui';
-import { H1Tag } from 'uiKit/H1Tag';
-import { ReactComponent as DiscordIcon } from 'uiKit/Icons/discord.svg';
-import { FeatureBlock } from './components/FeatureBlock';
-import { FeatureTable } from './components/FeatureTable';
+import { EnterpriseBlock } from './components/EnterpriseBlock';
 import { Header } from './components/Header';
-import { PurchaseBlock } from './components/PurchaseBlock';
+import { Plans } from './components/Plans';
+import { PremiumBlock } from './components/PremiumBlock';
 import { usePricingStyles } from './usePricingStyles';
+import { SupportBlock } from './components/SupportBlock';
+import background from './assets/background.png';
+import { Features } from './components/Features';
+
+const parallaxStyles = {
+  backgroundPosition: 'center bottom',
+  top: 90,
+  height: 840,
+  backgroundSize: 'contain',
+};
 
 export const Pricing = () => {
   const classes = usePricingStyles();
@@ -40,67 +50,29 @@ export const Pricing = () => {
         </>
       ) : (
         <>
-          <H1Tag title={t('meta.plan.h1-tag')} />
-          <Header isWalletConnected={isWalletConnected} />
+          <Header />
           <Container className={classes.container}>
+            <Plans />
+            <EnterpriseBlock />
             <Box
               width={isMobile ? '100%' : 960}
               maxWidth="100%"
               display="flex"
               flexDirection="column"
             >
-              <Box mt={isMobile ? 7.5 : 12.5}>
-                <div className={classes.featureBlock}>
-                  <FeatureBlock
-                    title={t('plan.features-block.feature1')}
-                    fullDescription={t('plan.features-block.feature-full1')}
-                  />
-                  <FeatureBlock
-                    title={t('plan.features-block.feature2')}
-                    fullDescription={t('plan.features-block.feature-full2')}
-                  />
-                  <FeatureBlock
-                    title={t('plan.features-block.feature3')}
-                    fullDescription={t('plan.features-block.feature-full3')}
-                  />
-                  <FeatureBlock
-                    title={t('plan.features-block.feature4')}
-                    fullDescription={t('plan.features-block.feature-full4')}
-                  />
-                  <FeatureBlock
-                    title={t('plan.features-block.feature5')}
-                    fullDescription={t('plan.features-block.feature-full5')}
-                  />
-                  <FeatureBlock
-                    title={t('plan.features-block.feature6')}
-                    fullDescription={t('plan.features-block.feature-full6')}
-                  />
-                </div>
-              </Box>
-
               <Box mt={isMobile ? 7.5 : 15}>
-                <FeatureTable />
-              </Box>
-
-              <Box mt={isMobile ? 7.5 : 15}>
-                <PurchaseBlock isWalletConnected={isWalletConnected} />
-              </Box>
-
-              <Box mt={isMobile ? 7.5 : 15} className={classes.contactBlock}>
-                <Typography className={classes.contactBlockHeader} variant="h3">
-                  {t('plan.more-questions')}
-                </Typography>
-                <Button
-                  target="_blank"
-                  href="https://discord.com/invite/uYaNu23Ww7"
-                  className={classes.contactBlockBtn}
-                  startIcon={<DiscordIcon />}
-                >
-                  {t('plan.contact-discord')}
-                </Button>
+                <Features />
               </Box>
             </Box>
           </Container>
+          <Box mt={isMobile ? 7.5 : 15} className={classes.background}>
+            <Parallax bgImage={background} bgImageStyle={parallaxStyles}>
+              <Box className={classes.start}>
+                <PremiumBlock isWalletConnected={isWalletConnected} />
+                <SupportBlock />
+              </Box>
+            </Parallax>
+          </Box>
         </>
       )}
     </Box>

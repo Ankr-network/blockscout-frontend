@@ -30,4 +30,6 @@ export interface IPAYGContractManager {
   withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult>;
 
   getLatestAllowanceEvents(user: Web3Address): Promise<EventData[]>;
+
+  getCurrentAccountBalance(): Promise<string>;
 }
