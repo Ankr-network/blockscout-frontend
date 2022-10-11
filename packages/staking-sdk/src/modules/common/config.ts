@@ -74,6 +74,10 @@ interface IPolygonConfig {
 
 export interface IGatewayConfig {
   baseUrl: string;
+  ankrApiBaseUrl: string;
+
+  // todo: Extract the private key to a secure place (https://ankrnetwork.atlassian.net/browse/STAKAN-2178)
+  ankrApiKey: string;
 }
 
 export interface IStkrConfig {
@@ -146,6 +150,8 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
+    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
+    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
   },
 };
 
@@ -157,6 +163,7 @@ const LOCAL_CONFIG: IStkrConfig = {
 const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.dev.stkr.io/',
   },
 };
@@ -169,6 +176,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
 const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.goerli.stkr.io/',
   },
 };
@@ -233,6 +241,8 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
+    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
+    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
   },
 };
 

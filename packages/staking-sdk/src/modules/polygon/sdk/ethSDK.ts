@@ -14,11 +14,12 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { ApiGateway } from '../../api';
+import { ApiGateway, getPastEvents } from '../../api';
 import {
   configFromEnv,
   ETH_NETWORK_BY_ENV,
   ETH_SCALE_FACTOR,
+  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -332,13 +333,55 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * An internal function for getting past events from the API or blockchain
+   * according to the current environment.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
+    return IS_ADVANCED_API_ACTIVE
+      ? this.getPastEventsAPI(options)
+      : this.getPastEventsBlockchain(options);
+  }
+
+  /**
+   * Internal function to get past events from indexed logs API.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEventsAPI({
+    contract,
+    eventName,
+    startBlock,
+    latestBlockNumber,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return getPastEvents({
+      fromBlock: startBlock,
+      toBlock: latestBlockNumber,
+      blockchain: 'eth',
+      contract,
+      web3,
+      eventName,
+      filter,
+    });
+  }
+
+  /**
    * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
-  private async getPastEvents({
+  private async getPastEventsBlockchain({
     contract,
     eventName,
     startBlock,

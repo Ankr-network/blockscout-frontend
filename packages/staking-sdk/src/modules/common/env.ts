@@ -15,3 +15,5 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
   : Env.Stage;
 
 export const isMainnet = currentEnv === Env.Production;
+
+export const isLocal = process.env.REACT_APP_IS_LOCAL === 'true';
