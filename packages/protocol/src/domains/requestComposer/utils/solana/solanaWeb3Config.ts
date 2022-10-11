@@ -23,18 +23,44 @@ import {
   TokenAccountsFilter,
 } from '@solana/web3.js';
 
-import { LibraryConfig } from 'domains/requestComposer/types/solana';
-import { SolanaMethod } from 'domains/requestComposer/constants/solana';
+import { Arg, LibraryConfig } from 'domains/requestComposer/types/solana';
+import {
+  SolanaMethod,
+  commitments,
+  finalities,
+  filters,
+} from 'domains/requestComposer/constants/solana';
 import { getCodeSample } from './getCodeSample';
-import { isBase58 } from './validators/isBase58';
-import { isBase64 } from './validators/isBase64';
-import { isCommitment } from './validators/isCommitment';
-import { isEd25519 } from './validators/isEd25519';
-import { isFinality } from './validators/isFinality';
-import { isGreaterThanOrEqualTo } from './validators/isGreaterThanOrEqualTo';
-import { isInteger } from './validators/isInteger';
-import { isLargestAccountsFilter } from './validators/isLargestAccountsFilter';
-import { isLessThanOrEqualTo } from './validators/isLessThanOrEqualTo';
+
+const optionalCommitment: Arg = {
+  description: `Optional. The level of commitment desired, as one of the following values: ${commitments.join(
+    ', ',
+  )}`,
+  placeholder: 'i.e. processed, confirmed etc',
+  type: 'textfield',
+};
+
+const optionalFinality: Arg = {
+  description: `Optional. The level of finality desired, as one of the following values: ${finalities.join(
+    ', ',
+  )}`,
+  placeholder: 'i.e. confirmed or finalized',
+  type: 'textfield',
+};
+
+const optionalMinContextSlot: Arg = {
+  description:
+    'Optional. The minimum slot that the request can be evaluated at, as integer',
+  placeholder: 'i.e. 2',
+  type: 'textfield',
+};
+
+const requiredPublicKey: Arg = {
+  description:
+    'Required. A public key for accessing an account, as base-58 encoded string',
+  placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
+  type: 'textfield',
+};
 
 export const solanaWeb3Config: LibraryConfig = {
   [SolanaMethod.getAccountInfo]: {
@@ -71,26 +97,7 @@ export const solanaWeb3Config: LibraryConfig = {
           `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
         ],
       }),
-    args: [
-      {
-        description: 'A public key for accessing an account',
-        placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
-        type: 'textfield',
-        validate: isEd25519,
-      },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 2',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [requiredPublicKey, optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getBalance]: {
     exec: (
@@ -126,26 +133,7 @@ export const solanaWeb3Config: LibraryConfig = {
           `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
         ],
       }),
-    args: [
-      {
-        description: 'A public key for accessing an account',
-        placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
-        type: 'textfield',
-        validate: isEd25519,
-      },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 2',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [requiredPublicKey, optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getBlock]: {
     exec: (
@@ -185,23 +173,16 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'The slot, as integer',
+        description: 'Required. The slot number, as integer',
         placeholder: 'i.e. 2',
         type: 'textfield',
-        validate: isInteger,
       },
-      {
-        description: 'The level of finality desired',
-        placeholder: 'i.e. confirmed or finalized',
-        type: 'textfield',
-        validate: value => !value || isFinality(value),
-      },
+      optionalFinality,
       {
         description:
-          'The max transaction version to return in responses. If the requested transaction is a higher version, an error will be returned',
+          'Optional. The max transaction version to return in responses, as integer. If the requested transaction is a higher version, an error will be returned',
         placeholder: 'i.e. 2',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
     ],
   },
@@ -233,20 +214,7 @@ export const solanaWeb3Config: LibraryConfig = {
           `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
         ],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 2',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getBlockProduction]: {
     exec: (
@@ -295,31 +263,24 @@ export const solanaWeb3Config: LibraryConfig = {
         ],
       }),
     args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
+      optionalCommitment,
       {
         description:
-          'First slot to return block production information for (inclusive)',
+          'Optional. The first slot to return block production information for (inclusive), as integer',
         placeholder: 'i.e. 3',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
       {
         description:
-          'Last slot to return block production information for (inclusive). If parameter not provided, defaults to the highest slot',
+          'Optional. The last slot to return block production information for (inclusive), as integer. If parameter not provided, defaults to the highest slot',
         placeholder: 'i.e. 8',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
       {
-        description: 'Only return results for this validator identity',
+        description:
+          'Optional. Only return results for this validator identity, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: value => !value || isEd25519(value),
       },
     ],
   },
@@ -355,23 +316,16 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'The start slot number, as integer',
+        description: 'Required. The start slot number, as integer',
         placeholder: 'i.e. 4',
         type: 'textfield',
-        validate: isInteger,
       },
       {
-        description: 'The end slot number, as integer',
+        description: 'Optional. The end slot number, as integer',
         placeholder: 'i.e. 8',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
-      {
-        description: 'The level of finality desired',
-        placeholder: 'i.e. confirmed or finalized',
-        type: 'textfield',
-        validate: value => !value || isFinality(value),
-      },
+      optionalFinality,
     ],
   },
   [SolanaMethod.getBlocksWithLimit]: {
@@ -399,10 +353,9 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'The slot number, as integer',
+        description: 'Required. The slot number, as integer',
         placeholder: 'i.e. 4',
         type: 'textfield',
-        validate: isInteger,
       },
     ],
   },
@@ -444,20 +397,7 @@ export const solanaWeb3Config: LibraryConfig = {
           `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
         ],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getEpochSchedule]: {
     exec: provider => provider.getEpochSchedule(),
@@ -494,19 +434,12 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'Base-64 encoded Message',
+        description: 'Required. The message, as base-64 encoded string',
         placeholder:
           'i.e. AQABAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQAA',
         type: 'textfield',
-        validate: isBase64,
       },
-      {
-        description:
-          'The level of commitment desired, used for retrieving blockhash',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
+      optionalCommitment,
     ],
   },
   [SolanaMethod.getFirstAvailableBlock]: {
@@ -569,14 +502,7 @@ export const solanaWeb3Config: LibraryConfig = {
         method: SolanaMethod.getInflationGovernor,
         params: [commitment ? `'${commitment}'` : ''],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-    ],
+    args: [optionalCommitment],
   },
   [SolanaMethod.getInflationRate]: {
     exec: () => new Promise((_, reject) => reject(new Error('Not Supported'))),
@@ -634,36 +560,20 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'Comma separated list of public keys',
+        description:
+          'Required. Comma separated list of public keys, as base-58 encoded strings',
         placeholder:
           'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33, HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH',
         type: 'textarea',
-        validate: value =>
-          !!value &&
-          value
-            .split(',')
-            .map(address => address.trim())
-            .every(isEd25519),
       },
       {
         description:
-          'An epoch for which the reward occurs. If omitted, the previous epoch will be used',
+          'Optional. An epoch for which the reward occurs, as integer. If omitted, the previous epoch will be used',
         placeholder: 'i.e. 2',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
+      optionalCommitment,
+      optionalMinContextSlot,
     ],
   },
   [SolanaMethod.getLargestAccounts]: {
@@ -688,18 +598,13 @@ export const solanaWeb3Config: LibraryConfig = {
         params: [`{ commitment: '${commitment}', filter: '${filter}' }`],
       }),
     args: [
+      optionalCommitment,
       {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description:
-          'Filter largest accounts by whether they are part of the circulating supply',
+        description: `Optinal. Filter largest accounts by whether they are part of the circulating supply, as one of the following values: ${filters.join(
+          ', ',
+        )}`,
         placeholder: 'i.e. circulating or nonCirculating',
         type: 'textfield',
-        validate: value => !value || isLargestAccountsFilter(value),
       },
     ],
   },
@@ -726,20 +631,7 @@ export const solanaWeb3Config: LibraryConfig = {
           `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
         ],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getLeaderSchedule]: {
     exec: provider => provider.getLeaderSchedule(),
@@ -788,17 +680,12 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'The size from rent',
+        description: 'Optional. The size from rent, as integer',
         placeholder: 'i.e. 430',
         type: 'textfield',
-        validate: value => !!value && isInteger(value),
+        // validate: value => !!value && isInteger(value),
       },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
+      optionalCommitment,
     ],
   },
   [SolanaMethod.getMultipleAccounts]: {
@@ -828,10 +715,9 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'The limit, as integer',
+        description: 'Optional. The limit, as integer',
         placeholder: 'i.e. 20',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
     ],
   },
@@ -884,50 +770,32 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'A queried address',
+        description: 'Required. A queried address, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: isEd25519,
       },
       {
         description:
-          'Start searching backwards from this transaction signature. Base-58 encoded string',
+          'Optional. Start searching backwards from this transaction signature, as base-58 encoded string',
         placeholder:
           'i.e. 5h6xBEauJ3PK6SWCZ1PGjBvj8vDdWG3KpwATGy1ARAXFSDwt8GFXM7W5Ncn16wmqokgpiKRLuS83KUxyZyv2sUYv',
         type: 'textfield',
-        validate: value => !value || isBase58(value),
       },
       {
         description:
-          'Search until this transaction signature is reached, if found before limit. Base-58 encoded string',
+          'Optional. Search until this transaction signature is reached, if found before limit, as base-58 encoded string',
         placeholder:
           'i.e. 5h6xBEauJ3PK6SWCZ1PGjBvj8vDdWG3KpwATGy1ARAXFSDwt8GFXM7W5Ncn16wmqokgpiKRLuS83KUxyZyv2sUYv',
         type: 'textfield',
-        validate: value => !value || isBase58(value),
       },
       {
         description:
-          'The Limit, maximum transaction signatures to return (between 1 and 1,000, default: 1,000).',
+          'Optional. The Limit, maximum transaction signatures to return, as integer between 1 and 1000, default: 1000',
         placeholder: 'i.e. 500',
         type: 'textfield',
-        validate: value =>
-          !value ||
-          (isInteger(value) &&
-            isGreaterThanOrEqualTo(value, 1) &&
-            isLessThanOrEqualTo(value, 1000)),
       },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-      {
-        description: 'The level of finality desired',
-        placeholder: 'i.e. confirmed or finalized',
-        type: 'textfield',
-        validate: value => !value || isFinality(value),
-      },
+      optionalMinContextSlot,
+      optionalFinality,
     ],
   },
   [SolanaMethod.getSignatureStatuses]: {
@@ -967,11 +835,10 @@ export const solanaWeb3Config: LibraryConfig = {
     args: [
       {
         description:
-          'Comma separated list transaction signatures as base-58 encoded strings',
+          'Required. Comma separated list transaction signatures, as base-58 encoded strings',
         placeholder:
           'i.e. 5h6xBEauJ3PK6SWCZ1PGjBvj8vDdWG3KpwATGy1ARAXFSDwt8GFXM7W5Ncn16wmqokgpiKRLuS83KUxyZyv2sUYv, 5j7s6NiJS3JAkvgkoc18WVAsiSaci2pxB2A6ueCJP4tprA2TFg9wSyTLeYouxPBJEMzJinENTkpA52YStRW5Dia7',
         type: 'textarea',
-        validate: value => !!value && value.split(',').every(isBase64),
       },
       {
         description:
@@ -1003,20 +870,7 @@ export const solanaWeb3Config: LibraryConfig = {
           `{ commitment: '${commitment}', minContextSlot: ${minContextSlot} }`,
         ],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getSlotLeader]: {
     exec: (provider, commitment?: string, minContextSlot?: string) => {
@@ -1043,20 +897,7 @@ export const solanaWeb3Config: LibraryConfig = {
           }, minContextSlot: ${minContextSlot || 'undefined'} }`,
         ],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getSlotLeaders]: {
     exec: (provider, startSlot: string, limit: string) =>
@@ -1075,20 +916,14 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'The start slot, as integer',
+        description: 'Required. The start slot, as integer',
         placeholder: 'i.e. 100',
         type: 'textfield',
-        validate: isInteger,
       },
       {
-        description: 'The limit, as integer (between 1 and 5,000)',
+        description: 'Required. The limit, as integer between 1 and 5000',
         placeholder: 'i.e. 10',
         type: 'textfield',
-        validate: value =>
-          !!value &&
-          isInteger(value) &&
-          isGreaterThanOrEqualTo(value, 1) &&
-          isLessThanOrEqualTo(value, 5000),
       },
     ],
   },
@@ -1134,30 +969,19 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'A public key of stake account to query',
+        description:
+          'Required. A public key of stake account to query, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: isEd25519,
       },
       {
         description:
-          'An epoch for which to calculate activation details. If parameter not provided, defaults to current epoch',
+          'Optional. An epoch for which to calculate activation details, as integer. If parameter not provided, defaults to current epoch',
         placeholder: 'i.e. 4',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
+      optionalCommitment,
+      optionalMinContextSlot,
     ],
   },
   [SolanaMethod.getStakeMinimumDelegation]: {
@@ -1177,14 +1001,7 @@ export const solanaWeb3Config: LibraryConfig = {
         method: SolanaMethod.getStakeMinimumDelegation,
         params: [commitment ? `'${commitment}'` : ''],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-    ],
+    args: [optionalCommitment],
   },
   [SolanaMethod.getSupply]: {
     exec: (
@@ -1217,12 +1034,7 @@ export const solanaWeb3Config: LibraryConfig = {
         ],
       }),
     args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
+      optionalCommitment,
       {
         description: 'Exclude non circulating accounts list from response',
         type: 'boolean',
@@ -1252,17 +1064,12 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'A public key of a token account to query',
+        description:
+          'Required. A public key of a token account to query, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: isEd25519,
       },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
+      optionalCommitment,
     ],
   },
   [SolanaMethod.getTokenAccountsByDelegate]: {
@@ -1319,30 +1126,19 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'A public key of an owner account to query',
+        description:
+          'Required. A public key of an owner account to query, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: isEd25519,
       },
       {
         description:
-          'A public key of the specific token Mint to limit accounts to or a public key of the Token program that owns the accounts',
+          'Optional. A public key of the specific token Mint to limit accounts to or a public key of the Token program that owns the accounts, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: value => !value || isEd25519(value),
       },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
+      optionalCommitment,
+      optionalMinContextSlot,
     ],
   },
   [SolanaMethod.getTokenLargestAccounts]: {
@@ -1368,17 +1164,12 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'A public key of the specific token Mint',
+        description:
+          'Required. A public key of the specific token Mint, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: isEd25519,
       },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
+      optionalCommitment,
     ],
   },
   [SolanaMethod.getTokenSupply]: {
@@ -1404,17 +1195,12 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'A public key of the specific token Mint',
+        description:
+          'Required. A public key of the specific token Mint, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: isEd25519,
       },
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
+      optionalCommitment,
     ],
   },
   [SolanaMethod.getTransaction]: {
@@ -1459,24 +1245,18 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'Transaction signature as base-58 encoded string',
+        description:
+          'Required. Transaction signature, as base-58 encoded string',
         placeholder:
           'i.e. 2nBhEBYYvfaAe16UMNqRHre4YNSskvuYgx3M6E4JP1oDYvZEJHvoPzyUidNgNX5r9sTyN1J9UxtbCXy2rqYcuyuv',
         type: 'textfield',
-        validate: isBase58,
       },
-      {
-        description: 'The level of finality desired',
-        placeholder: 'i.e. confirmed or finalized',
-        type: 'textfield',
-        validate: value => !value || isFinality(value),
-      },
+      optionalFinality,
       {
         description:
-          'The max transaction version to return in responses. If the requested transaction is a higher version, an error will be returned',
+          'Optional. The max transaction version to return in responses, as integer. If the requested transaction is a higher version, an error will be returned',
         placeholder: 'i.e. 2',
         type: 'textfield',
-        validate: value => !value || isInteger(value),
       },
     ],
   },
@@ -1502,20 +1282,7 @@ export const solanaWeb3Config: LibraryConfig = {
           }, minContextSlot: ${minContextSlot || 'undefined'} }`,
         ],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-      {
-        description: 'The minimum slot that the request can be evaluated at',
-        placeholder: 'i.e. 4',
-        type: 'textfield',
-        validate: value => !value || isInteger(value),
-      },
-    ],
+    args: [optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getVersion]: {
     exec: provider => provider.getVersion(),
@@ -1547,14 +1314,7 @@ export const solanaWeb3Config: LibraryConfig = {
         method: SolanaMethod.getVoteAccounts,
         params: [commitment ? `'${commitment}'` : ''],
       }),
-    args: [
-      {
-        description: 'The level of commitment desired',
-        placeholder: 'i.e. processed, confirmed etc',
-        type: 'textfield',
-        validate: value => !value || isCommitment(value),
-      },
-    ],
+    args: [optionalCommitment],
   },
   [SolanaMethod.isBlockhashValid]: {
     exec: () => new Promise((_, reject) => reject(new Error('Not Supported'))),
@@ -1583,16 +1343,15 @@ export const solanaWeb3Config: LibraryConfig = {
       }),
     args: [
       {
-        description: 'A public key of an account to receive lamports',
+        description:
+          'Required. A public key of an account to receive lamports, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
-        validate: isEd25519,
       },
       {
-        description: 'Lamports, as integer',
+        description: 'Required. Lamports, as integer',
         placeholder: 'i.e. 1000000000',
         type: 'textfield',
-        validate: isInteger,
       },
     ],
   },

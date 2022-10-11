@@ -1,3 +1,5 @@
+import { Commitment, Finality, LargestAccountsFilter } from '@solana/web3.js';
+
 export enum SolanaLibraryID {
   SolanaWeb3JS = '@solana/web3.js',
 }
@@ -56,3 +58,21 @@ export enum SolanaMethod {
   sendTransaction = 'sendTransaction',
   simulateTransaction = 'simulateTransaction',
 }
+
+export const commitments: Commitment[] = [
+  'processed',
+  'confirmed',
+  'finalized',
+  'recent',
+  'single',
+  'singleGossip',
+  'root',
+  'max',
+];
+
+export const filters: LargestAccountsFilter[] = [
+  'circulating',
+  'nonCirculating',
+];
+
+export const finalities: Finality[] = ['confirmed', 'finalized'];
