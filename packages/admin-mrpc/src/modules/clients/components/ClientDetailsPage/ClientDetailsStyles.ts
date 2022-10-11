@@ -95,4 +95,27 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
       // border: 'none',
     },
   },
+
+  /* Client usage table */
+  tabsWrapper: {
+    padding: '3px',
+    backgroundColor: theme.palette.grey['200'],
+    minWidth: 0,
+    minHeight: 0,
+    borderRadius: '11px',
+    width: '192px', // 62(tab width)*3(tabs count)+6(paddingLeft+paddingRight)
+  },
+  tabUsagePeriod: {
+    width: '62px',
+    height: '28px',
+    padding: '0 10px',
+    borderRadius: '10px',
+    minWidth: 0,
+    minHeight: 0,
+    transition: 'background-color .3s',
+    fontWeight: 600,
+    '&.Mui-selected': {
+      backgroundColor: theme.palette.background.paper,
+    },
+  },
 }));

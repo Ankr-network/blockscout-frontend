@@ -14,6 +14,7 @@ import { ClientInfo } from './ClientInfo';
 import { ClientUsageTable } from './ClientUsageTable';
 import { Spinner } from 'ui';
 import { useClientDetailsStyles } from './ClientDetailsStyles';
+import { TimeframeUsage } from './types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,12 +50,17 @@ export const ClientDetailsPage = () => {
     },
   ]);
 
+  const [periodStatement, setPeriodStatement] = useState<TimeframeUsage>('0');
+
   const { data: clients, isLoading: isLoadingClients } =
     useFetchCountersQuery();
   const { data: transactionsData, isLoading: isLoadingTransactions } =
     useFetchUserTransactionsQuery({ address });
-  const { data: statementsData, isLoading: isLoadingStatement } =
-    useFetchUserStatementQuery({ address });
+  const {
+    data: statementsData,
+    isLoading: isLoadingStatement,
+    isFetching: isFetchingStatement,
+  } = useFetchUserStatementQuery({ address, dayOffset: periodStatement });
   const { data: statsData, isLoading: isLoadingStats } = useFetchUserStatsQuery(
     { address },
   );
@@ -80,6 +86,10 @@ export const ClientDetailsPage = () => {
     return <>Client not found</>;
   }
 
+  const updateTimeframeParam = (timeframe: TimeframeUsage) => {
+    setPeriodStatement(timeframe);
+  };
+
   return (
     <>
       <ClientInfo
@@ -92,60 +102,52 @@ export const ClientDetailsPage = () => {
         isLoadingStats={isLoadingStats}
       />
 
-      {((transactionsData?.transactions &&
-        transactionsData?.transactions?.length > 0) ||
-        statementsData?.statement?.usage) && (
-        <>
-          <Box sx={{ marginTop: 10 }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="User statistics"
-              TabIndicatorProps={{
-                style: {
-                  display: 'none',
-                },
-              }}
-            >
-              <Tab
-                className={classes.tab}
-                disableRipple
-                label="Transactions"
-                disabled={!transactionsData?.transactions}
-              />
-              <Tab
-                className={classes.tab}
-                disableRipple
-                label="Usage"
-                disabled={!statementsData?.statement.usage}
-              />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            {transactionsData?.transactions ? (
-              <ClientTransactionsTable
-                transactions={transactionsData?.transactions}
-              />
-            ) : isLoadingTransactions ? (
-              <Spinner
-                className={classes.spinnerTransactions}
-                centered={false}
-                size={50}
-              />
-            ) : (
-              'No information'
-            )}
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            {isLoadingStatement && 'Loading...'}
-            {statementsData?.statement.usage ? (
-              <ClientUsageTable usage={statementsData.statement.usage} />
-            ) : (
-              'No information'
-            )}
-          </TabPanel>
-        </>
-      )}
+      <>
+        <Box sx={{ marginTop: 10 }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="User statistics"
+            TabIndicatorProps={{
+              style: {
+                display: 'none',
+              },
+            }}
+          >
+            <Tab
+              className={classes.tab}
+              disableRipple
+              label="Transactions"
+              disabled={!transactionsData?.transactions}
+            />
+            <Tab className={classes.tab} disableRipple label="Usage" />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          {transactionsData?.transactions &&
+          transactionsData?.transactions?.length > 0 ? (
+            <ClientTransactionsTable
+              transactions={transactionsData?.transactions}
+            />
+          ) : isLoadingTransactions ? (
+            <Spinner
+              className={classes.spinnerTransactions}
+              centered={false}
+              size={50}
+            />
+          ) : (
+            'Not found'
+          )}
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          {isLoadingStatement && 'Loading...'}
+          <ClientUsageTable
+            usage={statementsData?.statement.usage}
+            onUpdateTimeframe={updateTimeframeParam}
+            isLoading={isLoadingStatement || isFetchingStatement}
+          />
+        </TabPanel>
+      </>
     </>
   );
 };
