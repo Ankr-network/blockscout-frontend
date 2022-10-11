@@ -74,6 +74,12 @@ describe('modules/polygon/sdk/ethSDK', () => {
     sendTransactionAsync: jest.fn(),
   };
 
+  const expectedUnstakeFeeData = {
+    unstakeFee: 1,
+    useBeforeBlock: 2,
+    signature: 'signature',
+  };
+
   beforeEach(() => {
     defaultWeb3.eth.Contract.mockReturnValue(defaultContract);
     defaultWeb3.eth.getChainId.mockReturnValue(1);
@@ -84,6 +90,11 @@ describe('modules/polygon/sdk/ethSDK', () => {
       getETHWriteProvider: () => Promise.resolve(defaultWriteProvider),
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
+
+    nock('https://api.goerli.stkr.io')
+      .get('/v1alpha/polygon/unstakeFee')
+      .query({ address: 'address' })
+      .reply(200, expectedUnstakeFeeData);
   });
 
   afterEach(() => {
@@ -318,22 +329,11 @@ describe('modules/polygon/sdk/ethSDK', () => {
   });
 
   test('should return unstake fee data properly', async () => {
-    const expectedData = {
-      unstakeFee: 0.1,
-      useBeforeBlock: 1,
-      signature: 'signature',
-    };
-
-    nock('https://api.goerli.stkr.io')
-      .get('/v1alpha/polygon/unstakeFee')
-      .query({ address: 'address' })
-      .reply(200, expectedData);
-
     const sdk = await PolygonOnEthereumSDK.getInstance();
 
     const data = await sdk.getUnstakeFee();
 
-    expect(data).toStrictEqual(expectedData);
+    expect(data).toStrictEqual(expectedUnstakeFeeData);
   });
 
   test('should stake aMATICc properly', async () => {

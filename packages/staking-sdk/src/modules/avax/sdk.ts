@@ -12,44 +12,46 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
+import { getPastEvents } from '../api';
 import {
+  configFromEnv,
   ETH_SCALE_FACTOR,
   isMainnet,
+  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
-  ZERO,
-  configFromEnv,
   ProviderManagerSingleton,
+  ZERO,
 } from '../common';
 import { AAVAXB_ABI, AAVAXC_ABI, AVALANCHE_POOL_ABI } from '../contracts';
 import {
   getFilteredContractEvents,
-  IStakable,
+  IEventsBatch,
   IGetPastEvents,
   IPendingData,
+  IStakable,
+  IStakeData,
   ITxEventsHistoryData,
-  IEventsBatch,
   ITxEventsHistoryGroupItem,
   ITxHistoryEventData,
-  IStakeData,
 } from '../stake';
-import { ISwitcher, IShareArgs, IFetchTxData } from '../switcher';
+import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
   AVAX_DECIMALS,
-  AVAX_MAX_BLOCK_RANGE,
+  AVAX_ESTIMATE_GAS_MULTIPLIER,
   AVAX_HISTORY_2_WEEKS_OFFSET,
+  AVAX_MAX_BLOCK_RANGE,
   AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
-  AVAX_ESTIMATE_GAS_MULTIPLIER,
   GAS_FEE_MULTIPLIER,
 } from './const';
 import {
-  IAvalancheSDKProviders,
+  EAvalancheErrorCodes,
   EAvalanchePoolEvents,
   EAvalanchePoolEventsMap,
-  EAvalancheErrorCodes,
+  IAvalancheSDKProviders,
 } from './types';
 
 /**
@@ -198,13 +200,55 @@ export class AvalancheSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * An internal function for getting past events from the API or blockchain
+   * according to the current environment.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
+    return IS_ADVANCED_API_ACTIVE
+      ? this.getPastEventsAPI(options)
+      : this.getPastEventsBlockchain(options);
+  }
+
+  /**
+   * Internal function to get past events from indexed logs API.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEventsAPI({
+    contract,
+    eventName,
+    startBlock,
+    latestBlockNumber,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return getPastEvents({
+      fromBlock: startBlock,
+      toBlock: latestBlockNumber,
+      blockchain: 'avalanche',
+      contract,
+      web3,
+      eventName,
+      filter,
+    });
+  }
+
+  /**
    * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
-  private async getPastEvents({
+  private async getPastEventsBlockchain({
     contract,
     eventName,
     latestBlockNumber,
@@ -720,7 +764,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @param {number} to - to block
    * @returns {Promise<IEventsBatch>}
    */
-  private async getPoolEventsBatch(from: number, to: number): Promise<IEventsBatch> {
+  private async getPoolEventsBatch(
+    from: number,
+    to: number,
+  ): Promise<IEventsBatch> {
     const avalanchePoolContract = await this.getAvalanchePoolContract(true);
 
     const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
@@ -781,7 +828,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     const web3 = provider.getWeb3();
     const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch(latestBlockNumber - AVAX_HISTORY_2_WEEKS_OFFSET, latestBlockNumber);
+    const { unstakeRawEvents, ratio } = await this.getPoolEventsBatch(
+      latestBlockNumber - AVAX_HISTORY_2_WEEKS_OFFSET,
+      latestBlockNumber,
+    );
     let totalUnstakingValue = await this.getPendingClaim();
 
     let pendingBond: BigNumber = ZERO;
@@ -835,7 +885,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     const web3 = provider.getWeb3();
     const latestBlockNumber = await web3.eth.getBlockNumber();
 
-    return this.getTxEventsHistoryRange(latestBlockNumber - AVAX_HISTORY_2_WEEKS_OFFSET, latestBlockNumber);
+    return this.getTxEventsHistoryRange(
+      latestBlockNumber - AVAX_HISTORY_2_WEEKS_OFFSET,
+      latestBlockNumber,
+    );
   }
 
   /**
@@ -847,7 +900,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @param {number} to - to block
    * @returns {Promise<ITxEventsHistoryData>}
    */
-   public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+  public async getTxEventsHistoryRange(
+    from: number,
+    to: number,
+  ): Promise<ITxEventsHistoryData> {
     const { stakeRawEvents, unstakeRawEvents, ratio } =
       await this.getPoolEventsBatch(from, to);
 
@@ -920,13 +976,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       unstakeBond: [],
       unstakeCertificate: [],
     };
-   }
+  }
 
- /** 
+  /**
    * Get latest block number.
-   * 
+   *
    * @returns {Promise<number>}
-  */
+   */
   public async getLatestBlock(): Promise<number> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();

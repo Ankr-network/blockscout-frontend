@@ -11,13 +11,15 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
+import { getPastEvents } from '../api';
 import {
+  configFromEnv,
   ETH_SCALE_FACTOR,
   isMainnet,
+  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
-  configFromEnv,
-  ZERO,
   ProviderManagerSingleton,
+  ZERO,
 } from '../common';
 import {
   AETHB_ABI,
@@ -26,14 +28,14 @@ import {
   SYSTEM_PARAMETERS_ABI,
 } from '../contracts';
 import {
-  ITxEventsHistoryData,
-  IGetPastEvents,
   getTxEventsHistoryGroup,
+  IGetPastEvents,
+  IPendingData,
   IStakable,
   IStakeData,
-  IPendingData,
+  ITxEventsHistoryData,
 } from '../stake';
-import { ISwitcher, IFetchTxData, IShareArgs } from '../switcher';
+import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
 
 import {
@@ -43,10 +45,10 @@ import {
   TOKENS_CONFIG_BY_SYMBOL,
 } from './const';
 import {
+  EEthereumErrorCodes,
   EPoolEvents,
   IEthSDKProviders,
   TEthToken,
-  EEthereumErrorCodes,
 } from './types';
 
 const CONFIG = configFromEnv();
@@ -600,7 +602,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @param {number} to - to block
    * @returns {Promise<ITxEventsHistoryData>}
    */
-  public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+  public async getTxEventsHistoryRange(
+    from: number,
+    to: number,
+  ): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
     const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
@@ -657,16 +662,58 @@ export class EthereumSDK implements ISwitcher, IStakable {
     };
   }
 
- /** 
+  /**
    * Get latest block number.
-   * 
+   *
    * @returns {Promise<number>}
-  */
+   */
   public async getLatestBlock(): Promise<number> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
 
     return web3.eth.getBlockNumber();
+  }
+
+  /**
+   * An internal function for getting past events from the API or blockchain
+   * according to the current environment.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
+    return IS_ADVANCED_API_ACTIVE
+      ? this.getPastEventsAPI(options)
+      : this.getPastEventsBlockchain(options);
+  }
+
+  /**
+   * Internal function to get past events from indexed logs API.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEventsAPI({
+    contract,
+    eventName,
+    startBlock,
+    latestBlockNumber,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return getPastEvents({
+      fromBlock: startBlock,
+      toBlock: latestBlockNumber,
+      blockchain: 'eth',
+      contract,
+      web3,
+      eventName,
+      filter,
+    });
   }
 
   /**
@@ -676,7 +723,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
-  private async getPastEvents({
+  private async getPastEventsBlockchain({
     contract,
     eventName,
     startBlock,
