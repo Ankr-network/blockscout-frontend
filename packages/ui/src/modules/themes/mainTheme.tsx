@@ -521,6 +521,7 @@ export const mainTheme = createTheme({
 
         '&:hover': {
           background: defaultTheme.palette.background.default,
+          color: defaultTheme.palette.primary.main,
 
           '&:before': {
             transform: 'translateY(0)',
