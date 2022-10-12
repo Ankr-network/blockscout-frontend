@@ -22,6 +22,7 @@ import { RoutesConfig as StakeMaticCommonRoutes } from 'modules/stake-matic/comm
 import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { RoutesConfig as PolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
+import { RoutesConfig as EthereumSSVRoutes } from 'modules/stake-ssv/Routes';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -29,6 +30,7 @@ import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
+import { SSVStakingIcon } from 'uiKit/Icons/SSVStakingIcon';
 
 import { useStakeMainScreen } from '../../hooks/useStakeMainScreen';
 import { FeatureItem } from '../FeatureItem';
@@ -57,6 +59,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
           stakedTvl={metrics?.eth.totalStaked}
           title={t('features.ethereum')}
           token={Token.ETH}
+          onStakeClick={onTrackEnterStakingFlow(Token.ETH)}
         />
 
         <FeatureItem
@@ -161,6 +164,22 @@ export const LiquidStakingTokens = (): JSX.Element => {
             title={t('features.wnd')}
             token={Token.WND}
             onStakeClick={onTrackEnterStakingFlow(Token.WND)}
+          />
+        )}
+
+        {featuresConfig.ssvStaking && (
+          <FeatureItem
+            apy={metrics?.ssv && +metrics.ssv.apy}
+            iconRootClass={classes.ssvIcon}
+            iconSlot={<SSVStakingIcon />}
+            isApyLoading={loading}
+            isTvlLoading={loading}
+            mainHref={EthereumSSVRoutes.stake.generatePath()}
+            moreHref={undefined}
+            stakedTvl={metrics?.ssv?.totalStaked}
+            title={t('features.ethereum-ssv')}
+            token={Token.ETH}
+            onStakeClick={onTrackEnterStakingFlow(Token.asETHc)}
           />
         )}
       </Features>
