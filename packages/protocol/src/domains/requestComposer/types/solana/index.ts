@@ -16,68 +16,99 @@ export type LibraryConfig = {
   [key in SolanaMethod]: {
     args: Arg[];
     codeSample: (...args: any) => any;
-    exec: MethodsMap[key] extends string
-      ? (
-          provider: Connection,
-          ...args: any[]
-        ) => ReturnType<Connection[MethodsMap[key]]>
-      : (provider: Connection, ...args: any[]) => any;
+    exec: (provider: Connection, ...args: any[]) => MethodResult[key];
   };
 };
 
-type MethodsMap = {
-  [SolanaMethod.getAccountInfo]: 'getAccountInfo';
-  [SolanaMethod.getBalance]: 'getBalance';
-  [SolanaMethod.getBlock]: 'getBlock';
-  [SolanaMethod.getBlockCommitment]: undefined;
-  [SolanaMethod.getBlockHeight]: 'getBlockHeight';
-  [SolanaMethod.getBlockProduction]: 'getBlockProduction';
-  [SolanaMethod.getBlocks]: 'getBlocks';
-  [SolanaMethod.getBlocksWithLimit]: undefined;
-  [SolanaMethod.getBlockTime]: 'getBlockTime';
-  [SolanaMethod.getClusterNodes]: 'getClusterNodes';
-  [SolanaMethod.getEpochInfo]: 'getEpochInfo';
-  [SolanaMethod.getEpochSchedule]: 'getEpochSchedule';
-  [SolanaMethod.getFeeForMessage]: 'getFeeForMessage';
-  [SolanaMethod.getFirstAvailableBlock]: 'getFirstAvailableBlock';
-  [SolanaMethod.getGenesisHash]: 'getGenesisHash';
-  [SolanaMethod.getHealth]: undefined;
-  [SolanaMethod.getHighestSnapshotSlot]: undefined;
-  [SolanaMethod.getIdentity]: undefined;
-  [SolanaMethod.getInflationGovernor]: 'getInflationGovernor';
-  [SolanaMethod.getInflationRate]: undefined;
-  [SolanaMethod.getInflationReward]: 'getInflationReward';
-  [SolanaMethod.getLargestAccounts]: 'getLargestAccounts';
-  [SolanaMethod.getLatestBlockhash]: 'getLatestBlockhash';
-  [SolanaMethod.getLeaderSchedule]: 'getLeaderSchedule';
-  [SolanaMethod.getMaxRetransmitSlot]: undefined;
-  [SolanaMethod.getMaxShredInsertSlot]: undefined;
-  [SolanaMethod.getMinimumBalanceForRentExemption]: 'getMinimumBalanceForRentExemption';
-  [SolanaMethod.getMultipleAccounts]: undefined;
-  [SolanaMethod.getProgramAccounts]: 'getProgramAccounts';
-  [SolanaMethod.getRecentPerformanceSamples]: 'getRecentPerformanceSamples';
-  [SolanaMethod.getSignaturesForAddress]: 'getSignaturesForAddress';
-  [SolanaMethod.getSignatureStatuses]: 'getSignatureStatuses';
-  [SolanaMethod.getSlot]: 'getSlot';
-  [SolanaMethod.getSlotLeader]: 'getSlotLeader';
-  [SolanaMethod.getSlotLeaders]: 'getSlotLeaders';
-  [SolanaMethod.getStakeActivation]: 'getStakeActivation';
-  [SolanaMethod.getStakeMinimumDelegation]: 'getStakeMinimumDelegation';
-  [SolanaMethod.getSupply]: 'getSupply';
-  [SolanaMethod.getTokenAccountBalance]: 'getTokenAccountBalance';
-  [SolanaMethod.getTokenAccountsByDelegate]: undefined;
-  [SolanaMethod.getTokenAccountsByOwner]: 'getTokenAccountsByOwner';
-  [SolanaMethod.getTokenLargestAccounts]: 'getTokenLargestAccounts';
-  [SolanaMethod.getTokenSupply]: 'getTokenSupply';
-  [SolanaMethod.getTransaction]: 'getTransaction';
-  [SolanaMethod.getTransactionCount]: 'getTransactionCount';
-  [SolanaMethod.getVersion]: 'getVersion';
-  [SolanaMethod.getVoteAccounts]: 'getVoteAccounts';
-  [SolanaMethod.isBlockhashValid]: undefined;
-  [SolanaMethod.minimumLedgerSlot]: undefined;
-  [SolanaMethod.requestAirdrop]: 'requestAirdrop';
-  [SolanaMethod.sendTransaction]: 'sendTransaction';
-  [SolanaMethod.simulateTransaction]: 'simulateTransaction';
+type MethodResult = {
+  [SolanaMethod.getAccountInfo]: ReturnType<Connection['getAccountInfo']>;
+  [SolanaMethod.getBalance]: ReturnType<Connection['getBalance']>;
+  [SolanaMethod.getBlock]: ReturnType<Connection['getBlock']>;
+  [SolanaMethod.getBlockCommitment]: Promise<void>;
+  [SolanaMethod.getBlockHeight]: ReturnType<Connection['getBlockHeight']>;
+  [SolanaMethod.getBlockProduction]: ReturnType<
+    Connection['getBlockProduction']
+  >;
+  [SolanaMethod.getBlocks]: ReturnType<Connection['getBlocks']>;
+  [SolanaMethod.getBlocksWithLimit]: Promise<void>;
+  [SolanaMethod.getBlockTime]: ReturnType<Connection['getBlockTime']>;
+  [SolanaMethod.getClusterNodes]: ReturnType<Connection['getClusterNodes']>;
+  [SolanaMethod.getEpochInfo]: ReturnType<Connection['getEpochInfo']>;
+  [SolanaMethod.getEpochSchedule]: ReturnType<Connection['getEpochSchedule']>;
+  [SolanaMethod.getFeeForMessage]: ReturnType<Connection['getFeeForMessage']>;
+  [SolanaMethod.getFirstAvailableBlock]: ReturnType<
+    Connection['getFirstAvailableBlock']
+  >;
+  [SolanaMethod.getGenesisHash]: ReturnType<Connection['getGenesisHash']>;
+  [SolanaMethod.getHealth]: Promise<void>;
+  [SolanaMethod.getHighestSnapshotSlot]: Promise<void>;
+  [SolanaMethod.getIdentity]: Promise<void>;
+  [SolanaMethod.getInflationGovernor]: ReturnType<
+    Connection['getInflationGovernor']
+  >;
+  [SolanaMethod.getInflationRate]: Promise<void>;
+  [SolanaMethod.getInflationReward]: ReturnType<
+    Connection['getInflationReward']
+  >;
+  [SolanaMethod.getLargestAccounts]: ReturnType<
+    Connection['getLargestAccounts']
+  >;
+  [SolanaMethod.getLatestBlockhash]: ReturnType<
+    Connection['getLatestBlockhash']
+  >;
+  [SolanaMethod.getLeaderSchedule]: ReturnType<Connection['getLeaderSchedule']>;
+  [SolanaMethod.getMaxRetransmitSlot]: Promise<void>;
+  [SolanaMethod.getMaxShredInsertSlot]: Promise<void>;
+  [SolanaMethod.getMinimumBalanceForRentExemption]: ReturnType<
+    Connection['getMinimumBalanceForRentExemption']
+  >;
+  [SolanaMethod.getMultipleAccounts]: Promise<void>;
+  [SolanaMethod.getProgramAccounts]: ReturnType<
+    Connection['getProgramAccounts']
+  >;
+  [SolanaMethod.getRecentPerformanceSamples]: ReturnType<
+    Connection['getRecentPerformanceSamples']
+  >;
+  [SolanaMethod.getSignaturesForAddress]: ReturnType<
+    Connection['getSignaturesForAddress']
+  >;
+  [SolanaMethod.getSignatureStatuses]: ReturnType<
+    Connection['getSignatureStatuses']
+  >;
+  [SolanaMethod.getSlot]: ReturnType<Connection['getSlot']>;
+  [SolanaMethod.getSlotLeader]: ReturnType<Connection['getSlotLeader']>;
+  [SolanaMethod.getSlotLeaders]: ReturnType<Connection['getSlotLeaders']>;
+  [SolanaMethod.getStakeActivation]: ReturnType<
+    Connection['getStakeActivation']
+  >;
+  [SolanaMethod.getStakeMinimumDelegation]: ReturnType<
+    Connection['getStakeMinimumDelegation']
+  >;
+  [SolanaMethod.getSupply]: Promise<string>;
+  [SolanaMethod.getTokenAccountBalance]: ReturnType<
+    Connection['getTokenAccountBalance']
+  >;
+  [SolanaMethod.getTokenAccountsByDelegate]: Promise<void>;
+  [SolanaMethod.getTokenAccountsByOwner]: ReturnType<
+    Connection['getTokenAccountsByOwner']
+  >;
+  [SolanaMethod.getTokenLargestAccounts]: ReturnType<
+    Connection['getTokenLargestAccounts']
+  >;
+  [SolanaMethod.getTokenSupply]: ReturnType<Connection['getTokenSupply']>;
+  [SolanaMethod.getTransaction]: ReturnType<Connection['getTransaction']>;
+  [SolanaMethod.getTransactionCount]: ReturnType<
+    Connection['getTransactionCount']
+  >;
+  [SolanaMethod.getVersion]: ReturnType<Connection['getVersion']>;
+  [SolanaMethod.getVoteAccounts]: ReturnType<Connection['getVoteAccounts']>;
+  [SolanaMethod.isBlockhashValid]: Promise<void>;
+  [SolanaMethod.minimumLedgerSlot]: Promise<void>;
+  [SolanaMethod.requestAirdrop]: ReturnType<Connection['requestAirdrop']>;
+  [SolanaMethod.sendTransaction]: ReturnType<Connection['sendTransaction']>;
+  [SolanaMethod.simulateTransaction]: ReturnType<
+    Connection['simulateTransaction']
+  >;
 };
 
 export type RPCCallsConfig = {

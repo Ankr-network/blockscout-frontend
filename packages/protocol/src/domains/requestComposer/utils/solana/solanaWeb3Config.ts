@@ -22,6 +22,7 @@ import {
   SignatureStatusConfig,
   TokenAccountsFilter,
 } from '@solana/web3.js';
+import { v4 } from 'uuid';
 
 import { Arg, LibraryConfig } from 'domains/requestComposer/types/solana';
 import {
@@ -1006,15 +1007,31 @@ export const solanaWeb3Config: LibraryConfig = {
     args: [optionalCommitment],
   },
   [SolanaMethod.getSupply]: {
-    exec: (
+    exec: async (
       provider,
       commitment?: string,
       excludeNonCirculatingAccountsList?: boolean,
-    ) =>
-      provider.getSupply({
-        commitment: commitment as Commitment,
-        excludeNonCirculatingAccountsList: !!excludeNonCirculatingAccountsList,
-      }),
+    ) => {
+      const result = await window.fetch(provider.rpcEndpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          id: v4(),
+          jsonrpc: '2.0',
+          method: 'getSupply',
+          params: [
+            {
+              commitment: commitment as Commitment,
+              excludeNonCirculatingAccountsList:
+                !!excludeNonCirculatingAccountsList,
+            },
+          ],
+        }),
+      });
+
+      const text = await result.text();
+
+      return text;
+    },
     codeSample: (
       url: string,
       commitment?: string,
