@@ -1,5 +1,9 @@
+import { Box } from '@material-ui/core';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
+import {
+  AddEmailBanner,
+  IS_ADD_EMAIL_BANNER_ENABLED,
+} from 'domains/userSettings/components/AddEmailBanner';
 import { PageHeader } from 'modules/common/components/PageHeader';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
@@ -41,7 +45,7 @@ export const Chains = () => {
     <>
       {!credentials && !isConnecting && <InfoBanner />}
 
-      <AddEmailBanner />
+      {IS_ADD_EMAIL_BANNER_ENABLED && <AddEmailBanner />}
 
       {isWalletConnected && (
         <UsageSummary
@@ -58,16 +62,18 @@ export const Chains = () => {
       <NoReactSnap
         fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        {loading ? (
-          <Spinner />
-        ) : (
-          <ChainsList
-            chains={chains}
-            allChains={allChains}
-            sortType={sortType}
-            timeframe={timeframe}
-          />
-        )}
+        <Box className={classes.container}>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <ChainsList
+              chains={chains}
+              allChains={allChains}
+              sortType={sortType}
+              timeframe={timeframe}
+            />
+          )}
+        </Box>
       </NoReactSnap>
     </>
   );

@@ -4,4 +4,8 @@ export const useChainsStyles = makeStyles<Theme>(theme => ({
   userStats: {
     marginBottom: theme.spacing(5.25),
   },
+  container: {
+    minHeight: 80,
+    position: 'relative',
+  },
 }));
