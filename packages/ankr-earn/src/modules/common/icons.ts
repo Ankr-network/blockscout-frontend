@@ -15,6 +15,7 @@ import { AKSMBIcon } from 'uiKit/Icons/AKSMBIcon';
 import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
+import { ASETHCIcon } from 'uiKit/Icons/ASETHCIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -46,6 +47,7 @@ export const iconByTokenMap: TIconMap = {
   [Token.aDOTb]: ADOTBIcon,
   [Token.aETHb]: AETHBIcon,
   [Token.aETHc]: AETHCIcon,
+  [Token.asETHc]: ASETHCIcon,
   [Token.aETH]: AETHCIcon,
   [Token.aFTMb]: AFTMBIcon,
   [Token.aFTMc]: AFTMCIcon,

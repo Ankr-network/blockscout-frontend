@@ -617,7 +617,6 @@ export class PolygonOnPolygonSDK implements IStakable {
    * Get transaction data.
    *
    * @public
-   * @param {string} targetTokenAddr - target token address (aMATICb or aMATICc)
    * @param {string} txHash - transaction hash
    * @returns {Promise<IFetchTxData>}
    */

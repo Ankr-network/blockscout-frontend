@@ -7,7 +7,8 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { isLocal, isMainnet } from './env';
 
-export const ETH_SCALE_FACTOR = 10 ** 18;
+export const ETH_DECIMALS = 18;
+export const ETH_SCALE_FACTOR = 10 ** ETH_DECIMALS;
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 export const ZERO = new BigNumber(0);
 export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
