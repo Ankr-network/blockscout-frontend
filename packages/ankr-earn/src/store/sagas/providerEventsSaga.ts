@@ -16,7 +16,6 @@ import Web3 from 'web3';
 
 import {
   AccountChangedEventData,
-  AvailableWriteProviders,
   EthereumWeb3KeyProvider,
   EventProvider,
   EVENTS,
@@ -31,6 +30,7 @@ import {
   ProviderRpcError,
 } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { AvailableWriteProviders } from 'common';
 
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { disconnect } from 'modules/auth/common/actions/disconnect';

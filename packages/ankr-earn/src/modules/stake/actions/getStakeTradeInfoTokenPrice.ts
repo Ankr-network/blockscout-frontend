@@ -1,7 +1,7 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { Address, EEthereumNetworkId } from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
 import {
@@ -10,7 +10,7 @@ import {
   OPENOCEAN_QUOTE_URL,
   ZERO_ADDR,
 } from 'modules/common/const';
-import { Env, TNumberAsString } from 'modules/common/types';
+import { EEthereumNetworkId, Env, TNumberAsString } from 'modules/common/types';
 
 import {
   EOpenOceanExChanges,

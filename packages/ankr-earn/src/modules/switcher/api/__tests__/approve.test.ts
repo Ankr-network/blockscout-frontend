@@ -1,4 +1,3 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
 import {
   AvalancheSDK,
   BinanceSDK,
@@ -6,6 +5,7 @@ import {
   FantomSDK,
   PolygonOnEthereumSDK,
 } from '@ankr.com/staking-sdk';
+import { EEthereumNetworkId } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';

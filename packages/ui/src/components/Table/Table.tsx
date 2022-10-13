@@ -21,7 +21,7 @@ import {
 } from './utils';
 import { Preloader } from '../Preloader';
 
-export function Table<T>({
+export function Table<T extends Record<string, any>>({
   cols,
   minWidth,
   rows,

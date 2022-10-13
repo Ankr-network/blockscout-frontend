@@ -15,7 +15,10 @@ export interface TopUpProps {
   header?: ReactNode;
 }
 
-export const TopUp = ({ className, header = <TopUpBlockHeader /> }: TopUpProps) => {
+export const TopUp = ({
+  className,
+  header = <TopUpBlockHeader />,
+}: TopUpProps) => {
   const classes = useStyles();
 
   const { handleCanPayByCard, isCardPaymentEligible, isCanPayByCardLoading } =

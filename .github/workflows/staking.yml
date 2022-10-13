@@ -54,10 +54,13 @@ jobs:
 
       - name: Build dev
         working-directory: ./packages/ankr-earn
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         if: ${{ github.event.inputs.api == 'DEV' }}
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
-          yarn build:dev
+          yarn build:dev:turbo
           yarn postbuild
 
       - name: Build stage
@@ -65,7 +68,7 @@ jobs:
         if: ${{ github.event.inputs.api == 'STAGE' }}
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
-          yarn build:stage
+          yarn build:stage:turbo
           yarn postbuild
 
       - name: Build production
@@ -73,7 +76,7 @@ jobs:
         if: ${{ github.event.inputs.api == 'PROD' }}
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
-          yarn build:prod
+          yarn build:prod:turbo
           yarn postbuild
 
       - name: Set AWS credentials

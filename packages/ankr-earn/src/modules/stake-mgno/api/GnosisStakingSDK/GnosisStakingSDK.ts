@@ -3,12 +3,12 @@ import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+} from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
@@ -188,7 +188,7 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
 
   public async getHistoryData(): Promise<IHistoryData[]> {
     const providers = await this.getAllProviderAddresses();
-    const providersStatsArr: AxiosResponse<IProviderStats, unknown>[] =
+    const providersStatsArr: AxiosResponse<IProviderStats>[] =
       await Promise.all(
         providers.map(provider => this.api.get(getProviderStatsUrl(provider))),
       );

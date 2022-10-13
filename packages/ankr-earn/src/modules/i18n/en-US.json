@@ -625,12 +625,14 @@
       "amount": "Staking amount",
       "staked": "Already staked",
       "yield": "Potential Yield",
-      "apy": "APY: {value}%"
+      "apy": "APY",
+      "apy-value": "{value}%",
+      "apy-label-value": "APY: {value}%"
     },
     "yield": {
       "period": "Staking period",
       "apy": "Average APY:",
-      "profit": "Potential Profit",
+      "profit": "Potential Yield",
       "btn": "Go to staking"
     }
   },
@@ -830,6 +832,7 @@
     "fantom": "Fantom (FTM)",
     "polkadot": "Polkadot (DOT)",
     "ethereum": "Ethereum (ETH)",
+    "ethereum-ssv": "SSV–Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
     "apr": "APR",
