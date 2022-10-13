@@ -16,7 +16,6 @@ import { TBnbSyntToken } from '../types';
 import { approveABNBCUnstake } from './approveABNBCUnstake';
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
-import { fetchTotalHistory } from './fetchTotalHistory';
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -48,7 +47,6 @@ export const unstake = createSmartAction<
 
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
-        store.dispatchRequest(fetchTotalHistory());
         store.dispatchRequest(getUnstakeDate());
         store.dispatch(resetRequests([approveABNBCUnstake.toString()]));
 

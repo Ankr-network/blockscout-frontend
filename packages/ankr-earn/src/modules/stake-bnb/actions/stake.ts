@@ -12,7 +12,6 @@ import { TBnbSyntToken } from '../types';
 
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
-import { fetchTotalHistory } from './fetchTotalHistory';
 
 interface IStakeArgs {
   amount: BigNumber;
@@ -40,7 +39,6 @@ export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
       ) => {
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
-        store.dispatchRequest(fetchTotalHistory());
 
         if (response.data.txHash) {
           store.dispatch(push(`${token}/${response.data.txHash}/`));
