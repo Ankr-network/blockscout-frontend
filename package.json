@@ -5,7 +5,8 @@
   "scripts": {
     "clean": "lerna clean && rm -rf node_modules",
     "prepare": "husky install",
-    "release": "lerna version --yes --conventional-commits --message \"chore(release): %s\""
+    "release": "lerna version --yes --conventional-commits --message \"chore(release): %s\"",
+    "build": "turbo run build"
   },
   "workspaces": {
     "packages": [
