@@ -1192,7 +1192,7 @@ export const solanaWeb3Config: LibraryConfig = {
       },
       {
         description:
-          'Optional. A public key of the specific token Mint to limit accounts to or a public key of the Token program that owns the accounts, as base-58 encoded string',
+          'Required. A public key of the specific token Mint to limit accounts to or a public key of the Token program that owns the accounts, as base-58 encoded string',
         placeholder: 'i.e. FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33',
         type: 'textfield',
       },
