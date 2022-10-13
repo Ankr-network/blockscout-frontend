@@ -7,8 +7,8 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
+import { AvailableWriteProviders } from 'common';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

@@ -1,4 +1,6 @@
 import { Typography } from '@material-ui/core';
+// eslint-disable-next-line
+// @ts-ignore @typescript-eslint/ban-ts-comment
 import ReactCountryFlag from 'react-country-flag';
 
 import { useLocationItemStyles } from './useLocationItemStyles';

@@ -10,4 +10,5 @@ export interface TopUpFormProps {
   onSubmit: (data: TopUpFormValues) => void;
   isLoading: boolean;
   isDisabled: boolean;
+  hasRateBlock?: boolean;
 }

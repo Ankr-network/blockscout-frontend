@@ -10,6 +10,7 @@ export type TServiceName =
   | 'ankr'
 
   // DEV mode only
+  | 'ssv'
   | 'wnd';
 
 interface IMetricsService {

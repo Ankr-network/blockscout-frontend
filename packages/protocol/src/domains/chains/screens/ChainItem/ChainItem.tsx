@@ -2,7 +2,10 @@ import { H1Tag } from 'uiKit/H1Tag';
 
 import { t } from 'common';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
-import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
+import {
+  AddEmailBanner,
+  IS_ADD_EMAIL_BANNER_ENABLED,
+} from 'domains/userSettings/components/AddEmailBanner';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemSections } from './components/ChainItemSections';
 import { useChainItem } from './hooks/useChainItem';
@@ -33,7 +36,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
 
   return (
     <>
-      <AddEmailBanner />
+      {IS_ADD_EMAIL_BANNER_ENABLED && <AddEmailBanner />}
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader
         chain={chain}

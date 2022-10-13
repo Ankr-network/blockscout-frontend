@@ -9,7 +9,7 @@ import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { IPAYGContractManager } from './interfaces';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo, IPayAsYouGoEvents } from './abi/IPayAsYouGo';
-import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
+import { Web3KeyWriteProvider, IWeb3SendResult } from 'common';
 
 const GAS_LIMIT = '200000';
 
@@ -33,13 +33,17 @@ export class PAYGContractManager implements IPAYGContractManager {
     );
   }
 
-  private async isAmountGreaterThanBalance(scaledAmount: BigNumber) {
+  public async getCurrentAccountBalance() {
     const { currentAccount } = this.keyProvider;
 
-    // make sure user have enough balance
-    const balance = await (this.ankrTokenContract.methods as IAnkrToken)
+    return (this.ankrTokenContract.methods as IAnkrToken)
       .balanceOf(currentAccount)
       .call();
+  }
+
+  private async isAmountGreaterThanBalance(scaledAmount: BigNumber) {
+    // make sure user have enough balance
+    const balance = await this.getCurrentAccountBalance();
 
     const scaledBalance = new BigNumber(balance);
 

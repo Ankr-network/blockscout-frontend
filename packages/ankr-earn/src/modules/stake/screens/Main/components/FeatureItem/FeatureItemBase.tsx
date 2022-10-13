@@ -6,6 +6,7 @@ import { useFeatureItemStyles } from './useFeatureItemStyles';
 
 interface IFeatureItemBaseProps {
   title: string;
+  iconRootClass?: string;
   iconSlot: JSX.Element;
   statsSlot: JSX.Element;
   buttonsSlot?: ReactNode;
@@ -15,6 +16,7 @@ interface IFeatureItemBaseProps {
 export const FeatureItemBase = ({
   title,
   statsSlot,
+  iconRootClass,
   iconSlot,
   buttonsSlot,
   withAnimations,
@@ -30,7 +32,9 @@ export const FeatureItemBase = ({
     >
       <Box mb={1.5}>
         {React.cloneElement(iconSlot, {
-          className: classes.icon,
+          className: iconRootClass
+            ? `${classes.icon} ${iconRootClass}`
+            : classes.icon,
         })}
       </Box>
 

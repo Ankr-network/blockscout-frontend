@@ -14,10 +14,12 @@ import { t } from 'common';
 import { useIsMDUp } from 'ui';
 
 import {
+  DAYS_IN_YEAR,
   DEFAULT_ROUNDING,
   ZERO,
   ZERO_DECIMAL_PLACES,
 } from 'modules/common/const';
+import { Days } from 'modules/common/types';
 import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 
@@ -40,6 +42,7 @@ export interface ITokensItemProps {
   token: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onCloseClick?: () => void;
+  days: Days;
 }
 
 export const TokensItem = ({
@@ -51,6 +54,7 @@ export const TokensItem = ({
   token,
   onChange,
   onCloseClick,
+  days,
 }: ITokensItemProps): JSX.Element => {
   const classes = useTokensTableStyles();
   const isMDUp = useIsMDUp();
@@ -61,12 +65,17 @@ export const TokensItem = ({
   const decimalPlacesUsd = yieldAmountUsd.isLessThan(LOW_USD_VALUE)
     ? DEFAULT_ROUNDING
     : ZERO_DECIMAL_PLACES;
+  const apyValue = apy.decimalPlaces(DEFAULT_ROUNDING).toFormat();
 
   const formattedYieldAmountUsd = yieldAmountUsd
+    .dividedBy(DAYS_IN_YEAR)
+    .multipliedBy(days)
     .decimalPlaces(decimalPlacesUsd)
     .toFormat();
 
   const formattedYieldAmount = yieldAmount
+    .dividedBy(DAYS_IN_YEAR)
+    .multipliedBy(days)
     .decimalPlaces(getDecimalPlaces(yieldAmount))
     .toFormat();
 
@@ -84,11 +93,13 @@ export const TokensItem = ({
     <Paper className={classes.item} variant={isMDUp ? 'outlined' : 'elevation'}>
       <div className={classes.row}>
         <div className={classes.col}>
-          <TokenWithIcon
-            apy={apy.decimalPlaces(DEFAULT_ROUNDING).toFormat()}
-            iconSlot={iconSlot}
-            token={token}
-          />
+          <TokenWithIcon apy={apyValue} iconSlot={iconSlot} token={token} />
+        </div>
+
+        <div className={classNames(classes.col, classes.colSMHidden)}>
+          <Typography className={classNames(classes.text, classes.apyColValue)}>
+            {t('calc.table.apy-value', { value: apyValue })}
+          </Typography>
         </div>
 
         <div className={classes.col}>
@@ -99,6 +110,7 @@ export const TokensItem = ({
           </Hidden>
 
           <TextField
+            fullWidth
             autoComplete="off"
             classes={{
               root: classes.textField,
@@ -112,14 +124,6 @@ export const TokensItem = ({
             value={value}
             onChange={handleChange}
           />
-        </div>
-
-        <div className={classNames(classes.col, classes.colXsBordered)}>
-          <div className={classes.label}>{t('calc.table.staked')}</div>
-
-          <Typography className={classes.text}>
-            {staked.decimalPlaces(getDecimalPlaces(staked)).toFormat()}
-          </Typography>
         </div>
 
         <div className={classNames(classes.col, classes.colXsBordered)}>

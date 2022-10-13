@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-export const useLiquidStakingTokensStyles = makeStyles<Theme>(theme => ({
+export const useLiquidStakingTokensStyles = makeStyles(theme => ({
   title: {
     fontSize: 20,
     marginBottom: theme.spacing(2.5),
@@ -9,5 +9,10 @@ export const useLiquidStakingTokensStyles = makeStyles<Theme>(theme => ({
       fontSize: 24,
       marginBottom: theme.spacing(4),
     },
+  },
+
+  ssvIcon: {
+    margin: theme.spacing(-10.125, 0, -10.125, 0),
+    fontSize: 226,
   },
 }));

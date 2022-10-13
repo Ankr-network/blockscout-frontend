@@ -1,8 +1,10 @@
-import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk/src/modules/polygon/const';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
+import {
+  PolygonOnEthereumSDK,
+  MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
+} from '@ankr.com/staking-sdk';
 
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';

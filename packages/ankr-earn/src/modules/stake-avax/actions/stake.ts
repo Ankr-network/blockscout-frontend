@@ -13,7 +13,6 @@ import { TAvaxSyntToken } from '../types';
 
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
-import { fetchTotalHistoryData } from './fetchTotalHistoryData';
 
 interface IRes {
   data: void;
@@ -44,7 +43,6 @@ export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
       ): IRes => {
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
-        store.dispatchRequest(fetchTotalHistoryData());
 
         if (response.data.txHash) {
           store.dispatch(

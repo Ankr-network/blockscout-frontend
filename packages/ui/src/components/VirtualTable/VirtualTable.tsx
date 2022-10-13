@@ -13,7 +13,9 @@ import {
   useTableContext,
 } from './utils';
 
-function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
+function VirtualTableInternal<T extends Record<string, any>>(
+  props: VirtualTableProps<T>,
+) {
   const {
     classes: tableClasses,
     emptyMessage,
@@ -96,7 +98,9 @@ function VirtualTableInternal<T>(props: VirtualTableProps<T>) {
   );
 }
 
-export function VirtualTable<T>(props: VirtualTableProps<T>) {
+export function VirtualTable<T extends Record<string, any>>(
+  props: VirtualTableProps<T>,
+) {
   const { onChangePage, onSort, rows, cols, renderExpand, loading } = props;
 
   const context = useTableContext({

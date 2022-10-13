@@ -20,9 +20,7 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
 
   return chainsArray.map(item => {
     const { blockchain, rpcURLs, wsURLs } = item;
-    const { id, stats, name } = blockchain;
-
-    const requests = stats?.reqs;
+    const { id, name } = blockchain;
 
     return {
       id,
@@ -30,7 +28,6 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
       name,
       rpcUrls: rpcURLs,
       wsUrls: wsURLs,
-      requests,
     };
   });
 };

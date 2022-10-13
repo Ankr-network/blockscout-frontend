@@ -21,6 +21,7 @@ export interface ILayoutProps {
   disableGutters?: boolean;
   hasNoReactSnap?: boolean;
   hasError?: boolean;
+  hasMaxWidth?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -29,8 +30,12 @@ export const DefaultLayout = ({
   disableGutters = false,
   hasNoReactSnap = false,
   hasError = false,
+  hasMaxWidth = true,
 }: ILayoutProps) => {
-  const classes = useStyles({ hasGradient: hasError });
+  const classes = useStyles({
+    hasGradient: hasError,
+    hasPaddingBottom: hasMaxWidth,
+  });
   const { isWalletConnected, credentials, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
 
@@ -38,6 +43,7 @@ export const DefaultLayout = ({
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
+  const hasAccountDetailsButton = isWalletConnected && hasCredentials;
 
   return (
     <div
@@ -54,9 +60,21 @@ export const DefaultLayout = ({
           chainsRoutes={chainsRoutes}
         />
         <div className={classes.body}>
-          {!hasError && <Header className={classes.header} />}
-          <MobileHeader className={classes.mobileHeader} />
-          <Container disableGutters={disableGutters} className={classes.main}>
+          {!hasError && (
+            <Header
+              className={classes.header}
+              hasAccountDetailsButton={hasAccountDetailsButton}
+            />
+          )}
+          <MobileHeader
+            className={classes.mobileHeader}
+            hasAccountDetailsButton={hasAccountDetailsButton}
+          />
+          <Container
+            disableGutters={disableGutters}
+            className={classes.main}
+            maxWidth={hasMaxWidth && false}
+          >
             <Container
               disableGutters={!disableGutters}
               className={classes.mobileBreadcrumbs}

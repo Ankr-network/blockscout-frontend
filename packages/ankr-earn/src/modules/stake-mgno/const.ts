@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders } from 'common';
 
 import { GNO_NETWORK_BY_ENV } from 'modules/common/const';
 

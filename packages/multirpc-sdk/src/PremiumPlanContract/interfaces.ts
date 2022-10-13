@@ -1,4 +1,4 @@
-import { IWeb3SendResult } from '@ankr.com/provider';
+import { IWeb3SendResult } from 'common';
 import BigNumber from 'bignumber.js';
 
 import { Base64, PrefixedHex, Web3Address } from '../common';

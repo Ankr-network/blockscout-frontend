@@ -2,6 +2,9 @@
   "name": "multirpc-sdk",
   "version": "0.6.3",
   "description": "SDK for Multi RPC",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "files": ["dist"],
   "private": true,
   "keywords": [
     "ankr",
@@ -9,15 +12,18 @@
   ],
   "license": "MIT",
   "scripts": {
-    "lint": "eslint './src/**/*.{js,ts,jsx,tsx}'",
+    "lint:js": "eslint './src/**/*.{js,ts,jsx,tsx}'",
     "prebuild": "rimraf dist",
-    "build": "tsc && cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents",
+    "build": "vite build",
+    "build:turbo": "cd ../.. && turbo run build --filter=multirpc-sdk...",
     "precommit": "lint-staged; npm run test",
     "preversion": "npm run lint",
     "prepublish": "tsc && cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents",
     "publish": "yarn publish",
     "test": "jest --coverage",
+    "test:turbo": "cd ../.. && turbo run test --parallel --filter=multirpc-sdk...",
     "test:watch": "jest --coverage --watch",
+    "test:watch:turbo": "cd ../.. && turbo run test:watch --parallel --filter=multirpc-sdk...",
     "generate": "abi-types-generator ./src/PAYGContract/abi/PayAsYouGo.json --name=IPayAsYouGo --provider=web3"
   },
   "lint-staged": {
@@ -38,7 +44,8 @@
     "ts-node": "^7.0.1"
   },
   "dependencies": {
-    "@ankr.com/provider": "^1.5.21",
+    "@ankr.com/provider": "*",
+    "common": "*",
     "@faker-js/faker": "6.1.2",
     "@types/lodash.orderby": "4.6.6",
     "@types/node": "^14.14.41",

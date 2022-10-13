@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'common';
 
 /**
  * Internal raw data for history events

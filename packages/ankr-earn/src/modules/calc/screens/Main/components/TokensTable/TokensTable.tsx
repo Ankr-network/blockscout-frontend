@@ -18,8 +18,8 @@ export const TokensTable = ({
   const items = useLocaleMemo(
     () => [
       t('calc.table.token'),
+      t('calc.table.apy'),
       t('calc.table.amount'),
-      t('calc.table.staked'),
       t('calc.table.yield'),
     ],
     [],

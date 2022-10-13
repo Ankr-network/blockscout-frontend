@@ -46,17 +46,18 @@ export const getNavigationList = (
       isActive: (match: any, location: History['location']) =>
         isDashboardActive(match, location, chainsRoutes),
     },
-    (isWalletConnected || hasCredentials) && {
-      label: t('main-navigation.billing'),
-      StartIcon: BillingIcon,
-      ActiveIcon: ActiveBillingIcon,
-      href: AccountRoutesConfig.accountDetails.generatePath(),
-    },
+    isWalletConnected &&
+      hasCredentials && {
+        label: t('main-navigation.billing'),
+        StartIcon: BillingIcon,
+        ActiveIcon: ActiveBillingIcon,
+        href: AccountRoutesConfig.accountDetails.generatePath(),
+      },
     !hasCredentials && {
       label: t('main-navigation.pricing'),
       StartIcon: PricingIcon,
       ActiveIcon: ActivePricingIcon,
-      href: PricingRoutesConfig.pricing.generagePath(),
+      href: PricingRoutesConfig.pricing.generatePath(),
     },
     {
       label: t('main-navigation.docs'),

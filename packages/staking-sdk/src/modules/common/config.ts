@@ -24,6 +24,8 @@ export interface IContractConfig {
   systemContract: string;
   ankrContract: string;
   bridge: string;
+  asETHcContract: Address;
+  ssvStakingPoolContract: Address;
 }
 
 export interface IAvalancheConfig {
@@ -74,6 +76,10 @@ interface IPolygonConfig {
 
 export interface IGatewayConfig {
   baseUrl: string;
+  ankrApiBaseUrl: string;
+
+  // todo: Extract the private key to a secure place (https://ankrnetwork.atlassian.net/browse/STAKAN-2178)
+  ankrApiKey: string;
 }
 
 export interface IStkrConfig {
@@ -106,6 +112,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMaticbToken: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
+    asETHcContract: '0x5b449EC712c76990516ab6E1F3A0Ba74855beB4e',
+    ssvStakingPoolContract: '0x8E002A1990d711490c0E43AF6ae103B831B33516',
   },
   avalancheConfig: {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
@@ -146,6 +154,8 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
+    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
+    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
   },
 };
 
@@ -157,6 +167,7 @@ const LOCAL_CONFIG: IStkrConfig = {
 const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.dev.stkr.io/',
   },
 };
@@ -169,6 +180,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
 const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
+    ...LOCAL_CONFIG.gatewayConfig,
     baseUrl: 'https://api.goerli.stkr.io/',
   },
 };
@@ -193,6 +205,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
     aMaticCToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
+    asETHcContract: ZERO_ADDRESS,
+    ssvStakingPoolContract: ZERO_ADDRESS,
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
@@ -233,6 +247,8 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
+    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
+    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
   },
 };
 

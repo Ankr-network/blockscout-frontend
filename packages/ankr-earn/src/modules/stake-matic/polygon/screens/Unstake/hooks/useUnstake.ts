@@ -10,8 +10,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, t } from 'common';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

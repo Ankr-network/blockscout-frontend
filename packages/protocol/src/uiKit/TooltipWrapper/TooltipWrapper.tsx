@@ -11,6 +11,7 @@ interface ITooltipWrapperProps {
   children?: ReactNode;
   className?: string;
   hasIcon?: boolean;
+  tipIcon?: ReactNode;
   iconClassName?: string;
   tooltipClassName?: string;
   tooltipText: NonNullable<ReactNode | string>;
@@ -20,6 +21,7 @@ export const TooltipWrapper = ({
   children,
   className,
   hasIcon = true,
+  tipIcon,
   iconClassName,
   tooltipClassName: tooltip,
   tooltipText,
@@ -30,11 +32,12 @@ export const TooltipWrapper = ({
     <TooltipElement classes={{ tooltip }} placement="top" title={tooltipText}>
       <div className={classNames(classes.tooltipItem, className)}>
         {children}
-        {hasIcon && (
-          <InformationIcon
-            className={classNames(classes.informationIcon, iconClassName)}
-          />
-        )}
+        {hasIcon &&
+          (tipIcon || (
+            <InformationIcon
+              className={classNames(classes.informationIcon, iconClassName)}
+            />
+          ))}
       </div>
     </TooltipElement>
   );
