@@ -7,12 +7,16 @@ interface IApiRequestParams {
   address: Web3Address;
 }
 
+export interface IGetUserTotalMapped extends IGetUserTotalResponse {
+  startedDate?: Date;
+}
+
 export const {
   useFetchUserTotalQuery,
   endpoints: { fetchUserTotal },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchUserTotal: build.query<IGetUserTotalResponse, IApiRequestParams>({
+    fetchUserTotal: build.query<IGetUserTotalMapped, IApiRequestParams>({
       queryFn: async ({ address }) => {
         const service = await MultiService.getInstance();
         const backofficeGateway = await service.getBackofficeGateway();
@@ -22,7 +26,12 @@ export const {
         });
 
         return {
-          data: total,
+          data: {
+            ...total,
+            startedDate: total?.blockchainsInfo?.startedMs
+              ? new Date(+total.blockchainsInfo.startedMs)
+              : undefined,
+          },
         };
       },
     }),

@@ -9,33 +9,38 @@ import {
 } from '@mui/material';
 
 import { Spinner } from 'ui';
-import { IUserStatsResponse, Web3Address } from 'multirpc-sdk';
+import { Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
-import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
+import {
+  formatNumber,
+  renderBalance,
+  renderUSD,
+} from 'modules/common/utils/renderBalance';
 import { ClientMapped } from '../../store/clientsSlice';
 import { UserTypeTag } from '../UserTypeTag';
 import { ClientBalancesModal } from './ClientBalancesModal';
 import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
+import { IGetUserTotalMapped } from '../../actions/fetchUserTotal';
 
 interface IClientInfoProps {
   address: Web3Address;
   currentClient?: ClientMapped[];
-  statsData?: IUserStatsResponse;
   transactionsCost?: number;
   isLoadingClients?: boolean;
   isLoadingTransactions?: boolean;
-  isLoadingStats?: boolean;
+  totalData?: IGetUserTotalMapped;
+  isLoadingTotal?: boolean;
 }
 
 export const ClientInfo = ({
   address,
   currentClient = [],
-  statsData,
   transactionsCost,
   isLoadingClients,
   isLoadingTransactions,
-  isLoadingStats,
+  totalData,
+  isLoadingTotal,
 }: IClientInfoProps) => {
   const { classes } = useStyles();
   const [client] = currentClient;
@@ -76,8 +81,14 @@ export const ClientInfo = ({
     </Card>
   );
 
-  const statsText = statsData?.totalRequests
-    ? `${statsData.totalRequests} in last 30d`
+  const statsFromText = totalData?.startedDate
+    ? `from ${totalData.startedDate.toLocaleString()}`
+    : undefined;
+  const totalRequestsText = totalData?.blockchainsInfo?.totalCount
+    ? `${totalData?.blockchainsInfo.totalCount}`
+    : 'Not found';
+  const totalCostText = totalData?.blockchainsInfo?.totalCost
+    ? `${formatNumber(totalData.blockchainsInfo.totalCost)}`
     : 'Not found';
   const revenueText =
     transactionsCost !== undefined && +transactionsCost > 0
@@ -148,11 +159,27 @@ export const ClientInfo = ({
 
         <Grid item xs={3} component={Paper} className={classes.gridItem}>
           <Typography variant="caption" color="textSecondary" component="p">
+            Total cost
+          </Typography>
+
+          <Typography variant="subtitle1" component="p">
+            <b>{isLoadingTotal ? skeleton : totalCostText}</b>
+          </Typography>
+          <Typography variant="caption" component="p">
+            {isLoadingTotal ? skeleton : statsFromText}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
             Total requests
           </Typography>
 
           <Typography variant="subtitle1" component="p">
-            <b>{isLoadingStats ? skeleton : statsText}</b>
+            <b>{isLoadingTotal ? skeleton : totalRequestsText}</b>
+          </Typography>
+          <Typography variant="caption" component="p">
+            {isLoadingTotal ? skeleton : statsFromText}
           </Typography>
         </Grid>
       </Grid>

@@ -47,6 +47,7 @@ export const columns: { key: Key; label: string }[] = [
   { key: 'amountAnkr', label: 'Amount of ANKR' },
   { key: 'amountUsd', label: 'Equivalent in USD' },
   { key: 'clientType', label: 'Type of the User' },
+  { key: 'ttl', label: 'Expiration' },
   { key: 'timestamp', label: 'Date Created' },
   { key: 'options', label: '' },
 ];

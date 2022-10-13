@@ -3,7 +3,7 @@ import qs from 'query-string';
 
 import { ClientMapped } from '../../store/clientsSlice';
 import { ClientType } from '../../types';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useClientsTableFiltering = ({
   clients,
@@ -17,37 +17,47 @@ export const useClientsTableFiltering = ({
   const [filteredData, setFilteredData] = useState<ClientMapped[]>(clients);
   const [filterClientType, setFilterClientType] =
     useState<ClientType | undefined>(defaultFilterClients);
-  const [filterKey, setFilterKey] =
-    useState<keyof ClientMapped | undefined>(undefined);
+  const [filterKeys, setFilterKeys] = useState<(keyof ClientMapped)[]>([]);
 
   useEffect(() => {
     let filtered = clients;
     if (filterClientType !== undefined) {
       filtered = filtered.filter(i => i.clientType === filterClientType);
     }
-    if (filterKey) {
-      filtered = filtered.filter(i => Boolean(i[filterKey]));
+    if (filterKeys.length > 0) {
+      filtered = filtered.filter(i =>
+        filterKeys.every(item => Boolean(i[item])),
+      );
     }
     setFilteredData(filtered);
-  }, [clients, filterClientType, filterKey]);
+  }, [clients, filterClientType, filterKeys]);
 
-  const handleFilterClientType = (clientType?: ClientType) => {
+  const handleFilterClientType = useCallback((clientType?: ClientType) => {
     if (typeof clientType === 'undefined') {
       setFilterClientType(undefined);
     } else {
       setFilterClientType(clientType);
     }
-  };
+  }, []);
 
-  const handleFilterKey = (key: keyof ClientMapped) => {
-    setFilterKey(filterKey === key ? undefined : key);
-  };
+  const handleFilterKey = useCallback(
+    (key?: keyof ClientMapped) => {
+      if (!key) {
+        return setFilterKeys([]);
+      }
+      if (filterKeys.includes(key)) {
+        return setFilterKeys(filterKeys.filter(i => i !== key));
+      }
+      return setFilterKeys([...filterKeys, key]);
+    },
+    [filterKeys],
+  );
 
   return {
     filteredClients: filteredData,
     filterClientType,
     handleFilterClientType,
     handleFilterKey,
-    filterKey,
+    filterKeys,
   };
 };

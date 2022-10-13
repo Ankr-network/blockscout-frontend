@@ -22,7 +22,9 @@ import {
   IUpdateVoucherCreditsResponse,
   IUserStatsRequest,
   IUserStatsResponse,
-  ICountersRequest, IGetUserTotalRequest, IGetUserTotalResponse,
+  ICountersRequest,
+  IGetUserTotalRequest,
+  IGetUserTotalResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -87,7 +89,7 @@ export class BackofficeGateway implements IBackofficeGateway {
     params: IGetUserTotalRequest,
   ): Promise<IGetUserTotalResponse> {
     const { data: response } = await this.api.get<IGetUserTotalResponse>(
-      '/users/total',
+      '/users/totals',
       {
         params,
       },

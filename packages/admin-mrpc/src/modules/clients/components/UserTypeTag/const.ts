@@ -16,7 +16,7 @@ export const clientTypeNaming: Record<ClientType, string> = {
 
 const FORCED_EXPIRATION_DATE = new Date(2023, 1, 25).toLocaleDateString();
 
-const getLocaleDateString = (ttl: ClientEntity['ttl']) =>
+export const getTtlString = (ttl: ClientEntity['ttl']) =>
   ttl !== undefined ? new Date(ttl * 1000).toLocaleDateString() : undefined;
 
 export const getClientTypeExpiration: Partial<
@@ -28,14 +28,14 @@ export const getClientTypeExpiration: Partial<
   [ClientType.ForcedExpirationPremium]: () =>
     `with forced expiration on ${FORCED_EXPIRATION_DATE}`,
 
-  [ClientType.Premium]: ttl => `till ${getLocaleDateString(ttl)}`,
-  [ClientType.TestDrivePremium]: ttl => `till ${getLocaleDateString(ttl)}`,
+  [ClientType.Premium]: ttl => `till ${getTtlString(ttl)}`,
+  [ClientType.TestDrivePremium]: ttl => `till ${getTtlString(ttl)}`,
 };
 
 export const colorMap: Record<ClientType, string> = {
-  [ClientType.UNKNOWN]: 'red',
-  [ClientType.PAYG]: 'gold',
-  [ClientType.TestDrivePremium]: 'green',
-  [ClientType.ForcedExpirationPremium]: 'blue',
-  [ClientType.Premium]: 'blue',
+  [ClientType.UNKNOWN]: '#7f7f7f',
+  [ClientType.PAYG]: '#3AC090',
+  [ClientType.TestDrivePremium]: '#D22C54',
+  [ClientType.ForcedExpirationPremium]: '#EEA941',
+  [ClientType.Premium]: '#356DF3',
 };

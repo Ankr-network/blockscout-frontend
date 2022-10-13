@@ -26,6 +26,7 @@ import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useClientsTableStyles } from './ClientsTableStyles';
 import { ClientsValueFilters } from '../ClientsValueFilters/ClientsValueFilters';
 import { ButtonOptions } from './ButtonOptions';
+import { getTtlString } from '../UserTypeTag/const';
 
 export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
   const history = useHistory();
@@ -35,7 +36,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
     filterClientType,
     handleFilterClientType,
     handleFilterKey,
-    filterKey,
+    filterKeys,
   } = useClientsTableFiltering({ clients });
 
   const { handleOrder, sortBy, sortOrder, sortedData } = useClientsTableSorting(
@@ -66,7 +67,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
       />
       <ClientsValueFilters
         handleFilterKey={handleFilterKey}
-        filterKey={filterKey}
+        filterKeys={filterKeys}
       />
       <TableContainer component={Box}>
         <Table
@@ -129,6 +130,9 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                     clientType={row.clientType}
                     clientTtl={row.ttl}
                   />
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  {row.ttl && row.ttl > 0 ? getTtlString(row.ttl) : '-'}
                 </TableCell>
                 <TableCell className={classes.cell}>
                   {row.createdDate.toLocaleDateString()}

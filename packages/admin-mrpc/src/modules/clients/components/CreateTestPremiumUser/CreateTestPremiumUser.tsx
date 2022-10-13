@@ -6,6 +6,7 @@ import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';
 import { ReactComponent as PlusIcon } from './assets/plus.svg';
+import { useFetchCountersQuery } from '../../actions/fetchCounters';
 
 const DAYS_TO_SECONDS_MULTIPLY_VALUE = 86400;
 
@@ -17,6 +18,7 @@ export const CreateTestPremiumUser = () => {
   const history = useHistory();
   const [createTestPremiumUser, { isLoading }] =
     useCreateTestPremiumUserMutation();
+  const { refetch: refetchClients } = useFetchCountersQuery();
   const { classes } = useCreateTestPremiumUserStyles();
 
   const [open, setOpen] = useState(false);
@@ -44,6 +46,7 @@ export const CreateTestPremiumUser = () => {
       }).then(res => {
         setOpen(false);
         if (res && 'data' in res) {
+          refetchClients(); // refetching clients in order to get new client token
           history.push({
             pathname: ClientsRoutesConfig.clientInfo.generatePath(
               res.data.user.address,

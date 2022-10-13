@@ -1,29 +1,18 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
-import { useState } from 'react';
 
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
-import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
-import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
-import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
-import { useFetchUserStatementQuery } from 'modules/clients/actions/fetchUserStatement';
-import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
-import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
+import { Spinner } from 'ui';
 
 import { ClientTransactionsTable } from './ClientTransactionsTable';
 import { ClientInfo } from './ClientInfo';
 import { ClientUsageTable } from './ClientUsageTable';
-import { Spinner } from 'ui';
+import { useClientDetailsPage } from './useClientDetailsPage';
 import { useClientDetailsStyles } from './ClientDetailsStyles';
-import { TimeframeUsage } from './types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
-
-const TRANSACTION_TYPE_DEDUCTION = 'TRANSACTION_TYPE_DEDUCTION';
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -40,70 +29,40 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export const ClientDetailsPage = () => {
-  const { address } = ClientsRoutesConfig.clientInfo.useParams();
-  useSetBreadcrumbs([
-    {
-      title: 'clients',
-      link: ClientsRoutesConfig.clients.generatePath(),
-    },
-    {
-      title: `${shrinkAddress(address)}`,
-    },
-  ]);
-
-  const [periodStatement, setPeriodStatement] = useState<TimeframeUsage>('0');
-
-  const { data: clients, isLoading: isLoadingClients } =
-    useFetchCountersQuery();
-  const { data: transactionsData, isLoading: isLoadingTransactions } =
-    useFetchUserTransactionsQuery({ address });
   const {
-    data: statementsData,
-    isLoading: isLoadingStatement,
-    isFetching: isFetchingStatement,
-  } = useFetchUserStatementQuery({ address, dayOffset: periodStatement });
-  const { data: statsData, isLoading: isLoadingStats } = useFetchUserStatsQuery(
-    { address },
-  );
-  const { data: totalData, isLoading: isLoadingTotal } = useFetchUserTotalQuery(
-    { address },
-  );
+    isLoadingClients,
+    currentClient,
+    address,
+    statsData,
+    transactionsCost,
+    isLoadingTransactions,
+    isLoadingStats,
+    periodStatement,
+    totalData,
+    isLoadingTotal,
+    value,
+    handleChange,
+    transactionsData,
+    updateTimeframeParam,
+    isFetchingStats,
+  } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
-
-  const transactionsDeduction = transactionsData?.transactions.filter(
-    i => i.type === TRANSACTION_TYPE_DEDUCTION,
-  );
-  const transactionsCost = transactionsDeduction?.reduce(
-    (partialSum, a) => partialSum + +a.amountUsd,
-    0,
-  );
-  const currentClient = clients?.counters?.filter(i => i.address === address);
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
-    setValue(newValue);
-  };
 
   if (!isLoadingClients && !currentClient) {
     return <>Client not found</>;
   }
-
-  const updateTimeframeParam = (timeframe: TimeframeUsage) => {
-    setPeriodStatement(timeframe);
-  };
 
   return (
     <>
       <ClientInfo
         address={address}
         currentClient={currentClient}
-        statsData={statsData}
         transactionsCost={transactionsCost}
         isLoadingClients={isLoadingClients}
         isLoadingTransactions={isLoadingTransactions}
-        isLoadingStats={isLoadingStats}
+        totalData={totalData}
+        isLoadingTotal={isLoadingTotal}
       />
 
       <>
@@ -144,11 +103,12 @@ export const ClientDetailsPage = () => {
           )}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {isLoadingStatement && 'Loading...'}
           <ClientUsageTable
-            usage={statementsData?.statement.usage}
+            currentPeriod={periodStatement}
+            stats={statsData?.stats}
+            usage={statsData?.usage}
             onUpdateTimeframe={updateTimeframeParam}
-            isLoading={isLoadingStatement || isFetchingStatement}
+            isLoadingStats={isLoadingStats || isFetchingStats}
           />
         </TabPanel>
       </>

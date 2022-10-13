@@ -94,7 +94,9 @@ export interface PrivateTotalRequestsInfo {
   count: number;
   others_info: PrivateStatOthersInfo;
   top_requests: PrivateStatTopRequests[];
+  topRequests: PrivateStatTopRequests[];
   total_cost?: number;
+  totalCost?: number;
 }
 
 export interface PrivatStatTopCountry {

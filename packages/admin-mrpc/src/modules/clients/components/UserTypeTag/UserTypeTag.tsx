@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
-import { clientTypeNaming, colorMap, getClientTypeExpiration } from './const';
+import { clientTypeNaming, getClientTypeExpiration } from './const';
 import { ClientEntity } from '../../types';
+import { useUserTypeTagStyles as useStyles } from './UserTypeTagStyles';
 
 type TUserTypeTagProps = {
   clientType: ClientEntity['type'];
@@ -11,10 +12,11 @@ export const UserTypeTag = ({ clientType, clientTtl }: TUserTypeTagProps) => {
   const label = clientTypeNaming[clientType];
   const expiration =
     clientTtl && getClientTypeExpiration[clientType]?.(clientTtl);
+  const { classes } = useStyles({ clientType });
 
   return (
     <div>
-      <Typography style={{ color: colorMap[clientType] }}>{label}</Typography>
+      <Typography className={classes.tag}>{label}</Typography>
 
       {expiration && (
         <Typography variant="caption" component="p" color="textSecondary">
