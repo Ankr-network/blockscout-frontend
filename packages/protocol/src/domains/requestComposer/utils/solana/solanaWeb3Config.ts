@@ -1359,8 +1359,23 @@ export const solanaWeb3Config: LibraryConfig = {
     args: [],
   },
   [SolanaMethod.getVoteAccounts]: {
-    exec: (provider, commitment?: string) =>
-      provider.getVoteAccounts(commitment as Commitment),
+    exec: async (provider, commitment?: string) => {
+      const params = commitment ? [{ commitment }] : undefined;
+
+      const result = await window.fetch(provider.rpcEndpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          id: v4(),
+          jsonrpc: '2.0',
+          method: 'getVoteAccounts',
+          params,
+        }),
+      });
+
+      const text = await result.text();
+
+      return text;
+    },
     codeSample: (url: string, commitment?: string) =>
       getCodeSample({
         url,

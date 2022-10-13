@@ -101,7 +101,7 @@ type MethodResult = {
     Connection['getTransactionCount']
   >;
   [SolanaMethod.getVersion]: ReturnType<Connection['getVersion']>;
-  [SolanaMethod.getVoteAccounts]: ReturnType<Connection['getVoteAccounts']>;
+  [SolanaMethod.getVoteAccounts]: Promise<string>;
   [SolanaMethod.isBlockhashValid]: Promise<void>;
   [SolanaMethod.minimumLedgerSlot]: Promise<void>;
   [SolanaMethod.requestAirdrop]: ReturnType<Connection['requestAirdrop']>;
