@@ -16,10 +16,11 @@ import {
   IETHNetwork,
   useETHNetworks,
 } from 'modules/auth/eth/hooks/useETHNetworks';
-import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { EEthereumNetworkId } from 'modules/common/types';
+
+import { getIsInjectedWallet } from '../../../utils/walletTypeUtils';
 
 import { useKnownNetworks } from './useKnownNetworks';
 
@@ -56,7 +57,7 @@ export const useGuardETHRoute = ({
   const isConnected = writeProviderData?.isConnected ?? false;
   const isInjected = Web3KeyReadProvider.isInjected();
   const isValidWallet = writeProviderData?.walletName
-    ? getIsMetaMask(writeProviderData.walletName)
+    ? getIsInjectedWallet(writeProviderData.walletName)
     : false;
   const walletId = writeProviderData?.walletId;
 

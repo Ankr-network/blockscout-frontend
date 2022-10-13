@@ -7,6 +7,7 @@ import {
   EthereumWeb3KeyProvider,
 } from './providers';
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
+import { GnosisHttpWeb3KeyProvider } from './providers/GnosisHttpWeb3KeyProvider';
 import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvider';
 import { AvailableReadProviders, AvailableWriteProviders } from './types';
 import { sleep } from './utils/sleep';
@@ -119,7 +120,7 @@ export class ProviderManager {
 
       case AvailableReadProviders.gnosis:
       case AvailableReadProviders.sokol: {
-        return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new GnosisHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
 
       default: {

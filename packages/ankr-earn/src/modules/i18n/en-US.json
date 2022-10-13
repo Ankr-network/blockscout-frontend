@@ -1066,11 +1066,6 @@
       "description-3": "Boost Web3 integration and adoption",
       "description-4": "Earn participation in ANKR DAO governance"
     },
-    "usnupported": {
-      "title": "Start staking ANKR",
-      "description": "Please connect your <a href=\"{link}\" target='_blank' rel='norefferer'>Metamask desktop wallet extension</a>. Support for additional connections like TrustWallet will be available soon.",
-      "btn": "Connect"
-    },
     "staking": {
       "more-title": "Stake more ANKR",
       "approve": "Approve",
@@ -1163,6 +1158,11 @@
     }
   },
   "stake-mgno": {
+    "usnupported": {
+      "title": "Start staking mGNO",
+      "description": "OKX Wallet doesn't support Gnosis network. Please connect another wallet.",
+      "btn": "Connect"
+    },
     "total-info": {
       "stake": "Stake mGNO",
       "claim-all": "Claim all",
