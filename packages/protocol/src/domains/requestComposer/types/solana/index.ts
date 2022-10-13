@@ -56,7 +56,7 @@ type MethodResult = {
   [SolanaMethod.getLatestBlockhash]: ReturnType<
     Connection['getLatestBlockhash']
   >;
-  [SolanaMethod.getLeaderSchedule]: ReturnType<Connection['getLeaderSchedule']>;
+  [SolanaMethod.getLeaderSchedule]: Promise<string>;
   [SolanaMethod.getMaxRetransmitSlot]: Promise<void>;
   [SolanaMethod.getMaxShredInsertSlot]: Promise<void>;
   [SolanaMethod.getMinimumBalanceForRentExemption]: ReturnType<

@@ -662,7 +662,20 @@ export const solanaWeb3Config: LibraryConfig = {
     args: [optionalCommitment, optionalMinContextSlot],
   },
   [SolanaMethod.getLeaderSchedule]: {
-    exec: provider => provider.getLeaderSchedule(),
+    exec: async provider => {
+      const result = await window.fetch(provider.rpcEndpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          id: v4(),
+          jsonrpc: '2.0',
+          method: 'getLeaderSchedule',
+        }),
+      });
+
+      const text = await result.text();
+
+      return text;
+    },
     codeSample: (url: string) =>
       getCodeSample({
         url,
