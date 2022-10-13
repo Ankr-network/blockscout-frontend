@@ -1,6 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/provider';
+import { IWeb3SendResult } from 'common';
 
 import { fetchBalance } from '../balance/fetchBalance';
 import {

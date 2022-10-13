@@ -68,7 +68,7 @@ export interface IBackofficeGateway {
 
   getBlockchains(): Promise<IBlockchainEntity[]>;
 
-  getCounters(params: ICountersRequest): Promise<ICountersResponse>;
+  getCounters(params?: ICountersRequest): Promise<ICountersResponse>;
 
   getNodes(blockchain?: string): Promise<INodeEntity[]>;
 

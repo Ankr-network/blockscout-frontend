@@ -14,7 +14,7 @@ export const usePremiumPlanClients =
     const gridStore = useLocalGridStore<PremiumPlanClientEntity>(async () => {
       if (!counters) {
         const countersResponse = await workerApi.getCounters();
-        counters = mapCounters(countersResponse);
+        counters = mapCounters(countersResponse.result);
       }
 
       const clients: PremiumPlanClientEntity[] = makeClients(counters);

@@ -55,15 +55,15 @@ export const useTokensTableStyles = makeStyles(theme => ({
       },
 
       '&:nth-child(2)': {
-        width: '30%',
+        width: '16%',
       },
 
       '&:nth-child(3)': {
-        width: '28%',
+        width: '35%',
       },
 
       '&:nth-child(4)': {
-        width: '20%',
+        width: '26%',
       },
     },
   },
@@ -89,6 +89,14 @@ export const useTokensTableStyles = makeStyles(theme => ({
     },
   },
 
+  colSMHidden: {
+    display: 'none',
+
+    [theme.breakpoints.up('md')]: {
+      display: 'grid',
+    },
+  },
+
   text: {
     textAlign: 'right',
     fontSize: 14,
@@ -104,6 +112,11 @@ export const useTokensTableStyles = makeStyles(theme => ({
     fontSize: 12,
   },
 
+  apyColValue: {
+    textOverflow: 'clip',
+    whiteSpace: 'nowrap',
+  },
+
   label: {
     fontSize: 13,
     fontWeight: 600,
@@ -115,10 +128,6 @@ export const useTokensTableStyles = makeStyles(theme => ({
 
   textField: {
     width: '100%',
-
-    [theme.breakpoints.up('md')]: {
-      width: 130,
-    },
   },
 
   textFieldSkeleton: {
@@ -160,5 +169,10 @@ export const useTokensTableStyles = makeStyles(theme => ({
         transform: 'none',
       },
     },
+  },
+  apy: {
+    fontSize: 12,
+    color: theme.palette.text.secondary,
+    lineHeight: 1,
   },
 }));

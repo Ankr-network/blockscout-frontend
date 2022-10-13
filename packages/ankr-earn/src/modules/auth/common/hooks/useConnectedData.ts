@@ -1,6 +1,6 @@
 import { useQuery } from '@redux-requests/react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders } from 'common';
 
 import { getIsMetaMask } from '../../eth/utils/getIsMetaMask';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';

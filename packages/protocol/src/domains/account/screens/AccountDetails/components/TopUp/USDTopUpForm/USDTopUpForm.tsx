@@ -11,10 +11,16 @@ export const USDTopUpForm = ({
   onSubmit,
   isLoading,
   isDisabled,
+  hasRateBlock,
 }: TopUpFormProps) => {
   const classes = useStyles();
 
-  const renderForm = useRenderForm(classes, isLoading, isDisabled);
+  const renderForm = useRenderForm(
+    classes,
+    isLoading,
+    isDisabled,
+    hasRateBlock,
+  );
 
   const initialValues = useMemo(
     () => ({

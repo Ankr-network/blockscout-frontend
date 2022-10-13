@@ -6,32 +6,10 @@ export const usePricingStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: theme.spacing(19.5),
+    marginBottom: theme.spacing(15.5),
+
     [theme.breakpoints.down('md')]: {
       marginBottom: theme.spacing(7.5),
-    },
-  },
-  contactBlock: {
-    alignSelf: 'center',
-    maxWidth: 375,
-    textAlign: 'center',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: 290,
-    },
-  },
-  contactBlockHeader: {
-    fontSize: 34,
-    [theme.breakpoints.down('md')]: {
-      fontSize: 24,
-    },
-  },
-  contactBlockBtn: {
-    marginTop: theme.spacing(2.5),
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.text.primary,
-    '&:hover': {
-      backgroundColor: `${theme.palette.common.white}`,
-      color: theme.palette.text.primary,
     },
   },
   featureBlock: {
@@ -51,5 +29,11 @@ export const usePricingStyles = makeStyles<Theme>(theme => ({
         flexShrink: 0,
       },
     },
+  },
+  start: {
+    paddingBottom: theme.spacing(6),
+  },
+  background: {
+    background: `linear-gradient(180deg, #F2F5FA 0%, rgba(242, 245, 250, 0) 100%), linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%)`,
   },
 }));

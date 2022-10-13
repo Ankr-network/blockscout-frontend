@@ -21,6 +21,7 @@ import { getRoutes as getStakeMaticCommonRoutes } from 'modules/stake-matic/comm
 import { getRoutes as getStakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { getRoutes as getStakeGnosisRoutes } from 'modules/stake-mgno/Routes';
 import { getRoutes as getStakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
+import { getRoutes as getStakeSSVRoutes } from 'modules/stake-ssv/Routes';
 import { getRoutes as getStakeRoutes } from 'modules/stake/Routes';
 import { getRoutes as getSwapRoutes } from 'modules/swap/Routes';
 import { getRoutes as getSwitcherRoutes } from 'modules/switcher/Routes';
@@ -58,6 +59,8 @@ export function Routes(): JSX.Element {
       {getPolkadotSlotAuctionRoutes()}
 
       {getStakeEthereumRoutes()}
+
+      {featuresConfig.ssvStaking && getStakeSSVRoutes()}
 
       {getStakeAnkrRoutes()}
 

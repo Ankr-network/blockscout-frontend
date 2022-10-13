@@ -2,21 +2,22 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
+import { useThrottledCallback } from 'use-debounce';
 
 import { t } from 'common';
 import { useIsMDUp } from 'ui';
 
 import { DEFAULT_YIELD_DAYS_VALUE } from 'modules/calc/const';
-import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { DAYS_IN_YEAR, DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { RoutesConfig } from 'modules/stake/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
 import { YieldSlider } from '../YieldSlider';
 
+import { YIELD_DAYS_UPDATE_THROTTLE_SPEED } from './const';
 import { useYieldStyles } from './useYieldStyles';
 
-const DAYS_IN_YEAR: Days = 365;
 const DECIMAL_PLACES = 0;
 const STAKE_PATH = RoutesConfig.main.generatePath();
 
@@ -24,19 +25,26 @@ interface IYieldProps {
   apy?: BigNumber;
   isLoading?: boolean;
   totalUsd?: BigNumber;
+  onChange: (days: Days) => void;
 }
 
 export const Yield = ({
   apy = ZERO,
   isLoading = false,
   totalUsd = ZERO,
+  onChange,
 }: IYieldProps): JSX.Element => {
   const classes = useYieldStyles();
   const isMDUp = useIsMDUp();
   const [value, setValue] = useState(DEFAULT_YIELD_DAYS_VALUE);
+  const onValueChange = useThrottledCallback(
+    setValue,
+    YIELD_DAYS_UPDATE_THROTTLE_SPEED,
+  );
 
   const handleChange = (_event: unknown, newValue: number | number[]) => {
-    setValue(newValue as number);
+    onValueChange(newValue as number);
+    onChange(newValue as number);
   };
 
   const dailyYield = totalUsd.dividedBy(DAYS_IN_YEAR);

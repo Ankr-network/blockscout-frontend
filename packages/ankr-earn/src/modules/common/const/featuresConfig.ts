@@ -43,4 +43,8 @@ export const featuresConfig = {
   providerNotification: true,
   newStakingHistoryDialog: isLocal,
   isReferralLinkActive: false,
+  /**
+   * Please remove extra feature flag
+   */
+  ssvStaking: currentEnv !== Env.Production,
 };

@@ -24,7 +24,9 @@ export const TokenWithIcon = ({
 
       <span className={classes.token}>{token}</span>
 
-      <span className={classes.apy}>{t('calc.table.apy', { value: apy })}</span>
+      <span className={classes.apy}>
+        {t('calc.table.apy-label-value', { value: apy })}
+      </span>
     </div>
   );
 };

@@ -6,11 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, EEthereumNetworkId, t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';

@@ -12,7 +12,6 @@ import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from '../types';
 
-import { fetchTxHistory } from './fetchTxHistory';
 import { fetchUnstakeStats } from './fetchUnstakeStats';
 
 interface IRes {
@@ -41,7 +40,6 @@ export const unstake = createSmartAction<
       store.dispatchRequest(fetchUnstakeStats());
 
       if (featuresConfig.isActivePolkadotStaking) {
-        store.dispatchRequest(fetchTxHistory(network));
         store.dispatchRequest(getUnstakeDate());
       }
 

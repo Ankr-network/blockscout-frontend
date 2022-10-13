@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 
-import { EEthereumNetworkId } from '@ankr.com/provider';
+import { EEthereumNetworkId } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 

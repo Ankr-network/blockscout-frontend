@@ -2,50 +2,55 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
+  root: {
+    background:
+      'linear-gradient(180deg, rgba(242, 245, 250, 0) 0%, #F2F5FA 100%), linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%)',
+  },
   centerBlock: {
     display: 'flex',
     flexDirection: 'column',
     flex: '3 0 auto',
     textAlign: 'center',
     paddingTop: theme.spacing(10),
-    maxWidth: 540,
+    maxWidth: 710,
     [theme.breakpoints.down('md')]: {
       margin: theme.spacing(0),
+      maxWidth: 560,
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100%',
-      paddingTop: 0,
+      paddingTop: theme.spacing(7.5),
+
       margin: theme.spacing(0),
     },
   },
-  headerTitle: {
-    fontSize: 45,
+  subTitle: {
+    fontSize: 20,
+    fontWeight: 700,
+    marginBottom: theme.spacing(1),
+
     [theme.breakpoints.down('xs')]: {
-      fontSize: 34,
+      textAlign: 'left',
+      fontSize: 16,
     },
   },
-  headerSubTitle: {
-    color: theme.palette.grey[600],
-    fontSize: 17,
-    marginTop: theme.spacing(1),
-  },
-  headerSubTitle2: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.grey[700],
+  headerTitle: {
+    fontSize: 52,
+
+    [theme.breakpoints.down('md')]: {
+      fontSize: 40,
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 30,
+    },
+
     [theme.breakpoints.down('xs')]: {
-      fontSize: 14,
+      textAlign: 'left',
     },
   },
   mobileHeaderImg: {
     marginBottom: theme.spacing(2.5),
-  },
-  headerLeftImg: {
-    position: 'absolute',
-    width: 267,
-  },
-  headerRightImg: {
-    position: 'absolute',
-    width: 298,
   },
   headerPaper: {
     display: 'flex',

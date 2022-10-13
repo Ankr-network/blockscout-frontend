@@ -4,8 +4,7 @@ import _capitalize from 'lodash/capitalize';
 import { cloneElement, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, t } from 'common';
 
 import { trackClickDefiAggregator } from 'modules/analytics/tracking-actions/trackClickDefiAggregator';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

@@ -1,10 +1,7 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import {
-  AvailableWriteProviders,
-  EPolkadotNetworkId,
-} from '@ankr.com/provider';
+import { AvailableWriteProviders, EPolkadotNetworkId } from 'common';
 import { PolkadotProvider } from 'polkadot';
 
 import { connect } from 'modules/auth/common/actions/connect';

@@ -1,25 +1,35 @@
 import { Button } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/styles';
-import { useCallback, useEffect } from 'react';
+import { createContext, useCallback, useEffect, useMemo } from 'react';
 import { FormRenderProps } from 'react-final-form';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { push } from 'connected-react-router';
+import { useDispatch } from 'react-redux';
 import { MessageEventData } from '@ankr.com/provider';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { NavLink, useIsSMDown } from 'ui';
 import { AmountField } from './AmountField';
-import { AmountInputField, TopUpFormValues } from './TopUpFormTypes';
+import {
+  AmountInputField,
+  ITopUpFormContext,
+  TopUpFormValues,
+} from './TopUpFormTypes';
 import { getLastLockedFundsEvent } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { ANKR_CURRENCY } from '../../const';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { RateBlock } from './RateBlock';
 
-export const useRenderDisabledForm = (classes: ClassNameMap) => {
+export const useRenderDisabledForm = (
+  classes: ClassNameMap,
+  hasRateBlock?: boolean,
+) => {
   const isMobile = useIsSMDown();
 
   return useCallback(
@@ -31,7 +41,9 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
             isDisabled
             currency={ANKR_CURRENCY}
           />
-          <RateBlock value={values[AmountInputField.amount]} />
+          {hasRateBlock && (
+            <RateBlock value={values[AmountInputField.amount]} />
+          )}
           <NavLink
             color="primary"
             variant="contained"
@@ -48,13 +60,18 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
         </form>
       );
     },
-    [classes.button, classes.form, isMobile],
+    [classes.button, classes.form, isMobile, hasRateBlock],
   );
 };
 
 const MAX_DECIMALS = 1;
 
-export const useRenderForm = (classes: ClassNameMap) => {
+export const useRenderForm = (
+  classes: ClassNameMap,
+  validateAmount?: any,
+  hasRateBlock?: boolean,
+  balance?: BigNumber,
+) => {
   return useCallback(
     ({
       handleSubmit,
@@ -62,6 +79,8 @@ export const useRenderForm = (classes: ClassNameMap) => {
       form: { change },
       values,
     }: FormRenderProps<TopUpFormValues>) => {
+      change('balance', balance);
+
       return (
         <form
           autoComplete="off"
@@ -73,8 +92,11 @@ export const useRenderForm = (classes: ClassNameMap) => {
             change={change}
             maxDecimals={MAX_DECIMALS}
             currency={ANKR_CURRENCY}
+            validate={validateAmount}
           />
-          <RateBlock value={values[AmountInputField.amount]} />
+          {hasRateBlock && (
+            <RateBlock value={values[AmountInputField.amount]} />
+          )}
           <Button
             color="primary"
             fullWidth
@@ -87,7 +109,7 @@ export const useRenderForm = (classes: ClassNameMap) => {
         </form>
       );
     },
-    [classes.button, classes.form],
+    [classes.button, classes.form, validateAmount, hasRateBlock, balance],
   );
 };
 
@@ -103,9 +125,9 @@ export const useCheckLoginStep = () => {
 
   const dispatchRequest = useDispatchRequest();
 
-  const handleCheckLockedFunds = useCallback(() => {
+  useOnMount(() => {
     dispatchRequest(getLastLockedFundsEvent());
-  }, [dispatchRequest]);
+  });
 
   const hasLoginStep = Boolean(lastLockedFundsEvent) && !credentials;
 
@@ -129,7 +151,6 @@ export const useCheckLoginStep = () => {
   }, [hasLoginStep, lastLockedFundsEvent, handleSetAmount]);
 
   return {
-    handleCheckLockedFunds,
     hasLoginStep,
     loading,
   };
@@ -149,3 +170,54 @@ export const useCheckBrokenTransaction = () => {
     handleResetTopUpTransaction();
   }
 };
+
+export const useInitialValues = (
+  hasLoginStep = false,
+  defaultInitialValues = {},
+) => {
+  const transaction = useSelectTopUpTransaction();
+
+  const isTopUpInProcess = Boolean(
+    transaction?.allowanceTransactionHash ||
+      transaction?.topUpTransactionHash ||
+      hasLoginStep,
+  );
+
+  const initialValues = useMemo(
+    () =>
+      isTopUpInProcess
+        ? {
+            [AmountInputField.amount]: new BigNumber(
+              transaction?.amount ?? 0,
+            ).toString(10),
+          }
+        : defaultInitialValues,
+    [transaction?.amount, isTopUpInProcess, defaultInitialValues],
+  );
+
+  return { transaction, isTopUpInProcess, initialValues };
+};
+
+export const useOnTopUpSubmit = () => {
+  const dispatch = useDispatch();
+  const { handleSetAmount } = useTopUp();
+
+  const onSubmit = useCallback(
+    (data: TopUpFormValues) => {
+      handleSetAmount(new BigNumber(data.amount));
+      dispatch(push(AccountRoutesConfig.topUp.generatePath()));
+    },
+    [dispatch, handleSetAmount],
+  );
+
+  return onSubmit;
+};
+
+export const DEFAULT_CONTEXT_VALUES: ITopUpFormContext = {
+  initialValues: { amount: '' },
+  hasRateBlock: true,
+};
+
+export const TopUpFormContext = createContext<ITopUpFormContext>(
+  DEFAULT_CONTEXT_VALUES,
+);

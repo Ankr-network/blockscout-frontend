@@ -5,7 +5,8 @@
   "scripts": {
     "clean": "lerna clean && rm -rf node_modules",
     "prepare": "husky install",
-    "release": "lerna version --yes --conventional-commits --message \"chore(release): %s\""
+    "release": "lerna version --yes --conventional-commits --message \"chore(release): %s\"",
+    "build": "turbo run build"
   },
   "workspaces": {
     "packages": [
@@ -17,7 +18,7 @@
     "@commitlint/config-conventional": "^16.0.0",
     "eslint-plugin-import": "^2.25.3",
     "husky": "^7.0.4",
-    "lerna": "^4.0.0"
+    "turbo": "^1.5.5"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"

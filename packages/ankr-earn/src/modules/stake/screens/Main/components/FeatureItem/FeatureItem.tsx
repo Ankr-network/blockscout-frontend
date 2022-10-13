@@ -17,6 +17,7 @@ interface IFeatureItemProps {
   mainHref?: string;
   moreHref?: string;
   manageHref?: string;
+  iconRootClass?: string;
   iconSlot: JSX.Element;
   token: Token;
   isApyLoading?: boolean;
@@ -34,6 +35,7 @@ export const FeatureItem = ({
   mainHref = '',
   moreHref,
   manageHref,
+  iconRootClass,
   iconSlot,
   token,
   isApyLoading = false,
@@ -105,6 +107,7 @@ export const FeatureItem = ({
           )}
         </Grid>
       }
+      iconRootClass={iconRootClass}
       iconSlot={iconSlot}
       statsSlot={
         <Grid container spacing={3}>

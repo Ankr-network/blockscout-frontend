@@ -19,7 +19,7 @@ export const redirectIfWalletConnectFailed = createSmartAction<RequestAction>(
       ) => {
         return {
           promise: (async (): Promise<any> => {
-            const link = PricingRoutesConfig.pricing.generagePath();
+            const link = PricingRoutesConfig.pricing.generatePath();
 
             if (historyInstance.location.pathname.includes(PATH_ACCOUNT)) {
               store.dispatch(push(link));

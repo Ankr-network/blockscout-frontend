@@ -2,8 +2,7 @@ import { Box } from '@material-ui/core';
 import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, t } from 'common';
 
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';

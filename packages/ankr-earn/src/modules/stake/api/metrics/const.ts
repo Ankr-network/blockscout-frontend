@@ -10,6 +10,7 @@ export enum EMetricsServiceName {
   ANKR = 'ankr',
 
   // DEV mode only
+  SSV = 'ssv',
   WND = 'wnd',
 }
 

@@ -13,10 +13,10 @@ export function useAuth() {
   const dispatchRequest = useDispatchRequest();
 
   const handleConnect = useCallback(
-    (_, isAutoConnect?: boolean) => {
+    async (_, isAutoConnect?: boolean) => {
       const isManualConnected = !isAutoConnect;
 
-      dispatchRequest(connect(isManualConnected));
+      await dispatchRequest(connect(isManualConnected));
     },
     [dispatchRequest],
   );

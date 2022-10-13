@@ -6,7 +6,7 @@ import json from '@rollup/plugin-json';
 import svg from 'rollup-plugin-svg';
 
 export default {
-  input: './index.ts',
+  input: './src/index.ts',
   output: [
     {
       file: 'build/index.js',
@@ -16,9 +16,7 @@ export default {
   ],
   context: 'window',
   plugins: [
-    external({
-      exclude: ['common', 'ui', 'polkadot'],
-    }),
+    external(),
     resolve({
       extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
       preferBuiltins: false,
