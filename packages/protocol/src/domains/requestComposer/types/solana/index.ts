@@ -32,7 +32,7 @@ type MethodResult = {
   [SolanaMethod.getBlocks]: Promise<string>;
   [SolanaMethod.getBlocksWithLimit]: Promise<void>;
   [SolanaMethod.getBlockTime]: ReturnType<Connection['getBlockTime']>;
-  [SolanaMethod.getClusterNodes]: ReturnType<Connection['getClusterNodes']>;
+  [SolanaMethod.getClusterNodes]: Promise<string>;
   [SolanaMethod.getEpochInfo]: ReturnType<Connection['getEpochInfo']>;
   [SolanaMethod.getEpochSchedule]: ReturnType<Connection['getEpochSchedule']>;
   [SolanaMethod.getFeeForMessage]: ReturnType<Connection['getFeeForMessage']>;

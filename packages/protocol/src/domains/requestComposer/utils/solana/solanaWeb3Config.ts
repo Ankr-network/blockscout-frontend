@@ -375,7 +375,20 @@ export const solanaWeb3Config: LibraryConfig = {
     ],
   },
   [SolanaMethod.getClusterNodes]: {
-    exec: provider => provider.getClusterNodes(),
+    exec: async provider => {
+      const result = await window.fetch(provider.rpcEndpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          id: v4(),
+          jsonrpc: '2.0',
+          method: 'getClusterNodes',
+        }),
+      });
+
+      const text = await result.text();
+
+      return text;
+    },
     codeSample: (url: string) =>
       getCodeSample({
         url,
