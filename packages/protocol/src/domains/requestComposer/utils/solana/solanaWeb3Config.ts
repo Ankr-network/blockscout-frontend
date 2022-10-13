@@ -286,17 +286,31 @@ export const solanaWeb3Config: LibraryConfig = {
     ],
   },
   [SolanaMethod.getBlocks]: {
-    exec: (
+    exec: async (
       provider,
       startSlot: string,
       endSlot?: string,
       commitment?: string,
     ) => {
-      const parsedStartSlot = Number(startSlot);
-      const parsedEndSlot = endSlot ? Number(endSlot) : undefined;
-      const finality = commitment as Finality;
+      const DEFAULT_END_SLOT = 500_000;
 
-      return provider.getBlocks(parsedStartSlot, parsedEndSlot, finality);
+      const parsedStartSlot = Number(startSlot);
+      const parsedEndSlot = endSlot ? Number(endSlot) : DEFAULT_END_SLOT;
+      const config = commitment ? { commitment } : undefined;
+
+      const result = await window.fetch(provider.rpcEndpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          id: v4(),
+          jsonrpc: '2.0',
+          method: 'getBlocks',
+          params: [parsedStartSlot, parsedEndSlot, config].filter(Boolean),
+        }),
+      });
+
+      const text = await result.text();
+
+      return text;
     },
     codeSample: (
       url: string,

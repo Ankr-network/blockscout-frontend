@@ -29,7 +29,7 @@ type MethodResult = {
   [SolanaMethod.getBlockProduction]: ReturnType<
     Connection['getBlockProduction']
   >;
-  [SolanaMethod.getBlocks]: ReturnType<Connection['getBlocks']>;
+  [SolanaMethod.getBlocks]: Promise<string>;
   [SolanaMethod.getBlocksWithLimit]: Promise<void>;
   [SolanaMethod.getBlockTime]: ReturnType<Connection['getBlockTime']>;
   [SolanaMethod.getClusterNodes]: ReturnType<Connection['getClusterNodes']>;
