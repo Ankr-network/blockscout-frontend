@@ -1,13 +1,12 @@
 import { Paper, Typography } from '@material-ui/core';
-import React from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 import { t, tHTML } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
+import ankrBigLogo from 'modules/stake-ankr/assets/ankr-logo-big.jpg';
 import { Button } from 'uiKit/Button';
-import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
 
 import { useUnsupportedBannerStyles } from './useUnsupportedBannerStyles';
 
@@ -25,16 +24,14 @@ export const UnsupportedBanner = (): JSX.Element => {
 
   return (
     <Paper className={classes.paper}>
-      {React.cloneElement(<MGNOIcon />, {
-        className: classes.icon,
-      })}
+      <img alt="" className={classes.bigLogo} src={ankrBigLogo} />
 
       <Typography className={classes.title} variant="h3">
-        {t('stake-mgno.usnupported.title')}
+        {t('stake-ankr.usnupported.title')}
       </Typography>
 
       <Typography className={classes.desc}>
-        {tHTML('stake-mgno.usnupported.description', {
+        {tHTML('stake-ankr.usnupported.description', {
           link: INSTALL_METAMASK_URL,
         })}
       </Typography>
@@ -44,7 +41,7 @@ export const UnsupportedBanner = (): JSX.Element => {
         variant="contained"
         onClick={handleBtnClick}
       >
-        {t('stake-mgno.usnupported.btn')}
+        {t('stake-ankr.usnupported.btn')}
       </Button>
     </Paper>
   );

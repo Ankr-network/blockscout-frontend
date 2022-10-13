@@ -42,7 +42,6 @@ export const disconnect = createAction<
           isActive: false,
           address: undefined,
           walletId: undefined,
-          wallet: undefined,
         }),
       );
 

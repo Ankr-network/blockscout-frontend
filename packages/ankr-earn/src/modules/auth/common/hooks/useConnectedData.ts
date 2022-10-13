@@ -2,7 +2,7 @@ import { useQuery } from '@redux-requests/react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { getIsInjectedWallet, getIsOKX } from '../../eth/utils/walletTypeUtils';
+import { getIsMetaMask } from '../../eth/utils/getIsMetaMask';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
 import { connect, IConnect } from '../actions/connect';
 import { TChainId } from '../types';
@@ -16,8 +16,7 @@ export interface IUseConnectedData {
   walletName?: string;
   walletIcon?: string;
   error: unknown;
-  isInjected: boolean;
-  isOKX: boolean;
+  isMetaMask: boolean;
   isPolkadot: boolean;
 }
 
@@ -39,8 +38,7 @@ export const useConnectedData = (
     chainId: data?.chainId,
     walletName,
     walletIcon: data?.walletIcon,
-    isInjected: walletName ? getIsInjectedWallet(walletName) : false,
-    isOKX: walletName ? getIsOKX(walletName) : false,
+    isMetaMask: walletName ? getIsMetaMask(walletName) : false,
     isPolkadot: walletName ? getIsPolkadot(walletName) : false,
   };
 };

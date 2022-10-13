@@ -23,11 +23,6 @@ export const useUnsupportedBannerStyles = makeStyles(theme => ({
     width: 180,
   },
 
-  icon: {
-    fontSize: 200,
-    marginBottom: theme.spacing(2),
-  },
-
   desc: {
     fontSize: 16,
     fontWeight: 400,

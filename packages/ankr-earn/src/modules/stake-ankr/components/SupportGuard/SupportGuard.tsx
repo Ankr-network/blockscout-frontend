@@ -4,7 +4,8 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Section } from 'modules/delegate-stake/components/Section';
-import { UnsupportedBanner } from 'modules/stake-mgno/components/UnsupportedBanner';
+
+import { UnsupportedBanner } from '../UnsupportedBanner';
 
 interface ISupportGuardProps {
   children: ReactNode;
@@ -15,9 +16,9 @@ interface ISupportGuardProps {
  * Temporary solution for MVP of ankr token staking.
  */
 export const SupportGuard = ({ children }: ISupportGuardProps): JSX.Element => {
-  const { isOKX } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { isMetaMask } = useAuth(AvailableWriteProviders.ethCompatible);
 
-  if (isOKX) {
+  if (!isMetaMask) {
     return (
       <Section>
         <UnsupportedBanner />
