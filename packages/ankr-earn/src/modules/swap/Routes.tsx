@@ -1,7 +1,7 @@
 import { generatePath } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders } from 'common';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { BSC_NETWORK_BY_ENV, STAKING_PATH } from 'modules/common/const';

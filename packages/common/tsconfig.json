@@ -6,7 +6,7 @@
     "module": "commonjs",
     "sourceMap": true,
     "declaration": true,
-    "declarationDir": "dist/types",
+    "declarationDir": "dist",
     "strict": true,
     "outDir": "dist",
     "rootDir": "src",
@@ -16,6 +16,7 @@
     "resolveJsonModule": true,
     "jsx": "react"
   },
-  "include": ["src/**/*"],
+  "include": ["src/index.ts"],
+  "exclude": ["**/*.test.ts"],
   "resolveJsonModule": true
 }

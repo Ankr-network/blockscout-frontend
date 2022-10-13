@@ -1,7 +1,7 @@
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
-} from '@ankr.com/provider';
+} from 'common';
 
 import { isMainnet } from '../common';
 

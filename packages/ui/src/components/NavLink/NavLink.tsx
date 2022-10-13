@@ -87,7 +87,7 @@ export const NavLink = React.forwardRef(
           target="_blank"
           variant={variant}
           onClick={onClick}
-          {...(props as unknown)}
+          {...(props as any)}
         />
       );
     }
@@ -101,7 +101,7 @@ export const NavLink = React.forwardRef(
         to={href}
         variant={variant}
         onClick={onClick}
-        {...(props as unknown)}
+        {...(props as any)}
       />
     );
   },

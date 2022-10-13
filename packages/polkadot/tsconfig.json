@@ -1,4 +1,24 @@
 {
-  "extends": "@ankr.com/infra/tsconfig.common.json",
-  "include": ["./typings/*.d.ts", "index.ts",  "./**/*.ts", "./**/*.tsx"]
+  "compilerOptions": {
+    "rootDirs": ["."],
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "downlevelIteration": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx"
+  },
+  "include": ["index.ts", "src", "src/types.d.ts"],
+  "exclude": ["node_modules", "out", "**/*.stories.tsx", "**/*.stories.js"],
+  "references": []
 }

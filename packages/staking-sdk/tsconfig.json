@@ -1,4 +1,4 @@
 {
   "extends": "@ankr.com/infra/tsconfig.common.json",
-  "include": ["./typings/*.d.ts", "index.ts",  "./**/*.ts", "./**/*.tsx"]
+  "include": ["./src/*.d.ts", "./src/index.ts",  "./src/**/*.ts", "./src/**/*.tsx"]
 }

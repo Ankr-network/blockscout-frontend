@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
-import { Address, Web3KeyReadProvider } from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider';
 
 import { currentEnv, ETH_SCALE_FACTOR, ZERO } from '../../common';
 import { IStakeData } from '../../stake';
@@ -15,6 +15,7 @@ import { getIncreasedGasLimit } from './getIncreasedGasLimit';
 import { getMinStakeAmount } from './getMinStakeAmount';
 import { getStakeGasFee } from './getStakeGasFee';
 import { isValidAmount } from './utils';
+import { Web3KeyReadProvider } from 'common';
 
 interface IStakeProps extends ICommonProps<Web3KeyReadProvider> {
   address: Address;

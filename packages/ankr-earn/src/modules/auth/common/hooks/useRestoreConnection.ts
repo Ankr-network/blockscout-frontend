@@ -2,8 +2,7 @@ import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, t } from 'common';
 
 import { showNotification } from 'modules/notifications';
 import { useAppSelector } from 'store/useAppSelector';

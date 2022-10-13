@@ -1,6 +1,6 @@
-import { isMainnet } from '@ankr.com/staking-sdk/src/modules/common';
 import { Typography } from '@material-ui/core';
 
+import { isMainnet } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
 import {

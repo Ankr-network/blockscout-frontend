@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
-import { Web3KeyWriteProvider } from '@ankr.com/provider';
 import { ABI_ERC20, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { Web3KeyWriteProvider } from 'common';
 
 import { SupportedChainIDS } from 'modules/common/const';
 
@@ -139,7 +139,7 @@ export class BridgeSDK {
   public async notarize(
     transactionHash: string,
     chainId: SupportedChainIDS,
-  ): Promise<AxiosResponse<IBridgeNotarizeResponse, unknown>> {
+  ): Promise<AxiosResponse<IBridgeNotarizeResponse>> {
     return this.api.post<IBridgeNotarizeResponse>(
       '/v1alpha/bridge/v2/notarize',
       {

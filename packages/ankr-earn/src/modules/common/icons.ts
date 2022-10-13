@@ -1,6 +1,6 @@
 import { ForwardRefExoticComponent, MemoExoticComponent } from 'react';
 
-import { EEthereumNetworkId } from '@ankr.com/provider';
+import { EEthereumNetworkId } from 'common';
 
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';

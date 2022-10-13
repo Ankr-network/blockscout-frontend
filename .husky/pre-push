@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-node_modules/.bin/lerna run types --since HEAD~1
-CI=true node_modules/.bin/lerna run test:coverage  --since HEAD~1
+node_modules/.bin/turbo run types --since HEAD~1
+CI=true node_modules/.bin/turbo run test:coverage  --since HEAD~1

@@ -5,12 +5,11 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
-  Address,
   EEthereumNetworkId,
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+} from 'common';
 
 import {
   configFromEnv,
@@ -43,6 +42,7 @@ import {
   IMaticSDKProviders,
   TMaticSyntToken,
 } from '../types';
+import { Address } from '@ankr.com/provider';
 
 const { polygonConfig } = configFromEnv();
 

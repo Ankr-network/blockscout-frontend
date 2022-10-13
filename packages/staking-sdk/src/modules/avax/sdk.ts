@@ -10,7 +10,7 @@ import {
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+} from 'common';
 
 import { getPastEvents } from '../api';
 import {

@@ -12,3 +12,5 @@ export * from './polygon';
 export * from './stake';
 export * from './switcher';
 export * from './utils';
+export * from './contracts';
+export * from './common';

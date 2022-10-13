@@ -1,5 +1,4 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
-import { t } from 'common';
+import { EEthereumNetworkId, t } from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import {

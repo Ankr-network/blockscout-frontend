@@ -8,7 +8,7 @@ import {
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+} from 'common';
 
 import { ApiGateway, getPastEvents } from '../api';
 import {

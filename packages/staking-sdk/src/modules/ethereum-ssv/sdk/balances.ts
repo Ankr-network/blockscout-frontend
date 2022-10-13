@@ -1,12 +1,13 @@
 import BigNumber from 'bignumber.js';
 
-import { Address, Web3KeyReadProvider } from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider';
 
 import { currentEnv } from '../../common';
 import { ICommonProps, IETHBalanceProps } from '../types';
 
 import { getASETHCTokenContract } from './contracts';
 import { getReadableAmountFromWei } from './utils';
+import { Web3KeyReadProvider } from 'common';
 
 interface IBalanceProps extends ICommonProps<Web3KeyReadProvider> {
   address: Address;

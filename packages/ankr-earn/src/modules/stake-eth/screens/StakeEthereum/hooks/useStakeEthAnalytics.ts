@@ -2,8 +2,8 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
 import { EthereumSDK } from '@ankr.com/staking-sdk';
+import { AvailableWriteProviders } from 'common';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

@@ -1,17 +1,22 @@
 {
   "name": "@ankr.com/staking-sdk",
   "version": "1.1.0",
+  "main": "./build/index.js",
+  "types": "./src/index.ts",
   "files": [
     "build"
   ],
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "yarn clean && tsc --declaration --emitDeclarationOnly --outDir build && rollup -c && copyfiles -u 1 output/**/* build",
+    "build": "yarn clean && rollup -c && copyfiles -u 1 output/**/* build",
+    "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/staking-sdk...",
     "prepack": "node prepack.js",
     "clean": "rimraf build output",
     "test": "jest --passWithNoTests",
+    "test:turbo": "cd ../.. && turbo run test --parallel --filter=@ankr.com/staking-sdk...",
     "test:coverage": "yarn test --coverage",
+    "test:coverage:turbo": "cd ../.. && turbo run test:coverage --parallel --filter=@ankr.com/staking-sdk...",
     "format": "lint-staged",
     "types": "tsc --noEmit -p tsconfig.json",
     "lint:js": "cross-env NODE_ENV=production eslint src --ext=ts,tsx,js,jsx",
@@ -37,7 +42,8 @@
     ]
   },
   "dependencies": {
-    "@ankr.com/provider": "^1.5.21",
+    "@ankr.com/provider": "*",
+    "common": "*",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "lodash": "^4.17.21",

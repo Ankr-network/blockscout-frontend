@@ -3,13 +3,9 @@ import BigNumber from 'bignumber.js';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
-import {
-  Address,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { t } from 'common';
+import { Web3KeyReadProvider, Web3KeyWriteProvider, t } from 'common';
 import {
   ApiGateway,
   EActionStatuses,

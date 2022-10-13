@@ -1,8 +1,7 @@
-import { ETH_BLOCK_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk/src/modules/ethereum/const';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { EthereumSDK } from '@ankr.com/staking-sdk';
+import { ETH_BLOCK_2_WEEKS_OFFSET, EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';

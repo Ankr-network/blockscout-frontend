@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders } from 'common';
 
 import { trackDelegatedStaking } from 'modules/analytics/tracking-actions/trackDelegatedStaking';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
