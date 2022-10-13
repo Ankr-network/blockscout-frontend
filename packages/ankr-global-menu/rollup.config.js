@@ -17,9 +17,7 @@ export default {
   ],
   context: 'window',
   plugins: [
-    external({
-      exclude: ['common', 'ui'],
-    }),
+    external(),
     resolve({
       extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
       module: true,
@@ -38,7 +36,7 @@ export default {
     json(),
     svg(),
     copy({
-      assets: ['src/assets/fonts'],
+      assets: ['src/assets'],
     }),
   ],
 };

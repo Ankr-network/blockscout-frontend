@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { Section } from 'modules/delegate-stake/components/Section';

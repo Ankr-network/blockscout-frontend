@@ -1,7 +1,6 @@
 import { Paper, Typography } from '@material-ui/core';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { t, tHTML } from 'common';
+import { AvailableWriteProviders, t, tHTML } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';

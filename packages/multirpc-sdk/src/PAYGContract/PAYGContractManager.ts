@@ -9,7 +9,7 @@ import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { IPAYGContractManager } from './interfaces';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo, IPayAsYouGoEvents } from './abi/IPayAsYouGo';
-import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
+import { Web3KeyWriteProvider, IWeb3SendResult } from 'common';
 
 const GAS_LIMIT = '200000';
 

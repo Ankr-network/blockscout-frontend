@@ -1,4 +1,4 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
+import { EEthereumNetworkId } from 'common';
 
 export enum SupportedChainIDS {
   MAINNET = EEthereumNetworkId.mainnet,

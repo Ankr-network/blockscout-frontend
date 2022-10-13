@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-node_modules/.bin/lerna run format --since HEAD
+node_modules/.bin/turbo run format --concurrency=1 --since HEAD

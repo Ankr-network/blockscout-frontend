@@ -65,5 +65,12 @@ export const METRICS_MOCK: IMetricsResponse = {
       apy: '9.5800886',
       totalStakedUsd: '11664985.28',
     },
+    {
+      serviceName: 'ssv',
+      totalStaked: '25175951.45623',
+      stakers: '200',
+      apy: '7.280886',
+      totalStakedUsd: '74985.38',
+    },
   ],
 };

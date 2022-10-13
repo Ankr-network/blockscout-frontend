@@ -5,10 +5,9 @@ import { TransactionReceipt } from 'web3-core';
 import {
   EEthereumNetworkId,
   ITokenInfo,
-  ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+} from 'common';
 
 import { POLYGON_NETWORK_BY_ENV, ZERO } from '../../../common';
 import { IPendingData, IStakeData, ITxEventsHistoryData } from '../../../stake';
@@ -16,6 +15,7 @@ import { IFetchTxData } from '../../../switcher';
 import { MATIC_DECIMALS, MATIC_SCALE_FACTOR } from '../../const';
 import { EMaticSDKErrorCodes, TMaticSyntToken } from '../../types';
 import { PolygonOnPolygonSDK } from '../polygonSDK';
+import { ProviderManager } from '@ankr.com/provider';
 
 jest.mock('@ankr.com/provider', () => ({
   ...jest.requireActual('@ankr.com/provider'),

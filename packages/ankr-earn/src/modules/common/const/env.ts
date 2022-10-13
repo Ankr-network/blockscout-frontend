@@ -1,4 +1,4 @@
-import { AvailableReadProviders } from '@ankr.com/provider';
+import { AvailableReadProviders } from 'common';
 
 import { EEthereumNetworkId, Env } from '../types';
 

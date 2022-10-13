@@ -25,6 +25,8 @@ export const Main = (): JSX.Element => {
     visibilityState,
     valuesState,
     setTokenVisibility,
+    yieldDays,
+    setYieldDays,
   } = useMain();
 
   const { renderedAddButtons, renderedTokens } = dataByToken.reduce(
@@ -39,6 +41,7 @@ export const Main = (): JSX.Element => {
           <TokensItem
             key={token}
             apy={apy}
+            days={yieldDays}
             iconSlot={tokens[token].icon}
             staked={staked}
             token={tokens[token].name}
@@ -98,6 +101,7 @@ export const Main = (): JSX.Element => {
           apy={avarageApy}
           isLoading={isLoading}
           totalUsd={totalYearlyYieldUsd}
+          onChange={setYieldDays}
         />
       </Box>
     </Section>

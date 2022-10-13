@@ -10,7 +10,7 @@ import {
   BTN_TRANSITION_TIME,
   NOTIFICATION_AUTO_HIDE_DURATION,
   TEN_SECONDS,
-} from '../../../const';
+} from '../../const';
 import { CheckboxCheckedIcon, CheckboxIcon } from '../../components/Checkbox';
 import { StepIcon } from '../../components/StepIcon';
 import { Themes } from './types';
@@ -525,6 +525,7 @@ export const mainTheme = createTheme({
 
         '&:hover': {
           background: defaultTheme.palette.background.default,
+          color: defaultTheme.palette.primary.main,
 
           '&:before': {
             transform: 'translateY(0)',

@@ -96,6 +96,10 @@ export const useStakeForm = (): IUseStakeForm => {
   const debouncedOnChange = useDebouncedCallback(
     handleFormChange,
     INPUT_DEBOUNCE_TIME,
+    {
+      leading: true,
+      trailing: true,
+    },
   );
 
   return {

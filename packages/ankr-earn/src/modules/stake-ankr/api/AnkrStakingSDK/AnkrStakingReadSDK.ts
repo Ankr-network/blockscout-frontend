@@ -5,14 +5,19 @@ import { Memoize } from 'typescript-memoize';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 
+import { Address } from '@ankr.com/provider';
 import {
-  Address,
+  ANKR_ABI,
+  getPastEvents,
+  IS_ADVANCED_API_ACTIVE,
+  ProviderManagerSingleton,
+} from '@ankr.com/staking-sdk';
+import {
   EEthereumNetworkId,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider';
-import { ANKR_ABI, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+} from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
@@ -160,13 +165,55 @@ export class AnkrStakingReadSDK {
   }
 
   /**
+   * An internal function for getting past events from the API or blockchain
+   * according to the current environment.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
+    return IS_ADVANCED_API_ACTIVE
+      ? this.getPastEventsAPI(options)
+      : this.getPastEventsBlockchain(options);
+  }
+
+  /**
+   * Internal function to get past events from indexed logs API.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEventsAPI({
+    contract,
+    eventName,
+    startBlock,
+    latestBlockNumber,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return getPastEvents({
+      fromBlock: startBlock,
+      toBlock: latestBlockNumber,
+      blockchain: 'eth',
+      contract,
+      web3,
+      eventName,
+      filter,
+    });
+  }
+
+  /**
    * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
-  protected async getPastEvents({
+  protected async getPastEventsBlockchain({
     contract,
     eventName,
     startBlock,

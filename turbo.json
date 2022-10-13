@@ -1,0 +1,84 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "outputs": ["build/**", "dist/**"],
+      "inputs": ["src/**"]
+    },
+    "build:stage": {
+      "cache": true,
+      "dependsOn": ["build", "^build:stage"],
+      "outputs": ["build/**", "dist/**"],
+      "inputs": ["src/**"]
+    },
+    "build:local": {
+      "cache": true,
+      "dependsOn": ["build", "^build:local"],
+      "outputs": ["build/**", "dist/**"],
+      "inputs": ["src/**"]
+    },
+    "build:prod": {
+      "cache": true,
+      "dependsOn": ["build", "^build:prod"],
+      "outputs": ["build/**", "dist/**"],
+      "inputs": ["src/**"]
+    },
+    "build:dev": {
+      "cache": true,
+      "dependsOn": ["build", "^build:dev"],
+      "outputs": ["build/**", "dist/**"],
+      "inputs": ["src/**"]
+    },
+    "test": {
+      "dependsOn": [
+        "build",
+        "build:stage"
+      ],
+      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
+    },
+    "test:coverage": {
+      "dependsOn": [
+        "build",
+        "build:stage"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
+    },
+    "lint:js": {
+      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
+    },
+    "lint:js:fix": {
+      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
+      "outputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
+    },
+    "start:local": {
+      "cache": false,
+      "dependsOn": ["build", "build:local"]
+    },
+    "start:dev": {
+      "cache": false,
+      "dependsOn": ["build", "build:dev"]
+    },
+    "start:stage": {
+      "cache": false,
+      "dependsOn": ["build", "build:stage"]
+    },
+    "start:prod": {
+      "cache": false,
+      "dependsOn": ["build", "build:prod"]
+    },
+    "format": {
+      "cache": true,
+      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
+      "outputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
+    },
+    "types": {
+      "cache": true,
+      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
+    }
+  }
+}
