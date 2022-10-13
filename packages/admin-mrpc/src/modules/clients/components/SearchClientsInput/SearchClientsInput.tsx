@@ -1,11 +1,11 @@
-import { Button, Input, Tooltip } from '@material-ui/core';
+import { Button, Input, Tooltip } from '@mui/material';
 import { useSearchClientsInput } from './useSearchClientsInput';
 import { useSearchInputStyles } from './useSearchInputStyles';
 
 export const SearchClientsInput = () => {
   const { isLoading, searchValue, foundClients, onClientClick, onChange } =
     useSearchClientsInput();
-  const classes = useSearchInputStyles();
+  const { classes } = useSearchInputStyles();
 
   return (
     <div className={classes.root}>

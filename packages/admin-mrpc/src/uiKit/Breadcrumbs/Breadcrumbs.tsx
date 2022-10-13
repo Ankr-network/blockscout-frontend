@@ -4,9 +4,8 @@ import {
   Typography,
   capitalize,
   useMediaQuery,
-} from '@material-ui/core';
+} from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
 
 import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
@@ -24,7 +23,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   const shouldShowMobileBreadcrumbs =
     isMobile || (isLessThanMaxWidth && items.length > 2);
 
-  const classes = useStyles({ shouldShowMobileBreadcrumbs });
+  const { classes, cx } = useStyles();
 
   if (isBreadcrumbsHidden) {
     return null;
@@ -54,7 +53,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
               color="inherit"
               to={link || ''}
               onClick={onClick}
-              className={classNames(classes.link, 'custom-link')}
+              className={cx(classes.link, 'custom-link')}
               key={title}
             >
               {shouldShowMobileBreadcrumbs ? '/' : capitalize(title)}

@@ -94,7 +94,7 @@ export const {
                   cursor: +cursor,
                 });
               cursor = balances.cursor;
-
+              // TODO: Current API Credit Balance	= Credit Ankr Amount + Credit Voucher Amount
               balancesCollection = [
                 ...balancesCollection,
                 ...(balances.balances || []),
@@ -117,6 +117,7 @@ export const {
           );
           return {
             ...c,
+            ttl: c.ttl && c.ttl > 0 ? c.ttl : undefined,
             clientType: getClientType(c.ttl, c.hash, c.address),
             email: emailsCollection?.find(
               i => i.address?.toLowerCase() === c.address?.toLowerCase(),
