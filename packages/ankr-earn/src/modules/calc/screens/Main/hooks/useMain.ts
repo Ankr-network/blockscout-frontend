@@ -10,6 +10,7 @@ import { TCalcToken } from 'modules/calc/types';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 
+import { Days } from '../../../../common/types';
 import { SUPPORTED_TOKENS } from '../../../const';
 
 import { useMetrics } from './useMetrics';
@@ -19,6 +20,7 @@ import {
   TVisibilityState,
   useTokensVisibility,
 } from './useTokensVisibility';
+import { useYieldDays } from './useYieldDays';
 
 const balanceRequests = SUPPORTED_TOKENS.map(token => ({
   requestType: getBalance.toString(),
@@ -43,6 +45,8 @@ interface IUseMain {
   visibilityState: TVisibilityState;
   valuesState: TFormValues;
   setTokenVisibility: IUseTokensVisibility['setTokenVisibility'];
+  yieldDays: Days;
+  setYieldDays: (days: Days) => void;
 }
 
 export const useMain = (): IUseMain => {
@@ -62,6 +66,8 @@ export const useMain = (): IUseMain => {
     updateState: updateVisibilityState,
     setDefaultVisibilityState,
   } = useTokensVisibility();
+
+  const { yieldDays, setYieldDays } = useYieldDays();
 
   const { isLoading: isMetricsLoading, metrics } = useMetrics();
 
@@ -214,5 +220,7 @@ export const useMain = (): IUseMain => {
     visibilityState,
     valuesState,
     setTokenVisibility,
+    yieldDays,
+    setYieldDays,
   };
 };

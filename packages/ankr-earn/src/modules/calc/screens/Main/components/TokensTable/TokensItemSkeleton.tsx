@@ -17,6 +17,10 @@ export const TokensItemSkeleton = (): JSX.Element => {
           <Skeleton width={100} />
         </div>
 
+        <div className={classNames(classes.col, classes.colXsBordered)}>
+          <Skeleton width={50} />
+        </div>
+
         <div className={classes.col}>
           <Hidden mdUp>
             <Box className={classes.label} mb={1.5}>
@@ -29,18 +33,6 @@ export const TokensItemSkeleton = (): JSX.Element => {
             height={48}
             variant="rect"
           />
-        </div>
-
-        <div className={classNames(classes.col, classes.colXsBordered)}>
-          <div className={classes.label}>
-            <Skeleton width={40} />
-          </div>
-
-          <Typography className={classes.text}>
-            <Box component="span" display="inline-block">
-              <Skeleton width={60} />
-            </Box>
-          </Typography>
         </div>
 
         <div className={classNames(classes.col, classes.colXsBordered)}>
