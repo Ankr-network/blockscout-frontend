@@ -168,7 +168,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
     ...LOCAL_CONFIG.gatewayConfig,
-    baseUrl: 'https://api.dev.stkr.io/',
+    baseUrl: 'https://api.dev.staking.ankr.com/',
   },
 };
 
@@ -181,7 +181,7 @@ const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
     ...LOCAL_CONFIG.gatewayConfig,
-    baseUrl: 'https://api.goerli.stkr.io/',
+    baseUrl: 'https://api.goerli.staking.ankr.com/',
   },
 };
 
@@ -246,7 +246,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
   },
   gatewayConfig: {
-    baseUrl: 'https://api.stkr.io/',
+    baseUrl: 'https://api.staking.ankr.com/',
     ankrApiBaseUrl: 'http://173.244.194.100:8080/',
     ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
   },
