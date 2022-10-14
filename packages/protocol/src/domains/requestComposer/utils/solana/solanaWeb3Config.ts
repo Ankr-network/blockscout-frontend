@@ -32,6 +32,7 @@ import {
   filters,
 } from 'domains/requestComposer/constants/solana';
 import { getCodeSample } from './getCodeSample';
+import { checkErrorInTextResponse } from '../checkErrorInTextResponse';
 
 const optionalCommitment: Arg = {
   description: `Optional. The level of commitment desired, as one of the following values: ${commitments.join(
@@ -310,6 +311,8 @@ export const solanaWeb3Config: LibraryConfig = {
 
       const text = await result.text();
 
+      checkErrorInTextResponse(text);
+
       return text;
     },
     codeSample: (
@@ -386,6 +389,8 @@ export const solanaWeb3Config: LibraryConfig = {
       });
 
       const text = await result.text();
+
+      checkErrorInTextResponse(text);
 
       return text;
     },
@@ -673,6 +678,8 @@ export const solanaWeb3Config: LibraryConfig = {
       });
 
       const text = await result.text();
+
+      checkErrorInTextResponse(text);
 
       return text;
     },
@@ -1070,6 +1077,8 @@ export const solanaWeb3Config: LibraryConfig = {
 
       const text = await result.text();
 
+      checkErrorInTextResponse(text);
+
       return text;
     },
     codeSample: (
@@ -1373,6 +1382,8 @@ export const solanaWeb3Config: LibraryConfig = {
       });
 
       const text = await result.text();
+
+      checkErrorInTextResponse(text);
 
       return text;
     },
