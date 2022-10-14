@@ -14,6 +14,8 @@ interface IRPCConfig {
   iconUrls?: string[]; // Currently ignored
 }
 
+export const OKX_WALLET_NAME = 'OKX Wallet';
+
 export const RPCConfig: Record<number, IRPCConfig> = {
   // Mainnet config is partial, because there is no need to specify it fully
   [EEthereumNetworkId.mainnet]: {
@@ -24,8 +26,8 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'ETH',
       decimals: 18,
     },
-    rpcUrls: [''],
-    blockExplorerUrls: [''],
+    rpcUrls: ['https://rpc.ankr.com/eth'],
+    blockExplorerUrls: ['https://etherscan.io'],
   },
 
   [EEthereumNetworkId.goerli]: {
@@ -36,7 +38,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'ETH',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc.goerli.mudit.blog/'],
+    rpcUrls: ['https://rpc.ankr.com/eth_goerli'],
     blockExplorerUrls: [
       'https://goerli.etherscan.io/',
       'https://blockscout.com/eth/goerli ',
@@ -143,7 +145,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'xDai',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc.gnosischain.com/'],
+    rpcUrls: ['https://rpc.ankr.com/gnosis'],
     blockExplorerUrls: ['https://blockscout.com/xdai/mainnet/'],
   },
   [EEthereumNetworkId.sokol]: {

@@ -104,6 +104,7 @@ export const connect = createAction<
           isActive: true,
           address: response.data.address,
           walletId: response.data.walletId,
+          wallet,
         }),
       );
 
