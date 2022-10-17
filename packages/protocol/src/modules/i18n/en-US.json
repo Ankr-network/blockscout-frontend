@@ -269,6 +269,9 @@
           "init": "Web3 URL detected…",
           "send-request": "Sending request for **{method}**: ",
           "response-time": "{ms}ms"
+        },
+        "errors": {
+          "large-response": "Response too large to show"
         }
       },
       "sample-code": {
