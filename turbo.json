@@ -77,8 +77,8 @@
       "outputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
     },
     "types": {
-      "cache": true,
-      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
+      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
+      "dependsOn": ["^types"]
     }
   }
 }
