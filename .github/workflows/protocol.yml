@@ -56,9 +56,11 @@ jobs:
         if: ${{ github.event.inputs.api == 'STAGE' }}
         env:
           SENTRY_DSN: https://5bcd2db48e7b4aec8e4f8c37d4f31901@o286716.ingest.sentry.io/6097657"
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
-          yarn build:stage
+          yarn build:stage:turbo
           yarn postbuild
 
       - name: Build production
@@ -66,9 +68,11 @@ jobs:
         if: ${{ github.event.inputs.api == 'PROD' }}
         env:
           SENTRY_DSN: https://5bcd2db48e7b4aec8e4f8c37d4f31901@o286716.ingest.sentry.io/6097657"
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
-          yarn build:prod
+          yarn build:prod:turbo
           yarn postbuild
 
       - name: Set AWS credentials

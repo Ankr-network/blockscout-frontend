@@ -19,7 +19,7 @@ export const CURRENT_ENV: EEnvTypes = process.env.REACT_APP_API_ENV
  */
 export const DEVELOP_CONFIG: ISlotAuctionConfig = {
   polkadotUrl: 'wss://westend-rpc.polkadot.io',
-  baseUrl: 'https://api.dev.stkr.io/',
+  baseUrl: 'https://api.dev.staking.ankr.com/',
   crowdloanStatusCheck: false,
   cacheAge: 3_000,
   networkType: 'WND',
@@ -37,9 +37,9 @@ const createSlotAuctionConfig = (
   };
 
   const apiUrls: Record<string, string> = {
-    develop: 'https://api.dev.stkr.io/',
-    staging: 'https://api.goerli.stkr.io/',
-    prod: 'https://api.stkr.io/',
+    develop: 'https://api.dev.staking.ankr.com/',
+    staging: 'https://api.goerli.staking.ankr.com/',
+    prod: 'https://api.staking.ankr.com/',
   };
 
   return {

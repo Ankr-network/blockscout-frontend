@@ -49,24 +49,29 @@ jobs:
 
       - name: Build stage with stage api
         working-directory: ./packages/standalone-protocol
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         if: ${{ (github.event.inputs.environment == 'BS1' || github.event.inputs.environment == 'BS4') && github.event.inputs.api == 'STAGE' }}
         run: |
-          yarn build:stage
+          yarn build:stage:turbo
 
       - name: Build stage with prod api
         working-directory: ./packages/standalone-protocol
         if: ${{ (github.event.inputs.environment == 'BS1' || github.event.inputs.environment == 'BS4') && github.event.inputs.api == 'PROD' }}
         run: |
-          yarn build:prod
+          yarn build:prod:turbo
 
       - name: Build production
         working-directory: ./packages/standalone-protocol
         env:
           NAMES: eth solana near arbitrum iotex avalanche nervos harmony moonbeam gnosis syscoin
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
         if: ${{ github.event.inputs.environment == 'STANDALONE_PROD' && github.event.inputs.api == 'PROD' }}
         run: |
-          yarn build-chains:prod
+          yarn build-chains:prod:turbo
 
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
