@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 
-import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ChainID } from 'modules/chains/types';
-import { GetStartedSection } from '../../GetStartedSection';
-import { PrimaryTab } from '../../PrimaryTab';
-import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
 import { t } from 'modules/i18n/utils/intl';
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import { GetStartedSection } from '../../GetStartedSection';
+import { PrimaryTab } from '../../PrimaryTab';
+import { SectionID } from '../types';
 
 export interface GetStartedSectionParams {
   chainId: ChainID;
@@ -29,6 +29,7 @@ const isSectionVisible = (
 ) =>
   !isUpgraded ||
   chainId === ChainID.TRON ||
+  chainId === ChainID.NEAR ||
   isGroupEvmBased(group) ||
   isAvalancheChain(group.id) ||
   isGroupSolanaBased(group);

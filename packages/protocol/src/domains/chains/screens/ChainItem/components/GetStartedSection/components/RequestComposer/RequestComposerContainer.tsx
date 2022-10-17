@@ -6,6 +6,8 @@ import { SolanaRequestComposer } from './SolanaRequestComposer';
 import { TronRequestComposer } from './TronRequestComposer';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 
+import { NearRequestComposer } from './NearRequestComposer';
+
 interface IRequestComposerContainerProps {
   group: EndpointGroup;
   unfilteredGroup: EndpointGroup;
@@ -34,6 +36,16 @@ export const RequestComposerContainer = ({
   if (chainId === ChainID.AVALANCHE) {
     return (
       <AvalancheRequestComposer
+        group={group}
+        publicUrl={publicUrl}
+        className={className}
+      />
+    );
+  }
+
+  if (chainId === ChainID.NEAR) {
+    return (
+      <NearRequestComposer
         group={group}
         publicUrl={publicUrl}
         className={className}

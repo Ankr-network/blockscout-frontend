@@ -462,6 +462,38 @@
           "sendTransaction": "🚫 This method is not supported!",
           "simulateTransaction": "🚫 This method is not supported!"
         },
+        "near": {
+          "near-api-js": {
+            "query": "Query the RPC by passing an <u><a href='https://near.github.io/near-api-js/modules/providers_provider#rpcqueryrequest' target='_blank'>RpcQueryRequest</a></u>.",
+            "query - view_access_key": "Returns information about a single access key for given account.",
+            "query - view_access_key_list": "You can query all access keys for a given account.",
+            "EXPERIMENTAL_changes": "Returns code changes for a 'changes_type'",
+            "EXPERIMENTAL_changes - single_access_key_changes": "Returns individual access key changes in a specific block. You can query multiple keys by passing an array of objects containing the account_id and public_key.",
+            "EXPERIMENTAL_changes - all_access_key_changes": "Returns changes to all access keys of a specific block. Multiple accounts can be queried by passing an array of account_ids.",
+            "query - view_account": "Returns basic account information.",
+            "EXPERIMENTAL_changes - account_changes": "Returns account changes from transactions in a given account.",
+            "query - view_code": "Returns the contract code (Wasm binary) deployed to the account. Please note that the returned code will be encoded in base64.",
+            "query - view_state": "Returns the state (key value pairs) of a contract based on the key prefix (base64 encoded). Pass an empty string for prefix_base64 if you would like to return the entire state. Please note that the returned state will be base64 encoded as well.",
+            "EXPERIMENTAL_changes - data_changes": "Returns the state change details of a contract based on the key prefix (encoded to base64). Pass an empty string for this param if you would like to return all state changes.",
+            "EXPERIMENTAL_changes - contract_code_changes": "Returns code changes made when deploying a contract. Change is returned is a base64 encoded WASM file.",
+            "query - call_function": "Allows you to call a contract method as a <u><a href='https://docs.near.org/develop/integrate/cli#view-methods' target='_blank'>view function</a></u>.",
+            "block": "Queries network and returns block for given <u><a href={hashInfoURL} target='_blank'>height or hash</a></u>. You can also use <u><a href={finalityInfoURL} target='_blank'>finality</a></u> param to return latest block details.",
+            "EXPERIMENTAL_changes_in_block": "Returns changes in block for given <u><a href={hashInfoURL} target='_blank'>height or hash</a></u>. You can also use <u><a href={finalityInfoURL} target='_blank'>finality</a></u> param to return latest block details.",
+            "chunk": "Returns details of a specific chunk. You can run a <u><a href='https://docs.near.org/api/rpc/setup#block-details' target='_blank'>block details</a></u> query to get a valid chunk hash.",
+            "gas_price": "Returns gas price for a specific <u><a href={hashInfoURL} target='_blank'>block_height or block_hash</a></u>.",
+            "EXPERIMENTAL_genesis_config": "Returns current genesis configuration",
+            "EXPERIMENTAL_protocol_config": "Returns most recent protocol configuration or a specific queried block. Useful for finding current storage and transaction costs.",
+            "status": "🚫 This method is not supported!",
+            "network_info": "🚫 This method is not supported!",
+            "validators": "Queries active validators on the network returning details and the state of validation on the blockchain.",
+            "broadcast_tx_async": "Sends a transaction and immediately returns transaction hash.",
+            "broadcast_tx_commit": "Sends a transaction and waits until transaction is fully complete. (Has a 10 second timeout)",
+            "tx": "Queries status of a transaction by <u><a href={hashInfoURL} target='_blank'>hash</a></u> and returns the final transaction result.",
+            "EXPERIMENTAL_tx_status": "Queries status of a transaction by <u><a href={hashInfoURL} target='_blank'>hash</a></u>, returning the final transaction result and details of all receipts.",
+            "EXPERIMENTAL_receipt": "Fetches a receipt by it's ID (as is, without a status or execution outcome)",
+            "EXPERIMENTAL_light_client_proof": "🚫 This method is not supported!"
+          }
+        },
         "tron": {
           "getblockbylimitnext": "Query a list of blocks by range.",
           "getblockbylatestnum": "Query the several latest blocks.",

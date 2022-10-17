@@ -1,7 +1,7 @@
-import { Field } from 'react-final-form';
-import { FieldValidator } from 'final-form';
 import { FormGroup, Typography } from '@material-ui/core';
+import { FieldValidator } from 'final-form';
 import { useCallback } from 'react';
+import { Field } from 'react-final-form';
 
 import { InputField } from 'modules/form/components/InputField';
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
