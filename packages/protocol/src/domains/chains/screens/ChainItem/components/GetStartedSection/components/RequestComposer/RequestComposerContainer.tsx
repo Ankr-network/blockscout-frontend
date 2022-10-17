@@ -1,9 +1,10 @@
+import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
-import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { EVMRequestComposer } from './EVMRequestComposer';
+import { SolanaRequestComposer } from './SolanaRequestComposer';
 import { TronRequestComposer } from './TronRequestComposer';
+import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 
 import { NearRequestComposer } from './NearRequestComposer';
 
@@ -58,6 +59,16 @@ export const RequestComposerContainer = ({
         group={group}
         publicUrl={publicUrl}
         className={className}
+      />
+    );
+  }
+
+  if (chainId === ChainID.SOLANA) {
+    return (
+      <SolanaRequestComposer
+        className={className}
+        group={group}
+        url={publicUrl}
       />
     );
   }

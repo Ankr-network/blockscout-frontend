@@ -5,6 +5,7 @@ import { ChainID } from 'modules/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
 import { t } from 'modules/i18n/utils/intl';
 import { GetStartedSection } from '../../GetStartedSection';
 import { PrimaryTab } from '../../PrimaryTab';
@@ -30,7 +31,8 @@ const isSectionVisible = (
   chainId === ChainID.TRON ||
   chainId === ChainID.NEAR ||
   isGroupEvmBased(group) ||
-  isAvalancheChain(group.id);
+  isAvalancheChain(group.id) ||
+  isGroupSolanaBased(group);
 
 const label = t('chain-item.tabs.get-started');
 
