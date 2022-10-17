@@ -8,6 +8,8 @@ export const useMessageStyles = makeStyles<Theme, MessageType>(theme => ({
     gap: theme.spacing(1.25),
   },
   body: {
+    overflowWrap: 'anywhere',
+
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1),
@@ -22,6 +24,8 @@ export const useMessageStyles = makeStyles<Theme, MessageType>(theme => ({
     lineHeight: `${theme.spacing(2.5)}px`,
   },
   data: type => ({
+    overflowWrap: 'anywhere',
+
     padding: theme.spacing(0.5, 1),
 
     borderRadius: theme.spacing(1),

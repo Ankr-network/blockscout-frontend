@@ -1,9 +1,12 @@
+import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
-import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { EVMRequestComposer } from './EVMRequestComposer';
+import { SolanaRequestComposer } from './SolanaRequestComposer';
 import { TronRequestComposer } from './TronRequestComposer';
+import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+
+import { NearRequestComposer } from './NearRequestComposer';
 
 interface IRequestComposerContainerProps {
   group: EndpointGroup;
@@ -40,12 +43,32 @@ export const RequestComposerContainer = ({
     );
   }
 
+  if (chainId === ChainID.NEAR) {
+    return (
+      <NearRequestComposer
+        group={group}
+        publicUrl={publicUrl}
+        className={className}
+      />
+    );
+  }
+
   if (chainId === ChainID.TRON) {
     return (
       <TronRequestComposer
         group={group}
         publicUrl={publicUrl}
         className={className}
+      />
+    );
+  }
+
+  if (chainId === ChainID.SOLANA) {
+    return (
+      <SolanaRequestComposer
+        className={className}
+        group={group}
+        url={publicUrl}
       />
     );
   }

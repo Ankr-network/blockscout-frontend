@@ -218,7 +218,10 @@ export const avalancheJSConfig: ILibraryConfig<PChainMethod> = {
   },
   'platform.getCurrentValidators': {
     exec: (provider, subnetID?: string, nodeIDs?: string) => {
-      return provider.getCurrentValidators(subnetID, nodeIDs?.split(', '));
+      return provider.getCurrentValidators(
+        subnetID || undefined,
+        nodeIDs ? nodeIDs?.split(', ') : undefined,
+      );
     },
     codeSample: (httpUrl: string, wssUrl?: string, ...rest) =>
       avalancheJSTemplate(
@@ -308,8 +311,8 @@ export const avalancheJSConfig: ILibraryConfig<PChainMethod> = {
   'platform.getPendingValidators': {
     exec: (provider, subnetID, nodeIDs) => {
       return provider.getPendingValidators(
-        subnetID,
-        nodeIDs?.split(', ')?.filter(Boolean),
+        subnetID || undefined,
+        nodeIDs ? nodeIDs?.split(', ') : undefined,
       );
     },
     codeSample: (httpUrl: string, wssUrl, subnetID, ...rest) =>
@@ -335,7 +338,7 @@ export const avalancheJSConfig: ILibraryConfig<PChainMethod> = {
   },
   'platform.getRewardUTXOs': {
     exec: (provider, ...rest) => {
-      return provider.getRewardUTXOs(...rest);
+      return provider.getRewardUTXOs(...rest?.map(item => item || undefined));
     },
     codeSample: (httpUrl: string, wssUrl, ...rest) =>
       avalancheJSTemplate(
@@ -419,7 +422,7 @@ export const avalancheJSConfig: ILibraryConfig<PChainMethod> = {
   },
   'platform.getTx': {
     exec: (provider, ...rest) => {
-      return provider.getTx(...rest);
+      return provider.getTx(...rest?.map(item => item || undefined));
     },
     codeSample: (httpUrl: string, wssUrl, ...rest) =>
       avalancheJSTemplate(
