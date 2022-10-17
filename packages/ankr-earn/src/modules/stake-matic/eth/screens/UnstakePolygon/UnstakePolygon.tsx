@@ -9,7 +9,6 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
@@ -55,7 +54,6 @@ export const UnstakePolygon = (): JSX.Element => {
     selectedToken,
     syntTokenBalance,
     unstakeFee,
-    onExtraValidation,
     calcTotalRecieve,
     onUnstakeSubmit,
   } = useUnstakeMatic();
@@ -114,13 +112,11 @@ export const UnstakePolygon = (): JSX.Element => {
             {isFetchStatsLoading ? (
               <Skeleton width={40} />
             ) : (
-              t('unit.ankr-value', {
+              t('unit.eth-value', {
                 value: unstakeFee.toFixed(),
               })
             )}
           </Typography>
-
-          {isFetchStatsLoading ? <Skeleton width={50} /> : <BuyAnkrLink />}
         </Box>
 
         <Divider />
@@ -157,7 +153,6 @@ export const UnstakePolygon = (): JSX.Element => {
           balance={syntTokenBalance}
           closeHref={closeHref}
           endText={unstakeLabel}
-          extraValidation={onExtraValidation}
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
