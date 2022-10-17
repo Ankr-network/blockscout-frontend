@@ -99,6 +99,7 @@
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
+    "eth-value": "{value} ETH",
     "ftm-value": "{value} FTM",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
@@ -616,7 +617,7 @@
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
   },
   "calc": {
     "title": "Staking calculator",

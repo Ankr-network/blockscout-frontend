@@ -28,6 +28,7 @@ import ABI_AMATICB from '../../contracts/aMATICb.json';
 import ABI_AMATICC from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
 import ABI_POLYGON_POOL from '../../contracts/PolygonPoolV3.json';
+import { EthereumSDK } from '../../ethereum';
 import {
   getFilteredContractEvents,
   IEventsBatch,
@@ -42,7 +43,6 @@ import {
 import { IFetchTxData, IShareArgs, ISwitcher } from '../../switcher';
 import { convertNumberToHex } from '../../utils';
 import {
-  ALLOWANCE_RATE,
   MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
   MATIC_ON_ETH_PROVIDER_READ_ID,
   MAX_BLOCK_RANGE,
@@ -52,7 +52,6 @@ import {
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
   IMaticSDKProviders,
-  IUnstakeFeeData,
   TMaticSyntToken,
 } from '../types';
 
@@ -1113,18 +1112,9 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @note Uses backend endpoint to get the unstake fee.
    * @returns {Promise<IUnstakeFeeData>}
    */
-  public async getUnstakeFee(): Promise<IUnstakeFeeData> {
-    const { data } = await this.apiGateWay.api.get<{
-      unstakeFee: string;
-      useBeforeBlock: number;
-      signature: string;
-    }>(`/v1alpha/polygon/unstakeFee?address=${this.currentAccount}`);
-
-    return {
-      unstakeFee: data.unstakeFee,
-      useBeforeBlock: data.useBeforeBlock,
-      signature: data.signature,
-    };
+  public async getUnstakeFee(): Promise<string> {
+    const polygonPoolContract = await this.getPolygonPoolContract();
+    return polygonPoolContract.methods.ethUnstakeFee().call();
   }
 
   /**
@@ -1171,33 +1161,17 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       await this.writeProvider.connect();
     }
 
+    const sdk = await EthereumSDK.getInstance();
+    const ethBalance = new BigNumber(await sdk.getEthBalance());
+
     const polygonPoolContract = await this.getPolygonPoolContract();
-    const ankrTokenContract = await this.getAnkrTokenContract();
     const rawAmount = amount.multipliedBy(scale);
-    // Do unstaking
-    // 0. Check current allowance
-    const allowance = new BigNumber(
-      await ankrTokenContract.methods
-        .allowance(this.currentAccount, contractConfig.polygonPool)
-        .call(),
-    );
+    const unstakeFee = await this.getUnstakeFee();
+    const unstakeFeeETH = Web3.utils.fromWei(unstakeFee);
 
-    const { unstakeFee } = await this.getUnstakeFee();
-
-    // 1. Approve payment in Ankr for unstake
-    const fee = new BigNumber(unstakeFee);
-
-    if (allowance.isLessThan(fee)) {
-      await ankrTokenContract.methods
-        .approve(
-          contractConfig.polygonPool,
-          convertNumberToHex(fee.multipliedBy(ALLOWANCE_RATE)),
-        )
-        .send({ from: this.currentAccount });
+    if (ethBalance.isLessThan(unstakeFeeETH)) {
+      throw new Error(EMaticSDKErrorCodes.INSUFFICIENT_BALANCE);
     }
-    // 2. Call unstake method
-    // Fetch fees here and make allowance one more time if required
-    const { useBeforeBlock, signature } = await this.getUnstakeFee();
 
     const contractUnstake =
       polygonPoolContract.methods[
@@ -1206,15 +1180,15 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
 
     const data = contractUnstake(
       convertNumberToHex(rawAmount),
-      convertNumberToHex(fee),
-      convertNumberToHex(useBeforeBlock),
-      signature,
+      convertNumberToHex(0),
+      convertNumberToHex(0),
+      '0x0',
     ).encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.polygonPool,
-      { data, estimate: true },
+      { data, estimate: true, value: convertNumberToHex(unstakeFee) },
     );
   }
 
