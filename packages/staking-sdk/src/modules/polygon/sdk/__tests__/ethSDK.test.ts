@@ -2,11 +2,9 @@ import BigNumber from 'bignumber.js';
 import nock from 'nock';
 import { TransactionReceipt } from 'web3-core';
 
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from 'common';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'common';
 
+import { ProviderManager } from '@ankr.com/provider';
 import { ETH_SCALE_FACTOR, ZERO } from '../../../common';
 import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '../../const';
 import {
@@ -16,7 +14,6 @@ import {
   TMaticSyntToken,
 } from '../../types';
 import { PolygonOnEthereumSDK } from '../ethSDK';
-import { ProviderManager } from '@ankr.com/provider';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
@@ -91,7 +88,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
 
-    nock('https://api.goerli.stkr.io')
+    nock('https://api.goerli.staking.ankr.com')
       .get('/v1alpha/polygon/unstakeFee')
       .query({ address: 'address' })
       .reply(200, expectedUnstakeFeeData);
