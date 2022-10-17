@@ -3,9 +3,14 @@ import { useCallback } from 'react';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { LibraryContent } from './LibraryContent';
 import { EVMLibrary, EVMLibraryID } from 'domains/requestComposer/constants';
 import { EndpointGroup } from 'modules/endpoints/types';
+import {
+  HarmonyLibrary,
+  HarmonyLibraryID,
+} from 'domains/requestComposer/constants/harmony';
+import { HarmonyLibraryContent } from '../HarmonyLibraryContent';
+import { LibraryContent } from '../../EVMRequestComposer/EVMMenu/LibraryContent';
 
 export const useLibraryTabs = (group: EndpointGroup) => {
   const content = useCallback(
@@ -15,7 +20,14 @@ export const useLibraryTabs = (group: EndpointGroup) => {
     [group],
   );
 
-  const rawTabs: Tab<EVMLibraryID>[] = useLocaleMemo(
+  const harmonyContent = useCallback(
+    (selectedTabID: HarmonyLibraryID) => (
+      <HarmonyLibraryContent group={group} libraryID={selectedTabID} />
+    ),
+    [group],
+  );
+
+  const rawTabs: Tab<EVMLibraryID | HarmonyLibraryID>[] = useLocaleMemo(
     () => [
       {
         id: EVMLibraryID.WEB3,
@@ -37,9 +49,20 @@ export const useLibraryTabs = (group: EndpointGroup) => {
           />
         ),
       },
+      {
+        id: HarmonyLibraryID.Harmony,
+        content: harmonyContent,
+        title: (isSelected: boolean) => (
+          <SecondaryTab
+            isSelected={isSelected}
+            label={HarmonyLibrary[HarmonyLibraryID.Harmony]}
+          />
+        ),
+      },
     ],
     [content],
   );
+
   return useTabs({
     initialTabID: EVMLibraryID.WEB3,
     tabs: rawTabs,

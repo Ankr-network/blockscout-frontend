@@ -11,6 +11,11 @@ import isEqual from 'lodash.isequal';
 export type DefaultTabID = string | number;
 export type TabID<TI> = TI extends DefaultTabID ? TI : DefaultTabID;
 
+export interface ITabProps {
+  tabs: Tabs[0];
+  selectedTab: Tabs[1];
+}
+
 export interface Tab<TI = DefaultTabID> {
   content?: ReactNode;
   id: TabID<TI>;
