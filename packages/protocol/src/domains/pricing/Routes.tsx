@@ -11,8 +11,8 @@ export const PricingRoutesConfig = createRouteConfig(
   {
     pricing: {
       path: PRICING_PATH,
-      generagePath: () => PRICING_PATH,
-      breadcrumbs: 'account.account-details.breadcrumbs',
+      generatePath: () => PRICING_PATH,
+      breadcrumbs: 'plan.breadcrumbs',
     },
   },
   PRICING_PATH,

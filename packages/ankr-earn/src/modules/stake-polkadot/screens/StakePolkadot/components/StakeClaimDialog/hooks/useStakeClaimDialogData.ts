@@ -6,11 +6,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, EEthereumNetworkId, t } from 'common';
 import { TPolkadotAddress } from 'polkadot';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';

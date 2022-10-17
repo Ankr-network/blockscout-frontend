@@ -3,8 +3,7 @@ import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import {

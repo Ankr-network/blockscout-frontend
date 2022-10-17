@@ -2,17 +2,21 @@
   "name": "polkadot",
   "version": "1.5.13",
   "license": "MIT",
-  "main": "./index.ts",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "files": ["dist"],
   "scripts": {
     "_copy-assets": "copyfiles src/assets/**/* out",
     "_test-clean": "rimraf out ./index.js ./index.js.map ./src/**/*.js ./src/**/*.js.map",
-    "build": "yarn clean && tsc --declaration --emitDeclarationOnly --outDir build",
+    "build": "vite build",
+    "build:turbo": "cd ../.. && turbo run build --filter=polkadot...",
     "clean": "rimraf build output",
     "format": "lint-staged",
-    "test": "npm run _test-clean && tsc && npm run _copy-assets && jest"
+    "test": "npm run _test-clean && tsc && npm run _copy-assets && jest",
+    "test:turbo": "cd ../.. && turbo run test --parallel --filter=polkadot..."
   },
   "dependencies": {
-    "@ankr.com/provider": "^1.5.21",
+    "common": "*",
     "@polkadot/api": "^6.12.1",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/extension-inject": "^0.40.4",
@@ -30,13 +34,16 @@
     "@types/bs58": "^4.0.1",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.18.3",
+    "@vitejs/plugin-react": "^2.1.0",
     "babel-jest": "^27.4.5",
     "copyfiles": "^2.4.1",
     "jest": "^26.6.3",
     "jsonfile": "^6.1.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "vite": "^3.1.6",
+    "vite-plugin-svgr": "^2.2.1"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

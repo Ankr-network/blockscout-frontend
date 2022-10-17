@@ -1,34 +1,35 @@
-import { useMemo } from 'react';
 import { Form } from 'react-final-form';
-import BigNumber from 'bignumber.js';
 
 import { useStyles } from './TopUpFormStyles';
-import { AmountInputField, TopUpFormProps } from './TopUpFormTypes';
-import { useRenderDisabledForm, useRenderForm } from './TopUpFormUtils';
-import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { TopUpFormProps } from './TopUpFormTypes';
+import {
+  useRenderDisabledForm,
+  useRenderForm,
+  useInitialValues,
+} from './TopUpFormUtils';
 
-export const TopUpForm = ({ onSubmit, hasLoginStep }: TopUpFormProps) => {
+export const TopUpForm = ({
+  onSubmit,
+  hasLoginStep,
+  initialValues: defaultInitialValues,
+  validateAmount,
+  hasRateBlock,
+  balance,
+}: TopUpFormProps) => {
   const classes = useStyles();
-  const transaction = useSelectTopUpTransaction();
 
-  const isTopUpInProcess = Boolean(
-    transaction?.allowanceTransactionHash ||
-      transaction?.topUpTransactionHash ||
-      hasLoginStep,
+  const { isTopUpInProcess, initialValues } = useInitialValues(
+    hasLoginStep,
+    defaultInitialValues,
   );
 
-  const renderForm = useRenderForm(classes);
+  const renderForm = useRenderForm(
+    classes,
+    validateAmount,
+    hasRateBlock,
+    balance,
+  );
   const renderDisabledForm = useRenderDisabledForm(classes);
-
-  const initialValues = useMemo(() => {
-    return isTopUpInProcess
-      ? {
-          [AmountInputField.amount]: new BigNumber(
-            transaction?.amount ?? 0,
-          ).toString(10),
-        }
-      : {};
-  }, [transaction?.amount, isTopUpInProcess]);
 
   return (
     <Form

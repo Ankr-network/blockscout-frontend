@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js';
 
 import { Address } from '@ankr.com/provider';
 
+import { Days } from '../types';
+
 export const ZERO_DECIMAL_PLACES = 0;
 export const DEFAULT_ROUNDING = 2;
 export const DEFAULT_FIXED = 4;
@@ -22,3 +24,4 @@ export const MAX_UINT256 = new BigNumber(
 );
 export const ZERO_EVENT_HASH =
   '0x0000000000000000000000000000000000000000000000000000000000000000';
+export const DAYS_IN_YEAR: Days = 365;

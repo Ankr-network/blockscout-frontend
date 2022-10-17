@@ -1,4 +1,4 @@
-import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
+import { IWeb3SendResult, Web3KeyWriteProvider } from 'common';
 import BigNumber from 'bignumber.js';
 import { EventData } from 'web3-eth-contract';
 
@@ -17,7 +17,7 @@ import { IConsensusGateway } from '../consensus';
 import { IPAYGContractManager } from '../PAYGContract';
 import { IPremiumPlanContractManager } from '../PremiumPlanContract';
 import { IWorkerGlobalStatus, IWorkerNodesWeight, Timeframe } from '../public';
-import { RpcGateway } from '../rpc/RpcGateway';
+import { RpcGateway } from '../rpc';
 import {
   IPrivateEndpoint,
   IProvider,

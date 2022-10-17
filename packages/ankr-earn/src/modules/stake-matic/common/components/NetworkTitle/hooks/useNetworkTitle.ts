@@ -1,10 +1,6 @@
 import { useMemo } from 'react';
 
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, EEthereumNetworkId, t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { TIcon, TNetworkIconMap } from 'modules/common/icons';

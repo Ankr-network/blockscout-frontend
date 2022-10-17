@@ -5,8 +5,7 @@ import { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-import { t } from 'common';
+import { AvailableWriteProviders, t } from 'common';
 import { Notice } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';

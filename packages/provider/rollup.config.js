@@ -6,7 +6,7 @@ import json from '@rollup/plugin-json';
 import svg from 'rollup-plugin-svg';
 
 export default {
-  input: './index.ts',
+  input: 'src/index.ts',
   output: [
     {
       file: 'build/index.js',
@@ -17,10 +17,13 @@ export default {
   context: 'window',
   plugins: [
     external({
-      exclude: ['common', 'ui', 'polkadot'],
+      include: ['web3modal']
     }),
     resolve({
       extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
+      module: true,
+      jsnext: true,
+      main: true,
       preferBuiltins: false,
     }),
     babel({
@@ -32,6 +35,6 @@ export default {
       include: /node_modules/,
     }),
     json(),
-    svg({ base64: true }),
+    svg(),
   ],
 };

@@ -21,7 +21,7 @@ export const usePAYGClients = (): LocalGridStore<ClientEntity> => {
 
     if (!counters) {
       const countersResponse = await workerApi.getCounters();
-      counters = mapCounters(countersResponse);
+      counters = mapCounters(countersResponse.result);
     }
 
     const clients: ClientEntity[] = makeClients(balances, counters);

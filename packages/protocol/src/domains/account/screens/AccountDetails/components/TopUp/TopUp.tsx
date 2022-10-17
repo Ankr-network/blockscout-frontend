@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 
@@ -12,9 +12,13 @@ import { TopUpSkeleton } from './TopUpSkeleton';
 
 export interface TopUpProps {
   className?: string;
+  header?: ReactNode;
 }
 
-export const TopUp = ({ className }: TopUpProps) => {
+export const TopUp = ({
+  className,
+  header = <TopUpBlockHeader />,
+}: TopUpProps) => {
   const classes = useStyles();
 
   const { handleCanPayByCard, isCardPaymentEligible, isCanPayByCardLoading } =
@@ -29,7 +33,7 @@ export const TopUp = ({ className }: TopUpProps) => {
 
   return (
     <Box className={classNames(classes.root, className)}>
-      <TopUpBlockHeader />
+      {header}
       {isCanPayByCardLoading ? (
         <TopUpSkeleton />
       ) : (

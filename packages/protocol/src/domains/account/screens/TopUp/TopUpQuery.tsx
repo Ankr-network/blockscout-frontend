@@ -12,7 +12,7 @@ import { TopUp } from './TopUp';
 import { useTopUpBreadcrumbs } from './TopUpUtils';
 
 export const TopUpQuery = () => {
-  const { loading } = useAuth();
+  const { loading, credentials } = useAuth();
   const dispatchRequest = useDispatchRequest();
 
   useEffect(() => {
@@ -25,9 +25,7 @@ export const TopUpQuery = () => {
     dispatchRequest(reset());
   });
 
-  useTopUpBreadcrumbs();
-
-  const { credentials } = useAuth();
+  useTopUpBreadcrumbs(Boolean(credentials));
 
   return (
     <Queries<ResponseData<typeof getInitialStep>>

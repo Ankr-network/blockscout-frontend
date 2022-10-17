@@ -4,7 +4,7 @@ import {
 } from '@redux-requests/core';
 import { useState } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';

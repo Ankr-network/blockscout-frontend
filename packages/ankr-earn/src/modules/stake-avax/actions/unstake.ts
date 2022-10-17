@@ -4,8 +4,8 @@ import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
-import { IWeb3SendResult } from '@ankr.com/provider';
 import { AvalancheSDK } from '@ankr.com/staking-sdk';
+import { IWeb3SendResult } from 'common';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -15,7 +15,6 @@ import { TAvaxSyntToken } from '../types';
 
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
-import { fetchTotalHistoryData } from './fetchTotalHistoryData';
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -47,7 +46,6 @@ export const unstake = createSmartAction<
 
         store.dispatchRequest(fetchStats());
         store.dispatchRequest(fetchPendingValues());
-        store.dispatchRequest(fetchTotalHistoryData());
         store.dispatchRequest(getUnstakeDate());
 
         if (response.data.transactionHash) {

@@ -6,13 +6,13 @@ import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
 import { isMobile } from 'web3modal';
 
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   AvailableWriteProviders,
   EWalletId,
   Web3KeyReadProvider,
-} from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { t } from 'common';
+  t,
+} from 'common';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 
 import { Dialog } from 'uiKit/Dialog';

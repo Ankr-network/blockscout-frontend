@@ -1,7 +1,7 @@
 {
 	"name": "@ankr.com/global-menu",
 	"version": "1.4.1",
-	"main": "./src/index.ts",
+	"main": "./build/index.js",
 	"types": "./src/index.ts",
 	"files": [
 		"build"
@@ -12,7 +12,8 @@
 		"format": "lint-staged",
 		"storybook": "start-storybook -p 6006 -s public",
 		"build-storybook": "build-storybook -s public",
-		"build": "yarn clean && tsc --declaration --emitDeclarationOnly --outDir build && rollup -c",
+		"build": "yarn clean && rollup -c",
+		"build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/global-menu...",
 		"prepublish": "node prepublish.js",
 		"postpublish": "node prepublish.js revert",
 		"prepack": "node prepublish.js",
@@ -31,7 +32,9 @@
 		"react-custom-scrollbars": "^4.2.1",
 		"react-intl-universal": "^2.4.5",
 		"react-router": "^5.2.1",
-		"react-router-dom": "^5.2.0"
+		"react-router-dom": "^5.2.0",
+		"ui": "*",
+		"common": "*"
 	},
 	"devDependencies": {
 		"@storybook/addon-actions": "^6.3.8",

@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';

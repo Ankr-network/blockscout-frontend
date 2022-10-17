@@ -8,44 +8,45 @@ import {
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+} from 'common';
 
-import { ApiGateway } from '../api';
+import { ApiGateway, getPastEvents } from '../api';
 import {
-  ETH_SCALE_FACTOR,
-  isMainnet,
-  MAX_UINT256,
-  ZERO,
   configFromEnv,
   Env,
+  ETH_SCALE_FACTOR,
+  isMainnet,
+  IS_ADVANCED_API_ACTIVE,
+  MAX_UINT256,
   ProviderManagerSingleton,
+  ZERO,
 } from '../common';
 import { AFTMB_ABI, AFTMC_ABI, FANTOM_POOL_ABI } from '../contracts';
 import {
-  getTxEventsHistoryGroup,
   getFilteredContractEvents,
+  getTxEventsHistoryGroup,
+  IGetPastEvents,
+  IPendingData,
   IStakable,
   IStakeData,
   ITxEventsHistoryData,
-  IGetPastEvents,
-  IPendingData,
 } from '../stake';
-import { ISwitcher, IShareArgs, IFetchTxData } from '../switcher';
+import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils/converters';
 
 import {
-  FANTOM_PROVIDER_READ_ID,
-  FANTOM_MAX_BLOCK_RANGE,
   FANTOM_BLOCK_WEEK_OFFSET,
   FANTOM_ESTIMATE_GAS_MULTIPLIER,
   FANTOM_GAS_FEE_MULTIPLIER,
+  FANTOM_MAX_BLOCK_RANGE,
+  FANTOM_PROVIDER_READ_ID,
 } from './const';
 import {
+  EFantomErrorCodes,
+  EFantomPoolEvents,
+  IFantomSDKProviders,
   TFtmSyntToken,
   TUnstakingStatsType,
-  IFantomSDKProviders,
-  EFantomPoolEvents,
-  EFantomErrorCodes,
 } from './types';
 
 /**
@@ -274,11 +275,11 @@ export class FantomSDK implements ISwitcher, IStakable {
     return this.getTxEventsHistoryRange(startBlock, latestBlockNumber);
   }
 
- /** 
+  /**
    * Get latest block number.
-   * 
+   *
    * @returns {Promise<number>}
-  */
+   */
   public async getLatestBlock(): Promise<number> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
@@ -295,7 +296,10 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @param {number} to - to block
    * @returns {Promise<ITxEventsHistoryData>}
    */
-   public async getTxEventsHistoryRange(from: number, to: number): Promise<ITxEventsHistoryData> {
+  public async getTxEventsHistoryRange(
+    from: number,
+    to: number,
+  ): Promise<ITxEventsHistoryData> {
     const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
     const web3 = provider.getWeb3();
@@ -394,13 +398,55 @@ export class FantomSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * An internal function for getting past events from the API or blockchain
+   * according to the current environment.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
+    return IS_ADVANCED_API_ACTIVE
+      ? this.getPastEventsAPI(options)
+      : this.getPastEventsBlockchain(options);
+  }
+
+  /**
+   * Internal function to get past events from indexed logs API.
+   *
+   * @private
+   * @param {IGetPastEvents}
+   * @returns {Promise<EventData[]>}
+   */
+  private async getPastEventsAPI({
+    contract,
+    eventName,
+    startBlock,
+    latestBlockNumber,
+    filter,
+  }: IGetPastEvents): Promise<EventData[]> {
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    return getPastEvents({
+      fromBlock: startBlock,
+      toBlock: latestBlockNumber,
+      blockchain: 'fantom',
+      contract,
+      web3,
+      eventName,
+      filter,
+    });
+  }
+
+  /**
    * Internal function to get past events, using the defined range.
    *
    * @private
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
-  private async getPastEvents({
+  private async getPastEventsBlockchain({
     contract,
     eventName,
     startBlock,
@@ -706,7 +752,10 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @param {string} token - choose which token to unstake (aFTMb or aFTMc)
    * @returns {Promise<IWeb3SendResult>}
    */
-  public async unstake(amount: BigNumber, token: string): Promise<IWeb3SendResult> {
+  public async unstake(
+    amount: BigNumber,
+    token: string,
+  ): Promise<IWeb3SendResult> {
     const { fantomConfig } = configFromEnv();
     if (amount.isLessThanOrEqualTo(ZERO)) {
       throw new Error(EFantomErrorCodes.ZERO_AMOUNT);

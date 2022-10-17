@@ -18,7 +18,7 @@ interface AmountFieldProps {
   name: AmountInputField.amount;
   isDisabled?: boolean;
   size?: 'm' | 'l';
-  validate?: (value: string) => string | undefined;
+  validate?: (value: string, allValues?: any) => string | undefined;
   change?: (name: AmountInputField.amount, value: string) => void;
   maxDecimals?: number;
   currency: CurrencyType;

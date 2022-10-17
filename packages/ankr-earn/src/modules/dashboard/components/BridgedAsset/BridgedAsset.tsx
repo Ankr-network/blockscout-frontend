@@ -2,8 +2,7 @@ import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
-import { EEthereumNetworkId } from '@ankr.com/provider';
-import { t } from 'common';
+import { EEthereumNetworkId, t } from 'common';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import {

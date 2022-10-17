@@ -9,9 +9,13 @@ import { Logo } from '../Logo';
 
 interface MobileHeaderProps {
   className?: string;
+  hasAccountDetailsButton?: boolean;
 }
 
-export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
+export const MobileHeader = ({
+  hasAccountDetailsButton,
+  className = '',
+}: MobileHeaderProps) => {
   const classes = useStyles();
 
   return (
@@ -19,7 +23,7 @@ export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
       <Container className={classes.container} maxWidth={false}>
         <Logo />
         <div className={classes.buttons}>
-          <AccountDetailsButton isMobile />
+          {hasAccountDetailsButton && <AccountDetailsButton isMobile />}
           <ConnectButton isMobile />
         </div>
       </Container>

@@ -16,6 +16,7 @@ export const TextWithRouter = ({ children }: ITextWithRouter): JSX.Element => {
     }
   };
   if (React.isValidElement(children)) {
+    /* @ts-ignore */
     return React.cloneElement(children, { onClick: handleClick });
   }
   return <>{children}</>;
