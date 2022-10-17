@@ -5,6 +5,8 @@ import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { EVMRequestComposer } from './EVMRequestComposer';
 import { TronRequestComposer } from './TronRequestComposer';
 
+import { NearRequestComposer } from './NearRequestComposer';
+
 interface IRequestComposerContainerProps {
   group: EndpointGroup;
   unfilteredGroup: EndpointGroup;
@@ -33,6 +35,16 @@ export const RequestComposerContainer = ({
   if (chainId === ChainID.AVALANCHE) {
     return (
       <AvalancheRequestComposer
+        group={group}
+        publicUrl={publicUrl}
+        className={className}
+      />
+    );
+  }
+
+  if (chainId === ChainID.NEAR) {
+    return (
+      <NearRequestComposer
         group={group}
         publicUrl={publicUrl}
         className={className}
