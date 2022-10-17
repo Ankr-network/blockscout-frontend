@@ -1,4 +1,5 @@
 import { Grid, Typography } from '@material-ui/core';
+import classNames from 'classnames';
 
 import { EEthereumNetworkId, t } from 'common';
 
@@ -14,6 +15,7 @@ import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
 
 interface INetworkIconTextProps {
   chainId?: EEthereumNetworkId;
+  iconRootClass?: string;
   isLoading?: boolean;
   /**
    * Please use chainId prop.
@@ -25,6 +27,7 @@ interface INetworkIconTextProps {
 
 export const NetworkIconText = ({
   chainId,
+  iconRootClass,
   isLoading,
   network,
   token,
@@ -41,7 +44,7 @@ export const NetworkIconText = ({
   return (
     <Grid container alignItems="center" spacing={2}>
       <Grid item className={classes.iconContainer} xs="auto">
-        <Icon className={classes.icon} />
+        <Icon className={classNames(classes.icon, iconRootClass)} />
 
         {NetworkIcon ? <NetworkIcon className={classes.networkIcon} /> : null}
       </Grid>

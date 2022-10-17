@@ -35,6 +35,7 @@ import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBala
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
+import { getDashboardData as getSSVOnETHDashboardData } from 'modules/stake-ssv/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -65,6 +66,7 @@ const resetRequests = () =>
     getMGNOPrice.toString(),
     getMgnoBalance.toString(),
     getEthCommonData.toString(),
+    getSSVOnETHDashboardData.toString(),
     getFTMHistory.toString(),
     getFTMStats.toString(),
     getMetrics.toString(),
@@ -116,6 +118,10 @@ export const useDashboard = (): IUseDashboard => {
       dispatch(getMGNOMaxApr());
       dispatch(getMGNOPrice());
       dispatch(getMgnoBalance());
+    }
+
+    if (featuresConfig.ssvStaking) {
+      dispatch(getSSVOnETHDashboardData());
     }
 
     setFirstLoad(false);
