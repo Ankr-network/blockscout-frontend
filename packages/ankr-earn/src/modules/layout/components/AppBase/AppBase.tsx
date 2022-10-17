@@ -12,6 +12,7 @@ import { useInitializeLocale } from 'store/useAppUtils';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import '../../../../assets/fonts/style.css';
+import '../../../../assets/styles/feedback.css';
 
 interface IAppBase {
   children: ReactNode;
