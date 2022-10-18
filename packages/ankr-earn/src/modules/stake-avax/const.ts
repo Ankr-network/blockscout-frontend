@@ -1,4 +1,7 @@
-import { AvailableWriteProviders, AvailableReadProviders } from 'common';
+import {
+  AvailableWriteProviders,
+  AvailableReadProviders,
+} from '@ankr.com/provider-core';
 
 import { AVAX_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 

@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { IpcProvider, WebsocketProvider } from 'web3-core';
-import { Web3KeyWriteProvider } from 'common';
+import { Address, Web3KeyWriteProvider } from '@ankr.com/provider-core';
 
 export interface EventProvider
   extends Omit<IpcProvider | WebsocketProvider, 'on'> {
@@ -13,8 +13,6 @@ export enum ProviderEvents {
   Message = 'message',
   ChainChanged = 'chainChanged',
 }
-
-export type Address = string;
 
 export interface ProviderRpcError extends Error {
   message: string;

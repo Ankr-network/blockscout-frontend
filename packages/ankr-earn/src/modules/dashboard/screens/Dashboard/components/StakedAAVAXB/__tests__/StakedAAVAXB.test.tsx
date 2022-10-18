@@ -1,8 +1,8 @@
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
-import { EEthereumNetworkId } from 'common';
 
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

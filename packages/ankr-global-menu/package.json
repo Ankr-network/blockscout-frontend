@@ -18,7 +18,7 @@
 		"postpublish": "node prepublish.js revert",
 		"prepack": "node prepublish.js",
 		"postpack": "node prepublish.js revert",
-		"clean": "rimraf build"
+		"clean": "rimraf build dist"
 	},
 	"peerDependencies": {
 		"react": "17.x",

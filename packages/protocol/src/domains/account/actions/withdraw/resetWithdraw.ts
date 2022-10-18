@@ -1,6 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from 'common';
+import { IWeb3SendResult } from '@ankr.com/provider-core';
 
 import { MultiService } from 'modules/api/MultiService';
 import { resetTransaction } from 'domains/account/store/accountWithdrawSlice';

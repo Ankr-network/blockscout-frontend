@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { IWeb3SendResult } from 'common';
+import { IWeb3SendResult } from '@ankr.com/provider-core';
 import { EventData } from 'web3-eth-contract';
 
 import { PrefixedHex, Web3Address } from '../common';

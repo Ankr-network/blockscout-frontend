@@ -9,67 +9,65 @@
     },
     "build:stage": {
       "cache": true,
-      "dependsOn": ["build", "^build:stage"],
+      "dependsOn": ["^build"],
       "outputs": ["build/**", "dist/**"],
       "inputs": ["src/**"]
     },
     "build:local": {
       "cache": true,
-      "dependsOn": ["build", "^build:local"],
+      "dependsOn": ["^build"],
       "outputs": ["build/**", "dist/**"],
       "inputs": ["src/**"]
     },
     "build:prod": {
       "cache": true,
-      "dependsOn": ["build", "^build:prod"],
+      "dependsOn": ["^build"],
       "outputs": ["build/**", "dist/**"],
       "inputs": ["src/**"]
     },
     "build:dev": {
       "cache": true,
-      "dependsOn": ["build", "^build:dev"],
+      "dependsOn": ["^build"],
       "outputs": ["build/**", "dist/**"],
       "inputs": ["src/**"]
     },
     "test": {
-      "dependsOn": [
-        "build",
-        "build:stage"
-      ],
+      "cache": true,
+      "dependsOn": ["^build"],
       "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
     },
     "test:coverage": {
-      "dependsOn": [
-        "build",
-        "build:stage"
-      ],
+      "cache": true,
+      "dependsOn": ["^build"],
       "outputs": [
         "coverage/**"
       ],
       "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
     },
     "lint:js": {
+      "cache": true,
       "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
     },
     "lint:js:fix": {
+      "cache": false,
       "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
       "outputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
     },
     "start:local": {
       "cache": false,
-      "dependsOn": ["build", "build:local"]
+      "dependsOn": ["^build"]
     },
     "start:dev": {
       "cache": false,
-      "dependsOn": ["build", "build:dev"]
+      "dependsOn": ["^build"]
     },
     "start:stage": {
       "cache": false,
-      "dependsOn": ["build", "build:stage"]
+      "dependsOn": ["^build"]
     },
     "start:prod": {
       "cache": false,
-      "dependsOn": ["build", "build:prod"]
+      "dependsOn": ["^build"]
     },
     "format": {
       "cache": true,
@@ -77,8 +75,12 @@
       "outputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
     },
     "types": {
+      "cache": false,
       "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
       "dependsOn": ["^types"]
+    },
+    "clean": {
+      "cache": false
     }
   }
 }

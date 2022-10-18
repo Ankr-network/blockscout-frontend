@@ -1,7 +1,8 @@
+import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
-import { Web3KeyReadProvider, t } from 'common';
+import { t } from 'common';
 
 import { connect } from 'modules/auth/common/actions/connect';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';

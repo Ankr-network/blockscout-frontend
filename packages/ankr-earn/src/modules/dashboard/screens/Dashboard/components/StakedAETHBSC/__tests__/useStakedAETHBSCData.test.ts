@@ -1,3 +1,4 @@
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import {
   useDispatchRequest,
   useMutation,
@@ -5,8 +6,6 @@ import {
 } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
-
-import { EEthereumNetworkId } from 'common';
 
 import { useGuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';

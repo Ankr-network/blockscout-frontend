@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { QueryState } from '@redux-requests/core';
-
-import { AvailableWriteProviders } from 'common';
 
 import { useAppSelector } from 'store/useAppSelector';
 

@@ -3,23 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "types": "tsc --noEmit -p tsconfig.json",
     "start:stage": "env-cmd -f .env.stage react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "start:stage:turbo": "cd ../.. && turbo run start:stage --parallel --filter=ankr-protocol-backoffice...",
-    "start:prod:turbo": "cd ../.. && turbo run start:prod --parallel --filter=ankr-protocol-backoffice...",
+    "start:stage:turbo": "cd ../.. && turbo run start:stage --filter=ankr-protocol-backoffice...",
+    "start:prod:turbo": "cd ../.. && turbo run start:prod --filter=ankr-protocol-backoffice...",
     "build:stage": "env-cmd -f .env.stage react-scripts build",
     "build:prod": "env-cmd -f .env.prod react-scripts build",
     "build:stage:turbo": "cd ../.. && turbo run build:stage --filter=ankr-protocol-backoffice...",
     "build:prod:turbo": "cd ../.. && turbo run build:prod --filter=ankr-protocol-backoffice...",
     "test": "react-scripts test",
-    "test:turbo": "cd ../.. && turbo run test --parallel --filter=ankr-protocol-backoffice...",
+    "test:turbo": "cd ../.. && turbo run test --filter=ankr-protocol-backoffice",
     "eject": "react-scripts eject",
     "format": "lint-staged",
-    "lint:js": "eslint './src/**/*.{js,ts,jsx,tsx}'",
-    "check-circular-dependency": "madge --circular src"
+    "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
+    "check-circular-dependency": "madge --circular src",
+    "clean": "rimraf build dist"
   },
   "dependencies": {
     "@ankr.com/provider": "*",
+    "@ankr.com/provider-core": "*",
     "multirpc-sdk": "*",
     "common": "*",
     "@ant-design/icons": "^4.6.4",
@@ -46,13 +49,14 @@
     "web-vitals": "^1.0.1",
     "web3": "^1.5.2",
     "web3modal": "^1.9.4",
-    "web3-eth-contract": "^1.6.0"
+    "web3-eth-contract": "1.7.0"
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.8",
     "@types/uuid": "^8.3.1",
     "env-cmd": "^10.1.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "rimraf": "3.0.2"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

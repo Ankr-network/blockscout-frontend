@@ -1,10 +1,13 @@
+import {
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import nock from 'nock';
 import { TransactionReceipt } from 'web3-core';
 
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'common';
-
 import { ProviderManager } from '@ankr.com/provider';
+
 import { ETH_SCALE_FACTOR, ZERO } from '../../../common';
 import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '../../const';
 import {

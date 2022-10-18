@@ -1,9 +1,8 @@
 /**
  * Common constants for staking sdk package
  */
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-
-import { EEthereumNetworkId } from 'common';
 
 import { isMainnet } from './env';
 

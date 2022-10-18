@@ -1,7 +1,6 @@
+import { isWriteProvider } from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
-
-import { isWriteProvider } from '@ankr.com/provider';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IHistoryData } from '../api/AnkrStakingSDK/types';

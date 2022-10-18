@@ -1,4 +1,6 @@
-import { EPolkadotNetworkId, t } from 'common';
+import { EPolkadotNetworkId } from '@ankr.com/provider-core';
+
+import { t } from 'common';
 
 import { INetworkItem } from 'modules/auth/common/components/GuardRoute';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';

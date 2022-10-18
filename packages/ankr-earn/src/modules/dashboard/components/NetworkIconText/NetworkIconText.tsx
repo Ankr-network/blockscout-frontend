@@ -1,7 +1,8 @@
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { EEthereumNetworkId, t } from 'common';
+import { t } from 'common';
 
 import {
   iconByNetworkMap,

@@ -1,3 +1,8 @@
+import {
+  AvailableWriteProviders,
+  EWalletId,
+  Web3KeyReadProvider,
+} from '@ankr.com/provider-core';
 import { Box, ButtonBase, Grid, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
@@ -7,12 +12,7 @@ import { AnyAction } from 'redux';
 import { isMobile } from 'web3modal';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import {
-  AvailableWriteProviders,
-  EWalletId,
-  Web3KeyReadProvider,
-  t,
-} from 'common';
+import { t } from 'common';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 
 import { Dialog } from 'uiKit/Dialog';

@@ -1,8 +1,11 @@
+import {
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import nock from 'nock';
 
 import { ProviderManager } from '@ankr.com/provider';
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'common';
 
 import { EFantomErrorCodes, EFantomPoolEvents, FantomSDK } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';

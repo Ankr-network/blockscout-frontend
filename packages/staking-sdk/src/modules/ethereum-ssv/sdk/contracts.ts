@@ -1,7 +1,6 @@
+import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-
-import { Web3KeyReadProvider } from 'common';
 
 import { configFromEnv, currentEnv } from '../../common';
 import ABI_ASETHC from '../../contracts/asETHc.json';

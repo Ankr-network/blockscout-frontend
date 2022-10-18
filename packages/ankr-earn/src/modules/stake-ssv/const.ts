@@ -1,4 +1,7 @@
-import { AvailableWriteProviders, EEthereumNetworkId } from 'common';
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider-core';
 
 import { isMainnet } from 'modules/common/const';
 

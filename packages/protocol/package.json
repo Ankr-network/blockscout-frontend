@@ -5,14 +5,14 @@
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "start:stage:turbo": "cd ../.. && turbo run start:stage --parallel --filter=ankr-protocol-web...",
-    "start:prod:turbo": "cd ../.. && turbo run start:prod --parallel --filter=ankr-protocol-web...",
+    "start:stage:turbo": "cd ../.. && turbo run start:stage --filter=ankr-protocol-web...",
+    "start:prod:turbo": "cd ../.. && turbo run start:prod --filter=ankr-protocol-web...",
     "build:stage": "env-cmd -f .env.stage react-scripts build",
     "build:prod": "env-cmd -f .env.prod react-scripts build",
     "build:stage:turbo": "cd ../.. && turbo run build:stage --filter=ankr-protocol-web...",
     "build:prod:turbo": "cd ../.. && turbo run build:prod --filter=ankr-protocol-web...",
     "test": "react-scripts test",
-    "test:turbo": "cd ../.. && turbo run test --parallel --filter=ankr-protocol-web...",
+    "test:turbo": "cd ../.. && turbo run test --filter=ankr-protocol-web",
     "eject": "react-scripts eject",
     "format": "lint-staged",
     "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
@@ -22,11 +22,13 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "postbuild": "react-snap",
-    "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done"
+    "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done",
+    "clean": "rimraf build dist"
   },
   "homepage": "/rpc",
   "dependencies": {
     "@ankr.com/provider": "*",
+    "@ankr.com/provider-core": "*",
     "@loadable/component": "^5.14.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -83,8 +85,8 @@
     "redux-smart-actions": "^1.0.0",
     "valid-url": "1.0.9",
     "web-vitals": "^1.0.1",
-    "web3": "^1.3.5",
-    "web3-core": "^1.6.1",
+    "web3": "1.7.0",
+    "web3-core": "^1.7.0",
     "web3modal": "^1.9.4"
   },
   "devDependencies": {
@@ -127,7 +129,8 @@
     "react-app-rewired": "2.1.8",
     "react-snap": "^1.23.0",
     "source-map-explorer": "^2.5.2",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "rimraf": "3.0.2"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

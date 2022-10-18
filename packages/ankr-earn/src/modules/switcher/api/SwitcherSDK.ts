@@ -1,3 +1,8 @@
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+  IWeb3SendResult,
+} from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -11,11 +16,6 @@ import {
   PolygonOnEthereumSDK,
   ProviderManagerSingleton,
 } from '@ankr.com/staking-sdk';
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-  IWeb3SendResult,
-} from 'common';
 
 import { Token } from 'modules/common/types/token';
 

@@ -7,7 +7,7 @@ import {
   getWalletIcon,
   OKX_WALLET_NAME,
   RPCConfig,
-} from 'common';
+} from '@ankr.com/provider-core';
 
 const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
   (acc, [key, { rpcUrls }]) => ({ ...acc, [key]: rpcUrls[0] }),
