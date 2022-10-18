@@ -52,13 +52,6 @@
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
       "og-description": "Use a decentralized and free Ethereum public RPC endpoint"
-    },
-    "chain-item-aptos-testnet": {
-      "title": "Your Instant RPC Gateway to Aptos Testnet",
-      "description": "Experience unrestricted access to a decentralized Aptos Testnet RPC for developers and DeFi users.",
-      "og-title": "Build on Aptos Testnet With Instant RPC Endpoint",
-      "og-description": "Use a fast, reliable & free Aptos Testnet public RPC endpoint",
-      "h1-tag": "Access a fast, reliable, and decentralized Aptos Testnet RPC"
     }
   },
   "error": {
