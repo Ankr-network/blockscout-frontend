@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import '@polkadot/api-augment';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import {

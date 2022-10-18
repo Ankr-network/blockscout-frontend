@@ -6,3 +6,4 @@ export * from './utils/Web3KeyReadProvider';
 export * from './utils/Web3KeyWriteProvider';
 export * from './utils/types';
 export * from './utils/const';
+export * from './utils/getWalletIcon';

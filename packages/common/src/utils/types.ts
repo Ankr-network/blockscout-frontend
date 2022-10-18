@@ -59,6 +59,7 @@ export enum EWalletId {
   trust = 'custom-trust',
   binanceWallet = 'custom-binance-wallet',
   walletconnect = 'walletconnect',
+  okxwallet = 'custom-okxwallet',
 }
 
 export interface IProvider {

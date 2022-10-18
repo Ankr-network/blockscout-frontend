@@ -10,5 +10,6 @@ declare global {
     };
     zE?(...args: unknown[]): void;
     zESettings?: unknown;
+    okexchain: unknown;
   }
 }

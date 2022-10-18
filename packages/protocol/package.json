@@ -28,7 +28,6 @@
   "dependencies": {
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "*",
-    "@ankr.com/global-menu": "*",
     "ui": "*",
     "multirpc-sdk": "*",
     "@loadable/component": "^5.14.1",

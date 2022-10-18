@@ -99,6 +99,7 @@
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
+    "eth-value": "{value} ETH",
     "ftm-value": "{value} FTM",
     "matic-value": "{value} MATIC",
     "~polygon": "{value} aMATICb",
@@ -616,7 +617,7 @@
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee in ANKR tokens to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
   },
   "calc": {
     "title": "Staking calculator",
@@ -1068,11 +1069,6 @@
       "description-3": "Boost Web3 integration and adoption",
       "description-4": "Earn participation in ANKR DAO governance"
     },
-    "usnupported": {
-      "title": "Start staking ANKR",
-      "description": "Please connect your <a href=\"{link}\" target='_blank' rel='norefferer'>Metamask desktop wallet extension</a>. Support for additional connections like TrustWallet will be available soon.",
-      "btn": "Connect"
-    },
     "staking": {
       "more-title": "Stake more ANKR",
       "approve": "Approve",
@@ -1165,6 +1161,11 @@
     }
   },
   "stake-mgno": {
+    "usnupported": {
+      "title": "Start staking mGNO",
+      "description": "OKX Wallet doesn't support Gnosis network. Please connect another wallet.",
+      "btn": "Connect"
+    },
     "total-info": {
       "stake": "Stake mGNO",
       "claim-all": "Claim all",

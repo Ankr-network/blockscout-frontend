@@ -77,9 +77,6 @@ interface IPolygonConfig {
 export interface IGatewayConfig {
   baseUrl: string;
   ankrApiBaseUrl: string;
-
-  // todo: Extract the private key to a secure place (https://ankrnetwork.atlassian.net/browse/STAKAN-2178)
-  ankrApiKey: string;
 }
 
 export interface IStkrConfig {
@@ -154,8 +151,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
-    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
-    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
+    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain_public/',
   },
 };
 
@@ -247,8 +243,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',
-    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
-    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
+    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain_public/',
   },
 };
 

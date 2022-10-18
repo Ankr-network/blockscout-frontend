@@ -1,6 +1,8 @@
 {
   "short_name": "Staking",
-  "name": "Ankr | Staking",
+  "name": "Ankr staking",
+  "description": "Staking infrastructure - Liquid, Secure, and Easy to Integrate",
+  "iconPath": "./android-chrome-192x192.png",
   "icons": [
     {
       "src": "./android-chrome-192x192.png",
