@@ -72,7 +72,7 @@ export const TxView = ({
 
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
-  const { chainId, isMetaMask } = useAuth(
+  const { chainId, isInjected } = useAuth(
     AvailableWriteProviders.ethCompatible,
   );
 
@@ -115,8 +115,8 @@ export const TxView = ({
   const showWithdrawlBtn =
     isConnected && !isReceived && !isWrongNetwork && isNotarizeCompleted;
   const showConnectBtn = !isConnected;
-  const showAddTokenBtn = isConnected && isReceived && isMetaMask && !isFirefox;
-  const showSwitchNetworkBtn = isConnected && isWrongNetwork;
+  const showAddTokenBtn = isConnected && isReceived && isInjected && !isFirefox;
+  const showSwitchNetworkBtn = isConnected && isWrongNetwork && isInjected;
 
   useEffect(() => {
     if (isNotarizeCompleted || !isConnected) {
@@ -243,7 +243,7 @@ export const TxView = ({
             </Button>
           )}
 
-          {showSwitchNetworkBtn && isMetaMask && (
+          {showSwitchNetworkBtn && isInjected && (
             <Button
               fullWidth
               color="primary"
@@ -258,7 +258,7 @@ export const TxView = ({
             </Button>
           )}
 
-          {showSwitchNetworkBtn && !isMetaMask && (
+          {showSwitchNetworkBtn && !isInjected && (
             <Quote mt={3} variant="warning">
               {t('bridge.main.switch-note', {
                 chain: t(`chain.${chainIdTo}`),

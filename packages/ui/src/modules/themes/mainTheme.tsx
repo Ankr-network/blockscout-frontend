@@ -568,7 +568,7 @@ export const mainTheme = createTheme({
         padding: '6px 20px',
 
         '&:hover': {
-          color: defaultTheme.palette.text.primary,
+          color: defaultTheme.palette.primary.main,
         },
       },
       textPrimary: {

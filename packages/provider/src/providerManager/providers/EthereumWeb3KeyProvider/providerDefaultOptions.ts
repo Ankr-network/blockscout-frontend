@@ -1,17 +1,23 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { IProviderOptions } from 'web3modal';
-import { EEthereumNetworkId, EWalletId } from 'common';
-import huobiLogo from './assets/huobi.svg';
-import imTokenLogo from './assets/im-token.svg';
-import binanceWalletLogo from './assets/binance-wallet.svg';
-import mathLogo from './assets/math.svg';
-import trustWalletLogo from './assets/trust.svg';
 import { BscConnector } from '@binance-chain/bsc-connector';
+import {
+  EEthereumNetworkId,
+  EWalletId,
+  getWalletIcon,
+  OKX_WALLET_NAME,
+  RPCConfig,
+} from 'common';
+
+const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
+  (acc, [key, { rpcUrls }]) => ({ ...acc, [key]: rpcUrls[0] }),
+  {} as Record<EEthereumNetworkId, string>,
+);
 
 export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.binanceWallet]: {
     display: {
-      logo: binanceWalletLogo,
+      logo: getWalletIcon(EWalletId.binanceWallet),
       name: 'Binance Wallet',
       description:
         'A Crypto Wallet for BNB Beacon Chain, BNB Smart Chain and Ethereum',
@@ -32,18 +38,13 @@ export const providerDefaultOptions: IProviderOptions = {
   },
   [EWalletId.imtoken]: {
     display: {
-      logo: imTokenLogo,
+      logo: getWalletIcon(EWalletId.imtoken),
       name: 'imToken',
       description: 'Easy and secure digital wallet trusted by millions',
     },
     package: WalletConnectProvider,
     options: {
-      rpc: {
-        1: 'https://rpc.ankr.com/eth',
-        5: 'https://rpc.ankr.com/eth_goerli',
-        56: 'https://rpc.ankr.com/bsc',
-        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
-      },
+      rpc: DEFAULT_RPC,
     },
     connector: async (ProviderPackage: any, options: any) => {
       const provider = new ProviderPackage(options);
@@ -53,18 +54,13 @@ export const providerDefaultOptions: IProviderOptions = {
   },
   [EWalletId.math]: {
     display: {
-      logo: mathLogo,
+      logo: getWalletIcon(EWalletId.math),
       name: 'Math Wallet',
       description: 'Gateway to the World of Blockchain',
     },
     package: WalletConnectProvider,
     options: {
-      rpc: {
-        1: 'https://rpc.ankr.com/eth',
-        5: 'https://rpc.ankr.com/eth_goerli',
-        56: 'https://rpc.ankr.com/bsc',
-        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
-      },
+      rpc: DEFAULT_RPC,
     },
     connector: async (ProviderPackage: any, options: any) => {
       const provider = new ProviderPackage(options);
@@ -74,18 +70,13 @@ export const providerDefaultOptions: IProviderOptions = {
   },
   [EWalletId.trust]: {
     display: {
-      logo: trustWalletLogo,
+      logo: getWalletIcon(EWalletId.trust),
       name: 'Trust Wallet',
       description: 'The most trusted & secure crypto wallet',
     },
     package: WalletConnectProvider,
     options: {
-      rpc: {
-        1: 'https://rpc.ankr.com/eth',
-        5: 'https://rpc.ankr.com/eth_goerli',
-        56: 'https://rpc.ankr.com/bsc',
-        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
-      },
+      rpc: DEFAULT_RPC,
     },
     connector: async (ProviderPackage: any, options: any) => {
       const provider = new ProviderPackage(options);
@@ -95,18 +86,13 @@ export const providerDefaultOptions: IProviderOptions = {
   },
   [EWalletId.huobi]: {
     display: {
-      logo: huobiLogo,
+      logo: getWalletIcon(EWalletId.huobi),
       name: 'Huobi Wallet',
       description: 'Multi-currency support, practical and convenient',
     },
     package: WalletConnectProvider,
     options: {
-      rpc: {
-        1: 'https://rpc.ankr.com/eth',
-        5: 'https://rpc.ankr.com/eth_goerli',
-        56: 'https://rpc.ankr.com/bsc',
-        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
-      },
+      rpc: DEFAULT_RPC,
     },
     connector: async (ProviderPackage: any, options: any) => {
       const provider = new ProviderPackage(options);
@@ -117,14 +103,23 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.walletconnect]: {
     package: WalletConnectProvider,
     options: {
-      rpc: {
-        1: 'https://rpc.ankr.com/eth',
-        5: 'https://rpc.ankr.com/eth_goerli',
-        56: 'https://rpc.ankr.com/bsc',
-        97: 'https://rpc.ankr.com/bsc_testnet_chapel',
-        137: 'https://rpc.ankr.com/polygon',
-        80001: 'https://rpc.ankr.com/polygon_mumbai',
-      },
+      rpc: DEFAULT_RPC,
+    },
+  },
+  [EWalletId.okxwallet]: {
+    display: {
+      logo: getWalletIcon(EWalletId.okxwallet),
+      name: OKX_WALLET_NAME,
+      description: 'Your portal to Web3',
+    },
+    package: WalletConnectProvider,
+    options: {
+      rpc: DEFAULT_RPC,
+    },
+    connector: async () => {
+      const provider = window.okexchain;
+      await (provider as any).enable();
+      return provider;
     },
   },
 };

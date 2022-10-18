@@ -12,7 +12,6 @@ export class AnkrAPIGateway {
       responseType: 'json',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-KEY': gatewayConfig.ankrApiKey,
       },
     };
 

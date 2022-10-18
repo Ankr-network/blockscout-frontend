@@ -7,6 +7,7 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
+import { SupportGuard } from './components/SupportGuard';
 import { MGNO_PROVIDER_ID, MGNO_STAKING_NETWORKS } from './const';
 
 const ROOT = `${STAKING_PATH}mgno-stake/`;
@@ -79,7 +80,9 @@ export function getRoutes(): JSX.Element {
           providerId={MGNO_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Main />
+            <SupportGuard>
+              <Main />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -90,7 +93,9 @@ export function getRoutes(): JSX.Element {
           providerId={MGNO_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Providers />
+            <SupportGuard>
+              <Providers />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -101,7 +106,9 @@ export function getRoutes(): JSX.Element {
           providerId={MGNO_PROVIDER_ID}
         >
           <DefaultLayout>
-            <Stake />
+            <SupportGuard>
+              <Stake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -112,7 +119,9 @@ export function getRoutes(): JSX.Element {
           providerId={MGNO_PROVIDER_ID}
         >
           <DefaultLayout>
-            <StakeSteps />
+            <SupportGuard>
+              <StakeSteps />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
       </Switch>

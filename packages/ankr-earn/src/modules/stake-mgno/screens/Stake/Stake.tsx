@@ -87,6 +87,7 @@ export const Stake = (): JSX.Element => {
           providerName={providerName}
           providerSelectHref={providerSelectHref}
           quoteText={quoteText}
+          stakingAmountStep={minStake}
           tokenIn={tokenIn}
           onChange={onChange}
           onSubmit={onSubmit}

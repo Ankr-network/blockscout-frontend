@@ -22,7 +22,7 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     maxHeight: 500,
     height: '50vh',
-    overflow: 'scroll',
+    overflowY: 'auto',
   },
 
   table: {

@@ -1,5 +1,5 @@
 export enum ChainID {
-  APTOS_TESTNET = 'aptos_testnet',
+  APTOS = 'aptos',
   ARBITRUM = 'arbitrum',
   AVALANCHE = 'avalanche',
   AVALANCHE_C = 'avalanche-c',
