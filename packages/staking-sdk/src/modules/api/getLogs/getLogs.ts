@@ -8,7 +8,7 @@ import { AnkrAPIGateway } from '../AnkrAPIGateway';
 import { IFilter, ILog, TBlockchain } from './types';
 import { generateEventOptions } from './utils/generateEventOptions';
 
-const { gatewayConfig, contractConfig } = configFromEnv();
+const { gatewayConfig } = configFromEnv();
 
 interface IGetLogs {
   id: number;
@@ -55,12 +55,12 @@ export const getLogs = async ({
       data: {
         id: 1,
         jsonrpc: '2.0',
-        method: 'ankr_getIndexedLogs',
+        method: 'explorer_getLogs',
         params: {
           fromBlock,
           toBlock,
           blockchain,
-          address: [contractConfig.polygonPool],
+          address: [contract.options.address],
           topics,
         },
       },

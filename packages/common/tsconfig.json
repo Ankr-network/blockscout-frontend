@@ -16,7 +16,7 @@
     "resolveJsonModule": true,
     "jsx": "react"
   },
-  "include": ["src/index.ts"],
+  "include": ["src/index.ts", "src/typings/*.d.ts"],
   "exclude": ["**/*.test.ts"],
   "resolveJsonModule": true
 }
