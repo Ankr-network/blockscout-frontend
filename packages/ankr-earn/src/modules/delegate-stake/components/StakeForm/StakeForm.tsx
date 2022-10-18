@@ -1,12 +1,14 @@
 import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { FormErrors } from 'modules/common/types/FormErrors';
+import { floor } from 'modules/common/utils/floor';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
 import { NodeProviderField } from 'modules/delegate-stake/components/NodeProviderField';
 import { setMaxAmount } from 'modules/delegate-stake/utils/setMaxAmount';
@@ -35,6 +37,7 @@ interface IStakeFormProps {
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
+  stakingAmountStep?: BigNumber;
   loading?: boolean;
   isBalanceLoading?: boolean;
   isApproveLoading?: boolean;
@@ -60,6 +63,7 @@ export const StakeForm = ({
   balance = ZERO,
   minAmount = ZERO,
   maxAmount = balance,
+  stakingAmountStep,
   loading = false,
   isBalanceLoading = false,
   isApproveLoading = false,
@@ -82,9 +86,39 @@ export const StakeForm = ({
 }: IStakeFormProps): JSX.Element => {
   const classes = useStakeFormStyles();
 
-  const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
-    ? balance.toString()
-    : maxAmount.toString();
+  const maxStakeAmount = useMemo(() => {
+    const balanceRoundedByStep = stakingAmountStep
+      ? `${floor(balance.toNumber(), stakingAmountStep.toNumber())}`
+      : balance.toString();
+
+    return balance.isLessThanOrEqualTo(maxAmount)
+      ? balanceRoundedByStep
+      : maxAmount.toString();
+  }, [balance, maxAmount, stakingAmountStep]);
+
+  const validateStakeForm = useCallback(
+    (data: IAnkrStakeSubmitPayload) => {
+      const { amount } = data;
+
+      const errors: FormErrors<IAnkrStakeSubmitPayload> = {};
+
+      const withAmountStep = !!stakingAmountStep;
+
+      const isMultipleOf =
+        amount && stakingAmountStep
+          ? new BigNumber(amount).modulo(stakingAmountStep).isZero()
+          : false;
+
+      if (withAmountStep && !isMultipleOf) {
+        errors.amount = t('validation.multiple-of', {
+          value: stakingAmountStep.toFormat(),
+        });
+      }
+
+      return errors;
+    },
+    [stakingAmountStep],
+  );
 
   const onSubmitForm = (payload: IAnkrStakeSubmitPayload): void =>
     onSubmit({
@@ -205,6 +239,7 @@ export const StakeForm = ({
         amount: initialAmount,
       }}
       render={renderForm}
+      validate={validateStakeForm}
       onSubmit={onSubmitForm}
     />
   );
