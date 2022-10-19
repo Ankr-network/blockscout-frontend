@@ -32,8 +32,6 @@ const getLocation = (pathname: string, chainsRoutes: string[]): string => {
       location = 'chain-item-bsc.';
     } else if (pathname === `${INDEX_PATH}fantom`) {
       location = 'chain-item-fantom.';
-    } else if (pathname === `${INDEX_PATH}aptos_testnet`) {
-      location = 'chain-item-aptos-testnet.';
     } else {
       location = 'chain-item.';
     }

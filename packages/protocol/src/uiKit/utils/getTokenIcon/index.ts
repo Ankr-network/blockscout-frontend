@@ -25,7 +25,7 @@ import syscoinIcon from './syscoin.svg';
 import tronIcon from './tron.svg';
 
 const chainIcons = {
-  aptos_testnet: aptosIcon,
+  aptos: aptosIcon,
   arbitrum: arbitrumIcon,
   avalanche: avaxIcon,
   bsc: bscIcon,
