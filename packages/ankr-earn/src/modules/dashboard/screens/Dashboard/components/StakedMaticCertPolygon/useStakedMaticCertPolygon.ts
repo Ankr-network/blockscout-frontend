@@ -1,8 +1,9 @@
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { EEthereumNetworkId, t } from 'common';
+import { t } from 'common';
 
 import { POLYGON_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

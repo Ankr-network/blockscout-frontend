@@ -1,3 +1,4 @@
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -7,7 +8,6 @@ import {
   FantomSDK,
   PolygonOnEthereumSDK,
 } from '@ankr.com/staking-sdk';
-import { EEthereumNetworkId } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { AvailableSwitchNetwork } from 'modules/switcher/const';

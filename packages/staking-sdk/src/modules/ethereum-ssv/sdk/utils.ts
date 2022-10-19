@@ -1,6 +1,5 @@
+import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-
-import { Web3KeyReadProvider } from 'common';
 
 interface IGetReadableAmountFromWeiProps {
   amount: string;

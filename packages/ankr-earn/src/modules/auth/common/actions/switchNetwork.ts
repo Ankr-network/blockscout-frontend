@@ -1,13 +1,13 @@
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+  EPolkadotNetworkId,
+} from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-  EPolkadotNetworkId,
-} from 'common';
 import { ISwitchNetworkData, PolkadotProvider } from 'polkadot';
 
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';

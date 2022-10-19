@@ -1,7 +1,6 @@
+import { Address } from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
-
-import { Address } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
 import {

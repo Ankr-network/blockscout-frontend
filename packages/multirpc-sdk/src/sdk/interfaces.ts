@@ -1,4 +1,4 @@
-import { IWeb3SendResult, Web3KeyWriteProvider } from 'common';
+import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import { EventData } from 'web3-eth-contract';
 

@@ -1,4 +1,4 @@
-import { Address } from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider-core';
 
 import { Env } from '../common';
 

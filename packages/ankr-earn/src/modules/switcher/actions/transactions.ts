@@ -1,9 +1,8 @@
+import { IWeb3SendResult } from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
-
-import { IWeb3SendResult } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { onTransactionError } from 'modules/common/utils/getErrorMessage';

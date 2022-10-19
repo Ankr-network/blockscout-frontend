@@ -20,6 +20,6 @@
     "baseUrl": "src",
     "experimentalDecorators": true
   },
-  "include": ["index.ts"],
+  "include": ["src/index.ts", "src/typings/**/*.d.ts"],
   "exclude": ["**/*.test.ts"]
 }

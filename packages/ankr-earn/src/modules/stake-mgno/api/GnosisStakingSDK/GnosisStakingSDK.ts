@@ -1,14 +1,14 @@
+import {
+  TWeb3BatchCallback,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import {
-  TWeb3BatchCallback,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';

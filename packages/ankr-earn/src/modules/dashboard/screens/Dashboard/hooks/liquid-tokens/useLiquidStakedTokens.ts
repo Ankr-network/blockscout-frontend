@@ -2,6 +2,7 @@ import { useStakedAVAX } from './AVAX/useStakedAVAX';
 import { useStakedBNB } from './BNB/useStakedBNB';
 import { useBridgedETH } from './ETH/useBridgedETH';
 import { useStakedETH } from './ETH/useStakedETH';
+import { useStakedSSVOnETH } from './ETH/useStakedSSVOnETH';
 import { useStakedFTM } from './FTM/useStakedFTM';
 import { useBridgedMATIC } from './MATIC/useBridgedMATIC';
 import { useStakedMATIC } from './MATIC/useStakedMATIC';
@@ -28,6 +29,7 @@ interface IUseLiquidStakedTokens {
   isStakedDotBondShowed: boolean;
   isStakedWndBondShowed: boolean;
   isStakedKsmBondShowed: boolean;
+  isStakedSSVOnETHCertShowed: boolean;
   isBridgedEthCertBscShowed: boolean;
   isBridgedEthBondBscShowed: boolean;
   isBridgedMaticBondPolygonShowed: boolean;
@@ -57,6 +59,9 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isBridgedEthCertBSCLoading,
     isBridgedEthCertBscShowed,
   } = useBridgedETH();
+
+  const { isSSVOnETHDataLoading, isStakedSSVOnETHCertShowed } =
+    useStakedSSVOnETH();
 
   const {
     isMaticEthCommonLoading,
@@ -115,6 +120,7 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isKsmBondBalanceLoading ||
     isBridgedMaticBondBscLoading ||
     isBridgedMaticCertBscLoading ||
+    isSSVOnETHDataLoading ||
     isUnclaimedDotBondLoading ||
     isUnclaimedKsmBondLoading ||
     isUnclaimedWndBondLoading ||
@@ -141,6 +147,7 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isStakedDotBondShowed,
     isStakedWndBondShowed,
     isStakedKsmBondShowed,
+    isStakedSSVOnETHCertShowed,
 
     isBridgedEthCertBscShowed,
     isBridgedEthBondBscShowed,

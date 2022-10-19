@@ -1,6 +1,8 @@
+import {
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 import { TransactionReceipt } from 'web3-core';
-
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'common';
 
 import { AVAILABLE_BNB_SYNT_TOKENS } from './const';
 
@@ -22,7 +24,7 @@ export enum EBinancePoolEvents {
 /**
  * Binance partners contract events
  */
- export enum EBinancePartnersEvents {
+export enum EBinancePartnersEvents {
   RewardsClaimed = 'RewardsClaimed',
 }
 

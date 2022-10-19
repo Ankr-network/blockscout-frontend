@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import {
   abortRequests,
   resetRequests as resetReduxRequests,
@@ -11,7 +12,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
 import { EthereumSSV } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders, t } from 'common';
+import { t } from 'common';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

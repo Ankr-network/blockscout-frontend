@@ -1,4 +1,8 @@
 import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider-core';
+import {
   useDispatchRequest,
   useMutation,
   useQuery,
@@ -7,7 +11,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders, EEthereumNetworkId, t } from 'common';
+import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { AVAX_NETWORK_BY_ENV, ZERO } from 'modules/common/const';

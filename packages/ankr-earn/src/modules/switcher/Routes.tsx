@@ -1,8 +1,7 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import compact from 'lodash/compact';
 import { generatePath } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
-
-import { AvailableWriteProviders } from 'common';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import {

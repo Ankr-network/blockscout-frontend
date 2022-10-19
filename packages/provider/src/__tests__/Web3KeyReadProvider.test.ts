@@ -1,12 +1,12 @@
-import * as Web3 from 'web3';
+/**
+ * @jest-environment jsdom
+ */
+import Web3 from 'web3';
+import { EthereumHttpWeb3KeyProvider } from '../../build';
+import { mockWeb3 } from '../../mocks/batch';
+import { TWeb3BatchCallback } from '@ankr.com/provider-core';
 
-import { TWeb3BatchCallback } from '../providerManager/Web3KeyReadProvider';
-import { EthereumHttpWeb3KeyProvider } from '../providerManager/providers/EthereumHttpWeb3KeyProvider';
-import { mockWeb3 } from '../mocks/batch';
-
-jest.mock('web3', () => ({
-  default: jest.fn(),
-}));
+jest.mock('web3', () => jest.fn());
 
 describe('providerManager/Web3KeyReadProvider', () => {
   const createCall =
@@ -17,7 +17,7 @@ describe('providerManager/Web3KeyReadProvider', () => {
     };
 
   beforeEach(() => {
-    (Web3.default as unknown as jest.Mock).mockReturnValue(mockWeb3);
+    (Web3 as unknown as jest.Mock).mockReturnValue(mockWeb3);
   });
 
   afterEach(() => {
@@ -49,7 +49,7 @@ describe('providerManager/Web3KeyReadProvider', () => {
 
     const result = await provider
       .executeBatchCalls(calls)
-      .catch(error => error.message);
+      .catch((error: Error) => error.message);
 
     expect(result).toBe('error');
   });

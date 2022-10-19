@@ -1,15 +1,15 @@
-import BigNumber from 'bignumber.js';
-
 import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'common';
+} from '@ankr.com/provider-core';
+import BigNumber from 'bignumber.js';
+
+import { ProviderManager } from '@ankr.com/provider';
 
 import { AvalancheSDK, EAvalanchePoolEvents, EAvalancheErrorCodes } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
 import { convertNumberToHex } from '../../utils';
 import { AVAX_HISTORY_2_WEEKS_OFFSET } from '../const';
-import { ProviderManager } from '@ankr.com/provider';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),

@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-
-import { AvailableWriteProviders } from 'common';
 
 import { ANKR_NETWORK_BY_ENV } from 'modules/common/const';
 import { Milliseconds, Percentage } from 'modules/common/types';

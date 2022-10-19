@@ -1,4 +1,4 @@
-import { IWeb3SendResult } from 'common';
+import { IWeb3SendResult } from '@ankr.com/provider-core';
 
 import { PrefixedHex } from '../common';
 

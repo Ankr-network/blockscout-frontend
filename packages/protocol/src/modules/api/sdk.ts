@@ -1,5 +1,8 @@
 import BigNumber from 'bignumber.js';
-import { Web3KeyReadProvider, AvailableReadProviders } from 'common';
+import {
+  Web3KeyReadProvider,
+  AvailableReadProviders,
+} from '@ankr.com/provider-core';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Contract } from 'web3-eth-contract';
