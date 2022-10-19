@@ -330,11 +330,22 @@ describe('modules/polygon/sdk/ethSDK', () => {
   });
 
   test('should return unstake fee data properly', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        ethUnstakeFee: () => ({
+          call: (): string => '1',
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
     const sdk = await PolygonOnEthereumSDK.getInstance();
 
     const data = await sdk.getUnstakeFee();
 
-    expect(data).toStrictEqual(expectedUnstakeFeeData);
+    expect(data).toStrictEqual('1');
   });
 
   test('should stake aMATICc properly', async () => {
