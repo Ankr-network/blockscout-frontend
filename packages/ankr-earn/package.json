@@ -5,12 +5,10 @@
   "homepage": "/staking",
   "main": "src/index.ts",
   "dependencies": {
+    "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "*",
     "@ankr.com/provider-core": "*",
     "@ankr.com/staking-sdk": "*",
-    "@ankr.com/global-menu": "*",
-    "ui": "*",
-    "polkadot": "*",
     "@loadable/component": "^5.15.2",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
@@ -38,6 +36,7 @@
     "lodash": "^4.17.21",
     "mixpanel-browser": "^2.43.0",
     "notistack": "1.0.10",
+    "polkadot": "*",
     "pretty-time": "^1.1.0",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.3",
@@ -60,6 +59,7 @@
     "sanitize-html": "^2.7.2",
     "typescript": "^4.1.2",
     "typescript-memoize": "1.1.0",
+    "ui": "*",
     "use-debounce": "^7.0.1",
     "web-vitals": "^1.0.1",
     "web3": "1.7.0",
@@ -96,6 +96,7 @@
     "@types/redux-actions": "^2.6.2",
     "@types/sanitize-html": "^2.6.2",
     "babel-loader": "8.1.0",
+    "concurrently": "^7.4.0",
     "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
     "fast-check": "^2.21.0",
@@ -107,11 +108,11 @@
     "rimraf": "3.0.2"
   },
   "scripts": {
-    "start:dev": "env-cmd -f .env.dev react-scripts start",
-    "start:stage": "env-cmd -f .env.stage react-scripts start",
-    "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "start:local": "env-cmd -f .env.local react-scripts start",
-    "start:dev:turbo": "cd ../.. && turbo run start:dev --filter=ankr-earn...",
+    "start:dev": "concurrently \"env-cmd -f .env.dev react-scripts start\" \"yarn watch:dependencies\"",
+    "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
+    "start:prod": "concurrently \"env-cmd -f .env.prod react-scripts start\" \"yarn watch:dependencies\"",
+    "start:local": "concurrently \"env-cmd -f .env.local react-scripts start\" \"yarn watch:dependencies\"",
+    "start:dev:turbo": "cd ../.. && turbo run start:dev --filter=ankr-earn",
     "start:stage:turbo": "cd ../.. && turbo run start:stage --filter=ankr-earn...",
     "start:prod:turbo": "cd ../.. && turbo run start:prod --filter=ankr-earn...",
     "start:local:turbo": "cd ../.. && turbo run start:local --filter=ankr-earn...",
@@ -133,7 +134,8 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "postbuild": "react-snap",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch:dependencies": "cd ../.. && turbo run watch --parallel --filter=ankr-earn..."
   },
   "lint-staged": {
     "*.{ts,tsx}": [

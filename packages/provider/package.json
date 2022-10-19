@@ -14,11 +14,12 @@
     "format": "lint-staged",
     "test": "jest",
     "test:turbo": "cd ../.. && turbo run test --filter=@ankr.com/provider",
-    "build": "yarn clean && rollup -c",
+    "build": "rollup -c",
     "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/provider",
     "prepack": "node prepack.js",
     "types": "tsc --noEmit -p tsconfig.json",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch": "yarn build -w"
   },
   "dependencies": {
     "@ankr.com/provider-core": "*",
@@ -32,12 +33,12 @@
     "@polkadot/x-textdecoder": "^9.5.1",
     "@polkadot/x-textencoder": "^9.5.1",
     "@polkadot/x-ws": "^9.5.1",
-    "polkadot": "*",
-    "common": "*",
     "@redux-requests/core": "1.6.1",
     "@walletconnect/web3-provider": "^1.7.0",
     "bignumber.js": "^9.0.1",
+    "common": "*",
     "ethereumjs-util": "^7.1.3",
+    "polkadot": "*",
     "redux": "^4.1.2",
     "redux-saga": "^1.1.3",
     "web3": "1.7.0",
@@ -60,15 +61,17 @@
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@types/jest": "^26.0.0",
     "babel-plugin-inline-react-svg": "2.0.1",
-    "eslint-config-prettier": "^7.2.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
+    "eslint-config-prettier": "^7.2.0",
     "jest": "27.0.0",
     "lint-staged": "^10.5.4",
+    "npm-watch": "^0.11.0",
     "prettier": "^2.2.1",
+    "rimraf": "3.0.2",
+    "rollup-watch": "^4.3.1",
     "ts-jest": "27.0.0",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5",
-    "rimraf": "3.0.2"
+    "typescript": "^4.5.5"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -86,5 +89,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ts,tsx"
+    }
   }
 }

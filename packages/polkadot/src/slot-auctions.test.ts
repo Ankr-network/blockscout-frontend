@@ -3,7 +3,7 @@ import { u8aToHex } from '@polkadot/util';
 import BigNumber from 'bignumber.js';
 import { PolkadotProvider } from './polkadot';
 
-describe('Test: SlotAuctionSdk', (): void => {
+xdescribe('Test: SlotAuctionSdk', (): void => {
   describe('Case: onchain claim', (): void => {
     it('Remark payload composed correctly', (): void => {
       const payload: Buffer = Buffer.from(

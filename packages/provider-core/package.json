@@ -16,14 +16,15 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "precommit": "lint-staged; npm run test",
-    "test": "jest --coverage",
-    "test:watch": "jest --coverage --watch",
+    "test": "jest --coverage --passWithNoTests",
+    "test:watch": "jest --coverage --watch --passWithNoTests",
     "test:turbo": "cd ../.. && turbo run test --filter=provider-core",
     "test:watch:turbo": "cd ../.. && turbo run test:watch --filter=provider-core",
     "types": "tsc --noEmit -p tsconfig.json",
     "build": "vite build",
     "build:turbo": "cd ../.. && turbo run build --filter=provider-core...",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch": "yarn build --watch"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [

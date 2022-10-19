@@ -24,7 +24,8 @@
     "types": "tsc --noEmit -p tsconfig.json",
     "build": "vite build",
     "build:turbo": "cd ../.. && turbo run build --filter=common...",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch": "yarn build --watch"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [

@@ -9,7 +9,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "yarn clean && rollup -c && copyfiles -u 1 output/**/* build",
+    "build": "rollup -c",
     "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/staking-sdk...",
     "prepack": "node prepack.js",
     "clean": "rimraf build dist",
@@ -21,7 +21,8 @@
     "types": "tsc --noEmit -p tsconfig.json",
     "lint:js": "cross-env NODE_ENV=production eslint src --ext=ts,tsx,js,jsx",
     "lint:js:fix": "yarn lint:js --fix",
-    "docs": "typedoc ./src"
+    "docs": "typedoc ./src",
+    "watch": "yarn build -w"
   },
   "lint-staged": {
     "*.{ts}": [

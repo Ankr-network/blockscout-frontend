@@ -15,7 +15,8 @@
     "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/ui...",
     "start": "vite",
     "start:turbo": "vite",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch": "yarn build --watch"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",

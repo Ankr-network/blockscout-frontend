@@ -55,31 +55,34 @@
     },
     "start:local": {
       "cache": false,
-      "dependsOn": ["^build"]
+      "dependsOn": []
     },
     "start:dev": {
       "cache": false,
-      "dependsOn": ["^build"]
+      "dependsOn": []
     },
     "start:stage": {
       "cache": false,
-      "dependsOn": ["^build"]
+      "dependsOn": []
     },
     "start:prod": {
       "cache": false,
-      "dependsOn": ["^build"]
+      "dependsOn": []
     },
     "format": {
-      "cache": true,
+      "cache": false,
       "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
       "outputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"]
     },
     "types": {
-      "cache": false,
+      "cache": true,
       "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
       "dependsOn": ["^types"]
     },
     "clean": {
+      "cache": false
+    },
+    "watch": {
       "cache": false
     }
   }
