@@ -1,6 +1,5 @@
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-
-import { EEthereumNetworkId } from 'common';
 
 // semantic types
 export type TAmountUnit = number;

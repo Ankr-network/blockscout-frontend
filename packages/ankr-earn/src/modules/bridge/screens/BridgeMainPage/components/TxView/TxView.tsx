@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { Box, Paper } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import {
@@ -9,7 +10,7 @@ import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import { AvailableWriteProviders, t } from 'common';
+import { t } from 'common';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

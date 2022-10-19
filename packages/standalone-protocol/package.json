@@ -3,10 +3,11 @@
   "version": "1.6.3",
   "private": true,
   "scripts": {
+    "types": "tsc --noEmit -p tsconfig.json",
     "start:stage": "env-cmd -f .env.stage react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "start:stage:turbo": "cd ../.. && turbo run start:stage --parallel --filter=standalone-protocol...",
-    "start:prod:turbo": "cd ../.. && turbo run start:prod --parallel --filter=standalone-protocol...",
+    "start:stage:turbo": "cd ../.. && turbo run start:stage --filter=standalone-protocol...",
+    "start:prod:turbo": "cd ../.. && turbo run start:prod --filter=standalone-protocol...",
     "build:stage": "env-cmd -f .env.stage react-scripts build",
     "build:prod": "env-cmd -f .env.prod react-scripts build",
     "build:stage:turbo": "cd ../.. && turbo run build:stage --filter=standalone-protocol...",
@@ -14,15 +15,16 @@
     "build-chains:stage": "ENV=stage sh -e build-chains.sh",
     "build-chains:prod": "ENV=prod sh -e build-chains.sh",
     "test": "react-scripts test",
-    "test:turbo": "cd ../.. && turbo run test --parallel --filter=standalone-protocol...",
+    "test:turbo": "cd ../.. && turbo run test --filter=standalone-protocol",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
-    "lint:js": "eslint './src/**/*.{js,ts,jsx,tsx}'",
+    "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
     "check-circular-dependency": "madge --circular src",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done",
-    "postbuild": "react-snap"
+    "postbuild": "react-snap",
+    "clean": "rimraf build dist"
   },
   "homepage": "/",
   "dependencies": {
@@ -69,7 +71,7 @@
     "redux-saga": "^1.1.3",
     "redux-smart-actions": "^1.0.0",
     "web-vitals": "^1.0.1",
-    "web3": "^1.3.5",
+    "web3": "1.7.0",
     "web3modal": "^1.9.4"
   },
   "devDependencies": {
@@ -112,7 +114,8 @@
     "source-map-explorer": "^2.5.2",
     "typescript": "^4.1.2",
     "vite": "^3.1.6",
-    "vite-plugin-svgr": "^2.2.1"
+    "vite-plugin-svgr": "^2.2.1",
+    "rimraf": "3.0.2"
   },
   "browserslist": {
     "production": [

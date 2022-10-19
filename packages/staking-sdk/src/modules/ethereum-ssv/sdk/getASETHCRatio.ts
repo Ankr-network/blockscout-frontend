@@ -1,6 +1,5 @@
+import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-
-import { Web3KeyReadProvider } from 'common';
 
 import { currentEnv } from '../../common';
 import { ICommonProps } from '../types';

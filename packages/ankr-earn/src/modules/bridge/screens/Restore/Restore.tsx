@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { Box, Paper, Typography } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { goBack, push } from 'connected-react-router';
@@ -5,7 +6,7 @@ import { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 
-import { AvailableWriteProviders, t } from 'common';
+import { t } from 'common';
 import { Notice } from 'ui';
 
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';

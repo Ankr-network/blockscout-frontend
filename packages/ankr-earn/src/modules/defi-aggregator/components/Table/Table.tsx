@@ -1,10 +1,11 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 import _capitalize from 'lodash/capitalize';
 import { cloneElement, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
-import { AvailableWriteProviders, t } from 'common';
+import { t } from 'common';
 
 import { trackClickDefiAggregator } from 'modules/analytics/tracking-actions/trackClickDefiAggregator';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

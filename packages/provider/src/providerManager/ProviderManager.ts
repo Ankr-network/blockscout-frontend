@@ -14,7 +14,7 @@ import {
   AvailableWriteProviders,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'common';
+} from '@ankr.com/provider-core';
 import { sleep } from './utils/sleep';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {

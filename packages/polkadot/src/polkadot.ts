@@ -17,7 +17,7 @@ import { ISubmittableResult } from '@polkadot/types/types/extrinsic';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 import { blake2AsHex, decodeAddress } from '@polkadot/util-crypto';
 import BigNumber from 'bignumber.js';
-import { IProvider } from 'common';
+import { IProvider } from '@ankr.com/provider-core';
 import PolkadotIcon from './assets/polkadot-icon.svg';
 import {
   CURRENT_ENV,

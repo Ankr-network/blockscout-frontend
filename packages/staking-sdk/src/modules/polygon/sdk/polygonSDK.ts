@@ -1,15 +1,15 @@
+import {
+  Address,
+  EEthereumNetworkId,
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-
-import {
-  EEthereumNetworkId,
-  IWeb3SendResult,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from 'common';
 
 import {
   configFromEnv,
@@ -42,7 +42,6 @@ import {
   IMaticSDKProviders,
   TMaticSyntToken,
 } from '../types';
-import { Address } from '@ankr.com/provider';
 
 const { polygonConfig } = configFromEnv();
 

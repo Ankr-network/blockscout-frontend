@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-
-import { AvailableWriteProviders } from 'common';
 
 import { trackClaimAllRewards } from 'modules/analytics/tracking-actions/trackClaimAllRewards';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

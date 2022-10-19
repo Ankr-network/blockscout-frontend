@@ -1,10 +1,10 @@
+import { IWeb3SendResult } from '@ankr.com/provider-core';
 import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
 import { FantomSDK } from '@ankr.com/staking-sdk';
-import { IWeb3SendResult } from 'common';
 
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 

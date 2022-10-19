@@ -1,4 +1,7 @@
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'common';
+import {
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 
 /**
  * Available tokens for FantomSDK
@@ -30,6 +33,6 @@ export enum EFantomPoolEvents {
 /**
  * Error codes for FantomSDK
  */
- export enum EFantomErrorCodes {
+export enum EFantomErrorCodes {
   ZERO_AMOUNT = 'zero-amount',
 }

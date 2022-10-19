@@ -19,7 +19,7 @@
     "jsx": "react-jsx",
     "baseUrl": "src"
   },
-  "include": ["src", "typings/*.d.ts"],
-  "exclude": ["node_modules", "out", "**/*.stories.tsx", "**/*.stories.js"],
+  "include": ["src/index.ts", "typings/*.d.ts"],
+  "exclude": ["**/*.stories.tsx", "**/*.stories.js"],
   "references": []
 }

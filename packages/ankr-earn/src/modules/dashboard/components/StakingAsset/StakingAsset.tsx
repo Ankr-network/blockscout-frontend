@@ -27,6 +27,7 @@ import { useStakingAssetStyles as useStyles } from './useStakingAssetStyles';
 interface IStakingAssetProps {
   amount?: BigNumber;
   chainId?: EEthereumNetworkId;
+  iconTokenRootClass?: string;
   isHistoryLoading?: boolean;
   isLoading?: boolean;
   isShowedTradeLink?: boolean;
@@ -51,6 +52,7 @@ interface IStakingAssetProps {
 export const StakingAsset = ({
   amount,
   chainId,
+  iconTokenRootClass,
   isHistoryLoading = false,
   isLoading = false,
   isShowedTradeLink = true,
@@ -203,7 +205,12 @@ export const StakingAsset = ({
       }
       menuSlot={menuSlot}
       networkAndIconSlot={
-        <NetworkIconText chainId={chainId} network={network} token={token} />
+        <NetworkIconText
+          chainId={chainId}
+          iconRootClass={iconTokenRootClass}
+          network={network}
+          token={token}
+        />
       }
     />
   );

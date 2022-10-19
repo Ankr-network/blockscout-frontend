@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 
 export const getAuthRequestKey = (
   providerId: AvailableWriteProviders,

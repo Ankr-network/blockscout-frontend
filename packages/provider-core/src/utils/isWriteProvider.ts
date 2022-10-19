@@ -1,4 +1,5 @@
-import { Web3KeyWriteProvider, Web3KeyReadProvider } from 'common';
+import { Web3KeyReadProvider } from './Web3KeyReadProvider';
+import { Web3KeyWriteProvider } from './Web3KeyWriteProvider';
 
 export function isWriteProvider(
   obj: Web3KeyReadProvider | Web3KeyWriteProvider,
