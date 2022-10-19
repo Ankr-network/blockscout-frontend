@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import Web3Modal, { ThemeColors } from 'web3modal';
-import { Web3KeyWriteProvider } from 'common';
+import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
 import { providerDefaultOptions } from './providerDefaultOptions';
 
 interface IEthereumWeb3KeyProviderArgs {

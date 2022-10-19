@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -8,7 +9,6 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
 import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders } from 'common';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

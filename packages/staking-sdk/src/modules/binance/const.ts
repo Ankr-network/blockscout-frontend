@@ -1,7 +1,7 @@
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
-} from 'common';
+} from '@ankr.com/provider-core';
 
 import { isMainnet } from '../common';
 
@@ -15,10 +15,9 @@ export const BINANCE_POOL_CONTRACT_START_BLOCK = isMainnet
 /**
  * Start block to check events for BinancePartners
  */
- export const BINANCE_PARTNERS_CONTRACT_START_BLOCK = isMainnet
- ? 20_956_307
- : 22_056_801;
-
+export const BINANCE_PARTNERS_CONTRACT_START_BLOCK = isMainnet
+  ? 20_956_307
+  : 22_056_801;
 
 /**
  * Block offset to get 14 days history events

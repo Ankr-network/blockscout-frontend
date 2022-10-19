@@ -1,3 +1,10 @@
+import {
+  Address,
+  EEthereumNetworkId,
+  TWeb3BatchCallback,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import prettyTime from 'pretty-time';
@@ -5,19 +12,12 @@ import { Memoize } from 'typescript-memoize';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 
-import { Address } from '@ankr.com/provider';
 import {
   ANKR_ABI,
   getPastEvents,
   IS_ADVANCED_API_ACTIVE,
   ProviderManagerSingleton,
 } from '@ankr.com/staking-sdk';
-import {
-  EEthereumNetworkId,
-  TWeb3BatchCallback,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';

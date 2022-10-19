@@ -1,9 +1,9 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { EthereumSDK } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders } from 'common';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

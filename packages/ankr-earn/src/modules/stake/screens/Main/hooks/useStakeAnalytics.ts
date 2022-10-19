@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useCallback } from 'react';
-
-import { AvailableWriteProviders } from 'common';
 
 import {
   TAccessPoint,

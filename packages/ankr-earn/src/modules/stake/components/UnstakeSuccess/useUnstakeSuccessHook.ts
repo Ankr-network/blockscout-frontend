@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useState, useCallback, useEffect } from 'react';
-
-import { AvailableWriteProviders } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 

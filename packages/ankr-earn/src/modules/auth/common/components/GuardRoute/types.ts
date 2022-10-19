@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 

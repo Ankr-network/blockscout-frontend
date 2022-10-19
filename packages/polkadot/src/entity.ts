@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { Address } from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider-core';
 
 export type TEthereumAddress = Address;
 export type TPolkadotAddress = string;

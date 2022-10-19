@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import {
   abortRequests,
   resetRequests as resetReduxRequests,
@@ -10,7 +11,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders, t } from 'common';
+import { t } from 'common';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { DependencyList, EffectCallback, useEffect } from 'react';
-
-import { AvailableWriteProviders } from 'common';
 
 import { useConnectedData } from './useConnectedData';
 

@@ -1,7 +1,6 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
-
-import { AvailableWriteProviders } from 'common';
 
 export interface IProviderStatus {
   address?: string;

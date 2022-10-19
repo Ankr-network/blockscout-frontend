@@ -1,4 +1,7 @@
-import { AvailableWriteProviders, AvailableReadProviders } from 'common';
+import {
+  AvailableWriteProviders,
+  AvailableReadProviders,
+} from '@ankr.com/provider-core';
 
 import { BSC_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

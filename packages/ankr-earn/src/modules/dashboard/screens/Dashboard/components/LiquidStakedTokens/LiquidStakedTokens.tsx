@@ -2,6 +2,7 @@ import { Box, BoxProps } from '@material-ui/core';
 
 import { t } from 'common';
 
+import { featuresConfig } from 'modules/common/const';
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { DashboardCardSkeleton } from 'modules/dashboard/components/DashboardCard';
 import { StakedTokensTitle } from 'modules/dashboard/components/StakedTokensTitle';
@@ -25,6 +26,7 @@ import { StakedAFTMC } from '../StakedAFTMC';
 import { StakedAKSMB } from '../StakedAKSMB';
 import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
+import { StakedASETHC } from '../StakedASETHC';
 import { StakedAWNDB } from '../StakedAWNDB';
 import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
 import { UnclaimedDOT } from '../UnclaimedDOT';
@@ -57,6 +59,7 @@ export const LiquidStakedTokens = (
     isStakedDotBondShowed,
     isStakedWndBondShowed,
     isStakedKsmBondShowed,
+    isStakedSSVOnETHCertShowed,
     isBridgedEthCertBscShowed,
     isBridgedEthBondBscShowed,
     isBridgedMaticBondPolygonShowed,
@@ -117,6 +120,10 @@ export const LiquidStakedTokens = (
         {isBridgedEthBondBscShowed && <BridgedEthBond />}
 
         {isBridgedEthCertBscShowed && <BridgedAETHCBSC />}
+
+        {featuresConfig.ssvStaking && isStakedSSVOnETHCertShowed && (
+          <StakedASETHC />
+        )}
 
         {isAtLeaseOneLoading && <DashboardCardSkeleton />}
       </AssetsList>

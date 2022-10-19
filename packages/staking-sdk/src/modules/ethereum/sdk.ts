@@ -1,15 +1,14 @@
-import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
-import { TransactionReceipt } from 'web3-core';
-import { Contract, EventData } from 'web3-eth-contract';
-
 import {
   AvailableReadProviders,
   EEthereumNetworkId,
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'common';
+} from '@ankr.com/provider-core';
+import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
+import { Contract, EventData } from 'web3-eth-contract';
 
 import { getPastEvents } from '../api';
 import {

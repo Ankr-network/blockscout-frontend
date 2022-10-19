@@ -1,9 +1,10 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
 
-import { AvailableWriteProviders, t } from 'common';
+import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import {

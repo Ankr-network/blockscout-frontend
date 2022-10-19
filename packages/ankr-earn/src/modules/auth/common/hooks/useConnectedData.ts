@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useQuery } from '@redux-requests/react';
-
-import { AvailableWriteProviders } from 'common';
 
 import { getIsInjectedWallet, getIsOKX } from '../../eth/utils/walletTypeUtils';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';

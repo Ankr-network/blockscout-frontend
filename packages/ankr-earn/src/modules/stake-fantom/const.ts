@@ -1,4 +1,7 @@
-import { AvailableReadProviders, AvailableWriteProviders } from 'common';
+import {
+  AvailableReadProviders,
+  AvailableWriteProviders,
+} from '@ankr.com/provider-core';
 
 import { FTM_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 import { Days } from 'modules/common/types';

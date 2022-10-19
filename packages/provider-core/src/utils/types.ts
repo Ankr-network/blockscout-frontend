@@ -18,6 +18,8 @@ export enum AvailableReadProviders {
   sokol = 'sokolHttpProvider',
 }
 
+export type Address = string;
+
 export enum AvailableWriteProviders {
   ethCompatible = 'ethCompatible',
   polkadotCompatible = 'polkadotCompatible',

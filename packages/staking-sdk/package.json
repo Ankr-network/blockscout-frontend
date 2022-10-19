@@ -12,11 +12,11 @@
     "build": "yarn clean && rollup -c && copyfiles -u 1 output/**/* build",
     "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/staking-sdk...",
     "prepack": "node prepack.js",
-    "clean": "rimraf build output",
+    "clean": "rimraf build dist",
     "test": "jest --passWithNoTests",
-    "test:turbo": "cd ../.. && turbo run test --parallel --filter=@ankr.com/staking-sdk...",
+    "test:turbo": "cd ../.. && turbo run test --filter=@ankr.com/staking-sdk",
     "test:coverage": "yarn test --coverage",
-    "test:coverage:turbo": "cd ../.. && turbo run test:coverage --parallel --filter=@ankr.com/staking-sdk...",
+    "test:coverage:turbo": "cd ../.. && turbo run test:coverage --filter=@ankr.com/staking-sdk",
     "format": "lint-staged",
     "types": "tsc --noEmit -p tsconfig.json",
     "lint:js": "cross-env NODE_ENV=production eslint src --ext=ts,tsx,js,jsx",
@@ -43,14 +43,15 @@
   },
   "dependencies": {
     "@ankr.com/provider": "*",
+    "@ankr.com/provider-core": "*",
     "common": "*",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "lodash": "^4.17.21",
-    "web3": "^1.6.1",
+    "web3": "1.7.0",
     "web3-core": "^1.7.0",
-    "web3-eth": "^1.7.0",
-    "web3-eth-contract": "^1.6.1",
+    "web3-eth": "1.7.0",
+    "web3-eth-contract": "1.7.0",
     "web3-utils": "^1.3.5"
   },
   "devDependencies": {
@@ -68,15 +69,16 @@
     "@types/nock": "^11.1.0",
     "babel-plugin-inline-react-svg": "2.0.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
-    "jest": "^28.1.1",
+    "jest": "27.0.0",
     "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^10.5.4",
     "nock": "^13.2.7",
     "prettier": "^2.5.1",
     "rollup-plugin-svg": "2.0.0",
-    "ts-jest": "^28.0.5",
+    "ts-jest": "27.0.0",
     "ts-node": "^10.8.1",
     "typedoc": "^0.22.17",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "rimraf": "3.0.2"
   }
 }
