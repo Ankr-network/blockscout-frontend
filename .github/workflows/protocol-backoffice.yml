@@ -48,16 +48,20 @@ jobs:
         if: ${{ github.event.inputs.api == 'STAGE' }}
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         run: |
-          yarn build:stage
+          yarn build:stage:turbo
 
       - name: Build production
         working-directory: ./packages/protocol-backoffice
         if: ${{ github.event.inputs.api == 'PROD' }}
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         run: |
-          yarn build:prod
+          yarn build:prod:turbo
 
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

@@ -30,6 +30,8 @@ export const formatPublicUrls = (
 
   const tronItem = blockchainsApiResponse.find(item => item.id === 'tron');
 
+  const aptosItem = blockchainsApiResponse.find(item => item.id === 'aptos');
+
   const aptosTestnetItem = blockchainsApiResponse.find(
     item => item.id === 'aptos_testnet',
   );
@@ -43,6 +45,10 @@ export const formatPublicUrls = (
 
     if (blockchain.id === 'tron') {
       blockchain.paths = tronItem?.paths ? [tronItem.paths[0]] : [];
+    }
+
+    if (blockchain.id === 'aptos') {
+      blockchain.paths = aptosItem?.paths ? [`${aptosItem.paths[0]}/v1`] : [];
     }
 
     if (blockchain.id === 'aptos_testnet') {
@@ -66,11 +72,12 @@ export const formatPublicUrls = (
 
 const getPaths = (blockchain: IBlockchainEntity) => {
   const isTron = blockchain.id === 'tron';
+  const isAptos = blockchain.id === 'aptos';
   const isAptosTestnet = blockchain.id === 'aptos_testnet';
 
   let paths = blockchain?.paths ?? [];
 
-  if (isTron || isAptosTestnet) {
+  if (isTron || isAptos || isAptosTestnet) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
   }
 
@@ -87,7 +94,7 @@ export const formatPrivateUrls = (
     const hasWS = blockchain.features.includes('ws');
 
     const paths = getPaths(blockchain);
-    const isAptosTestnet = blockchain.id === 'aptos_testnet';
+    const isAptos = blockchain.id === 'aptos' || blockchain.id === 'aptos_testnet';
 
     const rpcURLs: string[] = hasRPC
       ? paths.map(path => {
@@ -95,7 +102,7 @@ export const formatPrivateUrls = (
             .replace('{blockchain}', path)
             .replace('{user}', tokenHash);
 
-          if (isAptosTestnet) {
+          if (isAptos) {
             url += '/v1';
           }
 
@@ -109,7 +116,7 @@ export const formatPrivateUrls = (
             .replace('{blockchain}', path)
             .replace('{user}', tokenHash);
 
-          if (isAptosTestnet) {
+          if (isAptos) {
             url += '/v1';
           }
 

@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 
-import { ChainType, Timeframe } from 'domains/chains/types';
-import { EndpointGroup } from 'modules/endpoints/types';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
-import { SectionID } from '../types';
+import { ChainType, Timeframe } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { SectionID } from '../types';
 import { useGetStartedSection } from './useGetStartedSection';
 import { useInfrastructureSection } from './useInfrastructureSection';
 import { useInitialSection } from './useInitialSection';

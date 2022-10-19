@@ -13,7 +13,6 @@ import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getCommonData as fetchAnkrData } from 'modules/stake-ankr/actions/getCommonData';
-import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
 import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/Routes';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
@@ -140,10 +139,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       requestKey: getPolkadotRequestKey(EPolkadotNetworks.WND),
     });
 
-  const { data: maxAnkrApy } = useQuery({
-    type: getMaxApy,
-  });
-
   const { data: maxMgnoApr } = useQuery({
     type: getMGNOMaxApr,
   });
@@ -192,7 +187,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       {
         name: Token.ANKR,
         amount: ankrBalanceData?.ankrBalance ?? ZERO,
-        apy: maxAnkrApy ?? ZERO,
+        apy: metrics?.ankr.apy ?? ZERO,
         link: StakeAnkrRoutes.stake.generatePath(),
       },
       {
@@ -228,7 +223,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       },
     ],
     [
-      maxAnkrApy,
       metrics,
       dotBalance,
       ksmBalance,

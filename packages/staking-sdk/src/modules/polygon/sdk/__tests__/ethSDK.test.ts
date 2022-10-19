@@ -3,7 +3,6 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-import nock from 'nock';
 import { TransactionReceipt } from 'web3-core';
 
 import { ProviderManager } from '@ankr.com/provider';
@@ -74,12 +73,6 @@ describe('modules/polygon/sdk/ethSDK', () => {
     sendTransactionAsync: jest.fn(),
   };
 
-  const expectedUnstakeFeeData = {
-    unstakeFee: 1,
-    useBeforeBlock: 2,
-    signature: 'signature',
-  };
-
   beforeEach(() => {
     defaultWeb3.eth.Contract.mockReturnValue(defaultContract);
     defaultWeb3.eth.getChainId.mockReturnValue(1);
@@ -90,11 +83,6 @@ describe('modules/polygon/sdk/ethSDK', () => {
       getETHWriteProvider: () => Promise.resolve(defaultWriteProvider),
       getETHReadProvider: () => Promise.resolve(defaultReadProvider),
     });
-
-    nock('https://api.goerli.staking.ankr.com')
-      .get('/v1alpha/polygon/unstakeFee')
-      .query({ address: 'address' })
-      .reply(200, expectedUnstakeFeeData);
   });
 
   afterEach(() => {
@@ -330,11 +318,22 @@ describe('modules/polygon/sdk/ethSDK', () => {
   });
 
   test('should return unstake fee data properly', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        ethUnstakeFee: () => ({
+          call: (): string => '1',
+        }),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
     const sdk = await PolygonOnEthereumSDK.getInstance();
 
     const data = await sdk.getUnstakeFee();
 
-    expect(data).toStrictEqual(expectedUnstakeFeeData);
+    expect(data).toStrictEqual('1');
   });
 
   test('should stake aMATICc properly', async () => {

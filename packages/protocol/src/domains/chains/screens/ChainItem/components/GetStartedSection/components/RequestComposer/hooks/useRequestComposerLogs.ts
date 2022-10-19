@@ -11,9 +11,14 @@ export interface ComposerRequest<S, T> {
   withResponse: boolean;
 }
 
-interface RequestComposerLogsParams<S extends string, T>
+export interface RequestComposerLogsParams<S extends string, T>
   extends UseLoggerResult {
   request: ComposerRequest<S, T>;
+}
+
+export interface RequestComposerLogsResult {
+  clear: UseLoggerResult['clear'];
+  logs: UseLoggerResult['logs'];
 }
 
 export function useRequestComposerLogs<S extends string, T>({
@@ -25,7 +30,7 @@ export function useRequestComposerLogs<S extends string, T>({
   clear,
   logs,
   request,
-}: RequestComposerLogsParams<S, T>) {
+}: RequestComposerLogsParams<S, T>): RequestComposerLogsResult {
   const { withResponse, response, time, error, method } = request;
 
   useOnMount(() => {
