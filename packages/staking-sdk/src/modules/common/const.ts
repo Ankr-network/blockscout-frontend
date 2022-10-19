@@ -1,11 +1,10 @@
 /**
  * Common constants for staking sdk package
  */
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
-import { EEthereumNetworkId } from 'common';
-
-import { isLocal, isMainnet } from './env';
+import { isMainnet } from './env';
 
 export const ETH_DECIMALS = 18;
 export const ETH_SCALE_FACTOR = 10 ** ETH_DECIMALS;
@@ -30,4 +29,4 @@ export const POLYGON_NETWORK_BY_ENV = isMainnet
   ? EEthereumNetworkId.polygon
   : EEthereumNetworkId.mumbai;
 
-export const IS_ADVANCED_API_ACTIVE = isLocal && isMainnet;
+export const IS_ADVANCED_API_ACTIVE = isMainnet;

@@ -1,9 +1,12 @@
+import {
+  Address,
+  AvailableWriteProviders,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { Address } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders, Web3KeyWriteProvider } from 'common';
 import { PolkadotProvider } from 'polkadot';
 
 import { Web3Address } from 'modules/common/types';
@@ -104,6 +107,7 @@ export const connect = createAction<
           isActive: true,
           address: response.data.address,
           walletId: response.data.walletId,
+          wallet,
         }),
       );
 

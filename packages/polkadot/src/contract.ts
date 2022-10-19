@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import bs58 from 'bs58';
-import { IWeb3SendResult, Web3KeyWriteProvider } from 'common';
+import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider-core';
 import { Contract } from 'web3-eth-contract';
 import ABI_IERC20 from './abi/IERC20.json';
 import ABI_REWARD_POOL from './abi/RewardPool.json';

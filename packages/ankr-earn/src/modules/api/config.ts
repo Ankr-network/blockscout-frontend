@@ -1,4 +1,4 @@
-import { Address } from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider-core';
 
 import { currentEnv, ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
@@ -104,9 +104,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMaticbToken: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
-    // AnkrTokenStakingProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
+    // AnkrTokenStakingProxy from https://cdn.staking.ankr.com/contracts/ankr-protocol/develop/addresses.json
     ankrTokenStaking: '0x06C2b4dcB69155d1C7Da229AA578BD9b6477A507',
-    // StakingConfigProxy from https://cdn.stkr.io/contracts/ankr-protocol/develop/addresses.json
+    // StakingConfigProxy from https://cdn.staking.ankr.com/contracts/ankr-protocol/develop/addresses.json
     ankrStakingChainConfig: '0x916C1e42c41C73941d8319267F0a0E9b592b6058',
     mGNOToken: '0x4741cB111C61246c6282c97A163AaEfD130C88c3',
     gnosisStakingContract: '0x632173973cdF9CBe4B497541BAF2C5Db0Ec8Ba18',
@@ -165,7 +165,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
     ...LOCAL_CONFIG.gatewayConfig,
-    baseUrl: 'https://api.dev.stkr.io/',
+    baseUrl: 'https://api.dev.staking.ankr.com/',
   },
 };
 
@@ -173,7 +173,7 @@ const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
     ...LOCAL_CONFIG.gatewayConfig,
-    baseUrl: 'https://api.goerli.stkr.io/',
+    baseUrl: 'https://api.goerli.staking.ankr.com/',
   },
 };
 
@@ -242,7 +242,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
   },
   gatewayConfig: {
-    baseUrl: 'https://api.stkr.io/',
+    baseUrl: 'https://api.staking.ankr.com/',
     strapiUrl: 'https://strapi.ankr.com/',
   },
 };

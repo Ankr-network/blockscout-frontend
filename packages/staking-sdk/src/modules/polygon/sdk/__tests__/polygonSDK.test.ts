@@ -1,13 +1,14 @@
-import BigNumber from 'bignumber.js';
-import web3 from 'web3';
-import { TransactionReceipt } from 'web3-core';
-
 import {
   EEthereumNetworkId,
   ITokenInfo,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'common';
+} from '@ankr.com/provider-core';
+import BigNumber from 'bignumber.js';
+import web3 from 'web3';
+import { TransactionReceipt } from 'web3-core';
+
+import { ProviderManager } from '@ankr.com/provider';
 
 import { POLYGON_NETWORK_BY_ENV, ZERO } from '../../../common';
 import { IPendingData, IStakeData, ITxEventsHistoryData } from '../../../stake';
@@ -15,7 +16,6 @@ import { IFetchTxData } from '../../../switcher';
 import { MATIC_DECIMALS, MATIC_SCALE_FACTOR } from '../../const';
 import { EMaticSDKErrorCodes, TMaticSyntToken } from '../../types';
 import { PolygonOnPolygonSDK } from '../polygonSDK';
-import { ProviderManager } from '@ankr.com/provider';
 
 jest.mock('@ankr.com/provider', () => ({
   ...jest.requireActual('@ankr.com/provider'),

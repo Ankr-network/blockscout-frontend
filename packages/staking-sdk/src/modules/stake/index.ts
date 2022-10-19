@@ -1,7 +1,6 @@
 /* istanbul ignore file */
+import { IWeb3SendResult } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
-
-import { IWeb3SendResult } from 'common';
 
 import { IPendingData, ITxEventsHistoryData, IStakeData } from './types';
 
@@ -71,13 +70,16 @@ export interface IStakable {
    * @returns {Promise<ITxEventsHistoryData>}
    */
 
-  getTxEventsHistoryRange?: (from: number, to: number) => Promise<ITxEventsHistoryData>;
-  /** 
+  getTxEventsHistoryRange?: (
+    from: number,
+    to: number,
+  ) => Promise<ITxEventsHistoryData>;
+  /**
    * Get latest block number.
-   * 
+   *
    * @returns {Promise<number>}
-  */
- getLatestBlock?: () => Promise<number>;
+   */
+  getLatestBlock?: () => Promise<number>;
 }
 
 export * from './types';

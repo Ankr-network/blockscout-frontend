@@ -1,4 +1,6 @@
-import { EEthereumNetworkId, t } from 'common';
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
+
+import { t } from 'common';
 
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 

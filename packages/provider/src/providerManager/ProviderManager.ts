@@ -7,13 +7,14 @@ import {
   EthereumWeb3KeyProvider,
 } from './providers';
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
+import { GnosisHttpWeb3KeyProvider } from './providers/GnosisHttpWeb3KeyProvider';
 import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvider';
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'common';
+} from '@ankr.com/provider-core';
 import { sleep } from './utils/sleep';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
@@ -122,7 +123,7 @@ export class ProviderManager {
 
       case AvailableReadProviders.gnosis:
       case AvailableReadProviders.sokol: {
-        return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new GnosisHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
 
       default: {

@@ -30,6 +30,15 @@ export const useTokenInfoDialogStyles = makeStyles(theme => ({
     color: theme.palette.text.primary,
     fontSize: 14,
     margin: theme.spacing(0, 1),
+
+    '& a': {
+      color: theme.palette.primary.main,
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+        textDecoration: 'underline',
+      },
+    },
   },
 
   row: {

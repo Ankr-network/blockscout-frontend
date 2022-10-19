@@ -68,7 +68,10 @@ export const avalancheJSConfig: ILibraryConfig<CChainMethod> = {
 
       const parsedAddresses = address?.split(', ');
 
-      return provider.getUTXOs(parsedAddresses, ...others);
+      return provider.getUTXOs(
+        parsedAddresses,
+        ...others?.map(item => item || undefined),
+      );
     },
     codeSample: (httpUrl: string, wssUrl?: string, ...rest) => {
       return avalancheJSTemplate(

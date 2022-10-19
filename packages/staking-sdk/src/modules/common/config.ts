@@ -1,4 +1,4 @@
-import { Address } from '@ankr.com/provider';
+import { Address } from '@ankr.com/provider-core';
 
 import { ZERO_ADDRESS } from './const';
 import { currentEnv, Env } from './env';
@@ -77,9 +77,6 @@ interface IPolygonConfig {
 export interface IGatewayConfig {
   baseUrl: string;
   ankrApiBaseUrl: string;
-
-  // todo: Extract the private key to a secure place (https://ankrnetwork.atlassian.net/browse/STAKAN-2178)
-  ankrApiKey: string;
 }
 
 export interface IStkrConfig {
@@ -154,8 +151,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
-    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
-    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
+    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain_public/',
   },
 };
 
@@ -168,7 +164,7 @@ const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
     ...LOCAL_CONFIG.gatewayConfig,
-    baseUrl: 'https://api.dev.stkr.io/',
+    baseUrl: 'https://api.dev.staking.ankr.com/',
   },
 };
 
@@ -181,7 +177,7 @@ const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   gatewayConfig: {
     ...LOCAL_CONFIG.gatewayConfig,
-    baseUrl: 'https://api.goerli.stkr.io/',
+    baseUrl: 'https://api.goerli.staking.ankr.com/',
   },
 };
 
@@ -246,9 +242,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
   },
   gatewayConfig: {
-    baseUrl: 'https://api.stkr.io/',
-    ankrApiBaseUrl: 'http://173.244.194.100:8080/',
-    ankrApiKey: 'dev-ZyMwVgBadKPVVxLoFUEZmKWnCqiPzTa',
+    baseUrl: 'https://api.staking.ankr.com/',
+    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain_public/',
   },
 };
 

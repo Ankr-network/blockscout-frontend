@@ -1,10 +1,13 @@
+import {
+  EEthereumNetworkId,
+  Web3KeyReadProvider,
+} from '@ankr.com/provider-core';
 import axios, { AxiosInstance } from 'axios';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { Contract, EventData } from 'web3-eth-contract';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { EEthereumNetworkId, Web3KeyReadProvider } from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { ZERO } from 'modules/common/const';

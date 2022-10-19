@@ -1,16 +1,16 @@
-import BigNumber from 'bignumber.js';
-import nock from 'nock';
-
 import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'common';
+} from '@ankr.com/provider-core';
+import BigNumber from 'bignumber.js';
+import nock from 'nock';
 
-import { FantomSDK, EFantomPoolEvents, EFantomErrorCodes } from '..';
+import { ProviderManager } from '@ankr.com/provider';
+
+import { EFantomErrorCodes, EFantomPoolEvents, FantomSDK } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
 import { convertNumberToHex } from '../../utils';
 import { FANTOM_MAX_BLOCK_RANGE } from '../const';
-import { ProviderManager } from '@ankr.com/provider';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
@@ -641,11 +641,11 @@ describe('modules/fantom/sdk', () => {
   });
 
   test('should get pending data properly', async () => {
-    nock('https://api.dev.stkr.io')
+    nock('https://api.dev.staking.ankr.com')
       .get('/v1alpha/fantom/unstakingStats/address/bond')
       .reply(200, { unstakingAmount: '200000' });
 
-    nock('https://api.dev.stkr.io')
+    nock('https://api.dev.staking.ankr.com')
       .get('/v1alpha/fantom/unstakingStats/address/cert')
       .reply(200, { unstakingAmount: '49000' });
 
@@ -660,11 +660,11 @@ describe('modules/fantom/sdk', () => {
   });
 
   test('should return zero if there is an error in pending data', async () => {
-    nock('https://api.dev.stkr.io')
+    nock('https://api.dev.staking.ankr.com')
       .get('/v1alpha/fantom/unstakingStats/address/bond')
       .replyWithError('error');
 
-    nock('https://api.dev.stkr.io')
+    nock('https://api.dev.staking.ankr.com')
       .get('/v1alpha/fantom/unstakingStats/address/cert')
       .replyWithError('error');
 

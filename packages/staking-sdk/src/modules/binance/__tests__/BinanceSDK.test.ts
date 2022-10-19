@@ -1,14 +1,17 @@
-import { ProviderManager } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-
 import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from 'common';
+} from '@ankr.com/provider-core';
+import BigNumber from 'bignumber.js';
+
+import { ProviderManager } from '@ankr.com/provider';
 
 import { BinanceSDK, EBinanceErrorCodes, EBinancePoolEvents } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
-import { BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET, CERT_STAKING_LOG_HASH } from '../const';
+import {
+  BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET,
+  CERT_STAKING_LOG_HASH,
+} from '../const';
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),

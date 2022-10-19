@@ -10,12 +10,15 @@ import {
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/p-chain/RPCCallsConfig';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { MethodsRequest } from 'domains/requestComposer/types';
+import { t } from 'modules/i18n/utils/intl';
 
 export type FetchCChainRequestResult = {
   response?: [PChainMethodResponse];
   error?: unknown;
   time: number;
 };
+
+const MAX_BYTES_SIZE = 10_000_000;
 
 export const fetchPChainRequest = createSmartAction<
   RequestAction<MethodsRequest<PChainMethod>, FetchCChainRequestResult>
@@ -49,6 +52,20 @@ export const fetchPChainRequest = createSmartAction<
 
             try {
               const data: PChainMethodResponse = await exec(provider, ...args);
+
+              const responseSize = JSON.stringify(data).length;
+
+              if (responseSize > MAX_BYTES_SIZE) {
+                return {
+                  error: new Error(
+                    t(
+                      'chain-item.request-composer.logger.errors.large-response',
+                    ),
+                  ),
+                  time: performance.now() - start,
+                };
+              }
+
               const response: [PChainMethodResponse] = [data];
 
               return { response, time: performance.now() - start };

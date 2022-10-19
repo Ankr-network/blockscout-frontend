@@ -26,7 +26,7 @@ export const fetchStats = createSmartAction<
   request: {
     promise: async (): Promise<IFetchStatsResponseData> => {
       const sdk = await PolygonOnEthereumSDK.getInstance();
-      const { unstakeFee } = await sdk.getUnstakeFee();
+      const unstakeFee = await sdk.getUnstakeFee();
 
       const [
         maticBalance,

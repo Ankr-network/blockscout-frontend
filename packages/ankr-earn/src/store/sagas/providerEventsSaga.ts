@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { RequestActionMeta, success } from '@redux-requests/core';
 import { SelectEffect, TakeEffect } from '@redux-saga/core/effects';
 import { Channel, END, eventChannel, Task } from 'redux-saga';
@@ -30,7 +31,6 @@ import {
   ProviderRpcError,
 } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders } from 'common';
 
 import { connect, IConnect } from 'modules/auth/common/actions/connect';
 import { disconnect } from 'modules/auth/common/actions/disconnect';

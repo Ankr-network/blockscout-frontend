@@ -1,6 +1,7 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { Link } from 'react-router-dom';
 
-import { AvailableWriteProviders, t } from 'common';
+import { t } from 'common';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { RoutesConfig } from 'modules/testing-ui/Routes';

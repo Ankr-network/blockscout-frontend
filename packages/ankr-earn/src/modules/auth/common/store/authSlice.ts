@@ -1,12 +1,12 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
-
-import { AvailableWriteProviders } from 'common';
 
 export interface IProviderStatus {
   address?: string;
   isActive: boolean;
   walletId?: string;
+  wallet?: string;
 }
 
 interface ISetProviderStatusPayload extends IProviderStatus {
@@ -29,6 +29,7 @@ export const authSlice = createSlice({
         isActive: action.payload.isActive,
         address: action.payload.address,
         walletId: action.payload.walletId,
+        wallet: action.payload.wallet,
       };
     },
   },

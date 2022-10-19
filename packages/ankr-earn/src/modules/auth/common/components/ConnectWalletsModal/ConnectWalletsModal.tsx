@@ -1,3 +1,8 @@
+import {
+  AvailableWriteProviders,
+  EWalletId,
+  Web3KeyReadProvider,
+} from '@ankr.com/provider-core';
 import { Box, ButtonBase, Grid, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
@@ -7,12 +12,7 @@ import { AnyAction } from 'redux';
 import { isMobile } from 'web3modal';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import {
-  AvailableWriteProviders,
-  EWalletId,
-  Web3KeyReadProvider,
-  t,
-} from 'common';
+import { t } from 'common';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 
 import { Dialog } from 'uiKit/Dialog';
@@ -25,6 +25,7 @@ import { ReactComponent as HuobiWalletIcon } from './assets/huobi-wallet-icon.sv
 import { ReactComponent as ImTokenWalletIcon } from './assets/imtoken-wallet-icon.svg';
 import { ReactComponent as MathWalletIcon } from './assets/math-wallet-icon.svg';
 import { ReactComponent as MetaMaskIcon } from './assets/metamask-icon.svg';
+import { ReactComponent as OKXIcon } from './assets/okx-wallet-icon.svg';
 import { ReactComponent as PolkadotIcon } from './assets/polkadot-icon.svg';
 import { ReactComponent as TrustWalletIcon } from './assets/trust-wallet-icon.svg';
 import { ReactComponent as WalletConnectIcon } from './assets/wallet-connect-icon.svg';
@@ -79,7 +80,11 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       isDisabled: false,
       isHidden: isMobile(),
       get isInjected() {
-        return Web3KeyReadProvider.isInjected();
+        return (
+          Web3KeyReadProvider.isInjected() &&
+          window.ethereum.isMetaMask &&
+          !window.ethereum.isOKExWallet
+        );
       },
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'MetaMask',
@@ -142,6 +147,19 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       title: 'Huobi Wallet',
       tooltip: undefined,
       walletId: EWalletId.huobi,
+    },
+    {
+      href: 'https://www.okx.com/wallet-docs/#download-guide',
+      icon: <OKXIcon />,
+      isDisabled: false,
+      isHidden: isMobile(),
+      get isInjected() {
+        return typeof window.okexchain !== 'undefined';
+      },
+      providerId: AvailableWriteProviders.ethCompatible,
+      title: 'OKX Wallet',
+      tooltip: undefined,
+      walletId: EWalletId.okxwallet,
     },
   ],
 ];

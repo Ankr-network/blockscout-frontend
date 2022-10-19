@@ -1,6 +1,5 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useCallback } from 'react';
-
-import { AvailableWriteProviders } from 'common';
 
 import { trackGetTokenDiscount } from 'modules/analytics/tracking-actions/trackGetTokenDiscount';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';

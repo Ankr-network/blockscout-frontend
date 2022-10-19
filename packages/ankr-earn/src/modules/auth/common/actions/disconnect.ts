@@ -1,3 +1,4 @@
+import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import {
   RequestAction,
   RequestsStore,
@@ -6,7 +7,6 @@ import {
 import { createAction } from 'redux-smart-actions';
 
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { AvailableWriteProviders } from 'common';
 
 import { withStore } from 'modules/common/utils/withStore';
 
@@ -42,6 +42,7 @@ export const disconnect = createAction<
           isActive: false,
           address: undefined,
           walletId: undefined,
+          wallet: undefined,
         }),
       );
 

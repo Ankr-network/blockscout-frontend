@@ -1,4 +1,7 @@
-import { EEthereumNetworkId, Web3KeyWriteProvider } from 'common';
+import {
+  EEthereumNetworkId,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 
 import {
   configFromEnv,

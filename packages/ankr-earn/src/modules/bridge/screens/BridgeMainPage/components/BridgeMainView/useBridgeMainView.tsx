@@ -1,16 +1,18 @@
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider-core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ReactText, useState } from 'react';
-
-import { AvailableWriteProviders, EEthereumNetworkId } from 'common';
 
 import { trackBridge } from 'modules/analytics/tracking-actions/trackBridge';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
-import { getIsMetaMask } from 'modules/auth/eth/utils/getIsMetaMask';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
+import { getIsInjectedWallet } from 'modules/auth/eth/utils/walletTypeUtils';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
 import { useBalance } from 'modules/bridge/hooks/useBalance';
 import { useBlockchainPanelOptions } from 'modules/bridge/hooks/useBlockchainPanelOptions';
@@ -107,7 +109,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     ? writeProviderData?.chainId
     : undefined;
   const isConnected = writeProviderData?.isConnected ?? false;
-  const isMetaMask = getIsMetaMask(writeProviderData?.walletName);
+  const isInjected = getIsInjectedWallet(writeProviderData?.walletName);
 
   // TODO: bind by <env> to default value
   const [swapNetworkItem, setSwapNetworkItem] = useState<{
@@ -241,7 +243,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   return {
     isConnected,
-    isMetaMask,
+    isMetaMask: isInjected,
     tokenValue,
     isSendAnother,
     isApproved,

@@ -1,8 +1,9 @@
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { EEthereumNetworkId, t } from 'common';
+import { t } from 'common';
 
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';

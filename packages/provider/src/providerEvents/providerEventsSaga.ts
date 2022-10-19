@@ -9,7 +9,7 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects';
-import { Web3KeyWriteProvider } from 'common';
+import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
 import {
   ProviderActions,
   ProviderEvent,

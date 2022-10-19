@@ -1,4 +1,7 @@
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from 'common';
+import {
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider-core';
 
 /**
  * Available tokens for MaticSDK
