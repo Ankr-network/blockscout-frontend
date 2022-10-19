@@ -1,5 +1,4 @@
-import { Button } from '@material-ui/core';
-import classNames from 'classnames';
+import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import qs from 'query-string';
 
@@ -13,7 +12,6 @@ interface IClientsFiltersProps {
 }
 
 const clientTypeFilters = [
-  ClientType.UNKNOWN,
   ClientType.PAYG,
   ClientType.TestDrivePremium,
   ClientType.Premium,
@@ -24,7 +22,7 @@ export const ClientsTypeFilters: React.FC<IClientsFiltersProps> = ({
   filterClientType,
 }) => {
   const history = useHistory();
-  const classes = useClientsTypeFiltersStyles();
+  const { classes, cx } = useClientsTypeFiltersStyles();
 
   const handleFilter = (i?: ClientType) => {
     const query = { clientType: i?.toString() || 'all' };
@@ -36,9 +34,9 @@ export const ClientsTypeFilters: React.FC<IClientsFiltersProps> = ({
   return (
     <div className={classes.root}>
       <Button
-        variant="outlined"
+        variant="text"
         onClick={() => handleFilter(undefined)}
-        className={classNames(
+        className={cx(
           classes.button,
           filterClientType === undefined && classes.buttonActive,
         )}
@@ -48,10 +46,10 @@ export const ClientsTypeFilters: React.FC<IClientsFiltersProps> = ({
 
       {clientTypeFilters.map(i => (
         <Button
-          variant="outlined"
+          variant="text"
           key={i}
           onClick={() => handleFilter(i)}
-          className={classNames(
+          className={cx(
             classes.button,
             filterClientType === i && classes.buttonActive,
           )}

@@ -48,8 +48,10 @@ jobs:
         if: ${{ github.event.inputs.api == 'STAGE' }}
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         run: |
-          yarn build:stage
+          yarn build:stage:turbo
           yarn postbuild
 
       - name: Build production
@@ -58,7 +60,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
-          yarn build:prod
+          yarn build:prod:turbo
           yarn postbuild
 
       - name: Set AWS credentials

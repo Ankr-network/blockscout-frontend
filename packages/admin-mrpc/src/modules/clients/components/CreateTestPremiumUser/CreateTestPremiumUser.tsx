@@ -1,9 +1,12 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Button, Modal, TextField, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Button, Modal, Input, Typography } from '@mui/material';
+import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';
 import { ReactComponent as PlusIcon } from './assets/plus.svg';
+import { useFetchCountersQuery } from '../../actions/fetchCounters';
 
 const DAYS_TO_SECONDS_MULTIPLY_VALUE = 86400;
 
@@ -12,9 +15,11 @@ interface FormElements {
 }
 
 export const CreateTestPremiumUser = () => {
+  const history = useHistory();
   const [createTestPremiumUser, { isLoading }] =
     useCreateTestPremiumUserMutation();
-  const classes = useCreateTestPremiumUserStyles();
+  const { refetch: refetchClients } = useFetchCountersQuery();
+  const { classes } = useCreateTestPremiumUserStyles();
 
   const [open, setOpen] = useState(false);
 
@@ -36,14 +41,17 @@ export const CreateTestPremiumUser = () => {
     } = e.target.elements;
     if (userWalletValue && testingPeriodValue) {
       createTestPremiumUser({
-        address: userWalletValue,
+        address: userWalletValue.toLowerCase(),
         duration: testingPeriodValue * DAYS_TO_SECONDS_MULTIPLY_VALUE,
-      }).then(_res => {
+      }).then(res => {
         setOpen(false);
-        if (_res) {
-          // eslint-disable-next-line no-console
-          console.log(_res);
-          // TODO: redirect to client page using _res
+        if (res && 'data' in res) {
+          refetchClients(); // refetching clients in order to get new client token
+          history.push({
+            pathname: ClientsRoutesConfig.clientInfo.generatePath(
+              res.data.user.address,
+            ),
+          });
         }
       });
     } else {
@@ -53,7 +61,7 @@ export const CreateTestPremiumUser = () => {
 
   const body = (
     <div className={classes.paper}>
-      <Typography variant="h3" id="add-new-client-modal">
+      <Typography variant="h6" id="add-new-client-modal" mb={4}>
         Add New Client
       </Typography>
 
@@ -63,45 +71,42 @@ export const CreateTestPremiumUser = () => {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <TextField
+        <Input
           required
           className={classes.input}
           name="userWallet"
           id="userWallet"
-          label="User wallet"
-          variant="outlined"
+          placeholder="User wallet"
         />
-        <TextField
+        <Input
           disabled
           className={classes.input}
           name="email"
           id="email"
-          label="Email"
-          variant="outlined"
+          placeholder="Email"
         />
-        <TextField
+        <Input
           required
           type="number"
           className={classes.input}
           name="testingPeriod"
           id="testingPeriod"
-          label="Testing Period (days)"
-          variant="outlined"
+          placeholder="Testing Period (days)"
         />
-        <TextField
+        <Input
           disabled
           className={classes.input}
           name="comment"
           id="comment"
-          label="Comment"
-          variant="outlined"
+          placeholder="Comment"
         />
 
         <Button
           disabled={isLoading}
           type="submit"
           className={classes.button}
-          color="primary"
+          sx={{ mt: 4 }}
+          size="large"
         >
           Add client
         </Button>
@@ -114,7 +119,6 @@ export const CreateTestPremiumUser = () => {
       <Button
         onClick={handleOpen}
         className={classes.button}
-        color="primary"
         startIcon={<PlusIcon />}
       >
         Add client
