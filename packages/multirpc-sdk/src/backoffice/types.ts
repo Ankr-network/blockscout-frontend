@@ -86,6 +86,7 @@ export interface ICreateTestClientResponse {
 export interface IUserStatsRequest {
   address: Web3Address;
   interval: PrivateStatsInterval;
+  current?: boolean; // set true if current day stats need to be included
 }
 
 export type IUserStatsResponse = PrivateStats;

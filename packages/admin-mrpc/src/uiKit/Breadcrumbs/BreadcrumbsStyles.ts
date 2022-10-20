@@ -16,8 +16,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       padding: 10,
       border: '1px solid #CDCDCD',
       borderRadius: '50%',
-      width: 24,
-      height: 24,
+      width: 31,
+      height: 31,
       display: 'inline-flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -37,7 +37,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   breadcrumbs: {
     flexWrap: 'nowrap',
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   breadcrumbsLi: {
     overflow: 'hidden',

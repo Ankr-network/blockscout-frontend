@@ -92,7 +92,6 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
   select: {
     '& fieldset': {
       borderRadius: 24,
-      // border: 'none',
     },
   },
 
@@ -117,5 +116,25 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     '&.Mui-selected': {
       backgroundColor: theme.palette.background.paper,
     },
+  },
+  chainFilters: {},
+  btnChainFilter: {
+    color: theme.palette.text.primary,
+    borderRadius: 20,
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(5),
+  },
+  btnChainFilterActive: {
+    color: theme.palette.background.paper,
+  },
+  chainFilterValue: {
+    marginLeft: theme.spacing(1),
+    fontWeight: theme.typography.fontWeightLight,
+  },
+  progressbar: {
+    height: 5,
+    backgroundColor: theme.palette.action.disabledBackground,
+    minWidth: 8,
+    borderRadius: 4,
   },
 }));

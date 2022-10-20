@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
-import { useStyles } from './BreadcrumbsStyles';
-import { BreadcrumbsProps } from './BreadcrumbsTypes';
 import { useIsMDDown } from 'ui';
-import { ClientsRoutesConfig } from '../../modules/clients/ClientsRoutesConfig';
+import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
+import { BreadcrumbsProps } from './BreadcrumbsTypes';
+import { useStyles } from './BreadcrumbsStyles';
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   const { pathname } = useLocation();

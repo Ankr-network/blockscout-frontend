@@ -128,6 +128,7 @@ export interface PrivateStat {
   ips_count: PrivateStatIPsCount;
   total: PrivateTotalRequestsInfo;
   total_requests: number;
+  totalRequests: number;
 }
 
 // in ms
@@ -142,7 +143,8 @@ export interface PrivateStatCount {
 export type RPCRequestName = string;
 export interface PrivateStatTopRequests {
   method: RPCRequestName;
-  count: number;
+  count: string;
+  totalCost: string;
 }
 
 export interface IApiPrivateStats {

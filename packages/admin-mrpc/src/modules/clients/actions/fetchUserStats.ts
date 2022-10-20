@@ -35,6 +35,7 @@ export const {
         const statsResponse = await backofficeGateway.getUserStats({
           address,
           interval,
+          current: true, // set true if current day stats need to be included
         });
 
         const usage = statsResponse?.stats
@@ -48,13 +49,7 @@ export const {
                       blockchain: i?.blockchain || '',
                       ...j,
                       count: j.count.toString(),
-                      // TODO: waiting for resolving totalCost for each request from backend team
-                      totalCost:
-                        // @ts-ignore
-                        j?.total_cost?.toString() ||
-                        // @ts-ignore
-                        j?.totalCost?.toString() ||
-                        'TODO',
+                      totalCost: j?.totalCost?.toString(),
                     };
                   }) || [],
               };
