@@ -4,7 +4,7 @@ import { useEVMRequestLogger } from '../EVMRequestComposer/hooks/useEVMRequestLo
 import { IRequestComposerProps } from '../AvalancheRequestComposer';
 import { RequestComposerTemplate } from '../components/RequestComposerTemplate';
 import { LoggerContext } from '../const';
-import { EVMHeader } from '../EVMRequestComposer/EVMHeader/EVMHeader';
+import { HarmonyHeader } from './HarmonyHeader';
 import { HarmonyMenu } from './HarmonyMenu';
 import { useLibraryTabs } from './HarmonyMenu/MenuTabsUtils';
 import { useMemo } from 'react';
@@ -32,7 +32,12 @@ export const HarmonyRequestComposer = ({
   return (
     <LoggerContext.Provider value={isHarmonyMethod ? harmonyLogger : logger}>
       <RequestComposerTemplate
-        header={<EVMHeader publicUrl={publicUrl} />}
+        header={
+          <HarmonyHeader
+            publicUrl={publicUrl}
+            chainName={isHarmonyMethod ? HarmonyLibraryID.Harmony : undefined}
+          />
+        }
         menu={<HarmonyMenu tabs={tabs} selectedTab={selectedTab} />}
         logger={
           <Logger
