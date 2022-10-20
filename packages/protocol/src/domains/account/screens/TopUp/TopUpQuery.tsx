@@ -9,11 +9,13 @@ import { reset } from 'domains/account/actions/topUp/reset';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { Loader } from 'domains/account/components/Loader';
 import { TopUp } from './TopUp';
-import { useTopUpBreadcrumbs } from './TopUpUtils';
+import { useCheckConfirmedEmail, useTopUpBreadcrumbs } from './TopUpUtils';
 
 export const TopUpQuery = () => {
   const { loading, credentials } = useAuth();
   const dispatchRequest = useDispatchRequest();
+
+  useCheckConfirmedEmail(Boolean(credentials));
 
   useEffect(() => {
     if (!loading) {

@@ -1,6 +1,5 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { connect } from 'domains/auth/actions/connect';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -8,8 +7,6 @@ import { addNewEmailBinding } from 'domains/userSettings/actions/email/addNewEma
 import { editEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
 import { resendConfirmationCode } from 'domains/userSettings/actions/email/resendConfirmationCode';
 import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
-import { disableBanner } from 'domains/userSettings/store/userSettingsDisabledBannersSlice';
-import { UserSettingsBanners } from 'domains/userSettings/types';
 import { getEmailErrorMessage } from 'domains/userSettings/utils/getEmailErrorMessage';
 import { ISuccessStepProps } from './components/SuccessStep';
 import {
@@ -38,10 +35,9 @@ export const useAddEmailForm = ({
   submittedData,
   formDisabled,
 }: IUseAddEmailFormProps) => {
-  const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { address, isWalletConnected } = useAuth();
+  const { isWalletConnected } = useAuth();
 
   const handleAddEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
@@ -93,18 +89,11 @@ export const useAddEmailForm = ({
 
       if (data) {
         onFormStateChange(AddEmailFormContentState.SUCCESS);
-
-        dispatch(
-          disableBanner({
-            bannerToDisable: UserSettingsBanners.ADD_EMAIl,
-            address,
-          }),
-        );
       }
 
       return undefined;
     },
-    [address, dispatch, dispatchRequest, onFormStateChange],
+    [dispatchRequest, onFormStateChange],
   );
 
   const onSubmit = useCallback(

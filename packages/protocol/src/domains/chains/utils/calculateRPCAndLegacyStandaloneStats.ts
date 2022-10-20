@@ -2,12 +2,17 @@ import BigNumber from 'bignumber.js';
 import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 
 import { ILegacyStandaloneStats } from '../actions/fetchLegacyStandaloneRequests';
+import { timeframeToLabelMap } from '../screens/ChainItem/components/UsageDataSection/const';
+import { Timeframe as TimeframeInterval } from '../types';
 import {
   calculateOnedayRequests,
   getMultiplier,
   SEVEN_DAYS_IN_WEEK,
   FIFTEEN_MINUTES_INTERVAL,
+  HOURS_IN_ONE_DAY,
 } from './statsUtils';
+
+const { Hour, Day, Week, Month } = TimeframeInterval;
 
 const calculateTotalValues = (
   timeframe: Timeframe,
@@ -26,7 +31,32 @@ const calculateTotalValues = (
     .plus(rpcStats.totalCached)
     .toNumber();
 
-  return { ...rpcStats, totalRequests, totalCached };
+  return {
+    ...rpcStats,
+    totalRequests: Math.ceil(totalRequests),
+    totalCached: Math.ceil(totalCached),
+  };
+};
+
+const calculate1HReqeusts = (
+  totalStats: IWorkerGlobalStatus,
+  legacyStats?: ILegacyStandaloneStats,
+) => {
+  const legacyTotalRequestsHistory = legacyStats?.totalRequestsHistory ?? {};
+  const totalTimestamps = Object.keys(totalStats.totalRequestsHistory).length;
+
+  const oneHourRequests = new BigNumber(
+    calculateOnedayRequests(legacyTotalRequestsHistory),
+  )
+    .dividedToIntegerBy(HOURS_IN_ONE_DAY)
+    .dividedToIntegerBy(totalTimestamps)
+    .toNumber();
+
+  Object.keys(totalStats.totalRequestsHistory).forEach((key: string) => {
+    totalStats.totalRequestsHistory[key] += oneHourRequests;
+  });
+
+  return totalStats;
 };
 
 const calculate24HRequests = (
@@ -94,17 +124,19 @@ export const calculateRPCAndLegacyStandaloneStats = (
     rpcStats,
     legacyStats,
   );
-
   switch (timeframe) {
-    case '24h': {
+    case timeframeToLabelMap[Hour]: {
+      return calculate1HReqeusts(calculatedTotalStats, legacyStats);
+    }
+    case timeframeToLabelMap[Day]: {
       return calculate24HRequests(calculatedTotalStats, legacyStats);
     }
 
-    case '7d': {
+    case timeframeToLabelMap[Week]: {
       return calculate7DRequests(calculatedTotalStats, legacyStats);
     }
 
-    case '30d':
+    case timeframeToLabelMap[Month]:
     default: {
       return calculate30DRequests(calculatedTotalStats, legacyStats);
     }

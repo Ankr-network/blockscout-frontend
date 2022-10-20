@@ -1,4 +1,7 @@
+import { ChainID } from 'modules/chains/types';
 import { Timeframe } from 'multirpc-sdk';
+import { timeframeToLabelMap } from '../screens/ChainItem/components/UsageDataSection/const';
+import { Timeframe as TimeframeInterval } from '../types';
 
 const POLYGON_STATS_RPC = 'https://polygon-rpc.com/api/data/stats';
 const BSC_STATS_RPC = 'https://bscrpc.com/api/data/stats';
@@ -7,15 +10,19 @@ const FANTOM_STATS_RPC = 'https://rpc.ftm.tools/api/data/stats';
 const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
 export const FIFTEEN_MINUTES_INTERVAL = 4;
 export const SEVEN_DAYS_IN_WEEK = 7;
+export const HOURS_IN_ONE_DAY = 24;
+const DAYS_IN_ONE_MONTH = 30;
+
+const { Hour, Week, Month } = TimeframeInterval;
 
 export const getLegacyStandaloneUrl = (chainId: string) => {
   let url = '';
 
-  if (chainId === 'polygon') {
+  if (chainId === ChainID.POLYGON) {
     url = POLYGON_STATS_RPC;
-  } else if (chainId === 'bsc') {
+  } else if (chainId === ChainID.BSC) {
     url = BSC_STATS_RPC;
-  } else if (chainId === 'fantom') {
+  } else if (chainId === ChainID.FANTOM) {
     url = FANTOM_STATS_RPC;
   }
 
@@ -25,10 +32,12 @@ export const getLegacyStandaloneUrl = (chainId: string) => {
 export const getMultiplier = (timeframe: Timeframe) => {
   let multiplier = 1;
 
-  if (timeframe === '7d') {
-    multiplier = 7;
-  } else if (timeframe === '30d') {
-    multiplier = 30;
+  if (timeframe === timeframeToLabelMap[Hour]) {
+    multiplier = 1 / HOURS_IN_ONE_DAY;
+  } else if (timeframe === timeframeToLabelMap[Week]) {
+    multiplier = SEVEN_DAYS_IN_WEEK;
+  } else if (timeframe === timeframeToLabelMap[Month]) {
+    multiplier = DAYS_IN_ONE_MONTH;
   }
 
   return multiplier;

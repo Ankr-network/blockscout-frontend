@@ -1,24 +1,19 @@
 import { Spinner } from 'ui';
 
-import { AddEmailBanner } from 'domains/userSettings/components/AddEmailBanner';
-import {
-  AddEmailFormContentState,
-  AddEmailFormFields,
-} from 'domains/userSettings/components/AddEmailForm/types';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { EmailBlock } from './components/EmailBlock';
 import { NotificationsBlock } from './components/NotificationsBlock';
-import { useSettingsQuery } from './hooks/useSettings';
+import { useEmailData } from './hooks/useSettings';
+import { useEmailBannerProps, useSettingsBreadcrumbs } from './SettingsUtils';
+import { AddEmailBannerCard } from 'domains/userSettings/components/AddEmailBanner';
 
 export const SettingsQuery = () => {
-  const {
-    confirmedEmail,
-    inviteEmail,
-    isInviteEmailValid,
-    loading,
-    pendingEmail,
-    resetInviteEmail,
-  } = useSettingsQuery();
+  const emailData = useEmailData();
+
+  useSettingsBreadcrumbs();
+
+  const bannerProps = useEmailBannerProps(emailData);
+  const { loading, confirmedEmail } = emailData;
 
   if (loading) {
     return <Spinner />;
@@ -33,49 +28,13 @@ export const SettingsQuery = () => {
     );
   }
 
-  if (pendingEmail) {
-    const initialSubmittedData = {
-      [AddEmailFormFields.email]: pendingEmail,
-    };
-
-    return (
-      <CenterContainer>
-        <AddEmailBanner
-          asCard
-          initialContentState={AddEmailFormContentState.SUCCESS}
-          initialSubmittedData={initialSubmittedData}
-        />
-      </CenterContainer>
-    );
+  if (!bannerProps) {
+    return null;
   }
 
-  if (inviteEmail && isInviteEmailValid) {
-    const initialSubmittedData = {
-      [AddEmailFormFields.email]: inviteEmail,
-    };
-
-    return (
-      <CenterContainer>
-        <AddEmailBanner
-          asCard
-          initialContentState={AddEmailFormContentState.ADD_EMAIL}
-          initialSubmittedData={initialSubmittedData}
-          resetInviteEmail={resetInviteEmail}
-        />
-      </CenterContainer>
-    );
-  }
-
-  if (!confirmedEmail && !pendingEmail) {
-    return (
-      <CenterContainer>
-        <AddEmailBanner
-          asCard
-          initialContentState={AddEmailFormContentState.ADD_EMAIL}
-        />
-      </CenterContainer>
-    );
-  }
-
-  return null;
+  return (
+    <CenterContainer>
+      <AddEmailBannerCard {...bannerProps} />
+    </CenterContainer>
+  );
 };

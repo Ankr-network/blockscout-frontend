@@ -56,14 +56,4 @@ export const useStyles = makeStyles<Theme>(theme => ({
   featureText: {
     fontSize: 17,
   },
-  notShowAgain: {
-    alignSelf: 'center',
-    letterSpacing: '0.04em',
-    padding: 0,
-    marginTop: theme.spacing(1.75),
-
-    [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(1),
-    },
-  },
 }));
