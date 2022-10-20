@@ -23,6 +23,7 @@ import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Rou
 import { RoutesConfig as PolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { RoutesConfig as EthereumSSVRoutes } from 'modules/stake-ssv/Routes';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -169,14 +170,17 @@ export const LiquidStakingTokens = (): JSX.Element => {
 
         {featuresConfig.ssvStaking && (
           <FeatureItem
-            apy={metrics?.ssv && +metrics.ssv.apy}
+            apy={
+              metrics?.[EMetricsServiceName.ETH_SSV] &&
+              +metrics[EMetricsServiceName.ETH_SSV].apy
+            }
             iconRootClass={classes.ssvIcon}
             iconSlot={<SSVStakingIcon />}
             isApyLoading={loading}
             isTvlLoading={loading}
             mainHref={EthereumSSVRoutes.stake.generatePath()}
             moreHref={undefined}
-            stakedTvl={metrics?.ssv?.totalStaked}
+            stakedTvl={metrics?.[EMetricsServiceName.ETH_SSV]?.totalStaked}
             title={t('features.ethereum-ssv')}
             token={Token.ETH}
             onStakeClick={onTrackEnterStakingFlow(Token.asETHc)}
