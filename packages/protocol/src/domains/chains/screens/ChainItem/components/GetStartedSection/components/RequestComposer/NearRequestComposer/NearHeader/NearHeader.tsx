@@ -9,6 +9,7 @@ import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { Header } from '../../components/Header';
 import { BlockNumber } from '../../components/Header/BlockNumber';
+import { ChainGroupID } from 'modules/endpoints/types';
 
 interface IHeaderProps {
   publicUrl: string;
@@ -31,7 +32,7 @@ export const NearHeader = ({ publicUrl }: IHeaderProps) => {
   });
 
   return (
-    <Header>
+    <Header chainName={ChainGroupID.NEAR}>
       <Queries<FetchNearLastBlockNumberResponseData>
         requestActions={[fetchNearLastBlockNumber]}
         isPreloadDisabled
