@@ -931,7 +931,8 @@
     "connect-wallet": {
       "title": "Already Premium?",
       "subtitle": "Connect wallet"
-    }
+    },
+    "email-content": "For account setup, Ankr needs an&nbsp;email for important notifications and service updates. Don&rsquo;t worry, your info is&nbsp;highly secured and never shared&nbsp;&mdash; use an&nbsp;anonymous address if&nbsp;you wish!"
   },
   "common": {
     "copy-message": "Copied!",
@@ -1022,8 +1023,7 @@
         "balance-status": "Balance Status",
         "product-updates": "Product Updates",
         "exclusive-offers": "Exclusive Offers",
-        "email-input-placeholder": "Your email",
-        "not-show-again": "Don't show this message again"
+        "email-input-placeholder": "Your email"
       },
       "success-step": {
         "title": "Thank you!",

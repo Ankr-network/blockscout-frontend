@@ -12,7 +12,7 @@ export const USDTopUpFormContainer = () => {
     useCardPayment();
   const { credentials } = useAuth();
 
-  const { hasRateBlock } = useContext(TopUpFormContext);
+  const { isAccountPage } = useContext(TopUpFormContext);
 
   const onSubmit = useCallback(
     async (data: TopUpFormValues) => {
@@ -32,7 +32,7 @@ export const USDTopUpFormContainer = () => {
       onSubmit={onSubmit}
       isLoading={isFetchLinkForCardPaymentLoading}
       isDisabled={!credentials}
-      hasRateBlock={hasRateBlock}
+      hasRateBlock={isAccountPage}
     />
   );
 };

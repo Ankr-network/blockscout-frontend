@@ -13,7 +13,7 @@ export const TopUpForm = ({
   hasLoginStep,
   initialValues: defaultInitialValues,
   validateAmount,
-  hasRateBlock,
+  isAccountPage,
   balance,
 }: TopUpFormProps) => {
   const classes = useStyles();
@@ -26,7 +26,7 @@ export const TopUpForm = ({
   const renderForm = useRenderForm(
     classes,
     validateAmount,
-    hasRateBlock,
+    isAccountPage,
     balance,
   );
   const renderDisabledForm = useRenderDisabledForm(classes);

@@ -1,5 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
+import { push } from 'connected-react-router';
+import { useDispatch } from 'react-redux';
 
 import { t } from 'modules/i18n/utils/intl';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -7,6 +9,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
+import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 
 export const useTopUpBreadcrumbs = (hasCredentials: boolean) => {
   const breadcrumbs = hasCredentials
@@ -131,4 +134,22 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     isRejectAllowanceLoading,
     hasError,
   };
+};
+
+export const useCheckConfirmedEmail = (hasCredentials: boolean) => {
+  const dispatch = useDispatch();
+
+  const {
+    confirmedEmail,
+    loading: emailDataLoading,
+    pristine,
+  } = useEmailData();
+
+  useEffect(() => {
+    if (hasCredentials) return;
+
+    if (!pristine && !emailDataLoading && !confirmedEmail) {
+      dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
+    }
+  }, [confirmedEmail, emailDataLoading, pristine, dispatch, hasCredentials]);
 };
