@@ -79,16 +79,26 @@ export const ClientDetailsPage = () => {
               },
             }}
           >
+            <Tab className={classes.tab} disableRipple label="Usage" />
             <Tab
               className={classes.tab}
               disableRipple
-              label="Transactions"
+              label="Billing"
               disabled={!transactionsData?.transactions}
             />
-            <Tab className={classes.tab} disableRipple label="Usage" />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
+          <ClientUsageTable
+            fileName={fileName}
+            currentPeriod={periodStatement}
+            stats={statsData?.stats}
+            usage={statsData?.usage}
+            onUpdateTimeframe={updateTimeframeParam}
+            isLoadingStats={isLoadingStats || isFetchingStats}
+          />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
           {transactionsData?.transactions &&
           transactionsData?.transactions?.length > 0 ? (
             <ClientTransactionsTable
@@ -103,16 +113,6 @@ export const ClientDetailsPage = () => {
           ) : (
             'Not found'
           )}
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <ClientUsageTable
-            fileName={fileName}
-            currentPeriod={periodStatement}
-            stats={statsData?.stats}
-            usage={statsData?.usage}
-            onUpdateTimeframe={updateTimeframeParam}
-            isLoadingStats={isLoadingStats || isFetchingStats}
-          />
         </TabPanel>
       </>
     </>
