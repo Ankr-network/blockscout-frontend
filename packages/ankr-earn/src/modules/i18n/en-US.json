@@ -585,7 +585,8 @@
       "switchNetwork": "Switch network",
       "explorer": "View on explorer",
       "dashboard": "Go to dashboard",
-      "addToWallet": "Add {token} to wallet"
+      "addToWallet": "Add {token} to wallet",
+      "connectBtn": "Connect your wallet"
     },
     "successTitle": "Swap successful!",
     "successInfo": "Check out your new {token} exposure on the Ankr Staking Dashboard any time."

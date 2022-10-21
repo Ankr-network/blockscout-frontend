@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useDialog } from 'modules/dialogs';
 
 import { Main } from '..';
 import {
@@ -25,6 +26,10 @@ jest.mock('../hooks', () => ({
   useSwitcherUrlParams: jest.fn(),
 }));
 
+jest.mock('modules/dialogs/hooks/useDialog', () => ({
+  useDialog: jest.fn(),
+}));
+
 describe('modules/switcher/screens/Main', () => {
   const defaultHookData: ISwitcherHookData = {
     chainId: EEthereumNetworkId.goerli,
@@ -34,6 +39,7 @@ describe('modules/switcher/screens/Main', () => {
     abBalance: ZERO,
     balance: ZERO,
     isDataLoading: false,
+    isConnected: true,
     checkAllowance: () => false,
   };
 
@@ -65,6 +71,10 @@ describe('modules/switcher/screens/Main', () => {
     sendAnalytics: jest.fn(),
   };
 
+  const defaultUseDialogData = {
+    handleOpen: jest.fn(),
+  };
+
   beforeEach(() => {
     (useSwitcherData as jest.Mock).mockReturnValue(defaultHookData);
 
@@ -73,6 +83,8 @@ describe('modules/switcher/screens/Main', () => {
     (useSendAnalytics as jest.Mock).mockReturnValue(defaultSendAnalyticsData);
 
     (useSwitcherUrlParams as jest.Mock).mockReturnValue(defaultUrlParamsData);
+
+    (useDialog as jest.Mock).mockReturnValue(defaultUseDialogData);
   });
 
   afterEach(() => {
