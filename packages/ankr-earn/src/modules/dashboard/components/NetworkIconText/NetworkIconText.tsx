@@ -4,11 +4,7 @@ import classNames from 'classnames';
 
 import { t } from 'common';
 
-import {
-  iconByNetworkMap,
-  iconByTokenMap,
-  TIconMap,
-} from 'modules/common/icons';
+import { iconByTokenMap, TIconMap } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 
 import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
@@ -40,14 +36,11 @@ export const NetworkIconText = ({
   }
 
   const Icon = iconByTokenMap[token as keyof TIconMap] ?? 'span';
-  const NetworkIcon = chainId && iconByNetworkMap[chainId];
 
   return (
     <Grid container alignItems="center" spacing={2}>
       <Grid item className={classes.iconContainer} xs="auto">
         <Icon className={classNames(classes.icon, iconRootClass)} />
-
-        {NetworkIcon ? <NetworkIcon className={classes.networkIcon} /> : null}
       </Grid>
 
       <Grid item xs>
