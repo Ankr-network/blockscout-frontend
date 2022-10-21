@@ -26,6 +26,7 @@ export const RoutesConfig = createRouteConfig(
         const query = useQueryParams();
         const assets = query.getAll('assets');
         const networks = query.getAll('networks');
+        const types = query.getAll('types');
 
         if (assets.length) {
           result.assets = assets;
@@ -33,6 +34,10 @@ export const RoutesConfig = createRouteConfig(
 
         if (networks.length) {
           result.networks = networks;
+        }
+
+        if (types.length) {
+          result.types = types;
         }
 
         return result;
