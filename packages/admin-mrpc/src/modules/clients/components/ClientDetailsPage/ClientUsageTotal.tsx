@@ -47,7 +47,7 @@ export const ClientUsageTotal = ({
           skeleton
         ) : (
           <>
-            {totalCost ? (
+            {totalCost || totalRequestsValue ? (
               <>
                 <Typography variant="subtitle1" component="p">
                   <b> {value}</b>

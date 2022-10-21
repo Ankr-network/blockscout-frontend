@@ -61,9 +61,9 @@ export const {
 
         return {
           data: {
-            transactions: transactionsCollection?.map(t => ({
-              ...t,
-              createdDate: new Date(+t.timestamp),
+            transactions: transactionsCollection?.map(transaction => ({
+              ...transaction,
+              createdDate: new Date(+transaction.timestamp),
             })),
           },
         };

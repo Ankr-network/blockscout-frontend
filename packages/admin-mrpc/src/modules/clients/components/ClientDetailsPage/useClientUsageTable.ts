@@ -1,15 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
-import { BlockchainID, PrivateStats, PrivateStatsInterval } from 'multirpc-sdk';
-import { IUserEntityMapped } from '../../actions/fetchUserStats';
+import {
+  BlockchainID,
+  IUsageDetailEntity,
+  PrivateStats,
+  PrivateStatsInterval,
+} from 'multirpc-sdk';
+import { IUsageEntityMapped } from '../../actions/fetchUserStats';
 
 export interface IHookProps {
   onUpdateTimeframe: (timeframe: PrivateStatsInterval) => void;
   stats?: PrivateStats;
-  usage?: IUserEntityMapped[];
+  usage?: IUsageEntityMapped[];
   currentPeriod: PrivateStatsInterval;
 }
 
+interface IUsageCsv extends IUsageDetailEntity {
+  blockchain: BlockchainID;
+}
+
 export interface IClientUsageTableProps extends IHookProps {
+  fileName: string;
   isLoadingStats?: boolean;
 }
 
@@ -45,11 +55,20 @@ export const useClientUsageTable = ({
     setActiveTabIndex(newTabIndex);
   };
 
-  const totalCost = usage?.reduce((accumulator, object) => {
-    return accumulator + (object?.totalCost ? +object?.totalCost : 0);
+  const totalCost = usage?.reduce((accumulator, usageEntity) => {
+    return accumulator + (usageEntity?.totalCost ? +usageEntity?.totalCost : 0);
   }, 0);
 
-  const availableChains = [...new Set(usage?.map(item => item.blockchain))];
+  const csvMappedUsage = usage?.reduce(
+    (acc: IUsageCsv[] | IUsageDetailEntity[], usageEntity) => {
+      return [...acc, ...usageEntity.details];
+    },
+    [],
+  );
+
+  const availableChains = [
+    ...new Set(usage?.map(usageEntity => usageEntity.blockchain)),
+  ];
 
   const handleFilterByChain = (chain?: BlockchainID) => {
     return filterByChainValue === chain
@@ -58,7 +77,9 @@ export const useClientUsageTable = ({
   };
 
   const dataToRender = filterByChainValue
-    ? usage?.filter(i => i.blockchain === filterByChainValue)
+    ? usage?.filter(
+        usageEntity => usageEntity.blockchain === filterByChainValue,
+      )
     : usage;
 
   const compareBlockchainsTotalRequests = useCallback(
@@ -96,7 +117,9 @@ export const useClientUsageTable = ({
       : totalCost;
 
   const maxCountByBlockchain =
-    dataToRender?.map(i => Math.max(...i.details.map(j => +j.count))) || [];
+    dataToRender?.map(usageEntity =>
+      Math.max(...usageEntity.details.map(usageDetail => +usageDetail.count)),
+    ) || [];
   const maxCountTotal = Math.max(...maxCountByBlockchain);
 
   return {
@@ -111,5 +134,6 @@ export const useClientUsageTable = ({
     totalRequestsValue,
     totalCostsValue,
     maxCountTotal,
+    csvMappedUsage,
   };
 };

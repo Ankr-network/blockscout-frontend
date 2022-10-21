@@ -11,6 +11,7 @@ import {
   Tab,
   Box,
 } from '@mui/material';
+import { CSVLink } from 'react-csv';
 import { Spinner } from 'ui';
 import { useClientDetailsStyles } from './ClientDetailsStyles';
 import {
@@ -19,6 +20,7 @@ import {
 } from './useClientUsageTable';
 import { ClientUsageTotal } from './ClientUsageTotal';
 import { ClientUsageChainFilter } from './ClientUsageChainFilter';
+import { formatNumber } from '../../../common/utils/renderBalance';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,6 +43,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export const ClientUsageTable = ({
+  fileName,
   currentPeriod,
   stats,
   usage,
@@ -59,26 +62,39 @@ export const ClientUsageTable = ({
     totalRequestsValue,
     totalCostsValue,
     maxCountTotal,
+    csvMappedUsage,
   } = useClientUsageTable({ onUpdateTimeframe, stats, usage, currentPeriod });
 
   const { classes } = useClientDetailsStyles();
 
   return (
     <>
-      <Tabs
-        value={activeTabIndex}
-        onChange={handleChangeActiveTab}
-        TabIndicatorProps={{
-          style: {
-            display: 'none',
-          },
-        }}
-        className={classes.tabsWrapper}
-      >
-        <Tab className={classes.tabUsagePeriod} disableRipple label="24h" />
-        <Tab className={classes.tabUsagePeriod} disableRipple label="7d" />
-        <Tab className={classes.tabUsagePeriod} disableRipple label="30d" />
-      </Tabs>
+      <Box display="flex">
+        <Tabs
+          value={activeTabIndex}
+          onChange={handleChangeActiveTab}
+          TabIndicatorProps={{
+            style: {
+              display: 'none',
+            },
+          }}
+          className={classes.tabsWrapper}
+        >
+          <Tab className={classes.tabUsagePeriod} disableRipple label="24h" />
+          <Tab className={classes.tabUsagePeriod} disableRipple label="7d" />
+          <Tab className={classes.tabUsagePeriod} disableRipple label="30d" />
+        </Tabs>
+
+        {csvMappedUsage && (
+          <CSVLink
+            className={classes.csvLink}
+            filename={fileName}
+            data={csvMappedUsage}
+          >
+            Download CSV
+          </CSVLink>
+        )}
+      </Box>
 
       {isLoadingStats ? (
         <>
@@ -111,43 +127,53 @@ export const ClientUsageTable = ({
                     <TableHead>
                       <TableRow>
                         <TableCell>
-                          <b>BlockChain</b>
+                          <b>Blockchain</b>
                         </TableCell>
                         <TableCell>
                           <b>Method</b>
                         </TableCell>
                         <TableCell>
-                          <b>Count</b>
+                          <b>Requests Count</b>
                         </TableCell>
                         <TableCell>
-                          <b>Total cost</b>
+                          <b>Total Cost</b>
                         </TableCell>
                         <TableCell>
-                          <b>usage percentage</b>
+                          <b>Usage Percentage</b>
                         </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {dataToRender?.map(i =>
-                        i.details.map(d => {
-                          const usagePercent = maxCountTotal
-                            ? (+d.count * 100) / maxCountTotal
-                            : 0;
-                          return (
-                            <TableRow key={d.method}>
-                              <TableCell>{i.blockchain}</TableCell>
-                              <TableCell>{d.method}</TableCell>
-                              <TableCell>{d.count}</TableCell>
-                              <TableCell>{d.totalCost}</TableCell>
-                              <TableCell>
-                                <Box
-                                  className={classes.progressbar}
-                                  style={{ width: `${usagePercent}%` }}
-                                />
-                              </TableCell>
-                            </TableRow>
-                          );
-                        }),
+                      {isLoadingStats ? (
+                        <TableRow>
+                          <TableCell>loading...</TableCell>
+                        </TableRow>
+                      ) : (
+                        dataToRender?.map(usageEntity =>
+                          usageEntity.details.map((details, index) => {
+                            const usagePercent = maxCountTotal
+                              ? (+details.count * 100) / maxCountTotal
+                              : 0;
+                            return (
+                              <TableRow key={details.method || index}>
+                                <TableCell>{usageEntity.blockchain}</TableCell>
+                                <TableCell>{details.method}</TableCell>
+                                <TableCell>
+                                  {formatNumber(details.count)}
+                                </TableCell>
+                                <TableCell>
+                                  {formatNumber(details.totalCost)}
+                                </TableCell>
+                                <TableCell>
+                                  <Box
+                                    className={classes.progressbar}
+                                    style={{ width: `${usagePercent}%` }}
+                                  />
+                                </TableCell>
+                              </TableRow>
+                            );
+                          }),
+                        )
                       )}
                     </TableBody>
                   </Table>

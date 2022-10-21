@@ -53,6 +53,8 @@ export const ClientDetailsPage = () => {
     return <>Client not found</>;
   }
 
+  const fileName = `${new Date().toLocaleDateString('en-CA')}_${address}`;
+
   return (
     <>
       <ClientInfo
@@ -104,6 +106,7 @@ export const ClientDetailsPage = () => {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <ClientUsageTable
+            fileName={fileName}
             currentPeriod={periodStatement}
             stats={statsData?.stats}
             usage={statsData?.usage}

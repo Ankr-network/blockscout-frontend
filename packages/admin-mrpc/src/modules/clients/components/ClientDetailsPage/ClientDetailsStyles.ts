@@ -117,7 +117,15 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
       backgroundColor: theme.palette.background.paper,
     },
   },
-  chainFilters: {},
+  csvLink: {
+    marginLeft: theme.spacing(6),
+    textDecoration: 'none',
+    color: theme.palette.text.secondary,
+    transition: 'color .3s',
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+  },
   btnChainFilter: {
     color: theme.palette.text.primary,
     borderRadius: 20,

@@ -13,13 +13,13 @@ interface IApiRequestParams {
   interval?: PrivateStatsInterval;
 }
 
-export interface IUserEntityMapped extends IUsageEntity {
+export interface IUsageEntityMapped extends IUsageEntity {
   totalCost?: number;
 }
 
 interface IApiResponse {
   stats?: IUserStatsResponse;
-  usage?: IUserEntityMapped[];
+  usage?: IUsageEntityMapped[];
 }
 
 export const {
@@ -39,17 +39,17 @@ export const {
         });
 
         const usage = statsResponse?.stats
-          ? Object.values(statsResponse?.stats).map(i => {
+          ? Object.values(statsResponse?.stats).map(stat => {
               return {
-                blockchain: i?.blockchain || '',
-                totalCost: i?.total?.totalCost,
+                blockchain: stat?.blockchain || '',
+                totalCost: stat?.total?.totalCost,
                 details:
-                  i?.total?.topRequests?.map(j => {
+                  stat?.total?.topRequests?.map(topRequests => {
                     return {
-                      blockchain: i?.blockchain || '',
-                      ...j,
-                      count: j.count.toString(),
-                      totalCost: j?.totalCost?.toString(),
+                      blockchain: stat?.blockchain || '',
+                      ...topRequests,
+                      count: topRequests.count.toString(),
+                      totalCost: topRequests?.totalCost?.toString(),
                     };
                   }) || [],
               };

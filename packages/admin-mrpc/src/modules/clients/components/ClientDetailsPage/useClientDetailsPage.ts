@@ -40,13 +40,15 @@ export const useClientDetailsPage = () => {
   );
 
   const transactionsDeduction = transactionsData?.transactions.filter(
-    i => i.type === TRANSACTION_TYPE_DEDUCTION,
+    transaction => transaction.type === TRANSACTION_TYPE_DEDUCTION,
   );
   const transactionsCost = transactionsDeduction?.reduce(
-    (partialSum, a) => partialSum + +a.amountUsd,
+    (partialSum, transaction) => partialSum + +transaction.amountUsd,
     0,
   );
-  const currentClient = clients?.counters?.filter(i => i.address === address);
+  const currentClient = clients?.counters?.filter(
+    client => client.address === address,
+  );
 
   const [value, setValue] = useState(0);
 

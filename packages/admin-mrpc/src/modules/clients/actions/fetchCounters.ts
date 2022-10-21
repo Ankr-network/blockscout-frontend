@@ -111,18 +111,20 @@ export const {
         await fetchAllEmails();
         await fetchAllBalances();
 
-        const clients = countersCollection.map(c => {
+        const clients = countersCollection.map(client => {
           const userBalances = balancesCollection.find(
-            i => i.address?.toLowerCase() === c.address?.toLowerCase(),
+            balance =>
+              balance.address?.toLowerCase() === client.address?.toLowerCase(),
           );
           return {
-            ...c,
-            ttl: c.ttl && c.ttl > 0 ? c.ttl : undefined,
-            clientType: getClientType(c.ttl, c.hash, c.address),
+            ...client,
+            ttl: client.ttl && client.ttl > 0 ? client.ttl : undefined,
+            clientType: getClientType(client.ttl, client.hash, client.address),
             email: emailsCollection?.find(
-              i => i.address?.toLowerCase() === c.address?.toLowerCase(),
+              email =>
+                email.address?.toLowerCase() === client.address?.toLowerCase(),
             )?.email,
-            createdDate: new Date(c.timestamp),
+            createdDate: new Date(client.timestamp),
             amount: userBalances?.creditAnkrAmount
               ? new BigNumber(userBalances.creditAnkrAmount)
               : undefined,

@@ -21,7 +21,7 @@ export const ClientUsageChainFilter = ({
   }
   const totalRequestsCount = stats?.totalRequests;
   return (
-    <Box className={classes.chainFilters}>
+    <Box>
       <Button
         color={!filterByChainValue ? 'primary' : 'secondary'}
         className={cx(
@@ -53,7 +53,7 @@ export const ClientUsageChainFilter = ({
             )}
             onClick={() => handleFilterByChain(chain)}
           >
-            {chain}{' '}
+            {chain}
             <span className={classes.chainFilterValue}>
               {currentChainUsagePercentString}
             </span>
