@@ -1,4 +1,5 @@
 import {
+  AvailableReadProviders,
   AvailableWriteProviders,
   EEthereumNetworkId,
 } from '@ankr.com/provider-core';
@@ -8,8 +9,12 @@ import { isMainnet } from 'modules/common/const';
 export const SSV_ACTIONS_PREFIX = 'ethereum-ssv/';
 
 export const SSV_ETH_NETWORK_BY_ENV = isMainnet
-  ? EEthereumNetworkId.mainnet
+  ? EEthereumNetworkId.goerli
   : EEthereumNetworkId.goerli;
+
+export const SSV_ETH_PROVIDER_BY_ENV = isMainnet
+  ? AvailableReadProviders.ethGoerli
+  : AvailableReadProviders.ethGoerli;
 
 export const SSV_MAX_DECIMALS_LEN = 1;
 
