@@ -42,14 +42,14 @@ export const {
           ? Object.values(statsResponse?.stats).map(stat => {
               return {
                 blockchain: stat?.blockchain || '',
-                totalCost: stat?.total?.totalCost,
+                totalCost: stat?.total?.totalCost || 0,
                 details:
                   stat?.total?.topRequests?.map(topRequests => {
                     return {
                       blockchain: stat?.blockchain || '',
                       ...topRequests,
                       count: topRequests.count.toString(),
-                      totalCost: topRequests?.totalCost?.toString(),
+                      totalCost: topRequests?.totalCost?.toString() || '0',
                     };
                   }) || [],
               };

@@ -31,6 +31,10 @@ export const {
             startedDate: total?.blockchainsInfo?.startedMs
               ? new Date(+total.blockchainsInfo.startedMs)
               : undefined,
+            blockchainsInfo: {
+              ...total?.blockchainsInfo,
+              totalCost: total?.blockchainsInfo?.totalCost || '0',
+            },
           },
         };
       },
