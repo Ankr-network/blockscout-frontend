@@ -102,7 +102,6 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     minWidth: 0,
     minHeight: 0,
     borderRadius: '11px',
-    width: '192px', // 62(tab width)*3(tabs count)+6(paddingLeft+paddingRight)
   },
   tabUsagePeriod: {
     width: '62px',

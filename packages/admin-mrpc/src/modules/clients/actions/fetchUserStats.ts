@@ -11,6 +11,7 @@ import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 interface IApiRequestParams {
   address: Web3Address;
   interval?: PrivateStatsInterval;
+  current?: boolean;
 }
 
 export interface IUsageEntityMapped extends IUsageEntity {
@@ -28,14 +29,18 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchUserStats: build.query<IApiResponse, IApiRequestParams>({
-      queryFn: async ({ address, interval = PrivateStatsInterval.MONTH }) => {
+      queryFn: async ({
+        address,
+        interval = PrivateStatsInterval.MONTH,
+        current = true,
+      }) => {
         const service = await MultiService.getInstance();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
         const statsResponse = await backofficeGateway.getUserStats({
           address,
           interval,
-          current: true, // set true if current day stats need to be included
+          current, // current = true means current day stats will be included to period stats response
         });
 
         const usage = statsResponse?.stats

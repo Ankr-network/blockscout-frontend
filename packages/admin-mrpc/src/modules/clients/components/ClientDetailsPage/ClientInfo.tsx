@@ -81,20 +81,20 @@ export const ClientInfo = ({
     </Card>
   );
 
+  const NOT_FOUND_TEXT = 'Not found';
   const statsFromText = totalData?.startedDate
     ? `from ${totalData.startedDate.toLocaleString()}`
     : undefined;
-  const totalRequestsText = totalData?.blockchainsInfo?.totalCount
-    ? `${totalData?.blockchainsInfo.totalCount}`
-    : 'Not found';
-  const totalCostText = totalData?.blockchainsInfo?.totalCost
-    ? `${formatNumber(totalData.blockchainsInfo.totalCost)}`
-    : 'Not found';
+  const totalRequestsText =
+    formatNumber(totalData?.blockchainsInfo?.totalCount) || NOT_FOUND_TEXT;
+  const totalCostText = Number(totalData?.blockchainsInfo?.totalCost)
+    ? `${formatNumber(totalData?.blockchainsInfo.totalCost)}`
+    : NOT_FOUND_TEXT;
   const revenueText =
     transactionsCost !== undefined && +transactionsCost > 0
       ? renderUSD(transactionsCost.toString())
-      : 'Not found';
-  const clientEmailText = client && client.email ? client.email : 'Not found';
+      : NOT_FOUND_TEXT;
+  const clientEmailText = client?.email || NOT_FOUND_TEXT;
   const voucherCreditsText = client?.voucherAmount ? (
     <>{renderBalance(client?.voucherAmount)} Voucher Credits</>
   ) : null;
