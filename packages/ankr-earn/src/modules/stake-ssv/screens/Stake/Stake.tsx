@@ -17,7 +17,7 @@ import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { NetworkTitle } from '../../components/NetworkTitle';
-import { SSV_MAX_DECIMALS_LEN } from '../../const';
+import { SSV_MAX_DECIMALS_LEN, SSV_STAKING_AMOUNT_STEP } from '../../const';
 
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStyles } from './useStakeStyles';
@@ -92,6 +92,7 @@ export const Stake = (): JSX.Element => {
             minAmount={minAmount}
             networkTitleSlot={<NetworkTitle />}
             renderStats={renderStats}
+            stakingAmountStep={SSV_STAKING_AMOUNT_STEP}
             tokenIn={tokenIn}
             tokenOut={tokenOut}
             onChange={onFormChange}
