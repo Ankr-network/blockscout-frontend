@@ -39,9 +39,10 @@ const getAddresses = async (provider: TProvider): Promise<string[]> => {
   return [];
 };
 
-const getChainId = (provider: TProvider): TChainId => {
+const getChainId = async (provider: TProvider): Promise<TChainId> => {
   if (provider instanceof Web3KeyWriteProvider) {
-    return provider.currentChain;
+    const chainId = await provider.getWeb3().eth.getChainId();
+    return chainId || provider.currentChain;
   }
 
   if (provider instanceof PolkadotProvider) {
@@ -62,8 +63,8 @@ export const connect = createAction<
 
       const address = provider.currentAccount ?? '';
       const addresses = await getAddresses(provider);
-      const chainId = getChainId(provider);
       const isConnected = provider.isConnected();
+      const chainId = await getChainId(provider);
 
       const {
         icon: walletIcon,
@@ -106,6 +107,7 @@ export const connect = createAction<
         setProviderStatus({
           providerId,
           isActive: true,
+          chainId: response.data.chainId,
           address: response.data.address,
           walletId: response.data.walletId,
           wallet,

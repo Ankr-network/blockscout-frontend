@@ -280,7 +280,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<number>}
    */
   public async getLatestBlock(): Promise<number> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     return web3.eth.getBlockNumber();
@@ -499,7 +499,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<IFetchTxData>}
    */
   public async fetchTxData(txHash: string): Promise<IFetchTxData> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const tx = await web3.eth.getTransaction(txHash);
@@ -526,7 +526,7 @@ export class FantomSDK implements ISwitcher, IStakable {
   public async fetchTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
@@ -625,7 +625,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
-    const aFTMcContract = await this.getAftmcTokenContract();
+    const aFTMcContract = await this.getAftmcTokenContract(true);
     const { fantomConfig } = configFromEnv();
 
     const allowance = await aFTMcContract.methods
@@ -832,7 +832,7 @@ export class FantomSDK implements ISwitcher, IStakable {
     amount: BigNumber,
     token: TFtmSyntToken,
   ): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const fantomPoolContract = this.getFantomPoolContract(provider);
 
     const contractStake =
@@ -856,7 +856,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getBurnFee(amount: BigNumber): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const fantomPoolContract = this.getFantomPoolContract(provider);
 
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
@@ -874,7 +874,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getMinimumStake(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const fantomPoolContract = this.getFantomPoolContract(provider);
 
     const minStake = await fantomPoolContract.methods.getMinimumStake().call();
@@ -930,7 +930,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getFtmBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const ftmBalance = await web3.eth.getBalance(this.currentAccount);
 
@@ -944,7 +944,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
-    const aFTMbContract = await this.getAftmbTokenContract();
+    const aFTMbContract = await this.getAftmbTokenContract(true);
 
     const aFTMbBalance = await aFTMbContract.methods
       .balanceOf(this.currentAccount)
@@ -960,7 +960,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
-    const aFTMcContract = await this.getAftmcTokenContract();
+    const aFTMcContract = await this.getAftmcTokenContract(true);
 
     const aFTMcBalance = await aFTMcContract.methods
       .balanceOf(this.currentAccount)
@@ -977,8 +977,8 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aFTMcContract = await this.getAftmcTokenContract();
+    const provider = await this.getProvider(true);
+    const aFTMcContract = await this.getAftmcTokenContract(true);
     const web3 = provider.getWeb3();
 
     const rawRatio = await aFTMcContract.methods.ratio().call();

@@ -58,7 +58,7 @@ export const BridgeMainView = (): JSX.Element => {
   const {
     isConnected,
     isActualNetwork,
-    isMetaMask,
+    isInjected,
     tokenValue,
     isSendAnother,
     isApproved,
@@ -271,7 +271,7 @@ export const BridgeMainView = (): JSX.Element => {
           </>
         )}
 
-        {isSwitchNetworkShowed && isMetaMask && (
+        {isSwitchNetworkShowed && isInjected && (
           <Button
             className={classes.submitBtn}
             color="primary"
@@ -282,7 +282,7 @@ export const BridgeMainView = (): JSX.Element => {
           </Button>
         )}
 
-        {isSwitchNetworkShowed && !isMetaMask && (
+        {isSwitchNetworkShowed && !isInjected && (
           <Quote mt={4} variant="warning">
             {t('bridge.main.switch-note', {
               chain: t(`chain.${swapNetworkItem.from}`),

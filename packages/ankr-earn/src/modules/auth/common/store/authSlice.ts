@@ -5,6 +5,7 @@ import { RootState } from 'store';
 export interface IProviderStatus {
   address?: string;
   isActive: boolean;
+  chainId?: number | string | null;
   walletId?: string;
   wallet?: string;
 }
@@ -30,6 +31,14 @@ export const authSlice = createSlice({
         address: action.payload.address,
         walletId: action.payload.walletId,
         wallet: action.payload.wallet,
+        chainId:
+          state[action.payload.providerId]?.chainId ?? action.payload.chainId,
+      };
+    },
+    setChainId: (state, action: PayloadAction<ISetProviderStatusPayload>) => {
+      state[action.payload.providerId] = {
+        ...(state[action.payload.providerId] ?? {}),
+        chainId: action.payload.chainId,
       };
     },
   },
@@ -51,4 +60,4 @@ export const selectQueriesData = createSelector(
   state => state,
 );
 
-export const { setProviderStatus } = authSlice.actions;
+export const { setProviderStatus, setChainId } = authSlice.actions;

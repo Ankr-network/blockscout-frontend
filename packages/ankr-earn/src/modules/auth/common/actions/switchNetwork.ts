@@ -3,7 +3,7 @@ import {
   EEthereumNetworkId,
   EPolkadotNetworkId,
 } from '@ankr.com/provider-core';
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
@@ -14,6 +14,7 @@ import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
 import { withStore } from 'modules/common/utils/withStore';
 
+import { setChainId } from '../store/authSlice';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
 import { connect, IConnect } from './connect';
@@ -75,6 +76,21 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
         asMutation: true,
         showNotificationOnError: true,
         onRequest: withStore,
+        onSuccess: (
+          response: { data: IConnect },
+          _action: RequestAction,
+          { dispatch }: RequestsStore,
+        ) => {
+          dispatch(
+            setChainId({
+              providerId,
+              isActive: true,
+              chainId,
+            }),
+          );
+
+          return response;
+        },
         mutations: {
           [connectAction]: (data: IConnect): IConnect => {
             let changedData: TChangedData = {};
@@ -95,6 +111,7 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
             return {
               ...data,
               ...changedData,
+              chainId,
             };
           },
         },

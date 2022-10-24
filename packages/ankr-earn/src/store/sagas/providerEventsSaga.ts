@@ -14,6 +14,7 @@ import {
   take,
 } from 'redux-saga/effects';
 import Web3 from 'web3';
+import { numberToHex } from 'web3-utils';
 
 import {
   AccountChangedEventData,
@@ -168,7 +169,10 @@ function* listenProviderWeb3Events({
         }
 
         case ProviderEvents.ChainChanged: {
-          const selectedChainId = Number.parseInt(event.data, 16);
+          const chainId = event.data.toString().startsWith('0x')
+            ? event.data
+            : numberToHex(event.data);
+          const selectedChainId = Number.parseInt(chainId, 16);
 
           yield put(
             updateConnectedNetwork({

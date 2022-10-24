@@ -61,6 +61,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
   const defaultReadProvider = {
     getWeb3: jest.fn(),
     executeBatchCalls: jest.fn(),
+    getContractMethodFee: jest.fn(),
   };
 
   const defaultWriteProvider = {
@@ -164,7 +165,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
     expect(data).toBe(true);
   });
 
-  describe('should return stake gas fee data', () => {
+  describe('stake gas fee data', () => {
     it('should return zero if amount is less than minimum stake value', async () => {
       const contract = {
         ...defaultContract,
@@ -200,6 +201,10 @@ describe('modules/polygon/sdk/ethSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
+      defaultReadProvider.getContractMethodFee.mockReturnValue(
+        Promise.resolve(ZERO),
+      );
+
       defaultWriteProvider.getContractMethodFee.mockReturnValue(
         Promise.resolve(ZERO),
       );
@@ -226,6 +231,10 @@ describe('modules/polygon/sdk/ethSDK', () => {
       };
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      defaultReadProvider.getContractMethodFee.mockReturnValue(
+        Promise.resolve(ONE),
+      );
 
       defaultWriteProvider.getContractMethodFee.mockReturnValue(
         Promise.resolve(ONE),

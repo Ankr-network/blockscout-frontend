@@ -70,11 +70,13 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
     return request;
   },
   onError: (error: Error, action: RequestAction, store: Store) => {
-    if (action.meta?.showNotificationOnError) {
+    const message = getErrorMessage(error);
+
+    if (action.meta?.showNotificationOnError && message) {
       store.dispatch(
         showNotification({
           key: `${action.type}_ERROR`,
-          message: getErrorMessage(error),
+          message,
           variant: 'error',
         }),
       );

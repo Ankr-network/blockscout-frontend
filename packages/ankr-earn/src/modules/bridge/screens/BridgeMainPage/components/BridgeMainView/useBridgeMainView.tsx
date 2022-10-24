@@ -47,7 +47,7 @@ interface IUseBridgeMainView {
   isSendAnother: boolean;
   isConnected: boolean;
   isApproved: boolean;
-  isMetaMask: boolean;
+  isInjected: boolean;
   isActualNetwork: boolean;
   swapNetworkItem: ISwapNetworkItemState;
   balance?: BigNumber;
@@ -243,7 +243,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   return {
     isConnected,
-    isMetaMask: isInjected,
+    isInjected,
     tokenValue,
     isSendAnother,
     isApproved,

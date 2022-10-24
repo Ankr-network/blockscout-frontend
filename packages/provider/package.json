@@ -24,6 +24,7 @@
   "dependencies": {
     "@ankr.com/provider-core": "*",
     "@binance-chain/bsc-connector": "^1.0.0",
+    "@coinbase/wallet-sdk": "^3.5.2",
     "@ethereumjs/common": "^2.5.0",
     "@ethereumjs/tx": "^3.3.2",
     "@polkadot/wasm-crypto-asmjs": "^6.3.1",
@@ -68,6 +69,7 @@
     "npm-watch": "^0.11.0",
     "prettier": "^2.2.1",
     "rimraf": "3.0.2",
+    "rollup-plugin-svg": "2.0.0",
     "rollup-watch": "^4.3.1",
     "ts-jest": "27.0.0",
     "ts-node": "^10.5.0",
