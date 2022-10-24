@@ -275,7 +275,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }: IGetPastEvents): Promise<EventData[]> {
     const eventsPromises: Promise<EventData[]>[] = [];
 
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+    for (let i = startBlock; i <= latestBlockNumber; i += rangeStep) {
       const fromBlock = i;
       const toBlock = fromBlock + rangeStep;
 

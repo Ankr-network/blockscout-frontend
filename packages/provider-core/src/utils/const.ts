@@ -112,7 +112,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'FTM',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc.testnet.fantom.network/'],
+    rpcUrls: ['https://rpc.ankr.com/fantom_testnet'],
     blockExplorerUrls: ['https://testnet.ftmscan.com/'],
   },
   [EEthereumNetworkId.polygon]: {

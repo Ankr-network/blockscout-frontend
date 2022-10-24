@@ -317,9 +317,7 @@ export class FantomSDK implements ISwitcher, IStakable {
           latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.StakeReceived,
-          filter: {
-            staker: this.currentAccount,
-          },
+          filter: { staker: this.currentAccount },
         }),
         // Get pending withdrawal requests, one can get all TokensBurned events for given staker
         this.getPastEvents({
@@ -329,9 +327,7 @@ export class FantomSDK implements ISwitcher, IStakable {
           latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.TokensBurned,
-          filter: {
-            staker: this.currentAccount,
-          },
+          filter: { staker: this.currentAccount },
         }),
         this.getPastEvents({
           provider,
@@ -340,11 +336,38 @@ export class FantomSDK implements ISwitcher, IStakable {
           latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.Withdrawn,
-          filter: {
-            staker: this.currentAccount,
-          },
+          filter: { staker: this.currentAccount },
         }),
       ]);
+
+    const { withdrawnRawEventsAFTMB, withdrawnRawEventsAFTMC } =
+      withdrawnRawEvents.reduce<{
+        withdrawnRawEventsAFTMB: EventData[];
+        withdrawnRawEventsAFTMC: EventData[];
+      }>(
+        (acc, current) => {
+          // we find the corresponding event of the unstake (burn) by the wrId field
+          // to understand what type of tokens (bond / cert) the event belongs to
+          const unstakeEvent = unstakeRawEvents.find(
+            event => event.returnValues.wrId === current.returnValues.wrId,
+          );
+
+          if (!unstakeEvent) {
+            return acc;
+          }
+
+          const isBondEvent: boolean = unstakeEvent.returnValues.isRebasing;
+
+          if (isBondEvent) {
+            acc.withdrawnRawEventsAFTMB.push(current);
+          } else {
+            acc.withdrawnRawEventsAFTMC.push(current);
+          }
+
+          return acc;
+        },
+        { withdrawnRawEventsAFTMB: [], withdrawnRawEventsAFTMC: [] },
+      );
 
     const pendingRawEvents: EventData[] = [];
 
@@ -357,11 +380,6 @@ export class FantomSDK implements ISwitcher, IStakable {
 
     const { bondEvents: stakeRawEventsAFTMB, certEvents: stakeRawEventsAFTMC } =
       getFilteredContractEvents(stakeRawEvents);
-
-    const {
-      bondEvents: withdrawnRawEventsAFTMB,
-      certEvents: withdrawnRawEventsAFTMC,
-    } = getFilteredContractEvents(withdrawnRawEvents);
 
     const {
       bondEvents: pendingRawEventsAFTMB,
@@ -458,7 +476,7 @@ export class FantomSDK implements ISwitcher, IStakable {
 
     const eventsPromises: Promise<EventData[]>[] = [];
 
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+    for (let i = startBlock; i <= latestBlockNumber; i += rangeStep) {
       const fromBlock = i;
       const toBlock = fromBlock + rangeStep;
 
