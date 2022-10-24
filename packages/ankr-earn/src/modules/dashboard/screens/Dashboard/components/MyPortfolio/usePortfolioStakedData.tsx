@@ -15,8 +15,8 @@ import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getTotalInfo as getAnkrTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
@@ -123,13 +123,11 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       type: fetchAETHCBridged,
     });
 
-  const { data: ankrData, loading: isLoadingAnkrData } = useQuery({
-    type: getAnkrTotalInfo,
-  });
+  const { data: ankrData, isFetching: isLoadingAnkrData } =
+    useGetTotalInfoQuery();
 
-  const { data: ankrPrice, loading: isAnkrPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
+  const { data: ankrPrice, isFetching: isAnkrPriceLoading } =
+    useGetAnkrPriceQuery();
 
   const { data: mgnoData, loading: isLoadingMgnoData } = useQuery({
     type: getMGNOTotalInfo,

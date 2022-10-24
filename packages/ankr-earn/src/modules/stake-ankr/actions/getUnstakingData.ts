@@ -1,27 +1,24 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IUnstakingData } from '../api/AnkrStakingSDK/types';
-import { ANKR_ACTIONS_PREFIX } from '../const';
+import { CacheTags } from '../cacheTags';
 
 interface IGetUnstakingDataArgs {
   usdPrice: BigNumber;
 }
 
-export const getUnstakingData = createAction<
-  RequestAction<IUnstakingData[], IUnstakingData[]>,
-  [IGetUnstakingDataArgs]
->(`${ANKR_ACTIONS_PREFIX}getUnstakingData`, ({ usdPrice }) => ({
-  request: {
-    promise: (async (): Promise<IUnstakingData[]> => {
-      const sdk = await AnkrStakingSDK.getInstance();
+// TODO Likelly bind to the current address: add providerTags argument
+export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getUnstakingData: build.query<IUnstakingData[], IGetUnstakingDataArgs>({
+      queryFn: async ({ usdPrice }) => {
+        const sdk = await AnkrStakingSDK.getInstance();
 
-      return sdk.getUnstaking(usdPrice);
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-  },
-}));
+        return { data: await sdk.getUnstaking(usdPrice) };
+      },
+      providesTags: [CacheTags.history],
+    }),
+  }),
+});

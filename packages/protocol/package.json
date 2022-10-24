@@ -43,7 +43,7 @@
     "@redux-requests/core": "1.6.1",
     "@redux-requests/promise": "1.0.2",
     "@redux-requests/react": "1.6.0",
-    "@reduxjs/toolkit": "^1.5.1",
+    "@reduxjs/toolkit": "^1.8.1",
     "@sentry/react": "^6.16.0",
     "@sentry/tracing": "^6.16.0",
     "@solana/web3.js": "^1.62.1",

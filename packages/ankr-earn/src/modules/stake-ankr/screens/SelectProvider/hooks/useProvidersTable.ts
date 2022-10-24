@@ -1,11 +1,7 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { IValidator } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
 
+import { RoutesConfig } from '../../../RoutesConfig';
 import { IProvidersTableRow } from '../components/ProvidersTable';
 
 interface IUseProvidersTable {
@@ -14,16 +10,9 @@ interface IUseProvidersTable {
 }
 
 export const useProvidersTable = (): IUseProvidersTable => {
-  const { data: providers, loading: isProvidersLoading } = useQuery({
-    type: getProviders,
-  });
+  const { data: providers, isFetching: isProvidersLoading } =
+    useGetProvidersQuery();
   const data = providers?.map(mapProviderDemo) || [];
-  const dispatchRequest = useDispatchRequest();
-
-  useProviderEffect(() => {
-    dispatchRequest(getProviders());
-    dispatchRequest(getAPY());
-  }, [dispatchRequest]);
 
   return {
     data,

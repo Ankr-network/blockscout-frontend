@@ -1,15 +1,10 @@
 import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
 import { t, tHTML } from 'common';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import {
@@ -18,15 +13,16 @@ import {
   IFormState,
 } from 'modules/delegate-stake/components/StakeForm/const';
 import { useFormState } from 'modules/forms/hooks/useFormState';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
-import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
-import { stake } from 'modules/stake-ankr/actions/stake';
-import { ANKR_STAKE_FORM_ID, TEMPORARY_APY } from 'modules/stake-ankr/const';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
+import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
+import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
+import { useStakeMutation } from 'modules/stake-ankr/actions/stake';
+import { ANKR_STAKE_FORM_ID } from 'modules/stake-ankr/const';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
+
+import { useProviderEffect } from '../../../../auth/common/hooks/useProviderEffect';
+import { RoutesConfig } from '../../../RoutesConfig';
 
 import { useAnalytics } from './useAnalytics';
 import { useApprove } from './useApprove';
@@ -36,7 +32,6 @@ interface IUseAnkrStake {
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
   isApproveLoading: boolean;
-  isApyLoading: boolean;
   isDisabled: boolean;
   isApproved: boolean;
   balance: BigNumber;
@@ -48,7 +43,6 @@ interface IUseAnkrStake {
   initialAmount?: string;
   providerName?: string;
   amount: BigNumber;
-  apy: BigNumber;
   quoteText: string;
   additionalText?: string;
   additionalTooltip?: string;
@@ -58,8 +52,9 @@ interface IUseAnkrStake {
 }
 
 export const useAnkrStake = (): IUseAnkrStake => {
-  const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
+  const dispatchRequest = useDispatchRequest();
+  const [stake, { isLoading: isStakeLoading }] = useStakeMutation();
 
   const { setFormState, formState } =
     useFormState<IFormState>(ANKR_STAKE_FORM_ID);
@@ -68,23 +63,23 @@ export const useAnkrStake = (): IUseAnkrStake => {
     defaultData: [],
     type: getFAQ,
   });
-  const { data: providers, loading: isProvidersLoading } = useQuery({
-    type: getProviders,
-  });
-  const { data: commonData, loading: isCommonDataLoading } = useQuery({
-    type: getCommonData,
-  });
-  const { data: apyData, loading: isApyLoading } = useQuery({
-    type: getAPY,
-  });
-  const { data: totalInfo, loading: isTotalInfoLoading } = useQuery({
-    type: getTotalInfo,
-  });
 
+  const { data: providers, isFetching: isProvidersLoading } =
+    useGetProvidersQuery();
+
+  const {
+    data: commonData,
+    isFetching: isCommonDataLoading,
+    refetch: getCommonDataRefetch,
+  } = useGetCommonDataQuery();
+
+  const {
+    data: totalInfo,
+    isFetching: isTotalInfoLoading,
+    refetch: getTotalInfoRefetch,
+  } = useGetTotalInfoQuery();
   const amount = formState?.amount ?? ZERO;
   const balance = commonData?.ankrBalance ?? ZERO;
-
-  const { loading: isStakeLoading } = useMutation({ type: stake });
 
   const {
     isApproved,
@@ -93,11 +88,9 @@ export const useAnkrStake = (): IUseAnkrStake => {
   } = useApprove();
 
   useProviderEffect(() => {
-    dispatchRequest(getAPY());
-    dispatchRequest(getCommonData());
     dispatchRequest(getFAQ(Token.ANKR));
-    dispatchRequest(getProviders());
-    dispatchRequest(getTotalInfo());
+    getCommonDataRefetch();
+    getTotalInfoRefetch();
 
     return () => {
       dispatch(resetRequests([getFAQ.toString()]));
@@ -107,8 +100,6 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const currentProvider = providers ? providers[0] : null;
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
-  const apyItem = apyData?.find(x => x.validator === initialProvider);
-  const apy = apyItem ? apyItem.apy : TEMPORARY_APY;
 
   const { sendAnalytics } = useAnalytics({
     amount,
@@ -130,16 +121,16 @@ export const useAnkrStake = (): IUseAnkrStake => {
     const readyAmount = new BigNumber(formAmount);
 
     if (isApproved) {
-      dispatchRequest(
-        stake({
-          provider,
-          amount: readyAmount,
-        }),
-      ).then(({ error }) => {
-        if (!error) {
-          sendAnalytics();
-        }
-      });
+      stake({
+        provider,
+        amount: readyAmount,
+      })
+        .unwrap()
+        .catch(error => {
+          if (!error) {
+            sendAnalytics();
+          }
+        });
     } else {
       handleApprove(readyAmount);
     }
@@ -150,7 +141,6 @@ export const useAnkrStake = (): IUseAnkrStake => {
     isStakeLoading,
     isBalanceLoading: isCommonDataLoading,
     isApproveLoading,
-    isApyLoading,
     isApproved,
     isDisabled:
       isProvidersLoading ||
@@ -167,7 +157,6 @@ export const useAnkrStake = (): IUseAnkrStake => {
     providerName,
     amount,
     initialAmount: amount.isNaN() ? undefined : amount.toFixed(),
-    apy,
     quoteText: t('stake-ankr.staking.fee-info'),
     additionalText: t('stake-ankr.staking.locking-period'),
     additionalTooltip: tHTML('stake-ankr.staking.locking-period-tooltip'),

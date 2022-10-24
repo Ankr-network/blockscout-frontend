@@ -1,15 +1,11 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getTxData } from 'modules/stake-ankr/actions/getTxData';
-import { getTxReceipt } from 'modules/stake-ankr/actions/getTxReceipt';
+import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
+import { useGetTxDataQuery } from 'modules/stake-ankr/actions/getTxData';
+import { useGetTxReceiptQuery } from 'modules/stake-ankr/actions/getTxReceipt';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUnstakeStepsHook {
   isLoading: boolean;
@@ -17,7 +13,7 @@ export interface IUnstakeStepsHook {
   amount?: BigNumber;
   nodeProvider?: string;
   transactionId?: string;
-  error?: Error;
+  error?: FetchBaseQueryError;
 }
 
 interface IUnstakeStepsParams {
@@ -25,15 +21,11 @@ interface IUnstakeStepsParams {
 }
 
 export const useUnstakeStepsHook = (): IUnstakeStepsHook => {
-  const dispatchRequest = useDispatchRequest();
-  const dispatch = useAppDispatch();
   const { txHash } = useParams<IUnstakeStepsParams>();
 
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const { data: providers } = useQuery({
-    type: getProviders,
-  });
+  const { isFetching: isLoading, data, error } = useGetTxDataQuery({ txHash });
+  const { data: receipt } = useGetTxReceiptQuery({ txHash });
+  const { data: providers } = useGetProvidersQuery();
 
   const providerAddress = data?.provider.toUpperCase();
   const currentProvider = providers?.find(
@@ -45,28 +37,11 @@ export const useUnstakeStepsHook = (): IUnstakeStepsHook => {
   const isSuccessfulReceipt = receipt && receipt.status;
   const isPending = !!data?.isPending && !isSuccessfulReceipt;
 
-  useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash })).then(() => {
-      dispatchRequest(getTxReceipt({ txHash }));
-      dispatchRequest(getProviders());
-    });
-
-    return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
-    };
-  }, [dispatch, txHash]);
-
-  useEffect(() => {
-    if (isSuccessfulReceipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, isSuccessfulReceipt]);
-
   return {
     amount: data?.amount,
     isLoading,
     isPending,
-    error,
+    error: error as FetchBaseQueryError,
     nodeProvider: providerName,
     transactionId: txHash,
   };

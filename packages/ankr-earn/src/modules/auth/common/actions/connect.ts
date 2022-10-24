@@ -72,6 +72,7 @@ export const connect = createAction<
       } = provider.getWalletMeta();
 
       if (isConnected && typeof onModalClose === 'function') {
+        // TODO: move it outside of action
         onModalClose();
       }
 

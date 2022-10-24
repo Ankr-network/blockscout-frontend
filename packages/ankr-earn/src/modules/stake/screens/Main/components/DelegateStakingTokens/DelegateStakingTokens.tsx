@@ -5,7 +5,7 @@ import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/Routes';
+import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
 import { getMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getTVL } from 'modules/stake-mgno/actions/getTVL';
 import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';

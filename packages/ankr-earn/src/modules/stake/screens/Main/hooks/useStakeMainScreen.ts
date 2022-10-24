@@ -4,7 +4,6 @@ import { TAccessPoint } from 'modules/analytics/tracking-actions/trackDelegatedS
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
 import { getMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getTVL } from 'modules/stake-mgno/actions/getTVL';
 import { getMetrics, TMetrics } from 'modules/stake/actions/getMetrics';
@@ -28,7 +27,6 @@ export const useStakeMainScreen = (): IUseStakeMainScreen => {
 
   useProviderEffect(() => {
     dispatchRequest(getMetrics());
-    dispatchRequest(getANKRPrice());
 
     if (featuresConfig.mgnoStaking) {
       dispatchRequest(getMaxApr());

@@ -11,9 +11,9 @@ import {
 import { iconByTokenMap, TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getCommonData as fetchAnkrData } from 'modules/stake-ankr/actions/getCommonData';
-import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/Routes';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
+import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -90,13 +90,11 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: fetchStakeFTMStats,
   });
 
-  const { data: ankrBalanceData, loading: isLoadingAnkrBalanceData } = useQuery(
-    { type: fetchAnkrData },
-  );
+  const { data: ankrBalanceData, isFetching: isLoadingAnkrBalanceData } =
+    useGetCommonDataQuery();
 
-  const { data: ankrPrice, loading: isAnkrPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
+  const { data: ankrPrice, isFetching: isAnkrPriceLoading } =
+    useGetAnkrPriceQuery();
 
   const { data: mgnoBalanceData, loading: isLoadingMgnoBalanceData } = useQuery(
     { type: fetchMgnoBalance },

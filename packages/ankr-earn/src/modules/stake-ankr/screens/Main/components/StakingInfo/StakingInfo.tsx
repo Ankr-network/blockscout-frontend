@@ -1,5 +1,4 @@
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
-
+import { RoutesConfig } from '../../../../RoutesConfig';
 import { ActiveStakingTable } from '../ActiveStakingTable';
 import { HistoryTable } from '../HistoryTable';
 import { Tabs } from '../Tabs';
