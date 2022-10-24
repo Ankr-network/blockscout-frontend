@@ -2,11 +2,8 @@ import { useMemo } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import {
-  privateTimeframes,
-  publicTimeframes,
-} from 'domains/chains/constants/timeframes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { usageTimeframe } from 'domains/chains/constants/timeframes';
 
 export interface TimeframeResult {
   timeframe: Timeframe;
@@ -18,8 +15,8 @@ export const useTimeframe = (): TimeframeResult => {
 
   const [tabs, initialTabID] = useMemo(() => {
     const [timeframes, initial] = isWalletConnected
-      ? [privateTimeframes, Timeframe.Day]
-      : [publicTimeframes, Timeframe.Month];
+      ? [usageTimeframe, Timeframe.Day]
+      : [usageTimeframe, Timeframe.Month];
 
     return [timeframes.map<Tab<Timeframe>>(id => ({ id })), initial];
   }, [isWalletConnected]);

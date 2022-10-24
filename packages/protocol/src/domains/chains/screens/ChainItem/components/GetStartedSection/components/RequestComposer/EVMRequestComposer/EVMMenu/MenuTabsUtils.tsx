@@ -40,7 +40,6 @@ export const useLibraryTabs = (group: EndpointGroup) => {
     ],
     [content],
   );
-
   return useTabs({
     initialTabID: EVMLibraryID.WEB3,
     tabs: rawTabs,

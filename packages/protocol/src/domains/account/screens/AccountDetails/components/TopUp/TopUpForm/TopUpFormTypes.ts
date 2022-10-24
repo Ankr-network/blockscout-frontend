@@ -16,7 +16,7 @@ export interface ITopUpFormContext {
     allValues?: any,
     balance?: BigNumber,
   ) => string | undefined;
-  hasRateBlock: boolean;
+  isAccountPage: boolean;
   balance?: BigNumber;
 }
 
