@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Container, Typography } from '@material-ui/core';
+import { Box, Container, Typography } from '@mui/material';
 
 import { useStyles } from './PageNotFoundStyles';
 
 export const PageNotFound = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <section className={classes.root}>
