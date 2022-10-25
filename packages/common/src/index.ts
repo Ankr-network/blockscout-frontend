@@ -1,3 +1,5 @@
+import './utils/updatePrototypes';
+
 export { throwIfError } from './utils/throwIfError';
 export { stringify } from './utils/stringify';
 export { initGoogleGtm } from './utils/gtm';

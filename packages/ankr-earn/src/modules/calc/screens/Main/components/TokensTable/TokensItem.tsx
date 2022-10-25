@@ -20,7 +20,6 @@ import {
   ZERO_DECIMAL_PLACES,
 } from 'modules/common/const';
 import { Days } from 'modules/common/types';
-import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 
 import { TokenWithIcon } from '../TokenWithIcon';
@@ -76,7 +75,7 @@ export const TokensItem = ({
   const formattedYieldAmount = yieldAmount
     .dividedBy(DAYS_IN_YEAR)
     .multipliedBy(days)
-    .decimalPlaces(getDecimalPlaces(yieldAmount))
+    .round()
     .toFormat();
 
   const handleChange = useCallback(

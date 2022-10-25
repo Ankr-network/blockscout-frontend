@@ -24,3 +24,9 @@ export const MAX_UINT256 = new BigNumber(
 export const ZERO_EVENT_HASH =
   '0x0000000000000000000000000000000000000000000000000000000000000000';
 export const DAYS_IN_YEAR: Days = 365;
+
+declare module 'bignumber.js' {
+  interface BigNumber extends BigNumber.Instance {
+    round(): BigNumber;
+  }
+}

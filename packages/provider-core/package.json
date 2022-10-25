@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "bignumber.js": "^9.0.1",
+    "common": "*",
     "react": "^17.0.2",
     "web3": "1.7.0",
     "web3-core": "^1.7.0",
