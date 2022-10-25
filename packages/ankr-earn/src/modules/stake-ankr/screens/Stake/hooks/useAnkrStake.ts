@@ -8,8 +8,8 @@ import { t, tHTML } from 'common';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import {
-  IAnkrStakeFormPayload,
-  IAnkrStakeSubmitPayload,
+  IStakeFormPayload,
+  IStakeSubmitPayload,
   IFormState,
 } from 'modules/delegate-stake/components/StakeForm/const';
 import { useFormState } from 'modules/forms/hooks/useFormState';
@@ -47,8 +47,8 @@ interface IUseAnkrStake {
   additionalText?: string;
   additionalTooltip?: string;
   additionalValue?: string;
-  onSubmit: (values: IAnkrStakeSubmitPayload) => void;
-  onChange?: (values: IAnkrStakeFormPayload, invalid: boolean) => void;
+  onSubmit: (values: IStakeSubmitPayload) => void;
+  onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
 }
 
 export const useAnkrStake = (): IUseAnkrStake => {
@@ -109,15 +109,12 @@ export const useAnkrStake = (): IUseAnkrStake => {
 
   const lockingPeriod = commonData?.lockingPeriod ?? undefined;
 
-  const onChange = ({ amount: formAmount }: IAnkrStakeFormPayload) => {
+  const onChange = ({ amount: formAmount }: IStakeFormPayload) => {
     const readyAmount = formAmount ? new BigNumber(formAmount) : undefined;
     dispatch(setFormState({ amount: readyAmount }));
   };
 
-  const onSubmit = ({
-    provider,
-    amount: formAmount,
-  }: IAnkrStakeSubmitPayload) => {
+  const onSubmit = ({ provider, amount: formAmount }: IStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
 
     if (isApproved) {

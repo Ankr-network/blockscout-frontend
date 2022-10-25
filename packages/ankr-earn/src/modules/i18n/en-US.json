@@ -1203,6 +1203,10 @@
       "provider": "Provider",
       "amount": "Amount"
     },
+    "validation": {
+      "max-capacity": "Validator has reached its maximum capacity and cannot accept any more stakes.",
+      "greater-max": "Due to validator’s limited capacity, you can stake up to {value}"
+    },
     "provider": {
       "node-provider": "Node Provider",
       "slashing-protection": "Slashing protection",

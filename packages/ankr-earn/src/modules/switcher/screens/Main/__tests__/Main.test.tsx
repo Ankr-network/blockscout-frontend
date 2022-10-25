@@ -1,7 +1,10 @@
 import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
+import { ReactNode } from 'react';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
+import { store } from 'store';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -11,13 +14,23 @@ import { Main } from '..';
 import {
   ISwitcherFormHookData,
   ISwitcherHookData,
+  IUseSwitcherUrlParamsData,
+  useSendAnalytics,
   useSwitcherData,
   useSwitcherForm,
-  useSendAnalytics,
-  IUseSwitcherUrlParamsData,
   useSwitcherUrlParams,
 } from '../hooks';
 import { ISendAnalyticsHookData } from '../hooks/useSendAnalytics';
+
+interface IAppWrapperProps {
+  children: ReactNode;
+}
+
+const AppWrapper = ({ children }: IAppWrapperProps): JSX.Element => (
+  <MemoryRouter>
+    <Provider store={store}>{children}</Provider>
+  </MemoryRouter>
+);
 
 jest.mock('../hooks', () => ({
   useSwitcherData: jest.fn(),
@@ -93,9 +106,9 @@ describe('modules/switcher/screens/Main', () => {
 
   test('should render properly', async () => {
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const title = await screen.findByText('ANKR Switch');
@@ -113,9 +126,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const button = await screen.findByText('Switch network');
@@ -134,9 +147,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const spinner = await screen.findByTestId('spinner');
@@ -151,9 +164,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const maxButton = await screen.findByText('Max');
@@ -170,9 +183,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const txInfo = await screen.findByText('Transaction failed.');
@@ -188,9 +201,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const txInfo = await screen.findByText('Transaction successful.');
@@ -211,9 +224,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const maxButton = await screen.findByText('Max');
@@ -245,9 +258,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const maxButton = await screen.findByText('Max');

@@ -5,7 +5,7 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { IAnkrStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
+import { IStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { useGetUnlockedDelegatedByValidatorQuery } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
@@ -26,8 +26,8 @@ interface IUseAnkrUnstake {
   isDisabled: boolean;
   providerId: string;
   providerName?: string;
-  onChange?: (values: Partial<IAnkrStakeSubmitPayload>) => void;
-  onSubmit: (values: IAnkrStakeSubmitPayload) => void;
+  onChange?: (values: Partial<IStakeSubmitPayload>) => void;
+  onSubmit: (values: IStakeSubmitPayload) => void;
 }
 
 export const useAnkrUnstake = (): IUseAnkrUnstake => {
@@ -71,10 +71,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
     getDelegatedAmountRefetch();
   }, []);
 
-  const onSubmit = ({
-    provider,
-    amount: formAmount,
-  }: IAnkrStakeSubmitPayload) => {
+  const onSubmit = ({ provider, amount: formAmount }: IStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
     unstake({
       provider,
@@ -86,9 +83,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
       });
   };
 
-  const onChange = ({
-    amount: formAmount,
-  }: Partial<IAnkrStakeSubmitPayload>) => {
+  const onChange = ({ amount: formAmount }: Partial<IStakeSubmitPayload>) => {
     const readyAmount = new BigNumber(formAmount ?? 0);
     setAmount(formAmount ? readyAmount : ZERO);
   };

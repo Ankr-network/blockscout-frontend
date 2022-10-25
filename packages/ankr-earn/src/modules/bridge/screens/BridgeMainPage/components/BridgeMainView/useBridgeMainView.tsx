@@ -183,7 +183,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     });
   };
 
-  const validateAmount = useValidateAmount(balance);
+  const validateAmount = useValidateAmount({ balance });
 
   const onAddrCheckboxClick = () => setIsSendAnother(s => !s);
 
