@@ -15,6 +15,7 @@ import {
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_FIXED } from 'modules/common/const';
+import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stakeWithoutClaim } from 'modules/stake-eth/actions/stakeWithoutClaim';
 import { RoutesConfig as ETHRoutesConfig } from 'modules/stake-eth/Routes';
@@ -34,6 +35,9 @@ export const StakeWithoutClaim = (): JSX.Element => {
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
+  const { data: claimableData, loading: isClaimableDataLoading } = useQuery({
+    type: getClaimableData,
+  });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeWithoutClaim });
 
@@ -51,6 +55,7 @@ export const StakeWithoutClaim = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
+    dispatchRequest(getClaimableData());
   }, []);
 
   return (
@@ -91,13 +96,13 @@ export const StakeWithoutClaim = (): JSX.Element => {
           <ListItemText
             primary={
               <>
-                {commonData
-                  ? commonData.claimableAETHB
+                {claimableData
+                  ? claimableData.claimableAETHB
                       .decimalPlaces(DEFAULT_FIXED)
                       .toFormat()
                   : 0}
 
-                {isCommonDataLoading ? (
+                {isClaimableDataLoading ? (
                   <Box component="span" ml={2}>
                     <Spinner size={16} />
                   </Box>

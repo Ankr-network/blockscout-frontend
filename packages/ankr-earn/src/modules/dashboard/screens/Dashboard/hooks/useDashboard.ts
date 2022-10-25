@@ -20,6 +20,7 @@ import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/
 import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
+import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
@@ -59,6 +60,7 @@ const resetRequests = () =>
     getMGNOPrice.toString(),
     getMgnoBalance.toString(),
     getEthCommonData.toString(),
+    getEthClaimableData.toString(),
     getSSVOnETHDashboardData.toString(),
     getFTMHistory.toString(),
     getFTMStats.toString(),
@@ -94,6 +96,7 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchBNBStats());
     dispatch(fetchPolygonStats());
     dispatch(getEthCommonData());
+    dispatch(getEthClaimableData());
     dispatch(getFTMStats());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));

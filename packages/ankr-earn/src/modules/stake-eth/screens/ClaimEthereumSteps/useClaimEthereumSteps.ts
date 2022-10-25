@@ -8,6 +8,7 @@ import { TEthToken } from '@ankr.com/staking-sdk';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
+import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTxData, getTxReceipt } from 'modules/stake-eth/actions/getTxData';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
@@ -44,6 +45,7 @@ export const useClaimEthereumSteps = (): IStakeEthereumStepsHook => {
     dispatchRequest(getTxData({ txHash, shouldDecodeAmount: false }));
     dispatchRequest(getTxReceipt({ txHash }));
     dispatchRequest(getCommonData());
+    dispatchRequest(getClaimableData());
 
     return () => {
       dispatch(
@@ -51,6 +53,7 @@ export const useClaimEthereumSteps = (): IStakeEthereumStepsHook => {
           getTxData.toString(),
           getTxReceipt.toString(),
           getCommonData.toString(),
+          getClaimableData.toString(),
         ]),
       );
     };

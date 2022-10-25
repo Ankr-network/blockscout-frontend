@@ -31,6 +31,10 @@ jest.mock('modules/stake-eth/actions/getCommonData', () => ({
   getCommonData: jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
+  getClaimableData: jest.fn(),
+}));
+
 describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
   const defaultQueryData = {
     data: undefined,
