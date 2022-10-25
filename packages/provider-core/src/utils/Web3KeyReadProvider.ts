@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { CoinbaseWalletProvider } from '@coinbase/wallet-sdk';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
