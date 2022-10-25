@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
-import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 import { NavLink } from 'uiKit/NavLink';
 
 import { FeatureItemBase } from './FeatureItemBase';
@@ -53,7 +52,7 @@ export const FeatureItem = ({
     stakedTvl && !stakedTvl.isNaN() && !stakedTvl.isZero();
   const tvlValue = isIntegerTvl
     ? stakedTvl?.integerValue().toFormat()
-    : stakedTvl?.toFormat(getDecimalPlaces(stakedTvl));
+    : stakedTvl?.round().toFormat();
 
   const shouldRenderAPY = typeof apy === 'number' && apy !== 0;
 
