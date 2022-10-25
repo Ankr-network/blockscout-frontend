@@ -31,7 +31,7 @@ export const DelegateStakingTokens = (): JSX.Element => {
   });
 
   return (
-    <Box mb={8}>
+    <Box mb={6.5}>
       <Typography className={classes.title} variant="h3">
         {t('stake.delegated-staking')}
       </Typography>

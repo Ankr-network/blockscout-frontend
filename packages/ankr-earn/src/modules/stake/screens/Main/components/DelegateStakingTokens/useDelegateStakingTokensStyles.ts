@@ -4,9 +4,10 @@ export const useDelegateStakingTokensStyles = makeStyles<Theme>(theme => ({
   title: {
     fontSize: 20,
     marginBottom: theme.spacing(2.5),
+    lineHeight: '100%',
 
     [theme.breakpoints.up('sm')]: {
-      fontSize: 24,
+      fontSize: 30,
       marginBottom: theme.spacing(4),
     },
   },
