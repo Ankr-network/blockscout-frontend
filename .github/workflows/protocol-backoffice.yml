@@ -24,8 +24,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: egordm/gha-yarn-node-cache@v1
-      - uses: nelonoel/branch-name@v1.0.1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.13.0'
+          cache: 'yarn'
 
       - name: Get deployment information
         run: |
@@ -33,15 +35,9 @@ jobs:
           echo "Environment: ${{github.event.inputs.api}}"
           echo "Domain: ${{github.event.inputs.environment}}"
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.0
-        with:
-          node-version: '16.13.0'
-
       - name: Install dependencies
         run: |
-            rm -rf node_modules/.cache
-            yarn install
+            yarn install --immutable
 
       - name: Build stage
         working-directory: ./packages/protocol-backoffice
