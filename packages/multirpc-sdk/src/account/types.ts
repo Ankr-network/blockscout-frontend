@@ -79,6 +79,7 @@ export interface IAggregatedPaymentHistoryResponse {
 export interface IMethod {
   method: string;
   count: number;
+  totalCost: string;
 }
 
 type ChartDate = string;

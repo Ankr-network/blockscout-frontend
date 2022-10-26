@@ -51,7 +51,12 @@ const fillBarCounts = (
   oneStakeCounts[timestamp] = {
     ...oneStakeItem,
     count: calculateTotalRequests(topRequestsList.map(item => item.count)),
-    top_requests: topRequestsList,
+    top_requests: topRequestsList?.map(item => {
+      return {
+        ...item,
+        count: String(item.count),
+      };
+    }),
   };
 };
 
@@ -111,9 +116,13 @@ const calculateBarCounts = (
       );
 
       if (originTopRequest) {
-        originTopRequest.count += topRequest.count;
+        originTopRequest.count += Number(topRequest.count);
       } else {
-        topRequestsList.push({ method, count: topRequest.count });
+        topRequestsList.push({
+          method,
+          count: Number(topRequest.count),
+          totalCost: topRequest?.totalCost,
+        });
       }
     });
 
@@ -190,7 +199,8 @@ export const formatChartData = (
       if (!otherMethodItem && item?.others_info?.request_count) {
         topRequests.push({
           method: otherMethodName,
-          count: item?.others_info?.request_count,
+          count: `${item?.others_info?.request_count}`,
+          totalCost: '',
         });
       }
     });
@@ -208,7 +218,7 @@ export const formatChartData = (
     const chart: Record<string, number> = {};
 
     counts?.[timestamp]?.top_requests?.forEach(item => {
-      chart[item.method] = item.count;
+      chart[item.method] = Number(item.count);
     });
 
     chartData.push({
