@@ -1,14 +1,17 @@
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Box from '@material-ui/core/Box';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Tooltip from '@material-ui/core/Tooltip';
-import classNames from 'classnames';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Box,
+  TableSortLabel,
+  Tooltip,
+  Button,
+} from '@mui/material';
 
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
@@ -22,16 +25,18 @@ import { useClientsTableFiltering } from './useClientsTableFiltering';
 import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useClientsTableStyles } from './ClientsTableStyles';
 import { ClientsValueFilters } from '../ClientsValueFilters/ClientsValueFilters';
+import { ButtonOptions } from './ButtonOptions';
+import { getTtlString } from '../UserTypeTag/const';
 
 export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
   const history = useHistory();
-  const classes = useClientsTableStyles();
+  const { classes, cx } = useClientsTableStyles();
   const {
     filteredClients,
     filterClientType,
     handleFilterClientType,
     handleFilterKey,
-    filterKey,
+    filterKeys,
   } = useClientsTableFiltering({ clients });
 
   const { handleOrder, sortBy, sortOrder, sortedData } = useClientsTableSorting(
@@ -39,6 +44,10 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
       clients: filteredClients,
     },
   );
+
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const collapsedData = isCollapsed ? sortedData.slice(0, 50) : sortedData;
 
   const handleRowClick = (row: ClientMapped) => {
     if (!row.address) {
@@ -58,7 +67,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
       />
       <ClientsValueFilters
         handleFilterKey={handleFilterKey}
-        filterKey={filterKey}
+        filterKeys={filterKeys}
       />
       <TableContainer component={Box}>
         <Table
@@ -72,7 +81,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                 return (
                   <TableCell
                     key={key}
-                    onClick={() => handleOrder(key)}
+                    onClick={() => handleOrder(key as keyof ClientMapped)}
                     className={classes.headerCell}
                   >
                     <TableSortLabel
@@ -87,16 +96,18 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedData.map(row => (
+            {collapsedData.map(row => (
               <TableRow
-                className={classNames(
+                className={cx(
                   classes.row,
                   Boolean(row.address) && classes.rowClickable,
                 )}
                 key={row.user}
                 onClick={() => handleRowClick(row)}
               >
-                <TableCell className={classes.cell}>{row.email}</TableCell>
+                <TableCell title={row.email} className={classes.cell}>
+                  {row.email}
+                </TableCell>
                 <Tooltip title={row.address || ''}>
                   <TableCell className={classes.cell}>
                     <>{shrinkAddress(row.address) || 'No information'}</>
@@ -121,12 +132,28 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                   />
                 </TableCell>
                 <TableCell className={classes.cell}>
+                  {row.ttl && row.ttl > 0 ? getTtlString(row.ttl) : '-'}
+                </TableCell>
+                <TableCell className={classes.cell}>
                   {row.createdDate.toLocaleDateString()}
+                </TableCell>
+                <TableCell className={classes.cell}>
+                  <ButtonOptions client={row} />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        {isCollapsed && (
+          <Button
+            size="extraLarge"
+            fullWidth
+            color="secondary"
+            onClick={() => setIsCollapsed(false)}
+          >
+            Show All
+          </Button>
+        )}
       </TableContainer>
     </>
   );

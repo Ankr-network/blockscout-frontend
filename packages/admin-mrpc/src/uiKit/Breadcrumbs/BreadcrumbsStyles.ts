@@ -1,23 +1,23 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
 
-export const useStyles = makeStyles<
-  Theme,
-  { shouldShowMobileBreadcrumbs: boolean }
->(theme => ({
+import { makeStyles } from 'tss-react/mui';
+
+export const useStyles = makeStyles()((theme: Theme) => ({
   link: {
     cursor: 'pointer',
     fontSize: 14,
     fontWeight: 'bold',
     lineHeight: 1.167,
+    textDecoration: 'none',
     '&.custom-link:hover': {
       color: theme.palette.primary.main,
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       padding: 10,
       border: '1px solid #CDCDCD',
       borderRadius: '50%',
-      width: 24,
-      height: 24,
+      width: 31,
+      height: 31,
       display: 'inline-flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -26,10 +26,8 @@ export const useStyles = makeStyles<
   text: {},
   separator: {
     fontSize: 14,
-    display: ({ shouldShowMobileBreadcrumbs }) =>
-      shouldShowMobileBreadcrumbs ? 'none' : 'flex',
 
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       display: 'none',
     },
   },
@@ -39,7 +37,7 @@ export const useStyles = makeStyles<
   },
   breadcrumbs: {
     flexWrap: 'nowrap',
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   breadcrumbsLi: {
     overflow: 'hidden',

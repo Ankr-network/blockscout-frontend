@@ -3,6 +3,16 @@ import BigNumber from 'bignumber.js';
 const MAX_DECIMALS_LENGTH = 2;
 const MIN_DISPLAY_BALANCE = 0.01;
 
+export const formatNumber = (value: string | number | BigNumber = '') => {
+  if (!value) {
+    return '—';
+  }
+
+  const amount = new BigNumber(value);
+
+  return amount.toFormat();
+};
+
 export const renderBalance = (value: string | BigNumber = '') => {
   if (!value) {
     return '—';

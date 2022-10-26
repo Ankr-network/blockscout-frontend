@@ -1,41 +1,76 @@
-import { Button } from '@material-ui/core';
-import classNames from 'classnames';
+import React from 'react';
+import {
+  Button,
+  Checkbox,
+  Fade,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@mui/material';
+import { useMenu } from 'modules/common/hooks/useMenu';
+import { ReactComponent as IconFilter } from 'assets/img/filter.svg';
 import { useClientsTypeFiltersStyles } from '../ClientsTypeFilters/useClientsTypeFiltersStyles';
 import { ClientMapped } from '../../store/clientsSlice';
 
 interface IClientsValueFiltersProps {
-  filterKey?: keyof ClientMapped;
-  handleFilterKey: (key: keyof ClientMapped) => void;
+  filterKeys: (keyof ClientMapped)[];
+  handleFilterKey: (key?: keyof ClientMapped) => void;
 }
 
 export const ClientsValueFilters = ({
-  filterKey,
+  filterKeys,
   handleFilterKey,
 }: IClientsValueFiltersProps) => {
-  const classes = useClientsTypeFiltersStyles();
+  const { open, anchorEl, handleOpen, handleClose } = useMenu();
+  const { classes } = useClientsTypeFiltersStyles();
+
   return (
     <>
-      <Button
-        variant="outlined"
-        className={classNames(
-          classes.button,
-          filterKey === 'email' && classes.buttonActive,
+      <Button onClick={handleOpen} color="secondary">
+        <IconFilter className={classes.iconFilter} />
+        Filters
+        {filterKeys?.length > 0 && (
+          <span className={classes.counter}>{filterKeys.length}</span>
         )}
-        onClick={() => handleFilterKey('email')}
-      >
-        with emails
       </Button>
-
-      <Button
-        variant="outlined"
-        className={classNames(
-          classes.button,
-          filterKey === 'amount' && classes.buttonActive,
-        )}
-        onClick={() => handleFilterKey('amount')}
+      <Menu
+        keepMounted
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+        disableScrollLock
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
       >
-        with balances
-      </Button>
+        <MenuItem onClick={() => handleFilterKey('email')}>
+          <Checkbox checked={filterKeys?.includes('email')} />
+          <Typography variant="body2">Has Email</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleFilterKey('amount')}>
+          <Checkbox checked={filterKeys?.includes('amount')} />
+          <Typography variant="body2">Has Amount</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleFilterKey('ttl')}>
+          <Checkbox checked={filterKeys?.includes('ttl')} />
+          <Typography variant="body2">Has Expiration</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleFilterKey('hash')}>
+          <Checkbox checked={filterKeys?.includes('hash')} />
+          <Typography variant="body2">Has Hash</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleFilterKey(undefined)}>
+          <Typography className={classes.buttonClear} variant="body2">
+            Clear filters
+          </Typography>
+        </MenuItem>
+      </Menu>
     </>
   );
 };

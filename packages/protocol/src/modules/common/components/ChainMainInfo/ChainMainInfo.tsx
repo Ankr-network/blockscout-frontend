@@ -7,8 +7,8 @@ import { ChainMainInfoProps } from './ChainMainInfoTypes';
 import { Switcher } from 'modules/common/components/Switcher';
 import { Timeframe } from 'domains/chains/types';
 import { t } from 'modules/i18n/utils/intl';
-import { timeframeToLabelMap } from 'domains/chains/constants/timeframeToLabelMap';
 import { useStyles } from './ChainMainInfoStyles';
+import { timeframeToLabelMap } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 
 export const ChainMainInfo = ({
   className = '',

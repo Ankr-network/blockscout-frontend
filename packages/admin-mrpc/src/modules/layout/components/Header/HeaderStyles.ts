@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useHeaderStyles = makeStyles<Theme>(() => ({
+export const useHeaderStyles = makeStyles()(() => ({
   header: {
     display: 'flex',
   },

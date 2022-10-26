@@ -19,7 +19,7 @@ export const PricingTopUp = () => {
     <TopUpFormContext.Provider
       value={{
         initialValues: defaultInitialValues,
-        hasRateBlock: false,
+        isAccountPage: false,
         validateAmount,
         balance,
       }}

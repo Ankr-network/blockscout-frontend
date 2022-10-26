@@ -1,10 +1,6 @@
 import { useDispatchRequest } from '@redux-requests/react';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { getEmailBindings } from 'domains/userSettings/actions/email/getEmailBindings';
-import { disableBanner } from 'domains/userSettings/store/userSettingsDisabledBannersSlice';
-import { UserSettingsBanners } from 'domains/userSettings/types';
 import { useCallback, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   AddEmailFormContentState,
   IAddEmailFormData,
@@ -15,6 +11,7 @@ interface IUseContentParams {
   initialContentState: AddEmailFormContentState;
   initialSubmittedData?: IAddEmailFormData;
   resetInviteEmail?: () => void;
+  onSuccess?: () => void;
 }
 
 interface IUseContentResult {
@@ -46,23 +43,13 @@ export const useContent = ({
     setSubmittedData(formData);
   }, []);
 
-  const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { address } = useAuth();
-
   const onAddEmailSubmitSuccess = useCallback(() => {
-    dispatch(
-      disableBanner({
-        bannerToDisable: UserSettingsBanners.ADD_EMAIl,
-        address,
-      }),
-    );
-
     dispatchRequest(getEmailBindings());
 
     resetInviteEmail?.();
-  }, [address, dispatch, dispatchRequest, resetInviteEmail]);
+  }, [dispatchRequest, resetInviteEmail]);
 
   return {
     title,

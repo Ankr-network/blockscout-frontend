@@ -12,6 +12,15 @@ import { MethodsFieldsData, MethodsFormData } from './MethodsFormTypes';
 const ARGUMENT_PREFIX = 'arg';
 const getFieldName = (index: number) => `${ARGUMENT_PREFIX}${index + 1}`;
 
+export enum ArgumentType {
+  textarea = 'textarea',
+  number = 'number',
+  textfield = 'textfield',
+  abiMethod = 'abi-method',
+  dropdown = 'dropdown',
+  boolean = 'boolean',
+}
+
 export function getArgumentsBlock<S extends string, T extends string>(
   methodName: S,
   libraryID: T,
@@ -31,7 +40,7 @@ export function getArgumentsBlock<S extends string, T extends string>(
         validate,
       } = argument;
 
-      if (type === 'textarea') {
+      if (type === ArgumentType.textarea) {
         return (
           <HashField
             helperText={description}
@@ -43,7 +52,7 @@ export function getArgumentsBlock<S extends string, T extends string>(
         );
       }
 
-      if (type === 'textfield') {
+      if (type === ArgumentType.textfield) {
         return (
           <BlockNumberField
             helperText={description}
@@ -55,7 +64,7 @@ export function getArgumentsBlock<S extends string, T extends string>(
         );
       }
 
-      if (type === 'number') {
+      if (type === ArgumentType.number) {
         return (
           <BlockNumberField
             helperText={description}
@@ -67,7 +76,7 @@ export function getArgumentsBlock<S extends string, T extends string>(
         );
       }
 
-      if (type === 'abi-method') {
+      if (type === ArgumentType.abiMethod) {
         return (
           <ABIMethodField
             key={fieldName}
@@ -77,7 +86,7 @@ export function getArgumentsBlock<S extends string, T extends string>(
         );
       }
 
-      if (type === 'dropdown') {
+      if (type === ArgumentType.dropdown) {
         return (
           <DropdownField
             helperText={description}
@@ -89,7 +98,7 @@ export function getArgumentsBlock<S extends string, T extends string>(
         );
       }
 
-      if (type === 'boolean') {
+      if (type === ArgumentType.boolean) {
         return (
           <Checkbox helperText={description} name={fieldName} key={fieldName} />
         );
