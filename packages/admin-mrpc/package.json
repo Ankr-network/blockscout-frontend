@@ -1,6 +1,6 @@
 {
   "name": "admin-mrpc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "start:stage": "env-cmd -f .env.stage react-scripts start",
