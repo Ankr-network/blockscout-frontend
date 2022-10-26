@@ -1,6 +1,6 @@
 {
   "name": "admin-mrpc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
