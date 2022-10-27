@@ -925,7 +925,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
           isCert && !ratio.isZero()
             ? this.convertFromWei(
                 unstakeRawEventItem.returnValues.amount,
-              ).dividedBy(ratio)
+              )
             : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
 
         totalPendingUnstakes = totalPendingUnstakes.minus(itemAmount);
