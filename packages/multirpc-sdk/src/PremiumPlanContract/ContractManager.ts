@@ -12,6 +12,7 @@ import { IPremiumPlanContractManager } from './interfaces';
 import { IContractManagerConfig, IDepositAnkrToWalletResult } from './types';
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_ANKR_PROTOCOL from './abi/AnkrProtocol.json';
+import { getPastEventsBlockchain } from './utils';
 
 export class PremiumPlanContractManager implements IPremiumPlanContractManager {
   private readonly ankrWalletContract: Contract;
@@ -35,7 +36,7 @@ export class PremiumPlanContractManager implements IPremiumPlanContractManager {
     );
   }
 
-  async getEncryptionPublicKey(account: Web3Address): Promise<Base64> {
+  async getMetamaskEncryptionPublicKey(account: Web3Address): Promise<Base64> {
     const cachedKey = this.cachedEncryptionPublicKeys.get(account);
 
     if (cachedKey) return cachedKey;
@@ -77,16 +78,22 @@ export class PremiumPlanContractManager implements IPremiumPlanContractManager {
   async getLatestUserEventLogHash(
     user: Web3Address,
   ): Promise<PrefixedHex | false> {
-    const tierAssignedEvents = await this.ankrWalletContract.getPastEvents(
-      'TierAssigned',
-      {
-        filter: {
-          sender: user,
-        },
-        fromBlock: 'earliest',
-        toBlock: 'latest',
+    const contract = this.ankrWalletContract;
+
+    const startBlock = this.config.premiumPlanContractCreationBlockNumber;
+    const latestBlockNumber = await this.keyProvider
+      .getWeb3()
+      .eth.getBlockNumber();
+
+    const tierAssignedEvents = await getPastEventsBlockchain({
+      contract,
+      eventName: 'TierAssigned',
+      filter: {
+        sender: user,
       },
-    );
+      startBlock,
+      latestBlockNumber,
+    });
 
     // eslint-disable-next-line no-console
     console.log(
@@ -213,7 +220,7 @@ export class PremiumPlanContractManager implements IPremiumPlanContractManager {
     })();
 
     // get encryption public key
-    const base64EncryptionPublicKey = await this.getEncryptionPublicKey(
+    const base64EncryptionPublicKey = await this.getMetamaskEncryptionPublicKey(
       currentAccount,
     );
     const hexEncryptionPublicKey = base64ToPrefixedHex(

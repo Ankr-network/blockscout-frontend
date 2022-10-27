@@ -1,3 +1,4 @@
+import { Orientation } from '@material-ui/core';
 import { ReactNode } from 'react';
 
 export type DefaultTabID = string | number;
@@ -18,4 +19,5 @@ export interface TabsManagerProps<TI = DefaultTabID> {
   selectedTab?: Tab<TI>;
   tabs: Tab<TI>[];
   title?: ReactNode;
+  orientation?: Orientation;
 }

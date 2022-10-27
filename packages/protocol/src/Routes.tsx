@@ -9,6 +9,7 @@ import {
   UserSettingsRoutes,
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
+import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useMemo } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -33,7 +34,7 @@ export const Routes = () => {
 
   useOnMount(() => {
     if (cachedAuthData.authorizationToken) {
-      handleConnect(true);
+      handleConnect(cachedAuthData?.walletMeta?.id || INJECTED_WALLET_ID, true);
     }
   });
 
@@ -79,7 +80,7 @@ export const Routes = () => {
           UserSettingsRoutesConfig.confirmation.path,
         ]}
         render={() => (
-          <DefaultLayout disableGutters theme={Themes.light}>
+          <DefaultLayout theme={Themes.light}>
             <CenterContainer>
               <ConnectWalletCard />
             </CenterContainer>

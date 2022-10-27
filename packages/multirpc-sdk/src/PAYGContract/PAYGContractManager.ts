@@ -10,6 +10,7 @@ import { IPAYGContractManager } from './interfaces';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo, IPayAsYouGoEvents } from './abi/IPayAsYouGo';
 import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider-core';
+import { getPastEventsBlockchain } from '../PremiumPlanContract/utils';
 
 const GAS_LIMIT = '200000';
 
@@ -169,12 +170,21 @@ export class PAYGContractManager implements IPAYGContractManager {
   }
 
   async getLatestUserEventLogs(event: IPayAsYouGoEvents, user: Web3Address) {
-    return this.payAsYouGoContract.getPastEvents(event, {
+    const contract = this.payAsYouGoContract;
+    const startBlock = this.config.payAsYouGoContractCreationBlockNumber;
+
+    const latestBlockNumber = await this.keyProvider
+      .getWeb3()
+      .eth.getBlockNumber();
+
+    return getPastEventsBlockchain({
+      contract,
+      eventName: event,
       filter: {
         sender: user,
       },
-      fromBlock: 'earliest',
-      toBlock: 'latest',
+      startBlock,
+      latestBlockNumber,
     });
   }
 

@@ -24,7 +24,7 @@ export interface IPremiumPlanContractManager {
 
   getCurrentAnkrBalance(): Promise<BigNumber>;
 
-  getEncryptionPublicKey(account: Web3Address): Promise<Base64>;
+  getMetamaskEncryptionPublicKey(account: Web3Address): Promise<Base64>;
 
   getLatestUserEventLogHash(user: Web3Address): Promise<PrefixedHex | false>;
 }

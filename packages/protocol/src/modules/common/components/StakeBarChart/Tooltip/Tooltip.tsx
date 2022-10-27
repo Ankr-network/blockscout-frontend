@@ -18,6 +18,7 @@ interface ITooltipProps {
 
 const COMMON_POPUP_WIDTH = 320;
 const DYNAMIC_POPUP_BASIC_WIDTH = 360;
+const MAX_METHOD_NUMBER_LENGTH = 40;
 
 export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
   const maxMethodWidth = useMemo(
@@ -61,6 +62,8 @@ export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
                   t('chain-item.method-calls.other-methods-text'),
                 )
                   ? t('chain-item.method-calls.other-methods')
+                  : item.name.length > MAX_METHOD_NUMBER_LENGTH
+                  ? `${item.name.substring(0, MAX_METHOD_NUMBER_LENGTH)}...`
                   : item.name}
               </Typography>
               <Typography variant="body2" className={classes.text}>

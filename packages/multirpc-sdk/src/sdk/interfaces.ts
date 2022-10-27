@@ -99,7 +99,9 @@ export interface IMultiRpcSdk {
     encryptionKey?: Base64,
   ): Promise<IJwtToken | false>;
 
-  requestUserEncryptionKey(): Promise<Base64>;
+  requestMetamaskEncryptionKey(): Promise<Base64>;
+
+  requestEncryptionKeys(): Promise<Base64>;
 
   getAnkrBalance(): Promise<IBalance>;
 

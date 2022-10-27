@@ -1,6 +1,7 @@
+import axios from 'axios';
 import { ethers } from 'ethers';
+import { AXIOS_DEFAULT_CONFIG } from 'multirpc-sdk';
 import Web3 from 'web3';
-
 import { EVMLibraryID } from '../constants';
 
 export const buildProvider = (web3Lib: EVMLibraryID, web3URL: string) => {
@@ -12,6 +13,11 @@ export const buildProvider = (web3Lib: EVMLibraryID, web3URL: string) => {
         ? new ethers.providers.WebSocketProvider(web3URL)
         : new ethers.providers.JsonRpcProvider(web3URL);
     }
+    case EVMLibraryID.JSON_RPC:
+      return axios.create({
+        ...AXIOS_DEFAULT_CONFIG,
+        baseURL: web3URL,
+      });
 
     case EVMLibraryID.WEB3:
     default: {

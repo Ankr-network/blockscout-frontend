@@ -1,18 +1,20 @@
-import { Box } from '@material-ui/core';
+import { Box, Orientation } from '@material-ui/core';
+import { Tabs } from 'modules/common/hooks/useTabs';
 import { TabsManager } from 'uiKit/TabsManager';
 import { useTopUpTabsStyles } from './LibraryTabsStyles';
-import { Tabs } from 'modules/common/hooks/useTabs';
 
 export interface ILibraryTabsProps {
   className?: string;
   tabs: Tabs[0];
   selectedTab: Tabs[1];
+  orientation?: Orientation;
 }
 
 export const LibraryTabs = ({
   selectedTab,
   tabs,
   className,
+  orientation,
 }: ILibraryTabsProps) => {
   const classes = useTopUpTabsStyles();
 
@@ -23,6 +25,7 @@ export const LibraryTabs = ({
         tabs={tabs}
         className={classes.root}
         allowSingleTab
+        orientation={orientation}
       />
     </Box>
   );

@@ -1,6 +1,8 @@
 import { IJwtToken } from 'multirpc-sdk';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { RootState } from 'store';
+import { IWalletMeta } from '@ankr.com/provider-core';
 
 export interface IAuthSlice {
   credentials?: IJwtToken | false;
@@ -9,6 +11,7 @@ export interface IAuthSlice {
   encryptionPublicKey?: string;
   isManualConnected?: boolean;
   isManualDisconnected?: boolean;
+  walletMeta?: IWalletMeta;
 }
 
 const initialState: IAuthSlice = {
@@ -28,6 +31,7 @@ export const authSlice = createSlice({
         encryptionPublicKey,
         isManualDisconnected,
         isManualConnected,
+        walletMeta,
       } = action.payload;
 
       if (credentials) {
@@ -46,6 +50,10 @@ export const authSlice = createSlice({
         state.encryptionPublicKey = encryptionPublicKey;
       }
 
+      if (walletMeta) {
+        state.walletMeta = walletMeta;
+      }
+
       state.isManualDisconnected = Boolean(isManualDisconnected);
       state.isManualConnected = Boolean(isManualConnected);
     },
@@ -56,6 +64,7 @@ export const authSlice = createSlice({
       state.authorizationToken = undefined;
       state.encryptionPublicKey = undefined;
       state.isManualConnected = false;
+      state.walletMeta = undefined;
     },
   },
 });

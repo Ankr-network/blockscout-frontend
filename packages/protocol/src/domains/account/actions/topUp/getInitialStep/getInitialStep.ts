@@ -1,9 +1,9 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { push } from 'connected-react-router';
+// import { push } from 'connected-react-router';
 
 import { selectAccount } from 'domains/account/store/accountTopUpSlice';
-import { AccountRoutesConfig } from 'domains/account/Routes';
+// import { AccountRoutesConfig } from 'domains/account/Routes';
 import { connect } from 'domains/auth/actions/connect';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
@@ -11,7 +11,10 @@ import { checkFirstTopUpStep } from './checkFirstTopUpStep';
 // eslint-disable-next-line import/no-cycle
 import { checkAllowanceStep } from './checkAllowanceStep';
 import { checkTopUpStep } from './checkTopUpStep';
-import { areHashesEmpty, isAmountEmpty } from './initialStepChecksUtils';
+import {
+  areHashesEmpty,
+  // isAmountEmpty
+} from './initialStepChecksUtils';
 import { waitTransactionConfirming } from '../waitTransactionConfirming';
 
 export const getInitialStep = createSmartAction<
@@ -37,11 +40,11 @@ export const getInitialStep = createSmartAction<
 
           const transaction = selectAccount(store.getState(), address);
 
-          if (isAmountEmpty(transaction)) {
-            store.dispatch(
-              push(AccountRoutesConfig.accountDetails.generatePath()),
-            );
-          }
+          // if (isAmountEmpty(transaction)) {
+          //   store.dispatch(
+          //     push(AccountRoutesConfig.accountDetails.generatePath()),
+          //   );
+          // }
 
           if (areHashesEmpty(transaction)) return TopUpStep.start;
 
