@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js';
 import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
-import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useBaseTokenUsdAmountStyles } from './useBaseTokenUsdAmountStyles';
@@ -30,7 +29,7 @@ export const BaseTokenUsdAmount = ({
         <div className={classes.bigValueWrapper}>
           <Typography className={classes.bigValue}>
             {t('unit.token-value', {
-              value: amount.decimalPlaces(getDecimalPlaces(amount)).toFormat(),
+              value: amount.round().toFormat(),
               token,
             })}
           </Typography>
@@ -50,9 +49,7 @@ export const BaseTokenUsdAmount = ({
 
         <div className={classes.usdAmount}>
           {t('unit.usd-value', {
-            value: usdAmount
-              .decimalPlaces(getDecimalPlaces(usdAmount))
-              .toFormat(),
+            value: usdAmount.round().toFormat(),
           })}
         </div>
       </div>

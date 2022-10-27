@@ -1,8 +1,3 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 
@@ -10,13 +5,14 @@ import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { IAnkrStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
-import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getUnlockedDelegatedByValidator } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
-import { unstake } from 'modules/stake-ankr/actions/unstake';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { IStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm/const';
+import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
+import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
+import { useGetUnlockedDelegatedByValidatorQuery } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
+
+import { useUnstakeMutation } from '../../../actions/unstake';
+import { RoutesConfig } from '../../../RoutesConfig';
 
 import { useAnalytics } from './useAnalytics';
 
@@ -30,34 +26,36 @@ interface IUseAnkrUnstake {
   isDisabled: boolean;
   providerId: string;
   providerName?: string;
-  onChange?: (values: Partial<IAnkrStakeSubmitPayload>) => void;
-  onSubmit: (values: IAnkrStakeSubmitPayload) => void;
+  onChange?: (values: Partial<IStakeSubmitPayload>) => void;
+  onSubmit: (values: IStakeSubmitPayload) => void;
 }
 
 export const useAnkrUnstake = (): IUseAnkrUnstake => {
-  const dispatchRequest = useDispatchRequest();
+  const [unstake, { isLoading: isUnstakeLoading }] = useUnstakeMutation();
 
   const [amount, setAmount] = useState(ZERO);
 
-  const { data: providers, loading: isProvidersLoading } = useQuery({
-    type: getProviders,
-  });
-  const { data, loading: isBalanceLoading } = useQuery({
-    type: getCommonData,
-  });
-  const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
-    {
-      type: getUnlockedDelegatedByValidator,
-    },
-  );
+  const { data: providers, isFetching: isProvidersLoading } =
+    useGetProvidersQuery();
 
-  const availableUnstake = delegatedAmount ?? ZERO;
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+  const {
+    data,
+    isFetching: isBalanceLoading,
+    refetch: getCommonDataRefetch,
+  } = useGetCommonDataQuery();
 
-  const { provider: queryProvider } = RoutesConfig.stake.useParams();
+  const { provider: queryProvider = '' } = RoutesConfig.stake.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
   );
+
+  const {
+    data: delegatedAmount,
+    isFetching: isDelegatedAmountLoading,
+    refetch: getDelegatedAmountRefetch,
+  } = useGetUnlockedDelegatedByValidatorQuery({ validator: queryProvider });
+
+  const availableUnstake = delegatedAmount ?? ZERO;
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
 
@@ -69,33 +67,23 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
   });
 
   useProviderEffect(() => {
-    dispatchRequest(getProviders());
-    dispatchRequest(getCommonData());
-    dispatchRequest(
-      getUnlockedDelegatedByValidator({ validator: queryProvider }),
-    );
-  }, [dispatchRequest]);
+    getCommonDataRefetch();
+    getDelegatedAmountRefetch();
+  }, []);
 
-  const onSubmit = ({
-    provider,
-    amount: formAmount,
-  }: IAnkrStakeSubmitPayload) => {
+  const onSubmit = ({ provider, amount: formAmount }: IStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
-    dispatchRequest(
-      unstake({
-        provider,
-        amount: readyAmount,
-      }),
-    ).then(({ error }) => {
-      if (!error) {
+    unstake({
+      provider,
+      amount: readyAmount,
+    })
+      .unwrap()
+      .then(() => {
         sendAnalytics();
-      }
-    });
+      });
   };
 
-  const onChange = ({
-    amount: formAmount,
-  }: Partial<IAnkrStakeSubmitPayload>) => {
+  const onChange = ({ amount: formAmount }: Partial<IStakeSubmitPayload>) => {
     const readyAmount = new BigNumber(formAmount ?? 0);
     setAmount(formAmount ? readyAmount : ZERO);
   };

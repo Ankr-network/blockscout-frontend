@@ -1,6 +1,8 @@
+import { BscConnector } from '@binance-chain/bsc-connector';
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { IProviderOptions } from 'web3modal';
-import { BscConnector } from '@binance-chain/bsc-connector';
+
 import {
   EEthereumNetworkId,
   EWalletId,
@@ -13,6 +15,24 @@ const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
   (acc, [key, { rpcUrls }]) => ({ ...acc, [key]: rpcUrls[0] }),
   {} as Record<EEthereumNetworkId, string>,
 );
+
+const AUTH_STORAGE_KEY = 'persist:auth';
+
+function parseAuthChainId(): EEthereumNetworkId | undefined {
+  const authPersistData = window.localStorage.getItem(AUTH_STORAGE_KEY);
+
+  if (!authPersistData) {
+    return undefined;
+  }
+
+  try {
+    const data = JSON.parse(authPersistData);
+    const { chainId } = JSON.parse(data.ethCompatible);
+    return chainId;
+  } catch (error) {
+    return undefined;
+  }
+}
 
 export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.binanceWallet]: {
@@ -104,6 +124,35 @@ export const providerDefaultOptions: IProviderOptions = {
     package: WalletConnectProvider,
     options: {
       rpc: DEFAULT_RPC,
+    },
+  },
+  [EWalletId.coinbase]: {
+    display: {
+      logo: getWalletIcon(EWalletId.coinbase),
+      name: 'Coinbase',
+      description: 'Coinbase wallet',
+    },
+    package: CoinbaseWalletSDK,
+    options: {
+      appName: 'App',
+      rpc: DEFAULT_RPC,
+      reloadOnDisconnect: false,
+    },
+    connector: async (_, options) => {
+      const { appName, networkUrl, chainId } = options;
+      const lastChainId = parseAuthChainId();
+
+      const coinbase = new CoinbaseWalletSDK({
+        appName,
+        reloadOnDisconnect: false,
+      });
+      const provider = coinbase.makeWeb3Provider(
+        lastChainId ? DEFAULT_RPC[lastChainId] : networkUrl,
+        lastChainId ?? chainId,
+      );
+      await provider.enable();
+
+      return provider;
     },
   },
   [EWalletId.okxwallet]: {

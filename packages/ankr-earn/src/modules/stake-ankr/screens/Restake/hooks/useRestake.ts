@@ -1,8 +1,3 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
@@ -10,15 +5,16 @@ import { t } from 'common';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Days } from 'modules/common/types';
-import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { getRestakableAmount } from 'modules/stake-ankr/actions/getRestakableAmount';
-import { getProviderDelegatedAmount } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
-import { restake } from 'modules/stake-ankr/actions/restake';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
+import { useGetEpochEndSecondsQuery } from 'modules/stake-ankr/actions/getEpochEndSeconds';
+import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
+import { useGetRestakableAmountQuery } from 'modules/stake-ankr/actions/getRestakableAmount';
+import { useGetValidatorDelegatedAmountQuery } from 'modules/stake-ankr/actions/getValidatorDelegatedAmount';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { getEndEpochText } from 'modules/stake-ankr/utils/getEndEpochText';
+
+import { useRestakeMutation } from '../../../actions/restake';
+import { RoutesConfig } from '../../../RoutesConfig';
 
 interface IUseRestake {
   loading: boolean;
@@ -34,51 +30,43 @@ interface IUseRestake {
 }
 
 export const useRestake = (): IUseRestake => {
-  const dispatchRequest = useDispatchRequest();
+  const { provider: queryProvider = '' } = RoutesConfig.stake.useParams();
 
-  const { data: providers } = useQuery({
-    type: getProviders,
-  });
-  const { data: delegatedAmount, loading: isDelegatedAmountLoading } = useQuery(
-    {
-      type: getProviderDelegatedAmount,
-    },
-  );
-  const { data: commonData } = useQuery({
-    type: getCommonData,
-  });
-  const { data: restakableAmount } = useQuery({
-    type: getRestakableAmount,
-  });
-  const { data: epochEndsSeconds } = useQuery({
-    type: getEpochEndSeconds,
-  });
-  const { loading: isRestakeLoading } = useMutation({ type: restake });
+  const { data: providers } = useGetProvidersQuery();
+  const { data: delegatedAmount, isFetching: isDelegatedAmountLoading } =
+    useGetValidatorDelegatedAmountQuery({ validator: queryProvider });
 
+  const { data: commonData, refetch: getCommonDataRefetch } =
+    useGetCommonDataQuery();
+
+  const { data: epochEndsSeconds } = useGetEpochEndSecondsQuery(undefined, {
+    pollingInterval: 30_000,
+  });
+
+  const [restake, { isLoading: isRestakeLoading }] = useRestakeMutation();
+
+  const { data: restakableAmount, refetch: getRestakableAmountRefetch } =
+    useGetRestakableAmountQuery({
+      validator: queryProvider,
+    });
   const readyRestakableAmount = restakableAmount ?? ZERO;
-  const { provider: queryProvider } = RoutesConfig.stake.useParams();
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
   );
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
 
-  useProviderEffect(() => {
-    dispatchRequest(getProviders());
-    dispatchRequest(getProviderDelegatedAmount({ validator: queryProvider }));
-    dispatchRequest(getRestakableAmount({ validator: queryProvider }));
-    dispatchRequest(getEpochEndSeconds());
-    dispatchRequest(getCommonData());
-  }, [dispatchRequest]);
-
   const epochEnds = getEndEpochText(epochEndsSeconds ?? 0);
 
+  useProviderEffect(() => {
+    getCommonDataRefetch();
+    getRestakableAmountRefetch();
+  }, []);
+
   const onSubmit = () => {
-    dispatchRequest(
-      restake({
-        provider: queryProvider ?? '',
-      }),
-    );
+    restake({
+      provider: queryProvider ?? '',
+    });
   };
 
   return {

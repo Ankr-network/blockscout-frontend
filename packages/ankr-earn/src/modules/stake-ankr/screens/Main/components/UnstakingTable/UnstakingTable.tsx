@@ -17,9 +17,9 @@ import { Token } from 'modules/common/types/token';
 import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { ActionCell } from 'modules/stake-ankr/components/ActionCell';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
+import { RoutesConfig } from '../../../../RoutesConfig';
 import { useUnstakingData } from '../../hooks/useUnstakingData';
 
 import { useUnstakingTableStyles } from './useUnstakingTableStyles';

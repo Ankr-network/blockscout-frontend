@@ -10,7 +10,7 @@ export const ClaimSteps = (): JSX.Element => {
 
   return (
     <ProgressStep
-      error={error}
+      error={error as unknown as Error}
       hint={t('stake-ankr.claim.description')}
       isLoading={isLoading}
       isPending={isPending}

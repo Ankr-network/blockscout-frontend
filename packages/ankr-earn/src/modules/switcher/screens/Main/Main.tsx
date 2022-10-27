@@ -12,6 +12,7 @@ import { t, tHTML } from 'common';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
 import { DECIMAL_PLACES } from 'modules/common/const';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import {
   BASIS_POINTS_FEE_BY_TOKEN,
   CHAIN_ID_BY_TOKEN,
@@ -49,6 +50,7 @@ export const Main = (): JSX.Element => {
     isDataLoading,
     acBalance,
     abBalance,
+    isConnected,
     checkAllowance,
   } = useSwitcherData({ from });
 
@@ -84,6 +86,8 @@ export const Main = (): JSX.Element => {
     chainId,
     onSuccessSwap: sendAnalytics,
   });
+
+  const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
 
   const canShowSpinner = isDataLoading && !abBalance && !acBalance;
 
@@ -175,9 +179,9 @@ export const Main = (): JSX.Element => {
         </Box>
 
         <AmountInput
-          balance={balance}
+          balance={isConnected ? balance : undefined}
           inputClassName={classes.amountInput}
-          isBalanceLoading={isDataLoading}
+          isBalanceLoading={isConnected ? isDataLoading : undefined}
           label={t('switcher.amountInputTitle')}
           name="amount"
           tokenName={from}
@@ -249,13 +253,13 @@ export const Main = (): JSX.Element => {
             </Button>
           )}
 
-          {canSwitchNetwork && (
+          {isConnected && canSwitchNetwork && (
             <Button className={classes.button} onClick={handleSwitchNetwork}>
               {t('switcher.buttons.switchNetwork')}
             </Button>
           )}
 
-          {!canSwitchNetwork && (
+          {isConnected && !canSwitchNetwork && (
             <Button
               className={classes.button}
               disabled={canDisableSwitch}
@@ -263,6 +267,12 @@ export const Main = (): JSX.Element => {
               onClick={handleSubmit}
             >
               {t('switcher.buttons.switch')}
+            </Button>
+          )}
+
+          {!isConnected && (
+            <Button className={classes.button} onClick={handleConnectOpen}>
+              {t('switcher.buttons.connectBtn')}
             </Button>
           )}
         </Box>

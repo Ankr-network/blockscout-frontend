@@ -1,8 +1,10 @@
 import { RequestAction } from '@redux-requests/core';
+import retry from 'async-retry';
 import { createAction } from 'redux-smart-actions';
 
-import { BinanceSDK, IGetTxReceipt, IFetchTxData } from '@ankr.com/staking-sdk';
+import { BinanceSDK, IFetchTxData, IGetTxReceipt } from '@ankr.com/staking-sdk';
 
+import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 export const getTxData = createAction<
@@ -12,7 +14,9 @@ export const getTxData = createAction<
     promise: async (): Promise<IFetchTxData> => {
       const sdk = await BinanceSDK.getInstance();
 
-      return sdk.fetchTxData(txHash);
+      return retry(() => sdk.fetchTxData(txHash), {
+        retries: RETRIES_TO_GET_TX_DATA,
+      });
     },
   },
   meta: {

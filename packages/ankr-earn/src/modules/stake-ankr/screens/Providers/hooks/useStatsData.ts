@@ -1,12 +1,10 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getMaxApy } from 'modules/stake-ankr/actions/getMaxApy';
-import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
+import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
+import { useGetProvidersTotalInfoQuery } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
 import { TEMPORARY_APY } from 'modules/stake-ankr/const';
+
+import { CACHE_SECONDS } from '../const';
 
 interface IStatsData {
   highestAPY: string;
@@ -19,20 +17,15 @@ interface IStatsData {
 }
 
 export const useStatsData = (): IStatsData => {
-  const dispatchRequest = useDispatchRequest();
-  const { data, loading: statsLoading } = useQuery({
-    type: getProvidersTotalInfo,
-  });
-  const { data: maxApy, loading: apyLoading } = useQuery({
-    type: getMaxApy,
-  });
+  const { data, isFetching: statsLoading } = useGetProvidersTotalInfoQuery(
+    undefined,
+    { refetchOnMountOrArgChange: CACHE_SECONDS },
+  );
+  const { data: maxApy, isFetching: apyLoading } = useGetMaxApyQuery(
+    undefined,
+    { refetchOnMountOrArgChange: CACHE_SECONDS },
+  );
   const tvl = data?.totalTVL;
-
-  useProviderEffect(() => {
-    dispatchRequest(getProvidersTotalInfo());
-    dispatchRequest(getMaxApy());
-    dispatchRequest(getANKRPrice());
-  }, [dispatchRequest]);
 
   return {
     highestAPY:

@@ -30,7 +30,7 @@ export const FeatureItemBase = ({
         withAnimations && classes.rootWithAnimations,
       )}
     >
-      <Box mb={1.5}>
+      <Box mb={2}>
         {React.cloneElement(iconSlot, {
           className: iconRootClass
             ? `${classes.icon} ${iconRootClass}`
@@ -38,7 +38,7 @@ export const FeatureItemBase = ({
         })}
       </Box>
 
-      <Box mb={1.5}>
+      <Box mb={2}>
         <Typography className={classes.title}>{title}</Typography>
       </Box>
 

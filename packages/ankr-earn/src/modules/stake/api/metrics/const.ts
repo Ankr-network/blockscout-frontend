@@ -1,6 +1,7 @@
 export enum EMetricsServiceName {
   // Common
   ETH = 'eth',
+  ETH_SSV = 'eth-ssv',
   MATIC = 'matic',
   AVAX = 'avax',
   BNB = 'bnb',
@@ -10,7 +11,6 @@ export enum EMetricsServiceName {
   ANKR = 'ankr',
 
   // DEV mode only
-  SSV = 'ssv',
   WND = 'wnd',
 }
 

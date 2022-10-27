@@ -1,19 +1,18 @@
 import BigNumber from 'bignumber.js';
 
-export interface IStakeSubmitPayload {
+export interface IAnkrStakeSubmitPayload {
   amount: string;
   provider: string;
   yourRewards: string;
   restakeRewards: string;
 }
 
-export interface IAnkrStakeSubmitPayload {
+export interface IStakeSubmitPayload {
   amount: string;
   provider: string;
 }
 
-export interface IAnkrStakeFormPayload
-  extends Partial<IAnkrStakeSubmitPayload> {}
+export interface IStakeFormPayload extends Partial<IStakeSubmitPayload> {}
 
 export interface IFormState {
   amount?: BigNumber;

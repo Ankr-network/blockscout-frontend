@@ -27,7 +27,7 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.binanceChainTest]:
     'https://rpc.ankr.com/bsc_testnet_chapel',
   [AvailableReadProviders.ftmOpera]: 'https://rpc.ankr.com/fantom',
-  [AvailableReadProviders.ftmTestnet]: 'https://rpc.testnet.fantom.network',
+  [AvailableReadProviders.ftmTestnet]: 'https://rpc.ankr.com/fantom_testnet',
   [AvailableReadProviders.mumbai]: 'https://matic-mumbai.chainstacklabs.com',
   [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
   [AvailableReadProviders.gnosis]: 'https://rpc.ankr.com/gnosis',

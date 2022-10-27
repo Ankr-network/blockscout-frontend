@@ -7,6 +7,7 @@ export const featuresConfig = {
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
   isActivePolkadotLedgerNanoX: true,
+  isActiveSSVDashboardAddToken: currentEnv !== Env.Production,
   /**
    * Please remove extra feature flag
    * @deprecated

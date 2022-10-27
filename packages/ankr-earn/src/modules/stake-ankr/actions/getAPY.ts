@@ -1,22 +1,17 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingReadSDK } from '../api/AnkrStakingSDK';
 import { IApyData } from '../api/AnkrStakingSDK/types';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
-export const getAPY = createSmartAction<RequestAction<IApyData[], IApyData[]>>(
-  `${ANKR_ACTIONS_PREFIX}getAPY`,
-  (): RequestAction => ({
-    request: {
-      promise: (async (): Promise<IApyData[]> => {
+export const { useGetAPYQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getAPY: build.query<IApyData[], void>({
+      queryFn: async () => {
         const sdk = await AnkrStakingReadSDK.getInstance();
 
-        return sdk.getAPY();
-      })(),
-    },
-    meta: {
-      showNotificationOnError: false,
-    },
+        const data = await sdk.getAPY();
+
+        return { data };
+      },
+    }),
   }),
-);
+});

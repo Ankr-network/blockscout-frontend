@@ -6,9 +6,9 @@ import { t } from 'common';
 import { DOCS_ANKR_TOKEN_STAKING_LINK } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import ankrBigLogo from 'modules/stake-ankr/assets/ankr-logo-big.jpg';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { Button } from 'uiKit/Button';
 
+import { RoutesConfig } from '../../../../RoutesConfig';
 import { HowItWorksDialog } from '../HowItWorksDialog';
 
 import { Description } from './Description';

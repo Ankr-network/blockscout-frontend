@@ -1,6 +1,7 @@
 export type TServiceName =
   // Common
   | 'eth'
+  | 'eth-ssv'
   | 'polygon'
   | 'avax'
   | 'bnb'
@@ -10,7 +11,6 @@ export type TServiceName =
   | 'ankr'
 
   // DEV mode only
-  | 'ssv'
   | 'wnd';
 
 interface IMetricsService {

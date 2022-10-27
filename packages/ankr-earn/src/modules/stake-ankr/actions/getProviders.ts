@@ -1,27 +1,18 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
-import { Seconds } from 'modules/common/types';
-
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IValidator } from '../api/AnkrStakingSDK/types';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
-export const ACTION_CACHE: Seconds = 2 * 60;
+export const { useGetProvidersQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getProviders: build.query<IValidator[], void>({
+      queryFn: async () => {
+        const sdk = await AnkrStakingSDK.getInstance();
+        const provider = await sdk.getProvider();
 
-export const getProviders = createAction<
-  RequestAction<IValidator[], IValidator[]>
->(`${ANKR_ACTIONS_PREFIX}getProviders`, () => ({
-  request: {
-    promise: (async (): Promise<IValidator[]> => {
-      const sdk = await AnkrStakingSDK.getInstance();
-      const provider = await sdk.getProvider();
-
-      return sdk.getAllValidators(await provider.getBlockNumber());
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-    cache: ACTION_CACHE,
-  },
-}));
+        return {
+          data: await sdk.getAllValidators(await provider.getBlockNumber()),
+        };
+      },
+    }),
+  }),
+});

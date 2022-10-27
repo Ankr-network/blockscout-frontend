@@ -6,7 +6,7 @@ import {
 import { Box, ButtonBase, Grid, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
-import React, { Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
 import { isMobile } from 'web3modal';
@@ -21,6 +21,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 
 import { connect, IConnect } from '../../actions/connect';
 
+import { ReactComponent as CoinbaseIcon } from './assets/coinbase.svg';
 import { ReactComponent as HuobiWalletIcon } from './assets/huobi-wallet-icon.svg';
 import { ReactComponent as ImTokenWalletIcon } from './assets/imtoken-wallet-icon.svg';
 import { ReactComponent as MathWalletIcon } from './assets/math-wallet-icon.svg';
@@ -29,6 +30,7 @@ import { ReactComponent as OKXIcon } from './assets/okx-wallet-icon.svg';
 import { ReactComponent as PolkadotIcon } from './assets/polkadot-icon.svg';
 import { ReactComponent as TrustWalletIcon } from './assets/trust-wallet-icon.svg';
 import { ReactComponent as WalletConnectIcon } from './assets/wallet-connect-icon.svg';
+import { getIsEthereum } from './getIsEthereum';
 import { useConnectWalletsModalStyles } from './useConnectWalletsModalStyles';
 
 type THref = string;
@@ -72,6 +74,8 @@ interface IOnWalletItemClickArgs {
   walletId: TWalletId;
 }
 
+const COINBASE_PROVIDER_KEY = 'CoinbaseWallet';
+
 const ETH_COMPATIBLE_WALLETS: TWallets = [
   [
     {
@@ -80,16 +84,46 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       isDisabled: false,
       isHidden: isMobile(),
       get isInjected() {
+        if (!getIsEthereum(window.ethereum)) {
+          return false;
+        }
+
+        const { isMetaMask, isOKExWallet } = window.ethereum;
+
         return (
-          Web3KeyReadProvider.isInjected() &&
-          window.ethereum.isMetaMask &&
-          !window.ethereum.isOKExWallet
+          Web3KeyReadProvider.isInjected() && !!isMetaMask && !isOKExWallet
         );
       },
       providerId: AvailableWriteProviders.ethCompatible,
       title: 'MetaMask',
       tooltip: undefined,
       walletId: EWalletId.injected,
+    },
+    {
+      href: 'https://www.coinbase.com/wallet',
+      icon: <CoinbaseIcon />,
+      isDisabled: false,
+      isHidden: false,
+      get isInjected() {
+        if (!getIsEthereum(window.ethereum)) {
+          return false;
+        }
+
+        let isCoinbaseWallet = !!window.ethereum.isCoinbaseWallet;
+
+        if (window.ethereum.providerMap) {
+          const coinbaseProvider: { isCoinbaseWallet: boolean } =
+            window.ethereum.providerMap.get(COINBASE_PROVIDER_KEY);
+
+          isCoinbaseWallet = coinbaseProvider.isCoinbaseWallet;
+        }
+
+        return Web3KeyReadProvider.isInjected() && isCoinbaseWallet;
+      },
+      providerId: AvailableWriteProviders.ethCompatible,
+      title: 'Coinbase',
+      tooltip: undefined,
+      walletId: EWalletId.coinbase,
     },
     {
       href: '',

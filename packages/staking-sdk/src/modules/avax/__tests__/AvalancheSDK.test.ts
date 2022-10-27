@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 
 import { ProviderManager } from '@ankr.com/provider';
 
-import { AvalancheSDK, EAvalanchePoolEvents, EAvalancheErrorCodes } from '..';
+import { AvalancheSDK, EAvalancheErrorCodes, EAvalanchePoolEvents } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
 import { convertNumberToHex } from '../../utils';
 import { AVAX_HISTORY_2_WEEKS_OFFSET } from '../const';
@@ -659,10 +659,10 @@ describe('modules/avax/sdk', () => {
       ]),
       methods: {
         ratio: jest.fn(() => ({
-          call: () => new BigNumber(0.98),
+          call: () => new BigNumber(0.9),
         })),
         pendingAvaxClaimsOf: jest.fn(() => ({
-          call: () => new BigNumber(60756),
+          call: () => new BigNumber(1000),
         })),
       },
     };
@@ -686,8 +686,8 @@ describe('modules/avax/sdk', () => {
     const data = await sdk.getPendingData();
 
     expect(data).toStrictEqual({
-      pendingBond: new BigNumber(108_000),
-      pendingCertificate: new BigNumber(26_460),
+      pendingBond: new BigNumber(800),
+      pendingCertificate: new BigNumber(180),
     });
   });
 

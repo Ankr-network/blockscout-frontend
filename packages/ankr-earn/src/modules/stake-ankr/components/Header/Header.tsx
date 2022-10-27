@@ -1,7 +1,8 @@
 import { Token } from 'modules/common/types/token';
 import { Header as BaseHeader } from 'modules/delegate-stake/components/Header';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
+
+import { RoutesConfig } from '../../RoutesConfig';
 
 import { useHeader } from './useHeader';
 

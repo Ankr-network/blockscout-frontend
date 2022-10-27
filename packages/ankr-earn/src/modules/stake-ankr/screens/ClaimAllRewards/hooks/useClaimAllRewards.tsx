@@ -1,18 +1,13 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { claimAllRewards } from 'modules/stake-ankr/actions/claimAllRewards';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
+import { useClaimAllRewardsMutation } from 'modules/stake-ankr/actions/claimAllRewards';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { IStakingReward } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { RoutesConfig } from 'modules/stake-ankr/RoutesConfig';
 
 import { useAnalytics } from './useAnalytics';
 
@@ -28,18 +23,15 @@ interface IUseClaimAllRewards {
 }
 
 export const useClaimAllRewards = (): IUseClaimAllRewards => {
-  const dispatchRequest = useDispatchRequest();
-  const { loading: claimLoading } = useMutation({ type: claimAllRewards });
-  const { data, loading: dataLoading } = useQuery({
-    type: getTotalInfo,
-  });
-  const { data: ankrPrice } = useQuery({
-    type: getANKRPrice,
-  });
+  const [claimAllRewards, { isLoading: claimLoading }] =
+    useClaimAllRewardsMutation();
+  const {
+    data,
+    isFetching: dataLoading,
+    refetch: getTotalInfoRefetch,
+  } = useGetTotalInfoQuery();
 
-  useProviderEffect(() => {
-    dispatchRequest(getTotalInfo());
-  });
+  const { data: ankrPrice } = useGetAnkrPriceQuery();
 
   const availableClaims = useMemo(
     () => data?.claimableRewards ?? [],
@@ -62,13 +54,15 @@ export const useClaimAllRewards = (): IUseClaimAllRewards => {
 
   const totalUSD = total.multipliedBy(usdTokenPrice);
 
+  useProviderEffect(() => {
+    getTotalInfoRefetch();
+  }, []);
+
   const onClaim = useCallback(() => {
-    dispatchRequest(claimAllRewards()).then(({ error }) => {
-      if (!error) {
-        sendAnalytics();
-      }
-    });
-  }, [dispatchRequest, sendAnalytics]);
+    claimAllRewards()
+      .unwrap()
+      .catch(() => sendAnalytics());
+  }, [claimAllRewards, sendAnalytics]);
 
   return {
     isClaimAllowed,

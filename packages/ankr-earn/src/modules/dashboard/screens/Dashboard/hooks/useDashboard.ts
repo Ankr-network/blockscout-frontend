@@ -14,15 +14,13 @@ import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getCommonData as getANKRCommonData } from 'modules/stake-ankr/actions/getCommonData';
-import { getTotalInfo as getANKRTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
+import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
 import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
@@ -57,14 +55,12 @@ const resetRequests = () =>
     fetchBNBTxHistory.toString(),
     fetchPolygonStats.toString(),
     fetchPolygonTxHistory.toString(),
-    getANKRCommonData.toString(),
-    getANKRPrice.toString(),
-    getANKRTotalInfo.toString(),
     getMGNOTotalInfo.toString(),
     getMGNOMaxApr.toString(),
     getMGNOPrice.toString(),
     getMgnoBalance.toString(),
     getEthCommonData.toString(),
+    getEthClaimableData.toString(),
     getSSVOnETHDashboardData.toString(),
     getFTMHistory.toString(),
     getFTMStats.toString(),
@@ -100,13 +96,11 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchBNBStats());
     dispatch(fetchPolygonStats());
     dispatch(getEthCommonData());
+    dispatch(getEthClaimableData());
     dispatch(getFTMStats());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     dispatch(getMaticPolygonCommonData());
-    dispatch(getANKRCommonData());
-    dispatch(getANKRPrice());
-    dispatch(getANKRTotalInfo());
 
     if (address) {
       dispatch(getPartnerCode(address));

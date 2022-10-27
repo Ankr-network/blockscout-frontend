@@ -1,26 +1,22 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { getHistoryData } from 'modules/stake-ankr/actions/getHistoryData';
+import { useGetHistoryDataQuery } from 'modules/stake-ankr/actions/getHistoryData';
 import { IHistoryData } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
 
 interface IHistory {
   isLoading: boolean;
-  data: IHistoryData[] | null;
+  data: IHistoryData[] | undefined;
 }
 
 export const useHistoryData = (): IHistory => {
-  const dispatchRequest = useDispatchRequest();
-  const { data, loading } = useQuery({
-    type: getHistoryData,
-  });
+  const { data, isFetching, refetch } = useGetHistoryDataQuery();
 
+  // TODO remove it. Use cache tags instead of manual dispatch
   useProviderEffect(() => {
-    dispatchRequest(getHistoryData());
-  }, [dispatchRequest]);
+    refetch();
+  }, []);
 
   return {
-    isLoading: loading,
+    isLoading: isFetching,
     data,
   };
 };
