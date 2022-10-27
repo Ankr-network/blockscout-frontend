@@ -1,11 +1,12 @@
 import { Button } from '@material-ui/core';
-import { Field, FormRenderProps } from 'react-final-form';
+import { Field, FormRenderProps, useForm } from 'react-final-form';
 
 import { t } from 'common';
 import { InputField } from 'modules/form/components/InputField';
 import { emailValidator } from 'modules/form/utils/validators/emailValidator';
 import { AddEmailFormFields, IAddEmailFormData } from '../../types';
 import { useStyles } from './FillStepStyles';
+import { ConnectButton } from 'domains/auth/components/ConnectButton';
 
 interface IFillStep {
   handleSubmit: FormRenderProps<IAddEmailFormData>['handleSubmit'];
@@ -13,6 +14,7 @@ interface IFillStep {
   validating: FormRenderProps<IAddEmailFormData>['validating'];
   formDisabled?: boolean;
   submittedData: IAddEmailFormData | undefined;
+  isWalletConnected: boolean;
 }
 
 export const FillStep = ({
@@ -21,8 +23,11 @@ export const FillStep = ({
   validating,
   formDisabled,
   submittedData,
+  isWalletConnected,
 }: IFillStep) => {
   const classes = useStyles();
+
+  const form = useForm();
 
   return (
     <form onSubmit={handleSubmit} className={classes.inputRow}>
@@ -41,15 +46,22 @@ export const FillStep = ({
           )}
         />
       </div>
-
-      <Button
-        className={classes.submitButton}
-        size="large"
-        type="submit"
-        disabled={validating || hasValidationErrors}
-      >
-        {t('common.submit')}
-      </Button>
+      {isWalletConnected ? (
+        <Button
+          className={classes.submitButton}
+          size="large"
+          type="submit"
+          disabled={validating || hasValidationErrors}
+        >
+          {t('common.submit')}
+        </Button>
+      ) : (
+        <ConnectButton
+          variant="contained"
+          buttonText={t('common.submit')}
+          onSuccess={form.submit}
+        />
+      )}
     </form>
   );
 };

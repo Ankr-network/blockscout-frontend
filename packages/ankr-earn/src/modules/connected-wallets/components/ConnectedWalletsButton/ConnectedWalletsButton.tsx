@@ -3,6 +3,7 @@ import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { t } from 'common';
+import { WalletIcon } from 'ui';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import {
@@ -13,7 +14,6 @@ import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 
 import { IWalletItem } from '../../hooks/useAuthWallets';
 import { IAddress, TAddresses } from '../../types';
-import { WalletIcon } from '../WalletIcon';
 
 import { useConnectedWalletsButtonStyles as useStyles } from './useConnectedWalletsButtonStyles';
 

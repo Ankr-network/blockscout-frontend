@@ -3,9 +3,10 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
-import { MultiService } from 'modules/api/MultiService';
 import { t } from 'modules/i18n/utils/intl';
 import { PrefixedHex } from 'multirpc-sdk';
+import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
+import { web3ModalTheme } from 'modules/api/Web3ModalKeyProvider';
 
 export interface IChainParams {
   chainId: PrefixedHex;
@@ -28,8 +29,13 @@ export const addNetwork = createSmartAction<
         throw new Error(t('error.no-metamask'));
       }
 
-      const service = await MultiService.getInstance();
-      const keyProvider = service.getKeyProvider();
+      // create mm provider instance to add network
+      const keyProvider = new EthereumWeb3KeyProvider({
+        web3ModalTheme,
+      });
+
+      await keyProvider.inject(undefined, {});
+      await keyProvider.connect();
 
       const { givenProvider } = keyProvider.getWeb3();
 

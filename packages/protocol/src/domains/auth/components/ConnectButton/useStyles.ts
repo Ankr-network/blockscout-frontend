@@ -22,4 +22,7 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
       border: '2px solid rgba(31, 34, 38, 0.1)',
     },
   },
+  walletIcon: {
+    marginRight: theme.spacing(1.5),
+  },
 }));

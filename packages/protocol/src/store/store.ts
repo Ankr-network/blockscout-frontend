@@ -25,6 +25,7 @@ import { requestComposerSlice } from 'domains/requestComposer/store/requestCompo
 
 const TOKEN_EXPIRED_ERROR = 'this token has already expired';
 const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';
+const TOKEN_MALFORMED_ERROR = 'auth token is malformed';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {
@@ -54,7 +55,8 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     if (
       error?.response?.data === TOKEN_EXPIRED_ERROR ||
-      error?.response?.data === TOKEN_AUTH_ERROR
+      error?.response?.data === TOKEN_AUTH_ERROR ||
+      error?.response?.data === TOKEN_MALFORMED_ERROR
     ) {
       store.dispatch(disconnect());
 
