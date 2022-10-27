@@ -3,8 +3,8 @@
   "version": "1.0.4",
   "private": true,
   "scripts": {
-    "start:stage": "env-cmd -f .env.stage react-scripts start",
-    "start:prod": "env-cmd -f .env.prod react-scripts start",
+    "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
+    "start:prod": "concurrently \"env-cmd -f .env.prod react-scripts start\" \"yarn watch:dependencies\"",
     "start:stage:turbo": "cd ../.. && turbo run start:stage --filter=admin-mrpc...",
     "start:prod:turbo": "cd ../.. && turbo run start:prod --filter=admin-mrpc...",
     "build:stage": "env-cmd -f .env.stage react-scripts build",
@@ -20,7 +20,8 @@
     "lint": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
     "lint:js": "cross-env NODE_ENV=production eslint src --ext=ts,tsx,js,jsx",
     "lint:js:fix": "yarn lint:js --fix",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch:dependencies": "cd ../.. && turbo run watch --parallel --filter=ankr-protocol-backoffice..."
   },
   "browserslist": {
     "production": [
@@ -51,6 +52,7 @@
     "async-mutex": "^0.3.2",
     "axios": "^0.27.2",
     "bignumber.js": "^9.1.0",
+    "classnames": "^2.3.1",
     "common": "*",
     "lodash.isequal": "^4.5.0",
     "multirpc-sdk": "*",
@@ -85,6 +87,7 @@
     "@types/react-router": "^5.1.17",
     "@types/react-router-dom": "^5.3.2",
     "@types/redux-actions": "^2.6.2",
+    "concurrently": "^7.4.0",
     "eslint-webpack-plugin": "^3.2.0",
     "lint-staged": "^13.0.3",
     "react-app-rewired": "^2.2.1",

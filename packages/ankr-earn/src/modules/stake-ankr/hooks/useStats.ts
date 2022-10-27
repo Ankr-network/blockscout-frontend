@@ -7,15 +7,14 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
-import { getProvidersTotalInfo } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
+import { useGetProvidersTotalInfoQuery } from 'modules/stake-ankr/actions/getProvidersTotalInfo';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
+
+import { useGetAnkrPriceQuery } from '../actions/getANKRPrice';
+import { CACHE_SECONDS } from '../screens/Providers/const';
 
 interface IStatsProps {
   amount: BigNumberish;
-  apy: BigNumber;
-  isApyLoading: boolean;
 }
 
 interface IUseStats {
@@ -28,33 +27,32 @@ interface IUseStats {
   isLoading: boolean;
 }
 
-export const useStats = ({
-  amount,
-  apy,
-  isApyLoading,
-}: IStatsProps): IUseStats => {
+export const useStats = ({ amount }: IStatsProps): IUseStats => {
   const dispatchRequest = useDispatchRequest();
-  const { data: ankrPrice, loading: isPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
-  const { data: totalInfo, loading: isTotalInfoLoading } = useQuery({
-    type: getProvidersTotalInfo,
-  });
+
+  const { data: ankrPrice, isFetching: isPriceLoading } = useGetAnkrPriceQuery(
+    undefined,
+    { refetchOnMountOrArgChange: CACHE_SECONDS },
+  );
+
+  const { data: totalInfo, isFetching: isTotalInfoLoading } =
+    useGetProvidersTotalInfoQuery(undefined, {
+      refetchOnMountOrArgChange: CACHE_SECONDS,
+    });
+
   const { data: metricsData, loading: isMetricsLoading } = useQuery({
     type: getMetrics,
   });
+  const apy = metricsData ? new BigNumber(metricsData.ankr.apy) : ZERO;
 
   const usdPrice = ankrPrice ?? ZERO;
   const yearlyEarning = calculateYearlyEarning(amount, apy);
 
-  // todo: use actual data
   const totalStaked = totalInfo?.totalTVL ?? ZERO;
   const totalStakedUsd = totalStaked.multipliedBy(usdPrice);
 
+  // TODO remove it. Use cache tags instead of manual dispatch
   useProviderEffect(() => {
-    dispatchRequest(getAPY());
-    dispatchRequest(getANKRPrice());
-    dispatchRequest(getProvidersTotalInfo());
     dispatchRequest(getMetrics());
   }, [dispatchRequest]);
 
@@ -76,8 +74,7 @@ export const useStats = ({
     totalStaked: getShortNumber(totalStaked),
     totalStakedUSD: totalStakedUsd?.toFormat(0),
     stakers: metricsData ? +metricsData.ankr.stakers : undefined,
-    isLoading:
-      isPriceLoading || isTotalInfoLoading || isApyLoading || isMetricsLoading,
+    isLoading: isPriceLoading || isTotalInfoLoading || isMetricsLoading,
   };
 };
 

@@ -1,9 +1,7 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
 interface IGetCommonData {
   ankrBalance: BigNumber;
@@ -11,24 +9,22 @@ interface IGetCommonData {
   lockingPeriod: number;
 }
 
-export const getCommonData = createAction<
-  RequestAction<IGetCommonData, IGetCommonData>
->(`${ANKR_ACTIONS_PREFIX}getCommonData`, () => ({
-  request: {
-    promise: (async (): Promise<IGetCommonData> => {
-      const sdk = await AnkrStakingSDK.getInstance();
-      const provider = await sdk.getProvider();
+// TODO Reset on provider events: add providerTags argument
+export const { useGetCommonDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getCommonData: build.query<IGetCommonData, void>({
+      queryFn: async () => {
+        const sdk = await AnkrStakingSDK.getInstance();
+        const provider = await sdk.getProvider();
 
-      const [ankrBalance, minStake, lockingPeriod] = await Promise.all([
-        sdk.getAnkrBalance(),
-        sdk.getMinimumStake(),
-        sdk.getLockingPeriodDays(await provider.getBlockNumber()),
-      ]);
+        const [ankrBalance, minStake, lockingPeriod] = await Promise.all([
+          sdk.getAnkrBalance(),
+          sdk.getMinimumStake(),
+          sdk.getLockingPeriodDays(await provider.getBlockNumber()),
+        ]);
 
-      return { ankrBalance, minStake, lockingPeriod };
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-  },
-}));
+        return { data: { ankrBalance, minStake, lockingPeriod } };
+      },
+    }),
+  }),
+});

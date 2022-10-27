@@ -1,3 +1,4 @@
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
@@ -53,7 +54,9 @@ export const StakedASETHC = (): JSX.Element => {
       />
 
       <TokenInfoDialog
-        addTokenToWallet={onAddToken}
+        addTokenToWallet={
+          featuresConfig.isActiveSSVDashboardAddToken ? onAddToken : undefined
+        }
         description={description}
         moreHref={moreHref}
         open={isOpenedInfo}

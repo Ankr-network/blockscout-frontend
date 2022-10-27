@@ -9,6 +9,7 @@ import { Notice } from 'ui';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { Timer } from 'modules/common/components/Timer';
+import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { Button } from 'uiKit/Button';
@@ -22,6 +23,11 @@ import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
 enum FieldsNames {
   amount = 'amount',
+}
+
+enum ESteps {
+  approve,
+  unstake,
 }
 
 export interface IUnstakeFormValues {
@@ -75,8 +81,7 @@ export const UnstakeDialog = ({
   onChange,
 }: IUnstakeDialogProps): JSX.Element => {
   const classes = useUnstakeDialogStyles();
-  const zeroBalance = new BigNumber(0);
-  const maxAmount = balance || zeroBalance;
+  const maxAmount = balance || ZERO;
   const formRef =
     useRef<FormApi<IUnstakeFormValues, Partial<IUnstakeFormValues>>>();
 
@@ -86,7 +91,7 @@ export const UnstakeDialog = ({
     [],
   );
 
-  const activeStep = isApproved ? 1 : 0;
+  const activeStep = isApproved ? ESteps.unstake : ESteps.approve;
 
   const isUnstakeBtnDisabled =
     isDisabled || submitDisabled || (isWithApprove && !isApproved);

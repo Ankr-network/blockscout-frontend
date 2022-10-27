@@ -1,3 +1,4 @@
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
@@ -16,6 +17,8 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
     submittedData,
   } = useAddEmailForm(props);
 
+  const { isWalletConnected } = useAuth();
+
   const renderForm = useCallback(
     ({
       validating,
@@ -32,6 +35,7 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
               handleSubmit={handleSubmit}
               validating={validating}
               hasValidationErrors={hasValidationErrors}
+              isWalletConnected={isWalletConnected}
             />
           );
 
@@ -42,7 +46,13 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
           return null;
       }
     },
-    [contentState, formDisabled, submittedData, successStepProps],
+    [
+      contentState,
+      formDisabled,
+      submittedData,
+      successStepProps,
+      isWalletConnected,
+    ],
   );
 
   return (

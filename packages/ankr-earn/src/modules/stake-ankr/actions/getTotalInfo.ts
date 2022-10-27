@@ -1,37 +1,35 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IStakingReward } from '../api/AnkrStakingSDK/types';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
 interface IGetTotalInfo {
   totalDelegatedAmount: BigNumber;
   claimableRewards: IStakingReward[];
 }
 
-export const getTotalInfo = createAction<
-  RequestAction<IGetTotalInfo, IGetTotalInfo>
->(`${ANKR_ACTIONS_PREFIX}getTotalInfo`, () => ({
-  request: {
-    promise: (async (): Promise<IGetTotalInfo> => {
-      const sdk = await AnkrStakingSDK.getInstance();
-      const provider = await sdk.getProvider();
-      const latestBlockNumber = await provider.getBlockNumber();
+// TODO Reset on provider events: add providerTags argument
+export const { useGetTotalInfoQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getTotalInfo: build.query<IGetTotalInfo, void>({
+      queryFn: async () => {
+        const sdk = await AnkrStakingSDK.getInstance();
+        const provider = await sdk.getProvider();
+        const latestBlockNumber = await provider.getBlockNumber();
 
-      const [totalDelegatedAmount, claimableRewards] = await Promise.all([
-        sdk.getMyTotalDelegatedAmount(latestBlockNumber),
-        sdk.getMyClaimableStakingRewards(),
-      ]);
+        const [totalDelegatedAmount, claimableRewards] = await Promise.all([
+          sdk.getMyTotalDelegatedAmount(latestBlockNumber),
+          sdk.getMyClaimableStakingRewards(),
+        ]);
 
-      return {
-        totalDelegatedAmount,
-        claimableRewards,
-      };
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-  },
-}));
+        return {
+          data: {
+            totalDelegatedAmount,
+            claimableRewards,
+          },
+        };
+      },
+    }),
+  }),
+});

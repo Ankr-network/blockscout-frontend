@@ -1,4 +1,4 @@
-import { darken, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { getImgRatioPct } from 'modules/common/utils/styles/getImgRatioPct';
 
@@ -98,19 +98,6 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-
-    '&:before': {
-      [theme.breakpoints.up('md')]: {
-        position: 'relative',
-        top: theme.spacing(3),
-
-        content: `''`,
-        display: 'block',
-        width: '100%',
-        height: 1,
-        background: darken(theme.palette.background.default, 0.05),
-      },
-    },
   },
 
   buttonWrapper: {

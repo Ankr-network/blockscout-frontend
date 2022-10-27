@@ -5,10 +5,9 @@ import { createAction } from 'redux-smart-actions';
 import { EthereumSSV, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
-import { ETH_PROVIDER_BY_ENV } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
-import { SSV_ACTIONS_PREFIX } from '../const';
+import { SSV_ACTIONS_PREFIX, SSV_ETH_PROVIDER_BY_ENV } from '../const';
 
 type TGetDashboardData = IGetDashboardData | null;
 
@@ -33,7 +32,7 @@ export const getDashboardData = createAction<
       }
 
       const provider = await providerManager.getETHReadProvider(
-        ETH_PROVIDER_BY_ENV,
+        SSV_ETH_PROVIDER_BY_ENV,
       );
 
       const [asETHcBalance, asETHcRatio] = await Promise.all([

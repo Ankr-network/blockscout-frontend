@@ -1,4 +1,4 @@
-import { EVMMethod, EVMLibraryID } from './constants';
+import { EVMLibraryID, EVMMethod } from './constants';
 
 export type ABI = ABIItem[];
 
@@ -53,6 +53,7 @@ export type ILibraryConfig = {
     exec: (...args: any) => any;
     codeSample: (...args: any) => any;
     args: any;
+    parseArgs?: ((input: string) => any)[];
   };
 };
 
@@ -62,6 +63,7 @@ export type IRPCCallsConfig = {
     disabled?: boolean;
     [EVMLibraryID.WEB3]: ILibraryConfig[key];
     [EVMLibraryID.ETHERS]: ILibraryConfig[key];
+    [EVMLibraryID.JSON_RPC]: ILibraryConfig[key];
   };
 };
 

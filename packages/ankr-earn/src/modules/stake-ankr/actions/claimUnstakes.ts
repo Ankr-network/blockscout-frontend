@@ -1,57 +1,40 @@
-import { RequestAction } from '@redux-requests/core';
 import { push } from 'connected-react-router';
-import { createAction } from 'redux-smart-actions';
-import { IStoreState } from 'store';
 
 import { TxHash } from 'modules/common/types';
-import { TStore } from 'modules/common/types/ReduxRequests';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
-import { RoutesConfig } from '../Routes';
-
-import { getHistoryData } from './getHistoryData';
+import { CacheTags } from '../cacheTags';
+import { RoutesConfig } from '../RoutesConfig';
 
 interface IClaimArgs {
   provider: string;
 }
 
-export const claimUnstakes = createAction<
-  RequestAction<TxHash, TxHash>,
-  [IClaimArgs]
->(
-  `${ANKR_ACTIONS_PREFIX}claimUnstakes`,
-  ({ provider }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<TxHash> => {
+export const { useClaimUnstakesMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    claimUnstakes: build.mutation<TxHash, IClaimArgs>({
+      queryFn: async ({ provider }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.claimUnstakes(provider);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      onSuccess: (
-        response: { data: TxHash },
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ) => {
-        store.dispatchRequest(getHistoryData());
-        const txHash = response.data;
-
-        if (txHash) {
-          store.dispatch(
-            push(
-              RoutesConfig.claimUnstakesSteps.generatePath({
-                txHash,
-              }),
-            ),
-          );
-        }
-
-        return response;
+        return { data: await sdk.claimUnstakes(provider) };
       },
-    },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const txHash = response.data;
+
+          if (txHash) {
+            dispatch(
+              push(
+                RoutesConfig.claimUnstakesSteps.generatePath({
+                  txHash,
+                }),
+              ),
+            );
+          }
+        });
+      },
+      invalidatesTags: [CacheTags.history],
+    }),
   }),
-);
+});

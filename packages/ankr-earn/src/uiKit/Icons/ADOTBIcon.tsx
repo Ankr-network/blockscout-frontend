@@ -19,56 +19,11 @@ export const ADOTBIcon = withSvgIcon(
       />
     </g>
 
-    <path
-      d="M42 44C46.9706 44 51 39.9706 51 35C51 30.0294 46.9706 26 42 26C37.0294 26 33 30.0294 33 35C33 39.9706 37.0294 44 42 44Z"
-      fill="white"
-    />
-
-    <path
-      d="M50.5 35C50.5 39.6944 46.6944 43.5 42 43.5C37.3056 43.5 33.5 39.6944 33.5 35C33.5 30.3056 37.3056 26.5 42 26.5C46.6944 26.5 50.5 30.3056 50.5 35Z"
-      stroke="black"
-      strokeOpacity="0.1"
-    />
-
-    <path
-      d="M41.999 29.2729V33.5072L45.6792 35.1064L41.999 29.2729Z"
-      fill="black"
-      fillOpacity="0.602"
-    />
-
-    <path
-      d="M41.9991 29.2729L38.3184 35.1064L41.9991 33.5072V29.2729Z"
-      fill="black"
-    />
-
-    <path
-      d="M41.999 37.8504V40.7275L45.6817 35.7729L41.999 37.8504Z"
-      fill="black"
-      fillOpacity="0.602"
-    />
-
-    <path
-      d="M41.9991 40.7275V37.85L38.3184 35.7729L41.9991 40.7275Z"
-      fill="black"
-    />
-
-    <path
-      d="M41.999 37.1845L45.6792 35.1065L41.999 33.5083V37.1845Z"
-      fill="black"
-      fillOpacity="0.2"
-    />
-
-    <path
-      d="M38.3184 35.1065L41.9991 37.1845V33.5083L38.3184 35.1065Z"
-      fill="black"
-      fillOpacity="0.602"
-    />
-
     <defs>
       <clipPath id="clip0_0_1">
         <rect fill="white" height="44" width="44" />
       </clipPath>
     </defs>
   </>,
-  { viewBox: '0 0 51 44', htmlColor: 'transparent' },
+  { viewBox: '0 0 44 44', htmlColor: 'transparent' },
 );

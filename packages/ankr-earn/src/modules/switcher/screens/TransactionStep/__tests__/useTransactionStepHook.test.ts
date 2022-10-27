@@ -1,11 +1,9 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
-import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 
@@ -20,6 +18,11 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
+jest.mock('@redux-requests/core', () => ({
+  resetRequests: jest.fn(),
+  stopPolling: jest.fn(),
+}));
+
 jest.mock('modules/auth/common/hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
@@ -28,15 +31,34 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
-  useConnectedData: jest.fn(),
-}));
-
-jest.mock('@ankr.com/staking-sdk', () => ({
-  ProviderManagerSingleton: { getInstance: jest.fn() },
+jest.mock('modules/switcher/actions/getTxData', () => ({
+  getTxData: jest.fn(),
+  getTxReceipt: jest.fn(),
 }));
 
 describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
+  const defaultQueryData = {
+    loading: false,
+    data: undefined,
+    error: undefined,
+    stopPolling: jest.fn(),
+  };
+
+  const defaultTxData = {
+    ...defaultQueryData,
+    data: {
+      amount: new BigNumber('8.4919'),
+      destinationAddress: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+    },
+  };
+
+  const defaultTxReceiptData = {
+    ...defaultQueryData,
+    data: {
+      status: true,
+    },
+  };
+
   beforeEach(() => {
     (useParams as jest.Mock).mockImplementation(() => ({
       from: Token.aETHc,
@@ -44,26 +66,13 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
       txHash: 'hash',
     }));
 
-    (useConnectedData as jest.Mock).mockImplementation(() => ({
-      chainId: EEthereumNetworkId.mainnet,
-      address: 'address',
-    }));
-
     (useAuth as jest.Mock).mockReturnValue({
-      chainId: EEthereumNetworkId.mainnet,
+      chainId: 1,
     });
 
     (useDispatchRequest as jest.Mock).mockImplementation(() => jest.fn());
 
-    (useQuery as jest.Mock).mockImplementation(() => ({
-      loading: false,
-      stopPolling: jest.fn(),
-      data: {
-        isPending: true,
-        amount: new BigNumber('8.4919'),
-        destinationAddress: '0xe64FCf6327bB016955EFd36e75a852085270c374',
-      },
-    }));
+    (useQuery as jest.Mock).mockReturnValue(defaultQueryData);
   });
 
   afterEach(() => {
@@ -71,6 +80,10 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
   });
 
   test('should return intial data', async () => {
+    (useQuery as jest.Mock)
+      .mockReturnValueOnce(defaultTxData)
+      .mockReturnValueOnce(defaultTxReceiptData);
+
     const { result } = renderHook(() => useTransactionStepHook());
 
     expect(result.current.txHash).toBe('hash');
@@ -85,6 +98,10 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
   });
 
   test('should handle adding token to wallet properly', async () => {
+    (useQuery as jest.Mock)
+      .mockReturnValueOnce(defaultTxData)
+      .mockReturnValueOnce(defaultTxReceiptData);
+
     const mockDispatch = jest.fn();
 
     (useDispatchRequest as jest.Mock).mockImplementation(() => mockDispatch);
@@ -99,10 +116,13 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
   });
 
   test('should return error if there is provider error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
-      loading: false,
-      error: new Error('error'),
-    }));
+    (useQuery as jest.Mock)
+      .mockReturnValueOnce({
+        ...defaultTxData,
+        loading: false,
+        error: new Error('error'),
+      })
+      .mockReturnValueOnce(defaultTxReceiptData);
 
     const { result } = renderHook(() => useTransactionStepHook());
 
@@ -110,10 +130,13 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
   });
 
   test('should return error if there is transaction fail error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
-      loading: false,
-      data: { status: false },
-    }));
+    (useQuery as jest.Mock)
+      .mockReturnValueOnce(defaultTxData)
+      .mockReturnValueOnce({
+        ...defaultTxReceiptData,
+        loading: false,
+        data: { status: false },
+      });
 
     const { result } = renderHook(() => useTransactionStepHook());
 

@@ -1,28 +1,22 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
 interface IGetClaimableUnstakesProps {
   validator: string;
 }
 
-export const getClaimableUnstakes = createAction<
-  RequestAction<BigNumber, BigNumber>
->(
-  `${ANKR_ACTIONS_PREFIX}getClaimableUnstakes`,
-  ({ validator }: IGetClaimableUnstakesProps) => ({
-    request: {
-      promise: (async (): Promise<BigNumber> => {
+export const { useGetClaimableUnstakesQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getClaimableUnstakes: build.query<BigNumber, IGetClaimableUnstakesProps>({
+      queryFn: async ({ validator }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.getClaimableUnstakes(validator);
-      })(),
-    },
-    meta: {
-      showNotificationOnError: true,
-    },
+        const data = await sdk.getClaimableUnstakes(validator);
+
+        return { data };
+      },
+    }),
   }),
-);
+});

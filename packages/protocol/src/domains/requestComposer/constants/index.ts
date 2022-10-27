@@ -7,11 +7,13 @@ export enum BlockNumberConstant {
 export enum EVMLibraryID {
   WEB3 = 'web3',
   ETHERS = 'ethers',
+  JSON_RPC = 'JSON_RPC',
 }
 
 export const EVMLibrary = {
   [EVMLibraryID.WEB3]: 'web3.js',
   [EVMLibraryID.ETHERS]: 'ethers.js',
+  [EVMLibraryID.JSON_RPC]: 'JSON RPC',
 };
 
 export enum EVMMethod {

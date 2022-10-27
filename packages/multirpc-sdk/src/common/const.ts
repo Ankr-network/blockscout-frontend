@@ -27,6 +27,8 @@ export const STAGING_CONFIG: IConfig = {
   payAsYouGoAnkrTokenContractAddress:
     '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
   payAsYouGoContractAddress: '0x43FC63725b9f9A74EE4eD420635e78231456b52f',
+  premiumPlanContractCreationBlockNumber: 6_708_096,
+  payAsYouGoContractCreationBlockNumber: 6_895_851,
 };
 
 export const PROD_CONFIG: IConfig = {
@@ -45,4 +47,6 @@ export const PROD_CONFIG: IConfig = {
   payAsYouGoAnkrTokenContractAddress:
     '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
   payAsYouGoContractAddress: '0x3d0BB8803a6C1Fee1b3E8bf730534574623cB70f',
+  premiumPlanContractCreationBlockNumber: 13_468_996,
+  payAsYouGoContractCreationBlockNumber: 14_787_826,
 };

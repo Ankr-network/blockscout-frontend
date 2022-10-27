@@ -61,6 +61,7 @@ export enum EWalletId {
   trust = 'custom-trust',
   binanceWallet = 'custom-binance-wallet',
   walletconnect = 'walletconnect',
+  coinbase = 'custom-coinbase',
   okxwallet = 'custom-okxwallet',
 }
 

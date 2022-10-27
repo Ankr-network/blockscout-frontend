@@ -162,6 +162,8 @@ export interface IConfig {
 
   payAsYouGoAnkrTokenContractAddress: string;
   payAsYouGoContractAddress: string;
+  payAsYouGoContractCreationBlockNumber: number;
+  premiumPlanContractCreationBlockNumber: number;
 }
 
 export type Environment = 'staging' | 'prod';

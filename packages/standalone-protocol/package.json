@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "types": "tsc --noEmit -p tsconfig.json",
-    "start:stage": "env-cmd -f .env.stage react-scripts start",
-    "start:prod": "env-cmd -f .env.prod react-scripts start",
+    "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
+    "start:prod": "concurrently \"env-cmd -f .env.prod react-scripts start\" \"yarn watch:dependencies\"",
     "start:stage:turbo": "cd ../.. && turbo run start:stage --filter=standalone-protocol...",
     "start:prod:turbo": "cd ../.. && turbo run start:prod --filter=standalone-protocol...",
     "build:stage": "env-cmd -f .env.stage react-scripts build",
@@ -38,7 +38,7 @@
     "@redux-requests/core": "1.6.1",
     "@redux-requests/promise": "1.0.2",
     "@redux-requests/react": "1.6.0",
-    "@reduxjs/toolkit": "^1.5.1",
+    "@reduxjs/toolkit": "^1.8.1",
     "@types/numeral": "^2.0.2",
     "@walletconnect/web3-provider": "^1.6.5",
     "apexcharts": "^3.32.0",
@@ -99,6 +99,7 @@
     "@typescript-eslint/parser": "^4.15.1",
     "@vitejs/plugin-react": "^2.1.0",
     "babel-loader": "8.1.0",
+    "concurrently": "^7.4.0",
     "env-cmd": "^10.1.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -111,11 +112,11 @@
     "prettier": "^2.2.1",
     "react-app-rewired": "2.1.8",
     "react-snap": "^1.23.0",
+    "rimraf": "3.0.2",
     "source-map-explorer": "^2.5.2",
     "typescript": "^4.1.2",
     "vite": "^3.1.6",
-    "vite-plugin-svgr": "^2.2.1",
-    "rimraf": "3.0.2"
+    "vite-plugin-svgr": "^2.2.1"
   },
   "browserslist": {
     "production": [

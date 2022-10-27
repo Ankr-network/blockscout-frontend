@@ -31,6 +31,7 @@ import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpT
 import { ANKR_CURRENCY } from '../../const';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { RateBlock } from './RateBlock';
+import { RequestsBlock } from './RequestsBlock';
 
 export const useRenderDisabledForm = (
   classes: ClassNameMap,
@@ -76,6 +77,7 @@ export const useRenderForm = (
   classes: ClassNameMap,
   validateAmount?: any,
   isAccountPage?: boolean,
+  isPricingPage?: boolean,
   balance?: BigNumber,
 ) => {
   return useCallback(
@@ -112,10 +114,20 @@ export const useRenderForm = (
           >
             {t('account.account-details.top-up.button')}
           </Button>
+          {isPricingPage && (
+            <RequestsBlock value={values[AmountInputField.amount]} />
+          )}
         </form>
       );
     },
-    [classes.button, classes.form, validateAmount, isAccountPage, balance],
+    [
+      classes.button,
+      classes.form,
+      validateAmount,
+      isAccountPage,
+      isPricingPage,
+      balance,
+    ],
   );
 };
 

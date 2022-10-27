@@ -1,6 +1,6 @@
-import { useLibraryTabs } from './MenuTabsUtils';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Menu } from '../../components/Menu';
+import { useLibraryTabs } from './MenuTabsUtils';
 
 interface IEVMMenuProps {
   group: EndpointGroup;
@@ -9,5 +9,7 @@ interface IEVMMenuProps {
 export const EVMMenu = ({ group }: IEVMMenuProps) => {
   const [tabs, selectedTab] = useLibraryTabs(group);
 
-  return <Menu selectedTab={selectedTab} tabs={tabs} />;
+  return (
+    <Menu selectedTab={selectedTab} tabs={tabs} tabsOrientation="vertical" />
+  );
 };

@@ -1,7 +1,8 @@
 import { useQuery } from '@redux-requests/react';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { getTotalInfo as getTotalAnkrInfo } from 'modules/stake-ankr/actions/getTotalInfo';
+import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { getTotalInfo as getTotalMGnoInfo } from 'modules/stake-mgno/actions/getTotalInfo';
 
 interface IUseDelegatedTokens {
@@ -12,13 +13,19 @@ interface IUseDelegatedTokens {
 }
 
 export const useDelegatedTokens = (): IUseDelegatedTokens => {
-  const { data: totalAnkrInfo, loading: isTotalAnkrInfoLoading } = useQuery({
-    type: getTotalAnkrInfo,
-  });
+  const {
+    data: totalAnkrInfo,
+    isFetching: isTotalAnkrInfoLoading,
+    refetch: getTotalInfoRefetch,
+  } = useGetTotalInfoQuery();
 
   const { data: totalMGnoInfo, loading: isTotalMGnoInfoLoading } = useQuery({
     type: getTotalMGnoInfo,
   });
+
+  useProviderEffect(() => {
+    getTotalInfoRefetch();
+  }, []);
 
   const isANKRShowed =
     getIsBalancePositive(totalAnkrInfo?.totalDelegatedAmount) ||

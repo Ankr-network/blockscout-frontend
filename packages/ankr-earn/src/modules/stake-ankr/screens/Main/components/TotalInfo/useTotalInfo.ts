@@ -1,16 +1,15 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
+// import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
-import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetEpochEndSecondsQuery } from 'modules/stake-ankr/actions/getEpochEndSeconds';
+import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
+import { RoutesConfig } from 'modules/stake-ankr/RoutesConfig';
+import { CACHE_SECONDS } from 'modules/stake-ankr/screens/Providers/const';
 import { getEndEpochText } from 'modules/stake-ankr/utils/getEndEpochText';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseTotalInfo {
   totalStaked: BigNumber;
@@ -27,16 +26,22 @@ interface IUseTotalInfo {
 }
 
 export const useTotalInfo = (): IUseTotalInfo => {
-  const dispatchRequest = useDispatchRequest();
-  const dispatch = useAppDispatch();
+  const {
+    data,
+    isFetching: loading,
+    refetch: getTotalInfoRefetch,
+  } = useGetTotalInfoQuery(undefined, {
+    refetchOnMountOrArgChange: CACHE_SECONDS,
+  });
+  const { data: ankrPrice } = useGetAnkrPriceQuery(undefined, {
+    refetchOnMountOrArgChange: CACHE_SECONDS,
+  });
 
-  const { data, loading } = useQuery({
-    type: getTotalInfo,
-  });
-  const { data: ankrPrice } = useQuery({ type: getANKRPrice });
-  const { data: epochEndsSeconds, loading: epochLoading } = useQuery({
-    type: getEpochEndSeconds,
-  });
+  const { data: epochEndsSeconds, isFetching: epochLoading } =
+    useGetEpochEndSecondsQuery(undefined, {
+      pollingInterval: 60_000,
+    });
+
   const usdPrice = ankrPrice ?? ZERO;
 
   const claimableRewards = useMemo(() => {
@@ -51,20 +56,10 @@ export const useTotalInfo = (): IUseTotalInfo => {
     }, ZERO);
   }, [data?.claimableRewards]);
 
+  // TODO remove it. Use cache tags instead of manual dispatch
   useProviderEffect(() => {
-    dispatchRequest(getTotalInfo());
-    dispatchRequest(getEpochEndSeconds());
-
-    return () => {
-      dispatch(resetRequests([getEpochEndSeconds.toString()]));
-    };
-  }, [dispatchRequest]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(stopPolling([getEpochEndSeconds.toString()]));
-    };
-  }, [dispatch]);
+    getTotalInfoRefetch();
+  }, []);
 
   const epochEnds = epochEndsSeconds
     ? getEndEpochText(epochEndsSeconds)

@@ -9,8 +9,7 @@ import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN'
 import { NodeProviderField } from 'modules/delegate-stake/components/NodeProviderField';
 import {
   EFieldsNames,
-  IAnkrStakeFormPayload,
-  IAnkrStakeSubmitPayload,
+  IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/delegate-stake/components/StakeForm/const';
 import { setMaxAmount } from 'modules/delegate-stake/utils/setMaxAmount';
@@ -39,8 +38,8 @@ interface IAnkrUnstakeFormProps {
   closeHref: string;
   providerId: string;
   providerName?: string;
-  onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
-  onChange?: (values: IAnkrStakeFormPayload, invalid: boolean) => void;
+  onSubmit: (payload: IStakeSubmitPayload) => void;
+  onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
 }
 
 export const AnkrUnstakeForm = ({
@@ -64,7 +63,7 @@ export const AnkrUnstakeForm = ({
     ? balance.toString()
     : maxAmount.toString();
 
-  const onSubmitForm = (payload: IAnkrStakeSubmitPayload): void =>
+  const onSubmitForm = (payload: IStakeSubmitPayload): void =>
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
@@ -77,7 +76,7 @@ export const AnkrUnstakeForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<IAnkrStakeSubmitPayload>) => (
+  }: FormRenderProps<IStakeSubmitPayload>) => (
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 

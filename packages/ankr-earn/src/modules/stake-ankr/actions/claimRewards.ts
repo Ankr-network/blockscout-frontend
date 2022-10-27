@@ -1,57 +1,40 @@
-import { RequestAction } from '@redux-requests/core';
 import { push } from 'connected-react-router';
-import { createAction } from 'redux-smart-actions';
-import { IStoreState } from 'store';
 
 import { TxHash } from 'modules/common/types';
-import { TStore } from 'modules/common/types/ReduxRequests';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
-import { RoutesConfig } from '../Routes';
-
-import { getHistoryData } from './getHistoryData';
+import { CacheTags } from '../cacheTags';
+import { RoutesConfig } from '../RoutesConfig';
 
 interface IClaimArgs {
   provider: string;
 }
 
-export const claimRewards = createAction<
-  RequestAction<TxHash, TxHash>,
-  [IClaimArgs]
->(
-  `${ANKR_ACTIONS_PREFIX}claimRewards`,
-  ({ provider }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<TxHash> => {
+export const { useClaimRewardsMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    claimRewards: build.mutation<TxHash, IClaimArgs>({
+      queryFn: async ({ provider }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.claimRewards(provider);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      onSuccess: (
-        response: { data: TxHash },
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ) => {
-        store.dispatchRequest(getHistoryData());
-        const txHash = response.data;
-
-        if (txHash) {
-          store.dispatch(
-            push(
-              RoutesConfig.claimRewardsSteps.generatePath({
-                txHash,
-              }),
-            ),
-          );
-        }
-
-        return response;
+        return { data: await sdk.claimRewards(provider) };
       },
-    },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const txHash = response.data;
+
+          if (txHash) {
+            dispatch(
+              push(
+                RoutesConfig.claimRewardsSteps.generatePath({
+                  txHash,
+                }),
+              ),
+            );
+          }
+        });
+      },
+      invalidatesTags: [CacheTags.history],
+    }),
   }),
-);
+});

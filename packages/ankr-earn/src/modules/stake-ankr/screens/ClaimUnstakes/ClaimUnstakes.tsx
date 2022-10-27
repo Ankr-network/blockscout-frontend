@@ -1,5 +1,4 @@
 import { Paper, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
 import { useMemo } from 'react';
 
 import { t } from 'common';
@@ -9,7 +8,7 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { Section } from 'modules/delegate-stake/components/Section';
-import { getAllClaimableUnstakes } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
+import { useLazyGetAllClaimableUnstakesQuery } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { CloseButton } from 'uiKit/CloseButton';
@@ -21,7 +20,6 @@ import { useClaimUnstakesStyles } from './useClaimUnstakesStyles';
 
 export const ClaimUnstakes = (): JSX.Element => {
   const classes = useClaimUnstakesStyles();
-  const dispatchRequest = useDispatchRequest();
 
   const {
     loading,
@@ -35,9 +33,11 @@ export const ClaimUnstakes = (): JSX.Element => {
     onSubmit,
   } = useClaimUnstakes();
 
+  const [getAllClaimableUnstakes] = useLazyGetAllClaimableUnstakesQuery();
+
   useProviderEffect(() => {
-    dispatchRequest(getAllClaimableUnstakes());
-  }, [dispatchRequest]);
+    getAllClaimableUnstakes();
+  }, []);
 
   const total = useMemo(
     () => (isClaimRewards ? amount.plus(rewards) : amount),

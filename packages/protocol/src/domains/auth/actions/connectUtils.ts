@@ -1,33 +1,26 @@
 import { RequestsStore } from '@redux-requests/core';
 import { IJwtToken, MultiRpcSdk, Web3Address } from 'multirpc-sdk';
 
-import { fetchEncryptionKey } from './fetchEncryptionKey';
 import { throwIfError } from 'common';
-import { hasMetamask } from '../utils/hasMetamask';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { switchEthereumChain } from 'domains/auth/utils/switchEthereumChain';
 import { authorizeProvider } from 'domains/infrastructure/actions/authorizeProvider';
 import { MultiService } from 'modules/api/MultiService';
-import { t } from 'modules/i18n/utils/intl';
+
+import { timeout } from 'modules/common/utils/timeout';
+import { IWalletMeta } from '@ankr.com/provider-core';
 
 export interface IConnect {
   address: Web3Address;
   credentials?: IJwtToken;
+  walletMeta?: IWalletMeta;
 }
 
-const timeout = () => new Promise(res => setTimeout(res, 300));
-
-export const connectProvider = async () => {
-  if (!hasMetamask()) {
-    throw new Error(t('error.no-metamask'));
-  }
-
-  const service = await MultiService.getInstance();
-
-  await switchEthereumChain(service);
+export const switchChain = async () => {
+  await switchEthereumChain();
 
   // TODO: try to avoid this timeout in the future PROTOCOL-244
-  await timeout();
+  await timeout(300);
 };
 
 export const getCachedData = async (
@@ -38,6 +31,7 @@ export const getCachedData = async (
     credentials: cachedCredentials,
     address: cachedAddress,
     authorizationToken: cachedAuthToken,
+    walletMeta,
   } = selectAuthData(store.getState());
 
   if (cachedAddress && cachedAuthToken) {
@@ -46,47 +40,44 @@ export const getCachedData = async (
     return {
       address: cachedAddress,
       credentials: cachedCredentials,
+      walletMeta,
     };
   }
 
   return null;
 };
 
-export const loginAndCacheAuthData = async (
+export const loginAndCache = async (
   service: MultiRpcSdk,
   store: RequestsStore,
 ) => {
-  const {
-    data: { key: encryptionPublicKey },
-  } = throwIfError(await store.dispatchRequest(fetchEncryptionKey()));
-
   const { currentAccount: address } = service.getKeyProvider();
-  const credentials = await service.loginAsUser(address, encryptionPublicKey);
+
+  const credentials = await service.loginAsUser(address);
 
   const { data: authorizationToken } = throwIfError(
     await store.dispatchRequest(authorizeProvider()),
   );
+
+  const keyProvider = service.getKeyProvider();
+  const walletMeta = keyProvider.getWalletMeta();
 
   store.dispatch(
     setAuthData({
       credentials,
       address,
       authorizationToken,
-      encryptionPublicKey,
+      walletMeta,
     }),
   );
 
   return {
     address,
     credentials,
+    walletMeta,
   };
 };
 
-export const disconnectService = async () => {
-  const service = await MultiService.getInstance();
-  service.getWorkerGateway().removeJwtToken();
-  service.getAccountGateway().removeToken();
-
-  service.getKeyProvider().disconnect();
+export const disconnectService = () => {
   MultiService.removeInstance();
 };

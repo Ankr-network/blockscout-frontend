@@ -21,6 +21,7 @@ export const TopUpSteps = ({
   isRejectAllowanceLoading,
   transactionHash,
   hasError,
+  walletMeta,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
 
@@ -45,6 +46,7 @@ export const TopUpSteps = ({
             className={classes.title}
             amount={amount}
             hasError={hasError}
+            walletMeta={walletMeta}
           />
           <StepperNotice
             step={step}

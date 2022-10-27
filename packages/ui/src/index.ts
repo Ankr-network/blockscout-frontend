@@ -10,3 +10,4 @@ export * from './modules/themes/mainTheme';
 export * from './modules/themes/types';
 export * from './modules/themes/useTheme';
 export * from './modules/themes/RewiredStylesProvider';
+export * from './components/WalletIcon';

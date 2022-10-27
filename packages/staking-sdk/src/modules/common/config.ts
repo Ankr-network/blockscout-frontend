@@ -201,8 +201,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMaticbToken: '0x99534Ef705Df1FFf4e4bD7bbaAF9b0dFf038EbFe',
     aMaticCToken: '0x26dcFbFa8Bc267b250432c01C982Eaf81cC5480C',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
-    asETHcContract: ZERO_ADDRESS,
-    ssvStakingPoolContract: ZERO_ADDRESS,
+    asETHcContract: '0x1Fb9Ed69C117271Eb84c9F5e4E4bA9f1dA0EF4dC',
+    ssvStakingPoolContract: '0xEAc6684D77E40B3AF10f90222c90c1E70f105115',
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',

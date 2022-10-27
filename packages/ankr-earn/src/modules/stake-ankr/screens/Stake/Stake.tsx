@@ -16,7 +16,6 @@ export const Stake = (): JSX.Element => {
     additionalTooltip,
     additionalValue,
     amount,
-    apy,
     balance,
     closeHref,
     faqItems,
@@ -24,7 +23,6 @@ export const Stake = (): JSX.Element => {
     initialProvider,
     isApproveLoading,
     isApproved,
-    isApyLoading,
     isBalanceLoading,
     isDisabled,
     isStakeLoading,
@@ -47,8 +45,6 @@ export const Stake = (): JSX.Element => {
     isLoading,
   } = useStats({
     amount,
-    apy,
-    isApyLoading,
   });
 
   return (

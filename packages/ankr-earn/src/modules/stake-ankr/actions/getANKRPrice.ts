@@ -1,23 +1,22 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { ANKR_ACTIONS_PREFIX, ANKR_TOKEN_PRICE } from '../const';
+import { configFromEnv } from 'modules/api/config';
+
+import { web3Api } from '../../api/web3Api';
+
+const { baseUrl } = configFromEnv().gatewayConfig;
+
+const ANKR_RATE_URL = '/v1alpha/rate/ANKR';
 
 interface IGetANKRPrice {
   rate: number;
 }
 
-export const getANKRPrice = createSmartAction<
-  RequestAction<IGetANKRPrice, BigNumber>
->(
-  `${ANKR_ACTIONS_PREFIX}getANKRPrice`,
-  (): RequestAction => ({
-    request: { url: ANKR_TOKEN_PRICE },
-    meta: {
-      driver: 'axios',
-      showNotificationOnError: false,
-      getData: (data: IGetANKRPrice) => new BigNumber(data.rate),
-    },
+export const { useGetAnkrPriceQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getAnkrPrice: build.query<BigNumber, void>({
+      query: () => new URL(ANKR_RATE_URL, baseUrl).toString(),
+      transformResponse: (data: IGetANKRPrice) => new BigNumber(data.rate),
+    }),
   }),
-);
+});

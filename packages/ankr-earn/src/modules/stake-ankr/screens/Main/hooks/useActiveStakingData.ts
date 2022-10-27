@@ -1,32 +1,36 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { getActiveStakingData } from 'modules/stake-ankr/actions/getActiveStakingData';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetActiveStakingDataQuery } from 'modules/stake-ankr/actions/getActiveStakingData';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { IActiveStakingData } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
+
+import { CACHE_SECONDS } from '../../Providers/const';
 
 interface IActiveStaking {
   isLoading: boolean;
-  data: IActiveStakingData[] | null;
+  data: IActiveStakingData[] | undefined;
 }
 
 export const useActiveStakingData = (): IActiveStaking => {
-  const dispatchRequest = useDispatchRequest();
-  const { data: ankrPrice } = useQuery({
-    type: getANKRPrice,
-  });
-  const { data, loading } = useQuery({
-    type: getActiveStakingData,
+  const { data: ankrPrice } = useGetAnkrPriceQuery(undefined, {
+    refetchOnMountOrArgChange: CACHE_SECONDS,
   });
 
+  const {
+    data,
+    isFetching: loading,
+    refetch,
+  } = useGetActiveStakingDataQuery(
+    {
+      usdPrice: ankrPrice ?? ZERO,
+    },
+    { refetchOnMountOrArgChange: CACHE_SECONDS },
+  );
+
+  // TODO remove it. Use cache tags instead of manual dispatch
   useProviderEffect(() => {
-    dispatchRequest(
-      getActiveStakingData({
-        usdPrice: ankrPrice ?? ZERO,
-      }),
-    );
-  }, [dispatchRequest, ankrPrice]);
+    refetch();
+  }, [ankrPrice]);
 
   return {
     isLoading: loading,

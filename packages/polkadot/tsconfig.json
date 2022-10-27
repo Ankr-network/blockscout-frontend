@@ -18,7 +18,7 @@
     "noEmit": false,
     "jsx": "react-jsx"
   },
-  "include": ["index.ts", "src", "src/types.d.ts"],
+  "include": ["index.ts", "src", "src/typings/*.d.ts"],
   "exclude": ["node_modules", "out", "**/*.stories.tsx", "**/*.stories.js"],
   "references": []
 }

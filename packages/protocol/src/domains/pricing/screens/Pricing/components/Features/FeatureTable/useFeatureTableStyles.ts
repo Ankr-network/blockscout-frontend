@@ -11,15 +11,12 @@ export const useFeatureTableStyles = makeStyles<Theme>(theme => ({
     '& tr th:first-child, & tr td:first-child': {
       textAlign: 'left',
     },
-    '& tr th:not(:first-child), & tr td:not(:first-child)': {
-      width: 285,
-      maxWidth: 285,
+    '& tr td:not(:first-child)': {
+      width: 290,
+      maxWidth: 290,
       padding: '20px 17.5px',
     },
 
-    '& tr th:first-child': {
-      padding: '20px 0',
-    },
     '& td': {
       padding: '20px 0',
     },

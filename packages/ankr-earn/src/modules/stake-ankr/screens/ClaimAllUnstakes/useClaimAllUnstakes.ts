@@ -1,17 +1,14 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { claimAllUnstakes } from 'modules/stake-ankr/actions/claimAllUnstakes';
-import { getAllClaimableUnstakes } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
+import { useClaimAllUnstakesMutation } from 'modules/stake-ankr/actions/claimAllUnstakes';
+import { useLazyGetAllClaimableUnstakesQuery } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
 import { IClaimableUnstake } from 'modules/stake-ankr/api/AnkrStakingSDK/types';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+
+import { RoutesConfig } from '../../RoutesConfig';
 
 interface IUseTotalInfo {
   isFewClaims: boolean;
@@ -27,10 +24,11 @@ interface IUseTotalInfo {
 
 export const useClaimAllUnstakes = (): IUseTotalInfo => {
   const dispatchRequest = useDispatchRequest();
-  const { loading } = useMutation({ type: claimAllUnstakes });
-  const { data, loading: isClaimsLoading } = useQuery({
-    type: getAllClaimableUnstakes,
-  });
+  const [claimAllUnstakes, { isLoading: loading }] =
+    useClaimAllUnstakesMutation();
+
+  const [getAllClaimableUnstakes, { data, isFetching: isClaimsLoading }] =
+    useLazyGetAllClaimableUnstakesQuery();
 
   const preparedData = useMemo(
     () => data?.filter(unstake => !unstake.amount.isZero()) ?? [],
@@ -52,12 +50,12 @@ export const useClaimAllUnstakes = (): IUseTotalInfo => {
   const totalUSD = total.multipliedBy(usdTokenPrice);
 
   useProviderEffect(() => {
-    dispatchRequest(getAllClaimableUnstakes());
+    getAllClaimableUnstakes();
   }, [dispatchRequest]);
 
   const onClaim = useCallback(() => {
-    dispatchRequest(claimAllUnstakes());
-  }, [dispatchRequest]);
+    claimAllUnstakes();
+  }, [claimAllUnstakes]);
 
   return {
     isFewClaims,

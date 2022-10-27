@@ -1,4 +1,5 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
+import retry from 'async-retry';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import {
@@ -9,6 +10,7 @@ import {
 } from '@ankr.com/staking-sdk';
 
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
+import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 import { IFetchTxData } from 'modules/switcher/api/types';
 
@@ -39,9 +41,8 @@ export const getTxData = createSmartAction<
         return null;
       }
 
-      return EthereumSSV.getTxData({
-        provider,
-        txHash,
+      return retry(() => EthereumSSV.getTxData({ provider, txHash }), {
+        retries: RETRIES_TO_GET_TX_DATA,
       });
     },
   },

@@ -68,7 +68,7 @@ export const Plan = ({ features, root, isPremium, link, href }: PlanProps) => {
             })}
           </Box>
         </Box>
-        <Button className={classes.button} disabled={!isPremium} href={href}>
+        <Button disabled={!isPremium} href={href}>
           {tHTML(`${root}.button`)}
         </Button>
       </Box>

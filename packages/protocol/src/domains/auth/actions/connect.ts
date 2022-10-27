@@ -5,21 +5,20 @@ import {
 } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { MultiService } from 'modules/api/MultiService';
+import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { withStore } from '../utils/withStore';
 import {
-  connectProvider,
+  switchChain,
   disconnectService,
   getCachedData,
   IConnect,
-  loginAndCacheAuthData,
+  loginAndCache,
 } from './connectUtils';
-import { hasMetamask } from '../utils/hasMetamask';
 import { resetAuthData, setAuthData } from '../store/authSlice';
 
 export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
   'auth/connect',
-  isManualConnected => ({
+  (walletId: string, isManualConnected?: boolean) => ({
     request: {
       promise: async (store: RequestsStore) => {
         store.dispatch(
@@ -28,34 +27,30 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
           }),
         );
 
-        await connectProvider();
+        const service = await MultiService.getInstance(walletId);
 
-        const service = await MultiService.getInstance();
+        if (walletId === INJECTED_WALLET_ID) {
+          await switchChain();
+        }
 
         const cachedData = await getCachedData(service, store);
 
         if (cachedData) return cachedData;
 
-        const authData = await loginAndCacheAuthData(service, store);
-
-        return authData;
+        return loginAndCache(service, store);
       },
     },
     meta: {
       onRequest: withStore,
-      asMutation: false,
-      getData: data => data,
       onError: async (
         error: Error,
         _action: RequestAction,
         store: RequestsStore,
       ) => {
-        if (hasMetamask()) {
-          await disconnectService();
+        disconnectService();
 
-          store.dispatch(resetAuthData());
-          store.dispatch(resetRequests([connect.toString()]));
-        }
+        store.dispatch(resetAuthData());
+        store.dispatch(resetRequests([connect.toString()]));
 
         throw error;
       },

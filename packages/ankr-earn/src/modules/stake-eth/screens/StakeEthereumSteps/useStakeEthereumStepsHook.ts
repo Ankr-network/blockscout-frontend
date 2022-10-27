@@ -8,8 +8,10 @@ import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
+import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTxData, getTxReceipt } from 'modules/stake-eth/actions/getTxData';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -40,6 +42,9 @@ export const useStakeEthereumStepsHook = (): IStakeEthereumStepsHook => {
   const { data: receipt } = useQuery({ type: getTxReceipt });
   const { data: commonData } = useQuery({
     type: getCommonData,
+  });
+  const { data: claimableData } = useQuery({
+    type: getClaimableData,
   });
 
   const dispatchRequest = useDispatchRequest();
@@ -78,16 +83,27 @@ export const useStakeEthereumStepsHook = (): IStakeEthereumStepsHook => {
     const amount = txData?.amount;
     const ratio = commonData?.aETHcRatio;
 
+    const claimedAmount =
+      tokenOut === Token.aETHb
+        ? claimableData?.claimableAETHB ?? ZERO
+        : claimableData?.claimableAETHC ?? ZERO;
+
     if (!amount) {
       return undefined;
     }
 
     const shouldCalcForAethc = tokenOut === Token.aETHc && ratio;
     if (shouldCalcForAethc) {
-      return amount.multipliedBy(ratio);
+      return amount.multipliedBy(ratio).plus(claimedAmount);
     }
-    return amount;
-  }, [tokenOut, txData?.amount, commonData?.aETHcRatio]);
+    return amount.plus(claimedAmount);
+  }, [
+    txData?.amount,
+    commonData?.aETHcRatio,
+    claimableData?.claimableAETHB,
+    claimableData?.claimableAETHC,
+    tokenOut,
+  ]);
 
   const isPending = !receipt && !!txData?.isPending;
 

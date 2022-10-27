@@ -1,16 +1,15 @@
-import { useCallback } from 'react';
-
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { EVMLibrary, EVMLibraryID } from 'domains/requestComposer/constants';
-import { EndpointGroup } from 'modules/endpoints/types';
 import {
   HarmonyLibrary,
   HarmonyLibraryID,
 } from 'domains/requestComposer/constants/harmony';
-import { HarmonyLibraryContent } from '../HarmonyLibraryContent';
+import { Tab, useTabs } from 'modules/common/hooks/useTabs';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+import { useCallback } from 'react';
 import { LibraryContent } from '../../EVMRequestComposer/EVMMenu/LibraryContent';
+import { HarmonyLibraryContent } from '../HarmonyLibraryContent';
 
 export const useLibraryTabs = (group: EndpointGroup) => {
   const content = useCallback(
@@ -46,6 +45,16 @@ export const useLibraryTabs = (group: EndpointGroup) => {
           <SecondaryTab
             isSelected={isSelected}
             label={EVMLibrary[EVMLibraryID.ETHERS]}
+          />
+        ),
+      },
+      {
+        id: EVMLibraryID.JSON_RPC,
+        content,
+        title: (isSelected: boolean) => (
+          <SecondaryTab
+            isSelected={isSelected}
+            label={EVMLibrary[EVMLibraryID.JSON_RPC]}
           />
         ),
       },

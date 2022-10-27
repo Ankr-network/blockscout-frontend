@@ -5,11 +5,11 @@ import { Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import {
-  STAKING_PATH,
+  AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
-  AVAX_NETWORK_BY_ENV,
+  STAKING_PATH,
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -51,17 +51,11 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={AVAILABLE_NETWORKS}
-          isOpenedConnectModal={false}
-          path={RoutesConfig.main.path}
-          providerId={AvailableWriteProviders.ethCompatible}
-        >
+        <Route exact path={RoutesConfig.main.path}>
           <DefaultLayout>
             <Main />
           </DefaultLayout>
-        </GuardETHRoute>
+        </Route>
 
         <GuardETHRoute
           exact

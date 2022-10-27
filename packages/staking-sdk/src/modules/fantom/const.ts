@@ -10,7 +10,7 @@ export const FANTOM_POOL_START_BLOCK = isMainnet ? 31_218_797 : 7_729_481;
 /**
  * Max block range per request
  */
-export const FANTOM_MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
+export const FANTOM_MAX_BLOCK_RANGE = isMainnet ? 2_000 : 3_000;
 
 /**
  * Block offset to get history events for 7 days

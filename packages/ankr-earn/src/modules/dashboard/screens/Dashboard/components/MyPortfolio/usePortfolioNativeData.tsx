@@ -11,13 +11,14 @@ import {
 import { iconByTokenMap, TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getCommonData as fetchAnkrData } from 'modules/stake-ankr/actions/getCommonData';
-import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/Routes';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
+import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
+import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
 import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
@@ -86,17 +87,20 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: fetchStakeETHStats,
   });
 
+  const { data: ethClaimableData, loading: isEthClaimableDataLoading } =
+    useQuery({
+      type: fetchStakeETHClaimableStats,
+    });
+
   const { data: ftmData, loading: isFtmDataLoading } = useQuery({
     type: fetchStakeFTMStats,
   });
 
-  const { data: ankrBalanceData, loading: isLoadingAnkrBalanceData } = useQuery(
-    { type: fetchAnkrData },
-  );
+  const { data: ankrBalanceData, isFetching: isLoadingAnkrBalanceData } =
+    useGetCommonDataQuery();
 
-  const { data: ankrPrice, loading: isAnkrPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
+  const { data: ankrPrice, isFetching: isAnkrPriceLoading } =
+    useGetAnkrPriceQuery();
 
   const { data: mgnoBalanceData, loading: isLoadingMgnoBalanceData } = useQuery(
     { type: fetchMgnoBalance },
@@ -178,8 +182,8 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       {
         name: Token.ETH,
         amount: (ethData?.ethBalance ?? ZERO)
-          .plus(ethData?.claimableAETHB ?? ZERO)
-          .plus(ethData?.claimableAETHC ?? ZERO),
+          .plus(ethClaimableData?.claimableAETHB ?? ZERO)
+          .plus(ethClaimableData?.claimableAETHC ?? ZERO),
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
         link: StakeEthRoutes.stake.generatePath(),
@@ -234,6 +238,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       polygonMaticData,
       bnbData,
       ethData,
+      ethClaimableData,
       dotClaimableBalance,
       ksmClaimableBalance,
       wndClaimableBalance,
@@ -322,6 +327,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       isAvaxDataLoading ||
       isBnbDataLoading ||
       isEthDataLoading ||
+      isEthClaimableDataLoading ||
       isFtmDataLoading ||
       isLoadingAnkrBalanceData ||
       isLoadingDotBalance ||
