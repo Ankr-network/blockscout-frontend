@@ -3,13 +3,14 @@ import { Typography } from '@material-ui/core';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import MetamaskIcon from './assets/metamask.svg';
+import { IWalletMeta } from '@ankr.com/provider-core';
 
 interface IStepperTitleProps {
   step: TopUpStep;
   className: string;
   amount?: string;
   hasError?: boolean;
+  walletMeta?: IWalletMeta;
 }
 
 export const StepperTitle = ({
@@ -17,6 +18,7 @@ export const StepperTitle = ({
   className,
   amount,
   hasError,
+  walletMeta,
 }: IStepperTitleProps) => {
   return (
     <Typography
@@ -26,8 +28,13 @@ export const StepperTitle = ({
       {hasError && step === TopUpStep.waitTransactionConfirming
         ? tHTML(`top-up-steps.step-content.${step}-error`)
         : tHTML(`top-up-steps.step-content.${step}`, {
-            src: MetamaskIcon,
-            alt: t('top-up-steps.metamask'),
+            src: walletMeta?.icon,
+            alt: walletMeta?.name,
+            name: walletMeta?.name,
+            content:
+              walletMeta?.id === 'walletconnect'
+                ? t(`top-up-steps.step-content.wallet-connect`)
+                : '',
             amount,
           })}
     </Typography>

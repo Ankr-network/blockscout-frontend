@@ -24,6 +24,7 @@ export class EthereumWeb3KeyProvider extends Web3KeyWriteProvider {
     });
 
     try {
+      // if cancel a request in walletconnect promise will not be fulfilled
       // get provider after user selects the provider and grants access
       this.provider = walletId
         ? await web3Modal.connectTo(walletId)

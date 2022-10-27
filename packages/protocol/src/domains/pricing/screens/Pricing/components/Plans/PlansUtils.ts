@@ -11,11 +11,9 @@ export const basicFeatures = [
 
 export const premiumRoot = `${root}.premium-plan`;
 export const premiumFeatures = [
-  tHTML(`${premiumRoot}.features.requests`),
-  tHTML(`${premiumRoot}.features.traffic`),
   tHTML(`${premiumRoot}.features.websockets`),
-  tHTML(`${premiumRoot}.features.destribution`),
   tHTML(`${premiumRoot}.features.api`),
+  tHTML(`${premiumRoot}.features.requests`),
   tHTML(`${premiumRoot}.features.endpoints`),
 ];
 
