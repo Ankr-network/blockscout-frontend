@@ -2,6 +2,8 @@ import { RequestAction } from '@redux-requests/core';
 import retry from 'async-retry';
 import { createAction } from 'redux-smart-actions';
 
+import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
+
 import { SwitcherSDK } from '../api/SwitcherSDK';
 import { IFetchTxData, IFetchTxReceiptData } from '../api/types';
 import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
@@ -20,7 +22,7 @@ export const getTxData = createAction<
       const sdk = await SwitcherSDK.getInstance();
 
       return retry(async () => sdk.fetchTxData({ chainId, txHash, token }), {
-        retries: 3,
+        retries: RETRIES_TO_GET_TX_DATA,
       });
     })(),
   },
