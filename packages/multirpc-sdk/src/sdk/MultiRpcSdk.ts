@@ -367,9 +367,8 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   async decryptToken(jwtToken: IJwtToken) {
     const MS_IN_YEAR = 31_556_952_000;
-    // 27.10.2022
-    const NEW_AUTHORIZATION_FLOW_RELEASE_DATE = 1_666_800_000_000;
-
+    // 15.10.2022
+    const NEW_AUTHORIZATION_FLOW_RELEASE_DATE = 1_665_763_200_000;
     const tokenIssueDate = Number(jwtToken.expires_at) * 1_000_000 - MS_IN_YEAR;
 
     let signedToken = '';
