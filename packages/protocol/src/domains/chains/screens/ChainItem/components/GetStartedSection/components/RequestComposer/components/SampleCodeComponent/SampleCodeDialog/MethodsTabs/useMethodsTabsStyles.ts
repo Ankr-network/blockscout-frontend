@@ -12,7 +12,7 @@ export const useMethodsTabsStyles = makeStyles<Theme>(theme => ({
     },
 
     '& div div': {
-      width: 86,
+      minWidth: 86,
       backgroundColor: theme.palette.text.primary,
       borderRadius: 11,
       padding: 2,

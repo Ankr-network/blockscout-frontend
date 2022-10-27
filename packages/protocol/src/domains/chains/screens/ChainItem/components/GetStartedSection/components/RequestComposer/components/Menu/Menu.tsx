@@ -1,16 +1,17 @@
-import { Box } from '@material-ui/core';
-
+import { Box, Orientation } from '@material-ui/core';
 import { ILibraryTabsProps, LibraryTabs } from './LibraryTabs';
 import { useMenuStyles } from './MenuStyles';
 
-interface MenuProps extends ILibraryTabsProps {}
+interface MenuProps extends ILibraryTabsProps {
+  tabsOrientation?: Orientation;
+}
 
-export const Menu = ({ ...others }: MenuProps) => {
+export const Menu = ({ tabsOrientation, ...others }: MenuProps) => {
   const classes = useMenuStyles();
 
   return (
     <Box className={classes.root}>
-      <LibraryTabs {...others} />
+      <LibraryTabs orientation={tabsOrientation} {...others} />
     </Box>
   );
 };

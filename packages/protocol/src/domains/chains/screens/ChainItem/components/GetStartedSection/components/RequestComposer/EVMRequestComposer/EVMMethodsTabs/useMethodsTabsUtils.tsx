@@ -3,9 +3,9 @@ import {
   TabSize,
 } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import {
-  EVMMethod,
   EVMLibrary,
   EVMLibraryID,
+  EVMMethod,
 } from 'domains/requestComposer/constants';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -53,6 +53,25 @@ export const useMethodsTabsUtils = (
           <SecondaryTab
             isSelected={isSelected}
             label={EVMLibrary[EVMLibraryID.ETHERS]}
+            size={TabSize.Small}
+            isDarkTheme
+          />
+        ),
+      },
+      {
+        id: EVMLibraryID.JSON_RPC,
+        content: (
+          <EVMSampleCode
+            group={group}
+            title={title}
+            args={args}
+            libraryID={EVMLibraryID.JSON_RPC}
+          />
+        ),
+        title: (isSelected: boolean) => (
+          <SecondaryTab
+            isSelected={isSelected}
+            label={EVMLibrary[EVMLibraryID.JSON_RPC]}
             size={TabSize.Small}
             isDarkTheme
           />
