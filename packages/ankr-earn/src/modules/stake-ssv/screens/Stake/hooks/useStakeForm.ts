@@ -23,6 +23,7 @@ import { Token } from 'modules/common/types/token';
 import { getStakeData } from 'modules/stake-ssv/actions/getStakeData';
 import { getStakeGasFee } from 'modules/stake-ssv/actions/getStakeGasFee';
 import { stake } from 'modules/stake-ssv/actions/stake';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -30,11 +31,13 @@ import {
 import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseStakeFormData {
+  amount: BigNumber;
   ethBalance: BigNumber;
   extraValidation: (
     data: Partial<IStakeFormPayload>,
     errors: FormErrors<IStakeFormPayload>,
   ) => FormErrors<IStakeFormPayload>;
+  faqItems: IFAQItem[];
   gasFee: BigNumber;
   getStakeDataError?: Error;
   isGasFeeLoading: boolean;
@@ -55,7 +58,11 @@ const resetGasFeeRequest = () =>
   resetReduxRequests([getStakeGasFee.toString()]);
 
 const resetMainRequests = () =>
-  resetReduxRequests([getStakeData.toString(), getStakeGasFee.toString()]);
+  resetReduxRequests([
+    getFAQ.toString(),
+    getStakeData.toString(),
+    getStakeGasFee.toString(),
+  ]);
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
@@ -67,6 +74,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   );
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
+  });
 
   const {
     data: stakeData,
@@ -176,6 +188,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   useProviderEffect(() => {
     dispatch(resetMainRequests());
 
+    dispatch(getFAQ(Token.asETHc));
     dispatch(getStakeData());
 
     return () => {
@@ -185,8 +198,10 @@ export const useStakeForm = (): IUseStakeFormData => {
   }, [dispatch]);
 
   return {
+    amount,
     ethBalance,
     extraValidation,
+    faqItems,
     gasFee: gasFee ?? ZERO,
     getStakeDataError: stakeDataError,
     isGasFeeLoading,

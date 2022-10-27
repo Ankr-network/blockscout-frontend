@@ -1,19 +1,16 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 
 import { t } from 'common';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { claimAllForValidator } from 'modules/stake-ankr/actions/claimAllForValidator';
-import { claimRewards } from 'modules/stake-ankr/actions/claimRewards';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getClaimableRewards } from 'modules/stake-ankr/actions/getClaimableRewards';
-import { getClaimableUnstakes } from 'modules/stake-ankr/actions/getClaimableUnstakes';
-import { getEpochEndSeconds } from 'modules/stake-ankr/actions/getEpochEndSeconds';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { useClaimAllForValidatorMutation } from 'modules/stake-ankr/actions/claimAllForValidator';
+import { useClaimRewardsMutation } from 'modules/stake-ankr/actions/claimRewards';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetClaimableRewardsQuery } from 'modules/stake-ankr/actions/getClaimableRewards';
+import { useGetEpochEndSecondsQuery } from 'modules/stake-ankr/actions/getEpochEndSeconds';
+
+import { RoutesConfig } from '../../../RoutesConfig';
 
 import { useAnalytics } from './useAnalytics';
 
@@ -32,31 +29,25 @@ interface IUseClaimRewards {
 }
 
 export const useClaimRewards = (): IUseClaimRewards => {
-  const dispatchRequest = useDispatchRequest();
+  const [claimAllForValidator] = useClaimAllForValidatorMutation();
+  const [claimRewards] = useClaimRewardsMutation();
 
   const [isClaimUnstakes, setIsClaimUnstakes] = useState(false);
   const onClaimRewardsClick = () => setIsClaimUnstakes(x => !x);
 
-  const { data: epochEndsSeconds } = useQuery({
-    type: getEpochEndSeconds,
-  });
-  const { data: claimableUnstakes, loading: isClaimableUnstakesLoading } =
-    useQuery({ type: getClaimableUnstakes });
-  const { data: claimableRewards, loading: isClaimableRewardsLoading } =
-    useQuery({ type: getClaimableRewards });
-  const { data: ankrPrice } = useQuery({
-    type: getANKRPrice,
+  const { data: epochEndsSeconds } = useGetEpochEndSecondsQuery(undefined, {
+    pollingInterval: 30_000,
   });
 
-  const { provider: queryProvider } = RoutesConfig.stake.useParams();
+  const { provider: queryProvider = '' } = RoutesConfig.stake.useParams();
 
-  useProviderEffect(() => {
-    dispatchRequest(getProviders());
-    dispatchRequest(getANKRPrice());
-    dispatchRequest(getClaimableUnstakes({ validator: queryProvider }));
-    dispatchRequest(getClaimableRewards({ validator: queryProvider }));
-    dispatchRequest(getEpochEndSeconds());
-  }, [dispatchRequest]);
+  const { data: claimableUnstakes, isFetching: isClaimableUnstakesLoading } =
+    useGetClaimableRewardsQuery({ validator: queryProvider });
+
+  const { data: claimableRewards, isFetching: isClaimableRewardsLoading } =
+    useGetClaimableRewardsQuery({ validator: queryProvider });
+
+  const { data: ankrPrice } = useGetAnkrPriceQuery();
 
   let seconds = epochEndsSeconds ?? 0;
   const epochEndDays = Math.trunc((seconds ?? 0) / (60 * 60 * 24));
@@ -103,21 +94,21 @@ export const useClaimRewards = (): IUseClaimRewards => {
 
   const onSubmit = () => {
     if (isClaimUnstakes) {
-      dispatchRequest(
-        claimAllForValidator({ provider: queryProvider ?? '' }),
-      ).then(({ error }) => {
-        if (!error) {
-          sendClaimAllAnalytics();
-        }
-      });
+      claimAllForValidator({ provider: queryProvider ?? '' })
+        .unwrap()
+        .catch(error => {
+          if (!error) {
+            sendClaimAllAnalytics();
+          }
+        });
     } else {
-      dispatchRequest(claimRewards({ provider: queryProvider ?? '' })).then(
-        ({ error }) => {
+      claimRewards({ provider: queryProvider ?? '' })
+        .unwrap()
+        .catch(error => {
           if (!error) {
             sendClaimRewardsAnalytics();
           }
-        },
-      );
+        });
     }
   };
 

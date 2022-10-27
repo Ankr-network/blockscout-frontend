@@ -6,8 +6,8 @@ import { SUPPORTED_TOKENS } from 'modules/calc/const';
 import { TCalcToken } from 'modules/calc/types';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getMaxApy as getMaxAnkrApy } from 'modules/stake-ankr/actions/getMaxApy';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -29,13 +29,11 @@ export const useMetrics = (): ICalcMetrics => {
     type: getMetrics,
   });
 
-  const { data: ankrApyData, loading: isAnkrApyLoading } = useQuery({
-    type: getMaxAnkrApy,
-  });
+  const { data: ankrApyData, isFetching: isAnkrApyLoading } =
+    useGetMaxApyQuery();
 
-  const { data: ankrPriceData, loading: isAnkrPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
+  const { data: ankrPriceData, isFetching: isAnkrPriceLoading } =
+    useGetAnkrPriceQuery();
 
   const { data: mGNOApyData, loading: isMGNOApyLoading } = useQuery({
     type: getMGNOMaxApr,
@@ -91,8 +89,6 @@ export const useMetrics = (): ICalcMetrics => {
 
   useEffect(() => {
     dispatchRequest(getMetrics());
-    dispatchRequest(getMaxAnkrApy());
-    dispatchRequest(getANKRPrice());
     dispatchRequest(getMGNOMaxApr());
     dispatchRequest(getMGNOPrice());
   }, [dispatchRequest]);

@@ -1,32 +1,22 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
-import { withStore } from 'modules/common/utils/withStore';
-
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
 interface IGetClaimableAmountDataProps {
   validator: string;
 }
 
-export const getClaimableRewards = createAction<
-  RequestAction<BigNumber, BigNumber>
->(
-  `${ANKR_ACTIONS_PREFIX}getClaimableRewards`,
-  ({ validator }: IGetClaimableAmountDataProps) => ({
-    request: {
-      promise: async (): Promise<BigNumber> => {
+export const { useGetClaimableRewardsQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getClaimableRewards: build.query<BigNumber, IGetClaimableAmountDataProps>({
+      queryFn: async ({ validator }: IGetClaimableAmountDataProps) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.getClaimableAmount(validator);
+        const data = await sdk.getClaimableAmount(validator);
+
+        return { data };
       },
-    },
-    meta: {
-      asMutation: false,
-      showNotificationOnError: true,
-      onRequest: withStore,
-    },
+    }),
   }),
-);
+});

@@ -1,5 +1,5 @@
 import { useQuery } from '@redux-requests/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useRouteMatch } from 'react-router-dom';
@@ -47,7 +47,9 @@ export const useDeFiAggregator = (
   const [assets, setAssets] = useState<string[]>(
     params?.assets?.length ? params.assets : [TokenAsset.All],
   );
-  const [types, setTypes] = useState<string[]>([StakingType.All]);
+  const [types, setTypes] = useState<string[]>(
+    params?.types?.length ? params.types : [StakingType.All],
+  );
   const { data, loading: isLoading, error } = useQuery({ type: getDeFiData });
 
   const filteredData = useMemo<IDeFiItem[]>(() => {
@@ -89,31 +91,52 @@ export const useDeFiAggregator = (
     return result;
   }, [assets, data, networks, types]);
 
-  const handleChangeNetworks = (value: string[]) => {
-    setNetwork(value);
-    query.delete('networks');
+  const handleChangeNetworks = useCallback(
+    (value: string[]) => {
+      setNetwork(value);
+      query.delete('networks');
 
-    value.forEach(v => {
-      if (v !== TokenNetwork.All) {
-        query.append('networks', v);
-      }
-    });
+      value.forEach(v => {
+        if (v !== TokenNetwork.All) {
+          query.append('networks', v);
+        }
+      });
 
-    replace(`${path}?${query.toString()}`);
-  };
+      replace(`${path}?${query.toString()}`);
+    },
+    [query, replace, path],
+  );
 
-  const handleChangeAssets = (value: string[]) => {
-    setAssets(value);
-    query.delete('assets');
+  const handleChangeTypes = useCallback(
+    (value: string[]) => {
+      setTypes(value);
+      query.delete('types');
 
-    value.forEach(v => {
-      if (v !== TokenAsset.All) {
-        query.append('assets', v);
-      }
-    });
+      value.forEach(v => {
+        if (v !== TokenNetwork.All) {
+          query.append('types', v);
+        }
+      });
+      replace(`${path}?${query.toString()}`);
+    },
+    [query, replace, path],
+  );
 
-    replace(`${path}?${query.toString()}`);
-  };
+  const handleChangeAssets = useCallback(
+    (value: string[]) => {
+      setAssets(value);
+      query.delete('assets');
+
+      value.forEach(v => {
+        if (v !== TokenAsset.All) {
+          query.append('assets', v);
+        }
+      });
+
+      replace(`${path}?${query.toString()}`);
+    },
+    [query, replace, path],
+  );
 
   useInitEffect(() => {
     dispatch(getDeFiData());
@@ -128,6 +151,6 @@ export const useDeFiAggregator = (
     types,
     onChangeAssets: handleChangeAssets,
     onChangeNetworks: handleChangeNetworks,
-    onChangeTypes: setTypes,
+    onChangeTypes: handleChangeTypes,
   };
 };

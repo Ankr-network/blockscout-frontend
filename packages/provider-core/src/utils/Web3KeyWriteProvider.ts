@@ -4,8 +4,8 @@ import { AbstractProvider, PromiEvent, TransactionReceipt } from 'web3-core';
 import { numberToHex } from 'web3-utils';
 import { getProviderInfo } from 'web3modal';
 import { OKX_WALLET_NAME, RPCConfig } from './const';
-import { EWalletId } from './types';
 import { getWalletIcon } from './getWalletIcon';
+import { EWalletId } from './types';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
 export interface IWalletMeta {
@@ -64,9 +64,15 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
     }
 
     const { name, id } = getProviderInfo(provider);
-    const { isOKExWallet } = provider;
+    const { isOKExWallet, isWalletLink } = provider;
 
-    const walletId = isOKExWallet ? EWalletId.okxwallet : id;
+    let walletId = id;
+
+    if (isOKExWallet) {
+      walletId = EWalletId.okxwallet;
+    } else if (isWalletLink) {
+      walletId = EWalletId.coinbase;
+    }
 
     this.walletMeta = {
       name: isOKExWallet ? OKX_WALLET_NAME : name,

@@ -280,7 +280,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<number>}
    */
   public async getLatestBlock(): Promise<number> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     return web3.eth.getBlockNumber();
@@ -317,9 +317,7 @@ export class FantomSDK implements ISwitcher, IStakable {
           latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.StakeReceived,
-          filter: {
-            staker: this.currentAccount,
-          },
+          filter: { staker: this.currentAccount },
         }),
         // Get pending withdrawal requests, one can get all TokensBurned events for given staker
         this.getPastEvents({
@@ -329,9 +327,7 @@ export class FantomSDK implements ISwitcher, IStakable {
           latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.TokensBurned,
-          filter: {
-            staker: this.currentAccount,
-          },
+          filter: { staker: this.currentAccount },
         }),
         this.getPastEvents({
           provider,
@@ -340,11 +336,38 @@ export class FantomSDK implements ISwitcher, IStakable {
           latestBlockNumber: to,
           rangeStep: FANTOM_MAX_BLOCK_RANGE,
           eventName: EFantomPoolEvents.Withdrawn,
-          filter: {
-            staker: this.currentAccount,
-          },
+          filter: { staker: this.currentAccount },
         }),
       ]);
+
+    const { withdrawnRawEventsAFTMB, withdrawnRawEventsAFTMC } =
+      withdrawnRawEvents.reduce<{
+        withdrawnRawEventsAFTMB: EventData[];
+        withdrawnRawEventsAFTMC: EventData[];
+      }>(
+        (acc, current) => {
+          // we find the corresponding event of the unstake (burn) by the wrId field
+          // to understand what type of tokens (bond / cert) the event belongs to
+          const unstakeEvent = unstakeRawEvents.find(
+            event => event.returnValues.wrId === current.returnValues.wrId,
+          );
+
+          if (!unstakeEvent) {
+            return acc;
+          }
+
+          const isBondEvent: boolean = unstakeEvent.returnValues.isRebasing;
+
+          if (isBondEvent) {
+            acc.withdrawnRawEventsAFTMB.push(current);
+          } else {
+            acc.withdrawnRawEventsAFTMC.push(current);
+          }
+
+          return acc;
+        },
+        { withdrawnRawEventsAFTMB: [], withdrawnRawEventsAFTMC: [] },
+      );
 
     const pendingRawEvents: EventData[] = [];
 
@@ -357,11 +380,6 @@ export class FantomSDK implements ISwitcher, IStakable {
 
     const { bondEvents: stakeRawEventsAFTMB, certEvents: stakeRawEventsAFTMC } =
       getFilteredContractEvents(stakeRawEvents);
-
-    const {
-      bondEvents: withdrawnRawEventsAFTMB,
-      certEvents: withdrawnRawEventsAFTMC,
-    } = getFilteredContractEvents(withdrawnRawEvents);
 
     const {
       bondEvents: pendingRawEventsAFTMB,
@@ -458,7 +476,7 @@ export class FantomSDK implements ISwitcher, IStakable {
 
     const eventsPromises: Promise<EventData[]>[] = [];
 
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+    for (let i = startBlock; i <= latestBlockNumber; i += rangeStep) {
       const fromBlock = i;
       const toBlock = fromBlock + rangeStep;
 
@@ -481,7 +499,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<IFetchTxData>}
    */
   public async fetchTxData(txHash: string): Promise<IFetchTxData> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const tx = await web3.eth.getTransaction(txHash);
@@ -508,7 +526,7 @@ export class FantomSDK implements ISwitcher, IStakable {
   public async fetchTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
@@ -607,7 +625,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
-    const aFTMcContract = await this.getAftmcTokenContract();
+    const aFTMcContract = await this.getAftmcTokenContract(true);
     const { fantomConfig } = configFromEnv();
 
     const allowance = await aFTMcContract.methods
@@ -814,7 +832,7 @@ export class FantomSDK implements ISwitcher, IStakable {
     amount: BigNumber,
     token: TFtmSyntToken,
   ): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const fantomPoolContract = this.getFantomPoolContract(provider);
 
     const contractStake =
@@ -838,7 +856,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getBurnFee(amount: BigNumber): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const fantomPoolContract = this.getFantomPoolContract(provider);
 
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
@@ -856,7 +874,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getMinimumStake(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const fantomPoolContract = this.getFantomPoolContract(provider);
 
     const minStake = await fantomPoolContract.methods.getMinimumStake().call();
@@ -912,7 +930,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getFtmBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const ftmBalance = await web3.eth.getBalance(this.currentAccount);
 
@@ -926,7 +944,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
-    const aFTMbContract = await this.getAftmbTokenContract();
+    const aFTMbContract = await this.getAftmbTokenContract(true);
 
     const aFTMbBalance = await aFTMbContract.methods
       .balanceOf(this.currentAccount)
@@ -942,7 +960,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
-    const aFTMcContract = await this.getAftmcTokenContract();
+    const aFTMcContract = await this.getAftmcTokenContract(true);
 
     const aFTMcBalance = await aFTMcContract.methods
       .balanceOf(this.currentAccount)
@@ -959,8 +977,8 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aFTMcContract = await this.getAftmcTokenContract();
+    const provider = await this.getProvider(true);
+    const aFTMcContract = await this.getAftmcTokenContract(true);
     const web3 = provider.getWeb3();
 
     const rawRatio = await aFTMcContract.methods.ratio().call();

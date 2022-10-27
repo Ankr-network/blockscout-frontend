@@ -26,11 +26,7 @@ import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Quote } from 'uiKit/Quote';
 import { NumericStepper } from 'uiKit/Stepper';
 
-import {
-  EFieldsNames,
-  IAnkrStakeFormPayload,
-  IAnkrStakeSubmitPayload,
-} from './const';
+import { EFieldsNames, IStakeFormPayload, IStakeSubmitPayload } from './const';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
 interface IStakeFormProps {
@@ -55,8 +51,9 @@ interface IStakeFormProps {
   additionalTooltip?: string;
   additionalValue?: string;
   balanceLinkSlot?: ReactNode;
-  onSubmit: (payload: IAnkrStakeSubmitPayload) => void;
-  onChange?: (values: IAnkrStakeFormPayload, invalid: boolean) => void;
+  greaterMaxError?: string;
+  onSubmit: (payload: IStakeSubmitPayload) => void;
+  onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
 }
 
 export const StakeForm = ({
@@ -81,6 +78,7 @@ export const StakeForm = ({
   additionalTooltip,
   additionalValue,
   balanceLinkSlot,
+  greaterMaxError,
   onSubmit,
   onChange,
 }: IStakeFormProps): JSX.Element => {
@@ -97,10 +95,10 @@ export const StakeForm = ({
   }, [balance, maxAmount, stakingAmountStep]);
 
   const validateStakeForm = useCallback(
-    (data: IAnkrStakeSubmitPayload) => {
+    (data: IStakeSubmitPayload) => {
       const { amount } = data;
 
-      const errors: FormErrors<IAnkrStakeSubmitPayload> = {};
+      const errors: FormErrors<IStakeSubmitPayload> = {};
 
       const withAmountStep = !!stakingAmountStep;
 
@@ -120,11 +118,11 @@ export const StakeForm = ({
     [stakingAmountStep],
   );
 
-  const onSubmitForm = (payload: IAnkrStakeSubmitPayload): void =>
+  const onSubmitForm = (payload: IStakeSubmitPayload): void =>
     onSubmit({
       ...payload,
       amount: convertAmountToBN(payload?.amount).toFixed(),
-    } as IAnkrStakeSubmitPayload);
+    } as IStakeSubmitPayload);
 
   const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
 
@@ -133,7 +131,7 @@ export const StakeForm = ({
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<IAnkrStakeSubmitPayload>) => (
+  }: FormRenderProps<IStakeSubmitPayload>) => (
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 
@@ -160,6 +158,7 @@ export const StakeForm = ({
         minAmount={minAmount?.toNumber()}
         name={EFieldsNames.amount}
         tokenName={tokenIn}
+        validationMessages={{ isGreaterMax: greaterMaxError }}
         onMaxClick={setMaxAmount(form, maxStakeAmount)}
       />
 

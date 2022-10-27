@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { RoutesConfig } from '../../../RoutesConfig';
 
 interface IStakeRow {
   isUnlocked: boolean;

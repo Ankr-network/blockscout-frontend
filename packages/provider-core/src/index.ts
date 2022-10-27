@@ -1,3 +1,5 @@
+import 'common/src/utils/updatePrototypes';
+
 export * from './utils/const';
 export * from './utils/getWalletIcon';
 export * from './utils/types';

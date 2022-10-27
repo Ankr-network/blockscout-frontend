@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { configFromEnv } from 'modules/api/config';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
+import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { getTestAnkrTokens } from 'modules/testing-ui/actions/getTestAnkrTokens';
 import { TestBox } from 'modules/testing-ui/components/TestBox';
@@ -21,9 +21,11 @@ export const AnkrFaucet = (): JSX.Element => {
     type: getTestAnkrTokens,
   });
 
-  const { data: ankrCommonData, loading: isTestAnkrBalanceLoading } = useQuery({
-    type: getCommonData,
-  });
+  const {
+    data: ankrCommonData,
+    isFetching: isTestAnkrBalanceLoading,
+    refetch: getCommonDataRefetch,
+  } = useGetCommonDataQuery();
 
   const { data: ankrBalanceData, loading: isAnkrBalanceLoading } = useQuery({
     type: getAnkrBalance,
@@ -34,8 +36,8 @@ export const AnkrFaucet = (): JSX.Element => {
   }, [dispatch]);
 
   useProviderEffect(() => {
-    dispatch(getCommonData());
     dispatch(getAnkrBalance());
+    getCommonDataRefetch();
   }, []);
 
   const testAnkrBalance =

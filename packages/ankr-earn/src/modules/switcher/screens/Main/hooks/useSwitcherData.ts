@@ -27,6 +27,7 @@ export interface ISwitcherHookData {
   allowance: BigNumber;
   acBalance?: BigNumber;
   abBalance?: BigNumber;
+  isConnected: boolean;
   checkAllowance: (amount: BigNumber) => boolean;
 }
 
@@ -38,7 +39,9 @@ export const useSwitcherData = ({
     type: getSwitcherData,
   });
 
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId, isConnected } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const ratio = useMemo(() => data?.ratio ?? new BigNumber(1), [data?.ratio]);
   const allowance = useMemo(() => data?.allowance ?? ZERO, [data?.allowance]);
@@ -61,6 +64,8 @@ export const useSwitcherData = ({
   );
 
   useProviderEffect(() => {
+    if (!isConnected) return;
+
     dispatchRequest(
       getSwitcherData({
         chainId: CHAIN_ID_BY_TOKEN[from as AvailableSwitcherToken],
@@ -77,6 +82,7 @@ export const useSwitcherData = ({
     balance: max,
     acBalance: data?.acBalance,
     abBalance: data?.abBalance,
+    isConnected,
     checkAllowance,
   };
 };

@@ -16,7 +16,8 @@
     "format": "lint-staged",
     "types": "tsc --noEmit -p tsconfig.json",
     "test": "npm run _test-clean && tsc && npm run _copy-assets && jest",
-    "test:turbo": "cd ../.. && turbo run test --filter=polkadot"
+    "test:turbo": "cd ../.. && turbo run test --filter=polkadot",
+    "watch": "yarn build --watch"
   },
   "dependencies": {
     "@ankr.com/provider-core": "*",
@@ -71,6 +72,7 @@
     "testMatch": [
       "**/?(*.)+(test).+(js)"
     ],
-    "transformIgnorePatterns": []
+    "transformIgnorePatterns": [],
+    "testEnvironment": "jsdom"
   }
 }

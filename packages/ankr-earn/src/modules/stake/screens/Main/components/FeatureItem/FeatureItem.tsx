@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 import { t } from 'common';
 
-import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -53,7 +52,7 @@ export const FeatureItem = ({
     stakedTvl && !stakedTvl.isNaN() && !stakedTvl.isZero();
   const tvlValue = isIntegerTvl
     ? stakedTvl?.integerValue().toFormat()
-    : stakedTvl?.toFormat(DEFAULT_FIXED);
+    : stakedTvl?.round().toFormat();
 
   const shouldRenderAPY = typeof apy === 'number' && apy !== 0;
 

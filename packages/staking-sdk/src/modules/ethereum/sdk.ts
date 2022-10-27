@@ -50,8 +50,6 @@ import {
   TEthToken,
 } from './types';
 
-const CONFIG = configFromEnv();
-
 /**
  * EthereumSDK allows you to interact with Ethereum Liquid Staking smart contracts on Ethereum (Mainnet, Goerli Tesnet) BNB Smart Chain: aETHb, aETHc, and GlobalPool.
  *
@@ -181,7 +179,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getEthBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const balance = await web3.eth.getBalance(this.currentAccount);
 
@@ -192,11 +190,16 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Internal function to choose the right provider for read or write purpose.
    *
    * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
    * @returns {Promise<Web3KeyWriteProvider | Web3KeyReadProvider>}
    */
-  private async getProvider(): Promise<
-    Web3KeyWriteProvider | Web3KeyReadProvider
-  > {
+  private async getProvider(
+    isForceRead = false,
+  ): Promise<Web3KeyWriteProvider | Web3KeyReadProvider> {
+    if (isForceRead) {
+      return this.readProvider;
+    }
+
     const isEthChain = this.getIsEthChain();
 
     if (isEthChain) {
@@ -214,7 +217,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getABBalance(isFormatted?: boolean): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const aETHbContract = EthereumSDK.getAethbContract(provider);
     const web3 = provider.getWeb3();
 
@@ -237,7 +240,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   private static getAethbContract(
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
 
     return provider.createContract(AETHB_ABI, contractConfig.fethContract);
   }
@@ -249,7 +252,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getACBalance(isFormatted?: boolean): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const aETHcContract = EthereumSDK.getAethcContract(provider);
     const web3 = provider.getWeb3();
 
@@ -272,7 +275,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   private static getAethcContract(
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
 
     return provider.createContract(AETHC_ABI, contractConfig.aethContract);
   }
@@ -285,7 +288,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(isFormatted?: boolean): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const aETHcContract = EthereumSDK.getAethcContract(provider);
     const web3 = provider.getWeb3();
 
@@ -332,7 +335,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   public async getACAllowance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const aETHcContract = EthereumSDK.getAethcContract(provider);
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
 
     const allowance = await aETHcContract.methods
       .allowance(this.currentAccount, contractConfig.fethContract)
@@ -494,7 +497,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   private static getEthPoolContract(
     provider: Web3KeyWriteProvider | Web3KeyReadProvider,
   ): Contract {
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
 
     return provider.createContract(
       ETHEREUM_POOL_ABI,
@@ -509,8 +512,8 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getMinimumStake(): Promise<BigNumber> {
-    const { contractConfig } = CONFIG;
-    const provider = await this.getProvider();
+    const { contractConfig } = configFromEnv();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const systemContract = provider.createContract(
@@ -732,7 +735,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }: IGetPastEvents): Promise<EventData[]> {
     const eventsPromises: Promise<EventData[]>[] = [];
 
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+    for (let i = startBlock; i <= latestBlockNumber; i += rangeStep) {
       const fromBlock = i;
       const toBlock = fromBlock + rangeStep;
 
@@ -762,7 +765,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   ): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
 
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
 
     const aETHcContract = EthereumSDK.getAethcContract(this.writeProvider);
 
@@ -789,7 +792,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   public async lockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
     const aETHbContract = EthereumSDK.getAethbContract(this.writeProvider);
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
 
     const data = aETHbContract.methods
       .lockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
@@ -814,7 +817,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
   public async unlockShares({ amount }: IShareArgs): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
     const aETHbContract = EthereumSDK.getAethbContract(this.writeProvider);
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
 
     const data = aETHbContract.methods
       .unlockShares(convertNumberToHex(amount, ETH_SCALE_FACTOR))
@@ -835,7 +838,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getClaimable(token: string): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
     const web3 = provider.getWeb3();
 
@@ -859,7 +862,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    */
   public async claim(token: string): Promise<IWeb3SendResult> {
     await this.connectWriteProvider();
-    const { contractConfig } = CONFIG;
+    const { contractConfig } = configFromEnv();
     const ethPoolContract = EthereumSDK.getEthPoolContract(this.writeProvider);
     const contractClaim =
       ethPoolContract.methods[METHOD_NAME_BY_SYMBOL[token as TEthToken].claim];

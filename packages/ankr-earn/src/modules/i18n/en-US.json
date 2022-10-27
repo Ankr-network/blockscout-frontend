@@ -76,6 +76,7 @@
     "days": "days",
     "hours": "hours",
     "eth": "ETH",
+    "eth-ssv": "ETH",
     "aeth": "aETHc",
     "feth": "aETHb",
     "ankr": "ANKR",
@@ -584,7 +585,8 @@
       "switchNetwork": "Switch network",
       "explorer": "View on explorer",
       "dashboard": "Go to dashboard",
-      "addToWallet": "Add {token} to wallet"
+      "addToWallet": "Add {token} to wallet",
+      "connectBtn": "Connect your wallet"
     },
     "successTitle": "Swap successful!",
     "successInfo": "Check out your new {token} exposure on the Ankr Staking Dashboard any time."
@@ -1200,6 +1202,10 @@
       "event": "Event",
       "provider": "Provider",
       "amount": "Amount"
+    },
+    "validation": {
+      "max-capacity": "Validator has reached its maximum capacity and cannot accept any more stakes.",
+      "greater-max": "Due to validator’s limited capacity, you can stake up to {value}"
     },
     "provider": {
       "node-provider": "Node Provider",

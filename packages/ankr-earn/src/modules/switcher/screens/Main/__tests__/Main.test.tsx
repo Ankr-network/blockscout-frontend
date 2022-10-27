@@ -1,28 +1,46 @@
 import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
+import { ReactNode } from 'react';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
+import { store } from 'store';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useDialog } from 'modules/dialogs';
 
 import { Main } from '..';
 import {
   ISwitcherFormHookData,
   ISwitcherHookData,
+  IUseSwitcherUrlParamsData,
+  useSendAnalytics,
   useSwitcherData,
   useSwitcherForm,
-  useSendAnalytics,
-  IUseSwitcherUrlParamsData,
   useSwitcherUrlParams,
 } from '../hooks';
 import { ISendAnalyticsHookData } from '../hooks/useSendAnalytics';
+
+interface IAppWrapperProps {
+  children: ReactNode;
+}
+
+const AppWrapper = ({ children }: IAppWrapperProps): JSX.Element => (
+  <MemoryRouter>
+    <Provider store={store}>{children}</Provider>
+  </MemoryRouter>
+);
 
 jest.mock('../hooks', () => ({
   useSwitcherData: jest.fn(),
   useSwitcherForm: jest.fn(),
   useSendAnalytics: jest.fn(),
   useSwitcherUrlParams: jest.fn(),
+}));
+
+jest.mock('modules/dialogs/hooks/useDialog', () => ({
+  useDialog: jest.fn(),
 }));
 
 describe('modules/switcher/screens/Main', () => {
@@ -34,6 +52,7 @@ describe('modules/switcher/screens/Main', () => {
     abBalance: ZERO,
     balance: ZERO,
     isDataLoading: false,
+    isConnected: true,
     checkAllowance: () => false,
   };
 
@@ -65,6 +84,10 @@ describe('modules/switcher/screens/Main', () => {
     sendAnalytics: jest.fn(),
   };
 
+  const defaultUseDialogData = {
+    handleOpen: jest.fn(),
+  };
+
   beforeEach(() => {
     (useSwitcherData as jest.Mock).mockReturnValue(defaultHookData);
 
@@ -73,6 +96,8 @@ describe('modules/switcher/screens/Main', () => {
     (useSendAnalytics as jest.Mock).mockReturnValue(defaultSendAnalyticsData);
 
     (useSwitcherUrlParams as jest.Mock).mockReturnValue(defaultUrlParamsData);
+
+    (useDialog as jest.Mock).mockReturnValue(defaultUseDialogData);
   });
 
   afterEach(() => {
@@ -81,9 +106,9 @@ describe('modules/switcher/screens/Main', () => {
 
   test('should render properly', async () => {
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const title = await screen.findByText('ANKR Switch');
@@ -101,9 +126,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const button = await screen.findByText('Switch network');
@@ -122,9 +147,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const spinner = await screen.findByTestId('spinner');
@@ -139,9 +164,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const maxButton = await screen.findByText('Max');
@@ -158,9 +183,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const txInfo = await screen.findByText('Transaction failed.');
@@ -176,9 +201,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const txInfo = await screen.findByText('Transaction successful.');
@@ -199,9 +224,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const maxButton = await screen.findByText('Max');
@@ -233,9 +258,9 @@ describe('modules/switcher/screens/Main', () => {
     });
 
     render(
-      <MemoryRouter>
+      <AppWrapper>
         <Main />
-      </MemoryRouter>,
+      </AppWrapper>,
     );
 
     const maxButton = await screen.findByText('Max');

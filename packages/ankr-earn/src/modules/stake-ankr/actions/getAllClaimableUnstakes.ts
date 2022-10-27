@@ -1,22 +1,22 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IClaimableUnstake } from '../api/AnkrStakingSDK/types';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
-export const getAllClaimableUnstakes = createAction<
-  RequestAction<IClaimableUnstake[], IClaimableUnstake[]>
->(`${ANKR_ACTIONS_PREFIX}getAllClaimableUnstakes`, () => ({
-  request: {
-    promise: (async (): Promise<IClaimableUnstake[]> => {
-      const sdk = await AnkrStakingSDK.getInstance();
-      const provider = await sdk.getProvider();
+// TODO showNotificationOnError
 
-      return sdk.getAllClaimableUnstakes(await provider.getBlockNumber());
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-  },
-}));
+export const { useLazyGetAllClaimableUnstakesQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getAllClaimableUnstakes: build.query<IClaimableUnstake[], void>({
+      queryFn: async () => {
+        const sdk = await AnkrStakingSDK.getInstance();
+        const provider = await sdk.getProvider();
+
+        const data = await sdk.getAllClaimableUnstakes(
+          await provider.getBlockNumber(),
+        );
+
+        return { data };
+      },
+    }),
+  }),
+});

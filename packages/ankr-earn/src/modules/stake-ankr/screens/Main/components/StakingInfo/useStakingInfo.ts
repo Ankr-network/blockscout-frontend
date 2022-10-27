@@ -1,13 +1,13 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { getAllClaimableUnstakes } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getUnstakingData } from 'modules/stake-ankr/actions/getUnstakingData';
+import { useLazyGetAllClaimableUnstakesQuery } from 'modules/stake-ankr/actions/getAllClaimableUnstakes';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetUnstakingDataQuery } from 'modules/stake-ankr/actions/getUnstakingData';
 import {
   IClaimableUnstake,
   IUnstakingData,
@@ -16,7 +16,7 @@ import {
 interface IUseTotalInfo {
   data: IClaimableUnstake[];
   loading: boolean;
-  unstakingData: IUnstakingData[] | null;
+  unstakingData: IUnstakingData[] | undefined;
   newUnstakingAmount: number;
   currentTab: string;
   activeStakingText: string;
@@ -27,15 +27,16 @@ interface IUseTotalInfo {
 
 export const useStakingInfo = (): IUseTotalInfo => {
   const dispatchRequest = useDispatchRequest();
-  const { data: ankrPrice } = useQuery({
-    type: getANKRPrice,
-  });
-  const { data, loading } = useQuery({
-    type: getAllClaimableUnstakes,
-  });
-  const { data: unstakingData } = useQuery({
-    type: getUnstakingData,
-  });
+
+  const { data: ankrPrice } = useGetAnkrPriceQuery();
+
+  const [getAllClaimableUnstakes, { data, isFetching: loading }] =
+    useLazyGetAllClaimableUnstakesQuery();
+
+  const { data: unstakingData, refetch: getUnstakingDataRefetch } =
+    useGetUnstakingDataQuery({
+      usdPrice: ankrPrice ?? ZERO,
+    });
 
   const activeStakingText = t('stake-ankr.tabs.active-staking');
   const unstakingText = t('stake-ankr.tabs.unstaking');
@@ -54,13 +55,9 @@ export const useStakingInfo = (): IUseTotalInfo => {
   );
 
   useProviderEffect(() => {
-    dispatchRequest(getAllClaimableUnstakes());
-    dispatchRequest(
-      getUnstakingData({
-        usdPrice: ankrPrice ?? ZERO,
-      }),
-    );
+    getAllClaimableUnstakes();
     setUnstakingAmount(data?.length ?? 0);
+    getUnstakingDataRefetch();
   }, [dispatchRequest]);
 
   useEffect(() => {

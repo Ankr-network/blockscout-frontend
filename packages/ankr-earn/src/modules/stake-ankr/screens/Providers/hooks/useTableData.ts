@@ -1,14 +1,15 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { getShortNumber } from 'modules/delegate-stake/utils/getShortNumber';
-import { getAPY } from 'modules/stake-ankr/actions/getAPY';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
+import { useGetAPYQuery } from 'modules/stake-ankr/actions/getAPY';
+import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { EProviderStatus, TEMPORARY_APY } from 'modules/stake-ankr/const';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
+
+import { RoutesConfig } from '../../../RoutesConfig';
+import { CACHE_SECONDS } from '../const';
 
 interface ITableRow {
   provider: string;
@@ -31,40 +32,41 @@ interface ITableData {
 }
 
 export const useTableData = (): ITableData => {
-  const { data: providers, loading: isProvidersLoading } = useQuery({
-    type: getProviders,
+  const { data: providersData, isFetching: isProvidersLoading } =
+    useGetProvidersQuery(undefined, {
+      refetchOnMountOrArgChange: CACHE_SECONDS,
+    });
+
+  const { data: apyData } = useGetAPYQuery(undefined, {
+    refetchOnMountOrArgChange: CACHE_SECONDS,
   });
-  const { data: apyData } = useQuery({
-    type: getAPY,
-  });
 
-  const data: ITableRow[] =
-    providers?.map(({ status, validator, totalDelegated, votingPower }) => {
-      const apyItem = apyData?.find(x => x.validator === validator);
+  const data: ITableRow[] = useMemo(
+    () =>
+      providersData?.map(
+        ({ status, validator, totalDelegated, votingPower }) => {
+          const apyItem = apyData?.find(x => x.validator === validator);
 
-      const apy = apyItem
-        ? apyItem.apy.decimalPlaces(DEFAULT_ROUNDING).toFormat()
-        : TEMPORARY_APY.toFormat();
+          const apy = apyItem
+            ? apyItem.apy.decimalPlaces(DEFAULT_ROUNDING).toFormat()
+            : TEMPORARY_APY.toFormat();
 
-      return {
-        provider: getDemoProviderName(validator) ?? validator,
-        nodeAmount: 0,
-        apy,
-        stakedPool: getShortNumber(totalDelegated),
-        stakedPoolPercent: votingPower,
-        rps: ZERO,
-        online: 0,
-        status: +status,
-        stakeLink: RoutesConfig.stake.generatePath(validator),
-        detailsLink: '',
-      };
-    }) || [];
-  const dispatchRequest = useDispatchRequest();
-
-  useProviderEffect(() => {
-    dispatchRequest(getProviders());
-    dispatchRequest(getAPY());
-  }, [dispatchRequest]);
+          return {
+            provider: getDemoProviderName(validator) ?? validator,
+            nodeAmount: 0,
+            apy,
+            stakedPool: getShortNumber(totalDelegated),
+            stakedPoolPercent: votingPower,
+            rps: ZERO,
+            online: 0,
+            status: +status,
+            stakeLink: RoutesConfig.stake.generatePath(validator),
+            detailsLink: '',
+          };
+        },
+      ) || [],
+    [apyData, providersData],
+  );
 
   return {
     isLoading: isProvidersLoading,

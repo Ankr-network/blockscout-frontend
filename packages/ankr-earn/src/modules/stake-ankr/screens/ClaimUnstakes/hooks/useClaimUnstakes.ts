@@ -1,23 +1,18 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 
 import { t } from 'common';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
-import { claimAllForValidator } from 'modules/stake-ankr/actions/claimAllForValidator';
-import { claimUnstakes } from 'modules/stake-ankr/actions/claimUnstakes';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getClaimableRewards } from 'modules/stake-ankr/actions/getClaimableRewards';
-import { getClaimableUnstakes } from 'modules/stake-ankr/actions/getClaimableUnstakes';
-import { getProviders } from 'modules/stake-ankr/actions/getProviders';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { useClaimAllForValidatorMutation } from 'modules/stake-ankr/actions/claimAllForValidator';
+import { useClaimUnstakesMutation } from 'modules/stake-ankr/actions/claimUnstakes';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetClaimableUnstakesQuery } from 'modules/stake-ankr/actions/getClaimableUnstakes';
+import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
+
+import { useGetClaimableRewardsQuery } from '../../../actions/getClaimableRewards';
+import { RoutesConfig } from '../../../RoutesConfig';
 
 import { useAnalytics } from './useAnalytics';
 
@@ -37,42 +32,31 @@ interface IUseClaimUnstakes {
 }
 
 export const useClaimUnstakes = (): IUseClaimUnstakes => {
-  const dispatchRequest = useDispatchRequest();
+  const [claimAllForValidator, { isLoading: isClaimAllLoading }] =
+    useClaimAllForValidatorMutation();
+  const [claimUnstakes, { isLoading: isClaimLoading }] =
+    useClaimUnstakesMutation();
 
   const [isClaimRewards, setIsClaimRewards] = useState(false);
   const onClaimRewardsClick = () => setIsClaimRewards(x => !x);
 
-  const { data: providers } = useQuery({
-    type: getProviders,
-  });
-  const { data: claimableUnstakes, loading: isClaimableUnstakesLoading } =
-    useQuery({ type: getClaimableUnstakes });
-  const { data: claimableRewards, loading: isClaimableRewardsLoading } =
-    useQuery({ type: getClaimableRewards });
-  const { data: ankrPrice } = useQuery({
-    type: getANKRPrice,
-  });
+  const { provider: queryProvider = '' } = RoutesConfig.stake.useParams();
 
-  const { loading: isClaimLoading } = useMutation({
-    type: claimUnstakes,
-  });
-  const { loading: isClaimAllLoading } = useMutation({
-    type: claimAllForValidator,
-  });
+  const { data: providers } = useGetProvidersQuery();
 
-  const { provider: queryProvider } = RoutesConfig.stake.useParams();
+  const { data: claimableUnstakes, isFetching: isClaimableUnstakesLoading } =
+    useGetClaimableUnstakesQuery({ validator: queryProvider });
+
+  const { data: claimableRewards, isFetching: isClaimableRewardsLoading } =
+    useGetClaimableRewardsQuery({ validator: queryProvider });
+
+  const { data: ankrPrice } = useGetAnkrPriceQuery();
+
   const currentProvider = providers?.find(
     provider => provider.validator === queryProvider,
   );
   const initialProvider = currentProvider?.validator;
   const providerName = getDemoProviderName(initialProvider);
-
-  useProviderEffect(() => {
-    dispatchRequest(getProviders());
-    dispatchRequest(getANKRPrice());
-    dispatchRequest(getClaimableUnstakes({ validator: queryProvider }));
-    dispatchRequest(getClaimableRewards({ validator: queryProvider }));
-  }, [dispatchRequest]);
 
   const claimableRewardsAmount = claimableRewards ?? ZERO;
   const claimableUnstakesAmount = claimableUnstakes ?? ZERO;
@@ -84,21 +68,13 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
 
   const onSubmit = () => {
     if (isClaimRewards) {
-      dispatchRequest(
-        claimAllForValidator({ provider: queryProvider ?? '' }),
-      ).then(({ error }) => {
-        if (!error) {
-          sendClaimAllAnalytics();
-        }
-      });
+      claimAllForValidator({ provider: queryProvider ?? '' })
+        .unwrap()
+        .catch(() => sendClaimAllAnalytics());
     } else {
-      dispatchRequest(claimUnstakes({ provider: queryProvider ?? '' })).then(
-        ({ error }) => {
-          if (!error) {
-            sendClaimUnstakeAnalytics();
-          }
-        },
-      );
+      claimUnstakes({ provider: queryProvider ?? '' })
+        .unwrap()
+        .catch(() => sendClaimUnstakeAnalytics());
     }
   };
 

@@ -389,7 +389,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   }: IGetPastEvents): Promise<EventData[]> {
     const eventsPromises: Promise<EventData[]>[] = [];
 
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+    for (let i = startBlock; i <= latestBlockNumber; i += rangeStep) {
       const fromBlock = i;
       const toBlock = fromBlock + rangeStep;
 
@@ -516,8 +516,8 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     }
 
     const [provider, polygonPoolContract] = await Promise.all([
-      this.getProvider(),
-      this.getPolygonPoolContract(),
+      this.getProvider(true),
+      this.getPolygonPoolContract(true),
     ]);
 
     const stakeMethodName = this.getStakeMethodName(token);
@@ -543,7 +543,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getMaticBalance(): Promise<BigNumber> {
-    const maticTokenContract = await this.getMaticTokenContract();
+    const maticTokenContract = await this.getMaticTokenContract(true);
 
     const balance = await maticTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -559,7 +559,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const aMaticbTokenContract =
       PolygonOnEthereumSDK.getAMATICBTokenContract(web3);
@@ -578,7 +578,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const aMaticCTokenContract =
       PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
@@ -597,7 +597,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human-readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const aMaticCTokenContract =
       PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
@@ -616,7 +616,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const aMaticCTokenContract =
       PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
@@ -747,7 +747,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getPendingClaim(): Promise<BigNumber> {
-    const polygonPoolContract = await this.getPolygonPoolContract();
+    const polygonPoolContract = await this.getPolygonPoolContract(true);
 
     const pending = await polygonPoolContract.methods
       .pendingMaticClaimsOf(this.currentAccount)
@@ -765,7 +765,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    */
   public async getPendingData(): Promise<IPendingData> {
     const pendingClaim = await this.getPendingClaim();
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const latestBlockNumber = await web3.eth.getBlockNumber();
 
@@ -827,7 +827,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getMinimumStake(): Promise<BigNumber> {
-    const polygonPoolContract = await this.getPolygonPoolContract();
+    const polygonPoolContract = await this.getPolygonPoolContract(true);
 
     const minStake = await polygonPoolContract.methods.getMinimumStake().call();
 
@@ -985,7 +985,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<number>}
    */
   public async getLatestBlock(): Promise<number> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     return web3.eth.getBlockNumber();
@@ -1000,7 +1000,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<IFetchTxData>}
    */
   public async fetchTxData(txHash: string): Promise<IFetchTxData> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
 
     const web3 = provider.getWeb3();
 
@@ -1027,7 +1027,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   public async fetchTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
@@ -1074,8 +1074,8 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     }
 
     const [polygonPoolContract, maticTokenContract] = await Promise.all([
-      this.getPolygonPoolContract(),
-      this.getMaticTokenContract(),
+      this.getPolygonPoolContract(true),
+      this.getMaticTokenContract(true),
     ]);
     const rawAmount = amount.multipliedBy(scale);
     // 0. Check current allowance
@@ -1096,12 +1096,17 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
         this.getStakeMethodName(token as TMaticSyntToken)
       ];
 
-    // 2. Do staking
-    const tx2 = await contractStakeMethod(convertNumberToHex(rawAmount)).send({
-      from: this.currentAccount,
-    });
+    const data = contractStakeMethod(convertNumberToHex(rawAmount)).encodeABI();
 
-    return { txHash: tx2.transactionHash };
+    // 2. Do staking
+    const { transactionHash: txHash } =
+      await this.writeProvider.sendTransactionAsync(
+        this.currentAccount,
+        contractConfig.polygonPool,
+        { data },
+      );
+
+    return { txHash };
   }
 
   /**

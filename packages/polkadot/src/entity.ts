@@ -127,3 +127,9 @@ export interface IRewardClaim {
   };
   tokenAddress: TEthereumAddress;
 }
+
+declare module 'bignumber.js' {
+  interface BigNumber extends BigNumber.Instance {
+    round(): BigNumber;
+  }
+}

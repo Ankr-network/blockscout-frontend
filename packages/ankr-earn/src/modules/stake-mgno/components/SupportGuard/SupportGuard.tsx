@@ -14,9 +14,9 @@ interface ISupportGuardProps {
  * Temporary solution for MVP of ankr token staking.
  */
 export const SupportGuard = ({ children }: ISupportGuardProps): JSX.Element => {
-  const { isOKX } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { isInjected, isOKX } = useAuth(AvailableWriteProviders.ethCompatible);
 
-  if (isOKX) {
+  if (isOKX || !isInjected) {
     return (
       <Section>
         <UnsupportedBanner />

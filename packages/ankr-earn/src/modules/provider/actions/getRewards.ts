@@ -18,6 +18,7 @@ export const getRewards = createAction<
   },
   meta: {
     driver: 'axios',
+    asMutation: true,
     getData: ({ rewards }: IGetRewardsResponce) => {
       return new BigNumber(rewards);
     },

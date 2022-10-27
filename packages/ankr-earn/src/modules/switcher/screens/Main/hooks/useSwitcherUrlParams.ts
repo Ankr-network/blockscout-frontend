@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { EEthereumNetworkId } from 'modules/common/types';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import {
   AvailableSwitcherToken,
@@ -22,10 +23,15 @@ export interface IUseSwitcherUrlParamsData {
   onChangeTo: (value: string) => void;
 }
 
+const DEFAULT_CHAIN_ID = EEthereumNetworkId.mainnet;
+
 export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
   const history = useHistory();
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId: baseChainId } = useAuth(
+    AvailableWriteProviders.ethCompatible,
+  );
 
+  const chainId = baseChainId || DEFAULT_CHAIN_ID;
   const query = useQueryParams();
   const queryFrom = query.get(SwitcherUrlParams.FROM);
   const queryTo = query.get(SwitcherUrlParams.TO);

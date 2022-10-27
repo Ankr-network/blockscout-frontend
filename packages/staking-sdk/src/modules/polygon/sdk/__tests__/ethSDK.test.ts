@@ -61,6 +61,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
   const defaultReadProvider = {
     getWeb3: jest.fn(),
     executeBatchCalls: jest.fn(),
+    getContractMethodFee: jest.fn(),
   };
 
   const defaultWriteProvider = {
@@ -164,7 +165,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
     expect(data).toBe(true);
   });
 
-  describe('should return stake gas fee data', () => {
+  describe('stake gas fee data', () => {
     it('should return zero if amount is less than minimum stake value', async () => {
       const contract = {
         ...defaultContract,
@@ -200,6 +201,10 @@ describe('modules/polygon/sdk/ethSDK', () => {
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
 
+      defaultReadProvider.getContractMethodFee.mockReturnValue(
+        Promise.resolve(ZERO),
+      );
+
       defaultWriteProvider.getContractMethodFee.mockReturnValue(
         Promise.resolve(ZERO),
       );
@@ -226,6 +231,10 @@ describe('modules/polygon/sdk/ethSDK', () => {
       };
 
       defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+      defaultReadProvider.getContractMethodFee.mockReturnValue(
+        Promise.resolve(ONE),
+      );
 
       defaultWriteProvider.getContractMethodFee.mockReturnValue(
         Promise.resolve(ONE),
@@ -343,10 +352,10 @@ describe('modules/polygon/sdk/ethSDK', () => {
         allowance: () => ({ call: () => ZERO }),
         approve: jest.fn(() => ({ send: jest.fn() })),
         stakeAndClaimCerts: jest.fn(() => ({
-          send: jest.fn(() => ({ transactionHash: 'transactionHash1' })),
+          encodeABI: () => 'abi1',
         })),
         stakeAndClaimBonds: jest.fn(() => ({
-          send: jest.fn(() => ({ transactionHash: 'transactionHash2' })),
+          encodeABI: () => 'abi2',
         })),
       },
     };
@@ -354,6 +363,10 @@ describe('modules/polygon/sdk/ethSDK', () => {
     defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
     defaultWriteProvider.isConnected.mockReturnValue(false);
+    defaultWriteProvider.sendTransactionAsync.mockReturnValue({
+      receiptPromise: {},
+      transactionHash: 'hash',
+    });
 
     (ProviderManager as jest.Mock).mockReturnValue({
       getETHWriteProvider: () =>
@@ -365,13 +378,13 @@ describe('modules/polygon/sdk/ethSDK', () => {
 
     const { txHash: txHash1 } = await sdk.stake(new BigNumber(12), 'aMATICc');
 
-    expect(txHash1).toBe('transactionHash1');
+    expect(txHash1).toBe('hash');
     expect(contract.methods.stakeAndClaimCerts).toBeCalledTimes(1);
     expect(contract.methods.approve).toBeCalledTimes(1);
 
     const { txHash: txHash2 } = await sdk.stake(new BigNumber(12), 'aMATICb');
 
-    expect(txHash2).toBe('transactionHash2');
+    expect(txHash2).toBe('hash');
     expect(contract.methods.stakeAndClaimBonds).toBeCalledTimes(1);
     expect(contract.methods.approve).toBeCalledTimes(2);
   });

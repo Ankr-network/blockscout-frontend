@@ -11,7 +11,7 @@ export const UnstakeSteps = (): JSX.Element => {
   return (
     <ProgressStep
       amount={amount}
-      error={error}
+      error={error as unknown as Error}
       hint={t('stake-ankr.unstaking.description')}
       isLoading={isLoading}
       isPending={isPending}

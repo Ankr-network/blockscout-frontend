@@ -275,7 +275,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }: IGetPastEvents): Promise<EventData[]> {
     const eventsPromises: Promise<EventData[]>[] = [];
 
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+    for (let i = startBlock; i <= latestBlockNumber; i += rangeStep) {
       const fromBlock = i;
       const toBlock = fromBlock + rangeStep;
 
@@ -582,7 +582,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
-    const aBNBbTokenContract = await this.getABNBBContract();
+    const aBNBbTokenContract = await this.getABNBBContract(true);
 
     const balance = await aBNBbTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -600,7 +600,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   public async getBNBBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const contract = await this.getWrappedBNBContract();
+    const contract = await this.getWrappedBNBContract(true);
 
     const [currBalance, decimals] = await Promise.all([
       web3.eth.getBalance(this.currentAccount),
@@ -617,7 +617,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getAETHBalance(): Promise<BigNumber> {
-    const contract = await this.getAETHContract();
+    const contract = await this.getAETHContract(true);
     const balance = await contract.methods
       .balanceOf(this.currentAccount)
       .call();
@@ -664,7 +664,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getMinimumStake(): Promise<BigNumber> {
-    const binancePoolContract = await this.getBinancePoolContract();
+    const binancePoolContract = await this.getBinancePoolContract(true);
 
     const minStake = await binancePoolContract.methods.getMinimumStake().call();
 
@@ -805,7 +805,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getRelayerFee(): Promise<BigNumber> {
-    const binancePoolContract = await this.getBinancePoolContract();
+    const binancePoolContract = await this.getBinancePoolContract(true);
 
     const relayerFee = await binancePoolContract.methods.getRelayerFee().call();
 
@@ -1331,8 +1331,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const aBNBcContract = await this.getABNBCContract();
+    const provider = await this.getProvider(true);
+    const aBNBcContract = await this.getABNBCContract(true);
     const web3 = provider.getWeb3();
 
     const rawRatio = await aBNBcContract.methods.ratio().call();
@@ -1348,7 +1348,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getAETHRatio(): Promise<BigNumber> {
-    const contract = await this.getAETHContract();
+    const contract = await this.getAETHContract(true);
     const ratio = await contract.methods.ratio().call();
 
     return this.convertFromWei(ratio);
@@ -1361,7 +1361,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
-    const aBNBcContract = await this.getABNBCContract();
+    const aBNBcContract = await this.getABNBCContract(true);
 
     const rawBalance = await aBNBcContract.methods
       .balanceOf(this.currentAccount)
@@ -1433,7 +1433,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
-    const aBNBcContract = await this.getABNBCContract();
+    const aBNBcContract = await this.getABNBCContract(true);
     const { binanceConfig } = configFromEnv();
 
     const allowance = await aBNBcContract.methods

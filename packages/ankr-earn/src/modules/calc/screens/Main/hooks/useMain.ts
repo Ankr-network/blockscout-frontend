@@ -8,7 +8,6 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getBalance } from 'modules/calc/actions/getBalance';
 import { TCalcToken } from 'modules/calc/types';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
-import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 
 import { Days } from '../../../../common/types';
 import { SUPPORTED_TOKENS } from '../../../const';
@@ -184,10 +183,7 @@ export const useMain = (): IUseMain => {
 
           const isVisible = !balance.isZero() || !staked.isZero();
 
-          const decimalPlaces = getDecimalPlaces(balance);
-          acc.newValuesState[token] = balance
-            .decimalPlaces(decimalPlaces)
-            .toString();
+          acc.newValuesState[token] = balance.round().toString();
 
           acc.newVisibilityState[token] = isVisible;
 

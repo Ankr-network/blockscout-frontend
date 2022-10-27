@@ -20,9 +20,7 @@ export const formatError = (error: RequestError): Error => {
     return new Error(capitalize(METAMASK_INSUFFICIENT_FUNDS_ERROR_MESSAGE));
   }
 
-  return error.code !== METAMASK_USER_REJECT_ERROR_CODE
-    ? new Error(message || error.message)
-    : new Error('');
+  return new Error(message || error.message);
 };
 
 export const onTransactionError = (error: RequestError): void => {

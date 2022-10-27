@@ -7,7 +7,7 @@ import { LiquidStakingTokens } from './components/LiquidStakingTokens';
 
 export const Main = (): JSX.Element => {
   return (
-    <Box component="section" py={{ xs: 5, md: 10 }}>
+    <Box component="section" py={{ xs: 5, md: 6 }}>
       <Container>
         <DelegateStakingTokens />
 

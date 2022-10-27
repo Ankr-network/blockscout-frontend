@@ -263,7 +263,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
     for (
       let i = startBlock, idx = 0, parallelReqCounter = 1;
-      i < latestBlockNumber;
+      i <= latestBlockNumber;
       i += rangeStep, parallelReqCounter += 1
     ) {
       const fromBlock = i;
@@ -500,7 +500,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
-    const aAVAXbTokenContract = await this.getAAVAXBTokenContract();
+    const aAVAXbTokenContract = await this.getAAVAXBTokenContract(true);
 
     const balance = await aAVAXbTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -516,7 +516,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
-    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract(true);
 
     const balance = await aAVAXcTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -533,7 +533,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
-    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract(true);
     const rawRatio = await aAVAXcTokenContract.methods.ratio().call();
 
     return this.convertFromWei(rawRatio);
@@ -548,7 +548,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(spender?: string): Promise<BigNumber> {
-    const aAVAXcTokenContract = await this.getAAVAXCTokenContract();
+    const aAVAXcTokenContract = await this.getAAVAXCTokenContract(true);
     const { avalancheConfig } = configFromEnv();
 
     const allowance = await aAVAXcTokenContract.methods
@@ -570,7 +570,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<IFetchTxData>}
    */
   public async fetchTxData(txHash: string): Promise<IFetchTxData> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
 
     const web3 = provider.getWeb3();
 
@@ -598,7 +598,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
   public async fetchTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
@@ -731,7 +731,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getAVAXBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const currBalance = await web3.eth.getBalance(this.currentAccount);
 
@@ -745,7 +745,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getMinimumStake(): Promise<BigNumber> {
-    const avalanchePoolContract = await this.getAvalanchePoolContract();
+    const avalanchePoolContract = await this.getAvalanchePoolContract(true);
 
     const minStake = await avalanchePoolContract.methods
       .getMinimumStake()
@@ -806,7 +806,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getPendingClaim(): Promise<BigNumber> {
-    const avalanchePoolContract = await this.getAvalanchePoolContract();
+    const avalanchePoolContract = await this.getAvalanchePoolContract(true);
 
     const pending = await avalanchePoolContract.methods
       .pendingAvaxClaimsOf(this.currentAccount)
@@ -823,7 +823,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<IPendingData>}
    */
   public async getPendingData(): Promise<IPendingData> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const latestBlockNumber = await web3.eth.getBlockNumber();
 
@@ -983,7 +983,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<number>}
    */
   public async getLatestBlock(): Promise<number> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     return web3.eth.getBlockNumber();
@@ -1070,8 +1070,8 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     amount: BigNumber,
     token: string,
   ): Promise<BigNumber> {
-    const provider = await this.getProvider();
-    const avalanchePoolContract = await this.getAvalanchePoolContract();
+    const provider = await this.getProvider(true);
+    const avalanchePoolContract = await this.getAvalanchePoolContract(true);
 
     const contractStake =
       avalanchePoolContract.methods[this.getStakeMethodName(token)];

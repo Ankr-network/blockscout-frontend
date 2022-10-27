@@ -51,17 +51,9 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={AVAILABLE_NETWORKS}
-          isOpenedConnectModal={false}
-          path={RoutesConfig.main.path}
-          providerId={AvailableWriteProviders.ethCompatible}
-        >
-          <DefaultLayout>
-            <Main />
-          </DefaultLayout>
-        </GuardETHRoute>
+        <DefaultLayout>
+          <Main />
+        </DefaultLayout>
 
         <GuardETHRoute
           exact
