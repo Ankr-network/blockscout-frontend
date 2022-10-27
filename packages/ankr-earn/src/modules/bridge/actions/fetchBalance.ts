@@ -1,4 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
+import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
@@ -20,7 +21,10 @@ export const fetchBalance = createSmartAction<
       const sdk = await BridgeSDK.getInstance();
       const tokenAddr = getTokenAddr(token, network);
 
-      return sdk.getBalance(tokenAddr);
+      return retry(() => sdk.getBalance(tokenAddr), {
+        retries: 1,
+        minTimeout: 500,
+      });
     })(),
   },
   meta: {

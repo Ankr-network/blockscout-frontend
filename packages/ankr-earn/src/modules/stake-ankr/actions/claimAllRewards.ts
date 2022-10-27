@@ -1,50 +1,36 @@
-import { RequestAction } from '@redux-requests/core';
 import { push } from 'connected-react-router';
-import { createAction } from 'redux-smart-actions';
-import { IStoreState } from 'store';
 
 import { TxHash } from 'modules/common/types';
-import { TStore } from 'modules/common/types/ReduxRequests';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
-import { RoutesConfig } from '../Routes';
+import { CacheTags } from '../cacheTags';
+import { RoutesConfig } from '../RoutesConfig';
 
-import { getHistoryData } from './getHistoryData';
-
-export const claimAllRewards = createAction<RequestAction<TxHash, TxHash>>(
-  `${ANKR_ACTIONS_PREFIX}claimAllRewards`,
-  () => ({
-    request: {
-      promise: (async (): Promise<TxHash> => {
+export const { useClaimAllRewardsMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    claimAllRewards: build.mutation<TxHash, void>({
+      queryFn: async () => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.claimAllRewards();
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      onSuccess: (
-        response: { data: TxHash },
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ) => {
-        store.dispatchRequest(getHistoryData());
-        const txHash = response.data;
-
-        if (txHash) {
-          store.dispatch(
-            push(
-              RoutesConfig.claimRewardsSteps.generatePath({
-                txHash,
-              }),
-            ),
-          );
-        }
-
-        return response;
+        return { data: await sdk.claimAllRewards() };
       },
-    },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const txHash = response.data;
+
+          if (txHash) {
+            dispatch(
+              push(
+                RoutesConfig.claimRewardsSteps.generatePath({
+                  txHash,
+                }),
+              ),
+            );
+          }
+        });
+      },
+      invalidatesTags: [CacheTags.history],
+    }),
   }),
-);
+});

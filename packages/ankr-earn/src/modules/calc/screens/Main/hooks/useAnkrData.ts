@@ -1,9 +1,9 @@
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { ZERO } from 'modules/common/const';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getMaxApy as getMaxAnkrApy } from 'modules/stake-ankr/actions/getMaxApy';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
+import { CACHE_SECONDS } from 'modules/stake-ankr/screens/Providers/const';
 
 interface IUseAnkrData {
   isLoading: boolean;
@@ -12,13 +12,15 @@ interface IUseAnkrData {
 }
 
 export const useAnkrData = (): IUseAnkrData => {
-  const { data: ankrApyData, loading: isAnkrApyLoading } = useQuery({
-    type: getMaxAnkrApy,
-  });
+  const { data: ankrApyData, isFetching: isAnkrApyLoading } = useGetMaxApyQuery(
+    undefined,
+    { refetchOnMountOrArgChange: CACHE_SECONDS },
+  );
 
-  const { data: ankrPriceData, loading: isAnkrPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
+  const { data: ankrPriceData, isFetching: isAnkrPriceLoading } =
+    useGetAnkrPriceQuery(undefined, {
+      refetchOnMountOrArgChange: CACHE_SECONDS,
+    });
 
   return {
     isLoading: isAnkrApyLoading || isAnkrPriceLoading,

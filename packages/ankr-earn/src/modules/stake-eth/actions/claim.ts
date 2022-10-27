@@ -10,7 +10,7 @@ import { Token } from 'modules/common/types/token';
 import { ETH_ACTIONS_PREFIX } from '../const';
 import { RoutesConfig } from '../Routes';
 
-import { getCommonData } from './getCommonData';
+import { getClaimableData } from './getClaimableData';
 
 export const claim = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
@@ -31,7 +31,7 @@ export const claim = createAction<
       _action,
       { dispatchRequest, dispatch, getState },
     ) => {
-      const { data } = getQuery(getState(), { type: getCommonData });
+      const { data } = getQuery(getState(), { type: getClaimableData });
       const amount = (
         token === Token.aETHb ? data.claimableAETHB : data.claimableAETHC
       ).toString();
@@ -46,7 +46,7 @@ export const claim = createAction<
         dispatch(push(claimStepsPath));
       }
 
-      dispatchRequest(getCommonData());
+      dispatchRequest(getClaimableData());
       return response;
     },
   },

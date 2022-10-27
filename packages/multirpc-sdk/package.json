@@ -21,12 +21,13 @@
     "preversion": "npm run lint",
     "prepublish": "tsc && cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents",
     "publish": "yarn publish",
-    "test": "jest --coverage",
+    "test": "jest --coverage --passWithNoTests",
     "test:turbo": "cd ../.. && turbo run test --filter=multirpc-sdk",
-    "test:watch": "jest --coverage --watch",
+    "test:watch": "jest --coverage --watch --passWithNoTests",
     "test:watch:turbo": "cd ../.. && turbo run test:watch --filter=multirpc-sdk",
     "generate": "abi-types-generator ./src/PAYGContract/abi/PayAsYouGo.json --name=IPayAsYouGo --provider=web3",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch": "yarn build --watch"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [

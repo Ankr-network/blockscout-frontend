@@ -6,6 +6,7 @@ import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
@@ -28,6 +29,9 @@ export const useTotalAmount = (amount?: BigNumber): IUseTotalAmount => {
   const { data: commonData } = useQuery({
     type: getCommonData,
   });
+  const { data: claimableData } = useQuery({
+    type: getClaimableData,
+  });
 
   const totalAmount = useMemo(() => {
     if (!commonData || !stakeGasFee) {
@@ -44,11 +48,11 @@ export const useTotalAmount = (amount?: BigNumber): IUseTotalAmount => {
 
     const claimableAmount =
       selectedToken === Token.aETHb
-        ? commonData.claimableAETHB
-        : commonData.claimableAETHC;
+        ? claimableData?.claimableAETHB
+        : claimableData?.claimableAETHC;
 
-    return total.plus(claimableAmount);
-  }, [amount, commonData, selectedToken, stakeGasFee]);
+    return total.plus(claimableAmount ?? ZERO);
+  }, [amount, commonData, claimableData, selectedToken, stakeGasFee]);
 
   return {
     isFeeLoading,

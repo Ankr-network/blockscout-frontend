@@ -1,3 +1,5 @@
+import 'common/src/utils/updatePrototypes';
+
 export { SlotAuctionSdk } from './slot-auction';
 
 export * from './config';

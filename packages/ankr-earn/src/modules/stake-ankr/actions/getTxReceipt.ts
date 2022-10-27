@@ -1,10 +1,8 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
 export interface IGetTxData {
   amount?: BigNumber;
@@ -17,25 +15,16 @@ interface IGetTxReceiptProps {
   txHash: string;
 }
 
-const POLL_INTERVAL_SECONDS = 3;
+export const { useGetTxReceiptQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getTxReceipt: build.query<TransactionReceipt | null, IGetTxReceiptProps>({
+      queryFn: async ({ txHash }) => {
+        const sdk = await AnkrStakingSDK.getInstance();
 
-export const getTxReceipt = createAction<
-  RequestAction<TransactionReceipt, TransactionReceipt>
->(`${ANKR_ACTIONS_PREFIX}getTxReceipt`, ({ txHash }: IGetTxReceiptProps) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    poll: POLL_INTERVAL_SECONDS,
-    takeLatest: true,
-    onRequest: request => {
-      request.promise = AnkrStakingSDK.getInstance().then(sdk =>
-        sdk.fetchTxReceipt(txHash),
-      );
-
-      return request;
-    },
-  },
-}));
+        return {
+          data: await sdk.fetchTxReceipt(txHash),
+        };
+      },
+    }),
+  }),
+});

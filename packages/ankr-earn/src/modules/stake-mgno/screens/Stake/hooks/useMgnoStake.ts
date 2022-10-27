@@ -5,6 +5,7 @@ import {
   useQuery,
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { t, tHTML } from 'common';
@@ -13,6 +14,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useFormState } from 'modules/forms/hooks/useFormState';
+import { useNotification } from 'modules/notifications';
 import { getBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxStakeAmount } from 'modules/stake-mgno/actions/getMaxStakeAmount';
 import { getMinStakeAmount } from 'modules/stake-mgno/actions/getMinStakeAmount';
@@ -55,6 +57,7 @@ interface IUseMgnoStake {
   additionalText?: string;
   additionalTooltip?: string;
   contributed: BigNumber;
+  greaterMaxError: string;
   onSubmit: (values: IMgnoStakeSubmitPayload) => void;
   onChange?: (values: IMgnoStakeFormPayload, invalid: boolean) => void;
 }
@@ -62,6 +65,7 @@ interface IUseMgnoStake {
 export const useMgnoStake = (): IUseMgnoStake => {
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
+  const { showNotification } = useNotification();
 
   const { data: balanceData, loading: isBalanceLoading } = useQuery({
     type: getBalance,
@@ -100,33 +104,19 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const initialProvider = currentProvider?.provider ?? DEFAULT_PROVIDER_ID;
   const providerName = providerStats?.provider.name;
 
+  const balance = balanceData ?? ZERO;
+  const maxAmount = (maxStakeAmount ?? ZERO).isGreaterThan(balance)
+    ? balance
+    : maxStakeAmount ?? ZERO;
+
+  const isAmountConditionsLoading =
+    isBalanceLoading || isMinStakeLoading || isMaxStakeLoading;
+
   const {
     isApproved,
     isLoading: isApproveLoading,
     handleApprove,
   } = useApprove();
-
-  useProviderEffect(() => {
-    dispatchRequest(getBalance());
-    dispatchRequest(getFAQ(Token.mGNO));
-    dispatchRequest(getMaxStakeAmount({ provider: initialProvider }));
-    dispatchRequest(getMinStakeAmount());
-    dispatchRequest(getProviderContributed({ provider: initialProvider }));
-    dispatchRequest(getProviderStats({ provider: initialProvider }));
-    dispatchRequest(getProviders());
-    dispatchRequest(getTotalInfo());
-
-    return () => {
-      dispatch(
-        resetRequests([
-          getBalance.toString(),
-          getFAQ.toString(),
-          getMaxStakeAmount.toString(),
-          getMinStakeAmount.toString(),
-        ]),
-      );
-    };
-  }, [dispatch, dispatchRequest, initialProvider]);
 
   const { sendAnalytics } = useAnalytics({
     amount,
@@ -161,27 +151,69 @@ export const useMgnoStake = (): IUseMgnoStake => {
     }
   };
 
-  const balance = balanceData ?? ZERO;
-  const maxAmount = maxStakeAmount ?? ZERO;
+  useEffect(() => {
+    const shouldShowNotification =
+      !!balanceData &&
+      !!maxStakeAmount &&
+      !isAmountConditionsLoading &&
+      maxStakeAmount.isZero();
+
+    if (!shouldShowNotification) {
+      return;
+    }
+
+    showNotification({
+      message: t('stake-mgno.validation.max-capacity'),
+      variant: 'info',
+      key: 'max-capacity',
+      autoHideDuration: 15 * 1000,
+    });
+  }, [
+    balanceData,
+    isAmountConditionsLoading,
+    maxAmount,
+    maxStakeAmount,
+    showNotification,
+  ]);
+
+  useProviderEffect(() => {
+    dispatchRequest(getBalance());
+    dispatchRequest(getFAQ(Token.mGNO));
+    dispatchRequest(getMaxStakeAmount({ provider: initialProvider }));
+    dispatchRequest(getMinStakeAmount());
+    dispatchRequest(getProviderContributed({ provider: initialProvider }));
+    dispatchRequest(getProviderStats({ provider: initialProvider }));
+    dispatchRequest(getProviders());
+    dispatchRequest(getTotalInfo());
+
+    return () => {
+      dispatch(
+        resetRequests([
+          getBalance.toString(),
+          getFAQ.toString(),
+          getMaxStakeAmount.toString(),
+          getMinStakeAmount.toString(),
+        ]),
+      );
+    };
+  }, [dispatch, dispatchRequest, initialProvider]);
 
   return {
     faqItems,
     isStakeLoading,
-    isBalanceLoading:
-      isBalanceLoading || isMinStakeLoading || isMaxStakeLoading,
+    isBalanceLoading: isAmountConditionsLoading,
     isApproveLoading,
     isApproved,
     isDisabled:
-      isBalanceLoading ||
-      isMinStakeLoading ||
-      isMaxStakeLoading ||
+      isAmountConditionsLoading ||
       isApproveLoading ||
       isStakeLoading ||
       isProvidersLoading ||
-      isTotalInfoLoading,
+      isTotalInfoLoading ||
+      maxAmount.isZero(),
     balance,
     minStake: minStakeAmount ?? ZERO,
-    maxAmount: maxAmount.isGreaterThan(balance) ? balance : maxAmount,
+    maxAmount,
     tokenIn: t('unit.mgno'),
     closeHref: RoutesConfig.main.generatePath(),
     providerSelectHref: '', // RoutesConfig.selectProvider.generatePath(),
@@ -193,6 +225,9 @@ export const useMgnoStake = (): IUseMgnoStake => {
     additionalText: t('stake-mgno.staking.slashing-protection'),
     additionalTooltip: t('stake-mgno.staking.slashing-protection-tooltip'),
     contributed: contributed ?? ZERO,
+    greaterMaxError: t('stake-mgno.validation.greater-max', {
+      value: maxAmount,
+    }),
     onChange,
     onSubmit,
   };

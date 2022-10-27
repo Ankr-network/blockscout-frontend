@@ -40,6 +40,10 @@ jest.mock('modules/stake-eth/actions/getCommonData', () => ({
   getCommonData: jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
+  getClaimableData: jest.fn(),
+}));
+
 jest.mock('modules/stake-eth/actions/getTxData', () => ({
   getTxData: jest.fn(),
   getTxReceipt: jest.fn(),

@@ -48,8 +48,8 @@ export const useStakedASETHC = (): IUseStakedASETHCData => {
       getUSDAmount({
         amount,
         ratio,
-        totalStaked: metrics?.[EMetricsServiceName.SSV]?.totalStaked,
-        totalStakedUsd: metrics?.[EMetricsServiceName.SSV]?.totalStakedUsd,
+        totalStaked: metrics?.[EMetricsServiceName.ETH_SSV]?.totalStaked,
+        totalStakedUsd: metrics?.[EMetricsServiceName.ETH_SSV]?.totalStakedUsd,
       }),
     [amount, metrics, ratio],
   );

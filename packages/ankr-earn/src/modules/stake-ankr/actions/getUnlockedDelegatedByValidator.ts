@@ -1,32 +1,30 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
 interface IGetUndelegatedAmountDataProps {
   validator: string;
 }
 
-export const getUnlockedDelegatedByValidator = createAction<
-  RequestAction<BigNumber, BigNumber>
->(
-  `${ANKR_ACTIONS_PREFIX}getUnlockedDelegatedByValidator`,
-  ({ validator }: IGetUndelegatedAmountDataProps) => ({
-    request: {
-      promise: (async (): Promise<BigNumber> => {
-        const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
+export const { useGetUnlockedDelegatedByValidatorQuery } =
+  web3Api.injectEndpoints({
+    endpoints: build => ({
+      getUnlockedDelegatedByValidator: build.query<
+        BigNumber,
+        IGetUndelegatedAmountDataProps
+      >({
+        queryFn: async ({ validator }) => {
+          const sdk = await AnkrStakingSDK.getInstance();
+          const provider = await sdk.getProvider();
 
-        return sdk.getUnlockedDelegatedByValidator(
-          validator,
-          await provider.getBlockNumber(),
-        );
-      })(),
-    },
-    meta: {
-      showNotificationOnError: true,
-    },
-  }),
-);
+          return {
+            data: await sdk.getUnlockedDelegatedByValidator(
+              validator,
+              await provider.getBlockNumber(),
+            ),
+          };
+        },
+      }),
+    }),
+  });

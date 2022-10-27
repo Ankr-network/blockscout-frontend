@@ -3,8 +3,8 @@
   "version": "1.6.4",
   "private": true,
   "scripts": {
-    "start:stage": "env-cmd -f .env.stage react-scripts start",
-    "start:prod": "env-cmd -f .env.prod react-scripts start",
+    "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
+    "start:prod": "concurrently \"env-cmd -f .env.prod react-scripts start\" \"yarn watch:dependencies\"",
     "start:stage:turbo": "cd ../.. && turbo run start:stage --filter=ankr-protocol-web...",
     "start:prod:turbo": "cd ../.. && turbo run start:prod --filter=ankr-protocol-web...",
     "build:stage": "env-cmd -f .env.stage react-scripts build",
@@ -23,7 +23,8 @@
     "build-storybook": "build-storybook -s public",
     "postbuild": "react-snap",
     "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch:dependencies": "cd ../.. && turbo run watch --parallel --filter=ankr-protocol-web..."
   },
   "homepage": "/rpc",
   "dependencies": {
@@ -42,7 +43,7 @@
     "@redux-requests/core": "1.6.1",
     "@redux-requests/promise": "1.0.2",
     "@redux-requests/react": "1.6.0",
-    "@reduxjs/toolkit": "^1.5.1",
+    "@reduxjs/toolkit": "^1.8.1",
     "@sentry/react": "^6.16.0",
     "@sentry/tracing": "^6.16.0",
     "@solana/web3.js": "^1.62.1",
@@ -122,6 +123,7 @@
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
     "babel-loader": "8.1.0",
+    "concurrently": "^7.4.0",
     "customize-cra": "^1.0.0",
     "env-cmd": "^10.1.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -135,9 +137,9 @@
     "prettier": "^2.2.1",
     "react-app-rewired": "2.1.8",
     "react-snap": "^1.23.0",
+    "rimraf": "3.0.2",
     "source-map-explorer": "^2.5.2",
-    "typescript": "^4.1.2",
-    "rimraf": "3.0.2"
+    "typescript": "^4.1.2"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

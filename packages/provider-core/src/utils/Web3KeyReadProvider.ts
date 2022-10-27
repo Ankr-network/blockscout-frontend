@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+import { CoinbaseWalletProvider } from '@coinbase/wallet-sdk';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import {
@@ -106,11 +106,19 @@ export abstract class Web3KeyReadProvider implements IProvider {
       const isProviderHasReset =
         typeof (this.provider as WebsocketProvider).reset === 'function';
 
+      const isProviderHasClose =
+        typeof (this.provider as CoinbaseWalletProvider).close === 'function';
+
       if (isProviderHasReset) {
         (this.provider as WebsocketProvider).reset();
       }
+
       if (isProviderHasDisconnect) {
         (this.provider as HttpProvider).disconnect();
+      }
+
+      if (isProviderHasClose) {
+        (this.provider as CoinbaseWalletProvider).close();
       }
 
       this.provider = null;

@@ -1,57 +1,38 @@
-import { RequestAction } from '@redux-requests/core';
 import { push } from 'connected-react-router';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IStoreState } from 'store';
 
 import { TxHash } from 'modules/common/types';
-import { TStore } from 'modules/common/types/ReduxRequests';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
-import { RoutesConfig } from '../Routes';
-
-import { getCommonData } from './getCommonData';
+import { RoutesConfig } from '../RoutesConfig';
 
 interface IRestakeArgs {
   provider: string;
 }
 
-export const restake = createSmartAction<
-  RequestAction<TxHash, TxHash>,
-  [IRestakeArgs]
->(
-  `${ANKR_ACTIONS_PREFIX}restake`,
-  ({ provider }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<TxHash> => {
+export const { useRestakeMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    restake: build.mutation<TxHash, IRestakeArgs>({
+      queryFn: async ({ provider }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.redelegate(provider);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      onSuccess: (
-        response: { data: TxHash },
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ) => {
-        store.dispatchRequest(getCommonData());
-        const txHash = response.data;
-
-        if (txHash) {
-          store.dispatch(
-            push(
-              RoutesConfig.stakeSteps.generatePath({
-                txHash,
-              }),
-            ),
-          );
-        }
-
-        return response;
+        return { data: await sdk.redelegate(provider) };
       },
-    },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const txHash = response.data;
+
+          if (txHash) {
+            dispatch(
+              push(
+                RoutesConfig.stakeSteps.generatePath({
+                  txHash,
+                }),
+              ),
+            );
+          }
+        });
+      },
+    }),
   }),
-);
+});
