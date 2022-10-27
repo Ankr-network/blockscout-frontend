@@ -4,16 +4,12 @@ import { createAction } from 'redux-smart-actions';
 
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
-import { Token } from 'modules/common/types/token';
-
 import { ETH_ACTIONS_PREFIX } from '../const';
 
 export interface IGetCommonData {
   aETHbBalance: BigNumber;
   aETHcBalance: BigNumber;
   aETHcRatio: BigNumber;
-  claimableAETHB: BigNumber;
-  claimableAETHC: BigNumber;
   ethBalance: BigNumber;
   minStake: BigNumber;
 }
@@ -27,30 +23,19 @@ export const getCommonData = createAction<
 
       const isFormatted = true;
 
-      const [
-        ethBalance,
-        aETHbBalance,
-        aETHcBalance,
-        minStake,
-        aETHcRatio,
-        claimableAETHB,
-        claimableAETHC,
-      ] = await Promise.all([
-        sdk.getEthBalance(),
-        sdk.getABBalance(isFormatted),
-        sdk.getACBalance(isFormatted),
-        sdk.getMinimumStake(),
-        sdk.getACRatio(isFormatted),
-        sdk.getClaimable(Token.aETHb),
-        sdk.getClaimable(Token.aETHc),
-      ]);
+      const [ethBalance, aETHbBalance, aETHcBalance, minStake, aETHcRatio] =
+        await Promise.all([
+          sdk.getEthBalance(),
+          sdk.getABBalance(isFormatted),
+          sdk.getACBalance(isFormatted),
+          sdk.getMinimumStake(),
+          sdk.getACRatio(isFormatted),
+        ]);
 
       return {
         aETHbBalance,
         aETHcBalance,
         aETHcRatio,
-        claimableAETHB,
-        claimableAETHC,
         ethBalance,
         minStake,
       };
@@ -59,6 +44,5 @@ export const getCommonData = createAction<
   meta: {
     asMutation: false,
     showNotificationOnError: true,
-    getData: data => data,
   },
 }));

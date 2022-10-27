@@ -1,15 +1,13 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingReadSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX, TEMPORARY_APY } from '../const';
+import { TEMPORARY_APY } from '../const';
 
-export const getMaxApy = createSmartAction<RequestAction<BigNumber, BigNumber>>(
-  `${ANKR_ACTIONS_PREFIX}getMaxApy`,
-  (): RequestAction => ({
-    request: {
-      promise: (async (): Promise<BigNumber> => {
+export const { useGetMaxApyQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getMaxApy: build.query<BigNumber, void>({
+      queryFn: async () => {
         const sdk = await AnkrStakingReadSDK.getInstance();
 
         const apyData = await sdk.getAPY();
@@ -18,11 +16,8 @@ export const getMaxApy = createSmartAction<RequestAction<BigNumber, BigNumber>>(
           a.apy.isGreaterThan(b.apy) ? -1 : 1,
         );
 
-        return maxApy[0].apy ?? TEMPORARY_APY;
-      })(),
-    },
-    meta: {
-      showNotificationOnError: false,
-    },
+        return { data: maxApy[0].apy ?? TEMPORARY_APY };
+      },
+    }),
   }),
-);
+});

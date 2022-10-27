@@ -24,6 +24,13 @@ export const METRICS_MOCK: IMetricsResponse = {
       totalStakedUsd: '158115632.3',
     },
     {
+      serviceName: 'eth-ssv',
+      totalStaked: '25175951.45623',
+      stakers: '200',
+      apy: '7.280886',
+      totalStakedUsd: '74985.38',
+    },
+    {
       serviceName: 'polygon',
       totalStaked: '908806.7792375382',
       stakers: '308',
@@ -64,13 +71,6 @@ export const METRICS_MOCK: IMetricsResponse = {
       stakers: '0',
       apy: '9.5800886',
       totalStakedUsd: '11664985.28',
-    },
-    {
-      serviceName: 'ssv',
-      totalStaked: '25175951.45623',
-      stakers: '200',
-      apy: '7.280886',
-      totalStakedUsd: '74985.38',
     },
   ],
 };

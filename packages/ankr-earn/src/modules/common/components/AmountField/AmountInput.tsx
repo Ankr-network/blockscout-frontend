@@ -8,7 +8,10 @@ import { Field } from 'react-final-form';
 import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
-import { useValidateAmount } from 'modules/common/hooks/useValidateAmount';
+import {
+  IValidationMessage,
+  useValidateAmount,
+} from 'modules/common/hooks/useValidateAmount';
 import { AmountField } from 'uiKit/AmountField';
 
 import { useAmountFieldStyles } from './useAmountFieldStyles';
@@ -32,6 +35,7 @@ interface IAmountInputProps {
   maxDecimals?: number;
   isLongBalance?: boolean;
   balanceLinkSlot?: ReactNode;
+  validationMessages?: IValidationMessage;
   onMaxClick?: () => void;
 }
 
@@ -52,6 +56,7 @@ export const AmountInput = ({
   maxDecimals,
   balanceLinkSlot,
   isLongBalance = false,
+  validationMessages,
   onMaxClick,
 }: IAmountInputProps): JSX.Element => {
   const classes = useAmountFieldStyles();
@@ -62,11 +67,12 @@ export const AmountInput = ({
   const isDisabledAmountField = disabled || isBalanceLoading;
   const isMaxBtnShowed = withBalance && typeof onMaxClick === 'function';
 
-  const validateAmount = useValidateAmount(
+  const validateAmount = useValidateAmount({
     balance,
     maxAmount,
-    minAmount ? new BigNumber(minAmount) : undefined,
-  );
+    minAmount: minAmount ? new BigNumber(minAmount) : undefined,
+    validationMessages,
+  });
 
   return (
     <>

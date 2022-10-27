@@ -1,30 +1,17 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
 
-const POLL_INTERVAL_SECONDS = 30;
+export const { useGetEpochEndSecondsQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getEpochEndSeconds: build.query<number, void>({
+      queryFn: async () => {
+        const sdk = await AnkrStakingSDK.getInstance();
+        const provider = await sdk.getProvider();
 
-export const getEpochEndSeconds = createAction<RequestAction<number, number>>(
-  `${ANKR_ACTIONS_PREFIX}getEpochEndSeconds`,
-  () => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      showNotificationOnError: true,
-      poll: POLL_INTERVAL_SECONDS,
-      onRequest: request => {
-        request.promise = (async () => {
-          const sdk = await AnkrStakingSDK.getInstance();
-          const provider = await sdk.getProvider();
-
-          return sdk.getEpochEndSeconds(await provider.getBlockNumber());
-        })();
-
-        return request;
+        return {
+          data: await sdk.getEpochEndSeconds(await provider.getBlockNumber()),
+        };
       },
-    },
+    }),
   }),
-);
+});

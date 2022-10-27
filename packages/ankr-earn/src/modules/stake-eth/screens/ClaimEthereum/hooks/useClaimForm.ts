@@ -13,6 +13,7 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
 import { claim } from 'modules/stake-eth/actions/claim';
+import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 
 const DEFAULT_SELECTED_TOKEN = Token.aETHb;
@@ -35,31 +36,37 @@ export const useClaimForm = (): IUseClaimForm => {
     DEFAULT_SELECTED_TOKEN,
   );
   const dispatchRequest = useDispatchRequest();
-  const { loading: isCommonDataLoading, data: commonData } = useQuery({
+  const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
+  });
+  const { data: claimableData, loading: isClaimableDataLoading } = useQuery({
+    type: getClaimableData,
   });
 
   const { loading: isLoading } = useMutation({ type: claim });
 
-  const balance = commonData?.claimableAETHB ?? ZERO;
+  const balance = claimableData?.claimableAETHB ?? ZERO;
   const aETHcRatio = commonData
     ? new BigNumber(1).div(commonData.aETHcRatio)
     : ZERO;
 
   const totalAmount = useMemo(() => {
-    if (!commonData) {
+    if (!claimableData) {
       return ZERO;
     }
 
     if (selectedToken === Token.aETHc) {
-      return commonData.claimableAETHC;
+      return claimableData.claimableAETHC;
     }
 
-    return commonData.claimableAETHB;
-  }, [commonData, selectedToken]);
+    return claimableData.claimableAETHB;
+  }, [claimableData, selectedToken]);
 
   const isDisabled =
-    isLoading || !commonData || commonData.claimableAETHB.isZero();
+    isLoading ||
+    isClaimableDataLoading ||
+    !claimableData ||
+    claimableData.claimableAETHB.isZero();
 
   const onTokenSelect = useCallback(
     (token: TEthToken) => () => {
@@ -74,6 +81,7 @@ export const useClaimForm = (): IUseClaimForm => {
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
+    dispatchRequest(getClaimableData());
   }, [dispatchRequest]);
 
   return {
@@ -81,7 +89,7 @@ export const useClaimForm = (): IUseClaimForm => {
     balance,
     totalAmount,
     aETHcRatio,
-    isLoading,
+    isLoading: isLoading || isClaimableDataLoading,
     isBalanceLoading: isCommonDataLoading,
     isDisabled,
     closeHref: RoutesConfig.dashboard.generatePath(),

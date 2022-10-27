@@ -1,100 +1,188 @@
-import { Fragment } from 'react';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import { UserTypeTag } from '../UserTypeTag';
+import {
+  CardContent,
+  Typography,
+  Box,
+  Card,
+  Skeleton,
+  Grid,
+  Paper,
+} from '@mui/material';
+
+import { Spinner } from 'ui';
+import { Web3Address } from 'multirpc-sdk';
+
+import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
+import {
+  formatNumber,
+  renderBalance,
+  renderUSD,
+} from 'modules/common/utils/renderBalance';
 import { ClientMapped } from '../../store/clientsSlice';
-import { ClientBalancesInfo } from './ClientBalancesInfo';
+import { UserTypeTag } from '../UserTypeTag';
 import { ClientBalancesModal } from './ClientBalancesModal';
 import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
-import { IUserStatsResponse } from 'multirpc-sdk';
-import { renderUSD } from '../../../common/utils/renderBalance';
+import { IGetUserTotalMapped } from '../../actions/fetchUserTotal';
 
 interface IClientInfoProps {
-  currentClient: ClientMapped[];
-  statsData?: IUserStatsResponse;
+  address: Web3Address;
+  currentClient?: ClientMapped[];
   transactionsCost?: number;
+  isLoadingClients?: boolean;
+  isLoadingTransactions?: boolean;
+  totalData?: IGetUserTotalMapped;
+  isLoadingTotal?: boolean;
 }
 
 export const ClientInfo = ({
-  currentClient,
-  statsData,
+  address,
+  currentClient = [],
   transactionsCost,
+  isLoadingClients,
+  isLoadingTransactions,
+  totalData,
+  isLoadingTotal,
 }: IClientInfoProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [client] = currentClient;
 
-  if (!client) {
-    return null;
-  }
-
-  const renderMainInfo = (user: ClientMapped) => (
-    <Fragment key={user.user}>
-      <Box display="flex" alignItems="center">
-        <Typography className={classes.typeText} variant="body2" component="p">
-          <b>Type:</b>
-        </Typography>
-        <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
-      </Box>
-      <br />
-      <Typography variant="body2" component="p">
-        <b>Created:</b> {user.createdDate.toLocaleString()}
-      </Typography>
-      <br />
-      <Typography variant="body2" component="p">
-        <b>Token:</b> {user.user}
-      </Typography>
-      <hr />
-    </Fragment>
+  const skeleton = (
+    <Skeleton
+      animation="wave"
+      style={{ display: 'inline-block' }}
+      variant="rectangular"
+      width={100}
+      height={16}
+    />
   );
 
-  return (
-    <Card className={classes.root}>
+  const renderMainInfo = (user: ClientMapped) => (
+    <Card key={user.user} className={classes.root}>
       <CardContent>
-        {client.email && (
-          <>
-            <Typography variant="body2" component="p">
-              <b>Email:</b> {client.email}
-            </Typography>
-            <br />
-          </>
-        )}
-        {currentClient.map(renderMainInfo)}
+        <Box display="flex" alignItems="center">
+          <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
+        </Box>
+        <br />
+        <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
+          <b>Created:</b> {user?.createdDate?.toLocaleString()}
+        </Typography>
         <br />
         <Typography variant="body2" component="p">
-          <b>Total requests:</b>{' '}
-          {statsData?.totalRequests
-            ? `${statsData.totalRequests} in last 30d`
-            : 'Not found'}
+          <b>Token:</b>{' '}
+          {isLoadingClients ? (
+            'Loading...'
+          ) : (
+            <>
+              {user.user}
+              <ButtonCopy valueToCopy={user.user} />
+            </>
+          )}
         </Typography>
-
-        {transactionsCost !== undefined && +transactionsCost > 0 && (
-          <>
-            <br />
-            <Typography variant="body2" component="p">
-              <b>Total revenue:</b> {renderUSD(transactionsCost.toString())}
-            </Typography>
-          </>
-        )}
-
-        {(client.amountAnkr ||
-          client.amountUsd ||
-          client.amount ||
-          client.voucherAmount) && (
-          <>
-            <Typography
-              variant="h3"
-              component="p"
-              className={classes.balanceTitle}
-            >
-              Balance
-            </Typography>
-            <ClientBalancesInfo currentClient={client} />
-          </>
-        )}
-        {client.address && <ClientBalancesModal currentClient={client} />}
       </CardContent>
     </Card>
+  );
+
+  const NOT_FOUND_TEXT = 'Not found';
+  const statsFromText = totalData?.startedDate
+    ? `from ${totalData.startedDate.toLocaleString()}`
+    : undefined;
+  const totalRequestsText =
+    formatNumber(totalData?.blockchainsInfo?.totalCount) || NOT_FOUND_TEXT;
+  const totalCostText = Number(totalData?.blockchainsInfo?.totalCost)
+    ? `${formatNumber(totalData?.blockchainsInfo.totalCost)}`
+    : NOT_FOUND_TEXT;
+  const revenueText =
+    transactionsCost !== undefined && +transactionsCost > 0
+      ? renderUSD(transactionsCost.toString())
+      : NOT_FOUND_TEXT;
+  const clientEmailText = client?.email || NOT_FOUND_TEXT;
+  const voucherCreditsText = client?.voucherAmount ? (
+    <>{renderBalance(client?.voucherAmount)} Voucher Credits</>
+  ) : null;
+
+  return (
+    <>
+      <Typography className={classes.clientAddress} variant="h6">
+        {address} <ButtonCopy valueToCopy={address} />
+      </Typography>
+      {client && client.address && (
+        <ClientBalancesModal currentClient={client} />
+      )}
+      <Paper sx={{ p: 5 }}>
+        <Typography variant="body2" component="p">
+          <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
+        </Typography>
+      </Paper>
+      {isLoadingClients ? (
+        <>
+          <br />
+          <Spinner size={40} centered={false} />
+        </>
+      ) : (
+        currentClient.map(renderMainInfo)
+      )}
+
+      <Grid
+        className={classes.gridContainer}
+        container
+        spacing={5}
+        wrap="nowrap"
+      >
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Current Funds Balance
+          </Typography>
+          <Typography variant="subtitle1" component="p">
+            <b>{isLoadingClients ? skeleton : renderUSD(client?.amountUsd)}</b>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Current API Credit Balance
+          </Typography>
+          <Typography variant="subtitle1" component="p">
+            <b>{isLoadingClients ? skeleton : renderBalance(client?.amount)}</b>
+          </Typography>
+          <Typography variant="caption" component="p">
+            {isLoadingClients ? skeleton : voucherCreditsText}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Total revenue
+          </Typography>
+          <Typography variant="subtitle1" component="p">
+            <b>{isLoadingTransactions ? skeleton : revenueText}</b>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Total cost
+          </Typography>
+
+          <Typography variant="subtitle1" component="p">
+            <b>{isLoadingTotal ? skeleton : totalCostText}</b>
+          </Typography>
+          <Typography variant="caption" component="p">
+            {isLoadingTotal ? skeleton : statsFromText}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Total requests
+          </Typography>
+
+          <Typography variant="subtitle1" component="p">
+            <b>{isLoadingTotal ? skeleton : totalRequestsText}</b>
+          </Typography>
+          <Typography variant="caption" component="p">
+            {isLoadingTotal ? skeleton : statsFromText}
+          </Typography>
+        </Grid>
+      </Grid>
+    </>
   );
 };

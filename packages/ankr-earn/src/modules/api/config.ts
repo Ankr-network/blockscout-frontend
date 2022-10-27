@@ -202,8 +202,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     gnosisProviderContract: '0x8A2f83347f0E59faeFe2320B7422f8AA432cE27a',
     gnosisValidatorManagerContract:
       '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',
-    asETHcContract: ZERO_ADDR,
-    ssvStakingPoolContract: ZERO_ADDR,
+    asETHcContract: '0x1Fb9Ed69C117271Eb84c9F5e4E4bA9f1dA0EF4dC',
+    ssvStakingPoolContract: '0xEAc6684D77E40B3AF10f90222c90c1E70f105115',
   },
   avalancheConfig: {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',

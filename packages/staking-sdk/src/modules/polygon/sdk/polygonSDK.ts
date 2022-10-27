@@ -370,7 +370,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getABBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const abTokenContract = PolygonOnPolygonSDK.getABTokenContract(web3);
 
@@ -388,7 +388,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getACBalance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
 
@@ -406,7 +406,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - human-readable liquidity
    */
   public async getACPoolLiquidity(): Promise<BigNumber> {
-    const swapPoolContract = await this.getSwapPoolContract();
+    const swapPoolContract = await this.getSwapPoolContract(true);
 
     const acTokensPool: string = await swapPoolContract.methods
       .cerosTokenAmount()
@@ -426,10 +426,10 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - human-readable liquidity
    */
   public async getACPoolLiquidityInMATIC(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
-    const swapPoolContract = await this.getSwapPoolContract();
+    const swapPoolContract = await this.getSwapPoolContract(true);
 
     const [acTokensPool, ratio]: [string, string] = await Promise.all([
       swapPoolContract.methods.cerosTokenAmount().call(),
@@ -459,7 +459,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - human-readable ratio
    */
   public async getACRatio(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
 
@@ -475,7 +475,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - human-readable balance
    */
   public async getMaticBalance(): Promise<BigNumber> {
-    const maticTokenContract = await this.getMaticTokenContract();
+    const maticTokenContract = await this.getMaticTokenContract(true);
 
     const balance = await maticTokenContract.methods
       .balanceOf(this.currentAccount)
@@ -491,10 +491,10 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - human-readable liquidity
    */
   public async getMATICPoolLiquidityInAC(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
     const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
-    const swapPoolContract = await this.getSwapPoolContract();
+    const swapPoolContract = await this.getSwapPoolContract(true);
 
     const [nativeTokenPool, ratio]: [string, string] = await Promise.all([
       swapPoolContract.methods.nativeTokenAmount().call(),
@@ -561,7 +561,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getStakeFeePct(): Promise<BigNumber> {
-    const swapPoolContract = await this.getSwapPoolContract();
+    const swapPoolContract = await this.getSwapPoolContract(true);
 
     const [feeMax, stakeFee]: [string, string] = await Promise.all([
       swapPoolContract.methods.FEE_MAX().call(),
@@ -620,7 +620,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<IFetchTxData>}
    */
   public async getTxData(txHash: string): Promise<IFetchTxData> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const tx = await web3.eth.getTransaction(txHash);
@@ -666,7 +666,7 @@ export class PolygonOnPolygonSDK implements IStakable {
   public async getTxReceipt(
     txHash: string,
   ): Promise<TransactionReceipt | null> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const web3 = provider.getWeb3();
 
     const receipt = await web3.eth.getTransactionReceipt(txHash);
@@ -681,7 +681,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>}
    */
   public async getUnstakeFeePct(): Promise<BigNumber> {
-    const swapPoolContract = await this.getSwapPoolContract();
+    const swapPoolContract = await this.getSwapPoolContract(true);
 
     const [feeMax, unstakeFee]: [string, string] = await Promise.all([
       swapPoolContract.methods.FEE_MAX().call(),

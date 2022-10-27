@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { EventData } from 'web3-eth-contract';
 import { bytesToHex } from 'web3-utils';
+import * as sigUtil from 'eth-sig-util';
 
 import {
   AccountGateway,
@@ -51,9 +52,12 @@ import {
 import { IMultiRpcSdk } from './interfaces';
 import { FetchBlockchainUrlsResult, IIssueJwtTokenResult } from './types';
 import {
+  base64StrToUtf8String,
   catchSignError,
   formatPrivateUrls,
+  getEncryptionPublicKey,
   getFirstActiveToken,
+  REJECTED_OPERATION_CODE,
 } from './utils';
 
 export class MultiRpcSdk implements IMultiRpcSdk {
@@ -73,6 +77,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
   private publicGateway?: IPublicGateway;
 
+  private privateKey = '';
+
+  private publicKey = '';
+
   public constructor(
     private readonly keyProvider: Web3KeyWriteProvider,
     private readonly config: IConfig,
@@ -82,7 +90,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return this.keyProvider;
   }
 
-  async loginWithIssuedToken(user: Web3Address) {
+  async findIssuedTokenAndUpgrade(user: Web3Address) {
     const jwtTokensResponse = await this.getConsensusGateway().getJwtTokens(
       user,
     );
@@ -97,22 +105,17 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       return false;
     }
 
-    const updatedJwtToken = await this.importJwtToken(firstActiveToken);
-
-    return updatedJwtToken;
+    return this.upgradeJwtToken(firstActiveToken);
   }
 
-  async loginAsUser(
-    user: Web3Address,
-    encryptionKey: Base64,
-  ): Promise<IJwtToken | false> {
-    const issuedToken = await this.loginWithIssuedToken(user);
+  async loginAsUser(user: Web3Address): Promise<IJwtToken | false> {
+    const issuedToken = await this.findIssuedTokenAndUpgrade(user);
 
     if (issuedToken) {
       return issuedToken;
     }
 
-    const premiumToken = await this.loginAsPremium(user, encryptionKey);
+    const premiumToken = await this.loginAsPremium(user);
 
     if (premiumToken) {
       return premiumToken;
@@ -135,18 +138,14 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       },
     );
 
-    if (!thresholdKeys.length) throw new Error(`There is no threshold keys`);
+    if (!thresholdKeys.length) {
+      throw new Error(`There is no threshold keys`);
+    }
 
-    const token = await this.issueJwtToken(
-      PAYGTransactionHash,
-      thresholdKeys[0].id,
-      encryptionKey,
-    );
-
-    return token;
+    return this.issueJwtToken(PAYGTransactionHash, thresholdKeys[0].id);
   }
 
-  async loginAsPremium(user: Web3Address, encryptionKey: Base64) {
+  async loginAsPremium(user: Web3Address) {
     const transactionHash =
       await this.getPremiumPlanContractManager().getLatestUserEventLogHash(
         user,
@@ -166,9 +165,13 @@ export class MultiRpcSdk implements IMultiRpcSdk {
 
     if (!thresholdKeys.length) return false;
 
+    if (!this.publicKey) {
+      await this.requestEncryptionKeys();
+    }
+
     // send issue request to ankr protocol
     const jwtToken = await this.getConsensusGateway().requestJwtToken({
-      public_key: encryptionKey,
+      public_key: this.publicKey,
       threshold_key: thresholdKeys[0].id,
       transaction_hash: transactionHash,
     });
@@ -179,9 +182,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       return false;
     }
 
-    const updatedJwtToken = await this.importJwtToken(jwtToken);
-
-    return updatedJwtToken;
+    return this.upgradeJwtToken(jwtToken);
   }
 
   async formatPrivateChains(
@@ -299,64 +300,117 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     return { remainingBlocks: 0, isReady: true };
   }
 
-  async requestUserEncryptionKey(): Promise<Base64> {
+  async requestMetamaskEncryptionKey(): Promise<Base64> {
     const { currentAccount } = this.keyProvider;
 
-    return this.getPremiumPlanContractManager().getEncryptionPublicKey(
+    return this.getPremiumPlanContractManager().getMetamaskEncryptionPublicKey(
       currentAccount,
     );
+  }
+
+  async requestEncryptionKeys(): Promise<Base64> {
+    const { privateKey, publicKey } = await getEncryptionPublicKey(
+      this.keyProvider,
+    );
+
+    this.privateKey = privateKey;
+    this.publicKey = publicKey;
+
+    return publicKey;
   }
 
   async issueJwtToken(
     transactionHash: PrefixedHex,
     thresholdKey: UUID,
-    encryptionKey?: Base64,
   ): Promise<IJwtToken> {
-    const { currentAccount } = this.keyProvider;
-
-    // requests user's x25519 encryption key
-    if (!encryptionKey) {
-      encryptionKey =
-        await this.getPremiumPlanContractManager().getEncryptionPublicKey(
-          currentAccount,
-        );
+    if (!this.publicKey) {
+      await this.requestEncryptionKeys();
     }
 
     // send issue request to ankr protocol
     const jwtToken = await this.getConsensusGateway().requestJwtToken({
-      public_key: encryptionKey,
+      public_key: this.publicKey,
       threshold_key: thresholdKey,
       transaction_hash: transactionHash,
     });
 
-    const updatedJwtToken = await this.importJwtToken(jwtToken);
-
-    return updatedJwtToken;
+    return this.upgradeJwtToken(jwtToken);
   }
 
-  async importJwtToken(jwtToken: IJwtToken) {
+  async getDecryptedTokenByMetamask(jwtToken: IJwtToken) {
     const metaMaskJsonData = Buffer.from(
       jwtToken.signed_token,
       'base64',
     ).toString('ascii');
 
-    jwtToken.signed_token =
+    const signedToken =
       await this.getPAYGContractManager().decryptMessageUsingPrivateKey(
         metaMaskJsonData,
       );
 
+    return signedToken;
+  }
+
+  async getDecryptedToken(jwtToken: IJwtToken) {
+    const base64EncodedAndEncryptedJwtJsonString = jwtToken.signed_token;
+    const encryptedJwtJsonString = base64StrToUtf8String(
+      base64EncodedAndEncryptedJwtJsonString,
+    );
+    const encryptedJwtJson = JSON.parse(encryptedJwtJsonString);
+
+    if (!this.privateKey) {
+      await this.requestEncryptionKeys();
+    }
+
+    return sigUtil.decrypt(encryptedJwtJson, this.privateKey);
+  }
+
+  async decryptToken(jwtToken: IJwtToken) {
+    const MS_IN_YEAR = 31_556_952_000;
+    // 15.10.2022
+    const NEW_AUTHORIZATION_FLOW_RELEASE_DATE = 1_665_763_200_000;
+    const tokenIssueDate = Number(jwtToken.expires_at) * 1_000_000 - MS_IN_YEAR;
+
+    let signedToken = '';
+
+    if (tokenIssueDate < NEW_AUTHORIZATION_FLOW_RELEASE_DATE) {
+      signedToken = await this.getDecryptedTokenByMetamask(jwtToken);
+    } else {
+      try {
+        // try to decrypt token with sigUtil
+        signedToken = await this.getDecryptedToken(jwtToken);
+      } catch (error: any) {
+        if (error?.code !== REJECTED_OPERATION_CODE) {
+          // try to decrypt token with metamask
+          signedToken = await this.getDecryptedTokenByMetamask(jwtToken);
+        }
+      }
+    }
+
+    if (!signedToken) {
+      throw new Error('Failed to load encryption key');
+    }
+
+    jwtToken.signed_token = signedToken;
+
+    return jwtToken;
+  }
+
+  async upgradeJwtToken(jwtToken: IJwtToken) {
+    const upgradedToken = await this.decryptToken(jwtToken);
+
     try {
       const { token, tier } = await this.getWorkerGateway().importJwtToken(
-        jwtToken.signed_token,
+        upgradedToken.signed_token,
       );
 
-      jwtToken.endpoint_token = token;
-      jwtToken.tier = tier;
+      upgradedToken.endpoint_token = token;
+      upgradedToken.tier = tier;
     } catch (error: any) {
       throw new Error('Failed to import jwt token');
     }
 
-    return jwtToken;
+    return upgradedToken;
   }
 
   /**

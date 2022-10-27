@@ -1,6 +1,7 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/provider-core';
+import Web3 from 'web3';
 
 import { fetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { fetchBalance } from '../balance/fetchBalance';
@@ -14,11 +15,19 @@ import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
 import { waitForPendingTransaction } from '../withdraw/waitForPendingTransaction';
 import { timeout } from 'modules/common/utils/timeout';
 import { ETH_BLOCK_TIME } from '../withdraw/const';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { API_ENV } from 'modules/common/utils/environment';
 
 const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
   let inProcess = true;
 
   while (inProcess) {
+    const authData = selectAuthData(store.getState());
+
+    if (authData?.isManualDisconnected) {
+      break;
+    }
+
     // eslint-disable-next-line
     const { data } = await store.dispatchRequest(
       fetchTransactionConfirmationStatus(transactionHash),
@@ -33,10 +42,15 @@ const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
   }
 };
 
-export const getReceipt = async (transactionHash: string) => {
-  const service = await MultiService.getInstance();
+const web3 = new Web3(
+  API_ENV === 'prod'
+    ? 'https://rpc.ankr.com/eth'
+    : 'https://rpc.ankr.com/eth_goerli',
+);
 
-  const receipt = await service.getTransactionReceipt(transactionHash);
+export const getReceipt = async (transactionHash: string) => {
+  // wallet connect provider returns uncorrect status for transaction
+  const receipt = await web3.eth.getTransactionReceipt(transactionHash);
 
   if (receipt && !receipt.status) {
     throw new Error(t('error.failed'));

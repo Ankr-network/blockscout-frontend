@@ -1,10 +1,12 @@
 import { RequestAction } from '@redux-requests/core';
+import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
+import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { ETH_ACTIONS_PREFIX } from '../const';
@@ -28,7 +30,9 @@ export const getTxData = createAction<
     promise: async (): Promise<IGetSwitcherData> => {
       const sdk = await EthereumSDK.getInstance();
 
-      return sdk.fetchTxData(txHash, shouldDecodeAmount);
+      return retry(() => sdk.fetchTxData(txHash, shouldDecodeAmount), {
+        retries: RETRIES_TO_GET_TX_DATA,
+      });
     },
   },
   meta: {

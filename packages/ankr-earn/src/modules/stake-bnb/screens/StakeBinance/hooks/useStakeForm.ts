@@ -14,7 +14,7 @@ import { t } from 'common';
 import { useAuth } from 'modules/auth/common/hooks/useAuth';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { showNotification } from 'modules/notifications';
+import { useNotification } from 'modules/notifications';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
 import { checkExistPartnerCode } from 'modules/stake-bnb/actions/checkExistPartnerCode';
 import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
@@ -67,6 +67,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const [amount, setAmount] = useState(ZERO);
   const [haveCode, setHaveCode] = useState(false);
   const [code, setCode] = useState('');
+  const { showNotification } = useNotification();
 
   const { address } = useAuth(AvailableWriteProviders.ethCompatible);
 
@@ -167,12 +168,10 @@ export const useStakeForm = (): IUseStakeFormData => {
       dispatchRequest(checkExistPartnerCode({ partnerCode: code })).then(
         ({ error: firstError, data }) => {
           if (firstError || !data) {
-            dispatch(
-              showNotification({
-                message: t('referrals.incorrect-code'),
-                variant: 'error',
-              }),
-            );
+            showNotification({
+              message: t('referrals.incorrect-code'),
+              variant: 'error',
+            });
             return;
           }
 

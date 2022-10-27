@@ -64,7 +64,8 @@
     "access-token-error": "Unable to obtain access token from multirpc-sdk",
     "credentials": "Credentials are not ready",
     "failed": "The transaction failed",
-    "no-metamask": "No metamask extension found"
+    "no-metamask": "No metamask extension found",
+    "not-supported-chain": "Unsupported chain"
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -96,7 +97,9 @@
   "header": {
     "wallet-button": "Connect Wallet",
     "disconnect": "Disconnect",
-    "already-premium": "Already Premium?"
+    "already-premium": "Already Premium?",
+    "modal-title": "Connect wallet to continue",
+    "wallet-install": "Install"
   },
   "dashboard": {
     "breadcrumbs": "Premium Endpoints",
@@ -550,6 +553,123 @@
           "scanshieldedtrc20notesbyivk": "🚫 This method is not supported!<br />scan the shielded TRC-20 notes by ivk and mark their status of whether spent.",
           "scanshieldedtrc20notesbyovk": "🚫 This method is not supported!<br />scan the shielded TRC-20 notes by ovk.",
           "isshieldedtrc20contractnotespent": "🚫 This method is not supported!<br />check the status whether the specified shielded TRC-20 note is spent."
+        },
+        "harmony": {
+          "version": "API Version",
+          "api-v1": "API v1",
+          "api-v2": "API v2",
+          "large-response-error": "Response too large to show",
+          "hmyv2_call": "Executes a new message call immediately without creating a transaction on the block chain.",
+          "hmyv2_estimateGas": "Generates and returns an estimate of how much gas is necessary to allow the transaction to complete. The transaction will not be added to the blockchain.",
+          "hmyv2_getCode": "Get the code at a specific address.",
+          "hmyv2_getStorageAt": "Returns the value from a storage position at a given address.",
+          "hmyv2_getDelegationsByDelegator": "Gets a list of delegations for a ONE delegator wallet address.",
+          "hmyv2_getDelegationsByValidator": "Gets all delegations using the specified ONE address of the validator.",
+          "hmyv2_getAllValidatorAddresses": "Returns complete validators addresses list",
+          "hmyv2_getAllValidatorInformation": "Get staking validator information for all validators.",
+          "hmyv2_getAllValidatorInformationByBlockNumber": "Get staking validator information snapshot for all validators by blocknum.",
+          "hmyv2_getElectedValidatorAddresses": "Returns elected validators addresses list",
+          "hmyv2_getValidatorInformation": "Get staking validator information.",
+          "hmyv2_getCurrentUtilityMetrics": "Works only for shard 0 (beacon chain).",
+          "hmyv2_getMedianRawStakeSnapshot": "Returns active validators addresses list",
+          "hmyv2_getStakingNetworkInfo": "Get global staking info.",
+          "hmyv2_getSuperCommittees": "🚫 This method is not supported!",
+          "hmyv2_getCXReceiptByHash": "Returns a cx receipt for the provided transaction hash.",
+          "hmyv2_getPendingCXReceipts": "Returns an array of pending cx receipts in tx pool.",
+          "hmyv2_getPoolStats": "🚫 This method is not supported!",
+          "hmyv2_pendingStakingTransactions": "🚫 This method is not supported!",
+          "hmyv2_pendingTransactions": "Returns a list of pending transactions.",
+          "hmyv2_getCurrentStakingErrorSink": "Gets a list of failed transactions currently in the staking errors sink.",
+          "hmyv2_getStakingTransactionByBlockNumberAndIndex": "Get staking transaction at an index from a given block, specified by number.",
+          "hmyv2_getStakingTransactionByBlockHashAndIndex": "Get staking transaction at an index from a given block, specified by block hash.",
+          "hmyv2_getStakingTransactionByHash": "Get staking transaction by its hash.",
+          "hmyv2_sendRawStakingTransaction": "Similar to hmy_sendRawTransaction, but with a staking message field.",
+          "hmyv2_getCurrentTransactionErrorSink": "Gets a list of failed transactions currently in the transaction errors sink.",
+          "hmyv2_getTransactionByBlockHashAndIndex": "Get transaction at an index from a given block, specified by block hash.",
+          "hmyv2_getTransactionByBlockNumberAndIndex": "Get transaction at an index from a given block, specified by number.",
+          "hmyv2_getTransactionByHash": "Get a transaction by its hash.",
+          "hmyv2_getTransactionReceipt": "Get transaction receipt from transaction hash.",
+          "hmyv2_sendRawTransaction": "Send a raw transaction encoded in bytes.",
+          "hmyv2_blockNumber": "Get number of the most recent block.",
+          "hmyv2_getCirculatingSupply": "Get circulating ONE supply",
+          "hmyv2_getEpoch": "Returns current epoch of shard",
+          "hmyv2_getLastCrossLinks": "🚫 This method is not supported!",
+          "hmyv2_getLeader": "Returns one address of current shard leader node",
+          "hmyv2_gasPrice": "Returns the current gas price.",
+          "hmyv2_getShardingStructure": "Returns the current shard of the node and lists API and WebSocket endpoints for each shard.",
+          "hmyv2_getTotalSupply": "Get total ONE supply",
+          "hmyv2_getValidators": "Returns list of validators for a particular epoch in corresponding shard",
+          "hmyv2_getValidatorKeys": "🚫 This method is not supported!",
+          "hmyv2_protocolVersion": "Returns the protocol version.",
+          "hmyv2_getBlocks": "Returns blocks in a certain range.",
+          "hmyv2_getBlockByNumber": "Get block by its index in the blockchain.",
+          "hmyv2_getBlockByHash": "Get block by its hash.",
+          "hmyv2_getBlockSigners": "Returns list of block signers",
+          "hmyv2_getBlockSignersKeys": "🚫 This method is not supported!",
+          "hmyv2_getBlockTransactionCountByNumber": "Get the number of transactions in a block by the block's index in the chain.",
+          "hmyv2_getBlockTransactionCountByHash": "Get the number of transactions in a block by the block's hash.",
+          "hmyv2_getHeaderByNumber": "Gets the block header data for the specified block number.",
+          "hmyv2_getLatestChainHeaders": "Gets a list of the latest beacon chain headers and their related information.",
+          "hmyv2_latestHeader": "Returns the latest block header.",
+          "hmyv2_getBalance": "Get latest balance of an address.",
+          "hmyv2_getBalanceByBlockNumber": "Get the balance of an address at a given block.",
+          "hmyv2_getStakingTransactionsCount": "Gets the number of staking transactions for a ONE wallet address.",
+          "hmyv2_getStakingTransactionsHistory": "Get staking transactions history for an address",
+          "hmyv2_getTransactionsCount": "Given an account address, returns the number of transactions the account has made.",
+          "hmyv2_getTransactionsHistory": "Get transactions history for an address",
+          "hmy_getBalanceByBlockNumber": "Get the balance of an address at a given block.",
+          "hmy_getTransactionCount": "Given an account address, returns the number of transactions the account has made.",
+          "hmy_getStakingTransactionByBlockHashAndIndex": "Get staking transaction at an index from a given block, specified by block hash.",
+          "hmy_getStakingTransactionByBlockNumberAndIndex": "Get staking transaction at an index from a given block, specified by number.",
+          "hmy_getStakingTransactionByHash": "Get staking transaction by its hash.",
+          "hmy_getCurrentTransactionErrorSink": "Gets a list of failed transactions currently in the transaction errors sink.",
+          "hmy_getPendingCrossLinks": "Returns pending crosslinks.",
+          "hmy_getPendingCXReceipts": "Returns an array of pending cx receipts in tx pool.",
+          "hmy_getCXReceiptByHash": "Returns a cx receipt for the provided transaction hash.",
+          "hmy_pendingTransactions": "Returns a list of pending transactions.",
+          "hmy_sendRawStakingTransaction": "Similar to hmy_sendRawTransaction, but with a staking message field",
+          "hmy_getTransactionsHistory": "Returns transactions history for an address",
+          "hmy_sendRawTransaction": "Send a raw transaction encoded in bytes.",
+          "hmy_getTransactionReceipt": "Get transaction receipt from transaction hash.",
+          "hmy_getBlockTransactionCountByHash": "Get the number of transactions in a block by the block's hash.",
+          "hmy_getBlockTransactionCountByNumber": "Get the number of transactions in a block by the block's index in the chain.",
+          "hmy_getTransactionByHash": "Get a transaction by its hash.",
+          "hmy_getTransactionByBlockNumberAndIndex": "Get transaction at an index from a given block, specified by number.",
+          "hmy_getTransactionByBlockHashAndIndex": "Get transaction at an index from a given block, specified by block hash.",
+          "hmy_getBlockByNumber": "Get block by its index in the blockchain.",
+          "hmy_getBlockByHash": "Get block by its hash.",
+          "hmy_getBlocks": "Returns blocks in a certain range.",
+          "hmy_estimateGas": "Generates and returns an estimate of how much gas is necessary to allow the transaction to complete. The transaction will not be added to the blockchain.",
+          "hmy_getStorageAt": "Returns the value from a storage position at a given address.",
+          "hmy_call": "Executes a new message call immediately without creating a transaction on the block chain.",
+          "hmy_getCode": "Get the code at a specific address.",
+          "hmy_isLastBlock": "Is block epoch last block",
+          "hmy_epochLastBlock": "Epoch last block",
+          "hmy_latestHeader": "Returns the latest block header.",
+          "hmy_getShardingStructure": "Returns the current shard of the node and lists API and WebSocket endpoints for each shard.",
+          "hmy_blockNumber": "Get number of the most recent block.",
+          "hmy_gasPrice": "Returns the current gas price.",
+          "hmy_getEpoch": "Returns current epoch of shard",
+          "hmy_getLeader": "Returns one address of current shard leader node",
+          "hmy_getCirculatingSupply": "Get circulating ONE supply",
+          "hmy_getTotalSupply": "Get total ONE supply",
+          "hmy_getStakingNetworkInfo": "Get global staking info.",
+          "hmy_getAllValidatorInformation": "Get staking validator information for all validators.",
+          "hmy_getAllValidatorInformationByBlockNumber": "Get staking validator information snapshot for all validators by blocknum.",
+          "hmy_getCurrentUtilityMetrics": "Works only for shard 0 (beacon chain).",
+          "hmy_getDelegationsByValidator": "Gets all delegations using the specified ONE address of the validator.",
+          "hmy_getDelegationsByDelegatorAndValidator": "Gets all delegations using the specified ONE delegator and validator addresses.",
+          "hmy_getDelegationsByDelegator": "Gets a list of delegations for a ONE wallet address.",
+          "hmy_getValidatorMetrics": "Returns the metrics for the provided validator address.",
+          "hmy_getMedianRawStakeSnapshot": "Returns active validators addresses list",
+          "hmy_getActiveValidatorAddresses": "Returns elected validators addresses list",
+          "hmy_getAllValidatorAddresses": "Returns complete validators addresses list",
+          "hmy_getCurrentStakingErrorSink": "Gets a list of failed transactions currently in the staking errors sink.",
+          "hmy_getValidatorInformation": "Get staking validator information.",
+          "hmy_getValidators": "Returns list of validators for a particular epoch in corresponding shard",
+          "hmy_getSignedBlocks": "Returns number of blocks out of last 1500 validator has signed",
+          "hmy_isBlockSigner": "Returns true if the validator signed a particular block.",
+          "hmy_getBlockSigners": "Returns list of block signers"
         }
       }
     },
@@ -650,26 +770,24 @@
       "basic-plan": {
         "title": "Public",
         "label": "Free",
-        "description": "Smaller projects and individual developers can receive the best rates of&nbsp;any free tier in&nbsp;the industry, with 250k requests per day.",
+        "description": "Smaller projects and individual developers can receive the best rates of any free tier in the industry.",
         "features": {
           "requests": "Instant RPC requests",
-          "chains": "Free access for all chains",
-          "login": "No login required"
+          "chains": "Free access for most chains",
+          "login": "No Credit Card required"
         },
         "button": "Current Plan"
       },
       "premium-plan": {
         "title": "Premium",
         "label": "Pay as You Go",
-        "description": "For Web3 projects looking for fast, reliable infrastructure to&nbsp;scale operations to&nbsp;the next level.",
+        "description": "For Web3 projects looking for fast, reliable infrastructure to scale operations to the next level.",
         "link": "Learn more about Pay as You Go",
         "features": {
-          "requests": "Unlimited requests",
-          "traffic": "Prioritized traffic",
           "websockets": "WebSockets",
-          "destribution": "Global node distribution",
-          "endpoints": "Dedicated endpoints",
-          "api": "Advanced Developer APIs"
+          "api": "Advanced Developer APIs",
+          "requests": "1,500 reqs/sec",
+          "endpoints": "Dedicated endpoints"
         },
         "button": "Get Started with Premium"
       }
@@ -677,7 +795,8 @@
     "premium-block": {
       "block-title": "Start Building with Ankr",
       "title": "Deposit&nbsp;1,000+&nbsp;ANKR to&nbsp;get all the Premium features",
-      "pricing": "1,000&nbsp;<img src=\"{src}\" alt=\"{alt}\" class=\"icon\" />&nbsp;≈ 500K requests",
+      "value": "{requests, number, ::compact-short}",
+      "pricing": "{amount}&nbsp;<img src=\"{src}\" alt=\"{alt}\" class=\"icon\" />&nbsp;≈ {requests} requests",
       "ankr": "ankr",
       "pricing-info": "How to calculate price?",
       "pricing-link": "Learn more about Pay as You Go",
@@ -688,7 +807,7 @@
     },
     "enterprise-block": {
       "label": "Have special requirements?",
-      "title": "Become Enterprise",
+      "title": "Get Enterprise-Grade Service",
       "link": "Talk to Sales"
     },
     "features-block": {
@@ -707,7 +826,7 @@
     },
     "table": {
       "header": {
-        "column-1": "List of Key features",
+        "column-1": "Key features",
         "column-2": "Public",
         "column-3": "Premium"
       },
@@ -723,25 +842,24 @@
       },
       "body-row": {
         "row-1-1": "Requests/sec",
-        "row-1-2": "Full and Archive data",
-        "row-1-3": "Global Node Coverage",
-        "row-1-4": "Hybrid Endpoints",
-        "row-1-5": "Usage Stats and Reports",
-        "row-1-6": "Exclusive Blockchain Endpoints",
-        "row-1-7": "WebSockets",
-        "row-1-8": "Support Polkadot, Kusama & Heco ",
-        "row-1-9": "Batch Requests",
-        "row-1-10": "Batch Size <em>eth_getLogs</em>",
-        "row-1-11": "Advanced APIs",
-        "row-1-12": "Customer Support",
+        "row-1-2": "Archive data",
+        "row-1-3": "Hybrid Endpoints",
+        "row-1-4": "Usage Stats and Reports",
+        "row-1-5": "Exclusive Blockchain Endpoints",
+        "row-1-6": "WebSockets",
+        "row-1-7": "Support Polkadot, Kusama & Heco ",
+        "row-1-8": "Batch Requests",
+        "row-1-9": "Batch Size <em>eth_getLogs</em>",
+        "row-1-10": "Advanced APIs",
+        "row-1-11": "Customer Support",
         "row-2-1": "500 requests/sec across all provided endpoints.",
-        "row-2-10": "10 per batch",
-        "row-2-11": "50 requests/min",
-        "row-2-12": "Discord and Support Portal",
-        "row-3-1": "1,500 requests/sec per endpoint. 4,000 requests/sec for Solana endpoint",
-        "row-3-10": "Up to 1,000",
-        "row-3-11": "1,000+ requests/min",
-        "row-3-12": "Dedicated support"
+        "row-2-9": "10 per batch",
+        "row-2-10": "50 requests/min",
+        "row-2-11": "Discord and Support Portal",
+        "row-3-1": "Defaults to 1,500 requests/sec per chain. 4,000 requests/sec for Solana chain. Upgradeable on request.",
+        "row-3-9": "Up to 1,000",
+        "row-3-10": "1,000+ requests/min",
+        "row-3-11": "Dedicated support"
       },
       "tip": {
         "1-2": "1-2",
@@ -756,27 +874,25 @@
       "what-is-included": "What's included",
       "public": {
         "item-1": "500 requests/sec across all provided endpoints.",
-        "item-2": "Full and Archive data",
-        "item-3": "Global Node Coverage",
-        "item-4": "Batch Requests",
-        "item-5": "10 per batch for eth_getlogs",
-        "item-6": "50 requests/min for Advanced APIs",
-        "item-7": "Discord and Support Portal"
+        "item-2": "Archive data",
+        "item-3": "Batch Requests",
+        "item-4": "10 per batch for eth_getlogs",
+        "item-5": "50 requests/min for Advanced APIs",
+        "item-6": "Discord and Support Portal"
       },
       "premium": {
-        "item-1": "1,500 requests/sec per endpoint. 4,000 requests/sec for Solana endpoint",
-        "item-2": "Full and Archive data",
-        "item-3": "Global Node Coverage",
-        "item-4": "Hybrid Endpoints",
-        "item-5": "Usage Stats and Reports",
-        "item-6": "Exclusive Blockchain Endpoints",
-        "item-7": "Detailed Statistics",
-        "item-8": "WebSockets",
-        "item-9": "Support Polkadot, Kusama & Heco",
-        "item-10": "Batch Requests",
-        "item-11": "Up to 1,000 batch for eth_getlogs",
-        "item-12": "1,000+ requests/min for Advanced APIs",
-        "item-13": "Dedicated support"
+        "item-1": "Defaults to 1,500 requests/sec per chain. 4,000 requests/sec for Solana chain. Upgradeable on request.",
+        "item-2": "Archive data",
+        "item-3": "Hybrid Endpoints",
+        "item-4": "Usage Stats and Reports",
+        "item-5": "Exclusive Blockchain Endpoints",
+        "item-6": "Detailed Statistics",
+        "item-7": "WebSockets",
+        "item-8": "Support Polkadot, Kusama & Heco",
+        "item-9": "Batch Requests",
+        "item-10": "Up to 1,000 batch for eth_getlogs",
+        "item-11": "1,000+ requests/min for Advanced APIs",
+        "item-12": "Dedicated support"
       }
     },
     "deposit": {
@@ -814,7 +930,8 @@
     "connect-wallet": {
       "title": "Already Premium?",
       "subtitle": "Connect wallet"
-    }
+    },
+    "email-content": "For account setup, Ankr needs an&nbsp;email for important notifications and service updates. Don&rsquo;t worry, your info is&nbsp;highly secured and never shared&nbsp;&mdash; use an&nbsp;anonymous address if&nbsp;you wish!"
   },
   "common": {
     "copy-message": "Copied!",
@@ -905,8 +1022,7 @@
         "balance-status": "Balance Status",
         "product-updates": "Product Updates",
         "exclusive-offers": "Exclusive Offers",
-        "email-input-placeholder": "Your email",
-        "not-show-again": "Don't show this message again"
+        "email-input-placeholder": "Your email"
       },
       "success-step": {
         "title": "Thank you!",
@@ -925,8 +1041,7 @@
     },
     "connect-wallet-card": {
       "title": "Connect Wallet",
-      "description": "Connect related wallet to see notification settings.",
-      "connect-wallet-button": "Connect Wallet"
+      "description": "Connect related wallet to see notification settings."
     },
     "connect-related-wallet-card": {
       "title": "Connect Wallet for Related Account",
@@ -1106,11 +1221,12 @@
     "metamask": "Metamask",
     "step-content": {
       "0": "<ul><li>Topping-up requires a&nbsp;gas fee.</li><li>ANKR calculates into API Credits at&nbsp;ANKR/USD exchange rate on&nbsp;the moment of&nbsp;block&rsquo;s validation.</li></ul>",
-      "1": "Click Confirm and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
-      "2": "Click Confirm and allow&nbsp;us to&nbsp;spend your {amount}&nbsp;ANKR in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension.",
+      "1": "Click Confirm and allow&nbsp;us to&nbsp;use your {amount}&nbsp;ANKR in {content} <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" />&nbsp;{name}.",
+      "2": "Click Confirm and allow&nbsp;us to&nbsp;spend your {amount}&nbsp;ANKR in {content} <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" />&nbsp;{name}.",
       "3": "Thank you! Transaction<br/> is&nbsp;on&nbsp;the way.",
       "3-error": "Oops! Transaction has not been completed.",
-      "4": "Finally, click Done and decrypt the message in <img src=\"{src}\" alt=\"{alt}\" class=\"icon\" /> Metamask extension."
+      "4": "Finally, click Done and finalise the settings.",
+      "wallet-connect": "your wallet compatible with"
     },
     "step-notice": {
       "1": "So&nbsp;we&nbsp;could top up&nbsp;your balance.",
@@ -1122,9 +1238,9 @@
     "button": {
       "0": "Accept and Proceed",
       "1": "Confirm",
-      "1-loading": "Check Metamask",
+      "1-loading": "Check Your Wallet",
       "2": "Confirm",
-      "2-loading": "Check Metamask",
+      "2-loading": "Check Your Wallet",
       "3": "Next",
       "3-loading": "Please wait",
       "3-done": "Done",

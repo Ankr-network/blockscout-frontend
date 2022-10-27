@@ -2,6 +2,7 @@ import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EVMRequestComposer } from './EVMRequestComposer';
+import { HarmonyRequestComposer } from './HarmonyRequestComposer';
 import { SolanaRequestComposer } from './SolanaRequestComposer';
 import { TronRequestComposer } from './TronRequestComposer';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
@@ -24,6 +25,16 @@ export const RequestComposerContainer = ({
   const publicUrl = unfilteredGroup?.urls[0]?.rpc;
 
   if (isGroupEvmBased(group)) {
+    if (chainId === ChainID.HARMONY) {
+      return (
+        <HarmonyRequestComposer
+          group={group}
+          publicUrl={publicUrl}
+          className={className}
+        />
+      );
+    }
+
     return (
       <EVMRequestComposer
         group={group}

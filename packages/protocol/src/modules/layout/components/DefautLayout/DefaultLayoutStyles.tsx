@@ -5,7 +5,7 @@ import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
 import { MOBILE_NAVIGATION_HEIGHT } from '../MobileNavigation';
 import { SIDEBAR_WIDTH } from '../SideBar';
 
-const MOBILE_LAYOUT_PADDING = 30;
+export const MOBILE_LAYOUT_PADDING = 30;
 
 export const useStyles = makeStyles<
   Theme,
@@ -51,6 +51,7 @@ export const useStyles = makeStyles<
     },
   },
   header: {
+    backgroundColor: 'transparent',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },

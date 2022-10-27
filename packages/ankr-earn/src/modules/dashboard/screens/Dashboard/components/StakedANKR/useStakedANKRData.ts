@@ -1,14 +1,13 @@
 import { AvailableWriteProviders } from '@ankr.com/provider-core';
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ANKR_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
+import { RoutesConfig } from 'modules/stake-ankr/RoutesConfig';
 
 export interface IStakedANKRData {
   stakedAmount: BigNumber;
@@ -24,8 +23,8 @@ export interface IStakedANKRData {
 }
 
 export const useStakedANKRData = (): IStakedANKRData => {
-  const { data, loading } = useQuery({ type: getTotalInfo });
-  const { data: ankrPrice } = useQuery({ type: getANKRPrice });
+  const { data, isFetching: loading } = useGetTotalInfoQuery();
+  const { data: ankrPrice } = useGetAnkrPriceQuery();
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );

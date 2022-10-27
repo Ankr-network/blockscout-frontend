@@ -2,9 +2,9 @@ import { IWeb3SendResult } from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { getCommonData } from 'modules/stake-ankr/actions/getCommonData';
 import { AnkrStakingSDK } from 'modules/stake-ankr/api/AnkrStakingSDK';
 
+// TODO Likelly bind to the current address: add providerTags argument
 export const getTestAnkrTokens = createAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>
 >(
@@ -19,9 +19,7 @@ export const getTestAnkrTokens = createAction<
     meta: {
       asMutation: true,
       showNotificationOnError: true,
-      onSuccess: (response, _action, { dispatchRequest }) => {
-        dispatchRequest(getCommonData());
-
+      onSuccess: response => {
         return response;
       },
     },

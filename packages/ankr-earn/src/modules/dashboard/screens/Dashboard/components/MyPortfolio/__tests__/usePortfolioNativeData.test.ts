@@ -2,11 +2,26 @@ import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { ZERO } from 'modules/common/const';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
+import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
 
 import { usePortfolioNativeData } from '../usePortfolioNativeData';
 
+jest.mock('modules/stake-ankr/actions/getANKRPrice', () => ({
+  useGetAnkrPriceQuery: jest.fn(),
+}));
+
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-ankr/actions/getCommonData', () => ({
+  useGetCommonDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-ankr/actions/getMaxApy', () => ({
+  useGetMaxApyQuery: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfolioNativeData', () => {
@@ -16,6 +31,18 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
   };
 
   beforeEach(() => {
+    (useGetAnkrPriceQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetMaxApyQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
     (useQuery as jest.Mock).mockReturnValue(defaultQueryData);
   });
 

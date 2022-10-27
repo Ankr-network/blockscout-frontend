@@ -10,13 +10,6 @@ export const useNetworkIconTextStyles = makeStyles<Theme>(theme => ({
     position: 'relative',
   },
 
-  networkIcon: {
-    position: 'absolute',
-    bottom: '7px',
-    right: '-2px',
-    fontSize: '18px',
-  },
-
   iconSkeleton: {
     width: '1em',
     height: '1em',

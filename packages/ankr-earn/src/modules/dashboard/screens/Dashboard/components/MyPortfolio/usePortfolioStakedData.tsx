@@ -15,10 +15,11 @@ import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getANKRPrice } from 'modules/stake-ankr/actions/getANKRPrice';
-import { getTotalInfo as getAnkrTotalInfo } from 'modules/stake-ankr/actions/getTotalInfo';
+import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
+import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
 import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
 import { fetchStats as fetchStakeMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
@@ -75,6 +76,11 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: fetchStakeETHStats,
   });
 
+  const { data: ethClaimableData, loading: isEthClaimableDataLoading } =
+    useQuery({
+      type: fetchStakeETHClaimableStats,
+    });
+
   const { data: ftmData, loading: isFtmDataLoading } = useQuery({
     type: fetchStakeFTMStats,
   });
@@ -123,13 +129,11 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       type: fetchAETHCBridged,
     });
 
-  const { data: ankrData, loading: isLoadingAnkrData } = useQuery({
-    type: getAnkrTotalInfo,
-  });
+  const { data: ankrData, isFetching: isLoadingAnkrData } =
+    useGetTotalInfoQuery();
 
-  const { data: ankrPrice, loading: isAnkrPriceLoading } = useQuery({
-    type: getANKRPrice,
-  });
+  const { data: ankrPrice, isFetching: isAnkrPriceLoading } =
+    useGetAnkrPriceQuery();
 
   const { data: mgnoData, loading: isLoadingMgnoData } = useQuery({
     type: getMGNOTotalInfo,
@@ -191,7 +195,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       {
         name: Token.aETHb,
         amount: (ethData?.aETHbBalance ?? ZERO)
-          .plus(ethData?.claimableAETHB ?? ZERO)
+          .plus(ethClaimableData?.claimableAETHB ?? ZERO)
           .plus(aETHbBridgeBalance ?? ZERO),
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
@@ -199,7 +203,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       {
         name: Token.aETHc,
         amount: (ethData?.aETHcBalance ?? ZERO)
-          .plus(ethData?.claimableAETHC ?? ZERO)
+          .plus(ethClaimableData?.claimableAETHC ?? ZERO)
           .plus(aETHcBridgeBalance ?? ZERO),
         service: EMetricsServiceName.ETH,
         apy: metrics?.eth.apy ?? ZERO,
@@ -261,6 +265,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       aETHcBridgeBalance,
       bnbData,
       ethData,
+      ethClaimableData,
       ankrData,
       maticPolygonBalances,
       maxMgnoApr,
@@ -348,6 +353,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       isAvaxDataLoading ||
       isBnbDataLoading ||
       isEthDataLoading ||
+      isEthClaimableDataLoading ||
       isFtmDataLoading ||
       isMATICbBridgeBscBalanceLoading ||
       isMATICcBridgeBscBalanceLoading ||

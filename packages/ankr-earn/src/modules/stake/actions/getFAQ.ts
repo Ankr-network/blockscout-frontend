@@ -51,6 +51,9 @@ const getStrapiURL = (token: Token): string => {
     case Token.WND:
       return '/faq-westend-items';
 
+    case Token.asETHc:
+      return '/faq-ssv-items';
+
     case Token.mGNO:
       return '/faq-m-gno-items';
 

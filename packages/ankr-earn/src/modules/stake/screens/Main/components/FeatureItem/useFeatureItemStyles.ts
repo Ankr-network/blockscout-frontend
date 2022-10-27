@@ -12,7 +12,7 @@ export const useFeatureItemStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
     height: '100%',
-    padding: theme.spacing(boxPadding),
+    padding: theme.spacing(4.5, 4, 3, 4),
     transition: transitions.create(
       ['box-shadow', 'transform'],
       transitionsConfig,
@@ -31,10 +31,6 @@ export const useFeatureItemStyles = makeStyles(theme => ({
     fontSize: 64,
     transformOrigin: 'top left',
     transition: transitions.create('transform', transitionsConfig),
-
-    '$rootWithAnimations:hover &': {
-      transform: 'scale(0.8)',
-    },
   },
 
   title: {
@@ -42,17 +38,13 @@ export const useFeatureItemStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     transition: transitions.create('transform', transitionsConfig),
     transformOrigin: 'top left',
-
-    '$rootWithAnimations:hover &': {
-      transform: 'translate(65px, -65px) scale(0.8)',
-    },
   },
 
   stats: {
-    transition: transitions.create('transform', transitionsConfig),
+    transition: transitions.create('opacity', transitionsConfig),
 
     '$rootWithAnimations:hover &': {
-      transform: 'translateY(-55px)',
+      opacity: 0,
     },
   },
 

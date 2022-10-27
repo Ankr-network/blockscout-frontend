@@ -1,4 +1,7 @@
+import { PRICING_PATH } from 'domains/pricing/Routes';
+import { useMemo } from 'react';
 import { Form } from 'react-final-form';
+import { useHistory } from 'react-router';
 
 import { useStyles } from './TopUpFormStyles';
 import { TopUpFormProps } from './TopUpFormTypes';
@@ -13,7 +16,7 @@ export const TopUpForm = ({
   hasLoginStep,
   initialValues: defaultInitialValues,
   validateAmount,
-  hasRateBlock,
+  isAccountPage,
   balance,
 }: TopUpFormProps) => {
   const classes = useStyles();
@@ -23,10 +26,17 @@ export const TopUpForm = ({
     defaultInitialValues,
   );
 
+  const { location } = useHistory();
+  const isPricingPage = useMemo(
+    () => location.pathname === PRICING_PATH,
+    [location.pathname],
+  );
+
   const renderForm = useRenderForm(
     classes,
     validateAmount,
-    hasRateBlock,
+    isAccountPage,
+    isPricingPage,
     balance,
   );
   const renderDisabledForm = useRenderDisabledForm(classes);

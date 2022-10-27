@@ -18,9 +18,9 @@ import { YourStakeItem } from 'modules/delegate-stake/components/YourStakeItem';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { LockingPeriodItem } from 'modules/stake-ankr/components/LockingPeriodItem';
 import { RewardsItem } from 'modules/stake-ankr/components/RewardsItem';
-import { RoutesConfig } from 'modules/stake-ankr/Routes';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
+import { RoutesConfig } from '../../../../RoutesConfig';
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';

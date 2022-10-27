@@ -14,8 +14,6 @@ import { accountWithdrawSlice } from 'domains/account/store/accountWithdrawSlice
 import { disconnect } from 'domains/auth/actions/disconnect';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
 import { authSlice } from 'domains/auth/store/authSlice';
-import { userSettingsDisabledBannersPersistConfig } from 'domains/userSettings/storage/userSettingsDisabledBannersPersistConfig';
-import { userSettingsDisabledBannersSlice } from 'domains/userSettings/store/userSettingsDisabledBannersSlice';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 import { NotificationActions } from '../domains/notification/store/NotificationActions';
@@ -27,6 +25,7 @@ import { requestComposerSlice } from 'domains/requestComposer/store/requestCompo
 
 const TOKEN_EXPIRED_ERROR = 'this token has already expired';
 const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';
+const TOKEN_MALFORMED_ERROR = 'auth token is malformed';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {
@@ -56,7 +55,8 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     if (
       error?.response?.data === TOKEN_EXPIRED_ERROR ||
-      error?.response?.data === TOKEN_AUTH_ERROR
+      error?.response?.data === TOKEN_AUTH_ERROR ||
+      error?.response?.data === TOKEN_MALFORMED_ERROR
     ) {
       store.dispatch(disconnect());
 
@@ -88,10 +88,6 @@ const rootReducer = combineReducers({
   accountWithdraw: persistReducer(
     accountWithdrawPersistConfig,
     accountWithdrawSlice.reducer,
-  ),
-  userSettingsDisabledBanners: persistReducer(
-    userSettingsDisabledBannersPersistConfig,
-    userSettingsDisabledBannersSlice.reducer,
   ),
   requestComposer: requestComposerSlice.reducer,
   requests: requestsReducer,

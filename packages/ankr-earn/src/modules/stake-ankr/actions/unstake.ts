@@ -1,59 +1,42 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IStoreState } from 'store';
 
 import { TxHash } from 'modules/common/types';
-import { TStore } from 'modules/common/types/ReduxRequests';
 
+import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
-import { ANKR_ACTIONS_PREFIX } from '../const';
-import { RoutesConfig } from '../Routes';
-
-import { getCommonData } from './getCommonData';
+import { CacheTags } from '../cacheTags';
+import { RoutesConfig } from '../RoutesConfig';
 
 interface IUnstakeArgs {
   amount: BigNumber;
   provider: string;
 }
 
-export const unstake = createSmartAction<
-  RequestAction<TxHash, TxHash>,
-  [IUnstakeArgs]
->(
-  `${ANKR_ACTIONS_PREFIX}unstake`,
-  ({ amount, provider }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<TxHash> => {
+export const { useUnstakeMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    unstake: build.mutation<TxHash, IUnstakeArgs>({
+      queryFn: async ({ amount, provider }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return sdk.undelegate(provider, amount);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      onSuccess: (
-        response: { data: TxHash },
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ) => {
-        store.dispatchRequest(getCommonData());
-        const txHash = response.data;
-
-        if (txHash) {
-          store.dispatch(
-            push(
-              RoutesConfig.unstakeSteps.generatePath({
-                txHash,
-              }),
-            ),
-          );
-        }
-
-        return response;
+        return { data: await sdk.undelegate(provider, amount) };
       },
-    },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const txHash = response.data;
+
+          if (txHash) {
+            dispatch(
+              push(
+                RoutesConfig.unstakeSteps.generatePath({
+                  txHash,
+                }),
+              ),
+            );
+          }
+        });
+      },
+      invalidatesTags: [CacheTags.common, CacheTags.history],
+    }),
   }),
-);
+});

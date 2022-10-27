@@ -22,7 +22,7 @@ import { TopUpFormContext } from './components/TopUp/TopUpForm/TopUpFormUtils';
 
 const DEFAULT_TOPUP_VALUES = {
   initialValues: { amount: '' },
-  hasRateBlock: true,
+  isAccountPage: true,
 };
 
 export const AccountDetails = () => {

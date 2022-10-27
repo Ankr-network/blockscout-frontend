@@ -1,20 +1,23 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+
+import { makeStyles } from 'tss-react/mui';
 
 export const SIDEBAR_WIDTH = 220;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
     minHeight: 40,
     paddingRight: theme.spacing(2),
+    textDecoration: 'none',
   },
   logo: {
     fontSize: 34,
     color: theme.palette.primary.main,
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       fontSize: 32,
     },
   },
@@ -22,7 +25,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     margin: theme.spacing(0, 2.3),
     backgroundColor: '#EBEDF2',
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       margin: theme.spacing(0, 2),
     },
   },

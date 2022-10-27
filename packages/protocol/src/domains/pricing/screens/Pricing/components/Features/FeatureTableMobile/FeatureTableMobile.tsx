@@ -23,7 +23,7 @@ export const FeatureTableMobile = () => {
       <FeatureContent
         itemIndex={2}
         name="public"
-        num={7}
+        num={6}
         button={
           <Button disabled size="small">
             {t(`${intlRoot}.header-button.column-2`)}
@@ -33,7 +33,7 @@ export const FeatureTableMobile = () => {
       <FeatureContent
         itemIndex={3}
         name="premium"
-        num={13}
+        num={12}
         button={
           <Button size="small" href={`#${PREMIUM_BLOCK_ANCHOR}`}>
             {t(`${intlRoot}.header-button.column-3`)}

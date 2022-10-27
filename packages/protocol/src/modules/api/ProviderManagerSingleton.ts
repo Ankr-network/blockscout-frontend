@@ -9,7 +9,7 @@ export class ProviderManagerSingleton {
       return ProviderManagerSingleton.instance;
     }
 
-    ProviderManagerSingleton.instance = new ProviderManager(web3ModalTheme, {});
+    ProviderManagerSingleton.instance = new ProviderManager(web3ModalTheme);
 
     return ProviderManagerSingleton.instance;
   }

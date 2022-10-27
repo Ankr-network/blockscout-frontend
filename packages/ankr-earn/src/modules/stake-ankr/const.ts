@@ -4,8 +4,6 @@ import BigNumber from 'bignumber.js';
 import { ANKR_NETWORK_BY_ENV } from 'modules/common/const';
 import { Milliseconds, Percentage } from 'modules/common/types';
 
-export const ANKR_TOKEN_PRICE = 'v1alpha/rate/ANKR';
-
 export const ANKR_ACTIONS_PREFIX = 'ankr/';
 
 export const ANKR_STAKING_NETWORKS = [ANKR_NETWORK_BY_ENV];

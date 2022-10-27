@@ -17,10 +17,9 @@ import {
   useETHNetworks,
 } from 'modules/auth/eth/hooks/useETHNetworks';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
+import { getIsInjectedWallet } from 'modules/auth/eth/utils/walletTypeUtils';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { EEthereumNetworkId } from 'modules/common/types';
-
-import { getIsInjectedWallet } from '../../../utils/walletTypeUtils';
 
 import { useKnownNetworks } from './useKnownNetworks';
 

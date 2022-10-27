@@ -12,13 +12,14 @@
 		"format": "lint-staged",
 		"storybook": "start-storybook -p 6006 -s public",
 		"build-storybook": "build-storybook -s public",
-		"build": "yarn clean && rollup -c",
+		"build": "rollup -c",
 		"build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/global-menu...",
 		"prepublish": "node prepublish.js",
 		"postpublish": "node prepublish.js revert",
 		"prepack": "node prepublish.js",
 		"postpack": "node prepublish.js revert",
-		"clean": "rimraf build dist"
+		"clean": "rimraf build dist",
+		"watch": "yarn build -w"
 	},
 	"peerDependencies": {
 		"react": "17.x",

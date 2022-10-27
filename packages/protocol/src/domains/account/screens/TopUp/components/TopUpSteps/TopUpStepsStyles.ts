@@ -11,7 +11,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   paper: {
     background: theme.palette.common.white,
     padding: 40,
-    maxWidth: 480,
+    maxWidth: 494,
     height: 486,
     borderRadius: 30,
     display: 'flex',
@@ -34,6 +34,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     '& .icon': {
       verticalAlign: 'middle',
+      width: 32,
+      height: 40,
     },
 
     '& ul': {

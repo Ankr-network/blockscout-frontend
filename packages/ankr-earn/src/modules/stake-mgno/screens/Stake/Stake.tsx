@@ -37,6 +37,7 @@ export const Stake = (): JSX.Element => {
     providerSelectHref,
     quoteText,
     tokenIn,
+    greaterMaxError,
     onChange,
     onSubmit,
   } = useMgnoStake();
@@ -74,6 +75,7 @@ export const Stake = (): JSX.Element => {
           balance={balance}
           balanceLinkSlot={<BuyMgnoLink />}
           closeHref={closeHref}
+          greaterMaxError={greaterMaxError}
           initialAmount={initialAmount}
           initialProvider={initialProvider}
           isApproved={isApproved}

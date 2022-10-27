@@ -5,7 +5,6 @@ import { t, tHTML } from 'common';
 
 import { iconByTokenMap, TIconMap } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
-import { getDecimalPlaces } from 'modules/common/utils/numbers/getDecimalPlaces';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { useAmountWithIconStyles } from './useAmountWithIconStyles';
@@ -41,16 +40,14 @@ export const AmountWithIcon = ({
             <Icon className={classes.smallIcon} />
 
             {t('unit.token-value', {
-              value: amount.decimalPlaces(getDecimalPlaces(amount)).toFormat(),
+              value: amount.round().toFormat(),
               token,
             })}
           </Typography>
 
           <div className={classes.usdAmount}>
             {t('unit.ref-percent', {
-              value: refPercent
-                .decimalPlaces(getDecimalPlaces(refPercent))
-                .toFormat(),
+              value: refPercent.round().toFormat(),
             })}
 
             <QuestionWithTooltip>

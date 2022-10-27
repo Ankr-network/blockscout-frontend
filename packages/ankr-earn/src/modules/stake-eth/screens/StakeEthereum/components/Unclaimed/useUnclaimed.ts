@@ -5,7 +5,7 @@ import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 
 import { useSelectedToken } from '../../hooks/useSelectedToken';
 
@@ -18,21 +18,21 @@ interface IUseUnclaimed {
 
 export const useUnclaimed = (): IUseUnclaimed => {
   const { selectedToken } = useSelectedToken();
-  const { data: commonData, loading: isLoading } = useQuery({
-    type: getCommonData,
+  const { data: claimableData, loading: isLoading } = useQuery({
+    type: getClaimableData,
   });
 
   const amount = useMemo(() => {
-    if (!commonData) {
+    if (!claimableData) {
       return ZERO;
     }
 
     if (selectedToken === Token.aETHc) {
-      return commonData.claimableAETHC;
+      return claimableData.claimableAETHC;
     }
 
-    return commonData.claimableAETHB;
-  }, [commonData, selectedToken]);
+    return claimableData.claimableAETHB;
+  }, [claimableData, selectedToken]);
 
   return {
     isLoading,

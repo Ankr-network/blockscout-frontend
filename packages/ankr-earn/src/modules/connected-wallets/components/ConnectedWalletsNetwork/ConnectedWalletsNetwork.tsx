@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { t } from 'common';
+import { WalletIcon } from 'ui';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { TAddresses } from 'modules/connected-wallets/types';
@@ -13,7 +14,6 @@ import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';
 import { ReactComponent as AngleDownIcon } from '../../../../assets/img/angle-down-icon.svg';
 import { ReactComponent as CopySVG } from '../../../../assets/img/copy.svg';
 import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
-import { WalletIcon } from '../WalletIcon';
 
 import { useConnectedWalletsNetworkStyles as useStyles } from './useConnectedWalletsNetworkStyles';
 

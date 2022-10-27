@@ -30,6 +30,8 @@ import {
   TNotificationsState,
 } from 'modules/notifications';
 
+import { web3Api } from '../modules/api/web3Api';
+
 import { rootSagas } from './sagas';
 
 export interface IStoreState {
@@ -68,11 +70,13 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
     return request;
   },
   onError: (error: Error, action: RequestAction, store: Store) => {
-    if (action.meta?.showNotificationOnError) {
+    const message = getErrorMessage(error);
+
+    if (action.meta?.showNotificationOnError && message) {
       store.dispatch(
         showNotification({
           key: `${action.type}_ERROR`,
-          message: getErrorMessage(error),
+          message,
           variant: 'error',
         }),
       );
@@ -84,7 +88,8 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = combineReducers<IStoreState>({
+const rootReducer = combineReducers({
+  [web3Api.reducerPath]: web3Api.reducer,
   auth: authPersistReducer,
   dialog,
   i18n: i18nPersistReducer,
@@ -96,11 +101,15 @@ const rootReducer = combineReducers<IStoreState>({
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [
-    ...requestsMiddleware,
-    routerMiddleware(historyInstance),
-    sagaMiddleware,
-  ],
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+      immutableCheck: false,
+    })
+      .concat(...requestsMiddleware)
+      .concat(web3Api.middleware)
+      .concat(routerMiddleware(historyInstance))
+      .concat(sagaMiddleware),
 });
 
 export const persistor = persistStore(store);
