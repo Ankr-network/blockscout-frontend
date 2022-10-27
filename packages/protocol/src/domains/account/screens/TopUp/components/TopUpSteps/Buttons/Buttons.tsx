@@ -9,7 +9,8 @@ import { useStyles } from './ButtonsStyles';
 import { getButtonText } from './ButtonsUtils';
 import { TransactionConfirmationButton } from './TransactionConfirmationButton';
 
-interface IButtonProps extends Omit<ITopUpStepsProps, 'amount'> {}
+interface IButtonProps
+  extends Omit<ITopUpStepsProps, 'amount' | 'walletMeta'> {}
 
 export const Buttons = ({
   step,

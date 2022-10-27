@@ -9,6 +9,7 @@ import {
   setAllowanceTransaction,
   setTopUpTransaction,
 } from 'domains/account/store/accountTopUpSlice';
+import { throwIfError } from 'common';
 
 const setTransaction = (
   store: RequestsStore,
@@ -39,8 +40,8 @@ export const deposit = createSmartAction<
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
-          const { data: publicKey } = await store.dispatchRequest(
-            fetchPublicKey(),
+          const { data: publicKey } = throwIfError(
+            await store.dispatchRequest(fetchPublicKey()),
           );
 
           const depositResponse = await service.depositAnkrToPAYG(

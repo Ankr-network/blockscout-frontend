@@ -70,14 +70,9 @@ export const useClaimRewards = (): IUseClaimRewards => {
 
   let hoursText;
   if (epochEndHours > 0) {
-    hoursText =
-      epochEndHours === 1
-        ? `${t('stake-ankr.info-header.epoch-ends-hour', {
-            value: epochEndHours,
-          })}`
-        : `${t('stake-ankr.info-header.epoch-ends-hours', {
-            value: epochEndHours,
-          })}`;
+    hoursText = `${t('stake-ankr.info-header.epoch-ends-hour', {
+      value: epochEndHours,
+    })}`;
   }
 
   const minText = `${t('stake-ankr.info-header.epoch-ends-min', {

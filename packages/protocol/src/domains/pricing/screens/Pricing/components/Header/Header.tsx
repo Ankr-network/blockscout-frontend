@@ -9,7 +9,7 @@ export const Header = () => {
   const isMobile = useIsXSDown();
 
   return (
-    <Box display="flex" justifyContent="center" className={classes.root}>
+    <Box display="flex" justifyContent="center">
       <Box className={classes.centerBlock}>
         <Container disableGutters={!isMobile}>
           <Typography

@@ -7,7 +7,6 @@ import { setAuthData } from 'domains/auth/store/authSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { IJwtToken } from 'multirpc-sdk';
-import { fetchPublicKey } from '../fetchPublicKey';
 
 interface IDeposit {
   address: string;
@@ -32,14 +31,7 @@ export const login = createSmartAction<RequestAction<string, string>>(
             const provider = service.getKeyProvider();
             const { currentAccount: address } = provider;
 
-            const { data: publicKey } = await store.dispatchRequest(
-              fetchPublicKey(),
-            );
-
-            const credentials = await service.loginAsUser(
-              address,
-              publicKey as string,
-            );
+            const credentials = await service.loginAsUser(address);
 
             if (credentials) {
               store.dispatch(setAuthData({ credentials }));

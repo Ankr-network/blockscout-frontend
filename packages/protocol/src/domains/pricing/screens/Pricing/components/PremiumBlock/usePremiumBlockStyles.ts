@@ -50,7 +50,7 @@ export const usePremiumBlockStyles = makeStyles<Theme>(theme => ({
   },
   title: {
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(7.5),
     fontSize: 35,
     maxWidth: 500,
     marginLeft: 'auto',
@@ -64,9 +64,21 @@ export const usePremiumBlockStyles = makeStyles<Theme>(theme => ({
       fontSize: 26,
     },
   },
+  button: {
+    '& button': {
+      fontSize: 16,
+      width: 320,
+      height: 60,
+      marginBottom: 60,
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        maxWidth: 320,
+      },
+    },
+  },
   form: {
     width: 320,
-    margin: theme.spacing(0, 'auto', 5),
+    margin: theme.spacing(0, 'auto'),
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
@@ -88,15 +100,6 @@ export const usePremiumBlockStyles = makeStyles<Theme>(theme => ({
 
     '&:hover': {
       background: 'none',
-    },
-  },
-  pricing: {
-    fontWeight: 700,
-    marginBottom: theme.spacing(2),
-
-    '& span': {
-      alignItems: 'center',
-      display: 'inline-flex',
     },
   },
 }));

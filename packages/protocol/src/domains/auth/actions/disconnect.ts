@@ -17,7 +17,7 @@ export const disconnect = createSmartAction<RequestAction>(
       promise: (async () => {
         store.dispatch(setAuthData({ isManualDisconnected: true }));
 
-        await disconnectService();
+        disconnectService();
 
         store.dispatch(resetAuthData());
         store.dispatch(withdrawReset());

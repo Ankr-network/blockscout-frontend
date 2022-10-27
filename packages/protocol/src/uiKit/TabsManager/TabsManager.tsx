@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-
 import { useStyles } from './TabsManagerStyles';
 import { DefaultTabID, TabsManagerProps } from './TabsManagerTypes';
 
@@ -12,8 +11,9 @@ export function TabsManager<TI = DefaultTabID>({
   tabs,
   title,
   allowSingleTab,
+  orientation = 'horizontal',
 }: TabsManagerProps<TI>) {
-  const classes = useStyles();
+  const classes = useStyles({ orientation });
 
   return (
     <>

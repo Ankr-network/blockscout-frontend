@@ -52,6 +52,7 @@
     "async-mutex": "^0.3.2",
     "axios": "^0.27.2",
     "bignumber.js": "^9.1.0",
+    "classnames": "^2.3.1",
     "common": "*",
     "lodash.isequal": "^4.5.0",
     "multirpc-sdk": "*",

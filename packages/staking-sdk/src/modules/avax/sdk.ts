@@ -263,7 +263,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
     for (
       let i = startBlock, idx = 0, parallelReqCounter = 1;
-      i <= latestBlockNumber;
+      i < latestBlockNumber;
       i += rangeStep, parallelReqCounter += 1
     ) {
       const fromBlock = i;
@@ -925,7 +925,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
           isCert && !ratio.isZero()
             ? this.convertFromWei(
                 unstakeRawEventItem.returnValues.amount,
-              ).dividedBy(ratio)
+              )
             : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
 
         totalPendingUnstakes = totalPendingUnstakes.minus(itemAmount);

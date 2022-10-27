@@ -76,7 +76,6 @@ export const usePlansStyles = makeStyles<Theme>(theme => ({
     },
   },
   description: {
-    marginBottom: theme.spacing(4),
     fontWeight: 400,
 
     [theme.breakpoints.down('xs')]: {
@@ -86,6 +85,8 @@ export const usePlansStyles = makeStyles<Theme>(theme => ({
   features: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginTop: 28,
+    marginBottom: theme.spacing(5),
   },
   feature: {
     background: theme.palette.background.default,
@@ -93,13 +94,12 @@ export const usePlansStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(1, 2),
     display: 'inline-block',
     marginBottom: theme.spacing(0.5),
-    marginRight: theme.spacing(1),
+    '&:nth-child(2n+1)': {
+      marginRight: theme.spacing(0.5),
+    },
   },
   featureText: {
     fontWeight: 600,
-  },
-  button: {
-    marginTop: theme.spacing(6),
   },
   link: {
     padding: 0,
