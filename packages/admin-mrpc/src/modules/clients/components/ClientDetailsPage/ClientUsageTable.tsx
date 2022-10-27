@@ -1,45 +1,189 @@
-import { IUsageEntity } from 'multirpc-sdk';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
-import { Typography } from '@material-ui/core';
+import {
+  Paper,
+  Table,
+  Typography,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableContainer,
+  Tabs,
+  Tab,
+  Box,
+} from '@mui/material';
+import { CSVLink } from 'react-csv';
+import { Spinner } from 'ui';
+import { useClientDetailsStyles } from './ClientDetailsStyles';
+import {
+  useClientUsageTable,
+  IClientUsageTableProps,
+} from './useClientUsageTable';
+import { ClientUsageTotal } from './ClientUsageTotal';
+import { ClientUsageChainFilter } from './ClientUsageChainFilter';
+import { formatNumber } from '../../../common/utils/renderBalance';
 
-interface IClientUsageTableProps {
-  usage: IUsageEntity[];
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
 }
 
-export const ClientUsageTable = ({ usage }: IClientUsageTableProps) => {
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
   return (
-    <TableContainer component={Paper}>
-      <Typography variant="h5" style={{ padding: 10 }}>
-        Last 24 hours
-      </Typography>
-      <Table size="small" aria-label="actions table">
-        <TableHead>
-          <TableRow>
-            <TableCell>BlockChain</TableCell>
-            <TableCell>Method</TableCell>
-            <TableCell>Count</TableCell>
-            <TableCell>Total cost</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {usage.map(i =>
-            i.details.map(d => (
-              <TableRow key={d.method}>
-                <TableCell>{i.blockchain}</TableCell>
-                <TableCell>{d.method}</TableCell>
-                <TableCell>{d.count}</TableCell>
-                <TableCell>{d.totalCost}</TableCell>
-              </TableRow>
-            )),
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div role="tabpanel" hidden={value !== index} {...other}>
+      {value === index && (
+        <Box>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+export const ClientUsageTable = ({
+  fileName,
+  currentPeriod,
+  stats,
+  usage,
+  onUpdateTimeframe,
+  isLoadingStats,
+}: IClientUsageTableProps) => {
+  const {
+    activeTabIndex,
+    handleChangeActiveTab,
+    totalCost,
+    filterByChainValue,
+    availableChains,
+    handleFilterByChain,
+    dataToRender,
+    TAB_INDEXES,
+    totalRequestsValue,
+    totalCostsValue,
+    maxCountTotal,
+    csvMappedUsage,
+  } = useClientUsageTable({ onUpdateTimeframe, stats, usage, currentPeriod });
+
+  const { classes } = useClientDetailsStyles();
+
+  return (
+    <>
+      <Box display="flex">
+        <Tabs
+          value={activeTabIndex}
+          onChange={handleChangeActiveTab}
+          TabIndicatorProps={{
+            style: {
+              display: 'none',
+            },
+          }}
+          className={classes.tabsWrapper}
+        >
+          <Tab className={classes.tabUsagePeriod} disableRipple label="24h" />
+          <Tab className={classes.tabUsagePeriod} disableRipple label="7d" />
+          <Tab className={classes.tabUsagePeriod} disableRipple label="30d" />
+        </Tabs>
+
+        {csvMappedUsage && (
+          <CSVLink
+            className={classes.csvLink}
+            filename={fileName}
+            data={csvMappedUsage}
+          >
+            Download CSV
+          </CSVLink>
+        )}
+      </Box>
+
+      {isLoadingStats ? (
+        <>
+          <br />
+          <Spinner centered={false} size={42} />
+        </>
+      ) : (
+        <ClientUsageChainFilter
+          stats={stats}
+          filterByChainValue={filterByChainValue}
+          handleFilterByChain={handleFilterByChain}
+          availableChains={availableChains}
+        />
+      )}
+
+      <ClientUsageTotal
+        currentPeriod={currentPeriod}
+        isLoadingStats={isLoadingStats}
+        totalRequestsValue={totalRequestsValue}
+        totalCostsValue={totalCostsValue}
+        totalCost={totalCost}
+      />
+
+      {usage
+        ? TAB_INDEXES.map(tab => {
+            return (
+              <TabPanel key={tab} value={activeTabIndex} index={+tab}>
+                <TableContainer component={Paper}>
+                  <Table size="small" aria-label="actions table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Blockchain</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Method</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Requests Count</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Total Cost</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Usage Percentage</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {isLoadingStats ? (
+                        <TableRow>
+                          <TableCell>loading...</TableCell>
+                        </TableRow>
+                      ) : (
+                        dataToRender?.map(usageEntity =>
+                          usageEntity.details.map((details, index) => {
+                            const usagePercent = maxCountTotal
+                              ? (+details.count * 100) / maxCountTotal
+                              : 0;
+                            return (
+                              <TableRow key={details.method || index}>
+                                <TableCell>{usageEntity.blockchain}</TableCell>
+                                <TableCell>{details.method}</TableCell>
+                                <TableCell>
+                                  {formatNumber(details.count)}
+                                </TableCell>
+                                <TableCell>
+                                  {formatNumber(details.totalCost)}
+                                </TableCell>
+                                <TableCell>
+                                  <Box
+                                    className={classes.progressbar}
+                                    style={{ width: `${usagePercent}%` }}
+                                  />
+                                </TableCell>
+                              </TableRow>
+                            );
+                          }),
+                        )
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
+            );
+          })
+        : isLoadingStats
+        ? 'Loading'
+        : 'Not found'}
+    </>
   );
 };

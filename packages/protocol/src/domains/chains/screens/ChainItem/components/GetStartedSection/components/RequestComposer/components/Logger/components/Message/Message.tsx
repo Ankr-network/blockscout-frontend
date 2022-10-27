@@ -29,7 +29,9 @@ export const Message = ({ message: { data = '', type } }: MessageProps) => {
       );
     }
 
-    return list.map((msg: string) => <span>{msg}</span>);
+    return list.map((msg: string) => (
+      <span key={`msg-${msg.substring(0, 20)}`}>{msg}</span>
+    ));
   }, [message]);
 
   return (

@@ -1,30 +1,31 @@
+import { ReactNode, useMemo } from 'react';
+
 import { AddEmailForm } from 'domains/userSettings/components/AddEmailForm';
 import {
   AddEmailFormContentState,
   IAddEmailFormData,
 } from 'domains/userSettings/components/AddEmailForm/types';
-import { useMemo } from 'react';
 import { FillStep } from './components/FillStep';
 import { SuccessStep } from './components/SuccessStep';
 
 export interface IAddEmailBannerContentProps {
   contentState: AddEmailFormContentState;
-  handleDoNotShowAgain?: () => void;
   onFormStateChange: (state: AddEmailFormContentState) => void;
   onFormSubmit: (data: IAddEmailFormData | undefined) => void;
   onAddEmailSubmitSuccess?: () => void;
   submittedData: IAddEmailFormData | undefined;
   formDisabled?: boolean;
+  fillStepContent?: ReactNode;
 }
 
 export const AddEmailBannerContent = ({
   contentState,
-  handleDoNotShowAgain,
   onFormStateChange,
   onFormSubmit,
   onAddEmailSubmitSuccess,
   submittedData,
   formDisabled,
+  fillStepContent,
 }: IAddEmailBannerContentProps) => {
   const addEmailForm = useMemo(
     () => (
@@ -50,11 +51,7 @@ export const AddEmailBannerContent = ({
   switch (contentState) {
     case AddEmailFormContentState.ADD_EMAIL:
     case AddEmailFormContentState.CHANGE_EMAIL:
-      return (
-        <FillStep handleDoNotShowAgain={handleDoNotShowAgain}>
-          {addEmailForm}
-        </FillStep>
-      );
+      return <FillStep content={fillStepContent}>{addEmailForm}</FillStep>;
 
     case AddEmailFormContentState.SUCCESS:
       return (

@@ -15,7 +15,7 @@ export type FetchTronChainRequestResult = {
   time: number;
 };
 
-const objectError = (error: any) => {
+export const objectError = (error: any) => {
   if (typeof error === 'string') {
     return { error };
   }

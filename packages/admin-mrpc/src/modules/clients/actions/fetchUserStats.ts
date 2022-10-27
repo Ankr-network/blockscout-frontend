@@ -1,4 +1,5 @@
 import {
+  IUsageEntity,
   IUserStatsResponse,
   PrivateStatsInterval,
   Web3Address,
@@ -10,6 +11,16 @@ import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 interface IApiRequestParams {
   address: Web3Address;
   interval?: PrivateStatsInterval;
+  current?: boolean;
+}
+
+export interface IUsageEntityMapped extends IUsageEntity {
+  totalCost?: number;
+}
+
+interface IApiResponse {
+  stats?: IUserStatsResponse;
+  usage?: IUsageEntityMapped[];
 }
 
 export const {
@@ -17,18 +28,44 @@ export const {
   endpoints: { fetchUserStats },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchUserStats: build.query<IUserStatsResponse, IApiRequestParams>({
-      queryFn: async ({ address, interval = PrivateStatsInterval.MONTH }) => {
+    fetchUserStats: build.query<IApiResponse, IApiRequestParams>({
+      queryFn: async ({
+        address,
+        interval = PrivateStatsInterval.MONTH,
+        current = true,
+      }) => {
         const service = await MultiService.getInstance();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
-        const stats = await backofficeGateway.getUserStats({
+        const statsResponse = await backofficeGateway.getUserStats({
           address,
           interval,
+          current, // current = true means current day stats will be included to period stats response
         });
 
+        const usage = statsResponse?.stats
+          ? Object.values(statsResponse?.stats).map(stat => {
+              return {
+                blockchain: stat?.blockchain || '',
+                totalCost: stat?.total?.totalCost || 0,
+                details:
+                  stat?.total?.topRequests?.map(topRequests => {
+                    return {
+                      blockchain: stat?.blockchain || '',
+                      ...topRequests,
+                      count: topRequests.count.toString(),
+                      totalCost: topRequests?.totalCost?.toString() || '0',
+                    };
+                  }) || [],
+              };
+            })
+          : undefined;
+
         return {
-          data: stats,
+          data: {
+            stats: statsResponse,
+            usage,
+          },
         };
       },
     }),

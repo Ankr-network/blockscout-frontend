@@ -24,22 +24,19 @@ jobs:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
-      - uses: egordm/gha-yarn-node-cache@v1
       - uses: nelonoel/branch-name@v1.0.1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.13.0'
+          cache: 'yarn'
 
       - name: Get deployment information
         run: |
           echo "Branch: ${BRANCH_NAME}"
           echo "Package: ${{github.event.inputs.package}}"
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.0
-        with:
-          node-version: '16.13.0'
-          always-auth: true
-
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Publish
         working-directory: ./packages/${{ github.event.inputs.package }}/

@@ -24,8 +24,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: egordm/gha-yarn-node-cache@v1
       - uses: nelonoel/branch-name@v1.0.1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.13.0'
+          cache: 'yarn'
 
       - name: Get deployment information
         run: |
@@ -33,23 +36,19 @@ jobs:
           echo "Domain: ${{github.event.inputs.domain}}"
           echo "API: ${{github.event.inputs.api}}"
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.0
-        with:
-          node-version: '16.13.0'
-
       - name: Install dependencies
         run: |
-          rm -rf node_modules/.cache
-          yarn install
+          yarn install --immutable
 
       - name: Build stage
         working-directory: ./packages/admin-mrpc
         if: ${{ github.event.inputs.api == 'STAGE' }}
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         run: |
-          yarn build:stage
+          yarn build:stage:turbo
           yarn postbuild
 
       - name: Build production
@@ -58,7 +57,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
-          yarn build:prod
+          yarn build:prod:turbo
           yarn postbuild
 
       - name: Set AWS credentials

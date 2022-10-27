@@ -23,6 +23,8 @@ import {
   IUserStatsRequest,
   IUserStatsResponse,
   ICountersRequest,
+  IGetUserTotalRequest,
+  IGetUserTotalResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -75,6 +77,19 @@ export class BackofficeGateway implements IBackofficeGateway {
   ): Promise<IEmailBindingsResponse> {
     const { data: response } = await this.api.get<IEmailBindingsResponse>(
       '/users/emails',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getUserTotal(
+    params: IGetUserTotalRequest,
+  ): Promise<IGetUserTotalResponse> {
+    const { data: response } = await this.api.get<IGetUserTotalResponse>(
+      '/users/totals',
       {
         params,
       },

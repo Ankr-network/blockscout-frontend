@@ -1,1 +1,2 @@
-export * from './AddEmailBanner';
+export * from './AddEmailBannerCard';
+export * from './AddEmailBannerDialog';

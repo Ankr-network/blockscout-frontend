@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ClientMapped } from '../../store/clientsSlice';
 import { sortData } from './clientTableUtils';
 
@@ -7,6 +7,7 @@ const NUMERIC_KEYS: (keyof ClientMapped)[] = [
   'amountAnkr',
   'amountUsd',
   'voucherAmount',
+  'ttl',
 ];
 
 export const useClientsTableSorting = ({
@@ -18,10 +19,13 @@ export const useClientsTableSorting = ({
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [sortedData, setSortedData] = useState<ClientMapped[]>(clients);
 
-  const handleOrder = (sortByValue: keyof ClientMapped) => {
-    setSortBy(sortByValue);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
+  const handleOrder = useCallback(
+    (sortByValue: keyof ClientMapped) => {
+      setSortBy(sortByValue);
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    },
+    [sortOrder],
+  );
 
   useEffect(() => {
     const compareType = NUMERIC_KEYS.some(el => sortBy?.includes(el))

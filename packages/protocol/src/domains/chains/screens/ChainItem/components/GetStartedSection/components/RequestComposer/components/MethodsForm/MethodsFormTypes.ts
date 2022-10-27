@@ -15,3 +15,11 @@ export type TronMethodsFieldsData = {
 export type TronMethodsFormData = {
   methodName?: MethodOption;
 } & TronMethodsFieldsData;
+
+export type HarmonyMethodsFieldsData = {
+  [key: string]: string | number;
+};
+
+export type HarmonyMethodsFormData = {
+  methodName?: MethodOption;
+} & HarmonyMethodsFieldsData;

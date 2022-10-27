@@ -1,16 +1,12 @@
-import { Box, Tab, Tabs, Typography } from '@material-ui/core';
-import { useState } from 'react';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
-import { useFetchCountersQuery } from '../../actions/fetchCounters';
-import { useFetchUserTransactionsQuery } from '../../actions/fetchUserTransactions';
-import { useFetchUserStatementQuery } from '../../actions/fetchUserStatement';
-import { useFetchUserStatsQuery } from '../../actions/fetchUserStats';
+import { Spinner } from 'ui';
 
 import { ClientTransactionsTable } from './ClientTransactionsTable';
 import { ClientInfo } from './ClientInfo';
 import { ClientUsageTable } from './ClientUsageTable';
+import { useClientDetailsPage } from './useClientDetailsPage';
+import { useClientDetailsStyles } from './ClientDetailsStyles';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -18,15 +14,13 @@ interface TabPanelProps {
   value: number;
 }
 
-const TRANSACTION_TYPE_DEDUCTION = 'TRANSACTION_TYPE_DEDUCTION';
-
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
     <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && (
-        <Box sx={{ mt: 3 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -35,96 +29,92 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export const ClientDetailsPage = () => {
-  const { address } = ClientsRoutesConfig.clientInfo.useParams();
-  useSetBreadcrumbs([
-    {
-      title: 'clients',
-      link: ClientsRoutesConfig.clients.generatePath(),
-    },
-    {
-      title: `${address}`,
-    },
-  ]);
+  const {
+    isLoadingClients,
+    currentClient,
+    address,
+    statsData,
+    transactionsCost,
+    isLoadingTransactions,
+    isLoadingStats,
+    periodStatement,
+    totalData,
+    isLoadingTotal,
+    value,
+    handleChange,
+    transactionsData,
+    updateTimeframeParam,
+    isFetchingStats,
+  } = useClientDetailsPage();
 
-  const { data: clients, isLoading: isLoadingClients } =
-    useFetchCountersQuery();
-  const { data: transactionsData, isLoading: isLoadingTransactions } =
-    useFetchUserTransactionsQuery({ address });
-  const { data: statementsData, isLoading: isLoadingStatement } =
-    useFetchUserStatementQuery({ address });
-  const { data: statsData, isLoading: isLoadingStats } = useFetchUserStatsQuery(
-    { address },
-  );
+  const { classes } = useClientDetailsStyles();
 
-  const transactionsDeduction = transactionsData?.transactions.filter(
-    i => i.type === TRANSACTION_TYPE_DEDUCTION,
-  );
-  const transactionsCost = transactionsDeduction?.reduce(
-    (partialSum, a) => partialSum + +a.amountUsd,
-    0,
-  );
-  const currentClient = clients?.counters?.filter(i => i.address === address);
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
-    setValue(newValue);
-  };
-
-  if (
-    isLoadingClients ||
-    isLoadingTransactions ||
-    isLoadingStatement ||
-    isLoadingStats
-  ) {
-    return <>Loading...</>;
-  }
-
-  if (!currentClient) {
+  if (!isLoadingClients && !currentClient) {
     return <>Client not found</>;
   }
+
+  const fileName = `${new Date().toLocaleDateString('en-CA')}_${address}`;
 
   return (
     <>
       <ClientInfo
+        address={address}
         currentClient={currentClient}
-        statsData={statsData}
         transactionsCost={transactionsCost}
+        isLoadingClients={isLoadingClients}
+        isLoadingTransactions={isLoadingTransactions}
+        totalData={totalData}
+        isLoadingTotal={isLoadingTotal}
       />
 
-      {(transactionsData?.transactions || statementsData?.statement?.usage) && (
-        <>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: 40 }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="User statistics"
-            >
-              <Tab
-                label="Transactions"
-                disabled={!transactionsData?.transactions}
-              />
-              <Tab label="Usage" disabled={!statementsData?.statement.usage} />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            {transactionsData?.transactions ? (
-              <ClientTransactionsTable
-                transactions={transactionsData?.transactions}
-              />
-            ) : (
-              'No information'
-            )}
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            {statementsData?.statement.usage ? (
-              <ClientUsageTable usage={statementsData.statement.usage} />
-            ) : (
-              'No information'
-            )}
-          </TabPanel>
-        </>
-      )}
+      <>
+        <Box sx={{ marginTop: 10 }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="User statistics"
+            TabIndicatorProps={{
+              style: {
+                display: 'none',
+              },
+            }}
+          >
+            <Tab className={classes.tab} disableRipple label="Usage" />
+            <Tab
+              className={classes.tab}
+              disableRipple
+              label="Billing"
+              disabled={!transactionsData?.transactions}
+            />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <ClientUsageTable
+            fileName={fileName}
+            currentPeriod={periodStatement}
+            stats={statsData?.stats}
+            usage={statsData?.usage}
+            onUpdateTimeframe={updateTimeframeParam}
+            isLoadingStats={isLoadingStats || isFetchingStats}
+          />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          {transactionsData?.transactions &&
+          transactionsData?.transactions?.length > 0 ? (
+            <ClientTransactionsTable
+              transactions={transactionsData?.transactions}
+            />
+          ) : isLoadingTransactions ? (
+            <Spinner
+              className={classes.spinnerTransactions}
+              centered={false}
+              size={50}
+            />
+          ) : (
+            'Not found'
+          )}
+        </TabPanel>
+      </>
     </>
   );
 };

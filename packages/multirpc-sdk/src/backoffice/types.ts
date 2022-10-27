@@ -1,4 +1,8 @@
-import { IPaymentHistoryEntityType, PrivateStats, PrivateStatsInterval } from '../account';
+import {
+  IPaymentHistoryEntityType,
+  PrivateStats,
+  PrivateStatsInterval
+} from '../account';
 import { EmailConfirmationStatus, Network, Web3Address } from '../common';
 
 export interface ITransactionsEntity {
@@ -82,6 +86,7 @@ export interface ICreateTestClientResponse {
 export interface IUserStatsRequest {
   address: Web3Address;
   interval: PrivateStatsInterval;
+  current?: boolean; // set true if current day stats need to be included
 }
 
 export type IUserStatsResponse = PrivateStats;
@@ -131,6 +136,39 @@ export interface IUpdateVoucherCreditsRequest {
 
 export interface IUpdateVoucherCreditsResponse {
   success: boolean;
+}
+
+export interface IGetUserTotalRequest {
+  address: Web3Address;
+}
+interface ChainTotal {
+  totalCost: string,
+  totalCount: string
+}
+export interface IGetUserTotalResponse {
+  blockchainsInfo: {
+    blockchains?: {
+      avalanche?: ChainTotal,
+      bsc?: ChainTotal,
+      bsc_testnet_chapel?: ChainTotal,
+      celo?: ChainTotal,
+      eth?: ChainTotal,
+      eth_sepolia?: ChainTotal,
+      fantom?: ChainTotal,
+      harmony?: ChainTotal,
+      iotex_testnet?: ChainTotal,
+      moonbeam?: ChainTotal,
+      near?: ChainTotal,
+      nervos_ckb?: ChainTotal,
+      optimism?: ChainTotal,
+      polygon?: ChainTotal,
+      syscoin?: ChainTotal,
+      tron?: ChainTotal
+    },
+    startedMs?: string,
+    totalCost?: string,
+    totalCount?: string,
+  }
 }
 
 export type BlockchainFeature = 'rpc' | 'ws';
