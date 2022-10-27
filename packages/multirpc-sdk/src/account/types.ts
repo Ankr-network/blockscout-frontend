@@ -79,6 +79,7 @@ export interface IAggregatedPaymentHistoryResponse {
 export interface IMethod {
   method: string;
   count: number;
+  totalCost: string;
 }
 
 type ChartDate = string;
@@ -94,7 +95,9 @@ export interface PrivateTotalRequestsInfo {
   count: number;
   others_info: PrivateStatOthersInfo;
   top_requests: PrivateStatTopRequests[];
+  topRequests: PrivateStatTopRequests[];
   total_cost?: number;
+  totalCost?: number;
 }
 
 export interface PrivatStatTopCountry {
@@ -126,6 +129,7 @@ export interface PrivateStat {
   ips_count: PrivateStatIPsCount;
   total: PrivateTotalRequestsInfo;
   total_requests: number;
+  totalRequests: number;
 }
 
 // in ms
@@ -140,7 +144,8 @@ export interface PrivateStatCount {
 export type RPCRequestName = string;
 export interface PrivateStatTopRequests {
   method: RPCRequestName;
-  count: number;
+  count: string;
+  totalCost: string;
 }
 
 export interface IApiPrivateStats {
@@ -149,6 +154,7 @@ export interface IApiPrivateStats {
 }
 
 export interface PrivateStats {
+  error?: string;
   stats?: PrivateStatsInternal;
   totalRequests?: number;
 }

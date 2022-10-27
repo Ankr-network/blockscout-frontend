@@ -10,7 +10,7 @@ import { authorizeBackoffice } from '../utils/authorizeBackoffice';
  */
 interface IRequestParams {
   address: Web3Address;
-  dayOffset?: '0' | '1' | '2' | '3';
+  dayOffset?: '0' | '1' | '2' | '3' | '7' | '30';
 }
 
 export const {
