@@ -1,9 +1,11 @@
 import { RequestAction } from '@redux-requests/core';
+import retry from 'async-retry';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-eth';
 
 import { IStakeData, PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
+import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 import { IFetchTxData } from 'modules/switcher/api/types';
 
@@ -17,7 +19,9 @@ export const getTxData = createSmartAction<
     promise: async (): Promise<IFetchTxData> => {
       const sdk = await PolygonOnPolygonSDK.getInstance();
 
-      return sdk.getTxData(txHash);
+      return retry(() => sdk.getTxData(txHash), {
+        retries: RETRIES_TO_GET_TX_DATA,
+      });
     },
   },
   meta: {
