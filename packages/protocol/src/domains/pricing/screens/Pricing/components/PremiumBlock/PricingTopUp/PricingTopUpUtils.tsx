@@ -6,7 +6,7 @@ import { AmountInputField } from 'domains/account/screens/AccountDetails/compone
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { t } from 'modules/i18n/utils/intl';
 
-const MIN_ANKR_AMOUNT = new BigNumber(0);
+const MIN_ANKR_AMOUNT = new BigNumber(1_000);
 
 export const defaultInitialValues = {
   [AmountInputField.amount]: MIN_ANKR_AMOUNT.toString(10),
