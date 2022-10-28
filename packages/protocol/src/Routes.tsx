@@ -1,3 +1,4 @@
+import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
 import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
@@ -11,7 +12,6 @@ import {
 } from 'domains/userSettings/Routes';
 import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useMemo } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useAppSelector } from 'store/useAppSelector';
 import { Themes } from 'ui';
@@ -30,7 +30,7 @@ export const Routes = () => {
   const { handleConnect, credentials } = useAuth();
 
   const cachedAuthData = useAppSelector(selectAuthData);
-  const hasCredentials = useMemo(() => Boolean(credentials), [credentials]);
+  const hasCredentials = Boolean(credentials);
 
   useOnMount(() => {
     if (cachedAuthData.authorizationToken) {
@@ -62,9 +62,21 @@ export const Routes = () => {
           AccountRoutesConfig.accountDetails.path,
           AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.withdraw.path,
-          AccountRoutesConfig.cardPaymentSuccess.path,
           AccountRoutesConfig.cardPaymentFailure.path,
         ]}
+        hasCredentials={hasCredentials}
+        hasAuthData={Boolean(cachedAuthData.authorizationToken)}
+        isManualDisconnected={Boolean(cachedAuthData.isManualDisconnected)}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <AccountRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <GuardCardPaymentSuccessAuthRoute
+        exact
+        path={[AccountRoutesConfig.cardPaymentSuccess.path]}
+        hasCredentials={hasCredentials}
         hasAuthData={Boolean(cachedAuthData.authorizationToken)}
         isManualDisconnected={Boolean(cachedAuthData.isManualDisconnected)}
         render={() => (

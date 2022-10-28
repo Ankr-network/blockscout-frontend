@@ -1200,7 +1200,7 @@
       "title": "Withdraw"
     },
     "card-payment-success": {
-      "breadcrumbs": "Billing",
+      "breadcrumbs": "Pricing",
       "title": "Everything looks good!",
       "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
       "button-billing": "Go to Billing",
