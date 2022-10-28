@@ -4,6 +4,10 @@ import { MemoryRouter } from 'react-router';
 
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
+import {
+  IUseHistoryData,
+  useHistory,
+} from 'modules/common/components/HistoryDialog/hooks/useHistory';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -24,6 +28,10 @@ jest.mock('modules/stake/hooks/useUnstakePendingTimestamp', () => ({
 
 jest.mock('../../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory', () => ({
   useStakedAVAXTxHistory: jest.fn(),
+}));
+
+jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+  useHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
@@ -66,6 +74,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     pendingUnstakeHistoryAAVAXC: [],
   };
 
+  const defaultUseHistoryHookData: IUseHistoryData = {
+    loading: false,
+    weeksAmount: 1,
+    handleShowMore: jest.fn(),
+    stakeEvents: [],
+    unstakeEvents: [],
+  };
+
   beforeEach(() => {
     (useStakedAAVAXBData as jest.Mock).mockReturnValue(
       defaultStakedAAVAXBHookData,
@@ -74,6 +90,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     (useStakedAVAXTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
+
+    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
   });
 
   afterEach(() => {

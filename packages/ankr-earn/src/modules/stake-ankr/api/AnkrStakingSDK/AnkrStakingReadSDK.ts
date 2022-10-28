@@ -22,7 +22,11 @@ import {
 import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
-import { CACHE_TIME, TEMPORARY_APY } from 'modules/stake-ankr/const';
+import {
+  SHORT_CACHE_TIME,
+  LONG_CACHE_TIME,
+  TEMPORARY_APY,
+} from 'modules/stake-ankr/const';
 
 import ANKR_TOKEN_STAKING_ABI from '../contracts/AnkrTokenStaking.json';
 import STAKING_CONFIG_ABI from '../contracts/StakingConfig.json';
@@ -42,7 +46,6 @@ import {
   IDelegatorDelegation,
   IDelegatorEventData,
   IGetPastEvents,
-  ILockPeriod,
   IValidator,
 } from './types';
 import { sortEventData } from './utils';
@@ -62,6 +65,8 @@ interface IDelegationHistoryFilter {
   staker?: Web3Address;
 }
 
+export const BLOCK_TIME = 15;
+
 export class AnkrStakingReadSDK {
   private static readInstance?: AnkrStakingReadSDK;
 
@@ -71,6 +76,10 @@ export class AnkrStakingReadSDK {
     AnkrStakingReadSDK.readInstance = this;
 
     this.readProvider = readProvider;
+  }
+
+  public async getBlockNumber(): Promise<number> {
+    return this.readProvider.getWeb3().eth.getBlockNumber();
   }
 
   public static async getInstance(): Promise<AnkrStakingReadSDK> {
@@ -104,7 +113,7 @@ export class AnkrStakingReadSDK {
   }
 
   @Memoize({
-    expiring: CACHE_TIME,
+    expiring: LONG_CACHE_TIME,
     hashFunction: (latestBlockNumber: number) => {
       return `${latestBlockNumber}`;
     },
@@ -118,7 +127,7 @@ export class AnkrStakingReadSDK {
   }
 
   @Memoize({
-    expiring: CACHE_TIME,
+    expiring: LONG_CACHE_TIME,
     hashFunction: (latestBlockNumber: number) => {
       return `${latestBlockNumber}`;
     },
@@ -320,34 +329,12 @@ export class AnkrStakingReadSDK {
     };
   }
 
-  public async calcLockPeriodForDelegations(
-    delegations: IDelegatorDelegation[],
-  ): Promise<ILockPeriod[]> {
-    const { epochBlockInterval, lockPeriod } = await this.getChainConfig();
-
-    const { blockNumber, blockTime } = await this.getChainParams();
-
-    return delegations.reduce<ILockPeriod[]>((acc, delegation) => {
-      const availableAfterBlock =
-        delegation.epoch * epochBlockInterval + lockPeriod * epochBlockInterval;
-
-      acc.push({
-        isAvailable: availableAfterBlock > blockNumber,
-        availableAfterBlock,
-        estimationTime: (availableAfterBlock - blockNumber) * blockTime,
-      });
-
-      return acc;
-    }, []);
-  }
-
   protected cachedChainConfig?: IChainConfig;
 
   public async getChainConfig(): Promise<IChainConfig> {
     if (this.cachedChainConfig) return this.cachedChainConfig;
     const stakingConfig = await this.getStakingConfigContract();
-    // TODO: "i'll add method for fetching all these params"
-    const [
+    const {
       activeValidatorsLength,
       epochBlockInterval,
       misdemeanorThreshold,
@@ -357,17 +344,8 @@ export class AnkrStakingReadSDK {
       minValidatorStakeAmount,
       minStakingAmount,
       lockPeriod,
-    ] = await Promise.all([
-      stakingConfig.methods.getActiveValidatorsLength().call(),
-      stakingConfig.methods.getEpochBlockInterval().call(),
-      stakingConfig.methods.getMisdemeanorThreshold().call(),
-      stakingConfig.methods.getFelonyThreshold().call(),
-      stakingConfig.methods.getValidatorJailEpochLength().call(),
-      stakingConfig.methods.getUndelegatePeriod().call(),
-      stakingConfig.methods.getMinValidatorStakeAmount().call(),
-      stakingConfig.methods.getMinStakingAmount().call(),
-      stakingConfig.methods.getLockPeriod().call(),
-    ]);
+    } = await stakingConfig.methods.getSlot0().call();
+
     this.cachedChainConfig = {
       activeValidatorsLength,
       epochBlockInterval,
@@ -382,46 +360,31 @@ export class AnkrStakingReadSDK {
     return this.cachedChainConfig;
   }
 
+  // TODO: add cache
   public async getChainParams(): Promise<IChainParams> {
-    const [blockNumber, contract] = await Promise.all([
-      this.readProvider.getWeb3().eth.getBlockNumber(),
-      this.getStakingConfigContract(),
-    ]);
-
-    const epochBlockInterval = await contract.methods
-      .getEpochBlockInterval()
-      .call();
+    const { epochBlockInterval } = await this.getChainConfig();
+    const blockNumber = await this.getBlockNumber();
 
     const epoch = epochBlockInterval
       ? Math.ceil(blockNumber / +epochBlockInterval)
       : 0;
 
     const endBlock = blockNumber + +epochBlockInterval;
-    const blockTime = 15;
 
     return {
-      blockNumber,
       epoch,
       nextEpochIn: prettyTime(
-        (endBlock - blockNumber) * blockTime * 1000 * 1000 * 1000,
+        (endBlock - blockNumber) * BLOCK_TIME * 1000 * 1000 * 1000,
         's',
       ),
       nextEpochBlock: endBlock,
-      blockTime,
     };
   }
 
-  public async getLatestBlockNumber(): Promise<number> {
-    return this.readProvider.getWeb3().eth.getBlockNumber();
-  }
-
   @Memoize({
-    expiring: CACHE_TIME,
-    hashFunction: (
-      filter: Partial<IDelegationHistoryFilter>,
-      latestBlockNumber: number,
-    ) => {
-      return `${filter.staker}${filter.validator}${latestBlockNumber}`;
+    expiring: SHORT_CACHE_TIME,
+    hashFunction: (filter: Partial<IDelegationHistoryFilter>) => {
+      return `${filter.staker}${filter.validator}`;
     },
   })
   public async getDelegationHistory(
@@ -469,12 +432,9 @@ export class AnkrStakingReadSDK {
   }
 
   @Memoize({
-    expiring: CACHE_TIME,
-    hashFunction: (
-      filter: Partial<IDelegationHistoryFilter>,
-      latestBlockNumber: number,
-    ) => {
-      return `${filter.staker}${latestBlockNumber}`;
+    expiring: SHORT_CACHE_TIME,
+    hashFunction: (filter: Partial<IDelegationHistoryFilter>) => {
+      return `${filter.staker}`;
     },
   })
   public async getUndelegationHistory(
@@ -525,10 +485,10 @@ export class AnkrStakingReadSDK {
 
   public async getClaimHistory(
     filter: { validator?: Web3Address; staker?: Web3Address } = {},
+    latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
     const stakingContract = await this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
-    const latestBlockNumber = await web3.eth.getBlockNumber();
 
     const events = await this.getPastEvents({
       eventName: EAnkrEvents.Claimed,
@@ -585,11 +545,9 @@ export class AnkrStakingReadSDK {
    * @returns {Promise<BigNumber>}
    */
   public async getMinimumStake(): Promise<BigNumber> {
-    const stakingConfig = await this.getStakingConfigContract();
+    const { minStakingAmount } = await this.getChainConfig();
 
-    const minStake = await stakingConfig.methods.getMinStakingAmount().call();
-
-    return this.convertFromWei(minStake);
+    return minStakingAmount;
   }
 
   /**
@@ -599,7 +557,7 @@ export class AnkrStakingReadSDK {
    * @returns {BigNumber}
    */
   @Memoize({
-    expiring: CACHE_TIME,
+    expiring: SHORT_CACHE_TIME,
     hashFunction: (latestBlockNumber: number) => {
       return `${latestBlockNumber}`;
     },
@@ -638,14 +596,14 @@ export class AnkrStakingReadSDK {
    * @returns {IApyData[]}
    */
   public async getAPY(): Promise<IApyData[]> {
-    const [stakingContract, { epoch }] = await Promise.all([
+    const [stakingContract, { epoch }, blockNumber] = await Promise.all([
       this.getAnkrTokenStakingContract(),
       this.getChainParams(),
+      this.getBlockNumber(),
     ]);
     const provider = this.readProvider;
     const web3 = provider.getWeb3();
-    const latestBlockNumber =
-      (await web3.eth.getBlockNumber()) - ANKR_HISTORY_BLOCK_RANGE;
+    const latestBlockNumber = blockNumber - ANKR_HISTORY_BLOCK_RANGE;
 
     const prevEpoch = epoch - 1;
     const validatorDepositedEvents = await this.getPastEvents({
@@ -687,7 +645,7 @@ export class AnkrStakingReadSDK {
       return acc;
     }, new Map<string, BigNumber>());
 
-    const epochDurationDays = await this.getEpochDurationDays();
+    const epochDurationDays = await this.getEpochDurationDays(blockNumber);
     const yearDays = new BigNumber(365);
 
     return validators.map(x => {
@@ -717,7 +675,7 @@ export class AnkrStakingReadSDK {
   }
 
   @Memoize({
-    expiring: CACHE_TIME,
+    expiring: LONG_CACHE_TIME,
     hashFunction: (latestBlockNumber: number) => {
       return `${latestBlockNumber}`;
     },
@@ -726,7 +684,7 @@ export class AnkrStakingReadSDK {
     latestBlockNumber: number,
   ): Promise<number> {
     const { lockPeriod } = await this.getChainConfig();
-    const epochDuration = await this.getEpochDurationDays();
+    const epochDuration = await this.getEpochDurationDays(latestBlockNumber);
     const nextEpochSeconds = await this.getEpochEndSeconds(latestBlockNumber);
 
     return (
@@ -736,60 +694,58 @@ export class AnkrStakingReadSDK {
 
   public async getEpochEndSeconds(blockNumber: number): Promise<number> {
     const { epochBlockInterval } = await this.getChainConfig();
-    const { blockTime } = await this.getChainParams();
 
     const nextEpochBlock =
       (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
       epochBlockInterval;
 
-    return (nextEpochBlock - blockNumber) * blockTime;
+    return (nextEpochBlock - blockNumber) * BLOCK_TIME;
   }
 
-  protected async getEpochPrevDate(): Promise<Date> {
+  protected async getEpochPrevDate(latestBlockNumber: number): Promise<Date> {
     const { epochBlockInterval } = await this.getChainConfig();
-    const { blockNumber, blockTime } = await this.getChainParams();
 
     const prevEpochBlock =
-      (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
+      (Math.trunc(latestBlockNumber / epochBlockInterval || 0) + 1) *
         epochBlockInterval -
       epochBlockInterval;
 
     const now = new Date();
 
     return new Date(
-      now.getTime() - (blockNumber - prevEpochBlock) * blockTime * 1_000,
+      now.getTime() - (latestBlockNumber - prevEpochBlock) * BLOCK_TIME * 1_000,
     );
   }
 
-  protected async getEpochNextDate(): Promise<Date> {
+  protected async getEpochNextDate(latestBlockNumber: number): Promise<Date> {
     const { epochBlockInterval } = await this.getChainConfig();
-    const { blockNumber, blockTime } = await this.getChainParams();
 
     const nextEpochBlock =
-      (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
+      (Math.trunc(latestBlockNumber / epochBlockInterval || 0) + 1) *
       epochBlockInterval;
 
     const now = new Date();
 
     return new Date(
-      now.getTime() + (nextEpochBlock - blockNumber) * blockTime * 1_000,
+      now.getTime() + (nextEpochBlock - latestBlockNumber) * BLOCK_TIME * 1_000,
     );
   }
 
-  protected async getEpochDurationDays(): Promise<number> {
+  protected async getEpochDurationDays(
+    latestBlockNumber: number,
+  ): Promise<number> {
     const { epochBlockInterval } = await this.getChainConfig();
-    const { blockNumber, blockTime } = await this.getChainParams();
 
     const prevEpochBlock =
-      (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
+      (Math.trunc(latestBlockNumber / epochBlockInterval || 0) + 1) *
         epochBlockInterval -
       epochBlockInterval;
     const nextEpochBlock =
-      (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
+      (Math.trunc(latestBlockNumber / epochBlockInterval || 0) + 1) *
       epochBlockInterval;
 
     return (
-      Math.ceil((nextEpochBlock - prevEpochBlock) * blockTime) /
+      Math.ceil((nextEpochBlock - prevEpochBlock) * BLOCK_TIME) /
       SECONDS_IN_A_DAY
     );
   }

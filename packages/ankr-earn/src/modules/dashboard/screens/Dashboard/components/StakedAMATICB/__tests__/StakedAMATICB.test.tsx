@@ -2,6 +2,10 @@ import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import {
+  IUseHistoryData,
+  useHistory,
+} from 'modules/common/components/HistoryDialog/hooks/useHistory';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -42,6 +46,10 @@ jest.mock('../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMATICTxHistory: jest.fn(),
 }));
 
+jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+  useHistory: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
   const defaultStakedMaticHookData: IStakedAMATICBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
@@ -77,6 +85,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
     handleLoadTxHistory: jest.fn(),
   };
 
+  const defaultUseHistoryHookData: IUseHistoryData = {
+    loading: false,
+    weeksAmount: 1,
+    handleShowMore: jest.fn(),
+    stakeEvents: [],
+    unstakeEvents: [],
+  };
+
   beforeEach(() => {
     (useStakedAMATICBData as jest.Mock).mockReturnValue(
       defaultStakedMaticHookData,
@@ -85,6 +101,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
     (useStakedMATICTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
+
+    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
   });
 
   afterEach(() => {
