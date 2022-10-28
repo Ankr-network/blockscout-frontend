@@ -153,6 +153,27 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         backgroundColor: '#1E41A5',
       },
     },
+
+    '&.klaytn': {
+      borderRadius: 0,
+      '& $content': {
+        padding: 0,
+      },
+      '& $text': {
+        border: `2px solid ${theme.palette.grey[300]}`,
+        padding: theme.spacing(0, 0, 0, 4),
+        height: '100%',
+        borderRightWidth: 0,
+        display: 'flex',
+        alignItems: 'center',
+      },
+      '& $button': {
+        backgroundColor: 'transparent',
+        borderRadius: 0,
+        border: `3px solid ${theme.palette.primary.main}`,
+        color: theme.palette.primary.main,
+      },
+    },
   },
   content: ({ isCopied }) => ({
     display: 'flex',

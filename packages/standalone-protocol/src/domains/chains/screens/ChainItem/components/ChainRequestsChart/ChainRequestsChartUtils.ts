@@ -19,6 +19,9 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Gnosis:
       return '#439AB1';
 
+    case ChainId.Klaytn:
+      return theme.palette.primary.main;
+
     default:
       return theme.palette.primary.main;
   }
@@ -39,6 +42,9 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
 
     case ChainId.Gnosis:
       return theme.palette.error.main;
+
+    case ChainId.Klaytn:
+      return '#F99A00';
 
     default:
       return theme.palette.primary.dark;

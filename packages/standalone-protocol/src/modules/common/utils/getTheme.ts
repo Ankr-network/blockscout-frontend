@@ -12,6 +12,7 @@ import { harmonyTheme } from 'modules/themes/harmonyTheme';
 import { gnosisTheme } from 'modules/themes/gnosisTheme';
 import { syscoinTheme } from 'modules/themes/syscoinTheme';
 import { ethTheme } from 'modules/themes/ethTheme';
+import { klaytnTheme } from 'modules/themes/klaytnTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -50,6 +51,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Syscoin:
       return syscoinTheme;
+
+    case ChainId.Klaytn:
+      return klaytnTheme;
 
     default:
       return mainTheme;

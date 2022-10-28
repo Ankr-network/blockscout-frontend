@@ -18,7 +18,7 @@ for NAME in ${NAMES}; do
 
   mkdir -p build-chains
 
-  REACT_APP_CHAIN_ID=${NAME} yarn build:${ENV}
+  REACT_APP_CHAIN_ID=${NAME} yarn build:${ENV}:turbo
   yarn postbuild
   mv build build-chains/${NAME}
 done

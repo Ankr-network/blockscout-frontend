@@ -12,6 +12,7 @@ import { ReactComponent as ArbitrumLogo } from 'assets/img/logo/arbitrum.svg';
 import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
 import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
+import { ReactComponent as KlaytnLogo } from 'assets/img/logo/klaytn.svg';
 import { ChainId } from 'domains/chains/api/chain';
 
 export const MENU_LIST = [
@@ -98,5 +99,11 @@ export const MENU_LIST = [
     name: 'Syscoin',
     logo: <SyscoinLogo />,
     url: 'https://syscoin.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Klaytn,
+    name: 'Klaytn',
+    logo: <KlaytnLogo />,
+    url: 'https://klaytn.public-rpc.com/',
   },
 ];
