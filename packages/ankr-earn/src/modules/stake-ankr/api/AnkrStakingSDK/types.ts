@@ -17,11 +17,9 @@ export interface IChainConfig {
 }
 
 export interface IChainParams {
-  blockNumber: number;
   epoch: number;
   nextEpochBlock: number;
   nextEpochIn: string;
-  blockTime: number;
 }
 
 export type TValidatorPrettyStatus =

@@ -5,6 +5,7 @@ import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
+import { TimerWorker } from './components/TimerWorker';
 import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
 import { RoutesConfig } from './RoutesConfig';
 
@@ -72,6 +73,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Main />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -83,6 +86,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Providers />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -94,6 +99,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Stake />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -105,6 +112,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Restake />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -116,6 +125,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <ClaimUnstakes />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -127,6 +138,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <ClaimAllUnstakes />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -138,6 +151,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <ClaimRewards />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -149,6 +164,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <ClaimAllRewards />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -160,6 +177,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <StakeSteps />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -171,6 +190,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <UnstakeSteps />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -185,6 +206,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <ClaimSteps />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -196,6 +219,8 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <Unstake />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -207,12 +232,16 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <SelectProvider />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
         <Route>
           <DefaultLayout>
             <PageNotFound />
+
+            <TimerWorker />
           </DefaultLayout>
         </Route>
       </Switch>

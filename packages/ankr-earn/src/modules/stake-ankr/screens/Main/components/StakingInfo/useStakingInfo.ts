@@ -27,7 +27,6 @@ interface IUseTotalInfo {
 
 export const useStakingInfo = (): IUseTotalInfo => {
   const dispatchRequest = useDispatchRequest();
-
   const { data: ankrPrice } = useGetAnkrPriceQuery();
 
   const [getAllClaimableUnstakes, { data, isFetching: loading }] =

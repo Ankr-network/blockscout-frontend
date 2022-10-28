@@ -31,4 +31,5 @@ export enum EProviderStatus {
   pending,
 }
 
-export const CACHE_TIME: Milliseconds = 1_000 * 30;
+export const SHORT_CACHE_TIME: Milliseconds = 1_000 * 10;
+export const LONG_CACHE_TIME: Milliseconds = 1_000 * 300;
