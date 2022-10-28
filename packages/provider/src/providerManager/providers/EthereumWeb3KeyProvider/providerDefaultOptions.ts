@@ -7,7 +7,7 @@ import {
   EEthereumNetworkId,
   EWalletId,
   getWalletIcon,
-  OKX_WALLET_NAME,
+  getWalletName,
   RPCConfig,
 } from '@ankr.com/provider-core';
 
@@ -38,7 +38,7 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.binanceWallet]: {
     display: {
       logo: getWalletIcon(EWalletId.binanceWallet),
-      name: 'Binance Wallet',
+      name: getWalletName(EWalletId.binanceWallet),
       description:
         'A Crypto Wallet for BNB Beacon Chain, BNB Smart Chain and Ethereum',
     },
@@ -59,7 +59,7 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.imtoken]: {
     display: {
       logo: getWalletIcon(EWalletId.imtoken),
-      name: 'imToken',
+      name: getWalletName(EWalletId.imtoken),
       description: 'Easy and secure digital wallet trusted by millions',
     },
     package: WalletConnectProvider,
@@ -75,7 +75,7 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.math]: {
     display: {
       logo: getWalletIcon(EWalletId.math),
-      name: 'Math Wallet',
+      name: getWalletName(EWalletId.math),
       description: 'Gateway to the World of Blockchain',
     },
     package: WalletConnectProvider,
@@ -91,7 +91,7 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.trust]: {
     display: {
       logo: getWalletIcon(EWalletId.trust),
-      name: 'Trust Wallet',
+      name: getWalletName(EWalletId.trust),
       description: 'The most trusted & secure crypto wallet',
     },
     package: WalletConnectProvider,
@@ -107,7 +107,7 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.huobi]: {
     display: {
       logo: getWalletIcon(EWalletId.huobi),
-      name: 'Huobi Wallet',
+      name: getWalletName(EWalletId.huobi),
       description: 'Multi-currency support, practical and convenient',
     },
     package: WalletConnectProvider,
@@ -129,7 +129,7 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.coinbase]: {
     display: {
       logo: getWalletIcon(EWalletId.coinbase),
-      name: 'Coinbase',
+      name: getWalletName(EWalletId.coinbase),
       description: 'Coinbase wallet',
     },
     package: CoinbaseWalletSDK,
@@ -158,7 +158,7 @@ export const providerDefaultOptions: IProviderOptions = {
   [EWalletId.okxwallet]: {
     display: {
       logo: getWalletIcon(EWalletId.okxwallet),
-      name: OKX_WALLET_NAME,
+      name: getWalletName(EWalletId.okxwallet),
       description: 'Your portal to Web3',
     },
     package: WalletConnectProvider,
