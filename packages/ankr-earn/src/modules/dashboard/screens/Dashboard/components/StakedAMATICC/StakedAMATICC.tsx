@@ -2,14 +2,8 @@ import { useCallback } from 'react';
 
 import { tHTML } from 'common';
 
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import {
-  ETH_NETWORK_BY_ENV,
-  featuresConfig,
-  ONE,
-  ZERO,
-} from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -61,7 +55,6 @@ export const StakedAMATICC = (): JSX.Element => {
   const {
     isHistoryDataLoading,
     pendingUnstakeHistoryAMATICC,
-    transactionHistoryAMATICC,
     handleLoadTxHistory,
   } = useStakedMATICTxHistory();
 
@@ -109,21 +102,12 @@ export const StakedAMATICC = (): JSX.Element => {
         onTokenInfoClick={onOpenInfo}
       />
 
-      {featuresConfig.newStakingHistoryDialog ? (
-        <NewHistoryDialog
-          network={ETH_NETWORK_BY_ENV}
-          open={isOpenedHistory}
-          token={Token.aMATICc}
-          onClose={onCloseHistory}
-        />
-      ) : (
-        <HistoryDialog
-          history={transactionHistoryAMATICC}
-          isHistoryLoading={isHistoryDataLoading}
-          open={isOpenedHistory}
-          onClose={onCloseHistory}
-        />
-      )}
+      <NewHistoryDialog
+        network={ETH_NETWORK_BY_ENV}
+        open={isOpenedHistory}
+        token={Token.aMATICc}
+        onClose={onCloseHistory}
+      />
 
       <TokenInfoDialog
         addTokenToWallet={onAddTokenToWallet}

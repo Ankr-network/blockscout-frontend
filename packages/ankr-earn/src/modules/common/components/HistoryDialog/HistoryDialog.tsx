@@ -174,7 +174,7 @@ export const HistoryDialog = ({
           </div>
         </div>
 
-        {txHistory}
+        <div className={classes.tableWrapper}>{txHistory}</div>
       </Container>
     </Dialog>
   );
