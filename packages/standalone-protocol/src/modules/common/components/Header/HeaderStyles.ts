@@ -32,6 +32,10 @@ export const useStyles = makeStyles<
 
     '&.moonbeam': {
       backgroundColor: theme.palette.primary.dark,
+    },
+
+    '&.klaytn': {
+      background: 'linear-gradient(90deg, #FFDEC6 0%, #FFFBF5 100%)',
       color: theme.palette.text.primary,
     },
   },

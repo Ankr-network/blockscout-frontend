@@ -19,6 +19,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
     },
+    '&.klaytn': {
+      backgroundColor: theme.palette.grey[600],
+      borderRadius: 0,
+    },
   },
   header: {
     padding: theme.spacing(2, 0),
