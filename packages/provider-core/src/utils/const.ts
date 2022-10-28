@@ -14,8 +14,6 @@ interface IRPCConfig {
   iconUrls?: string[]; // Currently ignored
 }
 
-export const OKX_WALLET_NAME = 'OKX Wallet';
-
 export const RPCConfig: Record<number, IRPCConfig> = {
   // Mainnet config is partial, because there is no need to specify it fully
   [EEthereumNetworkId.mainnet]: {
