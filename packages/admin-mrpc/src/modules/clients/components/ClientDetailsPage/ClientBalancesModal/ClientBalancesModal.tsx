@@ -12,13 +12,13 @@ import {
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { IAmountType } from 'multirpc-sdk';
-import { useFetchCountersQuery } from '../../actions/fetchCounters';
-import { useFetchUserTransactionsQuery } from '../../actions/fetchUserTransactions';
-import { useAddUserVoucherCreditsMutation } from '../../actions/addUserVoucherCredits';
-import { useSubtractUserVoucherCreditsMutation } from '../../actions/subtractUserVoucherCredits';
-import { ClientMapped } from '../../store/clientsSlice';
+import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
+import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
+import { useAddUserVoucherCreditsMutation } from 'modules/clients/actions/addUserVoucherCredits';
+import { useSubtractUserVoucherCreditsMutation } from 'modules/clients/actions/subtractUserVoucherCredits';
+import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { ClientBalancesInfo } from './ClientBalancesInfo';
-import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
+import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
 interface FormElements {
   elements: {

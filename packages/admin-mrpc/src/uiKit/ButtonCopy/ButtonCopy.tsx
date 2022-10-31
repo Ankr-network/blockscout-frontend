@@ -25,13 +25,13 @@ export const ButtonCopy = ({
 
   return (
     <Button
-      className={cx(classes.root, className)}
+      className={cx(classes.root, label && classes.withLabel, className)}
       variant="text"
       onClick={handleCopy}
       {...props}
     >
-      {label}
       <IconCopy />
+      {label && <span className={classes.label}>{label}</span>}
     </Button>
   );
 };

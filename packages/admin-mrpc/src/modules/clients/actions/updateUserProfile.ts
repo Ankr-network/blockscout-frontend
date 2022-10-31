@@ -1,43 +1,42 @@
 import { toast } from 'react-toastify';
-import { ICreateTestClientResponse, Web3Address } from 'multirpc-sdk';
+import {
+  IUpdateUserProfileRequest,
+  IUpdateUserProfileResponse,
+} from 'multirpc-sdk';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 
-interface IApiResponse {
-  user: ICreateTestClientResponse;
-}
-
-interface IRequestParams {
-  address: Web3Address;
-  duration: number;
-}
-
 export const {
-  useCreateTestPremiumUserMutation,
-  endpoints: { createTestPremiumUser },
+  useUpdateUserProfileMutation,
+  endpoints: { updateUserProfile },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    createTestPremiumUser: build.mutation<IApiResponse, IRequestParams>({
-      queryFn: async formData => {
+    updateUserProfile: build.mutation<
+      IUpdateUserProfileResponse,
+      IUpdateUserProfileRequest
+    >({
+      queryFn: async params => {
         const service = await MultiService.getInstance();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
 
-        const user = await backofficeGateway.createTestPremiumUser(formData);
+        const profileData = await backofficeGateway.updateUserProfile(params);
 
         return {
-          data: { user },
+          data: profileData,
         };
       },
       onQueryStarted: async (_, { queryFulfilled }) => {
         queryFulfilled
           .then(res => {
             const { data } = res;
-            if (typeof data.user === 'object' && data.user.token) {
-              toast.success(`Created test user for ${data.user.address}`);
+            if (data.user.address) {
+              toast.success(`Updated user profile for ${data.user.address}`);
             } else {
-              toast.error(`Failed to create user for ${data.user.address}`);
+              toast.error(
+                `Failed to update user profile for ${data.user.address}`,
+              );
             }
 
             return data;

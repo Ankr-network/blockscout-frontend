@@ -5,7 +5,7 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from 'multirpc-sdk';
-import { IUsageEntityMapped } from '../../actions/fetchUserStats';
+import { IUsageEntityMapped } from 'modules/clients/actions/fetchUserStats';
 
 export interface IHookProps {
   onUpdateTimeframe: (timeframe: PrivateStatsInterval) => void;

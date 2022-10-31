@@ -146,4 +146,5 @@ export const {
       },
     }),
   }),
+  overrideExisting: true,
 });

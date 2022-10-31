@@ -33,6 +33,9 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(4),
     marginTop: theme.spacing(4),
   },
+  inputComment: {
+    width: '100%',
+  },
   typeText: {
     marginRight: 10,
   },
