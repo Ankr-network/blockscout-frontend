@@ -10,7 +10,7 @@ export const ETH_POOL_START_BLOCK = isMainnet ? 11_225_126 : 3_829_233;
 /**
  * Block offset to get 14 days history events
  */
-export const ETH_BLOCK_2_WEEKS_OFFSET = 100_800; // 14 days
+export const ETH_BLOCK_2_WEEKS_OFFSET = isMainnet ? 100_800 : 80_640;
 
 /**
  * Block step range for events
