@@ -32,7 +32,7 @@ export const {
       queryFn: async ({
         address,
         interval = PrivateStatsInterval.MONTH,
-        current = true,
+        current = false,
       }) => {
         const service = await MultiService.getInstance();
         const backofficeGateway = await service.getBackofficeGateway();

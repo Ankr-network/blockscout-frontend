@@ -21,6 +21,8 @@ interface IUsageCsv extends IUsageDetailEntity {
 export interface IClientUsageTableProps extends IHookProps {
   fileName: string;
   isLoadingStats?: boolean;
+  handleSwitchCurrent: () => void;
+  isCurrentDayIncluded: boolean;
 }
 
 type TabIndex = 0 | 1 | 2;

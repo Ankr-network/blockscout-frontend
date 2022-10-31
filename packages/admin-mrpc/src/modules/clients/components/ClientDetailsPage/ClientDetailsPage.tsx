@@ -45,6 +45,8 @@ export const ClientDetailsPage = () => {
     transactionsData,
     updateTimeframeParam,
     isFetchingStats,
+    handleSwitchCurrent,
+    isCurrentDayIncluded,
   } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
@@ -96,6 +98,8 @@ export const ClientDetailsPage = () => {
             usage={statsData?.usage}
             onUpdateTimeframe={updateTimeframeParam}
             isLoadingStats={isLoadingStats || isFetchingStats}
+            handleSwitchCurrent={handleSwitchCurrent}
+            isCurrentDayIncluded={isCurrentDayIncluded}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
