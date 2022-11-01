@@ -7,10 +7,7 @@ import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import {
-  MATIC_ON_POLYGON_STAKING_NETWORKS,
-  MATIC_PROVIDER_ID,
-} from 'modules/stake-matic/common/const';
+import { MATIC_ON_POLYGON_STAKING_NETWORKS } from 'modules/stake-matic/common/const';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
@@ -88,7 +85,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={MATIC_ON_POLYGON_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={MATIC_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -99,7 +95,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={MATIC_ON_POLYGON_STAKING_NETWORKS}
           path={RoutesConfig.stakeStep.path}
-          providerId={MATIC_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeStep />
@@ -110,7 +105,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={MATIC_ON_POLYGON_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
-          providerId={MATIC_PROVIDER_ID}
         >
           <DefaultLayout verticalAlign="center">
             <Unstake />
@@ -121,7 +115,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={MATIC_ON_POLYGON_STAKING_NETWORKS}
           path={RoutesConfig.unstakeSuccess.path}
-          providerId={MATIC_PROVIDER_ID}
         >
           <DefaultLayout>
             <UnstakeSuccess />

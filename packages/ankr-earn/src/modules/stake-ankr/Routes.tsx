@@ -6,7 +6,7 @@ import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
 import { TimerWorker } from './components/TimerWorker';
-import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
+import { ANKR_STAKING_NETWORKS } from './const';
 import { RoutesConfig } from './RoutesConfig';
 
 const Main = loadComponent(() =>
@@ -69,7 +69,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.main.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Main />
@@ -82,7 +81,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.providers.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Providers />
@@ -95,7 +93,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -108,7 +105,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.restake.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Restake />
@@ -121,7 +117,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimUnstakes.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimUnstakes />
@@ -134,7 +129,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimAllUnstakes.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimAllUnstakes />
@@ -147,7 +141,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimRewards.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimRewards />
@@ -160,7 +153,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimAllRewards.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimAllRewards />
@@ -173,7 +165,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.stakeSteps.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeSteps />
@@ -186,7 +177,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.unstakeSteps.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <UnstakeSteps />
@@ -202,7 +192,6 @@ export function getRoutes(): JSX.Element {
             RoutesConfig.claimRewardsSteps.path,
             RoutesConfig.claimUnstakesSteps.path,
           ]}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimSteps />
@@ -215,7 +204,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Unstake />
@@ -228,7 +216,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.selectProvider.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <SelectProvider />

@@ -14,7 +14,6 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 import {
   MATIC_ON_ETH_STAKING_NETWORKS,
   MATIC_ON_POLYGON_STAKING_NETWORKS,
-  MATIC_PROVIDER_ID,
 } from './const';
 
 const ROOT = `${StakeRoutes.main.path}matic/`;
@@ -48,7 +47,6 @@ export function getRoutes(): JSX.Element {
             ...MATIC_ON_POLYGON_STAKING_NETWORKS,
           ]}
           path={RoutesConfig.stake.path}
-          providerId={MATIC_PROVIDER_ID}
         >
           <NetworkChooser />
         </GuardETHRoute>

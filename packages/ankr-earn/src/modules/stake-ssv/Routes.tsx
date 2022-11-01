@@ -8,7 +8,7 @@ import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
-import { SSV_PROVIDER_ID, SSV_STAKING_NETWORKS } from './const';
+import { SSV_STAKING_NETWORKS } from './const';
 import { TSSVToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}ethereum-ssv/`;
@@ -53,7 +53,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={SSV_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={SSV_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -64,7 +63,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={SSV_STAKING_NETWORKS}
           path={RoutesConfig.stakeStep.path}
-          providerId={SSV_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeStep />

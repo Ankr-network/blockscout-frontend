@@ -10,7 +10,7 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
-import { FANTOM_PROVIDER_ID, FANTOM_STAKING_NETWORKS } from './const';
+import { FANTOM_STAKING_NETWORKS } from './const';
 import { TFtmSyntToken } from './types/TFtmSyntToken';
 
 const ROOT = `${StakeRoutes.main.path}fantom/`;
@@ -86,7 +86,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={FANTOM_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={FANTOM_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -97,7 +96,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={FANTOM_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
-          providerId={FANTOM_PROVIDER_ID}
         >
           <DefaultLayout verticalAlign="center">
             <Unstake />
@@ -108,7 +106,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={FANTOM_STAKING_NETWORKS}
           path={RoutesConfig.stakeStep.path}
-          providerId={FANTOM_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeSteps />
@@ -119,7 +116,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={FANTOM_STAKING_NETWORKS}
           path={RoutesConfig.unstakeSuccess.path}
-          providerId={FANTOM_PROVIDER_ID}
         >
           <DefaultLayout>
             <UnstakeSuccess />
