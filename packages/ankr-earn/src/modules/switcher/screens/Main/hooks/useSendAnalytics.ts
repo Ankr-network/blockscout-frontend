@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { trackSwitchToken } from 'modules/analytics/tracking-actions/trackSwitchToken';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { SWITCHER_FROM_TOKENS } from 'modules/switcher/const';
@@ -36,7 +36,7 @@ export const useSendAnalytics = ({
   abBalance = ZERO,
   acBalance = ZERO,
 }: ISendAnalyticsHookArgs): ISendAnalyticsHookData => {
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

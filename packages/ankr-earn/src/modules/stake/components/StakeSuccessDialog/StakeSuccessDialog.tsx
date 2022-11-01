@@ -4,7 +4,7 @@ import { Grid, Paper, Typography } from '@material-ui/core';
 import { t } from 'common';
 
 import { trackClickGoToDashboard } from 'modules/analytics/tracking-actions/trackClickGoToDashboard';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { Button } from 'uiKit/Button';
@@ -29,7 +29,7 @@ export const StakeSuccessDialog = ({
 }: IStakeSuccessful): JSX.Element => {
   const classes = useStakeSuccessDialogStyles();
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

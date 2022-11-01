@@ -3,7 +3,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO, ETH_SCALE_FACTOR } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -39,7 +39,7 @@ export const useSwitcherData = ({
     type: getSwitcherData,
   });
 
-  const { chainId, isConnected } = useAuth(
+  const { chainId, isConnected } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

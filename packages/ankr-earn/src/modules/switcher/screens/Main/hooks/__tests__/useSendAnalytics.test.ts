@@ -2,13 +2,13 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
 import { trackSwitchToken } from 'modules/analytics/tracking-actions/trackSwitchToken';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 import { useSendAnalytics, ISendAnalyticsHookArgs } from '..';
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 jest.mock('modules/analytics/tracking-actions/trackSwitchToken', () => ({
@@ -26,7 +26,7 @@ describe('modules/switcher/screens/Main/useSendAnalytics', () => {
   };
 
   beforeEach(() => {
-    (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
+    (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
 
     (trackSwitchToken as jest.Mock).mockReturnValue(undefined);
   });

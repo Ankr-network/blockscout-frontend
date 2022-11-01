@@ -3,7 +3,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
@@ -27,7 +27,7 @@ export const useAnalytics = ({
     type: getCommonData,
   });
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

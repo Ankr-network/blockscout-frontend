@@ -1,17 +1,17 @@
 import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { renderHook } from '@testing-library/react-hooks';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 
 import { useNetworkTitle } from '../useNetworkTitle';
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 describe('modules/stake-matic/common/components/NetworkTitle/hooks/useNetworkTitle', () => {
   beforeEach(() => {
-    (useAuth as jest.Mock).mockImplementation(() => ({
+    (useConnectedData as jest.Mock).mockImplementation(() => ({
       chainId: undefined,
     }));
   });
@@ -28,7 +28,7 @@ describe('modules/stake-matic/common/components/NetworkTitle/hooks/useNetworkTit
   });
 
   test('should return "null" data if invalid "chainId"', () => {
-    (useAuth as jest.Mock).mockImplementation(() => ({
+    (useConnectedData as jest.Mock).mockImplementation(() => ({
       chainId: 1_000_000,
     }));
 
@@ -39,7 +39,7 @@ describe('modules/stake-matic/common/components/NetworkTitle/hooks/useNetworkTit
   });
 
   test('should return valid data', () => {
-    (useAuth as jest.Mock).mockImplementation(() => ({
+    (useConnectedData as jest.Mock).mockImplementation(() => ({
       chainId: EEthereumNetworkId.mainnet,
     }));
 

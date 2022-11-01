@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 import {
@@ -14,8 +14,8 @@ import {
 } from '../useStakeEthAnalytics';
 import { useTotalAmount } from '../useTotalAmount';
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 jest.mock(
@@ -74,7 +74,7 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
 
   beforeEach(() => {
     (trackStake as jest.Mock).mockReturnValue(undefined);
-    (useAuth as jest.Mock).mockReturnValue(defaultAuthData);
+    (useConnectedData as jest.Mock).mockReturnValue(defaultAuthData);
     (useTotalAmount as jest.Mock).mockReturnValue(defaultTotalAmountData);
     (useQuery as jest.Mock).mockReturnValue(defaultQueryCommonData);
   });
