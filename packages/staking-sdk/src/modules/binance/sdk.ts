@@ -1035,6 +1035,41 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Fetch unstake to external transaction data.
+   *
+   * @public
+   * @note Parses first uint256 param from transaction input.
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IFetchTxData>}
+   */
+  public async fetchUnstakeTxData(txHash: string): Promise<IFetchTxData> {
+    const provider = await this.getProvider();
+
+    const web3 = provider.getWeb3();
+
+    const tx = await web3.eth.getTransaction(txHash);
+
+    let address;
+    let amount;
+
+    try {
+      const parameters = web3.eth.abi.decodeParameters(['address', 'uint256'], tx.input.slice(10));
+      address = parameters['0'];
+      amount = parameters['1'];
+    } catch (e) {
+      const parameters = web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10));
+      address = tx.from as string | undefined;
+      amount = parameters['0'];
+    }
+
+    return {
+      amount: this.convertFromWei(amount),
+      destinationAddress: address,
+      isPending: tx.transactionIndex === null,
+    };
+  }
+
+  /**
    * Fetch transaction receipt.
    *
    * @public
@@ -1307,6 +1342,49 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Unstake token to external address.
+   *
+   * @public
+   * @note Initiates connect if writeProvider isn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to unstake (aBNBb or aBNBc)
+   * @param {string} externalAddress - choose external address to unstake to
+   * @returns {Promise<IWeb3SendResult>}
+   */
+  public async unstakeToExternal(
+    amount: BigNumber,
+    token: string,
+    externalAddress: string,
+  ): Promise<IWeb3SendResult> {
+    const { binanceConfig } = configFromEnv();
+
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EBinanceErrorCodes.ZERO_AMOUNT);
+    }
+
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const binancePoolContract = await this.getBinancePoolContract();
+    const hexAmount = this.convertToHex(amount);
+
+    const contractUnstake =
+      binancePoolContract.methods[
+        this.getUnstakeToExternalMethodName(token as TBnbSyntToken)
+      ];
+
+    const data = contractUnstake(externalAddress, hexAmount).encodeABI();
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.binancePool,
+      { data, estimate: true },
+    );
+  }
+
+  /**
    * Internal function to return unstake method by token symbol.
    *
    * @private
@@ -1320,6 +1398,23 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
       default:
         return 'unstakeBonds';
+    }
+  }
+
+  /**
+   * Internal function to return unstake method by token symbol.
+   *
+   * @private
+   * @param {TBnbSyntToken} token - token symbol
+   * @returns {string}
+   */
+  private getUnstakeToExternalMethodName(token: TBnbSyntToken) {
+    switch (token) {
+      case 'aBNBc':
+        return 'unstakeCertsFor';
+
+      default:
+        return 'unstakeBondsFor';
     }
   }
 

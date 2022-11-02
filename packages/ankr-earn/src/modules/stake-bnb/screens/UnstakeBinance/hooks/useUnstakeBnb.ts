@@ -96,12 +96,20 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const shouldBeApproved = isWithApprove && !isApproved;
 
   const handleSubmit = useCallback(
-    (amount: BigNumber) => {
+    (formValues: IUnstakeFormValues) => {
+      const { amount, isToExternalAddress, externalAddress } = formValues;
+      if (!amount) {
+        return;
+      }
       const resultAmount = new BigNumber(amount);
 
-      dispatchRequest(
-        unstake({ amount: resultAmount, token: selectedToken }),
-      ).then(({ error }) => {
+      const unstakeRequest = {
+        amount: resultAmount,
+        token: selectedToken,
+        externalAddress: isToExternalAddress ? externalAddress : undefined,
+      };
+
+      dispatchRequest(unstake(unstakeRequest)).then(({ error }) => {
         if (!error) {
           sendAnalytics(resultAmount, selectedToken);
         }
@@ -111,7 +119,8 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   );
 
   const onUnstakeSubmit = useCallback(
-    ({ amount }: IUnstakeFormValues): void => {
+    (formValues: IUnstakeFormValues): void => {
+      const { amount } = formValues;
       if (!amount) {
         return;
       }
@@ -121,7 +130,7 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
       if (shouldBeApproved) {
         dispatchRequest(approveABNBCUnstake(value));
       } else {
-        handleSubmit(value);
+        handleSubmit(formValues);
       }
     },
     [dispatchRequest, handleSubmit, shouldBeApproved],
