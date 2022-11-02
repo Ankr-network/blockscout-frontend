@@ -46,5 +46,5 @@ export const featuresConfig = {
   /**
    * Please remove extra feature flag
    */
-  ssvStaking: currentEnv !== Env.Production,
+  ssvStaking: true,
 };
