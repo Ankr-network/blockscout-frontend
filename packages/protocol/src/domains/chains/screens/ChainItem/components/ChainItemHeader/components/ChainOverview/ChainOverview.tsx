@@ -5,6 +5,7 @@ import { ChainTitle } from '../ChainTitle';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
 import { TronAbout } from '../TronAbout';
+import { ChainID } from 'modules/chains/types';
 
 export interface ChainOverviewProps {
   chain: IApiChain;
@@ -30,7 +31,7 @@ export const ChainOverview = ({
         </div>
         <ChainDocsLink chain={chain} className={classes.chainDocsLink} />
       </div>
-      {id === 'tron' && <TronAbout />}
+      {id === ChainID.TRON && <TronAbout />}
     </div>
   );
 };
