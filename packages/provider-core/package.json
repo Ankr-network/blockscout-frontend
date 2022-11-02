@@ -3,10 +3,12 @@
   "version": "0.6.3",
   "description": "Provider core module",
   "private": true,
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "types": "./src/index.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "keywords": [
     "ankr",
@@ -21,7 +23,7 @@
     "test:turbo": "cd ../.. && turbo run test --filter=provider-core",
     "test:watch:turbo": "cd ../.. && turbo run test:watch --filter=provider-core",
     "types": "tsc --noEmit -p tsconfig.json",
-    "build": "vite build",
+    "build": "vite build && tsc --noEmit -p tsconfig.json",
     "build:turbo": "cd ../.. && turbo run build --filter=provider-core...",
     "clean": "rimraf build dist",
     "watch": "yarn build --watch"
@@ -50,8 +52,8 @@
     "rimraf": "3.0.2"
   },
   "dependencies": {
-    "bignumber.js": "^9.0.1",
     "common": "*",
+    "bignumber.js": "^9.0.1",
     "react": "^17.0.2",
     "web3": "1.7.0",
     "web3-core": "^1.7.0",
