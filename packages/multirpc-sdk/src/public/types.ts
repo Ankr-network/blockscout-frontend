@@ -1,3 +1,5 @@
+import { BlockchainID } from '../account';
+
 export interface ICountry<T> {
   country: string;
   bytes: T;
@@ -23,6 +25,10 @@ export interface IWorkerGlobalStatus<T = number> {
   dataCached: T;
   dataCachedHistory: Record<string, T>;
   countries: Record<string, ICountry<T>>;
+}
+
+export interface IWorkerPublicStats {
+  totalRequests: Record<BlockchainID, string>;
 }
 
 export interface IWorkerNodesWeight {
