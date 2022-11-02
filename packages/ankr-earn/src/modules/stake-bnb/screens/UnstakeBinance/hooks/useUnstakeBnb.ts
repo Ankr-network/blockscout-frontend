@@ -92,7 +92,7 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
       });
     }
 
-    if (isToExternalAddress && !externalAddress?.match(/[a-zA-Z0-9]/)) {
+    if (isToExternalAddress && !externalAddress?.match(/^[a-zA-Z0-9]+$/)) {
       errors.externalAddress = t('validation.invalid-address');
     }
 
