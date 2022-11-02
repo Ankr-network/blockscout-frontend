@@ -11,6 +11,7 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
+  DUNE_ANALYTICS_LINK,
   featuresConfig,
   ZERO,
 } from 'modules/common/const';
@@ -182,6 +183,7 @@ export const StakeAvalanche = (): JSX.Element => {
 
           <StakeStats
             amount={amount}
+            analyticsLink={DUNE_ANALYTICS_LINK.avax}
             metricsServiceName={EMetricsServiceName.AVAX}
           />
 

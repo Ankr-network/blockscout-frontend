@@ -1,5 +1,9 @@
+import { Paper } from '@material-ui/core';
+
 import { t } from 'common';
 
+import { DuneAnalyticsLink } from 'modules/common/components/DuneAnalyticsLink/DuneAnalyticsLink';
+import { featuresConfig } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -10,11 +14,13 @@ import { useStakeStats } from './useStakeStats';
 interface IStatsProps {
   amount: BigNumberish;
   metricsServiceName: EMetricsServiceName;
+  analyticsLink?: string;
 }
 
 export const StakeStats = ({
   amount,
   metricsServiceName,
+  analyticsLink,
 }: IStatsProps): JSX.Element => {
   const {
     apy,
@@ -29,32 +35,38 @@ export const StakeStats = ({
   });
 
   return (
-    <StakeStatsBox>
-      <StakeStatsItem
-        label={t('stake.stats.apy')}
-        tooltip={t('stake.stats.apy-tooltip')}
-        value={apy}
-      />
-
-      <StakeStatsItem
-        label={t('stake.stats.yearly-earning')}
-        token={t(`unit.${metricsServiceName}`)}
-        usdEquivalent={yearlyEarningUSD}
-        value={yearlyEarning}
-      />
-
-      {totalStaked && (
+    <Paper>
+      <StakeStatsBox>
         <StakeStatsItem
-          label={t('stake.stats.staked')}
-          token={t(`unit.${metricsServiceName}`)}
-          usdEquivalent={totalStakedUSD}
-          value={totalStaked}
+          label={t('stake.stats.apy')}
+          tooltip={t('stake.stats.apy-tooltip')}
+          value={apy}
         />
-      )}
 
-      {stakers && (
-        <StakeStatsItem label={t('stake.stats.stakers')} value={stakers} />
+        <StakeStatsItem
+          label={t('stake.stats.yearly-earning')}
+          token={t(`unit.${metricsServiceName}`)}
+          usdEquivalent={yearlyEarningUSD}
+          value={yearlyEarning}
+        />
+
+        {totalStaked && (
+          <StakeStatsItem
+            label={t('stake.stats.staked')}
+            token={t(`unit.${metricsServiceName}`)}
+            usdEquivalent={totalStakedUSD}
+            value={totalStaked}
+          />
+        )}
+
+        {stakers && (
+          <StakeStatsItem label={t('stake.stats.stakers')} value={stakers} />
+        )}
+      </StakeStatsBox>
+
+      {featuresConfig.duneAnalyticsLink && analyticsLink && (
+        <DuneAnalyticsLink link={analyticsLink} />
       )}
-    </StakeStatsBox>
+    </Paper>
   );
 };

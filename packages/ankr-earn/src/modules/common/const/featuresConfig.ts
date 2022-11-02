@@ -47,4 +47,5 @@ export const featuresConfig = {
    * Please remove extra feature flag
    */
   ssvStaking: true,
+  duneAnalyticsLink: true,
 };

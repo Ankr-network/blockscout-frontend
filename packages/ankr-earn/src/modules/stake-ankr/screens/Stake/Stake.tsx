@@ -1,5 +1,6 @@
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { Faq } from 'modules/common/components/Faq';
+import { DUNE_ANALYTICS_LINK } from 'modules/common/const';
 import { Section } from 'modules/delegate-stake/components/Section';
 import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
 import { Stats } from 'modules/delegate-stake/components/Stats';
@@ -75,6 +76,7 @@ export const Stake = (): JSX.Element => {
         />
 
         <Stats
+          analyticsLink={DUNE_ANALYTICS_LINK.ankr}
           annualEarning={annualEarning}
           annualEarningUSD={annualEarningUSD}
           apyText={apyText}
