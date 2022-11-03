@@ -63,7 +63,7 @@ export const useClaimRewards = (): IUseClaimRewards => {
         ? `${t('stake-ankr.info-header.epoch-ends-day', {
             value: epochEndDays,
           })}`
-        : `${t('stake-ankr.info-header.epoch-ends-days', {
+        : `${t('stake-ankr.info-header.epoch-ends-day', {
             value: epochEndDays,
           })}`;
   }
