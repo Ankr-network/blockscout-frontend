@@ -2,7 +2,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -13,8 +13,8 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 describe('modules/switcher/screens/Main/useSwitcherData', () => {
@@ -27,7 +27,7 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
       loading: false,
     });
 
-    (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
+    (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
   });
 
   afterEach(() => {

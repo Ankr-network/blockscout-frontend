@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { MemoryRouter } from 'react-router';
 
+import {
+  IUseHistoryData,
+  useHistory,
+} from 'modules/common/components/HistoryDialog/hooks/useHistory';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -41,6 +45,10 @@ jest.mock('../useStakedAMATICCAnalytics', () => ({
 
 jest.mock('../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMATICTxHistory: jest.fn(),
+}));
+
+jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+  useHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
@@ -84,6 +92,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     handleLoadTxHistory: jest.fn(),
   };
 
+  const defaultUseHistoryHookData: IUseHistoryData = {
+    loading: false,
+    weeksAmount: 1,
+    handleShowMore: jest.fn(),
+    stakeEvents: [],
+    unstakeEvents: [],
+  };
+
   beforeEach(() => {
     (useStakedAMATICCData as jest.Mock).mockReturnValue(
       defaultStakedMATICHookData,
@@ -96,6 +112,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     (useStakedMATICTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
+
+    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
   });
 
   afterEach(() => {

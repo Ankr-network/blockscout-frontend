@@ -16,6 +16,7 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
+  DUNE_ANALYTICS_LINK,
   featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -240,6 +241,7 @@ export const StakePolygon = (): JSX.Element => {
 
             <StakeStats
               amount={amount}
+              analyticsLink={DUNE_ANALYTICS_LINK.matic}
               metricsServiceName={EMetricsServiceName.MATIC}
             />
 

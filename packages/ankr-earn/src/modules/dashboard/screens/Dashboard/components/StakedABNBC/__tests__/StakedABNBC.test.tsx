@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { MemoryRouter } from 'react-router';
 
+import {
+  IUseHistoryData,
+  useHistory,
+} from 'modules/common/components/HistoryDialog/hooks/useHistory';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -31,6 +35,10 @@ jest.mock('../useStakedABNBCAnalytics.ts', () => ({
 
 jest.mock('../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
+}));
+
+jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+  useHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
@@ -75,6 +83,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     handleLoadTxHistory: jest.fn(),
   };
 
+  const defaultUseHistoryHookData: IUseHistoryData = {
+    loading: false,
+    weeksAmount: 1,
+    handleShowMore: jest.fn(),
+    stakeEvents: [],
+    unstakeEvents: [],
+  };
+
   beforeEach(() => {
     (useStakedABNBCData as jest.Mock).mockReturnValue(defaultStakedBNBHookData);
 
@@ -85,6 +101,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     (useStakedBNBTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
+
+    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
   });
 
   afterEach(() => {

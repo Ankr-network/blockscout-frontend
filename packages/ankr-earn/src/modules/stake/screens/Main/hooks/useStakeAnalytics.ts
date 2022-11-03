@@ -6,7 +6,7 @@ import {
   trackDelegatedStakingFlow,
 } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 interface IUseStakeAnalytics {
@@ -18,7 +18,7 @@ interface IUseStakeAnalytics {
 }
 
 export const useStakeAnalytics = (): IUseStakeAnalytics => {
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

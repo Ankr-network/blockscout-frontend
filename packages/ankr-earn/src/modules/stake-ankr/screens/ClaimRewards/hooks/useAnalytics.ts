@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { trackClaimAll } from 'modules/analytics/tracking-actions/trackClaimAll';
 import { trackClaimRewards } from 'modules/analytics/tracking-actions/trackClaimRewards';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 interface IUseAnalytics {
@@ -20,7 +20,7 @@ export const useAnalytics = ({
   totalAmount,
   rewardsAmount,
 }: IUseAnalyticsArgs): IUseAnalytics => {
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

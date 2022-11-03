@@ -1,12 +1,6 @@
-import {
-  AvailableWriteProviders,
-  AvailableReadProviders,
-} from '@ankr.com/provider-core';
+import { AvailableReadProviders } from '@ankr.com/provider-core';
 
 import { AVAX_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
-
-export const AVALANCHE_WRITE_PROVIDER_ID =
-  AvailableWriteProviders.ethCompatible;
 
 export const AVALANCHE_READ_PROVIDER_ID = isMainnet
   ? AvailableReadProviders.avalancheChain

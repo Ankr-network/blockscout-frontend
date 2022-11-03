@@ -11,7 +11,7 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useNotification } from 'modules/notifications';
@@ -69,7 +69,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const [code, setCode] = useState('');
   const { showNotification } = useNotification();
 
-  const { address } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
 

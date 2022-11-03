@@ -1,7 +1,7 @@
 import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useState, useCallback, useEffect } from 'react';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 
 export interface IUnstakeSuccessHookData {
   isTxCopied: boolean;
@@ -17,7 +17,7 @@ export const useUnstakeSuccessHook = (): IUnstakeSuccessHookData => {
   const [isTxCopied, setIsTxCopied] = useState(false);
   const [isAddressCopied, setIsAddressCopied] = useState(false);
 
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   const handleCopyTxHash = useCallback(() => {
     setIsTxCopied(isCopied => !isCopied);

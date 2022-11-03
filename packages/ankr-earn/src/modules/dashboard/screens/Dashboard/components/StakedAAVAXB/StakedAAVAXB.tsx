@@ -5,9 +5,8 @@ import { tHTML } from 'common';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { AVAX_NETWORK_BY_ENV, featuresConfig, ONE } from 'modules/common/const';
+import { AVAX_NETWORK_BY_ENV, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -38,7 +37,6 @@ export const StakedAAVAXB = (): JSX.Element => {
   } = useDialog();
 
   const {
-    transactionHistoryAAVAXB,
     pendingUnstakeHistoryAAVAXB,
     isHistoryDataLoading,
     handleLoadTxHistory,
@@ -124,21 +122,12 @@ export const StakedAAVAXB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      {featuresConfig.newStakingHistoryDialog ? (
-        <NewHistoryDialog
-          network={AVAX_NETWORK_BY_ENV}
-          open={isOpenedHistory}
-          token={Token.aAVAXb}
-          onClose={onCloseHistory}
-        />
-      ) : (
-        <HistoryDialog
-          history={transactionHistoryAAVAXB}
-          isHistoryLoading={isHistoryDataLoading}
-          open={isOpenedHistory}
-          onClose={onCloseHistory}
-        />
-      )}
+      <NewHistoryDialog
+        network={AVAX_NETWORK_BY_ENV}
+        open={isOpenedHistory}
+        token={Token.aAVAXb}
+        onClose={onCloseHistory}
+      />
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
@@ -72,7 +72,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     stats: fetchStatsData,
   } = useFetchStats();
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

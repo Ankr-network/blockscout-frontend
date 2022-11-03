@@ -37,7 +37,7 @@ export interface IHistoryDialogProps {
   token: Token;
   network: number;
   open: boolean;
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 const TOKEN_OPTIONS = Object.keys(EHistorySynthTokens).map(tokenItem => ({
@@ -157,6 +157,11 @@ export const NewHistoryDialog = ({
     [classes],
   );
 
+  const handleClose = (): void => {
+    setSelectedToken(token);
+    onClose();
+  };
+
   const onSelectedTokenChange = useCallback(
     (event: ChangeEvent<{ value: ReactText | unknown }>) => {
       setSelectedToken(event.target.value as Token);
@@ -180,7 +185,7 @@ export const NewHistoryDialog = ({
     loading && (!Array.isArray(tableRows) || !tableRows.length);
 
   return (
-    <Dialog className={classes.root} open={open} onClose={onClose}>
+    <Dialog className={classes.root} open={open} onClose={handleClose}>
       <Container className={classes.container} data-testid="history-dialog">
         <Typography className={classes.header} variant="h3">
           {t('history-dialog.header')}

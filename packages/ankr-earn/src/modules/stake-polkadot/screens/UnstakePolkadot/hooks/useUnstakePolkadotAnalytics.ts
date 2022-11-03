@@ -7,7 +7,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -41,7 +41,7 @@ export const useUnstakePolkadotAnalytics = ({
 }: IUseUnstakePolkadotAnalyticsProps): IUseUnstakePolkadotAnalyticsData => {
   const dispatch = useAppDispatch();
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.polkadotCompatible,
   );
 

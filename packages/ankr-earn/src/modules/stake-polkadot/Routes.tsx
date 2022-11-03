@@ -22,7 +22,6 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
 import {
   ETH_NETWORKS,
-  ETH_WRITE_PROVIDER_ID,
   POLKADOT_NETWORK_KEYS,
   POLKADOT_WRITE_PROVIDER_ID,
 } from './const';
@@ -120,7 +119,6 @@ const routeRender =
           exact
           availableNetworks={ETH_NETWORKS}
           path={path as string}
-          providerId={ETH_WRITE_PROVIDER_ID}
         >
           <DefaultLayout>
             <Component network={network as EPolkadotNetworks} />

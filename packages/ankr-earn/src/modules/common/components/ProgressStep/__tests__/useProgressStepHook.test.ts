@@ -1,19 +1,21 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 import { useProgressStepHook } from '../useProgressStepHook';
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 describe('modules/common/components/ProgressStep/useProgressStepHook', () => {
   beforeEach(() => {
     jest.useFakeTimers();
 
-    (useAuth as jest.Mock).mockImplementation(() => ({ chainId: undefined }));
+    (useConnectedData as jest.Mock).mockImplementation(() => ({
+      chainId: undefined,
+    }));
   });
 
   afterEach(() => {
