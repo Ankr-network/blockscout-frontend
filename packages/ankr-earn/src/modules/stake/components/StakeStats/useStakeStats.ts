@@ -38,12 +38,13 @@ export const useStakeStats = ({
 
   const usdRatio = totalStaked && totalStakedUsd?.div(totalStaked);
 
-  const yearlyEarningUSD = usdRatio
-    ? usdRatio
-        .multipliedBy(yearlyEarning)
-        .decimalPlaces(DEFAULT_ROUNDING)
-        .toFormat()
-    : undefined;
+  const yearlyEarningUSD =
+    usdRatio && !usdRatio.isNaN()
+      ? usdRatio
+          .multipliedBy(yearlyEarning)
+          .decimalPlaces(DEFAULT_ROUNDING)
+          .toFormat()
+      : undefined;
 
   return {
     apy: t('stake.stats.apy-value', {

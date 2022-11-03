@@ -3,7 +3,6 @@ import { t } from 'common';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { TDeFiProtocol } from '../api/defi';
-import midasCapitalImg from '../assets/platform-midas.png';
 import { ReactComponent as ProtocolAcryptos } from '../assets/protocol-acryptos.svg';
 import { ReactComponent as ProtocolApeSwap } from '../assets/protocol-apeswap.svg';
 import { ReactComponent as ProtocolBeefyFinance } from '../assets/protocol-beefy-finance.svg';
@@ -15,6 +14,8 @@ import { ReactComponent as ProtocolEllipsisFinance } from '../assets/protocol-el
 import kalmyswapImg from '../assets/protocol-kalmyswap.png';
 import lendFlareImg from '../assets/protocol-lend-flare.png';
 import { ReactComponent as ProtocolLydiaFinance } from '../assets/protocol-lydia-finance.svg';
+import magpieImg from '../assets/protocol-magpie.png';
+import midasCapitalImg from '../assets/protocol-midas.png';
 import { ReactComponent as ProtocolOnxFinance } from '../assets/protocol-onx-finance.svg';
 import { ReactComponent as ProtocolPancakeSwap } from '../assets/protocol-pancakeswap.svg';
 import { ReactComponent as ProtocolPangolin } from '../assets/protocol-pangolin.svg';
@@ -23,6 +24,7 @@ import { ReactComponent as ProtocolSpookySwap } from '../assets/protocol-spookys
 import { ReactComponent as ProtocolSushiswap } from '../assets/protocol-sushiswap.svg';
 import { ReactComponent as ProtocolTraderJoe } from '../assets/protocol-traderjoe.svg';
 import { ReactComponent as ProtocolUniswap } from '../assets/protocol-uniswap.svg';
+import wombexImg from '../assets/protocol-wombex.png';
 import { ReactComponent as ProtocolYearnFinance } from '../assets/protocol-yearn-finance.svg';
 import { ProtocolIcon } from '../components/ProtocolIcon';
 
@@ -121,6 +123,14 @@ export const useProtocols = (): Record<TDeFiProtocol, IProtocol> =>
       midasCapital: {
         title: t('defi.protocols.midasCapital'),
         icon: <ProtocolIcon src={midasCapitalImg} />,
+      },
+      magpie: {
+        title: t('defi.protocols.magpie'),
+        icon: <ProtocolIcon src={magpieImg} />,
+      },
+      wombex: {
+        title: t('defi.protocols.wombex'),
+        icon: <ProtocolIcon src={wombexImg} />,
       },
     }),
     [],
