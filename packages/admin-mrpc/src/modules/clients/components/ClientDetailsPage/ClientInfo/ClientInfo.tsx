@@ -26,6 +26,7 @@ import { ClientBalancesModal } from '../ClientBalancesModal';
 import { useClientInfo } from './useClientInfo';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { ClientEditProfileModal } from '../ClientEditProfileModal';
+import { ClientApiKeysModal } from '../ClientApiKeysModal';
 
 interface IClientInfoProps {
   address: Web3Address;
@@ -91,6 +92,7 @@ export const ClientInfo = ({
             </>
           )}
         </Typography>
+        <ClientApiKeysModal address={user.address || ''} token={user.user} />
       </CardContent>
     </Card>
   );
@@ -150,6 +152,7 @@ export const ClientInfo = ({
           <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
         </Typography>
       </Paper>
+
       {isLoadingClients ? (
         <>
           <br />

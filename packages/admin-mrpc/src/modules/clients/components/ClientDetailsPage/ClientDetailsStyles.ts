@@ -85,6 +85,9 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     padding: theme.spacing(6),
     borderRadius: theme.spacing(6),
   },
+  whiteBackground: {
+    backgroundColor: theme.palette.background.paper,
+  },
   form: {
     marginTop: 20,
     '& > *': {

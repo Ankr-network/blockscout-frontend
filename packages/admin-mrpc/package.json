@@ -1,6 +1,6 @@
 {
   "name": "admin-mrpc",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -58,6 +58,7 @@
     "multirpc-sdk": "*",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-csv": "^2.2.2",
     "react-dom": "^17.0.2",
     "react-intl-universal": "^2.6.6",
@@ -82,6 +83,7 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.56",
     "@types/react": "^17.0.0",
+    "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-csv": "^1.1.3",
     "@types/react-dom": "^17.0.0",
     "@types/react-router": "^5.1.17",
