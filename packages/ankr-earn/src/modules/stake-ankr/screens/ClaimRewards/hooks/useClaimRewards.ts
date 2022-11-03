@@ -8,6 +8,7 @@ import { useClaimAllForValidatorMutation } from 'modules/stake-ankr/actions/clai
 import { useClaimRewardsMutation } from 'modules/stake-ankr/actions/claimRewards';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetClaimableRewardsQuery } from 'modules/stake-ankr/actions/getClaimableRewards';
+import { useGetClaimableUnstakesQuery } from 'modules/stake-ankr/actions/getClaimableUnstakes';
 import { useGetEpochEndSecondsQuery } from 'modules/stake-ankr/actions/getEpochEndSeconds';
 
 import { RoutesConfig } from '../../../RoutesConfig';
@@ -42,7 +43,7 @@ export const useClaimRewards = (): IUseClaimRewards => {
   const { provider: queryProvider = '' } = RoutesConfig.stake.useParams();
 
   const { data: claimableUnstakes, isFetching: isClaimableUnstakesLoading } =
-    useGetClaimableRewardsQuery({ validator: queryProvider });
+    useGetClaimableUnstakesQuery({ validator: queryProvider });
 
   const { data: claimableRewards, isFetching: isClaimableRewardsLoading } =
     useGetClaimableRewardsQuery({ validator: queryProvider });
