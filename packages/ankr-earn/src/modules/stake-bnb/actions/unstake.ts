@@ -47,11 +47,7 @@ export const unstake = createSmartAction<
       asMutation: true,
       showNotificationOnError: true,
       getError: error => {
-        if (
-          error &&
-          error.code === INVALID_ARGUMENT_ERROR_CODE &&
-          error.reason?.includes('invalid address')
-        ) {
+        if (error && error.code === INVALID_ARGUMENT_ERROR_CODE) {
           return t('validation.invalid-address');
         }
         return error;

@@ -75,7 +75,11 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const minAmount = isBondToken ? minAbnbbAmount : minAbnbcAmount;
 
   const onExtraValidation = (
-    { amount }: Partial<IUnstakeFormValues>,
+    {
+      amount,
+      isToExternalAddress,
+      externalAddress,
+    }: Partial<IUnstakeFormValues>,
     errors: FormErrors<IUnstakeFormValues>,
   ): FormErrors<IUnstakeFormValues> => {
     const currAmount = new BigNumber(
@@ -86,6 +90,10 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
       errors.amount = t('validation.greater-or-equal', {
         value: minAmount,
       });
+    }
+
+    if (isToExternalAddress && !externalAddress?.match(/^[a-zA-Z0-9]+$/)) {
+      errors.externalAddress = t('validation.invalid-address');
     }
 
     return errors;
