@@ -10,7 +10,11 @@ import {
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { withStore } from 'modules/common/utils/withStore';
 
-import { SSV_ACTIONS_PREFIX, SSV_PROVIDER_ID } from '../const';
+import {
+  SSV_ACTIONS_PREFIX,
+  SSV_ETH_NETWORK_BY_ENV,
+  SSV_PROVIDER_ID,
+} from '../const';
 
 export const addTokenToWallet = createSmartAction<
   RequestAction<undefined, boolean>,
@@ -36,6 +40,7 @@ export const addTokenToWallet = createSmartAction<
       }
 
       return EthereumSSV.addTokenToWallet({
+        chainId: SSV_ETH_NETWORK_BY_ENV,
         provider,
         token,
       });
