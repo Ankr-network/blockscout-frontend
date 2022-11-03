@@ -31,7 +31,9 @@ export type TDeFiProtocol =
   | 'dotdotFinance'
   | 'kalmySwap'
   | 'lendFlare'
-  | 'midasCapital';
+  | 'midasCapital'
+  | 'magpie'
+  | 'wombex';
 
 export interface IDeFiItemResponse {
   id: number;
