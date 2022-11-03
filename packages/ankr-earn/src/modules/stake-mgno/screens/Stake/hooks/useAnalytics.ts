@@ -2,7 +2,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
 import { trackDelegatedStaking } from 'modules/analytics/tracking-actions/trackDelegatedStaking';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 interface IUseAnalyticsArgs {
@@ -20,7 +20,7 @@ export const useAnalytics = ({
   stakedAmount,
   nodeProvider,
 }: IUseAnalyticsArgs): IUseAnalytics => {
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

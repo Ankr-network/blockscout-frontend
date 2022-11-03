@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import compact from 'lodash/compact';
 import { generatePath } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
@@ -62,7 +61,6 @@ export function getRoutes(): JSX.Element {
           availableNetworks={AVAILABLE_NETWORKS}
           isOpenedConnectModal={false}
           path={RoutesConfig.success.path}
-          providerId={AvailableWriteProviders.ethCompatible}
         >
           <DefaultLayout>
             <TransactionStep />

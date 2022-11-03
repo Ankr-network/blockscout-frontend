@@ -47,7 +47,7 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
       return data;
     }
 
-    return data.sort((a: IDeFiItem, b: IDeFiItem) => {
+    return [...data].sort((a: IDeFiItem, b: IDeFiItem) => {
       if (sortOrder === 'asc') {
         return a[sortKey as keyof IDeFiItem].localeCompare(b[sortKey]);
       }

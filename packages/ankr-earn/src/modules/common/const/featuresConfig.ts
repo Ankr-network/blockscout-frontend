@@ -1,6 +1,6 @@
 import { Env } from '../types';
 
-import { currentEnv, isLocal } from './env';
+import { currentEnv } from './env';
 
 export const featuresConfig = {
   testingUi: currentEnv !== Env.Production,
@@ -42,10 +42,10 @@ export const featuresConfig = {
   maticPolygonStaking: true,
   isCalcActive: true,
   providerNotification: true,
-  newStakingHistoryDialog: isLocal,
   isReferralLinkActive: false,
   /**
    * Please remove extra feature flag
    */
-  ssvStaking: currentEnv !== Env.Production,
+  ssvStaking: true,
+  duneAnalyticsLink: true,
 };

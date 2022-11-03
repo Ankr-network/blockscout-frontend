@@ -10,7 +10,7 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
-import { BINANCE_WRITE_PROVIDER_ID, BNB_STAKING_NETWORKS } from './const';
+import { BNB_STAKING_NETWORKS } from './const';
 import { TBnbSyntToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}bnb/`;
@@ -88,7 +88,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={BNB_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={BINANCE_WRITE_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -99,7 +98,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={BNB_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
-          providerId={BINANCE_WRITE_PROVIDER_ID}
         >
           <DefaultLayout>
             <Unstake />
@@ -110,7 +108,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={BNB_STAKING_NETWORKS}
           path={RoutesConfig.stakeSteps.path}
-          providerId={BINANCE_WRITE_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeSteps />
@@ -121,7 +118,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={BNB_STAKING_NETWORKS}
           path={RoutesConfig.unstakeSuccess.path}
-          providerId={BINANCE_WRITE_PROVIDER_ID}
         >
           <DefaultLayout>
             <UnstakeSuccess />

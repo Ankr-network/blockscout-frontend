@@ -5,14 +5,8 @@ import { t, tHTML } from 'common';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import {
-  ETH_NETWORK_BY_ENV,
-  featuresConfig,
-  ONE,
-  ZERO,
-} from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -59,7 +53,6 @@ export const StakedAETHC = (): JSX.Element => {
   } = useStakedAETHCData();
 
   const {
-    stakedAETHC,
     pendingUnstakeHistory,
     pendingValue,
     isHistoryLoading,
@@ -125,26 +118,12 @@ export const StakedAETHC = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      {featuresConfig.newStakingHistoryDialog ? (
-        <NewHistoryDialog
-          network={ETH_NETWORK_BY_ENV}
-          open={isOpenedHistory}
-          token={Token.aETHc}
-          onClose={onCloseHistory}
-        />
-      ) : (
-        <HistoryDialog
-          history={{
-            staked: stakedAETHC,
-            stakedToken: Token.aETHc,
-            unstaked: [],
-            unstakedToken: Token.aETHc,
-          }}
-          isHistoryLoading={isHistoryLoading}
-          open={isOpenedHistory}
-          onClose={onCloseHistory}
-        />
-      )}
+      <NewHistoryDialog
+        network={ETH_NETWORK_BY_ENV}
+        open={isOpenedHistory}
+        token={Token.aETHc}
+        onClose={onCloseHistory}
+      />
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

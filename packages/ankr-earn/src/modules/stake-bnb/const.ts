@@ -1,7 +1,4 @@
-import {
-  AvailableWriteProviders,
-  AvailableReadProviders,
-} from '@ankr.com/provider-core';
+import { AvailableReadProviders } from '@ankr.com/provider-core';
 
 import { BSC_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -12,8 +9,6 @@ export const BINANCE_POOL_CONTRACT_START_BLOCK = isMainnet
   : 16_716_904;
 
 export const BINANCE_HISTORY_BLOCK_OFFSET = 28_800 * 14;
-
-export const BINANCE_WRITE_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export const BINANCE_READ_PROVIDER_ID = isMainnet
   ? AvailableReadProviders.binanceChain

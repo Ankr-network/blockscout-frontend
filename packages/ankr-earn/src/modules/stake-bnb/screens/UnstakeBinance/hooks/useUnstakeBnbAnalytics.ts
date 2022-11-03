@@ -3,7 +3,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -14,7 +14,7 @@ interface IUseUnstakeBNBAnalytics {
 }
 
 export const useUnstakeBNBAnalytics = (): IUseUnstakeBNBAnalytics => {
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

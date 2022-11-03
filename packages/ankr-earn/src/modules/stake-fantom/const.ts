@@ -1,7 +1,4 @@
-import {
-  AvailableReadProviders,
-  AvailableWriteProviders,
-} from '@ankr.com/provider-core';
+import { AvailableReadProviders } from '@ankr.com/provider-core';
 
 import { FTM_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 import { Days } from 'modules/common/types';
@@ -15,8 +12,6 @@ export const POOL_START_BLOCK = isMainnet ? 31_218_797 : 7_729_481;
 export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;
 
 export const BLOCK_OFFSET = 201_600; // 7 days
-
-export const FANTOM_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export const FANTOM_PROVIDER_READ_ID = isMainnet
   ? AvailableReadProviders.ftmOpera

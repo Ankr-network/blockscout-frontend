@@ -5,7 +5,8 @@ import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 
-import { ANKR_PROVIDER_ID, ANKR_STAKING_NETWORKS } from './const';
+import { TimerWorker } from './components/TimerWorker';
+import { ANKR_STAKING_NETWORKS } from './const';
 import { RoutesConfig } from './RoutesConfig';
 
 const Main = loadComponent(() =>
@@ -68,10 +69,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.main.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Main />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -79,10 +81,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.providers.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Providers />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -90,10 +93,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -101,10 +105,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.restake.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Restake />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -112,10 +117,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimUnstakes.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimUnstakes />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -123,10 +129,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimAllUnstakes.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimAllUnstakes />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -134,10 +141,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimRewards.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimRewards />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -145,10 +153,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.claimAllRewards.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimAllRewards />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -156,10 +165,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.stakeSteps.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeSteps />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -167,10 +177,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.unstakeSteps.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <UnstakeSteps />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -181,10 +192,11 @@ export function getRoutes(): JSX.Element {
             RoutesConfig.claimRewardsSteps.path,
             RoutesConfig.claimUnstakesSteps.path,
           ]}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimSteps />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -192,10 +204,11 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.unstake.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <Unstake />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -203,16 +216,19 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ANKR_STAKING_NETWORKS}
           path={RoutesConfig.selectProvider.path}
-          providerId={ANKR_PROVIDER_ID}
         >
           <DefaultLayout>
             <SelectProvider />
+
+            <TimerWorker />
           </DefaultLayout>
         </GuardETHRoute>
 
         <Route>
           <DefaultLayout>
             <PageNotFound />
+
+            <TimerWorker />
           </DefaultLayout>
         </Route>
       </Switch>

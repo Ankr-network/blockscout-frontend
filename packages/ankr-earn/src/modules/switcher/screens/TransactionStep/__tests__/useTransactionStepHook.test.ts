@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
 
@@ -23,8 +23,8 @@ jest.mock('@redux-requests/core', () => ({
   stopPolling: jest.fn(),
 }));
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -66,7 +66,7 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
       txHash: 'hash',
     }));
 
-    (useAuth as jest.Mock).mockReturnValue({
+    (useConnectedData as jest.Mock).mockReturnValue({
       chainId: 1,
     });
 

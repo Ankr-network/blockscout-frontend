@@ -173,6 +173,7 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
   },
 
   showMoreButton: {
+    fontSize: 16,
     width: '100%',
   },
 

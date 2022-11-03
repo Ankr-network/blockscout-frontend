@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
@@ -35,7 +35,7 @@ interface ISuccessPathParams {
 }
 
 export const useTransactionStepHook = (): ITransactionStepHookData => {
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
   const { txHash, to, from } = useParams<ISuccessPathParams>();
   const { loading: isLoading, data, error } = useQuery({ type: getTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });

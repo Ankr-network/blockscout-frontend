@@ -6,8 +6,8 @@ import { ZERO } from 'modules/common/const';
 import { ProgressStep } from '..';
 import { TxErrorCodes } from '../ProgressStep';
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: () => ({ chainId: 1 }),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: () => ({ chainId: 1 }),
 }));
 
 describe('modules/common/components/ProgressStep', () => {

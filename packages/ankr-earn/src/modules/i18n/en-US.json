@@ -12,6 +12,7 @@
     "greater-than-zero": "Should be greater than 0",
     "insufficient-funds": "Insufficient funds",
     "invalid-network-address": "This is invalid {network} address",
+    "invalid-address": "Invalid address",
     "low-balance": "Your balance is not sufficient",
     "min": "Should be at least {value}",
     "max": "Should be less than {value}",
@@ -360,7 +361,8 @@
       "staked": "Staked with ANKR",
       "stakers": "Stakers",
       "apy-tooltip": "Annual percentage yield (or APY) shows the rate of return you earn over a year including the effect of compounding.",
-      "fee": "Est Network Fee: {value}"
+      "fee": "Est Network Fee: {value}",
+      "dune-analytics": "Dune Analytics"
     },
     "trade-info": {
       "description-one-token": "Receive a {value}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
@@ -619,7 +621,8 @@
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
-    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs."
+    "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
+    "send-external-wallet": "Send to external wallet"
   },
   "calc": {
     "title": "Staking calculator",
@@ -862,6 +865,7 @@
     "disconnect-all": "Disconnect all",
     "modal-title": "Connect wallet to continue",
     "tooltips": {
+      "metamask": "To connect to the MetaMask wallet, please disable Coinbase or OKX wallet extension in your browser and refresh the page.",
       "polkadot": "To connect to the Polkadot wallet, please connect to one of the Ethereum compatible networks first"
     },
     "wallet-install": "Install"

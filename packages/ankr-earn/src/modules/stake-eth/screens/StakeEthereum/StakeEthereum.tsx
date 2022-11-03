@@ -8,7 +8,11 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { AUDIT_LINKS, featuresConfig } from 'modules/common/const';
+import {
+  AUDIT_LINKS,
+  DUNE_ANALYTICS_LINK,
+  featuresConfig,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
@@ -135,6 +139,7 @@ export const StakeEthereum = (): JSX.Element => {
 
         <StakeStats
           amount={amount ?? 0}
+          analyticsLink={DUNE_ANALYTICS_LINK.eth}
           metricsServiceName={EMetricsServiceName.ETH}
         />
 

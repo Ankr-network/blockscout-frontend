@@ -12,14 +12,12 @@ interface IGuardETHRouteProps extends RouteProps {
   availableNetworks: EEthereumNetworkId[];
   isOpenConnectInstantly?: boolean;
   isOpenedConnectModal?: boolean;
-  providerId: AvailableWriteProviders;
 }
 
 export const GuardETHRoute = ({
   availableNetworks,
   isOpenConnectInstantly,
   isOpenedConnectModal = true,
-  providerId,
   ...routeProps
 }: IGuardETHRouteProps): JSX.Element => {
   const {
@@ -38,7 +36,7 @@ export const GuardETHRoute = ({
   } = useGuardETHRoute({
     availableNetworks,
     isOpenedConnectModal,
-    providerId,
+    providerId: AvailableWriteProviders.ethCompatible,
   });
 
   return (
@@ -51,7 +49,7 @@ export const GuardETHRoute = ({
       isOpenedModal={isOpenedModal}
       isUnsupportedNetwork={isUnsupportedNetwork}
       isValidWallet={isValidWallet}
-      providerId={providerId}
+      providerId={AvailableWriteProviders.ethCompatible}
       supportedNetworks={supportedNetworks}
       walletsGroupTypes={walletsGroupTypes}
       onCloseModal={onCloseModal}

@@ -8,7 +8,7 @@ import { ReactText, useState } from 'react';
 
 import { trackBridge } from 'modules/analytics/tracking-actions/trackBridge';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
@@ -80,7 +80,7 @@ const defaultTo = isMainnet
 export const useBridgeMainView = (): IUseBridgeMainView => {
   const providerId = AvailableWriteProviders.ethCompatible;
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

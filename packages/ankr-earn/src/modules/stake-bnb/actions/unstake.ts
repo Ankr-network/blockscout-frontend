@@ -6,6 +6,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { BinanceSDK } from '@ankr.com/staking-sdk';
+import { t } from 'common';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -17,9 +18,12 @@ import { approveABNBCUnstake } from './approveABNBCUnstake';
 import { fetchPendingValues } from './fetchPendingValues';
 import { fetchStats } from './fetchStats';
 
+const INVALID_ARGUMENT_ERROR_CODE = 'INVALID_ARGUMENT';
+
 interface IUnstakeArgs {
   amount: BigNumber;
   token: TBnbSyntToken;
+  externalAddress?: string;
 }
 
 export const unstake = createSmartAction<
@@ -27,10 +31,14 @@ export const unstake = createSmartAction<
   [IUnstakeArgs]
 >(
   'bnb/unstake',
-  ({ amount, token }): RequestAction => ({
+  ({ amount, token, externalAddress }): RequestAction => ({
     request: {
       promise: (async (): Promise<IWeb3SendResult> => {
         const sdk: BinanceSDK = await BinanceSDK.getInstance();
+
+        if (externalAddress) {
+          return sdk.unstakeToExternal(amount, token, externalAddress);
+        }
 
         return sdk.unstake(amount, token);
       })(),
@@ -38,6 +46,12 @@ export const unstake = createSmartAction<
     meta: {
       asMutation: true,
       showNotificationOnError: true,
+      getError: error => {
+        if (error && error.code === INVALID_ARGUMENT_ERROR_CODE) {
+          return t('validation.invalid-address');
+        }
+        return error;
+      },
       onSuccess: async (
         response,
         _action: RequestAction,

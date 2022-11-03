@@ -2,6 +2,10 @@ import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 
+import {
+  IUseHistoryData,
+  useHistory,
+} from 'modules/common/components/HistoryDialog/hooks/useHistory';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -22,6 +26,10 @@ jest.mock('../useStakedABNBBData', () => ({
 
 jest.mock('../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
+}));
+
+jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+  useHistory: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
@@ -60,12 +68,22 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
     handleLoadTxHistory: jest.fn(),
   };
 
+  const defaultUseHistoryHookData: IUseHistoryData = {
+    loading: false,
+    weeksAmount: 1,
+    handleShowMore: jest.fn(),
+    stakeEvents: [],
+    unstakeEvents: [],
+  };
+
   beforeEach(() => {
     (useStakedABNBBData as jest.Mock).mockReturnValue(defaultStakedBNBHookData);
 
     (useStakedBNBTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
+
+    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
   });
 
   afterEach(() => {

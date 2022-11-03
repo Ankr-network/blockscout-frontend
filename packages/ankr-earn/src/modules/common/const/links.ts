@@ -47,6 +47,14 @@ export const AUDIT_LINKS = {
   eth: 'https://assets.ankr.com/files/stkr_smart_contract_auditing_report.pdf',
 };
 
+export const DUNE_ANALYTICS_LINK = {
+  eth: 'https://dune.com/ankr/ankr-liquid-staking-eth',
+  matic: 'https://dune.com/ankr/ankr-liquid-staking-matic',
+  bnb: 'https://dune.com/ankr/ankr-liquid-staking-bnb',
+  avax: 'https://dune.com/ankr/ankr-liquid-staking-avax',
+  ankr: 'https://dune.com/ankr/ankr-token-dashboard',
+};
+
 export const SOCIAL_LINK = {
   discord: 'https://discord.gg/hs2SK9pBXP',
   medium: 'https://medium.com/ankr-network',

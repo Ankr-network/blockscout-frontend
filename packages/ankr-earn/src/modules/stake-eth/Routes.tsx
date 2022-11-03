@@ -13,7 +13,7 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
 import { createRouteConfig } from '../router/utils/createRouteConfig';
 
-import { ETH_PROVIDER_ID, ETH_STAKING_NETWORKS } from './const';
+import { ETH_STAKING_NETWORKS } from './const';
 
 const ROOT = `${StakeRoutes.main.path}ethereum/`;
 const STAKE_ETH_PATH = `${ROOT}?token=:token?`;
@@ -110,7 +110,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.stake.path}
-          providerId={ETH_PROVIDER_ID}
         >
           <DefaultLayout>
             <Stake />
@@ -121,7 +120,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.stakeSteps.path}
-          providerId={ETH_PROVIDER_ID}
         >
           <DefaultLayout>
             <StakeSteps />
@@ -132,7 +130,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.claim.path}
-          providerId={ETH_PROVIDER_ID}
         >
           <DefaultLayout>
             <Claim />
@@ -143,7 +140,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.claimSteps.path}
-          providerId={ETH_PROVIDER_ID}
         >
           <DefaultLayout>
             <ClaimSteps />

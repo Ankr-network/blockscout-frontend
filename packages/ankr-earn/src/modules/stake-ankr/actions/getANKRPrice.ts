@@ -12,7 +12,10 @@ interface IGetANKRPrice {
   rate: number;
 }
 
-export const { useGetAnkrPriceQuery } = web3Api.injectEndpoints({
+export const {
+  useGetAnkrPriceQuery,
+  endpoints: { getAnkrPrice },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     getAnkrPrice: build.query<BigNumber, void>({
       query: () => new URL(ANKR_RATE_URL, baseUrl).toString(),

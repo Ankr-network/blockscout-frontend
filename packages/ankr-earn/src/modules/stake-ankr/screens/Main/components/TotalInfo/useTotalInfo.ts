@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-// import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
