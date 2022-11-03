@@ -9,7 +9,11 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ZERO } from 'modules/common/const';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
-import { getTxData, getTxReceipt } from 'modules/stake-bnb/actions/getTxData';
+import {
+  getTxData,
+  getTxReceipt,
+  getUnstakeTxData,
+} from 'modules/stake-bnb/actions/getTxData';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -31,7 +35,11 @@ interface IUnstakeSuccessParams {
 
 export const useUnstakeBinanceSuccessHook = (): IUnstakeBinanceSuccessHook => {
   const { txHash, token } = useParams<IUnstakeSuccessParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
+  const {
+    loading: isLoading,
+    data,
+    error,
+  } = useQuery({ type: getUnstakeTxData });
   const { data: receipt } = useQuery({ type: getTxReceipt });
   const { data: stats } = useQuery({ type: fetchStats });
   const dispatchRequest = useDispatchRequest();
@@ -41,7 +49,7 @@ export const useUnstakeBinanceSuccessHook = (): IUnstakeBinanceSuccessHook => {
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
+    dispatchRequest(getUnstakeTxData({ txHash }));
     dispatchRequest(getTxReceipt({ txHash }));
 
     if (!stats) {

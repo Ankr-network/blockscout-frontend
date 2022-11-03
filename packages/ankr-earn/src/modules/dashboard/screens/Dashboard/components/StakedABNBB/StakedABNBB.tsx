@@ -5,9 +5,8 @@ import { tHTML } from 'common';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { BSC_NETWORK_BY_ENV, featuresConfig, ONE } from 'modules/common/const';
+import { BSC_NETWORK_BY_ENV, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -58,7 +57,6 @@ export const StakedABNBB = (): JSX.Element => {
   const {
     isHistoryDataLoading,
     pendingUnstakeHistoryABNBB,
-    transactionHistoryABNBB,
     handleLoadTxHistory,
   } = useStakedBNBTxHistory();
 
@@ -127,21 +125,12 @@ export const StakedABNBB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      {featuresConfig.newStakingHistoryDialog ? (
-        <NewHistoryDialog
-          network={BSC_NETWORK_BY_ENV}
-          open={isOpenedHistory}
-          token={Token.aBNBb}
-          onClose={onCloseHistory}
-        />
-      ) : (
-        <HistoryDialog
-          history={transactionHistoryABNBB}
-          isHistoryLoading={isHistoryDataLoading}
-          open={isOpenedHistory}
-          onClose={onCloseHistory}
-        />
-      )}
+      <NewHistoryDialog
+        network={BSC_NETWORK_BY_ENV}
+        open={isOpenedHistory}
+        token={Token.aBNBb}
+        onClose={onCloseHistory}
+      />
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

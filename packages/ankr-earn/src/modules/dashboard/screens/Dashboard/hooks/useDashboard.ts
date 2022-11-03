@@ -5,7 +5,7 @@ import {
 } from '@redux-requests/core';
 import { useState } from 'react';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
@@ -78,7 +78,7 @@ export const useDashboard = (): IUseDashboard => {
   const dispatch = useAppDispatch();
   const [isFirstLoad, setFirstLoad] = useState(true);
 
-  const { address } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   usePolkadot();
 

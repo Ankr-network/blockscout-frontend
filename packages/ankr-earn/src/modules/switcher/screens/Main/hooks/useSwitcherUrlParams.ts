@@ -2,7 +2,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import {
@@ -27,7 +27,7 @@ const DEFAULT_CHAIN_ID = EEthereumNetworkId.mainnet;
 
 export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
   const history = useHistory();
-  const { chainId: baseChainId } = useAuth(
+  const { chainId: baseChainId } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

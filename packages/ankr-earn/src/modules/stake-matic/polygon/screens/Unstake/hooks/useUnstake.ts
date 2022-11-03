@@ -14,7 +14,7 @@ import { useCallback } from 'react';
 import { t } from 'common';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
@@ -66,7 +66,7 @@ export const useUnstake = (): IUseUnstakeData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

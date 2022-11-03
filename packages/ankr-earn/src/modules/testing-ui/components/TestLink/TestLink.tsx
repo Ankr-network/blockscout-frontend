@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig } from 'modules/testing-ui/Routes';
 
 import { useTestLinkStyles } from './useTestLinkStyles';
@@ -13,7 +13,7 @@ import { useTestLinkStyles } from './useTestLinkStyles';
  */
 export const TestLink = (): JSX.Element => {
   const classes = useTestLinkStyles();
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   return (
     <div className={classes.root}>

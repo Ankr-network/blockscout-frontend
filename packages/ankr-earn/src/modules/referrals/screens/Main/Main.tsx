@@ -2,7 +2,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { Box } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -15,7 +15,7 @@ import { StatsTable } from './components/StatsTable';
 export const Main = (): JSX.Element => {
   const dispatchRequest = useDispatchRequest();
 
-  const { address } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   useProviderEffect(() => {
     dispatchRequest(getMetrics());

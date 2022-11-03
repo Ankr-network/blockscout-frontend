@@ -18,7 +18,7 @@ export const POOL_CONTRACT_START_BLOCK = isMainnet ? 13_396_826 : 5_653_297;
 /**
  * Block offset to get 14 days history events
  */
-export const MATIC_ETH_BLOCK_2_WEEKS_OFFSET = 604_800; // 14 days
+export const MATIC_ETH_BLOCK_2_WEEKS_OFFSET = isMainnet ? 100_800 : 80_640;
 
 /**
  * Internal write provider id

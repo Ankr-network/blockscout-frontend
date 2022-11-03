@@ -5,9 +5,8 @@ import { tHTML } from 'common';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { featuresConfig, FTM_NETWORK_BY_ENV, ONE } from 'modules/common/const';
+import { FTM_NETWORK_BY_ENV, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -36,13 +35,8 @@ export const StakedAFTMB = (): JSX.Element | null => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const {
-    pendingUnstakeHistoryAFTMB,
-    stakedAFTMB,
-    unstakedAFTMB,
-    isHistoryLoading,
-    handleLoadTxHistory,
-  } = useStakedFTMTxHistory(Token.aFTMb);
+  const { pendingUnstakeHistoryAFTMB, isHistoryLoading, handleLoadTxHistory } =
+    useStakedFTMTxHistory(Token.aFTMb);
 
   const {
     address,
@@ -121,26 +115,12 @@ export const StakedAFTMB = (): JSX.Element | null => {
         onTradeClick={onTradeClick}
       />
 
-      {featuresConfig.newStakingHistoryDialog ? (
-        <NewHistoryDialog
-          network={FTM_NETWORK_BY_ENV}
-          open={isOpenedHistory}
-          token={Token.aFTMb}
-          onClose={onCloseHistory}
-        />
-      ) : (
-        <HistoryDialog
-          history={{
-            staked: stakedAFTMB,
-            stakedToken: Token.aFTMb,
-            unstaked: unstakedAFTMB,
-            unstakedToken: Token.aFTMb,
-          }}
-          isHistoryLoading={isHistoryLoading}
-          open={isOpenedHistory}
-          onClose={onCloseHistory}
-        />
-      )}
+      <NewHistoryDialog
+        network={FTM_NETWORK_BY_ENV}
+        open={isOpenedHistory}
+        token={Token.aFTMb}
+        onClose={onCloseHistory}
+      />
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

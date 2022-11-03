@@ -3,7 +3,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
@@ -27,7 +27,7 @@ export const useAnalytics = ({
     type: fetchStats,
   });
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

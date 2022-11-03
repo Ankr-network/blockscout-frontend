@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { generatePath } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
@@ -34,7 +33,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={[BSC_NETWORK_BY_ENV]}
           path={RoutesConfig.main.path}
-          providerId={AvailableWriteProviders.ethCompatible}
         >
           <DefaultLayout>
             <Main />

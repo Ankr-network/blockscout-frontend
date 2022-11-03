@@ -273,6 +273,76 @@
   },
   {
     "inputs": [],
+    "name": "getSlot0",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint32",
+            "name": "activeValidatorsLength",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "epochBlockInterval",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "misdemeanorThreshold",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "felonyThreshold",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "validatorJailEpochLength",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "undelegatePeriod",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minValidatorStakeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minStakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "governanceAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "treasuryAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "lockPeriod",
+            "type": "uint64"
+          }
+        ],
+        "internalType": "struct StakingConfig.Slot0",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getActiveValidatorsLength",
     "outputs": [
       {

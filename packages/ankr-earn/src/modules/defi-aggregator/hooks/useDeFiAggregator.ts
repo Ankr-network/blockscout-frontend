@@ -1,18 +1,18 @@
-import { useQuery } from '@redux-requests/react';
 import { useCallback, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useRouteMatch } from 'react-router-dom';
 
-import { useInitEffect } from 'modules/common/hooks/useInitEffect';
+import { Seconds } from 'modules/common/types';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { TRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-import { getDeFiData, IDeFiItem } from '../actions/getDeFiData';
+import { IDeFiItem, useGetDeFiDataQuery } from '../actions/getDeFiData';
 
 import { StakingType } from './useStakingTypes';
 import { TokenAsset } from './useTokenAssets';
 import { TokenNetwork } from './useTokenNetworks';
+
+const CACHE_TIME: Seconds = 60;
 
 interface UseDeFiAggregatorResult {
   data: IDeFiItem[];
@@ -35,7 +35,6 @@ type RouteConfig = TRouteConfig<{
 export const useDeFiAggregator = (
   routesConfig: RouteConfig,
 ): UseDeFiAggregatorResult => {
-  const dispatch = useDispatch();
   const { path } = useRouteMatch();
   const { replace } = useHistory();
   const query = useQueryParams();
@@ -50,7 +49,14 @@ export const useDeFiAggregator = (
   const [types, setTypes] = useState<string[]>(
     params?.types?.length ? params.types : [StakingType.All],
   );
-  const { data, loading: isLoading, error } = useQuery({ type: getDeFiData });
+
+  const {
+    data,
+    isFetching: isLoading,
+    error,
+  } = useGetDeFiDataQuery(undefined, {
+    refetchOnMountOrArgChange: CACHE_TIME,
+  });
 
   const filteredData = useMemo<IDeFiItem[]>(() => {
     let result = data ?? [];
@@ -137,10 +143,6 @@ export const useDeFiAggregator = (
     },
     [query, replace, path],
   );
-
-  useInitEffect(() => {
-    dispatch(getDeFiData());
-  });
 
   return {
     data: filteredData,

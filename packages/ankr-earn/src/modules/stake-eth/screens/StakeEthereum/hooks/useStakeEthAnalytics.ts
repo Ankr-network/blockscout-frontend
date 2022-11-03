@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 
@@ -25,7 +25,7 @@ export const useStakeEthAnalytics = ({
 }: IUseStakeEthAnalyticsArgs): IUseStakeEthAnalytics => {
   const { totalAmount: willGetAmount, tokenOut } = useTotalAmount(amount);
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

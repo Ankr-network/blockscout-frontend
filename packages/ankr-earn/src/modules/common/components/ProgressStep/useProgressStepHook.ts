@@ -2,7 +2,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useState, useCallback, useEffect } from 'react';
 
 import { trackClickGoToDashboard } from 'modules/analytics/tracking-actions/trackClickGoToDashboard';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 export interface IProgressStepHookData {
@@ -20,7 +20,7 @@ export const useProgressStepHook = (token: Token): IProgressStepHookData => {
   const [isTxCopied, setIsTxCopied] = useState(false);
   const [isAddressCopied, setIsAddressCopied] = useState(false);
 
-  const { address, chainId, walletName } = useAuth(
+  const { address, chainId, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
