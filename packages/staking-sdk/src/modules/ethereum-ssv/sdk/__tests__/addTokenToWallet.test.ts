@@ -36,6 +36,7 @@ describe('modules/ethereum-ssv/sdk/addTokenToWallet', () => {
   describe('should add token', () => {
     test('should has a valid "tokenInfo" for an invalid token', async () => {
       const data = await addTokenToWallet({
+        chainId: EEthereumNetworkId.mainnet,
         env: Env.Production,
         provider,
         token: '' as ESSVTokens,
@@ -55,6 +56,7 @@ describe('modules/ethereum-ssv/sdk/addTokenToWallet', () => {
       const { contractConfig } = configFromEnv(currentEnv);
 
       const data = await addTokenToWallet({
+        chainId: EEthereumNetworkId.goerli,
         provider,
         token: ESSVTokens.asETHc,
       });

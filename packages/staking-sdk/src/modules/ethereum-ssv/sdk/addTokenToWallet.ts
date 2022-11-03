@@ -6,17 +6,21 @@ import {
 import {
   configFromEnv,
   currentEnv,
-  Env,
   ETH_DECIMALS,
+  isMainnet,
   ZERO_ADDRESS,
 } from '../../common';
 import { ESSVTokens, ICommonProps } from '../types';
 
+type TChainId = EEthereumNetworkId.mainnet | EEthereumNetworkId.goerli;
+
 interface IAddTokenToWalletProps extends ICommonProps<Web3KeyWriteProvider> {
+  chainId?: TChainId;
   token: ESSVTokens;
 }
 
 export const addTokenToWallet = async ({
+  chainId = isMainnet ? EEthereumNetworkId.mainnet : EEthereumNetworkId.goerli,
   env = currentEnv,
   provider,
   token,
@@ -25,11 +29,6 @@ export const addTokenToWallet = async ({
 
   const address =
     token === ESSVTokens.asETHc ? contractConfig.asETHcContract : ZERO_ADDRESS;
-
-  const chainId =
-    env === Env.Production
-      ? EEthereumNetworkId.mainnet
-      : EEthereumNetworkId.goerli;
 
   return provider.addTokenToWallet({
     address,
