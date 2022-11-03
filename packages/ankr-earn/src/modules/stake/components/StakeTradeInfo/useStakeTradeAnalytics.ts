@@ -2,7 +2,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useCallback } from 'react';
 
 import { trackGetTokenDiscount } from 'modules/analytics/tracking-actions/trackGetTokenDiscount';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { EOpenOceanTokens } from 'modules/stake/types';
 
 interface IUseStakeTradeAnalytics {
@@ -13,7 +13,7 @@ interface IUseStakeTradeAnalytics {
 }
 
 export const useStakeTradeAnalytics = (): IUseStakeTradeAnalytics => {
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

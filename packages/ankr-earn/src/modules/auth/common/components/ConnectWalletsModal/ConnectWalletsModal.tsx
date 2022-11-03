@@ -2,7 +2,6 @@ import {
   AvailableWriteProviders,
   EWalletId,
   getWalletName,
-  Web3KeyReadProvider,
 } from '@ankr.com/provider-core';
 import { Box, ButtonBase, Grid, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
@@ -21,6 +20,11 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { connect, IConnect } from '../../actions/connect';
+import {
+  getIsCoinbaseInjected,
+  getIsMetamaskInjected,
+  getIsOKXInjected,
+} from '../../utils/getIsWalletsInjected';
 
 import { ReactComponent as CoinbaseIcon } from './assets/coinbase.svg';
 import { ReactComponent as HuobiWalletIcon } from './assets/huobi-wallet-icon.svg';
@@ -31,7 +35,6 @@ import { ReactComponent as OKXIcon } from './assets/okx-wallet-icon.svg';
 import { ReactComponent as PolkadotIcon } from './assets/polkadot-icon.svg';
 import { ReactComponent as TrustWalletIcon } from './assets/trust-wallet-icon.svg';
 import { ReactComponent as WalletConnectIcon } from './assets/wallet-connect-icon.svg';
-import { getIsEthereum } from './getIsEthereum';
 import { useConnectWalletsModalStyles } from './useConnectWalletsModalStyles';
 
 type THref = string;
@@ -41,6 +44,13 @@ type TProviderId = AvailableWriteProviders;
 type TWalletId = EWalletId | string;
 
 type TWallets = IWalletItem[][];
+
+const isMetamaskInjected = getIsMetamaskInjected();
+const isCoinbaseInjected = getIsCoinbaseInjected();
+const isOKXInjected = getIsOKXInjected();
+
+const isMetaMaskDisabled =
+  isMetamaskInjected && isCoinbaseInjected && isOKXInjected;
 
 interface IConnectWalletsModalProps {
   isOpen: boolean;
@@ -75,29 +85,17 @@ interface IOnWalletItemClickArgs {
   walletId: TWalletId;
 }
 
-const COINBASE_PROVIDER_KEY = 'CoinbaseWallet';
-
 const ETH_COMPATIBLE_WALLETS: TWallets = [
   [
     {
       href: 'https://metamask.io/download/',
       icon: <MetaMaskIcon />,
-      isDisabled: false,
+      isDisabled: isMetaMaskDisabled,
       isHidden: isMobile(),
-      get isInjected() {
-        if (!getIsEthereum(window.ethereum)) {
-          return false;
-        }
-
-        const { isMetaMask, isOKExWallet } = window.ethereum;
-
-        return (
-          Web3KeyReadProvider.isInjected() && !!isMetaMask && !isOKExWallet
-        );
-      },
+      isInjected: isMetamaskInjected,
       providerId: AvailableWriteProviders.ethCompatible,
       title: getWalletName(EWalletId.injected),
-      tooltip: undefined,
+      tooltip: isMetaMaskDisabled ? 'wallets.tooltips.metamask' : undefined,
       walletId: EWalletId.injected,
     },
     {
@@ -105,22 +103,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       icon: <CoinbaseIcon />,
       isDisabled: false,
       isHidden: false,
-      get isInjected() {
-        if (!getIsEthereum(window.ethereum)) {
-          return false;
-        }
-
-        let isCoinbaseWallet = !!window.ethereum.isCoinbaseWallet;
-
-        if (window.ethereum.providerMap) {
-          const coinbaseProvider: { isCoinbaseWallet: boolean } =
-            window.ethereum.providerMap.get(COINBASE_PROVIDER_KEY);
-
-          isCoinbaseWallet = coinbaseProvider.isCoinbaseWallet;
-        }
-
-        return Web3KeyReadProvider.isInjected() && isCoinbaseWallet;
-      },
+      isInjected: isCoinbaseInjected,
       providerId: AvailableWriteProviders.ethCompatible,
       title: getWalletName(EWalletId.coinbase),
       tooltip: undefined,
@@ -188,9 +171,7 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       icon: <OKXIcon />,
       isDisabled: false,
       isHidden: isMobile(),
-      get isInjected() {
-        return typeof window.okexchain !== 'undefined';
-      },
+      isInjected: isOKXInjected,
       providerId: AvailableWriteProviders.ethCompatible,
       title: getWalletName(EWalletId.okxwallet),
       tooltip: undefined,

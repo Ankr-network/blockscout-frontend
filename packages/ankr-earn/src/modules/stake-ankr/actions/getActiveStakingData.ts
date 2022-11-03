@@ -1,9 +1,12 @@
 import { BigNumber } from 'bignumber.js';
+import { RootState } from 'store';
 
 import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IActiveStakingData } from '../api/AnkrStakingSDK/types';
 import { CacheTags } from '../cacheTags';
+
+import { selectLatestBlockNumber } from './getLatestBlockNumber';
 
 interface IGetActiveStakingDataArgs {
   usdPrice: BigNumber;
@@ -16,10 +19,18 @@ export const { useGetActiveStakingDataQuery } = web3Api.injectEndpoints({
       IActiveStakingData[],
       IGetActiveStakingDataArgs
     >({
-      queryFn: async ({ usdPrice }) => {
+      queryFn: async ({ usdPrice }, { getState }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
-        return { data: await sdk.getMyActiveStaking(usdPrice) };
+        const { data: latestBlockNumber } = selectLatestBlockNumber(
+          getState() as RootState,
+        );
+
+        const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
+
+        return {
+          data: await sdk.getMyActiveStaking(usdPrice, blockNumber),
+        };
       },
       providesTags: [CacheTags.history],
     }),

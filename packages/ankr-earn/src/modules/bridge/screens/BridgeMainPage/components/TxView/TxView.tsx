@@ -13,7 +13,7 @@ import { useHistory } from 'react-router';
 import { t } from 'common';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { notarize } from 'modules/bridge/actions/notarize';
@@ -73,7 +73,7 @@ export const TxView = ({
 
   const dispatchRequest = useDispatchRequest();
   const history = useHistory();
-  const { chainId, isInjected } = useAuth(
+  const { chainId, isInjected } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
@@ -82,7 +82,9 @@ export const TxView = ({
   });
 
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
-  const { isConnected } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { isConnected } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const isNotarizeCompleted = !!notarizeData;
 

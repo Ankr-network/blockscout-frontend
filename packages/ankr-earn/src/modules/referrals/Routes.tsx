@@ -6,10 +6,7 @@ import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import {
-  BINANCE_WRITE_PROVIDER_ID,
-  BNB_STAKING_NETWORKS,
-} from 'modules/stake-bnb/const';
+import { BNB_STAKING_NETWORKS } from 'modules/stake-bnb/const';
 
 import { ReferralGuard } from './components/ReferralGuard';
 
@@ -38,7 +35,6 @@ export function getRoutes(): JSX.Element {
             exact
             availableNetworks={BNB_STAKING_NETWORKS}
             path={ROOT}
-            providerId={BINANCE_WRITE_PROVIDER_ID}
           >
             <DefaultLayout>
               <Main />

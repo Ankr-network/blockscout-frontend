@@ -6,7 +6,7 @@ import { uid } from 'react-uid';
 
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import {
   Table,
   TableBody,
@@ -43,7 +43,7 @@ enum ELabel {
 export const HistoryTable = (): JSX.Element | null => {
   const classes = useHistoryTableStyles();
 
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
   const { data, isLoading } = useHistoryData();
 
   const captions = useLocaleMemo(

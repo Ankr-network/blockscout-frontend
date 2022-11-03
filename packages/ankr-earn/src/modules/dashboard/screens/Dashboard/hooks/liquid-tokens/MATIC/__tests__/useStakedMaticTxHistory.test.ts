@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { EPolygonPoolEventsMap } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -16,8 +16,8 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -94,7 +94,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/MATIC/useStake
   };
 
   beforeEach(() => {
-    (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
+    (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
 
     (useQuery as jest.Mock).mockReturnValue(defaultData);
 
@@ -161,7 +161,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/MATIC/useStake
   });
 
   test('should return empty data', () => {
-    (useAuth as jest.Mock).mockReturnValue({ chainId: undefined });
+    (useConnectedData as jest.Mock).mockReturnValue({ chainId: undefined });
     (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
 
     const { result } = renderHook(() => useStakedMATICTxHistory());

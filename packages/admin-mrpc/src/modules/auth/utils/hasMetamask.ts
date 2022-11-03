@@ -1,3 +1,3 @@
 export function hasMetamask(): boolean {
-  return window.ethereum;
+  return !!window.ethereum;
 }

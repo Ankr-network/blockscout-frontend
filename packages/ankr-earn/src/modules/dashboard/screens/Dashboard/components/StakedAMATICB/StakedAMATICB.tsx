@@ -5,9 +5,8 @@ import { tHTML } from 'common';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { ETH_NETWORK_BY_ENV, featuresConfig, ONE } from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -41,11 +40,8 @@ export const StakedAMATICB = (): JSX.Element | null => {
 
   const dispatch = useAppDispatch();
 
-  const {
-    isHistoryDataLoading,
-    pendingUnstakeHistoryAMATICB,
-    transactionHistoryAMATICB,
-  } = useStakedMATICTxHistory();
+  const { isHistoryDataLoading, pendingUnstakeHistoryAMATICB } =
+    useStakedMATICTxHistory();
 
   const {
     address,
@@ -128,21 +124,12 @@ export const StakedAMATICB = (): JSX.Element | null => {
         onTradeClick={onTradeClick}
       />
 
-      {featuresConfig.newStakingHistoryDialog ? (
-        <NewHistoryDialog
-          network={ETH_NETWORK_BY_ENV}
-          open={isOpenedHistory}
-          token={Token.aMATICb}
-          onClose={onCloseHistory}
-        />
-      ) : (
-        <HistoryDialog
-          history={transactionHistoryAMATICB}
-          isHistoryLoading={isHistoryDataLoading}
-          open={isOpenedHistory}
-          onClose={onCloseHistory}
-        />
-      )}
+      <NewHistoryDialog
+        network={ETH_NETWORK_BY_ENV}
+        open={isOpenedHistory}
+        token={Token.aMATICb}
+        onClose={onCloseHistory}
+      />
 
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}

@@ -26,6 +26,25 @@ export const getTxData = createAction<
   },
 }));
 
+export const getUnstakeTxData = createAction<
+  RequestAction<IFetchTxData, IFetchTxData>
+>('bnb/getUnstakeTxData', ({ txHash }: { txHash: string }) => ({
+  request: {
+    promise: async (): Promise<IFetchTxData> => {
+      const sdk = await BinanceSDK.getInstance();
+
+      return retry(() => sdk.fetchUnstakeTxData(txHash), {
+        retries: RETRIES_TO_GET_TX_DATA,
+      });
+    },
+  },
+  meta: {
+    asMutation: false,
+    showNotificationOnError: true,
+    onRequest: withStore,
+  },
+}));
+
 const POLL_INTERVAL_SECONDS = 3;
 
 export const getTxReceipt = createAction<

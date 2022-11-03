@@ -1,7 +1,7 @@
 import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { ReactNode } from 'react';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Section } from 'modules/delegate-stake/components/Section';
 import { UnsupportedBanner } from 'modules/stake-mgno/components/UnsupportedBanner';
 
@@ -14,7 +14,9 @@ interface ISupportGuardProps {
  * Temporary solution for MVP of ankr token staking.
  */
 export const SupportGuard = ({ children }: ISupportGuardProps): JSX.Element => {
-  const { isInjected, isOKX } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { isInjected, isOKX } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   if (isOKX || !isInjected) {
     return (

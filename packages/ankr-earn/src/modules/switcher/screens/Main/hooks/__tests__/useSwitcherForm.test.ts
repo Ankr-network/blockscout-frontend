@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
@@ -29,8 +29,8 @@ jest.mock('modules/auth/common/actions/switchNetwork', () => ({
   switchNetwork: jest.fn(),
 }));
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 describe('modules/switcher/screens/Main/useSwitcherHook', () => {
@@ -51,7 +51,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       loading: false,
     });
 
-    (useAuth as jest.Mock).mockReturnValue({ chainId: 1 });
+    (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
 
     (switchNetwork as jest.Mock).mockReturnValue(undefined);
   });

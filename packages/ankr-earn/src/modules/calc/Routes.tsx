@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
@@ -46,12 +45,7 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={RoutesConfig.root}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={AVAILABLE_NETWORKS}
-          path={ROOT}
-          providerId={AvailableWriteProviders.ethCompatible}
-        >
+        <GuardETHRoute exact availableNetworks={AVAILABLE_NETWORKS} path={ROOT}>
           <DefaultLayout>
             <Main />
           </DefaultLayout>

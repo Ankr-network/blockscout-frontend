@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 
 import { t } from 'common';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TIcon, TNetworkIconMap } from 'modules/common/icons';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
 import { PolygonIcon } from 'uiKit/Icons/Polygon';
@@ -24,7 +24,7 @@ const ICONS_MAP: TNetworkIconMap = {
 };
 
 export const useNetworkTitle = (): UseNetworkTitleData => {
-  const { chainId } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   const Icon = useMemo(
     () =>

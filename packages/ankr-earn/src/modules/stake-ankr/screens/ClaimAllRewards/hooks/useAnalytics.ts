@@ -2,7 +2,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
 import { trackClaimAllRewards } from 'modules/analytics/tracking-actions/trackClaimAllRewards';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 interface IUseAnalytics {
@@ -10,7 +10,7 @@ interface IUseAnalytics {
 }
 
 export const useAnalytics = (amount: BigNumber): IUseAnalytics => {
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

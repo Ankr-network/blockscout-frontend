@@ -11,7 +11,7 @@ import { useMemo, useState } from 'react';
 import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
@@ -59,7 +59,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

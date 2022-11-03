@@ -1,8 +1,14 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
-import { Form } from 'react-final-form';
+import React, {
+  ReactNode,
+  ReactText,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
+import { Form, Field } from 'react-final-form';
 
 import { t, tHTML } from 'common';
 import { Notice } from 'ui';
@@ -13,8 +19,10 @@ import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { Button } from 'uiKit/Button';
+import { CheckboxField } from 'uiKit/CheckboxField';
 import { CloseButton } from 'uiKit/CloseButton';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
+import { InputField } from 'uiKit/InputField';
 import { OnChange } from 'uiKit/OnChange';
 import { NumericStepper } from 'uiKit/Stepper';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -23,6 +31,8 @@ import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
 enum FieldsNames {
   amount = 'amount',
+  isToExternalAddress = 'isToExternalAddress',
+  externalAddress = 'externalAddress',
 }
 
 enum ESteps {
@@ -32,6 +42,8 @@ enum ESteps {
 
 export interface IUnstakeFormValues {
   amount?: ReactText;
+  isToExternalAddress?: boolean;
+  externalAddress?: string;
 }
 
 export interface IUnstakeDialogProps {
@@ -57,6 +69,7 @@ export interface IUnstakeDialogProps {
     errors: FormErrors<IUnstakeFormValues>,
   ) => FormErrors<IUnstakeFormValues>;
   onChange?: (values: IUnstakeFormValues, invalid: boolean) => void;
+  isExternalAllowed?: boolean;
 }
 
 export const UnstakeDialog = ({
@@ -79,6 +92,7 @@ export const UnstakeDialog = ({
   extraValidation,
   renderFormFooter,
   onChange,
+  isExternalAllowed,
 }: IUnstakeDialogProps): JSX.Element => {
   const classes = useUnstakeDialogStyles();
   const maxAmount = balance || ZERO;
@@ -148,8 +162,49 @@ export const UnstakeDialog = ({
                   )}
               </Container>
 
-              <div className={classes.footer}>
+              <div>
                 <Container className={classes.container}>
+                  {isExternalAllowed && (
+                    <div className={classes.externalWrapper}>
+                      <div className={classes.checkboxArea}>
+                        <Field
+                          component={CheckboxField}
+                          name={FieldsNames.isToExternalAddress}
+                          type="checkbox"
+                        >
+                          <Typography
+                            className={classes.checkboxTxt}
+                            color="textSecondary"
+                            variant="body2"
+                          >
+                            {t('unstake-dialog.send-external-wallet')}
+                          </Typography>
+                        </Field>
+                      </div>
+
+                      {values.isToExternalAddress && (
+                        <div className={classes.addressArea}>
+                          <Typography
+                            className={classes.labelTxt}
+                            color="textPrimary"
+                            variant="body2"
+                          >
+                            {t('stake-polkadot.unstake.external-wallet')}
+                          </Typography>
+
+                          <Field
+                            fullWidth
+                            className={classes.addressField}
+                            component={InputField}
+                            disabled={isDisabled}
+                            name={FieldsNames.externalAddress}
+                            type="string"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   <Box mb={4}>
                     {endDate && (
                       <Typography className={classes.info} variant="body2">

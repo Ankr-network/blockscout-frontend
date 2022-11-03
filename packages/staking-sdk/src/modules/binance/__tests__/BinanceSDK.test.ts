@@ -535,6 +535,55 @@ describe('modules/binance/sdk', () => {
     expect(contract.methods.unstakeBonds).toBeCalledTimes(1);
   });
 
+  test('should unstake tokens to exteranl address properly', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({ call: () => ZERO }),
+        approve: jest.fn(() => ({ send: jest.fn() })),
+        unstakeCerts: jest.fn(() => ({ encodeABI: jest.fn() })),
+        unstakeCertsFor: jest.fn(() => ({ encodeABI: jest.fn() })),
+        unstakeBonds: jest.fn(() => ({ encodeABI: jest.fn() })),
+        unstakeBondsFor: jest.fn(() => ({ encodeABI: jest.fn() })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWriteProvider.isConnected.mockReturnValue(false);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    await sdk.unstakeToExternal(
+      new BigNumber(1),
+      'aBNBc',
+      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+    );
+
+    expect(contract.methods.unstakeCertsFor).toBeCalledWith(
+      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xde0b6b3a7640000',
+    );
+
+    await sdk.unstakeToExternal(
+      new BigNumber(1),
+      'aBNBb',
+      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+    );
+
+    expect(contract.methods.unstakeBondsFor).toBeCalledWith(
+      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xde0b6b3a7640000',
+    );
+  });
+
   test('should throw error if unstake amount is less than or equals to zero', async () => {
     const sdk = await BinanceSDK.getInstance();
 

@@ -7,7 +7,7 @@ import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import { ETH_PROVIDER_ID, ETH_STAKING_NETWORKS } from 'modules/stake-eth/const';
+import { ETH_STAKING_NETWORKS } from 'modules/stake-eth/const';
 import { MGNO_STAKING_NETWORKS } from 'modules/stake-mgno/const';
 
 const ROOT = `${STAKING_PATH}test/`;
@@ -101,7 +101,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.stakeWithoutClaim.path}
-          providerId={ETH_PROVIDER_ID}
         >
           <DefaultLayout>
             <TestingStake />
@@ -118,7 +117,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={ETH_STAKING_NETWORKS}
           path={RoutesConfig.ankrFaucet.path}
-          providerId={ETH_PROVIDER_ID}
         >
           <DefaultLayout>
             <AnkrFaucet />
@@ -129,7 +127,6 @@ export function getRoutes(): JSX.Element {
           exact
           availableNetworks={MGNO_STAKING_NETWORKS}
           path={RoutesConfig.mgnoFaucet.path}
-          providerId={ETH_PROVIDER_ID}
         >
           <DefaultLayout>
             <MgnoFaucet />

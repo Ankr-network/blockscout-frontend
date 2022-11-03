@@ -3,7 +3,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
@@ -27,7 +27,7 @@ export const useProviderNotification = (): IUseProviderNotification => {
     type: getMetrics,
   });
 
-  const { address } = useAuth(AvailableWriteProviders.ethCompatible);
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   const ethAmount = rewardsData ?? ZERO;
 

@@ -14,7 +14,7 @@ import { useMemo, useState } from 'react';
 import { t } from 'common';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
@@ -79,7 +79,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 

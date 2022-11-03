@@ -1,4 +1,5 @@
 import { Box } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 
 import { t, tHTML } from 'common';
 
@@ -7,7 +8,7 @@ import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
-  DEFAULT_ROUNDING,
+  DEFAULT_FIXED,
   featuresConfig,
   ONE,
 } from 'modules/common/const';
@@ -65,7 +66,7 @@ export const Stake = (): JSX.Element => {
         <div>
           {tHTML('stake-matic-polygon.liquidity-pool-label', {
             value: acPoolLiquidityInMATIC
-              .decimalPlaces(DEFAULT_ROUNDING)
+              .decimalPlaces(DEFAULT_FIXED, BigNumber.ROUND_DOWN)
               .toFormat(),
             token: t('unit.matic'),
           })}

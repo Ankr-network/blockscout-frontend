@@ -2,7 +2,7 @@ import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useLocation, useHistory } from 'react-router';
 
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 import { useSwitcherUrlParams } from '../useSwitcherUrlParams';
@@ -12,8 +12,8 @@ jest.mock('react-router', () => ({
   useHistory: jest.fn(),
 }));
 
-jest.mock('modules/auth/common/hooks/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
@@ -24,7 +24,7 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
 
     (useHistory as jest.Mock).mockReturnValue(history);
 
-    (useAuth as jest.Mock).mockReturnValue({
+    (useConnectedData as jest.Mock).mockReturnValue({
       chainId: EEthereumNetworkId.mainnet,
     });
   });
@@ -65,7 +65,7 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
   });
 
   test('should return initial data for binance chain', () => {
-    (useAuth as jest.Mock).mockReturnValue({
+    (useConnectedData as jest.Mock).mockReturnValue({
       chainId: EEthereumNetworkId.smartchain,
     });
 

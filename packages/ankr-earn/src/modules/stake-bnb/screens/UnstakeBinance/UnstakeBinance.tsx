@@ -104,6 +104,7 @@ export const UnstakeBinance = (): JSX.Element => {
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
         <UnstakeDialog
+          isExternalAllowed
           balance={syntTokenBalance}
           closeHref={closeHref}
           endText={unstakeLabel}

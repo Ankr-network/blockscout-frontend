@@ -18,7 +18,7 @@ import { fetchHistory as fetchMATICETHHistory } from 'modules/stake-matic/eth/ac
 
 import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
 
-interface IUseHistoryData extends IHistoryData {
+export interface IUseHistoryData extends IHistoryData {
   loading: boolean;
   weeksAmount: number;
   handleShowMore: () => void;

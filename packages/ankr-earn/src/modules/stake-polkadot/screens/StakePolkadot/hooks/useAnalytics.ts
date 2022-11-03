@@ -7,7 +7,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
@@ -48,7 +48,7 @@ export const useAnalytics = ({
 }: IUseAnalyticsProps): IUseAnalyticsData => {
   const dispatch = useAppDispatch();
 
-  const { address, walletName } = useAuth(
+  const { address, walletName } = useConnectedData(
     AvailableWriteProviders.polkadotCompatible,
   );
 

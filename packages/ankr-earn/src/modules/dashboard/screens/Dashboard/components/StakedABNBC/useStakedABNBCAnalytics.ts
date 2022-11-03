@@ -1,7 +1,7 @@
 import { AvailableWriteProviders } from '@ankr.com/provider-core';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
-import { useAuth } from 'modules/auth/common/hooks/useAuth';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';
 
 export interface IUseStakedABNBCAnalytics {
@@ -9,7 +9,7 @@ export interface IUseStakedABNBCAnalytics {
 }
 
 export const useStakedABNBCAnalytics = (): IUseStakedABNBCAnalytics => {
-  const { walletName, address } = useAuth(
+  const { walletName, address } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
