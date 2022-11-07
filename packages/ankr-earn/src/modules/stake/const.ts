@@ -15,7 +15,7 @@ export type UnstakableToken =
 
 export const UNSTAKE_DAY_INTERVALS_BY_TOKEN: Record<UnstakableToken, string> = {
   [Token.AVAX]: '28',
-  [Token.BNB]: '7-15',
+  [Token.BNB]: '7-10',
   [Token.FTM]: '35',
   [Token.MATIC]: '3-4',
   [Token.DOT]: '28',
