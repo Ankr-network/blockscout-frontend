@@ -11,6 +11,7 @@ import {
   ANKR_FTM_LANDING,
   ANKR_KSM_LANDING,
   ANKR_MATIC_LANDING,
+  ANKR_SSV_LANDING,
   featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -179,7 +180,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
             isApyLoading={loading}
             isTvlLoading={loading}
             mainHref={EthereumSSVRoutes.stake.generatePath()}
-            moreHref={undefined}
+            moreHref={ANKR_SSV_LANDING}
             stakedTvl={metrics?.[EMetricsServiceName.ETH_SSV]?.totalStaked}
             title={t('features.ethereum-ssv')}
             token={Token.ETH}
