@@ -1,4 +1,4 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { darken, makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -19,9 +19,17 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '&.eth $title': {
       color: '#1E41A5',
     },
+    '&.secret $link': {
+      color: theme.palette.primary.main,
+
+      '&:hover': {
+        color: darken(theme.palette.primary.main, 0.2),
+      },
+    },
   },
   title: {
     marginBottom: 20,
     color: theme.palette.primary.main,
   },
+  link: {},
 }));

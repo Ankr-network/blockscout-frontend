@@ -58,10 +58,20 @@ export const hasGradient = (chainId: ChainId) => {
     case ChainId.Avalanche:
     case ChainId.Nervos:
     case ChainId.Gnosis:
+    case ChainId.Secret:
       return false;
 
     default:
       return true;
+  }
+};
+
+export const getGridBorderColor = (chainId: ChainId, theme: Theme) => {
+  switch (chainId) {
+    case ChainId.Secret:
+      return '#413F49';
+    default:
+      return theme?.palette?.grey['300'];
   }
 };
 

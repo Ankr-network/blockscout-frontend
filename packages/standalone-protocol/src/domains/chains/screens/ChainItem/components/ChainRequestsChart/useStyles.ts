@@ -1,4 +1,4 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -16,6 +16,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
       background: theme.palette.background.paper,
       border: `1px solid ${theme.palette.grey[300]}`,
       borderRadius: 0,
+    },
+    '&.secret': {
+      borderRadius: theme.spacing(1.25),
     },
     '&.klaytn': {
       backgroundColor: theme.palette.grey[600],

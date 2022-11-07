@@ -65,6 +65,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: theme.palette.grey['200'],
     },
 
+    '&.secret $block': {
+      borderRadius: theme.spacing(1.25),
+      border: `2px solid ${theme.palette.grey[300]}`,
+    },
+
     '&.klaytn $block': {
       borderRadius: 0,
       backgroundColor: theme.palette.primary.light,

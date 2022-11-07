@@ -1,8 +1,7 @@
-import numeral from 'numeral';
 import { Theme } from '@material-ui/core';
-import { Props } from 'react-apexcharts';
-
 import { t } from 'modules/i18n/utils/intl';
+import numeral from 'numeral';
+import { Props } from 'react-apexcharts';
 
 export const getChartOptions = (
   dates: string[] = [],
@@ -10,6 +9,7 @@ export const getChartOptions = (
   theme?: Theme,
   isSMDown?: boolean,
   foreColor = '#fff',
+  gridBorderColor?: string,
 ): Partial<Props['options']> => {
   return {
     chart: {
@@ -61,7 +61,7 @@ export const getChartOptions = (
       categories: dates,
     },
     grid: {
-      borderColor: theme?.palette?.grey['300'],
+      borderColor: gridBorderColor,
       xaxis: {
         lines: {
           show: false,
