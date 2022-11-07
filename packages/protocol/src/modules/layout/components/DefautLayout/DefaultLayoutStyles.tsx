@@ -9,7 +9,11 @@ export const MOBILE_LAYOUT_PADDING = 30;
 
 export const useStyles = makeStyles<
   Theme,
-  { hasGradient?: boolean; hasPaddingBottom?: boolean }
+  {
+    hasGradient?: boolean;
+    hasPaddingBottom?: boolean;
+    isHeaderTransparent?: boolean;
+  }
 >(theme => ({
   root: {
     display: 'flex',
@@ -51,7 +55,10 @@ export const useStyles = makeStyles<
     },
   },
   header: {
-    backgroundColor: 'transparent',
+    backgroundColor: ({ isHeaderTransparent, hasGradient }) =>
+      isHeaderTransparent || hasGradient
+        ? 'transparent'
+        : `${theme.palette.background.default} !important`,
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
