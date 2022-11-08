@@ -1,34 +1,29 @@
 import BigNumber from 'bignumber.js';
 
 import { Chain } from '../../ChainsList/ChainsListTypes';
-import { Timeframe } from 'domains/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
-import { usePublicStats } from './usePublicStats';
-
-const defaultRequests = new BigNumber(0);
+import { useQuery } from '@redux-requests/react';
+import { fetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
 
 export interface ChainsItemParams {
   chain: Chain;
-  timeframe: Timeframe;
 }
 
 export const useChainsItem = ({
-  chain: { id: chainId, totalRequests: publicTotalRequests = defaultRequests },
-  timeframe,
+  chain: { id: chainId },
 }: ChainsItemParams): [BigNumber, boolean, boolean] => {
   const { isWalletConnected, credentials } = useAuth();
   const isPremium = !!credentials;
 
-  const arePublicStatsLoading = usePublicStats({
-    chainId,
-    isWalletConnected,
-    timeframe,
+  const { data, loading: arePublicStatsLoading } = useQuery({
+    type: fetchPublicRequestsCountStats,
   });
+
   const [privateTotalRequests = 0, arePrivateStatsLoading] =
     usePrivateStats(chainId);
 
   return isWalletConnected
     ? [new BigNumber(privateTotalRequests), arePrivateStatsLoading, isPremium]
-    : [publicTotalRequests, arePublicStatsLoading, isPremium];
+    : [new BigNumber(data?.[chainId] ?? 0), arePublicStatsLoading, isPremium];
 };

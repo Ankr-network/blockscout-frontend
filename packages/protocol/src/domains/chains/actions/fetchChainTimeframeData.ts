@@ -64,7 +64,7 @@ export const fetchChainTimeframeData = createSmartAction<
             if (!url) return rpcStats;
 
             const { data: legacyStats } = await store.dispatchRequest(
-              fetchLegacyStandaloneRequests(url),
+              fetchLegacyStandaloneRequests(url, chainId),
             );
 
             return calculateRPCAndLegacyStandaloneStats(

@@ -15,6 +15,7 @@ export const CardPaymentSuccess = () => {
   const classes = useCardPaymentSuccessStyles();
   const history = useHistory();
   const { credentials } = useAuth();
+  const hasCredentials = Boolean(credentials);
 
   useSetBreadcrumbs([
     {
@@ -24,11 +25,11 @@ export const CardPaymentSuccess = () => {
 
   const handleClick = useCallback(() => {
     history.push(
-      credentials
+      hasCredentials
         ? AccountRoutesConfig.accountDetails.generatePath()
         : PricingRoutesConfig.pricing.generatePath(),
     );
-  }, [history, credentials]);
+  }, [history, hasCredentials]);
 
   return (
     <CenterContainer>

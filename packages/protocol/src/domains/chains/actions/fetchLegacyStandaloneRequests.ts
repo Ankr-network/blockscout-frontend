@@ -1,4 +1,5 @@
 import { RequestAction } from '@redux-requests/core';
+import { ChainID } from 'modules/chains/types';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 interface IRequestResult {
@@ -20,6 +21,7 @@ interface IFetchTotalRequestsResponseData {
 
 // stats for 1 day
 export interface ILegacyStandaloneStats {
+  chainId: ChainID;
   cachedRequests: number;
   requests: number;
   totalRequestsHistory: Record<string, number>;
@@ -27,7 +29,7 @@ export interface ILegacyStandaloneStats {
 
 export const fetchLegacyStandaloneRequests = createSmartAction<
   RequestAction<IFetchTotalRequestsResponseData, ILegacyStandaloneStats>
->('chains/fetchLegacyStandaloneRequests', (url: string) => ({
+>('chains/fetchLegacyStandaloneRequests', (url: string, chainId: ChainID) => ({
   request: {
     url,
     method: 'get',
@@ -47,6 +49,7 @@ export const fetchLegacyStandaloneRequests = createSmartAction<
       });
 
       return {
+        chainId,
         cachedRequests: data.totals.cachedRequests,
         requests: data.totals.requests,
         totalRequestsHistory,
