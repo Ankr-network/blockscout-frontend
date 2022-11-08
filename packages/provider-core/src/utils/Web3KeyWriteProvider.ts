@@ -65,7 +65,7 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
     }
 
     const { id } = getProviderInfo(provider);
-    const { isOKExWallet, isWalletLink } = provider;
+    const { isOKExWallet, isWalletLink, isCoin98 } = provider;
 
     let walletId = id;
 
@@ -73,6 +73,8 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
       walletId = EWalletId.okxwallet;
     } else if (isWalletLink) {
       walletId = EWalletId.coinbase;
+    } else if (isCoin98) {
+      walletId = EWalletId.coin98;
     }
 
     this.walletMeta = {

@@ -1,8 +1,3 @@
-import { BscConnector } from '@binance-chain/bsc-connector';
-import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import { IProviderOptions } from 'web3modal';
-
 import {
   EEthereumNetworkId,
   EWalletId,
@@ -10,6 +5,12 @@ import {
   getWalletName,
   RPCConfig,
 } from '@ankr.com/provider-core';
+import { BscConnector } from '@binance-chain/bsc-connector';
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { IProviderOptions } from 'web3modal';
+import { getIsCoin98 } from './utils/getIsCoin98';
+import { getIsCoin98Injected } from './utils/getIsCoin98Injected';
 
 const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
   (acc, [key, { rpcUrls }]) => ({ ...acc, [key]: rpcUrls[0] }),
@@ -35,6 +36,26 @@ function parseAuthChainId(): EEthereumNetworkId | undefined {
 }
 
 export const providerDefaultOptions: IProviderOptions = {
+  [EWalletId.coin98]: {
+    display: {
+      logo: getWalletIcon(EWalletId.coin98),
+      name: getWalletName(EWalletId.coin98),
+      description: '',
+    },
+    package: () => null,
+    connector: async () => {
+      const { coin98 } = window as any;
+      if (!getIsCoin98(coin98) || !getIsCoin98Injected()) {
+        throw new Error("Coin 98 wallet isn't installed");
+      }
+
+      await coin98.provider.request({
+        method: 'eth_requestAccounts',
+      });
+
+      return coin98.provider;
+    },
+  },
   [EWalletId.binanceWallet]: {
     display: {
       logo: getWalletIcon(EWalletId.binanceWallet),
