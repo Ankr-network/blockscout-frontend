@@ -8,10 +8,6 @@ export const useSearchInputStyles = makeStyles()((theme: Theme) => ({
   root: {},
   input: {
     width: INPUT_WIDTH,
-    height: 44,
-    backgroundColor: theme.palette.background.paper,
-    paddingLeft: theme.spacing(1),
-    borderRadius: 16,
   },
   clientsList: {
     position: 'absolute',

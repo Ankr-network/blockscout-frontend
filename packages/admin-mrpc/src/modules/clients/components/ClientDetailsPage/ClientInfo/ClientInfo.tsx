@@ -6,10 +6,10 @@ import {
   Skeleton,
   Grid,
   Paper,
-  Input,
 } from '@mui/material';
 
 import { Spinner } from 'ui';
+import { TextField } from '@ankr.com/ui';
 import { Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
@@ -135,7 +135,7 @@ export const ClientInfo = ({
         </>
       )}
       <br />
-      <Input
+      <TextField
         className={classes.inputComment}
         onChange={onChangeComment}
         onBlur={handleBlurCommentInput}
@@ -143,7 +143,6 @@ export const ClientInfo = ({
         value={commentInputValue}
         disabled={isLoadingProfile || isLoadingEditProfile}
         placeholder="No comment added..."
-        disableUnderline
       />
       <br />
       <br />
