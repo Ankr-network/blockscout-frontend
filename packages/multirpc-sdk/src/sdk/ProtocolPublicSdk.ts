@@ -33,6 +33,10 @@ export class ProtocolPublicSdk implements IProtocolPublicSdk {
     return this.getGateway().getTimeframeStats(blockchain, timeframe);
   }
 
+  async getPublicTimeframeStats(timeframe: Timeframe) {
+    return this.getGateway().getPublicTimeframesStats(timeframe);
+  }
+
   async getNodesWeight() {
     return this.getGateway().getNodesWeight();
   }

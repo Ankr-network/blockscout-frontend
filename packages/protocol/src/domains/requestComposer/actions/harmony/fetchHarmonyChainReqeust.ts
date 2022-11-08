@@ -2,7 +2,7 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { MethodsRequest } from 'domains/requestComposer/types';
 import { HarmonyMethod } from 'domains/requestComposer/constants/harmony';
-import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
+import { setHarmonyMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { objectError } from '../tron/fetchTronChainRequest';
 import { safeStringifyJSON } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/RequestComposer/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
 import { t } from 'common';
@@ -34,7 +34,7 @@ export const fetchHarmonyChainReqeust = createSmartAction<
       driver: 'axios',
       asMutation: false,
       onRequest: (request, _, store) => {
-        store.dispatch(setEVMMethod(harmonyMethod) as any);
+        store.dispatch(setHarmonyMethod(harmonyMethod) as any);
         return request;
       },
       getData: (data: any) => {
