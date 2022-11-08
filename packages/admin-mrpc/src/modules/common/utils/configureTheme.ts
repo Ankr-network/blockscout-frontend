@@ -1,4 +1,5 @@
 import { Theme } from '@mui/material/styles';
+import { inputBaseClasses, selectClasses } from '@mui/material';
 
 export const configureTheme = (theme: Theme) => {
   return {
@@ -37,6 +38,20 @@ export const configureTheme = (theme: Theme) => {
           paper: {
             borderRadius: theme.shape.borderRadius,
             boxShadow: 'none',
+          },
+        },
+      },
+      MuiInput: {
+        ...theme.components?.MuiInput,
+        styleOverrides: {
+          ...theme.components?.MuiInput?.styleOverrides,
+          root: {
+            [`&.${inputBaseClasses.focused}`]: {
+              // fix for focused select input background color
+              [`& .${selectClasses.select}`]: {
+                backgroundColor: theme.palette.background.paper,
+              },
+            },
           },
         },
       },

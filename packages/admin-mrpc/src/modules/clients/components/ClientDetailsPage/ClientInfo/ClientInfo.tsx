@@ -6,10 +6,10 @@ import {
   Skeleton,
   Grid,
   Paper,
+  TextField,
 } from '@mui/material';
 
 import { Spinner } from 'ui';
-import { TextField } from '@ankr.com/ui';
 import { Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';

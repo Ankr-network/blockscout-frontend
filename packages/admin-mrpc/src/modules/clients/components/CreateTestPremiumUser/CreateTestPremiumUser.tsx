@@ -1,8 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
-import { Button, Modal, Typography } from '@mui/material';
-import { TextField } from '@ankr.com/ui';
+import { Button, Modal, Typography, TextField } from '@mui/material';
 import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';

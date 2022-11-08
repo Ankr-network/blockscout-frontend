@@ -1,7 +1,13 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Box, Button, MenuItem, Modal, Typography } from '@mui/material';
-import { TextField } from '@ankr.com/ui';
+import {
+  Box,
+  Button,
+  MenuItem,
+  Modal,
+  Typography,
+  TextField,
+} from '@mui/material';
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { IAmountType } from 'multirpc-sdk';

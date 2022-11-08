@@ -1,5 +1,4 @@
-import { Button, Tooltip } from '@mui/material';
-import { TextField } from '@ankr.com/ui';
+import { Button, Tooltip, TextField } from '@mui/material';
 import { useSearchClientsInput } from './useSearchClientsInput';
 import { useSearchInputStyles } from './useSearchInputStyles';
 

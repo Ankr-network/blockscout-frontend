@@ -1,7 +1,6 @@
-import { useFetchBlockchainsQuery } from 'modules/clients/actions/fetchBlockchains';
-import { useEffect, useState } from 'react';
-import { SelectChangeEvent } from '@mui/material';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Web3Address } from 'multirpc-sdk';
+import { useFetchBlockchainsQuery } from 'modules/clients/actions/fetchBlockchains';
 
 export const useClientApiKeys = ({
   token,
@@ -22,7 +21,9 @@ export const useClientApiKeys = ({
   };
 
   const [selectedChainId, setSelectedChainId] = useState('');
-  const handleSelectChain = (event: SelectChangeEvent) => {
+  const handleSelectChain = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setSelectedChainId(event.target.value as string);
   };
   useEffect(() => {

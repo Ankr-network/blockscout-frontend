@@ -1,5 +1,4 @@
-import { Box, Button, Modal, Typography } from '@mui/material';
-import { TextField } from '@ankr.com/ui';
+import { Box, Button, Modal, Typography, TextField } from '@mui/material';
 import { ReactComponent as IconEdit } from 'assets/img/edit.svg';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { useClientEditProfile } from './useClientEditProfile';
