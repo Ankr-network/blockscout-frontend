@@ -69,7 +69,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
         handleFilterKey={handleFilterKey}
         filterKeys={filterKeys}
       />
-      <TableContainer component={Box}>
+      <TableContainer className={classes.tableContainer} component={Box}>
         <Table
           className={classes.table}
           size="medium"
