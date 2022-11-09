@@ -10,7 +10,7 @@ export const SearchClientsInput = () => {
   return (
     <div className={classes.root}>
       <TextField
-        placeholder="Search by email or address"
+        placeholder="Search by email/address/token"
         onChange={onChange}
         value={searchValue}
         className={classes.input}

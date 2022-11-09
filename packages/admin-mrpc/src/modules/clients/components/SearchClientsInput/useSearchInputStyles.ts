@@ -2,7 +2,7 @@ import { Theme } from '@mui/material/styles';
 
 import { makeStyles } from 'tss-react/mui';
 
-const INPUT_WIDTH = 250;
+const INPUT_WIDTH = 270;
 
 export const useSearchInputStyles = makeStyles()((theme: Theme) => ({
   root: {},
