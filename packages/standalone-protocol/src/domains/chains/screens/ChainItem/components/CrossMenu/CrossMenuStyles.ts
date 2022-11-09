@@ -45,6 +45,9 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     '&.syscoin': {
       borderRight: `1px solid ${theme.palette.primary.light}`,
     },
+    '&.klaytn': {
+      borderRight: `1px solid ${theme.palette.primary.light}`,
+    },
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -205,6 +208,9 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     margin: '0 6px',
     borderTop: `1px solid ${theme.palette.background.paper}`,
     '&.syscoin': {
+      borderTop: `1px solid ${theme.palette.primary.light}`,
+    },
+    '&.klaytn': {
       borderTop: `1px solid ${theme.palette.primary.light}`,
     },
     backgroundColor: theme.palette.background.default,
