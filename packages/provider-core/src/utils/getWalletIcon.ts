@@ -18,6 +18,7 @@ export const getWalletIcon = (walletId: EWalletId): string => {
       return imTokenLogo;
     case EWalletId.math:
       return mathLogo;
+    case EWalletId.trustViaWalletConnect:
     case EWalletId.trust:
       return trustWalletLogo;
     case EWalletId.huobi:
