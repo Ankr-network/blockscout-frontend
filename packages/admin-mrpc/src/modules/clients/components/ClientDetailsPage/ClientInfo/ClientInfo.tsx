@@ -6,7 +6,7 @@ import {
   Skeleton,
   Grid,
   Paper,
-  Input,
+  TextField,
 } from '@mui/material';
 
 import { Spinner } from 'ui';
@@ -135,7 +135,7 @@ export const ClientInfo = ({
         </>
       )}
       <br />
-      <Input
+      <TextField
         className={classes.inputComment}
         onChange={onChangeComment}
         onBlur={handleBlurCommentInput}
@@ -143,7 +143,6 @@ export const ClientInfo = ({
         value={commentInputValue}
         disabled={isLoadingProfile || isLoadingEditProfile}
         placeholder="No comment added..."
-        disableUnderline
       />
       <br />
       <br />

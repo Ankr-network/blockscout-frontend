@@ -46,7 +46,9 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   };
 
   const handleKeyDownInputComment = (
-    e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
+    e: React.KeyboardEvent<
+      HTMLTextAreaElement | HTMLInputElement | HTMLDivElement
+    >,
   ) => {
     if (e.key === 'Enter') {
       // send comment on enter while comment input is active

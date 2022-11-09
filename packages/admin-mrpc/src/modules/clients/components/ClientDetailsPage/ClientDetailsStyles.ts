@@ -96,9 +96,7 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     },
   },
   select: {
-    '& fieldset': {
-      borderRadius: 24,
-    },
+    backgroundColor: theme.palette.background.default,
   },
 
   /* Client usage table */
