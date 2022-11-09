@@ -47,6 +47,16 @@ export const configureTheme = (theme: Theme) => {
           },
         },
       },
+      MuiTable: {
+        ...theme.components?.MuiTable,
+        styleOverrides: {
+          ...theme.components?.MuiTable?.styleOverrides,
+          root: {
+            borderCollapse: 'separate',
+            borderSpacing: '0 10px',
+          },
+        },
+      },
       MuiInput: {
         ...theme.components?.MuiInput,
         styleOverrides: {
