@@ -26,6 +26,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: theme.palette.common.white,
       borderRadius: 9,
     },
+
+    '&.klaytn': {
+      border: `2px solid ${theme.palette.grey[300]}`,
+      borderRadius: 0,
+    },
   },
   link: {
     width: '100%',
