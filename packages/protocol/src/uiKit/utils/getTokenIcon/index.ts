@@ -23,6 +23,7 @@ import solIcon from './sol.svg';
 import stakeIcon from './stake.svg';
 import syscoinIcon from './syscoin.svg';
 import tronIcon from './tron.svg';
+import klaytnIcon from './klaytn.svg';
 
 const chainIcons = {
   aptos: aptosIcon,
@@ -50,6 +51,7 @@ const chainIcons = {
   syscoin: syscoinIcon,
   tron: tronIcon,
   xdai: stakeIcon,
+  klaytn: klaytnIcon,
 };
 
 export function getChainIcon(name: string) {
