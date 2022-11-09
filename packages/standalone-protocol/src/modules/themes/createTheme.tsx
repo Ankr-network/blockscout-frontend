@@ -1,15 +1,13 @@
-import React from 'react';
 import { createMuiTheme, fade, Theme, ThemeOptions } from '@material-ui/core';
 import { CheckboxCheckedIcon, CheckboxIcon } from 'uiKit/Checkbox';
-
-import { BREAKPOINTS, BTN_TRANSITION_TIME } from './const';
 import { StepIcon } from './components/StepIcon';
+import { BREAKPOINTS, BTN_TRANSITION_TIME } from './const';
 
 const TEN_SECONDS = 10 * 1000;
 const NOTIFICATION_AUTO_HIDE_DURATION = 3000;
 
 export const FONTS = {
-  primary: ['SF UI Display', 'Arial', 'sans-serif'].join(','),
+  primary: ['Inter', 'SF UI Display', 'Arial', 'sans-serif'].join(','),
 };
 
 export const createTheme = (defaultTheme: Theme) =>

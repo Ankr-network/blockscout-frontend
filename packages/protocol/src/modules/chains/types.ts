@@ -45,6 +45,7 @@ export enum ChainID {
   SOLANA_DEVNET = 'solana_devnet',
   SYSCOIN = 'syscoin',
   TRON = 'tron',
+  KLAYTN = 'klaytn',
 
   UNDEFINED = '',
 }
