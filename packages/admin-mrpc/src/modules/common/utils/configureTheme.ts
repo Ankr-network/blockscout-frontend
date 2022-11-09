@@ -50,6 +50,7 @@ export const configureTheme = (theme: Theme) => {
               // fix for focused select input background color
               [`& .${selectClasses.select}`]: {
                 backgroundColor: theme.palette.background.paper,
+                transition: 'background-color .3s',
               },
             },
           },
