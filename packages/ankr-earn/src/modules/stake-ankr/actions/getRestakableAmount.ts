@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
 interface IGetRestakableAmountDataProps {
@@ -10,11 +12,15 @@ interface IGetRestakableAmountDataProps {
 export const { useGetRestakableAmountQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getRestakableAmount: build.query<BigNumber, IGetRestakableAmountDataProps>({
-      queryFn: async ({ validator }) => {
+      queryFn: queryFnNotifyWrapper<
+        IGetRestakableAmountDataProps,
+        never,
+        BigNumber
+      >(async ({ validator }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
         return { data: await sdk.getRestakableAmount(validator) };
-      },
+      }),
     }),
   }),
 });

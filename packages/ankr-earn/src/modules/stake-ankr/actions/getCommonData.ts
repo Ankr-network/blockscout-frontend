@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
 interface IGetCommonData {
@@ -13,7 +15,7 @@ interface IGetCommonData {
 export const { useGetCommonDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getCommonData: build.query<IGetCommonData, void>({
-      queryFn: async () => {
+      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(async () => {
         const sdk = await AnkrStakingSDK.getInstance();
         const provider = await sdk.getProvider();
 
@@ -24,7 +26,7 @@ export const { useGetCommonDataQuery } = web3Api.injectEndpoints({
         ]);
 
         return { data: { ankrBalance, minStake, lockingPeriod } };
-      },
+      }),
     }),
   }),
 });

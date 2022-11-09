@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IUnstakingData } from '../api/AnkrStakingSDK/types';
 import { CacheTags } from '../cacheTags';
@@ -16,7 +18,11 @@ interface IGetUnstakingDataArgs {
 export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getUnstakingData: build.query<IUnstakingData[], IGetUnstakingDataArgs>({
-      queryFn: async ({ usdPrice }, { getState }) => {
+      queryFn: queryFnNotifyWrapper<
+        IGetUnstakingDataArgs,
+        never,
+        IUnstakingData[]
+      >(async ({ usdPrice }, { getState }) => {
         const sdk = await AnkrStakingSDK.getInstance();
 
         const { data: latestBlockNumber } = selectLatestBlockNumber(
@@ -26,7 +32,7 @@ export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
         const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
         return { data: await sdk.getUnstaking(usdPrice, blockNumber) };
-      },
+      }),
       providesTags: [CacheTags.history],
     }),
   }),

@@ -1,10 +1,11 @@
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
+import { web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
 import { resetForm } from 'modules/forms/store/formsSlice';
 
-import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { CacheTags } from '../cacheTags';
 import { ANKR_STAKE_FORM_ID } from '../const';
@@ -18,11 +19,13 @@ interface IStakeArgs {
 export const { useStakeMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
     stake: build.mutation<TxHash, IStakeArgs>({
-      queryFn: async ({ amount, provider }) => {
-        const sdk = await AnkrStakingSDK.getInstance();
+      queryFn: queryFnNotifyWrapper<IStakeArgs, never, TxHash>(
+        async ({ amount, provider }) => {
+          const sdk = await AnkrStakingSDK.getInstance();
 
-        return { data: await sdk.delegate(provider, amount) };
-      },
+          return { data: await sdk.delegate(provider, amount) };
+        },
+      ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
           const txHash = response.data;
