@@ -5,10 +5,10 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { ACTION_CACHE_SEC, isMainnet } from 'modules/common/const';
 
 import {
+  EMetricsServiceName,
   IMetricsResponse,
   METRICS_MOCK,
   METRICS_URL,
-  EMetricsServiceName,
 } from '../api/metrics';
 
 export interface IStakeMetrics {
@@ -50,9 +50,13 @@ function mapMetrics(data: IMetricsResponse) {
       totalStaked: new BigNumber(metrics.totalStaked),
       totalStakedUsd: new BigNumber(metrics.totalStakedUsd),
       stakers: metrics.stakers,
-      apy: new BigNumber(metrics.apy),
+      apy: new BigNumber(removeWhiteSpace(metrics.apy) || 0),
     };
 
     return acc;
   }, {} as TMetrics);
+}
+
+function removeWhiteSpace(value: string): string {
+  return value.replace(/ /g, '');
 }

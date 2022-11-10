@@ -1,7 +1,9 @@
 import { isWriteProvider } from '@ankr.com/provider-core';
 import { RootState } from 'store';
 
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IHistoryData } from '../api/AnkrStakingSDK/types';
 import { CacheTags } from '../cacheTags';
@@ -11,26 +13,29 @@ import { selectLatestBlockNumber } from './getLatestBlockNumber';
 export const { useGetHistoryDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getHistoryData: build.query<IHistoryData[], void>({
-      queryFn: async (args, { getState }) => {
-        const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
+      queryFn: queryFnNotifyWrapper<void, never, IHistoryData[]>(
+        async (args, { getState }) => {
+          const sdk = await AnkrStakingSDK.getInstance();
+          const provider = await sdk.getProvider();
 
-        if (isWriteProvider(provider)) {
-          const { data: latestBlockNumber } = selectLatestBlockNumber(
-            getState() as RootState,
-          );
-          const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
+          if (isWriteProvider(provider)) {
+            const { data: latestBlockNumber } = selectLatestBlockNumber(
+              getState() as RootState,
+            );
+            const blockNumber =
+              latestBlockNumber ?? (await sdk.getBlockNumber());
 
-          return {
-            data: await sdk.getAllEventsHistory(
-              provider.currentAccount,
-              blockNumber,
-            ),
-          };
-        }
+            return {
+              data: await sdk.getAllEventsHistory(
+                provider.currentAccount,
+                blockNumber,
+              ),
+            };
+          }
 
-        throw new Error('Current account is not defined');
-      },
+          throw new Error('Current account is not defined');
+        },
+      ),
       providesTags: [CacheTags.history],
     }),
   }),

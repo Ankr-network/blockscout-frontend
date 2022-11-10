@@ -15,7 +15,6 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['cjs', 'es'],
-      fileName: 'index'
     },
     rollupOptions: {
       output: [
@@ -34,7 +33,13 @@ export default defineConfig({
       ],
       external: [
         ...Object.keys(packageJson.dependencies),
-        '@coinbase/wallet-sdk',
+        'axios-cache-adapter',
+        '@polkadot/api-augment',
+        '@polkadot/api',
+        '@polkadot/extension-dapp',
+        '@polkadot/keyring',
+        '@polkadot/util',
+        '@polkadot/util-crypto',
       ]
     }
   }

@@ -1,10 +1,13 @@
+interface IProvider {
+  isCoinbaseWallet?: boolean;
+}
+
 interface IGlobalEthereum {
   isMetaMask?: boolean;
   isCoinbaseWallet?: boolean;
   isOKExWallet?: boolean;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  providerMap?: Map<string, any>;
+  providerMap?: Map<string, IProvider>;
+  request: (args: unknown) => unknown;
 }
 
 export const getIsEthereum = (

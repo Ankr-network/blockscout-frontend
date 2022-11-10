@@ -1,4 +1,5 @@
 import { Box, Divider, TextField, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { FormApi } from 'final-form';
 import { ReactText, useCallback } from 'react';
 import {
@@ -150,14 +151,18 @@ export const BridgeMainView = (): JSX.Element => {
           <Typography className={classes.balance}>
             {t('bridge.main.your-balance')}
 
-            <span>
-              {t('unit.token-value', {
-                token: tokenValue,
-                value: balance
-                  ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
-                  : 0,
-              })}
-            </span>
+            <Box component="span" display="inline-flex">
+              {isBalanceLoading ? (
+                <Skeleton width={40} />
+              ) : (
+                t('unit.token-value', {
+                  token: tokenValue,
+                  value: balance
+                    ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
+                    : 0,
+                })
+              )}
+            </Box>
           </Typography>
         )}
 

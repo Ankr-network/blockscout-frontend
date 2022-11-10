@@ -1,4 +1,6 @@
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
 export const {
@@ -7,13 +9,13 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     getLatestBlockNumber: build.query<number, void>({
-      queryFn: async () => {
+      queryFn: queryFnNotifyWrapper<void, never, number>(async () => {
         const sdk = await AnkrStakingSDK.getInstance();
 
         const data = await sdk.getBlockNumber();
 
         return { data };
-      },
+      }),
     }),
   }),
 });
