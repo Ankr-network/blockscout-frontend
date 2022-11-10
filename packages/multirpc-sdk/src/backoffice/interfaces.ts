@@ -18,7 +18,13 @@ import {
   IUserStatsRequest,
   IUserStatsResponse,
   ICountersResponse,
-  ICountersRequest, IGetUserTotalRequest, IGetUserTotalResponse,
+  ICountersRequest,
+  IGetUserTotalRequest,
+  IGetUserTotalResponse,
+  IGetUserProfileRequest,
+  IGetUserProfileResponse,
+  IUpdateUserProfileRequest,
+  IUpdateUserProfileResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -39,6 +45,14 @@ export interface IBackofficeGateway {
   getUserTotal(
     params: IGetUserTotalRequest,
   ): Promise<IGetUserTotalResponse>;
+
+  getUserProfile(
+    params: IGetUserProfileRequest,
+  ): Promise<IGetUserProfileResponse>;
+
+  updateUserProfile(
+    params: IUpdateUserProfileRequest,
+  ): Promise<IUpdateUserProfileResponse>;
 
   createTestPremiumUser(
     params: ICreateTestClientRequest,

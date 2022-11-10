@@ -3,9 +3,9 @@ import { Timeframe } from 'multirpc-sdk';
 import { timeframeToLabelMap } from '../screens/ChainItem/components/UsageDataSection/const';
 import { Timeframe as TimeframeInterval } from '../types';
 
-const POLYGON_STATS_RPC = 'https://polygon-rpc.com/api/data/stats';
 const BSC_STATS_RPC = 'https://bscrpc.com/api/data/stats';
 const FANTOM_STATS_RPC = 'https://rpc.ftm.tools/api/data/stats';
+const POLYGON_STATS_RPC = 'https://polygon-rpc.com/api/data/stats';
 
 const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
 export const FIFTEEN_MINUTES_INTERVAL = 4;
@@ -15,18 +15,14 @@ const DAYS_IN_ONE_MONTH = 30;
 
 const { Hour, Week, Month } = TimeframeInterval;
 
+export const LEGACY_CHAINS: Record<string, string> = {
+  [ChainID.BSC]: BSC_STATS_RPC,
+  [ChainID.FANTOM]: FANTOM_STATS_RPC,
+  [ChainID.POLYGON]: POLYGON_STATS_RPC,
+};
+
 export const getLegacyStandaloneUrl = (chainId: string) => {
-  let url = '';
-
-  if (chainId === ChainID.POLYGON) {
-    url = POLYGON_STATS_RPC;
-  } else if (chainId === ChainID.BSC) {
-    url = BSC_STATS_RPC;
-  } else if (chainId === ChainID.FANTOM) {
-    url = FANTOM_STATS_RPC;
-  }
-
-  return url;
+  return LEGACY_CHAINS?.[chainId] ?? '';
 };
 
 export const getMultiplier = (timeframe: Timeframe) => {

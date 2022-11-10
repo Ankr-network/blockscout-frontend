@@ -127,6 +127,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://blockscout.com/xdai/mainnet/'],
   },
 
+  [ChainID.GNOSIS_TESTNET]: {
+    chainId: 10200,
+    chainName: 'Chiado Chain',
+    nativeCurrency: {
+      name: 'Chiado',
+      symbol: 'Chiado',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blockscout.chiadochain.net/'],
+  },
+
   [ChainID.HARMONY]: {
     chainId: 1666600000,
     chainName: 'Harmony Mainnet',
@@ -235,5 +246,16 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://explorer.syscoin.org/'],
+  },
+
+  [ChainID.KLAYTN]: {
+    chainId: 8217,
+    chainName: 'Klaytn Mainnet Cypress',
+    nativeCurrency: {
+      name: 'KLAY',
+      symbol: 'KLAY',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://scope.klaytn.com/'],
   },
 };

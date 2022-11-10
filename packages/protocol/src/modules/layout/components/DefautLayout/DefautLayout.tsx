@@ -22,6 +22,7 @@ export interface ILayoutProps {
   hasNoReactSnap?: boolean;
   hasError?: boolean;
   hasMaxWidth?: boolean;
+  isHeaderTransparent?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -31,10 +32,12 @@ export const DefaultLayout = ({
   hasNoReactSnap = false,
   hasError = false,
   hasMaxWidth = true,
+  isHeaderTransparent,
 }: ILayoutProps) => {
   const classes = useStyles({
     hasGradient: hasError,
     hasPaddingBottom: hasMaxWidth,
+    isHeaderTransparent,
   });
   const { isWalletConnected, credentials, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();

@@ -1,19 +1,19 @@
-import React, { useMemo } from 'react';
-import classNames from 'classnames';
 import { Typography, useTheme } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-
+import classNames from 'classnames';
 import { Chart } from 'modules/common/components/Chart';
 import { t } from 'modules/i18n/utils/intl';
+import React, { useMemo } from 'react';
 import { ChainRequestsChartProps } from './ChainRequestsChartTypes';
-import { useStyles } from './useStyles';
 import {
   getCachedRequestsColor,
+  getForeColor,
+  getGridBorderColor,
   getTotalRequestsColor,
   hasGradient,
   processData,
-  getForeColor,
 } from './ChainRequestsChartUtils';
+import { useStyles } from './useStyles';
 
 export const ChainRequestsChart = ({
   totalRequestsHistory = {},
@@ -81,6 +81,7 @@ export const ChainRequestsChart = ({
           theme={theme}
           hasGradient={hasGradient(chainId)}
           foreColor={getForeColor(chainId, theme)}
+          gridBorderColor={getGridBorderColor(chainId, theme)}
         />
       )}
     </div>

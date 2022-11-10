@@ -13,7 +13,6 @@ export const ChainsItemQuery = ({
 }: ChainsItemQueryProps) => {
   const [totalRequests, loading, isPremium] = useChainsItem({
     chain,
-    timeframe,
   });
 
   return (

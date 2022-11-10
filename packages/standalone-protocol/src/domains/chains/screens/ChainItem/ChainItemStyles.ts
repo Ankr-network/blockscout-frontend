@@ -76,6 +76,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
         borderBottom: `1px solid ${theme.palette.grey['200']}`,
       },
     },
+
+    '&.secret': {
+      '& thead': {
+        borderColor: '#413F49',
+      },
+      '& tbody tr td': {
+        borderColor: '#413F49',
+      },
+    },
   },
   spinner: {
     minHeight: 120,

@@ -1,7 +1,7 @@
 import { Typography, Grid, GridSize, Box } from '@mui/material';
 import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
-import { ClientMapped } from '../../store/clientsSlice';
-import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
+import { ClientMapped } from 'modules/clients/store/clientsSlice';
+import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
 interface IClientBalancesInfoProps {
   currentClient: ClientMapped;

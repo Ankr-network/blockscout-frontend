@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchHarmonyChainReqeust } from 'domains/requestComposer/actions/harmony/fetchHarmonyChainReqeust';
 import {
-  resetEVMMethod,
-  selectEVMMethod,
+  resetHarmonyMethod,
+  selectHarmonyMethod,
 } from 'domains/requestComposer/store/requestComposerSlice';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { ComposerRequest } from '../../hooks/useRequestComposerLogs';
@@ -27,12 +27,14 @@ export const useHarmonyChainRequest = (): ComposerRequest<
     type: fetchHarmonyChainReqeust,
   });
 
-  const method = useSelector(selectEVMMethod) as [HarmonyMethod] | undefined;
+  const method = useSelector(selectHarmonyMethod) as
+    | [HarmonyMethod]
+    | undefined;
 
   const dispatch = useDispatch();
 
   useOnUnmount(() => {
-    dispatch(resetEVMMethod());
+    dispatch(resetHarmonyMethod());
     dispatch(resetRequests([fetchHarmonyChainReqeust.toString()]));
   });
 

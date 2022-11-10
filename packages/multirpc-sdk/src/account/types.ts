@@ -168,6 +168,12 @@ export enum PrivateStatsInterval {
   WEEK = 'd7',
   MONTH = 'd30',
 }
+export enum PublicStatsInterval {
+  HOUR = '1h',
+  DAY = '24h',
+  WEEK = '7d',
+  MONTH = '30d',
+}
 
 export enum WithdrawStatus {
   WITHDRAW_STATUS_UNKNOWN = 'WITHDRAW_STATUS_UNKNOWN',
