@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js';
 
+import { web3Api } from 'modules/api/web3Api';
 import {
   getTxReceipt,
   getTxReceiptRequestKey,
 } from 'modules/common/actions/getTxReceipt';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
 
-import { web3Api } from '../../api/web3Api';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IApproveResponse } from '../api/AnkrStakingSDK/types';
 
@@ -14,11 +15,13 @@ export const RECEIPT_NAME = 'useStakeMutation';
 export const { useApproveMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
     approve: build.mutation<IApproveResponse, BigNumber>({
-      queryFn: async amount => {
-        const sdk = await AnkrStakingSDK.getInstance();
+      queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveResponse>(
+        async amount => {
+          const sdk = await AnkrStakingSDK.getInstance();
 
-        return { data: await sdk.approve(amount) };
-      },
+          return { data: await sdk.approve(amount) };
+        },
+      ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
           const { txHash } = response.data;

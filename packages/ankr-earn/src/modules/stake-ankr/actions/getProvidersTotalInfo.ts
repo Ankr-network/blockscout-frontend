@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
 interface IGetProvidersTotalInfo {
@@ -15,36 +17,38 @@ interface IGetProvidersTotalInfo {
 export const { useGetProvidersTotalInfoQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getProvidersTotalInfo: build.query<IGetProvidersTotalInfo, void>({
-      queryFn: async () => {
-        const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
+      queryFn: queryFnNotifyWrapper<void, never, IGetProvidersTotalInfo>(
+        async () => {
+          const sdk = await AnkrStakingSDK.getInstance();
+          const provider = await sdk.getProvider();
 
-        const latestBlockNumber = await provider.getBlockNumber();
+          const latestBlockNumber = await provider.getBlockNumber();
 
-        const [
-          totalTVL,
-          totalDelegatedAmount,
-          lockingPeriod,
-          rewards24h,
-          rewards30d,
-        ] = await Promise.all([
-          sdk.getTotalTVL(latestBlockNumber),
-          sdk.getMyTotalDelegatedAmount(latestBlockNumber),
-          sdk.getLockingPeriodDays(latestBlockNumber),
-          sdk.getRewards(24),
-          sdk.getRewards(24 * 30),
-        ]);
-
-        return {
-          data: {
+          const [
             totalTVL,
             totalDelegatedAmount,
             lockingPeriod,
             rewards24h,
             rewards30d,
-          },
-        };
-      },
+          ] = await Promise.all([
+            sdk.getTotalTVL(latestBlockNumber),
+            sdk.getMyTotalDelegatedAmount(latestBlockNumber),
+            sdk.getLockingPeriodDays(latestBlockNumber),
+            sdk.getRewards(24),
+            sdk.getRewards(24 * 30),
+          ]);
+
+          return {
+            data: {
+              totalTVL,
+              totalDelegatedAmount,
+              lockingPeriod,
+              rewards24h,
+              rewards30d,
+            },
+          };
+        },
+      ),
     }),
   }),
 });

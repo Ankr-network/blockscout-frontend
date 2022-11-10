@@ -1,13 +1,15 @@
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingReadSDK } from '../api/AnkrStakingSDK';
 import { TEMPORARY_APY } from '../const';
 
 export const { useGetMaxApyQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getMaxApy: build.query<BigNumber, void>({
-      queryFn: async () => {
+      queryFn: queryFnNotifyWrapper<void, never, BigNumber>(async () => {
         const sdk = await AnkrStakingReadSDK.getInstance();
 
         const apyData = await sdk.getAPY();
@@ -17,7 +19,7 @@ export const { useGetMaxApyQuery } = web3Api.injectEndpoints({
         );
 
         return { data: maxApy[0].apy ?? TEMPORARY_APY };
-      },
+      }),
     }),
   }),
 });

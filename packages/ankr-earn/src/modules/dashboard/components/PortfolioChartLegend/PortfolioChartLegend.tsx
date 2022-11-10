@@ -8,6 +8,7 @@ import { t, tHTML } from 'common';
 
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
+import { getPortfolioUSDAmount } from 'modules/dashboard/utils/getPortfolioUSDAmount';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
@@ -98,7 +99,7 @@ export const PortfolioChartLegend = ({
 
       <Typography className={classes.amount}>
         {t('dashboard.portfolioUSD', {
-          value: totalAmount.toFormat(),
+          value: getPortfolioUSDAmount(totalAmount),
         })}
       </Typography>
 
@@ -117,7 +118,7 @@ export const PortfolioChartLegend = ({
           <Typography className={classes.yield}>
             {tHTML(
               `dashboard.${!isNative ? 'yearlyYieldUsd' : 'potentialYieldUsd'}`,
-              { value: yearlYield.toFormat() },
+              { value: getPortfolioUSDAmount(yearlYield) },
             )}
           </Typography>
         </div>

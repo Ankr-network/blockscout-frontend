@@ -8,6 +8,7 @@ export const getWalletName = (id: EWalletId): string => {
       return 'Coinbase Wallet';
     case EWalletId.huobi:
       return 'Huobi Wallet';
+    case EWalletId.trustViaWalletConnect:
     case EWalletId.trust:
       return 'Trust Wallet';
     case EWalletId.math:
@@ -18,6 +19,8 @@ export const getWalletName = (id: EWalletId): string => {
       return 'Binance Wallet';
     case EWalletId.walletconnect:
       return 'WalletConnect';
+    case EWalletId.coin98:
+      return 'Coin98 Wallet';
     case EWalletId.injected:
       return 'MetaMask';
     default:
