@@ -1,33 +1,40 @@
-// vite.config.js
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 
+import packageJson from './package.json';
+
 export default defineConfig({
   plugins: [
     svgr(),
-    react()
+    react(),
   ],
   build: {
     sourcemap: true,
     lib: {
-      // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/index.ts'),
-      formats: ['cjs'],
-      // the proper extensions will be added
+      formats: ['cjs', 'es'],
       fileName: 'index'
     },
     rollupOptions: {
+      output: [
+        {
+          format: 'es',
+          dir: 'dist/esm',
+          entryFileNames: `[name].js`,
+          chunkFileNames: `[name].js`,
+        },
+        {
+          format: 'cjs',
+          dir: 'dist/cjs',
+          entryFileNames: `[name].js`,
+          chunkFileNames: `[name].js`,
+        },
+      ],
       external: [
-        'react',
-        'react-dom',
-        'web3modal',
-        'web3',
-        'web3-core',
-        'web3-eth',
-        'web3-eth-contract',
-        'web3-utils'
+        ...Object.keys(packageJson.dependencies),
+        '@coinbase/wallet-sdk',
       ]
     }
   }

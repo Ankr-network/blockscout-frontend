@@ -33,9 +33,15 @@ export const useClaimSuccessStyles = makeStyles(theme => ({
   actionBtn: {
     paddingRight: 45,
     paddingLeft: 45,
+    color: theme.palette.common.white,
+
+    '& svg': {
+      color: 'inherit',
+    },
   },
   actionBtnTxt: {
     margin: theme.spacing('3px', 0, 0, '4px'),
+    color: 'inherit',
   },
 
   hintEthSplitter: {

@@ -11,7 +11,6 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
     position: 'fixed',
     top: 0,
     left: MENU_WIDTH,
-    background: 'linear-gradient(90deg, #A169F6 0%, #70EB9E 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -24,6 +23,7 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
       left: 0,
       fontSize: 18,
     },
+    background: 'linear-gradient(90deg, #A169F6 0%, #70EB9E 100%)',
   },
   content: {
     fontSize: 14,

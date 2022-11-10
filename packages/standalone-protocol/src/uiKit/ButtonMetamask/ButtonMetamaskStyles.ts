@@ -1,5 +1,5 @@
+import { darken, lighten, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { darken, Theme, lighten } from '@material-ui/core';
 
 export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
   button: {
@@ -46,6 +46,15 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
 
       '&:hover': {
         backgroundColor: lighten(theme.palette.background.default, 0.1),
+      },
+    },
+
+    '&.secret': {
+      background: '#303C4A',
+      borderRadius: theme.spacing(1.25),
+
+      '&:hover': {
+        backgroundColor: darken('#303C4A', 0.2),
       },
     },
 

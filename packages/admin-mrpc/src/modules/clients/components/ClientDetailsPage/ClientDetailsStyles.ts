@@ -33,6 +33,9 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(4),
     marginTop: theme.spacing(4),
   },
+  inputComment: {
+    width: '100%',
+  },
   typeText: {
     marginRight: 10,
   },
@@ -82,6 +85,9 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     padding: theme.spacing(6),
     borderRadius: theme.spacing(6),
   },
+  whiteBackground: {
+    backgroundColor: theme.palette.background.paper,
+  },
   form: {
     marginTop: 20,
     '& > *': {
@@ -90,9 +96,7 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     },
   },
   select: {
-    '& fieldset': {
-      borderRadius: 24,
-    },
+    backgroundColor: theme.palette.background.default,
   },
 
   /* Client usage table */

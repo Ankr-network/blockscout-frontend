@@ -18,6 +18,9 @@ const cellBorderRadius = {
 };
 
 export const useClientsTableStyles = makeStyles()((theme: Theme) => ({
+  tableContainer: {
+    backgroundColor: theme.palette.background.default,
+  },
   table: {
     borderCollapse: 'separate',
     borderSpacing: '0 12px',

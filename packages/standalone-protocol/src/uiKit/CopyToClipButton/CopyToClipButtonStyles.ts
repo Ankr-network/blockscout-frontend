@@ -1,4 +1,4 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { darken, makeStyles, Theme } from '@material-ui/core';
 
 interface CopyToClipProps {
   isCopied: boolean;
@@ -151,6 +151,55 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
       '& $button': {
         backgroundColor: '#1E41A5',
+      },
+    },
+
+    '&.secret': {
+      borderRadius: theme.spacing(1.25),
+
+      '& $content': {
+        padding: 0,
+        backgroundColor: ({ isCopied }) =>
+          isCopied ? darken('#303C4A', 0.2) : '#303C4A',
+
+        '& $text': {
+          color: '#BFC6D0',
+        },
+
+        '& $button': {
+          borderRadius: theme.spacing(1.25),
+
+          '&:hover': {
+            backgroundColor: darken(theme.palette.primary.main, 0.2),
+          },
+        },
+
+        '&:hover': {
+          '& $button': {
+            backgroundColor: darken(theme.palette.primary.main, 0.2),
+          },
+        },
+      },
+    },
+
+    '&.klaytn': {
+      borderRadius: 0,
+      '& $content': {
+        padding: 0,
+      },
+      '& $text': {
+        border: `2px solid ${theme.palette.grey[300]}`,
+        padding: theme.spacing(0, 0, 0, 4),
+        height: '100%',
+        borderRightWidth: 0,
+        display: 'flex',
+        alignItems: 'center',
+      },
+      '& $button': {
+        backgroundColor: 'transparent',
+        borderRadius: 0,
+        border: `3px solid ${theme.palette.primary.main}`,
+        color: theme.palette.primary.main,
       },
     },
   },

@@ -64,13 +64,13 @@ jobs:
       - name: Build production
         working-directory: ./packages/standalone-protocol
         env:
-          NAMES: eth solana near arbitrum iotex avalanche nervos harmony moonbeam gnosis syscoin
+          NAMES: eth solana near arbitrum iotex avalanche nervos harmony moonbeam gnosis syscoin secret klaytn
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
         if: ${{ github.event.inputs.environment == 'STANDALONE_PROD' && github.event.inputs.api == 'PROD' }}
         run: |
-          yarn build-chains:prod:turbo
+          yarn build-chains:prod
 
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

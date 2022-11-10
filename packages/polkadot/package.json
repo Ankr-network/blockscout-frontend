@@ -2,7 +2,7 @@
   "name": "polkadot",
   "version": "1.5.13",
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
   "types": "./src/index.ts",
   "files": [
     "dist"
@@ -19,8 +19,22 @@
     "test:turbo": "cd ../.. && turbo run test --filter=polkadot",
     "watch": "yarn build --watch"
   },
+  "bundledDependencies": [
+    "@polkadot/api",
+    "@polkadot/extension-dapp",
+    "@polkadot/extension-inject",
+    "@polkadot/types",
+    "@polkadot/util",
+    "@polkadot/util-crypto",
+    "@polkadot/wasm-crypto",
+    "@polkadot/wasm-crypto-asmjs",
+    "@polkadot/wasm-crypto-wasm",
+    "@polkadot/x-fetch",
+    "@polkadot/x-randomvalues",
+    "@polkadot/x-textdecoder",
+    "@polkadot/x-textencoder"
+  ],
   "dependencies": {
-    "@ankr.com/provider-core": "*",
     "@polkadot/api": "^9.5.1",
     "@polkadot/extension-dapp": "^0.44.6",
     "@polkadot/extension-inject": "^0.44.6",
@@ -28,11 +42,19 @@
     "@polkadot/util": "^9.5.1",
     "@polkadot/util-crypto": "^9.5.1",
     "@polkadot/wasm-crypto": "^6.3.1",
+    "@polkadot/wasm-crypto-asmjs": "^6.3.1",
+    "@polkadot/wasm-crypto-wasm": "^6.3.1",
+    "@polkadot/x-fetch": "^9.5.1",
+    "@polkadot/x-randomvalues": "^9.5.1",
+    "@polkadot/x-textdecoder": "^9.5.1",
+    "@polkadot/x-textencoder": "^9.5.1",
+    "@polkadot/x-ws": "^9.5.1",
+    "@ankr.com/provider-core": "*",
+    "common": "*",
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.3",
     "bignumber.js": "^9.0.1",
     "bs58": "^4.0.0",
-    "common": "*",
     "web3-eth-contract": "1.7.0"
   },
   "devDependencies": {

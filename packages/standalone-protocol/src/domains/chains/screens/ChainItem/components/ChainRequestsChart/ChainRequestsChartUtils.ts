@@ -19,6 +19,9 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Gnosis:
       return '#439AB1';
 
+    case ChainId.Klaytn:
+      return theme.palette.primary.main;
+
     default:
       return theme.palette.primary.main;
   }
@@ -40,6 +43,9 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Gnosis:
       return theme.palette.error.main;
 
+    case ChainId.Klaytn:
+      return '#F99A00';
+
     default:
       return theme.palette.primary.dark;
   }
@@ -52,10 +58,20 @@ export const hasGradient = (chainId: ChainId) => {
     case ChainId.Avalanche:
     case ChainId.Nervos:
     case ChainId.Gnosis:
+    case ChainId.Secret:
       return false;
 
     default:
       return true;
+  }
+};
+
+export const getGridBorderColor = (chainId: ChainId, theme: Theme) => {
+  switch (chainId) {
+    case ChainId.Secret:
+      return '#413F49';
+    default:
+      return theme?.palette?.grey['300'];
   }
 };
 

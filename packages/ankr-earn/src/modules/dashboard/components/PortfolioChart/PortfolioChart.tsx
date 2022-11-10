@@ -10,6 +10,7 @@ import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { TIcon } from 'modules/common/icons';
 import { Milliseconds } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
+import { getPortfolioUSDAmount } from 'modules/dashboard/utils/getPortfolioUSDAmount';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
@@ -238,7 +239,7 @@ export const PortfolioChart = ({
   const amountTitle = activeItem
     ? activeItem.yieldAmount.toFormat()
     : t('dashboard.portfolioUSD', {
-        value: totalAmountUsd.toFormat(),
+        value: getPortfolioUSDAmount(totalAmountUsd),
       });
 
   const aprTitle = tHTML('dashboard.apy', { value: totalApr });

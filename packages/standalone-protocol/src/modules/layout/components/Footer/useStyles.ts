@@ -1,4 +1,4 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { darken, makeStyles, Theme } from '@material-ui/core';
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
 
 export const HEADER_HEIGHT = 121;
@@ -57,9 +57,21 @@ export const useStyles = makeStyles<Theme>(theme => ({
         color: theme.palette.common.white,
       },
     },
+
+    '&.secret': {
+      color: theme.palette.grey['600'],
+
+      '& $link': {
+        color: theme.palette.primary.main,
+
+        '&:hover': {
+          color: darken(theme.palette.primary.main, 0.2),
+        },
+      },
+    },
   },
   link: {
-    textDecoration: 'underline',
+    fontWeight: 600,
   },
   heart: {
     width: 14,

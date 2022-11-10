@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
 interface IGetUndelegatedAmountDataProps {
@@ -14,7 +16,11 @@ export const { useGetUnlockedDelegatedByValidatorQuery } =
         BigNumber,
         IGetUndelegatedAmountDataProps
       >({
-        queryFn: async ({ validator }) => {
+        queryFn: queryFnNotifyWrapper<
+          IGetUndelegatedAmountDataProps,
+          never,
+          BigNumber
+        >(async ({ validator }) => {
           const sdk = await AnkrStakingSDK.getInstance();
           const provider = await sdk.getProvider();
 
@@ -24,7 +30,7 @@ export const { useGetUnlockedDelegatedByValidatorQuery } =
               await provider.getBlockNumber(),
             ),
           };
-        },
+        }),
       }),
     }),
   });

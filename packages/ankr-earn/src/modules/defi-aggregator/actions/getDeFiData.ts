@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { configFromEnv } from 'modules/api/config';
 import { web3Api } from 'modules/api/web3Api';
 
@@ -24,17 +26,23 @@ export interface IDeFiItem {
 export const { useGetDeFiDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getDeFiData: build.query<IDeFiItem[], void>({
-      query: () => new URL(DEFI_URL, baseURL).toString(),
-      transformResponse: (data: IDeFiItemResponse[]) =>
-        data.map<IDeFiItem>(item => ({
-          assets: item.assets,
-          network: item.network,
-          protocol: item.protocol,
-          type: item.type,
-          baseRewards: item.baseRewards,
-          protocolLink: item.protocolLink,
-          farmingRewards: item.farmingRewards ?? '',
-        })),
+      queryFn: async () => {
+        const url = new URL(DEFI_URL, baseURL).toString();
+
+        const { data: rawData } = await axios.get(url);
+
+        return {
+          data: (rawData as IDeFiItemResponse[]).map<IDeFiItem>(item => ({
+            assets: item.assets,
+            network: item.network,
+            protocol: item.protocol,
+            type: item.type,
+            baseRewards: item.baseRewards,
+            protocolLink: item.protocolLink,
+            farmingRewards: item.farmingRewards ?? '',
+          })),
+        };
+      },
     }),
   }),
 });

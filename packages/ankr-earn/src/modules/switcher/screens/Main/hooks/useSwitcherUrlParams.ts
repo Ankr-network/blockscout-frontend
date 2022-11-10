@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import {
@@ -36,16 +37,17 @@ export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
   const queryFrom = query.get(SwitcherUrlParams.FROM);
   const queryTo = query.get(SwitcherUrlParams.TO);
   const defaultTokens =
-    DEFAULT_TOKENS_BY_NETWORK[chainId as AvailableSwitchNetwork];
+    DEFAULT_TOKENS_BY_NETWORK[chainId as AvailableSwitchNetwork] ??
+    DEFAULT_TOKENS_BY_NETWORK[ETH_NETWORK_BY_ENV];
 
   const defaultFrom =
-    SWITCHER_TOKENS_MAP.from[queryFrom as SwitcherFromKey] ||
-    SWITCHER_TOKENS_MAP.to[queryFrom as SwitcherToKey] ||
+    SWITCHER_TOKENS_MAP?.from[queryFrom as SwitcherFromKey] ||
+    SWITCHER_TOKENS_MAP?.to[queryFrom as SwitcherToKey] ||
     defaultTokens.from;
 
   const defaultTo =
-    SWITCHER_TOKENS_MAP.to[queryTo as SwitcherToKey] ||
-    SWITCHER_TOKENS_MAP.from[queryTo as SwitcherFromKey] ||
+    SWITCHER_TOKENS_MAP?.to[queryTo as SwitcherToKey] ||
+    SWITCHER_TOKENS_MAP?.from[queryTo as SwitcherFromKey] ||
     defaultTokens.to;
 
   const uniqueDefaultTo =

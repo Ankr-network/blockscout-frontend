@@ -26,6 +26,8 @@ export const useClientDetailsPage = () => {
     PrivateStatsInterval.DAY,
   );
 
+  const [isCurrentDayIncluded, setIsCurrentDayIncluded] = useState(false);
+
   const { data: clients, isLoading: isLoadingClients } =
     useFetchCountersQuery();
   const { data: transactionsData, isLoading: isLoadingTransactions } =
@@ -34,7 +36,11 @@ export const useClientDetailsPage = () => {
     data: statsData,
     isLoading: isLoadingStats,
     isFetching: isFetchingStats,
-  } = useFetchUserStatsQuery({ address, interval: periodStatement });
+  } = useFetchUserStatsQuery({
+    address,
+    interval: periodStatement,
+    current: isCurrentDayIncluded,
+  });
   const { data: totalData, isLoading: isLoadingTotal } = useFetchUserTotalQuery(
     { address },
   );
@@ -60,6 +66,10 @@ export const useClientDetailsPage = () => {
     setPeriodStatement(timeframe);
   };
 
+  const handleSwitchCurrent = () => {
+    setIsCurrentDayIncluded(!isCurrentDayIncluded);
+  };
+
   return {
     isLoadingClients,
     currentClient,
@@ -76,5 +86,7 @@ export const useClientDetailsPage = () => {
     transactionsData,
     updateTimeframeParam,
     isFetchingStats,
+    handleSwitchCurrent,
+    isCurrentDayIncluded,
   };
 };
