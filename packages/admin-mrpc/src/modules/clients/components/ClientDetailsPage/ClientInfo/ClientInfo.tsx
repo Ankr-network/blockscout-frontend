@@ -6,6 +6,7 @@ import {
   Skeleton,
   Grid,
   Paper,
+  TextField,
 } from '@mui/material';
 
 import { Spinner } from 'ui';
@@ -17,11 +18,15 @@ import {
   renderBalance,
   renderUSD,
 } from 'modules/common/utils/renderBalance';
-import { ClientMapped } from '../../store/clientsSlice';
-import { UserTypeTag } from '../UserTypeTag';
-import { ClientBalancesModal } from './ClientBalancesModal';
-import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
-import { IGetUserTotalMapped } from '../../actions/fetchUserTotal';
+import { ClientMapped } from 'modules/clients/store/clientsSlice';
+import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
+
+import { UserTypeTag } from '../../UserTypeTag';
+import { ClientBalancesModal } from '../ClientBalancesModal';
+import { useClientInfo } from './useClientInfo';
+import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
+import { ClientEditProfileModal } from '../ClientEditProfileModal';
+import { ClientApiKeysModal } from '../ClientApiKeysModal';
 
 interface IClientInfoProps {
   address: Web3Address;
@@ -42,8 +47,18 @@ export const ClientInfo = ({
   totalData,
   isLoadingTotal,
 }: IClientInfoProps) => {
-  const { classes } = useStyles();
   const [client] = currentClient;
+  const {
+    onChangeComment,
+    commentInputValue,
+    isLoadingProfile,
+    isLoadingEditProfile,
+    handleBlurCommentInput,
+    handleKeyDownInputComment,
+    userName,
+  } = useClientInfo({ address });
+
+  const { classes } = useStyles();
 
   const skeleton = (
     <Skeleton
@@ -77,6 +92,7 @@ export const ClientInfo = ({
             </>
           )}
         </Typography>
+        <ClientApiKeysModal address={user.address || ''} token={user.user} />
       </CardContent>
     </Card>
   );
@@ -102,16 +118,40 @@ export const ClientInfo = ({
   return (
     <>
       <Typography className={classes.clientAddress} variant="h6">
-        {address} <ButtonCopy valueToCopy={address} />
+        {userName || address}{' '}
+        {!userName && <ButtonCopy valueToCopy={address} />}
       </Typography>
       {client && client.address && (
-        <ClientBalancesModal currentClient={client} />
+        <>
+          <ClientBalancesModal currentClient={client} />
+          <ClientEditProfileModal currentClient={client} />
+          <ButtonCopy
+            sx={{ mb: 4, ml: 4 }}
+            label="Copy ETH address"
+            variant="contained"
+            color="secondary"
+            valueToCopy={address}
+          />
+        </>
       )}
+      <br />
+      <TextField
+        className={classes.inputComment}
+        onChange={onChangeComment}
+        onBlur={handleBlurCommentInput}
+        onKeyDown={handleKeyDownInputComment}
+        value={commentInputValue}
+        disabled={isLoadingProfile || isLoadingEditProfile}
+        placeholder="No comment added..."
+      />
+      <br />
+      <br />
       <Paper sx={{ p: 5 }}>
         <Typography variant="body2" component="p">
           <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
         </Typography>
       </Paper>
+
       {isLoadingClients ? (
         <>
           <br />

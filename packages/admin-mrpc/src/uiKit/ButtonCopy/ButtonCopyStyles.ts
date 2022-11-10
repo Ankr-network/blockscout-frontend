@@ -11,4 +11,14 @@ export const useButtonCopyStyles = makeStyles()(theme => ({
       color: theme.palette.primary.main,
     },
   },
+  withLabel: {
+    color: theme.palette.text.secondary,
+
+    '&:hover': {
+      color: theme.palette.text.secondary,
+    },
+  },
+  label: {
+    marginLeft: theme.spacing(2),
+  },
 }));

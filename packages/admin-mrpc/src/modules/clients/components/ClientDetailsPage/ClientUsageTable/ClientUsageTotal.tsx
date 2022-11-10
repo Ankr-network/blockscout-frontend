@@ -1,8 +1,8 @@
 import { Grid, Paper, Skeleton, Typography } from '@mui/material';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 import { formatNumber } from 'modules/common/utils/renderBalance';
-import { timeframeTextMap } from './const';
-import { useClientDetailsStyles } from './ClientDetailsStyles';
+import { timeframeTextMap } from '../const';
+import { useClientDetailsStyles } from '../ClientDetailsStyles';
 
 const skeleton = (
   <Skeleton

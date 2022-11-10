@@ -171,6 +171,31 @@ export interface IGetUserTotalResponse {
   }
 }
 
+export interface IUserProfileEntity {
+  id: string;
+  address: string;
+  comment?: string;
+  companyType?: string;
+  name?: string;
+}
+
+export interface IUserProfileResponse {
+  user: IUserProfileEntity;
+}
+
+export interface IGetUserProfileRequest {
+  address: Web3Address;
+}
+export type IGetUserProfileResponse = IUserProfileResponse;
+
+export interface IUpdateUserProfileRequest {
+  address: Web3Address;
+  comment?: string;
+  companyType?: string;
+  name?: string;
+}
+export type IUpdateUserProfileResponse = IUserProfileResponse;
+
 export type BlockchainFeature = 'rpc' | 'ws';
 
 export enum BlockchainType {

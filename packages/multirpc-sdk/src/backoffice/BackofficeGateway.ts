@@ -25,6 +25,10 @@ import {
   ICountersRequest,
   IGetUserTotalRequest,
   IGetUserTotalResponse,
+  IGetUserProfileRequest,
+  IGetUserProfileResponse,
+  IUpdateUserProfileRequest,
+  IUpdateUserProfileResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -93,6 +97,35 @@ export class BackofficeGateway implements IBackofficeGateway {
       {
         params,
       },
+    );
+
+    return response;
+  }
+
+  async getUserProfile(
+    params: IGetUserProfileRequest,
+  ): Promise<IGetUserProfileResponse> {
+    const { data: response } = await this.api.get<IGetUserProfileResponse>(
+      '/users/profile',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async updateUserProfile(
+    params: IUpdateUserProfileRequest,
+  ): Promise<IUpdateUserProfileResponse> {
+    const { data: response } = await this.api.post<IUpdateUserProfileResponse>(
+      '/users/profile',
+      params,
+      {
+        params: {
+          address: params.address
+        }
+      }
     );
 
     return response;
