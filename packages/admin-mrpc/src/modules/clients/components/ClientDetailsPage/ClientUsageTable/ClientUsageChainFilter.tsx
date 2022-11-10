@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { useClientDetailsStyles } from './ClientDetailsStyles';
+import { useClientDetailsStyles } from '../ClientDetailsStyles';
 import { BlockchainID, PrivateStats } from 'multirpc-sdk';
 
 interface IClientUsageChainFilterProps {

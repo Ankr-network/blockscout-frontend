@@ -59,7 +59,7 @@ export enum EWalletId {
   injected = 'injected',
   math = 'custom-math',
   trust = 'custom-trust',
-  trustViaWalletConnect = 'trust-walletconnect',
+  trustViaWalletConnect = 'custom-trust-walletconnect',
   binanceWallet = 'custom-binance-wallet',
   coin98 = 'custom-coin98',
   walletconnect = 'walletconnect',

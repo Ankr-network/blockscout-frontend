@@ -1,4 +1,4 @@
-import { PrivateStatsInterval } from 'multirpc-sdk';
+import { PrivateStatsInterval, PublicStatsInterval } from 'multirpc-sdk';
 
 import { Timeframe } from '../types';
 
@@ -9,4 +9,11 @@ export const timeframeToIntervalMap: Record<Timeframe, PrivateStatsInterval> = {
   [Day]: PrivateStatsInterval.DAY,
   [Week]: PrivateStatsInterval.WEEK,
   [Month]: PrivateStatsInterval.MONTH,
+};
+
+export const toTimeframeMap: Record<Timeframe, PublicStatsInterval> = {
+  [Hour]: PublicStatsInterval.HOUR,
+  [Day]: PublicStatsInterval.DAY,
+  [Week]: PublicStatsInterval.WEEK,
+  [Month]: PublicStatsInterval.MONTH,
 };

@@ -5,7 +5,7 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from 'multirpc-sdk';
-import { IUsageEntityMapped } from '../../actions/fetchUserStats';
+import { IUsageEntityMapped } from 'modules/clients/actions/fetchUserStats';
 
 export interface IHookProps {
   onUpdateTimeframe: (timeframe: PrivateStatsInterval) => void;
@@ -21,6 +21,8 @@ interface IUsageCsv extends IUsageDetailEntity {
 export interface IClientUsageTableProps extends IHookProps {
   fileName: string;
   isLoadingStats?: boolean;
+  handleSwitchCurrent: () => void;
+  isCurrentDayIncluded: boolean;
 }
 
 type TabIndex = 0 | 1 | 2;

@@ -1,0 +1,156 @@
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:version="1.0 (4035a4f, 2020-05-01)" sodipodi:docname="IoTeX-IOTX-Icon-Logo-256x256.svg" id="svg1044" version="1.1" viewBox="0 0 256 256" height="50" width="50">
+  <metadata id="metadata1048">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview inkscape:current-layer="svg1044" inkscape:cy="318.32146" inkscape:cx="-70.869818" inkscape:zoom="0.80514706" showgrid="false" id="namedview1046" inkscape:window-height="480" inkscape:window-width="640" inkscape:pageshadow="2" inkscape:pageopacity="0" guidetolerance="10" gridtolerance="10" objecttolerance="10" borderopacity="1" bordercolor="#666666" pagecolor="#ffffff" />
+  <defs id="defs978">
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.46741317,2.1394348)" id="linearGradient-1" y2="101.55865" x2="1519.1493" y1="26.772493" x1="-76.869034">
+      <stop id="stop833" offset="0%" stop-color="#00DCB3" />
+      <stop id="stop835" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(1.1759927,0.85034542)" id="linearGradient-2" y2="245.02254" x2="605.43274" y1="56.863716" x1="-28.925011">
+      <stop id="stop838" offset="0%" stop-color="#00DCB3" />
+      <stop id="stop840" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(1.0867163,0.92020334)" id="linearGradient-3" y2="165.98582" x2="666.14642" y1="-7.8889089" x1="-20.325268">
+      <stop id="stop843" offset="0%" stop-color="#00DCB3" />
+      <stop id="stop845" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(1.1328912,0.8826973)" id="linearGradient-4" y2="158.86555" x2="641.36371" y1="-22.397034" x1="-17.128395">
+      <stop id="stop848" offset="0%" stop-color="#00DCB3" />
+      <stop id="stop850" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(1.1061709,0.90401947)" id="linearGradient-5" y2="103.74412" x2="665.86133" y1="-73.243217" x1="-8.537117">
+      <stop id="stop853" offset="0%" stop-color="#00DCB3" />
+      <stop id="stop855" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-6" y2="137.13887" x2="410.7048" y1="-54.355644" x1="28.658476">
+      <stop id="stop858" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop860" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-7" y2="137.07935" x2="410.74515" y1="-54.415276" x1="28.698818">
+      <stop id="stop863" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop865" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-8" y2="185.94705" x2="375.57883" y1="-5.5475578" x1="-6.4674902">
+      <stop id="stop868" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop870" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-9" y2="185.88751" x2="375.58569" y1="-5.6071" x1="-6.4606161">
+      <stop id="stop873" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop875" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-10" y2="234.619" x2="340.14688" y1="43.124481" x1="-41.899307">
+      <stop id="stop878" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop880" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-11" y2="234.55956" x2="340.15717" y1="43.06485" x1="-41.889111">
+      <stop id="stop883" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop885" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-12" y2="253.39343" x2="342.90878" y1="61.898739" x1="-39.137543">
+      <stop id="stop888" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop890" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93099955,1.0741144)" id="linearGradient-13" y2="245.86459" x2="363.0383" y1="54.524639" x1="-19.316986">
+      <stop id="stop893" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop895" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-14" y2="281.38498" x2="300.25183" y1="89.89045" x1="-81.794464">
+      <stop id="stop898" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop900" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93099955,1.0741144)" id="linearGradient-15" y2="306.69052" x2="295.14215" y1="115.35075" x1="-87.213142">
+      <stop id="stop903" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop905" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93099955,1.0741144)" id="linearGradient-16" y2="289.87387" x2="297.34656" y1="98.53392" x1="-85.008743">
+      <stop id="stop908" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop910" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93099955,1.0741144)" id="linearGradient-17" y2="206.16092" x2="360.21735" y1="14.821138" x1="-22.137823">
+      <stop id="stop913" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop915" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-18" y2="136.10435" x2="408.51202" y1="-55.390263" x1="26.465714">
+      <stop id="stop918" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop920" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-19" y2="186.85931" x2="376.65173" y1="-4.6351905" x1="-5.3945618">
+      <stop id="stop923" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop925" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-20" y2="184.4117" x2="372.5307" y1="-7.0828094" x1="-9.5156231">
+      <stop id="stop928" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop930" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-21" y2="239.14807" x2="348.56198" y1="47.653362" x1="-33.484325">
+      <stop id="stop933" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop935" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93099955,1.0741144)" id="linearGradient-22" y2="233.46246" x2="338.36343" y1="42.122604" x1="-43.991867">
+      <stop id="stop938" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop940" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-23" y2="305.88736" x2="314.228" y1="114.39274" x1="-67.818336">
+      <stop id="stop943" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop945" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-24" y2="135.99635" x2="408.58469" y1="-55.498158" x1="26.538382">
+      <stop id="stop948" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop950" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-25" y2="184.79614" x2="373.28369" y1="-6.6984606" x1="-8.7625265">
+      <stop id="stop953" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop955" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-26" y2="184.80463" x2="373.46677" y1="-6.689889" x1="-8.5795374">
+      <stop id="stop958" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop960" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-27" y2="233.60414" x2="338.11191" y1="42.109715" x1="-43.934425">
+      <stop id="stop963" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop965" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-28" y2="286.04092" x2="306.24667" y1="94.546417" x1="-75.799652">
+      <stop id="stop968" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop970" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" gradientTransform="scale(0.93175248,1.0732464)" id="linearGradient-29" y2="136.1241" x2="408.71863" y1="-55.370411" x1="26.672335">
+      <stop id="stop973" offset="0%" stop-color="#00DC9C" />
+      <stop id="stop975" offset="100%" stop-color="#00D3DC" />
+    </linearGradient>
+  </defs>
+  <circle r="128" cy="128" cx="128" id="path1160" style="opacity:0.98;fill:#161f26;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:10" />
+  <g transform="matrix(0.49441786,0,0,0.49441786,36.788472,54.65311)" id="g1039" style="fill:none;fill-rule:nonzero;stroke:none;stroke-width:1">
+    <polygon fill="url(#linearGradient-6)" points="189.8,0.2 189.8,71.5 251.7,35.9 " id="polygon991" style="fill:url(#linearGradient-6)" />
+    <polygon fill="url(#linearGradient-7)" opacity="0.9" points="251.7,35.9 251.7,107.2 313.6,71.5 " id="polygon993" style="fill:url(#linearGradient-7)" />
+    <polygon fill="url(#linearGradient-8)" opacity="0.8" points="189.8,71.5 189.8,142.8 251.7,107.2 " id="polygon995" style="fill:url(#linearGradient-8)" />
+    <polygon fill="url(#linearGradient-9)" opacity="0.8" points="251.7,107.2 251.7,178.5 313.6,142.8 " id="polygon997" style="fill:url(#linearGradient-9)" />
+    <polygon fill="url(#linearGradient-10)" opacity="0.8" points="189.8,142.8 189.8,214.1 251.7,178.5 " id="polygon999" style="fill:url(#linearGradient-10)" />
+    <polygon fill="url(#linearGradient-11)" points="251.7,178.5 251.7,249.8 313.6,214.1 " id="polygon1001" style="fill:url(#linearGradient-11)" />
+    <polygon fill="url(#linearGradient-12)" opacity="0.4" points="29.8,69.1 29.8,140.4 91.7,104.7 " id="polygon1003" style="fill:url(#linearGradient-12)" />
+    <polygon fill="url(#linearGradient-13)" opacity="0.2" points="107.9,95.6 107.9,166.9 169.7,131.3 " id="polygon1005" style="fill:url(#linearGradient-13)" />
+    <polygon fill="url(#linearGradient-14)" opacity="0.3" points="62,140.7 62,212 123.9,176.3 " id="polygon1007" style="fill:url(#linearGradient-14)" />
+    <polygon fill="url(#linearGradient-15)" opacity="0.9" points="102.8,194.5 102.8,265.8 164.6,230.1 " id="polygon1009" style="fill:url(#linearGradient-15)" />
+    <polygon fill="url(#linearGradient-16)" opacity="0.7" points="189.3,225.2 189.3,296.5 251.1,260.8 " id="polygon1011" style="fill:url(#linearGradient-16)" />
+    <polygon fill="url(#linearGradient-17)" opacity="0.9" points="118.2,60.4 118.2,131.7 180,96.1 " id="polygon1013" style="fill:url(#linearGradient-17)" />
+    <polygon fill="url(#linearGradient-18)" opacity="0.8" points="189.8,0.2 189.8,71.5 127.9,35.9 " id="polygon1015" style="fill:url(#linearGradient-18)" />
+    <polygon fill="url(#linearGradient-19)" opacity="0.6" points="118.2,30.5 118.2,101.8 56.3,66.1 " id="polygon1017" style="fill:url(#linearGradient-19)" />
+    <polygon fill="url(#linearGradient-20)" opacity="0.6" points="180.1,65.8 180.1,137.1 118.2,101.4 " id="polygon1019" style="fill:url(#linearGradient-20)" />
+    <polygon fill="url(#linearGradient-21)" opacity="0.95" points="107.6,95.6 107.6,166.9 45.7,131.3 " id="polygon1021" style="fill:url(#linearGradient-21)" />
+    <polygon fill="url(#linearGradient-22)" opacity="0.6" points="189.8,142.8 189.8,214.1 128,178.5 " id="polygon1023" style="fill:url(#linearGradient-22)" />
+    <polygon fill="url(#linearGradient-23)" opacity="0.55" points="62,159.4 62,230.7 0.1,195 " id="polygon1025" style="fill:url(#linearGradient-23)" />
+    <polygon fill="url(#linearGradient-24)" points="313.6,71.5 313.6,142.8 251.7,107.2 " id="polygon1027" style="fill:url(#linearGradient-24)" />
+    <polygon fill="url(#linearGradient-25)" opacity="0.95" points="251.7,107.2 251.7,178.5 189.8,142.8 " id="polygon1029" style="fill:url(#linearGradient-25)" />
+    <polygon fill="url(#linearGradient-26)" opacity="0.9" points="313.6,142.8 313.6,214.1 251.7,178.5 " id="polygon1031" style="fill:url(#linearGradient-26)" />
+    <polygon fill="url(#linearGradient-27)" opacity="0.7" points="251.7,178.5 251.7,249.8 189.8,214.1 " id="polygon1033" style="fill:url(#linearGradient-27)" />
+    <polygon fill="url(#linearGradient-28)" opacity="0.4" points="176.1,208.2 176.1,279.5 114.2,243.9 " id="polygon1035" style="fill:url(#linearGradient-28)" />
+    <polygon fill="url(#linearGradient-29)" points="251.7,35.9 251.7,107.2 189.8,71.5 " id="polygon1037" style="fill:url(#linearGradient-29)" />
+  </g>
+</svg>

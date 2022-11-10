@@ -7,6 +7,7 @@ import {
   Timeframe,
   Config,
   IRate,
+  IWorkerPublicStats,
 } from './types';
 import { IPublicGateway } from './interfaces';
 import { IBlockchainEntity, INodeEntity } from '../backoffice';
@@ -56,6 +57,16 @@ export class PublicGateway implements IPublicGateway {
     );
 
     return convertStatsToNumber(data);
+  }
+
+  async getPublicTimeframesStats(
+    timeframe: Timeframe,
+  ): Promise<IWorkerPublicStats> {
+    const { data } = await this.accountApi.get<IWorkerPublicStats>(
+      `/api/v1/stats/all/${timeframe}`,
+    );
+
+    return data;
   }
 
   async getNodesWeight(): Promise<IWorkerNodesWeight[]> {

@@ -14,7 +14,10 @@ export const useSearchClientsInput = () => {
   useEffect(() => {
     const clients = data?.counters || [];
     const clientsFiltered = clients.filter(
-      c => c.email?.includes(searchValue) || c.address?.includes(searchValue),
+      client =>
+        client.email?.includes(searchValue) ||
+        client.address?.includes(searchValue) ||
+        client.user?.includes(searchValue),
     );
     setFoundClients(clientsFiltered);
   }, [data, searchValue]);

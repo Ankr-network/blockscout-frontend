@@ -10,17 +10,19 @@ import {
   Tabs,
   Tab,
   Box,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import { CSVLink } from 'react-csv';
 import { Spinner } from 'ui';
-import { useClientDetailsStyles } from './ClientDetailsStyles';
+import { useClientDetailsStyles } from '../ClientDetailsStyles';
 import {
   useClientUsageTable,
   IClientUsageTableProps,
 } from './useClientUsageTable';
 import { ClientUsageTotal } from './ClientUsageTotal';
 import { ClientUsageChainFilter } from './ClientUsageChainFilter';
-import { formatNumber } from '../../../common/utils/renderBalance';
+import { formatNumber } from 'modules/common/utils/renderBalance';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,6 +51,8 @@ export const ClientUsageTable = ({
   usage,
   onUpdateTimeframe,
   isLoadingStats,
+  handleSwitchCurrent,
+  isCurrentDayIncluded,
 }: IClientUsageTableProps) => {
   const {
     activeTabIndex,
@@ -95,6 +99,14 @@ export const ClientUsageTable = ({
           </CSVLink>
         )}
       </Box>
+
+      <br />
+      <FormControlLabel
+        control={
+          <Switch value={isCurrentDayIncluded} onChange={handleSwitchCurrent} />
+        }
+        label="Include current day"
+      />
 
       {isLoadingStats ? (
         <>

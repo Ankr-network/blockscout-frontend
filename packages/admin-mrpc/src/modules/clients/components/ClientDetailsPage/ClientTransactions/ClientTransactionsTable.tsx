@@ -9,7 +9,7 @@ import {
   Button,
 } from '@mui/material';
 import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
-import { MappedTransaction } from '../../actions/fetchUserTransactions';
+import { MappedTransaction } from '../../../actions/fetchUserTransactions';
 import { useState } from 'react';
 
 interface IClientTransactionsTable {

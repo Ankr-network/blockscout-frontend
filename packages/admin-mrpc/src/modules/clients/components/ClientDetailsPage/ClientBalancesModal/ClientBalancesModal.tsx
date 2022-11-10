@@ -3,22 +3,21 @@ import { toast } from 'react-toastify';
 import {
   Box,
   Button,
-  Input,
   MenuItem,
   Modal,
-  TextField,
   Typography,
+  TextField,
 } from '@mui/material';
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { IAmountType } from 'multirpc-sdk';
-import { useFetchCountersQuery } from '../../actions/fetchCounters';
-import { useFetchUserTransactionsQuery } from '../../actions/fetchUserTransactions';
-import { useAddUserVoucherCreditsMutation } from '../../actions/addUserVoucherCredits';
-import { useSubtractUserVoucherCreditsMutation } from '../../actions/subtractUserVoucherCredits';
-import { ClientMapped } from '../../store/clientsSlice';
+import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
+import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
+import { useAddUserVoucherCreditsMutation } from 'modules/clients/actions/addUserVoucherCredits';
+import { useSubtractUserVoucherCreditsMutation } from 'modules/clients/actions/subtractUserVoucherCredits';
+import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { ClientBalancesInfo } from './ClientBalancesInfo';
-import { useClientDetailsStyles as useStyles } from './ClientDetailsStyles';
+import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
 interface FormElements {
   elements: {
@@ -137,32 +136,30 @@ export const ClientBalancesModal = ({
       >
         <ClientBalancesInfo currentClient={currentClient} size={6} />
         <br />
-        <Typography variant="caption">Units:</Typography>
         <TextField
           sx={{ mb: 2 }}
           className={classes.select}
           select
           id="unit"
           name="unit"
-          required
           disabled={isLoading}
           value={unit}
           onChange={handleChangeUnit}
+          label="Units"
         >
           <MenuItem value="ankr">Ankr</MenuItem>
           <MenuItem value="usd">USD</MenuItem>
           <MenuItem value="credit">Voucher credit</MenuItem>
         </TextField>
 
-        <Input
-          required
+        <TextField
           name="amount"
           id="amount"
           placeholder="amount"
           type="number"
           disabled={isLoading}
         />
-        <Input
+        <TextField
           sx={{ mt: 2, mb: 6 }}
           name="comment"
           id="comment"

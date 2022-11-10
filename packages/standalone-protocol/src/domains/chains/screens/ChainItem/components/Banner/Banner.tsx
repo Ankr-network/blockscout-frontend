@@ -1,11 +1,17 @@
+import classNames from 'classnames';
+import { ChainId } from 'domains/chains/api/chain';
+import { tHTML } from 'modules/i18n/utils/intl';
 import React from 'react';
 import { useBannerStyles } from './useBannerStyles';
-import { tHTML } from 'modules/i18n/utils/intl';
 
-export const Banner = () => {
+interface BannerProps {
+  chainId?: ChainId | string;
+}
+
+export const Banner = ({ chainId }: BannerProps) => {
   const classes = useBannerStyles();
   return (
-    <div className={classes.root}>
+    <div className={classNames(classes.root, chainId)}>
       <div className={classes.content}>
         {tHTML('chain-item.rate-limit-banner')}
       </div>

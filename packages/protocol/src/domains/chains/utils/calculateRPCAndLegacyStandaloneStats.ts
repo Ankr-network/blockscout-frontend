@@ -14,6 +14,17 @@ import {
 
 const { Hour, Day, Week, Month } = TimeframeInterval;
 
+export const calculateTotalRequests = (
+  multiplier: number,
+  rpcTotalRequest: number,
+  legacyTotalRequest: number,
+) => {
+  return new BigNumber(legacyTotalRequest)
+    .multipliedBy(multiplier)
+    .plus(rpcTotalRequest)
+    .toNumber();
+};
+
 const calculateTotalValues = (
   timeframe: Timeframe,
   rpcStats: IWorkerGlobalStatus,
@@ -21,10 +32,11 @@ const calculateTotalValues = (
 ): IWorkerGlobalStatus => {
   const multiplier = getMultiplier(timeframe);
 
-  const totalRequests = new BigNumber(legacyStats?.requests ?? 0)
-    .multipliedBy(multiplier)
-    .plus(rpcStats.totalRequests)
-    .toNumber();
+  const totalRequests = calculateTotalRequests(
+    multiplier,
+    rpcStats.totalRequests,
+    legacyStats?.requests ?? 0,
+  );
 
   const totalCached = new BigNumber(legacyStats?.cachedRequests ?? 0)
     .multipliedBy(multiplier)

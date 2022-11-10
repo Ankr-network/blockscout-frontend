@@ -134,6 +134,17 @@ const GODWOKEN_POLYJUICE_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://www.layerview.io/'],
 };
 
+const KLAYTN_NETWORK_PARAMS = {
+  chainId: 8217,
+  chainName: 'Klaytn Mainnet Cypress',
+  nativeCurrency: {
+    name: 'KLAY',
+    symbol: 'KLAY',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://scope.klaytn.com/'],
+};
+
 const GNOSIS_NETWORK_PARAMS = {
   chainId: 100,
   chainName: 'Gnosis Chain by Ankr Protocol',
@@ -188,6 +199,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, GODWOKEN_POLYJUICE_NETWORK_PARAMS);
     case 'gnosis':
       return mapParams(chain, GNOSIS_NETWORK_PARAMS);
+    case 'klaytn':
+      return mapParams(chain, KLAYTN_NETWORK_PARAMS);
     default:
       return undefined;
   }

@@ -60,6 +60,21 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
         },
       },
     },
+
+    '&.klaytn': {
+      borderRadius: 0,
+      height: 52,
+      '&& $copyIcon': {
+        color: theme.palette.primary.main,
+      },
+
+      '& $content': {
+        border: `1px solid ${theme.palette.grey[300]}`,
+        '&:hover': {
+          backgroundColor: theme.palette.common.white,
+        },
+      },
+    },
   },
 
   message: {

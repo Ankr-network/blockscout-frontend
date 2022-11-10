@@ -45,6 +45,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.FANTOM,
       ChainID.FANTOM_TESTNET,
       ChainID.GNOSIS,
+      ChainID.GNOSIS_TESTNET,
       ChainID.HARMONY,
       ChainID.IOTEX,
       ChainID.IOTEX_TESTNET,
@@ -56,6 +57,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.POLYGON_MUMBAI,
       ChainID.HECO,
       ChainID.HECO_TESTNET,
+      ChainID.KLAYTN,
     ],
   },
   {

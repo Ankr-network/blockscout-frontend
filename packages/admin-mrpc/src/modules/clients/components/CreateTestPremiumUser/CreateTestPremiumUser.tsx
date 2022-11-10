@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
-import { Button, Modal, Input, Typography } from '@mui/material';
+import { Button, Modal, Typography, TextField } from '@mui/material';
 import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';
@@ -71,29 +71,27 @@ export const CreateTestPremiumUser = () => {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <Input
-          required
+        <TextField
           className={classes.input}
           name="userWallet"
           id="userWallet"
           placeholder="User wallet"
         />
-        <Input
+        <TextField
           disabled
           className={classes.input}
           name="email"
           id="email"
           placeholder="Email"
         />
-        <Input
-          required
+        <TextField
           type="number"
           className={classes.input}
           name="testingPeriod"
           id="testingPeriod"
           placeholder="Testing Period (days)"
         />
-        <Input
+        <TextField
           disabled
           className={classes.input}
           name="comment"

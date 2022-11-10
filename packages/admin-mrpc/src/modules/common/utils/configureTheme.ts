@@ -1,4 +1,9 @@
 import { Theme } from '@mui/material/styles';
+import {
+  inputBaseClasses,
+  selectClasses,
+  tableContainerClasses,
+} from '@mui/material';
 
 export const configureTheme = (theme: Theme) => {
   return {
@@ -34,9 +39,36 @@ export const configureTheme = (theme: Theme) => {
         },
         styleOverrides: {
           ...theme.components?.MuiPaper?.styleOverrides,
-          paper: {
-            borderRadius: theme.shape.borderRadius,
-            boxShadow: 'none',
+          root: {
+            // fix for tableContainer background color
+            [`&.${tableContainerClasses.root}`]: {
+              backgroundColor: theme.palette.background.default,
+            },
+          },
+        },
+      },
+      MuiTable: {
+        ...theme.components?.MuiTable,
+        styleOverrides: {
+          ...theme.components?.MuiTable?.styleOverrides,
+          root: {
+            borderCollapse: 'separate',
+            borderSpacing: '0 10px',
+          },
+        },
+      },
+      MuiInput: {
+        ...theme.components?.MuiInput,
+        styleOverrides: {
+          ...theme.components?.MuiInput?.styleOverrides,
+          root: {
+            [`&.${inputBaseClasses.focused}`]: {
+              // fix for focused select input background color
+              [`& .${selectClasses.select}`]: {
+                backgroundColor: theme.palette.background.paper,
+                transition: 'background-color .3s',
+              },
+            },
           },
         },
       },
