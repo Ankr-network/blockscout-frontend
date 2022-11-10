@@ -24,6 +24,7 @@ export enum ChainID {
   FANTOM = 'fantom',
   FANTOM_TESTNET = 'fantom_testnet',
   GNOSIS = 'gnosis',
+  GNOSIS_TESTNET = 'gnosis_testnet',
   HARMONY = 'harmony',
   IOTEX = 'iotex',
   IOTEX_TESTNET = 'iotex_testnet',
@@ -44,6 +45,7 @@ export enum ChainID {
   SOLANA_DEVNET = 'solana_devnet',
   SYSCOIN = 'syscoin',
   TRON = 'tron',
+  KLAYTN = 'klaytn',
 
   UNDEFINED = '',
 }

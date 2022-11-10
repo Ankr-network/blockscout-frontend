@@ -1,15 +1,17 @@
 {
   "name": "@ankr.com/staking-sdk",
-  "version": "1.1.1",
-  "main": "./build/index.js",
+  "version": "1.1.2",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "types": "./src/index.ts",
   "files": [
-    "build"
+    "build",
+    "src"
   ],
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "rollup -c",
+    "build": "vite build",
     "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/staking-sdk...",
     "prepack": "node prepack.js",
     "clean": "rimraf build dist",
@@ -45,7 +47,6 @@
   "dependencies": {
     "@ankr.com/provider": "*",
     "@ankr.com/provider-core": "*",
-    "common": "*",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "lodash": "^4.17.21",
@@ -66,6 +67,7 @@
     "@babel/preset-env": "7.16.11",
     "@babel/preset-react": "7.16.7",
     "@babel/preset-typescript": "7.16.7",
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@types/jest": "^27.4.0",
     "@types/nock": "^11.1.0",
     "babel-plugin-inline-react-svg": "2.0.1",
@@ -75,11 +77,11 @@
     "lint-staged": "^10.5.4",
     "nock": "^13.2.7",
     "prettier": "^2.5.1",
+    "rimraf": "3.0.2",
     "rollup-plugin-svg": "2.0.0",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
     "typedoc": "^0.22.17",
-    "typescript": "^4.5.5",
-    "rimraf": "3.0.2"
+    "typescript": "^4.5.5"
   }
 }

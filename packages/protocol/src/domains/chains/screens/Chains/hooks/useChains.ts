@@ -2,7 +2,11 @@ import { IJwtToken } from 'multirpc-sdk';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import {
+  timeframeToIntervalMap,
+  toTimeframeMap,
+} from 'domains/chains/constants/timeframeToIntervalMap';
+import { usePublicRequestsCountStats } from 'domains/chains/hooks/usePublicRequestsCountStats';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { SortType, Timeframe } from 'domains/chains/types';
 import { usePrivateChains } from './usePrivateChains';
@@ -35,6 +39,11 @@ export const useChains = (): Chains => {
 
   usePrivateStats({
     interval: timeframeToIntervalMap[timeframe],
+    isWalletConnected,
+  });
+
+  usePublicRequestsCountStats({
+    interval: toTimeframeMap[timeframe],
     isWalletConnected,
   });
 

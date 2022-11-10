@@ -11,21 +11,24 @@ import { uid } from 'react-uid';
 import { AnyAction } from 'redux';
 import { isMobile } from 'web3modal';
 
+import {
+  getIsCoin98Injected,
+  getIsCoinbaseInjected,
+  getIsMetamaskInjected,
+  getIsOKXInjected,
+} from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { t } from 'common';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 
+import { featuresConfig } from 'modules/common/const';
 import { Dialog } from 'uiKit/Dialog';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { connect, IConnect } from '../../actions/connect';
-import {
-  getIsCoinbaseInjected,
-  getIsMetamaskInjected,
-  getIsOKXInjected,
-} from '../../utils/getIsWalletsInjected';
 
+import { ReactComponent as Coin98Icon } from './assets/coin98.svg';
 import { ReactComponent as CoinbaseIcon } from './assets/coinbase.svg';
 import { ReactComponent as HuobiWalletIcon } from './assets/huobi-wallet-icon.svg';
 import { ReactComponent as ImTokenWalletIcon } from './assets/imtoken-wallet-icon.svg';
@@ -48,9 +51,28 @@ type TWallets = IWalletItem[][];
 const isMetamaskInjected = getIsMetamaskInjected();
 const isCoinbaseInjected = getIsCoinbaseInjected();
 const isOKXInjected = getIsOKXInjected();
+const isCoin98Injected = getIsCoin98Injected();
+
+const isMetaMaskOverridedByCoin98 = !!(
+  window.ethereum as { isCoin98: boolean } | undefined
+)?.isCoin98;
+
+const isMetaMaskDisabledByOtherWallets = isCoinbaseInjected && isOKXInjected;
 
 const isMetaMaskDisabled =
-  isMetamaskInjected && isCoinbaseInjected && isOKXInjected;
+  isMetaMaskDisabledByOtherWallets || isMetaMaskOverridedByCoin98;
+
+const getMetaMaskTooltipKey = (): string | undefined => {
+  if (isMetaMaskOverridedByCoin98) {
+    return 'wallets.tooltips.metamask-coin98';
+  }
+
+  if (isMetaMaskDisabledByOtherWallets) {
+    return 'wallets.tooltips.metamask-other';
+  }
+
+  return undefined;
+};
 
 interface IConnectWalletsModalProps {
   isOpen: boolean;
@@ -95,9 +117,24 @@ const ETH_COMPATIBLE_WALLETS: TWallets = [
       isInjected: isMetamaskInjected,
       providerId: AvailableWriteProviders.ethCompatible,
       title: getWalletName(EWalletId.injected),
-      tooltip: isMetaMaskDisabled ? 'wallets.tooltips.metamask' : undefined,
+      tooltip: getMetaMaskTooltipKey(),
       walletId: EWalletId.injected,
     },
+    ...(featuresConfig.isCoin98SupportActive
+      ? [
+          {
+            href: 'https://docs.coin98.com/products/coin98-super-app/extension#install-coin98-extension',
+            icon: <Coin98Icon style={{ width: 64, height: 64 }} />,
+            isDisabled: false,
+            isHidden: isMobile(),
+            isInjected: isCoin98Injected,
+            providerId: AvailableWriteProviders.ethCompatible,
+            title: getWalletName(EWalletId.coin98),
+            tooltip: undefined,
+            walletId: EWalletId.coin98,
+          },
+        ]
+      : []),
     {
       href: 'https://www.coinbase.com/wallet',
       icon: <CoinbaseIcon />,

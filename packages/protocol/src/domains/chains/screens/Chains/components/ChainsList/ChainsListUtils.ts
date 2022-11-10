@@ -2,6 +2,8 @@ import { BlockchainType } from 'multirpc-sdk';
 
 import { Chain, ChainsListProps, SortChainsParams } from './ChainsListTypes';
 import { SortType } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
+import BigNumber from 'bignumber.js';
 
 export const PERIOD = '24h';
 
@@ -35,6 +37,20 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
       urls,
     };
   });
+};
+
+export const formatPublicRequestsCount = (
+  chains: ChainsListProps['chains'],
+  data: Record<ChainID, string>,
+) => {
+  chains.map(item => {
+    const { id } = item;
+    item.totalRequests = new BigNumber(data?.[id] ?? 0);
+
+    return item;
+  });
+
+  return formatChains(chains);
 };
 
 const publicChainsSorter = (a: Chain, b: Chain) =>

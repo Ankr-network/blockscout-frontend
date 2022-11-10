@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Logger } from '../components/Logger';
 import { useHarmonyChainRequestLogger } from './hooks/useHarmonyChainRequestLogger';
 import { useEVMRequestLogger } from '../EVMRequestComposer/hooks/useEVMRequestLogger';
@@ -7,7 +8,6 @@ import { LoggerContext } from '../const';
 import { HarmonyHeader } from './HarmonyHeader';
 import { HarmonyMenu } from './HarmonyMenu';
 import { useLibraryTabs } from './HarmonyMenu/MenuTabsUtils';
-import { useMemo } from 'react';
 import { HarmonyLibraryID } from 'domains/requestComposer/constants/harmony';
 
 export const HarmonyRequestComposer = ({

@@ -10,4 +10,5 @@ export const authorizeBackoffice = async () => {
   }
   const backofficeGateway = await service.getBackofficeGateway();
   await backofficeGateway.addToken(backofficeAuthorizationToken);
+  return backofficeAuthorizationToken;
 };

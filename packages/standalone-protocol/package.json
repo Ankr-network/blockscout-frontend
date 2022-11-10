@@ -151,7 +151,6 @@
       "--no-sandbox",
       "--disable-setuid-sandbox"
     ],
-    "skipThirdPartyRequests": true,
     "inlineCss": true
   }
 }

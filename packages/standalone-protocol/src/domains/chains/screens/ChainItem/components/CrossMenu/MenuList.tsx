@@ -11,7 +11,7 @@ import { ReactComponent as MoonBeamLogo } from 'assets/img/logo/moonbeam.svg';
 import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
 import { ReactComponent as NervosLogo } from 'assets/img/logo/nervos.svg';
 import { ReactComponent as PolygonLogo } from 'assets/img/logo/polygon.svg';
-import { ReactComponent as SecretLogo } from 'assets/img/logo/secret.svg';
+// import { ReactComponent as SecretLogo } from 'assets/img/logo/secret.svg';
 import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
 import { ChainId } from 'domains/chains/api/chain';
@@ -101,12 +101,12 @@ export const MENU_LIST = [
     logo: <SyscoinLogo />,
     url: 'https://syscoin.public-rpc.com/',
   },
-  {
-    chainId: ChainId.Secret,
-    name: 'Secret',
-    logo: <SecretLogo />,
-    url: 'https://secret.public-rpc.com/',
-  },
+  // {
+  //   chainId: ChainId.Secret,
+  //   name: 'Secret',
+  //   logo: <SecretLogo />,
+  //   url: 'https://secret.public-rpc.com/',
+  // },
   {
     chainId: ChainId.Klaytn,
     name: 'Klaytn',

@@ -5,8 +5,14 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { SortType } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
 import { Chain } from '../ChainsListTypes';
-import { formatChains, sortChains } from '../ChainsListUtils';
+import {
+  formatChains,
+  sortChains,
+  formatPublicRequestsCount,
+} from '../ChainsListUtils';
 import { usePrivateStats } from './usePrivateStats';
+import { useQuery } from '@redux-requests/react';
+import { fetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
 
 type ChainMap = Partial<Record<ChainID, Chain>>;
 
@@ -29,15 +35,19 @@ export const useChains = ({
   const { isWalletConnected } = useAuth();
   const [stats] = usePrivateStats();
 
+  const { data } = useQuery({
+    type: fetchPublicRequestsCountStats,
+  });
+
   const processedChains = useMemo(
     () =>
       sortChains({
-        chains: formatChains(chains),
+        chains: formatPublicRequestsCount(chains, data),
         isWalletConnected,
         sortType,
         stats,
       }),
-    [isWalletConnected, stats, chains, sortType],
+    [isWalletConnected, stats, chains, data, sortType],
   );
 
   const publicChainsMap = useMemo(

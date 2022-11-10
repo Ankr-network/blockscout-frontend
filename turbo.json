@@ -5,7 +5,7 @@
       "cache": true,
       "dependsOn": ["^build"],
       "outputs": ["build/**", "dist/**"],
-      "inputs": ["src/**"]
+      "inputs": ["src/**", "package.json", "vite.config.js", "tsconfig.json"]
     },
     "build:stage": {
       "cache": true,
@@ -76,7 +76,7 @@
     },
     "types": {
       "cache": true,
-      "inputs": ["src/**", "**/*.test.ts", "**/*.test.tsx"],
+      "inputs": ["src/**", "tsconfig.json", "package.json"],
       "dependsOn": ["^types"]
     },
     "clean": {

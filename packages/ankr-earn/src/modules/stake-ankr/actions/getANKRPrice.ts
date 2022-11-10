@@ -1,8 +1,9 @@
+import axios from 'axios';
 import BigNumber from 'bignumber.js';
 
 import { configFromEnv } from 'modules/api/config';
-
-import { web3Api } from '../../api/web3Api';
+import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
 
 const { baseUrl } = configFromEnv().gatewayConfig;
 
@@ -18,8 +19,15 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     getAnkrPrice: build.query<BigNumber, void>({
-      query: () => new URL(ANKR_RATE_URL, baseUrl).toString(),
-      transformResponse: (data: IGetANKRPrice) => new BigNumber(data.rate),
+      queryFn: queryFnNotifyWrapper<void, never, BigNumber>(async () => {
+        const url = new URL(ANKR_RATE_URL, baseUrl).toString();
+
+        const { data: rawData } = await axios.get(url);
+
+        return {
+          data: new BigNumber((rawData as IGetANKRPrice).rate),
+        };
+      }),
     }),
   }),
 });

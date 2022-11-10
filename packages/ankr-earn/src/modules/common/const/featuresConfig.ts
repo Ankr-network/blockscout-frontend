@@ -48,4 +48,8 @@ export const featuresConfig = {
    */
   ssvStaking: true,
   duneAnalyticsLink: true,
+  /**
+   * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
+   */
+  isCoin98SupportActive: false,
 };
