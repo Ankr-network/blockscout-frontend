@@ -1,7 +1,6 @@
-import { H1Tag } from 'uiKit/H1Tag';
-
 import { t } from 'common';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
+import { H1Tag } from 'uiKit/H1Tag';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemSections } from './components/ChainItemSections';
 import { useChainItem } from './hooks/useChainItem';
@@ -19,6 +18,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
     chainTypeTab,
     chainTypeTabs,
     group,
+    groups,
     unfilteredGroup,
     groupID,
     groupTab,
@@ -40,6 +40,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
         group={group}
+        groups={groups}
         groupID={groupID}
         groupTabs={groupTabs}
         groupTab={groupTab}

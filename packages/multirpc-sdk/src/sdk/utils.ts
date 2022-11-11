@@ -1,11 +1,10 @@
-import * as ethUtil from 'ethereumjs-util';
-import * as sigUtil from 'eth-sig-util';
-
-import { IConfig, IJwtToken } from '../common';
-import { IBlockchainEntity } from '../backoffice';
-import { FetchBlockchainUrlsResult } from './types';
-import { JwtTokens } from '../consensus';
 import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
+import * as sigUtil from 'eth-sig-util';
+import * as ethUtil from 'ethereumjs-util';
+import { IBlockchainEntity } from '../backoffice';
+import { IConfig, IJwtToken } from '../common';
+import { JwtTokens } from '../consensus';
+import { FetchBlockchainUrlsResult } from './types';
 
 export const calcJwtTokenHash = async (
   jwtToken: IJwtToken,
@@ -19,6 +18,12 @@ export const calcJwtTokenHash = async (
 
   return tokenBuffer.toString('hex');
 };
+
+const ENABLED_SECRET_NETWORK_IDS = new Set<string>([
+  'scrt-cosmos-grpc-web',
+  'scrt-cosmos-rest',
+  'scrt-rest',
+]);
 
 export const formatPublicUrls = (
   blockchainsApiResponse: IBlockchainEntity[],
@@ -39,6 +44,16 @@ export const formatPublicUrls = (
   const aptosTestnetItem = blockchainsApiResponse.find(
     item => item.id === 'aptos_testnet',
   );
+
+  const secretItemsMap = blockchainsApiResponse.reduce<
+    Partial<Record<string, IBlockchainEntity>>
+  >((map, item) => {
+    if (ENABLED_SECRET_NETWORK_IDS.has(item.id)) {
+      map[item.id] = item;
+    }
+
+    return map;
+  }, {});
 
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
     const hasRPC = blockchain.features.includes('rpc');
@@ -61,6 +76,12 @@ export const formatPublicUrls = (
         : [];
     }
 
+    if (ENABLED_SECRET_NETWORK_IDS.has(blockchain.id)) {
+      const secretItem = secretItemsMap[blockchain.id];
+
+      blockchain.paths = secretItem?.paths ? [secretItem.paths[0]] : [];
+    }
+
     const rpcURLs: string[] = hasRPC
       ? blockchain?.paths?.map(path =>
           publicRpcUrl.replace('{blockchain}', path),
@@ -78,10 +99,11 @@ const getPaths = (blockchain: IBlockchainEntity) => {
   const isTron = blockchain.id === 'tron';
   const isAptos = blockchain.id === 'aptos';
   const isAptosTestnet = blockchain.id === 'aptos_testnet';
+  const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.has(blockchain.id);
 
   let paths = blockchain?.paths ?? [];
 
-  if (isTron || isAptos || isAptosTestnet) {
+  if (isTron || isAptos || isAptosTestnet || isEnabledSecret) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
   }
 

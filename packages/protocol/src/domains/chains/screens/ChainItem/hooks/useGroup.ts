@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
@@ -11,6 +9,7 @@ import {
   GroupedEndpoints,
 } from 'modules/endpoints/types';
 import { getGroupIdByChainId } from 'modules/endpoints/utils/getGroupByChainId';
+import { useMemo } from 'react';
 import { getGroupTabs } from '../utils/getGroupTabs';
 
 export interface GroupParams {
@@ -22,6 +21,7 @@ export interface GroupParams {
 
 export interface GroupResult {
   group: EndpointGroup;
+  groups: EndpointGroup[];
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
@@ -49,6 +49,7 @@ export const useGroup = ({
 
   return {
     group,
+    groups,
     groupID,
     groupTab,
     groupTabs,

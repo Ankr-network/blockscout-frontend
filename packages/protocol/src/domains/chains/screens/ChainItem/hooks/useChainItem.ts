@@ -1,16 +1,15 @@
-import { useMemo } from 'react';
-import { getChainName } from 'uiKit/utils/useMetatags';
-
 import { IChainItemDetails as Details } from 'domains/chains/actions/fetchChain';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { useMemo } from 'react';
+import { getChainName } from 'uiKit/utils/useMetatags';
 import { useChainType } from './useChainType';
 import { useGroup } from './useGroup';
 import { useNetId } from './useNetId';
-import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 
 export interface ChainItem {
   chain: IApiChain;
@@ -19,6 +18,7 @@ export interface ChainItem {
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
   group: EndpointGroup;
+  groups: EndpointGroup[];
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
@@ -49,12 +49,14 @@ export const useChainItem = ({
     endpoints,
     netId,
   });
-  const { group, groupID, groupTab, groupTabs, selectGroup } = useGroup({
-    chain,
-    chainType,
-    endpoints,
-    netId,
-  });
+  const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
+    {
+      chain,
+      chainType,
+      endpoints,
+      netId,
+    },
+  );
 
   const publicEndpoints = useGroupedEndpoints(publicChain);
 
@@ -71,6 +73,7 @@ export const useChainItem = ({
     chainTypeTab,
     chainTypeTabs,
     group,
+    groups,
     groupID,
     groupTab,
     groupTabs,
