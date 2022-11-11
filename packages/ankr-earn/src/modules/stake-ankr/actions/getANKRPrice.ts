@@ -2,8 +2,7 @@ import axios from 'axios';
 import BigNumber from 'bignumber.js';
 
 import { configFromEnv } from 'modules/api/config';
-import { web3Api } from 'modules/api/web3Api';
-import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 const { baseUrl } = configFromEnv().gatewayConfig;
 
