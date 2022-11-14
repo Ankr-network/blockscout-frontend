@@ -1,4 +1,5 @@
 import { ChainID } from 'modules/chains/types';
+
 import aptosIcon from './aptos.svg';
 import arbitrumIcon from './arbitrum.svg';
 import avaxIcon from './avax.svg';
@@ -24,6 +25,7 @@ import polkadotIcon from './polkadot.svg';
 import secretIcon from './secret.svg';
 import solIcon from './sol.svg';
 import stakeIcon from './stake.svg';
+import suiIcon from './sui.svg';
 import syscoinIcon from './syscoin.svg';
 import tronIcon from './tron.svg';
 
@@ -55,6 +57,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   syscoin: syscoinIcon,
   tron: tronIcon,
   xdai: stakeIcon,
+  [ChainID.SUI_TESTNET]: suiIcon,
 };
 
 export function getChainIcon(name: string) {

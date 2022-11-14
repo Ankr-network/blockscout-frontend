@@ -1,10 +1,11 @@
-import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
-import * as sigUtil from 'eth-sig-util';
 import * as ethUtil from 'ethereumjs-util';
-import { IBlockchainEntity } from '../backoffice';
+import * as sigUtil from 'eth-sig-util';
+import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
+
+import { BlockchainType, IBlockchainEntity } from '../backoffice';
+import { FetchBlockchainUrlsResult } from './types';
 import { IConfig, IJwtToken } from '../common';
 import { JwtTokens } from '../consensus';
-import { FetchBlockchainUrlsResult } from './types';
 
 export const calcJwtTokenHash = async (
   jwtToken: IJwtToken,
@@ -76,6 +77,12 @@ export const formatPublicUrls = (
         : [];
     }
 
+    // temporary, to not break logics of handling other blockchains
+    if (blockchain.id === 'sui_testnet') {
+      blockchain.extends = undefined;
+      blockchain.type = BlockchainType.Mainnet;
+    }
+    
     if (ENABLED_SECRET_NETWORK_IDS.has(blockchain.id)) {
       const secretItem = secretItemsMap[blockchain.id];
 
@@ -122,6 +129,12 @@ export const formatPrivateUrls = (
     const paths = getPaths(blockchain);
     const isAptos =
       blockchain.id === 'aptos' || blockchain.id === 'aptos_testnet';
+
+    // temporary, to not break logics of handling other blockchains
+    if (blockchain.id === 'sui_testnet') {
+      blockchain.extends = undefined;
+      blockchain.type = BlockchainType.Mainnet;
+    }
 
     const rpcURLs: string[] = hasRPC
       ? paths.map(path => {

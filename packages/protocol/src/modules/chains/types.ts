@@ -55,6 +55,7 @@ export enum ChainID {
   TRON = 'tron',
   XDAI = 'xdai',
   KLAYTN = 'klaytn',
+  SUI_TESTNET = 'sui_testnet',
 
   UNDEFINED = '',
 }

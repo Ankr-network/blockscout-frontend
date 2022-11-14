@@ -7,13 +7,15 @@ import packageJson from '../../../package.json';
 const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
 
 export const getChainName = (chainId: ChainID) => {
-  let name = chainId.charAt(0).toUpperCase() + chainId.slice(1);
+  const preparedChainId = chainId.split('_').join(' ');
 
-  if (chainId === 'eth') {
+  let name = preparedChainId.charAt(0).toUpperCase() + preparedChainId.slice(1);
+
+  if (preparedChainId === 'eth') {
     name = 'Ethereum';
-  } else if (chainId === 'bsc') {
+  } else if (preparedChainId === 'bsc') {
     name = 'BSC';
-  } else if (chainId === 'scrt') {
+  } else if (preparedChainId === 'scrt') {
     name = 'Secret Network';
   }
 

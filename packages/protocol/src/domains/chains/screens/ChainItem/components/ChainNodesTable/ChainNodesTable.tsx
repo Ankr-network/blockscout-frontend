@@ -15,12 +15,16 @@ export const ChainNodesTable = ({
   loading,
   nodes,
   nodesWeight,
+  showNodesWithZeroHeight = false,
 }: ChainNodesTableProps) => {
   const classes = useStyles();
   const columns = useChainNodesTableTableColumns();
   const [page, setPage] = useState(1);
 
-  const rows = useMemo(() => getRows(nodes, nodesWeight), [nodes, nodesWeight]);
+  const rows = useMemo(
+    () => getRows(nodes, nodesWeight, showNodesWithZeroHeight),
+    [nodes, nodesWeight, showNodesWithZeroHeight],
+  );
 
   const slicedRows = useMemo(
     () => rows.slice(0, page * CHAIN_NODES_TABLE_PAGE_SIZE),
