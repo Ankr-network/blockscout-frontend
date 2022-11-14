@@ -1,11 +1,9 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
+import { useAddFTMTokenToWalletMutation } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 
 import { useStakedAFTMBData } from '../useStakedAFTMBData';
 
@@ -31,19 +29,19 @@ jest.mock('modules/defi-aggregator/Routes', () => ({
 }));
 
 jest.mock('modules/stake-fantom/actions/addFTMTokenToWallet', () => ({
-  addFTMTokenToWallet: jest.fn(),
+  useAddFTMTokenToWalletMutation: jest.fn(),
 }));
 
 jest.mock('modules/stake-fantom/actions/getCommonData', () => ({
-  getCommonData: jest.fn(),
+  useGetFTMCommonDataQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-fantom/actions/stake', () => ({
-  stake: jest.fn(),
+  useStakeFTMMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 jest.mock('modules/stake-fantom/actions/unstake', () => ({
-  unstake: jest.fn(),
+  useUnstakeFTMMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 jest.mock('modules/stake/actions/getMetrics', () => ({
@@ -56,16 +54,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB/useStakedAF
     loading: false,
   };
 
-  const defaultMutationData = {
-    loading: false,
-  };
-
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
 
-    (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
+    (useGetFTMCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
 
-    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+    (useAddFTMTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
   });
 
   afterEach(() => {
@@ -75,7 +72,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB/useStakedAF
   test('should return data', () => {
     const { result } = renderHook(() => useStakedAFTMBData());
 
-    expect(result.current.amount).toStrictEqual(ONE_ETH);
+    expect(result.current.amount).toStrictEqual(ZERO);
     expect(result.current.pendingUnstakes).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isStakeLoading).toBe(false);
@@ -97,8 +94,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB/useStakedAF
   });
 
   test('should handle add token to metamask', () => {
-    const mockDispatch = jest.fn();
-    (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
+    const [addFTMTokenToWallet] = useAddFTMTokenToWalletMutation();
 
     const { result } = renderHook(() => useStakedAFTMBData());
 
@@ -106,6 +102,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB/useStakedAF
       result.current.handleAddTokenToWallet();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(addFTMTokenToWallet).toBeCalledTimes(1);
   });
 });

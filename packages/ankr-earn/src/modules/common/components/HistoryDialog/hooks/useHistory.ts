@@ -13,7 +13,7 @@ import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwor
 import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
 import { fetchHistory as fetchBNBHistory } from 'modules/stake-bnb/actions/fetchHistory';
 import { getHistory as getETHHistory } from 'modules/stake-eth/actions/getHistory';
-import { getHistory as getFTMHistory } from 'modules/stake-fantom/actions/getHistory';
+import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
 import { fetchHistory as fetchMATICETHHistory } from 'modules/stake-matic/eth/actions/fetchHistory';
 
 import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
@@ -59,12 +59,8 @@ export const useHistory = ({
     useState<IBaseHistoryData>(DEFAULT_HISTORY_DATA);
   const dispatchRequest = useDispatchRequest();
 
-  const { loading: ftmHistoryLoading } = useQuery({
-    type: getFTMHistory,
-  });
-  const { loading: isFtmHistoryMutationLoading } = useMutation({
-    type: getFTMHistory,
-  });
+  const [getFTMHistory, { isFetching: isFtmHistoryLoading }] =
+    useLazyGetFTMHistoryQuery();
 
   const { loading: avaxHistoryLoading } = useQuery({
     type: fetchAVAXHistory,
@@ -112,34 +108,34 @@ export const useHistory = ({
 
     switch (token) {
       case Token.aFTMb:
-        dispatchRequest(
-          getFTMHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aFTMb.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aFTMb.unstakeEvents ?? []),
-            ],
+        getFTMHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [...stakeEvents, ...(data?.aFTMb.stakeEvents ?? [])],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aFTMb.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aFTMc:
-        dispatchRequest(
-          getFTMHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aFTMc.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aFTMc.unstakeEvents ?? []),
-            ],
+        getFTMHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [...stakeEvents, ...(data?.aFTMc.stakeEvents ?? [])],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aFTMc.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aAVAXb:
         dispatchRequest(
@@ -292,8 +288,7 @@ export const useHistory = ({
     stakeEvents,
     unstakeEvents,
     loading:
-      ftmHistoryLoading ||
-      isFtmHistoryMutationLoading ||
+      isFtmHistoryLoading ||
       avaxHistoryLoading ||
       isAvaxHistoryMutationLoading ||
       bnbHistoryLoading ||
