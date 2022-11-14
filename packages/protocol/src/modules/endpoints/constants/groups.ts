@@ -139,6 +139,24 @@ export const chainGroups: ChainGroup[] = [
     chains: [ChainID.NERVOS_CKB],
   },
   {
+    id: ChainGroupID.SECRET_RPC,
+    name: getName('scrt-rpc'),
+    pluralName: getName('scrt-rpc', true),
+    chains: [ChainID.SECRET_RPC],
+  },
+  {
+    id: ChainGroupID.SECRET_REST,
+    name: getName('scrt-rest'),
+    pluralName: getName('scrt-rest', true),
+    chains: [ChainID.SECRET_REST],
+  },
+  {
+    id: ChainGroupID.SECRET_COSMOS_REST,
+    name: getName('scrt-cosmos-rest'),
+    pluralName: getName('scrt-cosmos-rest', true),
+    chains: [ChainID.SECRET_COSMOS_REST],
+  },
+  {
     id: ChainGroupID.SOLANA,
     name: getName('solana-api'),
     pluralName: getName('solana-api', true),

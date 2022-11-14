@@ -1,16 +1,17 @@
 import { Button, Typography } from '@material-ui/core';
+import { NavLink } from 'ui';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
+import { ChainID } from 'modules/chains/types';
+import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
-import { ArchiveLabel } from 'modules/common/components/ChainMainInfo/ArchiveLabel';
-import { t } from 'modules/i18n/utils/intl';
-import { NavLink } from 'ui';
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { useStyles } from './ChainsItemStyles';
+import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { ChainsItemProps } from './ChainsItemTypes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { IApiChainURL } from 'domains/chains/api/queryChains';
+import { t, tHTML } from 'modules/i18n/utils/intl';
+import { useStyles } from './ChainsItemStyles';
 
 const publicKey = 'chains.links.public';
 const privateKey = 'chains.links.private';
@@ -42,6 +43,12 @@ export const ChainsItem = ({
     number: urls.length,
   });
 
+  const isSuiTestnet = chain.id === ChainID.SUI_TESTNET;
+
+  const [label, tooltip] = isSuiTestnet
+    ? [t('chains.beta'), '']
+    : [t('chains.archive'), tHTML('chains.archive-tooltip-text')];
+
   return (
     <NavLink
       isRouterLink
@@ -58,7 +65,15 @@ export const ChainsItem = ({
         }
         isHighlighted={isHighlighted}
         isLoading={isLoading}
-        label={chain.isArchive && <ArchiveLabel className={classes.archive} />}
+        label={
+          (chain.isArchive || isSuiTestnet) && (
+            <ChainLabel
+              className={classes.archive}
+              label={label}
+              tooltip={tooltip}
+            />
+          )
+        }
         logoSrc={logoSrc}
         name={name}
         timeframe={timeframe}

@@ -1,14 +1,13 @@
-import React from 'react';
 import { Typography } from '@material-ui/core';
-
+import { t, tHTML } from 'modules/i18n/utils/intl';
+import React from 'react';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+import { DomainsForm } from './DomainsForm';
+import { MAX_DOMAIN_COUNT } from './DomainsForm/DomainsForm';
+import { IpsForm } from './IpsForm';
+import { MAX_IP_COUNT } from './IpsForm/IpsForm';
 import { useStyles } from './SecuritySettingsStyles';
 import { SecuritySettingsProps } from './SecuritySettingsTypes';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { DomainsForm } from './DomainsForm';
-import { IpsForm } from './IpsForm';
-import { MAX_DOMAIN_COUNT } from './DomainsForm/DomainsForm';
-import { MAX_IP_COUNT } from './IpsForm/IpsForm';
 
 export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
   const classes = useStyles();

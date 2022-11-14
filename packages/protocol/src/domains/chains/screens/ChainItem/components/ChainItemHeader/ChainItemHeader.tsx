@@ -7,6 +7,7 @@ import { SecondaryTabs } from '../SecondaryTabs';
 import { useChainItemHeaderStyles } from './ChainItemHeaderStyles';
 import { ChainOverview } from './components/ChainOverview';
 import { MobileGroupSelector } from './components/MobileGroupSelector';
+import { chainsWithMobileOnlySelector } from './const';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;
@@ -15,6 +16,7 @@ export interface ChainItemHeaderProps {
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
   group: EndpointGroup;
+  groups: EndpointGroup[];
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
@@ -29,6 +31,7 @@ export const ChainItemHeader = ({
   chainTypeTab,
   chainTypeTabs,
   group,
+  groups,
   groupID,
   groupTab,
   groupTabs,
@@ -38,7 +41,11 @@ export const ChainItemHeader = ({
   const withChainTypeSelector = chainTypeTabs.length > 1;
   const withGroupSelector = groupTabs.length > 1;
 
-  const classes = useChainItemHeaderStyles();
+  const shouldOnlyShowMobileSelector = chainsWithMobileOnlySelector.has(
+    chain.id,
+  );
+
+  const classes = useChainItemHeaderStyles(shouldOnlyShowMobileSelector);
 
   return (
     <div className={classes.chainItemHeader}>
@@ -57,10 +64,9 @@ export const ChainItemHeader = ({
             visible={withGroupSelector}
           />
           <MobileGroupSelector
-            chain={chain}
             className={classes.mobileGroupSelector}
             groupID={groupID}
-            groupTabs={groupTabs}
+            groups={groups}
             onGroupSelect={selectGroup}
             visible={withGroupSelector}
           />

@@ -30,6 +30,7 @@ export const UserEndpoints = ({
   const classes = useStyles();
 
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
+  const chainName = chainId.split('_').join(' ');
 
   const addEndpointLink = useMemo(
     () => ChainsRoutesConfig.addEndpoint.generatePath(chainId),
@@ -58,7 +59,9 @@ export const UserEndpoints = ({
             tooltipText={
               isMoreThanLimit
                 ? tHTML('providers.endpoint.tooltip-text', { limit })
-                : tHTML('providers.endpoint.chain-tooltip-text', { chainId })
+                : tHTML('providers.endpoint.chain-tooltip-text', {
+                    chainId: chainName,
+                  })
             }
           >
             <AddEndpointButton
