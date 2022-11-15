@@ -844,6 +844,7 @@
     "ethereum-ssv": "SSV–Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
+    "sui": "Sui (SUI)",
     "apr": "APR",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",

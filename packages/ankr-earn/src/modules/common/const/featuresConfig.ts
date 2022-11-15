@@ -53,4 +53,5 @@ export const featuresConfig = {
    */
   isCoin98SupportActive: isLocal,
   isTrustWalletSupportActive: isLocal,
+  isSUIStakingActive: isLocal,
 };

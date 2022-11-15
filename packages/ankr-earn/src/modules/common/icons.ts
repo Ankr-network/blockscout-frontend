@@ -23,6 +23,7 @@ import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
+import { SUIIcon } from 'uiKit/Icons/SUIIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 import { xDAIIcon } from 'uiKit/Icons/xDAIIcon';
 
@@ -65,6 +66,7 @@ export const iconByTokenMap: TIconMap = {
   [Token.ANKR]: AnkrIcon,
   [Token.mGNO]: MGNOIcon,
   [Token.xDAI]: xDAIIcon,
+  [Token.SUI]: SUIIcon,
 };
 
 export const iconByNetworkMap: TNetworkIconMap = {
