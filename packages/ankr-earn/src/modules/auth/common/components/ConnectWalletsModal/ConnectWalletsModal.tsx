@@ -13,7 +13,7 @@ import { ConnectTileMath } from '../ConnectTileMath';
 import { ConnectTileMetaMask } from '../ConnectTileMetaMask';
 import { ConnectTileOKX } from '../ConnectTileOkx';
 import { ConnectTilePolkadot } from '../ConnectTilePolkadot';
-import { ConnectTileTrustViaWC } from '../ConnectTileTrust';
+import { ConnectTileTrust, ConnectTileTrustViaWC } from '../ConnectTileTrust';
 import { ConnectTileWalletConnect } from '../ConnectTileWalletConnect';
 
 import { ConnectWalletsModalUI } from './ConnectWalletsModalUI';
@@ -44,7 +44,7 @@ export const ConnectWalletsModal = (): JSX.Element => {
 
           <ConnectTileCoinbase />
 
-          <ConnectTileTrustViaWC />
+          {isMobileDevice ? <ConnectTileTrustViaWC /> : <ConnectTileTrust />}
 
           <ConnectTileWalletConnect />
 

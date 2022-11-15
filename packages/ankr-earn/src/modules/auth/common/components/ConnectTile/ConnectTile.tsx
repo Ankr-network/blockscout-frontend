@@ -25,7 +25,7 @@ export const ConnectTile = ({
   onClick,
 }: IConnectTileProps): JSX.Element => {
   const classes = useConnectTileStyles();
-  const isLink = !!href;
+  const isLink = !!href && !isDisabled;
 
   const linkProps = {
     href,

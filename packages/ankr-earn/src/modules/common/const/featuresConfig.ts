@@ -1,6 +1,6 @@
 import { Env } from '../types';
 
-import { currentEnv } from './env';
+import { currentEnv, isLocal } from './env';
 
 export const featuresConfig = {
   testingUi: currentEnv !== Env.Production,
@@ -51,6 +51,6 @@ export const featuresConfig = {
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
    */
-  isCoin98SupportActive: true,
-  isTrustWalletSupportActive: true,
+  isCoin98SupportActive: isLocal,
+  isTrustWalletSupportActive: isLocal,
 };

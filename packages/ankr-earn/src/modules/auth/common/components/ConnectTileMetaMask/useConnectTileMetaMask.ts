@@ -4,6 +4,7 @@ import {
   getIsCoinbaseInjected,
   getIsMetaMaskInjected,
   getIsOKXInjected,
+  getIsTrustWalletInjected,
 } from '@ankr.com/provider';
 import { t } from 'common';
 
@@ -26,35 +27,36 @@ export const useConnectTileMetaMask = (): IUseConnectTileMetaMask => {
   const isCoinbaseInjected = getIsCoinbaseInjected();
   const isOKXInjected = getIsOKXInjected();
   const isMetamaskInjected = getIsMetaMaskInjected();
+  const isTrustWalletInjected = getIsTrustWalletInjected();
 
-  const isMetaMaskOverridedByCoin98 = !!(
+  const isOverridedByCoin98 = !!(
     window.ethereum as { isCoin98: boolean } | undefined
   )?.isCoin98;
 
-  const isMetaMaskDisabledByOtherWallets = isCoinbaseInjected && isOKXInjected;
+  const isDisabledByOtherWallets = isCoinbaseInjected && isOKXInjected;
+  const isDisabledByTrustWallet = isTrustWalletInjected && !isMetamaskInjected;
 
-  const isMetaMaskDisabled =
-    isMetaMaskDisabledByOtherWallets || isMetaMaskOverridedByCoin98;
+  const isDisabled =
+    isDisabledByOtherWallets || isOverridedByCoin98 || isDisabledByTrustWallet;
 
   const tooltip = useLocaleMemo(() => {
-    if (isMetaMaskOverridedByCoin98) {
+    if (isOverridedByCoin98) {
       return t('wallets.tooltips.metamask-coin98');
     }
 
-    if (isMetaMaskDisabledByOtherWallets) {
+    if (isDisabledByOtherWallets) {
       return t('wallets.tooltips.metamask-other');
     }
 
+    if (isDisabledByTrustWallet) {
+      return t('wallets.tooltips.metamask-trust');
+    }
+
     return undefined;
-  }, [
-    isMetaMaskOverridedByCoin98,
-    isMetaMaskDisabledByOtherWallets,
-    isMetamaskInjected,
-    isMetaMaskDisabled,
-  ]);
+  }, [isOverridedByCoin98, isDisabledByOtherWallets, isDisabledByTrustWallet]);
 
   return {
-    isDisabled: isMetaMaskDisabled,
+    isDisabled,
     tooltip,
     isInjected: isMetamaskInjected,
     handleClick: handleConnect,
