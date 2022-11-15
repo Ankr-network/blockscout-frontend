@@ -1,4 +1,7 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
+import {
+  AvailableWriteProviders,
+  Web3KeyReadProvider,
+} from '@ankr.com/provider-core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
@@ -10,55 +13,42 @@ import {
   IUseGuardRouteData,
   IUseGuardRouteProps,
 } from 'modules/auth/common/components/GuardRoute';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import {
   IETHNetwork,
   useETHNetworks,
 } from 'modules/auth/eth/hooks/useETHNetworks';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { getIsInjectedWallet } from 'modules/auth/eth/utils/walletTypeUtils';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { EEthereumNetworkId } from 'modules/common/types';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
 import { useKnownNetworks } from './useKnownNetworks';
+
+const providerId = AvailableWriteProviders.ethCompatible;
 
 export const useGuardETHRoute = ({
   availableNetworks,
   isOpenedConnectModal = true,
-  providerId,
 }: IUseGuardRouteProps<EEthereumNetworkId>): IUseGuardRouteData<
   EEthereumNetworkId,
   IETHNetwork
 > => {
   const dispatchRequest = useDispatchRequest();
 
-  const {
-    isOpened: isOpenedModal,
-    onClose: onCloseModal,
-    onOpen: onOpenModal,
-  } = useDialog();
+  const { handleOpen: onOpenModal } = useDialog(EKnownDialogs.connect);
 
   const knownNetworks = useKnownNetworks();
   const networks = useETHNetworks();
 
   const { loading: isLoading } = useMutation({ type: switchNetwork });
 
-  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
-    writeProviderId: providerId,
-  });
+  const { chainId, isConnected, walletName, walletId } =
+    useConnectedData(providerId);
 
-  const chainId: EEthereumNetworkId | undefined = isEVMCompatible(
-    writeProviderData?.chainId,
-  )
-    ? writeProviderData?.chainId
-    : undefined;
-  const isConnected = writeProviderData?.isConnected ?? false;
   const isInjected = Web3KeyReadProvider.isInjected();
-  const isValidWallet = writeProviderData?.walletName
-    ? getIsInjectedWallet(writeProviderData.walletName)
-    : false;
-  const walletId = writeProviderData?.walletId;
+  const isValidWallet = walletName ? getIsInjectedWallet(walletName) : false;
 
   const isUnsupportedNetwork =
     isConnected && isEVMCompatible(chainId) && chainId > 0
@@ -79,14 +69,14 @@ export const useGuardETHRoute = ({
 
   const onDispatchConnect = useCallback(
     () => dispatchRequest(connect(providerId, walletId)),
-    [dispatchRequest, providerId, walletId],
+    [dispatchRequest, walletId],
   );
 
   const onSwitchNetwork = useCallback(
     (network: EEthereumNetworkId) => async () => {
       await dispatchRequest(switchNetwork({ providerId, chainId: network }));
     },
-    [dispatchRequest, providerId],
+    [dispatchRequest],
   );
 
   useProviderEffect(() => {
@@ -99,12 +89,9 @@ export const useGuardETHRoute = ({
     currentNetwork,
     isConnected,
     isLoading,
-    isOpenedModal,
     isUnsupportedNetwork,
     isValidWallet,
     supportedNetworks,
-    walletsGroupTypes,
-    onCloseModal,
     onDispatchConnect,
     onOpenModal,
     onSwitchNetwork,

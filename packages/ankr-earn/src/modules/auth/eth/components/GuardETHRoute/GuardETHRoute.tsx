@@ -24,19 +24,15 @@ export const GuardETHRoute = ({
     currentNetwork,
     isConnected,
     isLoading,
-    isOpenedModal,
     isUnsupportedNetwork,
     isValidWallet,
     supportedNetworks,
-    walletsGroupTypes,
-    onCloseModal,
     onDispatchConnect,
     onOpenModal,
     onSwitchNetwork,
   } = useGuardETHRoute({
     availableNetworks,
     isOpenedConnectModal,
-    providerId: AvailableWriteProviders.ethCompatible,
   });
 
   return (
@@ -46,13 +42,10 @@ export const GuardETHRoute = ({
       isConnected={isConnected}
       isLoading={isLoading}
       isOpenConnectInstantly={isOpenConnectInstantly}
-      isOpenedModal={isOpenedModal}
       isUnsupportedNetwork={isUnsupportedNetwork}
       isValidWallet={isValidWallet}
       providerId={AvailableWriteProviders.ethCompatible}
       supportedNetworks={supportedNetworks}
-      walletsGroupTypes={walletsGroupTypes}
-      onCloseModal={onCloseModal}
       onDispatchConnect={onDispatchConnect}
       onOpenModal={onOpenModal}
       onSwitchNetwork={onSwitchNetwork}

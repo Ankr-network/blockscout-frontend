@@ -51,5 +51,6 @@ export const featuresConfig = {
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
    */
-  isCoin98SupportActive: false,
+  isCoin98SupportActive: true,
+  isTrustWalletSupportActive: true,
 };

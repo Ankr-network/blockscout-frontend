@@ -13,7 +13,6 @@ import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
 import { IConnect } from '../../actions/connect';
 import { Connect } from '../Connect';
-import { ConnectWalletsModal } from '../ConnectWalletsModal';
 import { NetworkSelector, NetworkSelectorItem } from '../NetworkSelector';
 import { UnsupportedNetwork } from '../UnsupportedNetwork';
 
@@ -28,13 +27,10 @@ interface IGuardRouteProps<
   isConnected: boolean;
   isLoading: boolean;
   isOpenConnectInstantly?: boolean;
-  isOpenedModal: boolean;
   isUnsupportedNetwork: boolean;
   isValidWallet: boolean;
   providerId: AvailableWriteProviders;
   supportedNetworks: SupportedNetworkItem[];
-  walletsGroupTypes?: AvailableWriteProviders[];
-  onCloseModal: () => void;
   onDispatchConnect: () => TActionPromise<IConnect>;
   onOpenModal: () => void;
   onSwitchNetwork: (network: NetworkId) => () => void;
@@ -49,13 +45,10 @@ export const GuardRoute = <
   isConnected,
   isLoading,
   isOpenConnectInstantly,
-  isOpenedModal,
   isUnsupportedNetwork,
   isValidWallet,
   providerId,
   supportedNetworks,
-  walletsGroupTypes,
-  onCloseModal,
   onDispatchConnect,
   onOpenModal,
   onSwitchNetwork,
@@ -122,12 +115,6 @@ export const GuardRoute = <
       <Box component="section" py={{ xs: 5, md: 8 }}>
         <Connect onConnectClick={onOpenModal} />
       </Box>
-
-      <ConnectWalletsModal
-        isOpen={isOpenedModal}
-        walletsGroupTypes={walletsGroupTypes}
-        onClose={onCloseModal}
-      />
     </DefaultLayout>
   );
 };
