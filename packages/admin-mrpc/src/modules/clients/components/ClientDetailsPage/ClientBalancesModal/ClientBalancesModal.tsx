@@ -6,7 +6,9 @@ import {
   MenuItem,
   Modal,
   Typography,
-  TextField,
+  Input,
+  Select,
+  SelectChangeEvent,
 } from '@mui/material';
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
@@ -55,7 +57,9 @@ export const ClientBalancesModal = ({
 
   const [unit, setUnit] = useState('');
   const handleChangeUnit = (
-    event: React.ChangeEvent<HTMLInputElement & FormTarget>,
+    event:
+      | React.ChangeEvent<HTMLInputElement & FormTarget>
+      | SelectChangeEvent<string>,
   ) => {
     setUnit(event.target.value);
   };
@@ -136,10 +140,8 @@ export const ClientBalancesModal = ({
       >
         <ClientBalancesInfo currentClient={currentClient} size={6} />
         <br />
-        <TextField
-          sx={{ mb: 2 }}
+        <Select
           className={classes.select}
-          select
           id="unit"
           name="unit"
           disabled={isLoading}
@@ -150,16 +152,16 @@ export const ClientBalancesModal = ({
           <MenuItem value="ankr">Ankr</MenuItem>
           <MenuItem value="usd">USD</MenuItem>
           <MenuItem value="credit">Voucher credit</MenuItem>
-        </TextField>
+        </Select>
 
-        <TextField
+        <Input
           name="amount"
           id="amount"
           placeholder="amount"
           type="number"
           disabled={isLoading}
         />
-        <TextField
+        <Input
           sx={{ mt: 2, mb: 6 }}
           name="comment"
           id="comment"

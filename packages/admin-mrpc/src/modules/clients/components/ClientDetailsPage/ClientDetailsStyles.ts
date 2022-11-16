@@ -96,7 +96,7 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     },
   },
   select: {
-    backgroundColor: theme.palette.background.default,
+    mb: 2,
   },
 
   /* Client usage table */

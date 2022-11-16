@@ -1,4 +1,4 @@
-import { Button, Tooltip, TextField } from '@mui/material';
+import { Button, Input, Tooltip } from '@mui/material';
 import { useSearchClientsInput } from './useSearchClientsInput';
 import { useSearchInputStyles } from './useSearchInputStyles';
 
@@ -9,15 +9,15 @@ export const SearchClientsInput = () => {
 
   return (
     <div className={classes.root}>
-      <TextField
+      <Input
         placeholder="Search by email/address/token"
         onChange={onChange}
         value={searchValue}
         className={classes.input}
         disabled={isLoading}
         size="small"
-        hiddenLabel
-        InputProps={{ sx: { 'label + &&&': { marginTop: 0 } } }}
+        disableUnderline
+        color="secondary"
       />
       {foundClients?.length > 0 && (
         <ul className={classes.clientsList}>
