@@ -3,6 +3,8 @@ import capitalize from 'lodash/capitalize';
 
 import { t } from 'common';
 
+import { getIsRejectedByUser } from './parseError';
+
 export interface RequestError extends Error {
   code?: number;
 }
@@ -11,13 +13,16 @@ export const ERR_MSG = 'Error: ';
 
 export const METAMASK_INSUFFICIENT_FUNDS_ERROR_MESSAGE =
   'insufficient funds for transfer';
-export const METAMASK_USER_REJECT_ERROR_CODE = 4001;
 
 export const formatError = (error: RequestError): Error => {
   const [message, , , codeMsg] = error.message.split('\n');
 
   if (codeMsg?.includes(METAMASK_INSUFFICIENT_FUNDS_ERROR_MESSAGE)) {
     return new Error(capitalize(METAMASK_INSUFFICIENT_FUNDS_ERROR_MESSAGE));
+  }
+
+  if (getIsRejectedByUser(error.message)) {
+    return new Error(t('error.user-rejected'));
   }
 
   return new Error(message || error.message);

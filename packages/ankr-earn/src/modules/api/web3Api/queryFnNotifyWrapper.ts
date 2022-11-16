@@ -1,26 +1,8 @@
 import { queryFnWrapper } from '@ankr.com/utils';
 
-import { t } from 'common';
-
 import { showNotification } from 'modules/notifications';
 
-type TError = Error | IError | unknown;
-
-interface IError {
-  message?: string;
-}
-
-const getErrMsg = (error: TError): string => {
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  if (typeof (error as IError)?.message === 'string') {
-    return (error as IError).message as string;
-  }
-
-  return t('error.unknown');
-};
+import { getErrMsg, TError } from '../utils/getErrMsg';
 
 export const queryFnNotifyWrapper = queryFnWrapper({
   onNotification({ api, error, uuid, onError }) {

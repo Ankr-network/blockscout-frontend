@@ -34,6 +34,7 @@
     "unknown": "Unknown error",
     "some": "Some errors occurred 😔",
     "contract-rejected": "Contract interaction rejected",
+    "user-rejected": "The user rejected the request.",
     "unexpected": "Unexpected error",
     "insufficient-permissions": "Insufficient permissions",
     "btn": "Try again",
