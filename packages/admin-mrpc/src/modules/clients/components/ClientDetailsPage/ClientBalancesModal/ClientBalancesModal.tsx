@@ -21,16 +21,12 @@ import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { ClientBalancesInfo } from './ClientBalancesInfo';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
-interface FormElements {
+interface IFormElements {
   elements: {
     unit: { value: IAmountType };
     amount: { value: number };
     comment: { value: string };
   };
-}
-
-interface FormTarget {
-  target: { value: string; name: string };
 }
 
 const ADD_CREDITS_ID = 'add';
@@ -55,13 +51,9 @@ export const ClientBalancesModal = ({
 
   const isLoading = isLoadingAddCredits || isLoadingSubtractCredits;
 
-  const [unit, setUnit] = useState('');
-  const handleChangeUnit = (
-    event:
-      | React.ChangeEvent<HTMLInputElement & FormTarget>
-      | SelectChangeEvent<string>,
-  ) => {
-    setUnit(event.target.value);
+  const [unit, setUnit] = useState<IAmountType | ''>('');
+  const handleChangeUnit = (event: SelectChangeEvent<IAmountType>) => {
+    setUnit(event.target.value as IAmountType);
   };
 
   const [open, setOpen] = useState(false);
@@ -74,7 +66,7 @@ export const ClientBalancesModal = ({
 
   const handleSubmit = (
     e: FormEvent<HTMLFormElement> & {
-      target: FormElements;
+      target: IFormElements;
       nativeEvent: SubmitEvent;
     },
   ) => {
