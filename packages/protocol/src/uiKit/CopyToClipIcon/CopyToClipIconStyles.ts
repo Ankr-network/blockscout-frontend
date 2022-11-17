@@ -29,7 +29,6 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
 
     cursor: 'default',
   },
-
   content: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -53,7 +52,6 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
       },
     },
   },
-
   copyIcon: {
     fontSize: 16,
     marginLeft: theme.spacing(1),

@@ -5,6 +5,7 @@ import { PERIOD } from './ChainsListUtils';
 import { useChains } from './hooks/useChains';
 
 export const ChainsList = ({
+  isMMIndex,
   chains,
   allChains,
   sortType,
@@ -26,6 +27,7 @@ export const ChainsList = ({
         return (
           <div className={classes.wrapper} key={id}>
             <ChainsItemQuery
+              isMMIndex={isMMIndex}
               chain={item}
               publicChain={publicChainsMap[id]}
               chainId={id}

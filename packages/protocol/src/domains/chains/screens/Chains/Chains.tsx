@@ -15,7 +15,11 @@ import { ReactSnapChainsLinksGenerator } from './components/ReactSnapChainsLinks
 import { UsageSummary } from './components/UsageSummary';
 import { useChains } from './hooks/useChains';
 
-export const Chains = () => {
+interface IChainsProps {
+  isMMIndex?: boolean;
+}
+
+export const Chains = ({ isMMIndex }: IChainsProps) => {
   const {
     chains,
     allChains,
@@ -61,6 +65,7 @@ export const Chains = () => {
             <Spinner />
           ) : (
             <ChainsList
+              isMMIndex={isMMIndex}
               chains={chains}
               allChains={allChains}
               sortType={sortType}

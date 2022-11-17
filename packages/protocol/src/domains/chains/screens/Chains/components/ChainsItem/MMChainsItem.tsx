@@ -1,30 +1,27 @@
-import { Button, Typography } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { NavLink } from 'ui';
 
-import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
 import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { ChainsRoutesConfig, INDEX_PATH } from 'domains/chains/routes';
+import { ChainsRoutesConfig, INDEX_MM_PATH } from 'domains/chains/routes';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { RPCInfoFun } from 'uiKit/RPCInfoFunc/RPCInfoFunc';
 import { useStyles } from './ChainsItemStyles';
 import { ChainID } from 'modules/chains/types';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainsItemProps } from './ChainsItemTypes';
 import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
 import { setOriginChainURL } from 'domains/chains/store/chainsSlice';
+import { useCallback } from 'react';
+import { getPublicUrl } from 'domains/chains/utils/chainsUtils';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
-const publicKey = 'chains.links.public';
-const privateKey = 'chains.links.private';
-
-export const ChainsItem = ({
+export const MMChainsItem = ({
   chain,
   description,
   isHighlighted = false,
   isLoading,
-  isPremium,
   logoSrc,
   name,
   period,
@@ -34,6 +31,8 @@ export const ChainsItem = ({
 }: ChainsItemProps) => {
   const classes = useStyles(isHighlighted);
 
+  const { credentials } = useAuth();
+
   const urls = [
     ...chain.urls,
     ...(chain.extensions || []).flatMap<IApiChainURL>(
@@ -41,10 +40,6 @@ export const ChainsItem = ({
     ),
     ...(chain.extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
   ];
-
-  const dummyMessage = t(isPremium ? privateKey : publicKey, {
-    number: urls.length,
-  });
 
   const isSuiTestnet = chain.id === ChainID.SUI_TESTNET;
 
@@ -55,11 +50,11 @@ export const ChainsItem = ({
   const dispatch = useDispatch();
 
   const handleClick = useCallback(() => {
-    dispatch(setOriginChainURL(INDEX_PATH));
+    dispatch(setOriginChainURL(INDEX_MM_PATH));
   }, [dispatch]);
 
   return (
-    <div tabIndex={0} role="button" onClick={handleClick}>
+    <div role="button" tabIndex={0} onClick={handleClick}>
       <NavLink
         isRouterLink
         href={ChainsRoutesConfig.chainDetails.generatePath(chain.id)}
@@ -91,34 +86,23 @@ export const ChainsItem = ({
         />
         <div className={classes.bottom}>
           <div className={classes.links}>
-            {urls.length <= 1 ? (
-              urls.map(({ rpc }) => (
-                <CopyToClipIcon
-                  text={rpc}
-                  message={t('common.copy-message')}
-                  key={rpc}
-                  className={classes.copyItem}
-                />
-              ))
-            ) : (
-              <Typography
-                className={classes.dummy}
-                variant="body2"
-                noWrap
-                color="textSecondary"
-              >
-                {dummyMessage}
-              </Typography>
-            )}
+            {urls.length <= 1
+              ? publicChain &&
+                urls.map(({ rpc }) => (
+                  <RPCInfoFun
+                    key={rpc}
+                    info={credentials ? getPublicUrl(rpc) : rpc}
+                    publicChain={publicChain}
+                  />
+                ))
+              : publicChain && (
+                  <RPCInfoFun
+                    info={credentials ? getPublicUrl(urls[0].rpc) : urls[0].rpc}
+                    publicChain={publicChain}
+                  />
+                )}
           </div>
           <div className={classes.buttonsWrapper}>
-            {publicChain && (
-              <AddNetworkButton
-                publicChain={publicChain}
-                size="medium"
-                className={classes.buttonAddNetwork}
-              />
-            )}
             <Button
               variant="outlined"
               color="primary"
