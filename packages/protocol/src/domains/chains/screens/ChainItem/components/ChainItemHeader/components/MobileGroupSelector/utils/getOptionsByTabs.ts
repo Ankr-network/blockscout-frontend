@@ -1,15 +1,8 @@
+import { EndpointGroup } from 'modules/endpoints/types';
 import { ISelectOption } from 'uiKit/Select';
 
-import { ChainGroupID } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { Tab } from 'modules/common/hooks/useTabs';
-import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
-import { groupIDToGroupMap } from 'modules/endpoints/constants/groupIDToGroupMap';
-
-export const getOptionsByTabs = (tabs: Tab<ChainGroupID>[], chain: IApiChain) =>
-  tabs.map<ISelectOption>(({ id }) => ({
-    label:
-      groupIDToGroupMap[id]?.pluralName ||
-      getFallbackEndpointGroup(chain.name).pluralName,
+export const getOptionsByTabs = (tabs: EndpointGroup[]) =>
+  tabs.map<ISelectOption>(({ id, urlsCount, name, pluralName }) => ({
+    label: urlsCount > 1 ? pluralName : name,
     value: id,
   }));

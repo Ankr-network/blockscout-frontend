@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useChainItemHeaderStyles = makeStyles<Theme>(theme => ({
+export const useChainItemHeaderStyles = makeStyles<Theme, boolean>(theme => ({
   chainItemHeader: {
     display: 'flex',
     flexDirection: 'column',
@@ -18,20 +18,27 @@ export const useChainItemHeaderStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     gap: theme.spacing(1.5),
 
+    flexDirection: shouldOnlyShowMobileSelector =>
+      shouldOnlyShowMobileSelector ? 'column' : undefined,
+
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
     },
   },
   desktopGroupSelector: {
+    display: shouldOnlyShowMobileSelector =>
+      shouldOnlyShowMobileSelector ? 'none' : undefined,
+
     [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
   mobileGroupSelector: {
-    display: 'none',
+    display: shouldOnlyShowMobileSelector =>
+      shouldOnlyShowMobileSelector ? 'flex' : 'none',
 
     [theme.breakpoints.down('md')]: {
-      display: 'flex',
+      display: 'flex !important',
     },
   },
 }));

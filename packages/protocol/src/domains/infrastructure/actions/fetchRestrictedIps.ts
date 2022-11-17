@@ -1,9 +1,10 @@
-import { IJwtToken } from 'multirpc-sdk';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { MultiService } from 'modules/api/MultiService';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { MultiService } from 'modules/api/MultiService';
+import { ChainID } from 'modules/chains/types';
+import { IJwtToken } from 'multirpc-sdk';
+import { createAction as createSmartAction } from 'redux-smart-actions';
+import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 
 export const fetchRestrictedIps = createSmartAction<
   RequestAction<string[], string[]>
@@ -12,7 +13,10 @@ export const fetchRestrictedIps = createSmartAction<
     promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
       const service = await MultiService.getInstance();
 
-      const domains = await service.getChainRestrictedIps(jwtToken, chainId);
+      const domains = await service.getChainRestrictedIps(
+        jwtToken,
+        checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
+      );
 
       return domains;
     },
