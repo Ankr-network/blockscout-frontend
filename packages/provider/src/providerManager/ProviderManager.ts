@@ -5,6 +5,7 @@ import {
   BinanceHttpWeb3KeyProvider,
   EthereumHttpWeb3KeyProvider,
   EthereumWeb3KeyProvider,
+  XDCHttpWeb3KeyProvider,
 } from './providers';
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
 import { GnosisHttpWeb3KeyProvider } from './providers/GnosisHttpWeb3KeyProvider';
@@ -32,6 +33,8 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
   [AvailableReadProviders.gnosis]: 'https://rpc.ankr.com/gnosis',
   [AvailableReadProviders.sokol]: 'https://sokol.poa.network',
+  [AvailableReadProviders.xdc]: 'https://rpc.xinfin.network',
+  [AvailableReadProviders.xdcTestnet]: 'https://rpc.apothem.network',
 };
 
 interface IProviders {
@@ -49,6 +52,8 @@ interface IProviders {
   [AvailableReadProviders.polygon]: Web3KeyReadProvider;
   [AvailableReadProviders.gnosis]: Web3KeyReadProvider;
   [AvailableReadProviders.sokol]: Web3KeyReadProvider;
+  [AvailableReadProviders.xdc]: Web3KeyReadProvider;
+  [AvailableReadProviders.xdcTestnet]: Web3KeyReadProvider;
 }
 
 const POLKADOT_CONNECT_WAIT_MS = 250;
@@ -126,6 +131,11 @@ export class ProviderManager {
         return new GnosisHttpWeb3KeyProvider(RPC_URLS[providerId]);
       }
 
+      case AvailableReadProviders.xdc:
+      case AvailableReadProviders.xdcTestnet: {
+        return new XDCHttpWeb3KeyProvider(RPC_URLS[providerId]);
+      }
+
       default: {
         throw new Error(`The provider isn't supported: ${providerId}`);
       }
@@ -196,6 +206,7 @@ export class ProviderManager {
 
     if (provider) {
       provider.disconnect();
+
       delete this.providers[providerId];
     }
   }

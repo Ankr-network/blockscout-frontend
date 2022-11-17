@@ -16,6 +16,9 @@ export enum AvailableReadProviders {
 
   gnosis = 'gnosisHttpProvider',
   sokol = 'sokolHttpProvider',
+  
+  xdc = 'xdcMainnetHttpProvider',
+  xdcTestnet = 'xdcTestnetHttpProvider',
 }
 
 export type Address = string;
@@ -44,6 +47,8 @@ export enum EEthereumNetworkId {
   mumbai = 80001,
   gnosis = 100,
   sokol = 77,
+  xdc = 50,
+  xdcTestnet = 51,
 }
 
 export enum EPolkadotNetworkId {
