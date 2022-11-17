@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+import { tabsClasses } from '@mui/material';
 
 export const useClientDetailsStyles = makeStyles()(theme => ({
   /* Details Page */
@@ -16,7 +17,6 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     fontSize: theme.typography.h5.fontSize,
     fontWeight: 'bold',
     textTransform: 'none',
-    marginRight: theme.spacing(6),
     marginBottom: theme.spacing(4),
     '&.Mui-disabled': {
       cursor: 'not-allowed',
@@ -106,6 +106,10 @@ export const useClientDetailsStyles = makeStyles()(theme => ({
     minWidth: 0,
     minHeight: 0,
     borderRadius: '11px',
+
+    [`& .${tabsClasses.flexContainer}`]: {
+      gap: 0,
+    },
   },
   tabUsagePeriod: {
     width: '62px',
