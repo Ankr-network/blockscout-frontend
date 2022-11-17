@@ -15,6 +15,7 @@ import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { ASETHCIcon } from 'uiKit/Icons/ASETHCIcon';
+import { ASUICIcon } from 'uiKit/Icons/ASUICIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -67,6 +68,7 @@ export const iconByTokenMap: TIconMap = {
   [Token.mGNO]: MGNOIcon,
   [Token.xDAI]: xDAIIcon,
   [Token.SUI]: SUIIcon,
+  [Token.aSUIc]: ASUICIcon,
 };
 
 export const iconByNetworkMap: TNetworkIconMap = {
