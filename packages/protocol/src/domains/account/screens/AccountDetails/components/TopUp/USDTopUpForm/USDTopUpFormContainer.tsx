@@ -31,7 +31,7 @@ export const USDTopUpFormContainer = () => {
     <USDTopUpForm
       onSubmit={onSubmit}
       isLoading={isFetchLinkForCardPaymentLoading}
-      isDisabled={!credentials}
+      isDisabled={!credentials || !credentials?.endpoint_token}
       hasRateBlock={isAccountPage}
     />
   );

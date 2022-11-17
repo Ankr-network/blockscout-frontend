@@ -14,6 +14,7 @@ import { ChainsSortSelect } from './components/ChainsSortSelect';
 import { ReactSnapChainsLinksGenerator } from './components/ReactSnapChainsLinksGenerator';
 import { UsageSummary } from './components/UsageSummary';
 import { useChains } from './hooks/useChains';
+import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 
 interface IChainsProps {
   isMMIndex?: boolean;
@@ -44,7 +45,7 @@ export const Chains = ({ isMMIndex }: IChainsProps) => {
   return (
     <>
       {!credentials && !isConnecting && <InfoBanner />}
-
+      <ExpiredTokenBanner />
       {isWalletConnected && (
         <UsageSummary
           timeframe={timeframe}

@@ -32,6 +32,7 @@ import { ANKR_CURRENCY } from '../../const';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { RateBlock } from './RateBlock';
 import { RequestsBlock } from './RequestsBlock';
+import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/PremiumBlock/PricingTopUp/PricingTopUpUtils';
 
 export const useRenderDisabledForm = (
   classes: ClassNameMap,
@@ -131,30 +132,27 @@ export const useRenderForm = (
   );
 };
 
-const actionType = getLastLockedFundsEvent.toString();
-
 export const useCheckLoginStep = () => {
   const { data: lastLockedFundsEvent, loading } = useQuery<MessageEventData>({
-    type: actionType,
+    type: getLastLockedFundsEvent.toString(),
   });
 
   const { credentials } = useAuth();
   const { handleSetAmount } = useTopUp();
 
   const dispatchRequest = useDispatchRequest();
+  const [hasLoginStep, setHasLoginStep] = useState<boolean>(false);
 
   useOnMount(() => {
     dispatchRequest(getLastLockedFundsEvent());
   });
 
-  const hasLoginStep = Boolean(lastLockedFundsEvent) && !credentials;
-
   useEffect(() => {
-    if (!hasLoginStep) return;
-
     const checkAmount = async () => {
       const service = await MultiService.getInstance();
       const keyProvider = service.getKeyProvider();
+
+      if (!lastLockedFundsEvent) return;
 
       const value = keyProvider
         .getWeb3()
@@ -162,11 +160,23 @@ export const useCheckLoginStep = () => {
 
       if (!value) return;
 
-      handleSetAmount(new BigNumber(value));
+      const amount = new BigNumber(value);
+
+      const isFirstTopup = Boolean(lastLockedFundsEvent) && !credentials;
+      const isTopupAfterTokenExpiration =
+        Boolean(lastLockedFundsEvent) &&
+        credentials &&
+        !credentials.endpoint_token &&
+        amount.isGreaterThanOrEqualTo(MIN_ANKR_AMOUNT);
+
+      if (isFirstTopup || isTopupAfterTokenExpiration) {
+        setHasLoginStep(true);
+        handleSetAmount(amount);
+      }
     };
 
     checkAmount();
-  }, [hasLoginStep, lastLockedFundsEvent, handleSetAmount]);
+  }, [credentials, lastLockedFundsEvent, handleSetAmount]);
 
   return {
     hasLoginStep,

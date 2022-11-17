@@ -1324,5 +1324,8 @@
       "description": "Try reloading the page",
       "button": "Reload Page"
     }
+  },
+  "expired-token": {
+    "text": "Your Premium plan&rsquo;s validity period has expired. <a href='https://www.ankr.com/docs/rpc-service/getting-started/#deposit-funds' target='_blank'>Make a&nbsp;deposit</a> (min.&nbsp;1000&nbsp;ANKR) to&nbsp;continue using our services under the <a href='https://www.ankr.com/docs/rpc-service/pricing/' target='_blank'>PAYG charging model</a>. Note that new private endpoints will be&nbsp;generated after making a&nbsp;deposit, so&nbsp;you must add them instead of&nbsp;those currently used in&nbsp;your projects."
   }
 }

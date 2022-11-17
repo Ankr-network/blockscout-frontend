@@ -19,15 +19,13 @@ import { TopUp } from './components/TopUp';
 import { USDBanner } from './components/USDBanner';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { TopUpFormContext } from './components/TopUp/TopUpForm/TopUpFormUtils';
-
-const DEFAULT_TOPUP_VALUES = {
-  initialValues: { amount: '' },
-  isAccountPage: true,
-};
+import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
+import { validateAmount } from './AccountDetailsUtils';
+import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/PremiumBlock/PricingTopUp/PricingTopUpUtils';
 
 export const AccountDetails = () => {
   const classes = useStyles();
-  const { isNew, premiumUntil, isConnecting } = useAuth();
+  const { isNew, premiumUntil, isConnecting, credentials } = useAuth();
   const isPremium = !!premiumUntil;
   const { isCardPaymentEligible } = useCardPayment();
   const history = useHistory();
@@ -48,15 +46,27 @@ export const AccountDetails = () => {
     }
   }, [isConnecting, isNew, history]);
 
+  const hasExpiredToken = credentials && !credentials?.endpoint_token;
+
   return (
     <ThemeProvider theme={mainTheme}>
       {isConnecting ? (
         <Spinner />
       ) : (
         <Box className={classes.root}>
+          <ExpiredTokenBanner />
+
           <Box className={classes.top}>
             <Balance />
-            <TopUpFormContext.Provider value={DEFAULT_TOPUP_VALUES}>
+            <TopUpFormContext.Provider
+              value={{
+                initialValues: {
+                  amount: hasExpiredToken ? MIN_ANKR_AMOUNT.toString(10) : '',
+                },
+                isAccountPage: true,
+                validateAmount: hasExpiredToken ? validateAmount : undefined,
+              }}
+            >
               <TopUp className={classes.topUp} />
             </TopUpFormContext.Provider>
           </Box>

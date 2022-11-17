@@ -38,7 +38,10 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   useEffect(() => {
     if (credentials && !isMMIndexPath) {
       dispatchRequest(fetchPremiumChainFeatures(chainId));
-      dispatchRequest(fetchEndpoints());
+
+      if (credentials.endpoint_token) {
+        dispatchRequest(fetchEndpoints());
+      }
     }
 
     if (!walletLoading && !isMMIndexPath) {

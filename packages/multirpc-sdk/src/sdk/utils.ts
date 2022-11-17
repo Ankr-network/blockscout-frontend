@@ -120,7 +120,7 @@ const getPaths = (blockchain: IBlockchainEntity) => {
 export const formatPrivateUrls = (
   blockchains: IBlockchainEntity[],
   config: IConfig,
-  tokenHash: string,
+  tokenHash = '',
 ) => {
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
     const hasRPC = blockchain.features.includes('rpc');
@@ -143,7 +143,7 @@ export const formatPrivateUrls = (
             .replace('{user}', tokenHash);
 
           if (isAptos) {
-            url += '/v1';
+            url += `${url.endsWith('/') ? '' : '/'}v1`;
           }
 
           return url;
@@ -157,7 +157,7 @@ export const formatPrivateUrls = (
             .replace('{user}', tokenHash);
 
           if (isAptos) {
-            url += '/v1';
+            url += `${url.endsWith('/') ? '' : '/'}v1`;
           }
 
           return url;
