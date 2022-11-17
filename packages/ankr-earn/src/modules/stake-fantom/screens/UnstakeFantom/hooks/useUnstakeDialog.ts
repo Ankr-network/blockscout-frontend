@@ -1,6 +1,4 @@
 import { AvailableWriteProviders } from '@ankr.com/provider-core';
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
@@ -10,7 +8,7 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
-import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
+import { useLazyGetFTMBurnFeeQuery } from 'modules/stake-fantom/actions/getBurnFee';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useUnstakeFTMMutation } from 'modules/stake-fantom/actions/unstake';
 import { RoutesConfig as FantomRoutesConfig } from 'modules/stake-fantom/Routes';
@@ -21,7 +19,6 @@ import {
   IUnstakeFormValues,
 } from 'modules/stake/components/UnstakeDialog';
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseUnstakeDialog
   extends Pick<IUnstakeDialogProps, 'onSubmit' | 'onChange'> {
@@ -37,12 +34,10 @@ interface IUseUnstakeDialog
 }
 
 export const useUnstakeDialog = (): IUseUnstakeDialog => {
-  const dispatch = useAppDispatch();
   const { data: commonData, isFetching: isBalanceLoading } =
     useGetFTMCommonDataQuery();
-  const { data: burnFeeData, loading: isBurnFeeLoading } = useQuery({
-    type: getBurnFee,
-  });
+  const [getFTMBurnFee, { data: burnFeeData, isFetching: isBurnFeeLoading }] =
+    useLazyGetFTMBurnFeeQuery();
 
   const [unstake, { isLoading: isUnstakeLoading }] = useUnstakeFTMMutation();
 
@@ -108,15 +103,13 @@ export const useUnstakeDialog = (): IUseUnstakeDialog => {
   );
 
   const onChange = useCallback(
-    ({ amount }: IUnstakeFormValues, invalid: boolean) => {
-      if (invalid) {
-        dispatch(resetRequests([getBurnFee.toString()]));
-      } else if (amount) {
+    ({ amount }: IUnstakeFormValues) => {
+      if (amount) {
         const readyAmount = new BigNumber(amount);
-        dispatch(getBurnFee(readyAmount));
+        getFTMBurnFee(readyAmount);
       }
     },
-    [dispatch],
+    [getFTMBurnFee],
   );
 
   const debouncedOnChange = useDebouncedCallback(onChange, INPUT_DEBOUNCE_TIME);
