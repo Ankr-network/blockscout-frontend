@@ -48,9 +48,11 @@ const selectAuth = (state: RootState) => state.auth;
 const selectReqQueries = (state: RootState) => state.requests.queries;
 
 export const selectProvidersData = createSelector(selectAuth, state => state);
+
 export const selectEthProviderData = createSelector(selectAuth, state => {
   return state[AvailableWriteProviders.ethCompatible];
 });
+
 export const selectPolkadotProviderData = createSelector(selectAuth, state => {
   return state[AvailableWriteProviders.polkadotCompatible];
 });
