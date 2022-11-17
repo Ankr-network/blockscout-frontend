@@ -45,7 +45,9 @@ export const InfrastructureSection = ({
                 <EndpointQuery chainId={chain.id} />
               )}
 
-              {credentials && <SecuritySettingsQuery chainId={chainId} />}
+              {credentials && credentials.endpoint_token && (
+                <SecuritySettingsQuery chainId={chainId} />
+              )}
             </>
           )}
         </>

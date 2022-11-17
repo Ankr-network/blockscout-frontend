@@ -120,6 +120,7 @@ export const Routes = () => {
         exact
         path={[
           ChainsRoutesConfig.chains.path,
+          ChainsRoutesConfig.mmChains.path,
           ChainsRoutesConfig.chainDetails.path,
         ]}
         render={() => (

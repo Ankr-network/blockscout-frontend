@@ -25,7 +25,10 @@ export const redirectIfCredentials = createSmartAction<
             action: connect,
           });
 
-          if (connectData?.credentials) {
+          if (
+            connectData?.credentials &&
+            connectData?.credentials.endpoint_token
+          ) {
             resetTransactionSliceAndRedirect(store, address);
 
             return true;
