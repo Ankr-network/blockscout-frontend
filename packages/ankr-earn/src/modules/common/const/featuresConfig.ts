@@ -57,4 +57,5 @@ export const featuresConfig = {
    */
   isTrustWalletSupportActive: true,
   isSUIStakingActive: isLocal,
+  isClaimAndRestakeEnabled: currentEnv !== Env.Production,
 };
