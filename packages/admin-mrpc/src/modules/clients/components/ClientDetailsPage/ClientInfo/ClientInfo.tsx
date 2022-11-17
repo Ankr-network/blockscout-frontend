@@ -6,7 +6,7 @@ import {
   Skeleton,
   Grid,
   Paper,
-  TextField,
+  Input,
 } from '@mui/material';
 
 import { Spinner } from 'ui';
@@ -135,7 +135,7 @@ export const ClientInfo = ({
         </>
       )}
       <br />
-      <TextField
+      <Input
         className={classes.inputComment}
         onChange={onChangeComment}
         onBlur={handleBlurCommentInput}
