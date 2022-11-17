@@ -47,7 +47,10 @@ export const POLYGON_NETWORK_BY_ENV =
     ? EEthereumNetworkId.polygon
     : EEthereumNetworkId.mumbai;
 
-export const SUI_NETWORK_BY_ENV = 0;
+export const SUI_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? EEthereumNetworkId.mainnet
+    : EEthereumNetworkId.goerli;
 
 export const ETH_PROVIDER_BY_ENV =
   currentEnv === Env.Production
