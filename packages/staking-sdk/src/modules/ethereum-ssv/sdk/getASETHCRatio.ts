@@ -1,10 +1,13 @@
 import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
-import { currentEnv, ICommonProps } from '../../common';
+import {
+  currentEnv,
+  getWeb3ReadableAmountFromWei,
+  ICommonProps,
+} from '../../common';
 
 import { getASETHCTokenContract } from './contracts';
-import { getReadableAmountFromWei } from './utils';
 
 export const getASETHCRatio = async ({
   env = currentEnv,
@@ -17,7 +20,7 @@ export const getASETHCRatio = async ({
 
   const ratio: string = await asETHcTokenContract.methods.ratio().call();
 
-  return getReadableAmountFromWei({
+  return getWeb3ReadableAmountFromWei<Web3KeyReadProvider>({
     amount: ratio,
     provider,
   });

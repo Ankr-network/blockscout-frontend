@@ -52,6 +52,10 @@ export const SUI_NETWORK_BY_ENV =
     ? EEthereumNetworkId.mainnet
     : EEthereumNetworkId.goerli;
 
+export const XDC_NETWORK_BY_ENV = isMainnet
+  ? EEthereumNetworkId.xdc
+  : EEthereumNetworkId.xdcTestnet;
+
 export const ETH_PROVIDER_BY_ENV =
   currentEnv === Env.Production
     ? AvailableReadProviders.ethMainnet
@@ -76,3 +80,7 @@ export const POLYGON_PROVIDER_BY_ENV =
   currentEnv === Env.Production
     ? AvailableReadProviders.polygon
     : AvailableReadProviders.mumbai;
+
+export const XDC_PROVIDER_BY_ENV = isMainnet
+  ? AvailableReadProviders.xdc
+  : AvailableReadProviders.xdcTestnet;
