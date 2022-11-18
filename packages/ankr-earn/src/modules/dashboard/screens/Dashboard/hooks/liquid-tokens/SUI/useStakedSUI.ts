@@ -1,3 +1,5 @@
+import { featuresConfig } from 'modules/common/const';
+
 interface IUseStakedSUI {
   isStakedSuiCertShowed: boolean;
   isSuiCommonLoading: boolean;
@@ -5,7 +7,7 @@ interface IUseStakedSUI {
 
 export const useStakedSUI = (): IUseStakedSUI => {
   return {
-    isStakedSuiCertShowed: true,
+    isStakedSuiCertShowed: featuresConfig.isSUIStakingActive,
     isSuiCommonLoading: false,
   };
 };
