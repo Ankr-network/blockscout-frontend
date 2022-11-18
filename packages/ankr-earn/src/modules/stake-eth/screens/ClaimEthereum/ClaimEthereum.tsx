@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
-
-import { t, tHTML } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

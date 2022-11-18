@@ -1,6 +1,6 @@
+import { t } from '@ankr.com/common';
 import { IconButton } from '@material-ui/core';
 
-import { t } from 'common';
 import { useIsXSDown } from 'ui';
 
 import { ZendeskHelpCircleIcon } from 'uiKit/Icons/ZendeskCircleIcon';

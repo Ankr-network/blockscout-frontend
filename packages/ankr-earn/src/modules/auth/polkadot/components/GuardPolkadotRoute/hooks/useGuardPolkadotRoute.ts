@@ -1,11 +1,7 @@
-import {
-  AvailableWriteProviders,
-  EPolkadotNetworkId,
-} from '@ankr.com/provider-core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
 
-import { PolkadotProvider } from 'polkadot';
+import { EPolkadotNetworkId, PolkadotProvider } from 'polkadot';
 
 import { connect } from 'modules/auth/common/actions/connect';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
@@ -21,10 +17,11 @@ import {
 } from 'modules/auth/polkadot/hooks/usePolkadotNetworks';
 import { getIsPolkadot } from 'modules/auth/polkadot/utils/getIsPolkadot';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
+import { ExtraWriteProviders } from 'modules/common/types';
 import { sleep } from 'modules/common/utils/sleep';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
-const providerId = AvailableWriteProviders.polkadotCompatible;
+const providerId = ExtraWriteProviders.polkadotCompatible;
 
 export const useGuardPolkadotRoute = ({
   availableNetworks,
@@ -91,7 +88,7 @@ export const useGuardPolkadotRoute = ({
       })();
     },
     [isConnected, isInjected, isOpenedConnectModal, onOpenModal],
-    AvailableWriteProviders.polkadotCompatible,
+    ExtraWriteProviders.polkadotCompatible,
   );
 
   return {

@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { RequestActionMeta, success } from '@redux-requests/core';
 import { SelectEffect, TakeEffect } from '@redux-saga/core/effects';
 import { Channel, END, eventChannel, Task } from 'redux-saga';
@@ -18,6 +17,7 @@ import { numberToHex } from 'web3-utils';
 
 import {
   AccountChangedEventData,
+  AvailableWriteProviders,
   EthereumWeb3KeyProvider,
   EventProvider,
   EVENTS,
@@ -42,9 +42,11 @@ import {
 } from 'modules/auth/common/store/authSlice';
 import { updateConnectedNetwork } from 'modules/auth/eth/actions/updateConnectedNetwork';
 
+import { AvailableStakingWriteProviders } from '../../modules/common/types';
+
 interface IListenProviderWeb3EventsArgs {
   ethWeb3KeyProvider: EthereumWeb3KeyProvider;
-  providerId: AvailableWriteProviders;
+  providerId: AvailableStakingWriteProviders;
 }
 
 interface IConnectSuccessAction {
@@ -207,7 +209,7 @@ function* listenProviderWeb3Events({
   }
 }
 
-function* connectSuccessWeb3Worker(providerId: AvailableWriteProviders) {
+function* connectSuccessWeb3Worker(providerId: AvailableStakingWriteProviders) {
   const providerManager = ProviderManagerSingleton.getInstance();
 
   let ethWeb3KeyProvider: EthereumWeb3KeyProvider;
@@ -240,7 +242,7 @@ export function* providerEventsSaga(): Generator<
   void,
   IConnectSuccessAction & IProviderStatus & Task
 > {
-  let ethProviderId: AvailableWriteProviders | undefined;
+  let ethProviderId: AvailableStakingWriteProviders | undefined;
   let ethTask: Task | undefined;
 
   try {
@@ -251,7 +253,7 @@ export function* providerEventsSaga(): Generator<
       const ethAuthState: IProviderStatus | undefined = yield select(
         selectEthProviderData,
       );
-      const providerId: AvailableWriteProviders | null =
+      const providerId: AvailableStakingWriteProviders | null =
         actionData?.response?.data?.providerId ?? null;
 
       if (!ethAuthState?.isActive) {

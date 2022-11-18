@@ -1,4 +1,4 @@
-import { stringify } from 'common';
+import { stringify } from '@ankr.com/common';
 
 import { SupportedChainIDS } from '../../common/const';
 import { AvailableBridgeTokens } from '../types';

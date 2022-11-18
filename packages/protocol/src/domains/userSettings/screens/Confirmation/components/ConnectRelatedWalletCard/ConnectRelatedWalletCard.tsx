@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
 

@@ -1,6 +1,7 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import {
   IUseHistoryData,

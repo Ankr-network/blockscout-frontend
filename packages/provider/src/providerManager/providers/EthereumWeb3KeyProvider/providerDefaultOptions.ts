@@ -1,10 +1,3 @@
-import {
-  EEthereumNetworkId,
-  EWalletId,
-  getWalletIcon,
-  getWalletName,
-  RPCConfig,
-} from '@ankr.com/provider-core';
 import { BscConnector } from '@binance-chain/bsc-connector';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -15,6 +8,10 @@ import {
   getIsTrustWallet,
   getIsTrustWalletInjected,
 } from './utils/getIsTrustWallet';
+import { RPCConfig } from '../../../utils/const';
+import { EEthereumNetworkId, EWalletId } from '../../../utils/types';
+import { getWalletIcon } from '../../../utils/getWalletIcon';
+import { getWalletName } from '../../../utils/getWalletName';
 
 const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
   (acc, [key, { rpcUrls }]) => ({ ...acc, [key]: rpcUrls[0] }),

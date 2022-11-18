@@ -1,4 +1,5 @@
 /* eslint-disable react/no-danger */
+import { t } from '@ankr.com/common';
 import {
   Accordion,
   AccordionDetails,
@@ -9,8 +10,6 @@ import {
 import { ChangeEvent, RefObject } from 'react';
 import { uid } from 'react-uid';
 import sanitizeHtml from 'sanitize-html';
-
-import { t } from 'common';
 
 import { ReactComponent as AngleDownIcon } from 'assets/img/angle-down-icon.svg';
 

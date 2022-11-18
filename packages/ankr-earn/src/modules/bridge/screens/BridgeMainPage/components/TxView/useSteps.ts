@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { useState } from 'react';
-
-import { t } from 'common';
 
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';

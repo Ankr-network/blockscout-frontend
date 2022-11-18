@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-
-import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';

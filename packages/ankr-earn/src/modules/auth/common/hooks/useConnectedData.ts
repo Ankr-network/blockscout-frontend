@@ -1,6 +1,6 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useQuery } from '@redux-requests/react';
 
+import { AvailableStakingWriteProviders } from '../../../common/types';
 import { getIsInjectedWallet, getIsOKX } from '../../eth/utils/walletTypeUtils';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
 import { connect, IConnect } from '../actions/connect';
@@ -22,7 +22,7 @@ export interface IUseConnectedData {
 }
 
 export const useConnectedData = (
-  providerId: AvailableWriteProviders,
+  providerId: AvailableStakingWriteProviders,
 ): IUseConnectedData => {
   const { data, loading, error } = useQuery<IConnect | null>({
     type: connect,

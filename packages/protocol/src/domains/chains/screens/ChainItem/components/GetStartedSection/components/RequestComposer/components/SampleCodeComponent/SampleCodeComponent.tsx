@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import { MethodOption } from 'domains/requestComposer/types';
 import { SampleCodeDialog } from './SampleCodeDialog';
 import { useSampleCodeComponentStyles } from './useSampleCodeComponentStyles';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 interface ISampleCodeComponentProps {
   methodName?: MethodOption;

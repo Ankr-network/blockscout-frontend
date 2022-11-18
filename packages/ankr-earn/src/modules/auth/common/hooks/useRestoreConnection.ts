@@ -1,13 +1,14 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { t } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { showNotification } from 'modules/notifications';
 import { useAppSelector } from 'store/useAppSelector';
 
+import { ExtraWriteProviders } from '../../../common/types';
 import { connect } from '../actions/connect';
 import {
   selectEthProviderData,
@@ -37,7 +38,7 @@ export const useRestoreConnection = (): boolean => {
     isConnected: isConnectedPolkadot,
     isLoading: isLoadingPolkadot,
     error: errorPolkadot,
-  } = useConnectedData(AvailableWriteProviders.polkadotCompatible);
+  } = useConnectedData(ExtraWriteProviders.polkadotCompatible);
 
   const isActiveAndNotConnectedEth =
     ethProviderStatus?.isActive && !isConnectedEth && !errorEth;
@@ -63,7 +64,7 @@ export const useRestoreConnection = (): boolean => {
     if (isShouldBeRestoredPolkadot) {
       dispatchRequest(
         connect(
-          AvailableWriteProviders.polkadotCompatible,
+          ExtraWriteProviders.polkadotCompatible,
           polkadotProviderStatus.walletId,
           undefined,
           polkadotProviderStatus.address,

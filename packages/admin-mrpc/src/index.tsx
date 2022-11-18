@@ -1,3 +1,4 @@
+import '@ankr.com/common/src/utils/updatePrototypes';
 import React from 'react';
 import { hydrate, render } from 'react-dom';
 import App from './App';

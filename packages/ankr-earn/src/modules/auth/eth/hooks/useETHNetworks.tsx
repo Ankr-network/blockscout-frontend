@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 import { ReactComponent as AvaxIcon } from 'modules/auth/common/assets/avaxIcon.svg';
 import { ReactComponent as BinanceSmartChainIcon } from 'modules/auth/common/assets/binanceSmartChainIcon.svg';

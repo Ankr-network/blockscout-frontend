@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router';
-
-import { t } from 'common';
 
 import { STAKING_PATH } from 'modules/common/const';
 import { Button } from 'uiKit/Button';

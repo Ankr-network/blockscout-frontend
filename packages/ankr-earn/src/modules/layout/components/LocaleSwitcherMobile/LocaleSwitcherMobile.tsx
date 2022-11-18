@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 import { useCallback } from 'react';
-
-import { t } from 'common';
 
 import { useLocale } from 'modules/i18n/hooks/useLocale';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';

@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { ReactNode } from 'react';
-
-import { t } from 'common';
 
 import { useAuditInfoStyles } from './useAuditInfoStyles';
 

@@ -1,4 +1,4 @@
-import { EWalletId } from '@ankr.com/provider-core';
+import { EWalletId } from '@ankr.com/provider';
 import { ReactNode } from 'react';
 
 export interface IConnectWalletsModalProps {

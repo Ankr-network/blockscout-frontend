@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { Section } from 'modules/delegate-stake/components/Section';
 

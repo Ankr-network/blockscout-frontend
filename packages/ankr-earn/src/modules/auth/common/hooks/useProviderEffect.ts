@@ -1,12 +1,15 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { DependencyList, EffectCallback, useEffect } from 'react';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { AvailableStakingWriteProviders } from '../../../common/types';
 
 import { useConnectedData } from './useConnectedData';
 
 export const useProviderEffect = (
   effect: EffectCallback,
   deps: DependencyList = [],
-  provider = AvailableWriteProviders.ethCompatible,
+  provider: AvailableStakingWriteProviders = AvailableWriteProviders.ethCompatible,
 ): void => {
   const { chainId, address } = useConnectedData(provider);
   // eslint-disable-next-line react-hooks/exhaustive-deps

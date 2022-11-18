@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';

@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { NavLink } from 'uiKit/NavLink';

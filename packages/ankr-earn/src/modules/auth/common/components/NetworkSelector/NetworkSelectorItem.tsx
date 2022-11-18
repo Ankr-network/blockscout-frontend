@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { MouseEventHandler, useCallback, useState } from 'react';
-
-import { t } from 'common';
 
 import { useNetworkSelectorStyles } from './useNetworkSelectorStyles';
 

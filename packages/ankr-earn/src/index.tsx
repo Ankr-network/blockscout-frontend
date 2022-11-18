@@ -1,9 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { initGoogleGtm } from '@ankr.com/common';
 import '@ankr.com/global-menu/src/assets/fonts/style.css';
-import 'common/src/utils/updatePrototypes';
 import { hydrate, render } from 'react-dom';
-
-import { initGoogleGtm } from 'common';
 
 import { initializeAnalytics } from 'modules/analytics';
 

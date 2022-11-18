@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Chip, Grid } from '@material-ui/core';
-
-import { t, tHTML } from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { useDialog } from 'modules/common/hooks/useDialog';

@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 import { parseError } from 'modules/common/utils/parseError';
 

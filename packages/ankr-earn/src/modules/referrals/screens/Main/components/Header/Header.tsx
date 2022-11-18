@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import CopyToClipboard from 'react-copy-to-clipboard';
-
-import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { CompleteIcon } from 'uiKit/Icons/CompleteIcon';

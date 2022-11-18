@@ -1,11 +1,10 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Grid } from '@material-ui/core';
 import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
 import classNames from 'classnames';
-
-import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';

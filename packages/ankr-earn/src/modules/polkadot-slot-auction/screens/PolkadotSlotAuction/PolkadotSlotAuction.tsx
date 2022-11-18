@@ -1,10 +1,10 @@
+import { t } from '@ankr.com/common';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { Query } from '@redux-requests/react';
 import classNames from 'classnames';
 import { ReactNode, useState } from 'react';
 import { uid } from 'react-uid';
 
-import { t } from 'common';
 import { SlotAuctionSdk } from 'polkadot';
 
 import { Container } from 'uiKit/Container';

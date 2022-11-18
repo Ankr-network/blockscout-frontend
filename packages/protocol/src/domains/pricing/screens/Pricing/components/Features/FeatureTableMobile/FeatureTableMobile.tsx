@@ -1,6 +1,6 @@
 import { Typography, Box, Button } from '@material-ui/core';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { FeatureContent } from '../FeatureContent/FeatureContent';
 import { intlRoot } from '../FeatureTable/FeatureTableUtils';
 import { useFeatureTableMobileStyles } from './useFeatureTableMobileStyles';

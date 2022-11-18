@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

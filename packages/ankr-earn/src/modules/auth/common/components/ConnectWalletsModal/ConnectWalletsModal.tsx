@@ -1,7 +1,9 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { isMobile } from 'web3modal';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
 import { featuresConfig } from 'modules/common/const';
+import { ExtraWriteProviders } from 'modules/common/types';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
 import { useConnectedData } from '../../hooks/useConnectedData';
@@ -29,7 +31,7 @@ export const ConnectWalletsModal = (): JSX.Element => {
   const {
     isLoading: isLoadingPolkadotCompatible,
     isConnected: isConnectedPolkadotCompatible,
-  } = useConnectedData(AvailableWriteProviders.polkadotCompatible);
+  } = useConnectedData(ExtraWriteProviders.polkadotCompatible);
 
   const isMobileDevice = isMobile();
 

@@ -1,5 +1,6 @@
-import { isWriteProvider } from '@ankr.com/provider-core';
 import { RootState } from 'store';
+
+import { isWriteProvider } from '@ankr.com/provider';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 

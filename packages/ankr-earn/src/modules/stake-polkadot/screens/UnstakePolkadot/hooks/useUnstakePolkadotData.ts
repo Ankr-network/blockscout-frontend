@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import {
   abortRequests,
   resetRequests as resetReduxRequests,
@@ -11,7 +12,6 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router';
 
-import { t } from 'common';
 import { PolkadotProvider } from 'polkadot';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

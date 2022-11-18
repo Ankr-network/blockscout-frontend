@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 export const getAmountInfoTooltip = (
   nativeAmount?: BigNumber,

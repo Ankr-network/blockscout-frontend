@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import {
   useDispatchRequest,
   useMutation,
@@ -6,7 +7,6 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { t } from 'common';
 import { TPolkadotAddress } from 'polkadot';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';

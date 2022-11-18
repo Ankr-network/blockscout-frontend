@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { IconButton, Paper, InputBase } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { ClearIcon } from 'uiKit/Icons/ClearIcon';
 import { SearchIcon } from 'uiKit/Icons/SearchIcon';

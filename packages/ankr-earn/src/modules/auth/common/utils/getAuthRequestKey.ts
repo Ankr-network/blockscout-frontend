@@ -1,11 +1,8 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { ProvidersMap } from '../../../common/types';
 
-export const getAuthRequestKey = (
-  providerId: AvailableWriteProviders,
-): string => {
+export const getAuthRequestKey = (providerId: keyof ProvidersMap): string => {
   return `/provider-${providerId}`;
 };
 
-export const getFullAuthRequestKey = (
-  providerId: AvailableWriteProviders,
-): string => `auth/connect${getAuthRequestKey(providerId)}`;
+export const getFullAuthRequestKey = (providerId: keyof ProvidersMap): string =>
+  `auth/connect${getAuthRequestKey(providerId)}`;

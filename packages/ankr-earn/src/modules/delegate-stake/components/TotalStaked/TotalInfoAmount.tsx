@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

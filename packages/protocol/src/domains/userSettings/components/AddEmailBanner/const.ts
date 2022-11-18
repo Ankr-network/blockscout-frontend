@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { AddEmailFormContentState } from '../AddEmailForm/types';
 
 export const stateToTitle: Record<AddEmailFormContentState, string> = {

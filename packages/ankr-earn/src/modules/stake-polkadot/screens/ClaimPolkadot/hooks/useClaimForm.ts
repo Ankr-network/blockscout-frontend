@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import {
   useDispatchRequest,
   useMutation,
@@ -7,7 +8,6 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 import { useHistory } from 'react-router';
 
-import { t } from 'common';
 import { TPolkadotAddress } from 'polkadot';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

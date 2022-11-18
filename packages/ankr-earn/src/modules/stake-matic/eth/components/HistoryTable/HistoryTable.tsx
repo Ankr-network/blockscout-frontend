@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { QueryState } from '@redux-requests/core';
 import classNames from 'classnames';
@@ -8,7 +9,6 @@ import {
   ITxEventsHistoryData,
   ITxEventsHistoryGroupItem,
 } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import {
   Table,

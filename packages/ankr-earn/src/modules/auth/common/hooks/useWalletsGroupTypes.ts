@@ -1,6 +1,11 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { QueryState } from '@redux-requests/core';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import {
+  AvailableStakingWriteProviders,
+  ExtraWriteProviders,
+} from 'modules/common/types';
 import { useAppSelector } from 'store/useAppSelector';
 
 import { IConnect } from '../actions/connect';
@@ -11,12 +16,12 @@ type TConnectData = IConnect | null;
 type TConnectedProvidersData = IConnect[] | null;
 
 interface IUseWalletsGroupTypesProps {
-  writeProviderId?: AvailableWriteProviders;
+  writeProviderId?: AvailableStakingWriteProviders;
 }
 
 interface IUseWalletsGroupTypesData {
   connectedProvidersData: TConnectedProvidersData;
-  walletsGroupTypes?: AvailableWriteProviders[];
+  walletsGroupTypes?: AvailableStakingWriteProviders[];
   writeProviderData: TConnectData;
 }
 
@@ -28,12 +33,12 @@ const PERSIST_DEFAULT_KEY = '_persist';
 
 const AVAILABLE_WALLETS_GROUP_TYPES = [
   AvailableWriteProviders.ethCompatible,
-  AvailableWriteProviders.polkadotCompatible,
+  ExtraWriteProviders.polkadotCompatible,
 ];
 
 const getConnectData = (
   queriesData: IQueryData,
-  providerKey: AvailableWriteProviders,
+  providerKey: AvailableStakingWriteProviders,
 ): TConnectData => {
   const queryKey = getFullAuthRequestKey(providerKey);
 
@@ -56,7 +61,7 @@ export const useWalletsGroupTypes = ({
   let writeProviderData: TConnectData = null;
 
   for (let i = 0; i < providersDataKeys.length; i += 1) {
-    const providerKey = providersDataKeys[i] as AvailableWriteProviders;
+    const providerKey = providersDataKeys[i] as AvailableStakingWriteProviders;
     const data = getConnectData(queriesData, providerKey);
 
     if (providerKey === writeProviderId) {

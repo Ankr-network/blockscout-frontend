@@ -10,7 +10,7 @@ import { ReactComponent as ActivePricingIcon } from 'uiKit/Icons/activePricing.s
 import { ReactComponent as DocsIcon } from 'uiKit/Icons/docs.svg';
 import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
 import { ReactComponent as ActiveSettingsIcon } from 'uiKit/Icons/activeSetting.svg';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { NavigationItem } from 'modules/common/components/Navigation';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';

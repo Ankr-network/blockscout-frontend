@@ -1,7 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { t } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ANKR_NETWORK_BY_ENV, ZERO } from 'modules/common/const';

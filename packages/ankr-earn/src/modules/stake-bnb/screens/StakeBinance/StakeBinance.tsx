@@ -1,9 +1,9 @@
+import { t, tHTML } from '@ankr.com/common';
 import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatch } from 'react-redux';
 
 import { BNB_STAKING_MAX_DECIMALS_LEN } from '@ankr.com/staking-sdk';
-import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';

@@ -1,6 +1,6 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/provider-core';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { connect } from 'domains/auth/actions/connect';
 import { MultiService } from 'modules/api/MultiService';

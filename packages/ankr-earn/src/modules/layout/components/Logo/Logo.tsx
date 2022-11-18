@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-
-import { t } from 'common';
 
 import { ReactComponent as AnkrLogoIcon } from 'assets/img/logo.svg';
 

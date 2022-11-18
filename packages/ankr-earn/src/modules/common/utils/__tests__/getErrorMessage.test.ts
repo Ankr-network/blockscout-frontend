@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { ErrorProps } from '@redux-requests/react';
-
-import { t } from 'common';
 
 import { ERR_MSG, getErrorMessage } from '../getErrorMessage';
 

@@ -1,7 +1,6 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-
-import { t, tHTML } from 'common';
 
 import { trackDelegatedStakingFlow } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
 import { configFromEnv } from 'modules/api/config';

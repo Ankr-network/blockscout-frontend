@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box, Paper, Container, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-
-import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';

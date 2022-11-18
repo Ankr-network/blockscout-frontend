@@ -1,7 +1,7 @@
 import { Paper, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { useStyles } from './NotificationsBlockStyles';
 import { NotificationsForm } from './NotificationsForm';
 import { Queries } from 'modules/common/components/Queries/Queries';
