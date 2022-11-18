@@ -18,6 +18,7 @@ export interface IUseConnectedData {
   isInjected: boolean;
   isOKX: boolean;
   isPolkadot: boolean;
+  walletId?: string;
 }
 
 export const useConnectedData = (
@@ -41,5 +42,6 @@ export const useConnectedData = (
     isInjected: walletName ? getIsInjectedWallet(walletName) : false,
     isOKX: walletName ? getIsOKX(walletName) : false,
     isPolkadot: walletName ? getIsPolkadot(walletName) : false,
+    walletId: data?.walletId,
   };
 };

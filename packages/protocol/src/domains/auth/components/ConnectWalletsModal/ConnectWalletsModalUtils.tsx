@@ -53,7 +53,7 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
       isHidden: false,
       isInjected: true,
       title: 'Trust Wallet',
-      walletId: EWalletId.trust,
+      walletId: EWalletId.trustViaWalletConnect,
     },
     {
       href: '',

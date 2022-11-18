@@ -27,6 +27,7 @@ import { StakedAKSMB } from '../StakedAKSMB';
 import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedASETHC } from '../StakedASETHC';
+import { StakedASUIC } from '../StakedASUIC';
 import { StakedAWNDB } from '../StakedAWNDB';
 import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
 import { UnclaimedDOT } from '../UnclaimedDOT';
@@ -60,6 +61,7 @@ export const LiquidStakedTokens = (
     isStakedWndBondShowed,
     isStakedKsmBondShowed,
     isStakedSSVOnETHCertShowed,
+    isStakedSuiCertShowed,
     isBridgedEthCertBscShowed,
     isBridgedEthBondBscShowed,
     isBridgedMaticBondPolygonShowed,
@@ -110,6 +112,10 @@ export const LiquidStakedTokens = (
         {isStakedKsmBondShowed && <StakedAKSMB />}
 
         {isStakedWndBondShowed && <StakedAWNDB />}
+
+        {featuresConfig.isSUIStakingActive && isStakedSuiCertShowed && (
+          <StakedASUIC />
+        )}
 
         {isBridgedMaticBondPolygonShowed && <BridgedMaticBond />}
 

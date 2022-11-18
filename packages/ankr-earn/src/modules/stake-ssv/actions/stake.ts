@@ -5,6 +5,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import {
+  ESDKErrorCodes,
   EthereumSSV,
   IStakeData,
   ProviderManagerSingleton,
@@ -75,9 +76,7 @@ export const stake = createSmartAction<
 
       store.dispatchRequest(getStakeData());
 
-      if (
-        err.message.includes(EthereumSSV.ESDKErrorCodes.INSUFFICIENT_BALANCE)
-      ) {
+      if (err.message.includes(ESDKErrorCodes.INSUFFICIENT_BALANCE)) {
         err.message = t('validation.insufficient-funds');
       }
 

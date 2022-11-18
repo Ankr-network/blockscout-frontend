@@ -18,8 +18,6 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
-import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -120,12 +118,11 @@ export const StakeFantom = (): JSX.Element => {
   ]);
 
   useProviderEffect(() => {
-    dispatchRequest(getCommonData());
     dispatchRequest(getFAQ(Token.FTM));
     dispatchRequest(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString()]));
     };
   }, [dispatch, dispatchRequest]);
 

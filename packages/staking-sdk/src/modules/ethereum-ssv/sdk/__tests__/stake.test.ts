@@ -3,9 +3,8 @@ import BigNumber from 'bignumber.js';
 import web3 from 'web3';
 import { TransactionReceipt } from 'web3-core';
 
-import { Env, ETH_SCALE_FACTOR, ZERO } from '../../../common';
+import { Env, ESDKErrorCodes, ETH_SCALE_FACTOR, ZERO } from '../../../common';
 import { IStakeData } from '../../../stake';
-import { ESDKErrorCodes } from '../../types';
 import { stake } from '../stake';
 
 describe('modules/ethereum-ssv/sdk/stake', () => {

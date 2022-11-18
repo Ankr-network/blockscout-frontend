@@ -15,6 +15,7 @@ import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { ASETHCIcon } from 'uiKit/Icons/ASETHCIcon';
+import { ASUICIcon } from 'uiKit/Icons/ASUICIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
@@ -23,6 +24,7 @@ import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
+import { SUIIcon } from 'uiKit/Icons/SUIIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 import { xDAIIcon } from 'uiKit/Icons/xDAIIcon';
 
@@ -65,6 +67,8 @@ export const iconByTokenMap: TIconMap = {
   [Token.ANKR]: AnkrIcon,
   [Token.mGNO]: MGNOIcon,
   [Token.xDAI]: xDAIIcon,
+  [Token.SUI]: SUIIcon,
+  [Token.aSUIc]: ASUICIcon,
 };
 
 export const iconByNetworkMap: TNetworkIconMap = {

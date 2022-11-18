@@ -9,14 +9,13 @@ import { useDispatch } from 'react-redux';
 import { t } from 'common';
 import { Notice } from 'ui';
 
-import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
-import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { AUDIT_LINKS } from 'modules/common/const';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { isValidETHTransaction } from 'modules/common/utils/isValidETHTransaction';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { InputField } from 'uiKit/InputField';
@@ -48,20 +47,12 @@ export const Restore = (): JSX.Element => {
   const classes = useRestoreStyles();
   const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
-
-  const {
-    isOpened: isOpenedModal,
-    onClose: onCloseModal,
-    onOpen: onOpenModal,
-  } = useDialog();
-
+  const { handleOpen: onOpenModal } = useDialog(EKnownDialogs.connect);
   const { loading } = useQuery({ type: fetchTransaction.toString() });
 
-  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
-    writeProviderId: AvailableWriteProviders.ethCompatible,
-  });
-
-  const isConnected = writeProviderData?.isConnected ?? false;
+  const { isConnected } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
 
   const handleClose = useCallback(() => {
     dispatch(goBack());
@@ -70,12 +61,6 @@ export const Restore = (): JSX.Element => {
   const onSubmit = useCallback(
     (formData: IRestoreFormData) => {
       if (loading) {
-        return;
-      }
-
-      if (!isConnected) {
-        onOpenModal();
-
         return;
       }
 
@@ -96,7 +81,7 @@ export const Restore = (): JSX.Element => {
         }
       });
     },
-    [dispatch, dispatchRequest, isConnected, loading, onOpenModal],
+    [dispatch, dispatchRequest, loading],
   );
 
   const renderForm = useCallback(
@@ -127,15 +112,19 @@ export const Restore = (): JSX.Element => {
             <Notice>{t('bridge.restore.note')}</Notice>
           </Box>
 
-          <Button fullWidth disabled={loading} size="large" type="submit">
-            {isConnected
-              ? t('bridge.restore.submit')
-              : t('bridge.restore.connect')}
-          </Button>
+          {isConnected ? (
+            <Button fullWidth disabled={loading} size="large" type="submit">
+              {t('bridge.restore.submit')}
+            </Button>
+          ) : (
+            <Button fullWidth size="large" type="button" onClick={onOpenModal}>
+              {t('bridge.restore.connect')}
+            </Button>
+          )}
         </form>
       );
     },
-    [classes.input, isConnected, loading],
+    [classes.input, isConnected, loading, onOpenModal],
   );
 
   return (
@@ -156,12 +145,6 @@ export const Restore = (): JSX.Element => {
           </AuditInfo>
         </Box>
       </BridgeContainer>
-
-      <ConnectWalletsModal
-        isOpen={isOpenedModal}
-        walletsGroupTypes={walletsGroupTypes}
-        onClose={onCloseModal}
-      />
     </Box>
   );
 };
