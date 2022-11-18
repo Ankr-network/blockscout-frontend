@@ -172,7 +172,8 @@
       "/account/withdraw/",
       "/account/success/",
       "/account/failure/",
-      "/settings/confirmation"
+      "/settings/confirmation",
+      "/mm/"
     ],
     "inlineCss": true
   }

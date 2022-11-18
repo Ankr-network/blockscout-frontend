@@ -10,6 +10,7 @@ import { Queries } from 'modules/common/components/Queries/Queries';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { ChainNodesTable } from './ChainNodesTable';
 import { getLinkedChainIDs } from './ChainNodesTableQueryUtils';
+import { ChainID } from 'modules/chains/types';
 
 interface IChainNodesTableQueryProps {
   chain: IApiChain;
@@ -45,6 +46,7 @@ export const ChainNodesTableQuery = ({
           loading={(loading && pristine) || !data}
           nodes={data?.nodes || []}
           nodesWeight={data?.nodesWeight || []}
+          showNodesWithZeroHeight={chain.id === ChainID.SUI_TESTNET}
         />
       )}
     </Queries>

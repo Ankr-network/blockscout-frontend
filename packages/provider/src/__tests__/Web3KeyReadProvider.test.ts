@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 import Web3 from 'web3';
-import { EthereumHttpWeb3KeyProvider } from '../../build';
 import { mockWeb3 } from '../../mocks/batch';
 import { TWeb3BatchCallback } from '@ankr.com/provider-core';
+import { EthereumHttpWeb3KeyProvider } from '../providerManager';
 
 jest.mock('web3', () => jest.fn());
 

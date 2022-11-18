@@ -31,7 +31,7 @@ export const login = createSmartAction<RequestAction<string, string>>(
             const provider = service.getKeyProvider();
             const { currentAccount: address } = provider;
 
-            const credentials = await service.loginAsUser(address);
+            const credentials = await service.getPAYGHashAndIssueToken(address);
 
             if (credentials) {
               store.dispatch(setAuthData({ credentials }));

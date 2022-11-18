@@ -3,9 +3,9 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
 import {
-  filterMapChains,
   IApiChain,
   IFetchChainsResponseData,
+  filterMapChains,
 } from '../api/queryChains';
 
 export interface IFetchPublicChainsResult {

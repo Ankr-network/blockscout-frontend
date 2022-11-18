@@ -36,7 +36,10 @@ export const TopUpQuery = () => {
       spinner={<Loader />}
     >
       {({ data }) => (
-        <TopUp initialStep={data} hasCredentials={Boolean(credentials)} />
+        <TopUp
+          initialStep={data}
+          hasCredentials={Boolean(credentials && credentials.endpoint_token)}
+        />
       )}
     </Queries>
   );

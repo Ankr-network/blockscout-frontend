@@ -1,12 +1,9 @@
-import { Select } from 'uiKit/Select';
-import { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-
-import { ChainGroupID } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { Tab } from 'modules/common/hooks/useTabs';
-import { getOptionsByTabs } from './utils/getOptionsByTabs';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { useCallback, useMemo } from 'react';
+import { Select } from 'uiKit/Select';
 import { useStyles } from './MobileGroupSelectorStyles';
+import { getOptionsByTabs } from './utils/getOptionsByTabs';
 
 interface Target {
   name?: string;
@@ -14,19 +11,17 @@ interface Target {
 }
 
 export interface MobileGroupSelectorProps {
-  chain: IApiChain;
   className?: string;
   groupID: ChainGroupID;
-  groupTabs: Tab<ChainGroupID>[];
+  groups: EndpointGroup[];
   onGroupSelect: (id: ChainGroupID) => void;
   visible?: boolean;
 }
 
 export const MobileGroupSelector = ({
-  chain,
   className,
   groupID,
-  groupTabs,
+  groups,
   onGroupSelect,
   visible = true,
 }: MobileGroupSelectorProps) => {
@@ -39,10 +34,7 @@ export const MobileGroupSelector = ({
     [onGroupSelect],
   );
 
-  const options = useMemo(
-    () => getOptionsByTabs(groupTabs, chain),
-    [groupTabs, chain],
-  );
+  const options = useMemo(() => getOptionsByTabs(groups), [groups]);
 
   const classes = useStyles();
 

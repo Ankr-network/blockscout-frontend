@@ -6,7 +6,11 @@ import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { useUserTopRequests } from 'domains/chains/hooks/useUserTopRequests';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { timeframeToIntervalMap } from '../const';
+import {
+  checkPrivateSecretChainsAndGetChainId,
+  checkPublicSecretChainsAndGetChainId,
+  timeframeToIntervalMap,
+} from '../const';
 import { UsageData } from '../types';
 import { getChainId } from '../utils/getChainId';
 import { getUsageData } from '../utils/getUsageData';
@@ -33,7 +37,14 @@ export const useUsageData = ({
     withExceptions: !isWalletConnected,
   });
 
-  const publicStats = usePublicStats({ chainId, isWalletConnected, timeframe });
+  const publicCheckedChainId = checkPublicSecretChainsAndGetChainId(chainId);
+  const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);
+
+  const publicStats = usePublicStats({
+    chainId: publicCheckedChainId,
+    isWalletConnected,
+    timeframe,
+  });
 
   const {
     data: { stats: privateStats = {} },
@@ -46,7 +57,7 @@ export const useUsageData = ({
 
   const userTopRequests = useUserTopRequests({
     privateStats,
-    chainId,
+    chainId: privateCheckedChainId,
     timeframe,
   });
 
@@ -55,7 +66,10 @@ export const useUsageData = ({
       isWalletConnected,
     });
 
-  const userTopRequestsIp = useUserRequestsByIp({ day30PrivateStats, chainId });
+  const userTopRequestsIp = useUserRequestsByIp({
+    day30PrivateStats,
+    chainId: privateCheckedChainId,
+  });
 
   return getUsageData({
     isConnecting,
@@ -63,8 +77,8 @@ export const useUsageData = ({
     arePrivateStatsLoading:
       arePrivateStatsLoading || areDay30PrivateStatsLoading,
     privateStatsError,
-    privateStats: privateStats[chainId],
-    day30PrivateStats: day30PrivateStats[chainId], // TODO: remove upon backend support for other timeframes
+    privateStats: privateStats[privateCheckedChainId],
+    day30PrivateStats: day30PrivateStats[privateCheckedChainId], // TODO: remove upon backend support for other timeframes
     publicStats,
     timeframe,
     userTopRequests,
