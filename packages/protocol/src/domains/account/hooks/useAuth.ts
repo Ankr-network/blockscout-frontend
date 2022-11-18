@@ -1,4 +1,4 @@
-import { Tier } from 'multirpc-sdk';
+import { IJwtToken, Tier } from 'multirpc-sdk';
 import { useAuth as useCommonAuth } from 'domains/auth/hooks/useAuth';
 
 export interface Auth {
@@ -7,6 +7,7 @@ export interface Auth {
   isNew: boolean;
   premiumUntil?: Date;
   tier?: Tier;
+  credentials?: IJwtToken;
 }
 
 // needs to turn premium subscription date into milliseconds from kiloseconds
@@ -26,5 +27,5 @@ export const useAuth = (): Auth => {
       ? new Date(credentials.expires_at * MILLISECONDS_COEFFICIENT)
       : undefined;
 
-  return { isConnected, isConnecting, isNew, premiumUntil, tier };
+  return { isConnected, isConnecting, isNew, premiumUntil, tier, credentials };
 };

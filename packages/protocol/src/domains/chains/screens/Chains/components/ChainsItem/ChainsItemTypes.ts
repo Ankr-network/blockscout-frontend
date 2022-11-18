@@ -4,6 +4,7 @@ import { ChainID } from 'modules/chains/types';
 import { Chain } from '../ChainsList/ChainsListTypes';
 
 export interface ChainsItemQueryProps {
+  isMMIndex?: boolean;
   chain: Chain;
   publicChain?: Chain;
   chainId: ChainID;
@@ -20,4 +21,7 @@ export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {
   isLoading: boolean;
   isPremium: boolean;
   totalRequests: string;
+  handleButtonClick?: (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => void;
 }

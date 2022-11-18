@@ -105,6 +105,12 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       return false;
     }
 
+    const expiresAt = Number(firstActiveToken.expires_at) * 1000000;
+
+    if (expiresAt < Date.now()) {
+      return firstActiveToken;
+    }
+
     return this.upgradeJwtToken(firstActiveToken);
   }
 
@@ -121,6 +127,10 @@ export class MultiRpcSdk implements IMultiRpcSdk {
       return premiumToken;
     }
 
+    return this.getPAYGHashAndIssueToken(user)
+  }
+
+  async getPAYGHashAndIssueToken(user: Web3Address) {
     const PAYGTransactionHash =
       await this.getPAYGContractManager().getLatestUserTierAssignedEventLogHash(
         user,
@@ -179,7 +189,7 @@ export class MultiRpcSdk implements IMultiRpcSdk {
     const expiresAt = Number(jwtToken.expires_at) * 1000000;
 
     if (expiresAt < Date.now()) {
-      return false;
+      return jwtToken;
     }
 
     return this.upgradeJwtToken(jwtToken);
