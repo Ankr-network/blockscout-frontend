@@ -14,7 +14,6 @@ import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { approveABNBCUnstake } from 'modules/stake-bnb/actions/approveABNBCUnstake';
 import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
 import { unstake } from 'modules/stake-bnb/actions/unstake';
-import { useRedeemData } from 'modules/stake-bnb/hooks/useRedeemData';
 import { RoutesConfig } from 'modules/stake-bnb/Routes';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedToken';
@@ -30,8 +29,6 @@ interface IUseUnstakeBnb {
   isApproved: boolean;
   isWithApprove: boolean;
   isApproveLoading: boolean;
-  redeemPeriod: string;
-  redeemValue: string;
   closeHref: string;
   selectedToken: TBnbSyntToken;
   onExtraValidation: (
@@ -58,8 +55,6 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   });
 
   const { loading: isUnstakeLoading } = useMutation({ type: unstake });
-
-  const { redeemPeriod, redeemValue } = useRedeemData();
 
   const isBondToken = selectedToken === Token.aBNBb;
 
@@ -161,8 +156,6 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
     minAmount,
     isFetchStatsLoading,
     isUnstakeLoading,
-    redeemPeriod,
-    redeemValue,
     closeHref,
     isWithApprove,
     isApproved,

@@ -54,7 +54,7 @@ export const ClaimForm = ({
           color="textPrimary"
           variant="body2"
         >
-          {t('stake.you-will-get')}
+          {t('stake.you-will-receive')}
         </Typography>
 
         <Typography

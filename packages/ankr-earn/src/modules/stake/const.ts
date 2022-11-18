@@ -11,7 +11,8 @@ export type UnstakableToken =
   | Token.FTM
   | Token.KSM
   | Token.MATIC
-  | Token.WND;
+  | Token.WND
+  | Token.SUI;
 
 export const UNSTAKE_DAY_INTERVALS_BY_TOKEN: Record<UnstakableToken, string> = {
   [Token.AVAX]: '28',
@@ -22,6 +23,7 @@ export const UNSTAKE_DAY_INTERVALS_BY_TOKEN: Record<UnstakableToken, string> = {
   [Token.KSM]: '7',
   [Token.WND]: '7',
   [Token.ETH]: '',
+  [Token.SUI]: '31-45',
 };
 
 export const INPUT_DEBOUNCE_TIME: Milliseconds = 300;

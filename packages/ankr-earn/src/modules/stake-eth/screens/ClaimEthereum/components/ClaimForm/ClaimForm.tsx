@@ -83,7 +83,9 @@ export const ClaimForm = ({
         {tokenVariantsSlot}
 
         <StakeDescriptionContainer>
-          <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
+          <StakeDescriptionName>
+            {t('stake.you-will-receive')}
+          </StakeDescriptionName>
 
           <StakeDescriptionAmount
             isLoading={isBalanceLoading}
