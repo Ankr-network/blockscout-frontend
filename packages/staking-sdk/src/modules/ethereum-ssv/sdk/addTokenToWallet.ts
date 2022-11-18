@@ -7,10 +7,11 @@ import {
   configFromEnv,
   currentEnv,
   ETH_DECIMALS,
+  ICommonProps,
   isMainnet,
   ZERO_ADDRESS,
 } from '../../common';
-import { ESSVTokens, ICommonProps } from '../types';
+import { ESSVTokens } from '../types';
 
 type TChainId = EEthereumNetworkId.mainnet | EEthereumNetworkId.goerli;
 

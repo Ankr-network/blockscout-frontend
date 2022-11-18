@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import {
+  ACTION_CACHE_SEC,
   DECIMAL_PLACES,
   DEFAULT_ROUNDING,
   featuresConfig,
@@ -21,7 +22,7 @@ import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
 import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
 import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
-import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/common/Routes';
 import { fetchStats as fetchMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
@@ -79,6 +80,11 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: fetchStakeAVAXStats,
   });
 
+  const { data: ftmData, isFetching: isFtmDataLoading } =
+    useGetFTMCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
+
   const { data: bnbData, loading: isBnbDataLoading } = useQuery({
     type: fetchStakeBNBStats,
   });
@@ -91,10 +97,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     useQuery({
       type: fetchStakeETHClaimableStats,
     });
-
-  const { data: ftmData, loading: isFtmDataLoading } = useQuery({
-    type: fetchStakeFTMStats,
-  });
 
   const { data: ankrBalanceData, isFetching: isLoadingAnkrBalanceData } =
     useGetCommonDataQuery();

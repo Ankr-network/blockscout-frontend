@@ -54,7 +54,8 @@ export const RoutesConfig = createRouteConfig(
 
     unstakeSuccess: {
       path: STEP_UNSTAKE_FANTOM_PATH,
-      generatePath: () => generatePath(STEP_UNSTAKE_FANTOM_PATH),
+      generatePath: (token: TFtmSyntToken, txHash: string) =>
+        generatePath(STEP_UNSTAKE_FANTOM_PATH, { token, txHash }),
     },
   },
   ROOT,

@@ -12,32 +12,26 @@ interface IGuardPolkadotRouteProps extends RouteProps {
   availableNetworks: EPolkadotNetworkId[];
   isOpenConnectInstantly?: boolean;
   isOpenedConnectModal?: boolean;
-  providerId: AvailableWriteProviders;
 }
 
 export const GuardPolkadotRoute = ({
   availableNetworks,
   isOpenConnectInstantly,
   isOpenedConnectModal = true,
-  providerId,
   ...routeProps
 }: IGuardPolkadotRouteProps): JSX.Element => {
   const {
     isConnected,
     isLoading,
-    isOpenedModal,
     isUnsupportedNetwork,
     isValidWallet,
     supportedNetworks,
-    walletsGroupTypes,
-    onCloseModal,
     onDispatchConnect,
     onOpenModal,
     onSwitchNetwork,
   } = useGuardPolkadotRoute({
     availableNetworks,
     isOpenedConnectModal,
-    providerId,
   });
 
   return (
@@ -46,13 +40,10 @@ export const GuardPolkadotRoute = ({
       isConnected={isConnected}
       isLoading={isLoading}
       isOpenConnectInstantly={isOpenConnectInstantly}
-      isOpenedModal={isOpenedModal}
       isUnsupportedNetwork={isUnsupportedNetwork}
       isValidWallet={isValidWallet}
-      providerId={providerId}
+      providerId={AvailableWriteProviders.polkadotCompatible}
       supportedNetworks={supportedNetworks}
-      walletsGroupTypes={walletsGroupTypes}
-      onCloseModal={onCloseModal}
       onDispatchConnect={onDispatchConnect}
       onOpenModal={onOpenModal}
       onSwitchNetwork={onSwitchNetwork}

@@ -1,19 +1,15 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
-import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
+import { useAddFTMTokenToWalletMutation } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import {
-  getTxData,
-  getTxReceipt,
+  useGetFTMTxDataQuery,
+  useGetFTMTxReceiptQuery,
 } from 'modules/stake-fantom/actions/getTxData';
 import { TFtmSyntToken } from 'modules/stake-fantom/types/TFtmSyntToken';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IStakeFantomStepsHook {
   isLoading: boolean;
@@ -22,7 +18,7 @@ export interface IStakeFantomStepsHook {
   destination?: string;
   transactionId?: string;
   tokenName: string;
-  error?: Error;
+  error?: FetchBaseQueryError | Error;
   handleAddTokenToWallet: () => void;
 }
 
@@ -34,31 +30,25 @@ interface IStakeSuccessParams {
 
 export const useStakeFantomStepsHook = (): IStakeFantomStepsHook => {
   const { txHash, tokenOut = Token.aFTMb } = useParams<IStakeSuccessParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const dispatchRequest = useDispatchRequest();
-  const dispatch = useAppDispatch();
+
+  const [addFTMTokenToWallet] = useAddFTMTokenToWalletMutation();
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetFTMTxDataQuery({ txHash });
+  const { data: receipt } = useGetFTMTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: 3_000,
+    },
+  );
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
-  useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
-
-    return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
-    };
-  }, [dispatch, txHash]);
-
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const onAddTokenClick = () => {
-    dispatchRequest(addFTMTokenToWallet(tokenOut));
+    addFTMTokenToWallet(tokenOut);
   };
 
   const isPending = !receipt && !!data?.isPending;
@@ -70,7 +60,7 @@ export const useStakeFantomStepsHook = (): IStakeFantomStepsHook => {
     tokenName: tokenOut,
     isLoading,
     isPending,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
 };

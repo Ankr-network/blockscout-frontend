@@ -19,11 +19,7 @@ export const ConnectedWallets = ({
     onOpen: onOpenDialog,
   } = useLocalDialog();
 
-  const {
-    isOpened: isOpenedModal,
-    handleOpen: onOpenModal,
-    handleClose: onCloseModal,
-  } = useDialog(EKnownDialogs.connect);
+  const { handleOpen: onOpenModal } = useDialog(EKnownDialogs.connect);
 
   const { wallets, walletsGroupTypes } = useAuthWallets();
 
@@ -37,11 +33,7 @@ export const ConnectedWallets = ({
         onClick={onOpenDialog}
       />
 
-      <ConnectWalletsModal
-        isOpen={isOpenedModal}
-        walletsGroupTypes={walletsGroupTypes}
-        onClose={onCloseModal}
-      />
+      <ConnectWalletsModal />
 
       <ConnectedWalletsDialog
         networks={wallets}

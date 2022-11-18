@@ -1,4 +1,3 @@
-import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import {
@@ -9,21 +8,12 @@ import { t } from 'common';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { ITotalGetHistoryData } from 'modules/stake-fantom/actions/getTotalHistoryData';
-import { useAppDispatch } from 'store/useAppDispatch';
+import { useGetFTMTotalHistoryDataQuery } from 'modules/stake-fantom/actions/getTotalHistoryData';
 
 import { useStakedFTMTxHistory } from '../useStakedFTMTxHistory';
 
-jest.mock('@redux-requests/react', () => ({
-  useQuery: jest.fn(),
-}));
-
-jest.mock('store/useAppDispatch', () => ({
-  useAppDispatch: jest.fn(),
-}));
-
 jest.mock('modules/stake-fantom/actions/getTotalHistoryData', () => ({
-  getTotalHistoryData: jest.fn(),
+  useGetFTMTotalHistoryDataQuery: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedFTMTxHistory', () => {
@@ -31,11 +21,8 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedF
 
   const token = Token.aFTMb;
 
-  const defaultData: {
-    loading: boolean;
-    data: ITotalGetHistoryData;
-  } = {
-    loading: false,
+  const defaultData = {
+    isFetching: false,
     data: {
       totalPending: ONE_ETH,
       stakeEventsAFTMB: [
@@ -87,12 +74,11 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedF
         },
       ],
     },
+    refetch: jest.fn(),
   };
 
   beforeEach(() => {
-    (useQuery as jest.Mock).mockReturnValue(defaultData);
-
-    (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
+    (useGetFTMTotalHistoryDataQuery as jest.Mock).mockReturnValue(defaultData);
   });
 
   afterEach(() => {
@@ -133,8 +119,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedF
   });
 
   test('should handle load history data', () => {
-    const mockDispatch = jest.fn();
-    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    const { refetch } = useGetFTMTotalHistoryDataQuery();
 
     const { result } = renderHook(() => useStakedFTMTxHistory(token));
 
@@ -142,11 +127,14 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedF
       result.current.handleLoadTxHistory();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(refetch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {
-    (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
+    (useGetFTMTotalHistoryDataQuery as jest.Mock).mockReturnValue({
+      data: null,
+      isFetching: true,
+    });
 
     const { result } = renderHook(() => useStakedFTMTxHistory(token));
 

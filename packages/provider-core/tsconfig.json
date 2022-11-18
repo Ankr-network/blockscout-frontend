@@ -15,7 +15,6 @@
     "typeRoots": ["node_modules/@types"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
     "jsx": "react"
   },
   "include": ["src/index.ts", "src/typings/*.d.ts"],

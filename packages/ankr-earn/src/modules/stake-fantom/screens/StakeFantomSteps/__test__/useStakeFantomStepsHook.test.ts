@@ -1,20 +1,19 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { useAddFTMTokenToWalletMutation } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
+import {
+  useGetFTMTxDataQuery,
+  useGetFTMTxReceiptQuery,
+} from 'modules/stake-fantom/actions/getTxData';
 
 import { useStakeFantomStepsHook } from '../useStakeFantomStepsHook';
 
 jest.mock('react-router', () => ({
   useParams: jest.fn(),
-}));
-
-jest.mock('@redux-requests/react', () => ({
-  useDispatchRequest: jest.fn(),
-  useQuery: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -25,11 +24,29 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
+jest.mock('modules/stake-fantom/actions/addFTMTokenToWallet', () => ({
+  useAddFTMTokenToWalletMutation: jest.fn(),
+}));
+
+jest.mock('modules/stake-fantom/actions/getTxData', () => ({
+  useGetFTMTxDataQuery: jest.fn(),
+  useGetFTMTxReceiptQuery: jest.fn(),
+}));
+
 jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 
 describe('modules/stake-fantom/screens/StakeFantomSteps/useStakeFantomStepsHook', () => {
+  const defaultQueryData = {
+    isFetching: false,
+    data: {
+      isPending: true,
+      amount: new BigNumber('1'),
+      destinationAddress: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
+    },
+  };
+
   beforeEach(() => {
     (useParams as jest.Mock).mockImplementation(() => ({
       txHash:
@@ -41,17 +58,9 @@ describe('modules/stake-fantom/screens/StakeFantomSteps/useStakeFantomStepsHook'
       address: 'address',
     }));
 
-    (useDispatchRequest as jest.Mock).mockImplementation(() => jest.fn());
-
-    (useQuery as jest.Mock).mockImplementation(() => ({
-      loading: false,
-      stopPolling: jest.fn(),
-      data: {
-        isPending: true,
-        amount: new BigNumber('1'),
-        destinationAddress: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
-      },
-    }));
+    (useAddFTMTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
+    (useGetFTMTxDataQuery as jest.Mock).mockReturnValue(defaultQueryData);
+    (useGetFTMTxReceiptQuery as jest.Mock).mockReturnValue(defaultQueryData);
   });
 
   afterEach(() => {
@@ -75,7 +84,7 @@ describe('modules/stake-fantom/screens/StakeFantomSteps/useStakeFantomStepsHook'
   });
 
   test('should return error if there is provider error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
+    (useGetFTMTxDataQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
       error: new Error('error'),
     }));
@@ -86,13 +95,15 @@ describe('modules/stake-fantom/screens/StakeFantomSteps/useStakeFantomStepsHook'
   });
 
   test('should return error if there is transaction fail error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
+    (useGetFTMTxReceiptQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
       data: { status: false },
     }));
 
     const { result } = renderHook(() => useStakeFantomStepsHook());
 
-    expect(result.current.error?.message).toBe(TxErrorCodes.TX_FAILED);
+    expect((result.current.error as Error)?.message).toBe(
+      TxErrorCodes.TX_FAILED,
+    );
   });
 });

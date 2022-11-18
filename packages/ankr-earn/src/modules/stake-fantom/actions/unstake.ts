@@ -1,44 +1,44 @@
 import { IWeb3SendResult } from '@ankr.com/provider-core';
-import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
-import { createAction } from 'redux-smart-actions';
 
 import { FantomSDK } from '@ankr.com/staking-sdk';
 
-import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
+import { web3Api } from 'modules/api/web3Api';
 
-import { ACTIONS_PREFIX } from '../const';
+import { CacheTags } from '../const';
+import { RoutesConfig } from '../Routes';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
-import { getBurnFee } from './getBurnFee';
-import { getCommonData } from './getCommonData';
+interface IUnstakeArgs {
+  amount: BigNumber;
+  token: TFtmSyntToken;
+}
 
-export const unstake = createAction<RequestAction, [BigNumber, TFtmSyntToken]>(
-  `${ACTIONS_PREFIX}unstake`,
-  (amount, token) => ({
-    request: {
-      promise: (async (): Promise<IWeb3SendResult> => {
+export const { useUnstakeFTMMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    unstakeFTM: build.mutation<IWeb3SendResult, IUnstakeArgs>({
+      queryFn: async ({ amount, token }) => {
         const sdk = await FantomSDK.getInstance();
 
-        return sdk.unstake(amount, token);
-      })(),
-    },
-    meta: {
-      showNotificationOnError: true,
-      asMutation: true,
-      onSuccess: async (response, _action, { dispatch, dispatchRequest }) => {
-        await response.data?.receiptPromise;
-
-        dispatch(getCommonData());
-        dispatch(resetRequests([getBurnFee.toString()]));
-        dispatchRequest(getUnstakeDate());
-
-        if (response.data.transactionHash) {
-          dispatch(push(`${token}/${response.data.transactionHash}/`));
-        }
-        return response;
+        return { data: await sdk.unstake(amount, token) };
       },
-    },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { transactionHash } = response.data;
+          const { token } = args;
+
+          if (transactionHash) {
+            const path = RoutesConfig.unstakeSuccess.generatePath(
+              token,
+              response.data.transactionHash,
+            );
+
+            dispatch(push(path));
+          }
+        });
+      },
+      invalidatesTags: [CacheTags.common],
+    }),
   }),
-);
+});

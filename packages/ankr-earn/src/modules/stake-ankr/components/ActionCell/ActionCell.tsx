@@ -3,6 +3,7 @@ import { Chip } from '@material-ui/core';
 import { t } from 'common';
 
 import { NavLink } from 'uiKit/NavLink';
+import { Tooltip } from 'uiKit/Tooltip';
 
 import { useActionCellStyles } from './useActionCellStyles';
 
@@ -32,8 +33,17 @@ export const ActionCell = ({
   }
 
   return (
-    <NavLink className={classes.btn} href={claimLink} variant="outlined">
-      {t('stake-ankr.staking-table.claim')}
-    </NavLink>
+    <Tooltip arrow title={t('common.tooltips.comingSoon')}>
+      <span>
+        <NavLink
+          disabled
+          className={classes.btn}
+          href={claimLink}
+          variant="outlined"
+        >
+          {t('stake-ankr.staking-table.claim')}
+        </NavLink>
+      </span>
+    </Tooltip>
   );
 };

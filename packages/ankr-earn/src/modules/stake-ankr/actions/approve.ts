@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import {
   getTxReceipt,
   getTxReceiptRequestKey,
 } from 'modules/common/actions/getTxReceipt';
-import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IApproveResponse } from '../api/AnkrStakingSDK/types';

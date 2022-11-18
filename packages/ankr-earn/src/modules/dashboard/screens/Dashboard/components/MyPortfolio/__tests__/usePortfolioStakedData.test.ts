@@ -5,6 +5,7 @@ import { ZERO } from 'modules/common/const';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 
 import { usePortfolioStakedData } from '../usePortfolioStakedData';
 
@@ -24,6 +25,10 @@ jest.mock('modules/stake-ankr/actions/getTotalInfo', () => ({
   useGetTotalInfoQuery: jest.fn(),
 }));
 
+jest.mock('modules/stake-fantom/actions/getCommonData', () => ({
+  useGetFTMCommonDataQuery: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfolioStakedData', () => {
   const defaultQueryData = {
     loading: false,
@@ -37,6 +42,10 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
       data: undefined,
     });
     (useGetMaxApyQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetFTMCommonDataQuery as jest.Mock).mockReturnValue({
       isFetching: false,
       data: undefined,
     });

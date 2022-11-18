@@ -23,8 +23,7 @@ import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/action
 import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
-import { getCommonData as getFTMStats } from 'modules/stake-fantom/actions/getCommonData';
-import { getTotalHistoryData as getFTMHistory } from 'modules/stake-fantom/actions/getTotalHistoryData';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { fetchTotalHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
@@ -62,8 +61,6 @@ const resetRequests = () =>
     getEthCommonData.toString(),
     getEthClaimableData.toString(),
     getSSVOnETHDashboardData.toString(),
-    getFTMHistory.toString(),
-    getFTMStats.toString(),
     getMetrics.toString(),
     getTotalHistory.toString(),
     getUnstakeDate.toString(),
@@ -79,6 +76,8 @@ export const useDashboard = (): IUseDashboard => {
   const [isFirstLoad, setFirstLoad] = useState(true);
 
   const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
+
+  const { refetch: getFTMCommonDataRefetch } = useGetFTMCommonDataQuery();
 
   usePolkadot();
 
@@ -97,10 +96,10 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchPolygonStats());
     dispatch(getEthCommonData());
     dispatch(getEthClaimableData());
-    dispatch(getFTMStats());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     dispatch(getMaticPolygonCommonData());
+    getFTMCommonDataRefetch();
 
     if (address) {
       dispatch(getPartnerCode(address));

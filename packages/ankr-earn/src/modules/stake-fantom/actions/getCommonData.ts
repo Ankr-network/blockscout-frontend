@@ -1,10 +1,11 @@
-import { RequestAction, RequestActionMeta } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { FantomSDK } from '@ankr.com/staking-sdk';
 
-import { ACTIONS_PREFIX } from '../const';
+import { web3Api } from 'modules/api/web3Api';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
+
+import { CacheTags } from '../const';
 
 interface IGetCommonData {
   ftmBalance: BigNumber;
@@ -16,48 +17,45 @@ interface IGetCommonData {
   aFTMcRatio: BigNumber;
 }
 
-export const getCommonData = createAction<
-  RequestAction<IGetCommonData, IGetCommonData>,
-  [RequestActionMeta<IGetCommonData, IGetCommonData>?]
->(`${ACTIONS_PREFIX}getCommonData`, meta => ({
-  request: {
-    promise: (async (): Promise<IGetCommonData> => {
-      const sdk = await FantomSDK.getInstance();
+export const { useGetFTMCommonDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getFTMCommonData: build.query<IGetCommonData, void>({
+      queryFn: async () => {
+        const sdk = await FantomSDK.getInstance();
 
-      const [
-        ftmBalance,
-        minStake,
-        aFTMbBalance,
-        {
-          pendingBond: bondPendingUnstakes,
-          pendingCertificate: certPendingUnstakes,
-        },
-        aFTMcBalance,
-        aFTMcRatio,
-      ] = await Promise.all([
-        sdk.getFtmBalance(),
-        sdk.getMinimumStake(),
-        sdk.getABBalance(),
-        sdk.getPendingData(),
-        sdk.getACBalance(),
-        sdk.getACRatio(),
-      ]);
+        const [
+          ftmBalance,
+          minStake,
+          aFTMbBalance,
+          {
+            pendingBond: bondPendingUnstakes,
+            pendingCertificate: certPendingUnstakes,
+          },
+          aFTMcBalance,
+          aFTMcRatio,
+        ] = await Promise.all([
+          sdk.getFtmBalance(),
+          sdk.getMinimumStake(),
+          sdk.getABBalance(),
+          sdk.getPendingData(),
+          sdk.getACBalance(),
+          sdk.getACRatio(),
+        ]);
 
-      return {
-        ftmBalance,
-        minStake,
-        aFTMbBalance,
-        bondPendingUnstakes,
-        certPendingUnstakes,
-        aFTMcBalance,
-        aFTMcRatio,
-      };
-    })(),
-  },
-  meta: {
-    ...meta,
-    asMutation: false,
-    showNotificationOnError: true,
-    getData: data => data,
-  },
-}));
+        return {
+          data: {
+            ftmBalance,
+            minStake,
+            aFTMbBalance,
+            bondPendingUnstakes,
+            certPendingUnstakes,
+            aFTMcBalance,
+            aFTMcRatio,
+          },
+        };
+      },
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
+  }),
+});
