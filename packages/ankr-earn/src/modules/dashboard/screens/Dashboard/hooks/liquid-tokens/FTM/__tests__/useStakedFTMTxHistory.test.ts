@@ -1,10 +1,10 @@
+import { t } from '@ankr.com/common';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import {
   EBinancePoolEventsMap,
   EFantomPoolEvents,
 } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

@@ -1,15 +1,18 @@
-import {
-  Address,
-  AvailableWriteProviders,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import {
+  Address,
+  EthereumWeb3KeyProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { PolkadotProvider } from 'polkadot';
 
-import { Web3Address } from 'modules/common/types';
+import {
+  AvailableStakingWriteProviders,
+  Web3Address,
+} from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { setProviderStatus } from '../store/authSlice';
@@ -25,7 +28,7 @@ export interface IConnect {
   addresses: Address[];
   chainId: TChainId;
   isConnected: boolean;
-  providerId: AvailableWriteProviders;
+  providerId: AvailableStakingWriteProviders;
   walletIcon?: string;
   walletId: string;
   walletName: string;
@@ -54,14 +57,17 @@ const getChainId = async (provider: TProvider): Promise<TChainId> => {
 
 export const connect = createAction<
   RequestAction<IConnect, IConnect>,
-  [AvailableWriteProviders, string?, TOnModalClose?, string?]
+  [AvailableStakingWriteProviders, string?, TOnModalClose?, string?]
 >('auth/connect', (providerId, wallet, onModalClose, currentAccount) => ({
   request: {
     promise: async (): Promise<IConnect> => {
       const providerManager = ProviderManagerSingleton.getInstance();
-      const provider = await providerManager.getProvider(providerId, wallet);
+      const provider = (await providerManager.getProvider(
+        providerId,
+        wallet,
+      )) as EthereumWeb3KeyProvider;
 
-      const address = provider.currentAccount ?? '';
+      const address = provider?.currentAccount ?? '';
       const addresses = await getAddresses(provider);
       const isConnected = provider.isConnected();
       const chainId = await getChainId(provider);

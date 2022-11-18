@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Box, Container, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { Dialog } from 'uiKit/Dialog';
 import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';

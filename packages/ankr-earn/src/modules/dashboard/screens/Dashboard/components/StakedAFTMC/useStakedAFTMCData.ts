@@ -1,12 +1,12 @@
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
-import { t } from 'common';
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import {

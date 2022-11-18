@@ -1,8 +1,8 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';

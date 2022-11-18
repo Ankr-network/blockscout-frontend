@@ -1,4 +1,4 @@
-import { getUniqueId } from 'common';
+import { getUniqueId } from '@ankr.com/common';
 
 export const CacheTags = {
   history: getUniqueId(),

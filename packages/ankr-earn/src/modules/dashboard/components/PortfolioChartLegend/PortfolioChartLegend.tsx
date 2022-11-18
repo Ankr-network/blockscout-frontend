@@ -1,10 +1,9 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Grid, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { MouseEvent as ReactMouseEvent } from 'react';
-
-import { t, tHTML } from 'common';
 
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';

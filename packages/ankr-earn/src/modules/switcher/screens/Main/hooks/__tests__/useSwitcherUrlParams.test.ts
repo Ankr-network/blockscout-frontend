@@ -1,6 +1,7 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useLocation, useHistory } from 'react-router';
+
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { Token } from 'modules/common/types/token';

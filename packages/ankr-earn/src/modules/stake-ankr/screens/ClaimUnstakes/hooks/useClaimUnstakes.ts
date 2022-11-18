@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
-
-import { t } from 'common';
 
 import { ZERO } from 'modules/common/const';
 import { useClaimAllForValidatorMutation } from 'modules/stake-ankr/actions/claimAllForValidator';

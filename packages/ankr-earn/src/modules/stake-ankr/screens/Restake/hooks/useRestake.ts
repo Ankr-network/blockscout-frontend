@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';

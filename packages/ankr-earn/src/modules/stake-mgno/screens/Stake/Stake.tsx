@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
-
-import { t } from 'common';
 
 import { Faq } from 'modules/common/components/Faq';
 import { ZERO } from 'modules/common/const';

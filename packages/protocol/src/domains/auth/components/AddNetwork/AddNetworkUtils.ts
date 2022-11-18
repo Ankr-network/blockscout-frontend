@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { flatNetworkURLs } from 'domains/auth/utils/flatNetworkURLs';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';

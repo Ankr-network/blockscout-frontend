@@ -1,8 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Button, Container, Grid, Typography } from '@material-ui/core';
 import { useCallback, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { t } from 'common';
 import { useIsSMDown } from 'ui';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';

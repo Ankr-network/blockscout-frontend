@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, BoxProps, Grid } from '@material-ui/core';
 import { Children } from 'react';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import { StakeDescriptionName } from '../StakeDescriptionName';
 

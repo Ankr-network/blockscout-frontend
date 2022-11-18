@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import {
   Table,

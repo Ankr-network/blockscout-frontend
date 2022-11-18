@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, ButtonBase, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { TotalStaked } from 'modules/delegate-stake/components/TotalStaked';

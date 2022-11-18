@@ -1,8 +1,8 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { t } from 'common';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { iconByTokenMap, TIconMap } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';

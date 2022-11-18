@@ -1,4 +1,4 @@
-import { tHTML, t } from 'common';
+import { tHTML, t } from '@ankr.com/common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

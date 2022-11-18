@@ -1,6 +1,5 @@
-import { EWalletId, getWalletName } from '@ankr.com/provider-core';
+import { EWalletId, getWalletName , getIsTrustWalletInjected } from '@ankr.com/provider';
 
-import { getIsTrustWalletInjected } from '@ankr.com/provider';
 
 import { useConnectForModal } from '../../hooks/useConnectForModal';
 import { ConnectTile } from '../ConnectTile';

@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useDispatchRequest } from '@redux-requests/react';
 import { useMemo } from 'react';
 
@@ -6,11 +5,15 @@ import { disconnect } from 'modules/auth/common/actions/disconnect';
 import { updateAccountAddress } from 'modules/auth/common/actions/updateAccountAddress';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 
+import {
+  AvailableStakingWriteProviders,
+  ExtraWriteProviders,
+} from '../../common/types';
 import { IAddress, TAddresses } from '../types';
 
 interface IUseAuthWalletsData {
   wallets: IWalletItem[];
-  walletsGroupTypes?: AvailableWriteProviders[];
+  walletsGroupTypes?: AvailableStakingWriteProviders[];
 }
 
 export interface IWalletItem {
@@ -54,7 +57,7 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
         addresses,
         network: providerData.walletName,
         onAddressUpdate: (address: string): void => {
-          if (providerId !== AvailableWriteProviders.polkadotCompatible) {
+          if (providerId !== ExtraWriteProviders.polkadotCompatible) {
             return;
           }
 

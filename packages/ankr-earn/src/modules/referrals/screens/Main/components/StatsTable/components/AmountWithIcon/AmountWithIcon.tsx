@@ -1,7 +1,6 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-
-import { t, tHTML } from 'common';
 
 import { iconByTokenMap, TIconMap } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';

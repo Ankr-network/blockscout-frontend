@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import {
   Box,
   ButtonBase,
@@ -10,7 +11,6 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ChangeEvent, ReactText, useCallback } from 'react';
 
-import { t } from 'common';
 import { useIsMDUp } from 'ui';
 
 import {

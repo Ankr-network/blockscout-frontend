@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { DOCS_ANKR_TOKEN_STAKING_LINK } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';

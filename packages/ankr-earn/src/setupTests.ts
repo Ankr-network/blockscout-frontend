@@ -47,7 +47,14 @@ jest.mock('web3modal', () => ({
   isMobile: () => true,
 }));
 
-jest.mock('polkadot', () => jest.fn());
+jest.mock('polkadot', () => ({
+  EPolkadotNetworkId: {
+    kusama: 'KSM',
+    polkadot: 'DOT',
+    rococo: 'ROC',
+    westend: 'WND',
+  },
+}));
 
 jest.mock('@ankr.com/provider', () => {
   return {
@@ -110,16 +117,11 @@ jest.mock('@ankr.com/provider', () => {
       trust: 'custom-trust',
       walletconnect: 'walletconnect',
     },
-    EPolkadotNetworkId: {
-      kusama: 'KSM',
-      polkadot: 'DOT',
-      rococo: 'ROC',
-      westend: 'WND',
-    },
     getIsMetaMaskInjected: () => true,
     getIsCoinbaseInjected: () => false,
     getIsOKXInjected: () => false,
     getIsCoin98Injected: () => false,
+    getWalletName: () => 'MetaMask',
   };
 });
 

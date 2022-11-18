@@ -1,4 +1,4 @@
-import { EPolkadotNetworkId } from '@ankr.com/provider-core';
+import { EPolkadotNetworkId } from 'polkadot';
 
 import { EPolkadotNetworks } from '../types';
 

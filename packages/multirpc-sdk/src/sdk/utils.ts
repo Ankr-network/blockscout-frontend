@@ -1,11 +1,11 @@
 import * as ethUtil from 'ethereumjs-util';
 import * as sigUtil from 'eth-sig-util';
-import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
 
 import { BlockchainType, IBlockchainEntity } from '../backoffice';
 import { FetchBlockchainUrlsResult } from './types';
 import { IConfig, IJwtToken } from '../common';
 import { JwtTokens } from '../consensus';
+import { Web3KeyWriteProvider } from '@ankr.com/provider';
 
 export const calcJwtTokenHash = async (
   jwtToken: IJwtToken,
@@ -82,7 +82,7 @@ export const formatPublicUrls = (
       blockchain.extends = undefined;
       blockchain.type = BlockchainType.Mainnet;
     }
-    
+
     if (ENABLED_SECRET_NETWORK_IDS.has(blockchain.id)) {
       const secretItem = secretItemsMap[blockchain.id];
 

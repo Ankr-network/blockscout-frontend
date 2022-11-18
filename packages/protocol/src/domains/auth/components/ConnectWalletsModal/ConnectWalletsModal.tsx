@@ -2,7 +2,7 @@ import { Box, ButtonBase, Grid, Typography } from '@material-ui/core';
 import { Fragment } from 'react';
 import { uid } from 'react-uid';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { Dialog } from 'uiKit/Dialog';
 import { useConnectWalletsModalStyles } from './useConnectWalletsModalStyles';
 import { ETH_COMPATIBLE_WALLETS } from './ConnectWalletsModalUtils';

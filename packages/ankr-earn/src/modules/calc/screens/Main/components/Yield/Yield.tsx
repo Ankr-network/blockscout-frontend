@@ -1,10 +1,10 @@
+import { t } from '@ankr.com/common';
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 import { useThrottledCallback } from 'use-debounce';
 
-import { t } from 'common';
 import { useIsMDUp } from 'ui';
 
 import { DEFAULT_YIELD_DAYS_VALUE } from 'modules/calc/const';

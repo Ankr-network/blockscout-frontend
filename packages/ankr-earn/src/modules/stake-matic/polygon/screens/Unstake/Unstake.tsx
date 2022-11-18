@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-
-import { t, tHTML } from 'common';
 
 import { DECIMAL_PLACES, DEFAULT_ROUNDING } from 'modules/common/const';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';

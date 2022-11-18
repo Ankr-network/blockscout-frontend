@@ -1,10 +1,10 @@
+import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
+
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
-} from '@ankr.com/provider-core';
-import { useMemo } from 'react';
-
-import { t } from 'common';
+} from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TIcon, TNetworkIconMap } from 'modules/common/icons';

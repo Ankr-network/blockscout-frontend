@@ -1,4 +1,6 @@
 import { EEnvTypes, TNetworkType } from './entity';
+import { Address } from '@ankr.com/provider';
+import { currentEnv, Env, IStkrConfig } from '@ankr.com/staking-sdk';
 
 export interface ISlotAuctionConfig {
   polkadotUrl: string;
@@ -113,5 +115,47 @@ export function configFromEnv(env = CURRENT_ENV): ISlotAuctionConfig {
     case EEnvTypes.Develop:
     default:
       return DEVELOP_WESTEND_CONFIG;
+  }
+}
+
+interface IPolkadotConfig {
+  aDOTbToken: Address | null;
+  aKSMbToken: Address | null;
+  aWNDbToken: Address | null;
+  polkadotPool: Address;
+}
+
+const LOCAL_CONFIG: IPolkadotConfig = {
+  aDOTbToken: null,
+  aKSMbToken: null,
+  aWNDbToken: '0xF8942990985cB8E3196b24B7f9c584945493AC3A',
+  polkadotPool: '0xc9EdEe06D78aE8Ee0d694b2e96E457a239F4DeeE',
+};
+
+const DEV_CONFIG: IPolkadotConfig = {
+  ...LOCAL_CONFIG,
+};
+
+const GOERLI_CONFIG: IPolkadotConfig = {
+  ...LOCAL_CONFIG,
+};
+
+const MAINNET_CONFIG: IPolkadotConfig = {
+  aDOTbToken: '0x5cc56c266143f29a5054b9ae07f3ac3513a7965e',
+  aKSMbToken: '0x84da8e731172827fcb233b911678e2a82e27baf2',
+  aWNDbToken: null,
+  polkadotPool: '0x59f767EC659E9FE01ebCf930465E2aD4Cc0F208e',
+};
+
+export function stakingConfigFromEnv(env: Env = currentEnv): IPolkadotConfig {
+  switch (env) {
+    case Env.Production:
+      return MAINNET_CONFIG;
+    case Env.Stage:
+      return GOERLI_CONFIG;
+    case Env.Develop:
+      return DEV_CONFIG;
+    default:
+      return LOCAL_CONFIG;
   }
 }

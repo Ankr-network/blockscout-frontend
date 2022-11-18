@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';

@@ -1,4 +1,4 @@
-import { t, tHTML } from 'common';
+import { t, tHTML } from '@ankr.com/common';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/near';
 import { NEARJavaScriptAPIConfig } from './NEARJavaScriptAPIConfig';
 

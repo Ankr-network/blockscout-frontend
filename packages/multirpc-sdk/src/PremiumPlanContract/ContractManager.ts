@@ -1,6 +1,6 @@
 import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
-import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider-core';
+import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
 
 import {
   Base64,

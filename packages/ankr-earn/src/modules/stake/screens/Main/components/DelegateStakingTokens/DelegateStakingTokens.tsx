@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
-
-import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

@@ -1,4 +1,4 @@
-import { Address } from '@ankr.com/provider-core';
+import { Address } from '@ankr.com/provider';
 
 import { ZERO_ADDRESS } from './const';
 import { currentEnv, Env } from './env';
@@ -59,13 +59,6 @@ export interface IFantomConfig {
   ftmToken: string;
 }
 
-interface IPolkadotConfig {
-  aDOTbToken: Address | null;
-  aKSMbToken: Address | null;
-  aWNDbToken: Address | null;
-  polkadotPool: Address;
-}
-
 interface IPolygonConfig {
   bridge: string;
   aMATICbToken: string;
@@ -85,7 +78,6 @@ export interface IStkrConfig {
   avalancheConfig: IAvalancheConfig;
   binanceConfig: IBinanceConfig;
   fantomConfig: IFantomConfig;
-  polkadotConfig: IPolkadotConfig;
   polygonConfig: IPolygonConfig;
 }
 
@@ -135,12 +127,6 @@ const LOCAL_CONFIG: IStkrConfig = {
     aftmbToken: '0x65Bc73117C1c8A1E421858650dDA32dcc50B8eE6',
     aftmcToken: '0x5DA48feC18C1EE2C36308E1e2D569668a0Cd8Edd',
     ftmToken: ZERO_ADDRESS,
-  },
-  polkadotConfig: {
-    aDOTbToken: null,
-    aKSMbToken: null,
-    aWNDbToken: '0xF8942990985cB8E3196b24B7f9c584945493AC3A',
-    polkadotPool: '0xc9EdEe06D78aE8Ee0d694b2e96E457a239F4DeeE',
   },
   polygonConfig: {
     bridge: '0x39809FeE5E787e7c60c0c531e85Af90ce0f777FC',
@@ -227,12 +213,6 @@ const MAINNET_CONFIG: IStkrConfig = {
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
     aftmcToken: '0xCfC785741Dc0e98ad4c9F6394Bb9d43Cd1eF5179',
     ftmToken: ZERO_ADDRESS,
-  },
-  polkadotConfig: {
-    aDOTbToken: '0x5cc56c266143f29a5054b9ae07f3ac3513a7965e',
-    aKSMbToken: '0x84da8e731172827fcb233b911678e2a82e27baf2',
-    aWNDbToken: null,
-    polkadotPool: '0x59f767EC659E9FE01ebCf930465E2aD4Cc0F208e',
   },
   polygonConfig: {
     bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',

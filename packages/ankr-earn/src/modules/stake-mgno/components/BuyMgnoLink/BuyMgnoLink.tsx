@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 import { CONVERT_MGNO_MANUAL_LINK } from 'modules/common/const';
 import { NavLink } from 'uiKit/NavLink';

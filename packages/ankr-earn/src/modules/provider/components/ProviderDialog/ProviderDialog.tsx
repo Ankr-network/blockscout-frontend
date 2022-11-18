@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
-
-import { t, tHTML } from 'common';
 
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
 

@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';

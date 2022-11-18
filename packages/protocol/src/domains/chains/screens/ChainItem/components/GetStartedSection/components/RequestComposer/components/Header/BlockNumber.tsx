@@ -2,7 +2,7 @@ import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { useHeaderStyles } from './useHeaderStyles';
 
 interface IBlockNumberProps<T> {

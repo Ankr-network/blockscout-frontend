@@ -1,11 +1,12 @@
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider-core';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
+
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

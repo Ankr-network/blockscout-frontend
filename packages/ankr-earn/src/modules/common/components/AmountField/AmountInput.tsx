@@ -1,11 +1,10 @@
+import { t } from '@ankr.com/common';
 import { Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { Field } from 'react-final-form';
-
-import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
 import {

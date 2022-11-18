@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AvailableBridgeTokens } from 'modules/bridge/types';

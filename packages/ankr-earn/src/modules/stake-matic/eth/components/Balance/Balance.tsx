@@ -1,10 +1,9 @@
+import { t, tHTML } from '@ankr.com/common';
 import { IconButton, Paper, Tooltip, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
-import { t, tHTML } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { DEFAULT_FIXED } from 'modules/common/const';

@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Box, ButtonBase } from '@material-ui/core';
 import CopyToClipboard from 'react-copy-to-clipboard';
-
-import { t } from 'common';
 
 import { SupportedChainIDS } from 'modules/common/const';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';

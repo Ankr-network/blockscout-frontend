@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Box, Typography } from '@material-ui/core';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus.svg';
 import { ReactComponent as MinusIcon } from 'uiKit/Icons/minus.svg';
 import { intlRoot } from '../FeatureTable/FeatureTableUtils';

@@ -1,10 +1,10 @@
+import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
 
-import { t } from 'common';
 import { TCrowdloanStatus } from 'polkadot';
 
 import {

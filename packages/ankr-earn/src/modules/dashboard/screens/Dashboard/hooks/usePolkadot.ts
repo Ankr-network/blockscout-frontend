@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { abortRequests, resetRequests } from '@redux-requests/core';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
@@ -13,6 +12,8 @@ import { POLKADOT_NETWORK_KEYS } from 'modules/stake-polkadot/const';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotResetRequests } from 'modules/stake-polkadot/utils/getPolkadotResetRequests';
 import { useAppDispatch } from 'store/useAppDispatch';
+
+import { ExtraWriteProviders } from '../../../../common/types';
 
 const dispatchETHResetRequests = () =>
   resetRequests(
@@ -34,9 +35,7 @@ const dispatchPolkadotResetRequests = () =>
 export const usePolkadot = (): void => {
   const dispatch = useAppDispatch();
 
-  const { address } = useConnectedData(
-    AvailableWriteProviders.polkadotCompatible,
-  );
+  const { address } = useConnectedData(ExtraWriteProviders.polkadotCompatible);
 
   // Polkadot
   useProviderEffect(
@@ -69,7 +68,7 @@ export const usePolkadot = (): void => {
       fetchETHTokenClaimableBalance,
       fetchPolkadotAccountFullBalance,
     ],
-    AvailableWriteProviders.polkadotCompatible,
+    ExtraWriteProviders.polkadotCompatible,
   );
 
   // ETH

@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
 import { Field, FormRenderProps, useForm } from 'react-final-form';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { InputField } from 'modules/form/components/InputField';
 import { emailValidator } from 'modules/form/utils/validators/emailValidator';
 import { AddEmailFormFields, IAddEmailFormData } from '../../types';

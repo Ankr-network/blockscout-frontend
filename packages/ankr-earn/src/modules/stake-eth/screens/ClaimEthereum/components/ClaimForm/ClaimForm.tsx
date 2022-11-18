@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-
-import { t } from 'common';
 
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

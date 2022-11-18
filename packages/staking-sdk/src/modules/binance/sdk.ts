@@ -4,7 +4,7 @@ import {
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { BlockTransactionObject } from 'web3-eth';
@@ -158,6 +158,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     if (BinanceSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
       return BinanceSDK.instance;
+    }
+
+    if (readProvider === undefined) {
+      throw new Error('Read provider not defined');
     }
 
     const instance = new BinanceSDK({ writeProvider, readProvider });

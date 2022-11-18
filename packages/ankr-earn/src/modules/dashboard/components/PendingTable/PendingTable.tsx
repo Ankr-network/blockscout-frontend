@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ReactNode, ReactText } from 'react';
-
-import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
 

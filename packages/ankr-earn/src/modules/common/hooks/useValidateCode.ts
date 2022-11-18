@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { ReactText } from 'react';
-
-import { t } from 'common';
 
 export type TUseValidateCode = (value?: ReactText) => string | undefined;
 

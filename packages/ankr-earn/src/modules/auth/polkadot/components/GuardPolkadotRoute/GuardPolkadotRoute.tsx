@@ -1,10 +1,10 @@
-import {
-  AvailableWriteProviders,
-  EPolkadotNetworkId,
-} from '@ankr.com/provider-core';
 import { RouteProps } from 'react-router';
 
+import { EPolkadotNetworkId } from 'polkadot';
+
 import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
+
+import { ExtraWriteProviders } from '../../../../common/types';
 
 import { useGuardPolkadotRoute } from './hooks/useGuardPolkadotRoute';
 
@@ -42,7 +42,7 @@ export const GuardPolkadotRoute = ({
       isOpenConnectInstantly={isOpenConnectInstantly}
       isUnsupportedNetwork={isUnsupportedNetwork}
       isValidWallet={isValidWallet}
-      providerId={AvailableWriteProviders.polkadotCompatible}
+      providerId={ExtraWriteProviders.polkadotCompatible}
       supportedNetworks={supportedNetworks}
       onDispatchConnect={onDispatchConnect}
       onOpenModal={onOpenModal}

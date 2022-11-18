@@ -1,4 +1,4 @@
-import { AnkrIntl } from 'common';
+import { AnkrIntl } from '@ankr.com/common';
 import { useMemo } from 'react';
 import { IGlobalMenuItem, IGlobalMenuProject } from '../types';
 

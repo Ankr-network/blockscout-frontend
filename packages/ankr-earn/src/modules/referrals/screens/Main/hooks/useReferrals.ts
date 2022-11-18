@@ -1,7 +1,8 @@
-import { Address } from '@ankr.com/provider-core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
+
+import { Address } from '@ankr.com/provider';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';

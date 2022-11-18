@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
-
-import { t } from 'common';
 
 import { featuresConfig, STAKE_LEGACY_LINKS, ZERO } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';

@@ -1,10 +1,10 @@
-import { IWeb3SendResult } from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { AvalancheSDK } from '@ankr.com/staking-sdk';
 
 import { TStore } from 'modules/common/types/ReduxRequests';

@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
-
-import { t, tHTML } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { Token } from 'modules/common/types/token';

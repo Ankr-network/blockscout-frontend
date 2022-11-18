@@ -1,5 +1,6 @@
-import { Address } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
+
+import { Address } from '@ankr.com/provider';
 
 import { Days } from '../types';
 

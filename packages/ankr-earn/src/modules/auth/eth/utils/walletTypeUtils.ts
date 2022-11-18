@@ -1,4 +1,4 @@
-import { EWalletId, getWalletName } from '@ankr.com/provider-core';
+import { EWalletId, getWalletName } from '@ankr.com/provider';
 
 export const getIsMetaMask = (walletName?: string): boolean => {
   return getWalletName(EWalletId.injected) === walletName;

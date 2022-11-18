@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "@ankr.com/provider": "*",
-    "@ankr.com/provider-core": "*",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "lodash": "^4.17.21",

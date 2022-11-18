@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import {
   RequestAction,
   RequestsStore,
@@ -10,6 +9,7 @@ import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { withStore } from 'modules/common/utils/withStore';
 
+import { AvailableStakingWriteProviders } from '../../../common/types';
 import { setProviderStatus } from '../store/authSlice';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
@@ -17,7 +17,7 @@ import { connect } from './connect';
 
 export const disconnect = createAction<
   RequestAction,
-  [AvailableWriteProviders]
+  [AvailableStakingWriteProviders]
 >('auth/disconnect', providerId => ({
   request: {
     promise: async () => {

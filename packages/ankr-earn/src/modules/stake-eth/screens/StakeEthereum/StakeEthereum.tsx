@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { resetRequests } from '@redux-requests/core';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';

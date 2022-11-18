@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 
-import { t, tHTML } from 'common';
+import { t, tHTML } from '@ankr.com/common';
 import { intlRoot } from './FeatureTableUtils';
 import { useFeatureTableStyles } from './useFeatureTableStyles';
 import { LearnMore } from '../LearnMore/LearnMore';
