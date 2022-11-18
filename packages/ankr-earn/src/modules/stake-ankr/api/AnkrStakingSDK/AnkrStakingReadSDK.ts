@@ -1,10 +1,3 @@
-import {
-  Address,
-  EEthereumNetworkId,
-  TWeb3BatchCallback,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import prettyTime from 'pretty-time';
@@ -12,6 +5,13 @@ import { Memoize } from 'typescript-memoize';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 
+import {
+  Address,
+  EEthereumNetworkId,
+  TWeb3BatchCallback,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import {
   ANKR_ABI,
   getPastEvents,

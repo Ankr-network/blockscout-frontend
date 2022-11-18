@@ -1,4 +1,4 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import web3 from 'web3';
 import { Transaction, TransactionReceipt } from 'web3-core';

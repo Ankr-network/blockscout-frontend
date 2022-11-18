@@ -1,5 +1,5 @@
 {
-  "name": "common",
+  "name": "@ankr.com/common",
   "version": "0.6.3",
   "description": "Common module",
   "private": true,
@@ -21,11 +21,11 @@
     "precommit": "lint-staged; npm run test",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "test:turbo": "cd ../.. && turbo run test --filter=common",
-    "test:watch:turbo": "cd ../.. && turbo run test:watch --filter=common",
+    "test:turbo": "cd ../.. && turbo run test --filter=@ankr.com/common",
+    "test:watch:turbo": "cd ../.. && turbo run test:watch --filter=@ankr.com/common",
     "types": "tsc --noEmit -p tsconfig.json",
     "build": "vite build",
-    "build:turbo": "cd ../.. && turbo run build --filter=common...",
+    "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/common...",
     "clean": "rimraf build dist",
     "watch": "yarn build --watch"
   },

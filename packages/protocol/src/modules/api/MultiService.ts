@@ -1,7 +1,7 @@
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 import { Mutex } from 'async-mutex';
 import { t } from 'modules/i18n/utils/intl';
 

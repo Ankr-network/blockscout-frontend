@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import { IGlobalMenuProps } from '../GlobalMenu/GlobalMenuTypes';
 import { Link as RouterLink } from 'react-router-dom';
 import { useMenuItems } from '../hooks/useMenuItems';
-import { AnkrIntl } from 'common';
+import { AnkrIntl } from '@ankr.com/common';
 
 interface IGlobalMenuListProps extends IGlobalMenuProps {
   onClose: MouseEventHandler<HTMLButtonElement>;

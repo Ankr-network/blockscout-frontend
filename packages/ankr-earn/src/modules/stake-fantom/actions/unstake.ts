@@ -1,7 +1,7 @@
-import { IWeb3SendResult } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { FantomSDK } from '@ankr.com/staking-sdk';
 
 import { web3Api } from 'modules/api/web3Api';

@@ -1,7 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Grid, Paper, Typography } from '@material-ui/core';
 
-import { t } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackClickGoToDashboard } from 'modules/analytics/tracking-actions/trackClickGoToDashboard';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Box, Divider, Hidden } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { RoutesConfig } from 'modules/calc/Routes';
 import { featuresConfig } from 'modules/common/const';

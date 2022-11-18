@@ -1,8 +1,8 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types';
 import {

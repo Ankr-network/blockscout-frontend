@@ -1,3 +1,4 @@
+import { tHTML } from '@ankr.com/common';
 import {
   useDispatchRequest,
   useMutation,
@@ -5,8 +6,6 @@ import {
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
-
-import { tHTML } from 'common';
 
 import {
   ANKR_1INCH_BUY_LINK,

@@ -1,7 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
-import { t } from 'common';
 import { useIsSMUp } from 'ui';
 
 import { Balance } from '../Balance';

@@ -2,7 +2,7 @@ import { ProviderManager } from '@ankr.com/provider';
 import { web3ModalTheme } from './Web3ModalKeyProvider';
 
 export class ProviderManagerSingleton {
-  private static instance?: ProviderManager;
+  private static instance?: ProviderManager<any>;
 
   public static getInstance() {
     if (ProviderManagerSingleton.instance) {

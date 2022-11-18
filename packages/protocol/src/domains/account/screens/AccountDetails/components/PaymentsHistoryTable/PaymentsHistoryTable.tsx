@@ -3,7 +3,7 @@ import { Preloader, VirtualTable } from 'ui';
 
 import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 import { Filters } from './components/Filters';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { usePaymentHistoryTable } from './hooks/usePaymentHistoryTable';
 import { useStyles } from './PaymentHistoryTableStyles';
 import { useUpdatePaymentHistory } from 'domains/account/hooks/useUpdatePaymentHistory';

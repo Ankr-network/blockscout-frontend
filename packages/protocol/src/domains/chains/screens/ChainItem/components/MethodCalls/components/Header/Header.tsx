@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import { ItemHeader } from '../../../ItemHeader';
 import { ReactComponent as DownloadIcon } from '../../assets/download.svg';
 import { Timeframe } from 'domains/chains/types';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { useHeaderStyles } from './useHeaderStyles';
 
 const SHOW_DOWNLOAD_BUTTON = false;

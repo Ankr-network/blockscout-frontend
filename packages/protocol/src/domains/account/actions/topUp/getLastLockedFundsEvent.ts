@@ -1,6 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/provider-core';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
 

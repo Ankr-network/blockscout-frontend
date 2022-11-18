@@ -1,10 +1,10 @@
+import BigNumber from 'bignumber.js';
+
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
   IWeb3SendResult,
-} from '@ankr.com/provider-core';
-import BigNumber from 'bignumber.js';
-
+} from '@ankr.com/provider';
 import {
   AvalancheSDK,
   BinanceSDK,

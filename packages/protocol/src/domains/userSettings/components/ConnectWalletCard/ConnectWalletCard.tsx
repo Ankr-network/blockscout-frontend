@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { InfoCard } from '../InfoCard';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 

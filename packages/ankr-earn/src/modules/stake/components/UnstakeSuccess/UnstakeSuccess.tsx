@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Container, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import CopyToClipboard from 'react-copy-to-clipboard';
-
-import { t } from 'common';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';

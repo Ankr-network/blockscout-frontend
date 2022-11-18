@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { Form, FormRenderProps } from 'react-final-form';
-
-import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';

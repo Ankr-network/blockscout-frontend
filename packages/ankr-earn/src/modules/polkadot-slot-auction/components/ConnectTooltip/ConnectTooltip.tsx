@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { IconButton, Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
-
-import { t } from 'common';
 
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 

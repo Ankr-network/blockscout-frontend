@@ -1,13 +1,13 @@
+import BigNumber from 'bignumber.js';
+import { Memoize } from 'typescript-memoize';
+import { TransactionReceipt } from 'web3-core';
+
 import {
   Address,
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
-import BigNumber from 'bignumber.js';
-import { Memoize } from 'typescript-memoize';
-import { TransactionReceipt } from 'web3-core';
-
+} from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';

@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 import { cloneElement, ReactElement, ReactNode } from 'react';
-
-import { t } from 'common';
 
 import { Button } from 'uiKit/Button';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';

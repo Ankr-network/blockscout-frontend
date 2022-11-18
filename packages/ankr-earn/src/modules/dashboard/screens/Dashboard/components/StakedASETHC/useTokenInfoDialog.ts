@@ -1,8 +1,8 @@
+import { tHTML } from '@ankr.com/common';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
 import { EthereumSSV } from '@ankr.com/staking-sdk';
-import { tHTML } from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { DECIMAL_PLACES, ONE } from 'modules/common/const';

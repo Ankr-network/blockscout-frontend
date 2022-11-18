@@ -1,12 +1,12 @@
-import { IWeb3SendResult } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { BinanceSDK } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';

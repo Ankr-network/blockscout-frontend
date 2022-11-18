@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Divider, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import { BaseAmountWithIcon } from 'modules/referrals/components/BaseAmountWithIcon';
 

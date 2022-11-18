@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
-
-import { t } from 'common';
 
 import { RoutesConfig as CalcRoutes } from 'modules/calc/Routes';
 import { featuresConfig } from 'modules/common/const';

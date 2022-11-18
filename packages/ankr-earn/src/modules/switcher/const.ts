@@ -1,6 +1,6 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 
-import { t } from 'common';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
 import {

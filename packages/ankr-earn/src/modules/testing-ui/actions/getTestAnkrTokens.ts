@@ -1,6 +1,7 @@
-import { IWeb3SendResult } from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
+
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { AnkrStakingSDK } from 'modules/stake-ankr/api/AnkrStakingSDK';
 

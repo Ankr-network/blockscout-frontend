@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import cloneDeep from 'lodash/cloneDeep';
-
-import { t } from 'common';
 
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';

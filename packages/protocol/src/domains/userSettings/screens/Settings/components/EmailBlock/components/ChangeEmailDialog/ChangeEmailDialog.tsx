@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from 'react';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { AddEmailForm } from 'domains/userSettings/components/AddEmailForm';
 import { AddEmailFormContentState } from 'domains/userSettings/components/AddEmailForm/types';
 import { Dialog } from 'uiKit/Dialog';

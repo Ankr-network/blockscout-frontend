@@ -8,7 +8,7 @@ import {
   isBefore,
 } from 'date-fns';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { calculateTotalRequests } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
 import {
   IMethod,

@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Link, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { FunctionComponent } from 'react';
-
-import { t } from 'common';
 
 import { ReactComponent as CloverWalletIcon } from './assets/cloverWallet.svg';
 import { ReactComponent as PolkadotWalletIcon } from './assets/polkadotWallet.svg';

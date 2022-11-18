@@ -1,4 +1,4 @@
-import { EWalletId, getWalletName } from '@ankr.com/provider-core';
+import { EWalletId, getWalletName } from '@ankr.com/provider';
 
 import { ConnectTile } from '../ConnectTile';
 

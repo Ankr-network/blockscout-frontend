@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { IWalletMeta } from '@ankr.com/provider-core';
+import { IWalletMeta } from '@ankr.com/provider';
 
 interface IStepperTitleProps {
   step: TopUpStep;

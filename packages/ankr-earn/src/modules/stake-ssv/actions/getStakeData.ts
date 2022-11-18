@@ -1,8 +1,8 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 import { EthereumSSV, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';

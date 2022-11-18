@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
-
-import { t } from 'common';
 
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 

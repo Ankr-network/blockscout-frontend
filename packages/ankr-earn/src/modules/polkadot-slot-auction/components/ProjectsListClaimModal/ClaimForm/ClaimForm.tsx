@@ -1,10 +1,9 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import React from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { AnyAction } from 'redux';
-
-import { t } from 'common';
 
 import { ResponseData } from 'modules/common/types/ResponseData';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';

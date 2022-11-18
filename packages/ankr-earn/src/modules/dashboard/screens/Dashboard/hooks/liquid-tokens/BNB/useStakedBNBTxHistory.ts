@@ -1,9 +1,9 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { BSC_NETWORK_BY_ENV } from 'modules/common/const';

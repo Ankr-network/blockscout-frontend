@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 import { currentEnv, SupportedChainIDS } from 'modules/common/const';
 import { Env } from 'modules/common/types';

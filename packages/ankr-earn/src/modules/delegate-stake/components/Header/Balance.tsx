@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Paper } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import React from 'react';
-
-import { t } from 'common';
 
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { NavLink } from 'uiKit/NavLink';

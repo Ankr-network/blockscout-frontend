@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
-
-import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import {

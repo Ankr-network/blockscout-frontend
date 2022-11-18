@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';

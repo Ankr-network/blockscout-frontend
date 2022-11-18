@@ -1,4 +1,4 @@
-import { t, tHTML } from 'common';
+import { t, tHTML } from '@ankr.com/common';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
 import { LinkExpiredActionSlot } from './components/LinkExpiredActionSlot';
 import { useLinkExpiredCard } from './useLinkExpiredCard';

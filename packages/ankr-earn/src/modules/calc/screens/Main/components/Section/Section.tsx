@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Box, Hidden, Paper, Typography } from '@material-ui/core';
 import { ReactNode } from 'react';
-
-import { t } from 'common';
 
 import { RoutesConfig } from 'modules/dashboard/Routes';
 import { CloseButton } from 'uiKit/CloseButton';

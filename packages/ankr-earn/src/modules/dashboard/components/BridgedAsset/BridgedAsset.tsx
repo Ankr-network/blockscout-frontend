@@ -1,9 +1,9 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Box, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
-import { t } from 'common';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import {

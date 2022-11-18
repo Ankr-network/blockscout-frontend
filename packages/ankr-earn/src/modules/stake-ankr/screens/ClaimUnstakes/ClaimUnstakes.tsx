@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import { useMemo } from 'react';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';

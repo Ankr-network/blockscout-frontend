@@ -1,4 +1,4 @@
-import { ProviderManager } from '@ankr.com/provider';
+import { IExtraProviders, IProviders, ProviderManager } from '@ankr.com/provider';
 
 /**
  * Need to get rid of theme from ProviderManager
@@ -25,7 +25,7 @@ export class ProviderManagerSingleton {
    * @static
    * @private
    */
-  private static instance: ProviderManager;
+  private static instance: ProviderManager<any>;
 
   /**
    * Initialization method for provider manage
@@ -33,12 +33,16 @@ export class ProviderManagerSingleton {
    * @public
    * @returns {Promise<ProviderManager>}
    */
-  public static getInstance(): ProviderManager {
+  public static getInstance<
+    ProvidersMap extends IProviders & IExtraProviders
+    >(): ProviderManager<ProvidersMap>
+  {
     if (ProviderManagerSingleton.instance) {
       return ProviderManagerSingleton.instance;
     }
 
-    ProviderManagerSingleton.instance = new ProviderManager(DEFAULT_THEME);
+    ProviderManagerSingleton.instance =
+      new ProviderManager<ProvidersMap>(DEFAULT_THEME);
 
     return ProviderManagerSingleton.instance;
   }

@@ -1,3 +1,4 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Divider, TextField, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { FormApi } from 'final-form';
@@ -9,7 +10,6 @@ import {
   FormRenderProps,
 } from 'react-final-form';
 
-import { t, tHTML } from 'common';
 import { useIsMDUp } from 'ui';
 
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';

@@ -1,4 +1,4 @@
-import { Address, Web3KeyReadProvider } from '@ankr.com/provider-core';
+import { Address, Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
 import { currentEnv, ICommonProps, IETHBalanceProps } from '../../common';

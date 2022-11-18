@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
@@ -11,7 +12,6 @@ import {
   ProviderManagerSingleton,
   Web3KeyReadProvider,
 } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { TStore } from 'modules/common/types/ReduxRequests';

@@ -1,7 +1,7 @@
 import {
   EEthereumNetworkId,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 
 import {
   configFromEnv,

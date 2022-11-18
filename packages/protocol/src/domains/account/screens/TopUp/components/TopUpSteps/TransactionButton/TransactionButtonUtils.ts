@@ -1,5 +1,5 @@
 import { API_ENV, getExpectedChainId } from 'modules/common/utils/environment';
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 export const getExplorerLink = (transactionId = '') => {
   const chainId = getExpectedChainId(API_ENV);

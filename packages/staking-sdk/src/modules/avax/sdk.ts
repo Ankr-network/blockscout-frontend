@@ -4,7 +4,7 @@ import {
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
@@ -443,6 +443,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
     if (AvalancheSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
       return AvalancheSDK.instance;
+    }
+
+    if (readProvider === undefined) {
+      throw new Error('Read provider not defined');
     }
 
     const instance = new AvalancheSDK({ writeProvider, readProvider });

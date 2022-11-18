@@ -1,6 +1,5 @@
-import { EWalletId, getWalletName } from '@ankr.com/provider-core';
+import { EWalletId, getWalletName , getIsCoin98Injected } from '@ankr.com/provider';
 
-import { getIsCoin98Injected } from '@ankr.com/provider';
 
 import { useConnectForModal } from '../../hooks/useConnectForModal';
 import { ConnectTile } from '../ConnectTile';

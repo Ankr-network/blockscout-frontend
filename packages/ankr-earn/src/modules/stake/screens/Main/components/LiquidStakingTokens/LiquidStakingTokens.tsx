@@ -1,7 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 
 import { isMainnet } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import {
   ANKR_AVAX_LANDING,

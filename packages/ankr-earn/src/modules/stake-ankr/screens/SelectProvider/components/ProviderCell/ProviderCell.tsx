@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { ReactNode } from 'react';
-
-import { t } from 'common';
 
 import { useProviderCellStyles } from './useProviderCellStyles';
 

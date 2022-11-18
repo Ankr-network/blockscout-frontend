@@ -5,7 +5,7 @@ import { HarmonyMethod } from 'domains/requestComposer/constants/harmony';
 import { setHarmonyMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { objectError } from '../tron/fetchTronChainRequest';
 import { safeStringifyJSON } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/RequestComposer/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 export type FetchHarmonyChainRequestResult = {
   response?: [HarmonyMethod];

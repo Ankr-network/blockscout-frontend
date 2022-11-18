@@ -1,8 +1,8 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Box, SvgIcon, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
-import { t } from 'common';
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

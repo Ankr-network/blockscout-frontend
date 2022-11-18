@@ -1,7 +1,6 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Paper, Typography } from '@material-ui/core';
 import React, { ReactNode } from 'react';
-
-import { t, tHTML } from 'common';
 
 import { useUnsupportedNetworkStyles } from './UnsupportedNetworkStyles';
 

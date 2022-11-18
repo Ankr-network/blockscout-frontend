@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 
-import { t, tHTML } from 'common';
+import { t, tHTML } from '@ankr.com/common';
 import { ReactComponent as BalanceIcon } from 'uiKit/Icons/balance.svg';
 import { ReactComponent as ChartIcon } from 'uiKit/Icons/chart.svg';
 import { ReactComponent as PremiumIcon } from 'uiKit/Icons/premium.svg';

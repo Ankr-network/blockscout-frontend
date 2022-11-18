@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import {
   abortRequests,
   resetRequests as resetReduxRequests,
@@ -20,6 +19,8 @@ import {
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
 import { getPolkadotResetRequests } from 'modules/stake-polkadot/utils/getPolkadotResetRequests';
 import { useAppDispatch } from 'store/useAppDispatch';
+
+import { ExtraWriteProviders } from '../../../../common/types';
 
 interface IUseAnalyticsProps {
   amount: number;
@@ -49,7 +50,7 @@ export const useAnalytics = ({
   const dispatch = useAppDispatch();
 
   const { address, walletName } = useConnectedData(
-    AvailableWriteProviders.polkadotCompatible,
+    ExtraWriteProviders.polkadotCompatible,
   );
 
   const { data: polkadotBalance } = useQuery({

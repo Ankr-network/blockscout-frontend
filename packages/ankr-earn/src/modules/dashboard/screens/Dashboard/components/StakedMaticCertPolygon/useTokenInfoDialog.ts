@@ -1,6 +1,5 @@
+import { tHTML } from '@ankr.com/common';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
-
-import { tHTML } from 'common';
 
 import { configFromEnv } from 'modules/api/config';
 import { DECIMAL_PLACES, ONE, ZERO } from 'modules/common/const';

@@ -1,8 +1,8 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { EPolygonPoolEventsMap } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';

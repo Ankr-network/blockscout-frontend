@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-
-import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';

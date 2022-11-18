@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import React from 'react';
-
-import { t } from 'common';
 
 import { BigNav } from 'modules/common/components/BigNav';
 import { BigNavItem } from 'modules/common/components/BigNavItem';

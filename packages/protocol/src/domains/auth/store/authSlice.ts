@@ -2,7 +2,7 @@ import { IJwtToken } from 'multirpc-sdk';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
-import { IWalletMeta } from '@ankr.com/provider-core';
+import { IWalletMeta } from '@ankr.com/provider';
 
 export interface IAuthSlice {
   credentials?: IJwtToken | false;
