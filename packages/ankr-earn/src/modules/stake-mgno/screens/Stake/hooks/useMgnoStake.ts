@@ -1,3 +1,4 @@
+import { t, tHTML } from '@ankr.com/common';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -7,8 +8,6 @@ import {
 import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-
-import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';

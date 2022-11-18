@@ -4,7 +4,7 @@ import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
 import { StatusCircle, StatusCircleStatus } from 'uiKit/StatusCircle';
 import { useStyles } from './useStyles';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { getStatusByNodeScore } from 'modules/common/utils/node';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import ReactCountryFlag from 'react-country-flag';

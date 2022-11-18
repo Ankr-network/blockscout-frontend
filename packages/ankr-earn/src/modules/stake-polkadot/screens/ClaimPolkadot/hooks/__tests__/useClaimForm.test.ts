@@ -1,11 +1,10 @@
+import { t } from '@ankr.com/common';
 import {
   useDispatchRequest,
   useMutation,
   useQuery,
 } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
-
-import { t } from 'common';
 
 import { ONE, ZERO } from 'modules/common/const';
 import {

@@ -1,9 +1,9 @@
+import { t } from '@ankr.com/common';
 import { ButtonBase, Collapse, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { t } from 'common';
 import { WalletIcon } from 'ui';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';

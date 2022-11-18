@@ -1,5 +1,5 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import { getIsEthereum } from './getIsEthereum';
+import { Web3KeyReadProvider } from '../../../../utils/Web3KeyReadProvider';
 
 const COINBASE_PROVIDER_KEY = 'CoinbaseWallet';
 

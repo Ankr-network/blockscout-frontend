@@ -1,5 +1,6 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
+
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
 import { ZERO } from 'modules/common/const';

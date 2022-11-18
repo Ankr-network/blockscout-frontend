@@ -1,8 +1,7 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatch } from 'react-redux';
-
-import { t, tHTML } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';

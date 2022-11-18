@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import classNames from 'classnames';
@@ -10,7 +11,6 @@ import {
 } from 'react-final-form';
 import { AnyAction } from 'redux';
 
-import { t } from 'common';
 import { PolkadotProvider } from 'polkadot';
 
 import { featuresConfig } from 'modules/common/const';

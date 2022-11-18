@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 import { ReactText } from 'react';
 import { Field } from 'react-final-form';
-
-import { t } from 'common';
 
 import { getErrorText, hasError } from 'modules/common/utils/form';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';

@@ -4,7 +4,7 @@ import {
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
@@ -148,6 +148,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
 
     if (EthereumSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
       return EthereumSDK.instance;
+    }
+
+    if (readProvider === undefined) {
+      throw new Error('Read provider not defined');
     }
 
     const instance = new EthereumSDK({ writeProvider, readProvider });

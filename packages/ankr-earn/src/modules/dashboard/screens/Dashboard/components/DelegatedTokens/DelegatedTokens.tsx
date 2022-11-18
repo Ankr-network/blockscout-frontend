@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Box, BoxProps } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { AssetsList } from 'modules/dashboard/components/AssetsList';
 import { DashboardCardSkeleton } from 'modules/dashboard/components/DashboardCard';

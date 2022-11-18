@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode, ReactText, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-
-import { t } from 'common';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';

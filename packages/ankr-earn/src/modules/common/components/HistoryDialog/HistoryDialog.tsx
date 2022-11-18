@@ -1,10 +1,9 @@
+import { t } from '@ankr.com/common';
 import { Container, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

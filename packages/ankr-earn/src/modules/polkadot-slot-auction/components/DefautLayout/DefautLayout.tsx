@@ -1,9 +1,9 @@
+import { t } from '@ankr.com/common';
 import { Theme, ThemeProvider } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
 import React, { ReactNode, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { t } from 'common';
 import { Themes } from 'ui';
 
 import { getTheme } from 'modules/common/utils/getTheme';

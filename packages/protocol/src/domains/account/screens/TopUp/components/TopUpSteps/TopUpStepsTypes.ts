@@ -1,4 +1,4 @@
-import { IWalletMeta } from '@ankr.com/provider-core';
+import { IWalletMeta } from '@ankr.com/provider';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 
 export interface ITopUpStepsProps {

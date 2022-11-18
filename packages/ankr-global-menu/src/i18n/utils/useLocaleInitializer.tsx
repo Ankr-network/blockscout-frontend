@@ -1,6 +1,6 @@
 import { locales } from '..';
 import { useEffect, useState } from 'react';
-import { AnkrIntl } from 'common';
+import { AnkrIntl } from '@ankr.com/common';
 
 export interface WithLocaleProps {
   locale: string;

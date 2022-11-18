@@ -1,4 +1,4 @@
-import { IWeb3SendResult } from '@ankr.com/provider-core';
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { Contract, Filter } from 'web3-eth-contract';
 
 import { PrefixedHex } from '../common';

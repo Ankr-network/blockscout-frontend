@@ -3,7 +3,7 @@ import { TableCell, TableRow } from '@material-ui/core';
 import { ReactComponent as CheckIcon } from 'uiKit/Icons/check.svg';
 import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
 import { ReactComponent as QuestionIcon } from 'uiKit/Icons/question.svg';
-import { t, tHTML } from 'common';
+import { t, tHTML } from '@ankr.com/common';
 import {
   intlRoot,
   FEATURE_TABLE_ROW,

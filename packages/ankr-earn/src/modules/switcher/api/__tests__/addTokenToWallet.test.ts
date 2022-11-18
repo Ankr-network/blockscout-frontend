@@ -1,5 +1,4 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
-
+import { EEthereumNetworkId } from '@ankr.com/provider';
 import {
   AvalancheSDK,
   BinanceSDK,

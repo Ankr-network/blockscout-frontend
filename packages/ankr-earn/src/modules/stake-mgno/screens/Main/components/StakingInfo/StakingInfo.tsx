@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { useState } from 'react';
-
-import { t } from 'common';
 
 import { ActiveStakingTable } from '../ActiveStakingTable';
 import { HistoryTable } from '../HistoryTable';

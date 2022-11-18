@@ -1,7 +1,7 @@
 import { Button, Paper, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { getActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { Queries } from 'modules/common/components/Queries/Queries';

@@ -1,7 +1,7 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { throwIfError } from 'common';
+import { throwIfError } from '@ankr.com/common';
 import { fetchEncryptionKey } from 'domains/auth/actions/fetchEncryptionKey';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 

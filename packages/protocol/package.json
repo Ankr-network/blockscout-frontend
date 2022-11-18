@@ -28,8 +28,8 @@
   },
   "homepage": "/rpc",
   "dependencies": {
+    "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
-    "@ankr.com/provider-core": "*",
     "@ankr.com/provider": "*",
     "ui": "*",
     "multirpc-sdk": "*",
@@ -55,7 +55,6 @@
     "bn.js": "5.2.1",
     "bowser": "^2.11.0",
     "classnames": "^2.3.1",
-    "common": "*",
     "connected-react-router": "^6.9.1",
     "country-iso-to-coordinates": "^1.0.2",
     "date-fns": "^2.28.0",

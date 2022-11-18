@@ -1,9 +1,10 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { resetRequests } from '@redux-requests/core';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { Box, ButtonBase, Divider, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import {
@@ -5,8 +6,6 @@ import {
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';

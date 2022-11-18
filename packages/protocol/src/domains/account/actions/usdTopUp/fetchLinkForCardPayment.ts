@@ -4,7 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { MultiService } from 'modules/api/MultiService';
 import { fetchPublicKey } from '../fetchPublicKey';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { throwIfError } from 'common';
+import { throwIfError } from '@ankr.com/common';
 
 export const fetchLinkForCardPayment = createSmartAction<RequestAction<string>>(
   'usdTopUp/fetchLinkForCardPayment',

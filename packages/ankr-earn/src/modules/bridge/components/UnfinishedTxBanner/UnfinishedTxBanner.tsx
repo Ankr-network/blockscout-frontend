@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Box, Paper } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { SupportedChainIDS } from 'modules/common/const';

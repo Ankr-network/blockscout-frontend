@@ -1,5 +1,12 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
+
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+  IExtraProviders,
+  IProviders,
+} from '@ankr.com/provider';
+import { PolkadotProvider } from 'polkadot';
 
 // semantic types
 export type TAmountUnit = number;
@@ -46,5 +53,17 @@ export enum Locale {
   en = 'en-US',
   zh = 'zh-CN',
 }
+
+export interface ProvidersMap extends IProviders, IExtraProviders {
+  polkadotCompatible: PolkadotProvider;
+}
+
+export enum ExtraWriteProviders {
+  polkadotCompatible = 'polkadotCompatible',
+}
+
+export type AvailableStakingWriteProviders =
+  | AvailableWriteProviders
+  | ExtraWriteProviders;
 
 export { EEthereumNetworkId };

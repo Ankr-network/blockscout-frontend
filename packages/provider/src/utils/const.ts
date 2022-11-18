@@ -157,7 +157,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     rpcUrls: ['https://sokol.poa.network/'],
     blockExplorerUrls: ['https://blockscout.com/poa/sokol/'],
   },
-  
+
   [EEthereumNetworkId.xdc]: {
     chainId: numberToHex(EEthereumNetworkId.xdc),
     chainName: 'XDC Mainnet',

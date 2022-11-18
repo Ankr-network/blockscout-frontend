@@ -1,14 +1,13 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { useEffect, useMemo } from 'react';
-
-import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
 import { PlusIcon } from 'uiKit/Icons/PlusIcon';
 
+import { AvailableStakingWriteProviders } from '../../../common/types';
 import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
 import { IWalletItem } from '../../hooks/useAuthWallets';
 import { ConnectedWalletsNetwork } from '../ConnectedWalletsNetwork';
@@ -18,7 +17,7 @@ import { useConnectedWalletsDialogStyles as useStyles } from './useConnectedWall
 interface IConnectedWalletsDialogProps {
   networks: IWalletItem[];
   open: boolean;
-  walletsGroupTypes?: AvailableWriteProviders[];
+  walletsGroupTypes?: AvailableStakingWriteProviders[];
   onAddWallet: () => void;
   onClose: () => void;
 }

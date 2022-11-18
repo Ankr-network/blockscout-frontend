@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 export * from './sdk/addTokenToWallet';
 export * from './sdk/balances';
 export * from './sdk/getASETHCRatio';

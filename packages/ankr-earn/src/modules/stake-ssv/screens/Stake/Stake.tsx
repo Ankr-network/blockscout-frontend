@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES } from 'modules/common/const';

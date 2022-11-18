@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Chip, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { Token } from 'modules/common/types/token';
 import { Tooltip } from 'uiKit/Tooltip';

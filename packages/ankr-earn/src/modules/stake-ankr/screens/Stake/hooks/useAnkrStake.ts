@@ -1,9 +1,8 @@
+import { t, tHTML } from '@ankr.com/common';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
-
-import { t, tHTML } from 'common';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

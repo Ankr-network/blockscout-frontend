@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { iconByTokenMap, TIconMap } from 'modules/common/icons';

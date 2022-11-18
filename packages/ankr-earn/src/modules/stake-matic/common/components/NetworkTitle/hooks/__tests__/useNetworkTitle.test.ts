@@ -1,5 +1,6 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { renderHook } from '@testing-library/react-hooks';
+
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 

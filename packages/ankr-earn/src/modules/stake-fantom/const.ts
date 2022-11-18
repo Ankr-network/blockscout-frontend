@@ -1,6 +1,6 @@
-import { AvailableReadProviders } from '@ankr.com/provider-core';
+import { getUniqueId } from '@ankr.com/common';
 
-import { getUniqueId } from 'common';
+import { AvailableReadProviders } from '@ankr.com/provider';
 
 import { FTM_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
 import { Days } from 'modules/common/types';

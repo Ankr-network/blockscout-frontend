@@ -3,7 +3,7 @@ import {
   IWeb3SendResult,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
@@ -146,6 +146,10 @@ export class FantomSDK implements ISwitcher, IStakable {
 
     if (FantomSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
       return FantomSDK.instance;
+    }
+
+    if (readProvider === undefined) {
+      throw new Error('Read provider not defined');
     }
 
     const instance = new FantomSDK({ writeProvider, readProvider });

@@ -4,7 +4,7 @@ import {
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import Web3 from 'web3';

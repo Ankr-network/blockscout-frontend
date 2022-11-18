@@ -7,7 +7,7 @@ import { useRates } from 'domains/account/hooks/useRates';
 import { ANKR_CURRENCY, CurrencyType } from '../../../const';
 import { DEFAULT_ANKR_AMOUNT, getRequests } from '../RateBlock/RateBlockUtils';
 import { useRequestsBlockStyles } from './useRequestsBlockStyles';
-import { t, tHTML } from 'common';
+import { t, tHTML } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 interface RateBlockProps {

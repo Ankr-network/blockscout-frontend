@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
-
-import { t } from 'common';
 
 import { getTimeRemaining } from 'modules/common/utils/getTimeRemaining';
 

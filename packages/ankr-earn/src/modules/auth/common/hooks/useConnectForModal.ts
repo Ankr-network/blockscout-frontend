@@ -1,7 +1,9 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useDispatchRequest } from '@redux-requests/react';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { AvailableStakingWriteProviders } from 'modules/common/types';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
 import { connect } from '../actions/connect';
@@ -9,7 +11,7 @@ import { TWalletId } from '../types';
 
 interface IUseConnectForModalArgs {
   walletId: TWalletId;
-  provider?: AvailableWriteProviders;
+  provider?: AvailableStakingWriteProviders;
 }
 
 interface IUseConnectForModal {

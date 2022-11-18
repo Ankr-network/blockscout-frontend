@@ -1,4 +1,4 @@
-import { Address, AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
@@ -6,8 +6,8 @@ import Web3 from 'web3';
 import { Transaction } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 
+import { Address, AvailableWriteProviders } from '@ankr.com/provider';
 import { ProviderManagerSingleton, ABI_ERC20 } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { SupportedChainIDS } from 'modules/common/const';
 import { createWalletConnectionGuard } from 'modules/common/utils/createWalletConnectionGuard';

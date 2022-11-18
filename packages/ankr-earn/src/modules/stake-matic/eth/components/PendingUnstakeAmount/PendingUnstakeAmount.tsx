@@ -1,7 +1,6 @@
+import { t, tHTML } from '@ankr.com/common';
 import { IconButton, Paper, Tooltip, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-
-import { t, tHTML } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';

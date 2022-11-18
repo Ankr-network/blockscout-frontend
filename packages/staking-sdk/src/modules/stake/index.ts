@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { IWeb3SendResult } from '@ankr.com/provider-core';
+import { IWeb3SendResult } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
 import { IPendingData, ITxEventsHistoryData, IStakeData } from './types';

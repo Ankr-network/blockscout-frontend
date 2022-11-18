@@ -1,4 +1,4 @@
-import { tHTML } from 'common';
+import { tHTML } from '@ankr.com/common';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/harmony';
 import { harmonyJSConfig } from './harmonyJSConfig';
 

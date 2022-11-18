@@ -3,7 +3,7 @@ import {
   ITokenInfo,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import web3 from 'web3';
 import { TransactionReceipt } from 'web3-core';

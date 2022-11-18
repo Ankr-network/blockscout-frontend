@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Tab, Tabs, Typography } from '@material-ui/core';
 import { useState } from 'react';
-
-import { t } from 'common';
 
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { NavLink } from 'uiKit/NavLink';

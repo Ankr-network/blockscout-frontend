@@ -1,9 +1,8 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useMemo } from 'react';
-
-import { t, tHTML } from 'common';
 
 import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES } from 'modules/common/const';

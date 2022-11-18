@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import { MultiSelect } from 'modules/common/components/MultiSelect';
 

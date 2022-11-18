@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'domains/chains/types';
 import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';

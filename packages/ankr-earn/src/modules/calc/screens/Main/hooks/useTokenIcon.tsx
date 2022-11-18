@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 import { TCalcToken } from 'modules/calc/types';
 import { Token } from 'modules/common/types/token';

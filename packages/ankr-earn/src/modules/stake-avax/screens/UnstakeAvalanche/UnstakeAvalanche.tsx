@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import {
   abortRequests,
@@ -6,8 +7,6 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';

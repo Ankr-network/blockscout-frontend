@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { Children, ReactNode } from 'react';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import { Dialog } from 'uiKit/Dialog';
 import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';

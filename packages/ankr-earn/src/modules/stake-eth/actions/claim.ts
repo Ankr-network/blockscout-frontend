@@ -1,8 +1,8 @@
-import { IWeb3SendResult } from '@ankr.com/provider-core';
 import { RequestAction, getQuery } from '@redux-requests/core';
 import { push } from 'connected-react-router';
 import { createAction } from 'redux-smart-actions';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { EthereumSDK, TEthToken } from '@ankr.com/staking-sdk';
 
 import { Token } from 'modules/common/types/token';

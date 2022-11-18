@@ -16,7 +16,7 @@ export enum AvailableReadProviders {
 
   gnosis = 'gnosisHttpProvider',
   sokol = 'sokolHttpProvider',
-  
+
   xdc = 'xdcMainnetHttpProvider',
   xdcTestnet = 'xdcTestnetHttpProvider',
 }
@@ -25,7 +25,6 @@ export type Address = string;
 
 export enum AvailableWriteProviders {
   ethCompatible = 'ethCompatible',
-  polkadotCompatible = 'polkadotCompatible',
 }
 
 export enum EEthereumNetworkId {
@@ -49,13 +48,6 @@ export enum EEthereumNetworkId {
   sokol = 77,
   xdc = 50,
   xdcTestnet = 51,
-}
-
-export enum EPolkadotNetworkId {
-  kusama = 'KSM',
-  polkadot = 'DOT',
-  rococo = 'ROC',
-  westend = 'WND',
 }
 
 export enum EWalletId {

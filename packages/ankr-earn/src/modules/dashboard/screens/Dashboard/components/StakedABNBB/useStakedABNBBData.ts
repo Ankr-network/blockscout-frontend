@@ -1,7 +1,4 @@
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import {
   useDispatchRequest,
   useMutation,
@@ -10,7 +7,10 @@ import {
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
-import { t } from 'common';
+import {
+  AvailableWriteProviders,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';

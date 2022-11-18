@@ -49,8 +49,7 @@
   },
   "dependencies": {
     "@ankr.com/provider": "*",
-    "@ankr.com/provider-core": "*",
-    "common": "*",
+    "@ankr.com/common": "*",
     "@faker-js/faker": "6.1.2",
     "@types/lodash.flatten": "4.4.7",
     "@types/lodash.orderby": "4.6.6",

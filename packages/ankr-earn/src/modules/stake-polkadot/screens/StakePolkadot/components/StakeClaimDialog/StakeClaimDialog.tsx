@@ -1,8 +1,7 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { Field, Form, FormRenderProps } from 'react-final-form';
-
-import { t, tHTML } from 'common';
 
 import { DEFAULT_FIXED, featuresConfig } from 'modules/common/const';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';

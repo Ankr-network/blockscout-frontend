@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import classNames from 'classnames';
-
-import { t, tHTML } from 'common';
 
 import { Days, Percentage } from 'modules/common/types';
 import { BAD_STATUS_RANGE, EProviderStatus } from 'modules/stake-ankr/const';

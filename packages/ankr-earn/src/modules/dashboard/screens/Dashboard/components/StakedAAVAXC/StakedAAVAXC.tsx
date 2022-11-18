@@ -1,6 +1,5 @@
+import { tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
-
-import { tHTML } from 'common';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';

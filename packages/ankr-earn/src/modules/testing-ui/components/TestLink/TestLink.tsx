@@ -1,7 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Link } from 'react-router-dom';
 
-import { t } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { RoutesConfig } from 'modules/testing-ui/Routes';

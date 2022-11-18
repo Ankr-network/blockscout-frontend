@@ -1,19 +1,23 @@
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-  EPolkadotNetworkId,
-} from '@ankr.com/provider-core';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
-import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
+import {
+  AvailableWriteProviders,
+  EthereumWeb3KeyProvider,
+  EEthereumNetworkId,
+} from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { ISwitchNetworkData, PolkadotProvider } from 'polkadot';
+import {
+  EPolkadotNetworkId,
+  ISwitchNetworkData,
+  PolkadotProvider,
+} from 'polkadot';
 
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
 import { withStore } from 'modules/common/utils/withStore';
 
+import { ExtraWriteProviders, ProvidersMap } from '../../../common/types';
 import { setChainId } from '../store/authSlice';
 import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 
@@ -23,7 +27,7 @@ type TChangedData = Partial<IConnect>;
 
 interface ISwitchNetworkArgs {
   chainId: EEthereumNetworkId | EPolkadotNetworkId;
-  providerId: AvailableWriteProviders;
+  providerId: keyof ProvidersMap;
 }
 
 export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
@@ -38,7 +42,7 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
       request: {
         promise: async () => {
           const provider =
-            await ProviderManagerSingleton.getInstance().getProvider(
+            await ProviderManagerSingleton.getInstance<ProvidersMap>().getProvider(
               providerId,
             );
 
@@ -53,7 +57,7 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
               break;
             }
 
-            case AvailableWriteProviders.polkadotCompatible: {
+            case ExtraWriteProviders.polkadotCompatible: {
               if (isPolkadotCompatible(chainId)) {
                 switchNetworkData = await (
                   provider as PolkadotProvider
@@ -96,7 +100,7 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
             let changedData: TChangedData = {};
 
             if (
-              providerId === AvailableWriteProviders.polkadotCompatible &&
+              providerId === 'polkadotCompatible' &&
               isPolkadotCompatible(chainId)
             ) {
               changedData = {

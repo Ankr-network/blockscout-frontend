@@ -1,12 +1,13 @@
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
-} from '@ankr.com/provider-core';
+} from '@ankr.com/provider';
 
 import { Token } from 'modules/common/types/token';
 import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
 
 import { ETH_NETWORK_BY_ENV, isMainnet } from '../common/const';
+import { ExtraWriteProviders } from '../common/types';
 
 import {
   EPolkadotNetworks,
@@ -21,7 +22,7 @@ export const ETH_READ_PROVIDER_ID = isMainnet
 export const ETH_WRITE_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 
 export const POLKADOT_WRITE_PROVIDER_ID =
-  AvailableWriteProviders.polkadotCompatible;
+  ExtraWriteProviders.polkadotCompatible;
 
 export const ETH_NETWORKS = [ETH_NETWORK_BY_ENV];
 

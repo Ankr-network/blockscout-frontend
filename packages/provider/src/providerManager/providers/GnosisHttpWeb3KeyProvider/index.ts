@@ -1,6 +1,5 @@
 import Web3 from 'web3';
-
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
+import { Web3KeyReadProvider } from '../../../utils/Web3KeyReadProvider';
 
 export class GnosisHttpWeb3KeyProvider extends Web3KeyReadProvider {
   private url: string;

@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Box, Grid, Hidden, Typography } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { RoutesConfig as RoutesCalcConfig } from 'modules/calc/Routes';
 import { featuresConfig, isLocal } from 'modules/common/const';

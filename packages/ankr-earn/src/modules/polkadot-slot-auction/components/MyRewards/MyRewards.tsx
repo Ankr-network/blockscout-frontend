@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box, Tooltip } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import { useHistory } from 'react-router';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import {
   Table,

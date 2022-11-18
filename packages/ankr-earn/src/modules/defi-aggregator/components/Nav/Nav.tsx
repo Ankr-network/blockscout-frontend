@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 import { BigNav } from 'modules/common/components/BigNav';
 import { BigNavItem } from 'modules/common/components/BigNavItem';

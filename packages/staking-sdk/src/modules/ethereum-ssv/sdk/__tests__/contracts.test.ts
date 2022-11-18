@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 import Contract from 'web3-eth-contract';
 
 import { Env } from '../../../common';

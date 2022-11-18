@@ -1,7 +1,6 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-
-import { t, tHTML } from 'common';
 
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';

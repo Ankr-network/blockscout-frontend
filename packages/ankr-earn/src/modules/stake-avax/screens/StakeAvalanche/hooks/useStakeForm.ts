@@ -1,4 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -8,6 +7,8 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

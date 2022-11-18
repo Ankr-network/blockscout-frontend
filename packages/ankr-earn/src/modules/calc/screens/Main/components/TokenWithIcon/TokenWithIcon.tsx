@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import classNames from 'classnames';
 import { cloneElement, ReactText } from 'react';
-
-import { t } from 'common';
 
 import { useTokenWithIconStyles } from './useTokenWithIconStyles';
 

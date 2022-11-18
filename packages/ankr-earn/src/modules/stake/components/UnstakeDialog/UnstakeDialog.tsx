@@ -1,3 +1,4 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
@@ -10,7 +11,6 @@ import React, {
 } from 'react';
 import { Form, Field } from 'react-final-form';
 
-import { t, tHTML } from 'common';
 import { Notice } from 'ui';
 
 import { AmountInput } from 'modules/common/components/AmountField';

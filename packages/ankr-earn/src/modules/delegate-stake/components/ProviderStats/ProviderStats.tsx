@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Paper } from '@material-ui/core';
-
-import { t, tHTML } from 'common';
 
 import { StatsItem } from './StatsItem';
 import { useStatsStyles } from './useStatsStyles';

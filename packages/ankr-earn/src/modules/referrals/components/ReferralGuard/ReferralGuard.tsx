@@ -1,7 +1,8 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
