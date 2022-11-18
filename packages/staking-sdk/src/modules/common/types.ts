@@ -7,8 +7,13 @@ export interface ICommonProps<T> {
   provider: T;
 }
 
-export interface IETHBalanceProps<T> {
+export interface IWeb3BalanceProps<T> {
   address: Address;
+  provider: T;
+}
+
+export interface IWeb3ReadableAmountFromWeiProps<T> {
+  amount: string;
   provider: T;
 }
 

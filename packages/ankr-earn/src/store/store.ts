@@ -16,6 +16,8 @@ import {
   authPersistReducer,
   TAuthState,
 } from 'modules/auth/common/store/authPersistReducer';
+import { networkSwitchCoin98 } from 'modules/auth/eth/middlewares/networkSwitchCoin98';
+import { featuresConfig } from 'modules/common/const';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { dialog, IDialogState } from 'modules/dialogs';
@@ -109,7 +111,10 @@ export const store = configureStore({
       .concat(...requestsMiddleware)
       .concat(web3Api.middleware)
       .concat(routerMiddleware(historyInstance))
-      .concat(sagaMiddleware),
+      .concat(sagaMiddleware)
+      .concat(
+        featuresConfig.isCoin98SupportActive ? [networkSwitchCoin98] : [],
+      ),
 });
 
 export const persistor = persistStore(store);

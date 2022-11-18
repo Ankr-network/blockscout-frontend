@@ -11,7 +11,6 @@ import { useCallback } from 'react';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -24,8 +23,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { useUnstakeDialog } from './hooks/useUnstakeDialog';
 import { useUnstakeFantomStyles } from './useUnstakeFantomStyles';
 
-const resetRequests = () =>
-  resetReduxRequests([getBurnFee.toString(), getUnstakeDate.toString()]);
+const resetRequests = () => resetReduxRequests([getUnstakeDate.toString()]);
 
 export const UnstakeFantom = (): JSX.Element => {
   const classes = useUnstakeFantomStyles();

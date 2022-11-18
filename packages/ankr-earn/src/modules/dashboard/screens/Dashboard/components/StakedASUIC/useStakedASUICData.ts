@@ -5,6 +5,7 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { configFromEnv } from 'modules/api/config';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { RoutesConfig } from 'modules/stake-sui/Routes';
 
 const token = Token.aSUIc;
 
@@ -41,10 +42,10 @@ export const useStakedASUICData = (): IStakedASUICData => {
     network: ' ',
     pendingValue: ZERO,
     ratio: ZERO,
-    stakeLink: ' ',
+    stakeLink: RoutesConfig.stake.generatePath(),
     token,
     tokenAddress: suiConfig.aSUIcToken,
-    unstakeLink: ' ',
+    unstakeLink: RoutesConfig.unstake.generatePath(),
     usdAmount: ZERO,
     onAddTokenToWallet: () => null,
   };

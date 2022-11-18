@@ -18,6 +18,7 @@ import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { ASETHCIcon } from 'uiKit/Icons/ASETHCIcon';
 import { ASUICIcon } from 'uiKit/Icons/ASUICIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
+import { AXDCCIcon } from 'uiKit/Icons/AXDCCIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
@@ -28,6 +29,7 @@ import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
 import { SUIIcon } from 'uiKit/Icons/SUIIcon';
 import { ISvgIconProps } from 'uiKit/Icons/withSvgIcon';
 import { xDAIIcon } from 'uiKit/Icons/xDAIIcon';
+import { XDCIcon } from 'uiKit/Icons/XDCIcon';
 
 import { Token } from './types/token';
 
@@ -57,6 +59,7 @@ export const iconByTokenMap: TIconMap = {
   [Token.aMATICb]: AMATICBIcon,
   [Token.aMATICc]: AMATICCIcon,
   [Token.aWNDb]: ADOTBIcon,
+  [Token.aXDCc]: AXDCCIcon,
   [Token.AVAX]: AvaxIcon,
   [Token.MATIC]: MaticIcon,
   [Token.DOT]: DotIcon,
@@ -70,17 +73,6 @@ export const iconByTokenMap: TIconMap = {
   [Token.xDAI]: xDAIIcon,
   [Token.SUI]: SUIIcon,
   [Token.aSUIc]: ASUICIcon,
-};
-
-export const iconByNetworkMap: TNetworkIconMap = {
-  1: EthIcon,
-  5: EthIcon,
-  56: BNBIcon,
-  97: BNBIcon,
-  43114: AvaxIcon,
-  43113: AvaxIcon,
-  137: MaticIcon,
-  250: FantomIcon,
-  4002: FantomIcon,
-  80001: MaticIcon,
+  [Token.TXDC]: XDCIcon,
+  [Token.XDC]: XDCIcon,
 };
