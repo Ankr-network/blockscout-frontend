@@ -1,9 +1,8 @@
 import { push } from 'connected-react-router';
 import { RootState } from 'store';
 
-import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
-import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { CacheTags } from '../cacheTags';

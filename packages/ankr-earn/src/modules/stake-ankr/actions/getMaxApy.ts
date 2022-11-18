@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from 'modules/api/web3Api';
-import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingReadSDK } from '../api/AnkrStakingSDK';
 import { TEMPORARY_APY } from '../const';

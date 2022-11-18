@@ -1,25 +1,20 @@
-import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { t } from 'common';
 
-import { ZERO } from 'modules/common/const';
-import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
-import { getStakeGasFee } from 'modules/stake-fantom/actions/getStakeGasFee';
-import { stake } from 'modules/stake-fantom/actions/stake';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
+import { useLazyGetFTMStakeGasFeeQuery } from 'modules/stake-fantom/actions/getStakeGasFee';
+import { useStakeFTMMutation } from 'modules/stake-fantom/actions/stake';
 import { calcTotalAmount } from 'modules/stake-fantom/utils/calcTotalAmount';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 import { TFtmSyntToken } from '../../../types/TFtmSyntToken';
 
@@ -49,32 +44,37 @@ interface IUseStakeForm {
 export const useStakeForm = (): IUseStakeForm => {
   const [amount, setAmount] = useState(ZERO);
   const [isError, setIsError] = useState(false);
-  const dispatch = useAppDispatch();
 
-  const dispatchRequest = useDispatchRequest();
-  const { loading: isStakeLoading } = useMutation({ type: stake });
+  const [stake, { isLoading: isStakeLoading }] = useStakeFTMMutation();
   const { selectedToken, handleTokenSelect } = useSelectedToken();
-  const { data, loading: isCommonDataLoading } = useQuery({
-    type: getCommonData,
-  });
+  const { data, isFetching: isCommonDataLoading } = useGetFTMCommonDataQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
     defaultData: [],
     type: getFAQ,
   });
 
-  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
-    type: getStakeGasFee,
-  });
+  const [getAVAXStakeGasFee, { data: gasFee, isFetching: isGasFeeLoading }] =
+    useLazyGetFTMStakeGasFeeQuery();
 
   const aFTMcRatio = data?.aFTMcRatio ?? ZERO;
   const balance = data?.ftmBalance ?? ZERO;
+  const synthBalance =
+    selectedToken === Token.aFTMb
+      ? data?.aFTMbBalance ?? ZERO
+      : data?.aFTMcBalance ?? ZERO;
   const minAmount = data?.minStake.toNumber() ?? 0;
 
   const { sendAnalytics } = useAnalytics({
     amount,
     balance,
     selectedToken,
+    synthBalance,
   });
 
   const tokenCertRatio = useMemo(
@@ -102,24 +102,23 @@ export const useStakeForm = (): IUseStakeForm => {
     setIsError(invalid);
     setAmount(values.amount ? new BigNumber(values.amount) : ZERO);
 
-    if (invalid) {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
-    } else if (values.amount) {
+    if (values.amount) {
       const readyAmount = new BigNumber(values.amount);
-      dispatch(getStakeGasFee(readyAmount, selectedToken));
+      getAVAXStakeGasFee({
+        amount: readyAmount,
+        token: selectedToken,
+      });
     }
   };
 
   const onSubmit = () => {
     const stakeAmount = new BigNumber(amount);
 
-    dispatchRequest(stake({ amount: stakeAmount, token: selectedToken })).then(
-      ({ error }) => {
-        if (!error) {
-          sendAnalytics();
-        }
-      },
-    );
+    stake({ amount: stakeAmount, token: selectedToken })
+      .unwrap()
+      .then(() => {
+        sendAnalytics();
+      });
   };
 
   const onTokenSelect = useCallback(
@@ -128,10 +127,13 @@ export const useStakeForm = (): IUseStakeForm => {
 
       const shouldUpdateGasFee = !totalAmount.isZero() && amount && !isError;
       if (shouldUpdateGasFee) {
-        dispatch(getStakeGasFee(amount, token));
+        getAVAXStakeGasFee({
+          amount,
+          token,
+        });
       }
     },
-    [amount, dispatch, handleTokenSelect, isError, totalAmount],
+    [amount, getAVAXStakeGasFee, handleTokenSelect, isError, totalAmount],
   );
 
   return {

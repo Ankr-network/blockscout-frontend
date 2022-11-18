@@ -1,26 +1,24 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { FantomSDK } from '@ankr.com/staking-sdk';
 
-import { ACTIONS_PREFIX } from '../const';
+import { web3Api } from 'modules/api/web3Api';
+
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
-export const getStakeGasFee = createAction<
-  RequestAction<BigNumber, BigNumber>,
-  [BigNumber, TFtmSyntToken]
->(`${ACTIONS_PREFIX}getStakeGasFee`, (amount, token) => ({
-  request: {
-    promise: (async (): Promise<BigNumber> => {
-      const sdk = await FantomSDK.getInstance();
+interface IGetStakeGasFeeArgs {
+  amount: BigNumber;
+  token: TFtmSyntToken;
+}
 
-      return sdk.getStakeGasFee(amount, token);
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-    asMutation: false,
-    getData: data => data,
-  },
-}));
+export const { useLazyGetFTMStakeGasFeeQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getFTMStakeGasFee: build.query<BigNumber, IGetStakeGasFeeArgs>({
+      queryFn: async ({ amount, token }) => {
+        const sdk = await FantomSDK.getInstance();
+
+        return { data: await sdk.getStakeGasFee(amount, token) };
+      },
+    }),
+  }),
+});

@@ -45,7 +45,7 @@ export const AUDIT_LINKS = {
   matic:
     'https://assets.ankr.com/staking/smart_contract_security_audit_matic.pdf',
   avax: 'https://assets.ankr.com/staking/smart_contract_security_audit_avax_beosin.pdf',
-  eth: 'https://assets.ankr.com/files/stkr_smart_contract_auditing_report.pdf',
+  eth: 'https://assets.ankr.com/staking/smart_contract_security_audit_aeth_beosin.pdf',
 };
 
 export const DUNE_ANALYTICS_LINK = {

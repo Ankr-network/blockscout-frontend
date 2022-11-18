@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
 
@@ -10,6 +10,7 @@ import { TotalIfnoContent } from 'modules/delegate-stake/components/TotalStaked/
 import { TotalInfoAmount } from 'modules/delegate-stake/components/TotalStaked/TotalInfoAmount';
 import { NavLink } from 'uiKit/NavLink';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
+import { Tooltip } from 'uiKit/Tooltip';
 
 import { useTotalInfo } from './useTotalInfo';
 import { useTotalInfoStyles } from './useTotalInfoStyles';
@@ -24,7 +25,6 @@ export const TotalInfo = (): JSX.Element => {
     climableRewardsUsd,
     isClimableRewardsLoading,
     isTotalStakedLoading,
-    isClaimAllowed,
     claimAllRewardsLink,
     stakeLink,
     epochEnds,
@@ -56,14 +56,18 @@ export const TotalInfo = (): JSX.Element => {
                   />
                 }
                 buttonSlot={
-                  <NavLink
-                    className={classNames(classes.btn, classes.btnRegular)}
-                    disabled={!isClaimAllowed}
-                    href={claimAllRewardsLink}
-                    variant="outlined"
-                  >
-                    {t('stake-ankr.total-info.claim-all')}
-                  </NavLink>
+                  <Tooltip arrow title={t('common.tooltips.comingSoon')}>
+                    <ButtonBase>
+                      <NavLink
+                        disabled
+                        className={classNames(classes.btn, classes.btnRegular)}
+                        href={claimAllRewardsLink}
+                        variant="outlined"
+                      >
+                        {t('stake-ankr.total-info.claim-all')}
+                      </NavLink>
+                    </ButtonBase>
+                  </Tooltip>
                 }
                 titleSlot={
                   <Grid

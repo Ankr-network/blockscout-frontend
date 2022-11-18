@@ -1,6 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IUseErrorMessageData {
@@ -15,13 +15,11 @@ export const useErrorMessage = (): IUseErrorMessageData => {
     type: getMetrics,
   });
 
-  const { error: commonDataError } = useQuery({
-    type: getCommonData,
-  });
+  const { isError, refetch } = useGetFTMCommonDataQuery();
 
   const onErroMessageClick = () => {
-    if (commonDataError) {
-      dispatchRequest(getCommonData());
+    if (isError) {
+      refetch();
     }
 
     if (metricsError) {
@@ -29,7 +27,7 @@ export const useErrorMessage = (): IUseErrorMessageData => {
     }
   };
 
-  const hasError = !!commonDataError || !!metricsError;
+  const hasError = !!isError || !!metricsError;
 
   return {
     hasError,

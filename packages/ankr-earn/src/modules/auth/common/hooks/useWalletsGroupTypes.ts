@@ -4,7 +4,6 @@ import { QueryState } from '@redux-requests/core';
 import { useAppSelector } from 'store/useAppSelector';
 
 import { IConnect } from '../actions/connect';
-import { AVAILABLE_WALLETS_GROUP_TYPES } from '../components/ConnectWalletsModal';
 import { selectProvidersData, selectQueriesData } from '../store/authSlice';
 import { getFullAuthRequestKey } from '../utils/getAuthRequestKey';
 
@@ -26,6 +25,11 @@ interface IQueryData {
 }
 
 const PERSIST_DEFAULT_KEY = '_persist';
+
+const AVAILABLE_WALLETS_GROUP_TYPES = [
+  AvailableWriteProviders.ethCompatible,
+  AvailableWriteProviders.polkadotCompatible,
+];
 
 const getConnectData = (
   queriesData: IQueryData,

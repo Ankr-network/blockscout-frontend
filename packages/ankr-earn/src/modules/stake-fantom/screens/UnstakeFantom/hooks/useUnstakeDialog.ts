@@ -1,10 +1,6 @@
 import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
@@ -15,8 +11,8 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
-import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
-import { unstake } from 'modules/stake-fantom/actions/unstake';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
+import { useUnstakeFTMMutation } from 'modules/stake-fantom/actions/unstake';
 import { RoutesConfig as FantomRoutesConfig } from 'modules/stake-fantom/Routes';
 import { TFtmSyntToken } from 'modules/stake-fantom/types/TFtmSyntToken';
 import { getValidSelectedToken } from 'modules/stake-fantom/utils/getValidSelectedToken';
@@ -41,18 +37,14 @@ interface IUseUnstakeDialog
 }
 
 export const useUnstakeDialog = (): IUseUnstakeDialog => {
-  const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
-  const { data: commonData, loading: isBalanceLoading } = useQuery({
-    type: getCommonData,
-  });
+  const { data: commonData, isFetching: isBalanceLoading } =
+    useGetFTMCommonDataQuery();
   const { data: burnFeeData, loading: isBurnFeeLoading } = useQuery({
     type: getBurnFee,
   });
 
-  const { loading: isUnstakeLoading } = useMutation({
-    type: unstake,
-  });
+  const [unstake, { isLoading: isUnstakeLoading }] = useUnstakeFTMMutation();
 
   const stakeParamsToken = FantomRoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
@@ -103,15 +95,16 @@ export const useUnstakeDialog = (): IUseUnstakeDialog => {
 
       const resultAmount = new BigNumber(amount);
 
-      dispatchRequest(unstake(resultAmount, selectedToken)).then(
-        ({ error }) => {
-          if (!error) {
-            sendAnalytics(resultAmount);
-          }
-        },
-      );
+      unstake({
+        amount: resultAmount,
+        token: selectedToken,
+      })
+        .unwrap()
+        .then(() => {
+          sendAnalytics(resultAmount);
+        });
     },
-    [dispatchRequest, sendAnalytics, selectedToken],
+    [unstake, selectedToken, sendAnalytics],
   );
 
   const onChange = useCallback(

@@ -13,6 +13,7 @@ import {
   ANKR_MATIC_LANDING,
   ANKR_SSV_LANDING,
   featuresConfig,
+  ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as AvalancheRoutes } from 'modules/stake-avax/Routes';
@@ -33,6 +34,7 @@ import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { SSVStakingIcon } from 'uiKit/Icons/SSVStakingIcon';
+import { SUIIcon } from 'uiKit/Icons/SUIIcon';
 
 import { useStakeMainScreen } from '../../hooks/useStakeMainScreen';
 import { FeatureItem } from '../FeatureItem';
@@ -185,6 +187,21 @@ export const LiquidStakingTokens = (): JSX.Element => {
             title={t('features.ethereum-ssv')}
             token={Token.ETH}
             onStakeClick={onTrackEnterStakingFlow(Token.asETHc)}
+          />
+        )}
+
+        {featuresConfig.isSUIStakingActive && (
+          <FeatureItem
+            apy={0}
+            iconSlot={<SUIIcon />}
+            isApyLoading={false}
+            isTvlLoading={false}
+            mainHref=" "
+            moreHref=" "
+            stakedTvl={ZERO}
+            title={t('features.sui')}
+            token={Token.SUI}
+            onStakeClick={onTrackEnterStakingFlow(Token.SUI)}
           />
         )}
       </Features>

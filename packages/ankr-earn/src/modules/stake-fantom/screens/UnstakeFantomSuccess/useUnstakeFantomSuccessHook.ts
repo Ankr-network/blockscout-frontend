@@ -1,19 +1,15 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ZERO } from 'modules/common/const';
-import { addFTMTokenToWallet } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
+import { useAddFTMTokenToWalletMutation } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import {
-  getTxData,
-  getTxReceipt,
+  useGetFTMTxDataQuery,
+  useGetFTMTxReceiptQuery,
 } from 'modules/stake-fantom/actions/getTxData';
 import { TFtmSyntToken } from 'modules/stake-fantom/types/TFtmSyntToken';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IUnstakeFantomSuccessHook {
   isLoading: boolean;
@@ -22,7 +18,7 @@ export interface IUnstakeFantomSuccessHook {
   destination?: string;
   transactionId?: string;
   tokenName: string;
-  error?: Error;
+  error?: FetchBaseQueryError;
   handleAddTokenToWallet: () => void;
 }
 
@@ -33,31 +29,25 @@ interface IUnstakeSuccessParams {
 
 export const useUnstakeFantomSuccessHook = (): IUnstakeFantomSuccessHook => {
   const { txHash, token } = useParams<IUnstakeSuccessParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const dispatchRequest = useDispatchRequest();
-  const dispatch = useAppDispatch();
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetFTMTxDataQuery({ txHash });
+  const { data: receipt } = useGetFTMTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: 3_000,
+    },
+  );
+
+  const [addFTMTokenToWallet] = useAddFTMTokenToWalletMutation();
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
-  useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
-
-    return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
-    };
-  }, [dispatch, txHash]);
-
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const onAddTokenClick = () => {
-    dispatchRequest(addFTMTokenToWallet(token));
+    addFTMTokenToWallet(token);
   };
 
   const amount = data?.amount ?? ZERO;
@@ -71,7 +61,7 @@ export const useUnstakeFantomSuccessHook = (): IUnstakeFantomSuccessHook => {
     tokenName: token,
     isLoading,
     isPending,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
 };

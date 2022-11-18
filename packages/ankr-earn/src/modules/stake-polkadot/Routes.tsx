@@ -20,11 +20,7 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
-import {
-  ETH_NETWORKS,
-  POLKADOT_NETWORK_KEYS,
-  POLKADOT_WRITE_PROVIDER_ID,
-} from './const';
+import { ETH_NETWORKS, POLKADOT_NETWORK_KEYS } from './const';
 import {
   EPolkadotNetworks,
   IPolkadotRouteLoadableComponentProps,
@@ -113,7 +109,6 @@ const routeRender =
         exact
         availableNetworks={availableNetworks}
         path={path as string}
-        providerId={POLKADOT_WRITE_PROVIDER_ID}
       >
         <GuardETHRoute
           exact

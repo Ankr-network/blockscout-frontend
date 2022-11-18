@@ -157,4 +157,27 @@ export const RPCConfig: Record<number, IRPCConfig> = {
     rpcUrls: ['https://sokol.poa.network/'],
     blockExplorerUrls: ['https://blockscout.com/poa/sokol/'],
   },
+  
+  [EEthereumNetworkId.xdc]: {
+    chainId: numberToHex(EEthereumNetworkId.xdc),
+    chainName: 'XDC Mainnet',
+    nativeCurrency: {
+      name: 'XDC',
+      symbol: 'XDC',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.xinfin.network/'],
+    blockExplorerUrls: ['https://explorer.xinfin.network/'],
+  },
+  [EEthereumNetworkId.xdcTestnet]: {
+    chainId: numberToHex(EEthereumNetworkId.xdcTestnet),
+    chainName: 'XDC Apothem Testnet',
+    nativeCurrency: {
+      name: 'TXDC',
+      symbol: 'TXDC',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.apothem.network/'],
+    blockExplorerUrls: ['https://explorer.apothem.network/'],
+  },
 };

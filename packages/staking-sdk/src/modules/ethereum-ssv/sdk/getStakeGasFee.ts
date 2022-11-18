@@ -1,9 +1,8 @@
 import { Address, Web3KeyReadProvider } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
-import { currentEnv, ETH_SCALE_FACTOR, ZERO } from '../../common';
+import { currentEnv, ETH_SCALE_FACTOR, ICommonProps, ZERO } from '../../common';
 import { convertNumberToHex } from '../../utils';
-import { ICommonProps } from '../types';
 
 import { getSSVStakingPoolContract } from './contracts';
 import { getIncreasedGasLimit } from './getIncreasedGasLimit';

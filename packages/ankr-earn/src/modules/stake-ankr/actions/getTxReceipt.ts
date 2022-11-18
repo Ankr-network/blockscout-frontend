@@ -1,7 +1,6 @@
 import { TransactionReceipt } from 'web3-core';
 
-import { web3Api } from 'modules/api/web3Api';
-import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 

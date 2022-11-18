@@ -13,7 +13,6 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getBurnFee } from 'modules/stake-fantom/actions/getBurnFee';
-import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -27,11 +26,7 @@ import { useUnstakeDialog } from './hooks/useUnstakeDialog';
 import { useUnstakeFantomStyles } from './useUnstakeFantomStyles';
 
 const resetRequests = () =>
-  resetReduxRequests([
-    getBurnFee.toString(),
-    getCommonData.toString(),
-    getUnstakeDate.toString(),
-  ]);
+  resetReduxRequests([getBurnFee.toString(), getUnstakeDate.toString()]);
 
 export const UnstakeFantom = (): JSX.Element => {
   const classes = useUnstakeFantomStyles();
@@ -58,7 +53,6 @@ export const UnstakeFantom = (): JSX.Element => {
   useProviderEffect(() => {
     dispatch(resetRequests());
 
-    dispatch(getCommonData());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
 
     return () => {

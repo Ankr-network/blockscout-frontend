@@ -1,17 +1,15 @@
 import { AvailableWriteProviders } from '@ankr.com/provider-core';
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getCommonData } from 'modules/stake-fantom/actions/getCommonData';
 
 interface IUseAnalyticsArgs {
   amount: BigNumber;
   balance: BigNumber;
   selectedToken: string;
+  synthBalance: BigNumber;
 }
 
 interface IUseAnalytics {
@@ -22,22 +20,14 @@ export const useAnalytics = ({
   amount,
   balance,
   selectedToken,
+  synthBalance,
 }: IUseAnalyticsArgs): IUseAnalytics => {
-  const { data } = useQuery({
-    type: getCommonData,
-  });
-
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
-
-    const synthBalance =
-      selectedToken === Token.aFTMb
-        ? data?.aFTMbBalance ?? ZERO
-        : data?.aFTMcBalance ?? ZERO;
 
     trackStake({
       address,

@@ -1,7 +1,4 @@
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider-core';
+import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import {
   useDispatchRequest,
   useMutation,
@@ -56,7 +53,6 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
   });
 
   const { onSwitchNetwork, isUnsupportedNetwork } = useGuardETHRoute({
-    providerId: AvailableWriteProviders.ethCompatible,
     availableNetworks: BNB_STAKING_NETWORKS,
   });
 
