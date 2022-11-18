@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Paper } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { useStatsData } from '../../hooks/useStatsData';
 

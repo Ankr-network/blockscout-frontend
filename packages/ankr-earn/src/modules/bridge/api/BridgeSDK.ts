@@ -1,7 +1,7 @@
-import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
+import { Web3KeyWriteProvider } from '@ankr.com/provider';
 import { ABI_ERC20, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { SupportedChainIDS } from 'modules/common/const';

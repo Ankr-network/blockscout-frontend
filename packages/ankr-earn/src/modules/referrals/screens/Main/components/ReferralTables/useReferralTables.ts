@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import { useEffect, useState } from 'react';
-
-import { t } from 'common';
 
 import { getStakersData } from 'modules/referrals/actions/getStakersData';
 

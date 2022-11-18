@@ -1,5 +1,3 @@
-import 'common/src/utils/updatePrototypes';
-
 export * from './consensus';
 export * from './common';
 export * from './rpc';

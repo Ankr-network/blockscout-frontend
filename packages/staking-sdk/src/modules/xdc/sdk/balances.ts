@@ -1,4 +1,4 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
 import { getWeb3ReadableAmountFromWei, IWeb3BalanceProps } from '../../common';

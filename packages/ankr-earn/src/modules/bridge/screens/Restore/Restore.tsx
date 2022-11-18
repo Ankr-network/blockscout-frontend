@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Box, Paper, Typography } from '@material-ui/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { goBack, push } from 'connected-react-router';
@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 
-import { t } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Notice } from 'ui';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

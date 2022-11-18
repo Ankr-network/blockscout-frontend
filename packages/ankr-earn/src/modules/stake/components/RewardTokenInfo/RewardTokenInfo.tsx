@@ -1,8 +1,7 @@
+import { tHTML } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import React, { ReactElement } from 'react';
-
-import { tHTML } from 'common';
 
 import { Token } from 'modules/common/types/token';
 

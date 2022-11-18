@@ -1,10 +1,11 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
 
+import { ExtraWriteProviders } from '../../../../common/types';
 import { useConnectForModal } from '../../hooks/useConnectForModal';
 import { ConnectTile } from '../ConnectTile';
 
@@ -15,7 +16,7 @@ const DOWNLOAD_POLKADOT_URL = 'https://polkadot.js.org/extension/';
 export const ConnectTilePolkadot = (): JSX.Element => {
   const { handleConnect } = useConnectForModal({
     walletId: 'polkadot',
-    provider: AvailableWriteProviders.polkadotCompatible,
+    provider: ExtraWriteProviders.polkadotCompatible,
   });
 
   const isInjected = PolkadotProvider.isInjected();

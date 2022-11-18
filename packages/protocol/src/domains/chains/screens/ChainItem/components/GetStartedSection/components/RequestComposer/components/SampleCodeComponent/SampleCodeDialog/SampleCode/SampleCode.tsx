@@ -6,7 +6,7 @@ import { useSampleCodeStyles } from './useSampleCodeStyles';
 import { overridenViewStyle, overridenThumbStyle } from './SampleCodeUtils';
 import { ViewProps } from '../../../../../CodeSnippet';
 import { CopyCodeButton } from '../../../../../CopyCodeButton';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 interface ISampleCodeProps {
   code: string;

@@ -1,8 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 
-import { t } from 'common';
 import { TPolkadotAddress } from 'polkadot';
 
 import { DEFAULT_ROUNDING, featuresConfig } from 'modules/common/const';

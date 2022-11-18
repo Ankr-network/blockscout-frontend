@@ -1,6 +1,9 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { ProvidersMap } from '../../../common/types';
 
 export interface IProviderStatus {
   address?: string;
@@ -11,7 +14,7 @@ export interface IProviderStatus {
 }
 
 interface ISetProviderStatusPayload extends IProviderStatus {
-  providerId: AvailableWriteProviders;
+  providerId: keyof ProvidersMap;
 }
 
 export type IAuthSlice = Record<string, IProviderStatus>;
@@ -54,7 +57,7 @@ export const selectEthProviderData = createSelector(selectAuth, state => {
 });
 
 export const selectPolkadotProviderData = createSelector(selectAuth, state => {
-  return state[AvailableWriteProviders.polkadotCompatible];
+  return state.polkadotCompatible;
 });
 
 export const selectQueriesData = createSelector(

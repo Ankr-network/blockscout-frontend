@@ -1,4 +1,3 @@
-import { configFromEnv, PolkadotProvider } from 'polkadot';
 import { IProviderOptions, ThemeColors } from 'web3modal';
 import {
   AvalancheHttpWeb3KeyProvider,
@@ -13,10 +12,10 @@ import { PolygonHttpWeb3KeyProvider } from './providers/PolygonHttpWeb3KeyProvid
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
-import { sleep } from './utils/sleep';
+  IProvider,
+} from '../utils/types';
+import { Web3KeyWriteProvider } from '../utils/Web3KeyWriteProvider';
+import { Web3KeyReadProvider } from '../utils/Web3KeyReadProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
@@ -37,9 +36,8 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.xdcTestnet]: 'https://rpc.apothem.network',
 };
 
-interface IProviders {
+export interface IProviders {
   [AvailableWriteProviders.ethCompatible]: Web3KeyWriteProvider;
-  [AvailableWriteProviders.polkadotCompatible]: PolkadotProvider;
   [AvailableReadProviders.ethMainnet]: Web3KeyReadProvider;
   [AvailableReadProviders.ethGoerli]: Web3KeyReadProvider;
   [AvailableReadProviders.avalancheChain]: Web3KeyReadProvider;
@@ -56,17 +54,30 @@ interface IProviders {
   [AvailableReadProviders.xdcTestnet]: Web3KeyReadProvider;
 }
 
-const POLKADOT_CONNECT_WAIT_MS = 250;
+export type IProvidersMap = IProviders & IExtraProviders;
+export type IExtraProviders = Partial<{ [key: string]: IProvider }>;
 
-export class ProviderManager {
-  private providers: Partial<IProviders> = {};
+export class ProviderManager<ProvidersMap extends IProvidersMap> {
+  private providers: Partial<ProvidersMap> = {};
 
   constructor(
     private web3ModalTheme: ThemeColors,
     private providerOptions?: IProviderOptions,
   ) {}
 
-  async getProvider(providerId: AvailableWriteProviders, walletId?: string) {
+  addProvider(
+    providerId: keyof ProvidersMap,
+    provider: ProvidersMap[keyof ProvidersMap],
+  ) {
+    if (!this.providers[providerId]) {
+      this.providers[providerId] = provider;
+    }
+  }
+
+  async getProvider<ProviderType extends IProvider>(
+    providerId: keyof ProvidersMap,
+    walletId?: string,
+  ) {
     const provider = this.providers[providerId];
 
     if (provider) {
@@ -74,25 +85,26 @@ export class ProviderManager {
         await provider.connect();
       }
 
-      return provider;
+      return provider as unknown as ProviderType;
     }
 
     switch (providerId) {
       case AvailableWriteProviders.ethCompatible:
-        return this.getETHWriteProvider(walletId);
-
-      case AvailableWriteProviders.polkadotCompatible:
-        return this.getPolkadotWriteProvider();
+        return (await this.getETHWriteProvider(
+          walletId,
+        )) as unknown as ProviderType;
 
       default:
-        throw new Error(`The provider isn't supported: ${providerId}`);
+        throw new Error(
+          `The provider isn't supported: ${providerId.toString()}`,
+        );
     }
   }
 
-  async getETHReadProvider(providerId: AvailableReadProviders) {
+  async getETHReadProvider(providerId: keyof IProviders) {
     const provider = this.providers[providerId];
 
-    if (provider) {
+    if (provider !== undefined) {
       if (!provider.isConnected()) {
         await provider.connect();
       }
@@ -100,45 +112,46 @@ export class ProviderManager {
       return provider;
     }
 
-    switch (providerId) {
+    const rpcUrls = RPC_URLS as Record<keyof IProviders, string>;
+
+    switch (providerId as AvailableReadProviders) {
       case AvailableReadProviders.ethMainnet:
       case AvailableReadProviders.ethGoerli: {
-        return new EthereumHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new EthereumHttpWeb3KeyProvider(rpcUrls[providerId]);
       }
 
       case AvailableReadProviders.mumbai:
       case AvailableReadProviders.polygon: {
-        return new PolygonHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new PolygonHttpWeb3KeyProvider(rpcUrls[providerId]);
       }
 
       case AvailableReadProviders.avalancheChain:
       case AvailableReadProviders.avalancheChainTest: {
-        return new AvalancheHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new AvalancheHttpWeb3KeyProvider(rpcUrls[providerId]);
       }
 
       case AvailableReadProviders.binanceChain:
       case AvailableReadProviders.binanceChainTest: {
-        return new BinanceHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new BinanceHttpWeb3KeyProvider(rpcUrls[providerId]);
       }
 
       case AvailableReadProviders.ftmOpera:
       case AvailableReadProviders.ftmTestnet: {
-        return new FantomHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new FantomHttpWeb3KeyProvider(rpcUrls[providerId]);
       }
 
       case AvailableReadProviders.gnosis:
       case AvailableReadProviders.sokol: {
-        return new GnosisHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new GnosisHttpWeb3KeyProvider(rpcUrls[providerId]);
       }
 
       case AvailableReadProviders.xdc:
       case AvailableReadProviders.xdcTestnet: {
-        return new XDCHttpWeb3KeyProvider(RPC_URLS[providerId]);
+        return new XDCHttpWeb3KeyProvider(rpcUrls[providerId]);
       }
 
-      default: {
-        throw new Error(`The provider isn't supported: ${providerId}`);
-      }
+      default:
+        throw new Error('');
     }
   }
 
@@ -166,42 +179,12 @@ export class ProviderManager {
     return newProvider;
   }
 
-  async getPolkadotWriteProvider() {
-    const providerId = AvailableWriteProviders.polkadotCompatible;
+  getWriteProviderById(providerId: keyof ProvidersMap) {
     const provider = this.providers[providerId];
-
-    if (provider) {
-      if (!provider.isConnected()) {
-        await provider.connect();
-      }
-
-      return provider;
-    }
-
-    const { networkType, polkadotUrl } = configFromEnv();
-
-    const newProvider = new PolkadotProvider({
-      networkType,
-      polkadotUrl,
-    });
-
-    // Note: This is for "resolving" issues with extension loading after the page refresh (production mode)
-    await sleep(POLKADOT_CONNECT_WAIT_MS);
-
-    await newProvider.connect();
-
-    this.providers[providerId] = newProvider;
-
-    return newProvider;
+    return (provider as Web3KeyWriteProvider) ?? null;
   }
 
-  getWriteProviderById(
-    providerId: AvailableWriteProviders,
-  ): Web3KeyWriteProvider | PolkadotProvider | null {
-    return this.providers[providerId] ?? null;
-  }
-
-  disconnect(providerId: AvailableWriteProviders) {
+  disconnect(providerId: keyof ProvidersMap) {
     const provider = this.providers[providerId];
 
     if (provider) {

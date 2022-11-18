@@ -1,10 +1,9 @@
+import { t } from '@ankr.com/common';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';

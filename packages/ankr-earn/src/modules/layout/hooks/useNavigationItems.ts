@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
-
-import { t } from 'common';
 
 import { RoutesConfig as BridgeRoutes } from 'modules/bridge/RoutesConfig';
 import { INavigationLinkProps } from 'modules/common/components/NavigationLink';

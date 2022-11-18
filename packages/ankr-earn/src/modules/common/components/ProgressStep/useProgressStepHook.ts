@@ -1,5 +1,6 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useState, useCallback, useEffect } from 'react';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackClickGoToDashboard } from 'modules/analytics/tracking-actions/trackClickGoToDashboard';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

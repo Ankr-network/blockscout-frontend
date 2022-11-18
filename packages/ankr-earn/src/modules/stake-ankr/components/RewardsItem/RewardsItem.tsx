@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

@@ -1,8 +1,8 @@
-import { Address } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { t } from 'common';
+import { Address } from '@ankr.com/provider';
 
 import { useCopyTokenAddressHook } from 'modules/common/hooks/useCopyTokenAddressHook';
 import {

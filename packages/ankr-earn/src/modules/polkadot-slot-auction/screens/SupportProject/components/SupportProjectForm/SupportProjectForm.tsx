@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { DispatchRequest } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
@@ -9,7 +10,6 @@ import {
   FormRenderProps,
 } from 'react-final-form';
 
-import { t } from 'common';
 import { ICrowdloanType } from 'polkadot';
 
 import { FormErrors } from 'modules/common/types/FormErrors';

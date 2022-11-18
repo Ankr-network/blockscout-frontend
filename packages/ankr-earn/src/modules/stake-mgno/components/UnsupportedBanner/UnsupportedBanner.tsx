@@ -1,9 +1,9 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t, tHTML } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import React from 'react';
 
-import { t, tHTML } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { disconnect } from 'modules/auth/common/actions/disconnect';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';

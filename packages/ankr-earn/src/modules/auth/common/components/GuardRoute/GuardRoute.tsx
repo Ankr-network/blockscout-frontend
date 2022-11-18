@@ -1,9 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router';
-
-import { t } from 'common';
 
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -11,6 +9,7 @@ import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
+import { AvailableStakingWriteProviders } from '../../../../common/types';
 import { IConnect } from '../../actions/connect';
 import { Connect } from '../Connect';
 import { NetworkSelector, NetworkSelectorItem } from '../NetworkSelector';
@@ -29,7 +28,7 @@ interface IGuardRouteProps<
   isOpenConnectInstantly?: boolean;
   isUnsupportedNetwork: boolean;
   isValidWallet: boolean;
-  providerId: AvailableWriteProviders;
+  providerId: AvailableStakingWriteProviders;
   supportedNetworks: SupportedNetworkItem[];
   onDispatchConnect: () => TActionPromise<IConnect>;
   onOpenModal: () => void;

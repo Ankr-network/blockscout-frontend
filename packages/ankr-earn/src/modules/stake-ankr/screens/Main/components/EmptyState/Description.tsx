@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { ReactComponent as AnkrLogo } from './assets/ankr-logo.svg';
 import { ReactComponent as DaoLogo } from './assets/dao-logo.svg';

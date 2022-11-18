@@ -5,9 +5,9 @@
   "homepage": "/staking",
   "main": "src/index.ts",
   "dependencies": {
+    "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "*",
-    "@ankr.com/provider-core": "*",
     "@ankr.com/staking-sdk": "*",
     "@ankr.com/utils": "^1.1.0",
     "@loadable/component": "^5.15.2",
@@ -26,7 +26,6 @@
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "classnames": "^2.3.1",
-    "common": "*",
     "connected-react-router": "^6.9.1",
     "d3": "^7.6.1",
     "date-fns": "^2.28.0",

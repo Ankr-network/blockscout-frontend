@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';

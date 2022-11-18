@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Typography } from '@material-ui/core';
 import { useTronAboutStyles } from './useTronAboutStyles';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 const LEARN_MORE_LINK = 'https://tronprotocol.github.io/documentation-en/ ';
 

@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import {
   useDispatchRequest,
   useMutation,
@@ -5,8 +6,6 @@ import {
 } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
-
-import { t } from 'common';
 
 import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';

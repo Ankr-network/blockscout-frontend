@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { abortRequests, resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -7,8 +8,6 @@ import {
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 import { Dispatch } from 'redux';
-
-import { t } from 'common';
 
 import { ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';

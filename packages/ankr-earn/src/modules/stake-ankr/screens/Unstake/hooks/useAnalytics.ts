@@ -1,5 +1,6 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackAnkrTokenUnstake } from 'modules/analytics/tracking-actions/trackAnkrTokenUnstake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';

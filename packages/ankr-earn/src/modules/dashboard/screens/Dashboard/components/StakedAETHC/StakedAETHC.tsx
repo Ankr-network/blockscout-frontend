@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
-
-import { t, tHTML } from 'common';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';

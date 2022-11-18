@@ -9,7 +9,7 @@
     "src"
   ],
   "license": "MIT",
-  "private": false,
+  "private": true,
   "scripts": {
     "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
     "lint:js:fix": "yarn lint:js --fix",
@@ -24,23 +24,15 @@
     "watch": "yarn build -w"
   },
   "dependencies": {
-    "@ankr.com/provider-core": "*",
+    "@ankr.com/common": "*",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@coinbase/wallet-sdk": "^3.5.2",
     "@ethereumjs/common": "^2.5.0",
     "@ethereumjs/tx": "^3.3.2",
-    "@polkadot/wasm-crypto-asmjs": "^6.3.1",
-    "@polkadot/wasm-crypto-wasm": "^6.3.1",
-    "@polkadot/x-fetch": "^9.5.1",
-    "@polkadot/x-randomvalues": "^9.5.1",
-    "@polkadot/x-textdecoder": "^9.5.1",
-    "@polkadot/x-textencoder": "^9.5.1",
-    "@polkadot/x-ws": "^9.5.1",
     "@redux-requests/core": "1.6.1",
     "@walletconnect/web3-provider": "^1.7.0",
     "bignumber.js": "^9.0.1",
     "ethereumjs-util": "^7.1.3",
-    "polkadot": "*",
     "redux": "^4.1.2",
     "redux-saga": "^1.1.3",
     "reselect": "^4.1.6",
@@ -48,7 +40,8 @@
     "web3-core": "^1.7.0",
     "web3-eth-contract": "1.7.0",
     "web3-utils": "^1.3.5",
-    "web3modal": "^1.9.4"
+    "web3modal": "^1.9.4",
+    "react": "^17.0.2"
   },
   "devDependencies": {
     "@babel/cli": "7.17.3",
@@ -76,7 +69,13 @@
     "rollup-watch": "^4.3.1",
     "ts-jest": "27.0.0",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-gtm-module": "^2.0.1",
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.2",
+    "cpy-cli": "^3.1.1"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

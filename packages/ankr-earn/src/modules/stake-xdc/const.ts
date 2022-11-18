@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { XDC_NETWORK_BY_ENV } from 'modules/common/const';
 

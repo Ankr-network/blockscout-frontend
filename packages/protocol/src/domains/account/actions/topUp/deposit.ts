@@ -1,7 +1,7 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
-import { IWeb3SendResult } from '@ankr.com/provider-core';
+import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
 import { fetchPublicKey } from '../fetchPublicKey';
@@ -9,7 +9,7 @@ import {
   setAllowanceTransaction,
   setTopUpTransaction,
 } from 'domains/account/store/accountTopUpSlice';
-import { throwIfError } from 'common';
+import { throwIfError } from '@ankr.com/common';
 
 const setTransaction = (
   store: RequestsStore,

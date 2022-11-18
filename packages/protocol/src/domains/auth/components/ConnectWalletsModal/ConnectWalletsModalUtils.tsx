@@ -1,5 +1,5 @@
 import { isMobile } from 'web3modal';
-import { EWalletId, Web3KeyReadProvider } from '@ankr.com/provider-core';
+import { EWalletId, Web3KeyReadProvider } from '@ankr.com/provider';
 
 import { ReactComponent as HuobiWalletIcon } from './assets/huobi-wallet-icon.svg';
 import { ReactComponent as ImTokenWalletIcon } from './assets/imtoken-wallet-icon.svg';

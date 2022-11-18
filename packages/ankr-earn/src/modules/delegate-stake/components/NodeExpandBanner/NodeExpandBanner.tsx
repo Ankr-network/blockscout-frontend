@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
-
-import { t, tHTML } from 'common';
 
 import chainImage from './assets/chains.png';
 import { useNodeExpandBannerStyles } from './useNodeExpandBannerStyles';

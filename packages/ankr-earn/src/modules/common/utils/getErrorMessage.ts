@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { ErrorProps } from '@redux-requests/react';
 import capitalize from 'lodash/capitalize';
-
-import { t } from 'common';
 
 import { getIsRejectedByUser } from './parseError';
 

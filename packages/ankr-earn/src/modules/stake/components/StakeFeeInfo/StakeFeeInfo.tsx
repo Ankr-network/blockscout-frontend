@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box, BoxProps } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { useStakeFeeInfoStyles } from './useStakeFeeInfoStyles';
 

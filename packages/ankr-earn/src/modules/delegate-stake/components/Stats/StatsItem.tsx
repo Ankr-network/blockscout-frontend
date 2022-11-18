@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { ButtonBase } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { ReactText } from 'react';
-
-import { t } from 'common';
 
 import { Milliseconds } from 'modules/common/types';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';

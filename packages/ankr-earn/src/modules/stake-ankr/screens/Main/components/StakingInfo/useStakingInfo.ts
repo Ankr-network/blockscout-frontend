@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect, useMemo, useState } from 'react';
-
-import { t } from 'common';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';

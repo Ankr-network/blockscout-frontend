@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { ReactText, useCallback } from 'react';
-
-import { t } from 'common';
 
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 

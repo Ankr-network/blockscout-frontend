@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Chip } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { NavLink } from 'uiKit/NavLink';

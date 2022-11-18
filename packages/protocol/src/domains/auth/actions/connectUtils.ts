@@ -1,14 +1,14 @@
 import { RequestsStore } from '@redux-requests/core';
 import { IJwtToken, MultiRpcSdk, Web3Address } from 'multirpc-sdk';
 
-import { throwIfError } from 'common';
+import { throwIfError } from '@ankr.com/common';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { switchEthereumChain } from 'domains/auth/utils/switchEthereumChain';
 import { authorizeProvider } from 'domains/infrastructure/actions/authorizeProvider';
 import { MultiService } from 'modules/api/MultiService';
 
 import { timeout } from 'modules/common/utils/timeout';
-import { IWalletMeta } from '@ankr.com/provider-core';
+import { IWalletMeta } from '@ankr.com/provider';
 
 export interface IConnect {
   address: Web3Address;

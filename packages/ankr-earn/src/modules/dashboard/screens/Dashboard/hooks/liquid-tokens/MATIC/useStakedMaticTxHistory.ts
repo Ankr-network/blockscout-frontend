@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import { useCallback } from 'react';
 
@@ -5,7 +6,6 @@ import {
   EPolygonPoolEventsMap,
   ITxEventsHistoryGroupItem,
 } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';

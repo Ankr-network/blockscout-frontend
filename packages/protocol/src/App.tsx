@@ -13,7 +13,7 @@ import { JiraServiceDeskMounter } from 'modules/common/components/JiraServiceDes
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { initGoogleGtm } from 'common';
+import { initGoogleGtm } from '@ankr.com/common';
 
 initGoogleGtm();
 

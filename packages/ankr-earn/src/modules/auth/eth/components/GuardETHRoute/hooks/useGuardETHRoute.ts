@@ -1,11 +1,11 @@
-import {
-  AvailableWriteProviders,
-  Web3KeyReadProvider,
-} from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
-import { t } from 'common';
+import {
+  AvailableWriteProviders,
+  Web3KeyReadProvider,
+} from '@ankr.com/provider';
 
 import { connect } from 'modules/auth/common/actions/connect';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';

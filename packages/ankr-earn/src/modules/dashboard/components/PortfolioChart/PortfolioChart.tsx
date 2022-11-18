@@ -1,10 +1,9 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Card, Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import * as d3 from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import { useCallback, useMemo, useState } from 'react';
-
-import { t, tHTML } from 'common';
 
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
 import { TIcon } from 'modules/common/icons';

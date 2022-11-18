@@ -1,9 +1,10 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
 import { useState } from 'react';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';

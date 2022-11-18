@@ -1,9 +1,8 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Box, Paper } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { uid } from 'react-uid';
-
-import { t, tHTML } from 'common';
 
 import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { nativeOpenOceanTokenMap } from 'modules/stake/const';

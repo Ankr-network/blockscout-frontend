@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
-
-import { t } from 'common';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-
-import { t } from 'common';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
 import { Token } from 'modules/common/types/token';

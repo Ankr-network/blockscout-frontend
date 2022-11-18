@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 import { TabsManager } from 'uiKit/TabsManager';
 import { ITabProps } from 'modules/common/hooks/useTabs';
 import { useHarmonyApiVersionTabsStyles } from './useHarmonyApiVersionTabsStyles';

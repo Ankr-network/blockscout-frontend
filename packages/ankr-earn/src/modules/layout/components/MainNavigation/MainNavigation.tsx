@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Button, Popover } from '@material-ui/core';
 import classNames from 'classnames';
 import { useMemo, useState, MouseEvent as ReactMouseEvent } from 'react';
-
-import { t } from 'common';
 
 import { ReactComponent as AngleDownIconSmall } from 'assets/img/angle-down-icon-small.svg';
 import { Navigation } from 'modules/common/components/Navigation';

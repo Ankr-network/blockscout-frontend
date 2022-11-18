@@ -1,6 +1,7 @@
-import { ITokenInfo } from '@ankr.com/provider-core';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+
+import { ITokenInfo } from '@ankr.com/provider';
 
 import { ETH_DECIMALS, SupportedChainIDS } from 'modules/common/const';
 

@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
 

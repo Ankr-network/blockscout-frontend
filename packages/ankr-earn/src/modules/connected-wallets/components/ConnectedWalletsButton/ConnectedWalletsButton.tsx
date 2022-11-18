@@ -1,8 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { t } from 'common';
 import { WalletIcon } from 'ui';
 
 import { PlusMinusBtn } from 'modules/common/components/PlusMinusBtn';
@@ -12,6 +11,7 @@ import {
 } from 'modules/common/utils/getShortStr';
 import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 
+import { AvailableStakingWriteProviders } from '../../../common/types';
 import { IWalletItem } from '../../hooks/useAuthWallets';
 import { IAddress, TAddresses } from '../../types';
 
@@ -21,7 +21,7 @@ interface IConnectedWalletsButtonProps {
   className?: string;
   connectHandler: () => void;
   networks: IWalletItem[];
-  walletsGroupTypes?: AvailableWriteProviders[];
+  walletsGroupTypes?: AvailableStakingWriteProviders[];
   onClick: () => void;
 }
 

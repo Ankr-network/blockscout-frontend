@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Grid, Paper, Typography } from '@material-ui/core';
-
-import { t } from 'common';
 
 import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';

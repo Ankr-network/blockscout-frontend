@@ -1,16 +1,17 @@
-import {
-  Address,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { t } from 'common';
 import {
+  Address,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import {
+  addPolkadot,
   ApiGateway,
   EActionStatuses,
   EActionTypes,
@@ -331,11 +332,13 @@ export class PolkadotStakeSDK {
   static async getInstance(): Promise<PolkadotStakeSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
 
+    await addPolkadot();
+
     const [ethReadProvider, ethWriteProvider, polkadotWriteProvider] =
       await Promise.all([
         providerManager.getETHReadProvider(ETH_READ_PROVIDER_ID),
         providerManager.getETHWriteProvider(),
-        providerManager.getPolkadotWriteProvider(),
+        providerManager.getProvider<PolkadotProvider>('polkadot'),
       ]);
 
     // Get initialized instance
@@ -357,7 +360,7 @@ export class PolkadotStakeSDK {
 
     // Get a new instance
     const instance = new PolkadotStakeSDK({
-      ethReadProvider,
+      ethReadProvider: ethReadProvider as Web3KeyReadProvider,
       ethWriteProvider,
       polkadotWriteProvider,
     });

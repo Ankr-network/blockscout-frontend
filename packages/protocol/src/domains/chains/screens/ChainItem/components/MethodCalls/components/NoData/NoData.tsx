@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { useNoDataStyles } from './useNoDataStyles';
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 export const NoData = () => {
   const classes = useNoDataStyles();

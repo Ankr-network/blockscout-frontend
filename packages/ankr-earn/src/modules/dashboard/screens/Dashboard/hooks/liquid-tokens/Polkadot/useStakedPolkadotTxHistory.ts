@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
-
-import { t } from 'common';
 
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';

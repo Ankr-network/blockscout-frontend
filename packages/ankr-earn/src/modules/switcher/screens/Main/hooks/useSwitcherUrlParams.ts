@@ -1,6 +1,7 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
+
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';

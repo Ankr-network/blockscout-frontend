@@ -1,9 +1,10 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
+import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
+import { AvailableStakingWriteProviders } from '../../../common/types';
 import {
   IProviderStatus,
   selectProvidersData,
@@ -14,7 +15,7 @@ import { getAuthRequestKey } from '../utils/getAuthRequestKey';
 import { connect, IConnect } from './connect';
 
 interface ISwitchNetworkArgs {
-  providerId: AvailableWriteProviders;
+  providerId: AvailableStakingWriteProviders;
   address: string;
 }
 
@@ -29,7 +30,9 @@ export const updateAccountAddress = createAction<
     request: {
       promise: (async () => {
         const provider =
-          await ProviderManagerSingleton.getInstance().getProvider(providerId);
+          await ProviderManagerSingleton.getInstance().getProvider<EthereumWeb3KeyProvider>(
+            providerId,
+          );
         provider.currentAccount = address;
       })(),
     },

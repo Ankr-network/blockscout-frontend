@@ -1,4 +1,4 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
+import { t } from '@ankr.com/common';
 import { resetRequests } from '@redux-requests/core';
 import {
   useDispatchRequest,
@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
-import { t } from 'common';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';

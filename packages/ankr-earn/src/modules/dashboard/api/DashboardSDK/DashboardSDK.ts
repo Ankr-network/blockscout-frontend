@@ -1,10 +1,10 @@
+import { BigNumber } from 'bignumber.js';
+
 import {
   AvailableReadProviders,
   EEthereumNetworkId,
   Web3KeyWriteProvider,
-} from '@ankr.com/provider-core';
-import { BigNumber } from 'bignumber.js';
-
+} from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { ZERO } from 'modules/common/const';

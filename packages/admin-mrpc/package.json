@@ -21,7 +21,7 @@
     "lint:js": "cross-env NODE_ENV=production eslint src --ext=ts,tsx,js,jsx",
     "lint:js:fix": "yarn lint:js --fix",
     "clean": "rimraf build dist",
-    "watch:dependencies": "cd ../.. && turbo run watch --parallel --filter=ankr-protocol-backoffice..."
+    "watch:dependencies": "cd ../.. && turbo run watch --parallel --filter=admin-mrpc..."
   },
   "browserslist": {
     "production": [
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@ankr.com/global-menu": "*",
-    "@ankr.com/provider-core": "*",
+    "@ankr.com/provider": "*",
     "@ankr.com/staking-sdk": "*",
     "@ankr.com/ui": "0.2.2",
     "@ankr.com/utils": "^1.0.0",
@@ -53,7 +53,6 @@
     "axios": "^0.27.2",
     "bignumber.js": "^9.1.0",
     "classnames": "^2.3.1",
-    "common": "*",
     "lodash.isequal": "^4.5.0",
     "multirpc-sdk": "*",
     "query-string": "^7.1.1",

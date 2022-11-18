@@ -1,10 +1,9 @@
+import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { ReactChild, ReactFragment } from 'react';
-
-import { t } from 'common';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { Tooltip } from 'uiKit/Tooltip';

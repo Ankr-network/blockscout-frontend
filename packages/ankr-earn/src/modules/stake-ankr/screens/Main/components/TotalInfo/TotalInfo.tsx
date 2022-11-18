@@ -1,8 +1,7 @@
+import { t } from '@ankr.com/common';
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
-
-import { t } from 'common';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

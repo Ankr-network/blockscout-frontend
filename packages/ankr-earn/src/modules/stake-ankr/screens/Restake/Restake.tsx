@@ -1,6 +1,5 @@
+import { t, tHTML } from '@ankr.com/common';
 import { Container, Paper, Typography } from '@material-ui/core';
-
-import { t, tHTML } from 'common';
 
 import { Section } from 'modules/delegate-stake/components/Section';
 import { Button } from 'uiKit/Button';

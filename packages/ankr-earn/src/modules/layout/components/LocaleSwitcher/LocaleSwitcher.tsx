@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { ChangeEvent, useCallback } from 'react';
-
-import { t } from 'common';
 
 import { setLocale } from 'modules/i18n/store/i18nSlice';
 import { useAppDispatch } from 'store/useAppDispatch';

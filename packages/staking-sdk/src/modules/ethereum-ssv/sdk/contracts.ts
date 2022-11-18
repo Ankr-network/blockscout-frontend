@@ -1,4 +1,4 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider-core';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 

@@ -1,9 +1,8 @@
+import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import React, { useMemo } from 'react';
 import { Field, useFormState } from 'react-final-form';
-
-import { t } from 'common';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
 import {

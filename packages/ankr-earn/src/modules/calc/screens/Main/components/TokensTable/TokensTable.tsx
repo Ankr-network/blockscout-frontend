@@ -1,7 +1,6 @@
+import { t } from '@ankr.com/common';
 import { Box, BoxProps, Typography } from '@material-ui/core';
 import { uid } from 'react-uid';
-
-import { t } from 'common';
 
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 

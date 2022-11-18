@@ -1,6 +1,5 @@
+import { t } from '@ankr.com/common';
 import { Redirect } from 'react-router-dom';
-
-import { t } from 'common';
 
 import { ProgressStep } from 'modules/common/components/ProgressStep';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';

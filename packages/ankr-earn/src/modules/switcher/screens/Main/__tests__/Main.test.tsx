@@ -1,10 +1,11 @@
-import { EEthereumNetworkId } from '@ankr.com/provider-core';
 import { render, screen } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import { store } from 'store';
+
+import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';

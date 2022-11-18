@@ -1,4 +1,4 @@
-import { t } from 'common';
+import { t } from '@ankr.com/common';
 
 import { ISelectOption } from 'modules/common/components/MultiSelect';
 

@@ -1,6 +1,7 @@
-import { EWalletId } from '@ankr.com/provider-core';
 import { success } from '@redux-requests/core';
 import { Middleware } from 'redux';
+
+import { EWalletId } from '@ankr.com/provider';
 
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
