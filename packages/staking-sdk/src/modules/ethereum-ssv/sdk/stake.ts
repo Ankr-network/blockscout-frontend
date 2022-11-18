@@ -2,11 +2,16 @@ import { Address, Web3KeyReadProvider } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
-import { currentEnv, ETH_SCALE_FACTOR, ZERO } from '../../common';
+import {
+  currentEnv,
+  ESDKErrorCodes,
+  ETH_SCALE_FACTOR,
+  ICommonProps,
+  ZERO,
+} from '../../common';
 import { IStakeData } from '../../stake';
 import { convertNumberToHex } from '../../utils';
 import { SSV_GAS_FEE_MULTIPLIER } from '../const';
-import { ESDKErrorCodes, ICommonProps } from '../types';
 
 import { getETHBalance } from './balances';
 import { getSSVStakingPoolContract } from './contracts';

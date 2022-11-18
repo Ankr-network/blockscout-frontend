@@ -2,10 +2,9 @@ import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
-import { configFromEnv, currentEnv } from '../../common';
+import { configFromEnv, currentEnv, ICommonProps } from '../../common';
 import ABI_ASETHC from '../../contracts/asETHc.json';
 import ABI_SSV_STAKING_POOL from '../../contracts/SSVStakingPool.json';
-import { ICommonProps } from '../types';
 
 export const getASETHCTokenContract = ({
   env = currentEnv,

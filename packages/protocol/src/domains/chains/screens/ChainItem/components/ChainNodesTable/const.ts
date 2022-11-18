@@ -1,7 +1,6 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainID } from 'modules/chains/types';
 
-type ChainIDLinkMap = Partial<Record<IApiChain['id'], IApiChain['id']>>;
+type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
 
 export const CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   'avalanche-evm': ChainID.AVALANCHE,
@@ -13,4 +12,8 @@ export const CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   'avalanche_fuji-c': ChainID.AVALANCHE_FUJI,
   'avalanche_fuji-p': ChainID.AVALANCHE_FUJI,
   'avalanche_fuji-x': ChainID.AVALANCHE_FUJI,
+
+  'scrt-rpc': ChainID.SECRET,
+  'scrt-rest': ChainID.SECRET,
+  'scrt-cosmos-rest': ChainID.SECRET_COSMOS,
 };

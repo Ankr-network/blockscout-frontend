@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-
-import { t } from 'modules/i18n/utils/intl';
 import { INDEX_PATH } from 'domains/chains/routes';
+import { ChainID } from 'modules/chains/types';
+import { t } from 'modules/i18n/utils/intl';
+import { useEffect } from 'react';
 import packageJson from '../../../package.json';
 
 const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
 
-export const getChainName = (chainId: string) => {
-  let name = chainId.charAt(0).toUpperCase() + chainId.slice(1);
+export const getChainName = (chainId: ChainID) => {
+  const preparedChainId = chainId.split('_').join(' ');
 
-  if (chainId === 'eth') {
+  let name = preparedChainId.charAt(0).toUpperCase() + preparedChainId.slice(1);
+
+  if (preparedChainId === 'eth') {
     name = 'Ethereum';
-  } else if (chainId === 'bsc') {
+  } else if (preparedChainId === 'bsc') {
     name = 'BSC';
+  } else if (preparedChainId === 'scrt') {
+    name = 'Secret Network';
   }
 
   return name;
@@ -76,7 +80,7 @@ export const useMetatags = (rawPathname: string, chainsRoutes: string[]) => {
 
     if (location.indexOf('chain-item') > -1) {
       name = getChainName(
-        pathname.substring(INDEX_PATH.length, pathname.length),
+        pathname.substring(INDEX_PATH.length, pathname.length) as ChainID,
       );
     }
 

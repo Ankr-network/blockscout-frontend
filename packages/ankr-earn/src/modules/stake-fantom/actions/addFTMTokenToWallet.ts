@@ -1,24 +1,19 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import { FantomSDK } from '@ankr.com/staking-sdk';
 
-import { ACTIONS_PREFIX } from '../const';
+import { web3Api } from 'modules/api/web3Api';
+
+import { CacheTags } from '../const';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
 
-export const addFTMTokenToWallet = createAction<RequestAction<void, void>>(
-  `${ACTIONS_PREFIX}addFTMTokenToWallet`,
-  (token: TFtmSyntToken) => ({
-    request: {
-      promise: (async (): Promise<void> => {
+export const { useAddFTMTokenToWalletMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    addFTMTokenToWallet: build.mutation<boolean, TFtmSyntToken>({
+      queryFn: async token => {
         const sdk = await FantomSDK.getInstance();
 
-        await sdk.addTokenToWallet(token);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-    },
+        return { data: await sdk.addTokenToWallet(token) };
+      },
+      invalidatesTags: [CacheTags.common],
+    }),
   }),
-);
+});

@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import {
+  ACTION_CACHE_SEC,
   DECIMAL_PLACES,
   DEFAULT_ROUNDING,
   featuresConfig,
@@ -21,7 +22,7 @@ import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fe
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
 import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
-import { getCommonData as fetchStakeFTMStats } from 'modules/stake-fantom/actions/getCommonData';
+import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { fetchStats as fetchStakeMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
@@ -81,9 +82,10 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       type: fetchStakeETHClaimableStats,
     });
 
-  const { data: ftmData, loading: isFtmDataLoading } = useQuery({
-    type: fetchStakeFTMStats,
-  });
+  const { data: ftmData, isFetching: isFtmDataLoading } =
+    useGetFTMCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const {
     data: aMATICbBridgeBscBalance,

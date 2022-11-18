@@ -5,6 +5,7 @@ import { t } from 'common';
 import { Token } from 'modules/common/types/token';
 import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { NavLink } from 'uiKit/NavLink';
+import { Tooltip } from 'uiKit/Tooltip';
 
 import { useRewardsItemStyles } from './useRewardsItemStyles';
 
@@ -30,23 +31,33 @@ export const RewardsItem = ({
         buttonSlot={
           <div className={classes.btnWrapper}>
             {restakeLink && (
-              <NavLink
-                className={classes.btn}
-                href={restakeLink}
-                variant="outlined"
-              >
-                {t('stake-ankr.staking-table.restake')}
-              </NavLink>
+              <Tooltip arrow title={t('common.tooltips.comingSoon')}>
+                <span>
+                  <NavLink
+                    disabled
+                    className={classes.btn}
+                    href={restakeLink}
+                    variant="outlined"
+                  >
+                    {t('stake-ankr.staking-table.restake')}
+                  </NavLink>
+                </span>
+              </Tooltip>
             )}
 
             {claimLink && (
-              <NavLink
-                className={classes.btn}
-                href={claimLink}
-                variant="outlined"
-              >
-                {t('stake-ankr.staking-table.claim')}
-              </NavLink>
+              <Tooltip arrow title={t('common.tooltips.comingSoon')}>
+                <span>
+                  <NavLink
+                    disabled
+                    className={classes.btn}
+                    href={claimLink}
+                    variant="outlined"
+                  >
+                    {t('stake-ankr.staking-table.claim')}
+                  </NavLink>
+                </span>
+              </Tooltip>
             )}
           </div>
         }

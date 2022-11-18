@@ -1,8 +1,4 @@
 import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider-core';
-import {
   useDispatchRequest,
   useMutation,
   useQuery,
@@ -16,7 +12,6 @@ import { TPolkadotAddress } from 'polkadot';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import {
   DEFAULT_FIXED,
@@ -24,7 +19,7 @@ import {
   isMainnet,
   ZERO,
 } from 'modules/common/const';
-import { useDialog } from 'modules/common/hooks/useDialog';
+import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { claim } from 'modules/stake-polkadot/actions/claim';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import {
@@ -52,7 +47,6 @@ interface IUseStakeClaimDialogData {
   ethAmountTxt: string | null;
   isLoadingClaim: boolean;
   isLoadingTopBtn: boolean;
-  isOpenedModal: boolean;
   isShowBottomItems: boolean;
   isValidETHNetwork: boolean;
   isWithClaimableTokens: boolean;
@@ -60,8 +54,6 @@ interface IUseStakeClaimDialogData {
   polkadotNetworkName: string;
   secondStepTitle: string;
   topBtnTxt: string;
-  walletsGroupTypes?: AvailableWriteProviders[];
-  onCloseModal: () => void;
   onFormSubmit: (data: IPolkadotClaimFormPayload) => Promise<void>;
 }
 
@@ -79,11 +71,7 @@ export const useStakeClaimDialogData = ({
     POLKADOT_WRITE_PROVIDER_ID,
   );
 
-  const {
-    isOpened: isOpenedModal,
-    onClose: onCloseModal,
-    onOpen: onOpenModal,
-  } = useDialog();
+  const { handleOpen: onOpenModal } = useDialog(EKnownDialogs.connect);
 
   const { loading: isLoadingClaim } = useMutation({
     type: claim,
@@ -99,19 +87,10 @@ export const useStakeClaimDialogData = ({
       requestKey: getPolkadotRequestKey(network),
     });
 
-  const { walletsGroupTypes, writeProviderData } = useWalletsGroupTypes({
-    writeProviderId: ETH_WRITE_PROVIDER_ID,
-  });
-
-  const ethChainId: EEthereumNetworkId | undefined = isEVMCompatible(
-    writeProviderData?.chainId,
-  )
-    ? writeProviderData?.chainId
-    : undefined;
+  const { chainId: ethChainId, isConnected: isConnectedETHWallet } =
+    useConnectedData(ETH_WRITE_PROVIDER_ID);
 
   const claimableTokensAmount = claimableBalance?.claimable ?? ZERO;
-
-  const isConnectedETHWallet = writeProviderData?.isConnected ?? false;
 
   const isValidETHNetwork =
     isConnectedETHWallet &&
@@ -232,7 +211,6 @@ export const useStakeClaimDialogData = ({
     ethAmountTxt,
     isLoadingClaim,
     isLoadingTopBtn,
-    isOpenedModal,
     isShowBottomItems,
     isValidETHNetwork,
     isWithClaimableTokens,
@@ -240,8 +218,6 @@ export const useStakeClaimDialogData = ({
     polkadotNetworkName,
     secondStepTitle,
     topBtnTxt,
-    walletsGroupTypes,
-    onCloseModal,
     onFormSubmit,
   };
 };

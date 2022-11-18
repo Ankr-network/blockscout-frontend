@@ -118,6 +118,7 @@
     "requests": "{value} reqs",
     "req": "{value, number, ::compact-short} req",
     "archive": "Archive",
+    "beta": "BETA",
     "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics.",
     "add-endpoint": {
       "breadcrumbs": "Add Endpoint"
@@ -182,6 +183,9 @@
         "nervos-evm": "Standard EVM and Polyjuice API{plural}",
         "nervos-gw": "Godwoken API{plural}",
         "nervos-ckb": "Nervos CKB Endpoint{plural}",
+        "scrt-rpc": "Secret Network RPC Endpoint{plural}",
+        "scrt-rest": "Secret Network Tendermint REST Endpoint{plural}",
+        "scrt-cosmos-rest": "Secret Network Cosmos REST Endpoint{plural}",
         "solana-api": "Solana API{plural}",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
@@ -1320,5 +1324,8 @@
       "description": "Try reloading the page",
       "button": "Reload Page"
     }
+  },
+  "expired-token": {
+    "text": "Your Premium plan&rsquo;s validity period has expired. <a href='https://www.ankr.com/docs/rpc-service/getting-started/#deposit-funds' target='_blank'>Make a&nbsp;deposit</a> (min.&nbsp;1000&nbsp;ANKR) to&nbsp;continue using our services under the <a href='https://www.ankr.com/docs/rpc-service/pricing/' target='_blank'>PAYG charging model</a>. Note that new private endpoints will be&nbsp;generated after making a&nbsp;deposit, so&nbsp;you must add them instead of&nbsp;those currently used in&nbsp;your projects."
   }
 }

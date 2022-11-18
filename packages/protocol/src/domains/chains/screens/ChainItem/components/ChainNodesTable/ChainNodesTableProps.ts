@@ -6,6 +6,7 @@ export interface ChainNodesTableProps {
   loading: boolean;
   nodes: INodeEntity[];
   nodesWeight: IWorkerNodesWeight[];
+  showNodesWithZeroHeight?: boolean;
 }
 
 export interface GroupedNode {

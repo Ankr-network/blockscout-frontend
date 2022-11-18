@@ -1,9 +1,8 @@
 import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 
-import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { Milliseconds } from 'modules/common/types';
-import { queryFnNotifyWrapper } from 'modules/common/utils/queryFnNotifyWrapper';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 

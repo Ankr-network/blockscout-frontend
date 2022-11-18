@@ -23,6 +23,10 @@ export const useChainListStyles = makeStyles<Theme>(theme => ({
     borderRadius: 18,
     transition: 'box-shadow 0.2s',
 
+    '&:empty': {
+      display: 'none',
+    },
+
     '&:hover': {
       boxShadow:
         '0px 0px 15px rgba(31, 34, 38, 0.05), 0px 3px 50px rgba(31, 34, 38, 0.15)',

@@ -21,7 +21,8 @@ export const StakeFantomSteps = (): JSX.Element => {
       amount={amount}
       buttonTitle={t('stake.buttons.addToWallet', { token: tokenName })}
       destinationAddress={destination}
-      error={error}
+      // TODO: need to double check and test it
+      error={error as unknown as Error}
       hint={t('stake.pending.description', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}

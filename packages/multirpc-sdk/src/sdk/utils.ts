@@ -1,11 +1,11 @@
 import * as ethUtil from 'ethereumjs-util';
 import * as sigUtil from 'eth-sig-util';
-
-import { IConfig, IJwtToken } from '../common';
-import { IBlockchainEntity } from '../backoffice';
-import { FetchBlockchainUrlsResult } from './types';
-import { JwtTokens } from '../consensus';
 import { Web3KeyWriteProvider } from '@ankr.com/provider-core';
+
+import { BlockchainType, IBlockchainEntity } from '../backoffice';
+import { FetchBlockchainUrlsResult } from './types';
+import { IConfig, IJwtToken } from '../common';
+import { JwtTokens } from '../consensus';
 
 export const calcJwtTokenHash = async (
   jwtToken: IJwtToken,
@@ -19,6 +19,12 @@ export const calcJwtTokenHash = async (
 
   return tokenBuffer.toString('hex');
 };
+
+const ENABLED_SECRET_NETWORK_IDS = new Set<string>([
+  'scrt-cosmos-grpc-web',
+  'scrt-cosmos-rest',
+  'scrt-rest',
+]);
 
 export const formatPublicUrls = (
   blockchainsApiResponse: IBlockchainEntity[],
@@ -39,6 +45,16 @@ export const formatPublicUrls = (
   const aptosTestnetItem = blockchainsApiResponse.find(
     item => item.id === 'aptos_testnet',
   );
+
+  const secretItemsMap = blockchainsApiResponse.reduce<
+    Partial<Record<string, IBlockchainEntity>>
+  >((map, item) => {
+    if (ENABLED_SECRET_NETWORK_IDS.has(item.id)) {
+      map[item.id] = item;
+    }
+
+    return map;
+  }, {});
 
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
     const hasRPC = blockchain.features.includes('rpc');
@@ -61,6 +77,18 @@ export const formatPublicUrls = (
         : [];
     }
 
+    // temporary, to not break logics of handling other blockchains
+    if (blockchain.id === 'sui_testnet') {
+      blockchain.extends = undefined;
+      blockchain.type = BlockchainType.Mainnet;
+    }
+    
+    if (ENABLED_SECRET_NETWORK_IDS.has(blockchain.id)) {
+      const secretItem = secretItemsMap[blockchain.id];
+
+      blockchain.paths = secretItem?.paths ? [secretItem.paths[0]] : [];
+    }
+
     const rpcURLs: string[] = hasRPC
       ? blockchain?.paths?.map(path =>
           publicRpcUrl.replace('{blockchain}', path),
@@ -78,10 +106,11 @@ const getPaths = (blockchain: IBlockchainEntity) => {
   const isTron = blockchain.id === 'tron';
   const isAptos = blockchain.id === 'aptos';
   const isAptosTestnet = blockchain.id === 'aptos_testnet';
+  const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.has(blockchain.id);
 
   let paths = blockchain?.paths ?? [];
 
-  if (isTron || isAptos || isAptosTestnet) {
+  if (isTron || isAptos || isAptosTestnet || isEnabledSecret) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
   }
 
@@ -91,7 +120,7 @@ const getPaths = (blockchain: IBlockchainEntity) => {
 export const formatPrivateUrls = (
   blockchains: IBlockchainEntity[],
   config: IConfig,
-  tokenHash: string,
+  tokenHash = '',
 ) => {
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
     const hasRPC = blockchain.features.includes('rpc');
@@ -101,6 +130,12 @@ export const formatPrivateUrls = (
     const isAptos =
       blockchain.id === 'aptos' || blockchain.id === 'aptos_testnet';
 
+    // temporary, to not break logics of handling other blockchains
+    if (blockchain.id === 'sui_testnet') {
+      blockchain.extends = undefined;
+      blockchain.type = BlockchainType.Mainnet;
+    }
+
     const rpcURLs: string[] = hasRPC
       ? paths.map(path => {
           let url = config.privateRpcUrl
@@ -108,7 +143,7 @@ export const formatPrivateUrls = (
             .replace('{user}', tokenHash);
 
           if (isAptos) {
-            url += '/v1';
+            url += `${url.endsWith('/') ? '' : '/'}v1`;
           }
 
           return url;
@@ -122,7 +157,7 @@ export const formatPrivateUrls = (
             .replace('{user}', tokenHash);
 
           if (isAptos) {
-            url += '/v1';
+            url += `${url.endsWith('/') ? '' : '/'}v1`;
           }
 
           return url;

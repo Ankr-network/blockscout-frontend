@@ -1,5 +1,3 @@
-import { AvailableWriteProviders } from '@ankr.com/provider-core';
-
 import { TActionPromise } from 'modules/common/types/ReduxRequests';
 
 import { IConnect } from '../../actions/connect';
@@ -15,7 +13,6 @@ export interface INetworkItem<NetworkId extends TNetworkId> {
 export interface IUseGuardRouteProps<NetworkId extends TNetworkId> {
   availableNetworks: NetworkId[];
   isOpenedConnectModal?: boolean;
-  providerId: AvailableWriteProviders;
 }
 
 export interface IUseGuardRouteData<
@@ -25,12 +22,9 @@ export interface IUseGuardRouteData<
   currentNetwork?: string;
   isConnected: boolean;
   isLoading: boolean;
-  isOpenedModal: boolean;
   isUnsupportedNetwork: boolean;
   isValidWallet: boolean;
   supportedNetworks: SupportedNetworkItem[];
-  walletsGroupTypes?: AvailableWriteProviders[];
-  onCloseModal: () => void;
   onDispatchConnect: () => TActionPromise<IConnect>;
   onOpenModal: () => void;
   onSwitchNetwork: (network: NetworkId) => () => Promise<void>;

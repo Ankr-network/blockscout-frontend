@@ -34,6 +34,7 @@
     "unknown": "Unknown error",
     "some": "Some errors occurred 😔",
     "contract-rejected": "Contract interaction rejected",
+    "user-rejected": "The user rejected the request.",
     "unexpected": "Unexpected error",
     "insufficient-permissions": "Insufficient permissions",
     "btn": "Try again",
@@ -844,6 +845,7 @@
     "ethereum-ssv": "SSV–Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
+    "sui": "Sui (SUI)",
     "apr": "APR",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
@@ -867,8 +869,9 @@
     "disconnect-all": "Disconnect all",
     "modal-title": "Connect wallet to continue",
     "tooltips": {
+      "metamask-trust": "To connect to the MetaMask wallet, please disable Trust wallet extension in your browser and refresh the page.",
       "metamask-other": "To connect to the MetaMask wallet, please disable Coinbase or OKX wallet extension in your browser and refresh the page.",
-      "metamask-coin98": "To connect to the MetaMask wallet, please disable override settings in the Coin98 wallet or disable this wallet extension and refresh the page.",
+      "metamask-coin98": "To connect to the MetaMask wallet please enable the MetaMask extension, disable override settings in the Coin 98 wallet or disable this wallet extension and refresh the page.",
       "polkadot": "To connect to the Polkadot wallet, please connect to one of the Ethereum compatible networks first"
     },
     "wallet-install": "Install"
@@ -1225,6 +1228,12 @@
       "net-apr": "Net APR",
       "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties.",
       "keys-value": "{value} Keys"
+    }
+  },
+  "stake-ssv": {
+    "unsupported": {
+      "title": "Start staking SSV-Ethereum",
+      "description": "SSV-Ethereum Staking is not available with <b>Trust Wallet</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
     }
   },
   "convert": {

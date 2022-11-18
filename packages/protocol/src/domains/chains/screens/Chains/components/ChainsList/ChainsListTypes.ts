@@ -6,6 +6,7 @@ import { SortType, Timeframe } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
 
 export interface ChainsListProps {
+  isMMIndex?: boolean;
   chains: IApiChain[];
   allChains: IApiChain[];
   sortType: SortType;

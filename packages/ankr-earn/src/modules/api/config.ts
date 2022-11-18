@@ -73,6 +73,11 @@ interface IPolygonConfig {
   swapPool: string;
 }
 
+interface ISuiConfig {
+  suiToken: string;
+  aSUIcToken: string;
+}
+
 export interface IGatewayConfig {
   baseUrl: string;
   strapiUrl: string;
@@ -86,6 +91,7 @@ export interface IStkrConfig {
   fantomConfig: IFantomConfig;
   polkadotConfig: IPolkadotConfig;
   polygonConfig: IPolygonConfig;
+  suiConfig: ISuiConfig;
 }
 
 const LOCAL_CONFIG: IStkrConfig = {
@@ -154,6 +160,10 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMATICcToken: '0xac32206a73c8406d74eb21cf7bd060bf841e64ad',
     maticToken: '0x0000000000000000000000000000000000001010',
     swapPool: '0x149372728fC852E6A724C59CDfB41dF0799fe042',
+  },
+  suiConfig: {
+    suiToken: ZERO_ADDR,
+    aSUIcToken: ZERO_ADDR,
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -240,6 +250,10 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
     maticToken: '0x0000000000000000000000000000000000001010',
     swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
+  },
+  suiConfig: {
+    suiToken: ZERO_ADDR,
+    aSUIcToken: ZERO_ADDR,
   },
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',

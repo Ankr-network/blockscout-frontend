@@ -25,4 +25,6 @@ export enum Token {
   ANKR = 'ANKR',
   mGNO = 'mGNO',
   xDAI = 'xDAI',
+  SUI = 'SUI',
+  aSUIc = 'aSUIc',
 }

@@ -1,8 +1,7 @@
 import { Web3KeyReadProvider } from '@ankr.com/provider-core';
 import BigNumber from 'bignumber.js';
 
-import { currentEnv } from '../../common';
-import { ICommonProps } from '../types';
+import { currentEnv, ICommonProps } from '../../common';
 
 import { getASETHCTokenContract } from './contracts';
 import { getReadableAmountFromWei } from './utils';

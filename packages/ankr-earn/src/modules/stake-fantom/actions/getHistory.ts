@@ -1,12 +1,8 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import { FantomSDK, FANTOM_BLOCK_WEEK_OFFSET } from '@ankr.com/staking-sdk';
 
+import { web3Api } from 'modules/api/web3Api';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
-
-import { ACTIONS_PREFIX } from '../const';
 
 export interface IGetHistoryData {
   [Token.aFTMb]: IBaseHistoryData;
@@ -19,14 +15,10 @@ interface IGetHistoryArgs {
 
 const FANTOM_BLOCK_2_WEEKS_OFFSET = FANTOM_BLOCK_WEEK_OFFSET * 2;
 
-export const getHistory = createAction<
-  RequestAction<IGetHistoryData, IGetHistoryData>,
-  [IGetHistoryArgs]
->(
-  `${ACTIONS_PREFIX}getHistory`,
-  ({ step }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<IGetHistoryData> => {
+export const { useLazyGetFTMHistoryQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getFTMHistory: build.query<IGetHistoryData, IGetHistoryArgs>({
+      queryFn: async ({ step }) => {
         const sdk = await FantomSDK.getInstance();
         const latestBlock = await sdk.getLatestBlock();
 
@@ -36,20 +28,18 @@ export const getHistory = createAction<
         const historyData = await sdk.getTxEventsHistoryRange(from, to);
 
         return {
-          [Token.aFTMb]: {
-            stakeEvents: historyData.completedBond,
-            unstakeEvents: historyData.unstakeBond,
-          },
-          [Token.aFTMc]: {
-            stakeEvents: historyData.completedCertificate,
-            unstakeEvents: historyData.unstakeCertificate,
+          data: {
+            [Token.aFTMb]: {
+              stakeEvents: historyData.completedBond,
+              unstakeEvents: historyData.unstakeBond,
+            },
+            [Token.aFTMc]: {
+              stakeEvents: historyData.completedCertificate,
+              unstakeEvents: historyData.unstakeCertificate,
+            },
           },
         };
-      })(),
-    },
-    meta: {
-      asMutation: false,
-      showNotificationOnError: true,
-    },
+      },
+    }),
   }),
-);
+});

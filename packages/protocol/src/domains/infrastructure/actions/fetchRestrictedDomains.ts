@@ -1,9 +1,10 @@
-import { IJwtToken } from 'multirpc-sdk';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { MultiService } from 'modules/api/MultiService';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { MultiService } from 'modules/api/MultiService';
+import { ChainID } from 'modules/chains/types';
+import { IJwtToken } from 'multirpc-sdk';
+import { createAction as createSmartAction } from 'redux-smart-actions';
+import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 
 export const fetchRestrictedDomains = createSmartAction<
   RequestAction<string[], string[]>
@@ -14,7 +15,7 @@ export const fetchRestrictedDomains = createSmartAction<
 
       const domains = await service.getChainRestrictedDomains(
         jwtToken,
-        chainId,
+        checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
       );
 
       return domains;

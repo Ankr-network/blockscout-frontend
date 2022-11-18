@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { t, tHTML } from 'common';
 

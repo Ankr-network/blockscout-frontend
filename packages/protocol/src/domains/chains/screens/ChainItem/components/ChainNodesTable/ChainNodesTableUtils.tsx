@@ -17,6 +17,7 @@ export const CHAIN_NODES_TABLE_PAGE_SIZE = 10;
 export const getRows = (
   data: INodeEntity[],
   nodesWeight: IWorkerNodesWeight[],
+  showNodesWithZeroHeight: boolean,
 ): ProviderRow[] => {
   if (!Array.isArray(data) || data.length === 0) return [];
 
@@ -87,7 +88,7 @@ export const getRows = (
         height: 0,
       };
     })
-    .filter(({ height }) => height > 0)
+    .filter(({ height }) => showNodesWithZeroHeight || height > 0)
     .sort((a, b) => {
       const firstLevel = b.height - a.height;
       const secondLevel = b.weight.toNumber() - a.weight.toNumber();
@@ -135,13 +136,14 @@ export const useChainNodesTableTableColumns = () => {
             return (
               <Typography
                 style={{
-                  color: isHeightColVisibleStatus(nodeStatus)
-                    ? getStatusColor(theme, nodeStatus)
-                    : 'inherit',
+                  color:
+                    isHeightColVisibleStatus(nodeStatus) && height
+                      ? getStatusColor(theme, nodeStatus)
+                      : 'inherit',
                 }}
                 variant="inherit"
               >
-                {height}
+                {height || '-'}
               </Typography>
             );
           },

@@ -14,8 +14,13 @@ import { ChainsSortSelect } from './components/ChainsSortSelect';
 import { ReactSnapChainsLinksGenerator } from './components/ReactSnapChainsLinksGenerator';
 import { UsageSummary } from './components/UsageSummary';
 import { useChains } from './hooks/useChains';
+import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 
-export const Chains = () => {
+interface IChainsProps {
+  isMMIndex?: boolean;
+}
+
+export const Chains = ({ isMMIndex }: IChainsProps) => {
   const {
     chains,
     allChains,
@@ -40,7 +45,7 @@ export const Chains = () => {
   return (
     <>
       {!credentials && !isConnecting && <InfoBanner />}
-
+      <ExpiredTokenBanner />
       {isWalletConnected && (
         <UsageSummary
           timeframe={timeframe}
@@ -61,6 +66,7 @@ export const Chains = () => {
             <Spinner />
           ) : (
             <ChainsList
+              isMMIndex={isMMIndex}
               chains={chains}
               allChains={allChains}
               sortType={sortType}

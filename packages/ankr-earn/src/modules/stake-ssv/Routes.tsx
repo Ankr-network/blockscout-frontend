@@ -8,6 +8,7 @@ import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
+import { SupportGuard } from './components/SupportGuard';
 import { SSV_STAKING_NETWORKS } from './const';
 import { TSSVToken } from './types';
 
@@ -55,7 +56,9 @@ export function getRoutes(): JSX.Element {
           path={RoutesConfig.stake.path}
         >
           <DefaultLayout>
-            <Stake />
+            <SupportGuard>
+              <Stake />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
@@ -65,13 +68,17 @@ export function getRoutes(): JSX.Element {
           path={RoutesConfig.stakeStep.path}
         >
           <DefaultLayout>
-            <StakeStep />
+            <SupportGuard>
+              <StakeStep />
+            </SupportGuard>
           </DefaultLayout>
         </GuardETHRoute>
 
         <Route>
           <DefaultLayout>
-            <PageNotFound />
+            <SupportGuard>
+              <PageNotFound />
+            </SupportGuard>
           </DefaultLayout>
         </Route>
       </Switch>

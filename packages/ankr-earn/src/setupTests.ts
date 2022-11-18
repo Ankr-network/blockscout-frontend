@@ -116,7 +116,7 @@ jest.mock('@ankr.com/provider', () => {
       rococo: 'ROC',
       westend: 'WND',
     },
-    getIsMetamaskInjected: () => true,
+    getIsMetaMaskInjected: () => true,
     getIsCoinbaseInjected: () => false,
     getIsOKXInjected: () => false,
     getIsCoin98Injected: () => false,

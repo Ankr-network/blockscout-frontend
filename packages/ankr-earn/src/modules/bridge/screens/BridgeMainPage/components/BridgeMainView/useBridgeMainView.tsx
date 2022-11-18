@@ -10,7 +10,6 @@ import { trackBridge } from 'modules/analytics/tracking-actions/trackBridge';
 import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { getIsInjectedWallet } from 'modules/auth/eth/utils/walletTypeUtils';
 import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
@@ -80,9 +79,12 @@ const defaultTo = isMainnet
 export const useBridgeMainView = (): IUseBridgeMainView => {
   const providerId = AvailableWriteProviders.ethCompatible;
 
-  const { address, walletName } = useConnectedData(
-    AvailableWriteProviders.ethCompatible,
-  );
+  const {
+    address,
+    walletName,
+    isConnected,
+    chainId: chainNum,
+  } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   const { balance, isBalanceLoading } = useBalance();
   const networkAvailable = useBlockchainPanelOptions();
@@ -99,17 +101,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const [isSendAnother, setIsSendAnother] = useState(false);
   const dispatchRequest = useDispatchRequest();
 
-  const { writeProviderData } = useWalletsGroupTypes({
-    writeProviderId: providerId,
-  });
-
-  const chainId: EEthereumNetworkId | undefined = isEVMCompatible(
-    writeProviderData?.chainId,
-  )
-    ? writeProviderData?.chainId
-    : undefined;
-  const isConnected = writeProviderData?.isConnected ?? false;
-  const isInjected = getIsInjectedWallet(writeProviderData?.walletName);
+  const chainId = isEVMCompatible(chainNum) ? chainNum : undefined;
+  const isInjected = getIsInjectedWallet(walletName);
 
   // TODO: bind by <env> to default value
   const [swapNetworkItem, setSwapNetworkItem] = useState<{
@@ -121,7 +114,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   });
 
   const [isActualNetwork, setActualNetwork] = useState<boolean>(
-    (swapNetworkItem.from as unknown as EEthereumNetworkId) === chainId,
+    swapNetworkItem.from === chainId,
   );
 
   const {
