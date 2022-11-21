@@ -112,7 +112,7 @@ export const ClientInfo = ({
   return (
     <>
       <Typography className={classes.clientAddress} variant="h6">
-        {userName || address}{' '}
+        {isLoadingProfile ? address : userName || address}
         {!userName && <ButtonCopy valueToCopy={address} />}
       </Typography>
       {client && client.address && (

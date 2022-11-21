@@ -73,6 +73,8 @@ export interface IEmailBindingsResponse {
 export interface ICreateTestClientRequest {
   address: Web3Address;
   duration: number;
+  name?: string;
+  email?: string;
 }
 
 export interface ICreateTestClientResponse {
@@ -81,6 +83,8 @@ export interface ICreateTestClientResponse {
   address: Web3Address,
   tier: number,
   roles: string,
+  name?: string,
+  email?: string,
 }
 
 export interface IUserStatsRequest {

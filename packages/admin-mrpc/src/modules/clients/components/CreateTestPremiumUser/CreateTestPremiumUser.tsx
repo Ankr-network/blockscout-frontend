@@ -11,7 +11,12 @@ import { useFetchCountersQuery } from '../../actions/fetchCounters';
 const DAYS_TO_SECONDS_MULTIPLY_VALUE = 86400;
 
 interface FormElements {
-  elements: { userWallet: { value: string }; testingPeriod: { value: number } };
+  elements: {
+    userWallet: { value: string };
+    testingPeriod: { value: number };
+    name: { value?: string };
+    email: { value?: string };
+  };
 }
 
 export const CreateTestPremiumUser = () => {
@@ -38,11 +43,15 @@ export const CreateTestPremiumUser = () => {
     const {
       userWallet: { value: userWalletValue },
       testingPeriod: { value: testingPeriodValue },
+      name: { value: nameValue },
+      email: { value: emailValue },
     } = e.target.elements;
     if (userWalletValue && testingPeriodValue) {
       createTestPremiumUser({
         address: userWalletValue.toLowerCase(),
         duration: testingPeriodValue * DAYS_TO_SECONDS_MULTIPLY_VALUE,
+        name: nameValue,
+        email: emailValue,
       }).then(res => {
         setOpen(false);
         if (res && 'data' in res) {
@@ -78,13 +87,6 @@ export const CreateTestPremiumUser = () => {
           placeholder="User wallet"
         />
         <Input
-          disabled
-          className={classes.input}
-          name="email"
-          id="email"
-          placeholder="Email"
-        />
-        <Input
           type="number"
           className={classes.input}
           name="testingPeriod"
@@ -92,11 +94,16 @@ export const CreateTestPremiumUser = () => {
           placeholder="Testing Period (days)"
         />
         <Input
-          disabled
           className={classes.input}
-          name="comment"
-          id="comment"
-          placeholder="Comment"
+          name="email"
+          id="email"
+          placeholder="Email"
+        />
+        <Input
+          className={classes.input}
+          name="name"
+          id="name"
+          placeholder="Name"
         />
 
         <Button

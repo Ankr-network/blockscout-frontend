@@ -20,6 +20,10 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const [commentInputValue, setCommentInputValue] = useState('');
 
   useEffect(() => {
+    refetchProfileData();
+  }, [address]);
+
+  useEffect(() => {
     if (profileData?.user?.comment) {
       setCommentInputValue(profileData.user.comment);
     }
