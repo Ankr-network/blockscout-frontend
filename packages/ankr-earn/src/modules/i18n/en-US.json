@@ -751,7 +751,7 @@
       "network-info": "{network} Network",
       "stakingHistory": "Staking history",
       "stakingHistoryComingSoon": "Staking history (coming soon)",
-      "addToMetamask": "Add token to Metamask",
+      "addToWallet": "Add token to wallet",
       "copyTokenAddress": "Copy token address",
       "tokenInfo": "Token information",
       "manage": "Manage",
@@ -945,7 +945,7 @@
       "buttons": {
         "connect-wallet": "Connect wallet",
         "receive": "Receive",
-        "add-to-metamask": "Add {token} to Metamask",
+        "add-to-wallet": "Add {token} to wallet",
         "switch": "Switch to {chainName}"
       }
     },

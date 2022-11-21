@@ -242,7 +242,7 @@ export const TxView = ({
               variant="outlined"
               onClick={onAddTokenClick}
             >
-              {t('bridge.tx.buttons.add-to-metamask', { token })}
+              {t('bridge.tx.buttons.add-to-wallet', { token })}
             </Button>
           )}
 

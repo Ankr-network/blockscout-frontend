@@ -90,7 +90,7 @@ export const BridgedAsset = ({
 
       {!isFirefox ? (
         <Menu.Item onClick={onAddTokenToWallet}>
-          {t('dashboard.card.addToMetamask')}
+          {t('dashboard.card.addToWallet')}
         </Menu.Item>
       ) : null}
     </Menu>
