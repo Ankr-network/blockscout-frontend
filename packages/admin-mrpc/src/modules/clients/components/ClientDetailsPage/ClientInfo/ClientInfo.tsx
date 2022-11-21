@@ -31,9 +31,7 @@ import { ClientApiKeysModal } from '../ClientApiKeysModal';
 interface IClientInfoProps {
   address: Web3Address;
   currentClient?: ClientMapped[];
-  transactionsCost?: number;
   isLoadingClients?: boolean;
-  isLoadingTransactions?: boolean;
   totalData?: IGetUserTotalMapped;
   isLoadingTotal?: boolean;
 }
@@ -41,9 +39,7 @@ interface IClientInfoProps {
 export const ClientInfo = ({
   address,
   currentClient = [],
-  transactionsCost,
   isLoadingClients,
-  isLoadingTransactions,
   totalData,
   isLoadingTotal,
 }: IClientInfoProps) => {
@@ -56,6 +52,8 @@ export const ClientInfo = ({
     handleBlurCommentInput,
     handleKeyDownInputComment,
     userName,
+    revenueData,
+    isLoadingRevenue,
   } = useClientInfo({ address });
 
   const { classes } = useStyles();
@@ -106,10 +104,6 @@ export const ClientInfo = ({
   const totalCostText = Number(totalData?.blockchainsInfo?.totalCost)
     ? `${formatNumber(totalData?.blockchainsInfo.totalCost)}`
     : NOT_FOUND_TEXT;
-  const revenueText =
-    transactionsCost !== undefined && +transactionsCost > 0
-      ? renderUSD(transactionsCost.toString())
-      : NOT_FOUND_TEXT;
   const clientEmailText = client?.email || NOT_FOUND_TEXT;
   const voucherCreditsText = client?.voucherAmount ? (
     <>{renderBalance(client?.voucherAmount)} Voucher Credits</>
@@ -193,7 +187,16 @@ export const ClientInfo = ({
             Total revenue
           </Typography>
           <Typography variant="subtitle1" component="p">
-            <b>{isLoadingTransactions ? skeleton : revenueText}</b>
+            {isLoadingRevenue ? (
+              skeleton
+            ) : (
+              <b>{renderUSD(revenueData?.usdFact)}</b>
+            )}
+          </Typography>
+          <Typography variant="caption" component="p">
+            {isLoadingRevenue
+              ? skeleton
+              : `${renderBalance(revenueData?.ankrFact)} ANKR`}
           </Typography>
         </Grid>
 

@@ -34,7 +34,6 @@ export const ClientDetailsPage = () => {
     currentClient,
     address,
     statsData,
-    transactionsCost,
     isLoadingTransactions,
     isLoadingStats,
     periodStatement,
@@ -62,9 +61,7 @@ export const ClientDetailsPage = () => {
       <ClientInfo
         address={address}
         currentClient={currentClient}
-        transactionsCost={transactionsCost}
         isLoadingClients={isLoadingClients}
-        isLoadingTransactions={isLoadingTransactions}
         totalData={totalData}
         isLoadingTotal={isLoadingTotal}
       />

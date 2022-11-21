@@ -28,7 +28,7 @@ import {
   IGetUserProfileRequest,
   IGetUserProfileResponse,
   IUpdateUserProfileRequest,
-  IUpdateUserProfileResponse,
+  IUpdateUserProfileResponse, IGetUserRevenueRequest, IGetUserRevenueResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -126,6 +126,19 @@ export class BackofficeGateway implements IBackofficeGateway {
           address: params.address
         }
       }
+    );
+
+    return response;
+  }
+
+  async getUserRevenue(
+    params: IGetUserRevenueRequest,
+  ): Promise<IGetUserRevenueResponse> {
+    const { data: response } = await this.api.get<IGetUserRevenueResponse>(
+      '/users/revenue',
+      {
+        params,
+      },
     );
 
     return response;

@@ -25,6 +25,8 @@ import {
   IGetUserProfileResponse,
   IUpdateUserProfileRequest,
   IUpdateUserProfileResponse,
+  IGetUserRevenueRequest,
+  IGetUserRevenueResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -53,6 +55,10 @@ export interface IBackofficeGateway {
   updateUserProfile(
     params: IUpdateUserProfileRequest,
   ): Promise<IUpdateUserProfileResponse>;
+
+  getUserRevenue(
+    params: IGetUserRevenueRequest,
+  ): Promise<IGetUserRevenueResponse>;
 
   createTestPremiumUser(
     params: ICreateTestClientRequest,

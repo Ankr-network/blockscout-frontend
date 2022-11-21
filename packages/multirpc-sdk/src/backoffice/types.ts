@@ -196,6 +196,18 @@ export interface IUpdateUserProfileRequest {
 }
 export type IUpdateUserProfileResponse = IUserProfileResponse;
 
+export interface IGetUserRevenueRequest {
+  address: Web3Address;
+}
+
+export interface IGetUserRevenueResponse {
+  creditsAmount: string,
+  usdAmount: string,
+  ankrAmount: string,
+  usdFact: string,
+  ankrFact: string
+}
+
 export type BlockchainFeature = 'rpc' | 'ws';
 
 export enum BlockchainType {

@@ -8,8 +8,6 @@ import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUser
 import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
 
-const TRANSACTION_TYPE_DEDUCTION = 'TRANSACTION_TYPE_DEDUCTION';
-
 export const useClientDetailsPage = () => {
   const { address } = ClientsRoutesConfig.clientInfo.useParams();
   useSetBreadcrumbs([
@@ -45,13 +43,6 @@ export const useClientDetailsPage = () => {
     { address },
   );
 
-  const transactionsDeduction = transactionsData?.transactions.filter(
-    transaction => transaction.type === TRANSACTION_TYPE_DEDUCTION,
-  );
-  const transactionsCost = transactionsDeduction?.reduce(
-    (partialSum, transaction) => partialSum + +transaction.amountUsd,
-    0,
-  );
   const currentClient = clients?.counters?.filter(
     client => client.address === address,
   );
@@ -75,7 +66,6 @@ export const useClientDetailsPage = () => {
     currentClient,
     address,
     statsData,
-    transactionsCost,
     isLoadingTransactions,
     isLoadingStats,
     periodStatement,
