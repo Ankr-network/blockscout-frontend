@@ -3,8 +3,10 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useGetSUICommonDataQuery } from 'modules/stake-sui/actions/getCommonData';
+import { useStakeSUIMutation } from 'modules/stake-sui/actions/stake';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
@@ -30,25 +32,44 @@ interface IUseStakeForm {
 
 export const useStakeForm = (): IUseStakeForm => {
   const [amount] = useState(ZERO);
+
+  const { data, isFetching: isCommonDataLoading } = useGetSUICommonDataQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
+  const [stake, { isLoading: isStakeLoading }] = useStakeSUIMutation();
+
   const { data: faqItems } = useQuery<IFAQItem[]>({
     defaultData: [],
     type: getFAQ,
   });
 
+  const aSUIcRatio = data?.aSUIcRatio ?? ZERO;
+  const balance = data?.suiBalance ?? ZERO;
+  const minAmount = data?.minStake.toNumber() ?? 0;
+
+  const onSubmit = () => {
+    const stakeAmount = new BigNumber(amount);
+
+    stake({ amount: stakeAmount });
+  };
+
   return {
-    ratio: ZERO,
+    ratio: aSUIcRatio,
     amount,
-    balance: ZERO,
+    balance,
     faqItems,
     gasFee: ZERO,
-    isCommonDataLoading: false,
+    isCommonDataLoading,
     isGasFeeLoading: false,
-    loading: false,
-    minAmount: 0,
+    loading: isStakeLoading,
+    minAmount,
     tokenIn: t('unit.sui'),
     tokenOut: Token.aSUIc,
     totalAmount: ZERO,
     onChange: () => null,
-    onSubmit: () => null,
+    onSubmit,
   };
 };

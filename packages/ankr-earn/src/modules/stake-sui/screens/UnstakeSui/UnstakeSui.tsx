@@ -15,8 +15,7 @@ export const UnstakeSui = (): JSX.Element => {
 
   const {
     closeHref,
-    isFetchStatsLoading,
-    isUnstakeLoading,
+    isCommonDataLoading,
     minAmount,
     syntTokenBalance,
     calcTotalRecieve,
@@ -74,10 +73,10 @@ export const UnstakeSui = (): JSX.Element => {
           closeHref={closeHref}
           endText={unstakeLabel}
           extraValidation={onExtraValidation}
-          isBalanceLoading={isFetchStatsLoading}
-          isDisabled={isUnstakeLoading}
+          isBalanceLoading={isCommonDataLoading}
+          isDisabled={isCommonDataLoading}
           isExternalAllowed={false}
-          isLoading={isUnstakeLoading}
+          isLoading={isCommonDataLoading}
           renderFormFooter={onRenderFormFooter}
           token={Token.aSUIc}
           onSubmit={onUnstakeSubmit}
