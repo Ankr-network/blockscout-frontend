@@ -2,18 +2,19 @@ import { IProvidersMap, sleep } from '@ankr.com/provider';
 import { PolkadotProvider } from './polkadot';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { configFromEnv } from './config';
+import { POLKADOT_PROVIDER_ID } from './types';
 
 const POLKADOT_CONNECT_WAIT_MS = 250;
 
-interface ProvidersWithPolkadot extends IProvidersMap {
-  polkadot: PolkadotProvider;
+interface IPolkadotProvidersMap extends IProvidersMap {
+  [POLKADOT_PROVIDER_ID]: PolkadotProvider;
 }
 
-export async function addPolkadot(): Promise<void> {
+export const initProviderManagerPolkadot = async (): Promise<void> => {
   const providerManager =
-    ProviderManagerSingleton.getInstance<ProvidersWithPolkadot>();
+    ProviderManagerSingleton.getInstance<IPolkadotProvidersMap>();
 
-  const provider = providerManager.getWriteProviderById('polkadot');
+  const provider = providerManager.getWriteProviderById(POLKADOT_PROVIDER_ID);
 
   if (provider) {
     if (!provider.isConnected()) {
@@ -28,10 +29,9 @@ export async function addPolkadot(): Promise<void> {
     networkType,
     polkadotUrl,
   });
-
-  providerManager.addProvider('polkadot', newProvider);
+  providerManager.addProvider(POLKADOT_PROVIDER_ID, newProvider);
 
   await sleep(POLKADOT_CONNECT_WAIT_MS);
 
   await newProvider.connect();
-}
+};
