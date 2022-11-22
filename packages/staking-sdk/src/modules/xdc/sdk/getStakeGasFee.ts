@@ -2,16 +2,11 @@ import BigNumber from 'bignumber.js';
 
 import { Web3KeyReadProvider } from '@ankr.com/provider';
 
-import {
-  currentEnv,
-  ETH_SCALE_FACTOR,
-  IStakeGasFeeProps,
-  ZERO,
-} from '../../common';
+import { currentEnv, IStakeGasFeeProps, ZERO } from '../../common';
 import { convertNumberToHex } from '../../utils';
+import { XDC_SCALE_FACTOR } from '../const';
 
-import { getSSVStakingPoolContract } from './contracts';
-import { getIncreasedGasLimit } from './getIncreasedGasLimit';
+import { getXDCStakingPoolContract } from './contracts';
 import { getMinStakeAmount } from './getMinStakeAmount';
 import { isValidAmount } from './utils';
 
@@ -20,7 +15,7 @@ export const getStakeGasFee = async ({
   amount,
   env = currentEnv,
   provider,
-  scale = ETH_SCALE_FACTOR,
+  scale = XDC_SCALE_FACTOR,
 }: IStakeGasFeeProps<Web3KeyReadProvider>): Promise<BigNumber> => {
   const minStakeAmount = await getMinStakeAmount({
     env,
@@ -38,19 +33,17 @@ export const getStakeGasFee = async ({
 
   const amountHex = convertNumberToHex(amount, scale);
 
-  const ssvStakingPoolContract = getSSVStakingPoolContract({
+  const xdcStakingPoolContract = await getXDCStakingPoolContract({
     env,
     provider,
   });
 
-  const estimatedGas: number = await ssvStakingPoolContract.methods
+  const estimatedGas: number = await xdcStakingPoolContract.methods
     .stakeCerts()
     .estimateGas({
       from: address,
       value: amountHex,
     });
 
-  const increasedGasLimit = getIncreasedGasLimit(estimatedGas);
-
-  return provider.getContractMethodFee(increasedGasLimit);
+  return provider.getContractMethodFee(estimatedGas);
 };

@@ -1,24 +1,21 @@
-import { Address, Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
+
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import {
   currentEnv,
   getWeb3ReadableAmountFromWei,
-  ICommonProps,
+  ITokenBalanceProps,
   IWeb3BalanceProps,
 } from '../../common';
 
 import { getASETHCTokenContract } from './contracts';
 
-interface IBalanceProps extends ICommonProps<Web3KeyReadProvider> {
-  address: Address;
-}
-
 export const getASETHCBalance = async ({
   address,
   env = currentEnv,
   provider,
-}: IBalanceProps): Promise<BigNumber> => {
+}: ITokenBalanceProps<Web3KeyReadProvider>): Promise<BigNumber> => {
   const asETHcTokenContract = getASETHCTokenContract({
     env,
     provider,

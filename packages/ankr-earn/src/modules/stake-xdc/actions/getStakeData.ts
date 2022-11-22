@@ -15,10 +15,20 @@ import { XDC_PROVIDER_ID } from '../const';
 type TGetStakeData = IGetStakeData | null;
 
 interface IGetStakeData {
+  aXDCcBalance: BigNumber;
+  aXDCcRatio: BigNumber;
+  minStakeAmount: BigNumber;
   xdcBalance: BigNumber;
+  xdcPoolAmount: BigNumber;
 }
 
-const { getXDCBalance } = XDC;
+const {
+  getAXDCCBalance,
+  getAXDCCRatio,
+  getMinStakeAmount,
+  getXDCBalance,
+  getXDCPoolAmount,
+} = XDC;
 
 export const { useLazyGetStakeDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -48,16 +58,39 @@ export const { useLazyGetStakeDataQuery } = web3Api.injectEndpoints({
             };
           }
 
-          const [xdcBalance] = await Promise.all([
+          const [
+            aXDCcBalance,
+            aXDCcRatio,
+            minStakeAmount,
+            xdcBalance,
+            xdcPoolAmount,
+          ] = await Promise.all([
+            getAXDCCBalance({
+              address,
+              provider,
+            }),
+            getAXDCCRatio({
+              provider,
+            }),
+            getMinStakeAmount({
+              provider,
+            }),
             getXDCBalance({
               address,
+              provider,
+            }),
+            getXDCPoolAmount({
               provider,
             }),
           ]);
 
           return {
             data: {
+              aXDCcBalance,
+              aXDCcRatio,
+              minStakeAmount,
               xdcBalance,
+              xdcPoolAmount,
             },
           };
         },

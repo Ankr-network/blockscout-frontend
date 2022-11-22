@@ -1,6 +1,7 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
+
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import { IWeb3TxInfoProps } from '../../common';
 import { IFetchTxData } from '../../switcher';
