@@ -4,3 +4,5 @@ export enum EPolkadotNetworkId {
   rococo = 'ROC',
   westend = 'WND',
 }
+
+export const POLKADOT_PROVIDER_ID = 'polkadotCompatible';
