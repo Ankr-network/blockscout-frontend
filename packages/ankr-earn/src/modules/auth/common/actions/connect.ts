@@ -7,10 +7,11 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-import { PolkadotProvider } from 'polkadot';
+import { initProviderManagerPolkadot, PolkadotProvider } from 'polkadot';
 
 import {
   AvailableStakingWriteProviders,
+  ExtraWriteProviders,
   Web3Address,
 } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
@@ -61,6 +62,9 @@ export const connect = createAction<
 >('auth/connect', (providerId, wallet, onModalClose, currentAccount) => ({
   request: {
     promise: async (): Promise<IConnect> => {
+      if (providerId === ExtraWriteProviders.polkadotCompatible) {
+        await initProviderManagerPolkadot();
+      }
       const providerManager = ProviderManagerSingleton.getInstance();
       const provider = (await providerManager.getProvider(
         providerId,
