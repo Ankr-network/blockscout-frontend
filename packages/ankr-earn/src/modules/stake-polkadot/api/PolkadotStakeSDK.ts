@@ -11,7 +11,6 @@ import {
 } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
-  addPolkadot,
   ApiGateway,
   EActionStatuses,
   EActionTypes,
@@ -24,7 +23,11 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
-import { Milliseconds, TAmountUnit } from 'modules/common/types';
+import {
+  ExtraWriteProviders,
+  Milliseconds,
+  TAmountUnit,
+} from 'modules/common/types';
 
 import {
   ETH_NETWORKS,
@@ -332,13 +335,13 @@ export class PolkadotStakeSDK {
   static async getInstance(): Promise<PolkadotStakeSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
 
-    await addPolkadot();
-
     const [ethReadProvider, ethWriteProvider, polkadotWriteProvider] =
       await Promise.all([
         providerManager.getETHReadProvider(ETH_READ_PROVIDER_ID),
         providerManager.getETHWriteProvider(),
-        providerManager.getProvider<PolkadotProvider>('polkadot'),
+        providerManager.getProvider<PolkadotProvider>(
+          ExtraWriteProviders.polkadotCompatible,
+        ),
       ]);
 
     // Get initialized instance
