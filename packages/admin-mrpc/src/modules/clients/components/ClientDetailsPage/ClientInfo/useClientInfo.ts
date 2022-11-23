@@ -21,7 +21,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
 
   useEffect(() => {
     refetchProfileData();
-  }, [address]);
+  }, [address, refetchProfileData]);
 
   useEffect(() => {
     if (profileData?.user?.comment) {

@@ -46,6 +46,7 @@ export const ClientDetailsPage = () => {
     isFetchingStats,
     handleSwitchCurrent,
     isCurrentDayIncluded,
+    isRangePeriod,
   } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
@@ -97,6 +98,7 @@ export const ClientDetailsPage = () => {
             isLoadingStats={isLoadingStats || isFetchingStats}
             handleSwitchCurrent={handleSwitchCurrent}
             isCurrentDayIncluded={isCurrentDayIncluded}
+            isRangePeriod={isRangePeriod}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>

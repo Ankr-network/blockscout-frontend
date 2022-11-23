@@ -16,6 +16,7 @@ import {
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
   IUserStatsRequest,
+  IUserStatsByRangeRequest,
   IUserStatsResponse,
   ICountersResponse,
   ICountersRequest,
@@ -66,6 +67,10 @@ export interface IBackofficeGateway {
 
   getUserStats(
     params: IUserStatsRequest,
+  ): Promise<IUserStatsResponse>;
+
+  getUserStatsByRange(
+    params: IUserStatsByRangeRequest,
   ): Promise<IUserStatsResponse>;
 
   addVoucherCredits(

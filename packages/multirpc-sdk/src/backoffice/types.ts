@@ -93,6 +93,15 @@ export interface IUserStatsRequest {
   current?: boolean; // set true if current day stats need to be included
 }
 
+export type IStatsTimeframe = 'm5'|'m15'|'h1'|'d1';
+
+export interface IUserStatsByRangeRequest {
+  address: Web3Address;
+  timeframe: IStatsTimeframe;
+  from: number; // milliseconds
+  to: number; // milliseconds
+}
+
 export type IUserStatsResponse = PrivateStats;
 
 export interface IUsageDetailEntity {

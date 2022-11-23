@@ -1,4 +1,9 @@
-import { IBalancesEntity, ICountersEntity, Web3Address } from 'multirpc-sdk';
+import {
+  IBalancesEntity,
+  ICountersEntity,
+  IUsageEntity,
+  Web3Address,
+} from 'multirpc-sdk';
 
 export type TCountersEntityWithAddress = ICountersEntity & {
   address: Web3Address;
@@ -71,4 +76,8 @@ export enum ChainID {
   TRON = 'tron',
 
   UNDEFINED = '',
+}
+
+export interface IUsageEntityMapped extends IUsageEntity {
+  totalCost?: number;
 }

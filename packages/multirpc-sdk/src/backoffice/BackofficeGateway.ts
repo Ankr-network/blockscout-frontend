@@ -22,13 +22,16 @@ import {
   IUpdateVoucherCreditsResponse,
   IUserStatsRequest,
   IUserStatsResponse,
+  IUserStatsByRangeRequest,
   ICountersRequest,
   IGetUserTotalRequest,
   IGetUserTotalResponse,
   IGetUserProfileRequest,
   IGetUserProfileResponse,
   IUpdateUserProfileRequest,
-  IUpdateUserProfileResponse, IGetUserRevenueRequest, IGetUserRevenueResponse,
+  IUpdateUserProfileResponse,
+  IGetUserRevenueRequest,
+  IGetUserRevenueResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -169,6 +172,18 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getUserStats(params: IUserStatsRequest): Promise<IUserStatsResponse> {
     const { data: response } = await this.api.get<IUserStatsResponse>(
       '/users/stats',
+      {
+        params,
+      }
+    );
+
+    return response;
+  }
+
+  // https://backoffice-gateway.staging.multirpc.ankr.com/api/v1/auth/users/stats/range?address=0x173ce89676fecd49c1d9e25f6671825723f72951&from=1666177193000&to=1668769193000&timeframe=d1
+  async getUserStatsByRange(params: IUserStatsByRangeRequest): Promise<IUserStatsResponse> {
+    const { data: response } = await this.api.get<IUserStatsResponse>(
+      '/users/stats/range',
       {
         params,
       }
