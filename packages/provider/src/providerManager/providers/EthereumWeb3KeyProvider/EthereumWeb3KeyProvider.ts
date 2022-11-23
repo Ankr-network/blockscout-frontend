@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import Web3Modal, { ThemeColors } from 'web3modal';
+import Web3Modal, { IProviderOptions, ThemeColors } from 'web3modal';
 import { providerDefaultOptions } from './providerDefaultOptions';
 import { Web3KeyWriteProvider } from '../../../utils/Web3KeyWriteProvider';
 
@@ -15,7 +15,11 @@ export class EthereumWeb3KeyProvider extends Web3KeyWriteProvider {
     this.web3ModalTheme = web3ModalTheme;
   }
 
-  async inject(walletId?: string, providerOptions = providerDefaultOptions) {
+  async inject(walletId?: string, providerOptions?: IProviderOptions) {
+    if (!providerOptions) {
+      providerOptions = providerDefaultOptions;
+    }
+
     // create Web3Modal instance
     const web3Modal = new Web3Modal({
       cacheProvider: false,
