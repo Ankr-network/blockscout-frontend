@@ -9,7 +9,7 @@
     "src"
   ],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
     "lint:js:fix": "yarn lint:js --fix",

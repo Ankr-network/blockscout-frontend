@@ -2,7 +2,7 @@
   "name": "@ankr.com/common",
   "version": "0.6.3",
   "description": "Common module",
-  "private": true,
+  "private": false,
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./src/index.ts",
