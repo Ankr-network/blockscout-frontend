@@ -11,6 +11,7 @@ import { ReactComponent as ProtocolCurveFinance } from '../assets/protocol-curve
 import { ReactComponent as ProtocolDotDot } from '../assets/protocol-dotdot.svg';
 import { ReactComponent as ProtocolDystopia } from '../assets/protocol-dystopia.svg';
 import { ReactComponent as ProtocolEllipsisFinance } from '../assets/protocol-ellipsis-finance.svg';
+import { ReactComponent as ProtocolIzumi } from '../assets/protocol-izumi-finance.svg';
 import kalmyswapImg from '../assets/protocol-kalmyswap.png';
 import lendFlareImg from '../assets/protocol-lend-flare.png';
 import { ReactComponent as ProtocolLydiaFinance } from '../assets/protocol-lydia-finance.svg';
@@ -131,6 +132,10 @@ export const useProtocols = (): Record<TDeFiProtocol, IProtocol> =>
       wombex: {
         title: t('defi.protocols.wombex'),
         icon: <ProtocolIcon src={wombexImg} />,
+      },
+      izumiFinance: {
+        title: t('defi.protocols.izumiFinance'),
+        icon: <ProtocolIzumi />,
       },
     }),
     [],

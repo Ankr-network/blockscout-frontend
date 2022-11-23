@@ -33,6 +33,7 @@ export type TDeFiProtocol =
   | 'lendFlare'
   | 'midasCapital'
   | 'magpie'
+  | 'izumiFinance'
   | 'wombex';
 
 export interface IDeFiItemResponse {
