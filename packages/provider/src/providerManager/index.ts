@@ -1,3 +1,3 @@
 export * from './ProviderManager';
 export * from './providers';
-export * from './utils/sleep';
+export * from './utils/isWriteProvider';

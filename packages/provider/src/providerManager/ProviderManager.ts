@@ -4,6 +4,8 @@ import {
   BinanceHttpWeb3KeyProvider,
   EthereumHttpWeb3KeyProvider,
   EthereumWeb3KeyProvider,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
   XDCHttpWeb3KeyProvider,
 } from './providers';
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
@@ -14,8 +16,6 @@ import {
   AvailableWriteProviders,
   IProvider,
 } from '../utils/types';
-import { Web3KeyWriteProvider } from '../utils/Web3KeyWriteProvider';
-import { Web3KeyReadProvider } from '../utils/Web3KeyReadProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',

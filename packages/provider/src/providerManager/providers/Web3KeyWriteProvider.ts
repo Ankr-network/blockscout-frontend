@@ -3,10 +3,10 @@ import Web3 from 'web3';
 import { AbstractProvider, PromiEvent, TransactionReceipt } from 'web3-core';
 import { numberToHex } from 'web3-utils';
 import { getProviderInfo } from 'web3modal';
-import { RPCConfig } from './const';
-import { getWalletIcon } from './getWalletIcon';
-import { getWalletName } from './getWalletName';
-import { EWalletId } from './types';
+import { RPCConfig } from '../../utils/const';
+import { getWalletIcon } from '../../utils/getWalletIcon';
+import { getWalletName } from '../../utils/getWalletName';
+import { EWalletId } from '../../utils/types';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
 export interface IWalletMeta {

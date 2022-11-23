@@ -1,5 +1,5 @@
 import { getIsEthereum } from './getIsEthereum';
-import { Web3KeyReadProvider } from '../../../../utils/Web3KeyReadProvider';
+import { Web3KeyReadProvider } from '../../Web3KeyReadProvider';
 
 export const getIsMetaMaskInjected = (): boolean => {
   if (!getIsEthereum(window.ethereum)) {

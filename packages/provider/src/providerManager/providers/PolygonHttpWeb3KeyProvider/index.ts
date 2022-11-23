@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { Web3KeyReadProvider } from '../../../utils/Web3KeyReadProvider';
+import { Web3KeyReadProvider } from '../Web3KeyReadProvider';
 
 export class PolygonHttpWeb3KeyProvider extends Web3KeyReadProvider {
   private url: string;

@@ -8,7 +8,7 @@ import {
   WebsocketProvider,
 } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { IProvider } from './types';
+import { IProvider } from '../../utils/types';
 
 const ADDITIONAL_SAFE_GAS_PRICE_WEI = 25_000;
 

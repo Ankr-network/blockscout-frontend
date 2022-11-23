@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import Web3Modal, { ThemeColors } from 'web3modal';
 import { providerDefaultOptions } from './providerDefaultOptions';
-import { Web3KeyWriteProvider } from '../../../utils/Web3KeyWriteProvider';
+import { Web3KeyWriteProvider } from '../Web3KeyWriteProvider';
 
 interface IEthereumWeb3KeyProviderArgs {
   web3ModalTheme: ThemeColors;
