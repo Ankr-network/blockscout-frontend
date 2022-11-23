@@ -12,6 +12,7 @@ on:
           - ankr-infra
           - provider
           - staking-sdk
+          - common
 
 jobs:
   publish:
