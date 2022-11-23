@@ -64,8 +64,7 @@ export const providerDefaultOptions: IProviderOptions = {
         'A Crypto Wallet for BNB Beacon Chain, BNB Smart Chain and Ethereum',
     },
     package: async () => {
-      // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-      const { BscConnector } = require('@binance-chain/bsc-connector');
+      const { BscConnector } = await import('@binance-chain/bsc-connector');
       return BscConnector;
     },
     connector: async (ProviderPackage: any) => {

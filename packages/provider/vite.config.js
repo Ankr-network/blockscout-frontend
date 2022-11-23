@@ -1,15 +1,12 @@
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 
 import packageJson from './package.json';
 
 export default defineConfig({
-  plugins: [
-    svgr(),
-    react(),
-  ],
+  plugins: [svgr(), react()],
   build: {
     sourcemap: true,
     lib: {
@@ -33,6 +30,7 @@ export default defineConfig({
       ],
       external: [
         ...Object.keys(packageJson.dependencies),
+        ...Object.keys(packageJson.peerDependencies),
         'axios-cache-adapter',
         '@polkadot/api-augment',
         '@polkadot/api',
@@ -40,7 +38,7 @@ export default defineConfig({
         '@polkadot/keyring',
         '@polkadot/util',
         '@polkadot/util-crypto',
-      ]
-    }
-  }
-})
+      ],
+    },
+  },
+});
