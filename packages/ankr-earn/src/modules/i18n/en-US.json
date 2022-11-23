@@ -1210,7 +1210,8 @@
   "stake-ssv": {
     "unsupported": {
       "title": "Start staking SSV-Ethereum",
-      "description": "SSV-Ethereum Staking is not available with <b>Trust Wallet</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
+      "current-wallet": "current wallet",
+      "description": "SSV-Ethereum Staking is not available with <b>{currentWallet}</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
     }
   },
   "convert": {

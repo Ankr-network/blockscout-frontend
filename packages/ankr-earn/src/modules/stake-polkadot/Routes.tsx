@@ -105,11 +105,7 @@ const routeRender =
     }
 
     return (
-      <GuardPolkadotRoute
-        exact
-        availableNetworks={availableNetworks}
-        path={path as string}
-      >
+      <GuardPolkadotRoute exact path={path as string}>
         <GuardETHRoute
           exact
           availableNetworks={ETH_NETWORKS}

@@ -59,7 +59,7 @@ export function getRoutes(): JSX.Element {
         <GuardETHRoute
           exact
           availableNetworks={AVAILABLE_NETWORKS}
-          isOpenedConnectModal={false}
+          isOpenConnectInstantly={false}
           path={RoutesConfig.success.path}
         >
           <DefaultLayout>

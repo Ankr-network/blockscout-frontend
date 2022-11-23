@@ -52,7 +52,7 @@ export const featuresConfig = {
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
    */
-  isCoin98SupportActive: isLocal,
+  isCoin98SupportActive: true,
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2262
    */
