@@ -7,6 +7,11 @@ import { RPCConfig } from '../../utils/const';
 import { getWalletIcon } from '../../utils/getWalletIcon';
 import { getWalletName } from '../../utils/getWalletName';
 import { EWalletId } from '../../utils/types';
+import { getIsClover } from '../utils/getIsClover';
+import { getIsCoin98 } from '../utils/getIsCoin98';
+import { getIsCoinbase } from '../utils/getIsCoinbase';
+import { getIsOKX } from '../utils/getIsOKX';
+import { getIsTrustWallet } from '../utils/getIsTrustWallet';
 import { Web3KeyReadProvider } from './Web3KeyReadProvider';
 
 export interface IWalletMeta {
@@ -64,19 +69,18 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
       return;
     }
 
-    const { id } = getProviderInfo(provider);
-    const { isOKExWallet, isWalletLink, isCoin98, isTrustWallet } = provider;
+    let { id: walletId } = getProviderInfo(provider);
 
-    let walletId = id;
-
-    if (isOKExWallet) {
+    if (getIsOKX(provider)) {
       walletId = EWalletId.okxwallet;
-    } else if (isWalletLink) {
+    } else if (getIsCoinbase(provider)) {
       walletId = EWalletId.coinbase;
-    } else if (isCoin98) {
+    } else if (getIsCoin98(provider)) {
       walletId = EWalletId.coin98;
-    } else if (isTrustWallet) {
+    } else if (getIsTrustWallet(provider)) {
       walletId = EWalletId.trust;
+    } else if (getIsClover(provider)) {
+      walletId = EWalletId.clover;
     }
 
     this.walletMeta = {

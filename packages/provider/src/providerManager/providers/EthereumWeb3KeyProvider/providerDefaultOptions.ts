@@ -2,16 +2,17 @@ import { BscConnector } from '@binance-chain/bsc-connector';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { IProviderOptions } from 'web3modal';
-import { getIsCoin98 } from './utils/getIsCoin98';
-import { getIsCoin98Injected } from './utils/getIsCoin98Injected';
+import { RPCConfig } from '../../../utils/const';
+import { getWalletIcon } from '../../../utils/getWalletIcon';
+import { getWalletName } from '../../../utils/getWalletName';
+import { EEthereumNetworkId, EWalletId } from '../../../utils/types';
+import { getIsClover, getIsCloverInjected } from '../../utils/getIsClover';
+import { getIsCoin98, getIsCoin98Injected } from '../../utils/getIsCoin98';
+import { getIsOKX, getIsOKXInjected } from '../../utils/getIsOKX';
 import {
   getIsTrustWallet,
   getIsTrustWalletInjected,
-} from './utils/getIsTrustWallet';
-import { RPCConfig } from '../../../utils/const';
-import { EEthereumNetworkId, EWalletId } from '../../../utils/types';
-import { getWalletIcon } from '../../../utils/getWalletIcon';
-import { getWalletName } from '../../../utils/getWalletName';
+} from '../../utils/getIsTrustWallet';
 
 const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
   (acc, [key, { rpcUrls }]) => ({ ...acc, [key]: rpcUrls[0] }),
@@ -45,16 +46,16 @@ export const providerDefaultOptions: IProviderOptions = {
     },
     package: () => null,
     connector: async () => {
-      const { coin98 } = window as any;
-      if (!getIsCoin98(coin98) || !getIsCoin98Injected()) {
+      const { provider } = (window as any).coin98;
+      if (!getIsCoin98(provider) || !getIsCoin98Injected()) {
         throw new Error("Coin 98 wallet isn't installed");
       }
 
-      await coin98.provider.request({
+      await provider.request({
         method: 'eth_requestAccounts',
       });
 
-      return coin98.provider;
+      return provider;
     },
   },
   [EWalletId.binanceWallet]: {
@@ -208,8 +209,35 @@ export const providerDefaultOptions: IProviderOptions = {
       rpc: DEFAULT_RPC,
     },
     connector: async () => {
-      const provider = window.okexchain;
-      await (provider as any).enable();
+      const { okexchain: provider } = window as any;
+
+      if (!getIsOKX(provider) || !getIsOKXInjected()) {
+        throw new Error("OKX wallet isn't installed");
+      }
+
+      await provider.enable();
+      return provider;
+    },
+  },
+  [EWalletId.clover]: {
+    display: {
+      logo: getWalletIcon(EWalletId.clover),
+      name: getWalletName(EWalletId.clover),
+      description: 'CLV - Passport to the Omniverse',
+    },
+    options: {
+      rpc: DEFAULT_RPC,
+    },
+    package: () => null,
+    connector: async () => {
+      const { clover: provider } = window as any;
+
+      if (!getIsClover(provider) || !getIsCloverInjected()) {
+        throw new Error("CLV wallet isn't installed");
+      }
+
+      await provider.enable();
+
       return provider;
     },
   },

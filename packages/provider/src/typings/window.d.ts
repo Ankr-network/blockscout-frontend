@@ -5,5 +5,6 @@ declare global {
     okexchain: unknown;
     coin98: unknown;
     trustwallet: unknown;
+    clover: unknown;
   }
 }

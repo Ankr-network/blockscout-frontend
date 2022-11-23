@@ -1,5 +1,5 @@
 import { success } from '@redux-requests/core';
-import { END, eventChannel, Task, Channel } from 'redux-saga';
+import { Channel, END, eventChannel, Task } from 'redux-saga';
 import {
   call,
   cancel,
