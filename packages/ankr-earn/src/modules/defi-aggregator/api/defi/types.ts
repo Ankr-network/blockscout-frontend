@@ -36,6 +36,10 @@ export type TDeFiProtocol =
   | 'izumiFinance'
   | 'wombex';
 
+interface IProtocolIcon {
+  url: string;
+}
+
 export interface IDeFiItemResponse {
   id: number;
   assets: string;
@@ -48,4 +52,6 @@ export interface IDeFiItemResponse {
   created_at: string;
   updated_at: string;
   farmingRewards?: string;
+  protocolName: string;
+  protocolIcon: IProtocolIcon;
 }
