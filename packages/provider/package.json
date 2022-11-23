@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/provider",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./src/index.ts",
@@ -24,7 +24,7 @@
     "watch": "yarn build -w"
   },
   "dependencies": {
-    "@ankr.com/common": "*",
+    "@ankr.com/common": "0.7.0",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@coinbase/wallet-sdk": "^3.5.2",
     "@ethereumjs/common": "^2.5.0",
