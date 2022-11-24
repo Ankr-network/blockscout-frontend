@@ -1,10 +1,16 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useTopUpTabsStyles = makeStyles<Theme>(theme => ({
+export const useTopUpTabsStyles = makeStyles<
+  Theme,
+  { canPayOnlyByCard: boolean }
+>(theme => ({
   root: {
     display: 'inline-flex',
 
-    border: `2px solid ${theme.palette.background.default}`,
+    border: props =>
+      props.canPayOnlyByCard
+        ? ''
+        : `2px solid ${theme.palette.background.default}`,
     borderRadius: theme.spacing(1.75),
 
     background: theme.palette.background.default,

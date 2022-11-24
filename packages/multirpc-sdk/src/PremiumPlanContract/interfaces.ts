@@ -1,7 +1,7 @@
 import { IWeb3SendResult } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
-import { Base64, PrefixedHex, Web3Address } from '../common';
+import { PrefixedHex, Web3Address } from '../common';
 import { IDepositAnkrToWalletResult } from './types';
 
 export interface IPremiumPlanContractManager {
@@ -10,8 +10,6 @@ export interface IPremiumPlanContractManager {
   ): Promise<IWeb3SendResult | false>;
 
   checkUserHaveEnoughAllowance(amount: BigNumber): Promise<boolean>;
-
-  decryptMessageUsingPrivateKey(compatibleJsonData: string): Promise<string>;
 
   depositAnkrToWallet(
     amount: BigNumber,
@@ -23,8 +21,6 @@ export interface IPremiumPlanContractManager {
   getAnkrBalance(user: Web3Address): Promise<BigNumber>;
 
   getCurrentAnkrBalance(): Promise<BigNumber>;
-
-  getMetamaskEncryptionPublicKey(account: Web3Address): Promise<Base64>;
 
   getLatestUserEventLogHash(user: Web3Address): Promise<PrefixedHex | false>;
 }

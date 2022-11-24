@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { BlockchainType } from 'multirpc-sdk';
 import { ChainsItemQueryProps } from './ChainsItemTypes';
 import { useQueryChainsItem } from './hooks/useQueryChainsItem';
@@ -6,7 +8,6 @@ import { useAddNetworkButton } from 'domains/auth/components/AddNetwork/useAddNe
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { MMChainsItem } from '../MMChainsItem/MMChainsItem';
 import { useChainsItem } from '../../hooks/useChainsItem';
-import { useMemo } from 'react';
 
 export const ChainsItemQuery = ({
   isMMIndex,
@@ -15,9 +16,10 @@ export const ChainsItemQuery = ({
   chainId,
   ...props
 }: ChainsItemQueryProps) => {
-  const [totalRequests, loading, isPremium] = useQueryChainsItem({
-    chain,
-  });
+  const [totalRequests, loading, isPremium, hasConnectWalletMessage] =
+    useQueryChainsItem({
+      chain,
+    });
   const isHighlighted = useMemo(
     () => chain.type === BlockchainType.Customized,
     [chain.type],
@@ -57,6 +59,7 @@ export const ChainsItemQuery = ({
           isPremium={isPremium}
           publicChain={publicChain}
           totalRequests={totalRequestsStr}
+          hasConnectWalletMessage={hasConnectWalletMessage}
           urls={urls}
         />
       )}

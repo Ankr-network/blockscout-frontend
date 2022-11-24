@@ -14,6 +14,7 @@ interface ICopyToClipIconProps {
   copyText?: string;
   size?: 'm' | 'l';
   textColor?: TypographyTypeMap['props']['color'];
+  isDisabled?: boolean;
 }
 
 export const CopyToClipIcon = ({
@@ -23,9 +24,10 @@ export const CopyToClipIcon = ({
   copyText,
   textColor = 'textSecondary',
   size = 'm',
+  isDisabled,
 }: ICopyToClipIconProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
-  const classes = useStyles({ size });
+  const classes = useStyles({ size, isDisabled });
 
   return (
     <div
@@ -43,7 +45,10 @@ export const CopyToClipIcon = ({
           {message}
         </Typography>
       ) : (
-        <CopyToClipboard text={text} onCopy={setIsCopied}>
+        <CopyToClipboard
+          text={text}
+          onCopy={isDisabled ? () => {} : setIsCopied}
+        >
           <div className={classes.content}>
             <Typography
               variant="body2"

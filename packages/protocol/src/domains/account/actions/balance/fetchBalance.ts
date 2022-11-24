@@ -41,9 +41,9 @@ export const fetchBalance = createAction<RequestAction<IBalance, Balance>>(
       getData: getBalance,
       onRequest: () => ({
         promise: (async (): Promise<IBalance> => {
-          const service = await MultiService.getInstance();
+          const service = MultiService.getService();
 
-          const data = await service.getAnkrBalance();
+          const data = await service.getAccountGateway().getAnkrBalance();
 
           return data;
         })(),

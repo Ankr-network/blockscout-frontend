@@ -15,7 +15,7 @@ export const connectWeb3 = createSmartAction<RequestAction<void, void>>(
           throw new Error(t('error.no-metamask'));
         }
 
-        await MultiService.getInstance();
+        await MultiService.getWeb3Service();
       },
     },
     meta: {

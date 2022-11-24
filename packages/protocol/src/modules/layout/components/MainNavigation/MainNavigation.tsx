@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   Navigation,
   NavigationItem,
@@ -8,19 +6,16 @@ import { getNavigationList } from './MainNavigationUtils';
 
 interface IMainNavigationProps {
   loading: boolean;
-  isWalletConnected: boolean;
   hasCredentials: boolean;
   chainsRoutes: string[];
 }
 
 export const MainNavigation = ({
   loading,
-  isWalletConnected,
   hasCredentials,
   chainsRoutes,
 }: IMainNavigationProps) => {
   const items: NavigationItem[] = getNavigationList(
-    isWalletConnected,
     chainsRoutes,
     hasCredentials,
   );

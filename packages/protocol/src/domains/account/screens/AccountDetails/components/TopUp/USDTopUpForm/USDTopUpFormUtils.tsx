@@ -1,5 +1,5 @@
 import { ClassNameMap } from '@material-ui/styles';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { FormRenderProps } from 'react-final-form';
 import BigNumber from 'bignumber.js';
 
@@ -9,6 +9,7 @@ import { USD_CURRENCY } from '../../const';
 import { AmountField } from '../TopUpForm/AmountField';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { RateBlock } from '../TopUpForm/RateBlock';
+import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 
 const MAX_USD_DECIMALS = 1;
 
@@ -82,4 +83,52 @@ export const useRenderForm = (
     },
     [classes.button, classes.form, isLoading, isDisabled, hasRateBlock],
   );
+};
+
+export const useOnTopUpSubmit = (
+  isAccountPage: boolean,
+  confirmedEmail?: string,
+  pendingEmail?: string,
+) => {
+  const { handleFetchLinkForCardPayment, isFetchLinkForCardPaymentLoading } =
+    useCardPayment();
+
+  const [showEmailBanner, setShowEmailBanner] = useState(false);
+
+  const onSuccess = useCallback(
+    async (data: TopUpFormValues) => {
+      const { data: url } = await handleFetchLinkForCardPayment(
+        new BigNumber(data.amount),
+      );
+
+      if (url) {
+        window.location.href = url;
+      }
+    },
+    [handleFetchLinkForCardPayment],
+  );
+
+  const onClose = useCallback(() => {
+    setShowEmailBanner(false);
+  }, []);
+
+  const isPricingPage = !isAccountPage;
+
+  const onSubmit = useCallback(
+    (data: TopUpFormValues) => {
+      if (isPricingPage && (!confirmedEmail || pendingEmail)) {
+        setShowEmailBanner(true);
+      } else {
+        onSuccess(data);
+      }
+    },
+    [confirmedEmail, onSuccess, pendingEmail, isPricingPage],
+  );
+
+  return {
+    onSubmit,
+    isOpened: showEmailBanner,
+    onClose,
+    isLoading: isFetchLinkForCardPaymentLoading,
+  };
 };

@@ -28,9 +28,11 @@ export const fetchPrivateStats = createAction<
       getData: getPrivateStats,
       onRequest: () => ({
         promise: (async (): Promise<IApiPrivateStats> => {
-          const service = await MultiService.getInstance();
+          const service = MultiService.getService();
 
-          const result = await service.getPrivateStats(interval);
+          const result = await service
+            .getAccountGateway()
+            .getPrivateStats(interval);
 
           return result;
         })(),

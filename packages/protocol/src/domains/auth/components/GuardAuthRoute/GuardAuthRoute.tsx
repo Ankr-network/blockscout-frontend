@@ -1,9 +1,7 @@
-import React from 'react';
 import { Route } from 'react-router-dom';
 
-import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { PricingRoutes } from 'domains/pricing/Routes';
 import { useGuardAuth, IGuardRoute } from 'domains/auth/hooks/useGuardAuth';
+import { Spinner } from 'ui';
 
 export const GuardAuthRoute = ({
   hasCredentials,
@@ -11,18 +9,14 @@ export const GuardAuthRoute = ({
   isManualDisconnected,
   ...routeProps
 }: IGuardRoute) => {
-  const { shouldReplace } = useGuardAuth({
+  const { loading } = useGuardAuth({
     hasCredentials,
     hasAuthData,
     isManualDisconnected,
   });
 
-  if (shouldReplace) {
-    return (
-      <DefaultLayout disableGutters>
-        <PricingRoutes />
-      </DefaultLayout>
-    );
+  if (loading) {
+    return <Spinner />;
   }
 
   return <Route {...routeProps} />;

@@ -5,8 +5,7 @@ import { useHistory } from 'react-router';
 
 import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
 import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
-import { useAuth } from 'domains/account/hooks/useAuth';
-import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
@@ -25,9 +24,15 @@ import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/Prem
 
 export const AccountDetails = () => {
   const classes = useStyles();
-  const { isNew, premiumUntil, isConnecting, credentials } = useAuth();
+  const {
+    isNew,
+    premiumUntil,
+    isConnecting,
+    credentials,
+    workerTokenData,
+    hasOauthLogin,
+  } = useAccountAuth();
   const isPremium = !!premiumUntil;
-  const { isCardPaymentEligible } = useCardPayment();
   const history = useHistory();
 
   const { data: balances } = useQuery<AccountBalance>({
@@ -46,7 +51,8 @@ export const AccountDetails = () => {
     }
   }, [isConnecting, isNew, history]);
 
-  const hasExpiredToken = credentials && !credentials?.endpoint_token;
+  const hasExpiredToken =
+    credentials && !workerTokenData?.userEndpointToken && !hasOauthLogin;
 
   return (
     <ThemeProvider theme={mainTheme}>
@@ -70,7 +76,7 @@ export const AccountDetails = () => {
               <TopUp className={classes.topUp} />
             </TopUpFormContext.Provider>
           </Box>
-          {isCardPaymentEligible && isNew && <USDBanner />}
+          {isNew && <USDBanner />}
           {!isNew && (
             <>
               <Box className={classes.payments}>

@@ -53,17 +53,6 @@ export class PremiumPlanContractManager implements IPremiumPlanContractManager {
     return publicKey;
   }
 
-  async decryptMessageUsingPrivateKey(
-    compatibleJsonData: string,
-  ): Promise<string> {
-    const { currentAccount } = this.keyProvider;
-
-    return this.keyProvider.getWeb3().givenProvider.request({
-      method: 'eth_decrypt',
-      params: [compatibleJsonData, currentAccount],
-    });
-  }
-
   async faucetAnkrTokensForTest(): Promise<void> {
     const { currentAccount } = this.keyProvider;
 

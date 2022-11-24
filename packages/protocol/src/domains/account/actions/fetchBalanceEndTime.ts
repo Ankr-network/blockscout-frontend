@@ -8,9 +8,11 @@ export const fetchBalanceEndTime = createAction<RequestAction<number>>(
   (blockchains?: string[]) => ({
     request: {
       promise: (async (): Promise<number> => {
-        const service = await MultiService.getInstance();
+        const service = MultiService.getService();
 
-        const endTime = await service.getBalanceEndTime(blockchains);
+        const endTime = await service
+          .getAccountGateway()
+          .getBalanceEndTime(blockchains);
 
         return endTime;
       })(),

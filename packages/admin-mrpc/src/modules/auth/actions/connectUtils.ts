@@ -16,7 +16,7 @@ export const connectProvider = async () => {
     throw new Error(t('error.no-metamask'));
   }
 
-  const service = await MultiService.getInstance();
+  const service = await MultiService.getWeb3Service();
 
   await switchEthereumChain(service);
 
@@ -25,9 +25,8 @@ export const connectProvider = async () => {
 };
 
 export const disconnectService = async () => {
-  const service = await MultiService.getInstance();
-  service.getWorkerGateway().removeJwtToken();
-  service.getAccountGateway().removeToken();
+  const service = await MultiService.getWeb3Service();
+  service.getBackofficeGateway().removeToken();
 
   service.getKeyProvider().disconnect();
   MultiService.removeInstance();

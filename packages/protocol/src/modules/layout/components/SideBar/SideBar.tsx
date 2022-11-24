@@ -8,7 +8,6 @@ import { useStyles } from './SideBarStyles';
 interface SidebarProps {
   className?: string;
   loading: boolean;
-  isWalletConnected: boolean;
   hasCredentials: boolean;
   chainsRoutes: string[];
 }
@@ -16,7 +15,6 @@ interface SidebarProps {
 export const SideBar = ({
   className = '',
   loading,
-  isWalletConnected,
   hasCredentials,
   chainsRoutes,
 }: SidebarProps) => {
@@ -28,7 +26,6 @@ export const SideBar = ({
       <div>
         <MainNavigation
           loading={loading}
-          isWalletConnected={isWalletConnected}
           hasCredentials={hasCredentials}
           chainsRoutes={chainsRoutes}
         />

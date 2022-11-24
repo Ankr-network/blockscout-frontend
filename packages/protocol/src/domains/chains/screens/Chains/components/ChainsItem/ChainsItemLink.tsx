@@ -7,19 +7,22 @@ import { useStyles } from './ChainsItemStyles';
 interface IChainsItemLinkProps {
   urls: IApiChainURL[];
   dummyMessage: string;
+  hasConnectWalletMessage?: boolean;
 }
 
 export const ChainsItemLink = ({
   urls,
   dummyMessage,
+  hasConnectWalletMessage,
 }: IChainsItemLinkProps) => {
   const classes = useStyles(false);
+
   return (
     <>
       {urls.length <= 1 ? (
         urls.map(({ rpc }) => (
           <CopyToClipIcon
-            text={rpc}
+            text={hasConnectWalletMessage ? t('chains.connect-wallet') : rpc}
             message={t('common.copy-message')}
             key={rpc}
             className={classes.copyItem}

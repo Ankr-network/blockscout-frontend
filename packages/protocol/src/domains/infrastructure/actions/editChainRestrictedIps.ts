@@ -1,10 +1,10 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { RequestAction } from '@redux-requests/core';
+import { createAction as createSmartAction } from 'redux-smart-actions';
+
 import { MultiService } from 'modules/api/MultiService';
+import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { ChainID } from 'modules/chains/types';
-import { IJwtToken } from 'multirpc-sdk';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 import { fetchSecuritySettings } from './fetchSecuritySettings';
 
@@ -14,14 +14,15 @@ export const editChainRestrictedIps = createSmartAction<
   'infrastructure/editChainRestrictedIps',
   (chainId: string, ips: string[]) => ({
     request: {
-      promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-        const service = await MultiService.getInstance();
+      promise: async () => {
+        const service = MultiService.getService();
 
-        const ipsResult = await service.editChainRestrictedIps(
-          jwtToken,
-          checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
-          ips,
-        );
+        const ipsResult = await service
+          .getWorkerGateway()
+          .editChainRestrictedIps(
+            checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
+            ips,
+          );
 
         if (typeof ipsResult === 'string') {
           throw new Error(ipsResult);

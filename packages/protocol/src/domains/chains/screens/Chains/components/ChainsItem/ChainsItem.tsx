@@ -10,6 +10,7 @@ export const ChainsItem = ({
   chain,
   isPremium,
   publicChain,
+  hasConnectWalletMessage,
   ...props
 }: ChainsItemProps) => {
   const { dummyMessage, handleOriginUrlClick } = useChainsItem(
@@ -17,6 +18,7 @@ export const ChainsItem = ({
     isPremium,
     INDEX_PATH,
   );
+
   return (
     <ChainsItemBase
       {...props}
@@ -24,7 +26,11 @@ export const ChainsItem = ({
       isPremium={isPremium}
       handleOriginUrlClick={handleOriginUrlClick}
       chainsItemLink={
-        <ChainsItemLink dummyMessage={dummyMessage} urls={urls} />
+        <ChainsItemLink
+          dummyMessage={dummyMessage}
+          urls={urls}
+          hasConnectWalletMessage={hasConnectWalletMessage}
+        />
       }
       chainsItemButton={<ChainsItemButton publicChain={publicChain} />}
     />

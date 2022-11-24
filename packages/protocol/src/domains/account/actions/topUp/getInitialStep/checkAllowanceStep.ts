@@ -32,7 +32,7 @@ export const checkAllowanceStep = async (
   rejectAllowanceTransactionHash?: string,
   allowanceTransactionHash?: string,
 ) => {
-  const service = await MultiService.getInstance();
+  const service = await MultiService.getWeb3Service();
   const provider = service.getKeyProvider();
   const { currentAccount: address } = provider;
 

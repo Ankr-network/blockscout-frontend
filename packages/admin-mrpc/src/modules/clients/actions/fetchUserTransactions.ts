@@ -26,7 +26,7 @@ export const {
   endpoints: build => ({
     fetchUserTransactions: build.query<IRequestResponse, IRequestParams>({
       queryFn: async ({ address, cursor = 0, limit = 500 }) => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
         // TODO: tmp fix while waiting for backend feature with transactions total revenue

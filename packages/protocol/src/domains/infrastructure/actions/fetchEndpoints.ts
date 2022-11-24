@@ -1,6 +1,6 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
+import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IJwtToken, IWorkerEndpoint } from 'multirpc-sdk';
+import { IWorkerEndpoint } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
@@ -49,10 +49,10 @@ export const fetchEndpoints = createSmartAction<
   RequestAction<IWorkerEndpoint[], IEndpoint>
 >('infrastructure/fetchEndpoints', (silent = false) => ({
   request: {
-    promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const service = await MultiService.getInstance();
+    promise: async () => {
+      const service = MultiService.getService();
 
-      const endpoints = await service.fetchPrivateEndpoints(jwtToken);
+      const endpoints = await service.getWorkerGateway().getEndpoints();
 
       return endpoints;
     },

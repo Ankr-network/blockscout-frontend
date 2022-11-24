@@ -31,7 +31,6 @@ const isDashboardActive = (
 };
 
 export const getNavigationList = (
-  isWalletConnected: boolean,
   chainsRoutes: string[],
   hasCredentials: boolean,
   isMobile?: boolean,
@@ -45,13 +44,12 @@ export const getNavigationList = (
       isActive: (match: any, location: History['location']) =>
         isDashboardActive(match, location, chainsRoutes),
     },
-    isWalletConnected &&
-      hasCredentials && {
-        label: t('main-navigation.billing'),
-        StartIcon: BillingIcon,
-        ActiveIcon: ActiveBillingIcon,
-        href: AccountRoutesConfig.accountDetails.generatePath(),
-      },
+    hasCredentials && {
+      label: t('main-navigation.billing'),
+      StartIcon: BillingIcon,
+      ActiveIcon: ActiveBillingIcon,
+      href: AccountRoutesConfig.accountDetails.generatePath(),
+    },
     !hasCredentials && {
       label: t('main-navigation.pricing'),
       StartIcon: PricingIcon,

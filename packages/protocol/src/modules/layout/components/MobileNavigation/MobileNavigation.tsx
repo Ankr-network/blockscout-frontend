@@ -13,7 +13,6 @@ import { isExternalPath } from 'modules/common/utils/isExternalPath';
 interface MobileHeaderProps {
   className?: string;
   loading: boolean;
-  isWalletConnected: boolean;
   hasCredentials: boolean;
   chainsRoutes: string[];
 }
@@ -21,7 +20,6 @@ interface MobileHeaderProps {
 export const MobileNavigation = ({
   className = '',
   loading,
-  isWalletConnected,
   hasCredentials,
   chainsRoutes,
 }: MobileHeaderProps) => {
@@ -44,7 +42,6 @@ export const MobileNavigation = ({
   const classes = useMobileNavigationStyles();
 
   const items: NavigationItem[] = getNavigationList(
-    isWalletConnected,
     chainsRoutes,
     hasCredentials,
     true,

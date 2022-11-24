@@ -22,6 +22,7 @@ export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {
   isLoading: boolean;
   isPremium: boolean;
   totalRequests: string;
+  hasConnectWalletMessage?: boolean;
   urls: IApiChainURL[];
   handleButtonClick?: (
     event: React.MouseEvent<HTMLElement, MouseEvent>,

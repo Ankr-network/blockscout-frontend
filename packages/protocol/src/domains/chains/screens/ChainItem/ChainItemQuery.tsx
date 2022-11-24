@@ -8,7 +8,6 @@ import { mainTheme } from 'ui';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { fetchChain } from 'domains/chains/actions/fetchChain';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
-import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { Queries } from 'modules/common/components/Queries/Queries';
 // eslint-disable-next-line import/no-cycle
@@ -23,16 +22,12 @@ interface ChainItemProps {
 export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
-  const { credentials, loading: walletLoading } = useAuth();
+  const { credentials, loading: walletLoading, workerTokenData } = useAuth();
   const classes = useStyles();
 
   useEffect(() => {
     if (credentials) {
       dispatchRequest(fetchPremiumChainFeatures(chainId));
-
-      if (credentials.endpoint_token) {
-        dispatchRequest(fetchEndpoints());
-      }
     }
 
     if (!walletLoading) {
@@ -55,7 +50,14 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
         );
       }
     };
-  }, [chainId, credentials, dispatch, dispatchRequest, walletLoading]);
+  }, [
+    chainId,
+    credentials,
+    dispatch,
+    dispatchRequest,
+    walletLoading,
+    workerTokenData,
+  ]);
 
   return (
     <ThemeProvider theme={mainTheme}>
