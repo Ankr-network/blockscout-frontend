@@ -55,7 +55,7 @@ describe('modules/stake/hooks/useUnstakePending', () => {
     );
 
     expect(result.current).toStrictEqual({
-      label: 'You will get your AVAX in 1d:2h:32m',
+      label: 'You will get your AVAX in: 1d 2h 32m',
       timestamp: +unstakeDate,
       isTimeOver: false,
     });
@@ -71,7 +71,7 @@ describe('modules/stake/hooks/useUnstakePending', () => {
     );
 
     expect(result.current).toStrictEqual({
-      label: 'It takes about 28 days to unstake',
+      label: 'Unstaking period: 28 days',
       timestamp: 0,
       isTimeOver: true,
     });
@@ -96,7 +96,7 @@ describe('modules/stake/hooks/useUnstakePending', () => {
     );
 
     expect(result.current).toStrictEqual({
-      label: 'It takes about 28 days to unstake',
+      label: 'Unstaking period: 28 days',
       timestamp: +date,
       isTimeOver: true,
     });

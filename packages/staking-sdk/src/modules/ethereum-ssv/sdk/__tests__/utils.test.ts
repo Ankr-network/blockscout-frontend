@@ -1,37 +1,12 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
-import web3 from 'web3';
 
-import { ETH_SCALE_FACTOR, ZERO } from '../../../common';
-import { getReadableAmountFromWei, isValidAmount } from '../utils';
+import { ZERO } from '../../../common';
+import { isValidAmount } from '../utils';
 
 describe('modules/ethereum-ssv/sdk/utils', () => {
   const MIN_STAKE_AMOUNT = new BigNumber(0.5);
   const NEGATIVE_ONE = new BigNumber(-1);
   const ONE = new BigNumber(1);
-
-  test('should return data for "getReadableAmountFromWei"', () => {
-    const provider = {
-      getWeb3: () => web3,
-    } as unknown as Web3KeyReadProvider;
-
-    const data = [
-      getReadableAmountFromWei({
-        amount: `-${ETH_SCALE_FACTOR}`,
-        provider,
-      }),
-      getReadableAmountFromWei({
-        amount: '0',
-        provider,
-      }),
-      getReadableAmountFromWei({
-        amount: `${ETH_SCALE_FACTOR}`,
-        provider,
-      }),
-    ];
-
-    expect(data).toStrictEqual([NEGATIVE_ONE, ZERO, ONE]);
-  });
 
   describe('should return data for "isValidAmount"', () => {
     test('should return "false"', () => {

@@ -25,6 +25,7 @@ import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Rou
 import { RoutesConfig as PolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { RoutesConfig as EthereumSSVRoutes } from 'modules/stake-ssv/Routes';
+import { RoutesConfig as StakeSuiRoutes } from 'modules/stake-sui/Routes';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
@@ -196,7 +197,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
             iconSlot={<SUIIcon />}
             isApyLoading={false}
             isTvlLoading={false}
-            mainHref=" "
+            mainHref={StakeSuiRoutes.stake.generatePath()}
             moreHref=" "
             stakedTvl={ZERO}
             title={t('features.sui')}

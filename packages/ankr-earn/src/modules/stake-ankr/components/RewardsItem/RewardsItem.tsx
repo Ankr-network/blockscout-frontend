@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { NavLink } from 'uiKit/NavLink';
@@ -29,7 +30,17 @@ export const RewardsItem = ({
         amount={ankrAmount}
         buttonSlot={
           <div className={classes.btnWrapper}>
-            {restakeLink && (
+            {restakeLink && featuresConfig.isClaimAndRestakeEnabled && (
+              <NavLink
+                className={classes.btn}
+                href={restakeLink}
+                variant="outlined"
+              >
+                {t('stake-ankr.staking-table.restake')}
+              </NavLink>
+            )}
+
+            {restakeLink && !featuresConfig.isClaimAndRestakeEnabled && (
               <Tooltip arrow title={t('common.tooltips.comingSoon')}>
                 <span>
                   <NavLink
@@ -44,7 +55,17 @@ export const RewardsItem = ({
               </Tooltip>
             )}
 
-            {claimLink && (
+            {claimLink && featuresConfig.isClaimAndRestakeEnabled && (
+              <NavLink
+                className={classes.btn}
+                href={claimLink}
+                variant="outlined"
+              >
+                {t('stake-ankr.staking-table.claim')}
+              </NavLink>
+            )}
+
+            {claimLink && !featuresConfig.isClaimAndRestakeEnabled && (
               <Tooltip arrow title={t('common.tooltips.comingSoon')}>
                 <span>
                   <NavLink

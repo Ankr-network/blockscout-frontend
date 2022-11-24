@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import { Chip } from '@material-ui/core';
 
+import { featuresConfig } from 'modules/common/const';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
@@ -28,6 +29,14 @@ export const ActionCell = ({
             : t('stake-ankr.staking-table.left-days', { value: daysLeft })
         }
       />
+    );
+  }
+
+  if (featuresConfig.isClaimAndRestakeEnabled) {
+    return (
+      <NavLink className={classes.btn} href={claimLink} variant="outlined">
+        {t('stake-ankr.staking-table.claim')}
+      </NavLink>
     );
   }
 

@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { ITxEventsHistoryGroupItem, FantomSDK } from '@ankr.com/staking-sdk';
 
-import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
@@ -20,26 +20,28 @@ export interface ITotalGetHistoryData {
 export const { useGetFTMTotalHistoryDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getFTMTotalHistoryData: build.query<ITotalGetHistoryData, void>({
-      queryFn: async () => {
-        const sdk = await FantomSDK.getInstance();
+      queryFn: queryFnNotifyWrapper<void, never, ITotalGetHistoryData>(
+        async () => {
+          const sdk = await FantomSDK.getInstance();
 
-        const [historyData, totalPending] = await Promise.all([
-          sdk.getTxEventsHistory(),
-          sdk.getPendingClaim(),
-        ]);
+          const [historyData, totalPending] = await Promise.all([
+            sdk.getTxEventsHistory(),
+            sdk.getPendingClaim(),
+          ]);
 
-        return {
-          data: {
-            stakeEventsAFTMB: historyData.completedBond,
-            stakeEventsAFTMC: historyData.completedCertificate,
-            pendingEventsAFTMB: historyData.pendingBond,
-            pendingEventsAFTMC: historyData.pendingCertificate,
-            withdrawnEventsAFTMB: historyData.unstakeBond,
-            withdrawnEventsAFTMC: historyData.unstakeCertificate,
-            totalPending,
-          },
-        };
-      },
+          return {
+            data: {
+              stakeEventsAFTMB: historyData.completedBond,
+              stakeEventsAFTMC: historyData.completedCertificate,
+              pendingEventsAFTMB: historyData.pendingBond,
+              pendingEventsAFTMC: historyData.pendingCertificate,
+              withdrawnEventsAFTMB: historyData.unstakeBond,
+              withdrawnEventsAFTMC: historyData.unstakeCertificate,
+              totalPending,
+            },
+          };
+        },
+      ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

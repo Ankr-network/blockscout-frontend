@@ -9,7 +9,6 @@ import { useCallback, useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { useGuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute';
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';
@@ -17,9 +16,10 @@ import { swapOldAETHCBSC } from 'modules/dashboard/actions/swapOldAETHCBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
-import { BNB_STAKING_NETWORKS } from 'modules/stake-bnb/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+
+import { useSupportedNetwork } from './useSupportedNetwork';
 
 export interface IStakedAETHBSCData {
   amount: BigNumber;
@@ -52,9 +52,7 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
     type: swapOldAETHCBSC,
   });
 
-  const { onSwitchNetwork, isUnsupportedNetwork } = useGuardETHRoute({
-    availableNetworks: BNB_STAKING_NETWORKS,
-  });
+  const { onSwitchNetwork, isUnsupportedNetwork } = useSupportedNetwork();
 
   const amount = statsData?.aETHBalance ?? ZERO;
   const usdAmount = useMemo(
@@ -74,7 +72,7 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
     }
 
     if (isUnsupportedNetwork) {
-      await onSwitchNetwork(BSC_NETWORK_BY_ENV)();
+      await onSwitchNetwork(BSC_NETWORK_BY_ENV);
 
       return;
     }

@@ -6,6 +6,7 @@ import { ReactReduxContext } from 'react-redux';
 import { mainTheme, RewiredStylesProvider } from 'ui';
 
 import { useRestoreConnection } from 'modules/auth/common/hooks/useRestoreConnection';
+import { NoReactSnap } from 'modules/common/components/NoReactSnap';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { CustomizedSnackbarProvider, Notifier } from 'modules/notifications';
 import { useInitializeLocale } from 'store/useAppUtils';
@@ -28,7 +29,9 @@ export const AppBase = ({ children }: IAppBase): JSX.Element => {
         <CustomizedSnackbarProvider>
           <CssBaseline />
 
-          <Notifier />
+          <NoReactSnap>
+            <Notifier />
+          </NoReactSnap>
 
           {isInitialized && !connectionRestorePending ? (
             <ConnectedRouter

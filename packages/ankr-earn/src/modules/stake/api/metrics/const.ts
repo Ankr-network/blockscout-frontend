@@ -12,6 +12,7 @@ export enum EMetricsServiceName {
 
   // DEV mode only
   WND = 'wnd',
+  SUI = 'sui',
 }
 
 export const METRICS_URL = 'v1alpha/metrics';
