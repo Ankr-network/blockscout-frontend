@@ -68,7 +68,8 @@ export const providerDefaultOptions: IProviderOptions = {
       return BscConnector;
     },
     connector: async (ProviderPackage: any) => {
-      const bsc = new ProviderPackage({
+      const Provider = await ProviderPackage();
+      const bsc = new Provider({
         supportedChainIds: [
           EEthereumNetworkId.smartchain,
           EEthereumNetworkId.smartchainTestnet,
