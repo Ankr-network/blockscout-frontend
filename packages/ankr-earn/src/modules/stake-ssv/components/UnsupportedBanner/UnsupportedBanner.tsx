@@ -1,26 +1,21 @@
 import { t, tHTML } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-
-import { disconnect } from 'modules/auth/common/actions/disconnect';
-import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { Button } from 'uiKit/Button';
 import { SSVStakingIcon } from 'uiKit/Icons/SSVStakingIcon';
 
 import { useUnsupportedBannerStyles } from './useUnsupportedBannerStyles';
 
-export const UnsupportedBanner = (): JSX.Element => {
+interface IUnsupportedBannerProps {
+  currentWallet: string;
+  onClick: () => void;
+}
+
+export const UnsupportedBanner = ({
+  currentWallet,
+  onClick,
+}: IUnsupportedBannerProps): JSX.Element => {
   const classes = useUnsupportedBannerStyles();
-  const dispatchRequest = useDispatchRequest();
-
-  const { handleOpen } = useDialog(EKnownDialogs.connect);
-
-  const handleBtnClick = async () => {
-    await dispatchRequest(disconnect(AvailableWriteProviders.ethCompatible));
-    handleOpen();
-  };
 
   return (
     <Paper className={classes.paper}>
@@ -31,14 +26,12 @@ export const UnsupportedBanner = (): JSX.Element => {
       </Typography>
 
       <Typography className={classes.desc}>
-        {tHTML('stake-ssv.unsupported.description')}
+        {tHTML('stake-ssv.unsupported.description', {
+          currentWallet,
+        })}
       </Typography>
 
-      <Button
-        className={classes.button}
-        variant="contained"
-        onClick={handleBtnClick}
-      >
+      <Button className={classes.button} variant="contained" onClick={onClick}>
         {t('connect.connect')}
       </Button>
     </Paper>

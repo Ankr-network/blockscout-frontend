@@ -68,7 +68,7 @@ export const UnstakeAvalanche = (): JSX.Element => {
           color="textPrimary"
           variant="body2"
         >
-          {t('stake.you-will-get')}
+          {t('stake.you-will-receive')}
         </Typography>
 
         <Box ml="auto" />

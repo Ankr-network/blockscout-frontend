@@ -83,6 +83,11 @@ export interface IGatewayConfig {
   strapiUrl: string;
 }
 
+interface IXDCConfig {
+  XDCStakingPool: Address;
+  aXDCcToken: Address;
+}
+
 export interface IStkrConfig {
   contractConfig: IContractConfig;
   gatewayConfig: IGatewayConfig;
@@ -92,6 +97,7 @@ export interface IStkrConfig {
   polkadotConfig: IPolkadotConfig;
   polygonConfig: IPolygonConfig;
   suiConfig: ISuiConfig;
+  xdcConfig: IXDCConfig;
 }
 
 const LOCAL_CONFIG: IStkrConfig = {
@@ -164,6 +170,10 @@ const LOCAL_CONFIG: IStkrConfig = {
   suiConfig: {
     suiToken: ZERO_ADDR,
     aSUIcToken: ZERO_ADDR,
+  },
+  xdcConfig: {
+    XDCStakingPool: '0xd458788DD7d2fDbB5238d9eeb0a49732BffF08b7',
+    aXDCcToken: '0xe27990d8c950038C548E6f4BD0657aCE27495D48',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -254,6 +264,10 @@ const MAINNET_CONFIG: IStkrConfig = {
   suiConfig: {
     suiToken: ZERO_ADDR,
     aSUIcToken: ZERO_ADDR,
+  },
+  xdcConfig: {
+    XDCStakingPool: ZERO_ADDR,
+    aXDCcToken: ZERO_ADDR,
   },
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',

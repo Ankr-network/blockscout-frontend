@@ -1,53 +1,24 @@
-import { RouteProps } from 'react-router';
+import { Route, RouteProps } from 'react-router';
 
-import { EPolkadotNetworkId } from 'polkadot';
+import { ConnectionGuard } from 'modules/auth/common/components/ConnectionGuard';
 
-import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
-
-import { ExtraWriteProviders } from '../../../../common/types';
-
-import { useGuardPolkadotRoute } from './hooks/useGuardPolkadotRoute';
+import { useGuardPolkadotRoute } from './useGuardPolkadotRoute';
 
 interface IGuardPolkadotRouteProps extends RouteProps {
-  availableNetworks: EPolkadotNetworkId[];
   isOpenConnectInstantly?: boolean;
-  isOpenedConnectModal?: boolean;
 }
 
 export const GuardPolkadotRoute = ({
-  availableNetworks,
-  isOpenConnectInstantly,
-  isOpenedConnectModal = true,
+  isOpenConnectInstantly = true,
   ...routeProps
 }: IGuardPolkadotRouteProps): JSX.Element => {
-  const {
-    isConnected,
-    isLoading,
-    isUnsupportedNetwork,
-    isValidWallet,
-    supportedNetworks,
-    onDispatchConnect,
-    onOpenModal,
-    onSwitchNetwork,
-  } = useGuardPolkadotRoute({
-    availableNetworks,
-    isOpenedConnectModal,
+  const { handleOpen, isConnected } = useGuardPolkadotRoute({
+    isOpenConnectInstantly,
   });
 
   return (
-    <GuardRoute
-      availableNetworks={availableNetworks}
-      isConnected={isConnected}
-      isLoading={isLoading}
-      isOpenConnectInstantly={isOpenConnectInstantly}
-      isUnsupportedNetwork={isUnsupportedNetwork}
-      isValidWallet={isValidWallet}
-      providerId={ExtraWriteProviders.polkadotCompatible}
-      supportedNetworks={supportedNetworks}
-      onDispatchConnect={onDispatchConnect}
-      onOpenModal={onOpenModal}
-      onSwitchNetwork={onSwitchNetwork}
-      {...routeProps}
-    />
+    <ConnectionGuard isConnected={isConnected} onConnectClick={handleOpen}>
+      <Route {...routeProps} />
+    </ConnectionGuard>
   );
 };

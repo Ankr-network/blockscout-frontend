@@ -119,7 +119,9 @@ export const Stake = (): JSX.Element => {
       )}
 
       <StakeDescriptionContainer>
-        <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
+        <StakeDescriptionName>
+          {t('stake.you-will-receive')}
+        </StakeDescriptionName>
 
         <StakeDescriptionValue>
           <StakeDescriptionAmount

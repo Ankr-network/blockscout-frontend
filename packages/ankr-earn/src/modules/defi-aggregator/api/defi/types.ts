@@ -33,7 +33,12 @@ export type TDeFiProtocol =
   | 'lendFlare'
   | 'midasCapital'
   | 'magpie'
+  | 'izumiFinance'
   | 'wombex';
+
+interface IProtocolIcon {
+  url: string;
+}
 
 export interface IDeFiItemResponse {
   id: number;
@@ -47,4 +52,6 @@ export interface IDeFiItemResponse {
   created_at: string;
   updated_at: string;
   farmingRewards?: string;
+  protocolName: string;
+  protocolIcon: IProtocolIcon;
 }

@@ -16,6 +16,8 @@ import { ExternalLinkIcon } from 'uiKit/Icons/ExternalLinkIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 
+import { ReactComponent as PendingLogo } from './assets/pending-logo.svg';
+import { ReactComponent as SuccessLogo } from './assets/success-logo.svg';
 import { useProgressStepHook } from './useProgressStepHook';
 import { useProgressStepStyles } from './useProgressStepStyles';
 
@@ -91,6 +93,8 @@ export const ProgressStep = ({
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Paper className={classes.root} component="div" variant="elevation">
+          {isPending ? <PendingLogo /> : <SuccessLogo />}
+
           <Typography className={classes.title} variant="h2">
             {isError ? t('progress.errorTitle') : pageTitle}
           </Typography>

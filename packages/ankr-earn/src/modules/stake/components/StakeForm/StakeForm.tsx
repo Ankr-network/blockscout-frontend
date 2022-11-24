@@ -7,8 +7,8 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
-import { floor } from 'modules/common/utils/floor';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
+import { calcMaxStakeAmount } from 'modules/stake/utils/calcMaxStakeAmount';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
@@ -100,21 +100,16 @@ export const StakeForm = ({
 
   const { onMaxClick } = useStakeFormAnalytics(tokenIn, balance.toString());
 
-  const maxStakeAmount = useMemo(() => {
-    const balanceRoundedByStep = stakingAmountStep
-      ? `${floor(balance.toNumber(), stakingAmountStep)}`
-      : balance.toString();
-
-    const maxRoundedAmount = balance.isLessThanOrEqualTo(maxAmount)
-      ? balanceRoundedByStep
-      : maxAmount.toString();
-
-    return maxAmountDecimals
-      ? new BigNumber(maxRoundedAmount)
-          .decimalPlaces(maxAmountDecimals, BigNumber.ROUND_DOWN)
-          .toString()
-      : maxRoundedAmount;
-  }, [balance, maxAmount, maxAmountDecimals, stakingAmountStep]);
+  const maxStakeAmount = useMemo(
+    () =>
+      calcMaxStakeAmount({
+        balance,
+        maxAmount,
+        maxAmountDecimals,
+        stakingAmountStep,
+      }),
+    [balance, maxAmount, maxAmountDecimals, stakingAmountStep],
+  );
 
   const validateStakeForm = useCallback(
     (data: IStakeFormPayload) => {
