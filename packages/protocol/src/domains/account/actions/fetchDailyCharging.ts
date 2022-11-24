@@ -9,9 +9,9 @@ export const fetchDailyCharging = createSmartAction<
 >('account/fetchDailyCharging', (params: IDailyChargingParams) => ({
   request: {
     promise: (async () => {
-      const service = await MultiService.getInstance();
+      const service = MultiService.getService();
 
-      return service.getDailyCharging(params);
+      return service.getAccountGateway().getDailyCharging(params);
     })(),
   },
   meta: {

@@ -36,7 +36,7 @@ export const deposit = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
@@ -44,10 +44,9 @@ export const deposit = createSmartAction<
             await store.dispatchRequest(fetchPublicKey()),
           );
 
-          const depositResponse = await service.depositAnkrToPAYG(
-            amount,
-            publicKey as string,
-          );
+          const depositResponse = await service
+            .getContractService()
+            .depositAnkrToPAYG(amount, publicKey as string);
 
           store.dispatch(setAllowanceTransaction({ address }));
           setTransaction(store, address, depositResponse.transactionHash);

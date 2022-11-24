@@ -27,7 +27,7 @@ export interface Chain {
 
 export interface SortChainsParams {
   chains: Chain[];
-  isWalletConnected: boolean;
+  hasCredentials: boolean;
   sortType: SortType;
   stats: PrivateStatsInternal;
 }

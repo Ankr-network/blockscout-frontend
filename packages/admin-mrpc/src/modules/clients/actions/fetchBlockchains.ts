@@ -15,9 +15,9 @@ export const {
   endpoints: build => ({
     fetchBlockchains: build.query<IApiChain[], IRequestParams>({
       queryFn: async ({ token, address }) => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getService();
         const blockchains = await service.getPublicGateway().getBlockchains();
-        const formattedPrivateChains = await service.formatPrivateChains(
+        const formattedPrivateChains = await service.formatPrivateEndpoints(
           blockchains,
           // we need only user token string here to generate the chain urls
           // @ts-ignore

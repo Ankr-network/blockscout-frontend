@@ -134,8 +134,17 @@ export interface IJwtToken {
   public_key: Base64;
   signed_token: Base64;
   expires_at: number;
-  endpoint_token: Base64;
+}
+
+export interface WorkerTokenData {
+  signedToken: Base64;
+  userEndpointToken: Base64;
   tier: Tier;
+}
+
+export interface JwtTokenFullData {
+  jwtToken?: IJwtToken;
+  workerTokenData?: WorkerTokenData;
 }
 
 export enum Token {

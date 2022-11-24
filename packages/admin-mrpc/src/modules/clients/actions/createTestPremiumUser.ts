@@ -21,7 +21,7 @@ export const {
       ICreateTestClientRequest
     >({
       queryFn: async formData => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
 

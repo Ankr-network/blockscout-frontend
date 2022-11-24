@@ -18,6 +18,7 @@ export const TopUpForm = ({
   validateAmount,
   isAccountPage,
   balance,
+  isWalletConnected,
 }: TopUpFormProps) => {
   const classes = useStyles();
 
@@ -32,13 +33,14 @@ export const TopUpForm = ({
     [location.pathname],
   );
 
-  const renderForm = useRenderForm(
+  const renderForm = useRenderForm({
     classes,
     validateAmount,
     isAccountPage,
     isPricingPage,
+    isWalletConnected,
     balance,
-  );
+  });
   const renderDisabledForm = useRenderDisabledForm(classes);
 
   return (

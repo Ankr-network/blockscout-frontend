@@ -9,7 +9,7 @@ import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
 export interface PrivateStatsParams {
   interval: PrivateStatsInterval;
-  isWalletConnected: boolean;
+  hasCredentials: boolean;
   requestKey?: string;
 }
 
@@ -21,7 +21,7 @@ export interface PrivateStatsReturn {
 
 export const usePrivateStats = ({
   interval,
-  isWalletConnected,
+  hasCredentials,
   requestKey,
 }: PrivateStatsParams): PrivateStatsReturn => {
   const {
@@ -42,10 +42,10 @@ export const usePrivateStats = ({
   });
 
   useEffect(() => {
-    if (isWalletConnected) {
+    if (hasCredentials) {
       dispatchRequest(fetchPrivateStats(interval, requestKey));
     }
-  }, [dispatch, dispatchRequest, isWalletConnected, interval, requestKey]);
+  }, [dispatch, dispatchRequest, hasCredentials, interval, requestKey]);
 
   return {
     data,

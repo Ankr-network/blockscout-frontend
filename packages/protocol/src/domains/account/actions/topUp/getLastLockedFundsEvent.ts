@@ -14,11 +14,11 @@ export const getLastLockedFundsEvent = createSmartAction<
     onRequest: () => {
       return {
         promise: (async (): Promise<any | undefined> => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
-          return service.getLastLockedFundsEvent(address);
+          return service.getContractService().getLastLockedFundsEvent(address);
         })(),
       };
     },

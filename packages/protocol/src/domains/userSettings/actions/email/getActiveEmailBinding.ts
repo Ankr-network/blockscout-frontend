@@ -1,13 +1,13 @@
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { getEmailErrorConfig } from 'domains/userSettings/utils/getEmailErrorConfig';
 import { MultiService } from 'modules/api/MultiService';
 import { IEmailResponse, IGetActiveEmailBindingResponse } from 'multirpc-sdk';
+import { setAuthData } from 'domains/auth/store/authSlice';
 
 export const getActiveEmailBinding = createSmartAction<
-  RequestAction<IEmailResponse>,
-  []
+  RequestAction<IEmailResponse, IGetActiveEmailBindingResponse>
 >('userSettings/getActiveEmailBinding', () => ({
   request: {
     promise: (async () => null)(),
@@ -18,13 +18,19 @@ export const getActiveEmailBinding = createSmartAction<
     takeLatest: true,
     ...getEmailErrorConfig(),
 
-    onRequest: () => ({
+    onRequest: (request: any, action: RequestAction, store: RequestsStore) => ({
       promise: (async (): Promise<IGetActiveEmailBindingResponse> => {
-        const service = await MultiService.getInstance();
+        const service = MultiService.getService();
 
-        const accountGateway = service.getAccountGateway();
+        const response = await service
+          .getAccountGateway()
+          .getActiveEmailBinding();
 
-        const response = await accountGateway.getActiveEmailBinding();
+        store.dispatch(
+          setAuthData({
+            email: response?.email,
+          }),
+        );
 
         return response;
       })(),

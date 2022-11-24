@@ -5,7 +5,7 @@ export const useRequestsBlockStyles = makeStyles<Theme>(theme => ({
   pricing: {
     fontWeight: 700,
     marginBottom: -10,
-    marginTop: theme.spacing(9.5),
+    marginTop: theme.spacing(2),
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(8),

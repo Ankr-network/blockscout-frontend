@@ -2,7 +2,7 @@ import { ChartCurrency, ChartTimeframe } from '../types';
 import { Formatters, useFormatters } from './useFormatters';
 import { IChartData } from 'modules/common/components/Chart';
 import { getTransactions } from '../utils/getTransactions';
-import { useAuth } from 'domains/account/hooks/useAuth';
+import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useCurrency } from './useCurrency';
 import { usePaymentHistory } from './usePaymentHistory';
 import { useTimeframe } from './useTimeframe';
@@ -19,11 +19,14 @@ export interface Chart {
 }
 
 export const useChart = (): Chart => {
-  const { isConnected, isConnecting } = useAuth();
+  const { credentials, isConnecting } = useAccountAuth();
 
   const [currency, switchCurrency] = useCurrency();
   const [timeframe, setTimeframe] = useTimeframe();
-  const [payments, isLoading] = usePaymentHistory({ isConnected, timeframe });
+  const [payments, isLoading] = usePaymentHistory({
+    hasCredentials: Boolean(credentials),
+    timeframe,
+  });
   const [xFormatter, yFormatter] = useFormatters(timeframe);
 
   const transactions = getTransactions({ currency, payments, timeframe });

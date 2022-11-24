@@ -18,12 +18,13 @@ export const rejectAllowance = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async () => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
-          const rejectAllowanceResponse =
-            await service.rejectAllowanceForPAYG();
+          const rejectAllowanceResponse = await service
+            .getContractService()
+            .rejectAllowanceForPAYG();
 
           const rejectAllowanceTransactionHash =
             rejectAllowanceResponse?.transactionHash;

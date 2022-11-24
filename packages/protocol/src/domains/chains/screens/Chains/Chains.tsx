@@ -26,7 +26,6 @@ export const Chains = ({ isMMIndex }: IChainsProps) => {
     allChains,
     credentials,
     isConnecting,
-    isWalletConnected,
     loading,
     setSortType,
     sortType,
@@ -45,8 +44,10 @@ export const Chains = ({ isMMIndex }: IChainsProps) => {
   return (
     <>
       {!credentials && !isConnecting && <InfoBanner />}
+
       <ExpiredTokenBanner />
-      {isWalletConnected && (
+
+      {credentials && (
         <UsageSummary
           timeframe={timeframe}
           switchTimeframe={switchStatsTimeframe}

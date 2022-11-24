@@ -3,7 +3,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { selectAuthData } from 'modules/auth/store/authSlice';
 
 export const authorizeBackoffice = async () => {
-  const service = await MultiService.getInstance();
+  const service = await MultiService.getWeb3Service();
   const { backofficeAuthorizationToken } = selectAuthData(store.getState());
   if (!backofficeAuthorizationToken) {
     throw Error('not authorized');

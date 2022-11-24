@@ -18,8 +18,7 @@ export interface IChainItemDetails {
 }
 
 export const fetchChain = createSmartAction<
-  RequestAction<null, IChainItemDetails>,
-  [string, IJwtToken?]
+  RequestAction<null, IChainItemDetails>
 >('chains/fetchChain', (chainId: string, credentials?: IJwtToken) => ({
   request: {
     promise: (async () => null)(),

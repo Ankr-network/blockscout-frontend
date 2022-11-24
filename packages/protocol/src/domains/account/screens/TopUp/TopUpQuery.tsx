@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
+import { useHistory } from 'react-router';
 
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { Queries } from 'modules/common/components/Queries/Queries';
@@ -10,18 +11,28 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { Loader } from 'domains/account/components/Loader';
 import { TopUp } from './TopUp';
 import { useCheckConfirmedEmail, useTopUpBreadcrumbs } from './TopUpUtils';
+import { AccountRoutesConfig } from 'domains/account/Routes';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
 
 export const TopUpQuery = () => {
-  const { loading, credentials } = useAuth();
+  const { loading, credentials, isWalletConnected, workerTokenData } =
+    useAuth();
   const dispatchRequest = useDispatchRequest();
+  const history = useHistory();
 
-  useCheckConfirmedEmail(Boolean(credentials));
+  useCheckConfirmedEmail(Boolean(credentials), isWalletConnected);
 
   useEffect(() => {
-    if (!loading) {
+    if (!isWalletConnected) {
+      const link = credentials
+        ? AccountRoutesConfig.accountDetails.generatePath()
+        : PricingRoutesConfig.pricing.generatePath();
+
+      history.push(link);
+    } else if (!loading) {
       dispatchRequest(getInitialStep());
     }
-  }, [loading, dispatchRequest]);
+  }, [loading, dispatchRequest, isWalletConnected, history, credentials]);
 
   useOnUnmount(() => {
     dispatchRequest(reset());
@@ -38,7 +49,9 @@ export const TopUpQuery = () => {
       {({ data }) => (
         <TopUp
           initialStep={data}
-          hasCredentials={Boolean(credentials && credentials.endpoint_token)}
+          hasCredentials={Boolean(
+            credentials && workerTokenData?.userEndpointToken,
+          )}
         />
       )}
     </Queries>

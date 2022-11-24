@@ -23,24 +23,24 @@ export const getWithdrawInitialStep = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<WithdrawStep> => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
 
           await waitForPendingTransaction();
 
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
-          const lastWithdrawalEvent = await service.getLastProviderRequestEvent(
-            address,
-          );
+          const lastWithdrawalEvent = await service
+            .getContractService()
+            .getLastProviderRequestEvent(address);
 
           if (!lastWithdrawalEvent) return WithdrawStep.start;
 
           const { transactionHash } = lastWithdrawalEvent;
 
-          const transactionReceipt = await service.getTransactionReceipt(
-            transactionHash,
-          );
+          const transactionReceipt = await service
+            .getContractService()
+            .getTransactionReceipt(transactionHash);
 
           if (!transactionReceipt || !transactionReceipt.status) {
             store.dispatchRequest(waitTransactionConfirming());

@@ -16,10 +16,10 @@ export const fetchAccountBalance = createAction<
     hideNotificationOnError: true,
     onRequest: () => ({
       promise: (async (): Promise<BigNumber> => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
 
         const data = await service
-          .getPAYGContractManager()
+          .getContractService()
           .getCurrentAccountBalance();
 
         const keyProvider = service.getKeyProvider();

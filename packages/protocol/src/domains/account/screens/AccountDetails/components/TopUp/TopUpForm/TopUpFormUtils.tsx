@@ -29,9 +29,9 @@ import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { ANKR_CURRENCY } from '../../const';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { RateBlock } from './RateBlock';
 import { RequestsBlock } from './RequestsBlock';
+import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/PremiumBlock/PricingTopUp/PricingTopUpUtils';
 
 export const useRenderDisabledForm = (
@@ -74,18 +74,28 @@ export const useRenderDisabledForm = (
 
 const MAX_DECIMALS = 1;
 
-export const useRenderForm = (
-  classes: ClassNameMap,
-  validateAmount?: any,
-  isAccountPage?: boolean,
-  isPricingPage?: boolean,
-  balance?: BigNumber,
-) => {
+interface RenderFormParams {
+  classes: ClassNameMap;
+  validateAmount?: any;
+  isAccountPage?: boolean;
+  isPricingPage?: boolean;
+  balance?: BigNumber;
+  isWalletConnected: boolean;
+}
+
+export const useRenderForm = ({
+  classes,
+  validateAmount,
+  isAccountPage,
+  isPricingPage,
+  balance,
+  isWalletConnected,
+}: RenderFormParams) => {
   return useCallback(
     ({
       handleSubmit,
       validating,
-      form: { change },
+      form: { change, submit },
       values,
     }: FormRenderProps<TopUpFormValues>) => {
       change('balance', balance);
@@ -106,15 +116,24 @@ export const useRenderForm = (
           {isAccountPage && (
             <RateBlock value={values[AmountInputField.amount]} />
           )}
-          <Button
-            color="primary"
-            fullWidth
-            type="submit"
-            disabled={validating}
-            className={classes.button}
-          >
-            {t('account.account-details.top-up.button')}
-          </Button>
+          {isWalletConnected ? (
+            <Button
+              color="primary"
+              fullWidth
+              type="submit"
+              disabled={validating}
+              className={classes.button}
+            >
+              {t('account.account-details.top-up.button')}
+            </Button>
+          ) : (
+            <ConnectButton
+              variant="contained"
+              buttonText={t('common.submit')}
+              onSuccess={submit}
+              className={classes.button}
+            />
+          )}
           {isPricingPage && (
             <RequestsBlock value={values[AmountInputField.amount]} />
           )}
@@ -128,6 +147,7 @@ export const useRenderForm = (
       isAccountPage,
       isPricingPage,
       balance,
+      isWalletConnected,
     ],
   );
 };
@@ -137,19 +157,19 @@ export const useCheckLoginStep = () => {
     type: getLastLockedFundsEvent.toString(),
   });
 
-  const { credentials } = useAuth();
+  const { credentials, isWalletConnected, workerTokenData } = useAuth();
   const { handleSetAmount } = useTopUp();
 
   const dispatchRequest = useDispatchRequest();
   const [hasLoginStep, setHasLoginStep] = useState<boolean>(false);
 
-  useOnMount(() => {
-    dispatchRequest(getLastLockedFundsEvent());
-  });
+  useEffect(() => {
+    if (isWalletConnected) dispatchRequest(getLastLockedFundsEvent());
+  }, [dispatchRequest, isWalletConnected]);
 
   useEffect(() => {
     const checkAmount = async () => {
-      const service = await MultiService.getInstance();
+      const service = await MultiService.getWeb3Service();
       const keyProvider = service.getKeyProvider();
 
       if (!lastLockedFundsEvent) return;
@@ -166,7 +186,7 @@ export const useCheckLoginStep = () => {
       const isTopupAfterTokenExpiration =
         Boolean(lastLockedFundsEvent) &&
         credentials &&
-        !credentials.endpoint_token &&
+        !workerTokenData?.userEndpointToken &&
         amount.isGreaterThanOrEqualTo(MIN_ANKR_AMOUNT);
 
       if (isFirstTopup || isTopupAfterTokenExpiration) {
@@ -175,8 +195,15 @@ export const useCheckLoginStep = () => {
       }
     };
 
-    checkAmount();
-  }, [credentials, lastLockedFundsEvent, handleSetAmount]);
+    if (isWalletConnected) checkAmount();
+  }, [
+    hasLoginStep,
+    lastLockedFundsEvent,
+    handleSetAmount,
+    isWalletConnected,
+    credentials,
+    workerTokenData,
+  ]);
 
   return {
     hasLoginStep,

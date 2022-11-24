@@ -9,10 +9,11 @@ export const fetchAllPaymentHistory = async (
   request: Request,
   response: Response = { cursor: '0', transactions: [] },
 ): Promise<Response> => {
-  const service = await MultiService.getInstance();
+  const service = MultiService.getService();
 
-  const { cursor, transactions = [] } =
-    await service.getAggregatedPaymentHistory(request);
+  const { cursor, transactions = [] } = await service
+    .getAccountGateway()
+    .getAggregatedPaymentHistory(request);
 
   const result: Response = {
     cursor,

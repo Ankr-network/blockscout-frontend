@@ -32,7 +32,7 @@ export const useChains = ({
   allChains,
   sortType,
 }: ChainsParams): UseChainsResult => {
-  const { isWalletConnected } = useAuth();
+  const { credentials } = useAuth();
   const [stats] = usePrivateStats();
 
   const { data } = useQuery({
@@ -43,11 +43,11 @@ export const useChains = ({
     () =>
       sortChains({
         chains: formatPublicRequestsCount(chains, data),
-        isWalletConnected,
+        hasCredentials: Boolean(credentials),
         sortType,
         stats,
       }),
-    [isWalletConnected, stats, chains, data, sortType],
+    [credentials, stats, chains, data, sortType],
   );
 
   const publicChainsMap = useMemo(

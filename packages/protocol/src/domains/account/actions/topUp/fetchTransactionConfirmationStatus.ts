@@ -14,9 +14,9 @@ export const fetchTransactionConfirmationStatus = createSmartAction<
 >('topUp/fetchTransactionConfirmationStatus', (transactionHash: string) => ({
   request: {
     promise: (async () => {
-      const service = await MultiService.getInstance();
+      const service = await MultiService.getWeb3Service();
 
-      return service.canIssueJwtToken(transactionHash);
+      return service.getContractService().canIssueJwtToken(transactionHash);
     })(),
   },
   meta: {

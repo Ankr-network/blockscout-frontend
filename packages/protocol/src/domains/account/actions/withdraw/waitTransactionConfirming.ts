@@ -16,9 +16,9 @@ import { ETH_BLOCK_TIME } from './const';
 import { getReceipt } from '../topUp/waitTransactionConfirming';
 
 const fetchCredentialsData = async (transactionHash: string) => {
-  const service = await MultiService.getInstance();
+  const service = await MultiService.getWeb3Service();
 
-  return service.canIssueJwtToken(transactionHash);
+  return service.getContractService().canIssueJwtToken(transactionHash);
 };
 
 const waitForBlocks = async (transactionHash: string) => {
@@ -51,7 +51,7 @@ export const waitTransactionConfirming = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async () => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = service.getKeyProvider();
 
@@ -83,9 +83,9 @@ export const waitTransactionConfirming = createSmartAction<
           }
 
           // step 4: we already haven't had pending transaction and a receipt too -> check the latest withdrawal transaction
-          const lastWithdrawalEvent = await service.getLastProviderRequestEvent(
-            address,
-          );
+          const lastWithdrawalEvent = await service
+            .getContractService()
+            .getLastProviderRequestEvent(address);
 
           const currentBlockNumber = await provider
             .getWeb3()
