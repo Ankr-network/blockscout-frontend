@@ -7,7 +7,7 @@ import { RPCConfig } from '../../utils/const';
 import { getWalletIcon } from '../../utils/getWalletIcon';
 import { getWalletName } from '../../utils/getWalletName';
 import { EWalletId } from '../../utils/types';
-import { getIsClover } from '../utils/getIsClover';
+import { getIsClover } from '../utils/getClover';
 import { getIsCoin98 } from '../utils/getIsCoin98';
 import { getIsCoinbase } from '../utils/getIsCoinbase';
 import { getIsOKX } from '../utils/getIsOKX';

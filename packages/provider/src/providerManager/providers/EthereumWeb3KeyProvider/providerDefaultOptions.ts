@@ -6,7 +6,7 @@ import { RPCConfig } from '../../../utils/const';
 import { getWalletIcon } from '../../../utils/getWalletIcon';
 import { getWalletName } from '../../../utils/getWalletName';
 import { EEthereumNetworkId, EWalletId } from '../../../utils/types';
-import { getIsClover, getIsCloverInjected } from '../../utils/getIsClover';
+import { getCloverProvider, getIsClover } from '../../utils/getClover';
 import { getIsCoin98, getIsCoin98Injected } from '../../utils/getIsCoin98';
 import { getIsOKX, getIsOKXInjected } from '../../utils/getIsOKX';
 import {
@@ -230,9 +230,9 @@ export const providerDefaultOptions: IProviderOptions = {
     },
     package: () => null,
     connector: async () => {
-      const { clover: provider } = window as any;
+      const provider = getCloverProvider();
 
-      if (!getIsClover(provider) || !getIsCloverInjected()) {
+      if (!getIsClover(provider)) {
         throw new Error("CLV wallet isn't installed");
       }
 

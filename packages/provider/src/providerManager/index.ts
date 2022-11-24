@@ -1,6 +1,6 @@
 export * from './ProviderManager';
 export * from './providers';
-export * from './utils/getIsClover';
+export * from './utils/getClover';
 export * from './utils/getIsCoin98';
 export * from './utils/getIsCoinbase';
 export * from './utils/getIsEthereum';

@@ -858,6 +858,7 @@
       "metamask-trust": "To connect to the MetaMask wallet, please disable Trust wallet extension in your browser and refresh the page.",
       "metamask-other": "To connect to the MetaMask wallet, please disable Coinbase or OKX wallet extension in your browser and refresh the page.",
       "metamask-coin98": "To connect to the MetaMask wallet please enable the MetaMask extension, disable override settings in the Coin 98 wallet or disable this wallet extension and refresh the page.",
+      "clover-disabled": "Disabled by other active wallets.",
       "polkadot": "To connect to the Polkadot wallet, please connect to one of the Ethereum compatible networks first"
     },
     "wallet-install": "Install"
