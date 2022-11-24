@@ -27,6 +27,7 @@ export const {
           // catch is used here in order
           // not to show error notifications on profile 404 response
           // as not existing profile is a normal case
+          // eslint-disable-next-line no-console
           .catch(console.warn);
 
         return {
