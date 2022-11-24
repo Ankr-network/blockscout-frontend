@@ -12,14 +12,23 @@ export const {
   endpoints: { fetchUserProfile },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchUserProfile: build.query<IGetUserProfileResponse, IApiRequestParams>({
+    fetchUserProfile: build.query<
+      IGetUserProfileResponse | void,
+      IApiRequestParams
+    >({
       queryFn: async ({ address }) => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
-        const userProfileResponse = await backofficeGateway.getUserProfile({
-          address,
-        });
+        const userProfileResponse = await backofficeGateway
+          .getUserProfile({
+            address,
+          })
+          // catch is used here in order
+          // not to show error notifications on profile 404 response
+          // as not existing profile is a normal case
+          // eslint-disable-next-line no-console
+          .catch(console.warn);
 
         return {
           data: userProfileResponse,

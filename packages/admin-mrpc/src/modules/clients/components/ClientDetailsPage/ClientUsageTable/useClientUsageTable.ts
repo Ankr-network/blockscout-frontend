@@ -1,17 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
+import invert from 'lodash.invert';
 import {
   BlockchainID,
   IUsageDetailEntity,
   PrivateStats,
   PrivateStatsInterval,
 } from 'multirpc-sdk';
-import { IUsageEntityMapped } from 'modules/clients/actions/fetchUserStats';
+import { IUsageEntityMapped } from 'modules/clients/types';
+import { CustomRange } from '../useClientDetailsPage';
 
 export interface IHookProps {
-  onUpdateTimeframe: (timeframe: PrivateStatsInterval) => void;
+  onUpdateTimeframe: (timeframe: PrivateStatsInterval | CustomRange) => void;
   stats?: PrivateStats;
   usage?: IUsageEntityMapped[];
-  currentPeriod: PrivateStatsInterval;
+  currentPeriod: PrivateStatsInterval | CustomRange;
 }
 
 interface IUsageCsv extends IUsageDetailEntity {
@@ -23,17 +25,25 @@ export interface IClientUsageTableProps extends IHookProps {
   isLoadingStats?: boolean;
   handleSwitchCurrent: () => void;
   isCurrentDayIncluded: boolean;
+  isRangePeriod: boolean;
 }
 
-type TabIndex = 0 | 1 | 2;
+type TabIndex = 0 | 1 | 2 | 3 | 4;
 /* key is tab index, value is dayOffset param */
-const timeframeParams: Record<TabIndex, PrivateStatsInterval> = {
+const timeframeByTabIndex: Record<
+  TabIndex,
+  PrivateStatsInterval | CustomRange
+> = {
   0: PrivateStatsInterval.DAY,
   1: PrivateStatsInterval.WEEK,
   2: PrivateStatsInterval.MONTH,
+  3: CustomRange.previous,
+  4: CustomRange.current,
 };
 
-const TAB_INDEXES = Object.keys(timeframeParams);
+const tabIndexByTimeframe = invert(timeframeByTabIndex);
+
+const TAB_INDEXES = Object.keys(timeframeByTabIndex);
 
 export const useClientUsageTable = ({
   onUpdateTimeframe,
@@ -41,7 +51,10 @@ export const useClientUsageTable = ({
   usage,
   currentPeriod,
 }: IHookProps) => {
-  const [activeTabIndex, setActiveTabIndex] = useState<TabIndex>(0);
+  const currentTimeframeTabIndex = +tabIndexByTimeframe[currentPeriod];
+  const [activeTimeframeTabIndex, setActiveTimeframeTabIndex] =
+    useState<TabIndex>(currentTimeframeTabIndex as TabIndex);
+
   const [filterByChainValue, setFilterByChainValue] =
     useState<BlockchainID | undefined>(undefined);
 
@@ -53,8 +66,8 @@ export const useClientUsageTable = ({
     event: React.ChangeEvent<any>,
     newTabIndex: TabIndex,
   ) => {
-    onUpdateTimeframe(timeframeParams[newTabIndex]);
-    setActiveTabIndex(newTabIndex);
+    onUpdateTimeframe(timeframeByTabIndex[newTabIndex]);
+    setActiveTimeframeTabIndex(newTabIndex);
   };
 
   const totalCost = usage?.reduce((accumulator, usageEntity) => {
@@ -125,7 +138,7 @@ export const useClientUsageTable = ({
   const maxCountTotal = Math.max(...maxCountByBlockchain);
 
   return {
-    activeTabIndex,
+    activeTimeframeTabIndex,
     handleChangeActiveTab,
     totalCost,
     filterByChainValue,

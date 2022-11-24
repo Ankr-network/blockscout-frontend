@@ -7,8 +7,24 @@ import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
 import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
+import { useFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
+import { currentMonthParams, previousMonthParams } from '../../utils/dates';
 
-const TRANSACTION_TYPE_DEDUCTION = 'TRANSACTION_TYPE_DEDUCTION';
+export enum CustomRange {
+  current = 'current',
+  previous = 'previous',
+}
+
+const requestParams = {
+  [CustomRange.current]: currentMonthParams,
+  [CustomRange.previous]: previousMonthParams,
+};
+
+function isRangePeriod(
+  period: PrivateStatsInterval | CustomRange,
+): period is CustomRange {
+  return Object.values(CustomRange).includes(period as any);
+}
 
 export const useClientDetailsPage = () => {
   const { address } = ClientsRoutesConfig.clientInfo.useParams();
@@ -22,9 +38,10 @@ export const useClientDetailsPage = () => {
     },
   ]);
 
-  const [periodStatement, setPeriodStatement] = useState<PrivateStatsInterval>(
-    PrivateStatsInterval.DAY,
-  );
+  const [periodStatement, setPeriodStatement] = useState<
+    PrivateStatsInterval | CustomRange
+  >(PrivateStatsInterval.DAY);
+  const isRangePeriodValue = isRangePeriod(periodStatement);
 
   const [isCurrentDayIncluded, setIsCurrentDayIncluded] = useState(false);
 
@@ -38,20 +55,24 @@ export const useClientDetailsPage = () => {
     isFetching: isFetchingStats,
   } = useFetchUserStatsQuery({
     address,
-    interval: periodStatement,
+    interval: isRangePeriodValue
+      ? undefined
+      : (periodStatement as PrivateStatsInterval),
     current: isCurrentDayIncluded,
   });
+  const {
+    data: statsByRangeData,
+    isLoading: isLoadingStatsByRange,
+    isFetching: isFetchingStatsByRange,
+  } = useFetchUserStatsByRangeQuery({
+    address,
+    ...requestParams[periodStatement as CustomRange],
+  });
+
   const { data: totalData, isLoading: isLoadingTotal } = useFetchUserTotalQuery(
     { address },
   );
 
-  const transactionsDeduction = transactionsData?.transactions.filter(
-    transaction => transaction.type === TRANSACTION_TYPE_DEDUCTION,
-  );
-  const transactionsCost = transactionsDeduction?.reduce(
-    (partialSum, transaction) => partialSum + +transaction.amountUsd,
-    0,
-  );
   const currentClient = clients?.counters?.filter(
     client => client.address === address,
   );
@@ -62,7 +83,9 @@ export const useClientDetailsPage = () => {
     setValue(newValue);
   };
 
-  const updateTimeframeParam = (timeframe: PrivateStatsInterval) => {
+  const updateTimeframeParam = (
+    timeframe: PrivateStatsInterval | CustomRange,
+  ) => {
     setPeriodStatement(timeframe);
   };
 
@@ -74,10 +97,9 @@ export const useClientDetailsPage = () => {
     isLoadingClients,
     currentClient,
     address,
-    statsData,
-    transactionsCost,
+    statsData: isRangePeriodValue ? statsByRangeData : statsData,
     isLoadingTransactions,
-    isLoadingStats,
+    isLoadingStats: isRangePeriodValue ? isLoadingStatsByRange : isLoadingStats,
     periodStatement,
     totalData,
     isLoadingTotal,
@@ -85,8 +107,11 @@ export const useClientDetailsPage = () => {
     handleChange,
     transactionsData,
     updateTimeframeParam,
-    isFetchingStats,
+    isFetchingStats: isRangePeriodValue
+      ? isFetchingStatsByRange
+      : isFetchingStats,
     handleSwitchCurrent,
     isCurrentDayIncluded,
+    isRangePeriod: isRangePeriodValue,
   };
 };

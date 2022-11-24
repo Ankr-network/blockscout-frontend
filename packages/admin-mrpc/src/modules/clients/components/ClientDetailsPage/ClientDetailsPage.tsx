@@ -34,7 +34,6 @@ export const ClientDetailsPage = () => {
     currentClient,
     address,
     statsData,
-    transactionsCost,
     isLoadingTransactions,
     isLoadingStats,
     periodStatement,
@@ -47,6 +46,7 @@ export const ClientDetailsPage = () => {
     isFetchingStats,
     handleSwitchCurrent,
     isCurrentDayIncluded,
+    isRangePeriod,
   } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
@@ -62,9 +62,7 @@ export const ClientDetailsPage = () => {
       <ClientInfo
         address={address}
         currentClient={currentClient}
-        transactionsCost={transactionsCost}
         isLoadingClients={isLoadingClients}
-        isLoadingTransactions={isLoadingTransactions}
         totalData={totalData}
         isLoadingTotal={isLoadingTotal}
       />
@@ -100,6 +98,7 @@ export const ClientDetailsPage = () => {
             isLoadingStats={isLoadingStats || isFetchingStats}
             handleSwitchCurrent={handleSwitchCurrent}
             isCurrentDayIncluded={isCurrentDayIncluded}
+            isRangePeriod={isRangePeriod}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
