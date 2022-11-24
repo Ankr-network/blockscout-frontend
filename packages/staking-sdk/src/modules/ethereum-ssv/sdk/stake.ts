@@ -1,12 +1,12 @@
-import { Address, Web3KeyReadProvider } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
+
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import {
   currentEnv,
   ESDKErrorCodes,
   ETH_SCALE_FACTOR,
-  ICommonProps,
+  IStakeProps,
   ZERO,
 } from '../../common';
 import { IStakeData } from '../../stake';
@@ -20,19 +20,13 @@ import { getMinStakeAmount } from './getMinStakeAmount';
 import { getStakeGasFee } from './getStakeGasFee';
 import { isValidAmount } from './utils';
 
-interface IStakeProps extends ICommonProps<Web3KeyReadProvider> {
-  address: Address;
-  amount: BigNumber;
-  scale?: number;
-}
-
 export const stake = async ({
   address,
   amount,
   env = currentEnv,
   provider,
   scale = ETH_SCALE_FACTOR,
-}: IStakeProps): Promise<IStakeData> => {
+}: IStakeProps<Web3KeyReadProvider>): Promise<IStakeData> => {
   const minStakeAmount = await getMinStakeAmount({
     env,
     provider,

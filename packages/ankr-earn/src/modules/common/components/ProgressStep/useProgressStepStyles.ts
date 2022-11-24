@@ -5,6 +5,9 @@ export const useProgressStepStyles = makeStyles(theme => ({
     maxWidth: 730,
     padding: theme.spacing(6, 7),
     margin: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
 
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(5, 4),
@@ -48,6 +51,7 @@ export const useProgressStepStyles = makeStyles(theme => ({
   },
 
   table: {
+    width: '100%',
     marginBottom: theme.spacing(3),
   },
 

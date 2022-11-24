@@ -1,56 +1,55 @@
-import { RouteProps } from 'react-router';
+import { Route, RouteProps } from 'react-router';
 
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider';
+import { EEthereumNetworkId, EWalletId } from '@ankr.com/provider';
 
-import { GuardRoute } from 'modules/auth/common/components/GuardRoute';
+import { ConnectionGuard } from 'modules/auth/common/components/ConnectionGuard';
 
-import { useGuardETHRoute } from './hooks/useGuardETHRoute';
+import { ChainGuard } from '../ChainGuard';
+import { WalletGuard } from '../WalletGuard';
+
+import { useGuardETHRoute } from './useGuardETHRoute';
 
 interface IGuardETHRouteProps extends RouteProps {
   availableNetworks: EEthereumNetworkId[];
+  notSupportedWallets?: EWalletId[];
+  supportSlot?: JSX.Element;
   isOpenConnectInstantly?: boolean;
-  isOpenedConnectModal?: boolean;
 }
 
 export const GuardETHRoute = ({
   availableNetworks,
-  isOpenConnectInstantly,
-  isOpenedConnectModal = true,
+  notSupportedWallets,
+  supportSlot,
+  isOpenConnectInstantly = true,
   ...routeProps
 }: IGuardETHRouteProps): JSX.Element => {
   const {
-    currentNetwork,
     isConnected,
-    isLoading,
-    isUnsupportedNetwork,
-    isValidWallet,
-    supportedNetworks,
-    onDispatchConnect,
-    onOpenModal,
-    onSwitchNetwork,
-  } = useGuardETHRoute({
-    availableNetworks,
-    isOpenedConnectModal,
-  });
+    chainId,
+    isSwitchNetworkLoading,
+    walletId,
+    isInjectedWallet,
+    onNetworkSwitch,
+    handleOpen,
+  } = useGuardETHRoute({ isOpenConnectInstantly });
 
   return (
-    <GuardRoute
-      availableNetworks={availableNetworks}
-      currentNetwork={currentNetwork}
-      isConnected={isConnected}
-      isLoading={isLoading}
-      isOpenConnectInstantly={isOpenConnectInstantly}
-      isUnsupportedNetwork={isUnsupportedNetwork}
-      isValidWallet={isValidWallet}
-      providerId={AvailableWriteProviders.ethCompatible}
-      supportedNetworks={supportedNetworks}
-      onDispatchConnect={onDispatchConnect}
-      onOpenModal={onOpenModal}
-      onSwitchNetwork={onSwitchNetwork}
-      {...routeProps}
-    />
+    <ConnectionGuard isConnected={isConnected} onConnectClick={handleOpen}>
+      <WalletGuard
+        currentWalletId={walletId}
+        notSupportedWallets={notSupportedWallets}
+        supportSlot={supportSlot}
+      >
+        <ChainGuard
+          availableNetworks={availableNetworks}
+          currentNetworkId={chainId as number | undefined}
+          isLoading={isSwitchNetworkLoading}
+          isSwitchSupported={isInjectedWallet}
+          onNetworkSwitch={onNetworkSwitch}
+        >
+          <Route {...routeProps} />
+        </ChainGuard>
+      </WalletGuard>
+    </ConnectionGuard>
   );
 };

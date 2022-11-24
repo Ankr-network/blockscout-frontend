@@ -2,17 +2,13 @@ import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
+import { IWeb3TxInfoProps } from '../../common';
 import { IFetchTxData } from '../../switcher';
-
-interface IGetTxInfoProps {
-  provider: Web3KeyReadProvider;
-  txHash: string;
-}
 
 export const getTxData = async ({
   provider,
   txHash,
-}: IGetTxInfoProps): Promise<IFetchTxData> => {
+}: IWeb3TxInfoProps<Web3KeyReadProvider>): Promise<IFetchTxData> => {
   const web3 = provider.getWeb3();
 
   const tx = await web3.eth.getTransaction(txHash);
@@ -32,7 +28,7 @@ export const getTxData = async ({
 export const getTxReceipt = async ({
   provider,
   txHash,
-}: IGetTxInfoProps): Promise<TransactionReceipt | null> => {
+}: IWeb3TxInfoProps<Web3KeyReadProvider>): Promise<TransactionReceipt | null> => {
   const web3 = provider.getWeb3();
 
   const receipt = await web3.eth.getTransactionReceipt(txHash);

@@ -99,6 +99,8 @@
     "ksm": "KSM",
     "wnd": "WND",
     "mgno": "mGNO",
+    "sui": "SUI",
+    "asuic": "aSUIc",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
     "bnb-value": "{value} BNB",
@@ -347,7 +349,7 @@
     "delegated-staking": "Delegated staking",
     "liquid-staking": "Liquid staking",
     "normal-staking": "Staking (Coming soon)",
-    "you-will-get": "You will get",
+    "you-will-receive": "You will receive",
     "partner-code": "I have partner code",
     "partner-code-tooltip": "Referral code from the partner who invited you. Partner program offers benefits for inviting people when they use Liquid Staking.",
     "stake": "Get {token}",
@@ -355,6 +357,7 @@
     "btn-max": "Max",
     "faq-title": "FAQ",
     "bridge-btn": "Bridge",
+    "reward-token-info": "<b>{synthToken}</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>{synthAmount} {synthToken} = {amount} {token}</b>",
     "stats": {
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",
@@ -736,9 +739,9 @@
     "reward": "{value} ACA",
     "pending-amount": "Amount",
     "pending-time": "Requested time",
-    "willGetUnstake": "You will get your {token} in {days}d:{hours}h:{minutes}m",
+    "willGetUnstake": "You will get your {token} in: {days}d {hours}h {minutes}m",
     "unstakeTime": "{days}d:{hours}h:{minutes}m",
-    "willTakeUnstake": "It takes about {days} days to unstake",
+    "willTakeUnstake": "Unstaking period: {days} days",
     "history-tooltip": "Transactions history",
     "card": {
       "claiming-info": "Need to be claimed",
@@ -748,7 +751,7 @@
       "network-info": "{network} Network",
       "stakingHistory": "Staking history",
       "stakingHistoryComingSoon": "Staking history (coming soon)",
-      "addToMetamask": "Add token to Metamask",
+      "addToWallet": "Add token to wallet",
       "copyTokenAddress": "Copy token address",
       "tokenInfo": "Token information",
       "manage": "Manage",
@@ -805,33 +808,7 @@
     "landing": "Landing",
     "all-assets": "All assets",
     "all-networks": "All networks",
-    "deposit": "Deposit",
-    "protocols": {
-      "apeSwap": "ApeSwap",
-      "acryptos": "ACryptoS",
-      "beefyFinance": "Beefy Finance",
-      "convexFinance": "Convex Finance",
-      "curveFinance": "Curve Finance",
-      "dystopia": "Dystopia",
-      "ellipsisFinance": "Ellipsis Finance",
-      "lydiaFinance": "Lydia Finance",
-      "onxFinance": "OnX Finance",
-      "pancakeSwap": "PancakeSwap",
-      "pangolin": "Pangolin",
-      "quickSwap": "QuickSwap",
-      "sushiSwap": "SushiSwap",
-      "traderJoe": "TraderJoe",
-      "uniswapV2": "Uniswap v2",
-      "uniswapV3": "Uniswap v3",
-      "yearnFinance": "Yearn Finance",
-      "spookySwap": "SpookySwap",
-      "dotdotFinance": "DotDot Finance",
-      "kalmySwap": "KalmySwap",
-      "lendFlare": "Lend Flare",
-      "midasCapital": "Midas Capital",
-      "magpie": "Magpie XYZ",
-      "wombex": "Wombex Finance"
-    }
+    "deposit": "Deposit"
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",
@@ -942,7 +919,7 @@
       "buttons": {
         "connect-wallet": "Connect wallet",
         "receive": "Receive",
-        "add-to-metamask": "Add {token} to Metamask",
+        "add-to-wallet": "Add {token} to wallet",
         "switch": "Switch to {chainName}"
       }
     },
@@ -1233,7 +1210,8 @@
   "stake-ssv": {
     "unsupported": {
       "title": "Start staking SSV-Ethereum",
-      "description": "SSV-Ethereum Staking is not available with <b>Trust Wallet</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
+      "current-wallet": "current wallet",
+      "description": "SSV-Ethereum Staking is not available with <b>{currentWallet}</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
     }
   },
   "convert": {

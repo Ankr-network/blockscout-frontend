@@ -1,10 +1,13 @@
 import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
-import { currentEnv, ICommonProps } from '../../common';
+import {
+  currentEnv,
+  getWeb3ReadableAmountFromWei,
+  ICommonProps,
+} from '../../common';
 
 import { getSSVStakingPoolContract } from './contracts';
-import { getReadableAmountFromWei } from './utils';
 
 export const getMinStakeAmount = async ({
   env = currentEnv,
@@ -19,7 +22,7 @@ export const getMinStakeAmount = async ({
     .getMinStake()
     .call();
 
-  return getReadableAmountFromWei({
+  return getWeb3ReadableAmountFromWei<Web3KeyReadProvider>({
     amount: minStake,
     provider,
   });

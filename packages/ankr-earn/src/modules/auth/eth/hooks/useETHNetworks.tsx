@@ -1,19 +1,28 @@
 import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
 
 import { ReactComponent as AvaxIcon } from 'modules/auth/common/assets/avaxIcon.svg';
 import { ReactComponent as BinanceSmartChainIcon } from 'modules/auth/common/assets/binanceSmartChainIcon.svg';
 import { ReactComponent as EthereumMainnetIcon } from 'modules/auth/common/assets/ethereumMainnetIcon.svg';
-import { INetworkItem } from 'modules/auth/common/components/GuardRoute';
 import { EEthereumNetworkId } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { GnosisIcon } from 'uiKit/Icons/Gnosis';
 import { PolygonIcon } from 'uiKit/Icons/Polygon';
 
-export interface IETHNetwork extends INetworkItem<EEthereumNetworkId> {}
+export interface IETHNetwork {
+  chainId: EEthereumNetworkId;
+  icon: JSX.Element;
+  title: string;
+}
 
-export const useETHNetworks = (): IETHNetwork[] =>
-  useLocaleMemo(
+interface IUseETHNetworks {
+  networks: IETHNetwork[];
+  getNetworkData: (networkId: EEthereumNetworkId) => IETHNetwork;
+}
+
+export const useETHNetworks = (): IUseETHNetworks => {
+  const networks = useLocaleMemo<IETHNetwork[]>(
     () => [
       {
         title: t('connect.networks.ethereum-mainnet'),
@@ -78,3 +87,12 @@ export const useETHNetworks = (): IETHNetwork[] =>
     ],
     [],
   );
+
+  const getNetworkData = useCallback(
+    (networkId: EEthereumNetworkId) =>
+      networks.find(network => network.chainId === networkId) as IETHNetwork,
+    [networks],
+  );
+
+  return { networks, getNetworkData };
+};
