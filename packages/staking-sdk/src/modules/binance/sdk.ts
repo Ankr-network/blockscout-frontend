@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
+import { AbiItem, Unit } from 'web3-utils';
 
 import { getPastEvents } from '../api';
 import {
@@ -30,6 +30,7 @@ import {
   ABI_ERC20,
   AETHC_BSC_ABI,
   AETH_BSC_ABI,
+  SWAP_POOL_ABI,
 } from '../contracts';
 import {
   IEventsBatch,
@@ -63,6 +64,8 @@ import {
   IGetTxReceipt,
   TBnbSyntToken,
 } from './types';
+import { EMaticSDKErrorCodes, MATIC_SCALE_FACTOR } from '../polygon';
+import { TransactionReceipt } from 'web3-core';
 
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
@@ -298,10 +301,11 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @private
    * @param {string} amount - value in wei
+   * @param {Unit} unit - units
    * @returns {BigNumber}
    */
-  private convertFromWei(amount: string): BigNumber {
-    return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
+  private convertFromWei(amount: string, unit?: Unit): BigNumber {
+    return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount, unit));
   }
 
   /**
@@ -484,6 +488,24 @@ export class BinanceSDK implements ISwitcher, IStakable {
     return new web3.eth.Contract(
       AETH_BSC_ABI as AbiItem[],
       binanceConfig.aETHToken,
+    );
+  }
+
+  /**
+   * Internal function to get Swap Pool contract
+   *
+   * @private
+   * @param {boolean} [isForceRead = false] - forces to use read provider
+   * @returns {Promise<Contract>}
+   */
+  private async getSwapPoolContract(isForceRead = false): Promise<Contract> {
+    const { binanceConfig } = configFromEnv();
+    const provider = await this.getProvider(isForceRead);
+    const web3 = provider.getWeb3();
+
+    return new web3.eth.Contract(
+      SWAP_POOL_ABI as AbiItem[],
+      binanceConfig.swapPool,
     );
   }
 
@@ -1510,6 +1532,52 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Approve aMATICc for SwapPool, i.e. allow SwapPool smart contract to access and transfer aMATICc tokens.
+   *
+   * @public
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber | undefined} [amount = MAX_UINT256] - amount to approve
+   * @param {number | undefined} [scale = MATIC_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<boolean>}
+   */
+  public async approveACTokenForSwapPool(
+    amount: BigNumber = MAX_UINT256,
+    scale = MATIC_SCALE_FACTOR,
+  ): Promise<boolean> {
+    const acTokenContract = await this.getABNBCContract();
+    const { binanceConfig } = configFromEnv();
+
+    const amountHex = convertNumberToHex(amount, scale);
+    const allowance = new BigNumber(
+      await acTokenContract.methods
+        .allowance(this.currentAccount, binanceConfig.swapPool)
+        .call(),
+    );
+    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
+      return true;
+    }
+    const txn = acTokenContract.methods.approve(
+      binanceConfig.swapPool,
+      amountHex,
+    );
+
+    const gasLimit: number = await txn.estimateGas({
+      from: this.currentAccount,
+    });
+
+    const gasPrice = await this.writeProvider.getSafeGasPriceWei();
+
+    const approve: TransactionReceipt | undefined = await txn.send({
+      from: this.currentAccount,
+      gas: this.getIncreasedGasLimit(gasLimit),
+      gasPrice: gasPrice.toString(10),
+    });
+
+    return !!approve;
+  }
+
+  /**
    * Checks if allowance is greater or equal to amount.
    *
    * @public
@@ -1635,5 +1703,85 @@ export class BinanceSDK implements ISwitcher, IStakable {
       binanceConfig.aETHToken,
       { data, estimate: true },
     );
+  }
+
+  /**
+   * Flash Unstake token.
+   *
+   * @public
+   * @note For aMATICc token only.
+   * @note You will need to call `approveACToken` before that.
+   * @note Initiates connect if writeProvider doesn't connected.
+   * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
+   * @param {BigNumber} amount - amount to unstake
+   * @param {string} token - choose which token to unstake (aMATICb or aMATICc)
+   * @param {number | undefined} [scale = MATIC_SCALE_FACTOR] - scale factor for amount
+   * @returns {Promise<void>}
+   */
+  public async flashUnstake(
+    amount: BigNumber,
+    token: string,
+    scale = MATIC_SCALE_FACTOR,
+  ): Promise<IWeb3SendResult> {
+    if (amount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EMaticSDKErrorCodes.ZERO_AMOUNT);
+    }
+    const { binanceConfig } = configFromEnv();
+    if (!this.writeProvider.isConnected()) {
+      await this.writeProvider.connect();
+    }
+
+    const amountHex = convertNumberToHex(amount, scale);
+    const swapPoolContract = await this.getSwapPoolContract();
+
+    const txn = swapPoolContract.methods.swapEth(
+      false,
+      amountHex,
+      this.currentAccount,
+    );
+    const gasLimit: number = await txn.estimateGas({
+      from: this.currentAccount,
+    });
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      binanceConfig.swapPool,
+      {
+        data: txn.encodeABI(),
+        estimate: true,
+        gasLimit: this.getIncreasedGasLimit(gasLimit).toString(),
+      },
+    );
+  }
+
+  /**
+   * Return WBNBb swap pool token balance.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getWBNBSwapPoolBalance(): Promise<BigNumber> {
+    const swapPoolContract = await this.getSwapPoolContract(true);
+
+    const balance = await swapPoolContract.methods
+      .wbnbAmount()
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Return unstake fee for swap pool in percent
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getSwapPoolUnstakeFee(): Promise<BigNumber> {
+    const swapPoolContract = await this.getSwapPoolContract(true);
+
+    const fee = await swapPoolContract.methods
+      .unstakeFee()
+      .call();
+
+    return new BigNumber(fee).dividedBy(100);
   }
 }

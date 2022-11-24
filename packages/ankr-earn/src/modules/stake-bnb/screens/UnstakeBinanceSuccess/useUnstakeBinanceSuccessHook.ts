@@ -75,9 +75,14 @@ export const useUnstakeBinanceSuccessHook = (): IUnstakeBinanceSuccessHook => {
 
   const isPending = !receipt && !!data?.isPending;
 
+  const destination =
+    !data?.destinationAddress || new BigNumber(data.destinationAddress).isZero()
+      ? undefined
+      : data.destinationAddress;
+
   return {
     amount,
-    destination: data?.destinationAddress,
+    destination,
     transactionId: txHash,
     tokenName: token,
     isLoading,

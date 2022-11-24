@@ -444,7 +444,16 @@
     },
     "unstake": {
       "info": "You will receive BNB in about ~{value} {period}.",
-      "period": "about {value} {period}"
+      "period": "about {value} {period}",
+      "pool-capacity": "Pool capacity: {value} BNB",
+      "comission": "{value}% comission",
+      "instant": "It will be sent immediately",
+      "instant-success": "You will receive BNB shortly",
+      "no-comission": "No comission",
+      "standard-unstake-dur": "7-10 days",
+      "standard-unstake": "Standard unstake",
+      "flash-unstake": "Flash unstake",
+      "instantly": "Instantly"
     }
   },
   "stake-polkadot": {
