@@ -8,7 +8,9 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const {
     data: profileData,
     isLoading: isLoadingProfile,
+    isFetching: isFetchingProfile,
     refetch: refetchProfileData,
+    isError: isErrorProfile,
   } = useFetchUserProfileQuery({ address });
 
   const { data: revenueData, isLoading: isLoadingRevenue } =
@@ -27,7 +29,10 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
     if (profileData?.user?.comment) {
       setCommentInputValue(profileData.user.comment);
     }
-  }, [profileData?.user?.comment]);
+    if (isErrorProfile) {
+      setCommentInputValue('');
+    }
+  }, [profileData?.user?.comment, isErrorProfile]);
 
   const handleUpdateProfile = useCallback(() => {
     updateUserProfile({ address, comment: commentInputValue }).then(res => {
@@ -67,11 +72,11 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   return {
     onChangeComment,
     commentInputValue,
-    isLoadingProfile,
+    isLoadingProfile: isLoadingProfile || isFetchingProfile,
     isLoadingEditProfile: isLoadingUpdateProfile,
     handleBlurCommentInput,
     handleKeyDownInputComment,
-    userName: profileData?.user?.name,
+    userName: !isErrorProfile && profileData?.user?.name,
     revenueData,
     isLoadingRevenue,
   };
