@@ -47,7 +47,14 @@ export const POLYGON_NETWORK_BY_ENV =
     ? EEthereumNetworkId.polygon
     : EEthereumNetworkId.mumbai;
 
-export const SUI_NETWORK_BY_ENV = 0;
+export const SUI_NETWORK_BY_ENV =
+  currentEnv === Env.Production
+    ? EEthereumNetworkId.mainnet
+    : EEthereumNetworkId.goerli;
+
+export const XDC_NETWORK_BY_ENV = isMainnet
+  ? EEthereumNetworkId.xdc
+  : EEthereumNetworkId.xdcTestnet;
 
 export const ETH_PROVIDER_BY_ENV =
   currentEnv === Env.Production
@@ -73,3 +80,7 @@ export const POLYGON_PROVIDER_BY_ENV =
   currentEnv === Env.Production
     ? AvailableReadProviders.polygon
     : AvailableReadProviders.mumbai;
+
+export const XDC_PROVIDER_BY_ENV = isMainnet
+  ? AvailableReadProviders.xdc
+  : AvailableReadProviders.xdcTestnet;

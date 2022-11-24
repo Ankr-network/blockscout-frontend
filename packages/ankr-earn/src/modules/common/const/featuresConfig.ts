@@ -48,13 +48,15 @@ export const featuresConfig = {
    */
   ssvStaking: true,
   duneAnalyticsLink: true,
+  xdcStaking: currentEnv !== Env.Production,
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
    */
-  isCoin98SupportActive: isLocal,
+  isCoin98SupportActive: true,
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2262
    */
   isTrustWalletSupportActive: true,
   isSUIStakingActive: isLocal,
+  isClaimAndRestakeEnabled: currentEnv !== Env.Production,
 };

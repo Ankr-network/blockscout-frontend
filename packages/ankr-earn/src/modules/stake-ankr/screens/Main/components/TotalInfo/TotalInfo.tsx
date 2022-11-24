@@ -1,8 +1,9 @@
 import { t } from '@ankr.com/common';
-import { Box, ButtonBase, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
 
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { TotalStaked } from 'modules/delegate-stake/components/TotalStaked';
 import { TotalIfnoContent } from 'modules/delegate-stake/components/TotalStaked/TotalIfnoContent';
@@ -55,18 +56,31 @@ export const TotalInfo = (): JSX.Element => {
                   />
                 }
                 buttonSlot={
-                  <Tooltip arrow title={t('common.tooltips.comingSoon')}>
-                    <ButtonBase>
-                      <NavLink
-                        disabled
-                        className={classNames(classes.btn, classes.btnRegular)}
-                        href={claimAllRewardsLink}
-                        variant="outlined"
-                      >
-                        {t('stake-ankr.total-info.claim-all')}
-                      </NavLink>
-                    </ButtonBase>
-                  </Tooltip>
+                  featuresConfig.isClaimAndRestakeEnabled ? (
+                    <NavLink
+                      className={classNames(classes.btn, classes.btnRegular)}
+                      href={claimAllRewardsLink}
+                      variant="outlined"
+                    >
+                      {t('stake-ankr.total-info.claim-all')}
+                    </NavLink>
+                  ) : (
+                    <Tooltip arrow title={t('common.tooltips.comingSoon')}>
+                      <span>
+                        <NavLink
+                          disabled
+                          className={classNames(
+                            classes.btn,
+                            classes.btnRegular,
+                          )}
+                          href={claimAllRewardsLink}
+                          variant="outlined"
+                        >
+                          {t('stake-ankr.total-info.claim-all')}
+                        </NavLink>
+                      </span>
+                    </Tooltip>
+                  )
                 }
                 titleSlot={
                   <Grid

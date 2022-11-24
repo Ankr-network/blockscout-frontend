@@ -112,7 +112,7 @@ export const StakeClaimDialog = ({
             <Box className={classes.valueDescription}>
               <StakeDescriptionContainer>
                 <StakeDescriptionName>
-                  {t('stake.you-will-get')}
+                  {t('stake.you-will-receive')}
                 </StakeDescriptionName>
 
                 <StakeDescriptionValue>

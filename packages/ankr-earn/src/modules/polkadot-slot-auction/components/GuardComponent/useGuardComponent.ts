@@ -18,7 +18,7 @@ export const useGuardComponent = (
   availableNetworks: EEthereumNetworkId[],
 ): IUseGuardComponentData => {
   const { chainId, isConnected } = useWeb3WalletData();
-  const networks = useETHNetworks();
+  const { networks } = useETHNetworks();
 
   const isUnsupportedNetwork = useMemo(
     () => isConnected && !availableNetworks.includes(chainId),

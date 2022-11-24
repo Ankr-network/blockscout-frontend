@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { FantomSDK } from '@ankr.com/staking-sdk';
 
-import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
@@ -20,7 +20,7 @@ interface IGetCommonData {
 export const { useGetFTMCommonDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getFTMCommonData: build.query<IGetCommonData, void>({
-      queryFn: async () => {
+      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(async () => {
         const sdk = await FantomSDK.getInstance();
 
         const [
@@ -53,7 +53,7 @@ export const { useGetFTMCommonDataQuery } = web3Api.injectEndpoints({
             aFTMcRatio,
           },
         };
-      },
+      }),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

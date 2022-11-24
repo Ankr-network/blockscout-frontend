@@ -1,25 +1,18 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { FantomSDK } from '@ankr.com/staking-sdk';
 
-import { ACTIONS_PREFIX } from '../const';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
-export const getBurnFee = createAction<
-  RequestAction<BigNumber, BigNumber>,
-  [BigNumber]
->(`${ACTIONS_PREFIX}getBurnFee`, amount => ({
-  request: {
-    promise: (async (): Promise<BigNumber> => {
-      const sdk = await FantomSDK.getInstance();
-
-      return sdk.getBurnFee(amount);
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-    asMutation: false,
-    getData: data => data,
-  },
-}));
+export const { useLazyGetFTMBurnFeeQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getFTMBurnFee: build.query<BigNumber, BigNumber>({
+      queryFn: queryFnNotifyWrapper<BigNumber, never, BigNumber>(
+        async amount => {
+          const sdk = await FantomSDK.getInstance();
+          return { data: await sdk.getBurnFee(amount) };
+        },
+      ),
+    }),
+  }),
+});

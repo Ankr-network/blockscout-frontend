@@ -72,6 +72,11 @@ export interface IGatewayConfig {
   ankrApiBaseUrl: string;
 }
 
+interface IXDCConfig {
+  XDCStakingPool: Address;
+  aXDCcToken: Address;
+}
+
 export interface IStkrConfig {
   contractConfig: IContractConfig;
   gatewayConfig: IGatewayConfig;
@@ -79,6 +84,7 @@ export interface IStkrConfig {
   binanceConfig: IBinanceConfig;
   fantomConfig: IFantomConfig;
   polygonConfig: IPolygonConfig;
+  xdcConfig: IXDCConfig;
 }
 
 /**
@@ -134,6 +140,10 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMATICcToken: '0xac32206a73c8406d74eb21cf7bd060bf841e64ad',
     maticToken: '0x0000000000000000000000000000000000001010',
     swapPool: '0x149372728fC852E6A724C59CDfB41dF0799fe042',
+  },
+  xdcConfig: {
+    XDCStakingPool: '0xd458788DD7d2fDbB5238d9eeb0a49732BffF08b7',
+    aXDCcToken: '0xe27990d8c950038C548E6f4BD0657aCE27495D48',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -220,6 +230,10 @@ const MAINNET_CONFIG: IStkrConfig = {
     aMATICcToken: '0x0e9b89007eee9c958c0eda24ef70723c2c93dd58',
     maticToken: '0x0000000000000000000000000000000000001010',
     swapPool: '0x62A509BA95c75Cabc7190469025E5aBeE4eDdb2a',
+  },
+  xdcConfig: {
+    XDCStakingPool: ZERO_ADDRESS,
+    aXDCcToken: ZERO_ADDRESS,
   },
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',

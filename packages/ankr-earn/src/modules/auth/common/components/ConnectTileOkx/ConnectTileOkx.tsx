@@ -1,5 +1,4 @@
-import { EWalletId, getWalletName , getIsOKXInjected } from '@ankr.com/provider';
-
+import { EWalletId, getWalletName, getIsOKXInjected } from '@ankr.com/provider';
 
 import { useConnectForModal } from '../../hooks/useConnectForModal';
 import { ConnectTile } from '../ConnectTile';
