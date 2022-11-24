@@ -1,7 +1,13 @@
-import { Address, Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 
-import { currentEnv, ETH_SCALE_FACTOR, ICommonProps, ZERO } from '../../common';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
+
+import {
+  currentEnv,
+  ETH_SCALE_FACTOR,
+  IStakeGasFeeProps,
+  ZERO,
+} from '../../common';
 import { convertNumberToHex } from '../../utils';
 
 import { getSSVStakingPoolContract } from './contracts';
@@ -9,19 +15,13 @@ import { getIncreasedGasLimit } from './getIncreasedGasLimit';
 import { getMinStakeAmount } from './getMinStakeAmount';
 import { isValidAmount } from './utils';
 
-interface IGetStakeGasFeeProps extends ICommonProps<Web3KeyReadProvider> {
-  address: Address;
-  amount: BigNumber;
-  scale?: number;
-}
-
 export const getStakeGasFee = async ({
   address,
   amount,
   env = currentEnv,
   provider,
   scale = ETH_SCALE_FACTOR,
-}: IGetStakeGasFeeProps): Promise<BigNumber> => {
+}: IStakeGasFeeProps<Web3KeyReadProvider>): Promise<BigNumber> => {
   const minStakeAmount = await getMinStakeAmount({
     env,
     provider,

@@ -96,7 +96,9 @@ export const StakeFantom = (): JSX.Element => {
         </TokenVariantList>
 
         <StakeDescriptionContainer>
-          <StakeDescriptionName>{t('stake.you-will-get')}</StakeDescriptionName>
+          <StakeDescriptionName>
+            {t('stake.you-will-receive')}
+          </StakeDescriptionName>
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount

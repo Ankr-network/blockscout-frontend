@@ -1,4 +1,5 @@
 import { ConnectWalletsModal } from 'modules/auth/common/components/ConnectWalletsModal';
+import { NoReactSnap } from 'modules/common/components/NoReactSnap';
 import { useDialog as useLocalDialog } from 'modules/common/hooks/useDialog';
 import { ConnectedWalletsButton } from 'modules/connected-wallets/components/ConnectedWalletsButton';
 import { ConnectedWalletsDialog } from 'modules/connected-wallets/components/ConnectedWalletsDialog';
@@ -33,7 +34,9 @@ export const ConnectedWallets = ({
         onClick={onOpenDialog}
       />
 
-      <ConnectWalletsModal />
+      <NoReactSnap>
+        <ConnectWalletsModal />
+      </NoReactSnap>
 
       <ConnectedWalletsDialog
         networks={wallets}

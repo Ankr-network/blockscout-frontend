@@ -12,7 +12,6 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ScrollableTable } from 'modules/common/components/ScrollableTable';
 import { IDeFiItem } from 'modules/defi-aggregator/actions/getDeFiData';
 import {
-  useProtocols,
   useStakingTypes,
   useTokenNetworks,
 } from 'modules/defi-aggregator/hooks';
@@ -36,7 +35,6 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
 
   const stakingTypes = useStakingTypes();
   const tokenNetworks = useTokenNetworks();
-  const protocols = useProtocols();
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
@@ -169,15 +167,14 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                 <ScrollableTable.Cell noWrap>
                   <div className={styles.vertAligned}>
                     <span className={styles.vertAligned}>
-                      {protocols[item.protocol] &&
-                        protocols[item.protocol].icon}
+                      <img
+                        alt={item.protocolIcon}
+                        className={styles.tokenIcon}
+                        src={item.protocolIcon}
+                      />
                     </span>
 
-                    <span>
-                      {protocols[item.protocol]
-                        ? protocols[item.protocol].title
-                        : item.protocol}
-                    </span>
+                    <span>{item.protocolName}</span>
                   </div>
                 </ScrollableTable.Cell>
 

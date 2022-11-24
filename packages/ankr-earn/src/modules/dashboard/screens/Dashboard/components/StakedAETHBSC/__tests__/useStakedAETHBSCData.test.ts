@@ -8,10 +8,10 @@ import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { useGuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useStakedAETHBSCData } from '../useStakedAETHBSCData';
+import { useSupportedNetwork } from '../useSupportedNetwork';
 
 const mockONE = new BigNumber(1);
 const mockTWO = new BigNumber(2);
@@ -58,9 +58,9 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
 }));
 
 jest.mock(
-  'modules/auth/eth/components/GuardETHRoute/hooks/useGuardETHRoute',
+  'modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useSupportedNetwork.ts',
   () => ({
-    useGuardETHRoute: jest.fn(),
+    useSupportedNetwork: jest.fn(),
   }),
 );
 
@@ -98,8 +98,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
   beforeEach(() => {
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
     (useMutation as jest.Mock).mockReturnValue({ loading: false });
-    (useGuardETHRoute as jest.Mock).mockReturnValue({
-      onSwitchNetwork: () => () => Promise.resolve(),
+    (useSupportedNetwork as jest.Mock).mockReturnValue({
+      onSwitchNetwork: () => Promise.resolve(),
       isUnsupportedNetwork: false,
     });
   });
@@ -152,8 +152,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
       .mockReturnValueOnce(defaultMetricsData);
 
     const mockOnSwitchNetwork = jest.fn();
-    (useGuardETHRoute as jest.Mock).mockReturnValue({
-      onSwitchNetwork: () => () => {
+    (useSupportedNetwork as jest.Mock).mockReturnValue({
+      onSwitchNetwork: () => {
         mockOnSwitchNetwork();
         return Promise.resolve();
       },
