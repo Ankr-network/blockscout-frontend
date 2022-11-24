@@ -1,5 +1,5 @@
-import { IJwtToken, IPrivateEndpoint, IWorkerEndpoint } from 'multirpc-sdk';
-import { RequestAction, RequestsStore } from '@redux-requests/core';
+import { IPrivateEndpoint, IWorkerEndpoint } from 'multirpc-sdk';
+import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
@@ -13,10 +13,10 @@ export const deletePrivateEndpoint = createAction<Action, Params>(
   'infrastructure/deletePrivateEndpoint',
   endpointId => ({
     request: {
-      promise: async (_store: RequestsStore, jwtToken: IJwtToken) => {
-        const service = await MultiService.getInstance();
+      promise: async () => {
+        const service = MultiService.getService();
 
-        await service.deletePrivateEndpoint(jwtToken, endpointId);
+        await service.getWorkerGateway().deletePrivateEndpoint(endpointId);
       },
     },
     meta: {

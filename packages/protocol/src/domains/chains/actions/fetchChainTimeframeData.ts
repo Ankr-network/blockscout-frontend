@@ -53,11 +53,9 @@ export const fetchChainTimeframeData = createSmartAction<
       ) => {
         return {
           promise: (async () => {
-            const rpcStats =
-              await MultiService.getPublicInstance().getTimeframeStats(
-                chainId,
-                timeframe,
-              );
+            const rpcStats = await MultiService.getService()
+              .getPublicGateway()
+              .getTimeframeStats(chainId, timeframe);
 
             const url = getLegacyStandaloneUrl(chainId);
 

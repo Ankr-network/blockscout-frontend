@@ -17,13 +17,13 @@ export const checkAllowanceTransaction = createSmartAction<
       return {
         promise: (async (): Promise<TransactionReceipt | null> => {
           // step 1: trying to take a receipt
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
-          const transactionReceipt = await service.getTransactionReceipt(
-            initialTransactionHash,
-          );
+          const transactionReceipt = await service
+            .getContractService()
+            .getTransactionReceipt(initialTransactionHash);
 
           if (transactionReceipt) return transactionReceipt;
 
@@ -33,14 +33,16 @@ export const checkAllowanceTransaction = createSmartAction<
           // step 3: trying to take a receipt again
           let transactionHash = initialTransactionHash;
 
-          const receipt = await service.getTransactionReceipt(transactionHash);
+          const receipt = await service
+            .getContractService()
+            .getTransactionReceipt(transactionHash);
 
           if (receipt) return receipt;
 
           // step 4: we already haven't had pending transaction and a receipt too -> check the latest allowance transaction
-          const lastAllowanceEvent = await service.getLatestAllowanceEvent(
-            address,
-          );
+          const lastAllowanceEvent = await service
+            .getContractService()
+            .getLatestAllowanceEvent(address);
 
           const currentBlockNumber = await provider
             .getWeb3()
@@ -62,7 +64,9 @@ export const checkAllowanceTransaction = createSmartAction<
             transactionHash = lastAllowanceEvent.transactionHash;
           }
 
-          return service.getTransactionReceipt(transactionHash);
+          return service
+            .getContractService()
+            .getTransactionReceipt(transactionHash);
         })(),
       };
     },

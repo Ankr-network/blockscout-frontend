@@ -1,6 +1,9 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
+export const useStyles = makeStyles<
+  Theme,
+  { size: 'm' | 'l'; isDisabled?: boolean }
+>(theme => ({
   text: {
     marginRight: theme.spacing(0.5),
     fontSize: ({ size }) => (size === 'm' ? 12 : 14),
@@ -35,7 +38,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     alignItems: 'center',
     width: '100%',
     padding: ({ size }) => (size === 'm' ? '8px 9px' : '10px 15px'),
-    cursor: 'pointer',
+    cursor: ({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer'),
     background: theme.palette.background.default,
     minHeight: 36,
     transition: 'background .3s',

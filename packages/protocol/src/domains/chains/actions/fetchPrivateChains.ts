@@ -1,7 +1,7 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { IJwtToken } from 'multirpc-sdk';
+import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 import { MultiService } from '../../../modules/api/MultiService';
 import { credentialsGuard } from '../../auth/utils/credentialsGuard';
 import {
@@ -19,18 +19,22 @@ export const fetchPrivateChains = createSmartAction<
   RequestAction<IFetchChainsResponseData, IFetchPrivateChainsResult>
 >('chains/fetchPrivateChains', () => ({
   request: {
-    promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const service = await MultiService.getInstance();
-      const chains = await service.getPublicGateway().getBlockchains();
-      const formattedPrivateChains = await service.formatPrivateChains(
-        chains,
-        jwtToken,
-      );
+    promise: async (
+      store: RequestsStore,
+      jwtToken: IJwtToken,
+      workerTokenData: WorkerTokenData,
+    ) => {
+      const publicService = MultiService.getService();
 
-      const publicService = await MultiService.getPublicInstance();
-      const formattedPublicChains = await publicService.formatPublicChains(
-        chains,
-      );
+      const chains = await publicService.getPublicGateway().getBlockchains();
+      const formattedPrivateChains = workerTokenData?.userEndpointToken
+        ? publicService.formatPrivateEndpoints(
+            chains,
+            workerTokenData?.userEndpointToken,
+          )
+        : publicService.formatPublicEndpoints(chains);
+
+      const formattedPublicChains = publicService.formatPublicEndpoints(chains);
 
       return {
         chains: formattedPrivateChains,

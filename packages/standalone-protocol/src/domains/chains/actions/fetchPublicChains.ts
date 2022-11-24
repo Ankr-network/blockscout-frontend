@@ -13,10 +13,10 @@ export const fetchPublicChains = createSmartAction<
 >('chains/fetchPublicChains', () => ({
   request: {
     promise: (async () => {
-      const service = await MultiService.getPublicInstance();
-      const blockchains = await service.getBlockchains();
+      const service = MultiService.getService();
+      const blockchains = await service.getPublicGateway().getBlockchains();
 
-      const chains = await service.formatPublicChains(blockchains);
+      const chains = service.formatPublicEndpoints(blockchains);
 
       return {
         chains,

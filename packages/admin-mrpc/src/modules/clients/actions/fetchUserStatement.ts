@@ -20,7 +20,7 @@ export const {
   endpoints: build => ({
     fetchUserStatement: build.query<IStatementResponse, IRequestParams>({
       queryFn: async ({ address, dayOffset = '0' }) => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
         const { statement } = await backofficeGateway.getStatement({

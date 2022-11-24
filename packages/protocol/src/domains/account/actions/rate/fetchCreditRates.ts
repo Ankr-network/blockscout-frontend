@@ -28,7 +28,7 @@ export const fetchCreditRates = createAction<
     getData: getRate,
     onRequest: () => ({
       promise: (async (): Promise<IRate> => {
-        const service = await MultiService.getInstance();
+        const service = MultiService.getService();
 
         const data = await service.getPublicGateway().getRate();
 

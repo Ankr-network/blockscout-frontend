@@ -44,10 +44,9 @@ export const fetchChainDetails = createSmartAction<
     onRequest: () => {
       return {
         promise: (async () =>
-          MultiService.getPublicInstance().getTimeframeStats(
-            chainId,
-            timeframe,
-          ))(),
+          MultiService.getService()
+            .getPublicGateway()
+            .getTimeframeStats(chainId, timeframe))(),
       };
     },
 

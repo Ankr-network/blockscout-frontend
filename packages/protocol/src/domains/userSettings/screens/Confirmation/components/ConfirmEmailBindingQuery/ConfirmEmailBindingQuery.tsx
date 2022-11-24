@@ -57,7 +57,7 @@ export const ConfirmEmailBindingQuery = ({
           );
         }
 
-        const isRelatedWallet = checkIsRelatedWallet(data, address);
+        const isRelatedWallet = checkIsRelatedWallet(data, address as string);
 
         if (
           isRelatedWallet ||

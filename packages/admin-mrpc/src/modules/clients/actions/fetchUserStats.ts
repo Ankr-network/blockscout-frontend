@@ -34,7 +34,7 @@ export const {
         interval = PrivateStatsInterval.MONTH,
         current = false,
       }) => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
         const statsResponse = await backofficeGateway.getUserStats({

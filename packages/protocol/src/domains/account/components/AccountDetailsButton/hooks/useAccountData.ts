@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { useAuth } from 'domains/account/hooks/useAuth';
+import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 import { AccountType, BalanceStatus } from 'domains/account/types';
@@ -24,7 +24,7 @@ export const useAccountData = (): AccountData => {
     isConnecting,
     isNew,
     premiumUntil,
-  } = useAuth();
+  } = useAccountAuth();
   const cachedAuthData = useAppSelector(selectAuthData);
 
   const isConnected = useMemo(

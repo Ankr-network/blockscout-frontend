@@ -7,7 +7,6 @@ import { AngleDownIcon } from './AngleDownIcon';
 import { AngleRightIcon } from './AngleRightIcon';
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ReactComponent as BoxIcon } from './box.svg';
-import { ReactComponent as ChatIcon } from './chat.svg';
 import { CopyIcon } from './CopyIcon';
 import { ReactComponent as DiamondIcon } from './diamond.svg';
 import { ReactComponent as FileIcon } from './file.svg';
@@ -20,7 +19,6 @@ storiesOf('uiKit/Icons', module).add('Default', () => (
       <AngleDownIcon />
       <AngleRightIcon />
       <ArrowRightIcon />
-      <ChatIcon />
       <BoxIcon />
       <DiamondIcon />
       <CopyIcon />

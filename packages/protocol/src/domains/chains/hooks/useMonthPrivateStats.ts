@@ -5,11 +5,11 @@ import { useEffect } from 'react';
 import { fetchMonthPrivateStats } from '../actions/fetchMonthPrivateStats';
 
 export interface PrivateStatsParams {
-  isWalletConnected: boolean;
+  hasCredentials: boolean;
 }
 
 export const useMonthPrivateStats = ({
-  isWalletConnected,
+  hasCredentials,
 }: PrivateStatsParams): [PrivateStats, boolean] => {
   const { data: stats, loading } = useQuery({
     defaultData: {},
@@ -19,10 +19,10 @@ export const useMonthPrivateStats = ({
   const dispatch = useDispatchRequest();
 
   useEffect(() => {
-    if (isWalletConnected) {
+    if (hasCredentials) {
       dispatch(fetchMonthPrivateStats());
     }
-  }, [isWalletConnected, dispatch]);
+  }, [hasCredentials, dispatch]);
 
   return [stats, loading];
 };

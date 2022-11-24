@@ -10,13 +10,13 @@ import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToS
 
 export interface PublicStatsParams {
   chainId: string;
-  isWalletConnected: boolean;
+  hasCredentials: boolean;
   timeframe: Timeframe;
 }
 
 export const usePublicStats = ({
   chainId,
-  isWalletConnected,
+  hasCredentials,
   timeframe,
 }: PublicStatsParams): PublicStats => {
   const {
@@ -33,7 +33,7 @@ export const usePublicStats = ({
   const dispatch = useDispatchRequest();
 
   useEffect(() => {
-    if (!isWalletConnected && chainId) {
+    if (!hasCredentials && chainId) {
       dispatch(
         fetchChainTimeframeData(
           chainId,
@@ -44,7 +44,7 @@ export const usePublicStats = ({
     }
 
     return stopPolling;
-  }, [dispatch, chainId, isWalletConnected, timeframe, stopPolling]);
+  }, [dispatch, chainId, hasCredentials, timeframe, stopPolling]);
 
   const { totalCached, totalRequests, totalRequestsHistory, countries } = stats;
 

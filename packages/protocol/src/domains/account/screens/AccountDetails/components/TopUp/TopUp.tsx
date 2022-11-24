@@ -5,10 +5,10 @@ import classNames from 'classnames';
 import { useStyles } from './TopUpStyles';
 import { TopUpBlockHeader } from './TopUpBlockHeader';
 import { TopUpTabs } from './TopUpTabs';
-import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 import { useRates } from 'domains/account/hooks/useRates';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { TopUpSkeleton } from './TopUpSkeleton';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { EthAddressType } from 'multirpc-sdk';
 
 export interface TopUpProps {
   className?: string;
@@ -21,24 +21,19 @@ export const TopUp = ({
 }: TopUpProps) => {
   const classes = useStyles();
 
-  const { handleCanPayByCard, isCardPaymentEligible, isCanPayByCardLoading } =
-    useCardPayment();
-
   const { handleFetchRates } = useRates();
+  const { ethAddressType } = useAuth();
 
   useOnMount(() => {
-    handleCanPayByCard();
     handleFetchRates();
   });
+
+  const canPayOnlyByCard = ethAddressType === EthAddressType.Generated;
 
   return (
     <Box className={classNames(classes.root, className)}>
       {header}
-      {isCanPayByCardLoading ? (
-        <TopUpSkeleton />
-      ) : (
-        <TopUpTabs canPayByCard={isCardPaymentEligible} />
-      )}
+      <TopUpTabs canPayOnlyByCard={canPayOnlyByCard} />
     </Box>
   );
 };

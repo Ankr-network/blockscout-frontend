@@ -14,15 +14,21 @@ export const fetchEncryptionKey = createSmartAction<
 >('auth/fetchEncryptionKey', () => ({
   request: {
     promise: (async () => {
-      const service = await MultiService.getInstance();
+      const service = await MultiService.getWeb3Service();
 
       let key = '';
 
       try {
-        key = await service.requestEncryptionKeys();
+        const { publicKey } = await service
+          .getTokenDecryptionService()
+          .requestEncryptionKeys();
+
+        key = publicKey;
       } catch (error: any) {
         if (error?.code !== REJECTED_OPERATION_CODE) {
-          key = await service.requestMetamaskEncryptionKey();
+          key = await service
+            .getTokenDecryptionService()
+            .requestMetamaskEncryptionKey();
         }
       }
 
