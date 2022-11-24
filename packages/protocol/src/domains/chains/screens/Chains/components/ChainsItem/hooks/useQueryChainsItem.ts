@@ -10,7 +10,7 @@ export interface ChainsItemParams {
   chain: Chain;
 }
 
-export const useChainsItem = ({
+export const useQueryChainsItem = ({
   chain: { id: chainId },
 }: ChainsItemParams): [BigNumber, boolean, boolean] => {
   const { isWalletConnected, credentials } = useAuth();

@@ -1,6 +1,7 @@
 import { IApiChainURL } from 'domains/chains/api/queryChains';
 import { Timeframe } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
+import React from 'react';
 import { Chain } from '../ChainsList/ChainsListTypes';
 
 export interface ChainsItemQueryProps {
@@ -21,7 +22,22 @@ export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {
   isLoading: boolean;
   isPremium: boolean;
   totalRequests: string;
+  urls: IApiChainURL[];
   handleButtonClick?: (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => void;
+}
+
+export interface ChainsItemBaseProps
+  extends Omit<ChainsItemQueryProps, 'chainId'> {
+  isHighlighted?: boolean;
+  isLoading: boolean;
+  isPremium: boolean;
+  totalRequests: string;
+  handleButtonClick?: (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => void;
+  handleOriginUrlClick: () => void;
+  chainsItemLink: React.ReactNode;
+  chainsItemButton?: React.ReactNode;
 }

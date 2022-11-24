@@ -2,6 +2,7 @@ import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardA
 import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
+import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
@@ -118,9 +119,17 @@ export const Routes = () => {
       />
       <Route
         exact
+        path={[MMChainsRoutesConfig.mmChains.path]}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <MMChainsRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
         path={[
           ChainsRoutesConfig.chains.path,
-          ChainsRoutesConfig.mmChains.path,
           ChainsRoutesConfig.chainDetails.path,
         ]}
         render={() => (

@@ -1,53 +1,63 @@
+import { BlockchainType } from 'multirpc-sdk';
+import { ChainsItemQueryProps } from './ChainsItemTypes';
+import { useQueryChainsItem } from './hooks/useQueryChainsItem';
+import { ChainsItem } from './ChainsItem';
 import { useAddNetworkButton } from 'domains/auth/components/AddNetwork/useAddNetworkButton';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { BlockchainType } from 'multirpc-sdk';
-
-import { ChainsItem } from './ChainsItem';
-import { ChainsItemQueryProps } from './ChainsItemTypes';
-import { useChainsItem } from './hooks/useChainsItem';
-import { MMChainsItem } from './MMChainsItem';
+import { MMChainsItem } from '../MMChainsItem/MMChainsItem';
+import { useChainsItem } from '../../hooks/useChainsItem';
+import { useMemo } from 'react';
 
 export const ChainsItemQuery = ({
   isMMIndex,
   chain,
   publicChain,
   chainId,
-  timeframe,
   ...props
 }: ChainsItemQueryProps) => {
-  const [totalRequests, loading, isPremium] = useChainsItem({
+  const [totalRequests, loading, isPremium] = useQueryChainsItem({
     chain,
   });
+  const isHighlighted = useMemo(
+    () => chain.type === BlockchainType.Customized,
+    [chain.type],
+  );
+
+  const totalRequestsStr = useMemo(
+    () => totalRequests.toString() ?? '',
+    [totalRequests],
+  );
 
   const { handleButtonClick } = useAddNetworkButton({
     publicChain: publicChain as IApiChain,
   });
 
+  const { urls } = useChainsItem(chain, isPremium);
+
   return (
     <>
-      {isMMIndex ? (
-        handleButtonClick && (
-          <MMChainsItem
-            {...props}
-            chain={chain}
-            isHighlighted={chain.type === BlockchainType.Customized}
-            isLoading={loading}
-            isPremium={isPremium}
-            publicChain={publicChain}
-            timeframe={timeframe}
-            totalRequests={totalRequests.toString() ?? ''}
-          />
-        )
-      ) : (
-        <ChainsItem
+      {isMMIndex && handleButtonClick && (
+        <MMChainsItem
           {...props}
           chain={chain}
-          isHighlighted={chain.type === BlockchainType.Customized}
+          isHighlighted={isHighlighted}
           isLoading={loading}
           isPremium={isPremium}
           publicChain={publicChain}
-          timeframe={timeframe}
-          totalRequests={totalRequests.toString() ?? ''}
+          totalRequests={totalRequestsStr}
+          urls={urls}
+        />
+      )}
+      {!isMMIndex && (
+        <ChainsItem
+          {...props}
+          chain={chain}
+          isHighlighted={isHighlighted}
+          isLoading={loading}
+          isPremium={isPremium}
+          publicChain={publicChain}
+          totalRequests={totalRequestsStr}
+          urls={urls}
         />
       )}
     </>
