@@ -19,7 +19,6 @@ import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 export type IsActive = (match: any, location: History['location']) => boolean;
 
 export const DOC_URL = 'https://www.ankr.com/docs/build-blockchain/overview';
-export const FAQ_URL = 'https://docs.ankr.com/ankr-protocol/faqs';
 
 const isDashboardActive = (
   match: any,

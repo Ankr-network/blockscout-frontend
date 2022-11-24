@@ -80,8 +80,7 @@
   },
   "extra-navigation": {
     "docs": "Docs",
-    "settings": "Settings",
-    "faq": "FAQ"
+    "settings": "Settings"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",

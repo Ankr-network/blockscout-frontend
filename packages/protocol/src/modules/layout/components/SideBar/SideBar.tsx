@@ -1,11 +1,9 @@
-import React from 'react';
 import classNames from 'classnames';
-import { Scrollbars } from 'react-custom-scrollbars';
 
-import { MainNavigation } from '../MainNavigation';
-import { Logo } from '../Logo';
-import { SIDEBAR_HEIGHT, useStyles } from './SideBarStyles';
 import { ExtraNavigation } from '../ExtraNavigation';
+import { Logo } from '../Logo';
+import { MainNavigation } from '../MainNavigation';
+import { useStyles } from './SideBarStyles';
 
 interface SidebarProps {
   className?: string;
@@ -26,22 +24,16 @@ export const SideBar = ({
 
   return (
     <aside className={classNames(classes.root, className)}>
-      <Scrollbars autoHeightMin={SIDEBAR_HEIGHT}>
-        <div className={classes.container}>
-          <Logo />
-          <div className={classes.bottom}>
-            <MainNavigation
-              loading={loading}
-              isWalletConnected={isWalletConnected}
-              hasCredentials={hasCredentials}
-              chainsRoutes={chainsRoutes}
-            />
-            <div>
-              <ExtraNavigation />
-            </div>
-          </div>
-        </div>
-      </Scrollbars>
+      <Logo />
+      <div>
+        <MainNavigation
+          loading={loading}
+          isWalletConnected={isWalletConnected}
+          hasCredentials={hasCredentials}
+          chainsRoutes={chainsRoutes}
+        />
+        <ExtraNavigation />
+      </div>
     </aside>
   );
 };
