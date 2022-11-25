@@ -14,15 +14,15 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@ankr.com/ui@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.1.0.tgz#1720d38935a386d69ad6f9d45bcd0b0b1570fe00"
-  integrity sha512-34HgS4gdBWYSMUm1RzR4RealQH6nnLX7EAFRuNYbLEdgQGPkDLtUy4hIe//t1qtOT5hh5psue8YadZCLaC6Clw==
+"@ankr.com/ui@0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.3.5.tgz#ee650ed3adb419f552c7e59a767033ef9c0e887d"
+  integrity sha512-NQJ6ggvlOKRlkF8kj2x2TJ9O69sAFaGkCV8hiSW4br+7+JIjLh+IvHDdcqelorXq54dLS2lmg1uy7a+c6CPzfA==
 
 "@ankr.com/utils@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@ankr.com/utils/-/utils-1.0.0.tgz"
-  integrity sha512-C1mW1+Xzlij1CjQEW4HRvpwzFrq4qqcoKeR65A/LhHtC5V3dHgIyIqQgY9VDz0UfvhIAhuHJgfaHKKWwegZY1g==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@ankr.com/utils/-/utils-1.1.1.tgz#bc41159fd4ab0c4a60cc177b547289cd35d4796a"
+  integrity sha512-NAlQgM5D4Xu09ImK401iewDMm6+70vmBM+Vj7vNzFPzlLS33dfdHjstkKbgx7X3l5a+cBpgsNOYZIyP/zmadGQ==
 
 "@ankr.com/utils@^1.1.0":
   version "1.1.0"
@@ -8779,6 +8779,13 @@
   dependencies:
     "@types/lodash" "*"
 
+"@types/lodash.invert@^4.3.7":
+  version "4.3.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.invert/-/lodash.invert-4.3.7.tgz#93b6123af67d7aea17ba7f18ad5a9ea5e060dd64"
+  integrity sha512-bTLbk1It49+zo/zF4TYGs1gNxwhtJLjyIOcFaAPx6kyq+lh7sAmLhyMIXIYcDX1ykZYPb8Dx6Acr2v8B6Hu3pQ==
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash.isequal@4.5.6":
   version "4.5.6"
   resolved "https://registry.npmjs.org/@types/lodash.isequal/-/lodash.isequal-4.5.6.tgz"
@@ -8966,6 +8973,13 @@
   version "4.3.0"
   resolved "https://registry.npmjs.org/@types/react-copy-to-clipboard/-/react-copy-to-clipboard-4.3.0.tgz"
   integrity sha512-iideNPRyroENqsOFh1i2Dv3zkviYS9r/9qD9Uh3Z9NNoAAqqa2x53i7iGndGNnJFIo20wIu7Hgh77tx1io8bgw==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-copy-to-clipboard@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-copy-to-clipboard/-/react-copy-to-clipboard-5.0.4.tgz#558f2c38a97f53693e537815f6024f1e41e36a7e"
+  integrity sha512-otTJsJpofYAeaIeOwV5xBUGpo6exXG2HX7X4nseToCB2VgPEBxGBHCm/FecZ676doNR7HCSTVtmohxfG2b3/yQ==
   dependencies:
     "@types/react" "*"
 
@@ -20970,6 +20984,11 @@ lodash.get@^4.4.2:
   resolved "https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz"
   integrity sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==
 
+lodash.invert@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.invert/-/lodash.invert-4.3.0.tgz#8ffe20d4b616f56bea8f1aa0c6ebd80dcf742aee"
+  integrity sha512-3CJmOxN5y47rd+g5XjdZNcq2SorJkvlSqBwPomT094p6LZ4p7b5bUoRzYYMjwsTGWTW77z/dFZlCzeVQxBrZVg==
+
 lodash.isequal@4.5.0, lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
@@ -24845,6 +24864,14 @@ react-copy-to-clipboard@^5.0.3:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
+react-copy-to-clipboard@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.1.0.tgz#09aae5ec4c62750ccb2e6421a58725eabc41255c"
+  integrity sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==
+  dependencies:
+    copy-to-clipboard "^3.3.1"
+    prop-types "^15.8.1"
+
 react-country-flag@^2.3.1:
   version "2.3.1"
   resolved "https://registry.npmjs.org/react-country-flag/-/react-country-flag-2.3.1.tgz"
@@ -24898,6 +24925,14 @@ react-dev-utils@^11.0.3:
     shell-quote "1.7.2"
     strip-ansi "6.0.0"
     text-table "0.2.0"
+
+react-devtools-core@4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-4.14.0.tgz#4b9dc50937ed4cf4c04fa293430cac62d829fa8b"
+  integrity sha512-cE7tkSUkGCDxTA79pntDGJCBgzNN/XxA3kgPdXujdfSfEfVhzrItQIEsN0kCN/hJJACDvH2Q8p5+tJb/K4B3qA==
+  dependencies:
+    shell-quote "^1.6.1"
+    ws "^7"
 
 react-docgen-typescript-plugin@^1.0.0:
   version "1.0.1"
@@ -26826,7 +26861,7 @@ shell-quote@1.7.2:
   resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.2.tgz"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
 
-shell-quote@^1.7.3:
+shell-quote@^1.6.1, shell-quote@^1.7.3:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.4.tgz#33fe15dee71ab2a81fcbd3a52106c5cfb9fb75d8"
   integrity sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==
@@ -30385,7 +30420,7 @@ ws@^6.1.0, ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.4.5:
+ws@^7, ws@^7.4.5:
   version "7.5.9"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
