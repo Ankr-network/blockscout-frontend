@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "clean": "lerna clean && rm -rf node_modules",
+    "clean": "turbo run clean",
     "prepare": "husky install",
     "release": "lerna version --yes --conventional-commits --message \"chore(release): %s\"",
     "build": "turbo run build"

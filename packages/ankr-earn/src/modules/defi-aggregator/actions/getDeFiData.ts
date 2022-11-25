@@ -20,6 +20,8 @@ export interface IDeFiItem {
   type: TDeFiType;
   baseRewards: string;
   protocolLink: string;
+  protocolName: string;
+  protocolIcon: string;
   farmingRewards: string;
 }
 
@@ -39,6 +41,8 @@ export const { useGetDeFiDataQuery } = web3Api.injectEndpoints({
             type: item.type,
             baseRewards: item.baseRewards,
             protocolLink: item.protocolLink,
+            protocolName: item.protocolName,
+            protocolIcon: new URL(item.protocolIcon.url, baseURL).toString(),
             farmingRewards: item.farmingRewards ?? '',
           })),
         };

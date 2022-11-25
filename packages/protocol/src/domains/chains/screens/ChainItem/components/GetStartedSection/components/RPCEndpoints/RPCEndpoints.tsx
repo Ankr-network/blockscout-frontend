@@ -1,4 +1,3 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -12,6 +11,8 @@ export interface RPCEndpointsProps {
   publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
+  isPremium: boolean;
+  hasConnectWalletMessage: boolean;
 }
 
 const header = `${root}.endpoints.title`;
@@ -20,8 +21,9 @@ export const RPCEndpoints = ({
   publicChain,
   chainType,
   group,
+  isPremium,
+  hasConnectWalletMessage,
 }: RPCEndpointsProps) => {
-  const { credentials } = useAuth();
   const { urls, chainName } = group;
 
   const rpcs = urls.flatMap(({ rpc }) => [rpc]);
@@ -31,7 +33,7 @@ export const RPCEndpoints = ({
 
   return (
     <div className={classes.rpcEndpoints}>
-      <EndpointsHeader isPremium={!!credentials} title={title} />
+      <EndpointsHeader isPremium={isPremium} title={title} />
       {rpcs.map(url => (
         <Endpoint
           publicChain={publicChain}
@@ -39,6 +41,7 @@ export const RPCEndpoints = ({
           group={group}
           url={url}
           key={url}
+          hasConnectWalletMessage={hasConnectWalletMessage}
         />
       ))}
     </div>

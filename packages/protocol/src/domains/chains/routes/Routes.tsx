@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
@@ -29,29 +28,30 @@ const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
 
 export function ChainsRoutes() {
   return (
-    <>
-      <Route
-        exact
-        path={ChainsRoutesConfig.chains.path}
-        component={LoadableChainsContainer}
-      />
-      <Route
-        exact
-        path={ChainsRoutesConfig.chainDetails.path}
-        component={LoadableChainDetailsContainer}
-      />
-    </>
+    <Route
+      exact
+      path={ChainsRoutesConfig.chains.path}
+      component={LoadableChainsContainer}
+    />
+  );
+}
+
+export function ChainDetailsRoutes() {
+  return (
+    <Route
+      exact
+      path={ChainsRoutesConfig.chainDetails.path}
+      component={LoadableChainDetailsContainer}
+    />
   );
 }
 
 export function ChainPrivateRoutes() {
   return (
-    <>
-      <Route
-        exact
-        path={ChainsRoutesConfig.addEndpoint.path}
-        component={LoadableAddEndpointContainer}
-      />
-    </>
+    <Route
+      exact
+      path={ChainsRoutesConfig.addEndpoint.path}
+      component={LoadableAddEndpointContainer}
+    />
   );
 }

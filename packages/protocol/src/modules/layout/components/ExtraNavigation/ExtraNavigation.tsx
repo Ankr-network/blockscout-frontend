@@ -1,40 +1,26 @@
 import { useMemo } from 'react';
 
-import { ReactComponent as ChatIcon } from 'uiKit/Icons/chat.svg';
-import { t } from 'modules/i18n/utils/intl';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
-import { FAQ_URL } from '../MainNavigation/MainNavigationUtils';
-import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
 import { ReactComponent as ActiveSettingsIcon } from 'uiKit/Icons/activeSetting.svg';
-
-const HAS_FAQ_LINK = false;
+import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { t } from 'modules/i18n/utils/intl';
 
 export const ExtraNavigation = () => {
-  const items = useMemo((): NavigationItem[] => {
-    const mainItems: NavigationItem[] = [
+  const items = useMemo(
+    (): NavigationItem[] => [
       {
         label: t('extra-navigation.settings'),
         StartIcon: SettingsIcon,
         ActiveIcon: ActiveSettingsIcon,
         href: UserSettingsRoutesConfig.settings.generatePath(),
       },
-    ];
-
-    if (HAS_FAQ_LINK) {
-      mainItems.unshift({
-        label: t('extra-navigation.faq'),
-        StartIcon: ChatIcon,
-        ActiveIcon: ChatIcon,
-        href: FAQ_URL,
-      });
-    }
-
-    return mainItems;
-  }, []);
+    ],
+    [],
+  );
 
   return <Navigation items={items} />;
 };

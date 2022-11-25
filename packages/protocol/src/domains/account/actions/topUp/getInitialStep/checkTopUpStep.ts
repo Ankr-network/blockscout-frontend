@@ -8,13 +8,13 @@ export const checkTopUpStep = async (
   store: RequestsStore,
   topUpTransactionHash?: string,
 ) => {
-  const service = await MultiService.getInstance();
+  const service = await MultiService.getWeb3Service();
 
   if (!topUpTransactionHash) return TopUpStep.deposit;
 
-  const transactionReceipt = await service.getTransactionReceipt(
-    topUpTransactionHash,
-  );
+  const transactionReceipt = await service
+    .getContractService()
+    .getTransactionReceipt(topUpTransactionHash);
 
   if (transactionReceipt) return null;
 

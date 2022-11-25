@@ -9,7 +9,7 @@ import { fetchPublicRequestsCountStats } from '../actions/fetchPublicRequestsCou
 
 export interface PublicStatsParams {
   interval: Timeframe;
-  isWalletConnected: boolean;
+  hasCredentials: boolean;
   requestKey?: string;
 }
 
@@ -21,7 +21,7 @@ export interface PublicStatsReturn {
 
 export const usePublicRequestsCountStats = ({
   interval,
-  isWalletConnected,
+  hasCredentials,
 }: PublicStatsParams): PublicStatsReturn => {
   const {
     data,
@@ -40,10 +40,10 @@ export const usePublicRequestsCountStats = ({
   });
 
   useEffect(() => {
-    if (!isWalletConnected) {
+    if (!hasCredentials) {
       dispatchRequest(fetchPublicRequestsCountStats(interval));
     }
-  }, [dispatch, dispatchRequest, isWalletConnected, interval]);
+  }, [dispatch, dispatchRequest, hasCredentials, interval]);
 
   return {
     data,

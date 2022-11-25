@@ -14,9 +14,9 @@ export const fetchAggregatedPaymentHistory = createSmartAction<
   (params: Request, requestKey?: string) => ({
     request: {
       promise: (async (): Promise<Response> => {
-        const service = await MultiService.getInstance();
+        const service = MultiService.getService();
 
-        return service.getAggregatedPaymentHistory(params);
+        return service.getAccountGateway().getAggregatedPaymentHistory(params);
       })(),
     },
     meta: {

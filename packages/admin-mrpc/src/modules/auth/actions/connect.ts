@@ -18,7 +18,7 @@ export const {
     authConnect: build.query<IResponseData, void>({
       queryFn: async () => {
         await connectProvider();
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const { currentAccount: address } = service.getKeyProvider();
         const backofficeAuthorizationToken = await service.authorizeBackoffice(
           TOKEN_LIFETIME,

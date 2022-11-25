@@ -1,5 +1,5 @@
+import { EEthereumNetworkId, AvailableReadProviders } from '@ankr.com/provider';
 import { Environment } from 'multirpc-sdk';
-import { EEthereumNetworkId } from '@ankr.com/provider';
 
 export const API_ENV: Environment =
   (process.env.REACT_APP_API_ENV as Environment) ?? 'staging';
@@ -10,4 +10,12 @@ export const getExpectedChainId = (env: Environment) => {
   }
 
   return EEthereumNetworkId.goerli;
+};
+
+export const getReadProviderId = (env: Environment) => {
+  if (env === 'prod') {
+    return AvailableReadProviders.ethMainnet;
+  }
+
+  return AvailableReadProviders.ethGoerli;
 };

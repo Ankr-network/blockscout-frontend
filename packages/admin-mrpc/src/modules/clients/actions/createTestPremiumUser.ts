@@ -20,7 +20,7 @@ export const {
   endpoints: build => ({
     createTestPremiumUser: build.mutation<IApiResponse, IRequestParams>({
       queryFn: async formData => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
 

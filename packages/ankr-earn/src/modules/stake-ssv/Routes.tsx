@@ -1,5 +1,7 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
+import { EWalletId } from '@ankr.com/provider';
+
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { loadComponent } from 'modules/common/utils/loadComponent';
@@ -8,8 +10,8 @@ import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 
-import { SupportGuard } from './components/SupportGuard';
 import { SSV_STAKING_NETWORKS } from './const';
+import { SupportGuard } from './screens/SupportGuard';
 import { TSSVToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}ethereum-ssv/`;
@@ -47,38 +49,31 @@ const StakeStep = loadComponent(() =>
 );
 
 export function getRoutes(): JSX.Element {
+  const commonGuardProps = {
+    exact: true,
+    availableNetworks: SSV_STAKING_NETWORKS,
+    supportSlot: <SupportGuard />,
+    notSupportedWallets: [EWalletId.coin98, EWalletId.trust],
+  };
+
   return (
     <Route path={[RoutesConfig.root]}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={SSV_STAKING_NETWORKS}
-          path={RoutesConfig.stake.path}
-        >
+        <GuardETHRoute {...commonGuardProps} path={RoutesConfig.stake.path}>
           <DefaultLayout>
-            <SupportGuard>
-              <Stake />
-            </SupportGuard>
+            <Stake />
           </DefaultLayout>
         </GuardETHRoute>
 
-        <GuardETHRoute
-          exact
-          availableNetworks={SSV_STAKING_NETWORKS}
-          path={RoutesConfig.stakeStep.path}
-        >
+        <GuardETHRoute {...commonGuardProps} path={RoutesConfig.stakeStep.path}>
           <DefaultLayout>
-            <SupportGuard>
-              <StakeStep />
-            </SupportGuard>
+            <StakeStep />
           </DefaultLayout>
         </GuardETHRoute>
 
         <Route>
           <DefaultLayout>
-            <SupportGuard>
-              <PageNotFound />
-            </SupportGuard>
+            <PageNotFound />
           </DefaultLayout>
         </Route>
       </Switch>

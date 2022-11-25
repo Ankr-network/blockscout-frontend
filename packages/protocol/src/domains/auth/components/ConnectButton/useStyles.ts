@@ -1,7 +1,7 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme, boolean>(theme => ({
-  menuButton: isMobile =>
+export const useStyles = makeStyles<Theme, { isMobile?: boolean }>(theme => ({
+  menuButton: ({ isMobile }) =>
     isMobile
       ? {
           position: 'relative',

@@ -11,10 +11,12 @@ export const checkFirstTopUpStep = async (
   address: string,
   store: RequestsStore,
 ) => {
-  const service = await MultiService.getInstance();
+  const service = await MultiService.getWeb3Service();
   const keyProvider = service.getKeyProvider();
 
-  const lastTopUpEvent = await service.getLastLockedFundsEvent(address);
+  const lastTopUpEvent = await service
+    .getContractService()
+    .getLastLockedFundsEvent(address);
 
   const value = keyProvider
     .getWeb3()
@@ -31,16 +33,16 @@ export const checkFirstTopUpStep = async (
   const isTopupAfterTokenExpiration =
     Boolean(lastTopUpEvent) &&
     connectData?.credentials &&
-    !connectData?.credentials.endpoint_token &&
+    !connectData?.workerTokenData?.userEndpointToken &&
     amount.isGreaterThanOrEqualTo(MIN_ANKR_AMOUNT);
 
   const hasFirstTopUp = isFirstTopup || isTopupAfterTokenExpiration;
 
   if (!hasFirstTopUp) return null;
 
-  const transactionReceipt = await service.getTransactionReceipt(
-    lastTopUpEvent?.transactionHash as string,
-  );
+  const transactionReceipt = await service
+    .getContractService()
+    .getTransactionReceipt(lastTopUpEvent?.transactionHash as string);
 
   if (transactionReceipt) return TopUpStep.login;
 

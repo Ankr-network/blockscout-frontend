@@ -7,15 +7,35 @@ import { usePremiumBlockStyles } from './usePremiumBlockStyles';
 import { NavLink } from 'ui';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { PricingTopUp } from './PricingTopUp';
+import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+import { shouldShowConnectWalletButton } from './PremiumBlockUtils';
 
 interface PremiumBlockProps {
-  isWalletConnected?: boolean;
+  hasCredentials: boolean;
+  hasOauthLogin?: boolean;
+  hasWeb3Connection?: boolean;
+  address?: string;
+  isUserAddress: boolean;
 }
 
 export const PREMIUM_BLOCK_ANCHOR = 'premiumBlock';
 
-export const PremiumBlock = ({ isWalletConnected }: PremiumBlockProps) => {
+export const PremiumBlock = ({
+  hasOauthLogin,
+  hasWeb3Connection,
+  hasCredentials,
+  address,
+  isUserAddress,
+}: PremiumBlockProps) => {
   const classes = usePremiumBlockStyles();
+
+  const { hasConnectButton, isNewWeb3UserWithBindedEmail } =
+    shouldShowConnectWalletButton({
+      hasOauthLogin,
+      hasWeb3Connection,
+      hasCredentials,
+      isUserAddress,
+    });
 
   return (
     <>
@@ -34,12 +54,21 @@ export const PremiumBlock = ({ isWalletConnected }: PremiumBlockProps) => {
               {tHTML('plan.premium-block.title')}
             </Typography>
             <Box className={classes.form}>
-              {isWalletConnected ? (
-                <PricingTopUp />
-              ) : (
+              {hasConnectButton ? (
                 <div className={classes.button}>
-                  <ConnectButton variant="contained" />
+                  <ConnectButton
+                    variant="contained"
+                    buttonText={
+                      isNewWeb3UserWithBindedEmail
+                        ? t('header.wallet-button-address', {
+                            address: shrinkAddress(address),
+                          })
+                        : undefined
+                    }
+                  />
                 </div>
+              ) : (
+                <PricingTopUp />
               )}
             </Box>
             <Typography variant="body2" className={classes.info}>

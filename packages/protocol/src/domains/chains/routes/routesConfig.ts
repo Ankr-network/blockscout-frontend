@@ -3,7 +3,6 @@ import { generatePath, useParams } from 'react-router-dom';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const INDEX_PATH = '/';
-export const INDEX_MM_PATH = `${INDEX_PATH}mm/`;
 export const PATH_CHAIN_DETAILS = `${INDEX_PATH}:chainId/:netId?`;
 export const PATH_ADD_ENDPOINT = `${INDEX_PATH}:chainId/add`;
 
@@ -17,11 +16,6 @@ export const ChainsRoutesConfig = createRouteConfig(
     chains: {
       path: INDEX_PATH,
       generatePath: () => INDEX_PATH,
-      breadcrumbs: 'chains.breadcrumbs',
-    },
-    mmChains: {
-      path: INDEX_MM_PATH,
-      generatePath: () => INDEX_MM_PATH,
       breadcrumbs: 'chains.breadcrumbs',
     },
     chainDetails: {

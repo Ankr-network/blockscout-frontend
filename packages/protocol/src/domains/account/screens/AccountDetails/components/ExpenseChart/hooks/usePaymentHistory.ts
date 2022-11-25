@@ -15,14 +15,14 @@ const defaultData: IAggregatedPaymentHistoryResponse = {
 };
 
 export interface PaymentHistoryParams {
-  isConnected: boolean;
+  hasCredentials: boolean;
   timeframe: ChartTimeframe;
 }
 
 export type PaymentHistory = [IPaymentHistoryEntity[], boolean];
 
 export const usePaymentHistory = ({
-  isConnected,
+  hasCredentials,
   timeframe,
 }: PaymentHistoryParams): PaymentHistory => {
   const {
@@ -33,7 +33,7 @@ export const usePaymentHistory = ({
   const dispatch = useDispatchRequest();
 
   useEffect(() => {
-    if (isConnected) {
+    if (hasCredentials) {
       const borders = getTimeframeBorders(timeframe);
 
       dispatch(
@@ -44,7 +44,7 @@ export const usePaymentHistory = ({
         }),
       );
     }
-  }, [dispatch, isConnected, timeframe]);
+  }, [dispatch, hasCredentials, timeframe]);
 
   return [transactions, loading];
 };

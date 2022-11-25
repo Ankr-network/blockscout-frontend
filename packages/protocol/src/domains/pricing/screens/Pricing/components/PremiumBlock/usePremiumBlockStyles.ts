@@ -50,7 +50,7 @@ export const usePremiumBlockStyles = makeStyles<Theme>(theme => ({
   },
   title: {
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(7.5),
+    marginBottom: theme.spacing(5),
     fontSize: 35,
     maxWidth: 500,
     marginLeft: 'auto',

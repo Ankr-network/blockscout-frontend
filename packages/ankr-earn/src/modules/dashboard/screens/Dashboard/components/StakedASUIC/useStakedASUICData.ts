@@ -5,6 +5,8 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { configFromEnv } from 'modules/api/config';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useAddSUITokenToWalletMutation } from 'modules/stake-sui/actions/addSUITokenToWallet';
+import { RoutesConfig } from 'modules/stake-sui/Routes';
 
 const token = Token.aSUIc;
 
@@ -30,6 +32,8 @@ export interface IStakedASUICData {
 export const useStakedASUICData = (): IStakedASUICData => {
   const { suiConfig } = configFromEnv();
 
+  const [addSUITokenToWallet] = useAddSUITokenToWalletMutation();
+
   return {
     amount: ZERO.plus(1),
     chainId: 0,
@@ -41,11 +45,11 @@ export const useStakedASUICData = (): IStakedASUICData => {
     network: ' ',
     pendingValue: ZERO,
     ratio: ZERO,
-    stakeLink: ' ',
+    stakeLink: RoutesConfig.stake.generatePath(),
     token,
     tokenAddress: suiConfig.aSUIcToken,
-    unstakeLink: ' ',
+    unstakeLink: RoutesConfig.unstake.generatePath(),
     usdAmount: ZERO,
-    onAddTokenToWallet: () => null,
+    onAddTokenToWallet: addSUITokenToWallet,
   };
 };

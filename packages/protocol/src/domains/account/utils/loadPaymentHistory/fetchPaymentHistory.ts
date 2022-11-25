@@ -46,13 +46,13 @@ export const fetchPaymentHistory = async ({
   transactionsCursor,
   types,
 }: FetchPaymentHistoryParams): Promise<FetchedPaymentHistory> => {
-  const service = await MultiService.getInstance();
+  const service = MultiService.getService();
 
   const { deductionsOnly, withDeductions } = parseTypes(types);
 
   const requests: Requests = [
     transactionsCursor >= 0 && !deductionsOnly
-      ? service.getPaymentHistory({
+      ? service.getAccountGateway().getPaymentHistory({
           cursor: transactionsCursor,
           from,
           limit: DEFAULT_LIMIT,
@@ -63,7 +63,7 @@ export const fetchPaymentHistory = async ({
         })
       : defaultRequest,
     deductionsCursor >= 0 && withDeductions
-      ? service.getAggregatedPaymentHistory({
+      ? service.getAccountGateway().getAggregatedPaymentHistory({
           cursor: deductionsCursor,
           from,
           limit: DEFAULT_LIMIT,

@@ -35,13 +35,14 @@ export const useStyles = makeStyles<Theme, IUseStylesProps>(theme => ({
     padding: 0,
     marginBottom: theme.spacing(3),
     letterSpacing: '0.05em',
+    position: 'relative',
 
     [theme.breakpoints.down('xs')]: {
       marginBottom: theme.spacing(1),
     },
 
     '& h2': {
-      fontSize: 34,
+      fontSize: 28,
       fontWeight: 700,
       color: ({ dialogTitleColor }: { dialogTitleColor: DialogTitleColor }) =>
         colorsMap[dialogTitleColor],
@@ -66,16 +67,15 @@ export const useStyles = makeStyles<Theme, IUseStylesProps>(theme => ({
     width: 40,
     height: 40,
     fontSize: '2rem',
-    right: theme.spacing(5),
-    top: theme.spacing(5),
+    right: 0,
 
     [theme.breakpoints.down('xs')]: {
       width: 32,
       height: 32,
       fontSize: '1.7rem',
       borderRadius: 11,
-      right: theme.spacing(3),
-      top: theme.spacing(3),
+      right: 0,
+      top: 5,
     },
 
     '& svg': {

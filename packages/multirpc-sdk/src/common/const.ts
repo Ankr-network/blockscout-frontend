@@ -50,3 +50,5 @@ export const PROD_CONFIG: IConfig = {
   premiumPlanContractCreationBlockNumber: 13_468_996,
   payAsYouGoContractCreationBlockNumber: 14_787_826,
 };
+
+export const DATE_MULTIPLIER = 1_000_000;

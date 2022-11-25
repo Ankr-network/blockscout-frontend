@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-import { AXIOS_DEFAULT_CONFIG, IJwtToken } from '../common';
+import { AXIOS_DEFAULT_CONFIG } from '../common';
 import {
   IImportJWTTokenResult,
   IPrivateEndpoint,
@@ -9,26 +9,25 @@ import {
   RestrictedDomains,
   RestrictedIps,
 } from './types';
-import { IWorkerGateway } from './interfaces';
 
-export class WorkerGateway implements IWorkerGateway {
+export class WorkerGateway {
   public api: AxiosInstance;
 
   constructor(private readonly config: AxiosRequestConfig) {
     this.api = axios.create({ ...config, ...AXIOS_DEFAULT_CONFIG });
   }
 
-  addJwtToken(jwtToken: IJwtToken) {
+  public addJwtToken(signedToken: string) {
     this.api = axios.create({
       ...this.config,
       ...AXIOS_DEFAULT_CONFIG,
       headers: {
-        Authorization: `Bearer ${jwtToken.signed_token}`,
+        Authorization: `Bearer ${signedToken}`,
       },
     });
   }
 
-  removeJwtToken() {
+  public removeJwtToken() {
     this.api = axios.create({ ...this.config, ...AXIOS_DEFAULT_CONFIG });
   }
 

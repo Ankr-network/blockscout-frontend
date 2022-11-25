@@ -172,6 +172,7 @@
       "/account/success/",
       "/account/failure/",
       "/settings/confirmation",
+      "/oauth/",
       "/mm/"
     ],
     "inlineCss": true

@@ -16,12 +16,21 @@ import { SupportBlock } from './components/SupportBlock';
 import background from './assets/background.png';
 import mobile from './assets/mobile.png';
 import { Features } from './components/Features';
+import { EthAddressType } from 'multirpc-sdk';
 
 export const Pricing = () => {
   const classes = usePricingStyles();
   const isMobile = useIsXSDown();
   const history = useHistory();
-  const { credentials, loading, isWalletConnected } = useAuth();
+  const {
+    credentials,
+    loading,
+    isWalletConnected,
+    hasWeb3Connection,
+    hasOauthLogin,
+    address,
+    ethAddressType,
+  } = useAuth();
 
   useEffect(() => {
     if (credentials || (isWalletConnected && history.action === 'REPLACE')) {
@@ -65,7 +74,13 @@ export const Pricing = () => {
               className={classes.start}
               style={{ backgroundImage: isMobile ? '' : `url(${background})` }}
             >
-              <PremiumBlock isWalletConnected={isWalletConnected} />
+              <PremiumBlock
+                hasWeb3Connection={hasWeb3Connection}
+                hasOauthLogin={hasOauthLogin}
+                hasCredentials={Boolean(credentials)}
+                address={address}
+                isUserAddress={ethAddressType === EthAddressType.User}
+              />
               <SupportBlock />
               {isMobile && <img src={mobile} alt="logos" />}
             </Box>

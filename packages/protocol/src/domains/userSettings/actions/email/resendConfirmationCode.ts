@@ -24,11 +24,11 @@ export const resendConfirmationCode = createSmartAction<
 
     onRequest: () => ({
       promise: (async (): Promise<string> => {
-        const service = await MultiService.getInstance();
+        const service = MultiService.getService();
 
-        const accountGateway = service.getAccountGateway();
-
-        const response = await accountGateway.resendConfirmationCode(email);
+        const response = await service
+          .getAccountGateway()
+          .resendConfirmationCode(email);
 
         return response;
       })(),

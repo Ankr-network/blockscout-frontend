@@ -20,10 +20,12 @@ export const checkWithdrawStatus = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const service = await MultiService.getInstance();
+          const service = MultiService.getService();
 
           try {
-            const data = await service.getWithdrawalStatus(transactionHash);
+            const data = await service
+              .getAccountGateway()
+              .getWithdrawalStatus(transactionHash);
 
             const status = data?.withdraw?.status;
 

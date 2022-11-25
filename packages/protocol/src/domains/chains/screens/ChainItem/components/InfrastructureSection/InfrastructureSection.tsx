@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useDispatchRequest } from '@redux-requests/react';
+
 import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointQuery } from '../Endpoint/EndpointQuery';
@@ -9,6 +11,8 @@ import { canAddEndpoint } from '../Endpoint/EndpointUtils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useInfrastructureSectionStyles } from './InfrastructureSectionStyles';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
+import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
+import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 
 export interface InfrastructureSectionProps {
   chain: IApiChain;
@@ -23,11 +27,21 @@ export const InfrastructureSection = ({
   withMyEndpoints = true,
   withNodes = true,
 }: InfrastructureSectionProps) => {
+  const dispatchRequest = useDispatchRequest();
+
   const classes = useInfrastructureSectionStyles();
 
-  const { credentials, loading: authLoading } = useAuth();
+  const { credentials, loading: authLoading, workerTokenData } = useAuth();
   const { providerData, loading: providerLoading } = useProvider();
   const { chains } = group;
+
+  useEffect(() => {
+    if (credentials && workerTokenData) {
+      dispatchRequest(fetchProvider()).then(() =>
+        dispatchRequest(fetchEndpoints()),
+      );
+    }
+  }, [dispatchRequest, credentials, workerTokenData]);
 
   const chainId = useMemo(() => chains[0]?.id, [chains]);
 
@@ -39,13 +53,13 @@ export const InfrastructureSection = ({
             <TrafficFlow />
           )}
 
-          {!authLoading && !providerLoading && (
+          {!authLoading && !providerLoading && workerTokenData && (
             <>
-              {credentials && Boolean(providerData) && withMyEndpoints && (
+              {workerTokenData && Boolean(providerData) && withMyEndpoints && (
                 <EndpointQuery chainId={chain.id} />
               )}
 
-              {credentials && credentials.endpoint_token && (
+              {workerTokenData && workerTokenData?.userEndpointToken && (
                 <SecuritySettingsQuery chainId={chainId} />
               )}
             </>

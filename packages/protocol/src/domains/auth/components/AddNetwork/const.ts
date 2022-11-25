@@ -258,4 +258,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://scope.klaytn.com/'],
   },
+
+  [ChainID.KLAYTN_TESTNET]: {
+    chainId: 1001,
+    chainName: 'Klaytn Testnet Baobab',
+    nativeCurrency: {
+      name: 'KLAY',
+      symbol: 'KLAY',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://baobab.scope.klaytn.com/'],
+  },
 };
