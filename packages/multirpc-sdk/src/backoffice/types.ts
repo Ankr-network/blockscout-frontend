@@ -1,3 +1,4 @@
+import { Milliseconds } from '@ankr.com/utils';
 import {
   IPaymentHistoryEntityType,
   PrivateStats,
@@ -98,8 +99,8 @@ export type IStatsTimeframe = 'm5'|'m15'|'h1'|'d1';
 export interface IUserStatsByRangeRequest {
   address: Web3Address;
   timeframe: IStatsTimeframe;
-  from: number; // milliseconds
-  to: number; // milliseconds
+  from: Milliseconds;
+  to: Milliseconds;
 }
 
 export type IUserStatsResponse = PrivateStats;
