@@ -1,14 +1,14 @@
 import { Button } from '@material-ui/core';
 import { NavLink } from 'ui';
 
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
-import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
-import { t } from 'modules/i18n/utils/intl';
-import { useStyles } from './ChainsItemStyles';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
-import { useChainsItem } from '../../hooks/useChainsItem';
+import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
+import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { ChainsItemBaseProps } from './ChainsItemTypes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { t } from 'modules/i18n/utils/intl';
+import { useChainsItem } from '../../hooks/useChainsItem';
+import { useStyles } from './ChainsItemStyles';
 
 export const ChainsItemBase = ({
   chain,
@@ -27,7 +27,7 @@ export const ChainsItemBase = ({
 }: ChainsItemBaseProps) => {
   const classes = useStyles(isHighlighted);
 
-  const { label, tooltip, isSuiTestnet } = useChainsItem(chain, isPremium);
+  const { label, isSui, tooltip } = useChainsItem(chain, isPremium);
 
   return (
     <div role="button" tabIndex={0} onClick={handleOriginUrlClick}>
@@ -47,7 +47,7 @@ export const ChainsItemBase = ({
           isHighlighted={isHighlighted}
           isLoading={isLoading}
           label={
-            (chain.isArchive || isSuiTestnet) && (
+            (chain.isArchive || isSui) && (
               <ChainLabel
                 className={classes.archive}
                 label={label}

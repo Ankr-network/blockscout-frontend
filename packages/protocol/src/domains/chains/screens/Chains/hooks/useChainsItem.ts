@@ -27,9 +27,9 @@ export const useChainsItem = (
     number: urls.length,
   });
 
-  const isSuiTestnet = chain.id === ChainID.SUI_TESTNET;
+  const isSui = chain.id === ChainID.SUI;
 
-  const [label, tooltip] = isSuiTestnet
+  const [label, tooltip] = isSui
     ? [t('chains.beta'), '']
     : [t('chains.archive'), tHTML('chains.archive-tooltip-text')];
 
@@ -40,11 +40,11 @@ export const useChainsItem = (
   }, [path, dispatch]);
 
   return {
-    urls,
-    label,
-    tooltip,
-    isSuiTestnet,
     dummyMessage,
     handleOriginUrlClick,
+    isSui,
+    label,
+    tooltip,
+    urls,
   };
 };

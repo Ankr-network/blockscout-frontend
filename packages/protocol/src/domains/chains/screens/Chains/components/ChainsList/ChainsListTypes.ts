@@ -16,6 +16,7 @@ export interface ChainsListProps {
 export interface Chain {
   extenders?: IApiChain[];
   extensions?: IApiChain[];
+  frontChain?: IApiChain['frontChain'];
   icon: string;
   id: ChainID;
   isArchive?: boolean;
