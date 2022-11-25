@@ -27,19 +27,19 @@ export const MENU_LIST = [
     chainId: ChainId.Solana,
     name: 'Solana',
     logo: <SolanaLogo />,
-    url: 'https://solana.public-rpc.com/ ',
+    url: 'https://solana.public-rpc.com/',
   },
   {
     chainId: ChainId.BSC,
     name: 'Binance Smart Chain',
     logo: <BinanceLogo />,
-    url: 'https://bscrpc.com/ ',
+    url: 'https://bscrpc.com/',
   },
   {
     chainId: ChainId.Polygon,
     name: 'Polygon',
     logo: <PolygonLogo />,
-    url: 'https://rpc.ankr.com/polygon ',
+    url: ' https://polygon-rpc.com/',
   },
   {
     chainId: ChainId.Nervos,
@@ -57,7 +57,7 @@ export const MENU_LIST = [
     chainId: ChainId.Fantom,
     name: 'Fantom',
     logo: <FantomLogo />,
-    url: 'https://rpc.ankr.com/fantom ',
+    url: 'https://rpc.ftm.tools/',
   },
   {
     chainId: ChainId.Avalanche,
