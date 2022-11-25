@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { IpcProvider, WebsocketProvider } from 'web3-core';
 import { Address } from '../utils/types';
-import { Web3KeyWriteProvider } from '../utils/Web3KeyWriteProvider';
+import { Web3KeyWriteProvider } from '../providerManager';
 
 export interface EventProvider
   extends Omit<IpcProvider | WebsocketProvider, 'on'> {

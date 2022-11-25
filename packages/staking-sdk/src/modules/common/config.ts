@@ -40,6 +40,7 @@ export interface IBinanceConfig {
   aMATICbToken: string;
   aMATICcToken: string;
   aETHbToken: string;
+  swapPool: string;
 
   /**
    * deprecated aETHc (certificate) token
@@ -127,6 +128,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     aETHcToken: '0x0ae4837cf3d254e4a1b5a77c0fac591ba253773d',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
+    swapPool: '0x0988fBea4B84C135663d0504A5EF9f5447B0F2ED',
   },
   fantomConfig: {
     fantomPool: '0x7B72E8117E69951F1b00178016EEaEE4ce715f28',
@@ -217,6 +219,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aETHcToken: '0xe05a08226c49b636acf99c40da8dc6af83ce5bb3',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
+    swapPool: '0xaf565322d1c3d681F1e8884B4781f62368fc2344',
   },
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',

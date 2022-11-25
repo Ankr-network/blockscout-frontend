@@ -60,6 +60,7 @@ export interface IUnstakeDialogProps {
   isWithApprove?: boolean;
   isApproveLoading?: boolean;
   maxAmountDecimals?: number;
+  maxAmount?: BigNumber;
   networkTitleSlot?: JSX.Element;
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
   onClose?: () => void;
@@ -67,6 +68,7 @@ export interface IUnstakeDialogProps {
   extraValidation?: (
     data: Partial<IUnstakeFormValues>,
     errors: FormErrors<IUnstakeFormValues>,
+    maxAmount?: BigNumber,
   ) => FormErrors<IUnstakeFormValues>;
   onChange?: (values: IUnstakeFormValues, invalid: boolean) => void;
   isExternalAllowed?: boolean;
@@ -77,7 +79,7 @@ export const UnstakeDialog = ({
   isDisabled,
   isLoading,
   submitDisabled,
-  balance,
+  balance = ZERO,
   closeHref,
   endDate,
   endText,
@@ -93,9 +95,12 @@ export const UnstakeDialog = ({
   renderFormFooter,
   onChange,
   isExternalAllowed,
+  maxAmount,
 }: IUnstakeDialogProps): JSX.Element => {
   const classes = useUnstakeDialogStyles();
-  const maxAmount = balance || ZERO;
+  const maxAmountValue = maxAmount
+    ? BigNumber.minimum(maxAmount, balance)
+    : balance;
   const formRef =
     useRef<FormApi<IUnstakeFormValues, Partial<IUnstakeFormValues>>>();
 
@@ -114,9 +119,11 @@ export const UnstakeDialog = ({
     (data: IUnstakeFormValues) => {
       const errors: FormErrors<IUnstakeFormValues> = {};
 
-      return extraValidation ? extraValidation(data, errors) : errors;
+      return extraValidation
+        ? extraValidation(data, errors, maxAmount)
+        : errors;
     },
-    [extraValidation],
+    [extraValidation, maxAmount],
   );
 
   useEffect(() => {
@@ -151,14 +158,14 @@ export const UnstakeDialog = ({
                     maxDecimals={maxAmountDecimals}
                     name={FieldsNames.amount}
                     tokenName={token}
-                    onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
+                    onMaxClick={setMaxAmount(form, maxAmountValue.toFormat())}
                   />
                 </Box>
 
                 {renderFormFooter &&
                   renderFormFooter(
                     new BigNumber(values.amount ?? 0),
-                    new BigNumber(maxAmount),
+                    new BigNumber(maxAmountValue),
                   )}
               </Container>
 

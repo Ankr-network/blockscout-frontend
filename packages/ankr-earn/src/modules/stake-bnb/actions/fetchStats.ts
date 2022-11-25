@@ -17,6 +17,8 @@ interface IFetchStatsResponseData {
   aBNBcRatio: BigNumber;
   aETHBalance: BigNumber;
   aETHRatio: BigNumber;
+  poolBalance: BigNumber;
+  instantFee: BigNumber;
 }
 
 export const fetchStats = createSmartAction<
@@ -37,6 +39,8 @@ export const fetchStats = createSmartAction<
           aBNBcBalance,
           aETHBalance,
           aETHRatio,
+          poolBalance,
+          instantFee,
         ] = await Promise.all([
           sdk.getABBalance(),
           sdk.getBNBBalance(),
@@ -46,6 +50,8 @@ export const fetchStats = createSmartAction<
           sdk.getACBalance(),
           sdk.getAETHBalance(),
           sdk.getAETHRatio(),
+          sdk.getWBNBSwapPoolBalance(),
+          sdk.getSwapPoolUnstakeFee(),
         ]);
 
         return {
@@ -59,6 +65,8 @@ export const fetchStats = createSmartAction<
           minStake: minimumStake,
           minAbnbbUnstake: minimumStake,
           minAbnbcUnstake: minimumStake.multipliedBy(aBNBcRatio),
+          poolBalance,
+          instantFee,
         };
       },
     },

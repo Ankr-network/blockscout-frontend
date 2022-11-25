@@ -8,7 +8,7 @@ interface IGlobalTrustWallet {
 export const getIsTrustWallet = (
   trustwallet: IGlobalTrustWallet,
 ): trustwallet is IGlobalTrustWallet => {
-  return !!trustwallet;
+  return !!trustwallet?.isTrustWallet;
 };
 
 export const getIsTrustWalletInjected = (): boolean => {
@@ -16,5 +16,5 @@ export const getIsTrustWalletInjected = (): boolean => {
     trustwallet: IGlobalTrustWallet;
   };
 
-  return !!trustwallet && trustwallet.isTrustWallet;
+  return !!trustwallet?.isTrustWallet;
 };

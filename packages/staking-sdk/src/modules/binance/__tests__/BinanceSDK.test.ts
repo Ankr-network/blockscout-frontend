@@ -1,10 +1,11 @@
+import BigNumber from 'bignumber.js';
+import { TransactionReceipt } from 'web3-core';
+
 import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
+  ProviderManager,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-
-import { ProviderManager } from '@ankr.com/provider';
 
 import { BinanceSDK, EBinanceErrorCodes, EBinancePoolEvents } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
@@ -53,6 +54,7 @@ describe('modules/binance/sdk', () => {
     connect: jest.fn(),
     addTokenToWallet: jest.fn(),
     sendTransactionAsync: jest.fn(),
+    getSafeGasPriceWei: jest.fn(),
   };
 
   beforeEach(() => {
@@ -439,6 +441,170 @@ describe('modules/binance/sdk', () => {
     const balance = await sdk.getAETHCBalance();
 
     expect(balance).toStrictEqual(new BigNumber(10_000));
+  });
+
+  test('should return swap pool unstake fee', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        unstakeFee: jest.fn(() => ({ call: () => new BigNumber(10_000) })),
+      },
+    };
+
+    // defaultWeb3.eth.getBalance.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const fee = await sdk.getSwapPoolUnstakeFee();
+
+    expect(fee).toStrictEqual(new BigNumber(100));
+  });
+
+  test('should return WBNB swap pool balance', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        wbnbAmount: jest.fn(() => ({ call: () => new BigNumber(10_000) })),
+      },
+    };
+
+    // defaultWeb3.eth.getBalance.mockReturnValue(contract);
+    defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (ProviderManager as jest.Mock).mockReturnValue({
+      getETHWriteProvider: () =>
+        Promise.resolve({ ...defaultWriteProvider, ...defaultReadProvider }),
+      getETHReadProvider: () => Promise.resolve(defaultReadProvider),
+    });
+
+    const sdk = await BinanceSDK.getInstance();
+
+    const balance = await sdk.getWBNBSwapPoolBalance();
+
+    expect(balance).toStrictEqual(new BigNumber(10_000));
+  });
+
+  test('should flash unstake tokens', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        swapEth: jest.fn(() => ({
+          estimateGas: jest.fn(),
+          encodeABI: jest.fn(),
+        })),
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
+
+    // defaultWriteProvider.getSafeGasPriceWei.mockReturnValue(
+    //   Promise.resolve(new BigNumber(1)),
+    // );
+
+    defaultWriteProvider.isConnected.mockReturnValue(false);
+
+    const sdk = await BinanceSDK.getInstance();
+
+    await sdk.flashUnstake(new BigNumber(1), 'aMATICc');
+
+    expect(contract.methods.swapEth).toBeCalledTimes(1);
+  });
+
+
+  test('should return "false" on approve certificate token', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => '0',
+        }),
+        approve: () => ({
+          estimateGas: (): Promise<BigNumber> => Promise.resolve(new BigNumber(1)),
+          send: (): undefined => undefined,
+        }),
+      },
+    };
+
+    defaultReadProvider.createContract.mockReturnValue(contract);
+
+    defaultWriteProvider.getSafeGasPriceWei.mockReturnValue(
+      Promise.resolve(new BigNumber(1)),
+    );
+
+    const sdk = await BinanceSDK.getInstance();
+    const data = await sdk.approveACTokenForSwapPool(new BigNumber(1));
+
+    expect(data).toBe(false);
+  });
+
+  test('should approve certificate token', async () => {
+    const TX_RECEIPT: TransactionReceipt = {
+      blockHash: 'test-hash',
+      blockNumber: 1,
+      cumulativeGasUsed: 1,
+      effectiveGasPrice: 1,
+      from: '1',
+      gasUsed: 1,
+      logs: [],
+      logsBloom: '1',
+      status: true,
+      to: '2',
+      transactionHash: 'test-hash',
+      transactionIndex: 1,
+    };
+
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => '0',
+        }),
+        approve: () => ({
+          estimateGas: (): Promise<BigNumber> => Promise.resolve(new BigNumber(1)),
+          send: (): TransactionReceipt => TX_RECEIPT,
+        }),
+      },
+    };
+
+    defaultReadProvider.createContract.mockReturnValue(contract);
+
+    defaultWriteProvider.getSafeGasPriceWei.mockReturnValue(
+      Promise.resolve(new BigNumber(1)),
+    );
+
+    const sdk = await BinanceSDK.getInstance();
+    const data = await sdk.approveACTokenForSwapPool(new BigNumber(1));
+
+    expect(data).toBe(true);
+  });
+
+  test('should approve certificate token if approved', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        allowance: () => ({
+          call: (): string => `${2 * 10 ** 18}`,
+        }),
+      },
+    };
+
+    defaultReadProvider.createContract.mockReturnValue(contract);
+
+    const sdk = await BinanceSDK.getInstance();
+    const data = await sdk.approveACTokenForSwapPool(new BigNumber(1));
+
+    expect(data).toBe(true);
   });
 
   test('should approve cetrificate for bond properly', async () => {

@@ -7,6 +7,7 @@ import { ExtraWriteProviders } from 'modules/common/types';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
 import { useConnectedData } from '../../hooks/useConnectedData';
+import { ConnectTileClover } from '../ConnectTileClover';
 import { ConnectTileCoin98 } from '../ConnectTileCoin98';
 import { ConnectTileCoinbase } from '../ConnectTileCoinbase';
 import { ConnectTileHuobi } from '../ConnectTileHuobi';
@@ -47,6 +48,10 @@ export const ConnectWalletsModal = (): JSX.Element => {
           <ConnectTileCoinbase />
 
           {isMobileDevice ? <ConnectTileTrustViaWC /> : <ConnectTileTrust />}
+
+          {featuresConfig.isCloverWalletSupportActive && !isMobileDevice && (
+            <ConnectTileClover />
+          )}
 
           <ConnectTileWalletConnect />
 

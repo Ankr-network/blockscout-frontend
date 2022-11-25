@@ -1,4 +1,4 @@
-import { sleep } from '@ankr.com/provider';
+import { sleep } from '@ankr.com/common';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
