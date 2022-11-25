@@ -16,6 +16,7 @@ import {
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
   IUserStatsRequest,
+  IUserStatsByRangeRequest,
   IUserStatsResponse,
   ICountersResponse,
   ICountersRequest,
@@ -25,6 +26,8 @@ import {
   IGetUserProfileResponse,
   IUpdateUserProfileRequest,
   IUpdateUserProfileResponse,
+  IGetUserRevenueRequest,
+  IGetUserRevenueResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -54,12 +57,20 @@ export interface IBackofficeGateway {
     params: IUpdateUserProfileRequest,
   ): Promise<IUpdateUserProfileResponse>;
 
+  getUserRevenue(
+    params: IGetUserRevenueRequest,
+  ): Promise<IGetUserRevenueResponse>;
+
   createTestPremiumUser(
     params: ICreateTestClientRequest,
   ): Promise<ICreateTestClientResponse>;
 
   getUserStats(
     params: IUserStatsRequest,
+  ): Promise<IUserStatsResponse>;
+
+  getUserStatsByRange(
+    params: IUserStatsByRangeRequest,
   ): Promise<IUserStatsResponse>;
 
   addVoucherCredits(

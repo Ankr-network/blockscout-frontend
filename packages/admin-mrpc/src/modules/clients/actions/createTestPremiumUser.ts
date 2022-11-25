@@ -1,5 +1,8 @@
 import { toast } from 'react-toastify';
-import { ICreateTestClientResponse, Web3Address } from 'multirpc-sdk';
+import {
+  ICreateTestClientRequest,
+  ICreateTestClientResponse,
+} from 'multirpc-sdk';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
@@ -8,17 +11,15 @@ interface IApiResponse {
   user: ICreateTestClientResponse;
 }
 
-interface IRequestParams {
-  address: Web3Address;
-  duration: number;
-}
-
 export const {
   useCreateTestPremiumUserMutation,
   endpoints: { createTestPremiumUser },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    createTestPremiumUser: build.mutation<IApiResponse, IRequestParams>({
+    createTestPremiumUser: build.mutation<
+      IApiResponse,
+      ICreateTestClientRequest
+    >({
       queryFn: async formData => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
