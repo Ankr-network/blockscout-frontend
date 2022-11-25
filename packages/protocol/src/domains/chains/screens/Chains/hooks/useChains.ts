@@ -28,30 +28,39 @@ export interface Chains {
 }
 
 export const useChains = (): Chains => {
-  const { credentials, loading: isConnecting, isWalletConnected } = useAuth();
+  const {
+    credentials,
+    loading: isConnecting,
+    isWalletConnected,
+    isLoggedIn,
+  } = useAuth();
+
+  const hasCredentials = Boolean(credentials);
 
   const [publicChains, publicAllChains, publicChainsLoading] =
     usePublicChains(credentials);
   const [privateChains, privateAllChains, privateChainsLoading] =
     usePrivateChains(credentials);
 
-  const [timeframe, switchStatsTimeframe] = useTimeframe(isWalletConnected);
+  const [timeframe, switchStatsTimeframe] = useTimeframe(hasCredentials);
 
   usePrivateStats({
     interval: timeframeToIntervalMap[timeframe],
-    isWalletConnected,
+    hasCredentials,
   });
 
   usePublicRequestsCountStats({
     interval: toTimeframeMap[timeframe],
-    isWalletConnected,
+    hasCredentials,
   });
 
-  const [sortType, setSortType] = useSortType(isWalletConnected);
+  const [sortType, setSortType] = useSortType(isLoggedIn);
+
+  // console.log(sortType);
 
   return {
-    chains: credentials ? privateChains : publicChains,
-    allChains: credentials ? privateAllChains : publicAllChains,
+    chains: hasCredentials ? privateChains : publicChains,
+    allChains: hasCredentials ? privateAllChains : publicAllChains,
     credentials,
     isConnecting,
     isWalletConnected,

@@ -16,7 +16,7 @@ export const redirectIfCredentials = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
@@ -27,7 +27,7 @@ export const redirectIfCredentials = createSmartAction<
 
           if (
             connectData?.credentials &&
-            connectData?.credentials.endpoint_token
+            connectData?.workerTokenData?.userEndpointToken
           ) {
             resetTransactionSliceAndRedirect(store, address);
 

@@ -4,7 +4,7 @@ export enum DialogTitleColor {
 }
 
 export type DialogTitle = {
-  title: string;
+  title?: string;
   color?: DialogTitleColor;
 };
 

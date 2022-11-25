@@ -69,7 +69,7 @@ export const waitTransactionConfirming = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async () => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = service.getKeyProvider();
 
@@ -101,7 +101,9 @@ export const waitTransactionConfirming = createSmartAction<
           }
 
           // step 4: we already haven't had pending transaction and a receipt too -> check the latest top up transaction
-          const lastTopUpEvent = await service.getLastLockedFundsEvent(address);
+          const lastTopUpEvent = await service
+            .getContractService()
+            .getLastLockedFundsEvent(address);
 
           const currentBlockNumber = await provider
             .getWeb3()

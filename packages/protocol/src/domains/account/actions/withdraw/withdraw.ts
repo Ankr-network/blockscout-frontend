@@ -35,7 +35,7 @@ export const withdraw = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async (): Promise<any> => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
@@ -51,9 +51,9 @@ export const withdraw = createSmartAction<
             );
           }
 
-          const witdrawResponse = await service.withdrawAnkr(
-            new BigNumber(amount),
-          );
+          const witdrawResponse = await service
+            .getContractService()
+            .withdrawAnkr(new BigNumber(amount));
 
           setTransaction(store, address, witdrawResponse.transactionHash);
 

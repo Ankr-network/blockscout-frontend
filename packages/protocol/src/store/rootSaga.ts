@@ -7,8 +7,10 @@ import { connect } from 'domains/auth/actions/connect';
 import { disconnect } from 'domains/auth/actions/disconnect';
 import { notificationSaga } from 'domains/notification/effects/notificationSaga';
 import { MultiService } from 'modules/api/MultiService';
-import { MultiRpcSdk } from 'multirpc-sdk';
+import { MultiRpcWeb3Sdk } from 'multirpc-sdk';
 import { checkTheFirstCardPayment } from 'domains/account/actions/usdTopUp/checkTheFirstCardPayment';
+import { autoLogin } from 'domains/oauth/actions/autoLogin';
+import { loginUser } from 'domains/oauth/actions/loginUserByGoogleSecretCode';
 
 function* checkTheFirstCardPaymentSaga() {
   yield put(checkTheFirstCardPayment());
@@ -22,7 +24,7 @@ export function* rootSaga() {
   function* updateServiceSaga() {
     if (eventSaga) yield cancel(eventSaga);
 
-    const service: MultiRpcSdk = yield call(MultiService.getInstance);
+    const service: MultiRpcWeb3Sdk = yield call(MultiService.getWeb3Service);
 
     eventSaga = yield fork(
       { context: null, fn: providerEventsSaga },
@@ -41,4 +43,6 @@ export function* rootSaga() {
 
   yield takeEvery(success(connect.toString()), updateServiceSaga);
   yield takeEvery(success(connect.toString()), checkTheFirstCardPaymentSaga);
+  yield takeEvery(success(loginUser.toString()), checkTheFirstCardPaymentSaga);
+  yield takeEvery(success(autoLogin.toString()), checkTheFirstCardPaymentSaga);
 }

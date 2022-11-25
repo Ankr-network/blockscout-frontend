@@ -3,19 +3,20 @@ import { TabsManager } from 'uiKit/TabsManager';
 import { useTopUpTabsStyles } from './TopUpTabsStyles';
 
 interface ITopUpTabsProps {
-  canPayByCard: boolean;
+  canPayOnlyByCard: boolean;
 }
 
-export const TopUpTabs = ({ canPayByCard }: ITopUpTabsProps) => {
-  const classes = useTopUpTabsStyles();
+export const TopUpTabs = ({ canPayOnlyByCard }: ITopUpTabsProps) => {
+  const classes = useTopUpTabsStyles({ canPayOnlyByCard });
 
-  const [tabs, selectedTab] = useTopUpTabs(canPayByCard);
+  const [tabs, selectedTab] = useTopUpTabs(canPayOnlyByCard);
 
   return (
     <TabsManager
       selectedTab={selectedTab}
       tabs={tabs}
       className={classes.root}
+      allowSingleTab={false}
     />
   );
 };

@@ -6,9 +6,4 @@ export interface BlockchainUrls {
   wsURLs: string[];
 }
 
-export interface IIssueJwtTokenResult {
-  isReady: boolean;
-  remainingBlocks?: number;
-}
-
 export type FetchBlockchainUrlsResult = Record<string, BlockchainUrls>;

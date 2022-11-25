@@ -23,4 +23,5 @@ export interface ITopUpFormContext {
 export interface TopUpFormProps extends ITopUpFormContext {
   onSubmit: (data: TopUpFormValues) => void;
   hasLoginStep: boolean;
+  isWalletConnected: boolean;
 }

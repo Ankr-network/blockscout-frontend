@@ -29,7 +29,7 @@ export const useUsageData = ({
   group,
   timeframe,
 }: UsageDataParams): UsageData => {
-  const { isWalletConnected, loading: isConnecting } = useAuth();
+  const { isWalletConnected, loading: isConnecting, credentials } = useAuth();
   const chainId = getChainId({
     publicChain: chain,
     chainType,
@@ -40,9 +40,11 @@ export const useUsageData = ({
   const publicCheckedChainId = checkPublicSecretChainsAndGetChainId(chainId);
   const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);
 
+  const hasCredentials = Boolean(credentials);
+
   const publicStats = usePublicStats({
     chainId: publicCheckedChainId,
-    isWalletConnected,
+    hasCredentials,
     timeframe,
   });
 
@@ -52,7 +54,7 @@ export const useUsageData = ({
     privateStatsError,
   } = usePrivateStats({
     interval: timeframeToIntervalMap[timeframe],
-    isWalletConnected,
+    hasCredentials,
   });
 
   const userTopRequests = useUserTopRequests({
@@ -63,7 +65,7 @@ export const useUsageData = ({
 
   const [{ stats: day30PrivateStats = {} }, areDay30PrivateStatsLoading] =
     useMonthPrivateStats({
-      isWalletConnected,
+      hasCredentials,
     });
 
   const userTopRequestsIp = useUserRequestsByIp({
@@ -73,7 +75,6 @@ export const useUsageData = ({
 
   return getUsageData({
     isConnecting,
-    isWalletConnected,
     arePrivateStatsLoading:
       arePrivateStatsLoading || areDay30PrivateStatsLoading,
     privateStatsError,
@@ -83,5 +84,6 @@ export const useUsageData = ({
     timeframe,
     userTopRequests,
     userTopRequestsIp,
+    hasCredentials,
   });
 };

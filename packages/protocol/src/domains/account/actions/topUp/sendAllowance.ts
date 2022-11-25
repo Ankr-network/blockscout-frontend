@@ -19,11 +19,13 @@ export const sendAllowance = createSmartAction<
     onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
       return {
         promise: (async () => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getWeb3Service();
           const provider = service.getKeyProvider();
           const { currentAccount: address } = provider;
 
-          const allowanceResponse = await service.sendAllowanceForPAYG(amount);
+          const allowanceResponse = await service
+            .getContractService()
+            .sendAllowanceForPAYG(amount);
 
           const { transactionHash: allowanceTransactionHash } =
             allowanceResponse;

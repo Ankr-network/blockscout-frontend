@@ -11,15 +11,15 @@ export interface TimeframeResult {
 }
 
 export const useTimeframe = (): TimeframeResult => {
-  const { isWalletConnected } = useAuth();
+  const { credentials } = useAuth();
 
   const [tabs, initialTabID] = useMemo(() => {
-    const [timeframes, initial] = isWalletConnected
+    const [timeframes, initial] = credentials
       ? [usageTimeframe, Timeframe.Day]
       : [usageTimeframe, Timeframe.Month];
 
     return [timeframes.map<Tab<Timeframe>>(id => ({ id })), initial];
-  }, [isWalletConnected]);
+  }, [credentials]);
 
   const [timeframeTabs, timeframeTab] = useTabs<Timeframe>({
     initialTabID,

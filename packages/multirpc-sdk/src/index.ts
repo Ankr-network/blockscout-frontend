@@ -6,3 +6,4 @@ export * from './worker';
 export * from './account';
 export * from './backoffice';
 export * from './public';
+export * from './oauth';

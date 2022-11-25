@@ -11,11 +11,11 @@ export interface IGuardRoute extends RouteProps {
   isManualDisconnected: boolean;
 }
 
-export function useGuardAuth({
+export const useGuardAuth = ({
   hasCredentials,
   hasAuthData,
   isManualDisconnected,
-}: IGuardRoute) {
+}: IGuardRoute) => {
   const { address, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();
@@ -39,4 +39,4 @@ export function useGuardAuth({
     loading,
     shouldReplace,
   };
-}
+};

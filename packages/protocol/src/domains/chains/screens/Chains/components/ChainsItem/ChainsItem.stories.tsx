@@ -35,6 +35,7 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
           period="24h"
           timeframe={Timeframe.Month}
           totalRequests={chain.totalRequests.toString()}
+          urls={chain.urls}
         />
       </Box>
     </ThemeProvider>

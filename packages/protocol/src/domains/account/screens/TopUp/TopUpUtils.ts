@@ -136,7 +136,10 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
   };
 };
 
-export const useCheckConfirmedEmail = (hasCredentials: boolean) => {
+export const useCheckConfirmedEmail = (
+  hasCredentials: boolean,
+  isWalletConnected: boolean,
+) => {
   const dispatch = useDispatch();
 
   const {
@@ -146,10 +149,17 @@ export const useCheckConfirmedEmail = (hasCredentials: boolean) => {
   } = useEmailData();
 
   useEffect(() => {
-    if (hasCredentials) return;
+    if (hasCredentials || !isWalletConnected) return;
 
     if (!pristine && !emailDataLoading && !confirmedEmail) {
       dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
     }
-  }, [confirmedEmail, emailDataLoading, pristine, dispatch, hasCredentials]);
+  }, [
+    confirmedEmail,
+    emailDataLoading,
+    pristine,
+    dispatch,
+    hasCredentials,
+    isWalletConnected,
+  ]);
 };

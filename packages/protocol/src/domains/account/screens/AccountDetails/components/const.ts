@@ -1,7 +1,7 @@
 export const PRICING_LINK =
   'https://www.ankr.com/docs/build-blockchain/pricing-plans/';
 
-export const DEFAULT_USD_VALUE = 70;
+export const DEFAULT_USD_VALUE = 10;
 
 export const ANKR_CURRENCY = 'ANKR';
 

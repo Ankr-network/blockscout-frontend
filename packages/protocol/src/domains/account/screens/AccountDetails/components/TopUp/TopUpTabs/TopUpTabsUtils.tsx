@@ -9,31 +9,35 @@ export enum TopUpTabID {
   USD = 'USD',
 }
 
-export const useTopUpTabs = (isEligibleForCardPayment: boolean) => {
-  const initialTabID = isEligibleForCardPayment
-    ? TopUpTabID.USD
-    : TopUpTabID.ANKR;
+export const useTopUpTabs = (canPayOnlyByCard: boolean) => {
+  const initialTabID = canPayOnlyByCard ? TopUpTabID.USD : TopUpTabID.ANKR;
 
-  const rawTabs: Tab<TopUpTabID>[] = useLocaleMemo(
-    () => [
-      {
-        id: TopUpTabID.ANKR,
-        content: <TopUpForm />,
-        title: (isSelected: boolean) => (
-          <SecondaryTab isSelected={isSelected} label={TopUpTabID.ANKR} />
-        ),
-      },
+  const rawTabs: Tab<TopUpTabID>[] = useLocaleMemo(() => {
+    const tabs = [
       {
         id: TopUpTabID.USD,
         content: <USDTopUpForm />,
         title: (isSelected: boolean) => (
           <SecondaryTab isSelected={isSelected} label={TopUpTabID.USD} />
         ),
-        isDisabled: !isEligibleForCardPayment,
       },
-    ],
-    [],
-  );
+    ];
+
+    if (!canPayOnlyByCard) {
+      return [
+        {
+          id: TopUpTabID.ANKR,
+          content: <TopUpForm />,
+          title: (isSelected: boolean) => (
+            <SecondaryTab isSelected={isSelected} label={TopUpTabID.ANKR} />
+          ),
+        },
+        ...tabs,
+      ];
+    }
+
+    return tabs;
+  }, []);
 
   return useTabs({
     initialTabID,

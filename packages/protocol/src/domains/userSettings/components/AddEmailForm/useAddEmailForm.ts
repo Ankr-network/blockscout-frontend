@@ -1,8 +1,6 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
-import { connect } from 'domains/auth/actions/connect';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { addNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
 import { editEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
 import { resendConfirmationCode } from 'domains/userSettings/actions/email/resendConfirmationCode';
@@ -37,14 +35,8 @@ export const useAddEmailForm = ({
 }: IUseAddEmailFormProps) => {
   const dispatchRequest = useDispatchRequest();
 
-  const { isWalletConnected } = useAuth();
-
   const handleAddEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
-      if (!isWalletConnected) {
-        await dispatchRequest(connect());
-      }
-
       const { data, error } = await dispatchRequest(
         addNewEmailBinding({ email }),
       );
@@ -65,12 +57,7 @@ export const useAddEmailForm = ({
 
       return undefined;
     },
-    [
-      dispatchRequest,
-      isWalletConnected,
-      onFormStateChange,
-      onAddEmailSubmitSuccess,
-    ],
+    [dispatchRequest, onFormStateChange, onAddEmailSubmitSuccess],
   );
 
   const handleChangeEmailSubmit = useCallback(

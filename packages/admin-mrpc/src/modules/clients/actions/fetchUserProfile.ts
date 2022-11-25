@@ -14,7 +14,7 @@ export const {
   endpoints: build => ({
     fetchUserProfile: build.query<IGetUserProfileResponse, IApiRequestParams>({
       queryFn: async ({ address }) => {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
         const userProfileResponse = await backofficeGateway.getUserProfile({

@@ -24,9 +24,9 @@ export const fetchPublicRequestsCountStats = createAction<
       return {
         promise: (async () => {
           const totalRequestsData = (
-            await MultiService.getPublicInstance().getPublicTimeframeStats(
-              timeframe,
-            )
+            await MultiService.getService()
+              .getPublicGateway()
+              .getPublicTimeframesStats(timeframe)
           ).totalRequests;
 
           const legacyChainUrl: Record<string, string>[] = Object.keys(

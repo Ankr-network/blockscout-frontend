@@ -7,11 +7,15 @@ import { useWSEndpointsStyles } from './WSEndpointsStyles';
 
 export interface WSEndpointsProps {
   group: EndpointGroup;
+  hasConnectWalletMessage: boolean;
 }
 
 const title = t(`${root}.endpoints.websocket-title`);
 
-export const WSEndpoints = ({ group: { urls } }: WSEndpointsProps) => {
+export const WSEndpoints = ({
+  group: { urls },
+  hasConnectWalletMessage,
+}: WSEndpointsProps) => {
   const wss = urls.flatMap(({ ws }) => (ws ? [ws] : []));
 
   const classes = useWSEndpointsStyles();
@@ -20,7 +24,11 @@ export const WSEndpoints = ({ group: { urls } }: WSEndpointsProps) => {
     <div className={classes.wsEndpoints}>
       <EndpointsHeader title={title} />
       {wss.map(url => (
-        <Endpoint url={url} key={url} />
+        <Endpoint
+          url={url}
+          key={url}
+          hasConnectWalletMessage={hasConnectWalletMessage}
+        />
       ))}
     </div>
   ) : null;

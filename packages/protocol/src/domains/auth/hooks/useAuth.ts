@@ -1,52 +1,29 @@
-import { useCallback } from 'react';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectAuthData } from '../store/authSlice';
+import { useOauth } from 'domains/oauth/hooks/useOauth';
+import { useWeb3Connection } from './useWeb3Connection';
 
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
-import { connect } from '../actions/connect';
-import { disconnect } from '../actions/disconnect';
-import { addNetwork } from '../actions/addNetwork';
+export const useAuth = () => {
+  const authData = useAppSelector(selectAuthData);
 
-export function useAuth() {
-  const dispatchRequest = useDispatchRequest();
+  const {
+    loading: web3ConnectionLoading,
+    connectData,
+    ...rest
+  } = useWeb3Connection();
 
-  const handleConnect = useCallback(
-    async (walletId: string, isAutoConnect?: boolean) => {
-      const isManualConnected = !isAutoConnect;
+  const { loading: autologinLoading, ...oauthRest } = useOauth();
 
-      return dispatchRequest(connect(walletId, isManualConnected));
-    },
-    [dispatchRequest],
-  );
-
-  const handleDisconnect = useCallback(() => {
-    dispatchRequest(disconnect());
-  }, [dispatchRequest]);
-
-  const handleAddNetwork = useCallback(
-    chainParams => {
-      dispatchRequest(addNetwork(chainParams));
-    },
-    [dispatchRequest],
-  );
-
-  const { data, loading: loadingConnect } = useQuery({
-    action: connect,
-    type: connect.toString(),
-  });
-
-  const { loading: loadingDisconnect } = useMutation({
-    type: disconnect.toString(),
-  });
+  const { hasOauthLogin, hasWeb3Connection } = authData;
 
   return {
-    handleConnect,
-    handleDisconnect,
-    handleAddNetwork,
-    loading: loadingConnect || loadingDisconnect,
-    isWalletConnected: Boolean(data?.address),
-    ...data,
+    loading: web3ConnectionLoading || autologinLoading,
+    ...rest,
+    ...authData,
+    ...oauthRest,
+    credentials: authData.hasWeb3Connection
+      ? connectData?.credentials
+      : authData?.credentials,
+    isLoggedIn: Boolean(hasOauthLogin || hasWeb3Connection),
   };
-}
+};

@@ -13,7 +13,7 @@ interface WithdrawFormProps {
 }
 
 export const WithdrawFormContainer = ({ onClick, step }: WithdrawFormProps) => {
-  const { ankrBalanceWithoutVouchers, voucherBalance } = useBalance();
+  const { ankrBalanceWithoutVouchers, voucherBalance } = useBalance(true);
 
   const { handleSetAmount, loading } = useWithdraw();
 

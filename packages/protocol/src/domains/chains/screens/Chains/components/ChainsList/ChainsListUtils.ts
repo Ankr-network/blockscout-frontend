@@ -72,7 +72,7 @@ const extractCustomizedChains = (chains: Chain[]) =>
 
 export const sortChains = ({
   chains: rawChains = [],
-  isWalletConnected,
+  hasCredentials,
   sortType,
   stats,
 }: SortChainsParams): Chain[] => {
@@ -83,9 +83,7 @@ export const sortChains = ({
   const privateChainsSorter = (a: Chain, b: Chain) =>
     (stats[b.id]?.total_requests || 0) - (stats[a.id]?.total_requests || 0);
 
-  const usageSorter = isWalletConnected
-    ? privateChainsSorter
-    : publicChainsSorter;
+  const usageSorter = hasCredentials ? privateChainsSorter : publicChainsSorter;
 
   const sorter = sortType === SortType.Usage ? usageSorter : () => 0;
 

@@ -1,9 +1,8 @@
 import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 import { MultiService } from 'modules/api/MultiService';
-import { IJwtToken } from 'multirpc-sdk';
+import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 import { credentialsGuard } from '../../auth/utils/credentialsGuard';
 import {
   filterMapChains,
@@ -22,17 +21,12 @@ export const fetchPremiumChainFeatures = createSmartAction<
   RequestAction<IFetchChainsResponseData, IPremiumFeatures>
 >('chains/fetchPremiumChainFeatures', (chainId: string) => ({
   request: {
-    promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const service = await MultiService.getInstance();
-
-      const { data: providerData } = getQuery(store.getState(), {
-        type: fetchProvider.toString(),
-        action: fetchProvider,
-      });
-
-      if (!providerData) {
-        await store.dispatchRequest(fetchProvider());
-      }
+    promise: async (
+      store: RequestsStore,
+      _jwtToken: IJwtToken,
+      workerTokenData: WorkerTokenData,
+    ) => {
+      const publicService = MultiService.getService();
 
       let {
         data: { chains: publicChains },
@@ -42,13 +36,14 @@ export const fetchPremiumChainFeatures = createSmartAction<
         defaultData: {},
       });
 
-      const blockchains = await service.getPublicGateway().getBlockchains();
+      const blockchains = await publicService
+        .getPublicGateway()
+        .getBlockchains();
 
       if (!publicChains) {
-        const formattedPublicChains =
-          await MultiService.getPublicInstance().formatPublicChains(
-            blockchains,
-          );
+        const formattedPublicChains = await publicService.formatPublicEndpoints(
+          blockchains,
+        );
 
         publicChains = filterMapChains(
           formattedPublicChains,
@@ -56,9 +51,9 @@ export const fetchPremiumChainFeatures = createSmartAction<
         );
       }
 
-      const formattedPrivateChains = await service.formatPrivateChains(
+      const formattedPrivateChains = publicService.formatPrivateEndpoints(
         blockchains,
-        jwtToken,
+        workerTokenData?.userEndpointToken,
       );
       const privateChains = filterMapChains(formattedPrivateChains);
 
@@ -74,7 +69,6 @@ export const fetchPremiumChainFeatures = createSmartAction<
     },
   },
   meta: {
-    asMutation: false,
     onRequest: credentialsGuard,
   },
 }));

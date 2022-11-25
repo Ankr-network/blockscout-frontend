@@ -23,19 +23,19 @@ export const useEmailData = (): EmailData => {
 
   const [inviteEmail, isInviteEmailValid, resetInviteEmail] = useInviteEmail();
 
-  const { isWalletConnected } = useAuth();
+  const { hasOauthLogin, hasWeb3Connection } = useAuth();
 
   const dispatch = useDispatch();
 
   const dispatchRequest = useDispatchRequest();
 
   useEffect(() => {
-    if (isWalletConnected) {
+    if (hasOauthLogin || hasWeb3Connection) {
       dispatchRequest(getEmailBindings());
     } else {
       dispatch(resetRequests([getEmailBindings.toString()]));
     }
-  }, [dispatch, dispatchRequest, isWalletConnected]);
+  }, [dispatch, dispatchRequest, hasOauthLogin, hasWeb3Connection]);
 
   const { confirmedEmail, pendingEmail } = makeEmailStatuses(data);
 

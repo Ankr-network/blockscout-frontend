@@ -10,9 +10,11 @@ import { ChangeEmailDialog } from './components/ChangeEmailDialog';
 import { EmailSkeleton } from './components/Skeleton';
 import { useStyles } from './EmailBlockStyles';
 import { useEmailBlock } from './useEmailBlock';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const EmailBlock = () => {
   const classes = useStyles();
+  const { hasOauthLogin } = useAuth();
 
   const dispatchRequest = useDispatchRequest();
 
@@ -38,13 +40,15 @@ export const EmailBlock = () => {
           </Queries>
         </Typography>
 
-        <Button
-          className={classes.changeEmailButton}
-          variant="outlined"
-          onClick={openChangeEmailDialog}
-        >
-          {t('user-settings.settings-screen.change-email-button')}
-        </Button>
+        {!hasOauthLogin && (
+          <Button
+            className={classes.changeEmailButton}
+            variant="outlined"
+            onClick={openChangeEmailDialog}
+          >
+            {t('user-settings.settings-screen.change-email-button')}
+          </Button>
+        )}
       </Paper>
 
       <ChangeEmailDialog
