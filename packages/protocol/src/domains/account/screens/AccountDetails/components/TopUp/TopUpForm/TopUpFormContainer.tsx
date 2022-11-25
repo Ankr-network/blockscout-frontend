@@ -9,9 +9,11 @@ import {
 } from './TopUpFormUtils';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { TopUpEmailDialog } from './TopUpEmailDialog';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const TopUpFormContainer = () => {
   useCheckBrokenTransaction();
+  const { isWalletConnected } = useAuth();
 
   const { hasLoginStep } = useCheckLoginStep();
 
@@ -35,6 +37,7 @@ export const TopUpFormContainer = () => {
         validateAmount={validateAmount}
         isAccountPage={isAccountPage}
         balance={balance}
+        isWalletConnected={isWalletConnected}
       />
       <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
     </>

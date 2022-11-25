@@ -3,9 +3,9 @@ import { Container } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton/AccountDetailsButton';
-import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { useStyles } from './useStyles';
 import { Logo } from '../Logo';
+import { SignupButton } from 'domains/auth/components/SignupButton';
 
 interface MobileHeaderProps {
   className?: string;
@@ -24,7 +24,7 @@ export const MobileHeader = ({
         <Logo />
         <div className={classes.buttons}>
           {hasAccountDetailsButton && <AccountDetailsButton isMobile />}
-          <ConnectButton isMobile />
+          <SignupButton isMobile />
         </div>
       </Container>
     </header>

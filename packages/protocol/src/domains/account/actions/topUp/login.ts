@@ -27,14 +27,15 @@ export const login = createSmartAction<RequestAction<string, string>>(
       ) => {
         return {
           promise: (async (): Promise<any> => {
-            const service = await MultiService.getInstance();
+            const service = await MultiService.getWeb3Service();
             const provider = service.getKeyProvider();
             const { currentAccount: address } = provider;
 
-            const credentials = await service.getPAYGHashAndIssueToken(address);
+            const { jwtToken: credentials, workerTokenData } =
+              await service.getIssuedJwtToken(address);
 
             if (credentials) {
-              store.dispatch(setAuthData({ credentials }));
+              store.dispatch(setAuthData({ credentials, workerTokenData }));
             }
 
             store.dispatch(resetTransaction({ address }));
@@ -42,6 +43,7 @@ export const login = createSmartAction<RequestAction<string, string>>(
             return {
               address,
               credentials,
+              workerTokenData,
             };
           })(),
         };

@@ -14,7 +14,7 @@ export const fetchNotificationSettings = createSmartAction<
     onRequest: () => {
       return {
         promise: (async (): Promise<INotificationsSettings> => {
-          const service = await MultiService.getInstance();
+          const service = await MultiService.getService();
 
           const data = await service
             .getAccountGateway()

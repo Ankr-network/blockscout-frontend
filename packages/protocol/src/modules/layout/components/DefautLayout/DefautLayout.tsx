@@ -39,14 +39,13 @@ export const DefaultLayout = ({
     hasPaddingBottom: hasMaxWidth,
     isHeaderTransparent,
   });
-  const { isWalletConnected, credentials, loading } = useAuth();
+  const { credentials, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
 
   const hasCredentials = useMemo(() => Boolean(credentials), [credentials]);
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
-  const hasAccountDetailsButton = isWalletConnected && hasCredentials;
 
   return (
     <div
@@ -58,7 +57,6 @@ export const DefaultLayout = ({
         <SideBar
           className={classes.sidebar}
           loading={loading}
-          isWalletConnected={isWalletConnected}
           hasCredentials={hasCredentials}
           chainsRoutes={chainsRoutes}
         />
@@ -66,12 +64,12 @@ export const DefaultLayout = ({
           {!hasError && (
             <Header
               className={classes.header}
-              hasAccountDetailsButton={hasAccountDetailsButton}
+              hasAccountDetailsButton={hasCredentials}
             />
           )}
           <MobileHeader
             className={classes.mobileHeader}
-            hasAccountDetailsButton={hasAccountDetailsButton}
+            hasAccountDetailsButton={hasCredentials}
           />
           <Container
             disableGutters={disableGutters}
@@ -89,7 +87,6 @@ export const DefaultLayout = ({
         </div>
         <MobileNavigation
           loading={loading}
-          isWalletConnected={isWalletConnected}
           hasCredentials={hasCredentials}
           chainsRoutes={chainsRoutes}
         />

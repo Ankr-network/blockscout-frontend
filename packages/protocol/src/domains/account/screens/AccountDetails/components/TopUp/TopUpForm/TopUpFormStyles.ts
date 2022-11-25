@@ -9,6 +9,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   button: {
+    width: '100%',
+
     [theme.breakpoints.down('sm')]: {
       maxWidth: 86,
     },

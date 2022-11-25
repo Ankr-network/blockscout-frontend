@@ -12,7 +12,7 @@ const web3 = new Web3(
 );
 
 const hasPendingTransaction = async () => {
-  const service = await MultiService.getInstance();
+  const service = await MultiService.getWeb3Service();
 
   const provider = service.getKeyProvider();
   const { currentAccount: address } = provider;

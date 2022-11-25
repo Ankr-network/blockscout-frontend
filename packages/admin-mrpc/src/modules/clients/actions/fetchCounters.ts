@@ -25,7 +25,7 @@ export const {
         let emailsCollection: IEmailBindingEntity[] = [];
         let countersCollection: ICountersEntity[] = [];
         let balancesCollection: IBalancesEntity[] = [];
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
 

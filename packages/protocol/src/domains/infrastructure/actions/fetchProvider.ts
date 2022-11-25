@@ -1,5 +1,5 @@
-import { IJwtToken, IProvider } from 'multirpc-sdk';
-import { RequestAction, RequestsStore } from '@redux-requests/core';
+import { IProvider } from 'multirpc-sdk';
+import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from '../../../modules/api/MultiService';
@@ -9,10 +9,10 @@ export const fetchProvider = createSmartAction<
   RequestAction<IProvider, IProvider>
 >('infrastructure/fetchProvider', () => ({
   request: {
-    promise: async (store: RequestsStore, jwtToken: IJwtToken) => {
-      const service = await MultiService.getInstance();
+    promise: async () => {
+      const service = MultiService.getService();
 
-      const provider = await service.fetchProvider(jwtToken);
+      const provider = await service.getWorkerGateway().getProvider();
 
       return provider;
     },

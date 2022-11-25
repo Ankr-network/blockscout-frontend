@@ -12,6 +12,7 @@ export interface EndpointProps {
   chainType?: ChainType;
   group?: EndpointGroup;
   url: string;
+  hasConnectWalletMessage: boolean;
 }
 
 export const Endpoint = ({
@@ -19,6 +20,7 @@ export const Endpoint = ({
   chainType,
   group,
   url,
+  hasConnectWalletMessage,
 }: EndpointProps) => {
   const classes = useEndpointStyles();
 
@@ -29,8 +31,9 @@ export const Endpoint = ({
         message={t('common.copy-message')}
         copyText="Copy"
         size="l"
-        text={url}
+        text={hasConnectWalletMessage ? t('chains.connect-wallet') : url}
         textColor="textPrimary"
+        isDisabled={hasConnectWalletMessage}
       />
       {publicChain && (
         <AddNetworkButton

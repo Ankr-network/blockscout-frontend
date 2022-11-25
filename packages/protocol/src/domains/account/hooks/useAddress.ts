@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useDispatchRequest } from '@redux-requests/react';
 
 import { MultiService } from 'modules/api/MultiService';
-import { useDispatchRequest } from '@redux-requests/react';
-import { redirectIfWalletConnectFailed } from '../actions/balance/redirectIfWalletConnectFailed';
+import { redirectIfWalletConnectFailed } from 'domains/account/actions/balance/redirectIfWalletConnectFailed';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useAddress = () => {
   const [address, setAddress] = useState('');
   const dispatchRequest = useDispatchRequest();
+  const { isWalletConnected } = useAuth();
 
   useEffect(() => {
-    const getAddress = async () => {
+    const getWeb3Address = async () => {
       try {
-        const service = await MultiService.getInstance();
+        const service = await MultiService.getWeb3Service();
 
         const provider = service.getKeyProvider();
         const { currentAccount } = provider;
@@ -23,10 +25,12 @@ export const useAddress = () => {
       }
     };
 
-    getAddress();
+    if (isWalletConnected) {
+      getWeb3Address();
+    }
 
     return () => setAddress('');
-  }, [dispatchRequest]);
+  }, [dispatchRequest, isWalletConnected]);
 
   return address;
 };

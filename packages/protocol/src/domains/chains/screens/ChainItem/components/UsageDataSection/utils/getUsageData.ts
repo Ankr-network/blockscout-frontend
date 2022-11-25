@@ -10,7 +10,6 @@ const SHOULD_SHOW_ONLY_PREMIUM_30D_COUNTRIES = true;
 
 export interface UsageDataParams {
   isConnecting: boolean;
-  isWalletConnected: boolean;
   arePrivateStatsLoading: boolean;
   privateStatsError: any;
   privateStats?: PrivateStat;
@@ -19,11 +18,11 @@ export interface UsageDataParams {
   timeframe: Timeframe;
   userTopRequests: TopRequestsResultData;
   userTopRequestsIp: UserRequestsByIpData[];
+  hasCredentials: boolean;
 }
 
 export const getUsageData = ({
   isConnecting,
-  isWalletConnected,
   arePrivateStatsLoading,
   privateStatsError,
   privateStats,
@@ -39,12 +38,13 @@ export const getUsageData = ({
   timeframe,
   userTopRequests,
   userTopRequestsIp,
+  hasCredentials,
 }: UsageDataParams): UsageData => {
   const publicUsageData: UsageData = {
     countries: publicCountries,
     error: publicStatsError,
     isConnecting,
-    isWalletConnected,
+    isWalletConnected: hasCredentials,
     loading: arePublicStatsLoading || isConnecting,
     timeframe,
     totalCached,
@@ -73,7 +73,7 @@ export const getUsageData = ({
     ),
     error: privateStatsError,
     isConnecting,
-    isWalletConnected,
+    isWalletConnected: hasCredentials,
     loading: arePrivateStatsLoading || isConnecting,
     timeframe,
     totalCached: new BigNumber(0),
@@ -88,5 +88,5 @@ export const getUsageData = ({
     userTopRequestsIp,
   };
 
-  return isWalletConnected ? privateUsageData : publicUsageData;
+  return hasCredentials ? privateUsageData : publicUsageData;
 };

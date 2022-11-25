@@ -1,7 +1,9 @@
+import { Route, Switch } from 'react-router-dom';
+
 import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
 import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
-import { selectAuthData } from 'domains/auth/store/authSlice';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
+import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
@@ -10,33 +12,30 @@ import {
   UserSettingsRoutes,
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
-import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { Route, Switch } from 'react-router-dom';
-import { useAppSelector } from 'store/useAppSelector';
 import { Themes } from 'ui';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
 import { useAuth } from './domains/auth/hooks/useAuth';
 import {
+  ChainDetailsRoutes,
   ChainPrivateRoutes,
   ChainsRoutes,
   ChainsRoutesConfig,
 } from './domains/chains/routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
+import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
+import { useAutoconnect } from './useAutoconnect';
 
 export const Routes = () => {
-  const { handleConnect, credentials } = useAuth();
+  const { credentials, ...authData } = useAuth();
 
-  const cachedAuthData = useAppSelector(selectAuthData);
   const hasCredentials = Boolean(credentials);
+  const isManualConnected = Boolean(authData.isManualConnected);
+  const isManualDisconnected = Boolean(authData.isManualDisconnected);
+  const hasAuthData = Boolean(authData.authorizationToken);
 
-  useOnMount(() => {
-    if (cachedAuthData.authorizationToken) {
-      handleConnect(cachedAuthData?.walletMeta?.id || INJECTED_WALLET_ID, true);
-    }
-  });
+  useAutoconnect();
 
   return (
     <Switch>
@@ -44,7 +43,7 @@ export const Routes = () => {
         exact
         path={[PricingRoutesConfig.pricing.path]}
         hasCredentials={hasCredentials}
-        isManualConnected={Boolean(cachedAuthData.isManualConnected)}
+        isManualConnected={isManualConnected}
         render={() => (
           <DefaultLayout
             theme={Themes.light}
@@ -66,8 +65,8 @@ export const Routes = () => {
           AccountRoutesConfig.cardPaymentFailure.path,
         ]}
         hasCredentials={hasCredentials}
-        hasAuthData={Boolean(cachedAuthData.authorizationToken)}
-        isManualDisconnected={Boolean(cachedAuthData.isManualDisconnected)}
+        hasAuthData={hasAuthData}
+        isManualDisconnected={isManualDisconnected}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <AccountRoutes />
@@ -78,8 +77,8 @@ export const Routes = () => {
         exact
         path={[AccountRoutesConfig.cardPaymentSuccess.path]}
         hasCredentials={hasCredentials}
-        hasAuthData={Boolean(cachedAuthData.authorizationToken)}
-        isManualDisconnected={Boolean(cachedAuthData.isManualDisconnected)}
+        hasAuthData={hasAuthData}
+        isManualDisconnected={isManualDisconnected}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <AccountRoutes />
@@ -99,13 +98,41 @@ export const Routes = () => {
             </CenterContainer>
           </DefaultLayout>
         )}
-        hasAuthData={Boolean(cachedAuthData.authorizationToken)}
+        hasAuthData={hasAuthData}
         authorizedRender={
           <DefaultLayout>
             <UserSettingsRoutes />
           </DefaultLayout>
         }
       />
+      <Route
+        exact
+        path={OauthRoutesConfig.oauth.path}
+        render={() => (
+          <DefaultLayout hasNoReactSnap>
+            <OauthRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={ChainsRoutesConfig.chains.path}
+        render={() => (
+          <DefaultLayout>
+            <ChainsRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <Route
+        exact
+        path={[MMChainsRoutesConfig.mmChains.path]}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <MMChainsRoutes />
+          </DefaultLayout>
+        )}
+      />
+
       {/* We should keep routes with dynamic `:chainId` after static routes */}
       <GuardAuthProviderRoute
         exact
@@ -116,16 +143,13 @@ export const Routes = () => {
           </DefaultLayout>
         )}
       />
+
       <Route
         exact
-        path={[
-          ChainsRoutesConfig.chains.path,
-          ChainsRoutesConfig.mmChains.path,
-          ChainsRoutesConfig.chainDetails.path,
-        ]}
+        path={[ChainsRoutesConfig.chainDetails.path]}
         render={() => (
           <DefaultLayout theme={Themes.light}>
-            <ChainsRoutes />
+            <ChainDetailsRoutes />
           </DefaultLayout>
         )}
       />

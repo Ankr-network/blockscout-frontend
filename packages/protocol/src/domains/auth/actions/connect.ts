@@ -27,17 +27,31 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
           }),
         );
 
-        const service = await MultiService.getInstance(walletId);
+        const web3Service = await MultiService.createWeb3Service(walletId);
+        const service = MultiService.getService();
 
         if (walletId === INJECTED_WALLET_ID) {
           await switchChain();
         }
 
-        const cachedData = await getCachedData(service, store);
+        const cachedData = getCachedData(service, store);
 
-        if (cachedData) return cachedData;
+        if (cachedData?.hasWeb3Connection) return cachedData;
 
-        return loginAndCache(service, store);
+        let hasOauthLogin = cachedData?.hasOauthLogin;
+
+        const provider = web3Service.getKeyProvider();
+        const { currentAccount: providerAddress } = provider;
+
+        if (
+          providerAddress.toLowerCase() !== cachedData?.address?.toLowerCase()
+        ) {
+          store.dispatch(resetAuthData());
+
+          hasOauthLogin = false;
+        }
+
+        return loginAndCache(web3Service, service, store, hasOauthLogin);
       },
     },
     meta: {

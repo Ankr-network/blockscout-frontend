@@ -2,7 +2,7 @@ import { Balance } from 'domains/account/actions/balance/types';
 import { BalanceData } from '../types';
 import { Currency } from 'domains/account/types';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
-import { useAuth } from 'domains/account/hooks/useAuth';
+import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 import { useCurrency } from './useCurrency';
@@ -19,13 +19,14 @@ const balancesMap: BalanceMap = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isConnected, isConnecting, isNew, premiumUntil } = useAuth();
+  const { isConnected, isConnecting, isNew, premiumUntil, credentials } =
+    useAccountAuth();
 
   const {
     isLoadingInitially: isBalanceLoading,
     usdBalance,
     ...balance
-  } = useBalance(isConnected);
+  } = useBalance(Boolean(credentials));
 
   const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
     useBalanceEndTime(isConnected);

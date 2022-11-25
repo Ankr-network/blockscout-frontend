@@ -20,11 +20,11 @@ export const getEmailBindings = createSmartAction<
 
     onRequest: () => ({
       promise: (async (): Promise<IEmailResponse[]> => {
-        const service = await MultiService.getInstance();
+        const service = MultiService.getService();
 
-        const accountGateway = service.getAccountGateway();
-
-        const response = await accountGateway.getEmailBindings(filters);
+        const response = await service
+          .getAccountGateway()
+          .getEmailBindings(filters);
 
         return response;
       })(),

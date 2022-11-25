@@ -1,38 +1,36 @@
-import BigNumber from 'bignumber.js';
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 
-import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 import { USDTopUpForm } from './USDTopUpForm';
-import { TopUpFormValues } from './USDTopUpFormTypes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { TopUpFormContext } from '../TopUpForm/TopUpFormUtils';
+import { TopUpEmailDialog } from '../TopUpForm/TopUpEmailDialog';
+import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
+import { useOnTopUpSubmit } from './USDTopUpFormUtils';
 
 export const USDTopUpFormContainer = () => {
-  const { handleFetchLinkForCardPayment, isFetchLinkForCardPaymentLoading } =
-    useCardPayment();
-  const { credentials } = useAuth();
+  const { credentials, workerTokenData } = useAuth();
 
   const { isAccountPage } = useContext(TopUpFormContext);
 
-  const onSubmit = useCallback(
-    async (data: TopUpFormValues) => {
-      const { data: url } = await handleFetchLinkForCardPayment(
-        new BigNumber(data.amount),
-      );
+  const emailData = useEmailData();
 
-      if (url) {
-        window.location.href = url;
-      }
-    },
-    [handleFetchLinkForCardPayment],
+  const { onSubmit, isLoading, ...dialogProps } = useOnTopUpSubmit(
+    isAccountPage,
+    emailData?.confirmedEmail,
+    emailData?.pendingEmail,
   );
 
+  const shouldIssueToken = !credentials || !workerTokenData?.userEndpointToken;
+
   return (
-    <USDTopUpForm
-      onSubmit={onSubmit}
-      isLoading={isFetchLinkForCardPaymentLoading}
-      isDisabled={!credentials || !credentials?.endpoint_token}
-      hasRateBlock={isAccountPage}
-    />
+    <>
+      <USDTopUpForm
+        onSubmit={onSubmit}
+        isLoading={isLoading}
+        isDisabled={shouldIssueToken}
+        hasRateBlock={isAccountPage}
+      />
+      <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
+    </>
   );
 };

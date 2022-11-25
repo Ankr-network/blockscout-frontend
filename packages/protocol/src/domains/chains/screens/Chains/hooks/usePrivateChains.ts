@@ -19,6 +19,7 @@ export const usePrivateChains = (token?: IJwtToken): PrivateChains => {
   });
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (token) {
       dispatch(fetchPrivateChainsInfo());

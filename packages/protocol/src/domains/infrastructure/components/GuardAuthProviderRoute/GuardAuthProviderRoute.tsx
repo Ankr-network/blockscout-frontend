@@ -12,7 +12,7 @@ import { PageNotFound } from 'modules/router/components/PageNotFound';
 export interface IGuardRoute extends RouteProps {}
 
 export const GuardAuthProviderRoute = (props: IGuardRoute) => {
-  const { credentials, address, loading } = useAuth();
+  const { credentials, address, loading, workerTokenData } = useAuth();
   const {
     handleFetchProvider,
     providerData,
@@ -25,10 +25,10 @@ export const GuardAuthProviderRoute = (props: IGuardRoute) => {
   });
 
   useEffect(() => {
-    if (credentials && !providerData) {
+    if (workerTokenData && !providerData) {
       handleFetchProvider();
     }
-  }, [credentials, handleFetchProvider, providerData]);
+  }, [handleFetchProvider, providerData, workerTokenData]);
 
   if (loading || providerLoading) {
     return (

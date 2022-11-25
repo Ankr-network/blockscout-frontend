@@ -247,7 +247,7 @@ export interface ICanPayByCardResponse {
 
 export interface IGetLinkForCardPaymentRequest {
   amount: string;
-  publicKey: string;
+  publicKey?: string;
 }
 
 export interface IGetLinkForCardPaymentResponse {

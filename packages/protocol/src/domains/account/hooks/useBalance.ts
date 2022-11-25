@@ -14,7 +14,7 @@ export interface Balance extends AccountBalance {
 
 const actionType = fetchBalance.toString();
 
-export const useBalance = (isConnected = true): Balance => {
+export const useBalance = (hasCredentials: boolean): Balance => {
   const { data: balances, loading: isLoading } = useQuery<AccountBalance>({
     type: actionType,
   });
@@ -25,14 +25,14 @@ export const useBalance = (isConnected = true): Balance => {
   const dispatchRequest = useDispatchRequest();
 
   useEffect(() => {
-    if (isConnected) {
+    if (hasCredentials) {
       dispatchRequest(fetchBalance());
     }
 
     return () => {
       dispatch(stopPolling([actionType]));
     };
-  }, [dispatch, dispatchRequest, isConnected]);
+  }, [dispatch, dispatchRequest, hasCredentials]);
 
   return { ...(balances || defaultBalance), isLoading, isLoadingInitially };
 };

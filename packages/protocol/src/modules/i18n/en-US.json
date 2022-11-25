@@ -80,8 +80,7 @@
   },
   "extra-navigation": {
     "docs": "Docs",
-    "settings": "Settings",
-    "faq": "FAQ"
+    "settings": "Settings"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
@@ -95,11 +94,26 @@
     "en-US": "English"
   },
   "header": {
-    "wallet-button": "Connect Wallet",
+    "wallet-button": "Sign up",
+    "wallet-button-address": "Connect wallet {address}",
     "disconnect": "Disconnect",
     "already-premium": "Already Premium?",
-    "modal-title": "Connect wallet to continue",
-    "wallet-install": "Install"
+    "connect-wallet": "Connect Wallet",
+    "add-google": "Add Google account",
+    "sign-out": "Sign out"
+  },
+  "signup-modal": {
+    "title": "Sign up method",
+    "description": "By continuing you agree to our terms of service and privacy policy.",
+    "oauth-title": "Email authentication",
+    "wallet-install": "Install",
+    "gmail-button": "Continue with Google",
+    "email-warning": "Please connect using Google only if&nbsp;you haven&rsquo;t used a&nbsp;wallet to&nbsp;sign in&nbsp;previously",
+    "google": {
+      "title": "Google Authentication",
+      "description": "Connection Process"
+    },
+    "connect-wallet": "Wallet connecting"
   },
   "dashboard": {
     "breadcrumbs": "Premium Endpoints",
@@ -119,6 +133,7 @@
     "req": "{value, number, ::compact-short} req",
     "archive": "Archive",
     "beta": "BETA",
+    "connect-wallet": "Connect wallet to copy Endpoint",
     "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics.",
     "add-endpoint": {
       "breadcrumbs": "Add Endpoint"
@@ -798,7 +813,7 @@
     },
     "premium-block": {
       "block-title": "Start Building with Ankr",
-      "title": "Deposit&nbsp;1,000+&nbsp;ANKR to&nbsp;get all the Premium features",
+      "title": "Please make a&nbsp;deposit to get all Premium features",
       "value": "{requests, number, ::compact-short}",
       "pricing": "{amount}&nbsp;<img src=\"{src}\" alt=\"{alt}\" class=\"icon\" />&nbsp;≈ {requests} requests",
       "ankr": "ankr",
@@ -937,6 +952,9 @@
     },
     "email-content": "For account setup, Ankr needs an&nbsp;email for important notifications and service updates. Don&rsquo;t worry, your info is&nbsp;highly secured and never shared&nbsp;&mdash; use an&nbsp;anonymous address if&nbsp;you wish!"
   },
+  "oauth": {
+    "breadcrumbs": "Google auth"
+  },
   "common": {
     "copy-message": "Copied!",
     "empty": "Empty...",
@@ -1044,8 +1062,9 @@
       "breadcrumbs": "Confirm Email"
     },
     "connect-wallet-card": {
-      "title": "Connect Wallet",
-      "description": "Connect related wallet to see notification settings."
+      "title": "Login to see Settings",
+      "description": "Please, login to see the notification settings.",
+      "button": "Get started"
     },
     "connect-related-wallet-card": {
       "title": "Connect Wallet for Related Account",

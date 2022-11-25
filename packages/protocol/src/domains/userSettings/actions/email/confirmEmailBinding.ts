@@ -25,11 +25,11 @@ export const confirmEmailBinding = createSmartAction<
 
     onRequest: () => ({
       promise: (async (): Promise<IEmailResponse> => {
-        const service = await MultiService.getInstance();
+        const service = MultiService.getService();
 
-        const accountGateway = service.getAccountGateway();
-
-        const response = await accountGateway.confirmEmailBinding(email, code);
+        const response = await service
+          .getAccountGateway()
+          .confirmEmailBinding(email, code);
 
         return response;
       })(),

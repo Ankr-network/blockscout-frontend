@@ -34,7 +34,7 @@ export const Dialog = ({
   });
 
   useLayoutEffect(() => {
-    if (title) setDialogTitle({ title });
+    setDialogTitle({ title });
   }, [title]);
 
   const value: IDialogContext = useMemo(

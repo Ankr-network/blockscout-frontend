@@ -19,7 +19,6 @@ import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 export type IsActive = (match: any, location: History['location']) => boolean;
 
 export const DOC_URL = 'https://www.ankr.com/docs/build-blockchain/overview';
-export const FAQ_URL = 'https://docs.ankr.com/ankr-protocol/faqs';
 
 const isDashboardActive = (
   match: any,
@@ -32,7 +31,6 @@ const isDashboardActive = (
 };
 
 export const getNavigationList = (
-  isWalletConnected: boolean,
   chainsRoutes: string[],
   hasCredentials: boolean,
   isMobile?: boolean,
@@ -46,13 +44,12 @@ export const getNavigationList = (
       isActive: (match: any, location: History['location']) =>
         isDashboardActive(match, location, chainsRoutes),
     },
-    isWalletConnected &&
-      hasCredentials && {
-        label: t('main-navigation.billing'),
-        StartIcon: BillingIcon,
-        ActiveIcon: ActiveBillingIcon,
-        href: AccountRoutesConfig.accountDetails.generatePath(),
-      },
+    hasCredentials && {
+      label: t('main-navigation.billing'),
+      StartIcon: BillingIcon,
+      ActiveIcon: ActiveBillingIcon,
+      href: AccountRoutesConfig.accountDetails.generatePath(),
+    },
     !hasCredentials && {
       label: t('main-navigation.pricing'),
       StartIcon: PricingIcon,
