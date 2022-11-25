@@ -18,9 +18,8 @@ import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTotalHistoryData';
-import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
-import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
+import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
@@ -50,9 +49,6 @@ const resetRequests = () =>
     fetchAVAXPendingValues.toString(),
     fetchAVAXStats.toString(),
     fetchAVAXTxHistory.toString(),
-    fetchBNBPendingValues.toString(),
-    fetchBNBStats.toString(),
-    fetchBNBTxHistory.toString(),
     fetchPolygonStats.toString(),
     fetchPolygonTxHistory.toString(),
     getMGNOTotalInfo.toString(),
@@ -79,7 +75,8 @@ export const useDashboard = (): IUseDashboard => {
   const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   const { refetch: getFTMCommonDataRefetch } = useGetFTMCommonDataQuery();
-
+  const { refetch: getBNBPendingValuesRefetch } = useGetBNBPendingValuesQuery();
+  const { refetch: getBNBStatsRefetch } = useGetBNBStatsQuery();
   usePolkadot();
 
   useProviderEffect(() => {
@@ -92,8 +89,6 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchAMATICCBridgedBSC());
     dispatch(fetchAVAXPendingValues());
     dispatch(fetchAVAXStats());
-    dispatch(fetchBNBPendingValues());
-    dispatch(fetchBNBStats());
     dispatch(fetchPolygonStats());
     dispatch(getEthCommonData());
     dispatch(getEthClaimableData());
@@ -101,6 +96,8 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     dispatch(getMaticPolygonCommonData());
     getFTMCommonDataRefetch();
+    getBNBPendingValuesRefetch();
+    getBNBStatsRefetch();
 
     if (address) {
       dispatch(getPartnerCode(address));

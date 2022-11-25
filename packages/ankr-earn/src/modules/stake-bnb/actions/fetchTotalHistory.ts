@@ -1,26 +1,24 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
 import { BinanceSDK, ITxEventsHistoryData } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
-export const fetchTotalHistory = createSmartAction<
-  RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>
->(
-  'bnb/fetchTotalHistory',
-  (): RequestAction => ({
-    request: {
-      promise: (async (): Promise<ITxEventsHistoryData> => {
-        const sdk: BinanceSDK = await BinanceSDK.getInstance();
+import { CacheTags } from '../const';
 
-        return sdk.getTxEventsHistory();
-      })(),
-    },
-    meta: {
-      asMutation: false,
-      // ! seems it is not working with promise based requests
-      cache: ACTION_CACHE_SEC,
-    },
+export const { useGetBNBTotalHistoryQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getBNBTotalHistory: build.query<ITxEventsHistoryData, void>({
+      queryFn: queryFnNotifyWrapper<void, never, ITxEventsHistoryData>(
+        async () => {
+          const sdk: BinanceSDK = await BinanceSDK.getInstance();
+
+          return {
+            data: await sdk.getTxEventsHistory(),
+          };
+        },
+      ),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
   }),
-);
+});

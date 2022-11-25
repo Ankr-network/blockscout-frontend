@@ -1,16 +1,18 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
-import { getTxData, getTxReceipt } from 'modules/stake-bnb/actions/getTxData';
+import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import {
+  useGetBNBTxDataQuery,
+  useGetBNBTxReceiptQuery,
+} from 'modules/stake-bnb/actions/getTxData';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -21,7 +23,7 @@ export interface IStakeBinanceStepsHook {
   destination?: string;
   transactionId?: string;
   tokenName: string;
-  error?: Error;
+  error?: FetchBaseQueryError | Error;
   handleAddTokenToWallet: () => void;
 }
 
@@ -32,36 +34,35 @@ interface IStakeSuccessParams {
 
 export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
   const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const { data: stats } = useQuery({ type: fetchStats });
-  const dispatchRequest = useDispatchRequest();
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetBNBTxDataQuery({ txHash });
+  const { data: receipt } = useGetBNBTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: 3_000,
+    },
+  );
+  const { data: stats, refetch } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
+
   const dispatch = useAppDispatch();
+  const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
-
     if (!stats) {
-      dispatchRequest(fetchStats());
+      refetch();
     }
-
-    return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
-    };
   }, [dispatch, txHash]);
 
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const onAddTokenClick = () => {
-    dispatchRequest(addBNBTokenToWallet(tokenOut));
+    addBNBTokenToWallet(tokenOut);
   };
 
   const calculatedAmount = useMemo(() => {
@@ -93,7 +94,7 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     tokenName: tokenOut,
     isLoading,
     isPending,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
 };

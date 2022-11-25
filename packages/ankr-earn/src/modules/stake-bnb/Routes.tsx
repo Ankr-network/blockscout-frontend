@@ -49,7 +49,8 @@ export const RoutesConfig = createRouteConfig(
 
     stakeSteps: {
       path: STEP_STAKE_BNB_PATH,
-      generatePath: () => generatePath(STEP_STAKE_BNB_PATH),
+      generatePath: (options: { txHash: string; tokenOut: TBnbSyntToken }) =>
+        generatePath(STEP_STAKE_BNB_PATH, options),
     },
 
     unstakeSuccess: {

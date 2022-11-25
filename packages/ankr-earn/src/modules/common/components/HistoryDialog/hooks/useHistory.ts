@@ -11,7 +11,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
-import { fetchHistory as fetchBNBHistory } from 'modules/stake-bnb/actions/fetchHistory';
+import { useLazyGetBNBHistoryQuery } from 'modules/stake-bnb/actions/fetchHistory';
 import { getHistory as getETHHistory } from 'modules/stake-eth/actions/getHistory';
 import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
 import { fetchHistory as fetchMATICETHHistory } from 'modules/stake-matic/eth/actions/fetchHistory';
@@ -62,18 +62,14 @@ export const useHistory = ({
   const [getFTMHistory, { isFetching: isFtmHistoryLoading }] =
     useLazyGetFTMHistoryQuery();
 
+  const [getBNBHistory, { isFetching: isBnbHistoryLoading }] =
+    useLazyGetBNBHistoryQuery();
+
   const { loading: avaxHistoryLoading } = useQuery({
     type: fetchAVAXHistory,
   });
   const { loading: isAvaxHistoryMutationLoading } = useMutation({
     type: fetchAVAXHistory,
-  });
-
-  const { loading: bnbHistoryLoading } = useQuery({
-    type: fetchBNBHistory,
-  });
-  const { loading: isBnbHistoryMutationLoading } = useMutation({
-    type: fetchBNBHistory,
   });
 
   const { loading: maticEthHistoryLoading } = useQuery({
@@ -168,34 +164,34 @@ export const useHistory = ({
         });
         break;
       case Token.aBNBb:
-        dispatchRequest(
-          fetchBNBHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aBNBb.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aBNBb.unstakeEvents ?? []),
-            ],
+        getBNBHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [...stakeEvents, ...(data?.aBNBb.stakeEvents ?? [])],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aBNBb.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aBNBc:
-        dispatchRequest(
-          fetchBNBHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aBNBc.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aBNBc.unstakeEvents ?? []),
-            ],
+        getBNBHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [...stakeEvents, ...(data?.aBNBc.stakeEvents ?? [])],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aBNBc.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aMATICb:
         dispatchRequest(
@@ -291,8 +287,7 @@ export const useHistory = ({
       isFtmHistoryLoading ||
       avaxHistoryLoading ||
       isAvaxHistoryMutationLoading ||
-      bnbHistoryLoading ||
-      isBnbHistoryMutationLoading ||
+      isBnbHistoryLoading ||
       maticEthHistoryLoading ||
       isMaticEthHistoryMutationLoading ||
       ethHistoryLoading ||

@@ -1,9 +1,5 @@
 import { t } from '@ankr.com/common';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
@@ -13,15 +9,19 @@ import {
 } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  BSC_NETWORK_BY_ENV,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
-import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
-import { stake as stakeBNB } from 'modules/stake-bnb/actions/stake';
-import { unstake as unstakeBNB } from 'modules/stake-bnb/actions/unstake';
+import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useStakeBNBMutation } from 'modules/stake-bnb/actions/stake';
+import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -45,20 +45,22 @@ export interface IStakedABNBBData {
 }
 
 export const useStakedABNBBData = (): IStakedABNBBData => {
-  const dispatchRequest = useDispatchRequest();
-  const { data: statsData, loading: isCommonDataLoading } = useQuery({
-    type: fetchStats,
-  });
-  const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
-    type: fetchPendingValues,
-  });
+  const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
+  const { data: statsData, isFetching: isCommonDataLoading } =
+    useGetBNBStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
+  const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
+    useGetBNBPendingValuesQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: metrics } = useQuery({
     type: getMetrics,
   });
 
-  const { loading: isStakeLoading } = useMutation({ type: stakeBNB });
-  const { loading: isUnstakeLoading } = useMutation({ type: unstakeBNB });
+  const [, { isLoading: isStakeLoading }] = useStakeBNBMutation();
+  const [, { isLoading: isUnstakeLoading }] = useUnstakeBNBMutation();
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
@@ -80,8 +82,8 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   );
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addBNBTokenToWallet());
-  }, [dispatchRequest]);
+    addBNBTokenToWallet(Token.aBNBb);
+  }, [addBNBTokenToWallet]);
 
   return {
     address,

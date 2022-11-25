@@ -3,6 +3,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
@@ -46,12 +47,13 @@ export const useStakeForm = (): IUseStakeForm => {
 
   const [stake, { isLoading: isStakeLoading }] = useStakeFTMMutation();
   const { selectedToken, handleTokenSelect } = useSelectedToken();
-  const { data, isFetching: isCommonDataLoading } = useGetFTMCommonDataQuery(
-    undefined,
-    {
-      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-    },
-  );
+  const {
+    data,
+    isFetching: isCommonDataLoading,
+    refetch,
+  } = useGetFTMCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
     defaultData: [],
@@ -95,6 +97,10 @@ export const useStakeForm = (): IUseStakeForm => {
       aFTMcRatio,
     });
   }, [aFTMcRatio, amount, balance, selectedToken, isError]);
+
+  useProviderEffect(() => {
+    refetch();
+  }, []);
 
   const onChange = (values: IStakeFormPayload, invalid: boolean) => {
     // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1482

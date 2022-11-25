@@ -5,6 +5,7 @@ import { ZERO } from 'modules/common/const';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 
 import { usePortfolioNativeData } from '../usePortfolioNativeData';
@@ -27,6 +28,10 @@ jest.mock('modules/stake-ankr/actions/getMaxApy', () => ({
 
 jest.mock('modules/stake-fantom/actions/getCommonData', () => ({
   useGetFTMCommonDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+  useGetBNBStatsQuery: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfolioNativeData', () => {
@@ -52,6 +57,11 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
       isFetching: false,
       data: undefined,
     });
+    (useGetBNBStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+
     (useQuery as jest.Mock).mockReturnValue(defaultQueryData);
   });
 

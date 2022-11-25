@@ -9,7 +9,6 @@ import React, { useCallback, useState } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
-import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { FlashUnstake } from 'modules/stake/components/FlashUnstake/FlashUnstake';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
@@ -17,19 +16,10 @@ import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendin
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
 
-import { approveABNBCUnstake } from '../../actions/approveABNBCUnstake';
-import { fetchStats } from '../../actions/fetchStats';
-
 import { useUnstakeBnb } from './hooks/useUnstakeBnb';
 import { useUnstakeBinanceStyles } from './useUnstakeBinanceStyles';
 
-const resetRequests = () =>
-  resetReduxRequests([
-    approveABNBCUnstake.toString(),
-    fetchPendingValues.toString(),
-    fetchStats.toString(),
-    getUnstakeDate.toString(),
-  ]);
+const resetRequests = () => resetReduxRequests([getUnstakeDate.toString()]);
 
 export const UnstakeBinance = (): JSX.Element => {
   const classes = useUnstakeBinanceStyles();
@@ -79,8 +69,6 @@ export const UnstakeBinance = (): JSX.Element => {
   useProviderEffect(() => {
     dispatch(resetRequests());
 
-    dispatch(fetchPendingValues());
-    dispatch(fetchStats());
     dispatch(getUnstakeDate());
 
     return () => {

@@ -19,8 +19,6 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
-import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -44,8 +42,6 @@ import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Tooltip } from 'uiKit/Tooltip';
-
-import { fetchStats } from '../../actions/fetchStats';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -148,13 +144,11 @@ export const StakeBinance = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatch(getIsStakerExists(address));
-    dispatch(fetchPendingValues());
-    dispatch(fetchStats());
     dispatch(getFAQ(Token.BNB));
     dispatch(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString()]));
     };
   }, [address, dispatch]);
 

@@ -1,10 +1,5 @@
 import { t } from '@ankr.com/common';
-import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
@@ -12,13 +7,15 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ZERO } from 'modules/common/const';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useNotification } from 'modules/notifications';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
-import { checkExistPartnerCode } from 'modules/stake-bnb/actions/checkExistPartnerCode';
-import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
-import { stake } from 'modules/stake-bnb/actions/stake';
+import { useCheckExistPartnerCodeMutation } from 'modules/stake-bnb/actions/checkExistPartnerCode';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useLazyGetBNBStakeGasFeeQuery } from 'modules/stake-bnb/actions/getStakeGasFee';
+import { useStakeBNBMutation } from 'modules/stake-bnb/actions/stake';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
@@ -27,9 +24,6 @@ import {
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
-import { useAppDispatch } from 'store/useAppDispatch';
-
-import { useFetchStats } from '../../../hooks/useFetchStats';
 
 import { useAnalytics } from './useAnalytics';
 import { useSelectedToken } from './useSelectedToken';
@@ -60,8 +54,7 @@ interface IUseStakeFormData {
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
-  const dispatch = useAppDispatch();
-  const dispatchRequest = useDispatchRequest();
+  const [checkExistPartnerCode] = useCheckExistPartnerCodeMutation();
 
   const [hasErrors, setHasErrors] = useState(false);
   const [amount, setAmount] = useState(ZERO);
@@ -71,10 +64,18 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
-  const { loading: isStakeLoading } = useMutation({ type: stake });
+  const [stake, { isLoading: isStakeLoading }] = useStakeBNBMutation();
 
   const { data: isReferralUserExistsData } = useQuery({
     type: getIsStakerExists,
+  });
+
+  const {
+    data: fetchStatsData,
+    isFetching: isFetchStatsLoading,
+    refetch,
+  } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
@@ -82,16 +83,14 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: getFAQ,
   });
 
-  const { data: stakeGasFee, loading: isStakeGasLoading } = useQuery({
-    type: getStakeGasFee,
-  });
+  const [
+    getBNBStakeGasFee,
+    { data: stakeGasFee, isFetching: isStakeGasLoading },
+  ] = useLazyGetBNBStakeGasFeeQuery();
 
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const handleHaveCodeClick = useCallback(() => setHaveCode(x => !x), []);
-
-  const { isLoading: isFetchStatsLoading, stats: fetchStatsData } =
-    useFetchStats();
 
   const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
   const bnbBalance = fetchStatsData?.bnbBalance;
@@ -110,11 +109,9 @@ export const useStakeForm = (): IUseStakeFormData => {
     setHasErrors(invalid);
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
 
-    if (invalid) {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
-    } else if (formAmount) {
+    if (formAmount && !invalid) {
       const readyAmount = new BigNumber(formAmount);
-      dispatch(getStakeGasFee({ amount: readyAmount, token: selectedToken }));
+      getBNBStakeGasFee({ amount: readyAmount, token: selectedToken });
     }
   };
 
@@ -151,23 +148,26 @@ export const useStakeForm = (): IUseStakeFormData => {
     });
   }, [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee]);
 
+  useProviderEffect(() => {
+    refetch();
+  }, []);
+
   const handleSubmit = ({ amount: formAmount }: IStakeSubmitPayload): void => {
     const stakeAmount = new BigNumber(formAmount);
 
     if (!haveCode) {
-      dispatchRequest(
-        stake({ amount: stakeAmount, token: selectedToken }),
-      ).then(({ error }) => {
-        if (!error) {
+      stake({ amount: stakeAmount, token: selectedToken })
+        .unwrap()
+        .then(() => {
           sendAnalytics();
-        }
-      });
+        });
     }
 
     if (haveCode) {
-      dispatchRequest(checkExistPartnerCode({ partnerCode: code })).then(
-        ({ error: firstError, data }) => {
-          if (firstError || !data) {
+      checkExistPartnerCode({ partnerCode: code })
+        .unwrap()
+        .then(data => {
+          if (!data) {
             showNotification({
               message: t('referrals.incorrect-code'),
               variant: 'error',
@@ -175,15 +175,18 @@ export const useStakeForm = (): IUseStakeFormData => {
             return;
           }
 
-          dispatchRequest(
-            stake({ amount: stakeAmount, token: selectedToken, code }),
-          ).then(({ error: secondError }) => {
-            if (!secondError) {
+          stake({ amount: stakeAmount, token: selectedToken, code })
+            .unwrap()
+            .then(() => {
               sendAnalytics();
-            }
+            });
+        })
+        .catch(() => {
+          showNotification({
+            message: t('referrals.incorrect-code'),
+            variant: 'error',
           });
-        },
-      );
+        });
     }
   };
 
@@ -193,10 +196,10 @@ export const useStakeForm = (): IUseStakeFormData => {
 
       const shouldUpdateGasFee = !totalAmount.isZero() && amount && !hasErrors;
       if (shouldUpdateGasFee) {
-        dispatch(getStakeGasFee({ amount, token }));
+        getBNBStakeGasFee({ amount, token });
       }
     },
-    [amount, dispatch, handleTokenSelect, hasErrors, totalAmount],
+    [amount, getBNBStakeGasFee, handleTokenSelect, hasErrors, totalAmount],
   );
 
   const minimumStake = fetchStatsData

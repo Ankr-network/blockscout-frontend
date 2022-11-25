@@ -17,7 +17,7 @@ import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData'
 import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
-import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
 import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
@@ -85,9 +85,12 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
-  const { data: bnbData, loading: isBnbDataLoading } = useQuery({
-    type: fetchStakeBNBStats,
-  });
+  const { data: bnbData, isFetching: isBnbDataLoading } = useGetBNBStatsQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
 
   const { data: ethData, loading: isEthDataLoading } = useQuery({
     type: fetchStakeETHStats,

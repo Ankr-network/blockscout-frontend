@@ -19,7 +19,7 @@ import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
-import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
@@ -69,9 +69,12 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: fetchStakeAVAXStats,
   });
 
-  const { data: bnbData, loading: isBnbDataLoading } = useQuery({
-    type: fetchStakeBNBStats,
-  });
+  const { data: bnbData, isFetching: isBnbDataLoading } = useGetBNBStatsQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
 
   const { data: ethData, loading: isEthDataLoading } = useQuery({
     type: fetchStakeETHStats,

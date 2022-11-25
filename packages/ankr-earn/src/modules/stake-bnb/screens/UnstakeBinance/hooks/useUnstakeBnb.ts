@@ -1,21 +1,17 @@
 import { t } from '@ankr.com/common';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ACTION_CACHE_SEC, DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { approveABNBCForSwapPool } from 'modules/stake-bnb/actions/approveABNBCFlashUnstake';
-import { approveABNBCUnstake } from 'modules/stake-bnb/actions/approveABNBCUnstake';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
-import { flashUnstake } from 'modules/stake-bnb/actions/flashUnstake';
-import { unstake } from 'modules/stake-bnb/actions/unstake';
+import { useApproveABNBCForSwapPoolMutation } from 'modules/stake-bnb/actions/approveABNBCFlashUnstake';
+import { useApproveABNBCUnstakeMutation } from 'modules/stake-bnb/actions/approveABNBCUnstake';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useFlashUnstakeBNBMutation } from 'modules/stake-bnb/actions/flashUnstake';
+import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
 import { RoutesConfig } from 'modules/stake-bnb/Routes';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedToken';
@@ -54,30 +50,35 @@ interface IUseUnstakeBnb {
 }
 
 export const useUnstakeBnb = (): IUseUnstakeBnb => {
-  const dispatchRequest = useDispatchRequest();
   const { sendAnalytics } = useUnstakeBNBAnalytics();
+  const [
+    approveABNBCUnstake,
+    { data: approveData, isLoading: isApproveLoading },
+  ] = useApproveABNBCUnstakeMutation({
+    fixedCacheKey: 'useApproveABNBCUnstakeMutation',
+  });
+  const [
+    approveABNBCForSwapPool,
+    { data: swapPoolApproved, isLoading: isSwapPoolApproveLoading },
+  ] = useApproveABNBCForSwapPoolMutation({
+    fixedCacheKey: 'useApproveABNBCForSwapPoolMutation',
+  });
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
 
-  const { loading: isFetchStatsLoading, data: fetchStatsData } = useQuery({
-    type: fetchStats,
+  const {
+    data: fetchStatsData,
+    isFetching: isFetchStatsLoading,
+    refetch,
+  } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
-  const { data: approveData, loading: isApproveLoading } = useQuery({
-    type: approveABNBCUnstake,
-  });
+  const [unstake, { isLoading: isUnstakeLoading }] = useUnstakeBNBMutation();
 
-  const { data: swapPoolApproved, loading: isSwapPoolApproveLoading } =
-    useQuery({
-      type: approveABNBCForSwapPool,
-    });
-
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
-
-  const { loading: isFlashUnstakeLoading } = useMutation({
-    type: flashUnstake,
-  });
+  const [flashUnstakeBNB, { isLoading: isFlashUnstakeLoading }] =
+    useFlashUnstakeBNBMutation();
 
   const isBondToken = selectedToken === Token.aBNBb;
 
@@ -109,7 +110,10 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
       });
     }
 
-    if (isToExternalAddress && !externalAddress?.match(/^[a-zA-Z0-9]+$/)) {
+    if (
+      isToExternalAddress &&
+      !externalAddress?.toLowerCase().match(/^(0x)?[0-9a-f]{40}$/)
+    ) {
       errors.externalAddress = t('validation.invalid-address');
     }
 
@@ -146,6 +150,10 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const isWithApprove = !isBondToken;
   const shouldBeApproved = isWithApprove && !isApproved;
 
+  useProviderEffect(() => {
+    refetch();
+  }, []);
+
   const handleSubmit = useCallback(
     (formValues: IUnstakeFormValues) => {
       const { amount, isToExternalAddress, externalAddress } = formValues;
@@ -160,13 +168,13 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
         externalAddress: isToExternalAddress ? externalAddress : undefined,
       };
 
-      dispatchRequest(unstake(unstakeRequest)).then(({ error }) => {
-        if (!error) {
+      unstake(unstakeRequest)
+        .unwrap()
+        .then(() => {
           sendAnalytics(resultAmount, selectedToken);
-        }
-      });
+        });
     },
-    [dispatchRequest, selectedToken, sendAnalytics],
+    [selectedToken, sendAnalytics, unstake],
   );
 
   const handleFlashSubmit = useCallback(
@@ -181,13 +189,13 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
         token: selectedToken,
       };
 
-      dispatchRequest(flashUnstake(unstakeRequest)).then(({ error }) => {
-        if (!error) {
+      flashUnstakeBNB(unstakeRequest)
+        .unwrap()
+        .then(() => {
           sendAnalytics(resultAmount, selectedToken);
-        }
-      });
+        });
     },
-    [dispatchRequest, selectedToken, sendAnalytics],
+    [flashUnstakeBNB, selectedToken, sendAnalytics],
   );
 
   const onUnstakeSubmit = useCallback(
@@ -200,12 +208,12 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
       const value = new BigNumber(amount);
 
       if (shouldBeApproved) {
-        dispatchRequest(approveABNBCUnstake(value));
+        approveABNBCUnstake(value);
       } else {
         handleSubmit(formValues);
       }
     },
-    [dispatchRequest, handleSubmit, shouldBeApproved],
+    [approveABNBCUnstake, handleSubmit, shouldBeApproved],
   );
 
   const onFlashUnstakeSubmit = useCallback(
@@ -218,12 +226,12 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
       const value = new BigNumber(amount);
 
       if (!swapPoolApproved) {
-        dispatchRequest(approveABNBCForSwapPool(value));
+        approveABNBCForSwapPool(value);
       } else {
         handleFlashSubmit(formValues);
       }
     },
-    [dispatchRequest, handleFlashSubmit, swapPoolApproved],
+    [approveABNBCForSwapPool, handleFlashSubmit, swapPoolApproved],
   );
 
   const calcTotalRecieve = useCallback(
