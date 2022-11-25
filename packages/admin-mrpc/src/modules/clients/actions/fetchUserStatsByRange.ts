@@ -1,8 +1,5 @@
-import {
-  IUserStatsResponse,
-  PrivateStatsInterval,
-  Web3Address,
-} from 'multirpc-sdk';
+import { IStatsTimeframe, IUserStatsResponse, Web3Address } from 'multirpc-sdk';
+import { Milliseconds } from '@ankr.com/utils';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
@@ -11,8 +8,9 @@ import { IUsageEntityMapped } from '../types';
 
 interface IApiRequestParams {
   address: Web3Address;
-  interval?: PrivateStatsInterval;
-  current?: boolean;
+  timeframe?: IStatsTimeframe;
+  from: Milliseconds;
+  to: Milliseconds;
 }
 
 interface IApiResponse {
@@ -21,13 +19,18 @@ interface IApiResponse {
 }
 
 export const {
-  useFetchUserStatsQuery,
-  endpoints: { fetchUserStats },
+  useFetchUserStatsByRangeQuery,
+  endpoints: { fetchUserStatsByRange },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchUserStats: build.query<IApiResponse, IApiRequestParams>({
-      queryFn: async ({ address, interval, current = false }) => {
-        if (!interval) {
+    fetchUserStatsByRange: build.query<IApiResponse, IApiRequestParams>({
+      queryFn: async ({
+        address,
+        from,
+        to,
+        timeframe = 'd1', // timeframe param is used for counts points range
+      }) => {
+        if (!from || !to) {
           return {
             data: {
               stats: undefined,
@@ -38,10 +41,11 @@ export const {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
         await authorizeBackoffice();
-        const statsResponse = await backofficeGateway.getUserStats({
+        const statsResponse = await backofficeGateway.getUserStatsByRange({
           address,
-          interval,
-          current, // current = true means current day stats will be included to period stats response
+          from,
+          to,
+          timeframe,
         });
 
         return {

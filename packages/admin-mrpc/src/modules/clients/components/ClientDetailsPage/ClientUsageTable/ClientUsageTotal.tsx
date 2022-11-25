@@ -3,6 +3,7 @@ import { PrivateStatsInterval } from 'multirpc-sdk';
 import { formatNumber } from 'modules/common/utils/renderBalance';
 import { timeframeTextMap } from '../const';
 import { useClientDetailsStyles } from '../ClientDetailsStyles';
+import { CustomRange } from '../useClientDetailsPage';
 
 const skeleton = (
   <Skeleton
@@ -15,7 +16,7 @@ const skeleton = (
 );
 
 interface IClientUsageTotalProps {
-  currentPeriod: PrivateStatsInterval;
+  currentPeriod: PrivateStatsInterval | CustomRange;
   isLoadingStats?: boolean;
   totalCost?: number;
   totalRequestsValue?: number;
@@ -53,7 +54,7 @@ export const ClientUsageTotal = ({
                   <b> {value}</b>
                 </Typography>
                 <Typography variant="caption" component="p">
-                  in one {timeframeTextMap[currentPeriod]}
+                  in {timeframeTextMap[currentPeriod]}
                 </Typography>
               </>
             ) : (

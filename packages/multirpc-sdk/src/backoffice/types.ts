@@ -73,6 +73,8 @@ export interface IEmailBindingsResponse {
 export interface ICreateTestClientRequest {
   address: Web3Address;
   duration: number;
+  name?: string;
+  email?: string;
 }
 
 export interface ICreateTestClientResponse {
@@ -81,12 +83,23 @@ export interface ICreateTestClientResponse {
   address: Web3Address,
   tier: number,
   roles: string,
+  name?: string,
+  email?: string,
 }
 
 export interface IUserStatsRequest {
   address: Web3Address;
   interval: PrivateStatsInterval;
   current?: boolean; // set true if current day stats need to be included
+}
+
+export type IStatsTimeframe = 'm5'|'m15'|'h1'|'d1';
+
+export interface IUserStatsByRangeRequest {
+  address: Web3Address;
+  timeframe: IStatsTimeframe;
+  from: number; // milliseconds
+  to: number; // milliseconds
 }
 
 export type IUserStatsResponse = PrivateStats;
@@ -195,6 +208,18 @@ export interface IUpdateUserProfileRequest {
   name?: string;
 }
 export type IUpdateUserProfileResponse = IUserProfileResponse;
+
+export interface IGetUserRevenueRequest {
+  address: Web3Address;
+}
+
+export interface IGetUserRevenueResponse {
+  creditsAmount: string,
+  usdAmount: string,
+  ankrAmount: string,
+  usdFact: string,
+  ankrFact: string
+}
 
 export type BlockchainFeature = 'rpc' | 'ws';
 
