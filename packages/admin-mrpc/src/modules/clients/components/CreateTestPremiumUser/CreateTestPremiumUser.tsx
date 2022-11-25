@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
-import { Button, Modal, Typography, TextField } from '@mui/material';
+import { Button, Modal, Typography, Input } from '@mui/material';
 import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';
@@ -11,7 +11,12 @@ import { useFetchCountersQuery } from '../../actions/fetchCounters';
 const DAYS_TO_SECONDS_MULTIPLY_VALUE = 86400;
 
 interface FormElements {
-  elements: { userWallet: { value: string }; testingPeriod: { value: number } };
+  elements: {
+    userWallet: { value: string };
+    testingPeriod: { value: number };
+    name: { value?: string };
+    email: { value?: string };
+  };
 }
 
 export const CreateTestPremiumUser = () => {
@@ -38,11 +43,15 @@ export const CreateTestPremiumUser = () => {
     const {
       userWallet: { value: userWalletValue },
       testingPeriod: { value: testingPeriodValue },
+      name: { value: nameValue },
+      email: { value: emailValue },
     } = e.target.elements;
     if (userWalletValue && testingPeriodValue) {
       createTestPremiumUser({
         address: userWalletValue.toLowerCase(),
         duration: testingPeriodValue * DAYS_TO_SECONDS_MULTIPLY_VALUE,
+        name: nameValue,
+        email: emailValue,
       }).then(res => {
         setOpen(false);
         if (res && 'data' in res) {
@@ -71,32 +80,30 @@ export const CreateTestPremiumUser = () => {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <TextField
+        <Input
           className={classes.input}
           name="userWallet"
           id="userWallet"
           placeholder="User wallet"
         />
-        <TextField
-          disabled
-          className={classes.input}
-          name="email"
-          id="email"
-          placeholder="Email"
-        />
-        <TextField
+        <Input
           type="number"
           className={classes.input}
           name="testingPeriod"
           id="testingPeriod"
           placeholder="Testing Period (days)"
         />
-        <TextField
-          disabled
+        <Input
           className={classes.input}
-          name="comment"
-          id="comment"
-          placeholder="Comment"
+          name="email"
+          id="email"
+          placeholder="Email"
+        />
+        <Input
+          className={classes.input}
+          name="name"
+          id="name"
+          placeholder="Name"
         />
 
         <Button

@@ -6,7 +6,9 @@ import {
   MenuItem,
   Modal,
   Typography,
-  TextField,
+  Input,
+  Select,
+  SelectChangeEvent,
 } from '@mui/material';
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
@@ -19,16 +21,12 @@ import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { ClientBalancesInfo } from './ClientBalancesInfo';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
-interface FormElements {
+interface IFormElements {
   elements: {
     unit: { value: IAmountType };
     amount: { value: number };
     comment: { value: string };
   };
-}
-
-interface FormTarget {
-  target: { value: string; name: string };
 }
 
 const ADD_CREDITS_ID = 'add';
@@ -53,11 +51,9 @@ export const ClientBalancesModal = ({
 
   const isLoading = isLoadingAddCredits || isLoadingSubtractCredits;
 
-  const [unit, setUnit] = useState('');
-  const handleChangeUnit = (
-    event: React.ChangeEvent<HTMLInputElement & FormTarget>,
-  ) => {
-    setUnit(event.target.value);
+  const [unit, setUnit] = useState<IAmountType | ''>('');
+  const handleChangeUnit = (event: SelectChangeEvent<IAmountType>) => {
+    setUnit(event.target.value as IAmountType);
   };
 
   const [open, setOpen] = useState(false);
@@ -70,7 +66,7 @@ export const ClientBalancesModal = ({
 
   const handleSubmit = (
     e: FormEvent<HTMLFormElement> & {
-      target: FormElements;
+      target: IFormElements;
       nativeEvent: SubmitEvent;
     },
   ) => {
@@ -136,10 +132,8 @@ export const ClientBalancesModal = ({
       >
         <ClientBalancesInfo currentClient={currentClient} size={6} />
         <br />
-        <TextField
-          sx={{ mb: 2 }}
+        <Select
           className={classes.select}
-          select
           id="unit"
           name="unit"
           disabled={isLoading}
@@ -150,16 +144,16 @@ export const ClientBalancesModal = ({
           <MenuItem value="ankr">Ankr</MenuItem>
           <MenuItem value="usd">USD</MenuItem>
           <MenuItem value="credit">Voucher credit</MenuItem>
-        </TextField>
+        </Select>
 
-        <TextField
+        <Input
           name="amount"
           id="amount"
           placeholder="amount"
           type="number"
           disabled={isLoading}
         />
-        <TextField
+        <Input
           sx={{ mt: 2, mb: 6 }}
           name="comment"
           id="comment"

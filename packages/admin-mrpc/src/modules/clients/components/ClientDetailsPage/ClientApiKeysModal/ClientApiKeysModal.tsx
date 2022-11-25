@@ -5,7 +5,7 @@ import {
   MenuItem,
   Modal,
   Typography,
-  TextField,
+  Select,
 } from '@mui/material';
 
 import { ReactComponent as IconCopy } from 'assets/img/copy.svg';
@@ -86,19 +86,13 @@ export const ClientApiKeysModal = ({
       <br />
       <Box>
         <FormControl fullWidth>
-          <TextField
+          <Select
             sx={{ mb: 2 }}
-            select
             id="chain-select"
             value={selectedChainId}
             label="Chain"
             onChange={handleSelectChain}
             disabled={isLoadingBlockchains}
-            InputProps={{
-              sx: theme => ({
-                backgroundColor: theme.palette.background.default,
-              }),
-            }}
           >
             {blockchainsData?.map(chain => {
               return (
@@ -116,7 +110,7 @@ export const ClientApiKeysModal = ({
                 </MenuItem>
               );
             })}
-          </TextField>
+          </Select>
         </FormControl>
       </Box>
 

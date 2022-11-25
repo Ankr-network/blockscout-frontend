@@ -1,4 +1,11 @@
-import { Box, Button, Modal, Typography, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Modal,
+  Typography,
+  InputLabel,
+  Input,
+} from '@mui/material';
 import { ReactComponent as IconEdit } from 'assets/img/edit.svg';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { useClientEditProfile } from './useClientEditProfile';
@@ -42,8 +49,8 @@ export const ClientEditProfileModal = ({
         <b>{currentClient.address}</b>
         <br />
         <br />
-        <TextField
-          label="Name"
+        <InputLabel children="Name" />
+        <Input
           name="name"
           id="name"
           placeholder="Add Name"
@@ -53,8 +60,8 @@ export const ClientEditProfileModal = ({
         />
         <br />
         <br />
-        <TextField
-          label="Comment"
+        <InputLabel children="Comment" />
+        <Input
           sx={{ mt: 2, mb: 6 }}
           name="comment"
           id="comment"

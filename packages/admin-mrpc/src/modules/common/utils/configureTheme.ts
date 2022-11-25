@@ -1,9 +1,5 @@
 import { Theme } from '@mui/material/styles';
-import {
-  inputBaseClasses,
-  selectClasses,
-  tableContainerClasses,
-} from '@mui/material';
+import { tableContainerClasses } from '@mui/material';
 
 export const configureTheme = (theme: Theme) => {
   return {
@@ -59,17 +55,9 @@ export const configureTheme = (theme: Theme) => {
       },
       MuiInput: {
         ...theme.components?.MuiInput,
-        styleOverrides: {
-          ...theme.components?.MuiInput?.styleOverrides,
-          root: {
-            [`&.${inputBaseClasses.focused}`]: {
-              // fix for focused select input background color
-              [`& .${selectClasses.select}`]: {
-                backgroundColor: theme.palette.background.paper,
-                transition: 'background-color .3s',
-              },
-            },
-          },
+        defaultProps: {
+          ...theme.components?.MuiInput?.defaultProps,
+          color: 'secondary',
         },
       },
     },
