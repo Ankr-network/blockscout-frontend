@@ -1,20 +1,21 @@
 import {
-  Paper,
-  Table,
-  Typography,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
-  Tabs,
-  Tab,
   Box,
   FormControlLabel,
+  Paper,
   Switch,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tabs,
+  Typography,
 } from '@mui/material';
 import { CSVLink } from 'react-csv';
 import { Spinner } from 'ui';
+import { PrivateStatsInterval } from 'multirpc-sdk';
 import { useClientDetailsStyles } from '../ClientDetailsStyles';
 import {
   useClientUsageTable,
@@ -23,6 +24,7 @@ import {
 import { ClientUsageTotal } from './ClientUsageTotal';
 import { ClientUsageChainFilter } from './ClientUsageChainFilter';
 import { formatNumber } from 'modules/common/utils/renderBalance';
+import { currentMonthName, previousMonthName } from '../../../utils/dates';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,9 +55,10 @@ export const ClientUsageTable = ({
   isLoadingStats,
   handleSwitchCurrent,
   isCurrentDayIncluded,
+  isRangePeriod,
 }: IClientUsageTableProps) => {
   const {
-    activeTabIndex,
+    activeTimeframeTabIndex,
     handleChangeActiveTab,
     totalCost,
     filterByChainValue,
@@ -75,7 +78,7 @@ export const ClientUsageTable = ({
     <>
       <Box display="flex">
         <Tabs
-          value={activeTabIndex}
+          value={activeTimeframeTabIndex}
           onChange={handleChangeActiveTab}
           TabIndicatorProps={{
             style: {
@@ -87,6 +90,16 @@ export const ClientUsageTable = ({
           <Tab className={classes.tabUsagePeriod} disableRipple label="24h" />
           <Tab className={classes.tabUsagePeriod} disableRipple label="7d" />
           <Tab className={classes.tabUsagePeriod} disableRipple label="30d" />
+          <Tab
+            className={classes.tabUsagePeriod}
+            disableRipple
+            label={previousMonthName}
+          />
+          <Tab
+            className={classes.tabUsagePeriod}
+            disableRipple
+            label={currentMonthName}
+          />
         </Tabs>
 
         {csvMappedUsage && (
@@ -101,12 +114,20 @@ export const ClientUsageTable = ({
       </Box>
 
       <br />
-      <FormControlLabel
-        control={
-          <Switch value={isCurrentDayIncluded} onChange={handleSwitchCurrent} />
-        }
-        label="Include current day"
-      />
+      {!isRangePeriod && (
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isCurrentDayIncluded}
+              value={isCurrentDayIncluded}
+              onChange={handleSwitchCurrent}
+            />
+          }
+          label={`Include current ${
+            currentPeriod === PrivateStatsInterval.DAY ? 'hour' : 'day'
+          }`}
+        />
+      )}
 
       {isLoadingStats ? (
         <>
@@ -133,7 +154,7 @@ export const ClientUsageTable = ({
       {usage
         ? TAB_INDEXES.map(tab => {
             return (
-              <TabPanel key={tab} value={activeTabIndex} index={+tab}>
+              <TabPanel key={tab} value={activeTimeframeTabIndex} index={+tab}>
                 <TableContainer component={Paper}>
                   <Table size="small" aria-label="actions table">
                     <TableHead>

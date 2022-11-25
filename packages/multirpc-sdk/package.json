@@ -50,6 +50,7 @@
   "dependencies": {
     "@ankr.com/provider": "*",
     "@ankr.com/common": "*",
+    "@ankr.com/utils": "*",
     "@faker-js/faker": "6.1.2",
     "@types/lodash.flatten": "4.4.7",
     "@types/lodash.orderby": "4.6.6",
