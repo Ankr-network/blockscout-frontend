@@ -94,4 +94,6 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.POLYGON_MUMBAI_TESTNET]: 'https://mumbai.polygonscan.com',
   [SupportedChainIDS.GNOSIS]: 'https://gnosisscan.io',
   [SupportedChainIDS.GNOSIS_SOKOL]: 'https://blockscout.com/poa/sokol',
+  [SupportedChainIDS.XDC]: 'https://explorer.xinfin.network',
+  [SupportedChainIDS.XDC_TESTNET]: 'https://explorer.apothem.network',
 };

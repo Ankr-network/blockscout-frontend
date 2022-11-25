@@ -3,25 +3,36 @@ import { TransactionReceipt } from 'web3-core';
 
 import { Web3KeyReadProvider } from '@ankr.com/provider';
 
-import { IWeb3TxInfoProps } from '../../common';
+import { configFromEnv, currentEnv, Env, IWeb3TxInfoProps } from '../../common';
 import { IFetchTxData } from '../../switcher';
 
+import { getXDCAddress } from './utils';
+
+interface IGetTxDataProps extends IWeb3TxInfoProps<Web3KeyReadProvider> {
+  env?: Env;
+}
+
 export const getTxData = async ({
+  env = currentEnv,
   provider,
   txHash,
-}: IWeb3TxInfoProps<Web3KeyReadProvider>): Promise<IFetchTxData> => {
+}: IGetTxDataProps): Promise<IFetchTxData> => {
+  const { xdcConfig } = configFromEnv(env);
+
   const web3 = provider.getWeb3();
 
-  const tx = await web3.eth.getTransaction(txHash);
+  const tx = await web3.eth.getTransactionReceipt(txHash);
 
-  const { 1: amount } =
-    tx.value === '0'
-      ? web3.eth.abi.decodeParameters(['bool', 'uint256'], tx.input.slice(10))
-      : { 1: tx.value };
+  const amountLog = tx.logs.find(
+    ({ address }) =>
+      address.toLowerCase() === xdcConfig.aXDCcToken.toLowerCase(),
+  );
+
+  const amount = web3.utils.toBN(amountLog?.data ?? '0');
 
   return {
-    amount: new BigNumber(web3.utils.fromWei(amount)),
-    destinationAddress: tx.from as string | undefined,
+    amount: new BigNumber(web3.utils.fromWei(amount.toString(10))),
+    destinationAddress: getXDCAddress(tx.from),
     isPending: tx.transactionIndex === null,
   };
 };

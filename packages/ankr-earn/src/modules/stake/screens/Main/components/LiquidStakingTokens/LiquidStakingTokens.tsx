@@ -26,6 +26,7 @@ import { RoutesConfig as PolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { RoutesConfig as EthereumSSVRoutes } from 'modules/stake-ssv/Routes';
 import { RoutesConfig as StakeSuiRoutes } from 'modules/stake-sui/Routes';
+import { RoutesConfig as XDCRoutes } from 'modules/stake-xdc/Routes';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
@@ -36,6 +37,7 @@ import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 import { SSVStakingIcon } from 'uiKit/Icons/SSVStakingIcon';
 import { SUIIcon } from 'uiKit/Icons/SUIIcon';
+import { XDCIcon } from 'uiKit/Icons/XDCIcon';
 
 import { useStakeMainScreen } from '../../hooks/useStakeMainScreen';
 import { FeatureItem } from '../FeatureItem';
@@ -203,6 +205,21 @@ export const LiquidStakingTokens = (): JSX.Element => {
             title={t('features.sui')}
             token={Token.SUI}
             onStakeClick={onTrackEnterStakingFlow(Token.SUI)}
+          />
+        )}
+
+        {featuresConfig.xdcStaking && (
+          <FeatureItem
+            apy={0}
+            iconSlot={<XDCIcon />}
+            isApyLoading={false}
+            isTvlLoading={false}
+            mainHref={XDCRoutes.stake.generatePath()}
+            moreHref=""
+            stakedTvl={ZERO}
+            title={t('features.xdc')}
+            token={Token.XDC}
+            onStakeClick={onTrackEnterStakingFlow(Token.aXDCc)}
           />
         )}
       </Features>

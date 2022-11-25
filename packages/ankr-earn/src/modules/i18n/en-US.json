@@ -135,6 +135,8 @@
     "4": "Rinkeby",
     "5": "Ethereum Goerli",
     "6": "Kotti",
+    "50": "XDC Mainnet",
+    "51": "XDC Apothem Testnet",
     "56": "Binance SmartChain",
     "61": "Classic",
     "63": "Mordor",
@@ -832,6 +834,7 @@
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
     "sui": "Sui (SUI)",
+    "xdc": "XDC Network (XDC)",
     "apr": "APR",
     "apy": "APY",
     "apy-value": "{value, number, ::.0#}%",
@@ -1223,6 +1226,9 @@
       "current-wallet": "current wallet",
       "description": "SSV-Ethereum Staking is not available with <b>{currentWallet}</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
     }
+  },
+  "stake-xdc": {
+    "stake-info": "<b>aXDCc</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>1 aXDCc = {value} XDC</b>"
   },
   "convert": {
     "title": "Switch",

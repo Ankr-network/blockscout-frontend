@@ -32,8 +32,8 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
   [AvailableReadProviders.gnosis]: 'https://rpc.ankr.com/gnosis',
   [AvailableReadProviders.sokol]: 'https://sokol.poa.network',
-  [AvailableReadProviders.xdc]: 'https://rpc.xinfin.network',
-  [AvailableReadProviders.xdcTestnet]: 'https://rpc.apothem.network',
+  [AvailableReadProviders.xdc]: 'https://erpc.xinfin.network',
+  [AvailableReadProviders.xdcTestnet]: 'https://erpc.apothem.network',
 };
 
 export interface IProviders {
