@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 
-import { ExtraNavigation } from '../ExtraNavigation';
 import { Logo } from '../Logo';
 import { MainNavigation } from '../MainNavigation';
 import { useStyles } from './SideBarStyles';
@@ -29,7 +28,6 @@ export const SideBar = ({
           hasCredentials={hasCredentials}
           chainsRoutes={chainsRoutes}
         />
-        <ExtraNavigation />
       </div>
     </aside>
   );
