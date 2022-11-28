@@ -25,6 +25,7 @@ export interface IEthUserAddress {
   address: string;
   type: EthAddressType;
   public_key?: string;
+  publicKey?: string;
 }
 
 export interface IETHAddressesResponse {

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import { Spinner } from 'ui';
-import { Web3Address } from 'multirpc-sdk';
+import { IEthUserAddress, Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import {
@@ -54,6 +54,9 @@ export const ClientInfo = ({
     userName,
     revenueData,
     isLoadingRevenue,
+
+    userAddressesData,
+    isLoadingUserAddresses,
   } = useClientInfo({ address });
 
   const { classes } = useStyles();
@@ -94,6 +97,31 @@ export const ClientInfo = ({
       </CardContent>
     </Card>
   );
+
+  const mapAddresses = (ethUserAddress: IEthUserAddress) => {
+    const publicKey =
+      ethUserAddress.publicKey || ethUserAddress.public_key || 'unknown';
+    return (
+      <Card key={ethUserAddress.address} className={classes.root}>
+        <CardContent>
+          <Typography variant="body2">
+            <b>Address:</b> {ethUserAddress.address}
+          </Typography>
+          <br />
+          <br />
+          <Typography variant="body2">
+            <b>Type:</b> {ethUserAddress.type}
+          </Typography>
+          <br />
+          <br />
+          <Typography variant="body2">
+            <b>PublicKey:</b> {publicKey}
+          </Typography>{' '}
+          <ButtonCopy valueToCopy={publicKey} />
+        </CardContent>
+      </Card>
+    );
+  };
 
   const NOT_FOUND_TEXT = 'Not found';
   const statsFromText = totalData?.startedDate
@@ -153,6 +181,12 @@ export const ClientInfo = ({
         </>
       ) : (
         currentClient.map(renderMainInfo)
+      )}
+
+      {isLoadingUserAddresses ? (
+        <Spinner size={40} centered={false} />
+      ) : (
+        userAddressesData?.addresses.map(mapAddresses)
       )}
 
       <Grid

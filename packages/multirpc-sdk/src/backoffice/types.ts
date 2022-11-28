@@ -5,6 +5,7 @@ import {
   PrivateStatsInterval
 } from '../account';
 import { EmailConfirmationStatus, Network, Web3Address } from '../common';
+import { IETHAddressesResponse, IEthUserAddress } from '../oauth';
 
 export interface ITransactionsEntity {
   amount?: string;
@@ -221,6 +222,11 @@ export interface IGetUserRevenueResponse {
   usdFact: string,
   ankrFact: string
 }
+
+export type GetUserAddressesRequest = {
+  address: Web3Address;
+};
+export type GetUserAddressesResponse = IETHAddressesResponse;
 
 export type BlockchainFeature = 'rpc' | 'ws';
 

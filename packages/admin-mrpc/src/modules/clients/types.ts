@@ -15,6 +15,7 @@ export enum ClientType {
   ForcedExpirationPremium,
   TestDrivePremium,
   Premium,
+  PENDING,
 }
 
 export type ClientEntity = IBalancesEntity & {
