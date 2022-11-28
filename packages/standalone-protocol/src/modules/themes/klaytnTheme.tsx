@@ -31,7 +31,7 @@ export const PALETTE: PaletteOptions = {
     disabledBackground: '#BFC6D0',
   },
   success: {
-    main: '#F99A00',
+    main: '#00e396',
     light: fade('#112DF5', 0.15),
   },
   error: {
