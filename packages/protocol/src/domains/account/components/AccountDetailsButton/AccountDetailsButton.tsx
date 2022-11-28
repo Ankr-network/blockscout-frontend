@@ -19,23 +19,27 @@ export const AccountDetailsButton = ({
 
   const classes = useStyles(isMobile);
 
-  return isVisible ? (
-    <LoadableButton<'a', LinkProps>
-      className={classes.accountDetailsButtonRoot}
-      component={Link}
-      loading={isLoading}
-      to={AccountRoutesConfig.accountDetails.path}
-      variant="text"
-    >
-      <div className={classes.content}>
-        <AccountMarker status={status} />
-        <span className={classes.label}>
-          <Balance balance={balance} className={classes.balance} />
-          <span className={classes.currency}>
-            &nbsp;{t('account.currencies.credit')}
+  if (isVisible) {
+    return (
+      <LoadableButton<'a', LinkProps>
+        className={classes.accountDetailsButtonRoot}
+        component={Link}
+        loading={isLoading}
+        to={AccountRoutesConfig.accountDetails.path}
+        variant="text"
+      >
+        <div className={classes.content}>
+          <AccountMarker status={status} />
+          <span className={classes.label}>
+            <Balance balance={balance} className={classes.balance} />
+            <span className={classes.currency}>
+              &nbsp;{t('account.currencies.credit')}
+            </span>
           </span>
-        </span>
-      </div>
-    </LoadableButton>
-  ) : null;
+        </div>
+      </LoadableButton>
+    );
+  }
+
+  return null;
 };

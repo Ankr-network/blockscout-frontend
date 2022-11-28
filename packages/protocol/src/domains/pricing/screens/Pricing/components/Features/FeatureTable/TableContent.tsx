@@ -7,9 +7,9 @@ import { t, tHTML } from '@ankr.com/common';
 import {
   intlRoot,
   FEATURE_TABLE_ROW,
-  ITableHelper,
+  IColumnHelper,
   mapTableItem,
-  TABLE_HELPER,
+  COLUMNS_HELPER,
   HAS_TIP_MESSAGE,
 } from './FeatureTableUtils';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
@@ -22,7 +22,7 @@ export const TableContent = () => {
     <>
       {FEATURE_TABLE_ROW.map(rowIndex => (
         <TableRow key={`rowIndex-${rowIndex}`} className={classes.cellRow}>
-          {TABLE_HELPER.map((item: ITableHelper, columnIndex: number) => {
+          {COLUMNS_HELPER.map((item: IColumnHelper, columnIndex: number) => {
             const text = mapTableItem(item.text, columnIndex);
             const supported = item?.supported
               ? mapTableItem(item.supported, columnIndex)

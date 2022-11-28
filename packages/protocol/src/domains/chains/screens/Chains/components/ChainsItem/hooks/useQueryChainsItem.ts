@@ -12,7 +12,7 @@ export interface ChainsItemParams {
 }
 
 export const useQueryChainsItem = ({
-  chain: { id: chainId },
+  chain: { id, frontChain: { id: frontChainId } = {} },
 }: ChainsItemParams): [BigNumber, boolean, boolean, boolean] => {
   const { credentials, hasOauthLogin, hasWeb3Connection, ethAddressType } =
     useAuth();
@@ -22,6 +22,7 @@ export const useQueryChainsItem = ({
     type: fetchPublicRequestsCountStats,
   });
 
+  const chainId = frontChainId || id;
   const [privateTotalRequests = 0, arePrivateStatsLoading] =
     usePrivateStats(chainId);
 
