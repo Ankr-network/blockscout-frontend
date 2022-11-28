@@ -61,16 +61,8 @@ export const DefaultLayout = ({
           chainsRoutes={chainsRoutes}
         />
         <div className={classes.body}>
-          {!hasError && (
-            <Header
-              className={classes.header}
-              hasAccountDetailsButton={hasCredentials}
-            />
-          )}
-          <MobileHeader
-            className={classes.mobileHeader}
-            hasAccountDetailsButton={hasCredentials}
-          />
+          {!hasError && <Header className={classes.header} />}
+          <MobileHeader className={classes.mobileHeader} />
           <Container
             disableGutters={disableGutters}
             className={classes.main}

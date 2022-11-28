@@ -11,14 +11,14 @@ import { Collapse } from 'uiKit/Collapse';
 interface IFeatureContentProps {
   itemIndex: number;
   name: string;
-  num: number;
+  itemsCount: number;
   button: ReactNode;
 }
 
 export const FeatureContent = ({
   itemIndex,
   name,
-  num,
+  itemsCount,
   button,
 }: IFeatureContentProps) => {
   const classes = useFeatureTableMobileStyles();
@@ -55,7 +55,7 @@ export const FeatureContent = ({
         uncollapsedIcon={<MinusIcon className={classes.icon} />}
         content={
           <div className={classes.content}>
-            {new Array(num).fill('').map((_, index) => (
+            {new Array(itemsCount).fill('').map((_, index) => (
               <Typography
                 variant="body1"
                 className={classes.info}
