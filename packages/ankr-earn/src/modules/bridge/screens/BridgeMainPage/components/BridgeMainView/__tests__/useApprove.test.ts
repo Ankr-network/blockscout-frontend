@@ -3,6 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { SupportedChainIDS, ZERO } from 'modules/common/const';
 import { IUseTxReceipt, useTxReceipt } from 'modules/common/hooks/useTxReceipt';
@@ -23,6 +24,10 @@ jest.mock('modules/common/hooks/useTxReceipt', () => ({
 
 jest.mock('modules/bridge/actions/approve', () => ({
   approve: jest.fn(),
+}));
+
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 describe('modules/bridge/screens/BridgeMainPage/components/BridgeMainView/useApprove', () => {
@@ -47,6 +52,7 @@ describe('modules/bridge/screens/BridgeMainPage/components/BridgeMainView/useApp
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultApproveData);
     (useTxReceipt as jest.Mock).mockReturnValue(defaulTxReceiptData);
+    (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
   });
 
   afterEach(() => {

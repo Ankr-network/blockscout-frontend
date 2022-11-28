@@ -8,7 +8,7 @@ import {
 } from '@ankr.com/provider';
 
 import { trackBridge } from 'modules/analytics/tracking-actions/trackBridge';
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
@@ -102,6 +102,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const [isSendAnother, setIsSendAnother] = useState(false);
   const dispatchRequest = useDispatchRequest();
 
+  const [switchNetwork] = useSwitchNetworkMutation();
+
   const chainId = isEVMCompatible(chainNum) ? chainNum : undefined;
   const isInjected = getIsInjectedWallet(walletName);
 
@@ -182,12 +184,10 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const onAddrCheckboxClick = () => setIsSendAnother(s => !s);
 
   const onSwitchNetworkClick = () => {
-    dispatchRequest(
-      switchNetwork({
-        providerId,
-        chainId: swapNetworkItem.from as number,
-      }),
-    );
+    switchNetwork({
+      providerId,
+      chainId: swapNetworkItem.from as number,
+    });
   };
 
   const onSubmit = () => {

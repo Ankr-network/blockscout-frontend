@@ -21,12 +21,12 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
 }));
 
-jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
-  useProviderEffect: jest.fn(),
-}));
-
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
+}));
+
+jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
+  useProviderEffect: jest.fn(),
 }));
 
 jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({

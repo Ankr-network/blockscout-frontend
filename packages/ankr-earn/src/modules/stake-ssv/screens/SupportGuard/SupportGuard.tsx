@@ -1,10 +1,9 @@
 import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { disconnect } from 'modules/auth/common/actions/disconnect';
+import { useDisconnectMutation } from 'modules/auth/common/actions/disconnect';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -13,16 +12,15 @@ import { Container } from 'uiKit/Container';
 import { UnsupportedBanner } from '../../components/UnsupportedBanner';
 
 export const SupportGuard = (): JSX.Element => {
-  const dispatchRequest = useDispatchRequest();
-
   const { walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
+  const [disconnect] = useDisconnectMutation();
 
   const { handleOpen } = useDialog(EKnownDialogs.connect);
 
   const handleBtnClick = async () => {
-    await dispatchRequest(disconnect(AvailableWriteProviders.ethCompatible));
+    await disconnect(AvailableWriteProviders.ethCompatible);
     handleOpen();
   };
 

@@ -1,9 +1,15 @@
-import { useDispatchRequest } from '@redux-requests/react';
 import { useMemo } from 'react';
+import { store } from 'store';
 
-import { disconnect } from 'modules/auth/common/actions/disconnect';
-import { updateAccountAddress } from 'modules/auth/common/actions/updateAccountAddress';
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useDisconnectMutation } from 'modules/auth/common/actions/disconnect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import {
+  IProviderStatus,
+  selectProvidersData,
+  setProviderStatus,
+} from 'modules/auth/common/store/authSlice';
 
 import {
   AvailableStakingWriteProviders,
@@ -24,9 +30,15 @@ export interface IWalletItem {
 }
 
 export const useAuthWallets = (): IUseAuthWalletsData => {
-  const dispatchRequest = useDispatchRequest();
+  const [disconnectEth] = useDisconnectMutation({
+    fixedCacheKey: AvailableWriteProviders.ethCompatible,
+  });
+  const [disconnectPolkadot] = useDisconnectMutation({
+    fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
+  });
 
-  const { connectedProvidersData, walletsGroupTypes } = useWalletsGroupTypes();
+  const { connectedProvidersData, notConnectedWalletTypes: walletsGroupTypes } =
+    useWalletsGroupTypes();
 
   const wallets = useMemo(() => {
     if (connectedProvidersData === null) {
@@ -39,7 +51,7 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
       const providerData = connectedProvidersData[i];
       const { providerId } = providerData;
 
-      const addresses: IAddress[] = providerData.addresses.length
+      const addresses: IAddress[] = providerData.addresses?.length
         ? (providerData.addresses as string[]).map(address => ({
             address,
             isActive: address === providerData.address,
@@ -61,21 +73,34 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
             return;
           }
 
-          dispatchRequest(
-            updateAccountAddress({
-              address,
+          const providersData = selectProvidersData(store.getState());
+          const currProviderState: IProviderStatus | undefined =
+            providersData[providerId];
+
+          store.dispatch(
+            setProviderStatus({
+              ...currProviderState,
               providerId,
+              address,
             }),
           );
         },
         onDisconnect: (): void => {
-          dispatchRequest(disconnect(providerId));
+          switch (providerId) {
+            case ExtraWriteProviders.polkadotCompatible:
+              disconnectPolkadot(providerId);
+              break;
+            case AvailableWriteProviders.ethCompatible:
+            default:
+              disconnectEth(providerId);
+              break;
+          }
         },
       });
     }
 
     return resultData;
-  }, [connectedProvidersData, dispatchRequest]);
+  }, [connectedProvidersData, disconnectEth, disconnectPolkadot]);
 
   return {
     wallets,

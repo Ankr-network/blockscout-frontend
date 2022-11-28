@@ -1,6 +1,3 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import {
   AvailableWriteProviders,
   EthereumWeb3KeyProvider,
@@ -13,34 +10,32 @@ import {
   PolkadotProvider,
 } from 'polkadot';
 
+import { web3Api } from 'modules/api/web3Api';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
-import { withStore } from 'modules/common/utils/withStore';
 
-import { ExtraWriteProviders, ProvidersMap } from '../../../common/types';
+import {
+  AvailableStakingWriteProviders,
+  ExtraWriteProviders,
+  ProvidersMap,
+} from '../../../common/types';
 import { setChainId } from '../store/authSlice';
-import { getAuthRequestKey } from '../utils/getAuthRequestKey';
-
-import { connect, IConnect } from './connect';
-
-type TChangedData = Partial<IConnect>;
 
 interface ISwitchNetworkArgs {
   chainId: EEthereumNetworkId | EPolkadotNetworkId;
-  providerId: keyof ProvidersMap;
+  providerId: AvailableStakingWriteProviders;
 }
 
-export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
-  'auth/switchNetwork',
-  ({ chainId, providerId }) => {
-    const authRequestKey = getAuthRequestKey(providerId);
-    const connectAction = connect.toString() + authRequestKey;
-
+export const {
+  useSwitchNetworkMutation,
+  endpoints: { switchNetwork },
+} = web3Api.injectEndpoints({
+  endpoints: build => {
     let switchNetworkData: ISwitchNetworkData | undefined;
 
     return {
-      request: {
-        promise: async () => {
+      switchNetwork: build.mutation<boolean, ISwitchNetworkArgs>({
+        queryFn: async ({ chainId, providerId }) => {
           const provider =
             await ProviderManagerSingleton.getInstance<ProvidersMap>().getProvider(
               providerId,
@@ -49,9 +44,10 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
           switch (providerId) {
             case AvailableWriteProviders.ethCompatible: {
               if (isEVMCompatible(chainId)) {
-                return (provider as EthereumWeb3KeyProvider).switchNetwork(
-                  chainId,
-                );
+                (provider as EthereumWeb3KeyProvider).switchNetwork(chainId);
+                return {
+                  data: true,
+                };
               }
 
               break;
@@ -63,7 +59,9 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
                   provider as PolkadotProvider
                 ).switchNetwork(chainId);
 
-                return switchNetworkData;
+                return {
+                  data: true,
+                };
               }
 
               break;
@@ -73,53 +71,28 @@ export const switchNetwork = createAction<RequestAction, [ISwitchNetworkArgs]>(
               break;
           }
 
-          return null;
+          return {
+            data: false,
+          };
         },
-      },
-      meta: {
-        asMutation: true,
-        showNotificationOnError: true,
-        onRequest: withStore,
-        onSuccess: (
-          response: { data: IConnect },
-          _action: RequestAction,
-          { dispatch }: RequestsStore,
-        ) => {
-          dispatch(
-            setChainId({
-              providerId,
-              isActive: true,
-              chainId,
-            }),
-          );
-
-          return response;
-        },
-        mutations: {
-          [connectAction]: (data: IConnect): IConnect => {
-            let changedData: TChangedData = {};
-
-            if (
-              providerId === 'polkadotCompatible' &&
-              isPolkadotCompatible(chainId)
-            ) {
-              changedData = {
+        async onQueryStarted(
+          { chainId, providerId },
+          { dispatch, queryFulfilled },
+        ) {
+          return queryFulfilled.then(() => {
+            dispatch(
+              setChainId({
+                providerId,
+                isActive: true,
                 chainId,
-              };
-            }
-
-            if (typeof switchNetworkData?.address === 'string') {
-              changedData.address = switchNetworkData.address;
-            }
-
-            return {
-              ...data,
-              ...changedData,
-              chainId,
-            };
-          },
+                ...(switchNetworkData?.address !== undefined && {
+                  address: switchNetworkData?.address,
+                }),
+              }),
+            );
+          });
         },
-      },
+      }),
     };
   },
-);
+});

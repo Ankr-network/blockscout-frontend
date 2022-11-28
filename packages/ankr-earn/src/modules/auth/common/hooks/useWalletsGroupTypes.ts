@@ -1,6 +1,6 @@
-import { QueryState } from '@redux-requests/core';
+import { PersistPartial } from 'redux-persist/es/persistReducer';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { Address, AvailableWriteProviders } from '@ankr.com/provider';
 
 import {
   AvailableStakingWriteProviders,
@@ -8,12 +8,22 @@ import {
 } from 'modules/common/types';
 import { useAppSelector } from 'store/useAppSelector';
 
-import { IConnect } from '../actions/connect';
-import { selectProvidersData, selectQueriesData } from '../store/authSlice';
-import { getFullAuthRequestKey } from '../utils/getAuthRequestKey';
+import { IAuthSlice, selectProvidersData } from '../store/authSlice';
 
-type TConnectData = IConnect | null;
-type TConnectedProvidersData = IConnect[] | null;
+interface IExistProviderData {
+  address: string;
+  addresses: Address[];
+  isActive: boolean;
+  providerId: AvailableStakingWriteProviders;
+  chainId: number | string | null;
+  walletId?: string;
+  wallet?: string;
+  walletIcon?: string;
+  walletName: string;
+}
+
+type TConnectData = IExistProviderData | null;
+type TConnectedProvidersData = IExistProviderData[] | null;
 
 interface IUseWalletsGroupTypesProps {
   writeProviderId?: AvailableStakingWriteProviders;
@@ -21,12 +31,8 @@ interface IUseWalletsGroupTypesProps {
 
 interface IUseWalletsGroupTypesData {
   connectedProvidersData: TConnectedProvidersData;
-  walletsGroupTypes?: AvailableStakingWriteProviders[];
+  notConnectedWalletTypes?: AvailableStakingWriteProviders[];
   writeProviderData: TConnectData;
-}
-
-interface IQueryData {
-  [queryKey: string]: QueryState<IConnect> | undefined;
 }
 
 const PERSIST_DEFAULT_KEY = '_persist';
@@ -37,21 +43,18 @@ const AVAILABLE_WALLETS_GROUP_TYPES = [
 ];
 
 const getConnectData = (
-  queriesData: IQueryData,
-  providerKey: AvailableStakingWriteProviders,
+  queriesData: IAuthSlice & PersistPartial,
+  providerKey: AvailableWriteProviders,
 ): TConnectData => {
-  const queryKey = getFullAuthRequestKey(providerKey);
-
-  return queriesData[queryKey]?.data ?? null;
+  return (queriesData[providerKey] as IExistProviderData) ?? null;
 };
 
 export const useWalletsGroupTypes = ({
   writeProviderId,
 }: IUseWalletsGroupTypesProps = {}): IUseWalletsGroupTypesData => {
   const providersData = useAppSelector(selectProvidersData);
-  const queriesData: IQueryData = useAppSelector(selectQueriesData);
 
-  const walletsGroupTypes = [...AVAILABLE_WALLETS_GROUP_TYPES];
+  const availableToConnectWalletTypes = [...AVAILABLE_WALLETS_GROUP_TYPES];
 
   const providersDataKeys = Object.keys(providersData).filter(
     providerName => providerName !== PERSIST_DEFAULT_KEY,
@@ -61,14 +64,14 @@ export const useWalletsGroupTypes = ({
   let writeProviderData: TConnectData = null;
 
   for (let i = 0; i < providersDataKeys.length; i += 1) {
-    const providerKey = providersDataKeys[i] as AvailableStakingWriteProviders;
-    const data = getConnectData(queriesData, providerKey);
+    const providerKey = providersDataKeys[i] as AvailableWriteProviders;
+    const data = getConnectData(providersData, providerKey);
 
     if (providerKey === writeProviderId) {
       writeProviderData = data;
     }
 
-    if (data === null || !data.isConnected) {
+    if (data === null || !data.isActive) {
       // eslint-disable-next-line no-continue
       continue;
     }
@@ -78,21 +81,24 @@ export const useWalletsGroupTypes = ({
         ? [data]
         : [...connectedProvidersData, data];
 
-    walletsGroupTypes.splice(
-      walletsGroupTypes.findIndex(groupType => groupType === providerKey),
+    availableToConnectWalletTypes.splice(
+      availableToConnectWalletTypes.findIndex(
+        groupType => groupType === providerKey,
+      ),
       1,
     );
   }
 
   const isFullWalletsGroupTypes =
-    AVAILABLE_WALLETS_GROUP_TYPES.length === walletsGroupTypes.length;
+    AVAILABLE_WALLETS_GROUP_TYPES.length ===
+    availableToConnectWalletTypes.length;
 
   return {
     connectedProvidersData,
-    walletsGroupTypes:
-      isFullWalletsGroupTypes || !walletsGroupTypes.length
+    notConnectedWalletTypes:
+      isFullWalletsGroupTypes || !availableToConnectWalletTypes.length
         ? undefined
-        : walletsGroupTypes,
+        : availableToConnectWalletTypes,
     writeProviderData,
   };
 };

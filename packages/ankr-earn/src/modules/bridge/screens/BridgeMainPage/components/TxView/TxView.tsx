@@ -1,18 +1,14 @@
 import { t } from '@ankr.com/common';
 import { Box, Paper } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
@@ -77,9 +73,8 @@ export const TxView = ({
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { loading: isSwitchNetworkPending } = useMutation({
-    type: switchNetwork,
-  });
+  const [switchNetwork, { isLoading: isSwitchNetworkPending }] =
+    useSwitchNetworkMutation();
 
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
   const { isConnected } = useConnectedData(
@@ -93,12 +88,10 @@ export const TxView = ({
   };
 
   const onSwitchNetworkClick = () => {
-    dispatchRequest(
-      switchNetwork({
-        providerId: AvailableWriteProviders.ethCompatible,
-        chainId: chainIdTo,
-      }),
-    );
+    switchNetwork({
+      providerId: AvailableWriteProviders.ethCompatible,
+      chainId: chainIdTo,
+    });
   };
 
   const onCloseClick = () => {

@@ -6,6 +6,7 @@ import {
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -35,6 +36,10 @@ jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
   getClaimableData: jest.fn(),
 }));
 
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
+}));
+
 describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
   const defaultQueryData = {
     data: undefined,
@@ -59,6 +64,7 @@ describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
     (useQuery as jest.Mock).mockReturnValue(defaultCommonData);
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+    (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
   });
 
   afterEach(() => {

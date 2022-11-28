@@ -1,20 +1,20 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { Address, AvailableWriteProviders } from '@ankr.com/provider';
 
-import { ProvidersMap } from '../../../common/types';
+import { AvailableStakingWriteProviders } from '../../../common/types';
 
 export interface IProviderStatus {
   address?: string;
+  addresses?: Address[];
   isActive: boolean;
+  providerId: AvailableStakingWriteProviders;
   chainId?: number | string | null;
   walletId?: string;
   wallet?: string;
-}
-
-interface ISetProviderStatusPayload extends IProviderStatus {
-  providerId: keyof ProvidersMap;
+  walletIcon?: string;
+  walletName?: string;
 }
 
 export type IAuthSlice = Record<string, IProviderStatus>;
@@ -25,23 +25,33 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setProviderStatus: (
-      state,
-      action: PayloadAction<ISetProviderStatusPayload>,
-    ) => {
+    setProviderStatus: (state, action: PayloadAction<IProviderStatus>) => {
       state[action.payload.providerId] = {
         isActive: action.payload.isActive,
         address: action.payload.address,
+        addresses: action.payload.addresses,
+        providerId: action.payload.providerId,
         walletId: action.payload.walletId,
         wallet: action.payload.wallet,
+        walletIcon: action.payload.walletIcon,
+        walletName: action.payload.walletName,
         chainId:
           state[action.payload.providerId]?.chainId ?? action.payload.chainId,
       };
     },
-    setChainId: (state, action: PayloadAction<ISetProviderStatusPayload>) => {
+    setChainId: (state, action: PayloadAction<IProviderStatus>) => {
       state[action.payload.providerId] = {
         ...(state[action.payload.providerId] ?? {}),
         chainId: action.payload.chainId,
+      };
+    },
+    setAddress: (
+      state,
+      action: PayloadAction<Omit<IProviderStatus, 'isActive'>>,
+    ) => {
+      state[action.payload.providerId] = {
+        ...(state[action.payload.providerId] ?? {}),
+        address: action.payload.address,
       };
     },
   },
@@ -65,4 +75,4 @@ export const selectQueriesData = createSelector(
   state => state,
 );
 
-export const { setProviderStatus, setChainId } = authSlice.actions;
+export const { setAddress, setProviderStatus, setChainId } = authSlice.actions;

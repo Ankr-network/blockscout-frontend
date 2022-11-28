@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 
 import { TPolkadotAddress } from 'polkadot';
 
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
@@ -77,9 +77,8 @@ export const useStakeClaimDialogData = ({
     type: claim,
   });
 
-  const { loading: isLoadingSwitchNetwork } = useMutation({
-    type: switchNetwork,
-  });
+  const [switchNetwork, { isLoading: isLoadingSwitchNetwork }] =
+    useSwitchNetworkMutation();
 
   const { data: claimableBalance, loading: isLoadingClaimableBalance } =
     useQuery({
@@ -162,12 +161,10 @@ export const useStakeClaimDialogData = ({
     }
 
     if (!isValidETHNetwork) {
-      await dispatchRequest(
-        switchNetwork({
-          chainId: FIRST_VALID_ETH_CHAIN_ID,
-          providerId: ETH_WRITE_PROVIDER_ID,
-        }),
-      );
+      await switchNetwork({
+        chainId: FIRST_VALID_ETH_CHAIN_ID,
+        providerId: ETH_WRITE_PROVIDER_ID,
+      });
 
       return;
     }

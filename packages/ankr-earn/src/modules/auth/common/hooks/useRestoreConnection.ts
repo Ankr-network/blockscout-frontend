@@ -1,15 +1,14 @@
 import { t } from '@ankr.com/common';
-import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
+import { ExtraWriteProviders } from 'modules/common/types';
 import { showNotification } from 'modules/notifications';
 import { useAppSelector } from 'store/useAppSelector';
 
-import { ExtraWriteProviders } from '../../../common/types';
-import { connect } from '../actions/connect';
+import { useConnectMutation } from '../actions/connect';
 import {
   selectEthProviderData,
   selectPolkadotProviderData,
@@ -22,12 +21,18 @@ import { useProviderEffect } from './useProviderEffect';
 const NOTIFIER_TIMEOUT = 10_000;
 
 export const useRestoreConnection = (): boolean => {
-  const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
   const disconnectAll = useDisconnectAll();
 
   const ethProviderStatus = useAppSelector(selectEthProviderData);
   const polkadotProviderStatus = useAppSelector(selectPolkadotProviderData);
+
+  const [connectEthCompatible] = useConnectMutation({
+    fixedCacheKey: AvailableWriteProviders.ethCompatible,
+  });
+  const [connectPolkadot] = useConnectMutation({
+    fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
+  });
 
   const {
     isConnected: isConnectedEth,
@@ -53,23 +58,18 @@ export const useRestoreConnection = (): boolean => {
 
   useProviderEffect(() => {
     if (isShouldBeRestoredEth) {
-      dispatchRequest(
-        connect(
-          AvailableWriteProviders.ethCompatible,
-          ethProviderStatus.walletId,
-        ),
-      );
+      connectEthCompatible({
+        providerId: AvailableWriteProviders.ethCompatible,
+        wallet: ethProviderStatus.walletId,
+      });
     }
 
     if (isShouldBeRestoredPolkadot) {
-      dispatchRequest(
-        connect(
-          ExtraWriteProviders.polkadotCompatible,
-          polkadotProviderStatus.walletId,
-          undefined,
-          polkadotProviderStatus.address,
-        ),
-      );
+      connectPolkadot({
+        providerId: ExtraWriteProviders.polkadotCompatible,
+        wallet: polkadotProviderStatus.walletId,
+        currentAccount: polkadotProviderStatus.address,
+      });
     }
   }, [
     ethProviderStatus,

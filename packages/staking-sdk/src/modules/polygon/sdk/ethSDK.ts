@@ -1117,7 +1117,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<IUnstakeFeeData>}
    */
   public async getUnstakeFee(): Promise<string> {
-    const polygonPoolContract = await this.getPolygonPoolContract();
+    const polygonPoolContract = await this.getPolygonPoolContract(true);
     return polygonPoolContract.methods.ethUnstakeFee().call();
   }
 
