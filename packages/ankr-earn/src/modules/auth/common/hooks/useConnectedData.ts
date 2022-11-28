@@ -1,5 +1,7 @@
 import { useQuery } from '@redux-requests/react';
 
+import { getIsSui } from 'modules/auth/sui/utils/getIsSui';
+
 import { AvailableStakingWriteProviders } from '../../../common/types';
 import { getIsInjectedWallet, getIsOKX } from '../../eth/utils/walletTypeUtils';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
@@ -18,6 +20,7 @@ export interface IUseConnectedData {
   isInjected: boolean;
   isOKX: boolean;
   isPolkadot: boolean;
+  isSui: boolean;
   walletId?: string;
 }
 
@@ -42,6 +45,7 @@ export const useConnectedData = (
     isInjected: walletName ? getIsInjectedWallet(walletName) : false,
     isOKX: walletName ? getIsOKX(walletName) : false,
     isPolkadot: walletName ? getIsPolkadot(walletName) : false,
+    isSui: walletName ? getIsSui(walletName) : false,
     walletId: data?.walletId,
   };
 };

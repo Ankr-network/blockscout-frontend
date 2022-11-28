@@ -1,5 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
+import { initProviderManagerSui } from 'sui';
 
 import {
   Address,
@@ -9,6 +10,7 @@ import {
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { initProviderManagerPolkadot, PolkadotProvider } from 'polkadot';
 
+import { featuresConfig } from 'modules/common/const';
 import {
   AvailableStakingWriteProviders,
   ExtraWriteProviders,
@@ -64,6 +66,12 @@ export const connect = createAction<
     promise: async (): Promise<IConnect> => {
       if (providerId === ExtraWriteProviders.polkadotCompatible) {
         await initProviderManagerPolkadot();
+      }
+      if (
+        featuresConfig.isSUIStakingActive &&
+        providerId === ExtraWriteProviders.suiCompatible
+      ) {
+        await initProviderManagerSui();
       }
       const providerManager = ProviderManagerSingleton.getInstance();
       const provider = (await providerManager.getProvider(

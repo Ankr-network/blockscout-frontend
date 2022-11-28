@@ -16,6 +16,7 @@ import { ConnectTileMath } from '../ConnectTileMath';
 import { ConnectTileMetaMask } from '../ConnectTileMetaMask';
 import { ConnectTileOKX } from '../ConnectTileOkx';
 import { ConnectTilePolkadot } from '../ConnectTilePolkadot';
+import { ConnectTileSui } from '../ConnectTileSui';
 import { ConnectTileTrust, ConnectTileTrustViaWC } from '../ConnectTileTrust';
 import { ConnectTileWalletConnect } from '../ConnectTileWalletConnect';
 
@@ -33,6 +34,11 @@ export const ConnectWalletsModal = (): JSX.Element => {
     isLoading: isLoadingPolkadotCompatible,
     isConnected: isConnectedPolkadotCompatible,
   } = useConnectedData(ExtraWriteProviders.polkadotCompatible);
+
+  const {
+    isLoading: isLoadingSuiCompatible,
+    isConnected: isConnectedSuiCompatible,
+  } = useConnectedData(ExtraWriteProviders.suiCompatible);
 
   const isMobileDevice = isMobile();
 
@@ -68,7 +74,11 @@ export const ConnectWalletsModal = (): JSX.Element => {
 
   return (
     <ConnectWalletsModalUI
-      isLoading={isLoadingEthCompatible || isLoadingPolkadotCompatible}
+      isLoading={
+        isLoadingEthCompatible ||
+        isLoadingPolkadotCompatible ||
+        isLoadingSuiCompatible
+      }
       isOpen={isOpened}
       onClose={handleClose}
     >
@@ -77,6 +87,10 @@ export const ConnectWalletsModal = (): JSX.Element => {
       {!isConnectedPolkadotCompatible && !isMobileDevice && (
         <ConnectTilePolkadot />
       )}
+
+      {featuresConfig.isSUIStakingActive &&
+        !isConnectedSuiCompatible &&
+        !isMobileDevice && <ConnectTileSui />}
     </ConnectWalletsModalUI>
   );
 };
