@@ -3,7 +3,7 @@ import { Web3Address } from 'multirpc-sdk';
 import { useFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
 import { useUpdateUserProfileMutation } from 'modules/clients/actions/updateUserProfile';
 import { useFetchUserRevenueQuery } from 'modules/clients/actions/fetchUserRevenue';
-import { useFetchUserAddressesQuery } from '../../../actions/fetchUserAddresses';
+import { useFetchUserAddressesQuery } from 'modules/clients/actions/fetchUserAddresses';
 
 export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const {

@@ -141,7 +141,7 @@ export const {
           };
         });
 
-        // TODO: temporary decision for displaying the pending users
+        // TODO: temporary fix for displaying the pending users with emails
         // refactor this shit
         const newClients = emailsCollection
           .filter(
