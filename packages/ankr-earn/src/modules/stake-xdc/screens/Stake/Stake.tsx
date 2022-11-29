@@ -2,7 +2,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
-import { ReactComponent as TokenInfoIcon } from 'modules/stake-xdc/assets/token-info-icon.svg';
+import TokenInfoLogo from 'modules/stake-xdc/assets/token-info-logo.png';
 import { XDC_STAKING_AMOUNT_STEP } from 'modules/stake-xdc/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -41,7 +41,11 @@ export const Stake = (): JSX.Element => {
   const renderFooter = (): JSX.Element => (
     <>
       <div className={classes.tokenInfoArea}>
-        <TokenInfoIcon className={classes.tokenInfoIcon} />
+        <img
+          alt={t('stake-xdc.stake-token-logo-alt')}
+          className={classes.tokenInfoLogo}
+          src={TokenInfoLogo}
+        />
 
         <div>
           {tHTML('stake-xdc.stake-info', {

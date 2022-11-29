@@ -197,7 +197,9 @@
       "rococo": "Rococo",
       "westend": "Westend",
       "gnosis": "Gnosis Chain",
-      "sokol": "POA Network Sokol"
+      "sokol": "POA Network Sokol",
+      "xdc": "XDC Mainnet",
+      "xdc-testnet": "XDC Apothem Testnet"
     }
   },
   "polkadot-slot-auction": {
@@ -1229,7 +1231,8 @@
     }
   },
   "stake-xdc": {
-    "stake-info": "<b>aXDCc</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>1 aXDCc = {value} XDC</b>"
+    "stake-info": "<b>aXDCc</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>1 aXDCc = {value} XDC</b>",
+    "stake-token-logo-alt": "XDC Token Logo"
   },
   "convert": {
     "title": "Switch",

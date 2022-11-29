@@ -72,5 +72,12 @@ export const METRICS_MOCK: IMetricsResponse = {
       apy: '9.5800886',
       totalStakedUsd: '11664985.28',
     },
+    {
+      serviceName: 'xdc',
+      totalStaked: '35278952.47933',
+      stakers: '2017',
+      apy: '8.280886',
+      totalStakedUsd: '849850.18',
+    },
   ],
 };

@@ -32,6 +32,7 @@ import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
 import { getDashboardData as getSSVOnETHDashboardData } from 'modules/stake-ssv/actions/getDashboardData';
+import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -75,8 +76,12 @@ export const useDashboard = (): IUseDashboard => {
   const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   const { refetch: getFTMCommonDataRefetch } = useGetFTMCommonDataQuery();
+
   const { refetch: getBNBPendingValuesRefetch } = useGetBNBPendingValuesQuery();
   const { refetch: getBNBStatsRefetch } = useGetBNBStatsQuery();
+
+  const { refetch: getXDCDashboardDataRefetch } = getXDCDashboardData();
+
   usePolkadot();
 
   useProviderEffect(() => {
@@ -113,6 +118,8 @@ export const useDashboard = (): IUseDashboard => {
     if (featuresConfig.ssvStaking) {
       dispatch(getSSVOnETHDashboardData());
     }
+
+    getXDCDashboardDataRefetch();
 
     setFirstLoad(false);
 

@@ -20,9 +20,9 @@ export const useStakeStyles = makeStyles(theme => ({
     borderRadius: 12,
   },
 
-  tokenInfoIcon: {
-    minWidth: '60px',
-    minHeight: '60px',
+  tokenInfoLogo: {
+    width: '60px',
+    height: '60px',
     margin: theme.spacing(0, 2, 0, 0),
   },
 }));

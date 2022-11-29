@@ -10,6 +10,7 @@ import {
   GNO_NETWORK_BY_ENV,
   POLYGON_NETWORK_BY_ENV,
   STAKING_PATH,
+  XDC_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -45,6 +46,7 @@ export function getRoutes(): JSX.Element {
             FTM_NETWORK_BY_ENV,
             POLYGON_NETWORK_BY_ENV,
             GNO_NETWORK_BY_ENV,
+            XDC_NETWORK_BY_ENV,
           ]}
           isOpenConnectInstantly={false}
           path={RoutesConfig.dashboard.path}
