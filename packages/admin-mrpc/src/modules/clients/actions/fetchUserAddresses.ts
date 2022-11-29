@@ -12,7 +12,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchUserAddresses: build.query<
-      GetUserAddressesResponse,
+      Omit<GetUserAddressesResponse, 'public_key'>,
       GetUserAddressesRequest
     >({
       queryFn: async ({ address }) => {
@@ -23,9 +23,20 @@ export const {
           address,
         });
 
-        return {
-          data: userAddressesResponse,
+        const actionData = {
+          data: {
+            ...userAddressesResponse,
+            addresses: [
+              ...userAddressesResponse.addresses.map(userAddress => ({
+                address: userAddress.address,
+                type: userAddress.type,
+                publicKey: userAddress.publicKey || userAddress.public_key,
+              })),
+            ],
+          },
         };
+
+        return actionData;
       },
     }),
   }),

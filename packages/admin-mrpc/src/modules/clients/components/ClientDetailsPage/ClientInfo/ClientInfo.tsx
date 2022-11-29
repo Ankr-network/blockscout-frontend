@@ -86,21 +86,25 @@ export const ClientInfo = ({
           <b>Token:</b>{' '}
           {isLoadingClients ? (
             'Loading...'
-          ) : (
+          ) : user.user ? (
             <>
               {user.user}
               <ButtonCopy valueToCopy={user.user} />
             </>
+          ) : (
+            <>unknown</>
           )}
         </Typography>
-        <ClientApiKeysModal address={user.address || ''} token={user.user} />
+        {user.user && (
+          <ClientApiKeysModal address={user.address || ''} token={user.user} />
+        )}
       </CardContent>
     </Card>
   );
 
-  const mapAddresses = (ethUserAddress: IEthUserAddress) => {
-    const publicKey =
-      ethUserAddress.publicKey || ethUserAddress.public_key || 'unknown';
+  const mapAddresses = (
+    ethUserAddress: Omit<IEthUserAddress, 'public_key'>,
+  ) => {
     return (
       <Card key={ethUserAddress.address} className={classes.root}>
         <CardContent>
@@ -115,9 +119,11 @@ export const ClientInfo = ({
           <br />
           <br />
           <Typography variant="body2">
-            <b>PublicKey:</b> {publicKey}
+            <b>PublicKey:</b> {ethUserAddress.publicKey || 'unknown'}
           </Typography>{' '}
-          <ButtonCopy valueToCopy={publicKey} />
+          {ethUserAddress.publicKey && (
+            <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
+          )}
         </CardContent>
       </Card>
     );
@@ -184,6 +190,7 @@ export const ClientInfo = ({
       {isLoadingClients ? (
         <>
           <br />
+          <br />
           <Spinner size={40} centered={false} />
         </>
       ) : (
@@ -191,7 +198,11 @@ export const ClientInfo = ({
       )}
 
       {isLoadingUserAddresses ? (
-        <Spinner size={40} centered={false} />
+        <>
+          <br />
+          <br />
+          <Spinner size={40} centered={false} />
+        </>
       ) : (
         userAddressesData?.addresses.map(mapAddresses)
       )}
