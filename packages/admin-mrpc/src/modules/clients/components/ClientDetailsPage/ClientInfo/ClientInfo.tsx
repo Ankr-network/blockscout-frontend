@@ -95,9 +95,7 @@ export const ClientInfo = ({
             <>unknown</>
           )}
         </Typography>
-        {user.user && (
-          <ClientApiKeysModal address={user.address || ''} token={user.user} />
-        )}
+        {user.user && <ClientApiKeysModal token={user.user} />}
       </CardContent>
     </Card>
   );
