@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import { Spinner } from 'ui';
-import { Web3Address } from 'multirpc-sdk';
+import { IEthUserAddressV2, Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import {
@@ -54,6 +54,10 @@ export const ClientInfo = ({
     userName,
     revenueData,
     isLoadingRevenue,
+
+    userAddressesData,
+    isLoadingUserAddresses,
+    isErrorUserAddresses,
   } = useClientInfo({ address });
 
   const { classes } = useStyles();
@@ -69,31 +73,58 @@ export const ClientInfo = ({
   );
 
   const renderMainInfo = (user: ClientMapped) => (
-    <Card key={user.user} className={classes.root}>
+    <Card key={user.user || user.address} className={classes.root}>
       <CardContent>
         <Box display="flex" alignItems="center">
           <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
         </Box>
         <br />
         <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
-          <b>Created:</b> {user?.createdDate?.toLocaleString()}
+          <b>Created:</b> {user?.createdDate?.toLocaleString() || 'unknown'}
         </Typography>
         <br />
         <Typography variant="body2" component="p">
           <b>Token:</b>{' '}
           {isLoadingClients ? (
             'Loading...'
-          ) : (
+          ) : user.user ? (
             <>
               {user.user}
               <ButtonCopy valueToCopy={user.user} />
             </>
+          ) : (
+            <>unknown</>
           )}
         </Typography>
-        <ClientApiKeysModal token={user.user} />
+        {user.user && <ClientApiKeysModal token={user.user} />}
       </CardContent>
     </Card>
   );
+
+  const mapAddresses = (ethUserAddress: IEthUserAddressV2) => {
+    return (
+      <Card key={ethUserAddress.address} className={classes.root}>
+        <CardContent>
+          <Typography variant="body2">
+            <b>Address:</b> {ethUserAddress.address}
+          </Typography>
+          <br />
+          <br />
+          <Typography variant="body2">
+            <b>Type:</b> {ethUserAddress.type}
+          </Typography>
+          <br />
+          <br />
+          <Typography variant="body2">
+            <b>PublicKey:</b> {ethUserAddress.publicKey || 'unknown'}
+          </Typography>{' '}
+          {ethUserAddress.publicKey && (
+            <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
+          )}
+        </CardContent>
+      </Card>
+    );
+  };
 
   const NOT_FOUND_TEXT = 'Not found';
   const statsFromText = totalData?.startedDate
@@ -143,16 +174,34 @@ export const ClientInfo = ({
       <Paper sx={{ p: 5 }}>
         <Typography variant="body2" component="p">
           <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
+          {client?.status && (
+            <>
+              <br />
+              <br />
+              <b>Status:</b> {isLoadingClients ? skeleton : client?.status}
+            </>
+          )}
         </Typography>
       </Paper>
 
       {isLoadingClients ? (
         <>
           <br />
+          <br />
           <Spinner size={40} centered={false} />
         </>
       ) : (
         currentClient.map(renderMainInfo)
+      )}
+
+      {isLoadingUserAddresses ? (
+        <>
+          <br />
+          <br />
+          <Spinner size={40} centered={false} />
+        </>
+      ) : isErrorUserAddresses ? null : (
+        userAddressesData?.addresses.map(mapAddresses)
       )}
 
       <Grid

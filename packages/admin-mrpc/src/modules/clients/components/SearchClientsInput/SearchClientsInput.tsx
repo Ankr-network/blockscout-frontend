@@ -29,8 +29,14 @@ export const SearchClientsInput = () => {
                 : client.address;
 
               return (
-                <li key={client.user} className={classes.clientItem}>
-                  <Tooltip placement="left" title={title || client.user}>
+                <li
+                  key={client.user || client.address}
+                  className={classes.clientItem}
+                >
+                  <Tooltip
+                    placement="left"
+                    title={title || client.user || client.address}
+                  >
                     <Button
                       variant="text"
                       className={classes.clientButton}

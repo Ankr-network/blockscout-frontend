@@ -9,6 +9,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { ClientMapped } from '../store/clientsSlice';
 import { getClientType } from '../utils/getClientType';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
+import { ClientType } from '../types';
 
 interface IApiResponse {
   counters?: ClientMapped[];
@@ -140,8 +141,28 @@ export const {
           };
         });
 
+        const newClientsPending = emailsCollection
+          .filter(
+            clientWithEmail =>
+              !clients.find(client => client.email === clientWithEmail.email),
+          )
+          .map(client => {
+            return {
+              ...client,
+              clientType: ClientType.PENDING,
+              createdDate: undefined,
+              hourly: 0,
+              daily: 0,
+              monthly: 0,
+              delta: 0,
+              timestamp: 0,
+            };
+          });
+
         return {
-          data: { counters: clients },
+          data: {
+            counters: [...clients, ...newClientsPending],
+          },
         };
       },
     }),

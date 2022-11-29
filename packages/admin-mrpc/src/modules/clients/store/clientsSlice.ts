@@ -1,19 +1,21 @@
 import BigNumber from 'bignumber.js';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICountersEntity } from 'multirpc-sdk';
+import { EmailConfirmationStatus, ICountersEntity } from 'multirpc-sdk';
 
 import { RootState } from 'store';
 import { ClientType } from '../types';
 
-export type ClientMapped = ICountersEntity & {
+export type ClientMapped = Omit<ICountersEntity, 'user'> & {
   clientType: ClientType;
   email?: string;
+  status?: EmailConfirmationStatus;
   amount?: BigNumber;
   amountAnkr?: BigNumber;
   amountUsd?: BigNumber;
   voucherAmount?: BigNumber;
   reference?: string;
-  createdDate: Date;
+  createdDate?: Date; // createdDate is undefined for PENDING clients
+  user?: string; // user is undefined for PENDING clients
 };
 
 export interface IClientsSlice {
