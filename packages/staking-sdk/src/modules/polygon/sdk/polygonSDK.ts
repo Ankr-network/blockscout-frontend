@@ -1,3 +1,9 @@
+import BigNumber from 'bignumber.js';
+import Web3 from 'web3';
+import { TransactionReceipt } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
+
 import {
   Address,
   EEthereumNetworkId,
@@ -5,11 +11,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
-import { TransactionReceipt } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
 
 import {
   configFromEnv,
@@ -21,7 +22,7 @@ import {
 import ABI_MATIC_BOND from '../../contracts/aMATICb.json';
 import ABI_MATIC_CERT from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
-import ABI_SWAP_POOL from '../../contracts/SwapPool.json';
+import ABI_SWAP_POOL from '../../contracts/PolygonSwapPool.json';
 import {
   IPendingData,
   IStakable,
