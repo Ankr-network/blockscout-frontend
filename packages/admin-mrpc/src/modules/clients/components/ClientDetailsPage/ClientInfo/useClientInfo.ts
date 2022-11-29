@@ -90,8 +90,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
     isLoadingRevenue,
 
     userAddressesData,
-    isLoadingUserAddresses,
-    isFetchingUserAddresses,
+    isLoadingUserAddresses: isFetchingUserAddresses || isLoadingUserAddresses,
     refetchUserAddressesData,
     isErrorUserAddresses,
   };

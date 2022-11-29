@@ -57,6 +57,7 @@ export const ClientInfo = ({
 
     userAddressesData,
     isLoadingUserAddresses,
+    isErrorUserAddresses,
   } = useClientInfo({ address });
 
   const { classes } = useStyles();
@@ -201,7 +202,7 @@ export const ClientInfo = ({
           <br />
           <Spinner size={40} centered={false} />
         </>
-      ) : (
+      ) : isErrorUserAddresses ? null : (
         userAddressesData?.addresses.map(mapAddresses)
       )}
 
