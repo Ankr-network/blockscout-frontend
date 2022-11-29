@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 
 import { t, tHTML } from '@ankr.com/common';
-import { intlRoot } from './FeatureTableUtils';
+import { COLUMNS_COUNT, intlRoot } from './FeatureTableUtils';
 import { useFeatureTableStyles } from './useFeatureTableStyles';
 import { LearnMore } from '../LearnMore/LearnMore';
 import { PREMIUM_BLOCK_ANCHOR } from '../../PremiumBlock';
@@ -21,14 +21,14 @@ export const FeatureTable = () => {
     <Table className={classes.root}>
       <TableHead className={classes.row}>
         <TableRow className={classes.header}>
-          {new Array(3).fill('').map((_, index) => (
+          {new Array(COLUMNS_COUNT).fill('').map((_, index) => (
             <TableCell key={`header-${index}`}>
               {tHTML(`${intlRoot}.header.column-${index + 1}`)}
             </TableCell>
           ))}
         </TableRow>
         <TableRow className={classes.headerSummary}>
-          {new Array(3).fill('').map((_, index) => (
+          {new Array(COLUMNS_COUNT).fill('').map((_, index) => (
             <TableCell key={`summary-${index}`}>
               {tHTML(`${intlRoot}.header-summary.column-${index + 1}`)}
             </TableCell>

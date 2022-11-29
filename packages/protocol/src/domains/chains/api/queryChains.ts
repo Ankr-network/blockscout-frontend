@@ -24,6 +24,7 @@ export interface IApiChain {
   chainExtends?: IBlockchainEntity['extends'];
   extenders?: IApiChain[];
   extensions?: IApiChain[];
+  frontChain?: Partial<IApiChain>;
   icon: string;
   id: ChainID;
   isArchive?: boolean;
@@ -34,6 +35,12 @@ export interface IApiChain {
   type: IBlockchainEntity['type'];
   urls: IApiChainURL[];
 }
+
+const getSuiFrontChain = (testnet: IApiChain) => ({
+  id: testnet.id,
+  name: testnet.name,
+  urls: testnet.urls,
+});
 
 export const filterMapChains = (
   data: FetchBlockchainUrlsResult = {}, // TODO: fix action types
@@ -137,6 +144,8 @@ export const filterMapChains = (
           ...chain,
           testnets: testnets[id],
           devnets: devnets[id],
+          frontChain:
+            id === 'sui' ? getSuiFrontChain(testnets[id]?.[0]) : undefined,
         });
       }
 

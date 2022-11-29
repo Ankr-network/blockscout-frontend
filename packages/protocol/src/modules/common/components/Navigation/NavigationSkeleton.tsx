@@ -15,6 +15,9 @@ export const NavigationSkeleton = () => {
       <div className={classes.item}>
         <Skeleton className={classes.skeleton} variant="rect" />
       </div>
+      <div className={classes.item}>
+        <Skeleton className={classes.skeleton} variant="rect" />
+      </div>
     </div>
   );
 };

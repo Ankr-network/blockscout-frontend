@@ -81,17 +81,22 @@ export const getGroupedEndpoints = (
   chain: IApiChain,
   groups: ChainGroup[],
 ): GroupedEndpoints => {
-  const mainnetFallback = getFallbackEndpointGroup(chain.name);
+  const { frontChain: { name: frontChainName } = {} } = chain;
+  const mainnetFallback = getFallbackEndpointGroup(
+    frontChainName || chain.name,
+  );
   const mainnetGroups = getEndpointGroups(chain, groups, mainnetFallback);
   if (mainnetFallback.urlsCount) mainnetGroups.push(mainnetFallback);
 
-  const testnetFallback = getFallbackEndpointGroup(chain.name);
+  const testnetFallback = getFallbackEndpointGroup(
+    frontChainName || chain.name,
+  );
   const testnetGroups = (chain.testnets || []).flatMap(testnet =>
     getEndpointGroups(testnet, groups, testnetFallback),
   );
   if (testnetFallback.urlsCount) testnetGroups.push(testnetFallback);
 
-  const devnetFallback = getFallbackEndpointGroup(chain.name);
+  const devnetFallback = getFallbackEndpointGroup(frontChainName || chain.name);
   const devnetGroups = (chain.devnets || []).flatMap(devnet =>
     getEndpointGroups(devnet, groups, devnetFallback),
   );

@@ -57,7 +57,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   syscoin: syscoinIcon,
   tron: tronIcon,
   xdai: stakeIcon,
-  [ChainID.SUI_TESTNET]: suiIcon,
+  [ChainID.SUI]: suiIcon,
 };
 
 export function getChainIcon(name: string) {

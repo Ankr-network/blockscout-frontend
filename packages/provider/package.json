@@ -23,7 +23,7 @@
     "watch": "yarn build -w"
   },
   "dependencies": {
-    "@ankr.com/common": "0.7.0",
+    "@ankr.com/common": "0.7.1",
     "@coinbase/wallet-sdk": "^3.5.2",
     "@ethereumjs/common": "^2.5.0",
     "@ethereumjs/tx": "^3.3.2",
