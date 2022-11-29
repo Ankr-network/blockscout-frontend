@@ -6,6 +6,7 @@ import { IEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { UserEndpoints } from './components/UserEndpoints';
 import { useStyles } from './EndpointStyles';
 import { canAddEndpoint, getLimit, hasLimit } from './EndpointUtils';
+import { getChainName } from './utils/getChainName';
 
 interface EndpointInfoProps {
   providerData: IProvider | null;
@@ -29,6 +30,7 @@ export const EndpointInfo = ({
 
   const hasChain = canAddEndpoint(providerData, chainId);
   const userEndpoints = endpoints?.[chainId];
+  const chainName = getChainName({ chainId, privateChain, publicChain });
 
   const privateUrls = useMemo(
     () =>
@@ -62,6 +64,7 @@ export const EndpointInfo = ({
     <div className={classes.root}>
       <div className={classes.section}>
         <UserEndpoints
+          chainName={chainName}
           data={userEndpoints}
           hasChain={hasChain}
           isMoreThanLimit={isMoreThanLimit}

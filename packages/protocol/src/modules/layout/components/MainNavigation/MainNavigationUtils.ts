@@ -33,9 +33,8 @@ const isDashboardActive = (
 export const getNavigationList = (
   chainsRoutes: string[],
   hasCredentials: boolean,
-  isMobile?: boolean,
 ): NavigationItem[] => {
-  const list: NavigationItem[] = [
+  return [
     {
       label: t('main-navigation.endpoints'),
       StartIcon: BoxIcon,
@@ -44,30 +43,29 @@ export const getNavigationList = (
       isActive: (match: any, location: History['location']) =>
         isDashboardActive(match, location, chainsRoutes),
     },
-    hasCredentials && {
-      label: t('main-navigation.billing'),
-      StartIcon: BillingIcon,
-      ActiveIcon: ActiveBillingIcon,
-      href: AccountRoutesConfig.accountDetails.generatePath(),
-    },
-    !hasCredentials && {
-      label: t('main-navigation.pricing'),
-      StartIcon: PricingIcon,
-      ActiveIcon: ActivePricingIcon,
-      href: PricingRoutesConfig.pricing.generatePath(),
-    },
+    hasCredentials
+      ? {
+          label: t('main-navigation.billing'),
+          StartIcon: BillingIcon,
+          ActiveIcon: ActiveBillingIcon,
+          href: AccountRoutesConfig.accountDetails.generatePath(),
+        }
+      : {
+          label: t('main-navigation.pricing'),
+          StartIcon: PricingIcon,
+          ActiveIcon: ActivePricingIcon,
+          href: PricingRoutesConfig.pricing.generatePath(),
+        },
     {
       label: t('main-navigation.docs'),
       StartIcon: DocsIcon,
       href: DOC_URL,
     },
-    isMobile && {
+    {
       label: t('extra-navigation.settings'),
       StartIcon: SettingsIcon,
       ActiveIcon: ActiveSettingsIcon,
       href: UserSettingsRoutesConfig.settings.generatePath(),
     },
-  ].filter(Boolean) as NavigationItem[];
-
-  return list;
+  ];
 };

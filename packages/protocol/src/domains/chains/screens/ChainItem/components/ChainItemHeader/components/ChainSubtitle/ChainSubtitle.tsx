@@ -17,8 +17,8 @@ export const ChainSubtitle = ({
 }: ChainDescriptionProps) => {
   const classes = useChainSubtitleStyles();
 
-  const isSuiTestnet = id === ChainID.SUI_TESTNET;
-  const [label, tooltip] = isSuiTestnet
+  const isSui = id === ChainID.SUI;
+  const [label, tooltip] = isSui
     ? [t('chains.beta'), '']
     : [t('chains.archive'), tHTML('chains.archive-tooltip-text')];
 
@@ -29,7 +29,7 @@ export const ChainSubtitle = ({
         description={coinName}
         descriptionColor="textSecondary"
       />
-      {(isChainArchived || isSuiTestnet) && (
+      {(isChainArchived || isSui) && (
         <ChainLabel
           label={label}
           labelClassName={classes.archiveLabel}

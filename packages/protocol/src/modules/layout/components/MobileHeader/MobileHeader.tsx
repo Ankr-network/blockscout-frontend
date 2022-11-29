@@ -9,13 +9,9 @@ import { SignupButton } from 'domains/auth/components/SignupButton';
 
 interface MobileHeaderProps {
   className?: string;
-  hasAccountDetailsButton?: boolean;
 }
 
-export const MobileHeader = ({
-  hasAccountDetailsButton,
-  className = '',
-}: MobileHeaderProps) => {
+export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
   const classes = useStyles();
 
   return (
@@ -23,7 +19,7 @@ export const MobileHeader = ({
       <Container className={classes.container} maxWidth={false}>
         <Logo />
         <div className={classes.buttons}>
-          {hasAccountDetailsButton && <AccountDetailsButton isMobile />}
+          <AccountDetailsButton isMobile />
           <SignupButton isMobile />
         </div>
       </Container>

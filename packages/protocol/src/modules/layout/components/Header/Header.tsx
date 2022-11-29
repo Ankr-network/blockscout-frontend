@@ -13,13 +13,9 @@ export const IS_I18N_ENABLED = false;
 
 interface HeaderProps {
   className?: string;
-  hasAccountDetailsButton: boolean;
 }
 
-export const Header = ({
-  hasAccountDetailsButton,
-  className = '',
-}: HeaderProps) => {
+export const Header = ({ className = '' }: HeaderProps) => {
   const classes = useStyles();
 
   return (
@@ -30,7 +26,7 @@ export const Header = ({
           {IS_I18N_ENABLED && <LocaleSwitcher className={classes.switcher} />}
           <NoReactSnap>
             <div className={classes.buttons}>
-              {hasAccountDetailsButton && <AccountDetailsButton />}
+              <AccountDetailsButton />
               <SignupButton />
             </div>
           </NoReactSnap>

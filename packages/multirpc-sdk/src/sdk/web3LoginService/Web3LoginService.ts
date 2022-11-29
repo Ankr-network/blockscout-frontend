@@ -1,4 +1,5 @@
 import {
+  DATE_MULTIPLIER,
   IConfig,
   IJwtToken,
   JwtTokenFullData,
@@ -96,6 +97,12 @@ export class Web3LoginService {
 
     if (!firstActiveToken) {
       return undefined;
+    }
+
+    const expiresAt = Number(firstActiveToken.expires_at) * DATE_MULTIPLIER;
+
+    if (expiresAt < Date.now()) {
+      return { jwtToken: firstActiveToken };
     }
 
     return this.upgradeJwtToken(firstActiveToken);

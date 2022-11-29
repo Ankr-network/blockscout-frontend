@@ -6,9 +6,6 @@ import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 import { AccountType, BalanceStatus } from 'domains/account/types';
 import { getAccountType } from 'domains/account/utils/getAccountType';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
-import { selectAuthData } from 'domains/auth/store/authSlice';
-import { useMemo } from 'react';
-import { useAppSelector } from 'store/useAppSelector';
 
 export interface AccountData {
   accountType: AccountType;
@@ -19,25 +16,15 @@ export interface AccountData {
 }
 
 export const useAccountData = (): AccountData => {
-  const {
-    isConnected: isWallectConnected,
-    isConnecting,
-    isNew,
-    premiumUntil,
-  } = useAccountAuth();
-  const cachedAuthData = useAppSelector(selectAuthData);
+  const { isConnecting, isNew, premiumUntil, credentials } = useAccountAuth();
 
-  const isConnected = useMemo(
-    () => isWallectConnected && !cachedAuthData.isManualDisconnected,
-    [isWallectConnected, cachedAuthData.isManualDisconnected],
-  );
+  const hasCredentials = Boolean(credentials);
 
-  // const { ankrBalance: balance, isLoadingInitially: isBalanceLoading } =
   const { creditBalance: balance, isLoadingInitially: isBalanceLoading } =
-    useBalance(isConnected);
+    useBalance(hasCredentials);
 
   const { endTime, isLoading: isBalanceEndTimeLoading } =
-    useBalanceEndTime(isConnected);
+    useBalanceEndTime(hasCredentials);
 
   const accountType = getAccountType({
     balance,
@@ -49,5 +36,5 @@ export const useAccountData = (): AccountData => {
 
   const isLoading = isBalanceLoading || isConnecting || isBalanceEndTimeLoading;
 
-  return { accountType, balance, isLoading, isVisible: isConnected, status };
+  return { accountType, balance, isLoading, isVisible: hasCredentials, status };
 };
