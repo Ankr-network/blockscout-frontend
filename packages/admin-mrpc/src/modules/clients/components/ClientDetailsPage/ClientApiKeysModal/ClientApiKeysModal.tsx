@@ -9,19 +9,12 @@ import {
 } from '@mui/material';
 
 import { ReactComponent as IconCopy } from 'assets/img/copy.svg';
+import { IApiChain, IApiChainURL } from 'modules/clients/utils/queryChains';
+import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { useClientApiKeys } from './useClientApiKeys';
-import { IApiChain, IApiChainURL } from '../../../utils/queryChains';
-import { Web3Address } from 'multirpc-sdk';
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 
-export const ClientApiKeysModal = ({
-  token,
-  address,
-}: {
-  token: string;
-  address: Web3Address;
-}) => {
+export const ClientApiKeysModal = ({ token }: { token: string }) => {
   const { classes, cx } = useStyles();
   const {
     open,
@@ -32,7 +25,7 @@ export const ClientApiKeysModal = ({
     handleSelectChain,
     selectedChain,
     isLoadingBlockchains,
-  } = useClientApiKeys({ token, address });
+  } = useClientApiKeys({ token });
 
   const mapUrls = (url: IApiChainURL) => {
     return (

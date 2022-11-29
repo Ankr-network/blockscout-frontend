@@ -102,7 +102,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                   classes.row,
                   Boolean(row.address) && classes.rowClickable,
                 )}
-                key={row.user}
+                key={row.user || row.address}
                 onClick={() => handleRowClick(row)}
               >
                 <TableCell title={row.email} className={classes.cell}>
@@ -135,7 +135,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                   {row.ttl && row.ttl > 0 ? getTtlString(row.ttl) : '-'}
                 </TableCell>
                 <TableCell className={classes.cell}>
-                  {row.createdDate.toLocaleDateString()}
+                  {row.createdDate?.toLocaleDateString() || 'unknown'}
                 </TableCell>
                 <TableCell className={classes.cell}>
                   <ButtonOptions client={row} />
