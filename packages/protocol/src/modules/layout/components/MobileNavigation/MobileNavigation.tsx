@@ -44,7 +44,6 @@ export const MobileNavigation = ({
   const items: NavigationItem[] = getNavigationList(
     chainsRoutes,
     hasCredentials,
-    true,
   );
 
   return (

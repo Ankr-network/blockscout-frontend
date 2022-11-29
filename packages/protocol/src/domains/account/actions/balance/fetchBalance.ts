@@ -5,6 +5,7 @@ import { createAction } from 'redux-smart-actions';
 import { Balance } from './types';
 import { IBalance } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
+import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 
 const ANKR_TO_CREDITS_RATE = 1_000_000;
 
@@ -32,22 +33,20 @@ export const fetchBalance = createAction<RequestAction<IBalance, Balance>>(
   'account/fetchBalance',
   () => ({
     request: {
-      promise: (async () => null)(),
+      promise: async (): Promise<IBalance> => {
+        const service = MultiService.getService();
+
+        const data = await service.getAccountGateway().getAnkrBalance();
+
+        return data;
+      },
     },
     meta: {
       asMutation: false,
       takeLatest: true,
       poll: 30,
       getData: getBalance,
-      onRequest: () => ({
-        promise: (async (): Promise<IBalance> => {
-          const service = MultiService.getService();
-
-          const data = await service.getAccountGateway().getAnkrBalance();
-
-          return data;
-        })(),
-      }),
+      onRequest: authorizationGuard,
     },
   }),
 );

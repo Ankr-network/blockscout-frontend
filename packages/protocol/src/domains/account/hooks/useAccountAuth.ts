@@ -10,6 +10,7 @@ export interface Auth {
   credentials?: IJwtToken;
   workerTokenData?: WorkerTokenData;
   hasOauthLogin?: boolean;
+  isLoggedIn: boolean;
 }
 
 // needs to turn premium subscription date into milliseconds from kiloseconds
@@ -22,6 +23,7 @@ export const useAccountAuth = (): Auth => {
     workerTokenData,
     loading: isConnecting,
     hasOauthLogin,
+    isLoggedIn,
   } = useAuth();
 
   const tier = workerTokenData?.tier;
@@ -44,5 +46,6 @@ export const useAccountAuth = (): Auth => {
     credentials,
     workerTokenData,
     hasOauthLogin,
+    isLoggedIn,
   };
 };

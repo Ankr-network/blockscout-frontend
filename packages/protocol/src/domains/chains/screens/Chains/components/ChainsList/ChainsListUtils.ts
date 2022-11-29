@@ -15,6 +15,7 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
       coinName,
       extenders,
       extensions,
+      frontChain = {},
       icon,
       id,
       isArchive,
@@ -28,13 +29,15 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
       coinName,
       extenders,
       extensions,
+      frontChain,
       icon,
-      id,
       isArchive,
       name,
       totalRequests,
       type,
       urls,
+      ...frontChain,
+      id,
     };
   });
 };
@@ -44,8 +47,9 @@ export const formatPublicRequestsCount = (
   data: Record<ChainID, string>,
 ) => {
   chains.map(item => {
-    const { id } = item;
-    item.totalRequests = new BigNumber(data?.[id] ?? 0);
+    const { id, frontChain: { id: frontChainId } = {} } = item;
+
+    item.totalRequests = new BigNumber(data?.[frontChainId ?? id] ?? 0);
 
     return item;
   });
@@ -70,6 +74,9 @@ const extractCustomizedChains = (chains: Chain[]) =>
     [[], []],
   );
 
+const getChainId = ({ id, frontChain: { id: frontChainId } = {} }: Chain) =>
+  frontChainId || id;
+
 export const sortChains = ({
   chains: rawChains = [],
   hasCredentials,
@@ -81,7 +88,8 @@ export const sortChains = ({
   const [chains, customizedChains] = extractCustomizedChains(rawChains);
 
   const privateChainsSorter = (a: Chain, b: Chain) =>
-    (stats[b.id]?.total_requests || 0) - (stats[a.id]?.total_requests || 0);
+    (stats[getChainId(b)]?.total_requests || 0) -
+    (stats[getChainId(a)]?.total_requests || 0);
 
   const usageSorter = hasCredentials ? privateChainsSorter : publicChainsSorter;
 

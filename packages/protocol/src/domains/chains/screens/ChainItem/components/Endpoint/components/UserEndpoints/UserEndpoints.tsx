@@ -11,6 +11,7 @@ import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { AddEndpointButton } from '../AddEndpointButton';
 
 interface UserEndpointsProps {
+  chainName: string;
   data?: IUserEndpoint[];
   hasChain?: boolean;
   isMoreThanLimit: boolean;
@@ -20,6 +21,7 @@ interface UserEndpointsProps {
 }
 
 export const UserEndpoints = ({
+  chainName,
   data = [],
   hasChain,
   isMoreThanLimit,
@@ -30,7 +32,6 @@ export const UserEndpoints = ({
   const classes = useStyles();
 
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
-  const chainName = chainId.split('_').join(' ');
 
   const addEndpointLink = useMemo(
     () => ChainsRoutesConfig.addEndpoint.generatePath(chainId),

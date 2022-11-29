@@ -7,6 +7,7 @@ import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoint
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { useMemo } from 'react';
 import { getChainName } from 'uiKit/utils/useMetatags';
+import { processChain } from '../utils/processChain';
 import { useChainType } from './useChainType';
 import { useGroup } from './useGroup';
 import { useNetId } from './useNetId';
@@ -67,8 +68,8 @@ export const useChainItem = ({
     getFallbackEndpointGroup(chain.name);
 
   return {
-    chain,
-    publicChain,
+    chain: processChain(chain),
+    publicChain: processChain(publicChain),
     chainType,
     chainTypeTab,
     chainTypeTabs,
