@@ -1,17 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Web3Address } from 'multirpc-sdk';
 import { useFetchBlockchainsQuery } from 'modules/clients/actions/fetchBlockchains';
 import { SelectChangeEvent } from '@mui/material';
 
-export const useClientApiKeys = ({
-  token,
-  address,
-}: {
-  token: string;
-  address: Web3Address;
-}) => {
+export const useClientApiKeys = ({ token }: { token: string }) => {
   const { data: blockchainsData, isLoading: isLoadingBlockchains } =
-    useFetchBlockchainsQuery({ token, address });
+    useFetchBlockchainsQuery({ token });
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {

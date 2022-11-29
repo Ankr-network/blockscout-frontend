@@ -90,7 +90,7 @@ export const ClientInfo = ({
             </>
           )}
         </Typography>
-        <ClientApiKeysModal address={user.address || ''} token={user.user} />
+        <ClientApiKeysModal token={user.user} />
       </CardContent>
     </Card>
   );
