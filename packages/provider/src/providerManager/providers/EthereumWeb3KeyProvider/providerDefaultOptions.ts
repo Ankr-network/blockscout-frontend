@@ -1,4 +1,3 @@
-import { BscConnector } from '@binance-chain/bsc-connector';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { IProviderOptions } from 'web3modal';
@@ -64,9 +63,14 @@ export const providerDefaultOptions: IProviderOptions = {
       description:
         'A Crypto Wallet for BNB Beacon Chain, BNB Smart Chain and Ethereum',
     },
-    package: BscConnector,
+    package: async () => {
+      const binancePackage = '@binance-chain/bsc-connector';
+      const { BscConnector } = await import(binancePackage);
+      return BscConnector;
+    },
     connector: async (ProviderPackage: any) => {
-      const bsc = new ProviderPackage({
+      const Provider = await ProviderPackage();
+      const bsc = new Provider({
         supportedChainIds: [
           EEthereumNetworkId.smartchain,
           EEthereumNetworkId.smartchainTestnet,
