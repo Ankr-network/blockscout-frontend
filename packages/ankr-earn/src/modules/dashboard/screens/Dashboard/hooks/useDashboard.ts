@@ -15,9 +15,7 @@ import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
-import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
-import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
-import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTotalHistoryData';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
@@ -47,9 +45,6 @@ const resetRequests = () =>
     fetchAETHCBridged.toString(),
     fetchAMATICBBridgedBSC.toString(),
     fetchAMATICCBridgedBSC.toString(),
-    fetchAVAXPendingValues.toString(),
-    fetchAVAXStats.toString(),
-    fetchAVAXTxHistory.toString(),
     fetchPolygonStats.toString(),
     fetchPolygonTxHistory.toString(),
     getMGNOTotalInfo.toString(),
@@ -75,6 +70,7 @@ export const useDashboard = (): IUseDashboard => {
 
   const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
+  const { refetch: getAVAXCommonDataRefetch } = useGetAVAXCommonDataQuery();
   const { refetch: getFTMCommonDataRefetch } = useGetFTMCommonDataQuery();
 
   const { refetch: getBNBPendingValuesRefetch } = useGetBNBPendingValuesQuery();
@@ -92,14 +88,13 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchAETHCBridged());
     dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAMATICCBridgedBSC());
-    dispatch(fetchAVAXPendingValues());
-    dispatch(fetchAVAXStats());
     dispatch(fetchPolygonStats());
     dispatch(getEthCommonData());
     dispatch(getEthClaimableData());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     dispatch(getMaticPolygonCommonData());
+    getAVAXCommonDataRefetch();
     getFTMCommonDataRefetch();
     getBNBPendingValuesRefetch();
     getBNBStatsRefetch();

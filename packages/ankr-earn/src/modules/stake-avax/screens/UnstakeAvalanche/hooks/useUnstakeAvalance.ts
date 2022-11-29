@@ -1,16 +1,12 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ACTION_CACHE_SEC, DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
-import { unstake } from 'modules/stake-avax/actions/unstake';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import { useUnstakeAVAXMutation } from 'modules/stake-avax/actions/unstake';
 import { RoutesConfig } from 'modules/stake-avax/Routes';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 import { getValidSelectedToken } from 'modules/stake-avax/utils/getValidSelectedToken';
@@ -30,16 +26,20 @@ interface IUseUnstakeAvax {
 }
 
 export const useUnstakeAvalance = (): IUseUnstakeAvax => {
-  const dispatchRequest = useDispatchRequest();
   const { sendAnalytics } = useUnstakeAvaxAnalytics();
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
 
-  const { loading: isFetchStatsLoading, data: fetchStatsData } = useQuery({
-    type: fetchStats,
+  const {
+    data: fetchStatsData,
+    isFetching: isFetchStatsLoading,
+    refetch,
+  } = useGetAVAXCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+
+  const [unstake, { isLoading: isUnstakeLoading }] = useUnstakeAVAXMutation();
 
   const isBondToken = selectedToken === Token.aAVAXb;
   const closeHref = DashboardRoutes.dashboard.generatePath();
@@ -52,19 +52,19 @@ export const useUnstakeAvalance = (): IUseUnstakeAvax => {
   const maxAmount = isBondToken ? maxAavaxbAmount : maxAavaxcAmount;
   const aavaxcRatio = fetchStatsData?.aAVAXcRatio ?? ZERO;
 
+  useProviderEffect(() => {
+    refetch();
+  }, []);
+
   const handleSubmit = useCallback(
     (amount: BigNumber) => {
       const resultAmount = new BigNumber(amount);
 
-      dispatchRequest(
-        unstake({ amount: resultAmount, token: selectedToken }),
-      ).then(({ error }) => {
-        if (!error) {
-          sendAnalytics(resultAmount, selectedToken);
-        }
+      unstake({ amount: resultAmount, token: selectedToken }).then(() => {
+        sendAnalytics(resultAmount, selectedToken);
       });
     },
-    [dispatchRequest, selectedToken, sendAnalytics],
+    [selectedToken, sendAnalytics, unstake],
   );
 
   const onUnstakeSubmit = useCallback(

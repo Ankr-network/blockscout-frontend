@@ -10,7 +10,7 @@ import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
-import { fetchHistory as fetchAVAXHistory } from 'modules/stake-avax/actions/fetchHistory';
+import { useLazyGetAVAXHistoryQuery } from 'modules/stake-avax/actions/fetchHistory';
 import { useLazyGetBNBHistoryQuery } from 'modules/stake-bnb/actions/fetchHistory';
 import { getHistory as getETHHistory } from 'modules/stake-eth/actions/getHistory';
 import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
@@ -62,15 +62,10 @@ export const useHistory = ({
   const [getFTMHistory, { isFetching: isFtmHistoryLoading }] =
     useLazyGetFTMHistoryQuery();
 
+  const [getAVAXHistory, { isFetching: avaxHistoryLoading }] =
+    useLazyGetAVAXHistoryQuery();
   const [getBNBHistory, { isFetching: isBnbHistoryLoading }] =
     useLazyGetBNBHistoryQuery();
-
-  const { loading: avaxHistoryLoading } = useQuery({
-    type: fetchAVAXHistory,
-  });
-  const { loading: isAvaxHistoryMutationLoading } = useMutation({
-    type: fetchAVAXHistory,
-  });
 
   const { loading: maticEthHistoryLoading } = useQuery({
     type: fetchMATICETHHistory,
@@ -134,34 +129,40 @@ export const useHistory = ({
           });
         break;
       case Token.aAVAXb:
-        dispatchRequest(
-          fetchAVAXHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aAVAXb.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aAVAXb.unstakeEvents ?? []),
-            ],
+        getAVAXHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [
+                ...stakeEvents,
+                ...(data?.aAVAXb.stakeEvents ?? []),
+              ],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aAVAXb.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aAVAXc:
-        dispatchRequest(
-          fetchAVAXHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aAVAXc.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aAVAXc.unstakeEvents ?? []),
-            ],
+        getAVAXHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [
+                ...stakeEvents,
+                ...(data?.aAVAXc.stakeEvents ?? []),
+              ],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aAVAXc.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aBNBb:
         getBNBHistory({
@@ -286,7 +287,6 @@ export const useHistory = ({
     loading:
       isFtmHistoryLoading ||
       avaxHistoryLoading ||
-      isAvaxHistoryMutationLoading ||
       isBnbHistoryLoading ||
       maticEthHistoryLoading ||
       isMaticEthHistoryMutationLoading ||

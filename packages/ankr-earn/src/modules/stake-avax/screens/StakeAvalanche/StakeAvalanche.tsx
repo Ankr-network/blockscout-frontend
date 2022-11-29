@@ -1,5 +1,4 @@
 import { t, tHTML } from '@ankr.com/common';
-import { Box } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatch } from 'react-redux';
 
@@ -11,12 +10,9 @@ import {
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   DUNE_ANALYTICS_LINK,
-  featuresConfig,
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
-import { getStakeGasFee } from 'modules/stake-avax/actions/getStakeGasFee';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -36,9 +32,6 @@ import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { QueryError } from 'uiKit/QueryError';
-import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-
-import { fetchStats } from '../../actions/fetchStats';
 
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeAvalancheStyles } from './useStakeAvalancheStyles';
@@ -56,7 +49,7 @@ export const StakeAvalanche = (): JSX.Element => {
     faqItems,
     fetchStatsData,
     fetchStatsError,
-    isFetchStatsLoading,
+    isGetCommonDataLoading,
     isStakeGasLoading,
     isStakeLoading,
     stakeGasFee,
@@ -81,7 +74,7 @@ export const StakeAvalanche = (): JSX.Element => {
 
         <TokenVariant
           description={tHTML('stake-avax.aavaxc-descr', {
-            rate: isFetchStatsLoading
+            rate: isGetCommonDataLoading
               ? '...'
               : aAVAXcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
           })}
@@ -109,21 +102,15 @@ export const StakeAvalanche = (): JSX.Element => {
   );
 
   useProviderEffect(() => {
-    dispatch(fetchPendingValues());
-    dispatch(fetchStats());
     dispatch(getFAQ(Token.AVAX));
     dispatch(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString()]));
     };
   }, [dispatch]);
 
   useProviderEffect(() => {
-    if (!featuresConfig.isActiveStakeTradeInfo) {
-      return;
-    }
-
     dispatch(
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.AVAX,
@@ -135,25 +122,17 @@ export const StakeAvalanche = (): JSX.Element => {
     );
   }, [certificateRatio, dispatch]);
 
-  if (isFetchStatsLoading) {
-    return (
-      <Box mt={5}>
-        <QueryLoadingCentered />
-      </Box>
-    );
-  }
-
   return (
     <section className={classes.root}>
-      {fetchStatsError !== null && (
+      {fetchStatsError !== undefined && (
         <StakeContainer>
           <QueryError error={fetchStatsError} />
         </StakeContainer>
       )}
 
-      {fetchStatsError === null && fetchStatsData !== null && (
+      {fetchStatsError === undefined && fetchStatsData !== null && (
         <StakeContainer>
-          {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+          <StakeTradeInfo />
 
           <StakeForm
             isIntegerOnly
@@ -162,7 +141,7 @@ export const StakeAvalanche = (): JSX.Element => {
                 <AuditInfoItem link={AUDIT_LINKS.avax} variant="beosin" />
               </AuditInfo>
             }
-            balance={fetchStatsData.avaxBalance}
+            balance={fetchStatsData?.avaxBalance}
             feeSlot={
               <StakeFeeInfo
                 isLoading={isStakeGasLoading}
@@ -170,9 +149,10 @@ export const StakeAvalanche = (): JSX.Element => {
                 value={stakeGasFee}
               />
             }
+            isBalanceLoading={isGetCommonDataLoading}
             isDisabled={isStakeLoading}
-            loading={isStakeLoading}
-            maxAmount={fetchStatsData.avaxBalance}
+            loading={isStakeLoading || isGetCommonDataLoading}
+            maxAmount={fetchStatsData?.avaxBalance}
             minAmount={ZERO}
             renderStats={onRenderStats}
             stakingAmountStep={AVAX_STAKING_AMOUNT_STEP}

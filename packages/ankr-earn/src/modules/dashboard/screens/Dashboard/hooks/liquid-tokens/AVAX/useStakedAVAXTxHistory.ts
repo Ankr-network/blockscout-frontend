@@ -1,16 +1,15 @@
 import { t } from '@ankr.com/common';
-import { useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
-import { AVAX_NETWORK_BY_ENV } from 'modules/common/const';
+import { ACTION_CACHE_SEC, AVAX_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { fetchTotalHistoryData } from 'modules/stake-avax/actions/fetchTotalHistoryData';
-import { useAppDispatch } from 'store/useAppDispatch';
+import { useGetAVAXTotalHistoryDataQuery } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 
 import { ITxEventsHistoryGroupItem } from '../../../types';
 
@@ -48,10 +47,13 @@ export interface ITxHistoryData {
 }
 
 export const useStakedAVAXTxHistory = (): ITxHistoryData => {
-  const { data, loading: isHistoryDataLoading } = useQuery({
-    type: fetchTotalHistoryData,
+  const {
+    data,
+    isFetching: isHistoryDataLoading,
+    refetch,
+  } = useGetAVAXTotalHistoryDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
-  const dispatch = useAppDispatch();
 
   const stakedAAVAXB = useMemo(() => {
     return getCompletedTransactions({
@@ -131,9 +133,13 @@ export const useStakedAVAXTxHistory = (): ITxHistoryData => {
     !!unstakedAAVAXB?.length ||
     !!unstakedAAVAXC?.length;
 
+  useProviderEffect(() => {
+    refetch();
+  }, []);
+
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTotalHistoryData());
-  }, [dispatch]);
+    refetch();
+  }, [refetch]);
 
   return {
     isHistoryDataLoading,

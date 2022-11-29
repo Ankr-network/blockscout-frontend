@@ -3,8 +3,8 @@ import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
-import { useGetTxDataQuery } from 'modules/stake-ankr/actions/getTxData';
-import { useGetTxReceiptQuery } from 'modules/stake-ankr/actions/getTxReceipt';
+import { useGetANKRTxDataQuery } from 'modules/stake-ankr/actions/getTxData';
+import { useGetANKRTxReceiptQuery } from 'modules/stake-ankr/actions/getTxReceipt';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 export interface IStakeStepsHook {
@@ -23,10 +23,14 @@ interface IStakeStepsParams {
 export const useStakeStepsHook = (): IStakeStepsHook => {
   const { txHash } = useParams<IStakeStepsParams>();
 
-  const { isFetching: isLoading, data, error } = useGetTxDataQuery({ txHash });
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetANKRTxDataQuery({ txHash });
 
   // TODO: try to handle skip polling when data exists
-  const { data: receipt } = useGetTxReceiptQuery(
+  const { data: receipt } = useGetANKRTxReceiptQuery(
     { txHash },
     {
       pollingInterval: 3_000,

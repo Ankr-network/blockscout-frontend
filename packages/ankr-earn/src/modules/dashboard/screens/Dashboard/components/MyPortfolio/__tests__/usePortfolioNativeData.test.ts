@@ -5,6 +5,7 @@ import { ZERO } from 'modules/common/const';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 
@@ -24,6 +25,10 @@ jest.mock('modules/stake-ankr/actions/getCommonData', () => ({
 
 jest.mock('modules/stake-ankr/actions/getMaxApy', () => ({
   useGetMaxApyQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-avax/actions/fetchCommonData', () => ({
+  useGetAVAXCommonDataQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-fantom/actions/getCommonData', () => ({
@@ -46,6 +51,10 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
       data: undefined,
     });
     (useGetCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetAVAXCommonDataQuery as jest.Mock).mockReturnValue({
       isFetching: false,
       data: undefined,
     });

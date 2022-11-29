@@ -15,7 +15,7 @@ import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
-import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
@@ -76,10 +76,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       type: getMaticPolygonCommonData,
     });
 
-  const { data: avaxData, loading: isAvaxDataLoading } = useQuery({
-    type: fetchStakeAVAXStats,
-  });
-
   const { data: ftmData, isFetching: isFtmDataLoading } =
     useGetFTMCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
@@ -103,6 +99,11 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
 
   const { data: ankrBalanceData, isFetching: isLoadingAnkrBalanceData } =
     useGetCommonDataQuery();
+
+  const { data: avaxData, isFetching: isAvaxDataLoading } =
+    useGetAVAXCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: ankrPrice, isFetching: isAnkrPriceLoading } =
     useGetAnkrPriceQuery();

@@ -1,15 +1,18 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { addAVAXTokenToWallet } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
-import { getTxData, getTxReceipt } from 'modules/stake-avax/actions/getTxData';
+import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import {
+  useGetAVAXTxDataQuery,
+  useGetAVAXTxReceiptQuery,
+} from 'modules/stake-avax/actions/getTxData';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -20,7 +23,7 @@ export interface IStakeAvalancheStepsHook {
   destination?: string;
   transactionId?: string;
   tokenName: string;
-  error?: Error;
+  error?: FetchBaseQueryError;
   handleAddTokenToWallet: () => void;
 }
 
@@ -31,36 +34,37 @@ interface IStakeSuccessParams {
 
 export const useStakeAvalancheStepsHook = (): IStakeAvalancheStepsHook => {
   const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const { data: stats } = useQuery({ type: fetchStats });
-  const dispatchRequest = useDispatchRequest();
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetAVAXTxDataQuery({ txHash });
+  const { data: receipt } = useGetAVAXTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: 3_000,
+    },
+  );
+  const { data: stats, refetch } = useGetAVAXCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
+  const [addAVAXTokenToWallet] = useAddAVAXTokenToWalletMutation();
+
   const dispatch = useAppDispatch();
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
-
     if (!stats) {
-      dispatchRequest(fetchStats());
+      refetch();
     }
 
-    return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
-    };
+    return () => {};
   }, [dispatch, txHash]);
 
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const onAddTokenClick = () => {
-    dispatchRequest(addAVAXTokenToWallet(tokenOut));
+    addAVAXTokenToWallet(tokenOut);
   };
 
   // todo: get this value using txn decoding (https://ankrnetwork.atlassian.net/browse/STAKAN-1309)
@@ -86,7 +90,7 @@ export const useStakeAvalancheStepsHook = (): IStakeAvalancheStepsHook => {
     tokenName: tokenOut,
     isLoading,
     isPending,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
 };

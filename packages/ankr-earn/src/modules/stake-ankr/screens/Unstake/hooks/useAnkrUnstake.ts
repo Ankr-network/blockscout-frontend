@@ -10,7 +10,7 @@ import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { useGetUnlockedDelegatedByValidatorQuery } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
-import { useUnstakeMutation } from '../../../actions/unstake';
+import { useUnstakeANKRMutation } from '../../../actions/unstake';
 import { RoutesConfig } from '../../../RoutesConfig';
 
 import { useAnalytics } from './useAnalytics';
@@ -30,7 +30,7 @@ interface IUseAnkrUnstake {
 }
 
 export const useAnkrUnstake = (): IUseAnkrUnstake => {
-  const [unstake, { isLoading: isUnstakeLoading }] = useUnstakeMutation();
+  const [unstake, { isLoading: isUnstakeLoading }] = useUnstakeANKRMutation();
 
   const [amount, setAmount] = useState(ZERO);
 
