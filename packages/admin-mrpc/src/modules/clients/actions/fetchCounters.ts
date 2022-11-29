@@ -141,9 +141,7 @@ export const {
           };
         });
 
-        // TODO: temporary fix for displaying the pending users with emails
-        // refactor this shit
-        const newClients = emailsCollection
+        const newClientsPending = emailsCollection
           .filter(
             clientWithEmail =>
               !clients.find(client => client.email === clientWithEmail.email),
@@ -152,18 +150,19 @@ export const {
             return {
               ...client,
               clientType: ClientType.PENDING,
-              createdDate: new Date(), // this date is invalid
+              createdDate: undefined,
               hourly: 0,
               daily: 0,
               monthly: 0,
               delta: 0,
               timestamp: 0,
-              user: `pending-${client.address}`,
             };
           });
 
         return {
-          data: { counters: [...clients, ...newClients] },
+          data: {
+            counters: [...clients, ...newClientsPending],
+          },
         };
       },
     }),

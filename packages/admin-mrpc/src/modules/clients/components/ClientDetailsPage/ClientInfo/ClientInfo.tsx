@@ -72,14 +72,14 @@ export const ClientInfo = ({
   );
 
   const renderMainInfo = (user: ClientMapped) => (
-    <Card key={user.user} className={classes.root}>
+    <Card key={user.user || user.address} className={classes.root}>
       <CardContent>
         <Box display="flex" alignItems="center">
           <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
         </Box>
         <br />
         <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
-          <b>Created:</b> {user?.createdDate?.toLocaleString()}
+          <b>Created:</b> {user?.createdDate?.toLocaleString() || 'unknown'}
         </Typography>
         <br />
         <Typography variant="body2" component="p">
@@ -171,6 +171,13 @@ export const ClientInfo = ({
       <Paper sx={{ p: 5 }}>
         <Typography variant="body2" component="p">
           <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
+          {client?.status && (
+            <>
+              <br />
+              <br />
+              <b>Status:</b> {isLoadingClients ? skeleton : client?.status}
+            </>
+          )}
         </Typography>
       </Paper>
 
