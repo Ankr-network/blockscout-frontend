@@ -5,6 +5,8 @@ import { EmailConfirmationStatus, ICountersEntity } from 'multirpc-sdk';
 import { RootState } from 'store';
 import { ClientType } from '../types';
 
+type CreatedDate = Date | undefined; // undefined for PENDING clients
+type UserToken = string | undefined; // undefined for PENDING clients
 export type ClientMapped = Omit<ICountersEntity, 'user'> & {
   clientType: ClientType;
   email?: string;
@@ -14,8 +16,8 @@ export type ClientMapped = Omit<ICountersEntity, 'user'> & {
   amountUsd?: BigNumber;
   voucherAmount?: BigNumber;
   reference?: string;
-  createdDate?: Date; // createdDate is undefined for PENDING clients
-  user?: string; // user is undefined for PENDING clients
+  createdDate: CreatedDate;
+  user: UserToken;
 };
 
 export interface IClientsSlice {

@@ -151,6 +151,7 @@ export const {
               ...client,
               clientType: ClientType.PENDING,
               createdDate: undefined,
+              user: undefined,
               hourly: 0,
               daily: 0,
               monthly: 0,
