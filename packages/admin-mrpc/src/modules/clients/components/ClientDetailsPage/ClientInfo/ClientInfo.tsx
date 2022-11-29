@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import { Spinner } from 'ui';
-import { IEthUserAddress, Web3Address } from 'multirpc-sdk';
+import { IEthUserAddressV2, Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import {
@@ -101,9 +101,7 @@ export const ClientInfo = ({
     </Card>
   );
 
-  const mapAddresses = (
-    ethUserAddress: Omit<IEthUserAddress, 'public_key'>,
-  ) => {
+  const mapAddresses = (ethUserAddress: IEthUserAddressV2) => {
     return (
       <Card key={ethUserAddress.address} className={classes.root}>
         <CardContent>

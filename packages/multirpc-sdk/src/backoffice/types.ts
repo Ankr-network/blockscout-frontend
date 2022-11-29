@@ -5,7 +5,7 @@ import {
   PrivateStatsInterval
 } from '../account';
 import { EmailConfirmationStatus, Network, Web3Address } from '../common';
-import { IETHAddressesResponse, IEthUserAddress } from '../oauth';
+import { IEthUserAddressWithDeprecatedPublicKey } from '../oauth';
 
 export interface ITransactionsEntity {
   amount?: string;
@@ -226,7 +226,11 @@ export interface IGetUserRevenueResponse {
 export type GetUserAddressesRequest = {
   address: Web3Address;
 };
-export type GetUserAddressesResponse = IETHAddressesResponse;
+
+export type IEthUserAddressV2 = Omit<IEthUserAddressWithDeprecatedPublicKey, 'public_key'>
+export type GetUserAddressesResponse = {
+  addresses: IEthUserAddressV2[]
+};
 
 export type BlockchainFeature = 'rpc' | 'ws';
 
