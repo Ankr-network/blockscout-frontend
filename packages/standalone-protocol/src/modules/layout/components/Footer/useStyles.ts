@@ -50,7 +50,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.solana,  &.nervos': {
+    '&.nervos': {
       color: theme.palette.grey['500'],
 
       '& $link': {

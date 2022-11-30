@@ -47,11 +47,6 @@ export const useStyles = makeStyles<
       fontSize: 50,
     },
 
-    '&.solana': {
-      backgroundImage: `linear-gradient(270deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%);`,
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
-    },
     '&.harmony': {
       background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
       '-webkit-background-clip': 'text',

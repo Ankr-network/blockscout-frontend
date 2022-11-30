@@ -13,7 +13,6 @@ import { mainTheme } from '../../themes/mainTheme';
 import { moonbeamTheme } from '../../themes/moonbeamTheme';
 import { nearTheme } from '../../themes/nearTheme';
 import { nervosTheme } from '../../themes/nervosTheme';
-import { solanaTheme } from '../../themes/solanaTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -25,9 +24,6 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Polygon:
       return polygonTheme;
-
-    case ChainId.Solana:
-      return solanaTheme;
 
     case ChainId.Near:
       return nearTheme;
