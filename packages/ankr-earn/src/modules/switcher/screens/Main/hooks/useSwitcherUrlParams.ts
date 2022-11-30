@@ -1,16 +1,13 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router';
+import { useState, useCallback } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { EEthereumNetworkId } from 'modules/common/types';
-import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import {
   AvailableSwitcherToken,
   AvailableSwitchNetwork,
-  SwitcherUrlParams,
   SwitcherFromKey,
   SwitcherToKey,
   DEFAULT_TOKENS_BY_NETWORK,
@@ -28,28 +25,19 @@ export interface IUseSwitcherUrlParamsData {
 const DEFAULT_CHAIN_ID = EEthereumNetworkId.mainnet;
 
 export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
-  const history = useHistory();
   const { chainId: baseChainId } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
   const chainId = baseChainId || DEFAULT_CHAIN_ID;
-  const query = useQueryParams();
-  const queryFrom = query.get(SwitcherUrlParams.FROM);
-  const queryTo = query.get(SwitcherUrlParams.TO);
+
   const defaultTokens =
     DEFAULT_TOKENS_BY_NETWORK[chainId as AvailableSwitchNetwork] ??
     DEFAULT_TOKENS_BY_NETWORK[ETH_NETWORK_BY_ENV];
 
-  const defaultFrom =
-    SWITCHER_TOKENS_MAP?.from[queryFrom as SwitcherFromKey] ||
-    SWITCHER_TOKENS_MAP?.to[queryFrom as SwitcherToKey] ||
-    defaultTokens.from;
+  const defaultFrom = defaultTokens.from;
 
-  const defaultTo =
-    SWITCHER_TOKENS_MAP?.to[queryTo as SwitcherToKey] ||
-    SWITCHER_TOKENS_MAP?.from[queryTo as SwitcherFromKey] ||
-    defaultTokens.to;
+  const defaultTo = defaultTokens.to;
 
   const uniqueDefaultTo =
     defaultTo !== defaultFrom
@@ -85,13 +73,6 @@ export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
     },
     [defaultTokens, setTo],
   );
-
-  useEffect(() => {
-    query.set(SwitcherUrlParams.FROM, from);
-    query.set(SwitcherUrlParams.TO, to);
-
-    history.replace({ search: query.toString() });
-  }, [query, history, from, to]);
 
   return {
     from,

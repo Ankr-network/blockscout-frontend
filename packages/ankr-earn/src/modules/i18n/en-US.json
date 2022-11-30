@@ -550,7 +550,7 @@
   },
   "switcher": {
     "title": "ANKR Switch",
-    "info": "Switch Reward Bearing and Reward Earning Liquid Staking",
+    "info": "Switch Reward Earning to Reward Bearing Liquid Staking Token",
     "fee": "Service fee ({fee}%)",
     "willGet": "You will get",
     "progressTitle": "Switch",
