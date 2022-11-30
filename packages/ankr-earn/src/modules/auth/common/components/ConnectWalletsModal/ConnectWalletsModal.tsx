@@ -55,9 +55,7 @@ export const ConnectWalletsModal = (): JSX.Element => {
 
           {isMobileDevice ? <ConnectTileTrustViaWC /> : <ConnectTileTrust />}
 
-          {featuresConfig.isCloverWalletSupportActive && !isMobileDevice && (
-            <ConnectTileClover />
-          )}
+          {!isMobileDevice && <ConnectTileClover />}
 
           <ConnectTileWalletConnect />
 

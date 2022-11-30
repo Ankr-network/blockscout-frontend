@@ -59,8 +59,4 @@ export const featuresConfig = {
   isTrustWalletSupportActive: true,
   isSUIStakingActive: isLocal,
   isClaimAndRestakeEnabled: currentEnv !== Env.Production,
-  /**
-   * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2312
-   */
-  isCloverWalletSupportActive: isLocal,
 };

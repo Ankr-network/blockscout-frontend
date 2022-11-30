@@ -24,19 +24,20 @@ export const ConnectTileClover = (): JSX.Element => {
   const isInjected = getIsCloverInjected();
   const cloverProvider = getCloverProvider();
   const isCloverActive = getIsClover(cloverProvider);
+  const isDisabled = isInjected && !isCloverActive;
 
   const tooltip = useLocaleMemo(() => {
-    if (!isCloverActive) {
+    if (isDisabled) {
       return t('wallets.tooltips.clover-disabled');
     }
     return undefined;
-  }, [isCloverActive]);
+  }, [isDisabled]);
 
   return (
     <ConnectTile
       href={isInjected ? undefined : DOWNLOAD_CLOVER_URL}
       iconSlot={<CloverWalletIcon />}
-      isDisabled={!isCloverActive}
+      isDisabled={isDisabled}
       title={getWalletName(walletId)}
       tooltip={tooltip}
       onClick={handleConnect}
