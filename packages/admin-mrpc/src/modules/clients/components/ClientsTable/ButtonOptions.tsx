@@ -68,10 +68,12 @@ export const ButtonOptions = ({ client }: IButtonOptionsProps) => {
             Copy ETH Address
           </MenuItem>
         )}
-        <MenuItem onClick={e => handleCopyClick(e, client.user)}>
-          <IconCopy style={{ marginRight: 8 }} />
-          Copy User Token
-        </MenuItem>
+        {client.user && (
+          <MenuItem onClick={e => handleCopyClick(e, client.user!)}>
+            <IconCopy style={{ marginRight: 8 }} />
+            Copy User Token
+          </MenuItem>
+        )}
         {client.email && (
           <MenuItem onClick={e => handleCopyClick(e, client.email!)}>
             <IconCopy style={{ marginRight: 8 }} />
