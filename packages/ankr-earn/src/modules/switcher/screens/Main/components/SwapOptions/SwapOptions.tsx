@@ -3,6 +3,7 @@ import compact from 'lodash/compact';
 import { useCallback, useMemo } from 'react';
 
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
@@ -59,27 +60,27 @@ const AVAILABLE_SWAP_TOKENS = {
 
   to: compact([
     {
-      label: Token.aETHc,
+      label: getTokenName(Token.aETHc),
       value: Token.aETHc,
       icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
-      label: Token.aBNBc,
+      label: getTokenName(Token.aBNBc),
       value: Token.aBNBc,
       icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
-      label: Token.aMATICc,
+      label: getTokenName(Token.aMATICc),
       value: Token.aMATICc,
       icon: <AMATICCIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
-      label: Token.aFTMc,
+      label: getTokenName(Token.aFTMc),
       value: Token.aFTMc,
       icon: <AFTMCIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
-      label: Token.aAVAXc,
+      label: getTokenName(Token.aAVAXc),
       value: Token.aAVAXc,
       icon: <AAvaxCIcon {...DEFAULT_ICON_PROPS} />,
     },

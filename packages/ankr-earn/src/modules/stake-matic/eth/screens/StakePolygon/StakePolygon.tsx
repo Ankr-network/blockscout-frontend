@@ -19,6 +19,7 @@ import {
   featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -119,7 +120,7 @@ export const StakePolygon = (): JSX.Element => {
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount
-              symbol={tokenOut}
+              symbol={getTokenName(tokenOut)}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
           </StakeDescriptionValue>
@@ -165,7 +166,7 @@ export const StakePolygon = (): JSX.Element => {
             type="submit"
           >
             {t('stake-matic-eth.btn.submit', {
-              token: tokenOut,
+              token: getTokenName(tokenOut),
             })}
           </Button>
         </Grid>

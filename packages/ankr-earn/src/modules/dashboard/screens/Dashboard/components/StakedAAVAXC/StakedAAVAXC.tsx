@@ -1,4 +1,4 @@
-import { tHTML } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
@@ -17,6 +17,8 @@ import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendin
 import { useStakedAVAXTxHistory } from '../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory';
 
 import { useStakedAAVAXCData } from './useStakedAAVAXCData';
+
+const token = Token.aAVAXc;
 
 export const StakedAAVAXC = (): JSX.Element => {
   const { avalancheConfig } = configFromEnv();
@@ -60,12 +62,14 @@ export const StakedAAVAXC = (): JSX.Element => {
     handleAddTokenToWallet,
   } = useStakedAAVAXCData();
 
+  const tokenName = t('unit.aavaxc');
+
   const onAddStakingClick = () => {
     trackEnterStakingFlow({
       walletType: walletName,
       walletPublicAddress: address,
       accessPoint: 'add_stake',
-      tokenName: Token.aAVAXc,
+      tokenName: token,
     });
   };
 
@@ -79,7 +83,7 @@ export const StakedAAVAXC = (): JSX.Element => {
     <Pending
       isLoading={isHistoryDataLoading}
       isUnstakeValueLoading={isPendingUnstakeLoading}
-      token={Token.aAVAXc}
+      token={tokenName}
       tooltip={
         <PendingTable
           data={pendingUnstakeHistoryAAVAXC}
@@ -104,7 +108,7 @@ export const StakedAAVAXC = (): JSX.Element => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
-        token={Token.aAVAXc}
+        token={token}
         tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
@@ -116,7 +120,7 @@ export const StakedAAVAXC = (): JSX.Element => {
       <NewHistoryDialog
         network={AVAX_NETWORK_BY_ENV}
         open={isOpenedHistory}
-        token={Token.aAVAXc}
+        token={token}
         onClose={onCloseHistory}
       />
 
@@ -128,7 +132,7 @@ export const StakedAAVAXC = (): JSX.Element => {
         moreHref={getStakingOverviewUrl(Token.AVAX)}
         open={isOpenedInfo}
         tokenAddress={avalancheConfig.aAVAXc}
-        tokenName={Token.aAVAXc}
+        tokenName={tokenName}
         onClose={onCloseInfo}
       />
     </>

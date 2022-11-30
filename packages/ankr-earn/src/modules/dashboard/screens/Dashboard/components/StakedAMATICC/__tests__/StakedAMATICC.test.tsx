@@ -128,7 +128,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
       </MemoryRouter>,
     );
 
-    const symbol = await screen.findByText('aMATICc');
+    const symbol = await screen.findByText('ankrMATIC');
     const network = await screen.findByText('ETH');
 
     expect(symbol).toBeInTheDocument();

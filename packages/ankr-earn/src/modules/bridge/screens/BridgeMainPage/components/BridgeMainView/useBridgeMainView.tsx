@@ -25,6 +25,7 @@ import {
   TUseValidateAmount,
   useValidateAmount,
 } from 'modules/common/hooks/useValidateAmount';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 
 import { useApprove } from './useApprove';
 import { useDeposit } from './useDeposit';
@@ -43,7 +44,7 @@ export interface IOnSuccessDepositArgs {
 }
 
 interface IUseBridgeMainView {
-  tokenValue: AvailableBridgeTokens;
+  tokenName: string;
   isSendAnother: boolean;
   isConnected: boolean;
   isApproved: boolean;
@@ -136,6 +137,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     toChainId: swapNetworkItem.to,
     token: tokenValue,
   });
+
+  const tokenName = getTokenName(tokenValue);
 
   const sendAnalytics = async () => {
     const from = networksOptionsFrom.find(
@@ -238,7 +241,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   return {
     isConnected,
     isInjected,
-    tokenValue,
+    tokenName,
     isSendAnother,
     isApproved,
     isActualNetwork,

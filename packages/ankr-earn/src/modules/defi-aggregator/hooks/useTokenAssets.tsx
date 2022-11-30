@@ -32,7 +32,7 @@ export const useTokenAssets = (): ISelectOption[] => [
     separate: true,
   },
   {
-    label: 'aETHc',
+    label: t('unit.aethc'),
     value: TokenAsset.aETHc,
     icon: <AETHCIcon />,
   },
@@ -47,7 +47,7 @@ export const useTokenAssets = (): ISelectOption[] => [
     icon: <ABNBBIcon />,
   },
   {
-    label: 'aBNBc',
+    label: t('unit.abnbc'),
     value: TokenAsset.aBNBc,
     icon: <ABNBCIcon />,
   },
@@ -57,7 +57,7 @@ export const useTokenAssets = (): ISelectOption[] => [
     icon: <AMATICBIcon />,
   },
   {
-    label: 'aMATICc',
+    label: t('unit.amaticc'),
     value: TokenAsset.aMATICc,
     icon: <AMATICCIcon />,
   },
@@ -67,7 +67,7 @@ export const useTokenAssets = (): ISelectOption[] => [
     icon: <AAvaxBIcon />,
   },
   {
-    label: 'aAVAXc',
+    label: t('unit.aavaxc'),
     value: TokenAsset.aAVAXc,
     icon: <AAvaxCIcon />,
   },

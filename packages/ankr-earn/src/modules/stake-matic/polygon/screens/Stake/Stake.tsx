@@ -12,6 +12,7 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -125,7 +126,7 @@ export const Stake = (): JSX.Element => {
 
         <StakeDescriptionValue>
           <StakeDescriptionAmount
-            symbol={tokenOut}
+            symbol={getTokenName(tokenOut)}
             value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
           />
         </StakeDescriptionValue>

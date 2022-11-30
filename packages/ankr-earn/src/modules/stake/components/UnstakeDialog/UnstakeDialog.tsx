@@ -2,14 +2,8 @@ import { t, tHTML } from '@ankr.com/common';
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import React, {
-  ReactNode,
-  ReactText,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react';
-import { Form, Field } from 'react-final-form';
+import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
+import { Field, Form } from 'react-final-form';
 
 import { Notice } from 'ui';
 
@@ -18,6 +12,7 @@ import { Timer } from 'modules/common/components/Timer';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { CloseButton } from 'uiKit/CloseButton';
@@ -133,6 +128,8 @@ export const UnstakeDialog = ({
     }
   }, [balance]);
 
+  const tokenName = getTokenName(token);
+
   return (
     <Paper className={classes.root}>
       <Form
@@ -142,7 +139,7 @@ export const UnstakeDialog = ({
             <form autoComplete="off" onSubmit={handleSubmit}>
               <Container className={classes.container}>
                 <Typography className={classes.title} variant="h3">
-                  {t('unstake-dialog.title', { token })}
+                  {t('unstake-dialog.title', { token: tokenName })}
                 </Typography>
 
                 {networkTitleSlot && (
@@ -157,7 +154,7 @@ export const UnstakeDialog = ({
                     label={t('unstake-dialog.amount')}
                     maxDecimals={maxAmountDecimals}
                     name={FieldsNames.amount}
-                    tokenName={token}
+                    tokenName={tokenName}
                     onMaxClick={setMaxAmount(form, maxAmountValue.toFormat())}
                   />
                 </Box>

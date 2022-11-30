@@ -1,7 +1,7 @@
 import {
   AvailableWriteProviders,
-  EthereumWeb3KeyProvider,
   EEthereumNetworkId,
+  EthereumWeb3KeyProvider,
 } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
@@ -10,7 +10,7 @@ import {
   PolkadotProvider,
 } from 'polkadot';
 
-import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
 
@@ -26,6 +26,8 @@ interface ISwitchNetworkArgs {
   providerId: AvailableStakingWriteProviders;
 }
 
+type TSwitchNetwork = boolean;
+
 export const {
   useSwitchNetworkMutation,
   endpoints: { switchNetwork },
@@ -34,8 +36,12 @@ export const {
     let switchNetworkData: ISwitchNetworkData | undefined;
 
     return {
-      switchNetwork: build.mutation<boolean, ISwitchNetworkArgs>({
-        queryFn: async ({ chainId, providerId }) => {
+      switchNetwork: build.mutation<TSwitchNetwork, ISwitchNetworkArgs>({
+        queryFn: queryFnNotifyWrapper<
+          ISwitchNetworkArgs,
+          never,
+          TSwitchNetwork
+        >(async ({ chainId, providerId }) => {
           const provider =
             await ProviderManagerSingleton.getInstance<ProvidersMap>().getProvider(
               providerId,
@@ -44,7 +50,9 @@ export const {
           switch (providerId) {
             case AvailableWriteProviders.ethCompatible: {
               if (isEVMCompatible(chainId)) {
-                (provider as EthereumWeb3KeyProvider).switchNetwork(chainId);
+                await (provider as EthereumWeb3KeyProvider).switchNetwork(
+                  chainId,
+                );
                 return {
                   data: true,
                 };
@@ -75,7 +83,8 @@ export const {
           return {
             data: false,
           };
-        },
+        }),
+
         async onQueryStarted(
           { chainId, providerId },
           { dispatch, queryFulfilled },

@@ -17,6 +17,7 @@ import {
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -102,7 +103,7 @@ export const StakeFantom = (): JSX.Element => {
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount
-              symbol={tokenOut}
+              symbol={getTokenName(tokenOut)}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
           </StakeDescriptionValue>

@@ -1,4 +1,4 @@
-import { tHTML } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
@@ -58,6 +58,8 @@ export const StakedABNBC = (): JSX.Element => {
     handleLoadTxHistory,
   } = useStakedBNBTxHistory();
 
+  const tokenName = t('unit.abnbc');
+
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
     handleLoadTxHistory();
@@ -71,7 +73,7 @@ export const StakedABNBC = (): JSX.Element => {
     <Pending
       isLoading={isHistoryDataLoading}
       isUnstakeValueLoading={isPendingUnstakeLoading}
-      token={Token.aBNBc}
+      token={tokenName}
       tooltip={
         <PendingTable
           data={pendingUnstakeHistoryABNBC}
@@ -106,7 +108,7 @@ export const StakedABNBC = (): JSX.Element => {
       <NewHistoryDialog
         network={BSC_NETWORK_BY_ENV}
         open={isOpenedHistory}
-        token={Token.aBNBc}
+        token={token}
         onClose={onCloseHistory}
       />
 
@@ -118,7 +120,7 @@ export const StakedABNBC = (): JSX.Element => {
         moreHref={getStakingOverviewUrl(Token.BNB)}
         open={isOpenedInfo}
         tokenAddress={tokenAddress}
-        tokenName={Token.aBNBc}
+        tokenName={tokenName}
         onClose={onCloseInfo}
       />
     </>

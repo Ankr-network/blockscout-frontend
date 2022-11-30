@@ -33,7 +33,7 @@ interface IStakingAssetProps {
   nativeAmount?: BigNumber;
   network?: string;
   pendingSlot?: ReactNode;
-  token?: Token;
+  token: Token;
   tokenAddress?: string;
   tradeLink?: string;
   usdAmount?: BigNumber;

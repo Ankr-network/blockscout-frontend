@@ -37,7 +37,7 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   buttonsSlot?: ReactNode;
   stakeLink?: string;
-  token?: Token;
+  token: Token;
   tradeLink?: string;
   unstakeLink?: string;
   unstakeTooltip?: string;

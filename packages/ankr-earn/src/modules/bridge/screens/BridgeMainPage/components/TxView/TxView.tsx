@@ -20,6 +20,7 @@ import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { AUDIT_LINKS } from 'modules/common/const';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
@@ -82,6 +83,7 @@ export const TxView = ({
   );
 
   const isNotarizeCompleted = !!notarizeData;
+  const tokenName = getTokenName(token);
 
   const onAddTokenClick = () => {
     dispatchRequest(watchAsset({ token, chainId: chainIdTo }));
@@ -183,7 +185,7 @@ export const TxView = ({
             <Box className={classes.gridCellValue}>
               {t('unit.token-value', {
                 value: amount.toFormat(),
-                token,
+                token: tokenName,
               })}
             </Box>
           </Box>
@@ -235,7 +237,7 @@ export const TxView = ({
               variant="outlined"
               onClick={onAddTokenClick}
             >
-              {t('bridge.tx.buttons.add-to-wallet', { token })}
+              {t('bridge.tx.buttons.add-to-wallet', { token: tokenName })}
             </Button>
           )}
 

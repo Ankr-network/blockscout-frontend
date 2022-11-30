@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import {
@@ -76,7 +77,7 @@ export const useUnstakeBinanceSuccessHook = (): IUnstakeBinanceSuccessHook => {
     amount,
     destination,
     transactionId: txHash,
-    tokenName: token,
+    tokenName: getTokenName(token),
     isLoading,
     isPending,
     error: (error as FetchBaseQueryError) || txFailError,
