@@ -40,6 +40,7 @@ const PERSIST_DEFAULT_KEY = '_persist';
 const AVAILABLE_WALLETS_GROUP_TYPES = [
   AvailableWriteProviders.ethCompatible,
   ExtraWriteProviders.polkadotCompatible,
+  ExtraWriteProviders.suiCompatible,
 ];
 
 const getConnectData = (

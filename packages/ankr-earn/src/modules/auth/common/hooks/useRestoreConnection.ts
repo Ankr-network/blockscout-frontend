@@ -12,6 +12,7 @@ import { useConnectMutation } from '../actions/connect';
 import {
   selectEthProviderData,
   selectPolkadotProviderData,
+  selectSuiProviderData,
 } from '../store/authSlice';
 
 import { useConnectedData } from './useConnectedData';
@@ -26,12 +27,16 @@ export const useRestoreConnection = (): boolean => {
 
   const ethProviderStatus = useAppSelector(selectEthProviderData);
   const polkadotProviderStatus = useAppSelector(selectPolkadotProviderData);
+  const suiProviderStatus = useAppSelector(selectSuiProviderData);
 
   const [connectEthCompatible] = useConnectMutation({
     fixedCacheKey: AvailableWriteProviders.ethCompatible,
   });
   const [connectPolkadot] = useConnectMutation({
     fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
+  });
+  const [connectSui] = useConnectMutation({
+    fixedCacheKey: ExtraWriteProviders.suiCompatible,
   });
 
   const {
@@ -44,17 +49,27 @@ export const useRestoreConnection = (): boolean => {
     isLoading: isLoadingPolkadot,
     error: errorPolkadot,
   } = useConnectedData(ExtraWriteProviders.polkadotCompatible);
+  const {
+    isConnected: isConnectedSui,
+    isLoading: isLoadingSui,
+    error: errorSui,
+  } = useConnectedData(ExtraWriteProviders.suiCompatible);
 
   const isActiveAndNotConnectedEth =
     ethProviderStatus?.isActive && !isConnectedEth && !errorEth;
   const isActiveAndNotConnectedPolkadot =
     polkadotProviderStatus?.isActive && !isConnectedPolkadot && !errorPolkadot;
+  const isActiveAndNotConnectedSui =
+    suiProviderStatus?.isActive && !isConnectedSui && !errorSui;
   const isActiveAndNotConnected =
-    isActiveAndNotConnectedEth || isActiveAndNotConnectedPolkadot;
+    isActiveAndNotConnectedEth ||
+    isActiveAndNotConnectedPolkadot ||
+    isActiveAndNotConnectedSui;
 
   const isShouldBeRestoredEth = isActiveAndNotConnectedEth && !isLoadingEth;
   const isShouldBeRestoredPolkadot =
     isActiveAndNotConnectedPolkadot && !isLoadingPolkadot;
+  const isShouldBeRestoredSui = isActiveAndNotConnectedSui && !isLoadingSui;
 
   useProviderEffect(() => {
     if (isShouldBeRestoredEth) {
@@ -71,10 +86,20 @@ export const useRestoreConnection = (): boolean => {
         currentAccount: polkadotProviderStatus.address,
       });
     }
+
+    if (isShouldBeRestoredSui) {
+      connectSui({
+        providerId: ExtraWriteProviders.suiCompatible,
+        wallet: suiProviderStatus.walletId,
+        currentAccount: suiProviderStatus.address,
+      });
+    }
   }, [
     ethProviderStatus,
     polkadotProviderStatus,
+    suiProviderStatus,
     isShouldBeRestoredEth,
+    isShouldBeRestoredSui,
     isShouldBeRestoredPolkadot,
   ]);
 

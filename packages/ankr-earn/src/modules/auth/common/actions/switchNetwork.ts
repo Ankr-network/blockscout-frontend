@@ -67,6 +67,7 @@ export const {
               break;
             }
 
+            case ExtraWriteProviders.suiCompatible:
             default:
               break;
           }

@@ -1,18 +1,19 @@
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { getIsSui } from 'modules/auth/sui/utils/getIsSui';
-import { useAppSelector } from 'store/useAppSelector';
-
 import {
   AvailableStakingWriteProviders,
   ExtraWriteProviders,
-} from '../../../common/types';
+} from 'modules/common/types';
+import { useAppSelector } from 'store/useAppSelector';
+
 import { getIsInjectedWallet, getIsOKX } from '../../eth/utils/walletTypeUtils';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
 import { useConnectMutation } from '../actions/connect';
 import {
   selectEthProviderData,
   selectPolkadotProviderData,
+  selectSuiProviderData,
 } from '../store/authSlice';
 import { TChainId } from '../types';
 
@@ -44,7 +45,6 @@ export const useConnectedData = (
   ] = useConnectMutation({
     fixedCacheKey: AvailableWriteProviders.ethCompatible,
   });
-
   const [
     ,
     {
@@ -55,27 +55,55 @@ export const useConnectedData = (
   ] = useConnectMutation({
     fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
   });
+  const [
+    ,
+    {
+      data: suiData,
+      isLoading: isSuiConnectLoading,
+      isError: isSuiConnectError,
+    },
+  ] = useConnectMutation({
+    fixedCacheKey: ExtraWriteProviders.suiCompatible,
+  });
 
   const ethProviderStatus = useAppSelector(selectEthProviderData);
   const polkadotProviderStatus = useAppSelector(selectPolkadotProviderData);
+  const suiProviderStatus = useAppSelector(selectSuiProviderData);
 
-  const selectorData = isEthCompatible(providerId)
-    ? ethProviderStatus
-    : polkadotProviderStatus;
+  let selectorData;
+  let data;
+  let isLoading = false;
+  let error;
 
-  const data = isEthCompatible(providerId) ? ethData : polkadotData;
-
+  switch (providerId) {
+    case AvailableWriteProviders.ethCompatible:
+      selectorData = ethProviderStatus;
+      data = ethData;
+      isLoading = isEthConnectLoading;
+      error = isEthConnectError;
+      break;
+    case ExtraWriteProviders.polkadotCompatible:
+      selectorData = polkadotProviderStatus;
+      data = polkadotData;
+      isLoading = isPolkadotConnectLoading;
+      error = isPolkadotConnectError;
+      break;
+    case ExtraWriteProviders.suiCompatible:
+      selectorData = suiProviderStatus;
+      data = suiData;
+      isLoading = isSuiConnectLoading;
+      error = isSuiConnectError;
+      break;
+    default:
+      break;
+  }
   const walletName = data?.walletName;
 
   return {
-    error: isEthCompatible(providerId)
-      ? isEthConnectError
-      : isPolkadotConnectError,
+    error,
     isConnected: !!data?.isConnected,
     address: selectorData?.address,
-    isLoading: isEthCompatible(providerId)
-      ? isEthConnectLoading
-      : isPolkadotConnectLoading,
+    isLoading,
     chainId: selectorData?.chainId,
     walletName,
     walletIcon: data?.walletIcon,
@@ -86,7 +114,3 @@ export const useConnectedData = (
     walletId: data?.walletId,
   };
 };
-
-function isEthCompatible(providerId: AvailableStakingWriteProviders): boolean {
-  return providerId === AvailableWriteProviders.ethCompatible;
-}

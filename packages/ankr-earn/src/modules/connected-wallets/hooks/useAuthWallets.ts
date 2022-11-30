@@ -36,6 +36,9 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
   const [disconnectPolkadot] = useDisconnectMutation({
     fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
   });
+  const [disconnectSui] = useDisconnectMutation({
+    fixedCacheKey: ExtraWriteProviders.suiCompatible,
+  });
 
   const { connectedProvidersData, notConnectedWalletTypes: walletsGroupTypes } =
     useWalletsGroupTypes();
@@ -90,6 +93,9 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
             case ExtraWriteProviders.polkadotCompatible:
               disconnectPolkadot(providerId);
               break;
+            case ExtraWriteProviders.suiCompatible:
+              disconnectSui(providerId);
+              break;
             case AvailableWriteProviders.ethCompatible:
             default:
               disconnectEth(providerId);
@@ -100,7 +106,12 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
     }
 
     return resultData;
-  }, [connectedProvidersData, disconnectEth, disconnectPolkadot]);
+  }, [
+    connectedProvidersData,
+    disconnectEth,
+    disconnectSui,
+    disconnectPolkadot,
+  ]);
 
   return {
     wallets,

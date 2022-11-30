@@ -3,7 +3,10 @@ import { RootState } from 'store';
 
 import { Address, AvailableWriteProviders } from '@ankr.com/provider';
 
-import { AvailableStakingWriteProviders } from '../../../common/types';
+import {
+  AvailableStakingWriteProviders,
+  ExtraWriteProviders,
+} from 'modules/common/types';
 
 export interface IProviderStatus {
   address?: string;
@@ -67,7 +70,11 @@ export const selectEthProviderData = createSelector(selectAuth, state => {
 });
 
 export const selectPolkadotProviderData = createSelector(selectAuth, state => {
-  return state.polkadotCompatible;
+  return state[ExtraWriteProviders.polkadotCompatible];
+});
+
+export const selectSuiProviderData = createSelector(selectAuth, state => {
+  return state[ExtraWriteProviders.suiCompatible];
 });
 
 export const selectQueriesData = createSelector(

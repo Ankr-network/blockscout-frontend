@@ -26,7 +26,7 @@ export class SuiProvider implements IProvider {
   }
 
   static isInjected(): boolean {
-    return !!(window as Window & WindowSuiWalletExtension).suiWallet;
+    return !!window.suiWallet;
   }
 
   public getWalletMeta(): IWalletMeta {
@@ -46,10 +46,11 @@ export class SuiProvider implements IProvider {
   }
 
   public async connect(): Promise<void> {
-    // @ts-ignore
-    await (
-      window as Window & WindowSuiWalletExtension
-    )?.suiWallet.requestPermissions();
+    await window.suiWallet?.requestPermissions();
+
+    const accounts = await window.suiWallet?.getAccounts();
+    this.currAccount = (accounts ? accounts[0] : ' ') as Address;
+
     this.wallet = (window as Window & WindowSuiWalletExtension)
       .suiWallet as unknown as IWallet;
   }

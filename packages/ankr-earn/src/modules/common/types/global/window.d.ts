@@ -11,5 +11,10 @@ declare global {
     zE?(...args: unknown[]): void;
     zESettings?: unknown;
     okexchain: unknown;
+    suiWallet?: {
+      getAccounts(): Promise<string[]>;
+      requestPermissions(): Promise<void>;
+      hasPermissions(): Promise<boolean>;
+    };
   }
 }

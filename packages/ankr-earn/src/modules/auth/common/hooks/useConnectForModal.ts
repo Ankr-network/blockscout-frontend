@@ -31,6 +31,9 @@ export const useConnectForModal = ({
   const [connectPolkadot] = useConnectMutation({
     fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
   });
+  const [connectSui] = useConnectMutation({
+    fixedCacheKey: ExtraWriteProviders.suiCompatible,
+  });
   const handleConnect = useCallback(async () => {
     let response;
     switch (provider) {
@@ -48,6 +51,13 @@ export const useConnectForModal = ({
         });
         break;
       }
+      case ExtraWriteProviders.suiCompatible: {
+        response = await connectSui({
+          providerId: provider,
+          wallet: walletId,
+        });
+        break;
+      }
       default:
         break;
     }
@@ -55,7 +65,14 @@ export const useConnectForModal = ({
     if (response && 'data' in response) {
       handleClose();
     }
-  }, [connectEthCompatible, connectPolkadot, handleClose, provider, walletId]);
+  }, [
+    connectEthCompatible,
+    connectPolkadot,
+    connectSui,
+    handleClose,
+    provider,
+    walletId,
+  ]);
 
   return {
     handleConnect,
