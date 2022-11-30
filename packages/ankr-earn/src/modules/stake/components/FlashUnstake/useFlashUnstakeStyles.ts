@@ -25,7 +25,7 @@ export const useFlashUnstakeStyles = makeStyles(({ spacing, palette }) => ({
     alignItems: 'center',
     fontWeight: 500,
     fontSize: 12,
-    lineHeight: 15,
+    lineHeight: 1.25,
     textAlign: 'center',
     color: palette.text.secondary,
 
