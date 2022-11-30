@@ -14,14 +14,14 @@ import { AMATICCIcon } from '../../../uiKit/Icons/AMATICCIcon';
 
 export enum TokenAsset {
   All = 'All',
-  aETHc = 'aETHc',
+  ankrETH = 'ankrETH',
   aETHb = 'aETHb',
   aBNBb = 'aBNBb',
-  aBNBc = 'aBNBc',
+  ankrBNB = 'ankrBNB',
   aMATICb = 'aMATICb',
-  aMATICc = 'aMATICc',
+  ankrMATIC = 'ankrMATIC',
   aAVAXb = 'aAVAXb',
-  aAVAXc = 'aAVAXc',
+  ankrAVAX = 'ankrAVAX',
   aFTMb = 'aFTMb',
 }
 
@@ -33,7 +33,7 @@ export const useTokenAssets = (): ISelectOption[] => [
   },
   {
     label: t('unit.aethc'),
-    value: TokenAsset.aETHc,
+    value: TokenAsset.ankrETH,
     icon: <AETHCIcon />,
   },
   {
@@ -48,7 +48,7 @@ export const useTokenAssets = (): ISelectOption[] => [
   },
   {
     label: t('unit.abnbc'),
-    value: TokenAsset.aBNBc,
+    value: TokenAsset.ankrBNB,
     icon: <ABNBCIcon />,
   },
   {
@@ -58,7 +58,7 @@ export const useTokenAssets = (): ISelectOption[] => [
   },
   {
     label: t('unit.amaticc'),
-    value: TokenAsset.aMATICc,
+    value: TokenAsset.ankrMATIC,
     icon: <AMATICCIcon />,
   },
   {
@@ -68,7 +68,7 @@ export const useTokenAssets = (): ISelectOption[] => [
   },
   {
     label: t('unit.aavaxc'),
-    value: TokenAsset.aAVAXc,
+    value: TokenAsset.ankrAVAX,
     icon: <AAvaxCIcon />,
   },
   {
