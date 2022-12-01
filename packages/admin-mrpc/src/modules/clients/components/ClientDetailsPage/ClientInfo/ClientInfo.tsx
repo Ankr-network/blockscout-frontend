@@ -113,13 +113,15 @@ export const ClientInfo = ({
           <Typography variant="body2">
             <b>Type:</b> {ethUserAddress.type}
           </Typography>
-          <br />
-          <br />
-          <Typography variant="body2">
-            <b>PublicKey:</b> {ethUserAddress.publicKey || 'unknown'}
-          </Typography>{' '}
           {ethUserAddress.publicKey && (
-            <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
+            <>
+              <br />
+              <br />
+              <Typography variant="body2">
+                <b>Public Key:</b> {ethUserAddress.publicKey || 'unknown'}
+              </Typography>{' '}
+              <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
+            </>
           )}
         </CardContent>
       </Card>
