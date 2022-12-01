@@ -30,8 +30,10 @@ export const UnstakeBinance = (): JSX.Element => {
     isApproved,
     isFlashApproved,
     isApproveLoading,
+    isSwapPoolApproveLoading,
     isFetchStatsLoading,
     isUnstakeLoading,
+    isFlashUnstakeLoading,
     isWithApprove,
     minAmount,
     selectedToken,
@@ -129,6 +131,10 @@ export const UnstakeBinance = (): JSX.Element => {
     );
   };
 
+  const isDisabled =
+    (isFlash ? isSwapPoolApproveLoading : isApproveLoading) ||
+    (isFlash ? isFlashUnstakeLoading : isUnstakeLoading);
+
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
@@ -140,7 +146,7 @@ export const UnstakeBinance = (): JSX.Element => {
           isApproved={isFlash ? isFlashApproved : isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
-          isDisabled={isApproveLoading || isUnstakeLoading}
+          isDisabled={isDisabled}
           isExternalAllowed={!isFlash}
           isLoading={isUnstakeLoading}
           isWithApprove={isWithApprove}

@@ -48,6 +48,8 @@ interface IUseUnstakeBnb {
   instantFee: BigNumber;
   poolBalance: BigNumber;
   isFlashApproved: boolean;
+  isFlashUnstakeLoading: boolean;
+  isSwapPoolApproveLoading: boolean;
 }
 
 export const useUnstakeBnb = (): IUseUnstakeBnb => {
@@ -55,15 +57,11 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const [
     approveABNBCUnstake,
     { data: approveData, isLoading: isApproveLoading },
-  ] = useApproveABNBCUnstakeMutation({
-    fixedCacheKey: 'useApproveABNBCUnstakeMutation',
-  });
+  ] = useApproveABNBCUnstakeMutation();
   const [
     approveABNBCForSwapPool,
     { data: swapPoolApproved, isLoading: isSwapPoolApproveLoading },
-  ] = useApproveABNBCForSwapPoolMutation({
-    fixedCacheKey: 'useApproveABNBCForSwapPoolMutation',
-  });
+  ] = useApproveABNBCForSwapPoolMutation();
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
@@ -267,12 +265,14 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
     selectedToken,
     minAmount,
     isFetchStatsLoading,
-    isUnstakeLoading: isUnstakeLoading || isFlashUnstakeLoading,
+    isUnstakeLoading,
+    isFlashUnstakeLoading,
     closeHref,
     isWithApprove,
     isApproved,
     isFlashApproved,
-    isApproveLoading: isApproveLoading || isSwapPoolApproveLoading,
+    isApproveLoading,
+    isSwapPoolApproveLoading,
     onExtraValidation,
     onFlashExtraValidation,
     onUnstakeSubmit,
