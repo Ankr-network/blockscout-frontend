@@ -8,11 +8,14 @@ import {
   ExtraWriteProviders,
 } from 'modules/common/types';
 
-export interface IProviderStatus {
+interface IProviderBase {
+  providerId: AvailableStakingWriteProviders;
+}
+
+export interface IProviderStatus extends IProviderBase {
   address?: string;
   addresses?: Address[];
   isActive: boolean;
-  providerId: AvailableStakingWriteProviders;
   chainId?: number | string | null;
   walletId?: string;
   wallet?: string;
@@ -40,6 +43,18 @@ export const authSlice = createSlice({
         walletName: action.payload.walletName,
         chainId:
           state[action.payload.providerId]?.chainId ?? action.payload.chainId,
+      };
+    },
+    resetProvider: (state, action: PayloadAction<IProviderBase>) => {
+      state[action.payload.providerId] = {
+        providerId: action.payload.providerId,
+        isActive: false,
+        chainId: undefined,
+        address: undefined,
+        walletId: undefined,
+        wallet: undefined,
+        walletIcon: undefined,
+        walletName: undefined,
       };
     },
     setChainId: (state, action: PayloadAction<IProviderStatus>) => {
@@ -82,4 +97,5 @@ export const selectQueriesData = createSelector(
   state => state,
 );
 
-export const { setAddress, setProviderStatus, setChainId } = authSlice.actions;
+export const { resetProvider, setAddress, setProviderStatus, setChainId } =
+  authSlice.actions;

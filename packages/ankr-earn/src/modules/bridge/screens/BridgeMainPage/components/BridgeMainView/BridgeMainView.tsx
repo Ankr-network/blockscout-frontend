@@ -78,6 +78,7 @@ export const BridgeMainView = (): JSX.Element => {
     onAddrCheckboxClick,
     onChangeInputValue,
     onSwapClick,
+    isSwitchDisabled,
   } = useBridgeMainView();
 
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
@@ -199,6 +200,7 @@ export const BridgeMainView = (): JSX.Element => {
           <SwitchSelect
             from={networksOptionsFrom}
             isDisabled={isDisabledForm}
+            isOneWay={isSwitchDisabled}
             to={networksOptionsTo}
             values={{
               from: swapNetworkItem.from.toString(),
@@ -317,7 +319,7 @@ export const BridgeMainView = (): JSX.Element => {
 
         <OnChange name={EFieldName.token}>
           {value => {
-            onChangeToken(value as string);
+            onChangeToken(value as AvailableBridgeTokens);
           }}
         </OnChange>
 

@@ -20,7 +20,7 @@ import {
   AvailableBridgeTokens,
   IBridgeBlockchainPanelItem,
 } from 'modules/bridge/types';
-import { isMainnet, SupportedChainIDS, ZERO } from 'modules/common/const';
+import { SupportedChainIDS, ZERO } from 'modules/common/const';
 import {
   TUseValidateAmount,
   useValidateAmount,
@@ -57,7 +57,7 @@ interface IUseBridgeMainView {
   isApproveButtonLoading: boolean;
   networksOptionsFrom: IBridgeBlockchainPanelItem[];
   networksOptionsTo: IBridgeBlockchainPanelItem[];
-  onChangeToken: (token: string) => void;
+  onChangeToken: (token: AvailableBridgeTokens) => void;
   onChangeNetwork: (
     networkItem: IBridgeBlockchainPanelItem,
     direction: 'from' | 'to',
@@ -68,15 +68,13 @@ interface IUseBridgeMainView {
   onSwitchNetworkClick: () => void;
   onAddrCheckboxClick: () => void;
   validateAmount: TUseValidateAmount;
+  isSwitchDisabled: boolean;
 }
 
-const defaultFrom = isMainnet
-  ? SupportedChainIDS.MAINNET
-  : SupportedChainIDS.GOERLI;
-
-const defaultTo = isMainnet
-  ? SupportedChainIDS.BSC
-  : SupportedChainIDS.BSC_TESTNET;
+const SWITCH_DISABLED_TOKENS = [
+  AvailableBridgeTokens.aMATICb,
+  AvailableBridgeTokens.aETHb,
+];
 
 export const useBridgeMainView = (): IUseBridgeMainView => {
   const providerId = AvailableWriteProviders.ethCompatible;
@@ -94,10 +92,10 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const [tokenValue, setTokenValue] = useState(AvailableBridgeTokens.aMATICb);
   const [inputValue, setInputValue] = useState<string>();
   const [networksOptionsFrom, setNetworksOptionsFrom] = useState(
-    networkAvailable[tokenValue] || [],
+    networkAvailable[tokenValue].from || [],
   );
   const [networksOptionsTo, setNetworksOptionsTo] = useState(
-    networkAvailable[tokenValue] || [],
+    networkAvailable[tokenValue].to || [],
   );
 
   const [isSendAnother, setIsSendAnother] = useState(false);
@@ -108,14 +106,19 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const chainId = isEVMCompatible(chainNum) ? chainNum : undefined;
   const isInjected = getIsInjectedWallet(walletName);
 
+  const getDefaultChains = (token: AvailableBridgeTokens) => {
+    const from = networkAvailable[token].from[0].value as SupportedChainIDS;
+    const toNetworks = networkAvailable[token].to;
+    const to = (toNetworks.find(toChain => toChain.value !== from)?.value ||
+      toNetworks[0].value) as SupportedChainIDS;
+    return { from, to };
+  };
+
   // TODO: bind by <env> to default value
   const [swapNetworkItem, setSwapNetworkItem] = useState<{
     from: SupportedChainIDS;
     to: SupportedChainIDS;
-  }>({
-    from: defaultFrom,
-    to: defaultTo,
-  });
+  }>(getDefaultChains(tokenValue));
 
   const [isActualNetwork, setActualNetwork] = useState<boolean>(
     swapNetworkItem.from === chainId,
@@ -159,8 +162,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     });
   };
 
-  const onChangeToken = (token: string) => {
-    setSwapNetworkItem({ from: defaultFrom, to: defaultTo });
+  const onChangeToken = (token: AvailableBridgeTokens) => {
+    setSwapNetworkItem(getDefaultChains(token));
     setTokenValue(token as AvailableBridgeTokens);
   };
 
@@ -202,6 +205,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     }
   };
 
+  const isSwitchDisabled = SWITCH_DISABLED_TOKENS.includes(tokenValue);
+
   useProviderEffect(() => {
     if (!isConnected || !isActualNetwork) {
       return;
@@ -215,17 +220,18 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   }, [dispatchRequest, tokenValue, isConnected, isActualNetwork, chainId]);
 
   useProviderEffect(() => {
-    const newNetworks = networkAvailable[tokenValue] || [];
+    const newNetworksFrom = networkAvailable[tokenValue].from || [];
+    const newNetworksTo = networkAvailable[tokenValue].to || [];
 
     setNetworksOptionsFrom(
-      [...newNetworks].map(item => {
+      [...newNetworksFrom].map(item => {
         item.disabled = item.value === swapNetworkItem.to;
         return { ...item };
       }),
     );
 
     setNetworksOptionsTo(
-      [...newNetworks].map(item => {
+      [...newNetworksTo].map(item => {
         item.disabled = item.value === swapNetworkItem.from;
         return { ...item };
       }),
@@ -249,6 +255,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     balance,
     isBalanceLoading,
     isSendButtonLoading,
+    isSwitchDisabled,
     isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
