@@ -52,7 +52,7 @@ export const StakedAAVAXB = (): JSX.Element => {
     network,
     pendingValue,
     stakeLink,
-    tradeLink,
+    switchLink,
     unstakeLink,
     usdAmount,
     walletName,
@@ -111,8 +111,8 @@ export const StakedAAVAXB = (): JSX.Element => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
+        switchLink={switchLink}
         token={Token.aAVAXb}
-        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}

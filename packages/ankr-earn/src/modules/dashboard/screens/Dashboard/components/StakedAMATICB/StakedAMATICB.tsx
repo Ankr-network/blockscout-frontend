@@ -52,7 +52,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
     network,
     pendingValue,
     stakeLink,
-    tradeLink,
+    switchLink,
     unstakeLink,
     usdAmount,
     walletName,
@@ -113,8 +113,8 @@ export const StakedAMATICB = (): JSX.Element | null => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
+        switchLink={switchLink}
         token={Token.aMATICb}
-        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}

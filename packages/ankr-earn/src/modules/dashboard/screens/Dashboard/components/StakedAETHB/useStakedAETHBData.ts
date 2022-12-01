@@ -16,13 +16,15 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { stake } from 'modules/stake-eth/actions/stake';
-import { RoutesConfig } from 'modules/stake-eth/Routes';
+import { RoutesConfig as StakeETHRoutes } from 'modules/stake-eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+import { RoutesConfig as SwitchRoutes } from 'modules/switcher/Routes';
+
+const token = Token.aETHb;
 
 export interface IStakedAETHBData {
   address?: string;
@@ -33,7 +35,7 @@ export interface IStakedAETHBData {
   network: string;
   pendingValue: BigNumber;
   stakeLink?: string;
-  tradeLink: string;
+  switchLink: string;
   usdAmount?: BigNumber;
   walletName?: string;
   handleAddTokenToWallet: () => void;
@@ -72,7 +74,7 @@ export const useStakedAETHBData = (): IStakedAETHBData => {
   );
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addTokenToWallet(Token.aETHb));
+    dispatchRequest(addTokenToWallet(token));
   }, [dispatchRequest]);
 
   return {
@@ -83,8 +85,8 @@ export const useStakedAETHBData = (): IStakedAETHBData => {
     isStakeLoading,
     network,
     pendingValue,
-    stakeLink: RoutesConfig.stake.generatePath(Token.aETHb),
-    tradeLink: DefiRoutes.defi.generatePath(Token.aETHb),
+    stakeLink: StakeETHRoutes.stake.generatePath(token),
+    switchLink: SwitchRoutes.main.generatePath(token),
     usdAmount,
     walletName,
     handleAddTokenToWallet,

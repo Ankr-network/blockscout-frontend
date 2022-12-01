@@ -16,7 +16,6 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
@@ -25,6 +24,9 @@ import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
 import { RoutesConfig as StakeBinanceRoutes } from 'modules/stake-bnb/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+import { RoutesConfig as SwitchRoutes } from 'modules/switcher/Routes';
+
+const token = Token.aBNBb;
 
 export interface IStakedABNBBData {
   address?: string;
@@ -37,7 +39,7 @@ export interface IStakedABNBBData {
   network: string;
   pendingValue: BigNumber;
   stakeLink: string;
-  tradeLink: string;
+  switchLink: string;
   unstakeLink: string;
   usdAmount?: BigNumber;
   walletName?: string;
@@ -82,7 +84,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   );
 
   const handleAddTokenToWallet = useCallback(() => {
-    addBNBTokenToWallet(Token.aBNBb);
+    addBNBTokenToWallet(token);
   }, [addBNBTokenToWallet]);
 
   return {
@@ -96,7 +98,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
     network,
     pendingValue,
     stakeLink: StakeBinanceRoutes.stake.generatePath(),
-    tradeLink: DefiRoutes.defi.generatePath(Token.aBNBb),
+    switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),
     usdAmount,
     walletName,

@@ -28,12 +28,12 @@ export const useDashboardCardStyles = makeStyles(theme => ({
       gridTemplateAreas: `
         "${EAreas.tokenInfo} ${EAreas.amount} ${EAreas.buttons}"
       `,
-      gridTemplateColumns: '0.7fr 1fr 300px',
+      gridTemplateColumns: '0.7fr 1fr 315px',
       alignContent: 'stretch',
     },
 
     [theme.breakpoints.up('xl')]: {
-      gridTemplateColumns: '1.2fr 1fr 300px',
+      gridTemplateColumns: '1.2fr 1fr 315px',
       padding: theme.spacing(1.75, 5, 1.75, 3),
     },
   },

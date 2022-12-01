@@ -52,6 +52,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
     pendingUnstakes,
     ratio,
     stakeLink,
+    tradeLink,
     unstakeLink,
     usdAmount,
     walletName,
@@ -111,6 +112,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={token}
+        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}

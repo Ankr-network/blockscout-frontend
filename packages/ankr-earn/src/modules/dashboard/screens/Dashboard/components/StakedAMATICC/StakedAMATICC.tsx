@@ -47,6 +47,7 @@ export const StakedAMATICC = (): JSX.Element => {
     stakeLink,
     token,
     tokenAddress,
+    tradeLink,
     unstakeLink,
     usdAmount,
     onAddTokenToWallet,
@@ -99,6 +100,7 @@ export const StakedAMATICC = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={token}
+        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}

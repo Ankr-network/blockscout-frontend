@@ -14,16 +14,18 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useStakeBNBMutation } from 'modules/stake-bnb/actions/stake';
 import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
-import { RoutesConfig } from 'modules/stake-bnb/Routes';
+import { RoutesConfig as StakeBNBRoutes } from 'modules/stake-bnb/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 const token = Token.aBNBc;
+const newTokenName = 'ankrBNB';
 
 export interface IStakedABNBCData {
   amount: BigNumber;
@@ -39,6 +41,7 @@ export interface IStakedABNBCData {
   stakeLink: string;
   token: Token;
   tokenAddress: string;
+  tradeLink: string;
   unstakeLink: string;
   usdAmount?: BigNumber;
   onAddTokenToWallet: () => void;
@@ -98,10 +101,11 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     network,
     pendingValue,
     ratio: statsData?.aBNBcRatio ?? ZERO,
-    stakeLink: RoutesConfig.stake.generatePath(token),
+    stakeLink: StakeBNBRoutes.stake.generatePath(token),
+    tradeLink: DeFiRoutes.defi.generatePath(newTokenName),
     token,
     tokenAddress: binanceConfig.aBNBcToken,
-    unstakeLink: RoutesConfig.unstake.generatePath(token),
+    unstakeLink: StakeBNBRoutes.unstake.generatePath(token),
     usdAmount,
     onAddTokenToWallet,
   };

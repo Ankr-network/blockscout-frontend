@@ -1,5 +1,5 @@
 import { t } from '@ankr.com/common';
-import { Box, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 
@@ -14,10 +14,8 @@ import {
 import { Token } from 'modules/common/types/token';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { getAmountInfoTooltip } from 'modules/dashboard/utils/getAmountInfoTooltip';
-import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
-import { Tooltip } from 'uiKit/Tooltip';
 
 import { Amount } from '../Amount';
 import { CopyTokenAddress } from '../CopyTokenAddress';
@@ -59,7 +57,6 @@ export const BridgedAsset = ({
     return <DashboardCardSkeleton />;
   }
 
-  const comingSoonTooltip = t('common.tooltips.comingSoon');
   const amountInfoTooltip = getAmountInfoTooltip(nativeAmount, usdAmount);
 
   const isWithNativeAmount = !!(nativeAmount && token);
@@ -124,8 +121,8 @@ export const BridgedAsset = ({
             </NavLink>
           </Grid>
 
-          <Grid item className={classes.wrapper}>
-            {tradeLink ? (
+          {tradeLink && (
+            <Grid item className={classes.wrapper}>
               <NavLink
                 className={classes.tradeButton}
                 color="primary"
@@ -134,20 +131,8 @@ export const BridgedAsset = ({
               >
                 {t('dashboard.defi')}
               </NavLink>
-            ) : (
-              <Tooltip arrow title={comingSoonTooltip}>
-                <Box component="span" display="flex">
-                  <Button
-                    disabled
-                    className={classes.tradeButton}
-                    variant="outlined"
-                  >
-                    {t('dashboard.defi')}
-                  </Button>
-                </Box>
-              </Tooltip>
-            )}
-          </Grid>
+            </Grid>
+          )}
         </Grid>
       }
       menuSlot={menuSlot}

@@ -18,6 +18,7 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
@@ -28,6 +29,7 @@ import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 const token = Token.aAVAXc;
+const newTokenName = 'ankrAVAX';
 
 export interface IStakedAVAXData {
   address?: string;
@@ -90,7 +92,7 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
   const nativeAmount = getTokenNativeAmount(amount, statsData?.aAVAXcRatio);
 
   const handleAddTokenToWallet = useCallback(() => {
-    addAVAXTokenToWallet(Token.aAVAXc);
+    addAVAXTokenToWallet(token);
   }, [addAVAXTokenToWallet]);
 
   return {
@@ -107,7 +109,7 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
     ratio: statsData?.aAVAXcRatio ?? ZERO,
     stakeLink: StakeAvalancheRoutes.stake.generatePath(token),
     stakeType: EAvalanchePoolEventsMap.StakePending,
-    tradeLink: '',
+    tradeLink: DeFiRoutes.defi.generatePath(newTokenName),
     unstakeLink: StakeAvalancheRoutes.unstake.generatePath(token),
     unstakeType: EAvalanchePoolEventsMap.AvaxClaimPending,
     usdAmount,

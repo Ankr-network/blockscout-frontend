@@ -52,6 +52,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     isStakeLoading: false,
     tokenAddress: '0x22',
     token: Token.aBNBc,
+    tradeLink: '/defi',
     unstakeLink: 'unstake',
     isUnstakeLoading: false,
     ratio: ZERO,

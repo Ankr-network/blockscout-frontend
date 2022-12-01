@@ -17,7 +17,6 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
@@ -26,6 +25,9 @@ import { useUnstakeAVAXMutation } from 'modules/stake-avax/actions/unstake';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+import { RoutesConfig as SwitchRoutes } from 'modules/switcher/Routes';
+
+const token = Token.aAVAXb;
 
 export interface IStakedAAVAXBData {
   address?: string;
@@ -39,7 +41,7 @@ export interface IStakedAAVAXBData {
   pendingValue: BigNumber;
   stakeLink: string;
   stakeType: string;
-  tradeLink: string;
+  switchLink: string;
   unstakeLink: string;
   unstakeType: string;
   usdAmount?: BigNumber;
@@ -83,7 +85,7 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   );
 
   const handleAddTokenToWallet = useCallback(() => {
-    addAVAXTokenToWallet(Token.aAVAXb);
+    addAVAXTokenToWallet(token);
   }, [addAVAXTokenToWallet]);
 
   return {
@@ -98,7 +100,7 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     pendingValue,
     stakeLink: StakeAvalancheRoutes.stake.generatePath(),
     stakeType: EAvalanchePoolEventsMap.StakePending,
-    tradeLink: DefiRoutes.defi.generatePath(Token.aAVAXb),
+    switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeAvalancheRoutes.unstake.generatePath(),
     unstakeType: EAvalanchePoolEventsMap.AvaxClaimPending,
     usdAmount,

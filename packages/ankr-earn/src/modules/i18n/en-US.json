@@ -694,6 +694,7 @@
     "defi": "DeFI",
     "start-staking": "Start staking with Ankr Staking",
     "stake": "Stake",
+    "switch-btn": "Switch",
     "copy": "Copy contract address",
     "unknown-network": "Current network",
     "copied": "Copied!",
@@ -739,7 +740,8 @@
       "tokenInfo": "Token information",
       "manage": "Manage",
       "staked": "Staked",
-      "rewards": "Rewards"
+      "rewards": "Rewards",
+      "deprecation-tooltip": "Ankr no longer actively supports {oldToken}. We recommend you switch it to {actualToken}."
     },
     "guard": {
       "connect-btn": "Connect wallet",

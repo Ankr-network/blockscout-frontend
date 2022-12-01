@@ -16,14 +16,16 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddFTMTokenToWalletMutation } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useStakeFTMMutation } from 'modules/stake-fantom/actions/stake';
 import { useUnstakeFTMMutation } from 'modules/stake-fantom/actions/unstake';
-import { RoutesConfig } from 'modules/stake-fantom/Routes';
+import { RoutesConfig as StakeFTMRoutes } from 'modules/stake-fantom/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+import { RoutesConfig as SwitchRoutes } from 'modules/switcher/Routes';
+
+const token = Token.aFTMb;
 
 export interface IStakedAFTMBData {
   address?: string;
@@ -35,7 +37,7 @@ export interface IStakedAFTMBData {
   network: string;
   pendingUnstakes: BigNumber;
   stakeLink: string;
-  tradeLink: string;
+  switchLink: string;
   unstakeLink?: string;
   usdAmount?: BigNumber;
   walletName?: string;
@@ -75,7 +77,7 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
   );
 
   const handleAddTokenToWallet = useCallback(() => {
-    addFTMTokenToWallet(Token.aFTMb);
+    addFTMTokenToWallet(token);
   }, [addFTMTokenToWallet]);
 
   return {
@@ -87,9 +89,9 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
     isUnstakeLoading,
     network,
     pendingUnstakes,
-    stakeLink: RoutesConfig.stake.generatePath(),
-    tradeLink: DefiRoutes.defi.generatePath(Token.aFTMb),
-    unstakeLink: RoutesConfig.unstake.generatePath(),
+    stakeLink: StakeFTMRoutes.stake.generatePath(),
+    switchLink: SwitchRoutes.main.generatePath(token),
+    unstakeLink: StakeFTMRoutes.unstake.generatePath(),
     usdAmount,
     walletName,
     handleAddTokenToWallet,

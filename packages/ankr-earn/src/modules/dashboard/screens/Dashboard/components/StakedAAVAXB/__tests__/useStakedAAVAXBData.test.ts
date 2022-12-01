@@ -19,8 +19,8 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 43114 }),
 }));
 
-jest.mock('modules/defi-aggregator/Routes', () => ({
-  RoutesConfig: { defi: { generatePath: () => '/defi' } },
+jest.mock('modules/switcher/Routes', () => ({
+  RoutesConfig: { main: { generatePath: () => '/switch' } },
 }));
 
 jest.mock('modules/stake-avax/Routes', () => ({
@@ -100,7 +100,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
-    expect(result.current.tradeLink).toBe('/defi');
+    expect(result.current.switchLink).toBe('/switch');
     expect(result.current.stakeType).toBe(EAvalanchePoolEventsMap.StakePending);
     expect(result.current.unstakeType).toBe(
       EAvalanchePoolEventsMap.AvaxClaimPending,

@@ -22,9 +22,12 @@ import { useAddFTMTokenToWalletMutation } from 'modules/stake-fantom/actions/add
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useStakeFTMMutation } from 'modules/stake-fantom/actions/stake';
 import { useUnstakeFTMMutation } from 'modules/stake-fantom/actions/unstake';
-import { RoutesConfig } from 'modules/stake-fantom/Routes';
+import { RoutesConfig as StakeFTMRoutes } from 'modules/stake-fantom/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+
+const token = Token.aFTMc;
+const newTokenName = 'ankrFTM';
 
 export interface IStakedAFTMCData {
   address?: string;
@@ -81,7 +84,7 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
   const nativeAmount = getTokenNativeAmount(amount, commonData?.aFTMcRatio);
 
   const handleAddTokenToWallet = useCallback(() => {
-    addFTMTokenToWallet(Token.aFTMc);
+    addFTMTokenToWallet(token);
   }, [addFTMTokenToWallet]);
 
   return {
@@ -95,9 +98,9 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
     network,
     pendingUnstakes,
     ratio: commonData?.aFTMcRatio ?? ZERO,
-    stakeLink: RoutesConfig.stake.generatePath(Token.aFTMc),
-    tradeLink: DefiRoutes.defi.generatePath(Token.aFTMc),
-    unstakeLink: RoutesConfig.unstake.generatePath(Token.aFTMc),
+    stakeLink: StakeFTMRoutes.stake.generatePath(token),
+    tradeLink: DefiRoutes.defi.generatePath(newTokenName),
+    unstakeLink: StakeFTMRoutes.unstake.generatePath(token),
     usdAmount,
     walletName,
     handleAddTokenToWallet,

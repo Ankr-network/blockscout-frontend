@@ -1,19 +1,23 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { useHistory } from 'react-router';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { EEthereumNetworkId } from 'modules/common/types';
 import {
   AvailableSwitcherToken,
   AvailableSwitchNetwork,
+  DEFAULT_TOKENS_BY_NETWORK,
   SwitcherFromKey,
   SwitcherToKey,
-  DEFAULT_TOKENS_BY_NETWORK,
   SWITCHER_TOKENS_MAP,
   SWITCHER_TOKENS_PAIR,
 } from 'modules/switcher/const';
+import { RoutesConfig } from 'modules/switcher/Routes';
+import { getIsTokenValid } from 'modules/switcher/utils/getIsTokenValid';
 
 export interface IUseSwitcherUrlParamsData {
   from: AvailableSwitcherToken;
@@ -25,6 +29,9 @@ export interface IUseSwitcherUrlParamsData {
 const DEFAULT_CHAIN_ID = EEthereumNetworkId.mainnet;
 
 export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
+  const { replace } = useHistory();
+  const { from: queryFrom } = RoutesConfig.main.useParams();
+
   const { chainId: baseChainId } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
@@ -35,20 +42,13 @@ export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
     DEFAULT_TOKENS_BY_NETWORK[chainId as AvailableSwitchNetwork] ??
     DEFAULT_TOKENS_BY_NETWORK[ETH_NETWORK_BY_ENV];
 
-  const defaultFrom = defaultTokens.from;
+  const from = getIsTokenValid(queryFrom ?? undefined)
+    ? (queryFrom as AvailableSwitcherToken)
+    : defaultTokens.from;
 
-  const defaultTo = defaultTokens.to;
-
-  const uniqueDefaultTo =
-    defaultTo !== defaultFrom
-      ? (defaultTo as AvailableSwitcherToken)
-      : SWITCHER_TOKENS_PAIR[defaultTo as AvailableSwitcherToken];
-
-  const [from, setFrom] = useState<AvailableSwitcherToken>(
-    defaultFrom as AvailableSwitcherToken,
+  const [to, setTo] = useState<AvailableSwitcherToken>(
+    SWITCHER_TOKENS_PAIR[from],
   );
-
-  const [to, setTo] = useState<AvailableSwitcherToken>(uniqueDefaultTo);
 
   const onChangeFrom = useCallback(
     (value: string) => {
@@ -57,9 +57,9 @@ export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
         SWITCHER_TOKENS_MAP.to[value as SwitcherToKey] ||
         defaultTokens.from;
 
-      setFrom(newFrom as AvailableSwitcherToken);
+      replace(RoutesConfig.main.generatePath(newFrom));
     },
-    [defaultTokens, setFrom],
+    [defaultTokens.from, replace],
   );
 
   const onChangeTo = useCallback(
@@ -71,8 +71,12 @@ export const useSwitcherUrlParams = (): IUseSwitcherUrlParamsData => {
 
       setTo(newTo as AvailableSwitcherToken);
     },
-    [defaultTokens, setTo],
+    [defaultTokens.to, setTo],
   );
+
+  useInitEffect(() => {
+    replace(RoutesConfig.main.generatePath(from));
+  });
 
   return {
     from,

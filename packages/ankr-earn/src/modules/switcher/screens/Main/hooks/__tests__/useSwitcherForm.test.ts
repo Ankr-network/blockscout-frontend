@@ -1,5 +1,5 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
 
@@ -14,7 +14,7 @@ import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
 
-import { useSwitcherForm, ISwitcherFormHookArgs } from '..';
+import { ISwitcherFormHookArgs, useSwitcherForm } from '..';
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
@@ -44,8 +44,6 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     onSuccessSwap: jest.fn(),
   };
 
-  const defaultSwitchNetwork = [jest.fn()];
-
   beforeEach(() => {
     const dispatchRequest = jest.fn(() => Promise.resolve({}));
     (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
@@ -56,9 +54,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
 
     (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
 
-    (useSwitchNetworkMutation as jest.Mock).mockReturnValue(
-      defaultSwitchNetwork,
-    );
+    (useSwitchNetworkMutation as jest.Mock).mockReturnValue([jest.fn()]);
   });
 
   afterEach(() => {

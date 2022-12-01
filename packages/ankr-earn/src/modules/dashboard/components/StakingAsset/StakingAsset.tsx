@@ -15,6 +15,7 @@ import { getAmountInfoTooltip } from 'modules/dashboard/utils/getAmountInfoToolt
 import { Button } from 'uiKit/Button';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
+import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { Amount } from '../Amount';
@@ -37,6 +38,7 @@ interface IStakingAssetProps {
   pendingSlot?: ReactNode;
   buttonsSlot?: ReactNode;
   stakeLink?: string;
+  switchLink?: string;
   token: Token;
   tradeLink?: string;
   unstakeLink?: string;
@@ -62,6 +64,7 @@ export const StakingAsset = ({
   pendingSlot,
   buttonsSlot,
   stakeLink,
+  switchLink,
   token,
   tradeLink,
   unstakeLink,
@@ -173,7 +176,26 @@ export const StakingAsset = ({
               />
             </Grid>
 
-            {isShowedTradeLink && (
+            {switchLink && (
+              <Grid item className={classes.link}>
+                <NavLink
+                  className={classes.tradeButton}
+                  href={switchLink}
+                  variant="outlined"
+                >
+                  {t('dashboard.switch-btn')}
+
+                  <QuestionWithTooltip>
+                    {t('dashboard.card.deprecation-tooltip', {
+                      oldToken: token,
+                      actualToken: `ankr${nativeTokenMap[token]}`,
+                    })}
+                  </QuestionWithTooltip>
+                </NavLink>
+              </Grid>
+            )}
+
+            {isShowedTradeLink && !switchLink && (
               <Grid item className={classes.link}>
                 {tradeLink ? (
                   <NavLink

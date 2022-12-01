@@ -43,7 +43,7 @@ export const StakedAETHB = (): JSX.Element => {
     isStakeLoading,
     network,
     stakeLink,
-    tradeLink,
+    switchLink,
     usdAmount,
     walletName,
     handleAddTokenToWallet,
@@ -104,8 +104,8 @@ export const StakedAETHB = (): JSX.Element => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
+        switchLink={switchLink}
         token={Token.aETHb}
-        tradeLink={tradeLink}
         unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}

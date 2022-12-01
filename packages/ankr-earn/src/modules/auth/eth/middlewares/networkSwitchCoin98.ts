@@ -1,4 +1,3 @@
-import { success } from '@redux-requests/core';
 import { Middleware } from 'redux';
 
 import { EWalletId } from '@ankr.com/provider';
@@ -28,6 +27,6 @@ export const networkSwitchCoin98: Middleware = store => next => action => {
 };
 
 function getIsSwitchActionSuccess(action: { type: string }): boolean {
-  if (action.type === success(switchNetwork.toString())) return true;
+  if (switchNetwork?.matchFulfilled(action)) return true;
   return false;
 }

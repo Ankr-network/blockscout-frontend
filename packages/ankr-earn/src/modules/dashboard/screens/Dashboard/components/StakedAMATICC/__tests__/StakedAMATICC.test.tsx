@@ -63,6 +63,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     token: Token.aMATICc,
     tokenAddress: '0x00',
     unstakeLink: 'unstake',
+    tradeLink: 'defi',
     isUnstakeLoading: false,
     pendingValue: new BigNumber(0.1),
     ratio: ZERO,

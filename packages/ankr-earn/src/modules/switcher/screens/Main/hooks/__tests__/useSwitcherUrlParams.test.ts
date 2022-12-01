@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
+import { useHistory } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
@@ -8,7 +9,6 @@ import { Token } from 'modules/common/types/token';
 import { useSwitcherUrlParams } from '../useSwitcherUrlParams';
 
 jest.mock('react-router', () => ({
-  useLocation: jest.fn(),
   useHistory: jest.fn(),
 }));
 
@@ -16,10 +16,23 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
+jest.mock('modules/switcher/Routes', () => ({
+  RoutesConfig: {
+    main: {
+      useParams: () => ({ from: null }),
+      generatePath: () => '/switch',
+    },
+  },
+}));
+
 describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
   beforeEach(() => {
     (useConnectedData as jest.Mock).mockReturnValue({
       chainId: EEthereumNetworkId.mainnet,
+    });
+
+    (useHistory as jest.Mock).mockReturnValue({
+      replace: jest.fn(),
     });
   });
 

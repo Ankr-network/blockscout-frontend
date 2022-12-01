@@ -46,7 +46,7 @@ export const StakedABNBB = (): JSX.Element => {
     network,
     pendingValue,
     stakeLink,
-    tradeLink,
+    switchLink,
     unstakeLink,
     usdAmount,
     walletName,
@@ -114,8 +114,8 @@ export const StakedABNBB = (): JSX.Element => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
+        switchLink={switchLink}
         token={Token.aBNBb}
-        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
