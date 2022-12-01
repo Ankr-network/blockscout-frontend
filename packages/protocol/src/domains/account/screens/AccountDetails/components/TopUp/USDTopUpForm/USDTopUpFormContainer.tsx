@@ -27,7 +27,7 @@ export const USDTopUpFormContainer = () => {
       <USDTopUpForm
         onSubmit={onSubmit}
         isLoading={isLoading}
-        isDisabled={shouldIssueToken}
+        shouldUseDefaultValue={shouldIssueToken}
         hasRateBlock={isAccountPage}
       />
       <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />

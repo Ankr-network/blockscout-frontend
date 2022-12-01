@@ -2,18 +2,23 @@ import { ClassNameMap } from '@material-ui/styles';
 import { useCallback, useState } from 'react';
 import { FormRenderProps } from 'react-final-form';
 import BigNumber from 'bignumber.js';
+import { Box } from '@material-ui/core';
 
 import { t } from 'modules/i18n/utils/intl';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
-import { USD_CURRENCY } from '../../const';
+import { DEFAULT_USD_VALUE, USD_CURRENCY } from '../../const';
 import { AmountField } from '../TopUpForm/AmountField';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { RateBlock } from '../TopUpForm/RateBlock';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
 
 const MAX_USD_DECIMALS = 1;
 
 const MIN_USD_AMOUNT = 5;
+
+export const defaultAmountValue = new BigNumber(DEFAULT_USD_VALUE).toString(10);
 
 const validateAmount = (value: string) => {
   if (!value) {
@@ -38,7 +43,7 @@ const validateAmount = (value: string) => {
 export const useRenderForm = (
   classes: ClassNameMap,
   isLoading: boolean,
-  isDisabled: boolean,
+  shouldUseDefaultValue: boolean,
   hasRateBlock?: boolean,
 ) => {
   return useCallback(
@@ -48,40 +53,55 @@ export const useRenderForm = (
       values,
       form: { change },
     }: FormRenderProps<TopUpFormValues>) => {
+      const handleAmountChange = (id: string, value: string) => {
+        change(
+          AmountInputField.amount,
+          shouldUseDefaultValue && !value ? defaultAmountValue : value,
+        );
+        change(AmountInputField.id, id);
+      };
+
+      const canEditAmount = values.id === ONE_TIME_PAYMENT_ID;
+
       return (
-        <form
-          autoComplete="off"
-          onSubmit={handleSubmit}
-          className={classes.form}
-        >
-          <AmountField
-            name={AmountInputField.amount}
-            change={change}
-            maxDecimals={MAX_USD_DECIMALS}
-            isDisabled={isDisabled}
-            currency={USD_CURRENCY}
-            validate={validateAmount}
-          />
-          {hasRateBlock && (
-            <RateBlock
-              value={values[AmountInputField.amount]}
+        <form autoComplete="off" onSubmit={handleSubmit}>
+          <USDSubscriptionPricesTabs onChange={handleAmountChange} />
+          <Box className={classes.form}>
+            <AmountField<AmountInputField.amount>
+              name={AmountInputField.amount}
+              change={change}
+              maxDecimals={MAX_USD_DECIMALS}
+              isDisabled={shouldUseDefaultValue || !canEditAmount}
               currency={USD_CURRENCY}
+              validate={validateAmount}
             />
-          )}
-          <LoadingButton
-            color="primary"
-            fullWidth
-            type="submit"
-            disabled={validating || isLoading}
-            className={classes.button}
-            loading={isLoading}
-          >
-            {t('account.account-details.top-up.button')}
-          </LoadingButton>
+            {hasRateBlock && (
+              <RateBlock
+                value={values[AmountInputField.amount]}
+                currency={USD_CURRENCY}
+              />
+            )}
+            <LoadingButton
+              color="primary"
+              fullWidth
+              type="submit"
+              disabled={validating || isLoading}
+              className={classes.button}
+              loading={isLoading}
+            >
+              {t('account.account-details.top-up.button')}
+            </LoadingButton>
+          </Box>
         </form>
       );
     },
-    [classes.button, classes.form, isLoading, isDisabled, hasRateBlock],
+    [
+      classes.button,
+      classes.form,
+      isLoading,
+      shouldUseDefaultValue,
+      hasRateBlock,
+    ],
   );
 };
 
@@ -97,9 +117,9 @@ export const useOnTopUpSubmit = (
 
   const onSuccess = useCallback(
     async (data: TopUpFormValues) => {
-      const { data: url } = await handleFetchLinkForCardPayment(
-        new BigNumber(data.amount),
-      );
+      const { id, amount } = data;
+
+      const { data: url } = await handleFetchLinkForCardPayment(amount, id);
 
       if (url) {
         window.location.href = url;

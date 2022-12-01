@@ -1126,7 +1126,8 @@
         "continue-button": "Continue Top Up",
         "continue": "Continue",
         "ankr-credits-rate": "{ankrValue} ANKR ≈ {creditsValue, number, ::compact-short} Credits",
-        "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits"
+        "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits",
+        "usd-one-time": "One time"
       },
       "balance": {
         "title": "Balance",
