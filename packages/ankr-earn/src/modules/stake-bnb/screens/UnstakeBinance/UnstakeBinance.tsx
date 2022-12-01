@@ -28,6 +28,7 @@ export const UnstakeBinance = (): JSX.Element => {
   const {
     closeHref,
     isApproved,
+    isFlashApproved,
     isApproveLoading,
     isFetchStatsLoading,
     isUnstakeLoading,
@@ -136,7 +137,7 @@ export const UnstakeBinance = (): JSX.Element => {
           closeHref={closeHref}
           endText={isFlash ? instantUnstakeLabel : unstakeLabel}
           extraValidation={isFlash ? onFlashExtraValidation : onExtraValidation}
-          isApproved={isApproved}
+          isApproved={isFlash ? isFlashApproved : isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
           isDisabled={isApproveLoading || isUnstakeLoading}

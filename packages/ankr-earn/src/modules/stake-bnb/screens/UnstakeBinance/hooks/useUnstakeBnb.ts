@@ -47,6 +47,7 @@ interface IUseUnstakeBnb {
   onFlashUnstakeSubmit: (values: IUnstakeFormValues) => void;
   instantFee: BigNumber;
   poolBalance: BigNumber;
+  isFlashApproved: boolean;
 }
 
 export const useUnstakeBnb = (): IUseUnstakeBnb => {
@@ -147,6 +148,7 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   };
 
   const isApproved = !!approveData;
+  const isFlashApproved = !!swapPoolApproved;
   const isWithApprove = !isBondToken;
   const shouldBeApproved = isWithApprove && !isApproved;
 
@@ -269,6 +271,7 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
     closeHref,
     isWithApprove,
     isApproved,
+    isFlashApproved,
     isApproveLoading: isApproveLoading || isSwapPoolApproveLoading,
     onExtraValidation,
     onFlashExtraValidation,
