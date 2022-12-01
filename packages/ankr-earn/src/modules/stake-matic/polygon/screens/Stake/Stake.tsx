@@ -33,6 +33,8 @@ import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
+import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
+
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStyles } from './useStakeStyles';
 
@@ -134,6 +136,12 @@ export const Stake = (): JSX.Element => {
     </>
   );
 
+  const noticeText = useBTokenNotice({
+    bToken: Token.aMATICb,
+    cToken: Token.aMATICc,
+    nativeToken: Token.MATIC,
+  });
+
   if (isGetStatsLoading) {
     return (
       <Box mt={5}>
@@ -174,6 +182,7 @@ export const Stake = (): JSX.Element => {
             loading={isStakeLoading}
             maxAmount={balance}
             networkTitleSlot={<NetworkTitle />}
+            noticeSlot={noticeText}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}

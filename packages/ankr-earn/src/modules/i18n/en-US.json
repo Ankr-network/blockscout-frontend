@@ -361,7 +361,9 @@
     },
     "pending": {
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
-    }
+    },
+    "token-info": "<b>{token}</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>1 {token} = {nativeAmount} {nativeToken}</b>",
+    "b-notice": "Ankr no longer actively support {bToken}. You can stake {nativeToken} for {cToken} supported by the most well-known DeFi platforms."
   },
   "delegated-stake": {
     "header": {

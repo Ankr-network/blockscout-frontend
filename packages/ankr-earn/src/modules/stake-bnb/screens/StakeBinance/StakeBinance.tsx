@@ -1,4 +1,4 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatch } from 'react-redux';
@@ -13,9 +13,9 @@ import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
-  DEFAULT_FIXED,
   DUNE_ANALYTICS_LINK,
   featuresConfig,
+  ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -34,15 +34,14 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { FieldsNames, StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { TokenVariant } from 'modules/stake/components/TokenVariant';
-import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { Checkbox } from 'uiKit/Checkbox';
-import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
-import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Tooltip } from 'uiKit/Tooltip';
+
+import { StakeTokenInfo } from '../../../stake/components/StakeTokenInfo/StakeTokenInfo';
+import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -55,7 +54,6 @@ export const StakeBinance = (): JSX.Element => {
   const { onErroMessageClick, hasError } = useErrorMessage();
 
   const {
-    aBNBcRatio,
     address,
     amount,
     bnbBalance,
@@ -76,35 +74,16 @@ export const StakeBinance = (): JSX.Element => {
     handleFormChange,
     handleHaveCodeClick,
     handleSubmit,
-    onTokenSelect,
   } = useStakeForm();
 
   const onRenderStats = (): JSX.Element => {
     return (
       <>
-        <TokenVariantList my={5}>
-          <TokenVariant
-            description={tHTML('stake-bnb.abnbb-descr')}
-            iconSlot={<ABNBBIcon />}
-            isActive={tokenOut === Token.aBNBb}
-            isDisabled={isStakeLoading}
-            title={t('unit.abnbb')}
-            onClick={onTokenSelect(Token.aBNBb)}
-          />
-
-          <TokenVariant
-            description={tHTML('stake-bnb.abnbc-descr', {
-              rate: isFetchStatsLoading
-                ? '...'
-                : aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-            })}
-            iconSlot={<ABNBCIcon />}
-            isActive={tokenOut === Token.aBNBc}
-            isDisabled={isStakeLoading}
-            title={t('unit.abnbc')}
-            onClick={onTokenSelect(Token.aBNBc)}
-          />
-        </TokenVariantList>
+        <StakeTokenInfo
+          nativeAmount={ONE.dividedBy(certificateRatio).round().toString()}
+          nativeToken={Token.BNB}
+          token={t('unit.abnbc')}
+        />
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>
@@ -171,6 +150,12 @@ export const StakeBinance = (): JSX.Element => {
 
   const isDisabled = isStakeLoading || isFetchStatsLoading;
 
+  const noticeText = useBTokenNotice({
+    bToken: Token.aBNBb,
+    cToken: Token.aBNBc,
+    nativeToken: Token.BNB,
+  });
+
   return (
     <section className={classes.root}>
       <StakeContainer>
@@ -205,6 +190,7 @@ export const StakeBinance = (): JSX.Element => {
           maxAmount={bnbBalance}
           maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}
           minAmount={minimumStake}
+          noticeSlot={noticeText}
           partnerCodeSlot={
             !isReferralUserExists && (
               <>

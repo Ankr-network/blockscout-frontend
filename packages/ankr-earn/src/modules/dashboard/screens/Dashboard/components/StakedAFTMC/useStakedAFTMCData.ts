@@ -98,7 +98,7 @@ export const useStakedAFTMCData = (): IStakedAFTMCData => {
     network,
     pendingUnstakes,
     ratio: commonData?.aFTMcRatio ?? ZERO,
-    stakeLink: StakeFTMRoutes.stake.generatePath(token),
+    stakeLink: StakeFTMRoutes.stake.generatePath(),
     tradeLink: DefiRoutes.defi.generatePath(newTokenName),
     unstakeLink: StakeFTMRoutes.unstake.generatePath(token),
     usdAmount,

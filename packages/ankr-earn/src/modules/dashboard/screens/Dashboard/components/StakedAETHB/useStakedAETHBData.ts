@@ -85,7 +85,7 @@ export const useStakedAETHBData = (): IStakedAETHBData => {
     isStakeLoading,
     network,
     pendingValue,
-    stakeLink: StakeETHRoutes.stake.generatePath(token),
+    stakeLink: StakeETHRoutes.stake.generatePath(true),
     switchLink: SwitchRoutes.main.generatePath(token),
     usdAmount,
     walletName,

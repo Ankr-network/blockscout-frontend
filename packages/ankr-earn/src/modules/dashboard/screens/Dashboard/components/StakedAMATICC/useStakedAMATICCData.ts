@@ -94,7 +94,7 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
     network,
     pendingValue,
     ratio: statsData?.aMATICcRatio ?? ZERO,
-    stakeLink: StakeMaticEthRoutes.stake.generatePath(token),
+    stakeLink: StakeMaticEthRoutes.stake.generatePath(),
     token,
     tradeLink: DeFiRoutes.defi.generatePath(newTokenName),
     tokenAddress: polygonConfig.aMATICcToken,

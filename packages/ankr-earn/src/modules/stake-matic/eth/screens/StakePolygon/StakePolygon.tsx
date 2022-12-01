@@ -1,4 +1,4 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { Grid } from '@material-ui/core';
 import {
   abortRequests,
@@ -14,9 +14,9 @@ import { ResponseData } from 'modules/common/components/ResponseData';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
-  DEFAULT_FIXED,
   DUNE_ANALYTICS_LINK,
   featuresConfig,
+  ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -34,16 +34,14 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { TokenVariant } from 'modules/stake/components/TokenVariant';
-import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Button } from 'uiKit/Button';
-import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
-import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { NumericStepper } from 'uiKit/Stepper';
 
+import { StakeTokenInfo } from '../../../../stake/components/StakeTokenInfo/StakeTokenInfo';
+import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
 import { approveMATICStake } from '../../actions/approveMATICStake';
 import { fetchStats } from '../../actions/fetchStats';
 import { getStakeGasFee } from '../../actions/getStakeGasFee';
@@ -74,7 +72,6 @@ export const StakePolygon = (): JSX.Element => {
     gasFee,
     isApproveLoading,
     isApproved,
-    isFetchStatsLoading,
     isShouldBeApproved,
     isShowGasFee,
     isStakeLoading,
@@ -83,35 +80,16 @@ export const StakePolygon = (): JSX.Element => {
     totalAmount,
     handleFormChange,
     handleSubmit,
-    onTokenSelect,
   } = useStakeForm();
 
   const renderStats = () => {
     return (
       <>
-        <TokenVariantList my={5}>
-          <TokenVariant
-            description={tHTML('stake-matic-eth.amaticb-descr')}
-            iconSlot={<AMATICBIcon />}
-            isActive={tokenOut === Token.aMATICb}
-            isDisabled={isApproveLoading || isStakeLoading}
-            title={t('unit.amaticb')}
-            onClick={onTokenSelect(Token.aMATICb)}
-          />
-
-          <TokenVariant
-            description={tHTML('stake-matic-eth.amaticc-descr', {
-              rate: isFetchStatsLoading
-                ? '...'
-                : aMATICcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-            })}
-            iconSlot={<AMATICCIcon />}
-            isActive={tokenOut === Token.aMATICc}
-            isDisabled={isApproveLoading || isStakeLoading}
-            title={t('unit.amaticc')}
-            onClick={onTokenSelect(Token.aMATICc)}
-          />
-        </TokenVariantList>
+        <StakeTokenInfo
+          nativeAmount={ONE.multipliedBy(aMATICcRatio).round().toString()}
+          nativeToken={Token.MATIC}
+          token={t('unit.amaticc')}
+        />
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>
@@ -209,6 +187,12 @@ export const StakePolygon = (): JSX.Element => {
     );
   }, [certificateRatio, dispatch]);
 
+  const noticeText = useBTokenNotice({
+    bToken: Token.aMATICb,
+    cToken: Token.aMATICc,
+    nativeToken: Token.MATIC,
+  });
+
   return (
     <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
       {({ data }) => (
@@ -233,6 +217,7 @@ export const StakePolygon = (): JSX.Element => {
               maxAmount={data.maticBalance}
               minAmount={data.minimumStake}
               networkTitleSlot={<NetworkTitle />}
+              noticeSlot={noticeText}
               renderFooter={renderFooter}
               renderStats={renderStats}
               tokenIn={tokenIn}

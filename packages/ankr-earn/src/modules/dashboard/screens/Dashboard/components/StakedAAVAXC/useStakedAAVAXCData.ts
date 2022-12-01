@@ -107,7 +107,7 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
     network,
     pendingValue,
     ratio: statsData?.aAVAXcRatio ?? ZERO,
-    stakeLink: StakeAvalancheRoutes.stake.generatePath(token),
+    stakeLink: StakeAvalancheRoutes.stake.generatePath(),
     stakeType: EAvalanchePoolEventsMap.StakePending,
     tradeLink: DeFiRoutes.defi.generatePath(newTokenName),
     unstakeLink: StakeAvalancheRoutes.unstake.generatePath(token),

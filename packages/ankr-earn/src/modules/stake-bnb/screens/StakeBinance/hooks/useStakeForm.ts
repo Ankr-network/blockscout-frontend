@@ -16,7 +16,6 @@ import { useCheckExistPartnerCodeMutation } from 'modules/stake-bnb/actions/chec
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useLazyGetBNBStakeGasFeeQuery } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { useStakeBNBMutation } from 'modules/stake-bnb/actions/stake';
-import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
@@ -26,7 +25,6 @@ import {
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 
 import { useAnalytics } from './useAnalytics';
-import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
   aBNBcRatio: BigNumber;
@@ -48,15 +46,13 @@ interface IUseStakeFormData {
   isReferralUserExists: boolean;
   handleHaveCodeClick: () => void;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
-  handleCodeChange: (values: IStakeFormPayload, invalid: boolean) => void;
+  handleCodeChange: (values: IStakeFormPayload) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
-  onTokenSelect: (token: TBnbSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
   const [checkExistPartnerCode] = useCheckExistPartnerCodeMutation();
 
-  const [hasErrors, setHasErrors] = useState(false);
   const [amount, setAmount] = useState(ZERO);
   const [haveCode, setHaveCode] = useState(false);
   const [code, setCode] = useState('');
@@ -88,8 +84,6 @@ export const useStakeForm = (): IUseStakeFormData => {
     { data: stakeGasFee, isFetching: isStakeGasLoading },
   ] = useLazyGetBNBStakeGasFeeQuery();
 
-  const { selectedToken, handleTokenSelect } = useSelectedToken();
-
   const handleHaveCodeClick = useCallback(() => setHaveCode(x => !x), []);
 
   const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
@@ -99,27 +93,22 @@ export const useStakeForm = (): IUseStakeFormData => {
   const { sendAnalytics } = useAnalytics({
     amount,
     relayerFee,
-    selectedToken,
+    selectedToken: Token.aBNBc,
   });
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
     invalid: boolean,
   ): void => {
-    setHasErrors(invalid);
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
 
     if (formAmount && !invalid) {
       const readyAmount = new BigNumber(formAmount);
-      getBNBStakeGasFee({ amount: readyAmount, token: selectedToken });
+      getBNBStakeGasFee({ amount: readyAmount, token: Token.aBNBc });
     }
   };
 
-  const handleCodeChange = (
-    { code: formCode }: IStakeFormPayload,
-    invalid: boolean,
-  ): void => {
-    setHasErrors(invalid);
+  const handleCodeChange = ({ code: formCode }: IStakeFormPayload): void => {
     setCode(formCode ? (formCode as string) : '');
   };
 
@@ -139,14 +128,14 @@ export const useStakeForm = (): IUseStakeFormData => {
     }
 
     return calcTotalAmount({
-      selectedToken,
+      selectedToken: Token.aBNBc,
       amount,
       relayerFee,
       balance: bnbBalance,
       stakeGasFee: stakeGasFee ?? undefined,
       aBNBcRatio,
     });
-  }, [aBNBcRatio, amount, bnbBalance, relayerFee, selectedToken, stakeGasFee]);
+  }, [aBNBcRatio, amount, bnbBalance, relayerFee, stakeGasFee]);
 
   useProviderEffect(() => {
     refetch();
@@ -156,7 +145,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     const stakeAmount = new BigNumber(formAmount);
 
     if (!haveCode) {
-      stake({ amount: stakeAmount, token: selectedToken })
+      stake({ amount: stakeAmount, token: Token.aBNBc })
         .unwrap()
         .then(() => {
           sendAnalytics();
@@ -175,7 +164,7 @@ export const useStakeForm = (): IUseStakeFormData => {
             return;
           }
 
-          stake({ amount: stakeAmount, token: selectedToken, code })
+          stake({ amount: stakeAmount, token: Token.aBNBc, code })
             .unwrap()
             .then(() => {
               sendAnalytics();
@@ -189,18 +178,6 @@ export const useStakeForm = (): IUseStakeFormData => {
         });
     }
   };
-
-  const onTokenSelect = useCallback(
-    (token: TBnbSyntToken) => () => {
-      handleTokenSelect(token);
-
-      const shouldUpdateGasFee = !totalAmount.isZero() && amount && !hasErrors;
-      if (shouldUpdateGasFee) {
-        getBNBStakeGasFee({ amount, token });
-      }
-    },
-    [amount, getBNBStakeGasFee, handleTokenSelect, hasErrors, totalAmount],
-  );
 
   const minimumStake = fetchStatsData
     ? fetchStatsData.minStake.plus(fetchStatsData.relayerFee)
@@ -220,7 +197,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     relayerFee,
     stakeGas: stakeGasFee ?? ZERO,
     tokenIn: Token.BNB,
-    tokenOut: selectedToken,
+    tokenOut: Token.aBNBc,
     totalAmount,
     handleCodeChange,
     handleFormChange: debouncedOnChange,
@@ -228,6 +205,5 @@ export const useStakeForm = (): IUseStakeFormData => {
     isReferralUserExists: isReferralUserExistsData ?? false,
     handleHaveCodeClick,
     handleSubmit,
-    onTokenSelect,
   };
 };

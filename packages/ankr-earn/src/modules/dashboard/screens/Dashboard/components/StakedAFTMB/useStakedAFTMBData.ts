@@ -89,7 +89,7 @@ export const useStakedAFTMBData = (): IStakedAFTMBData => {
     isUnstakeLoading,
     network,
     pendingUnstakes,
-    stakeLink: StakeFTMRoutes.stake.generatePath(),
+    stakeLink: StakeFTMRoutes.stake.generatePath(true),
     switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeFTMRoutes.unstake.generatePath(),
     usdAmount,

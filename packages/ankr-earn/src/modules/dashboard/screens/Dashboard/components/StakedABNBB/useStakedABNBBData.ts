@@ -97,7 +97,7 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
     isUnstakeLoading,
     network,
     pendingValue,
-    stakeLink: StakeBinanceRoutes.stake.generatePath(),
+    stakeLink: StakeBinanceRoutes.stake.generatePath(true),
     switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),
     usdAmount,

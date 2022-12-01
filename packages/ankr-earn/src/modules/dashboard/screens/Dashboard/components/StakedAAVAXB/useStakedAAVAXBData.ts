@@ -98,7 +98,7 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     isUnstakeLoading,
     network,
     pendingValue,
-    stakeLink: StakeAvalancheRoutes.stake.generatePath(),
+    stakeLink: StakeAvalancheRoutes.stake.generatePath(true),
     stakeType: EAvalanchePoolEventsMap.StakePending,
     switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeAvalancheRoutes.unstake.generatePath(),

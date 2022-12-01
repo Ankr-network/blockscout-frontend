@@ -9,7 +9,6 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import {
@@ -18,7 +17,6 @@ import {
 } from 'modules/stake-avax/actions/fetchCommonData';
 import { useLazyGetAVAXStakeGasFeeQuery } from 'modules/stake-avax/actions/getStakeGasFee';
 import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
-import { TAvaxSyntToken } from 'modules/stake-avax/types';
 import { calcTotalAmount } from 'modules/stake-avax/utils/calcTotalAmount';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
@@ -26,8 +24,6 @@ import {
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
-
-import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
   aAVAXcRatio: BigNumber;
@@ -44,12 +40,9 @@ interface IUseStakeFormData {
   totalAmount: BigNumber;
   handleFormChange: (values: IStakeFormPayload, invalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
-  onTokenSelect: (token: TAvaxSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
-  const { selectedToken, handleTokenSelect } = useSelectedToken();
-
   const [stake, { isLoading: isStakeLoading }] = useStakeAVAXMutation();
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
@@ -72,7 +65,6 @@ export const useStakeForm = (): IUseStakeFormData => {
     data: getStatsData,
     isFetching: isGetCommonDataLoading,
     error: getStatsError,
-    refetch,
   } = useGetAVAXCommonDataQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
@@ -90,16 +82,12 @@ export const useStakeForm = (): IUseStakeFormData => {
     }
 
     return calcTotalAmount({
-      selectedToken,
+      selectedToken: Token.aAVAXc,
       amount: new BigNumber(amount),
       balance: getStatsData.avaxBalance,
       aAVAXcRatio,
     });
-  }, [getStatsData, amount, selectedToken, aAVAXcRatio]);
-
-  useProviderEffect(() => {
-    refetch();
-  }, []);
+  }, [getStatsData, amount, aAVAXcRatio]);
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -109,7 +97,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       const readyAmount = new BigNumber(formAmount);
       getAVAXStakeGasFee({
         amount: readyAmount,
-        token: selectedToken,
+        token: Token.aAVAXc,
       });
     }
 
@@ -130,28 +118,21 @@ export const useStakeForm = (): IUseStakeFormData => {
       amount: currentAmount,
       willGetAmount: currentAmount,
       tokenIn: Token.AVAX,
-      tokenOut: selectedToken,
+      tokenOut: Token.aAVAXc,
       prevStakedAmount: getStatsData?.avaxBalance ?? ZERO,
-      synthBalance:
-        selectedToken === Token.aAVAXb
-          ? getStatsData?.aAVAXbBalance ?? ZERO
-          : getStatsData?.aAVAXcBalance ?? ZERO,
+      synthBalance: getStatsData?.aAVAXcBalance ?? ZERO,
     });
   };
 
   const handleSubmit = (values: IStakeSubmitPayload): void => {
     const resultAmount = new BigNumber(values.amount);
 
-    stake({ amount: resultAmount, token: selectedToken })
+    stake({ amount: resultAmount, token: Token.aAVAXc })
       .unwrap()
       .then(() => {
         sendAnalytics();
         setAmount(ZERO);
       });
-  };
-
-  const onTokenSelect = (token: TAvaxSyntToken) => () => {
-    handleTokenSelect(token);
   };
 
   return {
@@ -165,10 +146,9 @@ export const useStakeForm = (): IUseStakeFormData => {
     isStakeGasLoading,
     isStakeLoading,
     stakeGasFee: stakeGasFeeData ?? ZERO,
-    tokenOut: selectedToken,
+    tokenOut: Token.aAVAXc,
     totalAmount,
     handleFormChange: debouncedOnChange,
     handleSubmit,
-    onTokenSelect,
   };
 };

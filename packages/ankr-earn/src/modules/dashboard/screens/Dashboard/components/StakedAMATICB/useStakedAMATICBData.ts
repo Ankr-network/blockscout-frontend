@@ -88,7 +88,7 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
     isUnstakeLoading,
     network,
     pendingValue,
-    stakeLink: StakeMaticEthRoutes.stake.generatePath(),
+    stakeLink: StakeMaticEthRoutes.stake.generatePath(true),
     switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeMaticEthRoutes.unstake.generatePath(),
     usdAmount,

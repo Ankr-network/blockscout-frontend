@@ -4,6 +4,8 @@ import BigNumber from 'bignumber.js';
 import { ReactNode, ReactText, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
+import { Notice } from 'ui';
+
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
@@ -56,6 +58,7 @@ export interface IStakeFormComponentProps {
   isMaxBtnShowed?: boolean;
   maxAmountDecimals?: number;
   networkTitleSlot?: JSX.Element;
+  noticeSlot?: string;
   feeSlot?: ReactNode;
   stakingAmountStep?: number;
   labelTooltip?: ReactText | JSX.Element;
@@ -95,6 +98,7 @@ export const StakeForm = ({
   onSubmit,
   onChange,
   onCodeChange,
+  noticeSlot,
 }: IStakeFormComponentProps): JSX.Element => {
   const classes = useStakeFormStyles();
   const withFee = !!feeSlot;
@@ -168,6 +172,12 @@ export const StakeForm = ({
 
         {networkTitleSlot && (
           <div className={classes.networkTitle}>{networkTitleSlot}</div>
+        )}
+
+        {noticeSlot && (
+          <Box mb={3}>
+            <Notice>{noticeSlot}</Notice>
+          </Box>
         )}
 
         <AmountInput

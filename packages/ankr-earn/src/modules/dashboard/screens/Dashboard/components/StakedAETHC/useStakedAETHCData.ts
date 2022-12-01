@@ -94,7 +94,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     network,
     pendingValue,
     ratio: statsData?.aETHcRatio ?? ZERO,
-    stakeLink: RoutesConfig.stake.generatePath(token),
+    stakeLink: RoutesConfig.stake.generatePath(),
     tradeLink: DefiRoutes.defi.generatePath(newTokenName),
     usdAmount,
     walletName,

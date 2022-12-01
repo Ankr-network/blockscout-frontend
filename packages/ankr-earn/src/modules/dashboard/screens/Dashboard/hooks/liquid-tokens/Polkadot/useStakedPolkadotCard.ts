@@ -129,7 +129,7 @@ export const useStakedPolkadotCard = ({
     network: chainTitle,
     pendingValue,
     stakeLink: featuresConfig.isActivePolkadotStaking
-      ? RoutesConfig.stake.generatePath(network)
+      ? RoutesConfig.stake.generatePath(network, true)
       : STAKE_LEGACY_LINKS[network] ?? '',
     stakeType: ETxTypes.Staked,
     tradeLink: DefiRoutes.defi.generatePath(ethToken),

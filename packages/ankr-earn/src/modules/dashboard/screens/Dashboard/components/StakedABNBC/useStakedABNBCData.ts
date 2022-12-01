@@ -101,7 +101,7 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     network,
     pendingValue,
     ratio: statsData?.aBNBcRatio ?? ZERO,
-    stakeLink: StakeBNBRoutes.stake.generatePath(token),
+    stakeLink: StakeBNBRoutes.stake.generatePath(),
     tradeLink: DeFiRoutes.defi.generatePath(newTokenName),
     token,
     tokenAddress: binanceConfig.aBNBcToken,
