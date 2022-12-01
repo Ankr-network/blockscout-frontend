@@ -10,10 +10,12 @@ import { getXDCAddress } from './utils';
 
 interface IGetTxDataProps extends IWeb3TxInfoProps<Web3KeyReadProvider> {
   env?: Env;
+  isUnstake?: boolean;
 }
 
 export const getTxData = async ({
   env = currentEnv,
+  isUnstake = false,
   provider,
   txHash,
 }: IGetTxDataProps): Promise<IFetchTxData> => {
@@ -21,11 +23,14 @@ export const getTxData = async ({
 
   const web3 = provider.getWeb3();
 
+  const contractAddress = isUnstake
+    ? xdcConfig.XDCStakingPool
+    : xdcConfig.aXDCcToken;
+
   const tx = await web3.eth.getTransactionReceipt(txHash);
 
   const amountLog = tx.logs.find(
-    ({ address }) =>
-      address.toLowerCase() === xdcConfig.aXDCcToken.toLowerCase(),
+    ({ address }) => address.toLowerCase() === contractAddress.toLowerCase(),
   );
 
   const amount = web3.utils.toBN(amountLog?.data ?? '0');

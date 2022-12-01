@@ -3,7 +3,7 @@ import { push } from 'connected-react-router';
 import { RootState } from 'store';
 
 import {
-  IStakeData,
+  IUnstakeData,
   ProviderManagerSingleton,
   Web3KeyReadProvider,
   XDC,
@@ -15,16 +15,16 @@ import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { CacheTags, XDC_PROVIDER_ID } from '../const';
 import { RoutesConfig } from '../Routes';
 
-type TStakeData = IStakeData | null;
+type TUnstakeData = IUnstakeData | null;
 
-interface IStakeProps {
+interface IUnstakeProps {
   amount: BigNumber;
 }
 
-export const { useStakeMutation } = web3Api.injectEndpoints({
+export const { useUnstakeMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
-    stake: build.mutation<TStakeData, IStakeProps>({
-      queryFn: queryFnNotifyWrapper<IStakeProps, never, TStakeData>(
+    unstake: build.mutation<TUnstakeData, IUnstakeProps>({
+      queryFn: queryFnNotifyWrapper<IUnstakeProps, never, TUnstakeData>(
         async ({ amount }, { getState }) => {
           const providerManager = ProviderManagerSingleton.getInstance();
 
@@ -50,7 +50,7 @@ export const { useStakeMutation } = web3Api.injectEndpoints({
           }
 
           return {
-            data: await XDC.stake({
+            data: await XDC.unstake({
               address,
               amount,
               provider,
@@ -64,11 +64,11 @@ export const { useStakeMutation } = web3Api.injectEndpoints({
             return;
           }
 
-          const path = RoutesConfig.stakeSuccess.generatePath(data.txHash);
+          const path = RoutesConfig.unstakeSuccess.generatePath(data.txHash);
 
           dispatch(push(path));
         }),
-      invalidatesTags: [CacheTags.stakeData],
+      invalidatesTags: [CacheTags.unstakeData],
     }),
   }),
 });

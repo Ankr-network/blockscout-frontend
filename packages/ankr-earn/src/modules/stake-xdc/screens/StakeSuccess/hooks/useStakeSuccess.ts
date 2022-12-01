@@ -9,12 +9,9 @@ import { useLazyAddTokenToWalletQuery } from 'modules/stake-xdc/actions/addToken
 import { useGetTxDataQuery } from 'modules/stake-xdc/actions/getTxData';
 import { useGetTxReceiptQuery } from 'modules/stake-xdc/actions/getTxReceipt';
 import { XDC_POLLING_INTERVAL } from 'modules/stake-xdc/const';
+import { IRouteParams } from 'modules/stake-xdc/types';
 
-interface IRouteParams {
-  txHash: string;
-}
-
-interface IUseStakeStepData {
+interface IUseStakeSuccessData {
   amount?: BigNumber;
   destinationAddress?: string;
   error?: Error;
@@ -25,7 +22,7 @@ interface IUseStakeStepData {
   onAddTokenClick: () => void;
 }
 
-export const useStakeStep = (): IUseStakeStepData => {
+export const useStakeSuccess = (): IUseStakeSuccessData => {
   const { txHash } = useParams<IRouteParams>();
 
   const [isReadyTx, setIsReadyTx] = useState(false);

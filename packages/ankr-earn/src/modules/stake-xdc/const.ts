@@ -15,4 +15,5 @@ export const XDC_STAKING_NETWORKS = [XDC_NETWORK_BY_ENV];
 
 export const CacheTags = {
   stakeData: getUniqueId(),
+  unstakeData: getUniqueId(),
 };

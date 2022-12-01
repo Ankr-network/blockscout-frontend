@@ -17,6 +17,7 @@ import { XDC_PROVIDER_ID } from '../const';
 type TGetTxData = IFetchTxData | null;
 
 interface IGetTxDataProps {
+  isUnstake?: boolean;
   txHash: string;
 }
 
@@ -24,7 +25,7 @@ export const { useGetTxDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getTxData: build.query<TGetTxData, IGetTxDataProps>({
       queryFn: queryFnNotifyWrapper<IGetTxDataProps, never, TGetTxData>(
-        async ({ txHash }, { getState }) => {
+        async ({ isUnstake, txHash }, { getState }) => {
           const providerManager = ProviderManagerSingleton.getInstance();
 
           const { walletId } = selectEthProviderData(getState() as RootState);
@@ -50,6 +51,7 @@ export const { useGetTxDataQuery } = web3Api.injectEndpoints({
             data: await retry(
               () =>
                 XDC.getTxData({
+                  isUnstake,
                   provider,
                   txHash,
                 }),

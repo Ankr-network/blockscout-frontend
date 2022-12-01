@@ -73,6 +73,5 @@ export const iconByTokenMap: TIconMap = {
   [Token.xDAI]: xDAIIcon,
   [Token.SUI]: SUIIcon,
   [Token.aSUIc]: ASUICIcon,
-  [Token.TXDC]: XDCIcon,
   [Token.XDC]: XDCIcon,
 };

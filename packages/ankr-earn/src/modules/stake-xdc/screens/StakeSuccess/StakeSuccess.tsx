@@ -2,9 +2,9 @@ import { t } from '@ankr.com/common';
 
 import { ProgressStep } from 'modules/common/components/ProgressStep';
 
-import { useStakeStep } from './hooks/useStakeStep';
+import { useStakeSuccess } from './hooks/useStakeSuccess';
 
-export const StakeStep = (): JSX.Element => {
+export const StakeSuccess = (): JSX.Element => {
   const {
     amount,
     destinationAddress,
@@ -14,7 +14,7 @@ export const StakeStep = (): JSX.Element => {
     tokenName,
     transactionId,
     onAddTokenClick,
-  } = useStakeStep();
+  } = useStakeSuccess();
 
   return (
     <ProgressStep

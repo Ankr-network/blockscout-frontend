@@ -42,13 +42,13 @@ export const Stake = (): JSX.Element => {
     <>
       <div className={classes.tokenInfoArea}>
         <img
-          alt={t('stake-xdc.stake-token-logo-alt')}
+          alt={t('stake-xdc.stake.token-logo-alt')}
           className={classes.tokenInfoLogo}
           src={TokenInfoLogo}
         />
 
         <div>
-          {tHTML('stake-xdc.stake-info', {
+          {tHTML('stake-xdc.stake.info', {
             value: aXDCcPrice.decimalPlaces(DECIMAL_PLACES).toFormat(),
           })}
         </div>

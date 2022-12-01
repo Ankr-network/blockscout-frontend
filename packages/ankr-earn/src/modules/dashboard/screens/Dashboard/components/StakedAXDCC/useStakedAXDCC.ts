@@ -65,7 +65,7 @@ export const useStakedAXDCC = (): IUseStakedAXDCCData => {
     network,
     stakeLink: XDCRoutes.stake.generatePath(),
     token: Token.aXDCc,
-    unstakeLink: undefined,
+    unstakeLink: XDCRoutes.unstake.generatePath(),
     usdAmount,
   };
 };
