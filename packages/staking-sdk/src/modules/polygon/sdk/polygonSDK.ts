@@ -303,14 +303,20 @@ export class PolygonOnPolygonSDK implements IStakable {
       await this.writeProvider.connect();
     }
 
+    const web3 = this.writeProvider.getWeb3();
+
+    const contract =
+      token === 'aMATICb'
+        ? PolygonOnPolygonSDK.getABTokenContract(web3)
+        : PolygonOnPolygonSDK.getACTokenContract(web3);
+
+    const symbol = await contract.methods.symbol().call();
+
     return this.writeProvider.addTokenToWallet({
-      address:
-        token === 'aMATICc'
-          ? polygonConfig.aMATICcToken
-          : polygonConfig.aMATICbToken,
+      address: contract.options.address,
       chainId: POLYGON_NETWORK_BY_ENV,
       decimals: MATIC_DECIMALS,
-      symbol: token,
+      symbol,
     });
   }
 

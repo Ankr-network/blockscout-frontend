@@ -3,8 +3,6 @@ import { createAction } from 'redux-smart-actions';
 
 import { EthereumSDK, TEthToken } from '@ankr.com/staking-sdk';
 
-import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
-
 import { ETH_ACTIONS_PREFIX } from '../const';
 
 export const addTokenToWallet = createAction<
@@ -14,9 +12,8 @@ export const addTokenToWallet = createAction<
   request: {
     promise: (async (): Promise<boolean> => {
       const sdk = await EthereumSDK.getInstance();
-      const tokenSymbol = getTokenSymbol(token);
 
-      return sdk.addTokenToWallet(tokenSymbol);
+      return sdk.addTokenToWallet(token);
     })(),
   },
   meta: {
