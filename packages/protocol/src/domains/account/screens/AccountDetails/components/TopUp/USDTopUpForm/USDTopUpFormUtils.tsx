@@ -16,8 +16,6 @@ import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkF
 
 const MAX_USD_DECIMALS = 1;
 
-const MIN_USD_AMOUNT = 5;
-
 export const defaultAmountValue = new BigNumber(DEFAULT_USD_VALUE).toString(10);
 
 const validateAmount = (value: string) => {
@@ -31,9 +29,9 @@ const validateAmount = (value: string) => {
     return t('validation.number-only');
   }
 
-  if (currentAmount.isLessThanOrEqualTo(MIN_USD_AMOUNT)) {
+  if (currentAmount.isLessThan(DEFAULT_USD_VALUE)) {
     return t('validation.min', {
-      value: MIN_USD_AMOUNT,
+      value: DEFAULT_USD_VALUE,
     });
   }
 

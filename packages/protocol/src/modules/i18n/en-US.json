@@ -13,8 +13,9 @@
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
     "duplicate-url-validation": "This endpoint has already been added",
     "number-only": "Must be a number",
-    "min": "Should be greater than {value}",
-    "max": "Should be less than {value}"
+    "min-greater": "Should be greater than {value}",
+    "max": "Should be less than {value}",
+    "min": "Should be at least {value}"
   },
   "meta": {
     "title": "Decentralized Infrastructure to Power Your dApp",

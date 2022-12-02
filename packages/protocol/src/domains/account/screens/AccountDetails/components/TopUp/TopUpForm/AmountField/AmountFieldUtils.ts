@@ -18,7 +18,7 @@ export const validateAmount = (value: string) => {
   }
 
   if (currentAmount.isLessThanOrEqualTo(MIN_AMOUNT)) {
-    return t('validation.min', {
+    return t('validation.min-greater', {
       value: MIN_AMOUNT,
     });
   }
