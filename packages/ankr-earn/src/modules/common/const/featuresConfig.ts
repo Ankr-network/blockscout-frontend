@@ -41,7 +41,6 @@ export const featuresConfig = {
    */
   maticPolygonStaking: true,
   isCalcActive: true,
-  providerNotification: true,
   isReferralLinkActive: false,
   /**
    * Please remove extra feature flag
@@ -59,4 +58,8 @@ export const featuresConfig = {
   isTrustWalletSupportActive: true,
   isSUIStakingActive: isLocal,
   isClaimAndRestakeEnabled: currentEnv !== Env.Production,
+  /**
+   * https://ankrnetwork.atlassian.net/browse/STAKAN-2365
+   */
+  suspendBanner: true,
 };

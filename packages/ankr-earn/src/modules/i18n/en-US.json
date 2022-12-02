@@ -1228,5 +1228,11 @@
     },
     "rewards": "Your Estimated Rewards",
     "rewards-info": "Earned rewards can be claimed after ETH2 withdrawals are enabled."
+  },
+  "suspend-info": {
+    "title": "Attention!",
+    "p1": "Due to the aBNBс token exploit, staking is temporarily suspended until the vulnerability is fixed.",
+    "p2": "Please follow us on Twitter: <a href={link} rel=\"noreferrer\" target=\"_blank\">{link}</a>",
+    "button": "Close"
   }
 }
