@@ -871,7 +871,7 @@
         "row-1-8": "Batch Size <em>eth_getLogs</em>",
         "row-1-9": "Advanced APIs",
         "row-1-10": "Customer Support",
-        "row-2-1": "500 requests/sec across all provided endpoints.",
+        "row-2-1": "1800 requests/min across all provided endpoints.",
         "row-2-8": "10 per batch",
         "row-2-9": "50 requests/min",
         "row-2-10": "Discord and Support Portal",
@@ -892,7 +892,7 @@
       "sales-mail": "mailto:sales@ankr.com",
       "what-is-included": "What's included",
       "public": {
-        "item-1": "500 requests/sec across all provided endpoints.",
+        "item-1": "1800 requests/min across all provided endpoints.",
         "item-2": "Archive data",
         "item-3": "Batch Requests",
         "item-4": "10 per batch for eth_getlogs",
