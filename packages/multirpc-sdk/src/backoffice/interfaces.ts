@@ -28,6 +28,8 @@ import {
   IUpdateUserProfileResponse,
   IGetUserRevenueRequest,
   IGetUserRevenueResponse,
+  GetUserAddressesRequest,
+  GetUserAddressesResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -72,6 +74,10 @@ export interface IBackofficeGateway {
   getUserStatsByRange(
     params: IUserStatsByRangeRequest,
   ): Promise<IUserStatsResponse>;
+
+  getUserAddresses(
+    params: GetUserAddressesRequest,
+  ): Promise<GetUserAddressesResponse>
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,
