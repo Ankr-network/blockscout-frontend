@@ -27,6 +27,11 @@ export const usePremiumBlockStyles = makeStyles<Theme>(theme => ({
       padding: theme.spacing(5, 3.5),
       borderRadius: theme.spacing(3.25),
     },
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5, 2),
+      borderRadius: theme.spacing(3.25),
+    },
   },
   wrapper: {
     padding: theme.spacing(0, 3),
@@ -77,8 +82,13 @@ export const usePremiumBlockStyles = makeStyles<Theme>(theme => ({
     },
   },
   form: {
-    width: 320,
+    width: 390,
     margin: theme.spacing(0, 'auto'),
+
+    [theme.breakpoints.down('xs')]: {
+      width: 360,
+    },
+
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },

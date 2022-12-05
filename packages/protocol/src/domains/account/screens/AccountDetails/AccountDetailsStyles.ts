@@ -14,17 +14,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   top: {
-    display: 'flex',
-    justifyContent: 'space-between',
     gap: theme.spacing(1.5, 3),
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
 
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
+    '@media (max-width:870px)': {
+      gridTemplateColumns: '1fr',
     },
   },
   topUp: {
-    width: 300,
-
     [theme.breakpoints.down('md')]: {
       minWidth: 'auto',
     },

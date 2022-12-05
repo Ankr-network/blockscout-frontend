@@ -97,3 +97,5 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.XDC]: 'https://explorer.xinfin.network',
   [SupportedChainIDS.XDC_TESTNET]: 'https://explorer.apothem.network',
 };
+
+export const TWITTER_ANKR_STATUS_LINK = 'https://twitter.com/ankr';

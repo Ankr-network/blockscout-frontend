@@ -52,4 +52,10 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   rightComponentSlot: {
     marginLeft: theme.spacing(2),
   },
+
+  banners: {
+    display: 'grid',
+    paddingTop: theme.spacing(2),
+    gap: theme.spacing(2, 0),
+  },
 }));

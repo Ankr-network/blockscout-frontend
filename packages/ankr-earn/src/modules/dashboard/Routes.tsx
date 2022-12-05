@@ -51,7 +51,7 @@ export function getRoutes(): JSX.Element {
           isOpenConnectInstantly={false}
           path={RoutesConfig.dashboard.path}
         >
-          <DefaultLayout>
+          <DefaultLayout bannerSize="xl">
             <Dashboard />
           </DefaultLayout>
         </GuardETHRoute>

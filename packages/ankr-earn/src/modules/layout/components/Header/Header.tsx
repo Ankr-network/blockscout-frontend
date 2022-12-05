@@ -5,8 +5,8 @@ import { useHistory } from 'react-router';
 import { GlobalMenu } from '@ankr.com/global-menu';
 import { useIsSMDown, useIsXLUp } from 'ui';
 
-import { STAKING_PATH, featuresConfig } from 'modules/common/const';
-import { Container } from 'uiKit/Container';
+import { featuresConfig, STAKING_PATH } from 'modules/common/const';
+import { Container, TContainerSize } from 'uiKit/Container';
 
 import { useLocale } from '../../../i18n/hooks/useLocale';
 import { LocaleSwitcher } from '../LocaleSwitcher';
@@ -20,6 +20,7 @@ interface IHeader {
   mainNavigationSlot: ReactNode;
   rightComponentSlot?: ReactNode;
   bannerSlot?: ReactNode;
+  bannerSize?: TContainerSize;
 }
 
 export const Header = ({
@@ -27,6 +28,7 @@ export const Header = ({
   mainNavigationSlot,
   rightComponentSlot,
   bannerSlot,
+  bannerSize = 'lg',
 }: IHeader): JSX.Element => {
   const classes = useStyles();
   const isXLUp = useIsXLUp();
@@ -82,7 +84,11 @@ export const Header = ({
         </Drawer>
       )}
 
-      {bannerSlot}
+      {bannerSlot && (
+        <Container size={bannerSize}>
+          <div className={classes.banners}>{bannerSlot}</div>
+        </Container>
+      )}
     </header>
   );
 };

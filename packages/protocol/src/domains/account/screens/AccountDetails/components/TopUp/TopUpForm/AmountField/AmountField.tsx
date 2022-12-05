@@ -11,20 +11,19 @@ import {
   validateAmount,
 } from './AmountFieldUtils';
 import { OnChange } from 'modules/form/utils/OnChange';
-import { AmountInputField } from '../TopUpFormTypes';
 import { CurrencyType } from '../../../const';
 
-interface AmountFieldProps {
-  name: AmountInputField.amount;
+interface AmountFieldProps<T> {
+  name: T;
   isDisabled?: boolean;
   size?: 'm' | 'l';
   validate?: (value: string, allValues?: any) => string | undefined;
-  change?: (name: AmountInputField.amount, value: string) => void;
+  change?: (name: T, value: string) => void;
   maxDecimals?: number;
   currency: CurrencyType;
 }
 
-export const AmountField = ({
+export function AmountField<T extends string>({
   size = 'm',
   name,
   isDisabled,
@@ -32,7 +31,7 @@ export const AmountField = ({
   validate = validateAmount,
   maxDecimals = MAX_DECIMALS,
   currency,
-}: AmountFieldProps) => {
+}: AmountFieldProps<T>) {
   const classes = useStyles({ size });
 
   return (
@@ -64,4 +63,4 @@ export const AmountField = ({
       )}
     </FormGroup>
   );
-};
+}
