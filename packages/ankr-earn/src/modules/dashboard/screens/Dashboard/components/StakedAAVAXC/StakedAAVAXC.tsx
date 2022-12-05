@@ -75,8 +75,7 @@ export const StakedAAVAXC = (): JSX.Element => {
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const renderedPendingSlot = (!pendingValue.isZero() ||
     isPendingUnstakeLoading) && (

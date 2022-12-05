@@ -5,7 +5,7 @@ import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
 
-export const { useGetBNBTotalHistoryQuery } = web3Api.injectEndpoints({
+export const { useLazyGetBNBTotalHistoryQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getBNBTotalHistory: build.query<ITxEventsHistoryData, void>({
       queryFn: queryFnNotifyWrapper<void, never, ITxEventsHistoryData>(

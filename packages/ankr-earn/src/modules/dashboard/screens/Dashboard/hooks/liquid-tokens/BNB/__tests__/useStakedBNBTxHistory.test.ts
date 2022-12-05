@@ -6,7 +6,7 @@ import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
+import { useLazyGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedBNBTxHistory } from '../useStakedBNBTxHistory';
@@ -16,7 +16,7 @@ jest.mock('store/useAppDispatch', () => ({
 }));
 
 jest.mock('modules/stake-bnb/actions/fetchTotalHistory', () => ({
-  useGetBNBTotalHistoryQuery: jest.fn(),
+  useLazyGetBNBTotalHistoryQuery: jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
@@ -56,7 +56,10 @@ describe('modules/dashboard/screens/Dashboard/hooks/useTxHistory', () => {
   };
 
   beforeEach(() => {
-    (useGetBNBTotalHistoryQuery as jest.Mock).mockReturnValue(defaultData);
+    (useLazyGetBNBTotalHistoryQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      defaultData,
+    ]);
 
     (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
   });
@@ -102,7 +105,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/useTxHistory', () => {
   });
 
   test('should handle load history data', () => {
-    const { refetch } = useGetBNBTotalHistoryQuery();
+    const [refetch] = useLazyGetBNBTotalHistoryQuery();
 
     const { result } = renderHook(() => useStakedBNBTxHistory());
 
@@ -114,10 +117,13 @@ describe('modules/dashboard/screens/Dashboard/hooks/useTxHistory', () => {
   });
 
   test('should return empty data', () => {
-    (useGetBNBTotalHistoryQuery as jest.Mock).mockReturnValue({
-      data: null,
-      isFetching: true,
-    });
+    (useLazyGetBNBTotalHistoryQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        data: null,
+        isFetching: true,
+      },
+    ]);
 
     const { result } = renderHook(() => useStakedBNBTxHistory());
 

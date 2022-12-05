@@ -4,13 +4,12 @@ import { useCallback, useMemo } from 'react';
 
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
-import { ACTION_CACHE_SEC, BSC_NETWORK_BY_ENV } from 'modules/common/const';
+import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { useGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
+import { useLazyGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 
 import { ITxEventsHistoryGroupItem } from '../../../types';
@@ -56,13 +55,10 @@ export interface ITxHistoryData {
 }
 
 export const useStakedBNBTxHistory = (): ITxHistoryData => {
-  const {
-    data: txHistory,
-    isFetching: isHistoryDataLoading,
-    refetch,
-  } = useGetBNBTotalHistoryQuery(undefined, {
-    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-  });
+  const [
+    refetchTotalHistory,
+    { data: txHistory, isFetching: isHistoryDataLoading },
+  ] = useLazyGetBNBTotalHistoryQuery();
 
   const stakedABNBB = useMemo(() => {
     return getCompletedTransactions({
@@ -128,13 +124,9 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
     !!unstakedABNBB?.length ||
     !!unstakedABNBC?.length;
 
-  useProviderEffect(() => {
-    refetch();
-  }, []);
-
   const handleLoadTxHistory = useCallback(() => {
-    refetch();
-  }, [refetch]);
+    refetchTotalHistory();
+  }, [refetchTotalHistory]);
 
   return {
     isHistoryDataLoading,

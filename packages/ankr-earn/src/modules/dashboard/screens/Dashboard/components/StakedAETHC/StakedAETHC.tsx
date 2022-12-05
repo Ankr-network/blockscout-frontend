@@ -65,8 +65,7 @@ export const StakedAETHC = (): JSX.Element => {
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const onTradeClick = () => {
     trackClickTrade({

@@ -74,8 +74,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
