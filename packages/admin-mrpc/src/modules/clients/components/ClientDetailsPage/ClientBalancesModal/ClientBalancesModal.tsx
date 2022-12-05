@@ -1,15 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import {
-  Box,
-  Button,
-  MenuItem,
-  Modal,
-  Typography,
-  Input,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import { Box, Button, MenuItem, Modal, Typography, Input } from '@mui/material';
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { IAmountType } from 'multirpc-sdk';
@@ -23,7 +14,6 @@ import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
 interface IFormElements {
   elements: {
-    unit: { value: IAmountType };
     amount: { value: number };
     comment: { value: string };
   };
@@ -51,11 +41,6 @@ export const ClientBalancesModal = ({
 
   const isLoading = isLoadingAddCredits || isLoadingSubtractCredits;
 
-  const [unit, setUnit] = useState<IAmountType | ''>('');
-  const handleChangeUnit = (event: SelectChangeEvent<IAmountType>) => {
-    setUnit(event.target.value as IAmountType);
-  };
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -79,7 +64,6 @@ export const ClientBalancesModal = ({
       | undefined;
 
     const {
-      unit: { value: unitValue },
       amount: { value: amountValue },
       comment: { value: commentValue },
     } = e.target.elements;
@@ -89,14 +73,14 @@ export const ClientBalancesModal = ({
       return;
     }
 
-    if (!unitValue || !amountValue) {
-      toast.error('unit and amount fields are required');
+    if (!amountValue) {
+      toast.error('amount field is required');
       return;
     }
 
     const requestParams = {
       address: currentClient.address,
-      amountType: unitValue,
+      amountType: 'credit' as IAmountType,
       amount: amountValue.toString(),
       reasonId: `${Date.now()} ${commentValue || ''}`,
     };
@@ -132,26 +116,14 @@ export const ClientBalancesModal = ({
       >
         <ClientBalancesInfo currentClient={currentClient} size={6} />
         <br />
-        <Select
-          className={classes.select}
-          id="unit"
-          name="unit"
-          disabled={isLoading}
-          value={unit}
-          onChange={handleChangeUnit}
-          label="Units"
-        >
-          <MenuItem value="ankr">Ankr</MenuItem>
-          <MenuItem value="usd">USD</MenuItem>
-          <MenuItem value="credit">Voucher credit</MenuItem>
-        </Select>
 
         <Input
           name="amount"
           id="amount"
-          placeholder="amount"
+          placeholder="amount of credits"
           type="number"
           disabled={isLoading}
+          endAdornment="Voucher&nbsp;Credits"
         />
         <Input
           sx={{ mt: 2, mb: 6 }}

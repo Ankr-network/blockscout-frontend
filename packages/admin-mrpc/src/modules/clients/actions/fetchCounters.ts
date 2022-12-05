@@ -125,6 +125,10 @@ export const {
               email =>
                 email.address?.toLowerCase() === client.address?.toLowerCase(),
             )?.email,
+            status: emailsCollection?.find(
+              email =>
+                email.address?.toLowerCase() === client.address?.toLowerCase(),
+            )?.status,
             createdDate: new Date(client.timestamp),
             amount: userBalances?.creditAnkrAmount
               ? new BigNumber(userBalances.creditAnkrAmount)
