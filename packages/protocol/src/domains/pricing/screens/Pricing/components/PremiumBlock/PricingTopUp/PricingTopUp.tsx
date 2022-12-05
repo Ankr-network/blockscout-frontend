@@ -30,6 +30,7 @@ export const PricingTopUp = () => {
       }}
     >
       <TopUp
+        className={classes.topUp}
         header={
           canPayOnlyByCard ? null : (
             <Box className={classes.formBlockTitle}>
