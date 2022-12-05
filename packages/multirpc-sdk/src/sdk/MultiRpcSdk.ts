@@ -4,7 +4,7 @@ import { IPublicGateway, PublicGateway } from '../public';
 import { FetchBlockchainUrlsResult } from './types';
 import { formatPrivateUrls, formatPublicUrls } from './utils';
 import { OauthGateway } from '../oauth';
-import { IAccountGateway, AccountGateway } from '../account';
+import { AccountGateway } from '../account';
 import { RpcGateway } from '../rpc/RpcGateway';
 import { WorkerGateway } from '../worker';
 
@@ -13,7 +13,7 @@ export class MultiRpcSdk {
 
   private oauthGateway?: OauthGateway;
 
-  private accountGateway?: IAccountGateway;
+  private accountGateway?: AccountGateway;
 
   private rpcGateway?: RpcGateway;
 
@@ -59,7 +59,7 @@ export class MultiRpcSdk {
     return this.oauthGateway;
   }
 
-  public getAccountGateway(): IAccountGateway {
+  public getAccountGateway(): AccountGateway {
     this.accountGateway =
       this.accountGateway ||
       new AccountGateway({

@@ -3,11 +3,13 @@ import { ReactNode, ReactText } from 'react';
 
 import { useContainerStyles } from './useContainerStyles';
 
+export type TContainerSize = 'lg' | 'xl';
+
 export interface IContainerProps {
   className?: string;
   children?: ReactNode;
   maxWidth?: ReactText;
-  size?: 'lg' | 'xl';
+  size?: TContainerSize;
 }
 
 export const Container = ({

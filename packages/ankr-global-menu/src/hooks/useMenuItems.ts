@@ -36,11 +36,6 @@ export const useMenuItems = ({
               },
               {
                 label: AnkrIntl.t('global-menu.build.item-4'),
-                link: '/build/nodes/',
-                project: 'landing',
-              },
-              {
-                label: AnkrIntl.t('global-menu.build.item-5'),
                 link: '/enterprise/',
                 project: 'landing',
               },

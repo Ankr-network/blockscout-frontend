@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { stringify } from 'qs';
+
 import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus } from '../common';
-import { IAccountGateway } from './interfaces';
 import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
@@ -15,6 +15,8 @@ import {
   IGetEmailBindingsResponse,
   IGetLinkForCardPaymentRequest,
   IGetLinkForCardPaymentResponse,
+  IGetLinkForRecurrentCardPaymentRequest,
+  IGetSubscriptionPricesResponse,
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
@@ -23,7 +25,7 @@ import {
   PrivateStatsInterval,
 } from './types';
 
-export class AccountGateway implements IAccountGateway {
+export class AccountGateway {
   public api: AxiosInstance;
 
   constructor(private readonly config: AxiosRequestConfig) {
@@ -237,6 +239,27 @@ export class AccountGateway implements IAccountGateway {
       await this.api.post<IGetLinkForCardPaymentResponse>(
         '/api/v1/auth/payment/depositWithCard',
         params,
+      );
+
+    return response;
+  }
+
+  public async getLinkForRecurrentCardPayment(
+    params: IGetLinkForRecurrentCardPaymentRequest,
+  ): Promise<IGetLinkForCardPaymentResponse> {
+    const { data: response } =
+      await this.api.post<IGetLinkForCardPaymentResponse>(
+        '/api/v1/auth/payment/subscribeOnRecurrentPayments',
+        params,
+      );
+
+    return response;
+  }
+
+  public async getUSDSubscriptionPrices() {
+    const { data: response } =
+      await this.api.get<IGetSubscriptionPricesResponse>(
+        '/api/v1/auth/payment/getSubscriptionPrices',
       );
 
     return response;

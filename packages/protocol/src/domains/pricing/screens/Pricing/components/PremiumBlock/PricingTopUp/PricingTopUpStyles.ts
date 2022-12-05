@@ -16,4 +16,9 @@ export const usePricingTopUpStyles = makeStyles<Theme>(theme => ({
     height: 24.5,
     borderRadius: 8,
   },
+  topUp: {
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(2, 0, 0.5),
+    },
+  },
 }));

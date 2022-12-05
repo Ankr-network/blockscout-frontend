@@ -1,6 +1,7 @@
 import { t, tHTML } from '@ankr.com/common';
-import { ButtonBase } from '@material-ui/core';
+import { Box, ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { BNB_STAKING_MAX_DECIMALS_LEN } from '@ankr.com/staking-sdk';
@@ -38,6 +39,7 @@ import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { TokenVariant } from 'modules/stake/components/TokenVariant';
 import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
+import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
 import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
@@ -81,6 +83,19 @@ export const StakeBinance = (): JSX.Element => {
     handleSubmit,
     onTokenSelect,
   } = useStakeForm();
+
+  const renderFooter = useCallback(
+    () => (
+      <Tooltip arrow title={t('stake-bnb.tooltips.suspend')}>
+        <Box width="100%">
+          <Button disabled fullWidth color="primary" size="large">
+            {t('stake.stake', { token: tokenOut })}
+          </Button>
+        </Box>
+      </Tooltip>
+    ),
+    [tokenOut],
+  );
 
   const onRenderStats = (): JSX.Element => {
     return (
@@ -237,6 +252,9 @@ export const StakeBinance = (): JSX.Element => {
                 )}
               </>
             )
+          }
+          renderFooter={
+            featuresConfig.isBnbServiceDisabled ? renderFooter : undefined
           }
           renderStats={onRenderStats}
           tokenIn={tokenIn}
