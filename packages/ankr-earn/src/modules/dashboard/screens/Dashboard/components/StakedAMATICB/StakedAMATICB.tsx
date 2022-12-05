@@ -83,8 +83,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending

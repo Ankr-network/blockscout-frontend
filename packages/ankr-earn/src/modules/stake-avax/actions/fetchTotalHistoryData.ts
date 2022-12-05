@@ -5,7 +5,7 @@ import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
 
-export const { useGetAVAXTotalHistoryDataQuery } = web3Api.injectEndpoints({
+export const { useLazyGetAVAXTotalHistoryDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getAVAXTotalHistoryData: build.query<ITxEventsHistoryData, void>({
       queryFn: queryFnNotifyWrapper<void, never, ITxEventsHistoryData>(

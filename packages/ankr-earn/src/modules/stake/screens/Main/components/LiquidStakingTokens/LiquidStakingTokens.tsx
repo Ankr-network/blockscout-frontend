@@ -210,13 +210,16 @@ export const LiquidStakingTokens = (): JSX.Element => {
 
         {featuresConfig.xdcStaking && (
           <FeatureItem
-            apy={0}
+            apy={
+              metrics?.[EMetricsServiceName.XDC] &&
+              +metrics[EMetricsServiceName.XDC].apy
+            }
             iconSlot={<XDCIcon />}
-            isApyLoading={false}
-            isTvlLoading={false}
+            isApyLoading={loading}
+            isTvlLoading={loading}
             mainHref={XDCRoutes.stake.generatePath()}
             moreHref=""
-            stakedTvl={ZERO}
+            stakedTvl={metrics?.[EMetricsServiceName.XDC]?.totalStaked}
             title={t('features.xdc')}
             token={Token.XDC}
             onStakeClick={onTrackEnterStakingFlow(Token.aXDCc)}

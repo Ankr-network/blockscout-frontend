@@ -31,6 +31,7 @@ import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/get
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
+import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -153,8 +154,15 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: getMGNOMaxApr,
   });
 
-  const stakedData = useMemo(
-    () => [
+  const { data: xdcData, isFetching: isXDCDataLoading } = getXDCDashboardData(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
+
+  const stakedData = useMemo(() => {
+    const data = [
       {
         name: Token.aMATICb,
         amount: (maticEthData?.aMATICbBalance ?? ZERO)
@@ -256,28 +264,40 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
         apy: maxMgnoApr ?? ZERO,
         amount: mgnoData?.myTotalDelegatedAmount ?? ZERO,
       },
-    ],
-    [
-      metrics,
-      avaxData,
-      ftmData,
-      aMATICbBridgeBscBalance,
-      aMATICcBridgeBscBalance,
-      aDOTbBalance,
-      aKSMbBalance,
-      aWNDbBalance,
-      maticEthData,
-      aETHbBridgeBalance,
-      aETHcBridgeBalance,
-      bnbData,
-      ethData,
-      ethClaimableData,
-      ankrData,
-      maticPolygonBalances,
-      maxMgnoApr,
-      mgnoData,
-    ],
-  );
+    ];
+
+    if (featuresConfig.xdcStaking) {
+      data.push({
+        name: Token.aXDCc,
+        amount: xdcData?.aXDCcBalance ?? ZERO,
+        service: EMetricsServiceName.XDC,
+        apy: metrics?.[EMetricsServiceName.XDC]?.apy ?? ZERO,
+        ratio: xdcData?.aXDCcRatio,
+      });
+    }
+
+    return data;
+  }, [
+    metrics,
+    avaxData,
+    ftmData,
+    aMATICbBridgeBscBalance,
+    aMATICcBridgeBscBalance,
+    aDOTbBalance,
+    aKSMbBalance,
+    aWNDbBalance,
+    maticEthData,
+    aETHbBridgeBalance,
+    aETHcBridgeBalance,
+    bnbData,
+    ethData,
+    ethClaimableData,
+    ankrData,
+    maticPolygonBalances,
+    maxMgnoApr,
+    mgnoData,
+    xdcData,
+  ]);
 
   const usdAmounts = stakedData.map(item => {
     if (item.service) {
@@ -372,7 +392,8 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       isMaticPolygonBalancesLoading ||
       isAnkrPriceLoading ||
       isLoadingMgnoData ||
-      isMgnoPriceLoading,
+      isMgnoPriceLoading ||
+      isXDCDataLoading,
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
     totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),
     totalYieldAmountUsd: totalYieldAmountUsd

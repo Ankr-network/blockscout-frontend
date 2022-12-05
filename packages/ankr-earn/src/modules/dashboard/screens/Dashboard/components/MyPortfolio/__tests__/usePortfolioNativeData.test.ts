@@ -8,6 +8,7 @@ import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
+import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
 
 import { usePortfolioNativeData } from '../usePortfolioNativeData';
 
@@ -39,6 +40,10 @@ jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
   useGetBNBStatsQuery: jest.fn(),
 }));
 
+jest.mock('modules/stake-xdc/actions/getDashboardData', () => ({
+  useGetDashboardDataQuery: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfolioNativeData', () => {
   const defaultQueryData = {
     loading: false,
@@ -67,6 +72,10 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
       data: undefined,
     });
     (useGetBNBStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetDashboardDataQuery as jest.Mock).mockReturnValue({
       isFetching: false,
       data: undefined,
     });

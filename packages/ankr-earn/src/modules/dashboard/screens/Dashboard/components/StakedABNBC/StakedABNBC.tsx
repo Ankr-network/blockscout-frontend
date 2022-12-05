@@ -63,8 +63,7 @@ export const StakedABNBC = (): JSX.Element => {
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryABNBC.length || isHistoryDataLoading;

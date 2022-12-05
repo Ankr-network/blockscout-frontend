@@ -5,15 +5,11 @@ import { useCallback } from 'react';
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types';
-import {
-  ACTION_CACHE_SEC,
-  FTM_NETWORK_BY_ENV,
-  ZERO,
-} from 'modules/common/const';
+import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { useGetFTMTotalHistoryDataQuery } from 'modules/stake-fantom/actions/getTotalHistoryData';
+import { useLazyGetFTMTotalHistoryDataQuery } from 'modules/stake-fantom/actions/getTotalHistoryData';
 
 export interface IUseStakedFTMTxHistory {
   stakedAFTMB: IHistoryDialogRow[];
@@ -40,13 +36,10 @@ const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
 export const useStakedFTMTxHistory = (
   token: Token.aFTMb | Token.aFTMc,
 ): IUseStakedFTMTxHistory => {
-  const {
-    data: historyData,
-    isFetching: isHistoryLoading,
-    refetch,
-  } = useGetFTMTotalHistoryDataQuery(undefined, {
-    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-  });
+  const [
+    refetchTotalHistory,
+    { data: historyData, isFetching: isHistoryLoading },
+  ] = useLazyGetFTMTotalHistoryDataQuery();
 
   const mapPending = (data: ITxEventsHistoryGroupItem): IPendingTableRow => {
     const date = t('format.date', { value: data.txDate });
@@ -78,8 +71,8 @@ export const useStakedFTMTxHistory = (
     isHistoryLoading;
 
   const handleLoadTxHistory = useCallback(() => {
-    refetch();
-  }, [refetch]);
+    refetchTotalHistory();
+  }, [refetchTotalHistory]);
 
   return {
     hasHistory,

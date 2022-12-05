@@ -65,8 +65,7 @@ export const StakedAMATICC = (): JSX.Element => {
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;

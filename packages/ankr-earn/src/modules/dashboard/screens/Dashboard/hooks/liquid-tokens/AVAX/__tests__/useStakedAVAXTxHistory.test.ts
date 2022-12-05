@@ -6,12 +6,12 @@ import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useGetAVAXTotalHistoryDataQuery } from 'modules/stake-avax/actions/fetchTotalHistoryData';
+import { useLazyGetAVAXTotalHistoryDataQuery } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 
 import { useStakedAVAXTxHistory } from '../useStakedAVAXTxHistory';
 
 jest.mock('modules/stake-avax/actions/fetchTotalHistoryData', () => ({
-  useGetAVAXTotalHistoryDataQuery: jest.fn(),
+  useLazyGetAVAXTotalHistoryDataQuery: jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
@@ -85,7 +85,10 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
   };
 
   beforeEach(() => {
-    (useGetAVAXTotalHistoryDataQuery as jest.Mock).mockReturnValue(defaultData);
+    (useLazyGetAVAXTotalHistoryDataQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      defaultData,
+    ]);
   });
 
   afterEach(() => {
@@ -130,7 +133,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
   });
 
   test('should handle load history data', () => {
-    const { refetch } = useGetAVAXTotalHistoryDataQuery();
+    const [refetch] = useLazyGetAVAXTotalHistoryDataQuery();
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 
     act(() => {
@@ -141,10 +144,13 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
   });
 
   test('should return empty data', () => {
-    (useGetAVAXTotalHistoryDataQuery as jest.Mock).mockReturnValue({
-      data: null,
-      isFetching: true,
-    });
+    (useLazyGetAVAXTotalHistoryDataQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        data: null,
+        isFetching: true,
+      },
+    ]);
 
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 
