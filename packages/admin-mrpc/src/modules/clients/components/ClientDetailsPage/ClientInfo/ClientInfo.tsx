@@ -139,7 +139,7 @@ export const ClientInfo = ({
     : NOT_FOUND_TEXT;
   const clientEmailText = client?.email || NOT_FOUND_TEXT;
   const voucherCreditsText = client?.voucherAmount ? (
-    <>{renderBalance(client?.voucherAmount)} Voucher Credits</>
+    <>{renderBalance(client?.voucherAmount, 'Voucher Credits')}</>
   ) : null;
 
   return (
@@ -247,7 +247,7 @@ export const ClientInfo = ({
           <Typography variant="caption" component="p">
             {isLoadingRevenue
               ? skeleton
-              : `${renderBalance(revenueData?.ankrFact)} ANKR`}
+              : `${renderBalance(revenueData?.ankrFact, 'ANKR')}`}
           </Typography>
         </Grid>
 

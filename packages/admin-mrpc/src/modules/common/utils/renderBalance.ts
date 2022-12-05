@@ -13,7 +13,10 @@ export const formatNumber = (value: string | number | BigNumber = '') => {
   return amount.toFormat();
 };
 
-export const renderBalance = (value: string | BigNumber = '') => {
+export const renderBalance = (
+  value: string | BigNumber = '',
+  units?: string,
+) => {
   if (!value) {
     return '—';
   }
@@ -22,9 +25,11 @@ export const renderBalance = (value: string | BigNumber = '') => {
 
   const absBalance = amount.absoluteValue();
 
-  return absBalance.isLessThan(MIN_DISPLAY_BALANCE)
+  const balanceValue = absBalance.isLessThan(MIN_DISPLAY_BALANCE)
     ? amount.precision(1).toFormat()
     : amount.toFormat(MAX_DECIMALS_LENGTH);
+
+  return units ? `${balanceValue} ${units}` : balanceValue;
 };
 
 export const renderUSD = (value?: string | BigNumber) => {
