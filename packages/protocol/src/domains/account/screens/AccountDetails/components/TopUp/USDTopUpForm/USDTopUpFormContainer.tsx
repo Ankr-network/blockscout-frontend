@@ -15,7 +15,6 @@ export const USDTopUpFormContainer = () => {
   const emailData = useEmailData();
 
   const { onSubmit, isLoading, ...dialogProps } = useOnTopUpSubmit(
-    isAccountPage,
     emailData?.confirmedEmail,
     emailData?.pendingEmail,
   );

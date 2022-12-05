@@ -104,7 +104,6 @@ export const useRenderForm = (
 };
 
 export const useOnTopUpSubmit = (
-  isAccountPage: boolean,
   confirmedEmail?: string,
   pendingEmail?: string,
 ) => {
@@ -130,17 +129,15 @@ export const useOnTopUpSubmit = (
     setShowEmailBanner(false);
   }, []);
 
-  const isPricingPage = !isAccountPage;
-
   const onSubmit = useCallback(
     (data: TopUpFormValues) => {
-      if (isPricingPage && (!confirmedEmail || pendingEmail)) {
+      if (!confirmedEmail || pendingEmail) {
         setShowEmailBanner(true);
       } else {
         onSuccess(data);
       }
     },
-    [confirmedEmail, onSuccess, pendingEmail, isPricingPage],
+    [confirmedEmail, onSuccess, pendingEmail],
   );
 
   return {
