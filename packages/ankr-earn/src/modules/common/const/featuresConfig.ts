@@ -62,4 +62,5 @@ export const featuresConfig = {
    * https://ankrnetwork.atlassian.net/browse/STAKAN-2365
    */
   suspendBanner: true,
+  isBnbServiceDisabled: true,
 };

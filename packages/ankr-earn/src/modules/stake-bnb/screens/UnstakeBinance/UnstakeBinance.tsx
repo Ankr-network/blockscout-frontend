@@ -7,6 +7,7 @@ import {
 import BigNumber from 'bignumber.js';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -111,10 +112,15 @@ export const UnstakeBinance = (): JSX.Element => {
           isApproved={isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
-          isDisabled={isApproveLoading || isUnstakeLoading}
+          isDisabled={
+            featuresConfig.isBnbServiceDisabled ||
+            isApproveLoading ||
+            isUnstakeLoading
+          }
           isLoading={isUnstakeLoading}
           isWithApprove={isWithApprove}
           renderFormFooter={onRenderFormFooter}
+          submitTooltip={t('stake-bnb.tooltips.suspend')}
           token={selectedToken}
           onSubmit={onUnstakeSubmit}
         />

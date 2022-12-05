@@ -96,5 +96,4 @@ export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.GNOSIS_SOKOL]: 'https://blockscout.com/poa/sokol',
 };
 
-export const TWITTER_ANKR_STATUS_LINK =
-  'https://twitter.com/ankr/status/1598503332477280256';
+export const TWITTER_ANKR_STATUS_LINK = 'https://twitter.com/ankr';
