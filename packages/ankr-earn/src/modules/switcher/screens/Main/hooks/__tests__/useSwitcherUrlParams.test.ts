@@ -1,5 +1,5 @@
-import { renderHook } from '@testing-library/react-hooks';
-import { useHistory } from 'react-router';
+import { act, renderHook } from '@testing-library/react-hooks';
+import { useHistory, useLocation } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
@@ -49,15 +49,15 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
     expect(result.current.onChangeTo).toBeDefined();
   });
 
-  test('should return initial data for binance chain', () => {
+  test('should return initial data for fantom chain', () => {
     (useConnectedData as jest.Mock).mockReturnValue({
-      chainId: EEthereumNetworkId.smartchain,
+      chainId: EEthereumNetworkId.fantom,
     });
 
     const { result } = renderHook(() => useSwitcherUrlParams());
 
-    expect(result.current.from).toBe(Token.aBNBb);
-    expect(result.current.to).toBe(Token.aBNBc);
+    expect(result.current.from).toBe(Token.aFTMb);
+    expect(result.current.to).toBe(Token.aFTMc);
     expect(result.current.onChangeFrom).toBeDefined();
     expect(result.current.onChangeTo).toBeDefined();
   });

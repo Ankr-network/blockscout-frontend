@@ -7,7 +7,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    maxWidth: 616,
     padding: theme.spacing(2.5, 3.75, 3.75),
 
     borderRadius: theme.spacing(3),
@@ -16,7 +15,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(2, 3, 3),
-      minWidth: 240,
     },
 
     [theme.breakpoints.down('sm')]: {

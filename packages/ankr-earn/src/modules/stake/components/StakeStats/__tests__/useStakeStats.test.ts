@@ -58,7 +58,7 @@ describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
 
     const { result } = renderHook(() => useStakeStats(defaultArgs));
 
-    expect(result.current.apy).toBe('0.0%');
+    expect(result.current.apy).toBe('N/A');
     expect(result.current.yearlyEarning).toBe('0');
     expect(result.current.yearlyEarningUSD).toBe(undefined);
     expect(result.current.totalStaked).toBe(undefined);

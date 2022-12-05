@@ -56,7 +56,7 @@ export function getRoutes(): JSX.Element {
     <Route path={RoutesConfig.root}>
       <Switch>
         <Route exact path={RoutesConfig.defi.path}>
-          <DefaultLayout>
+          <DefaultLayout bannerSize="xl">
             <DeFiAggregator routesConfig={RoutesConfig}>
               <Nav href={RoutesConfig.defi.path} />
             </DeFiAggregator>

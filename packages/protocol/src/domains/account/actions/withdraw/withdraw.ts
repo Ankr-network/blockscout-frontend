@@ -45,7 +45,7 @@ export const withdraw = createSmartAction<
 
           if (!amount) {
             throw new Error(
-              t('validation.min', {
+              t('validation.min-greater', {
                 value: 0,
               }),
             );

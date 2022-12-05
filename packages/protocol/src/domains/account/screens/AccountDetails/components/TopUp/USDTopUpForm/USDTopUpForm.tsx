@@ -1,16 +1,15 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Form } from 'react-final-form';
-import BigNumber from 'bignumber.js';
 
 import { useStyles } from './USDTopUpFormStyles';
 import { AmountInputField, TopUpFormProps } from './USDTopUpFormTypes';
-import { useRenderForm } from './USDTopUpFormUtils';
-import { DEFAULT_USD_VALUE } from '../../const';
+import { defaultAmountValue, useRenderForm } from './USDTopUpFormUtils';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
 
 export const USDTopUpForm = ({
   onSubmit,
   isLoading,
-  isDisabled,
+  shouldUseDefaultValue,
   hasRateBlock,
 }: TopUpFormProps) => {
   const classes = useStyles();
@@ -18,17 +17,18 @@ export const USDTopUpForm = ({
   const renderForm = useRenderForm(
     classes,
     isLoading,
-    isDisabled,
+    shouldUseDefaultValue,
     hasRateBlock,
   );
 
   const initialValues = useMemo(
     () => ({
-      [AmountInputField.amount]: isDisabled
-        ? new BigNumber(DEFAULT_USD_VALUE).toString(10)
+      [AmountInputField.amount]: shouldUseDefaultValue
+        ? defaultAmountValue
         : '',
+      [AmountInputField.id]: ONE_TIME_PAYMENT_ID,
     }),
-    [isDisabled],
+    [shouldUseDefaultValue],
   );
 
   return (

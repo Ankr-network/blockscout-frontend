@@ -13,8 +13,9 @@
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
     "duplicate-url-validation": "This endpoint has already been added",
     "number-only": "Must be a number",
-    "min": "Should be greater than {value}",
-    "max": "Should be less than {value}"
+    "min-greater": "Should be greater than {value}",
+    "max": "Should be less than {value}",
+    "min": "Should be at least {value}"
   },
   "meta": {
     "title": "Decentralized Infrastructure to Power Your dApp",
@@ -870,7 +871,7 @@
         "row-1-8": "Batch Size <em>eth_getLogs</em>",
         "row-1-9": "Advanced APIs",
         "row-1-10": "Customer Support",
-        "row-2-1": "500 requests/sec across all provided endpoints.",
+        "row-2-1": "1800 requests/min across all provided endpoints.",
         "row-2-8": "10 per batch",
         "row-2-9": "50 requests/min",
         "row-2-10": "Discord and Support Portal",
@@ -891,7 +892,7 @@
       "sales-mail": "mailto:sales@ankr.com",
       "what-is-included": "What's included",
       "public": {
-        "item-1": "500 requests/sec across all provided endpoints.",
+        "item-1": "1800 requests/min across all provided endpoints.",
         "item-2": "Archive data",
         "item-3": "Batch Requests",
         "item-4": "10 per batch for eth_getlogs",
@@ -1126,7 +1127,8 @@
         "continue-button": "Continue Top Up",
         "continue": "Continue",
         "ankr-credits-rate": "{ankrValue} ANKR ≈ {creditsValue, number, ::compact-short} Credits",
-        "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits"
+        "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits",
+        "usd-one-time": "One time"
       },
       "balance": {
         "title": "Balance",
