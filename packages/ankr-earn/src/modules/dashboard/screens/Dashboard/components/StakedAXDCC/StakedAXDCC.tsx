@@ -1,6 +1,9 @@
+import { Token } from 'modules/common/types/token';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
+import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useStakedAXDCC } from './useStakedAXDCC';
+import { useTokenInfoDialog } from './useTokenInfoDialog';
 
 export const StakedAXDCC = (): JSX.Element => {
   const {
@@ -13,7 +16,18 @@ export const StakedAXDCC = (): JSX.Element => {
     token,
     unstakeLink,
     usdAmount,
+    onAddStakingClick,
   } = useStakedAXDCC();
+
+  const {
+    description,
+    isOpenedInfo,
+    moreHref,
+    tokenAddress,
+    onAddToken,
+    onCloseInfo,
+    onOpenInfo,
+  } = useTokenInfoDialog();
 
   return (
     <>
@@ -28,8 +42,18 @@ export const StakedAXDCC = (): JSX.Element => {
         token={token}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
-        onAddStakingClick={undefined}
-        onTokenInfoClick={undefined}
+        onAddStakingClick={onAddStakingClick}
+        onTokenInfoClick={onOpenInfo}
+      />
+
+      <TokenInfoDialog
+        addTokenToWallet={onAddToken}
+        description={description}
+        moreHref={moreHref}
+        open={isOpenedInfo}
+        tokenAddress={tokenAddress}
+        tokenName={Token.aXDCc}
+        onClose={onCloseInfo}
       />
     </>
   );

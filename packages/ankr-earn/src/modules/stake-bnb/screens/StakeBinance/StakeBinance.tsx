@@ -1,4 +1,4 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { Box, ButtonBase } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
 import { useCallback } from 'react';

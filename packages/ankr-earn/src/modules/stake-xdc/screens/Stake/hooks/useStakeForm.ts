@@ -1,3 +1,8 @@
+import {
+  abortRequests,
+  resetRequests as resetReduxRequests,
+} from '@redux-requests/core';
+import { useQuery } from '@redux-requests/react';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import BigNumber from 'bignumber.js';
@@ -12,13 +17,17 @@ import { useLazyGetStakeDataQuery } from 'modules/stake-xdc/actions/getStakeData
 import { useLazyGetStakeGasFeeQuery } from 'modules/stake-xdc/actions/getStakeGasFee';
 import { useStakeMutation } from 'modules/stake-xdc/actions/stake';
 import { XDC_PROVIDER_ID } from 'modules/stake-xdc/const';
+import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseStakeFormData {
   aXDCcPrice: BigNumber;
+  amount: BigNumber;
+  faqItems: IFAQItem[];
   gasFee: BigNumber;
   getStakeDataError?: FetchBaseQueryError | SerializedError;
   isGasFeeLoading: boolean;
@@ -37,7 +46,11 @@ interface IUseStakeFormData {
 const TOKEN_IN = Token.XDC;
 const TOKEN_OUT = Token.aXDCc;
 
+const resetRequests = () => resetReduxRequests([getFAQ.toString()]);
+
 export const useStakeForm = (): IUseStakeFormData => {
+  const dispatch = useAppDispatch();
+
   const [amount, setAmount] = useState(ZERO);
 
   const [isError, setIsError] = useState(false);
@@ -58,6 +71,11 @@ export const useStakeForm = (): IUseStakeFormData => {
     useLazyGetStakeGasFeeQuery();
 
   const [stake, { isLoading: isStakeLoading }] = useStakeMutation();
+
+  const { data: faqItems } = useQuery<IFAQItem[]>({
+    defaultData: [],
+    type: getFAQ,
+  });
 
   const aXDCcBalance = stakeData?.aXDCcBalance ?? ZERO;
   const aXDCcRatio = stakeData?.aXDCcRatio ?? ZERO;
@@ -129,11 +147,22 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   useProviderEffect(() => {
+    dispatch(resetRequests());
+
+    dispatch(getFAQ(TOKEN_OUT));
+
     getStakeData();
-  }, []);
+
+    return () => {
+      dispatch(abortRequests());
+      dispatch(resetRequests());
+    };
+  }, [dispatch]);
 
   return {
     aXDCcPrice,
+    amount,
+    faqItems,
     gasFee: gasFee ?? ZERO,
     getStakeDataError: stakeDataError,
     isGasFeeLoading,

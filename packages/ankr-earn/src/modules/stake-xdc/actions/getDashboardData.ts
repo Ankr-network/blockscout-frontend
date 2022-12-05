@@ -9,22 +9,17 @@ import {
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
-import {
-  featuresConfig,
-  isLocal,
-  XDC_PROVIDER_BY_ENV,
-} from 'modules/common/const';
-
-import { XDC_PROVIDER_ID } from '../const';
+import { featuresConfig, XDC_PROVIDER_BY_ENV } from 'modules/common/const';
 
 type TGetDashboardData = IGetDashboardData | null;
 
 interface IGetDashboardData {
   aXDCcBalance: BigNumber;
   aXDCcRatio: BigNumber;
+  xdcBalance: BigNumber;
 }
 
-const { getAXDCCBalance, getAXDCCRatio } = XDC;
+const { getAXDCCBalance, getAXDCCRatio, getXDCBalance } = XDC;
 
 export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -50,10 +45,9 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
             };
           }
 
-          // Note: For development and resolving issues with CORS
-          const provider = isLocal
-            ? await providerManager.getProvider(XDC_PROVIDER_ID, walletId)
-            : await providerManager.getETHReadProvider(XDC_PROVIDER_BY_ENV);
+          const provider = await providerManager.getETHReadProvider(
+            XDC_PROVIDER_BY_ENV,
+          );
 
           if (!(provider instanceof Web3KeyReadProvider)) {
             return {
@@ -61,12 +55,16 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
             };
           }
 
-          const [aXDCcBalance, aXDCcRatio] = await Promise.all([
+          const [aXDCcBalance, aXDCcRatio, xdcBalance] = await Promise.all([
             getAXDCCBalance({
               address,
               provider,
             }),
             getAXDCCRatio({
+              provider,
+            }),
+            getXDCBalance({
+              address,
               provider,
             }),
           ]);
@@ -75,6 +73,7 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
             data: {
               aXDCcBalance,
               aXDCcRatio,
+              xdcBalance,
             },
           };
         },

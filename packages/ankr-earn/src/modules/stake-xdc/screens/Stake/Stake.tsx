@@ -1,9 +1,11 @@
 import { t, tHTML } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 
+import { Faq } from 'modules/common/components/Faq';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import TokenInfoLogo from 'modules/stake-xdc/assets/token-info-logo.png';
 import { XDC_STAKING_AMOUNT_STEP } from 'modules/stake-xdc/const';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -11,6 +13,7 @@ import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionN
 import { StakeDescriptionValue } from 'modules/stake/components/StakeDescriptionValue';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
+import { StakeStats } from 'modules/stake/components/StakeStats';
 import { Button } from 'uiKit/Button';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
@@ -23,6 +26,8 @@ export const Stake = (): JSX.Element => {
 
   const {
     aXDCcPrice,
+    amount,
+    faqItems,
     gasFee,
     getStakeDataError,
     isGasFeeLoading,
@@ -123,6 +128,13 @@ export const Stake = (): JSX.Element => {
             onChange={onFormChange}
             onSubmit={onFormSubmit}
           />
+
+          <StakeStats
+            amount={amount}
+            metricsServiceName={EMetricsServiceName.XDC}
+          />
+
+          <Faq data={faqItems} />
         </StakeContainer>
       )}
     </section>

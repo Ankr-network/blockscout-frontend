@@ -98,11 +98,13 @@
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
     "aavaxc": "ankrAVAX",
+    "axdcc": "aXDCc",
     "dot": "DOT",
     "ksm": "KSM",
     "wnd": "WND",
     "mgno": "mGNO",
     "sui": "SUI",
+    "xdc": "XDC",
     "asuic": "ankrSUI",
     "token-value": "{value} {token}",
     "~token-value": "~{value} {token}",
@@ -777,6 +779,7 @@
       "aWNDb": "aWNDb represents your staked WND and provides liquidity for your staked position.<br/><br/>aWNDb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aWNDb = 1 WND.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~7 days unbonding period.<br/><br/>While staking, you can also use aWNDb for trading and other DeFi opportunities.",
       "aMATICb": "aMATICb represents your staked MATIC and provides liquidity for your staked position.<br/><br/>aMATICb balance in your wallet grows daily to reflect the earned rewards.<br/><br/>Redemption ratio is always 1 aMATICb = 1 MATIC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards after the ~3–4 days unbonding period.<br/><br/>While staking, you can also use aMATICb for trading and other DeFi opportunities.",
       "aMATICc": "ankrMATIC represents your staked MATIC and provides liquidity for your staked position. <br/>All staking rewards are built into the token price, and ankrMATIC grows daily in value, but never in number. <br/><br/>Redemption ratio now is 1 ankrMATIC = {ratio} MATIC. <br/><br/>You can unstake it anytime and receive your stake and earned rewards. For MATIC staked on Ethereum, you’ll receive them after the ~{period} days unbonding period, while for MATIC staked on Polygon, you’ll receive them instantly. <br/><br/>While staking, you can also use ankrMATIC for trading and other DeFi opportunities.",
+      "aXDCc": "aXDCc represents your staked XDC and provides liquidity for your staked position. All staking rewards are built into the token price, and aXDCc grows daily in value, but never in number.<br/><br/>Redemption ratio now is 1 aXDCc = {value} XDC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards. Regular unstake takes {period}, while flash unstake is instant.<br/><br/>While staking, you can also use aXDCc for trading and other DeFi opportunities.",
       "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APR.",
       "MGNO": "megaGnosis (mGNO) is a metatoken for GNO, the native Gnosis token. The relation is similar to a wrapped token like WETH to ETH, except there are 32 mGNO in 1 GNO.<br/><br/>As Gnosis is built on Ethereum, staking rewards and unstaking mGNO will be available after the Shanghai update when Ethereum enables this functionality. Approximate date is ~Q3-Q4 2023."
     }

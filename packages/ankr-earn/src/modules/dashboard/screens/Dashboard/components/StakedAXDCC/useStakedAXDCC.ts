@@ -3,6 +3,8 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
+import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import {
   ACTION_CACHE_SEC,
   XDC_NETWORK_BY_ENV,
@@ -12,6 +14,7 @@ import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
+import { XDC_PROVIDER_ID } from 'modules/stake-xdc/const';
 import { RoutesConfig as XDCRoutes } from 'modules/stake-xdc/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -26,9 +29,14 @@ interface IUseStakedAXDCCData {
   token: Token;
   unstakeLink?: string;
   usdAmount?: BigNumber;
+  onAddStakingClick: () => void;
 }
 
+const TOKEN = Token.aXDCc;
+
 export const useStakedAXDCC = (): IUseStakedAXDCCData => {
+  const { address, walletName } = useConnectedData(XDC_PROVIDER_ID);
+
   const { data: dashboardData, isFetching: isDashboardDataLoading } =
     useGetDashboardDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
@@ -57,6 +65,14 @@ export const useStakedAXDCC = (): IUseStakedAXDCCData => {
     [amount, metrics, ratio],
   );
 
+  const onAddStakingClick = (): void =>
+    trackEnterStakingFlow({
+      accessPoint: 'add_stake',
+      tokenName: TOKEN,
+      walletPublicAddress: address,
+      walletType: walletName,
+    });
+
   return {
     amount,
     isLoading: isDashboardDataLoading,
@@ -64,8 +80,9 @@ export const useStakedAXDCC = (): IUseStakedAXDCCData => {
     nativeAmount,
     network,
     stakeLink: XDCRoutes.stake.generatePath(),
-    token: Token.aXDCc,
+    token: TOKEN,
     unstakeLink: XDCRoutes.unstake.generatePath(),
     usdAmount,
+    onAddStakingClick,
   };
 };

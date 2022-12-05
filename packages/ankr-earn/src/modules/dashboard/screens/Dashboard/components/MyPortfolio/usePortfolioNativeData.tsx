@@ -36,6 +36,8 @@ import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/
 import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
+import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
+import { RoutesConfig as StakeXDCRoutes } from 'modules/stake-xdc/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -153,8 +155,15 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getMGNOMaxApr,
   });
 
-  const nativeData = useMemo(
-    () => [
+  const { data: xdcData, isFetching: isXDCDataLoading } = getXDCDashboardData(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
+
+  const nativeData = useMemo(() => {
+    const data = [
       {
         name: Token.MATIC,
         amount: (ethMaticData?.maticBalance ?? ZERO).plus(
@@ -231,27 +240,39 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         service: EMetricsServiceName.WND,
         link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.WND),
       },
-    ],
-    [
-      metrics,
-      dotBalance,
-      ksmBalance,
-      wndBalance,
-      ankrBalanceData,
-      avaxData,
-      ftmData,
-      ethMaticData,
-      polygonMaticData,
-      bnbData,
-      ethData,
-      ethClaimableData,
-      dotClaimableBalance,
-      ksmClaimableBalance,
-      wndClaimableBalance,
-      mgnoBalanceData,
-      maxMgnoApr,
-    ],
-  );
+    ];
+
+    if (featuresConfig.xdcStaking) {
+      data.push({
+        name: Token.XDC,
+        amount: xdcData?.xdcBalance ?? ZERO,
+        apy: metrics?.[EMetricsServiceName.XDC]?.apy ?? ZERO,
+        service: EMetricsServiceName.XDC,
+        link: StakeXDCRoutes.stake.generatePath(),
+      });
+    }
+
+    return data;
+  }, [
+    metrics,
+    dotBalance,
+    ksmBalance,
+    wndBalance,
+    ankrBalanceData,
+    avaxData,
+    ftmData,
+    ethMaticData,
+    polygonMaticData,
+    bnbData,
+    ethData,
+    ethClaimableData,
+    dotClaimableBalance,
+    ksmClaimableBalance,
+    wndClaimableBalance,
+    mgnoBalanceData,
+    maxMgnoApr,
+    xdcData,
+  ]);
 
   const usdAmounts = nativeData.map(item => {
     if (item.service) {
@@ -344,7 +365,8 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       isWndClaimableBalanceLoading ||
       isAnkrPriceLoading ||
       isLoadingMgnoBalanceData ||
-      isMgnoPriceLoading,
+      isMgnoPriceLoading ||
+      isXDCDataLoading,
     totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
     totalYieldAmountUsd: totalYieldAmountUsd
