@@ -119,17 +119,15 @@ export const FeatureItem = ({
               />
             )}
 
-            {shouldRenderAPY && (
-              <>
-                <Typography className={classNames(classes.statLabel)}>
-                  {isDelegatedStaking ? t('features.apr') : t('features.apy')}
-                </Typography>
+            <Typography className={classNames(classes.statLabel)}>
+              {isDelegatedStaking ? t('features.apr') : t('features.apy')}
+            </Typography>
 
-                <Typography className={classNames(classes.statValue)}>
-                  {t('features.apy-value', { value: apy })}
-                </Typography>
-              </>
-            )}
+            <Typography className={classNames(classes.statValue)}>
+              {shouldRenderAPY
+                ? t('features.apy-value', { value: apy })
+                : t('common.n-a')}
+            </Typography>
           </Grid>
 
           <Grid item>

@@ -250,6 +250,25 @@ export interface IGetLinkForCardPaymentRequest {
   publicKey?: string;
 }
 
+export interface IGetLinkForRecurrentCardPaymentRequest {
+  currency: string;
+  product_price_id: string;
+  public_key?: string;
+}
+
 export interface IGetLinkForCardPaymentResponse {
   url: string;
+}
+
+export interface ProductPrice {
+  id: string;
+  amount: string;
+  currency: string;
+  interval: string;
+  intervalCount: string;
+  type: string;
+}
+
+export interface IGetSubscriptionPricesResponse {
+  productPrices: ProductPrice[];
 }

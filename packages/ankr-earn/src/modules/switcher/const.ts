@@ -4,10 +4,10 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
 import {
+  AVAX_NETWORK_BY_ENV,
   BSC_NETWORK_BY_ENV,
   ETH_NETWORK_BY_ENV,
   FTM_NETWORK_BY_ENV,
-  AVAX_NETWORK_BY_ENV,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -145,16 +145,17 @@ export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
   };
 
 export const DEFAULT_TOKENS_BY_NETWORK: Record<
-  AvailableSwitchNetwork,
+  // AvailableSwitchNetwork,
+  number,
   { from: AvailableSwitcherToken; to: AvailableSwitcherToken }
 > = {
   [EEthereumNetworkId.goerli]: { from: Token.aETHb, to: Token.aETHc },
   [EEthereumNetworkId.mainnet]: { from: Token.aETHb, to: Token.aETHc },
-  [EEthereumNetworkId.smartchain]: { from: Token.aBNBb, to: Token.aBNBc },
-  [EEthereumNetworkId.smartchainTestnet]: {
-    from: Token.aBNBb,
-    to: Token.aBNBc,
-  },
+  // [EEthereumNetworkId.smartchain]: { from: Token.aBNBb, to: Token.aBNBc },
+  // [EEthereumNetworkId.smartchainTestnet]: {
+  //   from: Token.aBNBb,
+  //   to: Token.aBNBc,
+  // },
   [EEthereumNetworkId.fantom]: { from: Token.aFTMb, to: Token.aFTMc },
   [EEthereumNetworkId.fantomTestnet]: {
     from: Token.aFTMb,
@@ -178,7 +179,7 @@ export const SWITCHER_TOKENS_MAP: Record<
 > = {
   [SwitcherUrlParams.FROM]: {
     [Token.aETHb]: Token.aETHb,
-    [Token.aBNBb]: Token.aBNBb,
+    // [Token.aBNBb]: Token.aBNBb,
     [Token.aMATICb]: Token.aMATICb,
     [Token.aFTMb]: Token.aFTMb,
     [Token.aAVAXb]: Token.aAVAXb,
@@ -186,7 +187,7 @@ export const SWITCHER_TOKENS_MAP: Record<
 
   [SwitcherUrlParams.TO]: {
     [Token.aETHc]: Token.aETHc,
-    [Token.aBNBc]: Token.aBNBc,
+    // [Token.aBNBc]: Token.aBNBc,
     [Token.aMATICc]: Token.aMATICc,
     [Token.aFTMc]: Token.aFTMc,
     [Token.aAVAXc]: Token.aAVAXc,
@@ -198,16 +199,17 @@ export type SwitcherFromKey = keyof typeof SWITCHER_TOKENS_MAP['from'];
 export type SwitcherToKey = keyof typeof SWITCHER_TOKENS_MAP['to'];
 
 export const SWITCHER_TOKENS_PAIR: Record<
-  AvailableSwitcherToken,
+  // AvailableSwitcherToken,
+  string,
   AvailableSwitcherToken
 > = {
   [Token.aETHb]: Token.aETHc,
-  [Token.aBNBb]: Token.aBNBc,
+  // [Token.aBNBb]: Token.aBNBc,
   [Token.aMATICb]: Token.aMATICc,
   [Token.aFTMb]: Token.aFTMc,
   [Token.aAVAXb]: Token.aAVAXc,
   [Token.aETHc]: Token.aETHb,
-  [Token.aBNBc]: Token.aBNBb,
+  // [Token.aBNBc]: Token.aBNBb,
   [Token.aMATICc]: Token.aMATICb,
   [Token.aFTMc]: Token.aFTMb,
   [Token.aAVAXc]: Token.aAVAXb,

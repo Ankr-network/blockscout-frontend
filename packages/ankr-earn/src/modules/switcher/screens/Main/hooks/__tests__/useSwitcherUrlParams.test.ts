@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useLocation, useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
@@ -56,24 +56,24 @@ describe('modules/switcher/screens/Main/hooks/useSwitcherUrlParams', () => {
 
   test('should return unique "from" and "to" in an opposite order', () => {
     (useLocation as jest.Mock).mockReturnValue({
-      search: '?from=aBNBc&to=aBNBc',
+      search: '?from=aFTMc&to=aFTMc',
     });
 
     const { result } = renderHook(() => useSwitcherUrlParams());
 
-    expect(result.current.from).toBe(Token.aBNBc);
-    expect(result.current.to).toBe(Token.aBNBb);
+    expect(result.current.from).toBe(Token.aFTMc);
+    expect(result.current.to).toBe(Token.aFTMb);
   });
 
-  test('should return initial data for binance chain', () => {
+  test('should return initial data for fantom chain', () => {
     (useConnectedData as jest.Mock).mockReturnValue({
-      chainId: EEthereumNetworkId.smartchain,
+      chainId: EEthereumNetworkId.fantom,
     });
 
     const { result } = renderHook(() => useSwitcherUrlParams());
 
-    expect(result.current.from).toBe(Token.aBNBb);
-    expect(result.current.to).toBe(Token.aBNBc);
+    expect(result.current.from).toBe(Token.aFTMb);
+    expect(result.current.to).toBe(Token.aFTMc);
     expect(result.current.onChangeFrom).toBeDefined();
     expect(result.current.onChangeTo).toBeDefined();
   });

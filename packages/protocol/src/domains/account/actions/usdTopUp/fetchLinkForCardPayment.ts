@@ -1,15 +1,20 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
+import { throwIfError } from '@ankr.com/common';
 
 import { MultiService } from 'modules/api/MultiService';
 import { fetchPublicKey } from '../fetchPublicKey';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
-import { throwIfError } from '@ankr.com/common';
+import { USD_CURRENCY } from 'domains/account/screens/AccountDetails/components/const';
+
+export const ONE_TIME_PAYMENT_ID = 'one_time';
+
+export type OneTimePaymentIdType = typeof ONE_TIME_PAYMENT_ID;
 
 export const fetchLinkForCardPayment = createSmartAction<RequestAction<string>>(
   'usdTopUp/fetchLinkForCardPayment',
-  (amount: string) => ({
+  (amount: string, id?: string | OneTimePaymentIdType) => ({
     request: {
       promise: (async () => null)(),
     },
@@ -33,6 +38,20 @@ export const fetchLinkForCardPayment = createSmartAction<RequestAction<string>>(
               );
 
               encryptionPublicKey = publicKey;
+            }
+
+            const isRecurrentPaymentId = id && id !== ONE_TIME_PAYMENT_ID;
+
+            if (isRecurrentPaymentId) {
+              const { url } = await service
+                .getAccountGateway()
+                .getLinkForRecurrentCardPayment({
+                  product_price_id: id,
+                  public_key: encryptionPublicKey,
+                  currency: USD_CURRENCY,
+                });
+
+              return url;
             }
 
             const { url } = await service

@@ -64,10 +64,14 @@ export const useStats = ({ amount }: IStatsProps): IUseStats => {
         .toFormat()
     : undefined;
 
+  const apyText = apy.isZero()
+    ? t('common.n-a')
+    : t('stake.stats.apy-value', {
+        value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      });
+
   return {
-    apyText: t('stake.stats.apy-value', {
-      value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-    }),
+    apyText,
     annualEarning: yearlyEarning.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
     annualEarningUSD: yearlyEarningUSD,
     totalStaked: getShortNumber(totalStaked),

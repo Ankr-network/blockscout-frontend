@@ -45,10 +45,14 @@ export const useStakeStats = ({
           .toFormat()
       : undefined;
 
+  const apyText = apy.isZero()
+    ? t('common.n-a')
+    : t('stake.stats.apy-value', {
+        value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
+      });
+
   return {
-    apy: t('stake.stats.apy-value', {
-      value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
-    }),
+    apy: apyText,
     yearlyEarning: yearlyEarning.toFormat(),
     yearlyEarningUSD,
     totalStaked: totalStaked?.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
