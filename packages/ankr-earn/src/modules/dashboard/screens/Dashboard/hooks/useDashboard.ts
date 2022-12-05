@@ -114,7 +114,9 @@ export const useDashboard = (): IUseDashboard => {
       dispatch(getSSVOnETHDashboardData());
     }
 
-    getXDCDashboardDataRefetch();
+    if (featuresConfig.xdcStaking) {
+      getXDCDashboardDataRefetch();
+    }
 
     setFirstLoad(false);
 
