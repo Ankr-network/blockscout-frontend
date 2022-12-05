@@ -1,5 +1,4 @@
 import { throwIfError } from '@ankr.com/common';
-import { RequestAction, RequestsStore } from '@redux-requests/core';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
@@ -7,15 +6,15 @@ import { connect } from 'modules/auth/common/actions/connect';
 
 export function createWalletConnectionGuard(provider: AvailableWriteProviders) {
   return function walletConnectionGuard(
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     request: any,
-    action: RequestAction,
-    store: RequestsStore,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    store: any,
   ): { promise: Promise<unknown> } {
     return {
       promise: (async () => {
         const { data } = throwIfError(
-          await store.dispatchRequest(connect(provider)),
+          await store.dispatch(connect.initiate({ providerId: provider })),
         );
 
         return request.promise(store, data);

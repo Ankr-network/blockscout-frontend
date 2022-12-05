@@ -1,3 +1,5 @@
+import { getUniqueId } from '@ankr.com/common';
+
 import { AvailableReadProviders } from '@ankr.com/provider';
 
 import { AVAX_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
@@ -17,3 +19,7 @@ export const AVAX_MAX_BLOCK_RANGE = 3_000;
 export const AVAX_MAX_HISTORY_RANGE = AVAX_MAX_BLOCK_RANGE * 250;
 
 export const AVAX_MAX_PARALLEL_REQ = 100;
+
+export const CacheTags = {
+  common: getUniqueId(),
+};

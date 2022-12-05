@@ -8,6 +8,7 @@ import { uid } from 'react-uid';
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { EHistorySynthTokens } from 'modules/stake/types';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
@@ -40,7 +41,7 @@ export interface IHistoryDialogProps {
 }
 
 const TOKEN_OPTIONS = Object.keys(EHistorySynthTokens).map(tokenItem => ({
-  label: tokenItem,
+  label: getTokenName(tokenItem),
   value: tokenItem,
 }));
 
@@ -73,47 +74,50 @@ export const NewHistoryDialog = ({
 
   const tableRows = useMemo(
     () =>
-      history[showType]?.map(({ date, link, hash, amount }, index) => (
-        <tr key={uid(index)} className={classes.tr}>
-          <td className={classes.td}>
-            {date
-              ? t('history-dialog.date-cell', {
-                  month: format(date, 'LLLL'),
-                  day: format(date, 'dd'),
-                  year: format(date, 'yyyy'),
-                })
-              : t('history-dialog.error-cell')}
-          </td>
+      history[showType]?.map(({ date, link, hash, amount }, index) => {
+        const tokenName = getTokenName(history[`${showType}Token`]);
 
-          <td className={classes.td}>
-            {link && hash ? (
-              <NavLink className={classes.txLink} href={link}>
-                {t('history-dialog.hash-cell', { hash: getShortTxHash(hash) })}
-              </NavLink>
-            ) : (
-              t('history-dialog.error-cell')
-            )}
-          </td>
+        return (
+          <tr key={uid(index)} className={classes.tr}>
+            <td className={classes.td}>
+              {date
+                ? t('history-dialog.date-cell', {
+                    month: format(date, 'LLLL'),
+                    day: format(date, 'dd'),
+                    year: format(date, 'yyyy'),
+                  })
+                : t('history-dialog.error-cell')}
+            </td>
 
-          <td className={classNames(classes.td, classes.amount)}>
-            {amount ? (
-              <Tooltip
-                arrow
-                title={`${amount.toFormat()} ${history[`${showType}Token`]}`}
-              >
-                <div>
-                  {t('history-dialog.amount-cell', {
-                    value: amount.decimalPlaces(DECIMAL_PLACES).toFormat(),
-                    token: history[`${showType}Token`],
+            <td className={classes.td}>
+              {link && hash ? (
+                <NavLink className={classes.txLink} href={link}>
+                  {t('history-dialog.hash-cell', {
+                    hash: getShortTxHash(hash),
                   })}
-                </div>
-              </Tooltip>
-            ) : (
-              t('history-dialog.error')
-            )}
-          </td>
-        </tr>
-      )),
+                </NavLink>
+              ) : (
+                t('history-dialog.error-cell')
+              )}
+            </td>
+
+            <td className={classNames(classes.td, classes.amount)}>
+              {amount ? (
+                <Tooltip arrow title={`${amount.toFormat()} ${tokenName}`}>
+                  <div>
+                    {t('history-dialog.amount-cell', {
+                      value: amount.decimalPlaces(DECIMAL_PLACES).toFormat(),
+                      token: tokenName,
+                    })}
+                  </div>
+                </Tooltip>
+              ) : (
+                t('history-dialog.error')
+              )}
+            </td>
+          </tr>
+        );
+      }),
     [classes, history, showType],
   );
 

@@ -937,5 +937,11 @@ export const mainTheme = createTheme({
         },
       },
     },
+    MuiRadio: {
+      root: {
+        border: 'none',
+        padding: 0,
+      },
+    },
   },
 } as ThemeOptions);

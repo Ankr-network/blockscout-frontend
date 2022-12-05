@@ -6,5 +6,6 @@ export * from './sdk/getStakeGasFee';
 export * from './sdk/getXDCPoolAmount';
 export * from './sdk/stake';
 export * from './sdk/txData';
+export * from './sdk/unstake';
 export * from './sdk/utils';
 export * from './types';

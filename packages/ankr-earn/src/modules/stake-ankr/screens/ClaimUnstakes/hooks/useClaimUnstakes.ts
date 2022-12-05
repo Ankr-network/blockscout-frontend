@@ -69,11 +69,15 @@ export const useClaimUnstakes = (): IUseClaimUnstakes => {
     if (isClaimRewards) {
       claimAllForValidator({ provider: queryProvider ?? '' })
         .unwrap()
-        .catch(() => sendClaimAllAnalytics());
+        .then(() => {
+          sendClaimAllAnalytics();
+        });
     } else {
       claimUnstakes({ provider: queryProvider ?? '' })
         .unwrap()
-        .catch(() => sendClaimUnstakeAnalytics());
+        .then(() => {
+          sendClaimUnstakeAnalytics();
+        });
     }
   };
 

@@ -1,13 +1,14 @@
 import { t } from '@ankr.com/common';
 
 import { ProgressStep } from 'modules/common/components/ProgressStep';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 
 import { useTransactionStepHook } from './useTransactionStepHook';
 
 export const TransactionStep = (): JSX.Element => {
   const {
     txHash,
-    symbol,
+    symbol: token,
     amount,
     destinationAddress,
     isLoading,
@@ -16,16 +17,18 @@ export const TransactionStep = (): JSX.Element => {
     handleAddTokenToWallet,
   } = useTransactionStepHook();
 
+  const tokenName = getTokenName(token);
+
   return (
     <ProgressStep
       amount={amount}
-      buttonTitle={t('switcher.buttons.addToWallet', { token: symbol })}
+      buttonTitle={t('switcher.buttons.addToWallet', { token: tokenName })}
       destinationAddress={destinationAddress}
       error={error}
-      hint={t('switcher.tooltips.pendingTx', { token: symbol })}
+      hint={t('switcher.tooltips.pendingTx', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}
-      symbol={symbol}
+      symbol={token}
       title={t('switcher.progressTitle')}
       txHash={txHash}
       onAddTokenToWallet={handleAddTokenToWallet}

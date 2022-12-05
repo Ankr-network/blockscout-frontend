@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
 import _capitalize from 'lodash/capitalize';
-import { cloneElement, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
@@ -20,7 +20,8 @@ import { Button } from 'uiKit/Button';
 import { OutLinkIcon } from 'uiKit/Icons/OutLinkIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { TOKEN_ASSET_ICON_MAP, TOKEN_NETWORK_ICON_MAP } from '../../utils';
+import { NetworkIcon } from '../NetworkIcon';
+import { TokenIcon } from '../TokenIcon';
 
 import { useTableStyles } from './useTableStyles';
 
@@ -130,10 +131,10 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                 <ScrollableTable.Cell noWrap>
                   <div className={styles.vertAligned}>
                     <span className={styles.vertAligned}>
-                      {TOKEN_ASSET_ICON_MAP[firstAsset] &&
-                        cloneElement(TOKEN_ASSET_ICON_MAP[firstAsset], {
-                          className: styles.tokenIcon,
-                        })}
+                      <TokenIcon
+                        className={styles.tokenIcon}
+                        name={firstAsset}
+                      />
 
                       {secondAsset && (
                         <span
@@ -142,10 +143,10 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                             styles.secondAssetIcon,
                           )}
                         >
-                          {TOKEN_ASSET_ICON_MAP[secondAsset] &&
-                            cloneElement(TOKEN_ASSET_ICON_MAP[secondAsset], {
-                              className: styles.tokenIcon,
-                            })}
+                          <TokenIcon
+                            className={styles.tokenIcon}
+                            name={secondAsset}
+                          />
                         </span>
                       )}
                     </span>
@@ -158,7 +159,7 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                   <div className={styles.vertAligned}>
                     <Tooltip arrow title={networkText}>
                       <span className={styles.vertAligned}>
-                        {TOKEN_NETWORK_ICON_MAP[item.network]}
+                        <NetworkIcon name={item.network} />
                       </span>
                     </Tooltip>
                   </div>

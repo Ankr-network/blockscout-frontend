@@ -14,7 +14,6 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
 import { approveMATICStake } from 'modules/stake-matic/eth/actions/approveMATICStake';
 import {
@@ -29,8 +28,6 @@ import {
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 import { useAppDispatch } from 'store/useAppDispatch';
-
-import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
   aMATICcRatio: BigNumber;
@@ -52,7 +49,6 @@ interface IUseStakeFormData {
   totalAmount: BigNumber;
   handleFormChange: (values: IStakeFormPayload, isInvalid: boolean) => void;
   handleSubmit: (values: IStakeSubmitPayload) => void;
-  onTokenSelect: (token: TMaticSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
@@ -64,8 +60,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   );
 
   const { loading: isStakeLoading } = useMutation({ type: stake });
-
-  const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approveMATICStake,
@@ -125,7 +119,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       dispatch(
         getStakeGasFee({
           amount: readyAmount,
-          token: selectedToken,
+          token: Token.aMATICc,
         }),
       );
     }
@@ -137,26 +131,17 @@ export const useStakeForm = (): IUseStakeFormData => {
     }
 
     return calcTotalAmount({
-      selectedToken,
+      selectedToken: Token.aMATICc,
       amount: new BigNumber(amount),
       balance: fetchStatsData?.maticBalance ?? ZERO,
       aMATICcRatio,
     });
-  }, [
-    aMATICcRatio,
-    amount,
-    fetchStatsData?.maticBalance,
-    isError,
-    selectedToken,
-  ]);
+  }, [aMATICcRatio, amount, fetchStatsData?.maticBalance, isError]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
     const polygonOnEthereumSDK = await PolygonOnEthereumSDK.getInstance();
-    const synthBalance =
-      selectedToken === Token.aMATICb
-        ? await polygonOnEthereumSDK.getABBalance()
-        : await polygonOnEthereumSDK.getACBalance();
+    const synthBalance = await polygonOnEthereumSDK.getACBalance();
 
     trackStake({
       address,
@@ -164,7 +149,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       amount: currentAmount,
       willGetAmount: currentAmount,
       tokenIn: Token.MATIC,
-      tokenOut: selectedToken,
+      tokenOut: Token.aMATICc,
       prevStakedAmount: fetchStatsData?.maticBalance ?? ZERO,
       synthBalance,
     });
@@ -177,7 +162,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       dispatchRequest(
         approveMATICStake({
           amount: val,
-          token: selectedToken,
+          token: Token.aMATICc,
         }),
       );
 
@@ -187,7 +172,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     dispatchRequest(
       stake({
         amount: val,
-        token: selectedToken,
+        token: Token.aMATICc,
       }),
     ).then(({ error }) => {
       if (!error) {
@@ -196,21 +181,6 @@ export const useStakeForm = (): IUseStakeFormData => {
         sendAnalytics();
       }
     });
-  };
-
-  const onTokenSelect = (token: TMaticSyntToken) => () => {
-    handleTokenSelect(token);
-
-    const isUpdateGasFee = !totalAmount.isZero() && !isError;
-
-    if (isUpdateGasFee) {
-      dispatch(
-        getStakeGasFee({
-          amount,
-          token,
-        }),
-      );
-    }
   };
 
   return {
@@ -229,10 +199,9 @@ export const useStakeForm = (): IUseStakeFormData => {
     isShowGasFee,
     isStakeLoading,
     tokenIn: Token.MATIC,
-    tokenOut: selectedToken,
+    tokenOut: Token.aMATICc,
     totalAmount,
     handleFormChange,
     handleSubmit,
-    onTokenSelect,
   };
 };

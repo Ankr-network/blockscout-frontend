@@ -21,6 +21,8 @@ export const getWalletName = (id: EWalletId): string => {
       return 'WalletConnect';
     case EWalletId.coin98:
       return 'Coin98 Wallet';
+    case EWalletId.clover:
+      return 'CLV Wallet';
     case EWalletId.injected:
       return 'MetaMask';
     default:

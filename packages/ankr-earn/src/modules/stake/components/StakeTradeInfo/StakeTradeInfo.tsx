@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import { uid } from 'react-uid';
 
 import { DEFAULT_ROUNDING } from 'modules/common/const';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { nativeOpenOceanTokenMap } from 'modules/stake/const';
 import { OpenOceanIcon } from 'uiKit/Icons/OpenOceanIcon';
 import { NavLink } from 'uiKit/NavLink';
@@ -40,13 +41,13 @@ export const StakeTradeInfo = (): JSX.Element | null => {
           {data.length === 2
             ? tHTML('stake.trade-info.description-two-tokens', {
                 valueOne: getFormattedVal(data[0].discountPct),
-                tokenOne: data[0].token,
+                tokenOne: getTokenName(data[0].token as unknown as string),
                 valueTwo: getFormattedVal(data[1].discountPct),
-                tokenTwo: data[1].token,
+                tokenTwo: getTokenName(data[1].token as unknown as string),
               })
             : tHTML('stake.trade-info.description-one-token', {
                 value: getFormattedVal(data[0].discountPct),
-                token: data[0].token,
+                token: getTokenName(data[0].token as unknown as string),
               })}
         </Box>
       </Box>
@@ -69,7 +70,7 @@ export const StakeTradeInfo = (): JSX.Element | null => {
               )}
             >
               {t('stake.stake', {
-                token: item.token,
+                token: getTokenName(item.token as unknown as string),
               })}
             </NavLink>
           ),

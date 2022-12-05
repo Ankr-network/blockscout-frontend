@@ -14,14 +14,13 @@ import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
-  DEFAULT_FIXED,
   DUNE_ANALYTICS_LINK,
   featuresConfig,
+  ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
-import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { getStakeGasFee } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -36,18 +35,15 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { FieldsNames, StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { TokenVariant } from 'modules/stake/components/TokenVariant';
-import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
-import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
-import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { fetchStats } from '../../actions/fetchStats';
+import { StakeTokenInfo } from '../../../stake/components/StakeTokenInfo/StakeTokenInfo';
+import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -60,7 +56,6 @@ export const StakeBinance = (): JSX.Element => {
   const { onErroMessageClick, hasError } = useErrorMessage();
 
   const {
-    aBNBcRatio,
     address,
     amount,
     bnbBalance,
@@ -81,7 +76,6 @@ export const StakeBinance = (): JSX.Element => {
     handleFormChange,
     handleHaveCodeClick,
     handleSubmit,
-    onTokenSelect,
   } = useStakeForm();
 
   const renderFooter = useCallback(
@@ -100,29 +94,11 @@ export const StakeBinance = (): JSX.Element => {
   const onRenderStats = (): JSX.Element => {
     return (
       <>
-        <TokenVariantList my={5}>
-          <TokenVariant
-            description={tHTML('stake-bnb.abnbb-descr')}
-            iconSlot={<ABNBBIcon />}
-            isActive={tokenOut === Token.aBNBb}
-            isDisabled={isStakeLoading}
-            title={t('unit.abnbb')}
-            onClick={onTokenSelect(Token.aBNBb)}
-          />
-
-          <TokenVariant
-            description={tHTML('stake-bnb.abnbc-descr', {
-              rate: isFetchStatsLoading
-                ? '...'
-                : aBNBcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-            })}
-            iconSlot={<ABNBCIcon />}
-            isActive={tokenOut === Token.aBNBc}
-            isDisabled={isStakeLoading}
-            title={t('unit.abnbc')}
-            onClick={onTokenSelect(Token.aBNBc)}
-          />
-        </TokenVariantList>
+        <StakeTokenInfo
+          nativeAmount={ONE.dividedBy(certificateRatio).round().toString()}
+          nativeToken={Token.BNB}
+          token={t('unit.abnbc')}
+        />
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>
@@ -152,7 +128,7 @@ export const StakeBinance = (): JSX.Element => {
           <StakeDescriptionValue>
             <StakeDescriptionAmount
               isLoading={isStakeGasLoading}
-              symbol={tokenOut}
+              symbol={getTokenName(tokenOut)}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
           </StakeDescriptionValue>
@@ -163,13 +139,11 @@ export const StakeBinance = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatch(getIsStakerExists(address));
-    dispatch(fetchPendingValues());
-    dispatch(fetchStats());
     dispatch(getFAQ(Token.BNB));
     dispatch(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString()]));
     };
   }, [address, dispatch]);
 
@@ -190,6 +164,12 @@ export const StakeBinance = (): JSX.Element => {
   }, [certificateRatio, dispatch]);
 
   const isDisabled = isStakeLoading || isFetchStatsLoading;
+
+  const noticeText = useBTokenNotice({
+    bToken: Token.aBNBb,
+    cToken: Token.aBNBc,
+    nativeToken: Token.BNB,
+  });
 
   return (
     <section className={classes.root}>
@@ -225,6 +205,7 @@ export const StakeBinance = (): JSX.Element => {
           maxAmount={bnbBalance}
           maxAmountDecimals={BNB_STAKING_MAX_DECIMALS_LEN}
           minAmount={minimumStake}
+          noticeSlot={noticeText}
           partnerCodeSlot={
             !isReferralUserExists && (
               <>

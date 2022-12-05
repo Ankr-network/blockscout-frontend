@@ -4,6 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { ITokenInfo } from '@ankr.com/provider';
 
 import { ETH_DECIMALS, SupportedChainIDS } from 'modules/common/const';
+import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 
 import { BridgeSDK } from '../api/BridgeSDK';
 import { AvailableBridgeTokens } from '../types';
@@ -31,7 +32,7 @@ export const watchAsset = createSmartAction<RequestAction, [IWatchAssetArgs]>(
 
         const tokenInfo: ITokenInfo = {
           address: getTokenAddr(token, chainId),
-          symbol: token,
+          symbol: getTokenSymbol(token),
           decimals: ETH_DECIMALS,
           chainId,
         };

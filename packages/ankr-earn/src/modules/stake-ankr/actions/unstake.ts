@@ -13,9 +13,9 @@ interface IUnstakeArgs {
   provider: string;
 }
 
-export const { useUnstakeMutation } = web3Api.injectEndpoints({
+export const { useUnstakeANKRMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
-    unstake: build.mutation<TxHash, IUnstakeArgs>({
+    unstakeANKR: build.mutation<TxHash, IUnstakeArgs>({
       queryFn: queryFnNotifyWrapper<IUnstakeArgs, never, TxHash>(
         async ({ amount, provider }) => {
           const sdk = await AnkrStakingSDK.getInstance();

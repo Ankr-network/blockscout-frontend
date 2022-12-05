@@ -12,6 +12,7 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -31,6 +32,8 @@ import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
+
+import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
 
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStyles } from './useStakeStyles';
@@ -125,13 +128,19 @@ export const Stake = (): JSX.Element => {
 
         <StakeDescriptionValue>
           <StakeDescriptionAmount
-            symbol={tokenOut}
+            symbol={getTokenName(tokenOut)}
             value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
           />
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
     </>
   );
+
+  const noticeText = useBTokenNotice({
+    bToken: Token.aMATICb,
+    cToken: Token.aMATICc,
+    nativeToken: Token.MATIC,
+  });
 
   if (isGetStatsLoading) {
     return (
@@ -173,6 +182,7 @@ export const Stake = (): JSX.Element => {
             loading={isStakeLoading}
             maxAmount={balance}
             networkTitleSlot={<NetworkTitle />}
+            noticeSlot={noticeText}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}

@@ -19,10 +19,13 @@ import { useStakedTxHistoryETH } from '../../hooks/liquid-tokens/ETH/useStakedTx
 
 import { useStakedAETHCData } from './useStakedAETHCData';
 
+const token = Token.aETHc;
+const nativeToken = Token.ETH;
+
 export const StakedAETHC = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.ETH });
+  const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
   const {
     isOpened: isOpenedHistory,
     onOpen: onOpenHistory,
@@ -58,6 +61,8 @@ export const StakedAETHC = (): JSX.Element => {
     handleLoadTxHistory,
   } = useStakedTxHistoryETH();
 
+  const tokenName = t('unit.aethc');
+
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
     handleLoadTxHistory();
@@ -67,7 +72,7 @@ export const StakedAETHC = (): JSX.Element => {
     trackClickTrade({
       walletType: walletName,
       walletPublicAddress: address,
-      stakeToken: Token.aETHc,
+      stakeToken: token,
       stakedBalance: amount?.toFixed(),
     });
   };
@@ -77,14 +82,14 @@ export const StakedAETHC = (): JSX.Element => {
       walletType: walletName,
       walletPublicAddress: address,
       accessPoint: 'add_stake',
-      tokenName: Token.aETHc,
+      tokenName: token,
     });
   };
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
       isLoading={isHistoryLoading}
-      token={Token.aETHc}
+      token={tokenName}
       tooltip={
         <PendingTable
           data={pendingUnstakeHistory}
@@ -107,7 +112,7 @@ export const StakedAETHC = (): JSX.Element => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
-        token={Token.aETHc}
+        token={token}
         tradeLink={tradeLink}
         unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
         usdAmount={usdAmount}
@@ -120,7 +125,7 @@ export const StakedAETHC = (): JSX.Element => {
       <NewHistoryDialog
         network={ETH_NETWORK_BY_ENV}
         open={isOpenedHistory}
-        token={Token.aETHc}
+        token={token}
         onClose={onCloseHistory}
       />
 
@@ -129,10 +134,10 @@ export const StakedAETHC = (): JSX.Element => {
         description={tHTML('dashboard.token-info.aETHc', {
           ratio: (ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
         })}
-        moreHref={getStakingOverviewUrl(Token.ETH)}
+        moreHref={getStakingOverviewUrl(nativeToken)}
         open={isOpenedInfo}
         tokenAddress={contractConfig.aethContract}
-        tokenName={Token.aETHc}
+        tokenName={tokenName}
         onClose={onCloseInfo}
       />
     </>

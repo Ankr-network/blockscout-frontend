@@ -19,6 +19,9 @@ export const getIsCoin98 = (walletName?: string): boolean => {
 export const getIsTrustWallet = (walletName?: string): boolean => {
   return getWalletName(EWalletId.trust) === walletName;
 };
+export const getIsCloverWallet = (walletName?: string): boolean => {
+  return getWalletName(EWalletId.clover) === walletName;
+};
 
 export const getIsInjectedWallet = (walletName?: string): boolean => {
   return (
@@ -26,6 +29,7 @@ export const getIsInjectedWallet = (walletName?: string): boolean => {
     getIsCoinbase(walletName) ||
     getIsCoin98(walletName) ||
     getIsTrustWallet(walletName) ||
+    getIsCloverWallet(walletName) ||
     getIsOKX(walletName)
   );
 };

@@ -27,9 +27,9 @@ export const RoutesConfig = createRouteConfig(
   {
     stake: {
       path: ROOT,
-      generatePath: (token?: TMaticSyntToken) => {
-        return token
-          ? generatePath(STAKE_MATIC_PATH, { token })
+      generatePath: (isFromBond?: boolean) => {
+        return isFromBond
+          ? generatePath(STAKE_MATIC_PATH, { from: 'bond' })
           : generatePath(ROOT);
       },
       useParams: () => ({

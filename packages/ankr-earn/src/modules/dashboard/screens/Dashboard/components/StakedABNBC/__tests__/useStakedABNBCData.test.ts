@@ -7,6 +7,9 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
 import { Token } from 'modules/common/types/token';
+import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 
 import { useStakedABNBCData } from '../useStakedABNBCData';
 
@@ -24,23 +27,23 @@ jest.mock('modules/stake-bnb/Routes', () => ({
 }));
 
 jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
-  addBNBTokenToWallet: jest.fn(),
+  useAddBNBTokenToWalletMutation: jest.fn(),
 }));
 
 jest.mock('modules/stake-bnb/actions/fetchPendingValues', () => ({
-  fetchPendingValues: jest.fn(),
+  useGetBNBPendingValuesQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
-  fetchStats: jest.fn(),
+  useGetBNBStatsQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-bnb/actions/stake', () => ({
-  stake: jest.fn(),
+  useStakeBNBMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 jest.mock('modules/stake-bnb/actions/unstake', () => ({
-  unstake: jest.fn(),
+  useUnstakeBNBMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 jest.mock('modules/stake/actions/getMetrics', () => ({
@@ -60,7 +63,19 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC/useStakedAB
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
 
+    (useGetBNBPendingValuesQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
+
+    (useAddBNBTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
+
+    (useGetBNBStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: { aBNBcBalance: new BigNumber(1), aBNBcRatio: new BigNumber(0.5) },
+    });
 
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
   });
@@ -96,8 +111,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC/useStakedAB
   });
 
   test('should handle add token to metamask', () => {
-    const mockDispatch = jest.fn();
-    (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
+    const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
 
     const { result } = renderHook(() => useStakedABNBCData());
 
@@ -105,6 +119,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC/useStakedAB
       result.current.onAddTokenToWallet();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(addBNBTokenToWallet).toBeCalledTimes(1);
   });
 });

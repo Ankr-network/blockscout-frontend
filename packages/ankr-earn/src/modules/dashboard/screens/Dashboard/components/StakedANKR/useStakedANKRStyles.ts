@@ -12,7 +12,7 @@ export const useStakedANKRStyles = makeStyles(theme => ({
     display: 'flex',
     fontSize: 16,
     height: 44,
-    width: 104,
+    width: 130,
     marginLeft: 'auto',
 
     [theme.breakpoints.down('md')]: {

@@ -166,7 +166,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'XDC',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc.xinfin.network/'],
+    rpcUrls: ['https://erpc.xinfin.network/'],
     blockExplorerUrls: ['https://explorer.xinfin.network/'],
   },
   [EEthereumNetworkId.xdcTestnet]: {
@@ -177,7 +177,7 @@ export const RPCConfig: Record<number, IRPCConfig> = {
       symbol: 'TXDC',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc.apothem.network/'],
+    rpcUrls: ['https://erpc.apothem.network/'],
     blockExplorerUrls: ['https://explorer.apothem.network/'],
   },
 };

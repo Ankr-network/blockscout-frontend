@@ -1,3 +1,5 @@
+import { getUniqueId } from '@ankr.com/common';
+
 import { AvailableReadProviders } from '@ankr.com/provider';
 
 import { BSC_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
@@ -28,3 +30,7 @@ export const AVAILABLE_BNB_SYNT_TOKENS = <const>[
   Token.aETH,
   Token.aETHc,
 ];
+
+export const CacheTags = {
+  common: getUniqueId(),
+};

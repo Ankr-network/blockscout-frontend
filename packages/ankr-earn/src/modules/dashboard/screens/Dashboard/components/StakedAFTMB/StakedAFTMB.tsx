@@ -47,7 +47,7 @@ export const StakedAFTMB = (): JSX.Element | null => {
     network,
     pendingUnstakes,
     stakeLink,
-    tradeLink,
+    switchLink,
     unstakeLink,
     usdAmount,
     walletName,
@@ -104,8 +104,8 @@ export const StakedAFTMB = (): JSX.Element | null => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
+        switchLink={switchLink}
         token={Token.aFTMb}
-        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}

@@ -6,7 +6,7 @@ import { number, object } from 'yup';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
 import { IFeeAndAmount, IFeeAndTotal } from 'modules/switcher/types';
@@ -65,6 +65,8 @@ export const useSwitcherForm = ({
   const { loading: isApproveLoading } = useMutation({ type: approve });
   const { loading: isSwapLoading } = useMutation({ type: swapAssets });
 
+  const [switchNetwork] = useSwitchNetworkMutation();
+
   const [txHash, setTxHash] = useState('');
   const [txError, setTxError] = useState('');
 
@@ -96,13 +98,11 @@ export const useSwitcherForm = ({
   );
 
   const handleSwitchNetwork = useCallback(() => {
-    dispatchRequest(
-      switchNetwork({
-        providerId: AvailableWriteProviders.ethCompatible,
-        chainId: CHAIN_ID_BY_TOKEN[from] as number,
-      }),
-    );
-  }, [from, dispatchRequest]);
+    switchNetwork({
+      providerId: AvailableWriteProviders.ethCompatible,
+      chainId: CHAIN_ID_BY_TOKEN[from] as number,
+    });
+  }, [from, switchNetwork]);
 
   const handleSwap = useCallback(
     async amount => {

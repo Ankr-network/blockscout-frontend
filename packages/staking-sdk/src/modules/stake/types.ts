@@ -1,9 +1,10 @@
+import BigNumber from 'bignumber.js';
+import { Contract, EventData, Filter } from 'web3-eth-contract';
+
 import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import { Contract, EventData, Filter } from 'web3-eth-contract';
 
 /**
  * Internal raw data for history events
@@ -69,6 +70,13 @@ export interface ITxEventsHistoryGroupItem {
  * Stake transaction data
  */
 export interface IStakeData {
+  txHash: string;
+}
+
+/**
+ * Unstake transaction data
+ */
+export interface IUnstakeData {
   txHash: string;
 }
 

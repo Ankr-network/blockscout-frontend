@@ -62,6 +62,7 @@ export enum EWalletId {
   walletconnect = 'walletconnect',
   coinbase = 'custom-coinbase',
   okxwallet = 'custom-okxwallet',
+  clover = 'custom-clover',
 }
 
 export interface IProvider {

@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
@@ -7,27 +6,28 @@ import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedBNBTxHistory } from '../useStakedBNBTxHistory';
-
-jest.mock('@redux-requests/react', () => ({
-  useQuery: jest.fn(),
-}));
 
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
 jest.mock('modules/stake-bnb/actions/fetchTotalHistory', () => ({
-  fetchTotalHistory: jest.fn(),
+  useGetBNBTotalHistoryQuery: jest.fn(),
+}));
+
+jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
+  useProviderEffect: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/hooks/useTxHistory', () => {
   const NOW = new Date();
 
   const defaultData = {
-    loading: false,
+    isFetching: false,
     data: {
       completedBond: [
         {
@@ -52,10 +52,11 @@ describe('modules/dashboard/screens/Dashboard/hooks/useTxHistory', () => {
         },
       ],
     },
+    refetch: jest.fn(),
   };
 
   beforeEach(() => {
-    (useQuery as jest.Mock).mockReturnValue(defaultData);
+    (useGetBNBTotalHistoryQuery as jest.Mock).mockReturnValue(defaultData);
 
     (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
   });
@@ -101,8 +102,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/useTxHistory', () => {
   });
 
   test('should handle load history data', () => {
-    const mockDispatch = jest.fn();
-    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    const { refetch } = useGetBNBTotalHistoryQuery();
 
     const { result } = renderHook(() => useStakedBNBTxHistory());
 
@@ -110,11 +110,14 @@ describe('modules/dashboard/screens/Dashboard/hooks/useTxHistory', () => {
       result.current.handleLoadTxHistory();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(refetch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {
-    (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
+    (useGetBNBTotalHistoryQuery as jest.Mock).mockReturnValue({
+      data: null,
+      isFetching: true,
+    });
 
     const { result } = renderHook(() => useStakedBNBTxHistory());
 

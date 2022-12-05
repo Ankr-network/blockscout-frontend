@@ -1,11 +1,10 @@
 import { t, tHTML } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
 import React from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { disconnect } from 'modules/auth/common/actions/disconnect';
+import { useDisconnectMutation } from 'modules/auth/common/actions/disconnect';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { Button } from 'uiKit/Button';
 import { MGNOIcon } from 'uiKit/Icons/MGNOIcon';
@@ -16,12 +15,11 @@ const INSTALL_METAMASK_URL = 'https://metamask.io/download/';
 
 export const UnsupportedBanner = (): JSX.Element => {
   const classes = useUnsupportedBannerStyles();
-  const dispatchRequest = useDispatchRequest();
-
+  const [disconnect] = useDisconnectMutation();
   const { handleOpen } = useDialog(EKnownDialogs.connect);
 
   const handleBtnClick = async () => {
-    await dispatchRequest(disconnect(AvailableWriteProviders.ethCompatible));
+    await disconnect(AvailableWriteProviders.ethCompatible);
     handleOpen();
   };
 

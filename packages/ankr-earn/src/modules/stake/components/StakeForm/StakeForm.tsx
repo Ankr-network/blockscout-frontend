@@ -4,10 +4,13 @@ import BigNumber from 'bignumber.js';
 import { ReactNode, ReactText, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
+import { Notice } from 'ui';
+
 import { AmountInput } from 'modules/common/components/AmountField';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { convertAmountToBN } from 'modules/common/utils/forms/convertAmountToBN';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { calcMaxStakeAmount } from 'modules/stake/utils/calcMaxStakeAmount';
 import { Button } from 'uiKit/Button';
 import { OnChange } from 'uiKit/OnChange';
@@ -55,6 +58,7 @@ export interface IStakeFormComponentProps {
   isMaxBtnShowed?: boolean;
   maxAmountDecimals?: number;
   networkTitleSlot?: JSX.Element;
+  noticeSlot?: string;
   feeSlot?: ReactNode;
   stakingAmountStep?: number;
   labelTooltip?: ReactText | JSX.Element;
@@ -94,6 +98,7 @@ export const StakeForm = ({
   onSubmit,
   onChange,
   onCodeChange,
+  noticeSlot,
 }: IStakeFormComponentProps): JSX.Element => {
   const classes = useStakeFormStyles();
   const withFee = !!feeSlot;
@@ -169,6 +174,12 @@ export const StakeForm = ({
           <div className={classes.networkTitle}>{networkTitleSlot}</div>
         )}
 
+        {noticeSlot && (
+          <Box mb={3}>
+            <Notice>{noticeSlot}</Notice>
+          </Box>
+        )}
+
         <AmountInput
           balance={balance}
           balanceLabel={balanceLabel}
@@ -213,7 +224,7 @@ export const StakeForm = ({
               type="submit"
             >
               {t('stake.stake', {
-                token: tokenOut,
+                token: getTokenName(tokenOut),
               })}
             </Button>
           )}

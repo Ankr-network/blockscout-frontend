@@ -13,4 +13,6 @@ export enum SupportedChainIDS {
   POLYGON_MUMBAI_TESTNET = EEthereumNetworkId.mumbai,
   GNOSIS = EEthereumNetworkId.gnosis,
   GNOSIS_SOKOL = EEthereumNetworkId.sokol,
+  XDC = EEthereumNetworkId.xdc,
+  XDC_TESTNET = EEthereumNetworkId.xdcTestnet,
 }
