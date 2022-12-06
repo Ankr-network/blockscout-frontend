@@ -78,18 +78,6 @@ export class PAYGReadContractManager {
     return this.getLatestUserEventLogs('FundsLocked', user);
   }
 
-  public async getLatestProviderRequestEvents(
-    user: Web3Address,
-  ): Promise<EventData[]> {
-    const events = await this.getLatestUserEventLogs('ProviderRequest', user);
-
-    const providerRequestEvents = events
-      .filter(event => event.returnValues.sender === user)
-      .sort((a, b) => a.blockNumber - b.blockNumber);
-
-    return providerRequestEvents;
-  }
-
   public async getLatestAllowanceEvents(
     user: Web3Address,
   ): Promise<EventData[]> {

@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useWithdrawDisabledStyles = makeStyles<Theme>(theme => ({
   root: {
     minHeight: '100%',
     display: 'flex',

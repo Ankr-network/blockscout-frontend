@@ -5,3 +5,5 @@ export enum TopUpStep {
   waitTransactionConfirming,
   login,
 }
+
+export const ETH_BLOCK_TIME = 10_000;

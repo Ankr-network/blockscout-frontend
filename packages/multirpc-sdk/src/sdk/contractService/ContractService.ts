@@ -58,17 +58,6 @@ export class ContractService extends ContractReadService {
     return this.PAYGContractManager.withdrawAnkr(new BigNumber(amount));
   }
 
-  async getLastProviderRequestEvent(
-    user: Web3Address,
-  ): Promise<EventData | undefined> {
-    const events =
-      await this.PAYGContractManager.getLatestProviderRequestEvents(user);
-
-    if (!events?.length) return undefined;
-
-    return events[events.length - 1];
-  }
-
   async getLatestAllowanceEvent(
     user: Web3Address,
   ): Promise<EventData | undefined> {

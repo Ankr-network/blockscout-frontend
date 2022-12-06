@@ -26,7 +26,7 @@ export const AccountRoutesConfig = createRouteConfig(
     withdraw: {
       path: PATH_WITHDRAW,
       generatePath: () => PATH_WITHDRAW,
-      breadcrumbs: 'account.withdraw.breadcrumbs',
+      breadcrumbs: 'withdraw.breadcrumbs',
     },
     cardPaymentSuccess: {
       path: PATH_CARDPAYMENT_SUCCESS,

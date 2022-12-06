@@ -1218,10 +1218,6 @@
       "breadcrumbs": "Top Up",
       "title": "Top Up"
     },
-    "withdraw": {
-      "breadcrumbs": "Withdraw",
-      "title": "Withdraw"
-    },
     "card-payment-success": {
       "breadcrumbs": "Pricing",
       "title": "Everything looks good!",
@@ -1277,40 +1273,10 @@
     "wait": "Please wait",
     "transaction-confirmation-button": "Block {block} of {totalBlocks}"
   },
-  "withdraw-steps": {
+  "withdraw": {
     "title": "Withdraw",
-    "disabled-content": "We&rsquo;ve pegged the price of&nbsp;our API Credits to&nbsp;USD. For now, with regards to&nbsp;withdrawals, it&nbsp;means that they are to&nbsp;be&nbsp;requested via Support only.",
-    "step-content": {
-      "0": "I&nbsp;understand my&nbsp;withdrawal could be&nbsp;less after any pending charges are subtracted. The processing time will depend on&nbsp;the Ethereum network load.",
-      "1": "How much would you like to withdraw?",
-      "2": "Thank you! Transaction is on the way.",
-      "2-error": "Oops! Transaction has not been completed.",
-      "3": "Your request for withdrawal is&nbsp;submitted."
-    },
-    "step-notice": {
-      "2": "After 12&nbsp;block validations, our system will perform the final calculation. This may take up&nbsp;to&nbsp;15&nbsp;minutes",
-      "2-error": "Don’t worry, your funds are safe. Just try again.",
-      "3": "It&nbsp;will take up&nbsp;to&nbsp;15&nbsp;minutes for our system to&nbsp;finish the calculation. You can leave this page now."
-    },
-    "button": {
-      "0": "Next",
-      "1": "Confirm",
-      "1-loading": "Check Metamask",
-      "2": "Next",
-      "2-loading": "Please wait",
-      "2-error": "Try Again",
-      "3": "Done",
-      "3-loading": "Please wait"
-    },
-    "form": {
-      "balance-error": "You cannot make a withdrawal as your balance is zero or negative",
-      "min": "The minimum withdrawal amount is {value} ANKR",
-      "max": "You cannot make a withdrawal, as your balance is less than {value} ANKR",
-      "excess": "The entered amount exceeds your balance",
-      "balance": "You can withdraw <b>{value} ANKR</b>",
-      "credits": "<b>{value} voucher credits</b> can&rsquo;t be&nbsp;claimed",
-      "credits-info": "Voucher credits are also used for payment. They are equivalent to&nbsp;ordinary credits but cannot be&nbsp;withdrawn in&nbsp;ANKR tokens."
-    }
+    "breadcrumbs": "Withdraw",
+    "disabled-content": "We&rsquo;ve pegged the price of&nbsp;our API Credits to&nbsp;USD. For now, with regards to&nbsp;withdrawals, it&nbsp;means that they are to&nbsp;be&nbsp;requested via Support only."
   },
   "continents": {
     "AS": "Asia",
