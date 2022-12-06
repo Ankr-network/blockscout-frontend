@@ -1,4 +1,4 @@
-import { isMainnet } from 'modules/common/const';
+import { featuresConfig, isMainnet } from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 
@@ -17,6 +17,7 @@ export const SUPPORTED_TOKENS = [
   Token.FTM,
   Token.mGNO,
   ...(isMainnet ? [Token.DOT, Token.KSM] : [Token.WND]),
+  ...(featuresConfig.xdcStaking ? [Token.XDC] : []),
 ] as TCalcToken[];
 
 export const DEFAULT_TOKENS_VALUE: Record<string, number> = {

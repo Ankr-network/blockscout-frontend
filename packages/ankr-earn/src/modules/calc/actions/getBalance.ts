@@ -1,4 +1,4 @@
-import { RequestAction } from '@redux-requests/core';
+import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
@@ -13,11 +13,13 @@ import {
 
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { withStore } from 'modules/common/utils/withStore';
 import { DashboardSDK } from 'modules/dashboard/api/DashboardSDK';
 import { AnkrStakingSDK } from 'modules/stake-ankr/api/AnkrStakingSDK';
 import { GnosisStakingSDK } from 'modules/stake-mgno/api/GnosisStakingSDK/GnosisStakingSDK';
 import { PolkadotStakeSDK } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
+import { getXDCReadInstance } from 'modules/stake-xdc/utils/getXDCReadInstance';
 
 import { CALC_ACTIONS_PREFIX } from '../const';
 import { TCalcToken } from '../types';
@@ -32,7 +34,7 @@ export const getBalance = createAction<
   [TCalcToken]
 >(`${CALC_ACTIONS_PREFIX}getBalance`, token => ({
   request: {
-    promise: (async (): Promise<IGetBalance> => {
+    promise: async (store: RequestsStore): Promise<IGetBalance> => {
       switch (token) {
         case Token.ANKR: {
           const sdk = await AnkrStakingSDK.getInstance();
@@ -216,16 +218,50 @@ export const getBalance = createAction<
           };
         }
 
+        case Token.XDC: {
+          const instance = await getXDCReadInstance(store);
+
+          if (instance === null) {
+            return {
+              balance: ZERO,
+              staked: ZERO,
+            };
+          }
+
+          const { XDC, address, provider } = instance;
+          const { getAXDCCBalance, getAXDCCRatio, getXDCBalance } = XDC;
+
+          const [aXDCcBalance, aXDCcRatio, xdcBalance] = await Promise.all([
+            getAXDCCBalance({
+              address,
+              provider,
+            }),
+            getAXDCCRatio({
+              provider,
+            }),
+            getXDCBalance({
+              address,
+              provider,
+            }),
+          ]);
+
+          return {
+            balance: xdcBalance,
+            staked: aXDCcBalance.dividedBy(aXDCcRatio),
+          };
+        }
+
         default:
           return {
             balance: ZERO,
             staked: ZERO,
           };
       }
-    })(),
+    },
   },
   meta: {
-    showNotificationOnError: false,
+    onRequest: withStore,
     requestKey: token,
+    showNotificationOnError: false,
   },
 }));
