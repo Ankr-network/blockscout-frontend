@@ -168,7 +168,7 @@ export const UnstakeDialog = ({
                   )}
               </Container>
 
-              <div>
+              <div className={classes.footer}>
                 <Container className={classes.container}>
                   {isExternalAllowed && (
                     <div className={classes.externalWrapper}>
