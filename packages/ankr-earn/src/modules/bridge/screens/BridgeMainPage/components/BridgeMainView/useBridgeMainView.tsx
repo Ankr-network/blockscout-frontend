@@ -71,10 +71,21 @@ interface IUseBridgeMainView {
   isSwitchDisabled: boolean;
 }
 
-const SWITCH_DISABLED_TOKENS = [
-  AvailableBridgeTokens.aMATICb,
-  AvailableBridgeTokens.aETHb,
-];
+const SWITCH_DISABLED_TOKENS = [AvailableBridgeTokens.aETHb];
+
+const findNetworkOption = (
+  list: IBridgeBlockchainPanelItem[],
+  option: SupportedChainIDS,
+): boolean => {
+  return list.some(item => item.value === option);
+};
+
+const getOtherNetworkOption = (
+  list: IBridgeBlockchainPanelItem[],
+  exclude: SupportedChainIDS,
+): SupportedChainIDS | void => {
+  return list.find(item => item.value !== exclude)?.value as SupportedChainIDS;
+};
 
 export const useBridgeMainView = (): IUseBridgeMainView => {
   const providerId = AvailableWriteProviders.ethCompatible;
@@ -179,10 +190,32 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   };
 
   const onSwapClick = () => {
-    setSwapNetworkItem({
-      from: swapNetworkItem.to,
-      to: swapNetworkItem.from,
-    });
+    const isFromAvailable = findNetworkOption(
+      networksOptionsFrom,
+      swapNetworkItem.to,
+    );
+    const isToAvailable = findNetworkOption(
+      networksOptionsTo,
+      swapNetworkItem.from,
+    );
+    let from: SupportedChainIDS | void;
+    let to: SupportedChainIDS | void;
+    if (isToAvailable && isFromAvailable) {
+      from = swapNetworkItem.to;
+      to = swapNetworkItem.from;
+    } else if (isToAvailable) {
+      to = swapNetworkItem.from;
+      from = getOtherNetworkOption(networksOptionsFrom, to);
+    } else if (isFromAvailable) {
+      from = swapNetworkItem.to;
+      to = getOtherNetworkOption(networksOptionsTo, from);
+    }
+    if (from !== undefined && to !== undefined) {
+      setSwapNetworkItem({
+        from,
+        to,
+      });
+    }
   };
 
   const validateAmount = useValidateAmount({ balance });
