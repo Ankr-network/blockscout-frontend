@@ -112,9 +112,10 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
     return resultData;
   }, [
     connectedProvidersData,
-    disconnectEth,
-    disconnectSui,
+    changePolkadotWallet,
     disconnectPolkadot,
+    disconnectSui,
+    disconnectEth,
   ]);
 
   return {
