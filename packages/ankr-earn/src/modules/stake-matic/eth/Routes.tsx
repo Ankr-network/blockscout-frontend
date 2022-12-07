@@ -17,7 +17,7 @@ import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
 const ETH_NETWORK_PATH = featuresConfig.maticPolygonStaking ? 'eth/' : '';
 
 const ROOT = `${StakeRoutes.main.path}matic/${ETH_NETWORK_PATH}`;
-const STAKE_MATIC_PATH = `${ROOT}?token=:token?`;
+const STAKE_MATIC_PATH = `${ROOT}?from=:from?`;
 const UNSTAKE_MATIC_PATH = `${UNSTAKE_PATH}matic/${ETH_NETWORK_PATH}`;
 const STEP_UNSTAKE_MATIC_PATH = `${UNSTAKE_MATIC_PATH}:token/:txHash`;
 const UNSTAKE_MATIC_BY_TOKEN_PATH = `${UNSTAKE_MATIC_PATH}?token=:token?`;
