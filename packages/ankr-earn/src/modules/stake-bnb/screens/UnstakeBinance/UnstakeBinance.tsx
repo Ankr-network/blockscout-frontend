@@ -49,9 +49,10 @@ export const UnstakeBinance = (): JSX.Element => {
     poolBalance,
   } = useUnstakeBnb();
 
-  const isABNBc = selectedToken === Token.aBNBc;
+  // Temporary removing flash unstake
+  const isFlashUnstakeAllowed = false; // selectedToken === Token.aBNBc;
 
-  const [isFlash, setIsFlash] = useState(isABNBc);
+  const [isFlash, setIsFlash] = useState(isFlashUnstakeAllowed);
 
   const onSubmit = useCallback(
     values => {
@@ -97,7 +98,7 @@ export const UnstakeBinance = (): JSX.Element => {
 
     return (
       <>
-        {isABNBc && (
+        {isFlashUnstakeAllowed && (
           <FlashUnstake
             instantFee={instantFee}
             poolBalance={poolBalance}
