@@ -1,3 +1,9 @@
+import BigNumber from 'bignumber.js';
+import { TransactionReceipt } from 'web3-core';
+import { BlockTransactionObject } from 'web3-eth';
+import { Contract, EventData } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
+
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -5,11 +11,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import { TransactionReceipt } from 'web3-core';
-import { BlockTransactionObject } from 'web3-eth';
-import { Contract, EventData } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
 
 import { getPastEvents } from '../api';
 import {
@@ -927,9 +928,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
         const itemAmount =
           isCert && !ratio.isZero()
-            ? this.convertFromWei(
-                unstakeRawEventItem.returnValues.amount,
-              )
+            ? this.convertFromWei(unstakeRawEventItem.returnValues.amount)
             : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
 
         totalPendingUnstakes = totalPendingUnstakes.minus(itemAmount);

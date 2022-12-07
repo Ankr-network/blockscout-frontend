@@ -179,7 +179,13 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
     return unlockedAccounts;
   }
 
-  public async addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+  /**
+   * Specification can be found [here](https://eips.ethereum.org/EIPS/eip-747#wallet_watchasset).
+   */
+  public async addTokenToWallet({
+    chainId,
+    ...options
+  }: ITokenInfo): Promise<boolean> {
     const provider = this.provider as AbstractProvider;
 
     const isProviderHasRequest =
@@ -189,18 +195,15 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
       throw new Error('This provider does not support the adding new tokens');
     }
 
-    if (tokenInfo.chainId) {
-      await this.switchNetwork(tokenInfo.chainId);
+    if (chainId) {
+      await this.switchNetwork(chainId);
       // need to wait before triggering wallet_watchAsset to keep wallet window open
       await new Promise(resolve => setTimeout(resolve, WATCH_ASSET_TIMEOUT));
     }
 
     return provider.request!({
       method: 'wallet_watchAsset',
-      params: {
-        type: 'ERC20',
-        options: tokenInfo,
-      },
+      params: { type: 'ERC20', options },
     }).catch(() => false);
   }
 

@@ -313,8 +313,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
     await this.connectWriteProvider();
-    const { writeProvider } = this;
-
+    const provider = await this.getProvider();
     const data = TOKENS_CONFIG_BY_SYMBOL[token as TEthToken];
 
     if (!data) {
@@ -323,12 +322,12 @@ export class EthereumSDK implements ISwitcher, IStakable {
 
     const contract =
       token === 'aETHb'
-        ? EthereumSDK.getAethbContract(writeProvider)
-        : EthereumSDK.getAethcContract(writeProvider);
+        ? EthereumSDK.getAethbContract(provider)
+        : EthereumSDK.getAethcContract(provider);
 
     const symbol: string = await contract.methods.symbol().call();
 
-    return writeProvider.addTokenToWallet({
+    return this.writeProvider.addTokenToWallet({
       ...data,
       symbol,
     });
