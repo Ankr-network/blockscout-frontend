@@ -19,7 +19,7 @@ import { AnkrStakingSDK } from 'modules/stake-ankr/api/AnkrStakingSDK';
 import { GnosisStakingSDK } from 'modules/stake-mgno/api/GnosisStakingSDK/GnosisStakingSDK';
 import { PolkadotStakeSDK } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
-import { getXDCReadInstance } from 'modules/stake-xdc/utils/getXDCReadInstance';
+import { getXDCStakingCalcData } from 'modules/stake-xdc/utils/getXDCStakingCalcData';
 
 import { CALC_ACTIONS_PREFIX } from '../const';
 import { TCalcToken } from '../types';
@@ -219,36 +219,7 @@ export const getBalance = createAction<
         }
 
         case Token.XDC: {
-          const instance = await getXDCReadInstance(store);
-
-          if (instance === null) {
-            return {
-              balance: ZERO,
-              staked: ZERO,
-            };
-          }
-
-          const { XDC, address, provider } = instance;
-          const { getAXDCCBalance, getAXDCCRatio, getXDCBalance } = XDC;
-
-          const [aXDCcBalance, aXDCcRatio, xdcBalance] = await Promise.all([
-            getAXDCCBalance({
-              address,
-              provider,
-            }),
-            getAXDCCRatio({
-              provider,
-            }),
-            getXDCBalance({
-              address,
-              provider,
-            }),
-          ]);
-
-          return {
-            balance: xdcBalance,
-            staked: aXDCcBalance.dividedBy(aXDCcRatio),
-          };
+          return getXDCStakingCalcData(store);
         }
 
         default:
