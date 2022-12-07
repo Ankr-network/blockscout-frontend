@@ -14,7 +14,7 @@ export const formatNumber = (value: string | number | BigNumber = '') => {
 };
 
 export const renderBalance = (
-  value: string | BigNumber = '',
+  value: string | number | BigNumber = '',
   units?: string,
 ) => {
   if (!value) {
@@ -32,7 +32,7 @@ export const renderBalance = (
   return units ? `${balanceValue} ${units}` : balanceValue;
 };
 
-export const renderUSD = (value?: string | BigNumber) => {
+export const renderUSD = (value?: string | number | BigNumber) => {
   if (!value) {
     return '—';
   }

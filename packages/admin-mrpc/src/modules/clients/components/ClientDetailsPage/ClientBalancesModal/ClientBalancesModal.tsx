@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Box, Button, MenuItem, Modal, Typography, Input } from '@mui/material';
+import { Box, Button, Input, MenuItem, Modal, Typography } from '@mui/material';
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { IAmountType } from 'multirpc-sdk';
@@ -11,10 +11,10 @@ import { useSubtractUserVoucherCreditsMutation } from 'modules/clients/actions/s
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { ClientBalancesInfo } from './ClientBalancesInfo';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
+import { useRates } from './useRates';
 
 interface IFormElements {
   elements: {
-    amount: { value: number };
     comment: { value: string };
   };
 }
@@ -39,7 +39,11 @@ export const ClientBalancesModal = ({
     address: currentClient.address!,
   });
 
+  const { renderAmountEquivalent } = useRates();
+
   const isLoading = isLoadingAddCredits || isLoadingSubtractCredits;
+
+  const [amount, setAmount] = useState<number | undefined>(undefined);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -64,7 +68,6 @@ export const ClientBalancesModal = ({
       | undefined;
 
     const {
-      amount: { value: amountValue },
       comment: { value: commentValue },
     } = e.target.elements;
 
@@ -73,7 +76,7 @@ export const ClientBalancesModal = ({
       return;
     }
 
-    if (!amountValue) {
+    if (!amount) {
       toast.error('amount field is required');
       return;
     }
@@ -81,7 +84,7 @@ export const ClientBalancesModal = ({
     const requestParams = {
       address: currentClient.address,
       amountType: 'credit' as IAmountType,
-      amount: amountValue.toString(),
+      amount: amount.toString(),
       reasonId: `${Date.now()} ${commentValue || ''}`,
     };
 
@@ -124,7 +127,12 @@ export const ClientBalancesModal = ({
           type="number"
           disabled={isLoading}
           endAdornment="Voucher&nbsp;Credits"
+          onChange={e => setAmount(+e?.target?.value || undefined)}
+          value={amount}
         />
+        <Typography sx={{ ml: 3, mb: 2 }} component="p" variant="caption">
+          {renderAmountEquivalent(amount)}
+        </Typography>
         <Input
           sx={{ mt: 2, mb: 6 }}
           name="comment"
