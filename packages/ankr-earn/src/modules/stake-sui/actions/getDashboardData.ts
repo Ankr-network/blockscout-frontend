@@ -11,21 +11,22 @@ import {
   getAnkrSUIBalance,
   getAnkrSUIRatio,
   getMinStake,
+  getPendingUnstakes,
   getSUIBalance,
 } from '../api';
 import { CacheTags, ETH_READ_PROVIDER_ID } from '../const';
 
-interface IGetCommonData {
+interface IGetDashboardData {
   suiBalance: BigNumber;
-  minStake: BigNumber;
+  pendingUnstakes: BigNumber;
   ankrSUIBalance: BigNumber;
   ankrSUIRatio: BigNumber;
 }
 
-export const { useGetSUICommonDataQuery } = web3Api.injectEndpoints({
+export const { useGetSUIDashboardDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getSUICommonData: build.query<IGetCommonData | null, void>({
-      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData | null>(
+    getSUIDashboardData: build.query<IGetDashboardData | null, void>({
+      queryFn: queryFnNotifyWrapper<void, never, IGetDashboardData | null>(
         async (args, { getState }) => {
           const providerManager = ProviderManagerSingleton.getInstance();
 
@@ -43,18 +44,25 @@ export const { useGetSUICommonDataQuery } = web3Api.injectEndpoints({
             ETH_READ_PROVIDER_ID,
           );
 
-          const [suiBalance, minStake, ankrSUIBalance, ankrSUIRatio] =
-            await Promise.all([
-              getSUIBalance(),
-              getMinStake(),
-              getAnkrSUIBalance({ address, provider }),
-              getAnkrSUIRatio({ provider }),
-            ]);
+          const [
+            suiBalance,
+            minStake,
+            pendingUnstakes,
+            ankrSUIBalance,
+            ankrSUIRatio,
+          ] = await Promise.all([
+            getSUIBalance(),
+            getMinStake(),
+            getPendingUnstakes(),
+            getAnkrSUIBalance({ address, provider }),
+            getAnkrSUIRatio({ provider }),
+          ]);
 
           return {
             data: {
               suiBalance,
               minStake,
+              pendingUnstakes,
               ankrSUIBalance,
               ankrSUIRatio,
             },

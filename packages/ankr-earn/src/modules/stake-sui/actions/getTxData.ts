@@ -1,10 +1,19 @@
 import retry from 'async-retry';
+import { RootState } from 'store';
+import { SUI_PROVIDER_ID } from 'sui';
 import { TransactionReceipt } from 'web3-eth';
 
-import { IFetchTxData } from '@ankr.com/staking-sdk';
+import {
+  IFetchTxData,
+  ProviderManagerSingleton,
+  Web3KeyWriteProvider,
+} from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
+
+import { getTxData, getTxReceipt } from '../api/getTxData';
 
 interface IGetTxDataProps {
   txHash: string;
@@ -17,11 +26,39 @@ export const { useGetSUITxDataQuery } = web3Api.injectEndpoints({
         IGetTxDataProps,
         never,
         IFetchTxData | null
-      >(async () => {
+      >(async ({ txHash }, { getState }) => {
+        const providerManager = ProviderManagerSingleton.getInstance();
+
+        const { walletId } = selectEthProviderData(getState() as RootState);
+
+        if (!walletId) {
+          return {
+            data: null,
+          };
+        }
+
+        const provider = await providerManager.getProvider(
+          SUI_PROVIDER_ID,
+          walletId,
+        );
+
+        if (!(provider instanceof Web3KeyWriteProvider)) {
+          return {
+            data: null,
+          };
+        }
+
         return {
-          data: await retry(() => null, {
-            retries: RETRIES_TO_GET_TX_DATA,
-          }),
+          data: await retry(
+            () =>
+              getTxData({
+                txHash,
+                provider,
+              }),
+            {
+              retries: RETRIES_TO_GET_TX_DATA,
+            },
+          ),
         };
       }),
     }),
@@ -35,9 +72,33 @@ export const { useGetSUITxReceiptQuery } = web3Api.injectEndpoints({
         IGetTxDataProps,
         never,
         TransactionReceipt | null
-      >(async () => {
+      >(async ({ txHash }, { getState }) => {
+        const providerManager = ProviderManagerSingleton.getInstance();
+
+        const { walletId } = selectEthProviderData(getState() as RootState);
+
+        if (!walletId) {
+          return {
+            data: null,
+          };
+        }
+
+        const provider = await providerManager.getProvider(
+          SUI_PROVIDER_ID,
+          walletId,
+        );
+
+        if (!(provider instanceof Web3KeyWriteProvider)) {
+          return {
+            data: null,
+          };
+        }
+
         return {
-          data: null,
+          data: await getTxReceipt({
+            txHash,
+            provider,
+          }),
         };
       }),
     }),

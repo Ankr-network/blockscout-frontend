@@ -1,5 +1,5 @@
-import { act, renderHook } from '@testing-library/react-hooks';
-import { useHistory, useLocation } from 'react-router';
+import { renderHook } from '@testing-library/react-hooks';
+import { useHistory } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
