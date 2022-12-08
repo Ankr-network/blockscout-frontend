@@ -12,7 +12,7 @@ export interface ChainTypeParams {
   endpoints: GroupedEndpoints;
   netId?: string;
   isBlockedTestnet: boolean;
-  onBlockedTestnetClick: (id: string) => void;
+  onBlockedTestnetClick: () => void;
 }
 
 export interface ChainTypeResult {
