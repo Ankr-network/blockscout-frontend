@@ -1129,6 +1129,7 @@
     },
     "balance": "{balance, number, ::compact-short}",
     "operation-loader": "Checking transactions",
+    "premium-success": "You’ve now gone Premium! Enjoy <a href='https://www.ankr.com/docs/rpc-service/service-plans/#feature-list' target='_blank'>the features</a> and <a href='https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits' target='_blank'>rate limits</a> available to&nbsp;you.",
     "account-details": {
       "breadcrumbs": "Billing",
       "title": "Account Details",

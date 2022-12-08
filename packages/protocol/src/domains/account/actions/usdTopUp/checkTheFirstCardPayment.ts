@@ -10,8 +10,10 @@ import {
 } from 'domains/auth/store/authSlice';
 import { signout } from 'domains/oauth/actions/signout';
 import { MultiRpcWeb3ReadSdk } from 'multirpc-sdk';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
-const TOPUP_EVENT_TIMEOUT = 3 * 60_000;
+const ONE_MINUTE_MS = 60_000;
+const TOPUP_EVENT_TIMEOUT = 3 * ONE_MINUTE_MS;
 
 const checkLastTopupEvent = async (
   web3ReadService: MultiRpcWeb3ReadSdk,
@@ -50,6 +52,15 @@ const checkLastTopupEvent = async (
     setAuthData({
       credentials: jwtToken,
       workerTokenData,
+    }),
+  );
+
+  store.dispatch(
+    NotificationActions.showNotification({
+      message: 'account.premium-success',
+      severity: 'success',
+      autoHideDuration: ONE_MINUTE_MS,
+      isHTML: true,
     }),
   );
 
