@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
-import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/PremiumBlock/PricingTopUp/PricingTopUpUtils';
+
+import { DEFAULT_ANKR_VALUE } from 'domains/account/actions/topUp/const';
 import { t } from 'modules/i18n/utils/intl';
 
 export const validateAmount = (value: string) => {
@@ -13,9 +14,9 @@ export const validateAmount = (value: string) => {
     return t('validation.number-only');
   }
 
-  if (currentAmount.isLessThan(MIN_ANKR_AMOUNT)) {
+  if (currentAmount.isLessThan(DEFAULT_ANKR_VALUE)) {
     return t('plan.premium-block.min', {
-      value: MIN_ANKR_AMOUNT.toFormat(),
+      value: DEFAULT_ANKR_VALUE.toFormat(),
     });
   }
 

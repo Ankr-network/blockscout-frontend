@@ -11,7 +11,6 @@ import {
   validateAmount,
 } from './AmountFieldUtils';
 import { OnChange } from 'modules/form/utils/OnChange';
-import { CurrencyType } from '../../../const';
 
 interface AmountFieldProps<T> {
   name: T;
@@ -20,7 +19,7 @@ interface AmountFieldProps<T> {
   validate?: (value: string, allValues?: any) => string | undefined;
   change?: (name: T, value: string) => void;
   maxDecimals?: number;
-  currency: CurrencyType;
+  currency: string;
 }
 
 export function AmountField<T extends string>({

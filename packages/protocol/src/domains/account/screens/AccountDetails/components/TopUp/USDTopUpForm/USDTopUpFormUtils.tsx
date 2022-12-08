@@ -6,13 +6,16 @@ import { Box } from '@material-ui/core';
 
 import { t } from 'modules/i18n/utils/intl';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
-import { DEFAULT_USD_VALUE, USD_CURRENCY } from '../../const';
 import { AmountField } from '../TopUpForm/AmountField';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { RateBlock } from '../TopUpForm/RateBlock';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import {
+  DEFAULT_USD_VALUE,
+  USD_CURRENCY,
+} from 'domains/account/actions/usdTopUp/const';
 
 const MAX_USD_DECIMALS = 1;
 
