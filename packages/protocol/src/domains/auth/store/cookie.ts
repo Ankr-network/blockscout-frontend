@@ -1,4 +1,4 @@
-import { safeParseJSON } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/RequestComposer/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
+import { safeParseJSON } from 'modules/common/utils/safeParseJSON';
 
 export const setCookie = (name: string, data: any) => {
   document.cookie = `${name}=${JSON.stringify(

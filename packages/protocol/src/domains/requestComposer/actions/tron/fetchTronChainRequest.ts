@@ -6,8 +6,8 @@ import {
   TronChainMethodResponse,
   TronChainMethod,
 } from 'domains/requestComposer/constants/tron';
-import { safeStringifyJSON } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/RequestComposer/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
+import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
 
 export type FetchTronChainRequestResult = {
   response?: [TronChainMethodResponse];
