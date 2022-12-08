@@ -1153,12 +1153,20 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     const contractUnstake =
       avalanchePoolContract.methods[this.getUnstakeMethodName(token)];
 
-    const data = contractUnstake(value).encodeABI();
+    const txn = contractUnstake(value);
+
+    const gasLimit: number = await txn.estimateGas({
+      from: this.currentAccount,
+    });
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       avalancheConfig.avalanchePool,
-      { data, estimate: true },
+      {
+        data: txn.encodeABI(),
+        estimate: true,
+        gasLimit: AvalancheSDK.getIncreasedGasLimit(gasLimit).toString(),
+      },
     );
   }
 }
