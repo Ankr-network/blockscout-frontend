@@ -26,7 +26,7 @@ export const { useGetSUITxDataQuery } = web3Api.injectEndpoints({
         IGetTxDataProps,
         never,
         IFetchTxData | null
-      >(async ({ txHash }, { getState }) => {
+      >(async (args, { getState }) => {
         const providerManager = ProviderManagerSingleton.getInstance();
 
         const { walletId } = selectEthProviderData(getState() as RootState);
@@ -49,16 +49,9 @@ export const { useGetSUITxDataQuery } = web3Api.injectEndpoints({
         }
 
         return {
-          data: await retry(
-            () =>
-              getTxData({
-                txHash,
-                provider,
-              }),
-            {
-              retries: RETRIES_TO_GET_TX_DATA,
-            },
-          ),
+          data: await retry(() => getTxData(), {
+            retries: RETRIES_TO_GET_TX_DATA,
+          }),
         };
       }),
     }),

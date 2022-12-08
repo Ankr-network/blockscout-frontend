@@ -26,7 +26,7 @@ export const { useUnstakeSUIMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
     unstakeSUI: build.mutation<TStakeData, IUnstakeArgs>({
       queryFn: queryFnNotifyWrapper<IUnstakeArgs, never, TStakeData>(
-        async ({ amount }, { getState }) => {
+        async (args, { getState }) => {
           const providerManager = ProviderManagerSingleton.getInstance();
 
           const { address, walletId } = selectEthProviderData(
@@ -51,11 +51,7 @@ export const { useUnstakeSUIMutation } = web3Api.injectEndpoints({
           }
 
           return {
-            data: await unstake({
-              address,
-              amount,
-              provider,
-            }),
+            data: await unstake(),
           };
         },
       ),

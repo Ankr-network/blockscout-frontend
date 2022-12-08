@@ -26,7 +26,7 @@ export const { useStakeSUIMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
     stakeSUI: build.mutation<TStakeData, IStakeArgs>({
       queryFn: queryFnNotifyWrapper<IStakeArgs, never, TStakeData>(
-        async ({ amount }, { getState }) => {
+        async (args, { getState }) => {
           const providerManager = ProviderManagerSingleton.getInstance();
 
           const { address, walletId } = selectEthProviderData(
@@ -51,11 +51,7 @@ export const { useStakeSUIMutation } = web3Api.injectEndpoints({
           }
 
           return {
-            data: await stake({
-              address,
-              amount,
-              provider,
-            }),
+            data: await stake(),
           };
         },
       ),

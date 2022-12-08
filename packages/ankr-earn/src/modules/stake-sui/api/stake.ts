@@ -1,19 +1,6 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider';
-import { IStakeData, IStakeProps } from '@ankr.com/staking-sdk';
+import { IStakeData } from '@ankr.com/staking-sdk';
 
-import { currentEnv } from 'modules/common/const';
-
-export const stake = async ({
-  address,
-  amount,
-  env = currentEnv,
-  provider,
-}: IStakeProps<Web3KeyReadProvider>): Promise<IStakeData> => {
-  console.log(address);
-  console.log(amount);
-  console.log(env);
-  console.log(provider);
-
+export const stake = async (): Promise<IStakeData> => {
   return {
     txHash: ' ',
   };

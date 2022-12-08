@@ -1,28 +1,16 @@
 import { TransactionReceipt } from 'web3-core';
 
 import { Web3KeyReadProvider } from '@ankr.com/provider';
-import { currentEnv, IWeb3TxInfoProps } from '@ankr.com/staking-sdk';
+import { IWeb3TxInfoProps } from '@ankr.com/staking-sdk';
 
 import { ZERO } from 'modules/common/const';
-import { Env } from 'modules/common/types';
 import { IFetchTxData } from 'modules/switcher/api/types';
 
-interface IGetTxDataProps extends IWeb3TxInfoProps<Web3KeyReadProvider> {
-  env?: Env;
-}
-
-export const getTxData = async ({
-  env = currentEnv,
-  provider,
-  txHash,
-}: IGetTxDataProps): Promise<IFetchTxData> => {
-  console.log(env);
-  console.log(provider);
-  console.log(txHash);
+export const getTxData = async (): Promise<IFetchTxData> => {
   return {
     amount: ZERO,
     isPending: false,
-    destinationAddress: txHash,
+    destinationAddress: ' ',
   };
 };
 
