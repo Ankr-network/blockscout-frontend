@@ -1,8 +1,8 @@
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useGetUSDAmount } from '../../useGetUSDAmount';

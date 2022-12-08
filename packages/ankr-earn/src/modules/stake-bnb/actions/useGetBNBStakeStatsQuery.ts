@@ -7,25 +7,15 @@ import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
 
-interface IFetchStatsResponseData {
-  aBNBbBalance: BigNumber;
-  aBNBcBalance: BigNumber;
-  bnbBalance: BigNumber;
-  minStake: BigNumber;
-  minAbnbbUnstake: BigNumber;
-  minAbnbcUnstake: BigNumber;
+interface IFetchStakeStatsResponseData {
   relayerFee: BigNumber;
-  aBNBcRatio: BigNumber;
-  aETHBalance: BigNumber;
-  aETHRatio: BigNumber;
-  poolBalance: BigNumber;
-  instantFee: BigNumber;
+  minStake: BigNumber;
 }
 
-export const { useGetBNBStatsQuery } = web3Api.injectEndpoints({
+export const { useGetBNBStakeStatsQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getBNBStats: build.query<IFetchStatsResponseData, void>({
-      queryFn: queryFnNotifyWrapper<void, never, IFetchStatsResponseData>(
+    getBNBStakeStats: build.query<IFetchStakeStatsResponseData, void>({
+      queryFn: queryFnNotifyWrapper<void, never, IFetchStakeStatsResponseData>(
         async () => {
           const sdk = await BinanceSDK.getInstance();
 

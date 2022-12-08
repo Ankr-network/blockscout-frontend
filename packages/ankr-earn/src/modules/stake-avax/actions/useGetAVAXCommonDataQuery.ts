@@ -11,7 +11,6 @@ export interface IFetchStatsResponseData {
   aAVAXbBalance: BigNumber;
   aAVAXcBalance: BigNumber;
   avaxBalance: BigNumber;
-  minimumStake: BigNumber;
   aAVAXcRatio: BigNumber;
 }
 
@@ -22,26 +21,19 @@ export const { useGetAVAXCommonDataQuery } = web3Api.injectEndpoints({
         async () => {
           const sdk = await AvalancheSDK.getInstance();
 
-          const [
-            aAVAXbBalance,
-            aAVAXcBalance,
-            avaxBalance,
-            minimumStake,
-            ratio,
-          ] = await Promise.all([
-            sdk.getABBalance(),
-            sdk.getACBalance(),
-            sdk.getAVAXBalance(),
-            sdk.getMinimumStake(),
-            sdk.getACRatio(),
-          ]);
+          const [aAVAXbBalance, aAVAXcBalance, avaxBalance, ratio] =
+            await Promise.all([
+              sdk.getABBalance(),
+              sdk.getACBalance(),
+              sdk.getAVAXBalance(),
+              sdk.getACRatio(),
+            ]);
 
           return {
             data: {
               aAVAXbBalance,
               aAVAXcBalance,
               avaxBalance,
-              minimumStake,
               aAVAXcRatio: ratio,
             },
           };

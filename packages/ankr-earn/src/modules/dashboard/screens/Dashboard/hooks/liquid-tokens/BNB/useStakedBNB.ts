@@ -2,7 +2,7 @@ import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useGetUSDAmount } from '../../useGetUSDAmount';

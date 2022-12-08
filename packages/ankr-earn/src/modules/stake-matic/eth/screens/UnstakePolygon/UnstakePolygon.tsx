@@ -22,6 +22,7 @@ import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { approveAMATICCUnstake } from '../../actions/approveAMATICCUnstake';
+import { fetchStakeStats } from '../../actions/fetchStakeStats';
 import { fetchStats } from '../../actions/fetchStats';
 import { getAllowance } from '../../actions/getAllowance';
 
@@ -32,6 +33,7 @@ const resetRequests = () =>
   resetReduxRequests([
     approveAMATICCUnstake.toString(),
     fetchStats.toString(),
+    fetchStakeStats.toString(),
     fetchTotalHistory.toString(),
     getAnkrBalance.toString(),
     getMetrics.toString(),
@@ -65,6 +67,7 @@ export const UnstakePolygon = (): JSX.Element => {
     dispatch(resetRequests());
 
     dispatch(fetchStats());
+    dispatch(fetchStakeStats());
     dispatch(fetchTotalHistory());
     dispatch(getAnkrBalance());
     dispatch(getMetrics());
