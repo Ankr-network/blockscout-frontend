@@ -41,7 +41,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
     selectGroup,
   } = useChainItem({
     ...data,
-    onTabClick: id => !credentials && id === TESTNET_ID && handleClick(),
+    onBlockedTestnetClick: handleClick,
   });
 
   useChainItemBreadcrumbs(chain.name);

@@ -34,8 +34,8 @@ export const useChainItem = ({
   nodes,
   chain,
   unfilteredChain: publicChain,
-  onTabClick,
-}: Details & { onTabClick: (id: string) => void }): ChainItem => {
+  onBlockedTestnetClick,
+}: Details & { onBlockedTestnetClick: () => void }): ChainItem => {
   const isChainArchived = useMemo(
     () => !!nodes?.some(item => item.isArchive),
     [nodes],
@@ -49,12 +49,18 @@ export const useChainItem = ({
 
   const { credentials } = useAuth();
 
+  const isTestnetPremimumOnly = useMemo(() => {
+    if (chain.testnets && chain.testnets?.length > 0)
+      return chain.testnets[0].premiumOnly;
+    return false;
+  }, [chain]);
+
   const { chainType, chainTypeTab, chainTypeTabs } = useChainType({
     chain,
     endpoints,
     netId,
-    isPremiumUser: !!credentials,
-    onTabClick,
+    isBlockedTestnet: !credentials && Boolean(isTestnetPremimumOnly),
+    onBlockedTestnetClick,
   });
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
     {
