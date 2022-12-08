@@ -159,7 +159,20 @@
     },
     "banner": {
       "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>"
-    }
+    },
+    "for-premium-only": "For Premium only",
+    "get-premium-access": "Get access to {name} with ",
+    "premium-plan": "Premium Plan",
+    "premium-features": {
+      "block1": "Unlimited requests",
+      "block2": "Prioritized traffic",
+      "block3": "WebSockets",
+      "block4": "Global node distribution",
+      "block5": "Advanced Developer APIs",
+      "block6": "Dedicated endpoints",
+      "block7": "and more..."
+    }, 
+    "learn-more-about-premium": "Learn more about Premium"
   },
   "chain-item": {
     "chain-types": {

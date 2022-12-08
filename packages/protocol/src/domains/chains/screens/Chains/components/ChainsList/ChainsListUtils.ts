@@ -23,6 +23,7 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
       totalRequests,
       type,
       urls,
+      premiumOnly,
     } = item;
 
     return {
@@ -36,6 +37,7 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
       totalRequests,
       type,
       urls,
+      premiumOnly,
       ...frontChain,
       id,
     };

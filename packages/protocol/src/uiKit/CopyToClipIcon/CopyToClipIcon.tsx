@@ -1,4 +1,3 @@
-import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Typography, TypographyTypeMap } from '@material-ui/core';
 import classNames from 'classnames';
@@ -9,6 +8,7 @@ import { useCopyToClip } from './CopyToClipIconUtils';
 
 interface ICopyToClipIconProps {
   className?: string;
+  textClassName?: string;
   text: string;
   message: string;
   copyText?: string;
@@ -21,6 +21,7 @@ export const CopyToClipIcon = ({
   text,
   message,
   className,
+  textClassName,
   copyText,
   textColor = 'textSecondary',
   size = 'm',
@@ -53,7 +54,7 @@ export const CopyToClipIcon = ({
             <Typography
               variant="body2"
               noWrap
-              className={classes.text}
+              className={classNames(classes.text, textClassName)}
               color={textColor}
             >
               {text}
