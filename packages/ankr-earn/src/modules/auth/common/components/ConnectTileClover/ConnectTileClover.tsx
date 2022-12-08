@@ -8,12 +8,11 @@ import {
   getWalletName,
 } from '@ankr.com/provider';
 
+import { CloverWalletIcon } from 'modules/common/components/Icons/CloverWalletIcon';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 
 import { useConnectForModal } from '../../hooks/useConnectForModal';
 import { ConnectTile } from '../ConnectTile';
-
-import { ReactComponent as CloverWalletIcon } from './assets/clv-logo.svg';
 
 const walletId = EWalletId.clover;
 const DOWNLOAD_CLOVER_URL =
