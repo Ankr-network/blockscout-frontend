@@ -10,7 +10,6 @@ import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { ChainsItemDialog } from '../Chains/components/ChainsItem/ChainsItemDialog';
 import { useCallback } from 'react';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
