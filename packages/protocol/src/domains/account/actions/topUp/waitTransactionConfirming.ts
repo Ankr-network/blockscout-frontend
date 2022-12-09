@@ -1,7 +1,6 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWeb3SendResult } from '@ankr.com/provider';
-import Web3 from 'web3';
 
 import { fetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { fetchBalance } from '../balance/fetchBalance';
@@ -16,7 +15,7 @@ import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { timeout } from 'modules/common/utils/timeout';
 import { ETH_BLOCK_TIME } from './const';
 import { selectAuthData } from 'domains/auth/store/authSlice';
-import { API_ENV } from 'modules/common/utils/environment';
+import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 
 const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
   let inProcess = true;
@@ -42,14 +41,9 @@ const waitForBlocks = async (store: RequestsStore, transactionHash: string) => {
   }
 };
 
-const web3 = new Web3(
-  API_ENV === 'prod'
-    ? 'https://rpc.ankr.com/eth'
-    : 'https://rpc.ankr.com/eth_goerli',
-);
-
 export const getReceipt = async (transactionHash: string) => {
   // wallet connect provider returns uncorrect status for transaction
+  const web3 = getWeb3Instance();
   const receipt = await web3.eth.getTransactionReceipt(transactionHash);
 
   if (receipt && !receipt.status) {

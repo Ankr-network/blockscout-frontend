@@ -56,6 +56,9 @@ export interface IProviders {
 
 export type IProvidersMap = IProviders & IExtraProviders;
 export type IExtraProviders = Partial<{ [key: string]: IProvider }>;
+export type IPartialRpcUrlsConfig = Partial<
+  Record<AvailableReadProviders, string>
+>;
 
 export class ProviderManager<ProvidersMap extends IProvidersMap> {
   private providers: Partial<ProvidersMap> = {};
@@ -63,6 +66,7 @@ export class ProviderManager<ProvidersMap extends IProvidersMap> {
   constructor(
     private web3ModalTheme: ThemeColors,
     private providerOptions?: IProviderOptions,
+    private rpcUrls: IPartialRpcUrlsConfig = RPC_URLS,
   ) {}
 
   addProvider(
@@ -112,7 +116,10 @@ export class ProviderManager<ProvidersMap extends IProvidersMap> {
       return provider;
     }
 
-    const rpcUrls = RPC_URLS as Record<keyof IProviders, string>;
+    const rpcUrls = { ...RPC_URLS, ...this.rpcUrls } as Record<
+      keyof IProviders,
+      string
+    >;
 
     switch (providerId as AvailableReadProviders) {
       case AvailableReadProviders.ethMainnet:
