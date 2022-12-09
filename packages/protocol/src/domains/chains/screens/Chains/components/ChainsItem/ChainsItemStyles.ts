@@ -37,11 +37,27 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
   },
   links: {
     width: '100%',
-    '& $copyItem:not(:last-child)': {
-      marginBottom: theme.spacing(1.5),
-    },
   },
-  copyItem: {},
+  premiumOnlyCopyItemContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    background: theme.palette.background.default,
+    padding: theme.spacing(1, 1.25),
+    borderRadius: theme.spacing(1.5),
+  },
+  premiumOnlyCopyItemText: {
+    display: 'inline',
+    fontSize: 12,
+    width: 'fit-content',
+    '-webkit-background-clip': 'text',
+    '-webkit-text-fill-color': 'transparent',
+    background:
+      'linear-gradient(269.98deg, #2F62F1 0.02%, #8D30FF 49.89%, #FF7710 99.98%)',
+  },
+  premiumOnlyCopyItemIcon: {
+    color: theme.palette.grey[600],
+  },
   dummy: {
     background: theme.palette.background.default,
     minHeight: 36,

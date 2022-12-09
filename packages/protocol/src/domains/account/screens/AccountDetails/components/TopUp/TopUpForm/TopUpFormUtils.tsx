@@ -28,11 +28,13 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { MultiService } from 'modules/api/MultiService';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
-import { ANKR_CURRENCY } from '../../const';
 import { RateBlock } from './RateBlock';
 import { RequestsBlock } from './RequestsBlock';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
-import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/PremiumBlock/PricingTopUp/PricingTopUpUtils';
+import {
+  ANKR_CURRENCY,
+  DEFAULT_ANKR_VALUE,
+} from 'domains/account/actions/topUp/const';
 
 export const useRenderDisabledForm = (
   classes: ClassNameMap,
@@ -50,7 +52,10 @@ export const useRenderDisabledForm = (
             currency={ANKR_CURRENCY}
           />
           {hasRateBlock && (
-            <RateBlock value={values[AmountInputField.amount]} />
+            <RateBlock
+              value={values[AmountInputField.amount]}
+              currency={ANKR_CURRENCY}
+            />
           )}
           <NavLink
             color="primary"
@@ -114,7 +119,10 @@ export const useRenderForm = ({
             validate={validateAmount}
           />
           {isAccountPage && (
-            <RateBlock value={values[AmountInputField.amount]} />
+            <RateBlock
+              value={values[AmountInputField.amount]}
+              currency={ANKR_CURRENCY}
+            />
           )}
           {isWalletConnected ? (
             <Button
@@ -187,7 +195,7 @@ export const useCheckLoginStep = () => {
         Boolean(lastLockedFundsEvent) &&
         credentials &&
         !workerTokenData?.userEndpointToken &&
-        amount.isGreaterThanOrEqualTo(MIN_ANKR_AMOUNT);
+        amount.isGreaterThanOrEqualTo(DEFAULT_ANKR_VALUE);
 
       if (isFirstTopup || isTopupAfterTokenExpiration) {
         setHasLoginStep(true);

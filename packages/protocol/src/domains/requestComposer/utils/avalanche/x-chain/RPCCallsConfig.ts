@@ -3,7 +3,7 @@ import { XChainMethod } from 'domains/requestComposer/constants/avalanche';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/avalanche';
 import { avalancheJSConfig } from './avalancheJSConfig';
 
-const root = 'chain-item.request-composer.method-description.avalanche.x-chain';
+const root = 'request-composer.method-description.avalanche.x-chain';
 
 export const RPC_CALLS_CONFIG: IRPCCallsConfig<XChainMethod> = {
   'avm.buildGenesis': {

@@ -34,6 +34,7 @@ export interface IApiChain {
   totalRequests?: BigNumber;
   type: IBlockchainEntity['type'];
   urls: IApiChainURL[];
+  premiumOnly?: boolean;
 }
 
 const getSuiFrontChain = (testnet: IApiChain) => ({
@@ -50,7 +51,14 @@ export const filterMapChains = (
     .filter(filterCB)
     .map<IApiChain>(chain => {
       const { blockchain, rpcURLs, wsURLs } = chain;
-      const { coinName, id, name, extends: chainExtends, type } = blockchain;
+      const {
+        coinName,
+        id,
+        name,
+        extends: chainExtends,
+        type,
+        premiumOnly,
+      } = blockchain;
 
       return {
         coinName,
@@ -63,6 +71,7 @@ export const filterMapChains = (
           rpc: url,
           ws: wsURLs[index],
         })),
+        premiumOnly,
       };
     });
 

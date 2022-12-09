@@ -24,6 +24,7 @@ export interface Chain {
   totalRequests?: BigNumber;
   type: IApiChain['type'];
   urls: IApiChainURL[];
+  premiumOnly?: boolean;
 }
 
 export interface SortChainsParams {

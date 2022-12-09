@@ -175,24 +175,6 @@ export enum PublicStatsInterval {
   MONTH = '30d',
 }
 
-export enum WithdrawStatus {
-  WITHDRAW_STATUS_UNKNOWN = 'WITHDRAW_STATUS_UNKNOWN',
-  WITHDRAW_STATUS_PENDING = 'WITHDRAW_STATUS_PENDING',
-  WITHDRAW_STATUS_WAITING = 'WITHDRAW_STATUS_WAITING',
-  WITHDRAW_STATUS_READY = 'WITHDRAW_STATUS_READY',
-  WITHDRAW_STATUS_COMPLETED = 'WITHDRAW_STATUS_COMPLETED',
-}
-
-export interface IWithdrawalStatusResponse {
-  withdraw: {
-    ankrAmount: string;
-    handleTxHash: string;
-    requestTxHash: string;
-    status: WithdrawStatus;
-    user: string;
-  };
-}
-
 export interface IGetActiveEmailBindingResponse {
   address: string;
   email: string;

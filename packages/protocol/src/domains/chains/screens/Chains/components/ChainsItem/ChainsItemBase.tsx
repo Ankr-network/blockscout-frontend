@@ -1,6 +1,5 @@
-import { Button } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { NavLink } from 'ui';
-
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
@@ -9,6 +8,11 @@ import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { t } from 'modules/i18n/utils/intl';
 import { useChainsItem } from '../../hooks/useChainsItem';
 import { useStyles } from './ChainsItemStyles';
+import { ChainsItemDialog } from './ChainsItemDialog';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useCallback, useMemo } from 'react';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { ReactComponent as LockIcon } from 'uiKit/Icons/lock.svg';
 
 export const ChainsItemBase = ({
   chain,
@@ -29,14 +33,20 @@ export const ChainsItemBase = ({
 
   const { label, isSui, tooltip } = useChainsItem(chain, isPremium);
 
-  return (
-    <div role="button" tabIndex={0} onClick={handleOriginUrlClick}>
-      <NavLink
-        isRouterLink
-        href={ChainsRoutesConfig.chainDetails.generatePath(chain.id)}
-        tabIndex={0}
-        className={classes.root}
-      >
+  const { isOpened, onOpen, onClose } = useDialog();
+
+  const handleClick = useCallback(() => onOpen(), [onOpen]);
+
+  const { credentials } = useAuth();
+
+  const isShowPremiumDialog = useMemo(
+    () => !credentials && chain.premiumOnly,
+    [chain, credentials],
+  );
+
+  const content = useMemo(() => {
+    return (
+      <>
         <ChainMainInfo
           className={classes.mainInfo}
           description={
@@ -61,7 +71,21 @@ export const ChainsItemBase = ({
           totalRequests={totalRequests}
         />
         <div className={classes.bottom}>
-          <div className={classes.links}>{chainsItemLink}</div>
+          <div className={classes.links}>
+            {isShowPremiumDialog ? (
+              <Box className={classes.premiumOnlyCopyItemContainer}>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.premiumOnlyCopyItemText}
+                >
+                  {t('chains.for-premium-only')}
+                </Typography>
+                <LockIcon className={classes.premiumOnlyCopyItemIcon} />
+              </Box>
+            ) : (
+              chainsItemLink
+            )}
+          </div>
           <div className={classes.buttonsWrapper}>
             {chainsItemButton && chainsItemButton}
             <Button
@@ -73,6 +97,53 @@ export const ChainsItemBase = ({
             </Button>
           </div>
         </div>
+      </>
+    );
+  }, [
+    classes,
+    description,
+    period,
+    isHighlighted,
+    chain,
+    isSui,
+    logoSrc,
+    name,
+    timeframe,
+    totalRequests,
+    chainsItemLink,
+    chainsItemButton,
+    isLoading,
+    label,
+    tooltip,
+    isShowPremiumDialog,
+  ]);
+
+  return isShowPremiumDialog ? (
+    <>
+      <div
+        role="button"
+        tabIndex={0}
+        className={classes.root}
+        onClick={handleClick}
+      >
+        {content}
+      </div>
+      <ChainsItemDialog
+        name={name}
+        open={isOpened}
+        logoSrc={logoSrc}
+        onClose={onClose}
+      />
+    </>
+  ) : (
+    <div role="button" tabIndex={0} onClick={handleOriginUrlClick}>
+      <NavLink
+        isRouterLink
+        href={ChainsRoutesConfig.chainDetails.generatePath(chain.id)}
+        tabIndex={0}
+        className={classes.root}
+      >
+        {content}
       </NavLink>
     </div>
   );

@@ -6,7 +6,7 @@ import { RPCCallsConfig } from 'domains/requestComposer/types/solana';
 import { t } from 'modules/i18n/utils/intl';
 import { solanaWeb3Config } from './solanaWeb3Config';
 
-const root = 'chain-item.request-composer.method-description.solana';
+const root = 'request-composer.method-description.solana';
 
 export const RPC_CALLS_CONFIG: RPCCallsConfig = {
   [SolanaMethod.getAccountInfo]: {

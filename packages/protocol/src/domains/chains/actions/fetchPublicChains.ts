@@ -20,23 +20,16 @@ export const fetchPublicChains = createSmartAction<
     promise: (async () => {
       const service = MultiService.getService();
       const chains = await service.getPublicGateway().getBlockchains();
-
       const formattedPublicChains = service.formatPublicEndpoints(chains);
 
-      return {
-        chains: formattedPublicChains,
-        allChains: formattedPublicChains,
-      };
+      return { chains: formattedPublicChains };
     })(),
   },
   meta: {
     cache: true,
-    getData: ({ chains, allChains }) => ({
-      chains: filterMapChains(
-        chains,
-        ({ blockchain }) => !blockchain.premiumOnly,
-      ),
-      allChains: filterMapChains(allChains),
+    getData: ({ chains }) => ({
+      chains: filterMapChains(chains),
+      allChains: filterMapChains(chains),
     }),
   },
 }));

@@ -1,4 +1,4 @@
-import { ArgumentType } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/RequestComposer/components/MethodsForm/MethodsFormUtils';
+import { ArgumentType } from 'domains/requestComposer/components/MethodsForm/MethodsFormUtils';
 import { HarmonyMethod } from 'domains/requestComposer/constants/harmony';
 import { ILibraryConfig } from 'domains/requestComposer/types/harmony';
 

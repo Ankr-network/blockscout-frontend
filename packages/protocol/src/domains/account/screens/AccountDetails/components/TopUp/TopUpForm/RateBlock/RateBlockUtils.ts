@@ -2,8 +2,9 @@ import BigNumber from 'bignumber.js';
 
 import { CreditsRate } from 'domains/account/actions/rate/fetchCreditRates';
 import { CurrencyRateSymbol } from 'multirpc-sdk';
-import { CurrencyType, USD_CURRENCY } from '../../../const';
 import { t } from 'modules/i18n/utils/intl';
+import { USD_CURRENCY } from 'domains/account/actions/usdTopUp/const';
+import { CurrencyType } from './RateBlockTypes';
 
 const root = 'account.account-details.top-up';
 
@@ -93,13 +94,7 @@ export const getRate = (
   );
 };
 
-export const DEFAULT_ANKR_AMOUNT = '1000';
-
-export const getRequests = (
-  currency: CurrencyType,
-  rates: CreditsRate[],
-  value?: string,
-) => {
+export const getRequests = (rates: CreditsRate[], value?: string) => {
   const ankrToCreditsRate = getCurrencyRate(
     rates,
     CurrencyRateSymbol['CREDIT/ANKR'],
