@@ -10,4 +10,5 @@ export type TCalcToken =
   | Token.DOT
   | Token.KSM
   | Token.WND
-  | Token.mGNO;
+  | Token.mGNO
+  | Token.XDC;

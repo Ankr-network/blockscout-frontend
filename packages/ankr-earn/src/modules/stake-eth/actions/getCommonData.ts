@@ -11,7 +11,6 @@ export interface IGetCommonData {
   aETHcBalance: BigNumber;
   aETHcRatio: BigNumber;
   ethBalance: BigNumber;
-  minStake: BigNumber;
 }
 
 export const getCommonData = createAction<
@@ -23,12 +22,11 @@ export const getCommonData = createAction<
 
       const isFormatted = true;
 
-      const [ethBalance, aETHbBalance, aETHcBalance, minStake, aETHcRatio] =
+      const [ethBalance, aETHbBalance, aETHcBalance, aETHcRatio] =
         await Promise.all([
           sdk.getEthBalance(),
           sdk.getABBalance(isFormatted),
           sdk.getACBalance(isFormatted),
-          sdk.getMinimumStake(),
           sdk.getACRatio(isFormatted),
         ]);
 
@@ -37,7 +35,6 @@ export const getCommonData = createAction<
         aETHcBalance,
         aETHcRatio,
         ethBalance,
-        minStake,
       };
     })(),
   },

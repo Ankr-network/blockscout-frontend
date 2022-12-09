@@ -1,6 +1,6 @@
 import { withSvgIcon } from './withSvgIcon';
 
-export const ASUICIcon = withSvgIcon(
+export const ankrSUIIcon = withSvgIcon(
   <>
     <g clipPath="url(#clip0_10576_68993)">
       <path

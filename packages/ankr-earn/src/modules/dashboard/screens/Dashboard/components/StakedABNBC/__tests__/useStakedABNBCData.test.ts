@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js';
 import { Token } from 'modules/common/types/token';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 
 import { useStakedABNBCData } from '../useStakedABNBCData';
 
@@ -34,7 +34,7 @@ jest.mock('modules/stake-bnb/actions/fetchPendingValues', () => ({
   useGetBNBPendingValuesQuery: jest.fn(),
 }));
 
-jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
   useGetBNBStatsQuery: jest.fn(),
 }));
 

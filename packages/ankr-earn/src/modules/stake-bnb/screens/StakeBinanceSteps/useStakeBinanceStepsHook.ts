@@ -8,11 +8,12 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import {
   useGetBNBTxDataQuery,
   useGetBNBTxReceiptQuery,
 } from 'modules/stake-bnb/actions/getTxData';
+import { useGetBNBStakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStakeStatsQuery';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -45,9 +46,16 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
       pollingInterval: 3_000,
     },
   );
-  const { data: stats, refetch } = useGetBNBStatsQuery(undefined, {
-    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-  });
+  const { data: stats, refetch: statsRefetch } = useGetBNBStatsQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
+  const { data: stakeStats, refetch: stakeStatsRefetch } =
+    useGetBNBStakeStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const dispatch = useAppDispatch();
   const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
@@ -57,7 +65,10 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
 
   useProviderEffect(() => {
     if (!stats) {
-      refetch();
+      statsRefetch();
+    }
+    if (!stakeStats) {
+      stakeStatsRefetch();
     }
   }, [dispatch, txHash]);
 
@@ -74,7 +85,7 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
 
     const amount = data?.amount;
 
-    const relayerFee = stats?.relayerFee;
+    const relayerFee = stakeStats?.relayerFee;
 
     if (!amount || !relayerFee) {
       return undefined;
@@ -83,7 +94,13 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     const amountWithoutFee = amount.minus(relayerFee);
 
     return amountWithoutFee;
-  }, [data?.amount, receipt, stats?.aBNBcRatio, stats?.relayerFee, tokenOut]);
+  }, [
+    data?.amount,
+    receipt,
+    stats?.aBNBcRatio,
+    stakeStats?.relayerFee,
+    tokenOut,
+  ]);
 
   const isPending = !receipt && !!data?.isPending;
 

@@ -6,16 +6,16 @@ import { featuresConfig } from 'modules/common/const';
 import { RoutesConfig as RoutesReferralsConfig } from 'modules/referrals/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
-import { useProtfolioHeaderStyles } from './useProtfolioHeaderStyles';
+import { usePortfolioHeaderStyles } from './usePortfolioHeaderStyles';
 
-interface IProtfolioHeaderMobileProps {
+interface IPortfolioHeaderMobileProps {
   isCurrentAccountPartner: boolean;
 }
 
-export const ProtfolioHeaderMobile = ({
+export const PortfolioHeaderMobile = ({
   isCurrentAccountPartner,
-}: IProtfolioHeaderMobileProps): JSX.Element => {
-  const classes = useProtfolioHeaderStyles();
+}: IPortfolioHeaderMobileProps): JSX.Element => {
+  const classes = usePortfolioHeaderStyles();
 
   return (
     <Hidden lgUp>

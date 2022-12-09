@@ -1,7 +1,6 @@
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import Web3 from 'web3';
 
 import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
@@ -14,8 +13,6 @@ export interface IFetchStatsResponseData {
   maticBalance: BigNumber;
   aMATICbBalance: BigNumber;
   aMATICcBalance: BigNumber;
-  minimumStake: BigNumber;
-  unstakeFee: BigNumber;
   pendingBond: BigNumber;
   pendingCertificate: BigNumber;
   aMATICcRatio: BigNumber;
@@ -27,20 +24,17 @@ export const fetchStats = createSmartAction<
   request: {
     promise: async (): Promise<IFetchStatsResponseData> => {
       const sdk = await PolygonOnEthereumSDK.getInstance();
-      const unstakeFee = await sdk.getUnstakeFee();
 
       const [
         maticBalance,
         aMATICbBalance,
         aMATICcBalance,
-        minimumStake,
         aMATICcRatio,
         { pendingBond, pendingCertificate },
       ] = await Promise.all([
         sdk.getMaticBalance(),
         sdk.getABBalance(),
         sdk.getACBalance(),
-        sdk.getMinimumStake(),
         sdk.getACRatio(),
         ...(featuresConfig.disableHeavyRequestsForTestnet
           ? [Promise.resolve({ pendingBond: ZERO, pendingCertificate: ZERO })]
@@ -51,8 +45,6 @@ export const fetchStats = createSmartAction<
         maticBalance,
         aMATICbBalance,
         aMATICcBalance,
-        minimumStake,
-        unstakeFee: new BigNumber(Web3.utils.fromWei(unstakeFee)),
         pendingBond,
         pendingCertificate,
         aMATICcRatio,

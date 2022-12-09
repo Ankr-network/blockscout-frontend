@@ -18,6 +18,7 @@ import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getValidSelectedToken } from 'modules/stake-matic/common/utils/getValidSelectedToken';
 import { approveAMATICCUnstake } from 'modules/stake-matic/eth/actions/approveAMATICCUnstake';
+import { fetchStakeStats } from 'modules/stake-matic/eth/actions/fetchStakeStats';
 import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { unstake } from 'modules/stake-matic/eth/actions/unstake';
@@ -59,6 +60,10 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
   const { loading: isFetchStatsLoading, data: fetchStatsData } = useQuery({
     type: fetchStats,
   });
+  const { loading: isFetchStakeStatsLoading, data: fetchStakeStatsData } =
+    useQuery({
+      type: fetchStakeStats,
+    });
   const { data: approveData, loading: isApproveLoading } = useQuery({
     type: approveAMATICCUnstake,
   });
@@ -73,7 +78,7 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
   const minAmaticbAmount = fetchStatsData?.aMATICbBalance ?? ZERO;
   const minAmaticcAmount = fetchStatsData?.aMATICcBalance ?? ZERO;
   const amaticcRatio = fetchStatsData?.aMATICcRatio ?? ZERO;
-  const unstakeFee = fetchStatsData?.unstakeFee ?? ZERO;
+  const unstakeFee = fetchStakeStatsData?.unstakeFee ?? ZERO;
   const minAmount = isBondToken ? minAmaticbAmount : minAmaticcAmount;
 
   const isApproved = !!approveData;
@@ -145,7 +150,7 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
     syntTokenBalance,
     selectedToken,
     minAmount,
-    isFetchStatsLoading,
+    isFetchStatsLoading: isFetchStatsLoading || isFetchStakeStatsLoading,
     isUnstakeLoading,
     unstakeFee,
     closeHref,

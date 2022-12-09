@@ -1,32 +1,66 @@
 import BigNumber from 'bignumber.js';
+import { RootState } from 'store';
+
+import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
+import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 
-import { CacheTags } from '../const';
+import {
+  getAnkrSUIBalance,
+  getAnkrSUIRatio,
+  getMinStake,
+  getSUIBalance,
+} from '../api';
+import { CacheTags, ETH_READ_PROVIDER_ID } from '../const';
 
 interface IGetCommonData {
   suiBalance: BigNumber;
   minStake: BigNumber;
-  pendingUnstakes: BigNumber;
-  aSUIcBalance: BigNumber;
-  aSUIcRatio: BigNumber;
+  ankrSUIBalance: BigNumber;
+  ankrSUIRatio: BigNumber;
 }
 
 export const { useGetSUICommonDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getSUICommonData: build.query<IGetCommonData, void>({
-      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(async () => {
-        return {
-          data: {
-            suiBalance: ZERO,
-            minStake: ZERO,
-            pendingUnstakes: ZERO,
-            aSUIcBalance: ZERO,
-            aSUIcRatio: ZERO,
-          },
-        };
-      }),
+    getSUICommonData: build.query<IGetCommonData | null, void>({
+      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData | null>(
+        async (args, { getState }) => {
+          const providerManager = ProviderManagerSingleton.getInstance();
+
+          const { address, walletId } = selectEthProviderData(
+            getState() as RootState,
+          );
+
+          if (!address || !walletId) {
+            return {
+              data: null,
+            };
+          }
+
+          const provider = await providerManager.getETHReadProvider(
+            ETH_READ_PROVIDER_ID,
+          );
+
+          const [suiBalance, minStake, ankrSUIBalance, ankrSUIRatio] =
+            await Promise.all([
+              getSUIBalance(),
+              getMinStake(),
+              getAnkrSUIBalance({ address, provider }),
+              getAnkrSUIRatio({ provider }),
+            ]);
+
+          return {
+            data: {
+              suiBalance,
+              minStake,
+              ankrSUIBalance,
+              ankrSUIRatio,
+            },
+          };
+        },
+      ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

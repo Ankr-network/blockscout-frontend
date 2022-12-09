@@ -5,8 +5,8 @@ import { ZERO } from 'modules/common/const';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
 
@@ -28,7 +28,7 @@ jest.mock('modules/stake-ankr/actions/getTotalInfo', () => ({
   useGetTotalInfoQuery: jest.fn(),
 }));
 
-jest.mock('modules/stake-avax/actions/fetchCommonData', () => ({
+jest.mock('modules/stake-avax/actions/useGetAVAXCommonDataQuery', () => ({
   useGetAVAXCommonDataQuery: jest.fn(),
 }));
 
@@ -36,7 +36,7 @@ jest.mock('modules/stake-fantom/actions/getCommonData', () => ({
   useGetFTMCommonDataQuery: jest.fn(),
 }));
 
-jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
   useGetBNBStatsQuery: jest.fn(),
 }));
 

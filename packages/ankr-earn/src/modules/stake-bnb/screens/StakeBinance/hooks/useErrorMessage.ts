@@ -1,7 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { ACTION_CACHE_SEC } from 'modules/common/const';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IUseErrorMessage {
