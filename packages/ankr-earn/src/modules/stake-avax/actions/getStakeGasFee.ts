@@ -1,8 +1,8 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { AvalancheSDK } from '@ankr.com/staking-sdk';
+
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { TAvaxSyntToken } from '../types';
 
@@ -11,18 +11,16 @@ interface IGetStakeGasFeeArgs {
   token: TAvaxSyntToken;
 }
 
-export const getStakeGasFee = createAction<
-  RequestAction<BigNumber, BigNumber>,
-  [IGetStakeGasFeeArgs]
->(`avax/getStakeGasFee`, ({ amount, token }) => ({
-  request: {
-    promise: (async (): Promise<BigNumber> => {
-      const sdk = await AvalancheSDK.getInstance();
+export const { useLazyGetAVAXStakeGasFeeQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getAVAXStakeGasFee: build.query<BigNumber, IGetStakeGasFeeArgs>({
+      queryFn: queryFnNotifyWrapper<IGetStakeGasFeeArgs, never, BigNumber>(
+        async ({ amount, token }) => {
+          const sdk = await AvalancheSDK.getInstance();
 
-      return sdk.getStakeGasFee(amount, token);
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-  },
-}));
+          return { data: await sdk.getStakeGasFee(amount, token) };
+        },
+      ),
+    }),
+  }),
+});

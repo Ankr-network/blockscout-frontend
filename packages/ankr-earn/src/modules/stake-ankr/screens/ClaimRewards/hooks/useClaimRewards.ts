@@ -91,18 +91,14 @@ export const useClaimRewards = (): IUseClaimRewards => {
     if (isClaimUnstakes) {
       claimAllForValidator({ provider: queryProvider ?? '' })
         .unwrap()
-        .catch(error => {
-          if (!error) {
-            sendClaimAllAnalytics();
-          }
+        .then(() => {
+          sendClaimAllAnalytics();
         });
     } else {
       claimRewards({ provider: queryProvider ?? '' })
         .unwrap()
-        .catch(error => {
-          if (!error) {
-            sendClaimRewardsAnalytics();
-          }
+        .then(() => {
+          sendClaimRewardsAnalytics();
         });
     }
   };

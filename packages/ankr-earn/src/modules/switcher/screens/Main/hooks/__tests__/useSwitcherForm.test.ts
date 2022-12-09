@@ -1,5 +1,5 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import fc from 'fast-check';
 
@@ -8,13 +8,13 @@ import {
   EEthereumNetworkId,
 } from '@ankr.com/provider';
 
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
 
-import { useSwitcherForm, ISwitcherFormHookArgs } from '..';
+import { ISwitcherFormHookArgs, useSwitcherForm } from '..';
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
@@ -27,7 +27,7 @@ jest.mock('modules/switcher/actions/transactions', () => ({
 }));
 
 jest.mock('modules/auth/common/actions/switchNetwork', () => ({
-  switchNetwork: jest.fn(),
+  useSwitchNetworkMutation: jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
@@ -54,7 +54,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
 
     (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
 
-    (switchNetwork as jest.Mock).mockReturnValue(undefined);
+    (useSwitchNetworkMutation as jest.Mock).mockReturnValue([jest.fn()]);
   });
 
   afterEach(() => {
@@ -100,6 +100,7 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
   describe('handle switch network', () => {
     test('should clear tx hash and error', () => {
       const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
+      const [switchNetwork] = useSwitchNetworkMutation();
 
       act(() => {
         result.current.handleSwitchNetwork();

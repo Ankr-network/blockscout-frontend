@@ -6,6 +6,7 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { iconByTokenMap, TIconMap } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 
 import { NetworkIconTextSkeleton } from './NetworkIconTextSkeleton';
 import { useNetworkIconTextStyles } from './useNetworkIconTextStyles';
@@ -19,7 +20,7 @@ interface INetworkIconTextProps {
    * @deprecated
    */
   network?: string;
-  token?: Token;
+  token: Token;
 }
 
 export const NetworkIconText = ({
@@ -36,6 +37,7 @@ export const NetworkIconText = ({
   }
 
   const Icon = iconByTokenMap[token as keyof TIconMap] ?? 'span';
+  const tokenName = getTokenName(token);
 
   return (
     <Grid container alignItems="center" spacing={2}>
@@ -44,7 +46,7 @@ export const NetworkIconText = ({
       </Grid>
 
       <Grid item xs>
-        <Typography className={classes.token}>{token}</Typography>
+        <Typography className={classes.token}>{tokenName}</Typography>
 
         {(network || chainId) && (
           <Typography className={classes.network}>

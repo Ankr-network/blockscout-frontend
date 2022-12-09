@@ -3,7 +3,7 @@ import { PChainMethod } from 'domains/requestComposer/constants/avalanche';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/avalanche';
 import { avalancheJSConfig } from './avalancheJSConfig';
 
-const root = 'chain-item.request-composer.method-description.avalanche.p-chain';
+const root = 'request-composer.method-description.avalanche.p-chain';
 
 export const RPC_CALLS_CONFIG: IRPCCallsConfig<PChainMethod> = {
   'platform.addDelegator': {

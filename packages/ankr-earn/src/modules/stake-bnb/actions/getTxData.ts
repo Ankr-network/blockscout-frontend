@@ -1,69 +1,66 @@
-import { RequestAction } from '@redux-requests/core';
 import retry from 'async-retry';
-import { createAction } from 'redux-smart-actions';
 
 import { BinanceSDK, IFetchTxData, IGetTxReceipt } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
-import { withStore } from 'modules/common/utils/withStore';
 
-export const getTxData = createAction<
-  RequestAction<IFetchTxData, IFetchTxData>
->('bnb/getTxData', ({ txHash }: { txHash: string }) => ({
-  request: {
-    promise: async (): Promise<IFetchTxData> => {
-      const sdk = await BinanceSDK.getInstance();
+interface IGetTxDataProps {
+  txHash: string;
+}
 
-      return retry(() => sdk.fetchTxData(txHash), {
-        retries: RETRIES_TO_GET_TX_DATA,
-      });
-    },
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    onRequest: withStore,
-  },
-}));
+export const { useGetBNBTxDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getBNBTxData: build.query<IFetchTxData, IGetTxDataProps>({
+      queryFn: queryFnNotifyWrapper<IGetTxDataProps, never, IFetchTxData>(
+        async ({ txHash }) => {
+          const sdk = await BinanceSDK.getInstance();
 
-export const getUnstakeTxData = createAction<
-  RequestAction<IFetchTxData, IFetchTxData>
->('bnb/getUnstakeTxData', ({ txHash }: { txHash: string }) => ({
-  request: {
-    promise: async (): Promise<IFetchTxData> => {
-      const sdk = await BinanceSDK.getInstance();
+          return {
+            data: await retry(() => sdk.fetchTxData(txHash), {
+              retries: RETRIES_TO_GET_TX_DATA,
+            }),
+          };
+        },
+      ),
+    }),
+  }),
+});
 
-      return retry(() => sdk.fetchUnstakeTxData(txHash), {
-        retries: RETRIES_TO_GET_TX_DATA,
-      });
-    },
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    onRequest: withStore,
-  },
-}));
+export const { useGetBNBUnstakeTxDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getBNBUnstakeTxData: build.query<IFetchTxData, IGetTxDataProps>({
+      queryFn: queryFnNotifyWrapper<IGetTxDataProps, never, IFetchTxData>(
+        async ({ txHash }) => {
+          const sdk = await BinanceSDK.getInstance();
 
-const POLL_INTERVAL_SECONDS = 3;
+          return {
+            data: await retry(() => sdk.fetchUnstakeTxData(txHash), {
+              retries: RETRIES_TO_GET_TX_DATA,
+            }),
+          };
+        },
+      ),
+    }),
+  }),
+});
 
-export const getTxReceipt = createAction<
-  RequestAction<IGetTxReceipt, IGetTxReceipt>
->('bnb/getTxReceipt', ({ txHash }: { txHash: string }) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    poll: POLL_INTERVAL_SECONDS,
-    getData: data => data,
-    onRequest: request => {
-      request.promise = BinanceSDK.getInstance().then(sdk =>
-        sdk.fetchTxReceipt(txHash),
-      );
+export const { useGetBNBTxReceiptQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getBNBTxReceipt: build.query<IGetTxReceipt | null, IGetTxDataProps>({
+      queryFn: queryFnNotifyWrapper<
+        IGetTxDataProps,
+        never,
+        IGetTxReceipt | null
+      >(async ({ txHash }) => {
+        const sdk = await BinanceSDK.getInstance();
 
-      return request;
-    },
-  },
-}));
+        return {
+          data: await retry(() => sdk.fetchTxReceipt(txHash), {
+            retries: RETRIES_TO_GET_TX_DATA,
+          }),
+        };
+      }),
+    }),
+  }),
+});

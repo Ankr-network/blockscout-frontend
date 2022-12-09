@@ -42,7 +42,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     chainId: EEthereumNetworkId.avalancheTestnet,
     pendingValue: ONE.dividedBy(10 ** 17),
     network: networkName,
-    tradeLink: 'trade',
+    switchLink: 'trade',
     unstakeLink: 'unstake',
     stakeLink: 'stake',
     stakeType: EAvalanchePoolEventsMap.StakePending,

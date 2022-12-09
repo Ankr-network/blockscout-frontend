@@ -1,8 +1,7 @@
-import { useQuery } from '@redux-requests/react';
-
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { fetchPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 
 interface IUseStakedBNB {
   isStakedOldAEthShowed: boolean;
@@ -12,13 +11,15 @@ interface IUseStakedBNB {
 }
 
 export const useStakedBNB = (): IUseStakedBNB => {
-  const { data: bnbCommon, loading: isBnbCommonLoading } = useQuery({
-    type: fetchStats,
-  });
+  const { data: bnbCommon, isFetching: isBnbCommonLoading } =
+    useGetBNBStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
-  const { data: pendingValues, loading: isPendingUnstakeLoading } = useQuery({
-    type: fetchPendingValues,
-  });
+  const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
+    useGetBNBPendingValuesQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const isStakedOldAEthShowed = getIsBalancePositive(bnbCommon?.aETHBalance);
 

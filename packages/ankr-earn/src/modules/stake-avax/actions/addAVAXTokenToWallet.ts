@@ -1,23 +1,20 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import { AvalancheSDK } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+
+import { CacheTags } from '../const';
 import { TAvaxSyntToken } from '../types';
 
-export const addAVAXTokenToWallet = createAction<
-  RequestAction<void, void>,
-  [TAvaxSyntToken]
->('avax/addAVAXTokenToWallet', (token: TAvaxSyntToken) => ({
-  request: {
-    promise: (async (): Promise<boolean> => {
-      const sdk = await AvalancheSDK.getInstance();
-
-      return sdk.addTokenToWallet(token);
-    })(),
-  },
-  meta: {
-    asMutation: true,
-    showNotificationOnError: true,
-  },
-}));
+export const { useAddAVAXTokenToWalletMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    addAVAXTokenToWallet: build.mutation<boolean, TAvaxSyntToken>({
+      queryFn: queryFnNotifyWrapper<TAvaxSyntToken, never, boolean>(
+        async token => {
+          const sdk = await AvalancheSDK.getInstance();
+          return { data: await sdk.addTokenToWallet(token) };
+        },
+      ),
+      invalidatesTags: [CacheTags.common],
+    }),
+  }),
+});

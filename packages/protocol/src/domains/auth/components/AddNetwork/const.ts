@@ -190,7 +190,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       symbol: 'CKB',
       decimals: 18,
     },
-    blockExplorerUrls: ['https://v0.gwscan.com/'],
+    blockExplorerUrls: ['https://gwscan.com/'],
   },
 
   [ChainID.OPTIMISM]: {

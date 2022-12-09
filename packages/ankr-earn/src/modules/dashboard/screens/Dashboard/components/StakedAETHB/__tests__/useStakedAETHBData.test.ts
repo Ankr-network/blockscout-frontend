@@ -26,8 +26,8 @@ jest.mock('modules/stake-eth/Routes', () => ({
   },
 }));
 
-jest.mock('modules/defi-aggregator/Routes', () => ({
-  RoutesConfig: { defi: { generatePath: () => '/defi' } },
+jest.mock('modules/switcher/Routes', () => ({
+  RoutesConfig: { main: { generatePath: () => '/switch' } },
 }));
 
 jest.mock('modules/stake-eth/actions/addTokenToWallet', () => ({
@@ -62,7 +62,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
 
     expect(result.current.amount).toStrictEqual(new BigNumber(1));
     expect(result.current.pendingValue).toStrictEqual(ZERO);
-    expect(result.current.tradeLink).toBe('/defi');
+    expect(result.current.switchLink).toBe('/switch');
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.stakeLink).toBe(expectedStakeLink);

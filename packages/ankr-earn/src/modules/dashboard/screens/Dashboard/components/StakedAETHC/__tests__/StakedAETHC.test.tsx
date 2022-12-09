@@ -90,7 +90,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
       </MemoryRouter>,
     );
 
-    const symbol = await screen.findByText('aETHc');
+    const symbol = await screen.findByText('ankrETH');
     const network = await screen.findByText('Ethereum Mainnet');
 
     expect(symbol).toBeInTheDocument();

@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
@@ -10,9 +9,8 @@ import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { fetchTotalHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
+import { useLazyGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 import { ITxEventsHistoryGroupItem } from '../../../types';
 
@@ -57,10 +55,10 @@ export interface ITxHistoryData {
 }
 
 export const useStakedBNBTxHistory = (): ITxHistoryData => {
-  const { data: txHistory, loading: isHistoryDataLoading } = useQuery({
-    type: fetchTotalHistory,
-  });
-  const dispatch = useAppDispatch();
+  const [
+    refetchTotalHistory,
+    { data: txHistory, isFetching: isHistoryDataLoading },
+  ] = useLazyGetBNBTotalHistoryQuery();
 
   const stakedABNBB = useMemo(() => {
     return getCompletedTransactions({
@@ -127,8 +125,8 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
     !!unstakedABNBC?.length;
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTotalHistory());
-  }, [dispatch]);
+    refetchTotalHistory();
+  }, [refetchTotalHistory]);
 
   return {
     isHistoryDataLoading,

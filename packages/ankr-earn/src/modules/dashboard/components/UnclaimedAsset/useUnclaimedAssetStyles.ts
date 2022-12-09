@@ -22,7 +22,7 @@ export const useUnclaimedAssetStyles = makeStyles(theme => ({
   claim: {
     fontSize: 16,
     height: 44,
-    width: 104,
+    width: 130,
     marginLeft: 'auto',
 
     [theme.breakpoints.down('md')]: {

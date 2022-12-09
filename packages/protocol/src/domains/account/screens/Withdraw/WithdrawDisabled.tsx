@@ -1,10 +1,10 @@
 import { Box, Container, Paper, Typography } from '@material-ui/core';
 
-import { useStyles } from './components/WithdrawSteps/WithdrawStepsStyles';
+import { useWithdrawDisabledStyles } from './WithdrawDisabledStyles';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 
 export const WithdrawDisabled = () => {
-  const classes = useStyles();
+  const classes = useWithdrawDisabledStyles();
 
   return (
     <Container className={classes.root}>
@@ -18,10 +18,10 @@ export const WithdrawDisabled = () => {
       >
         <Box className={classes.content}>
           <Typography variant="h4" className={classes.header}>
-            {t('withdraw-steps.title')}
+            {t('withdraw.title')}
           </Typography>
           <Typography variant="body1" className={classes.disabledTitle}>
-            {tHTML('withdraw-steps.disabled-content')}
+            {tHTML('withdraw.disabled-content')}
           </Typography>
         </Box>
       </Paper>

@@ -1,8 +1,8 @@
 import { Button, Typography, Box } from '@material-ui/core';
 
+import { PRICING_LINK } from 'domains/account/actions/topUp/const';
 import { t } from 'modules/i18n/utils/intl';
 import { useTopUpBlockHeaderStyles } from './TopUpBlockHeaderStyles';
-import { PRICING_LINK } from '../../const';
 
 export const TopUpBlockHeader = () => {
   const classes = useTopUpBlockHeaderStyles();

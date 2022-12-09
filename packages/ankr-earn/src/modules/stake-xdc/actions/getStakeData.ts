@@ -10,7 +10,7 @@ import {
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
-import { XDC_PROVIDER_ID } from '../const';
+import { CacheTags, XDC_PROVIDER_ID } from '../const';
 
 type TGetStakeData = IGetStakeData | null;
 
@@ -19,16 +19,10 @@ interface IGetStakeData {
   aXDCcRatio: BigNumber;
   minStakeAmount: BigNumber;
   xdcBalance: BigNumber;
-  xdcPoolAmount: BigNumber;
 }
 
-const {
-  getAXDCCBalance,
-  getAXDCCRatio,
-  getMinStakeAmount,
-  getXDCBalance,
-  getXDCPoolAmount,
-} = XDC;
+const { getAXDCCBalance, getAXDCCRatio, getMinStakeAmount, getXDCBalance } =
+  XDC;
 
 export const { useLazyGetStakeDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -58,31 +52,23 @@ export const { useLazyGetStakeDataQuery } = web3Api.injectEndpoints({
             };
           }
 
-          const [
-            aXDCcBalance,
-            aXDCcRatio,
-            minStakeAmount,
-            xdcBalance,
-            xdcPoolAmount,
-          ] = await Promise.all([
-            getAXDCCBalance({
-              address,
-              provider,
-            }),
-            getAXDCCRatio({
-              provider,
-            }),
-            getMinStakeAmount({
-              provider,
-            }),
-            getXDCBalance({
-              address,
-              provider,
-            }),
-            getXDCPoolAmount({
-              provider,
-            }),
-          ]);
+          const [aXDCcBalance, aXDCcRatio, minStakeAmount, xdcBalance] =
+            await Promise.all([
+              getAXDCCBalance({
+                address,
+                provider,
+              }),
+              getAXDCCRatio({
+                provider,
+              }),
+              getMinStakeAmount({
+                provider,
+              }),
+              getXDCBalance({
+                address,
+                provider,
+              }),
+            ]);
 
           return {
             data: {
@@ -90,11 +76,11 @@ export const { useLazyGetStakeDataQuery } = web3Api.injectEndpoints({
               aXDCcRatio,
               minStakeAmount,
               xdcBalance,
-              xdcPoolAmount,
             },
           };
         },
       ),
+      providesTags: [CacheTags.stakeData],
     }),
   }),
 });

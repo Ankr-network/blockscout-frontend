@@ -1,7 +1,8 @@
-import { IProvidersMap, sleep } from '@ankr.com/provider';
-import { PolkadotProvider } from './polkadot';
+import { sleep } from '@ankr.com/common';
+import { IProvidersMap } from '@ankr.com/provider';
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { configFromEnv } from './config';
+import { PolkadotProvider } from './polkadot';
 import { POLKADOT_PROVIDER_ID } from './types';
 
 const POLKADOT_CONNECT_WAIT_MS = 250;

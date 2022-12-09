@@ -2,6 +2,7 @@ import { createDriver as createAxiosDriver } from '@redux-requests/axios';
 import { handleRequests, RequestAction } from '@redux-requests/core';
 import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import axios from 'axios';
 import {
   connectRouter,
@@ -34,6 +35,7 @@ import {
 
 import { web3Api } from '../modules/api/web3Api';
 
+import { listenerMiddleware } from './listeners/listenerMiddleware';
 import { rootSagas } from './sagas';
 
 export interface IStoreState {
@@ -71,6 +73,8 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     return request;
   },
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   onError: (error: Error, action: RequestAction, store: Store) => {
     const message = getErrorMessage(error);
 
@@ -108,6 +112,7 @@ export const store = configureStore({
       serializableCheck: false,
       immutableCheck: false,
     })
+      .concat(listenerMiddleware.middleware)
       .concat(...requestsMiddleware)
       .concat(web3Api.middleware)
       .concat(routerMiddleware(historyInstance))
@@ -116,6 +121,8 @@ export const store = configureStore({
         featuresConfig.isCoin98SupportActive ? [networkSwitchCoin98] : [],
       ),
 });
+
+setupListeners(store.dispatch);
 
 export const persistor = persistStore(store);
 

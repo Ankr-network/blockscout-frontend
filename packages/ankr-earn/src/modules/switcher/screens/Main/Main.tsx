@@ -1,5 +1,5 @@
 import { t, tHTML } from '@ankr.com/common';
-import { Box, Paper, Typography, Chip } from '@material-ui/core';
+import { Box, Chip, Paper, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
@@ -11,6 +11,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
 import { DECIMAL_PLACES } from 'modules/common/const';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import {
   BASIS_POINTS_FEE_BY_TOKEN,
@@ -26,11 +27,11 @@ import { Tooltip } from 'uiKit/Tooltip';
 
 import { ISwapFormPayload } from '../../types';
 
-import { SwapOptions, Stepper } from './components';
+import { Stepper, SwapOptions } from './components';
 import {
+  useSendAnalytics,
   useSwitcherData,
   useSwitcherForm,
-  useSendAnalytics,
   useSwitcherUrlParams,
 } from './hooks';
 import { useMainSwitcherStyles } from './useMainSwitcherStyles';
@@ -89,6 +90,7 @@ export const Main = (): JSX.Element => {
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
 
   const canShowSpinner = isDataLoading && !abBalance && !acBalance;
+  const fromTokenName = getTokenName(from);
 
   const onSubmit = useCallback(
     ({ amount }: ISwapFormPayload) => {
@@ -183,7 +185,7 @@ export const Main = (): JSX.Element => {
           isBalanceLoading={isConnected ? isDataLoading : undefined}
           label={t('switcher.amountInputTitle')}
           name="amount"
-          tokenName={from}
+          tokenName={fromTokenName}
           onMaxClick={setMaxAmount(
             form,
             balance.decimalPlaces(18, BigNumber.ROUND_DOWN).toString(10),
@@ -206,7 +208,7 @@ export const Main = (): JSX.Element => {
             {!isDataLoading ? (
               t('unit.token-value', {
                 value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
-                token: from,
+                token: fromTokenName,
               })
             ) : (
               <Skeleton width={80} />
@@ -225,7 +227,7 @@ export const Main = (): JSX.Element => {
             {!isDataLoading ? (
               t('unit.token-value', {
                 value: calculateValueWithRatio(total).toFixed(),
-                token: to,
+                token: getTokenName(to),
               })
             ) : (
               <Skeleton width={80} />

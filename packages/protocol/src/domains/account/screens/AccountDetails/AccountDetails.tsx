@@ -20,7 +20,7 @@ import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { TopUpFormContext } from './components/TopUp/TopUpForm/TopUpFormUtils';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { validateAmount } from './AccountDetailsUtils';
-import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/PremiumBlock/PricingTopUp/PricingTopUpUtils';
+import { DEFAULT_ANKR_VALUE_STRING } from 'domains/account/actions/topUp/const';
 
 export const AccountDetails = () => {
   const classes = useStyles();
@@ -67,7 +67,7 @@ export const AccountDetails = () => {
             <TopUpFormContext.Provider
               value={{
                 initialValues: {
-                  amount: hasExpiredToken ? MIN_ANKR_AMOUNT.toString(10) : '',
+                  amount: hasExpiredToken ? DEFAULT_ANKR_VALUE_STRING : '',
                 },
                 isAccountPage: true,
                 validateAmount: hasExpiredToken ? validateAmount : undefined,

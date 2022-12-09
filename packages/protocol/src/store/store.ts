@@ -8,9 +8,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
-import { accountWithdrawPersistConfig } from 'domains/account/storage/accountWithdrawPersistConfig';
 import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
-import { accountWithdrawSlice } from 'domains/account/store/accountWithdrawSlice';
 import { disconnect } from 'domains/auth/actions/disconnect';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
 import { authSlice } from 'domains/auth/store/authSlice';
@@ -85,10 +83,6 @@ const rootReducer = combineReducers({
   accountTopUp: persistReducer(
     accountTopUpPersistConfig,
     accountTopUpSlice.reducer,
-  ),
-  accountWithdraw: persistReducer(
-    accountWithdrawPersistConfig,
-    accountWithdrawSlice.reducer,
   ),
   chainsOriginURL: chainsSlilce.reducer,
   requestComposer: requestComposerSlice.reducer,

@@ -1,8 +1,7 @@
-import { useQuery } from '@redux-requests/react';
-
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
-import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 
 interface IUseStakedAVAX {
   isStakedAvaxBondShowed: boolean;
@@ -11,14 +10,12 @@ interface IUseStakedAVAX {
 }
 
 export const useStakedAVAX = (): IUseStakedAVAX => {
-  const { data: avaxCommon, loading: isAvaxCommonLoading } = useQuery({
-    type: fetchStats,
-  });
-
-  const { data: avaxPendingValues, loading: isAvaxPendingValuesLoading } =
-    useQuery({
-      type: fetchPendingValues,
+  const { data: avaxCommon, isFetching: isAvaxCommonLoading } =
+    useGetAVAXCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
+  const { data: avaxPendingValues, isFetching: isAvaxPendingValuesLoading } =
+    useGetAVAXPendingValuesQuery();
 
   const isStakedAvaxBondShowed =
     getIsBalancePositive(avaxCommon?.aAVAXbBalance) ||

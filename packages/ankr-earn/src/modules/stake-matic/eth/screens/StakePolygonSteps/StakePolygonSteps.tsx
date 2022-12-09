@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { ProgressStep } from 'modules/common/components/ProgressStep';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 
 import { useStakePolygonStepsHook } from './useStakePolygonStepsHook';
 
@@ -12,9 +13,11 @@ export const StakePolygonSteps = (): JSX.Element => {
     error,
     destination,
     transactionId,
-    tokenName,
+    tokenName: token,
     handleAddTokenToWallet,
   } = useStakePolygonStepsHook();
+
+  const tokenName = getTokenName(token);
 
   return (
     <ProgressStep
@@ -25,7 +28,7 @@ export const StakePolygonSteps = (): JSX.Element => {
       hint={t('stake.pending.description', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}
-      symbol={tokenName}
+      symbol={token}
       title={t('stake.progressTitle')}
       txHash={transactionId}
       onAddTokenToWallet={handleAddTokenToWallet}

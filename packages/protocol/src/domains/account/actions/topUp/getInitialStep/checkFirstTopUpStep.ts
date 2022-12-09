@@ -2,9 +2,8 @@ import { getQuery, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 
 import { connect } from 'domains/auth/actions/connect';
-import { MIN_ANKR_AMOUNT } from 'domains/pricing/screens/Pricing/components/PremiumBlock/PricingTopUp/PricingTopUpUtils';
 import { MultiService } from 'modules/api/MultiService';
-import { TopUpStep } from '../const';
+import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
 import { waitTransactionConfirming } from '../waitTransactionConfirming';
 
 export const checkFirstTopUpStep = async (
@@ -34,7 +33,7 @@ export const checkFirstTopUpStep = async (
     Boolean(lastTopUpEvent) &&
     connectData?.credentials &&
     !connectData?.workerTokenData?.userEndpointToken &&
-    amount.isGreaterThanOrEqualTo(MIN_ANKR_AMOUNT);
+    amount.isGreaterThanOrEqualTo(DEFAULT_ANKR_VALUE);
 
   const hasFirstTopUp = isFirstTopup || isTopupAfterTokenExpiration;
 

@@ -12,6 +12,7 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -24,13 +25,12 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { TokenVariant } from 'modules/stake/components/TokenVariant';
-import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
-import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
-import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
+
+import { StakeTokenInfo } from '../../../../stake/components/StakeTokenInfo/StakeTokenInfo';
+import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
 
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStyles } from './useStakeStyles';
@@ -56,7 +56,6 @@ export const Stake = (): JSX.Element => {
     totalAmount,
     onFormChange,
     onFormSubmit,
-    onTokenSelect,
   } = useStakeForm();
 
   const renderStats = (): JSX.Element => (
@@ -76,29 +75,13 @@ export const Stake = (): JSX.Element => {
         </QuestionWithTooltip>
       </div>
 
-      <TokenVariantList my={5}>
-        <TokenVariant
-          isUnsupported
-          description={tHTML('stake-matic-eth.amaticb-descr')}
-          iconSlot={<AMATICBIcon />}
-          isActive={tokenOut === Token.aMATICb}
-          title={t('unit.amaticb')}
-          onClick={onTokenSelect(Token.aMATICb)}
+      <Box my={5}>
+        <StakeTokenInfo
+          nativeAmount={ONE.multipliedBy(acRatio).round().toString()}
+          nativeToken={Token.MATIC}
+          token={t('unit.amaticc')}
         />
-
-        <TokenVariant
-          description={tHTML('stake-matic-eth.amaticc-descr', {
-            rate: isGetStatsLoading
-              ? '...'
-              : ONE.dividedBy(acRatio).decimalPlaces(DECIMAL_PLACES).toFormat(),
-          })}
-          iconSlot={<AMATICCIcon />}
-          isActive={tokenOut === Token.aMATICc}
-          isDisabled={isStakeLoading}
-          title={t('unit.amaticc')}
-          onClick={onTokenSelect(Token.aMATICc)}
-        />
-      </TokenVariantList>
+      </Box>
 
       {stakeFeePct && (
         <>
@@ -125,13 +108,19 @@ export const Stake = (): JSX.Element => {
 
         <StakeDescriptionValue>
           <StakeDescriptionAmount
-            symbol={tokenOut}
+            symbol={getTokenName(tokenOut)}
             value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
           />
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
     </>
   );
+
+  const noticeText = useBTokenNotice({
+    bToken: Token.aMATICb,
+    cToken: Token.aMATICc,
+    nativeToken: Token.MATIC,
+  });
 
   if (isGetStatsLoading) {
     return (
@@ -173,6 +162,7 @@ export const Stake = (): JSX.Element => {
             loading={isStakeLoading}
             maxAmount={balance}
             networkTitleSlot={<NetworkTitle />}
+            noticeSlot={noticeText}
             renderStats={renderStats}
             tokenIn={tokenIn}
             tokenOut={tokenOut}

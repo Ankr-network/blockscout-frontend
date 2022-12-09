@@ -9,6 +9,7 @@ import { useStakedMATIC } from './MATIC/useStakedMATIC';
 import { useStakedPolkadotTokens } from './Polkadot/useStakedPolkadotTokens';
 import { useUnclaimedPolkadot } from './Polkadot/useUnclaimedPolkadot';
 import { useStakedSUI } from './SUI/useStakedSUI';
+import { useStakedXDC } from './XDC/useStakedXDC';
 
 interface IUseLiquidStakedTokens {
   isUnclaimedDotBondShowed: boolean;
@@ -32,6 +33,7 @@ interface IUseLiquidStakedTokens {
   isStakedKsmBondShowed: boolean;
   isStakedSSVOnETHCertShowed: boolean;
   isStakedSuiCertShowed: boolean;
+  isStakedXDCCertShowed: boolean;
   isBridgedEthCertBscShowed: boolean;
   isBridgedEthBondBscShowed: boolean;
   isBridgedMaticBondPolygonShowed: boolean;
@@ -111,6 +113,8 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
 
   const { isStakedSuiCertShowed, isSuiCommonLoading } = useStakedSUI();
 
+  const { isStakedXDCCertShowed, isXDCDataLoading } = useStakedXDC();
+
   const isStakedTokensLoading =
     isEthCommonLoading ||
     isMaticPolygonCommonLoading ||
@@ -130,7 +134,8 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isUnclaimedWndBondLoading ||
     isUnclaimedWndBondLoading ||
     isBridgedEthBondBSCLoading ||
-    isSuiCommonLoading;
+    isSuiCommonLoading ||
+    isXDCDataLoading;
 
   const liquidAssetsState = {
     isUnclaimedDotBondShowed,
@@ -154,6 +159,7 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isStakedKsmBondShowed,
     isStakedSSVOnETHCertShowed,
     isStakedSuiCertShowed,
+    isStakedXDCCertShowed,
 
     isBridgedEthCertBscShowed,
     isBridgedEthBondBscShowed,

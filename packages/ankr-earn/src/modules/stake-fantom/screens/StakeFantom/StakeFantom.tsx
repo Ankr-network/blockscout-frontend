@@ -1,4 +1,4 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
@@ -12,11 +12,12 @@ import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
-  DEFAULT_FIXED,
   featuresConfig,
+  ONE,
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -30,11 +31,10 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { TokenVariant } from 'modules/stake/components/TokenVariant';
-import { TokenVariantList } from 'modules/stake/components/TokenVariantList';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
-import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
-import { AFTMCIcon } from 'uiKit/Icons/AFTMCIcon';
+
+import { StakeTokenInfo } from '../../../stake/components/StakeTokenInfo/StakeTokenInfo';
+import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
 
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useStakeForm } from './hooks/useStakeForm';
@@ -57,7 +57,6 @@ export const StakeFantom = (): JSX.Element => {
     gasFee,
     isCommonDataLoading,
     isGasFeeLoading,
-    isStakeLoading,
     loading,
     minAmount,
     tokenIn,
@@ -65,35 +64,16 @@ export const StakeFantom = (): JSX.Element => {
     totalAmount,
     onChange,
     onSubmit,
-    onTokenSelect,
   } = useStakeForm();
 
   const renderStats = useCallback(() => {
     return (
       <>
-        <TokenVariantList my={5}>
-          <TokenVariant
-            description={tHTML('stake-fantom.aftmb-descr')}
-            iconSlot={<AFTMBIcon />}
-            isActive={tokenOut === Token.aFTMb}
-            isDisabled={isStakeLoading}
-            title={t('unit.aftmb')}
-            onClick={onTokenSelect(Token.aFTMb)}
-          />
-
-          <TokenVariant
-            description={tHTML('stake-fantom.aftmc-descr', {
-              rate: isCommonDataLoading
-                ? '...'
-                : aFTMcRatio.decimalPlaces(DEFAULT_FIXED).toFormat(),
-            })}
-            iconSlot={<AFTMCIcon />}
-            isActive={tokenOut === Token.aFTMc}
-            isDisabled={isStakeLoading}
-            title={t('unit.aftmc')}
-            onClick={onTokenSelect(Token.aFTMc)}
-          />
-        </TokenVariantList>
+        <StakeTokenInfo
+          nativeAmount={ONE.multipliedBy(aFTMcRatio).round().toString()}
+          nativeToken={Token.FTM}
+          token={t('unit.aftmc')}
+        />
 
         <StakeDescriptionContainer>
           <StakeDescriptionName>
@@ -102,21 +82,14 @@ export const StakeFantom = (): JSX.Element => {
 
           <StakeDescriptionValue>
             <StakeDescriptionAmount
-              symbol={tokenOut}
+              symbol={getTokenName(tokenOut)}
               value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
       </>
     );
-  }, [
-    totalAmount,
-    tokenOut,
-    isStakeLoading,
-    onTokenSelect,
-    aFTMcRatio,
-    isCommonDataLoading,
-  ]);
+  }, [totalAmount, tokenOut, aFTMcRatio]);
 
   useProviderEffect(() => {
     dispatchRequest(getFAQ(Token.FTM));
@@ -142,6 +115,12 @@ export const StakeFantom = (): JSX.Element => {
       }),
     );
   }, [certificateRatio, dispatchRequest]);
+
+  const noticeText = useBTokenNotice({
+    bToken: Token.aFTMb,
+    cToken: Token.aFTMc,
+    nativeToken: Token.FTM,
+  });
 
   return (
     <section className={classes.root}>
@@ -171,6 +150,7 @@ export const StakeFantom = (): JSX.Element => {
           isDisabled={loading}
           loading={hasError || loading}
           minAmount={minAmount ? new BigNumber(minAmount) : ZERO}
+          noticeSlot={noticeText}
           renderStats={renderStats}
           tokenIn={tokenIn}
           tokenOut={tokenOut}

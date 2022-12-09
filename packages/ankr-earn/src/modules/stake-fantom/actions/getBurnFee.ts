@@ -10,6 +10,7 @@ export const { useLazyGetFTMBurnFeeQuery } = web3Api.injectEndpoints({
       queryFn: queryFnNotifyWrapper<BigNumber, never, BigNumber>(
         async amount => {
           const sdk = await FantomSDK.getInstance();
+
           return { data: await sdk.getBurnFee(amount) };
         },
       ),

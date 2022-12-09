@@ -5,6 +5,7 @@ import Web3 from 'web3';
 
 import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
@@ -33,15 +34,17 @@ export const fetchStats = createSmartAction<
         aMATICbBalance,
         aMATICcBalance,
         minimumStake,
-        { pendingBond, pendingCertificate },
         aMATICcRatio,
+        { pendingBond, pendingCertificate },
       ] = await Promise.all([
         sdk.getMaticBalance(),
         sdk.getABBalance(),
         sdk.getACBalance(),
         sdk.getMinimumStake(),
-        sdk.getPendingData(),
         sdk.getACRatio(),
+        ...(featuresConfig.disableHeavyRequestsForTestnet
+          ? [Promise.resolve({ pendingBond: ZERO, pendingCertificate: ZERO })]
+          : [sdk.getPendingData()]),
       ]);
 
       return {

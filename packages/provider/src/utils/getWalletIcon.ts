@@ -1,4 +1,5 @@
 import binanceWalletLogo from './assets/binance-wallet.svg';
+import cloverLogo from './assets/clv-logo.svg';
 import coin98WalletLogo from './assets/coin98-wallet.svg';
 import coinbaseLogo from './assets/coinbase.svg';
 import huobiLogo from './assets/huobi.svg';
@@ -31,6 +32,8 @@ export const getWalletIcon = (walletId: EWalletId): string => {
       return coinbaseLogo;
     case EWalletId.coin98:
       return coin98WalletLogo;
+    case EWalletId.clover:
+      return cloverLogo;
     case EWalletId.injected:
     default:
       return metamaskLogo;

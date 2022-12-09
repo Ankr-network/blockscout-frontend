@@ -17,7 +17,7 @@ export const useStakingAssetStyles = makeStyles(theme => ({
   tradeButton: {
     fontSize: 16,
     height: 44,
-    width: 104,
+    width: 130,
 
     [theme.breakpoints.down('md')]: {
       width: '100%',

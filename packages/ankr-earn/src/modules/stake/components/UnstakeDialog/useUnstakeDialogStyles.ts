@@ -13,6 +13,10 @@ export const useUnstakeDialogStyles = makeStyles(theme => ({
     },
   },
 
+  footer: {
+    marginTop: theme.spacing(4),
+  },
+
   container: {
     maxWidth: 520 + theme.spacing(4),
     padding: theme.spacing(0, 2),

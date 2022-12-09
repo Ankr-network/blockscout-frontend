@@ -1,13 +1,12 @@
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchStats } from 'modules/stake-avax/actions/fetchStats';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 
 interface IUseUnstakeAVAXAnalytics {
@@ -19,8 +18,8 @@ export const useUnstakeAvaxAnalytics = (): IUseUnstakeAVAXAnalytics => {
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { data: fetchStatsData } = useQuery({
-    type: fetchStats,
+  const { data: fetchStatsData } = useGetAVAXCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const sendAnalytics = (amount: BigNumber, syntheticToken: TAvaxSyntToken) => {

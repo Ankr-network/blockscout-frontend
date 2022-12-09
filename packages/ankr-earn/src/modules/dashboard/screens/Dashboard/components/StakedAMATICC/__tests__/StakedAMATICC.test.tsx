@@ -63,6 +63,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     token: Token.aMATICc,
     tokenAddress: '0x00',
     unstakeLink: 'unstake',
+    tradeLink: 'defi',
     isUnstakeLoading: false,
     pendingValue: new BigNumber(0.1),
     ratio: ZERO,
@@ -128,7 +129,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
       </MemoryRouter>,
     );
 
-    const symbol = await screen.findByText('aMATICc');
+    const symbol = await screen.findByText('ankrMATIC');
     const network = await screen.findByText('ETH');
 
     expect(symbol).toBeInTheDocument();

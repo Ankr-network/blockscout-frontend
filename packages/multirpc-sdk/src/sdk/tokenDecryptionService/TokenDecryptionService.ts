@@ -89,8 +89,6 @@ export class TokenDecryptionService {
   public async requestMetamaskEncryptionKey(): Promise<Base64> {
     const { currentAccount } = this.keyProvider;
 
-    if (this.publicKey) return this.publicKey;
-
     const publicKey =
       await this.getMetamaskDecryptionService().getMetamaskEncryptionPublicKey(
         currentAccount,

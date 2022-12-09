@@ -4,6 +4,8 @@ import {
   BinanceHttpWeb3KeyProvider,
   EthereumHttpWeb3KeyProvider,
   EthereumWeb3KeyProvider,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
   XDCHttpWeb3KeyProvider,
 } from './providers';
 import { FantomHttpWeb3KeyProvider } from './providers/FantomHttpWeb3KeyProvider';
@@ -14,8 +16,6 @@ import {
   AvailableWriteProviders,
   IProvider,
 } from '../utils/types';
-import { Web3KeyWriteProvider } from '../utils/Web3KeyWriteProvider';
-import { Web3KeyReadProvider } from '../utils/Web3KeyReadProvider';
 
 const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.ethMainnet]: 'https://rpc.ankr.com/eth',
@@ -32,8 +32,8 @@ const RPC_URLS: Record<AvailableReadProviders, string> = {
   [AvailableReadProviders.polygon]: 'https://polygon-rpc.com',
   [AvailableReadProviders.gnosis]: 'https://rpc.ankr.com/gnosis',
   [AvailableReadProviders.sokol]: 'https://sokol.poa.network',
-  [AvailableReadProviders.xdc]: 'https://rpc.xinfin.network',
-  [AvailableReadProviders.xdcTestnet]: 'https://rpc.apothem.network',
+  [AvailableReadProviders.xdc]: 'https://erpc.xinfin.network',
+  [AvailableReadProviders.xdcTestnet]: 'https://erpc.apothem.network',
 };
 
 export interface IProviders {
@@ -56,6 +56,9 @@ export interface IProviders {
 
 export type IProvidersMap = IProviders & IExtraProviders;
 export type IExtraProviders = Partial<{ [key: string]: IProvider }>;
+export type IPartialRpcUrlsConfig = Partial<
+  Record<AvailableReadProviders, string>
+>;
 
 export class ProviderManager<ProvidersMap extends IProvidersMap> {
   private providers: Partial<ProvidersMap> = {};
@@ -63,6 +66,7 @@ export class ProviderManager<ProvidersMap extends IProvidersMap> {
   constructor(
     private web3ModalTheme: ThemeColors,
     private providerOptions?: IProviderOptions,
+    private rpcUrls: IPartialRpcUrlsConfig = RPC_URLS,
   ) {}
 
   addProvider(
@@ -112,7 +116,10 @@ export class ProviderManager<ProvidersMap extends IProvidersMap> {
       return provider;
     }
 
-    const rpcUrls = RPC_URLS as Record<keyof IProviders, string>;
+    const rpcUrls = { ...RPC_URLS, ...this.rpcUrls } as Record<
+      keyof IProviders,
+      string
+    >;
 
     switch (providerId as AvailableReadProviders) {
       case AvailableReadProviders.ethMainnet:

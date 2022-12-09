@@ -1,17 +1,13 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IStoreState } from 'store';
 
-import { BinanceSDK } from '@ankr.com/staking-sdk';
+import { BinanceSDK, IStakeData } from '@ankr.com/staking-sdk';
 
-import { TStore } from 'modules/common/types/ReduxRequests';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
+import { CacheTags } from '../const';
+import { RoutesConfig } from '../Routes';
 import { TBnbSyntToken } from '../types';
-
-import { fetchPendingValues } from './fetchPendingValues';
-import { fetchStats } from './fetchStats';
 
 interface IStakeArgs {
   amount: BigNumber;
@@ -19,32 +15,34 @@ interface IStakeArgs {
   code?: string;
 }
 
-export const stake = createSmartAction<RequestAction<void, void>, [IStakeArgs]>(
-  'bnb/stake',
-  ({ amount, token, code }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<{ txHash: string }> => {
-        const sdk: BinanceSDK = await BinanceSDK.getInstance();
+export const { useStakeBNBMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    stakeBNB: build.mutation<IStakeData, IStakeArgs>({
+      queryFn: queryFnNotifyWrapper<IStakeArgs, never, IStakeData>(
+        async ({ amount, token, code }) => {
+          const sdk = await BinanceSDK.getInstance();
 
-        return sdk.stake(amount, token, undefined, code);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      onSuccess: (
-        response,
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ) => {
-        store.dispatchRequest(fetchStats());
-        store.dispatchRequest(fetchPendingValues());
+          return { data: await sdk.stake(amount, token, undefined, code) };
+        },
+      ),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { txHash } = response.data;
+          const { token } = args;
 
-        if (response.data.txHash) {
-          store.dispatch(push(`${token}/${response.data.txHash}/`));
-        }
-        return response;
+          if (txHash) {
+            dispatch(
+              push(
+                RoutesConfig.stakeSteps.generatePath({
+                  txHash: response.data.txHash,
+                  tokenOut: token,
+                }),
+              ),
+            );
+          }
+        });
       },
-    },
+      invalidatesTags: [CacheTags.common],
+    }),
   }),
-);
+});

@@ -1,28 +1,26 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { ONE_ETH as ONE, ZERO } from 'modules/common/const';
+import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 
 import { useStakedAAVAXBData } from '../useStakedAAVAXBData';
 
 jest.mock('@redux-requests/react', () => ({
   useMutation: jest.fn(),
   useQuery: jest.fn(),
-  useDispatchRequest: jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: () => ({ chainId: 43114 }),
 }));
 
-jest.mock('modules/defi-aggregator/Routes', () => ({
-  RoutesConfig: { defi: { generatePath: () => '/defi' } },
+jest.mock('modules/switcher/Routes', () => ({
+  RoutesConfig: { main: { generatePath: () => '/switch' } },
 }));
 
 jest.mock('modules/stake-avax/Routes', () => ({
@@ -33,45 +31,49 @@ jest.mock('modules/stake-avax/Routes', () => ({
 }));
 
 jest.mock('modules/stake-avax/actions/addAVAXTokenToWallet', () => ({
-  addAVAXTokenToWallet: jest.fn(),
+  useAddAVAXTokenToWalletMutation: jest.fn(),
 }));
 
 jest.mock('modules/stake-avax/actions/fetchPendingValues', () => ({
-  fetchPendingValues: jest.fn(),
-}));
-
-jest.mock('modules/stake-avax/actions/fetchStats', () => ({
-  fetchStats: jest.fn(),
+  useGetAVAXPendingValuesQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-avax/actions/stake', () => ({
-  stake: jest.fn(),
+  useStakeAVAXMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 jest.mock('modules/stake-avax/actions/unstake', () => ({
-  unstake: jest.fn(),
+  useUnstakeAVAXMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 jest.mock('modules/stake/actions/getMetrics', () => ({
   getMetrics: jest.fn(),
 }));
 
-describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAVAXData', () => {
+jest.mock('modules/stake-avax/actions/fetchCommonData', () => ({
+  useGetAVAXCommonDataQuery: jest.fn(),
+}));
+
+describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useStakedAAVAXBData', () => {
   const defaultStatsData = {
     data: { aAVAXbBalance: ONE, pendingValue: ZERO },
-    loading: false,
-  };
-
-  const defaultMutationData = {
     loading: false,
   };
 
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
 
-    (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
+    (useGetAVAXCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
 
-    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+    (useGetAVAXPendingValuesQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+
+    (useAddAVAXTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
   });
 
   afterEach(() => {
@@ -81,7 +83,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   test('should return amount and pending value', () => {
     const { result } = renderHook(() => useStakedAAVAXBData());
 
-    expect(result.current.amount).toStrictEqual(ONE);
+    expect(result.current.amount).toStrictEqual(ZERO);
     expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isStakeLoading).toBe(false);
@@ -98,7 +100,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
-    expect(result.current.tradeLink).toBe('/defi');
+    expect(result.current.switchLink).toBe('/switch');
     expect(result.current.stakeType).toBe(EAvalanchePoolEventsMap.StakePending);
     expect(result.current.unstakeType).toBe(
       EAvalanchePoolEventsMap.AvaxClaimPending,
@@ -106,8 +108,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
   });
 
   test('should handle add token to metamask', () => {
-    const mockDispatch = jest.fn();
-    (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
+    const [addAVAXTokenToWallet] = useAddAVAXTokenToWalletMutation();
 
     const { result } = renderHook(() => useStakedAAVAXBData());
 
@@ -115,6 +116,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
       result.current.handleAddTokenToWallet();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(addAVAXTokenToWallet).toBeCalledTimes(1);
   });
 });

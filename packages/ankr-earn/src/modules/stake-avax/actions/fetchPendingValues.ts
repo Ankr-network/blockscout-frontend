@@ -1,39 +1,46 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { AvalancheSDK } from '@ankr.com/staking-sdk';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
+
+import { CacheTags } from '../const';
 
 interface IFetchPendingValuesResponseData {
   pendingAavaxbUnstakes: BigNumber;
   pendingAavaxcUnstakes: BigNumber;
 }
 
-export const fetchPendingValues = createSmartAction<
-  RequestAction<
-    IFetchPendingValuesResponseData,
-    IFetchPendingValuesResponseData
-  >
->(
-  'avax/fetchPendingValues',
-  (): RequestAction => ({
-    request: {
-      promise: async (): Promise<IFetchPendingValuesResponseData> => {
-        const sdk = await AvalancheSDK.getInstance();
+export const { useGetAVAXPendingValuesQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getAVAXPendingValues: build.query<IFetchPendingValuesResponseData, void>({
+      queryFn: queryFnNotifyWrapper<
+        void,
+        never,
+        IFetchPendingValuesResponseData
+      >(async () => {
+        if (featuresConfig.disableHeavyRequestsForTestnet) {
+          return {
+            data: {
+              pendingAavaxbUnstakes: ZERO,
+              pendingAavaxcUnstakes: ZERO,
+            },
+          };
+        }
 
+        const sdk = await AvalancheSDK.getInstance();
         const { pendingBond, pendingCertificate } = await sdk.getPendingData();
 
         return {
-          pendingAavaxbUnstakes: pendingBond,
-          pendingAavaxcUnstakes: pendingCertificate,
+          data: {
+            pendingAavaxbUnstakes: pendingBond,
+            pendingAavaxcUnstakes: pendingCertificate,
+          },
         };
-      },
-    },
-    meta: {
-      asMutation: false,
-      onRequest: withStore,
-    },
+      }),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
   }),
-);
+});

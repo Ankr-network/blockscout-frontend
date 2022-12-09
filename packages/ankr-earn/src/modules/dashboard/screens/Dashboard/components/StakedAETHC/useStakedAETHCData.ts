@@ -25,6 +25,9 @@ import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
+const token = Token.aETHc;
+const newTokenName = 'ankrETH';
+
 export interface IStakedAETHCData {
   address?: string;
   amount: BigNumber;
@@ -78,7 +81,7 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
   const nativeAmount = getTokenNativeAmount(amount, statsData?.aETHcRatio);
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addTokenToWallet(Token.aETHc));
+    dispatchRequest(addTokenToWallet(token));
   }, [dispatchRequest]);
 
   return {
@@ -91,8 +94,8 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
     network,
     pendingValue,
     ratio: statsData?.aETHcRatio ?? ZERO,
-    stakeLink: RoutesConfig.stake.generatePath(Token.aETHc),
-    tradeLink: DefiRoutes.defi.generatePath(Token.aETHc),
+    stakeLink: RoutesConfig.stake.generatePath(),
+    tradeLink: DefiRoutes.defi.generatePath(newTokenName),
     usdAmount,
     walletName,
     handleAddTokenToWallet,

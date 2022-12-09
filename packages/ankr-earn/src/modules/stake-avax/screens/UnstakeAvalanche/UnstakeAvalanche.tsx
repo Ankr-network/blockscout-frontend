@@ -11,26 +11,17 @@ import { useHistory } from 'react-router';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { fetchPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
-import { QueryLoadingCentered } from 'uiKit/QueryLoading';
-
-import { fetchStats } from '../../actions/fetchStats';
 
 import { useUnstakeAvalance } from './hooks/useUnstakeAvalance';
 import { useUnstakeAvalancheStyles } from './useUnstakeAvalancheStyles';
 
-const resetRequests = () =>
-  resetReduxRequests([
-    fetchPendingValues.toString(),
-    fetchStats.toString(),
-    getUnstakeDate.toString(),
-  ]);
+const resetRequests = () => resetReduxRequests([getUnstakeDate.toString()]);
 
 export const UnstakeAvalanche = (): JSX.Element => {
   const classes = useUnstakeAvalancheStyles();
@@ -90,8 +81,6 @@ export const UnstakeAvalanche = (): JSX.Element => {
   useProviderEffect(() => {
     dispatch(resetRequests());
 
-    dispatch(fetchPendingValues());
-    dispatch(fetchStats());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
 
     return () => {
@@ -100,14 +89,6 @@ export const UnstakeAvalanche = (): JSX.Element => {
     };
   }, [dispatch]);
 
-  if (isFetchStatsLoading) {
-    return (
-      <Box mt={5}>
-        <QueryLoadingCentered />
-      </Box>
-    );
-  }
-
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
@@ -115,6 +96,7 @@ export const UnstakeAvalanche = (): JSX.Element => {
           balance={syntTokenBalance}
           closeHref={closeHref}
           endText={unstakeLabel}
+          isBalanceLoading={isFetchStatsLoading}
           isDisabled={isUnstakeLoading}
           isLoading={isUnstakeLoading}
           renderFormFooter={onRenderFormFooter}

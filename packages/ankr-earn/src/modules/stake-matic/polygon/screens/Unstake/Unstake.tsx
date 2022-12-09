@@ -1,4 +1,5 @@
 import { t, tHTML } from '@ankr.com/common';
+import { Box } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 
 import { DECIMAL_PLACES, DEFAULT_ROUNDING } from 'modules/common/const';
@@ -93,7 +94,7 @@ export const Unstake = (): JSX.Element => {
   };
 
   return (
-    <section className={classes.root}>
+    <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
         <UnstakeDialog
           balance={syntTokenBalance}
@@ -111,6 +112,6 @@ export const Unstake = (): JSX.Element => {
           onSubmit={onUnstakeSubmit}
         />
       </Container>
-    </section>
+    </Box>
   );
 };

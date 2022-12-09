@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { ProgressStep } from 'modules/common/components/ProgressStep';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 
 import { useStakeAvalancheStepsHook } from './useStakeAvalancheStepsHook';
 
@@ -12,20 +13,23 @@ export const StakeAvalancheSteps = (): JSX.Element => {
     error,
     destination,
     transactionId,
-    tokenName,
+    tokenName: token,
     handleAddTokenToWallet,
   } = useStakeAvalancheStepsHook();
+
+  const tokenName = getTokenName(token);
 
   return (
     <ProgressStep
       amount={amount}
       buttonTitle={t('stake.buttons.addToWallet', { token: tokenName })}
       destinationAddress={destination}
-      error={error}
+      // TODO: need to double check and test it
+      error={error as unknown as Error}
       hint={t('stake.pending.description', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}
-      symbol={tokenName}
+      symbol={token}
       title={t('stake.progressTitle')}
       txHash={transactionId}
       onAddTokenToWallet={handleAddTokenToWallet}

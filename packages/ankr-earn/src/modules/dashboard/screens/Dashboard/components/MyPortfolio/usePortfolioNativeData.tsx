@@ -15,9 +15,9 @@ import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
-import { fetchStats as fetchStakeAVAXStats } from 'modules/stake-avax/actions/fetchStats';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
-import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
 import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
@@ -36,6 +36,8 @@ import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/
 import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
+import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
+import { RoutesConfig as StakeXDCRoutes } from 'modules/stake-xdc/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -76,18 +78,17 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       type: getMaticPolygonCommonData,
     });
 
-  const { data: avaxData, loading: isAvaxDataLoading } = useQuery({
-    type: fetchStakeAVAXStats,
-  });
-
   const { data: ftmData, isFetching: isFtmDataLoading } =
     useGetFTMCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
-  const { data: bnbData, loading: isBnbDataLoading } = useQuery({
-    type: fetchStakeBNBStats,
-  });
+  const { data: bnbData, isFetching: isBnbDataLoading } = useGetBNBStatsQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
 
   const { data: ethData, loading: isEthDataLoading } = useQuery({
     type: fetchStakeETHStats,
@@ -100,6 +101,11 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
 
   const { data: ankrBalanceData, isFetching: isLoadingAnkrBalanceData } =
     useGetCommonDataQuery();
+
+  const { data: avaxData, isFetching: isAvaxDataLoading } =
+    useGetAVAXCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: ankrPrice, isFetching: isAnkrPriceLoading } =
     useGetAnkrPriceQuery();
@@ -149,8 +155,15 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getMGNOMaxApr,
   });
 
-  const nativeData = useMemo(
-    () => [
+  const { data: xdcData, isFetching: isXDCDataLoading } = getXDCDashboardData(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
+
+  const nativeData = useMemo(() => {
+    const data = [
       {
         name: Token.MATIC,
         amount: (ethMaticData?.maticBalance ?? ZERO).plus(
@@ -227,27 +240,39 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         service: EMetricsServiceName.WND,
         link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.WND),
       },
-    ],
-    [
-      metrics,
-      dotBalance,
-      ksmBalance,
-      wndBalance,
-      ankrBalanceData,
-      avaxData,
-      ftmData,
-      ethMaticData,
-      polygonMaticData,
-      bnbData,
-      ethData,
-      ethClaimableData,
-      dotClaimableBalance,
-      ksmClaimableBalance,
-      wndClaimableBalance,
-      mgnoBalanceData,
-      maxMgnoApr,
-    ],
-  );
+    ];
+
+    if (featuresConfig.xdcStaking) {
+      data.push({
+        name: Token.XDC,
+        amount: xdcData?.xdcBalance ?? ZERO,
+        apy: metrics?.[EMetricsServiceName.XDC]?.apy ?? ZERO,
+        service: EMetricsServiceName.XDC,
+        link: StakeXDCRoutes.stake.generatePath(),
+      });
+    }
+
+    return data;
+  }, [
+    metrics,
+    dotBalance,
+    ksmBalance,
+    wndBalance,
+    ankrBalanceData,
+    avaxData,
+    ftmData,
+    ethMaticData,
+    polygonMaticData,
+    bnbData,
+    ethData,
+    ethClaimableData,
+    dotClaimableBalance,
+    ksmClaimableBalance,
+    wndClaimableBalance,
+    mgnoBalanceData,
+    maxMgnoApr,
+    xdcData,
+  ]);
 
   const usdAmounts = nativeData.map(item => {
     if (item.service) {
@@ -340,7 +365,8 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       isWndClaimableBalanceLoading ||
       isAnkrPriceLoading ||
       isLoadingMgnoBalanceData ||
-      isMgnoPriceLoading,
+      isMgnoPriceLoading ||
+      isXDCDataLoading,
     totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
     totalYieldAmountUsd: totalYieldAmountUsd

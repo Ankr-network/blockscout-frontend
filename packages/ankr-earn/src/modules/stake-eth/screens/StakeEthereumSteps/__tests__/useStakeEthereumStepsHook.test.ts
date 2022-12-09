@@ -17,23 +17,18 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('@redux-requests/core', () => ({
-  resetRequests: jest.fn(),
-  stopPolling: jest.fn(),
-}));
-
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
+}));
+
+jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
+  useConnectedData: jest.fn(),
 }));
 
 jest.mock('modules/stake-eth/Routes', () => ({
   RoutesConfig: {
     claim: { path: '/claim' },
   },
-}));
-
-jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
-  useConnectedData: jest.fn(),
 }));
 
 jest.mock('modules/stake-eth/actions/addTokenToWallet', () => ({

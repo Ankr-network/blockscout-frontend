@@ -1,48 +1,48 @@
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
-
-import ANKRIcon from './assets/ankr.svg';
-import { useRates } from 'domains/account/hooks/useRates';
-import { ANKR_CURRENCY, CurrencyType } from '../../../const';
-import { DEFAULT_ANKR_AMOUNT, getRequests } from '../RateBlock/RateBlockUtils';
-import { useRequestsBlockStyles } from './useRequestsBlockStyles';
 import { t, tHTML } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-interface RateBlockProps {
-  currency?: CurrencyType;
+import ANKRIcon from './assets/ankr.svg';
+import { useRates } from 'domains/account/hooks/useRates';
+import { getRequests } from '../RateBlock/RateBlockUtils';
+import { useRequestsBlockStyles } from './useRequestsBlockStyles';
+import { DEFAULT_ANKR_VALUE_STRING } from 'domains/account/actions/topUp/const';
+
+interface RequestsBlockProps {
   value: string;
 }
 
-export const RequestsBlock = ({
-  value,
-  currency = ANKR_CURRENCY,
-}: RateBlockProps) => {
+export const RequestsBlock = ({ value }: RequestsBlockProps) => {
   const classes = useRequestsBlockStyles();
 
   const { rates, isRateLoading } = useRates();
 
-  const requests = useMemo(
-    () => getRequests(currency, rates, value),
-    [rates, currency, value],
-  );
+  const requests = useMemo(() => getRequests(rates, value), [rates, value]);
+
+  const renderContent = useMemo(() => {
+    if (isRateLoading) {
+      return <Skeleton className={classes.skeleton} />;
+    }
+
+    const isAmountEmpty = !value || !Number(value);
+
+    const amount = isAmountEmpty
+      ? DEFAULT_ANKR_VALUE_STRING
+      : new BigNumber(value).toFormat();
+
+    return tHTML(`plan.premium-block.pricing`, {
+      src: ANKRIcon,
+      alt: t('plan.premium-block.ankr'),
+      amount,
+      requests: t('plan.premium-block.value', { requests }),
+    });
+  }, [isRateLoading, classes.skeleton, requests, value]);
 
   return (
     <Typography className={classes.pricing} variant="body2">
-      {isRateLoading ? (
-        <Skeleton className={classes.skeleton} />
-      ) : (
-        tHTML(`plan.premium-block.pricing`, {
-          src: ANKRIcon,
-          alt: t('plan.premium-block.ankr'),
-          amount:
-            !value || !Number(value)
-              ? DEFAULT_ANKR_AMOUNT
-              : new BigNumber(value).toFormat(),
-          requests: t('plan.premium-block.value', { requests }),
-        })
-      )}
+      {renderContent}
     </Typography>
   );
 };

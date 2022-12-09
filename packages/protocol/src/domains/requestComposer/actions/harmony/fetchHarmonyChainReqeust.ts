@@ -4,8 +4,8 @@ import { MethodsRequest } from 'domains/requestComposer/types';
 import { HarmonyMethod } from 'domains/requestComposer/constants/harmony';
 import { setHarmonyMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { objectError } from '../tron/fetchTronChainRequest';
-import { safeStringifyJSON } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/RequestComposer/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
 import { t } from '@ankr.com/common';
+import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
 
 export type FetchHarmonyChainRequestResult = {
   response?: [HarmonyMethod];
@@ -65,7 +65,7 @@ export const fetchHarmonyChainReqeust = createSmartAction<
           return {
             error: new Error(
               t(
-                'chain-item.request-composer.method-description.harmony.large-response-error',
+                'request-composer.method-description.harmony.large-response-error',
               ),
             ),
             time: performance.now() - start,
