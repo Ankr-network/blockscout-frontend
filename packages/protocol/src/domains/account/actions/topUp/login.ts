@@ -14,7 +14,7 @@ interface IDeposit {
 }
 
 export const login = createSmartAction<RequestAction<string, string>>(
-  'topUp/login',
+  'topUp/issueJwtToken',
   () => ({
     request: {
       promise: (async () => null)(),
@@ -32,7 +32,7 @@ export const login = createSmartAction<RequestAction<string, string>>(
             const { currentAccount: address } = provider;
 
             const { jwtToken: credentials, workerTokenData } =
-              await service.getIssuedJwtToken(address);
+              await service.issueNewJwtToken(address);
 
             if (credentials) {
               store.dispatch(setAuthData({ credentials, workerTokenData }));

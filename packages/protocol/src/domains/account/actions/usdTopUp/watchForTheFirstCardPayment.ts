@@ -9,7 +9,7 @@ import {
   IAuthSlice,
 } from 'domains/auth/store/authSlice';
 import { signout } from 'domains/oauth/actions/signout';
-import { MultiRpcWeb3ReadSdk } from 'multirpc-sdk';
+import { EthAddressType, MultiRpcWeb3ReadSdk } from 'multirpc-sdk';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
 const ONE_MINUTE_MS = 60_000;
@@ -20,29 +20,46 @@ const checkLastTopupEvent = async (
   store: RequestsStore,
   authData: IAuthSlice,
 ) => {
-  if (!authData || !authData.address) return true;
+  if (!authData || !authData.address) return false;
 
-  const { address, hasWeb3Connection, encryptionPublicKey, isCardPayment } =
-    authData;
+  const {
+    address,
+    hasWeb3Connection,
+    encryptionPublicKey,
+    isCardPayment,
+    ethAddressType,
+    credentials,
+    workerTokenData,
+  } = authData;
 
   const lastTopUpEvent = await web3ReadService
     .getContractService()
-    .getLastLockedFundsEvent(authData.address);
+    .getLastLockedFundsEvent(address);
 
   if (!lastTopUpEvent) return true;
 
   const isFirstPaymentByCardWithWeb3 =
-    lastTopUpEvent && hasWeb3Connection && isCardPayment;
+    !credentials && hasWeb3Connection && isCardPayment;
 
-  // we should logout user after event. when he logged in token will be issued via web3 wallet
-  if (isFirstPaymentByCardWithWeb3) {
+  const isCardTopupAfterTokenExpiration =
+    credentials &&
+    hasWeb3Connection &&
+    !workerTokenData?.userEndpointToken &&
+    isCardPayment;
+
+  // we should logout user after event. when he log in, token will be issued via web3 wallet
+  if (isFirstPaymentByCardWithWeb3 || isCardTopupAfterTokenExpiration) {
     store.dispatch(signout());
 
     return false;
   }
 
+  if (ethAddressType === EthAddressType.User) {
+    return false;
+  }
+
   // Other cases with google account
-  const { jwtToken, workerTokenData } =
+  const { jwtToken, workerTokenData: currentWorkerTokenData } =
     await web3ReadService.getIssuedJwtTokenOrIssue(
       address,
       encryptionPublicKey as string,
@@ -51,7 +68,7 @@ const checkLastTopupEvent = async (
   store.dispatch(
     setAuthData({
       credentials: jwtToken,
-      workerTokenData,
+      workerTokenData: currentWorkerTokenData,
     }),
   );
 
@@ -68,9 +85,9 @@ const checkLastTopupEvent = async (
 };
 
 // Checking lastTopUpEvent with card. We should issue credentials for a user
-export const checkTheFirstCardPayment = createSmartAction<
+export const watchForTheFirstCardPayment = createSmartAction<
   RequestAction<string>
->('usdTopUp/checkTheFirstCardPayment', () => ({
+>('usdTopUp/watchForTheFirstCardPayment', () => ({
   request: {
     promise: (async () => null)(),
   },
@@ -81,7 +98,7 @@ export const checkTheFirstCardPayment = createSmartAction<
         promise: (async (): Promise<void> => {
           const authData = selectAuthData(store.getState());
 
-          if (authData?.credentials || !authData.address) return;
+          if (authData?.workerTokenData || !authData.address) return;
 
           const web3ReadService = await MultiService.getWeb3ReadService();
 

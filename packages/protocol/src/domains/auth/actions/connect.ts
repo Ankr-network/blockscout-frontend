@@ -36,15 +36,17 @@ export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
 
         const cachedData = getCachedData(service, store);
 
-        if (cachedData?.hasWeb3Connection) return cachedData;
+        const { hasWeb3Connection, address } = cachedData;
+        let { hasOauthLogin } = cachedData;
 
-        let hasOauthLogin = cachedData?.hasOauthLogin;
+        if (hasWeb3Connection) return cachedData;
 
         const provider = web3Service.getKeyProvider();
         const { currentAccount: providerAddress } = provider;
 
         if (
-          providerAddress.toLowerCase() !== cachedData?.address?.toLowerCase()
+          address &&
+          providerAddress.toLowerCase() !== address?.toLowerCase()
         ) {
           store.dispatch(resetAuthData());
 

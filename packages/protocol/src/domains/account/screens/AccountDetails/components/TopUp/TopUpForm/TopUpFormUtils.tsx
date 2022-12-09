@@ -31,10 +31,7 @@ import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpT
 import { RateBlock } from './RateBlock';
 import { RequestsBlock } from './RequestsBlock';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
-import {
-  ANKR_CURRENCY,
-  DEFAULT_ANKR_VALUE,
-} from 'domains/account/actions/topUp/const';
+import { ANKR_CURRENCY } from 'domains/account/actions/topUp/const';
 
 export const useRenderDisabledForm = (
   classes: ClassNameMap,
@@ -176,9 +173,10 @@ export const useCheckLoginStep = () => {
   }, [dispatchRequest, isWalletConnected]);
 
   useEffect(() => {
-    const checkAmount = async () => {
+    const checkAmountAndSetTokenIssuanceStep = async () => {
       const service = await MultiService.getWeb3Service();
       const keyProvider = service.getKeyProvider();
+      const { currentAccount: address } = keyProvider;
 
       if (!lastLockedFundsEvent) return;
 
@@ -189,21 +187,15 @@ export const useCheckLoginStep = () => {
       if (!value) return;
 
       const amount = new BigNumber(value);
+      const shouldIssueToken = await service.shouldIssueToken(address);
 
-      const isFirstTopup = Boolean(lastLockedFundsEvent) && !credentials;
-      const isTopupAfterTokenExpiration =
-        Boolean(lastLockedFundsEvent) &&
-        credentials &&
-        !workerTokenData?.userEndpointToken &&
-        amount.isGreaterThanOrEqualTo(DEFAULT_ANKR_VALUE);
-
-      if (isFirstTopup || isTopupAfterTokenExpiration) {
+      if (shouldIssueToken) {
         setHasLoginStep(true);
         handleSetAmount(amount);
       }
     };
 
-    if (isWalletConnected) checkAmount();
+    if (isWalletConnected) checkAmountAndSetTokenIssuanceStep();
   }, [
     hasLoginStep,
     lastLockedFundsEvent,

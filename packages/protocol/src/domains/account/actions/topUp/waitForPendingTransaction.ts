@@ -1,21 +1,14 @@
-import Web3 from 'web3';
-
 import { MultiService } from 'modules/api/MultiService';
-import { API_ENV } from 'modules/common/utils/environment';
 import { timeout } from 'modules/common/utils/timeout';
 import { ETH_BLOCK_TIME } from './const';
-
-const web3 = new Web3(
-  API_ENV === 'prod'
-    ? 'https://rpc.ankr.com/eth'
-    : 'https://rpc.ankr.com/eth_goerli',
-);
+import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 
 const hasPendingTransaction = async () => {
   const service = await MultiService.getWeb3Service();
 
   const provider = service.getKeyProvider();
   const { currentAccount: address } = provider;
+  const web3 = getWeb3Instance();
 
   const infuraNodeBlockNumber: number = await provider
     .getWeb3()

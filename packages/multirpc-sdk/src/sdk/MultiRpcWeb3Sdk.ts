@@ -25,10 +25,46 @@ export class MultiRpcWeb3Sdk {
     return this.keyProvider;
   }
 
-  public async getIssuedJwtToken(user: Web3Address): Promise<JwtTokenFullData> {
+  public async shouldIssueToken(user: Web3Address) {
     const loginService = this.getLoginService();
 
+    const allTokens = await loginService.getAllIssuedJwtTokens(user);
+    const transactionHashes =
+      await loginService.getAllLatestUserTierAssignedEventLogHashes(user);
+
+    const isNewUser =
+      (!allTokens || allTokens?.length === 0) && transactionHashes;
+
+    const hasPAYGTransaction = Boolean(
+      transactionHashes && !transactionHashes?.includes(allTokens?.[0]?.id as string),
+    );
+
+    const isPremiumUserWithExpiredTokenAndPAYGTransaction =
+      allTokens && allTokens.length === 1 && hasPAYGTransaction;
+
+    return Boolean(
+      isNewUser || isPremiumUserWithExpiredTokenAndPAYGTransaction,
+    );
+  }
+
+  public async getIssuedJwtTokenOrIssue(
+    user: Web3Address,
+  ): Promise<JwtTokenFullData> {
+    const loginService = this.getLoginService();
+
+    const shouldIssueToken = await this.shouldIssueToken(user);
+
+    if (shouldIssueToken) {
+      return this.issueNewJwtToken(user);
+    }
+
     return loginService.getIssuedJwtToken(user);
+  }
+
+  public async issueNewJwtToken(user: Web3Address): Promise<JwtTokenFullData> {
+    const loginService = this.getLoginService();
+
+    return loginService.issueNewJwtToken(user);
   }
 
   public async getAuthorizationToken(lifeTime: number): Promise<string> {
