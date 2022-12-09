@@ -49,11 +49,13 @@ export const useChainItem = ({
 
   const { credentials } = useAuth();
 
-  const isTestnetPremimumOnly = useMemo(() => {
-    if (chain.testnets && chain.testnets?.length > 0)
-      return chain.testnets[0].premiumOnly;
-    return false;
-  }, [chain]);
+  const isTestnetPremimumOnly = useMemo(
+    () =>
+      chain.testnets && chain.testnets?.length > 0
+        ? chain.testnets[0].premiumOnly
+        : false,
+    [chain],
+  );
 
   const { chainType, chainTypeTab, chainTypeTabs } = useChainType({
     chain,
