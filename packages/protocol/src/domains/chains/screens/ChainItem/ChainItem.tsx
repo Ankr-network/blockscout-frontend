@@ -10,16 +10,12 @@ import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { ChainsItemDialog } from '../Chains/components/ChainsItem/ChainsItemDialog';
 import { useCallback } from 'react';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { TESTNET_ID } from './utils/getChainTypeTabs';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
 }
 
 export const ChainItem = ({ data }: ChainItemProps) => {
-  const { credentials } = useAuth();
-
   const { isOpened, onOpen, onClose } = useDialog();
 
   const handleClick = useCallback(() => onOpen(), [onOpen]);
@@ -41,7 +37,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
     selectGroup,
   } = useChainItem({
     ...data,
-    onTabClick: id => !credentials && id === TESTNET_ID && handleClick(),
+    onBlockedTestnetClick: handleClick,
   });
 
   useChainItemBreadcrumbs(chain.name);

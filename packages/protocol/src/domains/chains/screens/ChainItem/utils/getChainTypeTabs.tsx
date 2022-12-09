@@ -10,17 +10,17 @@ export const TESTNET_ID = 'testnet';
 
 export const getChainTypeTabs = (
   endpoints: Endpoints,
-  isPremiumUser: boolean,
-  onTabClick: (id: string) => void,
+  isBlockedTestnet: boolean,
+  onBlockedTestnetClick: () => void,
 ): Tab<Type>[] =>
   tabs
     .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]].length > 0)
     .map<Tab<Type>>(({ id, title }, index, list) => {
-      const isShowPremiumDialog = !isPremiumUser && id === TESTNET_ID;
+      const blockedTestnet = isBlockedTestnet && id === TESTNET_ID;
       return {
         id,
         title: (isSelected: boolean) => {
-          const label = isShowPremiumDialog ? (
+          const label = blockedTestnet ? (
             <LockTab title={title} />
           ) : (
             title?.toString() ?? ''
@@ -29,12 +29,12 @@ export const getChainTypeTabs = (
           return (
             <SecondaryTab
               isLast={index === list.length - 1}
-              isSelected={!isShowPremiumDialog && isSelected}
+              isSelected={!blockedTestnet && isSelected}
               label={label}
-              onClick={() => onTabClick(id)}
+              onClick={() => blockedTestnet && onBlockedTestnetClick()}
             />
           );
         },
-        isDisabled: isShowPremiumDialog,
+        isDisabled: blockedTestnet,
       };
     });
