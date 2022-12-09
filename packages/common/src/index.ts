@@ -1,7 +1,8 @@
 import './utils/updatePrototypes';
 
-export { throwIfError } from './utils/throwIfError';
-export { stringify } from './utils/stringify';
-export { initGoogleGtm } from './utils/gtm';
-export * from './utils/intl';
 export * from './utils/getUniqueId';
+export * from './utils/gtm';
+export * from './utils/intl';
+export * from './utils/sleep';
+export * from './utils/stringify';
+export * from './utils/throwIfError';

@@ -1,5 +1,5 @@
 import { success } from '@redux-requests/core';
-import { END, eventChannel, Task, Channel } from 'redux-saga';
+import { Channel, END, eventChannel, Task } from 'redux-saga';
 import {
   call,
   cancel,
@@ -9,7 +9,7 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects';
-import { Web3KeyWriteProvider } from '../utils/Web3KeyWriteProvider';
+import { Web3KeyWriteProvider } from '../providerManager';
 import {
   ProviderActions,
   ProviderEvent,

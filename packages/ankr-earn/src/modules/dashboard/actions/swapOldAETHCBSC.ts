@@ -11,8 +11,6 @@ import { TStore } from 'modules/common/types/ReduxRequests';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/swap/Routes';
 
-import { fetchStats as fetchStakeBNBStats } from '../../stake-bnb/actions/fetchStats';
-
 export const swapOldAETHCBSC = createSmartAction<
   RequestAction<IWeb3SendResult, IWeb3SendResult>,
   [BigNumber]
@@ -44,8 +42,6 @@ export const swapOldAETHCBSC = createSmartAction<
       }
 
       await response.data?.receiptPromise;
-
-      store.dispatch(fetchStakeBNBStats());
 
       return response;
     },

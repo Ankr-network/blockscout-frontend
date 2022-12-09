@@ -1,9 +1,10 @@
 import { Box } from '@material-ui/core';
 import compact from 'lodash/compact';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
 import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
@@ -65,7 +66,7 @@ const AVAILABLE_SWAP_TOKENS = {
 
   to: compact([
     {
-      label: Token.aETHc,
+      label: getTokenName(Token.aETHc),
       value: Token.aETHc,
       icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
     },
@@ -73,23 +74,23 @@ const AVAILABLE_SWAP_TOKENS = {
       ? []
       : [
           {
-            label: Token.aBNBc,
+            label: getTokenName(Token.aBNBc),
             value: Token.aBNBc,
             icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
           },
         ]),
     {
-      label: Token.aMATICc,
+      label: getTokenName(Token.aMATICc),
       value: Token.aMATICc,
       icon: <AMATICCIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
-      label: Token.aFTMc,
+      label: getTokenName(Token.aFTMc),
       value: Token.aFTMc,
       icon: <AFTMCIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
-      label: Token.aAVAXc,
+      label: getTokenName(Token.aAVAXc),
       value: Token.aAVAXc,
       icon: <AAvaxCIcon {...DEFAULT_ICON_PROPS} />,
     },
@@ -104,39 +105,17 @@ export const SwapOptions = ({
 }: ISwapOptionsProps): JSX.Element => {
   const classes = useSwapOptionsStyles();
 
-  const isDirectSwap = useMemo(
-    () => AVAILABLE_SWAP_TOKENS.from.some(({ value }) => value === from),
-    [from],
-  );
-
-  const fromOptions = useMemo(
-    () =>
-      isDirectSwap ? AVAILABLE_SWAP_TOKENS.from : AVAILABLE_SWAP_TOKENS.to,
-    [isDirectSwap],
-  );
-
-  const toOptions = useMemo(
-    () =>
-      isDirectSwap ? AVAILABLE_SWAP_TOKENS.to : AVAILABLE_SWAP_TOKENS.from,
-    [isDirectSwap],
-  );
-
   const values = useMemo(() => ({ from, to }), [from, to]);
-
-  const handleChooseSwapOption = useCallback(() => {
-    onChooseFrom(to);
-    onChooseTo(from);
-  }, [from, to, onChooseFrom, onChooseTo]);
 
   return (
     <Box className={classes.swapChips}>
       <SwitchSelect
+        isOneWay
         isPairSelect
-        from={fromOptions}
-        to={toOptions}
+        from={AVAILABLE_SWAP_TOKENS.from}
+        to={AVAILABLE_SWAP_TOKENS.to}
         values={values}
         onChangeFrom={onChooseFrom}
-        onChangeSwitch={handleChooseSwapOption}
         onChangeTo={onChooseTo}
       />
     </Box>

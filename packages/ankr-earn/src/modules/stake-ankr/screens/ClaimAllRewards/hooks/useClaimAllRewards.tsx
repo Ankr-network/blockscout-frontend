@@ -61,7 +61,9 @@ export const useClaimAllRewards = (): IUseClaimAllRewards => {
   const onClaim = useCallback(() => {
     claimAllRewards()
       .unwrap()
-      .catch(() => sendAnalytics());
+      .then(() => {
+        sendAnalytics();
+      });
   }, [claimAllRewards, sendAnalytics]);
 
   return {

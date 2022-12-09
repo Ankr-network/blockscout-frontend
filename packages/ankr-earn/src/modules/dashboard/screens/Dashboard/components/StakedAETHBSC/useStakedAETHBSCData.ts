@@ -9,13 +9,17 @@ import { useCallback, useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  BSC_NETWORK_BY_ENV,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHCBridgeBalanceBSC';
 import { swapOldAETHCBSC } from 'modules/dashboard/actions/swapOldAETHCBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { addBNBTokenToWallet } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { fetchStats as fetchStakeBNBStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -35,10 +39,12 @@ export interface IStakedAETHBSCData {
 
 export function useStakedAETHBSCData(): IStakedAETHBSCData {
   const dispatchRequest = useDispatchRequest();
+  const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
 
-  const { data: statsData, loading: isCommonDataLoading } = useQuery({
-    type: fetchStakeBNBStats,
-  });
+  const { data: statsData, isFetching: isCommonDataLoading } =
+    useGetBNBStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: availableBalance } = useQuery({
     type: fetchAETHCBridgeBalanceBSC,
@@ -84,8 +90,8 @@ export function useStakedAETHBSCData(): IStakedAETHBSCData {
   };
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addBNBTokenToWallet(Token.aETH));
-  }, [dispatchRequest]);
+    addBNBTokenToWallet(Token.aETH);
+  }, [addBNBTokenToWallet]);
 
   return {
     amount,

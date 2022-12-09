@@ -12,6 +12,7 @@ export const addTokenToWallet = createAction<
   request: {
     promise: (async (): Promise<boolean> => {
       const sdk = await EthereumSDK.getInstance();
+
       return sdk.addTokenToWallet(token);
     })(),
   },

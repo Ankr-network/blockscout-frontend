@@ -57,7 +57,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
     chainId: EEthereumNetworkId.goerli,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
     network: 'Ethereum Mainnet',
-    tradeLink: 'trade',
+    switchLink: 'switch',
     unstakeLink: 'unstake',
     stakeLink: 'stake',
     isBalancesLoading: false,

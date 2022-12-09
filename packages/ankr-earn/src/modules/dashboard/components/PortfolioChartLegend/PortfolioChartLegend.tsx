@@ -7,6 +7,7 @@ import { MouseEvent as ReactMouseEvent } from 'react';
 
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getPortfolioUSDAmount } from 'modules/dashboard/utils/getPortfolioUSDAmount';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
@@ -154,7 +155,7 @@ export const PortfolioChartLegend = ({
               <div>
                 <Typography className={classes.legendItemTitle}>
                   {tHTML('dashboard.portfolioToken', {
-                    token: item.name,
+                    token: getTokenName(item.name),
                     amount: item.amount.toFormat(),
                   })}
                 </Typography>

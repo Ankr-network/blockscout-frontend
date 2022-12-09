@@ -28,6 +28,7 @@ import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedASETHC } from '../StakedASETHC';
 import { StakedASUIC } from '../StakedASUIC';
 import { StakedAWNDB } from '../StakedAWNDB';
+import { StakedAXDCC } from '../StakedAXDCC';
 import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
@@ -61,6 +62,7 @@ export const LiquidStakedTokens = (
     isStakedKsmBondShowed,
     isStakedSSVOnETHCertShowed,
     isStakedSuiCertShowed,
+    isStakedXDCCertShowed,
     isBridgedEthCertBscShowed,
     isBridgedEthBondBscShowed,
     isBridgedMaticBondPolygonShowed,
@@ -116,6 +118,12 @@ export const LiquidStakedTokens = (
           <StakedASUIC />
         )}
 
+        {featuresConfig.ssvStaking && isStakedSSVOnETHCertShowed && (
+          <StakedASETHC />
+        )}
+
+        {featuresConfig.xdcStaking && isStakedXDCCertShowed && <StakedAXDCC />}
+
         {isBridgedMaticBondPolygonShowed && <BridgedMaticBond />}
 
         {isBridgedMaticBondBscShowed && <BridgedMaticBondBSC />}
@@ -125,10 +133,6 @@ export const LiquidStakedTokens = (
         {isBridgedEthBondBscShowed && <BridgedEthBond />}
 
         {isBridgedEthCertBscShowed && <BridgedAETHCBSC />}
-
-        {featuresConfig.ssvStaking && isStakedSSVOnETHCertShowed && (
-          <StakedASETHC />
-        )}
 
         {isAtLeaseOneLoading && <DashboardCardSkeleton />}
       </AssetsList>

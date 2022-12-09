@@ -29,7 +29,8 @@ export interface ISwitchSelectProps {
   isDisabled?: boolean;
   onChangeFrom: (value: string) => void;
   onChangeTo: (value: string) => void;
-  onChangeSwitch: () => void;
+  onChangeSwitch?: () => void;
+  isOneWay?: boolean;
 }
 
 export const SwitchSelect = ({
@@ -41,6 +42,7 @@ export const SwitchSelect = ({
   onChangeFrom,
   onChangeTo,
   onChangeSwitch,
+  isOneWay,
 }: ISwitchSelectProps): JSX.Element => {
   const classes = useSwitchSelectStyles();
 
@@ -155,7 +157,7 @@ export const SwitchSelect = ({
       <Button
         className={classes.switchIcon}
         data-testid="switch-icon"
-        disabled={isDisabled}
+        disabled={isOneWay || isDisabled}
         variant="outlined"
         onClick={onChangeSwitch}
       >

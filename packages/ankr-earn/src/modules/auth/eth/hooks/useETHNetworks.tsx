@@ -9,6 +9,7 @@ import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { GnosisIcon } from 'uiKit/Icons/Gnosis';
 import { PolygonIcon } from 'uiKit/Icons/Polygon';
+import { XDCIcon } from 'uiKit/Icons/XDCIcon';
 
 export interface IETHNetwork {
   chainId: EEthereumNetworkId;
@@ -83,6 +84,16 @@ export const useETHNetworks = (): IUseETHNetworks => {
         title: t('connect.networks.sokol'),
         icon: <GnosisIcon size="xmd" />,
         chainId: EEthereumNetworkId.sokol,
+      },
+      {
+        title: t('connect.networks.xdc'),
+        icon: <XDCIcon size="xmd" />,
+        chainId: EEthereumNetworkId.xdc,
+      },
+      {
+        title: t('connect.networks.xdc-testnet'),
+        icon: <XDCIcon size="xmd" />,
+        chainId: EEthereumNetworkId.xdcTestnet,
       },
     ],
     [],

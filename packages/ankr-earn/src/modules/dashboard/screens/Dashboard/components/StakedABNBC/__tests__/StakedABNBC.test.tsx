@@ -52,6 +52,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
     isStakeLoading: false,
     tokenAddress: '0x22',
     token: Token.aBNBc,
+    tradeLink: '/defi',
     unstakeLink: 'unstake',
     isUnstakeLoading: false,
     ratio: ZERO,
@@ -117,7 +118,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC', () => {
       </MemoryRouter>,
     );
 
-    const symbol = await screen.findByText('aBNBc');
+    const symbol = await screen.findByText('ankrBNB');
     const network = await screen.findByText('BSC');
 
     expect(symbol).toBeInTheDocument();

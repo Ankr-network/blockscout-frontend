@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ZERO } from 'modules/common/const';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { useAddFTMTokenToWalletMutation } from 'modules/stake-fantom/actions/addFTMTokenToWallet';
 import {
   useGetFTMTxDataQuery,
@@ -58,7 +59,7 @@ export const useUnstakeFantomSuccessHook = (): IUnstakeFantomSuccessHook => {
     amount,
     destination: data?.destinationAddress,
     transactionId: txHash,
-    tokenName: token,
+    tokenName: getTokenName(token),
     isLoading,
     isPending,
     error: (error as FetchBaseQueryError) || txFailError,

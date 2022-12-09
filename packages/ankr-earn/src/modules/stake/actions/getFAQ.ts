@@ -48,8 +48,14 @@ const getStrapiURL = (token: Token): string => {
     case Token.MATIC:
       return '/faq-polygon-items';
 
+    case Token.SUI:
+      return '/faq-sui-items';
+
     case Token.WND:
       return '/faq-westend-items';
+
+    case Token.XDC:
+      return '/faq-xdc-items';
 
     case Token.asETHc:
       return '/faq-ssv-items';

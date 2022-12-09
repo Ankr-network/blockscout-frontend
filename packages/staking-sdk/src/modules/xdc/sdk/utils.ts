@@ -5,6 +5,14 @@ interface IIsValidAmountProps {
   minStakeAmount: BigNumber;
 }
 
+export const getXDCAddress = (address?: string): string | undefined => {
+  if (typeof address !== 'string' || address.length < 42) {
+    return undefined;
+  }
+
+  return address.startsWith('0x') ? `xdc${address.slice(2)}` : address;
+};
+
 export const isValidAmount = ({
   amount,
   minStakeAmount,

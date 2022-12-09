@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
@@ -7,27 +6,23 @@ import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useAppDispatch } from 'store/useAppDispatch';
+import { useLazyGetAVAXTotalHistoryDataQuery } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 
 import { useStakedAVAXTxHistory } from '../useStakedAVAXTxHistory';
 
-jest.mock('@redux-requests/react', () => ({
-  useQuery: jest.fn(),
-}));
-
-jest.mock('store/useAppDispatch', () => ({
-  useAppDispatch: jest.fn(),
-}));
-
 jest.mock('modules/stake-avax/actions/fetchTotalHistoryData', () => ({
-  fetchTotalHistoryData: jest.fn(),
+  useLazyGetAVAXTotalHistoryDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
+  useProviderEffect: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory', () => {
   const NOW = new Date();
 
   const defaultData = {
-    loading: false,
+    isFetching: false,
     data: {
       completedBond: [
         {
@@ -86,12 +81,14 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
         },
       ],
     },
+    refetch: jest.fn(),
   };
 
   beforeEach(() => {
-    (useQuery as jest.Mock).mockReturnValue(defaultData);
-
-    (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
+    (useLazyGetAVAXTotalHistoryDataQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      defaultData,
+    ]);
   });
 
   afterEach(() => {
@@ -136,20 +133,24 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
   });
 
   test('should handle load history data', () => {
-    const mockDispatch = jest.fn();
-    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
-
+    const [refetch] = useLazyGetAVAXTotalHistoryDataQuery();
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 
     act(() => {
       result.current.handleLoadTxHistory();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(refetch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {
-    (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
+    (useLazyGetAVAXTotalHistoryDataQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        data: null,
+        isFetching: true,
+      },
+    ]);
 
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 

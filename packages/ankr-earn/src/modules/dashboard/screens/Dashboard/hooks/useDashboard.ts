@@ -15,12 +15,9 @@ import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
-import { fetchPendingValues as fetchAVAXPendingValues } from 'modules/stake-avax/actions/fetchPendingValues';
-import { fetchStats as fetchAVAXStats } from 'modules/stake-avax/actions/fetchStats';
-import { fetchTotalHistoryData as fetchAVAXTxHistory } from 'modules/stake-avax/actions/fetchTotalHistoryData';
-import { fetchPendingValues as fetchBNBPendingValues } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { fetchStats as fetchBNBStats } from 'modules/stake-bnb/actions/fetchStats';
-import { fetchTotalHistory as fetchBNBTxHistory } from 'modules/stake-bnb/actions/fetchTotalHistory';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
@@ -33,6 +30,7 @@ import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
 import { getDashboardData as getSSVOnETHDashboardData } from 'modules/stake-ssv/actions/getDashboardData';
+import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -47,12 +45,6 @@ const resetRequests = () =>
     fetchAETHCBridged.toString(),
     fetchAMATICBBridgedBSC.toString(),
     fetchAMATICCBridgedBSC.toString(),
-    fetchAVAXPendingValues.toString(),
-    fetchAVAXStats.toString(),
-    fetchAVAXTxHistory.toString(),
-    fetchBNBPendingValues.toString(),
-    fetchBNBStats.toString(),
-    fetchBNBTxHistory.toString(),
     fetchPolygonStats.toString(),
     fetchPolygonTxHistory.toString(),
     getMGNOTotalInfo.toString(),
@@ -78,7 +70,13 @@ export const useDashboard = (): IUseDashboard => {
 
   const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
+  const { refetch: getAVAXCommonDataRefetch } = useGetAVAXCommonDataQuery();
   const { refetch: getFTMCommonDataRefetch } = useGetFTMCommonDataQuery();
+
+  const { refetch: getBNBPendingValuesRefetch } = useGetBNBPendingValuesQuery();
+  const { refetch: getBNBStatsRefetch } = useGetBNBStatsQuery();
+
+  const { refetch: getXDCDashboardDataRefetch } = getXDCDashboardData();
 
   usePolkadot();
 
@@ -90,17 +88,16 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchAETHCBridged());
     dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAMATICCBridgedBSC());
-    dispatch(fetchAVAXPendingValues());
-    dispatch(fetchAVAXStats());
-    dispatch(fetchBNBPendingValues());
-    dispatch(fetchBNBStats());
     dispatch(fetchPolygonStats());
     dispatch(getEthCommonData());
     dispatch(getEthClaimableData());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     dispatch(getMaticPolygonCommonData());
+    getAVAXCommonDataRefetch();
     getFTMCommonDataRefetch();
+    getBNBPendingValuesRefetch();
+    getBNBStatsRefetch();
 
     if (address) {
       dispatch(getPartnerCode(address));
@@ -115,6 +112,10 @@ export const useDashboard = (): IUseDashboard => {
 
     if (featuresConfig.ssvStaking) {
       dispatch(getSSVOnETHDashboardData());
+    }
+
+    if (featuresConfig.xdcStaking) {
+      getXDCDashboardDataRefetch();
     }
 
     setFirstLoad(false);

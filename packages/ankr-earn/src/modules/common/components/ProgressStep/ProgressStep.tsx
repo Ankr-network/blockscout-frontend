@@ -1,11 +1,12 @@
 import { t } from '@ankr.com/common';
-import { Box, Paper, Container, Typography } from '@material-ui/core';
+import { Box, Container, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
@@ -121,7 +122,7 @@ export const ProgressStep = ({
                 <Typography className={classes.rowValue}>
                   {t('unit.token-value', {
                     value: amount.toFormat(),
-                    token: symbol,
+                    token: getTokenName(symbol),
                   })}
                 </Typography>
               </div>

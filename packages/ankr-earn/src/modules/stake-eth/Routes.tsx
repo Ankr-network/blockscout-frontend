@@ -16,7 +16,7 @@ import { createRouteConfig } from '../router/utils/createRouteConfig';
 import { ETH_STAKING_NETWORKS } from './const';
 
 const ROOT = `${StakeRoutes.main.path}ethereum/`;
-const STAKE_ETH_PATH = `${ROOT}?token=:token?`;
+const STAKE_ETH_PATH = `${ROOT}?from=:from?`;
 const STEP_STAKE_ETH_PATH = `${ROOT}:tokenOut/:txHash/`;
 const CLAIM_ETH_ROOT_PATH = `${STAKING_PATH}claim/ethereum/`;
 const STEP_CLAIM_ETH_PATH = `${CLAIM_ETH_ROOT_PATH}:tokenOut/:txHash/`;
@@ -33,9 +33,9 @@ export const RoutesConfig = createRouteConfig(
   {
     stake: {
       path: ROOT,
-      generatePath: (token?: TEthToken) => {
-        return token
-          ? generatePath(STAKE_ETH_PATH, { token })
+      generatePath: (isFromBond?: boolean) => {
+        return isFromBond
+          ? generatePath(STAKE_ETH_PATH, { from: 'bond' })
           : generatePath(ROOT);
       },
       useParams: () => {

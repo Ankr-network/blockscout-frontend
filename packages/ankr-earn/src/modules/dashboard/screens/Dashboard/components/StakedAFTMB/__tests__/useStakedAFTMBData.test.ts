@@ -24,8 +24,8 @@ jest.mock('modules/stake-fantom/Routes', () => ({
   },
 }));
 
-jest.mock('modules/defi-aggregator/Routes', () => ({
-  RoutesConfig: { defi: { generatePath: () => '/defi' } },
+jest.mock('modules/switcher/Routes', () => ({
+  RoutesConfig: { main: { generatePath: () => '/switch' } },
 }));
 
 jest.mock('modules/stake-fantom/actions/addFTMTokenToWallet', () => ({
@@ -77,7 +77,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB/useStakedAF
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.isUnstakeLoading).toBe(false);
-    expect(result.current.tradeLink).toBe('/defi');
+    expect(result.current.switchLink).toBe('/switch');
     expect(result.current.stakeLink).toBe('/stake');
   });
 

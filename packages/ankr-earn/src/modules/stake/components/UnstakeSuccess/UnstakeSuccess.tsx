@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { Button } from 'uiKit/Button';
@@ -75,7 +76,7 @@ export const UnstakeSuccess = ({
                 <Typography className={classes.rowValue}>
                   {t('unit.token-value', {
                     value: amount.toFormat(),
-                    token: tokenName,
+                    token: tokenName && getTokenName(tokenName),
                   })}
                 </Typography>
               </div>

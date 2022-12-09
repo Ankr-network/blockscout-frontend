@@ -1,28 +1,21 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import { BinanceSDK } from '@ankr.com/staking-sdk';
+
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 interface ICheckPartnerCodeArgs {
   partnerCode: string;
 }
 
-export const checkExistPartnerCode = createAction<
-  RequestAction<boolean, boolean>,
-  [ICheckPartnerCodeArgs]
->(
-  'bnb/checkExistPartnerCode',
-  ({ partnerCode }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<boolean> => {
-        const sdk: BinanceSDK = await BinanceSDK.getInstance();
+export const { useCheckExistPartnerCodeMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    checkExistPartnerCode: build.mutation<boolean, ICheckPartnerCodeArgs>({
+      queryFn: queryFnNotifyWrapper<ICheckPartnerCodeArgs, never, boolean>(
+        async ({ partnerCode }) => {
+          const sdk = await BinanceSDK.getInstance();
 
-        return sdk.checkExistPartnerCode(partnerCode);
-      })(),
-    },
-    meta: {
-      asMutation: false,
-      showNotificationOnError: true,
-    },
+          return { data: await sdk.checkExistPartnerCode(partnerCode) };
+        },
+      ),
+    }),
   }),
-);
+});

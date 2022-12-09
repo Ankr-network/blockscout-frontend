@@ -14,7 +14,7 @@ import { FANTOM_STAKING_NETWORKS } from './const';
 import { TFtmSyntToken } from './types/TFtmSyntToken';
 
 const ROOT = `${StakeRoutes.main.path}fantom/`;
-const STAKE_FANTOM_PATH = `${ROOT}?token=:token?`;
+const STAKE_FANTOM_PATH = `${ROOT}?from=:from?`;
 const STEP_STAKE_FANTOM_PATH = `${ROOT}:tokenOut/:txHash/`;
 const UNSTAKE_FANTOM_PATH = `${UNSTAKE_PATH}fantom/`;
 const UNSTAKE_FANTOM_BY_TOKEN_PATH = `${UNSTAKE_FANTOM_PATH}?token=:token?`;
@@ -24,9 +24,9 @@ export const RoutesConfig = createRouteConfig(
   {
     stake: {
       path: ROOT,
-      generatePath: (token?: TFtmSyntToken) => {
-        return token
-          ? generatePath(STAKE_FANTOM_PATH, { token })
+      generatePath: (isFromBond?: boolean) => {
+        return isFromBond
+          ? generatePath(STAKE_FANTOM_PATH, { from: 'bond' })
           : generatePath(ROOT);
       },
       useParams: () => ({

@@ -28,28 +28,28 @@ describe('modules/switcher/screens/Main/utils/labels', () => {
     const ratio = new BigNumber(0.64);
 
     expect(getToLabel({ token: Token.aETHb, ratio })).toBe(
-      '1 aETHc = 1.5625 ETH',
+      '1 ankrETH = 1.5625 ETH',
     );
     expect(getToLabel({ token: Token.aETHc, ratio })).toBe(
-      '1 aETHc = 1.5625 ETH',
+      '1 ankrETH = 1.5625 ETH',
     );
     expect(getToLabel({ token: Token.aBNBb, ratio })).toBe(
-      '1 aBNBc = 1.5625 BNB',
+      '1 ankrBNB = 1.5625 BNB',
     );
     expect(getToLabel({ token: Token.aBNBc, ratio })).toBe(
-      '1 aBNBc = 1.5625 BNB',
+      '1 ankrBNB = 1.5625 BNB',
     );
     expect(getToLabel({ token: Token.aMATICb, ratio })).toBe(
-      '1 aMATICc = 1.5625 MATIC',
+      '1 ankrMATIC = 1.5625 MATIC',
     );
     expect(getToLabel({ token: Token.aMATICc, ratio })).toBe(
-      '1 aMATICc = 1.5625 MATIC',
+      '1 ankrMATIC = 1.5625 MATIC',
     );
     expect(getToLabel({ token: Token.aFTMb, ratio })).toBe(
-      '1 aFTMc = 1.5625 FTM',
+      '1 ankrFTM = 1.5625 FTM',
     );
     expect(getToLabel({ token: Token.aFTMc, ratio })).toBe(
-      '1 aFTMc = 1.5625 FTM',
+      '1 ankrFTM = 1.5625 FTM',
     );
   });
 
@@ -68,6 +68,6 @@ describe('modules/switcher/screens/Main/utils/labels', () => {
       ratio: ZERO,
     });
 
-    expect(result).toBe('1 aETHc = 0 ETH');
+    expect(result).toBe('1 ankrETH = 0 ETH');
   });
 });

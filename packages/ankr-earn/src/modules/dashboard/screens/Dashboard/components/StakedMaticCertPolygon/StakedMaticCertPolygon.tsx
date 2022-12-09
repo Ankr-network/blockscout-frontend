@@ -1,4 +1,5 @@
-import { Token } from 'modules/common/types/token';
+import { t } from '@ankr.com/common';
+
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
@@ -57,7 +58,7 @@ export const StakedMaticCertPolygon = (): JSX.Element => {
         moreHref={moreHref}
         open={isOpenedInfo}
         tokenAddress={tokenAddress}
-        tokenName={Token.aMATICc}
+        tokenName={t('unit.amaticc')}
         onClose={onCloseInfo}
       />
     </>

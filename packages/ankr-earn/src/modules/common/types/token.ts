@@ -28,6 +28,5 @@ export enum Token {
   SUI = 'SUI',
   aSUIc = 'aSUIc',
   aXDCc = 'aXDCc',
-  TXDC = 'TXDC',
   XDC = 'XDC',
 }

@@ -9,141 +9,92 @@ import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 import { AvailableBridgeTokens, IBridgeBlockchainPanelItem } from '../types';
 
-// todo: refactor interface
-interface IUseBlockchainPanelOptions
-  extends Record<string, IBridgeBlockchainPanelItem[] | undefined> {}
+interface IUseBlockchainPanelOptions {
+  from: IBridgeBlockchainPanelItem[];
+  to: IBridgeBlockchainPanelItem[];
+}
 
 const DEFAULT_ICON_PROPS = {
   size: 32,
 };
 
-export const useBlockchainPanelOptions = (): IUseBlockchainPanelOptions =>
+export const useBlockchainPanelOptions = (): Record<
+  AvailableBridgeTokens,
+  IUseBlockchainPanelOptions
+> =>
   useLocaleMemo(() => {
     switch (currentEnv) {
-      case Env.Production:
-        return {
-          [AvailableBridgeTokens.aMATICb]: [
-            {
-              label: t(`chain.${SupportedChainIDS.MAINNET}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.MAINNET,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.POLYGON}`),
-              icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.POLYGON,
-            },
-          ],
-          [AvailableBridgeTokens.aMATICc]: [
-            {
-              label: t(`chain.${SupportedChainIDS.MAINNET}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.MAINNET,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.POLYGON}`),
-              icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.POLYGON,
-            },
-          ],
-          [AvailableBridgeTokens.aETHb]: [
-            {
-              label: t(`chain.${SupportedChainIDS.MAINNET}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.MAINNET,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC,
-            },
-          ],
-          [AvailableBridgeTokens.aETHc]: [
-            {
-              label: t(`chain.${SupportedChainIDS.MAINNET}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.MAINNET,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC,
-            },
-          ],
+      case Env.Production: {
+        const mainNet = {
+          label: t(`chain.${SupportedChainIDS.MAINNET}`),
+          icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.MAINNET,
         };
-
+        const bscNet = {
+          label: t(`chain.${SupportedChainIDS.BSC}`),
+          icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.BSC,
+        };
+        const polygonNet = {
+          label: t(`chain.${SupportedChainIDS.POLYGON}`),
+          icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.POLYGON,
+        };
+        return {
+          [AvailableBridgeTokens.aMATICb]: {
+            from: [mainNet, polygonNet, bscNet],
+            to: [mainNet, polygonNet],
+          },
+          [AvailableBridgeTokens.aMATICc]: {
+            from: [mainNet, bscNet, polygonNet],
+            to: [mainNet, bscNet, polygonNet],
+          },
+          [AvailableBridgeTokens.aETHb]: {
+            from: [bscNet],
+            to: [mainNet],
+          },
+          [AvailableBridgeTokens.aETHc]: {
+            from: [mainNet, bscNet],
+            to: [mainNet, bscNet],
+          },
+        };
+      }
       case Env.Develop:
       case Env.Stage:
-      default:
-        return {
-          [AvailableBridgeTokens.aMATICb]: [
-            {
-              label: t(`chain.${SupportedChainIDS.GOERLI}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.GOERLI,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC_TESTNET,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.POLYGON_MUMBAI_TESTNET}`),
-              icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.POLYGON_MUMBAI_TESTNET,
-            },
-          ],
-          [AvailableBridgeTokens.aMATICc]: [
-            {
-              label: t(`chain.${SupportedChainIDS.GOERLI}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.GOERLI,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC_TESTNET,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.POLYGON_MUMBAI_TESTNET}`),
-              icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.POLYGON_MUMBAI_TESTNET,
-            },
-          ],
-          [AvailableBridgeTokens.aETHb]: [
-            {
-              label: t(`chain.${SupportedChainIDS.GOERLI}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.GOERLI,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC_TESTNET,
-            },
-          ],
-          [AvailableBridgeTokens.aETHc]: [
-            {
-              label: t(`chain.${SupportedChainIDS.GOERLI}`),
-              icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.GOERLI,
-            },
-            {
-              label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
-              icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
-              value: SupportedChainIDS.BSC_TESTNET,
-            },
-          ],
+      default: {
+        const goerliNet = {
+          label: t(`chain.${SupportedChainIDS.GOERLI}`),
+          icon: <EthIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.GOERLI,
         };
+        const bscNet = {
+          label: t(`chain.${SupportedChainIDS.BSC_TESTNET}`),
+          icon: <BSCIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.BSC_TESTNET,
+        };
+        const polygonNet = {
+          label: t(`chain.${SupportedChainIDS.POLYGON_MUMBAI_TESTNET}`),
+          icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.POLYGON_MUMBAI_TESTNET,
+        };
+        return {
+          [AvailableBridgeTokens.aMATICb]: {
+            from: [goerliNet, polygonNet, bscNet],
+            to: [goerliNet, polygonNet],
+          },
+          [AvailableBridgeTokens.aMATICc]: {
+            from: [bscNet, goerliNet, polygonNet],
+            to: [polygonNet, bscNet, goerliNet],
+          },
+          [AvailableBridgeTokens.aETHb]: {
+            from: [bscNet],
+            to: [goerliNet],
+          },
+          [AvailableBridgeTokens.aETHc]: {
+            from: [bscNet, goerliNet],
+            to: [bscNet, goerliNet],
+          },
+        };
+      }
     }
   }, []);

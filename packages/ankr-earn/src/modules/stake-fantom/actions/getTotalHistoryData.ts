@@ -17,7 +17,7 @@ export interface ITotalGetHistoryData {
   totalPending: BigNumber;
 }
 
-export const { useGetFTMTotalHistoryDataQuery } = web3Api.injectEndpoints({
+export const { useLazyGetFTMTotalHistoryDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getFTMTotalHistoryData: build.query<ITotalGetHistoryData, void>({
       queryFn: queryFnNotifyWrapper<void, never, ITotalGetHistoryData>(

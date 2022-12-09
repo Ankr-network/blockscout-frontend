@@ -1,4 +1,4 @@
-import { tHTML } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
@@ -10,6 +10,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { UNSTAKE_PERIOD } from 'modules/stake-matic/common/const';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
@@ -17,8 +18,10 @@ import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStak
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
 import { useStakedAMATICCData } from './useStakedAMATICCData';
 
+const nativeToken = Token.MATIC;
+
 export const StakedAMATICC = (): JSX.Element => {
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.MATIC });
+  const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -44,6 +47,7 @@ export const StakedAMATICC = (): JSX.Element => {
     stakeLink,
     token,
     tokenAddress,
+    tradeLink,
     unstakeLink,
     usdAmount,
     onAddTokenToWallet,
@@ -57,10 +61,11 @@ export const StakedAMATICC = (): JSX.Element => {
     handleLoadTxHistory,
   } = useStakedMATICTxHistory();
 
+  const tokenName = t('unit.amaticc');
+
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;
@@ -68,7 +73,7 @@ export const StakedAMATICC = (): JSX.Element => {
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
       isLoading={isHistoryDataLoading}
-      token={Token.aMATICc}
+      token={tokenName}
       tooltip={
         <PendingTable
           data={pendingUnstakeHistoryAMATICC}
@@ -94,6 +99,7 @@ export const StakedAMATICC = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         token={token}
+        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
@@ -104,7 +110,7 @@ export const StakedAMATICC = (): JSX.Element => {
       <NewHistoryDialog
         network={ETH_NETWORK_BY_ENV}
         open={isOpenedHistory}
-        token={Token.aMATICc}
+        token={token}
         onClose={onCloseHistory}
       />
 
@@ -112,11 +118,12 @@ export const StakedAMATICC = (): JSX.Element => {
         addTokenToWallet={onAddTokenToWallet}
         description={tHTML('dashboard.token-info.aMATICc', {
           ratio: (ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO).toFormat(),
+          period: UNSTAKE_PERIOD,
         })}
-        moreHref={getStakingOverviewUrl(Token.MATIC)}
+        moreHref={getStakingOverviewUrl(nativeToken)}
         open={isOpenedInfo}
         tokenAddress={tokenAddress}
-        tokenName={Token.aMATICc}
+        tokenName={tokenName}
         onClose={onCloseInfo}
       />
     </>

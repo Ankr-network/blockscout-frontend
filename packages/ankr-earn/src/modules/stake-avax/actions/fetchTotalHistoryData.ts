@@ -1,26 +1,22 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
 import { AvalancheSDK, ITxEventsHistoryData } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
-export const fetchTotalHistoryData = createSmartAction<
-  RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>
->(
-  'avax/fetchTotalHistoryData',
-  (): RequestAction => ({
-    request: {
-      promise: (async (): Promise<ITxEventsHistoryData> => {
-        const sdk = await AvalancheSDK.getInstance();
+import { CacheTags } from '../const';
 
-        return sdk.getTxEventsHistory();
-      })(),
-    },
-    meta: {
-      asMutation: false,
-      getData: (data: ITxEventsHistoryData): ITxEventsHistoryData => data,
-      cache: ACTION_CACHE_SEC,
-    },
+export const { useLazyGetAVAXTotalHistoryDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getAVAXTotalHistoryData: build.query<ITxEventsHistoryData, void>({
+      queryFn: queryFnNotifyWrapper<void, never, ITxEventsHistoryData>(
+        async () => {
+          const sdk = await AvalancheSDK.getInstance();
+
+          return { data: await sdk.getTxEventsHistory() };
+        },
+      ),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
   }),
-);
+});

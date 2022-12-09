@@ -16,6 +16,7 @@ import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 const token = Token.aMATICc;
+const newTokenName = 'ankrMATIC';
 
 export interface IUseStakedMaticCertPolygon {
   amount: BigNumber;
@@ -69,7 +70,7 @@ export const useStakedMaticCertPolygon = (): IUseStakedMaticCertPolygon => {
     stakeLink: MaticStakingRoutes.stake.generatePath(token),
     token,
     unstakeLink: MaticStakingRoutes.unstake.generatePath(token),
-    tradeLink: DefiRoutes.defi.generatePath(token),
+    tradeLink: DefiRoutes.defi.generatePath(newTokenName),
     usdAmount,
   };
 };

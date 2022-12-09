@@ -1,6 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IUseErrorMessage {
@@ -15,13 +16,13 @@ export const useErrorMessage = (): IUseErrorMessage => {
     type: getMetrics,
   });
 
-  const { error: commonDataError } = useQuery({
-    type: fetchStats,
+  const { error: commonDataError, refetch } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const onErroMessageClick = () => {
     if (commonDataError) {
-      dispatchRequest(fetchStats());
+      refetch();
     }
 
     if (metricsError) {

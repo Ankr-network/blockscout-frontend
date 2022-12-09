@@ -1,14 +1,14 @@
-import {
-  EEthereumNetworkId,
-  ITokenInfo,
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import web3 from 'web3';
 import { TransactionReceipt } from 'web3-core';
 
-import { ProviderManager } from '@ankr.com/provider';
+import {
+  EEthereumNetworkId,
+  ITokenInfo,
+  ProviderManager,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 
 import { POLYGON_NETWORK_BY_ENV, ZERO } from '../../../common';
 import { IPendingData, IStakeData, ITxEventsHistoryData } from '../../../stake';
@@ -107,6 +107,17 @@ describe('modules/polygon/sdk/polygonSDK', () => {
   });
 
   test('should add bond token to wallet without connect', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => TOKEN_BOND })),
+      },
+      options: {
+        address: '0x219316af7edd3870a2ca71dea38c7ebcfb3b3dc0',
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(true);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
@@ -124,6 +135,17 @@ describe('modules/polygon/sdk/polygonSDK', () => {
   });
 
   test('should add certificate token to wallet without connect', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => TOKEN_CERT })),
+      },
+      options: {
+        address: '0xac32206a73c8406d74eb21cf7bd060bf841e64ad',
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(true);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
@@ -141,6 +163,17 @@ describe('modules/polygon/sdk/polygonSDK', () => {
   });
 
   test('should add bond token to wallet with connect', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => TOKEN_BOND })),
+      },
+      options: {
+        address: '0x219316af7edd3870a2ca71dea38c7ebcfb3b3dc0',
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
@@ -158,6 +191,17 @@ describe('modules/polygon/sdk/polygonSDK', () => {
   });
 
   test('should add certificate token to wallet with connect', async () => {
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => TOKEN_CERT })),
+      },
+      options: {
+        address: '0xac32206a73c8406d74eb21cf7bd060bf841e64ad',
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 

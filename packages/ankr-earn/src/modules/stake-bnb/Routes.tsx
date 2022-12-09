@@ -14,19 +14,20 @@ import { BNB_STAKING_NETWORKS } from './const';
 import { TBnbSyntToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}bnb/`;
-const STAKE_BNB_PATH = `${ROOT}?token=:token?`;
+const STAKE_BNB_PATH = `${ROOT}?from=:from?`;
 const STEP_STAKE_BNB_PATH = `${ROOT}:tokenOut/:txHash/`;
 const UNSTAKE_BNB_PATH = `${UNSTAKE_PATH}bnb/`;
 const STEP_UNSTAKE_BNB_PATH = `${UNSTAKE_BNB_PATH}:token/:txHash`;
+const STEP_FLASH_UNSTAKE_BNB_PATH = `${UNSTAKE_BNB_PATH}instant/:token/:txHash`;
 const UNSTAKE_BNB_BY_TOKEN_PATH = `${UNSTAKE_BNB_PATH}?token=:token?`;
 
 export const RoutesConfig = createRouteConfig(
   {
     stake: {
       path: ROOT,
-      generatePath: (token?: TBnbSyntToken) => {
-        return token
-          ? generatePath(STAKE_BNB_PATH, { token })
+      generatePath: (isFromBond?: boolean) => {
+        return isFromBond
+          ? generatePath(STAKE_BNB_PATH, { from: 'bond' })
           : generatePath(ROOT);
       },
       useParams: () => ({
@@ -48,13 +49,20 @@ export const RoutesConfig = createRouteConfig(
 
     stakeSteps: {
       path: STEP_STAKE_BNB_PATH,
-      generatePath: () => generatePath(STEP_STAKE_BNB_PATH),
+      generatePath: (options: { txHash: string; tokenOut: TBnbSyntToken }) =>
+        generatePath(STEP_STAKE_BNB_PATH, options),
     },
 
     unstakeSuccess: {
       path: STEP_UNSTAKE_BNB_PATH,
       generatePath: (token: TBnbSyntToken, txHash: string) =>
         generatePath(STEP_UNSTAKE_BNB_PATH, { token, txHash }),
+    },
+
+    flashUnstakeSuccess: {
+      path: STEP_FLASH_UNSTAKE_BNB_PATH,
+      generatePath: (token: TBnbSyntToken, txHash: string) =>
+        generatePath(STEP_FLASH_UNSTAKE_BNB_PATH, { token, txHash }),
     },
   },
   ROOT,
@@ -77,6 +85,12 @@ const StakeSteps = loadComponent(() =>
 const UnstakeSuccess = loadComponent(() =>
   import('./screens/UnstakeBinanceSuccess').then(
     module => module.UnstakeBinanceSuccess,
+  ),
+);
+
+const FlashUnstakeSuccess = loadComponent(() =>
+  import('./screens/FlashUnstakeBinanceSuccess').then(
+    module => module.FlashUnstakeBinanceSuccess,
   ),
 );
 
@@ -121,6 +135,16 @@ export function getRoutes(): JSX.Element {
         >
           <DefaultLayout>
             <UnstakeSuccess />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute
+          exact
+          availableNetworks={BNB_STAKING_NETWORKS}
+          path={RoutesConfig.flashUnstakeSuccess.path}
+        >
+          <DefaultLayout>
+            <FlashUnstakeSuccess />
           </DefaultLayout>
         </GuardETHRoute>
 

@@ -12,6 +12,7 @@ import { Timer } from 'modules/common/components/Timer';
 import { ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { CloseButton } from 'uiKit/CloseButton';
@@ -54,6 +55,7 @@ export interface IUnstakeDialogProps {
   isWithApprove?: boolean;
   isApproveLoading?: boolean;
   maxAmountDecimals?: number;
+  maxAmount?: BigNumber;
   networkTitleSlot?: JSX.Element;
   submitTooltip?: string;
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
@@ -62,6 +64,7 @@ export interface IUnstakeDialogProps {
   extraValidation?: (
     data: Partial<IUnstakeFormValues>,
     errors: FormErrors<IUnstakeFormValues>,
+    maxAmount?: BigNumber,
   ) => FormErrors<IUnstakeFormValues>;
   onChange?: (values: IUnstakeFormValues, invalid: boolean) => void;
   isExternalAllowed?: boolean;
@@ -72,7 +75,7 @@ export const UnstakeDialog = ({
   isDisabled,
   isLoading,
   submitDisabled,
-  balance,
+  balance = ZERO,
   closeHref,
   endDate,
   endText,
@@ -89,9 +92,12 @@ export const UnstakeDialog = ({
   renderFormFooter,
   onChange,
   isExternalAllowed,
+  maxAmount,
 }: IUnstakeDialogProps): JSX.Element => {
   const classes = useUnstakeDialogStyles();
-  const maxAmount = balance || ZERO;
+  const maxAmountValue = maxAmount
+    ? BigNumber.minimum(maxAmount, balance)
+    : balance;
   const formRef =
     useRef<FormApi<IUnstakeFormValues, Partial<IUnstakeFormValues>>>();
 
@@ -110,9 +116,11 @@ export const UnstakeDialog = ({
     (data: IUnstakeFormValues) => {
       const errors: FormErrors<IUnstakeFormValues> = {};
 
-      return extraValidation ? extraValidation(data, errors) : errors;
+      return extraValidation
+        ? extraValidation(data, errors, maxAmount)
+        : errors;
     },
-    [extraValidation],
+    [extraValidation, maxAmount],
   );
 
   useEffect(() => {
@@ -121,6 +129,8 @@ export const UnstakeDialog = ({
       formRef.current?.reset();
     }
   }, [balance]);
+
+  const tokenName = getTokenName(token);
 
   return (
     <Paper className={classes.root}>
@@ -131,7 +141,7 @@ export const UnstakeDialog = ({
             <form autoComplete="off" onSubmit={handleSubmit}>
               <Container className={classes.container}>
                 <Typography className={classes.title} variant="h3">
-                  {t('unstake-dialog.title', { token })}
+                  {t('unstake-dialog.title', { token: tokenName })}
                 </Typography>
 
                 {networkTitleSlot && (
@@ -146,19 +156,19 @@ export const UnstakeDialog = ({
                     label={t('unstake-dialog.amount')}
                     maxDecimals={maxAmountDecimals}
                     name={FieldsNames.amount}
-                    tokenName={token}
-                    onMaxClick={setMaxAmount(form, maxAmount.toFormat())}
+                    tokenName={tokenName}
+                    onMaxClick={setMaxAmount(form, maxAmountValue.toFormat())}
                   />
                 </Box>
 
                 {renderFormFooter &&
                   renderFormFooter(
                     new BigNumber(values.amount ?? 0),
-                    new BigNumber(maxAmount),
+                    new BigNumber(maxAmountValue),
                   )}
               </Container>
 
-              <div>
+              <div className={classes.footer}>
                 <Container className={classes.container}>
                   {isExternalAllowed && (
                     <div className={classes.externalWrapper}>
