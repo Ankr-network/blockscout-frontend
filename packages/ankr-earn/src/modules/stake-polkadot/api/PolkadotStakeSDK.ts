@@ -88,8 +88,6 @@ export class PolkadotStakeSDK {
 
   private currentETHAccount: Address;
 
-  private currentPolkadotAccount: TPolkadotAddress;
-
   private invalidETHTokenAddrErrMsg?: string;
 
   private constructor({
@@ -109,8 +107,6 @@ export class PolkadotStakeSDK {
     });
 
     this.currentETHAccount = ethWriteProvider.currentAccount;
-    this.currentPolkadotAccount =
-      polkadotWriteProvider.currentAccount as TPolkadotAddress;
 
     this.ethReadProvider = ethReadProvider;
     this.ethWriteProvider = ethWriteProvider;
@@ -119,6 +115,14 @@ export class PolkadotStakeSDK {
     this.invalidETHTokenAddrErrMsg = t(
       'stake-polkadot.errors.invalid-eth-token-address',
     );
+  }
+
+  private get currentPolkadotAccount(): TPolkadotAddress {
+    return this.polkadotWriteProvider.currentAccount as TPolkadotAddress;
+  }
+
+  public changeWalletAddress(addr: TPolkadotAddress): void {
+    this.polkadotWriteProvider.currentAccount = addr;
   }
 
   private async claimCommon(claimItem: IClaimItem): Promise<void> {

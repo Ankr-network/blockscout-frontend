@@ -1,1 +1,1 @@
-export { WithdrawContainer as Withdraw } from './WithdrawContainer';
+export * from './Withdraw';

@@ -1,12 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useUnstakeStyles = makeStyles(theme => ({
-  root: {
-    '& form > div:nth-child(2)': {
-      padding: theme.spacing(0, 0, 0, 0),
-    },
-  },
-
   liquidityPoolArea: {
     display: 'flex',
     flexDirection: 'row',

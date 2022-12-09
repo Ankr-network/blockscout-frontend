@@ -5,12 +5,13 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useDisconnectMutation } from 'modules/auth/common/actions/disconnect';
 import { useWalletsGroupTypes } from 'modules/auth/common/hooks/useWalletsGroupTypes';
+import { useChangePolkadotWalletMutation } from 'modules/auth/polkadot/actions/changeWallet';
+
 import {
   IProviderStatus,
   selectProvidersData,
   setProviderStatus,
-} from 'modules/auth/common/store/authSlice';
-
+} from '../../auth/common/store/authSlice';
 import {
   AvailableStakingWriteProviders,
   ExtraWriteProviders,
@@ -30,6 +31,7 @@ export interface IWalletItem {
 }
 
 export const useAuthWallets = (): IUseAuthWalletsData => {
+  const [changePolkadotWallet] = useChangePolkadotWalletMutation();
   const [disconnectEth] = useDisconnectMutation({
     fixedCacheKey: AvailableWriteProviders.ethCompatible,
   });
@@ -75,11 +77,13 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
           if (providerId !== ExtraWriteProviders.polkadotCompatible) {
             return;
           }
-
           const providersData = selectProvidersData(store.getState());
           const currProviderState: IProviderStatus | undefined =
             providersData[providerId];
 
+          changePolkadotWallet(address);
+
+          // TODO: use RTKQ instead
           store.dispatch(
             setProviderStatus({
               ...currProviderState,
@@ -108,9 +112,10 @@ export const useAuthWallets = (): IUseAuthWalletsData => {
     return resultData;
   }, [
     connectedProvidersData,
-    disconnectEth,
-    disconnectSui,
+    changePolkadotWallet,
     disconnectPolkadot,
+    disconnectSui,
+    disconnectEth,
   ]);
 
   return {

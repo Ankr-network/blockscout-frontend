@@ -1210,7 +1210,8 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       await this.writeProvider.connect();
     }
 
-    const web3 = this.writeProvider.getWeb3();
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
 
     const contract =
       token === 'aMATICb'

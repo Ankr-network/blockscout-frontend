@@ -4,7 +4,7 @@ import { ethersJSConfig } from './ethersJSConfig';
 import { JsonRpcConfig } from './JsonRpcConfig';
 import { web3JSConfig } from './web3JSConfig';
 
-const root = 'chain-item.request-composer.method-description';
+const root = 'request-composer.method-description';
 
 export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
   web3_clientVersion: {

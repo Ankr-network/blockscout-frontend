@@ -2,9 +2,9 @@ import {
   renderBroadcasttransactionParameters,
   renderGetaccountbalanceParameters,
   renderProposalcreateParameter,
-  safeStringifyJSON,
-} from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/RequestComposer/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
+} from 'domains/requestComposer/components/composers/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
 import { ILibraryConfig } from 'domains/requestComposer/types/tron';
+import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
 
 export enum Method {
   Post = 'POST',

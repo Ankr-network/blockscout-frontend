@@ -118,6 +118,12 @@ export const LiquidStakedTokens = (
           <StakedAnkrSUI />
         )}
 
+        {featuresConfig.ssvStaking && isStakedSSVOnETHCertShowed && (
+          <StakedASETHC />
+        )}
+
+        {featuresConfig.xdcStaking && isStakedXDCCertShowed && <StakedAXDCC />}
+
         {isBridgedMaticBondPolygonShowed && <BridgedMaticBond />}
 
         {isBridgedMaticBondBscShowed && <BridgedMaticBondBSC />}
@@ -127,12 +133,6 @@ export const LiquidStakedTokens = (
         {isBridgedEthBondBscShowed && <BridgedEthBond />}
 
         {isBridgedEthCertBscShowed && <BridgedAETHCBSC />}
-
-        {featuresConfig.ssvStaking && isStakedSSVOnETHCertShowed && (
-          <StakedASETHC />
-        )}
-
-        {featuresConfig.xdcStaking && isStakedXDCCertShowed && <StakedAXDCC />}
 
         {isAtLeaseOneLoading && <DashboardCardSkeleton />}
       </AssetsList>

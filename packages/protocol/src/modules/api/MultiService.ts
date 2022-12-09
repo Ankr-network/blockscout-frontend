@@ -15,6 +15,8 @@ import { ProviderManagerSingleton } from './ProviderManagerSingleton';
 
 export const INJECTED_WALLET_ID = 'injected';
 
+export const CONFIG = configFromEnv(API_ENV);
+
 export class MultiService {
   private static web3Service?: MultiRpcWeb3Sdk;
 
@@ -40,10 +42,7 @@ export class MultiService {
       throw new Error(t('error.not-supported-chain'));
     }
 
-    MultiService.web3Service = new MultiRpcWeb3Sdk(
-      provider,
-      configFromEnv(API_ENV),
-    );
+    MultiService.web3Service = new MultiRpcWeb3Sdk(provider, CONFIG);
 
     return MultiService.web3Service;
   }
@@ -75,7 +74,7 @@ export class MultiService {
 
       MultiService.web3ReadService = new MultiRpcWeb3ReadSdk(
         readProvider,
-        configFromEnv(API_ENV),
+        CONFIG,
       );
     }
 
@@ -85,7 +84,7 @@ export class MultiService {
   // use getService for methods without web3 connect
   public static getService(): MultiRpcSdk {
     if (!MultiService.service) {
-      MultiService.service = new MultiRpcSdk(configFromEnv(API_ENV));
+      MultiService.service = new MultiRpcSdk(CONFIG);
     }
 
     return MultiService.service;

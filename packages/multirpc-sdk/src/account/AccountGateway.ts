@@ -20,7 +20,6 @@ import {
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
-  IWithdrawalStatusResponse,
   PrivateStats,
   PrivateStatsInterval,
 } from './types';
@@ -119,17 +118,6 @@ export class AccountGateway {
     });
 
     return data;
-  }
-
-  async getWithdrawalStatus(
-    transactionHash: string,
-  ): Promise<IWithdrawalStatusResponse> {
-    const { data: response } = await this.api.get<IWithdrawalStatusResponse>(
-      `/api/v1/auth/withdraw/status`,
-      { params: { tx_hash: transactionHash } },
-    );
-
-    return response;
   }
 
   async getEmailBindings(

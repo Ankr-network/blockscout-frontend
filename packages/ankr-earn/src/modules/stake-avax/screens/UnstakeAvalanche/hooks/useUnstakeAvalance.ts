@@ -34,7 +34,7 @@ export const useUnstakeAvalance = (): IUseUnstakeAvax => {
   const {
     data: fetchStatsData,
     isFetching: isFetchStatsLoading,
-    refetch,
+    refetch: getAvaxCommonData,
   } = useGetAVAXCommonDataQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
@@ -52,30 +52,21 @@ export const useUnstakeAvalance = (): IUseUnstakeAvax => {
   const maxAmount = isBondToken ? maxAavaxbAmount : maxAavaxcAmount;
   const aavaxcRatio = fetchStatsData?.aAVAXcRatio ?? ZERO;
 
-  useProviderEffect(() => {
-    refetch();
-  }, []);
+  const onUnstakeSubmit = useCallback(
+    ({ amount: formAmount }: IUnstakeFormValues): void => {
+      if (!formAmount) {
+        return;
+      }
 
-  const handleSubmit = useCallback(
-    (amount: BigNumber) => {
-      const resultAmount = new BigNumber(amount);
+      const amount = new BigNumber(formAmount);
 
-      unstake({ amount: resultAmount, token: selectedToken }).then(() => {
-        sendAnalytics(resultAmount, selectedToken);
-      });
+      unstake({ amount, token: selectedToken })
+        .unwrap()
+        .then(() => {
+          sendAnalytics(amount, selectedToken);
+        });
     },
     [selectedToken, sendAnalytics, unstake],
-  );
-
-  const onUnstakeSubmit = useCallback(
-    ({ amount }: IUnstakeFormValues): void => {
-      if (!amount) return;
-
-      const value = new BigNumber(amount);
-
-      handleSubmit(value);
-    },
-    [handleSubmit],
   );
 
   const calcTotalRecieve = useCallback(
@@ -87,6 +78,10 @@ export const useUnstakeAvalance = (): IUseUnstakeAvax => {
     },
     [aavaxcRatio, isBondToken],
   );
+
+  useProviderEffect(() => {
+    getAvaxCommonData();
+  }, [getAvaxCommonData]);
 
   return {
     syntTokenBalance,

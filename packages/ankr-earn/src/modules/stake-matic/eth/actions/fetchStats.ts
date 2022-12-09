@@ -4,6 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
 
 import { MATIC_ETH_ACTIONS_PREFIX } from '../const';
@@ -28,14 +29,16 @@ export const fetchStats = createSmartAction<
         maticBalance,
         aMATICbBalance,
         aMATICcBalance,
-        { pendingBond, pendingCertificate },
         aMATICcRatio,
+        { pendingBond, pendingCertificate },
       ] = await Promise.all([
         sdk.getMaticBalance(),
         sdk.getABBalance(),
         sdk.getACBalance(),
-        sdk.getPendingData(),
         sdk.getACRatio(),
+        ...(featuresConfig.disableHeavyRequestsForTestnet
+          ? [Promise.resolve({ pendingBond: ZERO, pendingCertificate: ZERO })]
+          : [sdk.getPendingData()]),
       ]);
 
       return {

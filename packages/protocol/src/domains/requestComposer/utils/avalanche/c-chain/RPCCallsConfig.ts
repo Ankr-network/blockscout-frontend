@@ -3,7 +3,7 @@ import { CChainMethod } from 'domains/requestComposer/constants/avalanche';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/avalanche';
 import { avalancheJSConfig } from './avalancheJSConfig';
 
-const root = 'chain-item.request-composer.method-description.avalanche.c-chain';
+const root = 'request-composer.method-description.avalanche.c-chain';
 
 export const RPC_CALLS_CONFIG: IRPCCallsConfig<CChainMethod> = {
   'avax.getAtomicTx': {

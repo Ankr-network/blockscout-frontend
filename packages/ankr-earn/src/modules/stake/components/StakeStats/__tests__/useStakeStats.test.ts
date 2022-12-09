@@ -60,7 +60,7 @@ describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
 
     expect(result.current.apy).toBe('N/A');
     expect(result.current.yearlyEarning).toBe('0');
-    expect(result.current.yearlyEarningUSD).toBe(undefined);
+    expect(result.current.yearlyEarningUSD).toBe('N/A');
     expect(result.current.totalStaked).toBe(undefined);
     expect(result.current.totalStakedUSD).toBe(undefined);
     expect(result.current.stakers).toBe(undefined);

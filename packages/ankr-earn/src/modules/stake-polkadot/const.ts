@@ -1,3 +1,5 @@
+import { getUniqueId } from '@ankr.com/common';
+
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
@@ -48,4 +50,8 @@ export const REDEEM_PERIOD_DAYS = {
   DOT: Number(UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.DOT]),
   KSM: Number(UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.KSM]),
   WND: Number(UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.WND]),
+};
+
+export const CacheTags = {
+  common: getUniqueId(),
 };

@@ -11,6 +11,8 @@ export interface ChainTypeParams {
   chain: IApiChain;
   endpoints: GroupedEndpoints;
   netId?: string;
+  isBlockedTestnet: boolean;
+  onBlockedTestnetClick: () => void;
 }
 
 export interface ChainTypeResult {
@@ -23,8 +25,13 @@ export const useChainType = ({
   chain,
   endpoints,
   netId,
+  isBlockedTestnet,
+  onBlockedTestnetClick,
 }: ChainTypeParams): ChainTypeResult => {
-  const tabs = useMemo(() => getChainTypeTabs(endpoints), [endpoints]);
+  const tabs = useMemo(
+    () => getChainTypeTabs(endpoints, isBlockedTestnet, onBlockedTestnetClick),
+    [endpoints, isBlockedTestnet, onBlockedTestnetClick],
+  );
 
   const [chainTypeTabs, chainTypeTab] = useTabs<ChainType>({
     initialTabID: getInitialChainType(chain, netId),

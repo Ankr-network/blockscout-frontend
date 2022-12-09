@@ -3,26 +3,18 @@ import { Box } from '@material-ui/core';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { useDisconnectMutation } from 'modules/auth/common/actions/disconnect';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { EKnownDialogs, useDialog } from 'modules/dialogs';
+import { useReconnect } from 'modules/auth/common/hooks/useReconnect';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { Container } from 'uiKit/Container';
 
 import { UnsupportedBanner } from '../../components/UnsupportedBanner';
 
+const provider = AvailableWriteProviders.ethCompatible;
+
 export const SupportGuard = (): JSX.Element => {
-  const { walletName } = useConnectedData(
-    AvailableWriteProviders.ethCompatible,
-  );
-  const [disconnect] = useDisconnectMutation();
-
-  const { handleOpen } = useDialog(EKnownDialogs.connect);
-
-  const handleBtnClick = async () => {
-    await disconnect(AvailableWriteProviders.ethCompatible);
-    handleOpen();
-  };
+  const { reconnect } = useReconnect(provider);
+  const { walletName } = useConnectedData(provider);
 
   const currentWallet = walletName || t('stake-ssv.unsupported.current-wallet');
 
@@ -32,7 +24,7 @@ export const SupportGuard = (): JSX.Element => {
         <Container>
           <UnsupportedBanner
             currentWallet={currentWallet}
-            onClick={handleBtnClick}
+            onClick={reconnect}
           />
         </Container>
       </Box>

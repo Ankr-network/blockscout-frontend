@@ -38,12 +38,12 @@ export const useStakeStats = ({
   const usdRatio = totalStaked && totalStakedUsd?.div(totalStaked);
 
   const yearlyEarningUSD =
-    usdRatio && !usdRatio.isNaN()
+    usdRatio && !usdRatio.isNaN() && usdRatio.isFinite()
       ? usdRatio
           .multipliedBy(yearlyEarning)
           .decimalPlaces(DEFAULT_ROUNDING)
           .toFormat()
-      : undefined;
+      : t('common.n-a');
 
   const apyText = apy.isZero()
     ? t('common.n-a')

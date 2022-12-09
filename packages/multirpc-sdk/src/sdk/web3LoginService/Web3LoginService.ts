@@ -92,6 +92,20 @@ export class Web3LoginService {
     return findJwtTokenService.findIssuedToken(user);
   }
 
+  public async getAllLatestUserTierAssignedEventLogHashes(user: Web3Address) {
+    return this.PAYGContractManager.getAllLatestUserTierAssignedEventLogHashes(
+      user,
+    );
+  }
+
+  public async getAllIssuedJwtTokens(user: Web3Address) {
+    const findJwtTokenService = new FindJwtTokenService(
+      this.getConsensusGateway(),
+    );
+
+    return findJwtTokenService.getAllIssuedJwtTokens(user);
+  }
+
   private async findIssuedTokenAndUpgrade(user: Web3Address) {
     const firstActiveToken = await this.findIssuedToken(user);
 
@@ -99,31 +113,46 @@ export class Web3LoginService {
       return undefined;
     }
 
-    const expiresAt = Number(firstActiveToken.expires_at) * DATE_MULTIPLIER;
+    try {
+      const fullTokenData = await this.upgradeJwtToken(firstActiveToken);
 
-    if (expiresAt < Date.now()) {
+      return fullTokenData;
+    } catch (error) {
       return { jwtToken: firstActiveToken };
     }
-
-    return this.upgradeJwtToken(firstActiveToken);
   }
 
   private async issueJwtToken(
     transactionHash: PrefixedHex,
     thresholdKey: UUID,
   ) {
-    if (!this.tokenDecryptionService.publicKey) {
-      await this.tokenDecryptionService.requestEncryptionKeys();
+    // try to requestJwtToken with sigUtil publickey
+    try {
+      if (!this.tokenDecryptionService.publicKey) {
+        await this.tokenDecryptionService.requestEncryptionKeys();
+      }
+
+      const jwtToken = await this.getConsensusGateway().requestJwtToken({
+        public_key: this.tokenDecryptionService.publicKey,
+        threshold_key: thresholdKey,
+        transaction_hash: transactionHash,
+      });
+
+      const tokenFullData = await this.upgradeJwtToken(jwtToken);
+
+      return tokenFullData;
+    } catch (error) {
+      // if error we try to use mm public key
+      await this.tokenDecryptionService.requestMetamaskEncryptionKey();
+
+      const jwtToken = await this.getConsensusGateway().requestJwtToken({
+        public_key: this.tokenDecryptionService.publicKey,
+        threshold_key: thresholdKey,
+        transaction_hash: transactionHash,
+      });
+
+      return this.upgradeJwtToken(jwtToken);
     }
-
-    // send issue request to ankr protocol
-    const jwtToken = await this.getConsensusGateway().requestJwtToken({
-      public_key: this.tokenDecryptionService.publicKey,
-      threshold_key: thresholdKey,
-      transaction_hash: transactionHash,
-    });
-
-    return this.upgradeJwtToken(jwtToken);
   }
 
   private async getThresholdKey(): Promise<string | false> {
@@ -136,13 +165,13 @@ export class Web3LoginService {
     );
 
     if (!thresholdKeys.length) {
-      throw new Error(`There is no threshold keys`);
+      throw new Error(`There are no threshold keys`);
     }
 
     return thresholdKeys[0].id;
   }
 
-  private async getPAYGTransactionHash(user: Web3Address) {
+  public async getPAYGTransactionHash(user: Web3Address) {
     return this.PAYGContractManager.getLatestUserTierAssignedEventLogHash(user);
   }
 
@@ -153,6 +182,18 @@ export class Web3LoginService {
       return issuedToken;
     }
 
+    const PAYGTransactionHash = await this.getPAYGTransactionHash(user);
+
+    if (!PAYGTransactionHash) return {};
+
+    const thresholdKeyId = await this.getThresholdKey();
+
+    if (!thresholdKeyId) return {};
+
+    return this.issueJwtToken(PAYGTransactionHash, thresholdKeyId);
+  }
+
+  public async issueNewJwtToken(user: Web3Address) {
     const PAYGTransactionHash = await this.getPAYGTransactionHash(user);
 
     if (!PAYGTransactionHash) return {};

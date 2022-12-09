@@ -1,7 +1,7 @@
 import {
   EWalletId,
-  getWalletName,
   getIsTrustWalletInjected,
+  getWalletName,
 } from '@ankr.com/provider';
 
 import { useConnectForModal } from '../../hooks/useConnectForModal';
@@ -10,8 +10,7 @@ import { ConnectTile } from '../ConnectTile';
 import { ReactComponent as TrustWalletIcon } from './assets/trust-wallet-icon.svg';
 
 const walletId = EWalletId.trust;
-const DOWNLOAD_TRUST_URL =
-  'https://chrome.google.com/webstore/detail/trust-wallet/egjidjbpglichdcondbcbdnbeeppgdph';
+const DOWNLOAD_TRUST_URL = 'https://trustwallet.com/download';
 
 export const ConnectTileTrust = (): JSX.Element => {
   const isTrustWalletInjected = getIsTrustWalletInjected();

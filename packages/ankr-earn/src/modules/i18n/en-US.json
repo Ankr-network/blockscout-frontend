@@ -932,6 +932,9 @@
         "transaction-not-found": "Transaction not found",
         "wrong-transaction": "This is not a deposit transaction. Please enter deposit transaction hash"
       }
+    },
+    "unsupported": {
+      "clover-title": "At the moment the bridge is not compatible with a Clover wallet."
     }
   },
   "zendesk": {
@@ -1200,6 +1203,9 @@
       "net-apr": "Net APR",
       "net-apr-tooltip": "The net Annual Percentage Rate (APR) includes validator fees and potential penalties.",
       "keys-value": "{value} Keys"
+    },
+    "unsupported": {
+      "okx-title": "At the moment GNO staking is not compatible with a OKX wallet."
     }
   },
   "stake-ssv": {
@@ -1242,5 +1248,9 @@
     "p1": "BNB staking service is temporarily suspended. All other staking works normally!",
     "p2": "Please follow us on Twitter: <a href={link} rel=\"noreferrer\" target=\"_blank\">{link}</a>",
     "button": "Close"
+  },
+  "unsupported-wallet": {
+    "description": "Please connect with another wallet.",
+    "button": "Connect another wallet"
   }
 }

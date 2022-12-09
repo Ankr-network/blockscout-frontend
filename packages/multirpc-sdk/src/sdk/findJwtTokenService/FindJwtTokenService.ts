@@ -1,12 +1,10 @@
-import { DATE_MULTIPLIER, Web3Address } from '../../common';
-import { IConsensusGateway, JwtTokens } from '../../consensus';
+import { DATE_MULTIPLIER, IJwtToken, Web3Address } from '../../common';
+import { IConsensusGateway } from '../../consensus';
 
 export class FindJwtTokenService {
   public constructor(private readonly consensusGateway: IConsensusGateway) {}
 
-  private getFirstActiveToken(tokens: JwtTokens) {
-    const [jwtTokens] = tokens;
-
+  private getFirstActiveToken(jwtTokens: IJwtToken[]) {
     const sortedTokens = jwtTokens.sort(
       (a, b) => Number(a.expires_at) - Number(b.expires_at),
     );
@@ -18,14 +16,26 @@ export class FindJwtTokenService {
     return firstActiveToken || sortedTokens[sortedTokens.length - 1];
   }
 
-  public async findIssuedToken(user: Web3Address) {
+  public async getAllIssuedJwtTokens(user: Web3Address) {
     const jwtTokensResponse = await this.consensusGateway.getJwtTokens(user);
 
     if (!jwtTokensResponse || jwtTokensResponse?.[0].length === 0) {
       return undefined;
     }
 
-    const firstActiveToken = this.getFirstActiveToken(jwtTokensResponse);
+    const [jwtTokens] = jwtTokensResponse;
+
+    return jwtTokens;
+  }
+
+  public async findIssuedToken(user: Web3Address) {
+    const tokens = await this.getAllIssuedJwtTokens(user);
+
+    if (!tokens) {
+      return undefined;
+    }
+
+    const firstActiveToken = this.getFirstActiveToken(tokens);
 
     if (!firstActiveToken) {
       return undefined;

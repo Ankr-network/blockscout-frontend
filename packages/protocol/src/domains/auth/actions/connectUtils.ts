@@ -41,6 +41,7 @@ export const getCachedData = (service: MultiRpcSdk, store: RequestsStore) => {
     walletMeta,
     hasWeb3Connection,
     hasOauthLogin,
+    isCardPayment,
   } = selectAuthData(store.getState());
 
   if (authorizationToken) {
@@ -58,6 +59,7 @@ export const getCachedData = (service: MultiRpcSdk, store: RequestsStore) => {
     walletMeta,
     hasWeb3Connection,
     hasOauthLogin,
+    isCardPayment,
   };
 };
 
@@ -89,7 +91,7 @@ export const loginAndCache = async (
   const { currentAccount: address } = web3Service.getKeyProvider();
 
   const { jwtToken: credentials, workerTokenData } =
-    await web3Service.getIssuedJwtToken(address);
+    await web3Service.getIssuedJwtTokenOrIssue(address);
 
   if (workerTokenData) {
     service.getWorkerGateway().addJwtToken(workerTokenData.signedToken);
@@ -104,6 +106,7 @@ export const loginAndCache = async (
     walletMeta,
     workerTokenData,
     hasWeb3Connection: true,
+    isCardPayment: false,
   };
 
   store.dispatch(setAuthData(authData));

@@ -1,3 +1,10 @@
+import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
+import { BlockTransactionObject } from 'web3-eth';
+import { Contract, EventData } from 'web3-eth-contract';
+import { AbiItem, Unit } from 'web3-utils';
+
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
@@ -5,11 +12,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
-import { BlockTransactionObject } from 'web3-eth';
-import { Contract, EventData } from 'web3-eth-contract';
-import { AbiItem, Unit } from 'web3-utils';
 
 import { getPastEvents } from '../api';
 import {
@@ -32,6 +34,7 @@ import {
   AETH_BSC_ABI,
   SWAP_POOL_ABI,
 } from '../contracts';
+import { EMaticSDKErrorCodes, MATIC_SCALE_FACTOR } from '../polygon';
 import {
   IEventsBatch,
   IGetPastEvents,
@@ -64,8 +67,6 @@ import {
   IGetTxReceipt,
   TBnbSyntToken,
 } from './types';
-import { EMaticSDKErrorCodes, MATIC_SCALE_FACTOR } from '../polygon';
-import { TransactionReceipt } from 'web3-core';
 
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
@@ -305,7 +306,9 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {BigNumber}
    */
   private convertFromWei(amount: string, unit?: Unit): BigNumber {
-    return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount, unit));
+    return new BigNumber(
+      this.readProvider.getWeb3().utils.fromWei(amount, unit),
+    );
   }
 
   /**
@@ -1079,11 +1082,17 @@ export class BinanceSDK implements ISwitcher, IStakable {
     let amount;
 
     try {
-      const parameters = web3.eth.abi.decodeParameters(['address', 'uint256'], tx.input.slice(10));
+      const parameters = web3.eth.abi.decodeParameters(
+        ['address', 'uint256'],
+        tx.input.slice(10),
+      );
       address = parameters['0'];
       amount = parameters['1'];
     } catch (e) {
-      const parameters = web3.eth.abi.decodeParameters(['uint256'], tx.input.slice(10));
+      const parameters = web3.eth.abi.decodeParameters(
+        ['uint256'],
+        tx.input.slice(10),
+      );
       address = tx.from as string | undefined;
       amount = parameters['0'];
     }
@@ -1762,9 +1771,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   public async getWBNBSwapPoolBalance(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract(true);
 
-    const balance = await swapPoolContract.methods
-      .wbnbAmount()
-      .call();
+    const balance = await swapPoolContract.methods.wbnbAmount().call();
 
     return this.convertFromWei(balance);
   }
@@ -1778,9 +1785,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   public async getSwapPoolUnstakeFee(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract(true);
 
-    const fee = await swapPoolContract.methods
-      .unstakeFee()
-      .call();
+    const fee = await swapPoolContract.methods.unstakeFee().call();
 
     return new BigNumber(fee).dividedBy(100);
   }
