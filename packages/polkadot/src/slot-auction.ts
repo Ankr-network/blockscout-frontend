@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-import BigNumber from 'bignumber.js';
+import { sleep } from '@ankr.com/common';
 import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
+import BigNumber from 'bignumber.js';
 import { Contract } from 'web3-eth-contract';
 import ABI_IERC20 from './abi/IERC20.json';
 import { DEVELOP_CONFIG, ISlotAuctionConfig } from './config';
@@ -257,9 +258,6 @@ export class SlotAuctionSdk {
       `Transaction (system.remark) is sent to block ${blockHash} with ext ${extId} and transaction hash ${extrinsicHash}`,
     );
 
-    const sleep = (ms: number) => {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    };
     await sleep(3000); // This is small hack to allow backend to process transaction in case of race conditions
 
     claims = await this.apiGateway.getRewardClaims({

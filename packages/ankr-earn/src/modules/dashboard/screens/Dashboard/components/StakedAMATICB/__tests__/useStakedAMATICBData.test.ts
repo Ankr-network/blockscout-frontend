@@ -26,8 +26,8 @@ jest.mock('modules/stake-matic/eth/Routes', () => ({
   },
 }));
 
-jest.mock('modules/defi-aggregator/Routes', () => ({
-  RoutesConfig: { defi: { generatePath: () => '/defi' } },
+jest.mock('modules/switcher/Routes', () => ({
+  RoutesConfig: { main: { generatePath: () => '/switch' } },
 }));
 
 jest.mock('modules/stake-matic/eth/actions/addMATICTokenToWallet', () => ({
@@ -92,7 +92,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB/useStaked
 
     expect(result.current.stakeLink).toBe('/stake');
     expect(result.current.unstakeLink).toBe('/unstake');
-    expect(result.current.tradeLink).toBe('/defi');
+    expect(result.current.switchLink).toBe('/switch');
   });
 
   test('should handle add token to metamask', () => {

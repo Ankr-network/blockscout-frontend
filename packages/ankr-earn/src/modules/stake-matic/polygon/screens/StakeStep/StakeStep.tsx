@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { ProgressStep } from 'modules/common/components/ProgressStep';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 
 import { useStakeStep } from './hooks/useStakeStep';
 
@@ -11,10 +12,12 @@ export const StakeStep = (): JSX.Element => {
     error,
     isLoading,
     isPending,
-    tokenName,
+    tokenName: token,
     transactionId,
     onAddTokenClick,
   } = useStakeStep();
+
+  const tokenName = getTokenName(token);
 
   return (
     <ProgressStep
@@ -25,7 +28,7 @@ export const StakeStep = (): JSX.Element => {
       hint={t('stake.pending.description', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}
-      symbol={tokenName}
+      symbol={token}
       title={t('stake.progressTitle')}
       txHash={transactionId}
       onAddTokenToWallet={onAddTokenClick}

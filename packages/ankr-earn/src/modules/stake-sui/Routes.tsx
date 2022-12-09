@@ -1,6 +1,7 @@
 import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
+import { GuardSuiRoute } from 'modules/auth/sui/components/GuardSuiRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
 import { UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
@@ -68,45 +69,53 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={SUI_STAKING_NETWORKS}
-          path={RoutesConfig.stake.path}
-        >
-          <DefaultLayout>
-            <Stake />
-          </DefaultLayout>
-        </GuardETHRoute>
+        <GuardSuiRoute exact>
+          <GuardETHRoute
+            exact
+            availableNetworks={SUI_STAKING_NETWORKS}
+            path={RoutesConfig.stake.path}
+          >
+            <DefaultLayout>
+              <Stake />
+            </DefaultLayout>
+          </GuardETHRoute>
+        </GuardSuiRoute>
 
-        <GuardETHRoute
-          exact
-          availableNetworks={SUI_STAKING_NETWORKS}
-          path={RoutesConfig.unstake.path}
-        >
-          <DefaultLayout verticalAlign="center">
-            <Unstake />
-          </DefaultLayout>
-        </GuardETHRoute>
+        <GuardSuiRoute exact>
+          <GuardETHRoute
+            exact
+            availableNetworks={SUI_STAKING_NETWORKS}
+            path={RoutesConfig.unstake.path}
+          >
+            <DefaultLayout verticalAlign="center">
+              <Unstake />
+            </DefaultLayout>
+          </GuardETHRoute>
+        </GuardSuiRoute>
 
-        <GuardETHRoute
-          exact
-          availableNetworks={SUI_STAKING_NETWORKS}
-          path={RoutesConfig.stakeStep.path}
-        >
-          <DefaultLayout>
-            <StakeSteps />
-          </DefaultLayout>
-        </GuardETHRoute>
+        <GuardSuiRoute exact>
+          <GuardETHRoute
+            exact
+            availableNetworks={SUI_STAKING_NETWORKS}
+            path={RoutesConfig.stakeStep.path}
+          >
+            <DefaultLayout>
+              <StakeSteps />
+            </DefaultLayout>
+          </GuardETHRoute>
+        </GuardSuiRoute>
 
-        <GuardETHRoute
-          exact
-          availableNetworks={SUI_STAKING_NETWORKS}
-          path={RoutesConfig.unstakeSuccess.path}
-        >
-          <DefaultLayout>
-            <UnstakeSuccess />
-          </DefaultLayout>
-        </GuardETHRoute>
+        <GuardSuiRoute exact>
+          <GuardETHRoute
+            exact
+            availableNetworks={SUI_STAKING_NETWORKS}
+            path={RoutesConfig.unstakeSuccess.path}
+          >
+            <DefaultLayout>
+              <UnstakeSuccess />
+            </DefaultLayout>
+          </GuardETHRoute>
+        </GuardSuiRoute>
 
         <Route>
           <DefaultLayout>

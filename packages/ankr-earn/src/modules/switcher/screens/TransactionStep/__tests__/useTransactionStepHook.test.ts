@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { EEthereumNetworkId } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 
 import { useTransactionStepHook } from '../useTransactionStepHook';
@@ -18,17 +19,12 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('@redux-requests/core', () => ({
-  resetRequests: jest.fn(),
-  stopPolling: jest.fn(),
+jest.mock('store/useAppDispatch', () => ({
+  useAppDispatch: () => jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
-}));
-
-jest.mock('store/useAppDispatch', () => ({
-  useAppDispatch: () => jest.fn(),
 }));
 
 jest.mock('modules/switcher/actions/getTxData', () => ({
@@ -67,7 +63,7 @@ describe('modules/switcher/screens/Progress/useTransactionStepHook', () => {
     }));
 
     (useConnectedData as jest.Mock).mockReturnValue({
-      chainId: 1,
+      chainId: EEthereumNetworkId.mainnet,
     });
 
     (useDispatchRequest as jest.Mock).mockImplementation(() => jest.fn());

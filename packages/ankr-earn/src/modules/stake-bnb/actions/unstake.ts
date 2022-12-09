@@ -1,24 +1,15 @@
-import { t } from '@ankr.com/common';
-import { RequestAction, resetRequests } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IStoreState } from 'store';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 import { BinanceSDK } from '@ankr.com/staking-sdk';
 
-import { TStore } from 'modules/common/types/ReduxRequests';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 
+import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TBnbSyntToken } from '../types';
-
-import { approveABNBCUnstake } from './approveABNBCUnstake';
-import { fetchPendingValues } from './fetchPendingValues';
-import { fetchStats } from './fetchStats';
-
-const INVALID_ARGUMENT_ERROR_CODE = 'INVALID_ARGUMENT';
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -26,55 +17,40 @@ interface IUnstakeArgs {
   externalAddress?: string;
 }
 
-export const unstake = createSmartAction<
-  RequestAction<void, void>,
-  [IUnstakeArgs]
->(
-  'bnb/unstake',
-  ({ amount, token, externalAddress }): RequestAction => ({
-    request: {
-      promise: (async (): Promise<IWeb3SendResult> => {
-        const sdk: BinanceSDK = await BinanceSDK.getInstance();
+export const { useUnstakeBNBMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    unstakeBNB: build.mutation<IWeb3SendResult, IUnstakeArgs>({
+      queryFn: queryFnNotifyWrapper<IUnstakeArgs, never, IWeb3SendResult>(
+        async ({ amount, token, externalAddress }) => {
+          const sdk = await BinanceSDK.getInstance();
 
-        if (externalAddress) {
-          return sdk.unstakeToExternal(amount, token, externalAddress);
-        }
+          if (externalAddress) {
+            return {
+              data: await sdk.unstakeToExternal(amount, token, externalAddress),
+            };
+          }
 
-        return sdk.unstake(amount, token);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      showNotificationOnError: true,
-      getError: error => {
-        if (error && error.code === INVALID_ARGUMENT_ERROR_CODE) {
-          return t('validation.invalid-address');
-        }
-        return error;
+          return { data: await sdk.unstake(amount, token) };
+        },
+      ),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { transactionHash } = response.data;
+          const { token } = args;
+
+          if (transactionHash) {
+            const path = RoutesConfig.unstakeSuccess.generatePath(
+              token,
+              response.data.transactionHash,
+            );
+
+            dispatch(getUnstakeDate());
+
+            dispatch(push(path));
+          }
+        });
       },
-      onSuccess: async (
-        response,
-        _action: RequestAction,
-        store: TStore<IStoreState>,
-      ) => {
-        await response.data?.receiptPromise;
-
-        store.dispatchRequest(fetchStats());
-        store.dispatchRequest(fetchPendingValues());
-        store.dispatchRequest(getUnstakeDate());
-        store.dispatch(resetRequests([approveABNBCUnstake.toString()]));
-
-        if (response.data.transactionHash) {
-          const path = RoutesConfig.unstakeSuccess.generatePath(
-            token,
-            response.data.transactionHash,
-          );
-
-          store.dispatch(push(path));
-        }
-
-        return response;
-      },
-    },
+      invalidatesTags: [CacheTags.common],
+    }),
   }),
-);
+});

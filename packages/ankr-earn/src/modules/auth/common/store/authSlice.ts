@@ -1,20 +1,26 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { Address, AvailableWriteProviders } from '@ankr.com/provider';
 
-import { ProvidersMap } from '../../../common/types';
+import {
+  AvailableStakingWriteProviders,
+  ExtraWriteProviders,
+} from 'modules/common/types';
 
-export interface IProviderStatus {
+interface IProviderBase {
+  providerId: AvailableStakingWriteProviders;
+}
+
+export interface IProviderStatus extends IProviderBase {
   address?: string;
+  addresses?: Address[];
   isActive: boolean;
   chainId?: number | string | null;
   walletId?: string;
   wallet?: string;
-}
-
-interface ISetProviderStatusPayload extends IProviderStatus {
-  providerId: keyof ProvidersMap;
+  walletIcon?: string;
+  walletName?: string;
 }
 
 export type IAuthSlice = Record<string, IProviderStatus>;
@@ -25,23 +31,45 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setProviderStatus: (
-      state,
-      action: PayloadAction<ISetProviderStatusPayload>,
-    ) => {
+    setProviderStatus: (state, action: PayloadAction<IProviderStatus>) => {
       state[action.payload.providerId] = {
         isActive: action.payload.isActive,
         address: action.payload.address,
+        addresses: action.payload.addresses,
+        providerId: action.payload.providerId,
         walletId: action.payload.walletId,
         wallet: action.payload.wallet,
+        walletIcon: action.payload.walletIcon,
+        walletName: action.payload.walletName,
         chainId:
           state[action.payload.providerId]?.chainId ?? action.payload.chainId,
       };
     },
-    setChainId: (state, action: PayloadAction<ISetProviderStatusPayload>) => {
+    resetProvider: (state, action: PayloadAction<IProviderBase>) => {
+      state[action.payload.providerId] = {
+        providerId: action.payload.providerId,
+        isActive: false,
+        chainId: undefined,
+        address: undefined,
+        walletId: undefined,
+        wallet: undefined,
+        walletIcon: undefined,
+        walletName: undefined,
+      };
+    },
+    setChainId: (state, action: PayloadAction<IProviderStatus>) => {
       state[action.payload.providerId] = {
         ...(state[action.payload.providerId] ?? {}),
         chainId: action.payload.chainId,
+      };
+    },
+    setAddress: (
+      state,
+      action: PayloadAction<Omit<IProviderStatus, 'isActive'>>,
+    ) => {
+      state[action.payload.providerId] = {
+        ...(state[action.payload.providerId] ?? {}),
+        address: action.payload.address,
       };
     },
   },
@@ -57,7 +85,11 @@ export const selectEthProviderData = createSelector(selectAuth, state => {
 });
 
 export const selectPolkadotProviderData = createSelector(selectAuth, state => {
-  return state.polkadotCompatible;
+  return state[ExtraWriteProviders.polkadotCompatible];
+});
+
+export const selectSuiProviderData = createSelector(selectAuth, state => {
+  return state[ExtraWriteProviders.suiCompatible];
 });
 
 export const selectQueriesData = createSelector(
@@ -65,4 +97,5 @@ export const selectQueriesData = createSelector(
   state => state,
 );
 
-export const { setProviderStatus, setChainId } = authSlice.actions;
+export const { resetProvider, setAddress, setProviderStatus, setChainId } =
+  authSlice.actions;

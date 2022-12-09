@@ -8,15 +8,15 @@ import BigNumber from 'bignumber.js';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
+import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useStakedAETHBSCData } from '../useStakedAETHBSCData';
 import { useSupportedNetwork } from '../useSupportedNetwork';
 
 const mockONE = new BigNumber(1);
-const mockTWO = new BigNumber(2);
 const mockSwapOldAETHCBSC = jest.fn();
-const mockAddBNBTokenToWallet = jest.fn();
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
@@ -33,7 +33,7 @@ jest.mock('modules/dashboard/utils/getTokenNativeAmount', () => ({
 }));
 
 jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
-  fetchStats: jest.fn(),
+  useGetBNBStatsQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake/actions/getMetrics', () => ({
@@ -49,8 +49,7 @@ jest.mock('modules/dashboard/actions/swapOldAETHCBSC', () => ({
 }));
 
 jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
-  addBNBTokenToWallet: (...params: unknown[]) =>
-    mockAddBNBTokenToWallet(...params),
+  useAddBNBTokenToWalletMutation: jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
@@ -76,11 +75,6 @@ jest.mock('modules/defi-aggregator/Routes', () => ({
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStakedAETHBSCData', () => {
-  const defaultStatsData = {
-    data: { aETHBalance: mockONE, aETHRatio: mockONE },
-    loading: false,
-  };
-
   const defaultAvailableBalanceData = {
     data: mockONE,
   };
@@ -98,6 +92,11 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
   beforeEach(() => {
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
     (useMutation as jest.Mock).mockReturnValue({ loading: false });
+    (useAddBNBTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
+    (useGetBNBStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: { aETHBalance: mockONE, aETHRatio: mockONE },
+    });
     (useSupportedNetwork as jest.Mock).mockReturnValue({
       onSwitchNetwork: () => Promise.resolve(),
       isUnsupportedNetwork: false,
@@ -110,7 +109,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
 
   test('should return default values', () => {
     (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultStatsData)
       .mockReturnValueOnce(defaultAvailableBalanceData)
       .mockReturnValueOnce(defaultMetricsData);
 
@@ -129,7 +127,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
 
   test('should swap tokens with account balance', () => {
     (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultStatsData)
       .mockReturnValueOnce(defaultAvailableBalanceData)
       .mockReturnValueOnce(defaultMetricsData);
 
@@ -147,7 +144,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
 
   test('should swap tokens with switching network', () => {
     (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultStatsData)
       .mockReturnValueOnce(defaultAvailableBalanceData)
       .mockReturnValueOnce(defaultMetricsData);
 
@@ -174,13 +170,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
 
   test('should swap tokens with max available balance', () => {
     (useQuery as jest.Mock)
-      .mockReturnValueOnce({
-        ...defaultStatsData,
-        data: {
-          ...defaultStatsData.data,
-          aETHBalance: mockTWO,
-        },
-      })
       .mockReturnValueOnce(defaultAvailableBalanceData)
       .mockReturnValueOnce(defaultMetricsData);
 
@@ -198,11 +187,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
 
   test('should add token to wallet', () => {
     (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultStatsData)
       .mockReturnValueOnce(defaultAvailableBalanceData)
       .mockReturnValueOnce(defaultMetricsData);
-
-    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+    const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
 
     const { result } = renderHook(() => useStakedAETHBSCData());
 
@@ -210,6 +197,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHBSC/useStaked
       result.current.handleAddTokenToWallet();
     });
 
-    expect(mockAddBNBTokenToWallet).toBeCalledTimes(1);
+    expect(addBNBTokenToWallet).toBeCalledTimes(1);
   });
 });

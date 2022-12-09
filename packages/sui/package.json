@@ -1,0 +1,69 @@
+{
+  "name": "sui",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "./dist/cjs/index.js",
+  "types": "./src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "_test-clean": "rimraf out ./index.js ./index.js.map ./src/**/*.js ./src/**/*.js.map",
+    "build": "vite build",
+    "build:turbo": "cd ../.. && turbo run build --filter=sui...",
+    "clean": "rimraf build dist",
+    "format": "lint-staged",
+    "types": "tsc --noEmit -p tsconfig.json",
+    "test": "npm run _test-clean && npm run _copy-assets && jest",
+    "test:turbo": "cd ../.. && turbo run test --filter=sui",
+    "watch": "yarn build --watch"
+  },
+  "bundledDependencies": [
+    "@mysten/sui.js"
+  ],
+  "dependencies": {
+    "@mysten/sui.js": "^0.17.1",
+    "@ankr.com/provider": "*",
+    "@ankr.com/common": "*",
+    "@ankr.com/staking-sdk": "*"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.5",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.18.3",
+    "@vitejs/plugin-react": "^2.1.0",
+    "babel-jest": "^27.4.5",
+    "copyfiles": "^2.4.1",
+    "jest": "27.0.0",
+    "jsonfile": "^6.1.0",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "rimraf": "3.0.2",
+    "typescript": "^4.5.4",
+    "vite": "^3.1.6",
+    "vite-plugin-svgr": "^2.2.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "verbose": true,
+    "roots": [
+      "<rootDir>"
+    ],
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "<rootDir>/../../node_modules"
+    ],
+    "moduleNameMapper": {
+      "\\.(svg)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "testMatch": [
+      "**/?(*.)+(test).+(js)"
+    ],
+    "transformIgnorePatterns": [],
+    "testEnvironment": "jsdom"
+  }
+}

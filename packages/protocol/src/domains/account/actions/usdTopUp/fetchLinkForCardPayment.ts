@@ -6,7 +6,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { fetchPublicKey } from '../fetchPublicKey';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
-import { USD_CURRENCY } from 'domains/account/screens/AccountDetails/components/const';
+import { USD_CURRENCY } from './const';
 
 export const ONE_TIME_PAYMENT_ID = 'one_time';
 

@@ -21,7 +21,6 @@ import {
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useSelectedToken } from './useSelectedToken';
 import { useStakeEthAnalytics } from './useStakeEthAnalytics';
 
 interface IUseStakeForm {
@@ -44,7 +43,6 @@ export const useStakeForm = (): IUseStakeForm => {
   const dispatch = useAppDispatch();
   const dispatchRequest = useDispatchRequest();
   const [amount, setAmount] = useState(ZERO);
-  const { selectedToken } = useSelectedToken();
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
@@ -70,14 +68,12 @@ export const useStakeForm = (): IUseStakeForm => {
       return;
     }
 
-    dispatchRequest(stake({ token: selectedToken, amount })).then(
-      ({ error }) => {
-        if (!error) {
-          sendAnalytics();
-        }
-      },
-    );
-  }, [amount, dispatchRequest, selectedToken, sendAnalytics]);
+    dispatchRequest(stake({ token: Token.aETHc, amount })).then(({ error }) => {
+      if (!error) {
+        sendAnalytics();
+      }
+    });
+  }, [amount, dispatchRequest, sendAnalytics]);
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
@@ -87,7 +83,7 @@ export const useStakeForm = (): IUseStakeForm => {
       dispatch(resetRequests([getStakeGasFee.toString()]));
     } else if (formAmount) {
       const readyAmount = new BigNumber(formAmount);
-      dispatch(getStakeGasFee({ amount: readyAmount, token: selectedToken }));
+      dispatch(getStakeGasFee({ amount: readyAmount, token: Token.aETHc }));
     }
 
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
@@ -113,7 +109,7 @@ export const useStakeForm = (): IUseStakeForm => {
     loading: isCommonDataLoading || isStakeLoading,
     minAmount: commonData?.minStake,
     tokenIn: Token.ETH,
-    tokenOut: selectedToken,
+    tokenOut: Token.aETHc,
     onInputChange: debouncedOnChange,
     onSubmit,
   };

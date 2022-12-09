@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
+import { ReactNode } from 'react';
 
 import { useSecondaryTabStyles } from './SecondaryTabStyles';
 import { TabSize } from './types';
@@ -8,7 +9,7 @@ export interface SecondaryTabProps {
   className?: string;
   isLast?: boolean;
   isSelected?: boolean;
-  label: string;
+  label: ReactNode | string;
   onClick?: () => void;
   size?: TabSize;
   isDarkTheme?: boolean;

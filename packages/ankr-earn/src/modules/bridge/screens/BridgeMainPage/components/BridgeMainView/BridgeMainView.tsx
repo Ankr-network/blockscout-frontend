@@ -60,7 +60,7 @@ export const BridgeMainView = (): JSX.Element => {
     isConnected,
     isActualNetwork,
     isInjected,
-    tokenValue,
+    tokenName,
     isSendAnother,
     isApproved,
     swapNetworkItem,
@@ -78,6 +78,7 @@ export const BridgeMainView = (): JSX.Element => {
     onAddrCheckboxClick,
     onChangeInputValue,
     onSwapClick,
+    isSwitchDisabled,
   } = useBridgeMainView();
 
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
@@ -156,7 +157,7 @@ export const BridgeMainView = (): JSX.Element => {
                 <Skeleton width={40} />
               ) : (
                 t('unit.token-value', {
-                  token: tokenValue,
+                  token: tokenName,
                   value: balance
                     ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
                     : 0,
@@ -199,6 +200,7 @@ export const BridgeMainView = (): JSX.Element => {
           <SwitchSelect
             from={networksOptionsFrom}
             isDisabled={isDisabledForm}
+            isOneWay={isSwitchDisabled}
             to={networksOptionsTo}
             values={{
               from: swapNetworkItem.from.toString(),
@@ -231,7 +233,12 @@ export const BridgeMainView = (): JSX.Element => {
             <Box className={classes.willReceive}>
               <span>{t('bridge.main.you-will-receive')}</span>
 
-              <span>{`${values.amount ?? 0} ${tokenValue}`}</span>
+              <span>
+                {t('unit.token-value', {
+                  token: tokenName,
+                  value: values.amount ?? 0,
+                })}
+              </span>
             </Box>
 
             <Quote mt={4}>{t('bridge.main.fee-banner')}</Quote>
@@ -312,7 +319,7 @@ export const BridgeMainView = (): JSX.Element => {
 
         <OnChange name={EFieldName.token}>
           {value => {
-            onChangeToken(value as string);
+            onChangeToken(value as AvailableBridgeTokens);
           }}
         </OnChange>
 

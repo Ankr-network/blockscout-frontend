@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { ReactNode, ReactText } from 'react';
 
 import { DEFAULT_FIXED } from 'modules/common/const';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 
 import { usePendingTableStyles } from './usePendingTableStyles';
 
@@ -55,7 +56,7 @@ export const PendingTable = ({
               title={amount.toFormat()}
             >
               {t('unit.token-value', {
-                token,
+                token: getTokenName(token),
                 value: amount.decimalPlaces(DEFAULT_FIXED).toFormat(),
               })}
             </td>

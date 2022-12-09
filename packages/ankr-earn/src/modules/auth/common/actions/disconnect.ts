@@ -1,59 +1,27 @@
-import {
-  RequestAction,
-  RequestsStore,
-  resetRequests,
-} from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { web3Api } from 'modules/api/web3Api';
 
 import { AvailableStakingWriteProviders } from '../../../common/types';
-import { setProviderStatus } from '../store/authSlice';
-import { getAuthRequestKey } from '../utils/getAuthRequestKey';
+import { resetProvider } from '../store/authSlice';
 
-import { connect } from './connect';
-
-export const disconnect = createAction<
-  RequestAction,
-  [AvailableStakingWriteProviders]
->('auth/disconnect', providerId => ({
-  request: {
-    promise: async () => {
-      const providerManager = ProviderManagerSingleton.getInstance();
-      providerManager.disconnect(providerId);
-    },
-  },
-  meta: {
-    asMutation: true,
-    silent: true,
-    showNotificationOnError: true,
-    requestKey: getAuthRequestKey(providerId),
-    onRequest: withStore,
-    onSuccess: (
-      _response,
-      _action: RequestAction,
-      { dispatch }: RequestsStore,
-    ) => {
-      dispatch(
-        setProviderStatus({
-          providerId,
-          isActive: false,
-          address: undefined,
-          walletId: undefined,
-          wallet: undefined,
-        }),
-      );
-
-      const requestsToReset = [
-        {
-          requestType: connect.toString(),
-          requestKey: getAuthRequestKey(providerId),
-        },
-      ];
-
-      dispatch(resetRequests(requestsToReset));
-    },
-  },
-}));
+export const { useDisconnectMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    disconnect: build.mutation<boolean, AvailableStakingWriteProviders>({
+      queryFn: async providerId => {
+        const providerManager = ProviderManagerSingleton.getInstance();
+        providerManager.disconnect(providerId);
+        return {
+          data: true,
+        };
+      },
+      async onQueryStarted(arg, { dispatch }) {
+        dispatch(
+          resetProvider({
+            providerId: arg,
+          }),
+        );
+      },
+    }),
+  }),
+});

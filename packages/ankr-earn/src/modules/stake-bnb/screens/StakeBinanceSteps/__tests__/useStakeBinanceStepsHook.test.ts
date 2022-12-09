@@ -1,10 +1,15 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import {
+  useGetBNBTxDataQuery,
+  useGetBNBTxReceiptQuery,
+} from 'modules/stake-bnb/actions/getTxData';
 
 import { useStakeBinanceStepsHook } from '../useStakeBinanceStepsHook';
 
@@ -12,14 +17,12 @@ jest.mock('react-router', () => ({
   useParams: jest.fn(),
 }));
 
-jest.mock('@redux-requests/react', () => ({
-  useDispatchRequest: jest.fn(),
-  useQuery: jest.fn(),
+jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
+  useAddBNBTokenToWalletMutation: jest.fn(),
 }));
 
-jest.mock('@redux-requests/core', () => ({
-  resetRequests: jest.fn(),
-  stopPolling: jest.fn(),
+jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+  useGetBNBStatsQuery: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -30,31 +33,22 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
+jest.mock('modules/stake-bnb/actions/getTxData', () => ({
+  useGetBNBTxDataQuery: jest.fn(),
+  useGetBNBTxReceiptQuery: jest.fn(),
+}));
+
 jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 
 describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook', () => {
-  const defaultQueryAction = {
-    loading: false,
-    data: undefined,
-    stopPolling: jest.fn(),
-  };
-
-  const defaultQueryTxData = {
-    ...defaultQueryAction,
+  const defaultQueryData = {
+    isFetching: false,
     data: {
       isPending: true,
       amount: new BigNumber('2.1'),
       destinationAddress: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
-    },
-  };
-
-  const defaultQueryFetchStats = {
-    ...defaultQueryAction,
-    data: {
-      aBNBcRatio: new BigNumber(0.8),
-      relayerFee: new BigNumber(0.1),
     },
   };
 
@@ -70,9 +64,18 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
       address: 'address',
     });
 
-    (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+    (useAddBNBTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
 
-    (useQuery as jest.Mock).mockReturnValue(defaultQueryAction);
+    (useGetBNBTxDataQuery as jest.Mock).mockReturnValue(defaultQueryData);
+    (useGetBNBTxReceiptQuery as jest.Mock).mockReturnValue(defaultQueryData);
+
+    (useGetBNBStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: {
+        aBNBcRatio: new BigNumber(0.8),
+        relayerFee: new BigNumber(0.1),
+      },
+    });
   });
 
   afterEach(() => {
@@ -80,11 +83,6 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
   });
 
   test('should return intial data', async () => {
-    (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultQueryTxData)
-      .mockReturnValueOnce(defaultQueryAction)
-      .mockReturnValueOnce(defaultQueryFetchStats);
-
     const { result } = renderHook(() => useStakeBinanceStepsHook());
 
     expect(result.current.transactionId).toBe(
@@ -92,7 +90,7 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
     );
     expect(result.current.amount).toStrictEqual(new BigNumber('2'));
     expect(result.current.isLoading).toBe(false);
-    expect(result.current.isPending).toBe(true);
+    expect(result.current.isPending).toBe(false);
     expect(result.current.destination).toBe(
       '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
     );
@@ -104,23 +102,22 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
       tokenOut: 'aBNBc',
     });
 
-    (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultQueryTxData)
-      .mockReturnValueOnce({
-        loading: false,
-        data: {
-          certAmount: '2.4',
-        },
-      })
-      .mockReturnValueOnce(defaultQueryFetchStats);
-
+    (useGetBNBTxReceiptQuery as jest.Mock).mockImplementation(() => ({
+      isFetching: false,
+      data: {
+        certAmount: '2.4',
+      },
+    }));
     const { result } = renderHook(() => useStakeBinanceStepsHook());
 
     expect(result.current.amount).toStrictEqual(new BigNumber('2.4'));
   });
 
   test('should return error if there is provider error', async () => {
-    (useQuery as jest.Mock).mockReturnValue({ error: new Error('error') });
+    (useGetBNBTxDataQuery as jest.Mock).mockImplementation(() => ({
+      loadng: false,
+      error: new Error('error'),
+    }));
 
     const { result } = renderHook(() => useStakeBinanceStepsHook());
 
@@ -128,16 +125,15 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
   });
 
   test('should return error if there is transaction fail error', async () => {
-    (useQuery as jest.Mock)
-      .mockReturnValueOnce(defaultQueryTxData)
-      .mockReturnValueOnce({
-        loading: false,
-        data: { status: false },
-      })
-      .mockReturnValueOnce(defaultQueryFetchStats);
+    (useGetBNBTxReceiptQuery as jest.Mock).mockImplementation(() => ({
+      loading: false,
+      data: { status: false },
+    }));
 
     const { result } = renderHook(() => useStakeBinanceStepsHook());
 
-    expect(result.current.error?.message).toBe(TxErrorCodes.TX_FAILED);
+    expect((result.current.error as Error)?.message).toBe(
+      TxErrorCodes.TX_FAILED,
+    );
   });
 });

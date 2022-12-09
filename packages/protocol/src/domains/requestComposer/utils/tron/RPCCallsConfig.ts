@@ -2,7 +2,7 @@ import { tHTML } from '@ankr.com/common';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/tron';
 import { tronJSConfig } from './tronJSConfig';
 
-const intlRoot = `chain-item.request-composer.method-description.tron`;
+const intlRoot = `request-composer.method-description.tron`;
 
 export const TRON_CALL_CONFIG: IRPCCallsConfig = {
   getblockbylimitnext: {

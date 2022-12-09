@@ -30,6 +30,7 @@ import { getPolkadotStakingNetworks } from './utils/getPolkadotStakingNetworks';
 
 const CLAIM_POLKADOT_PATH = `${STAKING_PATH}claim/:network/`;
 const STAKE_POLKADOT_PATH = `${StakeRoutes.main.path}:network/`;
+const STAKE_POLKADOT_FROM_BOND_PATH = `${STAKE_POLKADOT_PATH}?from=:from`;
 const UNSTAKE_POLKADOT_PATH = `${UNSTAKE_PATH}:network/`;
 
 const CLAIM_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
@@ -53,10 +54,15 @@ export const RoutesConfig = createRouteConfig(
         }),
     },
     stake: {
-      generatePath: (network: EPolkadotNetworks) =>
-        generatePath(STAKE_POLKADOT_PATH, {
-          network: network.toLowerCase(),
-        }),
+      generatePath: (network: EPolkadotNetworks, isFromBond?: boolean) =>
+        isFromBond
+          ? generatePath(STAKE_POLKADOT_FROM_BOND_PATH, {
+              network: network.toLowerCase(),
+              from: 'bond',
+            })
+          : generatePath(STAKE_POLKADOT_PATH, {
+              network: network.toLowerCase(),
+            }),
     },
     unstake: {
       generatePath: (network: EPolkadotNetworks) =>

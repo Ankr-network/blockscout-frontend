@@ -7,6 +7,7 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { PageNotFound } from '../common/components/PageNotFound';
 
 import { RoutesConfig } from './RoutesConfig';
+import { BridgeWalletGuard } from './screens/BridgeWalletGuard';
 import { Restore } from './screens/Restore';
 
 const BridgeMainPage = loadComponent(() =>
@@ -19,13 +20,17 @@ export function getRoutes(): JSX.Element {
       <Switch>
         <Route exact path={RoutesConfig.main.path}>
           <DefaultLayout>
-            <BridgeMainPage />
+            <BridgeWalletGuard>
+              <BridgeMainPage />
+            </BridgeWalletGuard>
           </DefaultLayout>
         </Route>
 
         <Route path={RoutesConfig.restore.path}>
           <DefaultLayout>
-            <Restore />
+            <BridgeWalletGuard>
+              <Restore />
+            </BridgeWalletGuard>
           </DefaultLayout>
         </Route>
 

@@ -1,8 +1,9 @@
 import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
@@ -15,10 +16,7 @@ import {
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 
-import { TFtmSyntToken } from '../../../types/TFtmSyntToken';
-
 import { useAnalytics } from './useAnalytics';
-import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeForm {
   aFTMcRatio: BigNumber;
@@ -37,7 +35,6 @@ interface IUseStakeForm {
   totalAmount: BigNumber;
   onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
   onSubmit: (payload: IStakeSubmitPayload) => void;
-  onTokenSelect: (token: TFtmSyntToken) => () => void;
 }
 
 export const useStakeForm = (): IUseStakeForm => {
@@ -45,13 +42,13 @@ export const useStakeForm = (): IUseStakeForm => {
   const [isError, setIsError] = useState(false);
 
   const [stake, { isLoading: isStakeLoading }] = useStakeFTMMutation();
-  const { selectedToken, handleTokenSelect } = useSelectedToken();
-  const { data, isFetching: isCommonDataLoading } = useGetFTMCommonDataQuery(
-    undefined,
-    {
-      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-    },
-  );
+  const {
+    data,
+    isFetching: isCommonDataLoading,
+    refetch,
+  } = useGetFTMCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
     defaultData: [],
@@ -63,16 +60,13 @@ export const useStakeForm = (): IUseStakeForm => {
 
   const aFTMcRatio = data?.aFTMcRatio ?? ZERO;
   const balance = data?.ftmBalance ?? ZERO;
-  const synthBalance =
-    selectedToken === Token.aFTMb
-      ? data?.aFTMbBalance ?? ZERO
-      : data?.aFTMcBalance ?? ZERO;
+  const synthBalance = data?.aFTMcBalance ?? ZERO;
   const minAmount = data?.minStake.toNumber() ?? 0;
 
   const { sendAnalytics } = useAnalytics({
     amount,
     balance,
-    selectedToken,
+    selectedToken: Token.aFTMc,
     synthBalance,
   });
 
@@ -88,24 +82,28 @@ export const useStakeForm = (): IUseStakeForm => {
     }
 
     return calcTotalAmount({
-      selectedToken,
+      selectedToken: Token.aFTMc,
       amount,
       balance,
       stakeGasFee: ZERO ?? undefined,
       aFTMcRatio,
     });
-  }, [aFTMcRatio, amount, balance, selectedToken, isError]);
+  }, [aFTMcRatio, amount, balance, isError]);
+
+  useProviderEffect(() => {
+    refetch();
+  }, []);
 
   const onChange = (values: IStakeFormPayload, invalid: boolean) => {
     // todo: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
     setIsError(invalid);
     setAmount(values.amount ? new BigNumber(values.amount) : ZERO);
 
-    if (values.amount) {
+    if (!invalid && values.amount) {
       const readyAmount = new BigNumber(values.amount);
       getAVAXStakeGasFee({
         amount: readyAmount,
-        token: selectedToken,
+        token: Token.aFTMc,
       });
     }
   };
@@ -113,27 +111,12 @@ export const useStakeForm = (): IUseStakeForm => {
   const onSubmit = () => {
     const stakeAmount = new BigNumber(amount);
 
-    stake({ amount: stakeAmount, token: selectedToken })
+    stake({ amount: stakeAmount, token: Token.aFTMc })
       .unwrap()
       .then(() => {
         sendAnalytics();
       });
   };
-
-  const onTokenSelect = useCallback(
-    (token: TFtmSyntToken) => () => {
-      handleTokenSelect(token);
-
-      const shouldUpdateGasFee = !totalAmount.isZero() && amount && !isError;
-      if (shouldUpdateGasFee) {
-        getAVAXStakeGasFee({
-          amount,
-          token,
-        });
-      }
-    },
-    [amount, getAVAXStakeGasFee, handleTokenSelect, isError, totalAmount],
-  );
 
   return {
     aFTMcRatio: tokenCertRatio,
@@ -148,10 +131,9 @@ export const useStakeForm = (): IUseStakeForm => {
     loading: isStakeLoading,
     minAmount,
     tokenIn: t('unit.ftm'),
-    tokenOut: selectedToken,
+    tokenOut: Token.aFTMc,
     totalAmount,
     onChange,
     onSubmit,
-    onTokenSelect,
   };
 };

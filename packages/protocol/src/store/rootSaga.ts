@@ -8,12 +8,12 @@ import { disconnect } from 'domains/auth/actions/disconnect';
 import { notificationSaga } from 'domains/notification/effects/notificationSaga';
 import { MultiService } from 'modules/api/MultiService';
 import { MultiRpcWeb3Sdk } from 'multirpc-sdk';
-import { checkTheFirstCardPayment } from 'domains/account/actions/usdTopUp/checkTheFirstCardPayment';
+import { watchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
 import { autoLogin } from 'domains/oauth/actions/autoLogin';
 import { loginUser } from 'domains/oauth/actions/loginUserByGoogleSecretCode';
 
-function* checkTheFirstCardPaymentSaga() {
-  yield put(checkTheFirstCardPayment());
+function* watchForTheFirstCardPaymentSaga() {
+  yield put(watchForTheFirstCardPayment());
 }
 
 export function* rootSaga() {
@@ -42,7 +42,13 @@ export function* rootSaga() {
   }
 
   yield takeEvery(success(connect.toString()), updateServiceSaga);
-  yield takeEvery(success(connect.toString()), checkTheFirstCardPaymentSaga);
-  yield takeEvery(success(loginUser.toString()), checkTheFirstCardPaymentSaga);
-  yield takeEvery(success(autoLogin.toString()), checkTheFirstCardPaymentSaga);
+  yield takeEvery(success(connect.toString()), watchForTheFirstCardPaymentSaga);
+  yield takeEvery(
+    success(loginUser.toString()),
+    watchForTheFirstCardPaymentSaga,
+  );
+  yield takeEvery(
+    success(autoLogin.toString()),
+    watchForTheFirstCardPaymentSaga,
+  );
 }

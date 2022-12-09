@@ -3,8 +3,8 @@ import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
-import { useGetTxDataQuery } from 'modules/stake-ankr/actions/getTxData';
-import { useGetTxReceiptQuery } from 'modules/stake-ankr/actions/getTxReceipt';
+import { useGetANKRTxDataQuery } from 'modules/stake-ankr/actions/getTxData';
+import { useGetANKRTxReceiptQuery } from 'modules/stake-ankr/actions/getTxReceipt';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 export interface IUnstakeStepsHook {
@@ -23,8 +23,12 @@ interface IUnstakeStepsParams {
 export const useUnstakeStepsHook = (): IUnstakeStepsHook => {
   const { txHash } = useParams<IUnstakeStepsParams>();
 
-  const { isFetching: isLoading, data, error } = useGetTxDataQuery({ txHash });
-  const { data: receipt } = useGetTxReceiptQuery({ txHash });
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetANKRTxDataQuery({ txHash });
+  const { data: receipt } = useGetANKRTxReceiptQuery({ txHash });
   const { data: providers } = useGetProvidersQuery();
 
   const providerAddress = data?.provider.toUpperCase();

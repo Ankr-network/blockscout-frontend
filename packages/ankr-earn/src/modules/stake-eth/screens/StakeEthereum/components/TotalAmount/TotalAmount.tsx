@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
@@ -22,7 +23,7 @@ export const TotalAmount = ({ amount }: ITotalAmountProps): JSX.Element => {
       <StakeDescriptionValue>
         <StakeDescriptionAmount
           isLoading={isFeeLoading}
-          symbol={tokenOut}
+          symbol={getTokenName(tokenOut)}
           value={totalAmount.toFormat()}
         />
       </StakeDescriptionValue>

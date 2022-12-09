@@ -1,11 +1,7 @@
-import React from 'react';
 import { Step, StepLabel, Stepper as MuiStepper } from '@material-ui/core';
 
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import {
-  Connector,
-  useStyles,
-} from 'domains/account/screens/Withdraw/components/WithdrawSteps/Stepper/StepperStyles';
+import { Connector, useStyles } from './StepperStyles';
 import { ReactComponent as WarningIcon } from 'uiKit/Icons/warning-icon.svg';
 
 interface IStepperProps {

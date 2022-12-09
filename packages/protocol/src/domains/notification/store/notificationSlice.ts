@@ -5,6 +5,7 @@ import { WritableDraft } from 'immer/dist/types/types-external';
 
 export interface INotificationProps extends SnackbarProps {
   severity: Color;
+  isHTML?: boolean;
 }
 
 export interface INotificationState {

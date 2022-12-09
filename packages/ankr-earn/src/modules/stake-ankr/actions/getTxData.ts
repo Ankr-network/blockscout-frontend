@@ -19,9 +19,9 @@ interface IGetTxDataProps {
   txHash: string;
 }
 
-export const { useGetTxDataQuery } = web3Api.injectEndpoints({
+export const { useGetANKRTxDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getTxData: build.query<IGetTxData, IGetTxDataProps>({
+    getANKRTxData: build.query<IGetTxData, IGetTxDataProps>({
       queryFn: queryFnNotifyWrapper<IGetTxDataProps, never, IGetTxData>(
         async ({ txHash }) => {
           const sdk = await AnkrStakingSDK.getInstance();

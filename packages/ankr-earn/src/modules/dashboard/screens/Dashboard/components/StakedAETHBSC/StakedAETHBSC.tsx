@@ -83,7 +83,7 @@ export const StakedAETHBSC = (): JSX.Element => {
         moreHref={getStakingOverviewUrl(Token.ETH)}
         open={isOpenedInfo}
         tokenAddress={binanceConfig.aETHToken}
-        tokenName={Token.aETHc}
+        tokenName={t('unit.aethc')}
         onClose={onCloseInfo}
       />
     </>

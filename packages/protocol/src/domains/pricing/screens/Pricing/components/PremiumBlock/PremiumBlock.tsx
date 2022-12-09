@@ -1,5 +1,5 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import { PRICING_LINK } from 'domains/account/screens/AccountDetails/components/const';
+
 import { PremiumLabel } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumLabel';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { ReactComponent as LinkIcon } from 'uiKit/Icons/externalLink.svg';
@@ -9,6 +9,7 @@ import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { PricingTopUp } from './PricingTopUp';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { shouldShowConnectWalletButton } from './PremiumBlockUtils';
+import { PRICING_LINK } from 'domains/account/actions/topUp/const';
 
 interface PremiumBlockProps {
   hasCredentials: boolean;

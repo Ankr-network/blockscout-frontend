@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import {
   AvailableSwitcherToken,
   NATIVE_TOKEN_BY_SWITCH_OPTION,
@@ -55,23 +56,23 @@ export const getToLabel = ({ token, ratio }: IGetToLabelArgs): string => {
   switch (token) {
     case Token.aETHb:
     case Token.aETHc:
-      return `1 ${Token.aETHc} = ${nativeValue} ${nativeToken}`;
+      return `1 ${getTokenName(Token.aETHc)} = ${nativeValue} ${nativeToken}`;
 
     case Token.aBNBb:
     case Token.aBNBc:
-      return `1 ${Token.aBNBc} = ${nativeValue} ${nativeToken}`;
+      return `1 ${getTokenName(Token.aBNBc)} = ${nativeValue} ${nativeToken}`;
 
     case Token.aMATICb:
     case Token.aMATICc:
-      return `1 ${Token.aMATICc} = ${nativeValue} ${nativeToken}`;
+      return `1 ${getTokenName(Token.aMATICc)} = ${nativeValue} ${nativeToken}`;
 
     case Token.aFTMb:
     case Token.aFTMc:
-      return `1 ${Token.aFTMc} = ${nativeValue} ${nativeToken}`;
+      return `1 ${getTokenName(Token.aFTMc)} = ${nativeValue} ${nativeToken}`;
 
     case Token.aAVAXb:
     case Token.aAVAXc:
-      return `1 ${Token.aAVAXc} = ${nativeValue} ${nativeToken}`;
+      return `1 ${getTokenName(Token.aAVAXc)} = ${nativeValue} ${nativeToken}`;
 
     default:
       return '';

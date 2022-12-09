@@ -25,18 +25,4 @@ describe('modules/switcher/screens/Main/components/SwapOptions', () => {
     expect(aethbChip).toBeInTheDocument();
     expect(aethcChip).toBeInTheDocument();
   });
-
-  test('should choose aETHc chip when clicking on arrow', () => {
-    render(
-      <SwapOptions {...defaultProps} from={Token.aETHb} to={Token.aETHc} />,
-    );
-
-    const arrow = screen.getByTestId('switch-icon');
-    arrow.click();
-
-    expect(defaultProps.onChooseFrom).toBeCalledTimes(1);
-    expect(defaultProps.onChooseFrom).toBeCalledWith(Token.aETHc);
-    expect(defaultProps.onChooseTo).toBeCalledTimes(1);
-    expect(defaultProps.onChooseTo).toBeCalledWith(Token.aETHb);
-  });
 });

@@ -6,7 +6,6 @@ import { store } from 'store';
 import { resetAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 import { reset as topUpReset } from 'domains/account/actions/topUp/reset';
-import { reset as withdrawReset } from 'domains/account/actions/withdraw/reset';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { disconnectService } from './connectUtils';
 
@@ -20,7 +19,6 @@ export const disconnect = createSmartAction<RequestAction>(
         disconnectService();
 
         store.dispatch(resetAuthData());
-        store.dispatch(withdrawReset());
         store.dispatch(topUpReset());
         store.dispatch(
           resetRequests([

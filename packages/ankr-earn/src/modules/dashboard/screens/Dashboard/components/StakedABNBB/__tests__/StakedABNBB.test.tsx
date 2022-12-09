@@ -39,7 +39,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
     chainId: EEthereumNetworkId.smartchainTestnet,
     pendingValue: ONE_ETH.dividedBy(10 ** 17),
     network: 'Ethereum Mainnet',
-    tradeLink: 'trade',
+    switchLink: 'trade',
     unstakeLink: 'unstake',
     stakeLink: 'stake',
     isBalancesLoading: false,
