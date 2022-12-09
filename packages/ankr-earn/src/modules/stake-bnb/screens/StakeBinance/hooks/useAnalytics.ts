@@ -1,13 +1,12 @@
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 
 interface IUseAnalyticsArgs {
   amount: BigNumber;
@@ -24,8 +23,8 @@ export const useAnalytics = ({
   relayerFee,
   selectedToken,
 }: IUseAnalyticsArgs): IUseAnalytics => {
-  const { data } = useQuery({
-    type: fetchStats,
+  const { data } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const { address, walletName } = useConnectedData(

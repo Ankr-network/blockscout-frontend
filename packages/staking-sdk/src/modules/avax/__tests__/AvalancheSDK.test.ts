@@ -1,10 +1,10 @@
+import BigNumber from 'bignumber.js';
+
 import {
+  ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-
-import { ProviderManager } from '@ankr.com/provider';
 
 import { AvalancheSDK, EAvalancheErrorCodes, EAvalanchePoolEvents } from '..';
 import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
@@ -393,8 +393,14 @@ describe('modules/avax/sdk', () => {
       methods: {
         allowance: () => ({ call: () => ZERO }),
         approve: jest.fn(() => ({ send: jest.fn() })),
-        claimCerts: jest.fn(() => ({ encodeABI: jest.fn() })),
-        claimBonds: jest.fn(() => ({ encodeABI: jest.fn() })),
+        claimCerts: jest.fn(() => ({
+          encodeABI: jest.fn(),
+          estimateGas: jest.fn(() => new BigNumber(1)),
+        })),
+        claimBonds: jest.fn(() => ({
+          encodeABI: jest.fn(),
+          estimateGas: jest.fn(() => new BigNumber(1)),
+        })),
       },
     };
 

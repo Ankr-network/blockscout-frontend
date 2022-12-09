@@ -1,4 +1,3 @@
-import { useDispatchRequest } from '@redux-requests/react';
 import { useCallback } from 'react';
 
 import {
@@ -6,7 +5,7 @@ import {
   EEthereumNetworkId,
 } from '@ankr.com/provider';
 
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { BNB_STAKING_NETWORKS } from 'modules/stake-bnb/const';
@@ -19,8 +18,9 @@ interface IUseSupportedNetwork {
 }
 
 export const useSupportedNetwork = (): IUseSupportedNetwork => {
-  const dispatchRequest = useDispatchRequest();
   const { isConnected, chainId } = useConnectedData(providerId);
+
+  const [switchNetwork] = useSwitchNetworkMutation();
 
   const isUnsupportedNetwork =
     isConnected && isEVMCompatible(chainId) && chainId > 0
@@ -29,8 +29,8 @@ export const useSupportedNetwork = (): IUseSupportedNetwork => {
 
   const onSwitchNetwork = useCallback(
     (network: EEthereumNetworkId) =>
-      dispatchRequest(switchNetwork({ providerId, chainId: network })),
-    [dispatchRequest],
+      switchNetwork({ providerId, chainId: network }),
+    [switchNetwork],
   );
 
   return {

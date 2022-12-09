@@ -1,39 +1,50 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { BinanceSDK } from '@ankr.com/staking-sdk';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
+
+import { CacheTags } from '../const';
 
 interface IFetchPendingValuesResponseData {
   pendingAbnbbUnstakes: BigNumber;
   pendingAbnbcUnstakes: BigNumber;
 }
 
-export const fetchPendingValues = createSmartAction<
-  RequestAction<
-    IFetchPendingValuesResponseData,
-    IFetchPendingValuesResponseData
-  >
->(
-  'bnb/fetchPendingValues',
-  (): RequestAction => ({
-    request: {
-      promise: async (): Promise<IFetchPendingValuesResponseData> => {
+export const { useGetBNBPendingValuesQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getBNBPendingValues: build.query<IFetchPendingValuesResponseData, void>({
+      queryFn: queryFnNotifyWrapper<
+        void,
+        never,
+        IFetchPendingValuesResponseData
+      >(async () => {
+        if (featuresConfig.disableHeavyRequestsForTestnet) {
+          return {
+            data: {
+              pendingAbnbbUnstakes: ZERO,
+              pendingAbnbcUnstakes: ZERO,
+            },
+          };
+        }
+
         const sdk = await BinanceSDK.getInstance();
 
-        const { pendingBond, pendingCertificate } = await sdk.getPendingData();
+        const {
+          pendingBond: pendingAbnbbUnstakes,
+          pendingCertificate: pendingAbnbcUnstakes,
+        } = await sdk.getPendingData();
 
         return {
-          pendingAbnbbUnstakes: pendingBond,
-          pendingAbnbcUnstakes: pendingCertificate,
+          data: {
+            pendingAbnbbUnstakes,
+            pendingAbnbcUnstakes,
+          },
         };
-      },
-    },
-    meta: {
-      asMutation: false,
-      onRequest: withStore,
-    },
+      }),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
   }),
-);
+});

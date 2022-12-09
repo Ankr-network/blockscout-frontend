@@ -11,8 +11,6 @@ import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
 
-import { useSelectedToken } from './useSelectedToken';
-
 interface IUseTotalAmount {
   isFeeLoading: boolean;
   tokenOut: TEthToken;
@@ -20,8 +18,6 @@ interface IUseTotalAmount {
 }
 
 export const useTotalAmount = (amount?: BigNumber): IUseTotalAmount => {
-  const { selectedToken } = useSelectedToken();
-
   const { loading: isFeeLoading, data: stakeGasFee } = useQuery({
     type: getStakeGasFee,
   });
@@ -39,24 +35,21 @@ export const useTotalAmount = (amount?: BigNumber): IUseTotalAmount => {
     }
 
     const total = calcTotalAmount({
-      selectedToken,
+      selectedToken: Token.aETHc,
       stakeGasFee,
       amount,
       ethBalance: commonData.ethBalance,
       aETHcRatio: commonData.aETHcRatio,
     });
 
-    const claimableAmount =
-      selectedToken === Token.aETHb
-        ? claimableData?.claimableAETHB
-        : claimableData?.claimableAETHC;
+    const claimableAmount = claimableData?.claimableAETHC;
 
     return total.plus(claimableAmount ?? ZERO);
-  }, [amount, commonData, claimableData, selectedToken, stakeGasFee]);
+  }, [amount, commonData, claimableData, stakeGasFee]);
 
   return {
     isFeeLoading,
-    tokenOut: selectedToken,
+    tokenOut: Token.aETHc,
     totalAmount,
   };
 };

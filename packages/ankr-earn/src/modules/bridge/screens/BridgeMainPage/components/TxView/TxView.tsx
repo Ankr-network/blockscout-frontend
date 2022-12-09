@@ -1,18 +1,14 @@
 import { t } from '@ankr.com/common';
 import { Box, Paper } from '@material-ui/core';
 import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
@@ -24,6 +20,7 @@ import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { AUDIT_LINKS } from 'modules/common/const';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
@@ -77,9 +74,8 @@ export const TxView = ({
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { loading: isSwitchNetworkPending } = useMutation({
-    type: switchNetwork,
-  });
+  const [switchNetwork, { isLoading: isSwitchNetworkPending }] =
+    useSwitchNetworkMutation();
 
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
   const { isConnected } = useConnectedData(
@@ -87,18 +83,17 @@ export const TxView = ({
   );
 
   const isNotarizeCompleted = !!notarizeData;
+  const tokenName = getTokenName(token);
 
   const onAddTokenClick = () => {
     dispatchRequest(watchAsset({ token, chainId: chainIdTo }));
   };
 
   const onSwitchNetworkClick = () => {
-    dispatchRequest(
-      switchNetwork({
-        providerId: AvailableWriteProviders.ethCompatible,
-        chainId: chainIdTo,
-      }),
-    );
+    switchNetwork({
+      providerId: AvailableWriteProviders.ethCompatible,
+      chainId: chainIdTo,
+    });
   };
 
   const onCloseClick = () => {
@@ -190,7 +185,7 @@ export const TxView = ({
             <Box className={classes.gridCellValue}>
               {t('unit.token-value', {
                 value: amount.toFormat(),
-                token,
+                token: tokenName,
               })}
             </Box>
           </Box>
@@ -242,7 +237,7 @@ export const TxView = ({
               variant="outlined"
               onClick={onAddTokenClick}
             >
-              {t('bridge.tx.buttons.add-to-wallet', { token })}
+              {t('bridge.tx.buttons.add-to-wallet', { token: tokenName })}
             </Button>
           )}
 

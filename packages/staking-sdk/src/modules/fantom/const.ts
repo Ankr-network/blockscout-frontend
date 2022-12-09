@@ -25,12 +25,9 @@ export const FANTOM_PROVIDER_READ_ID = isMainnet
   : AvailableReadProviders.ftmTestnet;
 
 /**
- * Even with this multiplier, the gas estimate is two times less
- * than if we did not manage this value.
- *
- * @note Magic number, 40%
+ * Gas limit increase by 60%
  */
-export const FANTOM_ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%
+export const FANTOM_ESTIMATE_GAS_MULTIPLIER = 1.6;
 
 /**
  * Magic number to avoid problems with max amount and fee calculation in the wallet

@@ -1,18 +1,26 @@
-import { useDispatchRequest } from '@redux-requests/react';
 import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { disconnect } from '../actions/disconnect';
+import {
+  AvailableStakingWriteProviders,
+  ExtraWriteProviders,
+} from 'modules/common/types';
 
-const PROVIDERS_ARRAY = Object.values(AvailableWriteProviders);
+import { useDisconnectMutation } from '../actions/disconnect';
+
+const PROVIDERS_ARRAY = (
+  Object.values(AvailableWriteProviders) as AvailableStakingWriteProviders[]
+).concat(
+  Object.values(ExtraWriteProviders) as AvailableStakingWriteProviders[],
+);
 
 type TDisconnectAll = () => void;
 
 export const useDisconnectAll = (): TDisconnectAll => {
-  const dispatchRequest = useDispatchRequest();
+  const [disconnect] = useDisconnectMutation();
 
   return useCallback(() => {
-    PROVIDERS_ARRAY.forEach(x => dispatchRequest(disconnect(x)));
-  }, [dispatchRequest]);
+    PROVIDERS_ARRAY.forEach(x => disconnect(x));
+  }, [disconnect]);
 };

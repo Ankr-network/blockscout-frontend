@@ -60,6 +60,7 @@ export interface ProvidersMap extends IProviders, IExtraProviders {
 
 export enum ExtraWriteProviders {
   polkadotCompatible = 'polkadotCompatible',
+  suiCompatible = 'suiCompatible',
 }
 
 export type AvailableStakingWriteProviders =

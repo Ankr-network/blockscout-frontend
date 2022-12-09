@@ -11,6 +11,7 @@ import {
   AUDIT_LINKS,
   DUNE_ANALYTICS_LINK,
   featuresConfig,
+  ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
@@ -25,10 +26,12 @@ import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
+import { StakeTokenInfo } from 'modules/stake/components/StakeTokenInfo/StakeTokenInfo';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 
-import { TokenVariants } from './components/TokenVariants';
+import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
+
 import { TotalAmount } from './components/TotalAmount';
 import { Unclaimed } from './components/Unclaimed';
 import { useErrorMessage } from './hooks/useErrorMessage';
@@ -87,15 +90,25 @@ export const StakeEthereum = (): JSX.Element => {
   const renderStats = useCallback(
     () => (
       <>
-        <TokenVariants />
+        <StakeTokenInfo
+          nativeAmount={ONE.dividedBy(certificateRatio).round().toString()}
+          nativeToken={Token.ETH}
+          token={t('unit.aethc')}
+        />
 
         <Unclaimed />
 
         <TotalAmount amount={amount} />
       </>
     ),
-    [amount],
+    [amount, certificateRatio],
   );
+
+  const noticeText = useBTokenNotice({
+    bToken: Token.aETHb,
+    cToken: Token.aETHc,
+    nativeToken: Token.ETH,
+  });
 
   return (
     <section className={classes.root}>
@@ -128,6 +141,7 @@ export const StakeEthereum = (): JSX.Element => {
           })}
           loading={hasError || loading}
           minAmount={minAmount}
+          noticeSlot={noticeText}
           renderStats={renderStats}
           stakingAmountStep={ETH_STAKING_AMOUNT_STEP}
           tokenIn={tokenIn}

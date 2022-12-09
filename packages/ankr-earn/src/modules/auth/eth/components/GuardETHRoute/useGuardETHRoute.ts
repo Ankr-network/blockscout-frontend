@@ -1,13 +1,11 @@
-import { useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
 } from '@ankr.com/provider';
 
-import { switchNetwork } from 'modules/auth/common/actions/switchNetwork';
+import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TChainId } from 'modules/auth/common/types';
@@ -34,23 +32,21 @@ interface IUseGuardETHRoute {
 export const useGuardETHRoute = ({
   isOpenConnectInstantly,
 }: IUseGuardETHRouteArgs): IUseGuardETHRoute => {
-  const dispatch = useDispatch();
   const { handleOpen } = useDialog(EKnownDialogs.connect);
 
   const { isConnected, chainId, walletName, walletId } =
     useConnectedData(providerId);
 
-  const { loading: isSwitchNetworkLoading } = useMutation({
-    type: switchNetwork,
-  });
+  const [switchNetwork, { isLoading: isSwitchNetworkLoading }] =
+    useSwitchNetworkMutation();
 
   const isInjectedWallet = walletName ? getIsInjectedWallet(walletName) : false;
 
   const onNetworkSwitch = useCallback(
     (newChainId: EEthereumNetworkId) => {
-      dispatch(switchNetwork({ chainId: newChainId, providerId }));
+      switchNetwork({ chainId: newChainId, providerId });
     },
-    [dispatch],
+    [switchNetwork],
   );
 
   useProviderEffect(() => {

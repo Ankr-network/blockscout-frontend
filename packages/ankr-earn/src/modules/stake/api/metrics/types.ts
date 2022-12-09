@@ -9,6 +9,7 @@ export type TServiceName =
   | 'ksm'
   | 'dot'
   | 'ankr'
+  | 'xdc'
 
   // DEV mode only
   | 'wnd';

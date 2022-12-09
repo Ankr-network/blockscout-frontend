@@ -1,13 +1,12 @@
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { fetchStats } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 
 interface IUseUnstakeBNBAnalytics {
@@ -19,8 +18,8 @@ export const useUnstakeBNBAnalytics = (): IUseUnstakeBNBAnalytics => {
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { data: fetchStatsData } = useQuery({
-    type: fetchStats,
+  const { data: fetchStatsData } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const sendAnalytics = (amount: BigNumber, syntheticToken: TBnbSyntToken) => {

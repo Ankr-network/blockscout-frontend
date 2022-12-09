@@ -8,12 +8,16 @@ import {
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useGetFTMTotalHistoryDataQuery } from 'modules/stake-fantom/actions/getTotalHistoryData';
+import { useLazyGetFTMTotalHistoryDataQuery } from 'modules/stake-fantom/actions/getTotalHistoryData';
 
 import { useStakedFTMTxHistory } from '../useStakedFTMTxHistory';
 
 jest.mock('modules/stake-fantom/actions/getTotalHistoryData', () => ({
-  useGetFTMTotalHistoryDataQuery: jest.fn(),
+  useLazyGetFTMTotalHistoryDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
+  useProviderEffect: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedFTMTxHistory', () => {
@@ -78,7 +82,10 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedF
   };
 
   beforeEach(() => {
-    (useGetFTMTotalHistoryDataQuery as jest.Mock).mockReturnValue(defaultData);
+    (useLazyGetFTMTotalHistoryDataQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      defaultData,
+    ]);
   });
 
   afterEach(() => {
@@ -119,7 +126,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedF
   });
 
   test('should handle load history data', () => {
-    const { refetch } = useGetFTMTotalHistoryDataQuery();
+    const [refetch] = useLazyGetFTMTotalHistoryDataQuery();
 
     const { result } = renderHook(() => useStakedFTMTxHistory(token));
 
@@ -131,10 +138,13 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/FTM/useStakedF
   });
 
   test('should return empty data', () => {
-    (useGetFTMTotalHistoryDataQuery as jest.Mock).mockReturnValue({
-      data: null,
-      isFetching: true,
-    });
+    (useLazyGetFTMTotalHistoryDataQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        data: null,
+        isFetching: true,
+      },
+    ]);
 
     const { result } = renderHook(() => useStakedFTMTxHistory(token));
 

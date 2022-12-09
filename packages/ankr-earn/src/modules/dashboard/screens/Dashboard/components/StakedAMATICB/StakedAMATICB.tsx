@@ -52,7 +52,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
     network,
     pendingValue,
     stakeLink,
-    tradeLink,
+    switchLink,
     unstakeLink,
     usdAmount,
     walletName,
@@ -83,8 +83,7 @@ export const StakedAMATICB = (): JSX.Element | null => {
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
@@ -113,8 +112,8 @@ export const StakedAMATICB = (): JSX.Element | null => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
+        switchLink={switchLink}
         token={Token.aMATICb}
-        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}

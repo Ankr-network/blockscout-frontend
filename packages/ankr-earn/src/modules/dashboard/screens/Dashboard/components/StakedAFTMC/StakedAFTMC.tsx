@@ -1,4 +1,4 @@
-import { tHTML } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
@@ -19,9 +19,12 @@ import { useStakedFTMTxHistory } from '../../hooks/liquid-tokens/FTM/useStakedFT
 
 import { useStakedAFTMCData } from './useStakedAFTMCData';
 
+const nativeToken = Token.FTM;
+const token = Token.aFTMc;
+
 export const StakedAFTMC = (): JSX.Element | null => {
   const { fantomConfig } = configFromEnv();
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.FTM });
+  const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -35,7 +38,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
   } = useDialog();
 
   const { pendingUnstakeHistoryAFTMC, isHistoryLoading, handleLoadTxHistory } =
-    useStakedFTMTxHistory(Token.aFTMc);
+    useStakedFTMTxHistory(token);
 
   const {
     address,
@@ -49,17 +52,20 @@ export const StakedAFTMC = (): JSX.Element | null => {
     pendingUnstakes,
     ratio,
     stakeLink,
+    tradeLink,
     unstakeLink,
     usdAmount,
     walletName,
     handleAddTokenToWallet,
   } = useStakedAFTMCData();
 
+  const tokenName = t('unit.aftmc');
+
   const onTradeClick = () => {
     trackClickTrade({
       walletType: walletName,
       walletPublicAddress: address,
-      stakeToken: Token.aFTMc,
+      stakeToken: token,
       stakedBalance: amount?.toFixed(),
     });
   };
@@ -69,19 +75,18 @@ export const StakedAFTMC = (): JSX.Element | null => {
       walletType: walletName,
       walletPublicAddress: address,
       accessPoint: 'add_stake',
-      tokenName: Token.aFTMb,
+      tokenName: token,
     });
   };
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();
-    handleLoadTxHistory();
-  }, [handleLoadTxHistory, onOpenHistory]);
+  }, [onOpenHistory]);
 
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
       isLoading={isHistoryLoading}
-      token={Token.aFTMc}
+      token={tokenName}
       tooltip={
         <PendingTable
           data={pendingUnstakeHistoryAFTMC}
@@ -105,7 +110,8 @@ export const StakedAFTMC = (): JSX.Element | null => {
         network={network}
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
-        token={Token.aFTMc}
+        token={token}
+        tradeLink={tradeLink}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
@@ -117,7 +123,7 @@ export const StakedAFTMC = (): JSX.Element | null => {
       <NewHistoryDialog
         network={FTM_NETWORK_BY_ENV}
         open={isOpenedHistory}
-        token={Token.aFTMc}
+        token={token}
         onClose={onCloseHistory}
       />
 
@@ -126,10 +132,10 @@ export const StakedAFTMC = (): JSX.Element | null => {
         description={tHTML('dashboard.token-info.aFTMc', {
           ratio: ratio && !ratio.isZero() ? ONE.div(ratio) : ZERO.toFormat(),
         })}
-        moreHref={getStakingOverviewUrl(Token.FTM)}
+        moreHref={getStakingOverviewUrl(nativeToken)}
         open={isOpenedInfo}
         tokenAddress={fantomConfig.aftmcToken}
-        tokenName={Token.aFTMc}
+        tokenName={tokenName}
         onClose={onCloseInfo}
       />
     </>

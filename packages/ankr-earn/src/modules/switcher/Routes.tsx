@@ -12,16 +12,30 @@ import {
 } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 const ROOT = `${STAKING_PATH}switch/`;
+const SWITCH_PATH = `${ROOT}?from=:from`;
 const SUCCESS = `${ROOT}:from/:to/:txHash`;
 
 export const RoutesConfig = createRouteConfig(
   {
     main: {
       path: ROOT,
-      generatePath: () => generatePath(ROOT),
+      generatePath: (from?: string) => {
+        if (from) {
+          return generatePath(SWITCH_PATH, { from });
+        }
+        return generatePath(ROOT);
+      },
+      useParams: () => {
+        const queryParams = useQueryParams();
+
+        return {
+          from: queryParams.get('from'),
+        };
+      },
     },
     success: {
       path: SUCCESS,

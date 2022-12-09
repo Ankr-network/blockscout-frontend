@@ -15,7 +15,7 @@ import { useFormState } from 'modules/forms/hooks/useFormState';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
-import { useStakeMutation } from 'modules/stake-ankr/actions/stake';
+import { useStakeANKRMutation } from 'modules/stake-ankr/actions/stake';
 import { ANKR_STAKE_FORM_ID } from 'modules/stake-ankr/const';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
@@ -53,7 +53,7 @@ interface IUseAnkrStake {
 export const useAnkrStake = (): IUseAnkrStake => {
   const dispatch = useDispatch();
   const dispatchRequest = useDispatchRequest();
-  const [stake, { isLoading: isStakeLoading }] = useStakeMutation();
+  const [stake, { isLoading: isStakeLoading }] = useStakeANKRMutation();
 
   const { setFormState, formState } =
     useFormState<IFormState>(ANKR_STAKE_FORM_ID);
@@ -122,10 +122,8 @@ export const useAnkrStake = (): IUseAnkrStake => {
         amount: readyAmount,
       })
         .unwrap()
-        .catch(error => {
-          if (!error) {
-            sendAnalytics();
-          }
+        .then(() => {
+          sendAnalytics();
         });
     } else {
       handleApprove(readyAmount);

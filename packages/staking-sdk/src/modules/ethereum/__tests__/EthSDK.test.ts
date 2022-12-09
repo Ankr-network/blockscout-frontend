@@ -1,10 +1,10 @@
+import BigNumber from 'bignumber.js';
+
 import {
+  ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-
-import { ProviderManager } from '@ankr.com/provider';
 
 import { EEthereumErrorCodes, EthereumSDK, TEthToken } from '..';
 import { configFromEnv, MAX_UINT256, ZERO, ZERO_ADDRESS } from '../../common';
@@ -389,6 +389,18 @@ describe('modules/ethereum/sdk', () => {
 
   test('should add token to wallet', async () => {
     {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          symbol: jest.fn(() => ({ call: () => 'aETHc' })),
+        },
+        options: {
+          address: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
+        },
+      };
+
+      defaultProvider.createContract.mockReturnValue(contract);
+
       const sdk = await EthereumSDK.getInstance();
 
       await sdk.addTokenToWallet('aETHc');
@@ -402,6 +414,18 @@ describe('modules/ethereum/sdk', () => {
     }
 
     {
+      const contract = {
+        ...defaultContract,
+        methods: {
+          symbol: jest.fn(() => ({ call: () => 'aETHb' })),
+        },
+        options: {
+          address: '0xe64FCf6327bB016955EFd36e75a852085270c374',
+        },
+      };
+
+      defaultProvider.createContract.mockReturnValue(contract);
+
       const sdk = await EthereumSDK.getInstance();
 
       await sdk.addTokenToWallet('aETHb');

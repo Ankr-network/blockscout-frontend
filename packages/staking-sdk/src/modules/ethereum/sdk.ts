@@ -1,3 +1,8 @@
+import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
+import { TransactionReceipt } from 'web3-core';
+import { Contract, EventData } from 'web3-eth-contract';
+
 import {
   AvailableReadProviders,
   EEthereumNetworkId,
@@ -5,10 +10,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import flatten from 'lodash/flatten';
-import { TransactionReceipt } from 'web3-core';
-import { Contract, EventData } from 'web3-eth-contract';
 
 import { getPastEvents } from '../api';
 import {
@@ -312,14 +313,24 @@ export class EthereumSDK implements ISwitcher, IStakable {
    */
   public async addTokenToWallet(token: string): Promise<boolean> {
     await this.connectWriteProvider();
-
+    const provider = await this.getProvider();
     const data = TOKENS_CONFIG_BY_SYMBOL[token as TEthToken];
 
     if (!data) {
       throw new Error('Failed to add token to wallet');
     }
 
-    return this.writeProvider.addTokenToWallet(data);
+    const contract =
+      token === 'aETHb'
+        ? EthereumSDK.getAethbContract(provider)
+        : EthereumSDK.getAethcContract(provider);
+
+    const symbol: string = await contract.methods.symbol().call();
+
+    return this.writeProvider.addTokenToWallet({
+      ...data,
+      symbol,
+    });
   }
 
   private async connectWriteProvider(): Promise<void> {

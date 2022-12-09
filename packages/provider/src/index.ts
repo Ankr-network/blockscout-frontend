@@ -1,9 +1,7 @@
 export * from './providerEvents';
 export * from './providerManager';
+
 export * from './utils/const';
 export * from './utils/getWalletIcon';
 export * from './utils/getWalletName';
-export * from './utils/isWriteProvider';
 export * from './utils/types';
-export * from './utils/Web3KeyReadProvider';
-export * from './utils/Web3KeyWriteProvider';

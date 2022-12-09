@@ -8,9 +8,12 @@ interface IGetTxReceiptProps {
   txHash: string;
 }
 
-export const { useGetTxReceiptQuery } = web3Api.injectEndpoints({
+export const { useGetANKRTxReceiptQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getTxReceipt: build.query<TransactionReceipt | null, IGetTxReceiptProps>({
+    getANKRTxReceipt: build.query<
+      TransactionReceipt | null,
+      IGetTxReceiptProps
+    >({
       queryFn: queryFnNotifyWrapper<
         IGetTxReceiptProps,
         never,

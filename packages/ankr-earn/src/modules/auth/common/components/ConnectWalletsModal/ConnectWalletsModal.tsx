@@ -7,6 +7,7 @@ import { ExtraWriteProviders } from 'modules/common/types';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
 import { useConnectedData } from '../../hooks/useConnectedData';
+import { ConnectTileClover } from '../ConnectTileClover';
 import { ConnectTileCoin98 } from '../ConnectTileCoin98';
 import { ConnectTileCoinbase } from '../ConnectTileCoinbase';
 import { ConnectTileHuobi } from '../ConnectTileHuobi';
@@ -15,6 +16,7 @@ import { ConnectTileMath } from '../ConnectTileMath';
 import { ConnectTileMetaMask } from '../ConnectTileMetaMask';
 import { ConnectTileOKX } from '../ConnectTileOkx';
 import { ConnectTilePolkadot } from '../ConnectTilePolkadot';
+import { ConnectTileSui } from '../ConnectTileSui';
 import { ConnectTileTrust, ConnectTileTrustViaWC } from '../ConnectTileTrust';
 import { ConnectTileWalletConnect } from '../ConnectTileWalletConnect';
 
@@ -33,6 +35,11 @@ export const ConnectWalletsModal = (): JSX.Element => {
     isConnected: isConnectedPolkadotCompatible,
   } = useConnectedData(ExtraWriteProviders.polkadotCompatible);
 
+  const {
+    isLoading: isLoadingSuiCompatible,
+    isConnected: isConnectedSuiCompatible,
+  } = useConnectedData(ExtraWriteProviders.suiCompatible);
+
   const isMobileDevice = isMobile();
 
   const renderedEthButtons = !isConnectedEthCompatible
@@ -47,6 +54,8 @@ export const ConnectWalletsModal = (): JSX.Element => {
           <ConnectTileCoinbase />
 
           {isMobileDevice ? <ConnectTileTrustViaWC /> : <ConnectTileTrust />}
+
+          {!isMobileDevice && <ConnectTileClover />}
 
           <ConnectTileWalletConnect />
 
@@ -63,7 +72,11 @@ export const ConnectWalletsModal = (): JSX.Element => {
 
   return (
     <ConnectWalletsModalUI
-      isLoading={isLoadingEthCompatible || isLoadingPolkadotCompatible}
+      isLoading={
+        isLoadingEthCompatible ||
+        isLoadingPolkadotCompatible ||
+        isLoadingSuiCompatible
+      }
       isOpen={isOpened}
       onClose={handleClose}
     >
@@ -72,6 +85,10 @@ export const ConnectWalletsModal = (): JSX.Element => {
       {!isConnectedPolkadotCompatible && !isMobileDevice && (
         <ConnectTilePolkadot />
       )}
+
+      {featuresConfig.isSUIStakingActive &&
+        !isConnectedSuiCompatible &&
+        !isMobileDevice && <ConnectTileSui />}
     </ConnectWalletsModalUI>
   );
 };

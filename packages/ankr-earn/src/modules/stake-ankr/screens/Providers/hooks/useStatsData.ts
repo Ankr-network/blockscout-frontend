@@ -19,7 +19,9 @@ interface IStatsData {
 export const useStatsData = (): IStatsData => {
   const { data, isFetching: statsLoading } = useGetProvidersTotalInfoQuery(
     undefined,
-    { refetchOnMountOrArgChange: CACHE_SECONDS },
+    {
+      refetchOnMountOrArgChange: CACHE_SECONDS,
+    },
   );
   const { data: maxApy, isFetching: apyLoading } = useGetMaxApyQuery(
     undefined,

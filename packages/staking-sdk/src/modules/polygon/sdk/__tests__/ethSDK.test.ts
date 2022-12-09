@@ -1,11 +1,11 @@
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
-import { ProviderManager } from '@ankr.com/provider';
+import {
+  ProviderManager,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 
 import { ETH_SCALE_FACTOR, ZERO } from '../../../common';
 import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '../../const';
@@ -248,36 +248,60 @@ describe('modules/polygon/sdk/ethSDK', () => {
   });
 
   test('should add token to wallet with connect', async () => {
+    const TOKEN = 'aMATICb';
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => TOKEN })),
+      },
+      options: {
+        address: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(false);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
     const sdk = await PolygonOnEthereumSDK.getInstance();
 
-    const result = await sdk.addTokenToWallet('aMATICb');
+    const result = await sdk.addTokenToWallet(TOKEN);
 
     expect(result).toBe(true);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
       address: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
-      symbol: 'aMATICb',
+      symbol: TOKEN,
       decimals: 18,
       chainId: 5,
     });
   });
 
   test('should add token to wallet without connect', async () => {
+    const TOKEN = 'aMATICc';
+    const contract = {
+      ...defaultContract,
+      methods: {
+        symbol: jest.fn(() => ({ call: () => TOKEN })),
+      },
+      options: {
+        address: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
+      },
+    };
+
+    defaultWeb3.eth.Contract.mockReturnValue(contract);
     defaultWriteProvider.isConnected.mockReturnValue(true);
     defaultWriteProvider.addTokenToWallet.mockReturnValue(true);
 
     const sdk = await PolygonOnEthereumSDK.getInstance();
 
-    const result = await sdk.addTokenToWallet('aMATICc');
+    const result = await sdk.addTokenToWallet(TOKEN);
 
     expect(result).toBe(true);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
       address: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
-      symbol: 'aMATICc',
+      symbol: TOKEN,
       decimals: 18,
       chainId: 5,
     });

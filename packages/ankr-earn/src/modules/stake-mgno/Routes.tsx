@@ -1,5 +1,7 @@
 import { generatePath, Route, Switch } from 'react-router';
 
+import { EWalletId } from '@ankr.com/provider';
+
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { STAKING_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
@@ -7,8 +9,8 @@ import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-import { SupportGuard } from './components/SupportGuard';
 import { MGNO_STAKING_NETWORKS } from './const';
+import { UnsupportedOkxWallet } from './screens/UnsupportedOkxWallet';
 
 const ROOT = `${STAKING_PATH}mgno-stake/`;
 const STAKE_PATH = `${ROOT}stake/`;
@@ -70,54 +72,40 @@ const Providers = loadComponent(() =>
 );
 
 export function getRoutes(): JSX.Element {
+  const commonGuardProps = {
+    exact: true,
+    availableNetworks: MGNO_STAKING_NETWORKS,
+    supportSlot: <UnsupportedOkxWallet />,
+    notSupportedWallets: [EWalletId.okxwallet],
+  };
+
   return (
     <Route path={[RoutesConfig.root]}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={MGNO_STAKING_NETWORKS}
-          path={RoutesConfig.main.path}
-        >
+        <GuardETHRoute {...commonGuardProps} path={RoutesConfig.main.path}>
           <DefaultLayout>
-            <SupportGuard>
-              <Main />
-            </SupportGuard>
+            <Main />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute {...commonGuardProps} path={RoutesConfig.providers.path}>
+          <DefaultLayout>
+            <Providers />
+          </DefaultLayout>
+        </GuardETHRoute>
+
+        <GuardETHRoute {...commonGuardProps} path={RoutesConfig.stake.path}>
+          <DefaultLayout>
+            <Stake />
           </DefaultLayout>
         </GuardETHRoute>
 
         <GuardETHRoute
-          exact
-          availableNetworks={MGNO_STAKING_NETWORKS}
-          path={RoutesConfig.providers.path}
-        >
-          <DefaultLayout>
-            <SupportGuard>
-              <Providers />
-            </SupportGuard>
-          </DefaultLayout>
-        </GuardETHRoute>
-
-        <GuardETHRoute
-          exact
-          availableNetworks={MGNO_STAKING_NETWORKS}
-          path={RoutesConfig.stake.path}
-        >
-          <DefaultLayout>
-            <SupportGuard>
-              <Stake />
-            </SupportGuard>
-          </DefaultLayout>
-        </GuardETHRoute>
-
-        <GuardETHRoute
-          exact
-          availableNetworks={MGNO_STAKING_NETWORKS}
+          {...commonGuardProps}
           path={RoutesConfig.stakeSteps.path}
         >
           <DefaultLayout>
-            <SupportGuard>
-              <StakeSteps />
-            </SupportGuard>
+            <StakeSteps />
           </DefaultLayout>
         </GuardETHRoute>
       </Switch>

@@ -14,6 +14,7 @@ import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
+import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { addMATICTokenToWallet } from 'modules/stake-matic/eth/actions/addMATICTokenToWallet';
 import { fetchStats as fetchStakePolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { stake as stakeMATIC } from 'modules/stake-matic/eth/actions/stake';
@@ -23,6 +24,7 @@ import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 const token = Token.aMATICc;
+const newTokenName = 'ankrMATIC';
 
 export interface IStakedAMATICCData {
   amount: BigNumber;
@@ -37,6 +39,7 @@ export interface IStakedAMATICCData {
   stakeLink: string;
   token: Token;
   tokenAddress: string;
+  tradeLink: string;
   unstakeLink: string;
   usdAmount?: BigNumber;
   onAddTokenToWallet: () => void;
@@ -91,10 +94,11 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
     network,
     pendingValue,
     ratio: statsData?.aMATICcRatio ?? ZERO,
-    stakeLink: StakeMaticEthRoutes.stake.generatePath(Token.aMATICc),
+    stakeLink: StakeMaticEthRoutes.stake.generatePath(),
     token,
+    tradeLink: DeFiRoutes.defi.generatePath(newTokenName),
     tokenAddress: polygonConfig.aMATICcToken,
-    unstakeLink: StakeMaticEthRoutes.unstake.generatePath(Token.aMATICc),
+    unstakeLink: StakeMaticEthRoutes.unstake.generatePath(token),
     usdAmount,
     onAddTokenToWallet,
   };

@@ -1,3 +1,9 @@
+import BigNumber from 'bignumber.js';
+import Web3 from 'web3';
+import { TransactionReceipt } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
+
 import {
   Address,
   EEthereumNetworkId,
@@ -5,11 +11,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
-import { TransactionReceipt } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
 
 import {
   configFromEnv,
@@ -21,7 +22,7 @@ import {
 import ABI_MATIC_BOND from '../../contracts/aMATICb.json';
 import ABI_MATIC_CERT from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
-import ABI_SWAP_POOL from '../../contracts/SwapPool.json';
+import ABI_SWAP_POOL from '../../contracts/PolygonSwapPool.json';
 import {
   IPendingData,
   IStakable,
@@ -302,14 +303,21 @@ export class PolygonOnPolygonSDK implements IStakable {
       await this.writeProvider.connect();
     }
 
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+
+    const contract =
+      token === 'aMATICb'
+        ? PolygonOnPolygonSDK.getABTokenContract(web3)
+        : PolygonOnPolygonSDK.getACTokenContract(web3);
+
+    const symbol = await contract.methods.symbol().call();
+
     return this.writeProvider.addTokenToWallet({
-      address:
-        token === 'aMATICc'
-          ? polygonConfig.aMATICcToken
-          : polygonConfig.aMATICbToken,
+      address: contract.options.address,
       chainId: POLYGON_NETWORK_BY_ENV,
       decimals: MATIC_DECIMALS,
-      symbol: token,
+      symbol,
     });
   }
 

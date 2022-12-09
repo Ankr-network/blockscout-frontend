@@ -27,7 +27,7 @@ export const getUnstakeDate = createSmartAction<RequestAction<TData, TData>>(
       driver: 'axios',
       poll,
       showNotificationOnError: false,
-      asMutation: true,
+      asMutation: false,
       getData: (data: IResData): TData => {
         if (!data) return null;
 

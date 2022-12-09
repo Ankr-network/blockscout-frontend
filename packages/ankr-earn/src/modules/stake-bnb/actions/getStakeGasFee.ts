@@ -1,8 +1,8 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { BinanceSDK } from '@ankr.com/staking-sdk';
+
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { TBnbSyntToken } from '../types';
 
@@ -11,20 +11,16 @@ interface IGetStakeGasFeeArgs {
   token: TBnbSyntToken;
 }
 
-export const getStakeGasFee = createAction<
-  RequestAction<BigNumber, BigNumber>,
-  [IGetStakeGasFeeArgs]
->(`bnb/getStakeGasFee`, ({ amount, token }) => ({
-  request: {
-    promise: (async (): Promise<BigNumber> => {
-      const sdk = await BinanceSDK.getInstance();
+export const { useLazyGetBNBStakeGasFeeQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getBNBStakeGasFee: build.query<BigNumber, IGetStakeGasFeeArgs>({
+      queryFn: queryFnNotifyWrapper<IGetStakeGasFeeArgs, never, BigNumber>(
+        async ({ amount, token }) => {
+          const sdk = await BinanceSDK.getInstance();
 
-      return sdk.getStakeGasFee(amount, token);
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    getData: data => data,
-  },
-}));
+          return { data: await sdk.getStakeGasFee(amount, token) };
+        },
+      ),
+    }),
+  }),
+});

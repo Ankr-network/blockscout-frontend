@@ -1,12 +1,14 @@
-import { useDispatchRequest } from '@redux-requests/react';
 import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { AvailableStakingWriteProviders } from 'modules/common/types';
+import {
+  AvailableStakingWriteProviders,
+  ExtraWriteProviders,
+} from 'modules/common/types';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
-import { connect } from '../actions/connect';
+import { useConnectMutation } from '../actions/connect';
 import { TWalletId } from '../types';
 
 interface IUseConnectForModalArgs {
@@ -22,16 +24,55 @@ export const useConnectForModal = ({
   walletId,
   provider = AvailableWriteProviders.ethCompatible,
 }: IUseConnectForModalArgs): IUseConnectForModal => {
-  const dispatchRequest = useDispatchRequest();
   const { handleClose } = useDialog(EKnownDialogs.connect);
-
+  const [connectEthCompatible] = useConnectMutation({
+    fixedCacheKey: AvailableWriteProviders.ethCompatible,
+  });
+  const [connectPolkadot] = useConnectMutation({
+    fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
+  });
+  const [connectSui] = useConnectMutation({
+    fixedCacheKey: ExtraWriteProviders.suiCompatible,
+  });
   const handleConnect = useCallback(async () => {
-    const response = await dispatchRequest(connect(provider, walletId));
+    let response;
+    switch (provider) {
+      case AvailableWriteProviders.ethCompatible: {
+        response = await connectEthCompatible({
+          providerId: provider,
+          wallet: walletId,
+        });
+        break;
+      }
+      case ExtraWriteProviders.polkadotCompatible: {
+        response = await connectPolkadot({
+          providerId: provider,
+          wallet: walletId,
+        });
+        break;
+      }
+      case ExtraWriteProviders.suiCompatible: {
+        response = await connectSui({
+          providerId: provider,
+          wallet: walletId,
+        });
+        break;
+      }
+      default:
+        break;
+    }
 
-    if (response.data) {
+    if (response && 'data' in response) {
       handleClose();
     }
-  }, [dispatchRequest, handleClose, provider, walletId]);
+  }, [
+    connectEthCompatible,
+    connectPolkadot,
+    connectSui,
+    handleClose,
+    provider,
+    walletId,
+  ]);
 
   return {
     handleConnect,

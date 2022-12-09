@@ -7,8 +7,6 @@ import { Days } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
 
-export const ACTIONS_PREFIX = 'fantom/';
-
 export const POOL_START_BLOCK = isMainnet ? 31_218_797 : 7_729_481;
 
 export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 5_000;

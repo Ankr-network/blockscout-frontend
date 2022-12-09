@@ -49,4 +49,5 @@ export interface IWeb3TxInfoProps<T> {
 export enum ESDKErrorCodes {
   INSUFFICIENT_BALANCE = 'insufficient-balance',
   INVALID_AMOUNT = 'invalid-amount',
+  ZERO_AMOUNT = 'zero-amount',
 }

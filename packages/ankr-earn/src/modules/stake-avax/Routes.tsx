@@ -14,7 +14,7 @@ import { AVAX_STAKING_NETWORKS } from './const';
 import { TAvaxSyntToken } from './types';
 
 const ROOT = `${StakeRoutes.main.path}avax/`;
-const STAKE_AVAX_PATH = `${ROOT}?token=:token?`;
+const STAKE_AVAX_FROM_BOND_PATH = `${ROOT}?from=:from?`;
 const STAKE_STEP_AVAX_PATH = `${ROOT}:tokenOut/:txHash/`;
 const UNSTAKE_AVAX_PATH = `${UNSTAKE_PATH}avax/`;
 const STEP_UNSTAKE_AVAX_PATH = `${UNSTAKE_AVAX_PATH}:token/:txHash/`;
@@ -24,9 +24,9 @@ export const RoutesConfig = createRouteConfig(
   {
     stake: {
       path: ROOT,
-      generatePath: (token?: TAvaxSyntToken) => {
-        return token
-          ? generatePath(STAKE_AVAX_PATH, { token })
+      generatePath: (isFromBond?: boolean) => {
+        return isFromBond
+          ? generatePath(STAKE_AVAX_FROM_BOND_PATH, { from: 'bond' })
           : generatePath(ROOT);
       },
       useParams: () => ({
