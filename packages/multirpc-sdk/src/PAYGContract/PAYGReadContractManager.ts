@@ -51,6 +51,19 @@ export class PAYGReadContractManager {
     });
   }
 
+  public async getAllLatestUserTierAssignedEventLogHashes(
+    user: Web3Address,
+  ): Promise<string[] | false> {
+    const tierAssignedEvents = await this.getLatestUserEventLogs(
+      'TierAssigned',
+      user,
+    );
+
+    if (!tierAssignedEvents.length) return false;
+
+    return tierAssignedEvents.map(item => item.transactionHash);
+  }
+
   public async getLatestUserTierAssignedEventLogHash(
     user: Web3Address,
   ): Promise<PrefixedHex | false> {
@@ -59,17 +72,9 @@ export class PAYGReadContractManager {
       user,
     );
 
-    const validEvents = tierAssignedEvents.filter(event => {
-      const { expires } = event.returnValues;
+    if (!tierAssignedEvents.length) return false;
 
-      if (expires === 0) return true;
-
-      return new Date().getTime() / 1000 < expires;
-    });
-
-    if (!validEvents.length) return false;
-
-    return validEvents[validEvents.length - 1].transactionHash;
+    return tierAssignedEvents[tierAssignedEvents.length - 1].transactionHash;
   }
 
   public async getLatestLockedFundsEvents(
