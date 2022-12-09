@@ -99,7 +99,7 @@ export const useStakeForm = (): IUseStakeForm => {
     setIsError(invalid);
     setAmount(values.amount ? new BigNumber(values.amount) : ZERO);
 
-    if (values.amount) {
+    if (!invalid && values.amount) {
       const readyAmount = new BigNumber(values.amount);
       getAVAXStakeGasFee({
         amount: readyAmount,
