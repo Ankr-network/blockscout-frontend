@@ -4,7 +4,7 @@ import { TransactionReceipt } from 'web3-core';
 
 import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
-import { waitForPendingTransaction } from '../withdraw/waitForPendingTransaction';
+import { waitForPendingTransaction } from './waitForPendingTransaction';
 
 export const checkAllowanceTransaction = createSmartAction<
   RequestAction<TransactionReceipt, TransactionReceipt>

@@ -7,7 +7,7 @@ const BLOCK_ID_OR_HASH_INFO_URL =
 const FINALITY_INFO_URL =
   'https://docs.near.org/api/rpc/setup#using-finality-param';
 
-const root = 'chain-item.request-composer.method-description.near.near-api-js';
+const root = 'request-composer.method-description.near.near-api-js';
 
 export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
   query: {

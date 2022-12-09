@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';

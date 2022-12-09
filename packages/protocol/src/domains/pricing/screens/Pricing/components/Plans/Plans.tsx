@@ -13,7 +13,7 @@ import {
 } from './PlansUtils';
 import { NavLink } from 'ui';
 import { PREMIUM_BLOCK_ANCHOR } from '../PremiumBlock';
-import { PRICING_LINK } from 'domains/account/screens/AccountDetails/components/const';
+import { PRICING_LINK } from 'domains/account/actions/topUp/const';
 
 export const Plans = () => {
   const classes = usePlansStyles();

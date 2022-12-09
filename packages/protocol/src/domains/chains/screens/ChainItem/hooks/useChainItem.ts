@@ -1,3 +1,4 @@
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IChainItemDetails as Details } from 'domains/chains/actions/fetchChain';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
@@ -33,7 +34,8 @@ export const useChainItem = ({
   nodes,
   chain,
   unfilteredChain: publicChain,
-}: Details): ChainItem => {
+  onBlockedTestnetClick,
+}: Details & { onBlockedTestnetClick: () => void }): ChainItem => {
   const isChainArchived = useMemo(
     () => !!nodes?.some(item => item.isArchive),
     [nodes],
@@ -45,10 +47,22 @@ export const useChainItem = ({
   const endpoints = useGroupedEndpoints(chain);
   const netId = useNetId();
 
+  const { credentials } = useAuth();
+
+  const isTestnetPremimumOnly = useMemo(
+    () =>
+      chain.testnets && chain.testnets?.length > 0
+        ? chain.testnets[0].premiumOnly
+        : false,
+    [chain],
+  );
+
   const { chainType, chainTypeTab, chainTypeTabs } = useChainType({
     chain,
     endpoints,
     netId,
+    isBlockedTestnet: !credentials && Boolean(isTestnetPremimumOnly),
+    onBlockedTestnetClick,
   });
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
     {

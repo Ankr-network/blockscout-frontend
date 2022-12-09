@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Snackbar } from '@material-ui/core';
 import { uid } from 'react-uid';
@@ -9,6 +9,8 @@ import {
   INotificationProps,
   notificationSlice,
 } from '../../store/notificationSlice';
+import { tHTML } from 'modules/i18n/utils/intl';
+import { useNotificationStyles } from './NotificationStyles';
 
 interface IItemProps {
   data: INotificationProps;
@@ -16,14 +18,18 @@ interface IItemProps {
 }
 
 function Item({ data, onClose }: IItemProps) {
+  const { key, severity, message, isHTML } = data;
+
+  const classes = useNotificationStyles();
+
   const handleClose = useCallback(() => {
-    onClose(data.key);
-  }, [data.key, onClose]);
+    onClose(key);
+  }, [key, onClose]);
 
   return (
     <Snackbar open {...data}>
-      <Alert severity={data.severity} onClose={handleClose}>
-        {data.message}
+      <Alert severity={severity} onClose={handleClose} className={classes.root}>
+        {isHTML ? tHTML(message as string) : message}
       </Alert>
     </Snackbar>
   );

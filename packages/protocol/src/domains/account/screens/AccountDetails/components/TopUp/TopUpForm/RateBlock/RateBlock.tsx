@@ -3,19 +3,16 @@ import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 
 import { useRates } from 'domains/account/hooks/useRates';
-import { ANKR_CURRENCY, CurrencyType } from '../../../const';
 import { useRateBlockStyles } from './RateBlockStyles';
 import { getRate } from './RateBlockUtils';
+import { CurrencyType } from './RateBlockTypes';
 
 interface RateBlockProps {
-  currency?: CurrencyType;
+  currency: CurrencyType;
   value: string;
 }
 
-export const RateBlock = ({
-  value,
-  currency = ANKR_CURRENCY,
-}: RateBlockProps) => {
+export const RateBlock = ({ value, currency }: RateBlockProps) => {
   const classes = useRateBlockStyles();
 
   const { rates, isRateLoading } = useRates();

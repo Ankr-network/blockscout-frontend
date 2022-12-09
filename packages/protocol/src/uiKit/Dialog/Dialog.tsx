@@ -5,6 +5,7 @@ import {
   DialogTitle as MuiDialogTitle,
   IconButton,
 } from '@material-ui/core';
+import classNames from 'classnames';
 import { useLayoutEffect, useMemo, useState } from 'react';
 
 import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
@@ -17,15 +18,18 @@ type IDialogProps = Omit<MuiDialogProps, 'BackdropProps' | 'PaperProps'> & {
   initialTitle?: string;
   title?: string;
   maxPxWidth?: number;
+  paperClassName?: string;
+  titleClassName?: string;
 };
 
 export const Dialog = ({
   children,
-
   onClose,
   initialTitle = '',
   title,
   maxPxWidth,
+  paperClassName,
+  titleClassName,
   ...props
 }: IDialogProps) => {
   const [dialogTitle, setDialogTitle] = useState<DialogTitle>({
@@ -52,7 +56,7 @@ export const Dialog = ({
       <MuiDialog
         PaperProps={{
           classes: {
-            root: classes.paper,
+            root: classNames(classes.paper, paperClassName),
           },
         }}
         BackdropProps={{
@@ -63,7 +67,9 @@ export const Dialog = ({
         {...props}
         onClose={onClose}
       >
-        <MuiDialogTitle className={classes.dialogTitle}>
+        <MuiDialogTitle
+          className={classNames(classes.dialogTitle, titleClassName)}
+        >
           {dialogTitle.title}
 
           {onClose ? (

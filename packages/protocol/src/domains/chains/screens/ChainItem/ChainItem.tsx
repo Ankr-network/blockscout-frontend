@@ -7,12 +7,19 @@ import { ChainItemSections } from './components/ChainItemSections';
 import { useChainItem } from './hooks/useChainItem';
 import { useChainItemBreadcrumbs } from './hooks/useChainItemBreadcrumbs';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
+import { ChainsItemDialog } from '../Chains/components/ChainsItem/ChainsItemDialog';
+import { useCallback } from 'react';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
 }
 
 export const ChainItem = ({ data }: ChainItemProps) => {
+  const { isOpened, onOpen, onClose } = useDialog();
+
+  const handleClick = useCallback(() => onOpen(), [onOpen]);
+
   const {
     chain,
     publicChain,
@@ -28,7 +35,10 @@ export const ChainItem = ({ data }: ChainItemProps) => {
     isChainArchived,
     name,
     selectGroup,
-  } = useChainItem(data);
+  } = useChainItem({
+    ...data,
+    onBlockedTestnetClick: handleClick,
+  });
 
   useChainItemBreadcrumbs(chain.name);
 
@@ -55,6 +65,12 @@ export const ChainItem = ({ data }: ChainItemProps) => {
         data={data}
         group={group}
         unfilteredGroup={unfilteredGroup}
+      />
+      <ChainsItemDialog
+        name={`${chain.name} ${t('chain-item.chain-types.testnet')}`}
+        open={isOpened}
+        logoSrc={chain.icon}
+        onClose={onClose}
       />
     </>
   );

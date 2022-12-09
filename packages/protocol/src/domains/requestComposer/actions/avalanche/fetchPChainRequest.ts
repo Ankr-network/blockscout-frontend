@@ -58,9 +58,7 @@ export const fetchPChainRequest = createSmartAction<
               if (responseSize > MAX_BYTES_SIZE) {
                 return {
                   error: new Error(
-                    t(
-                      'chain-item.request-composer.logger.errors.large-response',
-                    ),
+                    t('request-composer.logger.errors.large-response'),
                   ),
                   time: performance.now() - start,
                 };
