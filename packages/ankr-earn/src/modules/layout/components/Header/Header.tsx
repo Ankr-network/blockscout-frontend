@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Drawer } from '@material-ui/core';
 import { ReactNode, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -6,7 +7,7 @@ import { GlobalMenu } from '@ankr.com/global-menu';
 import { useIsSMDown, useIsXLUp } from 'ui';
 
 import { featuresConfig, STAKING_PATH } from 'modules/common/const';
-import { Container, TContainerSize } from 'uiKit/Container';
+import { Container } from 'uiKit/Container';
 
 import { useLocale } from '../../../i18n/hooks/useLocale';
 import { LocaleSwitcher } from '../LocaleSwitcher';
@@ -20,7 +21,6 @@ interface IHeader {
   mainNavigationSlot: ReactNode;
   rightComponentSlot?: ReactNode;
   bannerSlot?: ReactNode;
-  bannerSize?: TContainerSize;
 }
 
 export const Header = ({
@@ -28,7 +28,6 @@ export const Header = ({
   mainNavigationSlot,
   rightComponentSlot,
   bannerSlot,
-  bannerSize = 'lg',
 }: IHeader): JSX.Element => {
   const classes = useStyles();
   const isXLUp = useIsXLUp();
@@ -84,11 +83,7 @@ export const Header = ({
         </Drawer>
       )}
 
-      {bannerSlot && (
-        <Container size={bannerSize}>
-          <div className={classes.banners}>{bannerSlot}</div>
-        </Container>
-      )}
+      {bannerSlot}
     </header>
   );
 };

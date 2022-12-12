@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 
 import { Themes } from 'ui';
 
-import { featuresConfig } from 'modules/common/const';
 import { ConnectedWallets } from 'modules/connected-wallets/screens/ConnectedWallets';
 import { ProviderNotification } from 'modules/provider/components/ProviderNotification';
 import { TContainerSize } from 'uiKit/Container';
@@ -14,7 +13,6 @@ import { Header } from '../Header';
 import { ILayoutProps, Layout } from '../Layout';
 import { MainNavigation } from '../MainNavigation';
 import { MainNavigationMobile } from '../MainNavigationMobile';
-import { SuspendBanner } from '../SuspendBanner';
 
 export interface IDefaultLayoutProps
   extends Omit<ILayoutProps, 'headerSlot' | 'footerSlot'> {
@@ -40,14 +38,7 @@ export const DefaultLayout = ({
       headerSlot={
         <ThemeProvider theme={currentTheme}>
           <Header
-            bannerSize={bannerSize}
-            bannerSlot={
-              <>
-                <ProviderNotification />
-
-                {featuresConfig.suspendBanner && <SuspendBanner />}
-              </>
-            }
+            bannerSlot={<ProviderNotification containerSize={bannerSize} />}
             mainNavigationMobileSlot={<MainNavigationMobile />}
             mainNavigationSlot={<MainNavigation />}
             rightComponentSlot={<ConnectedWallets />}

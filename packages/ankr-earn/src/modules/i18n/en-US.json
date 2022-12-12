@@ -434,6 +434,10 @@
       "standard-unstake": "Standard unstake",
       "flash-unstake": "Flash unstake",
       "instantly": "Instantly"
+    },
+    "suspend-info": {
+      "p1": "BNB staking service is temporarily suspended. All other staking works normally!",
+      "p2": "Please follow us on Twitter: <a href={link} rel=\"noreferrer\" target=\"_blank\">{link}</a>"
     }
   },
   "stake-polkadot": {
@@ -1243,14 +1247,17 @@
     "rewards": "Your Estimated Rewards",
     "rewards-info": "Earned rewards can be claimed after ETH2 withdrawals are enabled."
   },
-  "suspend-info": {
-    "title": "Attention!",
-    "p1": "BNB staking service is temporarily suspended. All other staking works normally!",
-    "p2": "Please follow us on Twitter: <a href={link} rel=\"noreferrer\" target=\"_blank\">{link}</a>",
-    "button": "Close"
-  },
   "unsupported-wallet": {
     "description": "Please connect with another wallet.",
     "button": "Connect another wallet"
+  },
+  "airdrop-info": {
+    "title": "ankrBNB airdrop!",
+    "text": {
+      "p1": "On Dec. 8, 2022, Ankr airdropped <a href={href} target=\"_blank\" rel=\"noreferrer\">ankrBNB</a> to all aBNBb and aBNBc holders’ wallets. Another airdrop will be sent to wallets holding aBNBc and aBNBb through smart contracts (including liquidity pools) soon.",
+      "p2": "Learn more on Ankr’s Twitter"
+    },
+    "add-button": "Add ankrBNB to wallet",
+    "close-button": "Close"
   }
 }

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 
 import { CacheTags } from '../const';
 
@@ -29,8 +29,18 @@ export const { useGetBNBStatsQuery } = web3Api.injectEndpoints({
         async () => {
           const sdk = await BinanceSDK.getInstance();
 
+          let aBNBbBalance = ZERO;
+
+          try {
+            aBNBbBalance = await sdk.getABBalance();
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(
+              `Known error on getting aBNBb data. Zero balance returned. Original response ${error}`,
+            );
+          }
+
           const [
-            aBNBbBalance,
             bnbBalance,
             minimumStake,
             relayerFee,
@@ -41,7 +51,6 @@ export const { useGetBNBStatsQuery } = web3Api.injectEndpoints({
             poolBalance,
             instantFee,
           ] = await Promise.all([
-            sdk.getABBalance(),
             sdk.getBNBBalance(),
             sdk.getMinimumStake(),
             sdk.getRelayerFee(),
