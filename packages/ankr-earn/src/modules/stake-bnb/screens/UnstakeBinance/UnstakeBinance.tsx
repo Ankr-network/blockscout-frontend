@@ -5,11 +5,12 @@ import {
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { SuspendBanner } from 'modules/stake-bnb/components/SuspendBanner';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { FlashUnstake } from 'modules/stake/components/FlashUnstake/FlashUnstake';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
@@ -140,6 +141,8 @@ export const UnstakeBinance = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>
       <Container>
+        <SuspendBanner />
+
         <UnstakeDialog
           balance={syntTokenBalance}
           closeHref={closeHref}

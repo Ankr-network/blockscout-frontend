@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useSuspendModalStyles = makeStyles(theme => ({
+export const useAirdropModalStyles = makeStyles(theme => ({
   root: {
     maxWidth: 620,
 

@@ -18,11 +18,13 @@ export const SuspendBanner = (): JSX.Element => {
 
         <Grid item xs>
           <Typography className={classes.paragraph} variant="body2">
-            {t('suspend-info.p1')}
+            {t('stake-bnb.suspend-info.p1')}
           </Typography>
 
           <Typography className={classes.paragraph} variant="body2">
-            {tHTML('suspend-info.p2', { link: TWITTER_ANKR_STATUS_LINK })}
+            {tHTML('stake-bnb.suspend-info.p2', {
+              link: TWITTER_ANKR_STATUS_LINK,
+            })}
           </Typography>
         </Grid>
       </Grid>

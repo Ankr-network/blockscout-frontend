@@ -110,24 +110,26 @@ export const FeatureItem = ({
       statsSlot={
         <Grid container spacing={3}>
           <Grid item>
-            {isApyLoading && !apy && (
+            {isApyLoading && !apy ? (
               <Skeleton
                 className={classes.skeleton}
                 height={48}
                 variant="rect"
                 width={50}
               />
+            ) : (
+              <>
+                <Typography className={classNames(classes.statLabel)}>
+                  {isDelegatedStaking ? t('features.apr') : t('features.apy')}
+                </Typography>
+
+                <Typography className={classNames(classes.statValue)}>
+                  {shouldRenderAPY
+                    ? t('features.apy-value', { value: apy })
+                    : t('common.n-a')}
+                </Typography>
+              </>
             )}
-
-            <Typography className={classNames(classes.statLabel)}>
-              {isDelegatedStaking ? t('features.apr') : t('features.apy')}
-            </Typography>
-
-            <Typography className={classNames(classes.statValue)}>
-              {shouldRenderAPY
-                ? t('features.apy-value', { value: apy })
-                : t('common.n-a')}
-            </Typography>
           </Grid>
 
           <Grid item>

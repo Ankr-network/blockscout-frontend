@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
-import classNames from 'classnames';
 import _capitalize from 'lodash/capitalize';
 import { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
@@ -137,17 +136,10 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
                       />
 
                       {secondAsset && (
-                        <span
-                          className={classNames(
-                            styles.vertAligned,
-                            styles.secondAssetIcon,
-                          )}
-                        >
-                          <TokenIcon
-                            className={styles.tokenIcon}
-                            name={secondAsset}
-                          />
-                        </span>
+                        <TokenIcon
+                          className={styles.tokenIcon}
+                          name={secondAsset}
+                        />
                       )}
                     </span>
 
