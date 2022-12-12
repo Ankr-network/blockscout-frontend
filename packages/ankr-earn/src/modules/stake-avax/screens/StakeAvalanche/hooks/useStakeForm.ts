@@ -11,12 +11,12 @@ import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useLazyGetAVAXStakeGasFeeQuery } from 'modules/stake-avax/actions/getStakeGasFee';
+import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
 import {
   IFetchStatsResponseData,
   useGetAVAXCommonDataQuery,
-} from 'modules/stake-avax/actions/fetchCommonData';
-import { useLazyGetAVAXStakeGasFeeQuery } from 'modules/stake-avax/actions/getStakeGasFee';
-import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
+} from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { calcTotalAmount } from 'modules/stake-avax/utils/calcTotalAmount';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {

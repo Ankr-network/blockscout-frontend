@@ -9,9 +9,10 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { useApproveABNBCForSwapPoolMutation } from 'modules/stake-bnb/actions/approveABNBCFlashUnstake';
 import { useApproveABNBCUnstakeMutation } from 'modules/stake-bnb/actions/approveABNBCUnstake';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useFlashUnstakeBNBMutation } from 'modules/stake-bnb/actions/flashUnstake';
 import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
+import { useGetBNBUnstakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBUnstakeStatsQuery';
 import { RoutesConfig } from 'modules/stake-bnb/Routes';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedToken';
@@ -69,8 +70,16 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const {
     data: fetchStatsData,
     isFetching: isFetchStatsLoading,
-    refetch,
+    refetch: statsRefetch,
   } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
+
+  const {
+    data: fetchUnstakeStatsData,
+    isFetching: isFetchUnstakeStatsLoading,
+    refetch: unstakeStatsRefetch,
+  } = useGetBNBUnstakeStatsQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
@@ -87,8 +96,8 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
     ? fetchStatsData?.aBNBbBalance
     : fetchStatsData?.aBNBcBalance;
 
-  const minAbnbbAmount = fetchStatsData?.minAbnbbUnstake ?? ZERO;
-  const minAbnbcAmount = fetchStatsData?.minAbnbcUnstake ?? ZERO;
+  const minAbnbbAmount = fetchUnstakeStatsData?.minAbnbbUnstake ?? ZERO;
+  const minAbnbcAmount = fetchUnstakeStatsData?.minAbnbcUnstake ?? ZERO;
   const minAmount = isBondToken ? minAbnbbAmount : minAbnbcAmount;
 
   const onExtraValidation = (
@@ -151,7 +160,8 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const shouldBeApproved = isWithApprove && !isApproved;
 
   useProviderEffect(() => {
-    refetch();
+    statsRefetch();
+    unstakeStatsRefetch();
   }, []);
 
   const handleSubmit = useCallback(
@@ -248,23 +258,23 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
 
   const calcFlashTotalRecieve = useCallback(
     (amount: BigNumber = ZERO): string => {
-      if (!fetchStatsData) {
+      if (!fetchStatsData || !fetchUnstakeStatsData) {
         return ZERO.toString();
       }
       return getFlashUnstakeAmountWithFee({
-        fee: fetchStatsData.instantFee ?? ZERO,
+        fee: fetchUnstakeStatsData.instantFee ?? ZERO,
         amount,
         ratio: fetchStatsData.aBNBcRatio ?? ZERO,
       });
     },
-    [fetchStatsData],
+    [fetchStatsData, fetchUnstakeStatsData],
   );
 
   return {
     syntTokenBalance,
     selectedToken,
     minAmount,
-    isFetchStatsLoading,
+    isFetchStatsLoading: isFetchStatsLoading || isFetchUnstakeStatsLoading,
     isUnstakeLoading,
     isFlashUnstakeLoading,
     closeHref,
@@ -279,7 +289,7 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
     onFlashUnstakeSubmit,
     calcTotalRecieve,
     calcFlashTotalRecieve,
-    instantFee: fetchStatsData?.instantFee ?? ZERO,
-    poolBalance: fetchStatsData?.poolBalance ?? ZERO,
+    instantFee: fetchUnstakeStatsData?.instantFee ?? ZERO,
+    poolBalance: fetchUnstakeStatsData?.poolBalance ?? ZERO,
   };
 };

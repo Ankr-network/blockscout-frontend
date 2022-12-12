@@ -8,9 +8,9 @@ import { Token } from 'modules/common/types/token';
 import { useAddSUITokenToWalletMutation } from 'modules/stake-sui/actions/addSUITokenToWallet';
 import { RoutesConfig } from 'modules/stake-sui/Routes';
 
-const token = Token.aSUIc;
+const token = Token.ankrSUI;
 
-export interface IStakedASUICData {
+export interface IStakedAnkrSUIData {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
   isLoading: boolean;
@@ -29,7 +29,7 @@ export interface IStakedASUICData {
   onAddTokenToWallet: () => void;
 }
 
-export const useStakedASUICData = (): IStakedASUICData => {
+export const useStakedAnkrSUIData = (): IStakedAnkrSUIData => {
   const { suiConfig } = configFromEnv();
 
   const [addSUITokenToWallet] = useAddSUITokenToWalletMutation();
@@ -47,7 +47,7 @@ export const useStakedASUICData = (): IStakedASUICData => {
     ratio: ZERO,
     stakeLink: RoutesConfig.stake.generatePath(),
     token,
-    tokenAddress: suiConfig.aSUIcToken,
+    tokenAddress: suiConfig.ankrSUIToken,
     unstakeLink: RoutesConfig.unstake.generatePath(),
     usdAmount: ZERO,
     onAddTokenToWallet: addSUITokenToWallet,

@@ -2,12 +2,12 @@ import { Address } from '@ankr.com/provider';
 import { currentEnv, Env, ZERO_ADDRESS } from '@ankr.com/staking-sdk';
 
 interface ISuiConfig {
-  aSUIcToken: Address;
+  ankrSUIToken: Address;
   suiPool: Address;
 }
 
 const LOCAL_CONFIG: ISuiConfig = {
-  aSUIcToken: ZERO_ADDRESS,
+  ankrSUIToken: ZERO_ADDRESS,
   suiPool: ZERO_ADDRESS,
 };
 
@@ -20,7 +20,7 @@ const GOERLI_CONFIG: ISuiConfig = {
 };
 
 const MAINNET_CONFIG: ISuiConfig = {
-  aSUIcToken: ZERO_ADDRESS,
+  ankrSUIToken: ZERO_ADDRESS,
   suiPool: ZERO_ADDRESS,
 };
 

@@ -6,7 +6,7 @@ import { trackUnstake } from 'modules/analytics/tracking-actions/trackUnstake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 
 interface IUseUnstakeAVAXAnalytics {

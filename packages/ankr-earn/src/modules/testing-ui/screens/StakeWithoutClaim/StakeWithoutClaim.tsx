@@ -17,6 +17,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { DEFAULT_FIXED } from 'modules/common/const';
 import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getMinStake } from 'modules/stake-eth/actions/getMinStake';
 import { stakeWithoutClaim } from 'modules/stake-eth/actions/stakeWithoutClaim';
 import { RoutesConfig as ETHRoutesConfig } from 'modules/stake-eth/Routes';
 import { TestBox } from 'modules/testing-ui/components/TestBox';
@@ -35,16 +36,20 @@ export const StakeWithoutClaim = (): JSX.Element => {
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
   });
+  const { data: minStake, loading: isMinStakingLoading } = useQuery({
+    type: getMinStake,
+  });
   const { data: claimableData, loading: isClaimableDataLoading } = useQuery({
     type: getClaimableData,
   });
 
   const { loading: isStakeLoading } = useMutation({ type: stakeWithoutClaim });
 
-  const stakeAmount = commonData?.minStake;
-  const isLowBalance = commonData
-    ? commonData.minStake.isGreaterThanOrEqualTo(commonData.ethBalance)
-    : false;
+  const stakeAmount = minStake;
+  const isLowBalance =
+    minStake && commonData
+      ? minStake.isGreaterThanOrEqualTo(commonData.ethBalance)
+      : false;
 
   const onStakeClick = () => {
     if (!stakeAmount) {
@@ -55,6 +60,7 @@ export const StakeWithoutClaim = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatchRequest(getCommonData());
+    dispatchRequest(getMinStake());
     dispatchRequest(getClaimableData());
   }, []);
 
@@ -77,7 +83,7 @@ export const StakeWithoutClaim = (): JSX.Element => {
                       .toFormat()
                   : 0}
 
-                {isCommonDataLoading ? (
+                {isCommonDataLoading || isMinStakingLoading ? (
                   <Box component="span" ml={2}>
                     <Spinner size={16} />
                   </Box>

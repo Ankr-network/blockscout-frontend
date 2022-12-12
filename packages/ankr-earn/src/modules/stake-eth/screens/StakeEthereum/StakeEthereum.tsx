@@ -16,6 +16,7 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getMinStake } from 'modules/stake-eth/actions/getMinStake';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
@@ -62,6 +63,7 @@ export const StakeEthereum = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatch(getCommonData());
+    dispatch(getMinStake());
     dispatch(getClaimableData());
     dispatch(getFAQ(Token.ETH));
     dispatch(getMetrics());

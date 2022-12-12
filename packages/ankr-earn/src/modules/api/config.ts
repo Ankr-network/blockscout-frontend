@@ -75,7 +75,7 @@ interface IPolygonConfig {
 
 interface ISuiConfig {
   suiToken: string;
-  aSUIcToken: string;
+  ankrSUIToken: string;
 }
 
 export interface IGatewayConfig {
@@ -169,7 +169,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   suiConfig: {
     suiToken: ZERO_ADDR,
-    aSUIcToken: ZERO_ADDR,
+    ankrSUIToken: ZERO_ADDR,
   },
   xdcConfig: {
     XDCStakingPool: '0xd458788DD7d2fDbB5238d9eeb0a49732BffF08b7',
@@ -263,7 +263,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   suiConfig: {
     suiToken: ZERO_ADDR,
-    aSUIcToken: ZERO_ADDR,
+    ankrSUIToken: ZERO_ADDR,
   },
   xdcConfig: {
     XDCStakingPool: ZERO_ADDR,

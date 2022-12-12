@@ -19,7 +19,7 @@ import { fetchAETHCBridgeBalanceBSC } from 'modules/dashboard/actions/fetchAETHC
 import { swapOldAETHCBSC } from 'modules/dashboard/actions/swapOldAETHCBSC';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 

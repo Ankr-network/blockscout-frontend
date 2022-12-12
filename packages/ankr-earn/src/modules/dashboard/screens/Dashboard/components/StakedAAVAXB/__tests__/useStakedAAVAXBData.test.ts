@@ -5,8 +5,8 @@ import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { ONE_ETH as ONE, ZERO } from 'modules/common/const';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 
 import { useStakedAAVAXBData } from '../useStakedAAVAXBData';
 
@@ -50,7 +50,7 @@ jest.mock('modules/stake/actions/getMetrics', () => ({
   getMetrics: jest.fn(),
 }));
 
-jest.mock('modules/stake-avax/actions/fetchCommonData', () => ({
+jest.mock('modules/stake-avax/actions/useGetAVAXCommonDataQuery', () => ({
   useGetAVAXCommonDataQuery: jest.fn(),
 }));
 
