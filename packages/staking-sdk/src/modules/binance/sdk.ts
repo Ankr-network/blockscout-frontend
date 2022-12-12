@@ -398,12 +398,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
   private async getABNBBContract(isForceRead = false): Promise<Contract> {
     const { binanceConfig } = configFromEnv();
     const provider = await this.getProvider(isForceRead);
-    const web3 = provider.getWeb3();
 
-    return new web3.eth.Contract(
-      ABI_ABNBB as AbiItem[],
-      binanceConfig.aBNBbToken,
-    );
+    return provider.createContract(ABI_ABNBB, binanceConfig.aBNBbToken);
   }
 
   /**

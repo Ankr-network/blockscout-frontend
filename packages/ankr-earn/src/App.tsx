@@ -6,6 +6,7 @@ import { persistor, store } from 'store';
 import { NoReactSnap } from 'modules/common/components/NoReactSnap';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { Zendesk } from 'modules/common/components/Zendesk';
+import { AirdropModal } from 'modules/info-dialogs/screens/AirdropModal';
 import { Spinner } from 'uiKit/Spinner';
 
 import packageJson from '../package.json';
@@ -25,6 +26,8 @@ function App(): JSX.Element {
 
             <NoReactSnap>
               <Zendesk />
+
+              <AirdropModal />
             </NoReactSnap>
           </AppBase>
         </PersistGate>
