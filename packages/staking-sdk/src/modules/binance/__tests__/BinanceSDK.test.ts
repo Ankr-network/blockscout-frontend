@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
 import {
+  ProviderManager,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
-  ProviderManager,
 } from '@ankr.com/provider';
 
 import { BinanceSDK, EBinanceErrorCodes, EBinancePoolEvents } from '..';
@@ -112,8 +112,7 @@ describe('modules/binance/sdk', () => {
       },
     };
 
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+    defaultReadProvider.createContract.mockReturnValue(contract);
 
     (ProviderManager as jest.Mock).mockReturnValue({
       getETHWriteProvider: () =>
@@ -143,8 +142,7 @@ describe('modules/binance/sdk', () => {
       },
     };
 
-    defaultWeb3.eth.Contract.mockReturnValue(contract);
-    defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+    defaultReadProvider.createContract.mockReturnValue(contract);
 
     (ProviderManager as jest.Mock).mockReturnValue({
       getETHWriteProvider: () =>
@@ -521,7 +519,6 @@ describe('modules/binance/sdk', () => {
     expect(contract.methods.swapEth).toBeCalledTimes(1);
   });
 
-
   test('should return "false" on approve certificate token', async () => {
     const contract = {
       ...defaultContract,
@@ -530,7 +527,8 @@ describe('modules/binance/sdk', () => {
           call: (): string => '0',
         }),
         approve: () => ({
-          estimateGas: (): Promise<BigNumber> => Promise.resolve(new BigNumber(1)),
+          estimateGas: (): Promise<BigNumber> =>
+            Promise.resolve(new BigNumber(1)),
           send: (): undefined => undefined,
         }),
       },
@@ -571,7 +569,8 @@ describe('modules/binance/sdk', () => {
           call: (): string => '0',
         }),
         approve: () => ({
-          estimateGas: (): Promise<BigNumber> => Promise.resolve(new BigNumber(1)),
+          estimateGas: (): Promise<BigNumber> =>
+            Promise.resolve(new BigNumber(1)),
           send: (): TransactionReceipt => TX_RECEIPT,
         }),
       },
