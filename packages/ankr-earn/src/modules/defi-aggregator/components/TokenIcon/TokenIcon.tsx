@@ -41,6 +41,7 @@ export const TokenIcon = ({
     case 'ankrETH':
     case 'aETHc':
     case 'aETHCrv':
+    case 'aETHCrv (ankrETH)':
       return <AETHCIcon {...props} />;
     case 'aETHb':
       return <AETHBIcon {...props} />;
