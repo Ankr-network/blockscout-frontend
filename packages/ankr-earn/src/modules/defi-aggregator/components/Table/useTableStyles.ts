@@ -30,10 +30,6 @@ export const useTableStyles = makeStyles(theme => ({
     gap: '10px',
   },
 
-  secondAssetIcon: {
-    marginLeft: theme.spacing(-2),
-  },
-
   protocolButton: {
     marginLeft: theme.spacing(5),
 
@@ -63,5 +59,9 @@ export const useTableStyles = makeStyles(theme => ({
     fontSize: 24,
     width: '1em',
     height: '1em',
+
+    '& + &': {
+      marginLeft: theme.spacing(-2),
+    },
   },
 }));
