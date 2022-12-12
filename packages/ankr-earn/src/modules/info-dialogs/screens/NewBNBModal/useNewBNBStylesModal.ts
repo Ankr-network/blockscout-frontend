@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useAirdropModalStyles = makeStyles(theme => ({
+export const useNewBNBModalStyles = makeStyles(theme => ({
   root: {
     maxWidth: 620,
 
@@ -27,5 +27,15 @@ export const useAirdropModalStyles = makeStyles(theme => ({
         textDecoration: 'underline',
       },
     },
+  },
+  imgWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: theme.spacing(2.5),
+  },
+  img: {
+    height: theme.spacing(11.5),
+    width: theme.spacing(11.5),
   },
 }));
