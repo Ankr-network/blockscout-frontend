@@ -21,7 +21,6 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
-import { SuspendBanner } from 'modules/stake-bnb/components/SuspendBanner';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -175,8 +174,6 @@ export const StakeBinance = (): JSX.Element => {
   return (
     <section className={classes.root}>
       <StakeContainer>
-        <SuspendBanner />
-
         {hasError && (
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
