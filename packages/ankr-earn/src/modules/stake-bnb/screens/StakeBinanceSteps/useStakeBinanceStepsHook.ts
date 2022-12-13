@@ -1,6 +1,6 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
@@ -14,6 +14,9 @@ import {
   useGetBNBTxReceiptQuery,
 } from 'modules/stake-bnb/actions/getTxData';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
+
+const DEFAULT_POLLING_INTERVAL = 3_000;
+const ZERO_POLLING_INTERVAL = 0;
 
 export interface IStakeBinanceStepsHook {
   isLoading: boolean;
@@ -32,19 +35,23 @@ interface IStakeSuccessParams {
 }
 
 export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
+  const [pollingInterval, setPollingInterval] = useState(
+    DEFAULT_POLLING_INTERVAL,
+  );
   const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
+
   const {
     isFetching: isLoading,
-    data,
+    data: bnbTxnData,
     error,
   } = useGetBNBTxDataQuery({ txHash });
+
   const { data: receipt } = useGetBNBTxReceiptQuery(
     { txHash },
-    {
-      pollingInterval: 3_000,
-    },
+    { pollingInterval },
   );
-  const { data: stats, refetch } = useGetBNBStatsQuery(undefined, {
+
+  const { data: stats, refetch: getBNBStats } = useGetBNBStatsQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
@@ -53,25 +60,17 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
-  useProviderEffect(() => {
-    if (!stats) {
-      refetch();
-    }
-  }, [refetch]);
-
   const onAddTokenClick = () => {
     addBNBTokenToWallet(tokenOut);
   };
 
   const calculatedAmount = useMemo(() => {
-    const ratio = stats?.aBNBcRatio;
-    const isActiveForAC = tokenOut === Token.aBNBc && ratio;
-    if (isActiveForAC) {
+    const isAnkrBNB = tokenOut === Token.aBNBc;
+    if (isAnkrBNB) {
       return new BigNumber(receipt?.certAmount ?? ZERO);
     }
 
-    const amount = data?.amount;
-
+    const amount = bnbTxnData?.amount;
     const relayerFee = stats?.relayerFee;
 
     if (!amount || !relayerFee) {
@@ -81,13 +80,25 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     const amountWithoutFee = amount.minus(relayerFee);
 
     return amountWithoutFee;
-  }, [data?.amount, receipt, stats?.aBNBcRatio, stats?.relayerFee, tokenOut]);
+  }, [bnbTxnData?.amount, receipt, stats, tokenOut]);
 
-  const isPending = !receipt && !!data?.isPending;
+  const isPending = !receipt && !!bnbTxnData?.isPending;
+
+  useProviderEffect(() => {
+    if (receipt) {
+      setPollingInterval(ZERO_POLLING_INTERVAL);
+    }
+  }, [receipt]);
+
+  useProviderEffect(() => {
+    if (!stats) {
+      getBNBStats();
+    }
+  }, [stats]);
 
   return {
     amount: calculatedAmount,
-    destination: data?.destinationAddress,
+    destination: bnbTxnData?.destinationAddress,
     transactionId: txHash,
     tokenName: tokenOut,
     isLoading,

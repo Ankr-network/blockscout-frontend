@@ -57,12 +57,14 @@ import {
   BNB_MAX_BLOCK_RANGE,
   BNB_STAKING_MAX_DECIMALS_LEN,
   CERT_STAKING_LOG_HASH,
+  TOPIC_WITH_TOKEN_TYPE_INFO,
 } from './const';
 import {
   EBinanceErrorCodes,
   EBinancePartnersEvents,
   EBinancePoolEvents,
   EBinancePoolEventsMap,
+  ETokenType,
   IBinanceSDKProviders,
   IGetTxReceipt,
   TBnbSyntToken,
@@ -1103,12 +1105,15 @@ export class BinanceSDK implements ISwitcher, IStakable {
   /**
    * Fetch transaction receipt.
    *
+   * @deprecated usefull only for old BNB tokens contracts in the testnet.
    * @public
    * @note Scans logs to find topic `0x0f0bc5b519ddefdd8e5f9e6423433aa2b869738de2ae34d58ebc796fc749fa0d` to show the aBNBc amount.
    * @param {string} txHash - transaction hash.
    * @returns {Promise<IGetTxReceipt | null>}
    */
-  public async fetchTxReceipt(txHash: string): Promise<IGetTxReceipt | null> {
+  public async fetchTxReceiptOld(
+    txHash: string,
+  ): Promise<IGetTxReceipt | null> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
 
@@ -1128,6 +1133,55 @@ export class BinanceSDK implements ISwitcher, IStakable {
       return {
         ...receipt,
         certAmount: web3.utils.fromWei(certDecodedLog.amount),
+      } as IGetTxReceipt | null;
+    }
+
+    return receipt as IGetTxReceipt | null;
+  }
+
+  /**
+   * Fetch transaction receipt.
+   *
+   * @public
+   * @note Scans logs to find topic `0x19e86fee7352f6a0c9bf1635ff7e554c083f9af69dff8d69c054f2ac5dba1a9c` to show the ankrBNB amount.
+   * @param {string} txHash - transaction hash.
+   * @returns {Promise<IGetTxReceipt | null>}
+   */
+  public async fetchTxReceipt(txHash: string): Promise<IGetTxReceipt | null> {
+    const provider = await this.getProvider();
+
+    const {
+      eth: { getTransactionReceipt },
+      utils: { hexToNumberString },
+    } = provider.getWeb3();
+
+    const receipt = await getTransactionReceipt(txHash);
+
+    const logWithTokenTypeInfo = receipt?.logs.find(log =>
+      log.topics.includes(TOPIC_WITH_TOKEN_TYPE_INFO),
+    );
+
+    if (!logWithTokenTypeInfo) {
+      return receipt as IGetTxReceipt | null;
+    }
+
+    const tokenType = +hexToNumberString(logWithTokenTypeInfo.data);
+    const isAnkrBNB = tokenType === ETokenType.ankrBNB;
+
+    if (isAnkrBNB) {
+      const { binanceConfig } = configFromEnv();
+
+      const logWithAmount = receipt.logs.find(
+        log => log.address === binanceConfig.aBNBcToken,
+      );
+
+      const certAmount = logWithAmount
+        ? this.convertFromWei(hexToNumberString(logWithAmount.data))
+        : '0';
+
+      return {
+        ...receipt,
+        certAmount,
       } as IGetTxReceipt | null;
     }
 
