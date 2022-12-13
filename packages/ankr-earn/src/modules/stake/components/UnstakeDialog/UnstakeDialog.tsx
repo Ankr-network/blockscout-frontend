@@ -108,7 +108,10 @@ export const UnstakeDialog = ({
   const activeStep = isApproved ? ESteps.unstake : ESteps.approve;
 
   const isUnstakeBtnDisabled =
-    isDisabled || submitDisabled || (isWithApprove && !isApproved);
+    isDisabled ||
+    submitDisabled ||
+    (isWithApprove && !isApproved) ||
+    isApproveLoading;
 
   const validate = useCallback(
     (data: IUnstakeFormValues) => {

@@ -145,11 +145,13 @@ export const UnstakeBinance = (): JSX.Element => {
           endText={isFlash ? instantUnstakeLabel : unstakeLabel}
           extraValidation={isFlash ? onFlashExtraValidation : onExtraValidation}
           isApproved={isFlash ? isFlashApproved : isApproved}
-          isApproveLoading={isApproveLoading}
+          isApproveLoading={
+            isFlash ? isSwapPoolApproveLoading : isApproveLoading
+          }
           isBalanceLoading={isFetchStatsLoading}
           isDisabled={isDisabled}
           isExternalAllowed={!isFlash}
-          isLoading={isUnstakeLoading}
+          isLoading={isFlash ? isFlashUnstakeLoading : isUnstakeLoading}
           isWithApprove={isWithApprove}
           maxAmount={isFlash ? poolBalance : undefined}
           renderFormFooter={onRenderFormFooter}
