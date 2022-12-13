@@ -1516,7 +1516,6 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     const hexAmount = convertNumberToHex(amount, scale);
     const isAllowed = await this.checkAllowance(hexAmount);
-
     if (isAllowed) {
       return undefined;
     }
@@ -1526,7 +1525,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const aBNBcContract = await this.getABNBCContract();
 
     const data = aBNBcContract.methods
-      .approve(binanceConfig.aBNBbToken, hexAmount)
+      .approve(binanceConfig.aBNBcToken, hexAmount)
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
