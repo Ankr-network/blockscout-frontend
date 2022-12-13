@@ -419,8 +419,7 @@
     "abnbc-descr": "ankrBNB (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 ankrBNB={rate} BNB</b>",
     "tooltips": {
       "relayer-fee": "As staking itself going on Binance chain unlike BNB on Binance Smart Chain you stake, we have to do cross-chain transfer and pay fee for this.",
-      "you-will-get": "aBNBb grows daily just being in your wallet. It represents your staked BNB plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aBNBb = 1 BNB anytime after ~{value} {period} unbonding period.",
-      "suspend": "BNB staking service is temporarily suspended."
+      "you-will-get": "aBNBb grows daily just being in your wallet. It represents your staked BNB plus accumulated staking rewards.<br/><br/>It can be redeemed at fair value 1 aBNBb = 1 BNB anytime after ~{value} {period} unbonding period."
     },
     "unstake": {
       "info": "You will receive BNB in about ~{value} {period}.",
@@ -434,10 +433,6 @@
       "standard-unstake": "Standard unstake",
       "flash-unstake": "Flash unstake",
       "instantly": "Instantly"
-    },
-    "suspend-info": {
-      "p1": "BNB staking service is temporarily suspended. All other staking works normally!",
-      "p2": "Please follow us on Twitter: <a href={link} rel=\"noreferrer\" target=\"_blank\">{link}</a>"
     }
   },
   "stake-polkadot": {
