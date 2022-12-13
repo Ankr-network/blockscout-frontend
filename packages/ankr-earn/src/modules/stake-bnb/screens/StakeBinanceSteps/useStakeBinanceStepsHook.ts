@@ -14,7 +14,6 @@ import {
   useGetBNBTxReceiptQuery,
 } from 'modules/stake-bnb/actions/getTxData';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IStakeBinanceStepsHook {
   isLoading: boolean;
@@ -49,7 +48,6 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
-  const dispatch = useAppDispatch();
   const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
 
   const txFailError =
@@ -59,7 +57,7 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     if (!stats) {
       refetch();
     }
-  }, [dispatch, txHash]);
+  }, [refetch]);
 
   const onAddTokenClick = () => {
     addBNBTokenToWallet(tokenOut);
