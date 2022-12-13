@@ -632,7 +632,7 @@ describe('modules/binance/sdk', () => {
     expect(contract.methods.approve).toBeCalledTimes(1);
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledTimes(1);
     expect(contract.methods.approve).toBeCalledWith(
-      '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
+      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
       '0xde0b6b3a7640000',
     );
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(

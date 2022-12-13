@@ -1579,7 +1579,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const aBNBcContract = await this.getABNBCContract();
 
     const data = aBNBcContract.methods
-      .approve(binanceConfig.aBNBcToken, hexAmount)
+      .approve(binanceConfig.aBNBbToken, hexAmount)
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
