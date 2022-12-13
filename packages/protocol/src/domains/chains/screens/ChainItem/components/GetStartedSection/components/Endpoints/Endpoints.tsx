@@ -1,10 +1,9 @@
 import { Box } from '@material-ui/core';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { EthAddressType } from 'multirpc-sdk';
 import { RPCEndpoints } from '../RPCEndpoints';
 import { WSEndpoints } from '../WSEndpoints';
 import { useEndpointsStyles } from './EndpointsStyles';
@@ -22,16 +21,17 @@ export const Endpoints = ({
 }: EndpointsProps) => {
   const classes = useEndpointsStyles();
 
-  const { credentials, hasOauthLogin, hasWeb3Connection, ethAddressType } =
-    useAuth();
+  const {
+    credentials,
+    hasOauthLogin,
+    hasWeb3Connection,
+    isUserEthAddressType,
+  } = useAuth();
 
   const isPremium = Boolean(credentials);
 
   const hasConnectWalletMessage = Boolean(
-    hasOauthLogin &&
-      !hasWeb3Connection &&
-      isPremium &&
-      ethAddressType === EthAddressType.User,
+    hasOauthLogin && !hasWeb3Connection && isPremium && isUserEthAddressType,
   );
 
   return (

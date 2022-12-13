@@ -8,6 +8,7 @@ import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 import { reset as topUpReset } from 'domains/account/actions/topUp/reset';
 import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { disconnectService } from './connectUtils';
+import { fetchAccountBalance } from 'domains/account/actions/balance/fetchAccountBalance';
 
 export const disconnect = createSmartAction<RequestAction>(
   'auth/disconnect',
@@ -25,6 +26,7 @@ export const disconnect = createSmartAction<RequestAction>(
             connect.toString(),
             fetchPremiumChainFeatures.toString(),
             fetchProvider.toString(),
+            fetchAccountBalance.toString(),
           ]),
         );
       })(),

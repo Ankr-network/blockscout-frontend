@@ -14,7 +14,6 @@ import { SignupMenu } from './SignupMenu';
 import { ReactComponent as SignoutIcon } from './assets/signout.svg';
 import { t } from 'modules/i18n/utils/intl';
 import { SignupDialog } from '../ConnectButton/UnconnectedButton/SignupDialog';
-import { EthAddressType } from 'multirpc-sdk';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 
 interface SignupButtonProps {
@@ -31,7 +30,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
     walletMeta,
     handleSignout,
     handleDisconnect,
-    ethAddressType,
+    isUserEthAddressType,
   } = useAuth();
   const history = useHistory();
 
@@ -93,30 +92,29 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
       </MenuItem>
     );
 
-    bottom =
-      ethAddressType === EthAddressType.User ? (
-        <MenuItem disabled={loading} className={classes.connectWallet}>
-          <Typography
-            noWrap
-            className={classes.emailText}
-            variant="body2"
-            color="textSecondary"
-          >
-            {shrinkAddress(address)}
-          </Typography>
-          <Button
-            className={classes.connectWalletButton}
-            variant="text"
-            size="large"
-            onClick={() => {
-              setIsOpened(true);
-              handleClose();
-            }}
-          >
-            {t('header.connect-wallet')}
-          </Button>
-        </MenuItem>
-      ) : null;
+    bottom = isUserEthAddressType ? (
+      <MenuItem disabled={loading} className={classes.connectWallet}>
+        <Typography
+          noWrap
+          className={classes.emailText}
+          variant="body2"
+          color="textSecondary"
+        >
+          {shrinkAddress(address)}
+        </Typography>
+        <Button
+          className={classes.connectWalletButton}
+          variant="text"
+          size="large"
+          onClick={() => {
+            setIsOpened(true);
+            handleClose();
+          }}
+        >
+          {t('header.connect-wallet')}
+        </Button>
+      </MenuItem>
+    ) : null;
   }
 
   if (!hasOauthLogin && hasWeb3Connection) {

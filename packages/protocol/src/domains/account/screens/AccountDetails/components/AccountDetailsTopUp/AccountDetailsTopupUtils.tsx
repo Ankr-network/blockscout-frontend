@@ -3,14 +3,14 @@ import {
   useTopUpTabs,
 } from 'domains/account/components/TopUp/TopUpUtils';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-import { PricingAnkrTopUpForm } from './PricingAnkrTopUpForm';
+import { AccountDetailsAnkrTopUpForm } from './AccountDetailsAnkrTopUpForm';
 
-export const usePricingTopUpTabs = (canPayOnlyByCard: boolean) => {
+export const useAccountDetailsTopUpTabs = (canPayOnlyByCard: boolean) => {
   const ankrTab = canPayOnlyByCard
     ? undefined
     : {
         id: TopUpTabID.ANKR,
-        content: <PricingAnkrTopUpForm />,
+        content: <AccountDetailsAnkrTopUpForm />,
         title: (isSelected: boolean) => (
           <SecondaryTab isSelected={isSelected} label={TopUpTabID.ANKR} />
         ),

@@ -9,14 +9,19 @@ import {
 export const useRates = () => {
   const dispatchRequest = useDispatchRequest();
 
-  const handleFetchRates = useCallback(
-    () => dispatchRequest(fetchCreditRates()),
-    [dispatchRequest],
-  );
-
-  const { data: rates, loading: isRateLoading } = useQuery<CreditsRate[]>({
+  const {
+    data: rates,
+    loading: isRateLoading,
+    pristine,
+  } = useQuery<CreditsRate[]>({
     type: fetchCreditRates.toString(),
   });
+
+  const handleFetchRates = useCallback(() => {
+    if (pristine) {
+      dispatchRequest(fetchCreditRates());
+    }
+  }, [pristine, dispatchRequest]);
 
   return {
     handleFetchRates,
