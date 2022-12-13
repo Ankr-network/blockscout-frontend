@@ -1,8 +1,6 @@
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
 import { TransactionReceipt } from 'web3-core';
+
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 import { AVAILABLE_BNB_SYNT_TOKENS } from './const';
 
@@ -58,4 +56,12 @@ export enum EBinanceErrorCodes {
   LOW_BALANCE_FOR_GAS_FEE = 'low-balance-for-gas-fee',
   UNSUPPORTED_TOKEN = 'unsupported-token',
   ZERO_AMOUNT = 'zero-amount',
+}
+
+/**
+ * Variants of token type that is stored in the staking transaction logs.
+ */
+export enum ETokenType {
+  ankrBNB = 0,
+  aBNBb = 1,
 }
