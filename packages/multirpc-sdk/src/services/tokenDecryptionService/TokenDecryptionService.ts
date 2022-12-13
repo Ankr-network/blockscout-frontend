@@ -1,6 +1,6 @@
 import { Web3KeyWriteProvider } from '@ankr.com/provider';
 
-import { REJECTED_OPERATION_CODE } from './TokenDecryptionServiceUtils';
+import { METAMASK_REJECTED_OPERATION_CODE } from './TokenDecryptionServiceUtils';
 import { Base64, DATE_MULTIPLIER, IJwtToken } from '../../common';
 import { MetamaskDecryptionService } from './MetamaskDecryptionService';
 import { DecryptionService } from './DecryptionService';
@@ -69,13 +69,15 @@ export class TokenDecryptionService {
           this.privateKey,
         );
       } catch (error: any) {
-        if (error?.code !== REJECTED_OPERATION_CODE) {
-          // try to decrypt token with metamask
-          signedToken =
-            await this.getMetamaskDecryptionService().getDecryptedTokenByMetamask(
-              jwtToken.signed_token,
-            );
+        if (error?.code === METAMASK_REJECTED_OPERATION_CODE) {
+          throw error;
         }
+
+        // try to decrypt token with metamask
+        signedToken =
+          await this.getMetamaskDecryptionService().getDecryptedTokenByMetamask(
+            jwtToken.signed_token,
+          );
       }
     }
 

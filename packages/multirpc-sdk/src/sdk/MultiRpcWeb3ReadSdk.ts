@@ -3,8 +3,7 @@ import { OauthGateway } from '../oauth';
 
 import { IConfig, IJwtToken, JwtTokenFullData, Web3Address } from '../common';
 import { PAYGReadContractManager } from '../PAYGContract';
-import { ContractReadService } from './contractService';
-import { TokenIssuerService } from './tokenIssuerService';
+import { ContractReadService, TokenIssuerService } from '../services';
 
 export class MultiRpcWeb3ReadSdk {
   private contractService?: ContractReadService;

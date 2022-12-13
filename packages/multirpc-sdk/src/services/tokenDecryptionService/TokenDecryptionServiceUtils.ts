@@ -77,4 +77,4 @@ export const base64StrToUtf8String = (str: string) => {
   return Buffer.from(str, 'base64').toString('utf8');
 };
 
-export const REJECTED_OPERATION_CODE = 4001;
+export const METAMASK_REJECTED_OPERATION_CODE = 4001;
