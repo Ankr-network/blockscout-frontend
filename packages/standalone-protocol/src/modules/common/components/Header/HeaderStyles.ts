@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 import { RATE_LIMIT_BANNER_HEIGHT } from 'domains/chains/screens/ChainItem/components/Banner/useBannerStyles';
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
 
@@ -30,11 +31,11 @@ export const useStyles = makeStyles<
       left: 0,
     },
 
-    '&.moonbeam': {
+    [`&.${ChainId.Moonbeam}`]: {
       backgroundColor: theme.palette.primary.dark,
     },
 
-    '&.klaytn': {
+    [`&.${ChainId.Klaytn}`]: {
       background: 'linear-gradient(90deg, #FFDEC6 0%, #FFFBF5 100%)',
       color: theme.palette.text.primary,
     },
@@ -47,21 +48,21 @@ export const useStyles = makeStyles<
       fontSize: 50,
     },
 
-    '&.harmony': {
+    [`&.${ChainId.Harmony}`]: {
       background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
       '-webkit-background-clip': 'text',
       '-webkit-text-fill-color': 'transparent',
     },
 
-    '&.avalanche span span': {
+    [`&.${ChainId.Avalanche} span span`]: {
       color: theme.palette.primary.main,
     },
   },
   description: {
-    '&.avalanche span': {
+    [`&.${ChainId.Avalanche} span`]: {
       color: theme.palette.text.primary,
     },
-    '&.moonbeam span': {
+    [`&.${ChainId.Moonbeam} span`]: {
       color: theme.palette.text.primary,
     },
 

@@ -64,7 +64,7 @@ jobs:
       - name: Build production
         working-directory: ./packages/standalone-protocol
         env:
-          NAMES: eth near arbitrum iotex avalanche nervos harmony moonbeam gnosis syscoin secret klaytn
+          NAMES: eth near arbitrum iotex avalanche nervos harmony moonbeam gnosis syscoin secret filecoin klaytn
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 

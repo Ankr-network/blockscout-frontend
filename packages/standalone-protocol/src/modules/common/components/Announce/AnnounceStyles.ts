@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -8,11 +9,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     background: theme.palette.primary.main,
     color: theme.palette.text.secondary,
 
-    '&.near': {
+    [`&.${ChainId.Near}`]: {
       background: `linear-gradient(269.89deg, #E9EEFB 0%, #EBDDDB 100%)`,
       color: theme.palette.text.primary,
     },
-    '&.arbitrum': {
+    [`&.${ChainId.Arbitrum}`]: {
       background: '#222936',
     },
   },

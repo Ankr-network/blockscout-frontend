@@ -1,4 +1,5 @@
 import { darken, makeStyles, Theme } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
 
 export const HEADER_HEIGHT = 121;
@@ -13,7 +14,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
     width: `calc(100% - ${MENU_WIDTH}px)`,
     marginLeft: MENU_WIDTH,
-    '&.eth': {
+    [`&.${ChainId.Ethereum}`]: {
+      backgroundColor: theme.palette.common.white,
+    },
+    [`&.${ChainId.Filecoin}`]: {
       backgroundColor: theme.palette.common.white,
     },
     [theme.breakpoints.down('sm')]: {
@@ -36,13 +40,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontSize: '16px',
     margin: theme.spacing(0, 2),
     textAlign: 'center',
-    '&.moonbeam': {
+    [`&.${ChainId.Moonbeam}`]: {
       '& $link': {
         color: theme.palette.success.main,
       },
     },
 
-    '&.arbitrum, &.near, &.avalanche': {
+    [`&.${ChainId.Arbitrum}, &.${ChainId.Near}, &.${ChainId.Avalanche}`]: {
       color: theme.palette.grey['500'],
 
       '& $link': {
@@ -50,7 +54,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.nervos': {
+    [`&.${ChainId.Nervos}`]: {
       color: theme.palette.grey['500'],
 
       '& $link': {
@@ -58,7 +62,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.secret': {
+    [`&.${ChainId.Secret}`]: {
       color: theme.palette.grey['600'],
 
       '& $link': {
