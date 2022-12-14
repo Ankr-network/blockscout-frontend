@@ -14,7 +14,7 @@ import {
   getIsTrustWalletInjected,
 } from '../../utils/getIsTrustWallet';
 
-const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
+export const DEFAULT_RPC = Object.entries(RPCConfig).reduce(
   (acc, [key, { rpcUrls }]) => ({ ...acc, [key]: rpcUrls[0] }),
   {} as Record<EEthereumNetworkId, string>,
 );
