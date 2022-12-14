@@ -11,6 +11,7 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { getMinStake } from 'modules/stake-eth/actions/getMinStake';
 import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-eth/actions/stake';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
@@ -46,6 +47,10 @@ export const useStakeForm = (): IUseStakeForm => {
 
   const { data: commonData, loading: isCommonDataLoading } = useQuery({
     type: getCommonData,
+  });
+
+  const { data: minStake, loading: isMinStakingLoading } = useQuery({
+    type: getMinStake,
   });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
@@ -104,10 +109,10 @@ export const useStakeForm = (): IUseStakeForm => {
     certificateRatio: commonData?.aETHcRatio ?? ZERO,
     faqItems,
     fee: stakeGasFee ?? ZERO,
-    isCommonDataLoading,
+    isCommonDataLoading: isCommonDataLoading || isMinStakingLoading,
     isFeeLoading,
-    loading: isCommonDataLoading || isStakeLoading,
-    minAmount: commonData?.minStake,
+    loading: isCommonDataLoading || isStakeLoading || isMinStakingLoading,
+    minAmount: minStake ?? ZERO,
     tokenIn: Token.ETH,
     tokenOut: Token.aETHc,
     onInputChange: debouncedOnChange,

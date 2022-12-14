@@ -48,7 +48,7 @@ export const useUnstakeForm = (): IUseUnstakeForm => {
   );
 
   return {
-    syntTokenBalance: data?.aSUIcBalance ?? ZERO,
+    syntTokenBalance: data?.ankrSUIBalance ?? ZERO,
     minAmount: data?.minStake ?? ZERO,
     isCommonDataLoading,
     isUnstakeLoading,

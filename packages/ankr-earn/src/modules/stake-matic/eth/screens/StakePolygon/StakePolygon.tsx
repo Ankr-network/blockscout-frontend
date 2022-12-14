@@ -9,8 +9,6 @@ import classNames from 'classnames';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { ResponseData } from 'modules/common/components/ResponseData';
 import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
@@ -43,6 +41,7 @@ import { NumericStepper } from 'uiKit/Stepper';
 import { StakeTokenInfo } from '../../../../stake/components/StakeTokenInfo/StakeTokenInfo';
 import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
 import { approveMATICStake } from '../../actions/approveMATICStake';
+import { fetchStakeStats } from '../../actions/fetchStakeStats';
 import { fetchStats } from '../../actions/fetchStats';
 import { getStakeGasFee } from '../../actions/getStakeGasFee';
 
@@ -53,6 +52,7 @@ const resetRequests = () =>
   resetReduxRequests([
     approveMATICStake.toString(),
     fetchStats.toString(),
+    fetchStakeStats.toString(),
     getFAQ.toString(),
     getMetrics.toString(),
     getStakeGasFee.toString(),
@@ -78,6 +78,8 @@ export const StakePolygon = (): JSX.Element => {
     tokenIn,
     tokenOut,
     totalAmount,
+    minimumStake,
+    maticBalance,
     handleFormChange,
     handleSubmit,
   } = useStakeForm();
@@ -162,6 +164,7 @@ export const StakePolygon = (): JSX.Element => {
     dispatch(resetRequests());
 
     dispatch(fetchStats());
+    dispatch(fetchStakeStats());
     dispatch(getFAQ(Token.MATIC));
     dispatch(getMetrics());
 
@@ -194,48 +197,44 @@ export const StakePolygon = (): JSX.Element => {
   });
 
   return (
-    <Queries<ResponseData<typeof fetchStats>> requestActions={[fetchStats]}>
-      {({ data }) => (
-        <section className={classes.root}>
-          <StakeContainer>
-            {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+    <section className={classes.root}>
+      <StakeContainer>
+        <StakeTradeInfo />
 
-            <StakeForm
-              auditSlot={
-                <AuditInfo>
-                  <AuditInfoItem link={AUDIT_LINKS.matic} variant="beosin" />
-                </AuditInfo>
-              }
-              balance={data.maticBalance}
-              feeSlot={
-                isShowGasFee && (
-                  <StakeFeeInfo mt={-1.5} token={Token.ETH} value={gasFee} />
-                )
-              }
-              isDisabled={isApproved || isApproveLoading}
-              loading={isStakeLoading}
-              maxAmount={data.maticBalance}
-              minAmount={data.minimumStake}
-              networkTitleSlot={<NetworkTitle />}
-              noticeSlot={noticeText}
-              renderFooter={renderFooter}
-              renderStats={renderStats}
-              tokenIn={tokenIn}
-              tokenOut={tokenOut}
-              onChange={handleFormChange}
-              onSubmit={handleSubmit}
-            />
+        <StakeForm
+          auditSlot={
+            <AuditInfo>
+              <AuditInfoItem link={AUDIT_LINKS.matic} variant="beosin" />
+            </AuditInfo>
+          }
+          balance={maticBalance}
+          feeSlot={
+            isShowGasFee && (
+              <StakeFeeInfo mt={-1.5} token={Token.ETH} value={gasFee} />
+            )
+          }
+          isDisabled={isApproved || isApproveLoading}
+          loading={isStakeLoading}
+          maxAmount={maticBalance}
+          minAmount={minimumStake}
+          networkTitleSlot={<NetworkTitle />}
+          noticeSlot={noticeText}
+          renderFooter={renderFooter}
+          renderStats={renderStats}
+          tokenIn={tokenIn}
+          tokenOut={tokenOut}
+          onChange={handleFormChange}
+          onSubmit={handleSubmit}
+        />
 
-            <StakeStats
-              amount={amount}
-              analyticsLink={DUNE_ANALYTICS_LINK.matic}
-              metricsServiceName={EMetricsServiceName.MATIC}
-            />
+        <StakeStats
+          amount={amount}
+          analyticsLink={DUNE_ANALYTICS_LINK.matic}
+          metricsServiceName={EMetricsServiceName.MATIC}
+        />
 
-            <Faq data={faqItems} />
-          </StakeContainer>
-        </section>
-      )}
-    </Queries>
+        <Faq data={faqItems} />
+      </StakeContainer>
+    </section>
   );
 };

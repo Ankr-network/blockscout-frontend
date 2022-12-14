@@ -96,7 +96,6 @@ export const StakedAFTMB = (): JSX.Element | null => {
       <StakingAsset
         amount={amount}
         chainId={chainId}
-        isHistoryLoading={isHistoryLoading}
         isLoading={isBalancesLoading}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}

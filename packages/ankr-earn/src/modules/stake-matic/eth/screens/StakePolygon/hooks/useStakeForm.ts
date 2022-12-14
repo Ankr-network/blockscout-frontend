@@ -16,10 +16,8 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
 import { approveMATICStake } from 'modules/stake-matic/eth/actions/approveMATICStake';
-import {
-  fetchStats,
-  IFetchStatsResponseData,
-} from 'modules/stake-matic/eth/actions/fetchStats';
+import { fetchStakeStats } from 'modules/stake-matic/eth/actions/fetchStakeStats';
+import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
 import { getStakeGasFee } from 'modules/stake-matic/eth/actions/getStakeGasFee';
 import { stake } from 'modules/stake-matic/eth/actions/stake';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
@@ -35,7 +33,8 @@ interface IUseStakeFormData {
   amount: BigNumber;
   certificateRatio: BigNumber;
   faqItems: IFAQItem[];
-  fetchStatsData: IFetchStatsResponseData | null;
+  minimumStake: BigNumber;
+  maticBalance: BigNumber;
   fetchStatsError?: Error;
   gasFee: BigNumber;
   isApproveLoading: boolean;
@@ -71,6 +70,14 @@ export const useStakeForm = (): IUseStakeFormData => {
     error: fetchStatsError,
   } = useQuery({
     type: fetchStats,
+  });
+
+  const {
+    data: fetchStakeStatsData,
+    loading: isFetchStakeStatsLoading,
+    error: fetchStakeStatsError,
+  } = useQuery({
+    type: fetchStakeStats,
   });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
@@ -189,12 +196,13 @@ export const useStakeForm = (): IUseStakeFormData => {
     amount,
     certificateRatio: aMATICcRatio ?? ZERO,
     faqItems,
-    fetchStatsData,
-    fetchStatsError,
+    minimumStake: fetchStakeStatsData?.minimumStake ?? ZERO,
+    maticBalance: fetchStatsData?.maticBalance ?? ZERO,
+    fetchStatsError: fetchStatsError || fetchStakeStatsError,
     gasFee: gasFee ?? ZERO,
     isApproveLoading,
     isApproved,
-    isFetchStatsLoading,
+    isFetchStatsLoading: isFetchStatsLoading || isFetchStakeStatsLoading,
     isShouldBeApproved,
     isShowGasFee,
     isStakeLoading,

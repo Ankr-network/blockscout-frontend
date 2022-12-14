@@ -12,6 +12,7 @@ import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { GnosisIcon } from 'uiKit/Icons/Gnosis';
 import { KsmIcon } from 'uiKit/Icons/KsmIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
+import { XDCIcon } from 'uiKit/Icons/XDCIcon';
 
 interface IToken {
   icon: JSX.Element;
@@ -60,6 +61,10 @@ export const useTokenIcon = (): Record<TCalcToken, IToken> => {
       [Token.mGNO]: {
         icon: <GnosisIcon />,
         name: t('unit.mgno'),
+      },
+      [Token.XDC]: {
+        icon: <XDCIcon />,
+        name: t('unit.xdc'),
       },
     }),
     [],

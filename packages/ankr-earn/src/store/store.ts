@@ -21,6 +21,10 @@ import { networkSwitchCoin98 } from 'modules/auth/eth/middlewares/networkSwitchC
 import { featuresConfig } from 'modules/common/const';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
+import {
+  dashboardPersistReducer,
+  TDashboardState,
+} from 'modules/dashboard/store/dashboardPersistReducer';
 import { dialog, IDialogState } from 'modules/dialogs';
 import { formsReducer, IFormsState } from 'modules/forms/store/formsSlice';
 import {
@@ -47,6 +51,7 @@ export interface IStoreState {
   i18n: Ti18nState;
   notifications: TNotificationsState;
   router: RouterState<unknown>;
+  dashboard: TDashboardState;
 }
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
@@ -103,6 +108,7 @@ const rootReducer = combineReducers({
   requests: requestsReducer,
   router: connectRouter(historyInstance),
   forms: formsReducer,
+  dashboard: dashboardPersistReducer,
 });
 
 export const store = configureStore({

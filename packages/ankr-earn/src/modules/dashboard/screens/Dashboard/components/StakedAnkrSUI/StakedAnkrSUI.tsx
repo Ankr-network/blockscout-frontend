@@ -7,9 +7,9 @@ import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
-import { useStakedASUICData } from './useStakedASUICData';
+import { useStakedAnkrSUIData } from './useStakedAnkrSUIData';
 
-export const StakedASUIC = (): JSX.Element => {
+export const StakedAnkrSUI = (): JSX.Element => {
   const {
     isOpened: isOpenedHistory,
     onClose: onCloseHistory,
@@ -38,7 +38,7 @@ export const StakedASUIC = (): JSX.Element => {
     unstakeLink,
     usdAmount,
     onAddTokenToWallet,
-  } = useStakedASUICData();
+  } = useStakedAnkrSUIData();
 
   const renderedPendingSlot = (!pendingValue.isZero() ||
     isPendingUnstakeLoading) && (
@@ -84,7 +84,7 @@ export const StakedASUIC = (): JSX.Element => {
         moreHref={' '}
         open={isOpenedInfo}
         tokenAddress={tokenAddress}
-        tokenName={Token.aSUIc}
+        tokenName={Token.ankrSUI}
         onClose={onCloseInfo}
       />
     </>

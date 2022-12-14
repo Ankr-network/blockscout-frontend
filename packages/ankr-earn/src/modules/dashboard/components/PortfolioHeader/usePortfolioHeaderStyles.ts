@@ -1,16 +1,12 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useProtfolioHeaderStyles = makeStyles(theme => ({
+export const usePortfolioHeaderStyles = makeStyles(theme => ({
   title: {
     fontSize: 24,
 
     [theme.breakpoints.up('md')]: {
       fontSize: 30,
     },
-  },
-
-  checkbox: {
-    marginRight: 0,
   },
 
   button: {

@@ -11,15 +11,9 @@ interface IFetchStatsResponseData {
   aBNBbBalance: BigNumber;
   aBNBcBalance: BigNumber;
   bnbBalance: BigNumber;
-  minStake: BigNumber;
-  minAbnbbUnstake: BigNumber;
-  minAbnbcUnstake: BigNumber;
-  relayerFee: BigNumber;
   aBNBcRatio: BigNumber;
   aETHBalance: BigNumber;
   aETHRatio: BigNumber;
-  poolBalance: BigNumber;
-  instantFee: BigNumber;
 }
 
 export const { useGetBNBStatsQuery } = web3Api.injectEndpoints({
@@ -40,42 +34,23 @@ export const { useGetBNBStatsQuery } = web3Api.injectEndpoints({
             );
           }
 
-          const [
-            bnbBalance,
-            minimumStake,
-            relayerFee,
-            aBNBcRatio,
-            aBNBcBalance,
-            aETHBalance,
-            aETHRatio,
-            poolBalance,
-            instantFee,
-          ] = await Promise.all([
-            sdk.getBNBBalance(),
-            sdk.getMinimumStake(),
-            sdk.getRelayerFee(),
-            sdk.getACRatio(),
-            sdk.getACBalance(),
-            sdk.getAETHBalance(),
-            sdk.getAETHRatio(),
-            sdk.getWBNBSwapPoolBalance(),
-            sdk.getSwapPoolUnstakeFee(),
-          ]);
+          const [bnbBalance, aBNBcRatio, aBNBcBalance, aETHBalance, aETHRatio] =
+            await Promise.all([
+              sdk.getBNBBalance(),
+              sdk.getACRatio(),
+              sdk.getACBalance(),
+              sdk.getAETHBalance(),
+              sdk.getAETHRatio(),
+            ]);
 
           return {
             data: {
               aBNBbBalance,
               aBNBcBalance,
               bnbBalance,
-              relayerFee,
               aBNBcRatio,
               aETHBalance,
               aETHRatio,
-              minStake: minimumStake,
-              minAbnbbUnstake: minimumStake,
-              minAbnbcUnstake: minimumStake.multipliedBy(aBNBcRatio),
-              poolBalance,
-              instantFee,
             },
           };
         },

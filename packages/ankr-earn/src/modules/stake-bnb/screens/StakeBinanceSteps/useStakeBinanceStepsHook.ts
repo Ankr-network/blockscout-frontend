@@ -8,11 +8,11 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import {
   useGetBNBTxDataQuery,
   useGetBNBTxReceiptQuery,
 } from 'modules/stake-bnb/actions/getTxData';
+import { useGetBNBStakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStakeStatsQuery';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 
 const DEFAULT_POLLING_INTERVAL = 3_000;
@@ -51,9 +51,10 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     { pollingInterval },
   );
 
-  const { data: stats, refetch: getBNBStats } = useGetBNBStatsQuery(undefined, {
-    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-  });
+  const { data: bnbStakeStats, refetch: getBNBStakeStats } =
+    useGetBNBStakeStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
 
@@ -71,7 +72,7 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     }
 
     const amount = bnbTxnData?.amount;
-    const relayerFee = stats?.relayerFee;
+    const relayerFee = bnbStakeStats?.relayerFee;
 
     if (!amount || !relayerFee) {
       return undefined;
@@ -80,7 +81,7 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     const amountWithoutFee = amount.minus(relayerFee);
 
     return amountWithoutFee;
-  }, [bnbTxnData?.amount, receipt, stats, tokenOut]);
+  }, [bnbTxnData?.amount, receipt, bnbStakeStats, tokenOut]);
 
   const isPending = !receipt && !!bnbTxnData?.isPending;
 
@@ -91,10 +92,10 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
   }, [receipt]);
 
   useProviderEffect(() => {
-    if (!stats) {
-      getBNBStats();
+    if (!bnbStakeStats) {
+      getBNBStakeStats();
     }
-  }, [stats]);
+  }, [bnbStakeStats]);
 
   return {
     amount: calculatedAmount,

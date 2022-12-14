@@ -63,7 +63,6 @@ export interface IStakeFormComponentProps {
   stakingAmountStep?: number;
   labelTooltip?: ReactText | JSX.Element;
   partnerCodeSlot?: ReactNode;
-  handleHaveCodeClick?: () => void;
   renderStats?: (amount: BigNumber) => ReactNode;
   renderFooter?: (amount: BigNumber) => ReactNode;
   onSubmit: (payload: IStakeSubmitPayload) => void;

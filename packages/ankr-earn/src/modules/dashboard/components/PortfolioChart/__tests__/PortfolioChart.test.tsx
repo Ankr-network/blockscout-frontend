@@ -60,6 +60,8 @@ describe('modules/dashboard/components/PortfolioChart', () => {
     totalNativeYieldAmountUsd: new BigNumber(1),
     height: 350,
     width: 350,
+    isSmallBalancesVisible: true,
+    onBalanceVisibilityChange: () => undefined,
   };
 
   test('should render properly', async () => {

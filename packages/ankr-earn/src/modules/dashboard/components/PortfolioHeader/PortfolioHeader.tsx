@@ -1,24 +1,34 @@
 import { t } from '@ankr.com/common';
 import { Box, Grid, Hidden, Typography } from '@material-ui/core';
+import { useCallback } from 'react';
 
 import { RoutesConfig as RoutesCalcConfig } from 'modules/calc/Routes';
-import { featuresConfig, isLocal } from 'modules/common/const';
+import { featuresConfig } from 'modules/common/const';
 import { RoutesConfig as RoutesReferralsConfig } from 'modules/referrals/Routes';
 import { Checkbox } from 'uiKit/Checkbox';
 import { NavLink } from 'uiKit/NavLink';
 
-import { useProtfolioHeaderStyles } from './useProtfolioHeaderStyles';
+import { usePortfolioHeaderStyles } from './usePortfolioHeaderStyles';
 
-const IS_CHECKBOX_SHOWED = isLocal;
-
-interface IProtfolioHeaderProps {
+interface PortfolioHeaderProps {
   isCurrentAccountPartner: boolean;
+  isSmallBalancesVisible: boolean;
+  onBalanceVisibilityChange: (isShown: boolean) => void;
 }
 
-export const ProtfolioHeader = ({
+export const PortfolioHeader = ({
   isCurrentAccountPartner,
-}: IProtfolioHeaderProps): JSX.Element => {
-  const classes = useProtfolioHeaderStyles();
+  isSmallBalancesVisible,
+  onBalanceVisibilityChange,
+}: PortfolioHeaderProps): JSX.Element => {
+  const classes = usePortfolioHeaderStyles();
+
+  const onCheckboxChange = useCallback(
+    (e, checked) => {
+      onBalanceVisibilityChange(!checked);
+    },
+    [onBalanceVisibilityChange],
+  );
 
   return (
     <Box mb={3}>
@@ -29,16 +39,13 @@ export const ProtfolioHeader = ({
           </Typography>
         </Grid>
 
-        {IS_CHECKBOX_SHOWED && (
-          <Grid item xs="auto">
-            <Checkbox
-              checked
-              disabled
-              className={classes.checkbox}
-              label={t('dashboard.hide-balances')}
-            />
-          </Grid>
-        )}
+        <Grid item xs="auto">
+          <Checkbox
+            checked={!isSmallBalancesVisible}
+            label={t('dashboard.hide-balances')}
+            onChange={onCheckboxChange}
+          />
+        </Grid>
 
         {featuresConfig.isCalcActive && (
           <Hidden mdDown>
