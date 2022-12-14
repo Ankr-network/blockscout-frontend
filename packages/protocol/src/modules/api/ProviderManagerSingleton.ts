@@ -20,7 +20,7 @@ export class ProviderManagerSingleton {
 
     ProviderManagerSingleton.instance = new ProviderManager(
       web3ModalTheme,
-      {},
+      undefined,
       RPC_URLS,
     );
 
