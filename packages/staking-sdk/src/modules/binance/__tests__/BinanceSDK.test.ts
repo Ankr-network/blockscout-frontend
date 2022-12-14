@@ -838,8 +838,10 @@ describe('modules/binance/sdk', () => {
     const sdk = await BinanceSDK.getInstance();
 
     const receipt = await sdk.fetchTxReceipt('hash');
+    const receiptForTestnet = await sdk.fetchTxReceiptOld('hash');
 
     expect(receipt).toBeUndefined();
+    expect(receiptForTestnet).toBeUndefined();
   });
 
   test('should return tx receipt with logs properly', async () => {
@@ -859,7 +861,7 @@ describe('modules/binance/sdk', () => {
 
     const sdk = await BinanceSDK.getInstance();
 
-    const receipt = await sdk.fetchTxReceipt('hash');
+    const receipt = await sdk.fetchTxReceiptOld('hash');
 
     expect(receipt?.certAmount).toStrictEqual('2');
   });
