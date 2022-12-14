@@ -54,6 +54,12 @@ export const CERT_STAKING_LOG_HASH =
   '0x0f0bc5b519ddefdd8e5f9e6423433aa2b869738de2ae34d58ebc796fc749fa0d';
 
 /**
+ * Staking topic hash. Used for fetching transaction amount from receipt.
+ */
+export const TOPIC_WITH_TOKEN_TYPE_INFO =
+  '0x19e86fee7352f6a0c9bf1635ff7e554c083f9af69dff8d69c054f2ac5dba1a9c';
+
+/**
  * Magic number to prevent metamask fee calculation issue
  */
 export const BNB_ESTIMATE_GAS_MULTIPLIER = 1.4; // 40%

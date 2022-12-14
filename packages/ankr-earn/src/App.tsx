@@ -6,11 +6,11 @@ import { persistor, store } from 'store';
 import { NoReactSnap } from 'modules/common/components/NoReactSnap';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { Zendesk } from 'modules/common/components/Zendesk';
-import { AirdropModal } from 'modules/info-dialogs/screens/AirdropModal';
 import { Spinner } from 'uiKit/Spinner';
 
 import packageJson from '../package.json';
 
+import { NewBNBModal } from './modules/info-dialogs/screens/NewBNBModal';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
 
@@ -27,7 +27,7 @@ function App(): JSX.Element {
             <NoReactSnap>
               <Zendesk />
 
-              <AirdropModal />
+              <NewBNBModal />
             </NoReactSnap>
           </AppBase>
         </PersistGate>
