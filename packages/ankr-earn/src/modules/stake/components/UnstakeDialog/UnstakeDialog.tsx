@@ -57,7 +57,6 @@ export interface IUnstakeDialogProps {
   maxAmountDecimals?: number;
   maxAmount?: BigNumber;
   networkTitleSlot?: JSX.Element;
-  submitTooltip?: string;
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
   onClose?: () => void;
   onSubmit: (values: IUnstakeFormValues) => void;
@@ -85,14 +84,13 @@ export const UnstakeDialog = ({
   isApproveLoading,
   maxAmountDecimals,
   networkTitleSlot,
-  submitTooltip,
+  isExternalAllowed,
+  maxAmount,
   onSubmit,
   onClose,
   extraValidation,
   renderFormFooter,
   onChange,
-  isExternalAllowed,
-  maxAmount,
 }: IUnstakeDialogProps): JSX.Element => {
   const classes = useUnstakeDialogStyles();
   const maxAmountValue = maxAmount
@@ -110,7 +108,10 @@ export const UnstakeDialog = ({
   const activeStep = isApproved ? ESteps.unstake : ESteps.approve;
 
   const isUnstakeBtnDisabled =
-    isDisabled || submitDisabled || (isWithApprove && !isApproved);
+    isDisabled ||
+    submitDisabled ||
+    (isWithApprove && !isApproved) ||
+    isApproveLoading;
 
   const validate = useCallback(
     (data: IUnstakeFormValues) => {
@@ -230,61 +231,42 @@ export const UnstakeDialog = ({
                   <Grid container spacing={3}>
                     {isWithApprove && (
                       <Grid item xs>
-                        <Tooltip
-                          arrow
-                          open={submitTooltip ? undefined : false}
-                          title={submitTooltip || ''}
-                        >
-                          <Box width="100%">
-                            <Button
-                              fullWidth
-                              color="primary"
-                              disabled={
-                                isDisabled || isApproved || isApproveLoading
-                              }
-                              endIcon={
-                                <Tooltip
-                                  arrow
-                                  title={tHTML('common.tooltips.allowance')}
-                                >
-                                  <Box component="span" display="flex">
-                                    <QuestionIcon
-                                      htmlColor="inherit"
-                                      size="xs"
-                                    />
-                                  </Box>
-                                </Tooltip>
-                              }
-                              isLoading={isApproveLoading}
-                              size="large"
-                              type="submit"
+                        <Button
+                          fullWidth
+                          color="primary"
+                          disabled={
+                            isDisabled || isApproved || isApproveLoading
+                          }
+                          endIcon={
+                            <Tooltip
+                              arrow
+                              title={tHTML('common.tooltips.allowance')}
                             >
-                              {t('unstake-dialog.btn-approve')}
-                            </Button>
-                          </Box>
-                        </Tooltip>
+                              <Box component="span" display="flex">
+                                <QuestionIcon htmlColor="inherit" size="xs" />
+                              </Box>
+                            </Tooltip>
+                          }
+                          isLoading={isApproveLoading}
+                          size="large"
+                          type="submit"
+                        >
+                          {t('unstake-dialog.btn-approve')}
+                        </Button>
                       </Grid>
                     )}
 
                     <Grid item xs>
-                      <Tooltip
-                        arrow
-                        open={submitTooltip ? undefined : false}
-                        title={submitTooltip || ''}
+                      <Button
+                        fullWidth
+                        color="primary"
+                        disabled={isUnstakeBtnDisabled}
+                        isLoading={isLoading}
+                        size="large"
+                        type="submit"
                       >
-                        <Box width="100%">
-                          <Button
-                            fullWidth
-                            color="primary"
-                            disabled={isUnstakeBtnDisabled}
-                            isLoading={isLoading}
-                            size="large"
-                            type="submit"
-                          >
-                            {t('unstake-dialog.btn')}
-                          </Button>
-                        </Box>
-                      </Tooltip>
+                        {t('unstake-dialog.btn')}
+                      </Button>
                     </Grid>
                   </Grid>
 

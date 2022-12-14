@@ -17,6 +17,9 @@ export const { useApproveABNBCUnstakeMutation } = web3Api.injectEndpoints({
         const sdk = await BinanceSDK.getInstance();
 
         const data = await sdk.approveACForAB(amount, ETH_SCALE_FACTOR);
+
+        await data?.receiptPromise;
+
         return { data: data || true };
       }),
     }),

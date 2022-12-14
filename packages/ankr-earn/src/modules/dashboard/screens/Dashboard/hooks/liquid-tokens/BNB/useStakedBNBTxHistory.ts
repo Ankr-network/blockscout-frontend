@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react';
 
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -123,6 +124,10 @@ export const useStakedBNBTxHistory = (): ITxHistoryData => {
     !!stakedABNBC?.length ||
     !!unstakedABNBB?.length ||
     !!unstakedABNBC?.length;
+
+  useProviderEffect(() => {
+    refetchTotalHistory();
+  }, []);
 
   const handleLoadTxHistory = useCallback(() => {
     refetchTotalHistory();

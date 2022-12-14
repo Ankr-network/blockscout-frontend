@@ -58,7 +58,6 @@ export const featuresConfig = {
   isTrustWalletSupportActive: true,
   isSUIStakingActive: isLocal,
   isClaimAndRestakeEnabled: currentEnv !== Env.Production,
-  isBnbServiceDisabled: true,
   disableHeavyRequestsForTestnet: currentEnv !== Env.Production,
   isTradeInfoActiveForBnb: false,
 };

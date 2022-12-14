@@ -2,7 +2,6 @@ import { Box } from '@material-ui/core';
 import compact from 'lodash/compact';
 import { useMemo } from 'react';
 
-import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
@@ -37,16 +36,11 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aETHb,
       icon: <AETHBIcon {...DEFAULT_ICON_PROPS} />,
     },
-    ...(featuresConfig.isBnbServiceDisabled
-      ? []
-      : [
-          {
-            label: Token.aBNBb,
-            value: Token.aBNBb,
-            icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
-          },
-        ]),
-
+    {
+      label: Token.aBNBb,
+      value: Token.aBNBb,
+      icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
+    },
     {
       label: Token.aMATICb,
       value: Token.aMATICb,
@@ -70,15 +64,11 @@ const AVAILABLE_SWAP_TOKENS = {
       value: Token.aETHc,
       icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
     },
-    ...(featuresConfig.isBnbServiceDisabled
-      ? []
-      : [
-          {
-            label: getTokenName(Token.aBNBc),
-            value: Token.aBNBc,
-            icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
-          },
-        ]),
+    {
+      label: getTokenName(Token.aBNBc),
+      value: Token.aBNBc,
+      icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
+    },
     {
       label: getTokenName(Token.aMATICc),
       value: Token.aMATICc,
