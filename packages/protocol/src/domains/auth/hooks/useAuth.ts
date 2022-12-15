@@ -2,6 +2,7 @@ import { useAppSelector } from 'store/useAppSelector';
 import { selectAuthData } from '../store/authSlice';
 import { useOauth } from 'domains/oauth/hooks/useOauth';
 import { useWeb3Connection } from './useWeb3Connection';
+import { EthAddressType } from 'multirpc-sdk';
 
 export const useAuth = () => {
   const authData = useAppSelector(selectAuthData);
@@ -14,7 +15,7 @@ export const useAuth = () => {
 
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
-  const { hasOauthLogin, hasWeb3Connection } = authData;
+  const { hasOauthLogin, hasWeb3Connection, ethAddressType } = authData;
 
   return {
     loading: web3ConnectionLoading || autologinLoading,
@@ -25,5 +26,6 @@ export const useAuth = () => {
       ? connectData?.credentials
       : authData?.credentials,
     isLoggedIn: Boolean(hasOauthLogin || hasWeb3Connection),
+    isUserEthAddressType: ethAddressType === EthAddressType.User,
   };
 };
