@@ -22,8 +22,7 @@ import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actio
 import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
 import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
-import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { fetchTotalHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
@@ -45,8 +44,6 @@ const resetRequests = () =>
     fetchAETHCBridged.toString(),
     fetchAMATICBBridgedBSC.toString(),
     fetchAMATICCBridgedBSC.toString(),
-    fetchPolygonStats.toString(),
-    fetchPolygonTxHistory.toString(),
     getMGNOTotalInfo.toString(),
     getMGNOMaxApr.toString(),
     getMGNOPrice.toString(),
@@ -75,6 +72,7 @@ export const useDashboard = (): IUseDashboard => {
 
   const { refetch: getBNBPendingValuesRefetch } = useGetBNBPendingValuesQuery();
   const { refetch: getBNBStatsRefetch } = useGetBNBStatsQuery();
+  const { refetch: getMATICETHStatsRefetch } = useGetMaticOnEthStatsQuery();
 
   const { refetch: getXDCDashboardDataRefetch } = getXDCDashboardData();
 
@@ -88,7 +86,6 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchAETHCBridged());
     dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAMATICCBridgedBSC());
-    dispatch(fetchPolygonStats());
     dispatch(getEthCommonData());
     dispatch(getEthClaimableData());
     dispatch(getMetrics());
@@ -98,6 +95,7 @@ export const useDashboard = (): IUseDashboard => {
     getFTMCommonDataRefetch();
     getBNBPendingValuesRefetch();
     getBNBStatsRefetch();
+    getMATICETHStatsRefetch();
 
     if (address) {
       dispatch(getPartnerCode(address));

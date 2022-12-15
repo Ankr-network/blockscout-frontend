@@ -23,7 +23,7 @@ import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQue
 import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
-import { fetchStats as fetchStakeMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
@@ -62,9 +62,10 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: getMetrics,
   });
 
-  const { data: maticEthData, loading: isMaticEthDataLoading } = useQuery({
-    type: fetchStakeMaticEthStats,
-  });
+  const { data: maticEthData, isFetching: isMaticEthDataLoading } =
+    useGetMaticOnEthStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: avaxData, isFetching: isAvaxDataLoading } =
     useGetAVAXCommonDataQuery(undefined, {

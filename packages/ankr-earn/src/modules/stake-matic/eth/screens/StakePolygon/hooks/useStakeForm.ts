@@ -1,9 +1,6 @@
-import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
@@ -12,20 +9,20 @@ import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ZERO } from 'modules/common/const';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
-import { approveMATICStake } from 'modules/stake-matic/eth/actions/approveMATICStake';
-import { fetchStakeStats } from 'modules/stake-matic/eth/actions/fetchStakeStats';
-import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { getStakeGasFee } from 'modules/stake-matic/eth/actions/getStakeGasFee';
-import { stake } from 'modules/stake-matic/eth/actions/stake';
+import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStakeStatsQuery';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useLazyApproveMaticOnEthStakeQuery } from 'modules/stake-matic/eth/actions/useLazyApproveMaticOnEthStakeQuery';
+import { useLazyGetMaticOnEthStakeGasFeeQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthStakeGasFeeQueryv';
+import { useStakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useStakeMaticOnEthMutation';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseStakeFormData {
   aMATICcRatio: BigNumber;
@@ -33,9 +30,9 @@ interface IUseStakeFormData {
   amount: BigNumber;
   certificateRatio: BigNumber;
   faqItems: IFAQItem[];
-  minimumStake: BigNumber;
-  maticBalance: BigNumber;
-  fetchStatsError?: Error;
+  maticBalance?: BigNumber;
+  minimumStake?: BigNumber;
+  fetchStatsError?: FetchBaseQueryError | SerializedError;
   gasFee: BigNumber;
   isApproveLoading: boolean;
   isApproved: boolean;
@@ -51,33 +48,32 @@ interface IUseStakeFormData {
 }
 
 export const useStakeForm = (): IUseStakeFormData => {
-  const dispatch = useAppDispatch();
-  const dispatchRequest = useDispatchRequest();
-
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { loading: isStakeLoading } = useMutation({ type: stake });
+  const [stake, { isLoading: isStakeLoading }] = useStakeMaticOnEthMutation();
 
-  const { data: approveData, loading: isApproveLoading } = useQuery({
-    type: approveMATICStake,
-  });
-
-  const {
-    data: fetchStatsData,
-    loading: isFetchStatsLoading,
-    error: fetchStatsError,
-  } = useQuery({
-    type: fetchStats,
-  });
+  const [
+    approveMATICStake,
+    { data: approveData, isLoading: isApproveLoading },
+  ] = useLazyApproveMaticOnEthStakeQuery();
 
   const {
-    data: fetchStakeStatsData,
-    loading: isFetchStakeStatsLoading,
-    error: fetchStakeStatsError,
-  } = useQuery({
-    type: fetchStakeStats,
+    data: statsData,
+    isFetching: isStatsLoading,
+    error: statsError,
+    refetch: getMATICETHStatsRefetch,
+  } = useGetMaticOnEthStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
+  const {
+    data: stakeStatsData,
+    isFetching: isStakeStatsLoading,
+    error: stakeStatsError,
+    refetch: getMATICETHStakeStatsRefetch,
+  } = useGetMaticOnEthStakeStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
@@ -85,9 +81,8 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: getFAQ,
   });
 
-  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
-    type: getStakeGasFee,
-  });
+  const [getStakeGasFee, { data: gasFee, isFetching: isGasFeeLoading }] =
+    useLazyGetMaticOnEthStakeGasFeeQuery();
 
   const [amount, setAmount] = useState(ZERO);
 
@@ -98,11 +93,11 @@ export const useStakeForm = (): IUseStakeFormData => {
   const isShouldBeApproved = !isApproved;
 
   const isShowGasFee =
-    !isGasFeeLoading && gasFee !== null && gasFee.isGreaterThan(0);
+    !isGasFeeLoading && gasFee !== null && (gasFee?.isGreaterThan(0) || false);
 
   const activeStep = isApproved ? 1 : 0;
 
-  const aMATICcRatio = fetchStatsData?.aMATICcRatio;
+  const aMATICcRatio = statsData?.aMATICcRatio;
 
   const tokenCertRatio = useMemo(
     () => (aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO),
@@ -118,32 +113,28 @@ export const useStakeForm = (): IUseStakeFormData => {
 
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
 
-    if (isInvalid) {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
-    } else if (formAmount) {
+    if (formAmount && !isInvalid) {
       const readyAmount = new BigNumber(formAmount);
 
-      dispatch(
-        getStakeGasFee({
-          amount: readyAmount,
-          token: Token.aMATICc,
-        }),
-      );
+      getStakeGasFee({
+        amount: readyAmount,
+        token: Token.aMATICc,
+      });
     }
   };
 
   const totalAmount = useMemo(() => {
-    if (isError || fetchStatsData?.maticBalance.isLessThan(amount)) {
+    if (isError || statsData?.maticBalance.isLessThan(amount)) {
       return ZERO;
     }
 
     return calcTotalAmount({
       selectedToken: Token.aMATICc,
       amount: new BigNumber(amount),
-      balance: fetchStatsData?.maticBalance ?? ZERO,
+      balance: statsData?.maticBalance ?? ZERO,
       aMATICcRatio,
     });
-  }, [aMATICcRatio, amount, fetchStatsData?.maticBalance, isError]);
+  }, [aMATICcRatio, amount, statsData?.maticBalance, isError]);
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
@@ -157,7 +148,7 @@ export const useStakeForm = (): IUseStakeFormData => {
       willGetAmount: currentAmount,
       tokenIn: Token.MATIC,
       tokenOut: Token.aMATICc,
-      prevStakedAmount: fetchStatsData?.maticBalance ?? ZERO,
+      prevStakedAmount: statsData?.maticBalance ?? ZERO,
       synthBalance,
     });
   };
@@ -166,29 +157,33 @@ export const useStakeForm = (): IUseStakeFormData => {
     const val = new BigNumber(values.amount);
 
     if (isShouldBeApproved) {
-      dispatchRequest(
-        approveMATICStake({
-          amount: val,
-          token: Token.aMATICc,
-        }),
-      );
+      approveMATICStake({
+        amount: val,
+        token: Token.aMATICc,
+      })
+        .unwrap()
+        .then(() => {
+          getStakeGasFee({
+            amount: val,
+            token: Token.aMATICc,
+          });
+        });
 
       return;
     }
 
-    dispatchRequest(
-      stake({
-        amount: val,
-        token: Token.aMATICc,
-      }),
-    ).then(({ error }) => {
-      if (!error) {
-        dispatch(resetRequests([approveMATICStake.toString()]));
-
-        sendAnalytics();
-      }
+    stake({
+      amount: val,
+      token: Token.aMATICc,
+    }).then(() => {
+      sendAnalytics();
     });
   };
+
+  useProviderEffect(() => {
+    getMATICETHStatsRefetch();
+    getMATICETHStakeStatsRefetch();
+  }, []);
 
   return {
     aMATICcRatio: tokenCertRatio,
@@ -196,13 +191,13 @@ export const useStakeForm = (): IUseStakeFormData => {
     amount,
     certificateRatio: aMATICcRatio ?? ZERO,
     faqItems,
-    minimumStake: fetchStakeStatsData?.minimumStake ?? ZERO,
-    maticBalance: fetchStatsData?.maticBalance ?? ZERO,
-    fetchStatsError: fetchStatsError || fetchStakeStatsError,
+    maticBalance: statsData?.maticBalance,
+    minimumStake: stakeStatsData?.minimumStake,
+    fetchStatsError: statsError || stakeStatsError,
     gasFee: gasFee ?? ZERO,
     isApproveLoading,
     isApproved,
-    isFetchStatsLoading: isFetchStatsLoading || isFetchStakeStatsLoading,
+    isFetchStatsLoading: isStatsLoading || isStakeStatsLoading,
     isShouldBeApproved,
     isShowGasFee,
     isStakeLoading,

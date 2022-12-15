@@ -10,8 +10,6 @@ import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
-import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
-import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
@@ -21,29 +19,18 @@ import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { approveAMATICCUnstake } from '../../actions/approveAMATICCUnstake';
-import { fetchStakeStats } from '../../actions/fetchStakeStats';
-import { fetchStats } from '../../actions/fetchStats';
-import { getAllowance } from '../../actions/getAllowance';
+import { useLazyGetMaticOnEthAllowanceQuery } from '../../actions/useLazyGetMaticOnEthAllowanceQuery';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
 import { useUnstakePolygonStyles as useStyles } from './useUnstakePolygonStyles';
 
 const resetRequests = () =>
-  resetReduxRequests([
-    approveAMATICCUnstake.toString(),
-    fetchStats.toString(),
-    fetchStakeStats.toString(),
-    fetchTotalHistory.toString(),
-    getAnkrBalance.toString(),
-    getMetrics.toString(),
-    getUnstakeDate.toString(),
-    getAllowance.toString(),
-  ]);
+  resetReduxRequests([getMetrics.toString(), getUnstakeDate.toString()]);
 
 export const UnstakePolygon = (): JSX.Element => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const [getAllowance] = useLazyGetMaticOnEthAllowanceQuery();
 
   const {
     closeHref,
@@ -66,15 +53,11 @@ export const UnstakePolygon = (): JSX.Element => {
   useProviderEffect(() => {
     dispatch(resetRequests());
 
-    dispatch(fetchStats());
-    dispatch(fetchStakeStats());
-    dispatch(fetchTotalHistory());
-    dispatch(getAnkrBalance());
     dispatch(getMetrics());
     dispatch(getUnstakeDate());
 
     if (isWithApprove) {
-      dispatch(getAllowance());
+      getAllowance();
     }
 
     return () => {

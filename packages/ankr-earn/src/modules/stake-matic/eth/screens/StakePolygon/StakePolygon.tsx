@@ -40,23 +40,12 @@ import { NumericStepper } from 'uiKit/Stepper';
 
 import { StakeTokenInfo } from '../../../../stake/components/StakeTokenInfo/StakeTokenInfo';
 import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
-import { approveMATICStake } from '../../actions/approveMATICStake';
-import { fetchStakeStats } from '../../actions/fetchStakeStats';
-import { fetchStats } from '../../actions/fetchStats';
-import { getStakeGasFee } from '../../actions/getStakeGasFee';
 
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
 const resetRequests = () =>
-  resetReduxRequests([
-    approveMATICStake.toString(),
-    fetchStats.toString(),
-    fetchStakeStats.toString(),
-    getFAQ.toString(),
-    getMetrics.toString(),
-    getStakeGasFee.toString(),
-  ]);
+  resetReduxRequests([getFAQ.toString(), getMetrics.toString()]);
 
 export const StakePolygon = (): JSX.Element => {
   const classes = useStakePolygonStyles();
@@ -163,8 +152,6 @@ export const StakePolygon = (): JSX.Element => {
   useProviderEffect(() => {
     dispatch(resetRequests());
 
-    dispatch(fetchStats());
-    dispatch(fetchStakeStats());
     dispatch(getFAQ(Token.MATIC));
     dispatch(getMetrics());
 

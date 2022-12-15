@@ -14,7 +14,7 @@ import { useLazyGetAVAXHistoryQuery } from 'modules/stake-avax/actions/fetchHist
 import { useLazyGetBNBHistoryQuery } from 'modules/stake-bnb/actions/fetchHistory';
 import { getHistory as getETHHistory } from 'modules/stake-eth/actions/getHistory';
 import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
-import { fetchHistory as fetchMATICETHHistory } from 'modules/stake-matic/eth/actions/fetchHistory';
+import { useLazyGetMaticOnEthHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthHistoryQuery';
 
 import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
 
@@ -61,18 +61,12 @@ export const useHistory = ({
 
   const [getFTMHistory, { isFetching: isFtmHistoryLoading }] =
     useLazyGetFTMHistoryQuery();
-
   const [getAVAXHistory, { isFetching: avaxHistoryLoading }] =
     useLazyGetAVAXHistoryQuery();
   const [getBNBHistory, { isFetching: isBnbHistoryLoading }] =
     useLazyGetBNBHistoryQuery();
-
-  const { loading: maticEthHistoryLoading } = useQuery({
-    type: fetchMATICETHHistory,
-  });
-  const { loading: isMaticEthHistoryMutationLoading } = useMutation({
-    type: fetchMATICETHHistory,
-  });
+  const [getMATICETHHistory, { isFetching: isMaticEthHistoryLoading }] =
+    useLazyGetMaticOnEthHistoryQuery();
 
   const { loading: ethHistoryLoading } = useQuery({
     type: getETHHistory,
@@ -195,34 +189,40 @@ export const useHistory = ({
           });
         break;
       case Token.aMATICb:
-        dispatchRequest(
-          fetchMATICETHHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aMATICb.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aMATICb.unstakeEvents ?? []),
-            ],
+        getMATICETHHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [
+                ...stakeEvents,
+                ...(data?.aMATICb.stakeEvents ?? []),
+              ],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aMATICb.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aMATICc:
-        dispatchRequest(
-          fetchMATICETHHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aMATICc.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aMATICc.unstakeEvents ?? []),
-            ],
+        getMATICETHHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [
+                ...stakeEvents,
+                ...(data?.aMATICc.stakeEvents ?? []),
+              ],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aMATICc.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aETHb:
         dispatchRequest(
@@ -288,8 +288,7 @@ export const useHistory = ({
       isFtmHistoryLoading ||
       avaxHistoryLoading ||
       isBnbHistoryLoading ||
-      maticEthHistoryLoading ||
-      isMaticEthHistoryMutationLoading ||
+      isMaticEthHistoryLoading ||
       ethHistoryLoading ||
       isEthHistoryMutationLoading,
     weeksAmount: step * 2,

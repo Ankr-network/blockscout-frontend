@@ -8,6 +8,7 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
+  ACTION_CACHE_SEC,
   BSC_NETWORK_BY_ENV,
   SupportedChainIDS,
   ZERO,
@@ -15,7 +16,7 @@ import {
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -36,8 +37,8 @@ export const useBridgedMaticCertBSC = (): IStakedMaticData => {
     type: fetchAMATICCBridgedBSC,
   });
 
-  const { data: commonData } = useQuery({
-    type: fetchStats,
+  const { data: commonData } = useGetMaticOnEthStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const { data: metrics } = useQuery({

@@ -25,7 +25,7 @@ import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/common/Routes';
-import { fetchStats as fetchMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
 import { getBalance as fetchMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
@@ -69,10 +69,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getMetrics,
   });
 
-  const { data: ethMaticData, loading: isEthMaticDataLoading } = useQuery({
-    type: fetchMaticEthStats,
-  });
-
   const { data: polygonMaticData, loading: isPolygonMaticDataLoading } =
     useQuery({
       type: getMaticPolygonCommonData,
@@ -89,6 +85,11 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     },
   );
+
+  const { data: ethMaticData, isFetching: isEthMaticDataLoading } =
+    useGetMaticOnEthStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: ethData, loading: isEthDataLoading } = useQuery({
     type: fetchStakeETHStats,

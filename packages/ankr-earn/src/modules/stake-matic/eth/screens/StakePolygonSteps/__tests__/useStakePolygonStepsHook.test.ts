@@ -5,6 +5,12 @@ import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import {
+  useGetMaticOnEthTxDataQuery,
+  useGetMaticOnEthTxReceiptQuery,
+} from 'modules/stake-matic/eth/actions/useGetMaticOnEthTxDataQuery';
 
 import { useStakePolygonStepsHook } from '../useStakePolygonStepsHook';
 
@@ -25,11 +31,39 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
+jest.mock(
+  'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation',
+  () => ({
+    useAddMaticOnEthTokenToWalletMutation: jest.fn(),
+  }),
+);
+
+jest.mock(
+  'modules/stake-matic/eth/actions/useGetMaticOnEthTxDataQuery',
+  () => ({
+    useGetMaticOnEthTxDataQuery: jest.fn(),
+    useGetMaticOnEthTxReceiptQuery: jest.fn(),
+  }),
+);
+
+jest.mock('modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery', () => ({
+  useGetMaticOnEthStatsQuery: jest.fn(),
+}));
+
 jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
 }));
 
 describe('modules/stake-matic/eth/screens/StakePolygonSteps/useStakePolygonStepsHook', () => {
+  const defaultQueryData = {
+    isFetching: false,
+    data: {
+      isPending: true,
+      amount: new BigNumber('1'),
+      destinationAddress: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
+    },
+  };
+
   beforeEach(() => {
     (useParams as jest.Mock).mockImplementation(() => ({
       txHash:
@@ -52,6 +86,20 @@ describe('modules/stake-matic/eth/screens/StakePolygonSteps/useStakePolygonSteps
         destinationAddress: '0xEdef5C8a69f086099e14746F5A5c0B1Dd4d0054C',
       },
     }));
+    (useAddMaticOnEthTokenToWalletMutation as jest.Mock).mockReturnValue([
+      jest.fn(),
+    ]);
+    (useGetMaticOnEthTxDataQuery as jest.Mock).mockReturnValue(
+      defaultQueryData,
+    );
+    (useGetMaticOnEthTxReceiptQuery as jest.Mock).mockReturnValue(
+      defaultQueryData,
+    );
+    (useGetMaticOnEthStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+      refetch: jest.fn(),
+    });
   });
 
   afterEach(() => {
@@ -74,7 +122,7 @@ describe('modules/stake-matic/eth/screens/StakePolygonSteps/useStakePolygonSteps
   });
 
   test('should return error if there is provider error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
+    (useGetMaticOnEthTxDataQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
       error: new Error('error'),
     }));
@@ -85,13 +133,15 @@ describe('modules/stake-matic/eth/screens/StakePolygonSteps/useStakePolygonSteps
   });
 
   test('should return error if there is transaction fail error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
+    (useGetMaticOnEthTxReceiptQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
       data: { status: false },
     }));
 
     const { result } = renderHook(() => useStakePolygonStepsHook());
 
-    expect(result.current.error?.message).toBe(TxErrorCodes.TX_FAILED);
+    expect((result.current.error as Error)?.message).toBe(
+      TxErrorCodes.TX_FAILED,
+    );
   });
 });

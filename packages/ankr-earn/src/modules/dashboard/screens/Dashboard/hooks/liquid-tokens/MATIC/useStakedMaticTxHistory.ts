@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import { useQuery } from '@redux-requests/react';
 import { useCallback } from 'react';
 
 import {
@@ -12,8 +11,7 @@ import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
-import { useAppDispatch } from 'store/useAppDispatch';
+import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery';
 
 interface IGetHistoryTransactionsArgs {
   type: EPolygonPoolEventsMap | string;
@@ -51,10 +49,8 @@ export interface ITxHistoryData {
 }
 
 export const useStakedMATICTxHistory = (): ITxHistoryData => {
-  const { data, loading: isHistoryDataLoading } = useQuery({
-    type: fetchTotalHistory,
-  });
-  const dispatch = useAppDispatch();
+  const [refetchTotalHistory, { data, isFetching: isHistoryDataLoading }] =
+    useLazyGetMaticOnEthTotalHistoryQuery();
 
   const stakedAMATICB = getCompletedTransactions({
     data: data?.completedBond,
@@ -115,8 +111,8 @@ export const useStakedMATICTxHistory = (): ITxHistoryData => {
     !!unstakedAMATICC?.length;
 
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTotalHistory());
-  }, [dispatch]);
+    refetchTotalHistory();
+  }, [refetchTotalHistory]);
 
   return {
     isHistoryDataLoading,
