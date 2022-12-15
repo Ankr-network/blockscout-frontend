@@ -28,6 +28,7 @@ import stakeIcon from './stake.svg';
 import suiIcon from './sui.svg';
 import syscoinIcon from './syscoin.svg';
 import tronIcon from './tron.svg';
+import filecoinIcon from './filecoin.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   aptos: aptosIcon,
@@ -57,6 +58,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   syscoin: syscoinIcon,
   tron: tronIcon,
   xdai: stakeIcon,
+  filecoin: filecoinIcon,
   [ChainID.SUI]: suiIcon,
 };
 

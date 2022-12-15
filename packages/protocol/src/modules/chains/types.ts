@@ -58,6 +58,7 @@ export enum ChainID {
   SUI = 'sui',
   SUI_TESTNET = 'sui_testnet',
   KLAYTN_TESTNET = 'klaytn_testnet',
+  FILECOIN = 'filecoin',
 
   UNDEFINED = '',
 }
