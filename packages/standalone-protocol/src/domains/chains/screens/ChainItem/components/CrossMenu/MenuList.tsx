@@ -13,6 +13,7 @@ import { ReactComponent as NervosLogo } from 'assets/img/logo/nervos.svg';
 import { ReactComponent as PolygonLogo } from 'assets/img/logo/polygon.svg';
 // import { ReactComponent as SecretLogo } from 'assets/img/logo/secret.svg';
 import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
+import { ReactComponent as FilecoinLogo } from 'assets/img/logo/filecoin.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
 import { ChainId } from 'domains/chains/api/chain';
 
@@ -107,6 +108,12 @@ export const MENU_LIST = [
   //   logo: <SecretLogo />,
   //   url: 'https://secret.public-rpc.com/',
   // },
+  {
+    chainId: ChainId.Filecoin,
+    name: 'Filecoin',
+    logo: <FilecoinLogo />,
+    url: 'https://filecoin.public-rpc.com/',
+  },
   {
     chainId: ChainId.Klaytn,
     name: 'Klaytn',

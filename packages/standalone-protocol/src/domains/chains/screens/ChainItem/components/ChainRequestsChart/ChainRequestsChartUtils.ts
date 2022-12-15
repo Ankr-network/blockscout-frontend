@@ -22,6 +22,9 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Klaytn:
       return theme.palette.primary.main;
 
+    case ChainId.Filecoin:
+      return '#0890FF';
+
     default:
       return theme.palette.primary.main;
   }
@@ -45,6 +48,9 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
 
     case ChainId.Klaytn:
       return '#F99A00';
+
+    case ChainId.Filecoin:
+      return '#3AC0CD';
 
     default:
       return theme.palette.primary.dark;
