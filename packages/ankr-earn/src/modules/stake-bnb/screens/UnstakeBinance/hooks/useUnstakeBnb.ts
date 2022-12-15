@@ -7,12 +7,12 @@ import { ACTION_CACHE_SEC, DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { useApproveABNBCForSwapPoolMutation } from 'modules/stake-bnb/actions/approveABNBCFlashUnstake';
-import { useApproveABNBCUnstakeMutation } from 'modules/stake-bnb/actions/approveABNBCUnstake';
 import { useFlashUnstakeBNBMutation } from 'modules/stake-bnb/actions/flashUnstake';
 import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { useGetBNBUnstakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBUnstakeStatsQuery';
+import { useLazyApproveABNBCForSwapPoolQuery } from 'modules/stake-bnb/actions/useLazyApproveABNBCForSwapPoolQuery';
+import { useLazyApproveABNBCUnstakeQuery } from 'modules/stake-bnb/actions/useLazyApproveABNBCUnstakeQuery';
 import { RoutesConfig } from 'modules/stake-bnb/Routes';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedToken';
@@ -58,11 +58,11 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const [
     approveABNBCUnstake,
     { data: approveData, isLoading: isApproveLoading },
-  ] = useApproveABNBCUnstakeMutation();
+  ] = useLazyApproveABNBCUnstakeQuery();
   const [
     approveABNBCForSwapPool,
     { data: swapPoolApproved, isLoading: isSwapPoolApproveLoading },
-  ] = useApproveABNBCForSwapPoolMutation();
+  ] = useLazyApproveABNBCForSwapPoolQuery();
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);

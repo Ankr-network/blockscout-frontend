@@ -13,6 +13,7 @@ import {
   useGetBNBTxReceiptQuery,
 } from 'modules/stake-bnb/actions/getTxData';
 import { useGetBNBStakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStakeStatsQuery';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 
 const DEFAULT_POLLING_INTERVAL = 3_000;
@@ -50,8 +51,13 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     { txHash },
     { pollingInterval },
   );
-
-  const { data: bnbStakeStats, refetch: getBNBStakeStats } =
+  const { data: stats, refetch: statsRefetch } = useGetBNBStatsQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
+  const { data: stakeStats, refetch: stakeStatsRefetch } =
     useGetBNBStakeStatsQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
@@ -60,6 +66,15 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
+
+  useProviderEffect(() => {
+    if (!stats) {
+      statsRefetch();
+    }
+    if (!stakeStats) {
+      stakeStatsRefetch();
+    }
+  }, [stats, stakeStats, statsRefetch, stakeStatsRefetch]);
 
   const onAddTokenClick = () => {
     addBNBTokenToWallet(tokenOut);
@@ -71,8 +86,8 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
       return new BigNumber(receipt?.certAmount ?? ZERO);
     }
 
+    const relayerFee = stakeStats?.relayerFee;
     const amount = bnbTxnData?.amount;
-    const relayerFee = bnbStakeStats?.relayerFee;
 
     if (!amount || !relayerFee) {
       return undefined;
@@ -81,7 +96,12 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
     const amountWithoutFee = amount.minus(relayerFee);
 
     return amountWithoutFee;
-  }, [bnbTxnData?.amount, receipt, bnbStakeStats, tokenOut]);
+  }, [
+    tokenOut,
+    stakeStats?.relayerFee,
+    bnbTxnData?.amount,
+    receipt?.certAmount,
+  ]);
 
   const isPending = !receipt && !!bnbTxnData?.isPending;
 
@@ -90,12 +110,6 @@ export const useStakeBinanceStepsHook = (): IStakeBinanceStepsHook => {
       setPollingInterval(ZERO_POLLING_INTERVAL);
     }
   }, [receipt]);
-
-  useProviderEffect(() => {
-    if (!bnbStakeStats) {
-      getBNBStakeStats();
-    }
-  }, [bnbStakeStats]);
 
   return {
     amount: calculatedAmount,

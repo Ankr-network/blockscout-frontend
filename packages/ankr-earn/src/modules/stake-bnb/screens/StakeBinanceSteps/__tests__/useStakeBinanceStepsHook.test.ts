@@ -30,10 +30,6 @@ jest.mock('modules/stake-bnb/actions/useGetBNBStakeStatsQuery', () => ({
   useGetBNBStakeStatsQuery: jest.fn(),
 }));
 
-jest.mock('store/useAppDispatch', () => ({
-  useAppDispatch: () => jest.fn(),
-}));
-
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
