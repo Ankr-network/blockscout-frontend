@@ -32,7 +32,7 @@ export const login = createSmartAction<RequestAction<string, string>>(
             const { currentAccount: address } = provider;
 
             const { jwtToken: credentials, workerTokenData } =
-              await service.issueNewJwtToken(address);
+              await service.issueJwtToken(address);
 
             if (credentials) {
               store.dispatch(setAuthData({ credentials, workerTokenData }));

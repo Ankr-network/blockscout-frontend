@@ -2,15 +2,17 @@ import { Web3KeyWriteProvider } from '@ankr.com/provider';
 
 import { IConfig, JwtTokenFullData, Web3Address } from '../common';
 import { PAYGContractManager } from '../PAYGContract';
-import { LoginSignService } from './loginSignService';
-import { Web3LoginService } from './web3LoginService';
-import { TokenDecryptionService } from './tokenDecryptionService';
-import { ContractService } from './contractService';
+import {
+  Web3TokenIssuerService,
+  LoginSignService,
+  TokenDecryptionService,
+  ContractService,
+} from '../services';
 
 export class MultiRpcWeb3Sdk {
   private PAYGContractManager?: PAYGContractManager;
 
-  private loginService?: Web3LoginService;
+  private tokenIssuerService?: Web3TokenIssuerService;
 
   private tokenDecryptionService?: TokenDecryptionService;
 
@@ -26,17 +28,18 @@ export class MultiRpcWeb3Sdk {
   }
 
   public async shouldIssueToken(user: Web3Address) {
-    const loginService = this.getLoginService();
+    const tokenIssuerService = this.getTokenIssuerService();
 
-    const allTokens = await loginService.getAllIssuedJwtTokens(user);
+    const allTokens = await tokenIssuerService.getAllIssuedJwtTokens(user);
     const transactionHashes =
-      await loginService.getAllLatestUserTierAssignedEventLogHashes(user);
+      await tokenIssuerService.getAllLatestUserTierAssignedEventLogHashes(user);
 
     const isNewUser =
       (!allTokens || allTokens?.length === 0) && transactionHashes;
 
     const hasPAYGTransaction = Boolean(
-      transactionHashes && !transactionHashes?.includes(allTokens?.[0]?.id as string),
+      transactionHashes &&
+        !transactionHashes?.includes(allTokens?.[0]?.id as string),
     );
 
     const isPremiumUserWithExpiredTokenAndPAYGTransaction =
@@ -50,21 +53,21 @@ export class MultiRpcWeb3Sdk {
   public async getIssuedJwtTokenOrIssue(
     user: Web3Address,
   ): Promise<JwtTokenFullData> {
-    const loginService = this.getLoginService();
+    const tokenIssuerService = this.getTokenIssuerService();
 
     const shouldIssueToken = await this.shouldIssueToken(user);
 
     if (shouldIssueToken) {
-      return this.issueNewJwtToken(user);
+      return this.issueJwtToken(user);
     }
 
-    return loginService.getIssuedJwtToken(user);
+    return tokenIssuerService.getIssuedJwtTokenOrIssue(user);
   }
 
-  public async issueNewJwtToken(user: Web3Address): Promise<JwtTokenFullData> {
-    const loginService = this.getLoginService();
+  public async issueJwtToken(user: Web3Address): Promise<JwtTokenFullData> {
+    const tokenIssuerService = this.getTokenIssuerService();
 
-    return loginService.issueNewJwtToken(user);
+    return tokenIssuerService.issueJwtToken(user);
   }
 
   public async getAuthorizationToken(lifeTime: number): Promise<string> {
@@ -98,16 +101,16 @@ export class MultiRpcWeb3Sdk {
     return this.tokenDecryptionService;
   }
 
-  private getLoginService(): Web3LoginService {
-    this.loginService =
-      this.loginService ||
-      new Web3LoginService({
+  private getTokenIssuerService(): Web3TokenIssuerService {
+    this.tokenIssuerService =
+      this.tokenIssuerService ||
+      new Web3TokenIssuerService({
         config: this.config,
         PAYGContractManager: this.getPAYGContractManager(),
         tokenDecryptionService: this.getTokenDecryptionService(),
       });
 
-    return this.loginService;
+    return this.tokenIssuerService;
   }
 
   public getContractService() {

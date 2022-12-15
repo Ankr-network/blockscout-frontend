@@ -1,58 +1,20 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
-
-import { fetchAccountBalance } from 'domains/account/actions/balance/fetchAccountBalance';
 import {
-  DEFAULT_ANKR_VALUE,
-  DEFAULT_ANKR_VALUE_STRING,
-} from 'domains/account/actions/topUp/const';
-import { AmountInputField } from 'domains/account/screens/AccountDetails/components/TopUp/TopUpForm/TopUpFormTypes';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { t } from 'modules/i18n/utils/intl';
+  TopUpTabID,
+  useTopUpTabs,
+} from 'domains/account/components/TopUp/TopUpUtils';
+import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { PricingAnkrTopUpForm } from './PricingAnkrTopUpForm';
 
-export const defaultInitialValues = {
-  [AmountInputField.amount]: DEFAULT_ANKR_VALUE_STRING,
-};
+export const usePricingTopUpTabs = (canPayOnlyByCard: boolean) => {
+  const ankrTab = canPayOnlyByCard
+    ? undefined
+    : {
+        id: TopUpTabID.ANKR,
+        content: <PricingAnkrTopUpForm />,
+        title: (isSelected: boolean) => (
+          <SecondaryTab isSelected={isSelected} label={TopUpTabID.ANKR} />
+        ),
+      };
 
-export const validateAmount = (value: string, allValues: any) => {
-  const { balance } = allValues;
-
-  if (!value) {
-    return t('validation.required');
-  }
-
-  const currentAmount = new BigNumber(value);
-
-  if (currentAmount.isNaN()) {
-    return t('validation.number-only');
-  }
-
-  if (currentAmount.isLessThan(DEFAULT_ANKR_VALUE)) {
-    return t('plan.premium-block.min', {
-      value: DEFAULT_ANKR_VALUE.toFormat(),
-    });
-  }
-
-  if (balance?.isLessThan(value)) {
-    return t('plan.premium-block.balance');
-  }
-
-  return undefined;
-};
-
-export const useAccountBalance = () => {
-  const dispatchRequest = useDispatchRequest();
-
-  const { data, loading: isLoading } = useQuery({
-    type: fetchAccountBalance,
-  });
-
-  useOnMount(() => {
-    dispatchRequest(fetchAccountBalance());
-  });
-
-  return {
-    balance: data,
-    isLoading,
-  };
+  return useTopUpTabs(ankrTab);
 };
