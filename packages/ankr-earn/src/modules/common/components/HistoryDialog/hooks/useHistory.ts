@@ -1,8 +1,3 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import { useMemo, useState } from 'react';
 
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
@@ -12,7 +7,7 @@ import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { useLazyGetAVAXHistoryQuery } from 'modules/stake-avax/actions/fetchHistory';
 import { useLazyGetBNBHistoryQuery } from 'modules/stake-bnb/actions/fetchHistory';
-import { getHistory as getETHHistory } from 'modules/stake-eth/actions/getHistory';
+import { useLazyGetETHHistoryQuery } from 'modules/stake-eth/actions/getHistory';
 import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
 import { useLazyGetMaticOnEthHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthHistoryQuery';
 
@@ -57,23 +52,16 @@ export const useHistory = ({
   const [step, setStep] = useState(DEFAULT_STEP);
   const [historyData, setHistoryData] =
     useState<IBaseHistoryData>(DEFAULT_HISTORY_DATA);
-  const dispatchRequest = useDispatchRequest();
-
   const [getFTMHistory, { isFetching: isFtmHistoryLoading }] =
     useLazyGetFTMHistoryQuery();
   const [getAVAXHistory, { isFetching: avaxHistoryLoading }] =
     useLazyGetAVAXHistoryQuery();
   const [getBNBHistory, { isFetching: isBnbHistoryLoading }] =
     useLazyGetBNBHistoryQuery();
+  const [getETHHistory, { isFetching: isEthHistoryLoading }] =
+    useLazyGetETHHistoryQuery();
   const [getMATICETHHistory, { isFetching: isMaticEthHistoryLoading }] =
     useLazyGetMaticOnEthHistoryQuery();
-
-  const { loading: ethHistoryLoading } = useQuery({
-    type: getETHHistory,
-  });
-  const { loading: isEthHistoryMutationLoading } = useMutation({
-    type: getETHHistory,
-  });
 
   const resetState = () => {
     setStep(DEFAULT_STEP);
@@ -225,34 +213,34 @@ export const useHistory = ({
           });
         break;
       case Token.aETHb:
-        dispatchRequest(
-          getETHHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aETHb.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aETHb.unstakeEvents ?? []),
-            ],
+        getETHHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [...stakeEvents, ...(data?.aETHb.stakeEvents ?? [])],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aETHb.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       case Token.aETHc:
-        dispatchRequest(
-          getETHHistory({
-            step: stepValue,
-          }),
-        ).then(({ data }) => {
-          setHistoryData({
-            stakeEvents: [...stakeEvents, ...(data?.aETHc.stakeEvents ?? [])],
-            unstakeEvents: [
-              ...unstakeEvents,
-              ...(data?.aETHc.unstakeEvents ?? []),
-            ],
+        getETHHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [...stakeEvents, ...(data?.aETHc.stakeEvents ?? [])],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aETHc.unstakeEvents ?? []),
+              ],
+            });
           });
-        });
         break;
       default:
         break;
@@ -289,8 +277,7 @@ export const useHistory = ({
       avaxHistoryLoading ||
       isBnbHistoryLoading ||
       isMaticEthHistoryLoading ||
-      ethHistoryLoading ||
-      isEthHistoryMutationLoading,
+      isEthHistoryLoading,
     weeksAmount: step * 2,
     handleShowMore,
   };

@@ -1,15 +1,14 @@
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
-import { useAppDispatch } from 'store/useAppDispatch';
+import { useLazyGetETHTotalHistoryQuery } from 'modules/stake-eth/actions/getTotalHistory';
 
 export interface IUseStakedFTMTxHistory {
   stakedAETHB: IHistoryDialogRow[];
@@ -31,10 +30,9 @@ const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
 };
 
 export const useStakedTxHistoryETH = (): IUseStakedFTMTxHistory => {
-  const { data: historyData, loading: isHistoryLoading } = useQuery({
-    type: getTotalHistory,
-  });
-  const dispatch = useAppDispatch();
+  const [isInit, setIsInit] = useState(true);
+  const [historyRefetch, { data: historyData, isFetching: isHistoryLoading }] =
+    useLazyGetETHTotalHistoryQuery();
 
   const stakedAETHB = historyData?.completedBond.map(mapTxns) ?? [];
   const stakedAETHC = historyData?.completedCertificate.map(mapTxns) ?? [];
@@ -44,9 +42,16 @@ export const useStakedTxHistoryETH = (): IUseStakedFTMTxHistory => {
   const hasHistory =
     !!stakedAETHB?.length || !pendingValue.isZero() || isHistoryLoading;
 
+  useProviderEffect(() => {
+    if (!isInit) {
+      historyRefetch();
+    }
+    setIsInit(false);
+  }, []);
+
   const handleLoadTxHistory = useCallback(() => {
-    dispatch(getTotalHistory());
-  }, [dispatch]);
+    historyRefetch();
+  }, [historyRefetch]);
 
   return {
     hasHistory,

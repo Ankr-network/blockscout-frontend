@@ -19,8 +19,8 @@ import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAX
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
-import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
@@ -86,18 +86,18 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     },
   );
 
+  const { data: ethData, isLoading: isEthDataLoading } =
+    useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
   const { data: ethMaticData, isFetching: isEthMaticDataLoading } =
     useGetMaticOnEthStatsQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
-  const { data: ethData, loading: isEthDataLoading } = useQuery({
-    type: fetchStakeETHStats,
-  });
-
-  const { data: ethClaimableData, loading: isEthClaimableDataLoading } =
-    useQuery({
-      type: fetchStakeETHClaimableStats,
+  const { data: ethClaimableData, isFetching: isEthClaimableDataLoading } =
+    useGetETHClaimableDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: ankrBalanceData, isFetching: isLoadingAnkrBalanceData } =

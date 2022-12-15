@@ -1,30 +1,24 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { EthereumSDK, TEthToken } from '@ankr.com/staking-sdk';
 
-import { ETH_ACTIONS_PREFIX } from '../const';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 interface IGetStakeGasFeeArgs {
   amount: BigNumber;
   token: TEthToken;
 }
 
-export const getStakeGasFee = createAction<
-  RequestAction<BigNumber, BigNumber>,
-  [IGetStakeGasFeeArgs]
->(`${ETH_ACTIONS_PREFIX}getStakeGasFee`, ({ amount, token }) => ({
-  request: {
-    promise: (async (): Promise<BigNumber> => {
-      const sdk = await EthereumSDK.getInstance();
+export const { useLazyGetETHStakeGasFeeQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getETHStakeGasFee: build.query<BigNumber, IGetStakeGasFeeArgs>({
+      queryFn: queryFnNotifyWrapper<IGetStakeGasFeeArgs, never, BigNumber>(
+        async ({ amount, token }) => {
+          const sdk = await EthereumSDK.getInstance();
 
-      return sdk.getStakeGasFee(amount, token);
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    getData: data => data,
-  },
-}));
+          return { data: await sdk.getStakeGasFee(amount, token) };
+        },
+      ),
+    }),
+  }),
+});

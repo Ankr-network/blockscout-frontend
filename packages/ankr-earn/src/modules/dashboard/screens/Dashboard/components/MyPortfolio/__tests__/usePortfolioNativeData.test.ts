@@ -7,6 +7,8 @@ import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData'
 import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
@@ -40,6 +42,14 @@ jest.mock('modules/stake-fantom/actions/getCommonData', () => ({
 
 jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
   useGetBNBStatsQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
+  useGetETHClaimableDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  useGetETHCommonDataQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-xdc/actions/getDashboardData', () => ({
@@ -84,6 +94,14 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
       data: undefined,
     });
     (useGetBNBStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetETHClaimableDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
       isFetching: false,
       data: undefined,
     });

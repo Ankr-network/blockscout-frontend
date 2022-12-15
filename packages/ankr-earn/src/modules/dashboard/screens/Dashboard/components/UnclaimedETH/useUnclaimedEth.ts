@@ -4,10 +4,14 @@ import { useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  ETH_NETWORK_BY_ENV,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -22,8 +26,8 @@ interface IUseUnclaimedEth {
 }
 
 export const useUnclaimedEth = (): IUseUnclaimedEth => {
-  const { data, loading } = useQuery({
-    type: getClaimableData,
+  const { data, isFetching: loading } = useGetETHClaimableDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const { data: metrics } = useQuery({

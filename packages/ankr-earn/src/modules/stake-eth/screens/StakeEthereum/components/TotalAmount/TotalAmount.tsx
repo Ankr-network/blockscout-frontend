@@ -11,10 +11,22 @@ import { useTotalAmount } from '../../hooks/useTotalAmount';
 
 interface ITotalAmountProps {
   amount?: BigNumber;
+  fee?: BigNumber;
+  isFeeLoading: boolean;
+  isInvalidAmount: boolean;
 }
 
-export const TotalAmount = ({ amount }: ITotalAmountProps): JSX.Element => {
-  const { isFeeLoading, tokenOut, totalAmount } = useTotalAmount(amount);
+export const TotalAmount = ({
+  amount,
+  fee,
+  isFeeLoading,
+  isInvalidAmount,
+}: ITotalAmountProps): JSX.Element => {
+  const { tokenOut, totalAmount } = useTotalAmount({
+    amount,
+    fee,
+    isInvalidAmount,
+  });
 
   return (
     <StakeDescriptionContainer>

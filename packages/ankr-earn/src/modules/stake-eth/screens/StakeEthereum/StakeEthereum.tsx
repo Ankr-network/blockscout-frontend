@@ -14,10 +14,8 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getMinStake } from 'modules/stake-eth/actions/getMinStake';
-import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -44,7 +42,8 @@ export const StakeEthereum = (): JSX.Element => {
   const classes = useStakeEthereumStyles();
 
   const { onErroMessageClick, hasError } = useErrorMessage();
-
+  const { refetch: getETHCommonDataRefetch } = useGetETHCommonDataQuery();
+  const { refetch: getETHClaimableDataRefetch } = useGetETHClaimableDataQuery();
   const {
     amount,
     balance,
@@ -53,6 +52,7 @@ export const StakeEthereum = (): JSX.Element => {
     fee,
     isCommonDataLoading,
     isFeeLoading,
+    isInvalidAmount,
     loading,
     minAmount,
     tokenIn,
@@ -62,14 +62,13 @@ export const StakeEthereum = (): JSX.Element => {
   } = useStakeForm();
 
   useProviderEffect(() => {
-    dispatch(getCommonData());
-    dispatch(getMinStake());
-    dispatch(getClaimableData());
+    getETHCommonDataRefetch();
+    getETHClaimableDataRefetch();
     dispatch(getFAQ(Token.ETH));
     dispatch(getMetrics());
 
     return () => {
-      dispatch(resetRequests([getFAQ.toString(), getStakeGasFee.toString()]));
+      dispatch(resetRequests([getFAQ.toString()]));
     };
   }, [dispatch]);
 
@@ -100,10 +99,15 @@ export const StakeEthereum = (): JSX.Element => {
 
         <Unclaimed />
 
-        <TotalAmount amount={amount} />
+        <TotalAmount
+          amount={amount}
+          fee={fee}
+          isFeeLoading={isFeeLoading}
+          isInvalidAmount={isInvalidAmount}
+        />
       </>
     ),
-    [amount, certificateRatio],
+    [amount, certificateRatio, fee, isFeeLoading, isInvalidAmount],
   );
 
   const noticeText = useBTokenNotice({

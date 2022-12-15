@@ -7,18 +7,13 @@ import {
   ListItemText,
   Typography,
 } from '@material-ui/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { DEFAULT_FIXED } from 'modules/common/const';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getMinStake } from 'modules/stake-eth/actions/getMinStake';
-import { stakeWithoutClaim } from 'modules/stake-eth/actions/stakeWithoutClaim';
+import { ACTION_CACHE_SEC, DEFAULT_FIXED } from 'modules/common/const';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import { useStakeWithoutClaimETHMutation } from 'modules/stake-eth/actions/stakeWithoutClaim';
+import { useGetETHMinStakeQuery } from 'modules/stake-eth/actions/useGetETHMinStakeQuery';
 import { RoutesConfig as ETHRoutesConfig } from 'modules/stake-eth/Routes';
 import { TestBox } from 'modules/testing-ui/components/TestBox';
 import { Button } from 'uiKit/Button';
@@ -32,18 +27,28 @@ import { Spinner } from 'uiKit/Spinner';
  * It is related to the [STAKAN-1259](https://ankrnetwork.atlassian.net/browse/STAKAN-1259)
  */
 export const StakeWithoutClaim = (): JSX.Element => {
-  const dispatchRequest = useDispatchRequest();
-  const { data: commonData, loading: isCommonDataLoading } = useQuery({
-    type: getCommonData,
-  });
-  const { data: minStake, loading: isMinStakingLoading } = useQuery({
-    type: getMinStake,
-  });
-  const { data: claimableData, loading: isClaimableDataLoading } = useQuery({
-    type: getClaimableData,
+  const {
+    data: commonData,
+    isFetching: isCommonDataLoading,
+    refetch: getETHCommonDataRefetch,
+  } = useGetETHCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
-  const { loading: isStakeLoading } = useMutation({ type: stakeWithoutClaim });
+  const {
+    data: claimableData,
+    isFetching: isClaimableDataLoading,
+    refetch: getETHClaimableDataRefetch,
+  } = useGetETHClaimableDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
+  const { data: minStake, isFetching: isMinStakingLoading } =
+    useGetETHMinStakeQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
+
+  const [stake, { isLoading: isStakeLoading }] =
+    useStakeWithoutClaimETHMutation();
 
   const stakeAmount = minStake;
   const isLowBalance =
@@ -55,13 +60,12 @@ export const StakeWithoutClaim = (): JSX.Element => {
     if (!stakeAmount) {
       return;
     }
-    dispatchRequest(stakeWithoutClaim(stakeAmount));
+    stake(stakeAmount);
   };
 
   useProviderEffect(() => {
-    dispatchRequest(getCommonData());
-    dispatchRequest(getMinStake());
-    dispatchRequest(getClaimableData());
+    getETHCommonDataRefetch();
+    getETHClaimableDataRefetch();
   }, []);
 
   return (

@@ -1,12 +1,11 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { ETH_ACTIONS_PREFIX } from 'modules/stake-eth/const';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+
+import { CacheTags } from '../const';
 
 /**
  * This method is only for creating a testing ability.
@@ -14,24 +13,17 @@ import { ETH_ACTIONS_PREFIX } from 'modules/stake-eth/const';
  * Do not use it for the production code.
  * @deprecated
  */
-export const stakeWithoutClaim = createAction<
-  RequestAction<IWeb3SendResult, IWeb3SendResult>,
-  [BigNumber]
->(`${ETH_ACTIONS_PREFIX}stake`, amount => ({
-  request: {
-    promise: (async (): Promise<IWeb3SendResult> => {
-      const sdk = await EthereumSDK.getInstance();
+export const { useStakeWithoutClaimETHMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    stakeWithoutClaimETH: build.mutation<IWeb3SendResult, BigNumber>({
+      queryFn: queryFnNotifyWrapper<BigNumber, never, IWeb3SendResult>(
+        async amount => {
+          const sdk = await EthereumSDK.getInstance();
 
-      return sdk.stakeWithoutClaim(amount);
-    })(),
-  },
-  meta: {
-    asMutation: true,
-    showNotificationOnError: true,
-    onSuccess: (response, _action, { dispatchRequest }) => {
-      dispatchRequest(getCommonData());
-
-      return response;
-    },
-  },
-}));
+          return { data: await sdk.stakeWithoutClaim(amount) };
+        },
+      ),
+      invalidatesTags: [CacheTags.common],
+    }),
+  }),
+});

@@ -18,9 +18,8 @@ import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
-import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
@@ -48,11 +47,8 @@ const resetRequests = () =>
     getMGNOMaxApr.toString(),
     getMGNOPrice.toString(),
     getMgnoBalance.toString(),
-    getEthCommonData.toString(),
-    getEthClaimableData.toString(),
     getSSVOnETHDashboardData.toString(),
     getMetrics.toString(),
-    getTotalHistory.toString(),
     getUnstakeDate.toString(),
   ]);
 
@@ -77,6 +73,9 @@ export const useDashboard = (): IUseDashboard => {
   const { refetch: getMATICPOLYGONDataRefetch } =
     useGetMaticOnPolygonCommonDataQuery();
 
+  const { refetch: getETHClaimableDataRefetch } = useGetETHClaimableDataQuery();
+  const { refetch: getETHCommonDataRefetch } = useGetETHCommonDataQuery();
+
   usePolkadot();
 
   useProviderEffect(() => {
@@ -87,14 +86,14 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchAETHCBridged());
     dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAMATICCBridgedBSC());
-    dispatch(getEthCommonData());
-    dispatch(getEthClaimableData());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     getAVAXCommonDataRefetch();
     getFTMCommonDataRefetch();
     getBNBPendingValuesRefetch();
     getBNBStatsRefetch();
+    getETHClaimableDataRefetch();
+    getETHCommonDataRefetch();
     getMATICPOLYGONDataRefetch();
     getMATICETHStatsRefetch();
 

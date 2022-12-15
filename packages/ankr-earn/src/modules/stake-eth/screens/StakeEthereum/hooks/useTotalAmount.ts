@@ -1,42 +1,46 @@
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
 
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { calcTotalAmount } from 'modules/stake-eth/utils/calcTotalAmount';
 
 interface IUseTotalAmount {
-  isFeeLoading: boolean;
   tokenOut: TEthToken;
   totalAmount: BigNumber;
 }
 
-export const useTotalAmount = (amount?: BigNumber): IUseTotalAmount => {
-  const { loading: isFeeLoading, data: stakeGasFee } = useQuery({
-    type: getStakeGasFee,
+interface IUseTotalAmountProps {
+  amount?: BigNumber;
+  fee?: BigNumber;
+  isInvalidAmount: boolean;
+}
+
+export const useTotalAmount = ({
+  amount,
+  fee,
+  isInvalidAmount,
+}: IUseTotalAmountProps): IUseTotalAmount => {
+  const { data: commonData } = useGetETHCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
-  const { data: commonData } = useQuery({
-    type: getCommonData,
-  });
-  const { data: claimableData } = useQuery({
-    type: getClaimableData,
+  const { data: claimableData } = useGetETHClaimableDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const totalAmount = useMemo(() => {
-    if (!commonData || !stakeGasFee) {
+    if (isInvalidAmount || !commonData || !fee) {
       return ZERO;
     }
 
     const total = calcTotalAmount({
       selectedToken: Token.aETHc,
-      stakeGasFee,
+      stakeGasFee: fee,
       amount,
       ethBalance: commonData.ethBalance,
       aETHcRatio: commonData.aETHcRatio,
@@ -45,10 +49,9 @@ export const useTotalAmount = (amount?: BigNumber): IUseTotalAmount => {
     const claimableAmount = claimableData?.claimableAETHC;
 
     return total.plus(claimableAmount ?? ZERO);
-  }, [amount, commonData, claimableData, stakeGasFee]);
+  }, [isInvalidAmount, commonData, fee, amount, claimableData?.claimableAETHC]);
 
   return {
-    isFeeLoading,
     tokenOut: Token.aETHc,
     totalAmount,
   };

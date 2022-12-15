@@ -20,8 +20,8 @@ import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
-import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
@@ -79,13 +79,14 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     },
   );
 
-  const { data: ethData, loading: isEthDataLoading } = useQuery({
-    type: fetchStakeETHStats,
-  });
+  const { data: ethData, isLoading: isEthDataLoading } =
+    useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
-  const { data: ethClaimableData, loading: isEthClaimableDataLoading } =
-    useQuery({
-      type: fetchStakeETHClaimableStats,
+  const { data: ethClaimableData, isFetching: isEthClaimableDataLoading } =
+    useGetETHClaimableDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: ftmData, isFetching: isFtmDataLoading } =

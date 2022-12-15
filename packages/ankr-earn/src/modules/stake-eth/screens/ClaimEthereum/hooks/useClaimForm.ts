@@ -1,20 +1,16 @@
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig } from 'modules/dashboard/Routes';
-import { claim } from 'modules/stake-eth/actions/claim';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { useClaimETHMutation } from 'modules/stake-eth/actions/claim';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 
 const DEFAULT_SELECTED_TOKEN = Token.aETHb;
 
@@ -36,14 +32,22 @@ export const useClaimForm = (): IUseClaimForm => {
     DEFAULT_SELECTED_TOKEN,
   );
   const dispatchRequest = useDispatchRequest();
-  const { data: commonData, loading: isCommonDataLoading } = useQuery({
-    type: getCommonData,
-  });
-  const { data: claimableData, loading: isClaimableDataLoading } = useQuery({
-    type: getClaimableData,
+  const [claim, { isLoading }] = useClaimETHMutation();
+  const {
+    data: commonData,
+    isFetching: isCommonDataLoading,
+    refetch: getETHCommonDataRefetch,
+  } = useGetETHCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
-  const { loading: isLoading } = useMutation({ type: claim });
+  const {
+    data: claimableData,
+    isFetching: isClaimableDataLoading,
+    refetch: getETHClaimableDataRefetch,
+  } = useGetETHClaimableDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
 
   const balance = claimableData?.claimableAETHB ?? ZERO;
   const aETHcRatio = commonData
@@ -76,12 +80,12 @@ export const useClaimForm = (): IUseClaimForm => {
   );
 
   const onSubmit = () => {
-    dispatchRequest(claim(selectedToken));
+    claim(selectedToken);
   };
 
   useProviderEffect(() => {
-    dispatchRequest(getCommonData());
-    dispatchRequest(getClaimableData());
+    getETHCommonDataRefetch();
+    getETHClaimableDataRefetch();
   }, [dispatchRequest]);
 
   return {

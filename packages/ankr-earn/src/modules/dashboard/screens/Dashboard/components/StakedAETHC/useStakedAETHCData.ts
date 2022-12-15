@@ -1,9 +1,5 @@
 import { t } from '@ankr.com/common';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
@@ -13,14 +9,18 @@ import {
 } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  ETH_NETWORK_BY_ENV,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
-import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { stake } from 'modules/stake-eth/actions/stake';
+import { useAddETHTokenToWalletMutation } from 'modules/stake-eth/actions/addTokenToWallet';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import { useStakeETHMutation } from 'modules/stake-eth/actions/stake';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -46,17 +46,18 @@ export interface IStakedAETHCData {
 }
 
 export const useStakedAETHCData = (): IStakedAETHCData => {
-  const dispatchRequest = useDispatchRequest();
+  const [addTokenToWallet] = useAddETHTokenToWalletMutation();
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { loading: isStakeLoading } = useMutation({ type: stake });
+  const [, { isLoading: isStakeLoading }] = useStakeETHMutation();
 
-  const { data: statsData, loading: isBalancesLoading } = useQuery({
-    type: getCommonData,
-  });
+  const { data: statsData, isFetching: isBalancesLoading } =
+    useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: metrics } = useQuery({
     type: getMetrics,
@@ -81,8 +82,8 @@ export const useStakedAETHCData = (): IStakedAETHCData => {
   const nativeAmount = getTokenNativeAmount(amount, statsData?.aETHcRatio);
 
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addTokenToWallet(token));
-  }, [dispatchRequest]);
+    addTokenToWallet(token);
+  }, [addTokenToWallet]);
 
   return {
     address,
