@@ -24,7 +24,7 @@ import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-e
 import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
@@ -107,10 +107,12 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
     type: fetchAMATICCBridgedBSC,
   });
 
-  const { data: maticPolygonBalances, loading: isMaticPolygonBalancesLoading } =
-    useQuery({
-      type: getMaticPolygonCommonData,
-    });
+  const {
+    data: maticPolygonBalances,
+    isFetching: isMaticPolygonBalancesLoading,
+  } = useGetMaticOnPolygonCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
 
   const { data: aDOTbBalance, loading: isDotBalanceLoading } = useQuery({
     type: fetchETHTokenBalance,

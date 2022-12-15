@@ -26,7 +26,7 @@ import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommon
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/common/Routes';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { getBalance as fetchMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
@@ -69,9 +69,9 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getMetrics,
   });
 
-  const { data: polygonMaticData, loading: isPolygonMaticDataLoading } =
-    useQuery({
-      type: getMaticPolygonCommonData,
+  const { data: polygonMaticData, isFetching: isPolygonMaticDataLoading } =
+    useGetMaticOnPolygonCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: ftmData, isFetching: isFtmDataLoading } =

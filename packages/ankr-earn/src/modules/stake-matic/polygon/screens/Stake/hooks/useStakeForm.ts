@@ -3,11 +3,9 @@ import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
@@ -16,15 +14,15 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { featuresConfig, ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
-import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
-import { getStakeGasFee } from 'modules/stake-matic/polygon/actions/getStakeGasFee';
-import { getStakeStats } from 'modules/stake-matic/polygon/actions/getStakeStats';
-import { stake } from 'modules/stake-matic/polygon/actions/stake';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
+import { useGetMaticOnPolygonStakeStatsQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonStakeStatsQuery';
+import { useLazyGetMaticOnPolygonStakeGasFeeQuery } from 'modules/stake-matic/polygon/actions/useLazyGetMaticOnPolygonStakeGasFeeQuery';
+import { useStakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/useStakeMaticOnPolygonMutation';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -48,7 +46,7 @@ interface IUseStakeFormData {
   ) => FormErrors<IStakeFormPayload>;
   faqItems: IFAQItem[];
   gasFee: BigNumber;
-  getStatsError?: Error;
+  getStatsError?: FetchBaseQueryError | SerializedError;
   isGasFeeLoading: boolean;
   isGetStatsLoading: boolean;
   isStakeLoading: boolean;
@@ -64,35 +62,30 @@ interface IUseStakeFormData {
 const MAIN_TOKEN = Token.MATIC;
 
 const resetMainRequests = () =>
-  resetReduxRequests([
-    getCommonData.toString(),
-    getFAQ.toString(),
-    getMetrics.toString(),
-    getStakeGasFee.toString(),
-    getStakeStats.toString(),
-  ]);
+  resetReduxRequests([getFAQ.toString(), getMetrics.toString()]);
 
 const resetStakeTradeInfoRequests = () =>
   resetReduxRequests([getStakeTradeInfoData.toString()]);
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
-  const dispatchRequest = useDispatchRequest();
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { loading: isStakeLoading } = useMutation({ type: stake });
+  const [stake, { isLoading: isStakeLoading }] =
+    useStakeMaticOnPolygonMutation();
 
   const { selectedToken, handleTokenSelect } = useSelectedToken();
 
   const {
     data: commonData,
+    isFetching: isCommonDataLoading,
     error: commonDataError,
-    loading: isCommonDataLoading,
-  } = useQuery({
-    type: getCommonData,
+    refetch: getMATICPOLYGONCommonDataRefetch,
+  } = useGetMaticOnPolygonCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
@@ -100,26 +93,25 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: getFAQ,
   });
 
-  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
-    type: getStakeGasFee,
-  });
+  const [getStakeGasFee, { data: gasFee, isFetching: isGasFeeLoading }] =
+    useLazyGetMaticOnPolygonStakeGasFeeQuery();
 
   const {
-    data: getStatsData,
+    data: stakeStatsData,
+    isFetching: isStakeStatsLoading,
     error: stakeStatsError,
-    loading: isStakeStatsLoading,
-  } = useQuery({
-    type: getStakeStats,
+  } = useGetMaticOnPolygonStakeStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const [amount, setAmount] = useState(ZERO);
   const [isError, setIsError] = useState(false);
 
-  const acPoolLiquidityInMATIC = getStatsData?.acPoolLiquidityInMATIC ?? ZERO;
+  const acPoolLiquidityInMATIC = stakeStatsData?.acPoolLiquidityInMATIC ?? ZERO;
   const acRatio = commonData?.ratio ?? ZERO;
   const maticBalance = commonData?.maticBalance ?? ZERO;
-  const stakeFeePct = getStatsData?.stakeFeePct.isGreaterThan(0)
-    ? getStatsData?.stakeFeePct
+  const stakeFeePct = stakeStatsData?.stakeFeePct.isGreaterThan(0)
+    ? stakeStatsData?.stakeFeePct
     : null;
 
   const totalAmount = useMemo(() => {
@@ -190,25 +182,19 @@ export const useStakeForm = (): IUseStakeFormData => {
     } else if (formAmount) {
       const readyAmount = new BigNumber(formAmount);
 
-      dispatch(
-        getStakeGasFee({
-          amount: readyAmount,
-          token: selectedToken,
-        }),
-      );
+      getStakeGasFee({
+        amount: readyAmount,
+        token: selectedToken,
+      });
     }
   };
 
   const onFormSubmit = (data: IStakeSubmitPayload): void => {
-    dispatchRequest(
-      stake({
-        amount: new BigNumber(data.amount),
-        token: selectedToken,
-      }),
-    ).then(({ error }): void => {
-      if (!error) {
-        sendAnalytics();
-      }
+    stake({
+      amount: new BigNumber(data.amount),
+      token: selectedToken,
+    }).then(() => {
+      sendAnalytics();
     });
   };
 
@@ -218,22 +204,19 @@ export const useStakeForm = (): IUseStakeFormData => {
     const isUpdateGasFee = !totalAmount.isZero() && !isError;
 
     if (isUpdateGasFee) {
-      dispatch(
-        getStakeGasFee({
-          amount,
-          token,
-        }),
-      );
+      getStakeGasFee({
+        amount,
+        token,
+      });
     }
   };
 
   useProviderEffect(() => {
     dispatch(resetMainRequests());
 
-    dispatch(getCommonData());
+    getMATICPOLYGONCommonDataRefetch();
     dispatch(getFAQ(Token.MATIC));
     dispatch(getMetrics());
-    dispatch(getStakeStats());
 
     return () => {
       dispatch(abortRequests());

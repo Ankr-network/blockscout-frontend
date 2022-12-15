@@ -1,10 +1,8 @@
-import { useQuery } from '@redux-requests/react';
-
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { getCommonData as getMaticPolygonCommon } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useGetUSDAmount } from '../../useGetUSDAmount';
@@ -20,9 +18,9 @@ interface IUseStakedMATIC {
 export const useStakedMATIC = (
   isSmallBalancesVisible = true,
 ): IUseStakedMATIC => {
-  const { data: maticPolygonCommon, loading: isMaticPolygonCommonLoading } =
-    useQuery({
-      type: getMaticPolygonCommon,
+  const { data: maticPolygonCommon, isFetching: isMaticPolygonCommonLoading } =
+    useGetMaticOnPolygonCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: maticEthCommon, isFetching: isMaticEthCommonLoading } =

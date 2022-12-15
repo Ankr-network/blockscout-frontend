@@ -1,11 +1,11 @@
 import { useQuery } from '@redux-requests/react';
 
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { getCommonData as getMaticPolygonCommon } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useGetUSDAmount } from '../../useGetUSDAmount';
@@ -22,9 +22,9 @@ interface IUseBridgedMATIC {
 export const useBridgedMATIC = (
   isSmallBalancesVisible = true,
 ): IUseBridgedMATIC => {
-  const { data: maticPolygonCommon, loading: isMaticPolygonCommonLoading } =
-    useQuery({
-      type: getMaticPolygonCommon,
+  const { data: maticPolygonCommon, isFetching: isMaticPolygonCommonLoading } =
+    useGetMaticOnPolygonCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: bridgedMaticBondBsc, loading: isBridgedMaticBondBscLoading } =

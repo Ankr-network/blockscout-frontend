@@ -23,7 +23,7 @@ import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/get
 import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
@@ -54,7 +54,6 @@ const resetRequests = () =>
     getMetrics.toString(),
     getTotalHistory.toString(),
     getUnstakeDate.toString(),
-    getMaticPolygonCommonData.toString(),
   ]);
 
 interface IUseDashboard {
@@ -75,6 +74,8 @@ export const useDashboard = (): IUseDashboard => {
   const { refetch: getMATICETHStatsRefetch } = useGetMaticOnEthStatsQuery();
 
   const { refetch: getXDCDashboardDataRefetch } = getXDCDashboardData();
+  const { refetch: getMATICPOLYGONDataRefetch } =
+    useGetMaticOnPolygonCommonDataQuery();
 
   usePolkadot();
 
@@ -90,11 +91,11 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(getEthClaimableData());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
-    dispatch(getMaticPolygonCommonData());
     getAVAXCommonDataRefetch();
     getFTMCommonDataRefetch();
     getBNBPendingValuesRefetch();
     getBNBStatsRefetch();
+    getMATICPOLYGONDataRefetch();
     getMATICETHStatsRefetch();
 
     if (address) {
