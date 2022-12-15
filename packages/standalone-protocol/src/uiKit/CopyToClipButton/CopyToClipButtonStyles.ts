@@ -1,4 +1,5 @@
 import { darken, makeStyles, Theme } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 
 interface CopyToClipProps {
   isCopied: boolean;
@@ -13,7 +14,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     padding: 0,
     marginTop: '0!important',
 
-    '&.moonbeam': {
+    [`&.${ChainId.Moonbeam}`]: {
       border: `1px solid ${theme.palette.common.white}`,
       '& $content': {
         padding: 0,
@@ -21,7 +22,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.eth': {
+    [`&.${ChainId.Ethereum}`]: {
       border: `1px solid ${theme.palette.common.black}`,
       borderRadius: 6,
       '& $content': {
@@ -33,7 +34,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.harmony': {
+    [`&.${ChainId.Harmony}`]: {
       '& $content': {
         padding: 0,
         backgroundColor: theme.palette.text.secondary,
@@ -44,7 +45,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.near': {
+    [`&.${ChainId.Near}`]: {
       borderRadius: 36,
       boxShadow: `0 0 0 1px ${theme.palette.primary.main}`,
       backgroundColor: theme.palette.primary.main,
@@ -63,7 +64,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.arbitrum': {
+    [`&.${ChainId.Arbitrum}`]: {
       borderRadius: 0,
       boxShadow: `0 0 0 2px ${theme.palette.grey['200']}`,
 
@@ -82,7 +83,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.iotex': {
+    [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
 
       '& $content': {
@@ -91,7 +92,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.avalanche': {
+    [`&.${ChainId.Avalanche}`]: {
       '& $content': {
         padding: 0,
         backgroundColor: theme.palette.background.default,
@@ -111,7 +112,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.nervos': {
+    [`&.${ChainId.Nervos}`]: {
       border: `1px solid ${theme.palette.common.white}`,
 
       '& $content': {
@@ -124,7 +125,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.gnosis': {
+    [`&.${ChainId.Gnosis}`]: {
       borderRadius: 9,
 
       '& $content': {
@@ -140,7 +141,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.syscoin': {
+    [`&.${ChainId.Syscoin}`]: {
       '& $content': {
         padding: 0,
         border: '1px solid #33373B',
@@ -154,7 +155,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.secret': {
+    [`&.${ChainId.Secret}`]: {
       borderRadius: theme.spacing(1.25),
 
       '& $content': {
@@ -182,7 +183,32 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    '&.klaytn': {
+    [`&.${ChainId.Filecoin}`]: {
+      borderRadius: 0,
+      '& $content': {
+        padding: 0,
+        border: `2px solid ${theme.palette.grey[300]}`,
+      },
+      '& $text': {
+        paddingLeft: 32,
+      },
+      '& button': {
+        color: theme.palette.primary.main,
+        borderRadius: 0,
+        backgroundColor: 'transparent',
+        borderImage: `linear-gradient(to right, #39C0CC, #078FFF) 1`,
+        height: `calc(100% + 4px)`,
+        borderWidth: 3,
+        borderStyle: 'solid',
+        marginRight: -2,
+        '&:hover': {
+          color: theme.palette.primary.main,
+          backgroundColor: 'transparent',
+        },
+      },
+    },
+
+    [`&.${ChainId.Klaytn}`]: {
       borderRadius: 0,
       '& $content': {
         padding: 0,

@@ -1,5 +1,6 @@
 import { darken, lighten, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { ChainId } from 'domains/chains/api/chain';
 
 export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
   button: {
@@ -10,17 +11,17 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.background.default,
     borderRadius: 12,
 
-    '&.harmony': {
+    [`&.${ChainId.Harmony}`]: {
       border: `2px solid ${theme.palette.grey['300']}`,
     },
 
-    '&.near': {
+    [`&.${ChainId.Near}`]: {
       '&:hover': {
         backgroundColor: darken(theme.palette.background.default, 0.1),
       },
     },
 
-    '&.arbitrum': {
+    [`&.${ChainId.Arbitrum}`]: {
       borderRadius: 0,
       border: `2px solid ${theme.palette.primary.main}`,
       backgroundColor: theme.palette.background.paper,
@@ -30,17 +31,17 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.iotex': {
+    [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
       background: theme.palette.background.default,
     },
 
-    '&.avalanche': {
+    [`&.${ChainId.Avalanche}`]: {
       background: theme.palette.background.paper,
       border: `2px solid ${theme.palette.background.default}`,
     },
 
-    '&.nervos': {
+    [`&.${ChainId.Nervos}`]: {
       border: `1px solid ${theme.palette.common.white}`,
       background: theme.palette.background.default,
 
@@ -49,7 +50,7 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.secret': {
+    [`&.${ChainId.Secret}`]: {
       background: '#303C4A',
       borderRadius: theme.spacing(1.25),
 

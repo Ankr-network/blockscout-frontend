@@ -13,7 +13,7 @@ import { mainTheme } from '../../themes/mainTheme';
 import { moonbeamTheme } from '../../themes/moonbeamTheme';
 import { nearTheme } from '../../themes/nearTheme';
 import { nervosTheme } from '../../themes/nervosTheme';
-import { solanaTheme } from '../../themes/solanaTheme';
+import { filecoinTheme } from '../../themes/filecoinTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -25,9 +25,6 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Polygon:
       return polygonTheme;
-
-    case ChainId.Solana:
-      return solanaTheme;
 
     case ChainId.Near:
       return nearTheme;
@@ -55,6 +52,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Secret:
       return secretTheme;
+
+    case ChainId.Filecoin:
+      return filecoinTheme;
 
     case ChainId.Klaytn:
       return klaytnTheme;
