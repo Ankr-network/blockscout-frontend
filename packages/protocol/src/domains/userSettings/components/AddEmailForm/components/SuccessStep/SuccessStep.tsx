@@ -1,8 +1,8 @@
-import { Button } from '@material-ui/core';
-
-import { t } from '@ankr.com/common';
-import { FieldError } from 'modules/form/components/FieldError';
 import { AnimatedButton } from 'uiKit/AnimatedButton';
+import { Button } from '@material-ui/core';
+import { t } from '@ankr.com/common';
+
+import { FieldError } from 'modules/form/components/FieldError';
 import { useStyles } from './SuccessStepStyles';
 
 export interface ISuccessStepProps {
