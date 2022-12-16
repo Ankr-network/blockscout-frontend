@@ -1,4 +1,5 @@
 import { makeStyles, Theme, darken } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 
 export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
   text: {
@@ -14,11 +15,11 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     overflow: 'hidden',
     width: '100%',
 
-    '&.iotex': {
+    [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
-    '&.syscoin': {
+    [`&.${ChainId.Syscoin}`]: {
       border: `1px solid #33373B`,
       borderRadius: 50,
       '& svg': {
@@ -26,7 +27,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
       },
     },
 
-    '&.near': {
+    [`&.${ChainId.Near}`]: {
       '& $content': {
         '&:hover': {
           background: darken(theme.palette.background.paper, 0.2),
@@ -38,11 +39,11 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
       },
     },
 
-    '&.nervos': {
+    [`&.${ChainId.Nervos}`]: {
       border: `1px solid ${theme.palette.common.white}`,
     },
 
-    '&.arbitrum': {
+    [`&.${ChainId.Arbitrum}`]: {
       borderRadius: 0,
       boxShadow: `0 0 0 2px ${theme.palette.grey['200']}`,
 
@@ -51,7 +52,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
       },
     },
 
-    '&.gnosis': {
+    [`&.${ChainId.Gnosis}`]: {
       '& $content': {
         backgroundColor: theme.palette.common.white,
 
@@ -61,7 +62,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
       },
     },
 
-    '&.klaytn': {
+    [`&.${ChainId.Klaytn}`]: {
       borderRadius: 0,
       height: 52,
       '&& $copyIcon': {
@@ -91,7 +92,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
 
-    '&.gnosis': {
+    [`&.${ChainId.Gnosis}`]: {
       backgroundColor: theme.palette.common.white,
     },
   },

@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { ChainId } from 'domains/chains/api/chain';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   container: {
@@ -12,7 +13,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       marginBottom: theme.spacing(2.5),
     },
 
-    '&.nervos': {
+    [`&.${ChainId.Nervos}`]: {
       maxWidth: 'calc(100% - 72px - 16px)',
     },
   },
@@ -22,12 +23,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
   addNetworkButton: {
     marginLeft: `${theme.spacing(2)}px !important`,
 
-    '&.gnosis': {
+    [`&.${ChainId.Gnosis}`]: {
       backgroundColor: theme.palette.common.white,
       borderRadius: 9,
     },
 
-    '&.klaytn': {
+    [`&.${ChainId.Klaytn}`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
       borderRadius: 0,
     },

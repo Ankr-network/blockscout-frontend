@@ -7,3 +7,4 @@ export * from './account';
 export * from './backoffice';
 export * from './public';
 export * from './oauth';
+export * from './services';

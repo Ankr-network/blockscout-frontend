@@ -22,15 +22,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
       gridTemplateColumns: '1fr',
     },
   },
-  topUp: {
-    [theme.breakpoints.down('md')]: {
-      minWidth: 'auto',
-    },
-
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '100%',
-    },
-  },
   payments: {
     marginTop: theme.spacing(5),
 

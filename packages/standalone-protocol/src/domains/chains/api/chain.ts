@@ -16,5 +16,6 @@ export enum ChainId {
   Gnosis = 'gnosis',
   Syscoin = 'syscoin',
   Secret = 'secret',
+  Filecoin = 'filecoin',
   Klaytn = 'klaytn',
 }

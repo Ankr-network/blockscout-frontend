@@ -22,6 +22,5 @@ export const pageViewEvent = () => trackMixpanel({ event: 'Page View' });
 export const visitMainSiteEvent = () =>
   trackMixpanel({ event: 'Visit ANKR from footer' });
 
-export const visitOtherProjectEvent = (
-  name: 'Polygon' | 'BSC' | 'Fantom' | 'Solana',
-) => trackMixpanel({ event: `Visit ${name} from footer` });
+export const visitOtherProjectEvent = (name: 'Polygon' | 'BSC' | 'Fantom') =>
+  trackMixpanel({ event: `Visit ${name} from footer` });

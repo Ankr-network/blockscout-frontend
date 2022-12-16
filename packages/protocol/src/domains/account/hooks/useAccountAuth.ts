@@ -11,6 +11,7 @@ export interface Auth {
   workerTokenData?: WorkerTokenData;
   hasOauthLogin?: boolean;
   isLoggedIn: boolean;
+  isUserEthAddressType: boolean;
 }
 
 // needs to turn premium subscription date into milliseconds from kiloseconds
@@ -24,6 +25,7 @@ export const useAccountAuth = (): Auth => {
     loading: isConnecting,
     hasOauthLogin,
     isLoggedIn,
+    isUserEthAddressType,
   } = useAuth();
 
   const tier = workerTokenData?.tier;
@@ -47,5 +49,6 @@ export const useAccountAuth = (): Auth => {
     workerTokenData,
     hasOauthLogin,
     isLoggedIn,
+    isUserEthAddressType,
   };
 };

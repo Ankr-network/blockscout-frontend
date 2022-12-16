@@ -1,4 +1,5 @@
 import { darken, makeStyles, Theme } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -6,20 +7,22 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingTop: theme.spacing(3.5),
     textAlign: 'center',
 
-    '&.near $title': {
+    [`&.${ChainId.Near} $title`]: {
       color: '#668BF2',
     },
 
-    '&.syscoin $title': {
+    [`&.${ChainId.Syscoin} $title`]: {
       color: '#1E41A5',
     },
-    '&.moonbeam $title': {
+
+    [`&.${ChainId.Moonbeam} $title`]: {
       color: '#74C8C7',
     },
-    '&.eth $title': {
+
+    [`&.${ChainId.Ethereum} $title`]: {
       color: '#1E41A5',
     },
-    '&.secret $link': {
+    [`&.${ChainId.Secret} $link`]: {
       color: theme.palette.primary.main,
 
       '&:hover': {

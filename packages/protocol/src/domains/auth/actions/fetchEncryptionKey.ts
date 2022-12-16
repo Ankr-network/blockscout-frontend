@@ -2,12 +2,11 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
+import { METAMASK_REJECTED_OPERATION_CODE } from 'multirpc-sdk';
 
 interface IFetchEncryptionKey {
   key: string;
 }
-
-const REJECTED_OPERATION_CODE = 4001;
 
 export const fetchEncryptionKey = createSmartAction<
   RequestAction<IFetchEncryptionKey, IFetchEncryptionKey>
@@ -25,7 +24,7 @@ export const fetchEncryptionKey = createSmartAction<
 
         key = publicKey;
       } catch (error: any) {
-        if (error?.code !== REJECTED_OPERATION_CODE) {
+        if (error?.code !== METAMASK_REJECTED_OPERATION_CODE) {
           key = await service
             .getTokenDecryptionService()
             .requestMetamaskEncryptionKey();

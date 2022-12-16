@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
+import { ChainId } from 'domains/chains/api/chain';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -7,24 +8,24 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingRight: theme.spacing(3),
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-    '&.harmony': {
+    [`&.${ChainId.Harmony}`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
     },
-    '&.syscoin': {
+    [`&.${ChainId.Syscoin}`]: {
       borderRadius: 0,
       border: `1px solid ${theme.palette.grey[300]}`,
     },
-    '&.eth': {
+    [`&.${ChainId.Ethereum}`]: {
       border: `1px solid ${theme.palette.grey[300]}`,
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
     },
-    '&.secret': {
+    [`&.${ChainId.Secret}`]: {
       '& $description': {
         color: '#DCDDE0',
       },
     },
-    '&.klaytn': {
+    [`&.${ChainId.Klaytn}`]: {
       backgroundColor: theme.palette.grey[600],
       borderRadius: 0,
     },

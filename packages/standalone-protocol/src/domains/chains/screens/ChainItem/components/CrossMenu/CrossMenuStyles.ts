@@ -1,5 +1,6 @@
 import { Theme, fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { ChainId } from 'domains/chains/api/chain';
 import { MENU_LIST } from './MenuList';
 
 export const ANKR_LINK_HEIGHT = 65;
@@ -36,17 +37,20 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     left: 0,
     zIndex: 210,
     backgroundColor: theme.palette.background.default,
-    '&.eth': {
+    [`&.${ChainId.Ethereum}`]: {
       borderRight: `1px solid ${theme.palette.text.secondary}`,
     },
-    '&.gnosis': {
+    [`&.${ChainId.Gnosis}`]: {
       backgroundColor: theme.palette.common.white,
     },
-    '&.syscoin': {
+    [`&.${ChainId.Syscoin}`]: {
       borderRight: `1px solid ${theme.palette.primary.light}`,
     },
-    '&.klaytn': {
+    [`&.${ChainId.Klaytn}`]: {
       borderRight: `1px solid ${theme.palette.primary.light}`,
+    },
+    [`&.${ChainId.Filecoin}`]: {
+      borderRight: `1px solid ${theme.palette.text.secondary}`,
     },
     [theme.breakpoints.down('sm')]: {
       display: 'none',
@@ -194,7 +198,7 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.background.default,
     display: 'none',
 
-    '&.gnosis': {
+    [`&.${ChainId.Gnosis}`]: {
       backgroundColor: theme.palette.common.white,
     },
   },
@@ -207,10 +211,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     padding: '18px 0',
     margin: '0 6px',
     borderTop: `1px solid ${theme.palette.background.paper}`,
-    '&.syscoin': {
+    [`&.${ChainId.Syscoin}`]: {
       borderTop: `1px solid ${theme.palette.primary.light}`,
     },
-    '&.klaytn': {
+    [`&.${ChainId.Klaytn}`]: {
       borderTop: `1px solid ${theme.palette.primary.light}`,
     },
     backgroundColor: theme.palette.background.default,
@@ -225,7 +229,7 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
       margin: '0 20px',
     },
 
-    '&.gnosis': {
+    [`&.${ChainId.Gnosis}`]: {
       backgroundColor: theme.palette.common.white,
     },
   },
