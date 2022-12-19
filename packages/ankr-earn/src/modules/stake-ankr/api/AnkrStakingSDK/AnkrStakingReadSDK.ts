@@ -695,6 +695,16 @@ export class AnkrStakingReadSDK {
   public async getEpochEndSeconds(blockNumber: number): Promise<number> {
     const { epochBlockInterval } = await this.getChainConfig();
 
+    return this.getEpochEndSecondsForBlockInterval(
+      blockNumber,
+      epochBlockInterval,
+    );
+  }
+
+  protected getEpochEndSecondsForBlockInterval(
+    blockNumber: number,
+    epochBlockInterval: number,
+  ): number {
     const nextEpochBlock =
       (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
       epochBlockInterval;
