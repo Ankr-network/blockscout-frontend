@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-export * from './api/getPastEvents/getPastEvents';
 export * from './avax';
 export * from './binance';
 export * from './ethereum';

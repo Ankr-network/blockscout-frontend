@@ -32,7 +32,7 @@ export const ConfirmEmailBindingQuery = ({
   const { address } = useAuth();
 
   useOnMount(() => {
-    dispatchRequest(confirmEmailBinding({ email, code }));
+    dispatchRequest(confirmEmailBinding({ code, email, shouldNotify: false }));
   });
 
   return (
@@ -42,12 +42,8 @@ export const ConfirmEmailBindingQuery = ({
       requestActions={[confirmEmailBinding]}
     >
       {({ data, error }) => {
-        const {
-          isLinkExpired,
-
-          isCodeAlreadyUsed,
-          isConfirmationCodeNotFound,
-        } = processError(error);
+        const { isCodeAlreadyUsed, isConfirmationCodeNotFound, isLinkExpired } =
+          processError(error);
 
         if (isLinkExpired) {
           return (

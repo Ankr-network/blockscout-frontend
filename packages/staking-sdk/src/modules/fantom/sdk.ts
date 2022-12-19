@@ -10,7 +10,9 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { ApiGateway, getPastEvents } from '../api';
+import { getPastEvents } from '@ankr.com/advanced-api';
+import { ApiGateway } from '../api';
+
 import {
   configFromEnv,
   Env,

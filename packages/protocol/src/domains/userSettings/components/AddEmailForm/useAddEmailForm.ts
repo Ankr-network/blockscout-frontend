@@ -1,18 +1,19 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
-import { addNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
-import { editEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
-import { resendConfirmationCode } from 'domains/userSettings/actions/email/resendConfirmationCode';
-import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
-import { getEmailErrorMessage } from 'domains/userSettings/utils/getEmailErrorMessage';
-import { ISuccessStepProps } from './components/SuccessStep';
 import {
   AddEmailFormContentState,
   AddEmailFormErrors,
   AddEmailFormFields,
   IAddEmailFormData,
 } from './types';
+import { ISuccessStepProps } from './components/SuccessStep';
+import { addNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
+import { editEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
+import { getAddEmailErrorMessage } from 'domains/userSettings/utils/getAddEmailErrorMessage';
+import { getEditEmailErrorMessage } from 'domains/userSettings/utils/getEditEmailErrorMessage';
+import { resendConfirmationCode } from 'domains/userSettings/actions/email/resendConfirmationCode';
+import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
 
 const ENABLE_CHANGE_EMAIL = false;
 
@@ -38,10 +39,10 @@ export const useAddEmailForm = ({
   const handleAddEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
       const { data, error } = await dispatchRequest(
-        addNewEmailBinding({ email }),
+        addNewEmailBinding({ email, shouldNotify: false }),
       );
 
-      const emailErrorMessage = getEmailErrorMessage({ email, error });
+      const emailErrorMessage = getAddEmailErrorMessage(error, email);
 
       if (emailErrorMessage) {
         return {
@@ -63,10 +64,10 @@ export const useAddEmailForm = ({
   const handleChangeEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
       const { data, error } = await dispatchRequest(
-        editEmailBinding({ email }),
+        editEmailBinding({ email, shouldNotify: false }),
       );
 
-      const emailErrorMessage = getEmailErrorMessage({ email, error });
+      const emailErrorMessage = getEditEmailErrorMessage(error, email);
 
       if (emailErrorMessage) {
         return {
@@ -102,7 +103,12 @@ export const useAddEmailForm = ({
 
   const onResendEmail = useCallback(() => {
     if (submittedData) {
-      dispatchRequest(resendConfirmationCode({ email: submittedData.email }));
+      dispatchRequest(
+        resendConfirmationCode({
+          email: submittedData.email,
+          shouldNotify: false,
+        }),
+      );
     }
   }, [dispatchRequest, submittedData]);
 
@@ -117,7 +123,11 @@ export const useAddEmailForm = ({
   const {
     errorMessage: resendEmailErrorMessage,
     eventHandler: handleResendEmail,
-  } = useEmailErrorWithTimeout(resendEmailError, onResendEmail);
+  } = useEmailErrorWithTimeout(
+    resendEmailError,
+    onResendEmail,
+    submittedData?.email,
+  );
 
   const onChangeEmail = useCallback(() => {
     onFormSubmit(undefined);

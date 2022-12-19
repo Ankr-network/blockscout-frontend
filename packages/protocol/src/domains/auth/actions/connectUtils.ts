@@ -76,7 +76,9 @@ export const loginAndCache = async (
 
     service.getAccountGateway().addToken(authorizationToken);
 
-    const { data } = await store.dispatchRequest(getActiveEmailBinding());
+    const { data } = await store.dispatchRequest(
+      getActiveEmailBinding({ notify: false }),
+    );
 
     store.dispatch(
       setAuthData({

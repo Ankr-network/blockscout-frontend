@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-import { IGatewayConfig } from '../common';
+import { IGatewayConfig } from './common/config';
 
 export class AnkrAPIGateway {
   public api: AxiosInstance;
