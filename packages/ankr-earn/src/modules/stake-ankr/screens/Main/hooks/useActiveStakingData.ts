@@ -18,8 +18,8 @@ export const useActiveStakingData = (): IActiveStaking => {
 
   const {
     data,
-    isFetching: loading,
-    refetch,
+    isFetching: isLoading,
+    refetch: getActiveStaking,
   } = useGetActiveStakingDataQuery(
     {
       usdPrice: ankrPrice ?? ZERO,
@@ -29,11 +29,11 @@ export const useActiveStakingData = (): IActiveStaking => {
 
   // TODO remove it. Use cache tags instead of manual dispatch
   useProviderEffect(() => {
-    refetch();
+    getActiveStaking();
   }, [ankrPrice]);
 
   return {
-    isLoading: loading,
+    isLoading,
     data,
   };
 };

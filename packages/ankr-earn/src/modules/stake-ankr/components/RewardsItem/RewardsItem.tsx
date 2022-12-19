@@ -1,11 +1,9 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { BaseTokenUsdAmount } from 'modules/delegate-stake/components/BaseTokenUsdAmount';
 import { NavLink } from 'uiKit/NavLink';
-import { Tooltip } from 'uiKit/Tooltip';
 
 import { useRewardsItemStyles } from './useRewardsItemStyles';
 
@@ -30,7 +28,7 @@ export const RewardsItem = ({
         amount={ankrAmount}
         buttonSlot={
           <div className={classes.btnWrapper}>
-            {restakeLink && featuresConfig.isClaimAndRestakeEnabled && (
+            {restakeLink && (
               <NavLink
                 className={classes.btn}
                 href={restakeLink}
@@ -40,22 +38,7 @@ export const RewardsItem = ({
               </NavLink>
             )}
 
-            {restakeLink && !featuresConfig.isClaimAndRestakeEnabled && (
-              <Tooltip arrow title={t('common.tooltips.comingSoon')}>
-                <span>
-                  <NavLink
-                    disabled
-                    className={classes.btn}
-                    href={restakeLink}
-                    variant="outlined"
-                  >
-                    {t('stake-ankr.staking-table.restake')}
-                  </NavLink>
-                </span>
-              </Tooltip>
-            )}
-
-            {claimLink && featuresConfig.isClaimAndRestakeEnabled && (
+            {claimLink && (
               <NavLink
                 className={classes.btn}
                 href={claimLink}
@@ -63,21 +46,6 @@ export const RewardsItem = ({
               >
                 {t('stake-ankr.staking-table.claim')}
               </NavLink>
-            )}
-
-            {claimLink && !featuresConfig.isClaimAndRestakeEnabled && (
-              <Tooltip arrow title={t('common.tooltips.comingSoon')}>
-                <span>
-                  <NavLink
-                    disabled
-                    className={classes.btn}
-                    href={claimLink}
-                    variant="outlined"
-                  >
-                    {t('stake-ankr.staking-table.claim')}
-                  </NavLink>
-                </span>
-              </Tooltip>
             )}
           </div>
         }

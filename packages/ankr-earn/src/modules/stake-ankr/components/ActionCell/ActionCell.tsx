@@ -1,9 +1,7 @@
 import { t } from '@ankr.com/common';
 import { Chip } from '@material-ui/core';
 
-import { featuresConfig } from 'modules/common/const';
 import { NavLink } from 'uiKit/NavLink';
-import { Tooltip } from 'uiKit/Tooltip';
 
 import { useActionCellStyles } from './useActionCellStyles';
 
@@ -32,26 +30,9 @@ export const ActionCell = ({
     );
   }
 
-  if (featuresConfig.isClaimAndRestakeEnabled) {
-    return (
-      <NavLink className={classes.btn} href={claimLink} variant="outlined">
-        {t('stake-ankr.staking-table.claim')}
-      </NavLink>
-    );
-  }
-
   return (
-    <Tooltip arrow title={t('common.tooltips.comingSoon')}>
-      <span>
-        <NavLink
-          disabled
-          className={classes.btn}
-          href={claimLink}
-          variant="outlined"
-        >
-          {t('stake-ankr.staking-table.claim')}
-        </NavLink>
-      </span>
-    </Tooltip>
+    <NavLink className={classes.btn} href={claimLink} variant="outlined">
+      {t('stake-ankr.staking-table.claim')}
+    </NavLink>
   );
 };
