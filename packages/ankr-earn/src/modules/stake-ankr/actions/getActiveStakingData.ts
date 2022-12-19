@@ -33,9 +33,12 @@ export const { useGetActiveStakingDataQuery } = web3Api.injectEndpoints({
 
         const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
-        return {
-          data: await sdk.getMyActiveStaking(usdPrice, blockNumber),
-        };
+        const data: IActiveStakingData[] = await sdk.getMyActiveStaking(
+          usdPrice,
+          blockNumber,
+        );
+
+        return { data };
       }),
       providesTags: [CacheTags.history],
     }),
