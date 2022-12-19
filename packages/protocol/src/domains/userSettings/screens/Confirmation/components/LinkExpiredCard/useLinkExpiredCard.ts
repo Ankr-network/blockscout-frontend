@@ -14,7 +14,7 @@ export const useLinkExpiredCard = () => {
   const onResendEmail = useCallback((): void => {
     if (!email) return;
 
-    dispatchRequest(resendConfirmationCode({ email }));
+    dispatchRequest(resendConfirmationCode({ email, shouldNotify: false }));
   }, [dispatchRequest, email]);
 
   const {

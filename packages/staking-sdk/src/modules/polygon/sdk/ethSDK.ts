@@ -14,7 +14,7 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { ApiGateway, getPastEvents } from '../../api';
+import { ApiGateway, getPastEvents } from '@ankr.com/advanced-api';
 import {
   configFromEnv,
   ETH_NETWORK_BY_ENV,

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["es2017", "dom"],
+    "moduleResolution": "node",
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "dist",
+    "strict": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node", "jest"],
+    "typeRoots": ["node_modules/@types"],
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react"
+  },
+  "include": ["src/index.ts", "src/typings/*.d.ts"],
+  "exclude": ["**/*.test.ts"],
+  "resolveJsonModule": true
+}

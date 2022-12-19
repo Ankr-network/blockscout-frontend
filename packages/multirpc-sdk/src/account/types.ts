@@ -1,5 +1,29 @@
 import { EmailConfirmationStatus, Web3Address } from '../common';
 
+
+export interface AccountError {
+  code: AccountErrorCode;
+  message: string;
+}
+
+export enum AccountErrorCode {
+  Aborted = 'aborted',
+  AlreadyExists = 'already_exists',
+  DatabaseError = 'database_error',
+  FailedPrecondition = 'failed_precondition',
+  InternalError = 'internal_error',
+  InvalidArgument = 'invalid_argument',
+  NothingTodo = 'nothing_todo',
+  Unavailable = 'unavailable',
+  WrongFormat = 'wrong_format',
+  WrongState = 'wrong_state',
+  NotFound = 'not_found',
+}
+
+export interface AccountErrorResponse {
+  error: AccountError;
+}
+
 export type IPaymentHistoryEntityType =
   | 'TRANSACTION_TYPE_UNKNOWN'
   | 'TRANSACTION_TYPE_DEPOSIT'
@@ -186,15 +210,15 @@ export interface IGetEmailBindingsResponse {
 
 export enum EmailErrorMessage {
   ADDRESS_PENDING_OTHER_EMAIL_BINDING = "binding with provided address and 'pending' status already exists: data exists already",
-  CHANGE_WITH_SAME_EMAIL = 'trying to change binding with the same email: nothing todo',
+  ALREADY_CONFIRMED = 'binding with provided email already exists and confirmed: data exists already',
   CHANGE_INEXISTENT = "binding with provided address in 'pending' status not found: not found",
+  CHANGE_WITH_SAME_EMAIL = 'trying to change binding with the same email: nothing todo',
+  CODE_ALREADY_USED = 'confirmation code has already been used: wrong state',
+  CONFIRMATION_CODE_NOT_FOUND = 'confirmation code not found: not found',
+  EMAIL_BINDING_NOT_FOUND = 'not found',
+  LINK_EXPIRED = 'confirmation code has already expired: wrong state',
   TOO_MANY_CHANGE_EMAIL_REQUESTS = 'sending confirmation codes too often: wrong state',
   TOO_MANY_RESEND_CONFIRMATION_REQUESTS = 'too many confirmation codes created: wrong state',
-  ALREADY_CONFIRMED = 'binding with provided email already exists and confirmed: data exists already',
-  LINK_EXPIRED = 'confirmation code has already expired: wrong state',
-  EMAIL_BINDING_NOT_FOUND = 'not found',
-  CONFIRMATION_CODE_NOT_FOUND = 'confirmation code not found: not found',
-  CODE_ALREADY_USED = 'confirmation code has already been used: wrong state',
 }
 
 export interface IEmailResponseError {
