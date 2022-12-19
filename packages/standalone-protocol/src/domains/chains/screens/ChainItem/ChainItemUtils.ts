@@ -33,7 +33,6 @@ export const useMetatags = (chainId: ChainId) => {
 export const hasAnnounce = (chainId: ChainId): boolean => {
   switch (chainId) {
     case ChainId.Polygon:
-    case ChainId.Solana:
       return false;
 
     case ChainId.Near:

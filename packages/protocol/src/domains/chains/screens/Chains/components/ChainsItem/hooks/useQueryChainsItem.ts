@@ -5,7 +5,6 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
 import { useQuery } from '@redux-requests/react';
 import { fetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
-import { EthAddressType } from 'multirpc-sdk';
 
 export interface ChainsItemParams {
   chain: Chain;
@@ -14,8 +13,12 @@ export interface ChainsItemParams {
 export const useQueryChainsItem = ({
   chain: { id, frontChain: { id: frontChainId } = {} },
 }: ChainsItemParams): [BigNumber, boolean, boolean, boolean] => {
-  const { credentials, hasOauthLogin, hasWeb3Connection, ethAddressType } =
-    useAuth();
+  const {
+    credentials,
+    hasOauthLogin,
+    hasWeb3Connection,
+    isUserEthAddressType,
+  } = useAuth();
   const isPremium = Boolean(credentials);
 
   const { data, loading: arePublicStatsLoading } = useQuery({
@@ -27,10 +30,7 @@ export const useQueryChainsItem = ({
     usePrivateStats(chainId);
 
   const hasConnectWalletMessage = Boolean(
-    hasOauthLogin &&
-      !hasWeb3Connection &&
-      isPremium &&
-      ethAddressType === EthAddressType.User,
+    hasOauthLogin && !hasWeb3Connection && isPremium && isUserEthAddressType,
   );
 
   return isPremium

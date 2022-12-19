@@ -16,7 +16,6 @@ import { SupportBlock } from './components/SupportBlock';
 import background from './assets/background.png';
 import mobile from './assets/mobile.png';
 import { Features } from './components/Features';
-import { EthAddressType } from 'multirpc-sdk';
 
 export const Pricing = () => {
   const classes = usePricingStyles();
@@ -29,7 +28,7 @@ export const Pricing = () => {
     hasWeb3Connection,
     hasOauthLogin,
     address,
-    ethAddressType,
+    isUserEthAddressType,
   } = useAuth();
 
   useEffect(() => {
@@ -79,7 +78,7 @@ export const Pricing = () => {
                 hasOauthLogin={hasOauthLogin}
                 hasCredentials={Boolean(credentials)}
                 address={address}
-                isUserAddress={ethAddressType === EthAddressType.User}
+                isUserAddress={isUserEthAddressType}
               />
               <SupportBlock />
               {isMobile && <img src={mobile} alt="logos" />}

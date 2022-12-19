@@ -17,13 +17,14 @@ import {
   isMainnet,
   ZERO,
 } from 'modules/common/const';
-import { Web3Address } from 'modules/common/types';
+import { Days, Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
-import { SHORT_CACHE_TIME, EProviderStatus } from 'modules/stake-ankr/const';
+import { EProviderStatus, SHORT_CACHE_TIME } from 'modules/stake-ankr/const';
 
 import { AnkrStakingReadSDK } from './AnkrStakingReadSDK';
 import {
   ANKR_PROVIDER_READ_ID,
+  ANKR_STAKING_BLOCK_WITH_FIX,
   ANKR_STAKING_MAX_DECIMALS_LENGTH,
 } from './const';
 import {
@@ -468,6 +469,9 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     usdPrice: BigNumber,
     latestBlockNumber: number,
   ): Promise<IActiveStakingData[]> {
+    const { currentAccount } = this;
+
+    // ⬇️ get all required data
     const [
       stakingContract,
       { lockPeriod },
@@ -478,6 +482,8 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       delegationHistory,
       apyData,
       stakingRewards,
+      claimHistory,
+      undelegateHistory,
     ] = await Promise.all([
       this.getAnkrTokenStakingContract(),
       this.getChainConfig(),
@@ -485,51 +491,54 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       this.getEpochPrevDate(latestBlockNumber),
       this.getEpochNextDate(latestBlockNumber),
       this.getActiveValidators(),
-      this.getDelegationHistory(
-        {
-          staker: this.currentAccount,
-        },
-        latestBlockNumber,
-      ),
+      this.getDelegationHistory({ staker: currentAccount }, latestBlockNumber),
       this.getAPY(),
       this.getMyClaimableStakingRewards(latestBlockNumber),
+      this.getClaimHistory(
+        { staker: currentAccount },
+        ANKR_STAKING_BLOCK_WITH_FIX,
+      ),
+      this.getUndelegationHistory(
+        { staker: currentAccount },
+        ANKR_STAKING_BLOCK_WITH_FIX,
+      ),
     ]);
 
+    // 🧮 calculating lock period in days
     const lockPeriodDays = lockPeriod * epochDuration;
 
-    const apyMap = new Map(
+    // changing the data representation to `validator: APY`
+    const apyMap = new Map<Address, BigNumber>(
       apyData.map(apyItem => [apyItem.validator, apyItem.apy]),
     );
 
-    const rewardMap = new Map<string, BigNumber>(
+    // changing the data representation to `validator: stakingReward`
+    const rewardMap = new Map<Address, BigNumber>(
       stakingRewards.map(reward => {
         return [reward.validator.validator, reward.amount];
       }),
     );
 
+    // geting the list of validators from delegations history without doubles
     const delegatingValidators = new Set(
       delegationHistory.map(delegation => delegation.validator),
     );
+
+    // filtering delegating and active validators
     const usingValidators = activeValidators.filter(validator =>
       delegatingValidators.has(validator.validator),
     );
 
+    // ⬇️ loading a list of delegations by active validators
     const delegationsArr = await Promise.all(
       activeValidators.map(validator =>
         stakingContract.methods
-          .getValidatorDelegation(validator.validator, this.currentAccount)
+          .getValidatorDelegation(validator.validator, currentAccount)
           .call(),
       ),
     );
-    const delegationsMap = new Map(
-      delegationsArr.map((delegation, index) => {
-        return [
-          activeValidators[index].validator,
-          this.convertFromWei(delegation.delegatedAmount),
-        ];
-      }),
-    );
 
+    // ⬇️ loading a list of unlocked ANKR amount for each active validator
     const unlockedDelegationsArr = await Promise.all(
       activeValidators.map(validator =>
         this.getUnlockedDelegatedByValidator(
@@ -538,12 +547,25 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
         ),
       ),
     );
-    const unlockedDelegationsMap = new Map(
+
+    // changing the data representation to `validator: delegatedAmount`
+    const delegationsMap = new Map<Address, BigNumber>(
+      delegationsArr.map((delegation, index) => {
+        return [
+          activeValidators[index].validator,
+          this.convertFromWei(delegation.delegatedAmount),
+        ];
+      }),
+    );
+
+    // changing the data representation to `validator: unlockedDelegation`
+    const unlockedDelegationsMap = new Map<Address, BigNumber>(
       unlockedDelegationsArr.map((delegation, index) => {
         return [activeValidators[index].validator, delegation];
       }),
     );
 
+    // the beginning of the main iteration of the list of used validators
     return usingValidators.reduce<IActiveStakingData[]>((result, validator) => {
       const existingDelegations = delegationHistory
         .filter(delegation => delegation.validator === validator.validator)
@@ -563,18 +585,67 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       };
       const detailedData: IAdditionalActiveStakingData[] = [];
 
-      if (existingDelegations.length > 1) {
+      const claimAndUndelegateHistory = [
+        ...claimHistory,
+        ...undelegateHistory,
+      ].filter(claim => claim.validator === validator.validator);
+
+      const isOneDelegation = existingDelegations.length === 1;
+
+      // Partially working solution.
+      // Please see https://ankrnetwork.atlassian.net/browse/STAKAN-2399 .
+      // For users that have only 1 stake we must use method from contract
+      // and show Locking period based on method from contract.
+      if (isOneDelegation && claimAndUndelegateHistory.length) {
+        const delegation = existingDelegations[0];
+
+        const { txDate: latestClaimOrUndelegateDate } =
+          claimAndUndelegateHistory.reduce((a, b) => {
+            return a.txDate > b.txDate ? a : b;
+          });
+
+        const daysToNextEpoch = this.calcEpochDaysLeft(
+          nextEpochDate,
+          latestClaimOrUndelegateDate,
+        );
+
+        const totalLockingDays = lockPeriodDays + daysToNextEpoch;
+        const detailedDaysLeft = this.calcLeftDays(
+          latestClaimOrUndelegateDate,
+          totalLockingDays,
+        );
+
+        if (detailedDaysLeft > 0) {
+          detailedData.push({
+            lockingPeriod: detailedDaysLeft,
+            lockingPeriodPercent: Math.ceil(
+              (detailedDaysLeft / totalLockingDays) * 100,
+            ),
+            isUnlocked: detailedDaysLeft <= 0,
+            stakeAmount: this.convertFromWei(delegation.amount),
+            usdStakeAmount: this.convertFromWei(delegation.amount).multipliedBy(
+              usdPrice ?? ZERO,
+            ),
+            rewards: ZERO,
+            usdRewards: ZERO,
+          });
+        }
+
+        // for users that have 2 stakes and more keep current logic
+      } else if (existingDelegations.length > 1) {
         for (let i = 0; i < existingDelegations.length; i += 1) {
           const delegation = existingDelegations[i];
+          const delegationDate = delegation.txDate;
 
-          const daysToFirst = Math.ceil(
-            ((nextEpochDate.getTime() - delegation.txDate.getTime()) /
-              (1000 * 60 * 60 * 24)) %
-              7,
+          const daysToNextEpoch = this.calcEpochDaysLeft(
+            nextEpochDate,
+            delegationDate,
           );
-          const totalLockingDays = lockPeriodDays + daysToFirst;
+
+          const totalLockingDays = lockPeriodDays + daysToNextEpoch;
+
           const detailedDaysLeft = this.calcLeftDays(
-            delegation.txDate,
+            delegationDate,
             totalLockingDays,
           );
 
@@ -605,7 +676,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
       const rewards = rewardMap.get(validator.validator) ?? ZERO;
       if (detailedData?.length === 1 && detailedData[0].isUnlocked) {
-        const activeStaking = {
+        const activeStaking: IActiveStakingData = {
           provider: validator.validator,
           apy: apyMap.get(validator.validator) ?? ZERO,
           isUnlocked: true,
@@ -614,12 +685,11 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
           rewards,
           usdRewards: rewards.multipliedBy(usdPrice),
           status: EProviderStatus.active,
-        } as IActiveStakingData;
+          isPartiallyUnlocked: false,
+        };
 
         result.push(activeStaking);
       } else {
-        const isOneDelegation = existingDelegations.length === 1;
-
         let daysLeft;
         let totalLockingDays = lockPeriodDays;
 
@@ -635,7 +705,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
           daysLeft = this.calcLeftDays(delegateDate, totalLockingDays);
         }
 
-        const activeStaking = {
+        const activeStaking: IActiveStakingData = {
           provider: validator.validator,
           apy: apyMap.get(validator.validator) ?? ZERO,
           isUnlocked: daysLeft ? daysLeft <= 0 : false,
@@ -652,7 +722,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
           usdRewards: rewards.multipliedBy(usdPrice),
           status: EProviderStatus.active,
           detailedData,
-        } as IActiveStakingData;
+        };
 
         result.push(activeStaking);
       }
@@ -661,19 +731,24 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     }, []);
   }
 
-  private calcLeftDays(startDate: Date, lockPeriod: number): number {
+  private calcLeftDays(startDate: Date, lockPeriod: number): Days {
     const now = new Date();
     const diffTime = Math.abs(startDate.getTime() - now.getTime());
     const pastDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     return lockPeriod - pastDays;
   }
 
-  private calcLeftDaysByPrevEpoch(
-    startDate: Date,
-    prevEpochDate: Date,
-  ): number {
+  private calcLeftDaysByPrevEpoch(startDate: Date, prevEpochDate: Date): Days {
     const diffTime = startDate.getTime() - prevEpochDate.getTime();
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+  private calcEpochDaysLeft(nextEpochDate: Date, startDate: Date): Days {
+    return Math.ceil(
+      ((nextEpochDate.getTime() - startDate.getTime()) /
+        (1000 * 60 * 60 * 24)) %
+        7,
+    );
   }
 
   public async claimAll(): Promise<string> {

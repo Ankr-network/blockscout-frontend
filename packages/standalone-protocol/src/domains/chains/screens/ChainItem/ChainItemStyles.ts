@@ -1,10 +1,15 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { ChainId } from 'domains/chains/api/chain';
 import { MENU_WIDTH } from './components/CrossMenu/CrossMenuStyles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
-    '&.eth': {
+    [`&.${ChainId.Ethereum}`]: {
+      backgroundColor: theme.palette.common.white,
+    },
+
+    [`&.${ChainId.Filecoin}`]: {
       backgroundColor: theme.palette.common.white,
     },
   },
@@ -26,35 +31,40 @@ export const useStyles = makeStyles<Theme>(theme => ({
   chart: {
     marginTop: theme.spacing(6),
 
-    '&.arbitrum': {
+    [`&.${ChainId.Arbitrum}`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
-    '&.iotex': {
+    [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
-    '&.avalanche': {
+    [`&.${ChainId.Avalanche}`]: {
       backgroundColor: theme.palette.background.paper,
       border: `2px solid ${theme.palette.background.default}`,
+    },
+
+    [`&.${ChainId.Filecoin}`]: {
+      borderRadius: 0,
+      backgroundColor: theme.palette.grey[700],
     },
   },
   nodes: {
     marginTop: theme.spacing(6),
 
-    '&.arbitrum': {
+    [`&.${ChainId.Arbitrum}`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
-    '&.iotex': {
+    [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
-    '&.avalanche': {
+    [`&.${ChainId.Avalanche}`]: {
       backgroundColor: theme.palette.background.paper,
       border: `2px solid ${theme.palette.background.default}`,
 
@@ -67,7 +77,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.nervos': {
+    [`&.${ChainId.Nervos}`]: {
       '& thead': {
         borderBottom: `1px solid ${theme.palette.grey['200']}`,
       },
@@ -77,13 +87,18 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.secret': {
+    [`&.${ChainId.Secret}`]: {
       '& thead': {
         borderColor: '#413F49',
       },
       '& tbody tr td': {
         borderColor: '#413F49',
       },
+    },
+
+    [`&.${ChainId.Filecoin}`]: {
+      borderRadius: 0,
+      backgroundColor: theme.palette.grey[700],
     },
   },
   spinner: {

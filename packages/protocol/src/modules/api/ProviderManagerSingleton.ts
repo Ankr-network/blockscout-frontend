@@ -2,6 +2,8 @@ import {
   AvailableReadProviders,
   IPartialRpcUrlsConfig,
   ProviderManager,
+  DEFAULT_RPC,
+  EEthereumNetworkId,
 } from '@ankr.com/provider';
 import { getWeb3RpcUrl } from './utils/getWeb3Instance';
 import { web3ModalTheme } from './Web3ModalKeyProvider';
@@ -17,6 +19,8 @@ export class ProviderManagerSingleton {
     if (ProviderManagerSingleton.instance) {
       return ProviderManagerSingleton.instance;
     }
+
+    DEFAULT_RPC[EEthereumNetworkId.mainnet] = getWeb3RpcUrl();
 
     ProviderManagerSingleton.instance = new ProviderManager(
       web3ModalTheme,

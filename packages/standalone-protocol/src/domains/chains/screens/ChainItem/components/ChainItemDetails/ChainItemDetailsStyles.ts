@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { ChainId } from 'domains/chains/api/chain';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -16,31 +17,31 @@ export const useStyles = makeStyles<Theme>(theme => ({
       gridTemplateColumns: 'repeat(1, 1fr)',
     },
 
-    '&.eth $block': {
+    [`&.${ChainId.Ethereum} $block`]: {
       borderRadius: 0,
       backgroundColor: '#E5E5F5',
     },
 
-    '&.harmony $block': {
+    [`&.${ChainId.Harmony} $block`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
     },
 
-    '&.arbitrum $block': {
+    [`&.${ChainId.Arbitrum} $block`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
-    '&.iotex $block': {
+    [`&.${ChainId.IoTeX} $block`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
-    '&.avalanche $block': {
+    [`&.${ChainId.Avalanche} $block`]: {
       backgroundColor: theme.palette.background.paper,
       border: `2px solid ${theme.palette.background.default}`,
     },
 
-    '&.nervos $block': {
+    [`&.${ChainId.Nervos} $block`]: {
       borderRadius: 0,
       position: 'relative',
 
@@ -60,17 +61,22 @@ export const useStyles = makeStyles<Theme>(theme => ({
       },
     },
 
-    '&.syscoin $block': {
+    [`&.${ChainId.Syscoin} $block`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.grey['200'],
     },
 
-    '&.secret $block': {
+    [`&.${ChainId.Secret} $block`]: {
       borderRadius: theme.spacing(1.25),
       border: `2px solid ${theme.palette.grey[300]}`,
     },
 
-    '&.klaytn $block': {
+    [`&.${ChainId.Filecoin} $block`]: {
+      borderRadius: 0,
+      backgroundColor: theme.palette.primary.light,
+    },
+
+    [`&.${ChainId.Klaytn} $block`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.primary.light,
     },

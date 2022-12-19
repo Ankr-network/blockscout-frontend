@@ -1,7 +1,7 @@
 import { Web3KeyWriteProvider } from '@ankr.com/provider';
 
 import { BackofficeGateway, IBackofficeGateway } from '../../backoffice';
-import { LoginSignService } from '../loginSignService';
+import { LoginSignService } from '../../services/loginSignService';
 
 export class AdminMrpcSdk {
   private backofficeGateway?: IBackofficeGateway;
