@@ -9,7 +9,6 @@ import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
 export interface PrivateStatsParams {
   interval: PrivateStatsInterval;
-  hasCredentials: boolean;
   requestKey?: string;
 }
 
@@ -21,7 +20,6 @@ export interface PrivateStatsReturn {
 
 export const usePrivateStats = ({
   interval,
-  hasCredentials,
   requestKey,
 }: PrivateStatsParams): PrivateStatsReturn => {
   const {
@@ -42,10 +40,8 @@ export const usePrivateStats = ({
   });
 
   useEffect(() => {
-    if (hasCredentials) {
-      dispatchRequest(fetchPrivateStats(interval, requestKey));
-    }
-  }, [dispatch, dispatchRequest, hasCredentials, interval, requestKey]);
+    dispatchRequest(fetchPrivateStats(interval, requestKey));
+  }, [dispatch, dispatchRequest, interval, requestKey]);
 
   return {
     data,

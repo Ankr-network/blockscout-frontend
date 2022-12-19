@@ -19,7 +19,6 @@ export interface UsageData {
   countries?: CountryMap;
   error: any;
   isConnecting: boolean;
-  isWalletConnected: boolean;
   loading: boolean;
   timeframe: Timeframe;
   totalCached: BigNumber;
@@ -28,4 +27,5 @@ export interface UsageData {
   totalRequestsHistory: Record<string, number>;
   userTopRequests?: TopRequestsResultData;
   userTopRequestsIp?: UserRequestsByIpData[];
+  isLoggedIn?: boolean;
 }

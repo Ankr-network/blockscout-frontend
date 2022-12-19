@@ -1,15 +1,15 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
+
 import { ChainID } from 'modules/chains/types';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { Timeframe } from 'multirpc-sdk';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { fetchPublicRequestsCountStats } from '../actions/fetchPublicRequestsCountStats';
 
 export interface PublicStatsParams {
   interval: Timeframe;
-  hasCredentials: boolean;
   requestKey?: string;
 }
 
@@ -21,7 +21,6 @@ export interface PublicStatsReturn {
 
 export const usePublicRequestsCountStats = ({
   interval,
-  hasCredentials,
 }: PublicStatsParams): PublicStatsReturn => {
   const {
     data,
@@ -40,10 +39,8 @@ export const usePublicRequestsCountStats = ({
   });
 
   useEffect(() => {
-    if (!hasCredentials) {
-      dispatchRequest(fetchPublicRequestsCountStats(interval));
-    }
-  }, [dispatch, dispatchRequest, hasCredentials, interval]);
+    dispatchRequest(fetchPublicRequestsCountStats(interval));
+  }, [dispatch, dispatchRequest, interval]);
 
   return {
     data,

@@ -1,10 +1,11 @@
 import BigNumber from 'bignumber.js';
+
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'domains/chains/types';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 import { PrivateStat } from 'multirpc-sdk';
-import { PublicStats, UsageData } from '../types';
-import { makePrivateCountryMap } from './makePrivateCountryMap';
+import { UsageData } from '../../types';
+import { makePrivateCountryMap } from '../../utils/makePrivateCountryMap';
 
 const SHOULD_SHOW_ONLY_PREMIUM_30D_COUNTRIES = true;
 
@@ -14,46 +15,21 @@ export interface UsageDataParams {
   privateStatsError: any;
   privateStats?: PrivateStat;
   day30PrivateStats?: PrivateStat;
-  publicStats: PublicStats;
   timeframe: Timeframe;
   userTopRequests: TopRequestsResultData;
   userTopRequestsIp: UserRequestsByIpData[];
-  hasCredentials: boolean;
 }
 
-export const getUsageData = ({
+export const getPrivateUsageData = ({
   isConnecting,
   arePrivateStatsLoading,
   privateStatsError,
   privateStats,
   day30PrivateStats,
-  publicStats: {
-    countries: publicCountries,
-    error: publicStatsError,
-    loading: arePublicStatsLoading,
-    totalCached,
-    totalRequests: publicTotalRequests,
-    totalRequestsHistory: publicTotalRequestsHistory,
-  },
   timeframe,
   userTopRequests,
   userTopRequestsIp,
-  hasCredentials,
 }: UsageDataParams): UsageData => {
-  const publicUsageData: UsageData = {
-    countries: publicCountries,
-    error: publicStatsError,
-    isConnecting,
-    isWalletConnected: hasCredentials,
-    loading: arePublicStatsLoading || isConnecting,
-    timeframe,
-    totalCached,
-    totalRequests: publicTotalRequests,
-    totalRequestsHistory: publicTotalRequestsHistory,
-    userTopRequests: undefined,
-    userTopRequestsIp: undefined,
-  };
-
   const {
     total_requests: privateTotalRequests = 0,
     counts: privateTotalRequestsHistory = {},
@@ -73,7 +49,6 @@ export const getUsageData = ({
     ),
     error: privateStatsError,
     isConnecting,
-    isWalletConnected: hasCredentials,
     loading: arePrivateStatsLoading || isConnecting,
     timeframe,
     totalCached: new BigNumber(0),
@@ -88,5 +63,5 @@ export const getUsageData = ({
     userTopRequestsIp,
   };
 
-  return hasCredentials ? privateUsageData : publicUsageData;
+  return privateUsageData;
 };

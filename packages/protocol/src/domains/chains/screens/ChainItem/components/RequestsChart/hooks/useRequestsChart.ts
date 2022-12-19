@@ -13,7 +13,7 @@ export interface RequestsChart {
 
 export const useRequestsChart = ({
   isConnecting,
-  isWalletConnected,
+  isLoggedIn,
   loading,
   timeframe,
   totalRequestsHistory,
@@ -24,10 +24,10 @@ export const useRequestsChart = ({
     !withPreloader &&
     isTotalRequestsHistoryNotEmpty(totalRequestsHistory);
 
-  const withPlaceholder = isWalletConnected && !loading;
+  const withPlaceholder = Boolean(isLoggedIn && !loading);
 
   const chartProps = useChartProps({
-    isWalletConnected,
+    isLoggedIn,
     loading,
     timeframe,
     totalRequestsHistory,

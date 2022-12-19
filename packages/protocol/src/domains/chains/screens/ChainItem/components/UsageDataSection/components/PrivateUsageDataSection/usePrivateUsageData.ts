@@ -8,13 +8,11 @@ import { ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import {
   checkPrivateSecretChainsAndGetChainId,
-  checkPublicSecretChainsAndGetChainId,
   timeframeToIntervalMap,
-} from '../const';
-import { UsageData } from '../types';
-import { getChainId } from '../utils/getChainId';
-import { getUsageData } from '../utils/getUsageData';
-import { usePublicStats } from './usePublicStats';
+} from '../../const';
+import { UsageData } from '../../types';
+import { getChainId } from '../../utils/getChainId';
+import { getPrivateUsageData } from './getPrivateUsageData';
 
 export interface UsageDataParams {
   chain: IApiChain;
@@ -23,7 +21,7 @@ export interface UsageDataParams {
   timeframe: Timeframe;
 }
 
-export const useUsageData = ({
+export const usePrivateUsageData = ({
   chain,
   chainType,
   group,
@@ -37,16 +35,9 @@ export const useUsageData = ({
     withExceptions: !isWalletConnected,
   });
 
-  const publicCheckedChainId = checkPublicSecretChainsAndGetChainId(chainId);
   const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);
 
   const hasCredentials = Boolean(credentials);
-
-  const publicStats = usePublicStats({
-    chainId: publicCheckedChainId,
-    hasCredentials,
-    timeframe,
-  });
 
   const {
     data: { stats: privateStats = {} },
@@ -54,7 +45,6 @@ export const useUsageData = ({
     privateStatsError,
   } = usePrivateStats({
     interval: timeframeToIntervalMap[timeframe],
-    hasCredentials,
   });
 
   const userTopRequests = useUserTopRequests({
@@ -73,17 +63,15 @@ export const useUsageData = ({
     chainId: privateCheckedChainId,
   });
 
-  return getUsageData({
+  return getPrivateUsageData({
     isConnecting,
     arePrivateStatsLoading:
       arePrivateStatsLoading || areDay30PrivateStatsLoading,
     privateStatsError,
     privateStats: privateStats[privateCheckedChainId],
     day30PrivateStats: day30PrivateStats[privateCheckedChainId], // TODO: remove upon backend support for other timeframes
-    publicStats,
     timeframe,
     userTopRequests,
     userTopRequestsIp,
-    hasCredentials,
   });
 };

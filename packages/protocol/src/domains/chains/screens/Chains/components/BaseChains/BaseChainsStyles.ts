@@ -1,9 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useChainsStyles = makeStyles<Theme>(theme => ({
-  userStats: {
-    marginBottom: theme.spacing(5.25),
-  },
+export const useBaseChainsStyles = makeStyles<Theme>(() => ({
   container: {
     minHeight: 80,
     position: 'relative',

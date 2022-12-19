@@ -1,22 +1,20 @@
 import { useEffect } from 'react';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { POLL_INTERVAL } from '../const';
-import { PublicStats } from '../types';
+import { POLL_INTERVAL } from '../../const';
+import { PublicStats } from '../../types';
 import { Timeframe } from 'domains/chains/types';
 import { fetchChainTimeframeData } from 'domains/chains/actions/fetchChainTimeframeData';
-import { normalizeTotalRequestsHistory } from '../utils/normalizeTotalRequestsHistory';
+import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
 
 export interface PublicStatsParams {
   chainId: string;
-  hasCredentials: boolean;
   timeframe: Timeframe;
 }
 
 export const usePublicStats = ({
   chainId,
-  hasCredentials,
   timeframe,
 }: PublicStatsParams): PublicStats => {
   const {
@@ -33,7 +31,7 @@ export const usePublicStats = ({
   const dispatch = useDispatchRequest();
 
   useEffect(() => {
-    if (!hasCredentials && chainId) {
+    if (chainId) {
       dispatch(
         fetchChainTimeframeData(
           chainId,
@@ -44,14 +42,14 @@ export const usePublicStats = ({
     }
 
     return stopPolling;
-  }, [dispatch, chainId, hasCredentials, timeframe, stopPolling]);
+  }, [dispatch, chainId, timeframe, stopPolling]);
 
   const { totalCached, totalRequests, totalRequestsHistory, countries } = stats;
 
   return {
     countries,
     error,
-    loading,
+    loading: loading && pristine,
     pristine,
     totalCached,
     totalRequests,

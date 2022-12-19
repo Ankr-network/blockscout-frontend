@@ -11,7 +11,7 @@ import { useUsageSummaryStyles } from './UsageSummaryStyles';
 export interface UsageSummaryProps {
   cachedRequests: BigNumber;
   className?: string;
-  isWalletConnected: boolean;
+  isLoggedIn?: boolean;
   loading: boolean;
   timeframe: Timeframe;
   totalCost?: number;
@@ -28,7 +28,7 @@ const costTitle = t(`${root}.cost.title`);
 export const UsageSummary = ({
   cachedRequests,
   className,
-  isWalletConnected,
+  isLoggedIn,
   loading,
   timeframe,
   totalCost,
@@ -60,7 +60,7 @@ export const UsageSummary = ({
     <div className={classNames(className, classes.usageSummary)}>
       <Stat loading={loading} title={totalTitle} value={total} />
       <Stat loading={loading} title={averageTitle} value={average} />
-      {isWalletConnected ? costStat : cachedStat}
+      {isLoggedIn ? costStat : cachedStat}
     </div>
   );
 };
