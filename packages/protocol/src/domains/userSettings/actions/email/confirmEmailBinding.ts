@@ -1,38 +1,40 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { getEmailErrorConfig } from 'domains/userSettings/utils/getEmailErrorConfig';
 import { MultiService } from 'modules/api/MultiService';
 import { IEmailResponse } from 'multirpc-sdk';
 
 interface IConfirmEmailBindingParams {
-  email: string;
   code: string;
+  email: string;
+  shouldNotify?: boolean;
 }
 
 export const confirmEmailBinding = createSmartAction<
   RequestAction<IEmailResponse>,
   [IConfirmEmailBindingParams]
->('userSettings/confirmEmailBinding', ({ email, code }) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    cache: false,
-    takeLatest: true,
-    ...getEmailErrorConfig(),
+>(
+  'userSettings/confirmEmailBinding',
+  ({ code, email, shouldNotify = true }) => ({
+    request: {
+      promise: (async () => null)(),
+    },
+    meta: {
+      asMutation: false,
+      cache: false,
+      takeLatest: true,
+      hideNotificationOnError: !shouldNotify,
+      onRequest: () => ({
+        promise: (async (): Promise<IEmailResponse> => {
+          const service = MultiService.getService();
 
-    onRequest: () => ({
-      promise: (async (): Promise<IEmailResponse> => {
-        const service = MultiService.getService();
+          const response = await service
+            .getAccountGateway()
+            .confirmEmailBinding(email, code);
 
-        const response = await service
-          .getAccountGateway()
-          .confirmEmailBinding(email, code);
-
-        return response;
-      })(),
-    }),
-  },
-}));
+          return response;
+        })(),
+      }),
+    },
+  }),
+);

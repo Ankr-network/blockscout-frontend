@@ -1,18 +1,18 @@
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { getEmailErrorConfig } from 'domains/userSettings/utils/getEmailErrorConfig';
 import { MultiService } from 'modules/api/MultiService';
 import { IEmailResponse } from 'multirpc-sdk';
 
 interface IAddNewEmailBindingParams {
   email: string;
+  shouldNotify?: boolean;
 }
 
 export const addNewEmailBinding = createSmartAction<
   RequestAction<IEmailResponse>,
   [IAddNewEmailBindingParams]
->('userSettings/addNewEmailBinding', ({ email }) => ({
+>('userSettings/addNewEmailBinding', ({ email, shouldNotify = true }) => ({
   request: {
     promise: (async () => null)(),
   },
@@ -20,8 +20,7 @@ export const addNewEmailBinding = createSmartAction<
     cache: false,
     asMutation: false,
     takeLatest: true,
-    ...getEmailErrorConfig(),
-
+    hideNotificationOnError: !shouldNotify,
     onRequest: () => ({
       promise: (async (): Promise<IEmailResponse> => {
         const service = MultiService.getService();
