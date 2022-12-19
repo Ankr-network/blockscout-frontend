@@ -77,6 +77,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     AnkrStakingSDK.instance = this;
 
     this.writeProvider = writeProvider;
+
     this.currentAccount = this.writeProvider.currentAccount;
   }
 
@@ -594,60 +595,37 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
       const isOneDelegation = existingDelegations.length === 1;
 
-      // Partially working solution.
-      // Please see https://ankrnetwork.atlassian.net/browse/STAKAN-2399 .
-      // For users that have only 1 stake we must use method from contract
-      // and show Locking period based on method from contract.
-      if (isOneDelegation && claimAndUndelegateHistory.length) {
-        const delegation = existingDelegations[0];
-
-        const { txDate: latestClaimOrUndelegateDate } =
-          claimAndUndelegateHistory.reduce((a, b) => {
+      const lastClaimOrUndelegateDate = claimAndUndelegateHistory.length
+        ? claimAndUndelegateHistory.reduce((a, b) => {
             return a.txDate > b.txDate ? a : b;
-          });
+          }).txDate
+        : null;
 
-        const daysToNextEpoch = this.calcEpochDaysLeft(
-          nextEpochDate,
-          latestClaimOrUndelegateDate,
-        );
-
-        const totalLockingDays = lockPeriodDays + daysToNextEpoch;
-        const detailedDaysLeft = this.calcLeftDays(
-          latestClaimOrUndelegateDate,
-          totalLockingDays,
-        );
-
-        if (detailedDaysLeft > 0) {
-          detailedData.push({
-            lockingPeriod: detailedDaysLeft,
-            lockingPeriodPercent: Math.ceil(
-              (detailedDaysLeft / totalLockingDays) * 100,
-            ),
-            isUnlocked: detailedDaysLeft <= 0,
-            stakeAmount: this.convertFromWei(delegation.amount),
-            usdStakeAmount: this.convertFromWei(delegation.amount).multipliedBy(
-              usdPrice ?? ZERO,
-            ),
-            rewards: ZERO,
-            usdRewards: ZERO,
-          });
-        }
-
-        // for users that have 2 stakes and more keep current logic
-      } else if (existingDelegations.length > 1) {
+      if (existingDelegations.length) {
         for (let i = 0; i < existingDelegations.length; i += 1) {
           const delegation = existingDelegations[i];
-          const delegationDate = delegation.txDate;
+
+          // For more info please see https://ankrnetwork.atlassian.net/browse/STAKAN-2399
+          const isDelegationWasBeforeFix = delegation.event
+            ? delegation.event.blockNumber < ANKR_STAKING_BLOCK_WITH_FIX
+            : false;
+
+          const isDelegationCorrupted =
+            isDelegationWasBeforeFix && !!lastClaimOrUndelegateDate;
+
+          const startDate = isDelegationCorrupted
+            ? lastClaimOrUndelegateDate
+            : delegation.txDate;
 
           const daysToNextEpoch = this.calcEpochDaysLeft(
             nextEpochDate,
-            delegationDate,
+            startDate,
           );
 
           const totalLockingDays = lockPeriodDays + daysToNextEpoch;
 
           const detailedDaysLeft = this.calcLeftDays(
-            delegationDate,
+            startDate,
             totalLockingDays,
           );
 
