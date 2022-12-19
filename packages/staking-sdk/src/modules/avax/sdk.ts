@@ -12,7 +12,7 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { getPastEvents } from '../api';
+import { getPastEvents } from '@ankr.com/advanced-api';
 import {
   configFromEnv,
   ETH_SCALE_FACTOR,

@@ -1,3 +1,4 @@
+import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import prettyTime from 'pretty-time';
@@ -14,7 +15,6 @@ import {
 } from '@ankr.com/provider';
 import {
   ANKR_ABI,
-  getPastEvents,
   IS_ADVANCED_API_ACTIVE,
   ProviderManagerSingleton,
 } from '@ankr.com/staking-sdk';

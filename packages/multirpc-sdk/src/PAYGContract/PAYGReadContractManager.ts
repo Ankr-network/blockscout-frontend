@@ -41,6 +41,7 @@ export class PAYGReadContractManager {
       .eth.getBlockNumber();
 
     return getPastEventsBlockchain({
+      web3: this.keyProvider.getWeb3(),
       contract,
       eventName: event,
       filter: {
