@@ -1,13 +1,10 @@
-import { AxiosResponse } from 'axios';
 import Web3 from 'web3';
+import { AxiosResponse } from 'axios';
 import { Contract } from 'web3-eth-contract';
-
-import { configFromEnv } from '../../common';
+import { configFromEnv } from '../common/config';
 import { AnkrAPIGateway } from '../AnkrAPIGateway';
-
 import { IFilter, ILog, TBlockchain } from './types';
 import { generateEventOptions } from './utils/generateEventOptions';
-
 const { gatewayConfig } = configFromEnv();
 
 interface IGetLogs {
@@ -55,7 +52,7 @@ export const getLogs = async ({
       data: {
         id: 1,
         jsonrpc: '2.0',
-        method: 'explorer_getLogs',
+        method: 'ankr_getLogs',
         params: {
           fromBlock,
           toBlock,

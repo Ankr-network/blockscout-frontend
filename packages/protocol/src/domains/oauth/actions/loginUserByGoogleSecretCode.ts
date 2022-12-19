@@ -105,7 +105,7 @@ export const loginUser = createSmartAction<RequestAction>(
             }
 
             const { data } = await store.dispatchRequest(
-              getActiveEmailBinding(),
+              getActiveEmailBinding({ notify: false }),
             );
 
             store.dispatch(

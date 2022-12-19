@@ -330,12 +330,15 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     usdPrice: BigNumber,
     latestBlockNumber: number,
   ): Promise<IUnstakingData[]> {
-    const [{ undelegatePeriod }, epochDuration, activeValidators] =
-      await Promise.all([
-        this.getChainConfig(),
-        this.getEpochDurationDays(latestBlockNumber),
-        this.getActiveValidators(),
-      ]);
+    const [
+      { undelegatePeriod, epochBlockInterval },
+      epochDuration,
+      activeValidators,
+    ] = await Promise.all([
+      this.getChainConfig(),
+      this.getEpochDurationDays(latestBlockNumber),
+      this.getActiveValidators(),
+    ]);
 
     const lockPeriodDays = undelegatePeriod * epochDuration;
 
@@ -362,8 +365,6 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       }),
     );
 
-    const prevEpochDate = await this.getEpochPrevDate(latestBlockNumber);
-
     return usingValidators.reduce<IUnstakingData[]>((result, validator) => {
       const existingUndelegations = fullUndelegationHistory
         .filter(undelegation => undelegation.validator === validator.validator)
@@ -383,40 +384,41 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       if (existingUndelegations.length > 0) {
         const lastUndelegation = existingUndelegations[0];
 
-        const diff = Math.abs(
-          prevEpochDate.getTime() - lastUndelegation.txDate.getTime(),
+        const blockNumber = lastUndelegation.event?.blockNumber ?? 0;
+        const secondsToStartFirstEpoch =
+          this.getEpochEndSecondsForBlockInterval(
+            blockNumber,
+            epochBlockInterval,
+          );
+        const daysToStartFirstEpoch = Math.trunc(
+          secondsToStartFirstEpoch / (60 * 60 * 24),
         );
-        const daysToStartFirstEpoch = Math.ceil(
-          (diff / (1000 * 60 * 60 * 24)) % epochDuration,
-        );
+
         const totalLockingDays = daysToStartFirstEpoch + lockPeriodDays;
-        const minDaysLeft = this.calcLeftDays(
+        const lastUndelegationDaysLeft = this.calcLeftDays(
           lastUndelegation.txDate,
           totalLockingDays,
         );
 
-        if (minDaysLeft > 0) {
+        if (lastUndelegationDaysLeft > 0) {
           for (let i = 0; i < existingUndelegations.length; i += 1) {
             const undelegation = existingUndelegations[i];
 
-            const existedDiff = Math.abs(
-              prevEpochDate.getTime() - undelegation.txDate.getTime(),
-            );
-            const existedDaysToStartFirstEpoch = Math.ceil(
-              (existedDiff / (1000 * 60 * 60 * 24)) % epochDuration,
+            const existedBlockNumber = lastUndelegation.event?.blockNumber ?? 0;
+            const existedSecondsToStartFirstEpoch =
+              this.getEpochEndSecondsForBlockInterval(
+                existedBlockNumber,
+                epochBlockInterval,
+              );
+            const existedDaysToStartFirstEpoch = Math.trunc(
+              existedSecondsToStartFirstEpoch / (60 * 60 * 24),
             );
             const existedTotalLockingDays =
               existedDaysToStartFirstEpoch + lockPeriodDays;
-            const daysLeft =
-              lockPeriodDays > 0
-                ? this.calcLeftDays(
-                    undelegation.txDate,
-                    existedTotalLockingDays,
-                  )
-                : this.calcLeftDaysByPrevEpoch(
-                    undelegation.txDate,
-                    prevEpochDate,
-                  );
+            const daysLeft = this.calcLeftDays(
+              undelegation.txDate,
+              existedTotalLockingDays,
+            );
 
             if (daysLeft > 0) {
               const amount = this.convertFromWei(undelegation.amount);

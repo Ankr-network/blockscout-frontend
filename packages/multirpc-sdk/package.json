@@ -48,6 +48,7 @@
     "rimraf": "3.0.2"
   },
   "dependencies": {
+    "@ankr.com/advanced-api": "*",
     "@ankr.com/provider": "*",
     "@ankr.com/common": "*",
     "@ankr.com/utils": "*",

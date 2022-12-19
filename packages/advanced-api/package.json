@@ -1,0 +1,64 @@
+{
+  "name": "@ankr.com/advanced-api",
+  "version": "0.0.1",
+  "description": "Advanced API module",
+  "private": false,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "ankr",
+    "ankr.com"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
+    "prebuild": "rimraf dist",
+    "precommit": "lint-staged; npm run test",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:turbo": "cd ../.. && turbo run test --filter=@ankr.com/common",
+    "test:watch:turbo": "cd ../.. && turbo run test:watch --filter=@ankr.com/common",
+    "types": "tsc --noEmit -p tsconfig.json",
+    "build": "vite build",
+    "build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/common...",
+    "clean": "rimraf build dist",
+    "watch": "yarn build --watch"
+  },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^29.1.2",
+    "cpy-cli": "^3.1.1",
+    "eslint-config-prettier": "^7.2.0",
+    "jest": "27.0.0",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "rimraf": "3.0.2",
+    "ts-jest": "27.0.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "web3": "1.7.0",
+    "web3-core": "1.7.0",
+    "web3-eth-contract": "1.7.0",
+    "web3-utils": "1.7.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": ""
+}

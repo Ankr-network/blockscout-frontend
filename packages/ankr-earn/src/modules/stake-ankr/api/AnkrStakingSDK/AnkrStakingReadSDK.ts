@@ -1,3 +1,4 @@
+import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import prettyTime from 'pretty-time';
@@ -14,7 +15,6 @@ import {
 } from '@ankr.com/provider';
 import {
   ANKR_ABI,
-  getPastEvents,
   IS_ADVANCED_API_ACTIVE,
   ProviderManagerSingleton,
 } from '@ankr.com/staking-sdk';
@@ -695,6 +695,16 @@ export class AnkrStakingReadSDK {
   public async getEpochEndSeconds(blockNumber: number): Promise<number> {
     const { epochBlockInterval } = await this.getChainConfig();
 
+    return this.getEpochEndSecondsForBlockInterval(
+      blockNumber,
+      epochBlockInterval,
+    );
+  }
+
+  protected getEpochEndSecondsForBlockInterval(
+    blockNumber: number,
+    epochBlockInterval: number,
+  ): number {
     const nextEpochBlock =
       (Math.trunc(blockNumber / epochBlockInterval || 0) + 1) *
       epochBlockInterval;

@@ -1,30 +1,30 @@
-import { createDriver as createAxiosDriver } from '@redux-requests/axios';
-import { handleRequests } from '@redux-requests/core';
-import { createDriver as createPromiseDriver } from '@redux-requests/promise';
+import { capitalize } from '@material-ui/core';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createDriver as createAxiosDriver } from '@redux-requests/axios';
+import { createDriver as createPromiseDriver } from '@redux-requests/promise';
+import { handleRequests } from '@redux-requests/core';
 import { persistReducer, persistStore } from 'redux-persist';
+import axios from 'axios';
 import createSagaMiddleware from 'redux-saga';
 
 import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
 import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
-import { disconnect } from 'domains/auth/actions/disconnect';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
 import { authSlice } from 'domains/auth/store/authSlice';
-import { i18nSlice } from 'modules/i18n/i18nSlice';
-import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
-import { NotificationActions } from '../domains/notification/store/NotificationActions';
-import { notificationSlice } from '../domains/notification/store/notificationSlice';
+import { chainsSlilce } from 'domains/chains/store/chainsSlice';
+import { disconnect } from 'domains/auth/actions/disconnect';
 import { extractMessage } from '../modules/common/utils/extractError';
 import { historyInstance } from '../modules/common/utils/historyInstance';
-import { rootSaga } from './rootSaga';
+import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
+import { i18nSlice } from 'modules/i18n/i18nSlice';
+import { isAxiosAccountEmailError } from './utils/isAxiosAccountEmailError';
+import { isAxiosAccountError } from './utils/isAxiosAccountError';
+import { isAxiosAuthError } from './utils/isAxiosAuthError';
+import { NotificationActions } from '../domains/notification/store/NotificationActions';
+import { notificationSlice } from '../domains/notification/store/notificationSlice';
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
-import { chainsSlilce } from 'domains/chains/store/chainsSlice';
-
-const TOKEN_EXPIRED_ERROR = 'this token has already expired';
-const TOKEN_AUTH_ERROR = 'Auth token is not provided or malformed';
-const TOKEN_MALFORMED_ERROR = 'auth token is malformed';
+import { rootSaga } from './rootSaga';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: {
@@ -50,24 +50,24 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
     return request;
   },
   onError: (error: any, action, store: Store) => {
-    let customMessageKey = '';
+    const shouldNotify =
+      !isAxiosAccountEmailError(error) && !action.meta?.hideNotificationOnError;
 
-    if (
-      error?.response?.data === TOKEN_EXPIRED_ERROR ||
-      error?.response?.data === TOKEN_AUTH_ERROR ||
-      error?.response?.data === TOKEN_MALFORMED_ERROR
-    ) {
-      store.dispatch(disconnect());
+    if (shouldNotify) {
+      let message = extractMessage(error);
 
-      customMessageKey = 'error.expired-session';
-    }
+      if (isAxiosAuthError(error)) {
+        store.dispatch(disconnect());
 
-    if (!action.meta?.hideNotificationOnError) {
+        message = extractMessage(error.response?.data, 'error.expired-session');
+      }
+
+      if (isAxiosAccountError(error)) {
+        message = capitalize(error.response?.data.error.message ?? message);
+      }
+
       store.dispatch(
-        NotificationActions.showNotification({
-          message: extractMessage(error, customMessageKey),
-          severity: 'error',
-        }),
+        NotificationActions.showNotification({ message, severity: 'error' }),
       );
     }
 
