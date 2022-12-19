@@ -5,6 +5,7 @@
   "homepage": "/staking",
   "main": "src/index.ts",
   "dependencies": {
+    "@ankr.com/advanced-api": "*",
     "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "*",
