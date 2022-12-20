@@ -169,6 +169,12 @@ export const ClientUsageTable = ({
         totalCost={totalCost}
       />
 
+      {totalRequestsHistory && (
+        <Paper sx={{ p: 4 }}>
+          <Chart {...chartProps} tooltipContent={<Tooltip />} />
+        </Paper>
+      )}
+
       {usage
         ? TAB_INDEXES.map(tab => {
             return (
@@ -235,12 +241,6 @@ export const ClientUsageTable = ({
         : isLoadingStats
         ? 'Loading'
         : 'Not found'}
-
-      {totalRequestsHistory && (
-        <Paper sx={{ p: 4 }}>
-          <Chart {...chartProps} tooltipContent={<Tooltip />} />
-        </Paper>
-      )}
     </>
   );
 };
