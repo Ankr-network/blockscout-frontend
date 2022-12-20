@@ -23,8 +23,8 @@ import { configFromEnv } from 'modules/api/config';
 import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import {
-  SHORT_CACHE_TIME,
   LONG_CACHE_TIME,
+  SHORT_CACHE_TIME,
   TEMPORARY_APY,
 } from 'modules/stake-ankr/const';
 
@@ -483,6 +483,12 @@ export class AnkrStakingReadSDK {
       .sort((a, b) => b.txDate.getTime() - a.txDate.getTime());
   }
 
+  @Memoize({
+    expiring: SHORT_CACHE_TIME,
+    hashFunction: (filter: Partial<IDelegationHistoryFilter>) => {
+      return `${filter.staker}${filter.validator}`;
+    },
+  })
   public async getClaimHistory(
     filter: { validator?: Web3Address; staker?: Web3Address } = {},
     latestBlockNumber: number,
