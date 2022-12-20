@@ -142,22 +142,24 @@ export const LiquidStakingTokens = (): JSX.Element => {
           onStakeClick={onTrackEnterStakingFlow(Token.DOT)}
         />
 
-        <FeatureItem
-          apy={metrics && +metrics.ksm.apy}
-          iconSlot={<KsmIcon />}
-          isApyLoading={loading}
-          isTvlLoading={loading}
-          mainHref={
-            isMainnet
-              ? PolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM)
-              : undefined
-          }
-          moreHref={ANKR_KSM_LANDING}
-          stakedTvl={metrics?.ksm.totalStaked}
-          title={t('features.ksm')}
-          token={Token.KSM}
-          onStakeClick={onTrackEnterStakingFlow(Token.KSM)}
-        />
+        {featuresConfig.isKusamaStakingActive && (
+          <FeatureItem
+            apy={metrics && +metrics.ksm.apy}
+            iconSlot={<KsmIcon />}
+            isApyLoading={loading}
+            isTvlLoading={loading}
+            mainHref={
+              isMainnet
+                ? PolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM)
+                : undefined
+            }
+            moreHref={ANKR_KSM_LANDING}
+            stakedTvl={metrics?.ksm.totalStaked}
+            title={t('features.ksm')}
+            token={Token.KSM}
+            onStakeClick={onTrackEnterStakingFlow(Token.KSM)}
+          />
+        )}
 
         {!isMainnet && (
           <FeatureItem

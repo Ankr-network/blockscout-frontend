@@ -3,7 +3,7 @@ import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { featuresConfig, STAKE_LEGACY_LINKS, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { RoutesConfig } from 'modules/stake-polkadot/Routes';
@@ -57,11 +57,7 @@ export const useUnclaimedPolkadotCard = ({
     });
   }, [amount, metrics, network]);
 
-  const claimLink =
-    featuresConfig.isActivePolkadotStaking &&
-    featuresConfig.isActivePolkadotClaiming
-      ? RoutesConfig.claim.generatePath(network)
-      : STAKE_LEGACY_LINKS[polkadotToken] ?? '';
+  const claimLink = RoutesConfig.claim.generatePath(network);
 
   const networkTxt = useMemo(
     () =>

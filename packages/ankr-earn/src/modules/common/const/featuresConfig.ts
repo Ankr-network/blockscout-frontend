@@ -19,16 +19,6 @@ export const featuresConfig = {
    * Please remove extra feature flag
    * @deprecated
    */
-  isActivePolkadotClaiming: true,
-  /**
-   * Please remove extra feature flag
-   * @deprecated
-   */
-  isActivePolkadotStaking: true,
-  /**
-   * Please remove extra feature flag
-   * @deprecated
-   */
   ankrStaking: true,
   /**
    * TODO Please remove it when actual translation would be added
@@ -59,4 +49,5 @@ export const featuresConfig = {
   isSUIStakingActive: isLocal,
   disableHeavyRequestsForTestnet: currentEnv !== Env.Production,
   isTradeInfoActiveForBnb: false,
+  isKusamaStakingActive: false,
 };

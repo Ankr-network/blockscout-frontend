@@ -5,7 +5,7 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { HistoryDialog } from 'modules/common/components/HistoryDialog';
-import { featuresConfig, ONE } from 'modules/common/const';
+import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -122,11 +122,7 @@ export const StakedADOTB = (): JSX.Element => {
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
-        onHistoryBtnClick={
-          featuresConfig.isActivePolkadotStaking
-            ? handleOpenHistoryDialog
-            : undefined
-        }
+        onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />

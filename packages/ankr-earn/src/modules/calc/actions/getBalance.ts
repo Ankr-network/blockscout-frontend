@@ -202,7 +202,6 @@ export const getBalance = createAction<
         }
 
         case Token.WND:
-        case Token.KSM:
         case Token.DOT: {
           const sdk = await PolkadotStakeSDK.getInstance();
           const network = EPolkadotNetworks[token];
@@ -222,6 +221,7 @@ export const getBalance = createAction<
           return getXDCStakingCalcData(store);
         }
 
+        case Token.KSM:
         default:
           return {
             balance: ZERO,

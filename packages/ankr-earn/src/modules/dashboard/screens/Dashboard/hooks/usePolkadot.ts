@@ -2,7 +2,6 @@ import { abortRequests, resetRequests } from '@redux-requests/core';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { featuresConfig } from 'modules/common/const';
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
 import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/fetchPolkadotAccountFullBalance';
@@ -77,10 +76,7 @@ export const usePolkadot = (): void => {
 
     (POLKADOT_NETWORK_KEYS as EPolkadotNetworks[]).forEach((network): void => {
       dispatch(fetchETHTokenBalance(network));
-
-      if (featuresConfig.isActivePolkadotStaking) {
-        dispatch(fetchPolkadotPendingHistoryAmountSum(network));
-      }
+      dispatch(fetchPolkadotPendingHistoryAmountSum(network));
     });
 
     return () => {

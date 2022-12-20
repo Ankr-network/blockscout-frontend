@@ -224,14 +224,21 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         service: EMetricsServiceName.DOT,
         link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.DOT),
       },
-      {
-        name: Token.KSM,
-        amount:
-          ksmBalance?.plus(ksmClaimableBalance?.claimable ?? ZERO) ?? ZERO,
-        apy: metrics?.ksm.apy ?? ZERO,
-        service: EMetricsServiceName.KSM,
-        link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM),
-      },
+      ...(featuresConfig.isKusamaStakingActive
+        ? [
+            {
+              name: Token.KSM,
+              amount:
+                ksmBalance?.plus(ksmClaimableBalance?.claimable ?? ZERO) ??
+                ZERO,
+              apy: metrics?.ksm.apy ?? ZERO,
+              service: EMetricsServiceName.KSM,
+              link: StakePolkadotRoutes.stake.generatePath(
+                EPolkadotNetworks.KSM,
+              ),
+            },
+          ]
+        : []),
       {
         name: Token.WND,
         amount: featuresConfig.testingUi
