@@ -23,6 +23,7 @@ export const TotalInfo = (): JSX.Element => {
     climableRewardsUsd,
     isClimableRewardsLoading,
     isTotalStakedLoading,
+    isClaimAllowed,
     claimAllRewardsLink,
     stakeLink,
     epochEnds,
@@ -56,6 +57,7 @@ export const TotalInfo = (): JSX.Element => {
                 buttonSlot={
                   <NavLink
                     className={classNames(classes.btn, classes.btnRegular)}
+                    disabled={!isClaimAllowed}
                     href={claimAllRewardsLink}
                     variant="outlined"
                   >
