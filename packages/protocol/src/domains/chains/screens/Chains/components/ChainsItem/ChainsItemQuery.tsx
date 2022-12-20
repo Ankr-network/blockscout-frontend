@@ -17,9 +17,8 @@ export const ChainsItemQuery = ({
   ...props
 }: ChainsItemQueryProps) => {
   const [totalRequests, loading, isPremium, hasConnectWalletMessage] =
-    useQueryChainsItem({
-      chain,
-    });
+    useQueryChainsItem({ chain });
+
   const isHighlighted = useMemo(
     () => chain.type === BlockchainType.Customized,
     [chain.type],

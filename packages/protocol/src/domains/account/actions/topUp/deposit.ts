@@ -1,59 +1,47 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
-import { fetchPublicKey } from '../fetchPublicKey';
+import { accountFetchPublicKey } from '../fetchPublicKey';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import {
   setAllowanceTransaction,
   setTopUpTransaction,
 } from 'domains/account/store/accountTopUpSlice';
-import { throwIfError } from '@ankr.com/common';
+import { web3Api } from 'store/queries';
 
-const setTransaction = (
-  store: RequestsStore,
-  address: string,
-  topUpTransactionHash: string,
-) => {
-  if (topUpTransactionHash) {
-    store.dispatch(
-      setTopUpTransaction({
-        address,
-        topUpTransactionHash,
-      }),
-    );
-  }
-};
+export const {
+  endpoints: { topUpDeposit },
+  useLazyTopUpDepositQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpDeposit: build.query<IWeb3SendResult, BigNumber>({
+      queryFn: createNotifyingQueryFn(async (amount, { dispatch }) => {
+        const service = await MultiService.getWeb3Service();
+        const provider = service.getKeyProvider();
+        const { currentAccount: address } = provider;
 
-export const deposit = createSmartAction<
-  RequestAction<string, IWeb3SendResult>
->('topUp/deposit', (amount: BigNumber) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
-      return {
-        promise: (async (): Promise<any> => {
-          const service = await MultiService.getWeb3Service();
-          const provider = service.getKeyProvider();
-          const { currentAccount: address } = provider;
+        const publicKey = await dispatch(
+          accountFetchPublicKey.initiate(),
+        ).unwrap();
 
-          const { data: publicKey } = throwIfError(
-            await store.dispatchRequest(fetchPublicKey()),
+        const depositResponse = await service
+          .getContractService()
+          .depositAnkrToPAYG(amount, publicKey);
+
+        dispatch(setAllowanceTransaction({ address }));
+
+        if (depositResponse.transactionHash) {
+          dispatch(
+            setTopUpTransaction({
+              address,
+              topUpTransactionHash: depositResponse.transactionHash,
+            }),
           );
+        }
 
-          const depositResponse = await service
-            .getContractService()
-            .depositAnkrToPAYG(amount, publicKey as string);
-
-          store.dispatch(setAllowanceTransaction({ address }));
-          setTransaction(store, address, depositResponse.transactionHash);
-
-          return depositResponse;
-        })(),
-      };
-    },
-  },
-}));
+        return { data: depositResponse };
+      }),
+    }),
+  }),
+});

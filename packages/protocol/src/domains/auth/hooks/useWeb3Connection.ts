@@ -1,53 +1,63 @@
 import { useCallback } from 'react';
+
+import { AuthConnectParams, authConnect } from '../actions/connect';
 import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
-
-import { connect } from '../actions/connect';
-import { disconnect } from '../actions/disconnect';
-import { addNetwork } from '../actions/addNetwork';
+  IChainParams,
+  useLazyAuthAddNetworkQuery,
+} from '../actions/addNetwork';
+import { IConnect } from '../actions/connectUtils';
 import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
+import { Trigger, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { authDisconnect } from '../actions/disconnect';
 
-export const useWeb3Connection = () => {
-  const dispatchRequest = useDispatchRequest();
+type HandleConnect = (
+  walletId: string,
+  isAutoConnect?: boolean,
+) => ReturnType<Trigger<AuthConnectParams, IConnect>>;
+
+export interface Web3Connection {
+  connectData?: IConnect;
+  handleAddNetwork: (params: IChainParams) => void;
+  handleConnect: HandleConnect;
+  handleDisconnect: () => void;
+  isWalletConnected: boolean;
+  loading: boolean;
+}
+
+export const useWeb3Connection = (): Web3Connection => {
+  const [addNetwork] = useLazyAuthAddNetworkQuery();
+
+  const [connect, { data: connectData, isLoading: isConnecting }] =
+    useQueryEndpoint(authConnect);
+  const [disconnect, { isLoading: isDisconnecting }] =
+    useQueryEndpoint(authDisconnect);
 
   const handleConnect = useCallback(
-    async (walletId = INJECTED_WALLET_ID, isAutoConnect?: boolean) => {
+    (walletId = INJECTED_WALLET_ID, isAutoConnect?: boolean) => {
       const isManualConnected = !isAutoConnect;
 
-      return dispatchRequest(connect(walletId, isManualConnected));
+      return connect({ isManualConnected, walletId });
     },
-    [dispatchRequest],
+    [connect],
   );
 
   const handleDisconnect = useCallback(() => {
-    dispatchRequest(disconnect());
-  }, [dispatchRequest]);
+    disconnect();
+  }, [disconnect]);
 
   const handleAddNetwork = useCallback(
-    chainParams => {
-      dispatchRequest(addNetwork(chainParams));
+    (chainParams: IChainParams) => {
+      addNetwork(chainParams);
     },
-    [dispatchRequest],
+    [addNetwork],
   );
 
-  const { data: connectData, loading: loadingConnect } = useQuery({
-    action: connect,
-    type: connect.toString(),
-  });
-
-  const { loading: loadingDisconnect } = useMutation({
-    type: disconnect.toString(),
-  });
-
   return {
+    connectData,
+    handleAddNetwork,
     handleConnect,
     handleDisconnect,
-    handleAddNetwork,
-    loading: loadingConnect || loadingDisconnect,
     isWalletConnected: Boolean(connectData?.address),
-    connectData,
+    loading: isConnecting || isDisconnecting,
   };
 };

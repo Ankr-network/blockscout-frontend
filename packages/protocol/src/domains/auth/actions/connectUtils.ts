@@ -1,21 +1,20 @@
-import { RequestsStore } from '@redux-requests/core';
 import {
-  IJwtToken,
-  MultiRpcWeb3Sdk,
-  MultiRpcSdk,
-  Web3Address,
   EthAddressType,
+  IJwtToken,
+  MultiRpcSdk,
+  MultiRpcWeb3Sdk,
+  Web3Address,
   WorkerTokenData,
 } from 'multirpc-sdk';
+import { IWalletMeta } from '@ankr.com/provider';
 
-import { throwIfError } from '@ankr.com/common';
+import { AppDispatch, GetState } from 'store';
+import { MultiService } from 'modules/api/MultiService';
+import { infrastructureAuthorizeProvider } from 'domains/infrastructure/actions/getAuthorizationToken';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { switchEthereumChain } from 'domains/auth/utils/switchEthereumChain';
-import { getAuthorizationToken } from 'domains/infrastructure/actions/getAuthorizationToken';
-import { MultiService } from 'modules/api/MultiService';
 import { timeout } from 'modules/common/utils/timeout';
-import { IWalletMeta } from '@ankr.com/provider';
-import { getActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
+import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 
 export interface IConnect {
   address: Web3Address;
@@ -32,17 +31,25 @@ export const switchChain = async () => {
   await timeout(300);
 };
 
-export const getCachedData = (service: MultiRpcSdk, store: RequestsStore) => {
+interface CachedData extends IConnect {
+  hasOauthLogin?: boolean;
+  isCardPayment?: boolean;
+}
+
+export const getCachedData = (
+  service: MultiRpcSdk,
+  getState: GetState,
+): CachedData => {
   const {
     credentials,
     workerTokenData,
-    address,
+    address = '',
     authorizationToken,
     walletMeta,
-    hasWeb3Connection,
+    hasWeb3Connection = false,
     hasOauthLogin,
     isCardPayment,
-  } = selectAuthData(store.getState());
+  } = selectAuthData(getState());
 
   if (authorizationToken) {
     service.getAccountGateway().addToken(authorizationToken);
@@ -55,45 +62,51 @@ export const getCachedData = (service: MultiRpcSdk, store: RequestsStore) => {
   return {
     address,
     credentials,
-    workerTokenData,
-    walletMeta,
-    hasWeb3Connection,
     hasOauthLogin,
+    hasWeb3Connection,
     isCardPayment,
+    walletMeta,
+    workerTokenData,
   };
 };
 
 export const loginAndCache = async (
   web3Service: MultiRpcWeb3Sdk,
   service: MultiRpcSdk,
-  store: RequestsStore,
+  dispatch: AppDispatch,
   hasOauthLogin?: boolean,
-) => {
-  if (!hasOauthLogin) {
-    const { data: authorizationToken } = throwIfError(
-      await store.dispatchRequest(getAuthorizationToken()),
-    );
-
-    service.getAccountGateway().addToken(authorizationToken);
-
-    const { data } = await store.dispatchRequest(
-      getActiveEmailBinding({ notify: false }),
-    );
-
-    store.dispatch(
-      setAuthData({
-        authorizationToken,
-        address: data?.address,
-        email: data?.email,
-        ethAddressType: EthAddressType.User,
-      }),
-    );
-  }
-
-  const { currentAccount: address } = web3Service.getKeyProvider();
+): Promise<IConnect> => {
+  const { currentAccount } = web3Service.getKeyProvider();
 
   const { jwtToken: credentials, workerTokenData } =
-    await web3Service.getIssuedJwtTokenOrIssue(address);
+    await web3Service.getIssuedJwtTokenOrIssue(currentAccount);
+
+  if (!hasOauthLogin) {
+    const authorizationToken = await dispatch(
+      infrastructureAuthorizeProvider.initiate(),
+    ).unwrap();
+
+    if (authorizationToken) {
+      const ethAddressType = EthAddressType.User;
+
+      service.getAccountGateway().addToken(authorizationToken);
+
+      if (credentials) {
+        const { data: { address = '', email = '' } = {} } = await dispatch(
+          userSettingsGetActiveEmailBinding.initiate({
+            params: undefined,
+            shouldNotify: false,
+          }),
+        );
+
+        dispatch(
+          setAuthData({ address, authorizationToken, email, ethAddressType }),
+        );
+      } else {
+        dispatch(setAuthData({ authorizationToken, ethAddressType }));
+      }
+    }
+  }
 
   if (workerTokenData) {
     service.getWorkerGateway().addJwtToken(workerTokenData.signedToken);
@@ -103,15 +116,16 @@ export const loginAndCache = async (
   const walletMeta = keyProvider.getWalletMeta();
 
   const authData = {
-    address,
+    address: currentAccount,
     credentials: credentials || undefined,
-    walletMeta,
-    workerTokenData,
+    hasOauthLogin,
     hasWeb3Connection: true,
     isCardPayment: false,
+    walletMeta,
+    workerTokenData,
   };
 
-  store.dispatch(setAuthData(authData));
+  dispatch(setAuthData(authData));
 
   return authData;
 };

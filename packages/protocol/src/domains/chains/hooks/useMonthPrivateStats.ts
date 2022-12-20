@@ -1,8 +1,7 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { PrivateStats } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
-import { fetchMonthPrivateStats } from '../actions/fetchMonthPrivateStats';
+import { useLazyChainsFetchMonthPrivateStatsQuery } from '../actions/fetchMonthPrivateStats';
 
 export interface PrivateStatsParams {
   hasCredentials: boolean;
@@ -11,18 +10,14 @@ export interface PrivateStatsParams {
 export const useMonthPrivateStats = ({
   hasCredentials,
 }: PrivateStatsParams): [PrivateStats, boolean] => {
-  const { data: stats, loading } = useQuery({
-    defaultData: {},
-    type: fetchMonthPrivateStats,
-  });
-
-  const dispatch = useDispatchRequest();
+  const [fetchMonthPrivateStats, { data: stats = {}, isLoading }] =
+    useLazyChainsFetchMonthPrivateStatsQuery();
 
   useEffect(() => {
     if (hasCredentials) {
-      dispatch(fetchMonthPrivateStats());
+      fetchMonthPrivateStats();
     }
-  }, [hasCredentials, dispatch]);
+  }, [hasCredentials, fetchMonthPrivateStats]);
 
-  return [stats, loading];
+  return [stats, isLoading];
 };

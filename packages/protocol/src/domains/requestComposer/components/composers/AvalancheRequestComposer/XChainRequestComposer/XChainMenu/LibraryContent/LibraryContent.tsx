@@ -1,15 +1,15 @@
-import { useCallback } from 'react';
 import { Box } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useCallback } from 'react';
 
-import { XChainMethodsForm } from '../XChainMethodsForm';
-import { EndpointGroup } from 'modules/endpoints/types';
 import {
   AvalancheLibraryID,
   XChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
+import { EndpointGroup } from 'modules/endpoints/types';
 import { MethodsRequest } from 'domains/requestComposer/types';
-import { fetchXChainRequest } from 'domains/requestComposer/actions/avalanche/fetchXChainRequest';
+import { XChainMethodsForm } from '../XChainMethodsForm';
+import { requestComposerFetchXChainRequest } from 'domains/requestComposer/actions/avalanche/fetchXChainRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 interface ILibraryContentProps {
   group: EndpointGroup;
@@ -17,15 +17,21 @@ interface ILibraryContentProps {
 }
 
 export const LibraryContent = ({ group, libraryID }: ILibraryContentProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const [fetchXChainRequest, , reset] = useQueryEndpoint(
+    requestComposerFetchXChainRequest,
+  );
 
-  const web3HttpUrl = group.urls[0].rpc;
+  const web3URL = group.urls[0].rpc;
 
   const handleSubmit = useCallback(
-    (data: MethodsRequest<XChainMethod>) => {
-      dispatchRequest(fetchXChainRequest(libraryID, data, web3HttpUrl));
+    (params: MethodsRequest<XChainMethod>) => {
+      // We have to reset the request before sending because RTK query considers
+      // values of reference data types with different references but with the
+      // same inner values as equal values.
+      reset();
+      fetchXChainRequest({ libraryID, params, web3URL });
     },
-    [dispatchRequest, web3HttpUrl, libraryID],
+    [fetchXChainRequest, libraryID, reset, web3URL],
   );
 
   return (

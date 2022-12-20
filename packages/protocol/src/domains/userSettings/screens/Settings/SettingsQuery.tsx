@@ -1,11 +1,11 @@
 import { Spinner } from 'ui';
 
+import { AddEmailBannerCard } from 'domains/userSettings/components/AddEmailBanner';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { EmailBlock } from './components/EmailBlock';
 import { NotificationsBlock } from './components/NotificationsBlock';
-import { useEmailData } from './hooks/useSettings';
 import { useEmailBannerProps, useSettingsBreadcrumbs } from './SettingsUtils';
-import { AddEmailBannerCard } from 'domains/userSettings/components/AddEmailBanner';
+import { useEmailData } from './hooks/useSettings';
 
 export const SettingsQuery = () => {
   const emailData = useEmailData();
@@ -13,9 +13,9 @@ export const SettingsQuery = () => {
   useSettingsBreadcrumbs();
 
   const bannerProps = useEmailBannerProps(emailData);
-  const { loading, confirmedEmail } = emailData;
+  const { confirmedEmail, isLoading } = emailData;
 
-  if (loading) {
+  if (isLoading) {
     return <Spinner />;
   }
 

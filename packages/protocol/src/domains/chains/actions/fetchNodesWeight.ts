@@ -1,19 +1,22 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWorkerNodesWeight } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
-export const fetchNodesWeight = createSmartAction<
-  RequestAction<IWorkerNodesWeight[], IWorkerNodesWeight[]>
->('chains/fetchNodesWeight', () => ({
-  request: {
-    promise: (async () => {
-      return MultiService.getService().getPublicGateway().getNodesWeight();
-    })(),
-  },
-  meta: {
-    cache: true,
-    asMutation: false,
-  },
-}));
+export const {
+  useChainsFetchNodesWeightQuery,
+  endpoints: { chainsFetchNodesWeight },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchNodesWeight: build.query<IWorkerNodesWeight[], void>({
+      queryFn: createNotifyingQueryFn(async () => {
+        const data = await MultiService.getService()
+          .getPublicGateway()
+          .getNodesWeight();
+
+        return { data };
+      }),
+    }),
+  }),
+});

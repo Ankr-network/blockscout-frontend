@@ -1,34 +1,33 @@
-import { RequestsStore } from '@redux-requests/core';
-
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
-import { checkAllowanceTransaction } from '../checkAllowanceTransaction';
+import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
 import { resetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
+import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 
 const getLastAllowanceTransaction = async (
-  store: RequestsStore,
+  dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
   address: string,
   transactionHash: string,
 ) => {
-  const { data: receipt } = await store.dispatchRequest(
-    checkAllowanceTransaction(transactionHash),
+  const { data: receipt } = await dispatch(
+    topUpCheckAllowanceTransaction.initiate(transactionHash),
   );
 
   if (receipt) {
-    store.dispatch(
+    dispatch(
       setAllowanceTransaction({
         address,
         allowanceTransactionHash: receipt?.transactionHash,
       }),
     );
   } else {
-    resetTransactionSliceAndRedirect(store, address);
+    resetTransactionSliceAndRedirect(dispatch, address);
   }
 };
 
 export const checkAllowanceStep = async (
-  store: RequestsStore,
+  dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
   rejectAllowanceTransactionHash?: string,
   allowanceTransactionHash?: string,
 ) => {
@@ -37,18 +36,18 @@ export const checkAllowanceStep = async (
   const { currentAccount: address } = provider;
 
   if (rejectAllowanceTransactionHash) {
-    await store.dispatchRequest(
-      checkAllowanceTransaction(rejectAllowanceTransactionHash),
+    await dispatch(
+      topUpCheckAllowanceTransaction.initiate(rejectAllowanceTransactionHash),
     );
 
-    resetTransactionSliceAndRedirect(store, address);
+    resetTransactionSliceAndRedirect(dispatch, address);
 
     return TopUpStep.deposit;
   }
 
   if (!allowanceTransactionHash) return null;
 
-  getLastAllowanceTransaction(store, address, allowanceTransactionHash);
+  getLastAllowanceTransaction(dispatch, address, allowanceTransactionHash);
 
   return TopUpStep.deposit;
 };

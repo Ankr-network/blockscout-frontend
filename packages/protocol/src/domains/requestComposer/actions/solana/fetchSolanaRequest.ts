@@ -1,62 +1,63 @@
 import { Connection } from '@solana/web3.js';
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
 import { MethodsRequest } from 'domains/requestComposer/types';
+import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
 import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
 import { SolanaMethodResponse } from 'domains/requestComposer/types/solana';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
+import { web3Api } from 'store/queries';
 
-export type FetchSolanaRequestResult = {
+export interface FetchSolanaRequestParams {
+  libraryID: SolanaLibraryID;
+  params: MethodsRequest<SolanaMethod>;
+  web3URL: string;
+}
+
+export interface FetchSolanaRequestResult {
   response?: [SolanaMethodResponse];
   error?: unknown;
   time: number;
-};
+}
 
-export const fetchSolanaRequest = createSmartAction<
-  RequestAction<MethodsRequest<SolanaMethod>, FetchSolanaRequestResult>
->(
-  'requestComposer/fetchSolanaRequest',
-  (
-    libraryID: SolanaLibraryID,
-    params: MethodsRequest<SolanaMethod>,
-    web3URL: string,
-  ) => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      hideNotificationOnError: true,
-      onRequest: (_, __, store) => {
-        return {
-          promise: (async (): Promise<FetchSolanaRequestResult> => {
-            const { methodName, params: args } = params;
+export const {
+  endpoints: { requestComposerFetchSolanaRequest },
+  useLazyRequestComposerFetchSolanaRequestQuery,
+  useRequestComposerFetchSolanaRequestQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    requestComposerFetchSolanaRequest: build.query<
+      FetchSolanaRequestResult,
+      FetchSolanaRequestParams
+    >({
+      queryFn: async ({ libraryID, params, web3URL }, { dispatch }) => {
+        const { methodName, params: args } = params;
 
-            store.dispatch(setEVMMethod(methodName));
+        dispatch(setEVMMethod(methodName));
 
-            const web3Method = RPC_CALLS_CONFIG[methodName] || {};
+        const web3Method = RPC_CALLS_CONFIG[methodName] || {};
 
-            const { exec } = web3Method[libraryID] || {};
+        const { exec } = web3Method[libraryID] || {};
 
-            const provider = new Connection(web3URL);
+        const provider = new Connection(web3URL);
 
-            const start = performance.now();
+        const start = performance.now();
 
-            try {
-              const data: SolanaMethodResponse = await exec(provider, ...args);
-              const response: [SolanaMethodResponse] = [data];
+        try {
+          const data: SolanaMethodResponse = await exec(provider, ...args);
+          const response: [SolanaMethodResponse] = [data];
 
-              return { response, time: performance.now() - start };
-            } catch (error) {
-              return { error, time: performance.now() - start };
-            }
-          })(),
-        };
+          return {
+            data: { response, time: performance.now() - start },
+          };
+        } catch (error) {
+          return {
+            data: { error, time: performance.now() - start },
+          };
+        }
       },
-    },
+    }),
   }),
-);
+});

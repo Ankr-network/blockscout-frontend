@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { UseLoggerResult } from '../components/Logger/hooks/useLogger';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export interface ComposerRequest<S, T> {
   error: unknown;
@@ -31,7 +31,7 @@ export function useRequestComposerLogs<S extends string, T>({
   logs,
   request,
 }: RequestComposerLogsParams<S, T>): RequestComposerLogsResult {
-  const { withResponse, response, time, error, method } = request;
+  const { error, method, response, time, withResponse } = request;
 
   useOnMount(() => {
     logInit();
@@ -54,7 +54,7 @@ export function useRequestComposerLogs<S extends string, T>({
   }, [error, logError]);
 
   useEffect(() => {
-    if (method?.[0]) {
+    if (method) {
       logRequest(method[0]);
     }
   }, [logRequest, method]);

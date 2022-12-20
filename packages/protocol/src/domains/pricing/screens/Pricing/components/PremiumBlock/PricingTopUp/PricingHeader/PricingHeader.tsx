@@ -1,6 +1,6 @@
+import BigNumber from 'bignumber.js';
 import { Box, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import BigNumber from 'bignumber.js';
 
 import { t } from 'modules/i18n/utils/intl';
 import { usePricingHeaderStyles } from './PricingHeaderStyles';

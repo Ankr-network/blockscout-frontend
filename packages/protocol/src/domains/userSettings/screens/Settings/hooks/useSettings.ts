@@ -1,41 +1,35 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
-import { resetRequests } from '@redux-requests/core';
-import { useDispatch } from 'react-redux';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { getEmailBindings } from 'domains/userSettings/actions/email/getEmailBindings';
 import { makeEmailStatuses } from 'domains/userSettings/utils/makeEmailStatuses';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useInviteEmail } from './useInviteEmail';
+import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
 
 export interface EmailData {
   confirmedEmail?: string;
   inviteEmail?: string;
   isInviteEmailValid: boolean;
-  loading: boolean;
+  isLoading: boolean;
   pendingEmail?: string;
-  resetInviteEmail: () => void;
   pristine: boolean;
+  resetInviteEmail: () => void;
 }
 
 export const useEmailData = (): EmailData => {
-  const { data, loading, pristine } = useQuery({ type: getEmailBindings });
+  const [getEmailBindings, { data, isLoading, isUninitialized: pristine }] =
+    useLazyUserSettingsGetEmailBindingsQuery();
 
   const [inviteEmail, isInviteEmailValid, resetInviteEmail] = useInviteEmail();
 
   const { hasOauthLogin, hasWeb3Connection } = useAuth();
 
-  const dispatch = useDispatch();
-
-  const dispatchRequest = useDispatchRequest();
-
   useEffect(() => {
     if (hasOauthLogin || hasWeb3Connection) {
-      dispatchRequest(getEmailBindings());
+      getEmailBindings();
     } else {
-      dispatch(resetRequests([getEmailBindings.toString()]));
+      // TODO reset email binding
     }
-  }, [dispatch, dispatchRequest, hasOauthLogin, hasWeb3Connection]);
+  }, [getEmailBindings, hasOauthLogin, hasWeb3Connection]);
 
   const { confirmedEmail, pendingEmail } = makeEmailStatuses(data);
 
@@ -43,9 +37,9 @@ export const useEmailData = (): EmailData => {
     confirmedEmail,
     inviteEmail,
     isInviteEmailValid,
-    loading,
+    isLoading,
     pendingEmail,
-    resetInviteEmail,
     pristine,
+    resetInviteEmail,
   };
 };

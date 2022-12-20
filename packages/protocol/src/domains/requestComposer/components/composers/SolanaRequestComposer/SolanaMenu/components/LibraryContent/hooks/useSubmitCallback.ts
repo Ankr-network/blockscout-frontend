@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { MethodsRequest } from 'domains/requestComposer/types';
@@ -7,7 +6,8 @@ import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
-import { fetchSolanaRequest } from 'domains/requestComposer/actions/solana/fetchSolanaRequest';
+import { requestComposerFetchSolanaRequest } from 'domains/requestComposer/actions/solana/fetchSolanaRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export interface SubmitCallbackParams {
   group: EndpointGroup;
@@ -18,14 +18,20 @@ export const useSubmitCallback = ({
   group,
   libraryID,
 }: SubmitCallbackParams) => {
-  const dispatchRequest = useDispatchRequest();
+  const [fetchSolanaRequest, , reset] = useQueryEndpoint(
+    requestComposerFetchSolanaRequest,
+  );
 
-  const web3HttpUrl = group.urls[0].rpc;
+  const web3URL = group.urls[0].rpc;
 
   return useCallback(
-    (data: MethodsRequest<SolanaMethod>) => {
-      dispatchRequest(fetchSolanaRequest(libraryID, data, web3HttpUrl));
+    (params: MethodsRequest<SolanaMethod>) => {
+      // We have to reset the request before sending because RTK query considers
+      // values of reference data types with different references but with the
+      // same inner values as equal values.
+      reset();
+      fetchSolanaRequest({ libraryID, params, web3URL });
     },
-    [dispatchRequest, web3HttpUrl, libraryID],
+    [fetchSolanaRequest, libraryID, reset, web3URL],
   );
 };

@@ -1,9 +1,10 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { PRICING_PATH } from 'domains/pricing/Routes';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useEffect, useMemo } from 'react';
 import { RouteProps, useHistory } from 'react-router';
+import { useEffect, useMemo } from 'react';
+
+import { PRICING_PATH } from 'domains/pricing/Routes';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export interface IGuardRoute extends RouteProps {
   hasCredentials: boolean;

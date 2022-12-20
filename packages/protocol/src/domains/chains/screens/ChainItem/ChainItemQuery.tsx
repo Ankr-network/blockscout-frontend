@@ -1,60 +1,59 @@
-import { useEffect } from 'react';
 import { ThemeProvider } from '@material-ui/core';
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest } from '@redux-requests/react';
-import { useDispatch } from 'react-redux';
 import { mainTheme } from 'ui';
+import { useEffect } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { fetchChain } from 'domains/chains/actions/fetchChain';
-import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-// eslint-disable-next-line import/no-cycle
 import { ChainItem } from './ChainItem';
 import { ChainItemSkeleton } from './ChainItemSkeleton';
+import {
+  IChainItemDetails,
+  chainsFetchChain,
+} from 'domains/chains/actions/fetchChain';
+import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useLazyChainsFetchPremiumChainFeaturesQuery } from 'domains/chains/actions/fetchPremiumChainFeatures';
 import { useStyles } from './ChainItemStyles';
 
 interface ChainItemProps {
   chainId: string;
 }
 
+const options: Options = {
+  subscriptionOptions: { pollingInterval: 30_000 },
+};
+
 export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
+  const [fetchPremiumChainFeatures] =
+    useLazyChainsFetchPremiumChainFeaturesQuery();
+  const [fetchChain, fetchChainState, reset] = useQueryEndpoint(
+    chainsFetchChain,
+    options,
+  );
+
   const { credentials, loading: walletLoading, workerTokenData } = useAuth();
+
   const classes = useStyles();
 
   useEffect(() => {
     if (credentials) {
-      dispatchRequest(fetchPremiumChainFeatures(chainId));
+      fetchPremiumChainFeatures(chainId);
     }
 
     if (!walletLoading) {
-      dispatchRequest(fetchChain(chainId, credentials));
+      fetchChain({ chainId, credentials });
     }
 
     return () => {
       if (!walletLoading) {
-        const fetchChainAction = fetchChain.toString();
-
-        dispatch(
-          resetRequests([
-            fetchChainAction,
-            { requestType: fetchChainAction, requestKey: chainId },
-          ]),
-        );
-
-        dispatch(
-          stopPolling([{ requestType: fetchChainAction, requestKey: chainId }]),
-        );
+        reset();
       }
     };
   }, [
     chainId,
     credentials,
-    dispatch,
-    dispatchRequest,
+    fetchChain,
+    fetchPremiumChainFeatures,
+    reset,
     walletLoading,
     workerTokenData,
   ]);
@@ -62,13 +61,12 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   return (
     <ThemeProvider theme={mainTheme}>
       <div className={classes.root}>
-        <Queries<ResponseData<typeof fetchChain>>
-          requestActions={[fetchChain]}
-          requestKeys={[chainId]}
+        <Queries<IChainItemDetails>
           isPreloadDisabled
+          queryStates={[fetchChainState]}
         >
-          {({ data, loading, pristine }) => {
-            if ((loading && pristine) || !data) {
+          {({ data, isLoading, isUninitialized }) => {
+            if ((isLoading && isUninitialized) || !data) {
               return <ChainItemSkeleton />;
             }
 

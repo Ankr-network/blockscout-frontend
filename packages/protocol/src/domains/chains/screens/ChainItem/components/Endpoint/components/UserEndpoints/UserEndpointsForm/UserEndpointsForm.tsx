@@ -1,20 +1,20 @@
-import React, { useCallback } from 'react';
-import { FormGroup, Box } from '@material-ui/core';
-import { Form, FormRenderProps } from 'react-final-form';
+import { Box, FormGroup } from '@material-ui/core';
 import { FieldArray } from 'react-final-form-arrays';
+import { Form, FormRenderProps } from 'react-final-form';
+import { Mutator } from 'final-form';
+import { useCallback } from 'react';
 import arrayMutators from 'final-form-arrays';
 import setFieldTouched from 'final-form-set-field-touched';
-import { Mutator } from 'final-form';
 
-import { useStyles } from './UserEndpointsFormStyles';
-import { getInitialValues, getRpcLinks } from './UserEndpointsFormUtils';
+import { RowInputField } from './RowInputField';
+import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import {
   UserEndpointsFormData,
   UserEndpointsFormFields,
   UserEndpointsProps,
 } from './UserEndpointsFormTypes';
-import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
-import { RowInputField } from './RowInputField';
+import { getInitialValues, getRpcLinks } from './UserEndpointsFormUtils';
+import { useStyles } from './UserEndpointsFormStyles';
 
 export const UserEndpointsForm = ({
   endpoints,
@@ -26,7 +26,7 @@ export const UserEndpointsForm = ({
   const classes = useStyles();
 
   const onSubmit = useCallback(
-    (updatedEndpoint?: IUserEndpoint) => {
+    (updatedEndpoint?: UserEndpoint) => {
       onUpdateEndpoint(updatedEndpoint);
     },
     [onUpdateEndpoint],
@@ -44,9 +44,7 @@ export const UserEndpointsForm = ({
         <form onSubmit={handleSubmit}>
           <FormGroup>
             <Box className={classes.root}>
-              <FieldArray<IUserEndpoint>
-                name={UserEndpointsFormFields.rpcLinks}
-              >
+              <FieldArray<UserEndpoint> name={UserEndpointsFormFields.rpcLinks}>
                 {({ fields }) =>
                   fields.map((name, index) => {
                     const formEndpoint = fields.value[index];

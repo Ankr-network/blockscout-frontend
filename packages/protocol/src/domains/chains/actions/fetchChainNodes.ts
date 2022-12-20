@@ -1,20 +1,22 @@
-import { RequestAction } from '@redux-requests/core';
 import { INodeEntity } from 'multirpc-sdk';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
-export const fetchChainNodes = createSmartAction<
-  RequestAction<INodeEntity[], INodeEntity[]>
->('chains/fetchChainNodes', (blockchain: string) => ({
-  request: {
-    promise: (async () => {
-      return MultiService.getService().getPublicGateway().getNodes(blockchain);
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    takeLatest: false,
-    getData: data => data,
-  },
-}));
+export const {
+  useLazyChainsFetchChainNodesQuery,
+  endpoints: { chainsFetchChainNodes },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchChainNodes: build.query<INodeEntity[], string | undefined>({
+      queryFn: createNotifyingQueryFn(async blockchain => {
+        const nodes = await MultiService.getService()
+          .getPublicGateway()
+          .getNodes(blockchain);
+
+        return { data: nodes };
+      }),
+    }),
+  }),
+});

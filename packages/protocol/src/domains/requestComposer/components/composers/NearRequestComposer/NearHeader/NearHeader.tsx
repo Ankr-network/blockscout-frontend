@@ -1,49 +1,40 @@
-import { stopPolling } from '@redux-requests/core';
-import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { fetchNearLastBlockNumber } from 'domains/requestComposer/actions/near/fetchNearLastBlockNumber';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { Header } from '../../../Header';
 import { BlockNumber } from '../../../Header/BlockNumber';
 import { ChainGroupID } from 'modules/endpoints/types';
+import { Header } from '../../../Header';
+import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { chainsFetchNearLastBlockNumber } from 'domains/requestComposer/actions/near/fetchNearLastBlockNumber';
 
-interface IHeaderProps {
+export interface IHeaderProps {
   publicUrl?: string;
 }
 
-type FetchNearLastBlockNumberResponseData = ResponseData<
-  typeof fetchNearLastBlockNumber
->;
+const options: Options = {
+  subscriptionOptions: {
+    pollingInterval: 30_000,
+  },
+};
 
 export const NearHeader = ({ publicUrl }: IHeaderProps) => {
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
+  const [fetchNearLastBlockNumber, { data = 0, isLoading }] = useQueryEndpoint(
+    chainsFetchNearLastBlockNumber,
+    options,
+  );
 
   useEffect(() => {
-    dispatchRequest(fetchNearLastBlockNumber(publicUrl));
-  }, [dispatchRequest, publicUrl]);
+    if (publicUrl) {
+      const { unsubscribe } = fetchNearLastBlockNumber(publicUrl);
 
-  useOnUnmount(() => {
-    dispatch(stopPolling([fetchNearLastBlockNumber.toString()]));
-  });
+      return unsubscribe;
+    }
+
+    return () => {};
+  }, [fetchNearLastBlockNumber, publicUrl]);
 
   return (
     <Header chainName={ChainGroupID.NEAR}>
-      <Queries<FetchNearLastBlockNumberResponseData>
-        requestActions={[fetchNearLastBlockNumber]}
-        isPreloadDisabled
-      >
-        {({ data, loading }) => (
-          <BlockNumber<FetchNearLastBlockNumberResponseData>
-            data={data}
-            loading={loading}
-          />
-        )}
-      </Queries>
+      <BlockNumber<number> data={data} loading={isLoading} />
     </Header>
   );
 };

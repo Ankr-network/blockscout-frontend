@@ -1,18 +1,18 @@
 import { useMemo } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import { Chain } from '../ChainsListTypes';
+import { ChainID } from 'modules/chains/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { SortType } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
-import { Chain } from '../ChainsListTypes';
+import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
 import {
   formatChains,
-  sortChains,
   formatPublicRequestsCount,
+  sortChains,
 } from '../ChainsListUtils';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
-import { useQuery } from '@redux-requests/react';
-import { fetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 type ChainMap = Partial<Record<ChainID, Chain>>;
 
@@ -35,19 +35,19 @@ export const useChains = ({
   const { credentials } = useAuth();
   const [stats] = usePrivateStats();
 
-  const { data } = useQuery({
-    type: fetchPublicRequestsCountStats,
-  });
+  const [, { data }] = useQueryEndpoint(chainsFetchPublicRequestsCountStats);
+
+  const isPremium = Boolean(credentials);
 
   const processedChains = useMemo(
     () =>
       sortChains({
         chains: formatPublicRequestsCount(chains, data),
-        hasCredentials: Boolean(credentials),
+        isPremium,
         sortType,
         stats,
       }),
-    [credentials, stats, chains, data, sortType],
+    [isPremium, stats, chains, data, sortType],
   );
 
   const publicChainsMap = useMemo(
@@ -60,8 +60,5 @@ export const useChains = ({
     [allChains],
   );
 
-  return {
-    processedChains,
-    publicChainsMap,
-  };
+  return { processedChains, publicChainsMap };
 };

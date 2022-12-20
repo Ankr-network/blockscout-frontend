@@ -1,14 +1,14 @@
-import { RequestsStore } from '@redux-requests/core';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 
-import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 
 export const resetTransactionSliceAndRedirect = async (
-  store: RequestsStore,
+  dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
   address: string,
 ) => {
-  store.dispatch(resetTransaction({ address }));
+  dispatch(resetTransaction({ address }));
 
-  store.dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
+  dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
 };

@@ -1,11 +1,11 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
-
-import { MultiService } from 'modules/api/MultiService';
 import { ProductPrice } from 'multirpc-sdk';
 
-interface SubscriptionPrice extends Omit<ProductPrice, 'amount'> {
+import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
+
+export interface SubscriptionPrice extends Omit<ProductPrice, 'amount'> {
   amount: string;
 }
 
@@ -26,26 +26,22 @@ const getSubscriptionPrices = (prices: ProductPrice[]): SubscriptionPrice[] => {
   );
 };
 
-export const fetchUSDSubscriptionPrices = createSmartAction<
-  RequestAction<ProductPrice[], SubscriptionPrice[]>
->('usdTopUp/fetchUSDSubscriptionPrices', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    getData: getSubscriptionPrices,
-    onRequest: () => {
-      return {
-        promise: (async (): Promise<ProductPrice[]> => {
-          const service = MultiService.getService();
+export const {
+  endpoints: { usdTopUpFetchUSDSubscriptionPrices },
+  useLazyUsdTopUpFetchUSDSubscriptionPricesQuery,
+  useUsdTopUpFetchUSDSubscriptionPricesQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    usdTopUpFetchUSDSubscriptionPrices: build.query<SubscriptionPrice[], void>({
+      queryFn: createNotifyingQueryFn(async () => {
+        const service = MultiService.getService();
 
-          const { productPrices } = await service
-            .getAccountGateway()
-            .getUSDSubscriptionPrices();
+        const { productPrices } = await service
+          .getAccountGateway()
+          .getUSDSubscriptionPrices();
 
-          return productPrices;
-        })(),
-      };
-    },
-  },
-}));
+        return { data: getSubscriptionPrices(productPrices) };
+      }),
+    }),
+  }),
+});

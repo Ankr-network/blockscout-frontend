@@ -8,8 +8,8 @@ import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils
 export interface PublicStats {
   countries: CountryMap;
   error: any;
-  loading: boolean;
-  pristine: boolean;
+  isLoading: boolean;
+  isUninitialized: boolean;
   totalCached: BigNumber;
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;

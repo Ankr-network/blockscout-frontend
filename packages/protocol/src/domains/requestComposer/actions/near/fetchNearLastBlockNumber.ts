@@ -1,35 +1,31 @@
-import { RequestAction } from '@redux-requests/core';
-import { getNearConnectionConfig } from 'domains/requestComposer/constants/near';
 import { connect } from 'near-api-js';
-import { createAction } from 'redux-smart-actions';
 
-export const fetchNearLastBlockNumber = createAction<RequestAction<number>>(
-  'chains/fetchLastBlockNumber',
-  (web3URL: string) => ({
-    request: {
-      promise: (async () => {})(),
-    },
-    meta: {
-      poll: 30,
-      hideNotificationOnError: true,
-      onRequest: () => {
-        return {
-          promise: (async () => {
-            const nearConnection = await connect(
-              getNearConnectionConfig(web3URL),
-            );
+import { getNearConnectionConfig } from 'domains/requestComposer/constants/near';
+import { web3Api } from 'store/queries';
 
-            const { provider } = nearConnection.connection;
+export const {
+  endpoints: { chainsFetchNearLastBlockNumber },
+  useChainsFetchNearLastBlockNumberQuery,
+  useLazyChainsFetchNearLastBlockNumberQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchNearLastBlockNumber: build.query<number, string>({
+      queryFn: async web3URL => {
+        const nearConnection = await connect(getNearConnectionConfig(web3URL));
 
-            const block = await provider.block({ finality: 'optimistic' });
+        const { provider } = nearConnection.connection;
 
-            return block.header.height;
-          })(),
-        };
+        const block = await provider.block({ finality: 'optimistic' });
+
+        return { data: block.header.height };
       },
-      onError: () => {
-        return '';
+      onQueryStarted: async (_args, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch {
+          // do nothing in case of error
+        }
       },
-    },
+    }),
   }),
-);
+});

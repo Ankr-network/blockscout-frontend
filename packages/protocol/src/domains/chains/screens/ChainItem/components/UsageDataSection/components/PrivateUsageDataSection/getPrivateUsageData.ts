@@ -21,11 +21,11 @@ export interface UsageDataParams {
 }
 
 export const getPrivateUsageData = ({
-  isConnecting,
   arePrivateStatsLoading,
-  privateStatsError,
-  privateStats,
   day30PrivateStats,
+  isConnecting,
+  privateStats,
+  privateStatsError,
   timeframe,
   userTopRequests,
   userTopRequestsIp,

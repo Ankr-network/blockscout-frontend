@@ -1,23 +1,27 @@
-import { stopPolling } from '@redux-requests/core';
-import { useDispatch } from 'react-redux';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
 
-import { fetchSolanaLastBlockNumber } from 'domains/requestComposer/actions/solana/fetchSolanaLastBlockNumber';
+import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { chainsFetchSolanaLastBlockNumber } from 'domains/requestComposer/actions/solana/fetchSolanaLastBlockNumber';
+
+const options: Options = {
+  subscriptionOptions: {
+    pollingInterval: 30_000,
+  },
+};
 
 export const useLastBlockNumber = (url?: string): [number, boolean] => {
-  const { data = 0, loading } = useQuery({ type: fetchSolanaLastBlockNumber });
-
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
+  const [fetchSolanaLastBlockNumber, { data = 0, isLoading }] =
+    useQueryEndpoint(chainsFetchSolanaLastBlockNumber, options);
 
   useEffect(() => {
-    dispatchRequest(fetchSolanaLastBlockNumber(url));
+    if (url) {
+      const { unsubscribe } = fetchSolanaLastBlockNumber(url);
 
-    return () => {
-      dispatch(stopPolling([fetchSolanaLastBlockNumber.toString()]));
-    };
-  }, [dispatch, dispatchRequest, url]);
+      return unsubscribe;
+    }
 
-  return [data, loading];
+    return () => {};
+  }, [fetchSolanaLastBlockNumber, url]);
+
+  return [data, isLoading];
 };

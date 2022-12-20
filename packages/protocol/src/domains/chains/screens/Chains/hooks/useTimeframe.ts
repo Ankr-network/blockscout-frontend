@@ -8,8 +8,8 @@ export const useTimeframe = (isLoggedIn?: boolean) => {
     : [usageTimeframe, Timeframe.Month];
 
   return useSwitcher({
-    items,
     currentItem: items.findIndex(item => item === currentItem),
+    items,
     resetDeps: [isLoggedIn],
   });
 };

@@ -1,32 +1,22 @@
-import { DispatchRequest, RequestAction } from '@redux-requests/core';
-import { t } from '../../../modules/i18n/utils/intl';
 import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
-import { IFetchChainsResponseData } from '../../chains/api/queryChains';
-import { Store } from '../../../store';
+
+import { GetState } from 'store';
 import { selectAuthData } from '../store/authSlice';
+import { t } from '../../../modules/i18n/utils/intl';
 
-export const credentialsGuard = (
-  request: {
-    promise: (
-      store: Store & { dispatchRequest: DispatchRequest },
-      credentials: IJwtToken,
-      workerTokenData?: WorkerTokenData,
-    ) => Promise<IFetchChainsResponseData>;
-  },
-  action: RequestAction,
-  store: Store & { dispatchRequest: DispatchRequest },
-) => {
-  return {
-    promise: (async () => {
-      const authData = selectAuthData(store.getState());
+export interface Credentials {
+  credentials?: IJwtToken;
+  workerTokenData?: WorkerTokenData;
+}
 
-      const { credentials, workerTokenData } = authData;
+export function credentialsGuard(getState: GetState): Credentials {
+  const authData = selectAuthData(getState());
 
-      if (!credentials) {
-        throw new Error(t('error.insufficient-permissions'));
-      }
+  const { credentials, workerTokenData } = authData;
 
-      return request.promise(store, credentials, workerTokenData);
-    })(),
-  };
-};
+  if (!credentials) {
+    throw new Error(t('error.insufficient-permissions'));
+  }
+
+  return { credentials, workerTokenData };
+}

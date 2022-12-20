@@ -1,26 +1,38 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+import { PChainMethod } from 'domains/requestComposer/constants/avalanche';
+import { PChainMethodResponse } from 'domains/requestComposer/types/avalanche';
+import {
+  FetchPChainRequestResult,
+  requestComposerFetchPChainRequest,
+} from 'domains/requestComposer/actions/avalanche/fetchPChainRequest';
 import {
   resetEVMMethod,
   selectEVMMethod,
 } from 'domains/requestComposer/store/requestComposerSlice';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
-import { PChainMethod } from 'domains/requestComposer/constants/avalanche';
-import { PChainMethodResponse } from 'domains/requestComposer/types/avalanche';
-import { fetchPChainRequest } from 'domains/requestComposer/actions/avalanche/fetchPChainRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+const defaultData: FetchPChainRequestResult = {
+  error: undefined,
+  response: undefined,
+  time: 0,
+};
 
 export const usePChainRequest = (): ComposerRequest<
   PChainMethod,
   PChainMethodResponse
 > => {
-  const {
-    data: { response, error, time },
-    loading,
-    pristine,
-  } = useQuery({ defaultData: { time: 0 }, type: fetchPChainRequest });
+  const [
+    ,
+    {
+      data: { response, error, time } = defaultData,
+      isLoading,
+      isUninitialized,
+    },
+    reset,
+  ] = useQueryEndpoint(requestComposerFetchPChainRequest);
 
   const method = useSelector(selectEVMMethod) as [PChainMethod] | undefined;
 
@@ -28,7 +40,8 @@ export const usePChainRequest = (): ComposerRequest<
 
   useOnUnmount(() => {
     dispatch(resetEVMMethod());
-    dispatch(resetRequests([fetchPChainRequest.toString()]));
+
+    reset();
   });
 
   return {
@@ -36,6 +49,6 @@ export const usePChainRequest = (): ComposerRequest<
     method,
     response,
     time,
-    withResponse: !loading && !pristine && !error,
+    withResponse: !isLoading && !isUninitialized && !error,
   };
 };

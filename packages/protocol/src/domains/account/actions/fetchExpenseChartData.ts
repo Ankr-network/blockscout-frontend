@@ -2,16 +2,21 @@ import {
   IAggregatedPaymentHistoryRequest as Request,
   IAggregatedPaymentHistoryResponse as Response,
 } from 'multirpc-sdk';
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { fetchAllPaymentHistory } from '../utils/fetchAllPaymentHistory';
+import { web3Api } from 'store/queries';
 
-export const fetchExpenseChartData = createSmartAction<RequestAction<Response>>(
-  'account/fetchExpenseChartData',
-  (params: Request) => ({
-    request: {
-      promise: fetchAllPaymentHistory(params),
-    },
+export const {
+  useLazyAccountFetchExpenseChartDataQuery,
+  endpoints: { accountFetchExpenseChartData },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountFetchExpenseChartData: build.query<Response, Request>({
+      queryFn: createNotifyingQueryFn(async params => {
+        const data = await fetchAllPaymentHistory(params);
+        return { data };
+      }),
+    }),
   }),
-);
+});

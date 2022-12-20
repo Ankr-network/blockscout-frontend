@@ -6,6 +6,7 @@ import {
   PAYGReadContractManager,
 } from '../../PAYGContract';
 
+export type { EventData };
 
 export class ContractReadService {
   public constructor(

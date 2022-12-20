@@ -1,12 +1,13 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IWorkerEndpoint } from 'multirpc-sdk';
 
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
+import { web3Api } from 'store/queries';
 
-export type IUserEndpoint = {
+export interface UserEndpoint {
   id: string;
   icon: string;
   name: string;
@@ -14,12 +15,12 @@ export type IUserEndpoint = {
   scheme: string;
   owner: string;
   user: string;
-};
+}
 
-export type IEndpoint = Record<string, IUserEndpoint[]>;
+export type Endpoints = Record<string, UserEndpoint[]>;
 
-export const mapEndpoints = (endpoints: IWorkerEndpoint[]): IEndpoint => {
-  const data: IEndpoint = {};
+export const mapEndpoints = (endpoints: IWorkerEndpoint[]): Endpoints => {
+  const data: Endpoints = {};
 
   const editedEndpoints = endpoints.map(item => {
     const { blockchain, requestUrl, ...other } = item;
@@ -45,22 +46,23 @@ export const mapEndpoints = (endpoints: IWorkerEndpoint[]): IEndpoint => {
   return data;
 };
 
-export const fetchEndpoints = createSmartAction<
-  RequestAction<IWorkerEndpoint[], IEndpoint>
->('infrastructure/fetchEndpoints', (silent = false) => ({
-  request: {
-    promise: async () => {
-      const service = MultiService.getService();
+export const {
+  useLazyInfrastructureFetchEndpointsQuery,
+  endpoints: { infrastructureFetchEndpoints },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureFetchEndpoints: build.query<Endpoints, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
+        credentialsGuard(getState as GetState);
 
-      const endpoints = await service.getWorkerGateway().getEndpoints();
+        const service = MultiService.getService();
 
-      return endpoints;
-    },
-  },
-  meta: {
-    asMutation: false,
-    getData: mapEndpoints,
-    onRequest: credentialsGuard,
-    silent,
-  },
-}));
+        const endpoints = await service.getWorkerGateway().getEndpoints();
+
+        const data = mapEndpoints(endpoints);
+
+        return { data };
+      }),
+    }),
+  }),
+});

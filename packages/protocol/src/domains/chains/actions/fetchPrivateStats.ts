@@ -3,10 +3,12 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from 'multirpc-sdk';
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
 
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -15,30 +17,23 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
-export const fetchPrivateStats = createAction<
-  RequestAction<IApiPrivateStats, PrivateStats>
->(
-  'chains/fetchPrivateStats',
-  (interval: PrivateStatsInterval, requestKey?: string) => ({
-    request: {
-      promise: (async () => {})(),
-    },
-    meta: {
-      asMutation: false,
-      getData: getPrivateStats,
-      onRequest: () => ({
-        promise: (async (): Promise<IApiPrivateStats> => {
-          const service = MultiService.getService();
+export const {
+  endpoints: { chainsFetchPrivateStats },
+  useChainsFetchPrivateStatsQuery,
+  useLazyChainsFetchPrivateStatsQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchPrivateStats: build.query<PrivateStats, PrivateStatsInterval>({
+      queryFn: createNotifyingQueryFn(async (interval, { getState }) => {
+        await authorizationGuard(getState as GetState);
+        const service = MultiService.getService();
 
-          const result = await service
-            .getAccountGateway()
-            .getPrivateStats(interval);
+        const data = await service
+          .getAccountGateway()
+          .getPrivateStats(interval);
 
-          return result;
-        })(),
+        return { data: getPrivateStats(data) };
       }),
-      requestKey,
-      takeLatest: true,
-    },
+    }),
   }),
-);
+});

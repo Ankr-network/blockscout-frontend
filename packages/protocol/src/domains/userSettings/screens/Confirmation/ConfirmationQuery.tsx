@@ -1,33 +1,33 @@
-import { useDispatchRequest } from '@redux-requests/react';
+import { IEmailResponse } from 'multirpc-sdk';
 
-import { getEmailBindings } from 'domains/userSettings/actions/email/getEmailBindings';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
-import { makeEmailStatuses } from 'domains/userSettings/utils/makeEmailStatuses';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useLinkParams } from '../../hooks/useLinkParams';
 import { ConfirmEmailBindingQuery } from './components/ConfirmEmailBindingQuery';
 import { ConnectRelatedWalletCard } from './components/ConnectRelatedWalletCard';
 import { LinkExpiredCard } from './components/LinkExpiredCard';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { makeEmailStatuses } from 'domains/userSettings/utils/makeEmailStatuses';
 import { useConfirmationBreadcrumbs } from './ConfirmationUtils';
+import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
+import { useLinkParams } from '../../hooks/useLinkParams';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const ConfirmationQuery = () => {
   useConfirmationBreadcrumbs();
 
-  const dispatchRequest = useDispatchRequest();
+  const [getEmailBindings, emailBindingsState] =
+    useLazyUserSettingsGetEmailBindingsQuery();
 
   useOnMount(() => {
-    dispatchRequest(getEmailBindings());
+    getEmailBindings(undefined);
   });
 
   const { email, code } = useLinkParams();
 
   return (
-    <Queries<ResponseData<typeof getEmailBindings> | null>
+    <Queries<IEmailResponse[]>
       disableEmptyRender
       disableErrorRender
-      requestActions={[getEmailBindings]}
+      queryStates={[emailBindingsState]}
     >
       {({ data }) => {
         const { lastEmailUsed, pendingEmail, isEmailLinkExpired } =

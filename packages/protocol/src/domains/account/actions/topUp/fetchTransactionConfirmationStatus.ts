@@ -1,25 +1,27 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { IIssueJwtTokenResult } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
-interface ICredentialsStatus {
-  remainingBlocks?: number;
-  isReady: boolean;
-}
+export const {
+  endpoints: { topUpFetchTransactionConfirmationStatus },
+  useLazyTopUpFetchTransactionConfirmationStatusQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpFetchTransactionConfirmationStatus: build.query<
+      IIssueJwtTokenResult,
+      string
+    >({
+      queryFn: createNotifyingQueryFn(async transactionHash => {
+        const service = await MultiService.getWeb3Service();
 
-export const fetchTransactionConfirmationStatus = createSmartAction<
-  RequestAction<ICredentialsStatus, ICredentialsStatus>,
-  [string]
->('topUp/fetchTransactionConfirmationStatus', (transactionHash: string) => ({
-  request: {
-    promise: (async () => {
-      const service = await MultiService.getWeb3Service();
+        const data = await service
+          .getContractService()
+          .canIssueJwtToken(transactionHash);
 
-      return service.getContractService().canIssueJwtToken(transactionHash);
-    })(),
-  },
-  meta: {
-    asQuery: true,
-  },
-}));
+        return { data };
+      }),
+    }),
+  }),
+});

@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
 
 import { Chain } from '../../ChainsList/ChainsListTypes';
+import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
-import { useQuery } from '@redux-requests/react';
-import { fetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export interface ChainsItemParams {
   chain: Chain;
@@ -21,9 +21,9 @@ export const useQueryChainsItem = ({
   } = useAuth();
   const isPremium = Boolean(credentials);
 
-  const { data, loading: arePublicStatsLoading } = useQuery({
-    type: fetchPublicRequestsCountStats,
-  });
+  const [, { data, isLoading: arePublicStatsLoading }] = useQueryEndpoint(
+    chainsFetchPublicRequestsCountStats,
+  );
 
   const chainId = frontChainId || id;
   const [privateTotalRequests = 0, arePrivateStatsLoading] =

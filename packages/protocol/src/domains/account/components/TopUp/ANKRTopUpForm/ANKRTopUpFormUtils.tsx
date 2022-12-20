@@ -1,31 +1,29 @@
+import BigNumber from 'bignumber.js';
 import { Button } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/styles';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormRenderProps } from 'react-final-form';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
-import { push } from 'connected-react-router';
-import { useDispatch } from 'react-redux';
-import { MessageEventData } from '@ankr.com/provider';
-
-import { AccountRoutesConfig } from 'domains/account/Routes';
-import { t } from 'modules/i18n/utils/intl';
 import { NavLink, useIsSMDown } from 'ui';
-import { AmountField } from './AmountField';
-import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
-import { getLastLockedFundsEvent } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { MultiService } from 'modules/api/MultiService';
-import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
-import { RateBlock } from './RateBlock';
-import { ConnectButton } from 'domains/auth/components/ConnectButton';
+import { push } from 'connected-react-router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import {
   ANKR_CURRENCY,
   DEFAULT_ANKR_VALUE,
   ANKR_MAX_DECIMALS,
   ANKR_MAX_DIGITS,
 } from 'domains/account/actions/topUp/const';
+import { AccountRoutesConfig } from 'domains/account/Routes';
+import { AmountField } from './AmountField';
+import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
+import { ConnectButton } from 'domains/auth/components/ConnectButton';
+import { MultiService } from 'modules/api/MultiService';
+import { RateBlock } from './RateBlock';
+import { t } from 'modules/i18n/utils/intl';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useLazyTopUpGetLastLockedFundsEventQuery } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -128,19 +126,17 @@ export const useRenderForm = ({
 };
 
 export const useCheckLoginStep = () => {
-  const { data: lastLockedFundsEvent, loading } = useQuery<MessageEventData>({
-    type: getLastLockedFundsEvent.toString(),
-  });
+  const [getLastLockedFundsEvent, { data: lastLockedFundsEvent, isLoading }] =
+    useLazyTopUpGetLastLockedFundsEventQuery();
 
   const { credentials, isWalletConnected, workerTokenData } = useAuth();
   const { handleSetAmount } = useTopUp();
 
-  const dispatchRequest = useDispatchRequest();
   const [hasLoginStep, setHasLoginStep] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isWalletConnected) dispatchRequest(getLastLockedFundsEvent());
-  }, [dispatchRequest, isWalletConnected]);
+    if (isWalletConnected) getLastLockedFundsEvent();
+  }, [getLastLockedFundsEvent, isWalletConnected]);
 
   useEffect(() => {
     const checkAmountAndSetTokenIssuanceStep = async () => {
@@ -152,7 +148,7 @@ export const useCheckLoginStep = () => {
 
       const value = keyProvider
         .getWeb3()
-        .utils.fromWei(lastLockedFundsEvent?.returnValues?.amount);
+        .utils.fromWei(lastLockedFundsEvent.returnValues?.amount);
 
       if (!value) return;
 
@@ -177,7 +173,7 @@ export const useCheckLoginStep = () => {
 
   return {
     hasLoginStep,
-    loading,
+    isLoading,
   };
 };
 

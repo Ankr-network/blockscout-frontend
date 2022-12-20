@@ -1,38 +1,29 @@
-import { RequestAction, resetRequests } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { connect } from './connect';
-import { store } from 'store';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetAuthData, setAuthData } from 'domains/auth/store/authSlice';
-import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
-import { reset as topUpReset } from 'domains/account/actions/topUp/reset';
-import { fetchPremiumChainFeatures } from 'domains/chains/actions/fetchPremiumChainFeatures';
-import { disconnectService } from './connectUtils';
-import { fetchAccountBalance } from 'domains/account/actions/balance/fetchAccountBalance';
+import { resetEndpoint } from 'store/utils/resetEndpoint';
+import { topUpReset } from 'domains/account/actions/topUp/reset';
+import { web3Api } from 'store/queries';
 
-export const disconnect = createSmartAction<RequestAction>(
-  'auth/disconnect',
-  () => ({
-    request: {
-      promise: (async () => {
-        store.dispatch(setAuthData({ isManualDisconnected: true }));
+export const {
+  useLazyAuthDisconnectQuery,
+  endpoints: { authDisconnect },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    authDisconnect: build.query<boolean, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
+        dispatch(setAuthData({ isManualDisconnected: true }));
 
-        disconnectService();
+        dispatch(resetAuthData());
 
-        store.dispatch(resetAuthData());
-        store.dispatch(topUpReset());
-        store.dispatch(
-          resetRequests([
-            connect.toString(),
-            fetchPremiumChainFeatures.toString(),
-            fetchProvider.toString(),
-            fetchAccountBalance.toString(),
-          ]),
-        );
-      })(),
-    },
-    meta: {
-      asMutation: true,
-    },
+        dispatch(topUpReset.initiate());
+
+        resetEndpoint('authConnect', dispatch);
+        resetEndpoint('chainsFetchPremiumChainFeatures', dispatch);
+        resetEndpoint('infrastructureFetchProvider', dispatch);
+        resetEndpoint('accountFetchAccountBalance', dispatch);
+
+        return { data: true };
+      }),
+    }),
   }),
-);
+});

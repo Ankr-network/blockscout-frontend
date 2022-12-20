@@ -1,29 +1,22 @@
 import { useCallback } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { fetchUSDSubscriptionPrices } from '../actions/usdTopUp/fetchUSDSubscriptionPrices';
-import { ProductPrice } from 'multirpc-sdk';
+import { useLazyUsdTopUpFetchUSDSubscriptionPricesQuery } from '../actions/usdTopUp/fetchUSDSubscriptionPrices';
 
 export const useUSDSubscriptionPrices = () => {
-  const dispatchRequest = useDispatchRequest();
-
-  const {
-    data: prices,
-    loading,
-    pristine,
-  } = useQuery<ProductPrice[]>({
-    type: fetchUSDSubscriptionPrices.toString(),
-  });
+  const [
+    fetchUSDSubscriptionPrices,
+    { data: prices, isLoading: loading, isUninitialized },
+  ] = useLazyUsdTopUpFetchUSDSubscriptionPricesQuery();
 
   const handleFetchSubscriptionPrices = useCallback(() => {
-    if (pristine) {
-      dispatchRequest(fetchUSDSubscriptionPrices());
+    if (isUninitialized) {
+      fetchUSDSubscriptionPrices();
     }
-  }, [dispatchRequest, pristine]);
+  }, [fetchUSDSubscriptionPrices, isUninitialized]);
 
   return {
     handleFetchSubscriptionPrices,
-    prices,
     loading,
+    prices,
   };
 };

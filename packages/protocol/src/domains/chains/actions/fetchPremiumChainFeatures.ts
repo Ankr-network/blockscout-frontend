@@ -1,74 +1,64 @@
-import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
+import { GetState, RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
+import { chainsFetchPublicChains } from './fetchPublicChains';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from '../../auth/utils/credentialsGuard';
-import {
-  filterMapChains,
-  IApiChain,
-  IFetchChainsResponseData,
-} from '../api/queryChains';
-import { fetchPublicChains } from './fetchPublicChains';
+import { filterMapChains, IApiChain } from '../api/queryChains';
+import { web3Api } from 'store/queries';
 
-export interface IPremiumFeatures {
-  publicChains: IApiChain[];
+export interface PremiumFeatures {
+  privateChainDetails: IApiChain | undefined;
   privateChains: IApiChain[];
-  privateChainDetails: IApiChain;
+  publicChains: IApiChain[];
 }
 
-export const fetchPremiumChainFeatures = createSmartAction<
-  RequestAction<IFetchChainsResponseData, IPremiumFeatures>
->('chains/fetchPremiumChainFeatures', (chainId: string) => ({
-  request: {
-    promise: async (
-      store: RequestsStore,
-      _jwtToken: IJwtToken,
-      workerTokenData: WorkerTokenData,
-    ) => {
-      const publicService = MultiService.getService();
+export const {
+  endpoints: { chainsFetchPremiumChainFeatures },
+  useLazyChainsFetchPremiumChainFeaturesQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchPremiumChainFeatures: build.query<PremiumFeatures, string>({
+      queryFn: createNotifyingQueryFn(async (chainId, { getState }) => {
+        const publicService = MultiService.getService();
 
-      let {
-        data: { chains: publicChains },
-      } = getQuery(store.getState(), {
-        type: fetchPublicChains.toString(),
-        action: fetchPublicChains,
-        defaultData: {},
-      });
+        let { data: { chains: publicChains = [] } = {} } =
+          chainsFetchPublicChains.select()(getState() as RootState);
 
-      const blockchains = await publicService
-        .getPublicGateway()
-        .getBlockchains();
+        const blockchains = await publicService
+          .getPublicGateway()
+          .getBlockchains();
 
-      if (!publicChains) {
-        const formattedPublicChains = await publicService.formatPublicEndpoints(
+        if (!publicChains) {
+          const formattedPublicChains =
+            await publicService.formatPublicEndpoints(blockchains);
+
+          publicChains = filterMapChains(
+            formattedPublicChains,
+            ({ blockchain }) => !blockchain.premiumOnly,
+          );
+        }
+
+        const { workerTokenData } = credentialsGuard(getState as GetState);
+
+        const formattedPrivateChains = publicService.formatPrivateEndpoints(
           blockchains,
+          workerTokenData?.userEndpointToken,
         );
 
-        publicChains = filterMapChains(
-          formattedPublicChains,
-          ({ blockchain }) => !blockchain.premiumOnly,
+        const privateChains = filterMapChains(formattedPrivateChains);
+
+        const privateChainDetails = privateChains.find(
+          item => item.id === chainId,
         );
-      }
 
-      const formattedPrivateChains = publicService.formatPrivateEndpoints(
-        blockchains,
-        workerTokenData?.userEndpointToken,
-      );
-      const privateChains = filterMapChains(formattedPrivateChains);
-
-      const privateChainDetails = privateChains.find(
-        item => item.id === chainId,
-      );
-
-      return {
-        publicChains,
-        privateChains,
-        privateChainDetails,
-      };
-    },
-  },
-  meta: {
-    onRequest: credentialsGuard,
-  },
-}));
+        return {
+          data: {
+            publicChains,
+            privateChains,
+            privateChainDetails,
+          },
+        };
+      }),
+    }),
+  }),
+});

@@ -1,13 +1,17 @@
-import { TopUp } from 'domains/account/components/TopUp';
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import BigNumber from 'bignumber.js';
+
 import { PricingHeader } from './PricingHeader';
-import { useAnkrBalanceOnWallet } from 'domains/account/hooks/useAnkrBalanceOnWallet';
 import { TabsManager } from 'uiKit/TabsManager';
+import { TopUp } from 'domains/account/components/TopUp';
+import { useAnkrBalanceOnWallet } from 'domains/account/hooks/useAnkrBalanceOnWallet';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePricingTopUpTabs } from './PricingTopUpUtils';
 import { useTopUpStyles } from 'domains/account/components/TopUp/TopUpStyles';
 
 export const PricingTopUp = () => {
-  const { ankrBalance, isLoading } = useAnkrBalanceOnWallet();
+  const { ankrBalance = new BigNumber(0), isLoading } =
+    useAnkrBalanceOnWallet();
+
   const { isUserEthAddressType } = useAuth();
   const canPayOnlyByCard = !isUserEthAddressType;
 

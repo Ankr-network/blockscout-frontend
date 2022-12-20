@@ -15,7 +15,7 @@ export function BlockNumber<T>({ data, loading }: IBlockNumberProps<T>) {
 
   return (
     <>
-      {data && (
+      {!!data && (
         <div className={classes.define}>
           <Typography variant="body2" className={classes.label}>
             {t('request-composer.header.last-block-number')}

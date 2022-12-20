@@ -33,7 +33,7 @@ export const usePublicUsageData = ({
   const {
     countries,
     error,
-    loading,
+    isLoading,
     totalCached,
     totalRequests,
     totalRequestsHistory,
@@ -46,7 +46,7 @@ export const usePublicUsageData = ({
     countries,
     error,
     isConnecting,
-    loading: loading || isConnecting,
+    loading: isLoading || isConnecting,
     timeframe,
     totalCached,
     totalRequests,

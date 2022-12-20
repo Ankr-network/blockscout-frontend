@@ -1,31 +1,25 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { fetchPublicChainsInfo } from 'domains/chains/actions/fetchPublicChainsInfo';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
+import { chainsFetchPublicChainsInfo } from 'domains/chains/actions/fetchPublicChainsInfo';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export type PublicChains = [IApiChain[], IApiChain[], boolean];
 
+const defaultData = {
+  chains: [],
+  allChains: [],
+};
+
 export const usePublicChains = (): PublicChains => {
-  const {
-    data: { chains = [], allChains = [] },
-    loading,
-  } = useQuery({
-    defaultData: {},
-    type: fetchPublicChainsInfo,
-  });
-  const dispatch = useDispatch();
+  const [
+    fetchPublicChainsInfo,
+    { data: { chains, allChains } = defaultData, isLoading },
+  ] = useQueryEndpoint(chainsFetchPublicChainsInfo);
 
   useEffect(() => {
-    dispatch(fetchPublicChainsInfo());
-  }, [dispatch]);
+    fetchPublicChainsInfo();
+  }, [fetchPublicChainsInfo]);
 
-  useOnUnmount(() => {
-    dispatch(resetRequests([fetchPublicChainsInfo.toString()]));
-  });
-
-  return [chains, allChains, loading];
+  return [chains, allChains, isLoading];
 };

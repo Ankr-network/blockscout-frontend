@@ -1,23 +1,22 @@
 import { Box, ThemeProvider } from '@material-ui/core';
-import { useQuery } from '@redux-requests/react';
+import { Spinner, mainTheme } from 'ui';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
-import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
+import { AccountDetailsTopUp } from './components/AccountDetailsTopUp';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { t } from 'modules/i18n/utils/intl';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { mainTheme, Spinner } from 'ui';
-import { useStyles } from './AccountDetailsStyles';
 import { Balance } from './components/Balance';
 import { ExpenseChart } from './components/ExpenseChart';
-import { PaymentsHistoryTable } from './components/PaymentsHistoryTable/PaymentsHistoryTable';
-import { USDBanner } from './components/USDBanner';
-import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
-import { AccountDetailsTopUp } from './components/AccountDetailsTopUp';
+import { PaymentsHistoryTable } from './components/PaymentsHistoryTable/PaymentsHistoryTable';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
+import { USDBanner } from './components/USDBanner';
+import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
+import { t } from 'modules/i18n/utils/intl';
+import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useStyles } from './AccountDetailsStyles';
 
 export const AccountDetails = () => {
   const classes = useStyles();
@@ -25,9 +24,7 @@ export const AccountDetails = () => {
   const isPremium = !!premiumUntil;
   const history = useHistory();
 
-  const { data: balances } = useQuery<AccountBalance>({
-    type: fetchBalance.toString(),
-  });
+  const [, { data: balances }] = useQueryEndpoint(accountFetchBalance);
 
   useSetBreadcrumbs([
     {
@@ -58,7 +55,7 @@ export const AccountDetails = () => {
           ) : (
             <>
               <Box className={classes.payments}>
-                <PaymentsHistoryTable balances={balances} />
+                <PaymentsHistoryTable balances={balances!} />
               </Box>
               {!isPremium && (
                 <Box className={classes.expenseChart}>

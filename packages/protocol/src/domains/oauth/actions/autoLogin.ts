@@ -1,22 +1,33 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 
-import { selectAuthData } from 'domains/auth/store/authSlice';
-import { withStore } from 'domains/auth/utils/withStore';
 import { MultiService } from 'modules/api/MultiService';
+import { RootState } from 'store';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { web3Api } from 'store/queries';
 
-export const autoLogin = createSmartAction<RequestAction>(
-  'oauth/autoLogin',
-  () => ({
-    request: {
-      promise: async (store: RequestsStore) => {
+export interface OauthAutoLoginResult {
+  address?: string;
+  authorizationToken?: string;
+  credentials?: IJwtToken;
+  email?: string;
+  workerTokenData?: WorkerTokenData;
+}
+
+export const {
+  endpoints: { oauthAutoLogin },
+  useLazyOauthAutoLoginQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    oauthAutoLogin: build.query<OauthAutoLoginResult, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
         const {
           credentials,
           authorizationToken,
           workerTokenData,
           address,
           email,
-        } = selectAuthData(store.getState());
+        } = selectAuthData(getState() as RootState);
 
         const service = MultiService.getService();
         const web3ReadService = await MultiService.getWeb3ReadService();
@@ -24,6 +35,7 @@ export const autoLogin = createSmartAction<RequestAction>(
         web3ReadService
           .getOauthGateway()
           .addToken(authorizationToken as string);
+
         service.getAccountGateway().addToken(authorizationToken as string);
 
         if (workerTokenData?.signedToken) {
@@ -31,16 +43,15 @@ export const autoLogin = createSmartAction<RequestAction>(
         }
 
         return {
-          credentials,
-          authorizationToken,
-          workerTokenData,
-          email,
-          address,
+          data: {
+            credentials,
+            authorizationToken,
+            workerTokenData,
+            email,
+            address,
+          },
         };
-      },
-    },
-    meta: {
-      onRequest: withStore,
-    },
+      }),
+    }),
   }),
-);
+});

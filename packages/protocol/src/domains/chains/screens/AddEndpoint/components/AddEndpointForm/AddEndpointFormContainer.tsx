@@ -1,16 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useCallback, useMemo } from 'react';
 
+import { AddEndpointForm } from './AddEndpointForm';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import {
   formatDataForRequest,
   usePrivateUrls,
   usePublicUrls,
 } from './AddEndpointFormUtils';
-import { AddEndpointForm } from './AddEndpointForm';
-import { apiAddPrivateEndpoint } from 'domains/infrastructure/actions/addPrivateEndpoint';
 import { useEndpointBreadcrumbs } from '../../AddEndpointUtils';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrastructure/actions/addPrivateEndpoint';
 import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';
 
 export interface AddEndpointFormProps {
@@ -18,7 +17,7 @@ export interface AddEndpointFormProps {
   scheme: string;
   privateChain?: IApiChain;
   publicChain?: IApiChain;
-  userEndpoints?: IUserEndpoint[];
+  userEndpoints?: UserEndpoint[];
 }
 
 export const AddEndpointFormContainer = ({
@@ -28,8 +27,8 @@ export const AddEndpointFormContainer = ({
   publicChain,
   userEndpoints,
 }: AddEndpointFormProps) => {
-  const dispatchRequest = useDispatchRequest();
-
+  const [apiAddPrivateEndpoint] =
+    useLazyInfrastructureApiAddPrivateEndpointQuery();
   const privateUrls = usePrivateUrls(privateChain);
   const publicUrls = usePublicUrls(publicChain);
 
@@ -50,11 +49,11 @@ export const AddEndpointFormContainer = ({
         httpAddress,
       );
 
-      await dispatchRequest(apiAddPrivateEndpoint(privateEndpoint)).then(() => {
+      await apiAddPrivateEndpoint(privateEndpoint).then(() => {
         redirect();
       });
     },
-    [dispatchRequest, redirect, chainId, scheme],
+    [apiAddPrivateEndpoint, redirect, chainId, scheme],
   );
 
   return (

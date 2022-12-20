@@ -1,29 +1,26 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
-import { resendConfirmationCode } from 'domains/userSettings/actions/email/resendConfirmationCode';
-import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
-import { useLinkParams } from 'domains/userSettings/hooks/useLinkParams';
 import { ILinkExpiredActionSlotProps } from './components/LinkExpiredActionSlot';
+import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
+import { useLazyUserSettingsResendConfirmationCodeQuery } from 'domains/userSettings/actions/email/resendConfirmationCode';
+import { useLinkParams } from 'domains/userSettings/hooks/useLinkParams';
 
 export const useLinkExpiredCard = () => {
   const { email } = useLinkParams();
-
-  const dispatchRequest = useDispatchRequest();
+  const [
+    resendConfirmationCode,
+    {
+      data: resendEmailData,
+      isLoading: resendEmailLoading,
+      error: resendEmailError,
+    },
+  ] = useLazyUserSettingsResendConfirmationCodeQuery();
 
   const onResendEmail = useCallback((): void => {
     if (!email) return;
 
-    dispatchRequest(resendConfirmationCode({ email, shouldNotify: false }));
-  }, [dispatchRequest, email]);
-
-  const {
-    data: resendEmailData,
-    loading: resendEmailLoading,
-    error: resendEmailError,
-  } = useQuery({
-    type: resendConfirmationCode.toString(),
-  });
+    resendConfirmationCode({ params: { email }, shouldNotify: false });
+  }, [resendConfirmationCode, email]);
 
   const {
     errorMessage: resendEmailErrorMessage,

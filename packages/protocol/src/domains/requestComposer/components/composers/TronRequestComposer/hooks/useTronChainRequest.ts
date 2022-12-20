@@ -1,29 +1,35 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchTronChainRequest } from 'domains/requestComposer/actions/tron/fetchTronChainRequest';
+import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+import { FetchTronChainRequestResult } from 'domains/requestComposer/actions/tron/types';
+import { TronChainMethod } from 'domains/requestComposer/constants/tron';
+import { TronChainMethodResponse } from 'domains/requestComposer/types/tron';
+import { requestComposerFetchTronChainRequest } from 'domains/requestComposer/actions/tron/fetchTronChainRequest';
 import {
   resetEVMMethod,
   selectEVMMethod,
 } from 'domains/requestComposer/store/requestComposerSlice';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
-import { TronChainMethod } from 'domains/requestComposer/constants/tron';
-import { TronChainMethodResponse } from 'domains/requestComposer/types/tron';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+export const defaultData: FetchTronChainRequestResult = {
+  error: undefined,
+  response: undefined,
+  time: 0,
+};
 
 export const useTronChainRequest = (): ComposerRequest<
   TronChainMethod,
   TronChainMethodResponse
 > => {
-  const {
-    data: { response, error, time },
-    loading,
-    pristine,
-  } = useQuery({
-    defaultData: { time: 0 },
-    type: fetchTronChainRequest,
-  });
+  const [
+    ,
+    {
+      data: { response, error, time } = defaultData,
+      isLoading,
+      isUninitialized,
+    },
+  ] = useQueryEndpoint(requestComposerFetchTronChainRequest);
 
   const method = useSelector(selectEVMMethod) as [TronChainMethod] | undefined;
 
@@ -31,7 +37,6 @@ export const useTronChainRequest = (): ComposerRequest<
 
   useOnUnmount(() => {
     dispatch(resetEVMMethod());
-    dispatch(resetRequests([fetchTronChainRequest.toString()]));
   });
 
   return {
@@ -39,6 +44,6 @@ export const useTronChainRequest = (): ComposerRequest<
     method,
     response,
     time,
-    withResponse: !loading && !pristine && !error,
+    withResponse: !isLoading && !isUninitialized && !error,
   };
 };

@@ -1,50 +1,60 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { RestrictedDomains } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
-import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
-import { ResponseData } from 'modules/api/utils/ResponseData';
 import { ChainID } from 'modules/chains/types';
+import { GetState } from 'store';
+import { MultiService } from 'modules/api/MultiService';
 import { checkWhitelistSecretChainsAndGetChainId } from '../const';
-import { fetchSecuritySettings } from './fetchSecuritySettings';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { web3Api } from 'store/queries';
 
-export const editChainRestrictedDomains = createSmartAction<
-  RequestAction<string[], string[]>
->(
-  'infrastructure/editChainRestrictedDomains',
-  (chainId: string, domains: string[]) => ({
-    request: {
-      promise: async () => {
-        const service = MultiService.getService();
+export interface EditChainRestrictedDomainsParams {
+  chainId: string;
+  domains: string[];
+}
 
-        const domainsResult = await service
-          .getWorkerGateway()
-          .editChainRestrictedDomains(
-            checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
-            domains,
-          );
+export const {
+  useLazyInfrastructureEditChainRestrictedDomainsQuery,
+  endpoints: { infrastructureEditChainRestrictedDomains },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureEditChainRestrictedDomains: build.query<
+      RestrictedDomains,
+      EditChainRestrictedDomainsParams
+    >({
+      queryFn: createNotifyingQueryFn(
+        async ({ chainId, domains }, { getState }) => {
+          credentialsGuard(getState as GetState);
 
-        if (typeof domainsResult === 'string') {
-          throw new Error(domainsResult);
-        }
+          const service = MultiService.getService();
 
-        return domainsResult;
-      },
-    },
-    meta: {
-      asMutation: true,
-      onRequest: credentialsGuard,
-      mutations: {
-        [fetchSecuritySettings.toString()]: (
-          data: ResponseData<typeof fetchSecuritySettings>,
-          mutationData: string[],
-        ): ResponseData<typeof fetchSecuritySettings> => {
-          return {
-            ...data,
-            domains: [...mutationData],
-          };
+          const domainsResult = await service
+            .getWorkerGateway()
+            .editChainRestrictedDomains(
+              checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
+              domains,
+            );
+
+          if (typeof domainsResult === 'string') {
+            throw new Error(domainsResult);
+          }
+
+          return { data: domainsResult };
         },
+      ),
+      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+
+        dispatch(
+          web3Api.util.updateQueryData(
+            'infrastructureFetchSecuritySettings' as unknown as never,
+            undefined as unknown as never,
+            mutationData => {
+              Object.assign(mutationData, { domains: [...data] });
+            },
+          ),
+        );
       },
-    },
+    }),
   }),
-);
+});

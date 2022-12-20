@@ -1,49 +1,40 @@
-import React, { useEffect } from 'react';
-import { stopPolling } from '@redux-requests/core';
-import { useDispatch } from 'react-redux';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useEffect } from 'react';
 
-import { ChainID } from 'modules/chains/types';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { fetchTronLastBlockNumber } from 'domains/requestComposer/actions/tron/fetchTronLastBlockNumber';
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { Header } from '../../../Header';
 import { BlockNumber } from '../../../Header/BlockNumber';
+import { ChainID } from 'modules/chains/types';
+import { Header } from '../../../Header';
+import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { chainsFetchTronLastBlockNumber } from 'domains/requestComposer/actions/tron/fetchTronLastBlockNumber';
 
-interface IHeaderProps {
+export interface HeaderProps {
   publicUrl?: string;
 }
 
-type FetchTronLastBlockNumberResponseData = ResponseData<
-  typeof fetchTronLastBlockNumber
->;
+const options: Options = {
+  subscriptionOptions: {
+    pollingInterval: 30_000,
+  },
+};
 
-export const TronHeader = ({ publicUrl }: IHeaderProps) => {
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
+export const TronHeader = ({ publicUrl }: HeaderProps) => {
+  const [fetchTronLastBlockNumber, { data = 0, isLoading }] = useQueryEndpoint(
+    chainsFetchTronLastBlockNumber,
+    options,
+  );
 
   useEffect(() => {
-    dispatchRequest(fetchTronLastBlockNumber(publicUrl));
-  }, [dispatchRequest, publicUrl]);
+    if (publicUrl) {
+      const { unsubscribe } = fetchTronLastBlockNumber(publicUrl);
 
-  useOnUnmount(() => {
-    dispatch(stopPolling([fetchTronLastBlockNumber.toString()]));
-  });
+      return unsubscribe;
+    }
+
+    return () => {};
+  }, [fetchTronLastBlockNumber, publicUrl]);
 
   return (
     <Header chainName={ChainID.TRON}>
-      <Queries<FetchTronLastBlockNumberResponseData>
-        requestActions={[fetchTronLastBlockNumber]}
-        isPreloadDisabled
-      >
-        {({ data, loading }) => (
-          <BlockNumber<FetchTronLastBlockNumberResponseData>
-            data={data}
-            loading={loading}
-          />
-        )}
-      </Queries>
+      <BlockNumber<number> data={data} loading={isLoading} />
     </Header>
   );
 };

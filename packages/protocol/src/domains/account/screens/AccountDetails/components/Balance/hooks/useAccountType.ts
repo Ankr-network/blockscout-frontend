@@ -1,12 +1,14 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
-import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
 import { getAccountType } from 'domains/account/utils/getAccountType';
+import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 
 export const useAccountType = (
   ankrBalance: BigNumber,
   isNew: boolean,
   premiumUntil?: Date,
+  isConnected = false,
 ) => {
   const currentAnkrBalance = useRef(ankrBalance);
   const isBalanceChanged = useMemo(
@@ -14,7 +16,10 @@ export const useAccountType = (
     [ankrBalance],
   );
 
-  const { endTime: balanceEndTime } = useBalanceEndTime(true, isBalanceChanged);
+  const { endTime: balanceEndTime } = useBalanceEndTime(
+    isConnected,
+    isBalanceChanged,
+  );
 
   const [currentAccountType, setCurrentAccountType] = useState(
     getAccountType({

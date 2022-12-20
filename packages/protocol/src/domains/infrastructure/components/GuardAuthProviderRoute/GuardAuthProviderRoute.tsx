@@ -16,7 +16,7 @@ export const GuardAuthProviderRoute = (props: IGuardRoute) => {
   const {
     handleFetchProvider,
     providerData,
-    loading: providerLoading,
+    isLoading: providerLoading,
   } = useProvider();
   const { setBreadcrumbs } = useBreadcrumbs();
 

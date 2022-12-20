@@ -1,61 +1,48 @@
-import { DispatchRequest, RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
 import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
-import { Store } from 'store';
+
 import { IApiChain } from '../api/queryChains';
-import { fetchChainNodes } from './fetchChainNodes';
-import { fetchNodesWeight } from './fetchNodesWeight';
+import { chainsFetchChainNodes } from './fetchChainNodes';
+import { chainsFetchNodesWeight } from './fetchNodesWeight';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
 export interface IChainNodesData {
   nodes: INodeEntity[];
   nodesWeight: IWorkerNodesWeight[];
 }
 
-export const fetchChainNodesData = createSmartAction<
-  RequestAction<null, IChainNodesData>,
-  [IApiChain['id'][]]
->('chains/fetchChain', (chains: IApiChain['id'][]) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    poll: 30,
-    onRequest: (
-      request: any,
-      action: RequestAction,
-      store: Store & { dispatchRequest: DispatchRequest },
-    ) => {
-      return {
-        promise: (async (): Promise<IChainNodesData> => {
-          const fetchNodesWeightPromise = store.dispatchRequest(
-            fetchNodesWeight(),
-          );
+export const {
+  useLazyChainsFetchChainNodesDataQuery,
+  endpoints: { chainsFetchChainNodesData },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchChainNodesData: build.query<IChainNodesData, IApiChain['id'][]>({
+      queryFn: createNotifyingQueryFn(async (chains, { dispatch }) => {
+        const fetchNodesWeightPromise = dispatch(
+          chainsFetchNodesWeight.initiate(),
+        );
 
-          const fetchChainNodesPromise = Promise.all(
-            chains.map(id => store.dispatchRequest(fetchChainNodes(id))),
-          );
+        const fetchChainNodesPromise = Promise.all(
+          chains.map(id => dispatch(chainsFetchChainNodes.initiate(id))),
+        );
 
-          const [fetchNodesWeightDataResponse, fetchNodesResponse] =
-            await Promise.all([
-              fetchNodesWeightPromise,
-              fetchChainNodesPromise,
-            ]);
+        const [fetchNodesWeightDataResponse, fetchNodesResponse] =
+          await Promise.all([fetchNodesWeightPromise, fetchChainNodesPromise]);
 
-          const { data: nodesWeight = [] } = fetchNodesWeightDataResponse;
+        const { data: nodesWeight = [] } = fetchNodesWeightDataResponse;
 
-          const nodes = fetchNodesResponse.reduce<INodeEntity[]>(
-            (acc, { data }) => [...acc, ...data!],
-            [],
-          );
+        const nodes = fetchNodesResponse.reduce<INodeEntity[]>(
+          (acc, { data }) => [...acc, ...data!],
+          [],
+        );
 
-          return {
+        return {
+          data: {
             nodesWeight,
             nodes,
-          };
-        })(),
-      };
-    },
-  },
-}));
+          },
+        };
+      }),
+    }),
+  }),
+});

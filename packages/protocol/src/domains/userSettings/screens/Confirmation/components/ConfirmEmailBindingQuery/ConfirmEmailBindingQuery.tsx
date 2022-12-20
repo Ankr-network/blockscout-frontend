@@ -1,19 +1,18 @@
-import { useDispatchRequest } from '@redux-requests/react';
 import { push } from 'connected-react-router';
+import { IEmailResponse } from 'multirpc-sdk';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { confirmEmailBinding } from 'domains/userSettings/actions/email/confirmEmailBinding';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useAppDispatch } from 'store/useAppDispatch';
 import { LinkExpiredCard } from '../LinkExpiredCard';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import {
   checkIsRelatedWallet,
   processError,
 } from './ConfirmEmailBindingQueryUtils';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useLazyUserSettingsConfirmEmailBindingQuery } from 'domains/userSettings/actions/email/confirmEmailBinding';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 const REDIRECT_TIMEOUT = 250;
 
@@ -27,19 +26,24 @@ export const ConfirmEmailBindingQuery = ({
   code,
 }: IConfirmEmailBindingQueryProps) => {
   const dispatch = useAppDispatch();
-  const dispatchRequest = useDispatchRequest();
 
   const { address } = useAuth();
 
+  const [confirmEmailBinding, emailBindingState] =
+    useLazyUserSettingsConfirmEmailBindingQuery();
+
   useOnMount(() => {
-    dispatchRequest(confirmEmailBinding({ code, email, shouldNotify: false }));
+    confirmEmailBinding({
+      params: { email, code },
+      shouldNotify: false,
+    });
   });
 
   return (
-    <Queries<ResponseData<typeof confirmEmailBinding> | null>
+    <Queries<IEmailResponse>
       disableEmptyRender
       disableErrorRender
-      requestActions={[confirmEmailBinding]}
+      queryStates={[emailBindingState]}
     >
       {({ data, error }) => {
         const { isCodeAlreadyUsed, isConfirmationCodeNotFound, isLinkExpired } =
@@ -53,7 +57,7 @@ export const ConfirmEmailBindingQuery = ({
           );
         }
 
-        const isRelatedWallet = checkIsRelatedWallet(data, address as string);
+        const isRelatedWallet = checkIsRelatedWallet(data, address);
 
         if (
           isRelatedWallet ||

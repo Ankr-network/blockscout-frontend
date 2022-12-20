@@ -1,31 +1,28 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { fetchPrivateChainsInfo } from 'domains/chains/actions/fetchPrivateChainsInfo';
 import { IApiChain } from 'domains/chains/api/queryChains';
+import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/fetchPrivateChainsInfo';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export type PrivateChains = [IApiChain[], IApiChain[], boolean];
 
-export const usePrivateChains = (): PrivateChains => {
-  const {
-    data: { chains = [], allChains = [] },
-    loading,
-  } = useQuery({
-    defaultData: {},
-    type: fetchPrivateChainsInfo,
-  });
+const defaultData = {
+  chains: [],
+  allChains: [],
+};
 
-  const dispatch = useDispatch();
+export const usePrivateChains = (): PrivateChains => {
+  const [
+    fetchPrivateChainsInfo,
+    { data: { chains, allChains } = defaultData, isLoading },
+    reset,
+  ] = useQueryEndpoint(chainsFetchPrivateChainsInfo);
+
+  useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    dispatch(fetchPrivateChainsInfo());
+    fetchPrivateChainsInfo();
+  }, [fetchPrivateChainsInfo]);
 
-    return () => {
-      dispatch(resetRequests([fetchPrivateChainsInfo.toString()]));
-    };
-  }, [dispatch]);
-
-  return [chains, allChains, loading];
+  return [chains, allChains, isLoading];
 };

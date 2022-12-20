@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js';
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
+import { IBalance } from 'multirpc-sdk';
 
 import { Balance } from './types';
-import { IBalance } from 'multirpc-sdk';
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
 const ANKR_TO_CREDITS_RATE = 1_000_000;
 
@@ -29,24 +30,23 @@ const getBalance = ({
   };
 };
 
-export const fetchBalance = createAction<RequestAction<IBalance, Balance>>(
-  'account/fetchBalance',
-  () => ({
-    request: {
-      promise: async (): Promise<IBalance> => {
+export const {
+  useLazyAccountFetchBalanceQuery,
+  endpoints: { accountFetchBalance },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountFetchBalance: build.query<Balance, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
+        await authorizationGuard(getState as GetState);
+
         const service = MultiService.getService();
 
         const data = await service.getAccountGateway().getAnkrBalance();
 
-        return data;
-      },
-    },
-    meta: {
-      asMutation: false,
-      takeLatest: true,
-      poll: 30,
-      getData: getBalance,
-      onRequest: authorizationGuard,
-    },
+        const balance = getBalance(data);
+
+        return { data: balance };
+      }),
+    }),
   }),
-);
+});

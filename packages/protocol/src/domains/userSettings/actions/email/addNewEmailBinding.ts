@@ -1,36 +1,35 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { MultiService } from 'modules/api/MultiService';
 import { IEmailResponse } from 'multirpc-sdk';
 
-interface IAddNewEmailBindingParams {
+import {
+  ConditionallyNotifyingQueryFnParams,
+  createConditionallyNotifyingQueryFn,
+} from 'store/utils/createConditionallyNotifyingQueryFn';
+import { MultiService } from 'modules/api/MultiService';
+import { web3Api } from 'store/queries';
+
+interface AddNewEmailBindingParams {
   email: string;
   shouldNotify?: boolean;
 }
 
-export const addNewEmailBinding = createSmartAction<
-  RequestAction<IEmailResponse>,
-  [IAddNewEmailBindingParams]
->('userSettings/addNewEmailBinding', ({ email, shouldNotify = true }) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    cache: false,
-    asMutation: false,
-    takeLatest: true,
-    hideNotificationOnError: !shouldNotify,
-    onRequest: () => ({
-      promise: (async (): Promise<IEmailResponse> => {
+export const {
+  useLazyUserSettingsAddNewEmailBindingQuery,
+  endpoints: { userSettingsAddNewEmailBinding },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    userSettingsAddNewEmailBinding: build.query<
+      IEmailResponse,
+      ConditionallyNotifyingQueryFnParams<AddNewEmailBindingParams>
+    >({
+      queryFn: createConditionallyNotifyingQueryFn(async ({ email }) => {
         const service = MultiService.getService();
 
-        const response = await service
+        const data = await service
           .getAccountGateway()
           .addNewEmailBinding(email);
 
-        return response;
-      })(),
+        return { data };
+      }),
     }),
-  },
-}));
+  }),
+});

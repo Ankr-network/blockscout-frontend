@@ -1,56 +1,65 @@
+import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { POLL_INTERVAL } from '../../const';
 import { PublicStats } from '../../types';
 import { Timeframe } from 'domains/chains/types';
-import { fetchChainTimeframeData } from 'domains/chains/actions/fetchChainTimeframeData';
+
 import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
+import { useLazyChainsFetchChainTimeframeDataQuery } from 'domains/chains/actions/fetchChainTimeframeData';
 
 export interface PublicStatsParams {
   chainId: string;
   timeframe: Timeframe;
 }
 
+const defaultData = {
+  totalCached: new BigNumber(0),
+  totalRequests: new BigNumber(0),
+  totalRequestsHistory: {},
+  countries: {},
+};
+
 export const usePublicStats = ({
   chainId,
   timeframe,
 }: PublicStatsParams): PublicStats => {
-  const {
-    data: stats,
-    error,
-    loading,
-    pristine,
-    stopPolling,
-  } = useQuery({
-    defaultData: {},
-    requestKey: chainId,
-    type: fetchChainTimeframeData,
+  const [
+    fetchChainTimeframeData,
+    {
+      data: {
+        totalCached,
+        totalRequests,
+        totalRequestsHistory,
+        countries,
+      } = defaultData,
+      error,
+      isLoading,
+      isUninitialized,
+    },
+  ] = useLazyChainsFetchChainTimeframeDataQuery({
+    pollingInterval: POLL_INTERVAL,
   });
-  const dispatch = useDispatchRequest();
 
   useEffect(() => {
     if (chainId) {
-      dispatch(
-        fetchChainTimeframeData(
-          chainId,
-          timeframeToStatsTimeframe[timeframe],
-          POLL_INTERVAL,
-        ),
-      );
+      const { unsubscribe } = fetchChainTimeframeData({
+        chainId,
+        timeframe: timeframeToStatsTimeframe[timeframe],
+      });
+
+      return unsubscribe;
     }
 
-    return stopPolling;
-  }, [dispatch, chainId, timeframe, stopPolling]);
-
-  const { totalCached, totalRequests, totalRequestsHistory, countries } = stats;
+    return () => {};
+  }, [fetchChainTimeframeData, chainId, timeframe]);
 
   return {
     countries,
     error,
-    loading: loading && pristine,
-    pristine,
+    isLoading: isLoading && isUninitialized,
+    isUninitialized,
     totalCached,
     totalRequests,
     totalRequestsHistory: normalizeTotalRequestsHistory(totalRequestsHistory),

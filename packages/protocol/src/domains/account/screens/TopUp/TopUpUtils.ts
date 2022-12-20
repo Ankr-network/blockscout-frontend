@@ -53,6 +53,10 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
   } = useTopUp();
   const history = useHistory();
 
+  useEffect(() => {
+    setStep(initialStep);
+  }, [initialStep]);
+
   const onConfirm = useMemo(() => {
     switch (step) {
       case TopUpStep.start:
@@ -144,7 +148,7 @@ export const useCheckConfirmedEmail = (
 
   const {
     confirmedEmail,
-    loading: emailDataLoading,
+    isLoading: emailDataLoading,
     pristine,
   } = useEmailData();
 

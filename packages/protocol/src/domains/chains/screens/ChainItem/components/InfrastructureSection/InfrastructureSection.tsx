@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -10,9 +9,8 @@ import { TrafficFlow } from '../Endpoint/components/TrafficFlow';
 import { canAddEndpoint } from '../Endpoint/EndpointUtils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useInfrastructureSectionStyles } from './InfrastructureSectionStyles';
+import { useLazyInfrastructureFetchEndpointsQuery } from 'domains/infrastructure/actions/fetchEndpoints';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
-import { fetchEndpoints } from 'domains/infrastructure/actions/fetchEndpoints';
-import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 
 export interface InfrastructureSectionProps {
   chain: IApiChain;
@@ -27,21 +25,25 @@ export const InfrastructureSection = ({
   withMyEndpoints = true,
   withNodes = true,
 }: InfrastructureSectionProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const [fetchEndpoints] = useLazyInfrastructureFetchEndpointsQuery();
 
   const classes = useInfrastructureSectionStyles();
 
   const { credentials, loading: authLoading, workerTokenData } = useAuth();
-  const { providerData, loading: providerLoading } = useProvider();
+  const {
+    providerData,
+    isLoading: providerLoading,
+    handleFetchProvider,
+  } = useProvider();
   const { chains } = group;
 
   useEffect(() => {
     if (credentials && workerTokenData) {
-      dispatchRequest(fetchProvider()).then(() =>
-        dispatchRequest(fetchEndpoints()),
-      );
+      handleFetchProvider().then(() => {
+        fetchEndpoints();
+      });
     }
-  }, [dispatchRequest, credentials, workerTokenData]);
+  }, [handleFetchProvider, fetchEndpoints, credentials, workerTokenData]);
 
   const chainId = useMemo(() => chains[0]?.id, [chains]);
 

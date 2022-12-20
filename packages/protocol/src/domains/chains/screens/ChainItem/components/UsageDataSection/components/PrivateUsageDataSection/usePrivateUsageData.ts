@@ -1,18 +1,18 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
-import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
-import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
-import { useUserTopRequests } from 'domains/chains/hooks/useUserTopRequests';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { UsageData } from '../../types';
 import {
   checkPrivateSecretChainsAndGetChainId,
   timeframeToIntervalMap,
 } from '../../const';
-import { UsageData } from '../../types';
 import { getChainId } from '../../utils/getChainId';
 import { getPrivateUsageData } from './getPrivateUsageData';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
+import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
+import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
+import { useUserTopRequests } from 'domains/chains/hooks/useUserTopRequests';
 
 export interface UsageDataParams {
   chain: IApiChain;
@@ -29,9 +29,9 @@ export const usePrivateUsageData = ({
 }: UsageDataParams): UsageData => {
   const { isWalletConnected, loading: isConnecting, credentials } = useAuth();
   const chainId = getChainId({
-    publicChain: chain,
     chainType,
     group,
+    publicChain: chain,
     withExceptions: !isWalletConnected,
   });
 
@@ -40,12 +40,10 @@ export const usePrivateUsageData = ({
   const hasCredentials = Boolean(credentials);
 
   const {
-    data: { stats: privateStats = {} },
     arePrivateStatsLoading,
+    data: { stats: privateStats = {} },
     privateStatsError,
-  } = usePrivateStats({
-    interval: timeframeToIntervalMap[timeframe],
-  });
+  } = usePrivateStats({ interval: timeframeToIntervalMap[timeframe] });
 
   const userTopRequests = useUserTopRequests({
     privateStats,
