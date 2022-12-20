@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { EventData } from 'web3-eth-contract';
 
 import { Address } from '@ankr.com/provider';
 
@@ -31,14 +32,31 @@ export interface ITokenBalanceProps<T> {
   provider: T;
 }
 
+export interface ITxEventsHistoryRangeProps<T> {
+  address: Address;
+  env?: Env;
+  from: number;
+  provider: T;
+  to: number;
+}
+
 export interface IWeb3BalanceProps<T> {
   address: Address;
+  provider: T;
+}
+
+export interface IWeb3LatestBlockNumberProps<T> {
   provider: T;
 }
 
 export interface IWeb3ReadableAmountFromWeiProps<T> {
   amount: string;
   provider: T;
+}
+
+export interface IWeb3TxEventsHistoryGroupProps<T> {
+  provider: T;
+  rawEvents?: EventData[];
 }
 
 export interface IWeb3TxInfoProps<T> {

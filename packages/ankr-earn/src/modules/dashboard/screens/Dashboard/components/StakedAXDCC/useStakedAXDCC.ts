@@ -23,6 +23,7 @@ interface IUseStakedAXDCCData {
   amount: BigNumber;
   isLoading: boolean;
   isStakeLoading: boolean;
+  isUnstakeLoading: boolean;
   nativeAmount?: BigNumber;
   network: string;
   stakeLink: string;
@@ -77,6 +78,7 @@ export const useStakedAXDCC = (): IUseStakedAXDCCData => {
     amount,
     isLoading: isDashboardDataLoading,
     isStakeLoading: false,
+    isUnstakeLoading: false,
     nativeAmount,
     network,
     stakeLink: XDCRoutes.stake.generatePath(),

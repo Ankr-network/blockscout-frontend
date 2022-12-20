@@ -10,6 +10,7 @@ import { useLazyGetBNBHistoryQuery } from 'modules/stake-bnb/actions/fetchHistor
 import { useLazyGetETHHistoryQuery } from 'modules/stake-eth/actions/getHistory';
 import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
 import { useLazyGetMaticOnEthHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthHistoryQuery';
+import { useLazyGetDashboardTxEventsHistoryRangeQuery } from 'modules/stake-xdc/actions/getDashboardTxEventsHistoryRange';
 
 import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
 
@@ -62,6 +63,8 @@ export const useHistory = ({
     useLazyGetETHHistoryQuery();
   const [getMATICETHHistory, { isFetching: isMaticEthHistoryLoading }] =
     useLazyGetMaticOnEthHistoryQuery();
+  const [getXDCHistory, { isFetching: isXDCHistoryLoading }] =
+    useLazyGetDashboardTxEventsHistoryRangeQuery();
 
   const resetState = () => {
     setStep(DEFAULT_STEP);
@@ -242,6 +245,21 @@ export const useHistory = ({
             });
           });
         break;
+      case Token.aXDCc:
+        getXDCHistory({
+          step: stepValue,
+        })
+          .unwrap()
+          .then(data => {
+            setHistoryData({
+              stakeEvents: [...stakeEvents, ...(data?.aXDCc.stakeEvents ?? [])],
+              unstakeEvents: [
+                ...unstakeEvents,
+                ...(data?.aXDCc.unstakeEvents ?? []),
+              ],
+            });
+          });
+        break;
       default:
         break;
     }
@@ -277,7 +295,8 @@ export const useHistory = ({
       avaxHistoryLoading ||
       isBnbHistoryLoading ||
       isMaticEthHistoryLoading ||
-      isEthHistoryLoading,
+      isEthHistoryLoading ||
+      isXDCHistoryLoading,
     weeksAmount: step * 2,
     handleShowMore,
   };

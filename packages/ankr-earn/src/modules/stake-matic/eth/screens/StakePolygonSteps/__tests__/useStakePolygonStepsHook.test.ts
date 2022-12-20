@@ -52,6 +52,7 @@ jest.mock('modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery', () => ({
 
 jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
+  XDC: { XDC_BLOCK_1_DAY_RANGE: jest.fn() },
 }));
 
 describe('modules/stake-matic/eth/screens/StakePolygonSteps/useStakePolygonStepsHook', () => {

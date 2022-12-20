@@ -20,6 +20,7 @@ interface IUseTokenInfoDialogData {
   description: string;
   isOpenedInfo: boolean;
   moreHref?: string;
+  periodLabel: string;
   tokenAddress: string;
   onAddToken: () => void;
   onCloseInfo: () => void;
@@ -41,7 +42,7 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
 
   const [addTokenToWallet] = useLazyAddTokenToWalletQuery();
 
-  const { label: period } = useUnstakePendingTimestamp({
+  const { label: periodLabel } = useUnstakePendingTimestamp({
     token: Token.XDC,
   });
 
@@ -57,9 +58,9 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
     () =>
       tHTML('dashboard.token-info.aXDCc', {
         value,
-        period,
+        period: periodLabel,
       }),
-    [period, value],
+    [periodLabel, value],
   );
 
   const onAddToken = (): void => {
@@ -70,6 +71,7 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
     description,
     isOpenedInfo,
     moreHref: undefined,
+    periodLabel,
     tokenAddress: xdcConfig.aXDCcToken,
     onAddToken,
     onCloseInfo,

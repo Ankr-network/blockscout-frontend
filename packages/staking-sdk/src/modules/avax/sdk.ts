@@ -1,3 +1,4 @@
+import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
@@ -12,7 +13,6 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { getPastEvents } from '@ankr.com/advanced-api';
 import {
   configFromEnv,
   ETH_SCALE_FACTOR,
@@ -204,7 +204,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * according to the current environment.
    *
    * @private
-   * @param {IGetPastEvents}
+   * @param options {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {

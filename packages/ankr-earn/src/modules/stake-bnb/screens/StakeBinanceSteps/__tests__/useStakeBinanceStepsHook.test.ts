@@ -41,6 +41,7 @@ jest.mock('modules/stake-bnb/actions/getTxData', () => ({
 
 jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
+  XDC: { XDC_BLOCK_1_DAY_RANGE: jest.fn() },
 }));
 
 describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook', () => {
