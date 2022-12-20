@@ -1,8 +1,6 @@
-import { mainTheme, Themes } from 'ui';
+import { mainTheme } from '@ankr.com/ui';
+import { configureTheme } from './configureTheme';
 
-export const getTheme = (type: Themes) => {
-  switch (type) {
-    default:
-      return mainTheme;
-  }
+export const getTheme = () => {
+  return configureTheme(mainTheme);
 };

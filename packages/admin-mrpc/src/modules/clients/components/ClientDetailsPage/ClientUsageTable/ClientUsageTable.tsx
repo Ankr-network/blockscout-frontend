@@ -24,7 +24,13 @@ import {
 import { ClientUsageTotal } from './ClientUsageTotal';
 import { ClientUsageChainFilter } from './ClientUsageChainFilter';
 import { formatNumber } from 'modules/common/utils/renderBalance';
-import { currentMonthName, previousMonthName } from '../../../utils/dates';
+import {
+  currentMonthName,
+  previousMonthName,
+} from 'modules/clients/utils/dates';
+import { Chart } from 'modules/common/components/Chart';
+import { useRequestsChart } from '../RequestsChart/hooks/useRequestsChart';
+import { Tooltip } from '../RequestsChart/components/Tooltip';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -39,7 +45,9 @@ function TabPanel(props: TabPanelProps) {
     <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && (
         <Box>
-          <Typography>{children}</Typography>
+          <Typography>
+            <>{children}</>
+          </Typography>
         </Box>
       )}
     </div>
@@ -56,6 +64,9 @@ export const ClientUsageTable = ({
   handleSwitchCurrent,
   isCurrentDayIncluded,
   isRangePeriod,
+
+  isChartDataLoading,
+  timeframe,
 }: IClientUsageTableProps) => {
   const {
     activeTimeframeTabIndex,
@@ -70,7 +81,14 @@ export const ClientUsageTable = ({
     totalCostsValue,
     maxCountTotal,
     csvMappedUsage,
+    totalRequestsHistory,
   } = useClientUsageTable({ onUpdateTimeframe, stats, usage, currentPeriod });
+
+  const { chartProps } = useRequestsChart({
+    isChartDataLoading,
+    timeframe,
+    totalRequestsHistory,
+  });
 
   const { classes } = useClientDetailsStyles();
 
@@ -217,6 +235,12 @@ export const ClientUsageTable = ({
         : isLoadingStats
         ? 'Loading'
         : 'Not found'}
+
+      {totalRequestsHistory && (
+        <Paper sx={{ p: 4 }}>
+          <Chart {...chartProps} tooltipContent={<Tooltip />} />
+        </Paper>
+      )}
     </>
   );
 };
