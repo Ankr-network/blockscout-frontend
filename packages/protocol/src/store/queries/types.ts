@@ -28,4 +28,9 @@ export type QueryFn<QueryArg, ResultType> = (
   api: BaseQueryApi,
   extraOptions: BaseQueryExtraOptions<BaseQueryFn>,
   baseQuery: (arg: Parameters<BaseQueryFn>[0]) => ReturnType<BaseQueryFn>,
-) => Promise<QueryReturnValue<ResultType, BaseQueryError<BaseQueryFn>>>;
+) => Promise<QueryReturn<ResultType>>;
+
+export type QueryReturn<Result> = QueryReturnValue<
+  Result,
+  BaseQueryError<BaseQueryFn>
+>;

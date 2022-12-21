@@ -1,8 +1,8 @@
-import { capitalize } from '@material-ui/core';
 import { queryFnWrapper } from '@ankr.com/utils';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { extractMessage } from 'modules/common/utils/extractError';
+import { getAxiosAccountErrorMessage } from './getAxiosAccountErrorMessage';
 import { isAxiosAccountEmailError } from './isAxiosAccountEmailError';
 import { isAxiosAccountError } from './isAxiosAccountError';
 import { isAxiosAuthError } from './isAxiosAuthError';
@@ -19,7 +19,7 @@ export const createNotifyingQueryFn = queryFnWrapper({
       }
 
       if (isAxiosAccountError(error)) {
-        message = capitalize(error.response?.data.error.message ?? message);
+        message = getAxiosAccountErrorMessage(error);
       }
 
       dispatch(
