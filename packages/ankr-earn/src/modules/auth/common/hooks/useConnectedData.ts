@@ -1,5 +1,7 @@
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
+import { useConnectEthCompatibleMutation } from 'modules/auth/eth/actions/connectEthCompatible';
+import { useConnectPolkadotMutation } from 'modules/auth/polkadot/actions/connectPolkadot';
 import { getIsSui } from 'modules/auth/sui/utils/getIsSui';
 import {
   AvailableStakingWriteProviders,
@@ -9,7 +11,7 @@ import { useAppSelector } from 'store/useAppSelector';
 
 import { getIsInjectedWallet, getIsOKX } from '../../eth/utils/walletTypeUtils';
 import { getIsPolkadot } from '../../polkadot/utils/getIsPolkadot';
-import { useConnectMutation } from '../actions/connect';
+import { useConnectSuiMutation } from '../../sui/actions/connectSui';
 import {
   selectEthProviderData,
   selectPolkadotProviderData,
@@ -42,9 +44,10 @@ export const useConnectedData = (
       isLoading: isEthConnectLoading,
       isError: isEthConnectError,
     },
-  ] = useConnectMutation({
+  ] = useConnectEthCompatibleMutation({
     fixedCacheKey: AvailableWriteProviders.ethCompatible,
   });
+
   const [
     ,
     {
@@ -52,9 +55,10 @@ export const useConnectedData = (
       isLoading: isPolkadotConnectLoading,
       isError: isPolkadotConnectError,
     },
-  ] = useConnectMutation({
+  ] = useConnectPolkadotMutation({
     fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
   });
+
   const [
     ,
     {
@@ -62,7 +66,7 @@ export const useConnectedData = (
       isLoading: isSuiConnectLoading,
       isError: isSuiConnectError,
     },
-  ] = useConnectMutation({
+  ] = useConnectSuiMutation({
     fixedCacheKey: ExtraWriteProviders.suiCompatible,
   });
 

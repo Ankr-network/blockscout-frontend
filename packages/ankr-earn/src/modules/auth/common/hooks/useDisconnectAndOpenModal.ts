@@ -3,21 +3,21 @@ import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
 import { useDisconnectMutation } from '../actions/disconnect';
 
-interface IUseReconnect {
-  reconnect: () => Promise<void>;
+interface IUseDisconnectAndOpenModal {
+  disconnectAndOpenModal: () => Promise<void>;
 }
 
-export const useReconnect = (
+export const useDisconnectAndOpenModal = (
   provider: AvailableStakingWriteProviders,
-): IUseReconnect => {
+): IUseDisconnectAndOpenModal => {
   const [disconnect] = useDisconnectMutation({ fixedCacheKey: provider });
 
   const { handleOpen } = useDialog(EKnownDialogs.connect);
 
-  const reconnect = async () => {
+  const disconnectAndOpenModal = async () => {
     await disconnect(provider).unwrap();
     handleOpen();
   };
 
-  return { reconnect };
+  return { disconnectAndOpenModal };
 };

@@ -12,18 +12,21 @@ import {
 import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import {
+  IProviderStatus,
+  selectEthProviderData,
   setAddress,
   setChainId,
-  selectEthProviderData,
-  IProviderStatus,
 } from 'modules/auth/common/store/authSlice';
+import { connectEthCompatible } from 'modules/auth/eth/actions/connectEthCompatible';
 import { RootState } from 'store/store';
 
 export const listenerMiddleware = createListenerMiddleware();
 
+const ethProviderId = AvailableWriteProviders.ethCompatible;
+
 listenerMiddleware.startListening({
   predicate: action => {
-    if (action?.meta?.arg?.endpointName === 'connect' && !!action?.payload) {
+    if (connectEthCompatible?.matchFulfilled(action)) {
       return true;
     }
 
@@ -54,26 +57,31 @@ listenerMiddleware.startListening({
           case ProviderEvents.AccountsChanged: {
             const provider =
               await providerManager.getProvider<EthereumWeb3KeyProvider>(
-                AvailableWriteProviders.ethCompatible,
+                ethProviderId,
               );
-            // eslint-disable-next-line prefer-destructuring
-            provider.currentAccount = data[0];
+
+            const currentAddress = data[0];
+            provider.currentAccount = currentAddress;
+
             dispatch(
               setAddress({
-                providerId: AvailableWriteProviders.ethCompatible,
-                address: data[0],
+                providerId: ethProviderId,
+                address: currentAddress,
               }),
             );
             break;
           }
+
           case ProviderEvents.ChainChanged: {
             const chainId = data.toString().startsWith('0x')
               ? data
               : numberToHex(data);
+
             const selectedChainId = Number.parseInt(chainId, 16);
+
             dispatch(
               setChainId({
-                providerId: AvailableWriteProviders.ethCompatible,
+                providerId: ethProviderId,
                 isActive: true,
                 chainId: selectedChainId,
               }),
