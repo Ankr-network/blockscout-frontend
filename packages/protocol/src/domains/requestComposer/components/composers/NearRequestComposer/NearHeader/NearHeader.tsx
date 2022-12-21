@@ -17,10 +17,10 @@ const options: Options = {
 };
 
 export const NearHeader = ({ publicUrl }: IHeaderProps) => {
-  const [fetchNearLastBlockNumber, { data = 0, isLoading }] = useQueryEndpoint(
-    chainsFetchNearLastBlockNumber,
-    options,
-  );
+  const [fetchNearLastBlockNumber, { data = 0, isLoading }, reset] =
+    useQueryEndpoint(chainsFetchNearLastBlockNumber, options);
+
+  useEffect(() => reset, [reset]);
 
   useEffect(() => {
     if (publicUrl) {

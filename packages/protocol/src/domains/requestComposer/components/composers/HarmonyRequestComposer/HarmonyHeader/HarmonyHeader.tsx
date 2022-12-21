@@ -17,10 +17,10 @@ const options: Options = {
 };
 
 export const HarmonyHeader = ({ publicUrl, chainName }: HarmonyHeaderProps) => {
-  const [fetchLastBlockNumber, { data = 0, isLoading }] = useQueryEndpoint(
-    chainsFetchLastBlockNumber,
-    options,
-  );
+  const [fetchLastBlockNumber, { data = 0, isLoading }, reset] =
+    useQueryEndpoint(chainsFetchLastBlockNumber, options);
+
+  useEffect(() => reset, [reset]);
 
   useEffect(() => {
     if (publicUrl) {

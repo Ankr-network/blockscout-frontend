@@ -10,8 +10,10 @@ const options: Options = {
 };
 
 export const useLastBlockNumber = (url?: string): [number, boolean] => {
-  const [fetchSolanaLastBlockNumber, { data = 0, isLoading }] =
+  const [fetchSolanaLastBlockNumber, { data = 0, isLoading }, reset] =
     useQueryEndpoint(chainsFetchSolanaLastBlockNumber, options);
+
+  useEffect(() => reset, [reset]);
 
   useEffect(() => {
     if (url) {

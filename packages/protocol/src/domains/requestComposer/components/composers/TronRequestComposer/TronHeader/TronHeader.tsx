@@ -17,10 +17,10 @@ const options: Options = {
 };
 
 export const TronHeader = ({ publicUrl }: HeaderProps) => {
-  const [fetchTronLastBlockNumber, { data = 0, isLoading }] = useQueryEndpoint(
-    chainsFetchTronLastBlockNumber,
-    options,
-  );
+  const [fetchTronLastBlockNumber, { data = 0, isLoading }, reset] =
+    useQueryEndpoint(chainsFetchTronLastBlockNumber, options);
+
+  useEffect(() => reset, [reset]);
 
   useEffect(() => {
     if (publicUrl) {
