@@ -27,6 +27,6 @@ export enum Token {
   xDAI = 'xDAI',
   SUI = 'SUI',
   ankrSUI = 'ankrSUI',
-  aXDCc = 'aXDCc',
+  ankrXDC = 'ankrXDC',
   XDC = 'XDC',
 }

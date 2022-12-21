@@ -5,5 +5,5 @@ export enum EXDCStakingPoolEvents {
 }
 
 export enum EXDCTokens {
-  aXDCc = 'aXDCc',
+  ankrXDC = 'ankrXDC',
 }

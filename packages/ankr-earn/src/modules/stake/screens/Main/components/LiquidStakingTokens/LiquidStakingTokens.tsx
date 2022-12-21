@@ -224,7 +224,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
             stakedTvl={metrics?.[EMetricsServiceName.XDC]?.totalStaked}
             title={t('features.xdc')}
             token={Token.XDC}
-            onStakeClick={onTrackEnterStakingFlow(Token.aXDCc)}
+            onStakeClick={onTrackEnterStakingFlow(Token.ankrXDC)}
           />
         )}
       </Features>

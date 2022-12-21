@@ -10,7 +10,7 @@ import { useHistoryDialog } from './useHistoryDialog';
 import { useStakedAXDCC } from './useStakedAXDCC';
 import { useTokenInfoDialog } from './useTokenInfoDialog';
 
-const TOKEN = Token.aXDCc;
+const TOKEN = Token.ankrXDC;
 
 export const StakedAXDCC = (): JSX.Element => {
   const {

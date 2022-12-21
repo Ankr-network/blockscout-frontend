@@ -59,7 +59,7 @@ export const iconByTokenMap: TIconMap = {
   [Token.aMATICb]: AMATICBIcon,
   [Token.aMATICc]: AMATICCIcon,
   [Token.aWNDb]: ADOTBIcon,
-  [Token.aXDCc]: AXDCCIcon,
+  [Token.ankrXDC]: AXDCCIcon,
   [Token.AVAX]: AvaxIcon,
   [Token.MATIC]: MaticIcon,
   [Token.DOT]: DotIcon,

@@ -245,17 +245,20 @@ export const useHistory = ({
             });
           });
         break;
-      case Token.aXDCc:
+      case Token.ankrXDC:
         getXDCHistory({
           step: stepValue,
         })
           .unwrap()
           .then(data => {
             setHistoryData({
-              stakeEvents: [...stakeEvents, ...(data?.aXDCc.stakeEvents ?? [])],
+              stakeEvents: [
+                ...stakeEvents,
+                ...(data?.ankrXDC.stakeEvents ?? []),
+              ],
               unstakeEvents: [
                 ...unstakeEvents,
-                ...(data?.aXDCc.unstakeEvents ?? []),
+                ...(data?.ankrXDC.unstakeEvents ?? []),
               ],
             });
           });

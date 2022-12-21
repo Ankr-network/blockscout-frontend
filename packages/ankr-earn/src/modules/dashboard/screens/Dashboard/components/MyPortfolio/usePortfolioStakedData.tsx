@@ -272,7 +272,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
 
     if (featuresConfig.xdcStaking) {
       data.push({
-        name: Token.aXDCc,
+        name: Token.ankrXDC,
         amount: xdcData?.aXDCcBalance ?? ZERO,
         service: EMetricsServiceName.XDC,
         apy: metrics?.[EMetricsServiceName.XDC]?.apy ?? ZERO,

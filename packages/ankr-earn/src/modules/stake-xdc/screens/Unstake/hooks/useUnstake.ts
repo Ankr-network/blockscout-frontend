@@ -28,7 +28,7 @@ interface IUseUnstakeData {
 }
 
 const CLOSE_HREF = DashboardRoutes.dashboard.generatePath();
-const TOKEN_IN = Token.aXDCc;
+const TOKEN_IN = Token.ankrXDC;
 const TOKEN_OUT = Token.XDC;
 
 export const useUnstake = (): IUseUnstakeData => {

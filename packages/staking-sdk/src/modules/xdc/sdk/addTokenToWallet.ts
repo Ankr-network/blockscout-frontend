@@ -19,6 +19,6 @@ export const addTokenToWallet = async ({
     address: xdcConfig.aXDCcToken,
     chainId: isMainnet ? EEthereumNetworkId.xdc : EEthereumNetworkId.xdcTestnet,
     decimals: XDC_DECIMALS,
-    symbol: EXDCTokens.aXDCc,
+    symbol: EXDCTokens.ankrXDC,
   });
 };

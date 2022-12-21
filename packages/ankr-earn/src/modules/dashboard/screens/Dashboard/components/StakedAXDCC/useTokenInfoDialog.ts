@@ -56,7 +56,7 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
 
   const description = useMemo(
     () =>
-      tHTML('dashboard.token-info.aXDCc', {
+      tHTML('dashboard.token-info.ankrXDC', {
         value,
         period: periodLabel,
       }),
@@ -64,7 +64,7 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
   );
 
   const onAddToken = (): void => {
-    addTokenToWallet(XDC.EXDCTokens.aXDCc);
+    addTokenToWallet(XDC.EXDCTokens.ankrXDC);
   };
 
   return {

@@ -20,7 +20,7 @@ interface IProps {
 }
 
 interface IData {
-  [Token.aXDCc]: IBaseHistoryData;
+  [Token.ankrXDC]: IBaseHistoryData;
 }
 
 export const { useLazyGetDashboardTxEventsHistoryRangeQuery } =
@@ -30,7 +30,7 @@ export const { useLazyGetDashboardTxEventsHistoryRangeQuery } =
         queryFn: queryFnNotifyWrapper<IProps, never, IData>(
           async ({ step }, { getState }) => {
             const defaultState: IData = {
-              [Token.aXDCc]: {
+              [Token.ankrXDC]: {
                 stakeEvents: [],
                 unstakeEvents: [],
               },
@@ -77,7 +77,7 @@ export const { useLazyGetDashboardTxEventsHistoryRangeQuery } =
 
             return {
               data: {
-                [Token.aXDCc]: {
+                [Token.ankrXDC]: {
                   stakeEvents: historyData.completedCertificate,
                   unstakeEvents: historyData.unstakeCertificate,
                 },

@@ -43,7 +43,7 @@ export const useHistoryDialog = (): IUseHistoryDialogData => {
           amount: txAmount,
           id: idx + 1,
           timerSlot: `${date}, ${time}`,
-          token: Token.aXDCc,
+          token: Token.ankrXDC,
         } as IPendingTableRow;
       })
     : [];

@@ -33,7 +33,7 @@ interface IUseStakedAXDCCData {
   onAddStakingClick: () => void;
 }
 
-const TOKEN = Token.aXDCc;
+const TOKEN = Token.ankrXDC;
 
 export const useStakedAXDCC = (): IUseStakedAXDCCData => {
   const { address, walletName } = useConnectedData(XDC_PROVIDER_ID);
