@@ -35,6 +35,7 @@ import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-x
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
+import { getTokenNativeAmount } from '../../../../utils/getTokenNativeAmount';
 import { SMALL_PRICE_TOKENS } from '../../const';
 
 export interface IUsePortfolioData {
@@ -168,86 +169,88 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
   const stakedData = useMemo(() => {
     const data = [
       {
-        name: Token.aMATICb,
+        name: Token.MATIC,
         amount: (maticEthData?.aMATICbBalance ?? ZERO)
           .plus(aMATICbBridgeBscBalance ?? ZERO)
-          .plus(maticPolygonBalances?.maticBondBalance ?? ZERO),
-        apy: metrics?.matic.apy ?? ZERO,
-        service: EMetricsServiceName.MATIC,
-      },
-      {
-        name: Token.aMATICc,
-        amount: (maticEthData?.aMATICcBalance ?? ZERO)
+          .plus(maticPolygonBalances?.maticBondBalance ?? ZERO)
+          .plus(
+            getTokenNativeAmount(
+              maticEthData?.aMATICcBalance ?? ZERO,
+              maticEthData?.aMATICcRatio,
+            ) ?? ZERO,
+          )
           .plus(maticPolygonBalances?.maticCertBalance ?? ZERO)
           .plus(aMATICcBridgeBscBalance ?? ZERO),
-        service: EMetricsServiceName.MATIC,
         apy: metrics?.matic.apy ?? ZERO,
-        ratio: maticEthData?.aMATICcRatio,
+        service: EMetricsServiceName.MATIC,
       },
       {
-        name: Token.aAVAXb,
-        amount: avaxData?.aAVAXbBalance ?? ZERO,
+        name: Token.AVAX,
+        amount: (avaxData?.aAVAXbBalance ?? ZERO).plus(
+          getTokenNativeAmount(
+            avaxData?.aAVAXcBalance ?? ZERO,
+            avaxData?.aAVAXcRatio,
+          ) ?? ZERO,
+        ),
         apy: metrics?.avax.apy ?? ZERO,
         service: EMetricsServiceName.AVAX,
       },
       {
-        name: Token.aAVAXc,
-        amount: avaxData?.aAVAXcBalance ?? ZERO,
-        service: EMetricsServiceName.AVAX,
-        apy: metrics?.avax.apy ?? ZERO,
-        ratio: avaxData?.aAVAXcRatio,
-      },
-      {
-        name: Token.aBNBb,
-        amount: bnbData?.aBNBbBalance ?? ZERO,
+        name: Token.BNB,
+        amount: (bnbData?.aBNBbBalance ?? ZERO).plus(
+          getTokenNativeAmount(
+            bnbData?.aBNBcBalance ?? ZERO,
+            bnbData?.aBNBcRatio,
+          ) ?? ZERO,
+        ),
         apy: metrics?.bnb.apy ?? ZERO,
         service: EMetricsServiceName.BNB,
       },
       {
-        name: Token.aBNBc,
-        amount: bnbData?.aBNBcBalance ?? ZERO,
-        service: EMetricsServiceName.BNB,
-        apy: metrics?.bnb.apy ?? ZERO,
-        ratio: bnbData?.aBNBcRatio,
-      },
-      {
-        name: Token.aETHb,
+        name: Token.ETH,
         amount: (ethData?.aETHbBalance ?? ZERO)
           .plus(ethClaimableData?.claimableAETHB ?? ZERO)
-          .plus(aETHbBridgeBalance ?? ZERO),
+          .plus(aETHbBridgeBalance ?? ZERO)
+          .plus(
+            getTokenNativeAmount(
+              ethData?.aETHcBalance ?? ZERO,
+              ethData?.aETHcRatio,
+            ) ?? ZERO,
+          )
+          .plus(
+            getTokenNativeAmount(
+              ethClaimableData?.claimableAETHC ?? ZERO,
+              ethData?.aETHcRatio,
+            ) ?? ZERO,
+          )
+          .plus(
+            getTokenNativeAmount(
+              aETHcBridgeBalance ?? ZERO,
+              ethData?.aETHcRatio,
+            ) ?? ZERO,
+          ),
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
       },
       {
-        name: Token.aETHc,
-        amount: (ethData?.aETHcBalance ?? ZERO)
-          .plus(ethClaimableData?.claimableAETHC ?? ZERO)
-          .plus(aETHcBridgeBalance ?? ZERO),
-        service: EMetricsServiceName.ETH,
-        apy: metrics?.eth.apy ?? ZERO,
-        ratio: ethData?.aETHcRatio,
-      },
-      {
-        name: Token.aFTMb,
-        amount: ftmData?.aFTMbBalance ?? ZERO,
+        name: Token.FTM,
+        amount: (ftmData?.aFTMbBalance ?? ZERO).plus(
+          getTokenNativeAmount(
+            ftmData?.aFTMcBalance ?? ZERO,
+            ftmData?.aFTMcRatio,
+          ) ?? ZERO,
+        ),
         apy: metrics?.ftm.apy ?? ZERO,
         service: EMetricsServiceName.FTM,
       },
       {
-        name: Token.aFTMc,
-        amount: ftmData?.aFTMcBalance ?? ZERO,
-        service: EMetricsServiceName.FTM,
-        apy: metrics?.ftm.apy ?? ZERO,
-        ratio: ftmData?.aFTMcRatio,
-      },
-      {
-        name: Token.aDOTb,
+        name: Token.DOT,
         amount: aDOTbBalance ?? ZERO,
         apy: metrics?.dot.apy ?? ZERO,
         service: EMetricsServiceName.DOT,
       },
       {
-        name: Token.aKSMb,
+        name: Token.KSM,
         amount: aKSMbBalance ?? ZERO,
         apy: metrics?.ksm.apy ?? ZERO,
         service: EMetricsServiceName.KSM,
@@ -308,7 +311,6 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       return (
         getUSDAmount({
           amount: item.amount,
-          ratio: item.ratio,
           totalStaked: metrics?.[item.service]?.totalStaked,
           totalStakedUsd: metrics?.[item.service]?.totalStakedUsd,
         }) ?? ZERO
@@ -361,7 +363,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
           yieldAmount: item.amount
             .multipliedBy(item.apy)
             .dividedBy(100)
-            .decimalPlaces(DEFAULT_ROUNDING),
+            .round(),
           yieldAmountUsd: yieldAmoutsUsd[index].decimalPlaces(DEFAULT_ROUNDING),
           percent: !totalAmountUsd.isZero()
             ? usdAmounts[index]
