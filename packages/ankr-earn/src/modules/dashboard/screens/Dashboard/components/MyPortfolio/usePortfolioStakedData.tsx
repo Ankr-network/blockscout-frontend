@@ -275,11 +275,14 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
 
     if (featuresConfig.xdcStaking) {
       data.push({
-        name: Token.ankrXDC,
-        amount: xdcData?.aXDCcBalance ?? ZERO,
-        service: EMetricsServiceName.XDC,
+        name: Token.XDC,
+        amount:
+          getTokenNativeAmount(
+            xdcData?.aXDCcBalance ?? ZERO,
+            xdcData?.aXDCcRatio,
+          ) ?? ZERO,
         apy: metrics?.[EMetricsServiceName.XDC]?.apy ?? ZERO,
-        ratio: xdcData?.aXDCcRatio,
+        service: EMetricsServiceName.XDC,
       });
     }
 
