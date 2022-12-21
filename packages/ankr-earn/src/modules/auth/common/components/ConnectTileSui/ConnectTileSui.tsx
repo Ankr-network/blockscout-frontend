@@ -16,6 +16,7 @@ const DOWNLOAD_SUI_URL = 'https://docs.sui.io/explore/wallet-browser';
 
 export const ConnectTileSui = (): JSX.Element => {
   const { handleConnect } = useConnectForModal({
+    walletId: 'sui',
     provider: ExtraWriteProviders.suiCompatible,
   });
 

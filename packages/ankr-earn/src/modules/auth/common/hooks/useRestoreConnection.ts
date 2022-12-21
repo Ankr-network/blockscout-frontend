@@ -4,13 +4,11 @@ import { useDispatch } from 'react-redux';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
-import { useConnectEthCompatibleMutation } from 'modules/auth/eth/actions/connectEthCompatible';
-import { useConnectPolkadotMutation } from 'modules/auth/polkadot/actions/connectPolkadot';
 import { ExtraWriteProviders } from 'modules/common/types';
 import { showNotification } from 'modules/notifications';
 import { useAppSelector } from 'store/useAppSelector';
 
-import { useConnectSuiMutation } from '../../sui/actions/connectSui';
+import { useConnectMutation } from '../actions/connect';
 import {
   selectEthProviderData,
   selectPolkadotProviderData,
@@ -31,15 +29,13 @@ export const useRestoreConnection = (): boolean => {
   const polkadotProviderStatus = useAppSelector(selectPolkadotProviderData);
   const suiProviderStatus = useAppSelector(selectSuiProviderData);
 
-  const [connectEthCompatible] = useConnectEthCompatibleMutation({
+  const [connectEthCompatible] = useConnectMutation({
     fixedCacheKey: AvailableWriteProviders.ethCompatible,
   });
-
-  const [connectPolkadot] = useConnectPolkadotMutation({
+  const [connectPolkadot] = useConnectMutation({
     fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
   });
-
-  const [connectSui] = useConnectSuiMutation({
+  const [connectSui] = useConnectMutation({
     fixedCacheKey: ExtraWriteProviders.suiCompatible,
   });
 
@@ -48,13 +44,11 @@ export const useRestoreConnection = (): boolean => {
     isLoading: isLoadingEth,
     error: errorEth,
   } = useConnectedData(AvailableWriteProviders.ethCompatible);
-
   const {
     isConnected: isConnectedPolkadot,
     isLoading: isLoadingPolkadot,
     error: errorPolkadot,
   } = useConnectedData(ExtraWriteProviders.polkadotCompatible);
-
   const {
     isConnected: isConnectedSui,
     isLoading: isLoadingSui,
@@ -63,44 +57,51 @@ export const useRestoreConnection = (): boolean => {
 
   const isActiveAndNotConnectedEth =
     ethProviderStatus?.isActive && !isConnectedEth && !errorEth;
-
   const isActiveAndNotConnectedPolkadot =
     polkadotProviderStatus?.isActive && !isConnectedPolkadot && !errorPolkadot;
-
   const isActiveAndNotConnectedSui =
     suiProviderStatus?.isActive && !isConnectedSui && !errorSui;
-
   const isActiveAndNotConnected =
     isActiveAndNotConnectedEth ||
     isActiveAndNotConnectedPolkadot ||
     isActiveAndNotConnectedSui;
 
   const isShouldBeRestoredEth = isActiveAndNotConnectedEth && !isLoadingEth;
-
   const isShouldBeRestoredPolkadot =
     isActiveAndNotConnectedPolkadot && !isLoadingPolkadot;
-
   const isShouldBeRestoredSui = isActiveAndNotConnectedSui && !isLoadingSui;
 
   useProviderEffect(() => {
     if (isShouldBeRestoredEth) {
-      connectEthCompatible({ wallet: ethProviderStatus.walletId });
+      connectEthCompatible({
+        providerId: AvailableWriteProviders.ethCompatible,
+        wallet: ethProviderStatus.walletId,
+      });
     }
-  }, [connectEthCompatible, ethProviderStatus, isShouldBeRestoredEth]);
 
-  useProviderEffect(() => {
     if (isShouldBeRestoredPolkadot) {
       connectPolkadot({
+        providerId: ExtraWriteProviders.polkadotCompatible,
+        wallet: polkadotProviderStatus.walletId,
         currentAccount: polkadotProviderStatus.address,
       });
     }
-  }, [connectPolkadot, isShouldBeRestoredPolkadot, polkadotProviderStatus]);
 
-  useProviderEffect(() => {
     if (isShouldBeRestoredSui) {
-      connectSui();
+      connectSui({
+        providerId: ExtraWriteProviders.suiCompatible,
+        wallet: suiProviderStatus.walletId,
+        currentAccount: suiProviderStatus.address,
+      });
     }
-  }, [connectSui, isShouldBeRestoredSui, suiProviderStatus]);
+  }, [
+    ethProviderStatus,
+    polkadotProviderStatus,
+    suiProviderStatus,
+    isShouldBeRestoredEth,
+    isShouldBeRestoredSui,
+    isShouldBeRestoredPolkadot,
+  ]);
 
   useEffect(() => {
     if (!isActiveAndNotConnected) return undefined;

@@ -1,15 +1,4 @@
-import {
-  AvailableStakingWriteProviders,
-  Web3Address,
-} from 'modules/common/types';
+import { EWalletId } from '@ankr.com/provider';
 
 export type TChainId = number | string | null;
-
-export interface IConnect {
-  address: Web3Address;
-  isConnected: boolean;
-  providerId: AvailableStakingWriteProviders;
-  walletId: string;
-  walletName: string;
-  walletIcon?: string;
-}
+export type TWalletId = 'polkadot' | 'sui' | EWalletId;

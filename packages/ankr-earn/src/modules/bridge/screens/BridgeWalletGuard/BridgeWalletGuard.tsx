@@ -5,7 +5,7 @@ import { AvailableWriteProviders, EWalletId } from '@ankr.com/provider';
 
 import { UnsupportedWallet } from 'modules/auth/common/components/UnsupportedWallet';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { useDisconnectAndOpenModal } from 'modules/auth/common/hooks/useDisconnectAndOpenModal';
+import { useReconnect } from 'modules/auth/common/hooks/useReconnect';
 import { WalletGuard } from 'modules/auth/eth/components/WalletGuard';
 import { CloverWalletIcon } from 'modules/common/components/Icons/CloverWalletIcon';
 import { Container } from 'uiKit/Container';
@@ -19,7 +19,7 @@ interface IBridgeWalletGuardProps {
 export const BridgeWalletGuard = ({
   children,
 }: IBridgeWalletGuardProps): JSX.Element => {
-  const { disconnectAndOpenModal } = useDisconnectAndOpenModal(provider);
+  const { reconnect } = useReconnect(provider);
   const { walletId } = useConnectedData(provider);
 
   const renderedSupportSlot = (
@@ -28,7 +28,7 @@ export const BridgeWalletGuard = ({
         <UnsupportedWallet
           iconSlot={<CloverWalletIcon />}
           title={t('bridge.unsupported.clover-title')}
-          onClick={disconnectAndOpenModal}
+          onClick={reconnect}
         />
       </Container>
     </Box>

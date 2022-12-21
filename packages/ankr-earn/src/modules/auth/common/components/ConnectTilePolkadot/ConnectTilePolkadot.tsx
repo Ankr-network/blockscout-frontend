@@ -15,6 +15,7 @@ const DOWNLOAD_POLKADOT_URL = 'https://polkadot.js.org/extension/';
 
 export const ConnectTilePolkadot = (): JSX.Element => {
   const { handleConnect } = useConnectForModal({
+    walletId: 'polkadot',
     provider: ExtraWriteProviders.polkadotCompatible,
   });
 

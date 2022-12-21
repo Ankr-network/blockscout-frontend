@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { Transaction } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 
-import { Address } from '@ankr.com/provider';
+import { Address, AvailableWriteProviders } from '@ankr.com/provider';
 import { ABI_ERC20, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { SupportedChainIDS } from 'modules/common/const';
@@ -104,6 +104,8 @@ export const fetchTransaction = createSmartAction<
   },
   meta: {
     showNotificationOnError: true,
-    onRequest: createWalletConnectionGuard(),
+    onRequest: createWalletConnectionGuard(
+      AvailableWriteProviders.ethCompatible,
+    ),
   },
 }));
