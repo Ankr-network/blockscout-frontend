@@ -7,12 +7,12 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useHistoryDialog } from './useHistoryDialog';
-import { useStakedAXDCC } from './useStakedAXDCC';
+import { useStakedAnkrXDC } from './useStakedAnkrXDC';
 import { useTokenInfoDialog } from './useTokenInfoDialog';
 
 const TOKEN = Token.ankrXDC;
 
-export const StakedAXDCC = (): JSX.Element => {
+export const StakedAnkrXDC = (): JSX.Element => {
   const {
     isHistoryDataLoading,
     isOpenedHistory,
@@ -36,7 +36,7 @@ export const StakedAXDCC = (): JSX.Element => {
     unstakeLink,
     usdAmount,
     onAddStakingClick,
-  } = useStakedAXDCC();
+  } = useStakedAnkrXDC();
 
   const {
     description,

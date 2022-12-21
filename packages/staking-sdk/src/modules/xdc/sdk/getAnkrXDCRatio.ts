@@ -8,18 +8,18 @@ import {
   ICommonProps,
 } from '../../common';
 
-import { getAXDCCTokenContract } from './contracts';
+import { getAnkrXDCTokenContract } from './contracts';
 
-export const getAXDCCRatio = async ({
+export const getAnkrXDCRatio = async ({
   env = currentEnv,
   provider,
 }: ICommonProps<Web3KeyReadProvider>): Promise<BigNumber> => {
-  const aXDCcTokenContract = getAXDCCTokenContract({
+  const ankrXDCTokenContract = getAnkrXDCTokenContract({
     env,
     provider,
   });
 
-  const ratio: string = await aXDCcTokenContract.methods.ratio().call();
+  const ratio: string = await ankrXDCTokenContract.methods.ratio().call();
 
   return getWeb3ReadableAmountFromWei<Web3KeyReadProvider>({
     amount: ratio,

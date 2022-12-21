@@ -14,7 +14,7 @@ export const useStakedXDC = (): IUseStakedXDCData => {
     });
 
   const isStakedXDCCertShowed = getIsBalancePositive(
-    dashboardData?.aXDCcBalance,
+    dashboardData?.ankrXDCBalance,
   );
 
   return {

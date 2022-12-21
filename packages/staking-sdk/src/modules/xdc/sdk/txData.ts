@@ -25,7 +25,7 @@ export const getTxData = async ({
 
   const contractAddress = isUnstake
     ? xdcConfig.XDCStakingPool
-    : xdcConfig.aXDCcToken;
+    : xdcConfig.ankrXDCToken;
 
   const tx = await web3.eth.getTransactionReceipt(txHash);
 

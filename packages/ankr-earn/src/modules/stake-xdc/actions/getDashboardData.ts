@@ -14,12 +14,12 @@ import { featuresConfig, XDC_PROVIDER_BY_ENV } from 'modules/common/const';
 type TGetDashboardData = IGetDashboardData | null;
 
 interface IGetDashboardData {
-  aXDCcBalance: BigNumber;
-  aXDCcRatio: BigNumber;
+  ankrXDCBalance: BigNumber;
+  ankrXDCRatio: BigNumber;
   xdcBalance: BigNumber;
 }
 
-const { getAXDCCBalance, getAXDCCRatio, getXDCBalance } = XDC;
+const { getAnkrXDCBalance, getAnkrXDCRatio, getXDCBalance } = XDC;
 
 export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -55,12 +55,12 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
             };
           }
 
-          const [aXDCcBalance, aXDCcRatio, xdcBalance] = await Promise.all([
-            getAXDCCBalance({
+          const [ankrXDCBalance, ankrXDCRatio, xdcBalance] = await Promise.all([
+            getAnkrXDCBalance({
               address,
               provider,
             }),
-            getAXDCCRatio({
+            getAnkrXDCRatio({
               provider,
             }),
             getXDCBalance({
@@ -71,8 +71,8 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
 
           return {
             data: {
-              aXDCcBalance,
-              aXDCcRatio,
+              ankrXDCBalance,
+              ankrXDCRatio,
               xdcBalance,
             },
           };

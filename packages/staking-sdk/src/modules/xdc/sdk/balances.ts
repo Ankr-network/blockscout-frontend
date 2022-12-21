@@ -1,5 +1,6 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
+
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import {
   currentEnv,
@@ -8,19 +9,19 @@ import {
   IWeb3BalanceProps,
 } from '../../common';
 
-import { getAXDCCTokenContract } from './contracts';
+import { getAnkrXDCTokenContract } from './contracts';
 
-export const getAXDCCBalance = async ({
+export const getAnkrXDCBalance = async ({
   address,
   env = currentEnv,
   provider,
 }: ITokenBalanceProps<Web3KeyReadProvider>): Promise<BigNumber> => {
-  const aXDCcTokenContract = getAXDCCTokenContract({
+  const ankrXDCTokenContract = getAnkrXDCTokenContract({
     env,
     provider,
   });
 
-  const amount: string = await aXDCcTokenContract.methods
+  const amount: string = await ankrXDCTokenContract.methods
     .balanceOf(address)
     .call();
 

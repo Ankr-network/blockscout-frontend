@@ -25,8 +25,8 @@ import {
 import { useAppDispatch } from 'store/useAppDispatch';
 
 interface IUseStakeFormData {
-  aXDCcPrice: BigNumber;
   amount: BigNumber;
+  ankrXDCPrice: BigNumber;
   faqItems: IFAQItem[];
   gasFee: BigNumber;
   getStakeDataError?: FetchBaseQueryError | SerializedError;
@@ -77,38 +77,38 @@ export const useStakeForm = (): IUseStakeFormData => {
     type: getFAQ,
   });
 
-  const aXDCcBalance = stakeData?.aXDCcBalance ?? ZERO;
-  const aXDCcRatio = stakeData?.aXDCcRatio ?? ZERO;
+  const ankrXDCBalance = stakeData?.ankrXDCBalance ?? ZERO;
+  const ankrXDCRatio = stakeData?.ankrXDCRatio ?? ZERO;
   const minAmount = stakeData?.minStakeAmount ?? ZERO;
   const xdcBalance = stakeData?.xdcBalance ?? ZERO;
 
-  const aXDCcPrice = useMemo(() => {
+  const ankrXDCPrice = useMemo(() => {
     const defaultState = new BigNumber(1);
 
-    return aXDCcRatio.isZero()
+    return ankrXDCRatio.isZero()
       ? defaultState
-      : defaultState.multipliedBy(aXDCcRatio);
-  }, [aXDCcRatio]);
+      : defaultState.multipliedBy(ankrXDCRatio);
+  }, [ankrXDCRatio]);
 
   const totalAmount = useMemo(() => {
     if (
       isError ||
       xdcBalance.isLessThan(amount) ||
       amount.isZero() ||
-      aXDCcRatio.isZero()
+      ankrXDCRatio.isZero()
     ) {
       return ZERO;
     }
 
-    return amount.multipliedBy(aXDCcRatio);
-  }, [aXDCcRatio, amount, isError, xdcBalance]);
+    return amount.multipliedBy(ankrXDCRatio);
+  }, [ankrXDCRatio, amount, isError, xdcBalance]);
 
   const sendAnalytics = (): void => {
     trackStake({
       address,
       amount,
       prevStakedAmount: xdcBalance,
-      synthBalance: aXDCcBalance,
+      synthBalance: ankrXDCBalance,
       tokenIn: TOKEN_IN,
       tokenOut: TOKEN_OUT,
       walletType: walletName,
@@ -160,8 +160,8 @@ export const useStakeForm = (): IUseStakeFormData => {
   }, [dispatch]);
 
   return {
-    aXDCcPrice,
     amount,
+    ankrXDCPrice,
     faqItems,
     gasFee: gasFee ?? ZERO,
     getStakeDataError: stakeDataError,

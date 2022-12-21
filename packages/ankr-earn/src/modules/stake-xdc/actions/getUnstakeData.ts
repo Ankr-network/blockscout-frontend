@@ -15,13 +15,14 @@ import { CacheTags, XDC_PROVIDER_ID } from '../const';
 type TGetUnstakeData = IGetUnstakeData | null;
 
 interface IGetUnstakeData {
-  aXDCcBalance: BigNumber;
-  aXDCcRatio: BigNumber;
+  ankrXDCBalance: BigNumber;
+  ankrXDCRatio: BigNumber;
   xdcBalance: BigNumber;
   xdcPoolAmount: BigNumber;
 }
 
-const { getAXDCCBalance, getAXDCCRatio, getXDCBalance, getXDCPoolAmount } = XDC;
+const { getAnkrXDCBalance, getAnkrXDCRatio, getXDCBalance, getXDCPoolAmount } =
+  XDC;
 
 export const { useLazyGetUnstakeDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -51,13 +52,13 @@ export const { useLazyGetUnstakeDataQuery } = web3Api.injectEndpoints({
             };
           }
 
-          const [aXDCcBalance, aXDCcRatio, xdcBalance, xdcPoolAmount] =
+          const [ankrXDCBalance, ankrXDCRatio, xdcBalance, xdcPoolAmount] =
             await Promise.all([
-              getAXDCCBalance({
+              getAnkrXDCBalance({
                 address,
                 provider,
               }),
-              getAXDCCRatio({
+              getAnkrXDCRatio({
                 provider,
               }),
               getXDCBalance({
@@ -71,8 +72,8 @@ export const { useLazyGetUnstakeDataQuery } = web3Api.injectEndpoints({
 
           return {
             data: {
-              aXDCcBalance,
-              aXDCcRatio,
+              ankrXDCBalance,
+              ankrXDCRatio,
               xdcBalance,
               xdcPoolAmount,
             },

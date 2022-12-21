@@ -53,8 +53,8 @@ export const useUnstake = (): IUseUnstakeData => {
   );
 
   const poolAmount = unstakeData?.xdcPoolAmount ?? ZERO;
-  const syntTokenBalance = unstakeData?.aXDCcBalance ?? ZERO;
-  const syntTokenRatio = unstakeData?.aXDCcRatio ?? ZERO;
+  const syntTokenBalance = unstakeData?.ankrXDCBalance ?? ZERO;
+  const syntTokenRatio = unstakeData?.ankrXDCRatio ?? ZERO;
   const xdcBalance = unstakeData?.xdcBalance ?? ZERO;
 
   const getTotalVal = useCallback(

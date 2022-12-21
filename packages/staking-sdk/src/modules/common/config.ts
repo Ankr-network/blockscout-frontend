@@ -75,7 +75,7 @@ export interface IGatewayConfig {
 
 interface IXDCConfig {
   XDCStakingPool: Address;
-  aXDCcToken: Address;
+  ankrXDCToken: Address;
 }
 
 export interface IStkrConfig {
@@ -145,7 +145,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   xdcConfig: {
     XDCStakingPool: '0xd458788DD7d2fDbB5238d9eeb0a49732BffF08b7',
-    aXDCcToken: '0xe27990d8c950038C548E6f4BD0657aCE27495D48',
+    ankrXDCToken: '0xe27990d8c950038C548E6f4BD0657aCE27495D48',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -236,7 +236,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   xdcConfig: {
     XDCStakingPool: ZERO_ADDRESS,
-    aXDCcToken: ZERO_ADDRESS,
+    ankrXDCToken: ZERO_ADDRESS,
   },
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',

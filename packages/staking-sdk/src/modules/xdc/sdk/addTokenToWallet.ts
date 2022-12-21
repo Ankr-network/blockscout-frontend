@@ -16,7 +16,7 @@ export const addTokenToWallet = async ({
   const { xdcConfig } = configFromEnv(env);
 
   return provider.addTokenToWallet({
-    address: xdcConfig.aXDCcToken,
+    address: xdcConfig.ankrXDCToken,
     chainId: isMainnet ? EEthereumNetworkId.xdc : EEthereumNetworkId.xdcTestnet,
     decimals: XDC_DECIMALS,
     symbol: EXDCTokens.ankrXDC,

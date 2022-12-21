@@ -48,10 +48,10 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
 
   const value = useMemo(
     () =>
-      ONE.multipliedBy(dashboardData?.aXDCcRatio ?? ZERO)
+      ONE.multipliedBy(dashboardData?.ankrXDCRatio ?? ZERO)
         .decimalPlaces(DECIMAL_PLACES)
         .toFormat(),
-    [dashboardData?.aXDCcRatio],
+    [dashboardData?.ankrXDCRatio],
   );
 
   const description = useMemo(
@@ -72,7 +72,7 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
     isOpenedInfo,
     moreHref: undefined,
     periodLabel,
-    tokenAddress: xdcConfig.aXDCcToken,
+    tokenAddress: xdcConfig.ankrXDCToken,
     onAddToken,
     onCloseInfo,
     onOpenInfo,

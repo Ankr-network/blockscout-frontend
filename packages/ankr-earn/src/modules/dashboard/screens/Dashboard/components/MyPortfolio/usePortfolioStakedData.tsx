@@ -278,8 +278,8 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
         name: Token.XDC,
         amount:
           getTokenNativeAmount(
-            xdcData?.aXDCcBalance ?? ZERO,
-            xdcData?.aXDCcRatio,
+            xdcData?.ankrXDCBalance ?? ZERO,
+            xdcData?.ankrXDCRatio,
           ) ?? ZERO,
         apy: metrics?.[EMetricsServiceName.XDC]?.apy ?? ZERO,
         service: EMetricsServiceName.XDC,

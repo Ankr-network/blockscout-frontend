@@ -16,9 +16,9 @@ import { AMATICBIcon } from 'uiKit/Icons/AMATICBIcon';
 import { AMATICCIcon } from 'uiKit/Icons/AMATICCIcon';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 import { ankrSUIIcon } from 'uiKit/Icons/ankrSUIIcon';
+import { AnkrXDCIcon } from 'uiKit/Icons/AnkrXDCIcon';
 import { ASETHCIcon } from 'uiKit/Icons/ASETHCIcon';
 import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
-import { AXDCCIcon } from 'uiKit/Icons/AXDCCIcon';
 import { BNBIcon } from 'uiKit/Icons/BNBIcon';
 import { DotIcon } from 'uiKit/Icons/DotIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
@@ -59,7 +59,7 @@ export const iconByTokenMap: TIconMap = {
   [Token.aMATICb]: AMATICBIcon,
   [Token.aMATICc]: AMATICCIcon,
   [Token.aWNDb]: ADOTBIcon,
-  [Token.ankrXDC]: AXDCCIcon,
+  [Token.ankrXDC]: AnkrXDCIcon,
   [Token.AVAX]: AvaxIcon,
   [Token.MATIC]: MaticIcon,
   [Token.DOT]: DotIcon,

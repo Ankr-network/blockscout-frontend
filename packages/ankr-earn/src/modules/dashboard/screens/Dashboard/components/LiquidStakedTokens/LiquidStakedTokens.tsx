@@ -26,9 +26,9 @@ import { StakedAKSMB } from '../StakedAKSMB';
 import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
 import { StakedAnkrSUI } from '../StakedAnkrSUI';
+import { StakedAnkrXDC } from '../StakedAnkrXDC';
 import { StakedASETHC } from '../StakedASETHC';
 import { StakedAWNDB } from '../StakedAWNDB';
-import { StakedAXDCC } from '../StakedAXDCC';
 import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
 import { UnclaimedDOT } from '../UnclaimedDOT';
 import { UnclaimedETH } from '../UnclaimedETH';
@@ -122,7 +122,9 @@ export const LiquidStakedTokens = (
           <StakedASETHC />
         )}
 
-        {featuresConfig.xdcStaking && isStakedXDCCertShowed && <StakedAXDCC />}
+        {featuresConfig.xdcStaking && isStakedXDCCertShowed && (
+          <StakedAnkrXDC />
+        )}
 
         {isBridgedMaticBondPolygonShowed && <BridgedMaticBond />}
 

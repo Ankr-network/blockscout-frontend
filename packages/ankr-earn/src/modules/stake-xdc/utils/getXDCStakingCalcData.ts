@@ -15,7 +15,7 @@ interface IData {
   staked: BigNumber;
 }
 
-const { getAXDCCBalance, getAXDCCRatio, getXDCBalance } = XDC;
+const { getAnkrXDCBalance, getAnkrXDCRatio, getXDCBalance } = XDC;
 
 export const getXDCStakingCalcData = async (
   store: RequestsStore,
@@ -41,12 +41,12 @@ export const getXDCStakingCalcData = async (
     return defaultState;
   }
 
-  const [aXDCcBalance, aXDCcRatio, xdcBalance] = await Promise.all([
-    getAXDCCBalance({
+  const [ankrXDCBalance, ankrXDCRatio, xdcBalance] = await Promise.all([
+    getAnkrXDCBalance({
       address,
       provider,
     }),
-    getAXDCCRatio({
+    getAnkrXDCRatio({
       provider,
     }),
     getXDCBalance({
@@ -57,6 +57,6 @@ export const getXDCStakingCalcData = async (
 
   return {
     balance: xdcBalance,
-    staked: aXDCcBalance.dividedBy(aXDCcRatio),
+    staked: ankrXDCBalance.dividedBy(ankrXDCRatio),
   };
 };
