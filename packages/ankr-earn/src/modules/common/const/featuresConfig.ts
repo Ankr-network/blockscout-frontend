@@ -50,4 +50,9 @@ export const featuresConfig = {
   disableHeavyRequestsForTestnet: currentEnv !== Env.Production,
   isTradeInfoActiveForBnb: false,
   isKusamaStakingActive: false,
+  /**
+   * Disable this feature until all fixes are completed.
+   * https://ankrnetwork.atlassian.net/browse/STAKAN-2030
+   */
+  isSmallBalancesActive: false,
 };

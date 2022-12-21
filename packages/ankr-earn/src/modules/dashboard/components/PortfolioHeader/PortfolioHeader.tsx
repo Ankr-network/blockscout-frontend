@@ -39,13 +39,15 @@ export const PortfolioHeader = ({
           </Typography>
         </Grid>
 
-        <Grid item xs="auto">
-          <Checkbox
-            checked={!isSmallBalancesVisible}
-            label={t('dashboard.hide-balances')}
-            onChange={onCheckboxChange}
-          />
-        </Grid>
+        {featuresConfig.isSmallBalancesActive && (
+          <Grid item xs="auto">
+            <Checkbox
+              checked={!isSmallBalancesVisible}
+              label={t('dashboard.hide-balances')}
+              onChange={onCheckboxChange}
+            />
+          </Grid>
+        )}
 
         {featuresConfig.isCalcActive && (
           <Hidden mdDown>

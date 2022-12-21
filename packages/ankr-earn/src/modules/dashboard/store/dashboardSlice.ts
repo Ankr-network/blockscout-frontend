@@ -1,12 +1,14 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 
+import { featuresConfig } from 'modules/common/const';
+
 export interface IDashboardSlice {
   isSmallBalanceVisible: boolean;
 }
 
 const initialState: IDashboardSlice = {
-  isSmallBalanceVisible: false,
+  isSmallBalanceVisible: !featuresConfig.isSmallBalancesActive,
 };
 
 export const dashboardSlice = createSlice({
