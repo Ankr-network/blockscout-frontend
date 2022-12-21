@@ -10,9 +10,11 @@ export interface HeaderProps {
 }
 
 export const EVMHeader = ({ publicUrl }: HeaderProps) => {
-  const [fetchLastBlockNumber, { data, isLoading }] = useQueryEndpoint(
+  const [fetchLastBlockNumber, { data, isLoading }, reset] = useQueryEndpoint(
     chainsFetchLastBlockNumber,
   );
+
+  useEffect(() => reset, [reset]);
 
   useEffect(() => {
     if (publicUrl) {
