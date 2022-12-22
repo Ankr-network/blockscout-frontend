@@ -1,7 +1,7 @@
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { TopUpSteps } from './components/TopUpSteps';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopupSteps } from './TopUpUtils';
 
 interface TopUpProps {
@@ -11,13 +11,14 @@ interface TopUpProps {
 
 export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
   const {
-    step,
-    onConfirm,
     amount,
-    loading,
-    onReject,
-    isRejectAllowanceLoading,
     hasError,
+    isRejectAllowanceLoading,
+    loading,
+    loadingWaitTransactionConfirming,
+    onConfirm,
+    onReject,
+    step,
   } = useTopupSteps(initialStep);
   const { walletMeta } = useAuth();
 
@@ -25,15 +26,16 @@ export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
 
   return (
     <TopUpSteps
-      step={step}
-      loading={loading}
       amount={amount}
-      onConfirm={onConfirm}
       hasCredentials={hasCredentials}
-      onReject={onReject}
-      isRejectAllowanceLoading={isRejectAllowanceLoading}
-      transactionHash={transaction?.topUpTransactionHash}
       hasError={hasError}
+      isRejectAllowanceLoading={isRejectAllowanceLoading}
+      loading={loading}
+      loadingWaitTransactionConfirming={loadingWaitTransactionConfirming}
+      onConfirm={onConfirm}
+      onReject={onReject}
+      step={step}
+      transactionHash={transaction?.topUpTransactionHash}
       walletMeta={walletMeta}
     />
   );

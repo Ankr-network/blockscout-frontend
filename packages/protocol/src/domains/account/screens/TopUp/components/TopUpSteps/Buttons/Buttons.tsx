@@ -1,26 +1,33 @@
-import { useMemo } from 'react';
 import { Box, Button, CircularProgress } from '@material-ui/core';
+import { useMemo } from 'react';
 
-import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { t } from 'modules/i18n/utils/intl';
-import { LoadingButton } from 'uiKit/LoadingButton';
 import { ITopUpStepsProps } from '../TopUpStepsTypes';
-import { useStyles } from './ButtonsStyles';
-import { getButtonText } from './ButtonsUtils';
+import { LoadingButton } from 'uiKit/LoadingButton';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { TransactionConfirmationButton } from './TransactionConfirmationButton';
+import { getButtonText } from './ButtonsUtils';
+import { t } from 'modules/i18n/utils/intl';
+import { topUpFetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useStyles } from './ButtonsStyles';
 
 interface IButtonProps
   extends Omit<ITopUpStepsProps, 'amount' | 'walletMeta'> {}
 
 export const Buttons = ({
-  step,
+  hasCredentials,
+  hasError,
+  isRejectAllowanceLoading,
+  loading,
+  loadingWaitTransactionConfirming,
   onConfirm,
   onReject,
-  loading,
-  hasCredentials,
-  isRejectAllowanceLoading,
-  hasError,
+  step,
 }: IButtonProps) => {
+  const [, { data: confirmationStatus }] = useQueryEndpoint(
+    topUpFetchTransactionConfirmationStatus,
+  );
+
   const classes = useStyles();
 
   const content = useMemo(() => {
@@ -54,7 +61,7 @@ export const Buttons = ({
       }
 
       case TopUpStep.waitTransactionConfirming: {
-        if (loading) {
+        if (loadingWaitTransactionConfirming && confirmationStatus) {
           return <TransactionConfirmationButton className={classes.button} />;
         }
 
@@ -62,8 +69,8 @@ export const Buttons = ({
           <LoadingButton
             className={classes.button}
             disabled={loading || isRejectAllowanceLoading}
-            onClick={onConfirm}
             loading={isRejectAllowanceLoading ? false : loading}
+            onClick={onConfirm}
           >
             {getButtonText(loading, step, hasCredentials, hasError)}
           </LoadingButton>
@@ -86,14 +93,16 @@ export const Buttons = ({
         );
     }
   }, [
-    step,
-    loading,
-    isRejectAllowanceLoading,
+    classes.button,
+    confirmationStatus,
     hasCredentials,
     hasError,
-    classes.button,
+    isRejectAllowanceLoading,
+    loading,
+    loadingWaitTransactionConfirming,
     onConfirm,
     onReject,
+    step,
   ]);
 
   return <Box className={classes.root}>{content}</Box>;

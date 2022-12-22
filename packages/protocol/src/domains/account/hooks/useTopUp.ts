@@ -126,5 +126,6 @@ export const useTopUp = () => {
     hasError: Boolean(errorWaitTransactionConfirming),
     isRejectAllowanceLoading: loadingRejectAllowance,
     loading,
+    loadingWaitTransactionConfirming,
   };
 };
