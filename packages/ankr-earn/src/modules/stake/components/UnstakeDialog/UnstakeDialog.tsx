@@ -2,7 +2,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback, useRef } from 'react';
+import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
 import { Field, Form } from 'react-final-form';
 
 import { Notice } from 'ui';
@@ -125,6 +125,14 @@ export const UnstakeDialog = ({
   );
 
   const tokenName = getTokenName(token);
+
+  const balanceValue = balance?.toString();
+
+  useEffect(() => {
+    if (balanceValue) {
+      formRef.current?.reset();
+    }
+  }, [balanceValue]);
 
   return (
     <Paper className={classes.root}>
