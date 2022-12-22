@@ -12,12 +12,8 @@ type Fetcher = Trigger<string[] | undefined, number>;
 
 const fetch = (shouldFetch: boolean, fetcher: Fetcher) => {
   if (shouldFetch) {
-    const { unsubscribe } = fetcher(undefined);
-
-    return unsubscribe;
+    fetcher(undefined);
   }
-
-  return () => {};
 };
 
 export const useBalanceEndTime = (
@@ -29,15 +25,13 @@ export const useBalanceEndTime = (
     { data: endTime = -1, isLoading, isUninitialized },
   ] = useQueryEndpoint(accountFetchBalanceEndTime);
 
-  useEffect(
-    () => fetch(isConnected && isUninitialized, fetchBalanceEndTime),
-    [fetchBalanceEndTime, isConnected, isUninitialized],
-  );
+  useEffect(() => {
+    fetch(isConnected && isUninitialized, fetchBalanceEndTime);
+  }, [fetchBalanceEndTime, isConnected, isUninitialized]);
 
-  useEffect(
-    () => fetch(Boolean(needRequery), fetchBalanceEndTime),
-    [fetchBalanceEndTime, needRequery],
-  );
+  useEffect(() => {
+    fetch(Boolean(needRequery), fetchBalanceEndTime);
+  }, [fetchBalanceEndTime, needRequery]);
 
   return { endTime, isLoading };
 };
