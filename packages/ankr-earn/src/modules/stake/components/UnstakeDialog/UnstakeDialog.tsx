@@ -2,7 +2,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
+import { ReactNode, ReactText, useCallback, useRef } from 'react';
 import { Field, Form } from 'react-final-form';
 
 import { Notice } from 'ui';
@@ -123,13 +123,6 @@ export const UnstakeDialog = ({
     },
     [extraValidation, maxAmount],
   );
-
-  useEffect(() => {
-    const shouldResetTheForm = !!balance;
-    if (shouldResetTheForm) {
-      formRef.current?.reset();
-    }
-  }, [balance]);
 
   const tokenName = getTokenName(token);
 
