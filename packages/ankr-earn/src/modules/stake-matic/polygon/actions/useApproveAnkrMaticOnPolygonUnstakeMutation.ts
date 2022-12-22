@@ -1,13 +1,17 @@
 import BigNumber from 'bignumber.js';
 
+import { IWeb3SendResult } from '@ankr.com/provider';
 import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
-export const { useLazyApproveAnkrMaticOnPolygonUnstakeQuery } =
+export const { useApproveAnkrMaticOnPolygonUnstakeMutation } =
   web3Api.injectEndpoints({
     endpoints: build => ({
-      approveAnkrMaticOnPolygonUnstake: build.query<boolean, BigNumber>({
+      approveAnkrMaticOnPolygonUnstake: build.mutation<
+        IWeb3SendResult | boolean,
+        BigNumber
+      >({
         queryFn: queryFnNotifyWrapper<BigNumber, never, boolean>(
           async amount => {
             const sdk = await PolygonOnPolygonSDK.getInstance();

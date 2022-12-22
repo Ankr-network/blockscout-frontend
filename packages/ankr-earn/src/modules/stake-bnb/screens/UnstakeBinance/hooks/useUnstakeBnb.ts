@@ -2,6 +2,9 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
@@ -9,16 +12,15 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { useFlashUnstakeBNBMutation } from 'modules/stake-bnb/actions/flashUnstake';
 import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
+import { useApproveABNBCForSwapPoolMutation } from 'modules/stake-bnb/actions/useApproveABNBCForSwapPoolMutation';
+import { useApproveABNBCUnstakeMutation } from 'modules/stake-bnb/actions/useApproveABNBCUnstakeMutation';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { useGetBNBUnstakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBUnstakeStatsQuery';
-import { useLazyApproveABNBCForSwapPoolQuery } from 'modules/stake-bnb/actions/useLazyApproveABNBCForSwapPoolQuery';
-import { useLazyApproveABNBCUnstakeQuery } from 'modules/stake-bnb/actions/useLazyApproveABNBCUnstakeQuery';
 import { RoutesConfig } from 'modules/stake-bnb/Routes';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
+import { getFlashUnstakeAmountWithFee } from 'modules/stake-bnb/utils/getFlashUnstakeAmountWithFee';
 import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedToken';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
-
-import { getFlashUnstakeAmountWithFee } from '../../../utils/getFlashUnstakeAmountWithFee';
 
 import { useUnstakeBNBAnalytics } from './useUnstakeBnbAnalytics';
 
@@ -55,14 +57,19 @@ interface IUseUnstakeBnb {
 
 export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const { sendAnalytics } = useUnstakeBNBAnalytics();
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
   const [
     approveABNBCUnstake,
-    { data: approveData, isLoading: isApproveLoading },
-  ] = useLazyApproveABNBCUnstakeQuery();
+    { data: approveData, isLoading: isApproveLoading, reset: resetApprove },
+  ] = useApproveABNBCUnstakeMutation();
   const [
     approveABNBCForSwapPool,
-    { data: swapPoolApproved, isLoading: isSwapPoolApproveLoading },
-  ] = useLazyApproveABNBCForSwapPoolQuery();
+    {
+      data: swapPoolApproved,
+      isLoading: isSwapPoolApproveLoading,
+      reset: resetSwapPoolApprove,
+    },
+  ] = useApproveABNBCForSwapPoolMutation();
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
@@ -158,6 +165,11 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const isFlashApproved = !!swapPoolApproved;
   const isWithApprove = !isBondToken;
   const shouldBeApproved = isWithApprove && !isApproved;
+
+  useProviderEffect(() => {
+    resetApprove();
+    resetSwapPoolApprove();
+  }, [address]);
 
   useProviderEffect(() => {
     statsRefetch();
