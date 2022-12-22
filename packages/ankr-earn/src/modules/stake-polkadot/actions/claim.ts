@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
-import { featuresConfig } from 'modules/common/const';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { showNotification } from 'modules/notifications';
@@ -66,12 +65,8 @@ export const claim = createSmartAction<
         store: TStore<IStoreState>,
       ): IRes => {
         store.dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
-
         store.dispatchRequest(fetchStakeStats());
-
-        if (featuresConfig.isActivePolkadotStaking) {
-          store.dispatchRequest(fetchTxHistory(network));
-        }
+        store.dispatchRequest(fetchTxHistory(network));
 
         return response;
       },

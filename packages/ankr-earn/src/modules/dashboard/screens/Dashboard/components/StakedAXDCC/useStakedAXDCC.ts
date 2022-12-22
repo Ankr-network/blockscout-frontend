@@ -23,6 +23,7 @@ interface IUseStakedAXDCCData {
   amount: BigNumber;
   isLoading: boolean;
   isStakeLoading: boolean;
+  isUnstakeLoading: boolean;
   nativeAmount?: BigNumber;
   network: string;
   stakeLink: string;
@@ -32,7 +33,7 @@ interface IUseStakedAXDCCData {
   onAddStakingClick: () => void;
 }
 
-const TOKEN = Token.aXDCc;
+const TOKEN = Token.ankrXDC;
 
 export const useStakedAXDCC = (): IUseStakedAXDCCData => {
   const { address, walletName } = useConnectedData(XDC_PROVIDER_ID);
@@ -77,6 +78,7 @@ export const useStakedAXDCC = (): IUseStakedAXDCCData => {
     amount,
     isLoading: isDashboardDataLoading,
     isStakeLoading: false,
+    isUnstakeLoading: false,
     nativeAmount,
     network,
     stakeLink: XDCRoutes.stake.generatePath(),

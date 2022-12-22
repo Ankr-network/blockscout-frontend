@@ -1,10 +1,17 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { useAddETHTokenToWalletMutation } from 'modules/stake-eth/actions/addTokenToWallet';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import {
+  useGetETHTxDataQuery,
+  useGetETHTxReceiptQuery,
+} from 'modules/stake-eth/actions/getTxData';
 
 import { useStakeEthereumStepsHook } from '../useStakeEthereumStepsHook';
 
@@ -14,7 +21,6 @@ jest.mock('react-router', () => ({
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
-  useQuery: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -32,7 +38,7 @@ jest.mock('modules/stake-eth/Routes', () => ({
 }));
 
 jest.mock('modules/stake-eth/actions/addTokenToWallet', () => ({
-  addTokenToWallet: jest.fn(),
+  useAddETHTokenToWalletMutation: jest.fn(),
 }));
 
 jest.mock('modules/stake-eth/actions/getCommonData', () => ({
@@ -40,8 +46,16 @@ jest.mock('modules/stake-eth/actions/getCommonData', () => ({
 }));
 
 jest.mock('modules/stake-eth/actions/getTxData', () => ({
-  getTxData: jest.fn(),
-  getTxReceipt: jest.fn(),
+  useGetETHTxDataQuery: jest.fn(),
+  useGetETHTxReceiptQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
+  useGetETHClaimableDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  useGetETHCommonDataQuery: jest.fn(),
 }));
 
 describe('modules/stake-eth/screens/StakeEthereumSteps/useStakeEthereumStepsHook', () => {
@@ -60,14 +74,6 @@ describe('modules/stake-eth/screens/StakeEthereumSteps/useStakeEthereumStepsHook
     },
   };
 
-  const defaultQueryCommonData = {
-    ...defaultQueryAction,
-    data: {
-      ethBalance: new BigNumber(5),
-      aETHcRatio: new BigNumber(0.5),
-    },
-  };
-
   beforeEach(() => {
     (useParams as jest.Mock).mockReturnValue({
       txHash:
@@ -82,14 +88,34 @@ describe('modules/stake-eth/screens/StakeEthereumSteps/useStakeEthereumStepsHook
 
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
 
-    (useQuery as jest.Mock).mockImplementation(() => ({
-      loading: false,
+    (useAddETHTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
+
+    (useGetETHClaimableDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: {
+        ethBalance: new BigNumber(5),
+        aETHcRatio: new BigNumber(0.5),
+      },
+      refetch: jest.fn(),
+    });
+    (useGetETHTxDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
       stopPolling: jest.fn(),
       data: {
         ...defaultQueryTxData.data,
-        ...defaultQueryCommonData.data,
       },
-    }));
+    });
+    (useGetETHTxReceiptQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      stopPolling: jest.fn(),
+      data: {
+        ...defaultQueryTxData.data,
+      },
+    });
   });
 
   afterEach(() => {
@@ -131,7 +157,7 @@ describe('modules/stake-eth/screens/StakeEthereumSteps/useStakeEthereumStepsHook
   });
 
   test('should return error if there is provider error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
+    (useGetETHTxDataQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
       error: new Error('error'),
     }));
@@ -142,13 +168,15 @@ describe('modules/stake-eth/screens/StakeEthereumSteps/useStakeEthereumStepsHook
   });
 
   test('should return error if there is transaction fail error', async () => {
-    (useQuery as jest.Mock).mockReturnValue({
+    (useGetETHTxReceiptQuery as jest.Mock).mockReturnValue({
       loading: false,
       data: { status: false },
     });
 
     const { result } = renderHook(() => useStakeEthereumStepsHook());
 
-    expect(result.current.error?.message).toBe(TxErrorCodes.TX_FAILED);
+    expect((result.current.error as Error)?.message).toBe(
+      TxErrorCodes.TX_FAILED,
+    );
   });
 });

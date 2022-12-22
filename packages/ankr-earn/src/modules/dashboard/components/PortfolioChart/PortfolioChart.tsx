@@ -14,7 +14,7 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { ILegendItem, PortfolioChartLegend } from '../PortfolioChartLegend';
-import { ProtfolioHeader, ProtfolioHeaderMobile } from '../ProtfolioHeader';
+import { PortfolioHeader, PortfolioHeaderMobile } from '../PortfolioHeader';
 
 import { TSelectSvg, usePortfolioChart } from './usePortfolioChart';
 import { usePortfolioChartStyles } from './usePortfolioChartStyles';
@@ -30,6 +30,8 @@ export interface IPortfolioChartProps {
   isLoading: boolean;
   height: number;
   width: number;
+  isSmallBalancesVisible: boolean;
+  onBalanceVisibilityChange: (isShown: boolean) => void;
   isCurrentAccountPartner: boolean;
 }
 
@@ -78,6 +80,8 @@ export const PortfolioChart = ({
   isLoading,
   height,
   width,
+  isSmallBalancesVisible,
+  onBalanceVisibilityChange,
   isCurrentAccountPartner,
 }: IPortfolioChartProps): JSX.Element | null => {
   const classes = usePortfolioChartStyles({ width });
@@ -296,10 +300,14 @@ export const PortfolioChart = ({
 
   return (
     <Box mb={7}>
-      <ProtfolioHeader isCurrentAccountPartner={isCurrentAccountPartner} />
+      <PortfolioHeader
+        isCurrentAccountPartner={isCurrentAccountPartner}
+        isSmallBalancesVisible={isSmallBalancesVisible}
+        onBalanceVisibilityChange={onBalanceVisibilityChange}
+      />
 
       <Card className={classes.root}>
-        <ProtfolioHeaderMobile
+        <PortfolioHeaderMobile
           isCurrentAccountPartner={isCurrentAccountPartner}
         />
 
@@ -374,6 +382,7 @@ export const PortfolioChart = ({
                 activeLegendItem={activeItem}
                 apr={stakedApr}
                 isLoading={isLoading}
+                isSmallBalancesVisible={isSmallBalancesVisible}
                 legendItems={syntheticTokens}
                 totalAmount={totalStakedAmountUsd}
                 totalPercent={
@@ -396,6 +405,7 @@ export const PortfolioChart = ({
                 activeLegendItem={activeItem}
                 apr={nativeApr}
                 isLoading={isLoading}
+                isSmallBalancesVisible={isSmallBalancesVisible}
                 legendItems={nativeTokens}
                 totalAmount={totalNativeAmountUsd}
                 totalPercent={

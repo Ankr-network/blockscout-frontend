@@ -2,6 +2,8 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+
 import { useStakedBridgeAETHCData } from '../useStakedBridgeAETHCData';
 
 jest.mock('@redux-requests/react', () => ({
@@ -17,6 +19,10 @@ jest.mock('modules/dashboard/actions/fetchAETHCBridged', () => ({
   fetchAETHCBridged: jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  useGetETHCommonDataQuery: jest.fn(),
+}));
+
 describe('modules/dashboard/screens/Dashboard/components/BridgedAETHCBSC/useStakedBridgeAETHCData', () => {
   const defaultStatsData = {
     loading: false,
@@ -27,6 +33,11 @@ describe('modules/dashboard/screens/Dashboard/components/BridgedAETHCBSC/useStak
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
 
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
   });
 
   afterEach(() => {

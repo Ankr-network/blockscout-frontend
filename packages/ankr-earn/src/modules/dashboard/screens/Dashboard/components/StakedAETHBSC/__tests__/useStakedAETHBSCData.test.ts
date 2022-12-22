@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js';
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useStakedAETHBSCData } from '../useStakedAETHBSCData';
@@ -32,7 +32,7 @@ jest.mock('modules/dashboard/utils/getTokenNativeAmount', () => ({
   getTokenNativeAmount: () => mockONE,
 }));
 
-jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
   useGetBNBStatsQuery: jest.fn(),
 }));
 

@@ -8,7 +8,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 
 import { useStakedABNBBData } from '../useStakedABNBBData';
 
@@ -41,7 +41,7 @@ jest.mock('modules/stake-bnb/actions/fetchPendingValues', () => ({
   useGetBNBPendingValuesQuery: jest.fn(),
 }));
 
-jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
   useGetBNBStatsQuery: jest.fn(),
 }));
 

@@ -32,6 +32,7 @@ interface IStakingAssetProps {
   isLoading?: boolean;
   isShowedTradeLink?: boolean;
   isStakeLoading?: boolean;
+  isStakeBtnShowed?: boolean;
   isUnstakeLoading?: boolean;
   nativeAmount?: BigNumber;
   network?: string;
@@ -59,6 +60,7 @@ export const StakingAsset = ({
   isShowedTradeLink = true,
   isStakeLoading = false,
   isUnstakeLoading = false,
+  isStakeBtnShowed = true,
   nativeAmount,
   network,
   pendingSlot,
@@ -156,15 +158,17 @@ export const StakingAsset = ({
             justifyContent="flex-end"
             spacing={2}
           >
-            <Grid item>
-              <PlusMinusBtn
-                disabled={!stakeLink}
-                href={stakeLink}
-                isLoading={isStakeLoading}
-                tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
-                onClick={onAddStakingClick}
-              />
-            </Grid>
+            {isStakeBtnShowed && (
+              <Grid item>
+                <PlusMinusBtn
+                  disabled={!stakeLink}
+                  href={stakeLink}
+                  isLoading={isStakeLoading}
+                  tooltip={stakeLink ? stakeTooltip : comingSoonTooltip}
+                  onClick={onAddStakingClick}
+                />
+              </Grid>
+            )}
 
             <Grid item>
               <PlusMinusBtn

@@ -1,25 +1,20 @@
-import { resetRequests } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getStakeGasFee } from 'modules/stake-eth/actions/getStakeGasFee';
-import { stake } from 'modules/stake-eth/actions/stake';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import { useLazyGetETHStakeGasFeeQuery } from 'modules/stake-eth/actions/getStakeGasFee';
+import { useStakeETHMutation } from 'modules/stake-eth/actions/stake';
+import { useGetETHMinStakeQuery } from 'modules/stake-eth/actions/useGetETHMinStakeQuery';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakeEthAnalytics } from './useStakeEthAnalytics';
 
@@ -35,57 +30,62 @@ interface IUseStakeForm {
   minAmount?: BigNumber;
   tokenIn: string;
   tokenOut: string;
+  isInvalidAmount: boolean;
   onInputChange: (values: IStakeFormPayload, invalid: boolean) => void;
   onSubmit: (payload: IStakeSubmitPayload) => void;
 }
 
 export const useStakeForm = (): IUseStakeForm => {
-  const dispatch = useAppDispatch();
-  const dispatchRequest = useDispatchRequest();
   const [amount, setAmount] = useState(ZERO);
+  const [isError, setIsError] = useState(false);
 
-  const { data: commonData, loading: isCommonDataLoading } = useQuery({
-    type: getCommonData,
-  });
+  const { data: commonData, isFetching: isCommonDataLoading } =
+    useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
+
+  const { data: minStake, isFetching: isMinStakingLoading } =
+    useGetETHMinStakeQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
     defaultData: [],
     type: getFAQ,
   });
 
-  const { loading: isStakeLoading } = useMutation({
-    type: stake,
-  });
+  const [stake, { isLoading: isStakeLoading }] = useStakeETHMutation();
 
-  const { data: stakeGasFee, loading: isFeeLoading } = useQuery({
-    type: getStakeGasFee,
-  });
+  const [getETHStakeGasFee, { data: stakeGasFee, isFetching: isFeeLoading }] =
+    useLazyGetETHStakeGasFeeQuery();
 
-  const { sendAnalytics } = useStakeEthAnalytics({ amount });
+  const { sendAnalytics } = useStakeEthAnalytics({
+    amount,
+    fee: stakeGasFee ?? ZERO,
+  });
 
   const onSubmit = useCallback(() => {
     if (!amount) {
       return;
     }
 
-    dispatchRequest(stake({ token: Token.aETHc, amount })).then(({ error }) => {
-      if (!error) {
+    stake({ token: Token.aETHc, amount })
+      .unwrap()
+      .then(() => {
         sendAnalytics();
-      }
-    });
-  }, [amount, dispatchRequest, sendAnalytics]);
+      });
+  }, [amount, sendAnalytics, stake]);
 
   const handleFormChange = (
     { amount: formAmount }: IStakeFormPayload,
     invalid: boolean,
   ): void => {
-    if (invalid) {
-      dispatch(resetRequests([getStakeGasFee.toString()]));
-    } else if (formAmount) {
+    if (formAmount && !invalid) {
       const readyAmount = new BigNumber(formAmount);
-      dispatch(getStakeGasFee({ amount: readyAmount, token: Token.aETHc }));
+      getETHStakeGasFee({ amount: readyAmount, token: Token.aETHc });
     }
 
+    setIsError(invalid);
     setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
   };
 
@@ -104,12 +104,13 @@ export const useStakeForm = (): IUseStakeForm => {
     certificateRatio: commonData?.aETHcRatio ?? ZERO,
     faqItems,
     fee: stakeGasFee ?? ZERO,
-    isCommonDataLoading,
+    isCommonDataLoading: isCommonDataLoading || isMinStakingLoading,
     isFeeLoading,
-    loading: isCommonDataLoading || isStakeLoading,
-    minAmount: commonData?.minStake,
+    loading: isCommonDataLoading || isStakeLoading || isMinStakingLoading,
+    minAmount: minStake ?? ZERO,
     tokenIn: Token.ETH,
     tokenOut: Token.aETHc,
+    isInvalidAmount: isError,
     onInputChange: debouncedOnChange,
     onSubmit,
   };

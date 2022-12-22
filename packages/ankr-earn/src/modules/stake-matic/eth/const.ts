@@ -1,1 +1,7 @@
-export const MATIC_ETH_ACTIONS_PREFIX = 'matic/eth/';
+import { getUniqueId } from '@ankr.com/common';
+
+export const POLLING_INTERVAL = 3_000;
+
+export const CacheTags = {
+  common: getUniqueId(),
+};

@@ -46,7 +46,7 @@ export const useStakeForm = (): IUseStakeForm => {
     type: getFAQ,
   });
 
-  const aSUIcRatio = data?.aSUIcRatio ?? ZERO;
+  const ankrSUIRatio = data?.ankrSUIRatio ?? ZERO;
   const balance = data?.suiBalance ?? ZERO;
   const minAmount = data?.minStake.toNumber() ?? 0;
 
@@ -57,7 +57,7 @@ export const useStakeForm = (): IUseStakeForm => {
   };
 
   return {
-    ratio: aSUIcRatio,
+    ratio: ankrSUIRatio,
     amount,
     balance,
     faqItems,
@@ -67,7 +67,7 @@ export const useStakeForm = (): IUseStakeForm => {
     loading: isStakeLoading,
     minAmount,
     tokenIn: t('unit.sui'),
-    tokenOut: Token.aSUIc,
+    tokenOut: Token.ankrSUI,
     totalAmount: ZERO,
     onChange: () => null,
     onSubmit,

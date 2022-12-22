@@ -1,3 +1,4 @@
+import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import Web3 from 'web3';
@@ -14,9 +15,7 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { getPastEvents } from '@ankr.com/advanced-api';
 import { ApiGateway } from '../../api';
-
 import {
   configFromEnv,
   ETH_NETWORK_BY_ENV,
@@ -338,7 +337,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * according to the current environment.
    *
    * @private
-   * @param {IGetPastEvents}
+   * @param options {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {

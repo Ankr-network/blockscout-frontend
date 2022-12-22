@@ -132,13 +132,13 @@ export const Stake = (): JSX.Element => {
 
   return (
     <section className={classes.root}>
-      {getStatsError !== null && (
+      {getStatsError !== undefined && (
         <StakeContainer>
           <QueryError error={getStatsError} />
         </StakeContainer>
       )}
 
-      {getStatsError === null && !!balance && (
+      {getStatsError === undefined && !!balance && (
         <StakeContainer>
           {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
 

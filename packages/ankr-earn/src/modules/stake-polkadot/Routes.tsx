@@ -41,6 +41,10 @@ const STAKE_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
   STAKE_POLKADOT_PATH.replace(':network', network.toLowerCase()),
 );
 
+const FILTERED_STAKE_POLKADOT_PATHS = STAKE_POLKADOT_PATHS.filter(path => {
+  return !path.includes(EPolkadotNetworks.KSM.toLowerCase());
+});
+
 const UNSTAKE_POLKADOT_PATHS = POLKADOT_NETWORK_KEYS.map(network =>
   UNSTAKE_POLKADOT_PATH.replace(':network', network.toLowerCase()),
 );
@@ -135,20 +139,19 @@ export function getRoutes(): JSX.Element {
       ]}
     >
       <Switch>
-        {featuresConfig.isActivePolkadotStaking &&
-          featuresConfig.isActivePolkadotClaiming && (
-            <Route
-              path={CLAIM_POLKADOT_PATHS}
-              render={routeRender(CLAIM_POLKADOT_PATH, Claim)}
-            />
-          )}
+        <Route
+          path={CLAIM_POLKADOT_PATHS}
+          render={routeRender(CLAIM_POLKADOT_PATH, Claim)}
+        />
 
-        {featuresConfig.isActivePolkadotStaking && (
-          <Route
-            path={STAKE_POLKADOT_PATHS}
-            render={routeRender(STAKE_POLKADOT_PATH, Stake)}
-          />
-        )}
+        <Route
+          path={
+            featuresConfig.isKusamaStakingActive
+              ? STAKE_POLKADOT_PATHS
+              : FILTERED_STAKE_POLKADOT_PATHS
+          }
+          render={routeRender(STAKE_POLKADOT_PATH, Stake)}
+        />
 
         <Route
           path={UNSTAKE_POLKADOT_PATHS}

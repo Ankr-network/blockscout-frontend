@@ -1,48 +1,45 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
-import { ETH_ACTIONS_PREFIX } from '../const';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
+
+import { CacheTags } from '../const';
 
 export interface IGetCommonData {
   aETHbBalance: BigNumber;
   aETHcBalance: BigNumber;
   aETHcRatio: BigNumber;
   ethBalance: BigNumber;
-  minStake: BigNumber;
 }
 
-export const getCommonData = createAction<
-  RequestAction<IGetCommonData, IGetCommonData>
->(`${ETH_ACTIONS_PREFIX}getCommonData`, () => ({
-  request: {
-    promise: (async (): Promise<IGetCommonData> => {
-      const sdk = await EthereumSDK.getInstance();
+export const { useGetETHCommonDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getETHCommonData: build.query<IGetCommonData, void>({
+      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(async () => {
+        const sdk = await EthereumSDK.getInstance();
 
-      const isFormatted = true;
+        const isFormatted = true;
+        const [ethBalance, aETHbBalance, aETHcBalance, aETHcRatio] =
+          await Promise.all([
+            sdk.getEthBalance(),
+            sdk.getABBalance(isFormatted),
+            sdk.getACBalance(isFormatted),
+            sdk.getACRatio(isFormatted),
+          ]);
 
-      const [ethBalance, aETHbBalance, aETHcBalance, minStake, aETHcRatio] =
-        await Promise.all([
-          sdk.getEthBalance(),
-          sdk.getABBalance(isFormatted),
-          sdk.getACBalance(isFormatted),
-          sdk.getMinimumStake(),
-          sdk.getACRatio(isFormatted),
-        ]);
-
-      return {
-        aETHbBalance,
-        aETHcBalance,
-        aETHcRatio,
-        ethBalance,
-        minStake,
-      };
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-  },
-}));
+        return {
+          data: {
+            aETHbBalance,
+            aETHcBalance,
+            aETHcRatio,
+            ethBalance,
+          },
+        };
+      }),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
+  }),
+});

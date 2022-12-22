@@ -1,13 +1,17 @@
 import { tHTML } from '@ankr.com/common';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { configFromEnv } from 'modules/api/config';
-import { DECIMAL_PLACES, ONE, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  DECIMAL_PLACES,
+  ONE,
+  ZERO,
+} from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { UNSTAKE_PERIOD } from 'modules/stake-matic/common/const';
-import { addMATICTokenToWallet } from 'modules/stake-matic/polygon/actions/addMATICTokenToWallet';
-import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/useAddMaticOnPolygonTokenToWalletMutation';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 
 export interface IUseTokenInfoDialog {
   description: string;
@@ -20,7 +24,7 @@ export interface IUseTokenInfoDialog {
 }
 
 export function useTokenInfoDialog(): IUseTokenInfoDialog {
-  const dispatchRequest = useDispatchRequest();
+  const [addMATICTokenToWallet] = useAddMaticOnPolygonTokenToWalletMutation();
 
   const {
     isOpened: isOpenedInfo,
@@ -30,8 +34,8 @@ export function useTokenInfoDialog(): IUseTokenInfoDialog {
 
   const { polygonConfig } = configFromEnv();
 
-  const { data: commonData } = useQuery({
-    type: getCommonData,
+  const { data: commonData } = useGetMaticOnPolygonCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const ratio = commonData
@@ -44,7 +48,7 @@ export function useTokenInfoDialog(): IUseTokenInfoDialog {
   });
 
   const handleAddToken = () => {
-    dispatchRequest(addMATICTokenToWallet(Token.aMATICc));
+    addMATICTokenToWallet(Token.aMATICc);
   };
 
   return {

@@ -1,9 +1,8 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
-import { getNetworkChooserData } from 'modules/stake-matic/common/actions/getNetworkChooserData';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
+import { useGetNetworkChooserDataQuery } from 'modules/stake-matic/common/actions/getNetworkChooserData';
 
 interface IUseNetworkChooserData {
   ethBalance: BigNumber;
@@ -11,18 +10,16 @@ interface IUseNetworkChooserData {
 }
 
 export const useNetworkChooser = (): IUseNetworkChooserData => {
-  const dispatchRequest = useDispatchRequest();
-
-  const { data } = useQuery({
-    type: getNetworkChooserData,
+  const { data, refetch } = useGetNetworkChooserDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const ethBalance = data?.maticEthBalance ?? ZERO;
   const polygonBalance = data?.maticPolygonBalance ?? ZERO;
 
   useProviderEffect(() => {
-    dispatchRequest(getNetworkChooserData());
-  }, [dispatchRequest]);
+    refetch();
+  }, [refetch]);
 
   return {
     ethBalance,

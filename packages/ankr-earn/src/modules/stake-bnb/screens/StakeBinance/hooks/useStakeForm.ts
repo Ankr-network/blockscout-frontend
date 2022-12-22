@@ -13,9 +13,10 @@ import { Token } from 'modules/common/types/token';
 import { useNotification } from 'modules/notifications';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
 import { useCheckExistPartnerCodeMutation } from 'modules/stake-bnb/actions/checkExistPartnerCode';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useLazyGetBNBStakeGasFeeQuery } from 'modules/stake-bnb/actions/getStakeGasFee';
 import { useStakeBNBMutation } from 'modules/stake-bnb/actions/stake';
+import { useGetBNBStakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStakeStatsQuery';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { calcTotalAmount } from 'modules/stake-bnb/utils/calcTotalAmount';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
@@ -69,10 +70,14 @@ export const useStakeForm = (): IUseStakeFormData => {
   const {
     data: fetchStatsData,
     isFetching: isFetchStatsLoading,
-    refetch,
+    refetch: statsRefetch,
   } = useGetBNBStatsQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
+  const { data: stakeStats, refetch: stakeStatsRefetch } =
+    useGetBNBStakeStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
     defaultData: [],
@@ -86,7 +91,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const handleHaveCodeClick = useCallback(() => setHaveCode(x => !x), []);
 
-  const relayerFee = fetchStatsData?.relayerFee ?? ZERO;
+  const relayerFee = stakeStats?.relayerFee ?? ZERO;
   const bnbBalance = fetchStatsData?.bnbBalance;
   const aBNBcRatio = fetchStatsData?.aBNBcRatio;
 
@@ -138,7 +143,8 @@ export const useStakeForm = (): IUseStakeFormData => {
   }, [aBNBcRatio, amount, bnbBalance, relayerFee, stakeGasFee]);
 
   useProviderEffect(() => {
-    refetch();
+    statsRefetch();
+    stakeStatsRefetch();
   }, []);
 
   const handleSubmit = ({ amount: formAmount }: IStakeSubmitPayload): void => {
@@ -179,8 +185,8 @@ export const useStakeForm = (): IUseStakeFormData => {
     }
   };
 
-  const minimumStake = fetchStatsData
-    ? fetchStatsData.minStake.plus(fetchStatsData.relayerFee)
+  const minimumStake = stakeStats
+    ? stakeStats.minStake.plus(stakeStats.relayerFee)
     : undefined;
 
   return {

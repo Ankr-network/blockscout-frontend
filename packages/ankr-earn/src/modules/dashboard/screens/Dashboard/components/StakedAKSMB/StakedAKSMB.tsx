@@ -111,6 +111,7 @@ export const StakedAKSMB = (): JSX.Element => {
         isHistoryLoading={isHistoryDataLoading}
         isLoading={isBalancesLoading}
         isShowedTradeLink={isShowedTradeLink}
+        isStakeBtnShowed={featuresConfig.isKusamaStakingActive}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
         network={network}
@@ -121,11 +122,7 @@ export const StakedAKSMB = (): JSX.Element => {
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
-        onHistoryBtnClick={
-          featuresConfig.isActivePolkadotStaking
-            ? handleOpenHistoryDialog
-            : undefined
-        }
+        onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
       />

@@ -1,16 +1,17 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
-import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getTxData, getTxReceipt } from 'modules/stake-eth/actions/getTxData';
+import { useAddETHTokenToWalletMutation } from 'modules/stake-eth/actions/addTokenToWallet';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import {
+  useGetETHTxDataQuery,
+  useGetETHTxReceiptQuery,
+} from 'modules/stake-eth/actions/getTxData';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -21,52 +22,41 @@ export interface IStakeEthereumStepsHook {
   destination?: string;
   transactionId?: string;
   tokenName: string;
-  error?: Error;
+  error?: FetchBaseQueryError | Error;
   handleAddTokenToWallet: () => void;
 }
 
 export const useClaimEthereumSteps = (): IStakeEthereumStepsHook => {
   const { txHash, tokenOut, amount } = RoutesConfig.claimSteps.useParams();
+  const [addTokenToWallet] = useAddETHTokenToWalletMutation();
+
+  const { refetch: getETHClaimableDataRefetch } = useGetETHClaimableDataQuery();
+  const { refetch: getETHCommonDataRefetch } = useGetETHCommonDataQuery();
 
   const {
-    loading: isLoading,
+    isFetching: isLoading,
     data: txData,
     error,
-  } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
+  } = useGetETHTxDataQuery({ txHash, shouldDecodeAmount: false });
+  const { data: receipt } = useGetETHTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: 3_000,
+    },
+  );
 
-  const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash, shouldDecodeAmount: false }));
-    dispatchRequest(getTxReceipt({ txHash }));
-    dispatchRequest(getCommonData());
-    dispatchRequest(getClaimableData());
-
-    return () => {
-      dispatch(
-        resetRequests([
-          getTxData.toString(),
-          getTxReceipt.toString(),
-          getCommonData.toString(),
-          getClaimableData.toString(),
-        ]),
-      );
-    };
+    getETHCommonDataRefetch();
+    getETHClaimableDataRefetch();
   }, [dispatch, txHash, tokenOut]);
 
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const onAddTokenClick = () => {
-    dispatchRequest(addTokenToWallet(tokenOut as TEthToken));
+    addTokenToWallet(tokenOut as TEthToken);
   };
 
   const calculatedAmount = amount ? new BigNumber(amount) : undefined;
@@ -80,7 +70,7 @@ export const useClaimEthereumSteps = (): IStakeEthereumStepsHook => {
     tokenName: tokenOut,
     isLoading,
     isPending,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
 };

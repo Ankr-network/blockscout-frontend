@@ -13,9 +13,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
-import { fetchTotalHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
 
@@ -37,10 +35,11 @@ export const StakedAMATICB = (): JSX.Element | null => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const dispatch = useAppDispatch();
-
-  const { isHistoryDataLoading, pendingUnstakeHistoryAMATICB } =
-    useStakedMATICTxHistory();
+  const {
+    isHistoryDataLoading,
+    pendingUnstakeHistoryAMATICB,
+    handleLoadTxHistory,
+  } = useStakedMATICTxHistory();
 
   const {
     address,
@@ -76,10 +75,6 @@ export const StakedAMATICB = (): JSX.Element | null => {
       tokenName: Token.aMATICb,
     });
   };
-
-  const handleLoadTxHistory = useCallback(() => {
-    dispatch(fetchTotalHistory());
-  }, [dispatch]);
 
   const handleOpenHistoryDialog = useCallback(() => {
     onOpenHistory();

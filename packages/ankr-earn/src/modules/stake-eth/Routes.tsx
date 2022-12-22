@@ -56,7 +56,8 @@ export const RoutesConfig = createRouteConfig(
 
     stakeSteps: {
       path: STEP_STAKE_ETH_PATH,
-      generatePath: () => generatePath(STEP_STAKE_ETH_PATH),
+      generatePath: (options: { txHash: string; tokenOut: TEthToken }) =>
+        generatePath(STEP_STAKE_ETH_PATH, options),
     },
 
     claim: {

@@ -1,20 +1,22 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
-import { addMATICTokenToWallet } from 'modules/stake-matic/eth/actions/addMATICTokenToWallet';
-import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
+import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
 import {
-  getTxData,
-  getTxReceipt,
-} from 'modules/stake-matic/eth/actions/getTxData';
+  useGetMaticOnEthTxDataQuery,
+  useGetMaticOnEthTxReceiptQuery,
+} from 'modules/stake-matic/eth/actions/useGetMaticOnEthTxDataQuery';
 import { useAppDispatch } from 'store/useAppDispatch';
+
+import { POLLING_INTERVAL } from '../../const';
 
 export interface IStakeMaticStepsHook {
   isLoading: boolean;
@@ -23,7 +25,7 @@ export interface IStakeMaticStepsHook {
   destination?: string;
   transactionId?: string;
   tokenName: string;
-  error?: Error;
+  error?: FetchBaseQueryError | Error;
   handleAddTokenToWallet: () => void;
 }
 
@@ -34,36 +36,37 @@ interface IStakeSuccessParams {
 
 export const useStakePolygonStepsHook = (): IStakeMaticStepsHook => {
   const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const { data: stats } = useQuery({ type: fetchStats });
-  const dispatchRequest = useDispatchRequest();
+  const [addMATICTokenToWallet] = useAddMaticOnEthTokenToWalletMutation();
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetMaticOnEthTxDataQuery({ txHash });
+  const { data: receipt } = useGetMaticOnEthTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: POLLING_INTERVAL,
+    },
+  );
+  const { data: stats, refetch: refetchStats } = useGetMaticOnEthStatsQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
+  );
   const dispatch = useAppDispatch();
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
-
     if (!stats) {
-      dispatchRequest(fetchStats());
+      refetchStats();
     }
-
-    return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
-    };
   }, [dispatch, txHash]);
 
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const onAddTokenClick = () => {
-    dispatchRequest(addMATICTokenToWallet(tokenOut));
+    addMATICTokenToWallet(tokenOut);
   };
 
   const calculatedAmount = useMemo(() => {
@@ -91,7 +94,7 @@ export const useStakePolygonStepsHook = (): IStakeMaticStepsHook => {
     tokenName: tokenOut,
     isLoading,
     isPending,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
 };

@@ -1,4 +1,3 @@
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
@@ -7,13 +6,15 @@ import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 
 import { useTotalAmount } from './useTotalAmount';
 
 export interface IUseStakeEthAnalyticsArgs {
   amount: BigNumber;
+  fee: BigNumber;
 }
 
 interface IUseStakeEthAnalytics {
@@ -22,15 +23,20 @@ interface IUseStakeEthAnalytics {
 
 export const useStakeEthAnalytics = ({
   amount,
+  fee,
 }: IUseStakeEthAnalyticsArgs): IUseStakeEthAnalytics => {
-  const { totalAmount: willGetAmount, tokenOut } = useTotalAmount(amount);
+  const { totalAmount: willGetAmount, tokenOut } = useTotalAmount({
+    amount,
+    fee,
+    isInvalidAmount: false,
+  });
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { data: commonData } = useQuery({
-    type: getCommonData,
+  const { data: commonData } = useGetETHCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const sendAnalytics = useCallback(async () => {

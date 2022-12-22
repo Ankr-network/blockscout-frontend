@@ -41,4 +41,5 @@ export enum EHistorySynthTokens {
   aFTMc = Token.aFTMc,
   aMATICb = Token.aMATICb,
   aMATICc = Token.aMATICc,
+  ankrXDC = Token.ankrXDC,
 }
