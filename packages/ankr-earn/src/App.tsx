@@ -10,7 +10,6 @@ import { Spinner } from 'uiKit/Spinner';
 
 import packageJson from '../package.json';
 
-import { NewBNBModal } from './modules/info-dialogs/screens/NewBNBModal';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
 
@@ -26,8 +25,6 @@ function App(): JSX.Element {
 
             <NoReactSnap>
               <Zendesk />
-
-              <NewBNBModal />
             </NoReactSnap>
           </AppBase>
         </PersistGate>
