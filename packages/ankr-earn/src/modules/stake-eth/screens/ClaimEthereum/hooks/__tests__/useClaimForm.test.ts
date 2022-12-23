@@ -9,6 +9,9 @@ import BigNumber from 'bignumber.js';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useClaimETHMutation } from 'modules/stake-eth/actions/claim';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 
 import { useClaimForm } from '../useClaimForm';
 
@@ -40,11 +43,24 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
+  useGetETHClaimableDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/claim', () => ({
+  useClaimETHMutation: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  useGetETHCommonDataQuery: jest.fn(),
+}));
+
 describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
   const defaultQueryData = {
     data: undefined,
     error: undefined,
     loading: false,
+    isFetching: false,
   };
 
   const defaultCommonData = {
@@ -54,6 +70,7 @@ describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
       claimableAETHB: new BigNumber(2),
       aETHcRatio: new BigNumber(0.8),
     },
+    refetch: jest.fn(),
   };
 
   const defaultMutationData = {
@@ -65,6 +82,29 @@ describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
     (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
+    (useGetETHClaimableDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: {
+        claimableAETHC: new BigNumber(1),
+        claimableAETHB: new BigNumber(2),
+      },
+      refetch: jest.fn(),
+    });
+    (useClaimETHMutation as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        isLoading: false,
+      },
+    ]);
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: {
+        claimableAETHC: new BigNumber(1),
+        claimableAETHB: new BigNumber(2),
+        aETHcRatio: new BigNumber(0.8),
+      },
+      refetch: jest.fn(),
+    });
   });
 
   afterEach(() => {
@@ -88,7 +128,7 @@ describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
   });
 
   test('should return disabled state when balance is zero', () => {
-    (useQuery as jest.Mock).mockReturnValue({
+    (useGetETHClaimableDataQuery as jest.Mock).mockReturnValue({
       ...defaultCommonData,
       data: {
         ...defaultCommonData.data,
@@ -102,9 +142,12 @@ describe('modules/stake-eth/screens/ClaimEthereum/hooks/useClaimForm', () => {
   });
 
   test('should return disabled and loading when claim is pending', () => {
-    (useMutation as jest.Mock).mockReturnValue({
-      loading: true,
-    });
+    (useClaimETHMutation as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        isLoading: true,
+      },
+    ]);
 
     const { result } = renderHook(() => useClaimForm());
 

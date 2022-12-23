@@ -1,7 +1,11 @@
 import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
+
+import { useGetUSDAmount } from '../../useGetUSDAmount';
 
 interface IUseStakedBNB {
   isStakedOldAEthShowed: boolean;
@@ -10,7 +14,7 @@ interface IUseStakedBNB {
   isBnbCommonLoading: boolean;
 }
 
-export const useStakedBNB = (): IUseStakedBNB => {
+export const useStakedBNB = (isSmallBalancesVisible = true): IUseStakedBNB => {
   const { data: bnbCommon, isFetching: isBnbCommonLoading } =
     useGetBNBStatsQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
@@ -20,6 +24,31 @@ export const useStakedBNB = (): IUseStakedBNB => {
     useGetBNBPendingValuesQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
+
+  const usdStakedOldAEthAmount = useGetUSDAmount(
+    bnbCommon?.aETHBalance,
+    EMetricsServiceName.BNB,
+  );
+
+  const usdStakedBnbBondAmount = useGetUSDAmount(
+    bnbCommon?.aBNBbBalance,
+    EMetricsServiceName.BNB,
+  );
+
+  const usdStakedBnbBondPendingAmount = useGetUSDAmount(
+    pendingValues?.pendingAbnbbUnstakes,
+    EMetricsServiceName.BNB,
+  );
+
+  const usdStakedBnbCertAmount = useGetUSDAmount(
+    bnbCommon?.aBNBcBalance,
+    EMetricsServiceName.BNB,
+  );
+
+  const usdStakedBnbCertPendingAmount = useGetUSDAmount(
+    pendingValues?.pendingAbnbcUnstakes,
+    EMetricsServiceName.BNB,
+  );
 
   const isStakedOldAEthShowed = getIsBalancePositive(bnbCommon?.aETHBalance);
 
@@ -32,9 +61,21 @@ export const useStakedBNB = (): IUseStakedBNB => {
     getIsBalancePositive(pendingValues?.pendingAbnbcUnstakes);
 
   return {
-    isStakedOldAEthShowed,
-    isStakedBnbBondShowed,
-    isStakedBnbCertShowed,
+    isStakedOldAEthShowed: filterTokensBySmallBalance(
+      [usdStakedOldAEthAmount],
+      isStakedOldAEthShowed,
+      isSmallBalancesVisible,
+    ),
+    isStakedBnbBondShowed: filterTokensBySmallBalance(
+      [usdStakedBnbBondAmount, usdStakedBnbBondPendingAmount],
+      isStakedBnbBondShowed,
+      isSmallBalancesVisible,
+    ),
+    isStakedBnbCertShowed: filterTokensBySmallBalance(
+      [usdStakedBnbCertAmount, usdStakedBnbCertPendingAmount],
+      isStakedBnbCertShowed,
+      isSmallBalancesVisible,
+    ),
     isBnbCommonLoading: isPendingUnstakeLoading || isBnbCommonLoading,
   };
 };

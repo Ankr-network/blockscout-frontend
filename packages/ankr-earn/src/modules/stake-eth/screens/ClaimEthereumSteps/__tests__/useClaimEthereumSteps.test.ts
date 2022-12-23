@@ -1,16 +1,22 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { useAddETHTokenToWalletMutation } from 'modules/stake-eth/actions/addTokenToWallet';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import {
+  useGetETHTxDataQuery,
+  useGetETHTxReceiptQuery,
+} from 'modules/stake-eth/actions/getTxData';
 import { RoutesConfig } from 'modules/stake-eth/Routes';
 
 import { useClaimEthereumSteps } from '../useClaimEthereumSteps';
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
-  useQuery: jest.fn(),
 }));
 
 jest.mock('store/useAppDispatch', () => ({
@@ -28,7 +34,7 @@ jest.mock('modules/stake-eth/Routes', () => ({
 }));
 
 jest.mock('modules/stake-eth/actions/addTokenToWallet', () => ({
-  addTokenToWallet: jest.fn(),
+  useAddETHTokenToWalletMutation: jest.fn(),
 }));
 
 jest.mock('modules/stake-eth/actions/getCommonData', () => ({
@@ -40,8 +46,16 @@ jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
 }));
 
 jest.mock('modules/stake-eth/actions/getTxData', () => ({
-  getTxData: jest.fn(),
-  getTxReceipt: jest.fn(),
+  useGetETHTxDataQuery: jest.fn(),
+  useGetETHTxReceiptQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getClaimableData', () => ({
+  useGetETHClaimableDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  useGetETHCommonDataQuery: jest.fn(),
 }));
 
 describe('modules/stake-eth/screens/ClaimEthereumSteps/useClaimEthereumSteps', () => {
@@ -79,13 +93,28 @@ describe('modules/stake-eth/screens/ClaimEthereumSteps/useClaimEthereumSteps', (
 
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
 
-    (useQuery as jest.Mock).mockImplementation(() => ({
-      loading: false,
+    (useAddETHTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
+
+    (useGetETHClaimableDataQuery as jest.Mock).mockReturnValue({
+      refetch: jest.fn(),
+    });
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
+      refetch: jest.fn(),
+    });
+    (useGetETHTxDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
       stopPolling: jest.fn(),
       data: {
         ...defaultQueryTxData.data,
       },
-    }));
+    });
+    (useGetETHTxReceiptQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      stopPolling: jest.fn(),
+      data: {
+        ...defaultQueryTxData.data,
+      },
+    });
   });
 
   afterEach(() => {
@@ -118,7 +147,7 @@ describe('modules/stake-eth/screens/ClaimEthereumSteps/useClaimEthereumSteps', (
   });
 
   test('should return error if there is provider error', async () => {
-    (useQuery as jest.Mock).mockImplementation(() => ({
+    (useGetETHTxDataQuery as jest.Mock).mockImplementation(() => ({
       loading: false,
       error: new Error('error'),
     }));
@@ -129,13 +158,15 @@ describe('modules/stake-eth/screens/ClaimEthereumSteps/useClaimEthereumSteps', (
   });
 
   test('should return error if there is transaction fail error', async () => {
-    (useQuery as jest.Mock).mockReturnValue({
+    (useGetETHTxReceiptQuery as jest.Mock).mockReturnValue({
       loading: false,
       data: { status: false },
     });
 
     const { result } = renderHook(() => useClaimEthereumSteps());
 
-    expect(result.current.error?.message).toBe(TxErrorCodes.TX_FAILED);
+    expect((result.current.error as Error)?.message).toBe(
+      TxErrorCodes.TX_FAILED,
+    );
   });
 });

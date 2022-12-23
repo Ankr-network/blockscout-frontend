@@ -1,24 +1,24 @@
 import { t } from '@ankr.com/common';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { configFromEnv } from 'modules/api/config';
-import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  ETH_NETWORK_BY_ENV,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
-import { addMATICTokenToWallet } from 'modules/stake-matic/eth/actions/addMATICTokenToWallet';
-import { fetchStats as fetchStakePolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { stake as stakeMATIC } from 'modules/stake-matic/eth/actions/stake';
-import { unstake } from 'modules/stake-matic/eth/actions/unstake';
+import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useStakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useStakeMaticOnEthMutation';
+import { useUnstakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useUnstakeMaticOnEthMutation';
 import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -46,17 +46,18 @@ export interface IStakedAMATICCData {
 }
 
 export const useStakedAMATICCData = (): IStakedAMATICCData => {
-  const dispatchRequest = useDispatchRequest();
-  const { data: statsData, loading: isCommonDataLoading } = useQuery({
-    type: fetchStakePolygonStats,
-  });
+  const [addMATICTokenToWallet] = useAddMaticOnEthTokenToWalletMutation();
+  const [, { isLoading: isStakeLoading }] = useStakeMaticOnEthMutation();
+  const { data: statsData, isFetching: isCommonDataLoading } =
+    useGetMaticOnEthStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: metrics } = useQuery({
     type: getMetrics,
   });
 
-  const { loading: isStakeLoading } = useMutation({ type: stakeMATIC });
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+  const [, { isLoading: isUnstakeLoading }] = useUnstakeMaticOnEthMutation();
 
   const network = t(`chain.${ETH_NETWORK_BY_ENV}`);
   const chainId = ETH_NETWORK_BY_ENV;
@@ -81,8 +82,8 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
   const { polygonConfig } = configFromEnv();
 
   const onAddTokenToWallet = useCallback(() => {
-    dispatchRequest(addMATICTokenToWallet(token));
-  }, [dispatchRequest]);
+    addMATICTokenToWallet(token);
+  }, [addMATICTokenToWallet]);
 
   return {
     amount,

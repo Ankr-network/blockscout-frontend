@@ -8,12 +8,13 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
+  ACTION_CACHE_SEC,
   POLYGON_NETWORK_BY_ENV,
   SupportedChainIDS,
   ZERO,
 } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -29,9 +30,10 @@ export interface IStakedMaticData {
 export const useBridgedMaticBond = (): IStakedMaticData => {
   const dispatchRequest = useDispatchRequest();
 
-  const { data: commonData, loading: isCommonDataLoading } = useQuery({
-    type: getCommonData,
-  });
+  const { data: commonData, isFetching: isCommonDataLoading } =
+    useGetMaticOnPolygonCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: metrics } = useQuery({
     type: getMetrics,

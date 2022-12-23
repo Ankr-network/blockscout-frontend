@@ -10,12 +10,7 @@ import { useCallback, useMemo } from 'react';
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import {
-  ETH_NETWORK_BY_ENV,
-  featuresConfig,
-  STAKE_LEGACY_LINKS,
-  ZERO,
-} from 'modules/common/const';
+import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
 import { addETHTokenToWallet } from 'modules/stake-polkadot/actions/addETHTokenToWallet';
@@ -128,9 +123,7 @@ export const useStakedPolkadotCard = ({
     isPendingUnstakeLoading: isPendingAmountSumLoading,
     network: chainTitle,
     pendingValue,
-    stakeLink: featuresConfig.isActivePolkadotStaking
-      ? RoutesConfig.stake.generatePath(network, true)
-      : STAKE_LEGACY_LINKS[network] ?? '',
+    stakeLink: RoutesConfig.stake.generatePath(network, true),
     stakeType: ETxTypes.Staked,
     tradeLink: DefiRoutes.defi.generatePath(ethToken),
     unstakeLink: RoutesConfig.unstake.generatePath(network),

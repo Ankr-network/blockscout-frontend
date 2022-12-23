@@ -9,6 +9,7 @@ import {
 } from 'modules/common/components/HistoryDialog/hooks/useHistory';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery';
 
 import {
   ITxHistoryData,
@@ -20,9 +21,12 @@ import {
   useStakedAMATICBData,
 } from '../useStakedAMATICBData';
 
-jest.mock('modules/stake-matic/eth/actions/fetchTotalHistory', () => ({
-  fetchTotalHistory: jest.fn(),
-}));
+jest.mock(
+  'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery',
+  () => ({
+    useLazyGetMaticOnEthTotalHistoryQuery: jest.fn(),
+  }),
+);
 
 jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: () => jest.fn(),
@@ -104,6 +108,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
     );
 
     (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
+
+    (useLazyGetMaticOnEthTotalHistoryQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        data: null,
+        isLoading: false,
+      },
+    ]);
   });
 
   afterEach(() => {

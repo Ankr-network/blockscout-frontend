@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { useIsMDUp } from 'ui';
 
+import { useSmallBalances } from 'modules/dashboard/components/hooks/useSmallBalances';
 import { PortfolioChart } from 'modules/dashboard/components/PortfolioChart';
 
 import { usePortfolioCommonData } from './usePortfolioCommonData';
@@ -37,12 +38,16 @@ export const MyPortfolio = (): JSX.Element => {
     [nativeData, stakedData],
   );
 
+  const { isSmallBalancesVisible, onBalanceVisibilityChange } =
+    useSmallBalances();
+
   return (
     <PortfolioChart
       data={data}
       height={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
       isCurrentAccountPartner={isCurrentAccountPartner}
       isLoading={isNativeDataLoading || isStakedDataLoading}
+      isSmallBalancesVisible={isSmallBalancesVisible}
       nativeApr={nativeApr}
       stakedApr={stakedApr}
       totalNativeAmountUsd={totalNativeAmountUsd}
@@ -50,6 +55,7 @@ export const MyPortfolio = (): JSX.Element => {
       totalStakedAmountUsd={totalStakedAmountUsd}
       totalStakedYieldAmountUsd={totalStakedYieldAmountUsd}
       width={isMDUp ? CHART_SIZE : CHART_SIZE_MOBILE}
+      onBalanceVisibilityChange={onBalanceVisibilityChange}
     />
   );
 };

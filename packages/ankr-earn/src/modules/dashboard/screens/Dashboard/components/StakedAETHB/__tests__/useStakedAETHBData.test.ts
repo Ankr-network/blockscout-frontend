@@ -7,6 +7,8 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
 import { ZERO } from 'modules/common/const';
+import { useAddETHTokenToWalletMutation } from 'modules/stake-eth/actions/addTokenToWallet';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 
 import { useStakedAETHBData } from '../useStakedAETHBData';
 
@@ -31,7 +33,15 @@ jest.mock('modules/switcher/Routes', () => ({
 }));
 
 jest.mock('modules/stake-eth/actions/addTokenToWallet', () => ({
-  addTokenToWallet: () => jest.fn(),
+  useAddETHTokenToWalletMutation: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  useGetETHCommonDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-eth/actions/stake', () => ({
+  useStakeETHMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAETHBData', () => {
@@ -49,7 +59,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
 
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
 
+    (useAddETHTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
+
     (useDispatchRequest as jest.Mock).mockReturnValue(jest.fn());
+
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: { aETHbBalance: new BigNumber(1) },
+    });
   });
 
   afterEach(() => {
@@ -69,9 +86,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
   });
 
   test('should return zero if there is no data', () => {
-    (useQuery as jest.Mock).mockReturnValue({
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
       data: null,
-      loading: false,
+      isFetching: false,
     });
 
     const { result } = renderHook(() => useStakedAETHBData());
@@ -82,8 +99,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
   });
 
   test('should handle add token to metamask', () => {
-    const mockDispatch = jest.fn();
-    (useDispatchRequest as jest.Mock).mockReturnValue(mockDispatch);
+    const [addTokenToWallet] = useAddETHTokenToWalletMutation();
 
     const { result } = renderHook(() => useStakedAETHBData());
 
@@ -91,6 +107,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB/useStakedAE
       result.current.handleAddTokenToWallet();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(addTokenToWallet).toBeCalledTimes(1);
   });
 });

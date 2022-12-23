@@ -24,7 +24,7 @@ import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 
-import ASUICLogo from './assets/asuic-logo.png';
+import ankrSUILogo from './assets/ankrsui-logo.png';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeSuiStyles } from './useStakeSuiStyles';
@@ -78,9 +78,9 @@ export const StakeSui = (): JSX.Element => {
 
         <RewardTokenInfo
           amount={ZERO.multipliedBy(ratio)}
-          iconSlot={<img alt="" src={ASUICLogo} />}
+          iconSlot={<img alt="" src={ankrSUILogo} />}
           synthAmount={ZERO}
-          synthToken={Token.aSUIc}
+          synthToken={Token.ankrSUI}
           token={Token.SUI}
         />
       </>

@@ -20,10 +20,10 @@ import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmou
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
 import { useUnstakeAVAXMutation } from 'modules/stake-avax/actions/unstake';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';

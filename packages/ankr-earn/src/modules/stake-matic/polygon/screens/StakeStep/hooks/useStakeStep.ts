@@ -1,17 +1,15 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
-import { addMATICTokenToWallet } from 'modules/stake-matic/polygon/actions/addMATICTokenToWallet';
+import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/useAddMaticOnPolygonTokenToWalletMutation';
 import {
-  getTxData,
-  getTxReceipt,
-} from 'modules/stake-matic/polygon/actions/getTxData';
-import { useAppDispatch } from 'store/useAppDispatch';
+  useGetMaticOnPolygonTxDataQuery,
+  useGetMaticOnPolygonTxReceiptQuery,
+} from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonTxDataQuery';
+import { POLLING_INTERVAL } from 'modules/stake-matic/polygon/const';
 
 interface IStakeStepRouteData {
   tokenOut: TMaticSyntToken;
@@ -21,7 +19,7 @@ interface IStakeStepRouteData {
 interface IUseStakeStepData {
   amount?: BigNumber;
   destinationAddress?: string;
-  error?: Error;
+  error?: FetchBaseQueryError | Error;
   isLoading: boolean;
   isPending: boolean;
   tokenName: string;
@@ -30,17 +28,21 @@ interface IUseStakeStepData {
 }
 
 export const useStakeStep = (): IUseStakeStepData => {
-  const dispatch = useAppDispatch();
+  const [addMATICTokenToWallet] = useAddMaticOnPolygonTokenToWalletMutation();
 
   const { txHash, tokenOut } = useParams<IStakeStepRouteData>();
 
   const {
-    loading: isLoading,
+    isFetching: isLoading,
     data: txData,
     error,
-  } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-
+  } = useGetMaticOnPolygonTxDataQuery({ txHash });
+  const { data: receipt } = useGetMaticOnPolygonTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: POLLING_INTERVAL,
+    },
+  );
   const isPending = !!txData?.isPending;
 
   const txAmount = txData?.amount ? new BigNumber(txData.amount) : undefined;
@@ -49,25 +51,13 @@ export const useStakeStep = (): IUseStakeStepData => {
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   const onAddTokenClick = (): void => {
-    dispatch(addMATICTokenToWallet(tokenOut));
+    addMATICTokenToWallet(tokenOut);
   };
-
-  useProviderEffect(() => {
-    dispatch(
-      getTxData({
-        txHash,
-      }),
-    );
-
-    return () => {
-      dispatch(resetRequests([getTxData.toString()]));
-    };
-  }, [dispatch, txHash]);
 
   return {
     amount: txAmount,
     destinationAddress: txData?.destinationAddress,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     isLoading,
     isPending,
     tokenName: tokenOut,

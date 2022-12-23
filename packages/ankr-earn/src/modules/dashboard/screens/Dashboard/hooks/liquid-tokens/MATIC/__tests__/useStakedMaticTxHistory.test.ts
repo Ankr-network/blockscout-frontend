@@ -8,6 +8,7 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedMATICTxHistory } from '../useStakedMaticTxHistory';
@@ -24,9 +25,12 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-jest.mock('modules/stake-matic/eth/actions/fetchTotalHistory', () => ({
-  fetchTotalHistory: jest.fn(),
-}));
+jest.mock(
+  'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery',
+  () => ({
+    useLazyGetMaticOnEthTotalHistoryQuery: jest.fn(),
+  }),
+);
 
 describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => {
   const NOW = new Date();
@@ -99,6 +103,14 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/MATIC/useStake
     (useQuery as jest.Mock).mockReturnValue(defaultData);
 
     (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
+
+    (useLazyGetMaticOnEthTotalHistoryQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        data: defaultData.data,
+        isFetching: false,
+      },
+    ]);
   });
 
   afterEach(() => {
@@ -148,8 +160,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/MATIC/useStake
   });
 
   test('should handle load history data', () => {
-    const mockDispatch = jest.fn();
-    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    const [refetch] = useLazyGetMaticOnEthTotalHistoryQuery();
 
     const { result } = renderHook(() => useStakedMATICTxHistory());
 
@@ -157,12 +168,15 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/MATIC/useStake
       result.current.handleLoadTxHistory();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(refetch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {
     (useConnectedData as jest.Mock).mockReturnValue({ chainId: undefined });
-    (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
+    (useLazyGetMaticOnEthTotalHistoryQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      { data: null, isFetching: true },
+    ]);
 
     const { result } = renderHook(() => useStakedMATICTxHistory());
 

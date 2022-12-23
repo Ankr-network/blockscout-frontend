@@ -1,3 +1,5 @@
+import { useSmallBalances } from 'modules/dashboard/components/hooks/useSmallBalances';
+
 import { useStakedAVAX } from './AVAX/useStakedAVAX';
 import { useStakedBNB } from './BNB/useStakedBNB';
 import { useBridgedETH } from './ETH/useBridgedETH';
@@ -44,25 +46,27 @@ interface IUseLiquidStakedTokens {
 }
 
 export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
+  const { isSmallBalancesVisible } = useSmallBalances();
+
   const {
     isAvaxCommonLoading,
     isStakedAvaxBondShowed,
     isStakedAvaxCertShowed,
-  } = useStakedAVAX();
+  } = useStakedAVAX(isSmallBalancesVisible);
 
   const {
     isEthCommonLoading,
     isStakedEthBondShowed,
     isStakedEthCertShowed,
     isUnclaimedEthBondShowed,
-  } = useStakedETH();
+  } = useStakedETH(isSmallBalancesVisible);
 
   const {
     isBridgedEthBondBSCLoading,
     isBridgedEthBondBscShowed,
     isBridgedEthCertBSCLoading,
     isBridgedEthCertBscShowed,
-  } = useBridgedETH();
+  } = useBridgedETH(isSmallBalancesVisible);
 
   const { isSSVOnETHDataLoading, isStakedSSVOnETHCertShowed } =
     useStakedSSVOnETH();
@@ -73,7 +77,7 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isStakedMaticBondEthereumShowed,
     isStakedMaticCertEthereumShowed,
     isStakedMaticCertPolygonShowed,
-  } = useStakedMATIC();
+  } = useStakedMATIC(isSmallBalancesVisible);
 
   const {
     isBridgedMaticBondBscLoading,
@@ -81,17 +85,17 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isBridgedMaticBondPolygonShowed,
     isBridgedMaticCertBscLoading,
     isBridgedMaticCertBscShowed,
-  } = useBridgedMATIC();
+  } = useBridgedMATIC(isSmallBalancesVisible);
 
   const {
     isBnbCommonLoading,
     isStakedBnbBondShowed,
     isStakedBnbCertShowed,
     isStakedOldAEthShowed,
-  } = useStakedBNB();
+  } = useStakedBNB(isSmallBalancesVisible);
 
   const { isFtmCommonLoading, isStakedFtmBondShowed, isStakedFtmCertShowed } =
-    useStakedFTM();
+    useStakedFTM(isSmallBalancesVisible);
 
   const {
     isStakedDotBondShowed,
@@ -100,7 +104,7 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isDotBondBalanceLoading,
     isKsmBondBalanceLoading,
     isWndBondBalanceLoading,
-  } = useStakedPolkadotTokens();
+  } = useStakedPolkadotTokens(isSmallBalancesVisible);
 
   const {
     isUnclaimedDotBondShowed,
@@ -109,7 +113,7 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isUnclaimedDotBondLoading,
     isUnclaimedKsmBondLoading,
     isUnclaimedWndBondLoading,
-  } = useUnclaimedPolkadot();
+  } = useUnclaimedPolkadot(isSmallBalancesVisible);
 
   const { isStakedSuiCertShowed, isSuiCommonLoading } = useStakedSUI();
 

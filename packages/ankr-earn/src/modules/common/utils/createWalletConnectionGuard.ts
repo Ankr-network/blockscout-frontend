@@ -1,10 +1,8 @@
 import { throwIfError } from '@ankr.com/common';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { connectEthCompatible } from 'modules/auth/eth/actions/connectEthCompatible';
 
-import { connect } from 'modules/auth/common/actions/connect';
-
-export function createWalletConnectionGuard(provider: AvailableWriteProviders) {
+export function createWalletConnectionGuard() {
   return function walletConnectionGuard(
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     request: any,
@@ -14,7 +12,7 @@ export function createWalletConnectionGuard(provider: AvailableWriteProviders) {
     return {
       promise: (async () => {
         const { data } = throwIfError(
-          await store.dispatch(connect.initiate({ providerId: provider })),
+          await store.dispatch(connectEthCompatible.initiate()),
         );
 
         return request.promise(store, data);

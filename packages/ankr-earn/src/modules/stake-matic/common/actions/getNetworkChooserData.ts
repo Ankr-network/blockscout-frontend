@@ -1,40 +1,44 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import {
   PolygonOnEthereumSDK,
   PolygonOnPolygonSDK,
 } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { CacheTags } from 'modules/stake-matic/polygon/const';
+
 interface IGetNetworkChooserData {
   maticEthBalance: BigNumber;
   maticPolygonBalance: BigNumber;
 }
 
-export const getNetworkChooserData = createSmartAction<
-  RequestAction<IGetNetworkChooserData, IGetNetworkChooserData>
->('matic/common/getNetworkChooserData', () => ({
-  request: {
-    promise: (async (): Promise<IGetNetworkChooserData> => {
-      const [ethSDK, polygonSDK] = await Promise.all([
-        PolygonOnEthereumSDK.getInstance(),
-        PolygonOnPolygonSDK.getInstance(),
-      ]);
+export const { useGetNetworkChooserDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getNetworkChooserData: build.query<IGetNetworkChooserData, void>({
+      queryFn: queryFnNotifyWrapper<void, never, IGetNetworkChooserData>(
+        async () => {
+          const [ethSDK, polygonSDK] = await Promise.all([
+            PolygonOnEthereumSDK.getInstance(),
+            PolygonOnPolygonSDK.getInstance(),
+          ]);
 
-      const [maticEthBalance, maticPolygonBalance] = await Promise.all([
-        ethSDK.getMaticBalance(),
-        polygonSDK.getMaticBalance(),
-      ]);
+          const [maticEthBalance, maticPolygonBalance] = await Promise.all([
+            ethSDK.getMaticBalance(),
+            polygonSDK.getMaticBalance(),
+          ]);
 
-      return {
-        maticEthBalance,
-        maticPolygonBalance,
-      };
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-  },
-}));
+          return {
+            data: {
+              maticEthBalance,
+              maticPolygonBalance,
+            },
+          };
+        },
+      ),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
+  }),
+});

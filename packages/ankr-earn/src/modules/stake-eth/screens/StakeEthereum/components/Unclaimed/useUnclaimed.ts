@@ -1,11 +1,10 @@
-import { useQuery } from '@redux-requests/react';
 import { useMemo } from 'react';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
 
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 
 interface IUseUnclaimed {
   isLoading: boolean;
@@ -15,9 +14,10 @@ interface IUseUnclaimed {
 }
 
 export const useUnclaimed = (): IUseUnclaimed => {
-  const { data: claimableData, loading: isLoading } = useQuery({
-    type: getClaimableData,
-  });
+  const { data: claimableData, isFetching: isLoading } =
+    useGetETHClaimableDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const amount = useMemo(() => {
     if (!claimableData) {

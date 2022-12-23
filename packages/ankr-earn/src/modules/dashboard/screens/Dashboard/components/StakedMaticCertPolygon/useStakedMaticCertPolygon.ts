@@ -5,12 +5,16 @@ import { useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { POLYGON_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  POLYGON_NETWORK_BY_ENV,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DefiRoutes } from 'modules/defi-aggregator/Routes';
-import { getCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { RoutesConfig as MaticStakingRoutes } from 'modules/stake-matic/polygon/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -33,9 +37,10 @@ export interface IUseStakedMaticCertPolygon {
 }
 
 export const useStakedMaticCertPolygon = (): IUseStakedMaticCertPolygon => {
-  const { data: commonData, loading: isCommonDataLoading } = useQuery({
-    type: getCommonData,
-  });
+  const { data: commonData, isFetching: isCommonDataLoading } =
+    useGetMaticOnPolygonCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const { data: metrics } = useQuery({
     type: getMetrics,

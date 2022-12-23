@@ -5,7 +5,7 @@ import { Token } from 'modules/common/types/token';
 
 import { useStakeSuiStepsHook } from './useStakeSuiStepsHook';
 
-const SYNTH_TOKEN = Token.aSUIc;
+const SYNTH_TOKEN = Token.ankrSUI;
 
 export const StakeSuiSteps = (): JSX.Element => {
   const {
