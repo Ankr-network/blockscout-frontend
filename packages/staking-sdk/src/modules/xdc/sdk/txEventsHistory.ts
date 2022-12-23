@@ -22,7 +22,7 @@ import { EXDCStakingPoolEvents } from '../types';
 import { getXDCStakingPoolContract } from './contracts';
 import { getPendingUnstakesAmount } from './getPendingUnstakesAmount';
 
-const getTxEventsHistoryGroup = async ({
+export const getTxEventsHistoryGroup = async ({
   provider,
   rawEvents,
 }: IWeb3TxEventsHistoryGroupProps<Web3KeyReadProvider>): Promise<

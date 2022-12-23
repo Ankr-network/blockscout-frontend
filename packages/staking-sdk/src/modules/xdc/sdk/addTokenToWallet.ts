@@ -9,15 +9,20 @@ import {
 import { XDC_DECIMALS } from '../const';
 import { EXDCTokens } from '../types';
 
+interface IAddTokenToWalletProps extends ICommonProps<Web3KeyWriteProvider> {
+  chainId?: EEthereumNetworkId.xdc | EEthereumNetworkId.xdcTestnet;
+}
+
 export const addTokenToWallet = async ({
+  chainId = isMainnet ? EEthereumNetworkId.xdc : EEthereumNetworkId.xdcTestnet,
   env = currentEnv,
   provider,
-}: ICommonProps<Web3KeyWriteProvider>): Promise<boolean> => {
+}: IAddTokenToWalletProps): Promise<boolean> => {
   const { xdcConfig } = configFromEnv(env);
 
   return provider.addTokenToWallet({
     address: xdcConfig.ankrXDCToken,
-    chainId: isMainnet ? EEthereumNetworkId.xdc : EEthereumNetworkId.xdcTestnet,
+    chainId,
     decimals: XDC_DECIMALS,
     symbol: EXDCTokens.ankrXDC,
   });
