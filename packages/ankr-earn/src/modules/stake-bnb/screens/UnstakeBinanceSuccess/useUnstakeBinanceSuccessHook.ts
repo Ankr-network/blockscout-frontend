@@ -7,11 +7,11 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import {
   useGetBNBTxReceiptQuery,
   useGetBNBUnstakeTxDataQuery,
 } from 'modules/stake-bnb/actions/getTxData';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 

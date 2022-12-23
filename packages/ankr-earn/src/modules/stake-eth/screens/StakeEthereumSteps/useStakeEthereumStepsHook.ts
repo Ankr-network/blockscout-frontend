@@ -1,19 +1,21 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
-import { ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { addTokenToWallet } from 'modules/stake-eth/actions/addTokenToWallet';
-import { getClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getTxData, getTxReceipt } from 'modules/stake-eth/actions/getTxData';
+import { useAddETHTokenToWalletMutation } from 'modules/stake-eth/actions/addTokenToWallet';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import {
+  useGetETHTxDataQuery,
+  useGetETHTxReceiptQuery,
+} from 'modules/stake-eth/actions/getTxData';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface IStakeEthereumStepsHook {
@@ -23,7 +25,7 @@ export interface IStakeEthereumStepsHook {
   destination?: string;
   transactionId?: string;
   tokenName: string;
-  error?: Error;
+  error?: FetchBaseQueryError | Error;
   handleAddTokenToWallet: () => void;
 }
 
@@ -34,49 +36,38 @@ interface IStakeSuccessParams {
 
 export const useStakeEthereumStepsHook = (): IStakeEthereumStepsHook => {
   const { txHash, tokenOut } = useParams<IStakeSuccessParams>();
+  const [addTokenToWallet] = useAddETHTokenToWalletMutation();
   const {
-    loading: isLoading,
+    isFetching: isLoading,
     data: txData,
     error,
-  } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const { data: commonData } = useQuery({
-    type: getCommonData,
-  });
-  const { data: claimableData } = useQuery({
-    type: getClaimableData,
+  } = useGetETHTxDataQuery({ txHash, shouldDecodeAmount: false });
+  const { data: receipt } = useGetETHTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: 3_000,
+    },
+  );
+  const { data: commonData, refetch: getETHCommonDataRefetch } =
+    useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
+
+  const { data: claimableData } = useGetETHClaimableDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
-  const dispatchRequest = useDispatchRequest();
   const dispatch = useAppDispatch();
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
   useProviderEffect(() => {
-    dispatchRequest(getTxData({ txHash }));
-    dispatchRequest(getTxReceipt({ txHash }));
-    dispatchRequest(getCommonData());
-
-    return () => {
-      dispatch(
-        resetRequests([
-          getTxData.toString(),
-          getTxReceipt.toString(),
-          getCommonData.toString(),
-        ]),
-      );
-    };
+    getETHCommonDataRefetch();
   }, [dispatch, txHash, tokenOut]);
 
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const onAddTokenClick = () => {
-    dispatchRequest(addTokenToWallet(tokenOut));
+    addTokenToWallet(tokenOut);
   };
 
   const calculatedAmount = useMemo(() => {
@@ -114,7 +105,7 @@ export const useStakeEthereumStepsHook = (): IStakeEthereumStepsHook => {
     tokenName: tokenOut,
     isLoading,
     isPending,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     handleAddTokenToWallet: onAddTokenClick,
   };
 };

@@ -8,6 +8,7 @@ import { EEthereumNetworkId } from '@ankr.com/provider';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
+  ACTION_CACHE_SEC,
   BSC_NETWORK_BY_ENV,
   SupportedChainIDS,
   ZERO,
@@ -15,7 +16,7 @@ import {
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -36,8 +37,8 @@ export const useStakedBridgeAETHCData = (): IStakedBridgeAETHCData => {
     type: fetchAETHCBridged,
   });
 
-  const { data: commonData } = useQuery({
-    type: getCommonData,
+  const { data: commonData } = useGetETHCommonDataQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const { data: metrics } = useQuery({

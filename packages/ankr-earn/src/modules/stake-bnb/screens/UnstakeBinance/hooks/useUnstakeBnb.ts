@@ -2,22 +2,25 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
-import { useApproveABNBCForSwapPoolMutation } from 'modules/stake-bnb/actions/approveABNBCFlashUnstake';
-import { useApproveABNBCUnstakeMutation } from 'modules/stake-bnb/actions/approveABNBCUnstake';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import { useFlashUnstakeBNBMutation } from 'modules/stake-bnb/actions/flashUnstake';
 import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
+import { useApproveABNBCForSwapPoolMutation } from 'modules/stake-bnb/actions/useApproveABNBCForSwapPoolMutation';
+import { useApproveABNBCUnstakeMutation } from 'modules/stake-bnb/actions/useApproveABNBCUnstakeMutation';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
+import { useGetBNBUnstakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBUnstakeStatsQuery';
 import { RoutesConfig } from 'modules/stake-bnb/Routes';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
+import { getFlashUnstakeAmountWithFee } from 'modules/stake-bnb/utils/getFlashUnstakeAmountWithFee';
 import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedToken';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
-
-import { getFlashUnstakeAmountWithFee } from '../../../utils/getFlashUnstakeAmountWithFee';
 
 import { useUnstakeBNBAnalytics } from './useUnstakeBnbAnalytics';
 
@@ -54,13 +57,18 @@ interface IUseUnstakeBnb {
 
 export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const { sendAnalytics } = useUnstakeBNBAnalytics();
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
   const [
     approveABNBCUnstake,
-    { data: approveData, isLoading: isApproveLoading },
+    { data: approveData, isLoading: isApproveLoading, reset: resetApprove },
   ] = useApproveABNBCUnstakeMutation();
   const [
     approveABNBCForSwapPool,
-    { data: swapPoolApproved, isLoading: isSwapPoolApproveLoading },
+    {
+      data: swapPoolApproved,
+      isLoading: isSwapPoolApproveLoading,
+      reset: resetSwapPoolApprove,
+    },
   ] = useApproveABNBCForSwapPoolMutation();
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
@@ -69,8 +77,16 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const {
     data: fetchStatsData,
     isFetching: isFetchStatsLoading,
-    refetch,
+    refetch: statsRefetch,
   } = useGetBNBStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+  });
+
+  const {
+    data: fetchUnstakeStatsData,
+    isFetching: isFetchUnstakeStatsLoading,
+    refetch: unstakeStatsRefetch,
+  } = useGetBNBUnstakeStatsQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
@@ -87,8 +103,8 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
     ? fetchStatsData?.aBNBbBalance
     : fetchStatsData?.aBNBcBalance;
 
-  const minAbnbbAmount = fetchStatsData?.minAbnbbUnstake ?? ZERO;
-  const minAbnbcAmount = fetchStatsData?.minAbnbcUnstake ?? ZERO;
+  const minAbnbbAmount = fetchUnstakeStatsData?.minAbnbbUnstake ?? ZERO;
+  const minAbnbcAmount = fetchUnstakeStatsData?.minAbnbcUnstake ?? ZERO;
   const minAmount = isBondToken ? minAbnbbAmount : minAbnbcAmount;
 
   const onExtraValidation = (
@@ -151,7 +167,13 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   const shouldBeApproved = isWithApprove && !isApproved;
 
   useProviderEffect(() => {
-    refetch();
+    resetApprove();
+    resetSwapPoolApprove();
+  }, [address]);
+
+  useProviderEffect(() => {
+    statsRefetch();
+    unstakeStatsRefetch();
   }, []);
 
   const handleSubmit = useCallback(
@@ -248,23 +270,23 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
 
   const calcFlashTotalRecieve = useCallback(
     (amount: BigNumber = ZERO): string => {
-      if (!fetchStatsData) {
+      if (!fetchStatsData || !fetchUnstakeStatsData) {
         return ZERO.toString();
       }
       return getFlashUnstakeAmountWithFee({
-        fee: fetchStatsData.instantFee ?? ZERO,
+        fee: fetchUnstakeStatsData.instantFee ?? ZERO,
         amount,
         ratio: fetchStatsData.aBNBcRatio ?? ZERO,
       });
     },
-    [fetchStatsData],
+    [fetchStatsData, fetchUnstakeStatsData],
   );
 
   return {
     syntTokenBalance,
     selectedToken,
     minAmount,
-    isFetchStatsLoading,
+    isFetchStatsLoading: isFetchStatsLoading || isFetchUnstakeStatsLoading,
     isUnstakeLoading,
     isFlashUnstakeLoading,
     closeHref,
@@ -279,7 +301,7 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
     onFlashUnstakeSubmit,
     calcTotalRecieve,
     calcFlashTotalRecieve,
-    instantFee: fetchStatsData?.instantFee ?? ZERO,
-    poolBalance: fetchStatsData?.poolBalance ?? ZERO,
+    instantFee: fetchUnstakeStatsData?.instantFee ?? ZERO,
+    poolBalance: fetchUnstakeStatsData?.poolBalance ?? ZERO,
   };
 };

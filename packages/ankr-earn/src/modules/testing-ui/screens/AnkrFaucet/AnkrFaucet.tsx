@@ -1,12 +1,13 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { useMutation, useQuery } from '@redux-requests/react';
+import { useMutation } from '@redux-requests/react';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { configFromEnv } from 'modules/api/config';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
-import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
+import { useGetAnkrBalanceQuery } from 'modules/stake-matic/eth/actions/useGetAnkrBalanceQuery';
 import { getTestAnkrTokens } from 'modules/testing-ui/actions/getTestAnkrTokens';
 import { TestBox } from 'modules/testing-ui/components/TestBox';
 import { Button } from 'uiKit/Button';
@@ -27,16 +28,16 @@ export const AnkrFaucet = (): JSX.Element => {
     refetch: getCommonDataRefetch,
   } = useGetCommonDataQuery();
 
-  const { data: ankrBalanceData, loading: isAnkrBalanceLoading } = useQuery({
-    type: getAnkrBalance,
-  });
+  const { data: ankrBalanceData, isFetching: isAnkrBalanceLoading } =
+    useGetAnkrBalanceQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const onClick = useCallback(() => {
     dispatch(getTestAnkrTokens());
   }, [dispatch]);
 
   useProviderEffect(() => {
-    dispatch(getAnkrBalance());
     getCommonDataRefetch();
   }, []);
 

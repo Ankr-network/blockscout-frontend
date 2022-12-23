@@ -1,53 +1,51 @@
-import { RequestAction, getQuery } from '@redux-requests/core';
 import { push } from 'connected-react-router';
-import { createAction } from 'redux-smart-actions';
+import { RootState } from 'store';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 import { EthereumSDK, TEthToken } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
-import { ETH_ACTIONS_PREFIX } from '../const';
+import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 
-import { getClaimableData } from './getClaimableData';
+import { selectETHClaimableData } from './getClaimableData';
 
-export const claim = createAction<
-  RequestAction<IWeb3SendResult, IWeb3SendResult>,
-  [TEthToken]
->(`${ETH_ACTIONS_PREFIX}claim`, token => ({
-  request: {
-    promise: (async (): Promise<IWeb3SendResult> => {
-      const sdk = await EthereumSDK.getInstance();
+export const { useClaimETHMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    claimETH: build.mutation<IWeb3SendResult, TEthToken>({
+      queryFn: queryFnNotifyWrapper<TEthToken, never, IWeb3SendResult>(
+        async token => {
+          const sdk = await EthereumSDK.getInstance();
 
-      return sdk.claim(token);
-    })(),
-  },
-  meta: {
-    asMutation: true,
-    showNotificationOnError: true,
-    onSuccess: (
-      response: { data: IWeb3SendResult },
-      _action,
-      { dispatchRequest, dispatch, getState },
-    ) => {
-      const { data } = getQuery(getState(), { type: getClaimableData });
-      const amount = (
-        token === Token.aETHb ? data.claimableAETHB : data.claimableAETHC
-      ).toString();
+          return { data: await sdk.claim(token) };
+        },
+      ),
+      async onQueryStarted(args, { dispatch, queryFulfilled, getState }) {
+        return queryFulfilled.then(response => {
+          const { transactionHash } = response.data;
 
-      if (response.data.transactionHash) {
-        const claimStepsPath = RoutesConfig.claimSteps.generatePath({
-          tokenOut: token,
-          txHash: response.data.transactionHash,
-          amount,
+          const { data } = selectETHClaimableData(getState() as RootState);
+          const amount = (
+            args === Token.aETHb
+              ? data?.claimableAETHB ?? ZERO
+              : data?.claimableAETHC ?? ZERO
+          ).toString();
+
+          if (transactionHash) {
+            const claimStepsPath = RoutesConfig.claimSteps.generatePath({
+              tokenOut: args,
+              txHash: transactionHash,
+              amount,
+            });
+
+            dispatch(push(claimStepsPath));
+          }
         });
-
-        dispatch(push(claimStepsPath));
-      }
-
-      dispatchRequest(getClaimableData());
-      return response;
-    },
-  },
-}));
+      },
+      invalidatesTags: [CacheTags.common],
+    }),
+  }),
+});

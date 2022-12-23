@@ -1,9 +1,14 @@
 import { useQuery } from '@redux-requests/react';
 
+import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { getCommonData as getMaticPolygonCommon } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
+import { EMetricsServiceName } from 'modules/stake/api/metrics';
+
+import { useGetUSDAmount } from '../../useGetUSDAmount';
 
 interface IUseBridgedMATIC {
   isBridgedMaticBondBscLoading: boolean;
@@ -14,10 +19,12 @@ interface IUseBridgedMATIC {
   isMaticPolygonCommonLoading: boolean;
 }
 
-export const useBridgedMATIC = (): IUseBridgedMATIC => {
-  const { data: maticPolygonCommon, loading: isMaticPolygonCommonLoading } =
-    useQuery({
-      type: getMaticPolygonCommon,
+export const useBridgedMATIC = (
+  isSmallBalancesVisible = true,
+): IUseBridgedMATIC => {
+  const { data: maticPolygonCommon, isFetching: isMaticPolygonCommonLoading } =
+    useGetMaticOnPolygonCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: bridgedMaticBondBsc, loading: isBridgedMaticBondBscLoading } =
@@ -30,6 +37,21 @@ export const useBridgedMATIC = (): IUseBridgedMATIC => {
       type: fetchAMATICCBridgedBSC,
     });
 
+  const usdBridgedMaticBondBscAmount = useGetUSDAmount(
+    bridgedMaticBondBsc ?? ZERO,
+    EMetricsServiceName.MATIC,
+  );
+
+  const usdBridgedMaticCertBscAmount = useGetUSDAmount(
+    bridgedMaticCertBsc ?? ZERO,
+    EMetricsServiceName.MATIC,
+  );
+
+  const usdBridgedMaticBondPolygonAmount = useGetUSDAmount(
+    maticPolygonCommon?.maticBondBalance,
+    EMetricsServiceName.MATIC,
+  );
+
   const isBridgedMaticBondPolygonShowed = getIsBalancePositive(
     maticPolygonCommon?.maticBondBalance,
   );
@@ -39,11 +61,23 @@ export const useBridgedMATIC = (): IUseBridgedMATIC => {
   const isBridgedMaticCertBscShowed = getIsBalancePositive(bridgedMaticCertBsc);
 
   return {
+    isBridgedMaticBondBscShowed: filterTokensBySmallBalance(
+      [usdBridgedMaticBondBscAmount],
+      isBridgedMaticBondBscShowed,
+      isSmallBalancesVisible,
+    ),
+    isBridgedMaticCertBscShowed: filterTokensBySmallBalance(
+      [usdBridgedMaticCertBscAmount],
+      isBridgedMaticCertBscShowed,
+      isSmallBalancesVisible,
+    ),
+    isBridgedMaticBondPolygonShowed: filterTokensBySmallBalance(
+      [usdBridgedMaticBondPolygonAmount],
+      isBridgedMaticBondPolygonShowed,
+      isSmallBalancesVisible,
+    ),
     isBridgedMaticBondBscLoading,
-    isBridgedMaticBondBscShowed,
-    isBridgedMaticBondPolygonShowed,
     isBridgedMaticCertBscLoading,
-    isBridgedMaticCertBscShowed,
     isMaticPolygonCommonLoading,
   };
 };

@@ -44,7 +44,7 @@ interface IUseStakeFormData {
 }
 
 const TOKEN_IN = Token.XDC;
-const TOKEN_OUT = Token.aXDCc;
+const TOKEN_OUT = Token.ankrXDC;
 
 const resetRequests = () => resetReduxRequests([getFAQ.toString()]);
 

@@ -25,8 +25,8 @@ import { StakedAFTMC } from '../StakedAFTMC';
 import { StakedAKSMB } from '../StakedAKSMB';
 import { StakedAMATICB } from '../StakedAMATICB';
 import { StakedAMATICC } from '../StakedAMATICC';
+import { StakedAnkrSUI } from '../StakedAnkrSUI';
 import { StakedASETHC } from '../StakedASETHC';
-import { StakedASUIC } from '../StakedASUIC';
 import { StakedAWNDB } from '../StakedAWNDB';
 import { StakedAXDCC } from '../StakedAXDCC';
 import { StakedMaticCertPolygon } from '../StakedMaticCertPolygon';
@@ -115,7 +115,7 @@ export const LiquidStakedTokens = (
         {isStakedWndBondShowed && <StakedAWNDB />}
 
         {featuresConfig.isSUIStakingActive && isStakedSuiCertShowed && (
-          <StakedASUIC />
+          <StakedAnkrSUI />
         )}
 
         {featuresConfig.ssvStaking && isStakedSSVOnETHCertShowed && (

@@ -1,25 +1,24 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
 import { EthereumSDK, ITxEventsHistoryData } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
-import { ETH_ACTIONS_PREFIX } from '../const';
+import { CacheTags } from '../const';
 
-export const getTotalHistory = createAction<
-  RequestAction<ITxEventsHistoryData, ITxEventsHistoryData>
->(`${ETH_ACTIONS_PREFIX}getTotalHistory`, () => ({
-  request: {
-    promise: (async (): Promise<ITxEventsHistoryData> => {
-      const sdk = await EthereumSDK.getInstance();
+export const { useLazyGetETHTotalHistoryQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getETHTotalHistory: build.query<ITxEventsHistoryData, void>({
+      queryFn: queryFnNotifyWrapper<void, never, ITxEventsHistoryData>(
+        async () => {
+          const sdk = await EthereumSDK.getInstance();
 
-      return sdk.getTxEventsHistory();
-    })(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    cache: ACTION_CACHE_SEC,
-  },
-}));
+          return {
+            data: await sdk.getTxEventsHistory(),
+          };
+        },
+      ),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [CacheTags.common],
+    }),
+  }),
+});

@@ -1,7 +1,7 @@
-import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
+import { useLazyGetETHTotalHistoryQuery } from 'modules/stake-eth/actions/getTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedTxHistoryETH } from '../useStakedTxHistoryETH';
@@ -14,15 +14,19 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
+jest.mock('modules/auth/common/hooks/useProviderEffect', () => ({
+  useProviderEffect: jest.fn(),
+}));
+
 jest.mock('modules/stake-eth/actions/getTotalHistory', () => ({
-  getTotalHistory: jest.fn(),
+  useLazyGetETHTotalHistoryQuery: jest.fn(),
 }));
 
 describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/ETH/useStakedTxHistoryETH', () => {
   const NOW = new Date();
 
   const defaultData = {
-    loading: false,
+    isFetching: false,
     data: {
       completedCertificate: [
         {
@@ -49,10 +53,14 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/ETH/useStakedT
         },
       ],
     },
+    refetch: jest.fn(),
   };
 
   beforeEach(() => {
-    (useQuery as jest.Mock).mockReturnValue(defaultData);
+    (useLazyGetETHTotalHistoryQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      defaultData,
+    ]);
 
     (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
   });
@@ -85,8 +93,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/ETH/useStakedT
   });
 
   test('should handle load history data', () => {
-    const mockDispatch = jest.fn();
-    (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    const [refetch] = useLazyGetETHTotalHistoryQuery();
 
     const { result } = renderHook(() => useStakedTxHistoryETH());
 
@@ -94,11 +101,17 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/ETH/useStakedT
       result.current.handleLoadTxHistory();
     });
 
-    expect(mockDispatch).toBeCalledTimes(1);
+    expect(refetch).toBeCalledTimes(1);
   });
 
   test('should return empty data', () => {
-    (useQuery as jest.Mock).mockReturnValue({ data: null, loading: true });
+    (useLazyGetETHTotalHistoryQuery as jest.Mock).mockReturnValue([
+      jest.fn(),
+      {
+        data: null,
+        isFetching: true,
+      },
+    ]);
 
     const { result } = renderHook(() => useStakedTxHistoryETH());
 

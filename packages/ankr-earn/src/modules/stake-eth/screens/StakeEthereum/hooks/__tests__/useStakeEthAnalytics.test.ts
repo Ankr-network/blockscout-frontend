@@ -6,7 +6,9 @@ import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 
 import {
   IUseStakeEthAnalyticsArgs,
@@ -39,6 +41,10 @@ jest.mock('modules/analytics/tracking-actions/trackStake', () => ({
   trackStake: jest.fn(),
 }));
 
+jest.mock('modules/stake-eth/actions/getCommonData', () => ({
+  useGetETHCommonDataQuery: jest.fn(),
+}));
+
 const mockEthSDK = {
   getABBalance: () => new BigNumber(2),
   getACBalance: () => new BigNumber(3),
@@ -52,6 +58,7 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
 
   const defaultHookProps: IUseStakeEthAnalyticsArgs = {
     amount: new BigNumber(1),
+    fee: ZERO,
   };
 
   const defaultQueryCommonData = {
@@ -77,6 +84,11 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
     (useConnectedData as jest.Mock).mockReturnValue(defaultAuthData);
     (useTotalAmount as jest.Mock).mockReturnValue(defaultTotalAmountData);
     (useQuery as jest.Mock).mockReturnValue(defaultQueryCommonData);
+    (useGetETHCommonDataQuery as jest.Mock).mockReturnValue({
+      data: {
+        ethBalance: new BigNumber(1),
+      },
+    });
   });
 
   test('should return initial data', () => {

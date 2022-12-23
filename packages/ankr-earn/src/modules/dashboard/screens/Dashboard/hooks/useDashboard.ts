@@ -15,16 +15,14 @@ import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
-import { getClaimableData as getEthClaimableData } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData as getEthCommonData } from 'modules/stake-eth/actions/getCommonData';
-import { getTotalHistory } from 'modules/stake-eth/actions/getTotalHistory';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
-import { fetchStats as fetchPolygonStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { fetchTotalHistory as fetchPolygonTxHistory } from 'modules/stake-matic/eth/actions/fetchTotalHistory';
-import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
@@ -45,19 +43,13 @@ const resetRequests = () =>
     fetchAETHCBridged.toString(),
     fetchAMATICBBridgedBSC.toString(),
     fetchAMATICCBridgedBSC.toString(),
-    fetchPolygonStats.toString(),
-    fetchPolygonTxHistory.toString(),
     getMGNOTotalInfo.toString(),
     getMGNOMaxApr.toString(),
     getMGNOPrice.toString(),
     getMgnoBalance.toString(),
-    getEthCommonData.toString(),
-    getEthClaimableData.toString(),
     getSSVOnETHDashboardData.toString(),
     getMetrics.toString(),
-    getTotalHistory.toString(),
     getUnstakeDate.toString(),
-    getMaticPolygonCommonData.toString(),
   ]);
 
 interface IUseDashboard {
@@ -75,8 +67,14 @@ export const useDashboard = (): IUseDashboard => {
 
   const { refetch: getBNBPendingValuesRefetch } = useGetBNBPendingValuesQuery();
   const { refetch: getBNBStatsRefetch } = useGetBNBStatsQuery();
+  const { refetch: getMATICETHStatsRefetch } = useGetMaticOnEthStatsQuery();
 
   const { refetch: getXDCDashboardDataRefetch } = getXDCDashboardData();
+  const { refetch: getMATICPOLYGONDataRefetch } =
+    useGetMaticOnPolygonCommonDataQuery();
+
+  const { refetch: getETHClaimableDataRefetch } = useGetETHClaimableDataQuery();
+  const { refetch: getETHCommonDataRefetch } = useGetETHCommonDataQuery();
 
   usePolkadot();
 
@@ -88,16 +86,16 @@ export const useDashboard = (): IUseDashboard => {
     dispatch(fetchAETHCBridged());
     dispatch(fetchAMATICBBridgedBSC());
     dispatch(fetchAMATICCBridgedBSC());
-    dispatch(fetchPolygonStats());
-    dispatch(getEthCommonData());
-    dispatch(getEthClaimableData());
     dispatch(getMetrics());
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
-    dispatch(getMaticPolygonCommonData());
     getAVAXCommonDataRefetch();
     getFTMCommonDataRefetch();
     getBNBPendingValuesRefetch();
     getBNBStatsRefetch();
+    getETHClaimableDataRefetch();
+    getETHCommonDataRefetch();
+    getMATICPOLYGONDataRefetch();
+    getMATICETHStatsRefetch();
 
     if (address) {
       dispatch(getPartnerCode(address));

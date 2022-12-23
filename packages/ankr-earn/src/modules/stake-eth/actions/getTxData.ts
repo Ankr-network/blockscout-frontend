@@ -1,15 +1,11 @@
-import { RequestAction } from '@redux-requests/core';
 import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
 import { EthereumSDK } from '@ankr.com/staking-sdk';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
-import { withStore } from 'modules/common/utils/withStore';
-
-import { ETH_ACTIONS_PREFIX } from '../const';
 
 export interface IGetSwitcherData {
   amount?: BigNumber;
@@ -22,45 +18,40 @@ interface IGetTxDataArgs {
   shouldDecodeAmount?: boolean;
 }
 
-export const getTxData = createAction<
-  RequestAction<IGetSwitcherData, IGetSwitcherData>,
-  [IGetTxDataArgs]
->(`${ETH_ACTIONS_PREFIX}getTxData`, ({ txHash, shouldDecodeAmount }) => ({
-  request: {
-    promise: async (): Promise<IGetSwitcherData> => {
-      const sdk = await EthereumSDK.getInstance();
+export const { useGetETHTxDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getETHTxData: build.query<IGetSwitcherData, IGetTxDataArgs>({
+      queryFn: queryFnNotifyWrapper<IGetTxDataArgs, never, IGetSwitcherData>(
+        async ({ txHash }) => {
+          const sdk = await EthereumSDK.getInstance();
 
-      return retry(() => sdk.fetchTxData(txHash, shouldDecodeAmount), {
-        retries: RETRIES_TO_GET_TX_DATA,
-      });
-    },
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    onRequest: withStore,
-  },
-}));
+          return {
+            data: await retry(() => sdk.fetchTxData(txHash), {
+              retries: RETRIES_TO_GET_TX_DATA,
+            }),
+          };
+        },
+      ),
+    }),
+  }),
+});
 
-const POLL_INTERVAL_SECONDS = 5;
+export const { useGetETHTxReceiptQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getETHTxReceipt: build.query<TransactionReceipt | null, IGetTxDataArgs>({
+      queryFn: queryFnNotifyWrapper<
+        IGetTxDataArgs,
+        never,
+        TransactionReceipt | null
+      >(async ({ txHash }) => {
+        const sdk = await EthereumSDK.getInstance();
 
-export const getTxReceipt = createAction<
-  RequestAction<TransactionReceipt, TransactionReceipt>
->(`${ETH_ACTIONS_PREFIX}getTxReceipt`, ({ txHash }: { txHash: string }) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: true,
-    poll: POLL_INTERVAL_SECONDS,
-    getData: data => data,
-    onRequest: request => {
-      request.promise = EthereumSDK.getInstance().then(sdk =>
-        sdk.fetchTxReceipt(txHash),
-      );
-
-      return request;
-    },
-  },
-}));
+        return {
+          data: await retry(() => sdk.fetchTxReceipt(txHash), {
+            retries: RETRIES_TO_GET_TX_DATA,
+          }),
+        };
+      }),
+    }),
+  }),
+});
