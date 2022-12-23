@@ -17,6 +17,7 @@ import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useStyles } from './AccountDetailsStyles';
+import { Subscriptions } from './components/Subscriptions';
 
 export const AccountDetails = () => {
   const classes = useStyles();
@@ -45,9 +46,11 @@ export const AccountDetails = () => {
       ) : (
         <Box className={classes.root}>
           <ExpiredTokenBanner />
-
           <Box className={classes.top}>
-            <Balance />
+            <Box>
+              <Balance />
+              <Subscriptions />
+            </Box>
             <AccountDetailsTopUp />
           </Box>
           {isNew ? (

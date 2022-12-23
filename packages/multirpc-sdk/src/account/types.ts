@@ -100,6 +100,11 @@ export interface IAggregatedPaymentHistoryResponse {
   transactions: IPaymentHistoryEntity[];
   cursor: string;
 }
+
+export interface IMySubscriptionsResponse {
+  items: Object[]
+}
+
 export interface IMethod {
   method: string;
   count: number;
