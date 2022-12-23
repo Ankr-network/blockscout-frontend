@@ -1245,11 +1245,5 @@
   "unsupported-wallet": {
     "description": "Please connect with another wallet.",
     "button": "Connect another wallet"
-  },
-  "new-bnb-info": {
-    "title": "BNB Liquid Staking is back!",
-    "description": "BNB Liquid Staking is back and fully functioning. You can stake, unstake, transfer ankrBNB and continue with your other everyday crypto activitities.",
-    "check-on-twitter": "Learn more on Ankr’s Twitter",
-    "close": "Close"
   }
 }

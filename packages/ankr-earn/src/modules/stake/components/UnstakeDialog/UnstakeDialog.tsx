@@ -124,14 +124,15 @@ export const UnstakeDialog = ({
     [extraValidation, maxAmount],
   );
 
+  const tokenName = getTokenName(token);
+
+  const balanceValue = balance?.toString();
+
   useEffect(() => {
-    const shouldResetTheForm = !!balance;
-    if (shouldResetTheForm) {
+    if (balanceValue) {
       formRef.current?.reset();
     }
-  }, [balance]);
-
-  const tokenName = getTokenName(token);
+  }, [balanceValue]);
 
   return (
     <Paper className={classes.root}>

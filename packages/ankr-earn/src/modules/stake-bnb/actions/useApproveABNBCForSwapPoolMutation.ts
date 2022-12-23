@@ -6,9 +6,12 @@ import { BinanceSDK } from '@ankr.com/staking-sdk';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 
-export const { useLazyApproveABNBCForSwapPoolQuery } = web3Api.injectEndpoints({
+export const { useApproveABNBCForSwapPoolMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
-    approveABNBCForSwapPool: build.query<IWeb3SendResult | boolean, BigNumber>({
+    approveABNBCForSwapPool: build.mutation<
+      IWeb3SendResult | boolean,
+      BigNumber
+    >({
       queryFn: queryFnNotifyWrapper<
         BigNumber,
         never,

@@ -2,6 +2,9 @@ import { tHTML } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
   ACTION_CACHE_SEC,
@@ -14,10 +17,10 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getValidSelectedToken } from 'modules/stake-matic/common/utils/getValidSelectedToken';
+import { useApproveAnkrMaticUnstakeMutation } from 'modules/stake-matic/eth/actions/useApproveAnkrMaticUnstakeMutation';
 import { useGetAnkrBalanceQuery } from 'modules/stake-matic/eth/actions/useGetAnkrBalanceQuery';
 import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStakeStatsQuery';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { useLazyApproveAnkrMaticUnstakeQuery } from 'modules/stake-matic/eth/actions/useLazyApproveAnkrMaticUnstakeQuery';
 import { useUnstakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useUnstakeMaticOnEthMutation';
 import { RoutesConfig } from 'modules/stake-matic/eth/Routes';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
@@ -69,8 +72,8 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
   });
   const [
     approveAMATICCUnstake,
-    { data: approveData, isLoading: isApproveLoading },
-  ] = useLazyApproveAnkrMaticUnstakeQuery();
+    { data: approveData, isLoading: isApproveLoading, reset: resetApprove },
+  ] = useApproveAnkrMaticUnstakeMutation();
   const [unstake, { isLoading: isUnstakeLoading }] =
     useUnstakeMaticOnEthMutation();
 
@@ -148,6 +151,12 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
 
     return errors;
   };
+
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
+
+  useProviderEffect(() => {
+    resetApprove();
+  }, [address]);
 
   useProviderEffect(() => {
     getMATICETHStatsRefetch();

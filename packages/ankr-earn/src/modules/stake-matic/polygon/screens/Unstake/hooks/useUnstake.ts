@@ -16,10 +16,11 @@ import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getValidSelectedToken } from 'modules/stake-matic/common/utils/getValidSelectedToken';
 import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { useGetMaticOnPolygonUnstakeStatsQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonUnstakeStatsQuery';
-import { useLazyApproveAnkrMaticOnPolygonUnstakeQuery } from 'modules/stake-matic/polygon/actions/useLazyApproveAnkrMaticOnPolygonUnstakeQuery';
 import { useUnstakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/useUnstakeMaticOnPolygonMutation';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 import { useAppDispatch } from 'store/useAppDispatch';
+
+import { useApproveAnkrMaticOnPolygonUnstakeMutation } from '../../../actions/useApproveAnkrMaticOnPolygonUnstakeMutation';
 
 interface IUseUnstakeData {
   closeHref: string;
@@ -57,8 +58,14 @@ export const useUnstake = (): IUseUnstakeData => {
   const [unstake, { isLoading: isUnstakeLoading }] =
     useUnstakeMaticOnPolygonMutation();
 
-  const [approveACUnstake, { data: approveData, isLoading: isApproveLoading }] =
-    useLazyApproveAnkrMaticOnPolygonUnstakeQuery();
+  const [
+    approveACUnstake,
+    { data: approveData, isLoading: isApproveLoading, reset: resetApprove },
+  ] = useApproveAnkrMaticOnPolygonUnstakeMutation();
+
+  useProviderEffect(() => {
+    resetApprove();
+  }, [address]);
 
   const {
     data: commonData,
