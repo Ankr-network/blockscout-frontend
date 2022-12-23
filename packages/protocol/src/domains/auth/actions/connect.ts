@@ -17,8 +17,8 @@ export interface AuthConnectParams {
 }
 
 export const {
-  useLazyAuthConnectQuery,
   endpoints: { authConnect },
+  useLazyAuthConnectQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     authConnect: build.query<IConnect, AuthConnectParams>({
@@ -34,7 +34,13 @@ export const {
           const service = MultiService.getService();
 
           if (walletId === INJECTED_WALLET_ID) {
-            await switchChain();
+            try {
+              await switchChain();
+            } catch (error) {
+              dispatch(resetAuthData());
+
+              throw error;
+            }
           }
 
           const cachedData = getCachedData(service, getState as GetState);
@@ -69,7 +75,7 @@ export const {
       onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
-        } catch (error) {
+        } catch {
           disconnectService();
 
           dispatch(resetAuthData());
