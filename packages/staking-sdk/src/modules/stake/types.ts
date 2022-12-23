@@ -1,10 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 /**
  * Internal raw data for history events
@@ -26,8 +23,8 @@ export interface ITxHistoryEventData extends EventData {
 /**
  * Internal params for getting past events
  */
-export interface IGetPastEvents {
-  provider: Web3KeyWriteProvider | Web3KeyReadProvider;
+export interface IGetPastEvents<Provider = Web3KeyReadProvider> {
+  provider: Provider;
   contract: Contract;
   eventName: string;
   startBlock: number;

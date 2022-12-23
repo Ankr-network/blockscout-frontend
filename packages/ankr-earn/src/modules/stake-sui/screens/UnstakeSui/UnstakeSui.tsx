@@ -78,7 +78,7 @@ export const UnstakeSui = (): JSX.Element => {
           isExternalAllowed={false}
           isLoading={isCommonDataLoading}
           renderFormFooter={onRenderFormFooter}
-          token={Token.aSUIc}
+          token={Token.ankrSUI}
           onSubmit={onUnstakeSubmit}
         />
       </Container>

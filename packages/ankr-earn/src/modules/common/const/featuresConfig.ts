@@ -19,16 +19,6 @@ export const featuresConfig = {
    * Please remove extra feature flag
    * @deprecated
    */
-  isActivePolkadotClaiming: true,
-  /**
-   * Please remove extra feature flag
-   * @deprecated
-   */
-  isActivePolkadotStaking: true,
-  /**
-   * Please remove extra feature flag
-   * @deprecated
-   */
   ankrStaking: true,
   /**
    * TODO Please remove it when actual translation would be added
@@ -47,7 +37,7 @@ export const featuresConfig = {
    */
   ssvStaking: true,
   duneAnalyticsLink: true,
-  xdcStaking: false,
+  xdcStaking: currentEnv !== Env.Production,
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
    */
@@ -59,4 +49,10 @@ export const featuresConfig = {
   isSUIStakingActive: isLocal,
   disableHeavyRequestsForTestnet: currentEnv !== Env.Production,
   isTradeInfoActiveForBnb: false,
+  isKusamaStakingActive: false,
+  /**
+   * Disable this feature until all fixes are completed.
+   * https://ankrnetwork.atlassian.net/browse/STAKAN-2030
+   */
+  isSmallBalancesActive: false,
 };

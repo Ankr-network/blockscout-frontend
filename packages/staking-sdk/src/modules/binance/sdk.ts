@@ -1,3 +1,4 @@
+import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
@@ -13,7 +14,6 @@ import {
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
 
-import { getPastEvents } from '@ankr.com/advanced-api';
 import {
   configFromEnv,
   ETH_SCALE_FACTOR,
@@ -231,7 +231,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * according to the current environment.
    *
    * @private
-   * @param {IGetPastEvents}
+   * @param options {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {

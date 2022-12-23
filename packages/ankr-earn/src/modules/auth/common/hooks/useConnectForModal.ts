@@ -1,18 +1,19 @@
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders, EWalletId } from '@ankr.com/provider';
 
+import { useConnectEthCompatibleMutation } from 'modules/auth/eth/actions/connectEthCompatible';
+import { useConnectPolkadotMutation } from 'modules/auth/polkadot/actions/connectPolkadot';
 import {
   AvailableStakingWriteProviders,
   ExtraWriteProviders,
 } from 'modules/common/types';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
-import { useConnectMutation } from '../actions/connect';
-import { TWalletId } from '../types';
+import { useConnectSuiMutation } from '../../sui/actions/connectSui';
 
 interface IUseConnectForModalArgs {
-  walletId: TWalletId;
+  walletId?: EWalletId;
   provider?: AvailableStakingWriteProviders;
 }
 
@@ -25,37 +26,32 @@ export const useConnectForModal = ({
   provider = AvailableWriteProviders.ethCompatible,
 }: IUseConnectForModalArgs): IUseConnectForModal => {
   const { handleClose } = useDialog(EKnownDialogs.connect);
-  const [connectEthCompatible] = useConnectMutation({
+
+  const [connectEthCompatible] = useConnectEthCompatibleMutation({
     fixedCacheKey: AvailableWriteProviders.ethCompatible,
   });
-  const [connectPolkadot] = useConnectMutation({
+
+  const [connectPolkadot] = useConnectPolkadotMutation({
     fixedCacheKey: ExtraWriteProviders.polkadotCompatible,
   });
-  const [connectSui] = useConnectMutation({
+
+  const [connectSui] = useConnectSuiMutation({
     fixedCacheKey: ExtraWriteProviders.suiCompatible,
   });
+
   const handleConnect = useCallback(async () => {
     let response;
     switch (provider) {
       case AvailableWriteProviders.ethCompatible: {
-        response = await connectEthCompatible({
-          providerId: provider,
-          wallet: walletId,
-        });
+        response = await connectEthCompatible({ wallet: walletId });
         break;
       }
       case ExtraWriteProviders.polkadotCompatible: {
-        response = await connectPolkadot({
-          providerId: provider,
-          wallet: walletId,
-        });
+        response = await connectPolkadot();
         break;
       }
       case ExtraWriteProviders.suiCompatible: {
-        response = await connectSui({
-          providerId: provider,
-          wallet: walletId,
-        });
+        response = await connectSui();
         break;
       }
       default:

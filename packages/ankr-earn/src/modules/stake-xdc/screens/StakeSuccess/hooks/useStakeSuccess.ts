@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { XDC } from '@ankr.com/staking-sdk';
 
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
+import { Token } from 'modules/common/types/token';
 import { useLazyAddTokenToWalletQuery } from 'modules/stake-xdc/actions/addTokenToWallet';
 import { useGetTxDataQuery } from 'modules/stake-xdc/actions/getTxData';
 import { useGetTxReceiptQuery } from 'modules/stake-xdc/actions/getTxReceipt';
@@ -17,7 +18,7 @@ interface IUseStakeSuccessData {
   error?: Error;
   isLoading: boolean;
   isPending: boolean;
-  tokenName: XDC.EXDCTokens;
+  tokenName: Token;
   transactionId?: string;
   onAddTokenClick: () => void;
 }
@@ -48,7 +49,7 @@ export const useStakeSuccess = (): IUseStakeSuccessData => {
       : undefined;
 
   const onAddTokenClick = (): void => {
-    addTokenToWallet(XDC.EXDCTokens.aXDCc);
+    addTokenToWallet(XDC.EXDCTokens.ankrXDC);
   };
 
   useEffect(() => {
@@ -63,7 +64,7 @@ export const useStakeSuccess = (): IUseStakeSuccessData => {
     error: (txDataError as Error) || txFailError,
     isLoading: isTxDataLoading,
     isPending,
-    tokenName: XDC.EXDCTokens.aXDCc,
+    tokenName: Token.ankrXDC,
     transactionId: txHash,
     onAddTokenClick,
   };

@@ -35,6 +35,7 @@ jest.mock('modules/stake-fantom/actions/getTxData', () => ({
 
 jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
+  XDC: { XDC_BLOCK_1_DAY_RANGE: jest.fn() },
 }));
 
 describe('modules/stake-fantom/screens/StakeFantomSteps/useStakeFantomStepsHook', () => {

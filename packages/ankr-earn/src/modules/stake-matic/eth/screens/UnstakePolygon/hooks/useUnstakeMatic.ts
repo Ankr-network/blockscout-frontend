@@ -1,13 +1,13 @@
 import { tHTML } from '@ankr.com/common';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
+  ACTION_CACHE_SEC,
   ANKR_1INCH_BUY_LINK,
   DECIMAL_PLACES,
   ZERO,
@@ -17,10 +17,11 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getValidSelectedToken } from 'modules/stake-matic/common/utils/getValidSelectedToken';
-import { approveAMATICCUnstake } from 'modules/stake-matic/eth/actions/approveAMATICCUnstake';
-import { fetchStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { getAnkrBalance } from 'modules/stake-matic/eth/actions/getAnkrBalance';
-import { unstake } from 'modules/stake-matic/eth/actions/unstake';
+import { useApproveAnkrMaticUnstakeMutation } from 'modules/stake-matic/eth/actions/useApproveAnkrMaticUnstakeMutation';
+import { useGetAnkrBalanceQuery } from 'modules/stake-matic/eth/actions/useGetAnkrBalanceQuery';
+import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStakeStatsQuery';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useUnstakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useUnstakeMaticOnEthMutation';
 import { RoutesConfig } from 'modules/stake-matic/eth/Routes';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 
@@ -46,34 +47,46 @@ interface IUseUnstakeMatic {
 }
 
 export const useUnstakeMatic = (): IUseUnstakeMatic => {
-  const dispatchRequest = useDispatchRequest();
   const { sendAnalytics } = useUnstakeMaticAnalytics();
 
-  const { data: ankrBalance } = useQuery({
-    type: getAnkrBalance,
+  const { data: ankrBalance } = useGetAnkrBalanceQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 
   const stakeParamsToken = RoutesConfig.unstake.useParams().token;
   const selectedToken = getValidSelectedToken(stakeParamsToken);
 
-  const { loading: isFetchStatsLoading, data: fetchStatsData } = useQuery({
-    type: fetchStats,
+  const {
+    data: statsData,
+    isFetching: isStatsLoading,
+    refetch: getMATICETHStatsRefetch,
+  } = useGetMaticOnEthStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
-  const { data: approveData, loading: isApproveLoading } = useQuery({
-    type: approveAMATICCUnstake,
+  const {
+    data: stakeStatsData,
+    isFetching: isStakeStatsLoading,
+    refetch: getMATICETHStakeStatsRefetch,
+  } = useGetMaticOnEthStakeStatsQuery(undefined, {
+    refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
-  const { loading: isUnstakeLoading } = useMutation({ type: unstake });
+  const [
+    approveAMATICCUnstake,
+    { data: approveData, isLoading: isApproveLoading, reset: resetApprove },
+  ] = useApproveAnkrMaticUnstakeMutation();
+  const [unstake, { isLoading: isUnstakeLoading }] =
+    useUnstakeMaticOnEthMutation();
 
   const isBondToken = selectedToken === Token.aMATICb;
   const closeHref = DashboardRoutes.dashboard.generatePath();
   const syntTokenBalance = isBondToken
-    ? fetchStatsData?.aMATICbBalance
-    : fetchStatsData?.aMATICcBalance;
+    ? statsData?.aMATICbBalance
+    : statsData?.aMATICcBalance;
 
-  const minAmaticbAmount = fetchStatsData?.aMATICbBalance ?? ZERO;
-  const minAmaticcAmount = fetchStatsData?.aMATICcBalance ?? ZERO;
-  const amaticcRatio = fetchStatsData?.aMATICcRatio ?? ZERO;
-  const unstakeFee = fetchStatsData?.unstakeFee ?? ZERO;
+  const minAmaticbAmount = statsData?.aMATICbBalance ?? ZERO;
+  const minAmaticcAmount = statsData?.aMATICcBalance ?? ZERO;
+  const amaticcRatio = statsData?.aMATICcRatio ?? ZERO;
+  const unstakeFee = stakeStatsData?.unstakeFee ?? ZERO;
   const minAmount = isBondToken ? minAmaticbAmount : minAmaticcAmount;
 
   const isApproved = !!approveData;
@@ -84,15 +97,13 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
     (amount: BigNumber) => {
       const resultAmount = new BigNumber(amount);
 
-      dispatchRequest(
-        unstake({ amount: resultAmount, token: selectedToken }),
-      ).then(({ error }) => {
-        if (!error) {
+      unstake({ amount: resultAmount, token: selectedToken })
+        .unwrap()
+        .then(() => {
           sendAnalytics(resultAmount, selectedToken);
-        }
-      });
+        });
     },
-    [dispatchRequest, selectedToken, sendAnalytics],
+    [selectedToken, sendAnalytics, unstake],
   );
 
   const onUnstakeSubmit = useCallback(
@@ -102,12 +113,12 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
       const value = new BigNumber(amount);
 
       if (shouldBeApproved) {
-        dispatchRequest(approveAMATICCUnstake(value));
+        approveAMATICCUnstake(value);
       } else {
         handleSubmit(value);
       }
     },
-    [dispatchRequest, handleSubmit, shouldBeApproved],
+    [approveAMATICCUnstake, handleSubmit, shouldBeApproved],
   );
 
   const calcTotalRecieve = useCallback(
@@ -141,11 +152,22 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
     return errors;
   };
 
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
+
+  useProviderEffect(() => {
+    resetApprove();
+  }, [address]);
+
+  useProviderEffect(() => {
+    getMATICETHStatsRefetch();
+    getMATICETHStakeStatsRefetch();
+  }, []);
+
   return {
     syntTokenBalance,
     selectedToken,
     minAmount,
-    isFetchStatsLoading,
+    isFetchStatsLoading: isStatsLoading || isStakeStatsLoading,
     isUnstakeLoading,
     unstakeFee,
     closeHref,

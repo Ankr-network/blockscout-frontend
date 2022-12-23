@@ -3,12 +3,13 @@ import { Grid, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import { MouseEvent as ReactMouseEvent } from 'react';
+import { MouseEvent as ReactMouseEvent, useMemo } from 'react';
 
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getPortfolioUSDAmount } from 'modules/dashboard/utils/getPortfolioUSDAmount';
+import { isBalanceSmall } from 'modules/dashboard/utils/isBalanceSmall';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
@@ -25,6 +26,7 @@ export interface IPortfolioChartLegendProps {
   activeLegendItem?: ILegendItem | null;
   onMouseOver: (item: ILegendItem) => void;
   onMouseLeave: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void;
+  isSmallBalancesVisible?: boolean;
 }
 
 export interface ILegendItem {
@@ -52,8 +54,19 @@ export const PortfolioChartLegend = ({
   activeLegendItem,
   onMouseOver,
   onMouseLeave,
+  isSmallBalancesVisible,
 }: IPortfolioChartLegendProps): JSX.Element => {
   const classes = usePortfolioChartLegendStyles();
+
+  const filteredLegendItems = useMemo(() => {
+    if (!legendItems.length) {
+      return [];
+    }
+    if (isSmallBalancesVisible) {
+      return legendItems;
+    }
+    return legendItems.filter(legend => !isBalanceSmall(legend.usdAmount));
+  }, [legendItems, isSmallBalancesVisible]);
 
   if (isLoading) {
     return (
@@ -125,7 +138,7 @@ export const PortfolioChartLegend = ({
       </Tooltip>
 
       <Grid container className={classes.items}>
-        {legendItems.map(item => (
+        {filteredLegendItems.map(item => (
           <Grid
             key={item.name}
             item

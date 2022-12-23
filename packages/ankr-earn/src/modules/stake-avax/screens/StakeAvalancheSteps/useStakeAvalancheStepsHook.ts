@@ -8,11 +8,11 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
 import {
   useGetAVAXTxDataQuery,
   useGetAVAXTxReceiptQuery,
 } from 'modules/stake-avax/actions/getTxData';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { TAvaxSyntToken } from 'modules/stake-avax/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 

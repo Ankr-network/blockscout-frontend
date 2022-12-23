@@ -63,13 +63,6 @@ export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankrstaking',
 };
 
-export const STAKE_LEGACY_LINKS = {
-  DOT: 'https://old-stakefi.ankr.com/liquid-staking/DOT',
-  ETH: 'https://old-stakefi.ankr.com/liquid-staking/ETH',
-  KSM: 'https://old-stakefi.ankr.com/liquid-staking/KSM',
-  WND: 'https://old-stakefi.ankr.com/liquid-staking/WND',
-};
-
 export const ANKR_1INCH_BUY_LINK =
   'https://app.1inch.io/#/1/classic/swap/ETH/ANKR';
 

@@ -5,11 +5,12 @@ import { useParams } from 'react-router';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import {
   useGetBNBTxDataQuery,
   useGetBNBTxReceiptQuery,
 } from 'modules/stake-bnb/actions/getTxData';
+import { useGetBNBStakeStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStakeStatsQuery';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 
 import { useStakeBinanceStepsHook } from '../useStakeBinanceStepsHook';
 
@@ -21,8 +22,12 @@ jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
   useAddBNBTokenToWalletMutation: jest.fn(),
 }));
 
-jest.mock('modules/stake-bnb/actions/fetchStats', () => ({
+jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
   useGetBNBStatsQuery: jest.fn(),
+}));
+
+jest.mock('modules/stake-bnb/actions/useGetBNBStakeStatsQuery', () => ({
+  useGetBNBStakeStatsQuery: jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
@@ -36,6 +41,7 @@ jest.mock('modules/stake-bnb/actions/getTxData', () => ({
 
 jest.mock('@ankr.com/staking-sdk', () => ({
   ProviderManagerSingleton: { getInstance: jest.fn() },
+  XDC: { XDC_BLOCK_1_DAY_RANGE: jest.fn() },
 }));
 
 describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook', () => {
@@ -69,6 +75,11 @@ describe('modules/stake-bnb/screens/StakeBinanceSteps/useStakeBinanceStepsHook',
       isFetching: false,
       data: {
         aBNBcRatio: new BigNumber(0.8),
+      },
+    });
+    (useGetBNBStakeStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: {
         relayerFee: new BigNumber(0.1),
       },
     });

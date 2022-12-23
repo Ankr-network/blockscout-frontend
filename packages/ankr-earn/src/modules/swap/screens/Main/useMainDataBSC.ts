@@ -9,11 +9,11 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
 import {
   useGetBNBTxDataQuery,
   useGetBNBTxReceiptQuery,
 } from 'modules/stake-bnb/actions/getTxData';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 

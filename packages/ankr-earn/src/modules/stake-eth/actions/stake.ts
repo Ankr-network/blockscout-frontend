@@ -1,40 +1,46 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
-import { createAction } from 'redux-smart-actions';
 
 import { EthereumSDK, TEthToken, IStakeData } from '@ankr.com/staking-sdk';
 
-import { ETH_ACTIONS_PREFIX } from '../const';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
-import { getCommonData } from './getCommonData';
+import { CacheTags } from '../const';
+import { RoutesConfig } from '../Routes';
 
 interface IStakeArgs {
   token: TEthToken;
   amount: BigNumber;
 }
 
-export const stake = createAction<
-  RequestAction<IStakeData, IStakeData>,
-  [IStakeArgs]
->(`${ETH_ACTIONS_PREFIX}stake`, ({ amount, token }) => ({
-  request: {
-    promise: (async (): Promise<IStakeData> => {
-      const sdk = await EthereumSDK.getInstance();
+export const { useStakeETHMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    stakeETH: build.mutation<IStakeData, IStakeArgs>({
+      queryFn: queryFnNotifyWrapper<IStakeArgs, never, IStakeData>(
+        async ({ amount, token }) => {
+          const sdk = await EthereumSDK.getInstance();
 
-      return sdk.stake(amount, token);
-    })(),
-  },
-  meta: {
-    asMutation: true,
-    showNotificationOnError: true,
-    onSuccess: (response, _action, { dispatchRequest, dispatch }) => {
-      dispatchRequest(getCommonData());
+          return { data: await sdk.stake(amount, token) };
+        },
+      ),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { txHash } = response.data;
+          const { token } = args;
 
-      if (response.data.txHash) {
-        dispatch(push(`${token}/${response.data.txHash}/`));
-      }
-      return response;
-    },
-  },
-}));
+          if (txHash) {
+            dispatch(
+              push(
+                RoutesConfig.stakeSteps.generatePath({
+                  txHash: response.data.txHash,
+                  tokenOut: token,
+                }),
+              ),
+            );
+          }
+        });
+      },
+      invalidatesTags: [CacheTags.common],
+    }),
+  }),
+});

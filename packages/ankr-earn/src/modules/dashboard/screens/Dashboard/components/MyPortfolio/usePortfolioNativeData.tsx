@@ -15,18 +15,18 @@ import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { RoutesConfig as StakeAnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
-import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/fetchCommonData';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
-import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/fetchStats';
+import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
-import { getClaimableData as fetchStakeETHClaimableStats } from 'modules/stake-eth/actions/getClaimableData';
-import { getCommonData as fetchStakeETHStats } from 'modules/stake-eth/actions/getCommonData';
+import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { RoutesConfig as StakeFantomRoutes } from 'modules/stake-fantom/Routes';
 import { RoutesConfig as StakeMaticRoutes } from 'modules/stake-matic/common/Routes';
-import { fetchStats as fetchMaticEthStats } from 'modules/stake-matic/eth/actions/fetchStats';
-import { getCommonData as getMaticPolygonCommonData } from 'modules/stake-matic/polygon/actions/getCommonData';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
 import { getBalance as fetchMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
@@ -69,13 +69,9 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     type: getMetrics,
   });
 
-  const { data: ethMaticData, loading: isEthMaticDataLoading } = useQuery({
-    type: fetchMaticEthStats,
-  });
-
-  const { data: polygonMaticData, loading: isPolygonMaticDataLoading } =
-    useQuery({
-      type: getMaticPolygonCommonData,
+  const { data: polygonMaticData, isFetching: isPolygonMaticDataLoading } =
+    useGetMaticOnPolygonCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: ftmData, isFetching: isFtmDataLoading } =
@@ -90,13 +86,18 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     },
   );
 
-  const { data: ethData, loading: isEthDataLoading } = useQuery({
-    type: fetchStakeETHStats,
-  });
+  const { data: ethData, isLoading: isEthDataLoading } =
+    useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
+  const { data: ethMaticData, isFetching: isEthMaticDataLoading } =
+    useGetMaticOnEthStatsQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
-  const { data: ethClaimableData, loading: isEthClaimableDataLoading } =
-    useQuery({
-      type: fetchStakeETHClaimableStats,
+  const { data: ethClaimableData, isFetching: isEthClaimableDataLoading } =
+    useGetETHClaimableDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const { data: ankrBalanceData, isFetching: isLoadingAnkrBalanceData } =
@@ -223,14 +224,21 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
         service: EMetricsServiceName.DOT,
         link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.DOT),
       },
-      {
-        name: Token.KSM,
-        amount:
-          ksmBalance?.plus(ksmClaimableBalance?.claimable ?? ZERO) ?? ZERO,
-        apy: metrics?.ksm.apy ?? ZERO,
-        service: EMetricsServiceName.KSM,
-        link: StakePolkadotRoutes.stake.generatePath(EPolkadotNetworks.KSM),
-      },
+      ...(featuresConfig.isKusamaStakingActive
+        ? [
+            {
+              name: Token.KSM,
+              amount:
+                ksmBalance?.plus(ksmClaimableBalance?.claimable ?? ZERO) ??
+                ZERO,
+              apy: metrics?.ksm.apy ?? ZERO,
+              service: EMetricsServiceName.KSM,
+              link: StakePolkadotRoutes.stake.generatePath(
+                EPolkadotNetworks.KSM,
+              ),
+            },
+          ]
+        : []),
       {
         name: Token.WND,
         amount: featuresConfig.testingUi

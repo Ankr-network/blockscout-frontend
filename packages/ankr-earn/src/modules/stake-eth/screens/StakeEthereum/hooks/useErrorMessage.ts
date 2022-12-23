@@ -1,6 +1,7 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
-import { getCommonData } from 'modules/stake-eth/actions/getCommonData';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 
 interface IUseErrorMessage {
@@ -14,14 +15,14 @@ export const useErrorMessage = (): IUseErrorMessage => {
   const { error: metricsError } = useQuery({
     type: getMetrics,
   });
-
-  const { error: commonDataError } = useQuery({
-    type: getCommonData,
-  });
+  const { error: commonDataError, refetch: getETHCommonDataRefetch } =
+    useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
 
   const onErroMessageClick = () => {
     if (commonDataError) {
-      dispatchRequest(getCommonData());
+      getETHCommonDataRefetch();
     }
 
     if (metricsError) {
