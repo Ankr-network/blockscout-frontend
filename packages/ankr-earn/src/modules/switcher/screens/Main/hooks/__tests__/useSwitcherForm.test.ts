@@ -1,7 +1,6 @@
 import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
-import fc from 'fast-check';
 
 import {
   AvailableWriteProviders,
@@ -67,7 +66,6 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       txError,
       txHash,
       validate,
-      calculateFeeAndTotal,
       handleApprove,
       handleSwap,
       handleClearTx,
@@ -77,7 +75,6 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
     expect(txError).toBe('');
     expect(txHash).toBe('');
     expect(validate).toBeDefined();
-    expect(calculateFeeAndTotal).toBeDefined();
     expect(handleApprove).toBeDefined();
     expect(handleSwap).toBeDefined();
     expect(handleClearTx).toBeDefined();
@@ -186,51 +183,6 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
         chainId: EEthereumNetworkId.mainnet,
         token: Token.aETHb,
       });
-    });
-  });
-
-  describe('fee and total', () => {
-    test('should check fee and total sum', () => {
-      const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
-
-      fc.assert(
-        fc.property(
-          fc.float(),
-          fc.nat(10_000),
-          (amount: number, feeBP: number) => {
-            const { fee, total } = result.current.calculateFeeAndTotal({
-              amount: new BigNumber(amount),
-              feeBP: new BigNumber(feeBP),
-            });
-
-            return fee.plus(total).eq(amount);
-          },
-        ),
-      );
-    });
-
-    test('should calculate fee and total value', () => {
-      const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
-
-      {
-        const { fee, total } = result.current.calculateFeeAndTotal({
-          feeBP: new BigNumber(10_000),
-          amount: new BigNumber(10),
-        });
-
-        expect(fee.toNumber()).toStrictEqual(10);
-        expect(total.toNumber()).toStrictEqual(0);
-      }
-
-      {
-        const { fee, total } = result.current.calculateFeeAndTotal({
-          feeBP: new BigNumber(30),
-          amount: new BigNumber(5.24),
-        });
-
-        expect(fee.toNumber()).toStrictEqual(0.01572);
-        expect(total.toNumber()).toStrictEqual(5.22428);
-      }
     });
   });
 

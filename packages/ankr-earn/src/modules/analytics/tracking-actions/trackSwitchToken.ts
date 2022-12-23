@@ -8,7 +8,6 @@ interface ISwitchTokenEvent extends IBaseWaletData {
   inputTokenBalance: string;
   ouputToken: Token;
   inputAmount: string;
-  serviceFee: string;
   outputAmount: string;
   switchProportion: string;
 }
