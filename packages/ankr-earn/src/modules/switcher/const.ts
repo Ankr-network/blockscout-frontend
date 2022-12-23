@@ -130,20 +130,6 @@ export const CHAIN_ID_BY_TOKEN: Record<
   [Token.aAVAXc]: AVAX_NETWORK_BY_ENV,
 };
 
-export const BASIS_POINTS_FEE_BY_TOKEN: Record<AvailableSwitcherToken, number> =
-  {
-    [Token.aETHb]: 30,
-    [Token.aETHc]: 30,
-    [Token.aBNBb]: 10,
-    [Token.aBNBc]: 10,
-    [Token.aMATICb]: 10,
-    [Token.aMATICc]: 10,
-    [Token.aFTMb]: 10,
-    [Token.aFTMc]: 10,
-    [Token.aAVAXb]: 10,
-    [Token.aAVAXc]: 10,
-  };
-
 export const DEFAULT_TOKENS_BY_NETWORK: Record<
   AvailableSwitchNetwork,
   { from: AvailableSwitcherToken; to: AvailableSwitcherToken }

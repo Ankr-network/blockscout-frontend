@@ -69,11 +69,6 @@ export const useMainSwitcherStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0),
   },
 
-  fee: {
-    fontSize: 14,
-    color: theme.palette.common.black,
-  },
-
   result: {
     fontSize: 14,
     fontWeight: 'bold',

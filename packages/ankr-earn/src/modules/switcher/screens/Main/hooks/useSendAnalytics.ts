@@ -9,13 +9,11 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { SWITCHER_FROM_TOKENS } from 'modules/switcher/const';
 
-import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
 import { calcValueWithRatio } from '../utils/calcValueWithRatio';
 
 export interface ISendAnalyticsHookArgs {
   from: Token;
   to: Token;
-  feeBasisPoints: number;
   ratio: BigNumber;
   abBalance?: BigNumber;
   acBalance?: BigNumber;
@@ -32,7 +30,6 @@ export interface ISendAnalyticsHookData {
 export const useSendAnalytics = ({
   from,
   to,
-  feeBasisPoints,
   ratio,
   abBalance = ZERO,
   acBalance = ZERO,
@@ -47,10 +44,7 @@ export const useSendAnalytics = ({
   );
 
   const sendAnalytics = ({ amount }: ISendAnalyticsEventArg) => {
-    const { fee, total } = calcFeeAndTotal({
-      amount: new BigNumber(amount),
-      feeBP: new BigNumber(feeBasisPoints),
-    });
+    const total = new BigNumber(amount);
 
     const inputTokenBalance = isFromToken ? abBalance : acBalance;
 
@@ -65,7 +59,6 @@ export const useSendAnalytics = ({
       inputTokenBalance: inputTokenBalance.toFixed(),
       ouputToken: to,
       inputAmount: amount,
-      serviceFee: fee.toFixed(),
       outputAmount: calcValueWithRatio({ total, ratio, from }).toFixed(),
       switchProportion,
     });
