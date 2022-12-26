@@ -8,22 +8,22 @@ const defaultData: ISubscriptionsResponse = {
 };
 
 export interface FetchSubscriptionsParams {
-  hasCredentials: boolean;
+  isConnected: boolean;
 }
 
 export type FetchSubscriptions = [() => void, ISubscriptionsResponse, boolean];
 
 export const useFetchSubscriptions = ({
-  hasCredentials,
+  isConnected,
 }: FetchSubscriptionsParams): FetchSubscriptions => {
   const [fetchSubscriptionsData, { data = defaultData, isLoading }] =
     useLazyAccountFetchSubscriptionsDataQuery();
 
   useEffect(() => {
-    if (hasCredentials) {
+    if (isConnected) {
       fetchSubscriptionsData();
     }
-  }, [fetchSubscriptionsData, hasCredentials]);
+  }, [fetchSubscriptionsData, isConnected]);
 
   return [fetchSubscriptionsData, data, isLoading];
 };
