@@ -9,12 +9,14 @@ export interface AnkrBalanceOnWallet {
   isLoading: boolean;
 }
 
-export const useAnkrBalanceOnWallet = (): AnkrBalanceOnWallet => {
+export const useAnkrBalanceOnWallet = (
+  hasCredentials: boolean,
+): AnkrBalanceOnWallet => {
   const [fetchBalance, { data: ankrBalance, isLoading, isUninitialized }] =
     useQueryEndpoint(accountFetchAccountBalance);
 
   useOnMount(() => {
-    if (isUninitialized) {
+    if (hasCredentials && isUninitialized) {
       fetchBalance();
     }
   });
