@@ -30,27 +30,32 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
     options,
   );
 
-  const { credentials, loading: walletLoading, workerTokenData } = useAuth();
+  const {
+    hasPrivateAccess,
+    loading: walletLoading,
+    workerTokenData,
+  } = useAuth();
 
   const classes = useStyles();
 
   useEffect(() => {
-    if (credentials) {
+    if (hasPrivateAccess) {
       fetchPremiumChainFeatures(chainId);
     }
 
     if (!walletLoading) {
-      fetchChain({ chainId, credentials });
+      const { unsubscribe } = fetchChain({ chainId, hasPrivateAccess });
+
+      return () => {
+        reset();
+        unsubscribe();
+      };
     }
 
-    return () => {
-      if (!walletLoading) {
-        reset();
-      }
-    };
+    return () => {};
   }, [
     chainId,
-    credentials,
+    hasPrivateAccess,
     fetchChain,
     fetchPremiumChainFeatures,
     reset,

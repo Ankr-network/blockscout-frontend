@@ -109,4 +109,24 @@ export class TokenIssuerService extends BaseTokenIssuerService {
       publicKey,
     );
   }
+
+  public async upgradeSyntheticJwtToken(
+    strValue: string,
+  ): Promise<JwtTokenFullData> {
+    try {
+      const { token, tier } = await this.getWorkerGateway().importJwtToken(
+        strValue,
+      );
+
+      const workerTokenData: WorkerTokenData = {
+        signedToken: strValue,
+        userEndpointToken: token,
+        tier,
+      };
+
+      return { workerTokenData };
+    } catch (error: any) {
+      throw new Error('Failed to import jwt token');
+    }
+  }
 }

@@ -11,8 +11,8 @@ import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSet
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 
-export const useTopUpBreadcrumbs = (hasCredentials: boolean) => {
-  const breadcrumbs = hasCredentials
+export const useTopUpBreadcrumbs = (hasPrivateAccess: boolean) => {
+  const breadcrumbs = hasPrivateAccess
     ? [
         {
           title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
@@ -143,7 +143,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 };
 
 export const useCheckConfirmedEmail = (
-  hasCredentials: boolean,
+  hasPrivateAccess: boolean,
   isWalletConnected: boolean,
 ) => {
   const dispatch = useDispatch();
@@ -155,7 +155,7 @@ export const useCheckConfirmedEmail = (
   } = useEmailData();
 
   useEffect(() => {
-    if (hasCredentials || !isWalletConnected) return;
+    if (hasPrivateAccess || !isWalletConnected) return;
 
     if (!pristine && !emailDataLoading && !confirmedEmail) {
       dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
@@ -165,7 +165,7 @@ export const useCheckConfirmedEmail = (
     emailDataLoading,
     pristine,
     dispatch,
-    hasCredentials,
+    hasPrivateAccess,
     isWalletConnected,
   ]);
 };

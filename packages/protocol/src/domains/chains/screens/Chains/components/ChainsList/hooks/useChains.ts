@@ -32,22 +32,20 @@ export const useChains = ({
   allChains,
   sortType,
 }: ChainsParams): UseChainsResult => {
-  const { credentials } = useAuth();
+  const { hasPrivateAccess } = useAuth();
   const [stats] = usePrivateStats();
 
   const [, { data }] = useQueryEndpoint(chainsFetchPublicRequestsCountStats);
-
-  const isPremium = Boolean(credentials);
 
   const processedChains = useMemo(
     () =>
       sortChains({
         chains: formatPublicRequestsCount(chains, data),
-        isPremium,
+        hasPrivateAccess,
         sortType,
         stats,
       }),
-    [isPremium, stats, chains, data, sortType],
+    [hasPrivateAccess, stats, chains, data, sortType],
   );
 
   const publicChainsMap = useMemo(

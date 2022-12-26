@@ -1,7 +1,7 @@
 import { BREAKPOINTS } from 'ui';
 import { Theme, makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme, boolean>(theme => ({
+export const useChainsItemStyles = makeStyles<Theme, boolean>(theme => ({
   root: {
     background: theme.palette.background.paper,
     borderRadius: 18,

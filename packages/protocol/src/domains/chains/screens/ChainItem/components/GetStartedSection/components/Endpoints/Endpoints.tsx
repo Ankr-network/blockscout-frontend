@@ -22,16 +22,18 @@ export const Endpoints = ({
   const classes = useEndpointsStyles();
 
   const {
-    credentials,
     hasOauthLogin,
     hasWeb3Connection,
     isUserEthAddressType,
+    hasPrivateAccess,
+    hasPremium,
   } = useAuth();
 
-  const isPremium = Boolean(credentials);
-
   const hasConnectWalletMessage = Boolean(
-    hasOauthLogin && !hasWeb3Connection && isPremium && isUserEthAddressType,
+    hasOauthLogin &&
+      !hasWeb3Connection &&
+      hasPrivateAccess &&
+      isUserEthAddressType,
   );
 
   return (
@@ -40,7 +42,7 @@ export const Endpoints = ({
         publicChain={publicChain}
         chainType={chainType}
         group={group}
-        isPremium={isPremium}
+        isPremium={hasPremium}
         hasConnectWalletMessage={hasConnectWalletMessage}
       />
       <WSEndpoints

@@ -9,14 +9,12 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
 import { approve, swapAssets } from 'modules/switcher/actions/transactions';
-import { IFeeAndAmount, IFeeAndTotal } from 'modules/switcher/types';
 
 import {
   CHAIN_ID_BY_TOKEN,
   AvailableSwitcherToken,
   AvailableSwitchNetwork,
 } from '../../../const';
-import { calcFeeAndTotal } from '../utils/calcFeeAndTotal';
 import { calcValueWithRatio } from '../utils/calcValueWithRatio';
 
 import { ISendAnalyticsEventArg } from './useSendAnalytics';
@@ -37,7 +35,6 @@ export interface ISwitcherFormHookData {
   isSwapLoading: boolean;
   validate: TValidationHandler;
   calculateValueWithRatio: (amount: BigNumber) => BigNumber;
-  calculateFeeAndTotal: (data: IFeeAndAmount) => IFeeAndTotal;
   handleApprove: () => void;
   handleSwap: (amount: string) => void;
   handleClearTx: () => void;
@@ -78,13 +75,6 @@ export const useSwitcherForm = ({
       }
     });
   }, [chainId, from, dispatchRequest]);
-
-  const calculateFeeAndTotal = useCallback(
-    ({ feeBP, amount }: { feeBP: BigNumber; amount: BigNumber }) => {
-      return calcFeeAndTotal({ feeBP, amount });
-    },
-    [],
-  );
 
   const calculateValueWithRatio = useCallback(
     (total: BigNumber) => {
@@ -134,7 +124,6 @@ export const useSwitcherForm = ({
     txError,
     isApproveLoading,
     isSwapLoading,
-    calculateFeeAndTotal,
     calculateValueWithRatio,
     validate: handleValidate,
     handleSwitchNetwork,

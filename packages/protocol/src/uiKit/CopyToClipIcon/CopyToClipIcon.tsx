@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
 import { useStyles } from './CopyToClipIconStyles';
 import { useCopyToClip } from './CopyToClipIconUtils';
+import { useCallback } from 'react';
 
 interface ICopyToClipIconProps {
   className?: string;
@@ -15,6 +16,8 @@ interface ICopyToClipIconProps {
   size?: 'm' | 'l';
   textColor?: TypographyTypeMap['props']['color'];
   isDisabled?: boolean;
+  hideIcon?: boolean;
+  onClick?: () => void;
 }
 
 export const CopyToClipIcon = ({
@@ -26,9 +29,22 @@ export const CopyToClipIcon = ({
   textColor = 'textSecondary',
   size = 'm',
   isDisabled,
+  hideIcon,
+  onClick,
 }: ICopyToClipIconProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
   const classes = useStyles({ size, isDisabled });
+
+  const handleCopy = useCallback(() => {
+    if (isDisabled) {
+      return;
+    }
+    if (onClick) {
+      onClick();
+      return;
+    }
+    setIsCopied();
+  }, [isDisabled, onClick, setIsCopied]);
 
   return (
     <div
@@ -46,10 +62,7 @@ export const CopyToClipIcon = ({
           {message}
         </Typography>
       ) : (
-        <CopyToClipboard
-          text={text}
-          onCopy={isDisabled ? () => {} : setIsCopied}
-        >
+        <CopyToClipboard text={text} onCopy={handleCopy}>
           <div className={classes.content}>
             <Typography
               variant="body2"
@@ -60,7 +73,7 @@ export const CopyToClipIcon = ({
               {text}
             </Typography>
             <div className={classes.copy}>
-              <CopyIcon className={classes.copyIcon} />
+              {!hideIcon && <CopyIcon className={classes.copyIcon} />}
               {copyText && (
                 <Typography
                   variant="subtitle1"

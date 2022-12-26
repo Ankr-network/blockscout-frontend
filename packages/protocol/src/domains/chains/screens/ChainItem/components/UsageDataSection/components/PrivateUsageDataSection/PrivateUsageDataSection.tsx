@@ -12,6 +12,10 @@ import { UsageSummary } from '../../../UsageSummary';
 import { usePrivateUsageData } from './usePrivateUsageData';
 import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
 import { useIsRequestsMapVisible } from '../../UsageDataSectionUtils';
+import { t } from '@ankr.com/common';
+import { Stat } from '../../../Stat';
+import { CostButton } from '../../../Stat/CostButton';
+import { getTotalCost } from '../../../UsageSummary/utils/getTotalCost';
 
 export interface PrivateUsageDataSectionProps {
   chain: IApiChain;
@@ -35,12 +39,12 @@ export const PrivateUsageDataSection = ({
     error,
     isConnecting,
     loading,
-    totalCached,
     totalCost,
     totalRequests,
     totalRequestsHistory,
     userTopRequests,
     userTopRequestsIp,
+    hasPremium,
   } = usePrivateUsageData({ chain, chainType, group, timeframe });
 
   const isRequestsMapVisible = useIsRequestsMapVisible(countries);
@@ -59,14 +63,18 @@ export const PrivateUsageDataSection = ({
             timeframe={timeframe}
           />
           <UsageSummary
-            cachedRequests={totalCached}
             className={classes.usageSummary}
-            isLoggedIn
             loading={loading}
             timeframe={timeframe}
-            totalCost={totalCost}
             totalRequests={totalRequests}
-          />
+          >
+            <Stat
+              extra={hasPremium && <CostButton />}
+              loading={loading}
+              title={t(`chain-item.usage-data.usage-summary.cost.title`)}
+              value={getTotalCost(totalCost)}
+            />
+          </UsageSummary>
           <RequestsChart
             isConnecting={isConnecting}
             isLoggedIn

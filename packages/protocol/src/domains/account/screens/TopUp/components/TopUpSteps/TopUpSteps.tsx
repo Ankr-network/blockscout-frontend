@@ -12,7 +12,7 @@ import { useStyles } from './TopUpStepsStyles';
 
 export const TopUpSteps = ({
   amount,
-  hasCredentials,
+  hasPrivateAccess,
   hasError,
   isRejectAllowanceLoading,
   loading,
@@ -38,7 +38,7 @@ export const TopUpSteps = ({
           <Stepper
             step={step}
             className={classes.stepper}
-            hasCredentials={hasCredentials}
+            hasPrivateAccess={hasPrivateAccess}
             hasError={hasError}
           />
           <StepperTitle
@@ -58,7 +58,7 @@ export const TopUpSteps = ({
           )}
         </Box>
         <Buttons
-          hasCredentials={hasCredentials}
+          hasPrivateAccess={hasPrivateAccess}
           hasError={hasError}
           isRejectAllowanceLoading={isRejectAllowanceLoading}
           loading={loading}

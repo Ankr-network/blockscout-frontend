@@ -13,6 +13,7 @@ import { useDialog } from 'modules/dialogs';
 
 import { Main } from '..';
 import {
+  ISendAnalyticsHookData,
   ISwitcherFormHookData,
   ISwitcherHookData,
   IUseSwitcherUrlParamsData,
@@ -21,7 +22,6 @@ import {
   useSwitcherForm,
   useSwitcherUrlParams,
 } from '../hooks';
-import { ISendAnalyticsHookData } from '../hooks/useSendAnalytics';
 
 interface IAppWrapperProps {
   children: ReactNode;
@@ -64,10 +64,6 @@ describe('modules/switcher/screens/Main', () => {
     isApproveLoading: false,
     validate: jest.fn(),
     calculateValueWithRatio: () => ZERO,
-    calculateFeeAndTotal: () => ({
-      fee: ZERO,
-      total: ZERO,
-    }),
     handleApprove: jest.fn(),
     handleSwap: jest.fn(),
     handleClearTx: jest.fn(),
@@ -113,10 +109,8 @@ describe('modules/switcher/screens/Main', () => {
     );
 
     const title = await screen.findByText('ANKR Switch');
-    const fee = await screen.findByText('Service fee (0.3%)');
 
     expect(title).toBeInTheDocument();
-    expect(fee).toBeInTheDocument();
   });
 
   test('should render properly with switch network button', async () => {
@@ -133,9 +127,8 @@ describe('modules/switcher/screens/Main', () => {
     );
 
     const button = await screen.findByText('Switch network');
-    const fee = await screen.findByText('Service fee (0.1%)');
+
     expect(button).toBeInTheDocument();
-    expect(fee).toBeInTheDocument();
   });
 
   test('should render spinner properly', async () => {

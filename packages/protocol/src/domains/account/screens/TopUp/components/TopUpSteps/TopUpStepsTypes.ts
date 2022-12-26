@@ -4,7 +4,7 @@ import { TopUpStep } from 'domains/account/actions/topUp/const';
 
 export interface ITopUpStepsProps {
   amount: string;
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
   hasError?: boolean;
   isRejectAllowanceLoading: boolean;
   loading: boolean;

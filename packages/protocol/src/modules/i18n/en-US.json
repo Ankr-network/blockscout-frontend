@@ -171,7 +171,7 @@
       "block5": "Advanced Developer APIs",
       "block6": "Dedicated endpoints",
       "block7": "and more..."
-    }, 
+    },
     "learn-more-about-premium": "Learn more about Premium"
   },
   "chain-item": {
@@ -529,7 +529,9 @@
     "email-content": "For account setup, Ankr needs an&nbsp;email for important notifications and service updates. Don&rsquo;t worry, your info is&nbsp;highly secured and never shared&nbsp;&mdash; use an&nbsp;anonymous address if&nbsp;you wish!"
   },
   "oauth": {
-    "breadcrumbs": "Google auth"
+    "breadcrumbs": "Google auth",
+    "secret-code-error": "Wrong secrete code. Try to sign up again",
+    "eth-address-error": "No ethUserAddress"
   },
   "common": {
     "copy-message": "Copied!",

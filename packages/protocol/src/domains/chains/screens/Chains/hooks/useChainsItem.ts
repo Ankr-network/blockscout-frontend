@@ -12,7 +12,7 @@ const privateKey = 'chains.links.private';
 
 export const useChainsItem = (
   chain: Chain,
-  isPremium: boolean,
+  hasPrivateAccess: boolean,
   path?: string,
 ) => {
   const urls = [
@@ -23,7 +23,7 @@ export const useChainsItem = (
     ...(chain.extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
   ];
 
-  const dummyMessage = t(isPremium ? privateKey : publicKey, {
+  const dummyMessage = t(hasPrivateAccess ? privateKey : publicKey, {
     number: urls.length,
   });
 

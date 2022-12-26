@@ -8,11 +8,10 @@ import {
   switchChain,
 } from './connectUtils';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { resetAuthData, setAuthData } from '../store/authSlice';
+import { resetAuthData } from '../store/authSlice';
 import { web3Api } from 'store/queries';
 
 export interface AuthConnectParams {
-  isManualConnected?: boolean;
   walletId: string;
 }
 
@@ -23,13 +22,7 @@ export const {
   endpoints: build => ({
     authConnect: build.query<IConnect, AuthConnectParams>({
       queryFn: createNotifyingQueryFn(
-        async ({ isManualConnected, walletId }, { dispatch, getState }) => {
-          dispatch(
-            setAuthData({
-              isManualConnected: !!isManualConnected,
-            }),
-          );
-
+        async ({ walletId }, { dispatch, getState }) => {
           const web3Service = await MultiService.createWeb3Service(walletId);
           const service = MultiService.getService();
 

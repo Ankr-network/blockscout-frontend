@@ -14,18 +14,17 @@ import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const TopUpQuery = () => {
-  const { loading, credentials, isWalletConnected, workerTokenData } =
-    useAuth();
+  const { loading, hasPrivateAccess, isWalletConnected } = useAuth();
   const [getInitialStep, { data = TopUpStep.start, isLoading }] =
     useQueryEndpoint(topUpGetInitialStep);
   const [reset] = useLazyTopUpResetQuery();
   const history = useHistory();
 
-  useCheckConfirmedEmail(Boolean(credentials), isWalletConnected);
+  useCheckConfirmedEmail(hasPrivateAccess, isWalletConnected);
 
   useEffect(() => {
     if (!isWalletConnected) {
-      const link = credentials
+      const link = hasPrivateAccess
         ? AccountRoutesConfig.accountDetails.generatePath()
         : PricingRoutesConfig.pricing.generatePath();
 
@@ -33,22 +32,17 @@ export const TopUpQuery = () => {
     } else if (!loading) {
       getInitialStep();
     }
-  }, [loading, isWalletConnected, history, credentials, getInitialStep]);
+  }, [loading, isWalletConnected, history, hasPrivateAccess, getInitialStep]);
 
   useOnUnmount(() => {
     reset();
   });
 
-  useTopUpBreadcrumbs(Boolean(credentials));
+  useTopUpBreadcrumbs(hasPrivateAccess);
 
   return isLoading ? (
     <Loader />
   ) : (
-    <TopUp
-      initialStep={data}
-      hasCredentials={Boolean(
-        credentials && workerTokenData?.userEndpointToken,
-      )}
-    />
+    <TopUp initialStep={data} hasPrivateAccess={hasPrivateAccess} />
   );
 };

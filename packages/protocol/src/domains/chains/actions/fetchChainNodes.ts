@@ -5,8 +5,8 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 export const {
-  useLazyChainsFetchChainNodesQuery,
   endpoints: { chainsFetchChainNodes },
+  useLazyChainsFetchChainNodesQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchChainNodes: build.query<INodeEntity[], string | undefined>({

@@ -16,7 +16,7 @@ const options: Options = {
   },
 };
 
-export const useBalance = (hasCredentials?: boolean): Balance => {
+export const useBalance = (hasPrivateAccess: boolean): Balance => {
   const [fetchBalance, { data: balances, isLoading }] = useQueryEndpoint(
     accountFetchBalance,
     options,
@@ -25,14 +25,14 @@ export const useBalance = (hasCredentials?: boolean): Balance => {
   const isLoadingInitially = !balances && isLoading;
 
   useEffect(() => {
-    if (hasCredentials) {
+    if (hasPrivateAccess) {
       const { unsubscribe } = fetchBalance();
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [fetchBalance, hasCredentials]);
+  }, [fetchBalance, hasPrivateAccess]);
 
   return { ...(balances || defaultBalance), isLoading, isLoadingInitially };
 };

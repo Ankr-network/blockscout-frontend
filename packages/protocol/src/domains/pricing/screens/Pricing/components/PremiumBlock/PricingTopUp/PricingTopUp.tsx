@@ -9,10 +9,11 @@ import { usePricingTopUpTabs } from './PricingTopUpUtils';
 import { useTopUpStyles } from 'domains/account/components/TopUp/TopUpStyles';
 
 export const PricingTopUp = () => {
-  const { ankrBalance = new BigNumber(0), isLoading } =
-    useAnkrBalanceOnWallet();
+  const { isUserEthAddressType, hasWeb3Connection } = useAuth();
 
-  const { isUserEthAddressType } = useAuth();
+  const { ankrBalance = new BigNumber(0), isLoading } =
+    useAnkrBalanceOnWallet(hasWeb3Connection);
+
   const canPayOnlyByCard = !isUserEthAddressType;
 
   const classes = useTopUpStyles({ canPayOnlyByCard });

@@ -42,3 +42,7 @@ export interface IDecodeJwtTokenParams {
 export interface IDecodeJwtTokenResponse {
   decrypted_data_hex: string;
 }
+
+export interface ISyntheticJwtTokenResponse {
+  jwt_data: string;
+}

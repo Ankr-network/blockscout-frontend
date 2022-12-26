@@ -26,8 +26,13 @@ export const usePrivateUsageData = ({
   chainType,
   group,
   timeframe,
-}: UsageDataParams): UsageData => {
-  const { isWalletConnected, loading: isConnecting, credentials } = useAuth();
+}: UsageDataParams): UsageData & { hasPremium: boolean } => {
+  const {
+    isWalletConnected,
+    loading: isConnecting,
+    hasPrivateAccess,
+    hasPremium,
+  } = useAuth();
   const chainId = getChainId({
     chainType,
     group,
@@ -36,8 +41,6 @@ export const usePrivateUsageData = ({
   });
 
   const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);
-
-  const hasCredentials = Boolean(credentials);
 
   const {
     arePrivateStatsLoading,
@@ -53,7 +56,7 @@ export const usePrivateUsageData = ({
 
   const [{ stats: day30PrivateStats = {} }, areDay30PrivateStatsLoading] =
     useMonthPrivateStats({
-      hasCredentials,
+      hasPrivateAccess,
     });
 
   const userTopRequestsIp = useUserRequestsByIp({
@@ -61,15 +64,18 @@ export const usePrivateUsageData = ({
     chainId: privateCheckedChainId,
   });
 
-  return getPrivateUsageData({
-    isConnecting,
-    arePrivateStatsLoading:
-      arePrivateStatsLoading || areDay30PrivateStatsLoading,
-    privateStatsError,
-    privateStats: privateStats[privateCheckedChainId],
-    day30PrivateStats: day30PrivateStats[privateCheckedChainId], // TODO: remove upon backend support for other timeframes
-    timeframe,
-    userTopRequests,
-    userTopRequestsIp,
-  });
+  return {
+    ...getPrivateUsageData({
+      isConnecting,
+      arePrivateStatsLoading:
+        arePrivateStatsLoading || areDay30PrivateStatsLoading,
+      privateStatsError,
+      privateStats: privateStats[privateCheckedChainId],
+      day30PrivateStats: day30PrivateStats[privateCheckedChainId], // TODO: remove upon backend support for other timeframes
+      timeframe,
+      userTopRequests,
+      userTopRequestsIp,
+    }),
+    hasPremium,
+  };
 };

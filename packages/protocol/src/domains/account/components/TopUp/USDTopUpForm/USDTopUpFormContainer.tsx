@@ -5,7 +5,7 @@ import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSet
 import { useOnTopUpSubmit } from './USDTopUpFormUtils';
 
 export const USDTopUpFormContainer = () => {
-  const { credentials, workerTokenData } = useAuth();
+  const { hasPrivateAccess } = useAuth();
 
   const emailData = useEmailData();
 
@@ -14,14 +14,12 @@ export const USDTopUpFormContainer = () => {
     emailData?.pendingEmail,
   );
 
-  const shouldIssueToken = !credentials || !workerTokenData?.userEndpointToken;
-
   return (
     <>
       <USDTopUpForm
         onSubmit={onSubmit}
         isLoading={isLoading}
-        shouldUseDefaultValue={shouldIssueToken}
+        shouldUseDefaultValue={!hasPrivateAccess}
       />
       <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
     </>

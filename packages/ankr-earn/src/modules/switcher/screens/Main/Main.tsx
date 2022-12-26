@@ -10,11 +10,9 @@ import { Form, FormRenderProps } from 'react-final-form';
 
 import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
-import { DECIMAL_PLACES } from 'modules/common/const';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import {
-  BASIS_POINTS_FEE_BY_TOKEN,
   CHAIN_ID_BY_TOKEN,
   TOKEN_TOOLTIPS_FROM,
   TOKEN_TOOLTIPS_TO,
@@ -55,12 +53,10 @@ export const Main = (): JSX.Element => {
   } = useSwitcherData({ from });
 
   const canSwitchNetwork = chainId !== CHAIN_ID_BY_TOKEN[from];
-  const feeBasisPoints = BASIS_POINTS_FEE_BY_TOKEN[from];
 
   const { sendAnalytics } = useSendAnalytics({
     from,
     to,
-    feeBasisPoints,
     ratio,
     acBalance,
     abBalance,
@@ -73,7 +69,6 @@ export const Main = (): JSX.Element => {
     isSwapLoading,
     validate,
     calculateValueWithRatio,
-    calculateFeeAndTotal,
     handleApprove,
     handleSwap,
     handleClearTx,
@@ -116,10 +111,7 @@ export const Main = (): JSX.Element => {
     values,
     handleSubmit,
   }: FormRenderProps): JSX.Element => {
-    const { fee, total } = calculateFeeAndTotal({
-      amount: new BigNumber(values.amount || 0),
-      feeBP: new BigNumber(feeBasisPoints),
-    });
+    const total = new BigNumber(values.amount || 0);
 
     const canApprove = checkAllowance(new BigNumber(values.amount || 0));
     const canShowApproveStep = canApprove && !canSwitchNetwork;
@@ -198,23 +190,6 @@ export const Main = (): JSX.Element => {
           onChooseFrom={onChangeFrom}
           onChooseTo={onChangeTo}
         />
-
-        <Box className={classes.row}>
-          <Typography className={classes.fee}>
-            {t('switcher.fee', { fee: feeBasisPoints / 100 })}
-          </Typography>
-
-          <Typography className={classes.fee}>
-            {!isDataLoading ? (
-              t('unit.token-value', {
-                value: fee.decimalPlaces(DECIMAL_PLACES).toFixed(),
-                token: fromTokenName,
-              })
-            ) : (
-              <Skeleton width={80} />
-            )}
-          </Typography>
-        </Box>
 
         <div className={classes.hr} />
 

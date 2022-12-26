@@ -7,14 +7,14 @@ import { useStyles } from './SideBarStyles';
 interface SidebarProps {
   className?: string;
   loading: boolean;
-  hasCredentials: boolean;
+  hasPremium: boolean;
   chainsRoutes: string[];
 }
 
 export const SideBar = ({
   className = '',
   loading,
-  hasCredentials,
+  hasPremium,
   chainsRoutes,
 }: SidebarProps) => {
   const classes = useStyles();
@@ -25,7 +25,7 @@ export const SideBar = ({
       <div>
         <MainNavigation
           loading={loading}
-          hasCredentials={hasCredentials}
+          hasPremium={hasPremium}
           chainsRoutes={chainsRoutes}
         />
       </div>

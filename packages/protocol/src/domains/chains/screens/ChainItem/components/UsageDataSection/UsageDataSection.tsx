@@ -15,9 +15,9 @@ export interface UsageDataSectionProps {
 }
 
 export const UsageDataSection = (props: UsageDataSectionProps) => {
-  const { credentials } = useAuth();
+  const { hasPrivateAccess } = useAuth();
 
-  return credentials ? (
+  return hasPrivateAccess ? (
     <PrivateUsageDataSection {...props} />
   ) : (
     <PublicUsageDataSection {...props} />
