@@ -22,6 +22,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       gridTemplateColumns: '1fr',
     },
   },
+  top1column: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(3),
+  },
   payments: {
     marginTop: theme.spacing(5),
 

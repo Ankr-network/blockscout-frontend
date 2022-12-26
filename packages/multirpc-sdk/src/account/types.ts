@@ -1,6 +1,5 @@
 import { EmailConfirmationStatus, Web3Address } from '../common';
 
-
 export interface AccountError {
   code: AccountErrorCode;
   message: string;
@@ -101,8 +100,21 @@ export interface IAggregatedPaymentHistoryResponse {
   cursor: string;
 }
 
-export interface IMySubscriptionsResponse {
-  items: Object[]
+export interface ISubscriptionsResponse {
+  items: ISubscriptionsItem[];
+}
+
+export interface ISubscriptionsItem {
+  amount: string;
+  currency: string;
+  customerId: string;
+  id: string;
+  productId: string;
+  recurringInterval: string;
+  recurringIntervalCount: string;
+  status: string;
+  subscriptionId: string;
+  type: string;
 }
 
 export interface IMethod {

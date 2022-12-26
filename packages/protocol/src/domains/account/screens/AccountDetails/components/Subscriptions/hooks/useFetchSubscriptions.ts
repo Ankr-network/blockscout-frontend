@@ -1,9 +1,9 @@
-import { IMySubscriptionsResponse } from 'multirpc-sdk';
+import { ISubscriptionsResponse } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
-import { useLazyAccountFetchMySubscriptionsDataQuery } from 'domains/account/actions/fetchMySubscriptionsData';
+import { useLazyAccountFetchSubscriptionsDataQuery } from 'domains/account/actions/fetchMySubscriptionsData';
 
-const defaultData: IMySubscriptionsResponse = {
+const defaultData: ISubscriptionsResponse = {
   items: [],
 };
 
@@ -11,19 +11,19 @@ export interface FetchSubscriptionsParams {
   hasCredentials: boolean;
 }
 
-export type FetchSubscriptions = [IMySubscriptionsResponse, boolean];
+export type FetchSubscriptions = [() => void, ISubscriptionsResponse, boolean];
 
 export const useFetchSubscriptions = ({
   hasCredentials,
 }: FetchSubscriptionsParams): FetchSubscriptions => {
-  const [fetchMySubscriptionsData, { data = defaultData, isLoading }] =
-    useLazyAccountFetchMySubscriptionsDataQuery();
+  const [fetchSubscriptionsData, { data = defaultData, isLoading }] =
+    useLazyAccountFetchSubscriptionsDataQuery();
 
   useEffect(() => {
     if (hasCredentials) {
-      fetchMySubscriptionsData();
+      fetchSubscriptionsData();
     }
-  }, [fetchMySubscriptionsData, hasCredentials]);
+  }, [fetchSubscriptionsData, hasCredentials]);
 
-  return [data, isLoading];
+  return [fetchSubscriptionsData, data, isLoading];
 };

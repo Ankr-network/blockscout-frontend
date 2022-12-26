@@ -761,6 +761,11 @@
           "medium-date": "{value, date, medium}",
           "expense": "{value, number, ::compact-short}"
         }
+      },
+      "subscriptions": {
+        "top-up-subscription": "Top Up Subscription",
+        "text": "${amount}/{recurringInterval}",
+        "cancel-subscription": "Cancel subscription"
       }
     },
     "payment-table": {

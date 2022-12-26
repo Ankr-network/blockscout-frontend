@@ -47,7 +47,7 @@ export const AccountDetails = () => {
         <Box className={classes.root}>
           <ExpiredTokenBanner />
           <Box className={classes.top}>
-            <Box>
+            <Box className={classes.top1column}>
               <Balance />
               <Subscriptions />
             </Box>

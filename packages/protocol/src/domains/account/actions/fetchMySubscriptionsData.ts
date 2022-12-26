@@ -1,20 +1,17 @@
-import { IMySubscriptionsResponse } from 'multirpc-sdk';
+import { ISubscriptionsResponse } from 'multirpc-sdk';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { fetchMySubscriptions } from '../utils/fetchMySubscriptions';
+import { fetchSubscriptions } from '../utils/fetchSubscriptions';
 
 export const {
-  useLazyAccountFetchMySubscriptionsDataQuery,
-  endpoints: { accountFetchMySubscriptionsData },
+  useLazyAccountFetchSubscriptionsDataQuery,
+  endpoints: { accountFetchSubscriptionsData },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    accountFetchMySubscriptionsData: build.query<
-      IMySubscriptionsResponse,
-      void
-    >({
+    accountFetchSubscriptionsData: build.query<ISubscriptionsResponse, void>({
       queryFn: createNotifyingQueryFn(async () => {
-        const data = await fetchMySubscriptions();
+        const data = await fetchSubscriptions();
         return { data };
       }),
     }),

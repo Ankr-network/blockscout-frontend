@@ -17,7 +17,7 @@ import {
   IGetLinkForCardPaymentResponse,
   IGetLinkForRecurrentCardPaymentRequest,
   IGetSubscriptionPricesResponse,
-  IMySubscriptionsResponse,
+  ISubscriptionsResponse,
   INotificationsSettings,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
@@ -85,9 +85,20 @@ export class AccountGateway {
     return response;
   }
 
-  public async getMySubscriptions(): Promise<IMySubscriptionsResponse> {
-    const { data: response } = await this.api.get<IMySubscriptionsResponse>(
+  public async getSubscriptions(): Promise<ISubscriptionsResponse> {
+    const { data: response } = await this.api.get<ISubscriptionsResponse>(
       '/api/v1/auth/payment/getMySubscriptions',
+    );
+
+    return response;
+  }
+
+  async cancelSubscription(
+    subscriptionId: string,
+  ): Promise<void> {
+    const { data: response } = await this.api.post<void>(
+      '/api/v1/auth/payment/cancelSubscription',
+      { subscription_id: subscriptionId },
     );
 
     return response;
