@@ -9,6 +9,16 @@ import { XDC_SCALE_FACTOR } from '../const';
 
 import { getXDCStakingPoolContract } from './contracts';
 
+/**
+ * Unstake ankrXDC token.
+ *
+ * @param {string} address - current user address
+ * @param {BigNumber} amount - amount for unstake
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @param {number | undefined} [scale = XDC_SCALE_FACTOR] - scale factor for amount
+ * @returns {Promise<IUnstakeData>}
+ */
 export const unstake = async ({
   address,
   amount,

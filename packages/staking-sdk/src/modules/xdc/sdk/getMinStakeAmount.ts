@@ -10,6 +10,13 @@ import {
 
 import { getXDCStakingPoolContract } from './contracts';
 
+/**
+ * Get minimum stake amount.
+ *
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable amount
+ */
 export const getMinStakeAmount = async ({
   env = currentEnv,
   provider,

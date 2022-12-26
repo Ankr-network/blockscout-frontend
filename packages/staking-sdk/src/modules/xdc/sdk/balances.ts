@@ -11,6 +11,14 @@ import {
 
 import { getAnkrXDCTokenContract } from './contracts';
 
+/**
+ * Get ankrXDC token balance.
+ *
+ * @param {string} address - current user address
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable balance
+ */
 export const getAnkrXDCBalance = async ({
   address,
   env = currentEnv,
@@ -31,6 +39,13 @@ export const getAnkrXDCBalance = async ({
   });
 };
 
+/**
+ * Get XDC token balance.
+ *
+ * @param {string} address - current user address
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable balance
+ */
 export const getXDCBalance = async ({
   address,
   provider,

@@ -6,13 +6,22 @@ import { Web3KeyReadProvider } from '@ankr.com/provider';
 import { configFromEnv, currentEnv, Env, IWeb3TxInfoProps } from '../../common';
 import { IFetchTxData } from '../../switcher';
 
-import { getXDCAddress } from './utils';
+import { getValidXDCAddress } from './utils';
 
 interface IGetTxDataProps extends IWeb3TxInfoProps<Web3KeyReadProvider> {
   env?: Env;
   isUnstake?: boolean;
 }
 
+/**
+ * Get transaction data.
+ *
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {boolean | undefined} [isUnstake = false] - stake and unstake flag
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @param {string} txHash - transaction hash
+ * @returns {Promise<IFetchTxData>}
+ */
 export const getTxData = async ({
   env = currentEnv,
   isUnstake = false,
@@ -37,11 +46,18 @@ export const getTxData = async ({
 
   return {
     amount: new BigNumber(web3.utils.fromWei(amount.toString(10))),
-    destinationAddress: getXDCAddress(tx.from),
+    destinationAddress: getValidXDCAddress(tx.from),
     isPending: tx.transactionIndex === null,
   };
 };
 
+/**
+ * Get transaction receipt.
+ *
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @param {string} txHash - transaction hash
+ * @returns {Promise<TransactionReceipt | null>}
+ */
 export const getTxReceipt = async ({
   provider,
   txHash,

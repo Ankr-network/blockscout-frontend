@@ -1,11 +1,17 @@
 import BigNumber from 'bignumber.js';
 
-interface IIsValidAmountProps {
+interface IIsValidStakeAmountProps {
   amount: BigNumber;
   minStakeAmount: BigNumber;
 }
 
-export const getXDCAddress = (address?: string): string | undefined => {
+/**
+ * Get valid XDC address.
+ *
+ * @param {string} address - current user address
+ * @returns {string | undefined}
+ */
+export const getValidXDCAddress = (address?: string): string | undefined => {
   if (typeof address !== 'string' || address.length < 42) {
     return undefined;
   }
@@ -13,10 +19,17 @@ export const getXDCAddress = (address?: string): string | undefined => {
   return address.startsWith('0x') ? `xdc${address.slice(2)}` : address;
 };
 
-export const isValidAmount = ({
+/**
+ * Checking stake amount on validity.
+ *
+ * @param {BigNumber} amount - amount for stake
+ * @param {BigNumber} minStakeAmount - minimum stake amount
+ * @returns {boolean}
+ */
+export const isValidStakeAmount = ({
   amount,
   minStakeAmount,
-}: IIsValidAmountProps): boolean => {
+}: IIsValidStakeAmountProps): boolean => {
   if (amount.isLessThanOrEqualTo(0) || minStakeAmount.isLessThanOrEqualTo(0)) {
     return false;
   }

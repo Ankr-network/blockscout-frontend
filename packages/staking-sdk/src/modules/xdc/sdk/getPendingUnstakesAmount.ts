@@ -15,6 +15,14 @@ interface IGetPendingUnstakesAmountProps
   address: Address;
 }
 
+/**
+ * Get total pending unstakes amount.
+ *
+ * @param {string} address - current user address
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable amount
+ */
 export const getPendingUnstakesAmount = async ({
   address,
   env = currentEnv,

@@ -10,6 +10,13 @@ import {
 
 import { getAnkrXDCTokenContract } from './contracts';
 
+/**
+ * Get ankrXDC ratio.
+ *
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable ratio
+ */
 export const getAnkrXDCRatio = async ({
   env = currentEnv,
   provider,

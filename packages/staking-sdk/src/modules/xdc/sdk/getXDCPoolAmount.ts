@@ -10,6 +10,13 @@ import {
 
 import { getXDCStakingPoolContract } from './contracts';
 
+/**
+ * Get XDC token pool liquidity amount from XDCStakingPool contract.
+ *
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable amount
+ */
 export const getXDCPoolAmount = async ({
   env = currentEnv,
   provider,
