@@ -10,13 +10,14 @@ export interface AnkrBalanceOnWallet {
 }
 
 export const useAnkrBalanceOnWallet = (
-  hasCredentials: boolean,
+  hasWeb3Connection?: boolean,
 ): AnkrBalanceOnWallet => {
-  const [fetchBalance, { data: ankrBalance, isLoading, isUninitialized }] =
-    useQueryEndpoint(accountFetchAccountBalance);
+  const [fetchBalance, { data: ankrBalance, isLoading }] = useQueryEndpoint(
+    accountFetchAccountBalance,
+  );
 
   useOnMount(() => {
-    if (hasCredentials && isUninitialized) {
+    if (hasWeb3Connection) {
       fetchBalance();
     }
   });

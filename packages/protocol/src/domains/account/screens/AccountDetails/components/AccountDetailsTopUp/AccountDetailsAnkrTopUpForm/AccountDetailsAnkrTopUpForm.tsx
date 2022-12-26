@@ -5,9 +5,10 @@ import { useInitialValues } from 'domains/account/components/TopUp/TopUpUtils';
 import { validateAnkrAmount } from 'domains/account/components/TopUp/ANKRTopUpForm/ANKRTopUpFormUtils';
 
 export const AccountDetailsAnkrTopUpForm = () => {
-  const { credentials, workerTokenData, hasOauthLogin } = useAccountAuth();
+  const { credentials, workerTokenData, hasOauthLogin, hasWeb3Connection } =
+    useAccountAuth();
 
-  const { ankrBalance } = useAnkrBalanceOnWallet(Boolean(credentials));
+  const { ankrBalance } = useAnkrBalanceOnWallet(hasWeb3Connection);
 
   const hasExpiredToken =
     credentials && !workerTokenData?.userEndpointToken && !hasOauthLogin;

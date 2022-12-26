@@ -3,19 +3,17 @@ import BigNumber from 'bignumber.js';
 import { PricingHeader } from './PricingHeader';
 import { TabsManager } from 'uiKit/TabsManager';
 import { TopUp } from 'domains/account/components/TopUp';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useAnkrBalanceOnWallet } from 'domains/account/hooks/useAnkrBalanceOnWallet';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePricingTopUpTabs } from './PricingTopUpUtils';
 import { useTopUpStyles } from 'domains/account/components/TopUp/TopUpStyles';
 
 export const PricingTopUp = () => {
-  const { credentials } = useAccountAuth();
-  const { ankrBalance = new BigNumber(0), isLoading } = useAnkrBalanceOnWallet(
-    Boolean(credentials),
-  );
+  const { isUserEthAddressType, hasWeb3Connection } = useAuth();
 
-  const { isUserEthAddressType } = useAuth();
+  const { ankrBalance = new BigNumber(0), isLoading } =
+    useAnkrBalanceOnWallet(hasWeb3Connection);
+
   const canPayOnlyByCard = !isUserEthAddressType;
 
   const classes = useTopUpStyles({ canPayOnlyByCard });
