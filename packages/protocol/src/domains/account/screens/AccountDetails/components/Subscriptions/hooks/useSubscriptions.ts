@@ -25,7 +25,7 @@ export const useSubscriptions = (): Subscriptions => {
       await cancelSubscriptionInternal(subscriptionId);
       fetchSubscriptionsData();
     },
-    [cancelSubscriptionInternal],
+    [cancelSubscriptionInternal, fetchSubscriptionsData],
   );
 
   return {
