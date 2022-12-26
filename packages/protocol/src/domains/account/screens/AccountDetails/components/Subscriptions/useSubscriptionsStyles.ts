@@ -21,12 +21,16 @@ export const useSubscriptionsStyles = makeStyles<Theme>(theme => ({
   textContainer: {
     display: 'flex',
     gap: theme.spacing(1.5),
-    // width: '100%',
+    minWidth: 200,
   },
   text: {
     fontSize: 20,
   },
   cancel: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    fontSize: 14,
     color: theme.palette.error.main,
     cursor: 'pointer',
   },

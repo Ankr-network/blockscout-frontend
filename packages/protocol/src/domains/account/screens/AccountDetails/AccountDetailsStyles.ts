@@ -1,6 +1,8 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+const MAX_WIDTH = 1050;
+
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
@@ -15,17 +17,27 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   top: {
     gap: theme.spacing(1.5, 3),
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-
-    '@media (max-width:870px)': {
-      gridTemplateColumns: '1fr',
+    display: 'flex',
+    [`@media (max-width:${MAX_WIDTH}px)`]: {
+      flexDirection: 'column',
     },
   },
   top1column: {
     display: 'flex',
     flexDirection: 'column',
+    width: 'calc(100% - 465px)',
     gap: theme.spacing(3),
+    [`@media (max-width:${MAX_WIDTH}px)`]: {
+      width: 'unset',
+      gap: theme.spacing(1.5),
+    },
+  },
+  topUp: {
+    flex: 1,
+    minWidth: 460,
+    [`@media (max-width:${MAX_WIDTH}px)`]: {
+      minWidth: 'unset',
+    },
   },
   payments: {
     marginTop: theme.spacing(5),

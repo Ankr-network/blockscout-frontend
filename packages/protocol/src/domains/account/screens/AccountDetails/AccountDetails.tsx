@@ -51,7 +51,7 @@ export const AccountDetails = () => {
               <Balance />
               <Subscriptions />
             </Box>
-            <AccountDetailsTopUp />
+            <AccountDetailsTopUp className={classes.topUp} />
           </Box>
           {isNew ? (
             <USDBanner />

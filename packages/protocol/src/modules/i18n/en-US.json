@@ -765,7 +765,10 @@
       "subscriptions": {
         "top-up-subscription": "Top Up Subscription",
         "text": "${amount}/{recurringInterval}",
-        "cancel-subscription": "Cancel subscription"
+        "are-you-sure": "Are you sure?",
+        "if-you-continue": "If you continue, your subscription will be canceled",
+        "cancel-subscription": "Cancel subscription",
+        "keep-subscription": "Keep subscription"
       }
     },
     "payment-table": {
