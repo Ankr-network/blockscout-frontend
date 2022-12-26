@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from '@material-ui/core';
-import { NavLink } from 'ui';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
@@ -7,12 +6,13 @@ import { ChainsItemBaseProps } from './ChainsItemTypes';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { t } from 'modules/i18n/utils/intl';
 import { useChainsItem } from '../../hooks/useChainsItem';
-import { useStyles } from './ChainsItemStyles';
+import { useChainsItemStyles } from './useChainsItemStyles';
 import { ChainsItemDialog } from './ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useCallback, useMemo } from 'react';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ReactComponent as LockIcon } from 'uiKit/Icons/lock.svg';
+import { useHistory } from 'react-router-dom';
 
 export const ChainsItemBase = ({
   chain,
@@ -29,7 +29,8 @@ export const ChainsItemBase = ({
   chainsItemButton,
   handleOriginUrlClick,
 }: ChainsItemBaseProps) => {
-  const classes = useStyles(isHighlighted);
+  const classes = useChainsItemStyles(isHighlighted);
+  const history = useHistory();
 
   const { label, isSui, tooltip } = useChainsItem(chain, isPremium);
 
@@ -137,14 +138,16 @@ export const ChainsItemBase = ({
     </>
   ) : (
     <div role="button" tabIndex={0} onClick={handleOriginUrlClick}>
-      <NavLink
-        isRouterLink
-        href={ChainsRoutesConfig.chainDetails.generatePath(chain.id)}
+      <a
+        role="button"
         tabIndex={0}
+        onClick={() =>
+          history.push(ChainsRoutesConfig.chainDetails.generatePath(chain.id))
+        }
         className={classes.root}
       >
         {content}
-      </NavLink>
+      </a>
     </div>
   );
 };

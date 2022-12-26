@@ -4,6 +4,8 @@ import { ChainsItemLink } from './ChainsItemLink';
 import { useChainsItem } from '../../hooks/useChainsItem';
 import { INDEX_PATH } from 'domains/chains/routes';
 import { ChainsItemButton } from './ChainsItemButton';
+import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 export const ChainsItem = ({
   urls,
@@ -13,6 +15,8 @@ export const ChainsItem = ({
   hasConnectWalletMessage,
   ...props
 }: ChainsItemProps) => {
+  const { isOpened, onOpen, onClose } = useDialog();
+
   const { dummyMessage, handleOriginUrlClick } = useChainsItem(
     chain,
     isPremium,
@@ -20,19 +24,23 @@ export const ChainsItem = ({
   );
 
   return (
-    <ChainsItemBase
-      {...props}
-      chain={chain}
-      isPremium={isPremium}
-      handleOriginUrlClick={handleOriginUrlClick}
-      chainsItemLink={
-        <ChainsItemLink
-          dummyMessage={dummyMessage}
-          urls={urls}
-          hasConnectWalletMessage={hasConnectWalletMessage}
-        />
-      }
-      chainsItemButton={<ChainsItemButton publicChain={publicChain} />}
-    />
+    <>
+      <ChainsItemBase
+        {...props}
+        chain={chain}
+        isPremium={isPremium}
+        handleOriginUrlClick={handleOriginUrlClick}
+        chainsItemLink={
+          <ChainsItemLink
+            dummyMessage={dummyMessage}
+            urls={urls}
+            hasConnectWalletMessage={hasConnectWalletMessage}
+            onConnectWallet={onOpen}
+          />
+        }
+        chainsItemButton={<ChainsItemButton publicChain={publicChain} />}
+      />
+      <SignupDialog isOpen={isOpened} onClose={onClose} hasOauthLogin />
+    </>
   );
 };
