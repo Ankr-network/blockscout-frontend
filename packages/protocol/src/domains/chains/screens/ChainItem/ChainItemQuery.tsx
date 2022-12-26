@@ -40,14 +40,15 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
     }
 
     if (!walletLoading) {
-      fetchChain({ chainId, credentials });
+      const { unsubscribe } = fetchChain({ chainId, credentials });
+
+      return () => {
+        reset();
+        unsubscribe();
+      };
     }
 
-    return () => {
-      if (!walletLoading) {
-        reset();
-      }
-    };
+    return () => {};
   }, [
     chainId,
     credentials,

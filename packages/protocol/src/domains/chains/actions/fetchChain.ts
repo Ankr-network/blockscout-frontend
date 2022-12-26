@@ -22,8 +22,8 @@ export interface IChainItemDetails {
 }
 
 export const {
-  useLazyChainsFetchChainQuery,
   endpoints: { chainsFetchChain },
+  useLazyChainsFetchChainQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchChain: build.query<IChainItemDetails, ChainItemParams>({
