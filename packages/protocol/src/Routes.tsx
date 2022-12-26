@@ -61,7 +61,6 @@ export const Routes = () => {
         path={[
           AccountRoutesConfig.accountDetails.path,
           AccountRoutesConfig.topUp.path,
-          AccountRoutesConfig.withdraw.path,
           AccountRoutesConfig.cardPaymentFailure.path,
         ]}
         hasCredentials={hasCredentials}
