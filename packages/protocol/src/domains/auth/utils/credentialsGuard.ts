@@ -14,7 +14,9 @@ export function credentialsGuard(getState: GetState): Credentials {
 
   const { credentials, workerTokenData } = authData;
 
-  if (!credentials) {
+  const hasPermission = Boolean(credentials || workerTokenData);
+
+  if (!hasPermission) {
     throw new Error(t('error.insufficient-permissions'));
   }
 

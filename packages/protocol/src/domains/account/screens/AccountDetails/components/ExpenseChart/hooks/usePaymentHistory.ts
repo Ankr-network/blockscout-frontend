@@ -15,21 +15,21 @@ const defaultData: IAggregatedPaymentHistoryResponse = {
 };
 
 export interface PaymentHistoryParams {
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
   timeframe: ChartTimeframe;
 }
 
 export type PaymentHistory = [IPaymentHistoryEntity[], boolean];
 
 export const usePaymentHistory = ({
-  hasCredentials,
+  hasPrivateAccess,
   timeframe,
 }: PaymentHistoryParams): PaymentHistory => {
   const [fetchExpenseChartData, { data = defaultData, isLoading }] =
     useLazyAccountFetchExpenseChartDataQuery();
 
   useEffect(() => {
-    if (hasCredentials) {
+    if (hasPrivateAccess) {
       const borders = getTimeframeBorders(timeframe);
 
       fetchExpenseChartData({
@@ -38,7 +38,7 @@ export const usePaymentHistory = ({
         types: ['TRANSACTION_TYPE_DEDUCTION'],
       });
     }
-  }, [fetchExpenseChartData, hasCredentials, timeframe]);
+  }, [fetchExpenseChartData, hasPrivateAccess, timeframe]);
 
   const { transactions = [] } = data;
 

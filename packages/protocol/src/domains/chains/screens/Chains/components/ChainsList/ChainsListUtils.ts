@@ -82,7 +82,7 @@ const getChainId = ({ id, frontChain: { id: frontChainId } = {} }: Chain) =>
 
 export const sortChains = ({
   chains: rawChains = [],
-  isPremium,
+  hasPrivateAccess,
   sortType,
   stats,
 }: SortChainsParams): Chain[] => {
@@ -94,7 +94,9 @@ export const sortChains = ({
     (stats[getChainId(b)]?.total_requests || 0) -
     (stats[getChainId(a)]?.total_requests || 0);
 
-  const usageSorter = isPremium ? privateChainsSorter : publicChainsSorter;
+  const usageSorter = hasPrivateAccess
+    ? privateChainsSorter
+    : publicChainsSorter;
 
   const sorter = sortType === SortType.Usage ? usageSorter : () => 0;
 

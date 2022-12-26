@@ -12,7 +12,7 @@ import { PageNotFound } from 'modules/router/components/PageNotFound';
 export interface IGuardRoute extends RouteProps {}
 
 export const GuardAuthProviderRoute = (props: IGuardRoute) => {
-  const { credentials, address, loading, workerTokenData } = useAuth();
+  const { hasPrivateAccess, address, loading, workerTokenData } = useAuth();
   const {
     handleFetchProvider,
     providerData,
@@ -21,7 +21,7 @@ export const GuardAuthProviderRoute = (props: IGuardRoute) => {
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useOnMount(() => {
-    if (!address || !credentials) setBreadcrumbs([]);
+    if (!address || !hasPrivateAccess) setBreadcrumbs([]);
   });
 
   useEffect(() => {
@@ -38,7 +38,10 @@ export const GuardAuthProviderRoute = (props: IGuardRoute) => {
     );
   }
 
-  if (!providerData || (typeof providerData === 'string' && !credentials)) {
+  if (
+    !providerData ||
+    (typeof providerData === 'string' && !hasPrivateAccess)
+  ) {
     return (
       <DefaultLayout>
         <PageNotFound />

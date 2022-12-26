@@ -6,9 +6,10 @@ import { authConnect } from 'domains/auth/actions/connect';
 import { authDisconnect } from 'domains/auth/actions/disconnect';
 import { disconnectService } from 'domains/auth/actions/connectUtils';
 import { isAuthRejectedAction } from 'store/matchers/isAuthRejectedAction';
-import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
-import { oauthLoginByGoogleSecretCode } from 'domains/oauth/actions/loginByGoogleSecretCode';
 import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
+import { oauthWatchForTheDepositTransation } from 'domains/oauth/actions/watchForTheDepositTransation';
+import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
+import { oauthSignout } from 'domains/oauth/actions/signout';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -23,13 +24,16 @@ listenerMiddleware.startListening({
 });
 
 listenerMiddleware.startListening({
-  matcher: isAnyOf(
-    authConnect.matchFulfilled,
-    oauthAutoLogin.matchFulfilled,
-    oauthLoginByGoogleSecretCode.matchFulfilled,
-  ),
+  matcher: authConnect.matchFulfilled,
   effect: async (_action, { dispatch }) => {
     dispatch(usdTopUpWatchForTheFirstCardPayment.initiate());
+  },
+});
+
+listenerMiddleware.startListening({
+  matcher: oauthAutoLogin.matchFulfilled,
+  effect: async (_action, { dispatch }) => {
+    dispatch(oauthWatchForTheDepositTransation.initiate());
   },
 });
 
@@ -69,5 +73,12 @@ listenerMiddleware.startListening({
       provider.on(ProviderEvents.ChainChanged, handler);
       provider.on(ProviderEvents.Disconnect, handler);
     }
+  },
+});
+
+listenerMiddleware.startListening({
+  matcher: isAnyOf(authDisconnect.matchFulfilled, oauthSignout.matchFulfilled),
+  effect: async (_action, { cancelActiveListeners }) => {
+    cancelActiveListeners();
   },
 });

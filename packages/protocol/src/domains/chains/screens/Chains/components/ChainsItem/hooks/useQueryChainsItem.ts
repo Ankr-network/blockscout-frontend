@@ -16,12 +16,11 @@ export const useQueryChainsItem = ({
   isMMIndex,
 }: ChainsItemParams): [BigNumber, boolean, boolean, boolean] => {
   const {
-    credentials,
+    hasPrivateAccess,
     hasOauthLogin,
     hasWeb3Connection,
     isUserEthAddressType,
   } = useAuth();
-  const isPremium = Boolean(credentials);
 
   const [, { data, isLoading: arePublicStatsLoading }] = useQueryEndpoint(
     chainsFetchPublicRequestsCountStats,
@@ -32,20 +31,23 @@ export const useQueryChainsItem = ({
     usePrivateStats(chainId);
 
   const hasConnectWalletMessage = Boolean(
-    hasOauthLogin && !hasWeb3Connection && isPremium && isUserEthAddressType,
+    hasOauthLogin &&
+      !hasWeb3Connection &&
+      hasPrivateAccess &&
+      isUserEthAddressType,
   );
 
-  return isPremium && !isMMIndex
+  return hasPrivateAccess && !isMMIndex
     ? [
         new BigNumber(privateTotalRequests),
         arePrivateStatsLoading,
-        isPremium,
+        hasPrivateAccess,
         hasConnectWalletMessage,
       ]
     : [
         new BigNumber(data?.[chainId] ?? 0),
         arePublicStatsLoading,
-        isPremium,
+        hasPrivateAccess,
         hasConnectWalletMessage,
       ];
 };

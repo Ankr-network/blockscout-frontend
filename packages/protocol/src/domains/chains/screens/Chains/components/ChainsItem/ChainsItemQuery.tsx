@@ -16,7 +16,7 @@ export const ChainsItemQuery = ({
   chainId,
   ...props
 }: ChainsItemQueryProps) => {
-  const [totalRequests, loading, isPremium, hasConnectWalletMessage] =
+  const [totalRequests, loading, hasPrivateAccess, hasConnectWalletMessage] =
     useQueryChainsItem({ chain, isMMIndex });
 
   const isHighlighted = useMemo(
@@ -33,7 +33,7 @@ export const ChainsItemQuery = ({
     publicChain: publicChain as IApiChain,
   });
 
-  const { urls } = useChainsItem(chain, isPremium);
+  const { urls } = useChainsItem(chain, hasPrivateAccess);
 
   return (
     <>
@@ -43,7 +43,7 @@ export const ChainsItemQuery = ({
           chain={chain}
           isHighlighted={isHighlighted}
           isLoading={loading}
-          isPremium={isPremium}
+          hasPrivateAccess={hasPrivateAccess}
           publicChain={publicChain}
           totalRequests={totalRequestsStr}
           urls={urls}
@@ -55,7 +55,7 @@ export const ChainsItemQuery = ({
           chain={chain}
           isHighlighted={isHighlighted}
           isLoading={loading}
-          isPremium={isPremium}
+          hasPrivateAccess={hasPrivateAccess}
           publicChain={publicChain}
           totalRequests={totalRequestsStr}
           hasConnectWalletMessage={hasConnectWalletMessage}

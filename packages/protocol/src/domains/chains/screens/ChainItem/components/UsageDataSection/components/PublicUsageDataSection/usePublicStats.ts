@@ -58,7 +58,7 @@ export const usePublicStats = ({
   return {
     countries,
     error,
-    isLoading: isLoading && isUninitialized,
+    isLoading,
     isUninitialized,
     totalCached,
     totalRequests,

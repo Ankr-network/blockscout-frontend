@@ -129,7 +129,7 @@ export const useCheckLoginStep = () => {
   const [getLastLockedFundsEvent, { data: lastLockedFundsEvent, isLoading }] =
     useLazyTopUpGetLastLockedFundsEventQuery();
 
-  const { credentials, isWalletConnected, workerTokenData } = useAuth();
+  const { isWalletConnected, workerTokenData } = useAuth();
   const { handleSetAmount } = useTopUp();
 
   const [hasLoginStep, setHasLoginStep] = useState<boolean>(false);
@@ -167,7 +167,6 @@ export const useCheckLoginStep = () => {
     lastLockedFundsEvent,
     handleSetAmount,
     isWalletConnected,
-    credentials,
     workerTokenData,
   ]);
 

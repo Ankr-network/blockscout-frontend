@@ -47,7 +47,7 @@ export const useChainItem = ({
   const endpoints = useGroupedEndpoints(chain);
   const netId = useNetId();
 
-  const { credentials } = useAuth();
+  const { hasPrivateAccess } = useAuth();
 
   const isTestnetPremimumOnly = useMemo(
     () =>
@@ -61,7 +61,7 @@ export const useChainItem = ({
     chain,
     endpoints,
     netId,
-    isBlockedTestnet: !credentials && Boolean(isTestnetPremimumOnly),
+    isBlockedTestnet: !hasPrivateAccess && Boolean(isTestnetPremimumOnly),
     onBlockedTestnetClick,
   });
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(

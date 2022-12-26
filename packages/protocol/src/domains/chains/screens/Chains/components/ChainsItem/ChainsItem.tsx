@@ -10,7 +10,7 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 export const ChainsItem = ({
   urls,
   chain,
-  isPremium,
+  hasPrivateAccess,
   publicChain,
   hasConnectWalletMessage,
   ...props
@@ -19,7 +19,7 @@ export const ChainsItem = ({
 
   const { dummyMessage, handleOriginUrlClick } = useChainsItem(
     chain,
-    isPremium,
+    hasPrivateAccess,
     INDEX_PATH,
   );
 
@@ -28,7 +28,7 @@ export const ChainsItem = ({
       <ChainsItemBase
         {...props}
         chain={chain}
-        isPremium={isPremium}
+        hasPrivateAccess={hasPrivateAccess}
         handleOriginUrlClick={handleOriginUrlClick}
         chainsItemLink={
           <ChainsItemLink

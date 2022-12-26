@@ -10,14 +10,11 @@ import {
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOauthStyles } from './useOauthStyles';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useRedirectIfUserHasEmail } from './OauthUtils';
 
 export const OauthQuery = () => {
   const [loginUser, state] = useLazyOauthLoginByGoogleSecretCodeQuery();
   const history = useHistory();
   const classes = useOauthStyles();
-
-  useRedirectIfUserHasEmail();
 
   useOnMount(() => {
     const login = async () => {

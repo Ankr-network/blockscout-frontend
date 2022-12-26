@@ -8,12 +8,12 @@ export const MMChainsItem = ({
   publicChain,
   urls,
   chain,
-  isPremium,
+  hasPrivateAccess,
   ...props
 }: ChainsItemProps) => {
   const { handleOriginUrlClick } = useChainsItem(
     chain,
-    isPremium,
+    hasPrivateAccess,
     INDEX_MM_PATH,
   );
 
@@ -21,7 +21,7 @@ export const MMChainsItem = ({
     <ChainsItemBase
       {...props}
       chain={chain}
-      isPremium={isPremium}
+      hasPrivateAccess={hasPrivateAccess}
       handleOriginUrlClick={handleOriginUrlClick}
       chainsItemLink={
         <MMChainsItemLink publicChain={publicChain} urls={urls} />

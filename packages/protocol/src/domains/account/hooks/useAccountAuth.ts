@@ -12,7 +12,9 @@ export interface Auth {
   hasOauthLogin?: boolean;
   isLoggedIn: boolean;
   isUserEthAddressType: boolean;
-  hasWeb3Connection?: boolean;
+  hasPrivateAccess: boolean;
+  hasPremium: boolean;
+  hasWeb3Connection: boolean;
 }
 
 // needs to turn premium subscription date into milliseconds from kiloseconds
@@ -27,6 +29,8 @@ export const useAccountAuth = (): Auth => {
     hasOauthLogin,
     isLoggedIn,
     isUserEthAddressType,
+    hasPrivateAccess,
+    hasPremium,
     hasWeb3Connection,
   } = useAuth();
 
@@ -34,7 +38,6 @@ export const useAccountAuth = (): Auth => {
 
   const isConnected = isWalletConnected && !isConnecting;
   const isPremium = tier === Tier.Premium;
-  const isNew = !credentials;
 
   const premiumUntil =
     isPremium && credentials?.expires_at
@@ -44,14 +47,15 @@ export const useAccountAuth = (): Auth => {
   return {
     isConnected,
     isConnecting,
-    isNew,
+    isNew: !hasPrivateAccess,
     premiumUntil,
     tier,
-    credentials,
+    hasPrivateAccess,
     workerTokenData,
     hasOauthLogin,
     isLoggedIn,
     isUserEthAddressType,
-    hasWeb3Connection,
+    hasPremium,
+    hasWeb3Connection: Boolean(hasWeb3Connection),
   };
 };

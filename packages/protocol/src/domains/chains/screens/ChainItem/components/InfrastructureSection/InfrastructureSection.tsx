@@ -29,7 +29,11 @@ export const InfrastructureSection = ({
 
   const classes = useInfrastructureSectionStyles();
 
-  const { credentials, loading: authLoading, workerTokenData } = useAuth();
+  const {
+    hasInfrastructureAccess,
+    loading: authLoading,
+    workerTokenData,
+  } = useAuth();
   const {
     providerData,
     isLoading: providerLoading,
@@ -38,12 +42,12 @@ export const InfrastructureSection = ({
   const { chains } = group;
 
   useEffect(() => {
-    if (credentials && workerTokenData) {
+    if (hasInfrastructureAccess) {
       handleFetchProvider().then(() => {
         fetchEndpoints();
       });
     }
-  }, [handleFetchProvider, fetchEndpoints, credentials, workerTokenData]);
+  }, [handleFetchProvider, fetchEndpoints, hasInfrastructureAccess]);
 
   const chainId = useMemo(() => chains[0]?.id, [chains]);
 

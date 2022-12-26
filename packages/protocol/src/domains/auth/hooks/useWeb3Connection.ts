@@ -33,10 +33,8 @@ export const useWeb3Connection = (): Web3Connection => {
     useQueryEndpoint(authDisconnect);
 
   const handleConnect = useCallback(
-    (walletId = INJECTED_WALLET_ID, isAutoConnect?: boolean) => {
-      const isManualConnected = !isAutoConnect;
-
-      return connect({ isManualConnected, walletId });
+    (walletId = INJECTED_WALLET_ID) => {
+      return connect({ walletId });
     },
     [connect],
   );

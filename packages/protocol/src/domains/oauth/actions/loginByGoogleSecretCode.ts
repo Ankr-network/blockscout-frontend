@@ -1,4 +1,5 @@
 import { EthAddressType } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { MultiService } from 'modules/api/MultiService';
 import {
@@ -12,6 +13,7 @@ import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 import { setAuthData } from 'domains/auth/store/authSlice';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
+import { oauthHasDepositTransaction } from './hasDepositTransaction';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -47,7 +49,7 @@ export const {
           const ethUserAddress = getEthUserAddress(addresses);
 
           if (!ethUserAddress) {
-            throw new Error('No ethUserAd dress');
+            throw new Error('No ethUserAddress');
           }
 
           const {
@@ -59,13 +61,17 @@ export const {
           const web3ReadService = await MultiService.getWeb3ReadService();
 
           web3ReadService.getOauthGateway().addToken(authorizationToken);
+          service.getOauthGateway().addToken(authorizationToken);
           service.getAccountGateway().addToken(authorizationToken);
 
           if (ethAddressType === EthAddressType.Generated) {
+            const syntheticTokenData = await service
+              .getOauthGateway()
+              .getSyntheticJwtToken();
+
             const { jwtToken, workerTokenData } =
-              await web3ReadService.getIssuedJwtTokenOrIssue(
-                ethUserAddress?.address as string,
-                ethUserAddress?.public_key as string,
+              await web3ReadService.upgradeSyntheticJwtToken(
+                syntheticTokenData?.jwt_data,
               );
 
             if (workerTokenData?.signedToken) {
@@ -73,6 +79,10 @@ export const {
                 .getWorkerGateway()
                 .addJwtToken(workerTokenData?.signedToken);
             }
+
+            const { data: hasTransaction } = await dispatch(
+              oauthHasDepositTransaction.initiate(),
+            );
 
             dispatch(
               setAuthData({
@@ -83,6 +93,7 @@ export const {
                 ethAddressType,
                 hasOauthLogin: true,
                 workerTokenData,
+                hasOauthUserDepositTransaction: hasTransaction,
               }),
             );
           }
@@ -125,7 +136,7 @@ export const {
           }
 
           return {
-            error: new Error('Wrong secret code. Try to sign up again'),
+            error: new Error(t('oauth.secret-code-error')),
           };
         },
       }),

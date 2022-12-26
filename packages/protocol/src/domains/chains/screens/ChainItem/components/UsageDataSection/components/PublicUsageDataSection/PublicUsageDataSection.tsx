@@ -10,6 +10,9 @@ import { UsageSummary } from '../../../UsageSummary';
 import { usePublicUsageData } from './usePublicUsageData';
 import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
 import { useIsRequestsMapVisible } from '../../UsageDataSectionUtils';
+import { Stat } from '../../../Stat';
+import { t } from '@ankr.com/common';
+import { getCachedRequestsPercent } from '../../../UsageSummary/utils/getCachedRequestsPercent';
 
 export interface PublicUsageDataSectionProps {
   chain: IApiChain;
@@ -34,7 +37,6 @@ export const PublicUsageDataSection = ({
     isConnecting,
     loading,
     totalCached,
-    totalCost,
     totalRequests,
     totalRequestsHistory,
     isLoggedIn,
@@ -56,14 +58,17 @@ export const PublicUsageDataSection = ({
             timeframe={timeframe}
           />
           <UsageSummary
-            cachedRequests={totalCached}
             className={classes.usageSummary}
             loading={loading}
             timeframe={timeframe}
-            totalCost={totalCost}
             totalRequests={totalRequests}
-            isLoggedIn={isLoggedIn}
-          />
+          >
+            <Stat
+              loading={loading}
+              title={t(`chain-item.usage-data.usage-summary.cached.title`)}
+              value={getCachedRequestsPercent(totalRequests, totalCached)}
+            />
+          </UsageSummary>
           <RequestsChart
             isConnecting={isConnecting}
             isLoggedIn={isLoggedIn}

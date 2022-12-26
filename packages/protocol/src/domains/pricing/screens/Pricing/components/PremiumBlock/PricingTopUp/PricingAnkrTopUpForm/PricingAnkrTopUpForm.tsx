@@ -5,11 +5,11 @@ import { validateAnkrAmount } from 'domains/account/components/TopUp/ANKRTopUpFo
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const PricingAnkrTopUpForm = () => {
-  const { credentials, hasWeb3Connection } = useAuth();
+  const { hasPrivateAccess, hasWeb3Connection } = useAuth();
   const { ankrBalance } = useAnkrBalanceOnWallet(hasWeb3Connection);
 
   const initialValues = useInitialValues(true);
-  const shouldValidate = !credentials;
+  const shouldValidate = !hasPrivateAccess;
 
   return (
     <ANKRTopUpForm

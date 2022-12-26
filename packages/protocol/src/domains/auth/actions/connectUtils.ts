@@ -34,6 +34,7 @@ export const switchChain = async () => {
 interface CachedData extends IConnect {
   hasOauthLogin?: boolean;
   isCardPayment?: boolean;
+  hasOauthUserDepositTransaction?: boolean;
 }
 
 export const getCachedData = (
@@ -49,6 +50,7 @@ export const getCachedData = (
     hasWeb3Connection = false,
     hasOauthLogin,
     isCardPayment,
+    hasOauthUserDepositTransaction,
   } = selectAuthData(getState());
 
   if (authorizationToken) {
@@ -65,6 +67,7 @@ export const getCachedData = (
     hasOauthLogin,
     hasWeb3Connection,
     isCardPayment,
+    hasOauthUserDepositTransaction,
     walletMeta,
     workerTokenData,
   };

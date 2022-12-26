@@ -4,20 +4,20 @@ import { useEffect } from 'react';
 import { useLazyChainsFetchMonthPrivateStatsQuery } from '../actions/fetchMonthPrivateStats';
 
 export interface PrivateStatsParams {
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
 }
 
 export const useMonthPrivateStats = ({
-  hasCredentials,
+  hasPrivateAccess,
 }: PrivateStatsParams): [PrivateStats, boolean] => {
   const [fetchMonthPrivateStats, { data: stats = {}, isLoading }] =
     useLazyChainsFetchMonthPrivateStatsQuery();
 
   useEffect(() => {
-    if (hasCredentials) {
+    if (hasPrivateAccess) {
       fetchMonthPrivateStats();
     }
-  }, [hasCredentials, fetchMonthPrivateStats]);
+  }, [hasPrivateAccess, fetchMonthPrivateStats]);
 
   return [stats, isLoading];
 };

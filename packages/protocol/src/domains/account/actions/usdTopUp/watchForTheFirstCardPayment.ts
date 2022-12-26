@@ -113,7 +113,6 @@ export const {
           const newAuthData = selectAuthData(getState() as RootState);
 
           if (!newAuthData.address) {
-            shouldWatchForTopupEvent = false;
             break;
           }
 

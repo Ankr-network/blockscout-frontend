@@ -17,8 +17,8 @@ export const GetStartedSection = ({
   unfilteredGroup,
   chainId,
 }: GetStartedSectionProps) => {
-  const { credentials, loading } = useAuth();
-  const isUpgraded = credentials || loading;
+  const { hasPrivateAccess, loading } = useAuth();
+  const isUpgraded = hasPrivateAccess || loading;
   const classes = useGetStartedSectionStyles();
   const publicUrl = unfilteredGroup?.urls[0]?.rpc;
 

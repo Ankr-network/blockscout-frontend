@@ -21,7 +21,7 @@ export interface UsageData {
   isConnecting: boolean;
   loading: boolean;
   timeframe: Timeframe;
-  totalCached: BigNumber;
+  totalCached?: BigNumber;
   totalCost?: number;
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;

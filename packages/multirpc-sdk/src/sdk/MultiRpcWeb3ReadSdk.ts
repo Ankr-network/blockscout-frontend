@@ -70,4 +70,8 @@ export class MultiRpcWeb3ReadSdk {
 
     return tokenIssuerService.findIssuedToken(user);
   }
+
+  public upgradeSyntheticJwtToken(token: string) {
+    return this.getTokenIssuerService().upgradeSyntheticJwtToken(token);
+  }
 }

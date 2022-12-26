@@ -6,7 +6,7 @@ import { useSortType } from '../../hooks/useSortType';
 import { useTimeframe } from '../../hooks/useTimeframe';
 
 export const usePublicChainsData = () => {
-  const { credentials, loading: isConnecting, isWalletConnected } = useAuth();
+  const { loading: isConnecting } = useAuth();
 
   const [publicChains, publicAllChains, publicChainsLoading] =
     usePublicChains();
@@ -22,9 +22,6 @@ export const usePublicChainsData = () => {
   return {
     chains: publicChains,
     allChains: publicAllChains,
-    credentials,
-    isConnecting,
-    isWalletConnected,
     loading: isConnecting || publicChainsLoading,
     setSortType,
     sortType,

@@ -15,13 +15,14 @@ export interface AccountData {
 }
 
 export const useAccountData = (): AccountData => {
-  const { isConnecting, isNew, premiumUntil } = useAccountAuth();
+  const { isConnecting, isNew, premiumUntil, hasPrivateAccess } =
+    useAccountAuth();
 
   const { creditBalance: balance, isLoadingInitially: isBalanceLoading } =
-    useBalance(true);
+    useBalance(hasPrivateAccess);
 
   const { endTime, isLoading: isBalanceEndTimeLoading } =
-    useBalanceEndTime(true);
+    useBalanceEndTime(hasPrivateAccess);
 
   const accountType = getAccountType({
     balance,

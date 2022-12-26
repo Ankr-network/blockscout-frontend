@@ -51,7 +51,6 @@ export const getPrivateUsageData = ({
     isConnecting,
     loading: arePrivateStatsLoading || isConnecting,
     timeframe,
-    totalCached: new BigNumber(0),
     totalCost,
     totalRequests: new BigNumber(privateTotalRequests),
     totalRequestsHistory: Object.fromEntries(

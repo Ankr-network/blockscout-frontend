@@ -6,8 +6,8 @@ import { Breadcrumbs } from '../Breadcrumbs';
 import { LocaleSwitcher } from 'modules/common/components/LocaleSwitcher';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { SignupButton } from 'domains/auth/components/SignupButton';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useStyles } from './useStyles';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const IS_I18N_ENABLED = false;
 
@@ -17,9 +17,7 @@ interface HeaderProps {
 
 export const Header = ({ className = '' }: HeaderProps) => {
   const classes = useStyles();
-  const { credentials } = useAccountAuth();
-
-  const hasCredentials = Boolean(credentials);
+  const { hasPremium } = useAuth();
 
   return (
     <header className={classNames(classes.root, className)}>
@@ -29,7 +27,7 @@ export const Header = ({ className = '' }: HeaderProps) => {
           {IS_I18N_ENABLED && <LocaleSwitcher className={classes.switcher} />}
           <NoReactSnap>
             <div className={classes.buttons}>
-              {hasCredentials && <AccountDetailsButton />}
+              {hasPremium && <AccountDetailsButton />}
               <SignupButton />
             </div>
           </NoReactSnap>

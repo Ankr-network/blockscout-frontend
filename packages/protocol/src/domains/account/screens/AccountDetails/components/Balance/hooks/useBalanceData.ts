@@ -19,14 +19,14 @@ const balancesMap: BalanceMap = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isConnected, isConnecting, isNew, premiumUntil, credentials } =
+  const { isConnected, isConnecting, isNew, premiumUntil, hasPrivateAccess } =
     useAccountAuth();
 
   const {
     isLoadingInitially: isBalanceLoading,
     usdBalance,
     ...balance
-  } = useBalance(Boolean(credentials));
+  } = useBalance(hasPrivateAccess);
 
   const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
     useBalanceEndTime(isConnected);

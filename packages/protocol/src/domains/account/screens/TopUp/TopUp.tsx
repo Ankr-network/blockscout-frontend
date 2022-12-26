@@ -6,10 +6,10 @@ import { useTopupSteps } from './TopUpUtils';
 
 interface TopUpProps {
   initialStep: TopUpStep;
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
 }
 
-export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
+export const TopUp = ({ initialStep, hasPrivateAccess }: TopUpProps) => {
   const {
     amount,
     hasError,
@@ -27,8 +27,8 @@ export const TopUp = ({ initialStep, hasCredentials }: TopUpProps) => {
   return (
     <TopUpSteps
       amount={amount}
-      hasCredentials={hasCredentials}
       hasError={hasError}
+      hasPrivateAccess={hasPrivateAccess}
       isRejectAllowanceLoading={isRejectAllowanceLoading}
       loading={loading}
       loadingWaitTransactionConfirming={loadingWaitTransactionConfirming}

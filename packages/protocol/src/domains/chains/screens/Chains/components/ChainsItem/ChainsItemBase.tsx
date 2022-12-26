@@ -9,8 +9,7 @@ import { useChainsItem } from '../../hooks/useChainsItem';
 import { useChainsItemStyles } from './useChainsItemStyles';
 import { ChainsItemDialog } from './ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useCallback, useMemo } from 'react';
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useMemo } from 'react';
 import { ReactComponent as LockIcon } from 'uiKit/Icons/lock.svg';
 import { useHistory } from 'react-router-dom';
 
@@ -19,7 +18,7 @@ export const ChainsItemBase = ({
   description,
   isHighlighted = false,
   isLoading,
-  isPremium,
+  hasPrivateAccess,
   logoSrc,
   name,
   period,
@@ -32,17 +31,12 @@ export const ChainsItemBase = ({
   const classes = useChainsItemStyles(isHighlighted);
   const history = useHistory();
 
-  const { label, isSui, tooltip } = useChainsItem(chain, isPremium);
+  const { label, isSui, tooltip } = useChainsItem(chain, hasPrivateAccess);
 
   const { isOpened, onOpen, onClose } = useDialog();
 
-  const handleClick = useCallback(() => onOpen(), [onOpen]);
-
-  const { credentials } = useAuth();
-
-  const isShowPremiumDialog = useMemo(
-    () => !credentials && chain.premiumOnly,
-    [chain, credentials],
+  const shouldShowPremiumDialog = Boolean(
+    !hasPrivateAccess && chain.premiumOnly,
   );
 
   const content = useMemo(() => {
@@ -73,7 +67,7 @@ export const ChainsItemBase = ({
         />
         <div className={classes.bottom}>
           <div className={classes.links}>
-            {isShowPremiumDialog ? (
+            {shouldShowPremiumDialog ? (
               <Box className={classes.premiumOnlyCopyItemContainer}>
                 <Typography
                   variant="subtitle1"
@@ -116,17 +110,12 @@ export const ChainsItemBase = ({
     isLoading,
     label,
     tooltip,
-    isShowPremiumDialog,
+    shouldShowPremiumDialog,
   ]);
 
-  return isShowPremiumDialog ? (
+  return shouldShowPremiumDialog ? (
     <>
-      <div
-        role="button"
-        tabIndex={0}
-        className={classes.root}
-        onClick={handleClick}
-      >
+      <div role="button" tabIndex={0} className={classes.root} onClick={onOpen}>
         {content}
       </div>
       <ChainsItemDialog

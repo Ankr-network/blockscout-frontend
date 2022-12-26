@@ -37,6 +37,7 @@ export const {
           .addToken(authorizationToken as string);
 
         service.getAccountGateway().addToken(authorizationToken as string);
+        service.getOauthGateway().addToken(authorizationToken as string);
 
         if (workerTokenData?.signedToken) {
           service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);

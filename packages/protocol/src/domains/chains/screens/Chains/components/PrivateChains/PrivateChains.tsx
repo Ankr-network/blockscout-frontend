@@ -9,7 +9,6 @@ export const PrivateChains = () => {
   const {
     chains,
     allChains,
-    credentials,
     loading,
     setSortType,
     sortType,
@@ -22,12 +21,10 @@ export const PrivateChains = () => {
       top={
         <>
           <ExpiredTokenBanner />
-          {credentials && (
-            <UsageSummary
-              timeframe={timeframe}
-              switchTimeframe={switchStatsTimeframe}
-            />
-          )}
+          <UsageSummary
+            timeframe={timeframe}
+            switchTimeframe={switchStatsTimeframe}
+          />
         </>
       }
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
