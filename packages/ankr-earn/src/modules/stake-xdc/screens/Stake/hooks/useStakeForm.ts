@@ -18,6 +18,7 @@ import { useLazyGetStakeGasFeeQuery } from 'modules/stake-xdc/actions/getStakeGa
 import { useStakeMutation } from 'modules/stake-xdc/actions/stake';
 import { XDC_PROVIDER_ID } from 'modules/stake-xdc/const';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -46,7 +47,8 @@ interface IUseStakeFormData {
 const TOKEN_IN = Token.XDC;
 const TOKEN_OUT = Token.ankrXDC;
 
-const resetRequests = () => resetReduxRequests([getFAQ.toString()]);
+const resetRequests = () =>
+  resetReduxRequests([getFAQ.toString(), getMetrics.toString()]);
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
@@ -150,6 +152,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     dispatch(resetRequests());
 
     dispatch(getFAQ(TOKEN_OUT));
+    dispatch(getMetrics());
 
     getStakeData();
 
