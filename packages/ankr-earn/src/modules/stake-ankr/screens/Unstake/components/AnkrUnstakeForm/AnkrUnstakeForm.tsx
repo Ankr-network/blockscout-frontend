@@ -25,6 +25,11 @@ import { Quote } from 'uiKit/Quote';
 
 import { useUnstakeFormStyles } from './useUnstakeFormStyles';
 
+/**
+ * Temporarily disable the user's ability to manipulate the unstaking amount.
+ */
+const IS_UNSTAKE_AMOUNT_FIXED = true;
+
 interface IAnkrUnstakeFormProps {
   balance?: BigNumber;
   maxAmount?: BigNumber;
@@ -58,7 +63,7 @@ export const AnkrUnstakeForm = ({
 }: IAnkrUnstakeFormProps): JSX.Element => {
   const classes = useUnstakeFormStyles();
 
-  const maxStakeAmount = balance.isLessThanOrEqualTo(maxAmount)
+  const maxUnstakeAmount = balance.isLessThanOrEqualTo(maxAmount)
     ? balance.toString()
     : maxAmount.toString();
 
@@ -84,7 +89,7 @@ export const AnkrUnstakeForm = ({
       <AmountInput
         balance={balance}
         balanceLabel={t('stake-ankr.unstaking.available')}
-        disabled={isDisabled}
+        disabled={IS_UNSTAKE_AMOUNT_FIXED || isDisabled}
         isBalanceLoading={isBalanceLoading}
         label={
           <StakeDescriptionName component="span">
@@ -96,7 +101,11 @@ export const AnkrUnstakeForm = ({
         minAmount={minAmount.toNumber()}
         name={EFieldsNames.amount}
         tokenName={tokenIn}
-        onMaxClick={setMaxAmount(form, maxStakeAmount)}
+        onMaxClick={
+          IS_UNSTAKE_AMOUNT_FIXED
+            ? undefined
+            : setMaxAmount(form, maxUnstakeAmount)
+        }
       />
 
       <NodeProviderField isDisabled mt={5} providerName={providerName} />
@@ -130,6 +139,7 @@ export const AnkrUnstakeForm = ({
     <Form
       initialValues={{
         provider: providerId,
+        amount: IS_UNSTAKE_AMOUNT_FIXED ? maxUnstakeAmount : undefined,
       }}
       render={renderForm}
       onSubmit={onSubmitForm}
