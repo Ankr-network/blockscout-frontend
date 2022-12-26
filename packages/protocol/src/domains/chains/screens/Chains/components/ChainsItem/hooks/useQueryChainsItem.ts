@@ -8,10 +8,12 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export interface ChainsItemParams {
   chain: Chain;
+  isMMIndex?: boolean;
 }
 
 export const useQueryChainsItem = ({
   chain: { id, frontChain: { id: frontChainId } = {} },
+  isMMIndex,
 }: ChainsItemParams): [BigNumber, boolean, boolean, boolean] => {
   const {
     credentials,
@@ -33,7 +35,7 @@ export const useQueryChainsItem = ({
     hasOauthLogin && !hasWeb3Connection && isPremium && isUserEthAddressType,
   );
 
-  return isPremium
+  return isPremium && !isMMIndex
     ? [
         new BigNumber(privateTotalRequests),
         arePrivateStatsLoading,
