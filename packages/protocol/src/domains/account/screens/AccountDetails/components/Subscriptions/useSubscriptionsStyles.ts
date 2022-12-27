@@ -16,12 +16,11 @@ export const useSubscriptionsStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    gap: theme.spacing(2.5),
+    gap: theme.spacing(1.5),
   },
   textContainer: {
     display: 'flex',
     gap: theme.spacing(1.5),
-    minWidth: 200,
   },
   text: {
     fontSize: 20,
