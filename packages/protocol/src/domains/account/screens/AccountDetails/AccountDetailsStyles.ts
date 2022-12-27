@@ -36,8 +36,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   topUp: {
     flex: 1,
     minWidth: 460,
+    minHeight: 332,
     [`@media (max-width:${MAX_WIDTH}px)`]: {
       minWidth: 'unset',
+      minHeight: 'unset',
     },
   },
   payments: {

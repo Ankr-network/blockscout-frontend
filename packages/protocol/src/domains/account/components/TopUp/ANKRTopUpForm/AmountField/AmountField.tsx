@@ -1,4 +1,4 @@
-import React from 'react';
+import classNames from 'classnames';
 import { FormGroup, Typography } from '@material-ui/core';
 import { Field } from 'react-final-form';
 
@@ -22,6 +22,7 @@ interface AmountFieldProps<T> {
   maxDecimals?: number;
   currency: string;
   maxLength?: number;
+  className?: string;
 }
 
 export function AmountField<T extends string>({
@@ -33,11 +34,12 @@ export function AmountField<T extends string>({
   maxDecimals = MAX_DECIMALS,
   currency,
   maxLength = MAX_LENGTH,
+  className,
 }: AmountFieldProps<T>) {
   const classes = useStyles({ size });
 
   return (
-    <FormGroup className={classes.formGroup}>
+    <FormGroup className={classNames(classes.formGroup, className)}>
       <Field
         component={InputField}
         name={name}
