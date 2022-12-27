@@ -1,6 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
+  rootForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+  },
   form: {
     [theme.breakpoints.down('sm')]: {
       gap: 6,

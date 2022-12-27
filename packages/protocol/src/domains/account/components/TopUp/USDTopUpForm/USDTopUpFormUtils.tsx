@@ -62,7 +62,11 @@ export const useRenderForm = (
       const canEditAmount = values.id === ONE_TIME_PAYMENT_ID;
 
       return (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form
+          className={classes.rootForm}
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
           <USDSubscriptionPricesTabs onChange={handleAmountChange} />
           <Box className={classes.form}>
             <AmountField<AmountInputField.amount>

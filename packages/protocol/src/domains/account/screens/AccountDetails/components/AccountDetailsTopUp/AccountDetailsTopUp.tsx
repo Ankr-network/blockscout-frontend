@@ -5,7 +5,13 @@ import { TabsManager } from 'uiKit/TabsManager';
 
 import { useTopUpStyles } from 'domains/account/components/TopUp/TopUpStyles';
 
-export const AccountDetailsTopUp = () => {
+interface IAccountDetailsTopUpProps {
+  className?: string;
+}
+
+export const AccountDetailsTopUp = ({
+  className,
+}: IAccountDetailsTopUpProps) => {
   const { isUserEthAddressType } = useAccountAuth();
 
   const canPayOnlyByCard = !isUserEthAddressType;
@@ -14,7 +20,7 @@ export const AccountDetailsTopUp = () => {
   const classes = useTopUpStyles({ canPayOnlyByCard });
 
   return (
-    <TopUp>
+    <TopUp className={className}>
       <TabsManager
         selectedTab={selectedTab}
         tabs={tabs}

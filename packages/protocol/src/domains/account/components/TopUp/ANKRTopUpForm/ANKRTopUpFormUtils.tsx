@@ -87,6 +87,7 @@ export const useRenderForm = ({
           className={classes.form}
         >
           <AmountField
+            className={classes.amount}
             name={AmountInputField.amount}
             change={change}
             maxDecimals={ANKR_MAX_DECIMALS}
