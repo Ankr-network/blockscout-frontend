@@ -4,13 +4,13 @@ import { ISubscriptionsResponse } from 'multirpc-sdk';
 import { useLazyCancelSubscriptionQuery } from 'domains/account/utils/cancelSubscription';
 import { useCallback } from 'react';
 
-export interface Subscriptions {
+export interface IUseSubscriptions {
   subscriptions: ISubscriptionsResponse;
   isLoading: boolean;
   cancelSubscription: (subscriptionId: string) => Promise<void>;
 }
 
-export const useSubscriptions = (): Subscriptions => {
+export const useSubscriptions = (): IUseSubscriptions => {
   const { isConnecting, hasPremium } = useAccountAuth();
 
   const [fetchSubscriptionsData, subscriptions, isLoading] =
