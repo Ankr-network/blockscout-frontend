@@ -2,6 +2,7 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const MAX_WIDTH = 1050;
+const TOP1_WIDTH = 465;
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -25,7 +26,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   top1column: {
     display: 'flex',
     flexDirection: 'column',
-    width: 'calc(100% - 465px)',
+    width: `calc(100% - ${TOP1_WIDTH}px)`,
     gap: theme.spacing(3),
     [`@media (max-width:${MAX_WIDTH}px)`]: {
       width: 'unset',
