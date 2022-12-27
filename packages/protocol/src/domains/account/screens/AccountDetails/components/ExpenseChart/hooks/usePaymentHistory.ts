@@ -1,13 +1,13 @@
 import {
+  AggregatedPaymentHistoryTimeGroup,
   IAggregatedPaymentHistoryResponse,
   IPaymentHistoryEntity,
 } from 'multirpc-sdk';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
 
 import { ChartTimeframe } from '../types';
 import { getTimeframeBorders } from '../utils/getTimeframeBorders';
-import { fetchExpenseChartData } from 'domains/account/actions/fetchExpenseChartData';
+import { useLazyAccountFetchExpenseChartDataQuery } from 'domains/account/actions/fetchExpenseChartData';
 
 const defaultData: IAggregatedPaymentHistoryResponse = {
   transactions: [],
@@ -15,36 +15,32 @@ const defaultData: IAggregatedPaymentHistoryResponse = {
 };
 
 export interface PaymentHistoryParams {
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
   timeframe: ChartTimeframe;
 }
 
 export type PaymentHistory = [IPaymentHistoryEntity[], boolean];
 
 export const usePaymentHistory = ({
-  hasCredentials,
+  hasPrivateAccess,
   timeframe,
 }: PaymentHistoryParams): PaymentHistory => {
-  const {
-    data: { transactions = [] },
-    loading,
-  } = useQuery({ defaultData, type: fetchExpenseChartData });
-
-  const dispatch = useDispatchRequest();
+  const [fetchExpenseChartData, { data = defaultData, isLoading }] =
+    useLazyAccountFetchExpenseChartDataQuery();
 
   useEffect(() => {
-    if (hasCredentials) {
+    if (hasPrivateAccess) {
       const borders = getTimeframeBorders(timeframe);
 
-      dispatch(
-        fetchExpenseChartData({
-          ...borders,
-          time_group: 'DAY',
-          types: ['TRANSACTION_TYPE_DEDUCTION'],
-        }),
-      );
+      fetchExpenseChartData({
+        ...borders,
+        time_group: AggregatedPaymentHistoryTimeGroup.DAY,
+        types: ['TRANSACTION_TYPE_DEDUCTION'],
+      });
     }
-  }, [dispatch, hasCredentials, timeframe]);
+  }, [fetchExpenseChartData, hasPrivateAccess, timeframe]);
 
-  return [transactions, loading];
+  const { transactions = [] } = data;
+
+  return [transactions, isLoading];
 };

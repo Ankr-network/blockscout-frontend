@@ -17,11 +17,11 @@ export const GuardAuthUserSettingsRoute = ({
   authorizedRender,
   ...routeProps
 }: IGuardAuthUserSettingsRoute) => {
-  const { credentials, address, loading } = useAuth();
+  const { hasPrivateAccess, address, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useOnMount(() => {
-    if (!address || !credentials) setBreadcrumbs([]);
+    if (!address || !hasPrivateAccess) setBreadcrumbs([]);
   });
 
   if (loading) {

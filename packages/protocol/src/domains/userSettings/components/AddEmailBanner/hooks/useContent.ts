@@ -1,11 +1,11 @@
-import { useDispatchRequest } from '@redux-requests/react';
-import { getEmailBindings } from 'domains/userSettings/actions/email/getEmailBindings';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import {
   AddEmailFormContentState,
   IAddEmailFormData,
 } from '../../AddEmailForm/types';
 import { stateToTitle } from '../const';
+import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
 
 interface IUseContentParams {
   initialContentState: AddEmailFormContentState;
@@ -30,6 +30,8 @@ export const useContent = ({
   initialSubmittedData,
   resetInviteEmail,
 }: IUseContentParams): IUseContentResult => {
+  const [getEmailBindings] = useLazyUserSettingsGetEmailBindingsQuery();
+
   const [submittedData, setSubmittedData] = useState<
     IAddEmailFormData | undefined
   >(initialSubmittedData);
@@ -43,13 +45,19 @@ export const useContent = ({
     setSubmittedData(formData);
   }, []);
 
-  const dispatchRequest = useDispatchRequest();
-
   const onAddEmailSubmitSuccess = useCallback(() => {
-    dispatchRequest(getEmailBindings());
+    getEmailBindings(undefined);
 
     resetInviteEmail?.();
-  }, [dispatchRequest, resetInviteEmail]);
+  }, [getEmailBindings, resetInviteEmail]);
+
+  useEffect(() => {
+    setContentState(initialContentState);
+  }, [initialContentState]);
+
+  useEffect(() => {
+    setSubmittedData(initialSubmittedData);
+  }, [initialSubmittedData]);
 
   return {
     title,

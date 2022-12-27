@@ -8,8 +8,8 @@ import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils
 export interface PublicStats {
   countries: CountryMap;
   error: any;
-  loading: boolean;
-  pristine: boolean;
+  isLoading: boolean;
+  isUninitialized: boolean;
   totalCached: BigNumber;
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;
@@ -19,13 +19,13 @@ export interface UsageData {
   countries?: CountryMap;
   error: any;
   isConnecting: boolean;
-  isWalletConnected: boolean;
   loading: boolean;
   timeframe: Timeframe;
-  totalCached: BigNumber;
+  totalCached?: BigNumber;
   totalCost?: number;
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;
   userTopRequests?: TopRequestsResultData;
   userTopRequestsIp?: UserRequestsByIpData[];
+  isLoggedIn?: boolean;
 }

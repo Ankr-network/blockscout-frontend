@@ -1,7 +1,6 @@
-import { fetchSecuritySettings } from 'domains/infrastructure/actions/fetchSecuritySettings';
-import { ResponseData } from 'modules/api/utils/ResponseData';
+import { SecuritySettings } from 'domains/infrastructure/actions/fetchSecuritySettings';
 
 export interface SecuritySettingsProps {
-  data: ResponseData<typeof fetchSecuritySettings>;
   chainId: string;
+  data: SecuritySettings;
 }

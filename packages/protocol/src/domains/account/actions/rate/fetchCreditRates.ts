@@ -1,9 +1,9 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
+import { CurrencyRate, IRate } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { IRate, CurrencyRate } from 'multirpc-sdk';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
 export interface CreditsRate extends Omit<CurrencyRate, 'rate'> {
   rate: BigNumber;
@@ -16,24 +16,20 @@ const getRate = ({ rates }: IRate): CreditsRate[] => {
   }));
 };
 
-export const fetchCreditRates = createAction<
-  RequestAction<IRate, CreditsRate[]>
->('account/fetchCreditRates', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    takeLatest: true,
-    getData: getRate,
-    onRequest: () => ({
-      promise: (async (): Promise<IRate> => {
+export const {
+  endpoints: { accountFetchCreditRates },
+  useAccountFetchCreditRatesQuery,
+  useLazyAccountFetchCreditRatesQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountFetchCreditRates: build.query<CreditsRate[], void>({
+      queryFn: createNotifyingQueryFn(async () => {
         const service = MultiService.getService();
 
         const data = await service.getPublicGateway().getRate();
 
-        return data;
-      })(),
+        return { data: getRate(data) };
+      }),
     }),
-  },
-}));
+  }),
+});

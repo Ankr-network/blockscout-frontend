@@ -11,20 +11,18 @@ export interface AccountData {
   accountType: AccountType;
   balance: BigNumber;
   isLoading?: boolean;
-  isVisible?: boolean;
   status: BalanceStatus;
 }
 
 export const useAccountData = (): AccountData => {
-  const { isConnecting, isNew, premiumUntil, credentials } = useAccountAuth();
-
-  const hasCredentials = Boolean(credentials);
+  const { isConnecting, isNew, premiumUntil, hasPrivateAccess } =
+    useAccountAuth();
 
   const { creditBalance: balance, isLoadingInitially: isBalanceLoading } =
-    useBalance(hasCredentials);
+    useBalance(hasPrivateAccess);
 
   const { endTime, isLoading: isBalanceEndTimeLoading } =
-    useBalanceEndTime(hasCredentials);
+    useBalanceEndTime(hasPrivateAccess);
 
   const accountType = getAccountType({
     balance,
@@ -36,5 +34,5 @@ export const useAccountData = (): AccountData => {
 
   const isLoading = isBalanceLoading || isConnecting || isBalanceEndTimeLoading;
 
-  return { accountType, balance, isLoading, isVisible: hasCredentials, status };
+  return { accountType, balance, isLoading, status };
 };

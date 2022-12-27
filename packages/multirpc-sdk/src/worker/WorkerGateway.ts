@@ -43,8 +43,8 @@ export class WorkerGateway {
     return data;
   }
 
-  async getEndpoints(): Promise<IWorkerEndpoint> {
-    const { data } = await this.api.get<IWorkerEndpoint>(
+  async getEndpoints(): Promise<IWorkerEndpoint[]> {
+    const { data } = await this.api.get<IWorkerEndpoint[]>(
       '/api/v1/private/node',
     );
 

@@ -1,43 +1,37 @@
-import { getQuery, RequestAction } from '@redux-requests/core';
-import { fetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import { replace } from 'connected-react-router';
 
-import { IApiChain } from '../api/queryChains';
 import { ChainsRoutesConfig } from '../routes/routesConfig';
+import { IApiChain } from '../api/queryChains';
+import { RootState } from 'store';
+import { chainsFetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { t } from 'modules/i18n/utils/intl';
+import { web3Api } from 'store/queries';
 
-export const fetchPrivateChainDetails = createSmartAction<
-  RequestAction<null, IApiChain>
->('chains/fetchPrivateChainDetails', (chainId: string) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    onRequest: (_request, _action, store) => {
-      return {
-        promise: (async (): Promise<IApiChain> => {
-          const {
-            data: { chains: privateChains = [] },
-          } = getQuery(store.getState(), {
-            type: fetchPrivateChains.toString(),
-            action: fetchPrivateChains,
-            defaultData: {},
-          });
+export const {
+  useChainsFetchPrivateChainDetailsQuery,
+  endpoints: { chainsFetchPrivateChainDetails },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchPrivateChainDetails: build.query<IApiChain, string>({
+      queryFn: createNotifyingQueryFn(
+        async (chainId, { getState, dispatch }) => {
+          const { data: { chains: privateChains = [] } = {} } =
+            chainsFetchPrivateChains.select()(getState() as RootState);
 
           const privateChainDetails = privateChains.find(
             item => item.id === chainId,
           );
 
           if (!privateChainDetails) {
-            store.dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
+            dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
+
             throw new Error(t('chain-item.not-found'));
           }
 
-          return privateChainDetails;
-        })(),
-      };
-    },
-  },
-}));
+          return { data: privateChainDetails };
+        },
+      ),
+    }),
+  }),
+});

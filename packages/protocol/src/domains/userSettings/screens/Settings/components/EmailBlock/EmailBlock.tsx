@@ -1,42 +1,43 @@
 import { Button, Paper, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import { IGetActiveEmailBindingResponse } from 'multirpc-sdk';
 
-import { t } from '@ankr.com/common';
-import { getActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChangeEmailDialog } from './components/ChangeEmailDialog';
 import { EmailSkeleton } from './components/Skeleton';
-import { useStyles } from './EmailBlockStyles';
-import { useEmailBlock } from './useEmailBlock';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { t } from '@ankr.com/common';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useEmailBlock } from './useEmailBlock';
+import { useLazyUserSettingsGetActiveEmailBindingQuery } from 'domains/userSettings/actions/email/getActiveEmailBinding';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { useStyles } from './EmailBlockStyles';
 
 export const EmailBlock = () => {
-  const classes = useStyles();
+  const [getActiveEmailBinding, activeEmailBindingState] =
+    useLazyUserSettingsGetActiveEmailBindingQuery();
+
   const { hasOauthLogin } = useAuth();
 
-  const dispatchRequest = useDispatchRequest();
-
-  useOnMount(() => {
-    dispatchRequest(getActiveEmailBinding());
-  });
-
   const {
+    closeChangeEmailDialog,
     isChangeEmailDialogOpen,
     openChangeEmailDialog,
-    closeChangeEmailDialog,
   } = useEmailBlock();
+
+  useOnMount(() => {
+    getActiveEmailBinding();
+  });
+
+  const classes = useStyles();
 
   return (
     <>
       <Paper className={classes.root}>
         <Typography className={classes.email} variant="h4">
-          <Queries<ResponseData<typeof getActiveEmailBinding>>
-            requestActions={[getActiveEmailBinding]}
+          <Queries<IGetActiveEmailBindingResponse>
+            queryStates={[activeEmailBindingState]}
             spinner={<EmailSkeleton />}
           >
-            {({ data: { email } }) => email}
+            {({ data: { email } = {} }) => email}
           </Queries>
         </Typography>
 

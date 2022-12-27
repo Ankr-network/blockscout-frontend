@@ -158,22 +158,16 @@ export const formatChartData = (
   }
 
   Object.keys(counts).forEach(timestamp => {
-    counts?.[timestamp]?.top_requests?.map(item => {
-      if (!item.method) {
-        item.method = UNKNOWN_NAME;
-      }
-
-      return item;
-    });
+    counts?.[timestamp]?.top_requests?.map(({ method, ...item }) => ({
+      ...item,
+      method: method || UNKNOWN_NAME,
+    }));
   });
 
-  total?.top_requests?.map(item => {
-    if (!item.method) {
-      item.method = UNKNOWN_NAME;
-    }
-
-    return item;
-  });
+  total?.top_requests?.map(({ method, ...item }) => ({
+    ...item,
+    method: method || UNKNOWN_NAME,
+  }));
 
   const listData = (total?.top_requests || [])?.map(
     (item: PrivateStatTopRequests) => item.method,
@@ -190,7 +184,7 @@ export const formatChartData = (
     Object.keys(counts).forEach(timestamp => {
       const item = counts?.[timestamp];
 
-      const topRequests = item?.top_requests || [];
+      const topRequests = [...(item?.top_requests || [])];
 
       const otherMethodItem = topRequests?.find(
         otherMethod => otherMethod?.method === otherMethodName,
@@ -202,6 +196,16 @@ export const formatChartData = (
           count: `${item?.others_info?.request_count}`,
           totalCost: '',
         });
+      }
+
+      if (counts) {
+        counts = {
+          ...counts,
+          [timestamp]: {
+            ...counts[timestamp],
+            top_requests: topRequests,
+          },
+        };
       }
     });
   }

@@ -7,7 +7,7 @@ import { IConfig, PrefixedHex, Web3Address } from '../../common';
 import { PAYGContractManager as IPAYGContractManager } from '../../PAYGContract';
 import { ContractReadService } from './ContractReadService';
 
-interface IIssueJwtTokenResult {
+export interface IIssueJwtTokenResult {
   isReady: boolean;
   remainingBlocks?: number;
 }

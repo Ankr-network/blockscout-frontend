@@ -1,16 +1,21 @@
-import { RequestAction } from '@redux-requests/core';
 import { connect } from 'near-api-js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { MethodsRequest } from 'domains/requestComposer/types';
 import {
-  getNearConnectionConfig,
   NearLibraryID,
   NearMethod,
+  getNearConnectionConfig,
 } from 'domains/requestComposer/constants/near';
-import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
-import { MethodsRequest } from 'domains/requestComposer/types';
 import { NearMethodResponse } from 'domains/requestComposer/types/near';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/near/RPCCallsConfig';
+import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
+import { web3Api } from 'store/queries';
+
+export interface FetchNearRequestParams {
+  libraryID: NearLibraryID;
+  params: MethodsRequest<NearMethod>;
+  web3URL: string;
+}
 
 export type FetchNearRequestResult = {
   response?: [NearMethodResponse];
@@ -18,56 +23,47 @@ export type FetchNearRequestResult = {
   time: number;
 };
 
-export const fetchNearRequest = createSmartAction<
-  RequestAction<MethodsRequest<NearMethod>, FetchNearRequestResult>
->(
-  'requestComposer/fetchNearRequest',
-  (
-    libraryID: NearLibraryID,
-    params: MethodsRequest<NearMethod>,
-    web3URL: string,
-  ) => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      hideNotificationOnError: true,
-      onRequest: (_, __, store) => {
-        return {
-          promise: (async (): Promise<FetchNearRequestResult> => {
-            const { methodName, params: args } = params;
+export const {
+  endpoints: { requestComposerFetchNearRequest },
+  useLazyRequestComposerFetchNearRequestQuery,
+  useRequestComposerFetchNearRequestQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    requestComposerFetchNearRequest: build.query<
+      FetchNearRequestResult,
+      FetchNearRequestParams
+    >({
+      queryFn: async ({ libraryID, params, web3URL }, { dispatch }) => {
+        const { methodName, params: args } = params;
 
-            store.dispatch(setEVMMethod(methodName as any));
+        dispatch(setEVMMethod(methodName));
 
-            const web3Method = RPC_CALLS_CONFIG[methodName] || {};
-            const { exec, parseArgs } = web3Method[libraryID] || {};
+        const web3Method = RPC_CALLS_CONFIG[methodName] || {};
+        const { exec, parseArgs } = web3Method[libraryID] || {};
 
-            const nearConnection = await connect(
-              getNearConnectionConfig(web3URL),
-            );
+        const nearConnection = await connect(getNearConnectionConfig(web3URL));
 
-            const { provider } = nearConnection.connection;
+        const { provider } = nearConnection.connection;
 
-            const start = performance.now();
+        const start = performance.now();
 
-            try {
-              const parsedArgs = args.map((arg, i) =>
-                parseArgs?.[i] ? parseArgs[i](arg) : arg,
-              );
+        try {
+          const parsedArgs = args.map((arg, i) =>
+            parseArgs?.[i] ? parseArgs[i](arg) : arg,
+          );
 
-              const data: NearMethodResponse = await exec(
-                provider,
-                ...parsedArgs,
-              );
-              const response: [NearMethodResponse] = [data];
+          const data: NearMethodResponse = await exec(provider, ...parsedArgs);
+          const response: [NearMethodResponse] = [data];
 
-              return { response, time: performance.now() - start };
-            } catch (error) {
-              return { error, time: performance.now() - start };
-            }
-          })(),
-        };
+          return {
+            data: { response, time: performance.now() - start },
+          };
+        } catch (error) {
+          return {
+            data: { error, time: performance.now() - start },
+          };
+        }
       },
-    },
+    }),
   }),
-);
+});

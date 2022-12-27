@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
@@ -10,34 +10,28 @@ import { AccountRoutes, PATH_ACCOUNT } from 'domains/account/Routes';
 import { Themes } from 'ui';
 
 export interface IGuardRoute extends RouteProps {
-  hasCredentials: boolean;
-  isManualConnected: boolean;
+  hasPremium: boolean;
 }
 
 export const GuardPricingRoute = ({
-  hasCredentials,
-  isManualConnected,
+  hasPremium,
   ...routeProps
 }: IGuardRoute) => {
   const { address } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();
-  const shouldReplace = useMemo(
-    () => hasCredentials && isManualConnected,
-    [hasCredentials, isManualConnected],
-  );
 
   useEffect(() => {
-    if (shouldReplace) {
+    if (hasPremium) {
       history.replace(PATH_ACCOUNT);
     }
-  }, [history, shouldReplace]);
+  }, [history, hasPremium]);
 
   useOnMount(() => {
-    if (!address || !hasCredentials) setBreadcrumbs([]);
+    if (!address || !hasPremium) setBreadcrumbs([]);
   });
 
-  if (shouldReplace) {
+  if (hasPremium) {
     return (
       <DefaultLayout theme={Themes.light}>
         <AccountRoutes />

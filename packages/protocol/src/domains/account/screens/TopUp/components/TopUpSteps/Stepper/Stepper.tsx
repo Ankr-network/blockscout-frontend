@@ -7,14 +7,14 @@ import { ReactComponent as WarningIcon } from 'uiKit/Icons/warning-icon.svg';
 interface IStepperProps {
   step: TopUpStep;
   className?: string;
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
   hasError?: boolean;
 }
 
 export const Stepper = ({
   step,
   className,
-  hasCredentials,
+  hasPrivateAccess,
   hasError,
 }: IStepperProps) => {
   const classes = useStyles();
@@ -42,7 +42,7 @@ export const Stepper = ({
           className={classes.root}
         />
       </Step>
-      {!hasCredentials && (
+      {!hasPrivateAccess && (
         <Step key={TopUpStep.login} completed={step >= TopUpStep.login}>
           <StepLabel />
         </Step>

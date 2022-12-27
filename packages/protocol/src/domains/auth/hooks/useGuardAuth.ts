@@ -1,29 +1,27 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { PRICING_PATH } from 'domains/pricing/Routes';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useEffect, useMemo } from 'react';
 import { RouteProps, useHistory } from 'react-router';
+import { useEffect } from 'react';
+
+import { PRICING_PATH } from 'domains/pricing/Routes';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export interface IGuardRoute extends RouteProps {
-  hasCredentials: boolean;
-  hasAuthData: boolean;
+  hasPremium: boolean;
   isManualDisconnected: boolean;
+  hasAuthData: boolean;
 }
 
 export const useGuardAuth = ({
-  hasCredentials,
   hasAuthData,
+  hasPremium,
   isManualDisconnected,
 }: IGuardRoute) => {
   const { address, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();
 
-  const shouldReplace = useMemo(
-    () => !hasAuthData || isManualDisconnected,
-    [hasAuthData, isManualDisconnected],
-  );
+  const shouldReplace = !hasAuthData || isManualDisconnected;
 
   useEffect(() => {
     if (shouldReplace) {
@@ -32,11 +30,10 @@ export const useGuardAuth = ({
   }, [history, shouldReplace]);
 
   useOnMount(() => {
-    if (!address || !hasCredentials) setBreadcrumbs([]);
+    if (!address || !hasPremium) setBreadcrumbs([]);
   });
 
   return {
     loading,
-    shouldReplace,
   };
 };

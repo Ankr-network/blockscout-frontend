@@ -1,13 +1,13 @@
-import { resetRequests } from '@redux-requests/core';
 import { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import { PaymentHistory, PaymentHistoryParams } from '../types';
-import { fetchTransactions } from 'domains/account/actions/fetchTransactions';
+import { accountFetchPaymentHistory } from 'domains/account/actions/fetchTransactions';
 import { getTransactionsRequest } from '../utils/getTransactionsRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 const defaultData = {
+  deductionsCursor: 0,
+  transactionsCursor: 0,
   list: [],
 };
 
@@ -15,31 +15,35 @@ export const useTransactions = ({
   paymentType,
   timeframe,
 }: PaymentHistoryParams): PaymentHistory => {
-  const {
-    data: { deductionsCursor, list: transactions, transactionsCursor },
-    loading,
-  } = useQuery({ defaultData, type: fetchTransactions });
-  const hasMore = deductionsCursor >= 0 || transactionsCursor >= 0;
+  const [
+    fetchTransactions,
+    {
+      data: {
+        deductionsCursor,
+        list: transactions,
+        transactionsCursor,
+      } = defaultData,
+      isLoading,
+    },
+    reset,
+  ] = useQueryEndpoint(accountFetchPaymentHistory);
 
-  const dispatchRequest = useDispatchRequest();
-  const dispatch = useDispatch();
+  const hasMore = deductionsCursor > 0 || transactionsCursor > 0;
 
   const loadMore = useCallback(() => {
     if (hasMore) {
-      dispatchRequest(
-        fetchTransactions(
-          getTransactionsRequest({
-            deductionsCursor,
-            paymentType,
-            timeframe,
-            transactionsCursor,
-          }),
-        ),
+      fetchTransactions(
+        getTransactionsRequest({
+          deductionsCursor,
+          paymentType,
+          timeframe,
+          transactionsCursor,
+        }),
       );
     }
   }, [
+    fetchTransactions,
     deductionsCursor,
-    dispatchRequest,
     hasMore,
     paymentType,
     timeframe,
@@ -47,19 +51,17 @@ export const useTransactions = ({
   ]);
 
   useEffect(() => {
-    dispatchRequest(
-      fetchTransactions(getTransactionsRequest({ paymentType, timeframe })),
-    );
+    fetchTransactions(getTransactionsRequest({ paymentType, timeframe }));
 
-    return () => {
-      dispatch(resetRequests([fetchTransactions.toString()]));
-    };
-  }, [dispatch, dispatchRequest, paymentType, timeframe]);
+    return reset;
+  }, [fetchTransactions, paymentType, reset, timeframe]);
+
+  const initializing = isLoading && transactions.length === 0;
 
   return {
     hasMore,
-    initializing: loading && transactions.length === 0,
-    loading,
+    initializing,
+    isLoading: !initializing && isLoading,
     loadMore,
     transactions,
   };

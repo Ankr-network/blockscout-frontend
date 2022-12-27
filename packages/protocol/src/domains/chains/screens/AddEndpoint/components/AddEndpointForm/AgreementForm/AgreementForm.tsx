@@ -6,14 +6,14 @@ import { tHTML } from 'modules/i18n/utils/intl';
 import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxField';
 import { useStyles } from './AgreementFormStyles';
 import { AddEndpointFormFields } from '../AddEndpointFormTypes';
-import { Mutation } from '@redux-requests/react';
-import { apiAddPrivateEndpoint } from 'domains/infrastructure/actions/addPrivateEndpoint';
+import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrastructure/actions/addPrivateEndpoint';
 
 const HAS_CHECKBOX = false;
 
 export const AgreementForm = () => {
   const classes = useStyles();
   const form = useForm();
+  const [, { isLoading }] = useLazyInfrastructureApiAddPrivateEndpointQuery();
 
   return (
     <div className={classes.root}>
@@ -37,23 +37,19 @@ export const AgreementForm = () => {
       )}
 
       <Box className={classes.buttonWrapper}>
-        <Mutation type={apiAddPrivateEndpoint}>
-          {({ loading }) => (
-            <Button
-              color="primary"
-              fullWidth
-              type="submit"
-              disabled={form.getState().validating || loading}
-              className={classes.button}
-            >
-              {form.getState().validating || loading ? (
-                <CircularProgress size={14} />
-              ) : (
-                tHTML('providers.add-endpoint.agreement.button')
-              )}
-            </Button>
+        <Button
+          color="primary"
+          fullWidth
+          type="submit"
+          disabled={form.getState().validating || isLoading}
+          className={classes.button}
+        >
+          {form.getState().validating || isLoading ? (
+            <CircularProgress size={14} />
+          ) : (
+            tHTML('providers.add-endpoint.agreement.button')
           )}
-        </Mutation>
+        </Button>
       </Box>
     </div>
   );

@@ -1,8 +1,4 @@
-import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-
 import { Balance as BalanceString } from 'domains/account/components/Balance';
-import { AccountRoutesConfig } from 'domains/account/Routes';
 import { t } from 'modules/i18n/utils/intl';
 import { SWITCH_CURRENCY_DISABLED } from '../ExpenseChart/const';
 import { useStyles } from './BalanceStyles';
@@ -36,14 +32,6 @@ export const Balance = ({
             <CurrencySwitcher currency={currency} onClick={switchCurrency} />
           )}
         </div>
-        <Button
-          className={classes.withdrawButton}
-          component={Link}
-          to={AccountRoutesConfig.withdraw.path}
-          variant="text"
-        >
-          {t(`${root}.withdrawButton.title`)}
-        </Button>
       </div>
       <BalanceString balance={balance} className={classes.balance} />
       <Details

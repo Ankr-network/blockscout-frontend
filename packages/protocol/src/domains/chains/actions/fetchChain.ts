@@ -1,15 +1,19 @@
-import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { replace } from 'connected-react-router';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import { IJwtToken, INodeEntity } from 'multirpc-sdk';
-import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
+import { INodeEntity } from 'multirpc-sdk';
 import { ChainsRoutesConfig } from '../routes/routesConfig';
-import { fetchChainNodes } from './fetchChainNodes';
-import { fetchPrivateChains } from './fetchPrivateChains';
-import { fetchPublicChains } from './fetchPublicChains';
+import { chainsFetchChainNodes } from './fetchChainNodes';
+import { chainsFetchPrivateChains } from './fetchPrivateChains';
+import { chainsFetchPublicChains } from './fetchPublicChains';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { t } from 'modules/i18n/utils/intl';
+import { web3Api } from 'store/queries';
+
+export interface ChainItemParams {
+  chainId: string;
+  hasPrivateAccess: boolean;
+}
 
 export interface IChainItemDetails {
   chain: IApiChain;
@@ -17,48 +21,42 @@ export interface IChainItemDetails {
   nodes?: INodeEntity[];
 }
 
-export const fetchChain = createSmartAction<
-  RequestAction<null, IChainItemDetails>
->('chains/fetchChain', (chainId: string, credentials?: IJwtToken) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    requestKey: chainId,
-    poll: 30,
-    onRequest: (
-      request: any,
-      action: RequestAction,
-      store: Store & { dispatchRequest: DispatchRequest },
-    ) => {
-      return {
-        promise: (async (): Promise<IChainItemDetails> => {
+export const {
+  endpoints: { chainsFetchChain },
+  useLazyChainsFetchChainQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchChain: build.query<IChainItemDetails, ChainItemParams>({
+      queryFn: createNotifyingQueryFn(
+        async ({ chainId, hasPrivateAccess }, { dispatch }) => {
           const [
             { data: { chains = [], allChains = [] } = {} },
             { data: nodes },
           ] = await Promise.all([
-            credentials
-              ? store.dispatchRequest(fetchPrivateChains())
-              : store.dispatchRequest(fetchPublicChains()),
-            store.dispatchRequest(fetchChainNodes(chainId)),
+            hasPrivateAccess
+              ? dispatch(chainsFetchPrivateChains.initiate())
+              : dispatch(chainsFetchPublicChains.initiate()),
+            dispatch(chainsFetchChainNodes.initiate(chainId)),
           ]);
 
           const chain = chains.find(item => item.id === chainId);
           const unfilteredChain = allChains.find(item => item.id === chainId);
 
           if (!chain || !unfilteredChain) {
-            store.dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
+            dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
+
             throw new Error(t('chain-item.not-found'));
           }
 
           return {
-            chain,
-            unfilteredChain,
-            nodes,
+            data: {
+              chain,
+              unfilteredChain,
+              nodes,
+            },
           };
-        })(),
-      };
-    },
-  },
-}));
+        },
+      ),
+    }),
+  }),
+});

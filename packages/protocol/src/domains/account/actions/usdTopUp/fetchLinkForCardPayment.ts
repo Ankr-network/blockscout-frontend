@@ -1,98 +1,81 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { throwIfError } from '@ankr.com/common';
-
 import { MultiService } from 'modules/api/MultiService';
-import { fetchPublicKey } from '../fetchPublicKey';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
+import { RootState } from 'store';
 import { USD_CURRENCY } from './const';
+import { accountFetchPublicKey } from '../fetchPublicKey';
+import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
+import { web3Api } from 'store/queries';
 
 export const ONE_TIME_PAYMENT_ID = 'one_time';
 
 export type OneTimePaymentIdType = typeof ONE_TIME_PAYMENT_ID;
 
-export const fetchLinkForCardPayment = createSmartAction<RequestAction<string>>(
-  'usdTopUp/fetchLinkForCardPayment',
-  (amount: string, id?: string | OneTimePaymentIdType) => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      onRequest: (
-        request: any,
-        action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        return {
-          promise: (async (): Promise<any> => {
-            const service = MultiService.getService();
+export interface FetchLinkForCardPaymentParams {
+  amount: string;
+  id?: string | OneTimePaymentIdType;
+}
 
-            let encryptionPublicKey;
+export const {
+  useLazyUsdTopUpFetchLinkForCardPaymentQuery,
+  endpoints: { usdTopUpFetchLinkForCardPayment },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    usdTopUpFetchLinkForCardPayment: build.query<
+      string,
+      FetchLinkForCardPaymentParams
+    >({
+      queryFn: async ({ amount, id }, { dispatch, getState }) => {
+        const service = MultiService.getService();
 
-            const { hasWeb3Connection } = selectAuthData(store.getState());
+        const { hasWeb3Connection } = selectAuthData(getState() as RootState);
 
-            if (hasWeb3Connection) {
-              const { data: publicKey } = throwIfError(
-                await store.dispatchRequest(fetchPublicKey()),
-              );
+        const encryptionPublicKey = hasWeb3Connection
+          ? await dispatch(accountFetchPublicKey.initiate()).unwrap()
+          : undefined;
 
-              encryptionPublicKey = publicKey;
-            }
+        const isRecurrentPaymentId = id && id !== ONE_TIME_PAYMENT_ID;
 
-            const isRecurrentPaymentId = id && id !== ONE_TIME_PAYMENT_ID;
+        if (isRecurrentPaymentId) {
+          const { url } = await service
+            .getAccountGateway()
+            .getLinkForRecurrentCardPayment({
+              currency: USD_CURRENCY,
+              product_price_id: id,
+              public_key: encryptionPublicKey,
+            });
 
-            if (isRecurrentPaymentId) {
-              const { url } = await service
-                .getAccountGateway()
-                .getLinkForRecurrentCardPayment({
-                  product_price_id: id,
-                  public_key: encryptionPublicKey,
-                  currency: USD_CURRENCY,
-                });
-
-              return url;
-            }
-
-            const { url } = await service
-              .getAccountGateway()
-              .getLinkForCardPayment({
-                amount,
-                publicKey: encryptionPublicKey,
-              });
-
-            return url;
-          })(),
-        };
-      },
-      hideNotificationOnError: true,
-      onError: (error, _action: RequestAction, store: RequestsStore) => {
-        const errorMessage = error?.response?.data?.error;
-
-        if (errorMessage) {
-          store.dispatch(
-            NotificationActions.showNotification({
-              message: errorMessage,
-              severity: 'error',
-            }),
-          );
+          return { data: url };
         }
 
-        throw error;
-      },
-      onSuccess: async (
-        response: any,
-        _action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        store.dispatch(
-          setAuthData({
-            isCardPayment: true,
-          }),
-        );
+        const { url } = await service
+          .getAccountGateway()
+          .getLinkForCardPayment({
+            amount,
+            publicKey: encryptionPublicKey,
+          });
 
-        return response;
+        return { data: url };
       },
-    },
+      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+
+          dispatch(setAuthData({ isCardPayment: true }));
+        } catch (error: any) {
+          const errorMessage = error?.response?.data?.error;
+
+          if (errorMessage) {
+            dispatch(
+              NotificationActions.showNotification({
+                message: errorMessage,
+                severity: 'error',
+              }),
+            );
+          }
+
+          throw error;
+        }
+      },
+    }),
   }),
-);
+});

@@ -1,98 +1,111 @@
-import { getQuery, QueryState, RequestAction } from '@redux-requests/core';
+import { BaseQueryFn, FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { ReactElement, ReactNode } from 'react';
-import { useAppSelector } from 'store/useAppSelector';
+import { SerializedError } from '@reduxjs/toolkit';
 import { Spinner } from 'ui';
+import { TypedUseQueryStateResult } from '@reduxjs/toolkit/dist/query/react';
+
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
 
-interface ILoadingProps<T1, T2, T3, T4, T5> {
-  requestActions: ((...args: any[]) => RequestAction)[];
-  requestKeys?: string[];
-  children: (
-    ...a: [
-      T1 extends void ? void : QueryState<T1>,
-      T2 extends void ? void : QueryState<T2>,
-      T3 extends void ? void : QueryState<T3>,
-      T4 extends void ? void : QueryState<T4>,
-      T5 extends void ? void : QueryState<T5>,
-    ]
-  ) => ReactNode;
-  noDataMessage?: ReactElement;
-  empty?: JSX.Element;
-  spinner?: ReactElement;
-  isPreloadDisabled?: boolean;
-  showLoaderDuringRefetch?: boolean;
-  disableErrorRender?: boolean;
+type QueryState<Result> = TypedUseQueryStateResult<Result, any, BaseQueryFn>;
+type QueryStates<R1, R2, R3, R4, R5> = R1 extends void
+  ? []
+  : [
+      QueryState<R1>,
+      ...(R2 extends void
+        ? []
+        : [
+            QueryState<R2>,
+            ...(R3 extends void
+              ? []
+              : [
+                  QueryState<R3>,
+                  ...(R4 extends void
+                    ? []
+                    : [
+                        QueryState<R4>,
+                        ...(R5 extends void ? [] : [QueryState<R5>]),
+                      ]),
+                ]),
+          ]),
+    ];
+
+interface QueriesProps<R1, R2, R3, R4, R5> {
+  children: (...args: QueryStates<R1, R2, R3, R4, R5>) => ReactNode;
   disableEmptyRender?: boolean;
+  disableErrorRender?: boolean;
+  empty?: JSX.Element;
+  isPreloadDisabled?: boolean;
+  noDataMessage?: ReactElement;
+  queryStates: QueryStates<R1, R2, R3, R4, R5>;
+  showLoaderDuringRefetch?: boolean;
+  spinner?: ReactElement;
 }
 
-function isLoading(queries: QueryState<any>[]) {
-  return queries.find(item => item.loading || item.pristine);
-}
-
-function hasError(queries: QueryState<any>[]) {
-  return queries.find(item => item.error);
-}
-
-function isDataEmpty(data: any) {
-  if (!data && typeof data !== 'number') {
-    return true;
-  }
-
-  return data instanceof Array && data.length === 0;
-}
-
-function isEmpty(queries: QueryState<any>[]) {
-  return queries.every(item => isDataEmpty(item.data));
-}
-
-export function Queries<T1 = void, T2 = void, T3 = void, T4 = void, T5 = void>({
-  requestActions,
-  children,
-  requestKeys,
-  noDataMessage,
-  empty,
-  spinner = <Spinner />,
-  isPreloadDisabled = false,
-  showLoaderDuringRefetch = true,
-  disableErrorRender = false,
-  disableEmptyRender = false,
-}: ILoadingProps<T1, T2, T3, T4, T5>) {
-  const queries = useAppSelector(state =>
-    requestActions.map((item, index) =>
-      getQuery(state, {
-        type: item.toString(),
-        action: item,
-        requestKey: requestKeys?.[index],
-      }),
-    ),
+function isLoading<R1, R2, R3, R4, R5>(
+  queriesStates: QueryStates<R1, R2, R3, R4, R5>,
+) {
+  return queriesStates.some(
+    item => item && (item.isLoading || item.isUninitialized),
   );
+}
 
+function hasError<R1, R2, R3, R4, R5>(
+  queriesStates: QueryStates<R1, R2, R3, R4, R5>,
+) {
+  const erroredState = queriesStates.find(item => item && item.error);
+
+  return erroredState
+    ? (erroredState.error as FetchBaseQueryError | SerializedError)
+    : undefined;
+}
+
+function isStateEmpty({ data, isUninitialized }: QueryState<unknown>) {
+  return isUninitialized || (data instanceof Array && data.length === 0);
+}
+
+function isEmpty<R1, R2, R3, R4, R5>(
+  queriesStates: QueryStates<R1, R2, R3, R4, R5>,
+) {
+  return queriesStates.every(state => state && isStateEmpty(state));
+}
+
+export function Queries<R1 = void, R2 = void, R3 = void, R4 = void, R5 = void>({
+  children,
+  disableEmptyRender = false,
+  disableErrorRender = false,
+  empty,
+  isPreloadDisabled = false,
+  noDataMessage,
+  queryStates = [] as QueryStates<R1, R2, R3, R4, R5>,
+  showLoaderDuringRefetch = true,
+  spinner = <Spinner />,
+}: QueriesProps<R1, R2, R3, R4, R5>) {
   if (
-    isLoading(queries) &&
+    isLoading<R1, R2, R3, R4, R5>(queryStates) &&
     !isPreloadDisabled &&
-    !(!showLoaderDuringRefetch && !isEmpty(queries))
+    !(!showLoaderDuringRefetch && !isEmpty(queryStates))
   ) {
     return noDataMessage || spinner;
   }
 
-  const error = hasError(queries);
+  const error = hasError<R1, R2, R3, R4, R5>(queryStates);
 
   if (error) {
     if (!disableErrorRender) {
       return <QueryError error={error} />;
     }
 
-    return <>{(children as any)(...queries)}</>;
+    return <>{children(...queryStates)}</>;
   }
 
-  if (isEmpty(queries) && !isPreloadDisabled) {
+  if (isEmpty(queryStates) && !isPreloadDisabled) {
     if (!disableEmptyRender) {
       return empty || <QueryEmpty />;
     }
 
-    return <>{(children as any)(...queries)}</>;
+    return <>{children(...queryStates)}</>;
   }
 
-  return <>{(children as any)(...queries)}</>;
+  return <>{children(...queryStates)}</>;
 }

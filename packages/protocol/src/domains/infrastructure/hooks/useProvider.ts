@@ -1,23 +1,22 @@
-import { useCallback } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { IProvider } from 'multirpc-sdk';
 
-import { fetchProvider } from 'domains/infrastructure/actions/fetchProvider';
+import { Trigger, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { infrastructureFetchProvider } from 'domains/infrastructure/actions/fetchProvider';
 
-export function useProvider() {
-  const dispatchRequest = useDispatchRequest();
+export interface Provider {
+  handleFetchProvider: Trigger<void, IProvider>;
+  isLoading: boolean;
+  providerData?: IProvider | null;
+}
 
-  const handleFetchProvider = useCallback(() => {
-    return dispatchRequest(fetchProvider());
-  }, [dispatchRequest]);
-
-  const { data, loading } = useQuery({
-    action: fetchProvider,
-    type: fetchProvider.toString(),
-  });
+export const useProvider = (): Provider => {
+  const [handleFetchProvider, { data, isLoading }] = useQueryEndpoint(
+    infrastructureFetchProvider,
+  );
 
   return {
     handleFetchProvider,
+    isLoading,
     providerData: typeof data === 'string' ? null : data,
-    loading,
   };
-}
+};

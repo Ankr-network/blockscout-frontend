@@ -1,9 +1,9 @@
+import { ILibraryConfig } from 'domains/requestComposer/types/tron';
 import {
   renderBroadcasttransactionParameters,
   renderGetaccountbalanceParameters,
   renderProposalcreateParameter,
 } from 'domains/requestComposer/components/composers/TronRequestComposer/TronLibraryContent/LibraryContentUtils';
-import { ILibraryConfig } from 'domains/requestComposer/types/tron';
 import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
 
 export enum Method {

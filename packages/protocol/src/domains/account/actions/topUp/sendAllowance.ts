@@ -1,57 +1,53 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
-import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { MultiService } from 'modules/api/MultiService';
-import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
-import { checkAllowanceTransaction } from './checkAllowanceTransaction';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
+import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
+import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
+import { web3Api } from 'store/queries';
 
-export const sendAllowance = createSmartAction<
-  RequestAction<IWeb3SendResult, IWeb3SendResult>,
-  [BigNumber]
->('topUp/sendAllowance', (amount: BigNumber) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
-      return {
-        promise: (async () => {
-          const service = await MultiService.getWeb3Service();
-          const provider = service.getKeyProvider();
-          const { currentAccount: address } = provider;
+export const {
+  useLazyTopUpSendAllowanceQuery,
+  endpoints: { topUpSendAllowance },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpSendAllowance: build.query<boolean, BigNumber>({
+      queryFn: createNotifyingQueryFn(async (amount, { dispatch }) => {
+        const service = await MultiService.getWeb3Service();
+        const provider = service.getKeyProvider();
+        const { currentAccount: address } = provider;
 
-          const allowanceResponse = await service
-            .getContractService()
-            .sendAllowanceForPAYG(amount);
+        const allowanceResponse = await service
+          .getContractService()
+          .sendAllowanceForPAYG(amount);
 
-          const { transactionHash: allowanceTransactionHash } =
-            allowanceResponse;
+        const { transactionHash: allowanceTransactionHash } = allowanceResponse;
 
-          store.dispatch(
+        dispatch(
+          setAllowanceTransaction({
+            address,
+            allowanceTransactionHash,
+          }),
+        );
+
+        const receipt = await dispatch(
+          topUpCheckAllowanceTransaction.initiate(allowanceTransactionHash),
+        ).unwrap();
+
+        if (receipt) {
+          dispatch(
             setAllowanceTransaction({
               address,
-              allowanceTransactionHash,
+              allowanceTransactionHash: receipt.transactionHash,
             }),
           );
-          const { data: receipt } = await store.dispatchRequest(
-            checkAllowanceTransaction(allowanceTransactionHash),
-          );
+        } else {
+          resetTransactionSliceAndRedirect(dispatch, address);
+        }
 
-          if (receipt) {
-            store.dispatch(
-              setAllowanceTransaction({
-                address,
-                allowanceTransactionHash: receipt.transactionHash,
-              }),
-            );
-          } else {
-            resetTransactionSliceAndRedirect(store, address);
-          }
-        })(),
-      };
-    },
-  },
-}));
+        return { data: true };
+      }),
+    }),
+  }),
+});

@@ -15,31 +15,27 @@ export interface AccountDetailsButtonProps {
 export const AccountDetailsButton = ({
   isMobile = false,
 }: AccountDetailsButtonProps) => {
-  const { balance, isLoading, isVisible, status } = useAccountData();
+  const { balance, isLoading, status } = useAccountData();
 
   const classes = useStyles(isMobile);
 
-  if (isVisible) {
-    return (
-      <LoadableButton<'a', LinkProps>
-        className={classes.accountDetailsButtonRoot}
-        component={Link}
-        loading={isLoading}
-        to={AccountRoutesConfig.accountDetails.path}
-        variant="text"
-      >
-        <div className={classes.content}>
-          <AccountMarker status={status} />
-          <span className={classes.label}>
-            <Balance balance={balance} className={classes.balance} />
-            <span className={classes.currency}>
-              &nbsp;{t('account.currencies.credit')}
-            </span>
+  return (
+    <LoadableButton<'a', LinkProps>
+      className={classes.accountDetailsButtonRoot}
+      component={Link}
+      loading={isLoading}
+      to={AccountRoutesConfig.accountDetails.path}
+      variant="text"
+    >
+      <div className={classes.content}>
+        <AccountMarker status={status} />
+        <span className={classes.label}>
+          <Balance balance={balance} className={classes.balance} />
+          <span className={classes.currency}>
+            &nbsp;{t('account.currencies.credit')}
           </span>
-        </div>
-      </LoadableButton>
-    );
-  }
-
-  return null;
+        </span>
+      </div>
+    </LoadableButton>
+  );
 };

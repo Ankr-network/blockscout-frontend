@@ -1,27 +1,26 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 
-import { fetchAccountBalance } from 'domains/account/actions/balance/fetchAccountBalance';
+import { accountFetchAccountBalance } from 'domains/account/actions/balance/fetchAccountBalance';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
-export const useAnkrBalanceOnWallet = () => {
-  const dispatchRequest = useDispatchRequest();
+export interface AnkrBalanceOnWallet {
+  ankrBalance?: BigNumber;
+  isLoading: boolean;
+}
 
-  const {
-    data,
-    loading: isLoading,
-    pristine,
-  } = useQuery({
-    type: fetchAccountBalance,
-  });
+export const useAnkrBalanceOnWallet = (
+  hasWeb3Connection: boolean,
+): AnkrBalanceOnWallet => {
+  const [fetchBalance, { data: ankrBalance, isLoading }] = useQueryEndpoint(
+    accountFetchAccountBalance,
+  );
 
   useOnMount(() => {
-    if (pristine) {
-      dispatchRequest(fetchAccountBalance());
+    if (hasWeb3Connection) {
+      fetchBalance();
     }
   });
 
-  return {
-    ankrBalance: data,
-    isLoading,
-  };
+  return { ankrBalance, isLoading };
 };

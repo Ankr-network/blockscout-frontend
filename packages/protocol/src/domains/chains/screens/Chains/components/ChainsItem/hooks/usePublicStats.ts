@@ -1,9 +1,8 @@
 import { Timeframe as DetailsTimeframe } from 'multirpc-sdk';
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { useEffect } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
-import { fetchChainDetails } from 'domains/chains/actions/fetchChainDetails';
+import { useLazyChainsFetchChainDetailsQuery } from 'domains/chains/actions/fetchChainDetails';
 
 export interface PublicStatsParams {
   chainId: string;
@@ -23,18 +22,14 @@ export const usePublicStats = ({
   isWalletConnected,
   timeframe,
 }: PublicStatsParams): boolean => {
-  const dispatchRequest = useDispatchRequest();
+  const [fetchChainDetails, { isLoading }] =
+    useLazyChainsFetchChainDetailsQuery();
 
   useEffect(() => {
     if (!isWalletConnected) {
-      dispatchRequest(fetchChainDetails(chainId, timeframesMap[timeframe]));
+      fetchChainDetails({ chainId, timeframe: timeframesMap[timeframe] });
     }
-  }, [isWalletConnected, dispatchRequest, chainId, timeframe]);
+  }, [fetchChainDetails, isWalletConnected, chainId, timeframe]);
 
-  const { loading } = useMutation({
-    type: fetchChainDetails,
-    requestKey: chainId,
-  });
-
-  return loading;
+  return isLoading;
 };

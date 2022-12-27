@@ -2,11 +2,11 @@ import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useMemo } from 'react';
 
-import { useRates } from 'domains/account/hooks/useRates';
-import { useRateBlockStyles } from './RateBlockStyles';
+import { CurrencyType } from './RateBlockTypes';
 import { getRate } from './RateBlockUtils';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { CurrencyType } from './RateBlockTypes';
+import { useRateBlockStyles } from './RateBlockStyles';
+import { useRates } from 'domains/account/hooks/useRates';
 
 interface RateBlockProps {
   currency: CurrencyType;
@@ -16,7 +16,7 @@ interface RateBlockProps {
 export const RateBlock = ({ value, currency }: RateBlockProps) => {
   const classes = useRateBlockStyles();
 
-  const { rates, isRateLoading, handleFetchRates } = useRates();
+  const { rates = [], isRateLoading, handleFetchRates } = useRates();
 
   useOnMount(() => {
     handleFetchRates();

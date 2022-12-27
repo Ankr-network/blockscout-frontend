@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-import { useDispatchRequest } from '@redux-requests/react';
+
 import { FORM_ERROR } from 'final-form';
 
 import {
@@ -13,22 +13,23 @@ import {
 } from './NotificationsFormUtils';
 import { NotificationsForm } from './NotificationsForm';
 import { FormAutoSubmit } from 'modules/form/components/FormAutoSubmit';
-import { editNotificationSettings } from 'domains/userSettings/actions/notifications/editNotificationSettings';
+import { useLazyUserSettingsEditNotificationSettingsQuery } from 'domains/userSettings/actions/notifications/editNotificationSettings';
 
 export const NotificationsFormContainer = ({
   settings,
 }: INotificationsFormProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const [editNotificationSettings] =
+    useLazyUserSettingsEditNotificationSettingsQuery();
 
   const onSubmit = useCallback(
     async (data: NotificationsFormData) => {
-      const { error } = await dispatchRequest(
-        editNotificationSettings(prepareValuesForRequest(data)),
+      const { error } = await editNotificationSettings(
+        prepareValuesForRequest(data),
       );
 
       return { [FORM_ERROR]: error };
     },
-    [dispatchRequest],
+    [editNotificationSettings],
   );
 
   const renderForm = useCallback(

@@ -1,6 +1,7 @@
-import { RequestAction } from '@redux-requests/core';
+import axios from 'axios';
+
 import { TronNodeUrl } from 'domains/requestComposer/utils/tron/tronJSConfig';
-import { createAction } from 'redux-smart-actions';
+import { web3Api } from 'store/queries';
 
 interface IBlockInfo {
   blockID: string;
@@ -12,19 +13,22 @@ interface IBlockInfo {
   };
 }
 
-export const fetchTronLastBlockNumber = createAction<
-  RequestAction<IBlockInfo, number>
->('chains/fetchTronLastBlockNumber', (web3URL: string) => ({
-  request: {
-    url: `${web3URL}${TronNodeUrl.FullNode}getnowblock`,
-  },
-  meta: {
-    poll: 30,
-    hideNotificationOnError: true,
-    driver: 'axios',
-    getData: (data: IBlockInfo) => {
-      const result = data.block_header.raw_data.number;
-      return result;
-    },
-  },
-}));
+export const {
+  endpoints: { chainsFetchTronLastBlockNumber },
+  useChainsFetchTronLastBlockNumberQuery,
+  useLazyChainsFetchTronLastBlockNumberQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchTronLastBlockNumber: build.query<number, string>({
+      queryFn: async web3URL => {
+        const api = axios.create();
+
+        const { data } = await api.get<IBlockInfo>(
+          `${web3URL}${TronNodeUrl.FullNode}getnowblock`,
+        );
+
+        return { data: data.block_header.raw_data.number };
+      },
+    }),
+  }),
+});

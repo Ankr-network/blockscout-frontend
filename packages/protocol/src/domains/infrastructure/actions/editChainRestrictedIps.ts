@@ -1,50 +1,60 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { RestrictedIps } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
-import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
-import { ResponseData } from 'modules/api/utils/ResponseData';
 import { ChainID } from 'modules/chains/types';
+import { GetState } from 'store';
+import { MultiService } from 'modules/api/MultiService';
 import { checkWhitelistSecretChainsAndGetChainId } from '../const';
-import { fetchSecuritySettings } from './fetchSecuritySettings';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { web3Api } from 'store/queries';
 
-export const editChainRestrictedIps = createSmartAction<
-  RequestAction<string[], string[]>
->(
-  'infrastructure/editChainRestrictedIps',
-  (chainId: string, ips: string[]) => ({
-    request: {
-      promise: async () => {
-        const service = MultiService.getService();
+export interface EditChainRestrictedIpsParams {
+  chainId: string;
+  ips: string[];
+}
 
-        const ipsResult = await service
-          .getWorkerGateway()
-          .editChainRestrictedIps(
-            checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
-            ips,
-          );
+export const {
+  useLazyInfrastructureEditChainRestrictedIpsQuery,
+  endpoints: { infrastructureEditChainRestrictedIps },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureEditChainRestrictedIps: build.query<
+      RestrictedIps,
+      EditChainRestrictedIpsParams
+    >({
+      queryFn: createNotifyingQueryFn(
+        async ({ chainId, ips }, { getState }) => {
+          credentialsGuard(getState as GetState);
 
-        if (typeof ipsResult === 'string') {
-          throw new Error(ipsResult);
-        }
+          const service = MultiService.getService();
 
-        return ipsResult;
-      },
-    },
-    meta: {
-      asMutation: true,
-      onRequest: credentialsGuard,
-      mutations: {
-        [fetchSecuritySettings.toString()]: (
-          data: ResponseData<typeof fetchSecuritySettings>,
-          mutationData: string[],
-        ): ResponseData<typeof fetchSecuritySettings> => {
-          return {
-            ...data,
-            ips: [...mutationData],
-          };
+          const ipsResult = await service
+            .getWorkerGateway()
+            .editChainRestrictedIps(
+              checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
+              ips,
+            );
+
+          if (typeof ipsResult === 'string') {
+            throw new Error(ipsResult);
+          }
+
+          return { data: ipsResult };
         },
+      ),
+      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+
+        dispatch(
+          web3Api.util.updateQueryData(
+            'infrastructureFetchSecuritySettings' as unknown as never,
+            undefined as unknown as never,
+            mutationData => {
+              Object.assign(mutationData, { ips: [...data] });
+            },
+          ),
+        );
       },
-    },
+    }),
   }),
-);
+});

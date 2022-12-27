@@ -1,23 +1,23 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { EthAddressType, MultiRpcWeb3ReadSdk } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
-import { timeout } from 'modules/common/utils/timeout';
+import { AppDispatch, RootState } from 'store';
 import {
+  IAuthSlice,
   selectAuthData,
   setAuthData,
-  IAuthSlice,
 } from 'domains/auth/store/authSlice';
-import { signout } from 'domains/oauth/actions/signout';
-import { EthAddressType, MultiRpcWeb3ReadSdk } from 'multirpc-sdk';
+import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { oauthSignout } from 'domains/oauth/actions/signout';
+import { timeout } from 'modules/common/utils/timeout';
+import { web3Api } from 'store/queries';
 
 const ONE_MINUTE_MS = 60_000;
 const TOPUP_EVENT_TIMEOUT = 3 * ONE_MINUTE_MS;
 
 const checkLastTopupEvent = async (
   web3ReadService: MultiRpcWeb3ReadSdk,
-  store: RequestsStore,
+  dispatch: AppDispatch,
   authData: IAuthSlice,
 ) => {
   if (!authData || !authData.address) return false;
@@ -49,7 +49,7 @@ const checkLastTopupEvent = async (
 
   // we should logout user after event. when he log in, token will be issued via web3 wallet
   if (isFirstPaymentByCardWithWeb3 || isCardTopupAfterTokenExpiration) {
-    store.dispatch(signout());
+    dispatch(oauthSignout.initiate());
 
     return false;
   }
@@ -65,14 +65,14 @@ const checkLastTopupEvent = async (
       encryptionPublicKey as string,
     );
 
-  store.dispatch(
+  dispatch(
     setAuthData({
       credentials: jwtToken,
       workerTokenData: currentWorkerTokenData,
     }),
   );
 
-  store.dispatch(
+  dispatch(
     NotificationActions.showNotification({
       message: 'account.premium-success',
       severity: 'success',
@@ -84,51 +84,48 @@ const checkLastTopupEvent = async (
   return false;
 };
 
-// Checking lastTopUpEvent with card. We should issue credentials for a user
-export const watchForTheFirstCardPayment = createSmartAction<
-  RequestAction<string>
->('usdTopUp/watchForTheFirstCardPayment', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    hideNotificationOnError: true,
-    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
-      return {
-        promise: (async (): Promise<void> => {
-          const authData = selectAuthData(store.getState());
+export const {
+  endpoints: { usdTopUpWatchForTheFirstCardPayment },
+  useUsdTopUpWatchForTheFirstCardPaymentQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    usdTopUpWatchForTheFirstCardPayment: build.query<boolean, void>({
+      queryFn: async (_args, { getState, dispatch }) => {
+        const authData = selectAuthData(getState() as RootState);
 
-          if (authData?.workerTokenData || !authData.address) return;
+        if (authData?.workerTokenData || !authData.address) {
+          return { data: true };
+        }
 
-          const web3ReadService = await MultiService.getWeb3ReadService();
+        const web3ReadService = await MultiService.getWeb3ReadService();
 
-          let shouldWatchForTopupEvent = await checkLastTopupEvent(
-            web3ReadService,
-            store,
-            authData,
-          );
+        let shouldWatchForTopupEvent = await checkLastTopupEvent(
+          web3ReadService,
+          dispatch,
+          authData,
+        );
 
-          // Check new top up event every 3 minutes
-          while (shouldWatchForTopupEvent) {
-            // eslint-disable-next-line
-            await timeout(TOPUP_EVENT_TIMEOUT);
+        // Check new top up event every 3 minutes
+        while (shouldWatchForTopupEvent) {
+          // eslint-disable-next-line
+          await timeout(TOPUP_EVENT_TIMEOUT);
 
-            const newAuthData = selectAuthData(store.getState());
+          const newAuthData = selectAuthData(getState() as RootState);
 
-            if (!newAuthData.address) {
-              shouldWatchForTopupEvent = false;
-              break;
-            }
-
-            // eslint-disable-next-line
-            shouldWatchForTopupEvent = await checkLastTopupEvent(
-              web3ReadService,
-              store,
-              newAuthData,
-            );
+          if (!newAuthData.address) {
+            break;
           }
-        })(),
-      };
-    },
-  },
-}));
+
+          // eslint-disable-next-line
+          shouldWatchForTopupEvent = await checkLastTopupEvent(
+            web3ReadService,
+            dispatch,
+            newAuthData,
+          );
+        }
+
+        return { data: true };
+      },
+    }),
+  }),
+});

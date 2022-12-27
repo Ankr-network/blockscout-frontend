@@ -1,28 +1,18 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 
-export const fetchLastBlockNumber = createAction<RequestAction<number>>(
-  'chains/fetchLastBlockNumber',
-  (web3URL: string) => ({
-    request: {
-      promise: (async () => {})(),
-    },
-    meta: {
-      poll: 30,
-      hideNotificationOnError: true,
-      onRequest: () => {
-        return {
-          promise: (async () => {
-            const result = await new Web3(web3URL).eth.getBlockNumber();
+import { web3Api } from 'store/queries';
 
-            return result;
-          })(),
-        };
+export const {
+  endpoints: { chainsFetchLastBlockNumber },
+  useLazyChainsFetchLastBlockNumberQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchLastBlockNumber: build.query<number, string>({
+      queryFn: async web3URL => {
+        const data = await new Web3(web3URL).eth.getBlockNumber();
+
+        return { data };
       },
-      onError: () => {
-        return '';
-      },
-    },
+    }),
   }),
-);
+});

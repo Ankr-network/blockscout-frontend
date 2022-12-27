@@ -1,49 +1,40 @@
-import React, { useEffect } from 'react';
-import { stopPolling } from '@redux-requests/core';
-import { useDispatch } from 'react-redux';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useEffect } from 'react';
 
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { fetchLastBlockNumber } from 'domains/requestComposer/actions/fetchLastBlockNumber';
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { Header } from '../../../Header';
 import { BlockNumber } from '../../../Header/BlockNumber';
+import { Header } from '../../../Header';
+import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { chainsFetchLastBlockNumber } from 'domains/requestComposer/actions/fetchLastBlockNumber';
 
-interface IHeaderProps {
-  publicUrl?: string;
+export interface HarmonyHeaderProps {
   chainName?: string;
+  publicUrl?: string;
 }
 
-type FetchLastBlockNumberResponseData = ResponseData<
-  typeof fetchLastBlockNumber
->;
+const options: Options = {
+  subscriptionOptions: {
+    pollingInterval: 30_000,
+  },
+};
 
-export const HarmonyHeader = ({ publicUrl, chainName }: IHeaderProps) => {
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
+export const HarmonyHeader = ({ publicUrl, chainName }: HarmonyHeaderProps) => {
+  const [fetchLastBlockNumber, { data = 0, isLoading }, reset] =
+    useQueryEndpoint(chainsFetchLastBlockNumber, options);
+
+  useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    dispatchRequest(fetchLastBlockNumber(publicUrl));
-  }, [dispatchRequest, publicUrl]);
+    if (publicUrl) {
+      const { unsubscribe } = fetchLastBlockNumber(publicUrl);
 
-  useOnUnmount(() => {
-    dispatch(stopPolling([fetchLastBlockNumber.toString()]));
-  });
+      return unsubscribe;
+    }
+
+    return () => {};
+  }, [fetchLastBlockNumber, publicUrl]);
 
   return (
     <Header chainName={chainName}>
-      <Queries<FetchLastBlockNumberResponseData>
-        requestActions={[fetchLastBlockNumber]}
-        isPreloadDisabled
-      >
-        {({ data, loading }) => (
-          <BlockNumber<FetchLastBlockNumberResponseData>
-            data={data}
-            loading={loading}
-          />
-        )}
-      </Queries>
+      <BlockNumber<number> data={data} loading={isLoading} />
     </Header>
   );
 };

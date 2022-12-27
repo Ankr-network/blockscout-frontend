@@ -58,7 +58,7 @@ export interface IPaymentHistoryRequest {
 }
 
 export interface IPaymentHistoryResponse {
-  transactions: IPaymentHistoryEntity[];
+  transactions?: IPaymentHistoryEntity[];
   cursor: string;
 }
 

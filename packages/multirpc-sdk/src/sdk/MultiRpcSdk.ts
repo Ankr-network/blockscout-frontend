@@ -1,12 +1,12 @@
+import { AccountGateway } from '../account';
+import { FetchBlockchainUrlsResult } from './types';
 import { IBlockchainEntity } from '../backoffice';
 import { IConfig } from '../common';
 import { IPublicGateway, PublicGateway } from '../public';
-import { FetchBlockchainUrlsResult } from './types';
-import { formatPrivateUrls, formatPublicUrls } from './utils';
 import { OauthGateway } from '../oauth';
-import { AccountGateway } from '../account';
 import { RpcGateway } from '../rpc/RpcGateway';
 import { WorkerGateway } from '../worker';
+import { formatPrivateUrls, formatPublicUrls } from './utils';
 
 export class MultiRpcSdk {
   private publicGateway?: IPublicGateway;
@@ -77,7 +77,7 @@ export class MultiRpcSdk {
 
   public formatPrivateEndpoints(
     blockchains: IBlockchainEntity[],
-    userEndpointToken: string,
+    userEndpointToken?: string,
   ): FetchBlockchainUrlsResult {
     return formatPrivateUrls(blockchains, this.config, userEndpointToken);
   }

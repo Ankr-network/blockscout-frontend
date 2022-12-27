@@ -1,31 +1,28 @@
 import { useCallback } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import {
   CreditsRate,
-  fetchCreditRates,
+  accountFetchCreditRates,
 } from 'domains/account/actions/rate/fetchCreditRates';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+export interface Rates {
+  handleFetchRates: () => void;
+  isRateLoading: boolean;
+  rates?: CreditsRate[];
+}
 
 export const useRates = () => {
-  const dispatchRequest = useDispatchRequest();
-
-  const {
-    data: rates,
-    loading: isRateLoading,
-    pristine,
-  } = useQuery<CreditsRate[]>({
-    type: fetchCreditRates.toString(),
-  });
+  const [
+    fetchRates,
+    { data: rates, isLoading: isRateLoading, isUninitialized },
+  ] = useQueryEndpoint(accountFetchCreditRates);
 
   const handleFetchRates = useCallback(() => {
-    if (pristine) {
-      dispatchRequest(fetchCreditRates());
+    if (isUninitialized) {
+      fetchRates();
     }
-  }, [pristine, dispatchRequest]);
+  }, [fetchRates, isUninitialized]);
 
-  return {
-    handleFetchRates,
-    rates,
-    isRateLoading,
-  };
+  return { handleFetchRates, isRateLoading, rates };
 };
