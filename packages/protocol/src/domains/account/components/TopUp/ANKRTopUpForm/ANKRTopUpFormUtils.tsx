@@ -122,7 +122,13 @@ export const useRenderForm = ({
         </form>
       );
     },
-    [classes.button, classes.form, validateAmount, isWalletConnected],
+    [
+      classes.button,
+      classes.amount,
+      classes.form,
+      validateAmount,
+      isWalletConnected,
+    ],
   );
 };
 

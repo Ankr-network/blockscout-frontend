@@ -96,7 +96,13 @@ export const useRenderForm = (
         </form>
       );
     },
-    [classes.button, classes.form, isLoading, shouldUseDefaultValue],
+    [
+      classes.button,
+      classes.rootForm,
+      classes.form,
+      isLoading,
+      shouldUseDefaultValue,
+    ],
   );
 };
 
