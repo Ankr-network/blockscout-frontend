@@ -32,6 +32,10 @@ export const useStakeFormStyles = makeStyles(theme => {
       },
     },
 
+    amountLabel: {
+      fontSize: '14px',
+    },
+
     partnerCode: {
       fontWeight: 500,
 
