@@ -11,11 +11,11 @@ export interface Subscriptions {
 }
 
 export const useSubscriptions = (): Subscriptions => {
-  const { isConnecting, isConnected } = useAccountAuth();
+  const { isConnecting, hasPremium } = useAccountAuth();
 
   const [fetchSubscriptionsData, subscriptions, isLoading] =
     useFetchSubscriptions({
-      isConnected,
+      hasPremium,
     });
 
   const [cancelSubscriptionInternal] = useLazyCancelSubscriptionQuery();

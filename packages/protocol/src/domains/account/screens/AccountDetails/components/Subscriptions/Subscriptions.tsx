@@ -7,9 +7,8 @@ import { CancelSubscriptionDialog } from './CancelSubscriptionDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useCallback, useState } from 'react';
 import { ISubscriptionsItem } from 'multirpc-sdk';
-import { uid } from 'react-uid';
 
-export function Subscriptions() {
+export const Subscriptions = () => {
   const classes = useSubscriptionsStyles();
 
   const { isOpened, onOpen, onClose } = useDialog();
@@ -24,7 +23,7 @@ export function Subscriptions() {
     [setSelectedItem, onOpen],
   );
 
-  const handleOk = useCallback(() => {
+  const handleSuccess = useCallback(() => {
     if (!selectedItem) {
       return;
     }
@@ -42,7 +41,7 @@ export function Subscriptions() {
           {t('account.account-details.subscriptions.top-up-subscription')}
         </Typography>
         {subscriptions?.items?.map(item => (
-          <div key={uid(item)} className={classes.item}>
+          <div key={item.id} className={classes.item}>
             <div className={classes.textContainer}>
               {item.type === 'recurring' && <RefreshIcon />}
               <Typography className={classes.text} variant="h4">
@@ -52,7 +51,6 @@ export function Subscriptions() {
                 })}
               </Typography>
             </div>
-            {/* <div className={classes.cancelContainer}> */}
             <Typography
               component="div"
               className={classes.cancel}
@@ -61,15 +59,14 @@ export function Subscriptions() {
             >
               {t('account.account-details.subscriptions.cancel-subscription')}
             </Typography>
-            {/* </div> */}
           </div>
         ))}
       </div>
       <CancelSubscriptionDialog
         open={isOpened}
-        onOk={handleOk}
+        onSuccess={handleSuccess}
         onClose={onClose}
       />
     </>
   );
-}
+};

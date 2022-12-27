@@ -1,7 +1,6 @@
 import { Theme, makeStyles } from '@material-ui/core';
 
 export const useCancelSubscriptionDialogStyles = makeStyles<Theme>(theme => ({
-  root: {},
   dialogTitle: {
     '& h2': {
       display: 'flex',

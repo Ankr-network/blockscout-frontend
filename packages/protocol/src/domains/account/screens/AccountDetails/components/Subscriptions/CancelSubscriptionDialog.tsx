@@ -5,13 +5,13 @@ import { useCancelSubscriptionDialogStyles } from './useCancelSubscriptionDialog
 
 export interface ICancelSubscriptionDialogProps {
   open: boolean;
-  onOk: () => void;
+  onSuccess: () => void;
   onClose: () => void;
 }
 
 export function CancelSubscriptionDialog({
   open,
-  onOk,
+  onSuccess,
   onClose,
 }: ICancelSubscriptionDialogProps) {
   const classes = useCancelSubscriptionDialogStyles();
@@ -20,7 +20,6 @@ export function CancelSubscriptionDialog({
     <Dialog
       maxPxWidth={618}
       title={t('account.account-details.subscriptions.are-you-sure')}
-      className={classes.root}
       titleClassName={classes.dialogTitle}
       open={open}
       onClose={onClose}
@@ -30,7 +29,7 @@ export function CancelSubscriptionDialog({
           {t('account.account-details.subscriptions.if-you-continue')}
         </Typography>
         <div className={classes.buttons}>
-          <Button variant="outlined" onClick={onOk}>
+          <Button variant="outlined" onClick={onSuccess}>
             {t('account.account-details.subscriptions.cancel-subscription')}
           </Button>
           <Button onClick={onClose}>
