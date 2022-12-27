@@ -1,23 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useFillStepStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
 
     '& *': {
       lineHeight: '24px',
-    },
-  },
-  description: {
-    fontSize: 20,
-    letterSpacing: '0.05em',
-
-    color: theme.palette.grey[700],
-    marginBottom: theme.spacing(3.75),
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 20,
-      marginBottom: theme.spacing(2),
     },
   },
   featureContainer: {
