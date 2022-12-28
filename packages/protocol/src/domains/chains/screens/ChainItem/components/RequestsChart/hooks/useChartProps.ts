@@ -8,19 +8,19 @@ import { t } from 'modules/i18n/utils/intl';
 
 export type ChartPropsParams = Pick<
   RequestsChartProps,
-  'isWalletConnected' | 'loading' | 'timeframe' | 'totalRequestsHistory'
+  'isLoggedIn' | 'loading' | 'timeframe' | 'totalRequestsHistory'
 >;
 
 export const useChartProps = ({
-  isWalletConnected,
+  isLoggedIn,
   loading,
   timeframe,
   totalRequestsHistory,
 }: ChartPropsParams): IChartProps => {
   const data = useMemo(
-    () => processData(timeframe, totalRequestsHistory, isWalletConnected),
+    () => processData(timeframe, totalRequestsHistory, isLoggedIn),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isWalletConnected, totalRequestsHistory],
+    [isLoggedIn, totalRequestsHistory],
   );
 
   const yAxisTickFormatter = useCallback(

@@ -1,28 +1,26 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { MultiService } from 'modules/api/MultiService';
 import { INotificationsSettings } from 'multirpc-sdk';
 
-export const fetchNotificationSettings = createSmartAction<
-  RequestAction<INotificationsSettings, INotificationsSettings>
->('userSettings/fetchNotificationSettings', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    onRequest: () => {
-      return {
-        promise: (async (): Promise<INotificationsSettings> => {
-          const service = await MultiService.getService();
+import { MultiService } from 'modules/api/MultiService';
+import { web3Api } from 'store/queries';
 
-          const data = await service
-            .getAccountGateway()
-            .getNotificationSettings();
+export const {
+  endpoints: { userSettingsFetchNotificationSettings },
+  useLazyUserSettingsFetchNotificationSettingsQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    userSettingsFetchNotificationSettings: build.query<
+      INotificationsSettings,
+      void
+    >({
+      queryFn: async () => {
+        const service = MultiService.getService();
 
-          return data;
-        })(),
-      };
-    },
-  },
-}));
+        const data = await service
+          .getAccountGateway()
+          .getNotificationSettings();
+
+        return { data };
+      },
+    }),
+  }),
+});

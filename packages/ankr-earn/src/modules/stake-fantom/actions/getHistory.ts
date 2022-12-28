@@ -1,8 +1,10 @@
-import { FantomSDK, FANTOM_BLOCK_WEEK_OFFSET } from '@ankr.com/staking-sdk';
+import { FANTOM_BLOCK_WEEK_OFFSET } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
+
+import { getFantomSDK } from '../utils/getFantomSDK';
 
 export interface IGetHistoryData {
   [Token.aFTMb]: IBaseHistoryData;
@@ -20,7 +22,7 @@ export const { useLazyGetFTMHistoryQuery } = web3Api.injectEndpoints({
     getFTMHistory: build.query<IGetHistoryData, IGetHistoryArgs>({
       queryFn: queryFnNotifyWrapper<IGetHistoryArgs, never, IGetHistoryData>(
         async ({ step }) => {
-          const sdk = await FantomSDK.getInstance();
+          const sdk = await getFantomSDK();
           const latestBlock = await sdk.getLatestBlock();
 
           const from = latestBlock - FANTOM_BLOCK_2_WEEKS_OFFSET * (step + 1);

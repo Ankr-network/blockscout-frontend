@@ -1,6 +1,6 @@
-import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 
 export interface DeleteButtonProps {
   className?: string;
-  endpoint: IUserEndpoint;
+  endpoint: UserEndpoint;
 }

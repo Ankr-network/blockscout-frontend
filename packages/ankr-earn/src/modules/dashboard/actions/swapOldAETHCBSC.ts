@@ -5,10 +5,10 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { Token } from 'modules/common/types/token';
+import { getBinanceSDK } from 'modules/stake-bnb/utils/getBinanceSDK';
 import { RoutesConfig } from 'modules/swap/Routes';
 
 export const swapOldAETHCBSC = createSmartAction<
@@ -17,7 +17,7 @@ export const swapOldAETHCBSC = createSmartAction<
 >('dashboard/swapOldAETHCBSC', amount => ({
   request: {
     promise: (async (): Promise<IWeb3SendResult> => {
-      const sdk = await BinanceSDK.getInstance();
+      const sdk = await getBinanceSDK();
 
       return sdk.swapOldAETHC(amount);
     })(),

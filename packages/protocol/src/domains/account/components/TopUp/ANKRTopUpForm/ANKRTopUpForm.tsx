@@ -1,7 +1,8 @@
+import { useCallback } from 'react';
 import { Form } from 'react-final-form';
 
 import { useStyles } from './ANKRTopUpFormStyles';
-import { TopUpFormProps } from './ANKRTopUpFormTypes';
+import { AmountInputField, TopUpFormProps } from './ANKRTopUpFormTypes';
 import {
   useRenderDisabledForm,
   useRenderForm,
@@ -29,9 +30,22 @@ export const ANKRTopUpForm = ({
   });
   const renderDisabledForm = useRenderDisabledForm(classes);
 
+  const handleSubmit = useCallback(
+    data => {
+      const amountError = validateAmount?.(data?.amount);
+
+      if (amountError) {
+        return { [AmountInputField.amount]: amountError };
+      }
+
+      return onSubmit(data);
+    },
+    [onSubmit, validateAmount],
+  );
+
   return (
     <Form
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
       render={isTopUpInProcess ? renderDisabledForm : renderForm}
       initialValues={initialValues}
     />

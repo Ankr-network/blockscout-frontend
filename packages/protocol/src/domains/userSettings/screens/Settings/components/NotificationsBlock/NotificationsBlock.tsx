@@ -1,21 +1,20 @@
 import { Paper, Typography } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
-
+import { INotificationsSettings } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
-import { useStyles } from './NotificationsBlockStyles';
+
 import { NotificationsForm } from './NotificationsForm';
 import { Queries } from 'modules/common/components/Queries/Queries';
+import { useLazyUserSettingsFetchNotificationSettingsQuery } from 'domains/userSettings/actions/notifications/fetchNotificationSettings';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { fetchNotificationSettings } from 'domains/userSettings/actions/notifications/fetchNotificationSettings';
-import { ResponseData } from 'modules/api/utils/ResponseData';
+import { useStyles } from './NotificationsBlockStyles';
 
 export const NotificationsBlock = () => {
   const classes = useStyles();
-
-  const dispatchRequest = useDispatchRequest();
+  const [fetchNotificationSettings, notificationSettingsState] =
+    useLazyUserSettingsFetchNotificationSettingsQuery();
 
   useOnMount(() => {
-    dispatchRequest(fetchNotificationSettings());
+    fetchNotificationSettings();
   });
 
   return (
@@ -24,10 +23,10 @@ export const NotificationsBlock = () => {
         {t('user-settings.notifications.title')}
       </Typography>
 
-      <Queries<ResponseData<typeof fetchNotificationSettings>>
-        requestActions={[fetchNotificationSettings]}
+      <Queries<INotificationsSettings>
+        queryStates={[notificationSettingsState]}
       >
-        {({ data }) => <NotificationsForm settings={data} />}
+        {({ data = {} }) => <NotificationsForm settings={data} />}
       </Queries>
     </Paper>
   );

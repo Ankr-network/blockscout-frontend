@@ -1,9 +1,9 @@
-import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 
 export interface UserEndpointsProps {
-  endpoints: IUserEndpoint[];
   chainId: string;
-  onSubmit: (updatedEndpoint?: IUserEndpoint) => void;
+  endpoints: UserEndpoint[];
+  onSubmit: (updatedEndpoint?: UserEndpoint) => void;
   privateUrls: string[];
   publicUrls: string[];
 }
@@ -13,5 +13,5 @@ export enum UserEndpointsFormFields {
 }
 
 export interface UserEndpointsFormData {
-  rpcLinks: IUserEndpoint[];
+  rpcLinks: UserEndpoint[];
 }

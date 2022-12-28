@@ -1,6 +1,7 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { IEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { IProvider } from 'multirpc-sdk';
+
+import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
+import { IApiChain } from 'domains/chains/api/queryChains';
 
 export const getChainById = (
   chains: IApiChain[],
@@ -13,7 +14,7 @@ export const getChainById = (
 
 export const hasLimit = (
   providerData: IProvider | null,
-  endpoints: IEndpoint,
+  endpoints: Endpoints,
 ) => {
   if (typeof providerData === 'string' || !providerData) return false;
 
@@ -44,7 +45,7 @@ const hasChain = (providerData: IProvider, chainId: string) => {
 };
 
 export const canAddEndpoint = (
-  providerData: IProvider | null,
+  providerData: IProvider | null | undefined,
   chainId?: string,
 ): boolean => {
   if (!providerData) return false;

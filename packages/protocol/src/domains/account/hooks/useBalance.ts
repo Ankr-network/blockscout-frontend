@@ -1,38 +1,38 @@
-import { stopPolling } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { defaultBalance } from 'domains/account/actions/balance/const';
-import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
 import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
+import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
+import { defaultBalance } from 'domains/account/actions/balance/const';
 
 export interface Balance extends AccountBalance {
   isLoading: boolean;
   isLoadingInitially: boolean;
 }
 
-const actionType = fetchBalance.toString();
+const options: Options = {
+  subscriptionOptions: {
+    pollingInterval: 30_000,
+  },
+};
 
-export const useBalance = (hasCredentials: boolean): Balance => {
-  const { data: balances, loading: isLoading } = useQuery<AccountBalance>({
-    type: actionType,
-  });
+export const useBalance = (hasPrivateAccess: boolean): Balance => {
+  const [fetchBalance, { data: balances, isLoading }] = useQueryEndpoint(
+    accountFetchBalance,
+    options,
+  );
 
   const isLoadingInitially = !balances && isLoading;
 
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
-
   useEffect(() => {
-    if (hasCredentials) {
-      dispatchRequest(fetchBalance());
+    if (hasPrivateAccess) {
+      const { unsubscribe } = fetchBalance();
+
+      return unsubscribe;
     }
 
-    return () => {
-      dispatch(stopPolling([actionType]));
-    };
-  }, [dispatch, dispatchRequest, hasCredentials]);
+    return () => {};
+  }, [fetchBalance, hasPrivateAccess]);
 
   return { ...(balances || defaultBalance), isLoading, isLoadingInitially };
 };

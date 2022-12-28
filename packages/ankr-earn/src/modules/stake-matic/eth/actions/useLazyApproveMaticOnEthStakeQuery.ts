@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
 
-import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
+
+import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 interface IApproveMATICStakeProps {
   amount: BigNumber;
@@ -15,7 +15,7 @@ export const { useLazyApproveMaticOnEthStakeQuery } = web3Api.injectEndpoints({
     approveMaticOnEthStake: build.query<boolean, IApproveMATICStakeProps>({
       queryFn: queryFnNotifyWrapper<IApproveMATICStakeProps, never, boolean>(
         async ({ amount }) => {
-          const sdk = await PolygonOnEthereumSDK.getInstance();
+          const sdk = await getPolygonOnEthereumSDK();
 
           return { data: await sdk.approveMATICToken(amount) };
         },

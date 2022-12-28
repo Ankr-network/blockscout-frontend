@@ -1,28 +1,23 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { PrivateStats } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
-import { fetchMonthPrivateStats } from '../actions/fetchMonthPrivateStats';
+import { useLazyChainsFetchMonthPrivateStatsQuery } from '../actions/fetchMonthPrivateStats';
 
 export interface PrivateStatsParams {
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
 }
 
 export const useMonthPrivateStats = ({
-  hasCredentials,
+  hasPrivateAccess,
 }: PrivateStatsParams): [PrivateStats, boolean] => {
-  const { data: stats, loading } = useQuery({
-    defaultData: {},
-    type: fetchMonthPrivateStats,
-  });
-
-  const dispatch = useDispatchRequest();
+  const [fetchMonthPrivateStats, { data: stats = {}, isLoading }] =
+    useLazyChainsFetchMonthPrivateStatsQuery();
 
   useEffect(() => {
-    if (hasCredentials) {
-      dispatch(fetchMonthPrivateStats());
+    if (hasPrivateAccess) {
+      fetchMonthPrivateStats();
     }
-  }, [hasCredentials, dispatch]);
+  }, [hasPrivateAccess, fetchMonthPrivateStats]);
 
-  return [stats, loading];
+  return [stats, isLoading];
 };

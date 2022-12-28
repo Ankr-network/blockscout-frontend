@@ -1,14 +1,14 @@
 interface ShouldShowConnectWalletButtoParams {
   hasWeb3Connection?: boolean;
   hasOauthLogin?: boolean;
-  hasCredentials?: boolean;
+  hasPrivateAccess?: boolean;
   isUserAddress?: boolean;
 }
 
 export const shouldShowConnectWalletButton = ({
   hasWeb3Connection,
   hasOauthLogin,
-  hasCredentials,
+  hasPrivateAccess,
   isUserAddress,
 }: ShouldShowConnectWalletButtoParams) => {
   if (!hasWeb3Connection && !hasOauthLogin) {
@@ -20,7 +20,7 @@ export const shouldShowConnectWalletButton = ({
   }
 
   const isNewWeb3UserWithBindedEmail =
-    hasOauthLogin && !hasCredentials && isUserAddress;
+    hasOauthLogin && !hasPrivateAccess && isUserAddress;
 
   if (isNewWeb3UserWithBindedEmail) {
     return { hasConnectButton: true, isNewWeb3UserWithBindedEmail: true };

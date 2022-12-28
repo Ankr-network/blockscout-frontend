@@ -1,8 +1,5 @@
 import { Box, Container } from '@material-ui/core';
-import { useEffect } from 'react';
-import { useHistory } from 'react-router';
 
-import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { t } from 'modules/i18n/utils/intl';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
@@ -20,22 +17,14 @@ import { Features } from './components/Features';
 export const Pricing = () => {
   const classes = usePricingStyles();
   const isMobile = useIsXSDown();
-  const history = useHistory();
   const {
-    credentials,
+    hasPrivateAccess,
     loading,
-    isWalletConnected,
     hasWeb3Connection,
     hasOauthLogin,
     address,
     isUserEthAddressType,
   } = useAuth();
-
-  useEffect(() => {
-    if (credentials || (isWalletConnected && history.action === 'REPLACE')) {
-      history.replace(PATH_ACCOUNT);
-    }
-  }, [history, credentials, isWalletConnected]);
 
   useSetBreadcrumbs([
     {
@@ -76,7 +65,7 @@ export const Pricing = () => {
               <PremiumBlock
                 hasWeb3Connection={hasWeb3Connection}
                 hasOauthLogin={hasOauthLogin}
-                hasCredentials={Boolean(credentials)}
+                hasPrivateAccess={hasPrivateAccess}
                 address={address}
                 isUserAddress={isUserEthAddressType}
               />

@@ -6,9 +6,9 @@ import { tHTML } from 'modules/i18n/utils/intl';
 
 export const ExpiredTokenBanner = () => {
   const classes = useExpiredTokenBannerStyles();
-  const { credentials, workerTokenData, hasOauthLogin } = useAuth();
+  const { hasPrivateAccess, workerTokenData, hasOauthLogin } = useAuth();
 
-  return credentials &&
+  return hasPrivateAccess &&
     !workerTokenData?.userEndpointToken &&
     !hasOauthLogin ? (
     <BaseInfoBanner

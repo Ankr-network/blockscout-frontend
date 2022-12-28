@@ -1,26 +1,26 @@
-import React from 'react';
 import { Box, Container, Paper, Typography } from '@material-ui/core';
 
-import { useStyles } from './TopUpStepsStyles';
-import { t } from 'modules/i18n/utils/intl';
-import { Stepper } from './Stepper';
-import { StepperTitle } from './StepperTitle';
-import { StepperNotice } from './StepperNotice';
+import { Buttons } from './Buttons';
 import { ITopUpStepsProps } from './TopUpStepsTypes';
+import { Stepper } from './Stepper';
+import { StepperNotice } from './StepperNotice';
+import { StepperTitle } from './StepperTitle';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { TransactionButton } from './TransactionButton';
-import { Buttons } from './Buttons';
+import { t } from 'modules/i18n/utils/intl';
+import { useStyles } from './TopUpStepsStyles';
 
 export const TopUpSteps = ({
-  step,
+  amount,
+  hasPrivateAccess,
+  hasError,
+  isRejectAllowanceLoading,
+  loading,
+  loadingWaitTransactionConfirming,
   onConfirm,
   onReject,
-  loading,
-  amount,
-  hasCredentials,
-  isRejectAllowanceLoading,
+  step,
   transactionHash,
-  hasError,
   walletMeta,
 }: ITopUpStepsProps) => {
   const classes = useStyles();
@@ -38,7 +38,7 @@ export const TopUpSteps = ({
           <Stepper
             step={step}
             className={classes.stepper}
-            hasCredentials={hasCredentials}
+            hasPrivateAccess={hasPrivateAccess}
             hasError={hasError}
           />
           <StepperTitle
@@ -58,13 +58,14 @@ export const TopUpSteps = ({
           )}
         </Box>
         <Buttons
+          hasPrivateAccess={hasPrivateAccess}
+          hasError={hasError}
+          isRejectAllowanceLoading={isRejectAllowanceLoading}
+          loading={loading}
+          loadingWaitTransactionConfirming={loadingWaitTransactionConfirming}
           onConfirm={onConfirm}
           onReject={onReject}
-          loading={loading}
-          isRejectAllowanceLoading={isRejectAllowanceLoading}
-          hasCredentials={hasCredentials}
           step={step}
-          hasError={hasError}
         />
       </Paper>
     </Container>

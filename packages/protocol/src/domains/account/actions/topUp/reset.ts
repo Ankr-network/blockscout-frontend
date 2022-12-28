@@ -1,52 +1,42 @@
-import {
-  RequestAction,
-  RequestsStore,
-  resetRequests,
-} from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { GetState } from 'store';
+import { accountFetchPublicKey } from '../fetchPublicKey';
+import { getEndpointName } from 'store/utils/getEndpointName';
+import { resetEndpoints } from 'store/utils/resetEndpoints';
+import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
+import { topUpDeposit } from './deposit';
+import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
+import { topUpGetInitialStep } from './getInitialStep/getInitialStep';
+import { topUpGetLastLockedFundsEvent } from './getLastLockedFundsEvent';
+import { topUpLogin } from './login';
+import { topUpSendAllowance } from './sendAllowance';
+import { topUpWaitTransactionConfirming } from './waitTransactionConfirming';
+import { web3Api } from 'store/queries';
 
-import { sendAllowance } from './sendAllowance';
-import { fetchPublicKey } from '../fetchPublicKey';
-import { deposit } from './deposit';
-import { waitTransactionConfirming } from './waitTransactionConfirming';
-import { login } from './login';
-// eslint-disable-next-line import/no-cycle
-import { getInitialStep } from './getInitialStep/getInitialStep';
-import { getLastLockedFundsEvent } from './getLastLockedFundsEvent';
-import { checkAllowanceTransaction } from './checkAllowanceTransaction';
-import { fetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
+export const {
+  endpoints: { topUpReset },
+  useLazyTopUpResetQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpReset: build.query<null, void>({
+      queryFn: (_arg, { dispatch, getState: untypedGetState }) => {
+        const getState = untypedGetState as GetState;
 
-export const reset = createSmartAction<RequestAction<string, string>>(
-  'topUp/reset',
-  () => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      onRequest: (
-        request: any,
-        action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        return {
-          promise: (async () => {
-            store.dispatch(
-              resetRequests([
-                getInitialStep.toString(),
-                sendAllowance.toString(),
-                fetchPublicKey.toString(),
-                deposit.toString(),
-                waitTransactionConfirming.toString(),
-                fetchTransactionConfirmationStatus.toString(),
-                login.toString(),
-                getLastLockedFundsEvent.toString(),
-                checkAllowanceTransaction.toString(),
-              ]),
-            );
-          })(),
-        };
+        const endpoints = [
+          getEndpointName(topUpGetInitialStep, getState),
+          getEndpointName(topUpSendAllowance, getState),
+          getEndpointName(accountFetchPublicKey, getState),
+          getEndpointName(topUpDeposit, getState),
+          getEndpointName(topUpWaitTransactionConfirming, getState),
+          getEndpointName(topUpFetchTransactionConfirmationStatus, getState),
+          getEndpointName(topUpLogin, getState),
+          getEndpointName(topUpGetLastLockedFundsEvent, getState),
+          getEndpointName(topUpCheckAllowanceTransaction, getState),
+        ];
+
+        resetEndpoints(endpoints, dispatch);
+
+        return { data: null };
       },
-      asMutation: false,
-    },
+    }),
   }),
-);
+});

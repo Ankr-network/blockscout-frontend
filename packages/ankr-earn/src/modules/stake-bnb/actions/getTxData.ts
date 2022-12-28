@@ -1,9 +1,11 @@
 import retry from 'async-retry';
 
-import { BinanceSDK, IFetchTxData, IGetTxReceipt } from '@ankr.com/staking-sdk';
+import { IFetchTxData, IGetTxReceipt } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { isMainnet, RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
+
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 interface IGetTxDataProps {
   txHash: string;
@@ -14,7 +16,7 @@ export const { useGetBNBTxDataQuery } = web3Api.injectEndpoints({
     getBNBTxData: build.query<IFetchTxData, IGetTxDataProps>({
       queryFn: queryFnNotifyWrapper<IGetTxDataProps, never, IFetchTxData>(
         async ({ txHash }) => {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
 
           return {
             data: await retry(() => sdk.fetchTxData(txHash), {
@@ -32,7 +34,7 @@ export const { useGetBNBUnstakeTxDataQuery } = web3Api.injectEndpoints({
     getBNBUnstakeTxData: build.query<IFetchTxData, IGetTxDataProps>({
       queryFn: queryFnNotifyWrapper<IGetTxDataProps, never, IFetchTxData>(
         async ({ txHash }) => {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
 
           return {
             data: await retry(() => sdk.fetchUnstakeTxData(txHash), {
@@ -53,7 +55,7 @@ export const { useGetBNBTxReceiptQuery } = web3Api.injectEndpoints({
         never,
         IGetTxReceipt | null
       >(async ({ txHash }) => {
-        const sdk = await BinanceSDK.getInstance();
+        const sdk = await getBinanceSDK();
         const data = isMainnet
           ? await sdk.fetchTxReceipt(txHash)
           : await sdk.fetchTxReceiptOld(txHash);

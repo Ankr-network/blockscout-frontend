@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { AvalancheSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getAvalancheSDK } from '../utils/getAvalancheSDK';
 
 export interface IFetchStatsResponseData {
   aAVAXbBalance: BigNumber;
@@ -19,7 +18,7 @@ export const { useGetAVAXCommonDataQuery } = web3Api.injectEndpoints({
     getAVAXCommonData: build.query<IFetchStatsResponseData, void>({
       queryFn: queryFnNotifyWrapper<void, never, IFetchStatsResponseData>(
         async () => {
-          const sdk = await AvalancheSDK.getInstance();
+          const sdk = await getAvalancheSDK();
 
           const [aAVAXbBalance, aAVAXcBalance, avaxBalance, ratio] =
             await Promise.all([

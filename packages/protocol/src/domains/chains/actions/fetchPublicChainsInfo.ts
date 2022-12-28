@@ -1,47 +1,42 @@
-import { DispatchRequest, RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { Store } from 'store';
 import { IApiChain } from '../api/queryChains';
+import { chainsFetchChainNodes } from './fetchChainNodes';
+import { chainsFetchPublicChains } from './fetchPublicChains';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getAddIsArchiveCB } from '../utils/addIsArchive';
-import { fetchChainNodes } from './fetchChainNodes';
-import { fetchPublicChains } from './fetchPublicChains';
+import { web3Api } from 'store/queries';
 
 export interface IFetchPublicChainsInfoResult {
   chains: IApiChain[];
   allChains: IApiChain[];
 }
 
-export const fetchPublicChainsInfo = createSmartAction<
-  RequestAction<null, IFetchPublicChainsInfoResult>
->('chains/fetchPublicChainsInfo', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    onRequest: (
-      request: any,
-      action: RequestAction,
-      store: Store & { dispatchRequest: DispatchRequest },
-    ) => {
-      return {
-        promise: (async (): Promise<IFetchPublicChainsInfoResult> => {
-          const [
-            { data: { chains = [], allChains = [] } = {} },
-            { data: nodes },
-          ] = await Promise.all([
-            store.dispatchRequest(fetchPublicChains()),
-            store.dispatchRequest(fetchChainNodes()),
-          ]);
+export const {
+  endpoints: { chainsFetchPublicChainsInfo },
+  useLazyChainsFetchPublicChainsInfoQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchPublicChainsInfo: build.query<
+      IFetchPublicChainsInfoResult,
+      void
+    >({
+      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
+        const [
+          { data: { chains = [], allChains = [] } = {} },
+          { data: nodes },
+        ] = await Promise.all([
+          dispatch(chainsFetchPublicChains.initiate()),
+          dispatch(chainsFetchChainNodes.initiate(undefined)),
+        ]);
 
-          const addIsArchive = getAddIsArchiveCB(nodes);
+        const addIsArchive = getAddIsArchiveCB(nodes);
 
-          return {
+        return {
+          data: {
             chains: chains.map(addIsArchive),
             allChains: allChains.map(addIsArchive),
-          };
-        })(),
-      };
-    },
-  },
-}));
+          },
+        };
+      }),
+    }),
+  }),
+});

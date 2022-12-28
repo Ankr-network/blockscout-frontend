@@ -3,13 +3,13 @@ import {
   EEthereumNetworkId,
   EthereumWeb3KeyProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   EPolkadotNetworkId,
   ISwitchNetworkData,
   PolkadotProvider,
 } from 'polkadot';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
@@ -42,10 +42,9 @@ export const {
           never,
           TSwitchNetwork
         >(async ({ chainId, providerId }) => {
-          const provider =
-            await ProviderManagerSingleton.getInstance<ProvidersMap>().getProvider(
-              providerId,
-            );
+          const provider = await getProviderManager<ProvidersMap>().getProvider(
+            providerId,
+          );
 
           switch (providerId) {
             case AvailableWriteProviders.ethCompatible: {

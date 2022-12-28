@@ -1,21 +1,15 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
+import { web3Api } from 'store/queries';
 
-export const fetchAccountBalance = createAction<
-  RequestAction<BigNumber, BigNumber>
->('account/fetchAccountBalance', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    takeLatest: true,
-    hideNotificationOnError: true,
-    onRequest: () => ({
-      promise: (async (): Promise<BigNumber> => {
+export const {
+  endpoints: { accountFetchAccountBalance },
+  useAccountFetchAccountBalanceQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountFetchAccountBalance: build.query<BigNumber, void>({
+      queryFn: async () => {
         const service = await MultiService.getWeb3Service();
 
         const data = await service
@@ -26,8 +20,8 @@ export const fetchAccountBalance = createAction<
 
         const value = keyProvider.getWeb3().utils.fromWei(data);
 
-        return new BigNumber(value);
-      })(),
+        return { data: new BigNumber(value) };
+      },
     }),
-  },
-}));
+  }),
+});

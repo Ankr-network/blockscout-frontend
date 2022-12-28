@@ -1,26 +1,27 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/provider';
+import { EventData } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
-export const getLastLockedFundsEvent = createSmartAction<
-  RequestAction<IWeb3SendResult, null>
->('topUp/getLastLockedFundsEvent', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    onRequest: () => {
-      return {
-        promise: (async (): Promise<any | undefined> => {
-          const service = await MultiService.getWeb3Service();
-          const provider = service.getKeyProvider();
-          const { currentAccount: address } = provider;
+export const {
+  endpoints: { topUpGetLastLockedFundsEvent },
+  useLazyTopUpGetLastLockedFundsEventQuery,
+  useTopUpGetLastLockedFundsEventQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpGetLastLockedFundsEvent: build.query<EventData | false, void>({
+      queryFn: createNotifyingQueryFn(async () => {
+        const service = await MultiService.getWeb3Service();
+        const provider = service.getKeyProvider();
+        const { currentAccount: address } = provider;
 
-          return service.getContractService().getLastLockedFundsEvent(address);
-        })(),
-      };
-    },
-  },
-}));
+        const data = await service
+          .getContractService()
+          .getLastLockedFundsEvent(address);
+
+        return { data: data || false };
+      }),
+    }),
+  }),
+});

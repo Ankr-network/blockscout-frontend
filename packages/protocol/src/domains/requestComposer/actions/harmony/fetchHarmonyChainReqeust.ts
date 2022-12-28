@@ -1,79 +1,58 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import axios from 'axios';
+
+import {
+  HarmonyMethod,
+  HarmonyMethodResponse,
+} from 'domains/requestComposer/constants/harmony';
 import { MethodsRequest } from 'domains/requestComposer/types';
-import { HarmonyMethod } from 'domains/requestComposer/constants/harmony';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getHarmonyChainRequestResult } from './utils/getHarmonyChainRequestResult';
 import { setHarmonyMethod } from 'domains/requestComposer/store/requestComposerSlice';
-import { objectError } from '../tron/fetchTronChainRequest';
-import { t } from '@ankr.com/common';
-import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
+import { web3Api } from 'store/queries';
 
-export type FetchHarmonyChainRequestResult = {
-  response?: [HarmonyMethod];
+export interface FetchHarmonyChainRequestParams {
+  method: HarmonyMethod;
+  params: MethodsRequest<HarmonyMethod>;
+  web3URL: string;
+}
+
+export interface FetchHarmonyChainRequestResult {
   error?: unknown;
+  response?: [HarmonyMethodResponse];
   time: number;
-};
-const MAX_BYTES_SIZE = 4_000_000;
+}
 
-export const fetchHarmonyChainReqeust = createSmartAction<
-  RequestAction<MethodsRequest<HarmonyMethod>, FetchHarmonyChainRequestResult>
->('reqeustComposer/fetchHarmonyChainReqeust', (url, harmonyMethod, params) => {
-  const start = performance.now();
+const jsonrpc = '2.0';
+const id = 1;
 
-  return {
-    request: {
-      url,
-      method: 'POST',
-      data: {
-        method: harmonyMethod,
-        jsonrpc: '2.0',
-        params,
-        id: 1,
-      },
-    },
-    meta: {
-      driver: 'axios',
-      asMutation: false,
-      onRequest: (request, _, store) => {
-        store.dispatch(setHarmonyMethod(harmonyMethod) as any);
-        return request;
-      },
-      getData: (data: any) => {
-        const time = performance.now() - start;
+export const {
+  endpoints: { requestComposerFetchHarmonyChainRequest },
+  useLazyRequestComposerFetchHarmonyChainRequestQuery,
+  useRequestComposerFetchHarmonyChainRequestQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    requestComposerFetchHarmonyChainRequest: build.query<
+      FetchHarmonyChainRequestResult,
+      FetchHarmonyChainRequestParams
+    >({
+      queryFn: createNotifyingQueryFn(
+        async ({ method, params, web3URL }, { dispatch }) => {
+          const start = performance.now();
 
-        if (data?.error) {
-          return { error: objectError(data.error?.message), time };
-        }
-        if (data?.Error) {
-          return { error: objectError(data.Error), time };
-        }
+          dispatch(setHarmonyMethod(method));
 
-        let response = [];
+          const api = axios.create();
 
-        if (typeof data === 'object' && !('error' in data)) {
-          try {
-            response = [safeStringifyJSON(data)];
-          } catch (e) {
-            response = [];
-          }
-        } else {
-          response = data;
-        }
+          const { data } = await api.post<unknown>(web3URL, {
+            id,
+            jsonrpc,
+            method,
+            params,
+          });
 
-        const responseSize = JSON.stringify(data).length;
-
-        if (responseSize > MAX_BYTES_SIZE) {
-          return {
-            error: new Error(
-              t(
-                'request-composer.method-description.harmony.large-response-error',
-              ),
-            ),
-            time: performance.now() - start,
-          };
-        }
-
-        return { response, time };
-      },
-    },
-  };
+          return { data: getHarmonyChainRequestResult(data, start) };
+        },
+      ),
+    }),
+  }),
 });

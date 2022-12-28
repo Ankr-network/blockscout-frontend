@@ -1,48 +1,35 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { IGetActiveEmailBindingResponse } from 'multirpc-sdk';
 
+import {
+  ConditionallyNotifyingQueryFnParams,
+  createConditionallyNotifyingQueryFn,
+} from 'store/utils/createConditionallyNotifyingQueryFn';
 import { MultiService } from 'modules/api/MultiService';
-import { IEmailResponse, IGetActiveEmailBindingResponse } from 'multirpc-sdk';
 import { setAuthData } from 'domains/auth/store/authSlice';
+import { web3Api } from 'store/queries';
 
-export interface ActiveEmailBindingParams {
-  notify?: boolean;
-}
-
-export const getActiveEmailBinding = createSmartAction<
-  RequestAction<IEmailResponse, IGetActiveEmailBindingResponse>
->(
-  'userSettings/getActiveEmailBinding',
-  ({ notify = true }: ActiveEmailBindingParams = {}) => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      cache: false,
-      asMutation: false,
-      takeLatest: true,
-      hideNotificationOnError: !notify,
-      onRequest: (
-        request: any,
-        action: RequestAction,
-        store: RequestsStore,
-      ) => ({
-        promise: (async (): Promise<IGetActiveEmailBindingResponse> => {
+export const {
+  endpoints: { userSettingsGetActiveEmailBinding },
+  useLazyUserSettingsGetActiveEmailBindingQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    userSettingsGetActiveEmailBinding: build.query<
+      IGetActiveEmailBindingResponse,
+      ConditionallyNotifyingQueryFnParams<void> | void
+    >({
+      queryFn: createConditionallyNotifyingQueryFn(
+        async (_args, { dispatch }) => {
           const service = MultiService.getService();
 
-          const response = await service
+          const data = await service
             .getAccountGateway()
             .getActiveEmailBinding();
 
-          store.dispatch(
-            setAuthData({
-              email: response?.email,
-            }),
-          );
+          dispatch(setAuthData({ email: data?.email }));
 
-          return response;
-        })(),
-      }),
-    },
+          return { data };
+        },
+      ),
+    }),
   }),
-);
+});

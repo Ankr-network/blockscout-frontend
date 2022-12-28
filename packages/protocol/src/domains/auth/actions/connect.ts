@@ -1,75 +1,79 @@
-import {
-  RequestAction,
-  RequestsStore,
-  resetRequests,
-} from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
+import { GetState } from 'store';
 import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
-import { withStore } from '../utils/withStore';
 import {
-  switchChain,
+  IConnect,
   disconnectService,
   getCachedData,
-  IConnect,
   loginAndCache,
+  switchChain,
 } from './connectUtils';
-import { resetAuthData, setAuthData } from '../store/authSlice';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { resetAuthData } from '../store/authSlice';
+import { web3Api } from 'store/queries';
 
-export const connect = createSmartAction<RequestAction<IConnect, IConnect>>(
-  'auth/connect',
-  (walletId: string, isManualConnected?: boolean) => ({
-    request: {
-      promise: async (store: RequestsStore) => {
-        store.dispatch(
-          setAuthData({
-            isManualConnected,
-          }),
-        );
+export interface AuthConnectParams {
+  walletId: string;
+}
 
-        const web3Service = await MultiService.createWeb3Service(walletId);
-        const service = MultiService.getService();
+export const {
+  endpoints: { authConnect },
+  useLazyAuthConnectQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    authConnect: build.query<IConnect, AuthConnectParams>({
+      queryFn: createNotifyingQueryFn(
+        async ({ walletId }, { dispatch, getState }) => {
+          const web3Service = await MultiService.createWeb3Service(walletId);
+          const service = MultiService.getService();
 
-        if (walletId === INJECTED_WALLET_ID) {
-          await switchChain();
+          if (walletId === INJECTED_WALLET_ID) {
+            try {
+              await switchChain();
+            } catch (error) {
+              dispatch(resetAuthData());
+
+              throw error;
+            }
+          }
+
+          const cachedData = getCachedData(service, getState as GetState);
+
+          const { hasWeb3Connection, address } = cachedData;
+          let { hasOauthLogin } = cachedData;
+
+          if (hasWeb3Connection) return { data: cachedData };
+
+          const provider = web3Service.getKeyProvider();
+          const { currentAccount: providerAddress } = provider;
+
+          if (
+            address &&
+            providerAddress.toLowerCase() !== address?.toLowerCase()
+          ) {
+            dispatch(resetAuthData());
+
+            hasOauthLogin = false;
+          }
+
+          const authData = await loginAndCache(
+            web3Service,
+            service,
+            dispatch,
+            hasOauthLogin,
+          );
+
+          return { data: authData };
+        },
+      ),
+      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch {
+          disconnectService();
+
+          dispatch(resetAuthData());
         }
-
-        const cachedData = getCachedData(service, store);
-
-        const { hasWeb3Connection, address } = cachedData;
-        let { hasOauthLogin } = cachedData;
-
-        if (hasWeb3Connection) return cachedData;
-
-        const provider = web3Service.getKeyProvider();
-        const { currentAccount: providerAddress } = provider;
-
-        if (
-          address &&
-          providerAddress.toLowerCase() !== address?.toLowerCase()
-        ) {
-          store.dispatch(resetAuthData());
-
-          hasOauthLogin = false;
-        }
-
-        return loginAndCache(web3Service, service, store, hasOauthLogin);
       },
-    },
-    meta: {
-      onRequest: withStore,
-      onError: async (
-        error: Error,
-        _action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        disconnectService();
-
-        store.dispatch(resetAuthData());
-        store.dispatch(resetRequests([connect.toString()]));
-
-        throw error;
-      },
-    },
+    }),
   }),
-);
+});

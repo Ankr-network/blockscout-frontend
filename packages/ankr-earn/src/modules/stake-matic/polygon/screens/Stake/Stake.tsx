@@ -13,6 +13,7 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
+import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -118,7 +119,7 @@ export const Stake = (): JSX.Element => {
 
   const noticeText = useBTokenNotice({
     bToken: Token.aMATICb,
-    cToken: Token.aMATICc,
+    cToken: getTokenSymbol(Token.aMATICc),
     nativeToken: Token.MATIC,
   });
 

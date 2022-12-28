@@ -1,8 +1,6 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { withStore } from 'domains/auth/utils/withStore';
-import { disconnect } from 'domains/auth/actions/disconnect';
+import { authDisconnect } from 'domains/auth/actions/disconnect';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
 const deleteAllCookies = () => {
   document.cookie.split(';').forEach(c => {
@@ -12,18 +10,19 @@ const deleteAllCookies = () => {
   });
 };
 
-export const signout = createSmartAction<RequestAction>(
-  'oauth/signout',
-  () => ({
-    request: {
-      promise: async (store: RequestsStore) => {
-        store.dispatch(disconnect());
+export const {
+  endpoints: { oauthSignout },
+  useLazyOauthSignoutQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    oauthSignout: build.query<boolean, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
+        dispatch(authDisconnect.initiate());
 
         deleteAllCookies();
-      },
-    },
-    meta: {
-      onRequest: withStore,
-    },
+
+        return { data: true };
+      }),
+    }),
   }),
-);
+});

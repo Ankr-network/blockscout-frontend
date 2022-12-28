@@ -1,11 +1,10 @@
-import {
-  BinanceSDK,
-  BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET,
-} from '@ankr.com/staking-sdk';
+import { BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
+
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 export interface IGetHistoryData {
   [Token.aBNBb]: IBaseHistoryData;
@@ -21,7 +20,7 @@ export const { useLazyGetBNBHistoryQuery } = web3Api.injectEndpoints({
     getBNBHistory: build.query<IGetHistoryData, IGetHistoryArgs>({
       queryFn: queryFnNotifyWrapper<IGetHistoryArgs, never, IGetHistoryData>(
         async ({ step }) => {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
           const latestBlock = await sdk.getLatestBlock();
 
           const from =

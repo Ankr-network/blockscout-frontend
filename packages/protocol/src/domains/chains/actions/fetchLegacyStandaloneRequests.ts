@@ -1,6 +1,7 @@
-import { RequestAction } from '@redux-requests/core';
+import axios from 'axios';
+
 import { ChainID } from 'modules/chains/types';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { web3Api } from 'store/queries';
 
 interface IRequestResult {
   bytes: number;
@@ -27,33 +28,42 @@ export interface ILegacyStandaloneStats {
   totalRequestsHistory: Record<string, number>;
 }
 
-export const fetchLegacyStandaloneRequests = createSmartAction<
-  RequestAction<IFetchTotalRequestsResponseData, ILegacyStandaloneStats>
->('chains/fetchLegacyStandaloneRequests', (url: string, chainId: ChainID) => ({
-  request: {
-    url,
-    method: 'get',
-    data: {},
-  },
-  meta: {
-    driver: 'axios',
-    asMutation: true,
-    hideNotificationOnError: true,
-    getData: data => {
-      const totalRequestsHistory: Record<string, number> = {};
+export interface LegacyStandaloneStatsParams {
+  chainId: ChainID;
+  url: string;
+}
 
-      data.entries.forEach((item: IEntries) => {
-        const key = new Date(item.toTime).getTime().toString();
-        const value = item.data.requests;
-        totalRequestsHistory[key] = value;
-      });
+export const {
+  useChainsFetchLegacyStandaloneRequestsQuery,
+  endpoints: { chainsFetchLegacyStandaloneRequests },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchLegacyStandaloneRequests: build.query<
+      ILegacyStandaloneStats,
+      LegacyStandaloneStatsParams
+    >({
+      queryFn: async ({ chainId, url }) => {
+        const api = axios.create();
 
-      return {
-        chainId,
-        cachedRequests: data.totals.cachedRequests,
-        requests: data.totals.requests,
-        totalRequestsHistory,
-      };
-    },
-  },
-}));
+        const { data } = await api.get<IFetchTotalRequestsResponseData>(url);
+
+        const totalRequestsHistory: Record<string, number> = {};
+
+        data.entries.forEach((item: IEntries) => {
+          const key = new Date(item.toTime).getTime().toString();
+          const value = item.data.requests;
+          totalRequestsHistory[key] = value;
+        });
+
+        return {
+          data: {
+            cachedRequests: data.totals.cachedRequests,
+            chainId,
+            requests: data.totals.requests,
+            totalRequestsHistory,
+          },
+        };
+      },
+    }),
+  }),
+});

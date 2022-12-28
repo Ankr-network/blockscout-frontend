@@ -52,7 +52,7 @@ import {
   EMaticSDKErrorCodes,
   EPolygonPoolEvents,
   EPolygonPoolEventsMap,
-  IMaticSDKProviders,
+  IPolygonSDKArgs,
   TMaticSyntToken,
 } from '../types';
 
@@ -72,6 +72,15 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @private
    */
   private static instance?: PolygonOnEthereumSDK;
+
+  /**
+   * apiUrl — URL of the advanced API.
+   *
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly apiUrl?: string;
 
   /**
    * writeProvider — provider which has signer for signing transactions.
@@ -113,10 +122,15 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @constructor
    * @private
    */
-  private constructor({ writeProvider, readProvider }: IMaticSDKProviders) {
+  private constructor({
+    writeProvider,
+    readProvider,
+    apiUrl,
+  }: IPolygonSDKArgs) {
     PolygonOnEthereumSDK.instance = this;
-
     const config = configFromEnv();
+
+    this.apiUrl = apiUrl;
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
     this.currentAccount = this.writeProvider.currentAccount;
@@ -131,11 +145,11 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    *
    * @public
    * @static
-   * @param {Partial<IMaticSDKProviders>} [args] - User defined providers.
+   * @param {Partial<IPolygonSDKArgs>} [args] - User defined providers and advanced API url.
    * @returns {Promise<PolygonOnEthereumSDK>}
    */
   public static async getInstance(
-    args?: Partial<IMaticSDKProviders>,
+    args?: Partial<IPolygonSDKArgs>,
   ): Promise<PolygonOnEthereumSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = (await Promise.all([
@@ -159,7 +173,12 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       return PolygonOnEthereumSDK.instance;
     }
 
-    const instance = new PolygonOnEthereumSDK({ writeProvider, readProvider });
+    const instance = new PolygonOnEthereumSDK({
+      writeProvider,
+      readProvider,
+      apiUrl: args?.apiUrl,
+    });
+
     const isEthChain = await instance.isEthNetwork(writeProvider);
 
     if (isEthChain && !writeProvider.isConnected()) {
@@ -364,6 +383,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     const web3 = provider.getWeb3();
 
     return getPastEvents({
+      apiUrl: this.apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
       blockchain: 'eth',

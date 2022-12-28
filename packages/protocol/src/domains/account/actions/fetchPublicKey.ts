@@ -1,42 +1,32 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { throwIfError } from '@ankr.com/common';
-import { fetchEncryptionKey } from 'domains/auth/actions/fetchEncryptionKey';
+import { RootState } from 'store';
+import { authFetchEncryptionKey } from 'domains/auth/actions/fetchEncryptionKey';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
+import { web3Api } from 'store/queries';
 
-export const fetchPublicKey = createSmartAction<RequestAction<string, string>>(
-  'account/fetchPublicKey',
-  () => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      onRequest: (
-        request: any,
-        action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        return {
-          promise: (async (): Promise<string> => {
-            let { encryptionPublicKey } = selectAuthData(store.getState());
+export const {
+  useLazyAccountFetchPublicKeyQuery,
+  endpoints: { accountFetchPublicKey },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountFetchPublicKey: build.query<string, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
+        const state = getState() as RootState;
 
-            if (!encryptionPublicKey) {
-              const {
-                data: { key: publicKey },
-              } = throwIfError(
-                await store.dispatchRequest(fetchEncryptionKey()),
-              );
+        let { encryptionPublicKey } = selectAuthData(state);
 
-              store.dispatch(setAuthData({ encryptionPublicKey: publicKey }));
+        if (!encryptionPublicKey) {
+          const { key: publicKey } = await dispatch(
+            authFetchEncryptionKey.initiate(),
+          ).unwrap();
 
-              encryptionPublicKey = publicKey;
-            }
+          await dispatch(setAuthData({ encryptionPublicKey: publicKey }));
 
-            return encryptionPublicKey;
-          })(),
-        };
-      },
-    },
+          encryptionPublicKey = publicKey;
+        }
+
+        return { data: encryptionPublicKey };
+      }),
+    }),
   }),
-);
+});

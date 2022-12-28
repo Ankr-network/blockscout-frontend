@@ -6,7 +6,8 @@
     "clean": "turbo run clean",
     "prepare": "husky install",
     "release": "lerna version --yes --conventional-commits --message \"chore(release): %s\"",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "types": "turbo run types"
   },
   "workspaces": {
     "packages": [

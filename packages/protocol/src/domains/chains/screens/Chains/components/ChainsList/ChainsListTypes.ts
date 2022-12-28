@@ -29,7 +29,7 @@ export interface Chain {
 
 export interface SortChainsParams {
   chains: Chain[];
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
   sortType: SortType;
   stats: PrivateStatsInternal;
 }

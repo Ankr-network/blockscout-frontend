@@ -1,29 +1,31 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWorkerEndpoint, IPrivateEndpoint } from 'multirpc-sdk';
+import { IPrivateEndpoint, IWorkerEndpoint } from 'multirpc-sdk';
 
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from '../../../store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { web3Api } from 'store/queries';
 
-export const apiAddPrivateEndpoint = createSmartAction<
-  RequestAction<IPrivateEndpoint, IWorkerEndpoint>
->(
-  'infrastructure/apiAddPrivateEndpoint',
-  (privateEndpoint: IPrivateEndpoint) => ({
-    request: {
-      promise: async () => {
+export const {
+  useLazyInfrastructureApiAddPrivateEndpointQuery,
+  endpoints: { infrastructureApiAddPrivateEndpoint },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureApiAddPrivateEndpoint: build.query<
+      IWorkerEndpoint,
+      IPrivateEndpoint
+    >({
+      queryFn: createNotifyingQueryFn(async (privateEndpoint, { getState }) => {
+        credentialsGuard(getState as GetState);
+
         const service = MultiService.getService();
 
         const endpoint = await service
           .getWorkerGateway()
           .addPrivateEndpoint(privateEndpoint);
 
-        return endpoint;
-      },
-    },
-    meta: {
-      asMutation: true,
-      onRequest: credentialsGuard,
-    },
+        return { data: endpoint };
+      }),
+    }),
   }),
-);
+});

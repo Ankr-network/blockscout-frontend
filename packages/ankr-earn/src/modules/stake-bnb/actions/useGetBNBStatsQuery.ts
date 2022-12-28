@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { BinanceSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 interface IFetchStatsResponseData {
   aBNBbBalance: BigNumber;
@@ -21,7 +20,7 @@ export const { useGetBNBStatsQuery } = web3Api.injectEndpoints({
     getBNBStats: build.query<IFetchStatsResponseData, void>({
       queryFn: queryFnNotifyWrapper<void, never, IFetchStatsResponseData>(
         async () => {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
 
           let aBNBbBalance = ZERO;
 

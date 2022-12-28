@@ -1,4 +1,3 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useCallback, useMemo } from 'react';
 
 import {
@@ -8,39 +7,49 @@ import {
   IAddEmailFormData,
 } from './types';
 import { ISuccessStepProps } from './components/SuccessStep';
-import { addNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
-import { editEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
 import { getAddEmailErrorMessage } from 'domains/userSettings/utils/getAddEmailErrorMessage';
 import { getEditEmailErrorMessage } from 'domains/userSettings/utils/getEditEmailErrorMessage';
-import { resendConfirmationCode } from 'domains/userSettings/actions/email/resendConfirmationCode';
 import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
+import { useLazyUserSettingsAddNewEmailBindingQuery } from 'domains/userSettings/actions/email/addNewEmailBinding';
+import { useLazyUserSettingsEditEmailBindingQuery } from 'domains/userSettings/actions/email/editEmailBinding';
+import { useLazyUserSettingsResendConfirmationCodeQuery } from 'domains/userSettings/actions/email/resendConfirmationCode';
 
 const ENABLE_CHANGE_EMAIL = false;
 
 export interface IUseAddEmailFormProps {
   contentState: AddEmailFormContentState;
+  formDisabled?: boolean;
+  onAddEmailSubmitSuccess?: () => void;
   onFormStateChange: (state: AddEmailFormContentState) => void;
   onFormSubmit: (data: IAddEmailFormData | undefined) => void;
-  onAddEmailSubmitSuccess?: () => void;
   submittedData: IAddEmailFormData | undefined;
-  formDisabled?: boolean;
 }
 
 export const useAddEmailForm = ({
   contentState,
+  formDisabled,
+  onAddEmailSubmitSuccess,
   onFormStateChange,
   onFormSubmit,
-  onAddEmailSubmitSuccess,
   submittedData,
-  formDisabled,
 }: IUseAddEmailFormProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const [addNewEmailBinding] = useLazyUserSettingsAddNewEmailBindingQuery();
+  const [editEmailBinding] = useLazyUserSettingsEditEmailBindingQuery();
+  const [
+    resendConfirmationCode,
+    {
+      data: resendEmailData,
+      isLoading: resendEmailLoading,
+      error: resendEmailError,
+    },
+  ] = useLazyUserSettingsResendConfirmationCodeQuery();
 
   const handleAddEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
-      const { data, error } = await dispatchRequest(
-        addNewEmailBinding({ email, shouldNotify: false }),
-      );
+      const { data, error } = await addNewEmailBinding({
+        params: { email },
+        shouldNotify: false,
+      });
 
       const emailErrorMessage = getAddEmailErrorMessage(error, email);
 
@@ -58,14 +67,15 @@ export const useAddEmailForm = ({
 
       return undefined;
     },
-    [dispatchRequest, onFormStateChange, onAddEmailSubmitSuccess],
+    [addNewEmailBinding, onFormStateChange, onAddEmailSubmitSuccess],
   );
 
   const handleChangeEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
-      const { data, error } = await dispatchRequest(
-        editEmailBinding({ email, shouldNotify: false }),
-      );
+      const { data, error } = await editEmailBinding({
+        params: { email },
+        shouldNotify: false,
+      });
 
       const emailErrorMessage = getEditEmailErrorMessage(error, email);
 
@@ -81,7 +91,7 @@ export const useAddEmailForm = ({
 
       return undefined;
     },
-    [dispatchRequest, onFormStateChange],
+    [editEmailBinding, onFormStateChange],
   );
 
   const onSubmit = useCallback(
@@ -103,22 +113,12 @@ export const useAddEmailForm = ({
 
   const onResendEmail = useCallback(() => {
     if (submittedData) {
-      dispatchRequest(
-        resendConfirmationCode({
-          email: submittedData.email,
-          shouldNotify: false,
-        }),
-      );
+      resendConfirmationCode({
+        params: { email: submittedData.email },
+        shouldNotify: false,
+      });
     }
-  }, [dispatchRequest, submittedData]);
-
-  const {
-    data: resendEmailData,
-    loading: resendEmailLoading,
-    error: resendEmailError,
-  } = useQuery({
-    type: resendConfirmationCode.toString(),
-  });
+  }, [resendConfirmationCode, submittedData]);
 
   const {
     errorMessage: resendEmailErrorMessage,
@@ -154,10 +154,10 @@ export const useAddEmailForm = ({
   );
 
   return {
-    submittedData,
-    formDisabled,
     contentState,
+    formDisabled,
     onSubmit,
+    submittedData,
     successStepProps,
   };
 };

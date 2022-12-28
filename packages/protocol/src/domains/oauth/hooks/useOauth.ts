@@ -1,36 +1,29 @@
-import { useCallback } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import {
+  OauthAutoLoginResult,
+  useLazyOauthAutoLoginQuery,
+} from '../actions/autoLogin';
+import { useLazyOauthLoginByGoogleSecretCodeQuery } from '../actions/loginByGoogleSecretCode';
+import { useLazyOauthSignoutQuery } from '../actions/signout';
 
-import { autoLogin } from '../actions/autoLogin';
-import { signout } from '../actions/signout';
-import { loginUser } from '../actions/loginUserByGoogleSecretCode';
+export interface OAuth {
+  data?: OauthAutoLoginResult;
+  handleLogin: () => void;
+  handleSignout: () => void;
+  loading: boolean;
+}
 
-export const useOauth = () => {
-  const dispatchRequest = useDispatchRequest();
+export const useOauth = (): OAuth => {
+  const [handleLogin, { data, isLoading: autoLoginLoading }] =
+    useLazyOauthAutoLoginQuery();
 
-  const handleLogin = useCallback(
-    () => dispatchRequest(autoLogin()),
-    [dispatchRequest],
-  );
-
-  const handleSignout = useCallback(() => {
-    dispatchRequest(signout());
-  }, [dispatchRequest]);
-
-  const { data, loading } = useQuery({
-    action: autoLogin,
-    type: autoLogin.toString(),
-  });
-
-  const { loading: loginUserLoading } = useQuery({
-    action: loginUser,
-    type: loginUser.toString(),
-  });
+  const [handleSignout] = useLazyOauthSignoutQuery();
+  const [, { isLoading: loginUserLoading }] =
+    useLazyOauthLoginByGoogleSecretCodeQuery();
 
   return {
-    handleLogin,
-    loading: loading || loginUserLoading,
     data,
+    handleLogin,
     handleSignout,
+    loading: autoLoginLoading || loginUserLoading,
   };
 };

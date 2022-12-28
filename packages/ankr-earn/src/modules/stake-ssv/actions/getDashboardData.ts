@@ -2,8 +2,9 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import { EthereumSSV, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { EthereumSSV } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { withStore } from 'modules/common/utils/withStore';
 
@@ -23,7 +24,7 @@ export const getDashboardData = createAction<
 >(`${SSV_ACTIONS_PREFIX}getDashboardData`, () => ({
   request: {
     promise: async (store: RequestsStore): Promise<TGetDashboardData> => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
 
       const { address } = selectEthProviderData(store.getState());
 

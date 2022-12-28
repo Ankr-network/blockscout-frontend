@@ -13,14 +13,14 @@ import { isExternalPath } from 'modules/common/utils/isExternalPath';
 interface MobileHeaderProps {
   className?: string;
   loading: boolean;
-  hasCredentials: boolean;
+  hasPremium: boolean;
   chainsRoutes: string[];
 }
 
 export const MobileNavigation = ({
   className = '',
   loading,
-  hasCredentials,
+  hasPremium,
   chainsRoutes,
 }: MobileHeaderProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -41,10 +41,7 @@ export const MobileNavigation = ({
 
   const classes = useMobileNavigationStyles();
 
-  const items: NavigationItem[] = getNavigationList(
-    chainsRoutes,
-    hasCredentials,
-  );
+  const items: NavigationItem[] = getNavigationList(chainsRoutes, hasPremium);
 
   return (
     <>

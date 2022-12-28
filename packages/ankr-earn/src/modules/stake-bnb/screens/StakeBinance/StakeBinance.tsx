@@ -16,9 +16,11 @@ import {
   DUNE_ANALYTICS_LINK,
   featuresConfig,
   ONE,
+  ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
+import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -80,7 +82,11 @@ export const StakeBinance = (): JSX.Element => {
     return (
       <>
         <StakeTokenInfo
-          nativeAmount={ONE.dividedBy(certificateRatio).round().toString()}
+          nativeAmount={
+            certificateRatio.isZero()
+              ? ZERO.toString()
+              : ONE.dividedBy(certificateRatio).round().toString()
+          }
           nativeToken={Token.BNB}
           token={t('unit.abnbc')}
         />
@@ -152,7 +158,7 @@ export const StakeBinance = (): JSX.Element => {
 
   const noticeText = useBTokenNotice({
     bToken: Token.aBNBb,
-    cToken: Token.aBNBc,
+    cToken: getTokenSymbol(Token.aBNBc),
     nativeToken: Token.BNB,
   });
 

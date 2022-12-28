@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useRedirectIfUserHasEmail = () => {
   const history = useHistory();

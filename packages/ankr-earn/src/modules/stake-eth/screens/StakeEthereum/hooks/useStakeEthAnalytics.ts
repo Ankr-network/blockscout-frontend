@@ -2,13 +2,13 @@ import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
-import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import { getEthereumSDK } from 'modules/stake-eth/utils/getEthereumSDK';
 
 import { useTotalAmount } from './useTotalAmount';
 
@@ -40,7 +40,7 @@ export const useStakeEthAnalytics = ({
   });
 
   const sendAnalytics = useCallback(async () => {
-    const sdk = await EthereumSDK.getInstance();
+    const sdk = await getEthereumSDK();
     const synthBalance =
       tokenOut === Token.aETHb
         ? await sdk.getABBalance()

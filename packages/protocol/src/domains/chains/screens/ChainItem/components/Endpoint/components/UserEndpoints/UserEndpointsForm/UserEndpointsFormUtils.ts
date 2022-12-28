@@ -1,5 +1,6 @@
-import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { IPrivateEndpoint } from 'multirpc-sdk';
+
+import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import {
   UserEndpointsFormData,
   UserEndpointsProps,
@@ -13,7 +14,7 @@ export const getInitialValues = (
   };
 };
 
-export const formatDataForRequest = (data: IUserEndpoint): IPrivateEndpoint => {
+export const formatDataForRequest = (data: UserEndpoint): IPrivateEndpoint => {
   const { name: blockchain, scheme, requestUrl, id } = data;
 
   return {

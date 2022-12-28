@@ -1,16 +1,15 @@
-import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useDispatchRequest } from '@redux-requests/react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { fetchChainNodesData } from 'domains/chains/actions/fetchChainNodesData';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { EndpointGroup } from 'modules/endpoints/types';
-import { ChainNodesTable } from './ChainNodesTable';
-import { getLinkedChainIDs } from './ChainNodesTableQueryUtils';
 import { ChainID } from 'modules/chains/types';
+import { ChainNodesTable } from './ChainNodesTable';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import {
+  IChainNodesData,
+  useLazyChainsFetchChainNodesDataQuery,
+} from 'domains/chains/actions/fetchChainNodesData';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { getLinkedChainIDs } from './ChainNodesTableQueryUtils';
 
 interface IChainNodesTableQueryProps {
   chain: IApiChain;
@@ -21,29 +20,19 @@ export const ChainNodesTableQuery = ({
   chain,
   group,
 }: IChainNodesTableQueryProps) => {
-  const dispatch = useDispatch();
-  const dispatchRequest = useDispatchRequest();
+  const [fetchChain, chainState] = useLazyChainsFetchChainNodesDataQuery();
 
   useEffect(() => {
     const chainIDs = getLinkedChainIDs(group.chains.map(({ id }) => id));
 
-    dispatchRequest(fetchChainNodesData(chainIDs));
-
-    return () => {
-      dispatch(resetRequests([fetchChainNodesData.toString()]));
-
-      dispatch(stopPolling([fetchChainNodesData.toString()]));
-    };
-  }, [chain, dispatch, dispatchRequest, group.chains]);
+    fetchChain(chainIDs);
+  }, [fetchChain, chain, group.chains]);
 
   return (
-    <Queries<ResponseData<typeof fetchChainNodesData> | null>
-      requestActions={[fetchChainNodesData]}
-      isPreloadDisabled
-    >
-      {({ data, loading, pristine }) => (
+    <Queries<IChainNodesData> queryStates={[chainState]} isPreloadDisabled>
+      {({ data, isLoading, isUninitialized }) => (
         <ChainNodesTable
-          loading={(loading && pristine) || !data}
+          loading={(isLoading && isUninitialized) || !data}
           nodes={data?.nodes || []}
           nodesWeight={data?.nodesWeight || []}
           showNodesWithZeroHeight={chain.id === ChainID.SUI_TESTNET}

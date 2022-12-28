@@ -1,14 +1,29 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { MultiService } from 'modules/api/MultiService';
 import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
-import { calculateRPCAndLegacyStandaloneStats } from '../utils/calculateRPCAndLegacyStandaloneStats';
-import { getLegacyStandaloneUrl } from '../utils/statsUtils';
-import { fetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequests';
 
-type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
+import { ChainID } from 'modules/chains/types';
+import { MultiService } from 'modules/api/MultiService';
+import { calculateRPCAndLegacyStandaloneStats } from '../utils/calculateRPCAndLegacyStandaloneStats';
+import { chainsFetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequests';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getLegacyStandaloneUrl } from '../utils/statsUtils';
+import { web3Api } from 'store/queries';
+
+interface IFetchChainDetailsResponseData
+  extends Omit<
+    IWorkerGlobalStatus,
+    | 'dataCached'
+    | 'totalCached'
+    | 'totalServed'
+    | 'uniqueVisitors'
+    | 'totalRequests'
+  > {
+  dataCached: BigNumber;
+  totalCached: BigNumber;
+  totalServed: BigNumber;
+  uniqueVisitors: BigNumber;
+  totalRequests: BigNumber;
+}
 
 interface RequestsCountry {
   country: string;
@@ -33,74 +48,89 @@ export interface IApiChainDetails {
   countries: CountryMap;
 }
 
-export const fetchChainTimeframeData = createSmartAction<
-  RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
->(
-  'chains/fetchChainTimeframeData',
-  (chainId: string, timeframe: Timeframe, poll?: number) => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      requestKey: chainId,
-      takeLatest: false,
-      cache: false,
-      poll,
-      onRequest: (
-        request: any,
-        action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        return {
-          promise: (async () => {
-            const rpcStats = await MultiService.getService()
-              .getPublicGateway()
-              .getTimeframeStats(chainId, timeframe);
+interface IWorkerGlobalStatusWithContent extends IWorkerGlobalStatus {
+  __content: string;
+}
 
-            const url = getLegacyStandaloneUrl(chainId);
+const isIWorkerGlobalStatusWithContent = (
+  value: IWorkerGlobalStatus,
+): value is IWorkerGlobalStatusWithContent => '__content' in value;
 
-            if (!url) return rpcStats;
+const parseJSON = <Expected>(string: string): Expected => {
+  try {
+    return JSON.parse(string);
+  } catch {
+    return {} as Expected;
+  }
+};
 
-            const { data: legacyStats } = await store.dispatchRequest(
-              fetchLegacyStandaloneRequests(url, chainId),
-            );
+const processData = (data: IWorkerGlobalStatus): IWorkerGlobalStatus => {
+  if (isIWorkerGlobalStatusWithContent(data) && data.__content) {
+    return parseJSON<IWorkerGlobalStatus>(data.__content);
+  }
 
-            return calculateRPCAndLegacyStandaloneStats(
-              timeframe,
-              rpcStats,
-              legacyStats,
-            );
-          })(),
-        };
-      },
+  return data;
+};
 
-      getData: rawData => {
-        const data = (() => {
-          if ((rawData as any).__content) {
-            return JSON.parse((rawData as any).__content);
-          }
+const getData = (
+  rawData: IWorkerGlobalStatus,
+): IFetchChainDetailsResponseData => {
+  const data = processData(rawData);
 
-          return rawData;
-        })();
+  const {
+    dataCached,
+    totalCached,
+    totalServed,
+    uniqueVisitors,
+    totalRequests,
+    ...other
+  } = data;
 
-        const {
-          dataCached,
-          totalCached,
-          totalServed,
-          uniqueVisitors,
-          totalRequests,
-          ...other
-        } = data;
+  return {
+    dataCached: new BigNumber(dataCached),
+    totalCached: new BigNumber(totalCached),
+    totalServed: new BigNumber(totalServed),
+    uniqueVisitors: new BigNumber(uniqueVisitors),
+    totalRequests: new BigNumber(totalRequests),
+    ...other,
+  };
+};
 
-        return {
-          dataCached: new BigNumber(dataCached),
-          totalCached: new BigNumber(totalCached),
-          totalServed: new BigNumber(totalServed),
-          uniqueVisitors: new BigNumber(uniqueVisitors),
-          totalRequests: new BigNumber(totalRequests),
-          ...other,
-        };
-      },
-    },
+export const {
+  useLazyChainsFetchChainTimeframeDataQuery,
+  endpoints: { chainsFetchChainTimeframeData },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchChainTimeframeData: build.query<
+      IFetchChainDetailsResponseData,
+      { chainId: string; timeframe: Timeframe }
+    >({
+      queryFn: createNotifyingQueryFn(
+        async ({ chainId, timeframe }, { dispatch }) => {
+          const rpcStats = await MultiService.getService()
+            .getPublicGateway()
+            .getTimeframeStats(chainId, timeframe);
+
+          const url = getLegacyStandaloneUrl(chainId);
+
+          if (!url) return { data: getData(rpcStats) };
+
+          const { data: legacyStats } = await dispatch(
+            chainsFetchLegacyStandaloneRequests.initiate({
+              chainId: chainId as ChainID,
+              url,
+            }),
+          );
+
+          const stats = calculateRPCAndLegacyStandaloneStats(
+            timeframe,
+            rpcStats,
+            legacyStats,
+          );
+
+          return { data: getData(stats) };
+        },
+      ),
+    }),
   }),
-);
+});

@@ -32,7 +32,7 @@ const isDashboardActive = (
 
 export const getNavigationList = (
   chainsRoutes: string[],
-  hasCredentials: boolean,
+  hasPremium: boolean,
 ): NavigationItem[] => {
   return [
     {
@@ -43,7 +43,7 @@ export const getNavigationList = (
       isActive: (match: any, location: History['location']) =>
         isDashboardActive(match, location, chainsRoutes),
     },
-    hasCredentials
+    hasPremium
       ? {
           label: t('main-navigation.billing'),
           StartIcon: BillingIcon,

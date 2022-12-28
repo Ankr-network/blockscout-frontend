@@ -46,17 +46,18 @@ export const formatChains = (data: ChainsListProps['chains']): Chain[] => {
 
 export const formatPublicRequestsCount = (
   chains: ChainsListProps['chains'],
-  data: Record<ChainID, string>,
+  data?: Record<ChainID, string>,
 ) => {
-  chains.map(item => {
-    const { id, frontChain: { id: frontChainId } = {} } = item;
+  return formatChains(
+    chains.map(item => {
+      const { id, frontChain: { id: frontChainId } = {} } = item;
 
-    item.totalRequests = new BigNumber(data?.[frontChainId ?? id] ?? 0);
-
-    return item;
-  });
-
-  return formatChains(chains);
+      return {
+        ...item,
+        totalRequests: new BigNumber(data?.[frontChainId ?? id] ?? 0),
+      };
+    }),
+  );
 };
 
 const publicChainsSorter = (a: Chain, b: Chain) =>
@@ -81,7 +82,7 @@ const getChainId = ({ id, frontChain: { id: frontChainId } = {} }: Chain) =>
 
 export const sortChains = ({
   chains: rawChains = [],
-  hasCredentials,
+  hasPrivateAccess,
   sortType,
   stats,
 }: SortChainsParams): Chain[] => {
@@ -93,7 +94,9 @@ export const sortChains = ({
     (stats[getChainId(b)]?.total_requests || 0) -
     (stats[getChainId(a)]?.total_requests || 0);
 
-  const usageSorter = hasCredentials ? privateChainsSorter : publicChainsSorter;
+  const usageSorter = hasPrivateAccess
+    ? privateChainsSorter
+    : publicChainsSorter;
 
   const sorter = sortType === SortType.Usage ? usageSorter : () => 0;
 
