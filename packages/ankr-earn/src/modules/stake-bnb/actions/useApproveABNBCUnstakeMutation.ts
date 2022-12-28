@@ -1,10 +1,11 @@
 import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
+
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 export const { useApproveABNBCUnstakeMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -14,7 +15,7 @@ export const { useApproveABNBCUnstakeMutation } = web3Api.injectEndpoints({
         never,
         IWeb3SendResult | boolean
       >(async amount => {
-        const sdk = await BinanceSDK.getInstance();
+        const sdk = await getBinanceSDK();
 
         const data = await sdk.approveACForAB(amount, ETH_SCALE_FACTOR);
 

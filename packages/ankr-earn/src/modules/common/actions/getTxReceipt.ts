@@ -1,14 +1,13 @@
 import {
   RequestAction,
+  RequestActionMeta,
   RequestsStore,
   stopPolling,
-  RequestActionMeta,
 } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-core';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { Seconds } from 'modules/common/types';
 
 const POLL_INTERVAL: Seconds = 5;
@@ -42,8 +41,7 @@ export const getTxReceipt = createAction<
       return updatedData;
     },
     onRequest: request => {
-      const providerPromise =
-        ProviderManagerSingleton.getInstance().getETHWriteProvider();
+      const providerPromise = getProviderManager().getETHWriteProvider();
 
       const receiptPromise = providerPromise.then(async provider => {
         const web3 = provider.getWeb3();

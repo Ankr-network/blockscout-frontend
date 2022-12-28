@@ -1,5 +1,4 @@
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { web3Api } from 'modules/api/web3Api';
 
 import { AvailableStakingWriteProviders } from '../../../common/types';
@@ -9,7 +8,7 @@ export const { useDisconnectMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
     disconnect: build.mutation<boolean, AvailableStakingWriteProviders>({
       queryFn: async providerId => {
-        const providerManager = ProviderManagerSingleton.getInstance();
+        const providerManager = getProviderManager();
         providerManager.disconnect(providerId);
         return {
           data: true,

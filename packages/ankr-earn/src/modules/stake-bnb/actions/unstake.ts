@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -10,6 +9,7 @@ import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TBnbSyntToken } from '../types';
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -22,7 +22,7 @@ export const { useUnstakeBNBMutation } = web3Api.injectEndpoints({
     unstakeBNB: build.mutation<IWeb3SendResult, IUnstakeArgs>({
       queryFn: queryFnNotifyWrapper<IUnstakeArgs, never, IWeb3SendResult>(
         async ({ amount, token, externalAddress }) => {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
 
           if (externalAddress) {
             return {

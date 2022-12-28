@@ -1,7 +1,4 @@
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 /**
  * Available tokens for EthereumSDK
@@ -14,6 +11,10 @@ export type TEthToken = 'aETHb' | 'aETHc';
 export interface IEthSDKProviders {
   readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyWriteProvider;
+}
+
+export interface IEthSDKArgs extends IEthSDKProviders {
+  apiUrl?: string;
 }
 
 /**

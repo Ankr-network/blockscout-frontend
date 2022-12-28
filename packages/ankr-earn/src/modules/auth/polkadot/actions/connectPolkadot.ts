@@ -1,10 +1,10 @@
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   initProviderManagerPolkadot,
   PolkadotProvider,
   TNetworkType,
 } from 'polkadot';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { web3Api } from 'modules/api/web3Api';
 import { setProviderStatus } from 'modules/auth/common/store/authSlice';
 import { IConnect } from 'modules/auth/common/types';
@@ -29,7 +29,7 @@ export const {
     connectPolkadot: build.mutation<IConnectPolkadot, IConnectArgs | void>({
       queryFn: async ({ currentAccount } = {}) => {
         await initProviderManagerPolkadot();
-        const providerManager = ProviderManagerSingleton.getInstance();
+        const providerManager = getProviderManager();
 
         const polkadotProvider =
           await providerManager.getProvider<PolkadotProvider>(providerId);

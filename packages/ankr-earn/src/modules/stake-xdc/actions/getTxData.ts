@@ -1,13 +1,9 @@
 import retry from 'async-retry';
 import { RootState } from 'store';
 
-import {
-  IFetchTxData,
-  ProviderManagerSingleton,
-  Web3KeyReadProvider,
-  XDC,
-} from '@ankr.com/staking-sdk';
+import { IFetchTxData, Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
@@ -26,7 +22,7 @@ export const { useGetTxDataQuery } = web3Api.injectEndpoints({
     getTxData: build.query<TGetTxData, IGetTxDataProps>({
       queryFn: queryFnNotifyWrapper<IGetTxDataProps, never, TGetTxData>(
         async ({ isUnstake, txHash }, { getState }) => {
-          const providerManager = ProviderManagerSingleton.getInstance();
+          const providerManager = getProviderManager();
 
           const { walletId } = selectEthProviderData(getState() as RootState);
 

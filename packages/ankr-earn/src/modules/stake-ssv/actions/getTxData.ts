@@ -5,10 +5,10 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import {
   EthereumSSV,
   IStakeData,
-  ProviderManagerSingleton,
   Web3KeyReadProvider,
 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
@@ -24,7 +24,7 @@ export const getTxData = createSmartAction<
 >(`${SSV_ACTIONS_PREFIX}getTxData`, ({ txHash }) => ({
   request: {
     promise: async (store: RequestsStore): Promise<TGetTxData> => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
 
       const { walletId } = selectEthProviderData(store.getState());
 

@@ -6,31 +6,31 @@ import {
   IWeb3SendResult,
 } from '@ankr.com/provider';
 import {
-  AvalancheSDK,
-  BinanceSDK,
-  EthereumSDK,
-  FantomSDK,
   IFetchTxData,
   IFetchTxReceiptData,
   ISwitcher,
-  PolygonOnEthereumSDK,
-  ProviderManagerSingleton,
 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { Token } from 'modules/common/types/token';
+import { getAvalancheSDK } from 'modules/stake-avax/utils/getAvalancheSDK';
+import { getBinanceSDK } from 'modules/stake-bnb/utils/getBinanceSDK';
+import { getEthereumSDK } from 'modules/stake-eth/utils/getEthereumSDK';
+import { getFantomSDK } from 'modules/stake-fantom/utils/getFantomSDK';
+import { getPolygonOnEthereumSDK } from 'modules/stake-matic/eth/utils/getPolygonOnEthereumSDK';
 
 import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
 
 import {
-  ISwitcherSDKArgs,
-  ISwitcherCommonDataArgs,
-  ISwitcherCommonData,
-  ISwitcherApproveArgs,
-  ISwitcherLockSharesArgs,
-  ISwitcherUnlockSharesArgs,
+  IAddTokenToWalletArgs,
   IFetchTxDataArgs,
   IFetchTxReceiptArgs,
-  IAddTokenToWalletArgs,
+  ISwitcherApproveArgs,
+  ISwitcherCommonData,
+  ISwitcherCommonDataArgs,
+  ISwitcherLockSharesArgs,
+  ISwitcherSDKArgs,
+  ISwitcherUnlockSharesArgs,
 } from './types';
 
 const DEFAULT_DECIMALS = 18;
@@ -67,7 +67,7 @@ export class SwitcherSDK {
   }
 
   public static async getInstance(): Promise<SwitcherSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const provider = providerManager.getWriteProviderById(
       AvailableWriteProviders.ethCompatible,
     );
@@ -77,11 +77,11 @@ export class SwitcherSDK {
     if (!SwitcherSDK.instance || isAccoundChanged) {
       const [binanceSDK, ethSDK, maticSDK, fantomSDK, avaxSDK] =
         await Promise.all([
-          BinanceSDK.getInstance(),
-          EthereumSDK.getInstance(),
-          PolygonOnEthereumSDK.getInstance(),
-          FantomSDK.getInstance(),
-          AvalancheSDK.getInstance(),
+          getBinanceSDK(),
+          getEthereumSDK(),
+          getPolygonOnEthereumSDK(),
+          getFantomSDK(),
+          getAvalancheSDK(),
         ]);
 
       SwitcherSDK.instance = new SwitcherSDK({

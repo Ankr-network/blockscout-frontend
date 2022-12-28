@@ -6,6 +6,7 @@ import { IWeb3SendResult } from '@ankr.com/provider';
 import { BinanceSDK } from '@ankr.com/staking-sdk';
 
 import { TStore } from 'modules/common/types/ReduxRequests';
+import { getBinanceSDK } from 'modules/stake-bnb/utils/getBinanceSDK';
 
 import { REFERRALS_ACTIONS_PREFIX } from '../api/const';
 
@@ -18,7 +19,7 @@ export const claimBNBRewards = createSmartAction<
 >(`${REFERRALS_ACTIONS_PREFIX}claimBNBRewards`, code => ({
   request: {
     promise: (async (): Promise<IWeb3SendResult> => {
-      const sdk: BinanceSDK = await BinanceSDK.getInstance();
+      const sdk: BinanceSDK = await getBinanceSDK();
 
       return sdk.claimPartnerRewards();
     })(),

@@ -5,8 +5,8 @@ import {
   EEthereumNetworkId,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
@@ -31,7 +31,7 @@ export class DashboardSDK {
   }
 
   public static async getInstance(): Promise<DashboardSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const writeProvider = await providerManager.getETHWriteProvider();
 
     const addrHasNotBeenUpdated =
@@ -45,7 +45,7 @@ export class DashboardSDK {
   }
 
   private async getReadProvider(providerName: AvailableReadProviders) {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const provider = await providerManager.getETHReadProvider(providerName);
     return provider;
   }

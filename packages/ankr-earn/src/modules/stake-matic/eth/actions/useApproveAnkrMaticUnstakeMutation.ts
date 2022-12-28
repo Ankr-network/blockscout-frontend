@@ -2,10 +2,11 @@ import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
+
+import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 import { selectMaticOnEthAllowance } from './useLazyGetMaticOnEthAllowanceQuery';
 
@@ -25,7 +26,7 @@ export const { useApproveAnkrMaticUnstakeMutation } = web3Api.injectEndpoints({
             return { data: true };
           }
 
-          const sdk = await PolygonOnEthereumSDK.getInstance();
+          const sdk = await getPolygonOnEthereumSDK();
 
           const result = await sdk.approveACForAB(amount, ETH_SCALE_FACTOR);
 

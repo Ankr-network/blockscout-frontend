@@ -1,4 +1,9 @@
-import { IExtraProviders, IProviders, ProviderManager } from '@ankr.com/provider';
+import {
+  IExtraProviders,
+  IPartialRpcUrlsConfig,
+  IProviders,
+  ProviderManager,
+} from '@ankr.com/provider';
 
 /**
  * Need to get rid of theme from ProviderManager
@@ -33,16 +38,18 @@ export class ProviderManagerSingleton {
    * @public
    * @returns {Promise<ProviderManager>}
    */
-  public static getInstance<
-    ProvidersMap extends IProviders & IExtraProviders
-    >(): ProviderManager<ProvidersMap>
-  {
+  public static getInstance<ProvidersMap extends IProviders & IExtraProviders>(
+    rpcUrls?: IPartialRpcUrlsConfig,
+  ): ProviderManager<ProvidersMap> {
     if (ProviderManagerSingleton.instance) {
       return ProviderManagerSingleton.instance;
     }
 
-    ProviderManagerSingleton.instance =
-      new ProviderManager<ProvidersMap>(DEFAULT_THEME);
+    ProviderManagerSingleton.instance = new ProviderManager<ProvidersMap>(
+      DEFAULT_THEME,
+      undefined,
+      rpcUrls,
+    );
 
     return ProviderManagerSingleton.instance;
   }

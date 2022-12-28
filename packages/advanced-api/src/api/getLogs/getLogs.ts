@@ -1,10 +1,11 @@
-import Web3 from 'web3';
 import { AxiosResponse } from 'axios';
+import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
-import { configFromEnv } from '../common/config';
 import { AnkrAPIGateway } from '../AnkrAPIGateway';
+import { configFromEnv } from '../common/config';
 import { IFilter, ILog, TBlockchain } from './types';
 import { generateEventOptions } from './utils/generateEventOptions';
+
 const { gatewayConfig } = configFromEnv();
 
 interface IGetLogs {
@@ -23,6 +24,7 @@ export interface IGetLogsArgs {
   web3: Web3;
   eventName: string;
   filter?: IFilter;
+  apiUrl?: string;
 }
 
 export const getLogs = async ({
@@ -33,6 +35,7 @@ export const getLogs = async ({
   web3,
   eventName,
   filter,
+  apiUrl = gatewayConfig.ankrApiBaseUrl,
 }: IGetLogsArgs): Promise<AxiosResponse<IGetLogs>> => {
   const { topics } = generateEventOptions({
     web3,
@@ -46,7 +49,7 @@ export const getLogs = async ({
   });
 
   try {
-    const ankrAPIGateway = new AnkrAPIGateway(gatewayConfig);
+    const ankrAPIGateway = new AnkrAPIGateway(apiUrl);
 
     return await ankrAPIGateway.api({
       data: {

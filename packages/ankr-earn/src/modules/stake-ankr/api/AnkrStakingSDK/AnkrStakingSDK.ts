@@ -8,9 +8,9 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
+import { getProviderManager } from 'modules/api/getProviderManager';
 import {
   DEFAULT_ROUNDING,
   ETH_SCALE_FACTOR,
@@ -82,7 +82,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public static async getInstance(): Promise<AnkrStakingSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const [writeProvider, readProvider] = await Promise.all([
       providerManager.getETHWriteProvider(),
       providerManager.getETHReadProvider(ANKR_PROVIDER_READ_ID),

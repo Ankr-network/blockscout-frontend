@@ -1,12 +1,13 @@
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
-import { EthereumSDK, TEthToken, IStakeData } from '@ankr.com/staking-sdk';
+import { IStakeData, TEthToken } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
+import { getEthereumSDK } from '../utils/getEthereumSDK';
 
 interface IStakeArgs {
   token: TEthToken;
@@ -18,7 +19,7 @@ export const { useStakeETHMutation } = web3Api.injectEndpoints({
     stakeETH: build.mutation<IStakeData, IStakeArgs>({
       queryFn: queryFnNotifyWrapper<IStakeArgs, never, IStakeData>(
         async ({ amount, token }) => {
-          const sdk = await EthereumSDK.getInstance();
+          const sdk = await getEthereumSDK();
 
           return { data: await sdk.stake(amount, token) };
         },

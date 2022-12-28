@@ -1,13 +1,14 @@
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
-import { IStakeData, PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
+import { IStakeData } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
+import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 interface IStakePayload {
   amount: BigNumber;
@@ -19,7 +20,7 @@ export const { useStakeMaticOnEthMutation } = web3Api.injectEndpoints({
     stakeMaticOnEth: build.mutation<IStakeData, IStakePayload>({
       queryFn: queryFnNotifyWrapper<IStakePayload, never, IStakeData>(
         async ({ amount, token }) => {
-          const sdk = await PolygonOnEthereumSDK.getInstance();
+          const sdk = await getPolygonOnEthereumSDK();
 
           return { data: await sdk.stake(amount, token) };
         },

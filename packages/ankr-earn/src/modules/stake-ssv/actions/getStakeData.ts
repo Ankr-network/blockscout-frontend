@@ -3,8 +3,9 @@ import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
 import { Web3KeyReadProvider } from '@ankr.com/provider';
-import { EthereumSSV, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { EthereumSSV } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { withStore } from 'modules/common/utils/withStore';
 
@@ -27,7 +28,7 @@ export const getStakeData = createAction<
 >(`${SSV_ACTIONS_PREFIX}getStakeData`, () => ({
   request: {
     promise: async (store: RequestsStore): Promise<TGetStakeData> => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
 
       const { address, walletId } = selectEthProviderData(store.getState());
 

@@ -49,6 +49,10 @@ export interface IBinanceSDKProviders {
   writeProvider: Web3KeyWriteProvider;
 }
 
+export interface IBinanceSDKArgs extends IBinanceSDKProviders {
+  apiUrl?: string;
+}
+
 /**
  * Error codes for BinanceSDK
  */

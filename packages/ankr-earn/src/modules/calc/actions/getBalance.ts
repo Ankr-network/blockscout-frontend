@@ -2,20 +2,18 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
 
-import {
-  AvalancheSDK,
-  BinanceSDK,
-  EthereumSDK,
-  FantomSDK,
-  PolygonOnEthereumSDK,
-  PolygonOnPolygonSDK,
-} from '@ankr.com/staking-sdk';
+import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { BSC_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { withStore } from 'modules/common/utils/withStore';
 import { DashboardSDK } from 'modules/dashboard/api/DashboardSDK';
 import { AnkrStakingSDK } from 'modules/stake-ankr/api/AnkrStakingSDK';
+import { getAvalancheSDK } from 'modules/stake-avax/utils/getAvalancheSDK';
+import { getBinanceSDK } from 'modules/stake-bnb/utils/getBinanceSDK';
+import { getEthereumSDK } from 'modules/stake-eth/utils/getEthereumSDK';
+import { getFantomSDK } from 'modules/stake-fantom/utils/getFantomSDK';
+import { getPolygonOnEthereumSDK } from 'modules/stake-matic/eth/utils/getPolygonOnEthereumSDK';
 import { GnosisStakingSDK } from 'modules/stake-mgno/api/GnosisStakingSDK/GnosisStakingSDK';
 import { PolkadotStakeSDK } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
@@ -67,7 +65,7 @@ export const getBalance = createAction<
         }
 
         case Token.AVAX: {
-          const sdk = await AvalancheSDK.getInstance();
+          const sdk = await getAvalancheSDK();
           const [nativeBalance, bondBalance, certBalance, ratio] =
             await Promise.all([
               sdk.getAVAXBalance(),
@@ -83,7 +81,7 @@ export const getBalance = createAction<
         }
 
         case Token.BNB: {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
           const [nativeBalance, bondBalance, certBalance, ratio] =
             await Promise.all([
               sdk.getBNBBalance(),
@@ -100,7 +98,7 @@ export const getBalance = createAction<
 
         case Token.ETH: {
           const [ethSdk, dashboardSdk] = await Promise.all([
-            EthereumSDK.getInstance(),
+            getEthereumSDK(),
             DashboardSDK.getInstance(),
           ]);
 
@@ -137,7 +135,7 @@ export const getBalance = createAction<
         }
 
         case Token.FTM: {
-          const sdk = await FantomSDK.getInstance();
+          const sdk = await getFantomSDK();
           const [nativeBalance, bondBalance, certBalance, ratio] =
             await Promise.all([
               sdk.getFtmBalance(),
@@ -154,7 +152,7 @@ export const getBalance = createAction<
 
         case Token.MATIC: {
           const [ethSdk, polygonSdk, dashboardSdk] = await Promise.all([
-            PolygonOnEthereumSDK.getInstance(),
+            getPolygonOnEthereumSDK(),
             PolygonOnPolygonSDK.getInstance(),
             DashboardSDK.getInstance(),
           ]);

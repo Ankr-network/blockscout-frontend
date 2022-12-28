@@ -2,15 +2,16 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
 import { Web3KeyWriteProvider } from '@ankr.com/provider';
-import { ABI_ERC20, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { ABI_ERC20 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { SupportedChainIDS } from 'modules/common/const';
 
 import { configFromEnv } from '../../api/config';
 import { getBridgeAddr } from '../utils/getBridgeAddr';
 
 import ABI_BRIDGE from './contracts/CrossChainBridge.json';
-import { IBridgeNotarizeResponse, IBridgeApproveResponse } from './types/types';
+import { IBridgeApproveResponse, IBridgeNotarizeResponse } from './types/types';
 
 export class BridgeSDK {
   private static instance?: BridgeSDK;
@@ -31,7 +32,7 @@ export class BridgeSDK {
   }
 
   public static async getInstance(): Promise<BridgeSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const provider = await providerManager.getETHWriteProvider();
 
     const isActualProvider = BridgeSDK.instance?.provider === provider;
