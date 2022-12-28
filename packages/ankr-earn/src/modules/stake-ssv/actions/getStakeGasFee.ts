@@ -2,12 +2,9 @@ import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import {
-  EthereumSSV,
-  ProviderManagerSingleton,
-  Web3KeyReadProvider,
-} from '@ankr.com/staking-sdk';
+import { EthereumSSV, Web3KeyReadProvider } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { ZERO } from 'modules/common/const';
 import { withStore } from 'modules/common/utils/withStore';
@@ -24,7 +21,7 @@ export const getStakeGasFee = createSmartAction<
 >(`${SSV_ACTIONS_PREFIX}getStakeGasFee`, ({ amount }) => ({
   request: {
     promise: async (store: RequestsStore): Promise<BigNumber> => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
 
       const { address, walletId } = selectEthProviderData(store.getState());
 

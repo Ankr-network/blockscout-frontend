@@ -1,11 +1,10 @@
-import {
-  AvalancheSDK,
-  AVAX_HISTORY_2_WEEKS_OFFSET,
-} from '@ankr.com/staking-sdk';
+import { AVAX_HISTORY_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
+
+import { getAvalancheSDK } from '../utils/getAvalancheSDK';
 
 export interface IGetHistoryData {
   [Token.aAVAXb]: IBaseHistoryData;
@@ -21,7 +20,7 @@ export const { useLazyGetAVAXHistoryQuery } = web3Api.injectEndpoints({
     getAVAXHistory: build.query<IGetHistoryData, IGetHistoryArgs>({
       queryFn: queryFnNotifyWrapper<IGetHistoryArgs, never, IGetHistoryData>(
         async ({ step }) => {
-          const sdk = await AvalancheSDK.getInstance();
+          const sdk = await getAvalancheSDK();
           const latestBlock = await sdk.getLatestBlock();
 
           const from = latestBlock - AVAX_HISTORY_2_WEEKS_OFFSET * (step + 1);

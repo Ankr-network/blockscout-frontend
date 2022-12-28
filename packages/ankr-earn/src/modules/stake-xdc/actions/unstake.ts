@@ -2,13 +2,9 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { RootState } from 'store';
 
-import {
-  IUnstakeData,
-  ProviderManagerSingleton,
-  Web3KeyReadProvider,
-  XDC,
-} from '@ankr.com/staking-sdk';
+import { IUnstakeData, Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -26,7 +22,7 @@ export const { useUnstakeMutation } = web3Api.injectEndpoints({
     unstake: build.mutation<TUnstakeData, IUnstakeProps>({
       queryFn: queryFnNotifyWrapper<IUnstakeProps, never, TUnstakeData>(
         async ({ amount }, { getState }) => {
-          const providerManager = ProviderManagerSingleton.getInstance();
+          const providerManager = getProviderManager();
 
           const { address, walletId } = selectEthProviderData(
             getState() as RootState,

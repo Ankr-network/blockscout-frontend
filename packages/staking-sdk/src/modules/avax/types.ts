@@ -1,7 +1,4 @@
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 /**
  * Avalanche pool contract events
@@ -25,6 +22,10 @@ export enum EAvalanchePoolEventsMap {
 export interface IAvalancheSDKProviders {
   readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyWriteProvider;
+}
+
+export interface IAvalancheSDKArgs extends IAvalancheSDKProviders {
+  apiUrl?: string;
 }
 
 /**

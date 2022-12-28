@@ -1,12 +1,9 @@
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
-import {
-  EthereumSSV,
-  ProviderManagerSingleton,
-  Web3KeyWriteProvider,
-} from '@ankr.com/staking-sdk';
+import { EthereumSSV, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { withStore } from 'modules/common/utils/withStore';
 
@@ -22,7 +19,7 @@ export const addTokenToWallet = createSmartAction<
 >(`${SSV_ACTIONS_PREFIX}addTokenToWallet`, token => ({
   request: {
     promise: async (store: RequestsStore): Promise<boolean> => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
 
       const { walletId } = selectEthProviderData(store.getState());
 

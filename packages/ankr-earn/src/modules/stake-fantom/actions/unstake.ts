@@ -2,13 +2,13 @@ import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { FantomSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
+import { getFantomSDK } from '../utils/getFantomSDK';
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -20,7 +20,7 @@ export const { useUnstakeFTMMutation } = web3Api.injectEndpoints({
     unstakeFTM: build.mutation<IWeb3SendResult, IUnstakeArgs>({
       queryFn: queryFnNotifyWrapper<IUnstakeArgs, never, IWeb3SendResult>(
         async ({ amount, token }) => {
-          const sdk = await FantomSDK.getInstance();
+          const sdk = await getFantomSDK();
 
           return { data: await sdk.unstake(amount, token) };
         },

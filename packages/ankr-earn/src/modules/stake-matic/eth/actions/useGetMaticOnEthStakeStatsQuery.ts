@@ -1,12 +1,11 @@
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 
-import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 export interface IStakeStatsResponseData {
   minimumStake: BigNumber;
@@ -18,7 +17,7 @@ export const { useGetMaticOnEthStakeStatsQuery } = web3Api.injectEndpoints({
     getMaticOnEthStakeStats: build.query<IStakeStatsResponseData, void>({
       queryFn: queryFnNotifyWrapper<void, never, IStakeStatsResponseData>(
         async () => {
-          const sdk = await PolygonOnEthereumSDK.getInstance();
+          const sdk = await getPolygonOnEthereumSDK();
           const unstakeFee = await sdk.getUnstakeFee();
           const minimumStake = await sdk.getMinimumStake();
 

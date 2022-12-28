@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import { DEFAULT_WALLET_NAME, SuiProvider } from 'sui';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { ExtraWriteProviders } from 'modules/common/types';
 
 import { useConnectForModal } from '../../hooks/useConnectForModal';
@@ -22,7 +22,7 @@ export const ConnectTileSui = (): JSX.Element => {
   const isInjected = SuiProvider.isInjected();
 
   const isDisabled = useMemo(() => {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const ethProvider = providerManager.getWriteProviderById(
       AvailableWriteProviders.ethCompatible,
     );

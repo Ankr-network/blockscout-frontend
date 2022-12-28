@@ -9,6 +9,13 @@ export const featuresConfig = {
   isActivePolkadotLedgerNanoX: true,
   isActiveSSVDashboardAddToken: currentEnv !== Env.Production,
   /**
+   * BFF (Backend For Frontend)
+   *
+   * This flag enables proxy URLs with premium access for ANKR MRPC
+   * and AAPI services.
+   */
+  isBffEnabled: true,
+  /**
    * Please remove extra feature flag
    * @deprecated
    */

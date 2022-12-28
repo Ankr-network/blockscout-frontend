@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { EthereumSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getEthereumSDK } from '../utils/getEthereumSDK';
 
 export interface IGetCommonData {
   aETHbBalance: BigNumber;
@@ -18,7 +17,7 @@ export const { useGetETHCommonDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getETHCommonData: build.query<IGetCommonData, void>({
       queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(async () => {
-        const sdk = await EthereumSDK.getInstance();
+        const sdk = await getEthereumSDK();
 
         const isFormatted = true;
         const [ethBalance, aETHbBalance, aETHcBalance, aETHcRatio] =

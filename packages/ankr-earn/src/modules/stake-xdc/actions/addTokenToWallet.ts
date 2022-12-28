@@ -1,11 +1,8 @@
 import { RootState } from 'store';
 
-import {
-  ProviderManagerSingleton,
-  Web3KeyWriteProvider,
-  XDC,
-} from '@ankr.com/staking-sdk';
+import { Web3KeyWriteProvider, XDC } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -16,7 +13,7 @@ export const { useLazyAddTokenToWalletQuery } = web3Api.injectEndpoints({
     addTokenToWallet: build.query<boolean, XDC.EXDCTokens>({
       queryFn: queryFnNotifyWrapper<XDC.EXDCTokens, never, boolean>(
         async (args, { getState }) => {
-          const providerManager = ProviderManagerSingleton.getInstance();
+          const providerManager = getProviderManager();
 
           const { walletId } = selectEthProviderData(getState() as RootState);
 

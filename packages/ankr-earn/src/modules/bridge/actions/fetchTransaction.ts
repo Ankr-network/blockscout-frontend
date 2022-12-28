@@ -7,8 +7,9 @@ import { Transaction } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 
 import { Address } from '@ankr.com/provider';
-import { ABI_ERC20, ProviderManagerSingleton } from '@ankr.com/staking-sdk';
+import { ABI_ERC20 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { SupportedChainIDS } from 'modules/common/const';
 import { createWalletConnectionGuard } from 'modules/common/utils/createWalletConnectionGuard';
 
@@ -71,7 +72,7 @@ export const fetchTransaction = createSmartAction<
 >('bridge/fetchTransaction', ({ tx }) => ({
   request: {
     promise: async () => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
       const provider = await providerManager.getETHWriteProvider();
 
       const web3 = provider.getWeb3();

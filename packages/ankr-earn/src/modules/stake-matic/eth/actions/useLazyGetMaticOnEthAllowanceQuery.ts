@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
 
-import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+
+import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 export const {
   useLazyGetMaticOnEthAllowanceQuery,
@@ -11,7 +11,7 @@ export const {
   endpoints: build => ({
     getMaticOnEthAllowance: build.query<BigNumber, void>({
       queryFn: queryFnNotifyWrapper<void, never, BigNumber>(async () => {
-        const sdk = await PolygonOnEthereumSDK.getInstance();
+        const sdk = await getPolygonOnEthereumSDK();
 
         return { data: await sdk.getACAllowance() };
       }),

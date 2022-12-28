@@ -1,13 +1,14 @@
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
-import { BinanceSDK, IStakeData } from '@ankr.com/staking-sdk';
+import { IStakeData } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TBnbSyntToken } from '../types';
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 interface IStakeArgs {
   amount: BigNumber;
@@ -20,7 +21,7 @@ export const { useStakeBNBMutation } = web3Api.injectEndpoints({
     stakeBNB: build.mutation<IStakeData, IStakeArgs>({
       queryFn: queryFnNotifyWrapper<IStakeArgs, never, IStakeData>(
         async ({ amount, token, code }) => {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
 
           return { data: await sdk.stake(amount, token, undefined, code) };
         },

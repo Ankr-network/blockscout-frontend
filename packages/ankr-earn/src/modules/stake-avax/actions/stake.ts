@@ -1,13 +1,14 @@
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
-import { AvalancheSDK, IStakeData } from '@ankr.com/staking-sdk';
+import { IStakeData } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TAvaxSyntToken } from '../types';
+import { getAvalancheSDK } from '../utils/getAvalancheSDK';
 
 interface IStakeArgs {
   amount: BigNumber;
@@ -19,7 +20,7 @@ export const { useStakeAVAXMutation } = web3Api.injectEndpoints({
     stakeAVAX: build.mutation<IStakeData, IStakeArgs>({
       queryFn: queryFnNotifyWrapper<IStakeArgs, never, IStakeData>(
         async ({ amount, token }) => {
-          const sdk = await AvalancheSDK.getInstance();
+          const sdk = await getAvalancheSDK();
 
           return { data: await sdk.stake(amount, token) };
         },

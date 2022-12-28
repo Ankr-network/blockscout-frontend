@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { EthereumSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
+import { getEthereumSDK } from '../utils/getEthereumSDK';
 
 /**
  * This method is only for creating a testing ability.
@@ -18,7 +18,7 @@ export const { useStakeWithoutClaimETHMutation } = web3Api.injectEndpoints({
     stakeWithoutClaimETH: build.mutation<IWeb3SendResult, BigNumber>({
       queryFn: queryFnNotifyWrapper<BigNumber, never, IWeb3SendResult>(
         async amount => {
-          const sdk = await EthereumSDK.getInstance();
+          const sdk = await getEthereumSDK();
 
           return { data: await sdk.stakeWithoutClaim(amount) };
         },

@@ -3,11 +3,11 @@ import { RootState } from 'store';
 import {
   getWeb3LatestBlockNumber,
   ITxEventsHistoryData,
-  ProviderManagerSingleton,
   Web3KeyReadProvider,
   XDC,
 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { XDC_PROVIDER_BY_ENV } from 'modules/common/const';
@@ -29,7 +29,7 @@ export const { useLazyGetDashboardTxEventsHistoryQuery } =
               unstakeCertificate: [],
             };
 
-            const providerManager = ProviderManagerSingleton.getInstance();
+            const providerManager = getProviderManager();
 
             const { address } = selectEthProviderData(getState() as RootState);
 

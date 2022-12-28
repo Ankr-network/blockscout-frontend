@@ -8,9 +8,9 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
@@ -71,7 +71,7 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
   }
 
   public static async getInstance(): Promise<GnosisStakingSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const [writeProvider, readProvider] = await Promise.all([
       providerManager.getETHWriteProvider(),
       providerManager.getETHReadProvider(GNOSIS_PROVIDER_READ_ID),

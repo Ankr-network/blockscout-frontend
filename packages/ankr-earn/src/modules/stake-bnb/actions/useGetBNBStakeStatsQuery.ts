@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { BinanceSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 interface IFetchStakeStatsResponseData {
   relayerFee: BigNumber;
@@ -17,7 +16,7 @@ export const { useGetBNBStakeStatsQuery } = web3Api.injectEndpoints({
     getBNBStakeStats: build.query<IFetchStakeStatsResponseData, void>({
       queryFn: queryFnNotifyWrapper<void, never, IFetchStakeStatsResponseData>(
         async () => {
-          const sdk = await BinanceSDK.getInstance();
+          const sdk = await getBinanceSDK();
 
           const [minimumStake, relayerFee] = await Promise.all([
             sdk.getMinimumStake(),
