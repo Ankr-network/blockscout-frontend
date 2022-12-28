@@ -14,6 +14,7 @@ import {
   ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
@@ -112,7 +113,7 @@ export const StakeEthereum = (): JSX.Element => {
 
   const noticeText = useBTokenNotice({
     bToken: Token.aETHb,
-    cToken: Token.aETHc,
+    cToken: getTokenSymbol(Token.aETHc),
     nativeToken: Token.ETH,
   });
 

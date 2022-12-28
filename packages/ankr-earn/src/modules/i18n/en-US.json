@@ -335,7 +335,7 @@
     "btn-max": "Max",
     "faq-title": "FAQ",
     "bridge-btn": "Bridge",
-    "reward-token-info": "<b>{synthToken}</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>{synthAmount} {synthToken} = {amount} {token}</b>",
+    "reward-token-info": "<b>{synthToken}</b> is a reward-bearing token. It accumulates rewards not by growing in number, but by growing in value in relation to {token}. The redemption price of <b>{synthAmount} {synthToken}</b> is now <b>{amount} {token}</b>.",
     "stats": {
       "apy": "APY",
       "apy-value": "{value, number, ::.0#}%",
@@ -366,8 +366,8 @@
     "pending": {
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     },
-    "token-info": "<b>{token}</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>1 {token} = {nativeAmount} {nativeToken}</b>",
-    "b-notice": "Ankr no longer actively support {bToken}. You can stake {nativeToken} for {cToken} supported by the most well-known DeFi platforms."
+    "token-info": "<b>{token}</b> is a reward-bearing token. It accumulates rewards not by growing in number, but by growing in value in relation to {nativeToken}. The redemption price of <b>1 {token}</b> is now <b>{nativeAmount} {nativeToken}</b>.",
+    "b-notice": "Ankr no longer actively supports {bToken}. You can stake {nativeToken} and get {cToken} supported by the most well-known DeFi platforms."
   },
   "delegated-stake": {
     "header": {
@@ -1215,7 +1215,7 @@
   },
   "stake-xdc": {
     "stake": {
-      "info": "<b>ankrXDC</b> is a reward-bearing token with rewards built in. Redemption ratio grows daily, but quantity never changes. Current redemption ratio is <b>1 ankrXDC = {value} XDC</b>",
+      "info": "<b>ankrXDC</b> is a reward-bearing token. It accumulates rewards not by growing in number, but by growing in value in relation to XDC. The redemption price of <b>1 ankrXDC</b> is now <b>{value} XDC</b>.",
       "token-logo-alt": "XDC Token Logo"
     },
     "unstake": {
