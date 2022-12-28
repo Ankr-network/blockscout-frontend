@@ -1,13 +1,11 @@
 import { t } from '@ankr.com/common';
 
-import { Token } from 'modules/common/types/token';
-
-import { useQueryParams } from '../../router/hooks/useQueryParams';
+import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 
 interface IBTokenNoticeProps {
-  bToken: Token;
-  cToken: Token;
-  nativeToken: Token;
+  bToken: string;
+  cToken: string;
+  nativeToken: string;
 }
 
 export const useBTokenNotice = ({
