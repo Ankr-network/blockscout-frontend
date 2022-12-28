@@ -62,14 +62,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontSize: 45,
     lineHeight: '52px',
     height: '100%',
-
-    [theme.breakpoints.down('md')]: {
-      marginBottom: theme.spacing(1),
-    },
+    marginBottom: theme.spacing(2),
 
     [theme.breakpoints.down('xs')]: {
-      marginBottom: 33,
-
       fontSize: 34,
       lineHeight: '40px',
     },

@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme, Props>(theme => ({
   },
   tab: {
     '&:not(:last-child)': {
-      marginRight: theme.spacing(0.25),
+      marginRight: theme.spacing(0),
     },
   },
   left: {
