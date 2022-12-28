@@ -17,9 +17,11 @@ export const useUserRequestsByIp = ({
   chainId,
 }: IUserRequestsByIpPrarms): UserRequestsByIpData[] => {
   if (day30PrivateStats && chainId in day30PrivateStats) {
-    const chainData = day30PrivateStats[chainId]?.ips_count?.top_ips
-      ?.sort((a, b) => Number(b.count) - Number(a.count))
-      ?.slice(0, MAX_NUM_OF_TOP_REQUEST_IP);
+    const topIps = day30PrivateStats[chainId]?.ips_count?.top_ips ?? [];
+
+    const chainData = [...topIps]
+      .sort((a, b) => Number(b.count) - Number(a.count))
+      .slice(0, MAX_NUM_OF_TOP_REQUEST_IP);
 
     return (
       chainData?.map(item => ({ ip: item.ip, count: Number(item.count) })) ?? []

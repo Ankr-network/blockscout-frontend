@@ -1,82 +1,66 @@
-import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-// import { push } from 'connected-react-router';
-
-import { selectAccount } from 'domains/account/store/accountTopUpSlice';
-// import { AccountRoutesConfig } from 'domains/account/Routes';
-import { connect } from 'domains/auth/actions/connect';
+import { GetState, RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
-import { checkFirstTopUpStep } from './checkFirstTopUpStep';
-// eslint-disable-next-line import/no-cycle
+import { areHashesEmpty } from './initialStepChecksUtils';
+import { authConnect, AuthConnectParams } from 'domains/auth/actions/connect';
 import { checkAllowanceStep } from './checkAllowanceStep';
+import { checkFirstTopUpStep } from './checkFirstTopUpStep';
 import { checkTopUpStep } from './checkTopUpStep';
-import {
-  areHashesEmpty,
-  // isAmountEmpty
-} from './initialStepChecksUtils';
-import { waitTransactionConfirming } from '../waitTransactionConfirming';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { selectAccount } from 'domains/account/store/accountTopUpSlice';
+import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
+import { web3Api } from 'store/queries';
 
-export const getInitialStep = createSmartAction<
-  RequestAction<TopUpStep, TopUpStep>
->('topUp/getInitialStep', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
-      return {
-        promise: (async (): Promise<any> => {
-          const service = await MultiService.getWeb3Service();
-          const provider = service.getKeyProvider();
-          const { currentAccount: address } = provider;
+export const {
+  endpoints: { topUpGetInitialStep },
+  useLazyTopUpGetInitialStepQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpGetInitialStep: build.query<TopUpStep, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
+        const service = await MultiService.getWeb3Service();
+        const provider = service.getKeyProvider();
+        const { currentAccount: address } = provider;
 
-          const stepForTheFirstTopUp = await checkFirstTopUpStep(
-            address,
-            store,
-          );
+        const stepForTheFirstTopUp = await checkFirstTopUpStep(
+          address,
+          getState as GetState,
+          dispatch,
+        );
 
-          if (stepForTheFirstTopUp) return stepForTheFirstTopUp;
+        if (stepForTheFirstTopUp) return { data: stepForTheFirstTopUp };
 
-          const transaction = selectAccount(store.getState(), address);
+        const transaction = selectAccount(getState() as RootState, address);
 
-          // if (isAmountEmpty(transaction)) {
-          //   store.dispatch(
-          //     push(AccountRoutesConfig.accountDetails.generatePath()),
-          //   );
-          // }
+        if (areHashesEmpty(transaction)) return { data: TopUpStep.start };
 
-          if (areHashesEmpty(transaction)) return TopUpStep.start;
+        const allowanceStep = await checkAllowanceStep(
+          dispatch,
+          transaction?.rejectAllowanceTransactionHash,
+          transaction?.allowanceTransactionHash,
+        );
 
-          const allowanceStep = await checkAllowanceStep(
-            store,
-            transaction?.rejectAllowanceTransactionHash,
-            transaction?.allowanceTransactionHash,
-          );
+        if (allowanceStep) return { data: allowanceStep };
 
-          if (allowanceStep) return allowanceStep;
+        const topUpStep = await checkTopUpStep(
+          dispatch,
+          transaction?.topUpTransactionHash,
+        );
 
-          const topUpStep = await checkTopUpStep(
-            store,
-            transaction?.topUpTransactionHash,
-          );
+        if (topUpStep) return { data: topUpStep };
 
-          if (topUpStep) return topUpStep;
+        const { data: connectData } = authConnect.select(
+          undefined as unknown as AuthConnectParams,
+        )(getState() as RootState);
 
-          const { data: connectData } = getQuery(store.getState(), {
-            type: connect.toString(),
-            action: connect,
-          });
+        if (connectData?.credentials) {
+          dispatch(topUpWaitTransactionConfirming.initiate());
 
-          if (connectData?.credentials) {
-            store.dispatchRequest(waitTransactionConfirming());
+          return { data: TopUpStep.waitTransactionConfirming };
+        }
 
-            return TopUpStep.waitTransactionConfirming;
-          }
-
-          return TopUpStep.login;
-        })(),
-      };
-    },
-  },
-}));
+        return { data: TopUpStep.login };
+      }),
+    }),
+  }),
+});

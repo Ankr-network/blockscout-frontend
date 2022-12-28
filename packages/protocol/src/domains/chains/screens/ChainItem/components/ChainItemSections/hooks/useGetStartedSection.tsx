@@ -42,9 +42,9 @@ export const useGetStartedSection = ({
   unfilteredGroup,
 }: GetStartedSectionParams) => {
   // TODO: Remove after adding ChainFlow to GetStartedSection
-  const { credentials, loading } = useAuth();
+  const { hasPrivateAccess, loading } = useAuth();
 
-  const isUpgraded = !!(credentials || loading);
+  const isUpgraded = Boolean(hasPrivateAccess || loading);
   const isVisible = isSectionVisible(chainId, group, isUpgraded);
 
   return useMemo(

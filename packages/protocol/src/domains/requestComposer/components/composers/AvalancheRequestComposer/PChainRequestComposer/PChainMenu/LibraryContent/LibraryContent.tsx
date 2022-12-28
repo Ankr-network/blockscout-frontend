@@ -1,31 +1,37 @@
-import { useCallback } from 'react';
 import { Box } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useCallback } from 'react';
 
-import { PChainMethodsForm } from '../PChainMethodsForm';
-import { EndpointGroup } from 'modules/endpoints/types';
 import {
   AvalancheLibraryID,
   PChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
+import { EndpointGroup } from 'modules/endpoints/types';
 import { MethodsRequest } from 'domains/requestComposer/types';
-import { fetchPChainRequest } from 'domains/requestComposer/actions/avalanche/fetchPChainRequest';
+import { PChainMethodsForm } from '../PChainMethodsForm';
+import { requestComposerFetchPChainRequest } from 'domains/requestComposer/actions/avalanche/fetchPChainRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
-interface ILibraryContentProps {
+export interface ILibraryContentProps {
   group: EndpointGroup;
   libraryID: AvalancheLibraryID;
 }
 
 export const LibraryContent = ({ group, libraryID }: ILibraryContentProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const [fetchPChainRequest, , reset] = useQueryEndpoint(
+    requestComposerFetchPChainRequest,
+  );
 
-  const web3HttpUrl = group.urls[0].rpc;
+  const web3URL = group.urls[0].rpc;
 
   const handleSubmit = useCallback(
-    (data: MethodsRequest<PChainMethod>) => {
-      dispatchRequest(fetchPChainRequest(libraryID, data, web3HttpUrl));
+    (params: MethodsRequest<PChainMethod>) => {
+      // We have to reset the request before sending because RTK query considers
+      // values of reference data types with different references but with the
+      // same inner values as equal values.
+      reset();
+      fetchPChainRequest({ libraryID, params, web3URL });
     },
-    [dispatchRequest, web3HttpUrl, libraryID],
+    [fetchPChainRequest, libraryID, reset, web3URL],
   );
 
   return (

@@ -1,12 +1,12 @@
 import { RootState } from 'store';
 
 import {
-  ProviderManagerSingleton,
+  getWeb3LatestBlockNumber,
   Web3KeyReadProvider,
   XDC,
-  getWeb3LatestBlockNumber,
 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
@@ -36,7 +36,7 @@ export const { useLazyGetDashboardTxEventsHistoryRangeQuery } =
               },
             };
 
-            const providerManager = ProviderManagerSingleton.getInstance();
+            const providerManager = getProviderManager();
 
             const { address } = selectEthProviderData(getState() as RootState);
 

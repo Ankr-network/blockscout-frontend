@@ -1,7 +1,4 @@
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 /**
  * Available tokens for FantomSDK
@@ -14,6 +11,10 @@ export type TFtmSyntToken = 'aFTMb' | 'aFTMc';
 export interface IFantomSDKProviders {
   writeProvider: Web3KeyWriteProvider;
   readProvider: Web3KeyReadProvider;
+}
+
+export interface IFantomSDKArgs extends IFantomSDKProviders {
+  apiUrl?: string;
 }
 
 /**

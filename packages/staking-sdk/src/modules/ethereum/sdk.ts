@@ -47,7 +47,7 @@ import {
 import {
   EEthereumErrorCodes,
   EPoolEvents,
-  IEthSDKProviders,
+  IEthSDKArgs,
   TEthToken,
 } from './types';
 
@@ -67,6 +67,15 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @private
    */
   private static instance?: EthereumSDK;
+
+  /**
+   * apiUrl — URL of the advanced API.
+   *
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly apiUrl?: string;
 
   /**
    * writeProvider — provider which has signer for signing transactions.
@@ -108,9 +117,10 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @constructor
    * @private
    */
-  private constructor({ readProvider, writeProvider }: IEthSDKProviders) {
+  private constructor({ readProvider, writeProvider, apiUrl }: IEthSDKArgs) {
     EthereumSDK.instance = this;
 
+    this.apiUrl = apiUrl;
     this.currentAccount = writeProvider.currentAccount;
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
@@ -128,7 +138,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<EthereumSDK>}
    */
   public static async getInstance(
-    args?: Partial<IEthSDKProviders>,
+    args?: Partial<IEthSDKArgs>,
   ): Promise<EthereumSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
@@ -155,7 +165,12 @@ export class EthereumSDK implements ISwitcher, IStakable {
       throw new Error('Read provider not defined');
     }
 
-    const instance = new EthereumSDK({ writeProvider, readProvider });
+    const instance = new EthereumSDK({
+      writeProvider,
+      readProvider,
+      apiUrl: args?.apiUrl,
+    });
+
     const isEthChain = instance.getIsEthChain();
 
     if (isEthChain && !writeProvider.isConnected()) {
@@ -723,6 +738,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
     const web3 = provider.getWeb3();
 
     return getPastEvents({
+      apiUrl: this.apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
       blockchain: 'eth',

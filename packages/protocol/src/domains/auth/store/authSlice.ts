@@ -14,7 +14,6 @@ export interface IAuthSlice {
   address?: string;
   authorizationToken?: string;
   encryptionPublicKey?: string;
-  isManualConnected?: boolean;
   isManualDisconnected?: boolean;
   walletMeta?: IWalletMeta;
   hasWeb3Connection?: boolean;
@@ -22,10 +21,10 @@ export interface IAuthSlice {
   email?: string;
   ethAddressType?: EthAddressType;
   isCardPayment?: boolean;
+  hasOauthUserDepositTransaction?: boolean;
 }
 
 const initialState: IAuthSlice = {
-  isManualConnected: false,
   isManualDisconnected: false,
 };
 
@@ -40,7 +39,6 @@ export const authSlice = createSlice({
         authorizationToken,
         encryptionPublicKey,
         isManualDisconnected,
-        isManualConnected,
         walletMeta,
         hasWeb3Connection,
         hasOauthLogin,
@@ -48,6 +46,7 @@ export const authSlice = createSlice({
         email,
         ethAddressType,
         isCardPayment,
+        hasOauthUserDepositTransaction,
       } = action.payload;
 
       if (credentials) {
@@ -95,8 +94,11 @@ export const authSlice = createSlice({
         state.isCardPayment = isCardPayment;
       }
 
+      if (hasOauthUserDepositTransaction) {
+        state.hasOauthUserDepositTransaction = hasOauthUserDepositTransaction;
+      }
+
       state.isManualDisconnected = Boolean(isManualDisconnected);
-      state.isManualConnected = Boolean(isManualConnected);
     },
 
     resetAuthData: state => {
@@ -106,7 +108,6 @@ export const authSlice = createSlice({
       state.address = undefined;
       state.authorizationToken = undefined;
       state.encryptionPublicKey = undefined;
-      state.isManualConnected = false;
       state.walletMeta = undefined;
       state.hasWeb3Connection = undefined;
       state.hasOauthLogin = undefined;
@@ -116,6 +117,7 @@ export const authSlice = createSlice({
 
       clearCookie(WORKER_TOKEN_DATA_KEY);
       WORKER_TOKEN_DATA = undefined;
+      state.hasOauthUserDepositTransaction = undefined;
     },
   },
 });

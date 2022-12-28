@@ -1,11 +1,10 @@
-import { RequestsStore } from '@redux-requests/core';
-
+import { AppDispatch } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
-import { waitTransactionConfirming } from '../waitTransactionConfirming';
+import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 
 export const checkTopUpStep = async (
-  store: RequestsStore,
+  dispatch: AppDispatch,
   topUpTransactionHash?: string,
 ) => {
   const service = await MultiService.getWeb3Service();
@@ -18,7 +17,7 @@ export const checkTopUpStep = async (
 
   if (transactionReceipt) return null;
 
-  store.dispatchRequest(waitTransactionConfirming());
+  dispatch(topUpWaitTransactionConfirming.initiate());
 
   return TopUpStep.waitTransactionConfirming;
 };

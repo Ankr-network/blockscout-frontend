@@ -1,18 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
+import { useEffect, useMemo, useState } from 'react';
+import { useHistory } from 'react-router';
 
-import { t } from 'modules/i18n/utils/intl';
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { t } from 'modules/i18n/utils/intl';
+import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { PricingRoutesConfig } from 'domains/pricing/Routes';
-import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 
-export const useTopUpBreadcrumbs = (hasCredentials: boolean) => {
-  const breadcrumbs = hasCredentials
+export const useTopUpBreadcrumbs = (hasPrivateAccess: boolean) => {
+  const breadcrumbs = hasPrivateAccess
     ? [
         {
           title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
@@ -39,19 +39,24 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
   const [step, setStep] = useState<TopUpStep>(initialStep);
 
   const {
-    handleGetAllowance,
-    handleDeposit,
-    handleResetDeposit,
-    handleRejectAllowance,
-    handleWaitTransactionConfirming,
-    handleRedirectIfCredentials,
-    handleLogin,
     amount,
-    loading,
-    isRejectAllowanceLoading,
+    handleDeposit,
+    handleGetAllowance,
+    handleLogin,
+    handleRedirectIfCredentials,
+    handleRejectAllowance,
+    handleResetDeposit,
+    handleWaitTransactionConfirming,
     hasError,
+    isRejectAllowanceLoading,
+    loading,
+    loadingWaitTransactionConfirming,
   } = useTopUp();
   const history = useHistory();
+
+  useEffect(() => {
+    setStep(initialStep);
+  }, [initialStep]);
 
   const onConfirm = useMemo(() => {
     switch (step) {
@@ -114,42 +119,43 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
         };
     }
   }, [
-    step,
-    handleGetAllowance,
     handleDeposit,
-    handleWaitTransactionConfirming,
+    handleGetAllowance,
     handleLogin,
-    history,
     handleRedirectIfCredentials,
-    hasError,
     handleResetDeposit,
+    handleWaitTransactionConfirming,
+    hasError,
+    history,
+    step,
   ]);
 
   return {
-    step,
-    loading,
     amount: amount?.toString(10),
+    hasError,
+    isRejectAllowanceLoading,
+    loading,
+    loadingWaitTransactionConfirming,
     onConfirm,
     onReject: handleRejectAllowance,
-    isRejectAllowanceLoading,
-    hasError,
+    step,
   };
 };
 
 export const useCheckConfirmedEmail = (
-  hasCredentials: boolean,
+  hasPrivateAccess: boolean,
   isWalletConnected: boolean,
 ) => {
   const dispatch = useDispatch();
 
   const {
     confirmedEmail,
-    loading: emailDataLoading,
+    isLoading: emailDataLoading,
     pristine,
   } = useEmailData();
 
   useEffect(() => {
-    if (hasCredentials || !isWalletConnected) return;
+    if (hasPrivateAccess || !isWalletConnected) return;
 
     if (!pristine && !emailDataLoading && !confirmedEmail) {
       dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
@@ -159,7 +165,7 @@ export const useCheckConfirmedEmail = (
     emailDataLoading,
     pristine,
     dispatch,
-    hasCredentials,
+    hasPrivateAccess,
     isWalletConnected,
   ]);
 };

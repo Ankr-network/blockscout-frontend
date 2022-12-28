@@ -1,6 +1,6 @@
 {
 	"name": "@ankr.com/global-menu",
-	"version": "1.4.2",
+	"version": "1.4.3",
 	"main": "./build/index.js",
 	"types": "./src/index.ts",
 	"files": [
@@ -35,8 +35,7 @@
 		"react-custom-scrollbars": "^4.2.1",
 		"react-intl-universal": "^2.4.5",
 		"react-router": "^5.2.1",
-		"react-router-dom": "^5.2.0",
-		"ui": "*"
+		"react-router-dom": "^5.2.0"
 	},
 	"devDependencies": {
 		"@storybook/addon-actions": "^6.3.8",

@@ -2,13 +2,12 @@ import { useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
-import { EthereumSDK } from '@ankr.com/staking-sdk';
-
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
+import { getEthereumSDK } from 'modules/stake-eth/utils/getEthereumSDK';
 
 import {
   IUseStakeEthAnalyticsArgs,
@@ -31,10 +30,8 @@ jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
 }));
 
-jest.mock('@ankr.com/staking-sdk', () => ({
-  EthereumSDK: {
-    getInstance: jest.fn(),
-  },
+jest.mock('modules/stake-eth/utils/getEthereumSDK', () => ({
+  getEthereumSDK: jest.fn(),
 }));
 
 jest.mock('modules/analytics/tracking-actions/trackStake', () => ({
@@ -93,14 +90,14 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
 
   test('should return initial data', () => {
     const { result } = renderHook(() => useStakeEthAnalytics(defaultHookProps));
-    (EthereumSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
+    (getEthereumSDK as jest.Mock).mockReturnValue(mockEthSDK);
 
     const { sendAnalytics } = result.current;
     expect(sendAnalytics).toBeDefined();
   });
 
   test('should send stake aETHb analytics', async () => {
-    (EthereumSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
+    (getEthereumSDK as jest.Mock).mockReturnValue(mockEthSDK);
 
     const { result } = renderHook(() => useStakeEthAnalytics(defaultHookProps));
 
@@ -130,7 +127,7 @@ describe('modules/stake-eth/screens/StakeEthereum/hooks/useStakeEthAnalytics', (
 
     const { result } = renderHook(() => useStakeEthAnalytics(defaultHookProps));
 
-    (EthereumSDK.getInstance as jest.Mock).mockReturnValue(mockEthSDK);
+    (getEthereumSDK as jest.Mock).mockReturnValue(mockEthSDK);
 
     await act(async () => {
       await result.current.sendAnalytics();

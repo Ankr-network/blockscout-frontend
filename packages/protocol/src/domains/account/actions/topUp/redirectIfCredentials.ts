@@ -1,44 +1,40 @@
-import { getQuery, RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-import { IWeb3SendResult } from '@ankr.com/provider';
-
-import { connect } from 'domains/auth/actions/connect';
 import { MultiService } from 'modules/api/MultiService';
+import { RootState } from 'store';
+import { authConnect, AuthConnectParams } from 'domains/auth/actions/connect';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
+import { web3Api } from 'store/queries';
 
-export const redirectIfCredentials = createSmartAction<
-  RequestAction<IWeb3SendResult, null>
->('topUp/redirectIfCredentials', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    onRequest: (request: any, action: RequestAction, store: RequestsStore) => {
-      return {
-        promise: (async (): Promise<any> => {
-          const service = await MultiService.getWeb3Service();
-          const provider = service.getKeyProvider();
-          const { currentAccount: address } = provider;
+export const {
+  useLazyTopUpRedirectIfCredentialsQuery,
+  endpoints: { topUpRedirectIfCredentials },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpRedirectIfCredentials: build.query<boolean, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
+        const service = await MultiService.getWeb3Service();
+        const provider = service.getKeyProvider();
+        const { currentAccount: address } = provider;
 
-          const { data: connectData } = getQuery(store.getState(), {
-            type: connect.toString(),
-            action: connect,
-          });
+        const { data: connectData } =
+          // we shouldn't care about params because
+          // endpoints cache by their names only
+          authConnect.select(undefined as unknown as AuthConnectParams)(
+            getState() as RootState,
+          );
 
-          if (
-            connectData?.credentials &&
-            connectData?.workerTokenData?.userEndpointToken
-          ) {
-            resetTransactionSliceAndRedirect(store, address);
+        const shouldRedirect =
+          connectData?.credentials &&
+          connectData?.workerTokenData?.userEndpointToken;
 
-            return true;
-          }
+        if (shouldRedirect) {
+          resetTransactionSliceAndRedirect(dispatch, address);
 
-          return false;
-        })(),
-      };
-    },
+          return { data: true };
+        }
 
-    asMutation: false,
-  },
-}));
+        return { data: false };
+      }),
+    }),
+  }),
+});

@@ -1,16 +1,10 @@
-import { useQuery } from '@redux-requests/react';
-
-import { fetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
-import { PrivateStats } from 'multirpc-sdk';
+import { chainsFetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const usePrivateStats = (chainId: string): [number, boolean] => {
-  const {
-    data: { stats = {} },
-    loading,
-  } = useQuery<PrivateStats>({
-    defaultData: {},
-    type: fetchPrivateStats,
-  });
+  const [, { data: { stats = {} } = {}, isLoading }] = useQueryEndpoint(
+    chainsFetchPrivateStats,
+  );
 
-  return [stats[chainId]?.total_requests || 0, loading];
+  return [stats[chainId]?.total_requests || 0, isLoading];
 };

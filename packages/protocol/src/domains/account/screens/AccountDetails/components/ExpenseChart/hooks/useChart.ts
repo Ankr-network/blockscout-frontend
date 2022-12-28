@@ -19,12 +19,12 @@ export interface Chart {
 }
 
 export const useChart = (): Chart => {
-  const { credentials, isConnecting } = useAccountAuth();
+  const { isConnecting, hasPrivateAccess } = useAccountAuth();
 
   const [currency, switchCurrency] = useCurrency();
   const [timeframe, setTimeframe] = useTimeframe();
   const [payments, isLoading] = usePaymentHistory({
-    hasCredentials: Boolean(credentials),
+    hasPrivateAccess,
     timeframe,
   });
   const [xFormatter, yFormatter] = useFormatters(timeframe);

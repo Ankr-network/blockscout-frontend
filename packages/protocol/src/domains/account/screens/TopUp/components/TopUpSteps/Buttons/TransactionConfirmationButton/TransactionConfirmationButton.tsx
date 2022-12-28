@@ -1,11 +1,13 @@
-import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
-import { fetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
-import { t } from 'modules/i18n/utils/intl';
+import { CONFIRMATION_BLOCKS, IIssueJwtTokenResult } from 'multirpc-sdk';
+import { useEffect } from 'react';
+
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { getBlockCount } from './TransactionConfirmationButtonUtils';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { getBlockCount } from './TransactionConfirmationButtonUtils';
+import { t } from 'modules/i18n/utils/intl';
+import { topUpFetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 interface TransactionConfirmationButtonProps {
   className?: string;
@@ -14,15 +16,18 @@ interface TransactionConfirmationButtonProps {
 export const TransactionConfirmationButton = ({
   className,
 }: TransactionConfirmationButtonProps) => {
+  const [, state, reset] = useQueryEndpoint(
+    topUpFetchTransactionConfirmationStatus,
+  );
+
+  useEffect(() => reset, [reset]);
+
   return (
-    <Queries<ResponseData<typeof fetchTransactionConfirmationStatus>>
-      requestActions={[fetchTransactionConfirmationStatus]}
-      isPreloadDisabled
-    >
-      {({ data, pristine }) => {
+    <Queries<IIssueJwtTokenResult> queryStates={[state]} isPreloadDisabled>
+      {({ data, isUninitialized }) => {
         return (
           <LoadingButton className={className} disabled loading>
-            {pristine
+            {isUninitialized
               ? t(
                   `top-up-steps.button.${TopUpStep.waitTransactionConfirming}-loading`,
                 )

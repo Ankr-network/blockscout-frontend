@@ -3,7 +3,7 @@ import { ChainID } from 'modules/chains/types';
 import { t } from 'modules/i18n/utils/intl';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
-export const POLL_INTERVAL = 20;
+export const POLL_INTERVAL = 60_000;
 
 const { Hour, Day, Week, Month } = Timeframe;
 

@@ -4,9 +4,9 @@ import flatten from 'lodash/flatten';
 import { Contract, EventData } from 'web3-eth-contract';
 
 import { EEthereumNetworkId, Web3KeyReadProvider } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { SLASHING_PROTECTION_VAR } from 'modules/stake-mgno/const';
@@ -58,7 +58,7 @@ export class GnosisStakingReadSDK {
   }
 
   public static async getInstance(): Promise<GnosisStakingReadSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const readProvider = await providerManager.getETHReadProvider(
       GNOSIS_PROVIDER_READ_ID,
     );

@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { Typography } from '@material-ui/core';
-import { ErrorProps } from '@redux-requests/react';
 
 import { extractMessage } from '../../utils/extractError';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
-interface ILoadingProps extends ErrorProps {}
+interface Props {
+  error: FetchBaseQueryError | SerializedError;
+}
 
-export const QueryError = (props: ILoadingProps) => {
-  const message = extractMessage(props);
+export const QueryError = ({ error }: Props) => {
+  const message = extractMessage(error);
 
   return (
     <Typography variant="h3" color="error">

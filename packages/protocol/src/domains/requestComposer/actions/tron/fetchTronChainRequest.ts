@@ -1,74 +1,45 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import axios, { Method } from 'axios';
 
-import { MethodsRequest } from 'domains/requestComposer/types';
-import {
-  TronChainMethodResponse,
-  TronChainMethod,
-} from 'domains/requestComposer/constants/tron';
+import { FetchTronChainRequestResult } from './types';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getMethod } from './utils/getMethod';
+import { getTronChainRequest } from './utils/getTronChainRequest';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
-import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
+import { web3Api } from 'store/queries';
 
-export type FetchTronChainRequestResult = {
-  response?: [TronChainMethodResponse];
-  error?: unknown;
-  time: number;
-};
+export interface FetchTronChainRequestParams {
+  web3URL: string;
+  method: Method;
+  params: any;
+}
 
-export const objectError = (error: any) => {
-  if (typeof error === 'string') {
-    return { error };
-  }
+export const {
+  endpoints: { requestComposerFetchTronChainRequest },
+  useLazyRequestComposerFetchTronChainRequestQuery,
+  useRequestComposerFetchTronChainRequestQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    requestComposerFetchTronChainRequest: build.query<
+      FetchTronChainRequestResult,
+      FetchTronChainRequestParams
+    >({
+      queryFn: createNotifyingQueryFn(
+        async ({ method, params, web3URL: url }, { dispatch }) => {
+          dispatch(setEVMMethod(getMethod(url)));
 
-  return error;
-};
+          const api = axios.create();
 
-const getMethod = (url: string) => {
-  const lastIndex = url.lastIndexOf('/') + 1;
-  return url.substring(lastIndex);
-};
+          const start = performance.now();
 
-export const fetchTronChainRequest = createSmartAction<
-  RequestAction<MethodsRequest<TronChainMethod>, FetchTronChainRequestResult>
->('requestComposer/fetchTronChainRequest', (url, method, params) => {
-  const start = performance.now();
+          const { data } = await api.request<unknown>({
+            method,
+            data: params,
+            url,
+          });
 
-  return {
-    request: {
-      url,
-      method,
-      data: params,
-    },
-    meta: {
-      driver: 'axios',
-      asMutation: false,
-      onRequest: (request, __, store) => {
-        store.dispatch(setEVMMethod(getMethod(url) as any));
-        return request;
-      },
-      getData: (data: any) => {
-        const time = performance.now() - start;
-        if (data?.error) {
-          return { error: objectError(data.error?.message), time };
-        }
-        if (data?.Error) {
-          return { error: objectError(data.Error), time };
-        }
-
-        let response = [];
-
-        if (typeof data === 'object' && !('error' in data)) {
-          try {
-            response = [safeStringifyJSON(data)];
-          } catch (e) {
-            response = [];
-          }
-        } else {
-          response = data;
-        }
-
-        return { response, time };
-      },
-    },
-  };
+          return { data: getTronChainRequest(data, start) };
+        },
+      ),
+    }),
+  }),
 });

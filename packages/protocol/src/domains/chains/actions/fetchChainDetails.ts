@@ -1,15 +1,13 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { Timeframe } from 'multirpc-sdk';
 
-import { ResponseData } from 'modules/api/utils/ResponseData';
 import { ChainID } from 'modules/chains/types';
 import { IApiChain } from '../api/queryChains';
 import {
-  fetchChainTimeframeData,
   IApiChainDetails,
+  chainsFetchChainTimeframeData,
 } from './fetchChainTimeframeData';
-import { fetchPublicChainsInfo } from './fetchPublicChainsInfo';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
 const addTotalRequests = (
   chain: IApiChain,
@@ -26,53 +24,46 @@ const addTotalRequests = (
   return chain;
 };
 
-type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
+type IFetchChainDetailsResponseData = IApiChainDetails;
 
-export const fetchChainDetails = createSmartAction<
-  RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
->(
-  'chains/fetchChainDetails',
-  (chainId: string, timeframe: Timeframe, poll?: number) => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      requestKey: chainId,
-      takeLatest: false,
-      cache: false,
-      poll,
-      onRequest: (
-        request: any,
-        action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        return {
-          promise: (async () => {
-            const { data } = await store.dispatchRequest(
-              fetchChainTimeframeData(chainId, timeframe),
-            );
+export const {
+  endpoints: { chainsFetchChainDetails },
+  useLazyChainsFetchChainDetailsQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchChainDetails: build.query<
+      IFetchChainDetailsResponseData,
+      { chainId: string; timeframe: Timeframe }
+    >({
+      queryFn: createNotifyingQueryFn(
+        async ({ chainId, timeframe }, { dispatch }) => {
+          const data = await dispatch(
+            chainsFetchChainTimeframeData.initiate({ chainId, timeframe }),
+          ).unwrap();
 
-            return data;
-          })(),
-        };
-      },
-      asMutation: true,
-      mutations: {
-        [fetchPublicChainsInfo.toString()]: (
-          {
-            chains = [],
-            allChains = [],
-          }: ResponseData<typeof fetchPublicChainsInfo>,
-          mutationData: IApiChainDetails,
-        ): ResponseData<typeof fetchPublicChainsInfo> => ({
-          chains: chains.map(chain =>
-            addTotalRequests(chain, chainId as ChainID, mutationData),
+          return { data };
+        },
+      ),
+      onQueryStarted: async ({ chainId }, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+
+        dispatch(
+          web3Api.util.updateQueryData(
+            'chainsFetchPublicChainsInfo' as unknown as never,
+            undefined as unknown as never,
+            (mutationData: any) => {
+              Object.assign(mutationData, {
+                chains: mutationData.chains.map((chain: any) =>
+                  addTotalRequests(chain, chainId as ChainID, data),
+                ),
+                allChains: mutationData.allChains.map((chain: any) =>
+                  addTotalRequests(chain, chainId as ChainID, data),
+                ),
+              });
+            },
           ),
-          allChains: allChains.map(chain =>
-            addTotalRequests(chain, chainId as ChainID, mutationData),
-          ),
-        }),
+        );
       },
-    },
+    }),
   }),
-);
+});

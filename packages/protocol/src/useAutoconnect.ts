@@ -19,7 +19,7 @@ export const useAutoconnect = () => {
       }
 
       if (hasWeb3Connection) {
-        await handleConnect(walletMeta?.id, true);
+        await handleConnect(walletMeta?.id ?? '', true);
       }
     };
 

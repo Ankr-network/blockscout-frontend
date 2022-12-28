@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { SortType } from 'domains/chains/types';
 
-const getSortType = (isWalletConnected: boolean): SortType =>
-  isWalletConnected ? SortType.Usage : SortType.Name;
+const getSortType = (isLoggedIn?: boolean): SortType =>
+  isLoggedIn ? SortType.Usage : SortType.Name;
 
 export const useSortType = (
-  isWalletConnected: boolean,
+  isLoggedIn?: boolean,
 ): [SortType, (type: SortType) => void] => {
-  const [type, setType] = useState(getSortType(isWalletConnected));
+  const [type, setType] = useState(getSortType(isLoggedIn));
 
   useEffect(() => {
-    setType(() => getSortType(isWalletConnected));
-  }, [isWalletConnected]);
+    setType(() => getSortType(isLoggedIn));
+  }, [isLoggedIn]);
 
   return [type, setType];
 };

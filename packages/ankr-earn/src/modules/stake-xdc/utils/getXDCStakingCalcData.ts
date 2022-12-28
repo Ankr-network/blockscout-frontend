@@ -1,12 +1,9 @@
 import { RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 
-import {
-  ProviderManagerSingleton,
-  Web3KeyReadProvider,
-  XDC,
-} from '@ankr.com/staking-sdk';
+import { Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { XDC_PROVIDER_BY_ENV, ZERO } from 'modules/common/const';
 
@@ -25,7 +22,7 @@ export const getXDCStakingCalcData = async (
     staked: ZERO,
   };
 
-  const providerManager = ProviderManagerSingleton.getInstance();
+  const providerManager = getProviderManager();
 
   const { address } = selectEthProviderData(store.getState());
 

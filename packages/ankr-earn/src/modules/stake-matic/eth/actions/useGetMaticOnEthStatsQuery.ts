@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 export interface IStatsResponseData {
   maticBalance: BigNumber;
@@ -21,7 +20,7 @@ export const { useGetMaticOnEthStatsQuery } = web3Api.injectEndpoints({
     getMaticOnEthStats: build.query<IStatsResponseData, void>({
       queryFn: queryFnNotifyWrapper<void, never, IStatsResponseData>(
         async () => {
-          const sdk = await PolygonOnEthereumSDK.getInstance();
+          const sdk = await getPolygonOnEthereumSDK();
 
           const [
             maticBalance,

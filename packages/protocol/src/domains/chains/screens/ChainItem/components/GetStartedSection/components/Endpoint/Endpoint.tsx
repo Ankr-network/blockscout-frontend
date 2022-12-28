@@ -1,6 +1,8 @@
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
+import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
@@ -24,26 +26,32 @@ export const Endpoint = ({
 }: EndpointProps) => {
   const classes = useEndpointStyles();
 
+  const { isOpened, onOpen, onClose } = useDialog();
+
   return (
-    <div className={classes.endpoint}>
-      <CopyToClipIcon
-        className={classes.copyToClip}
-        message={t('common.copy-message')}
-        copyText="Copy"
-        size="l"
-        text={hasConnectWalletMessage ? t('chains.connect-wallet') : url}
-        textColor="textPrimary"
-        isDisabled={hasConnectWalletMessage}
-      />
-      {publicChain && (
-        <AddNetworkButton
-          className={classes.addNetworkButton}
-          publicChain={publicChain}
-          chainType={chainType}
-          group={group}
-          label={<MetamaskButtonLabel />}
+    <>
+      <div className={classes.endpoint}>
+        <CopyToClipIcon
+          className={classes.copyToClip}
+          message={t('common.copy-message')}
+          copyText={hasConnectWalletMessage ? undefined : 'Copy'}
+          size="l"
+          text={hasConnectWalletMessage ? t('chains.connect-wallet') : url}
+          textColor="textPrimary"
+          hideIcon={hasConnectWalletMessage}
+          onClick={hasConnectWalletMessage ? onOpen : undefined}
         />
-      )}
-    </div>
+        {publicChain && (
+          <AddNetworkButton
+            className={classes.addNetworkButton}
+            publicChain={publicChain}
+            chainType={chainType}
+            group={group}
+            label={<MetamaskButtonLabel />}
+          />
+        )}
+      </div>
+      <SignupDialog isOpen={isOpened} onClose={onClose} hasOauthLogin />
+    </>
   );
 };

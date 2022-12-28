@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js';
 import { useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
-import { PolygonOnEthereumSDK } from '@ankr.com/staking-sdk';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
@@ -18,6 +17,7 @@ import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useG
 import { useLazyApproveMaticOnEthStakeQuery } from 'modules/stake-matic/eth/actions/useLazyApproveMaticOnEthStakeQuery';
 import { useLazyGetMaticOnEthStakeGasFeeQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthStakeGasFeeQueryv';
 import { useStakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useStakeMaticOnEthMutation';
+import { getPolygonOnEthereumSDK } from 'modules/stake-matic/eth/utils/getPolygonOnEthereumSDK';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
@@ -138,7 +138,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const sendAnalytics = async () => {
     const currentAmount = new BigNumber(amount);
-    const polygonOnEthereumSDK = await PolygonOnEthereumSDK.getInstance();
+    const polygonOnEthereumSDK = await getPolygonOnEthereumSDK();
     const synthBalance = await polygonOnEthereumSDK.getACBalance();
 
     trackStake({

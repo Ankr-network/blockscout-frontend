@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { BinanceSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 interface IFetchPendingValuesResponseData {
   pendingAbnbbUnstakes: BigNumber;
@@ -29,7 +28,7 @@ export const { useGetBNBPendingValuesQuery } = web3Api.injectEndpoints({
           };
         }
 
-        const sdk = await BinanceSDK.getInstance();
+        const sdk = await getBinanceSDK();
 
         const {
           pendingBond: pendingAbnbbUnstakes,

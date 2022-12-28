@@ -1,24 +1,29 @@
-import React, { useEffect } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
-import { fetchSecuritySettings } from 'domains/infrastructure/actions/fetchSecuritySettings';
+import { useEffect } from 'react';
+
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { ResponseData } from 'modules/api/utils/ResponseData';
 import { SecuritySettings } from './components/SecuritySettings';
+import {
+  SecuritySettings as TSecuritySettings,
+  useLazyInfrastructureFetchSecuritySettingsQuery,
+} from 'domains/infrastructure/actions/fetchSecuritySettings';
 import { SecuritySettingsSkeleton } from './components/SecuritySettings/SecuritySettingsSkeleton';
 
 export const SecuritySettingsQuery = ({ chainId }: { chainId: string }) => {
-  const dispatchRequest = useDispatchRequest();
+  const [fetchSecuritySettings, state] =
+    useLazyInfrastructureFetchSecuritySettingsQuery();
 
   useEffect(() => {
-    dispatchRequest(fetchSecuritySettings(chainId));
-  }, [dispatchRequest, chainId]);
+    fetchSecuritySettings(chainId);
+  }, [fetchSecuritySettings, chainId]);
 
   return (
-    <Queries<ResponseData<typeof fetchSecuritySettings>>
-      requestActions={[fetchSecuritySettings]}
+    <Queries<TSecuritySettings>
+      queryStates={[state]}
       spinner={<SecuritySettingsSkeleton />}
     >
-      {({ data }) => <SecuritySettings data={data} chainId={chainId} />}
+      {({ data = { domains: [], ips: [] } }) => (
+        <SecuritySettings data={data} chainId={chainId} />
+      )}
     </Queries>
   );
 };

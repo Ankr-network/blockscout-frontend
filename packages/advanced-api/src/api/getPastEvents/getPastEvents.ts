@@ -13,6 +13,7 @@ export const getPastEvents = async ({
   web3,
   eventName,
   filter,
+  apiUrl,
 }: IGetPastEventsArgs): Promise<IEventData[]> => {
   const eventJsonInterface = contract.options.jsonInterface.find(
     elem => elem.name === eventName,
@@ -30,6 +31,7 @@ export const getPastEvents = async ({
     web3,
     eventName,
     filter,
+    apiUrl,
   });
 
   return data.result.logs.map(log =>

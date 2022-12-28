@@ -1,22 +1,20 @@
 import React from 'react';
 import { Dialog, Button, Typography } from '@material-ui/core';
-import { useQuery } from '@redux-requests/react';
 
 import { DeleteEndpointDialogProps } from './DeleteEndpointDialogTypes';
 import { Preloader } from 'uiKit/Preloader';
-import { deletePrivateEndpoint } from 'domains/infrastructure/actions/deletePrivateEndpoint';
+import { useLazyInfrastructureDeletePrivateEndpointQuery } from 'domains/infrastructure/actions/deletePrivateEndpoint';
 import { tHTML } from 'modules/i18n/utils/intl';
 
 import { useStyles } from './DeleteEndpointDialogStyles';
 
 export const DeleteEndpointDialog = ({
-  id,
   isOpened,
   name,
   onClose,
   onSubmit,
 }: DeleteEndpointDialogProps) => {
-  const { loading } = useQuery({ type: deletePrivateEndpoint, requestKey: id });
+  const [, { isLoading }] = useLazyInfrastructureDeletePrivateEndpointQuery();
   const classes = useStyles();
 
   return (
@@ -36,7 +34,7 @@ export const DeleteEndpointDialog = ({
         <div className={classes.buttons}>
           <Button
             className={classes.button}
-            startIcon={loading ? <Preloader /> : null}
+            startIcon={isLoading ? <Preloader /> : null}
             variant="contained"
             onClick={onSubmit}
           >

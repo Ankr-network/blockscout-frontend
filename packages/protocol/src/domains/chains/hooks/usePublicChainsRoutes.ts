@@ -1,25 +1,17 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useEffect } from 'react';
 
-import { fetchPublicChains } from '../actions/fetchPublicChains';
+import { chainsFetchPublicChains } from '../actions/fetchPublicChains';
 
 export const usePublicChainsRoutes = () => {
-  const dispatchRequest = useDispatchRequest();
-
-  const {
-    data: { chains = [] },
-    pristine,
-  } = useQuery({
-    type: fetchPublicChains.toString(),
-    action: fetchPublicChains,
-    defaultData: {},
-  });
+  const [fetchPublicChains, { data: { chains = [] } = {}, isUninitialized }] =
+    useQueryEndpoint(chainsFetchPublicChains);
 
   useEffect(() => {
-    if (pristine) {
-      dispatchRequest(fetchPublicChains());
+    if (isUninitialized) {
+      fetchPublicChains();
     }
-  }, [dispatchRequest, pristine]);
+  }, [fetchPublicChains, isUninitialized]);
 
   return chains.map(item => item?.id);
 };

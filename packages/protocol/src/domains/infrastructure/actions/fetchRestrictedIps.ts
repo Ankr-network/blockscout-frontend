@@ -1,28 +1,30 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { MultiService } from 'modules/api/MultiService';
-import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { ChainID } from 'modules/chains/types';
+import { GetState } from 'store';
+import { MultiService } from 'modules/api/MultiService';
 import { checkWhitelistSecretChainsAndGetChainId } from '../const';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { web3Api } from 'store/queries';
 
-export const fetchRestrictedIps = createSmartAction<
-  RequestAction<string[], string[]>
->('infrastructure/fetchRestrictedIps', (chainId: string) => ({
-  request: {
-    promise: async () => {
-      const service = MultiService.getService();
+export const {
+  useInfrastructureFetchRestrictedIpsQuery,
+  endpoints: { infrastructureFetchRestrictedIps },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureFetchRestrictedIps: build.query<string[], string>({
+      queryFn: createNotifyingQueryFn(async (chainId, { getState }) => {
+        credentialsGuard(getState as GetState);
 
-      const domains = await service
-        .getWorkerGateway()
-        .getChainRestrictedIps(
-          checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
-        );
+        const service = MultiService.getService();
 
-      return domains;
-    },
-  },
-  meta: {
-    onRequest: credentialsGuard,
-  },
-}));
+        const domains = await service
+          .getWorkerGateway()
+          .getChainRestrictedIps(
+            checkWhitelistSecretChainsAndGetChainId(chainId as ChainID),
+          );
+
+        return { data: domains };
+      }),
+    }),
+  }),
+});

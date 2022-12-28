@@ -6,17 +6,114 @@ import packageJson from '../../../package.json';
 
 const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
 
-export const getChainName = (chainId: ChainID) => {
-  let name = chainId.charAt(0).toUpperCase() + chainId.slice(1);
+const uppercaseFirstLetter = (name: string) => {
+  return name.charAt(0).toUpperCase() + name.slice(1);
+};
 
-  if (chainId === 'eth') {
-    name = 'Ethereum';
-  } else if (chainId === 'bsc') {
-    name = 'BSC';
-  } else if (chainId === 'scrt') {
-    name = 'Secret Network';
+const renderPrefix = (name: ChainID) => {
+  let renderedName = name as string;
+
+  if (name.includes(ChainID.BSC)) {
+    renderedName = name.replace(ChainID.BSC, 'BSC');
+  }
+
+  return renderedName;
+};
+
+const renderNervosName = (chainId: ChainID) => {
+  let name = uppercaseFirstLetter(chainId);
+
+  if (chainId === ChainID.NERVOS_CKB) {
+    name = 'Nervos CKB';
+  } else if (chainId === ChainID.NERVOS_GW) {
+    name = 'Nervos Godwoken ';
+  }
+
+  return name;
+};
+
+const renderSecretName = (chainId: ChainID) => {
+  let name = uppercaseFirstLetter(chainId);
+
+  if (chainId === ChainID.SECRET_COSMOS_REST) {
+    name = 'Secret Cosmos REST';
+  } else if (chainId === ChainID.SECRET_REST) {
+    name = 'Secret Tendermint REST';
+  }
+
+  return name;
+};
+
+const renderETHName = (chainId: ChainID) => {
+  let name = 'Ethereum';
+
+  if (chainId === ChainID.ETH_GOERLI) {
+    name = 'Goerli testnet';
+  } else if (chainId === ChainID.ETH_RINKEBY) {
+    name = 'Rinkeby testnet';
+  } else if (chainId === ChainID.ETH_ROPSTEN) {
+    name = 'Ropsten testnet';
+  } else if (chainId === ChainID.ETH_SEPOLIA) {
+    name = 'Sepolia testnet';
+  }
+
+  return name;
+};
+
+const getSubchainName = (chainId: string) => {
+  const index = chainId.indexOf('-');
+  const mainChainName = chainId.substring(0, index);
+  const subChainName = chainId.substring(index + 1);
+
+  return `${uppercaseFirstLetter(mainChainName)}-${uppercaseFirstLetter(
+    subChainName,
+  )}`;
+};
+
+const getTestnetChainName = (chainId: string) => {
+  let name = chainId;
+  let index = name.indexOf('_');
+  let mainnetName = '';
+  let testnetName = '';
+  let testnetChainName = '';
+  let prefix = '';
+
+  while (index > -1) {
+    mainnetName = name.substring(0, index);
+    testnetName = name.substring(index + 1);
+    prefix += `${uppercaseFirstLetter(mainnetName)} `;
+
+    if (testnetName.includes('-')) {
+      testnetName = getSubchainName(testnetName);
+    }
+
+    name = testnetName;
+    index = testnetName.indexOf('_');
+    testnetChainName = `${prefix}${uppercaseFirstLetter(testnetName)}`;
+  }
+
+  return testnetChainName;
+};
+
+export const getChainName = (chainId: ChainID) => {
+  let name = uppercaseFirstLetter(chainId);
+
+  if (chainId.includes(ChainID.BSC)) {
+    name = renderPrefix(chainId);
+  }
+
+  if (chainId.includes(ChainID.NERVOS)) {
+    name = renderNervosName(chainId);
+  } else if (chainId.includes(ChainID.SECRET)) {
+    name = renderSecretName(chainId);
+  } else if (chainId.includes(ChainID.ETH)) {
+    name = renderETHName(chainId);
   } else if (chainId === ChainID.SUI) {
     name = 'Sui Testnet';
+  } else if (chainId.includes('_')) {
+    name = getTestnetChainName(renderPrefix(chainId));
+  } else if (chainId.includes('-')) {
+    name = getSubchainName(renderPrefix(chainId));
   }
 
   return name;
@@ -79,9 +176,8 @@ export const useMetatags = (rawPathname: string, chainsRoutes: string[]) => {
     let name = '';
 
     if (location.indexOf('chain-item') > -1) {
-      name = getChainName(
-        pathname.substring(INDEX_PATH.length, pathname.length) as ChainID,
-      );
+      const lastIndex = pathname.lastIndexOf('/');
+      name = getChainName(pathname.substring(lastIndex + 1) as ChainID);
     }
 
     document.title = t(`meta.${location}title`, { chainId: name });

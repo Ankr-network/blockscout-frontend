@@ -1,22 +1,17 @@
 import BigNumber from 'bignumber.js';
-import { PrivateStats } from 'multirpc-sdk';
-import { useQuery } from '@redux-requests/react';
 
 import { Stats } from '../types';
-import { fetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
+import { chainsFetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const useStats = (): [Stats, boolean] => {
-  const {
-    data: {  totalRequests = 0 },
-    loading,
-  } = useQuery<PrivateStats>({
-    defaultData: {},
-    type: fetchPrivateStats,
-  });
+  const [, { data: { totalRequests = 0 } = {}, isLoading }] = useQueryEndpoint(
+    chainsFetchPrivateStats,
+  );
 
   const stats: Stats = {
     total: new BigNumber(totalRequests),
   };
 
-  return [stats, loading];
+  return [stats, isLoading];
 };

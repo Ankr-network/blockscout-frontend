@@ -4,15 +4,15 @@ import { useGuardAuth, IGuardRoute } from 'domains/auth/hooks/useGuardAuth';
 import { Spinner } from 'ui';
 
 export const GuardAuthRoute = ({
-  hasCredentials,
-  hasAuthData,
+  hasPremium,
   isManualDisconnected,
+  hasAuthData,
   ...routeProps
 }: IGuardRoute) => {
   const { loading } = useGuardAuth({
-    hasCredentials,
-    hasAuthData,
+    hasPremium,
     isManualDisconnected,
+    hasAuthData,
   });
 
   if (loading) {

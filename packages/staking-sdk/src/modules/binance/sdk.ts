@@ -65,7 +65,7 @@ import {
   EBinancePoolEvents,
   EBinancePoolEventsMap,
   ETokenType,
-  IBinanceSDKProviders,
+  IBinanceSDKArgs,
   IGetTxReceipt,
   TBnbSyntToken,
 } from './types';
@@ -86,6 +86,15 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @private
    */
   private static instance?: BinanceSDK;
+
+  /**
+   * apiUrl — URL of the advanced API.
+   *
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly apiUrl?: string;
 
   /**
    * writeProvider — provider which has signer for signing transactions.
@@ -127,9 +136,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @constructor
    * @private
    */
-  private constructor({ readProvider, writeProvider }: IBinanceSDKProviders) {
+  private constructor({
+    readProvider,
+    writeProvider,
+    apiUrl,
+  }: IBinanceSDKArgs) {
     BinanceSDK.instance = this;
 
+    this.apiUrl = apiUrl;
     this.currentAccount = writeProvider.currentAccount;
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
@@ -143,11 +157,11 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @static
-   * @param {Partial<IBinanceSDKProviders>} [args] - User defined providers.
+   * @param {IBinanceSDKArgs} [args] - user-defined providers and advanced API url.
    * @returns {Promise<BinanceSDK>}
    */
   public static async getInstance(
-    args?: Partial<IBinanceSDKProviders>,
+    args?: Partial<IBinanceSDKArgs>,
   ): Promise<BinanceSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
@@ -170,7 +184,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
       throw new Error('Read provider not defined');
     }
 
-    const instance = new BinanceSDK({ writeProvider, readProvider });
+    const instance = new BinanceSDK({
+      writeProvider,
+      readProvider,
+      apiUrl: args?.apiUrl,
+    });
+
     const isBinanceChain = await instance.isBinanceNetwork(writeProvider);
 
     if (isBinanceChain && !writeProvider.isConnected()) {
@@ -258,6 +277,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const web3 = provider.getWeb3();
 
     return getPastEvents({
+      apiUrl: this.apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
       blockchain: 'bsc',

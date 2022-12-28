@@ -1,4 +1,4 @@
-import React, { useMemo, ReactChild } from 'react';
+import { useMemo, ReactChild } from 'react';
 import { ThemeProvider } from '@material-ui/styles';
 import classNames from 'classnames';
 import { Container } from '@material-ui/core';
@@ -39,10 +39,8 @@ export const DefaultLayout = ({
     hasPaddingBottom: hasMaxWidth,
     isHeaderTransparent,
   });
-  const { credentials, loading } = useAuth();
+  const { hasPremium, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
-
-  const hasCredentials = useMemo(() => Boolean(credentials), [credentials]);
 
   const isDarkTheme = theme === Themes.dark;
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
@@ -57,7 +55,7 @@ export const DefaultLayout = ({
         <SideBar
           className={classes.sidebar}
           loading={loading}
-          hasCredentials={hasCredentials}
+          hasPremium={hasPremium}
           chainsRoutes={chainsRoutes}
         />
         <div className={classes.body}>
@@ -79,7 +77,7 @@ export const DefaultLayout = ({
         </div>
         <MobileNavigation
           loading={loading}
-          hasCredentials={hasCredentials}
+          hasPremium={hasPremium}
           chainsRoutes={chainsRoutes}
         />
       </ThemeProvider>

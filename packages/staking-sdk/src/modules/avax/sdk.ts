@@ -51,7 +51,7 @@ import {
   EAvalancheErrorCodes,
   EAvalanchePoolEvents,
   EAvalanchePoolEventsMap,
-  IAvalancheSDKProviders,
+  IAvalancheSDKArgs,
 } from './types';
 
 /**
@@ -62,6 +62,15 @@ import {
  * @class
  */
 export class AvalancheSDK implements ISwitcher, IStakable {
+  /**
+   * apiUrl — URL of the advanced API.
+   *
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly apiUrl?: string;
+
   /**
    * readProvider — provider which allows to read data without connecting the wallet.
    *
@@ -111,9 +120,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @constructor
    * @private
    */
-  private constructor({ readProvider, writeProvider }: IAvalancheSDKProviders) {
+  private constructor({
+    readProvider,
+    writeProvider,
+    apiUrl,
+  }: IAvalancheSDKArgs) {
     AvalancheSDK.instance = this;
 
+    this.apiUrl = apiUrl;
     this.currentAccount = writeProvider.currentAccount;
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
@@ -238,6 +252,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       web3,
       eventName,
       filter,
+      apiUrl: this.apiUrl,
     });
   }
 
@@ -423,11 +438,11 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    *
    * @public
    * @static
-   * @param {Partial<IAvalancheSDKProviders>} [args] - user-defined providers.
+   * @param {IAvalancheSDKArgs} [args] - user-defined providers and advanced API url.
    * @returns {Promise<AvalancheSDK>}
    */
   public static async getInstance(
-    args?: Partial<IAvalancheSDKProviders>,
+    args?: Partial<IAvalancheSDKArgs>,
   ): Promise<AvalancheSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
@@ -450,7 +465,11 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       throw new Error('Read provider not defined');
     }
 
-    const instance = new AvalancheSDK({ writeProvider, readProvider });
+    const instance = new AvalancheSDK({
+      writeProvider,
+      readProvider,
+      apiUrl: args?.apiUrl,
+    });
     const isAvalancheChain = await instance.isAvalancheNetwork(writeProvider);
 
     if (isAvalancheChain && !writeProvider.isConnected()) {

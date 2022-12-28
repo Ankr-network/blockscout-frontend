@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
-
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
@@ -27,7 +26,7 @@ export const { useGetSUICommonDataQuery } = web3Api.injectEndpoints({
     getSUICommonData: build.query<IGetCommonData | null, void>({
       queryFn: queryFnNotifyWrapper<void, never, IGetCommonData | null>(
         async (args, { getState }) => {
-          const providerManager = ProviderManagerSingleton.getInstance();
+          const providerManager = getProviderManager();
 
           const { address, walletId } = selectEthProviderData(
             getState() as RootState,

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { useStyles } from './FillStepStyles';
+import { useFillStepStyles } from './useFillStepStyles';
 import { Content } from './Content';
 
 interface IFillStepProps {
@@ -14,7 +14,7 @@ export const FillStep = ({
   children,
   content = defaultContent,
 }: IFillStepProps) => {
-  const classes = useStyles();
+  const classes = useFillStepStyles();
 
   return (
     <div className={classes.root}>

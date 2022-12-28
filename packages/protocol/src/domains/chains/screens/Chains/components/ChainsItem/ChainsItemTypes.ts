@@ -20,7 +20,7 @@ export interface ChainsItemQueryProps {
 export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {
   isHighlighted?: boolean;
   isLoading: boolean;
-  isPremium: boolean;
+  hasPrivateAccess: boolean;
   totalRequests: string;
   hasConnectWalletMessage?: boolean;
   urls: IApiChainURL[];
@@ -33,7 +33,7 @@ export interface ChainsItemBaseProps
   extends Omit<ChainsItemQueryProps, 'chainId'> {
   isHighlighted?: boolean;
   isLoading: boolean;
-  isPremium: boolean;
+  hasPrivateAccess: boolean;
   totalRequests: string;
   handleButtonClick?: (
     event: React.MouseEvent<HTMLElement, MouseEvent>,

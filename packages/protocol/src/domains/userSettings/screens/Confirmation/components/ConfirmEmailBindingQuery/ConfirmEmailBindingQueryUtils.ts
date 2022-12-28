@@ -1,12 +1,10 @@
-import { AccountErrorCode, Web3Address } from 'multirpc-sdk';
-import { ResponseData } from '@redux-requests/core';
+import { AccountErrorCode, IEmailResponse, Web3Address } from 'multirpc-sdk';
 
-import { confirmEmailBinding } from 'domains/userSettings/actions/email/confirmEmailBinding';
 import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 
 export const checkIsRelatedWallet = (
-  data: ResponseData<typeof confirmEmailBinding>,
-  address: Web3Address,
+  data?: IEmailResponse,
+  address: Web3Address = '',
 ) => data && data.address === address.toLowerCase();
 
 const getCode = (error: unknown) =>

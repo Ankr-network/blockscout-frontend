@@ -1,21 +1,25 @@
 import { IDailyChargingParams, IDailyChargingResponse } from 'multirpc-sdk';
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
-export const fetchDailyCharging = createSmartAction<
-  RequestAction<IDailyChargingParams, IDailyChargingResponse>
->('account/fetchDailyCharging', (params: IDailyChargingParams) => ({
-  request: {
-    promise: (async () => {
-      const service = MultiService.getService();
+export const {
+  useLazyAccountFetchDailyChargingQuery,
+  endpoints: { accountFetchDailyCharging },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountFetchDailyCharging: build.query<
+      IDailyChargingResponse,
+      IDailyChargingParams
+    >({
+      queryFn: createNotifyingQueryFn(async params => {
+        const service = MultiService.getService();
 
-      return service.getAccountGateway().getDailyCharging(params);
-    })(),
-  },
-  meta: {
-    cache: false,
-    asMutation: false,
-  },
-}));
+        const data = await service.getAccountGateway().getDailyCharging(params);
+
+        return { data };
+      }),
+    }),
+  }),
+});

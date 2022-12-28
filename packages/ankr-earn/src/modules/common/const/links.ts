@@ -74,6 +74,16 @@ export const OPENOCEAN_CLASSIC_URL = 'https://app.openocean.finance/CLASSIC#';
 export const OPENOCEAN_QUOTE_URL =
   'https://open-api.openocean.finance/v1/cross/quote';
 
+/**
+ * Base dev URL for the BFF (Backend For Fronend) service
+ */
+export const BASE_DEV_BFF_URL = 'https://bff.dev.staking.ankr.com';
+
+/**
+ * Base prod URL for the BFF (Backend For Fronend) service
+ */
+export const BASE_PROD_BFF_URL = 'https://bff.staking.ankr.com';
+
 export const EXPLORER_URLS: Record<SupportedChainIDS, string> = {
   [SupportedChainIDS.MAINNET]: 'https://etherscan.io',
   [SupportedChainIDS.GOERLI]: 'https://goerli.etherscan.io',

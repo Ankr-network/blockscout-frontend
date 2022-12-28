@@ -1,28 +1,24 @@
 import { Box } from '@material-ui/core';
-import { useDispatchRequest } from '@redux-requests/react';
+import { Spinner } from 'ui';
 import { useHistory } from 'react-router';
 
-import { loginUser } from 'domains/oauth/actions/loginUserByGoogleSecretCode';
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { Spinner } from 'ui';
-import { useRedirectIfUserHasEmail } from './OauthUtils';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import {
+  EmptyObject,
+  useLazyOauthLoginByGoogleSecretCodeQuery,
+} from 'domains/oauth/actions/loginByGoogleSecretCode';
+import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOauthStyles } from './useOauthStyles';
-
-type LoginUserResponseData = ResponseData<typeof loginUser>;
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const OauthQuery = () => {
-  const dispatchRequest = useDispatchRequest();
+  const [loginUser, state] = useLazyOauthLoginByGoogleSecretCodeQuery();
   const history = useHistory();
   const classes = useOauthStyles();
 
-  useRedirectIfUserHasEmail();
-
   useOnMount(() => {
     const login = async () => {
-      const { error } = await dispatchRequest(loginUser());
+      const { error } = await loginUser();
 
       if (!error) {
         history.push(ChainsRoutesConfig.chains.generatePath());
@@ -34,10 +30,7 @@ export const OauthQuery = () => {
 
   return (
     <Box className={classes.root}>
-      <Queries<LoginUserResponseData>
-        requestActions={[loginUser]}
-        empty={<Spinner />}
-      >
+      <Queries<EmptyObject> empty={<Spinner />} queryStates={[state]}>
         {() => <Spinner />}
       </Queries>
     </Box>

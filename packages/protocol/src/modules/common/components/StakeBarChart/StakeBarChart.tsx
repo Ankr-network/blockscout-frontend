@@ -57,7 +57,7 @@ export const StakeBarChart = ({
                 <Typography
                   component="div"
                   variant="body2"
-                  key={value}
+                  key={JSON.stringify(item)}
                   className={classNames(
                     classes.legend,
                     value in selectedKey && classes.selected,

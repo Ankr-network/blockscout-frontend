@@ -13,14 +13,16 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import {
-  ANKR_ABI,
-  IS_ADVANCED_API_ACTIVE,
-  ProviderManagerSingleton,
-} from '@ankr.com/staking-sdk';
+import { ANKR_ABI, IS_ADVANCED_API_ACTIVE } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
-import { ETH_SCALE_FACTOR, isMainnet, ZERO } from 'modules/common/const';
+import { getProviderManager } from 'modules/api/getProviderManager';
+import {
+  ETH_SCALE_FACTOR,
+  featuresConfig,
+  isMainnet,
+  ZERO,
+} from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import {
   LONG_CACHE_TIME,
@@ -83,7 +85,7 @@ export class AnkrStakingReadSDK {
   }
 
   public static async getInstance(): Promise<AnkrStakingReadSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const readProvider = await providerManager.getETHReadProvider(
       ANKR_PROVIDER_READ_ID,
     );
@@ -203,8 +205,14 @@ export class AnkrStakingReadSDK {
   }: IGetPastEvents): Promise<EventData[]> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
+    const { gatewayConfig } = configFromEnv();
+
+    const apiUrl = featuresConfig.isBffEnabled
+      ? gatewayConfig.advancedApiUrl
+      : undefined;
 
     return getPastEvents({
+      apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
       blockchain: 'eth',

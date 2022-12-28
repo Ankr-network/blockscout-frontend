@@ -2,10 +2,10 @@ import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 
-import { EthereumSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
+
+import { getEthereumSDK } from '../utils/getEthereumSDK';
 
 export interface IGetSwitcherData {
   amount?: BigNumber;
@@ -23,7 +23,7 @@ export const { useGetETHTxDataQuery } = web3Api.injectEndpoints({
     getETHTxData: build.query<IGetSwitcherData, IGetTxDataArgs>({
       queryFn: queryFnNotifyWrapper<IGetTxDataArgs, never, IGetSwitcherData>(
         async ({ txHash }) => {
-          const sdk = await EthereumSDK.getInstance();
+          const sdk = await getEthereumSDK();
 
           return {
             data: await retry(() => sdk.fetchTxData(txHash), {
@@ -44,7 +44,7 @@ export const { useGetETHTxReceiptQuery } = web3Api.injectEndpoints({
         never,
         TransactionReceipt | null
       >(async ({ txHash }) => {
-        const sdk = await EthereumSDK.getInstance();
+        const sdk = await getEthereumSDK();
 
         return {
           data: await retry(() => sdk.fetchTxReceipt(txHash), {

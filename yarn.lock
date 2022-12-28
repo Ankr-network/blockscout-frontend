@@ -19,7 +19,7 @@
   resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.3.5.tgz#ee650ed3adb419f552c7e59a767033ef9c0e887d"
   integrity sha512-NQJ6ggvlOKRlkF8kj2x2TJ9O69sAFaGkCV8hiSW4br+7+JIjLh+IvHDdcqelorXq54dLS2lmg1uy7a+c6CPzfA==
 
-"@ankr.com/utils@^1.0.0":
+"@ankr.com/utils@*", "@ankr.com/utils@^1.0.0", "@ankr.com/utils@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@ankr.com/utils/-/utils-1.1.1.tgz#bc41159fd4ab0c4a60cc177b547289cd35d4796a"
   integrity sha512-NAlQgM5D4Xu09ImK401iewDMm6+70vmBM+Vj7vNzFPzlLS33dfdHjstkKbgx7X3l5a+cBpgsNOYZIyP/zmadGQ==
@@ -24926,14 +24926,6 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-devtools-core@4.14.0:
-  version "4.14.0"
-  resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-4.14.0.tgz#4b9dc50937ed4cf4c04fa293430cac62d829fa8b"
-  integrity sha512-cE7tkSUkGCDxTA79pntDGJCBgzNN/XxA3kgPdXujdfSfEfVhzrItQIEsN0kCN/hJJACDvH2Q8p5+tJb/K4B3qA==
-  dependencies:
-    shell-quote "^1.6.1"
-    ws "^7"
-
 react-docgen-typescript-plugin@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/react-docgen-typescript-plugin/-/react-docgen-typescript-plugin-1.0.1.tgz"
@@ -26861,7 +26853,7 @@ shell-quote@1.7.2:
   resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.2.tgz"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
 
-shell-quote@^1.6.1, shell-quote@^1.7.3:
+shell-quote@^1.7.3:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.4.tgz#33fe15dee71ab2a81fcbd3a52106c5cfb9fb75d8"
   integrity sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==
@@ -29722,32 +29714,6 @@ web3-utils@1.7.0:
     randombytes "^2.1.0"
     utf8 "3.0.0"
 
-web3-utils@^1.3.5:
-  version "1.6.1"
-  resolved "https://registry.npmjs.org/web3-utils/-/web3-utils-1.6.1.tgz"
-  integrity sha512-RidGKv5kOkcerI6jQqDFDoTllQQqV+rPhTzZHhmbqtFObbYpU93uc+yG1LHivRTQhA6llIx67iudc/vzisgO+w==
-  dependencies:
-    bn.js "^4.11.9"
-    ethereum-bloom-filters "^1.0.6"
-    ethereumjs-util "^7.1.0"
-    ethjs-unit "0.1.6"
-    number-to-bn "1.7.0"
-    randombytes "^2.1.0"
-    utf8 "3.0.0"
-
-web3-utils@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.npmjs.org/web3-utils/-/web3-utils-1.7.3.tgz"
-  integrity sha512-g6nQgvb/bUpVUIxJE+ezVN+rYwYmlFyMvMIRSuqpi1dk6ApDD00YNArrk7sPcZnjvxOJ76813Xs2vIN2rgh4lg==
-  dependencies:
-    bn.js "^4.11.9"
-    ethereum-bloom-filters "^1.0.6"
-    ethereumjs-util "^7.1.0"
-    ethjs-unit "0.1.6"
-    number-to-bn "1.7.0"
-    randombytes "^2.1.0"
-    utf8 "3.0.0"
-
 web3@1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/web3/-/web3-1.7.0.tgz#5867cd10a2bebb5c33fc218368e3f6f826f6897e"
@@ -30420,7 +30386,7 @@ ws@^6.1.0, ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7, ws@^7.4.5:
+ws@^7.4.5:
   version "7.5.9"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==

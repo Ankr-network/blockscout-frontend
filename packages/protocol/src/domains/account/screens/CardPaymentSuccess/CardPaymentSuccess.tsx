@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { Button } from '@material-ui/core';
 
@@ -14,8 +14,7 @@ import { PricingRoutesConfig } from 'domains/pricing/Routes';
 export const CardPaymentSuccess = () => {
   const classes = useCardPaymentSuccessStyles();
   const history = useHistory();
-  const { credentials } = useAuth();
-  const hasCredentials = Boolean(credentials);
+  const { hasPremium } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -25,11 +24,11 @@ export const CardPaymentSuccess = () => {
 
   const handleClick = useCallback(() => {
     history.push(
-      hasCredentials
+      hasPremium
         ? AccountRoutesConfig.accountDetails.generatePath()
         : PricingRoutesConfig.pricing.generatePath(),
     );
-  }, [history, hasCredentials]);
+  }, [history, hasPremium]);
 
   return (
     <CenterContainer>
@@ -43,7 +42,7 @@ export const CardPaymentSuccess = () => {
           <Button onClick={handleClick} size="large">
             {t(
               `account.card-payment-success.button-${
-                credentials ? 'billing' : 'pricing'
+                hasPremium ? 'billing' : 'pricing'
               }`,
             )}
           </Button>

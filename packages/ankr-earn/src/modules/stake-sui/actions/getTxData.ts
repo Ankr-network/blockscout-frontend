@@ -3,12 +3,9 @@ import { RootState } from 'store';
 import { SUI_PROVIDER_ID } from 'sui';
 import { TransactionReceipt } from 'web3-eth';
 
-import {
-  IFetchTxData,
-  ProviderManagerSingleton,
-  Web3KeyWriteProvider,
-} from '@ankr.com/staking-sdk';
+import { IFetchTxData, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
@@ -27,7 +24,7 @@ export const { useGetSUITxDataQuery } = web3Api.injectEndpoints({
         never,
         IFetchTxData | null
       >(async (args, { getState }) => {
-        const providerManager = ProviderManagerSingleton.getInstance();
+        const providerManager = getProviderManager();
 
         const { walletId } = selectEthProviderData(getState() as RootState);
 
@@ -66,7 +63,7 @@ export const { useGetSUITxReceiptQuery } = web3Api.injectEndpoints({
         never,
         TransactionReceipt | null
       >(async ({ txHash }, { getState }) => {
-        const providerManager = ProviderManagerSingleton.getInstance();
+        const providerManager = getProviderManager();
 
         const { walletId } = selectEthProviderData(getState() as RootState);
 

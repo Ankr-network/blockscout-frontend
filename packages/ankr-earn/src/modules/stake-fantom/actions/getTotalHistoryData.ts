@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js';
 
-import { ITxEventsHistoryGroupItem, FantomSDK } from '@ankr.com/staking-sdk';
+import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getFantomSDK } from '../utils/getFantomSDK';
 
 export interface ITotalGetHistoryData {
   stakeEventsAFTMB: ITxEventsHistoryGroupItem[];
@@ -22,7 +23,7 @@ export const { useLazyGetFTMTotalHistoryDataQuery } = web3Api.injectEndpoints({
     getFTMTotalHistoryData: build.query<ITotalGetHistoryData, void>({
       queryFn: queryFnNotifyWrapper<void, never, ITotalGetHistoryData>(
         async () => {
-          const sdk = await FantomSDK.getInstance();
+          const sdk = await getFantomSDK();
 
           const [historyData, totalPending] = await Promise.all([
             sdk.getTxEventsHistory(),

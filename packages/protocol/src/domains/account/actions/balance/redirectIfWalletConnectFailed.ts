@@ -1,38 +1,28 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { PricingRoutesConfig } from 'domains/pricing/Routes';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import { push } from 'connected-react-router';
+
 import { PATH_ACCOUNT } from 'domains/account/Routes';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { historyInstance } from 'modules/common/utils/historyInstance';
+import { web3Api } from 'store/queries';
 
-export const redirectIfWalletConnectFailed = createSmartAction<RequestAction>(
-  'account/redirectIfWalletConnectFailed',
-  () => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      onRequest: (
-        request: any,
-        action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        return {
-          promise: (async (): Promise<any> => {
-            const link = PricingRoutesConfig.pricing.generatePath();
+export const {
+  useLazyAccountRedirectIfWalletConnectFailedQuery,
+  endpoints: { accountRedirectIfWalletConnectFailed },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountRedirectIfWalletConnectFailed: build.query<boolean, void>({
+      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
+        const link = PricingRoutesConfig.pricing.generatePath();
 
-            if (historyInstance.location.pathname.includes(PATH_ACCOUNT)) {
-              store.dispatch(push(link));
+        if (historyInstance.location.pathname.includes(PATH_ACCOUNT)) {
+          dispatch(push(link));
 
-              return true;
-            }
+          return { data: true };
+        }
 
-            return false;
-          })(),
-        };
-      },
-
-      asMutation: false,
-    },
+        return { data: false };
+      }),
+    }),
   }),
-);
+});
