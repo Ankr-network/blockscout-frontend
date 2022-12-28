@@ -1,35 +1,32 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
+import { IApiChain, filterMapChains } from '../api/queryChains';
 import { MultiService } from 'modules/api/MultiService';
-import {
-  IApiChain,
-  IFetchChainsResponseData,
-  filterMapChains,
-} from '../api/queryChains';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
 
-export interface IFetchPublicChainsResult {
+export interface FetchPublicChainsResult {
   chains: IApiChain[];
   allChains: IApiChain[];
 }
 
-export const fetchPublicChains = createSmartAction<
-  RequestAction<IFetchChainsResponseData, IFetchPublicChainsResult>
->('chains/fetchPublicChains', () => ({
-  request: {
-    promise: (async () => {
-      const service = MultiService.getService();
-      const chains = await service.getPublicGateway().getBlockchains();
-      const formattedPublicChains = service.formatPublicEndpoints(chains);
+export const {
+  useLazyChainsFetchPublicChainsQuery,
+  endpoints: { chainsFetchPublicChains },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    chainsFetchPublicChains: build.query<FetchPublicChainsResult, void>({
+      queryFn: createNotifyingQueryFn(async () => {
+        const service = MultiService.getService();
+        const chains = await service.getPublicGateway().getBlockchains();
 
-      return { chains: formattedPublicChains };
-    })(),
-  },
-  meta: {
-    cache: true,
-    getData: ({ chains }) => ({
-      chains: filterMapChains(chains),
-      allChains: filterMapChains(chains),
+        const formattedPublicChains = service.formatPublicEndpoints(chains);
+
+        return {
+          data: {
+            chains: filterMapChains(formattedPublicChains),
+            allChains: filterMapChains(formattedPublicChains),
+          },
+        };
+      }),
     }),
-  },
-}));
+  }),
+});

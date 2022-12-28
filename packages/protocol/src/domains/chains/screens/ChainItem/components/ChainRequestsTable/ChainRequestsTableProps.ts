@@ -1,8 +1,7 @@
-import { ResponseData } from 'modules/api/utils/ResponseData';
-import { fetchChainNodes } from 'domains/chains/actions/fetchChainNodes';
+import { INodeEntity } from 'multirpc-sdk';
 
 export interface ChainNodesTableProps {
-  data?: ResponseData<typeof fetchChainNodes>;
+  data?: INodeEntity[];
 }
 
 export interface ProviderRow {

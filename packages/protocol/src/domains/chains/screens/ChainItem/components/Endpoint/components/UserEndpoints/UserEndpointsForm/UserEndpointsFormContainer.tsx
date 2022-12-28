@@ -1,35 +1,35 @@
-import React, { useCallback } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
+import { useCallback } from 'react';
 
-import { formatDataForRequest } from './UserEndpointsFormUtils';
+import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { UserEndpointsForm } from './UserEndpointsForm';
-import { apiEditPrivateEndpoint } from 'domains/infrastructure/actions/apiEditPrivateEndpoint';
-import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { formatDataForRequest } from './UserEndpointsFormUtils';
+import { useLazyInfrastructureApiEditPrivateEndpointQuery } from 'domains/infrastructure/actions/apiEditPrivateEndpoint';
 
-interface UserEndpointsFormContainerProps {
-  endpoints: IUserEndpoint[];
+export interface UserEndpointsFormContainerProps {
   chainId: string;
+  endpoints: UserEndpoint[];
   privateUrls: string[];
   publicUrls: string[];
 }
 
 export const UserEndpointsFormContainer = ({
-  endpoints,
   chainId,
+  endpoints,
   privateUrls,
   publicUrls,
 }: UserEndpointsFormContainerProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const [apiEditPrivateEndpoint] =
+    useLazyInfrastructureApiEditPrivateEndpointQuery();
 
   const onSubmit = useCallback(
-    (data?: IUserEndpoint) => {
+    (data?: UserEndpoint) => {
       if (!data) return;
 
       const updatedEndpoint = formatDataForRequest(data);
 
-      dispatchRequest(apiEditPrivateEndpoint(updatedEndpoint));
+      apiEditPrivateEndpoint(updatedEndpoint);
     },
-    [dispatchRequest],
+    [apiEditPrivateEndpoint],
   );
 
   return (

@@ -12,7 +12,7 @@ import { shouldShowConnectWalletButton } from './PremiumBlockUtils';
 import { PRICING_LINK } from 'domains/account/actions/topUp/const';
 
 interface PremiumBlockProps {
-  hasCredentials: boolean;
+  hasPrivateAccess: boolean;
   hasOauthLogin?: boolean;
   hasWeb3Connection?: boolean;
   address?: string;
@@ -24,7 +24,7 @@ export const PREMIUM_BLOCK_ANCHOR = 'premiumBlock';
 export const PremiumBlock = ({
   hasOauthLogin,
   hasWeb3Connection,
-  hasCredentials,
+  hasPrivateAccess,
   address,
   isUserAddress,
 }: PremiumBlockProps) => {
@@ -34,7 +34,7 @@ export const PremiumBlock = ({
     shouldShowConnectWalletButton({
       hasOauthLogin,
       hasWeb3Connection,
-      hasCredentials,
+      hasPrivateAccess,
       isUserAddress,
     });
 

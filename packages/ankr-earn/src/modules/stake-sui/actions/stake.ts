@@ -3,12 +3,9 @@ import { push } from 'connected-react-router';
 import { RootState } from 'store';
 import { SUI_PROVIDER_ID } from 'sui';
 
-import {
-  IStakeData,
-  ProviderManagerSingleton,
-  Web3KeyWriteProvider,
-} from '@ankr.com/staking-sdk';
+import { IStakeData, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -27,7 +24,7 @@ export const { useStakeSUIMutation } = web3Api.injectEndpoints({
     stakeSUI: build.mutation<TStakeData, IStakeArgs>({
       queryFn: queryFnNotifyWrapper<IStakeArgs, never, TStakeData>(
         async (args, { getState }) => {
-          const providerManager = ProviderManagerSingleton.getInstance();
+          const providerManager = getProviderManager();
 
           const { address, walletId } = selectEthProviderData(
             getState() as RootState,

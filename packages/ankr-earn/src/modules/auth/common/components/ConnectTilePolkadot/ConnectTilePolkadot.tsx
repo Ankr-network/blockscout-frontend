@@ -2,8 +2,9 @@ import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import { DEFAULT_WALLET_NAME, PolkadotProvider } from 'polkadot';
+
+import { getProviderManager } from 'modules/api/getProviderManager';
 
 import { ExtraWriteProviders } from '../../../../common/types';
 import { useConnectForModal } from '../../hooks/useConnectForModal';
@@ -21,7 +22,7 @@ export const ConnectTilePolkadot = (): JSX.Element => {
   const isInjected = PolkadotProvider.isInjected();
 
   const isDisabled = useMemo(() => {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const ethProvider = providerManager.getWriteProviderById(
       AvailableWriteProviders.ethCompatible,
     );

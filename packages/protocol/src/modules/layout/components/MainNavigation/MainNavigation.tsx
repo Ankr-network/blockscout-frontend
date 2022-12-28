@@ -6,19 +6,16 @@ import { getNavigationList } from './MainNavigationUtils';
 
 interface IMainNavigationProps {
   loading: boolean;
-  hasCredentials: boolean;
+  hasPremium: boolean;
   chainsRoutes: string[];
 }
 
 export const MainNavigation = ({
   loading,
-  hasCredentials,
+  hasPremium,
   chainsRoutes,
 }: IMainNavigationProps) => {
-  const items: NavigationItem[] = getNavigationList(
-    chainsRoutes,
-    hasCredentials,
-  );
+  const items: NavigationItem[] = getNavigationList(chainsRoutes, hasPremium);
 
   return <Navigation loading={loading} items={items} />;
 };

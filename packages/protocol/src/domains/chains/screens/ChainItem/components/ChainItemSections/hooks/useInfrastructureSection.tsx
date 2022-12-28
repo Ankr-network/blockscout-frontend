@@ -21,10 +21,10 @@ export const useInfrastructureSection = ({
   chain,
   group,
 }: InfrastructureSectionParams) => {
-  const { credentials } = useAuth();
+  const { hasPrivateAccess } = useAuth();
 
   const isNotCustomizedChain = chain.type !== BlockchainType.Customized;
-  const isVisible = !!credentials || isNotCustomizedChain;
+  const isVisible = hasPrivateAccess || isNotCustomizedChain;
 
   return useMemo(
     (): Tab<SectionID> | undefined =>

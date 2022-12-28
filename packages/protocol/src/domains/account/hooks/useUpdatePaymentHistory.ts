@@ -1,14 +1,11 @@
+import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
-import { useDispatchRequest } from '@redux-requests/react';
 import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
-import { fetchTransactions } from '../actions/fetchTransactions';
-import { getTransactionsRequest } from '../screens/AccountDetails/components/PaymentsHistoryTable/utils/getTransactionsRequest';
 import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
-import { useDispatch } from 'react-redux';
-import { resetRequests } from '@redux-requests/core';
-
-const actionType = fetchTransactions.toString();
+import { accountFetchPaymentHistory } from '../actions/fetchTransactions';
+import { getTransactionsRequest } from '../screens/AccountDetails/components/PaymentsHistoryTable/utils/getTransactionsRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 const TIMEOUT = 30000;
 
@@ -17,8 +14,12 @@ export const useUpdatePaymentHistory = (
   timeframe: PaymentHistoryTableTimeframe,
   paymentType: PaymentType,
 ) => {
+  const [fetchTransactions, , reset] = useQueryEndpoint(
+    accountFetchPaymentHistory,
+  );
+
   const amount = useRef(balances?.ankrBalance);
-  const dispatchRequest = useDispatchRequest();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,10 +29,8 @@ export const useUpdatePaymentHistory = (
 
     if (isBalancesChanged) {
       timeoutId = setTimeout(() => {
-        dispatch(resetRequests([actionType]));
-        dispatchRequest(
-          fetchTransactions(getTransactionsRequest({ timeframe, paymentType })),
-        );
+        reset();
+        fetchTransactions(getTransactionsRequest({ timeframe, paymentType }));
         amount.current = balances.ankrBalance;
       }, TIMEOUT);
     }
@@ -41,9 +40,10 @@ export const useUpdatePaymentHistory = (
     };
   }, [
     balances?.ankrBalance,
-    dispatchRequest,
     dispatch,
-    timeframe,
+    fetchTransactions,
     paymentType,
+    reset,
+    timeframe,
   ]);
 };

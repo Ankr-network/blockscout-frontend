@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { MultiService } from 'modules/api/MultiService';
-import { redirectIfWalletConnectFailed } from 'domains/account/actions/balance/redirectIfWalletConnectFailed';
+import { useLazyAccountRedirectIfWalletConnectFailedQuery } from '../actions/balance/redirectIfWalletConnectFailed';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useAddress = () => {
   const [address, setAddress] = useState('');
-  const dispatchRequest = useDispatchRequest();
+
   const { isWalletConnected } = useAuth();
+  const [redirectIfWalletConnectFailed] =
+    useLazyAccountRedirectIfWalletConnectFailedQuery();
 
   useEffect(() => {
     const getWeb3Address = async () => {
@@ -21,7 +22,7 @@ export const useAddress = () => {
         setAddress(currentAccount);
       } catch (e) {
         setAddress('');
-        dispatchRequest(redirectIfWalletConnectFailed());
+        redirectIfWalletConnectFailed();
       }
     };
 
@@ -30,7 +31,7 @@ export const useAddress = () => {
     }
 
     return () => setAddress('');
-  }, [dispatchRequest, isWalletConnected]);
+  }, [isWalletConnected, redirectIfWalletConnectFailed]);
 
   return address;
 };

@@ -7,7 +7,6 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_ACCOUNT = '/account/';
 export const PATH_TOPUP = `${PATH_ACCOUNT}topup/`;
-export const PATH_WITHDRAW = `${PATH_ACCOUNT}withdraw/`;
 export const PATH_CARDPAYMENT_SUCCESS = `${PATH_ACCOUNT}success/`;
 export const PATH_CARDPAYMENT_FAILURE = `${PATH_ACCOUNT}failure/`;
 
@@ -22,11 +21,6 @@ export const AccountRoutesConfig = createRouteConfig(
       path: PATH_TOPUP,
       generatePath: () => PATH_TOPUP,
       breadcrumbs: 'account.top-up.breadcrumbs',
-    },
-    withdraw: {
-      path: PATH_WITHDRAW,
-      generatePath: () => PATH_WITHDRAW,
-      breadcrumbs: 'withdraw.breadcrumbs',
     },
     cardPaymentSuccess: {
       path: PATH_CARDPAYMENT_SUCCESS,
@@ -53,13 +47,6 @@ const LoadableAccountDetailsContainer: LoadableComponent<any> = loadable(
 
 const LoadableTopUpContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/TopUp').then(module => module.TopUp),
-  {
-    fallback: <Spinner />,
-  },
-);
-
-const LoadableWithdrawContainer: LoadableComponent<any> = loadable(
-  async () => import('./screens/Withdraw').then(module => module.Withdraw),
   {
     fallback: <Spinner />,
   },
@@ -97,11 +84,6 @@ export function AccountRoutes() {
         exact
         path={AccountRoutesConfig.topUp.path}
         component={LoadableTopUpContainer}
-      />
-      <Route
-        exact
-        path={AccountRoutesConfig.withdraw.path}
-        component={LoadableWithdrawContainer}
       />
       <Route
         exact

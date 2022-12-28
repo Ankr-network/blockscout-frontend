@@ -1,31 +1,34 @@
-import { IPrivateEndpoint, IWorkerEndpoint } from 'multirpc-sdk';
-import { RequestAction } from '@redux-requests/core';
-import { createAction } from 'redux-smart-actions';
-
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
-import { fetchEndpoints } from './fetchEndpoints';
+import { infrastructureFetchEndpoints } from './fetchEndpoints';
+import { web3Api } from 'store/queries';
 
-type Action = RequestAction<IPrivateEndpoint, IWorkerEndpoint>;
-type Params = [string];
-
-export const deletePrivateEndpoint = createAction<Action, Params>(
-  'infrastructure/deletePrivateEndpoint',
-  endpointId => ({
-    request: {
-      promise: async () => {
+export const {
+  useLazyInfrastructureDeletePrivateEndpointQuery,
+  endpoints: { infrastructureDeletePrivateEndpoint },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureDeletePrivateEndpoint: build.query<boolean, string>({
+      queryFn: createNotifyingQueryFn(async (endpointId, { getState }) => {
+        credentialsGuard(getState as GetState);
         const service = MultiService.getService();
 
         await service.getWorkerGateway().deletePrivateEndpoint(endpointId);
+
+        return { data: true };
+      }),
+      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+
+        dispatch(
+          infrastructureFetchEndpoints.initiate(undefined, {
+            subscribe: false,
+            forceRefetch: true,
+          }),
+        );
       },
-    },
-    meta: {
-      asMutation: true,
-      onRequest: credentialsGuard,
-      onSuccess: (_response, _action, store) => {
-        store.dispatchRequest(fetchEndpoints());
-      },
-      requestKey: endpointId,
-    },
+    }),
   }),
-);
+});

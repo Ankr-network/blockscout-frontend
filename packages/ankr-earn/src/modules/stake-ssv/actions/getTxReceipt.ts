@@ -5,10 +5,10 @@ import { TransactionReceipt } from 'web3-eth';
 import {
   EthereumSSV,
   IStakeData,
-  ProviderManagerSingleton,
   Web3KeyReadProvider,
 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { Seconds } from 'modules/common/types';
 import { withStore } from 'modules/common/utils/withStore';
@@ -25,7 +25,7 @@ export const getTxReceipt = createSmartAction<
 >(`${SSV_ACTIONS_PREFIX}getTxReceipt`, ({ txHash }) => ({
   request: {
     promise: async (store: RequestsStore): Promise<TGetTxReceiptData> => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
 
       const { walletId } = selectEthProviderData(store.getState());
 

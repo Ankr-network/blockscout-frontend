@@ -1,12 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import {
-  PolygonOnEthereumSDK,
-  PolygonOnPolygonSDK,
-} from '@ankr.com/staking-sdk';
+import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { getPolygonOnEthereumSDK } from 'modules/stake-matic/eth/utils/getPolygonOnEthereumSDK';
 import { CacheTags } from 'modules/stake-matic/polygon/const';
 
 interface IGetNetworkChooserData {
@@ -20,7 +18,7 @@ export const { useGetNetworkChooserDataQuery } = web3Api.injectEndpoints({
       queryFn: queryFnNotifyWrapper<void, never, IGetNetworkChooserData>(
         async () => {
           const [ethSDK, polygonSDK] = await Promise.all([
-            PolygonOnEthereumSDK.getInstance(),
+            getPolygonOnEthereumSDK(),
             PolygonOnPolygonSDK.getInstance(),
           ]);
 

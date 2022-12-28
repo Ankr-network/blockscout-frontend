@@ -1,26 +1,26 @@
 import { IProvider } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
+import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { IEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { UserEndpoints } from './components/UserEndpoints';
-import { useStyles } from './EndpointStyles';
 import { canAddEndpoint, getLimit, hasLimit } from './EndpointUtils';
 import { getChainName } from './utils/getChainName';
+import { useStyles } from './EndpointStyles';
 
-interface EndpointInfoProps {
-  providerData: IProvider | null;
+export interface EndpointInfoProps {
   chainId: string;
-  endpoints: IEndpoint;
+  endpoints: Endpoints;
   privateChain: IApiChain;
+  providerData: IProvider | null;
   publicChain?: IApiChain;
 }
 
 export const EndpointInfo = ({
-  providerData,
   chainId,
   endpoints,
   privateChain,
+  providerData,
   publicChain,
 }: EndpointInfoProps) => {
   const classes = useStyles();

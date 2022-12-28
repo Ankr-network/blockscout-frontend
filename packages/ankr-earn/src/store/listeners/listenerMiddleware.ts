@@ -9,8 +9,8 @@ import {
   getProvider,
   ProviderEvents,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import {
   IProviderStatus,
   selectEthProviderData,
@@ -36,7 +36,7 @@ listenerMiddleware.startListening({
     listenerApi.cancelActiveListeners();
     const { dispatch, getState } = listenerApi;
 
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
     const ethWeb3KeyProvider = await providerManager.getETHWriteProvider();
     const web3 = ethWeb3KeyProvider.getWeb3();
 

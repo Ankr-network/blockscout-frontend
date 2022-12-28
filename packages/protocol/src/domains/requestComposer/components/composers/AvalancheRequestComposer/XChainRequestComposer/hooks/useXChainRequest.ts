@@ -1,26 +1,38 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+import {
+  FetchXChainRequestResult,
+  requestComposerFetchXChainRequest,
+} from 'domains/requestComposer/actions/avalanche/fetchXChainRequest';
+import { XChainMethod } from 'domains/requestComposer/constants/avalanche';
+import { XChainMethodResponse } from 'domains/requestComposer/types/avalanche';
 import {
   resetEVMMethod,
   selectEVMMethod,
 } from 'domains/requestComposer/store/requestComposerSlice';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
-import { XChainMethod } from 'domains/requestComposer/constants/avalanche';
-import { XChainMethodResponse } from 'domains/requestComposer/types/avalanche';
-import { fetchXChainRequest } from 'domains/requestComposer/actions/avalanche/fetchXChainRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+const defaultData: FetchXChainRequestResult = {
+  error: undefined,
+  response: undefined,
+  time: 0,
+};
 
 export const useXChainRequest = (): ComposerRequest<
   XChainMethod,
   XChainMethodResponse
 > => {
-  const {
-    data: { response, error, time },
-    loading,
-    pristine,
-  } = useQuery({ defaultData: { time: 0 }, type: fetchXChainRequest });
+  const [
+    ,
+    {
+      data: { response, error, time } = defaultData,
+      isLoading,
+      isUninitialized,
+    },
+    reset,
+  ] = useQueryEndpoint(requestComposerFetchXChainRequest);
 
   const method = useSelector(selectEVMMethod) as [XChainMethod] | undefined;
 
@@ -28,7 +40,8 @@ export const useXChainRequest = (): ComposerRequest<
 
   useOnUnmount(() => {
     dispatch(resetEVMMethod());
-    dispatch(resetRequests([fetchXChainRequest.toString()]));
+
+    reset();
   });
 
   return {
@@ -36,6 +49,6 @@ export const useXChainRequest = (): ComposerRequest<
     method,
     response,
     time,
-    withResponse: !loading && !pristine && !error,
+    withResponse: !isLoading && !isUninitialized && !error,
   };
 };

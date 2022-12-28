@@ -1,13 +1,14 @@
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
-import { FantomSDK, IStakeData } from '@ankr.com/staking-sdk';
+import { IStakeData } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TFtmSyntToken } from '../types/TFtmSyntToken';
+import { getFantomSDK } from '../utils/getFantomSDK';
 
 interface IStakeArgs {
   amount: BigNumber;
@@ -19,7 +20,7 @@ export const { useStakeFTMMutation } = web3Api.injectEndpoints({
     stakeFTM: build.mutation<IStakeData, IStakeArgs>({
       queryFn: queryFnNotifyWrapper<IStakeArgs, never, IStakeData>(
         async ({ amount, token }) => {
-          const sdk = await FantomSDK.getInstance();
+          const sdk = await getFantomSDK();
 
           return { data: await sdk.stake(amount, token) };
         },

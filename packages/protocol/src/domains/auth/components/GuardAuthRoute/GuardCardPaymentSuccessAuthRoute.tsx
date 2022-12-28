@@ -6,22 +6,22 @@ import { Spinner } from 'ui';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 
 export const GuardCardPaymentSuccessAuthRoute = ({
-  hasCredentials,
-  hasAuthData,
+  hasPremium,
   isManualDisconnected,
+  hasAuthData,
   ...routeProps
 }: IGuardRoute) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (hasCredentials) {
+    if (hasPremium) {
       history.replace(AccountRoutesConfig.accountDetails.generatePath());
     }
-  }, [history, hasCredentials]);
+  }, [history, hasPremium]);
 
   const { loading } = useGuardAuth({
-    hasCredentials,
     hasAuthData,
+    hasPremium,
     isManualDisconnected,
   });
 

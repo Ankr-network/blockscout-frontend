@@ -4,7 +4,7 @@ import { t } from 'modules/i18n/utils/intl';
 export const getButtonText = (
   loading: boolean,
   step: TopUpStep,
-  hasCredentials: boolean,
+  hasPrivateAccess: boolean,
   hasError?: boolean,
 ): string => {
   if (loading) {
@@ -15,7 +15,7 @@ export const getButtonText = (
     return t(`top-up-steps.button.${step}-error`);
   }
 
-  if (step === TopUpStep.waitTransactionConfirming && hasCredentials) {
+  if (step === TopUpStep.waitTransactionConfirming && hasPrivateAccess) {
     return t(`top-up-steps.button.${step}-done`);
   }
 

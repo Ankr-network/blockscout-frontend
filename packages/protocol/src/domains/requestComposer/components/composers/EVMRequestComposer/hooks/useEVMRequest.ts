@@ -1,26 +1,44 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
+import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
 import { EVMMethod } from 'domains/requestComposer/constants';
 import { EVMMethodResponse } from 'domains/requestComposer/types';
-import { fetchEVMRequest } from 'domains/requestComposer/actions/fetchEVMRequest';
+import { requestComposerFetchEVMRequest } from 'domains/requestComposer/actions/fetchEVMRequest';
 import {
   resetEVMMethod,
   selectEVMMethod,
 } from 'domains/requestComposer/store/requestComposerSlice';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { ComposerRequest } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+export interface EVMRequest {
+  error: unknown;
+  method?: [EVMMethod];
+  response?: [EVMMethodResponse];
+  time: number;
+  withResponse: boolean;
+}
+
+const defaultData = {
+  response: undefined,
+  error: undefined,
+  time: 0,
+};
 
 export const useEVMRequest = (): ComposerRequest<
   EVMMethod,
   EVMMethodResponse
 > => {
-  const {
-    data: { response, error, time },
-    loading,
-    pristine,
-  } = useQuery({ defaultData: { time: 0 }, type: fetchEVMRequest });
+  const [
+    ,
+    {
+      data: { response, error, time } = defaultData,
+      isLoading,
+      isUninitialized,
+    },
+    reset,
+  ] = useQueryEndpoint(requestComposerFetchEVMRequest);
 
   const method = useSelector(selectEVMMethod) as [EVMMethod] | undefined;
 
@@ -28,14 +46,15 @@ export const useEVMRequest = (): ComposerRequest<
 
   useOnUnmount(() => {
     dispatch(resetEVMMethod());
-    dispatch(resetRequests([fetchEVMRequest.toString()]));
   });
+
+  useEffect(() => reset, [reset]);
 
   return {
     error,
     method,
     response,
     time,
-    withResponse: !loading && !pristine && !error,
+    withResponse: !isLoading && !isUninitialized && !error && !!time,
   };
 };

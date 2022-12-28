@@ -1,12 +1,11 @@
 import BigNumber from 'bignumber.js';
 
-import { EthereumSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import { CacheTags } from '../const';
+import { getEthereumSDK } from '../utils/getEthereumSDK';
 
 export interface IGetClaimableData {
   claimableAETHB: BigNumber;
@@ -21,7 +20,7 @@ export const {
     getETHClaimableData: build.query<IGetClaimableData, void>({
       queryFn: queryFnNotifyWrapper<void, never, IGetClaimableData>(
         async () => {
-          const sdk = await EthereumSDK.getInstance();
+          const sdk = await getEthereumSDK();
 
           const [claimableAETHB, claimableAETHC] = await Promise.all([
             sdk.getClaimable(Token.aETHb),

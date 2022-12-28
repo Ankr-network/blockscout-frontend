@@ -21,7 +21,7 @@ export const PaymentsHistoryTable = ({
     columns,
     hasMore,
     initializing,
-    loading,
+    isLoading,
     loadMore,
     paymentType,
     rows,
@@ -50,7 +50,7 @@ export const PaymentsHistoryTable = ({
         emptyMessage={t('account.payment-table.empty')}
         initializing={initializing}
         isMoreRowsAvailable={hasMore}
-        loading={loading}
+        loading={isLoading}
         minWidth={650}
         onChangePage={loadMore}
         preloader={<Preloader className={classes.preloader} />}

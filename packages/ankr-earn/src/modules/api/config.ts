@@ -1,6 +1,11 @@
 import { Address } from '@ankr.com/provider';
 
-import { currentEnv, ZERO_ADDR } from 'modules/common/const';
+import {
+  BASE_DEV_BFF_URL,
+  BASE_PROD_BFF_URL,
+  currentEnv,
+  ZERO_ADDR,
+} from 'modules/common/const';
 import { Env } from 'modules/common/types';
 
 export interface IContractConfig {
@@ -81,6 +86,7 @@ interface ISuiConfig {
 export interface IGatewayConfig {
   baseUrl: string;
   strapiUrl: string;
+  advancedApiUrl: string;
 }
 
 interface IXDCConfig {
@@ -178,6 +184,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
     strapiUrl: 'https://strapi-no-cache.ankr.com/',
+    advancedApiUrl: `${BASE_DEV_BFF_URL}/advanced-api/proxy`,
   },
 };
 
@@ -272,6 +279,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',
     strapiUrl: 'https://strapi.ankr.com/',
+    advancedApiUrl: `${BASE_PROD_BFF_URL}/advanced-api/proxy`,
   },
 };
 

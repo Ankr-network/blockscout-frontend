@@ -26,12 +26,11 @@ import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { useAutoconnect } from './useAutoconnect';
+import { GuardPremiumRoute } from 'domains/auth/components/GuardAuthRoute/GuardPremiumRoute';
 
 export const Routes = () => {
-  const { credentials, ...authData } = useAuth();
+  const { hasPrivateAccess, hasPremium, ...authData } = useAuth();
 
-  const hasCredentials = Boolean(credentials);
-  const isManualConnected = Boolean(authData.isManualConnected);
   const isManualDisconnected = Boolean(authData.isManualDisconnected);
   const hasAuthData = Boolean(authData.authorizationToken);
 
@@ -42,8 +41,7 @@ export const Routes = () => {
       <GuardPricingRoute
         exact
         path={[PricingRoutesConfig.pricing.path]}
-        hasCredentials={hasCredentials}
-        isManualConnected={isManualConnected}
+        hasPremium={hasPremium}
         render={() => (
           <DefaultLayout
             theme={Themes.light}
@@ -59,13 +57,23 @@ export const Routes = () => {
       <GuardAuthRoute
         exact
         path={[
-          AccountRoutesConfig.accountDetails.path,
           AccountRoutesConfig.topUp.path,
-          AccountRoutesConfig.withdraw.path,
           AccountRoutesConfig.cardPaymentFailure.path,
         ]}
-        hasCredentials={hasCredentials}
         hasAuthData={hasAuthData}
+        hasPremium={hasPremium}
+        isManualDisconnected={isManualDisconnected}
+        render={() => (
+          <DefaultLayout theme={Themes.light}>
+            <AccountRoutes />
+          </DefaultLayout>
+        )}
+      />
+      <GuardPremiumRoute
+        exact
+        path={[AccountRoutesConfig.accountDetails.path]}
+        hasAuthData={hasAuthData}
+        hasPremium={hasPremium}
         isManualDisconnected={isManualDisconnected}
         render={() => (
           <DefaultLayout theme={Themes.light}>
@@ -76,8 +84,8 @@ export const Routes = () => {
       <GuardCardPaymentSuccessAuthRoute
         exact
         path={[AccountRoutesConfig.cardPaymentSuccess.path]}
-        hasCredentials={hasCredentials}
         hasAuthData={hasAuthData}
+        hasPremium={hasPremium}
         isManualDisconnected={isManualDisconnected}
         render={() => (
           <DefaultLayout theme={Themes.light}>

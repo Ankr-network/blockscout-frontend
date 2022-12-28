@@ -9,10 +9,10 @@ import {
   ESDKErrorCodes,
   EthereumSSV,
   IStakeData,
-  ProviderManagerSingleton,
   Web3KeyReadProvider,
 } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { withStore } from 'modules/common/utils/withStore';
@@ -41,7 +41,7 @@ export const stake = createSmartAction<
 >(`${SSV_ACTIONS_PREFIX}stake`, ({ amount, token }) => ({
   request: {
     promise: async (store: RequestsStore): Promise<TStakeData> => {
-      const providerManager = ProviderManagerSingleton.getInstance();
+      const providerManager = getProviderManager();
 
       const { address, walletId } = selectEthProviderData(store.getState());
 

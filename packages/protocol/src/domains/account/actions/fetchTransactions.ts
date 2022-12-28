@@ -1,25 +1,52 @@
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
 import { PaymentHistory, PaymentHistoryParams } from 'domains/account/types';
 
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { loadPaymentHistory } from '../utils/loadPaymentHistory';
+import { web3Api } from 'store/queries';
 
-export const fetchTransactions = createSmartAction<
-  RequestAction<PaymentHistory>
->('account/fetchPaymentHistory', (params: PaymentHistoryParams) => ({
-  request: {
-    promise: loadPaymentHistory(params),
-  },
-  meta: {
-    getData: ({ deductionsCursor, list, transactionsCursor }, loadedData) => {
-      const loadedTransactions = loadedData?.list || [];
+export const {
+  endpoints: { accountFetchPaymentHistory },
+  useLazyAccountFetchPaymentHistoryQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    accountFetchPaymentHistory: build.query<
+      PaymentHistory,
+      PaymentHistoryParams
+    >({
+      queryFn: createNotifyingQueryFn(async params => {
+        const data = await loadPaymentHistory(params);
 
-      return {
-        deductionsCursor,
-        list: [...loadedTransactions, ...(list || [])],
-        transactionsCursor,
-      };
-    },
-  },
-}));
+        return { data };
+      }),
+      onQueryStarted: async (
+        _args,
+        { dispatch, queryFulfilled, getCacheEntry },
+      ) => {
+        const { data: { list: loaded = [] } = {}, endpointName } =
+          getCacheEntry();
+
+        const {
+          data: {
+            list: loading = [],
+            deductionsCursor,
+            transactionsCursor,
+          } = {},
+        } = await queryFulfilled;
+
+        dispatch(
+          web3Api.util.updateQueryData(
+            endpointName as unknown as never,
+            undefined as unknown as never,
+            state => {
+              Object.assign(state, {
+                deductionsCursor,
+                list: [...loaded, ...loading],
+                transactionsCursor,
+              });
+            },
+          ),
+        );
+      },
+    }),
+  }),
+});

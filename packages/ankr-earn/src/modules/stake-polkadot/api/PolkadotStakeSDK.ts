@@ -9,7 +9,6 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 import {
   ApiGateway,
   EActionStatuses,
@@ -22,6 +21,7 @@ import {
 } from 'polkadot';
 
 import { configFromEnv } from 'modules/api/config';
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import {
   ExtraWriteProviders,
@@ -337,7 +337,7 @@ export class PolkadotStakeSDK {
   }
 
   static async getInstance(): Promise<PolkadotStakeSDK> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
 
     const [ethReadProvider, ethWriteProvider, polkadotWriteProvider] =
       await Promise.all([

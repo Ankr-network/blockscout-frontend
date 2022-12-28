@@ -45,7 +45,7 @@ import {
 import {
   EFantomErrorCodes,
   EFantomPoolEvents,
-  IFantomSDKProviders,
+  IFantomSDKArgs,
   TFtmSyntToken,
   TUnstakingStatsType,
 } from './types';
@@ -66,6 +66,15 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @private
    */
   private static instance?: FantomSDK;
+
+  /**
+   * apiUrl — URL of the advanced API.
+   *
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly apiUrl?: string;
 
   /**
    * writeProvider — provider which has signer for signing transactions.
@@ -107,12 +116,13 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @constructor
    * @private
    */
-  private constructor({ readProvider, writeProvider }: IFantomSDKProviders) {
+  private constructor({ readProvider, writeProvider, apiUrl }: IFantomSDKArgs) {
     FantomSDK.instance = this;
     const { gatewayConfig } = configFromEnv(
       isMainnet ? Env.Production : Env.Develop,
     );
 
+    this.apiUrl = apiUrl;
     this.readProvider = readProvider;
     this.writeProvider = writeProvider;
     this.currentAccount = this.writeProvider.currentAccount;
@@ -127,11 +137,11 @@ export class FantomSDK implements ISwitcher, IStakable {
    *
    * @public
    * @static
-   * @param {Partial<IFantomSDKProviders>} [args] - User defined providers.
+   * @param {Partial<IFantomSDKArgs>} [args] - User defined providers and advanced API url.
    * @returns {Promise<FantomSDK>}
    */
   public static async getInstance(
-    args?: Partial<IFantomSDKProviders>,
+    args?: Partial<IFantomSDKArgs>,
   ): Promise<FantomSDK> {
     const providerManager = ProviderManagerSingleton.getInstance();
     const [writeProvider, readProvider] = await Promise.all([
@@ -154,7 +164,12 @@ export class FantomSDK implements ISwitcher, IStakable {
       throw new Error('Read provider not defined');
     }
 
-    const instance = new FantomSDK({ writeProvider, readProvider });
+    const instance = new FantomSDK({
+      writeProvider,
+      readProvider,
+      apiUrl: args?.apiUrl,
+    });
+
     const isFtmNetwork = await instance.isFtmNetwork(writeProvider);
 
     if (isFtmNetwork && !writeProvider.isConnected()) {
@@ -452,6 +467,7 @@ export class FantomSDK implements ISwitcher, IStakable {
     const web3 = provider.getWeb3();
 
     return getPastEvents({
+      apiUrl: this.apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
       blockchain: 'fantom',

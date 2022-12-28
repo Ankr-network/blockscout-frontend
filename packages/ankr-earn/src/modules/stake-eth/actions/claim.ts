@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import { RootState } from 'store';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { EthereumSDK, TEthToken } from '@ankr.com/staking-sdk';
+import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ZERO } from 'modules/common/const';
@@ -10,6 +10,7 @@ import { Token } from 'modules/common/types/token';
 
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
+import { getEthereumSDK } from '../utils/getEthereumSDK';
 
 import { selectETHClaimableData } from './getClaimableData';
 
@@ -18,7 +19,7 @@ export const { useClaimETHMutation } = web3Api.injectEndpoints({
     claimETH: build.mutation<IWeb3SendResult, TEthToken>({
       queryFn: queryFnNotifyWrapper<TEthToken, never, IWeb3SendResult>(
         async token => {
-          const sdk = await EthereumSDK.getInstance();
+          const sdk = await getEthereumSDK();
 
           return { data: await sdk.claim(token) };
         },

@@ -1,12 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
-import {
-  ProviderManagerSingleton,
-  Web3KeyReadProvider,
-  XDC,
-} from '@ankr.com/staking-sdk';
+import { Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { featuresConfig, XDC_PROVIDER_BY_ENV } from 'modules/common/const';
@@ -33,7 +30,7 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
             };
           }
 
-          const providerManager = ProviderManagerSingleton.getInstance();
+          const providerManager = getProviderManager();
 
           const { address, walletId } = selectEthProviderData(
             getState() as RootState,

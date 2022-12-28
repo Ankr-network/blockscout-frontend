@@ -1,17 +1,20 @@
 import { Skeleton } from '@material-ui/lab';
-
-import { useUSDPaymentPricesTabs } from './USDSubscriptionPricesTabsUtils';
 import { TabsManager } from 'uiKit/TabsManager';
-import { useUSDSubscriptionPricesTabsStyles } from './USDSubscriptionPricesTabsStyles';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useUSDSubscriptionPrices } from 'domains/account/hooks/useUSDSubscriptionPrices';
+
 import { USDSubscriptionPricesTabsProps } from './USDSubscriptionPricesTabsTypes';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { useUSDPaymentPricesTabs } from './USDSubscriptionPricesTabsUtils';
+import { useUSDSubscriptionPrices } from 'domains/account/hooks/useUSDSubscriptionPrices';
+import { useUSDSubscriptionPricesTabsStyles } from './USDSubscriptionPricesTabsStyles';
 
 export const USDSubscriptionPricesTabs = ({
   onChange,
 }: USDSubscriptionPricesTabsProps) => {
-  const { handleFetchSubscriptionPrices, prices, loading } =
-    useUSDSubscriptionPrices();
+  const {
+    handleFetchSubscriptionPrices,
+    prices = [],
+    loading,
+  } = useUSDSubscriptionPrices();
 
   useOnMount(() => {
     handleFetchSubscriptionPrices();

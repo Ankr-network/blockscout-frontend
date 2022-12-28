@@ -1,35 +1,37 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { useEffect } from 'react';
 
-import { fetchBalanceEndTime } from '../actions/fetchBalanceEndTime';
+import { Trigger, useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { accountFetchBalanceEndTime } from '../actions/fetchBalanceEndTime';
 
 export interface BalanceEndTime {
   endTime: number;
   isLoading: boolean;
 }
 
-const actionType = fetchBalanceEndTime.toString();
+type Fetcher = Trigger<string[] | undefined, number>;
+
+const fetch = (shouldFetch: boolean, fetcher: Fetcher) => {
+  if (shouldFetch) {
+    fetcher(undefined);
+  }
+};
 
 export const useBalanceEndTime = (
   isConnected: boolean,
   needRequery?: boolean,
 ): BalanceEndTime => {
-  const {
-    data: endTime,
-    loading,
-    pristine,
-  } = useQuery<number>({
-    defaultData: -1,
-    type: actionType,
-  });
-
-  const dispatch = useDispatchRequest();
+  const [
+    fetchBalanceEndTime,
+    { data: endTime = -1, isLoading, isUninitialized },
+  ] = useQueryEndpoint(accountFetchBalanceEndTime);
 
   useEffect(() => {
-    if (isConnected || needRequery) {
-      dispatch(fetchBalanceEndTime());
-    }
-  }, [dispatch, isConnected, needRequery]);
+    fetch(isConnected && isUninitialized, fetchBalanceEndTime);
+  }, [fetchBalanceEndTime, isConnected, isUninitialized]);
 
-  return { endTime, isLoading: pristine && loading };
+  useEffect(() => {
+    fetch(Boolean(needRequery), fetchBalanceEndTime);
+  }, [fetchBalanceEndTime, needRequery]);
+
+  return { endTime, isLoading };
 };

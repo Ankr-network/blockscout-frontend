@@ -1,18 +1,17 @@
 import React, { useCallback } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { IpsForm } from './IpsForm';
-import { editChainRestrictedIps } from 'domains/infrastructure/actions/editChainRestrictedIps';
+import { useLazyInfrastructureEditChainRestrictedIpsQuery } from 'domains/infrastructure/actions/editChainRestrictedIps';
 import { IpsFormContainerProps } from './IpsFormTypes';
 
 export const IpsFormContainer = ({ data, chainId }: IpsFormContainerProps) => {
-  const dispatchRequest = useDispatchRequest();
-
+  const [editChainRestrictedIps] =
+    useLazyInfrastructureEditChainRestrictedIpsQuery();
   const onSubmit = useCallback(
-    async (domains: string[]) => {
-      await dispatchRequest(editChainRestrictedIps(chainId, domains));
+    async (ips: string[]) => {
+      await editChainRestrictedIps({ chainId, ips });
     },
-    [dispatchRequest, chainId],
+    [editChainRestrictedIps, chainId],
   );
 
   return <IpsForm onSubmit={onSubmit} data={data} />;

@@ -1,20 +1,20 @@
 import { useCallback } from 'react';
-import { useDispatchRequest } from '@redux-requests/react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
+import {
+  Method,
+  TronNodeUrl,
+  tronJSConfig,
+} from 'domains/requestComposer/utils/tron/tronJSConfig';
 import {
   TronChainMethod,
   TronLibraryID,
 } from 'domains/requestComposer/constants/tron';
-import { fetchTronChainRequest } from 'domains/requestComposer/actions/tron/fetchTronChainRequest';
 import { TronMethodsForm } from '../TronMethodsForm';
-import {
-  Method,
-  tronJSConfig,
-  TronNodeUrl,
-} from 'domains/requestComposer/utils/tron/tronJSConfig';
 import { TronMethodsFormData } from '../../../MethodsForm/MethodsFormTypes';
 import { formatParameters } from './LibraryContentUtils';
+import { requestComposerFetchTronChainRequest } from 'domains/requestComposer/actions/tron/fetchTronChainRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 interface ILibraryContentProps {
   group: EndpointGroup;
@@ -22,15 +22,21 @@ interface ILibraryContentProps {
 }
 
 export const LibraryContent = ({ group, libraryID }: ILibraryContentProps) => {
-  const dispatchRequest = useDispatchRequest();
+  const [fetchTronChainRequest, , reset] = useQueryEndpoint(
+    requestComposerFetchTronChainRequest,
+  );
 
   const web3HttpUrl = group.urls[0].rpc;
 
   const queryTronRequest = useCallback(
-    (url, method, parameters?) => {
-      dispatchRequest(fetchTronChainRequest(url, method, parameters));
+    (web3URL: string, method: Method, params?: any) => {
+      // We have to reset the request before sending because RTK query considers
+      // values of reference data types with different references but with the
+      // same inner values as equal values.
+      reset();
+      fetchTronChainRequest({ method, params, web3URL });
     },
-    [dispatchRequest],
+    [fetchTronChainRequest, reset],
   );
 
   const handleSubmit = useCallback(

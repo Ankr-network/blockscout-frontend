@@ -8,6 +8,7 @@ import {
   IETHAddressesResponse,
   IDecodeJwtTokenParams,
   IDecodeJwtTokenResponse,
+  ISyntheticJwtTokenResponse,
 } from './types';
 
 export class OauthGateway {
@@ -68,6 +69,14 @@ export class OauthGateway {
     const { data } = await this.api.post<IDecodeJwtTokenResponse>(
       '/api/v1/auth/googleOauth/decodeJwtToken',
       body,
+    );
+
+    return data;
+  }
+
+  async getSyntheticJwtToken(): Promise<ISyntheticJwtTokenResponse> {
+    const { data } = await this.api.get<ISyntheticJwtTokenResponse>(
+      '/api/v1/auth/jwt/getMySyntheticJwt',
     );
 
     return data;

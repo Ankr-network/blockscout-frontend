@@ -1,13 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-import { IGatewayConfig } from './common/config';
-
 export class AnkrAPIGateway {
   public api: AxiosInstance;
 
-  constructor(gatewayConfig: IGatewayConfig) {
+  constructor(baseURL: string) {
     const defaultConfig: AxiosRequestConfig = {
-      baseURL: gatewayConfig.ankrApiBaseUrl,
+      baseURL,
       method: 'POST',
       responseType: 'json',
       headers: {

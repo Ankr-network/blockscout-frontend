@@ -1,19 +1,13 @@
-import { useCallback } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useLazyOauthFetchLoginParamsQuery } from '../actions/fetchLoginParams';
 
-import { fetchOauthLoginParams } from '../actions/fetchOauthLoginParams';
+export interface OauthLoginParams {
+  handleFetchLoginParams: () => void;
+  loading: boolean;
+}
 
-export const useOauthLoginParams = () => {
-  const dispatchRequest = useDispatchRequest();
+export const useOauthLoginParams = (): OauthLoginParams => {
+  const [handleFetchLoginParams, { isLoading, isUninitialized }] =
+    useLazyOauthFetchLoginParamsQuery();
 
-  const handleFetchLoginParams = useCallback(() => {
-    dispatchRequest(fetchOauthLoginParams());
-  }, [dispatchRequest]);
-
-  const { data, loading, pristine } = useQuery({
-    action: fetchOauthLoginParams,
-    type: fetchOauthLoginParams.toString(),
-  });
-
-  return { handleFetchLoginParams, loading: loading || !pristine, data };
+  return { handleFetchLoginParams, loading: isLoading || !isUninitialized };
 };

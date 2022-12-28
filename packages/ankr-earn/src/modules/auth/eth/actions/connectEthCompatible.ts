@@ -2,8 +2,8 @@ import {
   AvailableWriteProviders,
   EthereumWeb3KeyProvider,
 } from '@ankr.com/provider';
-import { ProviderManagerSingleton } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { web3Api } from 'modules/api/web3Api';
 import { setProviderStatus } from 'modules/auth/common/store/authSlice';
 import { IConnect } from 'modules/auth/common/types';
@@ -28,7 +28,7 @@ export const {
       IConnectArgs | void
     >({
       queryFn: async ({ wallet } = {}) => {
-        const providerManager = ProviderManagerSingleton.getInstance();
+        const providerManager = getProviderManager();
 
         const provider =
           await providerManager.getProvider<EthereumWeb3KeyProvider>(

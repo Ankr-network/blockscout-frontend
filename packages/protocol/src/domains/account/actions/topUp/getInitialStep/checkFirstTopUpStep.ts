@@ -1,14 +1,15 @@
-import { getQuery, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 
-import { connect } from 'domains/auth/actions/connect';
-import { MultiService } from 'modules/api/MultiService';
+import { AppDispatch, GetState } from 'store';
+import { AuthConnectParams, authConnect } from 'domains/auth/actions/connect';
 import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
-import { waitTransactionConfirming } from '../waitTransactionConfirming';
+import { MultiService } from 'modules/api/MultiService';
+import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 
 export const checkFirstTopUpStep = async (
   address: string,
-  store: RequestsStore,
+  getState: GetState,
+  dispatch: AppDispatch,
 ) => {
   const service = await MultiService.getWeb3Service();
   const keyProvider = service.getKeyProvider();
@@ -23,10 +24,9 @@ export const checkFirstTopUpStep = async (
 
   const amount = new BigNumber(value);
 
-  const { data: connectData } = getQuery(store.getState(), {
-    type: connect.toString(),
-    action: connect,
-  });
+  const { data: connectData } = authConnect.select(
+    undefined as unknown as AuthConnectParams,
+  )(getState());
 
   const isFirstTopup = Boolean(lastTopUpEvent) && !connectData?.credentials;
   const isTopupAfterTokenExpiration =
@@ -45,7 +45,7 @@ export const checkFirstTopUpStep = async (
 
   if (transactionReceipt) return TopUpStep.login;
 
-  store.dispatchRequest(waitTransactionConfirming());
+  dispatch(topUpWaitTransactionConfirming.initiate());
 
   return TopUpStep.waitTransactionConfirming;
 };

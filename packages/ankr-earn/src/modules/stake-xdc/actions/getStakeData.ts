@@ -1,12 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
-import {
-  ProviderManagerSingleton,
-  Web3KeyReadProvider,
-  XDC,
-} from '@ankr.com/staking-sdk';
+import { Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
+import { getProviderManager } from 'modules/api/getProviderManager';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -29,7 +26,7 @@ export const { useLazyGetStakeDataQuery } = web3Api.injectEndpoints({
     getStakeData: build.query<TGetStakeData, void>({
       queryFn: queryFnNotifyWrapper<void, never, TGetStakeData>(
         async (args, { getState }) => {
-          const providerManager = ProviderManagerSingleton.getInstance();
+          const providerManager = getProviderManager();
 
           const { address, walletId } = selectEthProviderData(
             getState() as RootState,

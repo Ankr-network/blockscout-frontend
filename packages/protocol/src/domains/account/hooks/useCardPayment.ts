@@ -1,23 +1,21 @@
 import { useCallback } from 'react';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 
 import {
-  fetchLinkForCardPayment,
   OneTimePaymentIdType,
+  useLazyUsdTopUpFetchLinkForCardPaymentQuery,
 } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
 
 export const useCardPayment = () => {
-  const dispatchRequest = useDispatchRequest();
+  const [
+    fetchLinkForCardPayment,
+    { isLoading: isFetchLinkForCardPaymentLoading },
+  ] = useLazyUsdTopUpFetchLinkForCardPaymentQuery();
 
   const handleFetchLinkForCardPayment = useCallback(
     (amount: string, id?: string | OneTimePaymentIdType) =>
-      dispatchRequest(fetchLinkForCardPayment(amount, id)),
-    [dispatchRequest],
+      fetchLinkForCardPayment({ amount, id }),
+    [fetchLinkForCardPayment],
   );
-
-  const { loading: isFetchLinkForCardPaymentLoading } = useQuery({
-    type: fetchLinkForCardPayment.toString(),
-  });
 
   return {
     handleFetchLinkForCardPayment,

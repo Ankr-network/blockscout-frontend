@@ -1,26 +1,25 @@
 import { IProvider } from 'multirpc-sdk';
-import { RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { GetState } from 'store';
 import { MultiService } from '../../../modules/api/MultiService';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { web3Api } from 'store/queries';
 
-export const fetchProvider = createSmartAction<
-  RequestAction<IProvider, IProvider>
->('infrastructure/fetchProvider', () => ({
-  request: {
-    promise: async () => {
-      const service = MultiService.getService();
+export const {
+  useLazyInfrastructureFetchProviderQuery,
+  endpoints: { infrastructureFetchProvider },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureFetchProvider: build.query<IProvider, void>({
+      queryFn: async (_args, { getState }) => {
+        credentialsGuard(getState as GetState);
 
-      const provider = await service.getWorkerGateway().getProvider();
+        const service = MultiService.getService();
 
-      return provider;
-    },
-  },
-  meta: {
-    asMutation: false,
-    getData: data => data,
-    onRequest: credentialsGuard,
-    hideNotificationOnError: true,
-  },
-}));
+        const provider = await service.getWorkerGateway().getProvider();
+
+        return { data: provider };
+      },
+    }),
+  }),
+});

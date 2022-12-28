@@ -1,51 +1,41 @@
-import { DispatchRequest, getQuery, RequestAction } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
-
-import { fetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { Store } from 'store';
-import { fetchProvider } from './fetchProvider';
+import { RootState } from 'store';
+import { chainsFetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { infrastructureFetchProvider } from './fetchProvider';
+import { web3Api } from 'store/queries';
 
-export const fetchAvailableChains = createSmartAction<
-  RequestAction<null, IApiChain[]>
->('infrastructure/fetchAvailableChains', () => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
+export const {
+  useInfrastructureFetchAvailableChainsQuery,
+  endpoints: { infrastructureFetchAvailableChains },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    infrastructureFetchAvailableChains: build.query<IApiChain[], void>({
+      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
+        const { data: { chains = [] } = {} } = await dispatch(
+          chainsFetchPublicChains.initiate(),
+        );
 
-    onRequest: (
-      request: any,
-      action: RequestAction,
-      store: Store & { dispatchRequest: DispatchRequest },
-    ) => {
-      return {
-        promise: (async (): Promise<IApiChain[]> => {
-          const { data: { chains = [] } = {} } = await store.dispatchRequest(
-            fetchPublicChains(),
-          );
+        const { data: providerData } = infrastructureFetchProvider.select()(
+          getState() as RootState,
+        );
 
-          const { data: providerData } = getQuery(store.getState(), {
-            type: fetchProvider.toString(),
-            action: fetchProvider,
-          });
+        if (typeof providerData === 'object') {
+          const { blockchains } = providerData;
 
-          if (typeof providerData === 'object') {
-            const { blockchains } = providerData;
-
-            if (!blockchains || blockchains.length === 0) {
-              return chains;
-            }
-
-            return blockchains
-              .map(item => chains.find(el => el.id === item))
-              .filter(Boolean) as IApiChain[];
+          if (!blockchains || blockchains.length === 0) {
+            return { data: chains };
           }
 
-          return [];
-        })(),
-      };
-    },
-  },
-}));
+          const data = blockchains
+            .map(item => chains?.find(el => el.id === item))
+            .filter(Boolean) as IApiChain[];
+
+          return { data };
+        }
+
+        return { data: [] };
+      }),
+    }),
+  }),
+});

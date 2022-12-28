@@ -1,8 +1,10 @@
-import { ETH_BLOCK_2_WEEKS_OFFSET, EthereumSDK } from '@ankr.com/staking-sdk';
+import { ETH_BLOCK_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
+
+import { getEthereumSDK } from '../utils/getEthereumSDK';
 
 export interface IGetHistoryData {
   [Token.aETHb]: IBaseHistoryData;
@@ -18,7 +20,7 @@ export const { useLazyGetETHHistoryQuery } = web3Api.injectEndpoints({
     getETHHistory: build.query<IGetHistoryData, IGetHistoryArgs>({
       queryFn: queryFnNotifyWrapper<IGetHistoryArgs, never, IGetHistoryData>(
         async ({ step }) => {
-          const sdk = await EthereumSDK.getInstance();
+          const sdk = await getEthereumSDK();
           const latestBlock = await sdk.getLatestBlock();
 
           const from = latestBlock - ETH_BLOCK_2_WEEKS_OFFSET * (step + 1);

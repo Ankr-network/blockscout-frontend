@@ -1,18 +1,18 @@
-import React, { useMemo } from 'react';
 import { Box, Typography } from '@material-ui/core';
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+import { useMemo } from 'react';
 
+import { AddEndpointButton } from '../AddEndpointButton';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { UserEndpointsForm } from './UserEndpointsForm';
+import { getRpcLinks } from './UserEndpointsUtils';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './UserEndpointsStyles';
-import { UserEndpointsForm } from './UserEndpointsForm';
-import { IUserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
-import { getRpcLinks } from './UserEndpointsUtils';
-import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { AddEndpointButton } from '../AddEndpointButton';
 
 interface UserEndpointsProps {
   chainName: string;
-  data?: IUserEndpoint[];
+  data?: UserEndpoint[];
   hasChain?: boolean;
   isMoreThanLimit: boolean;
   limit?: number;

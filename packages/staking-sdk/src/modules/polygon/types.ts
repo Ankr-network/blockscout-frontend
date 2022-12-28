@@ -1,7 +1,4 @@
-import {
-  Web3KeyReadProvider,
-  Web3KeyWriteProvider,
-} from '@ankr.com/provider';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 /**
  * Available tokens for MaticSDK
@@ -34,6 +31,10 @@ export enum EPolygonPoolEventsMap {
 export interface IMaticSDKProviders {
   readProvider: Web3KeyReadProvider;
   writeProvider: Web3KeyWriteProvider;
+}
+
+export interface IPolygonSDKArgs extends IMaticSDKProviders {
+  apiUrl?: string;
 }
 
 /**

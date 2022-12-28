@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { AvalancheSDK } from '@ankr.com/staking-sdk';
-
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
 
 import { CacheTags } from '../const';
+import { getAvalancheSDK } from '../utils/getAvalancheSDK';
 
 interface IFetchPendingValuesResponseData {
   pendingAavaxbUnstakes: BigNumber;
@@ -29,7 +28,7 @@ export const { useGetAVAXPendingValuesQuery } = web3Api.injectEndpoints({
           };
         }
 
-        const sdk = await AvalancheSDK.getInstance();
+        const sdk = await getAvalancheSDK();
         const { pendingBond, pendingCertificate } = await sdk.getPendingData();
 
         return {

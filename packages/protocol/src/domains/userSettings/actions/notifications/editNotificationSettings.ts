@@ -1,47 +1,38 @@
-import { RequestAction, RequestsStore } from '@redux-requests/core';
-import { createAction as createSmartAction } from 'redux-smart-actions';
+import { INotificationsSettings } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { INotificationsSettings } from 'multirpc-sdk';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { t } from 'modules/i18n/utils/intl';
+import { web3Api } from 'store/queries';
 
-export const editNotificationSettings = createSmartAction<
-  RequestAction<INotificationsSettings, INotificationsSettings>
->(
-  'userSettings/editNotificationSettings',
-  (settings: INotificationsSettings) => ({
-    request: {
-      promise: (async () => null)(),
-    },
-    meta: {
-      onRequest: () => {
-        return {
-          promise: (async (): Promise<INotificationsSettings> => {
-            const service = MultiService.getService();
+export const {
+  useLazyUserSettingsEditNotificationSettingsQuery,
+  endpoints: { userSettingsEditNotificationSettings },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    userSettingsEditNotificationSettings: build.query<
+      INotificationsSettings,
+      INotificationsSettings
+    >({
+      queryFn: async settings => {
+        const service = MultiService.getService();
 
-            const data = await service
-              .getAccountGateway()
-              .editNotificationSettings(settings);
+        const data = await service
+          .getAccountGateway()
+          .editNotificationSettings(settings);
 
-            return data;
-          })(),
-        };
+        return { data };
       },
-      onSuccess: (
-        response: any,
-        _action: RequestAction,
-        store: RequestsStore,
-      ) => {
-        store.dispatch(
+      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+
+        dispatch(
           NotificationActions.showNotification({
             message: t('user-settings.notifications.success'),
             severity: 'success',
           }),
         );
-
-        return response;
       },
-    },
+    }),
   }),
-);
+});
