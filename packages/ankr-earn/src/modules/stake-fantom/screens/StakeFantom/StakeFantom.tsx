@@ -18,6 +18,7 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
+import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -118,7 +119,7 @@ export const StakeFantom = (): JSX.Element => {
 
   const noticeText = useBTokenNotice({
     bToken: Token.aFTMb,
-    cToken: Token.aFTMc,
+    cToken: getTokenSymbol(Token.aFTMc),
     nativeToken: Token.FTM,
   });
 

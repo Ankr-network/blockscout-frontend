@@ -18,6 +18,7 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
+import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -179,7 +180,7 @@ export const StakePolygon = (): JSX.Element => {
 
   const noticeText = useBTokenNotice({
     bToken: Token.aMATICb,
-    cToken: Token.aMATICc,
+    cToken: getTokenSymbol(Token.aMATICc),
     nativeToken: Token.MATIC,
   });
 
