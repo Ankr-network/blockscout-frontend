@@ -67,9 +67,12 @@ export const useRenderForm = (
           autoComplete="off"
           onSubmit={handleSubmit}
         >
-          <USDSubscriptionPricesTabs onChange={handleAmountChange} />
+          <div className={classes.pricesTabsContainer}>
+            <USDSubscriptionPricesTabs onChange={handleAmountChange} />
+          </div>
           <Box className={classes.form}>
             <AmountField<AmountInputField.amount>
+              className={classes.amount}
               name={AmountInputField.amount}
               change={change}
               maxDecimals={MAX_USD_DECIMALS}
@@ -90,7 +93,11 @@ export const useRenderForm = (
               className={classes.button}
               loading={isLoading}
             >
-              {t('account.account-details.top-up.button')}
+              {t(
+                canEditAmount
+                  ? 'account.account-details.top-up.top-up'
+                  : 'account.account-details.top-up.subscribe',
+              )}
             </LoadingButton>
           </Box>
         </form>
@@ -100,6 +107,8 @@ export const useRenderForm = (
       classes.button,
       classes.rootForm,
       classes.form,
+      classes.amount,
+      classes.pricesTabsContainer,
       isLoading,
       shouldUseDefaultValue,
     ],

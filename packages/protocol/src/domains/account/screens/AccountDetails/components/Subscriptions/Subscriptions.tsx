@@ -38,7 +38,9 @@ export const Subscriptions = () => {
     <>
       <div className={classes.root}>
         <Typography className={classes.title} variant="h5">
-          {t('account.account-details.subscriptions.top-up-subscription')}
+          {t('account.account-details.subscriptions.top-up-subscriptions', {
+            value: subscriptions?.items.length,
+          })}
         </Typography>
         {subscriptions?.items?.map(item => (
           <div key={item.id} className={classes.item}>
@@ -46,7 +48,7 @@ export const Subscriptions = () => {
               {item.type === 'recurring' && <RefreshIcon />}
               <Typography className={classes.text} variant="h4">
                 {t('account.account-details.subscriptions.text', {
-                  amount: item.amount,
+                  amount: Number(item.amount),
                   recurringInterval: item.recurringInterval,
                 })}
               </Typography>

@@ -95,12 +95,10 @@ export const useRenderForm = ({
             validate={validateAmount}
             maxLength={ANKR_MAX_DIGITS}
           />
-
           <RateBlock
             value={values[AmountInputField.amount]}
             currency={ANKR_CURRENCY}
           />
-
           {isWalletConnected ? (
             <Button
               color="primary"
@@ -109,7 +107,7 @@ export const useRenderForm = ({
               disabled={validating}
               className={classes.button}
             >
-              {t('account.account-details.top-up.button')}
+              {t('account.account-details.top-up.top-up')}
             </Button>
           ) : (
             <ConnectButton

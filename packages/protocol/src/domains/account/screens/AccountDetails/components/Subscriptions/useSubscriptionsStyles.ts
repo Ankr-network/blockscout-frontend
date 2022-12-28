@@ -32,5 +32,6 @@ export const useSubscriptionsStyles = makeStyles<Theme>(theme => ({
     fontSize: 14,
     color: theme.palette.error.main,
     cursor: 'pointer',
+    lineHeight: '22px',
   },
 }));

@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const MAX_WIDTH = 1050;
+export const ACCOUNT_MAX_WIDTH = 1050;
 const TOP1_WIDTH = 465;
 
 export const useStyles = makeStyles<Theme>(theme => ({
@@ -19,7 +19,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   top: {
     gap: theme.spacing(1.5, 3),
     display: 'flex',
-    [`@media (max-width:${MAX_WIDTH}px)`]: {
+    [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
       flexDirection: 'column',
     },
   },
@@ -28,7 +28,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     width: `calc(100% - ${TOP1_WIDTH}px)`,
     gap: theme.spacing(3),
-    [`@media (max-width:${MAX_WIDTH}px)`]: {
+    [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
       width: 'unset',
       gap: theme.spacing(1.5),
     },
@@ -37,7 +37,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     flex: 1,
     minWidth: 460,
     minHeight: 332,
-    [`@media (max-width:${MAX_WIDTH}px)`]: {
+    [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
       minWidth: 'unset',
       minHeight: 'unset',
     },
