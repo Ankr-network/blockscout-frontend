@@ -27,17 +27,12 @@ export const usePrivateUsageData = ({
   group,
   timeframe,
 }: UsageDataParams): UsageData & { hasPremium: boolean } => {
-  const {
-    isWalletConnected,
-    loading: isConnecting,
-    hasPrivateAccess,
-    hasPremium,
-  } = useAuth();
+  const { loading: isConnecting, hasPrivateAccess, hasPremium } = useAuth();
+
   const chainId = getChainId({
     chainType,
     group,
     publicChain: chain,
-    withExceptions: !isWalletConnected,
   });
 
   const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);

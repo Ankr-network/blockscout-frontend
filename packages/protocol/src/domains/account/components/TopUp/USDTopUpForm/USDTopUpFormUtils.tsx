@@ -62,10 +62,17 @@ export const useRenderForm = (
       const canEditAmount = values.id === ONE_TIME_PAYMENT_ID;
 
       return (
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <USDSubscriptionPricesTabs onChange={handleAmountChange} />
+        <form
+          className={classes.rootForm}
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <div className={classes.pricesTabsContainer}>
+            <USDSubscriptionPricesTabs onChange={handleAmountChange} />
+          </div>
           <Box className={classes.form}>
             <AmountField<AmountInputField.amount>
+              className={classes.amount}
               name={AmountInputField.amount}
               change={change}
               maxDecimals={MAX_USD_DECIMALS}
@@ -86,13 +93,25 @@ export const useRenderForm = (
               className={classes.button}
               loading={isLoading}
             >
-              {t('account.account-details.top-up.button')}
+              {t(
+                canEditAmount
+                  ? 'account.account-details.top-up.top-up'
+                  : 'account.account-details.top-up.subscribe',
+              )}
             </LoadingButton>
           </Box>
         </form>
       );
     },
-    [classes.button, classes.form, isLoading, shouldUseDefaultValue],
+    [
+      classes.button,
+      classes.rootForm,
+      classes.form,
+      classes.amount,
+      classes.pricesTabsContainer,
+      isLoading,
+      shouldUseDefaultValue,
+    ],
   );
 };
 

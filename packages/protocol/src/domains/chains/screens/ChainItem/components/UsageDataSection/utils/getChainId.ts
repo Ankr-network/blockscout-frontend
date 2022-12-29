@@ -12,7 +12,7 @@ export interface ChainIdParams {
   publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
-  withExceptions: boolean;
+  withExceptions?: boolean;
 }
 
 const chainTypesMap: Record<ChainType, keyof DecomposedChainIds> = {

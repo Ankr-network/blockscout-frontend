@@ -25,7 +25,7 @@ export const usePublicUsageData = ({
     publicChain: chain,
     chainType,
     group,
-    withExceptions: !isLoggedIn,
+    withExceptions: true,
   });
 
   const publicCheckedChainId = checkPublicSecretChainsAndGetChainId(chainId);
