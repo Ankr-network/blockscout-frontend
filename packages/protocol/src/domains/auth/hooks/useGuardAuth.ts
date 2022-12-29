@@ -8,26 +8,19 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export interface IGuardRoute extends RouteProps {
   hasPremium: boolean;
-  isManualDisconnected: boolean;
   hasAuthData: boolean;
 }
 
-export const useGuardAuth = ({
-  hasAuthData,
-  hasPremium,
-  isManualDisconnected,
-}: IGuardRoute) => {
+export const useGuardAuth = ({ hasAuthData, hasPremium }: IGuardRoute) => {
   const { address, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();
 
-  const shouldReplace = !hasAuthData || isManualDisconnected;
-
   useEffect(() => {
-    if (shouldReplace) {
+    if (!hasAuthData) {
       history.replace(PRICING_PATH);
     }
-  }, [history, shouldReplace]);
+  }, [history, hasAuthData]);
 
   useOnMount(() => {
     if (!address || !hasPremium) setBreadcrumbs([]);

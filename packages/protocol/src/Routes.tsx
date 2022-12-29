@@ -31,7 +31,6 @@ import { GuardPremiumRoute } from 'domains/auth/components/GuardAuthRoute/GuardP
 export const Routes = () => {
   const { hasPrivateAccess, hasPremium, ...authData } = useAuth();
 
-  const isManualDisconnected = Boolean(authData.isManualDisconnected);
   const hasAuthData = Boolean(authData.authorizationToken);
 
   useAutoconnect();
@@ -62,7 +61,6 @@ export const Routes = () => {
         ]}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
-        isManualDisconnected={isManualDisconnected}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <AccountRoutes />
@@ -74,7 +72,6 @@ export const Routes = () => {
         path={[AccountRoutesConfig.accountDetails.path]}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
-        isManualDisconnected={isManualDisconnected}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <AccountRoutes />
@@ -86,7 +83,6 @@ export const Routes = () => {
         path={[AccountRoutesConfig.cardPaymentSuccess.path]}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
-        isManualDisconnected={isManualDisconnected}
         render={() => (
           <DefaultLayout theme={Themes.light}>
             <AccountRoutes />
