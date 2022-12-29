@@ -702,7 +702,8 @@
         "title": "Top Up Balance",
         "pricing-link": "Methods Pricing",
         "placeholder": "Amount",
-        "button": "Top Up",
+        "top-up": "Top Up",
+        "subscribe": "Subscribe",
         "continue-button": "Continue Top Up",
         "continue": "Continue",
         "ankr-credits-rate": "{ankrValue} ANKR ≈ {creditsValue, number, ::compact-short} Credits",
@@ -762,6 +763,14 @@
           "medium-date": "{value, date, medium}",
           "expense": "{value, number, ::compact-short}"
         }
+      },
+      "subscriptions": {
+        "top-up-subscriptions":  "{value, plural, =1 {Top Up Subscription} other { Top Up Subscriptions }}",
+        "text": "${amount}/{recurringInterval}",
+        "are-you-sure": "Are you sure?",
+        "if-you-continue": "If you continue, your subscription will be canceled",
+        "cancel-subscription": "Cancel subscription",
+        "keep-subscription": "Keep subscription"
       }
     },
     "payment-table": {

@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/AccountDetails/AccountDetailsStyles';
 
 export const useUSDSubscriptionPricesTabsStyles = makeStyles<Theme, boolean>(
   theme => ({
@@ -20,6 +21,10 @@ export const useUSDSubscriptionPricesTabsStyles = makeStyles<Theme, boolean>(
 
         '& button': {
           padding: theme.spacing(0.75),
+          [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
+            padding: theme.spacing(0.75, 0),
+            marginRight: 0,
+          },
         },
       },
     },
