@@ -53,7 +53,15 @@ export function getRoutes(): JSX.Element {
     exact: true,
     availableNetworks: SSV_STAKING_NETWORKS,
     supportSlot: <SupportGuard />,
-    notSupportedWallets: [EWalletId.coin98, EWalletId.trust],
+    notSupportedWallets: [
+      EWalletId.coin98,
+      EWalletId.huobi,
+      EWalletId.imtoken,
+      EWalletId.math,
+      EWalletId.okxwallet,
+      EWalletId.trust,
+      EWalletId.walletconnect,
+    ],
   };
 
   return (
