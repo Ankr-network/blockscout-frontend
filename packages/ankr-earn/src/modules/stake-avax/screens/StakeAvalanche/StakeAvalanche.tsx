@@ -9,7 +9,6 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   DUNE_ANALYTICS_LINK,
-  ONE,
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -44,7 +43,7 @@ export const StakeAvalanche = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const {
-    aAVAXcRatio,
+    syntheticTokenPrice,
     amount,
     certificateRatio,
     faqItems,
@@ -63,7 +62,7 @@ export const StakeAvalanche = (): JSX.Element => {
   const onRenderStats = (): JSX.Element => (
     <>
       <StakeTokenInfo
-        nativeAmount={ONE.multipliedBy(aAVAXcRatio).round().toString()}
+        nativeAmount={syntheticTokenPrice}
         nativeToken={Token.AVAX}
         token={t('unit.aavaxc')}
       />

@@ -14,7 +14,6 @@ import {
   DECIMAL_PLACES,
   DUNE_ANALYTICS_LINK,
   featuresConfig,
-  ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -54,7 +53,7 @@ export const StakePolygon = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const {
-    aMATICcRatio,
+    syntheticTokenPrice,
     activeStep,
     amount,
     certificateRatio,
@@ -78,7 +77,7 @@ export const StakePolygon = (): JSX.Element => {
     return (
       <>
         <StakeTokenInfo
-          nativeAmount={ONE.multipliedBy(aMATICcRatio).round().toString()}
+          nativeAmount={syntheticTokenPrice}
           nativeToken={Token.MATIC}
           token={t('unit.amaticc')}
         />

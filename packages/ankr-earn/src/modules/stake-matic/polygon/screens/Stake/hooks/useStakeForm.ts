@@ -14,7 +14,12 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
+import {
+  ACTION_CACHE_SEC,
+  featuresConfig,
+  ONE,
+  ZERO,
+} from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
@@ -37,7 +42,6 @@ import { useSelectedToken } from './useSelectedToken';
 
 interface IUseStakeFormData {
   acPoolLiquidityInMATIC: BigNumber;
-  acRatio: BigNumber;
   amount: BigNumber;
   balance?: BigNumber;
   extraValidation: (
@@ -54,6 +58,7 @@ interface IUseStakeFormData {
   tokenIn: string;
   tokenOut: TMaticSyntToken;
   totalAmount: BigNumber;
+  syntheticTokenPrice: BigNumber;
   onFormChange: (data: IStakeFormPayload, isInvalid: boolean) => void;
   onFormSubmit: (data: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
@@ -248,7 +253,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   return {
     acPoolLiquidityInMATIC,
-    acRatio,
+    syntheticTokenPrice: ONE.div(acRatio),
     amount,
     balance: maticBalance,
     extraValidation,
