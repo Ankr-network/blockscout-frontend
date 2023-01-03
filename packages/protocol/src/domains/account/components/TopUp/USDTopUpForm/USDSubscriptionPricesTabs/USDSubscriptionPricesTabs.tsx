@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { Skeleton } from '@material-ui/lab';
 import { TabsManager } from 'uiKit/TabsManager';
 
@@ -8,6 +9,7 @@ import { useUSDSubscriptionPrices } from 'domains/account/hooks/useUSDSubscripti
 import { useUSDSubscriptionPricesTabsStyles } from './USDSubscriptionPricesTabsStyles';
 
 export const USDSubscriptionPricesTabs = ({
+  className,
   onChange,
 }: USDSubscriptionPricesTabsProps) => {
   const {
@@ -24,12 +26,12 @@ export const USDSubscriptionPricesTabs = ({
   const classes = useUSDSubscriptionPricesTabsStyles(tabs.length > 1);
 
   return loading ? (
-    <Skeleton className={classes.skeleton} />
+    <Skeleton className={classNames(classes.skeleton, className)} />
   ) : (
     <TabsManager
+      className={classNames(classes.root, className)}
       selectedTab={selectedTab}
       tabs={tabs}
-      className={classes.root}
     />
   );
 };

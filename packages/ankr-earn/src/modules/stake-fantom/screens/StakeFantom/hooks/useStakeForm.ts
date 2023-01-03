@@ -19,7 +19,7 @@ import {
 import { useAnalytics } from './useAnalytics';
 
 interface IUseStakeForm {
-  aFTMcRatio: BigNumber;
+  syntheticTokenPrice: BigNumber;
   amount: BigNumber;
   balance?: BigNumber;
   certificateRatio: BigNumber;
@@ -70,7 +70,7 @@ export const useStakeForm = (): IUseStakeForm => {
     synthBalance,
   });
 
-  const tokenCertRatio = useMemo(
+  const syntheticTokenPrice = useMemo(
     () =>
       aFTMcRatio.isGreaterThan(0) ? new BigNumber(1).div(aFTMcRatio) : ZERO,
     [aFTMcRatio],
@@ -119,7 +119,7 @@ export const useStakeForm = (): IUseStakeForm => {
   };
 
   return {
-    aFTMcRatio: tokenCertRatio,
+    syntheticTokenPrice,
     amount,
     balance,
     certificateRatio: aFTMcRatio,

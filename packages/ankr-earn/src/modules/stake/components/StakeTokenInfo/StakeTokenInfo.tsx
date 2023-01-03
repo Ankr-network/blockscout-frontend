@@ -1,5 +1,7 @@
 import { tHTML } from '@ankr.com/common';
+import BigNumber from 'bignumber.js';
 
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import avax3DIcon from './assets/avax.png';
@@ -12,7 +14,7 @@ import { useStakeTokenInfoStyles } from './useStakeTokenInfoStyles';
 interface StakeTokenInfoProps {
   token: string;
   nativeToken: Token;
-  nativeAmount?: string;
+  nativeAmount?: BigNumber;
 }
 
 const ICONS: Partial<Record<Token, string>> = {
@@ -26,7 +28,7 @@ const ICONS: Partial<Record<Token, string>> = {
 export const StakeTokenInfo = ({
   token,
   nativeToken,
-  nativeAmount,
+  nativeAmount = ZERO,
 }: StakeTokenInfoProps): JSX.Element => {
   const classes = useStakeTokenInfoStyles();
 
@@ -38,7 +40,7 @@ export const StakeTokenInfo = ({
         {tHTML('stake.token-info', {
           token,
           nativeToken,
-          nativeAmount,
+          nativeAmount: nativeAmount.round().toFormat(),
         })}
       </div>
     </div>
