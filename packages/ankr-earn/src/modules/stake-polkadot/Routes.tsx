@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { LoadableComponent } from '@loadable/component';
 import { ExtractRouteParams } from 'react-router';
 import {
@@ -18,7 +19,9 @@ import {
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
+import { TokenMaintenance } from 'modules/stake-polkadot/components/TokenMaintenance';
 import { RoutesConfig as StakeRoutes } from 'modules/stake/Routes';
+import { DotIconGray } from 'uiKit/Icons/DotIconGray';
 
 import { ETH_NETWORKS, POLKADOT_NETWORK_KEYS } from './const';
 import {
@@ -110,6 +113,18 @@ const routeRender =
       return (
         <DefaultLayout>
           <PageNotFound />
+        </DefaultLayout>
+      );
+    }
+
+    if (featuresConfig.isPolkadotMaintenanceActive) {
+      return (
+        <DefaultLayout verticalAlign="center">
+          <TokenMaintenance
+            description={t('maintenance.polkadot.description')}
+            image={<DotIconGray />}
+            title={t('maintenance.polkadot.title')}
+          />
         </DefaultLayout>
       );
     }
