@@ -16,7 +16,6 @@ import {
   DUNE_ANALYTICS_LINK,
   featuresConfig,
   ONE,
-  ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -82,11 +81,7 @@ export const StakeBinance = (): JSX.Element => {
     return (
       <>
         <StakeTokenInfo
-          nativeAmount={
-            certificateRatio.isZero()
-              ? ZERO.toString()
-              : ONE.dividedBy(certificateRatio).round().toString()
-          }
+          nativeAmount={ONE.dividedBy(certificateRatio)}
           nativeToken={Token.BNB}
           token={t('unit.abnbc')}
         />

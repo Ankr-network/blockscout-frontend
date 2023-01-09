@@ -593,8 +593,6 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
         ...undelegateHistory,
       ].filter(claim => claim.validator === validator.validator);
 
-      const isOneDelegation = existingDelegations.length === 1;
-
       const lastClaimOrUndelegateDate = claimAndUndelegateHistory.length
         ? claimAndUndelegateHistory.reduce((a, b) => {
             return a.txDate > b.txDate ? a : b;
@@ -603,43 +601,39 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
       if (existingDelegations.length) {
         for (let i = 0; i < existingDelegations.length; i += 1) {
-          const delegation = existingDelegations[i];
-
-          // For more info please see https://ankrnetwork.atlassian.net/browse/STAKAN-2399
-          const isDelegationWasBeforeFix = delegation.event
-            ? delegation.event.blockNumber < ANKR_STAKING_BLOCK_WITH_FIX
-            : false;
-
-          const isDelegationCorrupted =
-            isDelegationWasBeforeFix && !!lastClaimOrUndelegateDate;
-
-          const startDate = isDelegationCorrupted
-            ? lastClaimOrUndelegateDate
-            : delegation.txDate;
-
-          const daysToNextEpoch = this.calcEpochDaysLeft(
-            nextEpochDate,
-            startDate,
-          );
-
+          const { txDate, amount, event } = existingDelegations[i];
+          const daysToNextEpoch = this.calcEpochDaysLeft(nextEpochDate, txDate);
           const totalLockingDays = lockPeriodDays + daysToNextEpoch;
-
-          const detailedDaysLeft = this.calcLeftDays(
-            startDate,
-            totalLockingDays,
-          );
+          let detailedDaysLeft = this.calcLeftDays(txDate, totalLockingDays);
 
           if (detailedDaysLeft > 0) {
+            // For more info please see https://ankrnetwork.atlassian.net/browse/STAKAN-2399
+            const isDelegationWasBeforeFix = event
+              ? event.blockNumber < ANKR_STAKING_BLOCK_WITH_FIX
+              : false;
+
+            const isDelegationCorrupted =
+              isDelegationWasBeforeFix && !!lastClaimOrUndelegateDate;
+
+            if (isDelegationCorrupted) {
+              const epochDaysLeft = this.calcEpochDaysLeft(
+                nextEpochDate,
+                lastClaimOrUndelegateDate,
+              );
+
+              const totalLocking = lockPeriodDays + epochDaysLeft;
+              detailedDaysLeft = this.calcLeftDays(txDate, totalLocking);
+            }
+
             detailedData.push({
               lockingPeriod: detailedDaysLeft,
               lockingPeriodPercent: Math.ceil(
                 (detailedDaysLeft / totalLockingDays) * 100,
               ),
               isUnlocked: detailedDaysLeft <= 0,
-              stakeAmount: this.convertFromWei(delegation.amount),
-              usdStakeAmount: this.convertFromWei(
-                delegation.amount,
-              ).multipliedBy(usdPrice ?? ZERO),
+              stakeAmount: this.convertFromWei(amount),
+              usdStakeAmount:
+                this.convertFromWei(amount).multipliedBy(usdPrice),
               rewards: ZERO,
               usdRewards: ZERO,
             });
@@ -670,6 +664,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
         result.push(activeStaking);
       } else {
+        const isOneDelegation = existingDelegations.length === 1;
         let daysLeft;
         let totalLockingDays = lockPeriodDays;
 

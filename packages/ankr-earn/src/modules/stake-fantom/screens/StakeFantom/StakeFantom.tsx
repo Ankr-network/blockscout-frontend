@@ -13,7 +13,6 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   featuresConfig,
-  ONE,
   ZERO,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -50,7 +49,7 @@ export const StakeFantom = (): JSX.Element => {
   const { onErroMessageClick, hasError } = useErrorMessage();
 
   const {
-    aFTMcRatio,
+    syntheticTokenPrice,
     amount,
     balance,
     certificateRatio,
@@ -71,7 +70,7 @@ export const StakeFantom = (): JSX.Element => {
     return (
       <>
         <StakeTokenInfo
-          nativeAmount={ONE.multipliedBy(aFTMcRatio).round().toString()}
+          nativeAmount={syntheticTokenPrice}
           nativeToken={Token.FTM}
           token={t('unit.aftmc')}
         />
@@ -90,7 +89,7 @@ export const StakeFantom = (): JSX.Element => {
         </StakeDescriptionContainer>
       </>
     );
-  }, [totalAmount, tokenOut, aFTMcRatio]);
+  }, [totalAmount, tokenOut, syntheticTokenPrice]);
 
   useProviderEffect(() => {
     dispatchRequest(getFAQ(Token.FTM));

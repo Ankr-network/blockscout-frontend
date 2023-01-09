@@ -9,7 +9,6 @@ import {
   DECIMAL_PLACES,
   DEFAULT_FIXED,
   featuresConfig,
-  ONE,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -41,7 +40,7 @@ export const Stake = (): JSX.Element => {
 
   const {
     acPoolLiquidityInMATIC,
-    acRatio,
+    syntheticTokenPrice,
     amount,
     balance,
     extraValidation,
@@ -78,7 +77,7 @@ export const Stake = (): JSX.Element => {
 
       <Box my={5}>
         <StakeTokenInfo
-          nativeAmount={ONE.multipliedBy(acRatio).round().toString()}
+          nativeAmount={syntheticTokenPrice}
           nativeToken={Token.MATIC}
           token={t('unit.amaticc')}
         />
