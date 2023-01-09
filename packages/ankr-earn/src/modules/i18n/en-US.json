@@ -1246,5 +1246,11 @@
   "unsupported-wallet": {
     "description": "Please connect with another wallet.",
     "button": "Connect another wallet"
+  },
+  "maintenance": {
+    "polkadot": {
+      "title": "Polkadot liquid staking is undergoing maintenance",
+      "description": "Staking and unstaking are temporarily suspended. Our team is working on improving the services."
+    }
   }
 }

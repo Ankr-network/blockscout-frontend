@@ -2,9 +2,9 @@ import React from 'react';
 
 import { withSvgIcon } from './withSvgIcon';
 
-export const DotIcon = withSvgIcon(
+export const DotIconGray = withSvgIcon(
   <g fill="none">
-    <circle cx="22" cy="22" fill="#fff" r="22" />
+    <circle cx="22" cy="22" fill="#F2F5FA" r="22" />
 
     <circle cx="22" cy="22" r="21.5" stroke="white" strokeOpacity="0.1" />
 
