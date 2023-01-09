@@ -25,7 +25,7 @@ import {
 } from 'modules/stake/components/StakeForm';
 
 interface IUseStakeFormData {
-  aMATICcRatio: BigNumber;
+  syntheticTokenPrice: BigNumber;
   activeStep: number;
   amount: BigNumber;
   certificateRatio: BigNumber;
@@ -99,7 +99,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const aMATICcRatio = statsData?.aMATICcRatio;
 
-  const tokenCertRatio = useMemo(
+  const syntheticTokenPrice = useMemo(
     () => (aMATICcRatio ? new BigNumber(1).div(aMATICcRatio) : ZERO),
     [aMATICcRatio],
   );
@@ -186,7 +186,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   }, []);
 
   return {
-    aMATICcRatio: tokenCertRatio,
+    syntheticTokenPrice,
     activeStep,
     amount,
     certificateRatio: aMATICcRatio ?? ZERO,

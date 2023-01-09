@@ -26,7 +26,7 @@ import {
 import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 
 interface IUseStakeFormData {
-  aAVAXcRatio: BigNumber;
+  syntheticTokenPrice: BigNumber;
   amount: BigNumber;
   certificateRatio: BigNumber;
   faqItems: IFAQItem[];
@@ -71,7 +71,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const aAVAXcRatio = getStatsData?.aAVAXcRatio;
 
-  const tokenCertRatio = useMemo(
+  const syntheticTokenPrice = useMemo(
     () => (aAVAXcRatio ? new BigNumber(1).div(aAVAXcRatio) : ZERO),
     [aAVAXcRatio],
   );
@@ -136,7 +136,7 @@ export const useStakeForm = (): IUseStakeFormData => {
   };
 
   return {
-    aAVAXcRatio: tokenCertRatio,
+    syntheticTokenPrice,
     amount,
     certificateRatio: aAVAXcRatio ?? ZERO,
     faqItems,
