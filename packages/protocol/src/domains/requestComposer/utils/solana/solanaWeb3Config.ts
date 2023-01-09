@@ -167,7 +167,7 @@ export const solanaWeb3Config: LibraryConfig = {
             library: '@solana/web3.js',
           },
         ],
-        method: SolanaMethod.getAccountInfo,
+        method: SolanaMethod.getBlock,
         params: [
           `${slot}`,
           `{ commitment: '${commitment}', maxSupportedTransactionVersion: ${maxSupportedTransactionVersion} }`,
@@ -259,7 +259,7 @@ export const solanaWeb3Config: LibraryConfig = {
             library: '@solana/web3.js',
           },
         ],
-        method: SolanaMethod.getBlockHeight,
+        method: SolanaMethod.getBlockProduction,
         params: [
           `{ commitment: '${commitment}', identity: '${identity}', range: { firstSlot: ${firstSlot}, lastSlot: ${lastSlot} } }`,
         ],
