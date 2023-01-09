@@ -70,6 +70,9 @@ import {
   TBnbSyntToken,
 } from './types';
 
+const INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG =
+  'err: insufficient funds for gas * price + value';
+
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
  *
@@ -895,10 +898,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
   /**
    * Internal function to return stake method by token symbol.
    *
+   * @private
    * @param {TBnbSyntToken} token - token symbol
+   * @param {boolean | undefined} [withCode = false] - code flag
    * @returns {string}
    */
-  private getStakeMethodName(token: TBnbSyntToken, withCode = false) {
+  private getStakeMethodName(token: TBnbSyntToken, withCode = false): string {
     switch (token) {
       case 'aBNBc':
         return withCode ? 'stakeAndClaimCertsWithCode' : 'stakeAndClaimCerts';
@@ -911,8 +916,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
   /**
    * Internal function to return increased gas limit.
    *
-   * @param {number} gasLimit - initial gas limit
    * @private
+   * @param {number} gasLimit - initial gas limit
    * @returns {number}
    */
   private getIncreasedGasLimit(gasLimit: number): number {
@@ -1329,6 +1334,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aBNBb or aBNBc)
+   * @param {number | undefined} scale - scale factor for amount (not using)
    * @param {string} referralCode - referral code
    * @returns {Promise<IStakeData>}
    */
@@ -1409,6 +1415,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Unstake token.
    *
    * @public
+   * @note You will need to call `approveACForAB` before that.
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
@@ -1437,7 +1444,20 @@ export class BinanceSDK implements ISwitcher, IStakable {
         this.getUnstakeMethodName(token as TBnbSyntToken)
       ];
 
-    const data = contractUnstake(hexAmount).encodeABI();
+    const unstakeFn = contractUnstake(hexAmount);
+
+    try {
+      await unstakeFn.estimateGas({
+        from: this.currentAccount,
+        value: hexAmount,
+      });
+    } catch (e) {
+      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
+        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
+      }
+    }
+
+    const data = unstakeFn.encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
@@ -1450,6 +1470,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Unstake token to external address.
    *
    * @public
+   * @note You will need to call `approveACForAB` before that.
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
@@ -1480,7 +1501,20 @@ export class BinanceSDK implements ISwitcher, IStakable {
         this.getUnstakeToExternalMethodName(token as TBnbSyntToken)
       ];
 
-    const data = contractUnstake(externalAddress, hexAmount).encodeABI();
+    const unstakeFn = contractUnstake(externalAddress, hexAmount);
+
+    try {
+      await unstakeFn.estimateGas({
+        from: this.currentAccount,
+        value: hexAmount,
+      });
+    } catch (e) {
+      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
+        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
+      }
+    }
+
+    const data = unstakeFn.encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
@@ -1788,7 +1822,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note For aMATICc token only.
-   * @note You will need to call `approveACToken` before that.
+   * @note You will need to call `approveACTokenForSwapPool` before that.
    * @note Initiates connect if writeProvider doesn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
@@ -1817,9 +1851,24 @@ export class BinanceSDK implements ISwitcher, IStakable {
       amountHex,
       this.currentAccount,
     );
-    const gasLimit: number = await txn.estimateGas({
-      from: this.currentAccount,
-    });
+
+    let gasLimit: number;
+
+    try {
+      gasLimit = await txn.estimateGas({
+        from: this.currentAccount,
+        value: amountHex,
+      });
+    } catch (e) {
+      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
+        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
+      } else {
+        gasLimit = await txn.estimateGas({
+          from: this.currentAccount,
+        });
+      }
+    }
+
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       binanceConfig.swapPool,

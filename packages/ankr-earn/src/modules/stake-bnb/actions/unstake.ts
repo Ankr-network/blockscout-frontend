@@ -10,6 +10,7 @@ import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { TBnbSyntToken } from '../types';
 import { getBinanceSDK } from '../utils/getBinanceSDK';
+import { onError } from '../utils/onError';
 
 interface IUnstakeArgs {
   amount: BigNumber;
@@ -32,6 +33,7 @@ export const { useUnstakeBNBMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.unstake(amount, token) };
         },
+        onError,
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

@@ -1,8 +1,9 @@
 import { t } from '@ankr.com/common';
+import { SerializedError } from '@reduxjs/toolkit';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
+import { AvailableWriteProviders, IWeb3SendResult } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
@@ -23,6 +24,11 @@ import { getValidSelectedToken } from 'modules/stake-bnb/utils/getValidSelectedT
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 
 import { useUnstakeBNBAnalytics } from './useUnstakeBnbAnalytics';
+
+interface IUnstakeRes {
+  data?: IWeb3SendResult;
+  error?: SerializedError;
+}
 
 interface IUseUnstakeBnb {
   syntTokenBalance?: BigNumber;
@@ -177,11 +183,13 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
   }, []);
 
   const handleSubmit = useCallback(
-    (formValues: IUnstakeFormValues) => {
+    async (formValues: IUnstakeFormValues) => {
       const { amount, isToExternalAddress, externalAddress } = formValues;
+
       if (!amount) {
         return;
       }
+
       const resultAmount = new BigNumber(amount);
 
       const unstakeRequest = {
@@ -190,20 +198,23 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
         externalAddress: isToExternalAddress ? externalAddress : undefined,
       };
 
-      unstake(unstakeRequest)
-        .unwrap()
-        .then(() => {
-          sendAnalytics(resultAmount, selectedToken);
-        });
+      const data = (await unstake(unstakeRequest)) as IUnstakeRes;
+
+      if (data?.error) {
+        return;
+      }
+
+      sendAnalytics(resultAmount, selectedToken);
     },
     [selectedToken, sendAnalytics, unstake],
   );
 
   const handleFlashSubmit = useCallback(
-    ({ amount }: IUnstakeFormValues) => {
+    async ({ amount }: IUnstakeFormValues) => {
       if (!amount) {
         return;
       }
+
       const resultAmount = new BigNumber(amount);
 
       const unstakeRequest = {
@@ -211,11 +222,13 @@ export const useUnstakeBnb = (): IUseUnstakeBnb => {
         token: selectedToken,
       };
 
-      flashUnstakeBNB(unstakeRequest)
-        .unwrap()
-        .then(() => {
-          sendAnalytics(resultAmount, selectedToken);
-        });
+      const data = (await flashUnstakeBNB(unstakeRequest)) as IUnstakeRes;
+
+      if (data?.error) {
+        return;
+      }
+
+      sendAnalytics(resultAmount, selectedToken);
     },
     [flashUnstakeBNB, selectedToken, sendAnalytics],
   );
