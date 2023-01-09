@@ -105,6 +105,6 @@ export const fetchTransaction = createSmartAction<
   },
   meta: {
     showNotificationOnError: true,
-    onRequest: createWalletConnectionGuard(),
+    onRequest: createWalletConnectionGuard,
   },
 }));
