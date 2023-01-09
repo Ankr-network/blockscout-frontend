@@ -93,7 +93,7 @@ export const StakeEthereum = (): JSX.Element => {
     () => (
       <>
         <StakeTokenInfo
-          nativeAmount={ONE.dividedBy(certificateRatio).round().toString()}
+          nativeAmount={ONE.dividedBy(certificateRatio)}
           nativeToken={Token.ETH}
           token={t('unit.aethc')}
         />
