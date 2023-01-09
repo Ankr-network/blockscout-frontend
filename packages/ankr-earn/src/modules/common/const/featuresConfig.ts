@@ -62,4 +62,9 @@ export const featuresConfig = {
    * https://ankrnetwork.atlassian.net/browse/STAKAN-2030
    */
   isSmallBalancesActive: false,
+  /**
+   * Temporary disable polkadot staking/unstaking
+   * https://ankrnetwork.atlassian.net/browse/STAKAN-2431
+   */
+  isPolkadotMaintenanceActive: true,
 };
