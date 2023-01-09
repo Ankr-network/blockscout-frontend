@@ -4,7 +4,7 @@ import {
 } from '@ankr.com/provider';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { web3Api } from 'modules/api/web3Api';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { setProviderStatus } from 'modules/auth/common/store/authSlice';
 import { IConnect } from 'modules/auth/common/types';
 
@@ -27,7 +27,11 @@ export const {
       IConnectEthCompatible,
       IConnectArgs | void
     >({
-      queryFn: async ({ wallet } = {}) => {
+      queryFn: queryFnNotifyWrapper<
+        IConnectArgs | void,
+        never,
+        IConnectEthCompatible
+      >(async ({ wallet } = {}) => {
         const providerManager = getProviderManager();
 
         const provider =
@@ -53,7 +57,7 @@ export const {
         };
 
         return { data };
-      },
+      }),
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
           dispatch(
