@@ -14,7 +14,10 @@ import {
 } from 'domains/userSettings/Routes';
 import { Themes } from 'ui';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
-import { GuardAuthRoute } from './domains/auth/components/GuardAuthRoute';
+import {
+  GuardAuthRoute,
+  GuardPremiumEndpointRoute,
+} from './domains/auth/components/GuardAuthRoute';
 import { useAuth } from './domains/auth/hooks/useAuth';
 import {
   ChainDetailsRoutes,
@@ -148,7 +151,7 @@ export const Routes = () => {
         )}
       />
 
-      <Route
+      <GuardPremiumEndpointRoute
         exact
         path={[ChainsRoutesConfig.chainDetails.path]}
         render={() => (
