@@ -28,5 +28,5 @@ export const ANKR_SUI_DECIMALS = 18;
 export const SUI_MIN_STAKE_AMOUNT = new BigNumber(0.1);
 
 export const CacheTags = {
-  common: getUniqueId(),
+  common: `stake-sui-${getUniqueId()}`,
 };

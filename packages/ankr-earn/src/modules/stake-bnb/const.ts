@@ -32,5 +32,5 @@ export const AVAILABLE_BNB_SYNT_TOKENS = <const>[
 ];
 
 export const CacheTags = {
-  common: getUniqueId(),
+  common: `stake-bnb-${getUniqueId()}`,
 };

@@ -24,5 +24,5 @@ export const FANTOM_UNSTAKE_PERIOD: Days = Number(
 );
 
 export const CacheTags = {
-  common: getUniqueId(),
+  common: `stake-ftm-${getUniqueId()}`,
 };

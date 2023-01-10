@@ -21,5 +21,5 @@ export const AVAX_MAX_HISTORY_RANGE = AVAX_MAX_BLOCK_RANGE * 250;
 export const AVAX_MAX_PARALLEL_REQ = 100;
 
 export const CacheTags = {
-  common: getUniqueId(),
+  common: `stake-avax-${getUniqueId()}`,
 };
