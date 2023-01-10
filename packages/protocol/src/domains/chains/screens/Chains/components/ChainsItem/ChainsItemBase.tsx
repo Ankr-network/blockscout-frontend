@@ -126,7 +126,12 @@ export const ChainsItemBase = ({
       />
     </>
   ) : (
-    <div role="button" tabIndex={0} onClick={handleOriginUrlClick}>
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={handleOriginUrlClick}
+      style={{ height: '100%' }}
+    >
       <a
         role="button"
         tabIndex={0}

@@ -31,7 +31,7 @@ const waitForBlocks = async (
   while (inProcess) {
     const authData = selectAuthData(getState());
 
-    if (authData?.isManualDisconnected) {
+    if (!authData?.hasWeb3Connection) {
       break;
     }
 

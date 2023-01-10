@@ -7,14 +7,12 @@ import { useEffect } from 'react';
 
 export const GuardPremiumRoute = ({
   hasPremium,
-  isManualDisconnected,
   hasAuthData,
   ...routeProps
 }: IGuardRoute) => {
   const history = useHistory();
   const { loading } = useGuardAuth({
     hasPremium,
-    isManualDisconnected,
     hasAuthData,
   });
 
