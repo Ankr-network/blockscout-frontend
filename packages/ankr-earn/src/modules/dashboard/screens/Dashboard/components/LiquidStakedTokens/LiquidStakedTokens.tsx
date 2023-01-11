@@ -122,9 +122,7 @@ export const LiquidStakedTokens = (
           <StakedASETHC />
         )}
 
-        {featuresConfig.xdcStaking && isStakedXDCCertShowed && (
-          <StakedAnkrXDC />
-        )}
+        {featuresConfig.xdcActive && isStakedXDCCertShowed && <StakedAnkrXDC />}
 
         {isBridgedMaticBondPolygonShowed && <BridgedMaticBond />}
 

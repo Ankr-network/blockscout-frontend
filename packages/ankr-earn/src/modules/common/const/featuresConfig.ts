@@ -44,7 +44,8 @@ export const featuresConfig = {
    */
   ssvStaking: true,
   duneAnalyticsLink: true,
-  xdcStaking: currentEnv !== Env.Production,
+  xdcActive: currentEnv !== Env.Production,
+  xdcStaking: false,
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
    */

@@ -273,7 +273,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       },
     ];
 
-    if (featuresConfig.xdcStaking) {
+    if (featuresConfig.xdcActive) {
       data.push({
         name: Token.XDC,
         amount:

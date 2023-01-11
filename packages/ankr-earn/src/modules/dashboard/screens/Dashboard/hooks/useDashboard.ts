@@ -112,7 +112,7 @@ export const useDashboard = (): IUseDashboard => {
       dispatch(getSSVOnETHDashboardData());
     }
 
-    if (featuresConfig.xdcStaking) {
+    if (featuresConfig.xdcActive) {
       getXDCDashboardDataRefetch();
     }
 

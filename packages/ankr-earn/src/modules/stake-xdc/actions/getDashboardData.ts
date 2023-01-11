@@ -24,7 +24,7 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
       queryFn: queryFnNotifyWrapper<void, never, TGetDashboardData>(
         async (args, { getState }) => {
           // TODO Please remove it (development only)
-          if (!featuresConfig.xdcStaking) {
+          if (!featuresConfig.xdcActive) {
             return {
               data: null,
             };

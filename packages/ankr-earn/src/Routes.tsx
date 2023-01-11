@@ -66,7 +66,7 @@ export function Routes(): JSX.Element {
 
       {featuresConfig.isSUIStakingActive && getStakeSuiRoutes()}
 
-      {featuresConfig.xdcStaking && getStakeXDCRoutes()}
+      {featuresConfig.xdcActive && getStakeXDCRoutes()}
 
       {getStakeAnkrRoutes()}
 
