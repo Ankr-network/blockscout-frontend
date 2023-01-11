@@ -3,9 +3,9 @@ import { ChainID } from 'modules/chains/types';
 const chainIdToDocsChainIdMap: Record<string, string> = {
   avalanche: 'avalanche',
   arbitrum: 'arbitrum',
-  bsc: 'binance-smart-chain',
+  bsc: 'bnb-smart-chain',
   celo: 'celo',
-  eth: 'ethereum/about-ethereum',
+  eth: 'ethereum',
   fantom: 'fantom',
   gnosis: 'gnosis',
   harmony: 'harmony',
@@ -14,8 +14,17 @@ const chainIdToDocsChainIdMap: Record<string, string> = {
   near: 'near',
   nervos: 'nervos',
   polygon: 'polygon',
-  syscoin: 'syscoin/about-syscoin',
+  syscoin: 'syscoin',
   solana: 'solana',
+  bttc: 'bittorrent-chain',
+  aptos: 'aptos',
+  filecoin: 'filecoin',
+  heco: 'huobi-eco-chain',
+  klaytn: 'klaytn',
+  kusama: 'kusama',
+  optimism: 'optimism',
+  polkadot: 'polkadot',
+  tron: 'tron',
 };
 
 export const getChainDocsLink = (chainId: string) => {
@@ -26,6 +35,6 @@ export const getChainDocsLink = (chainId: string) => {
   const docsChainId = chainIdToDocsChainIdMap[chainId];
 
   return docsChainId
-    ? `https://www.ankr.com/docs/build-blockchain/chains/v2/${docsChainId}`
+    ? `https://www.ankr.com/docs/rpc-service/chains/chains-list/#${docsChainId}`
     : undefined;
 };
