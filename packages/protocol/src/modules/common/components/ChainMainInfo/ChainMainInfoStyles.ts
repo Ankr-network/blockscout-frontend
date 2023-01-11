@@ -43,7 +43,7 @@ export const useStyles = makeStyles<Theme, boolean>(theme => ({
     width: '100%',
     maxWidth: 140,
     marginTop: 4,
-    height: 23,
+    height: 21,
     transform: 'none',
   },
 }));
