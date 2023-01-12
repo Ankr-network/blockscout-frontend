@@ -15,6 +15,7 @@ export interface Auth {
   hasPrivateAccess: boolean;
   hasPremium: boolean;
   hasWeb3Connection: boolean;
+  isOldPremium: boolean;
 }
 
 // needs to turn premium subscription date into milliseconds from kiloseconds
@@ -32,15 +33,16 @@ export const useAccountAuth = (): Auth => {
     hasPrivateAccess,
     hasPremium,
     hasWeb3Connection,
+    isTokenExpired,
   } = useAuth();
 
   const tier = workerTokenData?.tier;
 
   const isConnected = isWalletConnected && !isConnecting;
-  const isPremium = tier === Tier.Premium;
+  const isOldPremium = Boolean(tier === Tier.Premium || isTokenExpired);
 
   const premiumUntil =
-    isPremium && credentials?.expires_at
+    isOldPremium && credentials?.expires_at
       ? new Date(credentials.expires_at * MILLISECONDS_COEFFICIENT)
       : undefined;
 
@@ -57,5 +59,6 @@ export const useAccountAuth = (): Auth => {
     isUserEthAddressType,
     hasPremium,
     hasWeb3Connection: Boolean(hasWeb3Connection),
+    isOldPremium,
   };
 };
