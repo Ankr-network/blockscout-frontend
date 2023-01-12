@@ -377,50 +377,54 @@ export const PortfolioChart = ({
               </div>
             </Grid>
 
-            <Grid item lg={6} md={12} xl={3} xs={12}>
-              <PortfolioChartLegend
-                activeLegendItem={activeItem}
-                apr={stakedApr}
-                isLoading={isLoading}
-                isSmallBalancesVisible={isSmallBalancesVisible}
-                legendItems={syntheticTokens}
-                totalAmount={totalStakedAmountUsd}
-                totalPercent={
-                  !totalAmountUsd.isZero()
-                    ? totalStakedAmountUsd
-                        .multipliedBy(100)
-                        .dividedBy(totalAmountUsd)
-                        .decimalPlaces(DEFAULT_ROUNDING)
-                    : ZERO
-                }
-                yearlYield={totalStakedYieldAmountUsd}
-                onMouseLeave={handleMouseLeave}
-                onMouseOver={handleMouseOver}
-              />
-            </Grid>
+            {!!syntheticTokens.length && (
+              <Grid item lg={6} md={12} xl={3} xs={12}>
+                <PortfolioChartLegend
+                  activeLegendItem={activeItem}
+                  apr={stakedApr}
+                  isLoading={isLoading}
+                  isSmallBalancesVisible={isSmallBalancesVisible}
+                  legendItems={syntheticTokens}
+                  totalAmount={totalStakedAmountUsd}
+                  totalPercent={
+                    !totalAmountUsd.isZero()
+                      ? totalStakedAmountUsd
+                          .multipliedBy(100)
+                          .dividedBy(totalAmountUsd)
+                          .decimalPlaces(DEFAULT_ROUNDING)
+                      : ZERO
+                  }
+                  yearlYield={totalStakedYieldAmountUsd}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseOver={handleMouseOver}
+                />
+              </Grid>
+            )}
 
-            <Grid item lg={6} md={12} xl={3} xs={12}>
-              <PortfolioChartLegend
-                isNative
-                activeLegendItem={activeItem}
-                apr={nativeApr}
-                isLoading={isLoading}
-                isSmallBalancesVisible={isSmallBalancesVisible}
-                legendItems={nativeTokens}
-                totalAmount={totalNativeAmountUsd}
-                totalPercent={
-                  !totalAmountUsd.isZero()
-                    ? totalNativeAmountUsd
-                        .multipliedBy(100)
-                        .dividedBy(totalAmountUsd)
-                        .decimalPlaces(DEFAULT_ROUNDING)
-                    : ZERO
-                }
-                yearlYield={totalNativeYieldAmountUsd}
-                onMouseLeave={handleMouseLeave}
-                onMouseOver={handleMouseOver}
-              />
-            </Grid>
+            {!!nativeTokens.length && (
+              <Grid item lg={6} md={12} xl={3} xs={12}>
+                <PortfolioChartLegend
+                  isNative
+                  activeLegendItem={activeItem}
+                  apr={nativeApr}
+                  isLoading={isLoading}
+                  isSmallBalancesVisible={isSmallBalancesVisible}
+                  legendItems={nativeTokens}
+                  totalAmount={totalNativeAmountUsd}
+                  totalPercent={
+                    !totalAmountUsd.isZero()
+                      ? totalNativeAmountUsd
+                          .multipliedBy(100)
+                          .dividedBy(totalAmountUsd)
+                          .decimalPlaces(DEFAULT_ROUNDING)
+                      : ZERO
+                  }
+                  yearlYield={totalNativeYieldAmountUsd}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseOver={handleMouseOver}
+                />
+              </Grid>
+            )}
           </Grid>
         )}
       </Card>

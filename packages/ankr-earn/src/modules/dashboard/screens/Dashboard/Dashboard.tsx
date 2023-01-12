@@ -7,6 +7,7 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { DelegatedTokens } from './components/DelegatedTokens';
 import { LiquidStakedTokens } from './components/LiquidStakedTokens';
 import { MyPortfolio } from './components/MyPortfolio';
+import { usePortfolioStakedData } from './components/MyPortfolio/usePortfolioStakedData';
 import { useLiquidStakedTokens } from './hooks/liquid-tokens/useLiquidStakedTokens';
 import { useDashboard } from './hooks/useDashboard';
 import { useDelegatedTokens } from './hooks/useDelegatedTokens';
@@ -19,9 +20,11 @@ export const Dashboard = (): JSX.Element => {
   const { isDelegateAssetsShowed, isDelegatedTokensLoading } =
     useDelegatedTokens();
 
+  const { totalAmountUsd: totalStakedAmountUsd } = usePortfolioStakedData();
+
   const isAssetsShowed = isDelegateAssetsShowed || isLiquidAssetsShowed;
 
-  const isContentActive = isAssetsShowed;
+  const isContentActive = !totalStakedAmountUsd.isZero();
 
   const isLoaderActive =
     (isStakedTokensLoading || isDelegatedTokensLoading) && !isAssetsShowed;
