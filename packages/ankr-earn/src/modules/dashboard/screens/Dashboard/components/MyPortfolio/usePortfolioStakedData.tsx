@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 
 import {
   ACTION_CACHE_SEC,
-  DECIMAL_PLACES,
   DEFAULT_ROUNDING,
   featuresConfig,
   ZERO,
@@ -15,6 +14,7 @@ import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
+import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
@@ -34,9 +34,6 @@ import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotR
 import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
-
-import { getTokenNativeAmount } from '../../../../utils/getTokenNativeAmount';
-import { SMALL_PRICE_TOKENS } from '../../const';
 
 export interface IUsePortfolioData {
   isLoading: boolean;
@@ -359,9 +356,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
         .map((item, index) => ({
           ...item,
           isNative: false,
-          amount: item.amount.decimalPlaces(
-            !SMALL_PRICE_TOKENS.includes(item.name) ? DECIMAL_PLACES : 0,
-          ),
+          amount: item.amount.round(),
           usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
           yieldAmount: item.amount
             .multipliedBy(item.apy)

@@ -14,7 +14,7 @@ import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { ILegendItem, PortfolioChartLegend } from '../PortfolioChartLegend';
-import { PortfolioHeader, PortfolioHeaderMobile } from '../PortfolioHeader';
+import { PortfolioHeaderMobile } from '../PortfolioHeader';
 
 import { TSelectSvg, usePortfolioChart } from './usePortfolioChart';
 import { usePortfolioChartStyles } from './usePortfolioChartStyles';
@@ -31,7 +31,6 @@ export interface IPortfolioChartProps {
   height: number;
   width: number;
   isSmallBalancesVisible: boolean;
-  onBalanceVisibilityChange: (isShown: boolean) => void;
   isCurrentAccountPartner: boolean;
 }
 
@@ -81,7 +80,6 @@ export const PortfolioChart = ({
   height,
   width,
   isSmallBalancesVisible,
-  onBalanceVisibilityChange,
   isCurrentAccountPartner,
 }: IPortfolioChartProps): JSX.Element | null => {
   const classes = usePortfolioChartStyles({ width });
@@ -300,12 +298,6 @@ export const PortfolioChart = ({
 
   return (
     <Box mb={7}>
-      <PortfolioHeader
-        isCurrentAccountPartner={isCurrentAccountPartner}
-        isSmallBalancesVisible={isSmallBalancesVisible}
-        onBalanceVisibilityChange={onBalanceVisibilityChange}
-      />
-
       <Card className={classes.root}>
         <PortfolioHeaderMobile
           isCurrentAccountPartner={isCurrentAccountPartner}

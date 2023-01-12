@@ -2,8 +2,6 @@ import { t } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
 
-import { RoutesConfig as CalcRoutes } from 'modules/calc/Routes';
-import { featuresConfig } from 'modules/common/const';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { NOT_PARTNER_CODE } from 'modules/referrals/api/const';
 import { RoutesConfig } from 'modules/referrals/Routes';
@@ -17,7 +15,6 @@ import coinsImg2x from './assets/coins@2x.png';
 import { useEmptyStateStyles } from './useEmptyStateStyles';
 
 const STAKE_PATH = StakeRoutes.main.generatePath();
-const CALC_PATH = CalcRoutes.main.generatePath();
 
 const imgSources = {
   tablet: coinsImg,
@@ -65,21 +62,6 @@ export const EmptyState = (): JSX.Element => {
         >
           {t('dashboard.empty.btn')}
         </NavLink>
-
-        {featuresConfig.isCalcActive && (
-          <div className={classes.header}>
-            <div className={classes.buttonWrapper}>
-              <NavLink
-                fullWidth
-                href={CALC_PATH}
-                size="large"
-                variant="outlined"
-              >
-                {t('dashboard.empty.calc-btn')}
-              </NavLink>
-            </div>
-          </div>
-        )}
 
         {isActiveAddressPartner && (
           <NavLink
