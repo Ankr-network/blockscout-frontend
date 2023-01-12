@@ -24,7 +24,8 @@ import { useProgressStepStyles } from './useProgressStepStyles';
 
 export interface IProgressStepProps {
   title: ReactNode;
-  hint: ReactNode;
+  pendingHint: ReactNode;
+  successHint?: ReactNode;
   buttonTitle?: ReactNode;
   isPending: boolean;
   isLoading?: boolean;
@@ -43,7 +44,8 @@ export enum TxErrorCodes {
 
 export const ProgressStep = ({
   title,
-  hint,
+  pendingHint,
+  successHint,
   isPending,
   isLoading = false,
   amount,
@@ -101,7 +103,11 @@ export const ProgressStep = ({
           </Typography>
 
           {isPending && (
-            <Typography className={classes.info}>{hint}</Typography>
+            <Typography className={classes.info}>{pendingHint}</Typography>
+          )}
+
+          {!isPending && !isError && !!successHint && (
+            <Typography className={classes.info}>{successHint}</Typography>
           )}
 
           {isError && (

@@ -26,9 +26,9 @@ export const StakeFantomSteps = (): JSX.Element => {
       destinationAddress={destination}
       // TODO: need to double check and test it
       error={error as unknown as Error}
-      hint={t('stake.pending.description', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}
+      pendingHint={t('stake.pending.description', { token: tokenName })}
       symbol={tokenName}
       title={t('stake.progressTitle')}
       txHash={transactionId}

@@ -13,6 +13,7 @@ export const DOCS_DEFI_FARM_LINK = `${DOCS_ROOT_LINK}staking/defi/yield-farm`;
 export const DOCS_DEFI_POOLS_LINK = `${DOCS_ROOT_LINK}staking/defi/liquidity-pools/`;
 export const DOCS_DEFI_VAULTS_LINK = `${DOCS_ROOT_LINK}staking/defi/vaults`;
 export const DOCS_ANKR_TOKEN_STAKING_LINK = `${DOCS_ROOT_LINK}staking/delegated-staking/ankr/overview`;
+export const DOCS_ANKR_TOKEN_UNSTAKING_LINK = `${DOCS_ROOT_LINK}staking/delegated-staking/ankr/unstake`;
 export const DOCS_MGNO_TOKEN_STAKING_LINK =
   'https://docs.gnosischain.com/specs/gbc/faq#what-is-mgno';
 

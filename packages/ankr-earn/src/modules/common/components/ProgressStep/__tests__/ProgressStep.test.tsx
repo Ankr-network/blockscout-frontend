@@ -17,7 +17,8 @@ describe('modules/common/components/ProgressStep', () => {
       destinationAddress: 'address',
       txHash: 'hash',
       title: 'Switch',
-      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
+      pendingHint:
+        'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
       onAddTokenToWallet: jest.fn(),
@@ -32,7 +33,7 @@ describe('modules/common/components/ProgressStep', () => {
     const title = await screen.findByText(`Switch is pending...`);
     expect(title).toBeInTheDocument();
 
-    const hint = await screen.findByText(props.hint);
+    const hint = await screen.findByText(props.pendingHint);
     expect(hint).toBeInTheDocument();
 
     const dashboardButton = await screen.findByText('Go to dashboard');
@@ -56,7 +57,8 @@ describe('modules/common/components/ProgressStep', () => {
       amount: ZERO,
       destinationAddress: 'address',
       txHash: 'hash',
-      title: 'Switch',
+      title: 'Title',
+      pendingHint: 'Switch',
       hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
@@ -80,7 +82,8 @@ describe('modules/common/components/ProgressStep', () => {
       destinationAddress: 'address',
       txHash: 'hash',
       title: 'Switch',
-      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
+      pendingHint:
+        'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
       error: new Error('error'),
@@ -103,7 +106,8 @@ describe('modules/common/components/ProgressStep', () => {
       destinationAddress: 'address',
       txHash: 'hash',
       title: 'Switch',
-      hint: 'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
+      pendingHint:
+        'This may take a moment; you can close this window. Once completed you can check out your new aETHb exposure on the Ankr Staking Dashboard.',
       buttonTitle: 'Add aMATICb to wallet',
       isPending: true,
       error: new Error(TxErrorCodes.TX_FAILED),
@@ -123,7 +127,7 @@ describe('modules/common/components/ProgressStep', () => {
   test('should add token to wallet', async () => {
     const props = {
       title: 'Title',
-      hint: 'Hint',
+      pendingHint: 'Hint',
       buttonTitle: 'Button',
       isPending: false,
       onAddTokenToWallet: jest.fn(),
@@ -146,7 +150,7 @@ describe('modules/common/components/ProgressStep', () => {
   test('should handle copy tx hash', async () => {
     const props = {
       title: 'Title',
-      hint: 'Hint',
+      pendingHint: 'Hint',
       buttonTitle: 'Button',
       txHash: 'hash',
       isPending: false,
@@ -171,7 +175,7 @@ describe('modules/common/components/ProgressStep', () => {
   test('should handle destination address copy', async () => {
     const props = {
       title: 'Title',
-      hint: 'Hint',
+      pendingHint: 'Hint',
       buttonTitle: 'Button',
       destinationAddress: 'address',
       isPending: false,

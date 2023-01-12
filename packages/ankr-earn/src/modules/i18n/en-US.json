@@ -1078,7 +1078,10 @@
       "undelegeting-info": "Undelegating process takes about 7 days before you can claim your ANKR.",
       "progress-title": "Unstake",
       "description": "This may take a moment; you can close this window.",
-      "submit": "Unstake"
+      "submit": "Unstake",
+      "info": "Unstaking takes two steps: undelegating and claiming. Undelegating takes about 7 days before you can manually claim your funds.",
+      "success-info": "The undelegate period has started. It will take about 7 days before you can manually claim your funds on the",
+      "staking-page-link": "ANKR Staking page"
     },
     "info-header": {
       "all-rewards": "All Rewards",
