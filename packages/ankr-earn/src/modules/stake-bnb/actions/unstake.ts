@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
@@ -12,6 +13,8 @@ import { TBnbSyntToken } from '../types';
 import { getBinanceSDK } from '../utils/getBinanceSDK';
 import { onError } from '../utils/onError';
 
+const INVALID_ADDRESS_MESSAGE = 'bad address checksum';
+
 interface IUnstakeArgs {
   amount: BigNumber;
   token: TBnbSyntToken;
@@ -25,13 +28,24 @@ export const { useUnstakeBNBMutation } = web3Api.injectEndpoints({
         async ({ amount, token, externalAddress }) => {
           const sdk = await getBinanceSDK();
 
-          if (externalAddress) {
-            return {
-              data: await sdk.unstakeToExternal(amount, token, externalAddress),
-            };
-          }
+          try {
+            if (externalAddress) {
+              return {
+                data: await sdk.unstakeToExternal(
+                  amount,
+                  token,
+                  externalAddress,
+                ),
+              };
+            }
 
-          return { data: await sdk.unstake(amount, token) };
+            return { data: await sdk.unstake(amount, token) };
+          } catch (e) {
+            if ((e as Error)?.message.includes(INVALID_ADDRESS_MESSAGE)) {
+              throw new Error(t('validation.invalid-address'));
+            }
+            throw e;
+          }
         },
         onError,
       ),
