@@ -79,6 +79,13 @@ listenerMiddleware.startListening({
 
             const selectedChainId = Number.parseInt(chainId, 16);
 
+            const provider =
+              await providerManager.getProvider<EthereumWeb3KeyProvider>(
+                ethProviderId,
+              );
+
+            provider.currentChain = selectedChainId;
+
             dispatch(
               setChainId({
                 providerId: ethProviderId,
