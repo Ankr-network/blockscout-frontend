@@ -7,7 +7,6 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 
 export const GuardCardPaymentSuccessAuthRoute = ({
   hasPremium,
-  isManualDisconnected,
   hasAuthData,
   ...routeProps
 }: IGuardRoute) => {
@@ -22,7 +21,6 @@ export const GuardCardPaymentSuccessAuthRoute = ({
   const { loading } = useGuardAuth({
     hasAuthData,
     hasPremium,
-    isManualDisconnected,
   });
 
   if (loading) {
