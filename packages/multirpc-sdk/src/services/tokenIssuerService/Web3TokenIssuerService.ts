@@ -12,6 +12,7 @@ import {
   BaseTokenIssuerService,
   BaseTokenIssuerServiceParams,
 } from './BaseTokenIssuerService';
+import { EXPIRED_TOKEN_ERROR } from './TokenIssuerServiceUtils';
 
 interface Web3TokenIssuerServiceParams extends BaseTokenIssuerServiceParams {
   tokenDecryptionService: TokenDecryptionService;
@@ -70,7 +71,7 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
 
       return fullTokenData;
     } catch (error: any) {
-      if (error?.code !== METAMASK_REJECTED_OPERATION_CODE) {
+      if (error?.response?.data === EXPIRED_TOKEN_ERROR) {
         return { jwtToken: firstActiveToken };
       }
 
@@ -119,10 +120,10 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
         throw error;
       }
       // if error we try to use mm public key
-      await this.tokenDecryptionService.requestMetamaskEncryptionKey();
+      const publicKey = await this.tokenDecryptionService.requestMetamaskEncryptionKey();
 
       const jwtToken = await this.getConsensusGateway().requestJwtToken({
-        public_key: this.tokenDecryptionService.publicKey,
+        public_key: publicKey,
         threshold_key: thresholdKeyId,
         transaction_hash: PAYGTransactionHash,
       });

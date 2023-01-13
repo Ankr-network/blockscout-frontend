@@ -17,7 +17,7 @@ export const usePrivateChainsData = () => {
     interval: timeframeToIntervalMap[timeframe],
   });
 
-  const [sortType, setSortType] = useSortType(isLoggedIn);
+  const [sortType, setSortType] = useSortType();
 
   return {
     chains: privateChains,

@@ -14,7 +14,6 @@ export interface IAuthSlice {
   address?: string;
   authorizationToken?: string;
   encryptionPublicKey?: string;
-  isManualDisconnected?: boolean;
   walletMeta?: IWalletMeta;
   hasWeb3Connection?: boolean;
   hasOauthLogin?: boolean;
@@ -24,9 +23,7 @@ export interface IAuthSlice {
   hasOauthUserDepositTransaction?: boolean;
 }
 
-const initialState: IAuthSlice = {
-  isManualDisconnected: false,
-};
+const initialState: IAuthSlice = {};
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -38,7 +35,6 @@ export const authSlice = createSlice({
         address,
         authorizationToken,
         encryptionPublicKey,
-        isManualDisconnected,
         walletMeta,
         hasWeb3Connection,
         hasOauthLogin,
@@ -97,8 +93,6 @@ export const authSlice = createSlice({
       if (hasOauthUserDepositTransaction) {
         state.hasOauthUserDepositTransaction = hasOauthUserDepositTransaction;
       }
-
-      state.isManualDisconnected = Boolean(isManualDisconnected);
     },
 
     resetAuthData: state => {

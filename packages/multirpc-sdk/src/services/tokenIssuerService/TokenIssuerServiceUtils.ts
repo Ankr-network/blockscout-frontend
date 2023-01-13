@@ -8,3 +8,5 @@ export const formatHexToString = (hexx: string) => {
 
   return str;
 };
+
+export const EXPIRED_TOKEN_ERROR = 'JWT token is expired';
