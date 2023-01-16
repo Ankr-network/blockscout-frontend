@@ -113,6 +113,7 @@ const CHAIN_IDS_BY_USAGE = [
   ChainID.FANTOM,
   ChainID.AVALANCHE,
   ChainID.SOLANA,
+  ChainID.ARBITRUM,
   ChainID.OPTIMISM,
   ChainID.GNOSIS,
   ChainID.CELO,
@@ -138,8 +139,11 @@ const getSorter = (sortType: SortType, isLoading: boolean) => {
   if (sortType === SortType.Usage) {
     if (isLoading) {
       return (a: Chain, b: Chain) => {
-        if (CHAIN_IDS_BY_USAGE.indexOf(a?.id) === -1) {
-          return 1;
+        if (
+          CHAIN_IDS_BY_USAGE.indexOf(a?.id) === -1 ||
+          CHAIN_IDS_BY_USAGE.indexOf(b?.id) === -1
+        ) {
+          return -1;
         }
 
         return (
