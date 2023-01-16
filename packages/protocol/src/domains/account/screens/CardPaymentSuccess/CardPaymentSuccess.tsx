@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { t } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
@@ -30,21 +30,21 @@ export const CardPaymentSuccess = () => {
     );
   }, [history, hasPremium]);
 
+  const section = hasPremium ? 'billing' : 'pricing';
+
   return (
     <CenterContainer>
       <InfoCard
-        title={t('account.card-payment-success.title')}
+        title={tHTML(`account.card-payment-success.${section}.title`)}
         titleClassName={classes.title}
-        description={t('account.card-payment-success.description')}
+        description={tHTML(
+          `account.card-payment-success.${section}.description`,
+        )}
         descriptionClassName={classes.description}
         align="center"
         actionSlot={
           <Button onClick={handleClick} size="large">
-            {t(
-              `account.card-payment-success.button-${
-                hasPremium ? 'billing' : 'pricing'
-              }`,
-            )}
+            {t(`account.card-payment-success.${section}.button`)}
           </Button>
         }
       />

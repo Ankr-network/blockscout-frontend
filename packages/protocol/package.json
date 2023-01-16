@@ -157,7 +157,7 @@
     ]
   },
   "reactSnap": {
-    "concurrency": 1,
+    "concurrency": 4,
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"

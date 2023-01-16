@@ -17,5 +17,5 @@ export const GuardAuthRoute = ({
     return <Spinner />;
   }
 
-  return <Route {...routeProps} />;
+  return hasAuthData ? <Route {...routeProps} /> : null;
 };

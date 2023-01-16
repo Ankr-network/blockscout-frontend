@@ -8,14 +8,11 @@ import { RequestsByIP } from '../../../RequestsByIP';
 import { RequestsChart } from '../../../RequestsChart';
 import { RequestsMap } from '../../../RequestsMap';
 import { TimeframeTabs } from '../../../TimeframeTabs';
-import { UsageSummary } from '../../../UsageSummary';
+import { PrivateUsageSummary } from '../PrivateUsageSummary';
 import { usePrivateUsageData } from './usePrivateUsageData';
 import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
 import { useIsRequestsMapVisible } from '../../UsageDataSectionUtils';
-import { t } from '@ankr.com/common';
-import { Stat } from '../../../Stat';
-import { CostButton } from '../../../Stat/CostButton';
-import { getTotalCost } from '../../../UsageSummary/utils/getTotalCost';
+import { LastUserRequests } from '../../../LastUserRequests';
 
 export interface PrivateUsageDataSectionProps {
   chain: IApiChain;
@@ -44,7 +41,6 @@ export const PrivateUsageDataSection = ({
     totalRequestsHistory,
     userTopRequests,
     userTopRequestsIp,
-    hasPremium,
   } = usePrivateUsageData({ chain, chainType, group, timeframe });
 
   const isRequestsMapVisible = useIsRequestsMapVisible(countries);
@@ -62,19 +58,16 @@ export const PrivateUsageDataSection = ({
             tabs={timeframeTabs}
             timeframe={timeframe}
           />
-          <UsageSummary
-            className={classes.usageSummary}
-            loading={loading}
-            timeframe={timeframe}
-            totalRequests={totalRequests}
-          >
-            <Stat
-              extra={hasPremium && <CostButton />}
+          <div className={classes.row}>
+            <PrivateUsageSummary
+              className={classes.usageSummary}
               loading={loading}
-              title={t(`chain-item.usage-data.usage-summary.cost.title`)}
-              value={getTotalCost(totalCost)}
+              timeframe={timeframe}
+              totalCost={totalCost}
+              totalRequests={totalRequests}
             />
-          </UsageSummary>
+            <LastUserRequests />
+          </div>
           <RequestsChart
             isConnecting={isConnecting}
             isLoggedIn

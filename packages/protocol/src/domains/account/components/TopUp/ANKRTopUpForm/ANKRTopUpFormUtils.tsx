@@ -24,6 +24,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyTopUpGetLastLockedFundsEventQuery } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { oauthSignout } from 'domains/oauth/actions/signout';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -131,10 +132,12 @@ export const useRenderForm = ({
 };
 
 export const useCheckLoginStep = () => {
+  const dispatch = useDispatch();
+
   const [getLastLockedFundsEvent, { data: lastLockedFundsEvent, isLoading }] =
     useLazyTopUpGetLastLockedFundsEventQuery();
 
-  const { isWalletConnected, workerTokenData } = useAuth();
+  const { isWalletConnected, workerTokenData, isTokenExpired } = useAuth();
   const { handleSetAmount } = useTopUp();
 
   const [hasLoginStep, setHasLoginStep] = useState<boolean>(false);
@@ -150,6 +153,12 @@ export const useCheckLoginStep = () => {
       const { currentAccount: address } = keyProvider;
 
       if (!lastLockedFundsEvent) return;
+
+      if (lastLockedFundsEvent && isTokenExpired) {
+        dispatch(oauthSignout.initiate());
+
+        return;
+      }
 
       const value = keyProvider
         .getWeb3()
@@ -173,6 +182,8 @@ export const useCheckLoginStep = () => {
     handleSetAmount,
     isWalletConnected,
     workerTokenData,
+    isTokenExpired,
+    dispatch,
   ]);
 
   return {

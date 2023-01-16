@@ -23,6 +23,8 @@ import {
   IPaymentHistoryResponse,
   PrivateStats,
   PrivateStatsInterval,
+  IGetLatestRequestsResponse,
+  IGetLatestRequestsRequest,
 } from './types';
 
 export class AccountGateway {
@@ -269,6 +271,21 @@ export class AccountGateway {
       await this.api.get<IGetSubscriptionPricesResponse>(
         '/api/v1/auth/payment/getSubscriptionPrices',
       );
+
+    return response;
+  }
+
+  public async getLatestRequests(params?: IGetLatestRequestsRequest) {
+    const defaultParams: IGetLatestRequestsRequest = {
+      limit: 10,
+    };
+
+    const { data: response } = await this.api.get<IGetLatestRequestsResponse>(
+      '/api/v1/auth/telemetry/getMyLatestRequests',
+      {
+        params: params || defaultParams,
+      },
+    );
 
     return response;
   }

@@ -335,7 +335,8 @@
         "cost": {
           "title": "Credit Usage",
           "value": "{cost, number, ::compact-short}"
-        }
+        },
+        "billing-button": "Billing"
       },
       "chart": {
         "title": "Requests",
@@ -346,6 +347,17 @@
           "title": "Send your request",
           "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
         }
+      },
+      "last-requests": {
+        "title": "Last 10 Requests",
+        "table": {
+          "header": {
+            "column-1": "Blockchain",
+            "column-2": "Method",
+            "column-3": "Time"
+          }
+        },
+        "empty": "No data available"
       }
     }
   },
@@ -765,7 +777,7 @@
         }
       },
       "subscriptions": {
-        "top-up-subscriptions":  "{value, plural, =1 {Top Up Subscription} other { Top Up Subscriptions }}",
+        "top-up-subscriptions": "{value, plural, =1 {Top Up Subscription} other { Top Up Subscriptions }}",
         "text": "${amount}/{recurringInterval}",
         "are-you-sure": "Are you sure?",
         "if-you-continue": "If you continue, your subscription will be canceled",
@@ -808,10 +820,16 @@
     },
     "card-payment-success": {
       "breadcrumbs": "Pricing",
-      "title": "Everything looks good!",
-      "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
-      "button-billing": "Go to Billing",
-      "button-pricing": "Go to Pricing"
+      "pricing": {
+        "title": "Everything looks good!",
+        "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
+        "button": "Go to Pricing"
+      },
+      "billing": {
+        "title": "Operation succeeded.",
+        "description": "The payment has been rendered successfully — enjoy your <a href=\"https: //www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">rate limits</a>",
+        "button": "Go to Billing"
+      }
     },
     "card-payment-failure": {
       "breadcrumbs": "Billing",

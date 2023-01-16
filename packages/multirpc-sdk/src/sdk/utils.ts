@@ -201,3 +201,11 @@ export const getFirstActiveToken = (tokens: JwtTokens) => {
 
   return firstActiveToken || sortedTokens[sortedTokens.length - 1];
 };
+
+export const parseJwtToken = (token = '') => {
+  try {
+    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+  } catch (error) {
+    return null;
+  }
+};

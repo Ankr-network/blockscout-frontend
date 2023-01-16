@@ -8,6 +8,7 @@ import { calculateTotalRequests } from '../utils/calculateRPCAndLegacyStandalone
 import { chainsFetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequests';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 // RTK Query will never run an endpoint if it has already run.
 // Here we have few calls of the same endpoint but with different args,
@@ -48,6 +49,10 @@ export const {
             .getPublicGateway()
             .getPublicTimeframesStats(timeframe)
         ).totalRequests;
+
+        if (isReactSnap()) {
+          return { data: totalRequestsData };
+        }
 
         const results = await fetchLegacyStats(dispatch);
 

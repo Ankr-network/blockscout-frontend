@@ -8,7 +8,8 @@ import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/fetc
 import {
   formatChains,
   formatPublicRequestsCount,
-  sortChains,
+  sortPrivateChains,
+  sortPublicChains,
 } from '../ChainsListUtils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
@@ -35,17 +36,26 @@ export const useChains = ({
   const { hasPrivateAccess } = useAuth();
   const [stats] = usePrivateStats();
 
+  const [, { isLoading: arePublicStatsLoading }] = useQueryEndpoint(
+    chainsFetchPublicRequestsCountStats,
+  );
+
   const [, { data }] = useQueryEndpoint(chainsFetchPublicRequestsCountStats);
 
   const processedChains = useMemo(
     () =>
-      sortChains({
-        chains: formatPublicRequestsCount(chains, data),
-        hasPrivateAccess,
-        sortType,
-        stats,
-      }),
-    [hasPrivateAccess, stats, chains, data, sortType],
+      hasPrivateAccess
+        ? sortPrivateChains({
+            chains: formatPublicRequestsCount(chains, data),
+            sortType,
+            stats,
+          })
+        : sortPublicChains({
+            chains: formatPublicRequestsCount(chains, data),
+            sortType,
+            isLoading: arePublicStatsLoading,
+          }),
+    [hasPrivateAccess, stats, chains, data, sortType, arePublicStatsLoading],
   );
 
   const publicChainsMap = useMemo(

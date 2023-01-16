@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 type VirtualTablePaginationType = 'more';
 
@@ -8,7 +8,7 @@ export interface VirtualTableQuery {
   orderBy?: string;
 }
 export interface VirtualTableProps<T extends Record<string, any>> {
-  classes?: { root?: string; container?: string };
+  classes?: { root?: string; container?: string; rowHead?: string };
   cols: VirtualTableColumn<T>[];
   emptyMessage?: string;
   initializing?: boolean;
@@ -23,6 +23,7 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   preloader?: ReactNode;
   renderExpand?: (rowData: T, recalculateRows: () => void) => React.ReactNode;
   rows: T[];
+  style?: CSSProperties;
 }
 
 export interface VirtualTableColumn<T> {

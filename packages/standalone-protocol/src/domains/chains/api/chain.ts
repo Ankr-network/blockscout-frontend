@@ -15,7 +15,7 @@ export enum ChainId {
   Moonbeam = 'moonbeam',
   Gnosis = 'gnosis',
   Syscoin = 'syscoin',
-  Secret = 'secret',
+  Secret = 'scrt',
   Filecoin = 'filecoin',
   Klaytn = 'klaytn',
 }

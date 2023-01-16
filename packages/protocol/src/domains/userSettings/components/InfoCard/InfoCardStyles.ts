@@ -36,5 +36,14 @@ export const useStyles = makeStyles<Theme, { align: Align }>(theme => ({
     marginBottom: theme.spacing(4),
     fontSize: 17,
     textAlign: ({ align }) => align,
+
+    '& a': {
+      color: theme.palette.primary.main,
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+        textDecoration: 'underline',
+      },
+    },
   },
 }));

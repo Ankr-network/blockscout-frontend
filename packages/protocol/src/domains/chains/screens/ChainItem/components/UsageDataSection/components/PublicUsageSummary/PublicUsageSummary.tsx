@@ -1,34 +1,35 @@
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
-import { Stat } from '../Stat';
+import { Stat } from './components/Stat';
 import { Timeframe } from 'domains/chains/types';
-import { t } from 'modules/i18n/utils/intl';
-import { useUsageSummary } from './hooks/useUsageSummary';
-import { useUsageSummaryStyles } from './UsageSummaryStyles';
-import { ReactNode } from 'react';
+import { t } from '@ankr.com/common';
+import { useUsageSummaryStyles } from './PublicUsageSummaryStyles';
+import { useUsageSummary } from './PublicUsageSummaryUtils';
 
 export interface UsageSummaryProps {
+  cachedRequests?: BigNumber;
   className?: string;
   loading: boolean;
   timeframe: Timeframe;
   totalRequests: BigNumber;
-  children: ReactNode;
 }
 
 const root = 'chain-item.usage-data.usage-summary';
 
 const totalTitle = t(`${root}.total`);
 const averageTitle = t(`${root}.average`);
+const cachedTitle = t(`${root}.cached.title`);
 
-export const UsageSummary = ({
+export const PublicUsageSummary = ({
+  cachedRequests,
   className,
   loading,
   timeframe,
   totalRequests,
-  children,
 }: UsageSummaryProps) => {
-  const [total, average] = useUsageSummary({
+  const { total, average, cached } = useUsageSummary({
+    cachedRequests,
     timeframe,
     totalRequests,
   });
@@ -39,7 +40,7 @@ export const UsageSummary = ({
     <div className={classNames(className, classes.usageSummary)}>
       <Stat loading={loading} title={totalTitle} value={total} />
       <Stat loading={loading} title={averageTitle} value={average} />
-      {children}
+      <Stat loading={loading} title={cachedTitle} value={cached} />
     </div>
   );
 };
