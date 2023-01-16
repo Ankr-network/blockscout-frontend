@@ -107,10 +107,10 @@ export const sortPrivateChains = ({
 };
 
 const CHAIN_IDS_BY_USAGE = [
-  ChainID.POLYGON,
   ChainID.ETH,
-  ChainID.FANTOM,
   ChainID.BSC,
+  ChainID.POLYGON,
+  ChainID.FANTOM,
   ChainID.AVALANCHE,
   ChainID.SOLANA,
   ChainID.OPTIMISM,
