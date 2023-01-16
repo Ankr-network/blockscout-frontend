@@ -11,33 +11,22 @@ import { DelegatedTokens } from './components/DelegatedTokens';
 import { LiquidStakedTokens } from './components/LiquidStakedTokens';
 import { MyPortfolio } from './components/MyPortfolio';
 import { usePortfolioCommonData } from './components/MyPortfolio/usePortfolioCommonData';
-import { usePortfolioStakedData } from './components/MyPortfolio/usePortfolioStakedData';
 import { useLiquidStakedTokens } from './hooks/liquid-tokens/useLiquidStakedTokens';
 import { useDashboard } from './hooks/useDashboard';
 import { useDelegatedTokens } from './hooks/useDelegatedTokens';
 
 export const Dashboard = (): JSX.Element => {
-  const { isFirstLoad } = useDashboard();
+  useDashboard();
 
   const { isLiquidAssetsShowed, isStakedTokensLoading } =
     useLiquidStakedTokens();
   const { isDelegateAssetsShowed, isDelegatedTokensLoading } =
     useDelegatedTokens();
 
-  const { totalAmountUsd: totalStakedAmountUsd } = usePortfolioStakedData();
-
   const isAssetsShowed = isDelegateAssetsShowed || isLiquidAssetsShowed;
-
-  const isContentActive = !totalStakedAmountUsd.isZero();
 
   const isLoaderActive =
     (isStakedTokensLoading || isDelegatedTokensLoading) && !isAssetsShowed;
-
-  const isEmptyStateActive =
-    !isStakedTokensLoading &&
-    !isDelegatedTokensLoading &&
-    !isAssetsShowed &&
-    !isFirstLoad;
 
   const { isSmallBalancesVisible, onBalanceVisibilityChange } =
     useSmallBalances();
@@ -57,7 +46,7 @@ export const Dashboard = (): JSX.Element => {
 
         {isLoaderActive && <QueryLoadingAbsolute />}
 
-        {isContentActive && (
+        {isAssetsShowed ? (
           <>
             <MyPortfolio
               isCurrentAccountPartner={isCurrentAccountPartner}
@@ -72,9 +61,9 @@ export const Dashboard = (): JSX.Element => {
               <LiquidStakedTokens />
             )}
           </>
+        ) : (
+          <EmptyState />
         )}
-
-        {isEmptyStateActive && <EmptyState />}
       </Container>
     </Box>
   );
