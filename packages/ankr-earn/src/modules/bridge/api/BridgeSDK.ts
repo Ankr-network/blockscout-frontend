@@ -96,7 +96,7 @@ export class BridgeSDK {
     const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       tokenAddr,
-      { data: approveData },
+      { data: approveData, estimate: true },
     );
 
     return {
@@ -131,7 +131,7 @@ export class BridgeSDK {
     const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       bridgeAddr,
-      { data: depositData },
+      { data: depositData, estimate: true },
     );
 
     return transactionHash;
@@ -166,7 +166,7 @@ export class BridgeSDK {
     const { transactionHash } = await this.provider.sendTransactionAsync(
       this.provider.currentAccount,
       bridgeAddr,
-      { data: withdrawalData },
+      { data: withdrawalData, estimate: true },
     );
 
     return transactionHash;

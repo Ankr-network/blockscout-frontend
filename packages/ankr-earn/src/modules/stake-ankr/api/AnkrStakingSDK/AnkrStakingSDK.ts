@@ -153,7 +153,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -196,7 +196,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -313,7 +313,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -754,7 +754,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -770,7 +770,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -786,7 +786,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -815,7 +815,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -831,7 +831,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -921,7 +921,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       ankrToken,
-      { data },
+      { data, estimate: true },
     );
 
     return {
@@ -957,7 +957,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     return this.writeProvider.sendTransactionAsync(
       fromAddr,
       contractConfig.testAnkrToken,
-      { data },
+      { data, estimate: true },
     );
   }
 

@@ -563,7 +563,8 @@ export class EthereumSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Parses first uint256 param from transaction input.
-   * @param {string} txHash - transaction hash.
+   * @param {string} txHash - transaction hash
+   * @param {boolean | undefined} [shouldDecodeAmount = true] - decode flag for amount
    * @returns {Promise<IFetchTxData>}
    */
   public async fetchTxData(
@@ -902,7 +903,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ethereumPool,
-      { data },
+      { data, estimate: true },
     );
   }
 }
