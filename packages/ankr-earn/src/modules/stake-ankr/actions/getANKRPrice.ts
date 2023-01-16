@@ -30,3 +30,5 @@ export const {
     }),
   }),
 });
+
+export const selectAnkrPrice = getAnkrPrice.select();
