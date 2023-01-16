@@ -1,6 +1,12 @@
 import { Web3KeyWriteProvider } from '@ankr.com/provider';
 
-import { IConfig, JwtTokenFullData, Web3Address } from '../common';
+import {
+  IConfig,
+  JwtTokenFullData,
+  Web3Address,
+  Tier,
+  DATE_MULTIPLIER,
+} from '../common';
 import { PAYGContractManager } from '../PAYGContract';
 import {
   Web3TokenIssuerService,
@@ -8,6 +14,7 @@ import {
   TokenDecryptionService,
   ContractService,
 } from '../services';
+import { parseJwtToken } from './utils';
 
 export class MultiRpcWeb3Sdk {
   private PAYGContractManager?: PAYGContractManager;
@@ -34,20 +41,29 @@ export class MultiRpcWeb3Sdk {
     const transactionHashes =
       await tokenIssuerService.getAllLatestUserTierAssignedEventLogHashes(user);
 
-    const isNewUser =
-      (!allTokens || allTokens?.length === 0) && transactionHashes;
+    const isNewUserWithPAYGTransaction =
+      (!allTokens || allTokens?.length === 0) && Boolean(transactionHashes);
 
-    const hasPAYGTransaction = Boolean(
-      transactionHashes &&
+    if (isNewUserWithPAYGTransaction) return true;
+
+    const hasPAYGTransactionAndTokenIsNotIssued = Boolean(
+      allTokens &&
+        allTokens?.length === 1 &&
+        transactionHashes &&
         !transactionHashes?.includes(allTokens?.[0]?.id as string),
     );
 
-    const isPremiumUserWithExpiredTokenAndPAYGTransaction =
-      allTokens && allTokens.length === 1 && hasPAYGTransaction;
+    const premiumToken = allTokens?.[0];
 
-    return Boolean(
-      isNewUser || isPremiumUserWithExpiredTokenAndPAYGTransaction,
-    );
+    const parsedToken = parseJwtToken(premiumToken?.signing_data);
+    const isPremium = parsedToken?.sub?.tier === Tier.Premium;
+    const isExpiredToken =
+      Number(premiumToken?.expires_at) * DATE_MULTIPLIER < Date.now();
+
+    const isPremiumUserWithExpiredTokenAndPAYGTransaction =
+      isPremium && isExpiredToken && hasPAYGTransactionAndTokenIsNotIssued;
+
+    return isPremiumUserWithExpiredTokenAndPAYGTransaction;
   }
 
   public async getIssuedJwtTokenOrIssue(
