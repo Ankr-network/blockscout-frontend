@@ -335,7 +335,8 @@
         "cost": {
           "title": "Credit Usage",
           "value": "{cost, number, ::compact-short}"
-        }
+        },
+        "billing-button": "Billing"
       },
       "chart": {
         "title": "Requests",
@@ -346,6 +347,17 @@
           "title": "Send your request",
           "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
         }
+      },
+      "last-requests": {
+        "title": "Last 10 Requests",
+        "table": {
+          "header": {
+            "column-1": "Blockchain",
+            "column-2": "Method",
+            "column-3": "Time"
+          }
+        },
+        "empty": "No data available"
       }
     }
   },

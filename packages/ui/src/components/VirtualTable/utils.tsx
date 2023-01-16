@@ -214,7 +214,7 @@ export const Col = ({ col, rowData, rowIndex, colIndex }: ColProps) => {
   );
 };
 
-export const TableHead = () => {
+export const TableHead = ({ className }: { className?: string }) => {
   const { query, cols, colWidths, setColsWidthCalculated, handleSort } =
     useTable();
   const classes = useStyles();
@@ -237,7 +237,10 @@ export const TableHead = () => {
   }, [cols]);
 
   return (
-    <div ref={headRowRef} className={classNames(classes.row, classes.rowHead)}>
+    <div
+      ref={headRowRef}
+      className={classNames(classes.row, classes.rowHead, className)}
+    >
       {cols.map((col, index) => {
         return (
           <div
