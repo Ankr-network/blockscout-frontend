@@ -8,6 +8,7 @@ import { chainsFetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequ
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getLegacyStandaloneUrl } from '../utils/statsUtils';
 import { web3Api } from 'store/queries';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 interface IFetchChainDetailsResponseData
   extends Omit<
@@ -110,6 +111,10 @@ export const {
           const rpcStats = await MultiService.getService()
             .getPublicGateway()
             .getTimeframeStats(chainId, timeframe);
+
+          if (isReactSnap()) {
+            return { data: getData(rpcStats) };
+          }
 
           const url = getLegacyStandaloneUrl(chainId);
 

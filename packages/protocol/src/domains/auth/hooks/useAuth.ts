@@ -26,6 +26,9 @@ export const useAuth = () => {
 
   const hasPremium = Boolean(credentials || hasOauthUserDepositTransaction);
 
+  const isTokenExpired =
+    credentials && !workerTokenData?.userEndpointToken && !hasOauthLogin;
+
   return {
     loading: web3ConnectionLoading || autologinLoading,
     ...rest,
@@ -37,6 +40,7 @@ export const useAuth = () => {
     hasWeb3Connection: Boolean(hasWeb3Connection),
     isLoggedIn: Boolean(hasOauthLogin || hasWeb3Connection),
     isUserEthAddressType: ethAddressType === EthAddressType.User,
+    isTokenExpired,
     hasPremium, // web3 premium user or gauth premium user have access to billing
     hasPrivateAccess: Boolean(
       credentials || workerTokenData?.userEndpointToken,

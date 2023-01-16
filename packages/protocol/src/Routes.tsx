@@ -32,9 +32,9 @@ import { useAutoconnect } from './useAutoconnect';
 import { GuardPremiumRoute } from 'domains/auth/components/GuardAuthRoute/GuardPremiumRoute';
 
 export const Routes = () => {
-  const { hasPrivateAccess, hasPremium, ...authData } = useAuth();
+  const { hasPremium, isUserEthAddressType, authorizationToken } = useAuth();
 
-  const hasAuthData = Boolean(authData.authorizationToken);
+  const hasAuthData = Boolean(authorizationToken);
 
   useAutoconnect();
 
@@ -84,6 +84,7 @@ export const Routes = () => {
       <GuardCardPaymentSuccessAuthRoute
         exact
         path={[AccountRoutesConfig.cardPaymentSuccess.path]}
+        isUserEthAddressType={isUserEthAddressType}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (

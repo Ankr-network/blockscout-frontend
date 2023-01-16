@@ -1,6 +1,11 @@
 import { BlockchainType } from 'multirpc-sdk';
 
-import { Chain, ChainsListProps, SortChainsParams } from './ChainsListTypes';
+import {
+  Chain,
+  ChainsListProps,
+  SortPrivateChainsParams,
+  SortPublicChainsParams,
+} from './ChainsListTypes';
 import { SortType } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
 import BigNumber from 'bignumber.js';
@@ -80,27 +85,89 @@ const extractCustomizedChains = (chains: Chain[]) =>
 const getChainId = ({ id, frontChain: { id: frontChainId } = {} }: Chain) =>
   frontChainId || id;
 
-export const sortChains = ({
+export const sortPrivateChains = ({
   chains: rawChains = [],
-  hasPrivateAccess,
   sortType,
   stats,
-}: SortChainsParams): Chain[] => {
+}: SortPrivateChainsParams): Chain[] => {
   if (!Array.isArray(rawChains)) return [];
 
   const [chains, customizedChains] = extractCustomizedChains(rawChains);
 
-  const privateChainsSorter = (a: Chain, b: Chain) =>
+  const privateChainsUsageSorter = (a: Chain, b: Chain) =>
     (stats[getChainId(b)]?.total_requests || 0) -
     (stats[getChainId(a)]?.total_requests || 0);
 
-  const usageSorter = hasPrivateAccess
-    ? privateChainsSorter
-    : publicChainsSorter;
-
-  const sorter = sortType === SortType.Usage ? usageSorter : () => 0;
+  const sorter =
+    sortType === SortType.Usage ? privateChainsUsageSorter : () => 0;
 
   const sortedChains = [...chains].sort(sorter);
+
+  return [...customizedChains, ...sortedChains];
+};
+
+const CHAIN_IDS_BY_USAGE = [
+  ChainID.ETH,
+  ChainID.BSC,
+  ChainID.POLYGON,
+  ChainID.FANTOM,
+  ChainID.AVALANCHE,
+  ChainID.SOLANA,
+  ChainID.ARBITRUM,
+  ChainID.OPTIMISM,
+  ChainID.GNOSIS,
+  ChainID.CELO,
+  ChainID.MOONBEAM,
+  ChainID.HARMONY,
+  ChainID.TRON,
+  ChainID.IOTEX,
+  ChainID.NEAR,
+  ChainID.APTOS,
+  ChainID.BTTC,
+  ChainID.FILECOIN,
+  ChainID.SYSCOIN,
+  ChainID.KLAYTN,
+  ChainID.HECO,
+  ChainID.NERVOS,
+  ChainID.METIS,
+  ChainID.POLKADOT,
+  ChainID.KUSAMA,
+  ChainID.SECRET,
+];
+
+const getSorter = (sortType: SortType, isLoading: boolean) => {
+  if (sortType === SortType.Usage) {
+    if (isLoading) {
+      return (a: Chain, b: Chain) => {
+        if (
+          CHAIN_IDS_BY_USAGE.indexOf(a?.id) === -1 ||
+          CHAIN_IDS_BY_USAGE.indexOf(b?.id) === -1
+        ) {
+          return -1;
+        }
+
+        return (
+          CHAIN_IDS_BY_USAGE.indexOf(a?.id) - CHAIN_IDS_BY_USAGE.indexOf(b?.id)
+        );
+      };
+    }
+
+    return publicChainsSorter;
+  }
+
+  return () => 0;
+};
+
+export const sortPublicChains = ({
+  chains: rawChains = [],
+  sortType,
+  isLoading,
+}: SortPublicChainsParams): Chain[] => {
+  if (!Array.isArray(rawChains)) return [];
+
+  const [chains, customizedChains] = extractCustomizedChains(rawChains);
+
+  const sortedChains = [...chains].sort(getSorter(sortType, isLoading));
 
   return [...customizedChains, ...sortedChains];
 };

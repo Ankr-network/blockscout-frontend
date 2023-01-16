@@ -295,3 +295,23 @@ export interface ProductPrice {
 export interface IGetSubscriptionPricesResponse {
   productPrices: ProductPrice[];
 }
+
+export interface IGetLatestRequestsRequest {
+  from_ms?: number;
+  to_ms?: number;
+  cursor?: number;
+  limit: number;
+}
+
+export interface LatestRequest {
+  blockchain: string;
+  premium_id: string;
+  payload: string;
+  ts: number;
+  ip: string;
+  country: string;
+}
+
+export interface IGetLatestRequestsResponse {
+  user_requests: LatestRequest[];
+}
