@@ -11,16 +11,26 @@ interface ILockingPeriodItemProps {
   daysLeft?: number;
   percent?: number;
   existingStakes?: number;
+  isUnknownPeriod?: boolean;
 }
 
 export const LockingPeriodItem = ({
   isUnlocked,
   isPartiallyUnlocked = false,
+  isUnknownPeriod = false,
   daysLeft = 0,
   percent = 0,
   existingStakes,
 }: ILockingPeriodItemProps): JSX.Element => {
   const classes = useLockingPeriodItemStyles();
+
+  if (isUnknownPeriod) {
+    return (
+      <Typography className={classes.unlockedText}>
+        {t('stake-ankr.staking-table.pending')}
+      </Typography>
+    );
+  }
 
   if (isPartiallyUnlocked) {
     return (

@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
-import { Seconds, Web3Address, Web3Uint256 } from 'modules/common/types';
-import { EProviderStatus } from 'modules/stake-ankr/const';
+import { Days, Seconds, Web3Address, Web3Uint256 } from 'modules/common/types';
 
 export interface IChainConfig {
   activeValidatorsLength: number;
@@ -104,31 +103,6 @@ export enum EAnkrEvents {
   ValidatorDeposited = 'ValidatorDeposited',
 }
 
-export interface IAdditionalActiveStakingData {
-  lockingPeriod: number;
-  lockingPeriodPercent?: number;
-  isUnlocked: boolean;
-  stakeAmount: BigNumber;
-  usdStakeAmount: BigNumber;
-  rewards: BigNumber;
-  usdRewards: BigNumber;
-}
-
-export interface IActiveStakingData {
-  provider: string;
-  apy: BigNumber;
-  isUnlocked: boolean;
-  isPartiallyUnlocked: boolean;
-  lockingPeriod?: number;
-  lockingPeriodPercent?: number;
-  stakeAmount: BigNumber;
-  usdStakeAmount: BigNumber;
-  rewards: BigNumber;
-  usdRewards: BigNumber;
-  detailedData?: IAdditionalActiveStakingData[];
-  status: EProviderStatus;
-}
-
 export interface IUnstakingData {
   provider: string;
   unstakeAmount: BigNumber;
@@ -169,4 +143,25 @@ export interface IGetPastEvents {
 export interface IApproveResponse {
   isApproved: boolean;
   txHash?: string;
+}
+
+export interface IDelegation {
+  txDate: Date;
+  amount: BigNumber;
+  lockingPeriod: number;
+  totalLockPeriod: number;
+  isActive: boolean;
+  isUnknownPeriod?: boolean;
+}
+
+export interface IActiveStakingByValidator {
+  delegatedAmount: BigNumber;
+  unlockedDelegatedByValidator: BigNumber;
+  activeDelegations: IDelegation[];
+  validator: Web3Address;
+}
+
+export interface ILockingPeriod {
+  totalLockPeriod: Days;
+  daysLeft: Days;
 }
