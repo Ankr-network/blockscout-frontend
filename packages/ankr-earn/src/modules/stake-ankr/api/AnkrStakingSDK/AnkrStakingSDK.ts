@@ -535,18 +535,21 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
     for (let i = 0; i < reverseDelegations.length; i += 1) {
       const delegation = reverseDelegations[i];
+      const newTotalActiveStaking = totalActiveStaking.plus(delegation.amount);
 
       const isActive =
         delegation.isActive &&
         delegatedAmount
           .minus(unlockedDelegatedByValidator)
-          .minus(totalActiveStaking)
-          .isGreaterThan(ZERO);
+          .minus(newTotalActiveStaking)
+          .isGreaterThanOrEqualTo(ZERO);
 
-      if (isActive) {
-        totalActiveStaking = totalActiveStaking.plus(delegation.amount);
-        activeDelegations.push(delegation);
+      if (!isActive) {
+        break;
       }
+
+      totalActiveStaking = newTotalActiveStaking;
+      activeDelegations.push(delegation);
     }
 
     const expectedTotalActiveStaking = delegatedAmount.minus(
