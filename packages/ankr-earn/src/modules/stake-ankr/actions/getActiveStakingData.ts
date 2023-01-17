@@ -109,7 +109,7 @@ function getMapActiveStaking(args: {
     } = activeStaking;
 
     const isOneDelegation = activeDelegations.length === 1;
-    const { lockingPeriod, totalLockPeriod } = activeDelegations[0];
+    const { lockingPeriod, totalLockPeriod } = activeDelegations[0] ?? {};
 
     const daysLeft = isOneDelegation ? lockingPeriod : 0;
 
@@ -117,8 +117,11 @@ function getMapActiveStaking(args: {
     const usdStakeAmount = delegatedAmount.multipliedBy(tokenPrice);
     const detailedData = activeDelegations.map(getMapDetailedData(tokenPrice));
     const hasUnlockedAmount = !unlockedDelegatedByValidator.isZero();
+    const hasLockedAmount = !delegatedAmount.isEqualTo(
+      unlockedDelegatedByValidator,
+    );
 
-    if (hasUnlockedAmount) {
+    if (hasUnlockedAmount && hasLockedAmount) {
       const unlockedRow: IAdditionalActiveStakingData = {
         lockingPeriod: 0,
         lockingPeriodPercent: 0,
