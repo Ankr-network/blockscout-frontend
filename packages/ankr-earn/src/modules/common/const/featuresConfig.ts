@@ -3,7 +3,7 @@ import { Env } from '../types';
 import { currentEnv, isLocal } from './env';
 
 export const featuresConfig = {
-  testingUi: currentEnv !== Env.Production,
+  testingUi: currentEnv !== Env.Production || isLocal,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
   isActivePolkadotLedgerNanoX: true,

@@ -11,15 +11,18 @@ export const GuardPremiumEndpointRoute = (props: RouteProps) => {
   const { loading, hasPrivateAccess } = useAuth();
   const [, fetchChainState] = useQueryEndpoint(chainsFetchChain);
 
+  const shouldRedirect =
+    !hasPrivateAccess && fetchChainState?.data?.chain?.premiumOnly;
+
   useEffect(() => {
-    if (!hasPrivateAccess && fetchChainState?.data?.chain?.premiumOnly) {
+    if (shouldRedirect) {
       history.replace(INDEX_PATH);
     }
-  }, [hasPrivateAccess, fetchChainState, history]);
+  }, [shouldRedirect, history]);
 
   if (loading) {
     return <Spinner />;
   }
 
-  return <Route {...props} />;
+  return shouldRedirect ? null : <Route {...props} />;
 };

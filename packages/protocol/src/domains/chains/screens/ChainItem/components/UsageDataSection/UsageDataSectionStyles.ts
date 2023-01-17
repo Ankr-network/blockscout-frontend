@@ -14,6 +14,15 @@ export const useDataUsageSectionStyles = makeStyles<Theme>(theme => ({
       marginTop: theme.spacing(2),
     },
   },
+  row: {
+    display: 'flex',
+    gap: 20,
+    height: 300,
+    [theme.breakpoints.down('sm')]: {
+      height: 600,
+      flexDirection: 'column',
+    },
+  },
   timeframe: {
     display: 'none',
 

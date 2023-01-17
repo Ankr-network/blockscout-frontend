@@ -1026,6 +1026,7 @@
       "unstake-amount": "Unstake Amount",
       "apr": "APR: {value}%",
       "unlocked": "Unlocked",
+      "pending": "Pending",
       "partially-unlocked": "Partially unlocked",
       "restake": "Restake",
       "claim": "Claim",

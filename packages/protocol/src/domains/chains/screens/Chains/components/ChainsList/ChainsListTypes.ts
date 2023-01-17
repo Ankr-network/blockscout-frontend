@@ -29,7 +29,13 @@ export interface Chain {
 
 export interface SortChainsParams {
   chains: Chain[];
-  hasPrivateAccess: boolean;
   sortType: SortType;
+}
+
+export interface SortPublicChainsParams extends SortChainsParams {
+  isLoading: boolean;
+}
+
+export interface SortPrivateChainsParams extends SortChainsParams {
   stats: PrivateStatsInternal;
 }

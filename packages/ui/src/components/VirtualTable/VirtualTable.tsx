@@ -25,6 +25,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
     minWidth,
     moreBtnText,
     preloader,
+    style,
   } = props;
   const classes = useStyles();
   const { cache, ref, rows } = useTable();
@@ -64,6 +65,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
                     rowCount={rows.length}
                     rowHeight={cache.rowHeight}
                     rowRenderer={rowRenderer}
+                    style={style}
                   />
                 </div>
               )}
@@ -82,6 +84,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
     ref,
     rowRenderer,
     rows.length,
+    style,
   ]);
 
   return (
@@ -90,7 +93,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
         className={classNames(classes.container, tableClasses?.container)}
         style={{ minWidth, minHeight }}
       >
-        <TableHead />
+        <TableHead className={tableClasses?.rowHead} />
         <div className={classes.listContainer}>{content}</div>
         {isMoreRowsAvailable && <PaginationMore text={moreBtnText} />}
       </Paper>

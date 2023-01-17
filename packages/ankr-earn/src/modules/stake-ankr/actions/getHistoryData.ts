@@ -26,10 +26,7 @@ export const { useGetHistoryDataQuery } = web3Api.injectEndpoints({
               latestBlockNumber ?? (await sdk.getBlockNumber());
 
             return {
-              data: await sdk.getAllEventsHistory(
-                provider.currentAccount,
-                blockNumber,
-              ),
+              data: await sdk.getAllEventsHistory(blockNumber),
             };
           }
 
