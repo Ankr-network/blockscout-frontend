@@ -1,12 +1,14 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { PrivateStatsInterval } from 'multirpc-sdk';
 
 import { Spinner } from 'ui';
 
 import { ClientTransactionsTable } from './ClientTransactions';
 import { ClientInfo } from './ClientInfo';
 import { ClientUsageTable } from './ClientUsageTable';
-import { useClientDetailsPage } from './useClientDetailsPage';
+import { CustomRange, useClientDetailsPage } from './useClientDetailsPage';
 import { useClientDetailsStyles } from './ClientDetailsStyles';
+import { Timeframe } from './RequestsChart/types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -27,6 +29,16 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
+
+const { Hour, Day, Week, Month } = Timeframe;
+const mapPeriodToTimeframe: Record<any, Timeframe> = {
+  [CustomRange.current]: Month,
+  [CustomRange.previous]: Month,
+  [PrivateStatsInterval.HOUR]: Hour,
+  [PrivateStatsInterval.DAY]: Day,
+  [PrivateStatsInterval.WEEK]: Week,
+  [PrivateStatsInterval.MONTH]: Month,
+};
 
 export const ClientDetailsPage = () => {
   const {
@@ -99,6 +111,8 @@ export const ClientDetailsPage = () => {
             handleSwitchCurrent={handleSwitchCurrent}
             isCurrentDayIncluded={isCurrentDayIncluded}
             isRangePeriod={isRangePeriod}
+            isChartDataLoading={isLoadingStats || isFetchingStats}
+            timeframe={mapPeriodToTimeframe[periodStatement]}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>

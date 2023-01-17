@@ -66,7 +66,7 @@ export const NavLink = React.forwardRef(
         {
           to: href,
           href,
-          children: props.children,
+          children: <>{props.children}</>,
           className,
           ref: ref as MutableRefObject<HTMLAnchorElement>,
           ...routerLinkProps,

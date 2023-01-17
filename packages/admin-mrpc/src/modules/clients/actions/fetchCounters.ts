@@ -125,6 +125,10 @@ export const {
               email =>
                 email.address?.toLowerCase() === client.address?.toLowerCase(),
             )?.email,
+            status: emailsCollection?.find(
+              email =>
+                email.address?.toLowerCase() === client.address?.toLowerCase(),
+            )?.status,
             createdDate: new Date(client.timestamp),
             amount: userBalances?.creditAnkrAmount
               ? new BigNumber(userBalances.creditAnkrAmount)
@@ -147,6 +151,11 @@ export const {
               !clients.find(client => client.email === clientWithEmail.email),
           )
           .map(client => {
+            const userBalances = balancesCollection.find(
+              balance =>
+                balance.address?.toLowerCase() ===
+                client.address?.toLowerCase(),
+            );
             return {
               ...client,
               clientType: ClientType.PENDING,
@@ -157,6 +166,19 @@ export const {
               monthly: 0,
               delta: 0,
               timestamp: 0,
+
+              amount: userBalances?.creditAnkrAmount
+                ? new BigNumber(userBalances.creditAnkrAmount)
+                : undefined,
+              amountAnkr: userBalances?.amountAnkr
+                ? new BigNumber(userBalances.amountAnkr)
+                : undefined,
+              amountUsd: userBalances?.amountUsd
+                ? new BigNumber(userBalances.amountUsd)
+                : undefined,
+              voucherAmount: userBalances?.creditVoucherAmount
+                ? new BigNumber(userBalances.creditVoucherAmount)
+                : undefined,
             };
           });
 

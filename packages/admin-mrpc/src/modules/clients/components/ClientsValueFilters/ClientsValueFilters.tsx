@@ -51,19 +51,27 @@ export const ClientsValueFilters = ({
       >
         <MenuItem onClick={() => handleFilterKey('email')}>
           <Checkbox checked={filterKeys?.includes('email')} />
-          <Typography variant="body2">Has Email</Typography>
+          <Typography sx={{ ml: 2 }} variant="body2">
+            Has Email
+          </Typography>
         </MenuItem>
         <MenuItem onClick={() => handleFilterKey('amount')}>
           <Checkbox checked={filterKeys?.includes('amount')} />
-          <Typography variant="body2">Has Amount</Typography>
+          <Typography sx={{ ml: 2 }} variant="body2">
+            Has Amount
+          </Typography>
         </MenuItem>
         <MenuItem onClick={() => handleFilterKey('ttl')}>
           <Checkbox checked={filterKeys?.includes('ttl')} />
-          <Typography variant="body2">Has Expiration</Typography>
+          <Typography sx={{ ml: 2 }} variant="body2">
+            Has Expiration
+          </Typography>
         </MenuItem>
         <MenuItem onClick={() => handleFilterKey('hash')}>
           <Checkbox checked={filterKeys?.includes('hash')} />
-          <Typography variant="body2">Has Hash</Typography>
+          <Typography sx={{ ml: 2 }} variant="body2">
+            Has Hash
+          </Typography>
         </MenuItem>
         <MenuItem onClick={() => handleFilterKey(undefined)}>
           <Typography className={classes.buttonClear} variant="body2">
