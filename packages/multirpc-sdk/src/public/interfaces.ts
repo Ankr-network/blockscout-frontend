@@ -12,6 +12,8 @@ export interface IPublicGateway {
 
   getNodes(blockchain?: string): Promise<INodeEntity[]>;
 
+  getStandaloneNodes(blockchain?: string): Promise<INodeEntity[]>;
+
   getTimeframeStats(
     blockchain: string,
     timeframe: Timeframe,

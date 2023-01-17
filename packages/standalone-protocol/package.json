@@ -24,7 +24,8 @@
     "build-storybook": "build-storybook -s public",
     "explore-bundles": "for file in build/static/js/*.js; do source-map-explorer \"$file\"; done",
     "postbuild": "react-snap",
-    "clean": "rimraf build dist"
+    "clean": "rimraf build dist",
+    "watch:dependencies": "cd ../.. && turbo run watch --parallel --filter=ankr-protocol-web..."
   },
   "homepage": "/",
   "dependencies": {
