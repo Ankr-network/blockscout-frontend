@@ -1,9 +1,9 @@
 import React from 'react';
-import { Skeleton } from '@material-ui/lab';
+import { Skeleton } from '@mui/material';
 import { useStyles } from './SecuritySettingsStyles';
 
 export const SecuritySettingsSkeleton = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.root}>
@@ -11,26 +11,26 @@ export const SecuritySettingsSkeleton = () => {
         style={{ marginBottom: 16 }}
         width="20%"
         height={22}
-        variant="rect"
+        variant="rectangular"
       />
       <div className={classes.container}>
-        <div className={classes.left}>
-          <Skeleton width="30%" height={22} variant="rect" />
+        <div>
+          <Skeleton width="30%" height={22} variant="rectangular" />
           <Skeleton
             style={{ marginTop: 12 }}
             width="100%"
             height={44}
-            variant="rect"
+            variant="rectangular"
           />
         </div>
 
-        <div className={classes.right}>
-          <Skeleton width="30%" height={22} variant="rect" />
+        <div>
+          <Skeleton width="30%" height={22} variant="rectangular" />
           <Skeleton
             style={{ marginTop: 12 }}
             width="100%"
             height={44}
-            variant="rect"
+            variant="rectangular"
           />
         </div>
       </div>

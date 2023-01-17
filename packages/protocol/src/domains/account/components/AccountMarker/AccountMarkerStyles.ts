@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
 import { AccountMarkerProps } from './types';
 import { BalanceStatus } from 'domains/account/types';
@@ -12,20 +12,20 @@ const colorsMap: Record<BalanceStatus, string> = {
   [BalanceStatus.RED]: '#D22C54',
 };
 
-export const useStyles = makeStyles<Theme, Props>(theme => ({
+export const useStyles = makeStyles<Props>()((theme: Theme, props: Props) => ({
   accountMarkerRoot: {
     flexShrink: 0,
 
-    width: theme.spacing(1.5),
-    height: theme.spacing(1.5),
+    width: theme.spacing(2 * 1.5),
+    height: theme.spacing(2 * 1.5),
 
     borderRadius: '50%',
 
-    backgroundColor: ({ status }) => colorsMap[status],
+    backgroundColor: colorsMap[props.status],
 
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(1.25),
-      height: theme.spacing(1.25),
+      width: theme.spacing(2 * 1.25),
+      height: theme.spacing(2 * 1.25),
     },
   },
 }));

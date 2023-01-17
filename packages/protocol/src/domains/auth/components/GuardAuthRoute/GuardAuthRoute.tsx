@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 
 import { useGuardAuth, IGuardRoute } from 'domains/auth/hooks/useGuardAuth';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 export const GuardAuthRoute = ({
   hasPremium,
@@ -14,7 +14,7 @@ export const GuardAuthRoute = ({
   });
 
   if (loading) {
-    return <Spinner />;
+    return <OverlaySpinner />;
   }
 
   return hasAuthData ? <Route {...routeProps} /> : null;

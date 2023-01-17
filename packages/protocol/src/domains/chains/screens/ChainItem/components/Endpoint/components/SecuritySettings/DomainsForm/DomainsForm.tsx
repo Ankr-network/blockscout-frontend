@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { FormGroup } from '@material-ui/core';
+import { FormGroup } from '@mui/material';
 import { Form, FormRenderProps } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
@@ -11,7 +11,7 @@ import {
 } from './DomainsFormTypes';
 import { AddressInputField } from '../AddressInputField';
 import { AddressFields } from '../AddressFields';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const MAX_DOMAIN_COUNT = 10;
 

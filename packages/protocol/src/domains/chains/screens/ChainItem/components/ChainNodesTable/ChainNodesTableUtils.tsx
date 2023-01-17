@@ -1,4 +1,4 @@
-import { Box, capitalize, Typography, useTheme } from '@material-ui/core';
+import { Box, capitalize, Typography, useTheme } from '@mui/material';
 import BigNumber from 'bignumber.js';
 import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
 import { StatusCircle, StatusCircleStatus } from 'uiKit/StatusCircle';
@@ -8,7 +8,7 @@ import { t } from '@ankr.com/common';
 import { getStatusByNodeScore } from 'modules/common/utils/node';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import ReactCountryFlag from 'react-country-flag';
-import { VirtualTableColumn } from 'ui';
+import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
 import { GroupedNode, ProviderRow } from './ChainNodesTableProps';
 
@@ -107,7 +107,7 @@ export function isHeightColVisibleStatus(status: StatusCircleStatus): boolean {
 
 export const useChainNodesTableTableColumns = () => {
   const theme = useTheme();
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return useLocaleMemo(
     () =>

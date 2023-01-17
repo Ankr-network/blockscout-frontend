@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PRICING_PATH = '/pricing/';
@@ -20,7 +20,7 @@ export const PricingRoutesConfig = createRouteConfig(
 const LoadablePricingContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/Pricing').then(module => module.Pricing),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 

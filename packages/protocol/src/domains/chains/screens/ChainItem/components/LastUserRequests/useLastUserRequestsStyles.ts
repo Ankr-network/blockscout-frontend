@@ -1,6 +1,7 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useLastUserRequestsStyles = makeStyles<Theme>(theme => ({
+export const useLastUserRequestsStyles = makeStyles()((theme: Theme) => ({
   root: {
     borderRadius: 24,
     overflow: 'hidden',
@@ -17,10 +18,10 @@ export const useLastUserRequestsStyles = makeStyles<Theme>(theme => ({
     },
   },
   header: {
-    padding: theme.spacing(3, 3.5, 0),
+    padding: theme.spacing(2 * 3, 2 * 3.5, 0),
     fontSize: 16,
     fontWeight: 700,
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2 * 1),
   },
   content: {
     position: 'relative',
@@ -42,17 +43,18 @@ export const useLastUserRequestsStyles = makeStyles<Theme>(theme => ({
     width: '100%',
     height: 210,
     overflowY: 'auto',
-    paddingBottom: theme.spacing(1),
+    paddingBottom: theme.spacing(2 * 1),
   },
 
   row: {
     display: 'flex',
-    gap: theme.spacing(1.25),
-    padding: theme.spacing(1, 3.75),
+    gap: theme.spacing(2 * 1.25),
+    padding: theme.spacing(2 * 1, 2 * 3.75),
   },
   item: {
     fontWeight: 400,
     lineHeight: '16.2px',
+    fontSize: 12,
 
     '&:nth-child(1)': {
       width: '20%',
@@ -67,10 +69,10 @@ export const useLastUserRequestsStyles = makeStyles<Theme>(theme => ({
     },
   },
   loading: {
-    height: theme.spacing(26),
+    height: theme.spacing(2 * 26),
   },
   emptyContent: {
-    height: theme.spacing(26),
+    height: theme.spacing(2 * 26),
   },
   empty: {
     height: '100%',

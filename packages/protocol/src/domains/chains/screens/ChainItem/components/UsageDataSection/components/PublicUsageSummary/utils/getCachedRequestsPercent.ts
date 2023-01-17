@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const DENOMINATOR = 100;
 const key = 'chain-item.usage-data.usage-summary.cached.value';

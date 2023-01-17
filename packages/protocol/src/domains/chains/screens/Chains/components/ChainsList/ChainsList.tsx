@@ -11,7 +11,7 @@ export const ChainsList = ({
   sortType,
   timeframe,
 }: ChainsListProps) => {
-  const classes = useChainListStyles();
+  const { classes } = useChainListStyles();
 
   const { processedChains, publicChainsMap } = useChains({
     allChains,

@@ -1,5 +1,6 @@
-import { Button, Typography } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
+import { Button, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+
 import { Dialog } from 'uiKit/Dialog';
 import { useCancelSubscriptionDialogStyles } from './useCancelSubscriptionDialogStyles';
 
@@ -14,7 +15,7 @@ export function CancelSubscriptionDialog({
   onSuccess,
   onClose,
 }: ICancelSubscriptionDialogProps) {
-  const classes = useCancelSubscriptionDialogStyles();
+  const { classes } = useCancelSubscriptionDialogStyles();
 
   return (
     <Dialog
@@ -25,7 +26,7 @@ export function CancelSubscriptionDialog({
       onClose={onClose}
     >
       <div className={classes.container}>
-        <Typography className={classes.text} variant="h6">
+        <Typography className={classes.text}>
           {t('account.account-details.subscriptions.if-you-continue')}
         </Typography>
         <div className={classes.buttons}>

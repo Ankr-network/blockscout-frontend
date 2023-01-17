@@ -1,5 +1,5 @@
-import { Box } from '@material-ui/core';
 import { useCallback } from 'react';
+import { Box } from '@mui/material';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';

@@ -1,11 +1,11 @@
 import { CONFIRMATION_BLOCKS, IIssueJwtTokenResult } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 import { useEffect } from 'react';
 
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { getBlockCount } from './TransactionConfirmationButtonUtils';
-import { t } from 'modules/i18n/utils/intl';
 import { topUpFetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 

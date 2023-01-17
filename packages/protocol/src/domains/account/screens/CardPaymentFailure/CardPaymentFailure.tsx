@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 
@@ -10,7 +10,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useCardPaymentFailureStyles } from './useCardPaymentFailureStyles';
 
 export const CardPaymentFailure = () => {
-  const classes = useCardPaymentFailureStyles();
+  const { classes } = useCardPaymentFailureStyles();
 
   useSetBreadcrumbs([
     {

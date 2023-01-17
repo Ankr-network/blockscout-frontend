@@ -1,10 +1,10 @@
-import { ClassNameMap } from '@material-ui/styles';
+import { ClassNameMap } from '@mui/material/styles';
 import { useCallback, useState } from 'react';
 import { FormRenderProps } from 'react-final-form';
+import { Box } from '@mui/material';
 import BigNumber from 'bignumber.js';
-import { Box } from '@material-ui/core';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
 import { AmountField } from '../ANKRTopUpForm/AmountField';
 import { LoadingButton } from 'uiKit/LoadingButton';

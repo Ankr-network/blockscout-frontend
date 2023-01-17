@@ -1,11 +1,11 @@
-import { Button, Typography, Box } from '@material-ui/core';
+import { Button, Typography, Box } from '@mui/material';
 
+import { t } from '@ankr.com/common';
 import { PRICING_LINK } from 'domains/account/actions/topUp/const';
-import { t } from 'modules/i18n/utils/intl';
 import { useTopUpBlockHeaderStyles } from './TopUpBlockHeaderStyles';
 
 export const TopUpBlockHeader = () => {
-  const classes = useTopUpBlockHeaderStyles();
+  const { classes } = useTopUpBlockHeaderStyles();
 
   return (
     <Box className={classes.top}>

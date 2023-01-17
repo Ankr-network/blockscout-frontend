@@ -1,9 +1,10 @@
-import { Box, Container } from '@material-ui/core';
+import { Box, Container } from '@mui/material';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { Spinner, useIsXSDown } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 import { EnterpriseBlock } from './components/EnterpriseBlock';
 import { Header } from './components/Header';
 import { Plans } from './components/Plans';
@@ -15,7 +16,7 @@ import mobile from './assets/mobile.png';
 import { Features } from './components/Features';
 
 export const Pricing = () => {
-  const classes = usePricingStyles();
+  const { classes } = usePricingStyles();
   const isMobile = useIsXSDown();
   const {
     hasPrivateAccess,
@@ -36,28 +37,26 @@ export const Pricing = () => {
     <div className={classes.root}>
       {loading ? (
         <>
-          <Spinner />
+          <OverlaySpinner />
         </>
       ) : (
-        <>
-          <div className={classes.content}>
-            <Header />
-            <Container className={classes.container}>
-              <Plans />
-              <EnterpriseBlock />
-              <Box
-                width={isMobile ? '100%' : 1020}
-                maxWidth="100%"
-                display="flex"
-                flexDirection="column"
-              >
-                <Box mt={isMobile ? 7.5 : 15}>
-                  <Features />
-                </Box>
+        <div className={classes.content}>
+          <Header />
+          <Container className={classes.container}>
+            <Plans />
+            <EnterpriseBlock />
+            <Box
+              width={isMobile ? '100%' : 1020}
+              maxWidth="100%"
+              display="flex"
+              flexDirection="column"
+            >
+              <Box mt={isMobile ? 7.5 : 15}>
+                <Features />
               </Box>
-            </Container>
-          </div>
-          <Box mt={isMobile ? 7.5 : 15} className={classes.background}>
+            </Box>
+          </Container>
+          <Box mt={isMobile ? 7.5 : 15}>
             <Box
               className={classes.start}
               style={{ backgroundImage: isMobile ? '' : `url(${background})` }}
@@ -73,7 +72,7 @@ export const Pricing = () => {
               {isMobile && <img src={mobile} alt="logos" />}
             </Box>
           </Box>
-        </>
+        </div>
       )}
     </div>
   );

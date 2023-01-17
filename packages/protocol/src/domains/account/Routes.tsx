@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_ACCOUNT = '/account/';
@@ -41,14 +41,14 @@ const LoadableAccountDetailsContainer: LoadableComponent<any> = loadable(
   async () =>
     import('./screens/AccountDetails').then(module => module.AccountDetails),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 
 const LoadableTopUpContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/TopUp').then(module => module.TopUp),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 
@@ -58,7 +58,7 @@ const LoadableCardPaymentSuccessContainer: LoadableComponent<any> = loadable(
       module => module.CardPaymentSuccess,
     ),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 
@@ -68,7 +68,7 @@ const LoadableCardPaymentFailureContainer: LoadableComponent<any> = loadable(
       module => module.CardPaymentFailure,
     ),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 

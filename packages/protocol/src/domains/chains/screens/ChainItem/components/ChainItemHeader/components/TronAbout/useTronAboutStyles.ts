@@ -1,19 +1,19 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useTronAboutStyles = makeStyles<Theme>(theme => ({
+export const useTronAboutStyles = makeStyles()((theme: Theme) => ({
   root: {
-    marginTop: theme.spacing(3.75),
+    marginTop: theme.spacing(2 * 3.75),
   },
   about: {
     fontWeight: 400,
     fontSize: 17,
-    lineHeight: '24px',
+    lineHeight: theme.spacing(2 * 3),
   },
   link: {
     fontWeight: 600,
     fontSize: 16,
-    lineHeight: '24px',
+    lineHeight: theme.spacing(2 * 3),
     color: theme.palette.primary.main,
     marginLeft: '1em',
     '&&:hover': {

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -12,7 +12,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 
 export const CardPaymentSuccess = () => {
-  const classes = useCardPaymentSuccessStyles();
+  const { classes } = useCardPaymentSuccessStyles();
   const history = useHistory();
   const { hasPremium } = useAuth();
 

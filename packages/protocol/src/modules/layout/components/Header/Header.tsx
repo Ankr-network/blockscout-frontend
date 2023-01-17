@@ -1,5 +1,4 @@
-import { Container } from '@material-ui/core';
-import classNames from 'classnames';
+import { Container } from '@mui/material';
 
 import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton/AccountDetailsButton';
 import { Breadcrumbs } from '../Breadcrumbs';
@@ -16,11 +15,11 @@ interface HeaderProps {
 }
 
 export const Header = ({ className = '' }: HeaderProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const { hasPremium } = useAuth();
 
   return (
-    <header className={classNames(classes.root, className)}>
+    <header className={cx(classes.root, className)}>
       <Container className={classes.container}>
         <Breadcrumbs />
         <div className={classes.right}>

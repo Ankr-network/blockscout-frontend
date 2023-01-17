@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import {
   PaymentHistoryTableTimeframe,
   PaymentType,
@@ -29,7 +29,7 @@ export const Filters = ({
     timeframeOptions,
   } = useFilters({ setPaymentType, setTimeframe });
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Box className={classes.root}>

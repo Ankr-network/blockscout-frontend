@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
-import classNames from 'classnames';
-import { Skeleton } from '@material-ui/lab';
-import { Typography } from '@material-ui/core';
+import { Typography, Skeleton } from '@mui/material';
 
 import { useChainBlockStyles } from './useChainBlockStyles';
 
@@ -20,10 +18,10 @@ export const ChainBlock = ({
   subtitle,
   value,
 }: IChainBlockProps) => {
-  const classes = useChainBlockStyles();
+  const { classes, cx } = useChainBlockStyles();
 
   return (
-    <div className={classNames(className, classes.block)}>
+    <div className={cx(className, classes.block)}>
       <div className={classes.main}>
         <Typography variant="subtitle1" className={classes.subtitle}>
           {subtitle}

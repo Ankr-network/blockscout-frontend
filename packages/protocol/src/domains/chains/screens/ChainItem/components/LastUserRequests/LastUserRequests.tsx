@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { privateLatestRequests } from 'domains/chains/actions/fetchPrivateLatestRequests';
 import { useLastUserRequestsStyles } from './useLastUserRequestsStyles';
@@ -11,7 +11,7 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { formatDate, formatPayload, options } from './LastUserRequestsUtils';
 
 export const LastUserRequests = () => {
-  const classes = useLastUserRequestsStyles();
+  const { classes } = useLastUserRequestsStyles();
 
   const [fetchPrivateLatestRequests, latestRequestState, reset] =
     useQueryEndpoint(privateLatestRequests, options);
@@ -38,7 +38,7 @@ export const LastUserRequests = () => {
             if (isUninitialized || !data) {
               return (
                 <Box className={classes.loading}>
-                  <Spinner />
+                  <OverlaySpinner />
                 </Box>
               );
             }

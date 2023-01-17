@@ -1,5 +1,5 @@
-import { Box } from '@material-ui/core';
-import { Spinner } from 'ui';
+import { Box } from '@mui/material';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { Header } from './components/Header';
 import { NoData } from './components/NoData';
@@ -19,14 +19,14 @@ export const MethodCalls = ({
   data,
   timeframe,
 }: IMethodCallsProps) => {
-  const classes = useMethodCallStyles();
+  const { classes } = useMethodCallStyles();
 
   return (
     <Box className={classes.root}>
       <Header timeframe={timeframe} />
       {loading ? (
         <div className={classes.loading}>
-          <Spinner />
+          <OverlaySpinner />
         </div>
       ) : (
         <>

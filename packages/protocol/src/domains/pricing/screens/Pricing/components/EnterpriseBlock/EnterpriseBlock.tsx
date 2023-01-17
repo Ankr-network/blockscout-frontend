@@ -1,11 +1,11 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import { NavLink } from 'ui';
+import { t, tHTML } from '@ankr.com/common';
+import { NavLink } from 'uiKit/NavLink';
 import { useEnterpriseBlockStyles } from './useEnterpriseBlockStyles';
 
 export const EnterpriseBlock = () => {
-  const classes = useEnterpriseBlockStyles();
+  const { classes } = useEnterpriseBlockStyles();
 
   return (
     <Box className={classes.root}>

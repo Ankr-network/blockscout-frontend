@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { TypographyTypeMap, Typography } from '@material-ui/core';
+import { TypographyTypeMap, Typography } from '@mui/material';
 import { useRPCInfoFunStyle } from './useRPCInfoFunStyle';
 import { ReactComponent as MetamaskIcon } from 'assets/img/metamask.svg';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
@@ -19,7 +19,7 @@ export const RPCInfoFun = ({
   textColor = 'textSecondary',
   publicChain,
 }: IPRCInfoFunProps) => {
-  const classes = useRPCInfoFunStyle({ size });
+  const { classes } = useRPCInfoFunStyle(size);
 
   const { handleButtonClick, loading } = useAddNetworkButton({
     publicChain: publicChain as IApiChain,

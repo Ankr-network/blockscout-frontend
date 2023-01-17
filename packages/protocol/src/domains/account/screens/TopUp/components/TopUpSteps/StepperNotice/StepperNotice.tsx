@@ -1,7 +1,6 @@
-import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
-import { tHTML } from 'modules/i18n/utils/intl';
+import { tHTML } from '@ankr.com/common';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 
 interface IStepperTitleProps {

@@ -1,6 +1,5 @@
-import classNames from 'classnames';
-import { Box, Typography, Button } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
+import { Box, Typography, Button } from '@mui/material';
+import { t } from '@ankr.com/common';
 import { Dialog } from 'uiKit/Dialog';
 import { useChainsItemDialogStyles } from './useChainsItemDialogStyles';
 
@@ -29,7 +28,7 @@ export const ChainsItemDialog = ({
   logoSrc,
   onClose,
 }: IChainsItemDialogProps): JSX.Element => {
-  const classes = useChainsItemDialogStyles();
+  const { classes, cx } = useChainsItemDialogStyles();
 
   return (
     <Dialog
@@ -39,7 +38,7 @@ export const ChainsItemDialog = ({
       open={open}
       onClose={onClose}
     >
-      <Box className={classNames(classes.plan, classes.premium)}>
+      <Box className={cx(classes.plan, classes.premium)}>
         <Box className={classes.wrapper}>
           <Box className={classes.container}>
             {logoSrc && <img className={classes.logo} src={logoSrc} alt="" />}
@@ -75,7 +74,9 @@ export const ChainsItemDialog = ({
               })}
             </Box>
           </Box>
-          <Button href={LINK}>{t('chains.learn-more-about-premium')}</Button>
+          <Button href={LINK} className={classes.link}>
+            {t('chains.learn-more-about-premium')}
+          </Button>
         </Box>
       </Box>
     </Dialog>

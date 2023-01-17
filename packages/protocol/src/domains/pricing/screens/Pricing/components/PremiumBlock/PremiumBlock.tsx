@@ -1,10 +1,10 @@
-import { Box, Paper, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@mui/material';
 
 import { PremiumLabel } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumLabel';
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t, tHTML } from '@ankr.com/common';
 import { ReactComponent as LinkIcon } from 'uiKit/Icons/externalLink.svg';
 import { usePremiumBlockStyles } from './usePremiumBlockStyles';
-import { NavLink } from 'ui';
+import { NavLink } from 'uiKit/NavLink';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { PricingTopUp } from './PricingTopUp';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
@@ -28,7 +28,7 @@ export const PremiumBlock = ({
   address,
   isUserAddress,
 }: PremiumBlockProps) => {
-  const classes = usePremiumBlockStyles();
+  const { classes } = usePremiumBlockStyles();
 
   const { hasConnectButton, isNewWeb3UserWithBindedEmail } =
     shouldShowConnectWalletButton({
@@ -80,7 +80,7 @@ export const PremiumBlock = ({
               href={PRICING_LINK}
               variant="text"
               color="inherit"
-              endIcon={<LinkIcon className={classes.icon} />}
+              endIcon={<LinkIcon />}
             >
               {t('plan.premium-block.pricing-link')}
             </NavLink>

@@ -1,8 +1,6 @@
-import { Button, Typography } from '@material-ui/core';
-import React from 'react';
-import { useIsMDDown } from 'ui';
-import classNames from 'classnames';
-import { t } from 'modules/i18n/utils/intl';
+import { Button, Typography } from '@mui/material';
+import { useIsMDDown } from 'uiKit/Theme/useTheme';
+import { t } from '@ankr.com/common';
 import { Link } from 'react-router-dom';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 
@@ -15,7 +13,7 @@ import { ReactComponent as ArrowTopIcon } from 'uiKit/Icons/arrowTop.svg';
 import { useStyles } from './ChainBannerStyles';
 
 const ChainBannerUnblockBtn = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Button
@@ -35,19 +33,19 @@ interface IChainBannerProps {
 }
 
 export const ChainBanner = ({ className }: IChainBannerProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const isMobile = useIsMDDown();
 
   return (
-    <div className={classNames(classes.root, className)}>
-      <div className={classNames(classes.block, classes.left)}>
+    <div className={cx(classes.root, className)}>
+      <div className={cx(classes.block, classes.left)}>
         <Typography className={classes.title} color="inherit" variant="h3">
           {t('chain-item.banner.plan')}
         </Typography>
 
         {!isMobile && <ChainBannerUnblockBtn />}
       </div>
-      <div className={classNames(classes.block, classes.center)}>
+      <div className={cx(classes.block, classes.center)}>
         <div>
           <div className={classes.featureBlock}>
             <div className={classes.featureBlockWrapper}>
@@ -76,10 +74,7 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
           <div className={classes.featureBlock}>
             <div className={classes.featureBlockWrapper}>
               <InfinityIcon
-                className={classNames(
-                  classes.protectIcon,
-                  classes.featureBlockIcon,
-                )}
+                className={cx(classes.protectIcon, classes.featureBlockIcon)}
               />
               <Typography
                 className={classes.featureBlockLabel}
@@ -93,10 +88,7 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
           <div className={classes.featureBlock}>
             <div className={classes.featureBlockWrapper}>
               <ProtectIcon
-                className={classNames(
-                  classes.protectIcon,
-                  classes.featureBlockIcon,
-                )}
+                className={cx(classes.protectIcon, classes.featureBlockIcon)}
               />
               <Typography
                 className={classes.featureBlockLabel}
@@ -123,7 +115,7 @@ export const ChainBanner = ({ className }: IChainBannerProps) => {
         {isMobile && <div className={classes.rightOverlay} />}
       </div>
       {isMobile && (
-        <div className={classNames(classes.block, classes.right)}>
+        <div className={cx(classes.block, classes.right)}>
           <ChainBannerUnblockBtn />
         </div>
       )}

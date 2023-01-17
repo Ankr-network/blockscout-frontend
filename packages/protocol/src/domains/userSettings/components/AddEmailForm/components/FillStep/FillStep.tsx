@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { Field, FormRenderProps, useForm } from 'react-final-form';
 
 import { t } from '@ankr.com/common';
@@ -25,7 +25,7 @@ export const FillStep = ({
   submittedData,
   isWalletConnected,
 }: IFillStep) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const form = useForm();
 

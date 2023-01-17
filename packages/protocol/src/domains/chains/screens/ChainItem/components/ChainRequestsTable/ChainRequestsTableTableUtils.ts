@@ -1,4 +1,4 @@
-import { capitalize } from '@material-ui/core';
+import { capitalize } from '@mui/material';
 
 import { ProviderRow, ChainNodesTableProps } from './ChainRequestsTableProps';
 import { INodeEntity } from 'multirpc-sdk';

@@ -1,5 +1,5 @@
-import { Box, BoxProps } from '@material-ui/core';
-import classNames from 'classnames';
+import { Box, BoxProps } from '@mui/material';
+
 import {
   OFFSET_Y_DESKTOP,
   OFFSET_Y_MOBILE,
@@ -21,11 +21,11 @@ export const Section = ({
   stackDown = false,
   ...restProps
 }: ISectionProps) => {
-  const classes = useSectionStyles();
+  const { classes, cx } = useSectionStyles();
 
   return (
     <Box
-      className={classNames(
+      className={cx(
         className,
         classes.section,
         stackUp && classes.stackUp,

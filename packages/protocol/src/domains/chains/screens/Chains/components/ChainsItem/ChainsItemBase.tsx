@@ -1,17 +1,18 @@
-import { Box, Button, Typography } from '@material-ui/core';
-import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
+import { Box, Button, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { useHistory } from 'react-router-dom';
+import { useMemo } from 'react';
+
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
+import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainsItemBaseProps } from './ChainsItemTypes';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { t } from 'modules/i18n/utils/intl';
 import { useChainsItem } from '../../hooks/useChainsItem';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useChainsItemStyles } from './useChainsItemStyles';
 import { ChainsItemDialog } from './ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useMemo } from 'react';
 import { ReactComponent as LockIcon } from 'uiKit/Icons/lock.svg';
-import { useHistory } from 'react-router-dom';
 
 export const ChainsItemBase = ({
   chain,
@@ -28,7 +29,7 @@ export const ChainsItemBase = ({
   chainsItemButton,
   handleOriginUrlClick,
 }: ChainsItemBaseProps) => {
-  const classes = useChainsItemStyles(isHighlighted);
+  const { classes } = useChainsItemStyles(isHighlighted);
   const history = useHistory();
 
   const { label, isSui, tooltip } = useChainsItem(chain, hasPrivateAccess);
@@ -65,7 +66,7 @@ export const ChainsItemBase = ({
           timeframe={timeframe}
           totalRequests={totalRequests}
         />
-        <div className={classes.bottom}>
+        <div>
           <div className={classes.links}>
             {shouldShowPremiumDialog ? (
               <Box className={classes.premiumOnlyCopyItemContainer}>

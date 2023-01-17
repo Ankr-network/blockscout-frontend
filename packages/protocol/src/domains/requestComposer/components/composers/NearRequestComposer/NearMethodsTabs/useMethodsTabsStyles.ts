@@ -1,9 +1,9 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useMethodsTabsStyles = makeStyles<Theme>(theme => ({
+export const useMethodsTabsStyles = makeStyles()((theme: Theme) => ({
   methodsTab: {
-    padding: theme.spacing(2.75),
+    padding: theme.spacing(2 * 2.75),
 
     '& > div': {
       backgroundColor: theme.palette.text.primary,
@@ -15,7 +15,7 @@ export const useMethodsTabsStyles = makeStyles<Theme>(theme => ({
       width: 86,
       backgroundColor: theme.palette.text.primary,
       borderRadius: 11,
-      padding: 2,
+      padding: theme.spacing(2 * 0.25),
     },
   },
 }));

@@ -7,7 +7,7 @@ interface IChainsItemButtonProps {
 }
 
 export const ChainsItemButton = ({ publicChain }: IChainsItemButtonProps) => {
-  const classes = useChainsItemStyles(false);
+  const { classes } = useChainsItemStyles(false);
 
   return (
     <>

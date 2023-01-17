@@ -1,5 +1,5 @@
 import { IPaymentHistoryEntity } from 'multirpc-sdk';
-import { VirtualTableColumn } from 'ui';
+import { VirtualTableColumn } from 'uiKit/VirtualTable';
 
 import {
   PaymentHistoryTableTimeframe,

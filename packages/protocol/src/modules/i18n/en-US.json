@@ -550,7 +550,9 @@
     "empty": "Empty...",
     "copy": "Copy",
     "close": "Close",
-    "submit": "Submit"
+    "submit": "Submit",
+    "404":"404",
+    "page-not-found": "Page not found"
   },
   "providers": {
     "endpoint": {

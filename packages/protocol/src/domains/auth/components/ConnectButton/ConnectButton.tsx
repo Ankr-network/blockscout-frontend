@@ -1,4 +1,4 @@
-import { ButtonTypeMap } from '@material-ui/core';
+import { ButtonTypeMap } from '@mui/material';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ConnectedButton } from './ConnectedButton';

@@ -1,4 +1,5 @@
 import { replace } from 'connected-react-router';
+import { t } from '@ankr.com/common';
 
 import { IApiChain } from '../api/queryChains';
 import { INodeEntity } from 'multirpc-sdk';
@@ -7,7 +8,6 @@ import { chainsFetchChainNodes } from './fetchChainNodes';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { t } from 'modules/i18n/utils/intl';
 import { web3Api } from 'store/queries';
 
 export interface ChainItemParams {

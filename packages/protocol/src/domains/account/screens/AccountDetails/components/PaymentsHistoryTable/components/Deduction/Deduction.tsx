@@ -13,7 +13,7 @@ export interface DeductionProps {
 export const Deduction = ({ downloader, timestamp, type }: DeductionProps) => {
   const canDownload = Number(timestamp) > Date.now() - MS_IN_PERIOD;
 
-  const classes = useStyles(canDownload);
+  const { classes } = useStyles(canDownload);
 
   const onClick = useCallback(() => {
     if (canDownload) {

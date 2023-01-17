@@ -10,11 +10,10 @@ import {
   Paper,
   capitalize,
   Box,
-} from '@material-ui/core';
-import classNames from 'classnames';
+} from '@mui/material';
 import ReactCountryFlag from 'react-country-flag';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useStyles } from '../ChainNodesTable/useStyles';
 import { ChainNodesTableProps } from './ChainRequestsTableProps';
 import { getRows } from './ChainRequestsTableTableUtils';
@@ -23,7 +22,7 @@ const HEIGHT = 'HEIGHT';
 const WEIGHT = 'WEIGHT';
 
 export const ChainRequestsTable = ({ data }: ChainNodesTableProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const rows = useMemo(() => getRows(data), [data]);
 
@@ -34,37 +33,41 @@ export const ChainRequestsTable = ({ data }: ChainNodesTableProps) => {
           {t('chain-item.requests-table.header')}
         </Typography>
         <Box component={Table} minWidth={600}>
-          <TableHead className={classes.thead}>
+          <TableHead>
             <TableRow>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="subtitle2" color="textSecondary">
+              <TableCell padding="none">
+                <Typography
+                  variant="subtitle2"
+                  color="textSecondary"
+                  className={classes.subtitle2}
+                >
                   {t('chain-item.requests-table.head.time')}
                 </Typography>
               </TableCell>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="subtitle2" color="textSecondary">
+              <TableCell padding="none">
+                <Typography
+                  variant="subtitle2"
+                  color="textSecondary"
+                  className={classes.subtitle2}
+                >
                   {t('chain-item.requests-table.head.command')}
                 </Typography>
               </TableCell>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="subtitle2" color="textSecondary">
+              <TableCell padding="none">
+                <Typography
+                  variant="subtitle2"
+                  color="textSecondary"
+                  className={classes.subtitle2}
+                >
                   {t('chain-item.requests-table.head.failed')}
                 </Typography>
               </TableCell>
-              <TableCell
-                padding="none"
-                className={classNames(classes.cell, classes.cellThead)}
-              >
-                <Typography variant="subtitle2" color="textSecondary">
+              <TableCell padding="none">
+                <Typography
+                  variant="subtitle2"
+                  color="textSecondary"
+                  className={classes.subtitle2}
+                >
                   {t('chain-item.requests-table.head.success')}
                 </Typography>
               </TableCell>
@@ -72,17 +75,15 @@ export const ChainRequestsTable = ({ data }: ChainNodesTableProps) => {
           </TableHead>
           <TableBody>
             {rows.map(row => (
-              <TableRow key={row.id} className={classes.row}>
-                <TableCell padding="none" className={classes.cell}>
+              <TableRow key={row.id}>
+                <TableCell padding="none">
                   {capitalize(row.organization || '')}
                 </TableCell>
 
-                <TableCell padding="none" className={classes.cell}>
-                  {HEIGHT}
-                </TableCell>
+                <TableCell padding="none">{HEIGHT}</TableCell>
 
                 {row.country && (
-                  <TableCell padding="none" className={classes.countryCell}>
+                  <TableCell padding="none">
                     <ReactCountryFlag
                       svg
                       className={classes.flag}
@@ -94,9 +95,7 @@ export const ChainRequestsTable = ({ data }: ChainNodesTableProps) => {
                   </TableCell>
                 )}
 
-                <TableCell padding="none" className={classes.cell}>
-                  {WEIGHT}
-                </TableCell>
+                <TableCell padding="none">{WEIGHT}</TableCell>
               </TableRow>
             ))}
           </TableBody>

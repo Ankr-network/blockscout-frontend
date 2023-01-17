@@ -1,7 +1,7 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { root } from '../../const';
 import { Endpoint } from '../Endpoint';
 import { EndpointsHeader } from '../EndpointsHeader';
@@ -29,7 +29,7 @@ export const RPCEndpoints = ({
   const rpcs = urls.flatMap(({ rpc }) => [rpc]);
   const title = t(header, { chainName, rpcs: rpcs.length });
 
-  const classes = useRPCEndpointsStyles();
+  const { classes } = useRPCEndpointsStyles();
 
   return (
     <div className={classes.rpcEndpoints}>

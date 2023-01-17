@@ -8,7 +8,7 @@ export interface ItemHeaderProps {
 }
 
 export const ItemHeader = ({ timeframe, title }: ItemHeaderProps) => {
-  const classes = useItemHeaderStyles();
+  const { classes } = useItemHeaderStyles();
 
   return (
     <div className={classes.itemHeader}>

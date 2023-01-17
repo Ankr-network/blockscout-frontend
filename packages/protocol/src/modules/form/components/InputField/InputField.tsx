@@ -1,5 +1,5 @@
-import { TextField, TextFieldProps } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
+import { TextField, TextFieldProps } from '@mui/material';
+import { t } from '@ankr.com/common';
 import { FieldMetaState, FieldRenderProps } from 'react-final-form';
 
 import { getErrorText } from '../../utils/getErrorText';
@@ -34,7 +34,7 @@ export const InputField = ({
   isHelperTextVisible,
   ...rest
 }: IFieldProps & TextFieldProps) => {
-  const classes = useInputFieldStyles();
+  const { classes } = useInputFieldStyles();
 
   const maxLength: number | null = rest.inputProps?.maxLength ?? null;
 
