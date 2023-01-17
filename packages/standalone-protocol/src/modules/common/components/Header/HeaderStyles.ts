@@ -57,6 +57,22 @@ export const useStyles = makeStyles<
     [`&.${ChainId.Avalanche} span span`]: {
       color: theme.palette.primary.main,
     },
+
+    [`&.${ChainId.BSC} span`]: {
+      color: theme.palette.primary.main,
+    },
+
+    [`&.${ChainId.Fantom}`]: {
+      background: `linear-gradient(to right, #ec4574, #7db6e0)`,
+      '-webkit-background-clip': 'text',
+      '-webkit-text-fill-color': 'transparent',
+
+      '& > span > span': {
+        background: `linear-gradient(to right, #7db6e0, #8dfbc5)`,
+        '-webkit-background-clip': 'text',
+        '-webkit-text-fill-color': 'transparent',
+      },
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {

@@ -18,6 +18,8 @@ interface IChainItemUIProps {
   chainId: ChainId;
 }
 
+const CHAINS_WITHOUT_STATS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
+
 export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   const classes = useStyles();
 
@@ -28,7 +30,9 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainHeader className={classes.header} chainId={chainId} />
         <CopyButtons data={data} chainId={chainId} />
         <Info chainId={chainId} />
-        <ChainItemDetailsQuery chainId={chainId} />
+        {!CHAINS_WITHOUT_STATS.includes(chainId) && (
+          <ChainItemDetailsQuery chainId={chainId} />
+        )}
         <ChainNodesTableQuery chainId={chainId} />
       </Container>
     </ThemeProvider>
