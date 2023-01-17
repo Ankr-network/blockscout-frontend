@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { NavLink } from 'uiKit/NavLink';
 import { useEnterpriseBlockStyles } from './useEnterpriseBlockStyles';
+import { MAIL_TO_SALES } from 'domains/pricing/Routes';
 
 export const EnterpriseBlock = () => {
   const { classes } = useEnterpriseBlockStyles();
@@ -23,7 +24,7 @@ export const EnterpriseBlock = () => {
       </Box>
       <NavLink
         className={classes.link}
-        href="mailto:sales@ankr.com"
+        href={MAIL_TO_SALES}
         color="primary"
         variant="text"
       >

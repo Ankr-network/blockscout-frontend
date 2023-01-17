@@ -119,12 +119,7 @@ export const ChainsItemBase = ({
       <div role="button" tabIndex={0} className={classes.root} onClick={onOpen}>
         {content}
       </div>
-      <ChainsItemDialog
-        name={name}
-        open={isOpened}
-        logoSrc={logoSrc}
-        onClose={onClose}
-      />
+      <ChainsItemDialog open={isOpened} onClose={onClose} />
     </>
   ) : (
     <div

@@ -160,19 +160,37 @@
     "banner": {
       "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>"
     },
-    "for-premium-only": "For Premium only",
-    "get-premium-access": "Get access to {name} with ",
-    "premium-plan": "Premium Plan",
-    "premium-features": {
-      "block1": "Unlimited requests",
-      "block2": "Prioritized traffic",
-      "block3": "WebSockets",
-      "block4": "Global node distribution",
-      "block5": "Advanced Developer APIs",
-      "block6": "Dedicated endpoints",
-      "block7": "and more..."
+    "for-premium-only": "For Premium only"
+  },
+  "chain-item-dialog": {
+    "title": "Plans that scale with you.",
+    "free": {
+      "title": "Free",
+      "description": "Smaller projects and individual developers can receive the best rates of any free tier in the industry.",
+      "list-1": "Instant RPC requests",
+      "list-2": "Free access for all chains",
+      "list-3": "No login required",
+      "button": "Current Plan"
     },
-    "learn-more-about-premium": "Learn more about Premium"
+    "premium": {
+      "title": "Premium",
+      "intro": "from <em>0.1 USD</em> for 10K requests<br />all EVM <em>0.1 USD</em> for 10K requests",
+      "description": "For Web3 projects looking for fast, reliable infrastructure to scale operations to the next level.",
+      "list-1": "WebSockets",
+      "list-2": "Advanced Developer APIs",
+      "list-3": "1,500 reqs/sec",
+      "list-4": "Dedicated endpoints",
+      "list-5": "Archive calls",
+      "button": "Upgrade"
+    },
+    "enterprise": {
+      "title": "Enterprise",
+      "description": "Ankr's bespoke industry-leading RPC service for Web3's leading protocols and projects.",
+      "list-1": "All premium RPC benefits",
+      "list-2": "Custom Infrastructure",
+      "list-3": "Engineering team support",
+      "button": "Contact Sales"
+    }
   },
   "chain-item": {
     "chain-types": {
@@ -551,7 +569,7 @@
     "copy": "Copy",
     "close": "Close",
     "submit": "Submit",
-    "404":"404",
+    "404": "404",
     "page-not-found": "Page not found"
   },
   "providers": {
