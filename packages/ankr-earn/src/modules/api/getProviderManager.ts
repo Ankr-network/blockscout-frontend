@@ -10,23 +10,24 @@ import {
   BASE_DEV_BFF_URL,
   BASE_PROD_BFF_URL,
   featuresConfig,
+  isMainnet,
 } from 'modules/common/const';
 
-const DEV_BFF_MRPC_URL = `${BASE_DEV_BFF_URL}/multi-rpc/proxy`;
-const PROD_BFF_MRPC_URL = `${BASE_PROD_BFF_URL}/multi-rpc/proxy`;
+const BFF_BY_ENV_URL = isMainnet ? BASE_PROD_BFF_URL : BASE_DEV_BFF_URL;
+const BFF_MRPC_URL = `${BFF_BY_ENV_URL}/multi-rpc/proxy`;
 
 export const RPC_URLS: Record<AvailableReadProviders, string> = {
-  [AvailableReadProviders.ethMainnet]: `${PROD_BFF_MRPC_URL}/eth`,
-  [AvailableReadProviders.ethGoerli]: `${DEV_BFF_MRPC_URL}/eth_goerli`,
-  [AvailableReadProviders.avalancheChain]: `${PROD_BFF_MRPC_URL}/avalanche`,
-  [AvailableReadProviders.avalancheChainTest]: `${DEV_BFF_MRPC_URL}/avalanche_fuji`,
-  [AvailableReadProviders.binanceChain]: `${PROD_BFF_MRPC_URL}/bsc`,
-  [AvailableReadProviders.binanceChainTest]: `${DEV_BFF_MRPC_URL}/bsc_testnet_chapel`,
-  [AvailableReadProviders.ftmOpera]: `${PROD_BFF_MRPC_URL}/fantom`,
-  [AvailableReadProviders.ftmTestnet]: `${DEV_BFF_MRPC_URL}/fantom_testnet`,
-  [AvailableReadProviders.mumbai]: `${DEV_BFF_MRPC_URL}/polygon_mumbai`,
-  [AvailableReadProviders.polygon]: `${PROD_BFF_MRPC_URL}/polygon`,
-  [AvailableReadProviders.gnosis]: `${PROD_BFF_MRPC_URL}/gnosis`,
+  [AvailableReadProviders.ethMainnet]: `${BFF_MRPC_URL}/eth`,
+  [AvailableReadProviders.ethGoerli]: `${BFF_MRPC_URL}/eth_goerli`,
+  [AvailableReadProviders.avalancheChain]: `${BFF_MRPC_URL}/avalanche`,
+  [AvailableReadProviders.avalancheChainTest]: `${BFF_MRPC_URL}/avalanche_fuji`,
+  [AvailableReadProviders.binanceChain]: `${BFF_MRPC_URL}/bsc`,
+  [AvailableReadProviders.binanceChainTest]: `${BFF_MRPC_URL}/bsc_testnet_chapel`,
+  [AvailableReadProviders.ftmOpera]: `${BFF_MRPC_URL}/fantom`,
+  [AvailableReadProviders.ftmTestnet]: `${BFF_MRPC_URL}/fantom_testnet`,
+  [AvailableReadProviders.mumbai]: `${BFF_MRPC_URL}/polygon_mumbai`,
+  [AvailableReadProviders.polygon]: `${BFF_MRPC_URL}/polygon`,
+  [AvailableReadProviders.gnosis]: `${BFF_MRPC_URL}/gnosis`,
   [AvailableReadProviders.sokol]: 'https://sokol.poa.network',
   [AvailableReadProviders.xdc]: 'https://erpc.xinfin.network',
   [AvailableReadProviders.xdcTestnet]: 'https://erpc.apothem.network',
