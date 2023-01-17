@@ -22,6 +22,7 @@ import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderNam
 import { RoutesConfig } from '../../../../RoutesConfig';
 import { useActiveStakingData } from '../../hooks/useActiveStakingData';
 
+import { DetailedTable } from './DetailedTable';
 import { useActiveStakingTableStyles } from './useActiveStakingTableStyles';
 
 const SKELETON_ROWS_COUNT = 1;
@@ -35,12 +36,6 @@ enum EMainLabel {
   lockPeriod,
   yourStake,
   rewards,
-}
-
-enum EExpandLabel {
-  time,
-  lockPeriod,
-  yourStake,
 }
 
 export const ActiveStakingTable = (): JSX.Element | null => {
@@ -61,21 +56,6 @@ export const ActiveStakingTable = (): JSX.Element | null => {
       },
       {
         label: t('stake-ankr.staking-table.rewards'),
-      },
-    ],
-    [],
-  );
-
-  const expandCaptions = useLocaleMemo(
-    () => [
-      {
-        label: ' ',
-      },
-      {
-        label: t('stake-ankr.staking-table.locking-period'),
-      },
-      {
-        label: t('stake-ankr.staking-table.your-stake'),
       },
     ],
     [],
@@ -141,83 +121,11 @@ export const ActiveStakingTable = (): JSX.Element | null => {
                 expandSlot={
                   !!row.detailedData?.length && (
                     <div className={classes.expandWrapper}>
-                      <Table
-                        dense
-                        className={classes.expandTable}
+                      <DetailedTable
                         columnsCount={mainCaptions.length}
-                        customCell="110px 200px 300px 1fr"
-                        minWidth={800}
-                      >
-                        <TableHead>
-                          {expandCaptions.map(({ label }, index) => (
-                            <TableHeadCell
-                              key={uid(index)}
-                              classes={{
-                                content: classes.thContent,
-                              }}
-                              label={<>{label}</>}
-                            />
-                          ))}
-                        </TableHead>
-
-                        <TableBody>
-                          {row.detailedData.map((additionalInfoItem, j) => {
-                            const internalUnstakeLink =
-                              additionalInfoItem.isUnlocked
-                                ? RoutesConfig.unstake.generatePath(
-                                    row.provider,
-                                  )
-                                : undefined;
-
-                            return (
-                              <TableRow
-                                key={uid(j)}
-                                className={classes.expandedRow}
-                              >
-                                <TableBodyCell
-                                  children={undefined}
-                                  className={classes.expandedCell}
-                                  label={' '}
-                                />
-
-                                <TableBodyCell
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.lockPeriod]
-                                      .label
-                                  }`}
-                                >
-                                  <LockingPeriodItem
-                                    daysLeft={additionalInfoItem.lockingPeriod}
-                                    isUnlocked={additionalInfoItem.isUnlocked}
-                                    percent={
-                                      additionalInfoItem.lockingPeriodPercent
-                                    }
-                                  />
-                                </TableBodyCell>
-
-                                <TableBodyCell
-                                  align="left"
-                                  className={classes.expandedCell}
-                                  label={`${
-                                    expandCaptions[EExpandLabel.yourStake].label
-                                  }`}
-                                >
-                                  <YourStakeItem
-                                    withTextUnstake
-                                    amount={additionalInfoItem.stakeAmount}
-                                    token={Token.ANKR}
-                                    unstakeLink={internalUnstakeLink}
-                                    usdAmount={
-                                      additionalInfoItem.usdStakeAmount
-                                    }
-                                  />
-                                </TableBodyCell>
-                              </TableRow>
-                            );
-                          })}
-                        </TableBody>
-                      </Table>
+                        detailedData={row.detailedData}
+                        provider={row.provider}
+                      />
                     </div>
                   )
                 }
@@ -247,7 +155,7 @@ export const ActiveStakingTable = (): JSX.Element | null => {
 
                 <TableBodyCell
                   className={classes.cell}
-                  label={`${expandCaptions[EMainLabel.yourStake].label}`}
+                  label={`${mainCaptions[EMainLabel.yourStake].label}`}
                 >
                   <YourStakeItem
                     amount={row.stakeAmount}

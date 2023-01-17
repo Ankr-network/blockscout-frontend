@@ -254,7 +254,7 @@ export class AnkrStakingReadSDK {
     return flatten(pastEvents);
   }
 
-  protected async getAnkrTokenStakingContract(): Promise<Contract> {
+  protected getAnkrTokenStakingContract(): Contract {
     return this.readProvider.createContract(
       ANKR_TOKEN_STAKING_ABI,
       contractConfig.ankrTokenStaking,
@@ -305,7 +305,7 @@ export class AnkrStakingReadSDK {
   }
 
   public async getActiveValidatorsAddresses(): Promise<Web3Address[]> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
     return stakingContract.methods.getValidators().call();
   }
 
@@ -604,10 +604,10 @@ export class AnkrStakingReadSDK {
   }
 
   /**
-   * Get apy for validators.
+   * Get APY for validators.
    *
    * @public
-   * @returns {IApyData[]}
+   * @returns APY for validators
    */
   public async getAPY(): Promise<IApyData[]> {
     const [stakingContract, { epoch }, blockNumber] = await Promise.all([

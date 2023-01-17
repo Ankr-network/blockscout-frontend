@@ -17,5 +17,10 @@ export const renderChainName = (chainId?: ChainId | string): string => {
   if (chainId === ChainId.Ethereum) {
     return 'Ethereum';
   }
+
+  if (chainId === ChainId.Secret) {
+    return 'Secret';
+  }
+
   return chainId ?? '';
 };
