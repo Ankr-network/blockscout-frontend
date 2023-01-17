@@ -14,6 +14,8 @@ import { moonbeamTheme } from '../../themes/moonbeamTheme';
 import { nearTheme } from '../../themes/nearTheme';
 import { nervosTheme } from '../../themes/nervosTheme';
 import { filecoinTheme } from '../../themes/filecoinTheme';
+import { fantomTheme } from 'modules/themes/fantomTheme';
+import { bscTheme } from 'modules/themes/bscTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -47,6 +49,9 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Gnosis:
       return gnosisTheme;
 
+    case ChainId.Fantom:
+      return fantomTheme;
+
     case ChainId.Syscoin:
       return syscoinTheme;
 
@@ -58,6 +63,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Klaytn:
       return klaytnTheme;
+
+    case ChainId.BSC:
+      return bscTheme;
 
     default:
       return mainTheme;
