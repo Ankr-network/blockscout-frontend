@@ -109,7 +109,8 @@ function getMapActiveStaking(args: {
     } = activeStaking;
 
     const isOneDelegation = activeDelegations.length === 1;
-    const { lockingPeriod, totalLockPeriod } = activeDelegations[0] ?? {};
+    const { lockingPeriod = 0, totalLockPeriod = 0 } =
+      activeDelegations[0] ?? {};
 
     const daysLeft = isOneDelegation ? lockingPeriod : 0;
 
