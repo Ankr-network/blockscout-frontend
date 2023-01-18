@@ -18,9 +18,7 @@ export const useDataUsageSectionStyles = makeStyles()((theme: Theme) => ({
   row: {
     display: 'flex',
     gap: 20,
-    height: 300,
     [theme.breakpoints.down('sm')]: {
-      height: 600,
       flexDirection: 'column',
     },
   },

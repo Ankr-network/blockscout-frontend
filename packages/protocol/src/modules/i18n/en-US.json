@@ -375,7 +375,8 @@
             "column-3": "Time"
           }
         },
-        "empty": "No data available"
+        "empty": "No data available",
+        "unknown": "unknown"
       }
     }
   },

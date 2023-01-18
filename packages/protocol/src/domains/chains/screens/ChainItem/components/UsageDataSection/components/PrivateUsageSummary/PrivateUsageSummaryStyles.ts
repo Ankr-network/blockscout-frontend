@@ -6,17 +6,12 @@ export const useUsageSummaryStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     borderRadius: 24,
-    width: '35%',
+    flexGrow: 1,
     padding: theme.spacing(2 * 2, 2 * 2.75),
-
     backgroundColor: theme.palette.common.white,
 
-    [theme.breakpoints.down('md')]: {
-      width: '40%',
-    },
-
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      flexGrow: 0,
     },
   },
   stat: {

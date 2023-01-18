@@ -8,7 +8,12 @@ import { useLastUserRequestsStyles } from './useLastUserRequestsStyles';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { LatestRequest } from 'multirpc-sdk';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { formatDate, formatPayload, options } from './LastUserRequestsUtils';
+import {
+  checkPayloadNowrap,
+  formatDate,
+  formatPayload,
+  options,
+} from './LastUserRequestsUtils';
 
 export const LastUserRequests = () => {
   const { classes } = useLastUserRequestsStyles();
@@ -33,22 +38,23 @@ export const LastUserRequests = () => {
         <Queries<LatestRequest[]>
           queryStates={[latestRequestState]}
           isPreloadDisabled
+          disableErrorRender
         >
-          {({ data, isUninitialized }) => {
-            if (isUninitialized || !data) {
-              return (
-                <Box className={classes.loading}>
-                  <OverlaySpinner />
-                </Box>
-              );
-            }
-
-            if (data.length === 0) {
+          {({ data, isUninitialized, error }) => {
+            if (error || (Array.isArray(data) && data?.length === 0)) {
               return (
                 <Box className={classes.emptyContent}>
                   <Typography variant="body2" className={classes.empty}>
                     {t('chain-item.usage-data.last-requests.empty')}
                   </Typography>
+                </Box>
+              );
+            }
+
+            if (isUninitialized || !data) {
+              return (
+                <Box className={classes.loading}>
+                  <OverlaySpinner />
                 </Box>
               );
             }
@@ -75,31 +81,37 @@ export const LastUserRequests = () => {
                   </Box>
                 </Box>
                 <Box className={classes.tbody}>
-                  {data?.map(({ blockchain, payload, ts }) => (
-                    <Box className={classes.row}>
-                      <Typography
-                        variant="subtitle2"
-                        className={classes.item}
-                        component="span"
-                      >
-                        {blockchain}
-                      </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        className={classes.item}
-                        component="span"
-                      >
-                        {formatPayload(payload)}
-                      </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        className={classes.item}
-                        component="span"
-                      >
-                        {formatDate(ts)}
-                      </Typography>
-                    </Box>
-                  ))}
+                  {data?.map(({ blockchain, payload, ts }) => {
+                    const formattedPayload = formatPayload(payload);
+                    const hasNowrap = checkPayloadNowrap(formattedPayload);
+
+                    return (
+                      <Box className={classes.row}>
+                        <Typography
+                          variant="subtitle2"
+                          className={classes.item}
+                          component="span"
+                        >
+                          {blockchain}
+                        </Typography>
+                        <Typography
+                          variant="subtitle2"
+                          className={classes.item}
+                          component="span"
+                          noWrap={hasNowrap}
+                        >
+                          {formattedPayload}
+                        </Typography>
+                        <Typography
+                          variant="subtitle2"
+                          className={classes.item}
+                          component="span"
+                        >
+                          {formatDate(ts)}
+                        </Typography>
+                      </Box>
+                    );
+                  })}
                 </Box>
               </>
             );

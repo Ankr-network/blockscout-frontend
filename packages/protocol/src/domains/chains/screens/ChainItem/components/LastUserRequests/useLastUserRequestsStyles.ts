@@ -14,7 +14,8 @@ export const useLastUserRequestsStyles = makeStyles()((theme: Theme) => ({
 
     [theme.breakpoints.down('sm')]: {
       width: '100%',
-      height: 600,
+      flexGrow: 1,
+      minHeight: 300,
     },
   },
   header: {
