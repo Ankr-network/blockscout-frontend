@@ -24,7 +24,7 @@
       "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
     },
     "header": {
-      "title": "Your Instant RPC<br />Gateway To <span>{name}</span>",
+      "title": "Your Instant RPC<br /><span>Gateway To <span>{name}</span><span>",
       "description": "Welcome to&nbsp;the fastest, free-est, and most reliable RPC endpoint for the <p>{network}</p> network."
     },
     "rate-limit-banner": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>",
@@ -97,6 +97,7 @@
     "bsc": "BSC",
     "fantom": "Fantom",
     "solana": "Solana",
-    "and": ", and "
+    "and": " and ",
+    "eth": "Ethereum"
   }
 }

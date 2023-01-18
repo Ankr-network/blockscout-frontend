@@ -38,18 +38,7 @@ const FANTOM_NETWORK_PARAMS = {
   },
   blockExplorerUrls: ['https://ftmscan.com/'],
 };
-// eth
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ETHEREUM_MAINNET_PARAMS = {
-  chainId: 1,
-  chainName: 'Ethereum by Ankr Protocol',
-  nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://etherscan.io'],
-};
+
 // polygon
 const POLYGON_NETWORK_PARAMS = {
   chainId: 137,
@@ -60,30 +49,6 @@ const POLYGON_NETWORK_PARAMS = {
     decimals: 18,
   },
   blockExplorerUrls: ['https://polygonscan.com/'],
-};
-// solana
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const SOLANA_NETWORK_PARAMS = {
-  chainId: 245022934, // wrong network id
-  chainName: 'Neon by Ankr Protocol',
-  nativeCurrency: {
-    name: 'Neon',
-    symbol: 'NEON',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://neon-labs.org/'],
-};
-// xdai
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const XDAI_NETWORK_PARAMS = {
-  chainId: 100,
-  chainName: 'xDAI by Ankr Protocol',
-  nativeCurrency: {
-    name: 'xDAI',
-    symbol: 'xDAI',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://blockscout.com/poa/xdai'],
 };
 
 // celo
@@ -145,6 +110,17 @@ const KLAYTN_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://scope.klaytn.com/'],
 };
 
+const BSC_NETWORK_PARAMS = {
+  chainId: 56,
+  chainName: 'BSC by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Smart Chain',
+    symbol: 'BNB',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://bscscan.com'],
+};
+
 const GNOSIS_NETWORK_PARAMS = {
   chainId: 100,
   chainName: 'Gnosis Chain by Ankr Protocol',
@@ -182,7 +158,6 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, FANTOM_NETWORK_PARAMS);
     case 'polygon':
       return mapParams(chain, POLYGON_NETWORK_PARAMS);
-    /* adding solana network returns error: Request for method 'eth_chainId on https://proxy.mainnet.neonlabs.org/solana failed */
     case 'solana':
       return undefined;
     case 'xdai':
@@ -201,6 +176,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, GNOSIS_NETWORK_PARAMS);
     case 'klaytn':
       return mapParams(chain, KLAYTN_NETWORK_PARAMS);
+    case 'bsc':
+      return mapParams(chain, BSC_NETWORK_PARAMS);
     default:
       return undefined;
   }

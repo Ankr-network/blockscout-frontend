@@ -72,3 +72,13 @@ export interface INodesDetailEntity {
   hasArchive: boolean;
   nodes: INodeDetailEntity[];
 }
+
+export interface IWorkerNodesWeight {
+  id: string;
+  weight: number;
+  latency: number;
+  timestamp: number;
+  height: number;
+  height_timestamp: number;
+  score: number;
+}

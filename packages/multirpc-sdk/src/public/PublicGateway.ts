@@ -8,9 +8,10 @@ import {
   IRate,
   IWorkerPublicStats,
   INodesDetailEntity,
+  IWorkerNodesWeight,
 } from './types';
 import { IPublicGateway } from './interfaces';
-import { IBlockchainEntity } from '../backoffice';
+import { IBlockchainEntity, INodeEntity } from '../backoffice';
 import { convertStatsToNumber } from './utils';
 
 export class PublicGateway implements IPublicGateway {
@@ -71,6 +72,28 @@ export class PublicGateway implements IPublicGateway {
 
   async getRate(): Promise<IRate> {
     const { data } = await this.accountApi.get<IRate>('/api/v1/rate');
+
+    return data;
+  }
+
+  async getStandaloneNodes(baseURL = '/'): Promise<INodeEntity[]> {
+    const api = axios.create({
+      ...AXIOS_DEFAULT_CONFIG,
+      baseURL,
+    });
+
+    const { data } = await api.get<INodeEntity[]>('/api/v1/node');
+
+    return data;
+  }
+
+  async getStandaloneNodesWeight(baseURL = '/'): Promise<IWorkerNodesWeight[]> {
+    const api = axios.create({
+      ...AXIOS_DEFAULT_CONFIG,
+      baseURL,
+    });
+
+    const { data } = await api.get<IWorkerNodesWeight[]>('/api/v1/weight');
 
     return data;
   }

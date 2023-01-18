@@ -3,29 +3,28 @@ import classNames from 'classnames';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
+import { fetchStandaloneChainNodesData } from 'domains/chains/actions/fetchStandaloneChainNodesData';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { ChainNodesTable } from './components/ChainNodesTable';
+import { StandaloneChainNodesTable } from './components/StandaloneChainNodesTable';
 import { Spinner } from 'uiKit/Spinner';
 import { useStyles } from './ChainItemStyles';
 import { ChainId } from 'domains/chains/api/chain';
-import { fetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
 
 interface ChainItemProps {
   chainId: ChainId;
 }
 
-export const ChainNodesTableQuery = ({ chainId }: ChainItemProps) => {
+export const StandaloneChainNodesTableQuery = ({ chainId }: ChainItemProps) => {
   const dispatchRequest = useDispatchRequest();
   const classes = useStyles();
 
   useOnMount(() => {
-    dispatchRequest(fetchChainNodesDetail(chainId));
+    dispatchRequest(fetchStandaloneChainNodesData(chainId));
   });
 
   return (
-    <Queries<ResponseData<typeof fetchChainNodesDetail>>
-      requestActions={[fetchChainNodesDetail]}
-      requestKeys={[chainId]}
+    <Queries<ResponseData<typeof fetchStandaloneChainNodesData>>
+      requestActions={[fetchStandaloneChainNodesData]}
       isPreloadDisabled
     >
       {({ data, loading, pristine }) => {
@@ -37,9 +36,12 @@ export const ChainNodesTableQuery = ({ chainId }: ChainItemProps) => {
           );
         }
 
+        const { nodes, nodesWeight } = data;
+
         return (
-          <ChainNodesTable
-            nodesDetail={data}
+          <StandaloneChainNodesTable
+            data={nodes}
+            nodesWeight={nodesWeight}
             className={classNames(classes.nodes, chainId)}
           />
         );
