@@ -4,12 +4,12 @@ import classNames from 'classnames';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { fetchChainNodesData } from 'domains/chains/actions/fetchChainNodesData';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainNodesTable } from './components/ChainNodesTable';
 import { Spinner } from 'uiKit/Spinner';
 import { useStyles } from './ChainItemStyles';
 import { ChainId } from 'domains/chains/api/chain';
+import { fetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
 
 interface ChainItemProps {
   chainId: ChainId;
@@ -20,12 +20,13 @@ export const ChainNodesTableQuery = ({ chainId }: ChainItemProps) => {
   const classes = useStyles();
 
   useOnMount(() => {
-    dispatchRequest(fetchChainNodesData(chainId));
+    dispatchRequest(fetchChainNodesDetail(chainId));
   });
 
   return (
-    <Queries<ResponseData<typeof fetchChainNodesData>>
-      requestActions={[fetchChainNodesData]}
+    <Queries<ResponseData<typeof fetchChainNodesDetail>>
+      requestActions={[fetchChainNodesDetail]}
+      requestKeys={[chainId]}
       isPreloadDisabled
     >
       {({ data, loading, pristine }) => {
@@ -37,12 +38,9 @@ export const ChainNodesTableQuery = ({ chainId }: ChainItemProps) => {
           );
         }
 
-        const { nodes, nodesWeight } = data;
-
         return (
           <ChainNodesTable
-            data={nodes}
-            nodesWeight={nodesWeight}
+            nodesDetail={data}
             className={classNames(classes.nodes, chainId)}
           />
         );

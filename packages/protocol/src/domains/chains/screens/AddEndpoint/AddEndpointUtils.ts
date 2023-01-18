@@ -1,16 +1,16 @@
 import { useCallback, useRef } from 'react';
-import { INodeEntity } from 'multirpc-sdk';
+import { INodesDetailEntity } from 'multirpc-sdk';
 
 import { t } from '@ankr.com/common';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 
-export const getScheme = (data: INodeEntity[] = []): string => {
+export const getScheme = (data: INodesDetailEntity[] = []): string => {
   if (!data) return '';
 
   const [item] = data;
 
-  return item?.scheme || '';
+  return item?.nodes[0]?.scheme || '';
 };
 
 export const useEndpointBreadcrumbs = (chainName = '', id = '') => {

@@ -14,8 +14,7 @@ import { useStyles } from './useStyles';
 
 export const ChainNodesTable = ({
   loading,
-  nodes,
-  nodesWeight,
+  nodesDetail,
   showNodesWithZeroHeight = false,
 }: ChainNodesTableProps) => {
   const { classes } = useStyles();
@@ -23,8 +22,8 @@ export const ChainNodesTable = ({
   const [page, setPage] = useState(1);
 
   const rows = useMemo(
-    () => getRows(nodes, nodesWeight, showNodesWithZeroHeight),
-    [nodes, nodesWeight, showNodesWithZeroHeight],
+    () => getRows(nodesDetail, showNodesWithZeroHeight),
+    [nodesDetail, showNodesWithZeroHeight],
   );
 
   const slicedRows = useMemo(

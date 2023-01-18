@@ -1,6 +1,6 @@
 import { Box, capitalize, Typography, useTheme } from '@mui/material';
 import BigNumber from 'bignumber.js';
-import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
+import { INodesDetailEntity, INodeDetailEntity } from 'multirpc-sdk';
 import { StatusCircle, StatusCircleStatus } from 'uiKit/StatusCircle';
 import { useStyles } from './useStyles';
 
@@ -10,82 +10,46 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import ReactCountryFlag from 'react-country-flag';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
-import { GroupedNode, ProviderRow } from './ChainNodesTableProps';
+import { ProviderRow } from './ChainNodesTableProps';
 
 export const CHAIN_NODES_TABLE_PAGE_SIZE = 10;
 
 export const getRows = (
-  data: INodeEntity[],
-  nodesWeight: IWorkerNodesWeight[],
+  nodesDetail: INodesDetailEntity[],
   showNodesWithZeroHeight: boolean,
 ): ProviderRow[] => {
-  if (!Array.isArray(data) || data.length === 0) return [];
+  if (!Array.isArray(nodesDetail) || nodesDetail.length === 0) return [];
 
-  // there is no null in types but just to be sure.. but default value for fn parameter will be pretty
-  if (!Array.isArray(nodesWeight)) {
-    nodesWeight = [];
-  }
+  const node = nodesDetail[0];
+  const { id, name } = node;
 
-  const groupedNodes = data.reduce<Record<string, GroupedNode>>(
-    (result: any, node: INodeEntity | any) => {
-      if (!result[node.id]) {
-        result[node.id] = {
-          id: node.id,
-          nodeId: node.id,
-          blockchain: node.blockchain,
-          scheme: node.scheme,
-          continent: node.continent,
-          country: node.country,
-          city: node.city,
-          totalNodes: 0,
-          archiveNodes: 0,
-          icon: node.icon,
-          organization: node.organization,
-          chainName: node.blockchain ? capitalize(node.blockchain) : '',
-        };
-        result[node.id].totalNodes++;
-      }
+  const nodes = node?.nodes.map((item: INodeDetailEntity) => {
+    const { scheme, location, height, weight, score } = item;
 
-      if (node.isArchive) {
-        result[node.id].archiveNodes++;
-      }
+    return {
+      id,
+      nodeId: id,
+      blockchain: name,
+      scheme,
+      chainName: name ? capitalize(name) : '',
+      continent: location.continent,
+      country: location.country,
+      organization: item.name.split('_')[0],
+      height,
+      weight,
+      score,
+    };
+  });
 
-      return result;
-    },
-    {},
-  );
+  const totalWeights = nodes.reduce((acc, el) => acc + el.weight, 0);
 
-  const nodes = Object.values(groupedNodes);
-
-  const currentNodesWeight = nodesWeight.filter(
-    item => item.id in groupedNodes,
-  );
-
-  const totalWeights = currentNodesWeight.reduce(
-    (acc, el) => acc + el.weight,
-    0,
-  );
-
-  return nodes
-    .map(node => {
-      const nodeWeight = currentNodesWeight.find(el => el.id === node.nodeId);
-
-      if (nodeWeight) {
-        const percentWeight = (100 * nodeWeight.weight) / totalWeights || 0;
-
-        return {
-          ...node,
-          score: nodeWeight.score,
-          weight: new BigNumber(percentWeight),
-          height: nodeWeight.height,
-        };
-      }
+  return Object.values(nodes)
+    .map(item => {
+      const percentWeight = (100 * item.weight) / totalWeights || 0;
 
       return {
-        ...node,
-        score: 0,
-        weight: new BigNumber(0),
-        height: 0,
+        ...item,
+        weight: new BigNumber(percentWeight),
       };
     })
     .filter(({ height }) => showNodesWithZeroHeight || height > 0)
@@ -152,7 +116,7 @@ export const useChainNodesTableTableColumns = () => {
           width: '30%',
           field: 'location',
           headerName: t('chain-item.nodes-table.head.location'),
-          render: ({ country, city, continent }) => {
+          render: ({ country, continent }) => {
             return (
               country && (
                 <>
@@ -161,9 +125,7 @@ export const useChainNodesTableTableColumns = () => {
                     className={classes.flag}
                     countryCode={country}
                   />
-                  &nbsp; &nbsp;
-                  {city}
-                  &nbsp; ({t(`continents.${continent}`)})
+                  &nbsp; &nbsp; {t(`continents.${continent}`)}
                 </>
               )
             );

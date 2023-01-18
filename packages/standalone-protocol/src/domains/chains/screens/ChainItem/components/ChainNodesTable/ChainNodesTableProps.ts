@@ -1,12 +1,10 @@
 import BigNumber from 'bignumber.js';
 
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { fetchChainNodes } from 'domains/chains/actions/fetchChainNodes';
-import { fetchNodesWeight } from 'domains/chains/actions/fetchNodesWeight';
+import { fetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
 
 export interface ChainNodesTableProps {
-  data?: ResponseData<typeof fetchChainNodes>;
-  nodesWeight?: ResponseData<typeof fetchNodesWeight>;
+  nodesDetail: ResponseData<typeof fetchChainNodesDetail>;
   className?: string;
 }
 
@@ -17,10 +15,6 @@ export interface GroupedNode {
   scheme: string;
   continent: string;
   country: string;
-  city: string;
-  totalNodes: number;
-  archiveNodes: number;
-  icon: string;
   organization?: string;
   chainName: string;
   height?: number;

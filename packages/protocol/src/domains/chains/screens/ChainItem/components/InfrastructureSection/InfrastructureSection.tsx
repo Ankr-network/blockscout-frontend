@@ -75,7 +75,7 @@ export const InfrastructureSection = ({
 
       {withNodes && (
         <div className={classes.table}>
-          <ChainNodesTableQuery chain={chain} group={group} />
+          <ChainNodesTableQuery chainId={chainId} />
         </div>
       )}
     </div>

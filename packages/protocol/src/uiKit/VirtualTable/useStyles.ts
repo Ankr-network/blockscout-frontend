@@ -58,10 +58,10 @@ export const useStyles = makeStyles<void, 'rowColumn' | 'row'>()(
       wordWrap: 'break-word',
       padding: theme.spacing(2 * 1),
 
-      '&:first-child': {
+      '&:first-of-type': {
         paddingLeft: 0,
       },
-      '&:last-child': {
+      '&:last-of-type': {
         paddingRight: 0,
       },
     },

@@ -1,6 +1,6 @@
 import { IApiChain } from '../api/queryChains';
-import { chainsFetchChainNodes } from './fetchChainNodes';
 import { chainsFetchPublicChains } from './fetchPublicChains';
+import { chainsFetchChainNodesDetail } from './fetchChainNodesDetail';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getAddIsArchiveCB } from '../utils/addIsArchive';
 import { web3Api } from 'store/queries';
@@ -25,7 +25,7 @@ export const {
           { data: nodes },
         ] = await Promise.all([
           dispatch(chainsFetchPublicChains.initiate()),
-          dispatch(chainsFetchChainNodes.initiate(undefined)),
+          dispatch(chainsFetchChainNodesDetail.initiate(undefined)),
         ]);
 
         const addIsArchive = getAddIsArchiveCB(nodes);

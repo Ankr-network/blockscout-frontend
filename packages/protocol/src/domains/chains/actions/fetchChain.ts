@@ -2,9 +2,9 @@ import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
 import { IApiChain } from '../api/queryChains';
-import { INodeEntity } from 'multirpc-sdk';
+import { INodesDetailEntity } from 'multirpc-sdk';
 import { ChainsRoutesConfig } from '../routes/routesConfig';
-import { chainsFetchChainNodes } from './fetchChainNodes';
+import { chainsFetchChainNodesDetail } from './fetchChainNodesDetail';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -18,7 +18,7 @@ export interface ChainItemParams {
 export interface IChainItemDetails {
   chain: IApiChain;
   unfilteredChain: IApiChain;
-  nodes?: INodeEntity[];
+  nodes?: INodesDetailEntity[];
 }
 
 export const {
@@ -36,7 +36,7 @@ export const {
             hasPrivateAccess
               ? dispatch(chainsFetchPrivateChains.initiate())
               : dispatch(chainsFetchPublicChains.initiate()),
-            dispatch(chainsFetchChainNodes.initiate(chainId)),
+            dispatch(chainsFetchChainNodesDetail.initiate(chainId)),
           ]);
 
           const chain = chains.find(item => item.id === chainId);
@@ -52,7 +52,7 @@ export const {
             data: {
               chain,
               unfilteredChain,
-              nodes,
+              nodes: nodes?.filter(item => item.id === chainId),
             },
           };
         },
