@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 
@@ -12,7 +11,6 @@ import { Info } from './components/Info';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId, isStandaloneChain } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
-import { StandaloneChainNodesTableQuery } from './StandaloneChainNodesTableQuery';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
@@ -32,11 +30,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <CopyButtons data={data} chainId={chainId} />
         <Info chainId={chainId} />
         {!isStandalone && <ChainItemDetailsQuery chainId={chainId} />}
-        {isStandalone ? (
-          <StandaloneChainNodesTableQuery chainId={chainId} />
-        ) : (
-          <ChainNodesTableQuery chainId={chainId} />
-        )}
+        <ChainNodesTableQuery chainId={chainId} isStandalone={isStandalone} />
       </Container>
     </ThemeProvider>
   );
