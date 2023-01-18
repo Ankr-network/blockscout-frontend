@@ -80,4 +80,26 @@ export class PublicGateway implements IPublicGateway {
 
     return data;
   }
+
+  async getStandaloneNodes(baseURL = '/'): Promise<INodeEntity[]> {
+    const api = axios.create({
+      ...AXIOS_DEFAULT_CONFIG,
+      baseURL,
+    });
+
+    const { data } = await api.get<INodeEntity[]>('/api/v1/node');
+
+    return data;
+  }
+
+  async getStandaloneNodesWeight(baseURL = '/'): Promise<IWorkerNodesWeight[]> {
+    const api = axios.create({
+      ...AXIOS_DEFAULT_CONFIG,
+      baseURL,
+    });
+
+    const { data } = await api.get<IWorkerNodesWeight[]>('/api/v1/weight');
+
+    return data;
+  }
 }
