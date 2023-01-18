@@ -120,7 +120,12 @@ export const {
           return {
             ...client,
             ttl: client.ttl && client.ttl > 0 ? client.ttl : undefined,
-            clientType: getClientType(client.ttl, client.hash, client.address),
+            clientType: getClientType({
+              ttl: client.ttl,
+              hash: client.hash,
+              walletAddress: client.address,
+              suspended: client.suspended,
+            }),
             email: emailsCollection?.find(
               email =>
                 email.address?.toLowerCase() === client.address?.toLowerCase(),

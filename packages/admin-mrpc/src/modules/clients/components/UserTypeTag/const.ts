@@ -13,6 +13,7 @@ export const clientTypeNaming: Record<ClientType, string> = {
   [ClientType.Premium]: 'Premium',
   [ClientType.TestDrivePremium]: 'Test',
   [ClientType.PENDING]: 'Pending',
+  [ClientType.FREE]: 'Free',
 };
 
 const FORCED_EXPIRATION_DATE = new Date(2023, 1, 25).toLocaleDateString();
@@ -26,6 +27,7 @@ export const getClientTypeExpiration: Partial<
   [ClientType.UNKNOWN]: () => undefined,
   [ClientType.PAYG]: () => undefined,
   [ClientType.PENDING]: () => undefined,
+  [ClientType.FREE]: () => undefined,
 
   [ClientType.ForcedExpirationPremium]: () =>
     `with forced expiration on ${FORCED_EXPIRATION_DATE}`,
@@ -41,4 +43,5 @@ export const colorMap: Record<ClientType, string> = {
   [ClientType.ForcedExpirationPremium]: '#EEA941',
   [ClientType.Premium]: '#356DF3',
   [ClientType.PENDING]: '#7f7f7f',
+  [ClientType.FREE]: '#77a16d',
 };

@@ -122,11 +122,7 @@ export const ClientDetailsPage = () => {
               transactions={transactionsData?.transactions}
             />
           ) : isLoadingTransactions ? (
-            <Spinner
-              className={classes.spinnerTransactions}
-              centered={false}
-              size={50}
-            />
+            <Spinner className={classes.spinnerTransactions} size={50} />
           ) : (
             'Not found'
           )}

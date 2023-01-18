@@ -16,6 +16,7 @@ const clientTypeFilters = [
   ClientType.TestDrivePremium,
   ClientType.Premium,
   ClientType.PENDING,
+  ClientType.FREE,
 ];
 
 export const ClientsTypeFilters: React.FC<IClientsFiltersProps> = ({
