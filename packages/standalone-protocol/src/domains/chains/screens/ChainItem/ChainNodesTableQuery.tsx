@@ -13,14 +13,18 @@ import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemProps {
   chainId: ChainId;
+  isStandalone: boolean;
 }
 
-export const ChainNodesTableQuery = ({ chainId }: ChainItemProps) => {
+export const ChainNodesTableQuery = ({
+  chainId,
+  isStandalone,
+}: ChainItemProps) => {
   const dispatchRequest = useDispatchRequest();
   const classes = useStyles();
 
   useOnMount(() => {
-    dispatchRequest(fetchChainNodesData(chainId));
+    dispatchRequest(fetchChainNodesData(chainId, isStandalone));
   });
 
   return (

@@ -1,16 +1,15 @@
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
-import {
-  getBannerContent,
-  hasBanner,
-} from 'domains/chains/screens/ChainItem/ChainItemUtils';
+import { getBannerContent } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 import { Banner } from 'domains/chains/screens/ChainItem/components/Banner';
 import { useDimensions } from 'modules/common/hooks/useDimensions';
 import { renderChainName } from 'modules/common/types/unit';
 import { tHTML } from 'modules/i18n/utils/intl';
-import React, { MutableRefObject, useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import { HeaderProps } from './HeaderProps';
 import { useStyles } from './HeaderStyles';
+
+const HAS_BANNER = false;
 
 export const Header = ({ chainId, className = '' }: HeaderProps) => {
   const bannerRef = useRef() as MutableRefObject<HTMLDivElement | null>;
@@ -20,7 +19,7 @@ export const Header = ({ chainId, className = '' }: HeaderProps) => {
   return (
     <div className={classNames(classes.root, className)} data-test-id="header">
       <Banner chainId={chainId} />
-      {hasBanner(chainId) && (
+      {HAS_BANNER && (
         <div ref={bannerRef} className={classNames(classes.banner, chainId)}>
           {getBannerContent(chainId)}
         </div>

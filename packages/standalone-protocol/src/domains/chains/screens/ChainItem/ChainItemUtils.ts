@@ -44,16 +44,6 @@ export const hasAnnounce = (chainId: ChainId): boolean => {
   }
 };
 
-export const hasBanner = (chainId?: string): boolean => {
-  switch (chainId) {
-    case ChainId.Polygon:
-      return true;
-
-    default:
-      return false;
-  }
-};
-
 export const getBannerContent = (chainId?: string): string => {
   switch (chainId) {
     case ChainId.Polygon:
