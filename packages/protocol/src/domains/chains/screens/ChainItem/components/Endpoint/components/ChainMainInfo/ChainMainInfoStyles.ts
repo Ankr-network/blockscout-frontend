@@ -1,17 +1,17 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    marginBottom: theme.spacing(3.5),
+    marginBottom: theme.spacing(2 * 3.5),
   },
   logo: {
     width: 44,
     minHeight: 44,
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2 * 2),
   },
   title: {
     textTransform: 'capitalize',

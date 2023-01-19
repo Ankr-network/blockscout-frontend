@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { t } from '@ankr.com/common';
 import { useAuth } from 'domains/auth/hooks/useAuth';

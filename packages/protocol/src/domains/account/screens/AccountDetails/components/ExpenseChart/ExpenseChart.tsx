@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 import { Chart } from './components/Chart';
 import { Header } from './components/Header';
@@ -18,7 +18,7 @@ export const ExpenseChart = () => {
     yFormatter,
   } = useChart();
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Box className={classes.expenseChartRoot}>

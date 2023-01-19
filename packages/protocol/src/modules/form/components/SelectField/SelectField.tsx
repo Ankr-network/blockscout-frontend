@@ -1,5 +1,5 @@
-import MenuItem from '@material-ui/core/MenuItem';
-import { OutlinedTextFieldProps } from '@material-ui/core/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import { OutlinedTextFieldProps } from '@mui/material/TextField';
 import { ISelectOption, Select } from 'uiKit/Select';
 import React, { useMemo } from 'react';
 import { FieldRenderProps } from 'react-final-form';

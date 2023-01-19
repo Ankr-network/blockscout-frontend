@@ -1,6 +1,5 @@
-import classNames from 'classnames';
 import { ReactNode } from 'react';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 import { useTopUpStyles } from './TopUpStyles';
 import { TopUpBlockHeader } from './TopUpBlockHeader';
@@ -16,10 +15,10 @@ export const TopUp = ({
   children,
   className,
 }: TopUpProps) => {
-  const classes = useTopUpStyles({});
+  const { classes, cx } = useTopUpStyles({});
 
   return (
-    <Box className={classNames(classes.root, className)}>
+    <Box className={cx(classes.root, className)}>
       {header}
       {children}
     </Box>

@@ -6,7 +6,7 @@ export interface ChainTitleProps {
 }
 
 export const ChainTitle = ({ chain: { name } }: ChainTitleProps) => {
-  const classes = useChainTitleStyles();
+  const { classes } = useChainTitleStyles();
 
   return <div className={classes.chainTitle}>{name}</div>;
 };

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 import { ChartCurrency } from '../../types';
 import { IChartData } from 'modules/common/components/Chart';
 import { currenciesMap, root } from '../../const';
 import { formatNumber } from './utils/formatNumber';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 import { useStyles } from './TooltipStyles';
 
@@ -21,7 +21,7 @@ interface TooltipProps {
 }
 
 export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const isActive = active && payload && payload.length > 0;
 

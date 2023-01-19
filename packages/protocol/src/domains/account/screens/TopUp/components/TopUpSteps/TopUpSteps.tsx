@@ -1,4 +1,5 @@
-import { Box, Container, Paper, Typography } from '@material-ui/core';
+import { Box, Container, Paper, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import { Buttons } from './Buttons';
 import { ITopUpStepsProps } from './TopUpStepsTypes';
@@ -7,7 +8,6 @@ import { StepperNotice } from './StepperNotice';
 import { StepperTitle } from './StepperTitle';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { TransactionButton } from './TransactionButton';
-import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './TopUpStepsStyles';
 
 export const TopUpSteps = ({
@@ -23,12 +23,12 @@ export const TopUpSteps = ({
   transactionHash,
   walletMeta,
 }: ITopUpStepsProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Container className={classes.root}>
       <Paper variant="elevation" className={classes.paper} elevation={0}>
-        <Box className={classes.content}>
+        <Box>
           <Typography
             variant="h4"
             className={hasError ? classes.error : classes.header}

@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 
+import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { t } from 'modules/i18n/utils/intl';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';

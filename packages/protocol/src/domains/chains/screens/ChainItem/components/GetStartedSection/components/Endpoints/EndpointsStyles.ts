@@ -1,12 +1,13 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useEndpointsStyles = makeStyles<Theme>(theme => ({
+export const useEndpointsStyles = makeStyles()((theme: Theme) => ({
   endpointsList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(3.75),
+    gap: theme.spacing(2 * 3.75),
 
-    borderRadius: theme.spacing(3.75),
+    borderRadius: theme.spacing(2 * 3.75),
 
     backgroundColor: theme.palette.common.white,
   },

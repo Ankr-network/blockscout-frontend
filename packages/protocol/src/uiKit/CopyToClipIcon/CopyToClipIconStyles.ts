@@ -1,75 +1,91 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<
-  Theme,
-  { size: 'm' | 'l'; isDisabled?: boolean }
->(theme => ({
-  text: {
-    marginRight: theme.spacing(0.5),
-    fontSize: ({ size }) => (size === 'm' ? 12 : 14),
-    transition: 'color .3s',
-  },
-  container: {
-    borderRadius: ({ size }) => (size === 'm' ? 6 : 12),
-    display: 'flex',
-    justifyContent: 'space-between',
-    boxShadow: `0 0 0 2px ${theme.palette.background.default}`,
-    overflow: 'hidden',
-  },
+type Size = 'm' | 'l';
 
-  message: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+interface Params {
+  size: Size;
+  isDisabled?: boolean;
+}
 
-    color: theme.palette.text.primary,
-    background: theme.palette.background.default,
-    fontSize: ({ size }) => (size === 'm' ? 12 : 14),
-    textAlign: 'center',
-    width: '100%',
-    padding: ({ size }) => (size === 'm' ? '10px 9px 9px' : '10px 9px'),
-    lineHeight: 1.43,
+export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
+  (theme: Theme, { size, isDisabled }: Params, classes) => ({
+    text: {
+      marginRight: theme.spacing(2 * 0.5),
+      fontSize: size === 'm' ? 12 : 14,
+      transition: 'color .3s',
+    },
+    container: {
+      borderRadius: size === 'm' ? 6 : 12,
+      display: 'flex',
+      justifyContent: 'space-between',
+      boxShadow: `0 0 0 2px ${theme.palette.background.default}`,
+      overflow: 'hidden',
+    },
 
-    cursor: 'default',
-  },
-  content: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    padding: ({ size }) => (size === 'm' ? '8px 9px' : '10px 15px'),
-    cursor: ({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer'),
-    background: theme.palette.background.default,
-    minHeight: 36,
-    transition: 'background .3s',
+    message: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
 
-    '&:hover': {
-      background: theme.palette.common.white,
+      color: theme.palette.text.primary,
+      background: theme.palette.background.default,
+      fontSize: size === 'm' ? 12 : 14,
+      textAlign: 'center',
+      width: '100%',
+      padding:
+        size === 'm'
+          ? theme.spacing(2 * 1.25, 2 * 1.125, 2 * 1.125)
+          : theme.spacing(2 * 1.25, 2 * 1.125),
+      lineHeight: 1.43,
 
-      '& $text': {
-        color: theme.palette.text.primary,
-      },
+      cursor: 'default',
+    },
 
-      '& $copyIcon, & $copyText': {
-        color: theme.palette.text.primary,
+    content: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+      padding:
+        size === 'm'
+          ? theme.spacing(2 * 1, 2 * 1.125)
+          : theme.spacing(2 * 1.25, 2 * 1.6875),
+      cursor: isDisabled ? 'not-allowed' : 'pointer',
+      background: theme.palette.background.default,
+      minHeight: 36,
+      transition: 'background .3s',
+
+      '&:hover': {
+        background: theme.palette.common.white,
+
+        [`& .${classes.text}`]: {
+          color: theme.palette.text.primary,
+        },
+
+        [`& .${classes.copyIcon}, & .${classes.copyText}`]: {
+          color: theme.palette.text.primary,
+        },
       },
     },
-  },
-  copyIcon: {
-    fontSize: 16,
-    marginLeft: theme.spacing(1),
-    color: theme.palette.primary.main,
-    transition: 'color .3s',
-  },
-  copy: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  copyText: {
-    color: theme.palette.primary.main,
-    marginLeft: theme.spacing(1),
-    fontWeight: 'bold',
-    transition: 'color .3s',
-    lineHeight: 1,
-  },
-}));
+
+    copyIcon: {
+      fontSize: 16,
+      marginLeft: theme.spacing(2 * 1),
+      color: theme.palette.primary.main,
+      transition: 'color .3s',
+    },
+    copy: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    copyText: {
+      fontSize: 14,
+      color: theme.palette.primary.main,
+      marginLeft: theme.spacing(2 * 1),
+      fontWeight: 'bold',
+      transition: 'color .3s',
+      lineHeight: 1,
+    },
+  }),
+);

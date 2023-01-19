@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import classNames from 'classnames';
 
 import { Stat } from './components/Stat';
 import { Timeframe } from 'domains/chains/types';
@@ -34,10 +33,10 @@ export const PublicUsageSummary = ({
     totalRequests,
   });
 
-  const classes = useUsageSummaryStyles();
+  const { classes, cx } = useUsageSummaryStyles();
 
   return (
-    <div className={classNames(className, classes.usageSummary)}>
+    <div className={cx(className, classes.usageSummary)}>
       <Stat loading={loading} title={totalTitle} value={total} />
       <Stat loading={loading} title={averageTitle} value={average} />
       <Stat loading={loading} title={cachedTitle} value={cached} />

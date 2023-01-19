@@ -27,7 +27,7 @@ export const InfrastructureSection = ({
 }: InfrastructureSectionProps) => {
   const [fetchEndpoints] = useLazyInfrastructureFetchEndpointsQuery();
 
-  const classes = useInfrastructureSectionStyles();
+  const { classes } = useInfrastructureSectionStyles();
 
   const {
     hasInfrastructureAccess,
@@ -52,7 +52,7 @@ export const InfrastructureSection = ({
   const chainId = useMemo(() => chains[0]?.id, [chains]);
 
   return (
-    <div className={classes.root}>
+    <div>
       {chainId && (
         <>
           {canAddEndpoint(providerData, chainId) && withMyEndpoints && (
@@ -75,7 +75,7 @@ export const InfrastructureSection = ({
 
       {withNodes && (
         <div className={classes.table}>
-          <ChainNodesTableQuery chain={chain} group={group} />
+          <ChainNodesTableQuery chainId={chainId} />
         </div>
       )}
     </div>

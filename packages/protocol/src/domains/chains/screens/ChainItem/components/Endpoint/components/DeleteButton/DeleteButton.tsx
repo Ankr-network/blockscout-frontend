@@ -1,7 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { Button } from '@material-ui/core';
-
-import classNames from 'classnames';
+import { useCallback, useState } from 'react';
+import { Button } from '@mui/material';
 
 import { DeleteButtonProps } from './DeleteButtonTypes';
 import { DeleteEndpointDialog } from '../DeleteEndpointDialog';
@@ -11,7 +9,7 @@ import { useLazyInfrastructureDeletePrivateEndpointQuery } from 'domains/infrast
 import { useStyles } from './DeleteButtonStyles';
 
 export const DeleteButton = ({ className, endpoint }: DeleteButtonProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const [deletePrivateEndpoint] =
     useLazyInfrastructureDeletePrivateEndpointQuery();
 
@@ -26,7 +24,7 @@ export const DeleteButton = ({ className, endpoint }: DeleteButtonProps) => {
 
   return (
     <>
-      <div className={classNames(classes.root, className)}>
+      <div className={cx(classes.root, className)}>
         <Button variant="text" className={classes.link} onClick={onOpen}>
           <TrashBinIcon className={classes.icon} />
         </Button>

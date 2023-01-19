@@ -1,14 +1,15 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
 export const MOBILE_HEADER_HEIGHT = 64;
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     position: 'fixed',
     width: '100%',
     backgroundColor: theme.palette.background.paper,
     zIndex: 2,
-    padding: theme.spacing(1.25, 0),
+    padding: theme.spacing(2 * 1.25, 0),
   },
 
   container: {
@@ -16,12 +17,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: theme.spacing(0, 2),
+      padding: theme.spacing(2 * 0, 2 * 2),
     },
   },
   switcher: {
-    marginRight: theme.spacing(4.5),
-    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(2 * 4.5),
+    marginLeft: theme.spacing(2 * 1),
   },
   right: {
     display: 'inline-flex',
@@ -30,6 +31,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   buttons: {
     display: 'flex',
-    gap: theme.spacing(1),
+    gap: theme.spacing(2 * 1),
   },
 }));

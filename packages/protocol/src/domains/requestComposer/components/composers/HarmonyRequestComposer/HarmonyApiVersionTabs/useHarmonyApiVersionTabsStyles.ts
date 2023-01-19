@@ -1,16 +1,15 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useHarmonyApiVersionTabsStyles = makeStyles<Theme>(theme => ({
+export const useHarmonyApiVersionTabsStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2 * 2),
   },
   title: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(2 * 1),
     fontSize: 16,
     fontWeight: 700,
-    lineHeight: '28px',
+    lineHeight: theme.spacing(2 * 5),
   },
-  tabs: {},
 }));

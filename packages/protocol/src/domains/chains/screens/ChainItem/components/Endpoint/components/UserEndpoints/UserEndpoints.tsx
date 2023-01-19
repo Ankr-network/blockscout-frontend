@@ -1,13 +1,13 @@
-import { Box, Typography } from '@material-ui/core';
-import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+import { Box, Typography } from '@mui/material';
 import { useMemo } from 'react';
+import { t, tHTML } from '@ankr.com/common';
 
+import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { AddEndpointButton } from '../AddEndpointButton';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { UserEndpointsForm } from './UserEndpointsForm';
 import { getRpcLinks } from './UserEndpointsUtils';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './UserEndpointsStyles';
 
 interface UserEndpointsProps {
@@ -29,7 +29,7 @@ export const UserEndpoints = ({
   privateUrls,
   publicUrls,
 }: UserEndpointsProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
 

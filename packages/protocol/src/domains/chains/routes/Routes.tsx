@@ -1,28 +1,28 @@
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { ChainsRoutesConfig } from './routesConfig';
 
 const LoadableAddEndpointContainer: LoadableComponent<any> = loadable(
   async () =>
     import('../screens/AddEndpoint').then(module => module.AddEndpoint),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 
 const LoadableChainsContainer: LoadableComponent<any> = loadable(
   async () => import('../screens/Chains').then(module => module.Chains),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 
 const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
   async () => import('../screens/ChainItem').then(module => module.ChainItem),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 

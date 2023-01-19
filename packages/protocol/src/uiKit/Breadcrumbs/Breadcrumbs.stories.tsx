@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, ThemeProvider } from '@material-ui/core';
+import { Box, ThemeProvider } from '@mui/material';
 import { storiesOf } from '@storybook/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { mainTheme } from 'ui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 import { Breadcrumbs } from './Breadcrumbs';
 
 const items = [{ title: 'Chains', link: '/' }, { title: 'Polygon' }];

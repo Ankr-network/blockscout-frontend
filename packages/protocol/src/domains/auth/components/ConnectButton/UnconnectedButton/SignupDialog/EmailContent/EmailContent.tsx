@@ -1,18 +1,17 @@
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@mui/material';
 
-import { t } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 import { useEmailContentStyles } from './useEmailContentStyles';
 import { ReactComponent as GoogleIcon } from 'uiKit/Icons/google.svg';
 import { InfoBanner } from 'modules/common/components/InfoBanner';
 import { ReactComponent as WarningIcon } from 'uiKit/Icons/warning-icon.svg';
-import { tHTML } from 'modules/i18n/utils/intl';
 
 interface EmailContentProps {
   onClick: () => void;
 }
 
 export const EmailContent = ({ onClick }: EmailContentProps) => {
-  const classes = useEmailContentStyles();
+  const { classes } = useEmailContentStyles();
 
   return (
     <Box className={classes.root}>
@@ -35,7 +34,7 @@ export const EmailContent = ({ onClick }: EmailContentProps) => {
           message={tHTML('signup-modal.email-warning')}
           className={classes.banner}
         />
-        <Typography className={classes.subtitle} variant="subtitle1">
+        <Typography className={classes.subtitle} variant="h6">
           {tHTML('signup-modal.description')}
         </Typography>
       </Box>

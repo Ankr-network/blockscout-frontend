@@ -1,5 +1,5 @@
 import { isWebUri } from 'valid-url';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const validateIp = (value?: string) => {
   if (typeof value !== 'string') {

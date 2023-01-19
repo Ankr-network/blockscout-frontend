@@ -1,9 +1,9 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   email: {
-    width: theme.spacing(52),
+    width: theme.spacing(2 * 52),
 
     fontSize: 34,
 

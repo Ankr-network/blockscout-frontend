@@ -1,38 +1,38 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
-    gap: '3px 9px',
+    gap: theme.spacing(2 * 0.375, 2 * 1.125),
   },
   marker: {
-    width: theme.spacing(1.5),
-    height: theme.spacing(1.5),
+    width: theme.spacing(2 * 1.5),
+    height: theme.spacing(2 * 1.5),
 
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(1.25),
-      height: theme.spacing(1.25),
+      width: theme.spacing(2 * 1.25),
+      height: theme.spacing(2 * 1.25),
     },
   },
   usdBalance: {
-    width: theme.spacing(9),
-    height: theme.spacing(2.5),
+    width: theme.spacing(2 * 9),
+    height: theme.spacing(2 * 2.5),
 
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(7.5),
-      height: theme.spacing(2),
+      width: theme.spacing(2 * 7.5),
+      height: theme.spacing(2 * 2),
     },
   },
   description: {
-    width: theme.spacing(43),
-    height: theme.spacing(2.5),
+    width: theme.spacing(2 * 43),
+    height: theme.spacing(2 * 2.5),
 
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(35),
-      height: theme.spacing(2),
+      width: theme.spacing(2 * 35),
+      height: theme.spacing(2 * 2),
     },
   },
 }));

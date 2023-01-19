@@ -1,8 +1,7 @@
-import classNames from 'classnames';
-import { FormGroup, Typography } from '@material-ui/core';
+import { FormGroup, Typography } from '@mui/material';
 import { Field } from 'react-final-form';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { InputField } from 'modules/form/components/InputField';
 import { useStyles } from './AmountFieldStyles';
 import {
@@ -36,10 +35,10 @@ export function AmountField<T extends string>({
   maxLength = MAX_LENGTH,
   className,
 }: AmountFieldProps<T>) {
-  const classes = useStyles({ size });
+  const { classes, cx } = useStyles({ size });
 
   return (
-    <FormGroup className={classNames(classes.formGroup, className)}>
+    <FormGroup className={cx(classes.formGroup, className)}>
       <Field
         component={InputField}
         name={name}
@@ -54,7 +53,11 @@ export function AmountField<T extends string>({
             root: classes.inputBase,
             input: classes.input,
           },
-          endAdornment: <Typography variant="subtitle1">{currency}</Typography>,
+          endAdornment: (
+            <Typography variant="subtitle1" className={classes.subtitle}>
+              {currency}
+            </Typography>
+          ),
         }}
         // eslint-disable-next-line
         inputProps={{ maxLength }}

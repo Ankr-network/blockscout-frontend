@@ -1,20 +1,20 @@
-import { Box } from '@material-ui/core';
-import { Spinner } from 'ui';
+import { Box } from '@mui/material';
 import { useHistory } from 'react-router';
 
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import {
   EmptyObject,
   useLazyOauthLoginByGoogleSecretCodeQuery,
 } from 'domains/oauth/actions/loginByGoogleSecretCode';
-import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOauthStyles } from './useOauthStyles';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const OauthQuery = () => {
   const [loginUser, state] = useLazyOauthLoginByGoogleSecretCodeQuery();
   const history = useHistory();
-  const classes = useOauthStyles();
+  const { classes } = useOauthStyles();
 
   useOnMount(() => {
     const login = async () => {
@@ -30,8 +30,8 @@ export const OauthQuery = () => {
 
   return (
     <Box className={classes.root}>
-      <Queries<EmptyObject> empty={<Spinner />} queryStates={[state]}>
-        {() => <Spinner />}
+      <Queries<EmptyObject> empty={<OverlaySpinner />} queryStates={[state]}>
+        {() => <OverlaySpinner />}
       </Queries>
     </Box>
   );

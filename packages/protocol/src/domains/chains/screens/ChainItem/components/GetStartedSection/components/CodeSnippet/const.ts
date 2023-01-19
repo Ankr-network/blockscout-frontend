@@ -1,6 +1,6 @@
 import { ConnectionType } from '../../types';
 import { root } from '../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const types = `${root}.connection-snippet.connection-types`;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useBannerStyles } from './useBannerStyles';
-import { tHTML } from 'modules/i18n/utils/intl';
+import { tHTML } from '@ankr.com/common';
 
 export const InfoBanner = () => {
-  const classes = useBannerStyles();
+  const { classes } = useBannerStyles();
 
   return (
     <div className={classes.root}>

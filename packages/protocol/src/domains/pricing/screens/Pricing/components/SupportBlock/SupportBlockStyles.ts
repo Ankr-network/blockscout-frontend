@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useSupportBlockStyles = makeStyles<Theme>(theme => ({
+export const useSupportBlockStyles = makeStyles()((theme: Theme) => ({
   contactBlock: {
     display: 'flex',
     alignItems: 'center',
@@ -11,7 +11,7 @@ export const useSupportBlockStyles = makeStyles<Theme>(theme => ({
     marginRight: 'auto',
 
     [theme.breakpoints.down('sm')]: {
-      paddingBottom: theme.spacing(12),
+      paddingBottom: theme.spacing(2 * 12),
       flexDirection: 'column',
     },
   },
@@ -19,16 +19,17 @@ export const useSupportBlockStyles = makeStyles<Theme>(theme => ({
     fontWeight: 400,
   },
   contactBlockBtn: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(2 * 5),
     backgroundColor: theme.palette.common.white,
     color: '#5865F2',
+    fontSize: 14,
     '&:hover': {
       backgroundColor: `${theme.palette.common.white}`,
       color: theme.palette.text.primary,
     },
 
     [theme.breakpoints.down('sm')]: {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(2 * 2),
       marginLeft: 0,
     },
   },

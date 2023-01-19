@@ -1,5 +1,7 @@
-import { fade, makeStyles, Theme } from '@material-ui/core';
-import { mainTheme } from 'ui';
+import { alpha } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 import { DialogTitleColor } from './types';
 
 const colorsMap: Record<DialogTitleColor, string> = {
@@ -12,77 +14,78 @@ interface IUseStylesProps {
   maxPxWidth?: number;
 }
 
-export const useStyles = makeStyles<Theme, IUseStylesProps>(theme => ({
-  backdrop: {
-    backgroundColor: fade(theme.palette.background.default, 0.8),
-  },
-
-  paper: {
-    maxWidth: ({ maxPxWidth }) => maxPxWidth || 'unset',
-    background: theme.palette.background.paper,
-    boxShadow:
-      '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 0px 50px rgba(31, 34, 38, 0.1)',
-    borderRadius: 30,
-    padding: theme.spacing(4, 5, 5, 5),
-
-    [theme.breakpoints.down('xs')]: {
-      borderRadius: 20,
-      padding: theme.spacing(2.5),
-    },
-  },
-
-  dialogTitle: {
-    padding: 0,
-    marginBottom: theme.spacing(3),
-    letterSpacing: '0.05em',
-    position: 'relative',
-
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: theme.spacing(1),
+export const useStyles = makeStyles<IUseStylesProps>()(
+  (theme: Theme, props: IUseStylesProps) => ({
+    root: {
+      display: 'fixed',
     },
 
-    '& h2': {
-      fontSize: 28,
-      fontWeight: 700,
-      color: ({ dialogTitleColor }: { dialogTitleColor: DialogTitleColor }) =>
-        colorsMap[dialogTitleColor],
-      paddingRight: theme.spacing(5),
+    backdrop: {
+      backgroundColor: alpha(theme.palette.background.default, 0.8),
+    },
+
+    paper: {
+      '&&': {
+        maxWidth: props.maxPxWidth || 'unset',
+      },
+      background: theme.palette.background.paper,
+      boxShadow:
+        '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 0px 50px rgba(31, 34, 38, 0.1)',
+      borderRadius: 30,
+      padding: theme.spacing(2 * 4, 2 * 5, 2 * 5, 2 * 5),
 
       [theme.breakpoints.down('xs')]: {
-        fontSize: 27,
+        borderRadius: 20,
+        padding: theme.spacing(2 * 2.5),
       },
     },
-  },
 
-  dialogContent: {
-    padding: 0,
-    marginBottom: 0,
-    overflowY: 'unset',
-  },
+    dialogTitle: {
+      padding: 0,
+      marginBottom: theme.spacing(2 * 3),
+      letterSpacing: '0.05em',
 
-  closeButton: {
-    position: 'absolute',
-    border: `2px solid ${theme.palette.background.default}`,
-    borderRadius: 14,
-    width: 40,
-    height: 40,
-    fontSize: '2rem',
-    right: 0,
+      fontSize: 34,
+      fontWeight: 700,
+      minHeight: 40,
+      color: colorsMap[props.dialogTitleColor],
+      position: 'relative',
 
-    [theme.breakpoints.down('xs')]: {
-      width: 32,
-      height: 32,
-      fontSize: '1.7rem',
-      borderRadius: 11,
+      [theme.breakpoints.down('xs')]: {
+        minHeight: 32,
+        fontSize: 27,
+        marginBottom: theme.spacing(2 * 1),
+      },
+    },
+
+    dialogContent: {
+      padding: 0,
+      marginBottom: 0,
+      overflowY: 'unset',
+    },
+
+    closeButton: {
+      border: `2px solid ${theme.palette.background.default}`,
+      borderRadius: 14,
+      width: 40,
+      height: 40,
+      fontSize: '2rem',
       right: 0,
-      top: 5,
-    },
-
-    '& svg': {
       position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
+
+      [theme.breakpoints.down('xs')]: {
+        width: 32,
+        height: 32,
+        fontSize: '1.7rem',
+        borderRadius: 11,
+      },
+
+      '& svg': {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      },
     },
-  },
-}));
+  }),
+);

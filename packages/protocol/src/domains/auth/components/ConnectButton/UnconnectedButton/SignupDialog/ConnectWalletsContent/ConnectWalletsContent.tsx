@@ -1,20 +1,20 @@
-import { Box, ButtonBase, Grid, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Grid, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { uid } from 'react-uid';
 
-import { t } from '@ankr.com/common';
 import { useConnectWalletsModalStyles } from './useConnectWalletsContentStyles';
 import { ETH_COMPATIBLE_WALLETS } from './ConnectWalletsContentUtils';
 import {
   IConnectWalletsModalProps,
   IOnWalletItemClickArgs,
 } from './ConnectWalletsContentTypes';
+import { t } from '@ankr.com/common';
 
 export const ConnectWalletsContent = ({
   onConnect,
   onClose,
 }: IConnectWalletsModalProps) => {
-  const classes = useConnectWalletsModalStyles();
+  const { classes } = useConnectWalletsModalStyles();
 
   const onWalletItemClick =
     ({ href, isInjected, walletId }: IOnWalletItemClickArgs) =>
@@ -32,7 +32,7 @@ export const ConnectWalletsContent = ({
 
   return (
     <Box width="100%">
-      <Grid container spacing={2}>
+      <Grid container spacing={4} sx={{ marginTop: 0, marginLeft: -2 }}>
         {ETH_COMPATIBLE_WALLETS.map(walletsGroup => (
           <Fragment key={uid(walletsGroup)}>
             {walletsGroup.map(walletItem => {
@@ -44,7 +44,14 @@ export const ConnectWalletsContent = ({
               }
 
               return (
-                <Grid key={uid(walletItem)} item sm={4} xs={12}>
+                <Grid
+                  sx={{ flexBasis: '100%' }}
+                  key={uid(walletItem)}
+                  padding={2}
+                  item
+                  sm={4}
+                  xs={12}
+                >
                   <ButtonBase
                     className={classes.walletItem}
                     onClick={onWalletItemClick({

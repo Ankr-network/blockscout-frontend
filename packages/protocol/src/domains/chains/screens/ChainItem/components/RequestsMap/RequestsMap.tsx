@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { NoData } from '../MethodCalls/components/NoData';
 import { RequestsMapProps } from './RequestsMapTypes';
 import { getMarkerPointsAndStats } from './RequestsMapUtils';
@@ -11,14 +11,14 @@ import { StatsTable } from './StatsTable';
 import { Timeframe } from 'domains/chains/types';
 import { ItemHeader } from '../ItemHeader';
 import { useRequestsMapStyles } from './useRequestsMapStyles';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 export const RequestsMap = ({
   loading,
   countries,
   timeframe,
 }: RequestsMapProps) => {
-  const classes = useRequestsMapStyles();
+  const { classes } = useRequestsMapStyles();
   const [country, setCountry] = useState<string>('');
 
   // TODO: remove when BE releases add all timeframe support for Premium
@@ -35,7 +35,7 @@ export const RequestsMap = ({
       />
       {loading ? (
         <div className={classes.loading}>
-          <Spinner />
+          <OverlaySpinner />
         </div>
       ) : (
         <div className={classes.container}>

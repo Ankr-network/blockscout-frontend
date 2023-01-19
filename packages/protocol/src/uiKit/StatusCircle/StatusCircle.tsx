@@ -1,6 +1,6 @@
 import { useStyles } from './StatusCircleStyles';
-import classNames from 'classnames';
-import { Box } from '@material-ui/core';
+
+import { Box } from '@mui/material';
 import { StatusCircleProps } from './StatusCircleProps';
 
 export const StatusCircle = ({
@@ -10,11 +10,11 @@ export const StatusCircle = ({
   color,
   ...rest
 }: StatusCircleProps) => {
-  const classes = useStyles({ size, status });
+  const { classes, cx } = useStyles({ size, status });
 
   return (
     <Box
-      className={classNames(classes.root, className)}
+      className={cx(classes.root, className)}
       {...rest}
       style={{ ...rest.style, backgroundColor: color }}
     />

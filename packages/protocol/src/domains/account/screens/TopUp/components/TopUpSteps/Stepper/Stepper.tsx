@@ -1,8 +1,8 @@
-import { Step, StepLabel, Stepper as MuiStepper } from '@material-ui/core';
+import { Step, StepLabel, Stepper as MuiStepper } from '@mui/material';
+import { StepError } from '@ankr.com/ui';
 
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { Connector, useStyles } from './StepperStyles';
-import { ReactComponent as WarningIcon } from 'uiKit/Icons/warning-icon.svg';
+import { Connector, NormalConnector } from './StepperStyles';
 
 interface IStepperProps {
   step: TopUpStep;
@@ -17,20 +17,18 @@ export const Stepper = ({
   hasPrivateAccess,
   hasError,
 }: IStepperProps) => {
-  const classes = useStyles();
-
   return (
     <MuiStepper
       activeStep={step - 1}
       nonLinear
       className={className}
-      connector={hasError ? <Connector /> : undefined}
+      connector={hasError ? <Connector /> : <NormalConnector />}
     >
       <Step key={TopUpStep.allowance} completed={step >= TopUpStep.allowance}>
-        <StepLabel error={hasError} className={classes.root} />
+        <StepLabel />
       </Step>
       <Step key={TopUpStep.deposit} completed={step >= TopUpStep.deposit}>
-        <StepLabel className={classes.root} error={hasError} />
+        <StepLabel />
       </Step>
       <Step
         key={TopUpStep.waitTransactionConfirming}
@@ -38,8 +36,7 @@ export const Stepper = ({
       >
         <StepLabel
           error={hasError}
-          StepIconComponent={hasError ? WarningIcon : undefined}
-          className={classes.root}
+          StepIconComponent={hasError ? StepError : undefined}
         />
       </Step>
       {!hasPrivateAccess && (

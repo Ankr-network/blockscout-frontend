@@ -1,5 +1,5 @@
 import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 import { Dialog } from 'uiKit/Dialog';
 import { ConnectWalletsContent } from './ConnectWalletsContent';

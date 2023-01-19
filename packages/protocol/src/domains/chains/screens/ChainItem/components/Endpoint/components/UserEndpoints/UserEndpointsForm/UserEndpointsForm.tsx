@@ -1,8 +1,8 @@
-import { Box, FormGroup } from '@material-ui/core';
-import { FieldArray } from 'react-final-form-arrays';
-import { Form, FormRenderProps } from 'react-final-form';
-import { Mutator } from 'final-form';
 import { useCallback } from 'react';
+import { FormGroup, Box } from '@mui/material';
+import { Form, FormRenderProps } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
+import { Mutator } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import setFieldTouched from 'final-form-set-field-touched';
 
@@ -23,7 +23,7 @@ export const UserEndpointsForm = ({
   privateUrls,
   publicUrls,
 }: UserEndpointsProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const onSubmit = useCallback(
     (updatedEndpoint?: UserEndpoint) => {

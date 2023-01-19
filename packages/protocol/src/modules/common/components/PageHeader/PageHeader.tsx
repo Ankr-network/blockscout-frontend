@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 import { useStyles } from './useStyles';
 
@@ -10,7 +10,7 @@ export interface PageHeaderProps {
 }
 
 export const PageHeader = ({ title, select, button }: PageHeaderProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.root}>

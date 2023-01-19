@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 import { CodeSnippet } from '../CodeSnippet';
 import { ConnectionType, Technology } from '../../types';
@@ -12,7 +12,7 @@ export interface SnippetsProps {
 }
 
 export const Snippets = ({ group, technology }: SnippetsProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const { httpCode, language, wssCode } = useSnippets({ group, technology });
 

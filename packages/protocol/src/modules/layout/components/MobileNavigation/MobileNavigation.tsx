@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container } from '@material-ui/core';
+import { Button, Container } from '@mui/material';
 import { NavLink, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
 
 import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
 import { useMobileNavigationStyles } from './useMobileNavigationStyles';
-import { useIsSMDown } from 'ui';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { getNavigationList } from '../MainNavigation/MainNavigationUtils';
 import { NavigationItem } from 'modules/common/components/Navigation';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
@@ -39,14 +38,14 @@ export const MobileNavigation = ({
     setIsOpened(false);
   }, [pathname]);
 
-  const classes = useMobileNavigationStyles();
+  const { classes, cx } = useMobileNavigationStyles();
 
   const items: NavigationItem[] = getNavigationList(chainsRoutes, hasPremium);
 
   return (
     <>
       {!loading && (
-        <nav className={classNames(classes.root, classes.custom, className)}>
+        <nav className={cx(classes.root, classes.custom, className)}>
           <Container className={classes.container} maxWidth={false}>
             {items.map(
               ({ label, href = '', StartIcon, ActiveIcon, isActive }) => {
@@ -60,9 +59,6 @@ export const MobileNavigation = ({
                     variant="text"
                     className={classes.link}
                     color="primary"
-                    classes={{
-                      label: classes.label,
-                    }}
                   >
                     <StartIcon />
                     {label}
@@ -76,14 +72,11 @@ export const MobileNavigation = ({
                     variant="text"
                     className={classes.link}
                     color="primary"
-                    classes={{
-                      label: classes.label,
-                    }}
                     isActive={isActive}
                   >
                     <StartIcon />
                     {ActiveIcon && (
-                      <ActiveIcon className={classes.activeIcon} />
+                      <ActiveIcon className={classes.activeLink} />
                     )}
                     {label}
                   </Button>

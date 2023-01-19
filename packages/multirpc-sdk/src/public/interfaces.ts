@@ -1,16 +1,16 @@
-import { IBlockchainEntity, INodeEntity } from '../backoffice';
+import { IBlockchainEntity } from '../backoffice';
 import {
   IRate,
   IWorkerGlobalStatus,
-  IWorkerNodesWeight,
   IWorkerPublicStats,
   Timeframe,
+  INodesDetailEntity,
 } from './types';
 
 export interface IPublicGateway {
   getBlockchains(): Promise<IBlockchainEntity[]>;
 
-  getNodes(blockchain?: string): Promise<INodeEntity[]>;
+  getNodesDetail(): Promise<INodesDetailEntity[]>;
 
   getTimeframeStats(
     blockchain: string,
@@ -18,8 +18,6 @@ export interface IPublicGateway {
   ): Promise<IWorkerGlobalStatus>;
 
   getPublicTimeframesStats(timeframe: Timeframe): Promise<IWorkerPublicStats>;
-
-  getNodesWeight(): Promise<IWorkerNodesWeight[]>;
 
   getRate(): Promise<IRate>;
 }

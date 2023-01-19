@@ -1,19 +1,22 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   balanceCheckbox: {
-    marginBottom: theme.spacing(10),
+    marginBottom: theme.spacing(2 * 10),
   },
   description: {
-    marginLeft: theme.spacing(3),
-    marginBottom: theme.spacing(2.5),
+    fontSize: 14,
+    marginLeft: theme.spacing(2 * 3),
+    marginBottom: theme.spacing(2 * 2.5),
+    fontWeight: 400,
   },
   label: {
-    marginTop: 2,
+    marginTop: theme.spacing(2 * 0.25),
   },
   divider: {
-    marginTop: theme.spacing(1.25),
-    marginBottom: theme.spacing(2.5),
+    marginTop: theme.spacing(2 * 1.25),
+    marginBottom: theme.spacing(2 * 2.5),
     height: 1,
     backgroundColor: theme.palette.grey['400'],
   },

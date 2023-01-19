@@ -1,10 +1,10 @@
-import { SnackbarProps } from '@material-ui/core/Snackbar';
-import { Color } from '@material-ui/lab';
+import { SnackbarProps } from '@mui/material/Snackbar';
+import { AlertColor } from '@mui/material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/types/types-external';
 
 export interface INotificationProps extends SnackbarProps {
-  severity: Color;
+  severity: AlertColor;
   isHTML?: boolean;
 }
 

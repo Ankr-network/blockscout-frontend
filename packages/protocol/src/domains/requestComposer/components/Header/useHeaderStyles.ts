@@ -1,12 +1,12 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useHeaderStyles = makeStyles<Theme>(theme => ({
+export const useHeaderStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2 * 4),
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
     },
@@ -14,9 +14,9 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   title: {
     fontSize: 20,
     fontWeight: 700,
-    lineHeight: '28px',
+    lineHeight: theme.spacing(2 * 3.5),
     [theme.breakpoints.down('md')]: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2 * 4),
     },
   },
   info: {
@@ -30,8 +30,8 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginRight: theme.spacing(3.5),
-    marginBottom: theme.spacing(1),
+    marginRight: theme.spacing(2 * 3.5),
+    marginBottom: theme.spacing(2 * 1),
     '&:last-child': {
       marginRight: 0,
     },
@@ -40,22 +40,22 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     fontSize: 14,
     fontWeight: 400,
     letterSpacing: '0.01em',
-    marginRight: theme.spacing(0.5),
+    marginRight: theme.spacing(2 * 0.5),
   },
   content: {
     fontSize: 14,
     fontWeight: 400,
     letterSpacing: '0.01em',
-    marginLeft: theme.spacing(0.5),
+    marginLeft: theme.spacing(2 * 0.5),
     borderRadius: 8,
     backgroundColor: theme.palette.background.default,
-    padding: '2px 8px',
+    padding: theme.spacing(2 * 0.25, 2 * 1),
   },
   blockNumber: {
     width: 90,
   },
   skeleton: {
     height: 24,
-    marginTop: -4,
+    marginTop: theme.spacing(2 * -0.5),
   },
 }));

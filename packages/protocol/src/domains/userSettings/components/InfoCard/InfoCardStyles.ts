@@ -1,4 +1,5 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
 import { Align } from './types';
 
@@ -8,34 +9,34 @@ const flexAlign: Record<Align, string> = {
   end: 'flex-end',
 };
 
-export const useStyles = makeStyles<Theme, { align: Align }>(theme => ({
+export const useStyles = makeStyles<Align>()((theme: Theme, align: Align) => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: ({ align }) => flexAlign[align],
-    padding: theme.spacing(5),
+    alignItems: flexAlign[align],
+    padding: theme.spacing(2 * 5),
     borderRadius: 30,
     maxWidth: 618,
 
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(2.5),
+      padding: theme.spacing(2 * 2.5),
       borderRadius: 20,
     },
   },
   title: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2 * 2),
     fontWeight: 700,
     fontSize: 34,
-    textAlign: ({ align }) => align,
+    textAlign: align,
 
     [theme.breakpoints.down('xs')]: {
       fontSize: 27,
     },
   },
   description: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2 * 4),
     fontSize: 17,
-    textAlign: ({ align }) => align,
+    textAlign: 'center',
 
     '& a': {
       color: theme.palette.primary.main,

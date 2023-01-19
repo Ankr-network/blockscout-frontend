@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Button, CircularProgress, Typography } from '@material-ui/core';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { Field, useForm } from 'react-final-form';
 
-import { tHTML } from 'modules/i18n/utils/intl';
+import { tHTML } from '@ankr.com/common';
 import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxField';
 import { useStyles } from './AgreementFormStyles';
 import { AddEndpointFormFields } from '../AddEndpointFormTypes';
@@ -11,7 +11,7 @@ import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrast
 const HAS_CHECKBOX = false;
 
 export const AgreementForm = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const form = useForm();
   const [, { isLoading }] = useLazyInfrastructureApiAddPrivateEndpointQuery();
 

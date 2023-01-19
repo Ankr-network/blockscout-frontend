@@ -1,10 +1,10 @@
-import { NoSsr } from '@material-ui/core';
+import { NoSsr } from '@mui/material';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { Notifications } from './domains/notification/components/Notifications';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
@@ -21,7 +21,7 @@ function App() {
   return (
     <Router history={historyInstance}>
       <Provider store={store}>
-        <PersistGate loading={<Spinner />} persistor={persistor}>
+        <PersistGate loading={<OverlaySpinner />} persistor={persistor}>
           <AppBase>
             <NoReactSnap>
               <JiraServiceDeskMounter />

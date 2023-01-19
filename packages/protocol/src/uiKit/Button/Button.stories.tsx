@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, ThemeProvider, Button } from '@material-ui/core';
+import { Box, ThemeProvider, Button } from '@mui/material';
 import { storiesOf } from '@storybook/react';
 
-import { mainTheme } from 'ui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 import { CopyIcon } from '../Icons/CopyIcon';
 
 storiesOf('uiKit/Button', module)

@@ -1,40 +1,41 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useDataUsageSectionStyles = makeStyles<Theme>(theme => ({
+export const useDataUsageSectionStyles = makeStyles()((theme: Theme) => ({
   usageDataSection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(3.75),
+    gap: theme.spacing(2 * 3.75),
 
-    marginTop: theme.spacing(3.75),
+    marginTop: theme.spacing(2 * 3.75),
 
     [theme.breakpoints.down('lg')]: {
-      gap: theme.spacing(2),
+      gap: theme.spacing(2 * 2),
 
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(2 * 2),
     },
   },
   row: {
     display: 'flex',
     gap: 20,
-    height: 300,
     [theme.breakpoints.down('sm')]: {
-      height: 600,
       flexDirection: 'column',
     },
   },
   timeframe: {
-    display: 'none',
+    '&&': {
+      display: 'none',
 
-    [theme.breakpoints.down('lg')]: {
-      display: 'flex',
+      [theme.breakpoints.down('md')]: {
+        display: 'flex',
+      },
     },
   },
   error: {
     background: theme.palette.background.paper,
     borderRadius: 18,
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2 * 3),
+    marginTop: theme.spacing(2 * 3),
+    marginBottom: theme.spacing(2 * 3),
   },
 }));

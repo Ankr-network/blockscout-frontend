@@ -1,6 +1,6 @@
 import { AccountErrorResponse } from 'multirpc-sdk';
 import { AxiosError } from 'axios';
-import { capitalize } from '@material-ui/core';
+import { capitalize } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 export const getAxiosAccountErrorMessage = (

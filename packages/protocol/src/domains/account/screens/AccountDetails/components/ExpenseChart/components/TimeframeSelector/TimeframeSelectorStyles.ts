@@ -1,9 +1,9 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
-    backgroundColor: 'transparent !important',
+    backgroundColor: 'transparent',
 
     '& div': {
       borderRadius: 0,
@@ -18,6 +18,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
 
     '&:hover': {
+      backgroundColor: theme.palette.common.white,
       '& svg': {
         color: theme.palette.primary.main,
       },
@@ -30,7 +31,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   select: {
-    padding: `3px ${theme.spacing(3)}px 0 0 !important`,
+    '&&': {
+      padding: theme.spacing(0, 2 * 4, 0, 0),
+    },
 
     borderRadius: 0,
 
@@ -38,7 +41,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 400,
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: theme.spacing(2 * 2.5),
 
     '&:hover': {
       borderRadius: 0,

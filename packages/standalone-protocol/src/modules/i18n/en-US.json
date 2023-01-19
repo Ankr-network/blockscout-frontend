@@ -67,6 +67,15 @@
       }
     }
   },
+  "continents": {
+    "AS": "Asia",
+    "EU": "Europe",
+    "AF": "Africa",
+    "NA": "North America",
+    "SA": "South America",
+    "AN": "Antarctica",
+    "OC": "Oceania"
+  },
   "common": {
     "copy-message": "Copied!",
     "copy-text": "Public Link",

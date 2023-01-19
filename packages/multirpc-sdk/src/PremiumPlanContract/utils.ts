@@ -6,8 +6,6 @@ import { IGetPastEvents } from './types';
 // Block step range for events
 export const ETH_HISTORY_RANGE_STEP = 3_000;
 
-const HAS_ADVANCED_API = false;
-
 export const getPastEventsBlockchain = async ({
   web3,
   contract,
@@ -17,7 +15,7 @@ export const getPastEventsBlockchain = async ({
   rangeStep = ETH_HISTORY_RANGE_STEP,
   filter,
 }: IGetPastEvents): Promise<EventData[]> => {
-  if (isMainnet && HAS_ADVANCED_API) {
+  if (isMainnet) {
     return getPastEvents({
       fromBlock: startBlock,
       toBlock: latestBlockNumber,

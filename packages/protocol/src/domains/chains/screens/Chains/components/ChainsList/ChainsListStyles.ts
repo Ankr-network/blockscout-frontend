@@ -1,12 +1,12 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useChainListStyles = makeStyles<Theme>(theme => ({
+export const useChainListStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'grid',
     alignItems: 'center',
     gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: theme.spacing(3.5),
+    gap: theme.spacing(2 * 3.5),
 
     [`@media (max-width: 1930px)`]: {
       gridTemplateColumns: 'repeat(3, 1fr)',
@@ -39,7 +39,7 @@ export const useChainListStyles = makeStyles<Theme>(theme => ({
   skeleton: {
     background: theme.palette.background.paper,
     borderRadius: 18,
-    padding: theme.spacing(2.5),
+    padding: theme.spacing(2 * 2.5),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

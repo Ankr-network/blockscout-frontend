@@ -1,25 +1,24 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   tooltipRoot: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
 
-    padding: theme.spacing(2, 3),
+    padding: theme.spacing(2 * 2, 2 * 3),
     borderRadius: 18,
 
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.palette.common.white,
 
     boxShadow:
       '0 0 25px rgba(31, 34, 38, 0.1), 0 5px 100px rgba(31, 34, 38, 0.15)',
 
     letterSpacing: '0.01em',
 
-    // fontFamily: 'Inter';
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: theme.spacing(2 * 2.5),
   },
   value: {
     color: theme.palette.text.primary,

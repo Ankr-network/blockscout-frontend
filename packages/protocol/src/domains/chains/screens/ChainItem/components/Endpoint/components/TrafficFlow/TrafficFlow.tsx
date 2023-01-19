@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@mui/material';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 import { useStyles } from './TrafficFlowStyle';
 
@@ -12,7 +12,7 @@ const flow = [
 ];
 
 export const TrafficFlow = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.trafficFlowRoot}>

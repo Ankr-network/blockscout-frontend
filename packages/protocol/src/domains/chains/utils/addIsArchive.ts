@@ -1,11 +1,9 @@
-import { INodeEntity } from 'multirpc-sdk';
+import { INodesDetailEntity } from 'multirpc-sdk';
 import { IApiChain } from '../api/queryChains';
 
 export const getAddIsArchiveCB =
-  (nodes: INodeEntity[] = []) =>
+  (nodes: INodesDetailEntity[] = []) =>
   (chain: IApiChain) => ({
     ...chain,
-    isArchive: nodes?.some(
-      item => item.blockchain === chain.id && item.isArchive,
-    ),
+    isArchive: nodes?.some(item => item.id === chain.id && item.hasArchive),
   });

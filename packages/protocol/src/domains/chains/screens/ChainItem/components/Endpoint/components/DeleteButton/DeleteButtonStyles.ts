@@ -1,26 +1,29 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'flex-start',
-  },
+export const useStyles = makeStyles<void, 'icon'>()(
+  (theme: Theme, _params, classes) => ({
+    root: {
+      display: 'flex',
+      alignItems: 'flex-start',
+    },
 
-  link: {
-    padding: 0,
-    height: 44,
+    link: {
+      padding: 0,
+      height: 44,
 
-    '&:hover ': {
-      background: '#F2F5FA',
+      '&:hover ': {
+        background: theme.palette.background.default,
 
-      '& $icon': {
-        fill: theme.palette.primary.main,
+        [`& .${classes.icon}`]: {
+          fill: theme.palette.primary.main,
+        },
       },
     },
-  },
-  icon: {
-    width: 14,
-    transition: '0.2s all',
-    fill: theme.palette.grey[400],
-  },
-}));
+    icon: {
+      width: 14,
+      transition: '0.2s all',
+      fill: theme.palette.grey[400],
+    },
+  }),
+);
