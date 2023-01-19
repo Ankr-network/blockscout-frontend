@@ -1,7 +1,9 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
+
 import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/AccountDetails/AccountDetailsStyles';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -30,6 +32,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   button: {
     width: '100%',
+
+    '&:hover': {
+      color: theme.palette.background.paper,
+      backgroundColor: theme.palette.primary.dark,
+    },
 
     [theme.breakpoints.down('sm')]: {
       maxWidth: 86,

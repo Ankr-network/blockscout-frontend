@@ -1,10 +1,9 @@
 import { useMemo, ReactChild } from 'react';
-import { ThemeProvider } from '@material-ui/styles';
-import classNames from 'classnames';
-import { Container } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material/styles';
+import { Container } from '@mui/material';
 
 import { getTheme } from 'modules/common/utils/getTheme';
-import { Themes } from 'ui';
+import { Themes } from '@ankr.com/ui';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
@@ -21,6 +20,7 @@ export interface ILayoutProps {
   disableGutters?: boolean;
   hasNoReactSnap?: boolean;
   hasError?: boolean;
+  hasGradient?: boolean;
   hasMaxWidth?: boolean;
   isHeaderTransparent?: boolean;
 }
@@ -31,11 +31,12 @@ export const DefaultLayout = ({
   disableGutters = false,
   hasNoReactSnap = false,
   hasError = false,
+  hasGradient = false,
   hasMaxWidth = true,
   isHeaderTransparent,
 }: ILayoutProps) => {
-  const classes = useStyles({
-    hasGradient: hasError,
+  const { classes, cx } = useStyles({
+    hasGradient: hasGradient || hasError,
     hasPaddingBottom: hasMaxWidth,
     isHeaderTransparent,
   });
@@ -46,11 +47,7 @@ export const DefaultLayout = ({
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
 
   return (
-    <div
-      className={classNames(classes.root, {
-        [classes.darkTheme]: isDarkTheme,
-      })}
-    >
+    <div className={cx(classes.root, isDarkTheme && classes.darkTheme)}>
       <ThemeProvider theme={currentTheme}>
         <SideBar
           className={classes.sidebar}

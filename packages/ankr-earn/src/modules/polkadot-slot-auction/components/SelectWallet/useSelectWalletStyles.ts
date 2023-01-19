@@ -10,11 +10,6 @@ export const useSelectWalletStyles = makeStyles<Theme>(theme => ({
     margin: theme.spacing(1, 0, 0, 0),
     border: `1px solid ${lighten(theme.palette.text.secondary, 0.7)}`,
     borderRadius: 32,
-
-    '&:hover': {
-      backgroundColor: theme.palette.background.default,
-      borderColor: theme.palette.background.default,
-    },
   },
   walletName: {
     marginBottom: theme.spacing(1),

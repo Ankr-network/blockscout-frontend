@@ -1,20 +1,22 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useSampleCodeDialogStyles = makeStyles<Theme>(theme => ({
-  root: {},
+export const useSampleCodeDialogStyles = makeStyles()((theme: Theme) => ({
+  paper: {
+    width: '100%',
+  },
   title: {
     fontSize: 28,
     fontWeight: 700,
     lineHeight: '32.2px',
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2 * 4),
     wordBreak: 'break-all',
-    marginRight: theme.spacing(5),
+    marginRight: theme.spacing(2 * 5),
   },
   codeArea: {
     position: 'relative',
-    borderRadius: theme.spacing(3),
+    borderRadius: theme.spacing(2 * 3),
 
-    backgroundColor: theme.palette.grey[700],
+    backgroundColor: theme.palette.grey[800],
   },
 }));

@@ -1,8 +1,7 @@
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@mui/material';
 import { ReactNode } from 'react';
-import classNames from 'classnames';
 
-import { tHTML } from 'modules/i18n/utils/intl';
+import { tHTML } from '@ankr.com/common';
 import { usePlansStyles } from '../PlansStyles';
 import { PremiumLabel } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumLabel';
 
@@ -15,10 +14,10 @@ interface PlanProps {
 }
 
 export const Plan = ({ features, root, isPremium, link, href }: PlanProps) => {
-  const classes = usePlansStyles();
+  const { classes, cx } = usePlansStyles();
 
   return (
-    <Box className={classNames(classes.plan, isPremium ? classes.premium : '')}>
+    <Box className={cx(classes.plan, isPremium ? classes.premium : '')}>
       <Box className={classes.wrapper}>
         <Box className={classes.container}>
           <Box className={classes.titleWrapper}>
@@ -68,7 +67,7 @@ export const Plan = ({ features, root, isPremium, link, href }: PlanProps) => {
             })}
           </Box>
         </Box>
-        <Button disabled={!isPremium} href={href}>
+        <Button disabled={!isPremium} href={href} className={classes.button}>
           {tHTML(`${root}.button`)}
         </Button>
       </Box>

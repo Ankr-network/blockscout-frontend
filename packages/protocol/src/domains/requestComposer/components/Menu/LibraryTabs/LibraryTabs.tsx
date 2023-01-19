@@ -1,4 +1,4 @@
-import { Box, Orientation } from '@material-ui/core';
+import { Box, Orientation } from '@mui/material';
 import { Tabs } from 'modules/common/hooks/useTabs';
 import { TabsManager } from 'uiKit/TabsManager';
 import { useTopUpTabsStyles } from './LibraryTabsStyles';
@@ -16,7 +16,7 @@ export const LibraryTabs = ({
   className,
   orientation,
 }: ILibraryTabsProps) => {
-  const classes = useTopUpTabsStyles();
+  const { classes } = useTopUpTabsStyles();
 
   return (
     <Box className={className}>

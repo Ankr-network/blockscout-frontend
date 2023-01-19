@@ -1,5 +1,4 @@
-import { Typography } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Typography, Skeleton } from '@mui/material';
 import { useMemo } from 'react';
 
 import { CurrencyType } from './RateBlockTypes';
@@ -14,7 +13,7 @@ interface RateBlockProps {
 }
 
 export const RateBlock = ({ value, currency }: RateBlockProps) => {
-  const classes = useRateBlockStyles();
+  const { classes } = useRateBlockStyles();
 
   const { rates = [], isRateLoading, handleFetchRates } = useRates();
 

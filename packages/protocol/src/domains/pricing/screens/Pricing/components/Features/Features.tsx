@@ -1,4 +1,4 @@
-import { useIsXSDown } from 'ui';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 import { FeatureTable } from './FeatureTable';
 import { FeatureTableMobile } from './FeatureTableMobile/FeatureTableMobile';
 

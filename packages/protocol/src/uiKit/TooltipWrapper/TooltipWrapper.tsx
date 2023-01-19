@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import classNames from 'classnames';
 
 import { InformationIcon } from '../Icons/InformationIcon';
 import {
@@ -26,16 +25,16 @@ export const TooltipWrapper = ({
   tooltipClassName: tooltip,
   tooltipText,
 }: ITooltipWrapperProps) => {
-  const classes = useTooltipWrapperStyles();
+  const { classes, cx } = useTooltipWrapperStyles();
 
   return (
     <TooltipElement classes={{ tooltip }} placement="top" title={tooltipText}>
-      <div className={classNames(classes.tooltipItem, className)}>
+      <div className={cx(classes.tooltipItem, className)}>
         {children}
         {hasIcon &&
           (tipIcon || (
             <InformationIcon
-              className={classNames(classes.informationIcon, iconClassName)}
+              className={cx(classes.informationIcon, iconClassName)}
             />
           ))}
       </div>

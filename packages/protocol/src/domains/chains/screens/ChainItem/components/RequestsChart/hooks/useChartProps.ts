@@ -4,7 +4,7 @@ import { IChartProps } from 'modules/common/components/Chart';
 import { RequestsChartProps } from '../types';
 import { formatXAxis } from '../utils/formatXAxis';
 import { processData } from '../utils/processData';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export type ChartPropsParams = Pick<
   RequestsChartProps,

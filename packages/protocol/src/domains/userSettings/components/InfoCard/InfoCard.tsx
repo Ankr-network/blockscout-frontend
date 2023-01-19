@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
-import { Paper, Typography } from '@material-ui/core';
-import classNames from 'classnames';
+import { Paper, Typography } from '@mui/material';
 
 import { useStyles } from './InfoCardStyles';
 import { Align } from './types';
@@ -22,20 +21,15 @@ export const InfoCard = ({
   titleClassName,
   descriptionClassName,
 }: IInfoCardProps) => {
-  const classes = useStyles({ align });
+  const { classes, cx } = useStyles(align);
 
   return (
     <Paper className={classes.paper}>
-      <Typography
-        variant="h4"
-        className={classNames(classes.title, titleClassName)}
-      >
+      <Typography variant="h4" className={cx(classes.title, titleClassName)}>
         {title}
       </Typography>
 
-      <Typography
-        className={classNames(classes.description, descriptionClassName)}
-      >
+      <Typography className={cx(classes.description, descriptionClassName)}>
         {description}
       </Typography>
 

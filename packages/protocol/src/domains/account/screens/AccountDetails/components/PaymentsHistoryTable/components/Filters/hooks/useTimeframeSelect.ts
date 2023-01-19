@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { DEFAULT_TIMEFRAME } from '../../../const';
 import { ISelectOption } from 'uiKit/Select';
 import { PaymentHistoryTableTimeframe } from 'domains/account/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 export type TimeframeSelect = [(event: any) => void, ISelectOption[]];

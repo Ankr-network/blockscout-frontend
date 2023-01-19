@@ -1,12 +1,12 @@
-import { Box, Button, CircularProgress } from '@material-ui/core';
 import { useMemo } from 'react';
+import { Box, Button, CircularProgress } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { ITopUpStepsProps } from '../TopUpStepsTypes';
-import { LoadingButton } from 'uiKit/LoadingButton';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { LoadingButton } from 'uiKit/LoadingButton';
+import { ITopUpStepsProps } from '../TopUpStepsTypes';
 import { TransactionConfirmationButton } from './TransactionConfirmationButton';
 import { getButtonText } from './ButtonsUtils';
-import { t } from 'modules/i18n/utils/intl';
 import { topUpFetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useStyles } from './ButtonsStyles';
@@ -24,11 +24,11 @@ export const Buttons = ({
   onReject,
   step,
 }: IButtonProps) => {
+  const { classes } = useStyles();
+
   const [, { data: confirmationStatus }] = useQueryEndpoint(
     topUpFetchTransactionConfirmationStatus,
   );
-
-  const classes = useStyles();
 
   const content = useMemo(() => {
     switch (step) {

@@ -1,4 +1,4 @@
-import { Typography, Box, Button } from '@material-ui/core';
+import { Typography, Box, Button } from '@mui/material';
 
 import { t } from '@ankr.com/common';
 import { FeatureContent } from '../FeatureContent/FeatureContent';
@@ -8,11 +8,11 @@ import { LearnMore } from '../LearnMore/LearnMore';
 import { PREMIUM_BLOCK_ANCHOR } from '../../PremiumBlock';
 
 export const FeatureTableMobile = () => {
-  const classes = useFeatureTableMobileStyles();
+  const { classes } = useFeatureTableMobileStyles();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.list}>
+    <div>
+      <div>
         <Typography variant="h6" className={classes.title}>
           {t(`${intlRoot}.header.column-1`)}
         </Typography>

@@ -1,16 +1,16 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useCardPaymentFailureStyles = makeStyles<Theme>(theme => ({
+export const useCardPaymentFailureStyles = makeStyles()((theme: Theme) => ({
   title: {
     fontSize: 34,
-    lineHeight: '40px',
+    lineHeight: theme.spacing(2 * 5),
     fontWeight: 700,
   },
   description: {
     fontSize: 20,
-    lineHeight: '28px',
+    lineHeight: theme.spacing(2 * 3.5),
     fontWeight: 400,
-    marginBottom: theme.spacing(3.75),
+    marginBottom: theme.spacing(2 * 3.75),
   },
 }));

@@ -29,7 +29,7 @@ export const PrivateUsageDataSection = ({
   timeframe,
   timeframeTabs,
 }: PrivateUsageDataSectionProps) => {
-  const classes = useDataUsageSectionStyles();
+  const { classes } = useDataUsageSectionStyles();
 
   const {
     countries,
@@ -60,7 +60,6 @@ export const PrivateUsageDataSection = ({
           />
           <div className={classes.row}>
             <PrivateUsageSummary
-              className={classes.usageSummary}
               loading={loading}
               timeframe={timeframe}
               totalCost={totalCost}

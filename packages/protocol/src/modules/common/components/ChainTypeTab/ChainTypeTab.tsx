@@ -8,7 +8,7 @@ export interface ChainTypeTabProps {
 }
 
 export const ChainTypeTab = ({ content, isSelected }: ChainTypeTabProps) => {
-  const classes = useStyles(!!isSelected);
+  const { classes } = useStyles(!!isSelected);
 
   return <div className={classes.root}>{content}</div>;
 };

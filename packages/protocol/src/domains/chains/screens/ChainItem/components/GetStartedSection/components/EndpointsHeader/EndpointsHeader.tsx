@@ -7,7 +7,7 @@ export interface EndpointsHeaderProps {
 }
 
 export const EndpointsHeader = ({ isPremium, title }: EndpointsHeaderProps) => {
-  const classes = useEndpointsHeaderStyles();
+  const { classes } = useEndpointsHeaderStyles();
 
   return (
     <div className={classes.endpointsHeader}>

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t, tHTML } from '@ankr.com/common';
 import { Chain } from '../components/ChainsList/ChainsListTypes';
 import { ChainID } from 'modules/chains/types';
 import { useDispatch } from 'react-redux';

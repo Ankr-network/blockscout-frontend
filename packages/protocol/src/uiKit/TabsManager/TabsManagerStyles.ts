@@ -1,16 +1,18 @@
-import { Orientation } from '@material-ui/core';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Orientation } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
 type Props = {
   orientation: Orientation;
 };
 
-export const useStyles = makeStyles<Theme, Props>(theme => ({
+export const useStyles = makeStyles<Props>()((theme: Theme, props: Props) => ({
   tabs: {
     display: 'flex',
     justifyContent: 'space-between',
   },
   tab: {
+    whiteSpace: 'nowrap',
     '&:not(:last-child)': {
       marginRight: theme.spacing(0),
     },
@@ -22,7 +24,6 @@ export const useStyles = makeStyles<Theme, Props>(theme => ({
   right: {
     display: 'flex',
     alignItems: 'center',
-    flexDirection: ({ orientation }) =>
-      orientation === 'vertical' ? 'column' : 'row',
+    flexDirection: props.orientation === 'vertical' ? 'column' : 'row',
   },
 }));

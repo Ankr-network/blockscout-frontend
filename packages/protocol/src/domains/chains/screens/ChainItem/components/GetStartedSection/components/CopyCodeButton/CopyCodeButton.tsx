@@ -1,6 +1,6 @@
 import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
 import { copyMessage, label } from './const';
@@ -15,7 +15,7 @@ export interface CopyCodeButtonProps {
 export const CopyCodeButton = ({ code, text }: CopyCodeButtonProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <CopyToClipboard text={code} onCopy={setIsCopied}>

@@ -3,9 +3,9 @@ import { useMemo } from 'react';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { ProductPrice } from 'multirpc-sdk';
-import { t } from 'modules/i18n/utils/intl';
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
 import { USDSubscriptionPricesTabsProps } from './USDSubscriptionPricesTabsTypes';
+import { t } from '@ankr.com/common';
 
 export const useUSDPaymentPricesTabs = (
   prices: ProductPrice[],

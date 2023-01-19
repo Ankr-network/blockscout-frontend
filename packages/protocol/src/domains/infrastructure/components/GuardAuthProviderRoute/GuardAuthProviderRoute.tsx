@@ -6,7 +6,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
 
 export interface IGuardRoute extends RouteProps {}
@@ -33,7 +33,7 @@ export const GuardAuthProviderRoute = (props: IGuardRoute) => {
   if (loading || providerLoading) {
     return (
       <DefaultLayout>
-        <Spinner />
+        <OverlaySpinner />
       </DefaultLayout>
     );
   }

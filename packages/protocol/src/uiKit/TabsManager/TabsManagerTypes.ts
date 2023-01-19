@@ -1,4 +1,4 @@
-import { Orientation } from '@material-ui/core';
+import { Orientation } from '@mui/material';
 import { ReactNode } from 'react';
 
 export type DefaultTabID = string | number;

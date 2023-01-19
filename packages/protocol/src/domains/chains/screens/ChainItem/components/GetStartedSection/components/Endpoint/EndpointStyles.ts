@@ -1,32 +1,42 @@
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useEndpointStyles = makeStyles<Theme>(theme => ({
+export const useEndpointStyles = makeStyles()((theme: Theme) => ({
   endpoint: {
     display: 'flex',
-    gap: theme.spacing(1.5),
+    gap: theme.spacing(2 * 1.5),
   },
   copyToClip: {
     flexGrow: 1,
 
-    height: theme.spacing(6),
+    height: theme.spacing(2 * 6),
 
     border: `2px solid ${theme.palette.background.default}`,
-    borderRadius: theme.spacing(2),
+    borderRadius: theme.spacing(2 * 2),
 
     boxShadow: 'none',
   },
   addNetworkButton: {
-    backgroundColor: `${theme.palette.common.white} !important`,
-    borderRadius: theme.spacing(2),
+    minWidth: 'auto',
+    whiteSpace: 'nowrap',
+    padding: theme.spacing(0, 2 * 1.5),
+    '&&': {
+      backgroundColor: theme.palette.common.white,
+    },
+    display: 'flex',
+    borderRadius: theme.spacing(2 * 2),
 
     '&:hover': {
-      backgroundColor: `${theme.palette.background.default} !important`,
+      '&&': {
+        backgroundColor: theme.palette.background.default,
+      },
     },
 
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       flexShrink: 0,
-
-      padding: `${theme.spacing(1.5)}px ${theme.spacing(3)}px !important`,
+      '&&': {
+        padding: theme.spacing(2 * 1.5, 2 * 3),
+      },
     },
   },
 }));

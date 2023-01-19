@@ -1,22 +1,24 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useEVMMethodsFormStyles = makeStyles<Theme>(theme => ({
+export const useEVMMethodsFormStyles = makeStyles()((theme: Theme) => ({
   button: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2 * 3),
   },
   methodsSelect: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2 * 3),
   },
   argumentsTitle: {
     fontWeight: 'bold',
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2 * 3),
   },
   blockNumber: {
-    marginTop: theme.spacing(1.75),
+    marginTop: theme.spacing(2 * 1.75),
   },
   label: {
+    fontSize: 14,
     fontWeight: 400,
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2 * 1),
   },
   checkboxLabel: {
     fontSize: 14,

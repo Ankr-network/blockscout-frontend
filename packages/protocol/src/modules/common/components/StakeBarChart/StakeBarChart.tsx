@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
-import { Typography, useTheme } from '@material-ui/core';
+import { useCallback } from 'react';
+import { Typography, useTheme } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import {
   BarChart,
@@ -15,9 +16,7 @@ import { Payload, Props } from 'recharts/types/component/DefaultLegendContent';
 import { useStakeBarChartStyles } from './useStakBarChartStyles';
 import { Tooltip as StakeBarTooltip } from './Tooltip';
 import { COLOR_LIST } from './StakeBarChartUtils';
-import classNames from 'classnames';
 import { StatusCircle } from 'uiKit/StatusCircle';
-import { t } from 'modules/i18n/utils/intl';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 import { Timeframe } from 'domains/chains/types';
 import { useTimeframe } from 'domains/chains/hooks/useTimeframe';
@@ -35,7 +34,7 @@ export const StakeBarChart = ({
   timeframe: timeframe_,
 }: IStakebarProps) => {
   const theme = useTheme();
-  const classes = useStakeBarChartStyles();
+  const { classes, cx } = useStakeBarChartStyles();
   const { timeframe } = useTimeframe(timeframe_, [
     result.data && result.data.length,
   ]);
@@ -58,7 +57,7 @@ export const StakeBarChart = ({
                   component="div"
                   variant="body2"
                   key={JSON.stringify(item)}
-                  className={classNames(
+                  className={cx(
                     classes.legend,
                     value in selectedKey && classes.selected,
                   )}
@@ -76,6 +75,7 @@ export const StakeBarChart = ({
       return null;
     },
     [
+      cx,
       selectedKey,
       classes.legendRoot,
       classes.legend,

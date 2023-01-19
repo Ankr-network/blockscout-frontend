@@ -1,7 +1,7 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t, tHTML } from '@ankr.com/common';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { IWalletMeta } from '@ankr.com/provider';
 

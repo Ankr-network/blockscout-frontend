@@ -3,7 +3,7 @@ import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { MobileChainDocsLink } from '../MobileChainDocsLink';
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t, tHTML } from '@ankr.com/common';
 import { useChainSubtitleStyles } from './ChainSubtitleStyles';
 
 export interface ChainDescriptionProps {
@@ -15,7 +15,7 @@ export const ChainSubtitle = ({
   chain: { coinName, id },
   isChainArchived,
 }: ChainDescriptionProps) => {
-  const classes = useChainSubtitleStyles();
+  const { classes } = useChainSubtitleStyles();
 
   const isSui = id === ChainID.SUI;
   const [label, tooltip] = isSui

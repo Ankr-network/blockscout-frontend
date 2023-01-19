@@ -1,8 +1,8 @@
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import { useStyles } from './LoadableButtonStyles';
 
 export const LoadableButtonLoader = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <>

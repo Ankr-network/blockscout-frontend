@@ -27,7 +27,7 @@ export const ChainItemSections = ({
     unfilteredGroup,
   });
 
-  const classes = useChainItemSectionsStyles();
+  const { classes } = useChainItemSectionsStyles();
 
   const additionalContent =
     section?.id === SectionID.UsageData ? (

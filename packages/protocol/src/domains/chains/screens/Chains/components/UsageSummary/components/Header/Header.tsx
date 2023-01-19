@@ -2,7 +2,7 @@ import React from 'react';
 
 import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
 import { Timeframe } from 'domains/chains/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useStyles } from './HeaderStyles';
 
 export interface HeaderProps {
@@ -13,7 +13,7 @@ export interface HeaderProps {
 const title = t('chains.private-stats.title');
 
 export const Header = ({ timeframe, switchTimeframe }: HeaderProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.header}>

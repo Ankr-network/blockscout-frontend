@@ -17,7 +17,7 @@ export const AccountDetailsTopUp = ({
   const canPayOnlyByCard = !isUserEthAddressType;
 
   const [tabs, selectedTab] = useAccountDetailsTopUpTabs(canPayOnlyByCard);
-  const classes = useTopUpStyles({ canPayOnlyByCard });
+  const { classes } = useTopUpStyles({ canPayOnlyByCard });
 
   return (
     <TopUp className={className}>

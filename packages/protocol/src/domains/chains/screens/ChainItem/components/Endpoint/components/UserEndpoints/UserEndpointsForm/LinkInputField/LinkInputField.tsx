@@ -1,8 +1,8 @@
 import React, { useCallback, useRef } from 'react';
-import { Button, CircularProgress } from '@material-ui/core';
+import { Button, CircularProgress } from '@mui/material';
 import { Field, useForm } from 'react-final-form';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { InputField } from 'modules/form/components/InputField/InputField';
 import { useStyles } from './LinkInputFieldStyles';
 import { validateUserEndpoint } from 'domains/chains/screens/AddEndpoint/components/AddEndpointForm/EndpointForm/EndpointFormUtils';
@@ -31,7 +31,7 @@ export const LinkInputField = ({
   publicUrls,
 }: LinkInputFieldProps) => {
   const form = useForm();
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 

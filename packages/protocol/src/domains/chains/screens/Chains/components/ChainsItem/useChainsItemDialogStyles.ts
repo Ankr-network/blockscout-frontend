@@ -1,117 +1,122 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
+import { chainDialogIntl } from './ChainDialogUtils';
 
-export const useChainsItemDialogStyles = makeStyles<Theme>(theme => ({
+export const useChainsItemDialogStyles = makeStyles<
+  void,
+  'content' | 'intro'
+>()((theme: Theme, _params, classes) => ({
   paperRoot: {
     margin: 0,
-    padding: theme.spacing(0.25),
-    borderRadius: theme.spacing(5),
-    overflow: 'overlay',
-    background:
-      'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
-  },
-  dialogTitle: {
-    zIndex: 1,
-    top: 30,
-    right: 30,
-    marginBottom: 0,
+    padding: theme.spacing(2 * 4.75, 2 * 4.75, 2 * 5.25, 2 * 4.75),
+    borderRadius: theme.spacing(2 * 5),
+    width: 1160,
   },
   root: {
-    marginTop: theme.spacing(5),
-    position: 'relative',
-    width: 580,
+    marginTop: theme.spacing(2 * 5),
     margin: '0 auto',
-    [theme.breakpoints.down('xs')]: {
+
+    [theme.breakpoints.down('sm')]: {
       width: 'unset',
     },
   },
-  plan: {
-    background: theme.palette.common.white,
-    borderRadius: 40,
-    padding: 4,
-    position: 'relative',
+  dialogTitle: {
+    textAlign: 'center',
+    margin: theme.spacing(0, 0, 2 * 5.75, 0),
+    fontSize: 35,
   },
-  wrapper: {
+  container: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    columnGap: theme.spacing(2 * 3.5),
+    rowGap: theme.spacing(2 * 3.5),
+    height: 470,
+
+    [theme.breakpoints.down('sm')]: {
+      gridAutoFlow: 'row',
+      gridTemplateColumns: 'auto',
+      height: 'auto',
+    },
+
+    [`& .${chainDialogIntl}-premium`]: {
+      borderRadius: theme.spacing(2 * 5),
+      padding: 4,
+      background:
+        'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
+      overflow: 'overlay',
+      border: 'none',
+      [`& .${classes.content}`]: {
+        border: 'none',
+      },
+      [`& .${classes.intro}`]: {
+        display: 'block',
+      },
+    },
+  },
+  content: {
+    padding: theme.spacing(2 * 3.5),
+    border: `4px solid ${theme.palette.grey[100]}`,
+    borderRadius: 40,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: '100%',
-    background: theme.palette.common.white,
-    borderRadius: 36,
-    padding: 36,
-    [theme.breakpoints.down('xs')]: {
-      padding: 20,
-    },
-  },
-  premium: {
-    '& $container': {
-      background: theme.palette.common.white,
-    },
-  },
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  logo: {
-    width: 80,
-    marginBottom: 28,
-  },
-  titleWrapper: {
-    paddingBottom: theme.spacing(4),
-    marginBottom: theme.spacing(4),
-    borderBottom: '1px solid #E7EBF3',
-    textAlign: 'center',
+    backgroundColor: theme.palette.background.paper,
   },
   title: {
-    display: 'inline',
-    fontSize: 35,
+    marginBottom: 14,
   },
-  premiumTitle: {
-    display: 'inline',
-    fontSize: 35,
-    '-webkit-background-clip': 'text',
-    '-webkit-text-fill-color': 'transparent',
-    background:
-      'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
-  },
-  label: {
-    marginBottom: theme.spacing(1),
-    fontSize: 20,
-
-    [theme.breakpoints.down('xs')]: {
+  intro: {
+    fontSize: 14,
+    fontWeight: 400,
+    display: 'none',
+    marginBottom: theme.spacing(2 * 2),
+    color: theme.palette.grey[900],
+    lineHeight: '22.82px',
+    '& em': {
+      fontStyle: 'normal',
       fontSize: 16,
+      fontWeight: 700,
     },
   },
-  plusWrapper: {
-    position: 'relative',
-  },
-  plus: {
-    position: 'absolute',
-    top: -41,
-    left: -40,
-    color: theme.palette.primary.main,
-    background: theme.palette.background.paper,
-    padding: '0 20px',
-    fontSize: 12,
-  },
-  features: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginTop: 10,
-    marginBottom: theme.spacing(5),
-    justifyContent: 'center',
-    rowGap: theme.spacing(0.25),
-    columnGap: theme.spacing(0.5),
-  },
-  feature: {
-    background: theme.palette.background.default,
-    borderRadius: 12,
-    padding: theme.spacing(1, 1.5),
-    display: 'inline-block',
-    marginBottom: theme.spacing(0.5),
-  },
-  featureText: {
+  description: {
+    fontSize: 14,
     fontWeight: 400,
+    lineHeight: '20.02px',
+  },
+  list: {
+    fontSize: 14,
+    fontWeight: 400,
+    lineHeight: '22.82px',
+    marginTop: theme.spacing(2 * 2),
+  },
+  item: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    color: theme.palette.grey[900],
+    '&:before': {
+      content: '" "',
+      width: 5,
+      height: 5,
+      borderRadius: '50%',
+      backgroundColor: theme.palette.grey[900],
+      margin: theme.spacing(0, 2, 0, 1),
+    },
+  },
+  button: {
+    marginTop: theme.spacing(2 * 2),
+    '&:hover': {
+      color: theme.palette.background.paper,
+    },
+    [`&.enterprise:hover`]: {
+      color: theme.palette.primary.dark,
+      backgroundColor: theme.palette.grey[100],
+    },
+  },
+  link: {
+    '&:hover': {
+      color: theme.palette.background.default,
+    },
   },
 }));

@@ -1,5 +1,6 @@
 import { Balance as BalanceString } from 'domains/account/components/Balance';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
+
 import { SWITCH_CURRENCY_DISABLED } from '../ExpenseChart/const';
 import { useStyles } from './BalanceStyles';
 import { CurrencySwitcher } from './components/CurrencySwitcher';
@@ -21,7 +22,7 @@ export const Balance = ({
   switchCurrency,
   usdBalance,
 }: BalanceProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <>

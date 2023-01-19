@@ -1,6 +1,7 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+
 import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useChainsItemStyles } from './useChainsItemStyles';
 
@@ -17,7 +18,7 @@ export const ChainsItemLink = ({
   hasConnectWalletMessage,
   onConnectWallet,
 }: IChainsItemLinkProps) => {
-  const classes = useChainsItemStyles(false);
+  const { classes } = useChainsItemStyles(false);
 
   return (
     <>

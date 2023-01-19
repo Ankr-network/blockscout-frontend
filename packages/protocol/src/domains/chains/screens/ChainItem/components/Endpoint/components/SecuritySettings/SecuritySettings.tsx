@@ -1,6 +1,6 @@
-import { Typography } from '@material-ui/core';
-import { t, tHTML } from 'modules/i18n/utils/intl';
-import React from 'react';
+import { Typography } from '@mui/material';
+
+import { t, tHTML } from '@ankr.com/common';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { DomainsForm } from './DomainsForm';
 import { MAX_DOMAIN_COUNT } from './DomainsForm/DomainsForm';
@@ -10,7 +10,7 @@ import { useStyles } from './SecuritySettingsStyles';
 import { SecuritySettingsProps } from './SecuritySettingsTypes';
 
 export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.root}>
@@ -25,7 +25,7 @@ export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
         </Typography>
       </TooltipWrapper>
       <div className={classes.container}>
-        <div className={classes.left}>
+        <div>
           <Typography variant="body2" className={classes.title}>
             {t('providers.endpoint.security.domain.address-title')}
             <Typography
@@ -42,7 +42,7 @@ export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
           <DomainsForm data={data.domains} chainId={chainId} />
         </div>
 
-        <div className={classes.right}>
+        <div>
           <Typography variant="body2" className={classes.title}>
             {t('providers.endpoint.security.ip.address-title')}
             <Typography

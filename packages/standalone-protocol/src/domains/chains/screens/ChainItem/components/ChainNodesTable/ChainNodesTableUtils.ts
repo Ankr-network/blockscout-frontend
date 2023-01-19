@@ -1,86 +1,43 @@
 import { StatusCircleStatus } from 'uiKit/StatusCircle';
 import { capitalize } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { INodeEntity } from 'multirpc-sdk';
+import { INodeDetailEntity } from 'multirpc-sdk';
 
-import {
-  ProviderRow,
-  ChainNodesTableProps,
-  GroupedNode,
-} from './ChainNodesTableProps';
+import { ProviderRow, ChainNodesTableProps } from './ChainNodesTableProps';
 
 export const getRows = (
-  data: ChainNodesTableProps['data'],
-  nodesWeight: ChainNodesTableProps['nodesWeight'],
+  nodesDetail: ChainNodesTableProps['nodesDetail'],
 ): ProviderRow[] => {
-  if (!Array.isArray(data) || data.length === 0) return [];
+  if (!Array.isArray(nodesDetail) || nodesDetail.length === 0) return [];
 
-  // there is no null in types but just to be sure.. but default value for fn parameter will be pretty
-  if (!Array.isArray(nodesWeight)) {
-    nodesWeight = [];
-  }
+  const node = nodesDetail[0];
+  const { id, name } = node;
 
-  const groupedNodes = data.reduce<Record<string, GroupedNode>>(
-    (result: any, node: INodeEntity | any) => {
-      if (!result[node.id]) {
-        result[node.id] = {
-          id: node.id,
-          nodeId: node.id,
-          blockchain: node.blockchain,
-          scheme: node.scheme,
-          continent: node.continent,
-          country: node.country,
-          city: node.city,
-          totalNodes: 0,
-          archiveNodes: 0,
-          icon: node.icon,
-          organization: node.organization,
-          chainName: capitalize(node.blockchain),
-        };
-        result[node.id].totalNodes++;
-      }
+  const nodes = node?.nodes.map((item: INodeDetailEntity) => {
+    const { scheme, location, height, weight, score } = item;
 
-      if (node.isArchive) {
-        result[node.id].archiveNodes++;
-      }
+    return {
+      id,
+      nodeId: id,
+      blockchain: name,
+      scheme,
+      chainName: name ? capitalize(name) : '',
+      continent: location.continent,
+      country: location.country,
+      organization: item.name.split('_')[0],
+      height,
+      weight,
+      score,
+    };
+  });
 
-      return result;
-    },
-    {},
-  );
+  const totalWeights = nodes.reduce((acc, el) => acc + el.weight, 0);
 
-  const nodes = Object.values(groupedNodes);
+  return Object.values(nodes)
+    .map(item => {
+      const percentWeight = (100 * item.weight) / totalWeights || 0;
 
-  const currentNodesWeight = nodesWeight
-    // .filter(el => el.weight)
-    .filter(item => item.id in groupedNodes);
-
-  const totalWeights = currentNodesWeight.reduce(
-    (acc, el) => acc + el.weight,
-    0,
-  );
-
-  return nodes
-    .map(node => {
-      const nodeWeight = currentNodesWeight.find(el => el.id === node.nodeId);
-
-      if (nodeWeight) {
-        const percentWeight = (100 * nodeWeight.weight) / totalWeights || 0;
-
-        return {
-          ...node,
-          score: nodeWeight.score,
-          weight: new BigNumber(percentWeight),
-          height: nodeWeight.height,
-        };
-      }
-
-      return {
-        ...node,
-        score: 0,
-        weight: new BigNumber(0),
-        height: 0,
-      };
+      return { ...item, weight: new BigNumber(percentWeight) };
     })
     .filter(({ height }) => height > 0)
     .sort((a, b) => {

@@ -16,7 +16,7 @@ export const ChainOverview = ({
   chain,
   isChainArchived,
 }: ChainOverviewProps) => {
-  const classes = useChainOverviewStyles();
+  const { classes } = useChainOverviewStyles();
   const { id } = chain;
 
   return (

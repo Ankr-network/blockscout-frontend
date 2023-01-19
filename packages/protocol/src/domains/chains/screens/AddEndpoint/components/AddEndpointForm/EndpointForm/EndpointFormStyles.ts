@@ -1,16 +1,16 @@
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   agreementText: {
     '&': {
       display: 'inline-flex',
-      paddingLeft: theme.spacing(1),
+      paddingLeft: theme.spacing(2 * 1),
       lineHeight: 1.5,
     },
   },
   buttonWrapper: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       maxWidth: 210,
     },
   },
@@ -20,7 +20,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontWeight: 600,
   },
   httpAddress: {
-    '& label': { marginBottom: theme.spacing(2), fontWeight: 700 },
+    '& label': { marginBottom: theme.spacing(2 * 2), fontWeight: 700 },
   },
   inputBase: {
     backgroundColor: theme.palette.background.paper,

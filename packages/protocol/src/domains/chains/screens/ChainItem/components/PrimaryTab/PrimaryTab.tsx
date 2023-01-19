@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { usePrimaryTabStyles } from './PrimaryTabStyles';
 
@@ -8,7 +8,7 @@ export interface PrimaryTabProps {
 }
 
 export const PrimaryTab = ({ isSelected, label }: PrimaryTabProps) => {
-  const classes = usePrimaryTabStyles(isSelected);
+  const { classes } = usePrimaryTabStyles(isSelected);
 
   return (
     <Button className={classes.chainItemTab} variant="outlined">

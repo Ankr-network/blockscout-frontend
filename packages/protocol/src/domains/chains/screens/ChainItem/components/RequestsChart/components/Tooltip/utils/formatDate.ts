@@ -1,4 +1,4 @@
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const formatDate = (value: Date): string => {
   const date = t('chain-item.usage-data.chart.date', { value });
