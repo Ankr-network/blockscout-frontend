@@ -2,6 +2,8 @@ import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import { chainDialogIntl } from './ChainDialogUtils';
 
+export const CHAINS_DIALOG_BREAKDOWN = 840;
+
 export const useChainsItemDialogStyles = makeStyles<
   void,
   'content' | 'intro'
@@ -30,12 +32,11 @@ export const useChainsItemDialogStyles = makeStyles<
     gridTemplateColumns: 'repeat(3, 1fr)',
     columnGap: theme.spacing(2 * 3.5),
     rowGap: theme.spacing(2 * 3.5),
-    height: 470,
+    minHeight: 470,
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down(CHAINS_DIALOG_BREAKDOWN)]: {
       gridAutoFlow: 'row',
       gridTemplateColumns: 'auto',
-      height: 'auto',
     },
 
     [`& .${chainDialogIntl}-premium`]: {

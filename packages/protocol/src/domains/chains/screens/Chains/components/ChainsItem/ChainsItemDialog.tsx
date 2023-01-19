@@ -2,12 +2,16 @@ import { t, tHTML } from '@ankr.com/common';
 import { Typography } from '@mui/material';
 import { Dialog } from 'uiKit/Dialog';
 import { NavLink } from 'uiKit/NavLink';
+import { useHasBreakdown } from 'uiKit/Theme/useTheme';
 import {
   chainDialogContent,
   chainDialogIntl,
   IChainDialogContent,
 } from './ChainDialogUtils';
-import { useChainsItemDialogStyles } from './useChainsItemDialogStyles';
+import {
+  CHAINS_DIALOG_BREAKDOWN,
+  useChainsItemDialogStyles,
+} from './useChainsItemDialogStyles';
 
 export interface IChainsItemDialogProps {
   open: boolean;
@@ -20,12 +24,15 @@ export const ChainsItemDialog = ({
 }: IChainsItemDialogProps): JSX.Element => {
   const { classes, cx } = useChainsItemDialogStyles();
 
+  const hasBreakdown = useHasBreakdown(CHAINS_DIALOG_BREAKDOWN);
+
   return (
     <Dialog
       paperClassName={classes.paperRoot}
       className={classes.root}
       open={open}
       onClose={onClose}
+      maxPxWidth={hasBreakdown ? 600 : 980}
     >
       <div>
         <Typography variant="h4" className={classes.dialogTitle}>

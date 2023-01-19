@@ -39,3 +39,8 @@ export const useIsXLUp = () => {
   const theme = useTheme();
   return useMediaQuery(theme.breakpoints.up('xl'));
 };
+
+export const useHasBreakdown = (breakpoint: number) => {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.down(breakpoint));
+};
