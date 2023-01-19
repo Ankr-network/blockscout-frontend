@@ -12,8 +12,6 @@ export interface IPublicGateway {
 
   getNodes(blockchain?: string): Promise<INodeEntity[]>;
 
-  getStandaloneNodes(url?: string): Promise<INodeEntity[]>;
-
   getTimeframeStats(
     blockchain: string,
     timeframe: Timeframe,
@@ -22,8 +20,6 @@ export interface IPublicGateway {
   getPublicTimeframesStats(timeframe: Timeframe): Promise<IWorkerPublicStats>;
 
   getNodesWeight(): Promise<IWorkerNodesWeight[]>;
-
-  getStandaloneNodesWeight(url?: string): Promise<IWorkerNodesWeight[]>;
 
   getRate(): Promise<IRate>;
 }

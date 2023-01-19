@@ -4,7 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
-import { ChainId } from '../api/chain';
+import { ChainId, getStandaloneUrl, StandaloneType } from '../api/chain';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;
 
@@ -33,49 +33,61 @@ export interface IApiChainDetails {
 
 export const fetchChainDetails = createSmartAction<
   RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
->('chains/fetchChainDetails', (chainId: ChainId, timeframe: Timeframe) => ({
-  request: {
-    promise: (async () => null)(),
-  },
-  meta: {
-    asMutation: false,
-    requestKey: chainId,
-    poll: 30,
-    onRequest: () => {
-      return {
-        promise: (async () =>
-          MultiService.getService()
-            .getPublicGateway()
-            .getTimeframeStats(chainId, timeframe))(),
-      };
+>(
+  'chains/fetchChainDetails',
+  (chainId: ChainId, timeframe: Timeframe, isStandalone: boolean) => ({
+    request: {
+      promise: (async () => null)(),
     },
+    meta: {
+      asMutation: false,
+      requestKey: chainId,
+      poll: 30,
+      onRequest: () => {
+        return {
+          promise: (async () => {
+            if (isStandalone) {
+              const url = getStandaloneUrl(chainId as StandaloneType);
 
-    getData: rawData => {
-      const data = (() => {
-        if ((rawData as any).__content) {
-          return JSON.parse((rawData as any).__content);
-        }
+              return MultiService.getService()
+                .getStandalonePublicGateway(url)
+                .getTimeframeStats(chainId, timeframe);
+            }
 
-        return rawData;
-      })();
+            return MultiService.getService()
+              .getPublicGateway()
+              .getTimeframeStats(chainId, timeframe);
+          })(),
+        };
+      },
 
-      const {
-        dataCached,
-        totalCached,
-        totalServed,
-        uniqueVisitors,
-        totalRequests,
-        ...other
-      } = data;
+      getData: rawData => {
+        const data = (() => {
+          if ((rawData as any).__content) {
+            return JSON.parse((rawData as any).__content);
+          }
 
-      return {
-        dataCached: new BigNumber(dataCached),
-        totalCached: new BigNumber(totalCached),
-        totalServed: new BigNumber(totalServed),
-        uniqueVisitors: new BigNumber(uniqueVisitors),
-        totalRequests: new BigNumber(totalRequests),
-        ...other,
-      };
+          return rawData;
+        })();
+
+        const {
+          dataCached,
+          totalCached,
+          totalServed,
+          uniqueVisitors,
+          totalRequests,
+          ...other
+        } = data;
+
+        return {
+          dataCached: new BigNumber(dataCached),
+          totalCached: new BigNumber(totalCached),
+          totalServed: new BigNumber(totalServed),
+          uniqueVisitors: new BigNumber(uniqueVisitors),
+          totalRequests: new BigNumber(totalRequests),
+          ...other,
+        };
+      },
     },
-  },
-}));
+  }),
+);
