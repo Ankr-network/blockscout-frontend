@@ -9,6 +9,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getLegacyStandaloneUrl } from '../utils/statsUtils';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { IS_STANDALONE_STATS_HIDDEN } from './fetchPublicRequestsCountStats';
 
 interface IFetchChainDetailsResponseData
   extends Omit<
@@ -112,7 +113,7 @@ export const {
             .getPublicGateway()
             .getTimeframeStats(chainId, timeframe);
 
-          if (isReactSnap()) {
+          if (isReactSnap() || IS_STANDALONE_STATS_HIDDEN) {
             return { data: getData(rpcStats) };
           }
 

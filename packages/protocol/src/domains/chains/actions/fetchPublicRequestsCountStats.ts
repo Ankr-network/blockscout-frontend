@@ -10,6 +10,8 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
+export const IS_STANDALONE_STATS_HIDDEN = true;
+
 // RTK Query will never run an endpoint if it has already run.
 // Here we have few calls of the same endpoint but with different args,
 // so we have to make sure we call each of them one by one.
@@ -50,7 +52,7 @@ export const {
             .getPublicTimeframesStats(timeframe)
         ).totalRequests;
 
-        if (isReactSnap()) {
+        if (isReactSnap() || IS_STANDALONE_STATS_HIDDEN) {
           return { data: totalRequestsData };
         }
 
