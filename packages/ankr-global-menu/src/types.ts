@@ -1,4 +1,4 @@
-import { HTMLAttributeAnchorTarget, ReactNode } from 'react';
+import { HTMLAttributeAnchorTarget } from 'react';
 
 export type IGlobalMenuProject =
   | 'rpc'
@@ -24,5 +24,5 @@ export interface IGlobalMenuLinkProps {
   className?: string;
   to: string;
   target?: HTMLAttributeAnchorTarget | undefined;
-  children: ReactNode;
+  children: React.ReactNode;
 }
