@@ -69,7 +69,9 @@ export const PremiumBlock = ({
                   />
                 </div>
               ) : (
-                <PricingTopUp />
+                <div className={classes.prcingContent}>
+                  <PricingTopUp />
+                </div>
               )}
             </Box>
             <Typography variant="body2" className={classes.info}>

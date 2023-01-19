@@ -46,6 +46,10 @@ export const useEnterpriseBlockStyles = makeStyles()((theme: Theme) => ({
     width: 148,
     fontSize: 14,
     backgroundColor: theme.palette.common.white,
+    '&:hover': {
+      color: theme.palette.primary.dark,
+      background: theme.palette.secondary.dark,
+    },
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       marginTop: theme.spacing(2 * 3.5),

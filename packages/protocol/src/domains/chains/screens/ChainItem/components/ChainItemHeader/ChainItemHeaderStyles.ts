@@ -18,6 +18,7 @@ export const useChainItemHeaderStyles = makeStyles<boolean>()(
     controls: {
       display: 'flex',
       gap: theme.spacing(2 * 1.5),
+      alignItems: 'flex-start',
 
       flexDirection: shouldOnlyShowMobileSelector ? 'column' : undefined,
 
@@ -26,19 +27,19 @@ export const useChainItemHeaderStyles = makeStyles<boolean>()(
       },
     },
     desktopGroupSelector: {
-      display: shouldOnlyShowMobileSelector ? 'none' : undefined,
-
       '&&': {
+        display: shouldOnlyShowMobileSelector ? 'none' : undefined,
+
         [theme.breakpoints.down('md')]: {
-          display: 'none',
+          display: 'none !important',
         },
       },
     },
     mobileGroupSelector: {
-      display: shouldOnlyShowMobileSelector ? 'flex' : 'none',
+      '&&': {
+        display: shouldOnlyShowMobileSelector ? 'flex' : 'none',
 
-      [theme.breakpoints.down('md')]: {
-        '&&': {
+        [theme.breakpoints.down('md')]: {
           display: 'flex',
         },
       },

@@ -7,16 +7,21 @@ export const useSampleCodeStyles = makeStyles()((theme: Theme) => ({
   },
   copyButton: {
     position: 'absolute',
-    width: 98,
+    width: 110,
     height: 44,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     top: -66,
     right: theme.spacing(2 * 2.75),
-    backgroundColor: theme.palette.text.primary,
+    backgroundColor: theme.palette.grey[900],
     padding: theme.spacing(2 * 0.75, 2 * 1.5),
     borderRadius: 11,
+    [theme.breakpoints.down(540)]: {
+      position: 'relative',
+      top: -10,
+      left: 22,
+    },
   },
   codeContainer: {
     height: 360,

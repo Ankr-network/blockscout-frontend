@@ -30,7 +30,7 @@ export const useLastUserRequestsStyles = makeStyles()((theme: Theme) => ({
   },
   thead: {
     color: theme.palette.grey[600],
-    borderBottom: `1px solid ${theme.palette.grey[400]}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
     position: 'absolute',
     top: 0,
     left: 0,
@@ -57,15 +57,15 @@ export const useLastUserRequestsStyles = makeStyles()((theme: Theme) => ({
     lineHeight: '16.2px',
     fontSize: 12,
 
-    '&:nth-child(1)': {
+    '&:nth-of-type(1)': {
       width: '20%',
       minWidth: 70,
     },
-    '&:nth-child(2)': {
+    '&:nth-of-type(2)': {
       width: '55%',
       minWidth: 108,
     },
-    '&:nth-child(3)': {
+    '&:nth-of-type(3)': {
       width: '25%',
     },
   },

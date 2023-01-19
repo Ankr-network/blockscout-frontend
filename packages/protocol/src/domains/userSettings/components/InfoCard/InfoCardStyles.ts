@@ -36,6 +36,7 @@ export const useStyles = makeStyles<Align>()((theme: Theme, align: Align) => ({
   description: {
     marginBottom: theme.spacing(2 * 4),
     fontSize: 17,
+    textAlign: 'center',
 
     '& a': {
       color: theme.palette.primary.main,

@@ -2,6 +2,9 @@ import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 export const useSampleCodeDialogStyles = makeStyles()((theme: Theme) => ({
+  paper: {
+    width: '100%',
+  },
   title: {
     fontSize: 28,
     fontWeight: 700,

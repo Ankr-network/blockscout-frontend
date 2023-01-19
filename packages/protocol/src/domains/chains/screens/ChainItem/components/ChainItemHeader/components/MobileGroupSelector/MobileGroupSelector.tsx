@@ -11,6 +11,7 @@ export interface MobileGroupSelectorProps {
   groups: EndpointGroup[];
   onGroupSelect: (id: ChainGroupID) => void;
   visible?: boolean;
+  fullWidth?: boolean;
 }
 
 export const MobileGroupSelector = ({
@@ -19,6 +20,7 @@ export const MobileGroupSelector = ({
   groups,
   onGroupSelect,
   visible = true,
+  fullWidth,
 }: MobileGroupSelectorProps) => {
   const onChange = useCallback(
     (event: SelectChangeEvent<unknown>) => {
@@ -44,7 +46,7 @@ export const MobileGroupSelector = ({
       classes={{
         select: classes.select,
       }}
-      fullWidth={false}
+      fullWidth={fullWidth}
       iconClassName={classes.selectIcon}
       onChange={onChange}
       options={options}

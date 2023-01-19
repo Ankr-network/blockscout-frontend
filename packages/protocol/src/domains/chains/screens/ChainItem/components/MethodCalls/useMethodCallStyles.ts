@@ -18,7 +18,7 @@ export const useMethodCallStyles = makeStyles()((theme: Theme) => ({
     height: theme.spacing(2 * 30),
   },
   content: {
-    borderTop: `1px solid ${theme.palette.grey[400]}`,
+    borderTop: `1px solid ${theme.palette.divider}`,
     paddingTop: theme.spacing(2 * 4),
     marginTop: theme.spacing(2 * 4),
   },

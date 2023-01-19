@@ -12,7 +12,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     background: theme.palette.common.white,
     padding: theme.spacing(2 * 5),
     maxWidth: 494,
-    height: 486,
+    minHeight: 486,
     borderRadius: 30,
     display: 'flex',
     flexDirection: 'column',

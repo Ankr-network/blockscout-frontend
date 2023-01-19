@@ -69,6 +69,7 @@ export const ChainItemHeader = ({
             groups={groups}
             onGroupSelect={selectGroup}
             visible={withGroupSelector}
+            fullWidth
           />
         </div>
       )}

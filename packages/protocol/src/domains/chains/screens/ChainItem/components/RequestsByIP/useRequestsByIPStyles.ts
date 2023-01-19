@@ -46,7 +46,7 @@ export const useRequestsByIPStyles = makeStyles()((theme: Theme) => ({
   },
   legendText: {
     fontWeight: 400,
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: theme.spacing(2 * 2.5),
     color: theme.palette.grey[600],
   },
@@ -54,7 +54,7 @@ export const useRequestsByIPStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: `1px solid ${theme.palette.grey[400]}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
     maxWidth: theme.spacing(2 * 43.25),
     paddingBottom: theme.spacing(2 * 1.5),
     marginBottom: theme.spacing(2 * 0.5),

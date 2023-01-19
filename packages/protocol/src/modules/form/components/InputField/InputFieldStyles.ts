@@ -3,6 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 export const useInputFieldStyles = makeStyles()(() => ({
   root: {
     '& div': {
+      minHeight: 52,
       height: 'auto !important',
     },
 

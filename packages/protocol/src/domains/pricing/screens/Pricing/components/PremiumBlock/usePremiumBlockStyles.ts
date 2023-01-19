@@ -18,7 +18,7 @@ export const usePremiumBlockStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2 * 9.5),
+    padding: theme.spacing(2 * 9.5, 2 * 2.5),
     textAlign: 'center',
     position: 'relative',
     borderRadius: theme.spacing(2 * 7.25),
@@ -87,6 +87,9 @@ export const usePremiumBlockStyles = makeStyles()((theme: Theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
+  },
+  prcingContent: {
+    height: 340,
   },
   info: {
     fontWeight: 400,

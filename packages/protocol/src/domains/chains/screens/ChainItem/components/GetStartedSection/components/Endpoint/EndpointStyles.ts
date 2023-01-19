@@ -17,9 +17,13 @@ export const useEndpointStyles = makeStyles()((theme: Theme) => ({
     boxShadow: 'none',
   },
   addNetworkButton: {
+    minWidth: 'auto',
+    whiteSpace: 'nowrap',
+    padding: theme.spacing(0, 2 * 1.5),
     '&&': {
       backgroundColor: theme.palette.common.white,
     },
+    display: 'flex',
     borderRadius: theme.spacing(2 * 2),
 
     '&:hover': {

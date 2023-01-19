@@ -12,6 +12,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'flex-start',
+      gap: theme.spacing(2 * 1.5),
     },
   },
   title: {

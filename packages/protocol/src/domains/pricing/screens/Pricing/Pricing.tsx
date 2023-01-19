@@ -11,7 +11,8 @@ import { Plans } from './components/Plans';
 import { PremiumBlock } from './components/PremiumBlock';
 import { usePricingStyles } from './usePricingStyles';
 import { SupportBlock } from './components/SupportBlock';
-import background from './assets/background.png';
+import left from './assets/left.png';
+import right from './assets/right.png';
 import mobile from './assets/mobile.png';
 import { Features } from './components/Features';
 
@@ -59,17 +60,21 @@ export const Pricing = () => {
           <Box mt={isMobile ? 7.5 : 15}>
             <Box
               className={classes.start}
-              style={{ backgroundImage: isMobile ? '' : `url(${background})` }}
+              style={{
+                backgroundImage: isMobile ? '' : `url(${left}), url(${right})`,
+              }}
             >
-              <PremiumBlock
-                hasWeb3Connection={hasWeb3Connection}
-                hasOauthLogin={hasOauthLogin}
-                hasPrivateAccess={hasPrivateAccess}
-                address={address}
-                isUserAddress={isUserEthAddressType}
-              />
-              <SupportBlock />
-              {isMobile && <img src={mobile} alt="logos" />}
+              <div>
+                <PremiumBlock
+                  hasWeb3Connection={hasWeb3Connection}
+                  hasOauthLogin={hasOauthLogin}
+                  hasPrivateAccess={hasPrivateAccess}
+                  address={address}
+                  isUserAddress={isUserEthAddressType}
+                />
+                <SupportBlock />
+                {isMobile && <img src={mobile} alt="logos" />}
+              </div>
             </Box>
           </Box>
         </div>

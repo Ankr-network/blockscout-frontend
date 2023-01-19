@@ -33,6 +33,11 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   button: {
     width: '100%',
 
+    '&:hover': {
+      color: theme.palette.background.paper,
+      backgroundColor: theme.palette.primary.dark,
+    },
+
     [theme.breakpoints.down('sm')]: {
       maxWidth: 86,
     },

@@ -36,7 +36,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   topUp: {
     flex: 1,
     minWidth: 460,
-    minHeight: 332,
+    minHeight: 356,
     [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
       minWidth: 'unset',
       minHeight: 'unset',

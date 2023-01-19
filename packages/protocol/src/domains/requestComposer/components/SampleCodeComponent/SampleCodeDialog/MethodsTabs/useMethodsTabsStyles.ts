@@ -6,14 +6,14 @@ export const useMethodsTabsStyles = makeStyles()((theme: Theme) => ({
     padding: theme.spacing(2 * 2.75),
 
     '& > div': {
-      backgroundColor: theme.palette.text.primary,
+      backgroundColor: theme.palette.grey[900],
       borderRadius: 11,
       height: 40,
     },
 
     '& div div': {
       minWidth: 86,
-      backgroundColor: theme.palette.text.primary,
+      backgroundColor: theme.palette.grey[900],
       borderRadius: 11,
     },
   },

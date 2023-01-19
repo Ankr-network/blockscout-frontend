@@ -20,7 +20,12 @@ export const SampleCodeDialog = ({
   const { classes } = useSampleCodeDialogStyles();
 
   return (
-    <Dialog open={isOpen} onClose={onClose} maxPxWidth={750}>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      maxPxWidth={750}
+      paperClassName={classes.paper}
+    >
       <div>
         <Typography variant="h6" className={classes.title}>
           {title}

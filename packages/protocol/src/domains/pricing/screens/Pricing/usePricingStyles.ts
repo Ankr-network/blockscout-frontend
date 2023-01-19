@@ -54,7 +54,15 @@ export const usePricingStyles = makeStyles()((theme: Theme) => ({
   },
   start: {
     paddingBottom: theme.spacing(2 * 6),
-    backgroundSize: '100%',
     backgroundRepeat: 'no-repeat',
+    backgroundPosition: '0 100%, 100% 100%',
+    backgroundSize: 'auto 100%',
+    [theme.breakpoints.between(768, 960)]: {
+      backgroundSize: '40% auto',
+    },
+    [theme.breakpoints.down(768)]: {
+      marginBottom: theme.spacing(2 * -6),
+      paddingBottom: 0,
+    },
   },
 }));
