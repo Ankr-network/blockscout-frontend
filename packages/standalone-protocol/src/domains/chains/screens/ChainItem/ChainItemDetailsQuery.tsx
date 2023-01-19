@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
 import { Timeframe } from 'multirpc-sdk';
 import classNames from 'classnames';
@@ -15,16 +14,20 @@ import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemProps {
   chainId: ChainId;
+  isStandalone: boolean;
 }
 
 const TIMEFRAME: Timeframe = '24h';
 
-export const ChainItemDetailsQuery = ({ chainId }: ChainItemProps) => {
+export const ChainItemDetailsQuery = ({
+  chainId,
+  isStandalone,
+}: ChainItemProps) => {
   const classes = useStyles();
   const dispatchRequest = useDispatchRequest();
 
   useOnMount(() => {
-    dispatchRequest(fetchChainDetails(chainId, TIMEFRAME));
+    dispatchRequest(fetchChainDetails(chainId, TIMEFRAME, isStandalone));
   });
 
   return (

@@ -7,7 +7,6 @@ import {
 } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
-import { useIsMDDown } from 'ui';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
 import { useStyles } from './BreadcrumbsStyles';
@@ -17,11 +16,9 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   const isBreadcrumbsHidden =
     pathname === ClientsRoutesConfig.clients.path ||
     pathname === `${ClientsRoutesConfig.clients.path}/`;
-  const isMobile = useIsMDDown();
   const isLessThanMaxWidth = useMediaQuery('(max-width:1100px)');
 
-  const shouldShowMobileBreadcrumbs =
-    isMobile || (isLessThanMaxWidth && items.length > 2);
+  const shouldShowMobileBreadcrumbs = isLessThanMaxWidth && items.length > 2;
 
   const { classes, cx } = useStyles();
 
