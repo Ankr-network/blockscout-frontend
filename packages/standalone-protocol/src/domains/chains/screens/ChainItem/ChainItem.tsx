@@ -23,6 +23,9 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
 
   const isStandalone = isStandaloneChain(chainId);
 
+  const shouldHideDetails =
+    chainId === ChainId.BSC || chainId === ChainId.Fantom;
+
   return (
     <ThemeProvider theme={getTheme(chainId)}>
       <Container className={classes.main}>
@@ -30,7 +33,12 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainHeader className={classes.header} chainId={chainId} />
         <CopyButtons data={data} chainId={chainId} />
         <Info chainId={chainId} />
-        {!isStandalone && <ChainItemDetailsQuery chainId={chainId} />}
+        {!shouldHideDetails && (
+          <ChainItemDetailsQuery
+            chainId={chainId}
+            isStandalone={isStandalone}
+          />
+        )}
         {isStandalone ? (
           <StandaloneChainNodesTableQuery chainId={chainId} />
         ) : (
