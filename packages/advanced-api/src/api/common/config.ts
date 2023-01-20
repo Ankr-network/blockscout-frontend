@@ -15,7 +15,7 @@ export interface IStkrConfig {
  */
 const LOCAL_CONFIG: IStkrConfig = {
   gatewayConfig: {
-    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain/',
+    ankrApiBaseUrl: 'https://rpc.ankr.com/multichain',
   },
 };
 
@@ -44,7 +44,7 @@ const GOERLI_CONFIG: IStkrConfig = {
  */
 const MAINNET_CONFIG: IStkrConfig = {
   gatewayConfig: {
-    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain/',
+    ankrApiBaseUrl: 'https://rpc.ankr.com/multichain',
   },
 };
 

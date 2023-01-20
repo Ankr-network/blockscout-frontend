@@ -1125,7 +1125,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       await this.writeProvider.sendTransactionAsync(
         this.currentAccount,
         contractConfig.polygonPool,
-        { data },
+        { data, estimate: true },
       );
 
     return { txHash };

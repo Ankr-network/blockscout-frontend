@@ -75,7 +75,7 @@ export interface IGatewayConfig {
 
 interface IXDCConfig {
   XDCStakingPool: Address;
-  aXDCcToken: Address;
+  ankrXDCToken: Address;
 }
 
 export interface IStkrConfig {
@@ -117,9 +117,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     aAVAXc: '0x22f70fE6C3949cDcA413A6D441D7972255440660',
   },
   binanceConfig: {
-    aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
-    aBNBcToken: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
-    binancePool: '0x3C9205b5d4B312cA7C4d28110C91Fe2c74718a94',
+    aBNBbToken: '0xC2eB22Bf64E1600D68420a024D7839AB75608012',
+    aBNBcToken: '0x4f9406bd3582A877Ec0e33cA1b1FD31E778345B6',
+    binancePool: '0x3c1769ecd7772a6f9a424e473f5b9adeb83c595b',
     binancePartners: '0x4023d843251D58e29103062878C225072edBfB5d',
     WBNBContract: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     aMATICbToken: '0x07Cf0e4544E0f950C7386f83AFDAa696db00Bc94',
@@ -128,7 +128,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     aETHcToken: '0x0ae4837cf3d254e4a1b5a77c0fac591ba253773d',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
     aETHbToken: '0x1f28E2FAA7DebF805e2fFbb1D6A104170dD64521',
-    swapPool: '0x0988fBea4B84C135663d0504A5EF9f5447B0F2ED',
+    swapPool: '0xCe23754E6d748d2650F0d2A0E1EcBc34566626a1',
   },
   fantomConfig: {
     fantomPool: '0x7B72E8117E69951F1b00178016EEaEE4ce715f28',
@@ -145,7 +145,7 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   xdcConfig: {
     XDCStakingPool: '0xd458788DD7d2fDbB5238d9eeb0a49732BffF08b7',
-    aXDCcToken: '0xe27990d8c950038C548E6f4BD0657aCE27495D48',
+    ankrXDCToken: '0xe27990d8c950038C548E6f4BD0657aCE27495D48',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -219,7 +219,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     aETHcToken: '0xe05a08226c49b636acf99c40da8dc6af83ce5bb3',
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     aETHbToken: '0x1075bea848451a13fd6f696b5d0fda52743e6439',
-    swapPool: '0xaf565322d1c3d681F1e8884B4781f62368fc2344',
+    swapPool: '0x49B85a26800Ab6C5432e2DC0dDa82AcB53d98642',
   },
   fantomConfig: {
     fantomPool: '0x84db6ee82b7cf3b47e8f19270abde5718b936670',
@@ -236,7 +236,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   xdcConfig: {
     XDCStakingPool: ZERO_ADDRESS,
-    aXDCcToken: ZERO_ADDRESS,
+    ankrXDCToken: ZERO_ADDRESS,
   },
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',

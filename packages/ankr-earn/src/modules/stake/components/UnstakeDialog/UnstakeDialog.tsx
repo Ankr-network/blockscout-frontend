@@ -155,7 +155,11 @@ export const UnstakeDialog = ({
                     balance={balance}
                     disabled={isDisabled || isApproved}
                     isBalanceLoading={isBalanceLoading}
-                    label={t('unstake-dialog.amount')}
+                    label={
+                      <div className={classes.amountLabel}>
+                        {t('unstake-dialog.amount')}
+                      </div>
+                    }
                     maxDecimals={maxAmountDecimals}
                     name={FieldsNames.amount}
                     tokenName={tokenName}

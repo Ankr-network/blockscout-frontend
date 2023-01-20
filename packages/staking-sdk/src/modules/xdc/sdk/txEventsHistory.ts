@@ -22,7 +22,14 @@ import { EXDCStakingPoolEvents } from '../types';
 import { getXDCStakingPoolContract } from './contracts';
 import { getPendingUnstakesAmount } from './getPendingUnstakesAmount';
 
-const getTxEventsHistoryGroup = async ({
+/**
+ * Get transaction history group from events.
+ *
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @param {EventData[] | undefined} rawEvents - events
+ * @returns {Promise<ITxEventsHistoryGroupItem[]>}
+ */
+export const getTxEventsHistoryGroup = async ({
   provider,
   rawEvents,
 }: IWeb3TxEventsHistoryGroupProps<Web3KeyReadProvider>): Promise<
@@ -63,6 +70,16 @@ const getTxEventsHistoryGroup = async ({
     }));
 };
 
+/**
+ * Get transaction history for block range.
+ *
+ * @param {string} address - current user address
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {number} from - from block number
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @param {number} to - to block number
+ * @returns {Promise<ITxEventsHistoryData>}
+ */
 export const getTxEventsHistoryRange = async ({
   address,
   env = currentEnv,
