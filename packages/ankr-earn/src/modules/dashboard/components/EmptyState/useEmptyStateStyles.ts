@@ -93,11 +93,15 @@ export const useEmptyStateStyles = makeStyles(theme => ({
     gap: theme.spacing(3, 0),
   },
 
-  header: {
+  calcBtn: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
+
+    [theme.breakpoints.up('lg')]: {
+      display: 'none',
+    },
   },
 
   buttonWrapper: {

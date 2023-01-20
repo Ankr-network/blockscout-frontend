@@ -877,14 +877,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
         totalUnstakingValue = totalUnstakingValue.minus(itemAmount);
 
         if (unstakeEventItem.returnValues.isRebasing) {
-          pendingBond = pendingBond.plus(
-            this.convertFromWei(unstakeEventItem.returnValues.amount),
-          );
+          pendingBond = pendingBond.plus(itemAmount);
         } else {
           pendingCertificate = pendingCertificate.plus(
-            this.convertFromWei(
-              unstakeEventItem.returnValues.amount,
-            ).multipliedBy(ratio),
+            itemAmount.multipliedBy(ratio),
           );
         }
       }
@@ -943,12 +939,10 @@ export class AvalancheSDK implements ISwitcher, IStakable {
         i += 1
       ) {
         const unstakeRawEventItem = unstakeRawEventsReverse[i];
-        const isCert = !unstakeRawEventItem.returnValues.isRebasing;
 
-        const itemAmount =
-          isCert && !ratio.isZero()
-            ? this.convertFromWei(unstakeRawEventItem.returnValues.amount)
-            : this.convertFromWei(unstakeRawEventItem.returnValues.amount);
+        const itemAmount = this.convertFromWei(
+          unstakeRawEventItem.returnValues.amount,
+        );
 
         totalPendingUnstakes = totalPendingUnstakes.minus(itemAmount);
 
@@ -972,8 +966,8 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       getFilteredContractEvents(pendingRawEvents);
 
     const [
-      completedBond,
-      completedCertificate,
+      stakeAndUnstakeBondEvents,
+      stakeAndUnstakeCertEvents,
       pendingBond,
       pendingCertificate,
     ] = await Promise.all([
@@ -983,19 +977,63 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       this.getTxEventsHistoryGroup(pendingAAVAXCEvents),
     ]);
 
+    const eventType = {
+      stake: 0,
+      unstake: 1,
+    } as const;
+
+    const [stakeBondEvents, unstakeBondEvents] =
+      stakeAndUnstakeBondEvents.reduce<ITxEventsHistoryGroupItem[][]>(
+        (result, event) => {
+          const isStakeEvent =
+            event.txType === EAvalanchePoolEventsMap.StakePending;
+
+          if (isStakeEvent) {
+            result[eventType.stake].push(event);
+          } else {
+            result[eventType.unstake].push(event);
+          }
+
+          return result;
+        },
+        [[], []],
+      );
+
+    const [stakeCertEvents, unstakeCertEvents] =
+      stakeAndUnstakeCertEvents.reduce<ITxEventsHistoryGroupItem[][]>(
+        (result, event) => {
+          const isStakeEvent =
+            event.txType === EAvalanchePoolEventsMap.StakePending;
+
+          const txAmount = event.txAmount.multipliedBy(ratio);
+
+          if (isStakeEvent) {
+            result[eventType.stake].push({
+              ...event,
+              txAmount,
+            });
+          } else {
+            result[eventType.unstake].push({
+              ...event,
+              txAmount,
+            });
+          }
+
+          return result;
+        },
+        [[], []],
+      );
+
     return {
-      completedBond,
-      completedCertificate: completedCertificate.map(x => ({
-        ...x,
-        txAmount: x.txAmount.multipliedBy(ratio),
-      })),
+      completedBond: stakeBondEvents,
+      completedCertificate: stakeCertEvents,
       pendingBond,
       pendingCertificate: pendingCertificate.map(x => ({
         ...x,
         txAmount: x.txAmount.multipliedBy(ratio),
       })),
-      unstakeBond: [],
-      unstakeCertificate: [],
+      unstakeBond: unstakeBondEvents,
+      unstakeCertificate: unstakeCertEvents,
     };
   }
 

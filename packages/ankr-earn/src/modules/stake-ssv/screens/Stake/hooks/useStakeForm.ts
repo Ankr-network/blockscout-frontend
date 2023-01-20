@@ -24,6 +24,7 @@ import { getStakeData } from 'modules/stake-ssv/actions/getStakeData';
 import { getStakeGasFee } from 'modules/stake-ssv/actions/getStakeGasFee';
 import { stake } from 'modules/stake-ssv/actions/stake';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
+import { getMetrics } from 'modules/stake/actions/getMetrics';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -60,6 +61,7 @@ const resetGasFeeRequest = () =>
 const resetMainRequests = () =>
   resetReduxRequests([
     getFAQ.toString(),
+    getMetrics.toString(),
     getStakeData.toString(),
     getStakeGasFee.toString(),
   ]);
@@ -189,6 +191,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     dispatch(resetMainRequests());
 
     dispatch(getFAQ(Token.asETHc));
+    dispatch(getMetrics());
     dispatch(getStakeData());
 
     return () => {

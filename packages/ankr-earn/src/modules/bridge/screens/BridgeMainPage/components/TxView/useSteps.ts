@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import { useState } from 'react';
 
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
 import { useQueryParams } from 'modules/router/hooks/useQueryParams';
 
@@ -23,13 +24,14 @@ export function useSteps(): IUseSteps {
   const [currentStep, setCurrentStep] = useState(EStep.SendingProgress);
   const query = useQueryParams();
   const toChainId = query.get('chainIdTo');
+  const token = getTokenName(query.get('token') ?? '');
 
   const steps = useLocaleMemo(
     () => ({
       [EStep.SendingProgress]: {
         title: t('bridge.tx.titles.send-in-progress'),
         descr: t('bridge.tx.description.progress', {
-          token: query.get('token') ?? '',
+          token,
           network: t(`chain.${toChainId}`),
         }),
       },

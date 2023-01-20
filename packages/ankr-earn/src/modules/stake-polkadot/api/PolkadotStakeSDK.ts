@@ -16,6 +16,7 @@ import {
   EClaimStatuses,
   IClaimItem,
   IHistoryItem,
+  initProviderManagerPolkadot,
   PolkadotProvider,
   TPolkadotAddress,
 } from 'polkadot';
@@ -338,6 +339,8 @@ export class PolkadotStakeSDK {
 
   static async getInstance(): Promise<PolkadotStakeSDK> {
     const providerManager = getProviderManager();
+
+    await initProviderManagerPolkadot();
 
     const [ethReadProvider, ethWriteProvider, polkadotWriteProvider] =
       await Promise.all([

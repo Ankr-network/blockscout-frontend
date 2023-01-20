@@ -25,9 +25,9 @@ export const TransactionStep = (): JSX.Element => {
       buttonTitle={t('switcher.buttons.addToWallet', { token: tokenName })}
       destinationAddress={destinationAddress}
       error={error}
-      hint={t('switcher.tooltips.pendingTx', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}
+      pendingHint={t('switcher.tooltips.pendingTx', { token: tokenName })}
       symbol={token}
       title={t('switcher.progressTitle')}
       txHash={txHash}

@@ -61,16 +61,13 @@ describe('modules/dashboard/components/PortfolioChart', () => {
     height: 350,
     width: 350,
     isSmallBalancesVisible: true,
-    onBalanceVisibilityChange: () => undefined,
   };
 
   test('should render properly', async () => {
     render(<PortfolioChart {...defaultProps} />);
 
-    const title = await screen.findByText('My portfolio');
     const chart = await screen.findByTestId('portfolio-chart');
 
-    expect(title).toBeInTheDocument();
     expect(chart).toBeInTheDocument();
   });
 
@@ -138,10 +135,8 @@ describe('modules/dashboard/components/PortfolioChart', () => {
       />,
     );
 
-    const title = await screen.findByText('My portfolio');
     const chart = await screen.findByTestId('portfolio-chart');
 
-    expect(title).toBeInTheDocument();
     expect(chart).toBeInTheDocument();
   });
 

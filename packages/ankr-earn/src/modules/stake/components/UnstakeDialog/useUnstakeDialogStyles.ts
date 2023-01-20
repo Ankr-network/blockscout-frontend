@@ -36,6 +36,10 @@ export const useUnstakeDialogStyles = makeStyles(theme => ({
     margin: theme.spacing(-2, 'auto', 4, 'auto'),
   },
 
+  amountLabel: {
+    fontSize: '14px',
+  },
+
   closeBtn: {
     position: 'absolute',
     top: theme.spacing(2.5),
