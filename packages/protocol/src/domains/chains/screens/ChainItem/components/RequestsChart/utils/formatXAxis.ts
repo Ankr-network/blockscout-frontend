@@ -1,5 +1,5 @@
 import { Timeframe } from 'domains/chains/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const { Hour, Day, Week, Month } = Timeframe;
 

@@ -1,29 +1,30 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   centerBlock: {
     display: 'flex',
     flexDirection: 'column',
     flex: '3 0 auto',
     textAlign: 'center',
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(2 * 10),
     maxWidth: 710,
     [theme.breakpoints.down('md')]: {
-      margin: theme.spacing(0),
+      margin: theme.spacing(2 * 0),
       maxWidth: 560,
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100%',
-      paddingTop: theme.spacing(7.5),
+      paddingTop: theme.spacing(2 * 7.5),
 
-      margin: theme.spacing(0),
+      margin: theme.spacing(2 * 0),
     },
   },
   subTitle: {
     fontSize: 20,
     fontWeight: 700,
-    marginBottom: theme.spacing(1),
+    display: 'block',
+    marginBottom: theme.spacing(2 * 1),
 
     [theme.breakpoints.down('xs')]: {
       textAlign: 'left',
@@ -46,17 +47,17 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   mobileHeaderImg: {
-    marginBottom: theme.spacing(2.5),
+    marginBottom: theme.spacing(2 * 2.5),
   },
   headerPaper: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: theme.spacing(3.5),
-    borderRadius: theme.spacing(3.5),
-    padding: theme.spacing(3, 3.5),
+    marginTop: theme.spacing(2 * 3.5),
+    borderRadius: theme.spacing(2 * 3.5),
+    padding: theme.spacing(2 * 3, 2 * 3.5),
     [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(2.5),
+      marginTop: theme.spacing(2 * 2.5),
       flexDirection: 'column',
     },
   },

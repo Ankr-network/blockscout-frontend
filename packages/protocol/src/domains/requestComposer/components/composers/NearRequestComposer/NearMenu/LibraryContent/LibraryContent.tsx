@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { useCallback } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';

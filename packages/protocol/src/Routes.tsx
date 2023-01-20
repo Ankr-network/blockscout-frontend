@@ -12,7 +12,7 @@ import {
   UserSettingsRoutes,
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
-import { Themes } from 'ui';
+import { Themes } from '@ankr.com/ui';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import {
   GuardAuthRoute,
@@ -47,6 +47,7 @@ export const Routes = () => {
         render={() => (
           <DefaultLayout
             theme={Themes.light}
+            hasGradient
             hasNoReactSnap
             disableGutters
             hasMaxWidth={false}

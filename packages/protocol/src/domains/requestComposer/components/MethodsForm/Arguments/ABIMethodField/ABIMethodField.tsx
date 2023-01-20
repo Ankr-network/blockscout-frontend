@@ -1,5 +1,5 @@
 import { Field } from 'react-final-form';
-import { FormGroup, Typography } from '@material-ui/core';
+import { FormGroup, Typography } from '@mui/material';
 
 import { Subfield } from './types';
 import { useABIMethodFieldStyles } from './ABIMethodFieldsStyles';
@@ -14,7 +14,7 @@ export const ABIMethodField = ({
   name,
   subfields: fields,
 }: ABIMethodFieldProps) => {
-  const classes = useABIMethodFieldStyles();
+  const { classes } = useABIMethodFieldStyles();
 
   const subfields = useSubfields({
     methodFieldClassName: classes.methodField,

@@ -128,9 +128,9 @@ export class BackofficeGateway implements IBackofficeGateway {
       params,
       {
         params: {
-          address: params.address
-        }
-      }
+          address: params.address,
+        },
+      },
     );
 
     return response;
@@ -167,7 +167,7 @@ export class BackofficeGateway implements IBackofficeGateway {
   ): Promise<ICreateTestClientResponse> {
     const { data: response } = await this.api.post<ICreateTestClientResponse>(
       '/newTestPremiumUrl',
-      body
+      body,
     );
 
     return response;
@@ -189,19 +189,21 @@ export class BackofficeGateway implements IBackofficeGateway {
       '/users/stats',
       {
         params,
-      }
+      },
     );
 
     return response;
   }
 
   // https://backoffice-gateway.staging.multirpc.ankr.com/api/v1/auth/users/stats/range?address=0x173ce89676fecd49c1d9e25f6671825723f72951&from=1666177193000&to=1668769193000&timeframe=d1
-  async getUserStatsByRange(params: IUserStatsByRangeRequest): Promise<IUserStatsResponse> {
+  async getUserStatsByRange(
+    params: IUserStatsByRangeRequest,
+  ): Promise<IUserStatsResponse> {
     const { data: response } = await this.api.get<IUserStatsResponse>(
       '/users/stats/range',
       {
         params,
-      }
+      },
     );
 
     return response;
@@ -261,30 +263,6 @@ export class BackofficeGateway implements IBackofficeGateway {
 
   async migrateLegacy(): Promise<any> {
     const { data } = await this.api.post<INodeEntity[]>('/legacy', {});
-
-    return data;
-  }
-
-  async getNodes(blockchain?: string): Promise<INodeEntity[]> {
-    const { data } = await this.api.get<INodeEntity[]>('/node', {
-      params: { blockchain },
-    });
-
-    return data;
-  }
-
-  async createOrUpdateNode(node: INodeEntity): Promise<Record<string, any>> {
-    if (!node.id) node.id = v4();
-
-    const { data } = await this.api.post('/node', node);
-
-    return data;
-  }
-
-  async deleteNode(node: INodeEntity): Promise<INodeEntity> {
-    const { data } = await this.api.delete<INodeEntity>('/node', {
-      params: { id: node.id, blockchain: node.blockchain },
-    });
 
     return data;
   }

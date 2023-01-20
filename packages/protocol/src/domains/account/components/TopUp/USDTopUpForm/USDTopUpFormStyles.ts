@@ -1,7 +1,8 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/AccountDetails/AccountDetailsStyles';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   rootForm: {
     display: 'flex',
     flexDirection: 'column',

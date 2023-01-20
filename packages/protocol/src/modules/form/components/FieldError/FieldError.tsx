@@ -1,14 +1,8 @@
-import { FormHelperText, FormHelperTextProps } from '@material-ui/core';
-import classNames from 'classnames';
+import { FormHelperText, FormHelperTextProps } from '@mui/material';
 import { useStyles } from './FieldErrorStyles';
 
 export const FieldError = ({ className, ...props }: FormHelperTextProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
-  return (
-    <FormHelperText
-      className={classNames(classes.error, className)}
-      {...props}
-    />
-  );
+  return <FormHelperText className={cx(classes.error, className)} {...props} />;
 };

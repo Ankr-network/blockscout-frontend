@@ -4,7 +4,7 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { MetamaskButtonLabel } from '../MetamaskButtonLabel';
 import { useEndpointStyles } from './EndpointStyles';
@@ -24,7 +24,7 @@ export const Endpoint = ({
   url,
   hasConnectWalletMessage,
 }: EndpointProps) => {
-  const classes = useEndpointStyles();
+  const { classes } = useEndpointStyles();
 
   const { isOpened, onOpen, onClose } = useDialog();
 

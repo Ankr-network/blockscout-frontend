@@ -1,6 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
-import classNames from 'classnames';
+import { Typography } from '@mui/material';
 
 import { useStyles } from './useStyles';
 import { ChainMainInfoProps } from './ChainRequestsLabelTypes';
@@ -12,12 +11,12 @@ export const ChainRequestsLabel = ({
   descriptionColor = 'textPrimary',
   label,
 }: ChainMainInfoProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <div className={cx(classes.root, className)}>
       <Typography
-        className={classNames(descriptionClassName, classes.subtitle)}
+        className={cx(descriptionClassName, classes.subtitle)}
         color={descriptionColor}
         noWrap
         variant="subtitle2"

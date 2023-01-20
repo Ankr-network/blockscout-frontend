@@ -1,7 +1,7 @@
 import { Field } from 'react-final-form';
 
 import { MethodOption } from 'domains/requestComposer/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { MethodsSelectField } from '../../MethodsSelect/MethodsSelectField';
 import { useMethodNameSelectFieldStyles } from './MethodNameSelectFieldStyles';
 
@@ -14,7 +14,7 @@ export const MethodNameSelectField = ({
   options,
   getMethodDescription,
 }: MethodsSelectFieldProps) => {
-  const classes = useMethodNameSelectFieldStyles();
+  const { classes } = useMethodNameSelectFieldStyles();
 
   return (
     <Field name="methodName">
@@ -26,9 +26,6 @@ export const MethodNameSelectField = ({
           noOptionsText={t('request-composer.form.methods-no-options-text')}
           options={options}
           getOptionLabel={method => method.label}
-          getOptionSelected={(method, selectedMethod) =>
-            method.value === selectedMethod?.value
-          }
           showExtra={getMethodDescription}
           {...fieldProps}
         />

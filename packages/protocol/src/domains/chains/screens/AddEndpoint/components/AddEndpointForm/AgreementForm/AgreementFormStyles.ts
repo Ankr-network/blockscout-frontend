@@ -1,11 +1,11 @@
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginTop: theme.spacing(3.5),
+    marginTop: theme.spacing(2 * 3.5),
   },
   checkbox: {
     width: '60%',
@@ -13,7 +13,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   agreementText: {
     '&': {
       display: 'inline-flex',
-      paddingLeft: theme.spacing(1),
+      paddingLeft: theme.spacing(2 * 1),
       lineHeight: 1.5,
     },
   },

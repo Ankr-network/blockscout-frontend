@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { Divider, Typography } from '@material-ui/core';
+import { Divider, Typography } from '@mui/material';
 import { Form, FormRenderProps } from 'react-final-form';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { AgreementForm } from './AgreementForm';
 import { EndpointForm } from './EndpointForm';
 
@@ -25,7 +25,7 @@ export const AddEndpointForm = ({
   publicUrls,
   endpoints,
 }: AddEndpointFormProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const onFormSubmit = useCallback(
     (data: AddEndpointFormData) => {
@@ -55,11 +55,7 @@ export const AddEndpointForm = ({
   return (
     <div className={classes.root}>
       <div className={classes.top}>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          className={classes.theadText}
-        >
+        <Typography variant="body2" color="textSecondary">
           {t('providers.add-endpoint.description')}
         </Typography>
       </div>

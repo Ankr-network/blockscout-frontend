@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     minHeight: '100%',
     display: 'flex',
@@ -10,23 +10,24 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   paper: {
     background: theme.palette.common.white,
-    padding: 40,
+    padding: theme.spacing(2 * 5),
     maxWidth: 494,
-    height: 486,
+    minHeight: 486,
     borderRadius: 30,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  content: {},
   stepper: {
     background: 'transparent',
-    padding: '20px 0 !important',
+    '&&': {
+      padding: theme.spacing(2 * 2.5, 0),
+    },
     maxWidth: 220,
-    marginBottom: theme.spacing(7),
+    marginBottom: theme.spacing(2 * 7),
   },
   title: {
-    marginBottom: theme.spacing(2.75),
+    marginBottom: theme.spacing(2 * 2.75),
 
     'h3&': {
       fontSize: 24,
@@ -39,20 +40,23 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
 
     '& ul': {
-      paddingLeft: theme.spacing(2),
-      lineHeight: `${theme.spacing(4)}px`,
+      paddingLeft: theme.spacing(2 * 2),
+      lineHeight: theme.spacing(2 * 4),
     },
   },
   notice: {
     fontWeight: 'normal',
     minHeight: 45,
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2 * 3),
+    fontSize: 18,
   },
 
   header: {
+    fontSize: 18,
     color: theme.palette.primary.main,
   },
   error: {
+    fontSize: 18,
     color: theme.palette.warning.main,
   },
 }));

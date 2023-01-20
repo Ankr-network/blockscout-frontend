@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import classNames from 'classnames';
-import { Box } from '@material-ui/core';
+
+import { Box } from '@mui/material';
 
 import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 import { useCollapse } from './hooks/useCollapse';
@@ -33,11 +33,11 @@ export const Collapse = ({
     onCollapse,
   );
 
-  const classes = useStyles({ isCollapsed, isCollapsible });
+  const { classes, cx } = useStyles({ isCollapsed, isCollapsible });
 
   return (
     <>
-      <Box className={classNames(className, classes.header)} onClick={onClick}>
+      <Box className={cx(className, classes.header)} onClick={onClick}>
         {header}
         {isCollapsible &&
           (!isCollapsed && uncollapsedIcon ? (

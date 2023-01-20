@@ -1,16 +1,16 @@
 import React from 'react';
-import { Skeleton } from '@material-ui/lab';
+import { Skeleton } from '@mui/material';
 
 import { useStyles } from './DetailsSkeletonStyles';
 
 export const DetailsSkeleton = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.root}>
-      <Skeleton className={classes.marker} variant="circle" />
-      <Skeleton className={classes.usdBalance} variant="rect" />
-      <Skeleton className={classes.description} variant="rect" />
+      <Skeleton className={classes.marker} variant="circular" />
+      <Skeleton className={classes.usdBalance} variant="rectangular" />
+      <Skeleton className={classes.description} variant="rectangular" />
     </div>
   );
 };

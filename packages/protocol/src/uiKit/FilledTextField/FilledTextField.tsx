@@ -1,5 +1,5 @@
-import { TextField, TextFieldProps } from '@material-ui/core';
-import classNames from 'classnames';
+import { TextField, TextFieldProps } from '@mui/material';
+
 import { forwardRef } from 'react';
 import {
   useFilledTextfieldStyles,
@@ -19,7 +19,7 @@ export const FilledTextField = forwardRef(
     }: FilledTextFieldProps,
     ref,
   ) => {
-    const classes = useFilledTextfieldStyles({ noPlaceholderFade });
+    const { classes, cx } = useFilledTextfieldStyles({ noPlaceholderFade });
 
     return (
       <TextField
@@ -27,15 +27,12 @@ export const FilledTextField = forwardRef(
         ref={ref as any}
         InputProps={{
           ...InputProps,
-          className: classNames(InputProps?.className, classes.textFieldInput),
+          className: cx(InputProps?.className, classes.textFieldInput),
         }}
         // eslint-disable-next-line react/jsx-no-duplicate-props
         inputProps={{
           ...inputProps,
-          className: classNames(
-            inputProps?.className,
-            classes.textFieldInputBase,
-          ),
+          className: cx(inputProps?.className, classes.textFieldInputBase),
         }}
       />
     );

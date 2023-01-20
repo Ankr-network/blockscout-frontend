@@ -11,7 +11,7 @@ export interface BalanceProps {
 }
 
 export const Balance = ({ balance, className }: BalanceProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={className}>

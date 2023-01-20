@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 
 import { t } from '@ankr.com/common';
 import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus.svg';
@@ -21,7 +21,7 @@ export const FeatureContent = ({
   itemsCount,
   button,
 }: IFeatureContentProps) => {
-  const classes = useFeatureTableMobileStyles();
+  const { classes } = useFeatureTableMobileStyles();
 
   return (
     <div className={classes.item}>
@@ -54,7 +54,7 @@ export const FeatureContent = ({
         collapsedIcon={<PlusIcon className={classes.icon} />}
         uncollapsedIcon={<MinusIcon className={classes.icon} />}
         content={
-          <div className={classes.content}>
+          <div>
             {new Array(itemsCount).fill('').map((_, index) => (
               <Typography
                 variant="body1"

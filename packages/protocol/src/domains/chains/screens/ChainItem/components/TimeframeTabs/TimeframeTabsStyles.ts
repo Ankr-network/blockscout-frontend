@@ -1,15 +1,16 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useTimeframeTabsStyles = makeStyles<Theme>(theme => ({
+export const useTimeframeTabsStyles = makeStyles()((theme: Theme) => ({
   timeframeTabs: {
     display: 'flex',
     justifyContent: 'space-between',
-    gap: theme.spacing(0.25),
+    gap: theme.spacing(2 * 0.25),
 
-    border: `2px solid ${theme.palette.grey[400]}`,
+    border: `2px solid ${theme.palette.grey[100]}`,
     borderRadius: 11,
 
-    backgroundColor: theme.palette.grey[400],
+    backgroundColor: theme.palette.grey[100],
   },
   tab: {
     flexGrow: 1,

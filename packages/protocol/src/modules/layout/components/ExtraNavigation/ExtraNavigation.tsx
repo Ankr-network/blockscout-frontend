@@ -7,7 +7,7 @@ import {
 import { ReactComponent as ActiveSettingsIcon } from 'uiKit/Icons/activeSetting.svg';
 import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const ExtraNavigation = () => {
   const items = useMemo(

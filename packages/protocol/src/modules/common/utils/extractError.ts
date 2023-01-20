@@ -1,4 +1,4 @@
-import { t } from '../../i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export function extractMessage(
   errorResponse: any,

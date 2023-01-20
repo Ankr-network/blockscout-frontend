@@ -1,6 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { useStyles } from './SwitcherStyles';
 
@@ -11,11 +10,11 @@ export interface SwitcherProps {
 }
 
 export const Switcher = ({ className, onClick, value }: SwitcherProps) => {
-  const { switcherRoot } = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
     <Button
-      className={classNames(className, switcherRoot)}
+      className={cx(className, classes.switcherRoot)}
       onClick={onClick}
       variant="outlined"
       disabled={!onClick}

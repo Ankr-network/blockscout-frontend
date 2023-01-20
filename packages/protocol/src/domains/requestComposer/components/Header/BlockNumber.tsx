@@ -1,8 +1,6 @@
-import { Skeleton } from '@material-ui/lab';
-import { Typography } from '@material-ui/core';
-import classNames from 'classnames';
-
 import { t } from '@ankr.com/common';
+import { Typography, Skeleton } from '@mui/material';
+
 import { useHeaderStyles } from './useHeaderStyles';
 
 interface IBlockNumberProps<T> {
@@ -11,7 +9,7 @@ interface IBlockNumberProps<T> {
 }
 
 export function BlockNumber<T>({ data, loading }: IBlockNumberProps<T>) {
-  const classes = useHeaderStyles();
+  const { classes, cx } = useHeaderStyles();
 
   return (
     <>
@@ -22,7 +20,7 @@ export function BlockNumber<T>({ data, loading }: IBlockNumberProps<T>) {
           </Typography>
           <Typography
             variant="body2"
-            className={classNames(classes.content, classes.blockNumber)}
+            className={cx(classes.content, classes.blockNumber)}
           >
             {loading ? <Skeleton className={classes.skeleton} /> : data}
           </Typography>

@@ -32,12 +32,10 @@ export const {
         const service = MultiService.getService();
         const web3ReadService = await MultiService.getWeb3ReadService();
 
-        web3ReadService
-          .getOauthGateway()
-          .addToken(authorizationToken as string);
+        web3ReadService.getOauthGateway().addToken(authorizationToken!);
 
-        service.getAccountGateway().addToken(authorizationToken as string);
-        service.getOauthGateway().addToken(authorizationToken as string);
+        service.getAccountGateway().addToken(authorizationToken!);
+        service.getOauthGateway().addToken(authorizationToken!);
 
         if (workerTokenData?.signedToken) {
           service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);

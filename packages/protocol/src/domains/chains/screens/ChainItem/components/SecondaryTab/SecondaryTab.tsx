@@ -1,5 +1,4 @@
-import { Button } from '@material-ui/core';
-import classNames from 'classnames';
+import { Button } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { useSecondaryTabStyles } from './SecondaryTabStyles';
@@ -24,7 +23,7 @@ export const SecondaryTab = ({
   isDarkTheme,
   size = TabSize.Medium,
 }: SecondaryTabProps) => {
-  const classes = useSecondaryTabStyles({
+  const { classes, cx } = useSecondaryTabStyles({
     isLast,
     isSelected,
     size,
@@ -33,7 +32,7 @@ export const SecondaryTab = ({
 
   return (
     <Button
-      className={classNames(className, classes.secondaryTab)}
+      className={cx(className, classes.secondaryTab)}
       onClick={onClick}
       variant="contained"
       fullWidth

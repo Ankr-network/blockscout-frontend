@@ -1,9 +1,11 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   mobileGroupSelector: {
-    backgroundColor: `${theme.palette.background.default} !important`,
+    '&&': {
+      backgroundColor: theme.palette.background.default,
+    },
 
     '& div': {
       color: theme.palette.text.primary,
@@ -16,15 +18,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   select: {
-    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px ${theme.spacing(
-      1,
-    )}px ${theme.spacing(2)}px`,
+    padding: theme.spacing(2 * 1, 2 * 1.5, 2 * 1, 2 * 2),
 
     letterSpacing: '0.01em',
 
     fontWeight: 600,
-    fontSize: theme.spacing(2),
-    lineHeight: `${theme.spacing(3)}px`,
+    fontSize: theme.spacing(2 * 2),
+    lineHeight: theme.spacing(2 * 3),
 
     '&:hover': {
       backgroundColor: 'transparent',
@@ -36,16 +36,16 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   selectIcon: {
-    top: theme.spacing(1.75),
-    right: theme.spacing(1.5),
+    top: theme.spacing(2 * 1.75),
+    right: theme.spacing(2 * 1.5),
   },
   menuPaper: {
     '& li': {
       color: theme.palette.text.primary,
 
       fontWeight: 400,
-      fontSize: theme.spacing(2),
-      lineHeight: `${theme.spacing(3)}px`,
+      fontSize: theme.spacing(2 * 2),
+      lineHeight: theme.spacing(2 * 3),
 
       '&.Mui-selected': {
         color: theme.palette.primary.main,

@@ -1,6 +1,6 @@
 import { ReactNode, useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@mui/material';
 
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { useErrorStyles } from './useErrorStyles';
@@ -22,7 +22,7 @@ export const Error = ({
   toLocation = 'refresh',
   hasLayout = true,
 }: IErrorProps) => {
-  const classes = useErrorStyles();
+  const { classes } = useErrorStyles();
   const history = useHistory();
 
   const defaultHandler = useCallback(() => {

@@ -1,7 +1,7 @@
 import { IPaymentHistoryEntity } from 'multirpc-sdk';
-import { VirtualTableColumn } from 'ui';
+import { VirtualTableColumn } from 'uiKit/VirtualTable';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { Amount, CurrencySymbol } from '../components/Amount';
 import { Deduction } from '../components/Deduction';

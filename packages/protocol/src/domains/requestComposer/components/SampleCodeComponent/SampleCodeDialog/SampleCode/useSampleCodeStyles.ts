@@ -1,18 +1,27 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useSampleCodeStyles = makeStyles<Theme>(theme => ({
+export const useSampleCodeStyles = makeStyles()((theme: Theme) => ({
   root: {
     position: 'relative',
   },
   copyButton: {
     position: 'absolute',
-    width: 98,
-    top: -54,
-    right: theme.spacing(2.75),
-    backgroundColor: theme.palette.text.primary,
-    padding: '6px 12px',
+    width: 110,
+    height: 44,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: -66,
+    right: theme.spacing(2 * 2.75),
+    backgroundColor: theme.palette.grey[900],
+    padding: theme.spacing(2 * 0.75, 2 * 1.5),
     borderRadius: 11,
+    [theme.breakpoints.down(540)]: {
+      position: 'relative',
+      top: -10,
+      left: 22,
+    },
   },
   codeContainer: {
     height: 360,
@@ -20,7 +29,7 @@ export const useSampleCodeStyles = makeStyles<Theme>(theme => ({
   code: {
     counterReset: 'step',
     counterIncrement: 'step 0',
-    padding: theme.spacing(0, 5.25, 2.25, 2.75),
+    padding: theme.spacing(2 * 0, 2 * 5.25, 2 * 2.25, 2 * 2.75),
     margin: 0,
     marginLeft: '5em',
 

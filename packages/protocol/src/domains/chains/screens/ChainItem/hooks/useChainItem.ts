@@ -37,7 +37,7 @@ export const useChainItem = ({
   onBlockedTestnetClick,
 }: Details & { onBlockedTestnetClick: () => void }): ChainItem => {
   const isChainArchived = useMemo(
-    () => !!nodes?.some(item => item.isArchive),
+    () => !!nodes?.some(item => item.hasArchive),
     [nodes],
   );
 

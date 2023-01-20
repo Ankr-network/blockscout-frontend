@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     borderRadius: 18,
     border: `1px solid ${theme.palette.action.disabledBackground}`,
@@ -11,6 +11,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 400,
     fontSize: 11,
-    lineHeight: '16px',
+    lineHeight: theme.spacing(2 * 2),
+
+    '&:hover, &.Mui-focused': {
+      '&&': {
+        backgroundColor: theme.palette.common.white,
+      },
+    },
   },
 }));

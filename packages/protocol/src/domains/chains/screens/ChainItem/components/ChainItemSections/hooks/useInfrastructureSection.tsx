@@ -7,7 +7,7 @@ import { InfrastructureSection } from '../../InfrastructureSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface InfrastructureSectionParams {

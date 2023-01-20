@@ -1,9 +1,9 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   chartRoot: {
-    padding: `${theme.spacing(2.5)}px ${theme.spacing(3.75)}px`,
+    padding: theme.spacing(2 * 2.5, 2 * 3.75),
     borderRadius: 30,
 
     backgroundColor: theme.palette.background.paper,

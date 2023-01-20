@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { t, tHTML } from '@ankr.com/common';
@@ -13,7 +13,7 @@ export const SuccessStep = ({
   email = t('user-settings.common.email-value-fallback'),
   children,
 }: ISuccessStepProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <>

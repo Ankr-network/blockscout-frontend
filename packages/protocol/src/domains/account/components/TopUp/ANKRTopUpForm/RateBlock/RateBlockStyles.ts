@@ -1,9 +1,12 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useRateBlockStyles = makeStyles<Theme>(theme => ({
+export const useRateBlockStyles = makeStyles()((theme: Theme) => ({
   rate: {
+    fontSize: 14,
     fontWeight: 400,
-    marginBottom: theme.spacing(0.5),
+    marginBottom: theme.spacing(2 * 0.5),
+    display: 'block',
 
     [theme.breakpoints.down('sm')]: {
       order: 1,
@@ -12,9 +15,9 @@ export const useRateBlockStyles = makeStyles<Theme>(theme => ({
   },
   skeleton: {
     height: 32,
-    marginTop: -7,
+    marginTop: theme.spacing(2 * -0.875),
     width: '60%',
     margin: 'auto',
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(2 * 1),
   },
 }));

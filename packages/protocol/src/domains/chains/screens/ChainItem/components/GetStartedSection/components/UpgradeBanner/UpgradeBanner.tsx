@@ -1,8 +1,8 @@
-import { NavLink } from 'ui';
+import { NavLink } from 'uiKit/NavLink';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { root } from '../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useUpgradeBannerStyles } from './UpgradeBannerStyles';
 
 const href = AccountRoutesConfig.accountDetails.generatePath();
@@ -10,7 +10,7 @@ const message = t(`${root}.upgrade-banner.message`);
 const button = t(`${root}.upgrade-banner.button`);
 
 export const UpgradeBanner = () => {
-  const classes = useUpgradeBannerStyles();
+  const { classes } = useUpgradeBannerStyles();
 
   return (
     <div className={classes.upgradeBanner}>

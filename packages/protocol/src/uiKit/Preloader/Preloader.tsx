@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { useStyles } from './useStyles';
 
@@ -16,19 +15,13 @@ export const Preloader = ({
   centered = false,
   className = '',
 }: IPreloaderProps) => {
-  const classes = useStyles({ size });
+  const { classes, cx } = useStyles({ size });
 
   return (
-    <div
-      className={classNames(
-        classes.root,
-        centered && classes.centered,
-        className,
-      )}
-    >
+    <div className={cx(classes.root, centered && classes.centered, className)}>
       <div className={classes.circle} />
-      <div className={classNames(classes.circle, classes.circle2)} />
-      <div className={classNames(classes.circle, classes.circle3)} />
+      <div className={cx(classes.circle, classes.circle2)} />
+      <div className={cx(classes.circle, classes.circle3)} />
     </div>
   );
 };

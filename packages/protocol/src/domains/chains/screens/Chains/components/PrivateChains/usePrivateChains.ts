@@ -4,7 +4,7 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/fetchPrivateChainsInfo';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
-export type PrivateChains = [IApiChain[], IApiChain[], boolean];
+export type PrivateChains = [IApiChain[], IApiChain[], boolean, () => void];
 
 const defaultData = {
   chains: [],
@@ -24,5 +24,5 @@ export const usePrivateChains = (): PrivateChains => {
     fetchPrivateChainsInfo();
   }, [fetchPrivateChainsInfo]);
 
-  return [chains, allChains, isLoading];
+  return [chains, allChains, isLoading, fetchPrivateChainsInfo];
 };

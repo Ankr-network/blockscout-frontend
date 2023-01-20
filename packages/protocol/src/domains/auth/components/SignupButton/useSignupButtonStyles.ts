@@ -1,34 +1,35 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useSignupButtonStyles = makeStyles<Theme, { isMobile?: boolean }>(
-  theme => ({
-    menuButton: ({ isMobile }) =>
-      isMobile
-        ? {
-            position: 'relative',
-            width: 'auto',
-            padding: theme.spacing(1.25, 1.5),
+export const useSignupButtonStyles = makeStyles<boolean>()(
+  (theme: Theme, isMobile: boolean) => ({
+    menuButton: isMobile
+      ? {
+          position: 'relative',
+          width: 'auto',
+          padding: theme.spacing(2 * 1.25, 2 * 1.5),
 
-            border: '2px solid #E7EBF3',
-            borderRadius: theme.spacing(1.5),
+          border: `2px solid ${theme.palette.grey[100]}`,
+          borderRadius: theme.spacing(2 * 1.5),
 
-            color: theme.palette.text.primary,
-          }
-        : {
-            position: 'relative',
-            width: 'auto',
+          color: theme.palette.text.primary,
+        }
+      : {
+          position: 'relative',
+          width: 'auto',
+          backgroundColor: theme.palette.common.white,
 
-            '&:hover': {
-              backgroundColor: '#EBEDF2',
-            },
+          '&:hover': {
+            backgroundColor: theme.palette.grey[100],
           },
+        },
     button: {
       [theme.breakpoints.down('sm')]: {
         border: '2px solid rgba(31, 34, 38, 0.1)',
       },
     },
     walletIcon: {
-      marginRight: theme.spacing(1.5),
+      marginRight: theme.spacing(2 * 1.5),
       minWidth: 24,
     },
     bottom: {
@@ -93,7 +94,7 @@ export const useSignupButtonStyles = makeStyles<Theme, { isMobile?: boolean }>(
     email: {
       display: 'flex',
       alignItems: 'center',
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(2 * 1),
       overflow: 'hidden',
       width: '100%',
     },
@@ -102,7 +103,7 @@ export const useSignupButtonStyles = makeStyles<Theme, { isMobile?: boolean }>(
     },
     signoutButton: {
       color: theme.palette.text.secondary,
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacing(2 * 1),
       minWidth: 'auto',
     },
     menu: {
@@ -117,7 +118,7 @@ export const useSignupButtonStyles = makeStyles<Theme, { isMobile?: boolean }>(
     },
     userLogo: {
       position: 'relative',
-      marginRight: theme.spacing(1.5),
+      marginRight: theme.spacing(2 * 1.5),
     },
     userData: {
       maxWidth: '100%',
@@ -137,6 +138,8 @@ export const useSignupButtonStyles = makeStyles<Theme, { isMobile?: boolean }>(
       width: 16,
       height: 16,
     },
-    address: {},
+    subtitle: {
+      fontSize: 14,
+    },
   }),
 );

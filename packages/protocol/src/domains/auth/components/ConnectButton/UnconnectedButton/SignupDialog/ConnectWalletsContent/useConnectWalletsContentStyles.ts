@@ -1,32 +1,30 @@
-import { makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useConnectWalletsModalStyles = makeStyles(theme => ({
+export const useConnectWalletsModalStyles = makeStyles()((theme: Theme) => ({
   root: {
     '& div:first-of-type': {
-      marginBottom: theme.spacing(1.5),
+      marginBottom: theme.spacing(2 * 1.5),
     },
   },
   title: {
     fontSize: 24,
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(2 * 5),
+    marginRight: theme.spacing(2 * 5),
 
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('xl')]: {
       fontSize: 30,
-    },
-
-    [theme.breakpoints.up('xs')]: {
-      marginRight: theme.spacing(5),
     },
   },
 
   loading: {
     position: 'relative',
-    padding: theme.spacing(5, 5, 5, 5),
+    padding: theme.spacing(2 * 5),
   },
 
   walletItem: {
     width: '100%',
-    padding: theme.spacing(1, 2, 1, 1),
+    padding: theme.spacing(2 * 1, 2 * 2, 2 * 1, 2 * 1),
 
     display: 'flex',
     alignItems: 'center',
@@ -60,10 +58,10 @@ export const useConnectWalletsModalStyles = makeStyles(theme => ({
 
   walletItemTitle: {
     fontSize: 14,
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(2 * 1),
 
-    [theme.breakpoints.up('sm')]: {
-      margin: theme.spacing(2.25, 0, 0, 0),
+    [theme.breakpoints.up('md')]: {
+      margin: theme.spacing(2 * 2.25, 0, 0, 0),
     },
   },
 
@@ -73,8 +71,8 @@ export const useConnectWalletsModalStyles = makeStyles(theme => ({
     fontSize: 13,
     fontWeight: 700,
 
-    [theme.breakpoints.up('sm')]: {
-      margin: theme.spacing(0.5, 0, 0, 0),
+    [theme.breakpoints.up('md')]: {
+      margin: theme.spacing(2 * 0.5, 0, 0, 0),
     },
   },
 }));

@@ -1,6 +1,7 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(() => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   hidden: {
     visibility: 'hidden',
   },
@@ -17,7 +18,7 @@ export const useStyles = makeStyles<Theme>(() => ({
   downLoader: {
     '&&': {
       position: 'absolute',
-      color: '#BFC6D0',
+      color: theme.palette.grey[300],
     },
   },
 }));

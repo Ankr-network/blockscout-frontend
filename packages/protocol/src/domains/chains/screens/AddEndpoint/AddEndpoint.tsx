@@ -1,4 +1,4 @@
-import { INodeEntity } from 'multirpc-sdk';
+import { INodesDetailEntity } from 'multirpc-sdk';
 
 import { AddEndpointForm } from './components/AddEndpointForm';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
@@ -17,14 +17,14 @@ import {
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';
 import { getScheme } from './AddEndpointUtils';
-import { useLazyChainsFetchChainNodesQuery } from 'domains/chains/actions/fetchChainNodes';
+import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const AddEndpoint = () => {
   const { chainId } = ChainsRoutesConfig.addEndpoint.useParams();
 
-  const [fetchChainNodes, chainNodesState] =
-    useLazyChainsFetchChainNodesQuery();
+  const [fetchChainNodesDetail, chainNodesDetailState] =
+    useLazyChainsFetchChainNodesDetailQuery();
   const [fetchPrivateChains, privateChainsState] =
     useLazyChainsFetchPrivateChainsQuery();
   const [fetchEndpoints, endpointsState] =
@@ -33,7 +33,7 @@ export const AddEndpoint = () => {
     useLazyChainsFetchPublicChainsQuery();
 
   useOnMount(() => {
-    fetchChainNodes(chainId);
+    fetchChainNodesDetail(chainId);
     fetchPrivateChains();
     fetchEndpoints();
     fetchPublicChains();
@@ -41,14 +41,14 @@ export const AddEndpoint = () => {
 
   return (
     <Queries<
-      INodeEntity[],
+      INodesDetailEntity[],
       FetchPrivateChainsResult,
       Endpoints,
       FetchPublicChainsResult
     >
       isPreloadDisabled
       queryStates={[
-        chainNodesState,
+        chainNodesDetailState,
         privateChainsState,
         endpointsState,
         publicChainsState,

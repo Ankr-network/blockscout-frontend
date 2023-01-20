@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
+import { t } from '@ankr.com/common';
 
 import { CreditsRate } from 'domains/account/actions/rate/fetchCreditRates';
 import { CurrencyRateSymbol } from 'multirpc-sdk';
-import { t } from 'modules/i18n/utils/intl';
 import { USD_CURRENCY } from 'domains/account/actions/usdTopUp/const';
 import { CurrencyType } from './RateBlockTypes';
 

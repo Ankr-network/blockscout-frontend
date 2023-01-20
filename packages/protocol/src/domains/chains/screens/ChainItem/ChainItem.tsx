@@ -66,12 +66,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
         group={group}
         unfilteredGroup={unfilteredGroup}
       />
-      <ChainsItemDialog
-        name={`${chain.name} ${t('chain-item.chain-types.testnet')}`}
-        open={isOpened}
-        logoSrc={chain.icon}
-        onClose={onClose}
-      />
+      <ChainsItemDialog open={isOpened} onClose={onClose} />
     </>
   );
 };
