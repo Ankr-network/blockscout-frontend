@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
+import { ReactNode } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { AmountInput } from 'modules/common/components/AmountField';
@@ -35,6 +36,7 @@ interface IAnkrUnstakeFormProps {
   maxAmount?: BigNumber;
   minAmount: BigNumber;
   loading?: boolean;
+  infoSlot?: ReactNode;
   isBalanceLoading?: boolean;
   isDisabled?: boolean;
   tokenIn?: string;
@@ -60,6 +62,7 @@ export const AnkrUnstakeForm = ({
   providerName,
   onSubmit,
   onChange,
+  infoSlot,
 }: IAnkrUnstakeFormProps): JSX.Element => {
   const classes = useUnstakeFormStyles();
 
@@ -84,7 +87,11 @@ export const AnkrUnstakeForm = ({
     <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
       <CloseButton href={closeHref} />
 
-      <StakeFormTitle>{t('stake-ankr.unstaking.title')}</StakeFormTitle>
+      <StakeFormTitle className={classes.title}>
+        {t('stake-ankr.unstaking.title')}
+      </StakeFormTitle>
+
+      {infoSlot}
 
       <AmountInput
         balance={balance}

@@ -2,7 +2,6 @@ import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
-import { useState } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
@@ -52,13 +51,8 @@ const resetRequests = () =>
     getUnstakeDate.toString(),
   ]);
 
-interface IUseDashboard {
-  isFirstLoad: boolean;
-}
-
-export const useDashboard = (): IUseDashboard => {
+export const useDashboard = (): void => {
   const dispatch = useAppDispatch();
-  const [isFirstLoad, setFirstLoad] = useState(true);
 
   const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
@@ -112,17 +106,13 @@ export const useDashboard = (): IUseDashboard => {
       dispatch(getSSVOnETHDashboardData());
     }
 
-    if (featuresConfig.xdcStaking) {
+    if (featuresConfig.xdcActive) {
       getXDCDashboardDataRefetch();
     }
-
-    setFirstLoad(false);
 
     return () => {
       dispatch(abortRequests());
       dispatch(resetRequests());
     };
   }, [dispatch]);
-
-  return { isFirstLoad };
 };

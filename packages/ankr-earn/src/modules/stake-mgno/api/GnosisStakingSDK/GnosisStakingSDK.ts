@@ -159,7 +159,7 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.mGNOToken,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -258,7 +258,7 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.gnosisStakingContract,
-      { data },
+      { data, estimate: true },
     );
 
     return transactionHash;
@@ -283,7 +283,7 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
     const { receiptPromise } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.mGNOToken,
-      { data },
+      { data, estimate: true },
     );
 
     const { status } = await receiptPromise;

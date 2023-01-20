@@ -19,6 +19,6 @@ export const XDC_STAKING_AMOUNT_STEP = 10;
 export const XDC_STAKING_NETWORKS = [XDC_NETWORK_BY_ENV];
 
 export const CacheTags = {
-  stakeData: getUniqueId(),
-  unstakeData: getUniqueId(),
+  stakeData: `stake-xdc-stake-${getUniqueId()}`,
+  unstakeData: `stake-xdc-unstake-${getUniqueId()}`,
 };

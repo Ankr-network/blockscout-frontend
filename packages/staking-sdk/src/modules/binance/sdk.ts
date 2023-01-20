@@ -70,6 +70,9 @@ import {
   TBnbSyntToken,
 } from './types';
 
+const INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG =
+  'err: insufficient funds for gas * price + value';
+
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
  *
@@ -895,10 +898,12 @@ export class BinanceSDK implements ISwitcher, IStakable {
   /**
    * Internal function to return stake method by token symbol.
    *
+   * @private
    * @param {TBnbSyntToken} token - token symbol
+   * @param {boolean | undefined} [withCode = false] - code flag
    * @returns {string}
    */
-  private getStakeMethodName(token: TBnbSyntToken, withCode = false) {
+  private getStakeMethodName(token: TBnbSyntToken, withCode = false): string {
     switch (token) {
       case 'aBNBc':
         return withCode ? 'stakeAndClaimCertsWithCode' : 'stakeAndClaimCerts';
@@ -911,8 +916,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
   /**
    * Internal function to return increased gas limit.
    *
-   * @param {number} gasLimit - initial gas limit
    * @private
+   * @param {number} gasLimit - initial gas limit
    * @returns {number}
    */
   private getIncreasedGasLimit(gasLimit: number): number {
@@ -1096,23 +1101,37 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     const tx = await web3.eth.getTransaction(txHash);
 
-    let address;
+    const { binanceConfig } = configFromEnv();
+
+    const toAddress = tx.to?.toLowerCase();
+
+    const address = tx.from;
+
     let amount;
 
-    try {
-      const parameters = web3.eth.abi.decodeParameters(
-        ['address', 'uint256'],
-        tx.input.slice(10),
-      );
-      address = parameters['0'];
-      amount = parameters['1'];
-    } catch (e) {
+    // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-2454
+    if (toAddress === binanceConfig.swapPool.toLowerCase()) {
       const parameters = web3.eth.abi.decodeParameters(
         ['uint256'],
         tx.input.slice(10),
       );
-      address = tx.from as string | undefined;
       amount = parameters['0'];
+    } else if (toAddress === binanceConfig.binancePool.toLowerCase()) {
+      try {
+        const parameters = web3.eth.abi.decodeParameters(
+          ['address', 'uint256'],
+          tx.input.slice(10),
+        );
+        amount = parameters['1'];
+      } catch (e) {
+        const parameters = web3.eth.abi.decodeParameters(
+          ['uint256'],
+          tx.input.slice(10),
+        );
+        amount = parameters['0'];
+      }
+    } else {
+      throw new Error('Unsupported transaction');
     }
 
     return {
@@ -1329,6 +1348,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount of token
    * @param {string} token - choose which token to receive (aBNBb or aBNBc)
+   * @param {number | undefined} scale - scale factor for amount (not using)
    * @param {string} referralCode - referral code
    * @returns {Promise<IStakeData>}
    */
@@ -1409,6 +1429,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Unstake token.
    *
    * @public
+   * @note You will need to call `approveACForAB` before that.
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
@@ -1437,7 +1458,20 @@ export class BinanceSDK implements ISwitcher, IStakable {
         this.getUnstakeMethodName(token as TBnbSyntToken)
       ];
 
-    const data = contractUnstake(hexAmount).encodeABI();
+    const unstakeFn = contractUnstake(hexAmount);
+
+    try {
+      await unstakeFn.estimateGas({
+        from: this.currentAccount,
+        value: hexAmount,
+      });
+    } catch (e) {
+      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
+        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
+      }
+    }
+
+    const data = unstakeFn.encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
@@ -1450,6 +1484,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Unstake token to external address.
    *
    * @public
+   * @note You will need to call `approveACForAB` before that.
    * @note Initiates connect if writeProvider isn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
@@ -1480,7 +1515,20 @@ export class BinanceSDK implements ISwitcher, IStakable {
         this.getUnstakeToExternalMethodName(token as TBnbSyntToken)
       ];
 
-    const data = contractUnstake(externalAddress, hexAmount).encodeABI();
+    const unstakeFn = contractUnstake(externalAddress, hexAmount);
+
+    try {
+      await unstakeFn.estimateGas({
+        from: this.currentAccount,
+        value: hexAmount,
+      });
+    } catch (e) {
+      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
+        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
+      }
+    }
+
+    const data = unstakeFn.encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
@@ -1788,7 +1836,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note For aMATICc token only.
-   * @note You will need to call `approveACToken` before that.
+   * @note You will need to call `approveACTokenForSwapPool` before that.
    * @note Initiates connect if writeProvider doesn't connected.
    * @note [Read about Ankr Liquid Staking token types](https://www.ankr.com/docs/staking/liquid-staking/overview#types-of-liquid-staking-tokens).
    * @param {BigNumber} amount - amount to unstake
@@ -1813,13 +1861,27 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const swapPoolContract = await this.getSwapPoolContract();
 
     const txn = swapPoolContract.methods.swapEth(
-      false,
       amountHex,
       this.currentAccount,
     );
-    const gasLimit: number = await txn.estimateGas({
-      from: this.currentAccount,
-    });
+
+    let gasLimit: number;
+
+    try {
+      gasLimit = await txn.estimateGas({
+        from: this.currentAccount,
+        value: amountHex,
+      });
+    } catch (e) {
+      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
+        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
+      } else {
+        gasLimit = await txn.estimateGas({
+          from: this.currentAccount,
+        });
+      }
+    }
+
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       binanceConfig.swapPool,
@@ -1846,16 +1908,46 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Return unstake fee for swap pool in percent
+   * Return BNB swap pool token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getBNBSwapPoolLiquidity(): Promise<BigNumber> {
+    const swapPoolContract = await this.getSwapPoolContract(true);
+
+    const balance = await swapPoolContract.methods
+      .getAvailableLiquidity()
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Return unstake fee for swap pool.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable fee
    */
   public async getSwapPoolUnstakeFee(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract(true);
 
     const fee = await swapPoolContract.methods.unstakeFee().call();
 
-    return new BigNumber(fee).dividedBy(100);
+    return new BigNumber(fee);
+  }
+
+  /**
+   * Return BNB swap pool max fee.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable fee
+   */
+  public async getBNBSwapPoolMaxFee(): Promise<BigNumber> {
+    const swapPoolContract = await this.getSwapPoolContract(true);
+
+    const maxFee = await swapPoolContract.methods.FEE_MAX().call();
+
+    return new BigNumber(maxFee);
   }
 }

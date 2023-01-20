@@ -129,7 +129,7 @@ describe('modules/binance/sdk', () => {
     expect(contract.methods.lockShares).toBeCalledWith('0x21e19e0c9bab2400000');
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
       'address',
-      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xC2eB22Bf64E1600D68420a024D7839AB75608012',
       { data: 'abi', estimate: true },
     );
   });
@@ -161,7 +161,7 @@ describe('modules/binance/sdk', () => {
     );
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
       'address',
-      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xC2eB22Bf64E1600D68420a024D7839AB75608012',
       { data: 'abi', estimate: true },
     );
   });
@@ -464,7 +464,7 @@ describe('modules/binance/sdk', () => {
 
     const fee = await sdk.getSwapPoolUnstakeFee();
 
-    expect(fee).toStrictEqual(new BigNumber(100));
+    expect(fee).toStrictEqual(new BigNumber(10_000));
   });
 
   test('should return WBNB swap pool balance', async () => {
@@ -632,12 +632,12 @@ describe('modules/binance/sdk', () => {
     expect(contract.methods.approve).toBeCalledTimes(1);
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledTimes(1);
     expect(contract.methods.approve).toBeCalledWith(
-      '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      '0xC2eB22Bf64E1600D68420a024D7839AB75608012',
       '0xde0b6b3a7640000',
     );
     expect(defaultWriteProvider.sendTransactionAsync).toBeCalledWith(
       'address',
-      '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
+      '0x4f9406bd3582A877Ec0e33cA1b1FD31E778345B6',
       { data: 'abi', estimate: true },
     );
   });
@@ -969,7 +969,7 @@ describe('modules/binance/sdk', () => {
     expect(result).toBe(true);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
-      address: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
+      address: '0xC2eB22Bf64E1600D68420a024D7839AB75608012',
       symbol: 'aBNBb',
       decimals: 18,
       chainId: 97,
@@ -997,7 +997,7 @@ describe('modules/binance/sdk', () => {
     expect(result).toBe(true);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledTimes(1);
     expect(defaultWriteProvider.addTokenToWallet).toBeCalledWith({
-      address: '0x46de2fbaf41499f298457cd2d9288df4eb1452ab',
+      address: '0x4f9406bd3582A877Ec0e33cA1b1FD31E778345B6',
       symbol: 'aBNBc',
       decimals: 18,
       chainId: 97,

@@ -26,9 +26,9 @@ export const Main = (): JSX.Element => {
       amount={amount}
       buttonTitle={t('convert.add-to-wallet', { token })}
       destinationAddress={destination}
-      hint={t('convert.description', { token })}
       isLoading={isLoading}
       isPending={isPending}
+      pendingHint={t('convert.description', { token })}
       symbol={token}
       title={t('convert.title')}
       txHash={transactionId}

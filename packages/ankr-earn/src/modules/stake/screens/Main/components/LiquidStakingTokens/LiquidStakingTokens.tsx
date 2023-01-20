@@ -210,7 +210,7 @@ export const LiquidStakingTokens = (): JSX.Element => {
           />
         )}
 
-        {featuresConfig.xdcStaking && (
+        {featuresConfig.xdcActive && featuresConfig.xdcStaking && (
           <FeatureItem
             apy={
               metrics?.[EMetricsServiceName.XDC] &&

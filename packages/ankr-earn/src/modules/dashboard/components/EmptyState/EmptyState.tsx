@@ -67,7 +67,7 @@ export const EmptyState = (): JSX.Element => {
         </NavLink>
 
         {featuresConfig.isCalcActive && (
-          <div className={classes.header}>
+          <div className={classes.calcBtn}>
             <div className={classes.buttonWrapper}>
               <NavLink
                 fullWidth

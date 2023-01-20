@@ -11,6 +11,12 @@ import {
   IWeb3ReadableAmountFromWeiProps,
 } from './types';
 
+/**
+ * Get the latest block number from Web3.
+ *
+ * @param {Provider} provider - current selected provider
+ * @returns {Promise<number>}
+ */
 export const getWeb3LatestBlockNumber = <Provider extends Web3KeyReadProvider>({
   provider,
 }: IWeb3LatestBlockNumberProps<Provider>): Promise<number> => {
@@ -19,6 +25,17 @@ export const getWeb3LatestBlockNumber = <Provider extends Web3KeyReadProvider>({
   return web3.eth.getBlockNumber();
 };
 
+/**
+ * Get past events from blockchain by block range.
+ *
+ * @param {Contract} contract - target contract
+ * @param {string} eventName - event name from contract
+ * @param {Filter | undefined} filter - custom filter
+ * @param {number} latestBlockNumber - latest block number
+ * @param {number} rangeStep - custom range step
+ * @param {number} startBlock - start block number
+ * @returns {Promise<EventData[]>}
+ */
 export const getWeb3PastEventsFromBlockchainByRange = async ({
   contract,
   eventName,
@@ -47,6 +64,13 @@ export const getWeb3PastEventsFromBlockchainByRange = async ({
   return flatten(pastEvents);
 };
 
+/**
+ * Get human-readable amount from Wei.
+ *
+ * @param {string} amount - target amount
+ * @param {Provider} provider - current selected provider
+ * @returns {BigNumber}
+ */
 export const getWeb3ReadableAmountFromWei = <
   Provider extends Web3KeyReadProvider,
 >({
