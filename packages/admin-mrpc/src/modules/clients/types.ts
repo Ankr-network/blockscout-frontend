@@ -16,6 +16,7 @@ export enum ClientType {
   TestDrivePremium,
   Premium,
   PENDING,
+  FREE,
 }
 
 export type ClientEntity = IBalancesEntity & {

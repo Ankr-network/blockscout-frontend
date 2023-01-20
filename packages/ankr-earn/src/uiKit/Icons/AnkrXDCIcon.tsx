@@ -2,7 +2,7 @@ import React from 'react';
 
 import { withSvgIcon } from './withSvgIcon';
 
-export const AXDCCIcon = withSvgIcon(
+export const AnkrXDCIcon = withSvgIcon(
   <g>
     <g clipPath="url(#clip0_10536_67997)">
       <path

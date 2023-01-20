@@ -250,13 +250,15 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       },
     ];
 
-    if (featuresConfig.xdcStaking) {
+    if (featuresConfig.xdcActive) {
       data.push({
         name: Token.XDC,
         amount: xdcData?.xdcBalance ?? ZERO,
         apy: metrics?.[EMetricsServiceName.XDC]?.apy ?? ZERO,
         service: EMetricsServiceName.XDC,
-        link: StakeXDCRoutes.stake.generatePath(),
+        link: featuresConfig.xdcStaking
+          ? StakeXDCRoutes.stake.generatePath()
+          : '',
       });
     }
 

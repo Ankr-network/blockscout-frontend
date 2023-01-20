@@ -2,7 +2,11 @@ import { AccountGateway } from '../account';
 import { FetchBlockchainUrlsResult } from './types';
 import { IBlockchainEntity } from '../backoffice';
 import { IConfig } from '../common';
-import { IPublicGateway, PublicGateway } from '../public';
+import {
+  IPublicGateway,
+  PublicGateway,
+  StandalonePublicGateway,
+} from '../public';
 import { OauthGateway } from '../oauth';
 import { RpcGateway } from '../rpc/RpcGateway';
 import { WorkerGateway } from '../worker';
@@ -18,6 +22,8 @@ export class MultiRpcSdk {
   private rpcGateway?: RpcGateway;
 
   private workerGateway?: WorkerGateway;
+
+  private standalonePublicGateway?: StandalonePublicGateway;
 
   public constructor(private readonly config: IConfig) {}
 
@@ -40,6 +46,13 @@ export class MultiRpcSdk {
       });
 
     return this.publicGateway;
+  }
+
+  public getStandalonePublicGateway(baseUrl: string): StandalonePublicGateway {
+    this.standalonePublicGateway =
+      this.standalonePublicGateway || new StandalonePublicGateway(baseUrl);
+
+    return this.standalonePublicGateway;
   }
 
   public getWorkerGateway(): WorkerGateway {

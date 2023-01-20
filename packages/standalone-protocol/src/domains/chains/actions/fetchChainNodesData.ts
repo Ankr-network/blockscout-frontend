@@ -2,9 +2,8 @@ import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
 
-import { ChainId } from '../api/chain';
+import { ChainId, getStandaloneUrl, StandaloneType } from '../api/chain';
 import { MultiService } from 'modules/api/MultiService';
-import { API_ENV } from 'modules/common/utils/environment';
 
 export interface IChainItemDetails {
   nodes?: INodeEntity[];
@@ -18,26 +17,12 @@ const fetchNodesData = (chainId: ChainId) => {
   ]);
 };
 
-const stagingUrls = {
-  [ChainId.BSC]: 'https://staging.bscrpc.com/',
-  [ChainId.Polygon]: 'https://staging.polygon-rpc.com/',
-  [ChainId.Fantom]: 'https://staging.ftm.tools/',
-};
-
-type StandaloneType = ChainId.BSC | ChainId.Polygon | ChainId.Fantom;
-
-const getUrl = (chainId: StandaloneType) => {
-  if (API_ENV === 'prod') return '/';
-
-  return stagingUrls[chainId];
-};
-
 const fetchStandaloneNodesData = (chainId: StandaloneType) => {
-  const url = getUrl(chainId);
+  const url = getStandaloneUrl(chainId);
 
   return Promise.all([
-    MultiService.getService().getPublicGateway().getStandaloneNodes(url),
-    MultiService.getService().getPublicGateway().getStandaloneNodesWeight(url),
+    MultiService.getService().getStandalonePublicGateway(url).getNodes(),
+    MultiService.getService().getStandalonePublicGateway(url).getNodesWeight(),
   ]);
 };
 

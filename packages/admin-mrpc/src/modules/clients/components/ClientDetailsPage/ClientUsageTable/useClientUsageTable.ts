@@ -8,6 +8,7 @@ import {
 } from 'multirpc-sdk';
 import { IUsageEntityMapped } from 'modules/clients/types';
 import { CustomRange } from '../useClientDetailsPage';
+import { Timeframe } from '../RequestsChart/types';
 
 export interface IHookProps {
   onUpdateTimeframe: (timeframe: PrivateStatsInterval | CustomRange) => void;
@@ -26,6 +27,9 @@ export interface IClientUsageTableProps extends IHookProps {
   handleSwitchCurrent: () => void;
   isCurrentDayIncluded: boolean;
   isRangePeriod: boolean;
+
+  isChartDataLoading: boolean;
+  timeframe: Timeframe;
 }
 
 type TabIndex = 0 | 1 | 2 | 3 | 4;
@@ -126,6 +130,7 @@ export const useClientUsageTable = ({
     filterByChainValue && stats?.stats && stats?.stats[filterByChainValue]
       ? stats?.stats[filterByChainValue]?.totalRequests
       : stats?.totalRequests;
+
   const totalCostsValue =
     filterByChainValue && stats?.stats && stats?.stats[filterByChainValue]
       ? stats?.stats[filterByChainValue]?.total?.totalCost
@@ -136,6 +141,34 @@ export const useClientUsageTable = ({
       Math.max(...usageEntity.details.map(usageDetail => +usageDetail.count)),
     ) || [];
   const maxCountTotal = Math.max(...maxCountByBlockchain);
+
+  /* chart data mapping */
+  const totalStatsCount =
+    stats?.stats &&
+    Object.values(stats?.stats)
+      .map(stat => stat?.counts)
+      .reduce((accumulator, currentValue) => {
+        return {
+          ...accumulator,
+          ...currentValue,
+        };
+      });
+
+  const isStatsByChain =
+    filterByChainValue && stats?.stats?.[filterByChainValue];
+
+  const statsByChainCount = isStatsByChain
+    ? stats?.stats![filterByChainValue]!.counts
+    : totalStatsCount;
+
+  const totalRequestsHistory = statsByChainCount
+    ? Object.fromEntries(
+        Object.entries(statsByChainCount).map(([timestamp, { count }]) => [
+          timestamp,
+          count,
+        ]),
+      )
+    : undefined;
 
   return {
     activeTimeframeTabIndex,
@@ -150,5 +183,6 @@ export const useClientUsageTable = ({
     totalCostsValue,
     maxCountTotal,
     csvMappedUsage,
+    totalRequestsHistory,
   };
 };

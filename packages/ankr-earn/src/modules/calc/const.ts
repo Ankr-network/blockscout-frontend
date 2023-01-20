@@ -17,7 +17,7 @@ export const SUPPORTED_TOKENS = [
   Token.FTM,
   Token.mGNO,
   ...(isMainnet ? [Token.DOT, Token.KSM] : [Token.WND]),
-  ...(featuresConfig.xdcStaking ? [Token.XDC] : []),
+  ...(featuresConfig.xdcActive && featuresConfig.xdcStaking ? [Token.XDC] : []),
 ] as TCalcToken[];
 
 export const DEFAULT_TOKENS_VALUE: Record<string, number> = {

@@ -1,6 +1,7 @@
 name: Run build and tests
 on:
-  workflow_dispatch:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   check:
@@ -14,18 +15,27 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
+        working-directory: .
         run: yarn install --immutable
 
+      # Catching turbo's 128 exit code. It occurs if Turbo didn't find any changes packages in the repo and as result we need to pass this step with success
       - name: Build libs
         working-directory: .
         run: |
-          lerna run build
+          ./node_modules/.bin/turbo run build --filter=...[${{ github.event.pull_request.head.ref }}...${{ github.event.pull_request.base.ref }}] || ([ $? != 128 ] && exit 1) || exit 0
+
+      - name: Check types
+        working-directory: .
+        run: |
+          ./node_modules/.bin/turbo run types --filter=...[${{ github.event.pull_request.head.ref }}...${{ github.event.pull_request.base.ref }}] || ([ $? != 128 ] && exit 1) || exit 0
 
       - name: Build apps
         working-directory: .
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: |
-          lerna run build:prod
+          ./node_modules/.bin/turbo run build:prod --filter=...[${{ github.event.pull_request.head.ref }}...${{ github.event.pull_request.base.ref }}] || ([ $? != 128 ] && exit 1) || exit 0
 
       - name: Tests
-        working-directory: ./packages/ankr-earn
-        run: yarn test:coverage
+        working-directory: .
+        run: ./node_modules/.bin/turbo run test:coverage --filter=...[${{ github.event.pull_request.head.ref }}...${{ github.event.pull_request.base.ref }}] || ([ $? != 128 ] && exit 1) || exit 0

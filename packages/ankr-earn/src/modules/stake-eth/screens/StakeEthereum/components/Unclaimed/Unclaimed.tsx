@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 
+import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
@@ -16,6 +17,8 @@ export const Unclaimed = (): JSX.Element | null => {
     return null;
   }
 
+  const tokenName = getTokenSymbol(token);
+
   return (
     <>
       <StakeDescriptionContainer>
@@ -26,13 +29,15 @@ export const Unclaimed = (): JSX.Element | null => {
         <StakeDescriptionValue>
           <StakeDescriptionAmount
             isLoading={isLoading}
-            symbol={token}
+            symbol={tokenName}
             value={amount}
           />
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
 
-      <Quote mb={2.5}>{t('stake-ethereum.unclaimed-descr', { token })}</Quote>
+      <Quote mb={2.5}>
+        {t('stake-ethereum.unclaimed-descr', { token: tokenName })}
+      </Quote>
 
       <StakeDescriptionSeparator />
     </>

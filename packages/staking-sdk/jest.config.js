@@ -10,7 +10,6 @@ module.exports = {
     'src/**/*.ts',
     '!**/node_modules/**',
     '!**/*.d.ts',
-    '!src/modules/xdc/**',
   ],
   moduleNameMapper: {
     '^.+\\.svg$': 'jest-svg-transformer',

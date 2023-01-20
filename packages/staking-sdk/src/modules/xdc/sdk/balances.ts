@@ -1,5 +1,6 @@
-import { Web3KeyReadProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
+
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import {
   currentEnv,
@@ -8,19 +9,27 @@ import {
   IWeb3BalanceProps,
 } from '../../common';
 
-import { getAXDCCTokenContract } from './contracts';
+import { getAnkrXDCTokenContract } from './contracts';
 
-export const getAXDCCBalance = async ({
+/**
+ * Get ankrXDC token balance.
+ *
+ * @param {string} address - current user address
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable balance
+ */
+export const getAnkrXDCBalance = async ({
   address,
   env = currentEnv,
   provider,
 }: ITokenBalanceProps<Web3KeyReadProvider>): Promise<BigNumber> => {
-  const aXDCcTokenContract = getAXDCCTokenContract({
+  const ankrXDCTokenContract = getAnkrXDCTokenContract({
     env,
     provider,
   });
 
-  const amount: string = await aXDCcTokenContract.methods
+  const amount: string = await ankrXDCTokenContract.methods
     .balanceOf(address)
     .call();
 
@@ -30,6 +39,13 @@ export const getAXDCCBalance = async ({
   });
 };
 
+/**
+ * Get XDC token balance.
+ *
+ * @param {string} address - current user address
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @returns {Promise<BigNumber>} - human-readable balance
+ */
 export const getXDCBalance = async ({
   address,
   provider,

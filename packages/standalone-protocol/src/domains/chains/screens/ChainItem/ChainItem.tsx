@@ -29,7 +29,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <ChainHeader className={classes.header} chainId={chainId} />
         <CopyButtons data={data} chainId={chainId} />
         <Info chainId={chainId} />
-        {!isStandalone && <ChainItemDetailsQuery chainId={chainId} />}
+        <ChainItemDetailsQuery chainId={chainId} isStandalone={isStandalone} />
         <ChainNodesTableQuery chainId={chainId} isStandalone={isStandalone} />
       </Container>
     </ThemeProvider>

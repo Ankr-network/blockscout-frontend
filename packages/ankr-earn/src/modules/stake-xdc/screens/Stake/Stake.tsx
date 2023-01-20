@@ -25,8 +25,8 @@ export const Stake = (): JSX.Element => {
   const classes = useStakeStyles();
 
   const {
-    aXDCcPrice,
     amount,
+    ankrXDCPrice,
     faqItems,
     gasFee,
     getStakeDataError,
@@ -54,7 +54,7 @@ export const Stake = (): JSX.Element => {
 
         <div>
           {tHTML('stake-xdc.stake.info', {
-            value: aXDCcPrice.decimalPlaces(DECIMAL_PLACES).toFormat(),
+            value: ankrXDCPrice.decimalPlaces(DECIMAL_PLACES).toFormat(),
           })}
         </div>
       </div>

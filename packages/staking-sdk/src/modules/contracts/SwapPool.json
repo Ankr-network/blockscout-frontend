@@ -5,6 +5,129 @@
 			{
 				"indexed": false,
 				"internalType": "address",
+				"name": "previousAdmin",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "newAdmin",
+				"type": "address"
+			}
+		],
+		"name": "AdminChanged",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "beacon",
+				"type": "address"
+			}
+		],
+		"name": "BeaconUpgraded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "implementation",
+				"type": "address"
+			}
+		],
+		"name": "Upgraded",
+		"type": "event"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "fallback"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "admin_",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newAdmin",
+				"type": "address"
+			}
+		],
+		"name": "changeAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "implementation",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "implementation_",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newImplementation",
+				"type": "address"
+			}
+		],
+		"name": "upgradeTo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newImplementation",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes",
+				"name": "data",
+				"type": "bytes"
+			}
+		],
+		"name": "upgradeToAndCall",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
 				"name": "oldPool",
 				"type": "address"
 			},
@@ -80,7 +203,7 @@
 			{
 				"indexed": false,
 				"internalType": "uint128",
-				"name": "abnbcAmount",
+				"name": "ankrbnbAmount",
 				"type": "uint128"
 			}
 		],
@@ -105,7 +228,7 @@
 			{
 				"indexed": false,
 				"internalType": "uint128",
-				"name": "abnbcAmount",
+				"name": "ankrbnbAmount",
 				"type": "uint128"
 			}
 		],
@@ -206,19 +329,7 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "stakingAmount",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
 				"name": "nativeReserve",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "stakingReserve",
 				"type": "uint256"
 			},
 			{
@@ -350,12 +461,6 @@
 				"type": "address"
 			},
 			{
-				"indexed": true,
-				"internalType": "bool",
-				"name": "nativeToCeros",
-				"type": "bool"
-			},
-			{
 				"indexed": false,
 				"internalType": "uint256",
 				"name": "amountIn",
@@ -468,32 +573,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "abnbc",
-		"outputs": [
-			{
-				"internalType": "contract IABNBC",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "abnbcAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -521,12 +600,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_wbnbAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_abnbcAmount",
+				"name": "_amount",
 				"type": "uint256"
 			}
 		],
@@ -536,13 +610,7 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
+		"inputs": [],
 		"name": "addLiquidityEth",
 		"outputs": [],
 		"stateMutability": "payable",
@@ -550,7 +618,33 @@
 	},
 	{
 		"inputs": [],
-		"name": "approveToMaticPool",
+		"name": "ankrbnb",
+		"outputs": [
+			{
+				"internalType": "contract IABNBC",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ankrbnbAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "approveToBNBPool",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -790,12 +884,20 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "getAllLiquidity",
+		"outputs": [
 			{
-				"internalType": "bool",
-				"name": "wrappedToABNBC",
-				"type": "bool"
-			},
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "uint256",
 				"name": "amountIn",
@@ -824,6 +926,70 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getAvailableLiquidity",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "provider",
+				"type": "address"
+			}
+		],
+		"name": "getAvailableLiquidityForProvider",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPendingLiquidity",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "provider",
+				"type": "address"
+			}
+		],
+		"name": "getPendingLiquidityForProvider",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -842,7 +1008,7 @@
 					},
 					{
 						"internalType": "uint128",
-						"name": "abnbcFee",
+						"name": "ankrbnbFee",
 						"type": "uint128"
 					}
 				],
@@ -863,7 +1029,7 @@
 			},
 			{
 				"internalType": "address",
-				"name": "_abnbc",
+				"name": "_ankrbnb",
 				"type": "address"
 			},
 			{
@@ -974,7 +1140,7 @@
 			},
 			{
 				"internalType": "uint128",
-				"name": "abnbcFee",
+				"name": "ankrbnbFee",
 				"type": "uint128"
 			}
 		],
@@ -998,7 +1164,7 @@
 			},
 			{
 				"internalType": "uint128",
-				"name": "abnbcFee",
+				"name": "ankrbnbFee",
 				"type": "uint128"
 			}
 		],
@@ -1042,7 +1208,7 @@
 			},
 			{
 				"internalType": "uint128",
-				"name": "abnbcFee",
+				"name": "ankrbnbFee",
 				"type": "uint128"
 			}
 		],
@@ -1203,19 +1369,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint24",
-				"name": "newThreshold",
-				"type": "uint24"
-			}
-		],
-		"name": "setThreshold",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "skim",
 		"outputs": [],
@@ -1237,11 +1390,6 @@
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "wbnbToABNBC",
-				"type": "bool"
-			},
 			{
 				"internalType": "uint256",
 				"name": "amountIn",
@@ -1267,13 +1415,8 @@
 	{
 		"inputs": [
 			{
-				"internalType": "bool",
-				"name": "wbnbToABNBC",
-				"type": "bool"
-			},
-			{
 				"internalType": "uint256",
-				"name": "amount",
+				"name": "amountIn",
 				"type": "uint256"
 			},
 			{
@@ -1290,20 +1433,7 @@
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "threshold",
-		"outputs": [
-			{
-				"internalType": "uint24",
-				"name": "",
-				"type": "uint24"
-			}
-		],
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1315,13 +1445,6 @@
 			}
 		],
 		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "triggerRebalanceAnkr",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -1416,7 +1539,24 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_logic",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "admin_",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
 		"stateMutability": "payable",
-		"type": "receive"
+		"type": "constructor"
 	}
 ]

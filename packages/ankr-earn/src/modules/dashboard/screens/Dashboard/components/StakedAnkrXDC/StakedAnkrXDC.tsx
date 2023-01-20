@@ -1,5 +1,5 @@
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { XDC_NETWORK_BY_ENV } from 'modules/common/const';
+import { featuresConfig, XDC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
@@ -7,12 +7,12 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 
 import { useHistoryDialog } from './useHistoryDialog';
-import { useStakedAXDCC } from './useStakedAXDCC';
+import { useStakedAnkrXDC } from './useStakedAnkrXDC';
 import { useTokenInfoDialog } from './useTokenInfoDialog';
 
 const TOKEN = Token.ankrXDC;
 
-export const StakedAXDCC = (): JSX.Element => {
+export const StakedAnkrXDC = (): JSX.Element => {
   const {
     isHistoryDataLoading,
     isOpenedHistory,
@@ -36,7 +36,7 @@ export const StakedAXDCC = (): JSX.Element => {
     unstakeLink,
     usdAmount,
     onAddStakingClick,
-  } = useStakedAXDCC();
+  } = useStakedAnkrXDC();
 
   const {
     description,
@@ -70,6 +70,7 @@ export const StakedAXDCC = (): JSX.Element => {
         isHistoryLoading={isHistoryDataLoading}
         isLoading={isLoading}
         isShowedTradeLink={false}
+        isStakeBtnShowed={featuresConfig.xdcStaking}
         isStakeLoading={isStakeLoading}
         isUnstakeLoading={isUnstakeLoading}
         nativeAmount={nativeAmount}

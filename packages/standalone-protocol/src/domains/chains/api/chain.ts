@@ -1,3 +1,5 @@
+import { API_ENV } from 'modules/common/utils/environment';
+
 export enum ChainId {
   Avalanche = 'avalanche',
   Arbitrum = 'arbitrum',
@@ -28,4 +30,18 @@ export const CHAINS_WITHOUT_STATS = [
 
 export const isStandaloneChain = (chainId: ChainId) => {
   return CHAINS_WITHOUT_STATS.includes(chainId);
+};
+
+export type StandaloneType = ChainId.BSC | ChainId.Polygon | ChainId.Fantom;
+
+const stagingUrls = {
+  [ChainId.BSC]: 'https://staging.bscrpc.com/',
+  [ChainId.Polygon]: 'https://staging.polygon-rpc.com/',
+  [ChainId.Fantom]: 'https://staging.ftm.tools/',
+};
+
+export const getStandaloneUrl = (chainId: StandaloneType) => {
+  if (API_ENV === 'prod') return '/';
+
+  return stagingUrls[chainId];
 };
