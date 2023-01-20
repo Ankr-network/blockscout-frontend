@@ -113,13 +113,15 @@ export const ClientInfo = ({
           <Typography variant="body2">
             <b>Type:</b> {ethUserAddress.type}
           </Typography>
-          <br />
-          <br />
-          <Typography variant="body2">
-            <b>PublicKey:</b> {ethUserAddress.publicKey || 'unknown'}
-          </Typography>{' '}
           {ethUserAddress.publicKey && (
-            <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
+            <>
+              <br />
+              <br />
+              <Typography variant="body2">
+                <b>Public Key:</b> {ethUserAddress.publicKey || 'unknown'}
+              </Typography>{' '}
+              <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
+            </>
           )}
         </CardContent>
       </Card>
@@ -137,7 +139,7 @@ export const ClientInfo = ({
     : NOT_FOUND_TEXT;
   const clientEmailText = client?.email || NOT_FOUND_TEXT;
   const voucherCreditsText = client?.voucherAmount ? (
-    <>{renderBalance(client?.voucherAmount)} Voucher Credits</>
+    <>{renderBalance(client?.voucherAmount, 'Voucher Credits')}</>
   ) : null;
 
   return (
@@ -245,7 +247,7 @@ export const ClientInfo = ({
           <Typography variant="caption" component="p">
             {isLoadingRevenue
               ? skeleton
-              : `${renderBalance(revenueData?.ankrFact)} ANKR`}
+              : `${renderBalance(revenueData?.ankrFact, 'ANKR')}`}
           </Typography>
         </Grid>
 

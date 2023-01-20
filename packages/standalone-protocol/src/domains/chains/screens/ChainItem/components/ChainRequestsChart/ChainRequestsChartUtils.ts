@@ -23,7 +23,11 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
       return theme.palette.primary.main;
 
     case ChainId.Filecoin:
+    case ChainId.Fantom:
       return '#0890FF';
+
+    case ChainId.BSC:
+      return theme.palette.common.white;
 
     default:
       return theme.palette.primary.main;

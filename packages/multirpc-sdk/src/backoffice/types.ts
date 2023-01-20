@@ -1,5 +1,6 @@
 import { Milliseconds } from '@ankr.com/utils';
 import {
+  BlockchainID,
   IPaymentHistoryEntityType,
   PrivateStats,
   PrivateStatsInterval
@@ -253,6 +254,8 @@ export interface IBlockchainEntity {
   type: BlockchainType;
 }
 
+export type LoggerScale = Record<BlockchainID, number>
+
 export interface ICountersEntity {
   hourly: number;
   daily: number;
@@ -263,6 +266,8 @@ export interface ICountersEntity {
   address?: Web3Address;
   ttl?: number;
   hash?: string;
+  suspended?: boolean;
+  loggerScale?: LoggerScale;
 }
 
 export interface ICountersEntityMapped extends ICountersEntity {

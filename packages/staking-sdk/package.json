@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@ankr.com/advanced-api": "*",
-    "@ankr.com/provider": "1.8.2",
+    "@ankr.com/provider": "1.9.1",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "lodash": "^4.17.21",

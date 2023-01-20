@@ -18,18 +18,10 @@ export const ClientBalancesInfo = ({
       <Grid className={classes.balancesGridWrapper} container spacing={3}>
         <Grid item xs={size}>
           <Typography variant="subtitle2" component="p">
-            Total amount of credits
+            Balance
           </Typography>
           <Typography variant="body2">
             {renderBalance(currentClient.amount)}
-          </Typography>
-        </Grid>
-        <Grid item xs={size}>
-          <Typography variant="subtitle2" component="p">
-            Amount of voucher credits
-          </Typography>
-          <Typography variant="body2">
-            {renderBalance(currentClient.voucherAmount)}
           </Typography>
         </Grid>
         <Grid item xs={size}>

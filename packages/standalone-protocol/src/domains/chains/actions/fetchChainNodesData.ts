@@ -1,37 +1,46 @@
-import { DispatchRequest, RequestAction } from '@redux-requests/core';
+import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
 
-import { Store } from 'store';
-import { fetchChainNodes } from './fetchChainNodes';
-import { fetchNodesWeight } from './fetchNodesWeight';
-import { ChainId } from '../api/chain';
+import { ChainId, getStandaloneUrl, StandaloneType } from '../api/chain';
+import { MultiService } from 'modules/api/MultiService';
 
 export interface IChainItemDetails {
   nodes?: INodeEntity[];
   nodesWeight?: IWorkerNodesWeight[];
 }
 
+const fetchNodesData = (chainId: ChainId) => {
+  return Promise.all([
+    MultiService.getService().getPublicGateway().getNodes(chainId),
+    MultiService.getService().getPublicGateway().getNodesWeight(),
+  ]);
+};
+
+const fetchStandaloneNodesData = (chainId: StandaloneType) => {
+  const url = getStandaloneUrl(chainId);
+
+  return Promise.all([
+    MultiService.getService().getStandalonePublicGateway(url).getNodes(),
+    MultiService.getService().getStandalonePublicGateway(url).getNodesWeight(),
+  ]);
+};
+
 export const fetchChainNodesData = createSmartAction<
   RequestAction<null, IChainItemDetails>
->('chains/fetchChainNodesData', (chainId: ChainId) => ({
+>('chains/fetchChainNodesData', (chainId: ChainId, isStandalone: boolean) => ({
   request: {
     promise: (async () => null)(),
   },
   meta: {
     asMutation: false,
     poll: 30,
-    onRequest: (
-      request: any,
-      action: RequestAction,
-      store: Store & { dispatchRequest: DispatchRequest },
-    ) => {
+    onRequest: () => {
       return {
         promise: (async (): Promise<IChainItemDetails> => {
-          const [{ data: nodes }, { data: nodesWeight }] = await Promise.all([
-            store.dispatchRequest(fetchChainNodes(chainId)),
-            store.dispatchRequest(fetchNodesWeight()),
-          ]);
+          const [nodes, nodesWeight] = isStandalone
+            ? await fetchStandaloneNodesData(chainId as StandaloneType)
+            : await fetchNodesData(chainId);
 
           return {
             nodes,
