@@ -2,7 +2,7 @@ import { generatePath, Route, Switch } from 'react-router-dom';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { UNSTAKE_PATH } from 'modules/common/const';
+import { featuresConfig, UNSTAKE_PATH } from 'modules/common/const';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
@@ -60,25 +60,29 @@ export function getRoutes(): JSX.Element {
   return (
     <Route path={[RoutesConfig.root, RoutesConfig.unstake.path]}>
       <Switch>
-        <GuardETHRoute
-          exact
-          availableNetworks={XDC_STAKING_NETWORKS}
-          path={RoutesConfig.stake.path}
-        >
-          <DefaultLayout>
-            <Stake />
-          </DefaultLayout>
-        </GuardETHRoute>
+        {featuresConfig.xdcStaking && (
+          <GuardETHRoute
+            exact
+            availableNetworks={XDC_STAKING_NETWORKS}
+            path={RoutesConfig.stake.path}
+          >
+            <DefaultLayout>
+              <Stake />
+            </DefaultLayout>
+          </GuardETHRoute>
+        )}
 
-        <GuardETHRoute
-          exact
-          availableNetworks={XDC_STAKING_NETWORKS}
-          path={RoutesConfig.stakeSuccess.path}
-        >
-          <DefaultLayout>
-            <StakeSuccess />
-          </DefaultLayout>
-        </GuardETHRoute>
+        {featuresConfig.xdcStaking && (
+          <GuardETHRoute
+            exact
+            availableNetworks={XDC_STAKING_NETWORKS}
+            path={RoutesConfig.stakeSuccess.path}
+          >
+            <DefaultLayout>
+              <StakeSuccess />
+            </DefaultLayout>
+          </GuardETHRoute>
+        )}
 
         <GuardETHRoute
           exact

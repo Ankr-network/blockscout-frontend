@@ -19,7 +19,7 @@ import { RoutesConfig as XDCRoutes } from 'modules/stake-xdc/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
-interface IUseStakedAXDCCData {
+interface IUseStakedAnkrXDCData {
   amount: BigNumber;
   isLoading: boolean;
   isStakeLoading: boolean;
@@ -35,7 +35,7 @@ interface IUseStakedAXDCCData {
 
 const TOKEN = Token.ankrXDC;
 
-export const useStakedAXDCC = (): IUseStakedAXDCCData => {
+export const useStakedAnkrXDC = (): IUseStakedAnkrXDCData => {
   const { address, walletName } = useConnectedData(XDC_PROVIDER_ID);
 
   const { data: dashboardData, isFetching: isDashboardDataLoading } =
@@ -47,9 +47,9 @@ export const useStakedAXDCC = (): IUseStakedAXDCCData => {
     type: getMetrics,
   });
 
-  const amount = dashboardData?.aXDCcBalance ?? ZERO;
+  const amount = dashboardData?.ankrXDCBalance ?? ZERO;
 
-  const ratio = dashboardData?.aXDCcRatio ?? ZERO;
+  const ratio = dashboardData?.ankrXDCRatio ?? ZERO;
 
   const nativeAmount = getTokenNativeAmount(amount, ratio);
 

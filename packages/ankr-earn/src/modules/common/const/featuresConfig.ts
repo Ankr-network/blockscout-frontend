@@ -44,7 +44,8 @@ export const featuresConfig = {
    */
   ssvStaking: true,
   duneAnalyticsLink: true,
-  xdcStaking: currentEnv !== Env.Production,
+  xdcActive: currentEnv !== Env.Production,
+  xdcStaking: false,
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
    */
@@ -61,7 +62,7 @@ export const featuresConfig = {
    * Disable this feature until all fixes are completed.
    * https://ankrnetwork.atlassian.net/browse/STAKAN-2030
    */
-  isSmallBalancesActive: false,
+  isSmallBalancesActive: true,
   /**
    * Temporary disable polkadot staking/unstaking
    * https://ankrnetwork.atlassian.net/browse/STAKAN-2431

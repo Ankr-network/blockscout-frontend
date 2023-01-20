@@ -27,29 +27,29 @@ export const UnstakeBinance = (): JSX.Element => {
 
   const {
     closeHref,
+    instantFee,
     isApproved,
-    isFlashApproved,
     isApproveLoading,
-    isSwapPoolApproveLoading,
     isFetchStatsLoading,
-    isUnstakeLoading,
+    isFlashApproved,
     isFlashUnstakeLoading,
+    isSwapPoolApproveLoading,
+    isUnstakeLoading,
     isWithApprove,
+    maxAmount,
     minAmount,
+    poolBalance,
     selectedToken,
     syntTokenBalance,
-    calcTotalRecieve,
     calcFlashTotalRecieve,
+    calcTotalRecieve,
     onExtraValidation,
     onFlashExtraValidation,
-    onUnstakeSubmit,
     onFlashUnstakeSubmit,
-    instantFee,
-    poolBalance,
+    onUnstakeSubmit,
   } = useUnstakeBnb();
 
-  // Temporary removing flash unstake
-  const isFlashUnstakeAllowed = false; // selectedToken === Token.aBNBc;
+  const isFlashUnstakeAllowed = selectedToken === Token.aBNBc;
 
   const [isFlash, setIsFlash] = useState(isFlashUnstakeAllowed);
 
@@ -72,7 +72,6 @@ export const UnstakeBinance = (): JSX.Element => {
 
   useProviderEffect(() => {
     dispatch(resetRequests());
-
     dispatch(getUnstakeDate());
 
     return () => {
@@ -153,7 +152,7 @@ export const UnstakeBinance = (): JSX.Element => {
           isExternalAllowed={!isFlash}
           isLoading={isFlash ? isFlashUnstakeLoading : isUnstakeLoading}
           isWithApprove={isWithApprove}
-          maxAmount={isFlash ? poolBalance : undefined}
+          maxAmount={isFlash ? maxAmount : undefined}
           renderFormFooter={onRenderFormFooter}
           token={selectedToken}
           onSubmit={onSubmit}

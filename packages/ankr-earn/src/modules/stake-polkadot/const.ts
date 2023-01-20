@@ -53,5 +53,5 @@ export const REDEEM_PERIOD_DAYS = {
 };
 
 export const CacheTags = {
-  common: getUniqueId(),
+  common: `stake-dot-${getUniqueId()}`,
 };

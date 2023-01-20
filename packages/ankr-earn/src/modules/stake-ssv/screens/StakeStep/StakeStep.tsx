@@ -22,9 +22,9 @@ export const StakeStep = (): JSX.Element => {
       buttonTitle={t('stake.buttons.addToWallet', { token: tokenName })}
       destinationAddress={destinationAddress}
       error={error}
-      hint={t('stake.pending.description', { token: tokenName })}
       isLoading={isLoading}
       isPending={isPending}
+      pendingHint={t('stake.pending.description', { token: tokenName })}
       symbol={tokenName}
       title={t('stake.progressTitle')}
       txHash={transactionId}

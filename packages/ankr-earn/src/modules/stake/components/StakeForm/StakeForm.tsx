@@ -188,7 +188,9 @@ export const StakeForm = ({
           isIntegerOnly={isIntegerOnly}
           label={
             <Box alignItems="center" component="span" display="flex">
-              {t('stake.token-amount', { token: tokenIn })}
+              <div className={classes.amountLabel}>
+                {t('stake.token-amount', { token: tokenIn })}
+              </div>
 
               {labelTooltip && (
                 <QuestionWithTooltip>{labelTooltip}</QuestionWithTooltip>

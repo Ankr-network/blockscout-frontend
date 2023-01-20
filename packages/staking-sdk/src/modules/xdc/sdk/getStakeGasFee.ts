@@ -8,8 +8,18 @@ import { XDC_SCALE_FACTOR } from '../const';
 
 import { getXDCStakingPoolContract } from './contracts';
 import { getMinStakeAmount } from './getMinStakeAmount';
-import { isValidAmount } from './utils';
+import { isValidStakeAmount } from './utils';
 
+/**
+ * Get stake gas fee.
+ *
+ * @param {string} address - current user address
+ * @param {BigNumber} amount - amount for stake
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @param {number | undefined} [scale = XDC_SCALE_FACTOR] - scale factor for amount
+ * @returns {Promise<BigNumber>}
+ */
 export const getStakeGasFee = async ({
   address,
   amount,
@@ -22,7 +32,7 @@ export const getStakeGasFee = async ({
     provider,
   });
 
-  const isInvalidAmount = !isValidAmount({
+  const isInvalidAmount = !isValidStakeAmount({
     amount,
     minStakeAmount,
   });

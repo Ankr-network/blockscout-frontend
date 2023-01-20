@@ -25,9 +25,9 @@ export const StakeSuiSteps = (): JSX.Element => {
       destinationAddress={destination}
       // TODO: need to double check and test it
       error={error as unknown as Error}
-      hint={t('stake.pending.description', { token: SYNTH_TOKEN })}
       isLoading={isLoading}
       isPending={isPending}
+      pendingHint={t('stake.pending.description', { token: SYNTH_TOKEN })}
       symbol={SYNTH_TOKEN}
       title={t('stake.progressTitle')}
       txHash={transactionId}

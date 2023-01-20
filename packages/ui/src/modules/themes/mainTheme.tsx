@@ -318,7 +318,7 @@ export const mainTheme = createTheme({
       shrink: {
         position: 'static',
         marginBottom: 10,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 700,
         color: '#000',
         transform: 'none',

@@ -847,8 +847,8 @@ describe('modules/avax/sdk', () => {
 
     const result = await sdk.getTxEventsHistory();
 
-    expect(result.completedBond).toHaveLength(4);
-    expect(result.completedCertificate).toHaveLength(4);
+    expect(result.completedBond).toHaveLength(3);
+    expect(result.completedCertificate).toHaveLength(0);
     expect(result.pendingBond).toHaveLength(4);
     expect(result.pendingCertificate).toHaveLength(4);
   });

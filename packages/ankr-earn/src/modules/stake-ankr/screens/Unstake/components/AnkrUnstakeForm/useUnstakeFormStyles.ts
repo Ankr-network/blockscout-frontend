@@ -9,4 +9,8 @@ export const useUnstakeFormStyles = makeStyles(theme => ({
     maxWidth: 380,
     margin: theme.spacing(1, 'auto', 0),
   },
+
+  title: {
+    marginBottom: theme.spacing(1),
+  },
 }));
