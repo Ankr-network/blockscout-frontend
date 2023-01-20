@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+node_modules/.bin/turbo run types --parallel --since HEAD~1
+CI=true node_modules/.bin/turbo run test:coverage --parallel --since HEAD~1
+

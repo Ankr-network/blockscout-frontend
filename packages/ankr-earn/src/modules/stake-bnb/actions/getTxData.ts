@@ -3,7 +3,7 @@ import retry from 'async-retry';
 import { IFetchTxData, IGetTxReceipt } from '@ankr.com/staking-sdk';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { isMainnet, RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
+import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 
 import { getBinanceSDK } from '../utils/getBinanceSDK';
 
@@ -56,9 +56,7 @@ export const { useGetBNBTxReceiptQuery } = web3Api.injectEndpoints({
         IGetTxReceipt | null
       >(async ({ txHash }) => {
         const sdk = await getBinanceSDK();
-        const data = isMainnet
-          ? await sdk.fetchTxReceipt(txHash)
-          : await sdk.fetchTxReceiptOld(txHash);
+        const data = await sdk.fetchTxReceipt(txHash);
 
         return { data };
       }),

@@ -14,7 +14,8 @@
     "clean": "rimraf build dist",
     "format": "lint-staged",
     "types": "tsc --noEmit -p tsconfig.json",
-    "test": "npm run _test-clean && npm run _copy-assets && jest",
+    "test": "npm run _test-clean && npm run _copy-assets && jest --passWithNoTests",
+    "_copy-assets": "copyfiles src/assets/**/* out",
     "test:turbo": "cd ../.. && turbo run test --filter=sui",
     "watch": "yarn build --watch"
   },

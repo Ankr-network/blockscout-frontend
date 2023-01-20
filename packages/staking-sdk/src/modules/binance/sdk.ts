@@ -1101,23 +1101,37 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     const tx = await web3.eth.getTransaction(txHash);
 
-    let address;
+    const { binanceConfig } = configFromEnv();
+
+    const toAddress = tx.to?.toLowerCase();
+
+    const address = tx.from;
+
     let amount;
 
-    try {
-      const parameters = web3.eth.abi.decodeParameters(
-        ['address', 'uint256'],
-        tx.input.slice(10),
-      );
-      address = parameters['0'];
-      amount = parameters['1'];
-    } catch (e) {
+    // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-2454
+    if (toAddress === binanceConfig.swapPool.toLowerCase()) {
       const parameters = web3.eth.abi.decodeParameters(
         ['uint256'],
         tx.input.slice(10),
       );
-      address = tx.from as string | undefined;
       amount = parameters['0'];
+    } else if (toAddress === binanceConfig.binancePool.toLowerCase()) {
+      try {
+        const parameters = web3.eth.abi.decodeParameters(
+          ['address', 'uint256'],
+          tx.input.slice(10),
+        );
+        amount = parameters['1'];
+      } catch (e) {
+        const parameters = web3.eth.abi.decodeParameters(
+          ['uint256'],
+          tx.input.slice(10),
+        );
+        amount = parameters['0'];
+      }
+    } else {
+      throw new Error('Unsupported transaction');
     }
 
     return {
@@ -1847,7 +1861,6 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const swapPoolContract = await this.getSwapPoolContract();
 
     const txn = swapPoolContract.methods.swapEth(
-      false,
       amountHex,
       this.currentAccount,
     );
@@ -1895,16 +1908,46 @@ export class BinanceSDK implements ISwitcher, IStakable {
   }
 
   /**
-   * Return unstake fee for swap pool in percent
+   * Return BNB swap pool token balance.
    *
    * @public
    * @returns {Promise<BigNumber>} - human readable balance
+   */
+  public async getBNBSwapPoolLiquidity(): Promise<BigNumber> {
+    const swapPoolContract = await this.getSwapPoolContract(true);
+
+    const balance = await swapPoolContract.methods
+      .getAvailableLiquidity()
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Return unstake fee for swap pool.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable fee
    */
   public async getSwapPoolUnstakeFee(): Promise<BigNumber> {
     const swapPoolContract = await this.getSwapPoolContract(true);
 
     const fee = await swapPoolContract.methods.unstakeFee().call();
 
-    return new BigNumber(fee).dividedBy(100);
+    return new BigNumber(fee);
+  }
+
+  /**
+   * Return BNB swap pool max fee.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human readable fee
+   */
+  public async getBNBSwapPoolMaxFee(): Promise<BigNumber> {
+    const swapPoolContract = await this.getSwapPoolContract(true);
+
+    const maxFee = await swapPoolContract.methods.FEE_MAX().call();
+
+    return new BigNumber(maxFee);
   }
 }
