@@ -4,6 +4,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { ChainID } from 'modules/chains/types';
+import { checkAvalancheOrSecretAndGetChainId } from '../utils/chainsUtils';
 
 export const {
   endpoints: { chainsFetchChainNodesDetail },
@@ -12,7 +13,7 @@ export const {
   endpoints: build => ({
     chainsFetchChainNodesDetail: build.query<
       INodesDetailEntity[],
-      ChainID | string | void
+      ChainID | void
     >({
       queryFn: createNotifyingQueryFn(async chainId => {
         const data = await MultiService.getService()
@@ -20,7 +21,9 @@ export const {
           .getNodesDetail();
 
         const nodesDetail = chainId
-          ? data.filter(item => chainId === item.id)
+          ? data.filter(
+              item => checkAvalancheOrSecretAndGetChainId(chainId) === item.id,
+            )
           : data;
 
         return { data: nodesDetail };

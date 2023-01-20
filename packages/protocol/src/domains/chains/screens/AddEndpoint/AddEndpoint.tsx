@@ -19,6 +19,7 @@ import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';
 import { getScheme } from './AddEndpointUtils';
 import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { ChainID } from 'modules/chains/types';
 
 export const AddEndpoint = () => {
   const { chainId } = ChainsRoutesConfig.addEndpoint.useParams();
@@ -33,7 +34,7 @@ export const AddEndpoint = () => {
     useLazyChainsFetchPublicChainsQuery();
 
   useOnMount(() => {
-    fetchChainNodesDetail(chainId);
+    fetchChainNodesDetail(chainId as ChainID);
     fetchPrivateChains();
     fetchEndpoints();
     fetchPublicChains();

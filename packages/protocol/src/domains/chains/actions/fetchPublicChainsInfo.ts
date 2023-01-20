@@ -25,7 +25,7 @@ export const {
           { data: nodes },
         ] = await Promise.all([
           dispatch(chainsFetchPublicChains.initiate()),
-          dispatch(chainsFetchChainNodesDetail.initiate(undefined)),
+          dispatch(chainsFetchChainNodesDetail.initiate()),
         ]);
 
         const addIsArchive = getAddIsArchiveCB(nodes);

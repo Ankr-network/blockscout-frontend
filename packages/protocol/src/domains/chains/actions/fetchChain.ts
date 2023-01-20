@@ -36,7 +36,7 @@ export const {
             hasPrivateAccess
               ? dispatch(chainsFetchPrivateChains.initiate())
               : dispatch(chainsFetchPublicChains.initiate()),
-            dispatch(chainsFetchChainNodesDetail.initiate(chainId)),
+            dispatch(chainsFetchChainNodesDetail.initiate()),
           ]);
 
           const chain = chains.find(item => item.id === chainId);
