@@ -22,6 +22,8 @@ export interface PrivateUsageDataSectionProps {
   timeframeTabs: Tab<Timeframe>[];
 }
 
+const IS_LAST_USER_REQUESTS_BLOCK_ENABLED = false;
+
 export const PrivateUsageDataSection = ({
   chain,
   chainType,
@@ -66,7 +68,7 @@ export const PrivateUsageDataSection = ({
               totalCost={totalCost}
               totalRequests={totalRequests}
             />
-            <LastUserRequests />
+            {IS_LAST_USER_REQUESTS_BLOCK_ENABLED && <LastUserRequests />}
           </div>
           <RequestsChart
             isConnecting={isConnecting}
