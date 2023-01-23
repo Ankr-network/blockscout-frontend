@@ -1,13 +1,13 @@
-import { FormGroup, Typography, Divider } from '@material-ui/core';
+import { FormGroup, Typography, Divider } from '@mui/material';
 import { Field } from 'react-final-form';
 
 import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxField';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useStyles } from './NotificationsFormStyles';
 import { NotificationsFormFields } from './NotificationsFormTypes';
 
 export const NotificationsForm = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <FormGroup>

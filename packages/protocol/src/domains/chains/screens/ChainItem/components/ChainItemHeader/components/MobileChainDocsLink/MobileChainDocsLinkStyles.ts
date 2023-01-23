@@ -1,8 +1,10 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useMobileChainDocsLinkStyles = makeStyles<Theme>(theme => ({
+export const useMobileChainDocsLinkStyles = makeStyles()((theme: Theme) => ({
   button: {
     display: 'none',
+    boxShadow: 'none',
 
     height: 'auto',
     padding: 0,
@@ -11,8 +13,8 @@ export const useMobileChainDocsLinkStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.grey[600],
 
     fontWeight: 500,
-    fontSize: theme.spacing(1.75),
-    lineHeight: `${theme.spacing(2.5)}px`,
+    fontSize: theme.spacing(2 * 1.75),
+    lineHeight: theme.spacing(2 * 2.5),
 
     '&:hover': {
       backgroundColor: 'transparent',

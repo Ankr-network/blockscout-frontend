@@ -1,5 +1,5 @@
 import { isIpAddress } from 'modules/common/utils/isIpAddress';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { IpsFormData, IpsFormProps } from './IpsFormTypes';
 
 export const validateIp = (value?: string) => {

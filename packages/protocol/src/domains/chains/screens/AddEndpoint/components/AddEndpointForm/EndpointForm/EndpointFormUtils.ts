@@ -3,7 +3,7 @@ import { Network } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { debouncePromise } from 'modules/common/utils/debouncePromise';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const validateNode = debouncePromise(async (value: string, chainId: string) => {
   const service = MultiService.getService();

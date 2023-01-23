@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 // to prevent layout breaking
 const MAX_BALANCE_LENGTH = 6;

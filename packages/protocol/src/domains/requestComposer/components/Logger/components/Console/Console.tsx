@@ -15,7 +15,7 @@ export interface ViewProps {
 
 export const Console = ({ logs }: ConsoleProps) => {
   const instance = useRef<Scrollbars>(null);
-  const classes = useConsoleStyles();
+  const { classes } = useConsoleStyles();
 
   const renderView = useCallback(
     ({ style }: ViewProps) => <div className={classes.console} style={style} />,

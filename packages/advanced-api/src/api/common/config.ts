@@ -44,7 +44,7 @@ const GOERLI_CONFIG: IStkrConfig = {
  */
 const MAINNET_CONFIG: IStkrConfig = {
   gatewayConfig: {
-    ankrApiBaseUrl: 'https://rpc.ankr.com/multichain',
+    ankrApiBaseUrl: 'https://rpc.ankr.com/multichain/',
   },
 };
 

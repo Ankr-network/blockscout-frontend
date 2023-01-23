@@ -1,21 +1,22 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useFillStepStyles = makeStyles<Theme>(theme => ({
+export const useFillStepStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
 
     '& *': {
-      lineHeight: '24px',
+      lineHeight: theme.spacing(2 * 3),
     },
   },
   featureContainer: {
     display: 'grid',
     justifyContent: 'space-evenly',
-    marginBottom: theme.spacing(3.75),
+    marginBottom: theme.spacing(2 * 3.75),
 
     gridTemplateColumns: 'repeat(4, 110px)',
-    gridGap: theme.spacing(3.75),
+    gridGap: theme.spacing(2 * 3.75),
 
     [theme.breakpoints.down('md')]: {
       gridTemplateColumns: 'repeat(2, 110px)',
@@ -23,7 +24,7 @@ export const useFillStepStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.down('xs')]: {
       alignItems: 'flex-start',
-      gridGap: theme.spacing(1.5),
+      gridGap: theme.spacing(2 * 1.5),
       gridTemplateColumns: '1fr',
     },
   },
@@ -34,7 +35,7 @@ export const useFillStepStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('xs')]: {
       alignItems: 'flex-end',
       flexDirection: 'row',
-      gridGap: theme.spacing(2),
+      gridGap: theme.spacing(2 * 2),
     },
   },
   featureIcon: {

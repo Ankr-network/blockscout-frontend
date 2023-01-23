@@ -16,7 +16,7 @@ export const ANKRTopUpForm = ({
   validateAmount,
   isWalletConnected,
 }: TopUpFormProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const { isTopUpInProcess, initialValues } = useInitialValues(
     hasLoginStep,

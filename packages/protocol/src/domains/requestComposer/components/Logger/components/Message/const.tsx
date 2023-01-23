@@ -7,7 +7,7 @@ import { ReactComponent as InputIcon } from './assets/input.svg';
 import { ReactComponent as SuccessIcon } from './assets/success.svg';
 import { ReactComponent as TimeIcon } from './assets/time.svg';
 import { root } from '../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const { Error, Info, Input, Success, Time } = MessageType;
 

@@ -1,5 +1,3 @@
-import { ThemeProvider } from '@material-ui/core';
-import { mainTheme } from 'ui';
 import { useEffect } from 'react';
 
 import { ChainItem } from './ChainItem';
@@ -36,7 +34,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
     workerTokenData,
   } = useAuth();
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   useEffect(() => {
     if (hasPrivateAccess) {
@@ -64,21 +62,19 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
   ]);
 
   return (
-    <ThemeProvider theme={mainTheme}>
-      <div className={classes.root}>
-        <Queries<IChainItemDetails>
-          isPreloadDisabled
-          queryStates={[fetchChainState]}
-        >
-          {({ data, isLoading, isUninitialized }) => {
-            if ((isLoading && isUninitialized) || !data) {
-              return <ChainItemSkeleton />;
-            }
+    <div className={classes.root}>
+      <Queries<IChainItemDetails>
+        isPreloadDisabled
+        queryStates={[fetchChainState]}
+      >
+        {({ data, isLoading, isUninitialized }) => {
+          if ((isLoading && isUninitialized) || !data) {
+            return <ChainItemSkeleton />;
+          }
 
-            return <ChainItem data={data} />;
-          }}
-        </Queries>
-      </div>
-    </ThemeProvider>
+          return <ChainItem data={data} />;
+        }}
+      </Queries>
+    </div>
   );
 };

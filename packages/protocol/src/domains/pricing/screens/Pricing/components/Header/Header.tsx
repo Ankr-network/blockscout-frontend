@@ -1,11 +1,11 @@
-import { Box, Container, Typography } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
-import { useIsXSDown } from 'ui';
+import { Box, Container, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { useStyles } from './usePlanHeaderStyles';
 
 export const Header = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const isMobile = useIsXSDown();
 
   return (

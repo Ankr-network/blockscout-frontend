@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
-import { Skeleton } from '@material-ui/lab';
-import classNames from 'classnames';
-
+import { Skeleton } from '@mui/material';
 import { useStatStyles } from './StatStyles';
 
 export interface StatProps {
@@ -19,10 +17,10 @@ export const Stat = ({
   title,
   value,
 }: StatProps) => {
-  const classes = useStatStyles();
+  const { classes, cx } = useStatStyles();
 
   return (
-    <div className={classNames(className, classes.stat)}>
+    <div className={cx(className, classes.stat)}>
       <div className={classes.main}>
         <div className={classes.title}>{title}</div>
         <div className={classes.value}>

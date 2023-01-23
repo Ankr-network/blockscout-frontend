@@ -1,11 +1,12 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   stats: {
     display: 'grid',
     alignItems: 'center',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: theme.spacing(3.5),
+    gap: theme.spacing(2 * 3.5),
 
     [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',

@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
-import { FormGroup } from '@material-ui/core';
+import { FormGroup } from '@mui/material';
 import { Form, FormRenderProps } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
 import { getInitialValues, validateIp } from './IpsFormUtils';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { IpsFormData, IpsFormFields, IpsFormProps } from './IpsFormTypes';
 import { AddressInputField } from '../AddressInputField';
 import { AddressFields } from '../AddressFields';

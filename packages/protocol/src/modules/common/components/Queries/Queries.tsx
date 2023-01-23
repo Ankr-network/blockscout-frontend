@@ -1,8 +1,8 @@
 import { BaseQueryFn, FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { TypedUseQueryStateResult } from '@reduxjs/toolkit/dist/query/react';
 import { ReactElement, ReactNode } from 'react';
 import { SerializedError } from '@reduxjs/toolkit';
-import { Spinner } from 'ui';
-import { TypedUseQueryStateResult } from '@reduxjs/toolkit/dist/query/react';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
@@ -79,7 +79,7 @@ export function Queries<R1 = void, R2 = void, R3 = void, R4 = void, R5 = void>({
   noDataMessage,
   queryStates = [] as QueryStates<R1, R2, R3, R4, R5>,
   showLoaderDuringRefetch = true,
-  spinner = <Spinner />,
+  spinner = <OverlaySpinner />,
 }: QueriesProps<R1, R2, R3, R4, R5>) {
   if (
     isLoading<R1, R2, R3, R4, R5>(queryStates) &&

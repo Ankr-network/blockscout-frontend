@@ -1,6 +1,6 @@
 import { INDEX_PATH } from 'domains/chains/routes';
 import { ChainID } from 'modules/chains/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useEffect } from 'react';
 import packageJson from '../../../package.json';
 

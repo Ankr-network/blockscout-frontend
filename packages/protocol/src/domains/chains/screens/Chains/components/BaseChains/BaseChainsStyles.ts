@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from 'tss-react/mui';
 
-export const useBaseChainsStyles = makeStyles<Theme>(() => ({
+export const useBaseChainsStyles = makeStyles()(() => ({
   container: {
     minHeight: 80,
     position: 'relative',

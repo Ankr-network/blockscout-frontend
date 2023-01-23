@@ -1,29 +1,29 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useBannerStyles = makeStyles<Theme>(theme => ({
+export const useBannerStyles = makeStyles()((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.common.white,
     borderRadius: 20,
     width: '100%',
-    marginBottom: theme.spacing(6.5),
+    marginBottom: theme.spacing(2 * 6.5),
     fontSize: 16,
   },
   info: {
     display: 'flex',
     justifyContent: 'center',
-    padding: theme.spacing(2.5),
+    padding: theme.spacing(2 * 2.5),
     boxSizing: 'content-box',
     textAlign: 'center',
   },
   banner: {
-    padding: theme.spacing(3.75),
+    padding: theme.spacing(2 * 3.75),
   },
   message: {
     maxWidth: 610,
     fontWeight: 400,
     [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.spacing(3.75),
+      marginBottom: theme.spacing(2 * 3.75),
     },
   },
   bottom: {
@@ -36,8 +36,8 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
   },
   content: {
     fontWeight: 700,
-    marginLeft: 14,
-    lineHeight: '24px',
+    marginLeft: theme.spacing(2 * 1.75),
+    lineHeight: theme.spacing(2 * 3),
   },
   text: {
     marginRight: '0.5em',
@@ -49,7 +49,7 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
     padding: 0,
     height: 'auto',
     fontSize: 16,
-    lineHeight: '24px',
+    lineHeight: theme.spacing(2 * 3),
     '&:hover': {
       backgroundColor: 'transparent',
       color: theme.palette.primary.main,

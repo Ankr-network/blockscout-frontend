@@ -1,12 +1,12 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   label: {
     fontSize: 12,
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(0.5, 1),
+    padding: theme.spacing(2 * 0.5, 2 * 1),
     borderRadius: 6,
   },
 }));

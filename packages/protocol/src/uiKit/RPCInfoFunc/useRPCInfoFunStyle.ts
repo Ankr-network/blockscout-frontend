@@ -1,17 +1,22 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useRPCInfoFunStyle = makeStyles<Theme, { size: 'm' | 'l' }>(
-  theme => ({
+type Size = 'm' | 'l';
+
+export const useRPCInfoFunStyle = makeStyles<Size>()(
+  (theme: Theme, size: Size) => ({
     root: {
-      borderRadius: ({ size }) => (size === 'm' ? 6 : 12),
+      borderRadius: size === 'm' ? 6 : 12,
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       boxShadow: `0 0 0 2px ${theme.palette.background.default}`,
       overflow: 'hidden',
       width: '100%',
-      padding: ({ size }) => (size === 'm' ? '0 9px' : '0 15px'),
+      padding:
+        size === 'm'
+          ? theme.spacing(0, 2 * 1.125)
+          : theme.spacing(0, 2 * 1.6875),
       cursor: 'pointer',
       background: theme.palette.background.default,
       minHeight: 36,
@@ -26,8 +31,8 @@ export const useRPCInfoFunStyle = makeStyles<Theme, { size: 'm' | 'l' }>(
       },
     },
     text: {
-      marginRight: theme.spacing(0.5),
-      fontSize: ({ size }) => (size === 'm' ? 12 : 14),
+      marginRight: theme.spacing(2 * 0.5),
+      fontSize: size === 'm' ? 12 : 14,
       transition: 'color .3s',
     },
   }),

@@ -3,7 +3,7 @@ import { PrefixedHex } from 'multirpc-sdk';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { web3Api } from 'store/queries';
 import { web3ModalTheme } from 'modules/api/Web3ModalKeyProvider';
 

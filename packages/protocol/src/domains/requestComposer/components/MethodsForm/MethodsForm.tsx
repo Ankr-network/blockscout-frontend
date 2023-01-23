@@ -1,7 +1,7 @@
-import { Button, FormGroup, Typography } from '@material-ui/core';
+import { Button, FormGroup, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useEVMMethodsFormStyles } from './MethodsFormStyles';
 
 interface MethodsFormProps {
@@ -19,7 +19,7 @@ export const MethodsForm = ({
   sampleCodeComponent,
   formSpyComponent,
 }: MethodsFormProps) => {
-  const classes = useEVMMethodsFormStyles();
+  const { classes } = useEVMMethodsFormStyles();
 
   return (
     <>

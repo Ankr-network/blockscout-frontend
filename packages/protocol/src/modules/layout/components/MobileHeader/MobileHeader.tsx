@@ -1,5 +1,4 @@
-import { Container } from '@material-ui/core';
-import classNames from 'classnames';
+import { Container } from '@mui/material';
 
 import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton/AccountDetailsButton';
 import { Logo } from '../Logo';
@@ -12,12 +11,12 @@ interface MobileHeaderProps {
 }
 
 export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
   const { hasPremium } = useAuth();
 
   return (
-    <header className={classNames(classes.root, className)}>
+    <header className={cx(classes.root, className)}>
       <Container className={classes.container} maxWidth={false}>
         <Logo />
         <div className={classes.buttons}>

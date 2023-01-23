@@ -2,12 +2,12 @@ import { useUSDBannerStyles } from './USDBannerStyles';
 import { ReactComponent as CardIcon } from './card.svg';
 
 export const USDBanner = () => {
-  const classes = useUSDBannerStyles();
+  const { classes } = useUSDBannerStyles();
 
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <div className={classes.icon}>
+        <div>
           <CardIcon />
         </div>
         <div className={classes.message}>

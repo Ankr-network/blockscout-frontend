@@ -2,7 +2,7 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { Fragment } from 'react';
 
-import { NavLink } from 'ui';
+import { NavLink } from 'uiKit/NavLink';
 
 interface ISubChainLinksGeneratorProps
   extends IReactSnapChainsLinksGeneratorProps {

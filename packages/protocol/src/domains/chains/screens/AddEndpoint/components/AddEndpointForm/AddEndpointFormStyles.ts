@@ -1,15 +1,15 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
-    marginTop: 40,
+    marginTop: theme.spacing(2 * 5),
     maxWidth: 820,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
   top: {
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(2 * 5),
     color: theme.palette.text.primary,
     padding: 0,
   },
@@ -17,11 +17,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     maxWidth: '40%',
 
     [theme.breakpoints.down('lg')]: {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(2 * 2),
       maxWidth: '100%',
     },
   },
   divider: {
-    margin: theme.spacing(3.5, 0),
+    margin: theme.spacing(2 * 3.5, 0),
   },
 }));

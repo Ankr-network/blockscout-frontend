@@ -24,14 +24,13 @@ import { StatusCircle } from 'uiKit/StatusCircle';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
 
 export const ChainNodesTable = ({
-  data,
-  nodesWeight,
+  nodesDetail,
   className = '',
 }: ChainNodesTableProps) => {
   const theme = useTheme();
   const classes = useStyles();
 
-  const rows = useMemo(() => getRows(data, nodesWeight), [data, nodesWeight]);
+  const rows = useMemo(() => getRows(nodesDetail), [nodesDetail]);
 
   if (rows.length === 0) return null;
 
@@ -72,7 +71,10 @@ export const ChainNodesTable = ({
             const nodeStatus = getStatusByNodeScore(row.score);
 
             return (
-              <TableRow key={row.id} className={classes.row}>
+              <TableRow
+                key={`${row.id}-${row.continent}-${row.height}`}
+                className={classes.row}
+              >
                 <TableCell padding="none" className={classes.nodeCell}>
                   <Box display="flex" alignItems="center">
                     <StatusCircle size="md" mr={1.25} status={nodeStatus} />
@@ -101,9 +103,7 @@ export const ChainNodesTable = ({
                       className={classes.flag}
                       countryCode={row.country}
                     />
-                    &nbsp; &nbsp;
-                    {row.city}
-                    &nbsp;({row.continent})
+                    &nbsp; &nbsp; {t(`continents.${row.continent}`)}
                   </TableCell>
                 )}
 

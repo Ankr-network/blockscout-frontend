@@ -1,4 +1,4 @@
-import { tHTML } from 'modules/i18n/utils/intl';
+import { tHTML } from '@ankr.com/common';
 
 const root = 'plan.plans';
 

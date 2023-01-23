@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { FieldRenderProps } from 'react-final-form';
-import { FormControlLabel, Typography, Checkbox } from '@material-ui/core';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import { FormControlLabel, Typography, Checkbox } from '@mui/material';
+import FormHelperText from '@mui/material/FormHelperText';
 
 import { getErrorText } from '../../utils/getErrorText';
 import { hasError } from '../../utils/hasError';
@@ -28,7 +28,13 @@ export const CheckboxField = ({
             label
           )
         }
-        control={<Checkbox color="primary" {...input} />}
+        control={
+          <Checkbox
+            color="primary"
+            sx={{ marginRight: 2, width: 18, height: 18 }}
+            {...input}
+          />
+        }
       />
       {hasError(meta) && (
         <FormHelperText error>{getErrorText(meta)}</FormHelperText>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormGroup, Typography } from '@material-ui/core';
+import { FormGroup, Typography } from '@mui/material';
 import { Field } from 'react-final-form';
 
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
@@ -11,7 +11,7 @@ interface CheckboxProps {
 }
 
 export const Checkbox = ({ helperText, name }: CheckboxProps) => {
-  const classes = useEVMMethodsFormStyles();
+  const { classes } = useEVMMethodsFormStyles();
 
   return (
     <FormGroup className={classes.blockNumber}>

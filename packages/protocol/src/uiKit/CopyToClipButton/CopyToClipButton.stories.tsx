@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, ThemeProvider } from '@material-ui/core';
+import { Box, ThemeProvider } from '@mui/material';
 import { storiesOf } from '@storybook/react';
 
-import { mainTheme } from 'ui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 import { CopyToClipButton } from './CopyToClipButton';
 
 storiesOf('uiKit/CopyToClipButton', module).add('Default', () => (

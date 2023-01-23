@@ -1,24 +1,46 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useFeatureTableStyles = makeStyles<Theme>(theme => ({
+export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
   root: {
     '& th, & td': {
       padding: 0,
       backgroundColor: 'transparent',
       textAlign: 'center',
     },
-    '& tr th:first-child, & tr td:first-child': {
+    '& tr th:first-of-type, & tr td:first-of-type': {
       textAlign: 'left',
     },
-    '& tr td:not(:first-child)': {
+    '& tr td:not(:first-of-type)': {
       width: 290,
       maxWidth: 290,
-      padding: '20px 17.5px',
+      padding: theme.spacing(2 * 2.5, 2 * 2.1875),
     },
 
+    '& th': {
+      borderBottom: 'none',
+    },
     '& td': {
-      padding: '20px 0',
+      padding: theme.spacing(2 * 2.5, 0),
+      borderBottomColor: theme.palette.grey[200],
+    },
+    '& th:first-of-type, & td:first-of-type': {
+      paddingLeft: 0,
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+    '& th:last-of-type,  & td:last-of-type': {
+      paddingRight: 0,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    '& a': {
+      '& svg': {
+        color: 'inherit',
+      },
+      '&:hover, &:hover svg': {
+        color: theme.palette.primary.main,
+      },
     },
   },
   header: {
@@ -27,9 +49,9 @@ export const useFeatureTableStyles = makeStyles<Theme>(theme => ({
       lineHeight: '32.2px',
       fontWeight: 700,
       color: theme.palette.text.primary,
-      paddingBottom: 4,
+      paddingBottom: theme.spacing(2 * 0.5),
     },
-    '& th:nth-child(3)': {
+    '& th:nth-of-type(3)': {
       background:
         'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
       '-webkit-background-clip': 'text',
@@ -43,9 +65,9 @@ export const useFeatureTableStyles = makeStyles<Theme>(theme => ({
       lineHeight: 1.5,
       fontWeight: 700,
       color: theme.palette.grey[600],
-      paddingBottom: 20,
+      paddingBottom: theme.spacing(2 * 2.5),
     },
-    '& th:first-child': {
+    '& th:first-of-type': {
       fontWeight: 400,
     },
     '& th:last-child': {
@@ -54,22 +76,25 @@ export const useFeatureTableStyles = makeStyles<Theme>(theme => ({
   },
   button: {
     '& th': {
-      paddingBottom: 20,
+      paddingBottom: theme.spacing(2 * 2.5),
     },
     '& button, & a': {
       fontSize: 16,
+      '&:hover': {
+        color: theme.palette.common.white,
+      },
     },
   },
   cellRow: {
-    '&:first-child td': {
-      borderTop: `1px solid ${theme.palette.grey[900]}`,
+    '&:first-of-type td': {
+      borderTop: `1px solid ${theme.palette.grey[200]}`,
     },
     '& td': {
-      lineHeight: '24px',
+      lineHeight: theme.spacing(2 * 3),
       fontWeight: 400,
       fontSize: 16,
     },
-    '& td:first-child': {
+    '& td:first-of-type': {
       fontWeight: 700,
     },
     '& td em': {
@@ -83,7 +108,7 @@ export const useFeatureTableStyles = makeStyles<Theme>(theme => ({
   },
   tip: {
     verticalAlign: 'bottom',
-    marginLeft: 4,
+    marginLeft: theme.spacing(2 * 0.5),
   },
   checkIcon: {
     width: 24,
@@ -109,7 +134,7 @@ export const useFeatureTableStyles = makeStyles<Theme>(theme => ({
     },
 
     '& svg': {
-      marginLeft: 8,
+      marginLeft: theme.spacing(2 * 1),
       color: theme.palette.grey[600],
     },
 

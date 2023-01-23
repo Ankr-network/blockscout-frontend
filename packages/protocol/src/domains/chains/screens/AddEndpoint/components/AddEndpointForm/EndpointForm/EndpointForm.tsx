@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { Button, FormGroup, Typography } from '@material-ui/core';
+import { Button, FormGroup, Typography } from '@mui/material';
 import { Field, useForm } from 'react-final-form';
 
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t, tHTML } from '@ankr.com/common';
 import { InputField } from 'modules/form/components/InputField/InputField';
 import { useStyles } from './EndpointFormStyles';
 import { AddEndpointFormFields } from '../AddEndpointFormTypes';
@@ -27,7 +27,7 @@ export const EndpointForm = ({
   endpoints,
 }: EndpointFormProps) => {
   const form = useForm();
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const onPasteClick = useCallback(async () => {
     try {
@@ -61,7 +61,6 @@ export const EndpointForm = ({
         }
         InputProps={{
           classes: {
-            label: classes.label,
             root: classes.inputBase,
           },
           endAdornment: canShowPasteButton ? (

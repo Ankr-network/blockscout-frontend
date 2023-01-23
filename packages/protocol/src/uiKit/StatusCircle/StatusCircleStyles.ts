@@ -1,5 +1,6 @@
 import { getStatusColor } from '../utils/styleUtils';
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 import { StatusCircleProps } from './StatusCircleProps';
 
 type StatusCircleStylesProps = {
@@ -23,12 +24,14 @@ const getSize = (size: StatusCircleStylesProps['size']) => {
   }
 };
 
-export const useStyles = makeStyles<Theme, StatusCircleStylesProps>(theme => ({
-  root: ({ size, status }) => ({
-    display: 'inline-block',
-    borderRadius: '50%',
-    width: getSize(size),
-    height: getSize(size),
-    backgroundColor: getStatusColor(theme, status),
+export const useStyles = makeStyles<StatusCircleStylesProps>()(
+  (theme: Theme, props: StatusCircleStylesProps) => ({
+    root: {
+      display: 'inline-block',
+      borderRadius: '50%',
+      width: getSize(props.size),
+      height: getSize(props.size),
+      backgroundColor: getStatusColor(theme, props.status),
+    },
   }),
-}));
+);

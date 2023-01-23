@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { QUERY_EMAIL } from 'domains/userSettings/const';
 import { isValidEmail } from 'modules/common/utils/isValidEmail';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useLinkParams } from 'domains/userSettings/hooks/useLinkParams';
 import { useQueryParamsCleaner } from 'modules/common/hooks/useQueryParamCleaner';
 

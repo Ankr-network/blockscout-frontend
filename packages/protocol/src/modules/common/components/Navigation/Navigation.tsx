@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 import { useNavigationStyles } from './useNavigationStyles';
@@ -8,7 +8,7 @@ import { isExternalPath } from '../../utils/isExternalPath';
 import { NavigationSkeleton } from './NavigationSkeleton';
 
 export const Navigation = ({ items, loading }: NavigationProps) => {
-  const classes = useNavigationStyles();
+  const { classes } = useNavigationStyles();
 
   return (
     <nav>
@@ -38,7 +38,7 @@ export const Navigation = ({ items, loading }: NavigationProps) => {
                     startIcon={<StartIcon />}
                     endIcon={
                       ActiveIcon && (
-                        <ActiveIcon className={classes.activeIcon} />
+                        <ActiveIcon className={classes.activeLink} />
                       )
                     }
                     disabled={!href || isDisabled}
@@ -58,7 +58,7 @@ export const Navigation = ({ items, loading }: NavigationProps) => {
                   className={classes.link}
                   startIcon={<StartIcon />}
                   endIcon={
-                    ActiveIcon && <ActiveIcon className={classes.activeIcon} />
+                    ActiveIcon && <ActiveIcon className={classes.activeLink} />
                   }
                   disabled={!href || isDisabled}
                   isActive={isActive}

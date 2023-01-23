@@ -1,9 +1,10 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useExpiredTokenBannerStyles = makeStyles<Theme>(theme => ({
+export const useExpiredTokenBannerStyles = makeStyles()((theme: Theme) => ({
   root: {
     background: theme.palette.background.paper,
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2 * 3),
 
     '& a': {
       color: theme.palette.primary.main,

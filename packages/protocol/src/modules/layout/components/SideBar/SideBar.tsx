@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-
 import { Logo } from '../Logo';
 import { MainNavigation } from '../MainNavigation';
 import { useStyles } from './SideBarStyles';
@@ -17,10 +15,10 @@ export const SideBar = ({
   hasPremium,
   chainsRoutes,
 }: SidebarProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
-    <aside className={classNames(classes.root, className)}>
+    <aside className={cx(classes.root, className)}>
       <Logo />
       <div>
         <MainNavigation

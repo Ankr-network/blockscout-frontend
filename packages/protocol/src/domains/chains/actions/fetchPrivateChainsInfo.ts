@@ -1,5 +1,5 @@
 import { IApiChain } from '../api/queryChains';
-import { chainsFetchChainNodes } from './fetchChainNodes';
+import { chainsFetchChainNodesDetail } from './fetchChainNodesDetail';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getAddIsArchiveCB } from '../utils/addIsArchive';
@@ -25,7 +25,7 @@ export const {
           { data: nodes },
         ] = await Promise.all([
           dispatch(chainsFetchPrivateChains.initiate()),
-          dispatch(chainsFetchChainNodes.initiate(undefined)),
+          dispatch(chainsFetchChainNodesDetail.initiate()),
         ]);
 
         const addIsArchive = getAddIsArchiveCB(nodes);

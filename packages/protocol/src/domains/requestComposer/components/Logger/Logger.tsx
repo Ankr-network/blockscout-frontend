@@ -1,5 +1,4 @@
-import { Box } from '@material-ui/core';
-import classNames from 'classnames';
+import { Box } from '@mui/material';
 
 import { Console } from './components/Console';
 import { Header } from './components/Header';
@@ -13,10 +12,10 @@ export interface LoggerProps {
 }
 
 export const Logger = ({ className, clear, logs }: LoggerProps) => {
-  const classes = useLoggerStyles();
+  const { classes, cx } = useLoggerStyles();
 
   return (
-    <Box className={classNames(className, classes.logger)}>
+    <Box className={cx(className, classes.logger)}>
       <Header onClear={clear} />
       <Console logs={logs} />
     </Box>

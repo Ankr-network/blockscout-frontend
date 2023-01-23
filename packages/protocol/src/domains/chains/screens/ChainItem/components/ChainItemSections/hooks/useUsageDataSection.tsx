@@ -7,7 +7,7 @@ import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { UsageDataSection } from '../../UsageDataSection';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export interface UsageDataSectionParams {
   chain: IApiChain;
