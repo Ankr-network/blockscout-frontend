@@ -12,14 +12,18 @@ import { fetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDet
 
 interface ChainItemProps {
   chainId: ChainId;
+  isStandalone: boolean;
 }
 
-export const ChainNodesTableQuery = ({ chainId }: ChainItemProps) => {
+export const ChainNodesTableQuery = ({
+  chainId,
+  isStandalone,
+}: ChainItemProps) => {
   const dispatchRequest = useDispatchRequest();
   const classes = useStyles();
 
   useOnMount(() => {
-    dispatchRequest(fetchChainNodesDetail(chainId));
+    dispatchRequest(fetchChainNodesDetail(chainId, isStandalone));
   });
 
   return (

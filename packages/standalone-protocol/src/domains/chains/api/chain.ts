@@ -22,14 +22,10 @@ export enum ChainId {
   Klaytn = 'klaytn',
 }
 
-export const CHAINS_WITHOUT_STATS = [
-  ChainId.BSC,
-  ChainId.Polygon,
-  ChainId.Fantom,
-];
+const STANDALONE_CHAINS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
 
 export const isStandaloneChain = (chainId: ChainId) => {
-  return CHAINS_WITHOUT_STATS.includes(chainId);
+  return STANDALONE_CHAINS.includes(chainId);
 };
 
 export type StandaloneType = ChainId.BSC | ChainId.Polygon | ChainId.Fantom;
