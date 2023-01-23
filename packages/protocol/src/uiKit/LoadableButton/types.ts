@@ -1,4 +1,4 @@
-import { ButtonProps } from '@material-ui/core';
+import { ButtonProps } from '@mui/material';
 import { ElementType } from 'react';
 
 type AnyObject = Record<string, unknown>;

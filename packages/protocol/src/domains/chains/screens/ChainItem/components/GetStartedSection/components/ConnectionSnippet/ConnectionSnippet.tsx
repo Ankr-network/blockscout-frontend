@@ -11,7 +11,7 @@ export interface ConnectionSnippetProps {
 export const ConnectionSnippet = ({ group }: ConnectionSnippetProps) => {
   const [technology, setTechnology] = useTechnology();
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.connectionSnippet}>

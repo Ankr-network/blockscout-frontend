@@ -1,4 +1,5 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 import { TabSize } from './types';
 
 export interface SecondaryTabStylesParams {
@@ -8,83 +9,81 @@ export interface SecondaryTabStylesParams {
   isDarkTheme?: boolean;
 }
 
-export const useSecondaryTabStyles = makeStyles<
-  Theme,
-  SecondaryTabStylesParams
->(theme => {
-  const sizesMap: Record<TabSize, Record<string, unknown>> = {
-    [TabSize.Medium]: {
-      padding: `${theme.spacing(0.75)}px ${theme.spacing(2)}px`,
+export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
+  (theme: Theme, props: SecondaryTabStylesParams) => {
+    const sizesMap: Record<TabSize, Record<string, unknown>> = {
+      [TabSize.Medium]: {
+        padding: theme.spacing(2 * 0.75, 2 * 2),
 
-      borderRadius: theme.spacing(1.5),
+        borderRadius: theme.spacing(2 * 1.5),
 
-      fontWeight: 600,
-      fontSize: theme.spacing(2),
-      lineHeight: `${theme.spacing(3)}px`,
+        fontWeight: 600,
+        fontSize: theme.spacing(2 * 2),
+        lineHeight: theme.spacing(2 * 3),
 
-      [theme.breakpoints.down('lg')]: {
-        padding: `${theme.spacing(0.5)}px ${theme.spacing(2)}px`,
+        [theme.breakpoints.down('lg')]: {
+          padding: theme.spacing(2 * 0.5, 2 * 2),
+
+          letterSpacing: '0.01em',
+
+          fontSize: theme.spacing(2 * 1.75),
+          lineHeight: theme.spacing(2 * 2.5),
+        },
+      },
+      [TabSize.Small]: {
+        padding: theme.spacing(2 * 0.5, 2 * 1.5),
+
+        borderRadius: 9,
 
         letterSpacing: '0.01em',
 
-        fontSize: theme.spacing(1.75),
-        lineHeight: `${theme.spacing(2.5)}px`,
+        fontWeight: 500,
+        fontSize: theme.spacing(2 * 1.75),
+        lineHeight: theme.spacing(2 * 2.5),
       },
-    },
-    [TabSize.Small]: {
-      padding: `${theme.spacing(0.5)}px ${theme.spacing(1.5)}px`,
+    };
 
-      borderRadius: 9,
+    return {
+      secondaryTab: {
+        marginRight: props.isLast ? 0 : theme.spacing(2 * 0.25),
 
-      letterSpacing: '0.01em',
+        transition: 'color .3s, background-color .3s, box-shadow .3s',
 
-      fontWeight: 500,
-      fontSize: theme.spacing(1.75),
-      lineHeight: `${theme.spacing(2.5)}px`,
-    },
-  };
-
-  return {
-    secondaryTab: ({ isLast, isSelected, size, isDarkTheme }) => ({
-      height: 'auto',
-      marginRight: isLast ? 0 : 2,
-
-      transition: 'color .3s, background-color .3s, box-shadow .3s',
-
-      ...(isSelected
-        ? {
-            backgroundColor: isDarkTheme
-              ? theme.palette.primary.main
-              : theme.palette.common.white,
-            boxShadow:
-              '0 0 5px rgba(31, 34, 38, 0.1), 0 0 15px rgba(31, 34, 38, 0.1)',
-
-            color: isDarkTheme
-              ? theme.palette.common.white
-              : theme.palette.primary.main,
-
-            '&:hover': {
-              backgroundColor: isDarkTheme
+        ...(props.isSelected
+          ? {
+              backgroundColor: props.isDarkTheme
                 ? theme.palette.primary.main
                 : theme.palette.common.white,
+              boxShadow:
+                '0 0 5px rgba(31, 34, 38, 0.1), 0 0 15px rgba(31, 34, 38, 0.1)',
 
-              color: isDarkTheme
+              color: props.isDarkTheme
                 ? theme.palette.common.white
                 : theme.palette.primary.main,
-            },
-          }
-        : {
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
 
-            color: theme.palette.grey[600],
+              '&:hover': {
+                backgroundColor: props.isDarkTheme
+                  ? theme.palette.primary.main
+                  : theme.palette.common.white,
 
-            '&:hover': {
+                color: props.isDarkTheme
+                  ? theme.palette.common.white
+                  : theme.palette.primary.main,
+              },
+            }
+          : {
               backgroundColor: 'transparent',
+              boxShadow: 'none',
+
               color: theme.palette.grey[600],
-            },
-          }),
-      ...sizesMap[size],
-    }),
-  };
-});
+
+              '&:hover': {
+                backgroundColor: 'transparent',
+                color: theme.palette.grey[600],
+              },
+            }),
+        ...sizesMap[props.size],
+      },
+    };
+  },
+);

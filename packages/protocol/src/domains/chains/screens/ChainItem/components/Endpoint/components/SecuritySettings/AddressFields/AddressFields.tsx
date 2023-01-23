@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography, Box } from '@material-ui/core';
+import { Button, Typography, Box } from '@mui/material';
 import { FieldArray } from 'react-final-form-arrays';
 
 import { ReactComponent as TrashBinIcon } from 'uiKit/Icons/trashBin.svg';
@@ -16,7 +16,7 @@ export const AddressFields = ({
   onButtonClick,
   name: fieldName,
 }: AddressFieldsProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <>
@@ -31,7 +31,11 @@ export const AddressFields = ({
 
               return (
                 <Box className={classes.domainRow} key={index}>
-                  <Typography variant="subtitle1" noWrap>
+                  <Typography
+                    variant="subtitle1"
+                    noWrap
+                    className={classes.content}
+                  >
                     {formDomain}
                   </Typography>
                   <Button

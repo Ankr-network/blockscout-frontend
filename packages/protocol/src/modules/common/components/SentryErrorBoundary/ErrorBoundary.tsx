@@ -1,4 +1,4 @@
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { Error } from './Error';
 
 export interface ErrorBoundaryProps {

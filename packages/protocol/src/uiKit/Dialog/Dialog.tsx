@@ -1,14 +1,13 @@
+import { Close } from '@ankr.com/ui';
 import {
   Dialog as MuiDialog,
   DialogContent as MuiDialogContent,
   DialogProps as MuiDialogProps,
   DialogTitle as MuiDialogTitle,
   IconButton,
-} from '@material-ui/core';
-import classNames from 'classnames';
+} from '@mui/material';
 import { useLayoutEffect, useMemo, useState } from 'react';
 
-import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
 import { DialogContext } from './DialogContext';
 import { useStyles } from './DialogStyles';
 import { DialogTitle, DialogTitleColor, IDialogContext } from './types';
@@ -46,7 +45,7 @@ export const Dialog = ({
     [dialogTitle, onClose],
   );
 
-  const classes = useStyles({
+  const { classes, cx } = useStyles({
     dialogTitleColor: dialogTitle.color || DialogTitleColor.Regular,
     maxPxWidth,
   });
@@ -56,7 +55,7 @@ export const Dialog = ({
       <MuiDialog
         PaperProps={{
           classes: {
-            root: classNames(classes.paper, paperClassName),
+            root: cx(classes.paper, paperClassName),
           },
         }}
         BackdropProps={{
@@ -67,9 +66,7 @@ export const Dialog = ({
         {...props}
         onClose={onClose}
       >
-        <MuiDialogTitle
-          className={classNames(classes.dialogTitle, titleClassName)}
-        >
+        <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
           {dialogTitle.title}
 
           {onClose ? (
@@ -78,7 +75,7 @@ export const Dialog = ({
               className={classes.closeButton}
               onClick={onClose}
             >
-              <CrossIcon />
+              <Close />
             </IconButton>
           ) : null}
         </MuiDialogTitle>

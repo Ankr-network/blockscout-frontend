@@ -1,6 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { label } from './const';
 import { useStyles } from './ExpandButtonStyles';
@@ -16,11 +15,11 @@ export const ExpandButton = ({
   isVisible = true,
   onClick,
 }: ExpandButtonProps) => {
-  const { expandButton } = useStyles();
+  const { classes, cx } = useStyles();
 
   return isVisible ? (
     <Button
-      className={classNames(className, expandButton)}
+      className={cx(className, classes.expandButton)}
       onClick={onClick}
       variant="outlined"
     >

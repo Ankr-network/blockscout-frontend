@@ -1,18 +1,19 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useRequestComposerStyles = makeStyles<Theme>(theme => ({
+export const useRequestComposerStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
 
-    padding: theme.spacing(3.75),
+    padding: theme.spacing(2 * 3.75),
 
-    borderRadius: theme.spacing(3.75),
+    borderRadius: theme.spacing(2 * 3.75),
 
     backgroundColor: theme.palette.common.white,
   },
   container: {
     display: 'flex',
-    gap: theme.spacing(3.5),
+    gap: theme.spacing(2 * 3.5),
   },
 }));

@@ -1,3 +1,4 @@
+import { ReactNode, SyntheticEvent, useCallback, useState } from 'react';
 import {
   Box,
   ButtonBase,
@@ -6,13 +7,10 @@ import {
   InputLabel,
   Tooltip,
   Typography,
-} from '@material-ui/core';
-import {
   Autocomplete,
   AutocompleteCloseReason,
   AutocompleteProps,
-} from '@material-ui/lab';
-import { ChangeEvent, ReactNode, useCallback, useState } from 'react';
+} from '@mui/material';
 import { FilledTextField } from 'uiKit/FilledTextField';
 
 import { ReactComponent as ArrowDownIcon } from 'uiKit/Icons/arrowDown.svg';
@@ -28,7 +26,6 @@ type ConfiguredAutocomplete<T> = Omit<
   | 'noOptionsText'
   | 'placeholder'
   | 'getOptionLabel'
-  | 'getOptionSelected'
 >;
 
 export type MethodsSelectProps<T> = ConfiguredAutocomplete<T> & {
@@ -44,7 +41,6 @@ export type MethodsSelectProps<T> = ConfiguredAutocomplete<T> & {
   noOptionsText?: string;
   placeholder?: string;
   getOptionLabel: (option: T) => string;
-  getOptionSelected: (option: T, selectedOption: T | null) => boolean;
 
   showExtra?: (option?: T) => ReactNode;
 };
@@ -61,7 +57,6 @@ export function MethodsSelect<T>({
   noOptionsText,
   placeholder,
   getOptionLabel,
-  getOptionSelected,
 
   showExtra,
 
@@ -73,7 +68,10 @@ export function MethodsSelect<T>({
   const handleOpen = useCallback(() => setOpen(true), []);
 
   const handleClose = useCallback(
-    (event: ChangeEvent<any>, reason: AutocompleteCloseReason) => {
+    (
+      event: SyntheticEvent<Element, Event>,
+      reason: AutocompleteCloseReason,
+    ) => {
       if (reason === 'toggleInput') return;
 
       setOpen(false);
@@ -83,27 +81,29 @@ export function MethodsSelect<T>({
 
   const handleIconClick = useCallback(() => setOpen(prev => !prev), []);
 
-  const classes = useMethodsSelectStyles({ error, open });
+  const { classes } = useMethodsSelectStyles({ error, open });
 
   const renderOption = useCallback(
-    (method: T, { selected }: { selected: boolean }) => (
-      <Tooltip
-        title={getOptionLabel(method)}
-        placement="top"
-        classes={{
-          tooltip: classes.optionTooltip,
-        }}
-      >
-        <ButtonBase>
-          <Typography variant="inherit" noWrap>
-            {getOptionLabel(method)}
-          </Typography>
+    (props, method: T, { selected }: { selected: boolean }) => (
+      <li {...props}>
+        <Tooltip
+          title={getOptionLabel(method)}
+          placement="top"
+          classes={{
+            tooltip: classes.optionTooltip,
+          }}
+        >
+          <ButtonBase className={classes.button}>
+            <Typography variant="inherit" noWrap>
+              {getOptionLabel(method)}
+            </Typography>
 
-          {selected && <PlainCheckIcon className={classes.icon} />}
-        </ButtonBase>
-      </Tooltip>
+            {selected && <PlainCheckIcon />}
+          </ButtonBase>
+        </Tooltip>
+      </li>
     ),
-    [classes.icon, classes.optionTooltip, getOptionLabel],
+    [classes.button, classes.optionTooltip, getOptionLabel],
   );
 
   const renderInput = useCallback(
@@ -156,7 +156,6 @@ export function MethodsSelect<T>({
         options={options}
         noOptionsText={noOptionsText}
         getOptionLabel={getOptionLabel}
-        getOptionSelected={getOptionSelected}
         classes={{
           paper: classes.paper,
           listbox: classes.listbox,

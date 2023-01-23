@@ -1,5 +1,4 @@
-import { Button } from '@material-ui/core';
-import classNames from 'classnames';
+import { Button } from '@mui/material';
 
 import { useStyles } from './LoadableButtonStyles';
 import { LoadableButtonLoader } from './LoadableButtonUtils';
@@ -11,15 +10,13 @@ export const LoadableButton = <Element, Props>({
   loader: _loader,
   ...rest
 }: LoadableButtonProps<Element, Props>) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const loader = _loader || <LoadableButtonLoader />;
 
   return (
     <Button {...rest}>
       {loading && <div className={classes.loaderWrapper}>{loader}</div>}
-      <div className={classNames({ [classes.hidden]: loading })}>
-        {children}
-      </div>
+      <div className={cx({ [classes.hidden]: loading })}>{children}</div>
     </Button>
   );
 };

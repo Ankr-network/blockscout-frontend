@@ -1,29 +1,31 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme, boolean>(theme => ({
-  root: isSelected => ({
-    padding: theme.spacing(0.5, 1.5),
-    borderRadius: 6,
+export const useStyles = makeStyles<boolean>()(
+  (theme: Theme, isSelected: boolean) => ({
+    root: {
+      padding: theme.spacing(2 * 0.5, 2 * 1.5),
+      borderRadius: 6,
 
-    color: theme.palette.primary.main,
+      color: theme.palette.primary.main,
 
-    cursor: 'pointer',
-    letterSpacing: '0.01em',
+      cursor: 'pointer',
+      letterSpacing: '0.01em',
 
-    fontWeight: 500,
-    fontSize: theme.spacing(1.75),
-    lineHeight: `${theme.spacing(2.5)}px`,
+      fontWeight: 500,
+      fontSize: theme.spacing(2 * 1.75),
+      lineHeight: theme.spacing(2 * 2.5),
 
-    [theme.breakpoints.down('xs')]: {
-      padding: '0 6px',
-      fontSize: 12,
+      [theme.breakpoints.down('xs')]: {
+        padding: theme.spacing(0, 1.5),
+        fontSize: 12,
+      },
+      ...(isSelected
+        ? {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.common.white,
+          }
+        : {}),
     },
-    ...(isSelected
-      ? {
-          backgroundColor: theme.palette.primary.main,
-          color: '#ffffff',
-        }
-      : {}),
   }),
-}));
+);

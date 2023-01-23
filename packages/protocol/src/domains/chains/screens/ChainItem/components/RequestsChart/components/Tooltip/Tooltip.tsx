@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 import { IChartData } from 'modules/common/components/Chart';
 import { formatDate } from './utils/formatDate';
@@ -14,7 +14,7 @@ export interface TooltipProps {
 }
 
 export const Tooltip = ({ active, payload }: TooltipProps) => {
-  const classes = useTooltipStyles();
+  const { classes } = useTooltipStyles();
 
   if (!(active && payload && payload.length > 0)) return null;
 

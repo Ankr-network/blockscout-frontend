@@ -1,5 +1,4 @@
-import { Typography } from '@material-ui/core';
-import classNames from 'classnames';
+import { Typography } from '@mui/material';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { StatusCircle } from 'uiKit/StatusCircle';
@@ -18,13 +17,13 @@ export const ChainLabel = ({
   tooltip = '',
   labelClassName,
 }: ArchiveLabelProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
     <div className={className}>
       <TooltipWrapper hasIcon={false} tooltipText={tooltip}>
         <Typography
-          className={classNames(labelClassName, classes.label)}
+          className={cx(labelClassName, classes.label)}
           component="div"
           variant="body2"
         >

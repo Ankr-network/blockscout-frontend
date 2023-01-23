@@ -1,9 +1,9 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { PageHeader } from 'modules/common/components/PageHeader';
-import { t } from 'modules/i18n/utils/intl';
-import { Spinner } from 'ui';
+import { t } from '@ankr.com/common';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { useBaseChainsStyles } from './BaseChainsStyles';
 
 interface BaseChainsProps {
@@ -19,14 +19,14 @@ export const BaseChains = ({
   select,
   children,
 }: BaseChainsProps) => {
-  const classes = useBaseChainsStyles();
+  const { classes } = useBaseChainsStyles();
 
   return (
     <>
       {top}
       <PageHeader title={t('chains.title')} select={select} />
       <Box className={classes.container}>
-        {loading ? <Spinner /> : children}
+        {loading ? <OverlaySpinner /> : children}
       </Box>
     </>
   );

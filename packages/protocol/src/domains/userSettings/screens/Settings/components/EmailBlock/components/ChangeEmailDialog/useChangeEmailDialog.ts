@@ -4,7 +4,7 @@ import {
   AddEmailFormContentState,
   IAddEmailFormData,
 } from 'domains/userSettings/components/AddEmailForm/types';
-import { IUseAddEmailFormProps } from 'domains/userSettings/components/AddEmailForm/useAddEmailForm';
+import { IUseAddEmailFormProps } from 'domains/userSettings/components/AddEmailForm/hooks/useAddEmailForm';
 
 export const useChangeEmailDialog = () => {
   const [submittedData, setSubmittedData] = useState<

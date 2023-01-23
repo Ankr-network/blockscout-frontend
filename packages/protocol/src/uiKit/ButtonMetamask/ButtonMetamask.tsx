@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Button } from '@material-ui/core';
-import cn from 'classnames';
+import { Button } from '@mui/material';
 
 import { ReactComponent as MetamaskIcon } from '../../assets/img/metamask.svg';
 import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
@@ -22,20 +21,13 @@ export const ButtonMetamask = ({
   onClick,
   size = 'large',
 }: IButtonSpecialProps) => {
-  const classes = useButtonMetamaskStyles();
+  const { classes, cx } = useButtonMetamaskStyles();
 
   return (
     <>
       <Button
         disabled={isDisabled}
-        className={cn(
-          classes.button,
-          isDisabled && classes.disabled,
-          {
-            [classes[`size_${size}`]]: size,
-          },
-          className,
-        )}
+        className={cx(classes.button, classes[`size_${size}`], className)}
         onClick={onClick}
       >
         <MetamaskIcon />
@@ -43,7 +35,6 @@ export const ButtonMetamask = ({
         {hasPlusIcon && (
           <span className={classes.plusIconWrapper}>
             <svg
-              className={classes.plusIcon}
               width="10"
               height="10"
               viewBox="0 0 10 10"

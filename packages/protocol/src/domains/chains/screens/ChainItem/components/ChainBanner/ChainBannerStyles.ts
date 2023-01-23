@@ -1,11 +1,12 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     color: theme.palette.common.white,
     backgroundColor: theme.palette.primary.main,
     borderRadius: 18,
-    padding: theme.spacing(3, 3.5),
+    padding: theme.spacing(2 * 3, 2 * 3.5),
     height: 180,
     overflow: 'hidden',
     display: 'flex',
@@ -23,20 +24,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     alignItems: 'center',
     height: 40,
     width: 120,
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(2 * 1, 2 * 2),
     fontSize: 16,
     color: theme.palette.common.black,
     '&:hover': {
       backgroundColor: theme.palette.common.white,
     },
-    marginTop: theme.spacing(1.5),
+    marginTop: theme.spacing(2 * 1.5),
     [theme.breakpoints.down('md')]: {
       height: 34,
       marginTop: 0,
     },
   },
   unblockBtnIcon: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(2 * 1),
     lineHeight: 1,
     fontSize: 14,
   },
@@ -52,20 +53,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
     position: 'relative',
     flex: 3,
     overflow: 'hidden',
-    margin: theme.spacing(0, 2),
+    margin: theme.spacing(2 * 0, 2 * 2),
     [theme.breakpoints.down('md')]: {
-      margin: theme.spacing(2, 0),
-      marginTop: theme.spacing(0),
+      margin: theme.spacing(2 * 2, 0),
+      marginTop: theme.spacing(2 * 0),
     },
 
     '& > div': {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(2 * 2),
       display: 'flex',
       flexWrap: 'wrap',
       [theme.breakpoints.down('md')]: {
         flexWrap: 'nowrap',
         overflowX: 'auto',
-        marginBottom: theme.spacing(-2),
+        marginBottom: theme.spacing(2 * -2),
         marginTop: 0,
       },
     },
@@ -88,11 +89,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     height: '50%',
     [theme.breakpoints.down('md')]: {
       height: '100%',
-      '&:first-child': {
+      '&:first-of-type': {
         marginLeft: 0,
       },
       alignItems: 'center',
-      marginLeft: theme.spacing(2),
+      marginLeft: theme.spacing(2 * 2),
     },
     alignItems: 'flex-start',
     marginLeft: 0,
@@ -103,7 +104,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   featureBlockIcon: {
     flexShrink: 0,
     fontSize: 20,
-    marginRight: theme.spacing(1.5),
+    marginRight: theme.spacing(2 * 1.5),
     [theme.breakpoints.down('md')]: {
       fontSize: 16,
     },

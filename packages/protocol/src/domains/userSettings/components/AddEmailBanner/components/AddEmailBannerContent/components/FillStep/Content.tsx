@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 import { t } from '@ankr.com/common';
 import { ReactComponent as BalanceIcon } from 'uiKit/Icons/balance.svg';
@@ -28,7 +28,7 @@ const features: IFeature[] = [
 ];
 
 export const Content = () => {
-  const classes = useFillStepStyles();
+  const { classes } = useFillStepStyles();
 
   return (
     <div className={classes.featureContainer}>

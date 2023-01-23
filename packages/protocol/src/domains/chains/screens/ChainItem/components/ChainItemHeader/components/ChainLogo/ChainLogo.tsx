@@ -6,7 +6,7 @@ export interface ChainLogoProps {
 }
 
 export const ChainLogo = ({ chain: { icon, name } }: ChainLogoProps) => {
-  const classes = useChainLogoStyles();
+  const { classes } = useChainLogoStyles();
 
   return icon ? (
     <img alt={`${name} logo`} className={classes.chainLogo} src={icon} />

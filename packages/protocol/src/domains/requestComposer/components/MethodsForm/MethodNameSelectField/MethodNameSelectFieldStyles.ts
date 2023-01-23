@@ -1,7 +1,8 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useMethodNameSelectFieldStyles = makeStyles<Theme>(theme => ({
+export const useMethodNameSelectFieldStyles = makeStyles()((theme: Theme) => ({
   methodsSelect: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2 * 3),
   },
 }));

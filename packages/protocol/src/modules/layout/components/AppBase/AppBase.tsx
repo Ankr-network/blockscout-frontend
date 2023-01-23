@@ -1,14 +1,20 @@
 import React, { ReactNode } from 'react';
-import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
+import {
+  CssBaseline,
+  StyledEngineProvider,
+  ThemeProvider,
+} from '@mui/material';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
-import { Spinner, mainTheme, RewiredStylesProvider } from 'ui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { useInitialaizeLocale } from './AppBaseUtils';
 import { useMetatags } from 'uiKit/utils/useMetatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
+import './MuiClassNameSetup';
 
 interface IAppBaseProps {
   children: ReactNode;
@@ -21,8 +27,8 @@ export const AppBase = ({ children }: IAppBaseProps) => {
   useMetatags(historyInstance.location.pathname, chainsRoutes);
 
   return (
-    <RewiredStylesProvider>
-      <MuiThemeProvider theme={mainTheme}>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <SentryErrorBoundary>
           {isInitialized ? (
@@ -33,10 +39,10 @@ export const AppBase = ({ children }: IAppBaseProps) => {
               {children}
             </ConnectedRouter>
           ) : (
-            <Spinner />
+            <OverlaySpinner />
           )}
         </SentryErrorBoundary>
-      </MuiThemeProvider>
-    </RewiredStylesProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };

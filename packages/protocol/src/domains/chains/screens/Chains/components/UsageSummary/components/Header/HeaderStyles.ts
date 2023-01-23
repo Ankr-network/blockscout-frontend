@@ -1,6 +1,7 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   header: {
     display: 'flex',
     alignItems: 'center',
@@ -10,7 +11,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.text.primary,
 
     fontWeight: 700,
-    fontSize: theme.spacing(2),
-    lineHeight: `${theme.spacing(3)}px`,
+    fontSize: theme.spacing(2 * 2),
+    lineHeight: theme.spacing(2 * 3),
   },
 }));

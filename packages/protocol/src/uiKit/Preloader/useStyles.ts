@@ -1,46 +1,50 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { keyframes, Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 
 interface SpinnerStyleProps {
   size: number;
 }
 
-export const useStyles = makeStyles<Theme, SpinnerStyleProps>(theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+const color = keyframes`
+  0% {
+    background-color: ${mainTheme.palette.primary.main}
   },
-  circle: {
-    width: ({ size }) => size,
-    height: ({ size }) => size,
-    borderRadius: '50%',
-    margin: 2.5,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    animation: '$color 1.5s infinite ease-out',
-    backgroundColor: theme.palette.action.disabledBackground,
+  100% {
+    background-color: ${mainTheme.palette.action.disabledBackground}
   },
-  circle2: {
-    animationDelay: '0.5s',
-  },
-  circle3: {
-    animationDelay: '1s',
-  },
+`;
 
-  '@keyframes color': {
-    '0%': {
-      backgroundColor: theme.palette.primary.main,
+export const useStyles = makeStyles<SpinnerStyleProps>()(
+  (theme: Theme, props: SpinnerStyleProps) => ({
+    root: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    '100%': {
+    circle: {
+      width: props.size,
+      height: props.size,
+      borderRadius: '50%',
+      margin: theme.spacing(2 * 0.325),
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      animation: `${color} 1.5s infinite ease-out`,
       backgroundColor: theme.palette.action.disabledBackground,
     },
-  },
-  centered: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-  },
-}));
+    circle2: {
+      animationDelay: '0.5s',
+    },
+    circle3: {
+      animationDelay: '1s',
+    },
+    centered: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+    },
+  }),
+);

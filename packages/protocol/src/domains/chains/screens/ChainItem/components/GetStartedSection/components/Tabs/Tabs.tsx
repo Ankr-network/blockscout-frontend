@@ -17,7 +17,7 @@ export const Tabs = ({ setTechnology }: TabsProps) => {
     onTabSelect: setTechnology,
   });
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <TabsManager<Technology>

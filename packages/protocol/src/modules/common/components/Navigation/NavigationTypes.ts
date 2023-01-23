@@ -1,15 +1,16 @@
 import { ReactElement } from 'react';
-import { SvgIconProps } from '@material-ui/core';
+import { SvgIconProps } from '@mui/material';
 
 import { IsActive } from 'modules/layout/components/MainNavigation/MainNavigationUtils';
 
 export interface NavigationItem {
-  label: string;
-  href?: string;
-  StartIcon: (props: SvgIconProps) => ReactElement | null;
   ActiveIcon?: (props: SvgIconProps) => ReactElement | null;
-  isDisabled?: boolean;
+  StartIcon: (props: SvgIconProps) => ReactElement | null;
+  href?: string;
   isActive?: IsActive;
+  isDisabled?: boolean;
+  label: string;
+  onClick?: () => void;
 }
 
 export interface NavigationProps {

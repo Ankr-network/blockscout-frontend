@@ -1,18 +1,18 @@
-import { Box, Button, MenuItem, Typography } from '@material-ui/core';
+import { Box, Button, MenuItem, Typography } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
 import { ReactComponent as GoogleIcon } from 'uiKit/Icons/google.svg';
-import { WalletIcon } from 'ui';
+import { WalletIcon } from '@ankr.com/ui';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useSignupButtonStyles } from './useSignupButtonStyles';
 import { shrinkEmailAddress } from './SignupButtonUtils';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { SignupMenu } from './SignupMenu';
 import { ReactComponent as SignoutIcon } from './assets/signout.svg';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { SignupDialog } from '../ConnectButton/UnconnectedButton/SignupDialog';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 
@@ -34,7 +34,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
   } = useAuth();
   const history = useHistory();
 
-  const classes = useSignupButtonStyles({ isMobile });
+  const { classes } = useSignupButtonStyles(!!isMobile);
   const { open, anchorEl, handleOpen, handleClose } = useMenu();
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -172,15 +172,20 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
             <GoogleIcon className={classes.walletIconSmall} />
           </Box>
           <Box className={classes.userData}>
-            <Typography noWrap className={classes.emailText} variant="body2">
+            <Typography
+              component="p"
+              noWrap
+              className={classes.emailText}
+              variant="body2"
+            >
               {email}
             </Typography>
 
             <Typography
               noWrap
-              className={classes.address}
               variant="subtitle1"
               color="textSecondary"
+              className={classes.subtitle}
             >
               {shrinkAddress(address)}
             </Typography>

@@ -1,6 +1,6 @@
 import { Period } from './types';
 import { root as i18nKeyRoot } from '../../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const root = `${i18nKeyRoot}.descriptions.periods`;
 

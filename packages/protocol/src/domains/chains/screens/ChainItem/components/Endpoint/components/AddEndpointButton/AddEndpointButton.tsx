@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useStyles } from './AddEndpointButtonStyles';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus-2.svg';
 
 interface AddEndpointButtonProps {
@@ -15,7 +15,7 @@ export const AddEndpointButton = ({
   link,
   isDisabled,
 }: AddEndpointButtonProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Button

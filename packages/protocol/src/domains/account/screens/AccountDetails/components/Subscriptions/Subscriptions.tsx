@@ -1,15 +1,16 @@
+import { t } from '@ankr.com/common';
+import { Typography } from '@mui/material';
+import { useCallback, useState } from 'react';
+
 import { useSubscriptions } from './hooks/useSubscriptions';
 import { useSubscriptionsStyles } from './useSubscriptionsStyles';
-import { t } from 'modules/i18n/utils/intl';
-import { Typography } from '@material-ui/core';
 import { ReactComponent as RefreshIcon } from 'uiKit/Icons/refresh.svg';
 import { CancelSubscriptionDialog } from './CancelSubscriptionDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useCallback, useState } from 'react';
 import { ISubscriptionsItem } from 'multirpc-sdk';
 
 export const Subscriptions = () => {
-  const classes = useSubscriptionsStyles();
+  const { classes } = useSubscriptionsStyles();
 
   const { isOpened, onOpen, onClose } = useDialog();
   const { subscriptions, cancelSubscription } = useSubscriptions();

@@ -1,21 +1,27 @@
-import {
-  Navigation,
-  NavigationItem,
-} from 'modules/common/components/Navigation';
+import { Navigation } from 'modules/common/components/Navigation';
 import { getNavigationList } from './MainNavigationUtils';
 
 interface IMainNavigationProps {
-  loading: boolean;
-  hasPremium: boolean;
   chainsRoutes: string[];
+  hasPremium: boolean;
+  loading: boolean;
+  onDocsClick: () => void;
+  onSettingsClick: () => void;
 }
 
 export const MainNavigation = ({
   loading,
   hasPremium,
   chainsRoutes,
+  onDocsClick,
+  onSettingsClick,
 }: IMainNavigationProps) => {
-  const items: NavigationItem[] = getNavigationList(chainsRoutes, hasPremium);
+  const items = getNavigationList({
+    chainsRoutes,
+    hasPremium,
+    onDocsClick,
+    onSettingsClick,
+  });
 
   return <Navigation loading={loading} items={items} />;
 };

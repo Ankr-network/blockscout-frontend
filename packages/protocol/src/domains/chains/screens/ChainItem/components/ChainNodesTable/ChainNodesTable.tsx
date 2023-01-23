@@ -1,7 +1,8 @@
-import { Paper, TableContainer, Typography } from '@material-ui/core';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useCallback, useMemo, useState } from 'react';
-import { Preloader, VirtualTable, VirtualTableQuery } from 'ui';
+import { Paper, TableContainer, Typography } from '@mui/material';
+import { t, tHTML } from '@ankr.com/common';
+import { Preloader } from 'uiKit/Preloader';
+import { VirtualTable, VirtualTableQuery } from 'uiKit/VirtualTable';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { ChainNodesTableProps } from './ChainNodesTableProps';
 import {
@@ -13,17 +14,16 @@ import { useStyles } from './useStyles';
 
 export const ChainNodesTable = ({
   loading,
-  nodes,
-  nodesWeight,
+  nodesDetail,
   showNodesWithZeroHeight = false,
 }: ChainNodesTableProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const columns = useChainNodesTableTableColumns();
   const [page, setPage] = useState(1);
 
   const rows = useMemo(
-    () => getRows(nodes, nodesWeight, showNodesWithZeroHeight),
-    [nodes, nodesWeight, showNodesWithZeroHeight],
+    () => getRows(nodesDetail, showNodesWithZeroHeight),
+    [nodesDetail, showNodesWithZeroHeight],
   );
 
   const slicedRows = useMemo(

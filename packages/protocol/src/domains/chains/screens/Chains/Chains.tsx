@@ -1,5 +1,5 @@
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 
 import { InfoBanner } from './components/Banner';

@@ -12,7 +12,7 @@ export const USDTopUpForm = ({
   isLoading,
   shouldUseDefaultValue,
 }: TopUpFormProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const renderForm = useRenderForm(classes, isLoading, shouldUseDefaultValue);
 

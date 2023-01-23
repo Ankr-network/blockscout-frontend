@@ -1,12 +1,12 @@
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { DOC_URL } from 'modules/layout/components/MainNavigation/MainNavigationUtils';
-import { NavLink } from 'ui';
+import { NavLink } from 'uiKit/NavLink';
 import { intlRoot } from '../FeatureTable/FeatureTableUtils';
 import { ReactComponent as LinkIcon } from 'uiKit/Icons/open-link.svg';
 import { useFeatureTableStyles } from '../FeatureTable/useFeatureTableStyles';
 
 export const LearnMore = () => {
-  const classes = useFeatureTableStyles();
+  const { classes } = useFeatureTableStyles();
 
   return (
     <>

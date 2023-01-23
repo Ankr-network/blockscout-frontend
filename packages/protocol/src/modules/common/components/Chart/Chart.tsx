@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import {
   Area,
   AreaChart,
@@ -10,7 +10,6 @@ import {
   YAxis,
 } from 'recharts';
 import { BaseAxisProps } from 'recharts/types/util/types';
-import classNames from 'classnames';
 
 import { useStyles } from './ChartStyles';
 import { MARGIN } from './ChartUtils';
@@ -42,7 +41,7 @@ export const Chart = ({
   const [ref, yAxisWidth] = useYAxisWidth();
 
   const theme = useTheme();
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
     <ResponsiveContainer
@@ -53,7 +52,7 @@ export const Chart = ({
     >
       <AreaChart
         width={0}
-        className={classNames(classes.chart, loading ? classes.loading : null)}
+        className={cx(classes.chart, loading ? classes.loading : null)}
         data={data}
         margin={MARGIN}
       >

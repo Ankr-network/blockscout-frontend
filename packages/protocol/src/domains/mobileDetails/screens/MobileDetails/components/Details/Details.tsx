@@ -6,7 +6,7 @@ import { useStyles } from './useStyles';
 import { IS_I18N_ENABLED } from 'modules/layout/components/Header';
 
 export const Details = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.root}>

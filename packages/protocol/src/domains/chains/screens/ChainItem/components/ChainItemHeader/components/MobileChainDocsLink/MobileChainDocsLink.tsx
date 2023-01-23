@@ -1,8 +1,8 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { ReactComponent as OpenLinkIcon } from 'uiKit/Icons/open-link.svg';
 import { getChainDocsLink } from '../../utils/getChainDocsLink';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useMobileChainDocsLinkStyles } from './MobileChainDocsLinkStyles';
 
 export interface MobileChainDocsLinkProps {
@@ -12,7 +12,7 @@ export interface MobileChainDocsLinkProps {
 export const MobileChainDocsLink = ({ chainId }: MobileChainDocsLinkProps) => {
   const link = getChainDocsLink(chainId);
 
-  const classes = useMobileChainDocsLinkStyles();
+  const { classes } = useMobileChainDocsLinkStyles();
 
   return (
     <Button

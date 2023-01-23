@@ -3,13 +3,12 @@ import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 
 import { ChainID } from 'modules/chains/types';
 import { MultiService } from 'modules/api/MultiService';
-import { calculateRPCAndLegacyStandaloneStats } from '../utils/calculateRPCAndLegacyStandaloneStats';
-import { chainsFetchLegacyStandaloneRequests } from './fetchLegacyStandaloneRequests';
+import { calculateRPCAndStandaloneStats } from '../utils/calculateRPCAndStandaloneStats';
+import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { getLegacyStandaloneUrl } from '../utils/statsUtils';
+import { getStandaloneUrl } from '../utils/statsUtils';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
-import { IS_STANDALONE_STATS_HIDDEN } from './fetchPublicRequestsCountStats';
 
 interface IFetchChainDetailsResponseData
   extends Omit<
@@ -113,25 +112,26 @@ export const {
             .getPublicGateway()
             .getTimeframeStats(chainId, timeframe);
 
-          if (isReactSnap() || IS_STANDALONE_STATS_HIDDEN) {
+          if (isReactSnap) {
             return { data: getData(rpcStats) };
           }
 
-          const url = getLegacyStandaloneUrl(chainId);
+          const url = getStandaloneUrl(chainId);
 
           if (!url) return { data: getData(rpcStats) };
 
-          const { data: legacyStats } = await dispatch(
-            chainsFetchLegacyStandaloneRequests.initiate({
+          const { data: standaloneStats } = await dispatch(
+            chainsFetchStandaloneRequests.initiate({
               chainId: chainId as ChainID,
-              url,
+              url: url + timeframe,
             }),
           );
 
-          const stats = calculateRPCAndLegacyStandaloneStats(
-            timeframe,
+          if (!standaloneStats?.data) return { data: getData(rpcStats) };
+
+          const stats = calculateRPCAndStandaloneStats(
             rpcStats,
-            legacyStats,
+            standaloneStats.data,
           );
 
           return { data: getData(stats) };

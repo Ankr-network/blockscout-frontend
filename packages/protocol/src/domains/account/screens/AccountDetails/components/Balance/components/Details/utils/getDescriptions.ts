@@ -6,7 +6,7 @@ import { formatBalance } from 'domains/account/utils/formatBalance';
 import { getPeriod } from './getPeriod';
 import { getQuantifier } from './getQuantifier';
 import { root as i18nKeyRoot } from '../../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export interface GetDescriptionsParams {
   accountType: AccountType;

@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   top: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -11,7 +11,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
 
   tooltipWrapper: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2 * 2),
     alignItems: 'flex-end',
   },
   tooltipIcon: {
@@ -29,6 +29,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   label: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2 * 1),
   },
 }));

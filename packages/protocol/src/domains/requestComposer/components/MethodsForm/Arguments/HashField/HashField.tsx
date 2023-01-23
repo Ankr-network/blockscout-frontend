@@ -1,4 +1,4 @@
-import { FormGroup, Typography } from '@material-ui/core';
+import { FormGroup, Typography } from '@mui/material';
 import { FieldValidator } from 'final-form';
 import { useCallback } from 'react';
 import { Field } from 'react-final-form';
@@ -23,7 +23,7 @@ export const HashField = ({
   placeholder,
   validate: isValid = () => true,
 }: HashFieldProps) => {
-  const classes = useEVMMethodsFormStyles();
+  const { classes } = useEVMMethodsFormStyles();
 
   const validate: FieldValidator<string> = useCallback(
     value => !isValid(value),
