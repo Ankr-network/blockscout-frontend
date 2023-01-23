@@ -5,14 +5,13 @@ export const useUsageSummaryStyles = makeStyles()((theme: Theme) => ({
   usageSummary: {
     display: 'flex',
     flexDirection: 'column',
-    borderRadius: 24,
-    flexGrow: 1,
-    padding: theme.spacing(2 * 2, 2 * 2.75),
-    backgroundColor: theme.palette.common.white,
 
-    [theme.breakpoints.down('sm')]: {
-      flexGrow: 0,
-    },
+    width: '100%',
+    padding: theme.spacing(2, 2.75),
+
+    borderRadius: 24,
+
+    backgroundColor: theme.palette.common.white,
   },
   stat: {
     flex: 1,
