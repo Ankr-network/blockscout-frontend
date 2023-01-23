@@ -11,6 +11,7 @@ import { AnkrTopUpFormContainerProps } from './ANKRTopUpFormTypes';
 
 export const ANKRTopUpFormContainer = ({
   initialValues,
+  trackSubmit,
   validateAmount,
 }: AnkrTopUpFormContainerProps) => {
   useCheckBrokenTransaction();
@@ -23,6 +24,7 @@ export const ANKRTopUpFormContainer = ({
   const { onSubmit, ...dialogProps } = useOnTopUpSubmit(
     emailData?.confirmedEmail,
     emailData?.pendingEmail,
+    trackSubmit,
   );
 
   return (

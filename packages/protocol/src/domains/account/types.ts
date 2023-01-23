@@ -1,4 +1,8 @@
+import { Callback } from 'mixpanel-browser';
 import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
+
+import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
+import { TopUpTrackingParams } from 'modules/analytics/mixpanel/trackTopUp';
 
 export enum BalanceStatus {
   GREEN,
@@ -52,3 +56,13 @@ export interface PaymentHistoryTableTimeframeBorders {
 }
 
 export type PaymentType = IPaymentHistoryEntityType | 'ALL';
+
+export type TrackTopUpSubmit = (
+  amount: string,
+  currency: TopUpCurrnecy,
+  callback?: Callback,
+) => void;
+
+export type TrackTopUp = (
+  params: Omit<TopUpTrackingParams, 'hasPremium' | 'address' | 'walletId'>,
+) => void;

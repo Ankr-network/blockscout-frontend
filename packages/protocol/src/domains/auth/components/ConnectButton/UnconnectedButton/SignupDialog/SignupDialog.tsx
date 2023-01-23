@@ -1,14 +1,16 @@
-import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
-import { Dialog } from 'uiKit/Dialog';
+
 import { ConnectWalletsContent } from './ConnectWalletsContent';
+import { Dialog } from 'uiKit/Dialog';
 import { EmailContent } from './EmailContent';
 import { EmailContentLoading } from './EmailContentLoading';
+import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
 
 interface SignupDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  onManualClose?: () => void;
   onSuccess?: () => void;
   hasOauthLogin?: boolean;
 }
@@ -16,6 +18,7 @@ interface SignupDialogProps {
 export const SignupDialog = ({
   isOpen = false,
   onClose,
+  onManualClose = onClose,
   onSuccess,
   hasOauthLogin,
 }: SignupDialogProps) => {
@@ -31,9 +34,9 @@ export const SignupDialog = ({
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={onClose}
       maxPxWidth={618}
+      onClose={onManualClose}
+      open={isOpen}
       title={dialogTitle}
     >
       {loading ? (

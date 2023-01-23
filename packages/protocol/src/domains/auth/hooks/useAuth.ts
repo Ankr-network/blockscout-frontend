@@ -16,11 +16,11 @@ export const useAuth = () => {
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
   const {
-    hasOauthLogin,
-    hasWeb3Connection,
-    ethAddressType,
     credentials,
+    ethAddressType,
+    hasOauthLogin,
     hasOauthUserDepositTransaction,
+    hasWeb3Connection,
     workerTokenData,
   } = authData;
 

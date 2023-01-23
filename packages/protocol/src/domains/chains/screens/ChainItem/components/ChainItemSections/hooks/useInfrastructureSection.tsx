@@ -1,4 +1,5 @@
 import { BlockchainType } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -7,11 +8,12 @@ import { InfrastructureSection } from '../../InfrastructureSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { t } from '@ankr.com/common';
+import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface InfrastructureSectionParams {
   chain: IApiChain;
+  getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;
 }
 
@@ -19,6 +21,7 @@ const label = t('chain-item.tabs.infrastructure');
 
 export const useInfrastructureSection = ({
   chain,
+  getSelectHandler,
   group,
 }: InfrastructureSectionParams) => {
   const { hasPrivateAccess } = useAuth();
@@ -39,11 +42,12 @@ export const useInfrastructureSection = ({
                 withNodes={isNotCustomizedChain}
               />
             ),
+            onSelect: getSelectHandler(SectionID.Infrastructure),
             title: (isSelected: boolean) => (
               <PrimaryTab isSelected={isSelected} label={label} />
             ),
           }
         : undefined,
-    [chain, group, isNotCustomizedChain, isVisible],
+    [chain, getSelectHandler, group, isNotCustomizedChain, isVisible],
   );
 };

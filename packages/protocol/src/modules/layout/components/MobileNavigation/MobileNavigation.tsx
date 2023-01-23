@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import { Button, Container } from '@mui/material';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
-import { useMobileNavigationStyles } from './useMobileNavigationStyles';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { getNavigationList } from '../MainNavigation/MainNavigationUtils';
-import { NavigationItem } from 'modules/common/components/Navigation';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
+import { useMobileNavigationStyles } from './useMobileNavigationStyles';
+import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
+import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
 
 interface MobileHeaderProps {
   className?: string;
@@ -40,7 +41,15 @@ export const MobileNavigation = ({
 
   const { classes, cx } = useMobileNavigationStyles();
 
-  const items: NavigationItem[] = getNavigationList(chainsRoutes, hasPremium);
+  const onDocsClick = useTrackDocs();
+  const onSettingsClick = useTrackSettings();
+
+  const items = getNavigationList({
+    chainsRoutes,
+    hasPremium,
+    onDocsClick,
+    onSettingsClick,
+  });
 
   return (
     <>
@@ -48,31 +57,40 @@ export const MobileNavigation = ({
         <nav className={cx(classes.root, classes.custom, className)}>
           <Container className={classes.container} maxWidth={false}>
             {items.map(
-              ({ label, href = '', StartIcon, ActiveIcon, isActive }) => {
-                return isExternalPath(href) ? (
+              ({
+                ActiveIcon,
+                StartIcon,
+                href = '',
+                isActive,
+                label,
+                onClick,
+              }) =>
+                isExternalPath(href) ? (
                   <Button
-                    key={label}
-                    component="a"
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="text"
                     className={classes.link}
                     color="primary"
+                    component="a"
+                    href={href}
+                    key={label}
+                    onClick={onClick}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    variant="text"
                   >
                     <StartIcon />
                     {label}
                   </Button>
                 ) : (
                   <Button
-                    key={label}
-                    component={NavLink}
-                    to={href}
                     activeClassName={classes.activeLink}
-                    variant="text"
                     className={classes.link}
                     color="primary"
+                    component={NavLink}
                     isActive={isActive}
+                    key={label}
+                    onClick={onClick}
+                    to={href}
+                    variant="text"
                   >
                     <StartIcon />
                     {ActiveIcon && (
@@ -80,8 +98,7 @@ export const MobileNavigation = ({
                     )}
                     {label}
                   </Button>
-                );
-              },
+                ),
             )}
             <MobileDetails
               isOpened={isOpened}
