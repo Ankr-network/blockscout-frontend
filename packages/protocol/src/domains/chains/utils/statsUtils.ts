@@ -1,69 +1,21 @@
 import { ChainID } from 'modules/chains/types';
-import { Timeframe } from 'multirpc-sdk';
-import { timeframeToLabelMap } from '../screens/ChainItem/components/UsageDataSection/const';
-import { Timeframe as TimeframeInterval } from '../types';
+import { API_ENV } from 'modules/common/utils/environment';
 
-const BSC_STATS_RPC = 'https://bscrpc.com/api/data/stats';
-const FANTOM_STATS_RPC = 'https://rpc.ftm.tools/api/data/stats';
-const POLYGON_STATS_RPC = 'https://polygon-rpc.com/api/data/stats';
-
-const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
-export const FIFTEEN_MINUTES_INTERVAL = 4;
-export const SEVEN_DAYS_IN_WEEK = 7;
-export const HOURS_IN_ONE_DAY = 24;
-const DAYS_IN_ONE_MONTH = 30;
-
-const { Hour, Week, Month } = TimeframeInterval;
-
-export const LEGACY_CHAINS: Record<string, string> = {
-  [ChainID.BSC]: BSC_STATS_RPC,
-  [ChainID.FANTOM]: FANTOM_STATS_RPC,
-  [ChainID.POLYGON]: POLYGON_STATS_RPC,
+const PROD_STANDALONE_CHAINS: Record<string, string> = {
+  [ChainID.BSC]: 'https://bscrpc.com/api/v1/stats/bsc/',
+  [ChainID.FANTOM]: 'https://rpc.ftm.tools/api/v1/stats/fantom/',
+  [ChainID.POLYGON]: 'https://polygon-rpc.com/api/v1/stats/polygon/',
 };
 
-export const getLegacyStandaloneUrl = (chainId: string) => {
-  return LEGACY_CHAINS?.[chainId] ?? '';
+const STAGING_STANDALONE_CHAINS: Record<string, string> = {
+  [ChainID.BSC]: 'https://staging.bscrpc.com/api/v1/stats/bsc/',
+  [ChainID.FANTOM]: 'https://staging.rpc.ftm.tools/api/v1/stats/fantom/',
+  [ChainID.POLYGON]: 'https://staging.polygon-rpc.com/api/v1/stats/polygon/',
 };
 
-export const getMultiplier = (timeframe: Timeframe) => {
-  let multiplier = 1;
+export const STANDALONE_CHAINS =
+  API_ENV === 'prod' ? PROD_STANDALONE_CHAINS : STAGING_STANDALONE_CHAINS;
 
-  if (timeframe === timeframeToLabelMap[Hour]) {
-    multiplier = 1 / HOURS_IN_ONE_DAY;
-  } else if (timeframe === timeframeToLabelMap[Week]) {
-    multiplier = SEVEN_DAYS_IN_WEEK;
-  } else if (timeframe === timeframeToLabelMap[Month]) {
-    multiplier = DAYS_IN_ONE_MONTH;
-  }
-
-  return multiplier;
-};
-
-export const formatLegacyRequestsHistoryTo15MinutesInterval = (
-  legacyRequests: Record<string, number>,
-) => {
-  const data: Record<string, number> = {};
-
-  Object.keys(legacyRequests).forEach((key: string) => {
-    const value = legacyRequests[key] / FIFTEEN_MINUTES_INTERVAL;
-
-    for (let i = 0; i < 4; i++) {
-      const timestamp = Number(key) - FIFTEEN_MINUTES_IN_MS * i;
-      data[timestamp] = Math.ceil(value);
-    }
-  });
-
-  return data;
-};
-
-export const calculateOnedayRequests = (
-  totalRequests: Record<string, number>,
-) => {
-  let onedayRequests = 0;
-
-  Object.keys(totalRequests).forEach((key: string) => {
-    onedayRequests += totalRequests[key];
-  });
-
-  return onedayRequests;
+export const getStandaloneUrl = (chainId: string) => {
+  return STANDALONE_CHAINS[chainId] ?? '';
 };

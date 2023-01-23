@@ -107,10 +107,10 @@ export const sortPrivateChains = ({
 };
 
 const CHAIN_IDS_BY_USAGE = [
-  ChainID.ETH,
-  ChainID.BSC,
   ChainID.POLYGON,
   ChainID.FANTOM,
+  ChainID.BSC,
+  ChainID.ETH,
   ChainID.AVALANCHE,
   ChainID.SOLANA,
   ChainID.ARBITRUM,
@@ -143,7 +143,7 @@ const getSorter = (sortType: SortType, isLoading: boolean) => {
           CHAIN_IDS_BY_USAGE.indexOf(a?.id) === -1 ||
           CHAIN_IDS_BY_USAGE.indexOf(b?.id) === -1
         ) {
-          return -1;
+          return 1;
         }
 
         return (
