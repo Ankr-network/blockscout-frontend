@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { IWorkerGlobalStatus, Timeframe, IWorkerNodesWeight } from './types';
-import { INodeEntity } from '../backoffice';
+import { IWorkerGlobalStatus, Timeframe, INodesDetailEntity } from './types';
 import { convertStatsToNumber } from './utils';
 
 export class StandalonePublicGateway {
@@ -13,18 +12,6 @@ export class StandalonePublicGateway {
     });
   }
 
-  async getNodes(): Promise<INodeEntity[]> {
-    const { data } = await this.api.get<INodeEntity[]>('/api/v1/node');
-
-    return data;
-  }
-
-  async getNodesWeight(): Promise<IWorkerNodesWeight[]> {
-    const { data } = await this.api.get<IWorkerNodesWeight[]>('/api/v1/weight');
-
-    return data;
-  }
-
   async getTimeframeStats(
     blockchain: string,
     timeframe: Timeframe,
@@ -34,5 +21,13 @@ export class StandalonePublicGateway {
     );
 
     return convertStatsToNumber(data);
+  }
+
+  async getNodesDetail(): Promise<INodesDetailEntity[]> {
+    const { data } = await this.api.get<INodesDetailEntity[]>(
+      '/api/v1/blockchain/detail',
+    );
+
+    return data;
   }
 }
