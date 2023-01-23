@@ -1,20 +1,17 @@
-import { useCallback } from 'react';
-import { useHistory } from 'react-router';
 import { Button } from '@mui/material';
-
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { AccountRoutesConfig } from 'domains/account/Routes';
 import { t, tHTML } from '@ankr.com/common';
+
+import { AccountRoutesConfig } from 'domains/account/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
-import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { PricingRoutesConfig } from 'domains/pricing/Routes';
+import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
+import { useClickHandler } from '../CardPaymentFailure/hooks/useClickHandler';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useTrackSuccessfulTopUp } from './hooks/useTrackSuccessfulTopUp';
 
 export const CardPaymentSuccess = () => {
-  const { classes } = useCardPaymentSuccessStyles();
-  const history = useHistory();
-  const { hasPremium } = useAuth();
+  useTrackSuccessfulTopUp();
 
   useSetBreadcrumbs([
     {
@@ -22,13 +19,11 @@ export const CardPaymentSuccess = () => {
     },
   ]);
 
-  const handleClick = useCallback(() => {
-    history.push(
-      hasPremium
-        ? AccountRoutesConfig.accountDetails.generatePath()
-        : PricingRoutesConfig.pricing.generatePath(),
-    );
-  }, [history, hasPremium]);
+  const { hasPremium } = useAuth();
+
+  const onClick = useClickHandler();
+
+  const { classes } = useCardPaymentSuccessStyles();
 
   const section = hasPremium ? 'billing' : 'pricing';
 
@@ -43,7 +38,7 @@ export const CardPaymentSuccess = () => {
         descriptionClassName={classes.description}
         align="center"
         actionSlot={
-          <Button onClick={handleClick} size="large">
+          <Button onClick={onClick} size="large">
             {t(`account.card-payment-success.${section}.button`)}
           </Button>
         }

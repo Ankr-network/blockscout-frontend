@@ -11,6 +11,7 @@ import { useInitialSection } from './useInitialSection';
 import { useRedirect } from './useRedirect';
 import { useTimeframe } from './useTimeframe';
 import { useUsageDataSection } from './useUsageDataSection';
+import { useTabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 
 export interface SectionsParams {
   chainType: ChainType;
@@ -37,19 +38,27 @@ export const useSections = ({
 
   const { timeframe, timeframeTabs } = useTimeframe();
 
+  const getSelectHandler = useTabSelectHandlerGetter();
+
   const getStartedSection = useGetStartedSection({
     chainId,
+    getSelectHandler,
     group,
     unfilteredGroup,
   });
   const usageDataSection = useUsageDataSection({
     chain,
     chainType,
+    getSelectHandler,
     group,
     timeframe,
     timeframeTabs,
   });
-  const infrastructureSection = useInfrastructureSection({ chain, group });
+  const infrastructureSection = useInfrastructureSection({
+    chain,
+    getSelectHandler,
+    group,
+  });
 
   const tabs: Tab<SectionID>[] = useMemo(
     () =>

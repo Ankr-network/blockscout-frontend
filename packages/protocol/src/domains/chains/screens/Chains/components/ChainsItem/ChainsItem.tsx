@@ -1,10 +1,11 @@
-import { ChainsItemProps } from './ChainsItemTypes';
+import { ChainType } from 'domains/chains/types';
 import { ChainsItemBase } from './ChainsItemBase';
-import { ChainsItemLink } from './ChainsItemLink';
-import { useChainsItem } from '../../hooks/useChainsItem';
-import { INDEX_PATH } from 'domains/chains/routes';
 import { ChainsItemButton } from './ChainsItemButton';
+import { ChainsItemLink } from './ChainsItemLink';
+import { ChainsItemProps } from './ChainsItemTypes';
+import { INDEX_PATH } from 'domains/chains/routes';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { useChainsItem } from '../../hooks/useChainsItem';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 export const ChainsItem = ({
@@ -32,10 +33,11 @@ export const ChainsItem = ({
         handleOriginUrlClick={handleOriginUrlClick}
         chainsItemLink={
           <ChainsItemLink
+            chainType={chain.type as unknown as ChainType}
             dummyMessage={dummyMessage}
-            urls={urls}
             hasConnectWalletMessage={hasConnectWalletMessage}
             onConnectWallet={onOpen}
+            urls={urls}
           />
         }
         chainsItemButton={<ChainsItemButton publicChain={publicChain} />}

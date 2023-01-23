@@ -1,20 +1,23 @@
+import { AccountDetailsAnkrTopUpForm } from './AccountDetailsAnkrTopUpForm';
+import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import {
   TopUpTabID,
   useTopUpTabs,
 } from 'domains/account/components/TopUp/TopUpUtils';
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-import { AccountDetailsAnkrTopUpForm } from './AccountDetailsAnkrTopUpForm';
+import { useSubmitTrackingHandler } from './hooks/useSubmitTrackingHandler';
 
 export const useAccountDetailsTopUpTabs = (canPayOnlyByCard: boolean) => {
+  const trackSubmit = useSubmitTrackingHandler();
+
   const ankrTab = canPayOnlyByCard
     ? undefined
     : {
         id: TopUpTabID.ANKR,
-        content: <AccountDetailsAnkrTopUpForm />,
+        content: <AccountDetailsAnkrTopUpForm trackSubmit={trackSubmit} />,
         title: (isSelected: boolean) => (
           <SecondaryTab isSelected={isSelected} label={TopUpTabID.ANKR} />
         ),
       };
 
-  return useTopUpTabs(ankrTab);
+  return useTopUpTabs(ankrTab, trackSubmit);
 };

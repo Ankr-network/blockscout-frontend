@@ -17,6 +17,7 @@ import { useAddress } from './useAddress';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
+import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
 
 export const useTopUp = () => {
   const dispatch = useAppDispatch();
@@ -93,10 +94,18 @@ export const useTopUp = () => {
     [dispatch, address],
   );
 
-  const handleRejectAllowance = useCallback(
-    () => rejectAllowance(),
-    [rejectAllowance],
-  );
+  const trackTopUp = useTopUpTrackingHandler();
+
+  const handleRejectAllowance = useCallback(() => {
+    const result = rejectAllowance();
+
+    trackTopUp({
+      isAllowanceConfirmed: true,
+      isTopUpAccepted: true,
+    });
+
+    return result;
+  }, [rejectAllowance, trackTopUp]);
 
   const handleRedirectIfCredentials = useCallback(
     () => redirectIfCredentials(),
@@ -127,5 +136,6 @@ export const useTopUp = () => {
     isRejectAllowanceLoading: loadingRejectAllowance,
     loading,
     loadingWaitTransactionConfirming,
+    trackTopUp,
   };
 };

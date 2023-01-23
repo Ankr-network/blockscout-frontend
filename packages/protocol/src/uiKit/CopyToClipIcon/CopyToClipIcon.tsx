@@ -6,30 +6,32 @@ import { useStyles } from './CopyToClipIconStyles';
 import { useCopyToClip } from './CopyToClipIconUtils';
 import { useCallback } from 'react';
 
-interface ICopyToClipIconProps {
+export interface ICopyToClipIconProps {
   className?: string;
-  textClassName?: string;
-  text: string;
-  message: string;
   copyText?: string;
-  size?: 'm' | 'l';
-  textColor?: TypographyTypeMap['props']['color'];
-  isDisabled?: boolean;
   hideIcon?: boolean;
+  isDisabled?: boolean;
+  message: string;
   onClick?: () => void;
+  onCopy?: (text: string) => void;
+  size?: 'm' | 'l';
+  text: string;
+  textClassName?: string;
+  textColor?: TypographyTypeMap['props']['color'];
 }
 
 export const CopyToClipIcon = ({
-  text,
-  message,
   className,
-  textClassName,
   copyText,
-  textColor = 'textSecondary',
-  size = 'm',
-  isDisabled,
   hideIcon,
+  isDisabled,
+  message,
   onClick,
+  onCopy = () => {},
+  size = 'm',
+  text,
+  textClassName,
+  textColor = 'textSecondary',
 }: ICopyToClipIconProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
   const { classes, cx } = useStyles({ size, isDisabled });
@@ -38,12 +40,17 @@ export const CopyToClipIcon = ({
     if (isDisabled) {
       return;
     }
+
     if (onClick) {
       onClick();
+
       return;
     }
+
     setIsCopied();
-  }, [isDisabled, onClick, setIsCopied]);
+
+    onCopy(text);
+  }, [isDisabled, onClick, onCopy, setIsCopied, text]);
 
   return (
     <div

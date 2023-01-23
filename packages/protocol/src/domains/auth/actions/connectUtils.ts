@@ -6,7 +6,7 @@ import {
   Web3Address,
   WorkerTokenData,
 } from 'multirpc-sdk';
-import { IWalletMeta } from '@ankr.com/provider';
+import { EWalletId, IWalletMeta, getWalletName } from '@ankr.com/provider';
 
 import { AppDispatch, GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
@@ -19,9 +19,10 @@ import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/
 export interface IConnect {
   address: Web3Address;
   credentials?: IJwtToken;
+  hasWeb3Connection: boolean;
+  trackingWalletName?: string;
   walletMeta?: IWalletMeta;
   workerTokenData?: WorkerTokenData;
-  hasWeb3Connection: boolean;
 }
 
 export const switchChain = async () => {
@@ -42,15 +43,16 @@ export const getCachedData = (
   getState: GetState,
 ): CachedData => {
   const {
-    credentials,
-    workerTokenData,
     address = '',
     authorizationToken,
-    walletMeta,
-    hasWeb3Connection = false,
+    credentials,
     hasOauthLogin,
-    isCardPayment,
     hasOauthUserDepositTransaction,
+    hasWeb3Connection = false,
+    isCardPayment,
+    trackingWalletName,
+    walletMeta,
+    workerTokenData,
   } = selectAuthData(getState());
 
   if (authorizationToken) {
@@ -65,9 +67,10 @@ export const getCachedData = (
     address,
     credentials,
     hasOauthLogin,
+    hasOauthUserDepositTransaction,
     hasWeb3Connection,
     isCardPayment,
-    hasOauthUserDepositTransaction,
+    trackingWalletName,
     walletMeta,
     workerTokenData,
   };
@@ -77,6 +80,7 @@ export const loginAndCache = async (
   web3Service: MultiRpcWeb3Sdk,
   service: MultiRpcSdk,
   dispatch: AppDispatch,
+  walletId: EWalletId,
   hasOauthLogin?: boolean,
 ): Promise<IConnect> => {
   const { currentAccount } = web3Service.getKeyProvider();
@@ -124,6 +128,7 @@ export const loginAndCache = async (
     hasOauthLogin,
     hasWeb3Connection: true,
     isCardPayment: false,
+    trackingWalletName: getWalletName(walletId),
     walletMeta,
     workerTokenData,
   };
