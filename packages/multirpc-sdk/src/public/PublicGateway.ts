@@ -8,10 +8,9 @@ import {
   IRate,
   IWorkerPublicStats,
   INodesDetailEntity,
-  IWorkerNodesWeight,
 } from './types';
 import { IPublicGateway } from './interfaces';
-import { IBlockchainEntity, INodeEntity } from '../backoffice';
+import { IBlockchainEntity } from '../backoffice';
 import { convertStatsToNumber } from './utils';
 
 export class PublicGateway implements IPublicGateway {
@@ -75,6 +74,4 @@ export class PublicGateway implements IPublicGateway {
 
     return data;
   }
-
-
 }
