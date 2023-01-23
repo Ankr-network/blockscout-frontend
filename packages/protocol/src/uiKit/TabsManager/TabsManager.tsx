@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useStyles } from './TabsManagerStyles';
 import { DefaultTabID, TabsManagerProps } from './TabsManagerTypes';
 
@@ -13,11 +12,11 @@ export function TabsManager<TI = DefaultTabID>({
   allowSingleTab,
   orientation = 'horizontal',
 }: TabsManagerProps<TI>) {
-  const classes = useStyles({ orientation });
+  const { classes, cx } = useStyles({ orientation });
 
   return (
     <>
-      <div className={classNames(classes.tabs, className)}>
+      <div className={cx(classes.tabs, className)}>
         <div className={classes.right}>
           {title}
           {/* doesn't show tabs if there is only one of them */}

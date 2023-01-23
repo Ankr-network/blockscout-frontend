@@ -1,11 +1,11 @@
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { Chart } from 'modules/common/components/Chart';
 import { ItemHeader } from '../ItemHeader';
 import { Placeholder } from './components/Placeholder';
 import { RequestsChartProps } from './types';
 import { Tooltip } from './components/Tooltip';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useRequestsChart } from './hooks/useRequestsChart';
 import { useRequestsChartStyles } from './RequestsChartStyles';
 
@@ -15,10 +15,10 @@ export const RequestsChart = (props: RequestsChartProps) => {
   const { chartProps, timeframe, withChart, withPlaceholder, withPreloader } =
     useRequestsChart(props);
 
-  const classes = useRequestsChartStyles();
+  const { classes } = useRequestsChartStyles();
 
   const placeholder = withPlaceholder ? <Placeholder /> : null;
-  const preloader = withPreloader ? <Spinner /> : null;
+  const preloader = withPreloader ? <OverlaySpinner /> : null;
   const chart = withChart ? (
     <Chart {...chartProps} tooltipContent={<Tooltip />} />
   ) : null;

@@ -5,11 +5,7 @@ import { Select } from 'uiKit/Select';
 import { options } from './const';
 
 import { useStyles } from './TimeframeSelectorStyles';
-
-interface Target {
-  name?: string;
-  value: unknown;
-}
+import { SelectChangeEvent } from '@mui/material';
 
 export interface TimeframeSelectorProps {
   onChange: (timeframe: ChartTimeframe) => void;
@@ -21,7 +17,7 @@ export const TimeframeSelector = ({
   timeframe,
 }: TimeframeSelectorProps) => {
   const onChange = useCallback(
-    (event: React.ChangeEvent<Target>) => {
+    (event: SelectChangeEvent<unknown>) => {
       const frame = event.target.value as ChartTimeframe;
 
       onChange_(frame);
@@ -29,7 +25,7 @@ export const TimeframeSelector = ({
     [onChange_],
   );
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Select

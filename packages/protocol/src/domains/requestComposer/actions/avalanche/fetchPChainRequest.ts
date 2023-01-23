@@ -1,4 +1,5 @@
 import { Avalanche } from 'avalanche';
+import { t } from '@ankr.com/common';
 
 import {
   AvalancheLibraryID,
@@ -8,7 +9,6 @@ import { MethodsRequest } from 'domains/requestComposer/types';
 import { PChainMethodResponse } from 'domains/requestComposer/types/avalanche';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/p-chain/RPCCallsConfig';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
-import { t } from 'modules/i18n/utils/intl';
 import { web3Api } from 'store/queries';
 
 export interface FetchPChainRequestParams {

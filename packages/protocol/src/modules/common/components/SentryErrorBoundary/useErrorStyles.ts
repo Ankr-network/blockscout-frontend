@@ -1,6 +1,7 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useErrorStyles = makeStyles<Theme>(theme => ({
+export const useErrorStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -11,10 +12,10 @@ export const useErrorStyles = makeStyles<Theme>(theme => ({
   },
   title: {
     fontSize: 52,
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2 * 2),
   },
   description: {
     fontSize: 20,
-    marginBottom: theme.spacing(3.5),
+    marginBottom: theme.spacing(2 * 3.5),
   },
 }));

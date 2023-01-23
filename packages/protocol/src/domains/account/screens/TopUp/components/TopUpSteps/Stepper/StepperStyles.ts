@@ -1,18 +1,18 @@
-import { Theme, StepConnector, withStyles } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { StepConnector, stepConnectorClasses, styled } from '@mui/material';
 
-export const useStyles = makeStyles<Theme>(theme => ({
-  root: {
-    '&.Mui-error': {
-      '& div': {
-        background: theme.palette.warning.main,
-      },
+export const NormalConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.active} span,  &.${stepConnectorClasses.completed} span`]:
+    {
+      backgroundColor: theme.palette.primary.main,
     },
-  },
 }));
 
-export const Connector = withStyles({
-  completed: {
-    background: '#EEA941',
+export const Connector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.active} span`]: {
+    backgroundImage: 'linear-gradient(270deg, #EEA941 0%, #356DF3 100%)',
   },
-})(StepConnector);
+
+  [`&.${stepConnectorClasses.completed} span`]: {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));

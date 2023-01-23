@@ -4,12 +4,27 @@ import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { usePrivateChains } from './usePrivateChains';
 import { useSortType } from '../../hooks/useSortType';
 import { useTimeframe } from '../../hooks/useTimeframe';
+import { useEffect } from 'react';
 
 export const usePrivateChainsData = () => {
-  const { loading: isConnecting, isLoggedIn } = useAuth();
+  const {
+    loading: isConnecting,
+    isLoggedIn,
+    hasInfrastructureAccess,
+  } = useAuth();
 
-  const [privateChains, privateAllChains, privateChainsLoading] =
-    usePrivateChains();
+  const [
+    privateChains,
+    privateAllChains,
+    privateChainsLoading,
+    fetchPrivateChainsInfo,
+  ] = usePrivateChains();
+
+  useEffect(() => {
+    if (hasInfrastructureAccess) {
+      fetchPrivateChainsInfo();
+    }
+  }, [hasInfrastructureAccess, fetchPrivateChainsInfo]);
 
   const [timeframe, switchStatsTimeframe] = useTimeframe(isLoggedIn);
 

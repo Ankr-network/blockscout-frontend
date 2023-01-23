@@ -7,7 +7,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { AccountRoutes, PATH_ACCOUNT } from 'domains/account/Routes';
-import { Themes } from 'ui';
+import { Themes } from '@ankr.com/ui';
 
 export interface IGuardRoute extends RouteProps {
   hasPremium: boolean;

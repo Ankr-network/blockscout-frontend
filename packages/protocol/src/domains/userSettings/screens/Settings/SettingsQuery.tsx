@@ -1,4 +1,4 @@
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { AddEmailBannerCard } from 'domains/userSettings/components/AddEmailBanner';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
@@ -16,7 +16,7 @@ export const SettingsQuery = () => {
   const { confirmedEmail, isLoading } = emailData;
 
   if (isLoading) {
-    return <Spinner />;
+    return <OverlaySpinner />;
   }
 
   if (confirmedEmail) {

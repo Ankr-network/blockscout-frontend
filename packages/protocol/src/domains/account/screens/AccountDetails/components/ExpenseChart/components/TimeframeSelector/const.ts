@@ -1,7 +1,7 @@
 import { ChartTimeframe } from '../../types';
 import { ISelectOption } from 'uiKit/Select';
 import { root } from '../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const week = t(`${root}.timeframes.week`);
 const month = t(`${root}.timeframes.month`);

@@ -31,15 +31,6 @@ export interface IWorkerPublicStats {
   totalRequests: Record<BlockchainID, string>;
 }
 
-export interface IWorkerNodesWeight {
-  id: string;
-  weight: number;
-  latency: number;
-  timestamp: number;
-  height: number;
-  score: number;
-}
-
 export type Timeframe = '1h' | '24h' | '7d' | '30d';
 
 export interface Config {
@@ -61,4 +52,33 @@ export interface CurrencyRate {
 
 export interface IRate {
   rates: CurrencyRate[];
+}
+
+export interface INodeDetailEntity {
+  height: number;
+  score: number;
+  name: string;
+  weight: number;
+  scheme: string;
+  location: {
+    continent: string;
+    country: string;
+  };
+}
+
+export interface INodesDetailEntity {
+  name: string;
+  id: string;
+  hasArchive: boolean;
+  nodes: INodeDetailEntity[];
+}
+
+export interface IWorkerNodesWeight {
+  id: string;
+  weight: number;
+  latency: number;
+  timestamp: number;
+  height: number;
+  height_timestamp: number;
+  score: number;
 }

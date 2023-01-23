@@ -1,6 +1,7 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   top: {
     width: '100%',
 
@@ -11,12 +12,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'flex-start',
+      gap: theme.spacing(2 * 1.5),
     },
   },
   title: {
+    fontSize: 16,
     flexShrink: 0,
   },
   preloader: {
-    height: theme.spacing(8.25),
+    height: theme.spacing(2 * 8.25),
   },
 }));

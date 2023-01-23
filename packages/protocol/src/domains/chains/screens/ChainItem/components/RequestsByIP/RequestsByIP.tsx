@@ -1,10 +1,10 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'domains/chains/types';
 import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
 import { useCallback, useMemo } from 'react';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { ItemHeader } from '../ItemHeader';
 import { NoData } from '../MethodCalls/components/NoData';
 import { useRequestsByIPStyles } from './useRequestsByIPStyles';
@@ -18,7 +18,7 @@ export const RequestsByIP = ({
   loading,
   data = [],
 }: IUserRequestsByIpProps) => {
-  const classes = useRequestsByIPStyles();
+  const { classes } = useRequestsByIPStyles();
 
   const maxCounts = useMemo(
     () => Math.max(...data.map(item => item.count)),
@@ -46,7 +46,7 @@ export const RequestsByIP = ({
 
       {loading ? (
         <div className={classes.loading}>
-          <Spinner />
+          <OverlaySpinner />
         </div>
       ) : (
         <>
@@ -67,7 +67,11 @@ export const RequestsByIP = ({
                       <Typography variant="body1" className={classes.infoText}>
                         {item.ip}
                       </Typography>
-                      <Typography variant="body1" className={classes.infoText}>
+                      <Typography
+                        noWrap
+                        variant="body1"
+                        className={classes.infoText}
+                      >
                         {formatNumber(item.count)}
                       </Typography>
                     </div>

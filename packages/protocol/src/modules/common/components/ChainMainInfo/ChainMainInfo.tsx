@@ -1,11 +1,9 @@
-import classNames from 'classnames';
-import { Skeleton } from '@material-ui/lab';
-import { Typography } from '@material-ui/core';
+import { Skeleton, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
 import { Switcher } from 'modules/common/components/Switcher';
 import { Timeframe } from 'domains/chains/types';
-import { t } from 'modules/i18n/utils/intl';
 import { useStyles } from './ChainMainInfoStyles';
 import { timeframeToLabelMap } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 
@@ -20,18 +18,16 @@ export const ChainMainInfo = ({
   timeframe = Timeframe.Month,
   totalRequests = '',
 }: ChainMainInfoProps) => {
-  const classes = useStyles(isHighlighted);
+  const { classes, cx } = useStyles(isHighlighted);
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <div className={cx(classes.root, className)}>
       {logoSrc && <img className={classes.logo} src={logoSrc} alt="" />}
       <div className={classes.right}>
         <Typography
           variant="h4"
           noWrap
-          className={classNames(classes.title, {
-            [classes.hasLabel]: label,
-          })}
+          className={cx(classes.title, !!label && classes.hasLabel)}
         >
           {name}
         </Typography>

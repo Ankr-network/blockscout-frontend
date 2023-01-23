@@ -2,7 +2,7 @@ import { Endpoint } from '../Endpoint';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { root } from '../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useWSEndpointsStyles } from './WSEndpointsStyles';
 
 export interface WSEndpointsProps {
@@ -18,7 +18,7 @@ export const WSEndpoints = ({
 }: WSEndpointsProps) => {
   const wss = urls.flatMap(({ ws }) => (ws ? [ws] : []));
 
-  const classes = useWSEndpointsStyles();
+  const { classes } = useWSEndpointsStyles();
 
   return wss.length ? (
     <div className={classes.wsEndpoints}>

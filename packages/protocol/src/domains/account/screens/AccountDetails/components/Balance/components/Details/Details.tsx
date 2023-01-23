@@ -25,7 +25,7 @@ export const Details = ({
 }: DetailsProps) => {
   const isPremium = !!premiumUntil;
 
-  const classes = useStyles(isPremium);
+  const { classes } = useStyles();
 
   const [description, extraDescription] = getDescriptions({
     accountType,

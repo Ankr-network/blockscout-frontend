@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { Dialog } from 'uiKit/Dialog';
 
 import { useSampleCodeDialogStyles } from './useSampleCodeDialogStyles';
@@ -17,11 +17,16 @@ export const SampleCodeDialog = ({
   onClose,
   children,
 }: ISampleCodeDialogProps) => {
-  const classes = useSampleCodeDialogStyles();
+  const { classes } = useSampleCodeDialogStyles();
 
   return (
-    <Dialog open={isOpen} onClose={onClose} maxPxWidth={780}>
-      <div className={classes.root}>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      maxPxWidth={750}
+      paperClassName={classes.paper}
+    >
+      <div>
         <Typography variant="h6" className={classes.title}>
           {title}
         </Typography>

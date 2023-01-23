@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/styles';
-import { Theme, Tooltip } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { Tooltip } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { makeStyles, withStyles } from 'tss-react/mui';
 
-export const useTooltipWrapperStyles = makeStyles<Theme>(theme => ({
+export const useTooltipWrapperStyles = makeStyles()((theme: Theme) => ({
   tooltipItem: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -13,8 +13,8 @@ export const useTooltipWrapperStyles = makeStyles<Theme>(theme => ({
   },
   informationIcon: {
     verticalAlign: 'middle',
-    marginLeft: theme.spacing(1),
-    color: '#BFC6D0',
+    marginLeft: theme.spacing(2 * 1),
+    color: theme.palette.grey[300],
     transition: 'color .3s',
     width: 20,
     height: 20,
@@ -23,8 +23,8 @@ export const useTooltipWrapperStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export const TooltipElement = withStyles(theme => ({
-  tooltip: {
+export const TooltipElement = withStyles(Tooltip, (theme: Theme) => ({
+  Tooltip: {
     backgroundColor: theme.palette.common.white,
     textAlign: 'center',
     color: 'rgb(31 34 38 / 52%)',
@@ -32,6 +32,6 @@ export const TooltipElement = withStyles(theme => ({
       '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 5px 100px rgba(31, 34, 38, 0.15)',
     borderRadius: '21px',
     fontSize: 16,
-    padding: theme.spacing(3),
+    padding: theme.spacing(2 * 3),
   },
-}))(Tooltip);
+}));

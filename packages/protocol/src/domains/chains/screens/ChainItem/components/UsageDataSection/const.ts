@@ -1,6 +1,6 @@
 import { Timeframe } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
 export const POLL_INTERVAL = 60_000;

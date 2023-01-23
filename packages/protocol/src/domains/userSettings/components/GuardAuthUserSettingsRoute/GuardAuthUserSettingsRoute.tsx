@@ -1,5 +1,5 @@
 import { Route, RouteProps } from 'react-router-dom';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { isInvitation } from './utils/isInvitation';
@@ -27,7 +27,7 @@ export const GuardAuthUserSettingsRoute = ({
   if (loading) {
     return (
       <DefaultLayout>
-        <Spinner />
+        <OverlaySpinner />
       </DefaultLayout>
     );
   }

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { useInfoBannerStyles } from './InfoBannerStyles';
 
@@ -9,10 +8,10 @@ interface InfoBannerProps {
 }
 
 export const InfoBanner = ({ icon, message, className }: InfoBannerProps) => {
-  const classes = useInfoBannerStyles();
+  const { classes, cx } = useInfoBannerStyles();
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <div className={cx(classes.root, className)}>
       <div className={classes.content}>
         <div className={classes.icon}>{icon}</div>
         <div className={classes.message}>{message}</div>

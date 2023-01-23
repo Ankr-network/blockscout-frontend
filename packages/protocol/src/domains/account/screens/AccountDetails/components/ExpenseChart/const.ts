@@ -1,4 +1,4 @@
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { ChartCurrency, ChartTimeframe } from './types';
 
 export const root = 'account.account-details.expense-chart';

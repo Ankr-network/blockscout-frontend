@@ -1,7 +1,6 @@
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(() => ({
+export const useStyles = makeStyles()(() => ({
   root: {
     paddingRight: 0,
     borderRadius: 12,

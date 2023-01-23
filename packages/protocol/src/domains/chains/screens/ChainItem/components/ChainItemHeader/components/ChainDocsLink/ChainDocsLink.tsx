@@ -1,10 +1,9 @@
-import { Button } from '@material-ui/core';
-import classNames from 'classnames';
+import { Button } from '@mui/material';
 
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ReactComponent as FileIcon } from 'uiKit/Icons/file.svg';
 import { getChainDocsLink } from '../../utils/getChainDocsLink';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
 
 export interface ChainDocsLinkProps {
@@ -18,11 +17,11 @@ export const ChainDocsLink = ({
 }: ChainDocsLinkProps) => {
   const link = getChainDocsLink(id);
 
-  const classes = useChainDocsLinkStyles();
+  const { classes, cx } = useChainDocsLinkStyles();
 
   return (
     <Button
-      className={classNames(className, classes.button)}
+      className={cx(className, classes.button)}
       classes={{
         iconSizeMedium: classes.iconSize,
       }}

@@ -15,7 +15,7 @@ export const UsageSummary = ({
 }: UsageSummaryProps) => {
   const [stats, loading] = useStats();
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.userStats}>

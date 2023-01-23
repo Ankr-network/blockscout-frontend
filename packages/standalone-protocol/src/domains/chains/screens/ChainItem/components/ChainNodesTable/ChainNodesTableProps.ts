@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js';
-import { INodeEntity, IWorkerNodesWeight } from 'multirpc-sdk';
+
+import { ResponseData } from 'modules/api/utils/ResponseData';
+import { fetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
 
 export interface ChainNodesTableProps {
-  data?: INodeEntity[];
-  nodesWeight?: IWorkerNodesWeight[];
+  nodesDetail: ResponseData<typeof fetchChainNodesDetail>;
   className?: string;
 }
 
@@ -14,10 +15,6 @@ export interface GroupedNode {
   scheme: string;
   continent: string;
   country: string;
-  city: string;
-  totalNodes: number;
-  archiveNodes: number;
-  icon: string;
   organization?: string;
   chainName: string;
   height?: number;

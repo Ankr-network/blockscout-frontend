@@ -5,7 +5,7 @@ import { TransactionsDownloader } from '../types';
 import { downloadCsv } from 'modules/common/utils/downloadCsv';
 import { useLazyAccountFetchDailyChargingQuery } from 'domains/account/actions/fetchDailyCharging';
 import { getDailyChargingRequest } from '../utils/getDailyChargingRequest';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const useTransactionsDownloader = (): TransactionsDownloader => {
   const [fetchDailyCharging] = useLazyAccountFetchDailyChargingQuery();

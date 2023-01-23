@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 import { Balance } from './Balance';
 import { BalanceSkeleton } from './components/Skeleton';
@@ -9,7 +9,7 @@ import { useStyles } from './BalanceStyles';
 export const BalanceContainer = () => {
   const { isLoading, ...props } = useBalanceData();
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Box className={classes.balanceRoot}>

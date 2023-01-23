@@ -2,7 +2,7 @@ import {
   AvailableWriteProviders,
   EEthereumNetworkId,
 } from '@ankr.com/provider';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 import {
   MultiRpcWeb3Sdk,

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { useIsSMDown } from 'ui';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 const observeWidgetOpeningStyles = () => {
   const target = document.getElementById('jsd-widget');

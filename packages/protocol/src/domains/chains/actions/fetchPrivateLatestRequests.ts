@@ -1,6 +1,5 @@
 import { IApiChain } from '../api/queryChains';
 import { MultiService } from 'modules/api/MultiService';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { LatestRequest } from 'multirpc-sdk';
 
@@ -15,7 +14,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     privateLatestRequests: build.query<LatestRequest[], void>({
-      queryFn: createNotifyingQueryFn(async () => {
+      queryFn: async () => {
         const service = MultiService.getService();
 
         const { user_requests: userRequests } = await service
@@ -25,7 +24,7 @@ export const {
         return {
           data: userRequests,
         };
-      }),
+      },
     }),
   }),
 });

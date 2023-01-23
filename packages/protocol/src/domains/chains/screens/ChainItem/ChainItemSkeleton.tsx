@@ -3,7 +3,7 @@ import { RequestsChartSkeleton } from './components/RequestsChart/RequestsChartS
 import { useStyles } from './ChainItemStyles';
 
 export const ChainItemSkeleton = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.chainDetailsWrapper}>

@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { t } from '@ankr.com/common';
@@ -13,7 +13,7 @@ export const Header = ({
   children,
   chainName = t('request-composer.header.evm'),
 }: IHeaderProps) => {
-  const classes = useHeaderStyles();
+  const { classes } = useHeaderStyles();
 
   return (
     <div className={classes.root}>

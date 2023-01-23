@@ -1,5 +1,4 @@
 import { TabsManager } from 'uiKit/TabsManager';
-import classNames from 'classnames';
 
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useSecondaryTabsStyles } from './SecondaryTabsStyles';
@@ -17,12 +16,12 @@ export function SecondaryTabs<TabID>({
   tabs,
   visible = true,
 }: SecondaryTabsProps<TabID>) {
-  const classes = useSecondaryTabsStyles();
+  const { classes, cx } = useSecondaryTabsStyles();
 
   return visible ? (
     <TabsManager
       allowSingleTab
-      className={classNames(className, classes.secondaryTabs)}
+      className={cx(className, classes.secondaryTabs)}
       selectedTab={selectedTab}
       tabs={tabs}
     />

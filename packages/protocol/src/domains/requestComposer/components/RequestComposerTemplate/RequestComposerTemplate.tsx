@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
-import { Box } from '@material-ui/core';
-import classNames from 'classnames';
+import { Box } from '@mui/material';
 
 import { useRequestComposerStyles } from './RequestComposerTemplateStyles';
 
@@ -17,10 +16,10 @@ export const RequestComposerTemplate = ({
   logger,
   className,
 }: IRequestComposerProps) => {
-  const classes = useRequestComposerStyles();
+  const { classes, cx } = useRequestComposerStyles();
 
   return (
-    <Box className={classNames(classes.root, className)}>
+    <Box className={cx(classes.root, className)}>
       {header}
       <Box className={classes.container}>
         {menu}

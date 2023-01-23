@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 import { PATH_ACCOUNT } from 'domains/account/Routes';
@@ -6,7 +6,7 @@ import { ReactComponent as ArrowRightIcon } from './assets/arrow-right.svg';
 import { useCostButtonStyles } from './CostButtonStyles';
 
 export const CostButton = () => {
-  const classes = useCostButtonStyles();
+  const { classes } = useCostButtonStyles();
 
   return (
     <Button

@@ -1,6 +1,6 @@
-import { Box } from '@material-ui/core';
-
+import { Box } from '@mui/material';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -19,7 +19,7 @@ export const Endpoints = ({
   chainType,
   group,
 }: EndpointsProps) => {
-  const classes = useEndpointsStyles();
+  const { classes } = useEndpointsStyles();
 
   const {
     hasOauthLogin,

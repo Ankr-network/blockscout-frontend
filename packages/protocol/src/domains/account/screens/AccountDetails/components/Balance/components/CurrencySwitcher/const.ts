@@ -1,5 +1,5 @@
 import { Currency } from 'domains/account/types';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const valuesMap: Record<Currency, string> = {
   [Currency.ANKR]: t('account.currencies.ankr'),

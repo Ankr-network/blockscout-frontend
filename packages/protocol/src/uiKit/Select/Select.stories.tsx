@@ -1,8 +1,9 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
-import { Box, makeStyles, ThemeProvider } from '@material-ui/core';
+import React, { useCallback, useState } from 'react';
+import { Box, SelectChangeEvent, ThemeProvider } from '@mui/material';
 import { storiesOf } from '@storybook/react';
+import { makeStyles } from 'tss-react/mui';
 
-import { mainTheme } from 'ui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 import { Select } from './Select';
 
 const items = [
@@ -20,7 +21,7 @@ const items = [
   },
 ];
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles()(() => ({
   root: {
     backgroundColor: 'grey',
     padding: 20,
@@ -28,11 +29,11 @@ export const useStyles = makeStyles(() => ({
 }));
 
 storiesOf('uiKit/Select', module).add('Default', () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [value, setValue] = useState<string>(items[0].value);
 
-  const onChange = useCallback((event: ChangeEvent<{ value: unknown }>) => {
-    setValue(event.target.value as any);
+  const onChange = useCallback((event: SelectChangeEvent<unknown>) => {
+    setValue(event.target.value as string);
   }, []);
 
   return (

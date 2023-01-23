@@ -2,7 +2,7 @@ import React from 'react';
 import { useChainListStyles } from './ChainsListStyles';
 
 export const ChainListSpinner = () => {
-  const classes = useChainListStyles();
+  const { classes } = useChainListStyles();
 
   return (
     <div className={classes.root}>

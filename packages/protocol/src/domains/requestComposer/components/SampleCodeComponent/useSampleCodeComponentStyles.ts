@@ -1,8 +1,8 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useSampleCodeComponentStyles = makeStyles<Theme>(theme => ({
+export const useSampleCodeComponentStyles = makeStyles()((theme: Theme) => ({
   button: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2 * 3),
   },
 }));

@@ -1,5 +1,6 @@
-import { Box, Typography } from '@material-ui/core';
-import { Preloader, VirtualTable } from 'ui';
+import { Box, Typography } from '@mui/material';
+import { Preloader } from 'uiKit/Preloader';
+import { VirtualTable } from 'uiKit/VirtualTable';
 
 import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 import { Filters } from './components/Filters';
@@ -15,7 +16,7 @@ interface IPaymentHistoryTableProps {
 export const PaymentsHistoryTable = ({
   balances,
 }: IPaymentHistoryTableProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const {
     columns,

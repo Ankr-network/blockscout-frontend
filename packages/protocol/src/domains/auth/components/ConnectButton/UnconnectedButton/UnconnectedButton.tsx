@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
-import { ButtonTypeMap } from '@material-ui/core';
-import classNames from 'classnames';
+import { ButtonTypeMap } from '@mui/material';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useStyles } from '../useStyles';
 import { LoadableButton } from 'uiKit/LoadableButton';
@@ -22,7 +21,7 @@ export const UnconnectedButton = ({
   onSuccess,
   className,
 }: UnconnectedButtonProps) => {
-  const classes = useStyles({});
+  const { classes, cx } = useStyles(false);
   const { loading, hasOauthLogin } = useAuth();
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -45,7 +44,7 @@ export const UnconnectedButton = ({
       <LoadableButton
         variant={variant}
         color="primary"
-        className={classNames(classes.button, className)}
+        className={cx(classes.button, className)}
         disableElevation={false}
         onClick={() => setIsOpened(true)}
         disabled={loading}

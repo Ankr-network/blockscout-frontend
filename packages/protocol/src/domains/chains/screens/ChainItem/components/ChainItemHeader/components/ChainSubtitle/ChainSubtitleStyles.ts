@@ -1,23 +1,24 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useChainSubtitleStyles = makeStyles<Theme>(theme => ({
+export const useChainSubtitleStyles = makeStyles()((theme: Theme) => ({
   chainSubtitle: {
     display: 'flex',
-    gap: theme.spacing(1),
+    gap: theme.spacing(2 * 1),
   },
   description: {
     fontWeight: 400,
-    fontSize: theme.spacing(2),
-    lineHeight: `${theme.spacing(3)}px`,
+    fontSize: theme.spacing(2 * 2),
+    lineHeight: theme.spacing(2 * 3),
   },
   archiveLabel: {
     display: 'flex',
     alignItems: 'center',
 
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(2 * 1),
 
     fontWeight: 400,
-    fontSize: theme.spacing(1.75),
-    lineHeight: `${theme.spacing(2.5)}px`,
+    fontSize: theme.spacing(2 * 1.75),
+    lineHeight: theme.spacing(2 * 2.5),
   },
 }));

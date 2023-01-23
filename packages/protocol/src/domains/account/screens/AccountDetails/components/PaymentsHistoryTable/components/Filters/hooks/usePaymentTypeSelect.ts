@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { ISelectOption } from 'uiKit/Select';
 import { PaymentType } from 'domains/account/types';
 import { getPaymentTypeSelectValue } from '../utils/getPaymentTypeSelectValue';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 export type PaymentTypeSelect = [
