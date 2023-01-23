@@ -1,6 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useCostButtonStyles = makeStyles<Theme>(() => ({
+export const useCostButtonStyles = makeStyles()(() => ({
   costButton: {
     height: 'auto',
     padding: '0',

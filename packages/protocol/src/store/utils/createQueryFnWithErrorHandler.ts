@@ -1,7 +1,12 @@
 import { QueryFn, QueryReturn } from 'store/queries/types';
 
+type ErrorHandler<Params, Result> = (
+  error: unknown,
+  ...args: Parameters<QueryFn<Params, Result>>
+) => QueryReturn<Result>;
+
 export interface QueryFnWithErrorHandlerParams<Params, Result> {
-  errorHandler?: (error: unknown) => QueryReturn<Result>;
+  errorHandler?: ErrorHandler<Params, Result>;
   queryFn: QueryFn<Params, Result>;
 }
 
@@ -15,7 +20,7 @@ export const createQueryFnWithErrorHandler = <Params, Result>({
 
       return result;
     } catch (error) {
-      return errorHandler(error);
+      return errorHandler(error, ...args);
     }
   };
 

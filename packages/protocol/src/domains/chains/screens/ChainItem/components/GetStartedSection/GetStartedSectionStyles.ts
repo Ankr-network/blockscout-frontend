@@ -1,12 +1,13 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useGetStartedSectionStyles = makeStyles<Theme>(theme => ({
+export const useGetStartedSectionStyles = makeStyles()((theme: Theme) => ({
   getStartedSection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(3.75),
+    gap: theme.spacing(2 * 3.75),
 
-    paddingTop: theme.spacing(3.75),
+    paddingTop: theme.spacing(2 * 3.75),
   },
   requestComposer: {
     [theme.breakpoints.down('sm')]: {

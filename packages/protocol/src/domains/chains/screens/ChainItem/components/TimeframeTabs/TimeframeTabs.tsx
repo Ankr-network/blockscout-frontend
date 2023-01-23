@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-
 import { SecondaryTab, TabSize } from '../SecondaryTab';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { Timeframe } from 'domains/chains/types';
@@ -17,10 +15,10 @@ export const TimeframeTabs = ({
   tabs,
   timeframe,
 }: TimeframeTabsProps) => {
-  const classes = useTimeframeTabsStyles();
+  const { classes, cx } = useTimeframeTabsStyles();
 
   return (
-    <div className={classNames(className, classes.timeframeTabs)}>
+    <div className={cx(className, classes.timeframeTabs)}>
       {tabs.map(({ id, onSelect }) => (
         <SecondaryTab
           className={classes.tab}

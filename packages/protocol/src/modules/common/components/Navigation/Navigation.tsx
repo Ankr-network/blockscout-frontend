@@ -1,14 +1,13 @@
-import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-import { useNavigationStyles } from './useNavigationStyles';
 import { NavigationProps } from './NavigationTypes';
-import { isExternalPath } from '../../utils/isExternalPath';
 import { NavigationSkeleton } from './NavigationSkeleton';
+import { isExternalPath } from '../../utils/isExternalPath';
+import { useNavigationStyles } from './useNavigationStyles';
 
 export const Navigation = ({ items, loading }: NavigationProps) => {
-  const classes = useNavigationStyles();
+  const { classes } = useNavigationStyles();
 
   return (
     <nav>
@@ -18,30 +17,32 @@ export const Navigation = ({ items, loading }: NavigationProps) => {
         <>
           {items.map(
             ({
-              label,
-              href = '',
-              StartIcon,
               ActiveIcon,
-              isDisabled,
+              StartIcon,
+              href = '',
               isActive,
+              isDisabled,
+              label,
+              onClick,
             }) => {
               if (isExternalPath(href)) {
                 return (
                   <Button
-                    key={label}
-                    component="a"
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="text"
                     className={classes.link}
-                    startIcon={<StartIcon />}
+                    component="a"
+                    disabled={!href || isDisabled}
                     endIcon={
                       ActiveIcon && (
-                        <ActiveIcon className={classes.activeIcon} />
+                        <ActiveIcon className={classes.activeLink} />
                       )
                     }
-                    disabled={!href || isDisabled}
+                    href={href}
+                    key={label}
+                    onClick={onClick}
+                    rel="noopener noreferrer"
+                    startIcon={<StartIcon />}
+                    target="_blank"
+                    variant="text"
                   >
                     {label}
                   </Button>
@@ -50,18 +51,19 @@ export const Navigation = ({ items, loading }: NavigationProps) => {
 
               return (
                 <Button
-                  key={label}
-                  component={NavLink}
-                  to={href}
-                  variant="text"
                   activeClassName={classes.activeLink}
                   className={classes.link}
-                  startIcon={<StartIcon />}
-                  endIcon={
-                    ActiveIcon && <ActiveIcon className={classes.activeIcon} />
-                  }
+                  component={NavLink}
                   disabled={!href || isDisabled}
+                  endIcon={
+                    ActiveIcon && <ActiveIcon className={classes.activeLink} />
+                  }
                   isActive={isActive}
+                  key={label}
+                  onClick={onClick}
+                  startIcon={<StartIcon />}
+                  to={href}
+                  variant="text"
                 >
                   {label}
                 </Button>

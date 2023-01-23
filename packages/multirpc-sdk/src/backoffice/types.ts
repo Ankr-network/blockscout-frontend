@@ -3,7 +3,7 @@ import {
   BlockchainID,
   IPaymentHistoryEntityType,
   PrivateStats,
-  PrivateStatsInterval
+  PrivateStatsInterval,
 } from '../account';
 import { EmailConfirmationStatus, Network, Web3Address } from '../common';
 import { IEthUserAddressWithDeprecatedPublicKey } from '../oauth';
@@ -81,13 +81,13 @@ export interface ICreateTestClientRequest {
 }
 
 export interface ICreateTestClientResponse {
-  token: string,
-  id: string,
-  address: Web3Address,
-  tier: number,
-  roles: string,
-  name?: string,
-  email?: string,
+  token: string;
+  id: string;
+  address: Web3Address;
+  tier: number;
+  roles: string;
+  name?: string;
+  email?: string;
 }
 
 export interface IUserStatsRequest {
@@ -96,7 +96,7 @@ export interface IUserStatsRequest {
   current?: boolean; // set true if current day stats need to be included
 }
 
-export type IStatsTimeframe = 'm5'|'m15'|'h1'|'d1';
+export type IStatsTimeframe = 'm5' | 'm15' | 'h1' | 'd1';
 
 export interface IUserStatsByRangeRequest {
   address: Web3Address;
@@ -158,33 +158,33 @@ export interface IGetUserTotalRequest {
   address: Web3Address;
 }
 interface ChainTotal {
-  totalCost: string,
-  totalCount: string
+  totalCost: string;
+  totalCount: string;
 }
 export interface IGetUserTotalResponse {
   blockchainsInfo: {
     blockchains?: {
-      avalanche?: ChainTotal,
-      bsc?: ChainTotal,
-      bsc_testnet_chapel?: ChainTotal,
-      celo?: ChainTotal,
-      eth?: ChainTotal,
-      eth_sepolia?: ChainTotal,
-      fantom?: ChainTotal,
-      harmony?: ChainTotal,
-      iotex_testnet?: ChainTotal,
-      moonbeam?: ChainTotal,
-      near?: ChainTotal,
-      nervos_ckb?: ChainTotal,
-      optimism?: ChainTotal,
-      polygon?: ChainTotal,
-      syscoin?: ChainTotal,
-      tron?: ChainTotal
-    },
-    startedMs?: string,
-    totalCost?: string,
-    totalCount?: string,
-  }
+      avalanche?: ChainTotal;
+      bsc?: ChainTotal;
+      bsc_testnet_chapel?: ChainTotal;
+      celo?: ChainTotal;
+      eth?: ChainTotal;
+      eth_sepolia?: ChainTotal;
+      fantom?: ChainTotal;
+      harmony?: ChainTotal;
+      iotex_testnet?: ChainTotal;
+      moonbeam?: ChainTotal;
+      near?: ChainTotal;
+      nervos_ckb?: ChainTotal;
+      optimism?: ChainTotal;
+      polygon?: ChainTotal;
+      syscoin?: ChainTotal;
+      tron?: ChainTotal;
+    };
+    startedMs?: string;
+    totalCost?: string;
+    totalCount?: string;
+  };
 }
 
 export interface IUserProfileEntity {
@@ -217,20 +217,23 @@ export interface IGetUserRevenueRequest {
 }
 
 export interface IGetUserRevenueResponse {
-  creditsAmount: string,
-  usdAmount: string,
-  ankrAmount: string,
-  usdFact: string,
-  ankrFact: string
+  creditsAmount: string;
+  usdAmount: string;
+  ankrAmount: string;
+  usdFact: string;
+  ankrFact: string;
 }
 
 export type GetUserAddressesRequest = {
   address: Web3Address;
 };
 
-export type IEthUserAddressV2 = Omit<IEthUserAddressWithDeprecatedPublicKey, 'public_key'>
+export type IEthUserAddressV2 = Omit<
+  IEthUserAddressWithDeprecatedPublicKey,
+  'public_key'
+>;
 export type GetUserAddressesResponse = {
-  addresses: IEthUserAddressV2[]
+  addresses: IEthUserAddressV2[];
 };
 
 export type BlockchainFeature = 'rpc' | 'ws';
@@ -275,7 +278,7 @@ export interface ICountersEntityMapped extends ICountersEntity {
 }
 
 export interface ICountersRequest {
-  limit?: number
+  limit?: number;
   cursor?: string;
 }
 
@@ -283,7 +286,6 @@ export interface ICountersResponse {
   result: ICountersEntity[];
   cursor?: string;
 }
-
 export interface INodeEntity {
   id: string;
   blockchain: string;

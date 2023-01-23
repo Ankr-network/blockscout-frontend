@@ -1,13 +1,14 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useSecondaryTabsStyles = makeStyles<Theme>(theme => ({
+export const useSecondaryTabsStyles = makeStyles()((theme: Theme) => ({
   secondaryTabs: {
     display: 'inline-flex',
 
-    width: 'min-content',
+    width: 'auto',
 
     border: `2px solid ${theme.palette.background.default}`,
-    borderRadius: theme.spacing(1.75),
+    borderRadius: theme.spacing(2 * 1.75),
 
     background: theme.palette.background.default,
   },

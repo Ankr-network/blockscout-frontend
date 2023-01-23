@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { useStyles } from './UserEndpointsFormStyles';
 
 import { LinkInputField } from './LinkInputField/LinkInputField';
@@ -26,7 +26,7 @@ export const RowInputField = ({
   publicUrls,
   endpoints,
 }: RowInputFieldProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [isReadOnly, setIsReadOnly] = useState<boolean>(true);
 
   return (

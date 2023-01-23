@@ -1,13 +1,13 @@
 import React, { ReactNode, useMemo } from 'react';
-import classNames from 'classnames';
+
 import {
   FormControl,
   FormHelperText,
   InputLabel,
   Select as SelectComponent,
   SelectProps,
-} from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
+} from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 import { uid } from 'react-uid';
 
 import { AngleDownIcon } from '../Icons/AngleDownIcon';
@@ -39,7 +39,7 @@ export const Select = ({
   rootClassName,
   ...restProps
 }: ISelectProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
   const items = useMemo(() => {
     return options?.map(option => (
@@ -58,10 +58,9 @@ export const Select = ({
       variant: 'outlined',
       MenuProps: {
         classes: {
-          paper: classNames(menuClasses.paper, classes.menuPaper),
+          paper: cx(menuClasses.paper, classes.menuPaper),
         },
         elevation: 0,
-        getContentAnchorEl: null,
         anchorOrigin: {
           vertical: 'bottom',
           horizontal: 'left',
@@ -79,13 +78,13 @@ export const Select = ({
         />
       ),
     }),
-    [classes, menuClasses, iconClassName],
+    [cx, classes, menuClasses, iconClassName],
   );
 
   return (
     <FormControl
       fullWidth={fullWidth}
-      className={classNames(rootClassName, classes.root)}
+      className={cx(rootClassName, classes.root)}
     >
       {label && <InputLabel>{label}</InputLabel>}
 

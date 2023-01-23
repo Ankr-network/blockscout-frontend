@@ -26,7 +26,7 @@ export const PublicUsageDataSection = ({
   timeframe,
   timeframeTabs,
 }: PublicUsageDataSectionProps) => {
-  const classes = useDataUsageSectionStyles();
+  const { classes } = useDataUsageSectionStyles();
 
   const {
     countries,

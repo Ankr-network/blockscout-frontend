@@ -1,8 +1,9 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useChainLogoStyles = makeStyles<Theme>(theme => ({
+export const useChainLogoStyles = makeStyles()((theme: Theme) => ({
   chainLogo: {
-    width: theme.spacing(8.5),
-    height: theme.spacing(8.5),
+    width: theme.spacing(2 * 8.5),
+    height: theme.spacing(2 * 8.5),
   },
 }));

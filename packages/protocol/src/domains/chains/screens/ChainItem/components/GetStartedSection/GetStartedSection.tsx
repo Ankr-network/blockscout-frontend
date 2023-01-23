@@ -19,7 +19,8 @@ export const GetStartedSection = ({
 }: GetStartedSectionProps) => {
   const { hasPrivateAccess, loading } = useAuth();
   const isUpgraded = hasPrivateAccess || loading;
-  const classes = useGetStartedSectionStyles();
+  const { classes } = useGetStartedSectionStyles();
+
   const publicUrl = unfilteredGroup?.urls[0]?.rpc;
 
   return (

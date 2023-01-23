@@ -1,4 +1,4 @@
-import { TypographyTypeMap } from '@material-ui/core';
+import { TypographyTypeMap } from '@mui/material';
 
 export interface ChainMainInfoProps {
   className?: string;

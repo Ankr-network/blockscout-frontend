@@ -1,7 +1,9 @@
 import { EthAddressType } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { Web2ConnectTrackingParams } from 'modules/analytics/mixpanel/types';
 import {
   buildSecretCodeData,
   getEthUserAddress,
@@ -10,12 +12,24 @@ import {
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
 import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
-import { setAuthData } from 'domains/auth/store/authSlice';
+import { oauthHasDepositTransaction } from './hasDepositTransaction';
+import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
+import { trackWeb2ConnectFailure } from 'modules/analytics/mixpanel/trackWeb2ConnectFailure';
+import { trackWeb2ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb2ConnectSuccess';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
-import { oauthHasDepositTransaction } from './hasDepositTransaction';
 
 export type EmptyObject = Record<string, unknown>;
+
+const getTrackingParams = (getState: GetState): Web2ConnectTrackingParams => {
+  const { credentials, email, hasOauthUserDepositTransaction } = selectAuthData(
+    getState(),
+  );
+
+  const hasPremium = Boolean(credentials || hasOauthUserDepositTransaction);
+
+  return { email, hasPremium };
+};
 
 export const {
   endpoints: { oauthLoginByGoogleSecretCode },
@@ -24,7 +38,7 @@ export const {
   endpoints: build => ({
     oauthLoginByGoogleSecretCode: build.query<EmptyObject, void>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (_args, { dispatch }) => {
+        queryFn: async (_args, { dispatch, getState }) => {
           const { code, state } = getSecreteCodeAndState();
 
           if (!code) {
@@ -128,9 +142,13 @@ export const {
             }),
           );
 
+          trackWeb2ConnectSuccess(getTrackingParams(getState as GetState));
+
           return { data: {} };
         },
-        errorHandler: error => {
+        errorHandler: (error, _args, { getState }) => {
+          trackWeb2ConnectFailure(getTrackingParams(getState as GetState));
+
           if (isAxiosAccountError(error)) {
             return { error: getAxiosAccountErrorMessage(error) };
           }

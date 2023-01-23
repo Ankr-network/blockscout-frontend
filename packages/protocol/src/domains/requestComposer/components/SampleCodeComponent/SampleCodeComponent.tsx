@@ -1,5 +1,5 @@
 import React, { useState, useCallback, ReactNode } from 'react';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { MethodOption } from 'domains/requestComposer/types';
 import { SampleCodeDialog } from './SampleCodeDialog';
@@ -15,7 +15,7 @@ export function SampleCodeComponent({
   methodName,
   children,
 }: ISampleCodeComponentProps) {
-  const classes = useSampleCodeComponentStyles();
+  const { classes } = useSampleCodeComponentStyles();
 
   const [isOpen, setIsOpen] = useState(false);
   const showSampleCode = useCallback(() => setIsOpen(true), []);

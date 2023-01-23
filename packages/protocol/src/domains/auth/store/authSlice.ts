@@ -9,18 +9,19 @@ const WORKER_TOKEN_DATA_KEY = 'WORKER_TOKEN_DATA_KEY';
 let WORKER_TOKEN_DATA: IAuthSlice['workerTokenData'];
 
 export interface IAuthSlice {
-  credentials?: IJwtToken;
-  workerTokenData?: WorkerTokenData;
   address?: string;
   authorizationToken?: string;
-  encryptionPublicKey?: string;
-  walletMeta?: IWalletMeta;
-  hasWeb3Connection?: boolean;
-  hasOauthLogin?: boolean;
+  credentials?: IJwtToken;
   email?: string;
+  encryptionPublicKey?: string;
   ethAddressType?: EthAddressType;
-  isCardPayment?: boolean;
+  hasOauthLogin?: boolean;
   hasOauthUserDepositTransaction?: boolean;
+  hasWeb3Connection?: boolean;
+  isCardPayment?: boolean;
+  trackingWalletName?: string;
+  walletMeta?: IWalletMeta;
+  workerTokenData?: WorkerTokenData;
 }
 
 const initialState: IAuthSlice = {};
@@ -31,18 +32,19 @@ export const authSlice = createSlice({
   reducers: {
     setAuthData: (state, action: PayloadAction<IAuthSlice>) => {
       const {
-        credentials,
         address,
         authorizationToken,
-        encryptionPublicKey,
-        walletMeta,
-        hasWeb3Connection,
-        hasOauthLogin,
-        workerTokenData,
+        credentials,
         email,
+        encryptionPublicKey,
         ethAddressType,
-        isCardPayment,
+        hasOauthLogin,
         hasOauthUserDepositTransaction,
+        hasWeb3Connection,
+        isCardPayment,
+        trackingWalletName,
+        walletMeta,
+        workerTokenData,
       } = action.payload;
 
       if (credentials) {
@@ -93,6 +95,10 @@ export const authSlice = createSlice({
       if (hasOauthUserDepositTransaction) {
         state.hasOauthUserDepositTransaction = hasOauthUserDepositTransaction;
       }
+
+      if (trackingWalletName) {
+        state.trackingWalletName = trackingWalletName;
+      }
     },
 
     resetAuthData: state => {
@@ -108,6 +114,7 @@ export const authSlice = createSlice({
       state.email = undefined;
       state.ethAddressType = undefined;
       state.isCardPayment = undefined;
+      state.trackingWalletName = undefined;
 
       clearCookie(WORKER_TOKEN_DATA_KEY);
       WORKER_TOKEN_DATA = undefined;

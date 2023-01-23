@@ -1,13 +1,15 @@
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useABIMethodFieldStyles = makeStyles<Theme>(theme => ({
+export const useABIMethodFieldStyles = makeStyles()((theme: Theme) => ({
   abiMethodField: {
-    gap: theme.spacing(1.75),
+    gap: theme.spacing(2 * 1.75),
 
-    marginTop: theme.spacing(1.75),
+    marginTop: theme.spacing(2 * 1.75),
   },
   label: {
-    marginTop: theme.spacing(1),
+    fontSize: 14,
+    marginTop: theme.spacing(2 * 1),
 
     textTransform: 'capitalize',
 

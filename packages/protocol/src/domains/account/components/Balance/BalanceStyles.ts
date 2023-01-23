@@ -1,9 +1,9 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   tooltip: {
-    padding: theme.spacing(2),
-    margin: theme.spacing(1),
+    padding: theme.spacing(2 * 2),
+    margin: theme.spacing(2 * 1),
   },
 }));

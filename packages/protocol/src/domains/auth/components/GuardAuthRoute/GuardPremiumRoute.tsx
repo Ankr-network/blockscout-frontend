@@ -1,7 +1,7 @@
 import { Route, useHistory } from 'react-router-dom';
 
 import { useGuardAuth, IGuardRoute } from 'domains/auth/hooks/useGuardAuth';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { PRICING_PATH } from 'domains/pricing/Routes';
 import { useEffect } from 'react';
 
@@ -23,8 +23,8 @@ export const GuardPremiumRoute = ({
   }, [history, hasPremium]);
 
   if (loading) {
-    return <Spinner />;
+    return <OverlaySpinner />;
   }
 
-  return <Route {...routeProps} />;
+  return hasPremium ? <Route {...routeProps} /> : null;
 };

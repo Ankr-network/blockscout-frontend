@@ -1,4 +1,4 @@
-import { Box, Orientation } from '@material-ui/core';
+import { Box, Orientation } from '@mui/material';
 import { ILibraryTabsProps, LibraryTabs } from './LibraryTabs';
 import { useMenuStyles } from './MenuStyles';
 
@@ -7,7 +7,7 @@ interface MenuProps extends ILibraryTabsProps {
 }
 
 export const Menu = ({ tabsOrientation, ...others }: MenuProps) => {
-  const classes = useMenuStyles();
+  const { classes } = useMenuStyles();
 
   return (
     <Box className={classes.root}>

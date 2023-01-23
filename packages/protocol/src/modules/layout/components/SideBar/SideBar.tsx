@@ -1,32 +1,37 @@
-import classNames from 'classnames';
-
 import { Logo } from '../Logo';
 import { MainNavigation } from '../MainNavigation';
 import { useStyles } from './SideBarStyles';
+import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
+import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
 
 interface SidebarProps {
-  className?: string;
-  loading: boolean;
-  hasPremium: boolean;
   chainsRoutes: string[];
+  className?: string;
+  hasPremium: boolean;
+  loading: boolean;
 }
 
 export const SideBar = ({
-  className = '',
-  loading,
-  hasPremium,
   chainsRoutes,
+  className = '',
+  hasPremium,
+  loading,
 }: SidebarProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
+
+  const onDocsClick = useTrackDocs();
+  const onSettingsClick = useTrackSettings();
 
   return (
-    <aside className={classNames(classes.root, className)}>
+    <aside className={cx(classes.root, className)}>
       <Logo />
       <div>
         <MainNavigation
-          loading={loading}
-          hasPremium={hasPremium}
           chainsRoutes={chainsRoutes}
+          hasPremium={hasPremium}
+          loading={loading}
+          onDocsClick={onDocsClick}
+          onSettingsClick={onSettingsClick}
         />
       </div>
     </aside>

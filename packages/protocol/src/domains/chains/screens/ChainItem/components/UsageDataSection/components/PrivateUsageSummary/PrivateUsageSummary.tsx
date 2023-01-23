@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import classNames from 'classnames';
 
 import { CostButton } from './components/CostButton';
 import { Stat } from './components/Stat';
@@ -35,10 +34,10 @@ export const PrivateUsageSummary = ({
     totalRequests,
   });
 
-  const classes = useUsageSummaryStyles();
+  const { classes, cx } = useUsageSummaryStyles();
 
   return (
-    <div className={classNames(className, classes.usageSummary)}>
+    <div className={cx(className, classes.usageSummary)}>
       <Stat loading={loading} title={totalTitle} value={total} />
       <Stat loading={loading} title={averageTitle} value={average} />
       <Stat

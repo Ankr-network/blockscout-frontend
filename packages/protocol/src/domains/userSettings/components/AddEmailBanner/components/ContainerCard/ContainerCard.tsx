@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import { useStyles } from './ContainerCardStyles';
 
@@ -8,11 +8,13 @@ interface IContainerCardProps {
 }
 
 export const ContainerCard = ({ title, children }: IContainerCardProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Paper className={classes.root}>
-      <Typography className={classes.title}>{title}</Typography>
+      <Typography component="p" className={classes.title}>
+        {title}
+      </Typography>
 
       {children}
     </Paper>

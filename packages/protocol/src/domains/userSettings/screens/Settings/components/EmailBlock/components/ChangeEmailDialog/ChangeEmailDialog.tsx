@@ -36,6 +36,7 @@ export const ChangeEmailDialog = ({
       open={open}
       onClose={onClose}
       maxPxWidth={618}
+      fullWidth
     >
       {content[contentState]}
     </Dialog>

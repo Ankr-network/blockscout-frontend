@@ -7,7 +7,7 @@ interface ICenterContainerProps {
 }
 
 export const CenterContainer = ({ children }: ICenterContainerProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return <div className={classes.root}>{children}</div>;
 };

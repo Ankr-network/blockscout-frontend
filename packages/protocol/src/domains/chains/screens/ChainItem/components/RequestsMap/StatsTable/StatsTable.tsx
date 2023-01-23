@@ -10,17 +10,16 @@ import {
   Box,
   SimplePaletteColorOptions,
   TableHead,
-} from '@material-ui/core';
-import classNames from 'classnames';
+} from '@mui/material';
 
-import { t } from 'modules/i18n/utils/intl';
-import { PALETTE } from 'ui';
+import { t } from '@ankr.com/common';
+import { palette as PALETTE } from '@ankr.com/ui';
 import { useStyles } from './useStyles';
 import { StatsTableProps } from './StatsTableTypes';
 import { StatusCircle } from 'uiKit/StatusCircle';
 
 export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
     <div className={classes.root}>
@@ -32,11 +31,12 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
                 t('chain-item.map.stats-table.head.country'),
                 t('chain-item.map.stats-table.head.requests'),
               ].map(item => (
-                <TableCell
-                  className={classNames(classes.cell, classes.cellThead)}
-                  key={item}
-                >
-                  <Typography variant="subtitle2" color="textSecondary">
+                <TableCell className={classes.cellThead} key={item}>
+                  <Typography
+                    variant="subtitle2"
+                    color="textSecondary"
+                    className={classes.subtitle2}
+                  >
                     {item}
                   </Typography>
                 </TableCell>
@@ -52,7 +52,7 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
               return (
                 <TableRow
                   key={name}
-                  className={classNames(
+                  className={cx(
                     classes.row,
                     isSelectedCountry ? classes.selected : '',
                   )}
@@ -67,14 +67,13 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
                       }
                     />
 
-                    <Typography variant="subtitle1">{name}</Typography>
+                    <Typography variant="h6" className={classes.name}>
+                      {name}
+                    </Typography>
                   </TableCell>
 
                   <TableCell padding="none" className={classes.secondCell}>
-                    <Typography
-                      variant="subtitle1"
-                      className={classes.requests}
-                    >
+                    <Typography variant="h6" className={classes.requests}>
                       {requests}
                     </Typography>
                   </TableCell>

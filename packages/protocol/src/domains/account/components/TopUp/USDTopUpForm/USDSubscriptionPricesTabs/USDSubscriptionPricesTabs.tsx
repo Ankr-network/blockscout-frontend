@@ -1,10 +1,9 @@
-import classNames from 'classnames';
-import { Skeleton } from '@material-ui/lab';
-import { TabsManager } from 'uiKit/TabsManager';
+import { Skeleton } from '@mui/material';
 
+import { useUSDPaymentPricesTabs } from './USDSubscriptionPricesTabsUtils';
+import { TabsManager } from 'uiKit/TabsManager';
 import { USDSubscriptionPricesTabsProps } from './USDSubscriptionPricesTabsTypes';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useUSDPaymentPricesTabs } from './USDSubscriptionPricesTabsUtils';
 import { useUSDSubscriptionPrices } from 'domains/account/hooks/useUSDSubscriptionPrices';
 import { useUSDSubscriptionPricesTabsStyles } from './USDSubscriptionPricesTabsStyles';
 
@@ -23,13 +22,13 @@ export const USDSubscriptionPricesTabs = ({
   });
 
   const [tabs, selectedTab] = useUSDPaymentPricesTabs(prices, onChange);
-  const classes = useUSDSubscriptionPricesTabsStyles(tabs.length > 1);
+  const { classes, cx } = useUSDSubscriptionPricesTabsStyles(tabs.length > 1);
 
   return loading ? (
-    <Skeleton className={classNames(classes.skeleton, className)} />
+    <Skeleton className={cx(classes.skeleton, className)} />
   ) : (
     <TabsManager
-      className={classNames(classes.root, className)}
+      className={cx(classes.root, className)}
       selectedTab={selectedTab}
       tabs={tabs}
     />

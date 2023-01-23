@@ -22,6 +22,8 @@ export interface PrivateUsageDataSectionProps {
   timeframeTabs: Tab<Timeframe>[];
 }
 
+const IS_LAST_USER_REQUESTS_BLOCK_ENABLED = false;
+
 export const PrivateUsageDataSection = ({
   chain,
   chainType,
@@ -29,7 +31,7 @@ export const PrivateUsageDataSection = ({
   timeframe,
   timeframeTabs,
 }: PrivateUsageDataSectionProps) => {
-  const classes = useDataUsageSectionStyles();
+  const { classes } = useDataUsageSectionStyles();
 
   const {
     countries,
@@ -60,13 +62,12 @@ export const PrivateUsageDataSection = ({
           />
           <div className={classes.row}>
             <PrivateUsageSummary
-              className={classes.usageSummary}
               loading={loading}
               timeframe={timeframe}
               totalCost={totalCost}
               totalRequests={totalRequests}
             />
-            <LastUserRequests />
+            {IS_LAST_USER_REQUESTS_BLOCK_ENABLED && <LastUserRequests />}
           </div>
           <RequestsChart
             isConnecting={isConnecting}

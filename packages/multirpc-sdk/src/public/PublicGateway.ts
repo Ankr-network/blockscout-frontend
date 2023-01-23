@@ -3,14 +3,14 @@ import axios, { AxiosInstance } from 'axios';
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import {
   IWorkerGlobalStatus,
-  IWorkerNodesWeight,
   Timeframe,
   Config,
   IRate,
   IWorkerPublicStats,
+  INodesDetailEntity,
 } from './types';
 import { IPublicGateway } from './interfaces';
-import { IBlockchainEntity, INodeEntity } from '../backoffice';
+import { IBlockchainEntity } from '../backoffice';
 import { convertStatsToNumber } from './utils';
 
 export class PublicGateway implements IPublicGateway {
@@ -40,10 +40,10 @@ export class PublicGateway implements IPublicGateway {
     return data;
   }
 
-  async getNodes(blockchain?: string): Promise<INodeEntity[]> {
-    const { data } = await this.api.get<INodeEntity[]>('/api/v1/node', {
-      params: { blockchain },
-    });
+  async getNodesDetail(): Promise<INodesDetailEntity[]> {
+    const { data } = await this.api.get<INodesDetailEntity[]>(
+      '/api/v1/blockchain/detail',
+    );
 
     return data;
   }
@@ -69,17 +69,9 @@ export class PublicGateway implements IPublicGateway {
     return data;
   }
 
-  async getNodesWeight(): Promise<IWorkerNodesWeight[]> {
-    const { data } = await this.api.get<IWorkerNodesWeight[]>('/api/v1/weight');
-
-    return data;
-  }
-
   async getRate(): Promise<IRate> {
     const { data } = await this.accountApi.get<IRate>('/api/v1/rate');
 
     return data;
   }
-
-
 }

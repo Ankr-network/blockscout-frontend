@@ -1,28 +1,28 @@
+import { ButtonTypeMap } from '@mui/material';
+import { t } from '@ankr.com/common';
 import { useCallback, useState } from 'react';
-import { ButtonTypeMap } from '@material-ui/core';
-import classNames from 'classnames';
 
-import { t } from 'modules/i18n/utils/intl';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useStyles } from '../useStyles';
 import { LoadableButton } from 'uiKit/LoadableButton';
 import { SignupDialog } from './SignupDialog';
 import { timeout } from 'modules/common/utils/timeout';
+import { trackSignUpFailure } from 'modules/analytics/mixpanel/trackSignUpFailure';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useStyles } from '../useStyles';
 
 interface UnconnectedButtonProps {
-  variant?: ButtonTypeMap['props']['variant'];
   buttonText?: string;
-  onSuccess?: () => void;
   className?: string;
+  onSuccess?: () => void;
+  variant?: ButtonTypeMap['props']['variant'];
 }
 
 export const UnconnectedButton = ({
-  variant = 'text',
   buttonText,
-  onSuccess,
   className,
+  onSuccess,
+  variant = 'text',
 }: UnconnectedButtonProps) => {
-  const classes = useStyles({});
+  const { classes, cx } = useStyles(false);
   const { loading, hasOauthLogin } = useAuth();
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -31,6 +31,12 @@ export const UnconnectedButton = ({
 
     await timeout(300);
   }, []);
+
+  const onManualClose = useCallback(async () => {
+    await handleClose();
+
+    trackSignUpFailure();
+  }, [handleClose]);
 
   const handleSuccess = useCallback(() => {
     setIsOpened(false);
@@ -43,22 +49,23 @@ export const UnconnectedButton = ({
   return (
     <>
       <LoadableButton
-        variant={variant}
+        className={cx(classes.button, className)}
         color="primary"
-        className={classNames(classes.button, className)}
         disableElevation={false}
-        onClick={() => setIsOpened(true)}
         disabled={loading}
         loading={loading}
+        onClick={() => setIsOpened(true)}
+        variant={variant}
       >
         {buttonText || t('header.wallet-button')}
       </LoadableButton>
 
       <SignupDialog
+        hasOauthLogin={hasOauthLogin}
         isOpen={isOpened}
         onClose={handleClose}
+        onManualClose={onManualClose}
         onSuccess={handleSuccess}
-        hasOauthLogin={hasOauthLogin}
       />
     </>
   );

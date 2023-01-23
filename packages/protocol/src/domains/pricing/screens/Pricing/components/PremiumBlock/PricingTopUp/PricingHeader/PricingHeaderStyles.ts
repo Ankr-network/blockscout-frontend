@@ -1,14 +1,15 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const usePricingHeaderStyles = makeStyles<Theme>(theme => ({
+export const usePricingTopUpStyles = makeStyles()((theme: Theme) => ({
   formBlockTitle: {
-    marginBottom: theme.spacing(1.5),
+    marginBottom: theme.spacing(2 * 1.5),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
   formAmount: {
+    fontSize: 14,
     fontWeight: 400,
   },
   balanceSkeleton: {

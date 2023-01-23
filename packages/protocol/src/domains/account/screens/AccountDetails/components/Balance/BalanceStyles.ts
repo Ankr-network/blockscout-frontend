@@ -1,20 +1,20 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   balanceRoot: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    padding: theme.spacing(2.5, 3.75, 3.75),
+    padding: theme.spacing(2 * 2.5, 2 * 3.75, 2 * 3.75),
 
-    borderRadius: theme.spacing(3),
+    borderRadius: theme.spacing(2 * 3),
 
     background: theme.palette.background.paper,
 
     [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(2, 3, 3),
+      padding: theme.spacing(2 * 2, 2 * 3, 2 * 3),
     },
 
     [theme.breakpoints.down('sm')]: {
@@ -25,7 +25,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
 
-    marginBottom: 14,
+    marginBottom: theme.spacing(2 * 1.75),
   },
   left: {
     display: 'flex',
@@ -38,7 +38,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 700,
     fontSize: 14,
-    lineHeight: '26px',
+    lineHeight: theme.spacing(2 * 3.25),
   },
   withdrawButton: {
     height: 'auto',
@@ -48,7 +48,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 600,
     fontSize: 14,
-    lineHeight: '26px',
+    lineHeight: theme.spacing(2 * 3.25),
 
     '&:hover': {
       background: 'none',
@@ -60,20 +60,20 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 600,
     fontSize: 45,
-    lineHeight: '52px',
+    lineHeight: theme.spacing(2 * 6.5),
     height: '100%',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2 * 2),
 
     [theme.breakpoints.down('xs')]: {
       fontSize: 34,
-      lineHeight: '40px',
+      lineHeight: theme.spacing(2 * 5),
     },
   },
   footer: {
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
-    gap: '3px 9px',
+    gap: theme.spacing(2 * 0.375, 2 * 1.125),
   },
   usdtBalance: {
     color: theme.palette.grey[600],
@@ -81,13 +81,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 700,
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: theme.spacing(2 * 2.5),
 
     [theme.breakpoints.down('xs')]: {
       letterSpacing: '0.02em',
 
       fontSize: 11,
-      lineHeight: '16px',
+      lineHeight: theme.spacing(2 * 2),
     },
   },
   description: {
@@ -96,13 +96,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 400,
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: theme.spacing(2 * 2.5),
 
     [theme.breakpoints.down('xs')]: {
       letterSpacing: '0.02em',
 
       fontSize: 11,
-      lineHeight: '16px',
+      lineHeight: theme.spacing(2 * 2),
     },
   },
 }));

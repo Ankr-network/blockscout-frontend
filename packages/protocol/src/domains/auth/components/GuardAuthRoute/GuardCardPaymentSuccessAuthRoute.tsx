@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
 import { useGuardAuth, IGuardRoute } from 'domains/auth/hooks/useGuardAuth';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 
 interface IGuardCardPaymentSuccessAuthRoute extends IGuardRoute {
@@ -29,7 +29,7 @@ export const GuardCardPaymentSuccessAuthRoute = ({
   });
 
   if (loading) {
-    return <Spinner />;
+    return <OverlaySpinner />;
   }
 
   return <Route {...routeProps} />;

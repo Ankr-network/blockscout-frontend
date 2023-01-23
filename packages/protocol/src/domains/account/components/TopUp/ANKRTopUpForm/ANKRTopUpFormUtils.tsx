@@ -1,30 +1,33 @@
 import BigNumber from 'bignumber.js';
-import { Button } from '@material-ui/core';
-import { ClassNameMap } from '@material-ui/styles';
+import { Button } from '@mui/material';
+import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
-import { NavLink, useIsSMDown } from 'ui';
 import { push } from 'connected-react-router';
+import { t } from '@ankr.com/common';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
   ANKR_CURRENCY,
-  DEFAULT_ANKR_VALUE,
   ANKR_MAX_DECIMALS,
   ANKR_MAX_DIGITS,
+  DEFAULT_ANKR_VALUE,
 } from 'domains/account/actions/topUp/const';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { AmountField } from './AmountField';
 import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { MultiService } from 'modules/api/MultiService';
+import { NavLink } from 'uiKit/NavLink';
 import { RateBlock } from './RateBlock';
-import { t } from 'modules/i18n/utils/intl';
+import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
+import { TrackTopUpSubmit } from 'domains/account/types';
+import { oauthSignout } from 'domains/oauth/actions/signout';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { useLazyTopUpGetLastLockedFundsEventQuery } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { oauthSignout } from 'domains/oauth/actions/signout';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -237,6 +240,7 @@ export const useInitialValues = (
 export const useOnTopUpSubmit = (
   confirmedEmail?: string,
   pendingEmail?: string,
+  trackSubmit: TrackTopUpSubmit = () => {},
 ) => {
   const [showEmailBanner, setShowEmailBanner] = useState(false);
 
@@ -259,9 +263,11 @@ export const useOnTopUpSubmit = (
         setShowEmailBanner(true);
       } else {
         onSuccess();
+
+        trackSubmit(data.amount, TopUpCurrnecy.ANKR);
       }
     },
-    [handleSetAmount, confirmedEmail, onSuccess, pendingEmail],
+    [handleSetAmount, confirmedEmail, onSuccess, pendingEmail, trackSubmit],
   );
 
   return { onSubmit, isOpened: showEmailBanner, onClose };

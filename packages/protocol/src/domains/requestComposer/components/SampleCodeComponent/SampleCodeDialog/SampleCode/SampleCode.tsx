@@ -17,7 +17,7 @@ export const SampleCode = ({
   code = '',
   copyCode = code,
 }: ISampleCodeProps) => {
-  const classes = useSampleCodeStyles();
+  const { classes } = useSampleCodeStyles();
 
   const renderThumbHorizontal = ({ style, ...props }: ViewProps) => (
     <div {...props} style={{ ...style, ...overridenThumbStyle }} />
@@ -25,12 +25,9 @@ export const SampleCode = ({
 
   const renderView = useCallback(
     ({ style }: ViewProps) => (
-      <div
-        className={classes.codeView}
-        style={{ ...style, ...overridenViewStyle }}
-      />
+      <div style={{ ...style, ...overridenViewStyle }} />
     ),
-    [classes.codeView],
+    [],
   );
 
   return (

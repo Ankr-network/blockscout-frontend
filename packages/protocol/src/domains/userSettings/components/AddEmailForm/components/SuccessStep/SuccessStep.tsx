@@ -1,8 +1,8 @@
-import { AnimatedButton } from 'uiKit/AnimatedButton';
-import { Button } from '@material-ui/core';
-import { t } from '@ankr.com/common';
+import { Button } from '@mui/material';
 
+import { t } from '@ankr.com/common';
 import { FieldError } from 'modules/form/components/FieldError';
+import { AnimatedButton } from 'uiKit/AnimatedButton';
 import { useStyles } from './SuccessStepStyles';
 
 export interface ISuccessStepProps {
@@ -21,7 +21,7 @@ export const SuccessStep = ({
   resendEmailErrorMessage,
   onChangeEmail,
 }: ISuccessStepProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div>

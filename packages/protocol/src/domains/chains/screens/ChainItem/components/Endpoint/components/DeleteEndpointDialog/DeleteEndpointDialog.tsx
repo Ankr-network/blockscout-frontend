@@ -1,11 +1,9 @@
-import React from 'react';
-import { Dialog, Button, Typography } from '@material-ui/core';
+import { Dialog, Button, Typography } from '@mui/material';
+import { tHTML } from '@ankr.com/common';
 
 import { DeleteEndpointDialogProps } from './DeleteEndpointDialogTypes';
 import { Preloader } from 'uiKit/Preloader';
 import { useLazyInfrastructureDeletePrivateEndpointQuery } from 'domains/infrastructure/actions/deletePrivateEndpoint';
-import { tHTML } from 'modules/i18n/utils/intl';
-
 import { useStyles } from './DeleteEndpointDialogStyles';
 
 export const DeleteEndpointDialog = ({
@@ -15,19 +13,18 @@ export const DeleteEndpointDialog = ({
   onSubmit,
 }: DeleteEndpointDialogProps) => {
   const [, { isLoading }] = useLazyInfrastructureDeletePrivateEndpointQuery();
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Dialog
       open={isOpened}
-      onEscapeKeyDown={onClose}
       onBackdropClick={onClose}
       disableAutoFocus={false}
       classes={{
         paper: classes.paper,
       }}
     >
-      <div className={classes.root}>
+      <div>
         <Typography variant="h3" className={classes.title}>
           {tHTML('providers.endpoint.delete-dialog.info', { name })}
         </Typography>

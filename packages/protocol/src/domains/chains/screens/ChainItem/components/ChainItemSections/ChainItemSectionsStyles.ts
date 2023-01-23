@@ -1,8 +1,9 @@
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useChainItemSectionsStyles = makeStyles((theme: Theme) => ({
+export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
   root: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2 * 3),
   },
   tabs: {
     overflowX: 'scroll',
@@ -15,8 +16,10 @@ export const useChainItemSectionsStyles = makeStyles((theme: Theme) => ({
     },
   },
   timeframe: {
-    [theme.breakpoints.down('lg')]: {
-      display: 'none !important',
+    '&&': {
+      [theme.breakpoints.down('md')]: {
+        display: 'none',
+      },
     },
   },
 }));

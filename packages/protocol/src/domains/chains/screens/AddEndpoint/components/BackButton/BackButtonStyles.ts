@@ -1,6 +1,7 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'flex-start',
@@ -8,7 +9,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
   link: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2 * 2),
     background: 'transparent',
 
     '&:hover': {

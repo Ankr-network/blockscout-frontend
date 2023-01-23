@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 
+import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { t } from 'modules/i18n/utils/intl';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
@@ -51,6 +51,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     isRejectAllowanceLoading,
     loading,
     loadingWaitTransactionConfirming,
+    trackTopUp,
   } = useTopUp();
   const history = useHistory();
 
@@ -70,7 +71,9 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
         return async () => {
           const { error } = await handleGetAllowance();
 
-          if (!error) {
+          if (error) {
+            trackTopUp({ isTopUpAccepted: true });
+          } else {
             // move to deposit
             setStep(oldStep => ++oldStep);
           }
@@ -81,7 +84,12 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
         return async () => {
           const { error } = await handleDeposit();
 
-          if (!error) {
+          if (error) {
+            trackTopUp({
+              isAllowanceConfirmed: true,
+              isTopUpAccepted: true,
+            });
+          } else {
             // move to waitTransactionConfirming
             setStep(oldStep => ++oldStep);
 
@@ -95,8 +103,21 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
           if (hasError) {
             handleResetDeposit();
             setStep(oldStep => --oldStep);
+
+            trackTopUp({
+              isAllowanceConfirmed: true,
+              isTopUpAccepted: true,
+              isTransactionConfirmed: true,
+            });
           } else {
             const { data: hasRedirect } = await handleRedirectIfCredentials();
+
+            trackTopUp({
+              isAllowanceConfirmed: true,
+              isTopUpAccepted: true,
+              isTopUpSuccessful: true,
+              isTransactionConfirmed: true,
+            });
 
             if (!hasRedirect) {
               // move to login
@@ -128,6 +149,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     hasError,
     history,
     step,
+    trackTopUp,
   ]);
 
   return {

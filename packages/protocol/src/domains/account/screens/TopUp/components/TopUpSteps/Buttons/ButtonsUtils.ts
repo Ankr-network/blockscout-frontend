@@ -1,5 +1,5 @@
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const getButtonText = (
   loading: boolean,

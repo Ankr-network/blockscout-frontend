@@ -1,6 +1,7 @@
+import { t } from '@ankr.com/common';
+
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { t } from 'modules/i18n/utils/intl';
 import { web3Api } from 'store/queries';
 
 const ONE_MINUTE_LIFETIME = 60 * 1000;

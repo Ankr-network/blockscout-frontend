@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
-import { NavLink } from 'ui';
+import { Box } from '@mui/material';
+import { NavLink } from 'uiKit/NavLink';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './TransactionButtonStyles';
 import { ReactComponent as OpenLinkIcon } from 'uiKit/Icons/open-link.svg';
@@ -15,7 +15,7 @@ interface ITransactionButton {
 export const TransactionButton = ({
   transactionHash = '',
 }: ITransactionButton) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Box className={classes.root}>

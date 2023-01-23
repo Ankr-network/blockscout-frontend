@@ -1,10 +1,11 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   userStats: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(3),
-    marginBottom: theme.spacing(5.25),
+    gap: theme.spacing(2 * 3),
+    marginBottom: theme.spacing(2 * 5.25),
   },
 }));

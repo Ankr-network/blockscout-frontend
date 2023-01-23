@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { ItemHeader } from '../../../ItemHeader';
 import { ReactComponent as DownloadIcon } from '../../assets/download.svg';
@@ -14,7 +14,7 @@ export interface HeaderProps {
 }
 
 export const Header = ({ timeframe }: HeaderProps) => {
-  const classes = useHeaderStyles();
+  const { classes } = useHeaderStyles();
 
   return (
     <div className={classes.root}>
