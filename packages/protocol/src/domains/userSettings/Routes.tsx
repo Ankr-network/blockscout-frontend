@@ -2,7 +2,7 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { Route } from 'react-router-dom';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 export const PATH_SETTINGS = '/settings/';
 export const PATH_CONFIRMATION = `${PATH_SETTINGS}confirmation/`;
@@ -26,14 +26,14 @@ const LoadableConfirmationContainer: LoadableComponent<any> = loadable(
   async () =>
     import('./screens/Confirmation').then(module => module.Confirmation),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 
 const LoadableSettingsContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/Settings').then(module => module.Settings),
   {
-    fallback: <Spinner />,
+    fallback: <OverlaySpinner />,
   },
 );
 

@@ -23,7 +23,7 @@ export const EndpointInfo = ({
   providerData,
   publicChain,
 }: EndpointInfoProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const isMoreThanLimit = hasLimit(providerData, endpoints);
   const limit = getLimit(providerData);

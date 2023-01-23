@@ -11,6 +11,7 @@ import { Info } from './components/Info';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId, isStandaloneChain } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
+import { StandaloneChainNodesTableQuery } from './StandaloneChainNodesTableQuery';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
@@ -30,7 +31,11 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         <CopyButtons data={data} chainId={chainId} />
         <Info chainId={chainId} />
         <ChainItemDetailsQuery chainId={chainId} isStandalone={isStandalone} />
-        <ChainNodesTableQuery chainId={chainId} isStandalone={isStandalone} />
+        {isStandalone ? (
+          <StandaloneChainNodesTableQuery chainId={chainId} />
+        ) : (
+          <ChainNodesTableQuery chainId={chainId} />
+        )}
       </Container>
     </ThemeProvider>
   );

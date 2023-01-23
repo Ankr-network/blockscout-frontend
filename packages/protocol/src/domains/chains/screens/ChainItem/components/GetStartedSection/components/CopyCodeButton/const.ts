@@ -1,5 +1,5 @@
 import { root } from '../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 const copyCodeButton = `${root}.connection-snippet.copy-code-button`;
 

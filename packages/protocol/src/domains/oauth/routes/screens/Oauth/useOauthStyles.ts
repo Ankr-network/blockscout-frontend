@@ -1,6 +1,6 @@
-import { Theme, makeStyles } from '@material-ui/core';
+import { makeStyles } from 'tss-react/mui';
 
-export const useOauthStyles = makeStyles<Theme>(() => ({
+export const useOauthStyles = makeStyles()(() => ({
   root: {
     position: 'relative',
 

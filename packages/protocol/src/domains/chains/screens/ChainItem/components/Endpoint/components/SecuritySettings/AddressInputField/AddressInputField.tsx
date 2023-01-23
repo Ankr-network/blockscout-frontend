@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { Field } from 'react-final-form';
 
 import { InputField } from 'modules/form/components/InputField/InputField';
@@ -20,7 +20,7 @@ export const AddressInputField = ({
   buttonText,
   isDisabled,
 }: AddressInputFieldProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <Field
@@ -31,7 +31,6 @@ export const AddressInputField = ({
       validate={(data, allValues, meta) => !meta?.pristine && validate(data)}
       InputProps={{
         classes: {
-          label: classes.label,
           root: classes.inputBase,
         },
         disabled: isDisabled,

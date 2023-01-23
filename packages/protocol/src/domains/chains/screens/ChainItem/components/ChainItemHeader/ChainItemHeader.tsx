@@ -45,7 +45,7 @@ export const ChainItemHeader = ({
     chain.id,
   );
 
-  const classes = useChainItemHeaderStyles(shouldOnlyShowMobileSelector);
+  const { classes } = useChainItemHeaderStyles(shouldOnlyShowMobileSelector);
 
   return (
     <div className={classes.chainItemHeader}>
@@ -69,6 +69,7 @@ export const ChainItemHeader = ({
             groups={groups}
             onGroupSelect={selectGroup}
             visible={withGroupSelector}
+            fullWidth
           />
         </div>
       )}

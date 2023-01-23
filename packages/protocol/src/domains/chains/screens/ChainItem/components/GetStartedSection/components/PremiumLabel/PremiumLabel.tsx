@@ -1,7 +1,5 @@
-import classNames from 'classnames';
-
 import { root } from '../../const';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { usePremiumLabelStyles } from './PremiumLabelStyles';
 
 export interface PremiumLabelProps {
@@ -12,10 +10,10 @@ export interface PremiumLabelProps {
 const label = t(`${root}.endpoints.premium-label`);
 
 export const PremiumLabel = ({ size = 's', className }: PremiumLabelProps) => {
-  const classes = usePremiumLabelStyles({ size });
+  const { classes, cx } = usePremiumLabelStyles(size);
 
   return (
-    <div className={classNames(classes.premiumLabel, className)}>
+    <div className={cx(classes.premiumLabel, className)}>
       <span className={classes.gradient}>{label}</span>
     </div>
   );

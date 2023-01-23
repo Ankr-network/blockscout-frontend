@@ -1,4 +1,4 @@
-import { SvgIcon } from '@material-ui/core';
+import { SvgIcon } from '@mui/material';
 import { SVGProps } from 'react';
 
 export interface IFeature {

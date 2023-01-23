@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 import { ReactComponent as LinkIcon } from 'uiKit/Icons/externalLink.svg';
 
@@ -11,12 +11,12 @@ import {
   premiumLink,
   premiumRoot,
 } from './PlansUtils';
-import { NavLink } from 'ui';
+import { NavLink } from 'uiKit/NavLink';
 import { PREMIUM_BLOCK_ANCHOR } from '../PremiumBlock';
 import { PRICING_LINK } from 'domains/account/actions/topUp/const';
 
 export const Plans = () => {
-  const classes = usePlansStyles();
+  const { classes } = usePlansStyles();
 
   return (
     <Box className={classes.root}>
@@ -30,9 +30,9 @@ export const Plans = () => {
           <NavLink
             href={PRICING_LINK}
             variant="text"
-            color="default"
+            color="inherit"
             className={classes.link}
-            endIcon={<LinkIcon className={classes.icon} />}
+            endIcon={<LinkIcon />}
           >
             {premiumLink}
           </NavLink>

@@ -14,7 +14,7 @@ export const FillStep = ({
   children,
   content = defaultContent,
 }: IFillStepProps) => {
-  const classes = useFillStepStyles();
+  const { classes } = useFillStepStyles();
 
   return (
     <div className={classes.root}>

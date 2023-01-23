@@ -2,40 +2,33 @@ import { useEffect } from 'react';
 
 import { ChainID } from 'modules/chains/types';
 import { ChainNodesTable } from './ChainNodesTable';
-import { EndpointGroup } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import {
-  IChainNodesData,
-  useLazyChainsFetchChainNodesDataQuery,
-} from 'domains/chains/actions/fetchChainNodesData';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { getLinkedChainIDs } from './ChainNodesTableQueryUtils';
+import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
+import { INodesDetailEntity } from 'multirpc-sdk';
+import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
 
 interface IChainNodesTableQueryProps {
-  chain: IApiChain;
-  group: EndpointGroup;
+  chainId: ChainID;
 }
 
 export const ChainNodesTableQuery = ({
-  chain,
-  group,
+  chainId,
 }: IChainNodesTableQueryProps) => {
-  const [fetchChain, chainState] = useLazyChainsFetchChainNodesDataQuery();
+  const [fetchChain, chainState] = useLazyChainsFetchChainNodesDetailQuery();
 
   useEffect(() => {
-    const chainIDs = getLinkedChainIDs(group.chains.map(({ id }) => id));
+    fetchChain(chainId);
+  }, [chainId, fetchChain]);
 
-    fetchChain(chainIDs);
-  }, [fetchChain, chain, group.chains]);
+  const checkedChainId = checkAvalancheOrSecretAndGetChainId(chainId);
 
   return (
-    <Queries<IChainNodesData> queryStates={[chainState]} isPreloadDisabled>
+    <Queries<INodesDetailEntity[]> queryStates={[chainState]} isPreloadDisabled>
       {({ data, isLoading, isUninitialized }) => (
         <ChainNodesTable
           loading={(isLoading && isUninitialized) || !data}
-          nodes={data?.nodes || []}
-          nodesWeight={data?.nodesWeight || []}
-          showNodesWithZeroHeight={chain.id === ChainID.SUI_TESTNET}
+          nodesDetail={data?.filter(item => item.id === checkedChainId) || []}
+          showNodesWithZeroHeight={chainId === ChainID.SUI_TESTNET}
         />
       )}
     </Queries>

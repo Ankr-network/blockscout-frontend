@@ -9,7 +9,7 @@ export interface MessageProps {
 }
 
 export const Message = ({ message: { data = '', type } }: MessageProps) => {
-  const classes = useMessageStyles(type);
+  const { classes } = useMessageStyles(type);
 
   const icon = iconsMap[type];
   const prefix = prefixesMap[type];

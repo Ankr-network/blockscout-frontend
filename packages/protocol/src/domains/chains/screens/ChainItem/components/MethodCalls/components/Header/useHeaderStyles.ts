@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useHeaderStyles = makeStyles<Theme>(theme => ({
+export const useHeaderStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',

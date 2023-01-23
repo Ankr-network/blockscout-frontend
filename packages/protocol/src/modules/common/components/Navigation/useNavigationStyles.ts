@@ -1,39 +1,46 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
 export const HEADER_HEIGHT_XS = 66;
 export const HEADER_HEIGHT_XL = 80;
 
-export const useNavigationStyles = makeStyles<Theme>(theme => ({
+export const useNavigationStyles = makeStyles()((theme: Theme) => ({
   link: {
     width: '100%',
     height: 48,
     color: theme.palette.text.secondary,
     justifyContent: 'flex-start',
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(2 * 1.5),
     fontWeight: 400,
     cursor: 'pointer',
     position: 'relative',
-    paddingLeft: 36,
-    '&& span span:nth-child(1)': {
-      position: 'absolute',
-      left: -24,
-      display: 'block',
+    '&&': {
+      paddingLeft: theme.spacing(2 * 4.5),
     },
-    '&& span span:nth-child(2)': {
+    '&& span:nth-of-type(1)': {
       position: 'absolute',
-      left: -36,
+      left: 0,
+      top: 10,
+      display: 'block',
+      marginRight: theme.spacing(2 * -0.5),
+      marginLeft: theme.spacing(2 * 1),
+    },
+    '&& span:nth-of-type(2)': {
+      position: 'absolute',
+      left: 0,
       display: 'none',
     },
 
     '&& svg': {
       [theme.breakpoints.down('sm')]: {
-        marginRight: theme.spacing(1),
+        marginRight: theme.spacing(2 * 1),
       },
     },
 
     '&:hover': {
       color: theme.palette.primary.main,
       backgroundColor: theme.palette.background.default,
+      boxShadow: 'none',
       '& svg': {
         color: theme.palette.primary.main,
       },
@@ -56,25 +63,28 @@ export const useNavigationStyles = makeStyles<Theme>(theme => ({
     },
   },
   activeLink: {
-    color: theme.palette.primary.main,
-    cursor: 'default',
-    fontWeight: 600,
-    background: theme.palette.background.default,
-    '&& span span:nth-child(1)': {
-      display: 'none',
-    },
-    '&& span span:nth-child(2)': {
-      display: 'block',
+    '&&': {
+      color: theme.palette.primary.main,
+      cursor: 'default',
+      fontWeight: 600,
+      background: theme.palette.background.default,
+      '&& span:nth-of-type(1)': {
+        display: 'none',
+      },
+      '&& span:nth-of-type(2)': {
+        display: 'block',
+        top: 10,
+      },
     },
   },
   item: {
     width: '100%',
     height: 48,
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(2 * 1.5),
   },
   skeleton: {
-    height: theme.spacing(3),
-    borderRadius: theme.spacing(0.75),
+    height: theme.spacing(2 * 3),
+    borderRadius: theme.spacing(2 * 0.75),
     backgroundColor: theme.palette.background.default,
   },
 }));

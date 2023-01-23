@@ -1,29 +1,32 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
-  paper: {
-    background: theme.palette.background.paper,
-  },
+export const useStyles = makeStyles<void, 'closeIcon'>()(
+  (theme: Theme, _params, classes) => ({
+    paper: {
+      background: theme.palette.background.paper,
+    },
 
-  close: {
-    '&$closeIcon': {
-      position: 'absolute',
-      top: 5,
-      right: 5,
-      width: 40,
-      height: 40,
-      padding: 0,
-      color: theme.palette.text.primary,
-      border: 'none',
-
-      '&:hover': {
+    close: {
+      [`&.${classes.closeIcon}`]: {
+        position: 'absolute',
+        top: 5,
+        right: 5,
+        width: 40,
+        height: 40,
+        padding: 0,
+        color: theme.palette.text.primary,
         border: 'none',
+
+        '&:hover': {
+          border: 'none',
+        },
       },
     },
-  },
-  closeIcon: {},
+    closeIcon: {},
 
-  icon: {
-    fontSize: 25,
-  },
-}));
+    icon: {
+      fontSize: 25,
+    },
+  }),
+);

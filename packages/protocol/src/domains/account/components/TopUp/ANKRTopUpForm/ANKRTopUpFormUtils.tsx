@@ -1,26 +1,27 @@
 import BigNumber from 'bignumber.js';
-import { Button } from '@material-ui/core';
-import { ClassNameMap } from '@material-ui/styles';
+import { Button } from '@mui/material';
+import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
-import { NavLink, useIsSMDown } from 'ui';
 import { push } from 'connected-react-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { t } from '@ankr.com/common';
 
+import { AccountRoutesConfig } from 'domains/account/Routes';
+import { NavLink } from 'uiKit/NavLink';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
+import { AmountField } from './AmountField';
+import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { MultiService } from 'modules/api/MultiService';
+import { RateBlock } from './RateBlock';
+import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import {
   ANKR_CURRENCY,
   DEFAULT_ANKR_VALUE,
   ANKR_MAX_DECIMALS,
   ANKR_MAX_DIGITS,
 } from 'domains/account/actions/topUp/const';
-import { AccountRoutesConfig } from 'domains/account/Routes';
-import { AmountField } from './AmountField';
-import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
-import { ConnectButton } from 'domains/auth/components/ConnectButton';
-import { MultiService } from 'modules/api/MultiService';
-import { RateBlock } from './RateBlock';
-import { t } from 'modules/i18n/utils/intl';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyTopUpGetLastLockedFundsEventQuery } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';

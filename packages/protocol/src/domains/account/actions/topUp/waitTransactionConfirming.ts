@@ -1,5 +1,6 @@
 import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
 import { TransactionReceipt } from 'web3-core';
+import { t } from '@ankr.com/common';
 
 import { AppDispatch, GetState } from 'store';
 import { ETH_BLOCK_TIME } from './const';
@@ -11,10 +12,9 @@ import {
   selectTransaction,
   setTopUpTransaction,
 } from 'domains/account/store/accountTopUpSlice';
-import { t } from 'modules/i18n/utils/intl';
+import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { timeout } from 'modules/common/utils/timeout';
 import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
-import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { web3Api } from 'store/queries';
 
 export interface WaitTransactionConfirmingResult {

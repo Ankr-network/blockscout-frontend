@@ -1,5 +1,5 @@
-import { Button, ButtonProps, CircularProgress } from '@material-ui/core';
-import classNames from 'classnames';
+import { Button, ButtonProps, CircularProgress } from '@mui/material';
+
 import { ReactNode } from 'react';
 
 import { useStyles } from './AnimatedButtonStyles';
@@ -28,13 +28,13 @@ export const AnimatedButton = ({
     data,
   });
 
-  const classes = useStyles({ isSuccess, width });
+  const { classes, cx } = useStyles({ isSuccess, width });
 
   return (
     <Button
       {...props}
       disabled={disabled || loading}
-      className={classNames(classes.root, className)}
+      className={cx(classes.root, className)}
     >
       {loading ? (
         <CircularProgress size={18} color="inherit" />

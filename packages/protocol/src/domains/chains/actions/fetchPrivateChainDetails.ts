@@ -1,11 +1,11 @@
 import { replace } from 'connected-react-router';
+import { t } from '@ankr.com/common';
 
 import { ChainsRoutesConfig } from '../routes/routesConfig';
 import { IApiChain } from '../api/queryChains';
 import { RootState } from 'store';
 import { chainsFetchPrivateChains } from 'domains/chains/actions/fetchPrivateChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { t } from 'modules/i18n/utils/intl';
 import { web3Api } from 'store/queries';
 
 export const {

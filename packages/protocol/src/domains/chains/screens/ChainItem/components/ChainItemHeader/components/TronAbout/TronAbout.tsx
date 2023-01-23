@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { useTronAboutStyles } from './useTronAboutStyles';
 import { t } from '@ankr.com/common';
 
 const LEARN_MORE_LINK = 'https://tronprotocol.github.io/documentation-en/ ';
 
 export const TronAbout = () => {
-  const classes = useTronAboutStyles();
+  const { classes } = useTronAboutStyles();
 
   return (
     <div className={classes.root}>

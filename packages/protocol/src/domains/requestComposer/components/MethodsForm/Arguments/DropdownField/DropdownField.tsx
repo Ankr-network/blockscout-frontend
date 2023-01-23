@@ -1,5 +1,5 @@
 import { Field } from 'react-final-form';
-import { FormGroup, Typography } from '@material-ui/core';
+import { FormGroup, Typography } from '@mui/material';
 import { ISelectOption } from 'uiKit/Select';
 
 import { SelectField } from 'modules/form/components/SelectField';
@@ -18,7 +18,7 @@ export const DropdownField = ({
   options,
   placeholder,
 }: DropdownFieldProps) => {
-  const classes = useEVMMethodsFormStyles();
+  const { classes } = useEVMMethodsFormStyles();
 
   return (
     <FormGroup className={classes.blockNumber}>

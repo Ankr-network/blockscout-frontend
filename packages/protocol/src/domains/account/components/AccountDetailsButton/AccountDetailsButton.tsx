@@ -1,7 +1,7 @@
 import { Link, LinkProps } from 'react-router-dom';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { LoadableButton } from 'uiKit/LoadableButton';
 import { AccountMarker } from '../AccountMarker';
 import { Balance } from '../Balance';
@@ -17,7 +17,7 @@ export const AccountDetailsButton = ({
 }: AccountDetailsButtonProps) => {
   const { balance, isLoading, status } = useAccountData();
 
-  const classes = useStyles(isMobile);
+  const { classes } = useStyles(isMobile);
 
   return (
     <LoadableButton<'a', LinkProps>

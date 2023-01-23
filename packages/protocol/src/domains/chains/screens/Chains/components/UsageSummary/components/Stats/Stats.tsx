@@ -11,7 +11,7 @@ export interface StatsProps {
 }
 
 export const Stats = ({ isLoading, stats: { total } }: StatsProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.stats}>

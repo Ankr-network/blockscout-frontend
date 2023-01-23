@@ -1,9 +1,10 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   inputRow: {
     display: 'flex',
-    gridGap: theme.spacing(1.5),
+    gridGap: theme.spacing(2 * 1.5),
 
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
@@ -20,6 +21,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
   emailInputRoot: {
     borderRadius: 17,
     height: 48,
+    padding: 0,
+    '&& input': {
+      height: '100%',
+      borderRadius: 17,
+      marginLeft: 0,
+      padding: theme.spacing(0, 2 * 2),
+    },
   },
   submitButton: {
     borderRadius: 17,

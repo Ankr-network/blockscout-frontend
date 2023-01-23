@@ -1,11 +1,11 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStakeBarChartStyles = makeStyles<Theme>(theme => ({
+export const useStakeBarChartStyles = makeStyles()((theme: Theme) => ({
   root: {
-    marginTop: theme.spacing(20),
+    marginTop: theme.spacing(2 * 20),
     '& .recharts-legend-wrapper': {
-      top: `-${theme.spacing(18)}px !important`,
+      top: `${theme.spacing(2 * -18)} !important`,
     },
   },
   legendRoot: {
@@ -14,15 +14,15 @@ export const useStakeBarChartStyles = makeStyles<Theme>(theme => ({
   },
   legend: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(0.25, 1),
-    borderRadius: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    padding: theme.spacing(2 * 0.25, 2 * 1),
+    borderRadius: theme.spacing(2 * 1),
+    marginRight: theme.spacing(2 * 1),
+    marginBottom: theme.spacing(2 * 1),
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: theme.spacing(2 * 2.5),
     fontWeight: 400,
     color: theme.palette.text.primary,
   },

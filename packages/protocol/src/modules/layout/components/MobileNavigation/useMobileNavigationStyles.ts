@@ -1,76 +1,72 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
 export const MOBILE_NAVIGATION_HEIGHT = 80;
 
-export const useMobileNavigationStyles = makeStyles<Theme>(theme => ({
-  root: {
-    '&$custom': {
-      display: 'none',
-      alignItems: 'center',
-      padding: theme.spacing(2, 0, 2.5),
-      color: theme.palette.text.primary,
-      position: 'fixed',
-      width: '100%',
-      backgroundColor: theme.palette.background.paper,
-      zIndex: 4,
-      bottom: 0,
-      boxShadow:
-        '0px 0px 25px rgba(31, 34, 38, 0.05), 0px 5px 100px rgba(31, 34, 38, 0.05)',
-
-      '& span svg:nth-child(1)': {
-        display: 'block',
-      },
-      '& span svg:nth-child(2)': {
+export const useMobileNavigationStyles = makeStyles<void, 'custom'>()(
+  (theme: Theme, _params, classes) => ({
+    root: {
+      [`&.${classes.custom}`]: {
         display: 'none',
+        alignItems: 'center',
+        padding: theme.spacing(2 * 2, 0, 2 * 2.5),
+        color: theme.palette.text.primary,
+        position: 'fixed',
+        width: '100%',
+        backgroundColor: theme.palette.background.paper,
+        zIndex: 4,
+        bottom: 0,
+
+        '& svg:nth-of-type(1)': {
+          display: 'block',
+        },
+        '& svg:nth-of-type(2)': {
+          display: 'none',
+        },
+        [theme.breakpoints.down('sm')]: {
+          display: 'flex',
+        },
       },
-      [theme.breakpoints.down('sm')]: {
-        display: 'flex',
+    },
+
+    custom: {},
+
+    container: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: theme.spacing(0, 2 * 1),
+    },
+    link: {
+      display: 'flex',
+      flexDirection: 'column',
+      fontSize: 10,
+      padding: 0,
+      color: theme.palette.grey[500],
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+        background: theme.palette.background.paper,
+        boxShadow: 'none',
+      },
+
+      '& svg': {
+        marginBottom: theme.spacing(2 * 0.75),
       },
     },
-  },
 
-  custom: {},
-
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: theme.spacing(0, 1),
-  },
-  label: {
-    display: 'flex',
-    flexDirection: 'column',
-    fontSize: 10,
-
-    '& svg': {
-      marginBottom: 10,
+    activeLink: {
+      '&&': {
+        color: theme.palette.primary.main,
+        cursor: 'default',
+        fontWeight: 'bold',
+        '&& svg:nth-of-type(1)': {
+          display: 'none',
+        },
+        '&& svg:nth-of-type(2)': {
+          display: 'block',
+        },
+      },
     },
-  },
-  link: {
-    color: theme.palette.text.secondary,
-    background: theme.palette.background.paper,
-    padding: theme.spacing(2),
-    fontWeight: 500,
-
-    '&& svg': {
-      fontSize: 16,
-    },
-
-    '&:hover': {
-      color: theme.palette.primary.main,
-      background: theme.palette.background.paper,
-    },
-  },
-
-  activeLink: {
-    color: theme.palette.primary.main,
-    cursor: 'default',
-    fontWeight: 'bold',
-    '&& span svg:nth-child(1)': {
-      display: 'none',
-    },
-    '&& span svg:nth-child(2)': {
-      display: 'block',
-    },
-  },
-}));
+  }),
+);

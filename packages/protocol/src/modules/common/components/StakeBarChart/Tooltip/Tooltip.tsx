@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { useTooltipStyles } from './useTooltip';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { calculateTotalRequests, formatNumber } from '../StakeBarChartUtils';
 import { StatusCircle } from 'uiKit/StatusCircle';
 
@@ -29,7 +29,7 @@ export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
         : COMMON_POPUP_WIDTH,
     [payload],
   );
-  const classes = useTooltipStyles({ maxMethodWidth });
+  const { classes } = useTooltipStyles(maxMethodWidth);
 
   if (active && payload?.length && label) {
     const totalRequest = calculateTotalRequests(
@@ -38,7 +38,7 @@ export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
 
     return (
       <div className={classes.root}>
-        <Typography variant="body2" className={classes.label}>
+        <Typography component="p" variant="body2" className={classes.label}>
           {label}
         </Typography>
         <div className={classes.totalRow}>

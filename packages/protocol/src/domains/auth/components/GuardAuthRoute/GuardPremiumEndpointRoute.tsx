@@ -1,5 +1,5 @@
 import { Route, RouteProps, useHistory } from 'react-router-dom';
-import { Spinner } from 'ui';
+import { OverlaySpinner } from '@ankr.com/ui';
 import { useEffect } from 'react';
 import { INDEX_PATH } from 'domains/chains/routes';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
@@ -21,7 +21,7 @@ export const GuardPremiumEndpointRoute = (props: RouteProps) => {
   }, [shouldRedirect, history]);
 
   if (loading) {
-    return <Spinner />;
+    return <OverlaySpinner />;
   }
 
   return shouldRedirect ? null : <Route {...props} />;

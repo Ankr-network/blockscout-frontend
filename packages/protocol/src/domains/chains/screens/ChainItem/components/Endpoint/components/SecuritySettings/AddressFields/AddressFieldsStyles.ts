@@ -1,41 +1,48 @@
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme>(theme => ({
-  title: {
-    fontWeight: 700,
-    marginTop: theme.spacing(3.5),
-    fontSize: 14,
-  },
-
-  domainRows: {
-    marginTop: theme.spacing(3),
-  },
-  domainRow: {
-    display: 'inline-grid',
-    width: '100%',
-    alignItems: 'center',
-    gridTemplateColumns: '1fr auto',
-
-    '&:not(:last-child)': {
-      borderBottom: `1px solid ${theme.palette.divider}`,
+export const useStyles = makeStyles<void, 'icon'>()(
+  (theme: Theme, _params, classes) => ({
+    title: {
+      fontWeight: 700,
+      marginTop: theme.spacing(2 * 3.5),
+      fontSize: 14,
     },
-  },
-  deleteButton: {
-    padding: 0,
-    margin: '2px 0',
 
-    '&:hover ': {
-      background: '#F2F5FA',
+    domainRows: {
+      marginTop: theme.spacing(2 * 3),
+    },
+    domainRow: {
+      fontSize: 14,
+      display: 'inline-grid',
+      width: '100%',
+      alignItems: 'center',
+      gridTemplateColumns: '1fr auto',
 
-      '& $icon': {
-        fill: theme.palette.primary.main,
+      '&:not(:last-child)': {
+        borderBottom: `1px solid ${theme.palette.divider}`,
       },
     },
-  },
-  icon: {
-    width: 14,
+    content: {
+      fontSize: 14,
+      fontWeight: 400,
+    },
+    deleteButton: {
+      padding: 0,
+      margin: theme.spacing(2 * 0.25, 0),
 
-    fill: theme.palette.grey[400],
-  },
-}));
+      '&:hover ': {
+        background: '#F2F5FA',
+
+        [`& .${classes.icon}`]: {
+          fill: theme.palette.primary.main,
+        },
+      },
+    },
+    icon: {
+      width: 14,
+
+      fill: theme.palette.grey[400],
+    },
+  }),
+);

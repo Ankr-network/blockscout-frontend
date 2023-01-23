@@ -5,7 +5,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { t, tHTML } from '@ankr.com/common';
 import { COLUMNS_COUNT, intlRoot } from './FeatureTableUtils';
@@ -15,11 +15,11 @@ import { PREMIUM_BLOCK_ANCHOR } from '../../PremiumBlock';
 import { TableContent } from './TableContent';
 
 export const FeatureTable = () => {
-  const classes = useFeatureTableStyles();
+  const { classes } = useFeatureTableStyles();
 
   return (
     <Table className={classes.root}>
-      <TableHead className={classes.row}>
+      <TableHead>
         <TableRow className={classes.header}>
           {new Array(COLUMNS_COUNT).fill('').map((_, index) => (
             <TableCell key={`header-${index}`}>

@@ -1,18 +1,101 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { keyframes, Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 
-export const useStyles = makeStyles<Theme>(theme => ({
+const firstDotAmimation = keyframes`
+  0% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  20% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+
+  100% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+`;
+
+const secondDotAmimation = keyframes`
+  0% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  20% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  40% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+
+  100% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+`;
+
+const thirdDotAmimation = keyframes`
+  0% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  40% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  60% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+
+  100% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+`;
+
+const fourthDotAmimation = keyframes`
+  0% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  60% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  80% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+
+  100% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+`;
+
+const fifthDotAmimation = keyframes`
+  0% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  80% {
+    background-color: ${mainTheme.palette.grey[300]}
+  },
+
+  100% {
+    background-color: ${mainTheme.palette.primary.main}
+  },
+`;
+
+export const useStyles = makeStyles()((theme: Theme) => ({
   trafficFlowRoot: {
     display: 'flex',
     justifyContent: 'space-between',
 
-    marginTop: theme.spacing(3.2),
+    marginTop: theme.spacing(2 * 3.2),
 
-    padding: `${theme.spacing(3)}px 30px`,
+    padding: theme.spacing(2 * 3, 2 * 3.75),
 
-    borderRadius: theme.spacing(3),
+    borderRadius: theme.spacing(2 * 3),
 
-    backgroundColor: '#E7EBF3',
+    backgroundColor: theme.palette.grey[100],
 
     [theme.breakpoints.down('lg')]: {
       flexDirection: 'column',
@@ -28,13 +111,15 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 700,
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: theme.spacing(2 * 2.5),
   },
   learnMoreButton: {
     height: 'auto',
     padding: 0,
 
     backgroundColor: 'transparent',
+    minHeight: 20,
+    fontSize: 14,
 
     '&:hover': {
       backgroundColor: 'transparent',
@@ -58,11 +143,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     fontWeight: 700,
     fontSize: 14,
-    lineHeight: '20px',
+    lineHeight: theme.spacing(2 * 2.5),
   },
   separator: {
     display: 'flex',
-    gap: theme.spacing(0.5),
+    gap: theme.spacing(2 * 0.5),
 
     [theme.breakpoints.down('lg')]: {
       display: 'none',
@@ -74,106 +159,24 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     borderRadius: '50%',
 
-    '&:nth-child(1)': {
-      animation: '$first-dot-amimation 2s infinite linear',
+    '&:nth-of-type(1)': {
+      animation: `${firstDotAmimation} 2s infinite linear`,
     },
 
-    '&:nth-child(2)': {
-      animation: '$second-dot-amimation 2s infinite linear',
+    '&:nth-of-type(2)': {
+      animation: `${secondDotAmimation} 2s infinite linear`,
     },
 
-    '&:nth-child(3)': {
-      animation: '$third-dot-amimation 2s infinite linear',
+    '&:nth-of-type(3)': {
+      animation: `${thirdDotAmimation} 2s infinite linear`,
     },
 
-    '&:nth-child(4)': {
-      animation: '$fourth-dot-amimation 2s infinite linear',
+    '&:nth-of-type(4)': {
+      animation: `${fourthDotAmimation} 2s infinite linear`,
     },
 
-    '&:nth-child(5)': {
-      animation: '$fifth-dot-amimation 2s infinite linear',
-    },
-  },
-
-  '@keyframes first-dot-amimation': {
-    '0%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '20%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-
-    '100%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-  },
-
-  '@keyframes second-dot-amimation': {
-    '0%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '20%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '40%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-
-    '100%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-  },
-
-  '@keyframes third-dot-amimation': {
-    '0%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '40%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '60%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-
-    '100%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-  },
-
-  '@keyframes fourth-dot-amimation': {
-    '0%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '60%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '80%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-
-    '100%': {
-      backgroundColor: theme.palette.primary.main,
-    },
-  },
-
-  '@keyframes fifth-dot-amimation': {
-    '0%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '80%': {
-      backgroundColor: '#BFC6D0',
-    },
-
-    '100%': {
-      backgroundColor: theme.palette.primary.main,
+    '&:nth-of-type(5)': {
+      animation: `${fifthDotAmimation} 2s infinite linear`,
     },
   },
 }));

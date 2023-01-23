@@ -1,4 +1,4 @@
-import { TableCell, TableRow } from '@material-ui/core';
+import { TableCell, TableRow } from '@mui/material';
 
 import { ReactComponent as CheckIcon } from 'uiKit/Icons/check.svg';
 import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
@@ -16,7 +16,7 @@ import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { useFeatureTableStyles } from './useFeatureTableStyles';
 
 export const TableContent = () => {
-  const classes = useFeatureTableStyles();
+  const { classes } = useFeatureTableStyles();
 
   return (
     <>
@@ -35,10 +35,7 @@ export const TableContent = () => {
               : [];
 
             return (
-              <TableCell
-                key={`index-${columnIndex}`}
-                className={classes.tableCell}
-              >
+              <TableCell key={`index-${columnIndex}`}>
                 {text.includes(`${rowIndex}-${columnIndex}`) &&
                   tHTML(
                     `${intlRoot}.body-row.row-${columnIndex + 1}-${

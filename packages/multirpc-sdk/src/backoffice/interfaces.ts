@@ -47,9 +47,7 @@ export interface IBackofficeGateway {
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
 
-  getUserTotal(
-    params: IGetUserTotalRequest,
-  ): Promise<IGetUserTotalResponse>;
+  getUserTotal(params: IGetUserTotalRequest): Promise<IGetUserTotalResponse>;
 
   getUserProfile(
     params: IGetUserProfileRequest,
@@ -67,9 +65,7 @@ export interface IBackofficeGateway {
     params: ICreateTestClientRequest,
   ): Promise<ICreateTestClientResponse>;
 
-  getUserStats(
-    params: IUserStatsRequest,
-  ): Promise<IUserStatsResponse>;
+  getUserStats(params: IUserStatsRequest): Promise<IUserStatsResponse>;
 
   getUserStatsByRange(
     params: IUserStatsByRangeRequest,
@@ -77,7 +73,7 @@ export interface IBackofficeGateway {
 
   getUserAddresses(
     params: GetUserAddressesRequest,
-  ): Promise<GetUserAddressesResponse>
+  ): Promise<GetUserAddressesResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,
@@ -91,17 +87,11 @@ export interface IBackofficeGateway {
     node: IBlockchainEntity,
   ): Promise<Record<string, any>>;
 
-  createOrUpdateNode(node: INodeEntity): Promise<Record<string, any>>;
-
   deleteBlockchain(blockchain: IBlockchainEntity): Promise<IBlockchainEntity>;
-
-  deleteNode(node: INodeEntity): Promise<INodeEntity>;
 
   getBlockchains(): Promise<IBlockchainEntity[]>;
 
   getCounters(params?: ICountersRequest): Promise<ICountersResponse>;
-
-  getNodes(blockchain?: string): Promise<INodeEntity[]>;
 
   migrateLegacy(): Promise<INodeEntity[]>;
 }

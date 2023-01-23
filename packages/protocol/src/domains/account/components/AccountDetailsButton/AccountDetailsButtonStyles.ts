@@ -1,38 +1,40 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<Theme, boolean>(theme => ({
-  accountDetailsButtonRoot: isMobile =>
-    isMobile
+export const useStyles = makeStyles<boolean>()(
+  (theme: Theme, isMobile: boolean) => ({
+    accountDetailsButtonRoot: isMobile
       ? {
-          padding: theme.spacing(1.25, 1.5),
-          border: '2px solid #E7EBF3',
-          borderRadius: theme.spacing(1.5),
+          padding: theme.spacing(2 * 1.25, 2 * 1.5),
+          border: `2px solid ${theme.palette.grey[100]}`,
+          borderRadius: theme.spacing(2 * 1.5),
+          backgroundColor: theme.palette.common.white,
         }
-      : {},
-  content: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: isMobile => (isMobile ? theme.spacing(0.75) : theme.spacing(1)),
-  },
-  label: isMobile =>
-    isMobile
+      : {
+          backgroundColor: theme.palette.common.white,
+        },
+    content: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: isMobile ? theme.spacing(2 * 0.75) : theme.spacing(2 * 1),
+    },
+    label: isMobile
       ? {
           fontWeight: 600,
           fontSize: 11,
-          lineHeight: `${theme.spacing(2)}px`,
+          lineHeight: theme.spacing(2 * 2),
         }
       : {
-          // fontFamily: 'Inter',
           fontWeight: 600,
-          fontSize: theme.spacing(2),
-          lineHeight: `${theme.spacing(3)}px`,
+          fontSize: theme.spacing(2 * 2),
+          lineHeight: theme.spacing(2 * 3),
         },
-  balance: {
-    display: 'inline-block',
-  },
-  currency: {
-    display: isMobile => (isMobile ? 'none' : ''),
-    color: theme.palette.grey[600],
-  },
-}));
+    balance: {
+      display: 'inline-block',
+    },
+    currency: {
+      display: isMobile ? 'none' : '',
+      color: theme.palette.grey[600],
+    },
+  }),
+);

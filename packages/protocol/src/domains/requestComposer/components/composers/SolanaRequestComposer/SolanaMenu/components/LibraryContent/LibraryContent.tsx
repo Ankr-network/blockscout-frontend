@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { SolanaLibraryID } from 'domains/requestComposer/constants/solana';

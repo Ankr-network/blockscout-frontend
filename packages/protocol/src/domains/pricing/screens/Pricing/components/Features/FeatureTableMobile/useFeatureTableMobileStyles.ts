@@ -1,8 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useFeatureTableMobileStyles = makeStyles<Theme>(theme => ({
-  root: {},
+export const useFeatureTableMobileStyles = makeStyles()((theme: Theme) => ({
   title: {
     fontSize: 24,
     lineHeight: '27.6px',
@@ -12,21 +11,22 @@ export const useFeatureTableMobileStyles = makeStyles<Theme>(theme => ({
   },
   plan: {
     fontSize: 16,
-    lineHeight: '24px',
+    lineHeight: theme.spacing(2 * 3),
     fontWeight: 400,
     color: theme.palette.grey[600],
   },
   summary: {
     fontSize: 16,
-    lineHeight: '24px',
+    lineHeight: theme.spacing(2 * 3),
     fontWeight: 400,
     color: theme.palette.text.primary,
-    paddingBottom: 12,
+    paddingBottom: theme.spacing(2 * 1.5),
     borderBottom: `1px solid ${theme.palette.grey[400]}`,
+    display: 'block',
   },
   included: {
     fontSize: 16,
-    lineHeight: '24px',
+    lineHeight: theme.spacing(2 * 3),
     fontWeight: 400,
     color: theme.palette.text.primary,
     display: 'flex',
@@ -41,14 +41,15 @@ export const useFeatureTableMobileStyles = makeStyles<Theme>(theme => ({
   item: {
     backgroundColor: theme.palette.common.white,
     borderRadius: 12,
-    marginTop: 20,
-    padding: theme.spacing(2),
+    marginTop: theme.spacing(2 * 2.5),
+    padding: theme.spacing(2 * 2),
   },
   info: {
-    marginTop: 12,
+    marginTop: theme.spacing(2 * 1.5),
     fontSize: 16,
-    lineHeight: '24px',
+    lineHeight: theme.spacing(2 * 3),
     fontWeight: 700,
+    display: 'block',
   },
   liner: {
     background:
@@ -65,11 +66,11 @@ export const useFeatureTableMobileStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     fontSize: 16,
     textAlign: 'center',
-    marginTop: theme.spacing(2.5),
+    marginTop: theme.spacing(2 * 2.5),
 
     '& em': {
       fontStyle: 'normal',
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacing(2 * 1),
     },
   },
   header: {
@@ -82,6 +83,6 @@ export const useFeatureTableMobileStyles = makeStyles<Theme>(theme => ({
     fontSize: 20,
   },
   collapse: {
-    marginTop: theme.spacing(1.5),
+    marginTop: theme.spacing(2 * 1.5),
   },
 }));

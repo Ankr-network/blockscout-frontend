@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 import { t } from '@ankr.com/common';
 import { FieldError } from 'modules/form/components/FieldError';
@@ -21,7 +21,7 @@ export const LinkExpiredActionSlot = ({
   resendEmailErrorMessage,
   onResendEmail,
 }: ILinkExpiredActionSlotProps) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Field } from 'react-final-form';
 import { FieldValidator } from 'final-form';
-import { FormGroup, Typography } from '@material-ui/core';
+import { FormGroup, Typography } from '@mui/material';
 
 import { InputField } from 'modules/form/components/InputField';
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
@@ -21,7 +21,7 @@ export const BlockNumberField = ({
   type = 'text',
   validate: isValid = () => true,
 }: BlockNumberFieldProps) => {
-  const classes = useEVMMethodsFormStyles();
+  const { classes } = useEVMMethodsFormStyles();
 
   const validate: FieldValidator<string | number> = useCallback(
     value => !isValid(value),

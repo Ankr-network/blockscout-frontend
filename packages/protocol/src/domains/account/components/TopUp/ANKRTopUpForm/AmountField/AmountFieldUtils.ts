@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 
 export const CURRENCY = 'ANKR';
 

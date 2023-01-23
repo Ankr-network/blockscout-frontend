@@ -2,7 +2,7 @@ import { INotificationsSettings } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { t } from 'modules/i18n/utils/intl';
+import { t } from '@ankr.com/common';
 import { web3Api } from 'store/queries';
 
 export const {

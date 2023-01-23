@@ -1,9 +1,8 @@
+import { Skeleton, Box, Typography } from '@mui/material';
 import BigNumber from 'bignumber.js';
-import { Box, Typography } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { t } from '@ankr.com/common';
 
-import { t } from 'modules/i18n/utils/intl';
-import { usePricingHeaderStyles } from './PricingHeaderStyles';
+import { usePricingTopUpStyles } from './PricingHeaderStyles';
 
 interface PricingHeaderProps {
   isLoading: boolean;
@@ -11,12 +10,12 @@ interface PricingHeaderProps {
 }
 
 export const PricingHeader = ({ isLoading, balance }: PricingHeaderProps) => {
-  const classes = usePricingHeaderStyles();
+  const { classes } = usePricingTopUpStyles();
 
   return (
     <Box className={classes.formBlockTitle}>
       {isLoading ? (
-        <Skeleton className={classes.balanceSkeleton} variant="rect" />
+        <Skeleton className={classes.balanceSkeleton} variant="rectangular" />
       ) : (
         <Typography
           className={classes.formAmount}

@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-export const useLoaderStyles = makeStyles<Theme>(theme => ({
+export const useLoaderStyles = makeStyles()((theme: Theme) => ({
   root: {
     minHeight: '100%',
     display: 'flex',
@@ -10,7 +10,7 @@ export const useLoaderStyles = makeStyles<Theme>(theme => ({
   },
   paper: {
     background: theme.palette.common.white,
-    padding: 40,
+    padding: theme.spacing(2 * 5),
     maxWidth: 480,
     minHeight: 486,
     borderRadius: 30,
@@ -22,6 +22,6 @@ export const useLoaderStyles = makeStyles<Theme>(theme => ({
   },
   spinnerContainer: {
     position: 'relative',
-    marginTop: theme.spacing(4.5),
+    marginTop: theme.spacing(2 * 4.5),
   },
 }));

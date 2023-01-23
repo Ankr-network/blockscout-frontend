@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@mui/material';
 import { INotificationsSettings } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
@@ -9,7 +9,7 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useStyles } from './NotificationsBlockStyles';
 
 export const NotificationsBlock = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [fetchNotificationSettings, notificationSettingsState] =
     useLazyUserSettingsFetchNotificationSettingsQuery();
 
