@@ -20,7 +20,7 @@ export const ChainLabel = ({
   const { classes, cx } = useStyles();
 
   return (
-    <div className={className}>
+    <div className={cx(classes.tool, className)}>
       <TooltipWrapper hasIcon={false} tooltipText={tooltip}>
         <Typography
           className={cx(labelClassName, classes.label)}

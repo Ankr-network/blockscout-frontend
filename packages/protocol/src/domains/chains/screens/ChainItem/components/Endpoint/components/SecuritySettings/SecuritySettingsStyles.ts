@@ -12,11 +12,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     marginBottom: theme.spacing(2 * 2),
     alignItems: 'flex-end',
   },
-  tooltipIcon: {
-    '& circle': {
-      fill: theme.palette.background.default,
-    },
-  },
   container: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',

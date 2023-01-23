@@ -4,6 +4,7 @@ import { Console } from './components/Console';
 import { Header } from './components/Header';
 import { Log } from '../composers/types';
 import { useLoggerStyles } from './LoggerStyles';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export interface LoggerProps {
   className?: string;
@@ -12,7 +13,8 @@ export interface LoggerProps {
 }
 
 export const Logger = ({ className, clear, logs }: LoggerProps) => {
-  const { classes, cx } = useLoggerStyles();
+  const { isLightTheme } = useThemes();
+  const { classes, cx } = useLoggerStyles(isLightTheme);
 
   return (
     <Box className={cx(className, classes.logger)}>

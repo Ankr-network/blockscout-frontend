@@ -60,6 +60,9 @@ export const useMobileNavigationStyles = makeStyles<void, 'custom'>()(
         color: theme.palette.primary.main,
         cursor: 'default',
         fontWeight: 'bold',
+        '& svg': {
+          strokeWidth: 2,
+        },
         '&& svg:nth-of-type(1)': {
           display: 'none',
         },

@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 
 import { useEmailContentLoadingStyles } from './useEmailContentLoadingStyles';
-import { ReactComponent as GoogleIcon } from 'uiKit/Icons/google.svg';
+import { Google } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 export const EmailContentLoading = () => {
@@ -9,7 +9,7 @@ export const EmailContentLoading = () => {
 
   return (
     <Box className={classes.root}>
-      <GoogleIcon width={80} height={80} />
+      <Google width={80} height={80} />
       <Typography className={classes.title} variant="h3" color="textPrimary">
         {t('signup-modal.google.title')}
       </Typography>

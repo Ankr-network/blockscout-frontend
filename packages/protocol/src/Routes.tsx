@@ -12,7 +12,6 @@ import {
   UserSettingsRoutes,
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
-import { Themes } from '@ankr.com/ui';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import {
   GuardAuthRoute,
@@ -46,7 +45,6 @@ export const Routes = () => {
         hasPremium={hasPremium}
         render={() => (
           <DefaultLayout
-            theme={Themes.light}
             hasGradient
             hasNoReactSnap
             disableGutters
@@ -66,7 +64,7 @@ export const Routes = () => {
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <AccountRoutes />
           </DefaultLayout>
         )}
@@ -77,7 +75,7 @@ export const Routes = () => {
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <AccountRoutes />
           </DefaultLayout>
         )}
@@ -89,7 +87,7 @@ export const Routes = () => {
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <AccountRoutes />
           </DefaultLayout>
         )}
@@ -101,7 +99,7 @@ export const Routes = () => {
           UserSettingsRoutesConfig.confirmation.path,
         ]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <CenterContainer>
               <ConnectWalletCard />
             </CenterContainer>
@@ -136,7 +134,7 @@ export const Routes = () => {
         exact
         path={[MMChainsRoutesConfig.mmChains.path]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <MMChainsRoutes />
           </DefaultLayout>
         )}
@@ -157,7 +155,7 @@ export const Routes = () => {
         exact
         path={[ChainsRoutesConfig.chainDetails.path]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <ChainDetailsRoutes />
           </DefaultLayout>
         )}

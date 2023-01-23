@@ -40,7 +40,6 @@ export const useMethodsTabs = ({
         ),
         title: (isSelected: boolean) => (
           <SecondaryTab
-            isDarkTheme
             isSelected={isSelected}
             label={libraryID}
             size={TabSize.Small}

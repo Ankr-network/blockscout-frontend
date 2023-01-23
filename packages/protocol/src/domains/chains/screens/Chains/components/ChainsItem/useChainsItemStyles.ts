@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { premiumText } from 'uiKit/Theme/themeUtils';
 
 export const useChainsItemStyles = makeStyles<boolean, 'copyItem'>()(
   (theme: Theme, isHighlighted: boolean, classes) => ({
@@ -30,6 +31,7 @@ export const useChainsItemStyles = makeStyles<boolean, 'copyItem'>()(
     },
     buttonAddNetwork: {
       marginRight: theme.spacing(2 * 1),
+      backgroundColor: 'transparent',
     },
     button: {
       width: '100%',
@@ -79,8 +81,7 @@ export const useChainsItemStyles = makeStyles<boolean, 'copyItem'>()(
       display: 'inline',
       fontSize: 12,
       width: 'fit-content',
-      background:
-        'linear-gradient(269.98deg, #2F62F1 0.02%, #8D30FF 49.89%, #FF7710 99.98%)',
+      background: premiumText,
       '-webkit-background-clip': 'text',
       '-webkit-text-fill-color': 'transparent',
     },

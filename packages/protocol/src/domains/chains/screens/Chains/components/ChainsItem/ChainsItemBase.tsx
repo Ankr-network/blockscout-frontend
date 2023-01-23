@@ -1,8 +1,9 @@
-import { Box, Button, Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
-import { useHistory } from 'react-router-dom';
 import { useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material';
 
+import { Lock } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
@@ -12,7 +13,6 @@ import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useChainsItemStyles } from './useChainsItemStyles';
 import { ChainsItemDialog } from './ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { ReactComponent as LockIcon } from 'uiKit/Icons/lock.svg';
 
 export const ChainsItemBase = ({
   chain,
@@ -76,7 +76,7 @@ export const ChainsItemBase = ({
                 >
                   {t('chains.for-premium-only')}
                 </Typography>
-                <LockIcon className={classes.premiumOnlyCopyItemIcon} />
+                <Lock className={classes.premiumOnlyCopyItemIcon} />
               </Box>
             ) : (
               chainsItemLink

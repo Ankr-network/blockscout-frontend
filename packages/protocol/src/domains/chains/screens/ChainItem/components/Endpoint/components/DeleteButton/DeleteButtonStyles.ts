@@ -21,7 +21,7 @@ export const useStyles = makeStyles<void, 'icon'>()(
       },
     },
     icon: {
-      width: 14,
+      width: 18,
       transition: '0.2s all',
       fill: theme.palette.grey[400],
     },

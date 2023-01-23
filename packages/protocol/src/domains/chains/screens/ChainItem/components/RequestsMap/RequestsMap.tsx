@@ -12,6 +12,7 @@ import { Timeframe } from 'domains/chains/types';
 import { ItemHeader } from '../ItemHeader';
 import { useRequestsMapStyles } from './useRequestsMapStyles';
 import { OverlaySpinner } from '@ankr.com/ui';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export const RequestsMap = ({
   loading,
@@ -20,11 +21,15 @@ export const RequestsMap = ({
 }: RequestsMapProps) => {
   const { classes } = useRequestsMapStyles();
   const [country, setCountry] = useState<string>('');
+  const { isLightTheme } = useThemes();
 
   // TODO: remove when BE releases add all timeframe support for Premium
   const { isWalletConnected } = useAuth();
 
-  const data = useMemo(() => getMarkerPointsAndStats(countries), [countries]);
+  const data = useMemo(
+    () => getMarkerPointsAndStats(countries, isLightTheme),
+    [countries, isLightTheme],
+  );
 
   return (
     <div className={classes.root}>

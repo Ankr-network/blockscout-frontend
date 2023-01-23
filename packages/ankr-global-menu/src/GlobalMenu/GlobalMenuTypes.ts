@@ -1,3 +1,4 @@
+import { Themes } from '@ankr.com/ui';
 import { IGlobalMenuLinkProps, IGlobalMenuProject } from '../types';
 
 export interface IGlobalMenuProps {
@@ -7,4 +8,5 @@ export interface IGlobalMenuProps {
   locale: string;
   className?: string;
   fallBack?: JSX.Element;
+  themes?: Themes;
 }

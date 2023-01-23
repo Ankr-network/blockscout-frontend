@@ -42,6 +42,10 @@ export const useConnectWalletsModalStyles = makeStyles()((theme: Theme) => ({
       padding: theme.spacing(0),
     },
 
+    '& svg': {
+      fontSize: 64,
+    },
+
     '&:hover': {
       backgroundColor: theme.palette.background.default,
     },

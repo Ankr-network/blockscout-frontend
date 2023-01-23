@@ -7,6 +7,7 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { SignupButton } from 'domains/auth/components/SignupButton';
 import { useStyles } from './useStyles';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { ThemeSwitcher } from '../ThemeSwitcher';
 
 export const IS_I18N_ENABLED = false;
 
@@ -28,6 +29,7 @@ export const Header = ({ className = '' }: HeaderProps) => {
             <div className={classes.buttons}>
               {hasPremium && <AccountDetailsButton />}
               <SignupButton />
+              <ThemeSwitcher />
             </div>
           </NoReactSnap>
         </div>

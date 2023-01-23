@@ -4,6 +4,7 @@ import { RequestsCountry } from '../RequestsMapTypes';
 export const GEO_URL = map;
 
 const COLOR_DEFAULT = '#E8EEF5';
+const DARK_COLOR_DEFAULT = '#42464F';
 
 export const GEOGRAPHY_STYLES = {
   default: { fill: COLOR_DEFAULT },
@@ -11,15 +12,23 @@ export const GEOGRAPHY_STYLES = {
   pressed: { fill: COLOR_DEFAULT, outline: 'none' },
 };
 
-const strokeStyles = { strokeWidth: 0.5, stroke: '#fff' };
+const lightStrokeStyles = { strokeWidth: 0.5, stroke: '#fff' };
+const darkStrokeStyles = { strokeWidth: 0.5, stroke: '#1F2226' };
 
-export const getGeogrpahyStyles = (geo: any, data: RequestsCountry[]) => {
+export const getGeogrpahyStyles = (
+  geo: any,
+  data: RequestsCountry[],
+  isLightTheme: boolean,
+) => {
   const hasColor = data.find(
     item => item.isoA2 === geo?.properties?.ISO_A2,
   )?.color;
 
+  const strokeStyles = isLightTheme ? lightStrokeStyles : darkStrokeStyles;
+
   const cursorStyle = hasColor ? 'pointer' : 'default';
-  const fillColor = hasColor || COLOR_DEFAULT;
+  const fillColor =
+    hasColor || (isLightTheme ? COLOR_DEFAULT : DARK_COLOR_DEFAULT);
 
   return {
     default: { fill: fillColor, ...strokeStyles, cursor: cursorStyle },

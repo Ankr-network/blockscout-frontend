@@ -1,10 +1,10 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { premiumColor } from 'uiKit/Theme/themeUtils';
 
 export const usePremiumBlockStyles = makeStyles()((theme: Theme) => ({
   container: {
-    background:
-      'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
+    background: premiumColor,
     borderRadius: theme.spacing(2 * 7.5),
     padding: theme.spacing(2 * 0.5),
     maxWidth: 810,

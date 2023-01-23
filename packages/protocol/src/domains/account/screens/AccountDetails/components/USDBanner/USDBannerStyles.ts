@@ -8,7 +8,7 @@ export const useUSDBannerStyles = makeStyles()((theme: Theme) => ({
     marginTop: theme.spacing(2 * 3.5),
 
     marginBottom: theme.spacing(2 * 3.5),
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
 
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(2 * 2.5),
@@ -33,5 +33,8 @@ export const useUSDBannerStyles = makeStyles()((theme: Theme) => ({
     '& b': {
       color: theme.palette.warning.main,
     },
+  },
+  icon: {
+    color: theme.palette.primary.main,
   },
 }));

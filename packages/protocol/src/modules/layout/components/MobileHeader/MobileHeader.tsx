@@ -5,6 +5,7 @@ import { Logo } from '../Logo';
 import { SignupButton } from 'domains/auth/components/SignupButton';
 import { useStyles } from './useStyles';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { ThemeSwitcher } from '../ThemeSwitcher';
 
 interface MobileHeaderProps {
   className?: string;
@@ -22,6 +23,7 @@ export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
         <div className={classes.buttons}>
           {hasPremium && <AccountDetailsButton isMobile />}
           <SignupButton isMobile />
+          <ThemeSwitcher />
         </div>
       </Container>
     </header>

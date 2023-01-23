@@ -3,8 +3,11 @@ import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 
 import { ANTARCTICA, GEO_URL, getGeogrpahyStyles } from './StatsMapUtils';
 import { StatsMapProps } from './StatsMapTypes';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export const StatsMap = ({ data, setCountry }: StatsMapProps) => {
+  const { isLightTheme } = useThemes();
+
   return (
     <div>
       <ComposableMap height={470}>
@@ -13,7 +16,7 @@ export const StatsMap = ({ data, setCountry }: StatsMapProps) => {
             return geographies
               .filter(d => d.properties.ISO_A2 !== ANTARCTICA)
               .map(geo => {
-                const styles = getGeogrpahyStyles(geo, data);
+                const styles = getGeogrpahyStyles(geo, data, isLightTheme);
 
                 return (
                   <Geography

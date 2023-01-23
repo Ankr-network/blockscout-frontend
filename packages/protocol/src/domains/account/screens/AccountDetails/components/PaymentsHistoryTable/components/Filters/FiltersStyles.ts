@@ -11,7 +11,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
 
     '& div': {
       '&:hover': {
-        backgroundColor: theme.palette.common.white,
+        backgroundColor: theme.palette.background.paper,
       },
     },
 

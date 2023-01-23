@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from '@mui/material';
 
 import { PremiumLabel } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumLabel';
 import { t, tHTML } from '@ankr.com/common';
-import { ReactComponent as LinkIcon } from 'uiKit/Icons/externalLink.svg';
+import { ExternalLink } from '@ankr.com/ui';
 import { usePremiumBlockStyles } from './usePremiumBlockStyles';
 import { NavLink } from 'uiKit/NavLink';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
@@ -82,7 +82,7 @@ export const PremiumBlock = ({
               href={PRICING_LINK}
               variant="text"
               color="inherit"
-              endIcon={<LinkIcon />}
+              endIcon={<ExternalLink />}
             >
               {t('plan.premium-block.pricing-link')}
             </NavLink>

@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { Button } from '@mui/material';
 
+import { Delete } from '@ankr.com/ui';
 import { DeleteButtonProps } from './DeleteButtonTypes';
 import { DeleteEndpointDialog } from '../DeleteEndpointDialog';
-import { ReactComponent as TrashBinIcon } from 'uiKit/Icons/trashBin.svg';
 import { useLazyInfrastructureDeletePrivateEndpointQuery } from 'domains/infrastructure/actions/deletePrivateEndpoint';
 
 import { useStyles } from './DeleteButtonStyles';
@@ -26,7 +26,7 @@ export const DeleteButton = ({ className, endpoint }: DeleteButtonProps) => {
     <>
       <div className={cx(classes.root, className)}>
         <Button variant="text" className={classes.link} onClick={onOpen}>
-          <TrashBinIcon className={classes.icon} />
+          <Delete className={classes.icon} />
         </Button>
       </div>
       <DeleteEndpointDialog

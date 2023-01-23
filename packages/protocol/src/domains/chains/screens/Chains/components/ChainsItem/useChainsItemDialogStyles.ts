@@ -56,7 +56,7 @@ export const useChainsItemDialogStyles = makeStyles<
   },
   content: {
     padding: theme.spacing(2 * 3.5),
-    border: `4px solid ${theme.palette.grey[100]}`,
+    border: `4px solid ${theme.palette.divider}`,
     borderRadius: 40,
     display: 'flex',
     flexDirection: 'column',

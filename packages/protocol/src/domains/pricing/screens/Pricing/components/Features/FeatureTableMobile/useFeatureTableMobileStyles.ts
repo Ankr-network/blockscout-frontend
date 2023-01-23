@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { premiumColor } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureTableMobileStyles = makeStyles()((theme: Theme) => ({
   title: {
@@ -21,7 +22,7 @@ export const useFeatureTableMobileStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 400,
     color: theme.palette.text.primary,
     paddingBottom: theme.spacing(2 * 1.5),
-    borderBottom: `1px solid ${theme.palette.grey[400]}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
     display: 'block',
   },
   included: {
@@ -39,7 +40,7 @@ export const useFeatureTableMobileStyles = makeStyles()((theme: Theme) => ({
     },
   },
   item: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     borderRadius: 12,
     marginTop: theme.spacing(2 * 2.5),
     padding: theme.spacing(2 * 2),
@@ -52,8 +53,7 @@ export const useFeatureTableMobileStyles = makeStyles()((theme: Theme) => ({
     display: 'block',
   },
   liner: {
-    background:
-      'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
+    background: premiumColor,
     '-webkit-background-clip': 'text',
     '-webkit-text-fill-color': 'transparent',
     '-webkit-box-decoration-break': 'clone',

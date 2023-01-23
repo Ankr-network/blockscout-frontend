@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 
-import { AngleRightIcon } from 'uiKit/Icons/AngleRightIcon';
+import { ArrowRight } from '@ankr.com/ui';
 import { useStyles } from './BackButtonStyles';
 import { BackButtonProps } from './BackButtonTypes';
 
@@ -15,7 +15,7 @@ export const BackButton = ({ title, className }: BackButtonProps) => {
   return (
     <div className={cx(classes.root, className)}>
       <Button variant="text" className={classes.link} onClick={onClick}>
-        <AngleRightIcon className={classes.backButton} />
+        <ArrowRight className={classes.backButton} />
       </Button>
       {title && (
         <Typography color="textPrimary" variant="h3" className={classes.text}>

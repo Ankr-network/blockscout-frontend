@@ -3,7 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useBannerStyles = makeStyles()((theme: Theme) => ({
   root: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     borderRadius: 20,
     width: '100%',
     marginBottom: theme.spacing(2 * 6.5),
@@ -35,11 +35,12 @@ export const useBannerStyles = makeStyles()((theme: Theme) => ({
     },
   },
   content: {
-    fontWeight: 700,
+    fontWeight: 400,
     marginLeft: theme.spacing(2 * 1.75),
     lineHeight: theme.spacing(2 * 3),
   },
   text: {
+    color: theme.palette.text.primary,
     marginRight: '0.5em',
     '& .link': {
       color: theme.palette.primary.main,

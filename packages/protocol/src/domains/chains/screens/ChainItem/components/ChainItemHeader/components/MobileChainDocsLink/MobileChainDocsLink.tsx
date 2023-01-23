@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 
-import { ReactComponent as OpenLinkIcon } from 'uiKit/Icons/open-link.svg';
+import { ExternalLink } from '@ankr.com/ui';
 import { getChainDocsLink } from '../../utils/getChainDocsLink';
 import { t } from '@ankr.com/common';
 import { useMobileChainDocsLinkStyles } from './MobileChainDocsLinkStyles';
@@ -19,7 +19,7 @@ export const MobileChainDocsLink = ({ chainId }: MobileChainDocsLinkProps) => {
       className={classes.button}
       disabled={!link}
       href={link || ''}
-      endIcon={<OpenLinkIcon />}
+      endIcon={<ExternalLink />}
       target="_blank"
       variant="text"
     >
