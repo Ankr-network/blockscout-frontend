@@ -2,11 +2,14 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
+import { AddEmailFormContentState, IAddEmailFormData } from './types';
 import { FillStep } from './components/FillStep';
+import {
+  IUseAddEmailFormProps,
+  useAddEmailForm,
+} from './hooks/useAddEmailForm';
 import { SuccessStep } from './components/SuccessStep';
 import { initialFormData } from './const';
-import { AddEmailFormContentState, IAddEmailFormData } from './types';
-import { IUseAddEmailFormProps, useAddEmailForm } from './useAddEmailForm';
 
 export const AddEmailForm = (props: IUseAddEmailFormProps) => {
   const {

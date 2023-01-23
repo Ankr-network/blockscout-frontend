@@ -1,5 +1,6 @@
-import { GetState } from 'store';
-import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
+import { EWalletId } from '@ankr.com/provider';
+
+import { GetState, RootState } from 'store';
 import {
   IConnect,
   disconnectService,
@@ -7,8 +8,11 @@ import {
   loginAndCache,
   switchChain,
 } from './connectUtils';
+import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { resetAuthData } from '../store/authSlice';
+import { resetAuthData, selectAuthData } from '../store/authSlice';
+import { trackWeb3ConnectFailure } from 'modules/analytics/mixpanel/trackWeb3ConnectFailure';
+import { trackWeb3ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb3ConnectSuccess';
 import { web3Api } from 'store/queries';
 
 export interface AuthConnectParams {
@@ -38,7 +42,7 @@ export const {
 
           const cachedData = getCachedData(service, getState as GetState);
 
-          const { hasWeb3Connection, address } = cachedData;
+          const { hasWeb3Connection, address: cachedAddress } = cachedData;
           let { hasOauthLogin } = cachedData;
 
           if (hasWeb3Connection) return { data: cachedData };
@@ -47,8 +51,8 @@ export const {
           const { currentAccount: providerAddress } = provider;
 
           if (
-            address &&
-            providerAddress.toLowerCase() !== address?.toLowerCase()
+            cachedAddress &&
+            providerAddress.toLowerCase() !== cachedAddress?.toLowerCase()
           ) {
             dispatch(resetAuthData());
 
@@ -59,19 +63,38 @@ export const {
             web3Service,
             service,
             dispatch,
+            walletId as EWalletId,
             hasOauthLogin,
           );
+
+          const {
+            address,
+            credentials,
+            trackingWalletName: walletName,
+          } = authData;
+
+          trackWeb3ConnectSuccess({
+            address,
+            credentials,
+            walletName: walletName!,
+          });
 
           return { data: authData };
         },
       ),
-      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (_args, { dispatch, getState, queryFulfilled }) => {
         try {
           await queryFulfilled;
         } catch {
           disconnectService();
 
           dispatch(resetAuthData());
+
+          const { trackingWalletName: walletName } = selectAuthData(
+            getState() as RootState,
+          );
+
+          trackWeb3ConnectFailure({ walletName: walletName! });
         }
       },
     }),

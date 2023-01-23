@@ -1,1 +1,1 @@
-export const isReactSnap = () => navigator.userAgent === 'ReactSnap';
+export const isReactSnap = navigator.userAgent === 'ReactSnap';

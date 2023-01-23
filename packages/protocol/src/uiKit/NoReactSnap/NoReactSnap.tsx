@@ -15,11 +15,11 @@ interface INoReactSnapProps {
  * [react-snap](https://github.com/stereobooster/react-snap)
  */
 export const NoReactSnap = ({ children, fallback }: INoReactSnapProps) => {
-  if (isReactSnap() && fallback) {
+  if (isReactSnap && fallback) {
     return <>{fallback}</>;
   }
 
-  if (isReactSnap()) {
+  if (isReactSnap) {
     return null;
   }
 

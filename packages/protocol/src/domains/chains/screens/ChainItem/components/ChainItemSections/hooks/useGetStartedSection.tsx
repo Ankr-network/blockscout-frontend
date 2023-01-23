@@ -1,18 +1,20 @@
 import { useMemo } from 'react';
-
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { ChainID } from 'modules/chains/types';
-import { Tab } from 'modules/common/hooks/useTabs';
-import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
-import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
 import { t } from '@ankr.com/common';
+
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { ChainID } from 'modules/chains/types';
 import { GetStartedSection } from '../../GetStartedSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
+import { Tab } from 'modules/common/hooks/useTabs';
+import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
+import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface GetStartedSectionParams {
   chainId: ChainID;
+  getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;
   unfilteredGroup: EndpointGroup;
 }
@@ -38,6 +40,7 @@ const label = t('chain-item.tabs.get-started');
 
 export const useGetStartedSection = ({
   chainId,
+  getSelectHandler,
   group,
   unfilteredGroup,
 }: GetStartedSectionParams) => {
@@ -59,11 +62,12 @@ export const useGetStartedSection = ({
                 unfilteredGroup={unfilteredGroup}
               />
             ),
+            onSelect: getSelectHandler(SectionID.GetStarted),
             title: (isSelected: boolean) => (
               <PrimaryTab isSelected={isSelected} label={label} />
             ),
           }
         : undefined,
-    [chainId, group, isVisible, unfilteredGroup],
+    [chainId, getSelectHandler, group, isVisible, unfilteredGroup],
   );
 };

@@ -6,12 +6,14 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { UsageDataSection } from '../../UsageDataSection';
 import { t } from '@ankr.com/common';
 
 export interface UsageDataSectionParams {
   chain: IApiChain;
   chainType: ChainType;
+  getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;
   timeframe: Timeframe;
   timeframeTabs: Tab<Timeframe>[];
@@ -22,6 +24,7 @@ const label = t('chain-item.tabs.usage-data');
 export const useUsageDataSection = ({
   chain,
   chainType,
+  getSelectHandler,
   group,
   timeframe,
   timeframeTabs,
@@ -38,10 +41,11 @@ export const useUsageDataSection = ({
           timeframeTabs={timeframeTabs}
         />
       ),
+      onSelect: getSelectHandler(SectionID.UsageData),
       title: (isSelected: boolean) => (
         <PrimaryTab isSelected={isSelected} label={label} />
       ),
     }),
-    [chain, chainType, group, timeframe, timeframeTabs],
+    [chain, chainType, getSelectHandler, group, timeframe, timeframeTabs],
   );
 };

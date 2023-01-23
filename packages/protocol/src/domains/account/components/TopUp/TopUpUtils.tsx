@@ -8,6 +8,7 @@ import {
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { USDTopUpForm } from './USDTopUpForm';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { TrackTopUpSubmit } from 'domains/account/types';
 
 export const useInitialValues = (
   shouldUseDefaultValue = false,
@@ -27,14 +28,17 @@ export enum TopUpTabID {
   USD = 'USD',
 }
 
-export const useTopUpTabs = (ankrTopupTab?: Tab<TopUpTabID>) => {
+export const useTopUpTabs = (
+  ankrTopupTab?: Tab<TopUpTabID>,
+  trackSubmit: TrackTopUpSubmit = () => {},
+) => {
   const initialTabID = ankrTopupTab ? TopUpTabID.ANKR : TopUpTabID.USD;
 
   const rawTabs: Tab<TopUpTabID>[] = useMemo(() => {
     const tabs = [
       {
         id: TopUpTabID.USD,
-        content: <USDTopUpForm />,
+        content: <USDTopUpForm trackSubmit={trackSubmit} />,
         title: (isSelected: boolean) => (
           <SecondaryTab isSelected={isSelected} label={TopUpTabID.USD} />
         ),
@@ -46,7 +50,7 @@ export const useTopUpTabs = (ankrTopupTab?: Tab<TopUpTabID>) => {
     }
 
     return tabs;
-  }, [ankrTopupTab]);
+  }, [ankrTopupTab, trackSubmit]);
 
   return useTabs({
     initialTabID,

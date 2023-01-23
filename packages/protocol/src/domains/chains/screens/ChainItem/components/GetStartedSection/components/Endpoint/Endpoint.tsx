@@ -1,28 +1,31 @@
-import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainType } from 'domains/chains/types';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { EndpointGroup } from 'modules/endpoints/types';
 import { t } from '@ankr.com/common';
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+
+import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
+import { ChainType } from 'domains/chains/types';
+import { CopyToClipIcon, ICopyToClipIconProps } from 'uiKit/CopyToClipIcon';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { IApiChain } from 'domains/chains/api/queryChains';
 import { MetamaskButtonLabel } from '../MetamaskButtonLabel';
+import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { useEndpointStyles } from './EndpointStyles';
 
 export interface EndpointProps {
-  publicChain?: IApiChain;
   chainType?: ChainType;
   group?: EndpointGroup;
-  url: string;
   hasConnectWalletMessage: boolean;
+  onCopy: ICopyToClipIconProps['onCopy'];
+  publicChain?: IApiChain;
+  url: string;
 }
 
 export const Endpoint = ({
-  publicChain,
   chainType,
   group,
-  url,
   hasConnectWalletMessage,
+  onCopy,
+  publicChain,
+  url,
 }: EndpointProps) => {
   const { classes } = useEndpointStyles();
 
@@ -33,21 +36,22 @@ export const Endpoint = ({
       <div className={classes.endpoint}>
         <CopyToClipIcon
           className={classes.copyToClip}
-          message={t('common.copy-message')}
           copyText={hasConnectWalletMessage ? undefined : 'Copy'}
+          hideIcon={hasConnectWalletMessage}
+          message={t('common.copy-message')}
+          onClick={hasConnectWalletMessage ? onOpen : undefined}
+          onCopy={onCopy}
           size="l"
           text={hasConnectWalletMessage ? t('chains.connect-wallet') : url}
           textColor="textPrimary"
-          hideIcon={hasConnectWalletMessage}
-          onClick={hasConnectWalletMessage ? onOpen : undefined}
         />
         {publicChain && (
           <AddNetworkButton
-            className={classes.addNetworkButton}
-            publicChain={publicChain}
             chainType={chainType}
+            className={classes.addNetworkButton}
             group={group}
             label={<MetamaskButtonLabel />}
+            publicChain={publicChain}
           />
         )}
       </div>

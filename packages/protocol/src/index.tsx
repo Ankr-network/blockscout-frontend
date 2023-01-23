@@ -1,13 +1,15 @@
 import React from 'react';
 import { hydrate, render } from 'react-dom';
-import App from './App';
-import { reportWebVitals } from './reportWebVitals';
-import { initializeSentry } from 'modules/sentry';
-
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@ankr.com/global-menu/src/assets/fonts/style.css';
 
+import App from './App';
+import { initializeMixpanel } from 'modules/analytics/mixpanel/initialize';
+import { initializeSentry } from 'modules/sentry';
+import { reportWebVitals } from './reportWebVitals';
+
 initializeSentry();
+initializeMixpanel();
 
 const rootElement = document.getElementById('root');
 

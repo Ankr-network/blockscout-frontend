@@ -5,14 +5,15 @@ import {
   AddEmailFormErrors,
   AddEmailFormFields,
   IAddEmailFormData,
-} from './types';
-import { ISuccessStepProps } from './components/SuccessStep';
+} from '../types';
+import { ISuccessStepProps } from '../components/SuccessStep';
 import { getAddEmailErrorMessage } from 'domains/userSettings/utils/getAddEmailErrorMessage';
 import { getEditEmailErrorMessage } from 'domains/userSettings/utils/getEditEmailErrorMessage';
 import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
 import { useLazyUserSettingsAddNewEmailBindingQuery } from 'domains/userSettings/actions/email/addNewEmailBinding';
 import { useLazyUserSettingsEditEmailBindingQuery } from 'domains/userSettings/actions/email/editEmailBinding';
 import { useLazyUserSettingsResendConfirmationCodeQuery } from 'domains/userSettings/actions/email/resendConfirmationCode';
+import { useAddEmailTrackingCallback } from './useAddEmailTrackingCallback';
 
 const ENABLE_CHANGE_EMAIL = false;
 
@@ -44,6 +45,8 @@ export const useAddEmailForm = ({
     },
   ] = useLazyUserSettingsResendConfirmationCodeQuery();
 
+  const trackEmailAdding = useAddEmailTrackingCallback();
+
   const handleAddEmailSubmit = useCallback(
     async (email: string): Promise<AddEmailFormErrors> => {
       const { data, error } = await addNewEmailBinding({
@@ -63,11 +66,18 @@ export const useAddEmailForm = ({
         onFormStateChange(AddEmailFormContentState.SUCCESS);
 
         onAddEmailSubmitSuccess?.();
+
+        trackEmailAdding(email);
       }
 
       return undefined;
     },
-    [addNewEmailBinding, onFormStateChange, onAddEmailSubmitSuccess],
+    [
+      addNewEmailBinding,
+      onFormStateChange,
+      onAddEmailSubmitSuccess,
+      trackEmailAdding,
+    ],
   );
 
   const handleChangeEmailSubmit = useCallback(

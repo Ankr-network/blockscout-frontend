@@ -1,23 +1,25 @@
-import { ClassNameMap } from '@mui/material/styles';
-import { useCallback, useState } from 'react';
-import { FormRenderProps } from 'react-final-form';
-import { Box } from '@mui/material';
 import BigNumber from 'bignumber.js';
-
+import { Box } from '@mui/material';
+import { ClassNameMap } from '@mui/material/styles';
+import { FormRenderProps } from 'react-final-form';
+import { useCallback, useState } from 'react';
 import { t } from '@ankr.com/common';
-import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
+
 import { AmountField } from '../ANKRTopUpForm/AmountField';
-import { LoadingButton } from 'uiKit/LoadingButton';
-import { RateBlock } from '../ANKRTopUpForm/RateBlock';
-import { useCardPayment } from 'domains/account/hooks/useCardPayment';
-import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
 import {
   DEFAULT_USD_VALUE,
   DEFAULT_USD_VALUE_STRING,
-  USD_CURRENCY,
   MAX_USD_DECIMALS,
+  USD_CURRENCY,
 } from 'domains/account/actions/usdTopUp/const';
+import { LoadingButton } from 'uiKit/LoadingButton';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import { RateBlock } from '../ANKRTopUpForm/RateBlock';
+import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
+import { TrackTopUpSubmit } from 'domains/account/types';
+import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
+import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 
 const validateAmount = (value: string) => {
   if (!value) {
@@ -118,6 +120,7 @@ export const useRenderForm = (
 export const useOnTopUpSubmit = (
   confirmedEmail?: string,
   pendingEmail?: string,
+  trackSubmit: TrackTopUpSubmit = () => {},
 ) => {
   const { handleFetchLinkForCardPayment, isFetchLinkForCardPaymentLoading } =
     useCardPayment();
@@ -130,11 +133,13 @@ export const useOnTopUpSubmit = (
 
       const { data: url } = await handleFetchLinkForCardPayment(amount, id);
 
-      if (url) {
-        window.location.href = url;
-      }
+      trackSubmit(amount, TopUpCurrnecy.USD, () => {
+        if (url) {
+          window.location.href = url;
+        }
+      });
     },
-    [handleFetchLinkForCardPayment],
+    [handleFetchLinkForCardPayment, trackSubmit],
   );
 
   const onClose = useCallback(() => {
