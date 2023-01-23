@@ -7,7 +7,7 @@ export const useUsageSummaryStyles = makeStyles()((theme: Theme) => ({
     flexDirection: 'column',
 
     width: '100%',
-    padding: theme.spacing(2, 2.75),
+    padding: theme.spacing(2 * 3.75),
 
     borderRadius: 24,
 
