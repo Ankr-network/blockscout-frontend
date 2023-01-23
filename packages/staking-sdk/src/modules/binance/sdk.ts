@@ -70,8 +70,6 @@ import {
   TBnbSyntToken,
 } from './types';
 
-const INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG =
-  'err: insufficient funds for gas * price + value';
 
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
@@ -1458,20 +1456,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
         this.getUnstakeMethodName(token as TBnbSyntToken)
       ];
 
-    const unstakeFn = contractUnstake(hexAmount);
-
-    try {
-      await unstakeFn.estimateGas({
-        from: this.currentAccount,
-        value: hexAmount,
-      });
-    } catch (e) {
-      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
-        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
-      }
-    }
-
-    const data = unstakeFn.encodeABI();
+    const data = contractUnstake(hexAmount).encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
@@ -1515,20 +1500,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
         this.getUnstakeToExternalMethodName(token as TBnbSyntToken)
       ];
 
-    const unstakeFn = contractUnstake(externalAddress, hexAmount);
-
-    try {
-      await unstakeFn.estimateGas({
-        from: this.currentAccount,
-        value: hexAmount,
-      });
-    } catch (e) {
-      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
-        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
-      }
-    }
-
-    const data = unstakeFn.encodeABI();
+    const data = contractUnstake(externalAddress, hexAmount).encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
@@ -1865,22 +1837,9 @@ export class BinanceSDK implements ISwitcher, IStakable {
       this.currentAccount,
     );
 
-    let gasLimit: number;
-
-    try {
-      gasLimit = await txn.estimateGas({
-        from: this.currentAccount,
-        value: amountHex,
-      });
-    } catch (e) {
-      if ((e as Error)?.message.includes(INSUFFICIENT_FUNDS_FOR_GAS_ERR_MSG)) {
-        throw new Error(EBinanceErrorCodes.LOW_BALANCE_FOR_GAS_FEE);
-      } else {
-        gasLimit = await txn.estimateGas({
-          from: this.currentAccount,
-        });
-      }
-    }
+    const gasLimit: number = await txn.estimateGas({
+      from: this.currentAccount,
+    });
 
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
