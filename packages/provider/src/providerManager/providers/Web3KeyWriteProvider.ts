@@ -112,6 +112,7 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
       value?: string;
       estimate?: boolean;
       nonce?: number;
+      extendedGasLimit?: number;
     },
   ): Promise<IWeb3SendResult> {
     const web3 = this.getWeb3();
@@ -119,6 +120,13 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
 
     console.log(`Safe Gas Price: ${safeGasPrice}`);
 
+    const {
+      data,
+      estimate = false,
+      extendedGasLimit,
+      gasLimit = '0',
+      value = '0',
+    } = sendOptions;
     let { nonce } = sendOptions;
 
     if (!nonce) {
@@ -130,16 +138,22 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
     const tx = {
       from,
       to,
-      value: numberToHex(sendOptions.value || '0'),
-      gas: numberToHex(sendOptions.gasLimit || '0'),
+      value: numberToHex(value),
+      gas: numberToHex(gasLimit),
       gasPrice: safeGasPrice.toString(10),
-      data: sendOptions.data,
+      data,
       nonce,
       chainId: numberToHex(this.currentChain) as unknown as number,
     };
 
-    if (sendOptions.estimate) {
-      tx.gas = numberToHex(await web3.eth.estimateGas(tx));
+    if (estimate) {
+      const estimatedGas = await web3.eth.estimateGas(tx);
+
+      if (extendedGasLimit) {
+        tx.gas = numberToHex(estimatedGas + extendedGasLimit);
+      } else {
+        tx.gas = numberToHex(estimatedGas);
+      }
     }
 
     console.log('Sending transaction via Web3: ', tx);
