@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Box, Container, Paper, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
@@ -25,6 +26,7 @@ interface IUnstakeSuccessProps {
   amount?: BigNumber;
   destinationAddress?: string;
   txHash?: string;
+  isLoading?: boolean;
   onClose?: () => void;
 }
 
@@ -36,6 +38,7 @@ export const UnstakeSuccess = ({
   amount,
   destinationAddress,
   txHash,
+  isLoading = false,
   onClose,
 }: IUnstakeSuccessProps): JSX.Element => {
   const classes = useUnstakeSuccessStyles();
@@ -67,27 +70,38 @@ export const UnstakeSuccess = ({
           </Typography>
 
           <div className={classes.table}>
-            {amount && (
-              <div className={classes.row}>
-                <Typography className={classes.rowName}>
-                  {t('progress.tx.grid.amount')}
-                </Typography>
+            <div className={classes.row}>
+              <Typography className={classes.rowName}>
+                {t('progress.tx.grid.amount')}
+              </Typography>
 
-                <Typography className={classes.rowValue}>
-                  {t('unit.token-value', {
+              <Typography className={classes.rowValue}>
+                {isLoading || !amount ? (
+                  <Skeleton width={40} />
+                ) : (
+                  t('unit.token-value', {
                     value: amount.toFormat(),
                     token: tokenName && getTokenName(tokenName),
-                  })}
-                </Typography>
-              </div>
-            )}
+                  })
+                )}
+              </Typography>
+            </div>
 
-            {destinationAddress && (
-              <div className={classes.row}>
-                <Typography className={classes.rowName}>
-                  {t('progress.tx.grid.destination')}
-                </Typography>
+            <div className={classes.row}>
+              <Typography className={classes.rowName}>
+                {t('progress.tx.grid.destination')}
+              </Typography>
 
+              {isLoading || !destinationAddress ? (
+                <Box
+                  alignItems="center"
+                  className={classes.rowValue}
+                  display="flex"
+                  height={24}
+                >
+                  <Skeleton width={80} />
+                </Box>
+              ) : (
                 <div className={classes.navigation}>
                   <Typography className={classes.rowValue}>
                     {getShortTxHash(destinationAddress)}
@@ -119,8 +133,8 @@ export const UnstakeSuccess = ({
                     <ExternalLinkIcon />
                   </NavLink>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
             {txHash && (
               <div className={classes.row}>
