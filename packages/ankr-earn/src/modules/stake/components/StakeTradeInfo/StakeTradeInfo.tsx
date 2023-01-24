@@ -22,11 +22,11 @@ export const StakeTradeInfo = (): JSX.Element | null => {
   const classes = useStakeTradeInfoStyles();
   const { onTrackGetSyntToken } = useStakeTradeAnalytics();
 
-  const { data, loading: isLoadingData } = useQuery({
+  const { data } = useQuery({
     type: getStakeTradeInfoData,
   });
 
-  if (isLoadingData || data === null) {
+  if (data === null) {
     return null;
   }
 
