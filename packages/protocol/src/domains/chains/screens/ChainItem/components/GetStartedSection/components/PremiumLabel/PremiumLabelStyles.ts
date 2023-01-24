@@ -14,8 +14,8 @@ export const usePremiumLabelStyles = makeStyles<FontSize>()(
     },
     gradient: {
       background: premiumColor,
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
 
       letterSpacing: '0.01em',
 

@@ -82,8 +82,8 @@ export const useChainsItemStyles = makeStyles<boolean, 'copyItem'>()(
       fontSize: 12,
       width: 'fit-content',
       background: premiumText,
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
     },
     premiumOnlyCopyItemIcon: {
       color: theme.palette.grey[600],

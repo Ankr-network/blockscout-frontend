@@ -54,8 +54,8 @@ export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
     },
     '& th:nth-of-type(3)': {
       background: premiumColor,
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
       '-webkit-box-decoration-break': 'clone',
     },
   },

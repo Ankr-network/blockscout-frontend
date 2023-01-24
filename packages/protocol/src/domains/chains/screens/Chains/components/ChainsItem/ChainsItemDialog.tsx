@@ -40,7 +40,10 @@ export const ChainsItemDialog = ({
         </Typography>
         <div className={classes.container}>
           {chainDialogContent.map((item: IChainDialogContent) => (
-            <div className={`${chainDialogIntl}-${item.title}`}>
+            <div
+              key={item.title}
+              className={`${chainDialogIntl}-${item.title}`}
+            >
               <div className={classes.content}>
                 <div>
                   <Typography variant="h6" className={classes.title}>
@@ -56,7 +59,7 @@ export const ChainsItemDialog = ({
                   </Typography>
                   <div className={classes.list}>
                     {new Array(item.itemCount).fill('').map((_, index) => (
-                      <div className={classes.item}>
+                      <div key={item.title} className={classes.item}>
                         {t(
                           `${chainDialogIntl}.${item.title}.list-${index + 1}`,
                         )}

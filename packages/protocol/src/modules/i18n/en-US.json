@@ -114,7 +114,14 @@
       "title": "Google Authentication",
       "description": "Connection Process"
     },
-    "connect-wallet": "Wallet connecting"
+    "connect-wallet": "Wallet connecting",
+    "web2": {
+      "button": "Continue with Google"
+    },
+    "web3": {
+      "title": "Continue with Ethereum Wallet",
+      "button": "Continue with ETH Wallet"
+    }
   },
   "dashboard": {
     "breadcrumbs": "Premium Endpoints",

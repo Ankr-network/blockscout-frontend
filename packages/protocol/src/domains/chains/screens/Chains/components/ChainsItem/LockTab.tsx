@@ -20,8 +20,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     fontSize: 16,
     fontWeight: 600,
     background: enterpriseColor,
-    '-webkit-background-clip': 'text',
-    '-webkit-text-fill-color': 'transparent',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
     [theme.breakpoints.down('xl')]: {
       fontSize: 14,
     },
