@@ -1,5 +1,4 @@
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { SUI_NETWORK_BY_ENV } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
@@ -72,7 +71,6 @@ export const StakedAnkrSUI = (): JSX.Element => {
       />
 
       <NewHistoryDialog
-        network={SUI_NETWORK_BY_ENV}
         open={isOpenedHistory}
         token={Token.SUI}
         onClose={onCloseHistory}

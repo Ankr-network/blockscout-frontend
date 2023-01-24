@@ -20,6 +20,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { useHistory } from './hooks/useHistory';
 import { IHistoryDialogRow } from './types';
 import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
+import { getNetworkByToken } from './utils/getNetworkByToken';
 
 enum EHistoryTypes {
   Staked = 'staked',
@@ -35,7 +36,6 @@ export interface IHistoryDialogData {
 
 export interface IHistoryDialogProps {
   token: Token;
-  network: number;
   open: boolean;
   onClose: () => void;
 }
@@ -47,15 +47,15 @@ const TOKEN_OPTIONS = Object.keys(EHistorySynthTokens).map(tokenItem => ({
 
 export const NewHistoryDialog = ({
   token,
-  network,
   open,
   onClose,
 }: IHistoryDialogProps): JSX.Element => {
   const classes = useStyles();
   const [selectedToken, setSelectedToken] = useState(token);
+  const networkByToken = getNetworkByToken(selectedToken);
 
   const { stakeEvents, unstakeEvents, loading, weeksAmount, handleShowMore } =
-    useHistory({ token: selectedToken, open, network });
+    useHistory({ token: selectedToken, open, network: networkByToken });
 
   const history: IHistoryDialogData = useMemo(
     () => ({
@@ -121,7 +121,7 @@ export const NewHistoryDialog = ({
     [classes, history, showType],
   );
 
-  const txHistory = useMemo(() => {
+  const renderedTxHistory = useMemo(() => {
     const isFullHistory = Array.isArray(tableRows) && !!tableRows.length;
 
     const emptyHistory = (
@@ -231,7 +231,7 @@ export const NewHistoryDialog = ({
         />
 
         <div className={classes.tableWrapper}>
-          {txHistory}
+          {renderedTxHistory}
 
           {!isInitLoading && (
             <div className={classes.footer}>

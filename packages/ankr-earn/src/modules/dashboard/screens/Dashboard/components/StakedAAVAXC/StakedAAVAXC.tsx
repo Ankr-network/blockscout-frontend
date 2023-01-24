@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { AVAX_NETWORK_BY_ENV, ONE, ZERO } from 'modules/common/const';
+import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -117,7 +117,6 @@ export const StakedAAVAXC = (): JSX.Element => {
       />
 
       <NewHistoryDialog
-        network={AVAX_NETWORK_BY_ENV}
         open={isOpenedHistory}
         token={token}
         onClose={onCloseHistory}
