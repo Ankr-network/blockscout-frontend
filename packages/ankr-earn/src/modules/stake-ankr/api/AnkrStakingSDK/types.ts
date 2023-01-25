@@ -165,3 +165,8 @@ export interface ILockingPeriod {
   totalLockPeriod: Days;
   daysLeft: Days;
 }
+
+export interface IQueueHistoryItem {
+  amount: BigNumber;
+  fromEpoch: number;
+}
