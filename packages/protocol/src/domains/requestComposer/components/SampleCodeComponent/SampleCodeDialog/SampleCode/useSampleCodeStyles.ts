@@ -15,7 +15,7 @@ export const useSampleCodeStyles = makeStyles<boolean>()(
       justifyContent: 'center',
       top: -66,
       right: theme.spacing(2 * 2.75),
-      backgroundColor: theme.palette.grey[900],
+      backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(2 * 0.75, 2 * 1.5),
       borderRadius: 11,
       [theme.breakpoints.down(540)]: {

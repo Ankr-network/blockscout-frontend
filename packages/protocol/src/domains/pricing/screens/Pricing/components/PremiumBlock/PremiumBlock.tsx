@@ -10,6 +10,7 @@ import { PricingTopUp } from './PricingTopUp';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { shouldShowConnectWalletButton } from './PremiumBlockUtils';
 import { PRICING_LINK } from 'domains/account/actions/topUp/const';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface PremiumBlockProps {
   hasPrivateAccess: boolean;
@@ -28,7 +29,8 @@ export const PremiumBlock = ({
   address,
   isUserAddress,
 }: PremiumBlockProps) => {
-  const { classes } = usePremiumBlockStyles();
+  const { isLightTheme } = useThemes();
+  const { classes } = usePremiumBlockStyles(isLightTheme);
 
   const { hasConnectButton, isNewWeb3UserWithBindedEmail } =
     shouldShowConnectWalletButton({

@@ -4,6 +4,7 @@ import { Themes } from '@ankr.com/ui';
 
 export interface IThemeSlice {
   theme: Themes;
+  isSwitched?: boolean;
 }
 
 const initialState: IThemeSlice = {
@@ -16,10 +17,16 @@ export const themeSlice = createSlice({
   reducers: {
     setTheme: (state, action: PayloadAction<Themes>) => {
       state.theme = action.payload;
+      state.isSwitched = true;
+    },
+    setIsSwitched: (state, action: PayloadAction<boolean>) => {
+      state.isSwitched = action.payload;
     },
   },
 });
 
 export const selectTheme = (state: RootState) => state.theme.theme;
 
-export const { setTheme } = themeSlice.actions;
+export const selectIsSwitched = (state: RootState) => state.theme.isSwitched;
+
+export const { setTheme, setIsSwitched } = themeSlice.actions;

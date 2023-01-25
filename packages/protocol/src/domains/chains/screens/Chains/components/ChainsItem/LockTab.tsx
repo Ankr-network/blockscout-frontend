@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import { Lock } from '@ankr.com/ui';
-import { enterpriseColor } from 'uiKit/Theme/themeUtils';
+import { premiumText } from 'uiKit/Theme/themeUtils';
 
 export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
@@ -19,7 +19,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   title: {
     fontSize: 16,
     fontWeight: 600,
-    background: enterpriseColor,
+    background: premiumText,
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     [theme.breakpoints.down('xl')]: {

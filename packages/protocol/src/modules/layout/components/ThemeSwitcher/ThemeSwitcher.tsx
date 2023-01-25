@@ -11,7 +11,7 @@ export const ThemeSwitcher = () => {
 
   const { isLightTheme } = useThemes();
 
-  const handleThemeSwitcher = useThemeSwitcher();
+  const { handleThemeSwitcher } = useThemeSwitcher();
 
   const handleClick = useCallback(() => {
     handleThemeSwitcher(isLightTheme ? Themes.dark : Themes.light);

@@ -29,6 +29,7 @@ import { PageNotFound } from './modules/router/components/PageNotFound';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { useAutoconnect } from './useAutoconnect';
 import { GuardPremiumRoute } from 'domains/auth/components/GuardAuthRoute/GuardPremiumRoute';
+import { useWeb3ThemeSwitcher } from './useWeb3ThemeSwitcher';
 
 export const Routes = () => {
   const { hasPremium, isUserEthAddressType, authorizationToken } = useAuth();
@@ -36,6 +37,7 @@ export const Routes = () => {
   const hasAuthData = Boolean(authorizationToken);
 
   useAutoconnect();
+  useWeb3ThemeSwitcher();
 
   return (
     <Switch>

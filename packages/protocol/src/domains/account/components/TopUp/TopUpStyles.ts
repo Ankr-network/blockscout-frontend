@@ -4,7 +4,6 @@ import { makeStyles } from 'tss-react/mui';
 export const useTopUpStyles = makeStyles<{ canPayOnlyByCard?: boolean }>()(
   (theme: Theme, props: { canPayOnlyByCard?: boolean }) => ({
     root: {
-      background: theme.palette.background.paper,
       borderRadius: 24,
       padding: theme.spacing(2 * 2.5, 2 * 3.75, 2 * 3.25),
       display: 'flex',

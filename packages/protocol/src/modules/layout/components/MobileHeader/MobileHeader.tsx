@@ -14,7 +14,7 @@ interface MobileHeaderProps {
 export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
   const { classes, cx } = useStyles();
 
-  const { hasPremium } = useAuth();
+  const { hasPremium, hasWeb3Connection } = useAuth();
 
   return (
     <header className={cx(classes.root, className)}>
@@ -23,7 +23,7 @@ export const MobileHeader = ({ className = '' }: MobileHeaderProps) => {
         <div className={classes.buttons}>
           {hasPremium && <AccountDetailsButton isMobile />}
           <SignupButton isMobile />
-          <ThemeSwitcher />
+          {hasWeb3Connection && <ThemeSwitcher />}
         </div>
       </Container>
     </header>

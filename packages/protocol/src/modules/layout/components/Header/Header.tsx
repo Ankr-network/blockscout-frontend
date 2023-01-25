@@ -17,7 +17,7 @@ interface HeaderProps {
 
 export const Header = ({ className = '' }: HeaderProps) => {
   const { classes, cx } = useStyles();
-  const { hasPremium } = useAuth();
+  const { hasPremium, hasWeb3Connection } = useAuth();
 
   return (
     <header className={cx(classes.root, className)}>
@@ -29,7 +29,7 @@ export const Header = ({ className = '' }: HeaderProps) => {
             <div className={classes.buttons}>
               {hasPremium && <AccountDetailsButton />}
               <SignupButton />
-              <ThemeSwitcher />
+              {hasWeb3Connection && <ThemeSwitcher />}
             </div>
           </NoReactSnap>
         </div>

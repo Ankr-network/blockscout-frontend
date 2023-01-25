@@ -907,11 +907,6 @@
     "wait": "Please wait",
     "transaction-confirmation-button": "Block {block} of {totalBlocks}"
   },
-  "withdraw": {
-    "title": "Withdraw",
-    "breadcrumbs": "Withdraw",
-    "disabled-content": "We&rsquo;ve pegged the price of&nbsp;our API Credits to&nbsp;USD. For now, with regards to&nbsp;withdrawals, it&nbsp;means that they are to&nbsp;be&nbsp;requested via Support only."
-  },
   "continents": {
     "AS": "Asia",
     "EU": "Europe",

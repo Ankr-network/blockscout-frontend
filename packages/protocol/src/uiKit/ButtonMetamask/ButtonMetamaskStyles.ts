@@ -11,7 +11,7 @@ export const useButtonMetamaskStyles = makeStyles<void, 'plusIconWrapper'>()(
       backgroundColor: theme.palette.background.default,
 
       '&:hover': {
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
         [`& .${classes.plusIconWrapper}`]: {
           backgroundColor: theme.palette.primary.dark,
         },

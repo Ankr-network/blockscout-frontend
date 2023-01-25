@@ -1,9 +1,12 @@
 import React from 'react';
 import { useBannerStyles } from './useBannerStyles';
 import { tHTML } from '@ankr.com/common';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export const InfoBanner = () => {
-  const { classes } = useBannerStyles();
+  const { isLightTheme } = useThemes();
+
+  const { classes } = useBannerStyles(isLightTheme);
 
   return (
     <div className={classes.root}>
