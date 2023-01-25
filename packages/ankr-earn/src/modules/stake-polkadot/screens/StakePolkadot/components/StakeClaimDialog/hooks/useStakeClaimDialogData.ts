@@ -13,12 +13,7 @@ import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetw
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
-import {
-  DEFAULT_FIXED,
-  featuresConfig,
-  isMainnet,
-  ZERO,
-} from 'modules/common/const';
+import { featuresConfig, isMainnet, ZERO } from 'modules/common/const';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 import { claim } from 'modules/stake-polkadot/actions/claim';
 import { fetchETHTokenClaimableBalance } from 'modules/stake-polkadot/actions/fetchETHTokenClaimableBalance';
@@ -44,7 +39,7 @@ interface IUseStakeClaimDialogDataProps {
 
 interface IUseStakeClaimDialogData {
   claimableTokensAmount: BigNumber;
-  ethAmountTxt: string | null;
+  ethAmount?: BigNumber;
   isLoadingClaim: boolean;
   isLoadingTopBtn: boolean;
   isShowBottomItems: boolean;
@@ -107,11 +102,8 @@ export const useStakeClaimDialogData = ({
       !isLoadingClaim &&
       featuresConfig.isActivePolkadotLedgerNanoX);
 
-  const ethAmountTxt = useMemo(
-    () =>
-      isValidETHNetwork
-        ? claimableTokensAmount.decimalPlaces(DEFAULT_FIXED).toFormat()
-        : null,
+  const ethAmount = useMemo(
+    () => (isValidETHNetwork ? claimableTokensAmount : undefined),
     [claimableTokensAmount, isValidETHNetwork],
   );
 
@@ -128,15 +120,15 @@ export const useStakeClaimDialogData = ({
     () =>
       isValidETHNetwork &&
       !isWithClaimableTokens &&
-      typeof ethAmountTxt === 'string'
+      typeof ethAmount === 'string'
         ? t('stake-polkadot.stake-claim-dialog.second-title.amount', {
-            value: ethAmountTxt,
+            value: ethAmount,
             token: ethToken,
           })
         : t('stake-polkadot.stake-claim-dialog.second-title.default', {
             token: ethToken,
           }),
-    [ethAmountTxt, ethToken, isValidETHNetwork, isWithClaimableTokens],
+    [ethAmount, ethToken, isValidETHNetwork, isWithClaimableTokens],
   );
 
   const topBtnTxt = useMemo(() => {
@@ -205,7 +197,7 @@ export const useStakeClaimDialogData = ({
 
   return {
     claimableTokensAmount,
-    ethAmountTxt,
+    ethAmount,
     isLoadingClaim,
     isLoadingTopBtn,
     isShowBottomItems,
