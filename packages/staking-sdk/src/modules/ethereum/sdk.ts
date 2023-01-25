@@ -363,7 +363,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(): Promise<BigNumber> {
-    const provider = await this.getProvider();
+    const provider = await this.getProvider(true);
     const aETHcContract = EthereumSDK.getAethcContract(provider);
     const { contractConfig } = configFromEnv();
 

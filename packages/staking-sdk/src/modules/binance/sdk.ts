@@ -1703,7 +1703,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     const allowance = await aBNBcContract.methods
       .allowance(
-        this.writeProvider.currentAccount,
+        this.currentAccount,
         spender || binanceConfig.aBNBbToken,
       )
       .call();
