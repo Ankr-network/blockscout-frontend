@@ -110,7 +110,7 @@ export class AnkrStakingReadSDK {
     );
   }
 
-  protected async getAnkrTokenContract(): Promise<Contract> {
+  protected getAnkrTokenContract(): Contract {
     return this.readProvider.createContract(ANKR_ABI, ankrToken);
   }
 
@@ -137,7 +137,7 @@ export class AnkrStakingReadSDK {
   public async getAllValidatorsAddresses(
     latestBlockNumber: number,
   ): Promise<Web3Address[]> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
 
     const validatorEvents = [
       EAnkrEvents.ValidatorAdded,
@@ -313,7 +313,7 @@ export class AnkrStakingReadSDK {
     validator: Web3Address,
     epoch?: number,
   ): Promise<IValidator> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
 
     const status = epoch
       ? await stakingContract.methods
@@ -399,7 +399,7 @@ export class AnkrStakingReadSDK {
     filter: Partial<IDelegationHistoryFilter> = {},
     latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
 
     const events = await this.getPastEvents({
@@ -449,7 +449,7 @@ export class AnkrStakingReadSDK {
     filter: Partial<IDelegationHistoryFilter> = {},
     latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
 
     const events = await this.getPastEvents({
@@ -501,7 +501,7 @@ export class AnkrStakingReadSDK {
     filter: { validator?: Web3Address; staker?: Web3Address } = {},
     latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
 
     const events = await this.getPastEvents({
@@ -545,7 +545,7 @@ export class AnkrStakingReadSDK {
     validator: Web3Address,
     delegator: Web3Address,
   ): Promise<string> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
 
     return stakingContract.methods
       .getStakingRewards(validator, delegator)
@@ -577,7 +577,7 @@ export class AnkrStakingReadSDK {
     },
   })
   public async getTotalTVL(latestBlockNumber: number): Promise<BigNumber> {
-    const stakingContract = await this.getAnkrTokenStakingContract();
+    const stakingContract = this.getAnkrTokenStakingContract();
     const validators = await this.getAllValidators(latestBlockNumber);
     const delegationsSet = await Promise.all(
       validators.map(validator =>
@@ -610,11 +610,13 @@ export class AnkrStakingReadSDK {
    * @returns APY for validators
    */
   public async getAPY(): Promise<IApyData[]> {
-    const [stakingContract, { epoch }, blockNumber] = await Promise.all([
-      this.getAnkrTokenStakingContract(),
+    const stakingContract = this.getAnkrTokenStakingContract();
+
+    const [{ epoch }, blockNumber] = await Promise.all([
       this.getChainParams(),
       this.getBlockNumber(),
     ]);
+
     const provider = this.readProvider;
     const web3 = provider.getWeb3();
     const latestBlockNumber = blockNumber - ANKR_HISTORY_BLOCK_RANGE;

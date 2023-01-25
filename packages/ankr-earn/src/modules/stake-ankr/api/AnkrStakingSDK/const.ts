@@ -33,3 +33,11 @@ export const ANKR_HISTORY_BLOCK_RANGE = 3_000;
  * For more information see [STAKAN-2399](https://ankrnetwork.atlassian.net/browse/STAKAN-2399)
  */
 export const ANKR_STAKING_BLOCK_WITH_FIX = 16182044;
+
+/**
+ * Is used for gas limit formula to be able to claim all ANKR rewards
+ * per one transaction.
+ *
+ * For more information please see [STAKAN-2462](https://ankrnetwork.atlassian.net/browse/STAKAN-2462)
+ */
+export const GAS_LIMIT_MULTIPLIER = 100_000;
