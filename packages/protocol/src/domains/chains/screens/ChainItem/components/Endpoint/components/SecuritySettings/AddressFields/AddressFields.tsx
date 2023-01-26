@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Typography, Box } from '@mui/material';
 import { FieldArray } from 'react-final-form-arrays';
 
-import { ReactComponent as TrashBinIcon } from 'uiKit/Icons/trashBin.svg';
+import { Delete } from '@ankr.com/ui';
 import { useStyles } from './AddressFieldsStyles';
 
 interface AddressFieldsProps {
@@ -43,7 +43,7 @@ export const AddressFields = ({
                     className={classes.deleteButton}
                     onClick={() => onButtonClick(index)}
                   >
-                    <TrashBinIcon className={classes.icon} />
+                    <Delete className={classes.icon} />
                   </Button>
                 </Box>
               );

@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
-import { ReactComponent as DiscordIcon } from 'uiKit/Icons/discord.svg';
+import { Discord } from '@ankr.com/ui';
 
 import { useSupportBlockStyles } from './SupportBlockStyles';
 
@@ -12,7 +12,7 @@ export const SupportBlock = ({ isMobile }: SupportBlockProps) => {
   const { classes } = useSupportBlockStyles();
 
   return (
-    <Box mt={isMobile ? 7.5 : 5} className={classes.contactBlock}>
+    <Box mt={isMobile ? 15 : 10} className={classes.contactBlock}>
       <Typography
         className={classes.contactBlockHeader}
         variant="body2"
@@ -24,7 +24,7 @@ export const SupportBlock = ({ isMobile }: SupportBlockProps) => {
         target="_blank"
         href="https://discord.com/invite/uYaNu23Ww7"
         className={classes.contactBlockBtn}
-        startIcon={<DiscordIcon />}
+        startIcon={<Discord />}
       >
         {t('plan.contact-discord')}
       </Button>

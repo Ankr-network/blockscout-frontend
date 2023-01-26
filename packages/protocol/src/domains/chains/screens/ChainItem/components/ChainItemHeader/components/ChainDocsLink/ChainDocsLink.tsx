@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { ReactComponent as FileIcon } from 'uiKit/Icons/file.svg';
+import { Doc } from '@ankr.com/ui';
 import { getChainDocsLink } from '../../utils/getChainDocsLink';
 import { t } from '@ankr.com/common';
 import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
@@ -27,7 +27,7 @@ export const ChainDocsLink = ({
       }}
       disabled={!link}
       href={link || ''}
-      startIcon={<FileIcon />}
+      startIcon={<Doc />}
       target="_blank"
       variant="outlined"
     >

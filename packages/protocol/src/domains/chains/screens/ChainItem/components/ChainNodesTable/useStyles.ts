@@ -4,10 +4,7 @@ import { makeStyles } from 'tss-react/mui';
 export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    paddingLeft: theme.spacing(2 * 3),
-    paddingRight: theme.spacing(2 * 3),
-    paddingTop: theme.spacing(2 * 1),
-    paddingBottom: theme.spacing(2 * 1),
+    padding: theme.spacing(2 * 1, 2 * 3),
     marginBottom: theme.spacing(2 * 4),
 
     '& th, & td': {

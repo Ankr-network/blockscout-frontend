@@ -39,7 +39,6 @@ export const useMethodsTabsUtils = (
             isSelected={isSelected}
             label={AvalancheLibrary[AvalancheLibraryID.Avalanche]}
             size={TabSize.Small}
-            isDarkTheme
           />
         ),
       },

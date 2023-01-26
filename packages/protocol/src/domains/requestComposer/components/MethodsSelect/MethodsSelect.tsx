@@ -13,8 +13,7 @@ import {
 } from '@mui/material';
 import { FilledTextField } from 'uiKit/FilledTextField';
 
-import { ReactComponent as ArrowDownIcon } from 'uiKit/Icons/arrowDown.svg';
-import { ReactComponent as PlainCheckIcon } from 'uiKit/Icons/plainCheck.svg';
+import { ArrowDown, Check } from '@ankr.com/ui';
 import { iconId, useMethodsSelectStyles } from './MethodsSelectStyles';
 
 type ConfiguredAutocomplete<T> = Omit<
@@ -98,7 +97,7 @@ export function MethodsSelect<T>({
               {getOptionLabel(method)}
             </Typography>
 
-            {selected && <PlainCheckIcon />}
+            {selected && <Check />}
           </ButtonBase>
         </Tooltip>
       </li>
@@ -119,7 +118,7 @@ export function MethodsSelect<T>({
               className={classes.iconButton}
               onClick={handleIconClick}
             >
-              <ArrowDownIcon id={iconId} />
+              <ArrowDown id={iconId} />
             </IconButton>
           ),
           className: classes.textFieldInput,

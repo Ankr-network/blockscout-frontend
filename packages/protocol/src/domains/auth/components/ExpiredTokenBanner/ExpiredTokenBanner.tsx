@@ -1,9 +1,8 @@
 import { tHTML } from '@ankr.com/common';
-
+import { Mark } from '@ankr.com/ui';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { InfoBanner as BaseInfoBanner } from 'modules/common/components/InfoBanner';
 import { useExpiredTokenBannerStyles } from './ExpiredTokenBannerStyles';
-import { ReactComponent as WarningIcon } from 'uiKit/Icons/warning-icon.svg';
 
 export const ExpiredTokenBanner = () => {
   const { classes } = useExpiredTokenBannerStyles();
@@ -12,7 +11,7 @@ export const ExpiredTokenBanner = () => {
   return isTokenExpired ? (
     <BaseInfoBanner
       message={tHTML('expired-token.text')}
-      icon={<WarningIcon />}
+      icon={<Mark />}
       className={classes.root}
     />
   ) : null;

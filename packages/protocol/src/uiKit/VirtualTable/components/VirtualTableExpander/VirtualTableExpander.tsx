@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { IconButton } from '@mui/material';
 
 import { useTable } from '../../utils';
-import { ReactComponent as ArrowDownIcon } from '../../../Icons/arrowDown.svg';
+import { ArrowDown } from '@ankr.com/ui';
 import { useStyles } from './useStyles';
 
 export const VirtualTableExpander = ({ index }: { index: number }) => {
@@ -20,7 +20,7 @@ export const VirtualTableExpander = ({ index }: { index: number }) => {
       })}
       onClick={handleExpand}
     >
-      <ArrowDownIcon />
+      <ArrowDown />
     </IconButton>
   );
 };

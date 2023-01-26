@@ -11,7 +11,7 @@ export const useUsageSummaryStyles = makeStyles()((theme: Theme) => ({
 
     borderRadius: 24,
 
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
   },
   stat: {
     flex: 1,

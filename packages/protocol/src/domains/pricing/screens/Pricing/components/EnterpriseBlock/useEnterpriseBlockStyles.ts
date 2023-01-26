@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { enterpriseColor } from 'uiKit/Theme/themeUtils';
 
 export const useEnterpriseBlockStyles = makeStyles()((theme: Theme) => ({
   root: {
@@ -10,8 +11,7 @@ export const useEnterpriseBlockStyles = makeStyles()((theme: Theme) => ({
     padding: theme.spacing(2 * 5),
     width: '100%',
     marginTop: theme.spacing(2 * 4),
-    background:
-      'linear-gradient(90deg, #1F2226 0%, #6235D0 59.48%, #356DF3 100%)',
+    background: enterpriseColor,
 
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(2 * 5, 3.5),
@@ -27,6 +27,7 @@ export const useEnterpriseBlockStyles = makeStyles()((theme: Theme) => ({
     width: '100%',
   },
   label: {
+    color: theme.palette.grey[900],
     fontSize: 20,
 
     [theme.breakpoints.down('xs')]: {
@@ -36,7 +37,7 @@ export const useEnterpriseBlockStyles = makeStyles()((theme: Theme) => ({
   title: {
     marginTop: theme.spacing(2 * 1),
     fontSize: 35,
-    color: theme.palette.common.white,
+    color: theme.palette.background.paper,
 
     [theme.breakpoints.down('sm')]: {
       fontSize: 28,
@@ -45,18 +46,19 @@ export const useEnterpriseBlockStyles = makeStyles()((theme: Theme) => ({
   link: {
     width: 148,
     fontSize: 14,
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     '&:hover': {
       color: theme.palette.primary.dark,
       background: theme.palette.secondary.dark,
     },
+
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       marginTop: theme.spacing(2 * 3.5),
     },
   },
   subtitle: {
-    color: theme.palette.common.white,
+    color: theme.palette.background.paper,
     fontWeight: 400,
   },
 }));

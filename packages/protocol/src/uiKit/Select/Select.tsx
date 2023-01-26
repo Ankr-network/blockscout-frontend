@@ -10,7 +10,7 @@ import {
 import MenuItem from '@mui/material/MenuItem';
 import { uid } from 'react-uid';
 
-import { AngleDownIcon } from '../Icons/AngleDownIcon';
+import { ArrowDown } from '@ankr.com/ui';
 import { useStyles } from './SelectStyles';
 
 export interface ISelectOption {
@@ -71,7 +71,7 @@ export const Select = ({
         },
       },
       IconComponent: props => (
-        <AngleDownIcon
+        <ArrowDown
           fontSize="small"
           {...props}
           classes={iconClassName ? { root: iconClassName } : null}

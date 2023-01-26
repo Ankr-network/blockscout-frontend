@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { useStyles } from './AddEndpointButtonStyles';
 import { t } from '@ankr.com/common';
-import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus-2.svg';
+import { Plus } from '@ankr.com/ui';
 
 interface AddEndpointButtonProps {
   link: string;
@@ -24,7 +24,7 @@ export const AddEndpointButton = ({
       className={classes.button}
       component={RouterLink}
       to={link}
-      startIcon={<PlusIcon className={classes.plusIcon} />}
+      startIcon={<Plus className={classes.plusIcon} />}
       disabled={isDisabled}
     >
       {t('providers.endpoint.button')}

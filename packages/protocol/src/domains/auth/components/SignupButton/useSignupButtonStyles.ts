@@ -5,11 +5,12 @@ export const useSignupButtonStyles = makeStyles<boolean>()(
   (theme: Theme, isMobile: boolean) => ({
     menuButton: isMobile
       ? {
+          fontSize: 12,
           position: 'relative',
           width: 'auto',
           padding: theme.spacing(2 * 1.25, 2 * 1.5),
 
-          border: `2px solid ${theme.palette.grey[100]}`,
+          border: `2px solid ${theme.palette.divider}`,
           borderRadius: theme.spacing(2 * 1.5),
 
           color: theme.palette.text.primary,
@@ -17,11 +18,7 @@ export const useSignupButtonStyles = makeStyles<boolean>()(
       : {
           position: 'relative',
           width: 'auto',
-          backgroundColor: theme.palette.common.white,
-
-          '&:hover': {
-            backgroundColor: theme.palette.grey[100],
-          },
+          backgroundColor: theme.palette.background.paper,
         },
     button: {
       [theme.breakpoints.down('sm')]: {
@@ -133,7 +130,7 @@ export const useSignupButtonStyles = makeStyles<boolean>()(
       bottom: -5,
       right: -5,
       marginRight: 0,
-      background: theme.palette.common.white,
+      background: theme.palette.background.paper,
       borderRadius: '50%',
       width: 16,
       height: 16,

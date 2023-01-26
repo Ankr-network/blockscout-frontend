@@ -20,11 +20,11 @@ export const useSupportBlockStyles = makeStyles()((theme: Theme) => ({
   },
   contactBlockBtn: {
     marginLeft: theme.spacing(2 * 5),
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     color: '#5865F2',
     fontSize: 14,
     '&:hover': {
-      backgroundColor: `${theme.palette.common.white}`,
+      backgroundColor: `${theme.palette.background.paper}`,
       color: theme.palette.text.primary,
     },
 

@@ -6,12 +6,12 @@ export const useStyles = makeStyles<boolean>()(
     accountDetailsButtonRoot: isMobile
       ? {
           padding: theme.spacing(2 * 1.25, 2 * 1.5),
-          border: `2px solid ${theme.palette.grey[100]}`,
+          border: `2px solid ${theme.palette.divider}`,
           borderRadius: theme.spacing(2 * 1.5),
-          backgroundColor: theme.palette.common.white,
+          backgroundColor: theme.palette.background.paper,
         }
       : {
-          backgroundColor: theme.palette.common.white,
+          backgroundColor: theme.palette.background.paper,
         },
     content: {
       display: 'flex',

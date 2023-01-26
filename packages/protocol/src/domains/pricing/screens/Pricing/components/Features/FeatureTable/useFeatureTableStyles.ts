@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { premiumColor } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
   root: {
@@ -22,7 +23,7 @@ export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
     },
     '& td': {
       padding: theme.spacing(2 * 2.5, 0),
-      borderBottomColor: theme.palette.grey[200],
+      borderBottomColor: theme.palette.divider,
     },
     '& th:first-of-type, & td:first-of-type': {
       paddingLeft: 0,
@@ -52,10 +53,9 @@ export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
       paddingBottom: theme.spacing(2 * 0.5),
     },
     '& th:nth-of-type(3)': {
-      background:
-        'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
+      background: premiumColor,
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
       '-webkit-box-decoration-break': 'clone',
     },
   },
@@ -81,13 +81,13 @@ export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
     '& button, & a': {
       fontSize: 16,
       '&:hover': {
-        color: theme.palette.common.white,
+        color: theme.palette.background.paper,
       },
     },
   },
   cellRow: {
     '&:first-of-type td': {
-      borderTop: `1px solid ${theme.palette.grey[200]}`,
+      borderTop: `1px solid ${theme.palette.divider}`,
     },
     '& td': {
       lineHeight: theme.spacing(2 * 3),

@@ -13,6 +13,7 @@ export const useStyles = makeStyles<void, 'rowColumn' | 'row'>()(
       flexDirection: 'column',
       height: '100%',
       padding: theme.spacing(0, 2 * 3),
+      backgroundImage: 'none',
     },
     listContainer: {
       flex: '1 0 auto',
@@ -32,7 +33,7 @@ export const useStyles = makeStyles<void, 'rowColumn' | 'row'>()(
     rowColumn: {
       display: 'flex',
       flexDirection: 'column',
-      borderBottom: `1px solid ${theme.palette.background.default}`,
+      borderBottom: `1px solid ${theme.palette.divider}`,
       height: '100%',
       justifyContent: 'flex-start',
     },
@@ -52,7 +53,7 @@ export const useStyles = makeStyles<void, 'rowColumn' | 'row'>()(
       paddingTop: theme.spacing(2 * 1),
       fontSize: 11,
       color: theme.palette.grey[600],
-      borderBottom: `1px solid ${theme.palette.background.default}`,
+      borderBottom: `1px solid ${theme.palette.divider}`,
     },
     col: {
       wordWrap: 'break-word',
@@ -82,7 +83,7 @@ export const useStyles = makeStyles<void, 'rowColumn' | 'row'>()(
       },
     },
     moreRow: {
-      borderTop: `1px solid ${theme.palette.background.default}`,
+      borderTop: `1px solid ${theme.palette.divider}`,
     },
     moreBtn: {
       '&&': {

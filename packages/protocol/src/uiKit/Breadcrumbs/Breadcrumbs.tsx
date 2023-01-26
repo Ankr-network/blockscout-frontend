@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Breadcrumbs as BreadcrumbsBase,
   Typography,
@@ -7,7 +6,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import { AngleRightIcon } from 'uiKit/Icons/AngleRightIcon';
+import { ArrowRight } from '@ankr.com/ui';
 import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
 import { useIsMDDown } from 'uiKit/Theme/useTheme';
@@ -24,7 +23,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   return (
     <BreadcrumbsBase
       aria-label="breadcrumb"
-      separator={<AngleRightIcon className={classes.separator} />}
+      separator={<ArrowRight className={classes.separator} />}
       classes={{
         root: classes.breadcrumbsRoot,
         ol: classes.breadcrumbs,
@@ -49,7 +48,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
               key={title}
             >
               {shouldShowMobileBreadcrumbs ? (
-                <AngleRightIcon className={classes.mobileBackButton} />
+                <ArrowRight className={classes.mobileBackButton} />
               ) : (
                 capitalize(title)
               )}

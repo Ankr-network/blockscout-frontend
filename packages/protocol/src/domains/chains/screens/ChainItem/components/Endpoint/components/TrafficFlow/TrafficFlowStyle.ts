@@ -1,88 +1,5 @@
 import { keyframes, Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { mainTheme } from 'uiKit/Theme/mainTheme';
-
-const firstDotAmimation = keyframes`
-  0% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  20% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-
-  100% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-`;
-
-const secondDotAmimation = keyframes`
-  0% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  20% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  40% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-
-  100% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-`;
-
-const thirdDotAmimation = keyframes`
-  0% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  40% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  60% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-
-  100% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-`;
-
-const fourthDotAmimation = keyframes`
-  0% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  60% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  80% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-
-  100% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-`;
-
-const fifthDotAmimation = keyframes`
-  0% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  80% {
-    background-color: ${mainTheme.palette.grey[300]}
-  },
-
-  100% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-`;
 
 export const useStyles = makeStyles()((theme: Theme) => ({
   trafficFlowRoot: {
@@ -160,23 +77,95 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     borderRadius: '50%',
 
     '&:nth-of-type(1)': {
-      animation: `${firstDotAmimation} 2s infinite linear`,
+      animation: `${keyframes`
+        0% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        20% {
+          background-color: ${theme.palette.primary.main}
+        },
+
+        100% {
+          background-color: ${theme.palette.primary.main}
+        },
+      `} 2s infinite linear`,
     },
 
     '&:nth-of-type(2)': {
-      animation: `${secondDotAmimation} 2s infinite linear`,
+      animation: `${keyframes`
+        0% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        20% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        40% {
+          background-color: ${theme.palette.primary.main}
+        },
+    
+        100% {
+          background-color: ${theme.palette.primary.main}
+        },
+      `} 2s infinite linear`,
     },
 
     '&:nth-of-type(3)': {
-      animation: `${thirdDotAmimation} 2s infinite linear`,
+      animation: `${keyframes`
+        0% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        40% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        60% {
+          background-color: ${theme.palette.primary.main}
+        },
+    
+        100% {
+          background-color: ${theme.palette.primary.main}
+        },
+      `} 2s infinite linear`,
     },
 
     '&:nth-of-type(4)': {
-      animation: `${fourthDotAmimation} 2s infinite linear`,
+      animation: `${keyframes`
+        0% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        60% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        80% {
+          background-color: ${theme.palette.primary.main}
+        },
+    
+        100% {
+          background-color: ${theme.palette.primary.main}
+        },
+      `} 2s infinite linear`,
     },
 
     '&:nth-of-type(5)': {
-      animation: `${fifthDotAmimation} 2s infinite linear`,
+      animation: `${keyframes`
+        0% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        80% {
+          background-color: ${theme.palette.grey[300]}
+        },
+    
+        100% {
+          background-color: ${theme.palette.primary.main}
+        },
+      `} 2s infinite linear`,
     },
   },
 }));

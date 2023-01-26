@@ -1,8 +1,8 @@
-import { ArrowTopRightIcon } from 'uiKit/Icons/ArrowTopRightIcon';
+import { useCallback } from 'react';
+import { ArrowToRight } from '@ankr.com/ui';
 import { MS_IN_PERIOD } from './const';
 import { TransactionsDownloader } from '../../types';
 import { useStyles } from './DeductionStyles';
-import { useCallback } from 'react';
 
 export interface DeductionProps {
   downloader: TransactionsDownloader;
@@ -28,8 +28,7 @@ export const Deduction = ({ downloader, timestamp, type }: DeductionProps) => {
       role="button"
       tabIndex={0}
     >
-      {type}{' '}
-      {canDownload && <ArrowTopRightIcon className={classes.arrowIcon} />}
+      {type} {canDownload && <ArrowToRight className={classes.arrowIcon} />}
     </span>
   );
 };
