@@ -160,16 +160,16 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://iotexscan.io/'],
   },
 
-  [ChainID.METIS]: {
-    chainId: 1088,
-    chainName: 'Metis Andromeda Mainnet',
-    nativeCurrency: {
-      name: 'Metis Andromeda',
-      symbol: 'METIS',
-      decimals: 18,
-    },
-    blockExplorerUrls: ['https://andromeda-explorer.metis.io/'],
-  },
+  // [ChainID.METIS]: {
+  //   chainId: 1088,
+  //   chainName: 'Metis Andromeda Mainnet',
+  //   nativeCurrency: {
+  //     name: 'Metis Andromeda',
+  //     symbol: 'METIS',
+  //     decimals: 18,
+  //   },
+  //   blockExplorerUrls: ['https://andromeda-explorer.metis.io/'],
+  // },
 
   [ChainID.MOONBEAM]: {
     chainId: 1284,
