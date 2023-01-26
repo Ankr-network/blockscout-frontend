@@ -1,18 +1,40 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+
 import { chainDialogIntl } from './ChainDialogUtils';
 
 export const CHAINS_DIALOG_BREAKDOWN = 840;
 
+const Y_SCALE_BREAKDOWN = 770;
+const scaleMedia = `@media (max-height: ${Y_SCALE_BREAKDOWN}px)`;
+
+interface ChainsItemDialogStylesProps {
+  windowHeight: number;
+}
+
 export const useChainsItemDialogStyles = makeStyles<
-  void,
+  ChainsItemDialogStylesProps,
   'content' | 'intro'
->()((theme: Theme, _params, classes) => ({
+>()((theme, { windowHeight }, classes) => ({
   paperRoot: {
     margin: 0,
     padding: theme.spacing(2 * 4.75, 2 * 4.75, 2 * 5.25, 2 * 4.75),
     borderRadius: theme.spacing(2 * 5),
     width: 1160,
+
+    [theme.breakpoints.up(CHAINS_DIALOG_BREAKDOWN)]: {
+      [scaleMedia]: {
+        transform: `scale(${windowHeight / Y_SCALE_BREAKDOWN})`,
+        transformOrigin: 'center top',
+      },
+    },
+  },
+  dialogContainer: {
+    [theme.breakpoints.up(CHAINS_DIALOG_BREAKDOWN)]: {
+      [scaleMedia]: {
+        height: 'unset',
+        minHeight: '100%',
+      },
+    },
   },
   root: {
     marginTop: theme.spacing(2 * 5),

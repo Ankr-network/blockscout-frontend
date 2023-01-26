@@ -1,17 +1,19 @@
-import { t, tHTML } from '@ankr.com/common';
 import { Typography } from '@mui/material';
-import { Dialog } from 'uiKit/Dialog';
-import { NavLink } from 'uiKit/NavLink';
-import { useHasBreakdown } from 'uiKit/Theme/useTheme';
-import {
-  chainDialogContent,
-  chainDialogIntl,
-  IChainDialogContent,
-} from './ChainDialogUtils';
+import { t, tHTML } from '@ankr.com/common';
+
 import {
   CHAINS_DIALOG_BREAKDOWN,
   useChainsItemDialogStyles,
 } from './useChainsItemDialogStyles';
+import { Dialog } from 'uiKit/Dialog';
+import {
+  IChainDialogContent,
+  chainDialogContent,
+  chainDialogIntl,
+} from './ChainDialogUtils';
+import { NavLink } from 'uiKit/NavLink';
+import { useHasBreakdown } from 'uiKit/Theme/useTheme';
+import { useWindowHeight } from 'hooks/useWindowHeight';
 
 export interface IChainsItemDialogProps {
   open: boolean;
@@ -22,17 +24,22 @@ export const ChainsItemDialog = ({
   open,
   onClose,
 }: IChainsItemDialogProps): JSX.Element => {
-  const { classes, cx } = useChainsItemDialogStyles();
+  const windowHeight = useWindowHeight();
+
+  const { classes, cx } = useChainsItemDialogStyles({ windowHeight });
 
   const hasBreakdown = useHasBreakdown(CHAINS_DIALOG_BREAKDOWN);
 
   return (
     <Dialog
-      paperClassName={classes.paperRoot}
       className={classes.root}
-      open={open}
-      onClose={onClose}
+      classes={{
+        container: classes.dialogContainer,
+      }}
       maxPxWidth={hasBreakdown ? 600 : 980}
+      onClose={onClose}
+      open={open}
+      paperClassName={classes.paperRoot}
     >
       <div>
         <Typography variant="h4" className={classes.dialogTitle}>
