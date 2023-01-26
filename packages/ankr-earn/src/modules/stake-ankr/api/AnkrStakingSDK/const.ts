@@ -23,16 +23,15 @@ export const SECONDS_IN_A_DAY = 86_400;
 
 export const ANKR_STAKING_MAX_DECIMALS_LENGTH = 8;
 
+/**
+ * The number by which we need to divide the `amount` from delegations queue
+ * to get the human readable format.
+ */
+export const AMOUNT_FROM_QUEUE_SCALE = 1e8;
+
 export const ANKR_HISTORY_START_BLOCK = isMainnet ? 15_275_019 : 7_220_323;
 
 export const ANKR_HISTORY_BLOCK_RANGE = 3_000;
-
-/**
- * The block in which the bug with the locking period was fixed.
- *
- * For more information see [STAKAN-2399](https://ankrnetwork.atlassian.net/browse/STAKAN-2399)
- */
-export const ANKR_STAKING_BLOCK_WITH_FIX = 16182044;
 
 /**
  * Is used for gas limit formula to be able to claim all ANKR rewards
