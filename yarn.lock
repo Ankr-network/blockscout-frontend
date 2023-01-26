@@ -14,10 +14,34 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
+"@ankr.com/provider@1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-1.9.1.tgz#89ecd92c02a875cffab4edd805dbedb25ffd82bc"
+  integrity sha512-2pvMP3kLBGQCcw9FRLtwnDr8bicokaf7A3VGQaYqaC3kbNOkfbumkzpKExPRl6OJxT8FRuzBifFk5i4YyMEeAg==
+  dependencies:
+    "@ankr.com/common" "0.7.1"
+    "@binance-chain/bsc-connector" "^1.0.0"
+    "@coinbase/wallet-sdk" "^3.5.2"
+    "@ethereumjs/common" "^2.5.0"
+    "@ethereumjs/tx" "^3.3.2"
+    "@redux-requests/core" "1.6.1"
+    "@walletconnect/web3-provider" "^1.7.0"
+    bignumber.js "^9.0.1"
+    ethereumjs-util "^7.1.3"
+    react "^17.0.2"
+    redux "^4.1.2"
+    redux-saga "^1.1.3"
+    reselect "^4.1.6"
+    web3 "1.7.0"
+    web3-core "1.7.0"
+    web3-eth-contract "1.7.0"
+    web3-utils "1.7.0"
+    web3modal "^1.9.4"
+
 "@ankr.com/ui@*":
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.7.4.tgz#9a32653932485c58510038aff031386dae4816d5"
-  integrity sha512-Rk870tLxrTYaPTRK81J86tAD+7+p+rGxeR9OTjLiGQuxR/vkK4obqkRXunCt+1sNSPU6a8lYdKz3vfRV4vzvHg==
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.7.6.tgz#cc8c858f68aa6d7e754c406022c0869f7496f6e0"
+  integrity sha512-NjgWqxuNhy/FQ2TXEqVeRn1GuN3S1DoXRbkxVr2MfIlFkT2QZAoA1/1jXKpKXhVu9RYNdxAjxd+6wTf1Rs7dSw==
 
 "@ankr.com/ui@^0.7.1":
   version "0.7.1"
@@ -7032,6 +7056,17 @@
     "@sentry/utils" "6.16.1"
     tslib "^1.9.3"
 
+"@sentry/browser@7.33.0":
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-7.33.0.tgz#0360fd323afda1066734b6d175e55ca1c3264898"
+  integrity sha512-bvExBTyLb7cLWLkHh0gch2W/oSw08Yo8DgEc+KkikOnvWd/xoEWUsYNydYGzV+bL1jqcOErsZy0fVsbzTmh71g==
+  dependencies:
+    "@sentry/core" "7.33.0"
+    "@sentry/replay" "7.33.0"
+    "@sentry/types" "7.33.0"
+    "@sentry/utils" "7.33.0"
+    tslib "^1.9.3"
+
 "@sentry/core@6.16.1":
   version "6.16.1"
   resolved "https://registry.npmjs.org/@sentry/core/-/core-6.16.1.tgz"
@@ -7041,6 +7076,15 @@
     "@sentry/minimal" "6.16.1"
     "@sentry/types" "6.16.1"
     "@sentry/utils" "6.16.1"
+    tslib "^1.9.3"
+
+"@sentry/core@7.33.0":
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.33.0.tgz#7cba1670c041fae02794729b74e9fb9d1f519755"
+  integrity sha512-mrSgUnXjxHVi0cVea1lv7gC/Y66ya2a3atCHaPEij/+l+3APg5d0Ixt1zMx5YllMiZKf6wpxlZ0uwXcqdAAw+w==
+  dependencies:
+    "@sentry/types" "7.33.0"
+    "@sentry/utils" "7.33.0"
     tslib "^1.9.3"
 
 "@sentry/hub@6.16.1":
@@ -7073,6 +7117,26 @@
     hoist-non-react-statics "^3.3.2"
     tslib "^1.9.3"
 
+"@sentry/react@^7.33.0":
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/@sentry/react/-/react-7.33.0.tgz#f648ca775427b31472eb2d5126b795c970fa09f2"
+  integrity sha512-uLgH4Frg6QhST8wj+3F7JvfKPAGkxYl2cessl3KQiYv4lB0x7BpRMQ5PA9X2c6CwiQArNiwy7p+NjrUV6gIcFg==
+  dependencies:
+    "@sentry/browser" "7.33.0"
+    "@sentry/types" "7.33.0"
+    "@sentry/utils" "7.33.0"
+    hoist-non-react-statics "^3.3.2"
+    tslib "^1.9.3"
+
+"@sentry/replay@7.33.0":
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/@sentry/replay/-/replay-7.33.0.tgz#9122108b366dfd0b1efb65b29e1b448d737f5124"
+  integrity sha512-m6xpSdjsNCCGxAkk5ikPFv/sQAfWtieMEXLdeDZE9jnroVozweHpsUhZYhqzTpxVC5SA3jPyTQ6Ods5gRvTBfA==
+  dependencies:
+    "@sentry/core" "7.33.0"
+    "@sentry/types" "7.33.0"
+    "@sentry/utils" "7.33.0"
+
 "@sentry/tracing@^6.16.0":
   version "6.16.1"
   resolved "https://registry.npmjs.org/@sentry/tracing/-/tracing-6.16.1.tgz"
@@ -7084,10 +7148,25 @@
     "@sentry/utils" "6.16.1"
     tslib "^1.9.3"
 
+"@sentry/tracing@^7.33.0":
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/@sentry/tracing/-/tracing-7.33.0.tgz#58accaaf8b1c2a9dcdedd97938e712bf09ed9070"
+  integrity sha512-MtcKyW/QJgXGrHf5+205xnIIl7yIT99MzuTkuKzQwmnmy/siD3U0X8RoCaGLzj6kkSIu4m7vyQZoyd3J+5D8lw==
+  dependencies:
+    "@sentry/core" "7.33.0"
+    "@sentry/types" "7.33.0"
+    "@sentry/utils" "7.33.0"
+    tslib "^1.9.3"
+
 "@sentry/types@6.16.1":
   version "6.16.1"
   resolved "https://registry.npmjs.org/@sentry/types/-/types-6.16.1.tgz"
   integrity sha512-Wh354g30UsJ5kYJbercektGX4ZMc9MHU++1NjeN2bTMnbofEcpUDWIiKeulZEY65IC1iU+1zRQQgtYO+/hgCUQ==
+
+"@sentry/types@7.33.0":
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.33.0.tgz#7d4893a783360a868382e5194b50dbf034ba23c0"
+  integrity sha512-5kkmYjtBWSbPxfYGiXdZFPS6xpFBNlXvDqeX4NpCFXz6/LiEDn6tZ61kuCSFb8MZlyqyCX5WsP3aiI2FJfpGIA==
 
 "@sentry/utils@6.16.1":
   version "6.16.1"
@@ -7095,6 +7174,14 @@
   integrity sha512-7ngq/i4R8JZitJo9Sl8PDnjSbDehOxgr1vsoMmerIsyRZ651C/8B+jVkMhaAPgSdyJ0AlE3O7DKKTP1FXFw9qw==
   dependencies:
     "@sentry/types" "6.16.1"
+    tslib "^1.9.3"
+
+"@sentry/utils@7.33.0":
+  version "7.33.0"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.33.0.tgz#e6910139328b49b9cc21186521bdb10390dfd915"
+  integrity sha512-msp02GV1gOfaN5FjKjWxI00rtbYLXEE5cTGldhs/Dt9KI63dDk1nwPDkSLhg6joqRItAq0thlBh6un717HdWbg==
+  dependencies:
+    "@sentry/types" "7.33.0"
     tslib "^1.9.3"
 
 "@sinclair/typebox@^0.24.1":

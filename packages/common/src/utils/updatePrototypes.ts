@@ -1,9 +1,17 @@
 import BigNumber from 'bignumber.js';
 
-import { BIG_NUMBER_LENGTH, DECIMAL_PLACES, DEFAULT_ROUNDING, VERY_BIG_NUMBER_LENGTH, ZERO_DECIMAL_PLACES } from './const';
+import {
+  BIG_NUMBER_LENGTH,
+  DECIMAL_PLACES,
+  DEFAULT_ROUNDING,
+  VERY_BIG_NUMBER_LENGTH,
+  ZERO_DECIMAL_PLACES,
+} from './const';
 
-// eslint-disable-next-line func-names
+/* eslint-disable */
+// @ts-ignore
 BigNumber.prototype.round = function () {
+  /* eslint-enable */
   const value = this.valueOf();
 
   const absNumber = Math.abs(+value);
