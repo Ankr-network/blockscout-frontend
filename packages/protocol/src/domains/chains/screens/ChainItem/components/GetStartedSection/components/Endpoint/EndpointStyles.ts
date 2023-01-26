@@ -21,7 +21,7 @@ export const useEndpointStyles = makeStyles()((theme: Theme) => ({
     whiteSpace: 'nowrap',
     padding: theme.spacing(0, 2 * 1.5),
     '&&': {
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.background.paper,
     },
     display: 'flex',
     borderRadius: theme.spacing(2 * 2),

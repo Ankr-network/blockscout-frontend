@@ -43,10 +43,7 @@ export const UserEndpoints = ({
   return (
     <>
       <Box className={classes.top}>
-        <TooltipWrapper
-          iconClassName={classes.tooltipIcon}
-          tooltipText={tHTML('providers.user-endpoints.tooltip')}
-        >
+        <TooltipWrapper tooltipText={tHTML('providers.user-endpoints.tooltip')}>
           <Typography variant="body2" className={classes.text}>
             {t('providers.user-endpoints.title', {
               plural: rpcLinks.length > 1 ? t('chain-item.header.plural') : '',

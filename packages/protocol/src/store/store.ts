@@ -13,6 +13,8 @@ import { chainsSlilce } from 'domains/chains/store/chainsSlice';
 import { historyInstance } from '../modules/common/utils/historyInstance';
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
+import { themePersistConfig } from 'modules/layout/storage/themePersistConfig';
+import { themeSlice } from 'modules/layout/store/themeSlice';
 import { listenerMiddleware } from './middlewares/listenerMiddleware';
 import { notificationSlice } from '../domains/notification/store/notificationSlice';
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
@@ -24,6 +26,7 @@ const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
   [web3Api.reducerPath]: web3Api.reducer,
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
+  theme: persistReducer(themePersistConfig, themeSlice.reducer),
   auth: persistReducer(authPersistConfig, authSlice.reducer),
   accountTopUp: persistReducer(
     accountTopUpPersistConfig,

@@ -9,7 +9,7 @@ export const useStyles = makeStyles<boolean>()(
           width: 'auto',
           padding: theme.spacing(2 * 1.25, 2 * 1.5),
 
-          border: `2px solid ${theme.palette.grey[100]}`,
+          border: `2px solid ${theme.palette.divider}`,
           borderRadius: theme.spacing(2 * 1.5),
 
           color: theme.palette.text.primary,

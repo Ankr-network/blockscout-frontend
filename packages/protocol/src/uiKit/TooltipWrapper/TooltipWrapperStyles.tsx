@@ -20,12 +20,19 @@ export const useTooltipWrapperStyles = makeStyles()((theme: Theme) => ({
     height: 20,
     position: 'relative',
     top: -2,
+
+    '& circle': {
+      fill: theme.palette.background.default,
+    },
+    '& path': {
+      fill: theme.palette.grey[600],
+    },
   },
 }));
 
 export const TooltipElement = withStyles(Tooltip, (theme: Theme) => ({
   Tooltip: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     textAlign: 'center',
     color: 'rgb(31 34 38 / 52%)',
     boxShadow:

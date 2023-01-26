@@ -2,9 +2,8 @@ import { Box, Button, Typography } from '@mui/material';
 
 import { t, tHTML } from '@ankr.com/common';
 import { useEmailContentStyles } from './useEmailContentStyles';
-import { ReactComponent as GoogleIcon } from 'uiKit/Icons/google.svg';
+import { Google, Mark } from '@ankr.com/ui';
 import { InfoBanner } from 'modules/common/components/InfoBanner';
-import { ReactComponent as WarningIcon } from 'uiKit/Icons/warning-icon.svg';
 
 interface EmailContentProps {
   onClick: () => void;
@@ -25,12 +24,12 @@ export const EmailContent = ({ onClick }: EmailContentProps) => {
           className={classes.button}
           variant="outlined"
           onClick={onClick}
-          startIcon={<GoogleIcon />}
+          startIcon={<Google />}
         >
           {t('signup-modal.gmail-button')}
         </Button>
         <InfoBanner
-          icon={<WarningIcon />}
+          icon={<Mark />}
           message={tHTML('signup-modal.email-warning')}
           className={classes.banner}
         />

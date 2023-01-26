@@ -1,19 +1,9 @@
 import { keyframes, Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { mainTheme } from 'uiKit/Theme/mainTheme';
 
 interface SpinnerStyleProps {
   size: number;
 }
-
-const color = keyframes`
-  0% {
-    background-color: ${mainTheme.palette.primary.main}
-  },
-  100% {
-    background-color: ${mainTheme.palette.action.disabledBackground}
-  },
-`;
 
 export const useStyles = makeStyles<SpinnerStyleProps>()(
   (theme: Theme, props: SpinnerStyleProps) => ({
@@ -30,7 +20,15 @@ export const useStyles = makeStyles<SpinnerStyleProps>()(
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      animation: `${color} 1.5s infinite ease-out`,
+      animation: `${keyframes`
+        0% {
+          background-color: ${theme.palette.primary.main}
+        }
+        ,
+        100% {
+          background-color: ${theme.palette.action.disabledBackground}
+        },
+      `} 1.5s infinite ease-out`,
       backgroundColor: theme.palette.action.disabledBackground,
     },
     circle2: {

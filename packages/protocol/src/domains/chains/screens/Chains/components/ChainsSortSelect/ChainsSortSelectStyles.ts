@@ -15,7 +15,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
 
     '&:hover, &.Mui-focused': {
       '&&': {
-        backgroundColor: theme.palette.common.white,
+        backgroundColor: theme.palette.background.paper,
       },
     },
   },

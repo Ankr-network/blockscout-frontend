@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { Dialog } from 'uiKit/Dialog';
 
 import { useSampleCodeDialogStyles } from './useSampleCodeDialogStyles';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface ISampleCodeDialogProps {
   title: string;
@@ -17,7 +18,8 @@ export const SampleCodeDialog = ({
   onClose,
   children,
 }: ISampleCodeDialogProps) => {
-  const { classes } = useSampleCodeDialogStyles();
+  const { isLightTheme } = useThemes();
+  const { classes } = useSampleCodeDialogStyles(isLightTheme);
 
   return (
     <Dialog

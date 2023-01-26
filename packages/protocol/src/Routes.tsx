@@ -12,7 +12,6 @@ import {
   UserSettingsRoutes,
   UserSettingsRoutesConfig,
 } from 'domains/userSettings/Routes';
-import { Themes } from '@ankr.com/ui';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import {
   GuardAuthRoute,
@@ -30,6 +29,7 @@ import { PageNotFound } from './modules/router/components/PageNotFound';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { useAutoconnect } from './useAutoconnect';
 import { GuardPremiumRoute } from 'domains/auth/components/GuardAuthRoute/GuardPremiumRoute';
+import { useWeb3ThemeSwitcher } from './useWeb3ThemeSwitcher';
 
 export const Routes = () => {
   const { hasPremium, isUserEthAddressType, authorizationToken } = useAuth();
@@ -37,6 +37,7 @@ export const Routes = () => {
   const hasAuthData = Boolean(authorizationToken);
 
   useAutoconnect();
+  useWeb3ThemeSwitcher();
 
   return (
     <Switch>
@@ -46,7 +47,6 @@ export const Routes = () => {
         hasPremium={hasPremium}
         render={() => (
           <DefaultLayout
-            theme={Themes.light}
             hasGradient
             hasNoReactSnap
             disableGutters
@@ -66,7 +66,7 @@ export const Routes = () => {
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <AccountRoutes />
           </DefaultLayout>
         )}
@@ -77,7 +77,7 @@ export const Routes = () => {
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <AccountRoutes />
           </DefaultLayout>
         )}
@@ -89,7 +89,7 @@ export const Routes = () => {
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <AccountRoutes />
           </DefaultLayout>
         )}
@@ -101,7 +101,7 @@ export const Routes = () => {
           UserSettingsRoutesConfig.confirmation.path,
         ]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <CenterContainer>
               <ConnectWalletCard />
             </CenterContainer>
@@ -136,7 +136,7 @@ export const Routes = () => {
         exact
         path={[MMChainsRoutesConfig.mmChains.path]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <MMChainsRoutes />
           </DefaultLayout>
         )}
@@ -157,7 +157,7 @@ export const Routes = () => {
         exact
         path={[ChainsRoutesConfig.chainDetails.path]}
         render={() => (
-          <DefaultLayout theme={Themes.light}>
+          <DefaultLayout>
             <ChainDetailsRoutes />
           </DefaultLayout>
         )}

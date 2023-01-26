@@ -2,7 +2,8 @@ import React, { StyleHTMLAttributes } from 'react';
 
 import { getSign } from './utils/getSign';
 import { useStyles } from './AmountStyles';
-import { mainTheme } from 'uiKit/Theme/mainTheme';
+import { getMainTheme } from 'uiKit/Theme/mainTheme';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export interface AmountProps {
   currencySymbol?: string;
@@ -19,6 +20,9 @@ export const Amount = ({ currencySymbol, direction, value }: AmountProps) => {
   const sign = getSign(direction);
 
   const { classes } = useStyles();
+
+  const { themes } = useThemes();
+  const mainTheme = getMainTheme(themes);
 
   // use styles doesn't update classes due the component is invoked from
   // a render function

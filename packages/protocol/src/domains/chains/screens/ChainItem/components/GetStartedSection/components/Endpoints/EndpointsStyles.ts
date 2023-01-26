@@ -9,6 +9,6 @@ export const useEndpointsStyles = makeStyles()((theme: Theme) => ({
 
     borderRadius: theme.spacing(2 * 3.75),
 
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
   },
 }));

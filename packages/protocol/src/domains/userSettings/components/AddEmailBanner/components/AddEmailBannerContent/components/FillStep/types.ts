@@ -1,7 +1,6 @@
-import { SvgIcon } from '@mui/material';
-import { SVGProps } from 'react';
+import React from 'react';
 
 export interface IFeature {
-  Icon: React.FunctionComponent<SVGProps<SVGSVGElement>> | typeof SvgIcon;
+  icon: React.ReactNode;
   key: string;
 }

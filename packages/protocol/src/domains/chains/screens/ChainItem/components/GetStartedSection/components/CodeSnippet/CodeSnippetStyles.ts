@@ -1,8 +1,13 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<boolean>()(
-  (theme: Theme, isExpanded: boolean) => ({
+interface ICodeSnippetStylesProps {
+  isExpanded: boolean;
+  isLightTheme: boolean;
+}
+
+export const useStyles = makeStyles<ICodeSnippetStylesProps>()(
+  (theme: Theme, props: ICodeSnippetStylesProps) => ({
     codeSnippet: {
       overflow: 'hidden',
       display: 'flex',
@@ -29,10 +34,12 @@ export const useStyles = makeStyles<boolean>()(
     codeContainer: {
       borderRadius: theme.spacing(2 * 3),
 
-      backgroundColor: theme.palette.grey[800],
+      backgroundColor: props.isLightTheme
+        ? theme.palette.grey[800]
+        : theme.palette.background.default,
     },
     codeView: {
-      maxHeight: isExpanded ? 'none' : theme.spacing(2 * 56.25),
+      maxHeight: props.isExpanded ? 'none' : theme.spacing(2 * 56.25),
     },
     code: {
       padding: theme.spacing(2 * 2.25, 2 * 5.25, 2 * 2.25),

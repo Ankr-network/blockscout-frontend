@@ -9,7 +9,7 @@ export const useChainBlockStyles = makeStyles()((theme: Theme) => ({
 
     borderRadius: 18,
     padding: theme.spacing(2 * 2.25),
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
   },
   main: {
     display: 'flex',
