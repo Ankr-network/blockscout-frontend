@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useMemo } from 'react';
 
 import { Faq } from 'modules/common/components/Faq';
+import { DECIMAL_PLACES } from 'modules/common/const';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -75,7 +76,10 @@ export const StakePolkadot = ({
       <StakeDescriptionName>{t('stake.you-will-receive')}</StakeDescriptionName>
 
       <StakeDescriptionValue>
-        <StakeDescriptionAmount symbol={ethToken} value={rawAmount} />
+        <StakeDescriptionAmount
+          symbol={ethToken}
+          value={rawAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+        />
 
         <QuestionWithTooltip
           className={classNames(classes.question, classes.questionAmount)}

@@ -5,7 +5,12 @@ import { useDispatch } from 'react-redux';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';
-import { AUDIT_LINKS, DUNE_ANALYTICS_LINK, ZERO } from 'modules/common/const';
+import {
+  AUDIT_LINKS,
+  DECIMAL_PLACES,
+  DUNE_ANALYTICS_LINK,
+  ZERO,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
@@ -70,7 +75,7 @@ export const StakeAvalanche = (): JSX.Element => {
         <StakeDescriptionValue>
           <StakeDescriptionAmount
             symbol={getTokenName(tokenOut)}
-            value={totalAmount}
+            value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
           />
         </StakeDescriptionValue>
       </StakeDescriptionContainer>

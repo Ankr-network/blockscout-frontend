@@ -36,7 +36,7 @@ export const TotalAmount = ({
         <StakeDescriptionAmount
           isLoading={isFeeLoading}
           symbol={getTokenName(tokenOut)}
-          value={totalAmount}
+          value={totalAmount.toFormat()}
         />
       </StakeDescriptionValue>
     </StakeDescriptionContainer>

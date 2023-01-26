@@ -40,7 +40,7 @@ export const StakeClaimDialog = ({
 
   const {
     claimableTokensAmount,
-    ethAmount,
+    ethAmountTxt,
     isLoadingClaim,
     isLoadingTopBtn,
     isShowBottomItems,
@@ -119,7 +119,7 @@ export const StakeClaimDialog = ({
                   <StakeDescriptionAmount
                     isWithTooltip={false}
                     symbol={ethToken}
-                    value={ethAmount}
+                    value={ethAmountTxt ?? ''}
                   />
                 </StakeDescriptionValue>
               </StakeDescriptionContainer>

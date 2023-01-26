@@ -8,6 +8,7 @@ import { Token } from 'modules/common/types/token';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { useLazyGetETHStakeGasFeeQuery } from 'modules/stake-eth/actions/getStakeGasFee';
 import { useStakeETHMutation } from 'modules/stake-eth/actions/stake';
+import { useGetETHMinStakeQuery } from 'modules/stake-eth/actions/useGetETHMinStakeQuery';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
@@ -26,6 +27,7 @@ interface IUseStakeForm {
   isCommonDataLoading: boolean;
   isFeeLoading: boolean;
   loading: boolean;
+  minAmount?: BigNumber;
   tokenIn: string;
   tokenOut: string;
   isInvalidAmount: boolean;
@@ -39,6 +41,11 @@ export const useStakeForm = (): IUseStakeForm => {
 
   const { data: commonData, isFetching: isCommonDataLoading } =
     useGetETHCommonDataQuery(undefined, {
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    });
+
+  const { data: minStake, isFetching: isMinStakingLoading } =
+    useGetETHMinStakeQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
@@ -97,9 +104,10 @@ export const useStakeForm = (): IUseStakeForm => {
     certificateRatio: commonData?.aETHcRatio ?? ZERO,
     faqItems,
     fee: stakeGasFee ?? ZERO,
-    isCommonDataLoading,
+    isCommonDataLoading: isCommonDataLoading || isMinStakingLoading,
     isFeeLoading,
-    loading: isCommonDataLoading || isStakeLoading,
+    loading: isCommonDataLoading || isStakeLoading || isMinStakingLoading,
+    minAmount: minStake ?? ZERO,
     tokenIn: Token.ETH,
     tokenOut: Token.aETHc,
     isInvalidAmount: isError,

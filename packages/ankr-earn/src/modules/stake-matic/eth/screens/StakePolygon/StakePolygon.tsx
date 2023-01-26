@@ -11,6 +11,7 @@ import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
+  DECIMAL_PLACES,
   DUNE_ANALYTICS_LINK,
   featuresConfig,
 } from 'modules/common/const';
@@ -89,7 +90,7 @@ export const StakePolygon = (): JSX.Element => {
           <StakeDescriptionValue>
             <StakeDescriptionAmount
               symbol={getTokenName(tokenOut)}
-              value={totalAmount}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
           </StakeDescriptionValue>
         </StakeDescriptionContainer>

@@ -12,6 +12,7 @@ import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
 import {
   AUDIT_LINKS,
+  DECIMAL_PLACES,
   DUNE_ANALYTICS_LINK,
   featuresConfig,
   ONE,
@@ -114,7 +115,7 @@ export const StakeBinance = (): JSX.Element => {
             <StakeDescriptionAmount
               isLoading={isStakeGasLoading}
               symbol={getTokenName(tokenOut)}
-              value={totalAmount}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
             />
           </StakeDescriptionValue>
         </StakeDescriptionContainer>

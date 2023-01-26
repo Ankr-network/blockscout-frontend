@@ -89,7 +89,7 @@ export const StakeForm = ({
   maxAmountDecimals,
   networkTitleSlot,
   feeSlot,
-  stakingAmountStep = 0,
+  stakingAmountStep,
   labelTooltip,
   partnerCodeSlot,
   renderStats,

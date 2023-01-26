@@ -2,6 +2,7 @@ import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
 
 import { Faq } from 'modules/common/components/Faq';
+import { DECIMAL_PLACES } from 'modules/common/const';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -46,7 +47,10 @@ export const Stake = (): JSX.Element => {
       <StakeDescriptionName>{t('stake.you-will-receive')}</StakeDescriptionName>
 
       <StakeDescriptionValue>
-        <StakeDescriptionAmount symbol={tokenOut} value={totalAmount} />
+        <StakeDescriptionAmount
+          symbol={tokenOut}
+          value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+        />
       </StakeDescriptionValue>
     </StakeDescriptionContainer>
   );

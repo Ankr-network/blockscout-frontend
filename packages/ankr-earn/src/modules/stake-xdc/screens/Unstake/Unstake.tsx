@@ -57,7 +57,10 @@ export const Unstake = (): JSX.Element => {
           </StakeDescriptionName>
 
           <StakeDescriptionValue>
-            <StakeDescriptionAmount symbol={tokenOut} value={totalVal} />
+            <StakeDescriptionAmount
+              symbol={tokenOut}
+              value={totalVal.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
 

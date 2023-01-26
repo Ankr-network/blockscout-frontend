@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { ZERO } from 'modules/common/const';
+import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -63,7 +63,10 @@ export const StakeSui = (): JSX.Element => {
           </StakeDescriptionName>
 
           <StakeDescriptionValue>
-            <StakeDescriptionAmount symbol={tokenOut} value={totalAmount} />
+            <StakeDescriptionAmount
+              symbol={tokenOut}
+              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            />
           </StakeDescriptionValue>
         </StakeDescriptionContainer>
 

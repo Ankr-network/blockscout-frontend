@@ -107,7 +107,7 @@ export const Stake = (): JSX.Element => {
         <StakeDescriptionValue>
           <StakeDescriptionAmount
             symbol={getTokenName(tokenOut)}
-            value={totalAmount}
+            value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
           />
         </StakeDescriptionValue>
       </StakeDescriptionContainer>

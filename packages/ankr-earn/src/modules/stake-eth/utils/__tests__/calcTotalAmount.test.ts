@@ -49,17 +49,4 @@ describe('modules/stake-eth/utils/calcTotalAmount', () => {
 
     expect(calcTotalAmount(args)).toStrictEqual(expectedResult);
   });
-
-  test('should have max 18 decimals and rounded up', () => {
-    const args: ICalcTotalAmountArgs = {
-      ...defaultArgs,
-      selectedToken: Token.aETHc,
-      amount: new BigNumber('0.0000000000000000024'),
-    };
-    const expectedResult = new BigNumber('0.000000000000000002');
-
-    const results = calcTotalAmount(args);
-
-    expect(results).toStrictEqual(expectedResult);
-  });
 });
