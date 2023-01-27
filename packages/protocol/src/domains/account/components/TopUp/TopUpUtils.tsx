@@ -29,8 +29,8 @@ export enum TopUpTabID {
 }
 
 export const useTopUpTabs = (
+  trackSubmit: TrackTopUpSubmit,
   ankrTopupTab?: Tab<TopUpTabID>,
-  trackSubmit: TrackTopUpSubmit = () => {},
 ) => {
   const initialTabID = ankrTopupTab ? TopUpTabID.ANKR : TopUpTabID.USD;
 
