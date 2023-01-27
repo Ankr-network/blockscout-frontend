@@ -1,14 +1,14 @@
-import { H1Tag } from 'uiKit/H1Tag';
-
+import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
+
+import { H1Tag } from 'uiKit/H1Tag';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { ChainItemHeader } from './components/ChainItemHeader';
 import { ChainItemSections } from './components/ChainItemSections';
 import { useChainItem } from './hooks/useChainItem';
 import { useChainItemBreadcrumbs } from './hooks/useChainItemBreadcrumbs';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
-import { ChainsItemDialog } from '../Chains/components/ChainsItem/ChainsItemDialog';
-import { useCallback } from 'react';
+import { ChainsItemDialog } from '../../components/ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 export interface ChainItemProps {

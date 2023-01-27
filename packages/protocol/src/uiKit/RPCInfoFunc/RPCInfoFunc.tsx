@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import { TypographyTypeMap, Typography } from '@mui/material';
 import { useRPCInfoFunStyle } from './useRPCInfoFunStyle';
 import { MetaMaskWallet } from '@ankr.com/ui';
-import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { useAddNetworkButton } from 'domains/auth/components/AddNetwork/useAddNetworkButton';
 import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 
 interface IPRCInfoFunProps {
   size?: 'm' | 'l';

@@ -1,17 +1,20 @@
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { ChainsList } from '../ChainsList';
-import { ChainsSortSelect } from '../ChainsSortSelect';
-import { ReactSnapChainsLinksGenerator } from '../ReactSnapChainsLinksGenerator';
-import { usePublicChainsData } from './PublicChainsUtils';
-import { BaseChains } from '../BaseChains';
+import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
+import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
+import { BaseChains } from 'domains/chains/components/BaseChains';
+import { usePublicChains } from './hooks/usePublicChains';
+import { usePublicChainsData } from './hooks/usePublicChainsData';
+import { PublicChainsList } from './components/PublicChainsList';
 
-export interface PublicChainsProps {
-  isMMIndex?: boolean;
-}
-
-export const PublicChains = ({ isMMIndex }: PublicChainsProps) => {
+export const PublicChains = () => {
   const { chains, allChains, loading, setSortType, sortType, timeframe } =
     usePublicChainsData();
+
+  const { processedChains, chainsDictionary } = usePublicChains({
+    allChains,
+    chains,
+    sortType,
+  });
 
   return (
     <BaseChains
@@ -21,12 +24,10 @@ export const PublicChains = ({ isMMIndex }: PublicChainsProps) => {
       <NoReactSnap
         fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        <ChainsList
-          isMMIndex={isMMIndex}
-          chains={chains}
-          allChains={allChains}
-          sortType={sortType}
+        <PublicChainsList
           timeframe={timeframe}
+          chains={processedChains}
+          chainsDictionary={chainsDictionary}
         />
       </NoReactSnap>
     </BaseChains>

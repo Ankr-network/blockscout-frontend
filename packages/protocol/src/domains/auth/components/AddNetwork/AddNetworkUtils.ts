@@ -1,11 +1,15 @@
 import { t } from '@ankr.com/common';
 import { flatNetworkURLs } from 'domains/auth/utils/flatNetworkURLs';
 import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
+import { Chain, ChainType } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
+import { EndpointGroup } from 'modules/endpoints/types';
 import { PrefixedHex } from 'multirpc-sdk';
 import { IChainParams } from '../../actions/addNetwork';
 import { NETWORK_INFO_MAP } from './const';
+// TODO
+import { getChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/utils/getChainId';
+import { getChainById } from 'domains/chains/screens/ChainItem/components/Endpoint/EndpointUtils';
 
 const toHex = (num: number): PrefixedHex => {
   return `0x${num.toString(16)}`;
@@ -22,7 +26,7 @@ export const flattenAllChainTypes = (chain: IApiChain): IApiChain[] => [
   ...(chain.devnets || []).flatMap(flattenAllChainTypes),
 ];
 
-export const getMappedNetwork = (
+const getMappedNetwork = (
   chain?: Chain,
   flatChainId?: ChainID,
 ): IChainParams | undefined => {
@@ -41,4 +45,43 @@ export const getMappedNetwork = (
       ({ rpc }) => rpc,
     ),
   };
+};
+
+const getFlattenChain = (
+  publicChain: IApiChain,
+  chainType: ChainType,
+  group: EndpointGroup,
+) => {
+  const flatChainId = getChainId({
+    publicChain,
+    chainType,
+    group,
+    withExceptions: false,
+  }) as ChainID;
+
+  const flatChains = flattenAllChainTypes(publicChain);
+
+  const flatChain = getChainById(flatChains, flatChainId);
+
+  return { flatChainId, flatChain };
+};
+
+export const getMetamaskNetwork = (
+  publicChain: IApiChain,
+  chainType?: ChainType,
+  group?: EndpointGroup,
+) => {
+  const shouldFlatten = chainType && group;
+
+  if (shouldFlatten) {
+    const { flatChainId, flatChain } = getFlattenChain(
+      publicChain,
+      chainType,
+      group,
+    );
+
+    return getMappedNetwork(flatChain, flatChainId);
+  }
+
+  return getMappedNetwork(publicChain, publicChain.id as ChainID);
 };

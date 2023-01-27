@@ -4,7 +4,7 @@ import { SecondaryTab } from '../components/SecondaryTab';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { chainTypeTabs as tabs } from '../constants/chainTypeTabs';
 import { chainTypeToEndpointsKeyMap } from '../constants/chainTypeToEndpointsKeyMap';
-import { LockTab } from '../../Chains/components/ChainsItem/LockTab';
+import { LockedTab } from '../components/LockedTab';
 
 export const TESTNET_ID = 'testnet';
 
@@ -21,7 +21,7 @@ export const getChainTypeTabs = (
         id,
         title: (isSelected: boolean) => {
           const label = blockedTestnet ? (
-            <LockTab title={title} />
+            <LockedTab title={title} />
           ) : (
             title?.toString() ?? ''
           );
