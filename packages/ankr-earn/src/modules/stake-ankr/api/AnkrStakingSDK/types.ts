@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
-import { Days, Web3Address, Web3Uint256 } from 'modules/common/types';
+import { Days, Seconds, Web3Address, Web3Uint256 } from 'modules/common/types';
 
 export interface IChainConfig {
   activeValidatorsLength: number;
@@ -18,7 +18,7 @@ export interface IChainConfig {
 export interface IChainParams {
   epoch: number;
   nextEpochBlock: number;
-  nextEpochIn: Days;
+  nextEpochIn: string;
 }
 
 export type TValidatorPrettyStatus =
@@ -43,17 +43,47 @@ export interface IValidator {
   totalRewards: BigNumber;
 }
 
+export type IEventData = EventData;
+
 export interface IDelegatorEventData extends EventData {
   timestamp: number;
 }
 
 export interface IDelegatorDelegation {
-  event?: EventData;
+  event?: IEventData;
   validator: Web3Address;
   staker: Web3Address;
   amount: Web3Uint256;
   epoch: number;
   txDate: Date;
+}
+
+export interface IDelegatorUnDelegation {
+  event?: IEventData;
+  validator: Web3Address;
+  staker: Web3Address;
+  amount: Web3Uint256;
+  epoch: number;
+}
+
+export interface IDelegatorClaim {
+  event?: IEventData;
+  validator: Web3Address;
+  staker: Web3Address;
+  amount: Web3Uint256;
+  epoch: number;
+}
+
+export interface IDelegatorOneOfEvent {
+  delegation?: IDelegatorDelegation;
+  undelegation?: IDelegatorUnDelegation;
+  claim?: IDelegatorClaim;
+}
+
+export interface ILockPeriod {
+  isAvailable: boolean;
+  availableAfterBlock: number;
+  estimationTime: Seconds;
 }
 
 export interface IStakingReward {
@@ -116,6 +146,7 @@ export interface IApproveResponse {
 }
 
 export interface IDelegation {
+  txDate: Date;
   amount: BigNumber;
   lockingPeriod: number;
   totalLockPeriod: number;
@@ -130,18 +161,12 @@ export interface IActiveStakingByValidator {
   validator: Web3Address;
 }
 
-export interface IGetDaysLeft {
-  totalDays: number;
-  daysLeft: number;
-}
-
-export interface IDelegationQueueItem {
-  amount: string;
-  claimEpoch: string;
-  epoch: string;
+export interface ILockingPeriod {
+  totalLockPeriod: Days;
+  daysLeft: Days;
 }
 
 export interface IQueueHistoryItem {
-  amount: string;
+  amount: BigNumber;
   fromEpoch: number;
 }

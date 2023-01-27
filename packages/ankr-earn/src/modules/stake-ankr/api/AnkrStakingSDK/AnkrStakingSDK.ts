@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import BigNumber from 'bignumber.js';
 import { Memoize } from 'typescript-memoize';
 import { TransactionReceipt } from 'web3-core';
@@ -23,8 +24,8 @@ import { SHORT_CACHE_TIME } from 'modules/stake-ankr/const';
 
 import { AnkrStakingReadSDK } from './AnkrStakingReadSDK';
 import {
-  AMOUNT_FROM_QUEUE_SCALE,
   ANKR_PROVIDER_READ_ID,
+  ANKR_STAKING_BLOCK_WITH_FIX,
   ANKR_STAKING_MAX_DECIMALS_LENGTH,
   GAS_LIMIT_MULTIPLIER,
 } from './const';
@@ -33,20 +34,21 @@ import {
   IApproveResponse,
   IClaimableUnstake,
   IDelegation,
-  IDelegationQueueItem,
-  IGetDaysLeft,
+  IDelegatorDelegation,
   IHistoryData,
+  ILockingPeriod,
   IQueueHistoryItem,
   IStakingReward,
   IUnstakingData,
 } from './types';
-import { getIsNonZeroAmount } from './utils';
 
 const { contractConfig } = configFromEnv();
 
 const ankrToken: Address = isMainnet
   ? contractConfig.ankrToken
   : contractConfig.testAnkrToken;
+
+const ONE_DAY: Milliseconds = 1000 * 60 * 60 * 24;
 
 interface IAnkrStakingSDKProviders {
   readProvider: Web3KeyReadProvider;
@@ -194,7 +196,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   public async redelegate(validator: Web3Address): Promise<string> {
     const stakingContract = this.getAnkrTokenStakingContract();
 
-    const queue = await this.getDelegationQueue(validator);
+    const queue = await this.getDelegateQueue(validator);
     const extendedGasLimit = AnkrStakingSDK.calcGasLimitBasedOnQueue(
       queue.length,
     );
@@ -222,9 +224,9 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     expiring: SHORT_CACHE_TIME,
     hashFunction: (validator: Web3Address) => validator,
   })
-  private async getDelegationQueue(
+  private async getDelegateQueue(
     validator: Web3Address,
-  ): Promise<IDelegationQueueItem[]> {
+  ): Promise<IQueueHistoryItem[]> {
     const stakingContract = this.getAnkrTokenStakingContract();
 
     return stakingContract.methods
@@ -486,14 +488,6 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     }, []);
   }
 
-  private calcLeftDays(startDate: Date, lockPeriod: Days): Days {
-    const now = new Date();
-    const diffTime = Math.abs(startDate.getTime() - now.getTime());
-    const ONE_DAY: Milliseconds = 1000 * 60 * 60 * 24;
-    const pastDays = Math.floor(diffTime / ONE_DAY);
-    return lockPeriod - pastDays;
-  }
-
   public async getStakingRewards(
     validator: Web3Address,
     delegator: Web3Address,
@@ -571,8 +565,51 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       this.getFormattedDelegations(validator, latestBlockNumber),
     ]);
 
+    const reverseDelegations = formattedDelegations.reverse();
+
+    let totalActiveStaking = ZERO;
+    const activeDelegations: IDelegation[] = [];
+
+    for (let i = 0; i < reverseDelegations.length; i += 1) {
+      const delegation = reverseDelegations[i];
+      const newTotalActiveStaking = totalActiveStaking.plus(delegation.amount);
+
+      const isActive =
+        delegation.isActive &&
+        delegatedAmount
+          .minus(unlockedDelegatedByValidator)
+          .minus(newTotalActiveStaking)
+          .isGreaterThanOrEqualTo(ZERO);
+
+      if (!isActive) {
+        break;
+      }
+
+      totalActiveStaking = newTotalActiveStaking;
+      activeDelegations.push(delegation);
+    }
+
+    const expectedTotalActiveStaking = delegatedAmount.minus(
+      unlockedDelegatedByValidator,
+    );
+
+    const isException =
+      !expectedTotalActiveStaking.isEqualTo(totalActiveStaking);
+
+    if (isException) {
+      const exceptedDelegation: IDelegation = {
+        txDate: new Date(),
+        amount: expectedTotalActiveStaking.minus(totalActiveStaking),
+        lockingPeriod: 0,
+        totalLockPeriod: 0,
+        isActive: true,
+        isUnknownPeriod: true,
+      };
+      activeDelegations.unshift(exceptedDelegation);
+    }
+
     return {
-      activeDelegations: formattedDelegations,
+      activeDelegations,
       delegatedAmount,
       unlockedDelegatedByValidator,
       validator,
@@ -581,6 +618,8 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
   /**
    * Getting a list of delegations with the addition of data about the locking period.
+   * Also, this method takes into account transactions that were affected by the bug
+   * in the contract before the `16182044` block.
    *
    * @private
    * @param validator - validator address
@@ -591,137 +630,146 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     validator: Address,
     latestBlockNumber: number,
   ): Promise<IDelegation[]> {
-    const delegationsHistoryFromQueue =
-      await this.getDelegationsHistoryFromQueue(validator);
+    const { currentAccount } = this;
 
-    const mapQueueHistoryItem = async ({
-      amount,
-      fromEpoch,
-    }: IQueueHistoryItem): Promise<IDelegation> => {
-      const { daysLeft, totalDays } = await this.getDaysLeft(
-        fromEpoch,
+    // ⬇️ download all data
+    const [rawDelegationHistory, lastClaimOrUndelegateDate] = await Promise.all(
+      [
+        this.getDelegationHistory(
+          { staker: currentAccount },
+          latestBlockNumber,
+        ),
+        this.getLastClaimOrUndelegateDate(validator),
+      ],
+    );
+
+    const delegationsByValidator = rawDelegationHistory.filter(
+      delegation => delegation.validator === validator,
+    );
+
+    const mapDelegationHistory = async ({
+      txDate,
+      amount: weiAmount,
+      event,
+    }: IDelegatorDelegation): Promise<IDelegation> => {
+      const lockingPeriodData = await this.getLockingPeriod(
+        txDate,
         latestBlockNumber,
       );
 
-      const isActive = daysLeft > 0;
+      const { totalLockPeriod } = lockingPeriodData;
+      let { daysLeft: lockingPeriod } = lockingPeriodData;
+
+      const isDelegationWasBeforeFix = event
+        ? event.blockNumber < ANKR_STAKING_BLOCK_WITH_FIX
+        : false;
+
+      const isDelegationCorrupted =
+        isDelegationWasBeforeFix && !!lastClaimOrUndelegateDate;
+
+      if (isDelegationCorrupted) {
+        const { daysLeft: lockingPeriodForCorrupted } =
+          await this.getLockingPeriod(
+            lastClaimOrUndelegateDate,
+            latestBlockNumber,
+          );
+
+        lockingPeriod = lockingPeriodForCorrupted;
+      }
 
       return {
-        amount: new BigNumber(amount).dividedBy(AMOUNT_FROM_QUEUE_SCALE),
-        isActive,
-        isUnknownPeriod: isActive && daysLeft < 1,
-        lockingPeriod: Math.floor(daysLeft),
-        totalLockPeriod: Math.floor(totalDays),
+        lockingPeriod,
+        totalLockPeriod,
+        txDate,
+        amount: this.convertFromWei(weiAmount),
+        isActive: lockingPeriod > 0,
       };
     };
 
-    return Promise.all(delegationsHistoryFromQueue.map(mapQueueHistoryItem));
+    return Promise.all(delegationsByValidator.map(mapDelegationHistory));
   }
 
   /**
-   * @public
-   * @return the filtered delegations history based on the delegations queue.
+   * Get last claim or undelegate date.
+   *
+   * @private
+   * @param validator - validator address
+   * @returns the date of the user last claim or undelegate action
    */
-  public async getDelegationsHistoryFromQueue(
+  private async getLastClaimOrUndelegateDate(
     validator: string,
-  ): Promise<IQueueHistoryItem[]> {
-    let queue = await this.getDelegationQueue(validator);
+  ): Promise<Date | null> {
+    const { currentAccount } = this;
 
-    queue = queue.filter(getIsNonZeroAmount);
+    // ⬇️ download all data
+    const [claimHistory, undelegateHistory] = await Promise.all([
+      this.getClaimHistory(
+        { staker: currentAccount },
+        ANKR_STAKING_BLOCK_WITH_FIX,
+      ),
+      this.getUndelegationHistory(
+        { staker: currentAccount },
+        ANKR_STAKING_BLOCK_WITH_FIX,
+      ),
+    ]);
 
-    const history: IQueueHistoryItem[] = [];
+    const claimAndUndelegateHistory = [
+      ...claimHistory,
+      ...undelegateHistory,
+    ].filter(delegation => delegation.validator === validator);
 
-    if (queue.length === 0) {
-      return history;
-    }
+    const lastClaimOrUndelegateDate = claimAndUndelegateHistory.length
+      ? claimAndUndelegateHistory.reduce((a, b) => {
+          return a.txDate > b.txDate ? a : b;
+        }).txDate
+      : null;
 
-    history.push({
-      amount: queue[0].amount,
-      fromEpoch: +queue[0].epoch,
-    });
-
-    for (let i = 1; i < queue.length; i += 1) {
-      const cur = queue[i];
-      const prev = queue[i - 1];
-
-      const delegation = {
-        amount: queue[i].amount,
-        fromEpoch: +queue[i].epoch,
-      };
-
-      const curAm = new BigNumber(cur.amount);
-      const prevAm = new BigNumber(prev.amount);
-
-      const diff = prevAm.minus(curAm);
-
-      if (diff.isNegative()) {
-        delegation.amount = diff.abs().toString();
-      } else if (diff.isPositive()) {
-        for (let j = 0; j < i; j += 1) {
-          const newAm = new BigNumber(history[j].amount).minus(diff);
-          history[j].amount = newAm.isPositive() ? newAm.toString() : '0';
-        }
-
-        // eslint-disable-next-line no-continue
-        continue;
-      } else {
-        delete history[history.length - 1];
-      }
-
-      history.push(delegation);
-    }
-
-    return history.filter(getIsNonZeroAmount);
+    return lastClaimOrUndelegateDate;
   }
 
+  // todo: need to check the correctness
   /**
    * 🧮 calculating lock period in days
    *
    * @private
-   * @param delegationEpoch - the number of the epoch in which the delegation was made
+   * @param txDate - transaction date
    * @param latestBlockNumber - latest block number
-   * @return `daysLeft` - number of days of the locking period;
-   *         `totalDays` - total number of the days of locking period;
+   * @return `lockPeriod` - number of days of the locking period;
+   *         `totalLockPeriod` - total number of the days of locking period;
    */
-  private async getDaysLeft(
-    delegationEpoch: number,
+  private async getLockingPeriod(
+    txDate: Date,
     latestBlockNumber: number,
-  ): Promise<IGetDaysLeft> {
-    const [
-      { epoch: currentEpoch, nextEpochIn },
-      { lockPeriod },
-      epochDurationDays,
-    ] = await Promise.all([
-      this.getChainParams(),
-      this.getChainConfig(),
-      this.getEpochDurationDays(latestBlockNumber),
-    ]);
+  ): Promise<ILockingPeriod> {
+    const [{ lockPeriod }, epochDurationDays, nextEpochDate] =
+      await Promise.all([
+        this.getChainConfig(),
+        this.getEpochDurationDays(latestBlockNumber),
+        this.getEpochNextDate(latestBlockNumber),
+      ]);
 
     const lockPeriodDays = lockPeriod * epochDurationDays;
-    const willStartFromNextEpoch = currentEpoch < delegationEpoch;
-
-    if (willStartFromNextEpoch) {
-      const totalDays = lockPeriodDays + nextEpochIn;
-
-      return {
-        daysLeft: totalDays,
-        totalDays,
-      };
-    }
-
-    const unlockEpoch = delegationEpoch + lockPeriod;
-    const isUnlocked = unlockEpoch < currentEpoch;
-
-    if (isUnlocked) {
-      return {
-        daysLeft: 0,
-        totalDays: lockPeriodDays,
-      };
-    }
+    const daysToNextEpoch = this.calcEpochDaysLeft(nextEpochDate, txDate);
+    const totalLockPeriod = lockPeriodDays + daysToNextEpoch;
+    const daysLeft = this.calcLeftDays(txDate, totalLockPeriod);
 
     return {
-      daysLeft: (unlockEpoch - currentEpoch) * epochDurationDays + nextEpochIn,
-      totalDays: lockPeriodDays,
+      totalLockPeriod,
+      daysLeft: daysLeft > 0 ? daysLeft : 0,
     };
+  }
+
+  private calcLeftDays(startDate: Date, lockPeriod: number): Days {
+    const now = new Date();
+    const diffTime = Math.abs(startDate.getTime() - now.getTime());
+    const pastDays = Math.floor(diffTime / ONE_DAY);
+    return lockPeriod - pastDays;
+  }
+
+  private calcEpochDaysLeft(nextEpochDate: Date, startDate: Date): Days {
+    return Math.ceil(
+      ((nextEpochDate.getTime() - startDate.getTime()) / ONE_DAY) % 7,
+    );
   }
 
   public async claimAll(): Promise<string> {
@@ -734,7 +782,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     const delegatorsFee = await this.getDelegatorsFee(allValidatorsAddresses);
 
     const queuesPromise = allValidatorsAddresses.map(address =>
-      this.getDelegationQueue(address),
+      this.getDelegateQueue(address),
     );
 
     const queues = await Promise.all(queuesPromise);
@@ -779,7 +827,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .claimDelegatorFee(validator)
       .encodeABI();
 
-    const queue = await this.getDelegationQueue(validator);
+    const queue = await this.getDelegateQueue(validator);
     const extendedGasLimit = AnkrStakingSDK.calcGasLimitBasedOnQueue(
       queue.length,
     );
@@ -800,7 +848,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .claimStakingRewards(validator)
       .encodeABI();
 
-    const queue = await this.getDelegationQueue(validator);
+    const queue = await this.getDelegateQueue(validator);
     const extendedGasLimit = AnkrStakingSDK.calcGasLimitBasedOnQueue(
       queue.length,
     );
@@ -831,7 +879,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     }, []);
 
     const queuesPromise = rewards.map(reward =>
-      this.getDelegationQueue(reward.validator.validator),
+      this.getDelegateQueue(reward.validator.validator),
     );
 
     const queues = await Promise.all(queuesPromise);
