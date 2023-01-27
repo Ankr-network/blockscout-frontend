@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { ChangeEvent, ReactText, useCallback, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
-import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -16,6 +15,8 @@ import { NavLink } from 'uiKit/NavLink';
 import { Select } from 'uiKit/Select';
 import { Spinner } from 'uiKit/Spinner';
 import { Tooltip } from 'uiKit/Tooltip';
+
+import { LongFloat } from '../LongFloat';
 
 import { useHistory } from './hooks/useHistory';
 import { IHistoryDialogRow } from './types';
@@ -101,15 +102,17 @@ export const NewHistoryDialog = ({
               )}
             </td>
 
-            <td className={classNames(classes.td, classes.amount)}>
+            <td className={classNames(classes.td)}>
               {amount ? (
                 <Tooltip arrow title={`${amount.toFormat()} ${tokenName}`}>
-                  <div>
-                    {t('history-dialog.amount-cell', {
-                      value: amount.decimalPlaces(DECIMAL_PLACES).toFormat(),
-                      token: tokenName,
-                    })}
-                  </div>
+                  <span>
+                    <LongFloat
+                      className={classNames(classes.amount)}
+                      value={amount}
+                    />
+
+                    {tokenName}
+                  </span>
                 </Tooltip>
               ) : (
                 t('history-dialog.error')

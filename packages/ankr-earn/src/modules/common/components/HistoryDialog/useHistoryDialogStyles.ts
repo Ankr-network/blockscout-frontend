@@ -123,10 +123,15 @@ export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
     minHeight: 0,
     paddingTop: 0,
     paddingBottom: 0,
+    verticalAlign: 'baseline',
   },
 
   amount: {
     cursor: 'pointer',
+    fontSize: 13,
+    fontWeight: 400,
+    marginRight: theme.spacing(1.5),
+    lineHeight: 4,
   },
 
   empty: {

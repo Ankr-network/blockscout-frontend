@@ -40,7 +40,9 @@ import { convertNumberToHex } from '../utils';
 
 import {
   ETH_BLOCK_2_WEEKS_OFFSET,
+  ETH_GAS_LIMIT_MULTIPLIER,
   ETH_HISTORY_RANGE_STEP,
+  ETH_STAKE_GAS_FEE_MULTIPLIER,
   METHOD_NAME_BY_SYMBOL,
   TOKENS_CONFIG_BY_SYMBOL,
 } from './const';
@@ -102,14 +104,6 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @private
    */
   private currentAccount: string;
-
-  /**
-   * stakeGasFee — cached stake gas fee.
-   *
-   * @type {BigNumber}
-   * @private
-   */
-  private stakeGasFee?: BigNumber;
 
   /**
    * Private constructor. Instead, use `EthereumSDK.getInstance`.
@@ -412,17 +406,20 @@ export class EthereumSDK implements ISwitcher, IStakable {
   public async stake(amount: BigNumber, token: string): Promise<IStakeData> {
     await this.connectWriteProvider();
 
-    let gasFee = this.stakeGasFee;
-    if (!gasFee) {
-      gasFee = await this.getStakeGasFee(amount, token);
-    }
+    const [gasFee, balance] = await Promise.all([
+      this.getStakeGasFee(amount, token),
+      this.getEthBalance(),
+    ]);
 
-    const balance = await this.getEthBalance();
-    const maxAmount = balance.minus(gasFee);
+    const gasFeeSafeLimit = gasFee.multipliedBy(ETH_STAKE_GAS_FEE_MULTIPLIER);
+    const maxAmount = balance.minus(gasFeeSafeLimit);
     const stakeAmount = amount.isGreaterThan(maxAmount) ? maxAmount : amount;
     const hexAmount = convertNumberToHex(stakeAmount, ETH_SCALE_FACTOR);
-
     const ethPoolContract = EthereumSDK.getEthPoolContract(this.writeProvider);
+
+    if (stakeAmount.isLessThanOrEqualTo(ZERO)) {
+      throw new Error(EEthereumErrorCodes.NOT_ENOUGH_FUNDS);
+    }
 
     const contractStake =
       ethPoolContract.methods[METHOD_NAME_BY_SYMBOL[token as TEthToken].stake];
@@ -435,10 +432,21 @@ export class EthereumSDK implements ISwitcher, IStakable {
     const response = await contractStake().send({
       from: this.currentAccount,
       value: hexAmount,
-      gas: gasLimit,
+      gas: this.getIncreasedGasLimit(gasLimit),
     });
 
     return { txHash: response.transactionHash };
+  }
+
+  /**
+   * Internal function to return increased gas limit.
+   *
+   * @private
+   * @param {number} gasLimit - initial gas limit
+   * @returns {number}
+   */
+  private getIncreasedGasLimit(gasLimit: number): number {
+    return Math.round(gasLimit * ETH_GAS_LIMIT_MULTIPLIER);
   }
 
   /**
@@ -510,11 +518,9 @@ export class EthereumSDK implements ISwitcher, IStakable {
       value: convertNumberToHex(amount, ETH_SCALE_FACTOR),
     });
 
-    const stakeGasFee = await provider.getContractMethodFee(estimatedGas);
+    const increasedGasLimit = this.getIncreasedGasLimit(estimatedGas);
 
-    this.stakeGasFee = stakeGasFee;
-
-    return stakeGasFee;
+    return provider.getContractMethodFee(increasedGasLimit);
   }
 
   /**

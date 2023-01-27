@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
 
-import { ZERO } from 'modules/common/const';
+import { ETH_DECIMALS, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 export interface ICalcTotalAmountArgs {
@@ -37,5 +37,5 @@ export function calcTotalAmount({
     resultAmount = resultAmount.multipliedBy(aETHcRatio);
   }
 
-  return resultAmount;
+  return resultAmount.decimalPlaces(ETH_DECIMALS, BigNumber.ROUND_UP);
 }

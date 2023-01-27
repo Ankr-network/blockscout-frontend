@@ -14,7 +14,7 @@ export const convertNumberToHex = (
   value: BigNumberish,
   scale: BigNumberish = 1,
 ): string => {
-  const num = new BigNumber(value).multipliedBy(scale);
+  const num = new BigNumber(value).multipliedBy(scale).decimalPlaces(0);
 
   return web3.utils.numberToHex(num.toString(10));
 };

@@ -8,6 +8,7 @@ import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { CacheTags } from '../const';
 import { RoutesConfig } from '../Routes';
 import { getEthereumSDK } from '../utils/getEthereumSDK';
+import { onError } from '../utils/onError';
 
 interface IStakeArgs {
   token: TEthToken;
@@ -23,6 +24,7 @@ export const { useStakeETHMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.stake(amount, token) };
         },
+        onError,
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
