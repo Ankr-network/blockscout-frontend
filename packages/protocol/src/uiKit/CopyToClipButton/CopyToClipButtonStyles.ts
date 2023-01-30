@@ -19,17 +19,17 @@ export const useStyles = makeStyles<CopyToClipProps, 'button'>()(
       width: '100%',
       cursor: 'pointer',
       backgroundColor: props.isCopied
-        ? theme.palette.common.white
+        ? theme.palette.background.paper
         : theme.palette.background.default,
       transition: 'background-color .3s',
 
       '&:hover': {
-        backgroundColor: theme.palette.common.white,
+        backgroundColor: theme.palette.background.paper,
 
         [`& .${classes.button}`]: {
           backgroundColor: theme.palette.primary.dark,
           [theme.breakpoints.down('xs')]: {
-            color: theme.palette.common.white,
+            color: theme.palette.background.paper,
           },
         },
       },

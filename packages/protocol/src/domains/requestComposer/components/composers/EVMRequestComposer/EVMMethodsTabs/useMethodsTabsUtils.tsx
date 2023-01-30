@@ -35,7 +35,6 @@ export const useMethodsTabsUtils = (
             isSelected={isSelected}
             label={EVMLibrary[EVMLibraryID.WEB3]}
             size={TabSize.Small}
-            isDarkTheme
           />
         ),
       },
@@ -54,7 +53,6 @@ export const useMethodsTabsUtils = (
             isSelected={isSelected}
             label={EVMLibrary[EVMLibraryID.ETHERS]}
             size={TabSize.Small}
-            isDarkTheme
           />
         ),
       },
@@ -73,7 +71,6 @@ export const useMethodsTabsUtils = (
             isSelected={isSelected}
             label={EVMLibrary[EVMLibraryID.JSON_RPC]}
             size={TabSize.Small}
-            isDarkTheme
           />
         ),
       },

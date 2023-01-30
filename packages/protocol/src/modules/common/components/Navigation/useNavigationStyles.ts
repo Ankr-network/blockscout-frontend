@@ -15,13 +15,12 @@ export const useNavigationStyles = makeStyles()((theme: Theme) => ({
     cursor: 'pointer',
     position: 'relative',
     '&&': {
-      paddingLeft: theme.spacing(2 * 4.5),
+      paddingLeft: theme.spacing(2 * 6),
     },
     '&& span:nth-of-type(1)': {
       position: 'absolute',
       left: 0,
-      top: 10,
-      display: 'block',
+      display: 'flex',
       marginRight: theme.spacing(2 * -0.5),
       marginLeft: theme.spacing(2 * 1),
     },
@@ -32,6 +31,8 @@ export const useNavigationStyles = makeStyles()((theme: Theme) => ({
     },
 
     '&& svg': {
+      fontSize: 24,
+      strokeWidth: 1.2,
       [theme.breakpoints.down('sm')]: {
         marginRight: theme.spacing(2 * 1),
       },
@@ -42,6 +43,7 @@ export const useNavigationStyles = makeStyles()((theme: Theme) => ({
       backgroundColor: theme.palette.background.default,
       boxShadow: 'none',
       '& svg': {
+        strokeWidth: 2,
         color: theme.palette.primary.main,
       },
     },
@@ -52,7 +54,7 @@ export const useNavigationStyles = makeStyles()((theme: Theme) => ({
 
       '&:after': {
         content: '""',
-        display: 'block',
+        display: 'flex',
         position: 'absolute',
         background: theme.palette.background.default,
         height: 2,
@@ -68,12 +70,14 @@ export const useNavigationStyles = makeStyles()((theme: Theme) => ({
       cursor: 'default',
       fontWeight: 600,
       background: theme.palette.background.default,
+      '&& svg': {
+        strokeWidth: 2,
+      },
       '&& span:nth-of-type(1)': {
         display: 'none',
       },
       '&& span:nth-of-type(2)': {
-        display: 'block',
-        top: 10,
+        display: 'flex',
       },
     },
   },

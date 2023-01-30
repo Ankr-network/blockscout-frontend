@@ -5,6 +5,7 @@ import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
 import { MOBILE_NAVIGATION_HEIGHT } from '../MobileNavigation';
 import { SIDEBAR_WIDTH } from '../SideBar';
+import { premiumBackground } from 'uiKit/Theme/themeUtils';
 
 export const MOBILE_LAYOUT_PADDING = 30;
 
@@ -12,12 +13,13 @@ interface Props {
   hasGradient?: boolean;
   hasPaddingBottom?: boolean;
   isHeaderTransparent?: boolean;
+  isLightTheme: boolean;
 }
 
 export const useStyles = makeStyles<Props>()(
   (
     theme: Theme,
-    { hasGradient, hasPaddingBottom, isHeaderTransparent }: Props,
+    { hasGradient, hasPaddingBottom, isHeaderTransparent, isLightTheme }: Props,
   ) => ({
     root: {
       display: 'flex',
@@ -35,9 +37,10 @@ export const useStyles = makeStyles<Props>()(
       display: 'flex',
       flexDirection: 'column',
       flexGrow: 1,
-      background: hasGradient
-        ? `linear-gradient(180deg, rgba(242, 245, 250, 0) 0%, #F2F5FA 100%), linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%)`
-        : theme.palette.background.default,
+      background:
+        hasGradient && isLightTheme
+          ? premiumBackground
+          : theme.palette.background.default,
 
       paddingLeft: SIDEBAR_WIDTH,
 

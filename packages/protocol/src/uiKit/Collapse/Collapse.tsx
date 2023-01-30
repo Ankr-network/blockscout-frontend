@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { Box } from '@mui/material';
 
-import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
+import { ArrowDown } from '@ankr.com/ui';
 import { useCollapse } from './hooks/useCollapse';
 import { useStyles } from './CollapseStyles';
 
@@ -21,7 +21,7 @@ export const Collapse = ({
   className,
   content,
   header,
-  collapsedIcon = <AngleDownIcon />,
+  collapsedIcon = <ArrowDown />,
   uncollapsedIcon,
   isCollapsed: isCollapsed_ = true,
   isCollapsible = true,

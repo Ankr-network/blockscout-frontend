@@ -32,7 +32,7 @@ export const useStyles = makeStyles<void, 'icon'>()(
       margin: theme.spacing(2 * 0.25, 0),
 
       '&:hover ': {
-        background: '#F2F5FA',
+        background: theme.palette.background.default,
 
         [`& .${classes.icon}`]: {
           fill: theme.palette.primary.main,
@@ -40,7 +40,7 @@ export const useStyles = makeStyles<void, 'icon'>()(
       },
     },
     icon: {
-      width: 14,
+      width: 18,
 
       fill: theme.palette.grey[400],
     },

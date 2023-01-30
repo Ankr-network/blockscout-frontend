@@ -6,16 +6,17 @@ export const useStyles = makeStyles<boolean>()(
     link: shouldShowMobileBreadcrumbs
       ? {
           cursor: 'pointer',
-          fontSize: 30,
+          fontSize: 28,
           fontWeight: 'bold',
           lineHeight: 1.167,
+          color: theme.palette.grey[900],
           '&.custom-link:hover': {
             color: theme.palette.primary.main,
           },
           /* just icon "back" for breadcrumbs link */
 
           padding: 10,
-          border: `1px solid ${theme.palette.grey[200]}`,
+          border: `1px solid ${theme.palette.grey[500]}`,
           borderRadius: '50%',
           width: 36,
           height: 36,
@@ -25,16 +26,17 @@ export const useStyles = makeStyles<boolean>()(
         }
       : {
           cursor: 'pointer',
-          fontSize: 30,
+          fontSize: 28,
           fontWeight: 'bold',
           lineHeight: 1.167,
+          color: theme.palette.grey[600],
           '&.custom-link:hover': {
             color: theme.palette.primary.main,
           },
           /* just icon "back" for breadcrumbs link */
           [theme.breakpoints.down('md')]: {
             padding: 10,
-            border: `1px solid ${theme.palette.grey[200]}`,
+            border: `1px solid ${theme.palette.grey[500]}`,
             borderRadius: '50%',
             width: 36,
             height: 36,
@@ -45,7 +47,8 @@ export const useStyles = makeStyles<boolean>()(
         },
 
     separator: {
-      fontSize: 22,
+      color: theme.palette.grey[500],
+      fontSize: 10,
       display: shouldShowMobileBreadcrumbs ? 'none' : 'flex',
 
       [theme.breakpoints.down('md')]: {
@@ -58,7 +61,7 @@ export const useStyles = makeStyles<boolean>()(
     },
     breadcrumbs: {
       flexWrap: 'nowrap',
-      alignItems: 'baseline',
+      alignItems: 'center',
     },
     breadcrumbsLi: {
       overflow: 'hidden',
@@ -72,11 +75,15 @@ export const useStyles = makeStyles<boolean>()(
     typography: {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      fontSize: 30,
+      fontSize: 28,
       lineHeight: 1.167,
+      color: theme.palette.grey[900],
     },
     mobileBackButton: {
+      fontSize: 20,
+      color: theme.palette.grey[500],
       transform: 'rotate(180deg)',
+      marginLeft: -4,
     },
   }),
 );

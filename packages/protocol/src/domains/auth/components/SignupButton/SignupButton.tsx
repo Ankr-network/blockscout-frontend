@@ -4,14 +4,12 @@ import { useHistory } from 'react-router';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
-import { ReactComponent as GoogleIcon } from 'uiKit/Icons/google.svg';
-import { WalletIcon } from '@ankr.com/ui';
+import { Google, WalletIcon, Logout } from '@ankr.com/ui';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useSignupButtonStyles } from './useSignupButtonStyles';
 import { shrinkEmailAddress } from './SignupButtonUtils';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { SignupMenu } from './SignupMenu';
-import { ReactComponent as SignoutIcon } from './assets/signout.svg';
 import { t } from '@ankr.com/common';
 import { SignupDialog } from '../ConnectButton/UnconnectedButton/SignupDialog';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
@@ -67,7 +65,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
   if (hasOauthLogin && !hasWeb3Connection) {
     buttonContent = (
       <>
-        {!isMobile && <GoogleIcon className={classes.walletIcon} />}
+        {!isMobile && <Google className={classes.walletIcon} />}
         {shrinkEmailAddress(email)}
       </>
     );
@@ -75,13 +73,13 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
     top = (
       <MenuItem disabled={loading} className={classes.top}>
         <Box className={classes.email}>
-          <GoogleIcon className={classes.walletIcon} />
+          <Google className={classes.walletIcon} />
           <Typography noWrap className={classes.emailText} variant="body2">
             {email}
           </Typography>
         </Box>
         <Button
-          endIcon={<SignoutIcon />}
+          endIcon={<Logout />}
           className={classes.signoutButton}
           variant="text"
           size="large"
@@ -133,7 +131,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
           </Typography>
         </Box>
         <Button
-          endIcon={<SignoutIcon />}
+          endIcon={<Logout />}
           className={classes.signoutButton}
           variant="text"
           size="large"
@@ -147,7 +145,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
     bottom = !email ? (
       <MenuItem disabled={loading} className={classes.bottom}>
         <Button
-          startIcon={<GoogleIcon className={classes.walletIcon} />}
+          startIcon={<Google className={classes.walletIcon} />}
           className={classes.connectWalletButton}
           variant="text"
           size="large"
@@ -169,7 +167,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
               icon={walletMeta?.icon}
               className={classes.walletIconBig}
             />
-            <GoogleIcon className={classes.walletIconSmall} />
+            <Google className={classes.walletIconSmall} />
           </Box>
           <Box className={classes.userData}>
             <Typography
@@ -192,7 +190,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
           </Box>
         </Box>
         <Button
-          endIcon={<SignoutIcon />}
+          endIcon={<Logout />}
           className={classes.signoutButton}
           variant="text"
           size="large"

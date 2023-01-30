@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
 
 import { t } from '@ankr.com/common';
-import { ReactComponent as PlusIcon } from 'uiKit/Icons/plus.svg';
-import { ReactComponent as MinusIcon } from 'uiKit/Icons/minus.svg';
+import { Plus, Minus } from '@ankr.com/ui';
 import { intlRoot } from '../FeatureTable/FeatureTableUtils';
 import { useFeatureTableMobileStyles } from '../FeatureTableMobile/useFeatureTableMobileStyles';
 import { Collapse } from 'uiKit/Collapse';
@@ -51,8 +50,8 @@ export const FeatureContent = ({
             {t(`${intlRoot}.what-is-included`)}
           </Typography>
         }
-        collapsedIcon={<PlusIcon className={classes.icon} />}
-        uncollapsedIcon={<MinusIcon className={classes.icon} />}
+        collapsedIcon={<Plus className={classes.icon} />}
+        uncollapsedIcon={<Minus className={classes.icon} />}
         content={
           <div>
             {new Array(itemsCount).fill('').map((_, index) => (

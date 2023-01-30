@@ -4,8 +4,7 @@ import {
   Navigation,
   NavigationItem,
 } from 'modules/common/components/Navigation';
-import { ReactComponent as ActiveSettingsIcon } from 'uiKit/Icons/activeSetting.svg';
-import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
+import { Gear } from '@ankr.com/ui';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { t } from '@ankr.com/common';
 
@@ -14,8 +13,8 @@ export const ExtraNavigation = () => {
     (): NavigationItem[] => [
       {
         label: t('extra-navigation.settings'),
-        StartIcon: SettingsIcon,
-        ActiveIcon: ActiveSettingsIcon,
+        StartIcon: Gear,
+        ActiveIcon: Gear,
         href: UserSettingsRoutesConfig.settings.generatePath(),
       },
     ],

@@ -9,7 +9,7 @@ export const useLoaderStyles = makeStyles()((theme: Theme) => ({
     justifyContent: 'center',
   },
   paper: {
-    background: theme.palette.common.white,
+    background: theme.palette.background.paper,
     padding: theme.spacing(2 * 5),
     maxWidth: 480,
     minHeight: 486,

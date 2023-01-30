@@ -49,6 +49,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.HARMONY,
       ChainID.IOTEX,
       ChainID.IOTEX_TESTNET,
+      ChainID.METIS,
       ChainID.MOONBEAM,
       ChainID.SYSCOIN,
       ChainID.OPTIMISM,

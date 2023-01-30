@@ -36,7 +36,6 @@ export const useMethodsTabsUtils = (
             isSelected={isSelected}
             label={HarmonyLibrary[HarmonyLibraryID.Harmony]}
             size={TabSize.Small}
-            isDarkTheme
           />
         ),
       },

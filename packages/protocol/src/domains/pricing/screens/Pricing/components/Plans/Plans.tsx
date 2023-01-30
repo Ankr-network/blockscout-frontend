@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
-
-import { ReactComponent as LinkIcon } from 'uiKit/Icons/externalLink.svg';
+import { ExternalLink } from '@ankr.com/ui';
 
 import { usePlansStyles } from './PlansStyles';
 import { Plan } from './Plan';
@@ -32,7 +31,7 @@ export const Plans = () => {
             variant="text"
             color="inherit"
             className={classes.link}
-            endIcon={<LinkIcon />}
+            endIcon={<ExternalLink />}
           >
             {premiumLink}
           </NavLink>
