@@ -1,7 +1,7 @@
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Typography, TypographyTypeMap } from '@mui/material';
 
-import { CopyIcon } from 'uiKit/Icons/CopyIcon';
+import { Copy } from '@ankr.com/ui';
 import { useStyles } from './CopyToClipIconStyles';
 import { useCopyToClip } from './CopyToClipIconUtils';
 import { useCallback } from 'react';
@@ -79,7 +79,7 @@ export const CopyToClipIcon = ({
               {text}
             </Typography>
             <div className={classes.copy}>
-              {!hideIcon && <CopyIcon className={classes.copyIcon} />}
+              {!hideIcon && <Copy className={classes.copyIcon} />}
               {copyText && (
                 <Typography
                   variant="subtitle1"

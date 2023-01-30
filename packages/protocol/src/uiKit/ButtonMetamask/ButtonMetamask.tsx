@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Button } from '@mui/material';
 
-import { ReactComponent as MetamaskIcon } from '../../assets/img/metamask.svg';
+import { MetaMaskWallet } from '@ankr.com/ui';
 import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
 
 interface IButtonSpecialProps {
@@ -30,7 +30,7 @@ export const ButtonMetamask = ({
         className={cx(classes.button, classes[`size_${size}`], className)}
         onClick={onClick}
       >
-        <MetamaskIcon />
+        <MetaMaskWallet />
         {label}
         {hasPlusIcon && (
           <span className={classes.plusIconWrapper}>

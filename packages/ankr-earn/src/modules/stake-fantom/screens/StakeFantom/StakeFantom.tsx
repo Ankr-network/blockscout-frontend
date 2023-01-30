@@ -9,12 +9,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import {
-  AUDIT_LINKS,
-  DECIMAL_PLACES,
-  featuresConfig,
-  ZERO,
-} from 'modules/common/const';
+import { AUDIT_LINKS, featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
@@ -83,7 +78,7 @@ export const StakeFantom = (): JSX.Element => {
           <StakeDescriptionValue>
             <StakeDescriptionAmount
               symbol={getTokenName(tokenOut)}
-              value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+              value={totalAmount}
             />
           </StakeDescriptionValue>
         </StakeDescriptionContainer>

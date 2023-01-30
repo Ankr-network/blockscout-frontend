@@ -3,7 +3,7 @@ import { Box, ThemeProvider, Button } from '@mui/material';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'uiKit/Theme/mainTheme';
-import { CopyIcon } from '../Icons/CopyIcon';
+import { Copy } from '@ankr.com/ui';
 
 storiesOf('uiKit/Button', module)
   .add('Сontained Buttons', () => (
@@ -129,10 +129,10 @@ storiesOf('uiKit/Button', module)
   .add('Buttons with icon', () => (
     <Box margin="8" display="flex" justifyContent="space-around">
       <ThemeProvider theme={mainTheme}>
-        <Button variant="contained" startIcon={<CopyIcon />}>
+        <Button variant="contained" startIcon={<Copy />}>
           Active
         </Button>
-        <Button variant="contained" disabled startIcon={<CopyIcon />}>
+        <Button variant="contained" disabled startIcon={<Copy />}>
           Disabled
         </Button>
       </ThemeProvider>

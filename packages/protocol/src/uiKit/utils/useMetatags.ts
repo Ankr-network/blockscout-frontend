@@ -3,12 +3,9 @@ import { ChainID } from 'modules/chains/types';
 import { t } from '@ankr.com/common';
 import { useEffect } from 'react';
 import packageJson from '../../../package.json';
+import { capitalize, Theme } from '@mui/material';
 
 const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
-
-const uppercaseFirstLetter = (name: string) => {
-  return name.charAt(0).toUpperCase() + name.slice(1);
-};
 
 const renderPrefix = (name: ChainID) => {
   let renderedName = name as string;
@@ -21,7 +18,7 @@ const renderPrefix = (name: ChainID) => {
 };
 
 const renderNervosName = (chainId: ChainID) => {
-  let name = uppercaseFirstLetter(chainId);
+  let name = capitalize(chainId);
 
   if (chainId === ChainID.NERVOS_CKB) {
     name = 'Nervos CKB';
@@ -33,7 +30,7 @@ const renderNervosName = (chainId: ChainID) => {
 };
 
 const renderSecretName = (chainId: ChainID) => {
-  let name = uppercaseFirstLetter(chainId);
+  let name = capitalize(chainId);
 
   if (chainId === ChainID.SECRET_COSMOS_REST) {
     name = 'Secret Cosmos REST';
@@ -65,9 +62,7 @@ const getSubchainName = (chainId: string) => {
   const mainChainName = chainId.substring(0, index);
   const subChainName = chainId.substring(index + 1);
 
-  return `${uppercaseFirstLetter(mainChainName)}-${uppercaseFirstLetter(
-    subChainName,
-  )}`;
+  return `${capitalize(mainChainName)}-${capitalize(subChainName)}`;
 };
 
 const getTestnetChainName = (chainId: string) => {
@@ -81,7 +76,7 @@ const getTestnetChainName = (chainId: string) => {
   while (index > -1) {
     mainnetName = name.substring(0, index);
     testnetName = name.substring(index + 1);
-    prefix += `${uppercaseFirstLetter(mainnetName)} `;
+    prefix += `${capitalize(mainnetName)} `;
 
     if (testnetName.includes('-')) {
       testnetName = getSubchainName(testnetName);
@@ -89,14 +84,14 @@ const getTestnetChainName = (chainId: string) => {
 
     name = testnetName;
     index = testnetName.indexOf('_');
-    testnetChainName = `${prefix}${uppercaseFirstLetter(testnetName)}`;
+    testnetChainName = `${prefix}${capitalize(testnetName)}`;
   }
 
   return testnetChainName;
 };
 
 export const getChainName = (chainId: ChainID) => {
-  let name = uppercaseFirstLetter(chainId);
+  let name = capitalize(chainId);
 
   if (chainId.includes(ChainID.BSC)) {
     name = renderPrefix(chainId);
@@ -141,8 +136,27 @@ const getLocation = (pathname: string, chainsRoutes: string[]): string => {
   return location;
 };
 
-export const useMetatags = (rawPathname: string, chainsRoutes: string[]) => {
+export const useMetatags = (
+  rawPathname: string,
+  chainsRoutes: string[],
+  currentTheme: Theme,
+) => {
+  const currentThemeColor = currentTheme.palette.background.default;
+
   useEffect(() => {
+    const themeTag = document.getElementById('meta-theme') as HTMLMetaElement;
+    themeTag.content = currentThemeColor;
+
+    const htmlElement = document.getElementsByTagName(
+      'html',
+    )[0] as HTMLHtmlElement;
+    const bodyElement = document.getElementsByTagName(
+      'body',
+    )[0] as HTMLBodyElement;
+
+    htmlElement.style.backdropFilter = currentThemeColor;
+    bodyElement.style.backgroundColor = currentThemeColor;
+
     const pathname =
       rawPathname === INDEX_PATH ? rawPathname : rawPathname.replace(/\/$/, '');
 
@@ -209,5 +223,5 @@ export const useMetatags = (rawPathname: string, chainsRoutes: string[]) => {
     }
 
     return () => {};
-  }, [rawPathname, chainsRoutes]);
+  }, [rawPathname, chainsRoutes, currentThemeColor]);
 };

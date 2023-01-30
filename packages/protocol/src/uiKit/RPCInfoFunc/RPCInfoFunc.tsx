@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { TypographyTypeMap, Typography } from '@mui/material';
 import { useRPCInfoFunStyle } from './useRPCInfoFunStyle';
-import { ReactComponent as MetamaskIcon } from 'assets/img/metamask.svg';
+import { MetaMaskWallet } from '@ankr.com/ui';
 import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
 import { useAddNetworkButton } from 'domains/auth/components/AddNetwork/useAddNetworkButton';
 import { IApiChain } from 'domains/chains/api/queryChains';
@@ -54,7 +54,7 @@ export const RPCInfoFun = ({
           >
             {info}
           </Typography>
-          <MetamaskIcon />
+          <MetaMaskWallet />
         </div>
       )}
     </>

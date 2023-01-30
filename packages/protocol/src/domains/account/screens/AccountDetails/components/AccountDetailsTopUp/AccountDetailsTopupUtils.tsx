@@ -19,5 +19,5 @@ export const useAccountDetailsTopUpTabs = (canPayOnlyByCard: boolean) => {
         ),
       };
 
-  return useTopUpTabs(ankrTab, trackSubmit);
+  return useTopUpTabs(trackSubmit, ankrTab);
 };

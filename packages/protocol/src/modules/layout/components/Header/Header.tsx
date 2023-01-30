@@ -7,6 +7,7 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { SignupButton } from 'domains/auth/components/SignupButton';
 import { useStyles } from './useStyles';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { ThemeSwitcher } from '../ThemeSwitcher';
 
 export const IS_I18N_ENABLED = false;
 
@@ -16,7 +17,7 @@ interface HeaderProps {
 
 export const Header = ({ className = '' }: HeaderProps) => {
   const { classes, cx } = useStyles();
-  const { hasPremium } = useAuth();
+  const { hasPremium, hasWeb3Connection } = useAuth();
 
   return (
     <header className={cx(classes.root, className)}>
@@ -28,6 +29,7 @@ export const Header = ({ className = '' }: HeaderProps) => {
             <div className={classes.buttons}>
               {hasPremium && <AccountDetailsButton />}
               <SignupButton />
+              {hasWeb3Connection && <ThemeSwitcher />}
             </div>
           </NoReactSnap>
         </div>

@@ -23,8 +23,8 @@ export const useStyles = makeStyles<void, 'plusIcon'>()(
       },
     },
     plusIcon: {
-      width: 14,
-      height: 14,
+      width: 20,
+      height: 20,
       fill: theme.palette.primary.main,
     },
   }),

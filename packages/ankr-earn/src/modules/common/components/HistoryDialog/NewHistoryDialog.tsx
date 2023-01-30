@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { ChangeEvent, ReactText, useCallback, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
-import { DECIMAL_PLACES } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -17,9 +16,12 @@ import { Select } from 'uiKit/Select';
 import { Spinner } from 'uiKit/Spinner';
 import { Tooltip } from 'uiKit/Tooltip';
 
+import { LongFloat } from '../LongFloat';
+
 import { useHistory } from './hooks/useHistory';
 import { IHistoryDialogRow } from './types';
 import { useHistoryDialogStyles as useStyles } from './useHistoryDialogStyles';
+import { getNetworkByToken } from './utils/getNetworkByToken';
 
 enum EHistoryTypes {
   Staked = 'staked',
@@ -35,7 +37,6 @@ export interface IHistoryDialogData {
 
 export interface IHistoryDialogProps {
   token: Token;
-  network: number;
   open: boolean;
   onClose: () => void;
 }
@@ -47,15 +48,15 @@ const TOKEN_OPTIONS = Object.keys(EHistorySynthTokens).map(tokenItem => ({
 
 export const NewHistoryDialog = ({
   token,
-  network,
   open,
   onClose,
 }: IHistoryDialogProps): JSX.Element => {
   const classes = useStyles();
   const [selectedToken, setSelectedToken] = useState(token);
+  const networkByToken = getNetworkByToken(selectedToken);
 
   const { stakeEvents, unstakeEvents, loading, weeksAmount, handleShowMore } =
-    useHistory({ token: selectedToken, open, network });
+    useHistory({ token: selectedToken, open, network: networkByToken });
 
   const history: IHistoryDialogData = useMemo(
     () => ({
@@ -101,15 +102,17 @@ export const NewHistoryDialog = ({
               )}
             </td>
 
-            <td className={classNames(classes.td, classes.amount)}>
+            <td className={classNames(classes.td)}>
               {amount ? (
                 <Tooltip arrow title={`${amount.toFormat()} ${tokenName}`}>
-                  <div>
-                    {t('history-dialog.amount-cell', {
-                      value: amount.decimalPlaces(DECIMAL_PLACES).toFormat(),
-                      token: tokenName,
-                    })}
-                  </div>
+                  <span>
+                    <LongFloat
+                      className={classNames(classes.amount)}
+                      value={amount}
+                    />
+
+                    {tokenName}
+                  </span>
                 </Tooltip>
               ) : (
                 t('history-dialog.error')
@@ -121,7 +124,7 @@ export const NewHistoryDialog = ({
     [classes, history, showType],
   );
 
-  const txHistory = useMemo(() => {
+  const renderedTxHistory = useMemo(() => {
     const isFullHistory = Array.isArray(tableRows) && !!tableRows.length;
 
     const emptyHistory = (
@@ -231,7 +234,7 @@ export const NewHistoryDialog = ({
         />
 
         <div className={classes.tableWrapper}>
-          {txHistory}
+          {renderedTxHistory}
 
           {!isInitLoading && (
             <div className={classes.footer}>

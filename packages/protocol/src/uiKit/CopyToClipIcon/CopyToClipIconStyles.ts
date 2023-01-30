@@ -57,7 +57,7 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       transition: 'background .3s',
 
       '&:hover': {
-        background: theme.palette.common.white,
+        background: theme.palette.background.paper,
 
         [`& .${classes.text}`]: {
           color: theme.palette.text.primary,

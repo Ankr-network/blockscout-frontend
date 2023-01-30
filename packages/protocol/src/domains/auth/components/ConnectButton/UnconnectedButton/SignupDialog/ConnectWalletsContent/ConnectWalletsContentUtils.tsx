@@ -1,19 +1,20 @@
 import { isMobile } from 'web3modal';
 import { EWalletId, Web3KeyReadProvider } from '@ankr.com/provider';
-
-import { ReactComponent as HuobiWalletIcon } from './assets/huobi-wallet-icon.svg';
-import { ReactComponent as ImTokenWalletIcon } from './assets/imtoken-wallet-icon.svg';
-import { ReactComponent as MathWalletIcon } from './assets/math-wallet-icon.svg';
-import { ReactComponent as MetaMaskIcon } from './assets/metamask-icon.svg';
-import { ReactComponent as TrustWalletIcon } from './assets/trust-wallet-icon.svg';
-import { ReactComponent as WalletConnectIcon } from './assets/wallet-connect-icon.svg';
+import {
+  HuobiWallet,
+  ImtokenWallet,
+  MathWallet,
+  MetaMaskWallet,
+  TrustWallet,
+  WalletConnect,
+} from '@ankr.com/ui';
 import { IWalletItem } from './ConnectWalletsContentTypes';
 
 export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
   [
     {
       href: 'https://metamask.io/download/',
-      icon: <MetaMaskIcon />,
+      icon: <MetaMaskWallet />,
       isHidden: isMobile(),
       get isInjected() {
         return Web3KeyReadProvider.isInjected();
@@ -23,7 +24,7 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
     },
     {
       href: '',
-      icon: <WalletConnectIcon />,
+      icon: <WalletConnect />,
       isHidden: false,
       isInjected: true,
       title: 'WalletConnect',
@@ -31,7 +32,7 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
     },
     {
       href: '',
-      icon: <ImTokenWalletIcon />,
+      icon: <ImtokenWallet />,
       isHidden: false,
       isInjected: true,
       title: 'imToken',
@@ -41,7 +42,7 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
   [
     {
       href: '',
-      icon: <MathWalletIcon />,
+      icon: <MathWallet />,
       isHidden: false,
       isInjected: true,
       title: 'Math Wallet',
@@ -49,7 +50,7 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
     },
     {
       href: '',
-      icon: <TrustWalletIcon />,
+      icon: <TrustWallet />,
       isHidden: false,
       isInjected: true,
       title: 'Trust Wallet',
@@ -57,7 +58,7 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
     },
     {
       href: '',
-      icon: <HuobiWalletIcon />,
+      icon: <HuobiWallet />,
       isHidden: false,
       isInjected: true,
       title: 'Huobi Wallet',

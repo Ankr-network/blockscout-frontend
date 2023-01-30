@@ -17,7 +17,6 @@ import { Token } from 'modules/common/types/token';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
-import { ETH_STAKING_AMOUNT_STEP } from 'modules/stake-eth/const';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
@@ -55,7 +54,6 @@ export const StakeEthereum = (): JSX.Element => {
     isFeeLoading,
     isInvalidAmount,
     loading,
-    minAmount,
     tokenIn,
     tokenOut,
     onInputChange,
@@ -143,14 +141,9 @@ export const StakeEthereum = (): JSX.Element => {
           }
           isBalanceLoading={hasError || isCommonDataLoading}
           isDisabled={loading}
-          labelTooltip={t('stake-ethereum.amount-tooltip', {
-            step: ETH_STAKING_AMOUNT_STEP,
-          })}
           loading={hasError || loading}
-          minAmount={minAmount}
           noticeSlot={noticeText}
           renderStats={renderStats}
-          stakingAmountStep={ETH_STAKING_AMOUNT_STEP}
           tokenIn={tokenIn}
           tokenOut={tokenOut}
           onChange={onInputChange}

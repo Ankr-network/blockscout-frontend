@@ -4,8 +4,11 @@ import {
   TopUpTabID,
   useTopUpTabs,
 } from 'domains/account/components/TopUp/TopUpUtils';
+import { useSubmitTrackingHandler } from 'domains/account/screens/AccountDetails/components/AccountDetailsTopUp/hooks/useSubmitTrackingHandler';
 
 export const usePricingTopUpTabs = (canPayOnlyByCard: boolean) => {
+  const trackSubmit = useSubmitTrackingHandler();
+
   const ankrTab = canPayOnlyByCard
     ? undefined
     : {
@@ -16,5 +19,5 @@ export const usePricingTopUpTabs = (canPayOnlyByCard: boolean) => {
         ),
       };
 
-  return useTopUpTabs(ankrTab);
+  return useTopUpTabs(trackSubmit, ankrTab);
 };

@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { premiumColor } from 'uiKit/Theme/themeUtils';
 import { FontSize, getFontSize } from './premiumLabelUtils';
 
 export const usePremiumLabelStyles = makeStyles<FontSize>()(
@@ -12,10 +13,9 @@ export const usePremiumLabelStyles = makeStyles<FontSize>()(
       backgroundColor: 'transparent',
     },
     gradient: {
-      background:
-        'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
+      background: premiumColor,
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
 
       letterSpacing: '0.01em',
 

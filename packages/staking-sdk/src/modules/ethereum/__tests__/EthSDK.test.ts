@@ -27,8 +27,7 @@ describe('modules/ethereum/sdk', () => {
     eth: {
       getChainId: jest.fn(),
 
-      getBalance: () =>
-        new BigNumber(ethAmount).multipliedBy(10 ** 18).toFixed(),
+      getBalance: jest.fn(),
 
       getBlock: () => Promise.resolve({ timestamp, transactionHash: 'hash1' }),
 
@@ -115,7 +114,7 @@ describe('modules/ethereum/sdk', () => {
     });
 
     defaultContract.methods.balanceOf.mockReturnValue({
-      call: () => Promise.resolve(1),
+      call: () => Promise.resolve(1000000000000000000),
     });
 
     defaultContract.methods.claimableAETHFRewardOf.mockReturnValue({
@@ -193,10 +192,13 @@ describe('modules/ethereum/sdk', () => {
 
     mockWeb3.eth.getChainId.mockReturnValue(1);
 
+    mockWeb3.eth.getBalance.mockReturnValue(() =>
+      new BigNumber(ethAmount).multipliedBy(10 ** 18).toFixed());
+
     defaultProvider.getWeb3.mockReturnValue(mockWeb3);
 
     defaultProvider.getContractMethodFee.mockReturnValue(
-      new BigNumber(10 ** 6),
+      new BigNumber(1),
     );
 
     defaultProvider.sendTransactionAsync.mockReturnValue(
@@ -247,8 +249,8 @@ describe('modules/ethereum/sdk', () => {
     expect(ethBalance.toString()).toBe(ethAmount);
     expect(ratio.toNumber()).toBe(0);
     expect(allowance.toNumber()).toBe(0);
-    expect(aETHcBalance.toNumber()).toBe(1);
-    expect(aETHbBalance.toNumber()).toBe(1);
+    expect(aETHcBalance.toNumber()).toBe(1000000000000000000);
+    expect(aETHbBalance.toNumber()).toBe(1000000000000000000);
     expect(claimableAETHB.toNumber()).toBe(8);
     expect(claimableAETHC.toNumber()).toBe(8);
     expect(defaultContract.methods.balanceOf).toBeCalledTimes(2);
@@ -474,9 +476,28 @@ describe('modules/ethereum/sdk', () => {
   test('should stake and claim aETHb', async () => {
     const sdk = await EthereumSDK.getInstance();
 
-    const result = await sdk.stake(new BigNumber(10), 'aETHb');
+    const result = await sdk.stake(new BigNumber(0.00000000000001), 'aETHb');
 
     expect(result.txHash).toBe('hash1');
+  });
+
+  test('should throw error when not enough gas', async () => {
+    defaultProvider.getContractMethodFee.mockReturnValue(
+      new BigNumber(8),
+    );
+
+    const mockProviderManager = {
+      getETHWriteProvider: () => defaultProvider,
+      getETHReadProvider: () => defaultProvider,
+    };
+
+    (ProviderManager as jest.Mock).mockReturnValue(mockProviderManager);
+
+    const sdk = await EthereumSDK.getInstance();
+
+    const result = sdk.stake(new BigNumber(1), 'aETHb');
+
+    expect(result).rejects.toThrow(EEthereumErrorCodes.NOT_ENOUGH_FUNDS);
   });
 
   test('should stake and claim aETHc', async () => {

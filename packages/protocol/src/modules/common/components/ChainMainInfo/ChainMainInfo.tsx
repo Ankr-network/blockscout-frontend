@@ -1,5 +1,6 @@
 import { Skeleton, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
 import { Switcher } from 'modules/common/components/Switcher';
@@ -18,7 +19,9 @@ export const ChainMainInfo = ({
   timeframe = Timeframe.Month,
   totalRequests = '',
 }: ChainMainInfoProps) => {
-  const { classes, cx } = useStyles(isHighlighted);
+  const { themes } = useThemes();
+
+  const { classes, cx } = useStyles({ isHighlighted, themes });
 
   return (
     <div className={cx(classes.root, className)}>

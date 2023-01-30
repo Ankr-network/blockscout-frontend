@@ -14,8 +14,9 @@ import harmonyIcon from './harmony.svg';
 import hecoIcon from './heco.svg';
 import iotexIcon from './iotex.svg';
 import klaytnIcon from './klaytn.svg';
-import ksmIcon from './ksm.svg';
+import polygonIcon from './polygon.svg';
 import kusamaIcon from './kusama.svg';
+import metisIcon from './metis.svg';
 import moonbeamIcon from './moonbeam.svg';
 import multichainIcon from './multichain.svg';
 import nearIcon from './near.svg';
@@ -31,34 +32,35 @@ import tronIcon from './tron.svg';
 import filecoinIcon from './filecoin.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
-  aptos: aptosIcon,
-  arbitrum: arbitrumIcon,
-  avalanche: avaxIcon,
-  bsc: bscIcon,
-  bttc: bttcIcon,
-  celo: celoIcon,
-  eth: ethIcon,
-  fantom: ftmIcon,
-  gnosis: gnosisIcon,
-  harmony: harmonyIcon,
-  heco: hecoIcon,
-  iotex: iotexIcon,
-  klaytn: klaytnIcon,
-  kusama: kusamaIcon,
-  moonbeam: moonbeamIcon,
-  multichain: multichainIcon,
-  near: nearIcon,
-  nervos: nervosIcon,
-  nervos_gw: nervosIcon,
-  optimism: optimisimIcon,
-  polkadot: polkadotIcon,
-  polygon: ksmIcon,
-  scrt: secretIcon,
-  solana: solIcon,
-  syscoin: syscoinIcon,
-  tron: tronIcon,
-  xdai: stakeIcon,
-  filecoin: filecoinIcon,
+  [ChainID.APTOS]: aptosIcon,
+  [ChainID.ARBITRUM]: arbitrumIcon,
+  [ChainID.AVALANCHE]: avaxIcon,
+  [ChainID.BSC]: bscIcon,
+  [ChainID.BTTC]: bttcIcon,
+  [ChainID.CELO]: celoIcon,
+  [ChainID.ETH]: ethIcon,
+  [ChainID.FANTOM]: ftmIcon,
+  [ChainID.GNOSIS]: gnosisIcon,
+  [ChainID.HARMONY]: harmonyIcon,
+  [ChainID.HECO]: hecoIcon,
+  [ChainID.IOTEX]: iotexIcon,
+  [ChainID.KLAYTN]: klaytnIcon,
+  [ChainID.KUSAMA]: kusamaIcon,
+  [ChainID.METIS]: metisIcon,
+  [ChainID.MOONBEAM]: moonbeamIcon,
+  [ChainID.MULTICHAIN]: multichainIcon,
+  [ChainID.NEAR]: nearIcon,
+  [ChainID.NERVOS]: nervosIcon,
+  [ChainID.NERVOS_GW]: nervosIcon,
+  [ChainID.OPTIMISM]: optimisimIcon,
+  [ChainID.POLKADOT]: polkadotIcon,
+  [ChainID.POLYGON]: polygonIcon,
+  [ChainID.SECRET]: secretIcon,
+  [ChainID.SOLANA]: solIcon,
+  [ChainID.SYSCOIN]: syscoinIcon,
+  [ChainID.TRON]: tronIcon,
+  [ChainID.XDAI]: stakeIcon,
+  [ChainID.FILECOIN]: filecoinIcon,
   [ChainID.SUI]: suiIcon,
 };
 
