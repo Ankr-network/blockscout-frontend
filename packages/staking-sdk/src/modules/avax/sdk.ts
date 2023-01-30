@@ -577,7 +577,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
 
     const allowance = await aAVAXcTokenContract.methods
       .allowance(
-        this.writeProvider.currentAccount,
+        this.currentAccount,
         spender || avalancheConfig.aAVAXb,
       )
       .call();

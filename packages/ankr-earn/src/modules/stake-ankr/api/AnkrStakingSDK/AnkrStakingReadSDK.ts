@@ -1,7 +1,6 @@
 import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
-import prettyTime from 'pretty-time';
 import { Memoize } from 'typescript-memoize';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
@@ -363,7 +362,7 @@ export class AnkrStakingReadSDK {
       undelegatePeriod,
       minValidatorStakeAmount: this.convertFromWei(minValidatorStakeAmount),
       minStakingAmount: this.convertFromWei(minStakingAmount),
-      lockPeriod,
+      lockPeriod: +lockPeriod,
     };
     return this.cachedChainConfig;
   }
@@ -374,17 +373,20 @@ export class AnkrStakingReadSDK {
     const blockNumber = await this.getBlockNumber();
 
     const epoch = epochBlockInterval
-      ? Math.ceil(blockNumber / +epochBlockInterval)
+      ? Math.floor(blockNumber / +epochBlockInterval)
       : 0;
 
     const endBlock = blockNumber + +epochBlockInterval;
 
+    const nextEpochInSec =
+      ((epoch + 1) * epochBlockInterval - blockNumber) * BLOCK_TIME;
+
+    const nextEpochInDays =
+      Math.floor((nextEpochInSec / 60 / 60 / 24) * 100) / 100;
+
     return {
       epoch,
-      nextEpochIn: prettyTime(
-        (endBlock - blockNumber) * BLOCK_TIME * 1000 * 1000 * 1000,
-        's',
-      ),
+      nextEpochIn: nextEpochInDays,
       nextEpochBlock: endBlock,
     };
   }
@@ -612,7 +614,7 @@ export class AnkrStakingReadSDK {
   public async getAPY(): Promise<IApyData[]> {
     const stakingContract = this.getAnkrTokenStakingContract();
 
-    const [{ epoch }, blockNumber] = await Promise.all([
+    const [{ epoch: currentEpoch }, blockNumber] = await Promise.all([
       this.getChainParams(),
       this.getBlockNumber(),
     ]);
@@ -621,7 +623,6 @@ export class AnkrStakingReadSDK {
     const web3 = provider.getWeb3();
     const latestBlockNumber = blockNumber - ANKR_HISTORY_BLOCK_RANGE;
 
-    const prevEpoch = epoch - 1;
     const validatorDepositedEvents = await this.getPastEvents({
       contract: stakingContract,
       startBlock: ANKR_HISTORY_START_BLOCK,
@@ -645,9 +646,9 @@ export class AnkrStakingReadSDK {
         timestamp: block.timestamp as number,
         txDate: new Date((block.timestamp as number) * 1_000),
       }))
-      .filter(block => +block.returnValues.epoch === prevEpoch);
+      .filter(block => +block.returnValues.epoch === currentEpoch);
 
-    const validators = await this.getActiveValidators(prevEpoch);
+    const validators = await this.getActiveValidators(currentEpoch);
 
     const rewardsMap = rewardEvents.reduce((acc, reward) => {
       const existedReward = acc.get(reward.returnValues.validator);

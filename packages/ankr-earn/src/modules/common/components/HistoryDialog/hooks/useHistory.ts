@@ -12,7 +12,7 @@ import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHisto
 import { useLazyGetMaticOnEthHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthHistoryQuery';
 import { useLazyGetDashboardTxEventsHistoryRangeQuery } from 'modules/stake-xdc/actions/getDashboardTxEventsHistoryRange';
 
-import { IHistoryDialogRow, IBaseHistoryData, IHistoryData } from '../types';
+import { IBaseHistoryData, IHistoryData, IHistoryDialogRow } from '../types';
 
 export interface IUseHistoryData extends IHistoryData {
   loading: boolean;
@@ -34,7 +34,6 @@ const DEFAULT_HISTORY_DATA = {
 
 const mapTxns = (
   data: ITxEventsHistoryGroupItem,
-  token: Token,
   network: number,
 ): IHistoryDialogRow => {
   return {
@@ -281,14 +280,12 @@ export const useHistory = ({
   }, [token, open]);
 
   const stakeEvents = useMemo(() => {
-    return historyData.stakeEvents.map(event => mapTxns(event, token, network));
-  }, [historyData.stakeEvents, network, token]);
+    return historyData.stakeEvents.map(event => mapTxns(event, network));
+  }, [historyData.stakeEvents, network]);
 
   const unstakeEvents = useMemo(() => {
-    return historyData.unstakeEvents.map(event =>
-      mapTxns(event, token, network),
-    );
-  }, [historyData.unstakeEvents, network, token]);
+    return historyData.unstakeEvents.map(event => mapTxns(event, network));
+  }, [historyData.unstakeEvents, network]);
 
   return {
     stakeEvents,

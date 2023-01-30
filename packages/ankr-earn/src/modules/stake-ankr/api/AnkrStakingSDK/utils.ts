@@ -35,3 +35,6 @@ export const sortHasEventData = <T extends IHasEventData>(
   };
   return a.concat(b, c).sort(fn);
 };
+
+export const getIsNonZeroAmount = (queueItem: { amount: string }): boolean =>
+  queueItem.amount !== '0';

@@ -2,7 +2,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { ETH_NETWORK_BY_ENV, ONE, ZERO } from 'modules/common/const';
+import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -108,7 +108,6 @@ export const StakedAMATICC = (): JSX.Element => {
       />
 
       <NewHistoryDialog
-        network={ETH_NETWORK_BY_ENV}
         open={isOpenedHistory}
         token={token}
         onClose={onCloseHistory}

@@ -4,6 +4,7 @@ import { oauthHasDepositTransaction } from './hasDepositTransaction';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { EthAddressType } from 'multirpc-sdk';
+import { oauthHasVoucherTransaction } from './hasVoucherTransaction';
 
 export const {
   endpoints: { oauthWatchForTheDepositTransation },
@@ -32,9 +33,16 @@ export const {
             break;
           }
           // eslint-disable-next-line
-          const { data: hasTransaction } = await dispatch(
+          const { data: hasDepositTransaction } = await dispatch(
             oauthHasDepositTransaction.initiate(),
           );
+
+          // eslint-disable-next-line
+          const { data: hasVoucherTransaction } = await dispatch(
+            oauthHasVoucherTransaction.initiate(),
+          );
+
+          const hasTransaction = hasDepositTransaction || hasVoucherTransaction;
 
           inProcess = !hasTransaction;
 

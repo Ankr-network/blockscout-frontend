@@ -646,7 +646,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
 
     const allowance = await aMaticCTokenContract.methods
       .allowance(
-        this.writeProvider.currentAccount,
+        this.currentAccount,
         spender || contractConfig.aMaticbToken,
       )
       .call();

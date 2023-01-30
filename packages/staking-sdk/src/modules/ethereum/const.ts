@@ -59,3 +59,13 @@ export const TOKENS_CONFIG_BY_SYMBOL: Record<
     chainId: ETH_NETWORK_BY_ENV,
   },
 };
+
+/**
+ * Magic number to prevent metamask fee calculation issue
+ */
+export const ETH_GAS_LIMIT_MULTIPLIER = 1.5;
+
+/**
+ * Magic number for preventing gas fee calculation issue in the MetaMask with a maximum amount
+ */
+export const ETH_STAKE_GAS_FEE_MULTIPLIER = 2.15;

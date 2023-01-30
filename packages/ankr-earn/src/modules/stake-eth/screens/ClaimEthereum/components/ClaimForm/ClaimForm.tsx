@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
-import { DECIMAL_PLACES, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -66,7 +66,7 @@ export const ClaimForm = ({
           <StakeDescriptionAmount
             isLoading={isBalanceLoading}
             symbol={tokenIn}
-            value={balance.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            value={balance}
           />
         </StakeDescriptionContainer>
 

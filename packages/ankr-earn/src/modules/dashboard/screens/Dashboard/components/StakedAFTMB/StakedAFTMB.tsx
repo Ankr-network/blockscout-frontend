@@ -5,7 +5,7 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { FTM_NETWORK_BY_ENV, ONE } from 'modules/common/const';
+import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -113,7 +113,6 @@ export const StakedAFTMB = (): JSX.Element | null => {
       />
 
       <NewHistoryDialog
-        network={FTM_NETWORK_BY_ENV}
         open={isOpenedHistory}
         token={Token.aFTMb}
         onClose={onCloseHistory}

@@ -31,4 +31,5 @@ export enum EPoolEvents {
  */
 export enum EEthereumErrorCodes {
   NOT_SUPPORTED = 'not-supported',
+  NOT_ENOUGH_FUNDS = 'not-enough-funds'
 }
