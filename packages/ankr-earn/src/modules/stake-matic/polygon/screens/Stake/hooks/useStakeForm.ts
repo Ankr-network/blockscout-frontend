@@ -14,12 +14,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import {
-  ACTION_CACHE_SEC,
-  featuresConfig,
-  ONE,
-  ZERO,
-} from 'modules/common/const';
+import { ACTION_CACHE_SEC, ONE, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
@@ -198,9 +193,13 @@ export const useStakeForm = (): IUseStakeFormData => {
     stake({
       amount: new BigNumber(data.amount),
       token: selectedToken,
-    }).then(() => {
-      sendAnalytics();
-    });
+    })
+      .unwrap()
+      .then(stakeData => {
+        if (stakeData) {
+          sendAnalytics();
+        }
+      });
   };
 
   const onTokenSelect = (token: TMaticSyntToken) => (): void => {
@@ -218,6 +217,7 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   useProviderEffect(() => {
     dispatch(resetMainRequests());
+    dispatch(resetStakeTradeInfoRequests());
 
     getMATICPOLYGONCommonDataRefetch();
     dispatch(getFAQ(Token.MATIC));
@@ -226,16 +226,11 @@ export const useStakeForm = (): IUseStakeFormData => {
     return () => {
       dispatch(abortRequests());
       dispatch(resetMainRequests());
+      dispatch(resetStakeTradeInfoRequests());
     };
   }, [dispatch]);
 
   useProviderEffect(() => {
-    if (!featuresConfig.isActiveStakeTradeInfo) {
-      return () => {};
-    }
-
-    dispatch(resetStakeTradeInfoRequests());
-
     dispatch(
       getStakeTradeInfoData({
         baseToken: EOpenOceanTokens.MATIC,
@@ -245,10 +240,6 @@ export const useStakeForm = (): IUseStakeFormData => {
         network: EOpenOceanNetworks.POLYGON,
       }),
     );
-
-    return () => {
-      dispatch(resetStakeTradeInfoRequests());
-    };
   }, [acRatio, dispatch]);
 
   return {

@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
@@ -59,12 +59,10 @@ export const useUnstakePolygonSuccessHook = (): IUnstakePolygonSuccessHook => {
     addMATICTokenToWallet(token);
   };
 
-  const amount = data?.amount ?? ZERO;
-
   const isPending = !receipt && !!data?.isPending;
 
   return {
-    amount,
+    amount: data?.amount,
     destination: data?.destinationAddress,
     transactionId: txHash,
     tokenName: token,

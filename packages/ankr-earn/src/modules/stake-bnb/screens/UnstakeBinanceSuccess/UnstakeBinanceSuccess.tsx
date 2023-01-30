@@ -5,7 +5,7 @@ import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendin
 import { useUnstakeBinanceSuccessHook } from './useUnstakeBinanceSuccessHook';
 
 export const UnstakeBinanceSuccess = (): JSX.Element => {
-  const { amount, destination, transactionId, tokenName } =
+  const { amount, destination, transactionId, tokenName, isLoading } =
     useUnstakeBinanceSuccessHook();
 
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
@@ -17,6 +17,7 @@ export const UnstakeBinanceSuccess = (): JSX.Element => {
       amount={amount}
       destinationAddress={destination}
       infoText={unstakeLabel}
+      isLoading={isLoading}
       tokenName={tokenName}
       txHash={transactionId}
     />

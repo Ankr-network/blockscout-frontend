@@ -54,8 +54,10 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     useGetAVAXCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
+
   const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
     useGetAVAXPendingValuesQuery();
+
   const [addAVAXTokenToWallet] = useAddAVAXTokenToWalletMutation();
 
   const { data: metrics } = useQuery({
@@ -64,13 +66,13 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
 
   const [, { isLoading: isStakeLoading }] = useStakeAVAXMutation();
   const [, { isLoading: isUnstakeLoading }] = useUnstakeAVAXMutation();
+
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
   const network = t(`chain.${AVAX_NETWORK_BY_ENV}`);
   const chainId = AVAX_NETWORK_BY_ENV;
-
   const amount = statsData?.aAVAXbBalance ?? ZERO;
   const pendingValue = pendingValues?.pendingAavaxbUnstakes ?? ZERO;
 

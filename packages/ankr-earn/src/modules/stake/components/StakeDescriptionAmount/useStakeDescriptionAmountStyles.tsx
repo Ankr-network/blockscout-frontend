@@ -14,7 +14,7 @@ export const useStakeDescriptionValueStyles = makeStyles(theme => ({
     maxWidth: 100,
 
     [theme.breakpoints.up('md')]: {
-      maxWidth: 200,
+      maxWidth: 240,
     },
   },
 
