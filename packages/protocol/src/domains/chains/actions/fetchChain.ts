@@ -2,7 +2,6 @@ import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
 import { IApiChain } from '../api/queryChains';
-import { INodesDetailEntity } from 'multirpc-sdk';
 import { ChainsRoutesConfig } from '../routes/routesConfig';
 import { chainsFetchChainNodesDetail } from './fetchChainNodesDetail';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
@@ -18,7 +17,7 @@ export interface ChainItemParams {
 export interface IChainItemDetails {
   chain: IApiChain;
   unfilteredChain: IApiChain;
-  nodes?: INodesDetailEntity[];
+  isChainArchived: boolean;
 }
 
 export const {
@@ -52,7 +51,9 @@ export const {
             data: {
               chain,
               unfilteredChain,
-              nodes: nodes?.filter(item => item.id === chainId),
+              isChainArchived: Boolean(
+                nodes?.find(item => item.id === chainId)?.hasArchive,
+              ),
             },
           };
         },

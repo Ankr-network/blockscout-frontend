@@ -32,7 +32,6 @@ export const ChainItem = ({ data }: ChainItemProps) => {
     groupID,
     groupTab,
     groupTabs,
-    isChainArchived,
     name,
     selectGroup,
   } = useChainItem({
@@ -57,7 +56,7 @@ export const ChainItem = ({ data }: ChainItemProps) => {
         groupID={groupID}
         groupTabs={groupTabs}
         groupTab={groupTab}
-        isChainArchived={isChainArchived}
+        isChainArchived={data.isChainArchived}
         selectGroup={selectGroup}
       />
       <ChainItemSections

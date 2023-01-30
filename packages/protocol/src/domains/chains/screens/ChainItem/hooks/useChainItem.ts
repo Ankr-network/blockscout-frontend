@@ -24,23 +24,16 @@ export interface ChainItem {
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
-  isChainArchived: boolean;
   name: string;
   selectGroup: (id: ChainGroupID) => void;
   unfilteredGroup: EndpointGroup;
 }
 
 export const useChainItem = ({
-  nodes,
   chain,
   unfilteredChain: publicChain,
   onBlockedTestnetClick,
 }: Details & { onBlockedTestnetClick: () => void }): ChainItem => {
-  const isChainArchived = useMemo(
-    () => !!nodes?.some(item => item.hasArchive),
-    [nodes],
-  );
-
   const chainId = chain.id;
   const name = useMemo(() => getChainName(chainId), [chainId]);
 
@@ -92,7 +85,6 @@ export const useChainItem = ({
     groupID,
     groupTab,
     groupTabs,
-    isChainArchived,
     name,
     selectGroup,
     unfilteredGroup,
