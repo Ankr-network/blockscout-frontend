@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { InformationIcon } from '../Icons/InformationIcon';
+import { Information } from '@ankr.com/ui';
 import {
   TooltipElement,
   useTooltipWrapperStyles,
@@ -33,7 +33,7 @@ export const TooltipWrapper = ({
         {children}
         {hasIcon &&
           (tipIcon || (
-            <InformationIcon
+            <Information
               className={cx(classes.informationIcon, iconClassName)}
             />
           ))}

@@ -8,8 +8,22 @@ const COLORS = Array(10)
   .fill(0)
   .map((item, index) => lighten('#356DF3', 0.1 * index));
 
+const DARK_COLORS = [
+  '#356DF3',
+  '#477AF3',
+  '#5987F3',
+  '#5987F3',
+  '#6B94F4',
+  '#9AA1B0',
+  '#82899A',
+  '#585E6B',
+  '#535863',
+  '#42464F',
+];
+
 export const getMarkerPointsAndStats = (
   countries: RequestsMapProps['countries'],
+  isLightTheme: boolean,
 ): RequestsCountry[] => {
   const countriesArray = Object.values(countries || {})
     .sort((a, b) => b.requests - a.requests)
@@ -30,7 +44,7 @@ export const getMarkerPointsAndStats = (
         requests: t('chain-item.map.stats-table.value', {
           value: item.requests,
         }),
-        color: COLORS[index],
+        color: isLightTheme ? COLORS[index] : DARK_COLORS[index],
       } as RequestsCountry;
     })
     .filter(Boolean);

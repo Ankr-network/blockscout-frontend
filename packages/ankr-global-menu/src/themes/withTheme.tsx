@@ -4,8 +4,9 @@ import {
   StylesProvider,
 } from '@material-ui/core';
 import { ComponentType } from 'react';
-import { mainTheme } from './mainTheme';
+import { getMainTheme } from './mainTheme';
 import { PROJECT_NAME } from '../common';
+import { Themes } from '@ankr.com/ui';
 
 const generateClassName = createGenerateClassName({
   productionPrefix:
@@ -21,7 +22,7 @@ export const withTheme = <T extends Record<string, any>>(
   return (props: T) => {
     return (
       <StylesProvider generateClassName={generateClassName}>
-        <MuiThemeProvider theme={mainTheme}>
+        <MuiThemeProvider theme={getMainTheme(props.themes ?? Themes.light)}>
           <Child {...props} />
         </MuiThemeProvider>
       </StylesProvider>

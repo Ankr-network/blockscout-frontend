@@ -37,7 +37,6 @@ export const useMethodsTabsUtils = (
             isSelected={isSelected}
             label={TronLibrary[TronLibraryID.Tron]}
             size={TabSize.Small}
-            isDarkTheme
           />
         ),
       },

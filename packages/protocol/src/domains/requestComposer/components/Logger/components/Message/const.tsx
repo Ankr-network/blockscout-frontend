@@ -1,11 +1,7 @@
 import { CSSProperties, ReactNode } from 'react';
 
 import { MessageType } from '../../types';
-import { ReactComponent as ErrorIcon } from './assets/error.svg';
-import { ReactComponent as InfoIcon } from './assets/info.svg';
-import { ReactComponent as InputIcon } from './assets/input.svg';
-import { ReactComponent as SuccessIcon } from './assets/success.svg';
-import { ReactComponent as TimeIcon } from './assets/time.svg';
+import { Dot, Mark, CircleCheck, Clock, ArrowRightBig } from '@ankr.com/ui';
 import { root } from '../../const';
 import { t } from '@ankr.com/common';
 
@@ -13,14 +9,15 @@ const { Error, Info, Input, Success, Time } = MessageType;
 
 const style: CSSProperties = {
   flexShrink: 0,
+  fontSize: 16,
 };
 
 export const iconsMap: Record<MessageType, ReactNode> = {
-  [Error]: <ErrorIcon style={style} />,
-  [Info]: <InfoIcon style={style} />,
-  [Input]: <InputIcon style={style} />,
-  [Success]: <SuccessIcon style={style} />,
-  [Time]: <TimeIcon style={style} />,
+  [Error]: <Mark className="message-icon" style={style} />,
+  [Info]: <Dot className="message-icon" style={style} />,
+  [Input]: <ArrowRightBig className="message-icon" style={style} />,
+  [Success]: <CircleCheck className="message-icon" style={style} />,
+  [Time]: <Clock className="message-icon" style={style} />,
 };
 
 const prefixes = `${root}.prefixes`;

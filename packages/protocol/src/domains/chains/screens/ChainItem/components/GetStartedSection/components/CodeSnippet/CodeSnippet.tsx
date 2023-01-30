@@ -9,6 +9,7 @@ import { ExpandButton } from '../ExpandButton';
 import { titlesMap } from './const';
 import { useExpander } from './hooks/useExpander';
 import { useStyles } from './CodeSnippetStyles';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export interface CodeSnippetProps {
   code: string;
@@ -37,9 +38,11 @@ const renderThumbHorizontal = ({ style, ...props }: ViewProps) => (
 );
 
 export const CodeSnippet = ({ code, language, type }: CodeSnippetProps) => {
+  const { isLightTheme } = useThemes();
+
   const [isExpanded, expand] = useExpander(code);
 
-  const { classes } = useStyles(isExpanded);
+  const { classes } = useStyles({ isExpanded, isLightTheme });
 
   const renderView = useCallback(
     ({ style }: ViewProps) => (

@@ -5,7 +5,7 @@ import { NavLink } from 'uiKit/NavLink';
 import { t } from '@ankr.com/common';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useStyles } from './TransactionButtonStyles';
-import { ReactComponent as OpenLinkIcon } from 'uiKit/Icons/open-link.svg';
+import { ExternalLink } from '@ankr.com/ui';
 import { getExplorerLink } from './TransactionButtonUtils';
 
 interface ITransactionButton {
@@ -32,7 +32,7 @@ export const TransactionButton = ({
         className={classes.link}
         tabIndex={0}
         size="small"
-        startIcon={<OpenLinkIcon className={classes.icon} />}
+        startIcon={<ExternalLink className={classes.icon} />}
       />
     </Box>
   );

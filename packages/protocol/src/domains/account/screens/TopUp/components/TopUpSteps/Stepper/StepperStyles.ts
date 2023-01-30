@@ -1,4 +1,5 @@
 import { StepConnector, stepConnectorClasses, styled } from '@mui/material';
+import { stepLineColor } from 'uiKit/Theme/themeUtils';
 
 export const NormalConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.active} span,  &.${stepConnectorClasses.completed} span`]:
@@ -9,7 +10,7 @@ export const NormalConnector = styled(StepConnector)(({ theme }) => ({
 
 export const Connector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.active} span`]: {
-    backgroundImage: 'linear-gradient(270deg, #EEA941 0%, #356DF3 100%)',
+    backgroundImage: stepLineColor,
   },
 
   [`&.${stepConnectorClasses.completed} span`]: {

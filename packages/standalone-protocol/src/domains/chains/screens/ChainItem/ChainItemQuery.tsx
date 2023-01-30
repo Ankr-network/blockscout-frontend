@@ -1,4 +1,3 @@
-import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';

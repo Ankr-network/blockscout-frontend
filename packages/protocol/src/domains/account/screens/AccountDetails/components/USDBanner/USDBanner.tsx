@@ -1,5 +1,5 @@
+import { CreditCard } from '@ankr.com/ui';
 import { useUSDBannerStyles } from './USDBannerStyles';
-import { ReactComponent as CardIcon } from './card.svg';
 
 export const USDBanner = () => {
   const { classes } = useUSDBannerStyles();
@@ -8,7 +8,7 @@ export const USDBanner = () => {
     <div className={classes.root}>
       <div className={classes.content}>
         <div>
-          <CardIcon />
+          <CreditCard className={classes.icon} />
         </div>
         <div className={classes.message}>
           To&nbsp;continue using USD payments, please top up&nbsp;balance

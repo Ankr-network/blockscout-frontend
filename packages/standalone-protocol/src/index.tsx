@@ -4,10 +4,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { initializeMixpanel } from 'modules/analytics/initializeMixpanel';
+import { initializeSentry } from 'modules/sentry';
 
 const rootElement = document.getElementById('root');
 
 initializeMixpanel();
+initializeSentry();
 
 if (rootElement?.hasChildNodes()) {
   hydrate(<App />, rootElement);

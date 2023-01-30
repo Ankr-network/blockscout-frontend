@@ -6,12 +6,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 import { Timeframe } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
-import chainLogo from 'modules/common/components/ChainMainInfo/assets/logo-mock.svg';
 import { mainTheme } from 'uiKit/Theme/mainTheme';
 import { ChainsItem } from './ChainsItem';
 
 const chain = {
-  icon: chainLogo,
+  icon: 'https://www.ankr.com/rpc/static/media/eth.3ee8ddd4.svg',
   id: 'id' as ChainID,
   isLoading: false,
   name: 'namenamenamename',

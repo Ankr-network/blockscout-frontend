@@ -9,7 +9,7 @@ export const useTooltipStyles = makeStyles<number>()(
       padding: theme.spacing(2 * 2, 2 * 2.5),
       boxShadow:
         '0px 0px 5px rgba(31, 34, 38, 0.1), 0px 0px 15px rgba(31, 34, 38, 0.1)',
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.background.paper,
     },
     label: {
       fontSize: 17,

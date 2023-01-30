@@ -19,6 +19,7 @@ type IDialogProps = Omit<MuiDialogProps, 'BackdropProps' | 'PaperProps'> & {
   maxPxWidth?: number;
   paperClassName?: string;
   titleClassName?: string;
+  closeButtonClassName?: string;
 };
 
 export const Dialog = ({
@@ -29,6 +30,7 @@ export const Dialog = ({
   maxPxWidth,
   paperClassName,
   titleClassName,
+  closeButtonClassName,
   ...props
 }: IDialogProps) => {
   const [dialogTitle, setDialogTitle] = useState<DialogTitle>({
@@ -72,7 +74,7 @@ export const Dialog = ({
           {onClose ? (
             <IconButton
               aria-label="close"
-              className={classes.closeButton}
+              className={cx(classes.closeButton, closeButtonClassName)}
               onClick={onClose}
             >
               <Close />

@@ -1,11 +1,8 @@
-import { t } from '@ankr.com/common';
-import { useMemo } from 'react';
-
-import { ConnectWalletsContent } from './ConnectWalletsContent';
 import { Dialog } from 'uiKit/Dialog';
-import { EmailContent } from './EmailContent';
 import { EmailContentLoading } from './EmailContentLoading';
-import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
+import { useSignupDialogStyles } from './useSignupDialogStyles';
+import { SignupDialogContent } from './SignupDialogContent';
+import { useSignupDialog } from './useSignupDialog';
 
 interface SignupDialogProps {
   isOpen: boolean;
@@ -22,30 +19,35 @@ export const SignupDialog = ({
   onSuccess,
   hasOauthLogin,
 }: SignupDialogProps) => {
-  const { handleFetchLoginParams, loading } = useOauthLoginParams();
-
-  const dialogTitle = useMemo(() => {
-    if (loading) return '';
-
-    if (hasOauthLogin) return t('signup-modal.connect-wallet');
-
-    return t('signup-modal.title');
-  }, [loading, hasOauthLogin]);
+  const { classes } = useSignupDialogStyles();
+  const {
+    currentState,
+    setWeb3State,
+    handleFetchLoginParams,
+    loading,
+    dialogTitle,
+    onDialogClose,
+  } = useSignupDialog({ onManualClose, hasOauthLogin });
 
   return (
     <Dialog
       maxPxWidth={618}
-      onClose={onManualClose}
+      onClose={onDialogClose}
       open={isOpen}
       title={dialogTitle}
+      titleClassName={classes.dialogTitle}
+      closeButtonClassName={classes.closeButton}
     >
       {loading ? (
         <EmailContentLoading />
       ) : (
-        <>
-          <ConnectWalletsContent onClose={onClose} onSuccess={onSuccess} />
-          {!hasOauthLogin && <EmailContent onClick={handleFetchLoginParams} />}
-        </>
+        <SignupDialogContent
+          onSuccess={onSuccess}
+          currentState={currentState}
+          handleFetchLoginParams={handleFetchLoginParams}
+          onDialogClose={onDialogClose}
+          setWeb3State={setWeb3State}
+        />
       )}
     </Dialog>
   );

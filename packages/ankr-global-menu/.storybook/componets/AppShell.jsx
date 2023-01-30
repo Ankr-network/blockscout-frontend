@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { mainTheme } from 'ui';
 import { MuiThemeProvider } from '@material-ui/core';
+import { mainTheme } from './theme/mainTheme';
 
 export const AppShell = ({ children }) => {
   return (

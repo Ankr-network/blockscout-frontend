@@ -1,10 +1,11 @@
+import { useCallback, useState } from 'react';
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
-import { useCallback, useState } from 'react';
 
 import { useSubscriptions } from './hooks/useSubscriptions';
 import { useSubscriptionsStyles } from './useSubscriptionsStyles';
-import { ReactComponent as RefreshIcon } from 'uiKit/Icons/refresh.svg';
+import { Refresh } from '@ankr.com/ui';
+
 import { CancelSubscriptionDialog } from './CancelSubscriptionDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { ISubscriptionsItem } from 'multirpc-sdk';
@@ -46,7 +47,7 @@ export const Subscriptions = () => {
         {subscriptions?.items?.map(item => (
           <div key={item.id} className={classes.item}>
             <div className={classes.textContainer}>
-              {item.type === 'recurring' && <RefreshIcon />}
+              {item.type === 'recurring' && <Refresh />}
               <Typography className={classes.text} variant="h4">
                 {t('account.account-details.subscriptions.text', {
                   amount: Number(item.amount),

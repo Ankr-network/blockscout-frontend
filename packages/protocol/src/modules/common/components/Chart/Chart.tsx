@@ -57,19 +57,13 @@ export const Chart = ({
         margin={MARGIN}
       >
         <defs>
-          <linearGradient id="valueColor" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={theme.palette.primary.main} />
-            <stop offset="0%" stopColor="#f4f9ff" />
-          </linearGradient>
+          <linearGradient id="valueColor" x1="0" y1="0" x2="0" y2="1" />
         </defs>
         <defs>
-          <linearGradient id="extraValueColor" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={theme.palette.primary.main} />
-            <stop offset="0%" stopColor="#f4f9ff" />
-          </linearGradient>
+          <linearGradient id="extraValueColor" x1="0" y1="0" x2="0" y2="1" />
         </defs>
         <CartesianGrid
-          style={{ stroke: theme.palette.background.default }}
+          style={{ stroke: theme.palette.grey[100] }}
           strokeWidth={2}
           horizontal
           vertical={false}

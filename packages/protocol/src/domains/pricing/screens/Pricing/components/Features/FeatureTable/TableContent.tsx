@@ -1,8 +1,6 @@
 import { TableCell, TableRow } from '@mui/material';
 
-import { ReactComponent as CheckIcon } from 'uiKit/Icons/check.svg';
-import { ReactComponent as CrossIcon } from 'uiKit/Icons/cross.svg';
-import { ReactComponent as QuestionIcon } from 'uiKit/Icons/question.svg';
+import { CircleCheck, Cross, Question } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
 import {
   intlRoot,
@@ -45,7 +43,7 @@ export const TableContent = () => {
                 {HAS_TIP_MESSAGE &&
                   tipMessage.includes(`${rowIndex}-${columnIndex}`) && (
                     <TooltipWrapper
-                      tipIcon={<QuestionIcon />}
+                      tipIcon={<Question />}
                       className={classes.tip}
                       tooltipText={t(
                         `${intlRoot}.tip.${columnIndex + 1}-${rowIndex + 1}`,
@@ -53,10 +51,10 @@ export const TableContent = () => {
                     />
                   )}
                 {supported.includes(`${rowIndex}-${columnIndex}`) && (
-                  <CheckIcon className={classes.checkIcon} />
+                  <CircleCheck className={classes.checkIcon} />
                 )}
                 {unsupported.includes(`${rowIndex}-${columnIndex}`) && (
-                  <CrossIcon className={classes.crossIcon} />
+                  <Cross className={classes.crossIcon} />
                 )}
               </TableCell>
             );

@@ -2,7 +2,7 @@ import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Button } from '@mui/material';
 
-import { CopyIcon } from 'uiKit/Icons/CopyIcon';
+import { Copy } from '@ankr.com/ui';
 import { copyMessage, label } from './const';
 import { useCopyToClip } from 'uiKit/CopyToClipIcon/CopyToClipIconUtils';
 import { useStyles } from './CopyCodeButtonStyles';
@@ -21,7 +21,7 @@ export const CopyCodeButton = ({ code, text }: CopyCodeButtonProps) => {
     <CopyToClipboard text={code} onCopy={setIsCopied}>
       <Button
         className={classes.copyCodeButton}
-        startIcon={<CopyIcon />}
+        startIcon={<Copy />}
         variant="outlined"
       >
         {isCopied ? copyMessage : text || label}

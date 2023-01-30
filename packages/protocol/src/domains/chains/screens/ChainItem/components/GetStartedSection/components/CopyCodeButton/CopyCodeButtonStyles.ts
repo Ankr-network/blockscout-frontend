@@ -10,6 +10,10 @@ export const useStyles = makeStyles()(() => ({
     '&&': {
       border: '0 none',
       boxShadow: 'none',
+
+      '& svg': {
+        fontSize: 24,
+      },
     },
 
     transition: 'color .3s, background-color .3s',
