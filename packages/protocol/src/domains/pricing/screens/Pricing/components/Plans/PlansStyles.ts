@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { premiumColor } from 'uiKit/Theme/themeUtils';
 
 export const usePlansStyles = makeStyles<void, 'container'>()(
   (theme: Theme, _params, classes) => ({
@@ -16,7 +17,7 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
       },
     },
     plan: {
-      background: theme.palette.common.white,
+      background: theme.palette.background.paper,
       borderRadius: 40,
       padding: theme.spacing(2 * 0.5),
       position: 'relative',
@@ -30,7 +31,7 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
       flexDirection: 'column',
       justifyContent: 'space-between',
       height: '100%',
-      background: theme.palette.common.white,
+      background: theme.palette.background.paper,
       borderRadius: 36,
       padding: theme.spacing(2 * 4.5),
 
@@ -40,11 +41,10 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
       },
     },
     premium: {
-      background:
-        'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
+      background: premiumColor,
 
       [`& .${classes.container}`]: {
-        background: theme.palette.common.white,
+        background: theme.palette.background.paper,
       },
     },
 
@@ -111,7 +111,7 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
     },
     button: {
       '&:hover': {
-        color: theme.palette.common.white,
+        color: theme.palette.background.paper,
       },
     },
   }),

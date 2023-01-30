@@ -120,7 +120,7 @@ export const useRenderForm = (
 export const useOnTopUpSubmit = (
   confirmedEmail?: string,
   pendingEmail?: string,
-  trackSubmit: TrackTopUpSubmit = () => {},
+  trackSubmit?: TrackTopUpSubmit,
 ) => {
   const { handleFetchLinkForCardPayment, isFetchLinkForCardPaymentLoading } =
     useCardPayment();
@@ -133,11 +133,15 @@ export const useOnTopUpSubmit = (
 
       const { data: url } = await handleFetchLinkForCardPayment(amount, id);
 
-      trackSubmit(amount, TopUpCurrnecy.USD, () => {
-        if (url) {
-          window.location.href = url;
-        }
-      });
+      if (typeof trackSubmit === 'function') {
+        trackSubmit(amount, TopUpCurrnecy.USD, () => {
+          if (url) {
+            window.location.href = url;
+          }
+        });
+      } else if (url) {
+        window.location.href = url;
+      }
     },
     [handleFetchLinkForCardPayment, trackSubmit],
   );

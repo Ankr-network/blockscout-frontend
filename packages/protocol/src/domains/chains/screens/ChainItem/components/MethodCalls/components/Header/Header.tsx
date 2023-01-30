@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 
 import { ItemHeader } from '../../../ItemHeader';
-import { ReactComponent as DownloadIcon } from '../../assets/download.svg';
+import { Download } from '@ankr.com/ui';
 import { Timeframe } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
 import { useHeaderStyles } from './useHeaderStyles';
@@ -26,7 +26,7 @@ export const Header = ({ timeframe }: HeaderProps) => {
         <Button
           variant="text"
           className={classes.button}
-          startIcon={<DownloadIcon />}
+          startIcon={<Download />}
         >
           {t('chain-item.method-calls.download-button')}
         </Button>

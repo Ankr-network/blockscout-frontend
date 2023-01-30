@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
 
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
-import { ZERO } from 'modules/common/const';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
 import {
@@ -50,12 +49,10 @@ export const useUnstakeAvalancheSuccess = (): IUnstakeAvalancheSuccessHook => {
     addAVAXTokenToWallet(token);
   };
 
-  const amount = data?.amount ?? ZERO;
-
   const isPending = !receipt && !!data?.isPending;
 
   return {
-    amount,
+    amount: data?.amount,
     destination: data?.destinationAddress,
     transactionId: txHash,
     tokenName: getTokenName(token),

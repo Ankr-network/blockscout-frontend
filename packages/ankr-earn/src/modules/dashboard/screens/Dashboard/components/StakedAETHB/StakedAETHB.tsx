@@ -5,7 +5,7 @@ import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTr
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { ETH_NETWORK_BY_ENV, ONE } from 'modules/common/const';
+import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -114,7 +114,6 @@ export const StakedAETHB = (): JSX.Element => {
       />
 
       <NewHistoryDialog
-        network={ETH_NETWORK_BY_ENV}
         open={isOpenedHistory}
         token={Token.aETHb}
         onClose={onCloseHistory}

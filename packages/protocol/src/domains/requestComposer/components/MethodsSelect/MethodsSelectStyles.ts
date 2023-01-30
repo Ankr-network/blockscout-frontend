@@ -79,6 +79,7 @@ export const useMethodsSelectStyles = makeStyles<Params>()(
           backgroundColor: theme.palette.background.default,
           color: theme.palette.primary.main,
           fontWeight: 600,
+          borderRadius: 16,
         },
       },
     },

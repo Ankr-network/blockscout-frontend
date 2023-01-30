@@ -35,7 +35,6 @@ export const useMethodsTabsUtils = (
             isSelected={isSelected}
             label={NearLibrary[NearLibraryID.NEARJavaScriptAPI]}
             size={TabSize.Small}
-            isDarkTheme
           />
         ),
       },

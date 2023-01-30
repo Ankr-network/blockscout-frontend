@@ -1,5 +1,5 @@
 import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
-import { featuresConfig, XDC_NETWORK_BY_ENV } from 'modules/common/const';
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
@@ -86,7 +86,6 @@ export const StakedAnkrXDC = (): JSX.Element => {
       />
 
       <NewHistoryDialog
-        network={XDC_NETWORK_BY_ENV}
         open={isOpenedHistory}
         token={token}
         onClose={onCloseHistoryDialog}

@@ -15,9 +15,12 @@ import left from './assets/left.png';
 import right from './assets/right.png';
 import mobile from './assets/mobile.png';
 import { Features } from './components/Features';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export const Pricing = () => {
-  const { classes } = usePricingStyles();
+  const { isLightTheme } = useThemes();
+
+  const { classes } = usePricingStyles(isLightTheme);
   const isMobile = useIsXSDown();
   const {
     hasPrivateAccess,

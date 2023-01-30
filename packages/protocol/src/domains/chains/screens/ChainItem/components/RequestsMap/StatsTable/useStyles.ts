@@ -46,10 +46,12 @@ export const useStyles = makeStyles<void, 'cellThead' | 'row'>()(
       [`& .${classes.cellThead}:last-child`]: {
         textAlign: 'right',
       },
-      borderBottom: `1px solid ${theme.palette.background.default}`,
+      borderBottom: `1px solid ${theme.palette.divider}`,
     },
     row: {
-      '& td': { border: 0 },
+      '& td': {
+        border: 0,
+      },
     },
     requests: {
       fontWeight: 600,

@@ -2,12 +2,29 @@ import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import { MessageType } from '../../types';
 
+const getColor = (type: MessageType, theme: Theme) => {
+  switch (type) {
+    case MessageType.Error:
+      return theme.palette.error.main;
+    case MessageType.Info:
+    case MessageType.Success:
+      return theme.palette.success.main;
+    case MessageType.Input:
+    case MessageType.Time:
+    default:
+      return theme.palette.grey[300];
+  }
+};
+
 export const useMessageStyles = makeStyles<MessageType>()(
   (theme: Theme, type: MessageType) => ({
     message: {
       display: 'flex',
       alignItems: 'flex-start',
       gap: theme.spacing(2 * 1.25),
+      [`& svg.message-icon`]: {
+        color: getColor(type, theme),
+      },
     },
     body: {
       overflowWrap: 'anywhere',
@@ -33,17 +50,14 @@ export const useMessageStyles = makeStyles<MessageType>()(
       borderRadius: theme.spacing(2 * 1),
 
       wordBreak: 'break-all',
+      color: theme.palette.common.white,
 
       ...(type === MessageType.Error
         ? {
             backgroundColor: theme.palette.error.main,
-
-            color: theme.palette.common.white,
           }
         : {
             backgroundColor: `rgba(255, 255, 255, 0.04)`,
-
-            color: theme.palette.text.secondary,
           }),
     },
   }),

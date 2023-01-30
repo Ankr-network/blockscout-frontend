@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from '@mui/material';
 
 import { PremiumLabel } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumLabel';
 import { t, tHTML } from '@ankr.com/common';
-import { ReactComponent as LinkIcon } from 'uiKit/Icons/externalLink.svg';
+import { ExternalLink } from '@ankr.com/ui';
 import { usePremiumBlockStyles } from './usePremiumBlockStyles';
 import { NavLink } from 'uiKit/NavLink';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
@@ -10,6 +10,7 @@ import { PricingTopUp } from './PricingTopUp';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { shouldShowConnectWalletButton } from './PremiumBlockUtils';
 import { PRICING_LINK } from 'domains/account/actions/topUp/const';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface PremiumBlockProps {
   hasPrivateAccess: boolean;
@@ -28,7 +29,8 @@ export const PremiumBlock = ({
   address,
   isUserAddress,
 }: PremiumBlockProps) => {
-  const { classes } = usePremiumBlockStyles();
+  const { isLightTheme } = useThemes();
+  const { classes } = usePremiumBlockStyles(isLightTheme);
 
   const { hasConnectButton, isNewWeb3UserWithBindedEmail } =
     shouldShowConnectWalletButton({
@@ -82,7 +84,7 @@ export const PremiumBlock = ({
               href={PRICING_LINK}
               variant="text"
               color="inherit"
-              endIcon={<LinkIcon />}
+              endIcon={<ExternalLink />}
             >
               {t('plan.premium-block.pricing-link')}
             </NavLink>

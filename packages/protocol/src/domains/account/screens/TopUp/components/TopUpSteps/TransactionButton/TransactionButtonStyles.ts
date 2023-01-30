@@ -22,7 +22,7 @@ export const useStyles = makeStyles<void, 'icon'>()(
       background: theme.palette.background.default,
 
       '&:hover': {
-        background: theme.palette.common.white,
+        background: theme.palette.background.paper,
         boxShadow: `0 0 0 2px ${theme.palette.background.default}`,
 
         [`& .${classes.icon}`]: {

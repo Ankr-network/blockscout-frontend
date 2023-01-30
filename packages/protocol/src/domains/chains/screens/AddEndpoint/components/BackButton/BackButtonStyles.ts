@@ -29,7 +29,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   backButton: {
     transform: 'rotate(180deg)',
     color: theme.palette.grey[500],
-    fontSize: 12,
+    fontSize: 16,
   },
   text: {
     fontSize: 34,

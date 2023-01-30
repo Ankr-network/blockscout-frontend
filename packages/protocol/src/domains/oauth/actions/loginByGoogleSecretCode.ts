@@ -18,6 +18,7 @@ import { trackWeb2ConnectFailure } from 'modules/analytics/mixpanel/trackWeb2Con
 import { trackWeb2ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb2ConnectSuccess';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
+import { oauthHasVoucherTransaction } from './hasVoucherTransaction';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -94,8 +95,12 @@ export const {
                 .addJwtToken(workerTokenData?.signedToken);
             }
 
-            const { data: hasTransaction } = await dispatch(
+            const { data: hasDepositTransaction } = await dispatch(
               oauthHasDepositTransaction.initiate(),
+            );
+
+            const { data: hasVoucherTransaction } = await dispatch(
+              oauthHasVoucherTransaction.initiate(),
             );
 
             dispatch(
@@ -107,7 +112,8 @@ export const {
                 ethAddressType,
                 hasOauthLogin: true,
                 workerTokenData,
-                hasOauthUserDepositTransaction: hasTransaction,
+                hasOauthUserDepositTransaction:
+                  hasDepositTransaction || hasVoucherTransaction,
               }),
             );
           }

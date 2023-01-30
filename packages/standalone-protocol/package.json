@@ -42,6 +42,8 @@
     "@redux-requests/promise": "1.0.2",
     "@redux-requests/react": "1.6.0",
     "@reduxjs/toolkit": "^1.8.1",
+    "@sentry/react": "^7.33.0",
+    "@sentry/tracing": "^7.33.0",
     "@types/numeral": "^2.0.2",
     "@walletconnect/web3-provider": "^1.6.5",
     "apexcharts": "^3.32.0",

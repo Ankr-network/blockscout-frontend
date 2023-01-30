@@ -6,7 +6,6 @@ export interface SecondaryTabStylesParams {
   isLast?: boolean;
   isSelected?: boolean;
   size: TabSize;
-  isDarkTheme?: boolean;
 }
 
 export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
@@ -51,24 +50,16 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
 
         ...(props.isSelected
           ? {
-              backgroundColor: props.isDarkTheme
-                ? theme.palette.primary.main
-                : theme.palette.common.white,
+              backgroundColor: theme.palette.background.paper,
               boxShadow:
                 '0 0 5px rgba(31, 34, 38, 0.1), 0 0 15px rgba(31, 34, 38, 0.1)',
 
-              color: props.isDarkTheme
-                ? theme.palette.common.white
-                : theme.palette.primary.main,
+              color: theme.palette.primary.main,
 
               '&:hover': {
-                backgroundColor: props.isDarkTheme
-                  ? theme.palette.primary.main
-                  : theme.palette.common.white,
+                backgroundColor: theme.palette.background.paper,
 
-                color: props.isDarkTheme
-                  ? theme.palette.common.white
-                  : theme.palette.primary.main,
+                color: theme.palette.primary.main,
               },
             }
           : {

@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import { DOC_URL } from 'modules/layout/components/MainNavigation/MainNavigationUtils';
 import { NavLink } from 'uiKit/NavLink';
 import { intlRoot } from '../FeatureTable/FeatureTableUtils';
-import { ReactComponent as LinkIcon } from 'uiKit/Icons/open-link.svg';
+import { ExternalLink } from '@ankr.com/ui';
 import { useFeatureTableStyles } from '../FeatureTable/useFeatureTableStyles';
 
 export const LearnMore = () => {
@@ -18,7 +18,7 @@ export const LearnMore = () => {
         color="inherit"
       >
         {t(`${intlRoot}.ankr-doc`)}
-        <LinkIcon />
+        <ExternalLink />
       </NavLink>
     </>
   );

@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
+import { Typography } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { ReactComponent as LockIcon } from 'uiKit/Icons/lock.svg';
-import { Typography } from '@mui/material';
+import { Lock } from '@ankr.com/ui';
+import { premiumText } from 'uiKit/Theme/themeUtils';
 
 export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
@@ -18,10 +19,9 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   title: {
     fontSize: 16,
     fontWeight: 600,
-    background:
-      'linear-gradient(269.98deg, #2F62F1 0.02%, #8D30FF 49.89%, #FF7710 99.98%)',
-    '-webkit-background-clip': 'text',
-    '-webkit-text-fill-color': 'transparent',
+    background: premiumText,
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
     [theme.breakpoints.down('xl')]: {
       fontSize: 14,
     },
@@ -33,7 +33,7 @@ export const LockTab = ({ title }: { title?: ReactNode }) => {
 
   return (
     <div className={classes.root}>
-      <LockIcon className={classes.icon} />
+      <Lock className={classes.icon} />
       <Typography className={classes.title}>{title}</Typography>
     </div>
   );

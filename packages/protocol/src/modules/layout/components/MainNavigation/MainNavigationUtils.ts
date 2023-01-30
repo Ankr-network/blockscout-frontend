@@ -1,17 +1,10 @@
 import { History } from 'history';
-import { ReactComponent as ActiveBillingIcon } from 'uiKit/Icons/activeBilling.svg';
-import { ReactComponent as ActiveBoxIcon } from 'uiKit/Icons/activeBox.svg';
-import { ReactComponent as ActivePricingIcon } from 'uiKit/Icons/activePricing.svg';
-import { ReactComponent as ActiveSettingsIcon } from 'uiKit/Icons/activeSetting.svg';
-import { ReactComponent as BillingIcon } from 'uiKit/Icons/billing.svg';
-import { ReactComponent as BoxIcon } from 'uiKit/Icons/box.svg';
-import { ReactComponent as DocsIcon } from 'uiKit/Icons/docs.svg';
-import { ReactComponent as PricingIcon } from 'uiKit/Icons/pricing.svg';
-import { ReactComponent as SettingsIcon } from 'uiKit/Icons/setting.svg';
+
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { CoinStack, Gear, Doc, Block, Wallet } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavigationItem } from 'modules/common/components/Navigation';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
@@ -45,8 +38,8 @@ export const getNavigationList = ({
 }: NavigationListParams): NavigationItem[] => {
   return [
     {
-      ActiveIcon: ActiveBoxIcon,
-      StartIcon: BoxIcon,
+      StartIcon: Block,
+      ActiveIcon: Block,
       href: ChainsRoutesConfig.chains.generatePath(),
       isActive: (match: any, location: History['location']) =>
         isDashboardActive(match, location, chainsRoutes),
@@ -54,26 +47,26 @@ export const getNavigationList = ({
     },
     hasPremium
       ? {
-          ActiveIcon: ActiveBillingIcon,
-          StartIcon: BillingIcon,
+          StartIcon: Wallet,
+          ActiveIcon: Wallet,
           href: AccountRoutesConfig.accountDetails.generatePath(),
           label: t('main-navigation.billing'),
         }
       : {
-          ActiveIcon: ActivePricingIcon,
-          StartIcon: PricingIcon,
+          StartIcon: CoinStack,
+          ActiveIcon: CoinStack,
           href: PricingRoutesConfig.pricing.generatePath(),
           label: t('main-navigation.pricing'),
         },
     {
-      StartIcon: DocsIcon,
+      StartIcon: Doc,
       href: DOC_URL,
       label: t('main-navigation.docs'),
       onClick: onDocsClick,
     },
     {
-      ActiveIcon: ActiveSettingsIcon,
-      StartIcon: SettingsIcon,
+      StartIcon: Gear,
+      ActiveIcon: Gear,
       href: UserSettingsRoutesConfig.settings.generatePath(),
       label: t('extra-navigation.settings'),
       onClick: onSettingsClick,

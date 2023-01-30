@@ -11,7 +11,6 @@ export interface SecondaryTabProps {
   label: ReactNode | string;
   onClick?: () => void;
   size?: TabSize;
-  isDarkTheme?: boolean;
 }
 
 export const SecondaryTab = ({
@@ -20,14 +19,12 @@ export const SecondaryTab = ({
   isSelected,
   label,
   onClick,
-  isDarkTheme,
   size = TabSize.Medium,
 }: SecondaryTabProps) => {
   const { classes, cx } = useSecondaryTabStyles({
     isLast,
     isSelected,
     size,
-    isDarkTheme,
   });
 
   return (

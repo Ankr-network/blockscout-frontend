@@ -1,12 +1,12 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { commonLinear } from 'uiKit/Theme/themeUtils';
 
 export const useUpgradeBannerStyles = makeStyles()((theme: Theme) => ({
   upgradeBanner: {
     borderRadius: theme.spacing(2 * 3.75),
 
-    background:
-      'linear-gradient(to left, #013CD3, #6235D0, #AF34B1, #E85658, #FF7710)',
+    background: commonLinear,
   },
   content: {
     display: 'flex',
@@ -19,7 +19,7 @@ export const useUpgradeBannerStyles = makeStyles()((theme: Theme) => ({
 
     borderRadius: 27,
 
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
 
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
@@ -37,7 +37,7 @@ export const useUpgradeBannerStyles = makeStyles()((theme: Theme) => ({
   button: {
     flexShrink: 0,
     '&:hover': {
-      color: theme.palette.common.white,
+      color: theme.palette.background.paper,
     },
 
     [theme.breakpoints.down('xs')]: {

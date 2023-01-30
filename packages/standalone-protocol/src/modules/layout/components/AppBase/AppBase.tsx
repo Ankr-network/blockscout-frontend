@@ -10,10 +10,11 @@ import { getCurrentChainId, useInitialaizeLocale } from './AppBaseUtils';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId } from 'domains/chains/api/chain';
 import { RewiredStylesProvider } from 'ui';
+import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 
 interface IAppBaseProps {
   children: ReactNode;
-  chainId?: ChainId;
+  chainId: ChainId;
 }
 
 export const AppBase = ({ children, chainId }: IAppBaseProps) => {
@@ -25,16 +26,18 @@ export const AppBase = ({ children, chainId }: IAppBaseProps) => {
     <RewiredStylesProvider>
       <ThemeProvider theme={getTheme(currentChainId)}>
         <CssBaseline />
-        {isInitialized ? (
-          <ConnectedRouter
-            history={historyInstance}
-            context={ReactReduxContext}
-          >
-            {children}
-          </ConnectedRouter>
-        ) : (
-          <Spinner />
-        )}
+        <SentryErrorBoundary chainId={currentChainId}>
+          {isInitialized ? (
+            <ConnectedRouter
+              history={historyInstance}
+              context={ReactReduxContext}
+            >
+              {children}
+            </ConnectedRouter>
+          ) : (
+            <Spinner />
+          )}
+        </SentryErrorBoundary>
       </ThemeProvider>
     </RewiredStylesProvider>
   );

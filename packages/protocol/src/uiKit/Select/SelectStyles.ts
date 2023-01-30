@@ -63,7 +63,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       },
 
       '&:not(:last-child)': {
-        borderBottom: `1px solid ${theme.palette.grey[100]}`,
+        borderBottom: `1px solid ${theme.palette.divider}`,
       },
 
       '&:hover': {

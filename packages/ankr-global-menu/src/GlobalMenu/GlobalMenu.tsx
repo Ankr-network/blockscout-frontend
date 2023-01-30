@@ -1,6 +1,6 @@
 import { Drawer, IconButton, Popover } from '@material-ui/core';
 import { MouseEventHandler, useEffect, useState, useRef } from 'react';
-import { ReactComponent as MenuDotIcon } from '../assets/menuDot.svg';
+import { MenuDots } from '@ankr.com/ui';
 import { useStyles } from './GlobalMenuStyles';
 import { useLocaleInitializer } from '../i18n/utils/useLocaleInitializer';
 import { GlobalMenuList } from '../GlobalMenuList';
@@ -58,7 +58,7 @@ const GlobalMenuCommon = ({
         })}
         onClick={handleClick}
       >
-        <MenuDotIcon />
+        <MenuDots />
       </IconButton>
       <>
         {isMobile ? (

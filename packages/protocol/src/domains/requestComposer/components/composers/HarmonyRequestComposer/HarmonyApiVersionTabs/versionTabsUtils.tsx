@@ -23,7 +23,6 @@ export const useVersionTabs = () => {
           isSelected={isSelected}
           label={t(`${intlRoot}.api-v1`)}
           size={TabSize.Small}
-          isDarkTheme
         />
       ),
     },
@@ -34,7 +33,6 @@ export const useVersionTabs = () => {
           isSelected={isSelected}
           label={t(`${intlRoot}.api-v2`)}
           size={TabSize.Small}
-          isDarkTheme
         />
       ),
     },

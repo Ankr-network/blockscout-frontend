@@ -2,7 +2,7 @@ import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Button, Typography } from '@mui/material';
 
-import { CopyIcon } from 'uiKit/Icons/CopyIcon';
+import { Copy } from '@ankr.com/ui';
 import { useStyles } from './CopyToClipButtonStyles';
 import { useCopyToClip } from '../CopyToClipIcon/CopyToClipIconUtils';
 
@@ -32,7 +32,7 @@ export const CopyToClipButton = ({
           <Button
             variant="contained"
             className={classes.button}
-            startIcon={<CopyIcon />}
+            startIcon={<Copy />}
           >
             {buttonText}
           </Button>

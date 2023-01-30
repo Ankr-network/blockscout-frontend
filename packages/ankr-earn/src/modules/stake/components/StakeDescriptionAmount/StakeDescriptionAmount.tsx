@@ -1,13 +1,16 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import BigNumber from 'bignumber.js';
 
+import { LongFloat } from 'modules/common/components/LongFloat';
+import { ZERO } from 'modules/common/const';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useStakeDescriptionValueStyles } from './useStakeDescriptionAmountStyles';
 
 export interface IStakeDescriptionValueProps {
-  value: string;
+  value?: BigNumber.Value;
   symbol: string;
   isLoading?: boolean;
   isWithTooltip?: boolean;
@@ -16,7 +19,7 @@ export interface IStakeDescriptionValueProps {
 const ENTER_DELAY = 1_000;
 
 export const StakeDescriptionAmount = ({
-  value,
+  value = ZERO,
   symbol,
   isLoading,
   isWithTooltip = true,
@@ -28,7 +31,7 @@ export const StakeDescriptionAmount = ({
       {isLoading ? (
         <Skeleton className={classes.titleSkeleton} width={30} />
       ) : (
-        <span className={classes.title}>{value}</span>
+        <LongFloat className={classes.title} value={value} />
       )}
 
       {symbol}

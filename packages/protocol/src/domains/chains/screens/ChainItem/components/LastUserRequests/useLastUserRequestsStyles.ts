@@ -6,7 +6,7 @@ export const useLastUserRequestsStyles = makeStyles()((theme: Theme) => ({
     borderRadius: 24,
     overflow: 'hidden',
     width: '65%',
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
 
     [theme.breakpoints.down('md')]: {
       width: '60%',

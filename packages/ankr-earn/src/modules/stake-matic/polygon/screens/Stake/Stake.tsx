@@ -8,7 +8,6 @@ import {
   AUDIT_LINKS,
   DECIMAL_PLACES,
   DEFAULT_FIXED,
-  featuresConfig,
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -26,7 +25,6 @@ import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { QueryError } from 'uiKit/QueryError';
-import { QueryLoadingCentered } from 'uiKit/QueryLoading';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { StakeTokenInfo } from '../../../../stake/components/StakeTokenInfo/StakeTokenInfo';
@@ -109,7 +107,7 @@ export const Stake = (): JSX.Element => {
         <StakeDescriptionValue>
           <StakeDescriptionAmount
             symbol={getTokenName(tokenOut)}
-            value={totalAmount.decimalPlaces(DECIMAL_PLACES).toFormat()}
+            value={totalAmount}
           />
         </StakeDescriptionValue>
       </StakeDescriptionContainer>
@@ -122,62 +120,51 @@ export const Stake = (): JSX.Element => {
     nativeToken: Token.MATIC,
   });
 
-  if (isGetStatsLoading) {
-    return (
-      <Box mt={5}>
-        <QueryLoadingCentered />
-      </Box>
-    );
-  }
+  const hasErrors = getStatsError !== undefined;
 
   return (
     <section className={classes.root}>
-      {getStatsError !== undefined && (
-        <StakeContainer>
-          <QueryError error={getStatsError} />
-        </StakeContainer>
-      )}
+      <StakeContainer>
+        <StakeTradeInfo />
 
-      {getStatsError === undefined && !!balance && (
-        <StakeContainer>
-          {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+        {hasErrors && <QueryError error={getStatsError} />}
 
-          <StakeForm
-            auditSlot={
-              <AuditInfo>
-                <AuditInfoItem link={AUDIT_LINKS.matic} variant="beosin" />
-              </AuditInfo>
-            }
-            balance={balance}
-            extraValidation={extraValidation}
-            feeSlot={
-              <StakeFeeInfo
-                isLoading={isGasFeeLoading}
-                mt={-1.5}
-                token={Token.MATIC}
-                value={gasFee}
-              />
-            }
-            isDisabled={isStakeLoading}
-            loading={isStakeLoading}
-            maxAmount={balance}
-            networkTitleSlot={<NetworkTitle />}
-            noticeSlot={noticeText}
-            renderStats={renderStats}
-            tokenIn={tokenIn}
-            tokenOut={tokenOut}
-            onChange={onFormChange}
-            onSubmit={onFormSubmit}
-          />
+        <StakeForm
+          auditSlot={
+            <AuditInfo>
+              <AuditInfoItem link={AUDIT_LINKS.matic} variant="beosin" />
+            </AuditInfo>
+          }
+          balance={balance}
+          extraValidation={extraValidation}
+          feeSlot={
+            <StakeFeeInfo
+              isLoading={isGasFeeLoading}
+              mt={-1.5}
+              token={Token.MATIC}
+              value={gasFee}
+            />
+          }
+          isBalanceLoading={isGetStatsLoading}
+          isDisabled={isStakeLoading}
+          loading={isStakeLoading}
+          maxAmount={balance}
+          networkTitleSlot={<NetworkTitle />}
+          noticeSlot={noticeText}
+          renderStats={renderStats}
+          tokenIn={tokenIn}
+          tokenOut={tokenOut}
+          onChange={onFormChange}
+          onSubmit={onFormSubmit}
+        />
 
-          <StakeStats
-            amount={amount}
-            metricsServiceName={EMetricsServiceName.MATIC}
-          />
+        <StakeStats
+          amount={amount}
+          metricsServiceName={EMetricsServiceName.MATIC}
+        />
 
-          <Faq data={faqItems} />
-        </StakeContainer>
-      )}
+        <Faq data={faqItems} />
+      </StakeContainer>
     </section>
   );
 };

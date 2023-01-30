@@ -14,7 +14,7 @@ export const useStatStyles = makeStyles()((theme: Theme) => ({
 
     borderRadius: theme.spacing(2 * 3),
 
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
 
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2 * 2, 2 * 2.5),

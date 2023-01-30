@@ -7,6 +7,7 @@ import { overridenViewStyle, overridenThumbStyle } from './SampleCodeUtils';
 import { ViewProps } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/CodeSnippet';
 import { CopyCodeButton } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/CopyCodeButton';
 import { t } from '@ankr.com/common';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface ISampleCodeProps {
   code: string;
@@ -17,7 +18,8 @@ export const SampleCode = ({
   code = '',
   copyCode = code,
 }: ISampleCodeProps) => {
-  const { classes } = useSampleCodeStyles();
+  const { isLightTheme } = useThemes();
+  const { classes } = useSampleCodeStyles(isLightTheme);
 
   const renderThumbHorizontal = ({ style, ...props }: ViewProps) => (
     <div {...props} style={{ ...style, ...overridenThumbStyle }} />

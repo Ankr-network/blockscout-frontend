@@ -25,6 +25,7 @@ export const useInfoBannerStyles = makeStyles()((theme: Theme) => ({
     '& svg': {
       width: 48,
       height: '100%',
+      color: theme.palette.warning.main,
     },
   },
   message: {

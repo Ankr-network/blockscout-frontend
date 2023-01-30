@@ -42,6 +42,9 @@ export const useFillStepStyles = makeStyles()((theme: Theme) => ({
     width: 28,
     height: 28,
     color: theme.palette.primary.main,
+    '& svg': {
+      color: theme.palette.primary.main,
+    },
   },
   featureText: {
     fontSize: 17,

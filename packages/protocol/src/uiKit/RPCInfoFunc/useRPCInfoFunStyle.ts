@@ -23,7 +23,7 @@ export const useRPCInfoFunStyle = makeStyles<Size>()(
       transition: 'background .3s',
 
       '&:hover': {
-        background: theme.palette.common.white,
+        background: theme.palette.background.paper,
 
         '& $text': {
           color: theme.palette.text.primary,
