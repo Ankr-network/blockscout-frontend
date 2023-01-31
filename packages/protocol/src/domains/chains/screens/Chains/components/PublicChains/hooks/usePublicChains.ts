@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { SortType } from 'domains/chains/types';
-import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
+import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { sortPublicChains, formatRequestsCount } from './utils';
 import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/fetchPrivateChainsInfo';
+import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export type PrivateChains = [IApiChain[], IApiChain[], boolean, () => void];

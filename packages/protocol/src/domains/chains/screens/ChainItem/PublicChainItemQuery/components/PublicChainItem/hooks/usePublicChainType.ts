@@ -4,8 +4,8 @@ import { ChainType } from 'domains/chains/types';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { getChainTypeTabs } from '../utils/getChainTypeTabs';
-import { getInitialChainType } from '../utils/getInitialChainType';
+import { getPublicChainTypeTabs } from './utils';
+import { getInitialChainType } from 'domains/chains/screens/ChainItem/utils/getInitialChainType';
 
 export interface ChainTypeParams {
   chain: IApiChain;
@@ -21,7 +21,7 @@ export interface ChainTypeResult {
   chainTypeTabs: Tab<ChainType>[];
 }
 
-export const useChainType = ({
+export const usePublicChainType = ({
   chain,
   endpoints,
   netId,
@@ -29,7 +29,12 @@ export const useChainType = ({
   onBlockedTestnetClick,
 }: ChainTypeParams): ChainTypeResult => {
   const tabs = useMemo(
-    () => getChainTypeTabs(endpoints, isBlockedTestnet, onBlockedTestnetClick),
+    () =>
+      getPublicChainTypeTabs(
+        endpoints,
+        isBlockedTestnet,
+        onBlockedTestnetClick,
+      ),
     [endpoints, isBlockedTestnet, onBlockedTestnetClick],
   );
 

@@ -1,4 +1,4 @@
-import { IApiChain, filterMapChains } from '../api/queryChains';
+import { IApiChain, filterMapChains } from '../../api/queryChains';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';

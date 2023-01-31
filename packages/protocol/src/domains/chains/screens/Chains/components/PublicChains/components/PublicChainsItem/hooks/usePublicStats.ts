@@ -2,7 +2,7 @@ import { Timeframe as DetailsTimeframe } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
-import { useLazyChainsFetchChainDetailsQuery } from 'domains/chains/actions/fetchChainDetails';
+import { useLazyChainsFetchChainDetailsQuery } from 'domains/chains/actions/public/fetchChainDetails';
 
 export interface PublicStatsParams {
   chainId: string;

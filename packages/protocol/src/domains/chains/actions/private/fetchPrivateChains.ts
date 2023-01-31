@@ -1,8 +1,8 @@
 import { GetState } from 'store';
-import { IApiChain, filterMapChains } from '../api/queryChains';
-import { MultiService } from '../../../modules/api/MultiService';
+import { IApiChain, filterMapChains } from '../../api/queryChains';
+import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { credentialsGuard } from '../../auth/utils/credentialsGuard';
+import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { web3Api } from 'store/queries';
 
 export interface FetchPrivateChainsResult {

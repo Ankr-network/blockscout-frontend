@@ -1,4 +1,4 @@
-import { IApiChain } from '../api/queryChains';
+import { IApiChain } from '../../api/queryChains';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { LatestRequest } from 'multirpc-sdk';

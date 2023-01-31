@@ -7,7 +7,7 @@ import {
   timeframeToIntervalMap,
 } from '../../const';
 import { getChainId } from '../../utils/getChainId';
-import { getPrivateUsageData } from './getPrivateUsageData';
+import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
@@ -26,8 +26,8 @@ export const usePrivateUsageData = ({
   chainType,
   group,
   timeframe,
-}: UsageDataParams): UsageData & { hasPremium: boolean } => {
-  const { loading: isConnecting, hasPrivateAccess, hasPremium } = useAuth();
+}: UsageDataParams): UsageData => {
+  const { loading: isConnecting } = useAuth();
 
   const chainId = getChainId({
     chainType,
@@ -50,9 +50,7 @@ export const usePrivateUsageData = ({
   });
 
   const [{ stats: day30PrivateStats = {} }, areDay30PrivateStatsLoading] =
-    useMonthPrivateStats({
-      hasPrivateAccess,
-    });
+    useMonthPrivateStats();
 
   const userTopRequestsIp = useUserRequestsByIp({
     day30PrivateStats,
@@ -71,6 +69,5 @@ export const usePrivateUsageData = ({
       userTopRequests,
       userTopRequestsIp,
     }),
-    hasPremium,
   };
 };

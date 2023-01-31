@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
+import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';

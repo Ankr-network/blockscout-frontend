@@ -1,7 +1,7 @@
 import { Timeframe } from 'multirpc-sdk';
 
 import { ChainID } from 'modules/chains/types';
-import { IApiChain } from '../api/queryChains';
+import { IApiChain } from '../../api/queryChains';
 import {
   IApiChainDetails,
   chainsFetchChainTimeframeData,

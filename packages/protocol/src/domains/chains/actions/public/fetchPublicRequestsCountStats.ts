@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { AppDispatch } from 'store';
 import { ChainID } from 'modules/chains/types';
-import { STANDALONE_CHAINS } from '../utils/statsUtils';
+import { STANDALONE_CHAINS } from '../../utils/statsUtils';
 import { MultiService } from 'modules/api/MultiService';
 import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';

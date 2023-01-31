@@ -1,9 +1,9 @@
 import { GetState, RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { chainsFetchPublicChains } from './fetchPublicChains';
+import { chainsFetchPublicChains } from '../public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { credentialsGuard } from '../../auth/utils/credentialsGuard';
-import { filterMapChains, IApiChain } from '../api/queryChains';
+import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
+import { filterMapChains, IApiChain } from '../../api/queryChains';
 import { web3Api } from 'store/queries';
 
 export interface PremiumFeatures {

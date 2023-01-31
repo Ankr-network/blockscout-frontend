@@ -1,6 +1,6 @@
 import { PrivateStatsInternal } from 'multirpc-sdk';
 
-import { chainsFetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
+import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const usePrivateStats = (): [PrivateStatsInternal, boolean] => {

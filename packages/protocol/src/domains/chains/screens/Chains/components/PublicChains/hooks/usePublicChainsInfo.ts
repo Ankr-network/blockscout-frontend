@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { chainsFetchPublicChainsInfo } from 'domains/chains/actions/fetchPublicChainsInfo';
+import { chainsFetchPublicChainsInfo } from 'domains/chains/actions/public/fetchPublicChainsInfo';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export type PublicChains = [IApiChain[], IApiChain[], boolean];

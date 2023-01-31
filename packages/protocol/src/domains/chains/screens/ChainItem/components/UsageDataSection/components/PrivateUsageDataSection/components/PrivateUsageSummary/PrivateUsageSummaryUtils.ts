@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
-import { getRequestsAverage } from '../PublicUsageSummary/utils/getRequestsAverage';
-import { formatTotalRequests } from '../PublicUsageSummary/utils/formatTotalRequests';
+import { getRequestsAverage } from '../../../PublicUsageDataSection/components/PublicUsageSummary/utils/getRequestsAverage';
+import { formatTotalRequests } from '../../../PublicUsageDataSection/components/PublicUsageSummary/utils/formatTotalRequests';
 
 export const getTotalCost = (cost = 0) =>
   t('chain-item.usage-data.usage-summary.cost.value', { cost });

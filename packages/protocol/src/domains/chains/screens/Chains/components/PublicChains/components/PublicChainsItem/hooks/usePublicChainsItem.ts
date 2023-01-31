@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/fetchPublicRequestsCountStats';
+import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { Chain } from 'domains/chains/types';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 

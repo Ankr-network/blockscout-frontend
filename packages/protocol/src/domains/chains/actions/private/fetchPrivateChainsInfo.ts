@@ -1,8 +1,8 @@
-import { IApiChain } from '../api/queryChains';
-import { chainsFetchChainNodesDetail } from './fetchChainNodesDetail';
+import { IApiChain } from '../../api/queryChains';
+import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { getAddIsArchiveCB } from '../utils/addIsArchive';
+import { getAddIsArchiveCB } from '../../utils/addIsArchive';
 import { web3Api } from 'store/queries';
 
 export interface IFetchPrivateChainsInfoResult {
