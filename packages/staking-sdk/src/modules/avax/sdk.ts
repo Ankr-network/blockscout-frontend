@@ -14,10 +14,10 @@ import {
 } from '@ankr.com/provider';
 
 import {
+  advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
   isMainnet,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -222,7 +222,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForAvalanche
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -382,8 +382,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return rawData
       .sort((a, b) => b.timestamp - a.timestamp)
       .map(
-        ({ event, returnValues: { amount }, timestamp, transactionHash }) => ({
-          txAmount: this.convertFromWei(amount),
+        ({
+          event,
+          returnValues = { amount: '0' },
+          timestamp,
+          transactionHash,
+        }) => ({
+          txAmount: this.convertFromWei(returnValues.amount),
           txDate: new Date(timestamp * 1_000),
           txHash: transactionHash,
           txType: this.getTxType(event),
@@ -576,10 +581,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     const { avalancheConfig } = configFromEnv();
 
     const allowance = await aAVAXcTokenContract.methods
-      .allowance(
-        this.currentAccount,
-        spender || avalancheConfig.aAVAXb,
-      )
+      .allowance(this.currentAccount, spender || avalancheConfig.aAVAXb)
       .call();
 
     return new BigNumber(allowance);

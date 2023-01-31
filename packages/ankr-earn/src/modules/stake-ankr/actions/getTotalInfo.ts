@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { featuresConfig, ZERO } from 'modules/common/const';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IStakingReward } from '../api/AnkrStakingSDK/types';
@@ -20,14 +19,6 @@ export const { useGetTotalInfoQuery } = web3Api.injectEndpoints({
     getTotalInfo: build.query<IGetTotalInfo, void>({
       queryFn: queryFnNotifyWrapper<void, never, IGetTotalInfo>(
         async (args, { getState }) => {
-          if (featuresConfig.disableHeavyRequestsForTestnet) {
-            return {
-              data: {
-                totalDelegatedAmount: ZERO,
-                claimableRewards: [],
-              },
-            };
-          }
           const sdk = await AnkrStakingSDK.getInstance();
 
           const { data: latestBlockNumber } = selectLatestBlockNumber(

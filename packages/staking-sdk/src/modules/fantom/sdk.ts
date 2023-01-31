@@ -13,11 +13,11 @@ import {
 
 import { ApiGateway } from '../api';
 import {
+  advancedAPIConfig,
   configFromEnv,
   Env,
   ETH_SCALE_FACTOR,
   isMainnet,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -444,7 +444,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForFantom
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }

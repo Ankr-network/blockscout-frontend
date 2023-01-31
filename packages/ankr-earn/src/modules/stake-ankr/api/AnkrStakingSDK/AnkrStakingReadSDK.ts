@@ -12,7 +12,7 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ANKR_ABI, IS_ADVANCED_API_ACTIVE } from '@ankr.com/staking-sdk';
+import { advancedAPIConfig, ANKR_ABI } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { getProviderManager } from 'modules/api/getProviderManager';
@@ -183,7 +183,7 @@ export class AnkrStakingReadSDK {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForEth
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }

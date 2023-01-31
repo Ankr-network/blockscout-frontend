@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
 import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
@@ -33,14 +33,7 @@ export const { useGetMaticOnEthStatsQuery } = web3Api.injectEndpoints({
             sdk.getABBalance(),
             sdk.getACBalance(),
             sdk.getACRatio(),
-            ...(featuresConfig.disableHeavyRequestsForTestnet
-              ? [
-                  Promise.resolve({
-                    pendingBond: ZERO,
-                    pendingCertificate: ZERO,
-                  }),
-                ]
-              : [sdk.getPendingData()]),
+            sdk.getPendingData(),
           ]);
 
           return {

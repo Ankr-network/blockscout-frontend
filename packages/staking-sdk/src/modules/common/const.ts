@@ -30,4 +30,10 @@ export const POLYGON_NETWORK_BY_ENV = isMainnet
   ? EEthereumNetworkId.polygon
   : EEthereumNetworkId.mumbai;
 
-export const IS_ADVANCED_API_ACTIVE = isMainnet;
+export const advancedAPIConfig = {
+  isActiveForBinance: isMainnet,
+  isActiveForEth: true,
+  isActiveForAvalanche: true,
+  isActiveForFantom: isMainnet,
+  isActiveForPolygon: isMainnet,
+};

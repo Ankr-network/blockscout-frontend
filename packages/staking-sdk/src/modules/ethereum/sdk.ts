@@ -13,10 +13,10 @@ import {
 } from '@ankr.com/provider';
 
 import {
+  advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
   isMainnet,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -722,7 +722,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForEth
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }

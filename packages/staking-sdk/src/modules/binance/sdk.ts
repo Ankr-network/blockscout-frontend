@@ -15,10 +15,10 @@ import {
 } from '@ankr.com/provider';
 
 import {
+  advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
   isMainnet,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -69,7 +69,6 @@ import {
   IGetTxReceipt,
   TBnbSyntToken,
 } from './types';
-
 
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
@@ -255,7 +254,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForBinance
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -1702,10 +1701,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const { binanceConfig } = configFromEnv();
 
     const allowance = await aBNBcContract.methods
-      .allowance(
-        this.currentAccount,
-        spender || binanceConfig.aBNBbToken,
-      )
+      .allowance(this.currentAccount, spender || binanceConfig.aBNBbToken)
       .call();
 
     return new BigNumber(allowance);

@@ -17,10 +17,10 @@ import {
 
 import { ApiGateway } from '../../api';
 import {
+  advancedAPIConfig,
   configFromEnv,
   ETH_NETWORK_BY_ENV,
   ETH_SCALE_FACTOR,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -360,7 +360,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForPolygon
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -645,10 +645,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     const { contractConfig } = configFromEnv();
 
     const allowance = await aMaticCTokenContract.methods
-      .allowance(
-        this.currentAccount,
-        spender || contractConfig.aMaticbToken,
-      )
+      .allowance(this.currentAccount, spender || contractConfig.aMaticbToken)
       .call();
 
     return new BigNumber(allowance);
