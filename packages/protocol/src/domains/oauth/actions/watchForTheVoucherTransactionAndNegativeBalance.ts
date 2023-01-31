@@ -1,23 +1,25 @@
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { timeout } from 'modules/common/utils/timeout';
-import { oauthHasDepositTransaction } from './hasDepositTransaction';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { EthAddressType } from 'multirpc-sdk';
-import { oauthHasVoucherTransaction } from './hasVoucherTransaction';
+import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
 
 export const {
-  endpoints: { oauthWatchForTheDepositTransation },
-  useLazyOauthWatchForTheDepositTransationQuery,
-  useOauthWatchForTheDepositTransationQuery,
+  endpoints: { oauthWatchForTheVoucherTransactionAndNegativeBalance },
+  useLazyOauthWatchForTheVoucherTransactionAndNegativeBalanceQuery,
+  useOauthWatchForTheVoucherTransactionAndNegativeBalanceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    oauthWatchForTheDepositTransation: build.query<boolean, void>({
+    oauthWatchForTheVoucherTransactionAndNegativeBalance: build.query<
+      boolean,
+      void
+    >({
       queryFn: async (_args, { getState, dispatch }) => {
         const authData = selectAuthData(getState() as RootState);
 
         if (
-          authData?.hasOauthUserDepositTransaction ||
+          !authData.hasVoucherTransaction ||
           !authData.hasOauthLogin ||
           authData.ethAddressType === EthAddressType.User
         ) {
@@ -32,24 +34,22 @@ export const {
           if (!newAuthData.hasOauthLogin) {
             break;
           }
-          const [
-            { data: hasDepositTransaction },
-            { data: hasVoucherTransaction },
-            // eslint-disable-next-line
-          ] = await Promise.all([
-            dispatch(oauthHasDepositTransaction.initiate()),
-            dispatch(oauthHasVoucherTransaction.initiate()),
-          ]);
 
-          const hasTransaction = hasDepositTransaction || hasVoucherTransaction;
+          // eslint-disable-next-line
+          const balance = await dispatch(
+            accountFetchBalance.initiate(),
+          ).unwrap();
 
-          inProcess = !hasTransaction;
+          const isBalanceLessThanNull =
+            balance?.voucherBalance?.isLessThanOrEqualTo(0);
 
-          if (hasTransaction) {
+          inProcess = !isBalanceLessThanNull;
+
+          if (isBalanceLessThanNull) {
             dispatch(
               setAuthData({
-                hasOauthUserDepositTransaction: hasTransaction,
-                hasVoucherTransaction,
+                hasOauthUserDepositTransaction: false,
+                hasVoucherTransaction: false,
               }),
             );
             break;
