@@ -949,7 +949,8 @@
       "evm": "EVM",
       "connection": "Connection",
       "https": "HTTPS",
-      "last-block-number": "Last block number"
+      "last-block-number": "Last block number",
+      "transaction-count": "Transaction count"
     },
     "form": {
       "methods-label": "Methods",
