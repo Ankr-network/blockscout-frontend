@@ -5,7 +5,7 @@ import { showNotification } from 'modules/notifications';
 import { getErrMsg, TError } from '../utils/getErrMsg';
 
 export const queryFnNotifyWrapper = queryFnWrapper({
-  onNotification({ api, error, uuid, onError }) {
+  onNotification({ api, error, onError }) {
     const errMsg =
       typeof onError === 'function'
         ? onError(error)
@@ -13,8 +13,8 @@ export const queryFnNotifyWrapper = queryFnWrapper({
 
     api.dispatch(
       showNotification({
-        key: `${uuid}_ERROR`,
-        message: `Error: ${errMsg}`,
+        key: `error/${api.endpoint}`,
+        message: errMsg,
         variant: 'error',
       }),
     );
