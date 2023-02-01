@@ -214,7 +214,7 @@ export class AnkrStakingReadSDK {
       apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
-      blockchain: 'eth',
+      blockchain: isMainnet ? 'eth' : 'eth_goerli',
       contract,
       web3,
       eventName,

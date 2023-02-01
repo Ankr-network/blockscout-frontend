@@ -247,7 +247,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return getPastEvents({
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
-      blockchain: 'avalanche',
+      blockchain: isMainnet ? 'avalanche' : 'avalanche_fuji',
       contract,
       web3,
       eventName,

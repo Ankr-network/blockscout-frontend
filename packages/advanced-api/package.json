@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/advanced-api",
-  "version": "0.0.1",
+  "version": "1.1.0",
   "description": "Advanced API module",
   "private": false,
   "main": "./dist/cjs/index.js",

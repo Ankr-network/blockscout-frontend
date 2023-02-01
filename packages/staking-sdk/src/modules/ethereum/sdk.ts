@@ -748,7 +748,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
       apiUrl: this.apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
-      blockchain: 'eth',
+      blockchain: isMainnet ? 'eth' : 'eth_goerli',
       contract,
       web3,
       eventName,
