@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 
@@ -25,7 +27,7 @@ export const { useApproveABNBCForSwapPoolMutation } = web3Api.injectEndpoints({
           ETH_SCALE_FACTOR,
         );
         return { data: data || true };
-      }),
+      }, getOnErrorWithCustomText(t('stake-bnb.errors.approve-swap'))),
     }),
   }),
 });

@@ -437,6 +437,22 @@
       "standard-unstake": "Standard unstake",
       "flash-unstake": "Flash unstake",
       "instantly": "Instantly"
+    },
+    "errors": {
+      "add-to-wallet": "Failed to add BNB token to wallet",
+      "check-partner-code": "Couldn't verify existing BNB partner code",
+      "history": "Failed to get BNB historical data",
+      "pending": "Failed to get pending BNB token data",
+      "stake-gas-fee": "Failed to get BNB stake gas fee information",
+      "tx-data": "Failed to get BNB transaction data",
+      "unstake-tx-data": "Failed to get BNB unstake txn data",
+      "tx-receipt": "Failed to get BNB transaction receipt",
+      "stake": "Failed to stake BNB",
+      "approve-swap": "Failed to approve ankrBNB for swap pool",
+      "approve-unstake": "Failed to approve ankrBNB for unstake",
+      "stake-stats": "Failed to get BNB stake stats",
+      "stats": "Failed to get BNB stats",
+      "unstake-stats": "Failed to get BNB unstake stats"
     }
   },
   "stake-polkadot": {
