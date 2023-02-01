@@ -5,11 +5,14 @@ import {
 } from 'polkadot';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { web3Api } from 'modules/api/web3Api';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { setProviderStatus } from 'modules/auth/common/store/authSlice';
 import { IConnect } from 'modules/auth/common/types';
 import { ExtraWriteProviders, Web3Address } from 'modules/common/types';
 
+// todo: STAKAN-2484 translations are not initialized at the moment, so we use a constant
+const ERROR_TEXT = 'Failed to connect Polkadot wallet';
 const providerId = ExtraWriteProviders.polkadotCompatible;
 
 export interface IConnectArgs {
@@ -27,7 +30,11 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     connectPolkadot: build.mutation<IConnectPolkadot, IConnectArgs | void>({
-      queryFn: async ({ currentAccount } = {}) => {
+      queryFn: queryFnNotifyWrapper<
+        IConnectArgs | void,
+        never,
+        IConnectPolkadot
+      >(async ({ currentAccount } = {}) => {
         await initProviderManagerPolkadot();
         const providerManager = getProviderManager();
 
@@ -58,7 +65,8 @@ export const {
         };
 
         return { data };
-      },
+      }, getOnErrorWithCustomText(ERROR_TEXT)),
+
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
           dispatch(
