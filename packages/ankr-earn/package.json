@@ -175,6 +175,7 @@
     "include": [
       "/calc/",
       "/bridge/",
+      "/switch/",
       "/liquid-crowdloan/",
       "/stake/matic/eth/",
       "/stake/matic/polygon/",
