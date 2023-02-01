@@ -1,13 +1,11 @@
-import { Env } from '../types';
-
-import { currentEnv, isLocal } from './env';
+import { isLocal, isMainnet } from './env';
 
 export const featuresConfig = {
-  testingUi: currentEnv !== Env.Production || isLocal,
+  testingUi: !isMainnet || isLocal,
   isActiveClaimNotification: false,
   isActiveMyRewardsClaimModalNewParts: false,
   isActivePolkadotLedgerNanoX: true,
-  isActiveSSVDashboardAddToken: currentEnv !== Env.Production,
+  isActiveSSVDashboardAddToken: !isMainnet,
   /**
    * BFF (Backend For Frontend)
    *
@@ -31,7 +29,10 @@ export const featuresConfig = {
    * TODO Please remove it when actual translation would be added
    */
   fantomUnstakeFeeTooltip: false,
-  mgnoStaking: true,
+  /**
+   * Is enabled only for mainnet since Sokol testnet is not availble.
+   */
+  mgnoStaking: isMainnet,
   /**
    * Please remove extra feature flag
    * @deprecated
@@ -44,7 +45,7 @@ export const featuresConfig = {
    */
   ssvStaking: true,
   duneAnalyticsLink: true,
-  xdcActive: currentEnv !== Env.Production,
+  xdcActive: !isMainnet,
   xdcStaking: false,
   /**
    * Issue https://ankrnetwork.atlassian.net/browse/STAKAN-2242
@@ -55,7 +56,7 @@ export const featuresConfig = {
    */
   isTrustWalletSupportActive: true,
   isSUIStakingActive: isLocal,
-  disableHeavyRequestsForTestnet: currentEnv !== Env.Production,
+  disableHeavyRequestsForTestnet: !isMainnet,
   isTradeInfoActiveForBnb: false,
   isKusamaStakingActive: false,
   /**
