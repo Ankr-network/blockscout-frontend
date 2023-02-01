@@ -51,7 +51,6 @@ export const Routes = () => {
             hasNoReactSnap
             disableGutters
             hasMaxWidth={false}
-            isHeaderTransparent
           >
             <PricingRoutes />
           </DefaultLayout>
