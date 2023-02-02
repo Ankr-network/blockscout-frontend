@@ -9,7 +9,7 @@ export const EmailContentLoading = () => {
 
   return (
     <Box className={classes.root}>
-      <Google width={80} height={80} />
+      <Google style={{ width: 80, height: 80 }} />
       <Typography className={classes.title} variant="h3" color="textPrimary">
         {t('signup-modal.google.title')}
       </Typography>
