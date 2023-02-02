@@ -1,6 +1,8 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ZERO } from 'modules/common/const';
 
@@ -87,6 +89,7 @@ export const { useLazyGetActiveStakingDataQuery } = web3Api.injectEndpoints({
 
           return { data };
         },
+        getOnErrorWithCustomText(t('stake-ankr.errors.active-staking')),
       ),
       providesTags: [CacheTags.history],
     }),

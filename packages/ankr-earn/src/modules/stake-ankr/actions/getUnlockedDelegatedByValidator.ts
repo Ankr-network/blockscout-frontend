@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -29,7 +31,7 @@ export const { useGetUnlockedDelegatedByValidatorQuery } =
               await provider.getBlockNumber(),
             ),
           };
-        }),
+        }, getOnErrorWithCustomText(t('stake-ankr.errors.unlocked-delegated-by-validator'))),
       }),
     }),
   });
