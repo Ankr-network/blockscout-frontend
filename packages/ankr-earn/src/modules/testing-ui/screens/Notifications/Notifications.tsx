@@ -16,7 +16,6 @@ export const Notifications = (): JSX.Element => {
     () => {
       dispatch(
         showNotification({
-          key: `test_ERROR_${new Date().getTime()}`,
           message: 'test',
           variant,
           autoHideDuration: null,

@@ -467,7 +467,14 @@
       "claim-ledger-in-progress": "Please wait. The previous claim is not finished yet",
       "claim-ledger-signature-expired": "Signature expired, {token} will be turned back to you. Please try to stake again",
       "invalid-eth-token-address": "Invalid Ethereum's token address",
-      "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
+      "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}",
+      "stake": "Failed to stake",
+      "unstake": "Failed to unstake",
+      "claim": "Failed to claim",
+      "add-token": "Failed to add token to wallet",
+      "max-safe-balance": "Failed to get max safe balance from Polkadot network",
+      "account-full-balance": "Failed to get Polkadot account full balance data",
+      "txn-history": "Failed to get Polkadot transactions history"
     },
     "networks": {
       "DOT": "Polkadot",

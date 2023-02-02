@@ -1,5 +1,9 @@
 import { createDriver as createAxiosDriver } from '@redux-requests/axios';
-import { handleRequests, RequestAction } from '@redux-requests/core';
+import {
+  handleRequests,
+  RequestAction,
+  RequestsStore,
+} from '@redux-requests/core';
 import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
@@ -13,6 +17,7 @@ import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import { configFromEnv } from 'modules/api/config';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import {
   authPersistReducer,
   TAuthState,
@@ -78,15 +83,17 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     return request;
   },
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  onError: (error: Error, action: RequestAction, store: Store) => {
-    const message = getErrorMessage(error);
+  onError: (error: Error, action: RequestAction, store: RequestsStore) => {
+    const { meta = {}, type } = action;
 
-    if (action.meta?.showNotificationOnError && message) {
+    const message = meta.additionalErrorText
+      ? getExtendedErrorText(error, meta.additionalErrorText)
+      : getErrorMessage(error);
+
+    if (meta.showNotificationOnError) {
       store.dispatch(
         showNotification({
-          key: `${action.type}_ERROR`,
+          key: type,
           message,
           variant: 'error',
         }),

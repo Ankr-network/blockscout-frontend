@@ -1,17 +1,14 @@
-import { getErrMsg } from './getErrMsg';
+import { getExtendedErrorText } from './getExtendedErrorText';
 
 type TGetOnErrorWithCustomText = (error: unknown) => string;
 
 /**
  * Adds additional error text.
  *
- * @return  custom text + original error
+ * @return callback onError
  */
 export function getOnErrorWithCustomText(
   errorText: string,
 ): TGetOnErrorWithCustomText {
-  return (error: unknown) => {
-    const message = getErrMsg(error);
-    return `${errorText}. 📄 ${message}`;
-  };
+  return (error: unknown) => getExtendedErrorText(error, errorText);
 }

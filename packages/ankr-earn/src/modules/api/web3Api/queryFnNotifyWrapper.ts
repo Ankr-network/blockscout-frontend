@@ -13,7 +13,7 @@ export const queryFnNotifyWrapper = queryFnWrapper({
 
     api.dispatch(
       showNotification({
-        key: `error/${api.endpoint}`,
+        key: api.endpoint,
         message: errMsg,
         variant: 'error',
       }),
