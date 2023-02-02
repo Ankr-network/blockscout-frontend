@@ -1,6 +1,6 @@
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
+import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { SectionID } from './types';
 import { TabsManager } from 'uiKit/TabsManager';
 import { TimeframeTabs } from '../TimeframeTabs';

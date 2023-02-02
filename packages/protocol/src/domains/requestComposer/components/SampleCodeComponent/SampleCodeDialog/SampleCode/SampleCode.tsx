@@ -43,6 +43,7 @@ export const SampleCode = ({
       <Scrollbars
         renderThumbHorizontal={renderThumbHorizontal}
         renderView={renderView}
+        style={{ borderRadius: 24 }}
       >
         <div className={classes.codeContainer}>
           <CodeHighlighter className={classes.code} code={code} />

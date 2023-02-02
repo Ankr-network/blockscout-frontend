@@ -1,14 +1,20 @@
 import { t } from '@ankr.com/common';
 import { Typography, Skeleton } from '@mui/material';
+import { ChainID } from 'modules/chains/types';
 
 import { useHeaderStyles } from './useHeaderStyles';
 
 interface IBlockNumberProps<T> {
   data: T;
   loading: boolean;
+  chainId?: string;
 }
 
-export function BlockNumber<T>({ data, loading }: IBlockNumberProps<T>) {
+export function BlockNumber<T>({
+  data,
+  loading,
+  chainId,
+}: IBlockNumberProps<T>) {
   const { classes, cx } = useHeaderStyles();
 
   return (
@@ -16,7 +22,9 @@ export function BlockNumber<T>({ data, loading }: IBlockNumberProps<T>) {
       {!!data && (
         <div className={classes.define}>
           <Typography variant="body2" className={classes.label}>
-            {t('request-composer.header.last-block-number')}
+            {chainId === ChainID.OPTIMISM
+              ? t('request-composer.header.transaction-count')
+              : t('request-composer.header.last-block-number')}
           </Typography>
           <Typography
             variant="body2"

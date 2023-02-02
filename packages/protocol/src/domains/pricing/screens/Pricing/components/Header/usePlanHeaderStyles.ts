@@ -7,7 +7,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     flexDirection: 'column',
     flex: '3 0 auto',
     textAlign: 'center',
-    paddingTop: theme.spacing(2 * 10),
+    paddingTop: theme.spacing(2 * 16),
     maxWidth: 710,
     [theme.breakpoints.down('md')]: {
       margin: theme.spacing(2 * 0),

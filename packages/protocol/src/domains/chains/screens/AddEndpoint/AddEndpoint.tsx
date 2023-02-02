@@ -9,11 +9,11 @@ import {
 import {
   FetchPrivateChainsResult,
   useLazyChainsFetchPrivateChainsQuery,
-} from 'domains/chains/actions/fetchPrivateChains';
+} from 'domains/chains/actions/private/fetchPrivateChains';
 import {
   FetchPublicChainsResult,
   useLazyChainsFetchPublicChainsQuery,
-} from 'domains/chains/actions/fetchPublicChains';
+} from 'domains/chains/actions/public/fetchPublicChains';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';
 import { getScheme } from './AddEndpointUtils';

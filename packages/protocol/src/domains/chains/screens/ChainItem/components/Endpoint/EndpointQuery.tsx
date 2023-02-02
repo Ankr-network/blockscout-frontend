@@ -8,7 +8,7 @@ import { PageNotFound } from 'modules/router/components/PageNotFound';
 import {
   PremiumFeatures,
   useLazyChainsFetchPremiumChainFeaturesQuery,
-} from 'domains/chains/actions/fetchPremiumChainFeatures';
+} from 'domains/chains/actions/private/fetchPremiumChainFeatures';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { getChainById } from './EndpointUtils';
 import { useOnMount } from 'modules/common/hooks/useOnMount';

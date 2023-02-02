@@ -1,18 +1,20 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useSampleCodeDialogStyles = makeStyles<boolean>()(
-  (theme: Theme, isLightTheme: boolean) => ({
+interface IProps {
+  isLightTheme: boolean;
+  hasSmallFontSize: boolean;
+}
+
+export const useSampleCodeDialogStyles = makeStyles<IProps>()(
+  (theme: Theme, { isLightTheme, hasSmallFontSize }: IProps) => ({
     paper: {
       width: '100%',
     },
     title: {
-      fontSize: 28,
-      fontWeight: 700,
-      lineHeight: '32.2px',
-      marginBottom: theme.spacing(2 * 4),
-      wordBreak: 'break-all',
-      marginRight: theme.spacing(2 * 5),
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: hasSmallFontSize ? 24 : 'auto',
     },
     codeArea: {
       position: 'relative',

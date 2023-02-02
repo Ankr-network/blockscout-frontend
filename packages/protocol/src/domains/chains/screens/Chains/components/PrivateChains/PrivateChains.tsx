@@ -1,9 +1,10 @@
-import { ChainsList } from '../ChainsList';
-import { ChainsSortSelect } from '../ChainsSortSelect';
-import { UsageSummary } from '../UsageSummary';
+import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
+import { UsageSummary } from './components/UsageSummary';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
-import { usePrivateChainsData } from './PrivateChainsUtils';
-import { BaseChains } from '../BaseChains';
+import { usePrivateChainsData } from './hooks/usePrivateChainsData';
+import { BaseChains } from 'domains/chains/components/BaseChains';
+import { usePrivateChains } from './hooks/usePrivateChains';
+import { PrivateChainsList } from './components/PrivateChainsList';
 
 export const PrivateChains = () => {
   const {
@@ -15,6 +16,12 @@ export const PrivateChains = () => {
     switchStatsTimeframe,
     timeframe,
   } = usePrivateChainsData();
+
+  const { processedChains, chainsDictionary } = usePrivateChains({
+    allChains,
+    chains,
+    sortType,
+  });
 
   return (
     <BaseChains
@@ -30,11 +37,10 @@ export const PrivateChains = () => {
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
       loading={loading}
     >
-      <ChainsList
-        chains={chains}
-        allChains={allChains}
-        sortType={sortType}
+      <PrivateChainsList
         timeframe={timeframe}
+        chains={processedChains}
+        chainsDictionary={chainsDictionary}
       />
     </BaseChains>
   );
