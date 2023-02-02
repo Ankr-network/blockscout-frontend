@@ -41,7 +41,23 @@ export const LastUserRequests = () => {
           disableErrorRender
         >
           {({ data, isUninitialized, error }) => {
-            if (error || (Array.isArray(data) && data?.length === 0)) {
+            if (error) {
+              const code = (error as any)?.code;
+
+              return (
+                <Box className={classes.emptyContent}>
+                  <Typography variant="body2" className={classes.empty}>
+                    {t('chain-item.usage-data.last-requests.error')}{' '}
+                    {code &&
+                      t('chain-item.usage-data.last-requests.error-code', {
+                        code,
+                      })}
+                  </Typography>
+                </Box>
+              );
+            }
+
+            if (Array.isArray(data) && data?.length === 0) {
               return (
                 <Box className={classes.emptyContent}>
                   <Typography variant="body2" className={classes.empty}>

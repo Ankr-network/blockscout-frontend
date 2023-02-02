@@ -383,7 +383,9 @@
           }
         },
         "empty": "No data available",
-        "unknown": "unknown"
+        "unknown": "unknown",
+        "error": "Something went wrong, please, reload the page",
+        "error-code": "(code {code})"
       }
     }
   },
