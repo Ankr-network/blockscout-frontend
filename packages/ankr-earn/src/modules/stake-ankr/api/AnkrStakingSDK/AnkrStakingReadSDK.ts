@@ -12,7 +12,11 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { advancedAPIConfig, ANKR_ABI } from '@ankr.com/staking-sdk';
+import {
+  advancedAPIConfig,
+  ANKR_ABI,
+  batchEvents,
+} from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { getProviderManager } from 'modules/api/getProviderManager';
@@ -231,7 +235,7 @@ export class AnkrStakingReadSDK {
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
-  protected async getPastEventsBlockchain({
+  private async getPastEventsBlockchain({
     contract,
     eventName,
     startBlock,
@@ -239,20 +243,16 @@ export class AnkrStakingReadSDK {
     filter,
     latestBlockNumber,
   }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(
+      await batchEvents({
+        contract,
+        eventName,
+        rangeStep,
+        startBlock,
+        filter,
+        latestBlockNumber,
+      }),
+    );
   }
 
   protected getAnkrTokenStakingContract(): Contract {

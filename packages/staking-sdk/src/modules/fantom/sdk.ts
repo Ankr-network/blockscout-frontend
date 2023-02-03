@@ -33,6 +33,7 @@ import {
   ITxEventsHistoryData,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
+import { batchEvents } from '../utils';
 import { convertNumberToHex } from '../utils/converters';
 
 import {
@@ -328,38 +329,35 @@ export class FantomSDK implements ISwitcher, IStakable {
       .firstWrId()
       .call();
 
-    const [stakeRawEvents, unstakeRawEvents, withdrawnRawEvents] =
-      await Promise.all([
-        // event StakeReceived is emitted once transaction is successfull
-        this.getPastEvents({
-          provider,
-          contract: fantomPoolContract,
-          startBlock: from,
-          latestBlockNumber: to,
-          rangeStep: FANTOM_MAX_BLOCK_RANGE,
-          eventName: EFantomPoolEvents.StakeReceived,
-          filter: { staker: this.currentAccount },
-        }),
-        // Get pending withdrawal requests, one can get all TokensBurned events for given staker
-        this.getPastEvents({
-          provider,
-          contract: fantomPoolContract,
-          startBlock: from,
-          latestBlockNumber: to,
-          rangeStep: FANTOM_MAX_BLOCK_RANGE,
-          eventName: EFantomPoolEvents.TokensBurned,
-          filter: { staker: this.currentAccount },
-        }),
-        this.getPastEvents({
-          provider,
-          contract: fantomPoolContract,
-          startBlock: from,
-          latestBlockNumber: to,
-          rangeStep: FANTOM_MAX_BLOCK_RANGE,
-          eventName: EFantomPoolEvents.Withdrawn,
-          filter: { staker: this.currentAccount },
-        }),
-      ]);
+    const stakeRawEvents = await this.getPastEvents({
+      provider,
+      contract: fantomPoolContract,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: FANTOM_MAX_BLOCK_RANGE,
+      eventName: EFantomPoolEvents.StakeReceived,
+      filter: { staker: this.currentAccount },
+    });
+
+    const unstakeRawEvents = await this.getPastEvents({
+      provider,
+      contract: fantomPoolContract,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: FANTOM_MAX_BLOCK_RANGE,
+      eventName: EFantomPoolEvents.TokensBurned,
+      filter: { staker: this.currentAccount },
+    });
+
+    const withdrawnRawEvents = await this.getPastEvents({
+      provider,
+      contract: fantomPoolContract,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: FANTOM_MAX_BLOCK_RANGE,
+      eventName: EFantomPoolEvents.Withdrawn,
+      filter: { staker: this.currentAccount },
+    });
 
     const { withdrawnRawEventsAFTMB, withdrawnRawEventsAFTMC } =
       withdrawnRawEvents.reduce<{
@@ -493,23 +491,14 @@ export class FantomSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    // const web3 = provider.getWeb3();
-    // const latestBlockNumber = await web3.eth.getBlockNumber();
-
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**

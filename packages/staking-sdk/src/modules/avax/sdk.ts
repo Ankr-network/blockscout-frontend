@@ -1,5 +1,6 @@
 import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
@@ -35,7 +36,7 @@ import {
   ITxHistoryEventData,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
-import { convertNumberToHex } from '../utils';
+import { batchEvents, convertNumberToHex } from '../utils';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
@@ -43,7 +44,6 @@ import {
   AVAX_ESTIMATE_GAS_MULTIPLIER,
   AVAX_HISTORY_2_WEEKS_OFFSET,
   AVAX_MAX_BLOCK_RANGE,
-  AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
   GAS_FEE_MULTIPLIER,
 } from './const';
@@ -271,51 +271,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     filter,
     rangeStep,
   }: IGetPastEvents): Promise<EventData[]> {
-    if (latestBlockNumber <= AVAX_HISTORY_2_WEEKS_OFFSET) {
-      return [];
-    }
-
-    const eventsPromises: Promise<EventData[]>[][] = [];
-
-    for (
-      let i = startBlock, idx = 0, parallelReqCounter = 1;
-      i < latestBlockNumber;
-      i += rangeStep, parallelReqCounter += 1
-    ) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      if (!eventsPromises[idx]) {
-        eventsPromises[idx] = [];
-      }
-
-      eventsPromises[idx].push(
-        contract.getPastEvents(eventName, {
-          fromBlock,
-          toBlock,
-          filter,
-        }),
-      );
-
-      if (parallelReqCounter === AVAX_MAX_PARALLEL_REQ) {
-        parallelReqCounter = 0;
-        idx += 1;
-      }
-    }
-
-    if (!eventsPromises.length || !eventsPromises[0]?.length) {
-      return [];
-    }
-
-    const pastEvents = await Promise.all(
-      eventsPromises.map(async evPromisesGroup => {
-        const eventsData = await Promise.all(evPromisesGroup);
-
-        return eventsData.flat();
-      }),
-    );
-
-    return pastEvents.flat();
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**

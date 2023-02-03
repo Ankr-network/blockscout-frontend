@@ -47,6 +47,7 @@ import {
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { convertNumberToHex } from '../utils';
+import { batchEvents } from '../utils/batchEvents';
 
 import {
   BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET,
@@ -69,6 +70,7 @@ import {
   IGetTxReceipt,
   TBnbSyntToken,
 } from './types';
+
 
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
@@ -303,20 +305,14 @@ export class BinanceSDK implements ISwitcher, IStakable {
     filter,
     latestBlockNumber,
   }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**
@@ -730,26 +726,30 @@ export class BinanceSDK implements ISwitcher, IStakable {
   ): Promise<IEventsBatch> {
     const binancePoolContract = await this.getBinancePoolContract(true);
 
-    const [unstakeRawEvents, rebasingEvents, ratio] = await Promise.all([
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: binancePoolContract,
-        eventName: EBinancePoolEvents.UnstakePending,
-        startBlock: from,
-        latestBlockNumber: to,
-        rangeStep: BNB_MAX_BLOCK_RANGE,
-        filter: { claimer: this.currentAccount },
-      }),
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: binancePoolContract,
-        eventName: EBinancePoolEvents.IsRebasing,
-        startBlock: from,
-        latestBlockNumber: to,
-        rangeStep: BNB_MAX_BLOCK_RANGE,
-      }),
-      this.getACRatio(),
-    ]);
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const unstakeRawEvents = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: binancePoolContract,
+      eventName: EBinancePoolEvents.UnstakePending,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: BNB_MAX_BLOCK_RANGE,
+      filter: { claimer: this.currentAccount },
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const rebasingEvents = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: binancePoolContract,
+      eventName: EBinancePoolEvents.IsRebasing,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: BNB_MAX_BLOCK_RANGE,
+    });
+
+    const ratio = await this.getACRatio();
 
     return {
       stakeRawEvents: [],
@@ -1016,17 +1016,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
       abnbcHashSet.has(x.transactionHash),
     );
 
-    const [
-      completedBond,
-      completedCertificate,
-      pendingBond,
-      pendingCertificate,
-    ] = await Promise.all([
-      this.getTxEventsHistoryGroup(completedABNBBEvents),
-      this.getTxEventsHistoryGroup(completedABNBCEvents),
-      this.getTxEventsHistoryGroup(pendingABNBBEvents),
-      this.getTxEventsHistoryGroup(pendingABNBCEvents),
-    ]);
+    const completedBond = await this.getTxEventsHistoryGroup(completedABNBBEvents);
+    const completedCertificate = await this.getTxEventsHistoryGroup(completedABNBCEvents);
+    const pendingBond = await this.getTxEventsHistoryGroup(pendingABNBBEvents);
+    const pendingCertificate = await this.getTxEventsHistoryGroup(pendingABNBCEvents);
 
     return {
       completedBond,

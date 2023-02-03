@@ -36,7 +36,7 @@ import {
   ITxEventsHistoryData,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
-import { convertNumberToHex } from '../utils';
+import { batchEvents, convertNumberToHex } from '../utils';
 
 import {
   ETH_BLOCK_2_WEEKS_OFFSET,
@@ -771,20 +771,14 @@ export class EthereumSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**

@@ -42,7 +42,7 @@ import {
   ITxHistoryEventData,
 } from '../../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../../switcher';
-import { convertNumberToHex } from '../../utils';
+import { batchEvents, convertNumberToHex } from '../../utils';
 import {
   MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
   MATIC_ON_ETH_PROVIDER_READ_ID,
@@ -409,20 +409,14 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**
@@ -868,27 +862,27 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   ): Promise<IEventsBatch> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
-    const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.StakePendingV2,
-        startBlock: from,
-        latestBlockNumber: to,
-        rangeStep: MAX_BLOCK_RANGE,
-        filter: { staker: this.currentAccount },
-      }),
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.TokensBurned,
-        startBlock: from,
-        latestBlockNumber: to,
-        rangeStep: MAX_BLOCK_RANGE,
-        filter: { staker: this.currentAccount },
-      }),
-      this.getACRatio(),
-    ]);
+    const stakeRawEvents = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: polygonPoolContract,
+      eventName: EPolygonPoolEvents.StakePendingV2,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: MAX_BLOCK_RANGE,
+      filter: { staker: this.currentAccount },
+    });
+
+    const unstakeRawEvents = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: polygonPoolContract,
+      eventName: EPolygonPoolEvents.TokensBurned,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: MAX_BLOCK_RANGE,
+      filter: { staker: this.currentAccount },
+    });
+
+    const ratio = await this.getACRatio()
 
     return {
       stakeRawEvents,
