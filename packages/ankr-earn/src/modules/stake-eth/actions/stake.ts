@@ -1,8 +1,10 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
 import { IStakeData, TEthToken } from '@ankr.com/staking-sdk';
 
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
@@ -24,7 +26,14 @@ export const { useStakeETHMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.stake(amount, token) };
         },
-        onError,
+        error => {
+          const extendedErrorText = getExtendedErrorText(
+            error,
+            t('stake-ethereum.errors.stake'),
+          );
+          const extendedError = new Error(extendedErrorText);
+          return onError(extendedError);
+        },
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
