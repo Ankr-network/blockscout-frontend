@@ -238,8 +238,8 @@
         "nervos-gw": "Godwoken API{plural}",
         "nervos-ckb": "Nervos CKB Endpoint{plural}",
         "scrt-rpc": "Secret Network RPC Endpoint{plural}",
-        "scrt-rest": "Secret Network Tendermint REST Endpoint{plural}",
-        "scrt-cosmos-rest": "Secret Network Cosmos REST Endpoint{plural}",
+        "scrt-rest": "Secret Network GRPC-Gateway/REST Endpoint{plural}",
+        "scrt-cosmos-rest": "Secret Network RPC & GRPC-Web Endpoint{plural}",
         "solana-api": "Solana API{plural}",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
