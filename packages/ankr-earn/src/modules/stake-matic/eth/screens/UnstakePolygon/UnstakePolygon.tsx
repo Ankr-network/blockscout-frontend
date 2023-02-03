@@ -19,7 +19,7 @@ import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
-import { useLazyGetMaticOnEthAllowanceQuery } from '../../actions/useLazyGetMaticOnEthAllowanceQuery';
+import { useLazyGetMaticOnEthAllowanceQuery } from '../../actions/getMaticOnEthAllowance';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
 import { useUnstakePolygonStyles as useStyles } from './useUnstakePolygonStyles';

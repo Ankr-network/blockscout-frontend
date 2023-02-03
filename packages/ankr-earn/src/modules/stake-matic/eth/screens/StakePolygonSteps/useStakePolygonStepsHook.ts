@@ -8,12 +8,12 @@ import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
-import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/addMaticOnEthTokenToWallet';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
 import {
   useGetMaticOnEthTxDataQuery,
   useGetMaticOnEthTxReceiptQuery,
-} from 'modules/stake-matic/eth/actions/useGetMaticOnEthTxDataQuery';
+} from 'modules/stake-matic/eth/actions/getMaticOnEthTxData';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { POLLING_INTERVAL } from '../../const';

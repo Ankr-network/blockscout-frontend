@@ -10,8 +10,8 @@ import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQue
 import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
 import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
 
 import { usePortfolioNativeData } from '../usePortfolioNativeData';
@@ -57,12 +57,12 @@ jest.mock('modules/stake-xdc/actions/getDashboardData', () => ({
 }));
 
 jest.mock(
-  'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery',
+  'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData',
   () => ({
     useGetMaticOnPolygonCommonDataQuery: jest.fn(),
   }),
 );
-jest.mock('modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery', () => ({
+jest.mock('modules/stake-matic/eth/actions/getMaticOnEthStats', () => ({
   useGetMaticOnEthStatsQuery: jest.fn(),
 }));
 

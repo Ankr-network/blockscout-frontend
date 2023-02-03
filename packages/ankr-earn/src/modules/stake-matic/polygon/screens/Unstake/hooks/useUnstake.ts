@@ -14,13 +14,13 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getValidSelectedToken } from 'modules/stake-matic/common/utils/getValidSelectedToken';
-import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
-import { useGetMaticOnPolygonUnstakeStatsQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonUnstakeStatsQuery';
-import { useUnstakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/useUnstakeMaticOnPolygonMutation';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
+import { useGetMaticOnPolygonUnstakeStatsQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonUnstakeStats';
+import { useUnstakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/unstakeMaticOnPolygon';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 import { useAppDispatch } from 'store/useAppDispatch';
 
-import { useApproveAnkrMaticOnPolygonUnstakeMutation } from '../../../actions/useApproveAnkrMaticOnPolygonUnstakeMutation';
+import { useApproveAnkrMaticOnPolygonUnstakeMutation } from '../../../actions/approveAnkrMaticOnPolygonUnstake';
 
 interface IUseUnstakeData {
   closeHref: string;

@@ -7,7 +7,7 @@ import { configFromEnv } from 'modules/api/config';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
-import { useGetAnkrBalanceQuery } from 'modules/stake-matic/eth/actions/useGetAnkrBalanceQuery';
+import { useGetAnkrBalanceQuery } from 'modules/stake-matic/eth/actions/getAnkrBalance';
 import { getTestAnkrTokens } from 'modules/testing-ui/actions/getTestAnkrTokens';
 import { TestBox } from 'modules/testing-ui/components/TestBox';
 import { Button } from 'uiKit/Button';

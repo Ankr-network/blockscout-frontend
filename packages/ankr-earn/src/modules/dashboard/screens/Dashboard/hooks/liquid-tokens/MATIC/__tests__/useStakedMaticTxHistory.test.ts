@@ -8,7 +8,7 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery';
+import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedMATICTxHistory } from '../useStakedMaticTxHistory';
@@ -25,12 +25,9 @@ jest.mock('store/useAppDispatch', () => ({
   useAppDispatch: jest.fn(),
 }));
 
-jest.mock(
-  'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery',
-  () => ({
-    useLazyGetMaticOnEthTotalHistoryQuery: jest.fn(),
-  }),
-);
+jest.mock('modules/stake-matic/eth/actions/getMaticOnEthTotalHistory', () => ({
+  useLazyGetMaticOnEthTotalHistoryQuery: jest.fn(),
+}));
 
 describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => {
   const NOW = new Date();

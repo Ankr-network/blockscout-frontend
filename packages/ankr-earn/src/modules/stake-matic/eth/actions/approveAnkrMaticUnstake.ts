@@ -10,7 +10,7 @@ import { ETH_SCALE_FACTOR } from 'modules/common/const';
 
 import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
-import { selectMaticOnEthAllowance } from './useLazyGetMaticOnEthAllowanceQuery';
+import { selectMaticOnEthAllowance } from './getMaticOnEthAllowance';
 
 export const { useApproveAnkrMaticUnstakeMutation } = web3Api.injectEndpoints({
   endpoints: build => ({

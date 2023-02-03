@@ -11,7 +11,7 @@ import { ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthTotalHistoryQuery';
+import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthTotalHistory';
 
 interface IGetHistoryTransactionsArgs {
   type: EPolygonPoolEventsMap | string;

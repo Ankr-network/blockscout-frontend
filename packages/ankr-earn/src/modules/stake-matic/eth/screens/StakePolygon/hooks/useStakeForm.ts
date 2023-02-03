@@ -12,11 +12,11 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
-import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStakeStatsQuery';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { useLazyApproveMaticOnEthStakeQuery } from 'modules/stake-matic/eth/actions/useLazyApproveMaticOnEthStakeQuery';
-import { useLazyGetMaticOnEthStakeGasFeeQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthStakeGasFeeQueryv';
-import { useStakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useStakeMaticOnEthMutation';
+import { useLazyApproveMaticOnEthStakeQuery } from 'modules/stake-matic/eth/actions/approveMaticOnEthStake';
+import { useLazyGetMaticOnEthStakeGasFeeQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStakeGasFee';
+import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStakeStats';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
+import { useStakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/stakeMaticOnEth';
 import { getPolygonOnEthereumSDK } from 'modules/stake-matic/eth/utils/getPolygonOnEthereumSDK';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
