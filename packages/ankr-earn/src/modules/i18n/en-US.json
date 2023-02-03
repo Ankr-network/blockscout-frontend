@@ -1318,6 +1318,31 @@
     },
     "unsupported": {
       "okx-title": "At the moment GNO staking is not compatible with a OKX wallet."
+    },
+    "errors": {
+      "approve": "Failed to approve mGNO tokens",
+      "active-staking": "Failed to get active mGNO staking data",
+      "all-my-rewards": "Failed to get all my mGNO rewards data",
+      "get-apr": "Failed to get mGNO APR data",
+      "balance": "Failed to get mGNO balance data",
+      "history": "Failed to get mGNO historical data",
+      "max-apr": "Failed to get mGNO max APR data",
+      "max-stake-amount": "Failed to get mGNO max stake amount data",
+      "mgno-price": "Failed to get mGNO price data",
+      "min-stake-amount": "Failed to get mGNO min stake amount data",
+      "my-tip-rewards": "Failed to get my mGNO tip rewards data",
+      "provider-addresses": "Failed to get mGNO provider addresses data",
+      "provider-contributed": "Failed to get mGNO provider contributed data",
+      "delegated-amount": "Failed to get mGNO delegated amount data",
+      "all-providers": "Failed to get all mGNO providers information",
+      "provider-stats": "Failed to get mGNO provider stats data",
+      "providers-total-info": "Failed to get total mGNO providers information",
+      "test-tokens": "Failed to get mGNO test tokens",
+      "total-info": "Failed to get total mGNO information",
+      "tvl": "Failed to get mGNO TVL data",
+      "tx-data": "Failed to get mGNO transaction data",
+      "tx-receipt": "Failed to get mGNO transaction receipt",
+      "stake": "Failed to stake mGNO"
     }
   },
   "stake-ssv": {
