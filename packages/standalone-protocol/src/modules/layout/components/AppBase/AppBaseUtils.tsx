@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import intl from 'react-intl-universal';
+import { AnkrSpinner } from 'uiKit/AnkrSpinner';
+import { Spinner } from 'uiKit/Spinner';
 
 import { useLocale } from '../../../i18n/utils/useLocale';
 import { locales } from '../../../i18n';
 import { ChainId } from 'domains/chains/api/chain';
+import { useHasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 
 export const useInitialaizeLocale = () => {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -29,4 +32,10 @@ export const getCurrentChainId = (chainId?: ChainId) => {
   return (
     chainId ?? (window?.location?.pathname?.split('/chain/')?.[1] as ChainId)
   );
+};
+
+export const useSpinner = (chainId: ChainId) => {
+  const hasAnkr = useHasAnkrsInfo(chainId);
+
+  return hasAnkr ? <AnkrSpinner /> : <Spinner />;
 };

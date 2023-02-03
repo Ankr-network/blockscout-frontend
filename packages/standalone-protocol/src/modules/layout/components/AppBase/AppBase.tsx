@@ -3,10 +3,13 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
-import { Spinner } from 'uiKit/Spinner';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import '../../../../assets/fonts/style.css';
-import { getCurrentChainId, useInitialaizeLocale } from './AppBaseUtils';
+import {
+  getCurrentChainId,
+  useInitialaizeLocale,
+  useSpinner,
+} from './AppBaseUtils';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId } from 'domains/chains/api/chain';
 import { RewiredStylesProvider } from 'ui';
@@ -22,6 +25,8 @@ export const AppBase = ({ children, chainId }: IAppBaseProps) => {
 
   const currentChainId = getCurrentChainId(chainId);
 
+  const spinner = useSpinner(currentChainId);
+
   return (
     <RewiredStylesProvider>
       <ThemeProvider theme={getTheme(currentChainId)}>
@@ -35,7 +40,7 @@ export const AppBase = ({ children, chainId }: IAppBaseProps) => {
               {children}
             </ConnectedRouter>
           ) : (
-            <Spinner />
+            spinner
           )}
         </SentryErrorBoundary>
       </ThemeProvider>
