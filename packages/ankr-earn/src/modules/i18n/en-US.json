@@ -596,7 +596,18 @@
     "unstake-period": "{days} days or earlier",
     "aftmb-descr": "aFTMb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
     "aftmc-descr": "ankrFTM (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 ankrFTM={rate} FTM</b>",
-    "relayer-fee": "Relayer Fee"
+    "relayer-fee": "Relayer Fee",
+    "errors": {
+      "add-to-wallet": "Failed to add token to wallet",
+      "burn-fee": "Failed to get FTM unstaking fees data",
+      "common-data": "Failed to get common FTM information",
+      "history": "Failed to get FTM historical data",
+      "stake-gas-fee": "Failed to get FTM stake gas fee",
+      "tx-data": "Failed to get FTM transaction data",
+      "tx-receipt": "Failed to get FTM transaction receipt",
+      "stake": "Failed to stake FTM",
+      "unstake": "Failed to unstake FTM"
+    }
   },
   "stake-ethereum": {
     "aethb-descr": "aETHb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",

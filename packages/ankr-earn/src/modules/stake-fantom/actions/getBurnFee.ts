@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { getFantomSDK } from '../utils/getFantomSDK';
@@ -13,6 +15,7 @@ export const { useLazyGetFTMBurnFeeQuery } = web3Api.injectEndpoints({
 
           return { data: await sdk.getBurnFee(amount) };
         },
+        getOnErrorWithCustomText(t('stake-fantom.errors.burn-fee')),
       ),
     }),
   }),

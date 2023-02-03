@@ -1,5 +1,8 @@
+import { t } from '@ankr.com/common';
+
 import { FANTOM_BLOCK_WEEK_OFFSET } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
@@ -43,6 +46,7 @@ export const { useLazyGetFTMHistoryQuery } = web3Api.injectEndpoints({
             },
           };
         },
+        getOnErrorWithCustomText(t('stake-fantom.errors.history')),
       ),
     }),
   }),
