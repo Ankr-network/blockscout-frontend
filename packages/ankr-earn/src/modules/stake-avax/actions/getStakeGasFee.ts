@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { TAvaxSyntToken } from '../types';
@@ -19,6 +21,7 @@ export const { useLazyGetAVAXStakeGasFeeQuery } = web3Api.injectEndpoints({
 
           return { data: await sdk.getStakeGasFee(amount, token) };
         },
+        getOnErrorWithCustomText(t('stake-avax.errors.stake-gas-fee')),
       ),
     }),
   }),

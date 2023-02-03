@@ -414,6 +414,17 @@
       "timer": "You will get your AVAX in: {duration}",
       "timer-off": "You will get your AVAX shortly"
     },
+    "errors": {
+      "add-token": "Failed to add token to wallet",
+      "history": "Failed to get AVAX historical data",
+      "pending-values": "Failed to get AVAX pending unstakes",
+      "stake-gas-fee": "Failed to get AVAX stake gas fee information",
+      "tx-data": "Failed to get AVAX transaction data",
+      "tx-receipt": "Failed to get AVAX transaction receipt",
+      "stake": "Failed to stake AVAX",
+      "unstake": "Failed to unstake AVAX",
+      "common-data": "Failed to get AVAX common data"
+    },
     "aavaxb-descr": "aAVAXb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aAVAXb=1 AVAX</b>",
     "aavaxc-descr": "ankrAVAX (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 ankrAVAX={rate} AVAX</b>"
   },
