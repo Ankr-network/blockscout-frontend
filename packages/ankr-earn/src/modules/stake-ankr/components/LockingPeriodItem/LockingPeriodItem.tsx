@@ -24,6 +24,14 @@ export const LockingPeriodItem = ({
 }: ILockingPeriodItemProps): JSX.Element => {
   const classes = useLockingPeriodItemStyles();
 
+  if (isUnlocked) {
+    return (
+      <Typography className={classes.unlockedText}>
+        {t('stake-ankr.staking-table.unlocked')}
+      </Typography>
+    );
+  }
+
   if (isUnknownPeriod) {
     return (
       <Typography className={classes.unlockedText}>
@@ -50,14 +58,6 @@ export const LockingPeriodItem = ({
           : t('stake-ankr.staking-table.stakes-amount', {
               value: existingStakes,
             })}
-      </Typography>
-    );
-  }
-
-  if (isUnlocked) {
-    return (
-      <Typography className={classes.unlockedText}>
-        {t('stake-ankr.staking-table.unlocked')}
       </Typography>
     );
   }

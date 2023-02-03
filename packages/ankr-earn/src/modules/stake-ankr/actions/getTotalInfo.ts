@@ -30,7 +30,7 @@ export const { useGetTotalInfoQuery } = web3Api.injectEndpoints({
           const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
           const [totalDelegatedAmount, claimableRewards] = await Promise.all([
-            sdk.getMyTotalDelegatedAmount(blockNumber),
+            sdk.getMyTotalDelegatedAmount(),
             sdk.getMyClaimableStakingRewards(blockNumber),
           ]);
 

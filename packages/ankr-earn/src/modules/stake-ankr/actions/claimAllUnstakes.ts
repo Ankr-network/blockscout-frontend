@@ -14,10 +14,9 @@ export const { useClaimAllUnstakesMutation } = web3Api.injectEndpoints({
     claimAllUnstakes: build.mutation<TxHash, void>({
       queryFn: queryFnNotifyWrapper<void, never, TxHash>(async () => {
         const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
 
         return {
-          data: await sdk.claimAllUnstakes(await provider.getBlockNumber()),
+          data: await sdk.claimAllUnstakes(),
         };
       }, getOnErrorWithCustomText(t('stake-ankr.errors.claim-all-unstakes'))),
 

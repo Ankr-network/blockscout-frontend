@@ -12,11 +12,7 @@ export const { useLazyGetAllClaimableUnstakesQuery } = web3Api.injectEndpoints({
       queryFn: queryFnNotifyWrapper<void, never, IClaimableUnstake[]>(
         async () => {
           const sdk = await AnkrStakingSDK.getInstance();
-          const provider = await sdk.getProvider();
-
-          const data = await sdk.getAllClaimableUnstakes(
-            await provider.getBlockNumber(),
-          );
+          const data = await sdk.getAllClaimableUnstakes();
 
           return { data };
         },

@@ -11,10 +11,9 @@ export const { useGetProvidersQuery } = web3Api.injectEndpoints({
     getProviders: build.query<IValidator[], void>({
       queryFn: queryFnNotifyWrapper<void, never, IValidator[]>(async () => {
         const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
 
         return {
-          data: await sdk.getAllValidators(await provider.getBlockNumber()),
+          data: await sdk.getAllValidators(),
         };
       }, getOnErrorWithCustomText(t('stake-ankr.errors.providers'))),
     }),

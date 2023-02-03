@@ -121,13 +121,15 @@ function getMapActiveStaking(args: {
     const usdStakeAmount = delegatedAmount.multipliedBy(tokenPrice);
     const detailedData = activeDelegations.map(getMapDetailedData(tokenPrice));
     const hasUnlockedAmount = !unlockedDelegatedByValidator.isZero();
+    const isUnlocked = delegatedAmount.isEqualTo(unlockedDelegatedByValidator);
 
     return {
       detailedData,
       lockingPeriod: daysLeft,
       apy,
-      isPartiallyUnlocked: detailedData.length > 1 && hasUnlockedAmount,
-      isUnlocked: delegatedAmount.isEqualTo(unlockedDelegatedByValidator),
+      isPartiallyUnlocked:
+        !isUnlocked && detailedData.length > 1 && hasUnlockedAmount,
+      isUnlocked,
       lockingPeriodPercent: (daysLeft / totalLockPeriod) * 100,
       provider: validator,
       rewards,

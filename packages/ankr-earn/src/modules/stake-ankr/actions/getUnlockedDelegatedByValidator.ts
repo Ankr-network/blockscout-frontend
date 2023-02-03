@@ -23,13 +23,9 @@ export const { useGetUnlockedDelegatedByValidatorQuery } =
           BigNumber
         >(async ({ validator }) => {
           const sdk = await AnkrStakingSDK.getInstance();
-          const provider = await sdk.getProvider();
 
           return {
-            data: await sdk.getUnlockedDelegatedByValidator(
-              validator,
-              await provider.getBlockNumber(),
-            ),
+            data: await sdk.getUnlockedDelegatedByValidator(validator),
           };
         }, getOnErrorWithCustomText(t('stake-ankr.errors.unlocked-delegated-by-validator'))),
       }),

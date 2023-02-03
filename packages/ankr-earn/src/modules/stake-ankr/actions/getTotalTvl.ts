@@ -11,10 +11,8 @@ export const { useGetTotalTvlQuery } = web3Api.injectEndpoints({
     getTotalTvl: build.query<BigNumber, void>({
       queryFn: queryFnNotifyWrapper<void, never, BigNumber>(async () => {
         const sdk = await AnkrStakingReadSDK.getInstance();
-        const provider = await sdk.getProvider();
-        const latestBlockNumber = await provider.getBlockNumber();
 
-        return { data: await sdk.getTotalTVL(latestBlockNumber) };
+        return { data: await sdk.getTotalTVL() };
       }, getOnErrorWithCustomText(t('stake-ankr.errors.total-tvl'))),
     }),
   }),

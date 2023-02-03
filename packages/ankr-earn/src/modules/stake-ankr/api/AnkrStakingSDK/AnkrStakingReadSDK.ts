@@ -115,18 +115,20 @@ export class AnkrStakingReadSDK {
 
   @Memoize({
     expiring: LONG_CACHE_TIME,
-    hashFunction: (latestBlockNumber: number) => {
-      return `${latestBlockNumber}`;
-    },
   })
-  public async getAllValidators(
-    latestBlockNumber: number,
-  ): Promise<IValidator[]> {
-    const validators = await this.getAllValidatorsAddresses(latestBlockNumber);
+  public async getAllValidators(): Promise<IValidator[]> {
+    const validators = await this.getActiveValidatorsAddresses();
 
     return this.loadValidatorsInfo(validators);
   }
 
+  /**
+   * @deprecated Since it can't be used with testnets AAPI (6 months history)
+   * and for now we have only one active validator.
+   * Please use the `getActiveValidatorsAddresses` method instead.
+   *
+   * @return {Promise<Web3Address[]>} list of all (enabled and disabled) validators addresses
+   */
   @Memoize({
     expiring: LONG_CACHE_TIME,
     hashFunction: (latestBlockNumber: number) => {
@@ -578,9 +580,9 @@ export class AnkrStakingReadSDK {
       return `${latestBlockNumber}`;
     },
   })
-  public async getTotalTVL(latestBlockNumber: number): Promise<BigNumber> {
+  public async getTotalTVL(): Promise<BigNumber> {
     const stakingContract = this.getAnkrTokenStakingContract();
-    const validators = await this.getAllValidators(latestBlockNumber);
+    const validators = await this.getAllValidators();
     const delegationsSet = await Promise.all(
       validators.map(validator =>
         stakingContract.methods.getValidatorStatus(validator.validator).call(),
@@ -609,7 +611,7 @@ export class AnkrStakingReadSDK {
    * Get APY for validators.
    *
    * @public
-   * @returns APY for validators
+   * @returns array of APY info for each validator
    */
   public async getAPY(): Promise<IApyData[]> {
     const stakingContract = this.getAnkrTokenStakingContract();

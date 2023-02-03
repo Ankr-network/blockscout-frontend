@@ -32,8 +32,8 @@ export const { useGetProvidersTotalInfoQuery } = web3Api.injectEndpoints({
             rewards24h,
             rewards30d,
           ] = await Promise.all([
-            sdk.getTotalTVL(latestBlockNumber),
-            sdk.getMyTotalDelegatedAmount(latestBlockNumber),
+            sdk.getTotalTVL(),
+            sdk.getMyTotalDelegatedAmount(),
             sdk.getLockingPeriodDays(latestBlockNumber),
             sdk.getRewards(24),
             sdk.getRewards(24 * 30),
