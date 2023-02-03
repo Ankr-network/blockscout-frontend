@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -19,6 +21,7 @@ export const { useLazyApproveMaticOnEthStakeQuery } = web3Api.injectEndpoints({
 
           return { data: await sdk.approveMATICToken(amount) };
         },
+        getOnErrorWithCustomText(t('stake-matic-common.errors.approve-stake')),
       ),
     }),
   }),

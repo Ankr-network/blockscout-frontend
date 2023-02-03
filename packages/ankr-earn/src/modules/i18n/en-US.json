@@ -546,6 +546,23 @@
       "ethereum-network": "Ethereum Network",
       "polygon-network": "Polygon Network",
       "title": "In which network you want stake your MATIC"
+    },
+    "errors": {
+      "network-chooser": "Failed to get MATIC balances",
+      "add-token": "Failed to add token to wallet",
+      "approve-unstake": "Failed to approve MATIC for unstake",
+      "ankr-balance": "Failed to get ANKR balance",
+      "stake-stats": "Failed to get common MATIC stake information",
+      "unstake-stats": "Failed to get common MATIC unstake information",
+      "common-data": "Failed to get common MATIC information",
+      "tx-data": "Failed to get MATIC transaction data",
+      "tx-receipt": "Failed to get MATIC transaction receipt",
+      "approve-stake": "Failed to approve MATIC for stake",
+      "allowance": "Failed to get MATIC allowance",
+      "history": "Failed to get MATIC historical data",
+      "stake-gas-fee": "Failed to get MATIC stake gas fee",
+      "stake": "Failed to stake MATIC",
+      "unstake": "Failed to unstake MATIC"
     }
   },
   "stake-matic-eth": {

@@ -1,3 +1,6 @@
+import { t } from '@ankr.com/common';
+
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -13,6 +16,7 @@ export const { useAddMaticOnEthTokenToWalletMutation } =
             const sdk = await getPolygonOnEthereumSDK();
             return { data: await sdk.addTokenToWallet(token) };
           },
+          getOnErrorWithCustomText(t('stake-matic-common.errors.add-token')),
         ),
         invalidatesTags: [CacheTags.common],
       }),

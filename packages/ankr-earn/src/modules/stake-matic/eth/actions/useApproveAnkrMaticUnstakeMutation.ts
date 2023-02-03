@@ -1,8 +1,10 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 
@@ -34,6 +36,9 @@ export const { useApproveAnkrMaticUnstakeMutation } = web3Api.injectEndpoints({
 
           return { data: !!result };
         },
+        getOnErrorWithCustomText(
+          t('stake-matic-common.errors.approve-unstake'),
+        ),
       ),
     }),
   }),

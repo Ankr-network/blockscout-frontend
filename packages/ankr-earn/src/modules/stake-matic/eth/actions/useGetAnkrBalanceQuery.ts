@@ -1,9 +1,11 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { ANKR_ABI } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
@@ -25,7 +27,7 @@ export const { useGetAnkrBalanceQuery } = web3Api.injectEndpoints({
         return {
           data: await provider.getErc20Balance(ankrContract, currentAccount),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-matic-common.errors.ankr-balance'))),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

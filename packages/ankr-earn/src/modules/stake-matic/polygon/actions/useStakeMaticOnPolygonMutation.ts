@@ -1,8 +1,10 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
 import { IStakeData, PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -23,6 +25,7 @@ export const { useStakeMaticOnPolygonMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.stake(amount, token) };
         },
+        getOnErrorWithCustomText(t('stake-matic-common.errors.stake')),
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { TBNPercent } from 'modules/common/types';
@@ -33,6 +35,9 @@ export const { useGetMaticOnPolygonUnstakeStatsQuery } =
               },
             };
           },
+          getOnErrorWithCustomText(
+            t('stake-matic-common.errors.unstake-stats'),
+          ),
         ),
         keepUnusedDataFor: ACTION_CACHE_SEC,
         providesTags: [CacheTags.common],

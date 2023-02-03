@@ -1,8 +1,10 @@
+import { t } from '@ankr.com/common';
 import retry from 'async-retry';
 import { TransactionReceipt } from 'web3-eth';
 
 import { IFetchTxData } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 
@@ -25,6 +27,7 @@ export const { useGetMaticOnEthTxDataQuery } = web3Api.injectEndpoints({
             }),
           };
         },
+        getOnErrorWithCustomText(t('stake-matic-common.errors.tx-data')),
       ),
     }),
   }),
@@ -48,7 +51,7 @@ export const { useGetMaticOnEthTxReceiptQuery } = web3Api.injectEndpoints({
             retries: RETRIES_TO_GET_TX_DATA,
           }),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-matic-common.errors.tx-receipt'))),
     }),
   }),
 });

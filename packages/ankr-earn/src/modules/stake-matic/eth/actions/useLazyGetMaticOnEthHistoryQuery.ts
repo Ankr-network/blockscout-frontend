@@ -1,5 +1,8 @@
+import { t } from '@ankr.com/common';
+
 import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
@@ -42,6 +45,7 @@ export const { useLazyGetMaticOnEthHistoryQuery } = web3Api.injectEndpoints({
             },
           };
         },
+        getOnErrorWithCustomText(t('stake-matic-common.errors.history')),
       ),
     }),
   }),
