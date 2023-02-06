@@ -1,9 +1,10 @@
+import { t, tHTML } from '@ankr.com/common';
+
 import { ChainID } from 'modules/chains/types';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
-import { ChainRequestsLabel } from 'domains/chains/screens/Chains/components/ChainRequestsLabel';
+import { ChainRequestsLabel } from 'domains/chains/components/ChainsItemBase/components/ChainRequestsLabel';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { MobileChainDocsLink } from '../MobileChainDocsLink';
-import { t, tHTML } from '@ankr.com/common';
 import { useChainSubtitleStyles } from './ChainSubtitleStyles';
 
 export interface ChainDescriptionProps {

@@ -12,15 +12,11 @@ export const MOBILE_LAYOUT_PADDING = 30;
 interface Props {
   hasGradient?: boolean;
   hasPaddingBottom?: boolean;
-  isHeaderTransparent?: boolean;
   isLightTheme: boolean;
 }
 
 export const useStyles = makeStyles<Props>()(
-  (
-    theme: Theme,
-    { hasGradient, hasPaddingBottom, isHeaderTransparent, isLightTheme }: Props,
-  ) => ({
+  (theme: Theme, { hasGradient, hasPaddingBottom, isLightTheme }: Props) => ({
     root: {
       display: 'flex',
       minWidth: 375,
@@ -61,10 +57,7 @@ export const useStyles = makeStyles<Props>()(
     },
     header: {
       '&&': {
-        backgroundColor:
-          isHeaderTransparent || hasGradient
-            ? 'transparent !important'
-            : `${theme.palette.background.default} !important`,
+        backgroundColor: `${theme.palette.background.default} !important`,
         [theme.breakpoints.down('sm')]: {
           display: 'none',
         },

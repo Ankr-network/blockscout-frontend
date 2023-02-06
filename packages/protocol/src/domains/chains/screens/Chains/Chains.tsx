@@ -1,13 +1,13 @@
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { t } from '@ankr.com/common';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 
-import { InfoBanner } from './components/Banner';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { InfoBanner } from '../../components/Banner';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PrivateChains } from './components/PrivateChains';
-import { PublicChains, PublicChainsProps } from './components/PublicChains';
+import { PublicChains } from './components/PublicChains';
 
-export const Chains = ({ isMMIndex }: PublicChainsProps) => {
+export const Chains = () => {
   const { hasPrivateAccess, loading } = useAuth();
 
   useSetBreadcrumbs([
@@ -16,14 +16,14 @@ export const Chains = ({ isMMIndex }: PublicChainsProps) => {
     },
   ]);
 
+  if (hasPrivateAccess) {
+    return <PrivateChains />;
+  }
+
   return (
     <>
-      {!hasPrivateAccess && !loading && <InfoBanner />}
-      {hasPrivateAccess ? (
-        <PrivateChains />
-      ) : (
-        <PublicChains isMMIndex={isMMIndex} />
-      )}
+      {!loading && <InfoBanner />}
+      <PublicChains />
     </>
   );
 };

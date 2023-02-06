@@ -7,7 +7,7 @@ import { Timeframe } from 'domains/chains/types';
 
 import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
-import { useLazyChainsFetchChainTimeframeDataQuery } from 'domains/chains/actions/fetchChainTimeframeData';
+import { useLazyChainsFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/fetchChainTimeframeData';
 
 export interface PublicStatsParams {
   chainId: string;

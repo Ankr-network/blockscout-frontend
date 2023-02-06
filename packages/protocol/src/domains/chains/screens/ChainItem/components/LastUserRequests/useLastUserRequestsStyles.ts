@@ -5,15 +5,15 @@ export const useLastUserRequestsStyles = makeStyles()((theme: Theme) => ({
   root: {
     borderRadius: 24,
     overflow: 'hidden',
-    width: '65%',
+    minWidth: '65%',
     backgroundColor: theme.palette.background.paper,
 
     [theme.breakpoints.down('md')]: {
-      width: '60%',
+      minWidth: '60%',
     },
 
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      minWidth: '100%',
       flexGrow: 1,
       minHeight: 300,
     },

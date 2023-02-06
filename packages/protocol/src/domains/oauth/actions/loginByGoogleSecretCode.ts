@@ -19,6 +19,8 @@ import { trackWeb2ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb2Con
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
 import { oauthHasVoucherTransaction } from './hasVoucherTransaction';
+import { oauthWatchForTheDepositTransation } from './watchForTheDepositTransation';
+import { oauthWatchForTheVoucherTransactionAndNegativeBalance } from './watchForTheVoucherTransactionAndNegativeBalance';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -95,13 +97,16 @@ export const {
                 .addJwtToken(workerTokenData?.signedToken);
             }
 
-            const { data: hasDepositTransaction } = await dispatch(
-              oauthHasDepositTransaction.initiate(),
-            );
+            const [
+              { data: hasDepositTransaction },
+              { data: hasVoucherTransaction },
+            ] = await Promise.all([
+              dispatch(oauthHasDepositTransaction.initiate()),
+              dispatch(oauthHasVoucherTransaction.initiate()),
+            ]);
 
-            const { data: hasVoucherTransaction } = await dispatch(
-              oauthHasVoucherTransaction.initiate(),
-            );
+            const hasOauthUserDepositTransaction =
+              hasDepositTransaction || hasVoucherTransaction;
 
             dispatch(
               setAuthData({
@@ -112,10 +117,18 @@ export const {
                 ethAddressType,
                 hasOauthLogin: true,
                 workerTokenData,
-                hasOauthUserDepositTransaction:
-                  hasDepositTransaction || hasVoucherTransaction,
+                hasOauthUserDepositTransaction,
+                hasVoucherTransaction,
               }),
             );
+
+            if (!hasOauthUserDepositTransaction) {
+              dispatch(oauthWatchForTheDepositTransation.initiate());
+            } else if (!hasDepositTransaction && hasVoucherTransaction) {
+              dispatch(
+                oauthWatchForTheVoucherTransactionAndNegativeBalance.initiate(),
+              );
+            }
           }
 
           if (ethAddressType === EthAddressType.User) {

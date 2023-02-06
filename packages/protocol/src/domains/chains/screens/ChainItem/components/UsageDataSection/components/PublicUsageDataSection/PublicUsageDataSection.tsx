@@ -9,7 +9,7 @@ import { TimeframeTabs } from '../../../TimeframeTabs';
 import { usePublicUsageData } from './usePublicUsageData';
 import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
 import { useIsRequestsMapVisible } from '../../UsageDataSectionUtils';
-import { PublicUsageSummary } from '../PublicUsageSummary';
+import { PublicUsageSummary } from './components/PublicUsageSummary';
 
 export interface PublicUsageDataSectionProps {
   chain: IApiChain;

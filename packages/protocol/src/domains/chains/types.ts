@@ -1,3 +1,8 @@
+import BigNumber from 'bignumber.js';
+
+import { IApiChain, IApiChainURL } from './api/queryChains';
+import { ChainID } from 'modules/chains/types';
+
 export enum ChainType {
   Mainnet = 'mainnet',
   Testnet = 'testnet',
@@ -14,4 +19,18 @@ export enum Timeframe {
   Day,
   Week,
   Month,
+}
+
+export interface Chain {
+  extenders?: IApiChain[];
+  extensions?: IApiChain[];
+  frontChain?: IApiChain['frontChain'];
+  icon: string;
+  id: ChainID;
+  isArchive?: boolean;
+  name: string;
+  totalRequests?: BigNumber;
+  type: IApiChain['type'];
+  urls: IApiChainURL[];
+  premiumOnly?: boolean;
 }

@@ -3,13 +3,13 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { useEffect } from 'react';
 import { INDEX_PATH } from 'domains/chains/routes';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { chainsFetchChain } from 'domains/chains/actions/fetchChain';
+import { chainsFetchPrivateChain } from 'domains/chains/actions/private/fetchPrivateChain';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const GuardPremiumEndpointRoute = (props: RouteProps) => {
   const history = useHistory();
   const { loading, hasPrivateAccess } = useAuth();
-  const [, fetchChainState] = useQueryEndpoint(chainsFetchChain);
+  const [, fetchChainState] = useQueryEndpoint(chainsFetchPrivateChain);
 
   const shouldRedirect =
     !hasPrivateAccess && fetchChainState?.data?.chain?.premiumOnly;

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { ChainId } from 'domains/chains/api/chain';
@@ -54,4 +54,18 @@ export const getBannerContent = (chainId?: string): string => {
     default:
       return '';
   }
+};
+
+export const hasAnkrsInfo = (chainId: ChainId) => {
+  return ![
+    ChainId.Polygon,
+    ChainId.BSC,
+    ChainId.Fantom,
+    ChainId.Secret,
+    ChainId.Klaytn,
+  ].includes(chainId);
+};
+
+export const useHasAnkrsInfo = (chainId: ChainId) => {
+  return useMemo(() => hasAnkrsInfo(chainId), [chainId]);
 };

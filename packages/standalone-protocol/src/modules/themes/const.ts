@@ -16,3 +16,8 @@ export const BREAKPOINTS = {
 };
 
 export const BTN_TRANSITION_TIME = 0.25;
+
+export const FONTS = {
+  primary: ['SF UI Display', 'Arial', 'sans-serif'].join(','),
+  ttFirsNeueSemiBold: ['TT Firs Neue', 'sans-serif'].join(','),
+};

@@ -1,27 +1,27 @@
-import React from 'react';
-import { Typography } from '@material-ui/core';
-import classNames from 'classnames';
+import { Button, Typography } from '@material-ui/core';
 
-import { tHTML } from 'modules/i18n/utils/intl';
+import { t, tHTML } from 'modules/i18n/utils/intl';
 import { useStyles } from './InfoStyles';
-import { ChainId } from 'domains/chains/api/chain';
 import { PROTOCOL_URL } from 'Routes';
+import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
 
-export const Info = ({ chainId }: { chainId: ChainId }) => {
+export const Info = () => {
   const classes = useStyles();
 
   return (
-    <div className={classNames(classes.root, chainId)} data-test-id="info">
-      <Typography className={classes.title} variant="h4">
-        <a
-          href={PROTOCOL_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={classes.link}
-        >
-          {tHTML('chain-item.info')}
-        </a>
+    <div className={classes.root} data-test-id="info">
+      <Typography className={classes.title} variant="h2">
+        {tHTML('chain-item.info.title')}
       </Typography>
+      <Button
+        variant="contained"
+        className={classes.button}
+        endIcon={<ArrowRightIcon className={classes.copyIcon} />}
+        href={PROTOCOL_URL}
+        target="_blank"
+      >
+        {t('chain-item.info.button')}
+      </Button>
     </div>
   );
 };

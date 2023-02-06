@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { CountryMap } from 'domains/chains/actions/fetchChainTimeframeData';
+import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'domains/chains/types';
 import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
