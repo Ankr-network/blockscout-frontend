@@ -20,7 +20,7 @@ const offsetsMap: Record<Timeframe, number> = {
 export const processData = (
   timeframe: Timeframe,
   requestsLog?: Record<string, number>,
-  isWalletConnected?: boolean,
+  isLoggedIn?: boolean,
 ): IChartData[] => {
   if (!requestsLog) return [];
 
@@ -45,7 +45,7 @@ export const processData = (
     .map((row, index) => {
       const { time, callsCount } = row;
 
-      if (isWalletConnected) {
+      if (isLoggedIn) {
         if (rows.length <= 1) {
           return {
             time,
