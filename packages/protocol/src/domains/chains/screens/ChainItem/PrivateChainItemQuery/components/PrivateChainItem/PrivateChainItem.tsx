@@ -7,6 +7,7 @@ import { ChainItemSections } from '../../../components/ChainItemSections';
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
+import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
@@ -30,6 +31,8 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   } = usePrivateChainItem({
     ...data,
   });
+
+  useRedirectToAdvancedApi();
 
   useChainItemBreadcrumbs(chain.name);
 

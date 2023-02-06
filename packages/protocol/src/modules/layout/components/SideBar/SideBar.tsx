@@ -25,15 +25,13 @@ export const SideBar = ({
   return (
     <aside className={cx(classes.root, className)}>
       <Logo />
-      <div>
-        <MainNavigation
-          chainsRoutes={chainsRoutes}
-          hasPremium={hasPremium}
-          loading={loading}
-          onDocsClick={onDocsClick}
-          onSettingsClick={onSettingsClick}
-        />
-      </div>
+      <MainNavigation
+        chainsRoutes={chainsRoutes}
+        hasPremium={hasPremium}
+        loading={loading}
+        onDocsClick={onDocsClick}
+        onSettingsClick={onSettingsClick}
+      />
     </aside>
   );
 };

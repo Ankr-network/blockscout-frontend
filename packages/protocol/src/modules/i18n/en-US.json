@@ -69,19 +69,16 @@
     "not-supported-chain": "Unsupported chain"
   },
   "main-navigation": {
-    "dashboard": "Dashboard",
-    "public-rpcs": "Public RPCs",
-    "account-details": "Account Details",
-    "plan": "Premium Plan",
-    "protocol": "Node Providers",
+    "advanced-api": "Advanced API",
     "endpoints": "Endpoints",
+    "enterprise": "Enterprise",
+    "automate": "Automate",
     "billing": "Billing",
     "pricing": "Pricing",
-    "docs": "Docs"
-  },
-  "extra-navigation": {
     "docs": "Docs",
-    "settings": "Settings"
+    "settings": "Settings",
+    "tools": "Tools",
+    "soon": "soon"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
@@ -164,8 +161,20 @@
         "successPercent": "Successful Requests %"
       }
     },
-    "banner": {
-      "dashboard": "If your volume exceeds 1M daily requests, our enterprise-grade service is for you.<br/>Contact us and switch to fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>"
+    "free-plan": {
+      "title": "Free",
+      "your-plan": "Your plan",
+      "item-1": "Free access up to 500 <em>requests/min</em>",
+      "item-2": "No login required",
+      "item-3": "Access to 17 chains",
+      "button": "Current Plan"
+    },
+    "premium-plan": {
+      "title": "Premium",
+      "item-1": "90,000 <em>requests/min</em>",
+      "item-2": "WebSockets",
+      "item-3": "Archive calls and others features",
+      "button": "Upgrade"
     },
     "for-premium-only": "For Premium only"
   },
@@ -238,8 +247,8 @@
         "nervos-gw": "Godwoken API{plural}",
         "nervos-ckb": "Nervos CKB Endpoint{plural}",
         "scrt-rpc": "Secret Network RPC Endpoint{plural}",
-        "scrt-rest": "Secret Network Tendermint REST Endpoint{plural}",
-        "scrt-cosmos-rest": "Secret Network Cosmos REST Endpoint{plural}",
+        "scrt-rest": "Secret Network GRPC-Gateway/REST Endpoint{plural}",
+        "scrt-cosmos-rest": "Secret Network RPC & GRPC-Web Endpoint{plural}",
         "solana-api": "Solana API{plural}",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
@@ -321,6 +330,7 @@
         "add-network-label": "Add network",
         "premium-label": "Premium",
         "title": "{chainName} {rpcs, plural, =1 {Endpoint} other { Endpoints }}",
+        "title-multichain": "Endpoint",
         "websocket-title": "WebSocket",
         "network-postfix": "{name} by ANKR Protocol"
       },
@@ -386,6 +396,64 @@
         "unknown": "unknown",
         "error": "Something went wrong, please, reload the page",
         "error-code": "(code {code})"
+      }
+    }
+  },
+  "advanced-api": {
+    "breadcrumbs": "Advanced API",
+    "banner": {
+      "your-plan-badge": "Your plan",
+      "free": {
+        "plan-title": "Free",
+        "plan-description": "You have 50 free requests/min",
+        "proposal-title": "Premium",
+        "proposal-description": "• 1000+ requests/min\n• Support by API devs\n• 0.7 USD for 10K requests",
+        "action-text": "Upgrade"
+      },
+      "premium": {
+        "plan-title": "Premium",
+        "plan-description": "You have 50 free requests/min",
+        "proposal-title": "Enterprise",
+        "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
+        "action-text": "Sales team"
+      }
+    },
+    "chain-overview": {
+      "title": "Single entry point",
+      "description": "to the optimized, indexed, and cached data for eight EVM-compatible blockchains"
+    },
+    "js-sdk": "JS SDK",
+    "python-sdk": "Python SDK",
+    "tabs": {
+      "ankr-js": "Ankr JS",
+      "shell": "Shell"
+    },
+    "benefits": {
+      "nft-api": {
+        "title": "NFT API",
+        "feature-1": "NFTs by owner",
+        "feature-2": "NFT metadata",
+        "feature-3": "NFT holders",
+        "linkText": "Code samples"
+      },
+      "query-api": {
+        "title": "Query API",
+        "feature-1": "Unlimited block range logs filtering",
+        "feature-2": "Transactions by address across 8 chains",
+        "feature-3": "Decoded events",
+        "feature-4": "Decoded contract calls",
+        "feature-5": "ENS and Unstoppable Domain support",
+        "linkText": "Code samples"
+      },
+      "token-api": {
+        "title": "Token API",
+        "feature-1": "Token balance across 8 chains",
+        "feature-2": "All ERC20 tokens with metadata",
+        "feature-3": "Token USD price",
+        "feature-4": "Token holders",
+        "feature-5": "Token’s balance by wallet address",
+        "feature-6": "Transfers by wallet address",
+        "linkText": "Code samples"
       }
     }
   },

@@ -41,21 +41,21 @@ const CHAIN_IDS_BY_USAGE = [
   ChainID.SECRET,
 ];
 
+export const chainsUsageSorter = (a: Chain, b: Chain) => {
+  if (
+    CHAIN_IDS_BY_USAGE.indexOf(a?.id) === -1 ||
+    CHAIN_IDS_BY_USAGE.indexOf(b?.id) === -1
+  ) {
+    return 1;
+  }
+
+  return CHAIN_IDS_BY_USAGE.indexOf(a?.id) - CHAIN_IDS_BY_USAGE.indexOf(b?.id);
+};
+
 const getSorter = (sortType: SortType, isLoading: boolean) => {
   if (sortType === SortType.Usage) {
     if (isLoading) {
-      return (a: Chain, b: Chain) => {
-        if (
-          CHAIN_IDS_BY_USAGE.indexOf(a?.id) === -1 ||
-          CHAIN_IDS_BY_USAGE.indexOf(b?.id) === -1
-        ) {
-          return 1;
-        }
-
-        return (
-          CHAIN_IDS_BY_USAGE.indexOf(a?.id) - CHAIN_IDS_BY_USAGE.indexOf(b?.id)
-        );
-      };
+      return chainsUsageSorter;
     }
 
     return publicChainsSorter;

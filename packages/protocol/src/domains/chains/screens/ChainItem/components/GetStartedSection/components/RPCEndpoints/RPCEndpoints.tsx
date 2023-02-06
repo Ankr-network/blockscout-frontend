@@ -3,10 +3,12 @@ import { t } from '@ankr.com/common';
 import { ChainType } from 'domains/chains/types';
 import { Endpoint, EndpointProps } from '../Endpoint';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { ChainID } from 'modules/chains/types';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { root } from '../../const';
 import { useRPCEndpointsStyles } from './RPCEndpointsStyles';
+import { useMemo } from 'react';
 
 export interface RPCEndpointsProps {
   chainType: ChainType;
@@ -29,8 +31,15 @@ export const RPCEndpoints = ({
 }: RPCEndpointsProps) => {
   const { urls, chainName } = group;
 
+  const isMultiChain = publicChain.id === ChainID.MULTICHAIN;
   const rpcs = urls.flatMap(({ rpc }) => [rpc]);
-  const title = t(header, { chainName, rpcs: rpcs.length });
+  const title = useMemo(
+    () =>
+      isMultiChain
+        ? t(`${root}.endpoints.title-multichain`)
+        : t(header, { chainName, rpcs: rpcs.length }),
+    [isMultiChain, chainName, rpcs.length],
+  );
 
   const { classes } = useRPCEndpointsStyles();
 

@@ -20,4 +20,6 @@ export interface TabsManagerProps<TI = DefaultTabID> {
   tabs: Tab<TI>[];
   title?: ReactNode;
   orientation?: Orientation;
+  classNameTabsWrapper?: string;
+  classNameTab?: string;
 }

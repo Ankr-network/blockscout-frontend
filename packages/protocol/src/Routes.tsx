@@ -24,6 +24,10 @@ import {
   ChainsRoutes,
   ChainsRoutesConfig,
 } from './domains/chains/routes';
+import {
+  AdvancedApiRoutes,
+  AdvancedApiRoutesConfig,
+} from './domains/advancedApi/routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
 import { PageNotFound } from './modules/router/components/PageNotFound';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
@@ -137,6 +141,16 @@ export const Routes = () => {
         render={() => (
           <DefaultLayout>
             <MMChainsRoutes />
+          </DefaultLayout>
+        )}
+      />
+
+      <Route
+        exact
+        path={AdvancedApiRoutesConfig.advancedApi.path}
+        render={() => (
+          <DefaultLayout>
+            <AdvancedApiRoutes />
           </DefaultLayout>
         )}
       />
