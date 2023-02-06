@@ -4,6 +4,7 @@ export interface IRequestComposerMainProps {
   group: EndpointGroup;
   publicUrl?: string;
   className?: string;
+  chainId?: string;
 }
 
 export interface IRequestComposerProps extends IRequestComposerMainProps {

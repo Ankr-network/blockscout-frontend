@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { Chain } from 'domains/chains/screens/Chains/components/ChainsList/ChainsListTypes';
-import { ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAddNetworkButton } from './useAddNetworkButton';
 

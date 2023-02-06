@@ -10,13 +10,14 @@ export const EVMRequestComposer = ({
   group,
   publicUrl,
   className,
+  chainId,
 }: IRequestComposerMainProps) => {
   const { clear, logger, logs } = useEVMRequestLogger();
 
   return (
     <LoggerContext.Provider value={logger}>
       <RequestComposerTemplate
-        header={<EVMHeader publicUrl={publicUrl} />}
+        header={<EVMHeader publicUrl={publicUrl} chainId={chainId} />}
         menu={<EVMMenu group={group} />}
         logger={<Logger clear={clear} logs={logs} />}
         className={className}

@@ -2,7 +2,7 @@ import { Timeframe } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
 import { ChainID } from 'modules/chains/types';
-import { chainsFetchPublicRequestsCountStats } from '../actions/fetchPublicRequestsCountStats';
+import { chainsFetchPublicRequestsCountStats } from '../actions/public/fetchPublicRequestsCountStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export interface PublicStatsParams {

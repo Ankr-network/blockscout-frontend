@@ -1,6 +1,6 @@
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { RootState } from 'store';
-import { chainsFetchPublicChains } from 'domains/chains/actions/fetchPublicChains';
+import { chainsFetchPublicChains } from 'domains/chains/actions/public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { infrastructureFetchProvider } from './fetchProvider';
 import { web3Api } from 'store/queries';

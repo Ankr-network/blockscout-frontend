@@ -7,13 +7,14 @@ import { chainsFetchLastBlockNumber } from 'domains/requestComposer/actions/fetc
 
 export interface HeaderProps {
   publicUrl?: string;
+  chainId?: string;
 }
 
 const options: Options = {
   subscriptionOptions: { pollingInterval: 30_000 },
 };
 
-export const EVMHeader = ({ publicUrl }: HeaderProps) => {
+export const EVMHeader = ({ publicUrl, chainId }: HeaderProps) => {
   const [fetchLastBlockNumber, { data, isLoading }, reset] = useQueryEndpoint(
     chainsFetchLastBlockNumber,
     options,
@@ -33,7 +34,7 @@ export const EVMHeader = ({ publicUrl }: HeaderProps) => {
 
   return (
     <Header>
-      <BlockNumber data={data} loading={isLoading} />
+      <BlockNumber data={data} loading={isLoading} chainId={chainId} />
     </Header>
   );
 };

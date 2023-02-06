@@ -31,6 +31,7 @@ export const RequestComposer = ({
         group={group}
         publicUrl={publicUrl}
         className={className}
+        chainId={chainId}
       />
     );
   }

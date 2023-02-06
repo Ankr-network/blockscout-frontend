@@ -1,7 +1,7 @@
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useEffect } from 'react';
 
-import { chainsFetchPublicChains } from '../actions/fetchPublicChains';
+import { chainsFetchPublicChains } from '../actions/public/fetchPublicChains';
 
 export const usePublicChainsRoutes = () => {
   const [fetchPublicChains, { data: { chains = [] } = {}, isUninitialized }] =

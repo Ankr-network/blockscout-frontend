@@ -1,7 +1,7 @@
 import { PrivateStats, PrivateStatsInterval } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
-import { chainsFetchPrivateStats } from 'domains/chains/actions/fetchPrivateStats';
+import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export interface PrivateStatsParams {

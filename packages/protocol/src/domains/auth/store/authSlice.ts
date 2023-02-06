@@ -17,6 +17,7 @@ export interface IAuthSlice {
   ethAddressType?: EthAddressType;
   hasOauthLogin?: boolean;
   hasOauthUserDepositTransaction?: boolean;
+  hasVoucherTransaction?: boolean;
   hasWeb3Connection?: boolean;
   isCardPayment?: boolean;
   trackingWalletName?: string;
@@ -31,94 +32,33 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setAuthData: (state, action: PayloadAction<IAuthSlice>) => {
-      const {
-        address,
-        authorizationToken,
-        credentials,
-        email,
-        encryptionPublicKey,
-        ethAddressType,
-        hasOauthLogin,
-        hasOauthUserDepositTransaction,
-        hasWeb3Connection,
-        isCardPayment,
-        trackingWalletName,
-        walletMeta,
-        workerTokenData,
-      } = action.payload;
-
-      if (credentials) {
-        state.credentials = credentials || undefined;
-      }
+      const { workerTokenData } = action.payload;
 
       if (workerTokenData) {
         setCookie(WORKER_TOKEN_DATA_KEY, workerTokenData);
         WORKER_TOKEN_DATA = workerTokenData;
       }
 
-      if (address) {
-        state.address = address;
-      }
+      Object.keys(action.payload).forEach(key => {
+        const objKey = key as keyof IAuthSlice;
 
-      if (authorizationToken) {
-        state.authorizationToken = authorizationToken;
-      }
+        if (key === 'workerTokenData') return;
 
-      if (encryptionPublicKey) {
-        state.encryptionPublicKey = encryptionPublicKey;
-      }
-
-      if (walletMeta) {
-        state.walletMeta = walletMeta;
-      }
-
-      if (hasWeb3Connection) {
-        state.hasWeb3Connection = hasWeb3Connection;
-      }
-
-      if (hasOauthLogin) {
-        state.hasOauthLogin = hasOauthLogin;
-      }
-
-      if (email) {
-        state.email = email;
-      }
-
-      if (ethAddressType) {
-        state.ethAddressType = ethAddressType;
-      }
-
-      if (isCardPayment) {
-        state.isCardPayment = isCardPayment;
-      }
-
-      if (hasOauthUserDepositTransaction) {
-        state.hasOauthUserDepositTransaction = hasOauthUserDepositTransaction;
-      }
-
-      if (trackingWalletName) {
-        state.trackingWalletName = trackingWalletName;
-      }
+        // @ts-ignore
+        state[objKey] = action.payload[objKey];
+      });
     },
 
     resetAuthData: state => {
-      state.credentials = undefined;
-      state.workerTokenData = undefined;
-
-      state.address = undefined;
-      state.authorizationToken = undefined;
-      state.encryptionPublicKey = undefined;
-      state.walletMeta = undefined;
-      state.hasWeb3Connection = undefined;
-      state.hasOauthLogin = undefined;
-      state.email = undefined;
-      state.ethAddressType = undefined;
-      state.isCardPayment = undefined;
-      state.trackingWalletName = undefined;
-
       clearCookie(WORKER_TOKEN_DATA_KEY);
       WORKER_TOKEN_DATA = undefined;
-      state.hasOauthUserDepositTransaction = undefined;
+
+      Object.keys(state).forEach(key => {
+        const objKey = key as keyof IAuthSlice;
+
+        // @ts-ignore
+        state[objKey] = undefined;
+      });
     },
   },
 });

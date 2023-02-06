@@ -8,7 +8,5 @@ export const useEndpointsStyles = makeStyles()((theme: Theme) => ({
     gap: theme.spacing(2 * 3.75),
 
     borderRadius: theme.spacing(2 * 3.75),
-
-    backgroundColor: theme.palette.background.paper,
   },
 }));

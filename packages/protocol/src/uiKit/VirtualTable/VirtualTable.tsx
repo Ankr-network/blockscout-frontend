@@ -10,6 +10,7 @@ import {
   useRowRenderer,
   useTable,
   useTableContext,
+  useWindowScroller,
 } from './utils';
 
 function VirtualTableInternal<T extends Record<string, any>>(
@@ -30,6 +31,8 @@ function VirtualTableInternal<T extends Record<string, any>>(
   const rowRenderer = useRowRenderer();
   const isEmpty = rows.length === 0;
 
+  const windowScrollerRef = useWindowScroller();
+
   const content = useMemo(() => {
     if (initializing) {
       return preloader;
@@ -44,7 +47,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
     }
 
     return (
-      <WindowScroller>
+      <WindowScroller ref={windowScrollerRef}>
         {({ height, scrollTop, isScrolling, onChildScroll, registerChild }) => {
           return (
             <AutoSizer disableHeight>
@@ -81,6 +84,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
     ref,
     rowRenderer,
     rows.length,
+    windowScrollerRef,
   ]);
 
   return (

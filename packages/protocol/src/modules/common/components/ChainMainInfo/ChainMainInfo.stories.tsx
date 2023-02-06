@@ -9,7 +9,7 @@ storiesOf('domains/chains/ChainMainInfo', module).add('Default', () => (
   <ThemeProvider theme={mainTheme}>
     <Box padding={4} bgcolor="background.paper">
       <ChainMainInfo
-        logoSrc={'https://www.ankr.com/rpc/static/media/eth.3ee8ddd4.svg'}
+        logoSrc="https://www.ankr.com/rpc/static/media/eth.3ee8ddd4.svg"
         name="namenamenamename"
         description={<div>description</div>}
       />
