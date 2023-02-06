@@ -9,11 +9,15 @@ import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
 export interface ChainDocsLinkProps {
   chain: IApiChain;
   className?: string;
+  variant?: 'contained' | 'outlined';
+  size?: 'small' | 'medium' | 'large';
 }
 
 export const ChainDocsLink = ({
   chain: { id },
   className,
+  variant = 'outlined',
+  size = 'medium',
 }: ChainDocsLinkProps) => {
   const link = getChainDocsLink(id);
 
@@ -21,7 +25,7 @@ export const ChainDocsLink = ({
 
   return (
     <Button
-      className={cx(className, classes.button)}
+      className={cx(classes.button, className)}
       classes={{
         iconSizeMedium: classes.iconSize,
       }}
@@ -29,7 +33,8 @@ export const ChainDocsLink = ({
       href={link || ''}
       startIcon={<Doc />}
       target="_blank"
-      variant="outlined"
+      variant={variant}
+      size={size}
     >
       {t('chain-item.header.docs')}
     </Button>

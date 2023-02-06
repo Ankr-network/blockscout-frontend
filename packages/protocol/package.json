@@ -31,7 +31,7 @@
     "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "*",
-    "@ankr.com/ui": "^0.7.5",
+    "@ankr.com/ui": "^0.7.7",
     "@mui/styles": "^5.10.16",
     "@mui/material": "^5.10.10",
     "@emotion/cache": "^11.10.3",

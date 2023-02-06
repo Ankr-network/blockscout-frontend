@@ -1,10 +1,6 @@
 import { Button, Container } from '@mui/material';
-import { NavLink, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-
-import { MobileDetails } from 'domains/mobileDetails/screens/MobileDetails';
-import { useIsSMDown } from 'uiKit/Theme/useTheme';
-import { getNavigationList } from '../MainNavigation/MainNavigationUtils';
+import { NavLink } from 'react-router-dom';
+import { getNavigationList } from '../MainNavigation/utils/navigationUtils';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useMobileNavigationStyles } from './useMobileNavigationStyles';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
@@ -23,22 +19,6 @@ export const MobileNavigation = ({
   hasPremium,
   chainsRoutes,
 }: MobileHeaderProps) => {
-  const [isOpened, setIsOpened] = useState<boolean>(false);
-
-  const isMobile = useIsSMDown();
-
-  useEffect(() => {
-    if (!isMobile) {
-      setIsOpened(false);
-    }
-  }, [isMobile]);
-
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    setIsOpened(false);
-  }, [pathname]);
-
   const { classes, cx } = useMobileNavigationStyles();
 
   const onDocsClick = useTrackDocs();
@@ -100,10 +80,6 @@ export const MobileNavigation = ({
                   </Button>
                 ),
             )}
-            <MobileDetails
-              isOpened={isOpened}
-              onClose={() => setIsOpened(false)}
-            />
           </Container>
         </nav>
       )}

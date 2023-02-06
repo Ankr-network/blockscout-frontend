@@ -18,10 +18,12 @@ export const getTypographTheme = (theme: any) => {
 
 export const commonLinear = `linear-gradient(to left, #013CD3, #6235D0, #AF34B1, #E85658, #FF7710)`;
 
-export const premiumText = `linear-gradient(269.98deg, #2F62F1 0.02%, #8D30FF 49.89%, #FF7710 99.98%)`;
+export const premiumText = `linear-gradient(269.98deg, #5F87F4 0.02%, #A963FF 49.89%, #FF862A 99.98%)`;
 export const premiumColor = `linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)`;
 export const premiumBackground = `linear-gradient(180deg, rgba(242, 245, 250, 0) 0%, #F2F5FA 100%), linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%)`;
 
 export const enterpriseColor = `linear-gradient(269.98deg, rgb(47, 98, 241) 0.02%, rgb(141, 48, 255) 49.89%, rgb(255, 119, 16) 99.98%)`;
+export const bannerGradientLight = `linear-gradient(104.36deg, #FFFFFF 0.75%, rgba(255, 255, 255, 0) 48.23%), linear-gradient(97.61deg, #F4E7DE 6.28%, #E3DCFA 55.65%, #D0DCF9 105.02%, #DBE5F9 105.02%), #D9D9D9`;
+export const bannerGradientDark = `linear-gradient(97.61deg, #5A87F2 6.28%, #301E49 55.65%, #9378FF 105.02%)`;
 
 export const stepLineColor = `linear-gradient(270deg, #EEA941 0%, #356DF3 100%)`;

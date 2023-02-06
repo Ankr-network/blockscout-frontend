@@ -9,12 +9,14 @@ import {
   CSSProperties,
   useLayoutEffect,
   useMemo,
+  useEffect,
 } from 'react';
 import {
   CellMeasurer,
   CellMeasurerCache,
   List,
   ListRowRenderer,
+  WindowScroller,
 } from 'react-virtualized';
 import { LoadableButton } from '../LoadableButton';
 import {
@@ -333,4 +335,23 @@ export const useRowRenderer = () => {
   );
 
   return rowRenderer;
+};
+
+export const useWindowScroller = () => {
+  const windowScrollerRef = useRef<WindowScroller>(null);
+
+  useEffect(() => {
+    const observer = new ResizeObserver(() =>
+      windowScrollerRef.current?.updatePosition(),
+    );
+    const root = document.querySelector('#root > div')!;
+
+    observer.observe(root);
+
+    return () => {
+      observer.unobserve(root);
+    };
+  }, []);
+
+  return windowScrollerRef;
 };

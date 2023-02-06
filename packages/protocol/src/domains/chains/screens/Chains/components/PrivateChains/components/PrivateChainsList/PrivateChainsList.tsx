@@ -1,6 +1,7 @@
 import { ChainsListProps } from 'domains/chains/components/ChainsList';
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/ChainsListStyles';
+import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 import { PrivateChainsItem } from '../PrivateChainsItem';
 
 export const PrivateChainsList = ({
@@ -12,7 +13,7 @@ export const PrivateChainsList = ({
 
   return (
     <div className={classes.root}>
-      {chains.map(item => {
+      {excludeMultiChain(chains).map(item => {
         const { id, name, urls } = item;
 
         return (

@@ -24,7 +24,7 @@ export const RequestsMap = ({
   const { isLightTheme } = useThemes();
 
   // TODO: remove when BE releases add all timeframe support for Premium
-  const { isWalletConnected } = useAuth();
+  const { hasPrivateAccess } = useAuth();
 
   const data = useMemo(
     () => getMarkerPointsAndStats(countries, isLightTheme),
@@ -35,7 +35,7 @@ export const RequestsMap = ({
     <div className={classes.root}>
       {/* Since request by ip only support 30d by backend, so hard code it first. When backend support all the timeframe should be remove it  */}
       <ItemHeader
-        timeframe={isWalletConnected ? Timeframe.Month : timeframe}
+        timeframe={hasPrivateAccess ? Timeframe.Month : timeframe}
         title={t('chain-item.map.header')}
       />
       {loading ? (
