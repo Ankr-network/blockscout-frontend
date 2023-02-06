@@ -16,6 +16,7 @@ import { useRates } from './useRates';
 interface IFormElements {
   elements: {
     comment: { value: string };
+    expiresAt: { value: string };
   };
 }
 
@@ -69,6 +70,7 @@ export const ClientBalancesModal = ({
 
     const {
       comment: { value: commentValue },
+      expiresAt: { value: expiresAtValue },
     } = e.target.elements;
 
     if (!currentClient.address) {
@@ -81,11 +83,17 @@ export const ClientBalancesModal = ({
       return;
     }
 
+    const expiresAtSeconds = Math.floor(
+      new Date(expiresAtValue).getTime() / 1000,
+    );
+    const expiresAt = expiresAtValue ? expiresAtSeconds.toString() : '0';
+
     const requestParams = {
       address: currentClient.address,
       amountType: 'credit' as IAmountType,
       amount: amount.toString(),
       reasonId: `${Date.now()} ${commentValue || ''}`,
+      expiresAt,
     };
 
     const handleResponse = (res: any) => {
@@ -133,6 +141,19 @@ export const ClientBalancesModal = ({
         <Typography sx={{ ml: 3, mb: 2 }} component="p" variant="caption">
           {renderAmountEquivalent(amount)}
         </Typography>
+
+        <Input
+          type="dateTime-local"
+          sx={{ mt: 4, mb: 1 }}
+          name="expiresAt"
+          id="expiresAt"
+          placeholder="Expires at"
+          disabled={isLoading}
+        />
+        <Typography sx={{ ml: 3, mb: 4 }} component="p" variant="caption">
+          Voucher expiration (optional)
+        </Typography>
+
         <Input
           sx={{ mt: 2, mb: 6 }}
           name="comment"

@@ -1,4 +1,4 @@
-import { Milliseconds } from '@ankr.com/utils';
+import { Milliseconds ,Seconds} from '@ankr.com/utils';
 import {
   BlockchainID,
   IPaymentHistoryEntityType,
@@ -137,6 +137,9 @@ export interface IAddVoucherCreditsRequest {
   amountType: IAmountType;
   amount: string;
   reasonId: string;
+
+  /** unix timestamp in seconds indicating the expiration time of total creditVoucherAmount. “0” value indicates that there is no timeout for deletion */
+  expiresAt: string;
 }
 
 export interface IAddVoucherCreditsResponse {
