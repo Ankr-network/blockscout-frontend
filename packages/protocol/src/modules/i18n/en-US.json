@@ -69,19 +69,15 @@
     "not-supported-chain": "Unsupported chain"
   },
   "main-navigation": {
-    "dashboard": "Dashboard",
-    "public-rpcs": "Public RPCs",
-    "account-details": "Account Details",
-    "plan": "Premium Plan",
-    "protocol": "Node Providers",
     "endpoints": "Endpoints",
+    "enterprise": "Enterprise",
+    "automate": "Automate",
     "billing": "Billing",
     "pricing": "Pricing",
-    "docs": "Docs"
-  },
-  "extra-navigation": {
     "docs": "Docs",
-    "settings": "Settings"
+    "settings": "Settings",
+    "tools": "Tools",
+    "soon": "soon"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",

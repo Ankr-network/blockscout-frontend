@@ -1,5 +1,5 @@
 import { t } from '@ankr.com/common';
-import { DOC_URL } from 'modules/layout/components/MainNavigation/MainNavigationUtils';
+import { DOC_URL } from 'modules/layout/components/MainNavigation/utils/navigationUtils';
 import { NavLink } from 'uiKit/NavLink';
 import { intlRoot } from '../FeatureTable/FeatureTableUtils';
 import { ExternalLink } from '@ankr.com/ui';

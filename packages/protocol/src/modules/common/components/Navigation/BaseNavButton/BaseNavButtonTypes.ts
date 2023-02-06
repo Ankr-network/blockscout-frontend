@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { SvgIconProps } from '@mui/material';
 
-import { IsActive } from 'modules/layout/components/MainNavigation/MainNavigationUtils';
+import { IsActive } from 'modules/layout/components/MainNavigation/utils/navigationUtils';
 
 export interface NavigationItem {
   ActiveIcon?: (props: SvgIconProps) => ReactElement | null;
@@ -11,6 +11,7 @@ export interface NavigationItem {
   isDisabled?: boolean;
   label: string;
   onClick?: () => void;
+  isComingSoon?: boolean;
 }
 
 export interface NavigationProps {
