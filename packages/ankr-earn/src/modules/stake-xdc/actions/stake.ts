@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 import { RootState } from 'store';
@@ -5,6 +6,7 @@ import { RootState } from 'store';
 import { IStakeData, Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -53,6 +55,7 @@ export const { useStakeMutation } = web3Api.injectEndpoints({
             }),
           };
         },
+        getOnErrorWithCustomText(t('stake-xdc.errors.stake')),
       ),
       onQueryStarted: (args, { dispatch, queryFulfilled }) =>
         queryFulfilled.then(({ data }) => {

@@ -1372,6 +1372,19 @@
         "tooltip": "Flash unstake pool allows you to instantly unstake and receive your assets. To flash-unstake, you need to stay within the current pool capacity, or regular times will apply."
       },
       "success-title": "Unstake successful!"
+    },
+    "errors": {
+      "add-to-wallet": "Failed to add ankrXDC token to wallet",
+      "get-dashboard-data": "Failed to get XDC balances data",
+      "pending-values": "Failed to get XDC pending values data",
+      "tx-events-history": "Failed to get XDC historical data",
+      "stake-gas-fee": "Failed to get XDC stake gas fee",
+      "tx-data": "Failed to get XDC transaction data",
+      "tx-receipt": "Failed to get XDC transaction receipt",
+      "stake-data": "Failed to get XDC staking data",
+      "stake": "Failed to stake XDC",
+      "unstake": "Failed to unstake XDC",
+      "unstaking-data": "Failed to get XDC unstaking data"
     }
   },
   "convert": {
