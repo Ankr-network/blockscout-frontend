@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
@@ -25,6 +26,7 @@ export const swapOldAETHCBSC = createSmartAction<
   meta: {
     asMutation: true,
     showNotificationOnError: true,
+    additionalErrorText: t('dashboard.errors.swap-old-aethc'),
     onSuccess: async (
       response,
       _action: RequestAction,

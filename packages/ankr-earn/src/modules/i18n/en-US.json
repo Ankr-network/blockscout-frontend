@@ -857,6 +857,13 @@
       "ankrXDC": "ankrXDC represents your staked XDC and provides liquidity for your staked position. All staking rewards are built into the token price, and ankrXDC grows daily in value, but never in number.<br/><br/>The redemption price of 1 ankrXDC is now {value} XDC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards. Regular unstake takes {period}, while flash unstake is instant.<br/><br/>While staking, you can also use ankrXDC for trading and other DeFi opportunities.",
       "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APR.",
       "MGNO": "megaGnosis (mGNO) is a metatoken for GNO, the native Gnosis token. The relation is similar to a wrapped token like WETH to ETH, except there are 32 mGNO in 1 GNO.<br/><br/>As Gnosis is built on Ethereum, staking rewards and unstaking mGNO will be available after the Shanghai update when Ethereum enables this functionality. Approximate date is ~Q3-Q4 2023."
+    },
+    "errors": {
+      "bridged-eth-bond": "Failed to get aETHb data from the Binance Smart Chain",
+      "bridged-eth-cert": "Failed to get ankrETH data from the Binance Smart Chain",
+      "bridged-matic-cert-bsc": "Failed to get ankrMATIC data from the Binance Smart Chain",
+      "bridged-matic-bond-bsc": "Failed to get aMATICb data from the Binance Smart Chain",
+      "swap-old-aethc": "Failed to swap ankrETH in the Binance Smart Chain"
     }
   },
   "defi": {
