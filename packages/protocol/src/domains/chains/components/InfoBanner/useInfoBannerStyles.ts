@@ -7,7 +7,7 @@ export const useInfoBannerStyles = makeStyles<void, 'startIcon'>()(
     root: {
       display: 'flex',
       gridGap: theme.spacing(7.5),
-      marginBottom: theme.spacing(13),
+      marginBottom: theme.spacing(6.5),
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
       },
@@ -16,7 +16,7 @@ export const useInfoBannerStyles = makeStyles<void, 'startIcon'>()(
       width: '50%',
       backgroundColor: theme.palette.background.paper,
       borderRadius: 20,
-      padding: theme.spacing(6, 8),
+      padding: theme.spacing(5),
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-around',
@@ -46,7 +46,7 @@ export const useInfoBannerStyles = makeStyles<void, 'startIcon'>()(
     },
     premiumContent: {
       background: theme.palette.background.paper,
-      padding: theme.spacing(6, 8),
+      padding: theme.spacing(5),
       borderRadius: 18,
       height: '100%',
       display: 'flex',
@@ -67,7 +67,7 @@ export const useInfoBannerStyles = makeStyles<void, 'startIcon'>()(
       alignItems: 'center',
     },
     content: {
-      margin: theme.spacing(4, 0),
+      margin: theme.spacing(2.5, 0),
     },
     item: {
       marginBottom: theme.spacing(1),
