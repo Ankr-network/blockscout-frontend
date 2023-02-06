@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import retry, { Options } from 'async-retry';
 import { createAction as createSmartAction } from 'redux-smart-actions';
@@ -32,6 +33,7 @@ export const notarize = createSmartAction<
     },
     meta: {
       showNotificationOnError: true,
+      additionalErrorText: t('bridge.errors.notarize'),
     },
   }),
 );

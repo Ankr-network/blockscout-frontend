@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import {
   RequestAction,
   RequestActionMeta,
@@ -27,6 +28,7 @@ export const getTxReceipt = createAction<
   meta: {
     ...meta,
     showNotificationOnError: true,
+    additionalErrorText: t('common.errors.tx-receipt'),
     poll: POLL_INTERVAL,
     getData: data => {
       if (!data) {

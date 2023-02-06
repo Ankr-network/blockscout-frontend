@@ -128,7 +128,6 @@
   "common": {
     "n-a": "N/A",
     "successTx": "Transaction successful.",
-    "errorTx": "Transaction failed.",
     "explorer": "View on explorer",
     "labels": {
       "from": "From",
@@ -137,6 +136,10 @@
     "tooltips": {
       "comingSoon": "Coming soon",
       "allowance": "Approve (Allowance) is the permission you give to the smart contract in order to allow it to spend on your behalf the token you want to use through its dApp."
+    },
+    "errors": {
+      "tx-failed": "Transaction failed.",
+      "tx-receipt": "Failed to get transaction receipt"
     }
   },
   "chain": {
@@ -1009,14 +1012,19 @@
       "connect": "Connect wallet",
       "submit": "Proceed bridge"
     },
-    "fetch-transaction": {
-      "error": {
-        "transaction-not-found": "Transaction not found",
-        "wrong-transaction": "This is not a deposit transaction. Please enter deposit transaction hash"
-      }
-    },
     "unsupported": {
       "clover-title": "At the moment the bridge is not compatible with a Clover wallet."
+    },
+    "errors": {
+      "approve": "The approve action has not been completed",
+      "deposit": "The deposit action has not been completed",
+      "get-balance": "Failed to get {token} balance from the {network} network",
+      "txn-not-found": "Transaction not found",
+      "wrong-txn": "This is not a deposit transaction. Please enter deposit transaction hash",
+      "txn-data": "Failed to get transaction data",
+      "notarize": "Failed to notarize transaction",
+      "add-token-to-wallet": "Failed to add {token} to your wallet",
+      "withdraw": "Failed to withdraw tokens from the bridge"
     }
   },
   "zendesk": {
