@@ -11,6 +11,9 @@ import { ChainRequestsChart } from './components/ChainRequestsChart';
 import { useStyles } from './ChainItemStyles';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 import { ChainId } from 'domains/chains/api/chain';
+import { Info } from './components/Info';
+import { useHasAnkrsInfo } from './ChainItemUtils';
+import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
 
 interface ChainItemProps {
   chainId: ChainId;
@@ -30,11 +33,15 @@ export const ChainItemDetailsQuery = ({
     dispatchRequest(fetchChainDetails(chainId, TIMEFRAME, isStandalone));
   });
 
+  const hasInfo = useHasAnkrsInfo(chainId);
+  const spinner = useSpinner(chainId);
+
   return (
     <Queries<ResponseData<typeof fetchChainDetails>>
       requestActions={[fetchChainDetails]}
       requestKeys={[chainId]}
       isPreloadDisabled
+      spinner={spinner}
     >
       {({ data, loading, pristine }) => {
         const {
@@ -54,6 +61,7 @@ export const ChainItemDetailsQuery = ({
               loading={IS_REACT_SNAP || (loading && pristine)}
               chainId={chainId}
             />
+            {hasInfo && <Info />}
             <ChainRequestsChart
               totalRequestsHistory={totalRequestsHistory}
               totalCachedHistory={totalCachedHistory}

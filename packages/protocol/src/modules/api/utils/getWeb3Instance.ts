@@ -3,9 +3,10 @@ import Web3 from 'web3';
 import { API_ENV } from 'modules/common/utils/environment';
 
 const { REACT_APP_ETH_RPC } = process.env;
+const HAS_ETH_RPC = false;
 
 export const getWeb3RpcUrl = () => {
-  if (REACT_APP_ETH_RPC) {
+  if (REACT_APP_ETH_RPC && HAS_ETH_RPC) {
     return REACT_APP_ETH_RPC;
   }
 

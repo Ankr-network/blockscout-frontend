@@ -10,6 +10,7 @@ import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usd
 import { oauthWatchForTheDepositTransation } from 'domains/oauth/actions/watchForTheDepositTransation';
 import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
 import { oauthSignout } from 'domains/oauth/actions/signout';
+import { oauthWatchForTheVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForTheVoucherTransactionAndNegativeBalance';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -34,6 +35,13 @@ listenerMiddleware.startListening({
   matcher: oauthAutoLogin.matchFulfilled,
   effect: async (_action, { dispatch }) => {
     dispatch(oauthWatchForTheDepositTransation.initiate());
+  },
+});
+
+listenerMiddleware.startListening({
+  matcher: oauthAutoLogin.matchFulfilled,
+  effect: async (_action, { dispatch }) => {
+    dispatch(oauthWatchForTheVoucherTransactionAndNegativeBalance.initiate());
   },
 });
 

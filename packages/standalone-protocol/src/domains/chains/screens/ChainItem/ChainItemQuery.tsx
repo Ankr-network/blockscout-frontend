@@ -9,6 +9,7 @@ import { useStyles } from './ChainItemStyles';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainItem } from './ChainItem';
 import { ChainId } from 'domains/chains/api/chain';
+import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
 
 interface ChainItemProps {
   chainId: ChainId;
@@ -22,6 +23,8 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
     dispatch(fetchChain(chainId));
   });
 
+  const spinner = useSpinner(chainId);
+
   return (
     <ThemeProvider theme={mainTheme}>
       <div className={classNames(classes.root, chainId)}>
@@ -29,6 +32,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
           requestActions={[fetchChain]}
           requestKeys={[chainId]}
           isPreloadDisabled
+          spinner={spinner}
         >
           {({ data }) => {
             return <ChainItem data={data} chainId={chainId} />;

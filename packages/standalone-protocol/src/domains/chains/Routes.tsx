@@ -1,10 +1,9 @@
-import React from 'react';
 import { generatePath, Route, useParams } from 'react-router-dom';
-import loadable, { LoadableComponent } from '@loadable/component';
+import loadable from '@loadable/component';
 
-import { Spinner } from 'uiKit/Spinner';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { ChainId } from './api/chain';
+import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
 
 export const PATH_CHAINS = '/chain/';
 export const PATH_CHAIN_DETAILS = '/chain/:chainId/';
@@ -32,20 +31,23 @@ export const ChainsRoutesConfig = createRouteConfig(
   PATH_CHAINS,
 );
 
-const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
-  async () => import('./screens/ChainItem').then(module => module.ChainItem),
-  {
-    fallback: <Spinner />,
-  },
-);
+const getComponent = (spinner: JSX.Element) =>
+  loadable(
+    async () => import('./screens/ChainItem').then(module => module.ChainItem),
+    {
+      fallback: spinner,
+    },
+  );
 
-export function ChainsRoutes({ chainId }: { chainId?: string }) {
+export function ChainsRoutes({ chainId }: { chainId: ChainId }) {
+  const spinner = useSpinner(chainId);
+
   return (
     <>
       <Route
         exact
         path={chainId ? '/' : ChainsRoutesConfig.chainDetails.path}
-        component={LoadableChainDetailsContainer}
+        component={getComponent(spinner)}
       />
     </>
   );

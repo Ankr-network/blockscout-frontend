@@ -13,9 +13,10 @@ import { MENU_LIST } from './MenuList';
 
 interface ICrossMenuProps {
   chainId: string;
+  className?: string;
 }
 
-export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
+export const CrossMenu = ({ chainId, className }: ICrossMenuProps) => {
   const classes = useCrossMenuStyles();
 
   const [open, setOpen] = useState(false);
@@ -36,17 +37,23 @@ export const CrossMenu = ({ chainId }: ICrossMenuProps) => {
   }, [isNotMobile]);
 
   return (
-    <div data-test-id="cross-menu">
+    <div data-test-id="cross-menu" className={className}>
       <IconButton
         onClick={handleMenuClick}
-        className={classNames(classes.dropMenu, open && classes.closeIcon)}
+        className={classNames(classes.dropMenu, classes.openMenu)}
       >
-        {open ? <CloseIcon /> : <MenuIcon />}
+        <MenuIcon />
       </IconButton>
       <div
         className={classNames(classes.root, open && classes.open, chainId)}
         data-test-id="cross-menu-root"
       >
+        <IconButton
+          onClick={handleCloseMenu}
+          className={classNames(classes.dropMenu, classes.closeMenu)}
+        >
+          <CloseIcon />
+        </IconButton>
         <div className={classes.menu}>
           {MENU_LIST.map(item => (
             <a

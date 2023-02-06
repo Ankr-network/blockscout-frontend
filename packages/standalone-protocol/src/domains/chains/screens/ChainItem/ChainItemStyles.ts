@@ -5,6 +5,8 @@ import { MENU_WIDTH } from './components/CrossMenu/CrossMenuStyles';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
+    position: 'relative',
+
     [`&.${ChainId.Ethereum}`]: {
       backgroundColor: theme.palette.common.white,
     },
@@ -13,9 +15,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: theme.palette.common.white,
     },
   },
+  menu: {
+    height: 0,
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
   main: {
-    flexGrow: 1,
-    position: 'relative',
     maxWidth: 1110,
     [theme.breakpoints.up('md')]: {
       paddingLeft: MENU_WIDTH + 24,
@@ -23,7 +30,6 @@ export const useStyles = makeStyles<Theme>(theme => ({
   },
   header: {
     paddingTop: theme.spacing(8),
-    marginBottom: theme.spacing(5),
   },
   details: {
     marginTop: theme.spacing(6),
