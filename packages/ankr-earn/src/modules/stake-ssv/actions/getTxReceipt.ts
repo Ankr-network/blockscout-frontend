@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { TransactionReceipt } from 'web3-eth';
@@ -52,5 +53,6 @@ export const getTxReceipt = createSmartAction<
     onRequest: withStore,
     poll: POLL_INTERVAL,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-ssv.errors.tx-receipt'),
   },
 }));

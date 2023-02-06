@@ -13,6 +13,7 @@ import {
 } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { TStore } from 'modules/common/types/ReduxRequests';
 import { withStore } from 'modules/common/utils/withStore';
@@ -69,25 +70,29 @@ export const stake = createSmartAction<
     asMutation: true,
     onError: (
       error: Error,
-      _action: RequestAction,
+      action: RequestAction,
       store: TStore<IStoreState>,
     ): Error => {
-      const err = new Error(error.message);
-
       store.dispatchRequest(getStakeData());
 
-      if (err.message.includes(ESDKErrorCodes.INSUFFICIENT_BALANCE)) {
-        err.message = t('validation.insufficient-funds');
+      if (error.message.includes(ESDKErrorCodes.INSUFFICIENT_BALANCE)) {
+        error.message = t('validation.insufficient-funds');
       }
+
+      const extendedErrorText = getExtendedErrorText(
+        error,
+        t('stake-ssv.errors.stake'),
+      );
 
       store.dispatch(
         showNotification({
-          message: err.toString(),
+          message: extendedErrorText,
+          key: action.type,
           variant: 'error',
         }),
       );
 
-      throw err;
+      throw new Error(extendedErrorText);
     },
     onRequest: withStore,
     onSuccess: (

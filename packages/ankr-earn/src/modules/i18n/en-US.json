@@ -1350,6 +1350,15 @@
       "title": "Start staking SSV-Ethereum",
       "current-wallet": "current wallet",
       "description": "SSV-Ethereum Staking is not available with <b>{currentWallet}</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
+    },
+    "errors": {
+      "add-to-wallet": "Failed to add asETHc token to wallet",
+      "get-dashboard-data": "Failed to get SSV-Ethereum balances data",
+      "get-stake-data": "Failed to get SSV-Ethereum stake data",
+      "stake-gas-fee": "Failed to get SSV-Ethereum stake gas fee",
+      "tx-data": "Failed to get SSV-Ethereum transaction data",
+      "tx-receipt": "Failed to get SSV-Ethereum transaction receipt",
+      "stake": "Failed to stake SSV-Ethereum"
     }
   },
   "stake-xdc": {
