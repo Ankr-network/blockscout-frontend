@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+import { premiumColor } from 'uiKit/Theme/themeUtils';
 
 import { chainDialogIntl } from './ChainDialogUtils';
 
@@ -64,8 +65,7 @@ export const useChainsItemDialogStyles = makeStyles<
     [`& .${chainDialogIntl}-premium`]: {
       borderRadius: theme.spacing(2 * 5),
       padding: 4,
-      background:
-        'linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)',
+      background: premiumColor,
       overflow: 'overlay',
       border: 'none',
       [`& .${classes.content}`]: {

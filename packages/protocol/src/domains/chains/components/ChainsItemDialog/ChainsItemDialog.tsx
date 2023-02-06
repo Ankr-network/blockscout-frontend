@@ -18,11 +18,13 @@ import { useWindowHeight } from 'hooks/useWindowHeight';
 export interface IChainsItemDialogProps {
   open: boolean;
   onClose: () => void;
+  onTrack?: () => void;
 }
 
 export const ChainsItemDialog = ({
   open,
   onClose,
+  onTrack,
 }: IChainsItemDialogProps): JSX.Element => {
   const windowHeight = useWindowHeight();
 
@@ -48,7 +50,7 @@ export const ChainsItemDialog = ({
         <div className={classes.container}>
           {chainDialogContent.map((item: IChainDialogContent) => (
             <div
-              key={item.title}
+              key={`${item.title}_content`}
               className={`${chainDialogIntl}-${item.title}`}
             >
               <div className={classes.content}>
@@ -66,7 +68,10 @@ export const ChainsItemDialog = ({
                   </Typography>
                   <div className={classes.list}>
                     {new Array(item.itemCount).fill('').map((_, index) => (
-                      <div key={item.title} className={classes.item}>
+                      <div
+                        key={`${item.title}_list_${index}`}
+                        className={classes.item}
+                      >
                         {t(
                           `${chainDialogIntl}.${item.title}.list-${index + 1}`,
                         )}
@@ -80,6 +85,7 @@ export const ChainsItemDialog = ({
                   variant={item.variant}
                   className={cx(classes.button, `${item.title}`)}
                   href={item.link}
+                  onClick={onTrack && onTrack}
                 >
                   {t(`${chainDialogIntl}.${item.title}.button`)}
                 </NavLink>
