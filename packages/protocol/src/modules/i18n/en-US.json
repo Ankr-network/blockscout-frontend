@@ -69,6 +69,7 @@
     "not-supported-chain": "Unsupported chain"
   },
   "main-navigation": {
+    "advanced-api": "Advanced API",
     "endpoints": "Endpoints",
     "enterprise": "Enterprise",
     "automate": "Automate",
@@ -329,6 +330,7 @@
         "add-network-label": "Add network",
         "premium-label": "Premium",
         "title": "{chainName} {rpcs, plural, =1 {Endpoint} other { Endpoints }}",
+        "title-multichain": "Endpoint",
         "websocket-title": "WebSocket",
         "network-postfix": "{name} by ANKR Protocol"
       },
@@ -394,6 +396,64 @@
         "unknown": "unknown",
         "error": "Something went wrong, please, reload the page",
         "error-code": "(code {code})"
+      }
+    }
+  },
+  "advanced-api": {
+    "breadcrumbs": "Advanced API",
+    "banner": {
+      "your-plan-badge": "Your plan",
+      "free": {
+        "plan-title": "Free",
+        "plan-description": "You have 50 free requests/min",
+        "proposal-title": "Premium",
+        "proposal-description": "• 1000+ requests/min\n• Support by API devs\n• 0.7 USD for 10K requests",
+        "action-text": "Upgrade"
+      },
+      "premium": {
+        "plan-title": "Premium",
+        "plan-description": "You have 50 free requests/min",
+        "proposal-title": "Enterprise",
+        "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
+        "action-text": "Sales team"
+      }
+    },
+    "chain-overview": {
+      "title": "Single entry point",
+      "description": "to the optimized, indexed, and cached data for eight EVM-compatible blockchains"
+    },
+    "js-sdk": "JS SDK",
+    "python-sdk": "Python SDK",
+    "tabs": {
+      "ankr-js": "Ankr JS",
+      "shell": "Shell"
+    },
+    "benefits": {
+      "nft-api": {
+        "title": "NFT API",
+        "feature-1": "NFTs by owner",
+        "feature-2": "NFT metadata",
+        "feature-3": "NFT holders",
+        "linkText": "Code samples"
+      },
+      "query-api": {
+        "title": "Query API",
+        "feature-1": "Unlimited block range logs filtering",
+        "feature-2": "Transactions by address across 8 chains",
+        "feature-3": "Decoded events",
+        "feature-4": "Decoded contract calls",
+        "feature-5": "ENS and Unstoppable Domain support",
+        "linkText": "Code samples"
+      },
+      "token-api": {
+        "title": "Token API",
+        "feature-1": "Token balance across 8 chains",
+        "feature-2": "All ERC20 tokens with metadata",
+        "feature-3": "Token USD price",
+        "feature-4": "Token holders",
+        "feature-5": "Token’s balance by wallet address",
+        "feature-6": "Transfers by wallet address",
+        "linkText": "Code samples"
       }
     }
   },

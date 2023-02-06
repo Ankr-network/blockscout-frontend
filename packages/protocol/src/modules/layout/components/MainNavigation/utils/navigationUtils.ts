@@ -1,19 +1,20 @@
+import { NavLinkProps } from 'react-router-dom';
+import { ButtonProps } from '@mui/material';
 import { History } from 'history';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { CoinStack, Gear, Doc, Block, Wallet } from '@ankr.com/ui';
+import { CoinStack, Gear, Doc, Block, Wallet, AdvancedApi } from '@ankr.com/ui';
 import { Diamonds } from 'uiKit/Icons/Diamonds';
 import { Automate } from 'uiKit/Icons/Automate';
 import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { NavigationItem } from 'modules/common/components/Navigation';
+import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 import { track } from 'modules/analytics/mixpanel/utils/track';
 import { MixpanelEvent } from 'modules/analytics/mixpanel/const';
-import { ButtonProps } from '@mui/material';
-import { NavLinkProps } from 'react-router-dom';
 
 export type IsActive = (match: any, location: History['location']) => boolean;
 
@@ -36,6 +37,15 @@ const isDashboardActive = (
   return chainsRoutes.some(route => location.pathname.includes(route));
 };
 
+const getAdvancedApiList = () => [
+  {
+    StartIcon: AdvancedApi,
+    ActiveIcon: AdvancedApi,
+    href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
+    label: t('main-navigation.advanced-api'),
+  },
+];
+
 export const getEndpointsList = (chainsRoutes: string[]): NavigationItem[] => [
   {
     StartIcon: Block,
@@ -45,10 +55,11 @@ export const getEndpointsList = (chainsRoutes: string[]): NavigationItem[] => [
       isDashboardActive(match, location, chainsRoutes),
     label: t('main-navigation.endpoints'),
   },
+  ...getAdvancedApiList(),
   {
     StartIcon: Diamonds,
     ActiveIcon: Diamonds,
-    comingSoon: true,
+    isComingSoon: true,
     label: t('main-navigation.enterprise'),
     onClick: () => track({ event: MixpanelEvent.SOON_ENTERPRISE }),
   },
@@ -59,7 +70,7 @@ export const getToolsList = (): NavigationItem[] => [
     StartIcon: Automate,
     ActiveIcon: Automate,
     label: t('main-navigation.automate'),
-    comingSoon: true,
+    isComingSoon: true,
     onClick: () => track({ event: MixpanelEvent.SOON_AUTOMATE }),
   },
 ];
@@ -108,13 +119,14 @@ export const getNavigationList = ({
   onSettingsClick,
 }: NavigationListParams): NavigationItem[] => [
   getEndpointsList(chainsRoutes)[0],
+  ...getAdvancedApiList(),
   ...getMenuList(hasPremium, onDocsClick),
   ...getSettingList(onSettingsClick),
 ];
 
 export const getButtonProps = (props: NavigationItem): ButtonProps => ({
   ...props,
-  disabled: !props.comingSoon && (!props.href || props.isDisabled),
+  disabled: !props.isComingSoon && (!props.href || props.isDisabled),
   key: props.label,
   onClick: props.onClick,
   variant: 'text',

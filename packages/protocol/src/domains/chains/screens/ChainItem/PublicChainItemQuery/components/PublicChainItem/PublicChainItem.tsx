@@ -8,6 +8,7 @@ import { ChainsItemDialog } from 'domains/chains/components/ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { usePublicChainItem } from './hooks/usePublicChainItem';
 import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
+import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
@@ -34,6 +35,8 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
     ...data,
     onBlockedTestnetClick: onOpen,
   });
+
+  useRedirectToAdvancedApi();
 
   useChainItemBreadcrumbs(chain.name);
 

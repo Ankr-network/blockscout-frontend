@@ -11,19 +11,21 @@ export function TabsManager<TI = DefaultTabID>({
   title,
   allowSingleTab,
   orientation = 'horizontal',
+  classNameTabsWrapper,
+  classNameTab,
 }: TabsManagerProps<TI>) {
   const { classes, cx } = useStyles({ orientation });
 
   return (
     <>
       <div className={cx(classes.tabs, className)}>
-        <div className={classes.right}>
+        <div className={cx(classes.right, classNameTabsWrapper)}>
           {title}
           {/* doesn't show tabs if there is only one of them */}
           {(allowSingleTab || tabs.length > 1) &&
             tabs.map(({ id, isDisabled, onSelect, ...tab }, index) => (
               <div
-                className={classes.tab}
+                className={cx(classes.tab, classNameTab)}
                 key={id}
                 onClick={onSelect}
                 role="tab"

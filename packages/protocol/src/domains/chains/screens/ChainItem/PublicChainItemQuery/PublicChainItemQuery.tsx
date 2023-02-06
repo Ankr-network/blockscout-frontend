@@ -1,6 +1,7 @@
-import { ChainItemSkeleton } from '../components/ChainItemSkeleton/ChainItemSkeleton';
+import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
+import { ChainID } from 'modules/chains/types';
 import { useStyles } from '../ChainItemStyles';
 import { PublicChainItem } from './components/PublicChainItem';
 import { usePublicChainItemQuery } from './PublicChainItemQueryUtils';
@@ -19,7 +20,11 @@ export const PublicChainItemQuery = ({ chainId, loading }: ChainItemProps) => {
       >
         {({ data, isLoading, isUninitialized }) => {
           if ((isLoading && isUninitialized) || !data) {
-            return <ChainItemSkeleton />;
+            return (
+              <ChainItemSkeleton
+                withCodeSample={chainId === ChainID.MULTICHAIN}
+              />
+            );
           }
 
           return <PublicChainItem data={data} />;
