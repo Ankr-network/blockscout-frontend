@@ -1407,6 +1407,17 @@
       "unstaking-data": "Failed to get XDC unstaking data"
     }
   },
+  "stake-sui": {
+    "errors": {
+      "add-token-to-wallet": "Failed to add ankrSUI to your wallet",
+      "common-data": "Failed to get SUI common data",
+      "dashboard-data": "Failed to get SUI data for dashboard",
+      "tx-data": "Failed to get SUI transaction data",
+      "tx-receipt": "Failed to get SUI transaction receipt",
+      "stake": "Failed to stake SUI",
+      "unstake": "Failed to unstake SUI"
+    }
+  },
   "convert": {
     "title": "Switch",
     "description": "This may take a moment; you can close this window. Once completed you can check out your new {token} exposure on the Ankr Staking Dashboard.",

@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
@@ -59,6 +61,7 @@ export const { useGetSUICommonDataQuery } = web3Api.injectEndpoints({
             },
           };
         },
+        getOnErrorWithCustomText(t('stake-sui.errors.common-data')),
       ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],

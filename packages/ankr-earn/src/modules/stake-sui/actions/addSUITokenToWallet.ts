@@ -1,9 +1,11 @@
+import { t } from '@ankr.com/common';
 import { RootState } from 'store';
 import { SUI_PROVIDER_ID } from 'sui';
 
 import { Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -42,6 +44,7 @@ export const { useAddSUITokenToWalletMutation } = web3Api.injectEndpoints({
             }),
           };
         },
+        getOnErrorWithCustomText(t('stake-sui.errors.add-token-to-wallet')),
       ),
       invalidatesTags: [CacheTags.common],
     }),
