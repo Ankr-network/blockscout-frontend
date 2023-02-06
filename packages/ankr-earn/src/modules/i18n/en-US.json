@@ -663,7 +663,12 @@
       "connectBtn": "Connect your wallet"
     },
     "successTitle": "Swap successful!",
-    "successInfo": "Check out your new {token} exposure on the Ankr Staking Dashboard any time."
+    "successInfo": "Check out your new {token} exposure on the Ankr Staking Dashboard any time.",
+    "errors": {
+      "tx-receipt": "Failed to get transaction receipt",
+      "tx-data": "Failed to get transaction data",
+      "add-token-to-wallet": "Failed to add {token} to wallet"
+    }
   },
   "progress": {
     "errorTitle": "An error has occurred",

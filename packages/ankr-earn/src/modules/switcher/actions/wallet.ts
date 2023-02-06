@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
@@ -27,6 +28,9 @@ export const addSwitcherTokenToWallet = createAction<
     meta: {
       asMutation: false,
       showNotificationOnError: true,
+      additionalErrorText: t('switcher.errors.add-token-to-wallet', {
+        token: swapOption,
+      }),
       onRequest: withStore,
     },
   }),
