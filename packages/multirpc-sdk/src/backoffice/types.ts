@@ -225,6 +225,8 @@ export interface IGetUserRevenueResponse {
   ankrAmount: string;
   usdFact: string;
   ankrFact: string;
+  totalCreditsAmount: string;
+  totalUsdAmount: string;
 }
 
 export type GetUserAddressesRequest = {

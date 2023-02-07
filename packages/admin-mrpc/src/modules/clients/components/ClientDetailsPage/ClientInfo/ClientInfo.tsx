@@ -138,8 +138,8 @@ export const ClientInfo = ({
     ? `${formatNumber(totalData?.blockchainsInfo.totalCost)}`
     : NOT_FOUND_TEXT;
   const clientEmailText = client?.email || NOT_FOUND_TEXT;
-  const voucherCreditsText = client?.voucherAmount ? (
-    <>{renderBalance(client?.voucherAmount, 'Voucher Credits')}</>
+  const amountUsdText = client?.amountUsd ? (
+    <>{renderBalance(client?.amountUsd, 'equivalent in USD')}</>
   ) : null;
 
   return (
@@ -214,7 +214,19 @@ export const ClientInfo = ({
       >
         <Grid item xs={3} component={Paper} className={classes.gridItem}>
           <Typography variant="caption" color="textSecondary" component="p">
-            Current Funds Balance
+            Total Balance
+          </Typography>
+          <Typography variant="subtitle1" component="p">
+            <b>{isLoadingClients ? skeleton : renderBalance(client?.amount)}</b>
+          </Typography>
+          <Typography variant="caption" component="p">
+            {isLoadingClients ? skeleton : amountUsdText}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Сurrent USD only Balance
           </Typography>
           <Typography variant="subtitle1" component="p">
             <b>{isLoadingClients ? skeleton : renderUSD(client?.amountUsd)}</b>
@@ -223,31 +235,32 @@ export const ClientInfo = ({
 
         <Grid item xs={3} component={Paper} className={classes.gridItem}>
           <Typography variant="caption" color="textSecondary" component="p">
-            Current API Credit Balance
-          </Typography>
-          <Typography variant="subtitle1" component="p">
-            <b>{isLoadingClients ? skeleton : renderBalance(client?.amount)}</b>
-          </Typography>
-          <Typography variant="caption" component="p">
-            {isLoadingClients ? skeleton : voucherCreditsText}
-          </Typography>
-        </Grid>
-
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Total revenue
+            Total Usage ANKR Credits
           </Typography>
           <Typography variant="subtitle1" component="p">
             {isLoadingRevenue ? (
               skeleton
             ) : (
-              <b>{renderUSD(revenueData?.usdFact)}</b>
+              <b>{renderUSD(revenueData?.totalUsdAmount)}</b>
             )}
           </Typography>
           <Typography variant="caption" component="p">
             {isLoadingRevenue
               ? skeleton
-              : `${renderBalance(revenueData?.ankrFact, 'ANKR')}`}
+              : `${renderBalance(revenueData?.totalCreditsAmount, 'Credits')}`}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Voucher credits
+          </Typography>
+          <Typography variant="subtitle1" component="p">
+            <b>
+              {isLoadingClients
+                ? skeleton
+                : renderBalance(client?.voucherAmount)}
+            </b>
           </Typography>
         </Grid>
 
