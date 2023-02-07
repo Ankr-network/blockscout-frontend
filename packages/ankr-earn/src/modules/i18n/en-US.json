@@ -340,6 +340,7 @@
     "balance-label": "Your balance",
     "btn-max": "Max",
     "faq-title": "FAQ",
+    "faq-error": "Failed to get FAQ data",
     "bridge-btn": "Bridge",
     "reward-token-info": "<b>{synthToken}</b> is a reward-bearing token. It accumulates rewards not by growing in number, but by growing in value in relation to {token}. The redemption price of <b>{synthAmount} {synthToken}</b> is now <b>{amount} {token}</b>.",
     "stats": {
@@ -901,7 +902,7 @@
     "fantom": "Fantom (FTM)",
     "polkadot": "Polkadot (DOT)",
     "ethereum": "Ethereum (ETH)",
-    "ethereum-ssv": "SSV–Ethereum (ETH)",
+    "ethereum-ssv": "SSV-Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
     "sui": "Sui (SUI)",
