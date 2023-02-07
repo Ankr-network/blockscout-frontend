@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
-
 import { ChainID } from 'modules/chains/types';
 import { ChainNodesTable } from './ChainNodesTable';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
 import { INodesDetailEntity } from 'multirpc-sdk';
 import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 interface IChainNodesTableQueryProps {
   chainId: ChainID;
@@ -16,9 +15,9 @@ export const ChainNodesTableQuery = ({
 }: IChainNodesTableQueryProps) => {
   const [fetchChain, chainState] = useLazyChainsFetchChainNodesDetailQuery();
 
-  useEffect(() => {
-    fetchChain(chainId);
-  }, [chainId, fetchChain]);
+  useOnMount(() => {
+    fetchChain();
+  });
 
   const checkedChainId = checkAvalancheOrSecretAndGetChainId(chainId);
 

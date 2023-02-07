@@ -1,22 +1,20 @@
 import { makeStyles, Theme } from '@material-ui/core';
 import { ChainId } from 'domains/chains/api/chain';
-import { RATE_LIMIT_BANNER_HEIGHT } from 'domains/chains/screens/ChainItem/components/Banner/useBannerStyles';
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
+import { HEADER_HEIGHT } from './HeaderLogo/HeaderLogoStyles';
 
 export const useStyles = makeStyles<
   Theme,
-  { chainId?: string; bannerHeight: number }
+  { chainId?: string; bannerHeight: number; hasInfo: boolean }
 >(theme => ({
   root: {
     width: '100%',
-    paddingTop: ({ bannerHeight }) =>
-      `${theme.spacing(3) + bannerHeight + RATE_LIMIT_BANNER_HEIGHT}px`,
-    paddingBottom: theme.spacing(8),
+    paddingTop: ({ bannerHeight }) => `${theme.spacing(3) + bannerHeight}px`,
+    paddingBottom: theme.spacing(6),
     textAlign: 'center',
   },
   banner: {
     position: 'fixed',
-    top: RATE_LIMIT_BANNER_HEIGHT,
     left: MENU_WIDTH,
     width: `calc(100% - ${MENU_WIDTH}px)`,
     zIndex: 100,
@@ -41,6 +39,7 @@ export const useStyles = makeStyles<
     },
   },
   title: {
+    paddingTop: ({ hasInfo }) => (hasInfo ? HEADER_HEIGHT : 40),
     marginBottom: 20,
     textTransform: 'uppercase',
 

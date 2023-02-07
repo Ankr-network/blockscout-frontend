@@ -18,7 +18,6 @@ export interface ILayoutProps {
   hasError?: boolean;
   hasGradient?: boolean;
   hasMaxWidth?: boolean;
-  isHeaderTransparent?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -28,14 +27,12 @@ export const DefaultLayout = ({
   hasError = false,
   hasGradient = false,
   hasMaxWidth = true,
-  isHeaderTransparent,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
   const { classes } = useStyles({
     hasGradient: hasGradient || hasError,
     hasPaddingBottom: hasMaxWidth,
-    isHeaderTransparent,
     isLightTheme,
   });
   const { hasPremium, loading } = useAuth();

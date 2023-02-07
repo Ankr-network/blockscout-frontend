@@ -71,3 +71,13 @@ export interface Web3ConnectEvent
   extends Connectable,
     Billingable,
     Walletable {}
+
+export enum BannerFreeToRegisterType {
+  open = 'open',
+  register = 'register',
+  close = 'close',
+}
+
+export interface BannerFreeToRegisterEvent {
+  type: BannerFreeToRegisterType;
+}

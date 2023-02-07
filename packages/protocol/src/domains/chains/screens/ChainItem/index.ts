@@ -1,1 +1,1 @@
-export * from './ChainItemWrapper';
+export * from './ChainItem';

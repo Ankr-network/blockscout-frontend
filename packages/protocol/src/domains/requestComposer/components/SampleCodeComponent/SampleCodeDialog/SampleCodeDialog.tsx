@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { Typography } from '@mui/material';
 import { Dialog } from 'uiKit/Dialog';
 
 import { useSampleCodeDialogStyles } from './useSampleCodeDialogStyles';
@@ -12,6 +11,8 @@ interface ISampleCodeDialogProps {
   children: ReactNode;
 }
 
+const MAX_TITLE_LENGTH_WITH_BIG_SIZE = 25;
+
 export const SampleCodeDialog = ({
   title,
   isOpen,
@@ -19,7 +20,10 @@ export const SampleCodeDialog = ({
   children,
 }: ISampleCodeDialogProps) => {
   const { isLightTheme } = useThemes();
-  const { classes } = useSampleCodeDialogStyles(isLightTheme);
+  const { classes } = useSampleCodeDialogStyles({
+    isLightTheme,
+    hasSmallFontSize: title.length > MAX_TITLE_LENGTH_WITH_BIG_SIZE,
+  });
 
   return (
     <Dialog
@@ -27,13 +31,10 @@ export const SampleCodeDialog = ({
       onClose={onClose}
       maxPxWidth={750}
       paperClassName={classes.paper}
+      titleClassName={classes.title}
+      title={title}
     >
-      <div>
-        <Typography variant="h6" className={classes.title}>
-          {title}
-        </Typography>
-        <div className={classes.codeArea}>{children}</div>
-      </div>
+      <div className={classes.codeArea}>{children}</div>
     </Dialog>
   );
 };

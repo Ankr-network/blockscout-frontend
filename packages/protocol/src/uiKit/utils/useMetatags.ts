@@ -1,4 +1,5 @@
 import { INDEX_PATH } from 'domains/chains/routes';
+import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { ChainID } from 'modules/chains/types';
 import { t } from '@ankr.com/common';
 import { useEffect } from 'react';
@@ -105,6 +106,8 @@ export const getChainName = (chainId: ChainID) => {
     name = renderETHName(chainId);
   } else if (chainId === ChainID.SUI) {
     name = 'Sui Testnet';
+  } else if (ADVANCED_API_PATH.includes(chainId)) {
+    name = 'Advanced API';
   } else if (chainId.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {
@@ -121,7 +124,10 @@ const getLocation = (pathname: string, chainsRoutes: string[]): string => {
     location = 'public.';
   }
 
-  if (chainsRoutes.some(route => pathname.includes(route))) {
+  if (
+    chainsRoutes.some(route => pathname.includes(route)) ||
+    pathname.includes(ADVANCED_API_PATH)
+  ) {
     if (pathname === `${INDEX_PATH}eth`) {
       location = 'chain-item-eth.';
     } else if (pathname === `${INDEX_PATH}bsc`) {

@@ -32,15 +32,14 @@ export const {
           if (!newAuthData.hasOauthLogin) {
             break;
           }
-          // eslint-disable-next-line
-          const { data: hasDepositTransaction } = await dispatch(
-            oauthHasDepositTransaction.initiate(),
-          );
-
-          // eslint-disable-next-line
-          const { data: hasVoucherTransaction } = await dispatch(
-            oauthHasVoucherTransaction.initiate(),
-          );
+          const [
+            { data: hasDepositTransaction },
+            { data: hasVoucherTransaction },
+            // eslint-disable-next-line
+          ] = await Promise.all([
+            dispatch(oauthHasDepositTransaction.initiate()),
+            dispatch(oauthHasVoucherTransaction.initiate()),
+          ]);
 
           const hasTransaction = hasDepositTransaction || hasVoucherTransaction;
 
@@ -50,6 +49,7 @@ export const {
             dispatch(
               setAuthData({
                 hasOauthUserDepositTransaction: hasTransaction,
+                hasVoucherTransaction,
               }),
             );
             break;

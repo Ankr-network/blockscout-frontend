@@ -14,14 +14,4 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       paddingBottom: theme.spacing(2 * 3.5),
     },
   },
-  chainDetailsWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-
-    gap: theme.spacing(2 * 3.75),
-
-    [theme.breakpoints.down('lg')]: {
-      gap: theme.spacing(2 * 2),
-    },
-  },
 }));

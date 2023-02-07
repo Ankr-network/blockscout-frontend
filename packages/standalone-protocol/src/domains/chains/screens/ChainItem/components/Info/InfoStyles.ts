@@ -1,38 +1,55 @@
-import { darken, makeStyles, Theme } from '@material-ui/core';
-import { ChainId } from 'domains/chains/api/chain';
+import { makeStyles, Theme } from '@material-ui/core';
+import background from './assets/background.png';
+import backgroundRetina from './assets/background-retina.png';
+import { FONTS } from 'modules/themes/const';
+
+export const ANKR_COLOR = '#356DF3';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     width: '100%',
-    paddingTop: theme.spacing(3.5),
-    textAlign: 'center',
+    padding: theme.spacing(3, 6),
+    borderRadius: 20,
+    marginTop: theme.spacing(6),
 
-    [`&.${ChainId.Near} $title`]: {
-      color: '#668BF2',
+    background: `${ANKR_COLOR} url(${background}) no-repeat top right`,
+
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
+    '@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)': {
+      background: `${ANKR_COLOR} url(${backgroundRetina}) no-repeat top right`,
+      backgroundSize: '450px 100%',
     },
 
-    [`&.${ChainId.Syscoin} $title`]: {
-      color: '#1E41A5',
-    },
-
-    [`&.${ChainId.Moonbeam} $title`]: {
-      color: '#74C8C7',
-    },
-
-    [`&.${ChainId.Ethereum} $title`]: {
-      color: '#1E41A5',
-    },
-    [`&.${ChainId.Secret} $link`]: {
-      color: theme.palette.primary.main,
-
-      '&:hover': {
-        color: darken(theme.palette.primary.main, 0.2),
-      },
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      textAlign: 'center',
     },
   },
   title: {
-    marginBottom: 20,
-    color: theme.palette.primary.main,
+    color: '#E7EBF3',
+    fontSize: 28,
+
+    fontFamily: FONTS.ttFirsNeueSemiBold,
+    marginRight: theme.spacing(1),
+
+    [theme.breakpoints.down('xs')]: {
+      marginRight: theme.spacing(0),
+      marginBottom: theme.spacing(1),
+    },
   },
-  link: {},
+  button: {
+    width: 190,
+    height: '48px !important',
+    fontSize: '16px !important',
+    color: `${ANKR_COLOR} !important`,
+    backgroundColor: `${theme.palette.common.white} !important`,
+
+    '&:hover': {
+      color: `${ANKR_COLOR} !important`,
+      backgroundColor: '#E7EBF3 !important',
+    },
+  },
 }));

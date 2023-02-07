@@ -30,6 +30,7 @@ const isSectionVisible = (
   isUpgraded: boolean,
 ) =>
   !isUpgraded ||
+  chainId === ChainID.MULTICHAIN ||
   chainId === ChainID.TRON ||
   chainId === ChainID.NEAR ||
   isGroupEvmBased(group) ||

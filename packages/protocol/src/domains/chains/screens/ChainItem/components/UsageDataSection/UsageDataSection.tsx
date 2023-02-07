@@ -3,8 +3,8 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { PrivateUsageDataSection } from './components/PrivateUsageDataSection/PrivateUsageDataSection';
-import { PublicUsageDataSection } from './components/PublicUsageDataSection/PublicUsageDataSection';
+import { PrivateUsageDataSection } from './components/PrivateUsageDataSection';
+import { PublicUsageDataSection } from './components/PublicUsageDataSection';
 
 export interface UsageDataSectionProps {
   chain: IApiChain;

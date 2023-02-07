@@ -37,3 +37,12 @@
     url('sf-ui-display-bold.woff2') format('woff2'),
     url('sf-ui-display-bold.woff') format('woff');
 }
+
+@font-face {
+  font-family: 'TT Firs Neue';
+  src: local('TT Firs Neue DemiBold'), local('TTFirsNeue-DemiBold'),
+    url('TTFirsNeue-DemiBold.woff2') format('woff2'),
+    url('TTFirsNeue-DemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
