@@ -8,7 +8,7 @@ import { Check } from '@ankr.com/ui';
 import { ChainsItemDialog } from '../ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
-const BANNER_PLAN_ITEM_COUNT = 3;
+const BANNER_PLAN_ITEM_COUNT = 2;
 
 export const InfoBanner = () => {
   const { classes, cx } = useInfoBannerStyles();
