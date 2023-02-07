@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
@@ -9,7 +10,7 @@ import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaima
 interface IUseUnclaimed {
   isLoading: boolean;
   token: TEthToken;
-  amount: string;
+  amount: BigNumber;
   isShowed: boolean;
 }
 
@@ -30,7 +31,7 @@ export const useUnclaimed = (): IUseUnclaimed => {
   return {
     isLoading,
     token: Token.aETHc,
-    amount: `+ ${amount.toFormat()}`,
+    amount,
     isShowed: !amount.isZero(),
   };
 };
