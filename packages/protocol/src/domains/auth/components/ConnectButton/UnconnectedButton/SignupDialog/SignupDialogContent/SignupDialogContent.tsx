@@ -66,10 +66,6 @@ export const SignupDialogContent = ({
         <ConnectWalletsContent onClose={onDialogClose} onSuccess={onSuccess} />
       );
     case SignupDialogState.WEB2:
-      return (
-        <>
-          <EmailContent onClick={handleFetchLoginParams} />
-        </>
-      );
+      return <EmailContent onClick={handleFetchLoginParams} />;
   }
 };
