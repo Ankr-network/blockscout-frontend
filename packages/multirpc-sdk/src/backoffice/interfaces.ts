@@ -30,6 +30,7 @@ import {
   IGetUserRevenueResponse,
   GetUserAddressesRequest,
   GetUserAddressesResponse,
+  IGetAdminRolesResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -46,6 +47,8 @@ export interface IBackofficeGateway {
   getEmailBindings(
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
+
+  getAdminRoles(): Promise<IGetAdminRolesResponse>;
 
   getUserTotal(params: IGetUserTotalRequest): Promise<IGetUserTotalResponse>;
 

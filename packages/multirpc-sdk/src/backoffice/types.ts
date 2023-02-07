@@ -73,6 +73,11 @@ export interface IEmailBindingsResponse {
   cursor: string;
 }
 
+export interface IGetAdminRolesResponse {
+  roles: string;
+  roles_name: string;
+}
+
 export interface ICreateTestClientRequest {
   address: Web3Address;
   duration: number;

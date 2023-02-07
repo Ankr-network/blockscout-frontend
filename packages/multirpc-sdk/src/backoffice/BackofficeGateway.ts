@@ -34,6 +34,7 @@ import {
   IGetUserRevenueResponse,
   GetUserAddressesRequest,
   GetUserAddressesResponse,
+  IGetAdminRolesResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -92,6 +93,12 @@ export class BackofficeGateway implements IBackofficeGateway {
     );
 
     return response;
+  }
+
+  async getAdminRoles(): Promise<IGetAdminRolesResponse> {
+    const { data } = await this.api.get<IGetAdminRolesResponse>('/roles');
+
+    return data
   }
 
   async getUserTotal(
