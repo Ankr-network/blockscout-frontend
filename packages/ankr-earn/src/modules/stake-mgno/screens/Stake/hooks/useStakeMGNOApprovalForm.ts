@@ -12,7 +12,6 @@ export const useStakeMGNOApprovalForm = (): IUseApprovalForm => {
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveMNGOStakeMutation();
@@ -24,13 +23,12 @@ export const useStakeMGNOApprovalForm = (): IUseApprovalForm => {
 
   return useApprovalForm({
     isApproveLoading,
-    isApproveError,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,
     approve,
     resetApprove,
     getAllowance,
+    isApproveError,
   });
 };

@@ -12,7 +12,6 @@ export const useStakeAnkrApprovalForm = (): IUseApprovalForm => {
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveAnkrMutation();
@@ -27,7 +26,6 @@ export const useStakeAnkrApprovalForm = (): IUseApprovalForm => {
     isApproveLoading,
     isApproveError,
     resetApprove,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,

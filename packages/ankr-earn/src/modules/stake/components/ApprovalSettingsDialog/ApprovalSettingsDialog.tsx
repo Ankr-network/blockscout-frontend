@@ -51,18 +51,22 @@ export const ApprovalSettingsDialog = ({
     [amount, approvalSettingsMode],
   );
 
+  const isCustom = approvalSettingsMode === ApprovalOption.CURRENT;
+
   const minAmountValue = minAmount.toString();
 
   const validate = useCallback(
     (inputAmount: string) => {
       const minAmountBn = new BigNumber(minAmountValue);
-      return minAmountBn.isLessThanOrEqualTo(inputAmount) || inputAmount === '0'
+      return minAmountBn.isLessThanOrEqualTo(inputAmount) ||
+        inputAmount === '0' ||
+        !isCustom
         ? undefined
         : t('validation.greater-or-equal', {
             value: minAmountBn.toFormat(),
           });
     },
-    [minAmountValue],
+    [minAmountValue, isCustom],
   );
 
   const renderForm = ({

@@ -22,7 +22,6 @@ export const useUnstakePolygonApprovalForm = (): IUseApprovalForm => {
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveAnkrMaticUnstakeMutation();
@@ -37,7 +36,6 @@ export const useUnstakePolygonApprovalForm = (): IUseApprovalForm => {
     isApproveLoading,
     isApproveError,
     resetApprove,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,

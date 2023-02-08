@@ -12,7 +12,6 @@ export const useFlashUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveABNBCForSwapPoolMutation();
@@ -27,7 +26,6 @@ export const useFlashUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
     isApproveLoading,
     isApproveError,
     resetApprove,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,

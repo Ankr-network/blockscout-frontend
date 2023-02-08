@@ -12,7 +12,6 @@ export const useUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveABNBCUnstakeMutation();
@@ -27,7 +26,6 @@ export const useUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
     isApproveLoading,
     isApproveError,
     resetApprove,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,
