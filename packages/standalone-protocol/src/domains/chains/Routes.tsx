@@ -1,9 +1,8 @@
 import { generatePath, Route, useParams } from 'react-router-dom';
-import loadable from '@loadable/component';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { ChainId } from './api/chain';
-import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
+import { ChainItem } from './screens/ChainItem';
 
 export const PATH_CHAINS = '/chain/';
 export const PATH_CHAIN_DETAILS = '/chain/:chainId/';
@@ -31,23 +30,13 @@ export const ChainsRoutesConfig = createRouteConfig(
   PATH_CHAINS,
 );
 
-const getComponent = (spinner: JSX.Element) =>
-  loadable(
-    async () => import('./screens/ChainItem').then(module => module.ChainItem),
-    {
-      fallback: spinner,
-    },
-  );
-
 export function ChainsRoutes({ chainId }: { chainId: ChainId }) {
-  const spinner = useSpinner(chainId);
-
   return (
     <>
       <Route
         exact
         path={chainId ? '/' : ChainsRoutesConfig.chainDetails.path}
-        component={getComponent(spinner)}
+        component={ChainItem}
       />
     </>
   );

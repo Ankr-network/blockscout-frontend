@@ -25,11 +25,8 @@ export const useStyles = makeStyles<Theme>(theme => ({
   main: {
     maxWidth: 1110,
     [theme.breakpoints.up('md')]: {
-      paddingLeft: MENU_WIDTH + 24,
+      paddingLeft: `${MENU_WIDTH + 24}px !important`,
     },
-  },
-  header: {
-    paddingTop: theme.spacing(8),
   },
   details: {
     marginTop: theme.spacing(6),

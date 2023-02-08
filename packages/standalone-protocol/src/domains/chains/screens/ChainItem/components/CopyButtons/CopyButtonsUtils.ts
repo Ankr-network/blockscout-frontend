@@ -1,5 +1,6 @@
 import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { IApiChain } from 'domains/chains/api/queryChains';
+import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 
 export const formatChain = (data?: IApiChain): Chain | null => {
   if (!data) return null;
@@ -17,7 +18,7 @@ export const formatChain = (data?: IApiChain): Chain | null => {
 };
 
 export const getLink = (): string => {
-  const link = window?.location.origin || '';
+  const link = IS_REACT_SNAP ? '' : window?.location.origin;
 
   return link;
 };

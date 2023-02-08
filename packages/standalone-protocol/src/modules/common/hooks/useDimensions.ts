@@ -12,10 +12,13 @@ const getElementDimensions = (elem: HTMLElement): ElementDimesions => {
   return { width, height };
 };
 
-export const useDimensions = (ref: RefObject<HTMLElement>) => {
+export const useDimensions = (
+  ref: RefObject<HTMLElement>,
+  defaultHeight = 0,
+) => {
   const [dimensions, setDimensions] = useState<ElementDimesions>({
     width: 0,
-    height: 0,
+    height: defaultHeight,
   });
 
   const handleSetDimensions = debouncePromise(() => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 
@@ -11,6 +10,7 @@ import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 import { ChainId } from 'domains/chains/api/chain';
 import { useIsMDDown } from 'ui';
+import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 
 interface INervosButtonsProps {
   chainId: ChainId;
@@ -30,13 +30,17 @@ export const NervosButtons = ({
   const classes = useStyles();
   const isMDDown = useIsMDDown();
 
+  const shouldShowCopyIcon = isXSDown && !IS_REACT_SNAP;
+  const nervosText = netLink ? `${netLink}/nervos` : '';
+  const nervosGwText = netLink ? `${netLink}/nervos_gw` : '';
+
   return (
     <div data-test-id="copy-button">
       <div className={classes.top}>
         <div className={classes.link}>
-          {isXSDown ? (
+          {shouldShowCopyIcon ? (
             <CopyToClipIcon
-              text={`${netLink}/nervos`}
+              text={nervosText}
               message={t('common.copy-message')}
               size="l"
               textColor="textPrimary"
@@ -46,7 +50,7 @@ export const NervosButtons = ({
           ) : (
             <CopyToClipButton
               buttonText={t('chain-item.copy-button.button-text')}
-              text={`${netLink}/nervos`}
+              text={nervosText}
               textMessage={t('common.copy-message')}
               className={classes.copyButton}
               onCopy={onCopy}
@@ -75,9 +79,9 @@ export const NervosButtons = ({
         )}
       >
         <div className={classes.link}>
-          {isXSDown ? (
+          {shouldShowCopyIcon ? (
             <CopyToClipIcon
-              text={`${netLink}/nervos_gw`}
+              text={nervosGwText}
               message={t('common.copy-message')}
               size="l"
               textColor="textPrimary"
@@ -87,7 +91,7 @@ export const NervosButtons = ({
           ) : (
             <CopyToClipButton
               buttonText={t('chain-item.copy-button.button-text')}
-              text={`${netLink}/nervos_gw`}
+              text={nervosGwText}
               textMessage={t('common.copy-message')}
               className={classes.copyButton}
               onCopy={onCopy}
