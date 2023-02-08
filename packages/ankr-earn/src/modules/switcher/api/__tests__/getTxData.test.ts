@@ -111,30 +111,6 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     });
   });
 
-  test('should return tx data for binance network', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-    const expected = {
-      amount: new BigNumber(2.5),
-      isPending: false,
-      destinationAddress: ZERO_ADDR,
-    };
-
-    const results = await Promise.all(
-      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
-        chainId =>
-          sdk.fetchTxData({
-            chainId: chainId as AvailableSwitchNetwork,
-            txHash: 'hash',
-            token: Token.aBNBb,
-          }),
-      ),
-    );
-
-    results.forEach(result => {
-      expect(result).toStrictEqual(expected);
-    });
-  });
-
   test('should return tx data for ethereum network for matic token', async () => {
     const sdk = await SwitcherSDK.getInstance();
     const expected = {
@@ -212,7 +188,7 @@ describe('modules/switcher/api/SwitcherSDK#getTxData', () => {
     const result = await sdk.fetchTxData({
       chainId: 9000 as AvailableSwitchNetwork,
       txHash: 'hash',
-      token: Token.aBNBb,
+      token: Token.aETHb,
     });
 
     expect(result).toBeUndefined();

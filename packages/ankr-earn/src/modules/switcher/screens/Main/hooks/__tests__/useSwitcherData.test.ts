@@ -76,7 +76,7 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
       });
 
       const { result } = renderHook(() =>
-        useSwitcherData({ from: Token.aBNBb }),
+        useSwitcherData({ from: Token.aETHb }),
       );
 
       expect(result.current.checkAllowance(ZERO)).toBe(false);

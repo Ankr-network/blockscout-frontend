@@ -20,10 +20,6 @@ export const getFromLabel = ({ token }: IGetFromLabelArgs): string => {
     case Token.aETHc:
       return `1 ${Token.aETHb} = 1 ${nativeToken}`;
 
-    case Token.aBNBb:
-    case Token.aBNBc:
-      return `1 ${Token.aBNBb} = 1 ${nativeToken}`;
-
     case Token.aMATICb:
     case Token.aMATICc:
       return `1 ${Token.aMATICb} = 1 ${nativeToken}`;
@@ -57,10 +53,6 @@ export const getToLabel = ({ token, ratio }: IGetToLabelArgs): string => {
     case Token.aETHb:
     case Token.aETHc:
       return `1 ${getTokenName(Token.aETHc)} = ${nativeValue} ${nativeToken}`;
-
-    case Token.aBNBb:
-    case Token.aBNBc:
-      return `1 ${getTokenName(Token.aBNBc)} = ${nativeValue} ${nativeToken}`;
 
     case Token.aMATICb:
     case Token.aMATICc:
