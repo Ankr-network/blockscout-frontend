@@ -67,12 +67,12 @@ export const ChainNodesTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => {
+          {rows.map((row, index) => {
             const nodeStatus = getStatusByNodeScore(row.score);
 
             return (
               <TableRow
-                key={`${row.id}-${row.continent}-${row.height}`}
+                key={`${row.id}-${row.continent}-${row.height}-${index}`}
                 className={classes.row}
               >
                 <TableCell padding="none" className={classes.nodeCell}>

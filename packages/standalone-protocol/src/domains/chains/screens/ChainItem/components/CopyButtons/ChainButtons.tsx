@@ -8,6 +8,7 @@ import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { ChainId } from 'domains/chains/api/chain';
+import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 
 interface ChainButtonsProps {
   chainId: ChainId;
@@ -30,7 +31,7 @@ export const ChainButtons = ({
 
   return (
     <div className={classes.container} data-test-id="copy-button">
-      {isXSDown ? (
+      {isXSDown && !IS_REACT_SNAP ? (
         <CopyToClipIcon
           text={netLink}
           message={message}

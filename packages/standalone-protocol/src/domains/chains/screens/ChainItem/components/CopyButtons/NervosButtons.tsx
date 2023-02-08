@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 
@@ -11,6 +10,7 @@ import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 import { ChainId } from 'domains/chains/api/chain';
 import { useIsMDDown } from 'ui';
+import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 
 interface INervosButtonsProps {
   chainId: ChainId;
@@ -34,7 +34,7 @@ export const NervosButtons = ({
     <div data-test-id="copy-button">
       <div className={classes.top}>
         <div className={classes.link}>
-          {isXSDown ? (
+          {isXSDown && !IS_REACT_SNAP ? (
             <CopyToClipIcon
               text={`${netLink}/nervos`}
               message={t('common.copy-message')}

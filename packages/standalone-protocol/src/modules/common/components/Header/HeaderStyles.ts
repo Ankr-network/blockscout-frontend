@@ -1,15 +1,27 @@
 import { makeStyles, Theme } from '@material-ui/core';
+
 import { ChainId } from 'domains/chains/api/chain';
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
 import { HEADER_HEIGHT } from './HeaderLogo/HeaderLogoStyles';
+import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
+import { hasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 
-export const useStyles = makeStyles<
-  Theme,
-  { chainId?: string; bannerHeight: number; hasInfo: boolean }
->(theme => ({
+const { REACT_APP_CHAIN_ID } = process.env;
+
+interface HeaderStylesProps {
+  chainId?: string;
+  bannerHeight: number;
+  hasInfo: boolean;
+}
+
+export const BANNER_HEIGHT = 88;
+
+export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
   root: {
     width: '100%',
-    paddingTop: ({ bannerHeight }) => `${theme.spacing(3) + bannerHeight}px`,
+    paddingTop: IS_REACT_SNAP
+      ? `${theme.spacing(3) + BANNER_HEIGHT}px !important`
+      : ({ bannerHeight }) => `${theme.spacing(3) + bannerHeight}px !important`,
     paddingBottom: theme.spacing(6),
     textAlign: 'center',
   },
@@ -39,7 +51,12 @@ export const useStyles = makeStyles<
     },
   },
   title: {
-    paddingTop: ({ hasInfo }) => (hasInfo ? HEADER_HEIGHT : 40),
+    // it's not possible to pass a separate function with this logic for react snap
+    paddingTop: IS_REACT_SNAP
+      ? hasAnkrsInfo(REACT_APP_CHAIN_ID as ChainId)
+        ? HEADER_HEIGHT
+        : 40
+      : ({ hasInfo }: HeaderStylesProps) => (hasInfo ? HEADER_HEIGHT : 40),
     marginBottom: 20,
     textTransform: 'uppercase',
 
