@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 

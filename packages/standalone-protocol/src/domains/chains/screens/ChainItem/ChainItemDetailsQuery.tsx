@@ -43,7 +43,7 @@ export const ChainItemDetailsQuery = ({
       isPreloadDisabled
       spinner={spinner}
     >
-      {({ data, loading, pristine }) => {
+      {({ data, loading }) => {
         const {
           totalCached,
           totalRequests,
@@ -58,7 +58,7 @@ export const ChainItemDetailsQuery = ({
               totalCached={totalCached}
               totalRequests={totalRequests}
               timeframe={TIMEFRAME}
-              loading={IS_REACT_SNAP || (loading && pristine)}
+              loading={IS_REACT_SNAP || (loading && !data)}
               chainId={chainId}
             />
             {hasInfo && <Info />}
@@ -66,7 +66,7 @@ export const ChainItemDetailsQuery = ({
               totalRequestsHistory={totalRequestsHistory}
               totalCachedHistory={totalCachedHistory}
               className={classNames(classes.chart, chainId)}
-              loading={IS_REACT_SNAP || (loading && pristine)}
+              loading={IS_REACT_SNAP || (loading && !data)}
               chainId={chainId}
             />
           </>

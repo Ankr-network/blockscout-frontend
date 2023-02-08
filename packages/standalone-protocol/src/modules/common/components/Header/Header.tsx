@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
+
 import { useHasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 import { Banner } from 'domains/chains/screens/ChainItem/components/Banner';
 import { useDimensions } from 'modules/common/hooks/useDimensions';
@@ -8,17 +9,17 @@ import { tHTML } from 'modules/i18n/utils/intl';
 import { MutableRefObject, useRef } from 'react';
 import { HeaderLogo } from './HeaderLogo';
 import { HeaderProps } from './HeaderProps';
-import { useStyles } from './HeaderStyles';
+import { BANNER_HEIGHT, useStyles } from './HeaderStyles';
 
-export const Header = ({ chainId, className = '' }: HeaderProps) => {
+export const Header = ({ chainId }: HeaderProps) => {
   const bannerRef = useRef() as MutableRefObject<HTMLDivElement | null>;
-  const { height: bannerHeight } = useDimensions(bannerRef);
+  const { height: bannerHeight } = useDimensions(bannerRef, BANNER_HEIGHT);
   const hasInfo = useHasAnkrsInfo(chainId);
 
   const classes = useStyles({ chainId, bannerHeight, hasInfo });
 
   return (
-    <div className={classNames(classes.root, className)} data-test-id="header">
+    <div className={classes.root} data-test-id="header">
       <Banner chainId={chainId} ref={bannerRef} />
       <HeaderLogo chainId={chainId} hasInfo={hasInfo} />
       <Typography className={classNames(classes.title, chainId)} variant="h1">

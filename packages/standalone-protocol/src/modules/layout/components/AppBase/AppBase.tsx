@@ -5,12 +5,11 @@ import { ReactReduxContext } from 'react-redux';
 
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import '../../../../assets/fonts/style.css';
-import { getCurrentChainId, useInitialaizeLocale } from './AppBaseUtils';
+import { getCurrentChainId } from './AppBaseUtils';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId } from 'domains/chains/api/chain';
 import { RewiredStylesProvider } from 'ui';
 import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
-import { Spinner } from 'uiKit/Spinner';
 
 interface IAppBaseProps {
   children: ReactNode;
@@ -18,8 +17,6 @@ interface IAppBaseProps {
 }
 
 export const AppBase = ({ children, chainId }: IAppBaseProps) => {
-  const isInitialized = useInitialaizeLocale();
-
   const currentChainId = getCurrentChainId(chainId);
 
   return (
@@ -27,16 +24,12 @@ export const AppBase = ({ children, chainId }: IAppBaseProps) => {
       <ThemeProvider theme={getTheme(currentChainId)}>
         <CssBaseline />
         <SentryErrorBoundary chainId={currentChainId}>
-          {isInitialized ? (
-            <ConnectedRouter
-              history={historyInstance}
-              context={ReactReduxContext}
-            >
-              {children}
-            </ConnectedRouter>
-          ) : (
-            <Spinner />
-          )}
+          <ConnectedRouter
+            history={historyInstance}
+            context={ReactReduxContext}
+          >
+            {children}
+          </ConnectedRouter>
         </SentryErrorBoundary>
       </ThemeProvider>
     </RewiredStylesProvider>

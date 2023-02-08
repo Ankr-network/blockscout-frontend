@@ -23,7 +23,7 @@ export const DetailsBlock = ({
         </Typography>
       </div>
       {loading ? (
-        <Skeleton className={classes.skeleton} height="37.3px" />
+        <Skeleton className={classes.skeleton} height="38.4px" />
       ) : (
         <Typography variant="h2" className={classes.value} color="textPrimary">
           {value}
