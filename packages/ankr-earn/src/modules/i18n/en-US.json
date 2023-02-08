@@ -374,7 +374,15 @@
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     },
     "token-info": "<b>{token}</b> is a reward-bearing token. It accumulates rewards not by growing in number, but by growing in value in relation to {nativeToken}. The redemption price of <b>1 {token}</b> is now <b>{nativeAmount} {nativeToken}</b>.",
-    "b-notice": "Ankr no longer actively supports {bToken}. You can stake {nativeToken} and get {cToken} supported by the most well-known DeFi platforms."
+    "b-notice": "Ankr no longer actively supports {bToken}. You can stake {nativeToken} and get {cToken} supported by the most well-known DeFi platforms.",
+    "approval": {
+      "approval-settings": "Approval Settings",
+      "description": "Approve allows the smart contract to spend a specific amount of tokens on your behalf. To avoid approval fees in the future, you may set unlimited access or custom limit at your discretion.",
+      "option-current": "Current amount",
+      "option-unlimited": "Unlimited access",
+      "option-custom": "Custom amount",
+      "close-and-confirm": "Confirm and close"
+    }
   },
   "delegated-stake": {
     "header": {
@@ -700,7 +708,8 @@
       "return": "Go to dashboard"
     },
     "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
-    "send-external-wallet": "Send to external wallet"
+    "send-external-wallet": "Send to external wallet",
+    "approval-settings": "Approval Settings"
   },
   "calc": {
     "title": "Staking calculator",
@@ -1442,6 +1451,12 @@
     "polkadot": {
       "title": "Polkadot liquid staking is undergoing maintenance",
       "description": "Staking and unstaking are temporarily suspended. Our team is working on improving the services."
+    }
+  },
+  "approval": {
+    "steps": {
+      "1": "1",
+      "2": "2"
     }
   }
 }

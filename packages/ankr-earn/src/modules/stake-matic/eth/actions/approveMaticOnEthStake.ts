@@ -3,26 +3,41 @@ import BigNumber from 'bignumber.js';
 
 import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { TMaticSyntToken } from 'modules/stake-matic/common/types';
+import {
+  getTxReceipt,
+  getTxReceiptRequestKey,
+} from 'modules/common/actions/getTxReceipt';
+import { IApproveMutation } from 'modules/common/hooks/useApprove';
 
 import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
-interface IApproveMATICStakeProps {
-  amount: BigNumber;
-  token: TMaticSyntToken;
-}
+export const RECEIPT_NAME = 'useApproveMaticOnEthStakeMutation';
 
-export const { useLazyApproveMaticOnEthStakeQuery } = web3Api.injectEndpoints({
+export const { useApproveMaticOnEthStakeMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
-    approveMaticOnEthStake: build.query<boolean, IApproveMATICStakeProps>({
-      queryFn: queryFnNotifyWrapper<IApproveMATICStakeProps, never, boolean>(
-        async ({ amount }) => {
+    approveMaticOnEthStake: build.mutation<IApproveMutation, BigNumber>({
+      queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(
+        async amount => {
           const sdk = await getPolygonOnEthereumSDK();
-
-          return { data: await sdk.approveMATICToken(amount) };
+          const result = await sdk.approveMATICToken(amount);
+          return { data: { ...result, amount } };
         },
         getOnErrorWithCustomText(t('stake-matic-common.errors.approve-stake')),
       ),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { transactionHash } = response.data;
+          const isNotApprovedYet = typeof transactionHash === 'string';
+
+          if (isNotApprovedYet) {
+            dispatch(
+              getTxReceipt(transactionHash, {
+                requestKey: getTxReceiptRequestKey(RECEIPT_NAME),
+              }),
+            );
+          }
+        });
+      },
     }),
   }),
 });

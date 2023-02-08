@@ -8,6 +8,7 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
+import { MAX_UINT256, MAX_UINT256_SCALE } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { getProviderManager } from 'modules/api/getProviderManager';
@@ -938,20 +939,15 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async approve(amount: BigNumber): Promise<IApproveResponse> {
-    const isAllowed = await this.checkAllowance(amount);
-
-    if (isAllowed) {
-      return {
-        isApproved: true,
-      };
-    }
-
     const ankrTokenContract = await this.getAnkrTokenContract();
 
     const data = ankrTokenContract.methods
       .approve(
         contractConfig.ankrTokenStaking,
-        convertNumberToHex(amount, ETH_SCALE_FACTOR),
+        convertNumberToHex(
+          amount,
+          MAX_UINT256.isEqualTo(amount) ? MAX_UINT256_SCALE : ETH_SCALE_FACTOR,
+        ),
       )
       .encodeABI();
 
@@ -962,17 +958,24 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     );
 
     return {
+      amount,
       isApproved: false,
       txHash: transactionHash,
     };
   }
 
-  public async checkAllowance(amount: BigNumber): Promise<boolean> {
+  public async getAllowance(): Promise<BigNumber> {
     const ankrTokenContract = await this.getAnkrTokenContract();
 
     const allowance = await ankrTokenContract.methods
       .allowance(this.currentAccount, contractConfig.ankrTokenStaking)
       .call();
+
+    return new BigNumber(allowance);
+  }
+
+  public async checkAllowance(amount: BigNumber): Promise<boolean> {
+    const allowance = await this.getAllowance();
 
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
 

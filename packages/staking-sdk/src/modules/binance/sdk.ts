@@ -1,7 +1,6 @@
 import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
-import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem, Unit } from 'web3-utils';
@@ -23,6 +22,7 @@ import {
   ProviderManagerSingleton,
   ZERO,
   ZERO_EVENT_HASH,
+  MAX_UINT256_SCALE,
 } from '../common';
 import {
   ABI_ABNBB,
@@ -1599,21 +1599,13 @@ export class BinanceSDK implements ISwitcher, IStakable {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
-
-    const hexAmount = convertNumberToHex(amount, scale);
-    const isAllowed = await this.checkAllowance(hexAmount);
-    if (isAllowed) {
-      return undefined;
-    }
+    const hexAmount = convertNumberToHex(amount, amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale);
 
     const { binanceConfig } = configFromEnv();
-
     const aBNBcContract = await this.getABNBCContract();
-
     const data = aBNBcContract.methods
       .approve(binanceConfig.aBNBbToken, hexAmount)
       .encodeABI();
-
     return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       binanceConfig.aBNBcToken,
@@ -1634,19 +1626,11 @@ export class BinanceSDK implements ISwitcher, IStakable {
   public async approveACTokenForSwapPool(
     amount: BigNumber = MAX_UINT256,
     scale = MATIC_SCALE_FACTOR,
-  ): Promise<boolean> {
+  ): Promise<IWeb3SendResult> {
     const acTokenContract = await this.getABNBCContract();
     const { binanceConfig } = configFromEnv();
 
-    const amountHex = convertNumberToHex(amount, scale);
-    const allowance = new BigNumber(
-      await acTokenContract.methods
-        .allowance(this.currentAccount, binanceConfig.swapPool)
-        .call(),
-    );
-    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
-      return true;
-    }
+    const amountHex = convertNumberToHex(amount, amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale);
     const txn = acTokenContract.methods.approve(
       binanceConfig.swapPool,
       amountHex,
@@ -1658,13 +1642,11 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
     const gasPrice = await this.writeProvider.getSafeGasPriceWei();
 
-    const approve: TransactionReceipt | undefined = await txn.send({
+    return txn.send({
       from: this.currentAccount,
       gas: this.getIncreasedGasLimit(gasLimit),
       gasPrice: gasPrice.toString(10),
     });
-
-    return !!approve;
   }
 
   /**
@@ -1686,18 +1668,38 @@ export class BinanceSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Allowance is the amount which spender is still allowed to withdraw from owner.
-   * @param {string} [spender] - spender address (by default it is aBNBb token address)
-   * @returns {Promise<BigNumber>} - allowance in wei
+   * @returns {Promise<BigNumber>} - allowance
    */
-  public async getACAllowance(spender?: string): Promise<BigNumber> {
+  public async getACAllowance(): Promise<BigNumber> {
     const aBNBcContract = await this.getABNBCContract(true);
     const { binanceConfig } = configFromEnv();
 
     const allowance = await aBNBcContract.methods
-      .allowance(this.currentAccount, spender || binanceConfig.aBNBbToken)
+      .allowance(
+        this.currentAccount,
+        binanceConfig.aBNBbToken,
+      )
       .call();
 
-    return new BigNumber(allowance);
+    return this.convertFromWei(allowance);
+  }
+
+  /**
+   * Return aBNBc Swap Pool token allowance.
+   *
+   * @public
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
+   * @returns {Promise<BigNumber>} - allowance
+   */
+  public async getACSwapPoolAllowance(): Promise<BigNumber> {
+    const acTokenContract = await this.getABNBCContract();
+    const { binanceConfig } = configFromEnv();
+
+    return this.convertFromWei(
+      await acTokenContract.methods
+        .allowance(this.currentAccount, binanceConfig.swapPool)
+        .call(),
+    );
   }
 
   /**

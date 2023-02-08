@@ -17,6 +17,7 @@ export const useHowItWorksDialogStyles = makeStyles(theme => ({
 
   header: {
     marginBottom: theme.spacing(2.5),
+    textAlign: 'center',
   },
 
   title: {

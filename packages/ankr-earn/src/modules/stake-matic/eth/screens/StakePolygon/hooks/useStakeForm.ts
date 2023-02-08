@@ -12,7 +12,6 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
-import { useLazyApproveMaticOnEthStakeQuery } from 'modules/stake-matic/eth/actions/approveMaticOnEthStake';
 import { useLazyGetMaticOnEthStakeGasFeeQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStakeGasFee';
 import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStakeStats';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
@@ -26,7 +25,6 @@ import {
 
 interface IUseStakeFormData {
   syntheticTokenPrice: BigNumber;
-  activeStep: number;
   amount: BigNumber;
   certificateRatio: BigNumber;
   faqItems: IFAQItem[];
@@ -34,10 +32,7 @@ interface IUseStakeFormData {
   minimumStake?: BigNumber;
   fetchStatsError?: FetchBaseQueryError | SerializedError;
   gasFee: BigNumber;
-  isApproveLoading: boolean;
-  isApproved: boolean;
   isFetchStatsLoading: boolean;
-  isShouldBeApproved: boolean;
   isShowGasFee: boolean;
   isStakeLoading: boolean;
   tokenIn: string;
@@ -53,11 +48,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   );
 
   const [stake, { isLoading: isStakeLoading }] = useStakeMaticOnEthMutation();
-
-  const [
-    approveMATICStake,
-    { data: approveData, isLoading: isApproveLoading },
-  ] = useLazyApproveMaticOnEthStakeQuery();
 
   const {
     data: statsData,
@@ -88,14 +78,8 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const [isError, setIsError] = useState(false);
 
-  const isApproved = !!approveData;
-
-  const isShouldBeApproved = !isApproved;
-
   const isShowGasFee =
     !isGasFeeLoading && gasFee !== null && (gasFee?.isGreaterThan(0) || false);
-
-  const activeStep = isApproved ? 1 : 0;
 
   const aMATICcRatio = statsData?.aMATICcRatio;
 
@@ -156,22 +140,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   const handleSubmit = (values: IStakeSubmitPayload): void => {
     const val = new BigNumber(values.amount);
 
-    if (isShouldBeApproved) {
-      approveMATICStake({
-        amount: val,
-        token: Token.aMATICc,
-      })
-        .unwrap()
-        .then(() => {
-          getStakeGasFee({
-            amount: val,
-            token: Token.aMATICc,
-          });
-        });
-
-      return;
-    }
-
     stake({
       amount: val,
       token: Token.aMATICc,
@@ -187,7 +155,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   return {
     syntheticTokenPrice,
-    activeStep,
     amount,
     certificateRatio: aMATICcRatio ?? ZERO,
     faqItems,
@@ -195,10 +162,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     minimumStake: stakeStatsData?.minimumStake,
     fetchStatsError: statsError || stakeStatsError,
     gasFee: gasFee ?? ZERO,
-    isApproveLoading,
-    isApproved,
     isFetchStatsLoading: isStatsLoading || isStakeStatsLoading,
-    isShouldBeApproved,
     isShowGasFee,
     isStakeLoading,
     tokenIn: Token.MATIC,

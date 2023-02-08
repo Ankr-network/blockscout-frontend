@@ -1,45 +1,48 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-import { RootState } from 'store';
-
-import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import {
+  getTxReceipt,
+  getTxReceiptRequestKey,
+} from 'modules/common/actions/getTxReceipt';
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
+import { IApproveMutation } from 'modules/common/hooks/useApprove';
 
 import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
-import { selectMaticOnEthAllowance } from './getMaticOnEthAllowance';
+export const RECEIPT_NAME = 'useLazyApproveAnkrMaticUnstakeQuery';
 
 export const { useApproveAnkrMaticUnstakeMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
-    approveAnkrMaticUnstake: build.mutation<
-      IWeb3SendResult | boolean,
-      BigNumber
-    >({
-      queryFn: queryFnNotifyWrapper<BigNumber, never, boolean>(
-        async (amount, { getState }) => {
-          const { data: allowance } = selectMaticOnEthAllowance(
-            getState() as RootState,
-          );
-
-          if (allowance && allowance.isGreaterThanOrEqualTo(amount)) {
-            return { data: true };
-          }
-
+    approveAnkrMaticUnstake: build.mutation<IApproveMutation, BigNumber>({
+      queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(
+        async amount => {
           const sdk = await getPolygonOnEthereumSDK();
 
-          const result = await sdk.approveACForAB(amount, ETH_SCALE_FACTOR);
+          const result = await sdk.approveMATICToken(amount, ETH_SCALE_FACTOR);
 
-          await result?.receiptPromise;
-
-          return { data: !!result };
+          return { data: { ...result, amount } };
         },
         getOnErrorWithCustomText(
           t('stake-matic-common.errors.approve-unstake'),
         ),
       ),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { transactionHash } = response.data;
+          const isNotApprovedYet = typeof transactionHash === 'string';
+
+          if (isNotApprovedYet) {
+            dispatch(
+              getTxReceipt(transactionHash, {
+                requestKey: getTxReceiptRequestKey(RECEIPT_NAME),
+              }),
+            );
+          }
+        });
+      },
     }),
   }),
 });

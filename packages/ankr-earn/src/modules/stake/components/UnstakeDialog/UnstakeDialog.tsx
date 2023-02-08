@@ -1,8 +1,15 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactNode, ReactText, useCallback, useEffect, useRef } from 'react';
+import {
+  ReactNode,
+  ReactText,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { Field, Form } from 'react-final-form';
 
 import { Notice } from 'ui';
@@ -16,11 +23,8 @@ import { getTokenName } from 'modules/common/utils/getTokenName';
 import { Button } from 'uiKit/Button';
 import { CheckboxField } from 'uiKit/CheckboxField';
 import { CloseButton } from 'uiKit/CloseButton';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { InputField } from 'uiKit/InputField';
 import { OnChange } from 'uiKit/OnChange';
-import { NumericStepper } from 'uiKit/Stepper';
-import { Tooltip } from 'uiKit/Tooltip';
 
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
@@ -28,11 +32,6 @@ enum FieldsNames {
   amount = 'amount',
   isToExternalAddress = 'isToExternalAddress',
   externalAddress = 'externalAddress',
-}
-
-enum ESteps {
-  approve,
-  unstake,
 }
 
 export interface IUnstakeFormValues {
@@ -51,13 +50,11 @@ export interface IUnstakeDialogProps {
   endDate?: Date;
   token?: Token;
   closeHref?: string;
-  isApproved?: boolean;
-  isWithApprove?: boolean;
-  isApproveLoading?: boolean;
   maxAmountDecimals?: number;
   maxAmount?: BigNumber;
   networkTitleSlot?: JSX.Element;
   renderFormFooter?: (amount: BigNumber, maxAmount: BigNumber) => ReactNode;
+  renderFormApproveButtons?: (amount: BigNumber) => ReactNode;
   onClose?: () => void;
   onSubmit: (values: IUnstakeFormValues) => void;
   extraValidation?: (
@@ -67,6 +64,8 @@ export interface IUnstakeDialogProps {
   ) => FormErrors<IUnstakeFormValues>;
   onChange?: (values: IUnstakeFormValues, invalid: boolean) => void;
   isExternalAllowed?: boolean;
+  allowance?: BigNumber;
+  isApproveLoading?: boolean;
 }
 
 export const UnstakeDialog = ({
@@ -79,9 +78,6 @@ export const UnstakeDialog = ({
   endDate,
   endText,
   token = Token.AVAX,
-  isApproved,
-  isWithApprove,
-  isApproveLoading,
   maxAmountDecimals,
   networkTitleSlot,
   isExternalAllowed,
@@ -91,6 +87,9 @@ export const UnstakeDialog = ({
   extraValidation,
   renderFormFooter,
   onChange,
+  renderFormApproveButtons,
+  allowance = ZERO,
+  isApproveLoading = false,
 }: IUnstakeDialogProps): JSX.Element => {
   const classes = useUnstakeDialogStyles();
   const maxAmountValue = maxAmount
@@ -99,19 +98,15 @@ export const UnstakeDialog = ({
   const formRef =
     useRef<FormApi<IUnstakeFormValues, Partial<IUnstakeFormValues>>>();
 
+  const [amount, setAmount] = useState(ZERO);
+
+  const isApproved = allowance?.isLessThanOrEqualTo(amount);
+
   const setMaxAmount = useCallback(
     (form: FormApi<IUnstakeFormValues>, max: string) => () =>
       form.change(FieldsNames.amount, max),
     [],
   );
-
-  const activeStep = isApproved ? ESteps.unstake : ESteps.approve;
-
-  const isUnstakeBtnDisabled =
-    isDisabled ||
-    submitDisabled ||
-    (isWithApprove && !isApproved) ||
-    isApproveLoading;
 
   const validate = useCallback(
     (data: IUnstakeFormValues) => {
@@ -135,171 +130,146 @@ export const UnstakeDialog = ({
   }, [balanceValue]);
 
   return (
-    <Paper className={classes.root}>
-      <Form
-        render={({ handleSubmit, form, values, invalid }) => {
-          formRef.current = form;
-          return (
-            <form autoComplete="off" onSubmit={handleSubmit}>
-              <Container className={classes.container}>
-                <Typography className={classes.title} variant="h3">
-                  {t('unstake-dialog.title', { token: tokenName })}
-                </Typography>
+    <>
+      <Paper className={classes.root}>
+        <Form
+          render={({ handleSubmit, form, values, invalid }) => {
+            formRef.current = form;
 
-                {networkTitleSlot && (
-                  <div className={classes.networkTitle}>{networkTitleSlot}</div>
-                )}
+            const isUnstakeBtnDisabled =
+              isDisabled || submitDisabled || !isApproved || isApproveLoading;
 
-                <Box mb={4}>
-                  <AmountInput
-                    balance={balance}
-                    disabled={isDisabled || isApproved}
-                    isBalanceLoading={isBalanceLoading}
-                    label={
-                      <div className={classes.amountLabel}>
-                        {t('unstake-dialog.amount')}
-                      </div>
-                    }
-                    maxDecimals={maxAmountDecimals}
-                    name={FieldsNames.amount}
-                    tokenName={tokenName}
-                    onMaxClick={setMaxAmount(form, maxAmountValue.toFormat())}
-                  />
-                </Box>
-
-                {renderFormFooter &&
-                  renderFormFooter(
-                    new BigNumber(values.amount ?? 0),
-                    new BigNumber(maxAmountValue),
-                  )}
-              </Container>
-
-              <div className={classes.footer}>
+            return (
+              <form autoComplete="off" onSubmit={handleSubmit}>
                 <Container className={classes.container}>
-                  {isExternalAllowed && (
-                    <div className={classes.externalWrapper}>
-                      <div className={classes.checkboxArea}>
-                        <Field
-                          component={CheckboxField}
-                          name={FieldsNames.isToExternalAddress}
-                          type="checkbox"
-                        >
-                          <Typography
-                            className={classes.checkboxTxt}
-                            color="textSecondary"
-                            variant="body2"
-                          >
-                            {t('unstake-dialog.send-external-wallet')}
-                          </Typography>
-                        </Field>
-                      </div>
+                  <Typography className={classes.title} variant="h3">
+                    {t('unstake-dialog.title', { token: tokenName })}
+                  </Typography>
 
-                      {values.isToExternalAddress && (
-                        <div className={classes.addressArea}>
-                          <Typography
-                            className={classes.labelTxt}
-                            color="textPrimary"
-                            variant="body2"
-                          >
-                            {t('stake-polkadot.unstake.external-wallet')}
-                          </Typography>
-
-                          <Field
-                            fullWidth
-                            className={classes.addressField}
-                            component={InputField}
-                            disabled={isDisabled}
-                            name={FieldsNames.externalAddress}
-                            type="string"
-                          />
-                        </div>
-                      )}
+                  {networkTitleSlot && (
+                    <div className={classes.networkTitle}>
+                      {networkTitleSlot}
                     </div>
                   )}
 
                   <Box mb={4}>
-                    {endDate && (
-                      <Typography className={classes.info} variant="body2">
-                        {t('unstake-dialog.info', { token })}
-
-                        <Timer
-                          className={classes.timer}
-                          component="span"
-                          endTime={endDate}
-                        />
-                      </Typography>
-                    )}
-
-                    {endText && <Notice>{endText}</Notice>}
+                    <AmountInput
+                      balance={balance}
+                      disabled={isDisabled}
+                      isBalanceLoading={isBalanceLoading}
+                      label={
+                        <div className={classes.amountLabel}>
+                          {t('unstake-dialog.amount')}
+                        </div>
+                      }
+                      maxDecimals={maxAmountDecimals}
+                      name={FieldsNames.amount}
+                      tokenName={tokenName}
+                      onMaxClick={setMaxAmount(form, maxAmountValue.toFormat())}
+                    />
                   </Box>
 
-                  <Grid container spacing={3}>
-                    {isWithApprove && (
-                      <Grid item xs>
-                        <Button
-                          fullWidth
-                          color="primary"
-                          disabled={
-                            isDisabled || isApproved || isApproveLoading
-                          }
-                          endIcon={
-                            <Tooltip
-                              arrow
-                              title={tHTML('common.tooltips.allowance')}
+                  {renderFormFooter &&
+                    renderFormFooter(amount, new BigNumber(maxAmountValue))}
+                </Container>
+
+                <div className={classes.footer}>
+                  <Container className={classes.container}>
+                    {isExternalAllowed && (
+                      <div className={classes.externalWrapper}>
+                        <div className={classes.checkboxArea}>
+                          <Field
+                            component={CheckboxField}
+                            name={FieldsNames.isToExternalAddress}
+                            type="checkbox"
+                          >
+                            <Typography
+                              className={classes.checkboxTxt}
+                              color="textSecondary"
+                              variant="body2"
                             >
-                              <Box component="span" display="flex">
-                                <QuestionIcon htmlColor="inherit" size="xs" />
-                              </Box>
-                            </Tooltip>
-                          }
-                          isLoading={isApproveLoading}
-                          size="large"
-                          type="submit"
-                        >
-                          {t('unstake-dialog.btn-approve')}
-                        </Button>
-                      </Grid>
+                              {t('unstake-dialog.send-external-wallet')}
+                            </Typography>
+                          </Field>
+                        </div>
+
+                        {values.isToExternalAddress && (
+                          <div className={classes.addressArea}>
+                            <Typography
+                              className={classes.labelTxt}
+                              color="textPrimary"
+                              variant="body2"
+                            >
+                              {t('stake-polkadot.unstake.external-wallet')}
+                            </Typography>
+
+                            <Field
+                              fullWidth
+                              className={classes.addressField}
+                              component={InputField}
+                              disabled={isDisabled}
+                              name={FieldsNames.externalAddress}
+                              type="string"
+                            />
+                          </div>
+                        )}
+                      </div>
                     )}
 
-                    <Grid item xs>
-                      <Button
-                        fullWidth
-                        color="primary"
-                        disabled={isUnstakeBtnDisabled}
-                        isLoading={isLoading}
-                        size="large"
-                        type="submit"
-                      >
-                        {t('unstake-dialog.btn')}
-                      </Button>
-                    </Grid>
-                  </Grid>
+                    <Box mb={4}>
+                      {endDate && (
+                        <Typography className={classes.info} variant="body2">
+                          {t('unstake-dialog.info', { token })}
 
-                  {isWithApprove && (
-                    <NumericStepper
-                      activeStep={activeStep}
-                      className={classes.stepper}
-                      stepsCount={2}
-                    />
-                  )}
-                </Container>
-              </div>
+                          <Timer
+                            className={classes.timer}
+                            component="span"
+                            endTime={endDate}
+                          />
+                        </Typography>
+                      )}
 
-              {typeof onChange === 'function' && (
+                      {endText && <Notice>{endText}</Notice>}
+                    </Box>
+
+                    {renderFormApproveButtons ? (
+                      renderFormApproveButtons(amount)
+                    ) : (
+                      <Grid container spacing={3}>
+                        <Grid item xs>
+                          <Button
+                            fullWidth
+                            color="primary"
+                            disabled={isUnstakeBtnDisabled}
+                            isLoading={isLoading}
+                            size="large"
+                            type="submit"
+                          >
+                            <>{t('unstake-dialog.btn')}</>
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    )}
+                  </Container>
+                </div>
+
                 <OnChange name={FieldsNames.amount}>
                   {() => {
-                    onChange(values, invalid);
+                    setAmount(new BigNumber(values[FieldsNames.amount] || '0'));
+                    if (typeof onChange === 'function') {
+                      onChange(values, invalid);
+                    }
                   }}
                 </OnChange>
-              )}
-            </form>
-          );
-        }}
-        validate={validate}
-        onSubmit={onSubmit}
-      />
+              </form>
+            );
+          }}
+          validate={validate}
+          onSubmit={onSubmit}
+        />
 
-      <CloseButton href={closeHref ?? ''} onClose={onClose} />
-    </Paper>
+        <CloseButton href={closeHref ?? ''} onClose={onClose} />
+      </Paper>
+    </>
   );
 };

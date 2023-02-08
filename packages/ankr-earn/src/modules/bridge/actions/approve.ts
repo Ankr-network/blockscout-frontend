@@ -1,51 +1,53 @@
 import { t } from '@ankr.com/common';
-import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import {
   getTxReceipt,
   getTxReceiptRequestKey,
 } from 'modules/common/actions/getTxReceipt';
 import { SupportedChainIDS } from 'modules/common/const';
+import { IApproveMutation } from 'modules/common/hooks/useApprove';
 
 import { BridgeSDK } from '../api/BridgeSDK';
-import { IBridgeApproveResponse } from '../api/types/types';
 import { AvailableBridgeTokens } from '../types';
-import { getTokenAddr } from '../utils/getTokenAddr';
 
-export const approve = createAction<
-  RequestAction<IBridgeApproveResponse, IBridgeApproveResponse>,
-  [BigNumber, AvailableBridgeTokens, SupportedChainIDS]
->('bridge/approve', (amount, token, fromChainId) => ({
-  request: {
-    promise: (async (): Promise<IBridgeApproveResponse> => {
-      const sdk = await BridgeSDK.getInstance();
-      const tokenAddr = getTokenAddr(token, fromChainId);
+export const RECEIPT_NAME = 'useApproveBridgeMutation';
 
-      return sdk.approve(amount, tokenAddr);
-    })(),
-  },
-  meta: {
-    showNotificationOnError: true,
-    additionalErrorText: t('bridge.errors.approve'),
-    onSuccess: (
-      response: { data: IBridgeApproveResponse },
-      _action,
-      store: RequestsStore,
-    ) => {
-      const { txHash } = response.data;
-      const isNotApprovedYet = typeof txHash === 'string';
+interface IBridgeApprovalArgs {
+  amount: BigNumber;
+  token: AvailableBridgeTokens;
+  fromChainId: SupportedChainIDS;
+}
 
-      if (isNotApprovedYet) {
-        store.dispatch(
-          getTxReceipt(txHash, {
-            requestKey: getTxReceiptRequestKey(approve.toString()),
-          }),
-        );
-      }
+export const { useApproveBridgeMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    approveBridge: build.mutation<IApproveMutation, IBridgeApprovalArgs>({
+      queryFn: queryFnNotifyWrapper<
+        IBridgeApprovalArgs,
+        never,
+        IApproveMutation
+      >(async ({ amount, token, fromChainId }) => {
+        const sdk = await BridgeSDK.getInstance();
 
-      return response;
-    },
-  },
-}));
+        const results = await sdk.approve(amount, token, fromChainId);
+        return { data: { ...results, amount } };
+      }, getOnErrorWithCustomText(t('stake-ankr.errors.approve'))),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { transactionHash } = response.data;
+          const isNotApprovedYet = typeof transactionHash === 'string';
+
+          if (isNotApprovedYet) {
+            dispatch(
+              getTxReceipt(transactionHash, {
+                requestKey: getTxReceiptRequestKey(RECEIPT_NAME),
+              }),
+            );
+          }
+        });
+      },
+    }),
+  }),
+});

@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import { Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ReactNode, useCallback, useMemo } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
@@ -18,26 +17,22 @@ import {
   StakeFormTitle,
 } from 'modules/stake/components/StakeForm';
 import { calcMaxStakeAmount } from 'modules/stake/utils/calcMaxStakeAmount';
-import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { OnChange } from 'uiKit/OnChange';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 import { Quote } from 'uiKit/Quote';
-import { NumericStepper } from 'uiKit/Stepper';
 
 import { EFieldsNames, IStakeFormPayload, IStakeSubmitPayload } from './const';
 import { useStakeFormStyles } from './useStakeFormStyles';
 
 interface IStakeFormProps {
+  amount?: BigNumber;
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
   stakingAmountStep?: BigNumber;
-  loading?: boolean;
   isBalanceLoading?: boolean;
-  isApproveLoading?: boolean;
   isDisabled?: boolean;
-  isApproved?: boolean;
   tokenIn?: string;
   providerSelectHref: string;
   maxAmountDecimals?: number;
@@ -53,18 +48,17 @@ interface IStakeFormProps {
   greaterMaxError?: string;
   onSubmit: (payload: IStakeSubmitPayload) => void;
   onChange?: (values: IStakeFormPayload, invalid: boolean) => void;
+  renderFormApproveButtons: (amount: BigNumber) => ReactNode;
 }
 
 export const StakeForm = ({
+  amount = ZERO,
   balance = ZERO,
   minAmount = ZERO,
   maxAmount = balance,
   stakingAmountStep,
-  loading = false,
   isBalanceLoading = false,
-  isApproveLoading = false,
   isDisabled = false,
-  isApproved = false,
   tokenIn = t('unit.ankr'),
   maxAmountDecimals,
   closeHref,
@@ -80,6 +74,7 @@ export const StakeForm = ({
   greaterMaxError,
   onSubmit,
   onChange,
+  renderFormApproveButtons,
 }: IStakeFormProps): JSX.Element => {
   const classes = useStakeFormStyles();
 
@@ -96,15 +91,15 @@ export const StakeForm = ({
 
   const validateStakeForm = useCallback(
     (data: IStakeSubmitPayload) => {
-      const { amount } = data;
+      const { amount: formAmount } = data;
 
       const errors: FormErrors<IStakeSubmitPayload> = {};
 
       const withAmountStep = !!stakingAmountStep;
 
       const isMultipleOf =
-        amount && stakingAmountStep
-          ? new BigNumber(amount).modulo(stakingAmountStep).isZero()
+        formAmount && stakingAmountStep
+          ? new BigNumber(formAmount).modulo(stakingAmountStep).isZero()
           : false;
 
       if (withAmountStep && !isMultipleOf) {
@@ -124,112 +119,80 @@ export const StakeForm = ({
       amount: convertAmountToBN(payload?.amount).toFixed(),
     } as IStakeSubmitPayload);
 
-  const isSubmitDisabled = isDisabled || loading || isBalanceLoading;
-
   const renderForm = ({
     form,
     handleSubmit,
     values,
     invalid,
-  }: FormRenderProps<IStakeSubmitPayload>) => (
-    <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
-      <CloseButton href={closeHref} />
+  }: FormRenderProps<IStakeSubmitPayload>) => {
+    return (
+      <StakeFormBox className={classes.box} onSubmit={handleSubmit}>
+        <CloseButton href={closeHref} />
 
-      <StakeFormTitle>
-        {t('delegated-stake.staking.title', {
-          token: tokenIn,
-        })}
-      </StakeFormTitle>
+        <StakeFormTitle>
+          {t('delegated-stake.staking.title', {
+            token: tokenIn,
+          })}
+        </StakeFormTitle>
 
-      <AmountInput
-        isLongBalance
-        balance={balance}
-        balanceDecimals={DEFAULT_ROUNDING}
-        balanceLinkSlot={balanceLinkSlot}
-        disabled={isDisabled || isApproved}
-        isBalanceLoading={isBalanceLoading}
-        label={
-          <StakeDescriptionName component="span">
-            {t('stake.token-amount', { token: tokenIn })}
-          </StakeDescriptionName>
-        }
-        maxAmount={maxAmount}
-        maxDecimals={maxAmountDecimals}
-        minAmount={minAmount?.toNumber()}
-        name={EFieldsNames.amount}
-        tokenName={tokenIn}
-        validationMessages={{ isGreaterMax: greaterMaxError }}
-        onMaxClick={setMaxAmount(form, maxStakeAmount)}
-      />
-
-      <NodeProviderField
-        isDisabled
-        mt={4}
-        providerName={providerName}
-        providerSelectHref={providerSelectHref}
-      />
-
-      {(additionalText || additionalValue) && (
-        <StakeDescriptionContainer>
-          <StakeDescriptionName className={classes.periodLabel}>
-            {additionalText}
-
-            {additionalTooltip && (
-              <QuestionWithTooltip>{additionalTooltip}</QuestionWithTooltip>
-            )}
-          </StakeDescriptionName>
-
-          {additionalValue}
-        </StakeDescriptionContainer>
-      )}
-
-      <StakeFormFooter>
-        <Grid container spacing={2}>
-          <Grid item xs>
-            <Button
-              fullWidth
-              color="primary"
-              disabled={isApproved || isSubmitDisabled}
-              isLoading={isApproveLoading}
-              size="large"
-              type="submit"
-            >
-              {t('delegated-stake.staking.approve')}
-            </Button>
-          </Grid>
-
-          <Grid item xs>
-            <Button
-              fullWidth
-              color="primary"
-              disabled={!isApproved || isSubmitDisabled}
-              isLoading={loading}
-              size="large"
-              type="submit"
-            >
-              {t('delegated-stake.staking.submit')}
-            </Button>
-          </Grid>
-        </Grid>
-
-        <NumericStepper
-          activeStep={isApproved ? 1 : 0}
-          className={classes.stepper}
-          stepsCount={2}
+        <AmountInput
+          isLongBalance
+          balance={balance}
+          balanceDecimals={DEFAULT_ROUNDING}
+          balanceLinkSlot={balanceLinkSlot}
+          disabled={isDisabled}
+          isBalanceLoading={isBalanceLoading}
+          label={
+            <StakeDescriptionName component="span">
+              {t('stake.token-amount', { token: tokenIn })}
+            </StakeDescriptionName>
+          }
+          maxAmount={maxAmount}
+          maxDecimals={maxAmountDecimals}
+          minAmount={minAmount?.toNumber()}
+          name={EFieldsNames.amount}
+          tokenName={tokenIn}
+          validationMessages={{ isGreaterMax: greaterMaxError }}
+          onMaxClick={setMaxAmount(form, maxStakeAmount)}
         />
 
-        {quoteText && <Quote pt={1}>{quoteText}</Quote>}
-      </StakeFormFooter>
+        <NodeProviderField
+          isDisabled
+          mt={4}
+          providerName={providerName}
+          providerSelectHref={providerSelectHref}
+        />
 
-      <OnChange name={EFieldsNames.amount}>
-        {() => {
-          if (typeof onChange === 'function') {
-            onChange(values, invalid);
-          }
-        }}
-      </OnChange>
-    </StakeFormBox>
-  );
+        {(additionalText || additionalValue) && (
+          <StakeDescriptionContainer>
+            <StakeDescriptionName className={classes.periodLabel}>
+              {additionalText}
+
+              {additionalTooltip && (
+                <QuestionWithTooltip>{additionalTooltip}</QuestionWithTooltip>
+              )}
+            </StakeDescriptionName>
+
+            {additionalValue}
+          </StakeDescriptionContainer>
+        )}
+
+        <StakeFormFooter>
+          {renderFormApproveButtons(amount)}
+
+          {quoteText && <Quote pt={1}>{quoteText}</Quote>}
+        </StakeFormFooter>
+
+        <OnChange name={EFieldsNames.amount}>
+          {() => {
+            if (typeof onChange === 'function') {
+              onChange(values, invalid);
+            }
+          }}
+        </OnChange>
+      </StakeFormBox>
+    );
+  };
 
   return (
     <Form

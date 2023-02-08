@@ -22,6 +22,7 @@ import {
   ETH_NETWORK_BY_ENV,
   ETH_SCALE_FACTOR,
   MAX_UINT256,
+  MAX_UINT256_SCALE,
   ProviderManagerSingleton,
   ZERO,
 } from '../../common';
@@ -478,7 +479,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   public async approveMATICToken(
     amount: BigNumber = MAX_UINT256,
     scale = ETH_SCALE_FACTOR,
-  ): Promise<boolean> {
+  ): Promise<IWeb3SendResult> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -487,26 +488,16 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
 
     const maticTokenContract = await this.getMaticTokenContract();
 
-    const amountHex = convertNumberToHex(amount, scale);
-
-    const allowance = new BigNumber(
-      await maticTokenContract.methods
-        .allowance(this.currentAccount, contractConfig.polygonPool)
-        .call(),
+    const amountHex = convertNumberToHex(
+      amount,
+      amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale
     );
 
-    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
-      return true;
-    }
-
-    const approve: TransactionReceipt | undefined =
-      await maticTokenContract.methods
-        .approve(contractConfig.polygonPool, amountHex)
-        .send({
-          from: this.currentAccount,
-        });
-
-    return !!approve;
+    return maticTokenContract.methods
+      .approve(contractConfig.polygonPool, amountHex)
+      .send({
+        from: this.currentAccount,
+      });
   }
 
   /**
@@ -628,21 +619,20 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Allowance is the amount which spender is still allowed to withdraw from owner.
-   * @param {string} [spender] - spender address (by default, it's aMATICb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
-  public async getACAllowance(spender?: string): Promise<BigNumber> {
-    const provider = await this.getProvider(true);
-    const web3 = provider.getWeb3();
-    const aMaticCTokenContract =
-      PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
+  public async getACAllowance(): Promise<BigNumber> {
+    const maticTokenContract = await this.getMaticTokenContract(true);
     const { contractConfig } = configFromEnv();
 
-    const allowance = await aMaticCTokenContract.methods
-      .allowance(this.currentAccount, spender || contractConfig.aMaticbToken)
+    const allowance = await maticTokenContract.methods
+      .allowance(
+        this.currentAccount,
+        contractConfig.polygonPool,
+      )
       .call();
 
-    return new BigNumber(allowance);
+    return this.convertFromWei(allowance);
   }
 
   /**
@@ -668,8 +658,10 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     const aMaticCTokenContract =
       PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
 
+    const maxScale = amount.isEqualTo(MAX_UINT256) ? 1 : scale;
+
     const data = aMaticCTokenContract.methods
-      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, scale))
+      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, maxScale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -1086,23 +1078,8 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       await this.writeProvider.connect();
     }
 
-    const [polygonPoolContract, maticTokenContract] = await Promise.all([
-      this.getPolygonPoolContract(true),
-      this.getMaticTokenContract(true),
-    ]);
+    const polygonPoolContract = await this.getPolygonPoolContract(true);
     const rawAmount = amount.multipliedBy(scale);
-    // 0. Check current allowance
-    const allowance = new BigNumber(
-      await maticTokenContract.methods
-        .allowance(this.currentAccount, contractConfig.polygonPool)
-        .call(),
-    );
-    // 1. Approve MATIC token transfer to our polygonPool contract
-    if (allowance.isLessThan(rawAmount)) {
-      await maticTokenContract.methods
-        .approve(contractConfig.polygonPool, convertNumberToHex(rawAmount))
-        .send({ from: this.currentAccount });
-    }
 
     const contractStakeMethod =
       polygonPoolContract.methods[
@@ -1111,7 +1088,6 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
 
     const data = contractStakeMethod(convertNumberToHex(rawAmount)).encodeABI();
 
-    // 2. Do staking
     const { transactionHash: txHash } =
       await this.writeProvider.sendTransactionAsync(
         this.currentAccount,
