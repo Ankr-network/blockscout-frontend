@@ -7,18 +7,13 @@ import {
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';
-import {
-  AUDIT_LINKS,
-  DUNE_ANALYTICS_LINK,
-  featuresConfig,
-} from 'modules/common/const';
+import { AUDIT_LINKS, DUNE_ANALYTICS_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
@@ -30,11 +25,10 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTokenInfo } from 'modules/stake/components/StakeTokenInfo/StakeTokenInfo';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { useBTokenNotice } from 'modules/stake/hooks/useBTokenNotice';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
+import { EthMaticTradeInfo } from './components/EthMaticTradeInfo';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakePolygonApprovalForm } from './hooks/useStakePolygonApprovalForm';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
@@ -50,7 +44,6 @@ export const StakePolygon = (): JSX.Element => {
   const {
     syntheticTokenPrice,
     amount,
-    certificateRatio,
     faqItems,
     gasFee,
     isShowGasFee,
@@ -124,22 +117,6 @@ export const StakePolygon = (): JSX.Element => {
     };
   }, [dispatch]);
 
-  useProviderEffect(() => {
-    if (!featuresConfig.isActiveStakeTradeInfo) {
-      return;
-    }
-
-    dispatch(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.MATIC,
-        bondToken: EOpenOceanTokens.aMATICb,
-        certificateRatio,
-        certificateToken: EOpenOceanTokens.aMATICc,
-        network: EOpenOceanNetworks.ETH,
-      }),
-    );
-  }, [certificateRatio, dispatch]);
-
   const noticeText = useBTokenNotice({
     bToken: Token.aMATICb,
     cToken: getTokenSymbol(Token.aMATICc),
@@ -149,7 +126,7 @@ export const StakePolygon = (): JSX.Element => {
   return (
     <section className={classes.root}>
       <StakeContainer>
-        <StakeTradeInfo />
+        <EthMaticTradeInfo />
 
         <StakeForm
           auditSlot={

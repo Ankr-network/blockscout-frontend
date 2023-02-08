@@ -25,12 +25,10 @@ import { useGetMaticOnPolygonStakeStatsQuery } from 'modules/stake-matic/polygon
 import { useStakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/stakeMaticOnPolygon';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useSelectedToken } from './useSelectedToken';
@@ -63,9 +61,6 @@ const MAIN_TOKEN = Token.MATIC;
 
 const resetMainRequests = () =>
   resetReduxRequests([getFAQ.toString(), getMetrics.toString()]);
-
-const resetStakeTradeInfoRequests = () =>
-  resetReduxRequests([getStakeTradeInfoData.toString()]);
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
@@ -217,7 +212,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   useProviderEffect(() => {
     dispatch(resetMainRequests());
-    dispatch(resetStakeTradeInfoRequests());
 
     getMATICPOLYGONCommonDataRefetch();
     dispatch(getFAQ(Token.MATIC));
@@ -226,21 +220,8 @@ export const useStakeForm = (): IUseStakeFormData => {
     return () => {
       dispatch(abortRequests());
       dispatch(resetMainRequests());
-      dispatch(resetStakeTradeInfoRequests());
     };
   }, [dispatch]);
-
-  useProviderEffect(() => {
-    dispatch(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.MATIC,
-        bondToken: EOpenOceanTokens.aMATICb,
-        certificateRatio: acRatio,
-        certificateToken: EOpenOceanTokens.aMATICc,
-        network: EOpenOceanNetworks.POLYGON,
-      }),
-    );
-  }, [acRatio, dispatch]);
 
   return {
     acPoolLiquidityInMATIC,

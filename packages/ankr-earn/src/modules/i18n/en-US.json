@@ -354,8 +354,7 @@
       "dune-analytics": "Dune Analytics"
     },
     "trade-info": {
-      "description-one-token": "Receive a {value}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
-      "description-two-tokens": "Receive a {valueOne}% discount for {tokenOne} or a {valueTwo}% discount for {tokenTwo} on <b>OpenOcean</b> compared with direct staking on Ankr.",
+      "description": "Receive a {value}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
       "title": "Better option on OpenOcean"
     },
     "buttons": {

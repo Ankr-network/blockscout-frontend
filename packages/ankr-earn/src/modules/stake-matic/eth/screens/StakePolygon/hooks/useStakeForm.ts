@@ -26,7 +26,6 @@ import {
 interface IUseStakeFormData {
   syntheticTokenPrice: BigNumber;
   amount: BigNumber;
-  certificateRatio: BigNumber;
   faqItems: IFAQItem[];
   maticBalance?: BigNumber;
   minimumStake?: BigNumber;
@@ -156,7 +155,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   return {
     syntheticTokenPrice,
     amount,
-    certificateRatio: aMATICcRatio ?? ZERO,
     faqItems,
     maticBalance: statsData?.maticBalance,
     minimumStake: stakeStatsData?.minimumStake,
