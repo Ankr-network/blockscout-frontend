@@ -3,6 +3,7 @@ import { ButtonBase, Grid } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
+import { ZERO } from 'modules/common/const';
 import { Button } from 'uiKit/Button';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
@@ -21,6 +22,7 @@ interface IApprovalFormButtonsProps {
   tokenName: string;
   amount: BigNumber;
   allowance: BigNumber;
+  minAmount?: BigNumber;
   approvalSettingsMode: ApprovalOption;
   onApproveSubmit(amount: BigNumber): void;
   onApprovalSettingsFormSubmit(values: IApprovalSettingsFormValues): void;
@@ -35,6 +37,7 @@ export const ApprovalFormButtons = ({
   approvalSettingsMode,
   onApproveSubmit,
   onApprovalSettingsFormSubmit,
+  minAmount = ZERO,
 }: IApprovalFormButtonsProps): JSX.Element => {
   const classes = useApprovalFormButtonsStyles();
 
@@ -53,6 +56,15 @@ export const ApprovalFormButtons = ({
     onApprovalSettingsFormSubmit,
   });
 
+  const isBelowMinAmount = amount.isLessThan(minAmount);
+  const isApproveDisabled = isApproved || isApproveLoading || isBelowMinAmount;
+  const isSubmitDisabled =
+    isStakeLoading ||
+    !isApproved ||
+    isApproveLoading ||
+    !notZero ||
+    isBelowMinAmount;
+
   return (
     <>
       <Grid container spacing={3}>
@@ -60,11 +72,11 @@ export const ApprovalFormButtons = ({
           <Button
             fullWidth
             color="primary"
-            disabled={isApproved || isApproveLoading}
+            disabled={isApproveDisabled}
             endIcon={
               <QuestionWithTooltip
                 className={classNames(
-                  isApproved || isApproveLoading
+                  isApproveDisabled
                     ? classes.questionBtnDisabled
                     : classes.questionBtnActive,
                 )}
@@ -78,7 +90,7 @@ export const ApprovalFormButtons = ({
           >
             <span
               className={classNames(classes.stepperLabel, {
-                [classes.stepperLabelDisabled]: isApproved || isApproveLoading,
+                [classes.stepperLabelDisabled]: isApproveDisabled,
               })}
             >
               {t('approval.steps.1')}
@@ -96,17 +108,14 @@ export const ApprovalFormButtons = ({
           <Button
             fullWidth
             color="primary"
-            disabled={
-              isStakeLoading || !isApproved || isApproveLoading || !notZero
-            }
+            disabled={isSubmitDisabled}
             isLoading={isStakeLoading}
             size="large"
             type="submit"
           >
             <span
               className={classNames(classes.stepperLabel, {
-                [classes.stepperLabelDisabled]:
-                  isStakeLoading || !isApproved || isApproveLoading || !notZero,
+                [classes.stepperLabelDisabled]: isSubmitDisabled,
               })}
             >
               {t('approval.steps.2')}
@@ -125,6 +134,7 @@ export const ApprovalFormButtons = ({
           approvalSettingsMode={approvalSettingsMode}
           isLoading={isApproveLoading}
           isOpen={isOpened}
+          minAmount={minAmount}
           token={tokenName}
           onClose={onClose}
           onSubmit={onApprovalSettingsSubmit}

@@ -53,6 +53,7 @@ export const Stake = (): JSX.Element => {
       approvalSettingsMode={approvalSettingsMode}
       isApproveLoading={isApproveLoading}
       isStakeLoading={isStakeLoading}
+      minAmount={minStake}
       tokenName={tokenIn}
       onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
       onApproveSubmit={onApproveSubmit}

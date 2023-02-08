@@ -1,11 +1,13 @@
 import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 
 import { Radio } from 'ui';
 
+import { ZERO } from 'modules/common/const';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
 import { Dialog } from 'uiKit/Dialog';
@@ -20,6 +22,7 @@ const fieldNames = {
 
 interface IApprovalSettingsDialogProps {
   amount?: string;
+  minAmount?: BigNumber;
   approvalSettingsMode?: ApprovalOption;
   isLoading?: boolean;
   isOpen: boolean;
@@ -36,6 +39,7 @@ export const ApprovalSettingsDialog = ({
   token,
   onClose,
   onSubmit,
+  minAmount = ZERO,
 }: IApprovalSettingsDialogProps): JSX.Element => {
   const classes = useApprovalSettingsDialogStyles();
 
@@ -47,11 +51,25 @@ export const ApprovalSettingsDialog = ({
     [amount, approvalSettingsMode],
   );
 
+  const minAmountValue = minAmount.toString();
+
+  const validate = useCallback(
+    (inputAmount: string) => {
+      const minAmountBn = new BigNumber(minAmountValue);
+      return minAmountBn.isLessThan(inputAmount)
+        ? undefined
+        : t('validation.greater-or-equal', {
+            value: minAmountBn.toFormat(),
+          });
+    },
+    [minAmountValue],
+  );
+
   const renderForm = ({
     handleSubmit,
     values,
   }: FormRenderProps<IApprovalSettingsFormValues>) => (
-    <>
+    <form onSubmit={handleSubmit}>
       <Typography className={classes.header} component="h2">
         {t('stake.approval.approval-settings')}
       </Typography>
@@ -98,12 +116,13 @@ export const ApprovalSettingsDialog = ({
         <Field
           fullWidth
           component={AmountField}
-          defaultValue={initialData.amount}
+          defaultValue={initialData.amount?.toString() || '0'}
           InputProps={{
             endAdornment: <span>{token}</span>,
           }}
           name={fieldNames.amount}
           placeholder="0"
+          validate={validate}
           variant="outlined"
         />
       </div>
@@ -114,11 +133,10 @@ export const ApprovalSettingsDialog = ({
         isLoading={isLoading}
         size="large"
         type="submit"
-        onClick={handleSubmit}
       >
         {t('stake.approval.close-and-confirm')}
       </Button>
-    </>
+    </form>
   );
 
   return (

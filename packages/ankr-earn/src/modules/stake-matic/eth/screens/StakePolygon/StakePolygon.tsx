@@ -99,6 +99,7 @@ export const StakePolygon = (): JSX.Element => {
       approvalSettingsMode={approvalSettingsMode}
       isApproveLoading={isApproveLoading}
       isStakeLoading={isStakeLoading}
+      minAmount={minimumStake}
       tokenName={tokenName}
       onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
       onApproveSubmit={onApproveSubmit}

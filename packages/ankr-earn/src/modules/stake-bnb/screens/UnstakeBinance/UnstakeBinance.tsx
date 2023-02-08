@@ -8,6 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useState } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
+import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
@@ -160,6 +161,7 @@ export const UnstakeBinance = (): JSX.Element => {
       }
       isApproveLoading={isFlash ? isSwapPoolApproveLoading : isApproveLoading}
       isStakeLoading={isFlash ? isFlashUnstakeLoading : isUnstakeLoading}
+      minAmount={isFlash ? ZERO : minAmount}
       tokenName={selectedToken}
       onApprovalSettingsFormSubmit={
         isFlash
