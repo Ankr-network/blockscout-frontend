@@ -1184,6 +1184,7 @@
       "description": "This may take a moment; you can close this window.",
       "submit": "Unstake",
       "info": "Unstaking takes two steps: undelegating and claiming. Undelegating takes about 7 days before you can manually claim your funds.",
+      "info-link": "Learn more",
       "success-info": "The undelegate period has started. It will take about 7 days before you can manually claim your funds on the",
       "staking-page-link": "ANKR Staking page"
     },
