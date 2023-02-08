@@ -56,7 +56,7 @@ export const ApprovalSettingsDialog = ({
   const validate = useCallback(
     (inputAmount: string) => {
       const minAmountBn = new BigNumber(minAmountValue);
-      return minAmountBn.isLessThan(inputAmount)
+      return minAmountBn.isLessThanOrEqualTo(inputAmount) || inputAmount === '0'
         ? undefined
         : t('validation.greater-or-equal', {
             value: minAmountBn.toFormat(),
