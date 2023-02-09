@@ -2,14 +2,17 @@ import { alpha, makeStyles } from '@material-ui/core';
 
 export const useApprovalFormButtonsStyles = makeStyles(theme => ({
   stepperLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    marginRight: theme.spacing(1),
     height: theme.spacing(3),
     width: theme.spacing(3),
+
     borderRadius: '100%',
-    border: `1.5px solid ${alpha(theme.palette.common.white, 0.3)}`,
-    lineHeight: 1.42,
-    textAlign: 'center',
+    border: `1px solid ${alpha(theme.palette.common.white, 0.3)}`,
     color: theme.palette.common.white,
-    marginRight: theme.spacing(1),
     fontWeight: 600,
     fontSize: 14,
   },

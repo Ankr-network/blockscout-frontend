@@ -51,6 +51,7 @@ export const Unstake = (): JSX.Element => {
       approvalSettingsMode={approvalSettingsMode}
       isApproveLoading={isApproveLoading}
       isStakeLoading={isUnstakeLoading}
+      submitButtonLabel={t('unstake-dialog.btn')}
       tokenName={selectedToken}
       onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
       onApproveSubmit={onApproveSubmit}

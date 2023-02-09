@@ -162,6 +162,7 @@ export const UnstakeBinance = (): JSX.Element => {
       isApproveLoading={isFlash ? isSwapPoolApproveLoading : isApproveLoading}
       isStakeLoading={isFlash ? isFlashUnstakeLoading : isUnstakeLoading}
       minAmount={isFlash ? ZERO : minAmount}
+      submitButtonLabel={t('unstake-dialog.btn')}
       tokenName={selectedToken}
       onApprovalSettingsFormSubmit={
         isFlash
