@@ -26,6 +26,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: 'https://hooks.slack.com/services/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'
 
     steps:
       - uses: actions/checkout@v2
@@ -51,6 +53,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build dev
+        id: build-dev
         working-directory: ./packages/ankr-earn
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -62,6 +65,7 @@ jobs:
           yarn postbuild
 
       - name: Build stage
+        id: build-stage
         working-directory: ./packages/ankr-earn
         if: ${{ github.event.inputs.api == 'STAGE' }}
         run: |
@@ -96,3 +100,9 @@ jobs:
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
           echo "Invalidation ID is $INVALIDATION_ID"
           echo "CDN Invalidation request is sent."
+          
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: always()
