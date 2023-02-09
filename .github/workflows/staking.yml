@@ -36,6 +36,10 @@ jobs:
         with:
           node-version: '16.13.0'
           cache: 'yarn'
+      - uses: act10ns/slack@v1
+        with:
+          status: initiated
+        if: always()
 
 #      - name: Prevent wrong version releasing
 #        if: ${{ github.event.inputs.environment == 'PROD' && github.ref != 'refs/heads/main' }}
@@ -44,7 +48,6 @@ jobs:
 #          exit 1
 
       - name: Get deployment information
-        id: initiated
         run: |
           echo "Branch: ${BRANCH_NAME}"
           echo "Environment: ${{github.event.inputs.api}}"
