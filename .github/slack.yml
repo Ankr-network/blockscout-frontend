@@ -1,9 +1,8 @@
 username: GitHub-CI
 icon_url: https://octodex.github.com/images/femalecodertocat.png
 
-pretext: Triggered via {{eventName}} by {{actor}} {{default action "action"}} {{ref}} `{{diffRef}}`
 title: GitHub Actions
-title_link: https://support.github.com
+title_link: https://github.com/Ankr-network/frontend/actions
 
 text: &text |
   *<{{workflowRunUrl}}|Workflow _{{workflow}}_ job _{{jobName}}_ triggered by _{{eventName}}_ is _{{jobStatus}}_>* for <{{refUrl}}|`{{ref}}`>
@@ -14,9 +13,6 @@ text: &text |
   <{{this.url}}|`{{truncate this.id 8}}`> - {{this.message}}
   {{/each}}
   {{/if}}
-
-fallback: |-
-  [GitHub] {{workflow}} #{{runNumber}} {{jobName}} is {{jobStatus}}
 
 fields:
   - title: Job Steps
