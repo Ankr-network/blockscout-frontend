@@ -23,7 +23,7 @@ export const useTooltipStyles = makeStyles<number>()(
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingBottom: theme.spacing(2 * 1.5),
-      borderBottom: `2px solid ${theme.palette.background.default}`,
+      borderBottom: `2px solid ${theme.palette.grey[100]}`,
       marginBottom: theme.spacing(2 * 1.5),
     },
     total: {
