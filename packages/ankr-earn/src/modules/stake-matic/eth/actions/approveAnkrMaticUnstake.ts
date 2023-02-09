@@ -14,7 +14,10 @@ import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 export const RECEIPT_NAME = 'useLazyApproveAnkrMaticUnstakeQuery';
 
-export const { useApproveAnkrMaticUnstakeMutation } = web3Api.injectEndpoints({
+export const {
+  useApproveAnkrMaticUnstakeMutation,
+  endpoints: { approveAnkrMaticUnstake },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     approveAnkrMaticUnstake: build.mutation<IApproveMutation, BigNumber>({
       queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(

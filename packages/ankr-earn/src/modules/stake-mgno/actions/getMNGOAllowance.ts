@@ -5,11 +5,11 @@ import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
 
 export const {
-  useLazyGetAllowanceQuery,
-  endpoints: { getAllowance },
+  useLazyGetMNGOAllowanceQuery,
+  endpoints: { getMNGOAllowance },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getAllowance: build.query<BigNumber, void>({
+    getMNGOAllowance: build.query<BigNumber, void>({
       queryFn: queryFnNotifyWrapper<void, never, BigNumber>(async () => {
         const sdk = await GnosisStakingSDK.getInstance();
 
@@ -19,4 +19,4 @@ export const {
   }),
 });
 
-export const selectMNGOAllowance = getAllowance.select();
+export const selectMNGOAllowance = getMNGOAllowance.select();

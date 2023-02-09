@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import {
   RECEIPT_NAME,
   useApproveABNBCForSwapPoolMutation,
@@ -6,7 +8,9 @@ import { useLazyGetBNBSwapPoolAllowanceQuery } from 'modules/stake-bnb/actions/u
 import { IUseApprovalForm } from 'modules/stake/components/ApprovalFormButtons/types';
 import { useApprovalForm } from 'modules/stake/components/ApprovalFormButtons/useApprovalForm';
 
-export const useFlashUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
+export const useFlashUnstakeBinanceApprovalForm = (
+  isFlash: boolean,
+): IUseApprovalForm => {
   const [
     approve,
     {
@@ -21,6 +25,12 @@ export const useFlashUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
     { data: initialAllowance, isFetching: isAllowanceLoading },
   ] = useLazyGetBNBSwapPoolAllowanceQuery();
 
+  useEffect(() => {
+    if (isFlash) {
+      getAllowance();
+    }
+  }, [getAllowance, isFlash]);
+
   return useApprovalForm({
     approve,
     isApproveLoading,
@@ -30,5 +40,6 @@ export const useFlashUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
     initialAllowance,
     isAllowanceLoading,
     getAllowance,
+    shouldFetchAllowance: isFlash,
   });
 };

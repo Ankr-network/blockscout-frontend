@@ -2,7 +2,7 @@ import {
   RECEIPT_NAME,
   useApproveAnkrMutation,
 } from 'modules/stake-ankr/actions/approve';
-import { useLazyGetAllowanceQuery } from 'modules/stake-ankr/actions/getAllowance';
+import { useLazyGetAnkrAllowanceQuery } from 'modules/stake-ankr/actions/getAnkrAllowance';
 import { IUseApprovalForm } from 'modules/stake/components/ApprovalFormButtons/types';
 import { useApprovalForm } from 'modules/stake/components/ApprovalFormButtons/useApprovalForm';
 
@@ -19,7 +19,7 @@ export const useStakeAnkrApprovalForm = (): IUseApprovalForm => {
   const [
     getAllowance,
     { data: initialAllowance, isFetching: isAllowanceLoading },
-  ] = useLazyGetAllowanceQuery();
+  ] = useLazyGetAnkrAllowanceQuery();
 
   return useApprovalForm({
     approve,

@@ -14,7 +14,10 @@ import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 export const RECEIPT_NAME = 'useApproveABNBCUnstakeMutation';
 
-export const { useApproveABNBCUnstakeMutation } = web3Api.injectEndpoints({
+export const {
+  useApproveABNBCUnstakeMutation,
+  endpoints: { approveABNBCUnstake },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     approveABNBCUnstake: build.mutation<IApproveMutation, BigNumber>({
       queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(
