@@ -23,7 +23,6 @@ export interface IAuthSlice {
   trackingWalletName?: string;
   walletMeta?: IWalletMeta;
   workerTokenData?: WorkerTokenData;
-  hasReminderConfigEmail?: boolean;
 }
 
 const initialState: IAuthSlice = {};
@@ -57,15 +56,9 @@ export const authSlice = createSlice({
       Object.keys(state).forEach(key => {
         const objKey = key as keyof IAuthSlice;
 
-        if (key !== 'hasReminderConfigEmail') {
-          // @ts-ignore
-          state[objKey] = undefined;
-        }
+        // @ts-ignore
+        state[objKey] = undefined;
       });
-    },
-
-    setReminderConfigEmail: state => {
-      state.hasReminderConfigEmail = true;
     },
   },
 });
@@ -87,8 +80,4 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
   return {};
 };
 
-export const selectHasReminderConfigEmail = (state: RootState) =>
-  state.auth.hasReminderConfigEmail;
-
-export const { setAuthData, resetAuthData, setReminderConfigEmail } =
-  authSlice.actions;
+export const { setAuthData, resetAuthData } = authSlice.actions;

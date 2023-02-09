@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useReminderConfigEmail } from './hooks/useReminderConfigEmail';
-import { setReminderConfigEmail } from 'domains/auth/store/authSlice';
+import { setReminderConfigEmail } from 'domains/auth/store/userConfigSlice';
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { Dialog } from 'uiKit/Dialog';
@@ -10,12 +10,14 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import ReminderIcon from './assets/reminder.png';
 import { useReminderDialogStyles } from './useReminderDialogStyles';
 import { ConfirmReminderDialog } from '../ConfirmReminderDialog';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const ReminderDialog = () => {
   const { isOpened, onOpen, onClose } = useDialog();
+  const { address } = useAuth();
 
   const {
-    isOpened: isConfirmOpend,
+    isOpened: isConfirmOpened,
     onOpen: onOpenConfirm,
     onClose: onCloseConfirm,
   } = useDialog();
@@ -25,11 +27,11 @@ export const ReminderDialog = () => {
   const dispatch = useDispatch();
 
   const handleDispatch = useCallback(
-    () => dispatch(setReminderConfigEmail()),
-    [dispatch],
+    () => dispatch(setReminderConfigEmail(address)),
+    [address, dispatch],
   );
 
-  const { hasReminderConfigEmail } = useReminderConfigEmail();
+  const { hasReminderConfigEmail } = useReminderConfigEmail(address);
 
   useOnMount(() => {
     if (!hasReminderConfigEmail) {
@@ -79,7 +81,7 @@ export const ReminderDialog = () => {
           </Button>
         </div>
         <ConfirmReminderDialog
-          isOpened={isConfirmOpend}
+          isOpened={isConfirmOpened}
           onClose={onCloseConfirm}
         />
       </Dialog>

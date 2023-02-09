@@ -1,8 +1,12 @@
 import { useAppSelector } from 'store/useAppSelector';
-import { selectHasReminderConfigEmail } from 'domains/auth/store/authSlice';
+import { selectReminderEmailConfig } from 'domains/auth/store/userConfigSlice';
 
-export const useReminderConfigEmail = () => {
-  const hasReminderConfigEmail = useAppSelector(selectHasReminderConfigEmail);
+export const useReminderConfigEmail = (address?: string) => {
+  const reminderConfigEmail = useAppSelector(selectReminderEmailConfig);
+
+  const hasReminderConfigEmail = Boolean(
+    address && reminderConfigEmail[address],
+  );
 
   return {
     hasReminderConfigEmail,
