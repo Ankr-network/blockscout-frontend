@@ -8,7 +8,6 @@ import { RequestsMap } from '../../../RequestsMap';
 import { TimeframeTabs } from '../../../TimeframeTabs';
 import { usePublicUsageData } from './usePublicUsageData';
 import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
-import { useIsRequestsMapVisible } from '../../UsageDataSectionUtils';
 import { PublicUsageSummary } from './components/PublicUsageSummary';
 
 export interface PublicUsageDataSectionProps {
@@ -39,8 +38,6 @@ export const PublicUsageDataSection = ({
     isLoggedIn,
   } = usePublicUsageData({ chain, chainType, group, timeframe });
 
-  const isRequestsMapVisible = useIsRequestsMapVisible(countries);
-
   return (
     <div className={classes.usageDataSection}>
       {error ? (
@@ -67,13 +64,11 @@ export const PublicUsageDataSection = ({
             timeframe={timeframe}
             totalRequestsHistory={totalRequestsHistory}
           />
-          {isRequestsMapVisible && (
-            <RequestsMap
-              loading={loading}
-              countries={countries}
-              timeframe={timeframe}
-            />
-          )}
+          <RequestsMap
+            loading={loading}
+            countries={countries}
+            timeframe={timeframe}
+          />
         </>
       )}
     </div>

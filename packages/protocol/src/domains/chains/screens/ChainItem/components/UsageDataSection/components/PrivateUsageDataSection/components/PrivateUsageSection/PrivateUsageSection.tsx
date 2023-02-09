@@ -8,7 +8,6 @@ import { RequestsMap } from '../../../../../RequestsMap';
 import { TimeframeTabs } from '../../../../../TimeframeTabs';
 import { PrivateUsageSummary } from '../PrivateUsageSummary';
 import { useDataUsageSectionStyles } from '../../../../UsageDataSectionStyles';
-import { useIsRequestsMapVisible } from '../../../../UsageDataSectionUtils';
 import { LastUserRequests } from '../../../../../LastUserRequests';
 import { UsageData } from '../../../../types';
 
@@ -33,8 +32,6 @@ export const PrivateUsageSection = ({
   timeframe,
 }: PrivateUsageSectionProps) => {
   const { classes } = useDataUsageSectionStyles();
-
-  const isRequestsMapVisible = useIsRequestsMapVisible(countries);
 
   return (
     <div className={classes.usageDataSection}>
@@ -75,13 +72,11 @@ export const PrivateUsageSection = ({
           {userTopRequestsIp && (
             <RequestsByIP data={userTopRequestsIp} loading={loading} />
           )}
-          {isRequestsMapVisible && (
-            <RequestsMap
-              loading={loading}
-              countries={countries}
-              timeframe={timeframe}
-            />
-          )}
+          <RequestsMap
+            loading={loading}
+            countries={countries}
+            timeframe={timeframe}
+          />
         </>
       )}
     </div>
