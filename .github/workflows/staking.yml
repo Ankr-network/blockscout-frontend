@@ -30,16 +30,16 @@ jobs:
       SLACK_WEBHOOK_URL: 'https://hooks.slack.com/services/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'
 
     steps:
-      - uses: act10ns/slack@v1
-        with:
-          steps: initiated
-        if: always()
       - uses: actions/checkout@v2
       - uses: nelonoel/branch-name@v1.0.1
       - uses: actions/setup-node@v3
         with:
           node-version: '16.13.0'
           cache: 'yarn'
+      - uses: act10ns/slack@v1
+        with:
+          status: initiated
+        if: always()
 
 #      - name: Prevent wrong version releasing
 #        if: ${{ github.event.inputs.environment == 'PROD' && github.ref != 'refs/heads/main' }}
