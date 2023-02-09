@@ -38,7 +38,7 @@ jobs:
           cache: 'yarn'
       - uses: act10ns/slack@v1
         with:
-          status: Build initiated ${{github.event.inputs.api}}
+          status: initiated
         if: always()
 
 #      - name: Prevent wrong version releasing
@@ -62,7 +62,7 @@ jobs:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         if: ${{ github.event.inputs.api == 'DEV' }}
-        id: Build DEV
+        id: build-DEV
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
           yarn build:dev:turbo
@@ -71,7 +71,7 @@ jobs:
       - name: Build stage
         working-directory: ./packages/ankr-earn
         if: ${{ github.event.inputs.api == 'STAGE' }}
-        id: Build STAGE
+        id: build-STAGE
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
           yarn build:stage:turbo
