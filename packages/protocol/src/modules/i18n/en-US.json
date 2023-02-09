@@ -206,6 +206,17 @@
       "button": "Contact Sales"
     }
   },
+  "reminder-dialog": {
+    "title": "Friendly reminder",
+    "content": "Check your email settings to customize notifications you receive from Ankr",
+    "customize": "Customize",
+    "skip": "Skip for now"
+  },
+  "confirm-reminder-dialog": {
+    "title": "Okay!",
+    "message": "You will be able to customise your preference in",
+    "settings": "Settings"
+  },
   "chain-item": {
     "chain-types": {
       "mainnet": "Mainnet",
