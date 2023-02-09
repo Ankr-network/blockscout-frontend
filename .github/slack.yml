@@ -7,11 +7,6 @@ title_link: https://github.com/Ankr-network/frontend/actions
 text: &text |
   *<{{workflowRunUrl}}|Workflow _{{workflow}}_ job _{{jobName}}_ triggered by _{{eventName}}_ is _{{jobStatus}}_>* for <{{refUrl}}|`{{ref}}`>
   {{#if description}}<{{diffUrl}}|`{{diffRef}}`> - {{{description}}}{{/if}}
-  {{#if payload.commits}}
-  *Commits*
-  {{#each payload.commits}}
-  {{/each}}
-  {{/if}}
 
 fields:
   - title: Job Steps
