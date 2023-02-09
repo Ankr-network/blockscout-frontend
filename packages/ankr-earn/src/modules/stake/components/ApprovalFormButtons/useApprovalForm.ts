@@ -47,6 +47,7 @@ export const useApprovalForm = ({
   const [allowance, setAllowance] = useState(initialAllowance);
 
   const allowanceValue = allowance.toString();
+  const inittialAllowanceValue = initialAllowance.toString();
 
   const [requestAllowance, setRequstAllowance] = useState(allowance);
 
@@ -109,6 +110,12 @@ export const useApprovalForm = ({
       setAllowance(new BigNumber(requestAllowanceValue));
     }
   }, [isApproveLoading, setAllowance, isApproveError, requestAllowanceValue]);
+
+  useEffect(() => {
+    if (!isAllowanceLoading) {
+      setAllowance(new BigNumber(inittialAllowanceValue));
+    }
+  }, [isApproveLoading, setAllowance, isApproveError, inittialAllowanceValue]);
 
   return {
     allowance,
