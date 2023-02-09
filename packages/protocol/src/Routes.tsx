@@ -8,10 +8,7 @@ import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
 import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
-import {
-  UserSettingsRoutes,
-  UserSettingsRoutesConfig,
-} from 'domains/userSettings/Routes';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import {
   GuardAuthRoute,
@@ -76,7 +73,7 @@ export const Routes = () => {
       />
       <GuardPremiumRoute
         exact
-        path={[AccountRoutesConfig.accountDetails.path]}
+        path={AccountRoutesConfig.accountDetails.path}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
@@ -87,7 +84,7 @@ export const Routes = () => {
       />
       <GuardCardPaymentSuccessAuthRoute
         exact
-        path={[AccountRoutesConfig.cardPaymentSuccess.path]}
+        path={AccountRoutesConfig.cardPaymentSuccess.path}
         isUserEthAddressType={isUserEthAddressType}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
@@ -103,6 +100,7 @@ export const Routes = () => {
           UserSettingsRoutesConfig.settings.path,
           UserSettingsRoutesConfig.confirmation.path,
         ]}
+        hasAuthData={hasAuthData}
         render={() => (
           <DefaultLayout>
             <CenterContainer>
@@ -110,12 +108,6 @@ export const Routes = () => {
             </CenterContainer>
           </DefaultLayout>
         )}
-        hasAuthData={hasAuthData}
-        authorizedRender={
-          <DefaultLayout>
-            <UserSettingsRoutes />
-          </DefaultLayout>
-        }
       />
       <Route
         exact

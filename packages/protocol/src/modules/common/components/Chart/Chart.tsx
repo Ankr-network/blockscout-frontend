@@ -64,7 +64,7 @@ export const Chart = ({
         </defs>
         <CartesianGrid
           style={{ stroke: theme.palette.grey[100] }}
-          strokeWidth={2}
+          strokeWidth={1}
           horizontal
           vertical={false}
         />

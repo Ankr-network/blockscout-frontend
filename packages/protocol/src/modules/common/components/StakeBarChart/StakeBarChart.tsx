@@ -138,10 +138,10 @@ export const StakeBarChart = ({
         />
         <CartesianGrid
           style={{
-            stroke: theme.palette.background.default,
+            stroke: theme.palette.grey[100],
             fill: theme.palette.text.secondary,
           }}
-          strokeWidth={2}
+          strokeWidth={1}
           horizontal
           vertical={false}
         />

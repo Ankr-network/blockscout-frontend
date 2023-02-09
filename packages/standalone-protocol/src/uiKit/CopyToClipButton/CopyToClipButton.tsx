@@ -38,7 +38,7 @@ export const CopyToClipButton = ({
   return (
     <div className={classNames(classes.container, className, chainId)}>
       <CopyToClipboard text={text} onCopy={onClipboardCopy}>
-        <div className={classes.content}>
+        <div className={classNames(classes.content, classes.contentBackground)}>
           <Typography variant="body2" noWrap className={classes.text}>
             {isCopied ? textMessage : text}
           </Typography>

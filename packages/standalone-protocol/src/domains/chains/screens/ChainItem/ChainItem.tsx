@@ -6,7 +6,7 @@ import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { ChainItemDetailsQuery } from './ChainItemDetailsQuery';
 import { ChainNodesTableQuery } from './ChainNodesTableQuery';
 import { CopyButtons } from './components/CopyButtons';
-import { ChainHeader } from './components/ChainHeader';
+import { Header } from 'modules/common/components/Header';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId, isStandaloneChain } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
@@ -25,7 +25,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
     <ThemeProvider theme={getTheme(chainId)}>
       <Container className={classes.main}>
         <CrossMenu chainId={chainId} className={classes.menu} />
-        <ChainHeader className={classes.header} chainId={chainId} />
+        <Header chainId={chainId} />
         <CopyButtons data={data} chainId={chainId} />
         <ChainItemDetailsQuery chainId={chainId} isStandalone={isStandalone} />
         <ChainNodesTableQuery chainId={chainId} isStandalone={isStandalone} />

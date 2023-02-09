@@ -1,4 +1,3 @@
-import React from 'react';
 import { NoSsr } from '@material-ui/core';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -12,6 +11,9 @@ import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
 import { ChainId } from 'domains/chains/api/chain';
 import { historyInstance } from 'modules/common/utils/historyInstance';
+import { initializeLocale } from 'modules/i18n/utils/initialize';
+
+initializeLocale();
 
 const { REACT_APP_CHAIN_ID } = process.env;
 

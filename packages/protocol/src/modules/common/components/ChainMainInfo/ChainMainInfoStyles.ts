@@ -16,6 +16,7 @@ export const useStyles = makeStyles<{
   },
   logo: {
     width: LOGO_WIDTH,
+    height: LOGO_WIDTH,
     marginRight: LOGO_MARGIN,
   },
   title: {

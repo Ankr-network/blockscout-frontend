@@ -34,9 +34,7 @@ export const ChainItemQuery = ({ chainId }: ChainItemProps) => {
           isPreloadDisabled
           spinner={spinner}
         >
-          {({ data }) => {
-            return <ChainItem data={data} chainId={chainId} />;
-          }}
+          {({ data }) => <ChainItem data={data} chainId={chainId} />}
         </Queries>
       </div>
     </ThemeProvider>
