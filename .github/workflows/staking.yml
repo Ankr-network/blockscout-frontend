@@ -36,10 +36,6 @@ jobs:
         with:
           node-version: '16.13.0'
           cache: 'yarn'
-      - uses: act10ns/slack@v1
-        with:
-          status: initiated
-        if: always()
 
 #      - name: Prevent wrong version releasing
 #        if: ${{ github.event.inputs.environment == 'PROD' && github.ref != 'refs/heads/main' }}
@@ -48,6 +44,7 @@ jobs:
 #          exit 1
 
       - name: Get deployment information
+        id: initiated
         run: |
           echo "Branch: ${BRANCH_NAME}"
           echo "Environment: ${{github.event.inputs.api}}"
@@ -57,21 +54,21 @@ jobs:
         run: yarn install --immutable
 
       - name: Build dev
+        id: build-DEV
         working-directory: ./packages/ankr-earn
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
         if: ${{ github.event.inputs.api == 'DEV' }}
-        id: build-DEV
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
           yarn build:dev:turbo
           yarn postbuild
 
       - name: Build stage
+        id: build-STAGE
         working-directory: ./packages/ankr-earn
         if: ${{ github.event.inputs.api == 'STAGE' }}
-        id: build-STAGE
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
           yarn build:stage:turbo
