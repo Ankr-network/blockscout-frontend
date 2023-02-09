@@ -1,24 +1,30 @@
 import { Route, RouteProps } from 'react-router-dom';
 import { OverlaySpinner } from '@ankr.com/ui';
+import { useMemo } from 'react';
 
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { isInvitation } from './utils/isInvitation';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { UserSettingsRoutes } from 'domains/userSettings/Routes';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 export interface IGuardAuthUserSettingsRoute extends RouteProps {
   hasAuthData: boolean;
-  authorizedRender: JSX.Element;
 }
 
 export const GuardAuthUserSettingsRoute = ({
   hasAuthData,
-  authorizedRender,
+  location,
   ...routeProps
 }: IGuardAuthUserSettingsRoute) => {
   const { hasPrivateAccess, address, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
+  const hasInvitation = useMemo(
+    () => !isReactSnap && isInvitation(location),
+    [location],
+  );
 
   useOnMount(() => {
     if (!address || !hasPrivateAccess) setBreadcrumbs([]);
@@ -32,9 +38,13 @@ export const GuardAuthUserSettingsRoute = ({
     );
   }
 
-  if (hasAuthData || isInvitation(routeProps)) {
-    return authorizedRender;
+  if (hasAuthData || hasInvitation) {
+    return (
+      <DefaultLayout>
+        <UserSettingsRoutes />
+      </DefaultLayout>
+    );
   }
 
-  return <Route {...routeProps} />;
+  return <Route {...routeProps} location={location} />;
 };
