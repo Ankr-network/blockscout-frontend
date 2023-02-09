@@ -38,7 +38,7 @@ jobs:
           cache: 'yarn'
       - uses: act10ns/slack@v1
         with:
-          status: initiated
+          steps: initiated
         if: always()
 
 #      - name: Prevent wrong version releasing
