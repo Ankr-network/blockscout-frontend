@@ -67,5 +67,5 @@ export const featuresConfig = {
    * Temporary disable polkadot staking/unstaking
    * https://ankrnetwork.atlassian.net/browse/STAKAN-2431
    */
-  isPolkadotMaintenanceActive: false,
+  isPolkadotMaintenanceActive: true,
 };
