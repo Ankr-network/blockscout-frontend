@@ -115,7 +115,7 @@ export const useApprovalForm = ({
     if (!isAllowanceLoading) {
       setAllowance(new BigNumber(inittialAllowanceValue));
     }
-  }, [isApproveLoading, setAllowance, isApproveError, inittialAllowanceValue]);
+  }, [setAllowance, inittialAllowanceValue, isAllowanceLoading]);
 
   return {
     allowance,
