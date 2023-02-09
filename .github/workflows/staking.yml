@@ -39,6 +39,7 @@ jobs:
       - uses: act10ns/slack@v1
         with:
           status: initiated
+          message: Build for ${{github.event.inputs.environment}} with API ${{github.event.inputs.api}} has started
         if: always()
 
 #      - name: Prevent wrong version releasing
