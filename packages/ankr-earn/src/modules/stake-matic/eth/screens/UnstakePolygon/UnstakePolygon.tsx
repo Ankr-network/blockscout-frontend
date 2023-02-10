@@ -13,7 +13,6 @@ import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle
 import { useLazyGetMaticOnEthAllowanceQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthAllowance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
-import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -22,7 +21,6 @@ import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
-import { useUnstakePolygonApprovalForm } from './hooks/useUnstakePolygonApprovalForm';
 import { useUnstakePolygonStyles as useStyles } from './useUnstakePolygonStyles';
 
 const resetRequests = () =>
@@ -45,14 +43,6 @@ export const UnstakePolygon = (): JSX.Element => {
     onUnstakeSubmit,
   } = useUnstakeMatic();
 
-  const {
-    isApproveLoading,
-    onApprovalSettingsFormSubmit,
-    onApproveSubmit: onApprovalSubmit,
-    approvalSettingsMode,
-    allowance,
-  } = useUnstakePolygonApprovalForm();
-
   const { label: unstakeLabel } = useUnstakePendingTimestamp({
     token: Token.MATIC,
   });
@@ -72,20 +62,6 @@ export const UnstakePolygon = (): JSX.Element => {
       dispatch(resetRequests());
     };
   }, [dispatch]);
-
-  const renderFormApproveButtons = (amount: BigNumber) => (
-    <ApprovalFormButtons
-      allowance={allowance}
-      amount={amount}
-      approvalSettingsMode={approvalSettingsMode}
-      isApproveLoading={isApproveLoading}
-      isStakeLoading={isUnstakeLoading}
-      submitButtonLabel={t('unstake-dialog.btn')}
-      tokenName={selectedToken}
-      onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
-      onApproveSubmit={onApprovalSubmit}
-    />
-  );
 
   const onRenderFormFooter = (amount: BigNumber, maxAmount: BigNumber) => {
     const isInvalidAmount = amount.isNaN() || amount.isGreaterThan(maxAmount);
@@ -159,14 +135,10 @@ export const UnstakePolygon = (): JSX.Element => {
           balance={syntTokenBalance}
           closeHref={closeHref}
           endText={unstakeLabel}
-          isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
           isDisabled={isUnstakeLoading}
           isLoading={isUnstakeLoading}
           networkTitleSlot={<NetworkTitle />}
-          renderFormApproveButtons={
-            isWithApprove ? renderFormApproveButtons : undefined
-          }
           renderFormFooter={onRenderFormFooter}
           token={selectedToken}
           onSubmit={onUnstakeSubmit}
