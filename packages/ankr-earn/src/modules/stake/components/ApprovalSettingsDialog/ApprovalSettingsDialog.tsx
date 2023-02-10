@@ -83,7 +83,12 @@ export const ApprovalSettingsDialog = ({
       </Typography>
 
       {Object.keys(ApprovalOption).map(optionKey => (
-        <Field name={fieldNames.type} type="radio" value={optionKey}>
+        <Field
+          key={optionKey}
+          name={fieldNames.type}
+          type="radio"
+          value={optionKey}
+        >
           {({ input }) => {
             const key = optionKey.toLowerCase();
             const id = `approval-variants-${key}`;
