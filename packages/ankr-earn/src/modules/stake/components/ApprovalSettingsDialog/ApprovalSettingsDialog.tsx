@@ -51,7 +51,7 @@ export const ApprovalSettingsDialog = ({
     [amount, approvalSettingsMode],
   );
 
-  const isCustom = approvalSettingsMode === ApprovalOption.CURRENT;
+  const isCustom = approvalSettingsMode === ApprovalOption.CUSTOM;
 
   const minAmountValue = minAmount.toString();
 
