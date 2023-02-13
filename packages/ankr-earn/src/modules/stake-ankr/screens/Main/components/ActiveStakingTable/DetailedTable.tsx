@@ -91,11 +91,7 @@ export const DetailedTable = ({
 
           return (
             <TableRow key={uid(j)} className={classes.expandedRow}>
-              <TableBodyCell
-                children={undefined}
-                className={classes.expandedCell}
-                label={' '}
-              />
+              <td />
 
               <TableBodyCell
                 className={classes.expandedCell}
@@ -122,6 +118,8 @@ export const DetailedTable = ({
                   usdAmount={usdStakeAmount}
                 />
               </TableBodyCell>
+
+              <td />
             </TableRow>
           );
         })}
