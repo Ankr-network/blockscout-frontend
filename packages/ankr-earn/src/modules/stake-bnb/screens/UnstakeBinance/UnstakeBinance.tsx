@@ -9,6 +9,7 @@ import { useCallback, useState } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
+import { resetAllowance } from 'modules/common/store/allowanceSlice';
 import { Token } from 'modules/common/types/token';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
@@ -55,6 +56,14 @@ export const UnstakeBinance = (): JSX.Element => {
 
   const [isFlash, setIsFlash] = useState(isFlashUnstakeAllowed);
 
+  const onIsFlashChange = useCallback(
+    (isFlashValue: boolean) => {
+      dispatch(resetAllowance());
+      setIsFlash(isFlashValue);
+    },
+    [dispatch],
+  );
+
   // Hack otherwise need make useless two-way binding
   const [, setAmount] = useState<IUnstakeFormValues>();
 
@@ -79,7 +88,7 @@ export const UnstakeBinance = (): JSX.Element => {
     onApproveSubmit,
     approvalSettingsMode,
     allowance,
-  } = useUnstakeBinanceApprovalForm();
+  } = useUnstakeBinanceApprovalForm(isFlash);
 
   const {
     isApproveLoading: isSwapPoolApproveLoading,
@@ -87,7 +96,7 @@ export const UnstakeBinance = (): JSX.Element => {
     onApproveSubmit: onFlashApproveSubmit,
     approvalSettingsMode: flashApprovalSettingsMode,
     allowance: swapPoolAllowance,
-  } = useFlashUnstakeBinanceApprovalForm();
+  } = useFlashUnstakeBinanceApprovalForm(isFlash);
 
   const instantUnstakeLabel = t('stake-bnb.unstake.instant');
 
@@ -122,7 +131,7 @@ export const UnstakeBinance = (): JSX.Element => {
             instantFee={instantFee}
             poolBalance={poolBalance}
             value={isFlash}
-            onChange={setIsFlash}
+            onChange={onIsFlashChange}
           />
         )}
 
@@ -162,6 +171,7 @@ export const UnstakeBinance = (): JSX.Element => {
       isApproveLoading={isFlash ? isSwapPoolApproveLoading : isApproveLoading}
       isStakeLoading={isFlash ? isFlashUnstakeLoading : isUnstakeLoading}
       minAmount={isFlash ? ZERO : minAmount}
+      submitButtonLabel={t('unstake-dialog.btn')}
       tokenName={selectedToken}
       onApprovalSettingsFormSubmit={
         isFlash

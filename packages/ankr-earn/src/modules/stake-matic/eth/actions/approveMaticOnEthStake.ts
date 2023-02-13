@@ -13,7 +13,10 @@ import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 
 export const RECEIPT_NAME = 'useApproveMaticOnEthStakeMutation';
 
-export const { useApproveMaticOnEthStakeMutation } = web3Api.injectEndpoints({
+export const {
+  useApproveMaticOnEthStakeMutation,
+  endpoints: { approveMaticOnEthStake },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     approveMaticOnEthStake: build.mutation<IApproveMutation, BigNumber>({
       queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(

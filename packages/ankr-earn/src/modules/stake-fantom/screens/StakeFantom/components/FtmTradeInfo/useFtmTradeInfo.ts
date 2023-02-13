@@ -10,7 +10,7 @@ export const useFtmTradeInfo = (): IUseTradeInfo => {
   return useTradeInfo({
     baseToken: 'FTM',
     network: 'FANTOM',
-    targetToken: 'aFTMc',
+    targetToken: 'ankrFTM',
     ratio: ftmCommonData?.aFTMcRatio,
   });
 };

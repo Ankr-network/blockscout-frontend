@@ -13,7 +13,10 @@ import { IApproveResponse } from '../api/AnkrStakingSDK/types';
 
 export const RECEIPT_NAME = 'useApproveAnkrMutation';
 
-export const { useApproveAnkrMutation } = web3Api.injectEndpoints({
+export const {
+  useApproveAnkrMutation,
+  endpoints: { approveAnkr },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     approveAnkr: build.mutation<IApproveResponse, BigNumber>({
       queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveResponse>(

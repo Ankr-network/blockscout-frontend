@@ -24,14 +24,15 @@ export const { useGetETHTxDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getETHTxData: build.query<IGetSwitcherData, IGetTxDataArgs>({
       queryFn: queryFnNotifyWrapper<IGetTxDataArgs, never, IGetSwitcherData>(
-        async ({ txHash }) => {
+        async ({ txHash, shouldDecodeAmount }) => {
           const sdk = await getEthereumSDK();
 
-          return {
-            data: await retry(() => sdk.fetchTxData(txHash), {
-              retries: RETRIES_TO_GET_TX_DATA,
-            }),
-          };
+          const data = await retry(
+            () => sdk.fetchTxData(txHash, shouldDecodeAmount),
+            { retries: RETRIES_TO_GET_TX_DATA },
+          );
+
+          return { data };
         },
         getOnErrorWithCustomText(t('stake-ethereum.errors.tx-data')),
       ),

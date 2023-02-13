@@ -6,11 +6,11 @@ import { convertFromWei } from 'modules/common/utils/numbers/convertFromWei';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
 export const {
-  useLazyGetAllowanceQuery,
-  endpoints: { getAllowance },
+  useLazyGetAnkrAllowanceQuery,
+  endpoints: { getAnkrAllowance },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getAllowance: build.query<BigNumber, void>({
+    getAnkrAllowance: build.query<BigNumber, void>({
       queryFn: queryFnNotifyWrapper<void, never, BigNumber>(async () => {
         const sdk = await AnkrStakingSDK.getInstance();
 
@@ -22,4 +22,4 @@ export const {
   }),
 });
 
-export const selectAnkrAllowance = getAllowance.select();
+export const selectAnkrAllowance = getAnkrAllowance.select();

@@ -41,17 +41,18 @@ export const Stake = (): JSX.Element => {
     syntheticTokenPrice,
     amount,
     balance,
-    extraValidation,
     faqItems,
     gasFee,
     getStatsError,
     isGasFeeLoading,
     isGetStatsLoading,
     isStakeLoading,
+    maxAmount,
     stakeFeePct,
     tokenIn,
     tokenOut,
     totalAmount,
+    extraValidation,
     onFormChange,
     onFormSubmit,
   } = useStakeForm();
@@ -148,7 +149,7 @@ export const Stake = (): JSX.Element => {
           isBalanceLoading={isGetStatsLoading}
           isDisabled={isStakeLoading}
           loading={isStakeLoading}
-          maxAmount={balance}
+          maxAmount={maxAmount}
           networkTitleSlot={<NetworkTitle />}
           noticeSlot={noticeText}
           renderStats={renderStats}

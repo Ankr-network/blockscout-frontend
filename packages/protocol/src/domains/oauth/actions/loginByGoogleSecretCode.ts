@@ -156,7 +156,9 @@ export const {
           dispatch(
             setAuthData({
               address:
-                ethAddressType === EthAddressType.User ? data?.address : '',
+                ethAddressType === EthAddressType.User
+                  ? data?.address
+                  : address,
               email: data?.email,
             }),
           );

@@ -13,15 +13,15 @@ export type TOpenOceanTokens =
   | 'FTM'
   | 'MATIC'
   | 'aAVAXb'
-  | 'aAVAXc'
+  | 'ankrAVAX'
   | 'aBNBb'
-  | 'aBNBc'
+  | 'ankrBNB'
   | 'aETHb'
-  | 'aETHc'
+  | 'ankrETH'
   | 'aFTMb'
-  | 'aFTMc'
+  | 'ankrFTM'
   | 'aMATICb'
-  | 'aMATICc';
+  | 'ankrMATIC';
 
 export interface IGetOpenOceanQuoteParams {
   amount: number;

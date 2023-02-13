@@ -1,8 +1,7 @@
-import React, { useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { formatChain, getLink } from './CopyButtonsUtils';
-import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 import { useIsXSDown } from 'modules/themes/useTheme';
 import { copyEndpointEvent } from 'modules/analytics/trackMixpanel';
 import { NervosButtons } from './NervosButtons';
@@ -21,8 +20,6 @@ export const CopyButtons = ({ data, chainId }: ICopyButtonsProps) => {
   const isXSDown = useIsXSDown();
 
   const onCopy = useCallback(() => copyEndpointEvent(), []);
-
-  if (IS_REACT_SNAP) return null;
 
   if (chainId === ChainId.Nervos) {
     return (

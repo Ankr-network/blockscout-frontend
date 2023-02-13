@@ -8,6 +8,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
 import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
+import { userConfigSlice } from 'domains/auth/store/userConfigSlice';
 import { authSlice } from 'domains/auth/store/authSlice';
 import { chainsSlilce } from 'domains/chains/store/chainsSlice';
 import { historyInstance } from '../modules/common/utils/historyInstance';
@@ -20,6 +21,7 @@ import { notificationSlice } from '../domains/notification/store/notificationSli
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
 import { rootSaga } from './rootSaga';
 import { web3Api } from './queries';
+import { userConfigPersistConfig } from 'domains/auth/storage/userConfigPersistConfig';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -28,6 +30,7 @@ const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
   theme: persistReducer(themePersistConfig, themeSlice.reducer),
   auth: persistReducer(authPersistConfig, authSlice.reducer),
+  userConfig: persistReducer(userConfigPersistConfig, userConfigSlice.reducer),
   accountTopUp: persistReducer(
     accountTopUpPersistConfig,
     accountTopUpSlice.reducer,

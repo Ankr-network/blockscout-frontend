@@ -10,7 +10,7 @@ export const useBnbTradeInfo = (): IUseTradeInfo => {
   return useTradeInfo({
     baseToken: 'BNB',
     network: 'BSC',
-    targetToken: 'aBNBc',
+    targetToken: 'ankrBNB',
     ratio: statsData?.aBNBcRatio,
   });
 };

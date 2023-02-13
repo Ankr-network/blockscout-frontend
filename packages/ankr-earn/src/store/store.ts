@@ -24,6 +24,7 @@ import {
 } from 'modules/auth/common/store/authPersistReducer';
 import { networkSwitchCoin98 } from 'modules/auth/eth/middlewares/networkSwitchCoin98';
 import { featuresConfig } from 'modules/common/const';
+import { approveMiddleware } from 'modules/common/store/approveMiddleware';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import {
@@ -43,6 +44,8 @@ import {
 } from 'modules/notifications';
 
 import { web3Api } from '../modules/api/web3Api';
+import { allowanceMiddleware } from '../modules/common/store/allowanceMiddleware';
+import { allowanceReducer } from '../modules/common/store/allowanceSlice';
 
 import { listenerMiddleware } from './listeners/listenerMiddleware';
 import { rootSagas } from './sagas';
@@ -109,6 +112,7 @@ const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
   [web3Api.reducerPath]: web3Api.reducer,
   auth: authPersistReducer,
+  allowance: allowanceReducer,
   dialog,
   i18n: i18nPersistReducer,
   notifications: notificationsReducer,
@@ -130,9 +134,9 @@ export const store = configureStore({
       .concat(web3Api.middleware)
       .concat(routerMiddleware(historyInstance))
       .concat(sagaMiddleware)
-      .concat(
-        featuresConfig.isCoin98SupportActive ? [networkSwitchCoin98] : [],
-      ),
+      .concat(featuresConfig.isCoin98SupportActive ? [networkSwitchCoin98] : [])
+      .concat(allowanceMiddleware)
+      .concat(approveMiddleware),
 });
 
 setupListeners(store.dispatch);

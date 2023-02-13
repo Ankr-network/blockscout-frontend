@@ -229,16 +229,18 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
   },
-  content: ({ isCopied }) => ({
+  contentBackground: ({ isCopied }) => ({
+    backgroundColor: isCopied
+      ? theme.palette.background.paper
+      : theme.palette.background.default,
+  }),
+  content: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
     cursor: 'pointer',
     padding: 6,
-    backgroundColor: isCopied
-      ? theme.palette.background.paper
-      : theme.palette.background.default,
     transition: 'background-color .3s',
     margin: 0,
     marginTop: '0!important',
@@ -252,7 +254,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         color: theme.palette.text.secondary,
       },
     },
-  }),
+  },
   text: {
     color: theme.palette.text.primary,
     textAlign: 'left',

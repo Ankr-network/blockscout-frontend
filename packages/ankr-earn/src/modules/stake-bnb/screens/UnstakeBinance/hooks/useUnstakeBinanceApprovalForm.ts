@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import {
   RECEIPT_NAME,
   useApproveABNBCUnstakeMutation,
@@ -6,13 +8,14 @@ import { useLazyGetBNBAllowanceQuery } from 'modules/stake-bnb/actions/useLazyGe
 import { IUseApprovalForm } from 'modules/stake/components/ApprovalFormButtons/types';
 import { useApprovalForm } from 'modules/stake/components/ApprovalFormButtons/useApprovalForm';
 
-export const useUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
+export const useUnstakeBinanceApprovalForm = (
+  isFlash: boolean,
+): IUseApprovalForm => {
   const [
     approve,
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveABNBCUnstakeMutation();
@@ -22,15 +25,21 @@ export const useUnstakeBinanceApprovalForm = (): IUseApprovalForm => {
     { data: initialAllowance, isFetching: isAllowanceLoading },
   ] = useLazyGetBNBAllowanceQuery();
 
+  useEffect(() => {
+    if (!isFlash) {
+      getAllowance();
+    }
+  }, [getAllowance, isFlash]);
+
   return useApprovalForm({
     approve,
     isApproveLoading,
     isApproveError,
     resetApprove,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,
     getAllowance,
+    shouldFetchAllowance: !isFlash,
   });
 };

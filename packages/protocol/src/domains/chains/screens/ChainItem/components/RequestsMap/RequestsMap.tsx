@@ -13,6 +13,7 @@ import { ItemHeader } from '../ItemHeader';
 import { useRequestsMapStyles } from './useRequestsMapStyles';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { useIsRequestsMapVisible } from '../UsageDataSection/UsageDataSectionUtils';
 
 export const RequestsMap = ({
   loading,
@@ -31,6 +32,8 @@ export const RequestsMap = ({
     [countries, isLightTheme],
   );
 
+  const isRequestsMapVisible = useIsRequestsMapVisible(countries);
+
   return (
     <div className={classes.root}>
       {/* Since request by ip only support 30d by backend, so hard code it first. When backend support all the timeframe should be remove it  */}
@@ -44,7 +47,7 @@ export const RequestsMap = ({
         </div>
       ) : (
         <div className={classes.container}>
-          {data.length ? (
+          {isRequestsMapVisible ? (
             <>
               <StatsTable data={data} selectedCountry={country} />
               <div className={classes.mapContainer}>

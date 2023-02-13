@@ -21,7 +21,10 @@ interface IBridgeApprovalArgs {
   fromChainId: SupportedChainIDS;
 }
 
-export const { useApproveBridgeMutation } = web3Api.injectEndpoints({
+export const {
+  useApproveBridgeMutation,
+  endpoints: { approveBridge },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     approveBridge: build.mutation<IApproveMutation, IBridgeApprovalArgs>({
       queryFn: queryFnNotifyWrapper<

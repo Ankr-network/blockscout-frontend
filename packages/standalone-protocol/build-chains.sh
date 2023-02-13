@@ -1,4 +1,4 @@
-# NAMES="avalanche"
+# NAMES="avalanche klaytn"
 # NAMES comes from workflow NAMES
 
 # $ENV prod || stage

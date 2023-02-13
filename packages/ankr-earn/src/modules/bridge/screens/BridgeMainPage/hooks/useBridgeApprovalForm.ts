@@ -32,7 +32,6 @@ export const useBridgeApprovalForm = ({
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveBridgeMutation();
@@ -89,7 +88,6 @@ export const useBridgeApprovalForm = ({
   return useApprovalForm({
     isApproveLoading,
     isApproveError,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance: multipliedAllowance,
     isAllowanceLoading,

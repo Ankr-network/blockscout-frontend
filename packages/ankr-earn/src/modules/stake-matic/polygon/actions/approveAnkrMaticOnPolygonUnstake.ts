@@ -13,37 +13,39 @@ import { IApproveMutation } from 'modules/common/hooks/useApprove';
 
 export const RECEIPT_NAME = 'useApproveAnkrMaticOnPolygonUnstakeMutation';
 
-export const { useApproveAnkrMaticOnPolygonUnstakeMutation } =
-  web3Api.injectEndpoints({
-    endpoints: build => ({
-      approveAnkrMaticOnPolygonUnstake: build.mutation<
-        IApproveMutation,
-        BigNumber
-      >({
-        queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(
-          async amount => {
-            const sdk = await PolygonOnPolygonSDK.getInstance();
-            const result = await sdk.approveACToken(amount);
-            return { data: { ...result, amount } };
-          },
-          getOnErrorWithCustomText(
-            t('stake-matic-common.errors.approve-unstake'),
-          ),
-        ),
-        async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-          return queryFulfilled.then(response => {
-            const { transactionHash } = response.data;
-            const isNotApprovedYet = typeof transactionHash === 'string';
-
-            if (isNotApprovedYet) {
-              dispatch(
-                getTxReceipt(transactionHash, {
-                  requestKey: getTxReceiptRequestKey(RECEIPT_NAME),
-                }),
-              );
-            }
-          });
+export const {
+  useApproveAnkrMaticOnPolygonUnstakeMutation,
+  endpoints: { approveAnkrMaticOnPolygonUnstake },
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    approveAnkrMaticOnPolygonUnstake: build.mutation<
+      IApproveMutation,
+      BigNumber
+    >({
+      queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(
+        async amount => {
+          const sdk = await PolygonOnPolygonSDK.getInstance();
+          const result = await sdk.approveACToken(amount);
+          return { data: { ...result, amount } };
         },
-      }),
+        getOnErrorWithCustomText(
+          t('stake-matic-common.errors.approve-unstake'),
+        ),
+      ),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        return queryFulfilled.then(response => {
+          const { transactionHash } = response.data;
+          const isNotApprovedYet = typeof transactionHash === 'string';
+
+          if (isNotApprovedYet) {
+            dispatch(
+              getTxReceipt(transactionHash, {
+                requestKey: getTxReceiptRequestKey(RECEIPT_NAME),
+              }),
+            );
+          }
+        });
+      },
     }),
-  });
+  }),
+});

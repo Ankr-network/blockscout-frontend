@@ -13,7 +13,10 @@ import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
 
 export const RECEIPT_NAME = 'useApproveMNGOStakeMutation';
 
-export const { useApproveMNGOStakeMutation } = web3Api.injectEndpoints({
+export const {
+  useApproveMNGOStakeMutation,
+  endpoints: { approveMNGOStake },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     approveMNGOStake: build.mutation<IApproveMutation, BigNumber>({
       queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(

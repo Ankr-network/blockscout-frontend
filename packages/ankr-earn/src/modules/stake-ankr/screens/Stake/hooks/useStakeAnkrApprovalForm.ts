@@ -2,7 +2,7 @@ import {
   RECEIPT_NAME,
   useApproveAnkrMutation,
 } from 'modules/stake-ankr/actions/approve';
-import { useLazyGetAllowanceQuery } from 'modules/stake-ankr/actions/getAllowance';
+import { useLazyGetAnkrAllowanceQuery } from 'modules/stake-ankr/actions/getAnkrAllowance';
 import { IUseApprovalForm } from 'modules/stake/components/ApprovalFormButtons/types';
 import { useApprovalForm } from 'modules/stake/components/ApprovalFormButtons/useApprovalForm';
 
@@ -12,7 +12,6 @@ export const useStakeAnkrApprovalForm = (): IUseApprovalForm => {
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveAnkrMutation();
@@ -20,14 +19,13 @@ export const useStakeAnkrApprovalForm = (): IUseApprovalForm => {
   const [
     getAllowance,
     { data: initialAllowance, isFetching: isAllowanceLoading },
-  ] = useLazyGetAllowanceQuery();
+  ] = useLazyGetAnkrAllowanceQuery();
 
   return useApprovalForm({
     approve,
     isApproveLoading,
     isApproveError,
     resetApprove,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,

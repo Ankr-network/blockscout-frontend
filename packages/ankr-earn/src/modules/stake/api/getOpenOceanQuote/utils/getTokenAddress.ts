@@ -48,31 +48,31 @@ export const getTokenAddress = (
     case 'aAVAXb':
       return aAVAXbContract;
 
-    case 'aAVAXc':
+    case 'ankrAVAX':
       return aAVAXcContract;
 
     case 'aBNBb':
       return aBNBbContract;
 
-    case 'aBNBc':
+    case 'ankrBNB':
       return aBNBcContract;
 
     case 'aETHb':
       return aETHbContract;
 
-    case 'aETHc':
+    case 'ankrETH':
       return aETHcContract;
 
     case 'aFTMb':
       return aFTMbContract;
 
-    case 'aFTMc':
+    case 'ankrFTM':
       return aFTMcContract;
 
     case 'aMATICb':
       return isPolygonNetwork ? aMATICbInPolygonContract : aMATICbInETHContract;
 
-    case 'aMATICc':
+    case 'ankrMATIC':
       return isPolygonNetwork ? aMATICcInPolygonContract : aMATICcInETHContract;
 
     case 'BNB':

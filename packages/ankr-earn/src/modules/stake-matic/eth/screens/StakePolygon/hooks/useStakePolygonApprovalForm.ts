@@ -22,7 +22,6 @@ export const useStakePolygonApprovalForm = (): IUseApprovalForm => {
     {
       isLoading: isApproveLoading,
       reset: resetApprove,
-      data: approveData,
       isError: isApproveError,
     },
   ] = useApproveMaticOnEthStakeMutation();
@@ -37,7 +36,6 @@ export const useStakePolygonApprovalForm = (): IUseApprovalForm => {
     isApproveLoading,
     isApproveError,
     resetApprove,
-    amount: approveData?.amount,
     receiptName: RECEIPT_NAME,
     initialAllowance,
     isAllowanceLoading,

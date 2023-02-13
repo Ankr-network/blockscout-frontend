@@ -17,38 +17,40 @@ import { useApprovalForm } from '../ApprovalSettingsDialog/useApprovalForm';
 import { useApprovalFormButtonsStyles } from './useApprovalFormButtonsStyles';
 
 interface IApprovalFormButtonsProps {
+  allowance: BigNumber;
+  amount: BigNumber;
+  approvalSettingsMode: ApprovalOption;
   isApproveLoading: boolean;
   isStakeLoading: boolean;
-  tokenName: string;
-  amount: BigNumber;
-  allowance: BigNumber;
   minAmount?: BigNumber;
-  approvalSettingsMode: ApprovalOption;
-  onApproveSubmit(amount: BigNumber): void;
+  submitButtonLabel?: string;
+  tokenName: string;
   onApprovalSettingsFormSubmit(values: IApprovalSettingsFormValues): void;
+  onApproveSubmit(amount: BigNumber): void;
 }
 
 export const ApprovalFormButtons = ({
   allowance,
-  isApproveLoading,
-  isStakeLoading,
-  tokenName,
   amount,
   approvalSettingsMode,
-  onApproveSubmit,
-  onApprovalSettingsFormSubmit,
+  isApproveLoading,
+  isStakeLoading,
   minAmount = ZERO,
+  submitButtonLabel,
+  tokenName,
+  onApprovalSettingsFormSubmit,
+  onApproveSubmit,
 }: IApprovalFormButtonsProps): JSX.Element => {
   const classes = useApprovalFormButtonsStyles();
 
   const {
     isApproved,
-    notZero,
     isOpened,
+    notZero,
+    onApprovalSettingsSubmit,
+    onApproveClick,
     onClose,
     onOpen,
-    onApproveClick,
-    onApprovalSettingsSubmit,
   } = useApprovalForm({
     allowance,
     amount,
@@ -121,9 +123,10 @@ export const ApprovalFormButtons = ({
               {t('approval.steps.2')}
             </span>
 
-            {t('stake-matic-eth.btn.submit', {
-              token: tokenName,
-            })}
+            {submitButtonLabel ??
+              t('stake-matic-eth.btn.submit', {
+                token: tokenName,
+              })}
           </Button>
         </Grid>
       </Grid>

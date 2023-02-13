@@ -5,10 +5,15 @@ import { t } from '@ankr.com/common';
 import { calculateTotalRequests, formatNumber } from '../StakeBarChartUtils';
 import { StatusCircle } from 'uiKit/StatusCircle';
 
-export interface ITooltipPayload {
+interface ITooltipPayloadProps {
+  name: string;
+  tooltipTitle: string;
+}
+interface ITooltipPayload {
   color: string;
   name: string;
   value: number;
+  payload: ITooltipPayloadProps;
 }
 interface ITooltipProps {
   active?: boolean;
@@ -39,7 +44,7 @@ export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
     return (
       <div className={classes.root}>
         <Typography component="p" variant="body2" className={classes.label}>
-          {label}
+          {payload[0]?.payload?.tooltipTitle}
         </Typography>
         <div className={classes.totalRow}>
           <Typography variant="body2" className={classes.total}>

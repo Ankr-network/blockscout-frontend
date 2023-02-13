@@ -37,21 +37,22 @@ interface IUseStakeFormData {
   acPoolLiquidityInMATIC: BigNumber;
   amount: BigNumber;
   balance?: BigNumber;
-  extraValidation: (
-    data: Partial<IStakeFormPayload>,
-    errors: FormErrors<IStakeFormPayload>,
-  ) => FormErrors<IStakeFormPayload>;
   faqItems: IFAQItem[];
   gasFee: BigNumber;
   getStatsError?: FetchBaseQueryError | SerializedError;
   isGasFeeLoading: boolean;
   isGetStatsLoading: boolean;
   isStakeLoading: boolean;
+  maxAmount: BigNumber;
   stakeFeePct: BigNumber | null;
   tokenIn: string;
   tokenOut: TMaticSyntToken;
   totalAmount: BigNumber;
   syntheticTokenPrice: BigNumber;
+  extraValidation: (
+    data: Partial<IStakeFormPayload>,
+    errors: FormErrors<IStakeFormPayload>,
+  ) => FormErrors<IStakeFormPayload>;
   onFormChange: (data: IStakeFormPayload, isInvalid: boolean) => void;
   onFormSubmit: (data: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
@@ -129,6 +130,10 @@ export const useStakeForm = (): IUseStakeFormData => {
       selectedToken,
     });
   }, [acRatio, amount, maticBalance, isError, selectedToken, stakeFeePct]);
+
+  const maxAmount = acPoolLiquidityInMATIC.isLessThan(maticBalance)
+    ? acPoolLiquidityInMATIC
+    : maticBalance;
 
   const extraValidation = (
     { amount: userAmount }: Partial<IStakeFormPayload>,
@@ -228,17 +233,18 @@ export const useStakeForm = (): IUseStakeFormData => {
     syntheticTokenPrice: ONE.div(acRatio),
     amount,
     balance: maticBalance,
-    extraValidation,
     faqItems,
     gasFee: gasFee ?? ZERO,
     getStatsError: commonDataError || stakeStatsError,
     isGasFeeLoading,
     isGetStatsLoading: isCommonDataLoading || isStakeStatsLoading,
     isStakeLoading,
+    maxAmount,
     stakeFeePct,
     tokenIn: MAIN_TOKEN,
     tokenOut: selectedToken,
     totalAmount,
+    extraValidation,
     onFormChange,
     onFormSubmit,
     onTokenSelect,

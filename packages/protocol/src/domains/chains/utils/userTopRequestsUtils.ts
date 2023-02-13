@@ -134,9 +134,22 @@ const calculateBarCounts = (
   return oneStakeCounts;
 };
 
-const getChartFormat = (timeframe: Timeframe) => {
+const getChartLabelFormat = (timeframe: Timeframe) => {
   switch (timeframe) {
     case Timeframe.Day:
+    case Timeframe.Hour:
+      return 'h:mmaaa';
+
+    default:
+      return 'LLL dd';
+  }
+};
+
+const getTooltipTitleFormat = (timeframe: Timeframe) => {
+  switch (timeframe) {
+    case Timeframe.Day:
+      return 'h:mmaaa, LLL dd';
+
     case Timeframe.Hour:
       return 'h:mmaaa';
 
@@ -214,7 +227,8 @@ export const formatChartData = (
     counts = calculateBarCounts(timeframe, counts);
   }
 
-  const chartFormat = getChartFormat(timeframe);
+  const chartLabelFormat = getChartLabelFormat(timeframe);
+  const toolTipTitleFormat = getTooltipTitleFormat(timeframe);
 
   const chartData: PrivateStatTopRequestsData[] = [];
 
@@ -226,7 +240,8 @@ export const formatChartData = (
     });
 
     chartData.push({
-      name: format(new Date(Number(timestamp)), chartFormat),
+      name: format(new Date(Number(timestamp)), chartLabelFormat),
+      tooltipTitle: format(new Date(Number(timestamp)), toolTipTitleFormat),
       ...chart,
     });
   });

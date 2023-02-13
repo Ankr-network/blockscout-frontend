@@ -14,7 +14,10 @@ import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 export const RECEIPT_NAME = 'useApproveABNBCForSwapPoolMutation';
 
-export const { useApproveABNBCForSwapPoolMutation } = web3Api.injectEndpoints({
+export const {
+  useApproveABNBCForSwapPoolMutation,
+  endpoints: { approveABNBCForSwapPool },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     approveABNBCForSwapPool: build.mutation<IApproveMutation, BigNumber>({
       queryFn: queryFnNotifyWrapper<BigNumber, never, IApproveMutation>(
