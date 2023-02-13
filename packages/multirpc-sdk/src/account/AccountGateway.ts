@@ -25,6 +25,8 @@ import {
   PrivateStatsInterval,
   IGetLatestRequestsResponse,
   IGetLatestRequestsRequest,
+  ICheckInstantJwtParticipantResponse,
+  IGetOrCreateInstantJwt,
 } from './types';
 
 export class AccountGateway {
@@ -95,9 +97,7 @@ export class AccountGateway {
     return response;
   }
 
-  async cancelSubscription(
-    subscriptionId: string,
-  ): Promise<void> {
+  async cancelSubscription(subscriptionId: string): Promise<void> {
     const { data: response } = await this.api.post<void>(
       '/api/v1/auth/payment/cancelSubscription',
       { subscription_id: subscriptionId },
@@ -286,6 +286,24 @@ export class AccountGateway {
         params: params || defaultParams,
       },
     );
+
+    return response;
+  }
+
+  public async checkInstantJwtParticipant() {
+    const { data: response } =
+      await this.api.get<ICheckInstantJwtParticipantResponse>(
+        '/api/v1/auth/devdao/isParticipant',
+      );
+
+    return response;
+  }
+
+  public async getOrCreateInstantJwt() {
+    const { data: response } =
+      await this.api.get<IGetOrCreateInstantJwt>(
+        '/api/v1/auth/devdao/getOrCreateJwtForUserAddress',
+      );
 
     return response;
   }

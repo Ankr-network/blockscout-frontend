@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 import { premiumColor } from 'uiKit/Theme/themeUtils';
 
-import { chainDialogIntl } from './ChainDialogUtils';
+import { chainDialogIntl, ChainDialogTitle } from './ChainDialogUtils';
 
 export const CHAINS_DIALOG_BREAKDOWN = 840;
 
@@ -14,7 +14,7 @@ interface ChainsItemDialogStylesProps {
 
 export const useChainsItemDialogStyles = makeStyles<
   ChainsItemDialogStylesProps,
-  'content' | 'intro'
+  'content' | 'intro' | 'wrapperV2' | 'button'
 >()((theme, { windowHeight }, classes) => ({
   paperRoot: {
     margin: 0,
@@ -50,6 +50,9 @@ export const useChainsItemDialogStyles = makeStyles<
     margin: theme.spacing(0, 0, 2 * 5.75, 0),
     fontSize: 35,
   },
+  wrapperV2: {
+    background: 'transparent',
+  },
   container: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
@@ -61,9 +64,13 @@ export const useChainsItemDialogStyles = makeStyles<
       gridAutoFlow: 'row',
       gridTemplateColumns: 'auto',
     },
-
-    [`& .${chainDialogIntl}-premium`]: {
-      borderRadius: theme.spacing(2 * 5),
+    [`& .${chainDialogIntl}-${ChainDialogTitle.free}.${classes.wrapperV2}`]: {
+      [`& .${classes.content}`]: {
+        borderColor: theme.palette.primary.main,
+      },
+    },
+    [`& .${chainDialogIntl}-${ChainDialogTitle.premium}`]: {
+      borderRadius: theme.spacing(2 * 5.5),
       padding: 4,
       background: premiumColor,
       overflow: 'overlay',
@@ -73,6 +80,15 @@ export const useChainsItemDialogStyles = makeStyles<
       },
       [`& .${classes.intro}`]: {
         display: 'block',
+      },
+      [`&.${classes.wrapperV2}`]: {
+        background: theme.palette.background.paper,
+        border: `4px solid ${theme.palette.divider}`,
+        [`.${classes.button}`]: {
+          '&:hover': {
+            color: theme.palette.primary.main,
+          },
+        },
       },
     },
   },
@@ -132,7 +148,7 @@ export const useChainsItemDialogStyles = makeStyles<
     '&:hover': {
       color: theme.palette.background.paper,
     },
-    [`&.enterprise:hover`]: {
+    [`&.${ChainDialogTitle.enterprise}:hover`]: {
       color: theme.palette.primary.dark,
       backgroundColor: theme.palette.grey[100],
     },

@@ -25,7 +25,9 @@ export const useStyles = makeStyles<{
 
     transition: 'color 0.2s',
 
-    color: props.isHighlighted ? theme.palette.primary.main : undefined,
+    color: props.isHighlighted
+      ? theme.palette.primary.main
+      : theme.palette.text.primary,
   },
   hasLabel: {
     maxWidth: 'calc(100% - 71px)',

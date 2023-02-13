@@ -18,6 +18,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   title: {
     fontSize: 16,
     flexShrink: 0,
+
+    color: theme.palette.text.primary,
   },
   preloader: {
     height: theme.spacing(2 * 8.25),

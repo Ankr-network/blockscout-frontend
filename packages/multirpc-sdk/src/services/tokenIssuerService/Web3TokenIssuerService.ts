@@ -32,16 +32,18 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
   private async upgradeJwtToken(
     jwtToken: IJwtToken,
   ): Promise<JwtTokenFullData> {
-    const signedToken = await this.tokenDecryptionService.decryptToken(
-      jwtToken,
+    const { signed_token: signedToken, expires_at: expiresAt } = jwtToken;
+    const decryptedToken = await this.tokenDecryptionService.decryptToken(
+      signedToken,
+      expiresAt,
     );
 
     const { token, tier } = await this.getWorkerGateway().importJwtToken(
-      signedToken,
+      decryptedToken,
     );
 
     const workerTokenData: WorkerTokenData = {
-      signedToken,
+      signedToken: decryptedToken,
       userEndpointToken: token,
       tier,
     };
@@ -120,7 +122,8 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
         throw error;
       }
       // if error we try to use mm public key
-      const publicKey = await this.tokenDecryptionService.requestMetamaskEncryptionKey();
+      const publicKey =
+        await this.tokenDecryptionService.requestMetamaskEncryptionKey();
 
       const jwtToken = await this.getConsensusGateway().requestJwtToken({
         public_key: publicKey,
@@ -129,6 +132,30 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
       });
 
       return this.upgradeJwtToken(jwtToken);
+    }
+  }
+
+  public async upgradeInstantJwtToken(
+    jwtData: string,
+  ): Promise<JwtTokenFullData> {
+    const decryptedToken = await this.tokenDecryptionService.decryptToken(
+      jwtData,
+    );
+
+    try {
+      const { token, tier } = await this.getWorkerGateway().importJwtToken(
+        decryptedToken,
+      );
+
+      const workerTokenData: WorkerTokenData = {
+        signedToken: jwtData,
+        userEndpointToken: token,
+        tier,
+      };
+
+      return { workerTokenData };
+    } catch (error: any) {
+      throw new Error('Failed to import jwt token');
     }
   }
 }

@@ -2,7 +2,6 @@ import flatten from 'lodash.flatten';
 import { EventData } from 'web3-eth-contract';
 import { getPastEvents, isMainnet } from '@ankr.com/advanced-api';
 import { IGetPastEvents } from './types';
-import { batchEvents } from '@ankr.com/staking-sdk';
 
 // Block step range for events
 export const ETH_HISTORY_RANGE_STEP = 3_000;
@@ -27,12 +26,19 @@ export const getPastEventsBlockchain = async ({
       filter,
     });
   }
-  return flatten(await batchEvents({
-    contract,
-    eventName,
-    rangeStep,
-    startBlock,
-    filter,
-    latestBlockNumber,
-  }));
+
+  const eventsPromises: Promise<EventData[]>[] = [];
+
+  for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
+    const fromBlock = i;
+    const toBlock = fromBlock + rangeStep;
+
+    eventsPromises.push(
+      contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
+    );
+  }
+
+  const pastEvents = await Promise.all(eventsPromises);
+
+  return flatten(pastEvents);
 };

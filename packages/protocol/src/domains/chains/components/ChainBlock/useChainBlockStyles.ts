@@ -24,6 +24,7 @@ export const useChainBlockStyles = makeStyles()((theme: Theme) => ({
   text: {
     fontSize: 18,
     minHeight: 24,
+    color: theme.palette.text.primary,
   },
   skeleton: {
     width: 160,

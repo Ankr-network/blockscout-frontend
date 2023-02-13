@@ -19,12 +19,17 @@ export const useAuth = () => {
     credentials,
     ethAddressType,
     hasOauthLogin,
-    hasOauthUserDepositTransaction,
+    hasDepositTransaction,
+    hasVoucherTransactionAndBalanceIsGreaterThanZero,
     hasWeb3Connection,
     workerTokenData,
   } = authData;
 
-  const hasPremium = Boolean(credentials || hasOauthUserDepositTransaction);
+  const hasPremium = Boolean(
+    credentials ||
+      hasDepositTransaction ||
+      hasVoucherTransactionAndBalanceIsGreaterThanZero,
+  );
 
   const isTokenExpired =
     credentials && !workerTokenData?.userEndpointToken && !hasOauthLogin;
@@ -41,12 +46,12 @@ export const useAuth = () => {
     isLoggedIn: Boolean(hasOauthLogin || hasWeb3Connection),
     isUserEthAddressType: ethAddressType === EthAddressType.User,
     isTokenExpired,
-    hasPremium, // web3 premium user or gauth premium user have access to billing
+    hasPremium, // web3 premium user or gauth premium user has access to billing
     hasPrivateAccess: Boolean(
       credentials || workerTokenData?.userEndpointToken,
-    ), // web3 premium user or any gauth user have access to private statistics
+    ), // web3 premium user or any gauth user has access to private statistics
     hasInfrastructureAccess: Boolean(
       hasPremium && workerTokenData?.userEndpointToken,
-    ), // web3 premium user with active premium or gauth premium user have access to infrastructure
+    ), // web3 premium user with active premium or gauth premium user has access to infrastructure
   };
 };

@@ -10,11 +10,10 @@ const ONE_WEEK_HOURS = 7 * 24;
 const LIFETIME = ONE_HOUR_LIFETIME * ONE_WEEK_HOURS;
 
 export const {
-  useInfrastructureAuthorizeProviderQuery,
-  endpoints: { infrastructureAuthorizeProvider },
+  endpoints: { authAuthorizeProvider },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    infrastructureAuthorizeProvider: build.query<string, void>({
+    authAuthorizeProvider: build.query<string, void>({
       queryFn: createNotifyingQueryFn(async () => {
         const service = await MultiService.getWeb3Service();
 

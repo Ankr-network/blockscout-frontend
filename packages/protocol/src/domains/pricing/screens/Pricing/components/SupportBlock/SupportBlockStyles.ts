@@ -17,6 +17,7 @@ export const useSupportBlockStyles = makeStyles()((theme: Theme) => ({
   },
   contactBlockHeader: {
     fontWeight: 400,
+    color: theme.palette.text.primary,
   },
   contactBlockBtn: {
     marginLeft: theme.spacing(2 * 5),

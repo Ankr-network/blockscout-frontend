@@ -5,15 +5,17 @@ import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/types';
 import { t, tHTML } from '@ankr.com/common';
 import { useInfoBannerStyles } from './useInfoBannerStyles';
 import { Check } from '@ankr.com/ui';
-import { ChainsItemDialog } from '../ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useIsBannerV2 } from './useIsBannerV2';
+import { ChainsItemDialog, ChainsItemDialogV2 } from '../ChainsItemDialog';
 
 const BANNER_PLAN_ITEM_COUNT = 2;
 
 export const InfoBanner = () => {
+  const { isBannerV2 } = useIsBannerV2();
   const { classes, cx } = useInfoBannerStyles();
 
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onOpen, onClose } = useDialog(isBannerV2);
 
   const handleOpen = useCallback(() => {
     onOpen();
@@ -79,11 +81,19 @@ export const InfoBanner = () => {
           </Button>
         </div>
       </div>
-      <ChainsItemDialog
-        open={isOpened}
-        onClose={handleClose}
-        onTrack={handleUpgrade}
-      />
+      {isBannerV2 ? (
+        <ChainsItemDialogV2
+          open={isOpened}
+          onClose={handleClose}
+          onTrack={handleUpgrade}
+        />
+      ) : (
+        <ChainsItemDialog
+          open={isOpened}
+          onClose={handleClose}
+          onTrack={handleUpgrade}
+        />
+      )}
     </div>
   );
 };

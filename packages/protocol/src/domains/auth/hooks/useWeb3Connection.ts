@@ -5,18 +5,18 @@ import {
   IChainParams,
   useLazyAuthAddNetworkQuery,
 } from '../actions/addNetwork';
-import { IConnect } from '../actions/connectUtils';
 import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 import { Trigger, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { authDisconnect } from '../actions/disconnect';
+import { IAuthSlice } from '../store/authSlice';
 
 type HandleConnect = (
   walletId: string,
   isAutoConnect?: boolean,
-) => ReturnType<Trigger<AuthConnectParams, IConnect>>;
+) => ReturnType<Trigger<AuthConnectParams, IAuthSlice>>;
 
 export interface Web3Connection {
-  connectData?: IConnect;
+  connectData?: IAuthSlice;
   handleAddNetwork: (params: IChainParams) => void;
   handleConnect: HandleConnect;
   handleDisconnect: () => void;

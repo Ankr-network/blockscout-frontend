@@ -75,7 +75,8 @@ export const PrivateUsageSection = ({
           <RequestsMap
             loading={loading}
             countries={countries}
-            timeframe={timeframe}
+            // Since request by ip only support 30d by backend, so hard code it first. When backend support all the timeframe should be remove it
+            timeframe={Timeframe.Month}
           />
         </>
       )}

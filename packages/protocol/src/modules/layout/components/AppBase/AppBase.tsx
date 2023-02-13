@@ -14,7 +14,6 @@ import { useMetatags } from 'uiKit/utils/useMetatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import './MuiClassNameSetup';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 interface IAppBaseProps {
   children: ReactNode;
@@ -31,7 +30,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={currentTheme}>
-        {!isReactSnap && <CssBaseline />}
+        <CssBaseline />
         <SentryErrorBoundary>
           <ConnectedRouter
             history={historyInstance}
