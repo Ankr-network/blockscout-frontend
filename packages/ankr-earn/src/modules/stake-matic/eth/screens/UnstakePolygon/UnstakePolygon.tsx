@@ -10,6 +10,7 @@ import BigNumber from 'bignumber.js';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
+import { useLazyGetMaticOnEthAllowanceQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthAllowance';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
@@ -18,8 +19,6 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { Tooltip } from 'uiKit/Tooltip';
-
-import { useLazyGetMaticOnEthAllowanceQuery } from '../../actions/useLazyGetMaticOnEthAllowanceQuery';
 
 import { useUnstakeMatic } from './hooks/useUnstakeMatic';
 import { useUnstakePolygonStyles as useStyles } from './useUnstakePolygonStyles';
@@ -34,8 +33,6 @@ export const UnstakePolygon = (): JSX.Element => {
 
   const {
     closeHref,
-    isApproved,
-    isApproveLoading,
     isFetchStatsLoading,
     isUnstakeLoading,
     isWithApprove,
@@ -138,12 +135,9 @@ export const UnstakePolygon = (): JSX.Element => {
           balance={syntTokenBalance}
           closeHref={closeHref}
           endText={unstakeLabel}
-          isApproved={isApproved}
-          isApproveLoading={isApproveLoading}
           isBalanceLoading={isFetchStatsLoading}
           isDisabled={isUnstakeLoading}
           isLoading={isUnstakeLoading}
-          isWithApprove={isWithApprove}
           networkTitleSlot={<NetworkTitle />}
           renderFormFooter={onRenderFormFooter}
           token={selectedToken}

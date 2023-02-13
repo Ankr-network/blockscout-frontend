@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { TEthToken } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { getEthereumSDK } from '../utils/getEthereumSDK';
@@ -20,6 +22,7 @@ export const { useLazyGetETHStakeGasFeeQuery } = web3Api.injectEndpoints({
 
           return { data: await sdk.getStakeGasFee(amount, token) };
         },
+        getOnErrorWithCustomText(t('stake-ethereum.errors.stake-gas-fee')),
       ),
     }),
   }),

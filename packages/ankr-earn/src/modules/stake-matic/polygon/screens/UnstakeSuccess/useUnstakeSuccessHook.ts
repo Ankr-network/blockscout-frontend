@@ -4,12 +4,12 @@ import { useParams } from 'react-router';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
-import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/useAddMaticOnPolygonTokenToWalletMutation';
-import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
+import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/addMaticOnPolygonTokenToWallet';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
 import {
   useGetMaticOnPolygonTxDataQuery,
   useGetMaticOnPolygonTxReceiptQuery,
-} from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonTxDataQuery';
+} from 'modules/stake-matic/polygon/actions/getMaticOnPolygonTxReceipt';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { POLLING_INTERVAL } from '../../const';

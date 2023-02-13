@@ -10,6 +10,7 @@ import { PlusIcon } from 'uiKit/Icons/PlusIcon';
 import { AvailableStakingWriteProviders } from '../../../common/types';
 import { ReactComponent as DisconnectSVG } from '../../assets/disconnect.svg';
 import { IWalletItem } from '../../hooks/useAuthWallets';
+import { shouldShowAddWalletBtn } from '../../utils';
 import { ConnectedWalletsNetwork } from '../ConnectedWalletsNetwork';
 
 import { useConnectedWalletsDialogStyles as useStyles } from './useConnectedWalletsDialogStyles';
@@ -35,7 +36,10 @@ export const ConnectedWalletsDialog = ({
     network => network.onDisconnect,
   ).length;
 
-  const isAddWalletBtnShowed = !!walletsGroupTypes?.length;
+  const isAddWalletBtnShowed = shouldShowAddWalletBtn(
+    networks,
+    walletsGroupTypes,
+  );
 
   // todo: use disconnectAll hook
   const disconnectAll = () => {

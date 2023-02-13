@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { Faq } from 'modules/common/components/Faq';
 import { DUNE_ANALYTICS_LINK } from 'modules/common/const';
@@ -5,11 +7,13 @@ import { Section } from 'modules/delegate-stake/components/Section';
 import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
 import { Stats } from 'modules/delegate-stake/components/Stats';
 import { ANKR_STAKING_MAX_DECIMALS_LENGTH } from 'modules/stake-ankr/api/AnkrStakingSDK/const';
+import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 
 import { useStats } from '../../hooks/useStats';
 
 import { useAnkrStake } from './hooks/useAnkrStake';
+import { useStakeAnkrApprovalForm } from './hooks/useStakeAnkrApprovalForm';
 
 export const Stake = (): JSX.Element => {
   const {
@@ -22,8 +26,6 @@ export const Stake = (): JSX.Element => {
     faqItems,
     initialAmount,
     initialProvider,
-    isApproveLoading,
-    isApproved,
     isBalanceLoading,
     isDisabled,
     isStakeLoading,
@@ -35,6 +37,28 @@ export const Stake = (): JSX.Element => {
     onChange,
     onSubmit,
   } = useAnkrStake();
+
+  const {
+    isApproveLoading,
+    onApprovalSettingsFormSubmit,
+    onApproveSubmit,
+    approvalSettingsMode,
+    allowance,
+  } = useStakeAnkrApprovalForm();
+
+  const renderFormApproveButtons = (amountValue: BigNumber) => (
+    <ApprovalFormButtons
+      allowance={allowance}
+      amount={amountValue}
+      approvalSettingsMode={approvalSettingsMode}
+      isApproveLoading={isApproveLoading}
+      isStakeLoading={isStakeLoading}
+      minAmount={minStake}
+      tokenName={tokenIn}
+      onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
+      onApproveSubmit={onApproveSubmit}
+    />
+  );
 
   const {
     apyText,
@@ -55,21 +79,20 @@ export const Stake = (): JSX.Element => {
           additionalText={additionalText}
           additionalTooltip={additionalTooltip}
           additionalValue={additionalValue}
+          amount={amount}
           balance={balance}
           balanceLinkSlot={<BuyAnkrLink />}
           closeHref={closeHref}
           initialAmount={initialAmount}
           initialProvider={initialProvider}
-          isApproved={isApproved}
-          isApproveLoading={isApproveLoading}
           isBalanceLoading={isBalanceLoading}
           isDisabled={isDisabled}
-          loading={isStakeLoading}
           maxAmountDecimals={ANKR_STAKING_MAX_DECIMALS_LENGTH}
           minAmount={minStake}
           providerName={providerName}
           providerSelectHref={providerSelectHref}
           quoteText={quoteText}
+          renderFormApproveButtons={renderFormApproveButtons}
           tokenIn={tokenIn}
           onChange={onChange}
           onSubmit={onSubmit}

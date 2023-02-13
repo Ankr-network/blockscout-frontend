@@ -12,5 +12,9 @@ export const onError = (error: SerializedError): string => {
     return t('validation.insufficient-funds-for-transfer');
   }
 
+  if (error.message.includes(EBinanceErrorCodes.NOT_ENOUGH_LIQUIDITY)) {
+    return t('validation.insufficient-funds-for-transfer');
+  }
+
   return error.message;
 };

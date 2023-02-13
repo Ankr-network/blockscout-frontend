@@ -1,9 +1,11 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
 import { Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { XDC_PROVIDER_BY_ENV, ZERO } from 'modules/common/const';
@@ -40,6 +42,7 @@ export const { useGetDashboardPendingDataQuery } = web3Api.injectEndpoints({
             }),
           };
         },
+        getOnErrorWithCustomText(t('stake-xdc.errors.pending-values')),
       ),
     }),
   }),

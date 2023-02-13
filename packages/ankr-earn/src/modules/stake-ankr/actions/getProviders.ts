@@ -1,3 +1,6 @@
+import { t } from '@ankr.com/common';
+
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -8,12 +11,11 @@ export const { useGetProvidersQuery } = web3Api.injectEndpoints({
     getProviders: build.query<IValidator[], void>({
       queryFn: queryFnNotifyWrapper<void, never, IValidator[]>(async () => {
         const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
 
         return {
-          data: await sdk.getAllValidators(await provider.getBlockNumber()),
+          data: await sdk.getAllValidators(),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-ankr.errors.providers'))),
     }),
   }),
 });

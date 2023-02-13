@@ -1,3 +1,6 @@
+import { t } from '@ankr.com/common';
+
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -14,7 +17,7 @@ export const {
         const data = await sdk.getBlockNumber();
 
         return { data };
-      }),
+      }, getOnErrorWithCustomText(t('stake-ankr.errors.latest-block-number'))),
     }),
   }),
 });

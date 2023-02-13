@@ -2,9 +2,6 @@ import { tHTML } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { useCallback } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-
-import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
   ACTION_CACHE_SEC,
@@ -17,11 +14,10 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getValidSelectedToken } from 'modules/stake-matic/common/utils/getValidSelectedToken';
-import { useApproveAnkrMaticUnstakeMutation } from 'modules/stake-matic/eth/actions/useApproveAnkrMaticUnstakeMutation';
-import { useGetAnkrBalanceQuery } from 'modules/stake-matic/eth/actions/useGetAnkrBalanceQuery';
-import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStakeStatsQuery';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { useUnstakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useUnstakeMaticOnEthMutation';
+import { useGetAnkrBalanceQuery } from 'modules/stake-matic/eth/actions/getAnkrBalance';
+import { useGetMaticOnEthStakeStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStakeStats';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
+import { useUnstakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/unstakeMaticOnEth';
 import { RoutesConfig } from 'modules/stake-matic/eth/Routes';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 
@@ -32,9 +28,7 @@ interface IUseUnstakeMatic {
   minAmount: BigNumber;
   isFetchStatsLoading: boolean;
   isUnstakeLoading: boolean;
-  isApproved: boolean;
   isWithApprove: boolean;
-  isApproveLoading: boolean;
   unstakeFee: BigNumber;
   closeHref: string;
   selectedToken: TMaticSyntToken;
@@ -70,10 +64,6 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
   } = useGetMaticOnEthStakeStatsQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
-  const [
-    approveAMATICCUnstake,
-    { data: approveData, isLoading: isApproveLoading, reset: resetApprove },
-  ] = useApproveAnkrMaticUnstakeMutation();
   const [unstake, { isLoading: isUnstakeLoading }] =
     useUnstakeMaticOnEthMutation();
 
@@ -89,9 +79,7 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
   const unstakeFee = stakeStatsData?.unstakeFee ?? ZERO;
   const minAmount = isBondToken ? minAmaticbAmount : minAmaticcAmount;
 
-  const isApproved = !!approveData;
   const isWithApprove = !isBondToken;
-  const shouldBeApproved = isWithApprove && !isApproved;
 
   const handleSubmit = useCallback(
     (amount: BigNumber) => {
@@ -112,13 +100,9 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
 
       const value = new BigNumber(amount);
 
-      if (shouldBeApproved) {
-        approveAMATICCUnstake(value);
-      } else {
-        handleSubmit(value);
-      }
+      handleSubmit(value);
     },
-    [approveAMATICCUnstake, handleSubmit, shouldBeApproved],
+    [handleSubmit],
   );
 
   const calcTotalRecieve = useCallback(
@@ -152,12 +136,6 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
     return errors;
   };
 
-  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
-
-  useProviderEffect(() => {
-    resetApprove();
-  }, [address]);
-
   useProviderEffect(() => {
     getMATICETHStatsRefetch();
     getMATICETHStakeStatsRefetch();
@@ -172,8 +150,6 @@ export const useUnstakeMatic = (): IUseUnstakeMatic => {
     unstakeFee,
     closeHref,
     isWithApprove,
-    isApproved,
-    isApproveLoading,
     onExtraValidation,
     onUnstakeSubmit,
     calcTotalRecieve,

@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import { NavLink } from 'react-router-dom';
 
 import { DOCS_ANKR_TOKEN_UNSTAKING_LINK } from 'modules/common/const';
 
@@ -12,9 +11,14 @@ export const UnstakeInfo = (): JSX.Element => {
     <div className={classes.root}>
       <span className={classes.info}>{t('stake-ankr.unstaking.info')}</span>
 
-      <NavLink className={classes.link} to={DOCS_ANKR_TOKEN_UNSTAKING_LINK}>
-        Learn more
-      </NavLink>
+      <a
+        className={classes.link}
+        href={DOCS_ANKR_TOKEN_UNSTAKING_LINK}
+        rel="noreferrer"
+        target="_blank"
+      >
+        {t('stake-ankr.unstaking.info-link')}
+      </a>
     </div>
   );
 };

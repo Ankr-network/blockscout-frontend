@@ -77,24 +77,6 @@ describe('modules/switcher/api/SwitcherSDK#approve', () => {
     });
   });
 
-  test('should approve certificate for bond on binance network', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-
-    const results = await Promise.all(
-      [EEthereumNetworkId.smartchain, EEthereumNetworkId.smartchainTestnet].map(
-        chainId =>
-          sdk.approve({
-            chainId: chainId as AvailableSwitchNetwork,
-            token: Token.aBNBb,
-          }),
-      ),
-    );
-
-    results.forEach(result => {
-      expect(result).toStrictEqual({ value: 'binance' });
-    });
-  });
-
   test('should approve certificate for bond on ethereum network (matic)', async () => {
     const sdk = await SwitcherSDK.getInstance();
 

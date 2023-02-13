@@ -82,6 +82,7 @@
     "eth-ssv": "ETH",
     "aeth": "ankrETH",
     "aethc": "ankrETH",
+    "ankreth": "ankrETH",
     "feth": "aETHb",
     "aethb": "aETHb",
     "asethc": "asETHc",
@@ -94,12 +95,15 @@
     "ankrbnb": "ankrBNB",
     "amaticb": "aMATICb",
     "amaticc": "ankrMATIC",
+    "ankrmatic": "ankrMATIC",
     "ftm": "FTM",
     "aftmb": "aFTMb",
     "aftmc": "ankrFTM",
+    "ankrftm": "ankrFTM",
     "avax": "AVAX",
     "aavaxb": "aAVAXb",
     "aavaxc": "ankrAVAX",
+    "ankravax": "ankrAVAX",
     "awndb": "aWNDb",
     "dot": "DOT",
     "ksm": "KSM",
@@ -128,7 +132,6 @@
   "common": {
     "n-a": "N/A",
     "successTx": "Transaction successful.",
-    "errorTx": "Transaction failed.",
     "explorer": "View on explorer",
     "labels": {
       "from": "From",
@@ -137,6 +140,10 @@
     "tooltips": {
       "comingSoon": "Coming soon",
       "allowance": "Approve (Allowance) is the permission you give to the smart contract in order to allow it to spend on your behalf the token you want to use through its dApp."
+    },
+    "errors": {
+      "tx-failed": "Transaction failed.",
+      "tx-receipt": "Failed to get transaction receipt"
     }
   },
   "chain": {
@@ -337,6 +344,7 @@
     "balance-label": "Your balance",
     "btn-max": "Max",
     "faq-title": "FAQ",
+    "faq-error": "Failed to get FAQ data",
     "bridge-btn": "Bridge",
     "reward-token-info": "<b>{synthToken}</b> is a reward-bearing token. It accumulates rewards not by growing in number, but by growing in value in relation to {token}. The redemption price of <b>{synthAmount} {synthToken}</b> is now <b>{amount} {token}</b>.",
     "stats": {
@@ -350,8 +358,7 @@
       "dune-analytics": "Dune Analytics"
     },
     "trade-info": {
-      "description-one-token": "Receive a {value}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
-      "description-two-tokens": "Receive a {valueOne}% discount for {tokenOne} or a {valueTwo}% discount for {tokenTwo} on <b>OpenOcean</b> compared with direct staking on Ankr.",
+      "description": "Receive a {value}% discount for {token} on <b>OpenOcean</b> compared with direct staking on Ankr.",
       "title": "Better option on OpenOcean"
     },
     "buttons": {
@@ -370,7 +377,15 @@
       "description": "This may take a moment; you can close this window. Once completed, you can check out your staking exposure on the Dashboard."
     },
     "token-info": "<b>{token}</b> is a reward-bearing token. It accumulates rewards not by growing in number, but by growing in value in relation to {nativeToken}. The redemption price of <b>1 {token}</b> is now <b>{nativeAmount} {nativeToken}</b>.",
-    "b-notice": "Ankr no longer actively supports {bToken}. You can stake {nativeToken} and get {cToken} supported by the most well-known DeFi platforms."
+    "b-notice": "Ankr no longer actively supports {bToken}. You can stake {nativeToken} and get {cToken} supported by the most well-known DeFi platforms.",
+    "approval": {
+      "approval-settings": "Approval Settings",
+      "description": "Approve allows the smart contract to spend a specific amount of tokens on your behalf. To avoid approval fees in the future, you may set unlimited access or custom limit at your discretion.",
+      "option-current": "Current amount",
+      "option-unlimited": "Unlimited access",
+      "option-custom": "Custom amount",
+      "close-and-confirm": "Confirm and close"
+    }
   },
   "delegated-stake": {
     "header": {
@@ -414,6 +429,17 @@
       "timer": "You will get your AVAX in: {duration}",
       "timer-off": "You will get your AVAX shortly"
     },
+    "errors": {
+      "add-token": "Failed to add token to wallet",
+      "history": "Failed to get AVAX historical data",
+      "pending-values": "Failed to get AVAX pending unstakes",
+      "stake-gas-fee": "Failed to get AVAX stake gas fee information",
+      "tx-data": "Failed to get AVAX transaction data",
+      "tx-receipt": "Failed to get AVAX transaction receipt",
+      "stake": "Failed to stake AVAX",
+      "unstake": "Failed to unstake AVAX",
+      "common-data": "Failed to get AVAX common data"
+    },
     "aavaxb-descr": "aAVAXb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aAVAXb=1 AVAX</b>",
     "aavaxc-descr": "ankrAVAX (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 ankrAVAX={rate} AVAX</b>"
   },
@@ -428,7 +454,7 @@
     "unstake": {
       "info": "You will receive BNB in about ~{value} {period}.",
       "period": "about {value} {period}",
-      "pool-capacity": "Pool capacity: {value} BNB",
+      "pool-capacity": "Pool capacity: {value} ankrBNB",
       "comission": "{value}% comission",
       "instant": "It will be sent immediately",
       "instant-success": "You will receive BNB shortly",
@@ -437,6 +463,22 @@
       "standard-unstake": "Standard unstake",
       "flash-unstake": "Flash unstake",
       "instantly": "Instantly"
+    },
+    "errors": {
+      "add-to-wallet": "Failed to add BNB token to wallet",
+      "check-partner-code": "Couldn't verify existing BNB partner code",
+      "history": "Failed to get BNB historical data",
+      "pending": "Failed to get pending BNB token data",
+      "stake-gas-fee": "Failed to get BNB stake gas fee information",
+      "tx-data": "Failed to get BNB transaction data",
+      "unstake-tx-data": "Failed to get BNB unstake txn data",
+      "tx-receipt": "Failed to get BNB transaction receipt",
+      "stake": "Failed to stake BNB",
+      "approve-swap": "Failed to approve ankrBNB for swap pool",
+      "approve-unstake": "Failed to approve ankrBNB for unstake",
+      "stake-stats": "Failed to get BNB stake stats",
+      "stats": "Failed to get BNB stats",
+      "unstake-stats": "Failed to get BNB unstake stats"
     }
   },
   "stake-polkadot": {
@@ -451,7 +493,14 @@
       "claim-ledger-in-progress": "Please wait. The previous claim is not finished yet",
       "claim-ledger-signature-expired": "Signature expired, {token} will be turned back to you. Please try to stake again",
       "invalid-eth-token-address": "Invalid Ethereum's token address",
-      "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}"
+      "uncompleted-stake-transaction": "Transaction with id={id} was completed with status={status}",
+      "stake": "Failed to stake",
+      "unstake": "Failed to unstake",
+      "claim": "Failed to claim",
+      "add-token": "Failed to add token to wallet",
+      "max-safe-balance": "Failed to get max safe balance from Polkadot network",
+      "account-full-balance": "Failed to get Polkadot account full balance data",
+      "txn-history": "Failed to get Polkadot transactions history"
     },
     "networks": {
       "DOT": "Polkadot",
@@ -512,6 +561,23 @@
       "ethereum-network": "Ethereum Network",
       "polygon-network": "Polygon Network",
       "title": "In which network you want stake your MATIC"
+    },
+    "errors": {
+      "network-chooser": "Failed to get MATIC balances",
+      "add-token": "Failed to add token to wallet",
+      "approve-unstake": "Failed to approve MATIC for unstake",
+      "ankr-balance": "Failed to get ANKR balance",
+      "stake-stats": "Failed to get common MATIC stake information",
+      "unstake-stats": "Failed to get common MATIC unstake information",
+      "common-data": "Failed to get common MATIC information",
+      "tx-data": "Failed to get MATIC transaction data",
+      "tx-receipt": "Failed to get MATIC transaction receipt",
+      "approve-stake": "Failed to approve MATIC for stake",
+      "allowance": "Failed to get MATIC allowance",
+      "history": "Failed to get MATIC historical data",
+      "stake-gas-fee": "Failed to get MATIC stake gas fee",
+      "stake": "Failed to stake MATIC",
+      "unstake": "Failed to unstake MATIC"
     }
   },
   "stake-matic-eth": {
@@ -545,7 +611,18 @@
     "unstake-period": "{days} days or earlier",
     "aftmb-descr": "aFTMb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aFTMb=1 FTM</b>",
     "aftmc-descr": "ankrFTM (reward bearing) its quantity is stable, but redemption ratio grows daily. <br/>Current rate is <b>1 ankrFTM={rate} FTM</b>",
-    "relayer-fee": "Relayer Fee"
+    "relayer-fee": "Relayer Fee",
+    "errors": {
+      "add-to-wallet": "Failed to add token to wallet",
+      "burn-fee": "Failed to get FTM unstaking fees data",
+      "common-data": "Failed to get common FTM information",
+      "history": "Failed to get FTM historical data",
+      "stake-gas-fee": "Failed to get FTM stake gas fee",
+      "tx-data": "Failed to get FTM transaction data",
+      "tx-receipt": "Failed to get FTM transaction receipt",
+      "stake": "Failed to stake FTM",
+      "unstake": "Failed to unstake FTM"
+    }
   },
   "stake-ethereum": {
     "aethb-descr": "aETHb (reward earning) its quantity grows daily just being on your wallet. Redemption ratio is always: <br/><b>1 aETHb=1 ETH</b>",
@@ -555,7 +632,19 @@
     "unclaimed-label": "Unclaimed ETH balance",
     "unclaimed-descr": "Your unclaimed staked ETH balance will be converted to {token} on top of the selected amount of ETH to be staked.",
     "unstake-tooltip": "Unstaking will be enabled after The Merge of 'Eth1' and 'Eth2' into a single chain and withdrawal activation. Expected ~Q3/Q4 2022.",
-    "amount-tooltip": "Amount must be multiple of {step}"
+    "amount-tooltip": "Amount must be multiple of {step}",
+    "errors": {
+      "add-token": "Failed to add token to wallet",
+      "claim": "Failed to claim ETH",
+      "claimable": "Failed to get claimable ETH data",
+      "common-data": "Failed to get common ETH information",
+      "history": "Failed to get ETH historical data",
+      "stake-gas-fee": "Failed to get ETH stake gas fee",
+      "tx-data": "Failed to get ETH transaction data",
+      "tx-receipt": "Failed to get ETH transaction receipt",
+      "stake": "Failed to stake ETH",
+      "min-stake": "Failed to get ETH minimum stake amount"
+    }
   },
   "switcher": {
     "title": "ANKR Switch",
@@ -586,7 +675,12 @@
       "connectBtn": "Connect your wallet"
     },
     "successTitle": "Swap successful!",
-    "successInfo": "Check out your new {token} exposure on the Ankr Staking Dashboard any time."
+    "successInfo": "Check out your new {token} exposure on the Ankr Staking Dashboard any time.",
+    "errors": {
+      "tx-receipt": "Failed to get transaction receipt",
+      "tx-data": "Failed to get transaction data",
+      "add-token-to-wallet": "Failed to add {token} to wallet"
+    }
   },
   "progress": {
     "errorTitle": "An error has occurred",
@@ -617,7 +711,8 @@
       "return": "Go to dashboard"
     },
     "unstake-fee-tooltip": "As unstaking MATIC tokens is a gas and time consuming process requiring sending several transactions to the MATIC smart contracts deployed in Ethereum. Ankr Staking covers all gas fees while charging users a modest fee to compensate expenses. MATIC tokens will be transferred to your wallet automatically when the unstaking process is complete with no additional costs.",
-    "send-external-wallet": "Send to external wallet"
+    "send-external-wallet": "Send to external wallet",
+    "approval-settings": "Approval Settings"
   },
   "calc": {
     "title": "Staking calculator",
@@ -783,6 +878,13 @@
       "ankrXDC": "ankrXDC represents your staked XDC and provides liquidity for your staked position. All staking rewards are built into the token price, and ankrXDC grows daily in value, but never in number.<br/><br/>The redemption price of 1 ankrXDC is now {value} XDC.<br/><br/>You can unstake it anytime and receive your stake and earned rewards. Regular unstake takes {period}, while flash unstake is instant.<br/><br/>While staking, you can also use ankrXDC for trading and other DeFi opportunities.",
       "ANKR": "ANKR is the native token of Ankr Network, a decentralized network of nodes providing connections to blockchains for Web3 developers.<br/><br/>Staking rewards accumulate once an epoch - 7 days - in ANKR.<br/><br/>You can claim or restake them for higher APR.",
       "MGNO": "megaGnosis (mGNO) is a metatoken for GNO, the native Gnosis token. The relation is similar to a wrapped token like WETH to ETH, except there are 32 mGNO in 1 GNO.<br/><br/>As Gnosis is built on Ethereum, staking rewards and unstaking mGNO will be available after the Shanghai update when Ethereum enables this functionality. Approximate date is ~Q3-Q4 2023."
+    },
+    "errors": {
+      "bridged-eth-bond": "Failed to get aETHb data from the Binance Smart Chain",
+      "bridged-eth-cert": "Failed to get ankrETH data from the Binance Smart Chain",
+      "bridged-matic-cert-bsc": "Failed to get ankrMATIC data from the Binance Smart Chain",
+      "bridged-matic-bond-bsc": "Failed to get aMATICb data from the Binance Smart Chain",
+      "swap-old-aethc": "Failed to swap ankrETH in the Binance Smart Chain"
     }
   },
   "defi": {
@@ -812,7 +914,7 @@
     "fantom": "Fantom (FTM)",
     "polkadot": "Polkadot (DOT)",
     "ethereum": "Ethereum (ETH)",
-    "ethereum-ssv": "SSV–Ethereum (ETH)",
+    "ethereum-ssv": "SSV-Ethereum (ETH)",
     "ksm": "Kusama (KSM)",
     "wnd": "Westend (WND)",
     "sui": "Sui (SUI)",
@@ -928,14 +1030,19 @@
       "connect": "Connect wallet",
       "submit": "Proceed bridge"
     },
-    "fetch-transaction": {
-      "error": {
-        "transaction-not-found": "Transaction not found",
-        "wrong-transaction": "This is not a deposit transaction. Please enter deposit transaction hash"
-      }
-    },
     "unsupported": {
       "clover-title": "At the moment the bridge is not compatible with a Clover wallet."
+    },
+    "errors": {
+      "approve": "The approve action has not been completed",
+      "deposit": "The deposit action has not been completed",
+      "get-balance": "Failed to get {token} balance from the {network} network",
+      "txn-not-found": "Transaction not found",
+      "wrong-txn": "This is not a deposit transaction. Please enter deposit transaction hash",
+      "txn-data": "Failed to get transaction data",
+      "notarize": "Failed to notarize transaction",
+      "add-token-to-wallet": "Failed to add {token} to your wallet",
+      "withdraw": "Failed to withdraw tokens from the bridge"
     }
   },
   "zendesk": {
@@ -1081,6 +1188,7 @@
       "description": "This may take a moment; you can close this window.",
       "submit": "Unstake",
       "info": "Unstaking takes two steps: undelegating and claiming. Undelegating takes about 7 days before you can manually claim your funds.",
+      "info-link": "Learn more",
       "success-info": "The undelegate period has started. It will take about 7 days before you can manually claim your funds on the",
       "staking-page-link": "ANKR Staking page"
     },
@@ -1151,6 +1259,39 @@
         "rps": "RPS",
         "btn": "Select provider"
       }
+    },
+    "errors": {
+      "approve": "Failed to approve",
+      "claim-all-rewards": "Failed to claim all rewards",
+      "claim-all-for-validator": "Failed to claim all for validator",
+      "claim-rewards": "Failed to claim rewards",
+      "claim-unstakes": "Failed to claim unstakes",
+      "active-staking": "Failed to get ANKR active staking data",
+      "all-claimable-rewards": "Failed to get all claimable rewards data",
+      "all-claimable-unstakes": "Failed to get all claimable unstakes data",
+      "claim-all-unstakes": "Failed to claim all unstakes",
+      "ankr-price": "Failed to get ANKR price information",
+      "apy": "Failed to get ANKR APY information",
+      "claimable-rewards": "Failed to get ANKR claimable rewards data",
+      "claimable-unstakes": "Failed to get ANKR claimable unstakes data",
+      "common-data": "Failed to get common ANKR staking data",
+      "epoch-end": "Failed to get ANKR epoch end data",
+      "history-data": "Failed to get ANKR historical data",
+      "latest-block-number": "Failed to get ANKR latest block number data",
+      "max-apy": "Failed to get max ANKR APY data",
+      "providers": "Failed to get ANKR providers data",
+      "providers-total-info": "Failed to get ANKR providers total information",
+      "restakable-amount": "Failed to get ANKR restakable amount information",
+      "total-info": "Failed to get ANKR total delegated amount and claimable rewards data",
+      "total-tvl": "Failed to get ANKR total TVL data",
+      "txn-data": "Failed to get ANKR transaction data",
+      "txn-receipt": "Failed to get ANKR transaction receipt",
+      "unlocked-delegated-by-validator": "Failed to get ANKR unlocked delegated amount for specific validator",
+      "unstaking-data": "Failed to get ANKR unstaking data",
+      "validator-delegated-amount": "Failed to get delegated amount of ANKR validator",
+      "restake": "Failed to restake ANKR tokens",
+      "stake": "Failed to stake ANKR tokens",
+      "unstake": "Failed to unstake ANKR tokens"
     }
   },
   "stake-mgno": {
@@ -1211,6 +1352,31 @@
     },
     "unsupported": {
       "okx-title": "At the moment GNO staking is not compatible with a OKX wallet."
+    },
+    "errors": {
+      "approve": "Failed to approve mGNO tokens",
+      "active-staking": "Failed to get active mGNO staking data",
+      "all-my-rewards": "Failed to get all my mGNO rewards data",
+      "get-apr": "Failed to get mGNO APR data",
+      "balance": "Failed to get mGNO balance data",
+      "history": "Failed to get mGNO historical data",
+      "max-apr": "Failed to get mGNO max APR data",
+      "max-stake-amount": "Failed to get mGNO max stake amount data",
+      "mgno-price": "Failed to get mGNO price data",
+      "min-stake-amount": "Failed to get mGNO min stake amount data",
+      "my-tip-rewards": "Failed to get my mGNO tip rewards data",
+      "provider-addresses": "Failed to get mGNO provider addresses data",
+      "provider-contributed": "Failed to get mGNO provider contributed data",
+      "delegated-amount": "Failed to get mGNO delegated amount data",
+      "all-providers": "Failed to get all mGNO providers information",
+      "provider-stats": "Failed to get mGNO provider stats data",
+      "providers-total-info": "Failed to get total mGNO providers information",
+      "test-tokens": "Failed to get mGNO test tokens",
+      "total-info": "Failed to get total mGNO information",
+      "tvl": "Failed to get mGNO TVL data",
+      "tx-data": "Failed to get mGNO transaction data",
+      "tx-receipt": "Failed to get mGNO transaction receipt",
+      "stake": "Failed to stake mGNO"
     }
   },
   "stake-ssv": {
@@ -1218,6 +1384,15 @@
       "title": "Start staking SSV-Ethereum",
       "current-wallet": "current wallet",
       "description": "SSV-Ethereum Staking is not available with <b>{currentWallet}</b> at the moment. </br>Please connect another wallet that supports the Goerli testnet network."
+    },
+    "errors": {
+      "add-to-wallet": "Failed to add asETHc token to wallet",
+      "get-dashboard-data": "Failed to get SSV-Ethereum balances data",
+      "get-stake-data": "Failed to get SSV-Ethereum stake data",
+      "stake-gas-fee": "Failed to get SSV-Ethereum stake gas fee",
+      "tx-data": "Failed to get SSV-Ethereum transaction data",
+      "tx-receipt": "Failed to get SSV-Ethereum transaction receipt",
+      "stake": "Failed to stake SSV-Ethereum"
     }
   },
   "stake-xdc": {
@@ -1231,6 +1406,30 @@
         "tooltip": "Flash unstake pool allows you to instantly unstake and receive your assets. To flash-unstake, you need to stay within the current pool capacity, or regular times will apply."
       },
       "success-title": "Unstake successful!"
+    },
+    "errors": {
+      "add-to-wallet": "Failed to add ankrXDC token to wallet",
+      "get-dashboard-data": "Failed to get XDC balances data",
+      "pending-values": "Failed to get XDC pending values data",
+      "tx-events-history": "Failed to get XDC historical data",
+      "stake-gas-fee": "Failed to get XDC stake gas fee",
+      "tx-data": "Failed to get XDC transaction data",
+      "tx-receipt": "Failed to get XDC transaction receipt",
+      "stake-data": "Failed to get XDC staking data",
+      "stake": "Failed to stake XDC",
+      "unstake": "Failed to unstake XDC",
+      "unstaking-data": "Failed to get XDC unstaking data"
+    }
+  },
+  "stake-sui": {
+    "errors": {
+      "add-token-to-wallet": "Failed to add ankrSUI to your wallet",
+      "common-data": "Failed to get SUI common data",
+      "dashboard-data": "Failed to get SUI data for dashboard",
+      "tx-data": "Failed to get SUI transaction data",
+      "tx-receipt": "Failed to get SUI transaction receipt",
+      "stake": "Failed to stake SUI",
+      "unstake": "Failed to unstake SUI"
     }
   },
   "convert": {
@@ -1256,6 +1455,12 @@
     "polkadot": {
       "title": "Polkadot liquid staking is undergoing maintenance",
       "description": "Staking and unstaking are temporarily suspended. Our team is working on improving the services."
+    }
+  },
+  "approval": {
+    "steps": {
+      "1": "1",
+      "2": "2"
     }
   }
 }

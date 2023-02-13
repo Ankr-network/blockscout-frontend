@@ -1,3 +1,6 @@
+import { t } from '@ankr.com/common';
+
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
@@ -13,6 +16,7 @@ export const { useAddFTMTokenToWalletMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.addTokenToWallet(token) };
         },
+        getOnErrorWithCustomText(t('stake-fantom.errors.add-to-wallet')),
       ),
       invalidatesTags: [CacheTags.common],
     }),

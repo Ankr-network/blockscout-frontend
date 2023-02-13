@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -34,6 +36,7 @@ export const {
             },
           };
         },
+        getOnErrorWithCustomText(t('stake-ethereum.errors.claimable')),
       ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],

@@ -6,13 +6,13 @@ import { useEffect } from 'react';
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { notarize } from 'modules/bridge/actions/notarize';
 import { withdrawal } from 'modules/bridge/actions/withdrawal';
 import { BridgeContainer } from 'modules/bridge/components/BridgeContainer';
 import { Notification } from 'modules/bridge/components/Notification';
 import { TxView } from 'modules/bridge/screens/BridgeMainPage/components/TxView';
+import { NoReactSnap } from 'modules/common/components/NoReactSnap';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { BridgeMainView } from './components/BridgeMainView';
@@ -35,7 +35,6 @@ export const BridgeMainPage = (): JSX.Element => {
         resetRequests([
           notarize.toString(),
           withdrawal.toString(),
-          approve.toString(),
           deposit.toString(),
         ]),
       );
@@ -45,7 +44,11 @@ export const BridgeMainPage = (): JSX.Element => {
   return (
     <Box component="section" py={{ xs: 5, md: 8 }}>
       <BridgeContainer>
-        {isMainViewShowed && <BridgeMainView />}
+        {isMainViewShowed && (
+          <NoReactSnap>
+            <BridgeMainView />
+          </NoReactSnap>
+        )}
 
         {isTxViewShowed && (
           <TxView

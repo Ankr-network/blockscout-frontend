@@ -16,10 +16,10 @@ import {
 } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { useStakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useStakeMaticOnEthMutation';
-import { useUnstakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/useUnstakeMaticOnEthMutation';
+import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/addMaticOnEthTokenToWallet';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
+import { useStakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/stakeMaticOnEth';
+import { useUnstakeMaticOnEthMutation } from 'modules/stake-matic/eth/actions/unstakeMaticOnEth';
 import { RoutesConfig as StakeMaticEthRoutes } from 'modules/stake-matic/eth/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';

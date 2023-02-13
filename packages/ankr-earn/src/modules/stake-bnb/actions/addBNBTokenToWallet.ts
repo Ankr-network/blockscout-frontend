@@ -1,3 +1,6 @@
+import { t } from '@ankr.com/common';
+
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
@@ -12,6 +15,7 @@ export const { useAddBNBTokenToWalletMutation } = web3Api.injectEndpoints({
           const sdk = await getBinanceSDK();
           return { data: await sdk.addTokenToWallet(token) };
         },
+        getOnErrorWithCustomText(t('stake-bnb.errors.add-to-wallet')),
       ),
       invalidatesTags: [CacheTags.common],
     }),

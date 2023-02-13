@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
@@ -20,6 +21,7 @@ export const fetchPolkadotAccountFullBalance = createAction<
   meta: {
     asMutation: false,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-polkadot.errors.account-full-balance'),
     requestKey: getPolkadotRequestKey(network),
   },
 }));

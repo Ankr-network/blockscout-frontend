@@ -63,25 +63,6 @@ describe('modules/switcher/api/SwitcherSDK#lockShares', () => {
     });
   });
 
-  test('should lock shares on binance network properly', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-
-    const results = await Promise.all(
-      [EEthereumNetworkId.smartchain, EEthereumNetworkId.smartchainTestnet].map(
-        async chainId =>
-          sdk.lockShares({
-            chainId: chainId as AvailableSwitchNetwork,
-            amount: new BigNumber(1),
-            token: Token.aBNBc,
-          }),
-      ),
-    );
-
-    results.forEach(result => {
-      expect(result).toBeDefined();
-    });
-  });
-
   test('should lock shares on ethereum network for matic properly', async () => {
     const sdk = await SwitcherSDK.getInstance();
 

@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { getPolygonOnEthereumSDK } from 'modules/stake-matic/eth/utils/getPolygonOnEthereumSDK';
@@ -34,6 +36,9 @@ export const { useGetNetworkChooserDataQuery } = web3Api.injectEndpoints({
             },
           };
         },
+        getOnErrorWithCustomText(
+          t('stake-matic-common.errors.network-chooser'),
+        ),
       ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],

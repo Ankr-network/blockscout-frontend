@@ -26,9 +26,11 @@ const notificationsSlice = createSlice({
       state,
       action: PayloadAction<IShowNotificationPayload>,
     ) => {
-      const key = action.payload.key || new Date().getTime() + Math.random();
-      state[key] = {
-        ...action.payload,
+      const { payload } = action;
+      const key = payload.key || new Date().getTime() + Math.random();
+      const keyWithType = `${payload.variant}/${key}`;
+      state[keyWithType] = {
+        ...payload,
       };
     },
     hideNotification: (state, action: PayloadAction<string | number>) => {

@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import { push } from 'connected-react-router';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
 
@@ -20,7 +22,9 @@ export const { useClaimUnstakesMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.claimUnstakes(provider) };
         },
+        getOnErrorWithCustomText(t('stake-ankr.errors.claim-unstakes')),
       ),
+
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
           const txHash = response.data;

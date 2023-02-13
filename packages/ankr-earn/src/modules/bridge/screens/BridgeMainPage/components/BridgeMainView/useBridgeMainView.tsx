@@ -2,10 +2,7 @@ import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ReactText, useState } from 'react';
 
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackBridge } from 'modules/analytics/tracking-actions/trackBridge';
 import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
@@ -27,7 +24,6 @@ import {
 } from 'modules/common/hooks/useValidateAmount';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 
-import { useApprove } from './useApprove';
 import { useDeposit } from './useDeposit';
 
 interface ISwapNetworkItemState {
@@ -47,14 +43,12 @@ interface IUseBridgeMainView {
   tokenName: string;
   isSendAnother: boolean;
   isConnected: boolean;
-  isApproved: boolean;
   isInjected: boolean;
   isActualNetwork: boolean;
   swapNetworkItem: ISwapNetworkItemState;
   balance?: BigNumber;
   isBalanceLoading: boolean;
   isSendButtonLoading: boolean;
-  isApproveButtonLoading: boolean;
   networksOptionsFrom: IBridgeBlockchainPanelItem[];
   networksOptionsTo: IBridgeBlockchainPanelItem[];
   onChangeToken: (token: AvailableBridgeTokens) => void;
@@ -69,6 +63,8 @@ interface IUseBridgeMainView {
   onAddrCheckboxClick: () => void;
   validateAmount: TUseValidateAmount;
   isSwitchDisabled: boolean;
+  tokenValue: AvailableBridgeTokens;
+  fromNetwork: SupportedChainIDS;
 }
 
 const SWITCH_DISABLED_TOKENS = [AvailableBridgeTokens.aETHb];
@@ -100,7 +96,9 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const { balance, isBalanceLoading } = useBalance();
   const networkAvailable = useBlockchainPanelOptions();
 
-  const [tokenValue, setTokenValue] = useState(AvailableBridgeTokens.aMATICb);
+  const [tokenValue, setTokenValue] = useState<AvailableBridgeTokens>(
+    AvailableBridgeTokens.aMATICb,
+  );
   const [inputValue, setInputValue] = useState<string>();
   const [networksOptionsFrom, setNetworksOptionsFrom] = useState(
     networkAvailable[tokenValue].from || [],
@@ -130,20 +128,6 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     from: SupportedChainIDS;
     to: SupportedChainIDS;
   }>(getDefaultChains(tokenValue));
-
-  const [isActualNetwork, setActualNetwork] = useState<boolean>(
-    swapNetworkItem.from === chainId,
-  );
-
-  const {
-    isApproved,
-    onClick: onApproveClick,
-    isLoading: isApproveButtonLoading,
-  } = useApprove({
-    token: tokenValue,
-    chainId: swapNetworkItem.from,
-    amount: inputValue ? new BigNumber(inputValue) : undefined,
-  });
 
   const { onClick: onSendClick, isLoading: isSendButtonLoading } = useDeposit({
     amount: inputValue ? new BigNumber(inputValue) : undefined,
@@ -175,7 +159,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
 
   const onChangeToken = (token: AvailableBridgeTokens) => {
     setSwapNetworkItem(getDefaultChains(token));
-    setTokenValue(token as AvailableBridgeTokens);
+    setTokenValue(token);
   };
 
   const onChangeNetwork: IUseBridgeMainView['onChangeNetwork'] = (
@@ -230,15 +214,13 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   };
 
   const onSubmit = () => {
-    if (isApproved) {
-      onSendClick();
-      sendAnalytics();
-    } else {
-      onApproveClick();
-    }
+    onSendClick();
+    sendAnalytics();
   };
 
   const isSwitchDisabled = SWITCH_DISABLED_TOKENS.includes(tokenValue);
+
+  const isActualNetwork = swapNetworkItem.from === chainId;
 
   useProviderEffect(() => {
     if (!isConnected || !isActualNetwork) {
@@ -271,25 +253,17 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     );
   }, [tokenValue, swapNetworkItem]);
 
-  useProviderEffect(() => {
-    setActualNetwork(
-      (swapNetworkItem.from as unknown as EEthereumNetworkId) === chainId,
-    );
-  }, [chainId, swapNetworkItem]);
-
   return {
     isConnected,
     isInjected,
     tokenName,
     isSendAnother,
-    isApproved,
     isActualNetwork,
     swapNetworkItem,
     balance,
     isBalanceLoading,
     isSendButtonLoading,
     isSwitchDisabled,
-    isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
     onChangeNetwork,
@@ -300,5 +274,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     onAddrCheckboxClick,
     onChangeInputValue,
     onSwapClick,
+    tokenValue,
+    fromNetwork: swapNetworkItem.from,
   };
 };

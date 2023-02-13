@@ -14,6 +14,7 @@ import { AngleDownIcon } from 'uiKit/Icons/AngleDownIcon';
 import { AvailableStakingWriteProviders } from '../../../common/types';
 import { IWalletItem } from '../../hooks/useAuthWallets';
 import { IAddress, TAddresses } from '../../types';
+import { shouldShowAddWalletBtn } from '../../utils';
 
 import { useConnectedWalletsButtonStyles as useStyles } from './useConnectedWalletsButtonStyles';
 
@@ -41,6 +42,11 @@ export const ConnectedWalletsButton = ({
   const classes = useStyles();
 
   let leftSide;
+
+  const isAddWalletBtnShowed = shouldShowAddWalletBtn(
+    networks,
+    walletsGroupTypes,
+  );
 
   if (networks.length === 1) {
     const currAddress = getAddressData(networks[0].addresses);
@@ -95,14 +101,15 @@ export const ConnectedWalletsButton = ({
         <AngleDownIcon className={classes.arrowIcon} />
       </Button>
 
-      {walletsGroupTypes?.length ? (
-        <PlusMinusBtn
-          className={classes.addWalletButton}
-          icon="plus"
-          tooltip={t('wallets.add-btn-tooltip')}
-          onClick={connectHandler}
-        />
-      ) : null}
+      <PlusMinusBtn
+        className={classNames(
+          classes.addWalletButton,
+          !isAddWalletBtnShowed && classes.addWalletButtonHidden,
+        )}
+        icon="plus"
+        tooltip={t('wallets.add-btn-tooltip')}
+        onClick={connectHandler}
+      />
     </div>
   ) : (
     <Button

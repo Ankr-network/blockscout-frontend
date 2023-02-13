@@ -22,7 +22,6 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 
 import ankrSUILogo from './assets/ankrsui-logo.png';
 import { useErrorMessage } from './hooks/useErrorMessage';
@@ -100,8 +99,6 @@ export const StakeSui = (): JSX.Element => {
         {hasError && (
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
-
-        <StakeTradeInfo />
 
         <StakeForm
           isMaxBtnShowed

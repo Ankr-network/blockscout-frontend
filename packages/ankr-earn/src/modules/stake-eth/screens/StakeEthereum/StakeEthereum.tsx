@@ -7,30 +7,23 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import {
-  AUDIT_LINKS,
-  DUNE_ANALYTICS_LINK,
-  featuresConfig,
-  ONE,
-} from 'modules/common/const';
+import { AUDIT_LINKS, DUNE_ANALYTICS_LINK, ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTokenInfo } from 'modules/stake/components/StakeTokenInfo/StakeTokenInfo';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 
 import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
 
+import { EthTradeInfo } from './components/EthTradeInfo';
 import { TotalAmount } from './components/TotalAmount';
 import { Unclaimed } from './components/Unclaimed';
 import { useErrorMessage } from './hooks/useErrorMessage';
@@ -71,22 +64,6 @@ export const StakeEthereum = (): JSX.Element => {
     };
   }, [dispatch]);
 
-  useProviderEffect(() => {
-    if (!featuresConfig.isActiveStakeTradeInfo) {
-      return;
-    }
-
-    dispatch(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.ETH,
-        bondToken: EOpenOceanTokens.aETHb,
-        certificateRatio,
-        certificateToken: EOpenOceanTokens.aETHc,
-        network: EOpenOceanNetworks.ETH,
-      }),
-    );
-  }, [certificateRatio, dispatch]);
-
   const renderStats = useCallback(
     () => (
       <>
@@ -122,7 +99,7 @@ export const StakeEthereum = (): JSX.Element => {
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
 
-        {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+        <EthTradeInfo />
 
         <StakeForm
           auditSlot={

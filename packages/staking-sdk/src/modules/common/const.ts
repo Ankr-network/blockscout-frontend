@@ -15,6 +15,7 @@ export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );
+export const MAX_UINT256_SCALE = 1;
 export const ZERO_EVENT_HASH =
   '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -30,4 +31,10 @@ export const POLYGON_NETWORK_BY_ENV = isMainnet
   ? EEthereumNetworkId.polygon
   : EEthereumNetworkId.mumbai;
 
-export const IS_ADVANCED_API_ACTIVE = isMainnet;
+export const advancedAPIConfig = {
+  isActiveForBinance: isMainnet,
+  isActiveForEth: true,
+  isActiveForAvalanche: true,
+  isActiveForFantom: isMainnet,
+  isActiveForPolygon: isMainnet,
+};

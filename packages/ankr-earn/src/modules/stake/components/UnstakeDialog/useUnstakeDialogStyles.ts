@@ -110,4 +110,33 @@ export const useUnstakeDialogStyles = makeStyles(theme => ({
   externalWrapper: {
     marginBottom: theme.spacing(3),
   },
+
+  stepperLabel: {
+    height: theme.spacing(3),
+    width: theme.spacing(3),
+    borderRadius: '100%',
+    border: '1.5px solid rgba(255, 255, 255, 0.3)',
+    lineHeight: '20px',
+    textAlign: 'center',
+    color: theme.palette.common.white,
+    marginRight: theme.spacing(1),
+    fontWeight: 600,
+    fontSize: '14px',
+  },
+
+  stepperLabelDisabled: {
+    borderColor: theme.palette.action.disabled,
+    color: theme.palette.action.disabled,
+    fontSize: '14px',
+  },
+
+  approvalSettings: {
+    textAlign: 'center',
+    fontWeight: 500,
+    fontSize: '13px',
+    lineHeight: '16px',
+    color: theme.palette.text.secondary,
+    padding: theme.spacing(1.5),
+    cursor: 'pointer',
+  },
 }));

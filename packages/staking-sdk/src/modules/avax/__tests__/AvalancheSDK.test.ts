@@ -1,3 +1,4 @@
+import { getPastEvents, IEventData } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -7,9 +8,13 @@ import {
 } from '@ankr.com/provider';
 
 import { AvalancheSDK, EAvalancheErrorCodes, EAvalanchePoolEvents } from '..';
-import { ETH_SCALE_FACTOR, ZERO, ZERO_EVENT_HASH } from '../../common';
+import { ETH_SCALE_FACTOR, ZERO } from '../../common';
 import { convertNumberToHex } from '../../utils';
 import { AVAX_HISTORY_2_WEEKS_OFFSET } from '../const';
+
+jest.mock('@ankr.com/advanced-api', () => ({
+  getPastEvents: jest.fn(),
+}));
 
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
@@ -59,6 +64,8 @@ describe('modules/avax/sdk', () => {
     defaultWeb3.eth.getChainId.mockReturnValue(43113);
 
     defaultReadProvider.getWeb3.mockReturnValue(defaultWeb3);
+
+    (getPastEvents as jest.Mock).mockReturnValue([]);
 
     (ProviderManager as jest.Mock).mockReturnValue({
       getETHWriteProvider: () => Promise.resolve(defaultWriteProvider),
@@ -638,31 +645,35 @@ describe('modules/avax/sdk', () => {
   });
 
   test('should get pending data properly', async () => {
+    const defaultPastEvents: Partial<IEventData>[] = [
+      {
+        returnValues: {
+          amount: new BigNumber(200),
+          isRebasing: false,
+        },
+        transactionHash: 'tx1',
+      },
+      {
+        returnValues: {
+          amount: new BigNumber(100),
+          isRebasing: true,
+        },
+        transactionHash: 'tx2',
+      },
+      {
+        returnValues: {
+          amount: new BigNumber(700),
+          isRebasing: true,
+        },
+        transactionHash: 'tx3',
+      },
+    ];
+
+    (getPastEvents as jest.Mock).mockReturnValue(defaultPastEvents);
+
     const contract = {
       ...defaultContract,
-      getPastEvents: jest.fn().mockResolvedValue([
-        {
-          returnValues: {
-            amount: new BigNumber(200),
-            isRebasing: false,
-          },
-          transactionHash: 'tx1',
-        },
-        {
-          returnValues: {
-            amount: new BigNumber(100),
-            isRebasing: true,
-          },
-          transactionHash: 'tx2',
-        },
-        {
-          returnValues: {
-            amount: new BigNumber(700),
-            isRebasing: true,
-          },
-          transactionHash: 'tx3',
-        },
-      ]),
+      getPastEvents: jest.fn().mockResolvedValue(defaultPastEvents),
       methods: {
         ratio: jest.fn(() => ({
           call: () => new BigNumber(0.9),
@@ -698,9 +709,13 @@ describe('modules/avax/sdk', () => {
   });
 
   test('should get empty pending data properly', async () => {
+    const defaultPastEvents: IEventData[] = [];
+
+    (getPastEvents as jest.Mock).mockReturnValue(defaultPastEvents);
+
     const contract = {
       ...defaultContract,
-      getPastEvents: jest.fn().mockResolvedValue([]),
+      getPastEvents: jest.fn().mockResolvedValue(defaultPastEvents),
       methods: {
         ratio: jest.fn(() => ({
           call: () => new BigNumber(0.98),
@@ -770,14 +785,13 @@ describe('modules/avax/sdk', () => {
   });
 
   test('should return events history properly', async () => {
-    const events = [
+    const events: Partial<IEventData>[] = [
       {
         returnValues: {
           amount: new BigNumber(200),
           isRebasing: false,
         },
         transactionHash: 'txHash1',
-        raw: { data: '' },
         event: EAvalanchePoolEvents.AvaxClaimPending,
       },
       {
@@ -786,7 +800,6 @@ describe('modules/avax/sdk', () => {
           isRebasing: true,
         },
         transactionHash: 'txHash2',
-        raw: { data: '' },
         event: EAvalanchePoolEvents.StakePending,
       },
       {
@@ -795,7 +808,6 @@ describe('modules/avax/sdk', () => {
           isRebasing: true,
         },
         transactionHash: 'txHash3',
-        raw: { data: '' },
         event: EAvalanchePoolEvents.StakePending,
       },
       {
@@ -803,7 +815,6 @@ describe('modules/avax/sdk', () => {
           amount: new BigNumber(1),
           isRebasing: true,
         },
-        raw: { data: ZERO_EVENT_HASH },
         transactionHash: 'txHash4',
       },
     ];
@@ -814,6 +825,8 @@ describe('modules/avax/sdk', () => {
       { timestamp: Math.floor(+new Date() / 1_000 + 3) },
       { timestamp: Math.floor(+new Date() / 1_000 + 4) },
     ];
+
+    (getPastEvents as jest.Mock).mockReturnValue(events);
 
     const contract = {
       ...defaultContract,
@@ -847,16 +860,20 @@ describe('modules/avax/sdk', () => {
 
     const result = await sdk.getTxEventsHistory();
 
-    expect(result.completedBond).toHaveLength(3);
+    expect(result.completedBond).toHaveLength(2);
     expect(result.completedCertificate).toHaveLength(0);
     expect(result.pendingBond).toHaveLength(4);
     expect(result.pendingCertificate).toHaveLength(4);
   });
 
   test('should return empty events history', async () => {
+    const emptyEventsHistory: IEventData[] = [];
+
+    (getPastEvents as jest.Mock).mockReturnValue(emptyEventsHistory);
+
     const contract = {
       ...defaultContract,
-      getPastEvents: jest.fn().mockResolvedValue([]),
+      getPastEvents: jest.fn().mockResolvedValue(emptyEventsHistory),
       methods: {
         ratio: jest.fn(() => ({
           call: () => new BigNumber(0.98),
