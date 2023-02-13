@@ -11,7 +11,7 @@ import { ChainsItemBaseProps } from './ChainsItemBaseTypes';
 import { isSuiChain, useLabelAndTooltip } from './ChainsItemBaseUtils';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useChainsItemStyles } from '../ChainsItem/useChainsItemStyles';
-import { ChainsItemDialog } from '../ChainsItemDialog/ChainsItemDialog';
+import { ChainsItemDialog } from '../ChainsItemDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 // TODO Refactor
