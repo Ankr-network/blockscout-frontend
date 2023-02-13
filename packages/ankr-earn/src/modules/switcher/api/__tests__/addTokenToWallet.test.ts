@@ -63,24 +63,6 @@ describe('modules/switcher/api/SwitcherSDK#addTokenToWallet', () => {
     });
   });
 
-  test('should add token to wallet on binance network properly', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-
-    const results = await Promise.all(
-      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
-        async chainId =>
-          sdk.addTokenToWallet({
-            chainId: chainId as AvailableSwitchNetwork,
-            token: Token.aBNBb,
-          }),
-      ),
-    );
-
-    results.forEach(result => {
-      expect(result).toBe(true);
-    });
-  });
-
   test('should add matic token to wallet on ethereum network properly', async () => {
     const sdk = await SwitcherSDK.getInstance();
 

@@ -227,7 +227,7 @@ describe('modules/polygon/sdk/polygonSDK', () => {
         }),
         approve: () => ({
           estimateGas: (): Promise<BigNumber> => Promise.resolve(ONE),
-          send: (): undefined => undefined,
+          send: (): TransactionReceipt => TX_RECEIPT,
         }),
       },
     };
@@ -241,7 +241,7 @@ describe('modules/polygon/sdk/polygonSDK', () => {
     const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.approveACToken(ONE);
 
-    expect(data).toBe(false);
+    expect(data).toBe(TX_RECEIPT);
   });
 
   test('should approve certificate token', async () => {
@@ -267,7 +267,7 @@ describe('modules/polygon/sdk/polygonSDK', () => {
     const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.approveACToken(ONE);
 
-    expect(data).toBe(true);
+    expect(data).toBe(TX_RECEIPT);
   });
 
   test('should approve certificate token if approved', async () => {
@@ -277,15 +277,23 @@ describe('modules/polygon/sdk/polygonSDK', () => {
         allowance: () => ({
           call: (): string => `${2 * MATIC_SCALE_FACTOR}`,
         }),
+        approve: () => ({
+          estimateGas: (): Promise<BigNumber> => Promise.resolve(ONE),
+          send: (): TransactionReceipt => TX_RECEIPT,
+        }),
       },
     };
 
     defaultWeb3.eth.Contract.mockReturnValue(contract);
 
+    defaultWriteProvider.getSafeGasPriceWei.mockReturnValue(
+      Promise.resolve(ONE),
+    );
+
     const sdk = await PolygonOnPolygonSDK.getInstance();
     const data = await sdk.approveACToken(ONE);
 
-    expect(data).toBe(true);
+    expect(data).toBe(TX_RECEIPT);
   });
 
   test('should return token balances', async () => {

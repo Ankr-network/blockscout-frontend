@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
@@ -36,5 +37,6 @@ export const getProvidersTotalInfo = createAction<
   },
   meta: {
     showNotificationOnError: true,
+    additionalErrorText: t('stake-mgno.errors.providers-total-info'),
   },
 }));

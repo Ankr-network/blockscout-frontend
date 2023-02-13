@@ -37,9 +37,12 @@ export const useSignupDialog = ({
   }, [loading, hasOauthLogin, currentState]);
 
   const onDialogClose = useCallback(() => {
-    setCurrentState(SignupDialogState.MAIN);
+    if (!hasOauthLogin) {
+      setCurrentState(SignupDialogState.MAIN);
+    }
+
     onManualClose();
-  }, [onManualClose]);
+  }, [hasOauthLogin, onManualClose]);
 
   return {
     currentState,

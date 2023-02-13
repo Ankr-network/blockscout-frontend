@@ -9,7 +9,7 @@ import { useLazyGetAVAXHistoryQuery } from 'modules/stake-avax/actions/fetchHist
 import { useLazyGetBNBHistoryQuery } from 'modules/stake-bnb/actions/fetchHistory';
 import { useLazyGetETHHistoryQuery } from 'modules/stake-eth/actions/getHistory';
 import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
-import { useLazyGetMaticOnEthHistoryQuery } from 'modules/stake-matic/eth/actions/useLazyGetMaticOnEthHistoryQuery';
+import { useLazyGetMaticOnEthHistoryQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthHistory';
 import { useLazyGetDashboardTxEventsHistoryRangeQuery } from 'modules/stake-xdc/actions/getDashboardTxEventsHistoryRange';
 
 import { IBaseHistoryData, IHistoryData, IHistoryDialogRow } from '../types';

@@ -1,8 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { featuresConfig, ZERO } from 'modules/common/const';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import { IStakingReward } from '../api/AnkrStakingSDK/types';
@@ -20,14 +21,6 @@ export const { useGetTotalInfoQuery } = web3Api.injectEndpoints({
     getTotalInfo: build.query<IGetTotalInfo, void>({
       queryFn: queryFnNotifyWrapper<void, never, IGetTotalInfo>(
         async (args, { getState }) => {
-          if (featuresConfig.disableHeavyRequestsForTestnet) {
-            return {
-              data: {
-                totalDelegatedAmount: ZERO,
-                claimableRewards: [],
-              },
-            };
-          }
           const sdk = await AnkrStakingSDK.getInstance();
 
           const { data: latestBlockNumber } = selectLatestBlockNumber(
@@ -37,7 +30,7 @@ export const { useGetTotalInfoQuery } = web3Api.injectEndpoints({
           const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
           const [totalDelegatedAmount, claimableRewards] = await Promise.all([
-            sdk.getMyTotalDelegatedAmount(blockNumber),
+            sdk.getMyTotalDelegatedAmount(),
             sdk.getMyClaimableStakingRewards(blockNumber),
           ]);
 
@@ -48,6 +41,7 @@ export const { useGetTotalInfoQuery } = web3Api.injectEndpoints({
             },
           };
         },
+        getOnErrorWithCustomText(t('stake-ankr.errors.total-info')),
       ),
     }),
   }),

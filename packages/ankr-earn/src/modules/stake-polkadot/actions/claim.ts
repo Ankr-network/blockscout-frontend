@@ -1,10 +1,11 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { IStoreState } from 'store';
 
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { TStore } from 'modules/common/types/ReduxRequests';
-import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { showNotification } from 'modules/notifications';
 
 import { PolkadotStakeSDK } from '../api/PolkadotStakeSDK';
@@ -43,16 +44,21 @@ export const claim = createSmartAction<
       asMutation: true,
       onError: (
         error: Error,
-        _action: RequestAction,
+        action: RequestAction,
         store: TStore<IStoreState>,
       ): Error => {
-        const err = new Error(getErrorMessage(error));
+        const errorWithCustomText = getExtendedErrorText(
+          error,
+          t('stake-polkadot.errors.claim'),
+        );
+        const err = new Error(errorWithCustomText);
 
         store.dispatchRequest(fetchPolkadotAccountMaxSafeBalance(network));
 
         store.dispatch(
           showNotification({
             message: err.toString(),
+            key: action.type,
             variant: 'error',
           }),
         );

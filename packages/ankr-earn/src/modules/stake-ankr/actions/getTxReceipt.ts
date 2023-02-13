@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import { TransactionReceipt } from 'web3-core';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -24,7 +26,7 @@ export const { useGetANKRTxReceiptQuery } = web3Api.injectEndpoints({
         return {
           data: await sdk.fetchTxReceipt(txHash),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-ankr.errors.txn-receipt'))),
     }),
   }),
 });

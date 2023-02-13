@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
@@ -48,5 +49,6 @@ export const getStakeGasFee = createSmartAction<
   meta: {
     onRequest: withStore,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-ssv.errors.stake-gas-fee'),
   },
 }));

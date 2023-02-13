@@ -1,3 +1,4 @@
+import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 
 import {
@@ -13,6 +14,10 @@ import { ETH_POOL_START_BLOCK } from '../const';
 jest.mock('@ankr.com/provider', (): unknown => ({
   ...jest.requireActual('@ankr.com/provider'),
   ProviderManager: jest.fn(),
+}));
+
+jest.mock('@ankr.com/advanced-api', () => ({
+  getPastEvents: jest.fn(),
 }));
 
 describe('modules/ethereum/sdk', () => {
@@ -83,11 +88,22 @@ describe('modules/ethereum/sdk', () => {
     getContractMethodFee: jest.fn(),
   };
 
+  const defaultPastEvents = [
+    {
+      event: 'event1',
+      returnValues: { amount: 10 ** 18 },
+      timestamp,
+      transactionHash: 'hash1',
+    },
+  ];
+
   beforeEach(() => {
     const mockProviderManager = {
       getETHWriteProvider: () => defaultProvider,
       getETHReadProvider: () => defaultProvider,
     };
+
+    (getPastEvents as jest.Mock).mockReturnValue(defaultPastEvents);
 
     defaultContract.methods.lockShares.mockReturnValue({
       encodeABI: () => 'mock-abi',
@@ -176,14 +192,7 @@ describe('modules/ethereum/sdk', () => {
     });
 
     defaultContract.getPastEvents.mockReturnValue(
-      Promise.resolve([
-        {
-          event: 'event1',
-          returnValues: { amount: 10 ** 18 },
-          timestamp,
-          transactionHash: 'hash1',
-        },
-      ]),
+      Promise.resolve(defaultPastEvents),
     );
 
     defaultProvider.createContract.mockReturnValue(defaultContract);
@@ -193,13 +202,12 @@ describe('modules/ethereum/sdk', () => {
     mockWeb3.eth.getChainId.mockReturnValue(1);
 
     mockWeb3.eth.getBalance.mockReturnValue(() =>
-      new BigNumber(ethAmount).multipliedBy(10 ** 18).toFixed());
+      new BigNumber(ethAmount).multipliedBy(10 ** 18).toFixed(),
+    );
 
     defaultProvider.getWeb3.mockReturnValue(mockWeb3);
 
-    defaultProvider.getContractMethodFee.mockReturnValue(
-      new BigNumber(1),
-    );
+    defaultProvider.getContractMethodFee.mockReturnValue(new BigNumber(1));
 
     defaultProvider.sendTransactionAsync.mockReturnValue(
       Promise.resolve({
@@ -461,7 +469,7 @@ describe('modules/ethereum/sdk', () => {
       txHash: 'hash1',
       txType: 'event1',
     });
-    expect(completedBond).toHaveLength(27);
+    expect(completedBond).toHaveLength(1);
     expect(completedCertificate).toHaveLength(0);
   });
 
@@ -482,9 +490,7 @@ describe('modules/ethereum/sdk', () => {
   });
 
   test('should throw error when not enough gas', async () => {
-    defaultProvider.getContractMethodFee.mockReturnValue(
-      new BigNumber(8),
-    );
+    defaultProvider.getContractMethodFee.mockReturnValue(new BigNumber(8));
 
     const mockProviderManager = {
       getETHWriteProvider: () => defaultProvider,

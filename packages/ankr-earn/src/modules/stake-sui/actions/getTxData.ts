@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import retry from 'async-retry';
 import { RootState } from 'store';
 import { SUI_PROVIDER_ID } from 'sui';
@@ -6,6 +7,7 @@ import { TransactionReceipt } from 'web3-eth';
 import { IFetchTxData, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
@@ -50,7 +52,7 @@ export const { useGetSUITxDataQuery } = web3Api.injectEndpoints({
             retries: RETRIES_TO_GET_TX_DATA,
           }),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-sui.errors.tx-data'))),
     }),
   }),
 });
@@ -90,7 +92,7 @@ export const { useGetSUITxReceiptQuery } = web3Api.injectEndpoints({
             provider,
           }),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-sui.errors.tx-receipt'))),
     }),
   }),
 });

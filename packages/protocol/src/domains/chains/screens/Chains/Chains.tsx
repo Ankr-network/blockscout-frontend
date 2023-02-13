@@ -6,9 +6,10 @@ import { InfoBanner } from '../../components/InfoBanner';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
+import { ReminderDialog } from 'domains/chains/components/ReminderDialog';
 
 export const Chains = () => {
-  const { hasPrivateAccess, loading } = useAuth();
+  const { hasPrivateAccess, loading, isLoggedIn } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -17,13 +18,19 @@ export const Chains = () => {
   ]);
 
   if (hasPrivateAccess) {
-    return <PrivateChains />;
+    return (
+      <>
+        <PrivateChains />
+        <ReminderDialog />
+      </>
+    );
   }
 
   return (
     <>
       {!loading && <InfoBanner />}
       <PublicChains />
+      {isLoggedIn && <ReminderDialog />}
     </>
   );
 };

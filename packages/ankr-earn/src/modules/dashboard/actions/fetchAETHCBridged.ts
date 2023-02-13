@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
@@ -24,6 +25,7 @@ export const fetchAETHCBridged = createAction<
   meta: {
     asMutation: false,
     showNotificationOnError: true,
+    additionalErrorText: t('dashboard.errors.bridged-eth-cert'),
     onRequest: withStore,
   },
 }));

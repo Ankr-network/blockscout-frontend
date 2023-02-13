@@ -28,7 +28,13 @@ export const useUnstakeStepsHook = (): IUnstakeStepsHook => {
     data,
     error,
   } = useGetANKRTxDataQuery({ txHash });
-  const { data: receipt } = useGetANKRTxReceiptQuery({ txHash });
+
+  const { data: receipt } = useGetANKRTxReceiptQuery(
+    { txHash },
+    {
+      pollingInterval: 3_000,
+    },
+  );
   const { data: providers } = useGetProvidersQuery();
 
   const providerAddress = data?.provider.toUpperCase();

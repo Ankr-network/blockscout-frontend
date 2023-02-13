@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -30,8 +32,8 @@ export const { useGetProvidersTotalInfoQuery } = web3Api.injectEndpoints({
             rewards24h,
             rewards30d,
           ] = await Promise.all([
-            sdk.getTotalTVL(latestBlockNumber),
-            sdk.getMyTotalDelegatedAmount(latestBlockNumber),
+            sdk.getTotalTVL(),
+            sdk.getMyTotalDelegatedAmount(),
             sdk.getLockingPeriodDays(latestBlockNumber),
             sdk.getRewards(24),
             sdk.getRewards(24 * 30),
@@ -47,6 +49,7 @@ export const { useGetProvidersTotalInfoQuery } = web3Api.injectEndpoints({
             },
           };
         },
+        getOnErrorWithCustomText(t('stake-ankr.errors.providers-total-info')),
       ),
     }),
   }),

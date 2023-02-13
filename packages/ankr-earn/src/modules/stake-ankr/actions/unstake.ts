@@ -1,6 +1,8 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
 
@@ -22,6 +24,7 @@ export const { useUnstakeANKRMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.undelegate(provider, amount) };
         },
+        getOnErrorWithCustomText(t('stake-ankr.errors.unstake')),
       ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

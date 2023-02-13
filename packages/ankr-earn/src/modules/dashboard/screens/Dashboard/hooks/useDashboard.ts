@@ -20,8 +20,8 @@ import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQue
 import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
-import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
 import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBalance';
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';

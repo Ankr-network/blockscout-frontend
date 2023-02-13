@@ -14,7 +14,7 @@ export const content = [
     ],
     linkText: t('advanced-api.benefits.nft-api.linkText'),
     linkHref:
-      'https://www.ankr.com/docs/advanced-api/specification/#tag/Query-API',
+      'https://www.ankr.com/docs/advanced-api/specification/#tag/NFT-API',
   },
   {
     img: imgQuery,

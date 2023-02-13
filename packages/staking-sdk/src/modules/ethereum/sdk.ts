@@ -13,10 +13,10 @@ import {
 } from '@ankr.com/provider';
 
 import {
+  advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
   isMainnet,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -36,7 +36,7 @@ import {
   ITxEventsHistoryData,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
-import { convertNumberToHex } from '../utils';
+import { batchEvents, convertNumberToHex } from '../utils';
 
 import {
   ETH_BLOCK_2_WEEKS_OFFSET,
@@ -722,7 +722,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForEth
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -748,7 +748,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
       apiUrl: this.apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
-      blockchain: 'eth',
+      blockchain: isMainnet ? 'eth' : 'eth_goerli',
       contract,
       web3,
       eventName,
@@ -771,20 +771,14 @@ export class EthereumSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**

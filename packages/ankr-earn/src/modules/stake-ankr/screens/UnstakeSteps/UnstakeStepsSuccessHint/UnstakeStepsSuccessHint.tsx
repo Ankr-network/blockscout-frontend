@@ -5,7 +5,7 @@ import { RoutesConfig } from 'modules/stake-ankr/RoutesConfig';
 
 import { useUnstakeStepsSuccessHintStyles } from './useUnstakeStepsSuccessHintStyles';
 
-const ANKR_STAKING_LINK = RoutesConfig.stake.generatePath();
+const ANKR_STAKING_LINK = RoutesConfig.main.generatePath();
 
 export const UnstakeStepsSuccessHint = (): JSX.Element => {
   const classes = useUnstakeStepsSuccessHintStyles();

@@ -10,19 +10,13 @@ import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { CodeInput } from 'modules/common/components/CodeField';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import {
-  AUDIT_LINKS,
-  DUNE_ANALYTICS_LINK,
-  featuresConfig,
-  ONE,
-} from 'modules/common/const';
+import { AUDIT_LINKS, DUNE_ANALYTICS_LINK, ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { getIsStakerExists } from 'modules/referrals/actions/getIsStakerExists';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -33,8 +27,6 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { FieldsNames, StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { Checkbox } from 'uiKit/Checkbox';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
@@ -43,6 +35,7 @@ import { Tooltip } from 'uiKit/Tooltip';
 import { StakeTokenInfo } from '../../../stake/components/StakeTokenInfo/StakeTokenInfo';
 import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
 
+import { BnbTradeInfo } from './components/BnbTradeInfo';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeBinanceStyles } from './useStakeBinanceStyles';
@@ -132,22 +125,6 @@ export const StakeBinance = (): JSX.Element => {
     };
   }, [address, dispatch]);
 
-  useProviderEffect(() => {
-    if (!featuresConfig.isActiveStakeTradeInfo) {
-      return;
-    }
-
-    dispatch(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.BNB,
-        bondToken: EOpenOceanTokens.aBNBb,
-        certificateRatio,
-        certificateToken: EOpenOceanTokens.aBNBc,
-        network: EOpenOceanNetworks.BSC,
-      }),
-    );
-  }, [certificateRatio, dispatch]);
-
   const isDisabled = isStakeLoading || isFetchStatsLoading;
 
   const noticeText = useBTokenNotice({
@@ -163,7 +140,7 @@ export const StakeBinance = (): JSX.Element => {
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
 
-        {featuresConfig.isTradeInfoActiveForBnb && <StakeTradeInfo />}
+        <BnbTradeInfo />
 
         <StakeForm
           auditSlot={

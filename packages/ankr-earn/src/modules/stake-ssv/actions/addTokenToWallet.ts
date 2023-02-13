@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
@@ -47,5 +48,6 @@ export const addTokenToWallet = createSmartAction<
     asMutation: true,
     onRequest: withStore,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-ssv.errors.add-to-wallet'),
   },
 }));

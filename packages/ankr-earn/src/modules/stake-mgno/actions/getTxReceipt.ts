@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
@@ -28,6 +29,7 @@ export const getTxReceipt = createAction<
   meta: {
     asMutation: false,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-mgno.errors.tx-receipt'),
     poll: POLL_INTERVAL_SECONDS,
     takeLatest: true,
     onRequest: request => {

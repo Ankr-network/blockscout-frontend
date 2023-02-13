@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import {
   CssBaseline,
   StyledEngineProvider,
@@ -8,10 +8,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
 import { getMainTheme } from 'uiKit/Theme/mainTheme';
-import { OverlaySpinner } from '@ankr.com/ui';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
-import { useInitialaizeLocale } from './AppBaseUtils';
 import { useMetatags } from 'uiKit/utils/useMetatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import './MuiClassNameSetup';
@@ -23,7 +21,6 @@ interface IAppBaseProps {
 }
 
 export const AppBase = ({ children }: IAppBaseProps) => {
-  const isInitialized = useInitialaizeLocale();
   const chainsRoutes = usePublicChainsRoutes();
 
   const { themes } = useThemes();
@@ -36,16 +33,12 @@ export const AppBase = ({ children }: IAppBaseProps) => {
       <ThemeProvider theme={currentTheme}>
         {!isReactSnap && <CssBaseline />}
         <SentryErrorBoundary>
-          {isInitialized ? (
-            <ConnectedRouter
-              history={historyInstance}
-              context={ReactReduxContext}
-            >
-              {children}
-            </ConnectedRouter>
-          ) : (
-            <OverlaySpinner />
-          )}
+          <ConnectedRouter
+            history={historyInstance}
+            context={ReactReduxContext}
+          >
+            {children}
+          </ConnectedRouter>
         </SentryErrorBoundary>
       </ThemeProvider>
     </StyledEngineProvider>

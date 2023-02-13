@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { alpha, makeStyles } from '@material-ui/core';
 
 export const useStakePolygonStyles = makeStyles(theme => ({
   root: {
@@ -16,8 +16,32 @@ export const useStakePolygonStyles = makeStyles(theme => ({
     color: 'inherit',
   },
 
-  stepper: {
-    maxWidth: 340,
-    margin: theme.spacing(0, 'auto', 0, 'auto'),
+  stepperLabel: {
+    height: theme.spacing(3),
+    width: theme.spacing(3),
+    borderRadius: '100%',
+    border: `1.5px solid ${alpha(theme.palette.common.white, 0.3)}`,
+    lineHeight: 1.42,
+    textAlign: 'center',
+    color: theme.palette.common.white,
+    marginRight: theme.spacing(1),
+    fontWeight: 600,
+    fontSize: 14,
+  },
+
+  stepperLabelDisabled: {
+    borderColor: theme.palette.action.disabled,
+    color: theme.palette.action.disabled,
+    fontSize: 14,
+  },
+
+  approvalSettings: {
+    textAlign: 'center',
+    fontWeight: 500,
+    fontSize: 13,
+    lineHeight: 1.23,
+    color: theme.palette.text.secondary,
+    padding: theme.spacing(1.5),
+    cursor: 'pointer',
   },
 }));

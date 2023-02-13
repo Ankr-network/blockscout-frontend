@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import { RootState } from 'store';
 
 import { isWriteProvider } from '@ankr.com/provider';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -32,6 +34,7 @@ export const { useGetHistoryDataQuery } = web3Api.injectEndpoints({
 
           throw new Error('Current account is not defined');
         },
+        getOnErrorWithCustomText(t('stake-ankr.errors.history-data')),
       ),
       providesTags: [CacheTags.history],
     }),

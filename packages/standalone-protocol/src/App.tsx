@@ -11,9 +11,9 @@ import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
 import { ChainId } from 'domains/chains/api/chain';
 import { historyInstance } from 'modules/common/utils/historyInstance';
-import { initialaizeLocale } from 'modules/i18n/utils/initialize';
+import { initializeLocale } from 'modules/i18n/utils/initialize';
 
-initialaizeLocale();
+initializeLocale();
 
 const { REACT_APP_CHAIN_ID } = process.env;
 

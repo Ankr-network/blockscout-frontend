@@ -191,11 +191,6 @@ export class SwitcherSDK {
       [Token.aMATICc]: this.maticSDK,
     };
 
-    const binanceSdkByToken: Record<string, ISwitcher> = {
-      [Token.aBNBb]: this.binanceSDK,
-      [Token.aBNBc]: this.binanceSDK,
-    };
-
     const fantomSdkByToken: Record<string, ISwitcher> = {
       [Token.aFTMb]: this.fantomSDK,
       [Token.aFTMc]: this.fantomSDK,
@@ -210,10 +205,6 @@ export class SwitcherSDK {
       case EEthereumNetworkId.goerli:
       case EEthereumNetworkId.mainnet:
         return ethSdkByToken[token];
-
-      case EEthereumNetworkId.smartchainTestnet:
-      case EEthereumNetworkId.smartchain:
-        return binanceSdkByToken[token];
 
       case EEthereumNetworkId.fantomTestnet:
       case EEthereumNetworkId.fantom:

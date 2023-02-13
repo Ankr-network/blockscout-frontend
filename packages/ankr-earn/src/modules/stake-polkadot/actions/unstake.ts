@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
@@ -31,6 +32,7 @@ export const unstake = createSmartAction<
   meta: {
     asMutation: true,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-polkadot.errors.unstake'),
     onSuccess: (
       response: IRes,
       _action: RequestAction,

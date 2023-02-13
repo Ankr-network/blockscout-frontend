@@ -1,5 +1,6 @@
 import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
@@ -14,10 +15,10 @@ import {
 } from '@ankr.com/provider';
 
 import {
+  advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
   isMainnet,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
@@ -35,7 +36,7 @@ import {
   ITxHistoryEventData,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
-import { convertNumberToHex } from '../utils';
+import { batchEvents, convertNumberToHex } from '../utils';
 
 import {
   AVALANCHE_READ_PROVIDER_ID,
@@ -43,7 +44,6 @@ import {
   AVAX_ESTIMATE_GAS_MULTIPLIER,
   AVAX_HISTORY_2_WEEKS_OFFSET,
   AVAX_MAX_BLOCK_RANGE,
-  AVAX_MAX_PARALLEL_REQ,
   AVAX_SCALE_FACTOR,
   GAS_FEE_MULTIPLIER,
 } from './const';
@@ -222,7 +222,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForAvalanche
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -247,7 +247,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return getPastEvents({
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
-      blockchain: 'avalanche',
+      blockchain: isMainnet ? 'avalanche' : 'avalanche_fuji',
       contract,
       web3,
       eventName,
@@ -271,51 +271,14 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     filter,
     rangeStep,
   }: IGetPastEvents): Promise<EventData[]> {
-    if (latestBlockNumber <= AVAX_HISTORY_2_WEEKS_OFFSET) {
-      return [];
-    }
-
-    const eventsPromises: Promise<EventData[]>[][] = [];
-
-    for (
-      let i = startBlock, idx = 0, parallelReqCounter = 1;
-      i < latestBlockNumber;
-      i += rangeStep, parallelReqCounter += 1
-    ) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      if (!eventsPromises[idx]) {
-        eventsPromises[idx] = [];
-      }
-
-      eventsPromises[idx].push(
-        contract.getPastEvents(eventName, {
-          fromBlock,
-          toBlock,
-          filter,
-        }),
-      );
-
-      if (parallelReqCounter === AVAX_MAX_PARALLEL_REQ) {
-        parallelReqCounter = 0;
-        idx += 1;
-      }
-    }
-
-    if (!eventsPromises.length || !eventsPromises[0]?.length) {
-      return [];
-    }
-
-    const pastEvents = await Promise.all(
-      eventsPromises.map(async evPromisesGroup => {
-        const eventsData = await Promise.all(evPromisesGroup);
-
-        return eventsData.flat();
-      }),
-    );
-
-    return pastEvents.flat();
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**
@@ -382,8 +345,13 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     return rawData
       .sort((a, b) => b.timestamp - a.timestamp)
       .map(
-        ({ event, returnValues: { amount }, timestamp, transactionHash }) => ({
-          txAmount: this.convertFromWei(amount),
+        ({
+          event,
+          returnValues = { amount: '0' },
+          timestamp,
+          transactionHash,
+        }) => ({
+          txAmount: this.convertFromWei(returnValues.amount),
           txDate: new Date(timestamp * 1_000),
           txHash: transactionHash,
           txType: this.getTxType(event),
@@ -576,10 +544,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     const { avalancheConfig } = configFromEnv();
 
     const allowance = await aAVAXcTokenContract.methods
-      .allowance(
-        this.currentAccount,
-        spender || avalancheConfig.aAVAXb,
-      )
+      .allowance(this.currentAccount, spender || avalancheConfig.aAVAXb)
       .call();
 
     return new BigNumber(allowance);

@@ -1,9 +1,11 @@
+import { t } from '@ankr.com/common';
 import { RootState } from 'store';
 import { TransactionReceipt } from 'web3-eth';
 
 import { Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -50,7 +52,7 @@ export const { useGetTxReceiptQuery } = web3Api.injectEndpoints({
             txHash,
           }),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-xdc.errors.tx-receipt'))),
     }),
   }),
 });

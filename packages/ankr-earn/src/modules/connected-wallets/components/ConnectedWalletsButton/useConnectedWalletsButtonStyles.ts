@@ -59,6 +59,11 @@ export const useConnectedWalletsButtonStyles = makeStyles(theme => ({
     },
   },
 
+  addWalletButtonHidden: {
+    visibility: 'hidden',
+    pointerEvents: 'none',
+  },
+
   connectButton: {
     fontWeight: 600,
   },

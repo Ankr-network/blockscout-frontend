@@ -14,13 +14,11 @@ import { Token } from 'modules/common/types/token';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { getValidSelectedToken } from 'modules/stake-matic/common/utils/getValidSelectedToken';
-import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
-import { useGetMaticOnPolygonUnstakeStatsQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonUnstakeStatsQuery';
-import { useUnstakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/useUnstakeMaticOnPolygonMutation';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
+import { useGetMaticOnPolygonUnstakeStatsQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonUnstakeStats';
+import { useUnstakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/unstakeMaticOnPolygon';
 import { IUnstakeFormValues } from 'modules/stake/components/UnstakeDialog';
 import { useAppDispatch } from 'store/useAppDispatch';
-
-import { useApproveAnkrMaticOnPolygonUnstakeMutation } from '../../../actions/useApproveAnkrMaticOnPolygonUnstakeMutation';
 
 interface IUseUnstakeData {
   closeHref: string;
@@ -29,8 +27,6 @@ interface IUseUnstakeData {
     errors: FormErrors<IUnstakeFormValues>,
   ) => FormErrors<IUnstakeFormValues>;
   getTotalVal: (maxAmount: BigNumber, amount?: BigNumber) => BigNumber;
-  isApproveLoading: boolean;
-  isApproved: boolean;
   isGetStatsLoading: boolean;
   isUnstakeLoading: boolean;
   isWithApprove: boolean;
@@ -58,15 +54,6 @@ export const useUnstake = (): IUseUnstakeData => {
   const [unstake, { isLoading: isUnstakeLoading }] =
     useUnstakeMaticOnPolygonMutation();
 
-  const [
-    approveACUnstake,
-    { data: approveData, isLoading: isApproveLoading, reset: resetApprove },
-  ] = useApproveAnkrMaticOnPolygonUnstakeMutation();
-
-  useProviderEffect(() => {
-    resetApprove();
-  }, [address]);
-
   const {
     data: commonData,
     isFetching: isCommonDataLoading,
@@ -83,13 +70,9 @@ export const useUnstake = (): IUseUnstakeData => {
 
   const selectedToken = getValidSelectedToken(stakeParamsToken);
 
-  const isApproved = !!approveData;
-
   const isBondToken = selectedToken === Token.aMATICb;
 
   const isWithApprove = !isBondToken;
-
-  const isShouldBeApproved = isWithApprove && !isApproved;
 
   const acRatio = commonData?.ratio ?? ZERO;
 
@@ -177,12 +160,6 @@ export const useUnstake = (): IUseUnstakeData => {
 
       const amount = new BigNumber(data.amount);
 
-      if (isShouldBeApproved) {
-        approveACUnstake(amount);
-
-        return;
-      }
-
       unstake({
         amount,
         token: selectedToken,
@@ -190,18 +167,11 @@ export const useUnstake = (): IUseUnstakeData => {
         sendAnalytics(amount);
       });
     },
-    [
-      approveACUnstake,
-      isShouldBeApproved,
-      selectedToken,
-      sendAnalytics,
-      unstake,
-    ],
+    [selectedToken, sendAnalytics, unstake],
   );
 
   useProviderEffect(() => {
     getMATICPOLYGONCommonDataRefetch();
-
     return () => {
       dispatch(abortRequests());
     };
@@ -211,8 +181,6 @@ export const useUnstake = (): IUseUnstakeData => {
     closeHref: CLOSE_HREF,
     extraValidation,
     getTotalVal,
-    isApproveLoading,
-    isApproved,
     isGetStatsLoading: isUnstakeStatsLoading || isCommonDataLoading,
     isUnstakeLoading,
     isWithApprove,

@@ -101,30 +101,6 @@ describe('modules/switcher/api/SwitcherSDK#getCommonData', () => {
     });
   });
 
-  test('should return common data for binance network', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-    const expected = {
-      abBalance: new BigNumber(0.42),
-      acBalance: new BigNumber(24.6),
-      ratio: new BigNumber(0.65),
-      allowance: ZERO,
-    };
-
-    const results = await Promise.all(
-      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
-        chainId =>
-          sdk.getCommonData({
-            chainId: chainId as AvailableSwitchNetwork,
-            token: Token.aBNBb,
-          }),
-      ),
-    );
-
-    results.forEach(result => {
-      expect(result).toStrictEqual(expected);
-    });
-  });
-
   test('should return common data for matic token', async () => {
     const sdk = await SwitcherSDK.getInstance();
     const expected = {
