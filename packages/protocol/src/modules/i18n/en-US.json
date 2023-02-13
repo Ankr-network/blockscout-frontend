@@ -184,7 +184,8 @@
       "list-1": "Instant RPC requests",
       "list-2": "Free access for all chains",
       "list-3": "No login required",
-      "button": "Current Plan"
+      "button": "Current Plan",
+      "button-register": "Register now"
     },
     "premium": {
       "title": "Premium",

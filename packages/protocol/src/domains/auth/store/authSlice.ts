@@ -16,13 +16,14 @@ export interface IAuthSlice {
   encryptionPublicKey?: string;
   ethAddressType?: EthAddressType;
   hasOauthLogin?: boolean;
-  hasOauthUserDepositTransaction?: boolean;
-  hasVoucherTransaction?: boolean;
+  hasDepositTransaction?: boolean;
+  hasVoucherTransactionAndBalanceIsGreaterThanZero?: boolean;
   hasWeb3Connection?: boolean;
   isCardPayment?: boolean;
   trackingWalletName?: string;
   walletMeta?: IWalletMeta;
   workerTokenData?: WorkerTokenData;
+  isInstantJwtParticipant?: boolean;
 }
 
 const initialState: IAuthSlice = {};

@@ -12,6 +12,8 @@ export const useSubscriptionsStyles = makeStyles()((theme: Theme) => ({
   },
   title: {
     fontSize: 14,
+
+    color: theme.palette.text.primary,
   },
   item: {
     display: 'flex',
@@ -25,6 +27,8 @@ export const useSubscriptionsStyles = makeStyles()((theme: Theme) => ({
   },
   text: {
     fontSize: 20,
+
+    color: theme.palette.text.primary,
   },
   cancel: {
     overflow: 'hidden',

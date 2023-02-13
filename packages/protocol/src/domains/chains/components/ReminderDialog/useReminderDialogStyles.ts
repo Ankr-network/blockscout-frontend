@@ -23,5 +23,8 @@ export const useReminderDialogStyles = makeStyles()((theme: Theme) => ({
   },
   button: {
     marginBottom: theme.spacing(3),
+    '&:hover': {
+      color: theme.palette.common.white,
+    },
   },
 }));

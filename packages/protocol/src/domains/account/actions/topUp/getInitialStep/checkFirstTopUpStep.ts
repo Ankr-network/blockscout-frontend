@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
 
 import { AppDispatch, GetState } from 'store';
-import { AuthConnectParams, authConnect } from 'domains/auth/actions/connect';
 import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
 import { MultiService } from 'modules/api/MultiService';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
 export const checkFirstTopUpStep = async (
   address: string,
@@ -23,16 +23,16 @@ export const checkFirstTopUpStep = async (
     .utils.fromWei(lastTopUpEvent?.returnValues?.amount || '');
 
   const amount = new BigNumber(value);
+  const { credentials, isInstantJwtParticipant, workerTokenData } =
+    selectAuthData(getState());
 
-  const { data: connectData } = authConnect.select(
-    undefined as unknown as AuthConnectParams,
-  )(getState());
+  const isFirstTopup =
+    Boolean(lastTopUpEvent) && !credentials && !isInstantJwtParticipant;
 
-  const isFirstTopup = Boolean(lastTopUpEvent) && !connectData?.credentials;
   const isTopupAfterTokenExpiration =
     Boolean(lastTopUpEvent) &&
-    connectData?.credentials &&
-    !connectData?.workerTokenData?.userEndpointToken &&
+    credentials &&
+    !workerTokenData?.userEndpointToken &&
     amount.isGreaterThanOrEqualTo(DEFAULT_ANKR_VALUE);
 
   const hasFirstTopUp = isFirstTopup || isTopupAfterTokenExpiration;
@@ -43,7 +43,9 @@ export const checkFirstTopUpStep = async (
     .getContractService()
     .getTransactionReceipt(lastTopUpEvent?.transactionHash as string);
 
-  if (transactionReceipt) return TopUpStep.login;
+  if (transactionReceipt && !isInstantJwtParticipant) {
+    return TopUpStep.login;
+  }
 
   dispatch(topUpWaitTransactionConfirming.initiate());
 

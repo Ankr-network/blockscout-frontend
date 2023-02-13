@@ -32,6 +32,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     },
   },
   headerTitle: {
+    color: theme.palette.text.primary,
+
     fontSize: 52,
 
     [theme.breakpoints.down('md')]: {

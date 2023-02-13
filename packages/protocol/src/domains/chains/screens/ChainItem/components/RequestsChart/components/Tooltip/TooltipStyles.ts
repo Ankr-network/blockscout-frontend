@@ -14,8 +14,12 @@ export const useTooltipStyles = makeStyles()((theme: Theme) => ({
   value: {
     fontSize: 12,
     fontWeight: 'bold',
+
+    color: theme.palette.text.primary,
   },
   time: {
     fontSize: 12,
+
+    color: theme.palette.text.primary,
   },
 }));

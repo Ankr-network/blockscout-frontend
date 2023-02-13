@@ -4,13 +4,14 @@ import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { MultiService } from 'modules/api/MultiService';
 import { authConnect } from 'domains/auth/actions/connect';
 import { authDisconnect } from 'domains/auth/actions/disconnect';
-import { disconnectService } from 'domains/auth/actions/connectUtils';
+import { disconnectService } from 'domains/auth/actions/connect/connectUtils';
 import { isAuthRejectedAction } from 'store/matchers/isAuthRejectedAction';
 import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
-import { oauthWatchForTheDepositTransation } from 'domains/oauth/actions/watchForTheDepositTransation';
+import { watchForDepositOrVoucherTransation } from 'domains/oauth/actions/watchForDepositOrVoucherTransation';
 import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
 import { oauthSignout } from 'domains/oauth/actions/signout';
-import { oauthWatchForTheVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForTheVoucherTransactionAndNegativeBalance';
+import { watchForVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForVoucherTransactionAndNegativeBalance';
+import { oauthLoginByGoogleSecretCode } from 'domains/oauth/actions/loginByGoogleSecretCode';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -32,16 +33,24 @@ listenerMiddleware.startListening({
 });
 
 listenerMiddleware.startListening({
-  matcher: oauthAutoLogin.matchFulfilled,
+  matcher: isAnyOf(
+    oauthLoginByGoogleSecretCode.matchFulfilled,
+    oauthAutoLogin.matchFulfilled,
+    authConnect.matchFulfilled,
+  ),
   effect: async (_action, { dispatch }) => {
-    dispatch(oauthWatchForTheDepositTransation.initiate());
+    dispatch(watchForDepositOrVoucherTransation.initiate());
   },
 });
 
 listenerMiddleware.startListening({
-  matcher: oauthAutoLogin.matchFulfilled,
+  matcher: isAnyOf(
+    oauthLoginByGoogleSecretCode.matchFulfilled,
+    oauthAutoLogin.matchFulfilled,
+    authConnect.matchFulfilled,
+  ),
   effect: async (_action, { dispatch }) => {
-    dispatch(oauthWatchForTheVoucherTransactionAndNegativeBalance.initiate());
+    dispatch(watchForVoucherTransactionAndNegativeBalance.initiate());
   },
 });
 
