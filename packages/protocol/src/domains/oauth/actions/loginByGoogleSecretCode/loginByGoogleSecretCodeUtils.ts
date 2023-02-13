@@ -1,5 +1,9 @@
 import { EthAddressType, IEthUserAddress } from 'multirpc-sdk';
 
+import { Web2ConnectTrackingParams } from 'modules/analytics/mixpanel/types';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { GetState } from 'store';
+
 export interface SecreteCodeAndState {
   code: string | null;
   state: string | null;
@@ -33,4 +37,16 @@ export const getEthUserAddress = (addresses: IEthUserAddress[]) => {
   if (userAddress) return userAddress;
 
   return addresses.find(item => item.type === EthAddressType.Generated);
+};
+
+export const getTrackingParams = (
+  getState: GetState,
+): Web2ConnectTrackingParams => {
+  const { credentials, email, hasDepositTransaction } = selectAuthData(
+    getState(),
+  );
+
+  const hasPremium = Boolean(credentials || hasDepositTransaction);
+
+  return { email, hasPremium };
 };

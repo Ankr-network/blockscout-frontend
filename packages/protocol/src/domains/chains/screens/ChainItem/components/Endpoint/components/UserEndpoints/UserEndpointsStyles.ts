@@ -8,6 +8,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   text: {
     fontWeight: 700,
+
+    color: theme.palette.text.primary,
   },
 
   tooltipWrapper: {

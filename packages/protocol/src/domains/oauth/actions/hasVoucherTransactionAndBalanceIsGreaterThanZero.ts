@@ -3,11 +3,14 @@ import { MultiService } from 'modules/api/MultiService';
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
 
 export const {
-  endpoints: { oauthHasVoucherTransaction },
-  useOauthHasVoucherTransactionQuery,
+  endpoints: { hasVoucherTransactionAndBalanceIsGreaterThanZero },
+  useHasVoucherTransactionAndBalanceIsGreaterThanZeroQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    oauthHasVoucherTransaction: build.query<boolean, void>({
+    hasVoucherTransactionAndBalanceIsGreaterThanZero: build.query<
+      boolean,
+      void
+    >({
       queryFn: async (_args, { dispatch }) => {
         const service = MultiService.getService();
 
@@ -25,7 +28,7 @@ export const {
         const balance = await dispatch(accountFetchBalance.initiate()).unwrap();
 
         return {
-          data: hasTransaction && balance?.voucherBalance?.isGreaterThan(0),
+          data: hasTransaction && balance?.creditBalance?.isGreaterThan(0),
         };
       },
     }),

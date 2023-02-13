@@ -15,6 +15,8 @@ export const useHeaderStyles = makeStyles()((theme: Theme) => ({
     fontSize: 20,
     fontWeight: 700,
     lineHeight: theme.spacing(2 * 3.5),
+    color: theme.palette.text.primary,
+
     [theme.breakpoints.down('md')]: {
       marginBottom: theme.spacing(2 * 4),
     },

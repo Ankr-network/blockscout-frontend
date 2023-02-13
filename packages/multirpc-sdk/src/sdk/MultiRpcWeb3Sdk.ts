@@ -140,4 +140,8 @@ export class MultiRpcWeb3Sdk {
 
     return this.contractService;
   }
+
+  public upgradeInstantJwtToken(token: string) {
+    return this.getTokenIssuerService().upgradeInstantJwtToken(token);
+  }
 }

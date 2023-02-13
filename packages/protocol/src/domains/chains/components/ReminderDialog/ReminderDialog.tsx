@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { PATH_SETTINGS } from 'domains/userSettings/Routes';
+import { NavLink } from 'uiKit/NavLink';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useReminderConfigEmail } from './hooks/useReminderConfigEmail';
 import { setReminderConfigEmail } from 'domains/auth/store/userConfigSlice';
@@ -49,6 +51,11 @@ export const ReminderDialog = () => {
     handleDispatch();
   }, [onOpenConfirm, handleDispatch]);
 
+  const handleCloseConfirm = useCallback(() => {
+    onClose();
+    onCloseConfirm();
+  }, [onClose, onCloseConfirm]);
+
   return (
     <>
       <Dialog maxPxWidth={580} open={isOpened} onClose={handleClose}>
@@ -62,27 +69,28 @@ export const ReminderDialog = () => {
           <Typography className={classes.content}>
             {t('reminder-dialog.content')}
           </Typography>
-          <Button
+          <NavLink
             size="large"
             variant="contained"
             fullWidth
             className={classes.button}
-            onClick={handleOpenConfirm}
+            href={PATH_SETTINGS}
+            onClick={handleDispatch}
           >
             {t('reminder-dialog.customize')}
-          </Button>
+          </NavLink>
           <Button
             size="large"
             variant="outlined"
             fullWidth
-            onClick={handleClose}
+            onClick={handleOpenConfirm}
           >
             {t('reminder-dialog.skip')}
           </Button>
         </div>
         <ConfirmReminderDialog
           isOpened={isConfirmOpened}
-          onClose={onCloseConfirm}
+          onClose={handleCloseConfirm}
         />
       </Dialog>
     </>

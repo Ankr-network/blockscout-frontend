@@ -53,7 +53,7 @@ export const {
           undefined as unknown as AuthConnectParams,
         )(getState() as RootState);
 
-        if (connectData?.credentials) {
+        if (connectData?.credentials || connectData?.isInstantJwtParticipant) {
           dispatch(topUpWaitTransactionConfirming.initiate());
 
           return { data: TopUpStep.waitTransactionConfirming };

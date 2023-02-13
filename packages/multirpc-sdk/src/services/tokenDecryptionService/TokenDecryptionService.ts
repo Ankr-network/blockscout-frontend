@@ -1,7 +1,7 @@
 import { Web3KeyWriteProvider } from '@ankr.com/provider';
 
 import { METAMASK_REJECTED_OPERATION_CODE } from './TokenDecryptionServiceUtils';
-import { Base64, DATE_MULTIPLIER, IJwtToken } from '../../common';
+import { Base64, DATE_MULTIPLIER } from '../../common';
 import { MetamaskDecryptionService } from './MetamaskDecryptionService';
 import { DecryptionService } from './DecryptionService';
 
@@ -44,19 +44,18 @@ export class TokenDecryptionService {
     return { privateKey, publicKey };
   }
 
-  public async decryptToken(jwtToken: IJwtToken) {
+  public async decryptToken(signedToken: string, expiresAt?: number) {
     const MS_IN_YEAR = 31_556_952_000;
     // 15.10.2022
     const NEW_AUTHORIZATION_FLOW_RELEASE_DATE = 1_665_763_200_000;
-    const tokenIssueDate =
-      Number(jwtToken.expires_at) * DATE_MULTIPLIER - MS_IN_YEAR;
+    const tokenIssueDate = Number(expiresAt) * DATE_MULTIPLIER - MS_IN_YEAR;
 
-    let signedToken = '';
+    let decryptedToken = '';
 
-    if (tokenIssueDate < NEW_AUTHORIZATION_FLOW_RELEASE_DATE) {
-      signedToken =
+    if (expiresAt && tokenIssueDate < NEW_AUTHORIZATION_FLOW_RELEASE_DATE) {
+      decryptedToken =
         await this.getMetamaskDecryptionService().getDecryptedTokenByMetamask(
-          jwtToken.signed_token,
+          signedToken,
         );
     } else {
       try {
@@ -64,8 +63,8 @@ export class TokenDecryptionService {
           await this.requestEncryptionKeys();
         }
         // try to decrypt token with sigUtil
-        signedToken = await this.getDecryptionService().getDecryptedToken(
-          jwtToken,
+        decryptedToken = await this.getDecryptionService().getDecryptedToken(
+          signedToken,
           this.privateKey,
         );
       } catch (error: any) {
@@ -74,18 +73,18 @@ export class TokenDecryptionService {
         }
 
         // try to decrypt token with metamask
-        signedToken =
+        decryptedToken =
           await this.getMetamaskDecryptionService().getDecryptedTokenByMetamask(
-            jwtToken.signed_token,
+            signedToken,
           );
       }
     }
 
-    if (!signedToken) {
+    if (!decryptedToken) {
       throw new Error('Failed to load encryption key');
     }
 
-    return signedToken;
+    return decryptedToken;
   }
 
   public async requestMetamaskEncryptionKey(): Promise<Base64> {
