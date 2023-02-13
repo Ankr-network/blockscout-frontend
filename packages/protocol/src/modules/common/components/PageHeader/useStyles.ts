@@ -15,5 +15,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   title: {
     marginRight: theme.spacing(2 * 1.5),
     fontSize: 16,
+    color: theme.palette.text.primary,
   },
 }));

@@ -12,6 +12,7 @@ export const useTopUpBlockHeaderStyles = makeStyles()((theme: Theme) => ({
     fontSize: 14,
     fontWeight: 700,
     lineHeight: theme.spacing(2 * 3.25),
+    color: theme.palette.text.primary,
   },
   link: {
     fontSize: 14,

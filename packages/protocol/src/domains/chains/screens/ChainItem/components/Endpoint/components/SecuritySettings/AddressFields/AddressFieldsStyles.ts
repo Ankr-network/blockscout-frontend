@@ -7,6 +7,8 @@ export const useStyles = makeStyles<void, 'icon'>()(
       fontWeight: 700,
       marginTop: theme.spacing(2 * 3.5),
       fontSize: 14,
+
+      color: theme.palette.text.primary,
     },
 
     domainRows: {
@@ -26,6 +28,8 @@ export const useStyles = makeStyles<void, 'icon'>()(
     content: {
       fontSize: 14,
       fontWeight: 400,
+
+      color: theme.palette.text.primary,
     },
     deleteButton: {
       padding: 0,
