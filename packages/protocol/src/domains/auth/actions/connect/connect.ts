@@ -1,30 +1,26 @@
 import { EWalletId } from '@ankr.com/provider';
 
 import { GetState, RootState } from 'store';
-import {
-  IConnect,
-  disconnectService,
-  getCachedData,
-  loginAndCache,
-  switchChain,
-} from './connectUtils';
+import { disconnectService, switchChain } from './connectUtils';
+import { getCachedData, makeAuthorization } from './makeAuthorization';
 import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { resetAuthData, selectAuthData } from '../store/authSlice';
+import {
+  IAuthSlice,
+  resetAuthData,
+  selectAuthData,
+} from '../../store/authSlice';
 import { trackWeb3ConnectFailure } from 'modules/analytics/mixpanel/trackWeb3ConnectFailure';
 import { trackWeb3ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb3ConnectSuccess';
 import { web3Api } from 'store/queries';
-
-export interface AuthConnectParams {
-  walletId: string;
-}
+import { AuthConnectParams } from './types';
 
 export const {
   endpoints: { authConnect },
   useLazyAuthConnectQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    authConnect: build.query<IConnect, AuthConnectParams>({
+    authConnect: build.query<IAuthSlice, AuthConnectParams>({
       queryFn: createNotifyingQueryFn(
         async ({ walletId }, { dispatch, getState }) => {
           const web3Service = await MultiService.createWeb3Service(walletId);
@@ -59,7 +55,7 @@ export const {
             hasOauthLogin = false;
           }
 
-          const authData = await loginAndCache(
+          const authData = await makeAuthorization(
             web3Service,
             service,
             dispatch,

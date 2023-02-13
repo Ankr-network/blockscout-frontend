@@ -1,9 +1,9 @@
 import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
 import { PrefixedHex } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
-import { t } from '@ankr.com/common';
 import { web3Api } from 'store/queries';
 import { web3ModalTheme } from 'modules/api/Web3ModalKeyProvider';
 
