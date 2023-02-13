@@ -106,6 +106,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
   });
 
   test('should return "false" on approve MATIC token', async () => {
+    const TX = {}
     const contract = {
       ...defaultContract,
       methods: {
@@ -113,7 +114,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
           call: (): string => '0',
         }),
         approve: () => ({
-          send: (): undefined => undefined,
+          send: (): typeof TX => TX,
         }),
       },
     };
@@ -123,7 +124,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
     const sdk = await PolygonOnEthereumSDK.getInstance();
     const data = await sdk.approveMATICToken(ONE);
 
-    expect(data).toBe(false);
+    expect(data).toBe(TX);
   });
 
   test('should approve MATIC token', async () => {
@@ -144,7 +145,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
     const sdk = await PolygonOnEthereumSDK.getInstance();
     const data = await sdk.approveMATICToken(ONE);
 
-    expect(data).toBe(true);
+    expect(data).toBe(TX_RECEIPT);
   });
 
   test('should approve MATIC token if approved', async () => {
@@ -154,6 +155,9 @@ describe('modules/polygon/sdk/ethSDK', () => {
         allowance: () => ({
           call: (): string => `${2 * ETH_SCALE_FACTOR}`,
         }),
+        approve: () => ({
+          send: (): TransactionReceipt => TX_RECEIPT,
+        }),
       },
     };
 
@@ -162,7 +166,7 @@ describe('modules/polygon/sdk/ethSDK', () => {
     const sdk = await PolygonOnEthereumSDK.getInstance();
     const data = await sdk.approveMATICToken(ONE);
 
-    expect(data).toBe(true);
+    expect(data).toBe(TX_RECEIPT);
   });
 
   describe('stake gas fee data', () => {
@@ -404,13 +408,11 @@ describe('modules/polygon/sdk/ethSDK', () => {
 
     expect(txHash1).toBe('hash');
     expect(contract.methods.stakeAndClaimCerts).toBeCalledTimes(1);
-    expect(contract.methods.approve).toBeCalledTimes(1);
 
     const { txHash: txHash2 } = await sdk.stake(new BigNumber(12), 'aMATICb');
 
     expect(txHash2).toBe('hash');
     expect(contract.methods.stakeAndClaimBonds).toBeCalledTimes(1);
-    expect(contract.methods.approve).toBeCalledTimes(2);
   });
 
   test('should return tx receipt properly', async () => {

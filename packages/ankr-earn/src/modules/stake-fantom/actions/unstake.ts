@@ -1,8 +1,10 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
@@ -24,6 +26,7 @@ export const { useUnstakeFTMMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.unstake(amount, token) };
         },
+        getOnErrorWithCustomText(t('stake-fantom.errors.unstake')),
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

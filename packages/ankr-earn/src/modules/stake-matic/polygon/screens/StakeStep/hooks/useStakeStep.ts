@@ -4,11 +4,11 @@ import { useParams } from 'react-router';
 
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
-import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/useAddMaticOnPolygonTokenToWalletMutation';
+import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/addMaticOnPolygonTokenToWallet';
 import {
   useGetMaticOnPolygonTxDataQuery,
   useGetMaticOnPolygonTxReceiptQuery,
-} from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonTxDataQuery';
+} from 'modules/stake-matic/polygon/actions/getMaticOnPolygonTxReceipt';
 import { POLLING_INTERVAL } from 'modules/stake-matic/polygon/const';
 
 interface IStakeStepRouteData {

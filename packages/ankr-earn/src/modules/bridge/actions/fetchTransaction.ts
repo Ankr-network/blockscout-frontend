@@ -80,15 +80,13 @@ export const fetchTransaction = createSmartAction<
       const transaction = await web3.eth.getTransaction(tx);
 
       if (!transaction) {
-        throw new Error(
-          t('bridge.fetch-transaction.error.transaction-not-found'),
-        );
+        throw new Error(t('bridge.errors.txn-not-found'));
       }
 
       const data = parseTransaction(transaction, web3, provider.currentChain);
 
       if (!data) {
-        throw new Error(t('bridge.fetch-transaction.error.wrong-transaction'));
+        throw new Error(t('bridge.errors.wrong-txn'));
       }
 
       const tokenContract = new web3.eth.Contract(
@@ -105,6 +103,7 @@ export const fetchTransaction = createSmartAction<
   },
   meta: {
     showNotificationOnError: true,
+    additionalErrorText: t('bridge.errors.txn-data'),
     onRequest: createWalletConnectionGuard,
   },
 }));

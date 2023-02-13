@@ -543,7 +543,7 @@ describe('modules/binance/sdk', () => {
     const sdk = await BinanceSDK.getInstance();
     const data = await sdk.approveACTokenForSwapPool(new BigNumber(1));
 
-    expect(data).toBe(false);
+    expect(data).toBe(undefined);
   });
 
   test('should approve certificate token', async () => {
@@ -585,25 +585,45 @@ describe('modules/binance/sdk', () => {
     const sdk = await BinanceSDK.getInstance();
     const data = await sdk.approveACTokenForSwapPool(new BigNumber(1));
 
-    expect(data).toBe(true);
+    expect(data).toBe(TX_RECEIPT);
   });
 
   test('should approve certificate token if approved', async () => {
+    const TX_RECEIPT: TransactionReceipt = {
+      blockHash: 'test-hash',
+      blockNumber: 1,
+      cumulativeGasUsed: 1,
+      effectiveGasPrice: 1,
+      from: '1',
+      gasUsed: 1,
+      logs: [],
+      logsBloom: '1',
+      status: true,
+      to: '2',
+      transactionHash: 'test-hash',
+      transactionIndex: 1,
+    };
     const contract = {
       ...defaultContract,
       methods: {
         allowance: () => ({
           call: (): string => `${2 * 10 ** 18}`,
         }),
+        approve: () => ({
+          estimateGas: (): Promise<BigNumber> =>
+            Promise.resolve(new BigNumber(1)),
+          send: (): TransactionReceipt => TX_RECEIPT,
+        }),
       },
     };
 
     defaultReadProvider.createContract.mockReturnValue(contract);
+    defaultWriteProvider.getSafeGasPriceWei.mockReturnValue(0);
 
     const sdk = await BinanceSDK.getInstance();
     const data = await sdk.approveACTokenForSwapPool(new BigNumber(1));
 
-    expect(data).toBe(true);
+    expect(data).toBe(TX_RECEIPT);
   });
 
   test('should approve cetrificate for bond properly', async () => {
@@ -647,6 +667,7 @@ describe('modules/binance/sdk', () => {
       ...defaultContract,
       methods: {
         allowance: jest.fn(() => ({ call: () => 1e18 })),
+        approve: jest.fn(() => ({ encodeABI: () => 'abi' })),
       },
     };
 

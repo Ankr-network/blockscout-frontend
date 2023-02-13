@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import retry from 'async-retry';
 import { createAction } from 'redux-smart-actions';
@@ -28,6 +29,7 @@ export const getTxData = createAction<
   },
   meta: {
     showNotificationOnError: true,
+    additionalErrorText: t('switcher.errors.tx-data'),
   },
 }));
 
@@ -47,6 +49,7 @@ export const getTxReceipt = createAction<
   },
   meta: {
     showNotificationOnError: true,
+    additionalErrorText: t('switcher.errors.tx-receipt'),
     poll: POLL_INTERVAL_SECONDS,
     onRequest: request => {
       request.promise = SwitcherSDK.getInstance().then(sdk =>

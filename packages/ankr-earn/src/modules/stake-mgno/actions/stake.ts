@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
@@ -35,6 +36,7 @@ export const stake = createSmartAction<
     meta: {
       asMutation: true,
       showNotificationOnError: true,
+      additionalErrorText: t('stake-mgno.errors.stake'),
       onSuccess: (
         response: { data: TxHash },
         _action: RequestAction,

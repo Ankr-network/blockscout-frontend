@@ -1,8 +1,9 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { Box, Divider, TextField, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import BigNumber from 'bignumber.js';
 import { FormApi } from 'final-form';
-import { ReactText, useCallback } from 'react';
+import { ReactText, useCallback, useMemo, useRef } from 'react';
 import {
   Field,
   FieldRenderProps,
@@ -12,6 +13,7 @@ import {
 
 import { useIsMDUp } from 'ui';
 
+import { TokenSelect } from 'modules/bridge/components/TokenSelect';
 import { useTokenSelectOptions } from 'modules/bridge/hooks/useTokenSelectOptions';
 import { RoutesConfig } from 'modules/bridge/RoutesConfig';
 import {
@@ -25,18 +27,16 @@ import {
   featuresConfig,
 } from 'modules/common/const';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
+import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
 import { AmountField } from 'uiKit/AmountField';
 import { Button } from 'uiKit/Button';
 import { Checkbox } from 'uiKit/Checkbox';
-import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { OnChange } from 'uiKit/OnChange';
 import { Quote } from 'uiKit/Quote';
-import { NumericStepper } from 'uiKit/Stepper';
 import { SwitchSelect } from 'uiKit/SwitchSelect';
-import { Tooltip } from 'uiKit/Tooltip';
 
-import { TokenSelect } from '../../../../components/TokenSelect';
+import { useBridgeApprovalForm } from '../../hooks/useBridgeApprovalForm';
 
 import { useBridgeMainView } from './useBridgeMainView';
 import { useBridgeMainViewStyles } from './useBridgeMainViewStyles';
@@ -62,12 +62,10 @@ export const BridgeMainView = (): JSX.Element => {
     isInjected,
     tokenName,
     isSendAnother,
-    isApproved,
     swapNetworkItem,
     balance,
     isBalanceLoading,
     isSendButtonLoading,
-    isApproveButtonLoading,
     networksOptionsFrom,
     networksOptionsTo,
     onChangeNetwork,
@@ -79,7 +77,28 @@ export const BridgeMainView = (): JSX.Element => {
     onChangeInputValue,
     onSwapClick,
     isSwitchDisabled,
+    tokenValue,
+    fromNetwork,
   } = useBridgeMainView();
+
+  const formRef = useRef<FormApi<IFormValues, Partial<IFormValues>>>();
+
+  const amountValue =
+    formRef.current?.getFieldState(EFieldName.amount)?.value?.toString() || '0';
+
+  const amount = useMemo(() => new BigNumber(amountValue), [amountValue]);
+
+  const {
+    isApproveLoading,
+    allowance,
+    onApproveSubmit,
+    approvalSettingsMode,
+    onApprovalSettingsFormSubmit,
+  } = useBridgeApprovalForm({
+    token: tokenValue,
+    fromChainId: fromNetwork,
+    isActualNetwork: isActualNetwork && isConnected && isInjected,
+  });
 
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
 
@@ -89,8 +108,7 @@ export const BridgeMainView = (): JSX.Element => {
     [],
   );
 
-  const isDisabledForm =
-    isBalanceLoading || isApproved || isApproveButtonLoading;
+  const isDisabledForm = isBalanceLoading || isApproveLoading;
   const isSwitchNetworkShowed = isConnected && !isActualNetwork;
   const isBalanceShowed = isConnected && isActualNetwork;
 
@@ -127,6 +145,8 @@ export const BridgeMainView = (): JSX.Element => {
     handleSubmit,
     values,
   }: FormRenderProps<IFormValues>) => {
+    formRef.current = form;
+
     return (
       <form className={classes.root} onSubmit={handleSubmit}>
         <Typography classes={{ root: classes.title }} variant="h3">
@@ -241,45 +261,20 @@ export const BridgeMainView = (): JSX.Element => {
               </span>
             </Box>
 
-            <Quote mt={4}>{t('bridge.main.fee-banner')}</Quote>
+            <Quote mb={2} mt={4}>
+              {t('bridge.main.fee-banner')}
+            </Quote>
 
-            <Box className={classes.footer}>
-              <Box className={classes.footerBtn}>
-                <Button
-                  color="primary"
-                  disabled={isDisabledForm}
-                  endIcon={
-                    <Tooltip arrow title={tHTML('common.tooltips.allowance')}>
-                      <Box component="span" display="flex">
-                        <QuestionIcon htmlColor="inherit" size="xs" />
-                      </Box>
-                    </Tooltip>
-                  }
-                  isLoading={isApproveButtonLoading}
-                  size="large"
-                  type="submit"
-                >
-                  {t('bridge.main.approve')}
-                </Button>
-
-                <Button
-                  color="primary"
-                  disabled={!isApproved || isSendButtonLoading}
-                  isLoading={isSendButtonLoading}
-                  size="large"
-                  type="submit"
-                >
-                  {t('bridge.main.send')}
-                </Button>
-              </Box>
-
-              <Box className={classes.footerStepper}>
-                <NumericStepper
-                  activeStep={isApproved ? 1 : 0}
-                  stepsCount={2}
-                />
-              </Box>
-            </Box>
+            <ApprovalFormButtons
+              allowance={allowance}
+              amount={amount}
+              approvalSettingsMode={approvalSettingsMode}
+              isApproveLoading={isApproveLoading}
+              isStakeLoading={isSendButtonLoading}
+              tokenName={tokenName}
+              onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
+              onApproveSubmit={onApproveSubmit}
+            />
           </>
         )}
 

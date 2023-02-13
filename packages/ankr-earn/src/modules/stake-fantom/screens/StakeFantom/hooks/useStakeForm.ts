@@ -22,7 +22,6 @@ interface IUseStakeForm {
   syntheticTokenPrice: BigNumber;
   amount: BigNumber;
   balance?: BigNumber;
-  certificateRatio: BigNumber;
   faqItems: IFAQItem[];
   gasFee: BigNumber;
   isCommonDataLoading: boolean;
@@ -122,7 +121,6 @@ export const useStakeForm = (): IUseStakeForm => {
     syntheticTokenPrice,
     amount,
     balance,
-    certificateRatio: aFTMcRatio,
     faqItems,
     gasFee: gasFee ?? ZERO,
     isCommonDataLoading,

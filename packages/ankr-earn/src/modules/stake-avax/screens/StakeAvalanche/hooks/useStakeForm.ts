@@ -28,7 +28,6 @@ import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 interface IUseStakeFormData {
   syntheticTokenPrice: BigNumber;
   amount: BigNumber;
-  certificateRatio: BigNumber;
   faqItems: IFAQItem[];
   fetchStatsData?: IFetchStatsResponseData;
   fetchStatsError?: FetchBaseQueryError | SerializedError;
@@ -138,7 +137,6 @@ export const useStakeForm = (): IUseStakeFormData => {
   return {
     syntheticTokenPrice,
     amount,
-    certificateRatio: aAVAXcRatio ?? ZERO,
     faqItems,
     fetchStatsData: getStatsData,
     fetchStatsError: getStatsError,

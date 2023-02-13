@@ -4,6 +4,7 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import {
@@ -17,22 +18,17 @@ import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { useStakeANKRMutation } from 'modules/stake-ankr/actions/stake';
 import { ANKR_STAKE_FORM_ID } from 'modules/stake-ankr/const';
+import { RoutesConfig } from 'modules/stake-ankr/RoutesConfig';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 
-import { useProviderEffect } from '../../../../auth/common/hooks/useProviderEffect';
-import { RoutesConfig } from '../../../RoutesConfig';
-
 import { useAnalytics } from './useAnalytics';
-import { useApprove } from './useApprove';
 
 interface IUseAnkrStake {
   faqItems: IFAQItem[];
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
-  isApproveLoading: boolean;
   isDisabled: boolean;
-  isApproved: boolean;
   balance: BigNumber;
   minStake: BigNumber;
   tokenIn: string;
@@ -80,12 +76,6 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const amount = formState?.amount ?? ZERO;
   const balance = commonData?.ankrBalance ?? ZERO;
 
-  const {
-    isApproved,
-    isLoading: isApproveLoading,
-    handleApprove,
-  } = useApprove();
-
   useProviderEffect(() => {
     dispatchRequest(getFAQ(Token.ANKR));
     getCommonDataRefetch();
@@ -116,31 +106,24 @@ export const useAnkrStake = (): IUseAnkrStake => {
   const onSubmit = ({ provider, amount: formAmount }: IStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
 
-    if (isApproved) {
-      stake({
-        provider,
-        amount: readyAmount,
-      })
-        .unwrap()
-        .then(() => {
-          sendAnalytics();
-        });
-    } else {
-      handleApprove(readyAmount);
-    }
+    stake({
+      provider,
+      amount: readyAmount,
+    })
+      .unwrap()
+      .then(() => {
+        sendAnalytics();
+      });
   };
 
   return {
     faqItems,
     isStakeLoading,
     isBalanceLoading: isCommonDataLoading,
-    isApproveLoading,
-    isApproved,
     isDisabled:
       isProvidersLoading ||
       isCommonDataLoading ||
       isStakeLoading ||
-      isApproveLoading ||
       isTotalInfoLoading,
     balance,
     minStake: commonData?.minStake ?? ZERO,

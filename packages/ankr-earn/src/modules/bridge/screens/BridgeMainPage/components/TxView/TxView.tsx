@@ -10,7 +10,6 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { approve } from 'modules/bridge/actions/approve';
 import { deposit } from 'modules/bridge/actions/deposit';
 import { notarize } from 'modules/bridge/actions/notarize';
 import { watchAsset } from 'modules/bridge/actions/watchAsset';
@@ -103,7 +102,6 @@ export const TxView = ({
       resetRequests([
         notarize.toString(),
         withdrawal.toString(),
-        approve.toString(),
         deposit.toString(),
       ]),
     );

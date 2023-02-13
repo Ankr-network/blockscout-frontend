@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
@@ -22,6 +24,7 @@ export const { useStakeWithoutClaimETHMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.stakeWithoutClaim(amount) };
         },
+        getOnErrorWithCustomText(t('stake-ethereum.errors.stake')),
       ),
       invalidatesTags: [CacheTags.common],
     }),

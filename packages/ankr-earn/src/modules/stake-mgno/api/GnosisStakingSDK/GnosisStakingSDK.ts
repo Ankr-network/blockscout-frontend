@@ -4,6 +4,7 @@ import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
 
 import {
+  IWeb3SendResult,
   TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
@@ -264,13 +265,7 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
     return transactionHash;
   }
 
-  public async approve(amount: BigNumber): Promise<boolean> {
-    const isAllowed = await this.checkAllowance(amount);
-
-    if (isAllowed) {
-      return true;
-    }
-
+  public async approve(amount: BigNumber): Promise<IWeb3SendResult> {
     const mgnoTokenContract = await this.getMgnoContract();
 
     const data = mgnoTokenContract.methods
@@ -280,25 +275,27 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
       )
       .encodeABI();
 
-    const { receiptPromise } = await this.writeProvider.sendTransactionAsync(
+    return this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.mGNOToken,
       { data, estimate: true },
     );
-
-    const { status } = await receiptPromise;
-
-    return status;
   }
 
-  public async checkAllowance(amount: BigNumber): Promise<boolean> {
+  public async getAllowance(): Promise<BigNumber> {
     const mgnoTokenContract = await this.getMgnoContract();
 
     const allowance = await mgnoTokenContract.methods
       .allowance(this.currentAccount, contractConfig.gnosisStakingContract)
       .call();
 
-    const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
+    return this.convertFromWei(allowance);
+  }
+
+  public async checkAllowance(amount: BigNumber): Promise<boolean> {
+    const allowance = await this.getAllowance();
+
+    const hexAmount = convertNumberToHex(amount);
 
     return new BigNumber(allowance).isGreaterThanOrEqualTo(hexAmount);
   }

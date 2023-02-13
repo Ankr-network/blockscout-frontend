@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
 
 import { configFromEnv } from 'modules/api/config';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 const { baseUrl } = configFromEnv().gatewayConfig;
@@ -26,7 +28,7 @@ export const {
         return {
           data: new BigNumber((rawData as IGetANKRPrice).rate),
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-ankr.errors.ankr-price'))),
     }),
   }),
 });

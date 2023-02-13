@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
@@ -17,6 +18,7 @@ export const getTestMgnoTokens = createAction<RequestAction<string, string>>(
     meta: {
       asMutation: true,
       showNotificationOnError: true,
+      additionalErrorText: t('stake-mgno.errors.test-tokens'),
       onSuccess: (response, _action, { dispatchRequest }) => {
         dispatchRequest(getBalance());
 

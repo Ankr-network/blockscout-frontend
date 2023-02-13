@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
@@ -21,6 +22,7 @@ export const getMGNOPrice = createSmartAction<
     meta: {
       driver: 'axios',
       showNotificationOnError: false,
+      additionalErrorText: t('stake-mgno.errors.mgno-price'),
       getData: (data: IGetANKRPrice) =>
         new BigNumber(data.rate).dividedBy(GNO_TO_MGNO_DIVIDER),
     },

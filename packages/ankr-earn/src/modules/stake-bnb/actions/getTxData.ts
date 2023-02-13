@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import retry from 'async-retry';
 
 import { IFetchTxData, IGetTxReceipt } from '@ankr.com/staking-sdk';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 
@@ -24,6 +26,7 @@ export const { useGetBNBTxDataQuery } = web3Api.injectEndpoints({
             }),
           };
         },
+        getOnErrorWithCustomText(t('stake-bnb.errors.tx-data')),
       ),
     }),
   }),
@@ -42,6 +45,7 @@ export const { useGetBNBUnstakeTxDataQuery } = web3Api.injectEndpoints({
             }),
           };
         },
+        getOnErrorWithCustomText(t('stake-bnb.errors.unstake-tx-data')),
       ),
     }),
   }),
@@ -59,7 +63,7 @@ export const { useGetBNBTxReceiptQuery } = web3Api.injectEndpoints({
         const data = await sdk.fetchTxReceipt(txHash);
 
         return { data };
-      }),
+      }, getOnErrorWithCustomText(t('stake-bnb.errors.tx-receipt'))),
     }),
   }),
 });

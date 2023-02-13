@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction as createSmartAction } from 'redux-smart-actions';
@@ -35,6 +36,7 @@ export const deposit = createSmartAction<
   },
   meta: {
     showNotificationOnError: true,
+    additionalErrorText: t('bridge.errors.deposit'),
     onSuccess: (response: { data: string }, _action, store: RequestsStore) => {
       store.dispatch(
         getTxReceipt(response.data, {

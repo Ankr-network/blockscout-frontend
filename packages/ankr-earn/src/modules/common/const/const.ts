@@ -22,6 +22,8 @@ export const ONE_ETH = new BigNumber(ETH_SCALE_FACTOR);
 export const MAX_UINT256 = new BigNumber(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
 );
+export const MAX_SAFE_UINT256 = MAX_UINT256.shiftedBy(-ETH_DECIMALS);
+
 export const ZERO_EVENT_HASH =
   '0x0000000000000000000000000000000000000000000000000000000000000000';
 export const DAYS_IN_YEAR: Days = 365;

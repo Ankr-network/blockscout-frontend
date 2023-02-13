@@ -57,6 +57,7 @@ export interface IBinanceSDKArgs extends IBinanceSDKProviders {
  * Error codes for BinanceSDK
  */
 export enum EBinanceErrorCodes {
+  NOT_ENOUGH_LIQUIDITY = 'Not enough liquidity',
   LOW_BALANCE_FOR_GAS_FEE = 'low-balance-for-gas-fee',
   UNSUPPORTED_TOKEN = 'unsupported-token',
   ZERO_AMOUNT = 'zero-amount',

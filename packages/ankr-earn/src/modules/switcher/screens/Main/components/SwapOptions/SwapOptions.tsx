@@ -6,8 +6,6 @@ import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { AAvaxBIcon } from 'uiKit/Icons/AAvaxBIcon';
 import { AAvaxCIcon } from 'uiKit/Icons/AAvaxCIcon';
-import { ABNBBIcon } from 'uiKit/Icons/ABNBBIcon';
-import { ABNBCIcon } from 'uiKit/Icons/ABNBCIcon';
 import { AETHBIcon } from 'uiKit/Icons/AETHBIcon';
 import { AETHCIcon } from 'uiKit/Icons/AETHCIcon';
 import { AFTMBIcon } from 'uiKit/Icons/AFTMBIcon';
@@ -37,11 +35,6 @@ const AVAILABLE_SWAP_TOKENS = {
       icon: <AETHBIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
-      label: Token.aBNBb,
-      value: Token.aBNBb,
-      icon: <ABNBBIcon {...DEFAULT_ICON_PROPS} />,
-    },
-    {
       label: Token.aMATICb,
       value: Token.aMATICb,
       icon: <AMATICBIcon {...DEFAULT_ICON_PROPS} />,
@@ -63,11 +56,6 @@ const AVAILABLE_SWAP_TOKENS = {
       label: getTokenName(Token.aETHc),
       value: Token.aETHc,
       icon: <AETHCIcon {...DEFAULT_ICON_PROPS} />,
-    },
-    {
-      label: getTokenName(Token.aBNBc),
-      value: Token.aBNBc,
-      icon: <ABNBCIcon {...DEFAULT_ICON_PROPS} />,
     },
     {
       label: getTokenName(Token.aMATICc),

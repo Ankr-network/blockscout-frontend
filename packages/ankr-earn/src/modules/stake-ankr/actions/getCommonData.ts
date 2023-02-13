@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -25,7 +27,7 @@ export const { useGetCommonDataQuery } = web3Api.injectEndpoints({
         ]);
 
         return { data: { ankrBalance, minStake, lockingPeriod } };
-      }),
+      }, getOnErrorWithCustomText(t('stake-ankr.errors.common-data'))),
     }),
   }),
 });

@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
@@ -16,5 +17,6 @@ export const getHistoryData = createAction<
   },
   meta: {
     showNotificationOnError: true,
+    additionalErrorText: t('stake-mgno.errors.history'),
   },
 }));

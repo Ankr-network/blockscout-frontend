@@ -1,6 +1,8 @@
+import { t } from '@ankr.com/common';
 import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { Milliseconds } from 'modules/common/types';
 
@@ -40,6 +42,7 @@ export const { useGetANKRTxDataQuery } = web3Api.injectEndpoints({
             ),
           };
         },
+        getOnErrorWithCustomText(t('stake-ankr.errors.txn-data')),
       ),
     }),
   }),

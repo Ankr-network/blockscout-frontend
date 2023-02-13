@@ -2,8 +2,8 @@ import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
-import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/addMaticOnEthTokenToWallet';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
 
 import { useStakedAMATICBData } from '../useStakedAMATICBData';
 
@@ -27,27 +27,21 @@ jest.mock('modules/switcher/Routes', () => ({
   RoutesConfig: { main: { generatePath: () => '/switch' } },
 }));
 
-jest.mock(
-  'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation',
-  () => ({
-    useAddMaticOnEthTokenToWalletMutation: jest.fn(),
-  }),
-);
+jest.mock('modules/stake-matic/eth/actions/addMaticOnEthTokenToWallet', () => ({
+  useAddMaticOnEthTokenToWalletMutation: jest.fn(),
+}));
 
-jest.mock('modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery', () => ({
+jest.mock('modules/stake-matic/eth/actions/getMaticOnEthStats', () => ({
   useGetMaticOnEthStatsQuery: jest.fn(),
 }));
 
-jest.mock('modules/stake-matic/eth/actions/useStakeMaticOnEthMutation', () => ({
+jest.mock('modules/stake-matic/eth/actions/stakeMaticOnEth.ts', () => ({
   useStakeMaticOnEthMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
-jest.mock(
-  'modules/stake-matic/eth/actions/useUnstakeMaticOnEthMutation',
-  () => ({
-    useUnstakeMaticOnEthMutation: () => [jest.fn(), { isLoading: false }],
-  }),
-);
+jest.mock('modules/stake-matic/eth/actions/unstakeMaticOnEth.ts', () => ({
+  useUnstakeMaticOnEthMutation: () => [jest.fn(), { isLoading: false }],
+}));
 
 jest.mock('modules/stake/actions/getMetrics', () => ({
   getMetrics: jest.fn(),

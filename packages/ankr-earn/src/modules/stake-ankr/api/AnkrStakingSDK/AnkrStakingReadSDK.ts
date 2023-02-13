@@ -12,7 +12,11 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { ANKR_ABI, IS_ADVANCED_API_ACTIVE } from '@ankr.com/staking-sdk';
+import {
+  advancedAPIConfig,
+  ANKR_ABI,
+  batchEvents,
+} from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { getProviderManager } from 'modules/api/getProviderManager';
@@ -115,18 +119,20 @@ export class AnkrStakingReadSDK {
 
   @Memoize({
     expiring: LONG_CACHE_TIME,
-    hashFunction: (latestBlockNumber: number) => {
-      return `${latestBlockNumber}`;
-    },
   })
-  public async getAllValidators(
-    latestBlockNumber: number,
-  ): Promise<IValidator[]> {
-    const validators = await this.getAllValidatorsAddresses(latestBlockNumber);
+  public async getAllValidators(): Promise<IValidator[]> {
+    const validators = await this.getActiveValidatorsAddresses();
 
     return this.loadValidatorsInfo(validators);
   }
 
+  /**
+   * @deprecated Since it can't be used with testnets AAPI (6 months history)
+   * and for now we have only one active validator.
+   * Please use the `getActiveValidatorsAddresses` method instead.
+   *
+   * @return {Promise<Web3Address[]>} list of all (enabled and disabled) validators addresses
+   */
   @Memoize({
     expiring: LONG_CACHE_TIME,
     hashFunction: (latestBlockNumber: number) => {
@@ -183,7 +189,7 @@ export class AnkrStakingReadSDK {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForEth
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -214,7 +220,7 @@ export class AnkrStakingReadSDK {
       apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
-      blockchain: 'eth',
+      blockchain: isMainnet ? 'eth' : 'eth_goerli',
       contract,
       web3,
       eventName,
@@ -229,7 +235,7 @@ export class AnkrStakingReadSDK {
    * @param {IGetPastEvents}
    * @returns {Promise<EventData[]>}
    */
-  protected async getPastEventsBlockchain({
+  private async getPastEventsBlockchain({
     contract,
     eventName,
     startBlock,
@@ -237,20 +243,16 @@ export class AnkrStakingReadSDK {
     filter,
     latestBlockNumber,
   }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(
+      await batchEvents({
+        contract,
+        eventName,
+        rangeStep,
+        startBlock,
+        filter,
+        latestBlockNumber,
+      }),
+    );
   }
 
   protected getAnkrTokenStakingContract(): Contract {
@@ -578,9 +580,9 @@ export class AnkrStakingReadSDK {
       return `${latestBlockNumber}`;
     },
   })
-  public async getTotalTVL(latestBlockNumber: number): Promise<BigNumber> {
+  public async getTotalTVL(): Promise<BigNumber> {
     const stakingContract = this.getAnkrTokenStakingContract();
-    const validators = await this.getAllValidators(latestBlockNumber);
+    const validators = await this.getAllValidators();
     const delegationsSet = await Promise.all(
       validators.map(validator =>
         stakingContract.methods.getValidatorStatus(validator.validator).call(),
@@ -609,7 +611,7 @@ export class AnkrStakingReadSDK {
    * Get APY for validators.
    *
    * @public
-   * @returns APY for validators
+   * @returns array of APY info for each validator
    */
   public async getAPY(): Promise<IApyData[]> {
     const stakingContract = this.getAnkrTokenStakingContract();

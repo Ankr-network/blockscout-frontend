@@ -9,13 +9,12 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { ErrorMessage } from 'modules/common/components/ErrorMessage';
 import { Faq } from 'modules/common/components/Faq';
-import { AUDIT_LINKS, featuresConfig, ZERO } from 'modules/common/const';
+import { AUDIT_LINKS, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -25,12 +24,11 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 
 import { StakeTokenInfo } from '../../../stake/components/StakeTokenInfo/StakeTokenInfo';
 import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
 
+import { FtmTradeInfo } from './components/FtmTradeInfo';
 import { useErrorMessage } from './hooks/useErrorMessage';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeFantomStyles } from './useStakeFantomStyles';
@@ -47,7 +45,6 @@ export const StakeFantom = (): JSX.Element => {
     syntheticTokenPrice,
     amount,
     balance,
-    certificateRatio,
     faqItems,
     gasFee,
     isCommonDataLoading,
@@ -95,22 +92,6 @@ export const StakeFantom = (): JSX.Element => {
     };
   }, [dispatch, dispatchRequest]);
 
-  useProviderEffect(() => {
-    if (!featuresConfig.isActiveStakeTradeInfo) {
-      return;
-    }
-
-    dispatchRequest(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.FTM,
-        bondToken: EOpenOceanTokens.aFTMb,
-        certificateRatio,
-        certificateToken: EOpenOceanTokens.aFTMc,
-        network: EOpenOceanNetworks.FANTOM,
-      }),
-    );
-  }, [certificateRatio, dispatchRequest]);
-
   const noticeText = useBTokenNotice({
     bToken: Token.aFTMb,
     cToken: getTokenSymbol(Token.aFTMc),
@@ -124,7 +105,7 @@ export const StakeFantom = (): JSX.Element => {
           <ErrorMessage title={t('error.some')} onClick={onErroMessageClick} />
         )}
 
-        {featuresConfig.isActiveStakeTradeInfo && <StakeTradeInfo />}
+        <FtmTradeInfo />
 
         <StakeForm
           isMaxBtnShowed

@@ -11,7 +11,6 @@ import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
@@ -22,12 +21,11 @@ import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
 import { StakeTokenInfo } from 'modules/stake/components/StakeTokenInfo/StakeTokenInfo';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { QueryError } from 'uiKit/QueryError';
 
 import { useBTokenNotice } from '../../../stake/hooks/useBTokenNotice';
 
+import { AvaxTradeInfo } from './components/AvaxTradeInfo';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeAvalancheStyles } from './useStakeAvalancheStyles';
 
@@ -40,7 +38,6 @@ export const StakeAvalanche = (): JSX.Element => {
   const {
     syntheticTokenPrice,
     amount,
-    certificateRatio,
     faqItems,
     fetchStatsData,
     fetchStatsError,
@@ -86,18 +83,6 @@ export const StakeAvalanche = (): JSX.Element => {
     };
   }, [dispatch]);
 
-  useProviderEffect(() => {
-    dispatch(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.AVAX,
-        bondToken: EOpenOceanTokens.aAVAXb,
-        certificateRatio,
-        certificateToken: EOpenOceanTokens.aAVAXc,
-        network: EOpenOceanNetworks.AVAX,
-      }),
-    );
-  }, [certificateRatio, dispatch]);
-
   const noticeText = useBTokenNotice({
     bToken: Token.aAVAXb,
     cToken: getTokenSymbol(Token.aAVAXc),
@@ -114,7 +99,7 @@ export const StakeAvalanche = (): JSX.Element => {
 
       {fetchStatsError === undefined && fetchStatsData !== null && (
         <StakeContainer>
-          <StakeTradeInfo />
+          <AvaxTradeInfo />
 
           <StakeForm
             isIntegerOnly

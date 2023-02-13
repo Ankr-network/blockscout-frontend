@@ -1,5 +1,9 @@
 import { createDriver as createAxiosDriver } from '@redux-requests/axios';
-import { handleRequests, RequestAction } from '@redux-requests/core';
+import {
+  handleRequests,
+  RequestAction,
+  RequestsStore,
+} from '@redux-requests/core';
 import { createDriver as createPromiseDriver } from '@redux-requests/promise';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
@@ -13,12 +17,14 @@ import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import { configFromEnv } from 'modules/api/config';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import {
   authPersistReducer,
   TAuthState,
 } from 'modules/auth/common/store/authPersistReducer';
 import { networkSwitchCoin98 } from 'modules/auth/eth/middlewares/networkSwitchCoin98';
 import { featuresConfig } from 'modules/common/const';
+import { approveMiddleware } from 'modules/common/store/approveMiddleware';
 import { getErrorMessage } from 'modules/common/utils/getErrorMessage';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import {
@@ -38,6 +44,8 @@ import {
 } from 'modules/notifications';
 
 import { web3Api } from '../modules/api/web3Api';
+import { allowanceMiddleware } from '../modules/common/store/allowanceMiddleware';
+import { allowanceReducer } from '../modules/common/store/allowanceSlice';
 
 import { listenerMiddleware } from './listeners/listenerMiddleware';
 import { rootSagas } from './sagas';
@@ -78,15 +86,17 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
 
     return request;
   },
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  onError: (error: Error, action: RequestAction, store: Store) => {
-    const message = getErrorMessage(error);
+  onError: (error: Error, action: RequestAction, store: RequestsStore) => {
+    const { meta = {}, type } = action;
 
-    if (action.meta?.showNotificationOnError && message) {
+    const message = meta.additionalErrorText
+      ? getExtendedErrorText(error, meta.additionalErrorText)
+      : getErrorMessage(error);
+
+    if (meta.showNotificationOnError) {
       store.dispatch(
         showNotification({
-          key: `${action.type}_ERROR`,
+          key: type,
           message,
           variant: 'error',
         }),
@@ -102,6 +112,7 @@ const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
   [web3Api.reducerPath]: web3Api.reducer,
   auth: authPersistReducer,
+  allowance: allowanceReducer,
   dialog,
   i18n: i18nPersistReducer,
   notifications: notificationsReducer,
@@ -123,9 +134,9 @@ export const store = configureStore({
       .concat(web3Api.middleware)
       .concat(routerMiddleware(historyInstance))
       .concat(sagaMiddleware)
-      .concat(
-        featuresConfig.isCoin98SupportActive ? [networkSwitchCoin98] : [],
-      ),
+      .concat(featuresConfig.isCoin98SupportActive ? [networkSwitchCoin98] : [])
+      .concat(allowanceMiddleware)
+      .concat(approveMiddleware),
 });
 
 setupListeners(store.dispatch);

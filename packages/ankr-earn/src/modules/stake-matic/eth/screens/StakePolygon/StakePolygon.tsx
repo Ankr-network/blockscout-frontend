@@ -1,27 +1,21 @@
 import { t } from '@ankr.com/common';
-import { Grid } from '@material-ui/core';
 import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
-import classNames from 'classnames';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { Faq } from 'modules/common/components/Faq';
-import {
-  AUDIT_LINKS,
-  DUNE_ANALYTICS_LINK,
-  featuresConfig,
-} from 'modules/common/const';
+import { AUDIT_LINKS, DUNE_ANALYTICS_LINK } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
 import { getFAQ } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
+import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
 import { StakeContainer } from 'modules/stake/components/StakeContainer';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
@@ -30,17 +24,13 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
+import { StakeTokenInfo } from 'modules/stake/components/StakeTokenInfo/StakeTokenInfo';
+import { useBTokenNotice } from 'modules/stake/hooks/useBTokenNotice';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { Button } from 'uiKit/Button';
-import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
-import { NumericStepper } from 'uiKit/Stepper';
 
-import { StakeTokenInfo } from '../../../../stake/components/StakeTokenInfo/StakeTokenInfo';
-import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
-
+import { EthMaticTradeInfo } from './components/EthMaticTradeInfo';
 import { useStakeForm } from './hooks/useStakeForm';
+import { useStakePolygonApprovalForm } from './hooks/useStakePolygonApprovalForm';
 import { useStakePolygonStyles } from './useStakePolygonStyles';
 
 const resetRequests = () =>
@@ -53,14 +43,9 @@ export const StakePolygon = (): JSX.Element => {
 
   const {
     syntheticTokenPrice,
-    activeStep,
     amount,
-    certificateRatio,
     faqItems,
     gasFee,
-    isApproveLoading,
-    isApproved,
-    isShouldBeApproved,
     isShowGasFee,
     isStakeLoading,
     tokenIn,
@@ -71,6 +56,16 @@ export const StakePolygon = (): JSX.Element => {
     handleFormChange,
     handleSubmit,
   } = useStakeForm();
+
+  const {
+    isApproveLoading,
+    allowance,
+    onApproveSubmit,
+    approvalSettingsMode,
+    onApprovalSettingsFormSubmit,
+  } = useStakePolygonApprovalForm();
+
+  const tokenName = getTokenName(tokenOut);
 
   const renderStats = () => {
     return (
@@ -98,54 +93,17 @@ export const StakePolygon = (): JSX.Element => {
   };
 
   const renderFooter = (): JSX.Element => (
-    <>
-      <Grid container spacing={3}>
-        <Grid item xs>
-          <Button
-            fullWidth
-            color="primary"
-            disabled={isApproved || isApproveLoading}
-            endIcon={
-              <QuestionWithTooltip
-                className={classNames(
-                  isApproved
-                    ? classes.questionBtnDisabled
-                    : classes.questionBtnActive,
-                )}
-              >
-                {t('common.tooltips.allowance')}
-              </QuestionWithTooltip>
-            }
-            isLoading={isApproveLoading}
-            size="large"
-            type="submit"
-          >
-            {t('stake-matic-eth.btn.approve')}
-          </Button>
-        </Grid>
-
-        <Grid item xs>
-          <Button
-            fullWidth
-            color="primary"
-            disabled={isStakeLoading || isShouldBeApproved}
-            isLoading={isStakeLoading}
-            size="large"
-            type="submit"
-          >
-            {t('stake-matic-eth.btn.submit', {
-              token: getTokenName(tokenOut),
-            })}
-          </Button>
-        </Grid>
-      </Grid>
-
-      <NumericStepper
-        activeStep={activeStep}
-        className={classes.stepper}
-        stepsCount={2}
-      />
-    </>
+    <ApprovalFormButtons
+      allowance={allowance}
+      amount={amount}
+      approvalSettingsMode={approvalSettingsMode}
+      isApproveLoading={isApproveLoading}
+      isStakeLoading={isStakeLoading}
+      minAmount={minimumStake}
+      tokenName={tokenName}
+      onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
+      onApproveSubmit={onApproveSubmit}
+    />
   );
 
   useProviderEffect(() => {
@@ -160,22 +118,6 @@ export const StakePolygon = (): JSX.Element => {
     };
   }, [dispatch]);
 
-  useProviderEffect(() => {
-    if (!featuresConfig.isActiveStakeTradeInfo) {
-      return;
-    }
-
-    dispatch(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.MATIC,
-        bondToken: EOpenOceanTokens.aMATICb,
-        certificateRatio,
-        certificateToken: EOpenOceanTokens.aMATICc,
-        network: EOpenOceanNetworks.ETH,
-      }),
-    );
-  }, [certificateRatio, dispatch]);
-
   const noticeText = useBTokenNotice({
     bToken: Token.aMATICb,
     cToken: getTokenSymbol(Token.aMATICc),
@@ -185,7 +127,7 @@ export const StakePolygon = (): JSX.Element => {
   return (
     <section className={classes.root}>
       <StakeContainer>
-        <StakeTradeInfo />
+        <EthMaticTradeInfo />
 
         <StakeForm
           auditSlot={
@@ -199,7 +141,7 @@ export const StakePolygon = (): JSX.Element => {
               <StakeFeeInfo mt={-1.5} token={Token.ETH} value={gasFee} />
             )
           }
-          isDisabled={isApproved || isApproveLoading}
+          isDisabled={isApproveLoading}
           loading={isStakeLoading}
           maxAmount={maticBalance}
           minAmount={minimumStake}

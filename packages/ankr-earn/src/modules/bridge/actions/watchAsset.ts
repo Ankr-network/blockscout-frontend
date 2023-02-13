@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
@@ -42,6 +43,7 @@ export const watchAsset = createSmartAction<RequestAction, [IWatchAssetArgs]>(
     },
     meta: {
       showNotificationOnError: true,
+      additionalErrorText: t('bridge.errors.add-token-to-wallet', { token }),
     },
   }),
 );

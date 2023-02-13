@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
@@ -22,6 +23,7 @@ export const withdrawal = createAction<RequestAction<string, string>>(
     },
     meta: {
       showNotificationOnError: true,
+      additionalErrorText: t('bridge.errors.withdraw'),
       onSuccess: (
         response: { data: string },
         _action,
