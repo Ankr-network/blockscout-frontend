@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js';
 
 import { ZERO } from '@ankr.com/staking-sdk';
 
-import { getTokenName } from 'modules/common/utils/getTokenName';
 import { OpenOceanIcon } from 'uiKit/Icons/OpenOceanIcon';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -35,8 +34,6 @@ export const TradeInfo = ({
     return null;
   }
 
-  const tokenName = getTokenName(token);
-
   return (
     <Paper className={classes.root}>
       <OpenOceanIcon className={classes.icon} />
@@ -47,7 +44,7 @@ export const TradeInfo = ({
         <Box>
           {tHTML('stake.trade-info.description', {
             value: discountPct.round().toFormat(),
-            token: tokenName,
+            token,
           })}
         </Box>
       </Box>
@@ -60,7 +57,7 @@ export const TradeInfo = ({
           onMouseDown={onLinkClick}
           onTouchStart={onLinkClick}
         >
-          {t('stake.stake', { token: tokenName })}
+          {t('stake.stake', { token })}
         </NavLink>
       </Box>
     </Paper>

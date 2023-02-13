@@ -10,7 +10,7 @@ export const usePolygonMaticTradeInfo = (): IUseTradeInfo => {
   return useTradeInfo({
     baseToken: 'MATIC',
     network: 'POLYGON',
-    targetToken: 'aMATICc',
+    targetToken: 'ankrMATIC',
     ratio: commonData?.ratio,
   });
 };

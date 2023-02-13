@@ -8,9 +8,9 @@ export const useEthMaticTradeInfo = (): IUseTradeInfo => {
   });
 
   return useTradeInfo({
-    baseToken: 'MATIC',
+    baseToken: 'ETH',
     network: 'ETH',
-    targetToken: 'aMATICc',
+    targetToken: 'ankrMATIC',
     ratio: commonData?.ratio,
   });
 };

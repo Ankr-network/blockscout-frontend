@@ -10,7 +10,7 @@ export const useEthTradeInfo = (): IUseTradeInfo => {
   return useTradeInfo({
     baseToken: 'ETH',
     network: 'ETH',
-    targetToken: 'aETHc',
+    targetToken: 'ankrETH',
     ratio: commonData?.aETHcRatio,
   });
 };

@@ -10,7 +10,7 @@ export const useAvaxTradeInfo = (): IUseTradeInfo => {
   return useTradeInfo({
     baseToken: 'AVAX',
     network: 'AVAX',
-    targetToken: 'aAVAXc',
+    targetToken: 'ankrAVAX',
     ratio: getStatsData?.aAVAXcRatio,
   });
 };
