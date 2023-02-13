@@ -23,13 +23,13 @@ import { StakeDescriptionValue } from 'modules/stake/components/StakeDescription
 import { StakeFeeInfo } from 'modules/stake/components/StakeFeeInfo';
 import { StakeForm } from 'modules/stake/components/StakeForm';
 import { StakeStats } from 'modules/stake/components/StakeStats';
-import { StakeTradeInfo } from 'modules/stake/components/StakeTradeInfo';
 import { QueryError } from 'uiKit/QueryError';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { StakeTokenInfo } from '../../../../stake/components/StakeTokenInfo/StakeTokenInfo';
 import { useBTokenNotice } from '../../../../stake/hooks/useBTokenNotice';
 
+import { PolygonMaticTradeInfo } from './components/PolygonMaticTradeInfo';
 import { useStakeForm } from './hooks/useStakeForm';
 import { useStakeStyles } from './useStakeStyles';
 
@@ -41,17 +41,18 @@ export const Stake = (): JSX.Element => {
     syntheticTokenPrice,
     amount,
     balance,
-    extraValidation,
     faqItems,
     gasFee,
     getStatsError,
     isGasFeeLoading,
     isGetStatsLoading,
     isStakeLoading,
+    maxAmount,
     stakeFeePct,
     tokenIn,
     tokenOut,
     totalAmount,
+    extraValidation,
     onFormChange,
     onFormSubmit,
   } = useStakeForm();
@@ -125,7 +126,7 @@ export const Stake = (): JSX.Element => {
   return (
     <section className={classes.root}>
       <StakeContainer>
-        <StakeTradeInfo />
+        <PolygonMaticTradeInfo />
 
         {hasErrors && <QueryError error={getStatsError} />}
 
@@ -148,7 +149,7 @@ export const Stake = (): JSX.Element => {
           isBalanceLoading={isGetStatsLoading}
           isDisabled={isStakeLoading}
           loading={isStakeLoading}
-          maxAmount={balance}
+          maxAmount={maxAmount}
           networkTitleSlot={<NetworkTitle />}
           noticeSlot={noticeText}
           renderStats={renderStats}

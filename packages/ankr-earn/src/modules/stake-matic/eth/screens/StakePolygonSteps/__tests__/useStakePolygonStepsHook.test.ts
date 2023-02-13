@@ -5,12 +5,12 @@ import { useParams } from 'react-router';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
-import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation';
-import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery';
+import { useAddMaticOnEthTokenToWalletMutation } from 'modules/stake-matic/eth/actions/addMaticOnEthTokenToWallet';
+import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
 import {
   useGetMaticOnEthTxDataQuery,
   useGetMaticOnEthTxReceiptQuery,
-} from 'modules/stake-matic/eth/actions/useGetMaticOnEthTxDataQuery';
+} from 'modules/stake-matic/eth/actions/getMaticOnEthTxData';
 
 import { useStakePolygonStepsHook } from '../useStakePolygonStepsHook';
 
@@ -31,22 +31,16 @@ jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
 }));
 
-jest.mock(
-  'modules/stake-matic/eth/actions/useAddMaticOnEthTokenToWalletMutation',
-  () => ({
-    useAddMaticOnEthTokenToWalletMutation: jest.fn(),
-  }),
-);
+jest.mock('modules/stake-matic/eth/actions/addMaticOnEthTokenToWallet', () => ({
+  useAddMaticOnEthTokenToWalletMutation: jest.fn(),
+}));
 
-jest.mock(
-  'modules/stake-matic/eth/actions/useGetMaticOnEthTxDataQuery',
-  () => ({
-    useGetMaticOnEthTxDataQuery: jest.fn(),
-    useGetMaticOnEthTxReceiptQuery: jest.fn(),
-  }),
-);
+jest.mock('modules/stake-matic/eth/actions/getMaticOnEthTxData', () => ({
+  useGetMaticOnEthTxDataQuery: jest.fn(),
+  useGetMaticOnEthTxReceiptQuery: jest.fn(),
+}));
 
-jest.mock('modules/stake-matic/eth/actions/useGetMaticOnEthStatsQuery', () => ({
+jest.mock('modules/stake-matic/eth/actions/getMaticOnEthStats', () => ({
   useGetMaticOnEthStatsQuery: jest.fn(),
 }));
 

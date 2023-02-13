@@ -33,15 +33,12 @@ import {
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 
 import { useAnalytics } from './useAnalytics';
-import { useApprove } from './useApprove';
 
 interface IUseMgnoStake {
   faqItems: IFAQItem[];
   isStakeLoading: boolean;
   isBalanceLoading: boolean;
-  isApproveLoading: boolean;
   isDisabled: boolean;
-  isApproved: boolean;
   balance: BigNumber;
   minStake: BigNumber;
   maxAmount: BigNumber;
@@ -111,12 +108,6 @@ export const useMgnoStake = (): IUseMgnoStake => {
   const isAmountConditionsLoading =
     isBalanceLoading || isMinStakeLoading || isMaxStakeLoading;
 
-  const {
-    isApproved,
-    isLoading: isApproveLoading,
-    handleApprove,
-  } = useApprove();
-
   const { sendAnalytics } = useAnalytics({
     amount,
     stakedAmount: totalInfo?.myTotalDelegatedAmount ?? ZERO,
@@ -134,20 +125,16 @@ export const useMgnoStake = (): IUseMgnoStake => {
   }: IMgnoStakeSubmitPayload) => {
     const readyAmount = new BigNumber(formAmount);
 
-    if (isApproved) {
-      dispatchRequest(
-        stake({
-          provider,
-          amount: readyAmount,
-        }),
-      ).then(({ error }) => {
-        if (!error) {
-          sendAnalytics();
-        }
-      });
-    } else {
-      handleApprove(readyAmount);
-    }
+    dispatchRequest(
+      stake({
+        provider,
+        amount: readyAmount,
+      }),
+    ).then(({ error }) => {
+      if (!error) {
+        sendAnalytics();
+      }
+    });
   };
 
   useEffect(() => {
@@ -201,11 +188,8 @@ export const useMgnoStake = (): IUseMgnoStake => {
     faqItems,
     isStakeLoading,
     isBalanceLoading: isAmountConditionsLoading,
-    isApproveLoading,
-    isApproved,
     isDisabled:
       isAmountConditionsLoading ||
-      isApproveLoading ||
       isStakeLoading ||
       isProvidersLoading ||
       isTotalInfoLoading ||

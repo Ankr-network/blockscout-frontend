@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { DECIMAL_PLACES, DEFAULT_ROUNDING } from 'modules/common/const';
 import { NetworkTitle } from 'modules/stake-matic/common/components/NetworkTitle';
+import { ApprovalFormButtons } from 'modules/stake/components/ApprovalFormButtons/ApprovalFormButtons';
 import { StakeDescriptionAmount } from 'modules/stake/components/StakeDescriptionAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
@@ -14,6 +15,7 @@ import { Container } from 'uiKit/Container';
 import { QuestionWithTooltip } from 'uiKit/QuestionWithTooltip';
 
 import { useUnstake } from './hooks/useUnstake';
+import { useUnstakePolygonApprovalForm } from './hooks/useUnstakePolygonApprovalForm';
 import { useUnstakeStyles } from './useUnstakeStyles';
 
 export const Unstake = (): JSX.Element => {
@@ -23,8 +25,6 @@ export const Unstake = (): JSX.Element => {
     closeHref,
     extraValidation,
     getTotalVal,
-    isApproveLoading,
-    isApproved,
     isGetStatsLoading,
     isUnstakeLoading,
     isWithApprove,
@@ -35,6 +35,28 @@ export const Unstake = (): JSX.Element => {
     unstakeFeePct,
     onUnstakeSubmit,
   } = useUnstake();
+
+  const {
+    isApproveLoading,
+    allowance,
+    onApproveSubmit,
+    approvalSettingsMode,
+    onApprovalSettingsFormSubmit,
+  } = useUnstakePolygonApprovalForm();
+
+  const renderFormApproveButtons = (amount: BigNumber): JSX.Element => (
+    <ApprovalFormButtons
+      allowance={allowance}
+      amount={amount}
+      approvalSettingsMode={approvalSettingsMode}
+      isApproveLoading={isApproveLoading}
+      isStakeLoading={isUnstakeLoading}
+      submitButtonLabel={t('unstake-dialog.btn')}
+      tokenName={selectedToken}
+      onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
+      onApproveSubmit={onApproveSubmit}
+    />
+  );
 
   const renderFormFooter = (
     amount: BigNumber,
@@ -97,13 +119,14 @@ export const Unstake = (): JSX.Element => {
           balance={syntTokenBalance}
           closeHref={closeHref}
           extraValidation={extraValidation}
-          isApproved={isApproved}
           isApproveLoading={isApproveLoading}
           isBalanceLoading={isGetStatsLoading}
           isDisabled={isApproveLoading || isUnstakeLoading}
           isLoading={isUnstakeLoading}
-          isWithApprove={isWithApprove}
           networkTitleSlot={<NetworkTitle />}
+          renderFormApproveButtons={
+            isWithApprove ? renderFormApproveButtons : undefined
+          }
           renderFormFooter={renderFormFooter}
           token={selectedToken}
           onSubmit={onUnstakeSubmit}

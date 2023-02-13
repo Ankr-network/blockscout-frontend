@@ -98,38 +98,6 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
     });
   });
 
-  test('should unlock shares on binance network properly', async () => {
-    const sdk = await SwitcherSDK.getInstance();
-
-    const params = {
-      amount: new BigNumber(1),
-      ratio: new BigNumber(1),
-    };
-
-    const results = await Promise.all(
-      [EEthereumNetworkId.smartchainTestnet, EEthereumNetworkId.smartchain].map(
-        async chainId =>
-          sdk.unlockShares({
-            ...params,
-            chainId: chainId as AvailableSwitchNetwork,
-            token: Token.aBNBb,
-          }),
-      ),
-    );
-
-    results.forEach(result => {
-      expect(result).toBeDefined();
-    });
-
-    expect(defaultBinanceSDK.unlockShares).toBeCalledTimes(2);
-    expect(defaultBinanceSDK.unlockShares).toHaveBeenNthCalledWith(1, {
-      amount: params.amount.multipliedBy(params.ratio),
-    });
-    expect(defaultBinanceSDK.unlockShares).toHaveBeenNthCalledWith(2, {
-      amount: params.amount.multipliedBy(params.ratio),
-    });
-  });
-
   test('should unlock shares on ethereum network for matic properly', async () => {
     const sdk = await SwitcherSDK.getInstance();
 
@@ -233,7 +201,7 @@ describe('modules/switcher/api/SwitcherSDK#unlockShares', () => {
       chainId: 9000 as AvailableSwitchNetwork,
       amount: new BigNumber(1),
       ratio: new BigNumber(1),
-      token: Token.aBNBb,
+      token: Token.aETHb,
     });
 
     expect(result).toBeUndefined();

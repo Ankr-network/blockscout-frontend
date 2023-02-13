@@ -1,5 +1,7 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
 
@@ -41,7 +43,7 @@ export const { useGetBNBPendingValuesQuery } = web3Api.injectEndpoints({
             pendingAbnbcUnstakes,
           },
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-bnb.errors.bnb-history'))),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

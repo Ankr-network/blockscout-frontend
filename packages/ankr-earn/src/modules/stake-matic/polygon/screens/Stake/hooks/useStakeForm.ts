@@ -19,18 +19,16 @@ import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 import { calcTotalAmount } from 'modules/stake-matic/common/utils/calcTotalAmount';
-import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
-import { useGetMaticOnPolygonStakeStatsQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonStakeStatsQuery';
-import { useLazyGetMaticOnPolygonStakeGasFeeQuery } from 'modules/stake-matic/polygon/actions/useLazyGetMaticOnPolygonStakeGasFeeQuery';
-import { useStakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/useStakeMaticOnPolygonMutation';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
+import { useLazyGetMaticOnPolygonStakeGasFeeQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonStakeGasFee';
+import { useGetMaticOnPolygonStakeStatsQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonStakeStats';
+import { useStakeMaticOnPolygonMutation } from 'modules/stake-matic/polygon/actions/stakeMaticOnPolygon';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
-import { getStakeTradeInfoData } from 'modules/stake/actions/getStakeTradeInfoData';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
 } from 'modules/stake/components/StakeForm';
-import { EOpenOceanNetworks, EOpenOceanTokens } from 'modules/stake/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useSelectedToken } from './useSelectedToken';
@@ -39,21 +37,22 @@ interface IUseStakeFormData {
   acPoolLiquidityInMATIC: BigNumber;
   amount: BigNumber;
   balance?: BigNumber;
-  extraValidation: (
-    data: Partial<IStakeFormPayload>,
-    errors: FormErrors<IStakeFormPayload>,
-  ) => FormErrors<IStakeFormPayload>;
   faqItems: IFAQItem[];
   gasFee: BigNumber;
   getStatsError?: FetchBaseQueryError | SerializedError;
   isGasFeeLoading: boolean;
   isGetStatsLoading: boolean;
   isStakeLoading: boolean;
+  maxAmount: BigNumber;
   stakeFeePct: BigNumber | null;
   tokenIn: string;
   tokenOut: TMaticSyntToken;
   totalAmount: BigNumber;
   syntheticTokenPrice: BigNumber;
+  extraValidation: (
+    data: Partial<IStakeFormPayload>,
+    errors: FormErrors<IStakeFormPayload>,
+  ) => FormErrors<IStakeFormPayload>;
   onFormChange: (data: IStakeFormPayload, isInvalid: boolean) => void;
   onFormSubmit: (data: IStakeSubmitPayload) => void;
   onTokenSelect: (token: TMaticSyntToken) => () => void;
@@ -63,9 +62,6 @@ const MAIN_TOKEN = Token.MATIC;
 
 const resetMainRequests = () =>
   resetReduxRequests([getFAQ.toString(), getMetrics.toString()]);
-
-const resetStakeTradeInfoRequests = () =>
-  resetReduxRequests([getStakeTradeInfoData.toString()]);
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
@@ -134,6 +130,10 @@ export const useStakeForm = (): IUseStakeFormData => {
       selectedToken,
     });
   }, [acRatio, amount, maticBalance, isError, selectedToken, stakeFeePct]);
+
+  const maxAmount = acPoolLiquidityInMATIC.isLessThan(maticBalance)
+    ? acPoolLiquidityInMATIC
+    : maticBalance;
 
   const extraValidation = (
     { amount: userAmount }: Partial<IStakeFormPayload>,
@@ -217,7 +217,6 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   useProviderEffect(() => {
     dispatch(resetMainRequests());
-    dispatch(resetStakeTradeInfoRequests());
 
     getMATICPOLYGONCommonDataRefetch();
     dispatch(getFAQ(Token.MATIC));
@@ -226,38 +225,26 @@ export const useStakeForm = (): IUseStakeFormData => {
     return () => {
       dispatch(abortRequests());
       dispatch(resetMainRequests());
-      dispatch(resetStakeTradeInfoRequests());
     };
   }, [dispatch]);
-
-  useProviderEffect(() => {
-    dispatch(
-      getStakeTradeInfoData({
-        baseToken: EOpenOceanTokens.MATIC,
-        bondToken: EOpenOceanTokens.aMATICb,
-        certificateRatio: acRatio,
-        certificateToken: EOpenOceanTokens.aMATICc,
-        network: EOpenOceanNetworks.POLYGON,
-      }),
-    );
-  }, [acRatio, dispatch]);
 
   return {
     acPoolLiquidityInMATIC,
     syntheticTokenPrice: ONE.div(acRatio),
     amount,
     balance: maticBalance,
-    extraValidation,
     faqItems,
     gasFee: gasFee ?? ZERO,
     getStatsError: commonDataError || stakeStatsError,
     isGasFeeLoading,
     isGetStatsLoading: isCommonDataLoading || isStakeStatsLoading,
     isStakeLoading,
+    maxAmount,
     stakeFeePct,
     tokenIn: MAIN_TOKEN,
     tokenOut: selectedToken,
     totalAmount,
+    extraValidation,
     onFormChange,
     onFormSubmit,
     onTokenSelect,

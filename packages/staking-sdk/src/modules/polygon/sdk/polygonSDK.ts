@@ -14,7 +14,7 @@ import {
 
 import {
   configFromEnv,
-  MAX_UINT256,
+  MAX_UINT256, MAX_UINT256_SCALE,
   POLYGON_NETWORK_BY_ENV,
   ProviderManagerSingleton,
   ZERO,
@@ -150,6 +150,17 @@ export class PolygonOnPolygonSDK implements IStakable {
    */
   private convertFromWei(amount: string): BigNumber {
     return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
+  }
+
+  /**
+   * Internal function to convert wei value to human-readable format.
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @returns {BigNumber}
+   */
+  public convertToWei(amount: BigNumber.Value): BigNumber {
+    return new BigNumber(this.readProvider.getWeb3().utils.toWei(amount.toString()));
   }
 
   /**
@@ -334,41 +345,28 @@ export class PolygonOnPolygonSDK implements IStakable {
   public async approveACToken(
     amount: BigNumber = MAX_UINT256,
     scale = MATIC_SCALE_FACTOR,
-  ): Promise<boolean> {
+  ): Promise<IWeb3SendResult> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
     const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
-
-    const amountHex = convertNumberToHex(amount, scale);
-
-    const allowance = new BigNumber(
-      await acTokenContract.methods
-        .allowance(this.currentAccount, polygonConfig.swapPool)
-        .call(),
+    const amountHex = convertNumberToHex(
+      amount,
+      amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale,
     );
-
-    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
-      return true;
-    }
-
     const txn = acTokenContract.methods.approve(
       polygonConfig.swapPool,
       amountHex,
     );
-
     const gasLimit: number = await txn.estimateGas({
       from: this.currentAccount,
     });
-
     const gasPrice = await this.writeProvider.getSafeGasPriceWei();
 
-    const approve: TransactionReceipt | undefined = await txn.send({
+    return txn.send({
       from: this.currentAccount,
       gas: this.getIncreasedGasLimit(gasLimit),
       gasPrice: gasPrice.toString(10),
     });
-
-    return !!approve;
   }
 
   /**
@@ -384,6 +382,24 @@ export class PolygonOnPolygonSDK implements IStakable {
 
     const balance = await abTokenContract.methods
       .balanceOf(this.currentAccount)
+      .call();
+
+    return this.convertFromWei(balance);
+  }
+
+  /**
+   * Return aMATICb ratio.
+   *
+   * @public
+   * @returns {Promise<BigNumber>} - human-readable balance
+   */
+  public async getABRatio(): Promise<BigNumber> {
+    const provider = await this.getProvider(true);
+    const web3 = provider.getWeb3();
+    const abTokenContract = PolygonOnPolygonSDK.getABTokenContract(web3);
+
+    const balance = await abTokenContract.methods
+      .ratio()
       .call();
 
     return this.convertFromWei(balance);
@@ -824,5 +840,27 @@ export class PolygonOnPolygonSDK implements IStakable {
         gasLimit: this.getIncreasedGasLimit(gasLimit).toString(),
       },
     );
+  }
+
+  /**
+   * Return aMATICc token allowance.
+   *
+   * @public
+   * @note Allowance is the amount which spender is still allowed to withdraw from owner.
+   * @returns {Promise<BigNumber>} - allowance
+   */
+  public async getACAllowance(): Promise<BigNumber> {
+    const provider = await this.getProvider(true);
+    const web3 = provider.getWeb3();
+    const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
+
+    const allowance = await acTokenContract.methods
+      .allowance(
+        this.currentAccount,
+        polygonConfig.swapPool,
+      )
+      .call();
+
+    return this.convertFromWei(allowance);
   }
 }

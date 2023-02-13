@@ -17,11 +17,12 @@ import {
 
 import { ApiGateway } from '../../api';
 import {
+  advancedAPIConfig,
   configFromEnv,
   ETH_NETWORK_BY_ENV,
   ETH_SCALE_FACTOR,
-  IS_ADVANCED_API_ACTIVE,
   MAX_UINT256,
+  MAX_UINT256_SCALE,
   ProviderManagerSingleton,
   ZERO,
 } from '../../common';
@@ -42,7 +43,7 @@ import {
   ITxHistoryEventData,
 } from '../../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../../switcher';
-import { convertNumberToHex } from '../../utils';
+import { batchEvents, convertNumberToHex } from '../../utils';
 import {
   MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
   MATIC_ON_ETH_PROVIDER_READ_ID,
@@ -360,7 +361,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return IS_ADVANCED_API_ACTIVE
+    return advancedAPIConfig.isActiveForPolygon
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -409,20 +410,14 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    const eventsPromises: Promise<EventData[]>[] = [];
-
-    for (let i = startBlock; i < latestBlockNumber; i += rangeStep) {
-      const fromBlock = i;
-      const toBlock = fromBlock + rangeStep;
-
-      eventsPromises.push(
-        contract.getPastEvents(eventName, { fromBlock, toBlock, filter }),
-      );
-    }
-
-    const pastEvents = await Promise.all(eventsPromises);
-
-    return flatten(pastEvents);
+    return flatten(await batchEvents({
+      contract,
+      eventName,
+      rangeStep,
+      startBlock,
+      filter,
+      latestBlockNumber,
+    }));
   }
 
   /**
@@ -484,7 +479,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   public async approveMATICToken(
     amount: BigNumber = MAX_UINT256,
     scale = ETH_SCALE_FACTOR,
-  ): Promise<boolean> {
+  ): Promise<IWeb3SendResult> {
     const { contractConfig } = configFromEnv();
 
     if (!this.writeProvider.isConnected()) {
@@ -493,26 +488,16 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
 
     const maticTokenContract = await this.getMaticTokenContract();
 
-    const amountHex = convertNumberToHex(amount, scale);
-
-    const allowance = new BigNumber(
-      await maticTokenContract.methods
-        .allowance(this.currentAccount, contractConfig.polygonPool)
-        .call(),
+    const amountHex = convertNumberToHex(
+      amount,
+      amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale
     );
 
-    if (allowance.isGreaterThanOrEqualTo(amountHex)) {
-      return true;
-    }
-
-    const approve: TransactionReceipt | undefined =
-      await maticTokenContract.methods
-        .approve(contractConfig.polygonPool, amountHex)
-        .send({
-          from: this.currentAccount,
-        });
-
-    return !!approve;
+    return maticTokenContract.methods
+      .approve(contractConfig.polygonPool, amountHex)
+      .send({
+        from: this.currentAccount,
+      });
   }
 
   /**
@@ -634,24 +619,20 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    *
    * @public
    * @note Allowance is the amount which spender is still allowed to withdraw from owner.
-   * @param {string} [spender] - spender address (by default, it's aMATICb token address)
    * @returns {Promise<BigNumber>} - allowance in wei
    */
-  public async getACAllowance(spender?: string): Promise<BigNumber> {
-    const provider = await this.getProvider(true);
-    const web3 = provider.getWeb3();
-    const aMaticCTokenContract =
-      PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
+  public async getACAllowance(): Promise<BigNumber> {
+    const maticTokenContract = await this.getMaticTokenContract(true);
     const { contractConfig } = configFromEnv();
 
-    const allowance = await aMaticCTokenContract.methods
+    const allowance = await maticTokenContract.methods
       .allowance(
         this.currentAccount,
-        spender || contractConfig.aMaticbToken,
+        contractConfig.polygonPool,
       )
       .call();
 
-    return new BigNumber(allowance);
+    return this.convertFromWei(allowance);
   }
 
   /**
@@ -677,8 +658,10 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     const aMaticCTokenContract =
       PolygonOnEthereumSDK.getAMATICCTokenContract(web3);
 
+    const maxScale = amount.isEqualTo(MAX_UINT256) ? 1 : scale;
+
     const data = aMaticCTokenContract.methods
-      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, scale))
+      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, maxScale))
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -871,27 +854,27 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   ): Promise<IEventsBatch> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
-    const [stakeRawEvents, unstakeRawEvents, ratio] = await Promise.all([
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.StakePendingV2,
-        startBlock: from,
-        latestBlockNumber: to,
-        rangeStep: MAX_BLOCK_RANGE,
-        filter: { staker: this.currentAccount },
-      }),
-      this.getPastEvents({
-        provider: this.readProvider,
-        contract: polygonPoolContract,
-        eventName: EPolygonPoolEvents.TokensBurned,
-        startBlock: from,
-        latestBlockNumber: to,
-        rangeStep: MAX_BLOCK_RANGE,
-        filter: { staker: this.currentAccount },
-      }),
-      this.getACRatio(),
-    ]);
+    const stakeRawEvents = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: polygonPoolContract,
+      eventName: EPolygonPoolEvents.StakePendingV2,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: MAX_BLOCK_RANGE,
+      filter: { staker: this.currentAccount },
+    });
+
+    const unstakeRawEvents = await this.getPastEvents({
+      provider: this.readProvider,
+      contract: polygonPoolContract,
+      eventName: EPolygonPoolEvents.TokensBurned,
+      startBlock: from,
+      latestBlockNumber: to,
+      rangeStep: MAX_BLOCK_RANGE,
+      filter: { staker: this.currentAccount },
+    });
+
+    const ratio = await this.getACRatio()
 
     return {
       stakeRawEvents,
@@ -1095,23 +1078,8 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       await this.writeProvider.connect();
     }
 
-    const [polygonPoolContract, maticTokenContract] = await Promise.all([
-      this.getPolygonPoolContract(true),
-      this.getMaticTokenContract(true),
-    ]);
+    const polygonPoolContract = await this.getPolygonPoolContract(true);
     const rawAmount = amount.multipliedBy(scale);
-    // 0. Check current allowance
-    const allowance = new BigNumber(
-      await maticTokenContract.methods
-        .allowance(this.currentAccount, contractConfig.polygonPool)
-        .call(),
-    );
-    // 1. Approve MATIC token transfer to our polygonPool contract
-    if (allowance.isLessThan(rawAmount)) {
-      await maticTokenContract.methods
-        .approve(contractConfig.polygonPool, convertNumberToHex(rawAmount))
-        .send({ from: this.currentAccount });
-    }
 
     const contractStakeMethod =
       polygonPoolContract.methods[
@@ -1120,7 +1088,6 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
 
     const data = contractStakeMethod(convertNumberToHex(rawAmount)).encodeABI();
 
-    // 2. Do staking
     const { transactionHash: txHash } =
       await this.writeProvider.sendTransactionAsync(
         this.currentAccount,

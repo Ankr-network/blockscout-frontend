@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { createAction } from 'redux-smart-actions';
@@ -74,5 +75,6 @@ export const getStakeData = createAction<
   meta: {
     onRequest: withStore,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-ssv.errors.get-stake-data'),
   },
 }));

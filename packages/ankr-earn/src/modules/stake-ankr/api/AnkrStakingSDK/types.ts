@@ -113,6 +113,7 @@ export interface IGetPastEvents {
 export interface IApproveResponse {
   isApproved: boolean;
   txHash?: string;
+  amount: BigNumber;
 }
 
 export interface IDelegation {

@@ -8,11 +8,15 @@ interface IHistory {
 }
 
 export const useHistoryData = (): IHistory => {
-  const { data, isFetching, refetch } = useGetHistoryDataQuery();
+  const {
+    data,
+    isFetching,
+    refetch: getHistoryData,
+  } = useGetHistoryDataQuery();
 
   // TODO remove it. Use cache tags instead of manual dispatch
   useProviderEffect(() => {
-    refetch();
+    getHistoryData();
   }, []);
 
   return {

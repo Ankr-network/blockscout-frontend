@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
@@ -42,6 +43,7 @@ export const getTxData = createAction<RequestAction<IGetTxData, IGetTxData>>(
     meta: {
       asMutation: false,
       showNotificationOnError: true,
+      additionalErrorText: t('stake-mgno.errors.tx-data'),
     },
   }),
 );

@@ -10,6 +10,7 @@ import {
 } from 'polkadot';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
@@ -20,6 +21,9 @@ import {
   ProvidersMap,
 } from '../../../common/types';
 import { setChainId } from '../store/authSlice';
+
+// todo: STAKAN-2484 translations are not initialized at the moment, so we use a constant
+const ERROR_TEXT = 'Failed to switch the network';
 
 interface ISwitchNetworkArgs {
   chainId: EEthereumNetworkId | EPolkadotNetworkId;
@@ -82,7 +86,7 @@ export const {
           return {
             data: false,
           };
-        }),
+        }, getOnErrorWithCustomText(ERROR_TEXT)),
 
         async onQueryStarted(
           { chainId, providerId },

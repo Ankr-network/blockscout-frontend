@@ -1,7 +1,9 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { ACTION_CACHE_SEC, featuresConfig, ZERO } from 'modules/common/const';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { CacheTags } from '../const';
 import { getAvalancheSDK } from '../utils/getAvalancheSDK';
@@ -19,15 +21,6 @@ export const { useGetAVAXPendingValuesQuery } = web3Api.injectEndpoints({
         never,
         IFetchPendingValuesResponseData
       >(async () => {
-        if (featuresConfig.disableHeavyRequestsForTestnet) {
-          return {
-            data: {
-              pendingAavaxbUnstakes: ZERO,
-              pendingAavaxcUnstakes: ZERO,
-            },
-          };
-        }
-
         const sdk = await getAvalancheSDK();
         const { pendingBond, pendingCertificate } = await sdk.getPendingData();
 
@@ -37,7 +30,7 @@ export const { useGetAVAXPendingValuesQuery } = web3Api.injectEndpoints({
             pendingAavaxcUnstakes: pendingCertificate,
           },
         };
-      }),
+      }, getOnErrorWithCustomText(t('stake-avax.errors.pending-values'))),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

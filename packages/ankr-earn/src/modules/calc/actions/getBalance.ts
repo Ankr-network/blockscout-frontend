@@ -36,12 +36,10 @@ export const getBalance = createAction<
       switch (token) {
         case Token.ANKR: {
           const sdk = await AnkrStakingSDK.getInstance();
-          const provider = await sdk.getProvider();
-          const latestBlockNumber = await provider.getBlockNumber();
 
           const [balance, staked] = await Promise.all([
             sdk.getAnkrBalance(),
-            sdk.getMyTotalDelegatedAmount(latestBlockNumber),
+            sdk.getMyTotalDelegatedAmount(),
           ]);
 
           return {

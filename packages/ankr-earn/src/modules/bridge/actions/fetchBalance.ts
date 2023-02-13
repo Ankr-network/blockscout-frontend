@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import retry from 'async-retry';
 import BigNumber from 'bignumber.js';
@@ -29,5 +30,9 @@ export const fetchBalance = createSmartAction<
   },
   meta: {
     showNotificationOnError: true,
+    additionalErrorText: t('bridge.errors.get-balance', {
+      token,
+      network: t(`chain.${network}`),
+    }),
   },
 }));

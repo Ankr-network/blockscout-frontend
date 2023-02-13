@@ -1,11 +1,11 @@
-import { EOpenOceanTokens } from 'modules/stake/types';
+import { TOpenOceanTokens } from 'modules/stake/api/getOpenOceanQuote';
 
 import { AnalyticsEvents, IBaseWaletData } from '../types';
 import { trackAnalyticEvent } from '../utils/trackAnalyticEvent';
 
 interface IGetTokenDiscountEvent extends IBaseWaletData {
-  stakeToken: EOpenOceanTokens;
-  synthToken: EOpenOceanTokens;
+  stakeToken: TOpenOceanTokens;
+  synthToken: TOpenOceanTokens;
 }
 
 export const trackGetTokenDiscount = (

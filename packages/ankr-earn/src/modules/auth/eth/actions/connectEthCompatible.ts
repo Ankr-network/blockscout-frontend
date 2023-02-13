@@ -4,11 +4,15 @@ import {
 } from '@ankr.com/provider';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { setProviderStatus } from 'modules/auth/common/store/authSlice';
 import { IConnect } from 'modules/auth/common/types';
 
 const providerId = AvailableWriteProviders.ethCompatible;
+
+// todo: STAKAN-2484 translations are not initialized at the moment, so we use a constant
+const ERROR_TEXT = 'Failed to connect ETH compatible wallet';
 
 interface IConnectEthCompatible extends IConnect {
   chainId: number;
@@ -57,7 +61,8 @@ export const {
         };
 
         return { data };
-      }),
+      }, getOnErrorWithCustomText(ERROR_TEXT)),
+
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
           dispatch(

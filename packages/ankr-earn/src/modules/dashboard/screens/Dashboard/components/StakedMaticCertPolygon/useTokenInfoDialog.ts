@@ -10,8 +10,8 @@ import {
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { UNSTAKE_PERIOD } from 'modules/stake-matic/common/const';
-import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/useAddMaticOnPolygonTokenToWalletMutation';
-import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/useGetMaticOnPolygonCommonDataQuery';
+import { useAddMaticOnPolygonTokenToWalletMutation } from 'modules/stake-matic/polygon/actions/addMaticOnPolygonTokenToWallet';
+import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
 
 export interface IUseTokenInfoDialog {
   description: string;

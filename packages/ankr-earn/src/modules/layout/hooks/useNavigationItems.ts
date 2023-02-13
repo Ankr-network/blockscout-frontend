@@ -82,18 +82,12 @@ export const useNavigationItems = (): IUseNavigationItemsData => {
   );
 
   const desktopItems: INavItem[] = useMemo(
-    () => [
-      links.dashboard,
-      links.staking,
-      links.defi,
-      links.bridge,
-      links.switcher,
-    ],
+    () => [links.dashboard, links.staking, links.defi, links.bridge],
     [links],
   );
 
   const desktopMenuItems: INavItem[] = useMemo(
-    () => [links.parachain, links.docs, links.litepaper],
+    () => [links.switcher, links.parachain, links.docs, links.litepaper],
     [links],
   );
 

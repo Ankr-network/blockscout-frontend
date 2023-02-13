@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
@@ -21,6 +22,8 @@ export const fetchTxHistory = createSmartAction<
   },
   meta: {
     asMutation: false,
+    showNotificationOnError: true,
+    additionalErrorText: t('stake-polkadot.errors.txn-history'),
     requestKey: getPolkadotRequestKey(network),
   },
 }));

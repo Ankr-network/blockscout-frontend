@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
@@ -81,6 +82,7 @@ export const getFAQ = createAction<
     cache: CACHE_TIME,
     driver: 'axios',
     showNotificationOnError: true,
+    additionalErrorText: t('stake.faq-error'),
     getData: data =>
       data
         .sort((item1, item2): number => item1.id - item2.id)

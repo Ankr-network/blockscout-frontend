@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction, RequestsStore } from '@redux-requests/core';
 import retry from 'async-retry';
 import { createAction as createSmartAction } from 'redux-smart-actions';
@@ -49,5 +50,6 @@ export const getTxData = createSmartAction<
   meta: {
     onRequest: withStore,
     showNotificationOnError: true,
+    additionalErrorText: t('stake-ssv.errors.tx-data'),
   },
 }));

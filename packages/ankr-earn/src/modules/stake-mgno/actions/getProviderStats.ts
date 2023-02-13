@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import { RequestAction } from '@redux-requests/core';
 import { createAction } from 'redux-smart-actions';
 
@@ -19,6 +20,7 @@ export const getProviderStats = createAction<
     meta: {
       driver: 'axios',
       showNotificationOnError: true,
+      additionalErrorText: t('stake-mgno.errors.provider-stats'),
     },
   }),
 );
