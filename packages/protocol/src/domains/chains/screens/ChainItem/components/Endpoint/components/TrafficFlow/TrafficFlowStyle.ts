@@ -29,6 +29,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 700,
     fontSize: 14,
     lineHeight: theme.spacing(2 * 2.5),
+
+    color: theme.palette.text.primary,
   },
   learnMoreButton: {
     height: 'auto',
@@ -81,7 +83,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
         0% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         20% {
           background-color: ${theme.palette.primary.main}
         },
@@ -97,15 +99,15 @@ export const useStyles = makeStyles()((theme: Theme) => ({
         0% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         20% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         40% {
           background-color: ${theme.palette.primary.main}
         },
-    
+
         100% {
           background-color: ${theme.palette.primary.main}
         },
@@ -117,15 +119,15 @@ export const useStyles = makeStyles()((theme: Theme) => ({
         0% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         40% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         60% {
           background-color: ${theme.palette.primary.main}
         },
-    
+
         100% {
           background-color: ${theme.palette.primary.main}
         },
@@ -137,15 +139,15 @@ export const useStyles = makeStyles()((theme: Theme) => ({
         0% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         60% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         80% {
           background-color: ${theme.palette.primary.main}
         },
-    
+
         100% {
           background-color: ${theme.palette.primary.main}
         },
@@ -157,11 +159,11 @@ export const useStyles = makeStyles()((theme: Theme) => ({
         0% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         80% {
           background-color: ${theme.palette.grey[300]}
         },
-    
+
         100% {
           background-color: ${theme.palette.primary.main}
         },

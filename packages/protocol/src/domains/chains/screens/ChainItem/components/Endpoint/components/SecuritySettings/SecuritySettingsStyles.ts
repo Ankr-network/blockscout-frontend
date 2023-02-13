@@ -24,12 +24,15 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   summary: {
     fontWeight: 700,
+
+    color: theme.palette.text.primary,
   },
   title: {
     fontSize: 14,
     lineHeight: theme.spacing(2 * 2.5),
     fontWeight: 700,
     letterSpacing: '0.01em',
+    color: theme.palette.text.primary,
   },
   label: {
     display: 'inline',

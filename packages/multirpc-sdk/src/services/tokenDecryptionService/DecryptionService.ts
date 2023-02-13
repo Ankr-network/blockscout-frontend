@@ -5,7 +5,7 @@ import {
   base64StrToUtf8String,
   getEncryptionPublicKey,
 } from './TokenDecryptionServiceUtils';
-import { Base64, IJwtToken } from '../../common';
+import { Base64 } from '../../common';
 
 export class DecryptionService {
   public constructor(private readonly keyProvider: Web3KeyWriteProvider) {}
@@ -21,11 +21,8 @@ export class DecryptionService {
     return { privateKey, publicKey };
   }
 
-  public async getDecryptedToken(jwtToken: IJwtToken, privateKey: string) {
-    const base64EncodedAndEncryptedJwtJsonString = jwtToken.signed_token;
-    const encryptedJwtJsonString = base64StrToUtf8String(
-      base64EncodedAndEncryptedJwtJsonString,
-    );
+  public async getDecryptedToken(signedToken: string, privateKey: string) {
+    const encryptedJwtJsonString = base64StrToUtf8String(signedToken);
     const encryptedJwtJson = JSON.parse(encryptedJwtJsonString);
 
     return sigUtil.decrypt(encryptedJwtJson, privateKey);

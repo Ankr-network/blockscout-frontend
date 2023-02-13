@@ -54,6 +54,8 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
     },
     titleWrapper: {
       marginBottom: theme.spacing(2 * 1),
+
+      color: theme.palette.text.primary,
     },
     title: {
       fontSize: 35,
@@ -78,6 +80,8 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
     description: {
       fontWeight: 400,
 
+      color: theme.palette.text.primary,
+
       [theme.breakpoints.down('xs')]: {
         fontSize: 14,
       },
@@ -100,6 +104,8 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
     },
     featureText: {
       fontWeight: 600,
+
+      color: theme.palette.text.primary,
     },
     link: {
       padding: 0,

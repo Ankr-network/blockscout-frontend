@@ -25,10 +25,7 @@ export const useRequestsByIPStyles = makeStyles()((theme: Theme) => ({
     marginBottom: theme.spacing(2 * 3.75),
     gridGap: theme.spacing(2 * 1),
   },
-  title: {
-    fontSize: 20,
-    lineHeight: theme.spacing(2 * 2.75),
-  },
+
   timeframe: {
     color: theme.palette.grey[600],
     border: `1px solid ${theme.palette.action.disabledBackground}`,
@@ -71,6 +68,8 @@ export const useRequestsByIPStyles = makeStyles()((theme: Theme) => ({
     display: 'inline-block',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+
+    color: theme.palette.text.primary,
   },
   line: {
     margin: theme.spacing(2 * 1, 0),

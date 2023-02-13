@@ -1,9 +1,9 @@
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-import { authConnect, AuthConnectParams } from 'domains/auth/actions/connect';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 import { web3Api } from 'store/queries';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
 export const {
   useLazyTopUpRedirectIfCredentialsQuery,
@@ -16,16 +16,12 @@ export const {
         const provider = service.getKeyProvider();
         const { currentAccount: address } = provider;
 
-        const { data: connectData } =
-          // we shouldn't care about params because
-          // endpoints cache by their names only
-          authConnect.select(undefined as unknown as AuthConnectParams)(
-            getState() as RootState,
-          );
+        const { credentials, workerTokenData, isInstantJwtParticipant } =
+          selectAuthData(getState() as RootState);
 
         const shouldRedirect =
-          connectData?.credentials &&
-          connectData?.workerTokenData?.userEndpointToken;
+          (credentials && workerTokenData?.userEndpointToken) ||
+          isInstantJwtParticipant;
 
         if (shouldRedirect) {
           resetTransactionSliceAndRedirect(dispatch, address);
