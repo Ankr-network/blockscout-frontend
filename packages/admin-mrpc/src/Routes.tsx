@@ -5,7 +5,7 @@ import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { ClientsPage } from 'modules/clients/components/ClientsPage';
 import { ClientDetailsPage } from 'modules/clients/components/ClientDetailsPage';
 import { AdminRoutesConfig } from 'modules/admin/AdminRoutesConfig';
-import { AdminPage } from 'modules/admin/AdminPage';
+import { AdminPage } from 'modules/admin/components/AdminPage';
 import { GuardAdminRoute } from 'modules/admin/components/GuardAdminRoute';
 import { useSecretRouteAccess } from 'modules/admin/hooks/useSecretRouteAccess';
 
@@ -45,7 +45,7 @@ export const Routes = () => {
           ClientsRoutesConfig.clientInfo.path,
         ]}
         render={() => (
-          <Layout hasNoReactSnap hasSecretRouteAccess={hasSecretRouteAccess}>
+          <Layout hasSecretRouteAccess={hasSecretRouteAccess}>
             <ClientsRoutes />
           </Layout>
         )}
@@ -57,7 +57,7 @@ export const Routes = () => {
         hasSecretRouteAccess={hasSecretRouteAccess}
         isLoading={isLoadingAdminRoles}
         render={() => (
-          <Layout hasNoReactSnap hasSecretRouteAccess={hasSecretRouteAccess}>
+          <Layout hasSecretRouteAccess={hasSecretRouteAccess}>
             <AdminRoutes />
           </Layout>
         )}

@@ -28,6 +28,8 @@ import { ClientsValueFilters } from '../ClientsValueFilters/ClientsValueFilters'
 import { ButtonOptions } from './ButtonOptions';
 import { getTtlString } from '../UserTypeTag/const';
 
+const MAX_ON_PAGE = 50;
+
 export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
   const history = useHistory();
   const { classes, cx } = useClientsTableStyles();
@@ -47,7 +49,10 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
 
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const collapsedData = isCollapsed ? sortedData.slice(0, 50) : sortedData;
+  const collapsedData = isCollapsed
+    ? sortedData.slice(0, MAX_ON_PAGE)
+    : sortedData;
+  const isShowMore = sortedData.length > MAX_ON_PAGE;
 
   const handleRowClick = (row: ClientMapped) => {
     if (!row.address) {
@@ -144,7 +149,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
             ))}
           </TableBody>
         </Table>
-        {isCollapsed && (
+        {isCollapsed && isShowMore && (
           <Button
             size="extraLarge"
             fullWidth

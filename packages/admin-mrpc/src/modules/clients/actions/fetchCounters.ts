@@ -119,6 +119,7 @@ export const {
           );
           return {
             ...client,
+            address: client.address ? client.address.toLowerCase() : '',
             ttl: client.ttl && client.ttl > 0 ? client.ttl : undefined,
             clientType: getClientType({
               ttl: client.ttl,

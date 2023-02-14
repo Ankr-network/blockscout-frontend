@@ -54,6 +54,7 @@
     "axios": "^0.27.2",
     "bignumber.js": "^9.1.0",
     "classnames": "^2.3.1",
+    "date-fns": "^2.29.3",
     "lodash.invert": "^4.3.0",
     "lodash.isequal": "^4.5.0",
     "multirpc-sdk": "*",
@@ -117,7 +118,8 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
-      "/clients"
+      "/clients",
+      "/admin"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

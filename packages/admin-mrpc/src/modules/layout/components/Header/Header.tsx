@@ -19,14 +19,14 @@ export const Header = ({ hasSecretRouteAccess }: HeaderProps) => {
       <Logo />
       {address && <CreateTestPremiumUser />}
       {address && <SearchClientsInput />}
-      {/* TODO: add secret route for PM admin roles */}
+
       {hasSecretRouteAccess && (
         <Button
           component={NavLink}
           to={AdminRoutesConfig.admin.generatePath()}
           sx={{ ml: 6 }}
         >
-          Admin route
+          DevDao users
         </Button>
       )}
       <ConnectButton />

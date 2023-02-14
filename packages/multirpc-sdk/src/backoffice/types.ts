@@ -1,4 +1,4 @@
-import { Milliseconds ,Seconds} from '@ankr.com/utils';
+import { Milliseconds, Timestamp } from '@ankr.com/utils';
 import {
   BlockchainID,
   IPaymentHistoryEntityType,
@@ -245,6 +245,17 @@ export type IEthUserAddressV2 = Omit<
 export type GetUserAddressesResponse = {
   addresses: IEthUserAddressV2[];
 };
+
+export type GetUsersRegistrationsFilter = 'devdao' | '';
+export type GetUsersRegistrationsRequest = {
+  from: Timestamp;
+  to: Timestamp;
+  filter: GetUsersRegistrationsFilter;
+}
+
+export type GetUsersRegistrationsResponse = {
+  addresses: Web3Address[];
+}
 
 export type BlockchainFeature = 'rpc' | 'ws';
 
