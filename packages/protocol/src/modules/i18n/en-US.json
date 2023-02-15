@@ -127,6 +127,8 @@
   },
   "chains": {
     "breadcrumbs": "Endpoints",
+    "user-free": "Free",
+    "user-premium": "Premium",
     "title": "Choose Your Network",
     "more-details": "More",
     "links": {
