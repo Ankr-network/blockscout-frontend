@@ -38,8 +38,8 @@ jobs:
           cache: 'yarn'
       - uses: act10ns/slack@v1
         with:
-          status: initiated
-          message: Build for ${{github.event.inputs.environment}} with API ${{github.event.inputs.api}} has started
+          status: ${{ job.status }}
+          message: Build for `${{github.ref}}` `${{github.event.inputs.environment}}` with API `${{github.event.inputs.api}}` has started
         if: always()
 
 #      - name: Prevent wrong version releasing
