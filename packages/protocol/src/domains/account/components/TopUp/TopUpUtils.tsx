@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 import { DEFAULT_ANKR_VALUE_STRING } from 'domains/account/actions/topUp/const';
 import {
@@ -9,6 +9,12 @@ import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { USDTopUpForm } from './USDTopUpForm';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { TrackTopUpSubmit } from 'domains/account/types';
+
+export interface TopUpTabsParams {
+  ankrTopupTab?: Tab<TopUpTabID>;
+  icon?: ReactNode;
+  trackSubmit: TrackTopUpSubmit;
+}
 
 export const useInitialValues = (
   shouldUseDefaultValue = false,
@@ -28,10 +34,11 @@ export enum TopUpTabID {
   USD = 'USD',
 }
 
-export const useTopUpTabs = (
-  trackSubmit: TrackTopUpSubmit,
-  ankrTopupTab?: Tab<TopUpTabID>,
-) => {
+export const useTopUpTabs = ({
+  ankrTopupTab,
+  icon,
+  trackSubmit,
+}: TopUpTabsParams) => {
   const initialTabID = ankrTopupTab ? TopUpTabID.ANKR : TopUpTabID.USD;
 
   const rawTabs: Tab<TopUpTabID>[] = useMemo(() => {
@@ -40,7 +47,11 @@ export const useTopUpTabs = (
         id: TopUpTabID.USD,
         content: <USDTopUpForm trackSubmit={trackSubmit} />,
         title: (isSelected: boolean) => (
-          <SecondaryTab isSelected={isSelected} label={TopUpTabID.USD} />
+          <SecondaryTab
+            isSelected={isSelected}
+            label={TopUpTabID.USD}
+            startIcon={icon}
+          />
         ),
       },
     ];
@@ -50,7 +61,7 @@ export const useTopUpTabs = (
     }
 
     return tabs;
-  }, [ankrTopupTab, trackSubmit]);
+  }, [ankrTopupTab, trackSubmit, icon]);
 
   return useTabs({
     initialTabID,

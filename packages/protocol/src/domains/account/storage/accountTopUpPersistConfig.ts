@@ -7,10 +7,13 @@ export const accountTopUpPersistConfig = {
   storage,
   migrate: (state = {} as any) => {
     Object.keys(state).forEach(address => {
-      state[address] = {
-        ...state[address],
-        amount: new BigNumber(state[address]?.amount ?? 0),
-      };
+      state[address] =
+        address === 'topUpOrigin'
+          ? state[address]
+          : {
+              ...state[address],
+              amount: new BigNumber(state[address]?.amount ?? 0),
+            };
     });
 
     return Promise.resolve(state as PersistedState);

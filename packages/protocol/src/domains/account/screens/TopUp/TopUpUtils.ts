@@ -1,36 +1,45 @@
 import { push } from 'connected-react-router';
-import { useDispatch } from 'react-redux';
+import { t } from '@ankr.com/common';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 
-import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
+import { TopUpOrigin } from 'domains/account/types';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { BaseRoute } from 'modules/router/utils/createRouteConfig';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 
-export const useTopUpBreadcrumbs = (hasPrivateAccess: boolean) => {
-  const breadcrumbs = hasPrivateAccess
-    ? [
-        {
-          title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
-          link: AccountRoutesConfig.accountDetails.generatePath(),
-        },
-        {
-          title: t(AccountRoutesConfig.topUp.breadcrumbs),
-        },
-      ]
-    : [
-        {
-          title: t(PricingRoutesConfig.pricing.breadcrumbs),
-          link: PricingRoutesConfig.pricing.generatePath(),
-        },
-        {
-          title: t(AccountRoutesConfig.topUp.breadcrumbs),
-        },
-      ];
+const topUpOriginRoutesMap: Record<TopUpOrigin, BaseRoute> = {
+  [TopUpOrigin.BILLING]: AccountRoutesConfig.accountDetails,
+  [TopUpOrigin.ENDPOINTS]: ChainsRoutesConfig.chains,
+  [TopUpOrigin.PRICING]: PricingRoutesConfig.pricing,
+};
+
+export const useTopUpOriginRoute = (hasPrivateAccess: boolean) => {
+  const topUpOrigin = useSelector(selectTopUpOrigin);
+  const defaultTopUpOrigin = hasPrivateAccess
+    ? TopUpOrigin.ENDPOINTS
+    : TopUpOrigin.PRICING;
+
+  return topUpOriginRoutesMap[topUpOrigin ?? defaultTopUpOrigin];
+};
+
+export const useTopUpBreadcrumbs = (route: BaseRoute) => {
+  const breadcrumbs = [
+    {
+      title: t(route.breadcrumbs!),
+      link: route.generatePath(),
+    },
+    {
+      title: t(AccountRoutesConfig.topUp.breadcrumbs),
+    },
+  ];
 
   useSetBreadcrumbs(breadcrumbs);
 };

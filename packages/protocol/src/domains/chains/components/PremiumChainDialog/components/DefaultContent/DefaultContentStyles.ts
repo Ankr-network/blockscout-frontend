@@ -1,50 +1,13 @@
 import { makeStyles } from 'tss-react/mui';
+
+import { DIALOG_BREAKDOWN, intlRoot } from '../../const';
+import { Title } from '../../types';
 import { premiumColor } from 'uiKit/Theme/themeUtils';
 
-import { chainDialogIntl, ChainDialogTitle } from './ChainDialogUtils';
-
-export const CHAINS_DIALOG_BREAKDOWN = 840;
-
-const Y_SCALE_BREAKDOWN = 770;
-const scaleMedia = `@media (max-height: ${Y_SCALE_BREAKDOWN}px)`;
-
-interface ChainsItemDialogStylesProps {
-  windowHeight: number;
-}
-
-export const useChainsItemDialogStyles = makeStyles<
-  ChainsItemDialogStylesProps,
+export const useDefaultContentStyles = makeStyles<
+  void,
   'content' | 'intro' | 'wrapperV2' | 'button'
->()((theme, { windowHeight }, classes) => ({
-  paperRoot: {
-    margin: 0,
-    padding: theme.spacing(2 * 4.75, 2 * 4.75, 2 * 5.25, 2 * 4.75),
-    borderRadius: theme.spacing(2 * 5),
-    width: 1160,
-
-    [theme.breakpoints.up(CHAINS_DIALOG_BREAKDOWN)]: {
-      [scaleMedia]: {
-        transform: `scale(${windowHeight / Y_SCALE_BREAKDOWN})`,
-        transformOrigin: 'center top',
-      },
-    },
-  },
-  dialogContainer: {
-    [theme.breakpoints.up(CHAINS_DIALOG_BREAKDOWN)]: {
-      [scaleMedia]: {
-        height: 'unset',
-        minHeight: '100%',
-      },
-    },
-  },
-  root: {
-    marginTop: theme.spacing(2 * 5),
-    margin: '0 auto',
-
-    [theme.breakpoints.down('sm')]: {
-      width: 'unset',
-    },
-  },
+>()((theme, _params, classes) => ({
   dialogTitle: {
     textAlign: 'center',
     margin: theme.spacing(0, 0, 2 * 5.75, 0),
@@ -60,16 +23,16 @@ export const useChainsItemDialogStyles = makeStyles<
     rowGap: theme.spacing(2 * 3.5),
     minHeight: 470,
 
-    [theme.breakpoints.down(CHAINS_DIALOG_BREAKDOWN)]: {
+    [theme.breakpoints.down(DIALOG_BREAKDOWN)]: {
       gridAutoFlow: 'row',
       gridTemplateColumns: 'auto',
     },
-    [`& .${chainDialogIntl}-${ChainDialogTitle.free}.${classes.wrapperV2}`]: {
+    [`& .${intlRoot}-${Title.free}.${classes.wrapperV2}`]: {
       [`& .${classes.content}`]: {
         borderColor: theme.palette.primary.main,
       },
     },
-    [`& .${chainDialogIntl}-${ChainDialogTitle.premium}`]: {
+    [`& .${intlRoot}-${Title.premium}`]: {
       borderRadius: theme.spacing(2 * 5.5),
       padding: 4,
       background: premiumColor,
@@ -82,8 +45,10 @@ export const useChainsItemDialogStyles = makeStyles<
         display: 'block',
       },
       [`&.${classes.wrapperV2}`]: {
-        background: theme.palette.background.paper,
         border: `4px solid ${theme.palette.divider}`,
+
+        background: theme.palette.background.paper,
+
         [`.${classes.button}`]: {
           '&:hover': {
             color: theme.palette.primary.main,
@@ -103,7 +68,7 @@ export const useChainsItemDialogStyles = makeStyles<
     backgroundColor: theme.palette.background.paper,
   },
   title: {
-    marginBottom: 14,
+    marginBottom: theme.spacing(3.5),
   },
   intro: {
     fontSize: 14,
@@ -148,7 +113,7 @@ export const useChainsItemDialogStyles = makeStyles<
     '&:hover': {
       color: theme.palette.background.paper,
     },
-    [`&.${ChainDialogTitle.enterprise}:hover`]: {
+    [`&.${Title.enterprise}:hover`]: {
       color: theme.palette.primary.dark,
       backgroundColor: theme.palette.grey[100],
     },

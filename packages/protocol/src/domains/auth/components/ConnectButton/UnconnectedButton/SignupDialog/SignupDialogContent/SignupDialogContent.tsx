@@ -14,16 +14,16 @@ export enum SignupDialogState {
 
 interface SignupDialogProps {
   currentState: SignupDialogState;
-  handleFetchLoginParams: () => void;
   onDialogClose: () => void;
-  setWeb3State: () => void;
+  onGoogleButtonClick: () => void;
   onSuccess?: () => void;
+  setWeb3State: () => void;
 }
 
 export const SignupDialogContent = ({
   currentState,
-  handleFetchLoginParams,
   onDialogClose,
+  onGoogleButtonClick,
   onSuccess,
   setWeb3State,
 }: SignupDialogProps) => {
@@ -38,7 +38,7 @@ export const SignupDialogContent = ({
             fullWidth
             className={classes.button}
             variant="outlined"
-            onClick={handleFetchLoginParams}
+            onClick={onGoogleButtonClick}
             startIcon={<GoogleIcon />}
           >
             {t('signup-modal.web2.button')}
@@ -66,6 +66,6 @@ export const SignupDialogContent = ({
         <ConnectWalletsContent onClose={onDialogClose} onSuccess={onSuccess} />
       );
     case SignupDialogState.WEB2:
-      return <EmailContent onClick={handleFetchLoginParams} />;
+      return <EmailContent onClick={onGoogleButtonClick} />;
   }
 };

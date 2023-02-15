@@ -2,13 +2,34 @@ import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
+import { BaseRoute } from 'modules/router/utils/createRouteConfig';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { GetState } from 'store';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
+import { TopUpOrigin } from 'domains/account/types';
+import {
+  resetTransaction,
+  selectTopUpOrigin,
+} from 'domains/account/store/accountTopUpSlice';
+
+const topUpOriginRoutesMap: Record<TopUpOrigin, BaseRoute> = {
+  [TopUpOrigin.BILLING]: AccountRoutesConfig.accountDetails,
+  [TopUpOrigin.ENDPOINTS]: ChainsRoutesConfig.chains,
+  [TopUpOrigin.PRICING]: PricingRoutesConfig.pricing,
+};
 
 export const resetTransactionSliceAndRedirect = async (
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
+  getState: GetState,
   address: string,
 ) => {
-  dispatch(resetTransaction({ address }));
+  const topUpOrigin = selectTopUpOrigin(getState());
 
-  dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
+  const route = topUpOrigin
+    ? topUpOriginRoutesMap[topUpOrigin]
+    : AccountRoutesConfig.accountDetails;
+
+  dispatch(push(route.generatePath()));
+
+  dispatch(resetTransaction({ address }));
 };

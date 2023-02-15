@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { ChainsItemDialog } from 'domains/chains/components/ChainsItemDialog';
+import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 export interface DialogCardProps {
@@ -16,7 +16,7 @@ export const DialogCard = ({ children, className }: DialogCardProps) => {
       <div className={className} onClick={onOpen} role="button" tabIndex={0}>
         {children}
       </div>
-      <ChainsItemDialog open={isOpened} onClose={onClose} />
+      <PremiumChainDialog onClose={onClose} open={isOpened} />
     </>
   );
 };
