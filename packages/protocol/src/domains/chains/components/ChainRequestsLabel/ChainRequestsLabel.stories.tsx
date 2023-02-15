@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, ThemeProvider } from '@mui/material';
 import { storiesOf } from '@storybook/react';
 
-import { mainTheme } from 'uiKit/Theme/mainTheme';
 import { ChainRequestsLabel } from './ChainRequestsLabel';
+import { mainTheme } from 'uiKit/Theme/mainTheme';
 
 storiesOf('domains/chains/ChainRequestsLabel', module)
   .add('Default', () => (

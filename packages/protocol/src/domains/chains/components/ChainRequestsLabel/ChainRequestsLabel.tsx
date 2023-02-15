@@ -1,7 +1,14 @@
-import { Typography } from '@mui/material';
+import { Typography, TypographyTypeMap } from '@mui/material';
 
-import { useStyles } from './useStyles';
-import { ChainMainInfoProps } from './ChainRequestsLabelTypes';
+import { useChainRequestsLabelStyles } from './ChainRequestsLabelStyles';
+
+export interface ChainRequestsLabelProps {
+  className?: string;
+  description?: string;
+  descriptionClassName?: string;
+  descriptionColor?: TypographyTypeMap['props']['color'];
+  label?: string;
+}
 
 export const ChainRequestsLabel = ({
   className = '',
@@ -9,8 +16,8 @@ export const ChainRequestsLabel = ({
   descriptionClassName,
   descriptionColor = 'textPrimary',
   label,
-}: ChainMainInfoProps) => {
-  const { classes, cx } = useStyles();
+}: ChainRequestsLabelProps) => {
+  const { classes, cx } = useChainRequestsLabelStyles();
 
   return (
     <div className={cx(classes.root, className)}>
