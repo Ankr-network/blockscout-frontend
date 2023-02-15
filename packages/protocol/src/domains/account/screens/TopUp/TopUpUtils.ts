@@ -24,7 +24,7 @@ const topUpOriginRoutesMap: Record<TopUpOrigin, BaseRoute> = {
 export const useTopUpOriginRoute = (hasPrivateAccess: boolean) => {
   const topUpOrigin = useSelector(selectTopUpOrigin);
   const defaultTopUpOrigin = hasPrivateAccess
-    ? TopUpOrigin.ENDPOINTS
+    ? TopUpOrigin.BILLING
     : TopUpOrigin.PRICING;
 
   return topUpOriginRoutesMap[topUpOrigin ?? defaultTopUpOrigin];
