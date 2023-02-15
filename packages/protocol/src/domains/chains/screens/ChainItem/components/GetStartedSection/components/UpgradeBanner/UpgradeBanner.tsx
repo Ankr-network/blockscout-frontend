@@ -1,25 +1,28 @@
-import { NavLink } from 'uiKit/NavLink';
-
-import { AccountRoutesConfig } from 'domains/account/Routes';
-import { root } from '../../const';
+import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useUpgradeBannerStyles } from './UpgradeBannerStyles';
 
-const href = AccountRoutesConfig.accountDetails.generatePath();
+import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
+import { root } from '../../const';
+import { useUpgradeBannerStyles } from './UpgradeBannerStyles';
+import { useDialog } from 'modules/common/hooks/useDialog';
+
 const message = t(`${root}.upgrade-banner.message`);
 const button = t(`${root}.upgrade-banner.button`);
 
 export const UpgradeBanner = () => {
   const { classes } = useUpgradeBannerStyles();
 
+  const { isOpened, onOpen, onClose } = useDialog();
+
   return (
     <div className={classes.upgradeBanner}>
       <div className={classes.content}>
         <div className={classes.message}>{message}</div>
-        <NavLink className={classes.button} href={href} variant="contained">
+        <Button className={classes.button} onClick={onOpen} variant="contained">
           {button}
-        </NavLink>
+        </Button>
       </div>
+      <PremiumChainDialog onClose={onClose} open={isOpened} />
     </div>
   );
 };

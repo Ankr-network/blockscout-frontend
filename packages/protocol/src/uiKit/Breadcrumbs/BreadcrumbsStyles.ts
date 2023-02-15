@@ -72,7 +72,9 @@ export const useStyles = makeStyles<boolean>()(
         flexShrink: 1,
       },
     },
-    typography: {
+    item: {
+      display: 'flex',
+      alignItems: 'center',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       fontSize: 28,

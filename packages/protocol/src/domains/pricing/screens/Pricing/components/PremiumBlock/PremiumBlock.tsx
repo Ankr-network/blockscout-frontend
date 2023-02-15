@@ -9,7 +9,7 @@ import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { PricingTopUp } from './PricingTopUp';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { shouldShowConnectWalletButton } from './PremiumBlockUtils';
-import { PRICING_LINK } from 'domains/account/actions/topUp/const';
+import { PRICING_PLANS_LINK } from 'domains/account/actions/topUp/const';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface PremiumBlockProps {
@@ -81,7 +81,7 @@ export const PremiumBlock = ({
             </Typography>
             <NavLink
               className={classes.link}
-              href={PRICING_LINK}
+              href={PRICING_PLANS_LINK}
               variant="text"
               color="inherit"
               endIcon={<ExternalLink />}

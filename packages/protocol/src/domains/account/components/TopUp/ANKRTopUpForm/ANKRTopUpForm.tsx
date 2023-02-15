@@ -10,11 +10,11 @@ import {
 } from './ANKRTopUpFormUtils';
 
 export const ANKRTopUpForm = ({
-  onSubmit,
   hasLoginStep,
   initialValues: defaultInitialValues,
-  validateAmount,
   isWalletConnected,
+  onSubmit,
+  validateAmount,
 }: TopUpFormProps) => {
   const { classes } = useStyles();
 

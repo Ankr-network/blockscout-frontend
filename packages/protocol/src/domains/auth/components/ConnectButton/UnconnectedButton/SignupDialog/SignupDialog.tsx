@@ -22,11 +22,11 @@ export const SignupDialog = ({
   const { classes } = useSignupDialogStyles();
   const {
     currentState,
-    setWeb3State,
-    handleFetchLoginParams,
-    loading,
     dialogTitle,
+    loading,
     onDialogClose,
+    onGoogleButtonClick,
+    setWeb3State,
   } = useSignupDialog({ onManualClose, hasOauthLogin });
 
   return (
@@ -42,10 +42,10 @@ export const SignupDialog = ({
         <EmailContentLoading />
       ) : (
         <SignupDialogContent
-          onSuccess={onSuccess}
           currentState={currentState}
-          handleFetchLoginParams={handleFetchLoginParams}
           onDialogClose={onDialogClose}
+          onGoogleButtonClick={onGoogleButtonClick}
+          onSuccess={onSuccess}
           setWeb3State={setWeb3State}
         />
       )}

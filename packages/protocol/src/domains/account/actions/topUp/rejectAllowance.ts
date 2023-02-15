@@ -1,3 +1,4 @@
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { accountFetchBalance } from '../balance/fetchBalance';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -12,7 +13,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     topUpRejectAllowance: build.query<boolean, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
+      queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
         const service = await MultiService.getWeb3Service();
         const provider = service.getKeyProvider();
         const { currentAccount: address } = provider;
@@ -37,7 +38,11 @@ export const {
           ),
         );
 
-        resetTransactionSliceAndRedirect(dispatch, address);
+        resetTransactionSliceAndRedirect(
+          dispatch,
+          getState as GetState,
+          address,
+        );
 
         return { data: true };
       }),

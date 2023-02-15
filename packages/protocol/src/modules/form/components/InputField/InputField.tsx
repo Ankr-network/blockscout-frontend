@@ -3,12 +3,13 @@ import { t } from '@ankr.com/common';
 import { FieldMetaState, FieldRenderProps } from 'react-final-form';
 
 import { getErrorText } from '../../utils/getErrorText';
-import { hasError } from '../../utils/hasError';
+import { hasError as hasErrorDefault } from '../../utils/hasError';
 import { useInputFieldStyles } from './InputFieldStyles';
 
 interface IFieldProps extends FieldRenderProps<string> {
-  showLimitCounter?: boolean;
+  hasError?: (meta: FieldMetaState<any>) => boolean;
   isHelperTextVisible?: boolean;
+  showLimitCounter?: boolean;
 }
 
 const getHelperString = (
@@ -16,25 +17,29 @@ const getHelperString = (
   meta: FieldMetaState<any>,
   maxLength: number | null,
   showLimitCounter: boolean,
+  hasError: (meta: FieldMetaState<any>) => boolean,
 ): string => {
-  let helperTextString: string = getErrorText(meta);
+  let helperTextString: string = getErrorText(meta, hasError);
+
   if (showLimitCounter && maxLength && !hasError(meta)) {
     helperTextString = t('form.limit-counter', {
       value: value.length ?? 0,
       maxLimit: maxLength,
     });
   }
+
   return helperTextString;
 };
 
 export const InputField = ({
+  hasError = hasErrorDefault,
   input: { name, onBlur, onChange, value, type, placeholder },
+  isHelperTextVisible,
   meta,
   showLimitCounter = false,
-  isHelperTextVisible,
   ...rest
 }: IFieldProps & TextFieldProps) => {
-  const { classes } = useInputFieldStyles();
+  const { classes, cx } = useInputFieldStyles();
 
   const maxLength: number | null = rest.inputProps?.maxLength ?? null;
 
@@ -46,12 +51,12 @@ export const InputField = ({
       value={value}
       placeholder={placeholder}
       helperText={
-        getHelperString(value, meta, maxLength, showLimitCounter) ||
+        getHelperString(value, meta, maxLength, showLimitCounter, hasError) ||
         (isHelperTextVisible && <>&nbsp;</>)
       }
       onChange={onChange}
       onBlur={onBlur}
-      className={classes.root}
+      className={cx(classes.root, rest.className)}
       onWheel={(event: any) => event.target.blur()}
       {...rest}
     />

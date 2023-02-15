@@ -15,6 +15,8 @@ import {
   BreadcrumbsProviderProps,
   IBreadcrumbsContext,
 } from './BreadcrumbsTypes';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { UserLabel } from 'uiKit/Breadcrumbs/Components/UserLabel';
 
 export const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
   breadcrumbs: [],
@@ -63,5 +65,12 @@ export const useSetBreadcrumbs = (breadcrumbs: BreadcrumbItem[]) => {
 export const Breadcrumbs = () => {
   const { breadcrumbs } = useContext(BreadcrumbsContext);
 
-  return <BreadcrumbsBase items={breadcrumbs} />;
+  const { hasPremium, isLoggedIn } = useAuth();
+
+  return (
+    <BreadcrumbsBase
+      items={breadcrumbs}
+      userLabel={isLoggedIn ? <UserLabel isPremium={hasPremium} /> : null}
+    />
+  );
 };

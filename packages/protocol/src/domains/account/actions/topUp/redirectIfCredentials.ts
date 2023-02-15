@@ -1,9 +1,9 @@
+import { GetState, RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
-import { web3Api } from 'store/queries';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+import { web3Api } from 'store/queries';
 
 export const {
   useLazyTopUpRedirectIfCredentialsQuery,
@@ -24,7 +24,11 @@ export const {
           isInstantJwtParticipant;
 
         if (shouldRedirect) {
-          resetTransactionSliceAndRedirect(dispatch, address);
+          resetTransactionSliceAndRedirect(
+            dispatch,
+            getState as GetState,
+            address,
+          );
 
           return { data: true };
         }
