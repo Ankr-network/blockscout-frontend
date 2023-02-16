@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { addDays, format, parseISO } from 'date-fns';
+import { addDays, format, millisecondsToSeconds, parseISO } from 'date-fns';
 import { SelectChangeEvent } from '@mui/material';
 import {
   GetUsersRegistrationsFilter,
@@ -31,7 +31,7 @@ const formatDateToIsoString = (date: Date) => {
 };
 
 const formatDateParamToSeconds = (date: string) => {
-  return Math.floor(parseISO(date).getTime() / 1000);
+  return Math.floor(millisecondsToSeconds(parseISO(date).getTime()));
 };
 
 const MAX_RANGE_DAYS = 31;
