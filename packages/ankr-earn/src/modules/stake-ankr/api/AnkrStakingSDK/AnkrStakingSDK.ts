@@ -524,11 +524,12 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   ): Promise<IActiveStakingByValidator[]> {
     const { currentAccount } = this;
 
-    // ⬇️ download all data
-    const [activeValidators, delegationHistory] = await Promise.all([
-      this.getActiveValidators(),
-      this.getDelegationHistory({ staker: currentAccount }, latestBlockNumber),
-    ]);
+    const activeValidators = await this.getActiveValidators();
+
+    const delegationHistory = await this.getDelegationHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
 
     // geting the list of validators from delegations history without doubles
     const delegatingValidators = new Set(
@@ -907,35 +908,43 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   ): Promise<IHistoryData[]> {
     const { currentAccount } = this;
 
-    const [delegation, undelegation, claim] = await Promise.all([
-      this.getDelegationHistory({ staker: currentAccount }, latestBlockNumber),
-      this.getUndelegationHistory(
-        { staker: currentAccount },
-        latestBlockNumber,
-      ),
-      this.getClaimHistory({ staker: currentAccount }, latestBlockNumber),
-    ]);
+    const delegation = await this.getDelegationHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
 
-    return [
-      ...delegation.map(delegItem => ({
+    const undelegation = await this.getUndelegationHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
+
+    const claim = await this.getClaimHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
+
+    const result = [
+      ...delegation.map<IHistoryData>(delegItem => ({
         date: delegItem.txDate,
         hash: delegItem.event?.transactionHash ?? '',
         event: delegItem.event?.event,
         amount: this.convertFromWei(delegItem.amount),
       })),
-      ...undelegation.map(undelegItem => ({
+      ...undelegation.map<IHistoryData>(undelegItem => ({
         date: undelegItem.txDate,
         hash: undelegItem.event?.transactionHash ?? '',
         event: undelegItem.event?.event,
         amount: this.convertFromWei(undelegItem.amount),
       })),
-      ...claim.map(claimItem => ({
+      ...claim.map<IHistoryData>(claimItem => ({
         date: claimItem.txDate,
         hash: claimItem.event?.transactionHash ?? '',
         event: claimItem.event?.event,
         amount: this.convertFromWei(claimItem.amount),
       })),
     ].sort((a, b) => b.date.getTime() - a.date.getTime());
+
+    return result;
   }
 
   public async approve(amount: BigNumber): Promise<IApproveResponse> {

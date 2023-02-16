@@ -4,7 +4,6 @@ import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 
-import { Token } from 'modules/common/types/token';
 import { NavLink } from 'uiKit/NavLink';
 
 import { FeatureItemBase } from './FeatureItemBase';
@@ -17,11 +16,9 @@ interface IFeatureItemProps {
   manageHref?: string;
   iconRootClass?: string;
   iconSlot: JSX.Element;
-  token: Token;
   isApyLoading?: boolean;
   apy?: number;
   isTvlLoading?: boolean;
-  isIntegerTvl?: boolean;
   stakedTvl?: BigNumber;
   isDelegatedStaking?: boolean;
   onStakeClick?: () => void;
@@ -35,10 +32,8 @@ export const FeatureItem = ({
   manageHref,
   iconRootClass,
   iconSlot,
-  token,
   isApyLoading = false,
   isTvlLoading = false,
-  isIntegerTvl = false,
   isDelegatedStaking = false,
   apy = 0,
   stakedTvl,
@@ -49,9 +44,7 @@ export const FeatureItem = ({
 
   const shouldRenderTvl =
     stakedTvl && !stakedTvl.isNaN() && !stakedTvl.isZero();
-  const tvlValue = isIntegerTvl
-    ? stakedTvl?.integerValue().toFormat()
-    : stakedTvl?.round().toFormat();
+  const tvlValue = stakedTvl?.integerValue().toFormat();
 
   const shouldRenderAPY = typeof apy === 'number' && apy !== 0;
 
@@ -149,9 +142,8 @@ export const FeatureItem = ({
                 </Typography>
 
                 <Typography className={classNames(classes.statValue)}>
-                  {t('features.staked-amount', {
+                  {t('unit.usd-value', {
                     value: tvlValue,
-                    token,
                   })}
                 </Typography>
               </>

@@ -1,4 +1,3 @@
-import { useQuery } from '@redux-requests/react';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
@@ -9,16 +8,13 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ACTION_CACHE_SEC, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { useLazyGetAVAXStakeGasFeeQuery } from 'modules/stake-avax/actions/getStakeGasFee';
 import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
-import {
-  IFetchStatsResponseData,
-  useGetAVAXCommonDataQuery,
-} from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
+import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { calcTotalAmount } from 'modules/stake-avax/utils/calcTotalAmount';
-import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import {
   IStakeFormPayload,
   IStakeSubmitPayload,
@@ -28,8 +24,7 @@ import { INPUT_DEBOUNCE_TIME } from 'modules/stake/const';
 interface IUseStakeFormData {
   syntheticTokenPrice: BigNumber;
   amount: BigNumber;
-  faqItems: IFAQItem[];
-  fetchStatsData?: IFetchStatsResponseData;
+  balance?: BigNumber;
   fetchStatsError?: FetchBaseQueryError | SerializedError;
   isGetCommonDataLoading: boolean;
   isStakeGasLoading: boolean;
@@ -43,11 +38,6 @@ interface IUseStakeFormData {
 
 export const useStakeForm = (): IUseStakeFormData => {
   const [stake, { isLoading: isStakeLoading }] = useStakeAVAXMutation();
-
-  const { data: faqItems } = useQuery<IFAQItem[]>({
-    defaultData: [],
-    type: getFAQ,
-  });
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
@@ -64,6 +54,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     data: getStatsData,
     isFetching: isGetCommonDataLoading,
     error: getStatsError,
+    refetch: getAvaxCommonData,
   } = useGetAVAXCommonDataQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
@@ -134,11 +125,15 @@ export const useStakeForm = (): IUseStakeFormData => {
       });
   };
 
+  // todo: remove this hook after fix bug with refetchOnMountOrArgChange
+  useProviderEffect(() => {
+    getAvaxCommonData();
+  }, [getAvaxCommonData]);
+
   return {
     syntheticTokenPrice,
     amount,
-    faqItems,
-    fetchStatsData: getStatsData,
+    balance: getStatsData?.avaxBalance,
     fetchStatsError: getStatsError,
     isGetCommonDataLoading,
     isStakeGasLoading,

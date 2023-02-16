@@ -16,17 +16,11 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/index.ts'),
-      formats: ['cjs', 'es'],
+      formats: ['cjs'],
       fileName: 'index',
     },
     rollupOptions: {
       output: [
-        {
-          format: 'es',
-          dir: 'dist/esm',
-          entryFileNames: `[name].js`,
-          chunkFileNames: `[name].js`,
-        },
         {
           format: 'cjs',
           dir: 'dist/cjs',

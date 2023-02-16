@@ -5,6 +5,7 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
+import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTVL } from 'modules/stake-mgno/actions/getTVL';
 import { getMetrics, TMetrics } from 'modules/stake/actions/getMetrics';
 
@@ -30,6 +31,7 @@ export const useStakeMainScreen = (): IUseStakeMainScreen => {
 
     if (featuresConfig.mgnoStaking) {
       dispatchRequest(getMaxApr());
+      dispatchRequest(getMGNOPrice());
       dispatchRequest(getTVL());
     }
   }, [dispatchRequest]);
