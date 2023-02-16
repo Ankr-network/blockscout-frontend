@@ -18,6 +18,7 @@ export const Dialog = ({
   isHiddenCloseBtn = false,
   open,
   PaperProps,
+  maxWidth = 'sm',
   onClose,
   ...restDialogProps
 }: IDialogProps): JSX.Element => {
@@ -28,7 +29,7 @@ export const Dialog = ({
       {...restDialogProps}
       fullWidth
       classes={{ ...dialogClasses, paper: classNames(classes.box, className) }}
-      maxWidth="sm"
+      maxWidth={maxWidth}
       open={open}
       PaperProps={{ ...PaperProps, square: false, variant: 'elevation' }}
       scroll="body"

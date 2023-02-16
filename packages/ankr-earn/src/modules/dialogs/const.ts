@@ -6,4 +6,5 @@ export const RESET_STORE = 'reset/all';
 export enum EKnownDialogs {
   connect = 'connect',
   polkadotExtension = 'polkadotExtension',
+  history = 'history',
 }

@@ -1,18 +1,9 @@
-import { alpha, makeStyles, Theme } from '@material-ui/core';
+import { alpha, makeStyles } from '@material-ui/core';
 
-export const useHistoryDialogStyles = makeStyles<Theme>(theme => ({
-  root: {
-    position: 'relative',
-    padding: theme.spacing(4, 0, 4),
-    backgroundColor: theme.palette.background.paper,
-    maxWidth: 600,
-    margin: '0 auto',
-    textAlign: 'center',
-  },
-
+export const useHistoryStyles = makeStyles(theme => ({
   container: {
     '&&': {
-      maxWidth: 600,
+      textAlign: 'center',
       padding: theme.spacing(0, 3.75),
     },
   },

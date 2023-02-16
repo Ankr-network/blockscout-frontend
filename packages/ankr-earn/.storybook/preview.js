@@ -21,14 +21,20 @@ addDecorator((story, ctx) => (
           }
           .story-path {
             overflow-y: auto;
-            opacity: 0.5;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            max-width: 100vw;
+            padding: 5px 5px;
+            background: rgba(255, 255, 255, 0.4);
+            color: gray;
+            font-family: monospace;
+            font-size: 12px;
           }
         `,
       }}
     />
-    <pre className="story-path">{ctx.parameters.fileName}</pre>
-    <hr />
-    <br />
     {story()}
+    <div className="story-path">{ctx.parameters.fileName}</div>
   </AppShell>
 ));
