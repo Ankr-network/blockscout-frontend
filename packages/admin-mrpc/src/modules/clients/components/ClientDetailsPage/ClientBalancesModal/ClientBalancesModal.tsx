@@ -16,7 +16,7 @@ import { useRates } from './useRates';
 interface IFormElements {
   elements: {
     comment: { value: string };
-    expiresAt: { value: string };
+    validDuring: { value: string };
   };
 }
 
@@ -70,7 +70,7 @@ export const ClientBalancesModal = ({
 
     const {
       comment: { value: commentValue },
-      expiresAt: { value: expiresAtValue },
+      validDuring: { value: validDuringValue },
     } = e.target.elements;
 
     if (!currentClient.address) {
@@ -83,10 +83,17 @@ export const ClientBalancesModal = ({
       return;
     }
 
-    const expiresAtSeconds = Math.floor(
-      new Date(expiresAtValue).getTime() / 1000,
-    );
-    const expiresAt = expiresAtValue ? expiresAtSeconds.toString() : '0';
+    let expiresAt = '0';
+    if (validDuringValue) {
+      if (+validDuringValue > 30) {
+        toast.error('maximum is 30 days');
+        return;
+      }
+      const newDate = new Date();
+      newDate.setDate(newDate.getDate() + +validDuringValue);
+      const expiresAtSeconds = Math.floor(newDate.getTime() / 1000);
+      expiresAt = expiresAtSeconds.toString();
+    }
 
     const requestParams = {
       address: currentClient.address,
@@ -143,15 +150,15 @@ export const ClientBalancesModal = ({
         </Typography>
 
         <Input
-          type="dateTime-local"
+          type="number"
           sx={{ mt: 4, mb: 1 }}
-          name="expiresAt"
-          id="expiresAt"
-          placeholder="Expires at"
+          name="validDuring"
+          id="validDuring"
+          placeholder="days"
           disabled={isLoading}
         />
         <Typography sx={{ ml: 3, mb: 4 }} component="p" variant="caption">
-          Voucher expiration (optional)
+          Period of use (optional)
         </Typography>
 
         <Input
