@@ -9,15 +9,17 @@ import { useAddUserVoucherCreditsMutation } from 'modules/clients/actions/addUse
 import { useSubtractUserVoucherCreditsMutation } from 'modules/clients/actions/subtractUserVoucherCredits';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 
-interface IFormElements {
-  elements: {
-    comment: { value: string };
-    validDuringDays: { value: string };
-  };
-}
-
+export const FORM_ELEMENT_EXPIRATION = 'validDuringDays';
+export const FORM_ELEMENT_COMMENT = 'comment';
 export const ADD_CREDITS_ID = 'add';
 export const SUBTRACT_CREDITS_ID = 'subtract';
+
+interface IFormElements {
+  elements: {
+    [FORM_ELEMENT_COMMENT]: { value: string };
+    [FORM_ELEMENT_EXPIRATION]: { value: string };
+  };
+}
 
 export const useClientBalancesModalContent = (
   currentClient: ClientMapped,

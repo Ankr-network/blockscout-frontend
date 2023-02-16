@@ -4,6 +4,8 @@ import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { useRates } from './useRates';
 import {
   ADD_CREDITS_ID,
+  FORM_ELEMENT_COMMENT,
+  FORM_ELEMENT_EXPIRATION,
   SUBTRACT_CREDITS_ID,
   useClientBalancesModalContent,
 } from './useClientBalancesModalContent';
@@ -55,8 +57,8 @@ export const ClientBalancesModalContent = ({
         <Input
           type="number"
           sx={{ mt: 4, mb: 1 }}
-          name="validDuring"
-          id="validDuring"
+          name={FORM_ELEMENT_EXPIRATION}
+          id={FORM_ELEMENT_EXPIRATION}
           placeholder="days"
           disabled={isLoading}
         />
@@ -66,8 +68,8 @@ export const ClientBalancesModalContent = ({
 
         <Input
           sx={{ mt: 2, mb: 6 }}
-          name="comment"
-          id="comment"
+          name={FORM_ELEMENT_COMMENT}
+          id={FORM_ELEMENT_COMMENT}
           placeholder="comment"
           disabled={isLoading}
         />
