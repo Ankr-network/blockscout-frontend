@@ -1,13 +1,17 @@
-import React, { useCallback } from 'react';
 import { Button, Typography } from '@mui/material';
-import { trackBannerRegister } from 'modules/analytics/mixpanel/utils/trackBannerRegister';
-import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/types';
-import { t, tHTML } from '@ankr.com/common';
-import { useInfoBannerStyles } from './useInfoBannerStyles';
 import { Check } from '@ankr.com/ui';
+import { t, tHTML } from '@ankr.com/common';
+import { useCallback } from 'react';
+
+import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/types';
+import {
+  PremiumChainDialog,
+  PremiumChainDialogV2,
+} from '../PremiumChainDialog';
+import { trackBannerRegister } from 'modules/analytics/mixpanel/utils/trackBannerRegister';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useInfoBannerStyles } from './useInfoBannerStyles';
 import { useIsBannerV2 } from './useIsBannerV2';
-import { ChainsItemDialog, ChainsItemDialogV2 } from '../ChainsItemDialog';
 
 const BANNER_PLAN_ITEM_COUNT = 2;
 
@@ -82,16 +86,16 @@ export const InfoBanner = () => {
         </div>
       </div>
       {isBannerV2 ? (
-        <ChainsItemDialogV2
+        <PremiumChainDialogV2
           open={isOpened}
           onClose={handleClose}
           onTrack={handleUpgrade}
         />
       ) : (
-        <ChainsItemDialog
-          open={isOpened}
+        <PremiumChainDialog
           onClose={handleClose}
           onTrack={handleUpgrade}
+          open={isOpened}
         />
       )}
     </div>

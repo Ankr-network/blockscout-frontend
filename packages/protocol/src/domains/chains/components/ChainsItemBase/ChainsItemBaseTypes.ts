@@ -1,14 +1,12 @@
-import { ChainsItemQueryProps } from '../ChainsItem/ChainsItemTypes';
+import { ChainsItemProps } from '../ChainsItem/ChainsItemTypes';
 
-export interface ChainsItemBaseProps
-  extends Omit<ChainsItemQueryProps, 'chainId'> {
-  isHighlighted?: boolean;
-  isLoading: boolean;
-  totalRequests: string;
-  handleButtonClick?: (
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
-  ) => void;
-  handleOriginUrlClick: () => void;
+type ToOmit =
+  | 'dummyMessage'
+  | 'hasConnectWalletMessage'
+  | 'hasPrivateAccess'
+  | 'urls';
+
+export interface ChainsItemBaseProps extends Omit<ChainsItemProps, ToOmit> {
   chainsItemLink: React.ReactNode;
   chainsItemButton?: React.ReactNode;
 }

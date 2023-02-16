@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import BigNumber from 'bignumber.js';
 
 import { RootState } from 'store';
+import { TopUpOrigin } from '../types';
 
 export interface ITransaction {
   allowanceTransactionHash?: string;
@@ -18,7 +19,9 @@ interface ISetTransactionPayload extends ITransaction {
 
 const initialState: IAccountSlice = {};
 
-export type IAccountSlice = Record<Address, ITransaction>;
+export type IAccountSlice = Record<Address, ITransaction> & {
+  topUpOrigin?: TopUpOrigin;
+};
 
 // Need to save transaction states at local storage
 export const accountTopUpSlice = createSlice({
@@ -44,6 +47,9 @@ export const accountTopUpSlice = createSlice({
           action.payload.rejectAllowanceTransactionHash,
       };
     },
+    setTopUpOrigin: (state, { payload }: PayloadAction<TopUpOrigin>) => {
+      state.topUpOrigin = payload;
+    },
     setTopUpTransaction: (
       state,
       action: PayloadAction<ISetTransactionPayload>,
@@ -59,10 +65,14 @@ export const accountTopUpSlice = createSlice({
         amount: action.payload.amount,
       };
     },
+    resetTopUpOrigin: state => {
+      state.topUpOrigin = undefined;
+    },
     resetTransaction: (
       state,
       action: PayloadAction<ISetTransactionPayload>,
     ) => {
+      state.topUpOrigin = undefined;
       state[action.payload.address] = {};
     },
   },
@@ -73,6 +83,9 @@ export const selectAccount = (
   address: Address,
 ): ITransaction | undefined => state.accountTopUp[address];
 
+export const selectTopUpOrigin = (state: RootState) =>
+  state.accountTopUp.topUpOrigin;
+
 export const selectTransaction = (
   state: RootState,
   currentAccount: string,
@@ -81,9 +94,11 @@ export const selectTransaction = (
 };
 
 export const {
-  setAllowanceTransaction,
-  setTopUpTransaction,
-  setRejectAllowanceTransaction,
-  setAmount,
+  resetTopUpOrigin,
   resetTransaction,
+  setAllowanceTransaction,
+  setAmount,
+  setRejectAllowanceTransaction,
+  setTopUpOrigin,
+  setTopUpTransaction,
 } = accountTopUpSlice.actions;

@@ -9,7 +9,7 @@ import { useSubmitTrackingHandler } from 'domains/account/screens/AccountDetails
 export const usePricingTopUpTabs = (canPayOnlyByCard: boolean) => {
   const trackSubmit = useSubmitTrackingHandler();
 
-  const ankrTab = canPayOnlyByCard
+  const ankrTopupTab = canPayOnlyByCard
     ? undefined
     : {
         id: TopUpTabID.ANKR,
@@ -19,5 +19,5 @@ export const usePricingTopUpTabs = (canPayOnlyByCard: boolean) => {
         ),
       };
 
-  return useTopUpTabs(trackSubmit, ankrTab);
+  return useTopUpTabs({ ankrTopupTab, trackSubmit });
 };

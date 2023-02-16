@@ -47,7 +47,6 @@ const resetRequests = () =>
     getMGNOPrice.toString(),
     getMgnoBalance.toString(),
     getSSVOnETHDashboardData.toString(),
-    getMetrics.toString(),
     getUnstakeDate.toString(),
   ]);
 

@@ -4,10 +4,12 @@ import '@ankr.com/global-menu/src/assets/fonts/style.css';
 import { hydrate, render } from 'react-dom';
 
 import { initializeAnalytics } from 'modules/analytics';
+import { initSentry } from 'modules/common/utils/sentry';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+initSentry();
 initializeAnalytics();
 initGoogleGtm();
 

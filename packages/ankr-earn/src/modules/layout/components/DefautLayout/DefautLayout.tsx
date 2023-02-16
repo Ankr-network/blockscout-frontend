@@ -1,10 +1,12 @@
 import { ThemeProvider } from '@material-ui/core';
 import { useMemo } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import { Themes } from 'ui';
 
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ConnectedWallets } from 'modules/connected-wallets/screens/ConnectedWallets';
-import { ProviderNotification } from 'modules/provider/components/ProviderNotification';
+import { ProviderNotification } from 'modules/provider/screens/ProviderNotification';
 import { TContainerSize } from 'uiKit/Container';
 
 import { getTheme } from '../../../common/utils/getTheme';
@@ -27,6 +29,7 @@ export const DefaultLayout = ({
   bannerSize,
 }: IDefaultLayoutProps): JSX.Element => {
   const currentTheme = useMemo(() => getTheme(theme), [theme]);
+  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
   return (
     <Layout
@@ -38,7 +41,14 @@ export const DefaultLayout = ({
       headerSlot={
         <ThemeProvider theme={currentTheme}>
           <Header
-            bannerSlot={<ProviderNotification containerSize={bannerSize} />}
+            bannerSlot={
+              address ? (
+                <ProviderNotification
+                  containerSize={bannerSize}
+                  userAddress={address}
+                />
+              ) : null
+            }
             mainNavigationMobileSlot={<MainNavigationMobile />}
             mainNavigationSlot={<MainNavigation />}
             rightComponentSlot={<ConnectedWallets />}

@@ -5,7 +5,7 @@ import { AddEmailBannerDialog } from 'domains/userSettings/components/AddEmailBa
 import { EmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useEmailBannerProps } from 'domains/userSettings/screens/Settings/SettingsUtils';
 
-interface TopUpEmailDialogProps {
+export interface TopUpEmailDialogProps {
   dialogProps: {
     isOpened: boolean;
     onClose: () => void;
