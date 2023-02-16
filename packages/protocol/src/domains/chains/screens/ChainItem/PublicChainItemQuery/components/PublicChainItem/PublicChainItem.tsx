@@ -1,13 +1,13 @@
 import { t } from '@ankr.com/common';
 
-import { H1Tag } from 'uiKit/H1Tag';
-import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { ChainItemHeader } from '../../../components/ChainItemHeader';
 import { ChainItemSections } from '../../../components/ChainItemSections';
-import { ChainsItemDialog } from 'domains/chains/components/ChainsItemDialog';
+import { H1Tag } from 'uiKit/H1Tag';
+import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
+import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
+import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { usePublicChainItem } from './hooks/usePublicChainItem';
-import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 
 export interface ChainItemProps {
@@ -63,7 +63,7 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
         group={group}
         unfilteredGroup={unfilteredGroup}
       />
-      <ChainsItemDialog open={isOpened} onClose={onClose} />
+      <PremiumChainDialog open={isOpened} onClose={onClose} />
     </>
   );
 };

@@ -127,6 +127,8 @@
   },
   "chains": {
     "breadcrumbs": "Endpoints",
+    "user-free": "Free",
+    "user-premium": "Premium",
     "title": "Choose Your Network",
     "more-details": "More",
     "links": {
@@ -205,6 +207,9 @@
       "list-2": "Custom Infrastructure",
       "list-3": "Engineering team support",
       "button": "Contact Sales"
+    },
+    "top-up-form": {
+      "sign-up-title": "Login to continue"
     }
   },
   "reminder-dialog": {
@@ -828,7 +833,8 @@
         "continue": "Continue",
         "ankr-credits-rate": "{ankrValue} ANKR ≈ {creditsValue, number, ::compact-short} Credits",
         "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits",
-        "usd-one-time": "One time"
+        "usd-one-time": "One time",
+        "credits-rate": "${amount} {currency} ≈ {credits, number, ::compact-short} Credits"
       },
       "balance": {
         "title": "Balance",
@@ -930,14 +936,13 @@
       "breadcrumbs": "Pricing",
       "pricing": {
         "title": "Everything looks good!",
-        "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
-        "button": "Go to Pricing"
+        "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min."
       },
       "billing": {
         "title": "Operation succeeded.",
-        "description": "The payment has been rendered successfully — enjoy your <a href=\"https: //www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">rate limits</a>",
-        "button": "Go to Billing"
-      }
+        "description": "The payment has been rendered successfully — enjoy your <a href=\"https: //www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">rate limits</a>"
+      },
+      "button": "Go to Endpoints"
     },
     "card-payment-failure": {
       "breadcrumbs": "Billing",

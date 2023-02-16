@@ -12,7 +12,7 @@ import {
 } from './PlansUtils';
 import { NavLink } from 'uiKit/NavLink';
 import { PREMIUM_BLOCK_ANCHOR } from '../PremiumBlock';
-import { PRICING_LINK } from 'domains/account/actions/topUp/const';
+import { PRICING_PLANS_LINK } from 'domains/account/actions/topUp/const';
 
 export const Plans = () => {
   const { classes } = usePlansStyles();
@@ -27,7 +27,7 @@ export const Plans = () => {
         href={`#${PREMIUM_BLOCK_ANCHOR}`}
         link={
           <NavLink
-            href={PRICING_LINK}
+            href={PRICING_PLANS_LINK}
             variant="text"
             color="inherit"
             className={classes.link}
