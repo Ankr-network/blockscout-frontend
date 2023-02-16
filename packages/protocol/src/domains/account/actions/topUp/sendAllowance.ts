@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
@@ -13,41 +14,48 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     topUpSendAllowance: build.query<boolean, BigNumber>({
-      queryFn: createNotifyingQueryFn(async (amount, { dispatch }) => {
-        const service = await MultiService.getWeb3Service();
-        const provider = service.getKeyProvider();
-        const { currentAccount: address } = provider;
+      queryFn: createNotifyingQueryFn(
+        async (amount, { dispatch, getState }) => {
+          const service = await MultiService.getWeb3Service();
+          const provider = service.getKeyProvider();
+          const { currentAccount: address } = provider;
 
-        const allowanceResponse = await service
-          .getContractService()
-          .sendAllowanceForPAYG(amount);
+          const allowanceResponse = await service
+            .getContractService()
+            .sendAllowanceForPAYG(amount);
 
-        const { transactionHash: allowanceTransactionHash } = allowanceResponse;
+          const { transactionHash: allowanceTransactionHash } =
+            allowanceResponse;
 
-        dispatch(
-          setAllowanceTransaction({
-            address,
-            allowanceTransactionHash,
-          }),
-        );
-
-        const receipt = await dispatch(
-          topUpCheckAllowanceTransaction.initiate(allowanceTransactionHash),
-        ).unwrap();
-
-        if (receipt) {
           dispatch(
             setAllowanceTransaction({
               address,
-              allowanceTransactionHash: receipt.transactionHash,
+              allowanceTransactionHash,
             }),
           );
-        } else {
-          resetTransactionSliceAndRedirect(dispatch, address);
-        }
 
-        return { data: true };
-      }),
+          const receipt = await dispatch(
+            topUpCheckAllowanceTransaction.initiate(allowanceTransactionHash),
+          ).unwrap();
+
+          if (receipt) {
+            dispatch(
+              setAllowanceTransaction({
+                address,
+                allowanceTransactionHash: receipt.transactionHash,
+              }),
+            );
+          } else {
+            resetTransactionSliceAndRedirect(
+              dispatch,
+              getState as GetState,
+              address,
+            );
+          }
+
+          return { data: true };
+        },
+      ),
     }),
   }),
 });

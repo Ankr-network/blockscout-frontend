@@ -12,7 +12,7 @@ import {
 } from './AmountFieldUtils';
 import { OnChange } from 'modules/form/utils/OnChange';
 
-interface AmountFieldProps<T> {
+export interface AmountFieldProps<T> {
   name: T;
   isDisabled?: boolean;
   size?: 'm' | 'l';

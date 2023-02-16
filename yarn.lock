@@ -24,10 +24,10 @@
   resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.7.1.tgz#8e285d7ccc4d71b51992862f73e0c9b27f4e099e"
   integrity sha512-Sglw9X1NTvYrS5RSehtAXv9xHt/96Ta7nKSEfow7J4drz1WCKpiY1cKHwB1/Y0tFQ8WDqHYfJuaINOPSS8m8kg==
 
-"@ankr.com/ui@^0.7.7":
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.7.7.tgz#aa41b6aab3041aee383ad9dbd366bf7d83d540b9"
-  integrity sha512-3eDHA/xBtL73EmzhDefFx7WWPNLK4sAkW3LeGU+ttm+tTEn+sHhRTv7sFldzR7YWKGSyGfZP8+J7kEvmdcuwkQ==
+"@ankr.com/ui@^0.7.10":
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.7.10.tgz#7258946ac3c421e93492fde3a9f2c39ff5afdea6"
+  integrity sha512-qu93BMmXmE3uBrnI2J9wfK0UWDZcDgtc4G4jPLc2IoF2iasYjZoWFCh05lbfS1Zx1fFpW3RSjzPWdE2J+Buorw==
 
 "@ankr.com/utils@*", "@ankr.com/utils@^1.0.0", "@ankr.com/utils@^1.1.1":
   version "1.1.1"
@@ -9157,10 +9157,17 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@>=16.9.0", "@types/react-dom@^17.0.0", "@types/react-dom@^18.0.0":
+"@types/react-dom@>=16.9.0", "@types/react-dom@^17.0.0":
   version "17.0.11"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.11.tgz"
   integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@^18.0.0":
+  version "18.0.11"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.11.tgz#321351c1459bc9ca3d216aefc8a167beec334e33"
+  integrity sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==
   dependencies:
     "@types/react" "*"
 
@@ -25224,7 +25231,7 @@ react-error-boundary@^3.1.0:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-error-overlay@6.0.9, react-error-overlay@^6.0.9:
+react-error-overlay@^6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==

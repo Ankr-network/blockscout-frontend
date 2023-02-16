@@ -12,7 +12,10 @@ import { DialogContext } from './DialogContext';
 import { useStyles } from './DialogStyles';
 import { DialogTitle, DialogTitleColor, IDialogContext } from './types';
 
-type IDialogProps = Omit<MuiDialogProps, 'BackdropProps' | 'PaperProps'> & {
+export type IDialogProps = Omit<
+  MuiDialogProps,
+  'BackdropProps' | 'PaperProps'
+> & {
   onClose: () => void;
   initialTitle?: string;
   title?: string;

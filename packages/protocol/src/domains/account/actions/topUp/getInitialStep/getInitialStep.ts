@@ -36,6 +36,7 @@ export const {
 
         const allowanceStep = await checkAllowanceStep(
           dispatch,
+          getState as GetState,
           transaction?.rejectAllowanceTransactionHash,
           transaction?.allowanceTransactionHash,
         );
