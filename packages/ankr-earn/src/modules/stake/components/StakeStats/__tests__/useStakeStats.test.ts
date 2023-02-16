@@ -1,6 +1,7 @@
 import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
+import { useDispatch } from 'react-redux';
 
 import { TMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
@@ -9,6 +10,10 @@ import { useStakeStats } from '../useStakeStats';
 
 jest.mock('@redux-requests/react', () => ({
   useQuery: jest.fn(),
+}));
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
 }));
 
 describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
@@ -43,6 +48,7 @@ describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
   });
 
   test('should return initial data', () => {
+    (useDispatch as jest.Mock).mockReturnValue(jest.fn());
     const { result } = renderHook(() => useStakeStats(defaultArgs));
 
     expect(result.current.apy).toBe('4.0%');
@@ -54,6 +60,7 @@ describe('src/modules/stake/components/StakeStats/useStakeStats', () => {
   });
 
   test('should return relevant data on error', () => {
+    (useDispatch as jest.Mock).mockReturnValue(jest.fn());
     (useQuery as jest.Mock).mockReturnValue({ error: {}, data: null });
 
     const { result } = renderHook(() => useStakeStats(defaultArgs));

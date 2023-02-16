@@ -608,22 +608,11 @@ export class PolkadotProvider implements IProvider {
       this.scaleUp(amount).toString(10),
     );
 
-    const signerOptions = {
-      nonce: -1,
-    };
-
-    const paymentInfoResult = await transferCall.paymentInfo(
-      sender,
-      signerOptions,
-    );
-
-    console.log(
-      `Payment info result: ${JSON.stringify(paymentInfoResult, null, 2)}`,
-    );
-
     const { free, miscFrozen } = await this.getAccountBalance(sender);
 
     const minSafeDepositVal: BigNumber = this.getMinSafeDepositVal();
+
+    const paymentInfoResult = await transferCall.paymentInfo(sender);
 
     const fee = this.scaleDown(
       new BigNumber(paymentInfoResult.partialFee.toString()),

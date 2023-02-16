@@ -6,7 +6,7 @@ export const useYourStakeItemStyles = makeStyles(theme => ({
     justifyContent: 'flex-end',
 
     [theme.breakpoints.up('md')]: {
-      justifyContent: 'flex-start',
+      justifyContent: 'space-between',
     },
   },
 

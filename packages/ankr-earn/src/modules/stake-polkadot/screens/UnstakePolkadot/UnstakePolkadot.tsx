@@ -3,10 +3,11 @@ import BigNumber from 'bignumber.js';
 
 import { IPolkadotRouteLoadableComponentProps } from 'modules/stake-polkadot/types';
 import { UnstakeDialog } from 'modules/stake/components/UnstakeDialog';
-import { UnstakeSuccess } from 'modules/stake/components/UnstakeSuccess';
 import { Container } from 'uiKit/Container';
 import { QueryError } from 'uiKit/QueryError';
 import { QueryLoadingCentered } from 'uiKit/QueryLoading';
+
+import { UnstakeSuccessPolkadot } from '../UnstakeSuccessPolkadot';
 
 import { UnstakeFormFooter } from './components/UnstakeFormFooter';
 import { useUnstakePolkadotData } from './hooks/useUnstakePolkadotData';
@@ -68,7 +69,10 @@ export const UnstakePolkadot = ({
               onSubmit={onUnstakeSubmit}
             />
           ) : (
-            <UnstakeSuccess infoText={unstakeLabel} onClose={onSuccessClose} />
+            <UnstakeSuccessPolkadot
+              tokenName={polkadotToken}
+              onClose={onSuccessClose}
+            />
           ))}
       </Container>
     </Box>
