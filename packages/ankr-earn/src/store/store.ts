@@ -16,8 +16,10 @@ import {
 import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
+import { ankrApi } from 'modules/api/ankrApi';
 import { configFromEnv } from 'modules/api/config';
 import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
+import { web3Api } from 'modules/api/web3Api';
 import {
   authPersistReducer,
   TAuthState,
@@ -43,7 +45,6 @@ import {
   TNotificationsState,
 } from 'modules/notifications';
 
-import { web3Api } from '../modules/api/web3Api';
 import { allowanceMiddleware } from '../modules/common/store/allowanceMiddleware';
 import { allowanceReducer } from '../modules/common/store/allowanceSlice';
 
@@ -111,6 +112,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   [web3Api.reducerPath]: web3Api.reducer,
+  [ankrApi.reducerPath]: ankrApi.reducer,
   auth: authPersistReducer,
   allowance: allowanceReducer,
   dialog,
@@ -132,6 +134,7 @@ export const store = configureStore({
       .concat(listenerMiddleware.middleware)
       .concat(...requestsMiddleware)
       .concat(web3Api.middleware)
+      .concat(ankrApi.middleware)
       .concat(routerMiddleware(historyInstance))
       .concat(sagaMiddleware)
       .concat(featuresConfig.isCoin98SupportActive ? [networkSwitchCoin98] : [])
