@@ -46,11 +46,15 @@ function mapMetrics(data: IMetricsResponse) {
         ? EMetricsServiceName.MATIC
         : (metrics.serviceName as EMetricsServiceName);
 
+    const totalStaked = new BigNumber(metrics.totalStaked);
+    const totalStakedUsd = new BigNumber(metrics.totalStakedUsd);
+    const apy = new BigNumber(removeWhiteSpace(metrics.apy) || 0);
+
     acc[serviceName] = {
-      totalStaked: new BigNumber(metrics.totalStaked),
-      totalStakedUsd: new BigNumber(metrics.totalStakedUsd),
+      totalStaked,
+      totalStakedUsd,
       stakers: metrics.stakers,
-      apy: new BigNumber(removeWhiteSpace(metrics.apy) || 0),
+      apy,
     };
 
     return acc;

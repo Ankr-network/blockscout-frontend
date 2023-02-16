@@ -1,14 +1,11 @@
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { AvailableWriteProviders } from '@ankr.com/provider';
-
-import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getRewards } from 'modules/provider/actions/getRewards';
+import { useGetProviderRewardsQuery } from 'modules/provider/actions/getRewards';
+import { LONG_CACHE_TIME } from 'modules/stake-ankr/const';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
@@ -18,17 +15,17 @@ interface IUseProviderNotification {
   isLoading: boolean;
 }
 
-export const useProviderNotification = (): IUseProviderNotification => {
+export const useProviderNotification = (
+  userAddress: string,
+): IUseProviderNotification => {
   const dispatchRequest = useDispatchRequest();
-  const { data: rewardsData, loading: isLoading } = useQuery({
-    type: getRewards,
-  });
 
-  const { data: metrics } = useQuery({
-    type: getMetrics,
-  });
+  const { data: rewardsData, isFetching: isLoading } =
+    useGetProviderRewardsQuery(userAddress.toLowerCase(), {
+      refetchOnMountOrArgChange: LONG_CACHE_TIME,
+    });
 
-  const { address } = useConnectedData(AvailableWriteProviders.ethCompatible);
+  const { data: metrics } = useQuery({ type: getMetrics });
 
   const ethAmount = rewardsData ?? ZERO;
 
@@ -42,14 +39,9 @@ export const useProviderNotification = (): IUseProviderNotification => {
     [ethAmount, metrics],
   );
 
-  useProviderEffect(() => {
-    if (!address) {
-      return;
-    }
-
+  useEffect(() => {
     dispatchRequest(getMetrics());
-    dispatchRequest(getRewards(address));
-  }, [address]);
+  }, [dispatchRequest]);
 
   return {
     ethAmount,

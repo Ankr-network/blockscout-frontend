@@ -1,8 +1,10 @@
 import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useDispatch } from 'react-redux';
 
 import { DEFAULT_ROUNDING, ZERO } from 'modules/common/const';
+import { useInitEffect } from 'modules/common/hooks/useInitEffect';
 import { BigNumberish } from 'modules/common/utils/numbers/converters';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics/const';
@@ -25,6 +27,7 @@ export const useStakeStats = ({
   amount,
   metricsServiceName,
 }: IStatsProps): IUseStakeStats => {
+  const dispatch = useDispatch();
   const { data: metricsData } = useQuery({ type: getMetrics });
   const metrics = metricsData ? metricsData[metricsServiceName] : undefined;
 
@@ -50,6 +53,10 @@ export const useStakeStats = ({
     : t('stake.stats.apy-value', {
         value: apy.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
       });
+
+  useInitEffect(() => {
+    dispatch(getMetrics());
+  });
 
   return {
     apy: apyText,
