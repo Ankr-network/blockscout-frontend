@@ -27,7 +27,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      SLACK_WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN}}
 
     steps:
       - uses: act10ns/slack@v1
