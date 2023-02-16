@@ -148,6 +148,9 @@ export const {
             voucherAmount: userBalances?.creditVoucherAmount
               ? new BigNumber(userBalances.creditVoucherAmount)
               : undefined,
+            voucherExpiresDate: userBalances?.voucherExpiresAt
+              ? new Date(+userBalances.voucherExpiresAt * 1000)
+              : undefined,
           };
         });
 

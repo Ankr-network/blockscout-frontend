@@ -21,8 +21,13 @@ export const ClientBalancesInfo = ({
             Balance
           </Typography>
           <Typography variant="body2">
-            {renderBalance(currentClient.amount)}
+            {renderBalance(currentClient.voucherAmount)} Voucher credits
           </Typography>
+          {currentClient.voucherExpiresDate && (
+            <Typography variant="caption" component="p">
+              expires {currentClient?.voucherExpiresDate?.toLocaleString()}
+            </Typography>
+          )}
         </Grid>
         <Grid item xs={size}>
           <Typography variant="subtitle2" component="p">
