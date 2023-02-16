@@ -1,12 +1,15 @@
-import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
+import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+
+import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
-import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
 import { resetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
+import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
 
 const getLastAllowanceTransaction = async (
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
+  getState: GetState,
   address: string,
   transactionHash: string,
 ) => {
@@ -22,12 +25,13 @@ const getLastAllowanceTransaction = async (
       }),
     );
   } else {
-    resetTransactionSliceAndRedirect(dispatch, address);
+    resetTransactionSliceAndRedirect(dispatch, getState, address);
   }
 };
 
 export const checkAllowanceStep = async (
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
+  getState: GetState,
   rejectAllowanceTransactionHash?: string,
   allowanceTransactionHash?: string,
 ) => {
@@ -40,14 +44,19 @@ export const checkAllowanceStep = async (
       topUpCheckAllowanceTransaction.initiate(rejectAllowanceTransactionHash),
     );
 
-    resetTransactionSliceAndRedirect(dispatch, address);
+    resetTransactionSliceAndRedirect(dispatch, getState, address);
 
     return TopUpStep.deposit;
   }
 
   if (!allowanceTransactionHash) return null;
 
-  getLastAllowanceTransaction(dispatch, address, allowanceTransactionHash);
+  getLastAllowanceTransaction(
+    dispatch,
+    getState,
+    address,
+    allowanceTransactionHash,
+  );
 
   return TopUpStep.deposit;
 };

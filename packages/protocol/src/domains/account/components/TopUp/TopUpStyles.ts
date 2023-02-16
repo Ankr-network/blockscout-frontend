@@ -1,8 +1,12 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useTopUpStyles = makeStyles<{ canPayOnlyByCard?: boolean }>()(
-  (theme: Theme, props: { canPayOnlyByCard?: boolean }) => ({
+interface TopUpStyleProps {
+  canPayOnlyByCard?: boolean;
+}
+
+export const useTopUpStyles = makeStyles<TopUpStyleProps>()(
+  (theme: Theme, props) => ({
     root: {
       borderRadius: 24,
       padding: theme.spacing(2 * 2.5, 2 * 3.75, 2 * 3.25),

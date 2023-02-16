@@ -11,6 +11,7 @@ export interface SecondaryTabProps {
   label: ReactNode | string;
   onClick?: () => void;
   size?: TabSize;
+  startIcon?: ReactNode;
 }
 
 export const SecondaryTab = ({
@@ -20,6 +21,7 @@ export const SecondaryTab = ({
   label,
   onClick,
   size = TabSize.Medium,
+  startIcon,
 }: SecondaryTabProps) => {
   const { classes, cx } = useSecondaryTabStyles({
     isLast,
@@ -32,6 +34,7 @@ export const SecondaryTab = ({
       className={cx(className, classes.secondaryTab)}
       onClick={onClick}
       variant="contained"
+      startIcon={startIcon}
       fullWidth
     >
       {label}

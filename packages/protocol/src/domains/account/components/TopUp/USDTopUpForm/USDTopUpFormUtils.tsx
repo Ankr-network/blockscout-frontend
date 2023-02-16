@@ -3,15 +3,16 @@ import { Box } from '@mui/material';
 import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
 import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
 
 import { AmountField } from '../ANKRTopUpForm/AmountField';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
 import {
-  DEFAULT_USD_VALUE,
   DEFAULT_USD_VALUE_STRING,
   MAX_USD_DECIMALS,
   USD_CURRENCY,
+  USD_THRESHOLD_VALUE,
 } from 'domains/account/actions/usdTopUp/const';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
@@ -19,9 +20,10 @@ import { RateBlock } from '../ANKRTopUpForm/RateBlock';
 import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
+import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 
-const validateAmount = (value: string) => {
+export const validateAmount = (value: string) => {
   if (!value) {
     return t('validation.required');
   }
@@ -32,9 +34,9 @@ const validateAmount = (value: string) => {
     return t('validation.number-only');
   }
 
-  if (currentAmount.isLessThan(DEFAULT_USD_VALUE)) {
+  if (currentAmount.isLessThan(USD_THRESHOLD_VALUE)) {
     return t('validation.min', {
-      value: DEFAULT_USD_VALUE,
+      value: USD_THRESHOLD_VALUE,
     });
   }
 
@@ -126,10 +128,13 @@ export const useOnTopUpSubmit = (
     useCardPayment();
 
   const [showEmailBanner, setShowEmailBanner] = useState(false);
+  const dispatch = useDispatch();
 
   const onSuccess = useCallback(
     async (data: TopUpFormValues) => {
       const { id, amount } = data;
+
+      dispatch(resetTopUpOrigin());
 
       const { data: url } = await handleFetchLinkForCardPayment(amount, id);
 
@@ -143,7 +148,7 @@ export const useOnTopUpSubmit = (
         window.location.href = url;
       }
     },
-    [handleFetchLinkForCardPayment, trackSubmit],
+    [dispatch, handleFetchLinkForCardPayment, trackSubmit],
   );
 
   const onClose = useCallback(() => {

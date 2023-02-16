@@ -66,3 +66,9 @@ export type TrackTopUpSubmit = (
 export type TrackTopUp = (
   params: Omit<TopUpTrackingParams, 'hasPremium' | 'address' | 'walletId'>,
 ) => void;
+
+export enum TopUpOrigin {
+  BILLING,
+  ENDPOINTS,
+  PRICING,
+}

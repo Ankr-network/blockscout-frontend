@@ -28,6 +28,7 @@ import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { useLazyTopUpGetLastLockedFundsEventQuery } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -248,6 +249,7 @@ export const useOnTopUpSubmit = (
   const { handleSetAmount } = useTopUp();
 
   const onSuccess = useCallback(() => {
+    dispatch(resetTopUpOrigin());
     dispatch(push(AccountRoutesConfig.topUp.generatePath()));
   }, [dispatch]);
 

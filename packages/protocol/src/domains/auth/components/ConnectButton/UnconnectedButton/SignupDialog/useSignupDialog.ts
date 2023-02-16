@@ -4,13 +4,15 @@ import { SignupDialogState } from './SignupDialogContent';
 import { t } from '@ankr.com/common';
 
 interface SignupDialogHookProps {
-  onManualClose: () => void;
   hasOauthLogin?: boolean;
+  onGoogleSignUp?: () => void;
+  onManualClose: () => void;
 }
 
 export const useSignupDialog = ({
-  onManualClose,
   hasOauthLogin,
+  onGoogleSignUp = () => {},
+  onManualClose,
 }: SignupDialogHookProps) => {
   const { handleFetchLoginParams, loading } = useOauthLoginParams();
 
@@ -44,10 +46,15 @@ export const useSignupDialog = ({
     onManualClose();
   }, [hasOauthLogin, onManualClose]);
 
+  const onGoogleButtonClick = useCallback(() => {
+    handleFetchLoginParams();
+    onGoogleSignUp();
+  }, [handleFetchLoginParams, onGoogleSignUp]);
+
   return {
     currentState,
     setWeb3State: () => setCurrentState(SignupDialogState.WEB3),
-    handleFetchLoginParams,
+    onGoogleButtonClick,
     loading,
     dialogTitle,
     onDialogClose,

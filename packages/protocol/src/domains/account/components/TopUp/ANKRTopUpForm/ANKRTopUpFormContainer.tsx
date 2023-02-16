@@ -30,11 +30,11 @@ export const ANKRTopUpFormContainer = ({
   return (
     <>
       <ANKRTopUpForm
-        onSubmit={onSubmit}
         hasLoginStep={hasLoginStep}
         initialValues={initialValues}
-        validateAmount={validateAmount}
         isWalletConnected={isWalletConnected}
+        onSubmit={onSubmit}
+        validateAmount={validateAmount}
       />
       <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
     </>
