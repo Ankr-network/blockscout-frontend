@@ -63,9 +63,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
           isTvlLoading={loading}
           mainHref={EthereumRoutes.stake.generatePath()}
           moreHref={ANKR_ETH_LANDING}
-          stakedTvl={metrics?.eth.totalStaked}
+          stakedTvl={metrics?.eth.totalStakedUsd}
           title={t('features.ethereum')}
-          token={Token.ETH}
           onStakeClick={onTrackEnterStakingFlow(Token.ETH)}
         />
 
@@ -80,9 +79,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
               : StakeMaticEthRoutes.stake.generatePath()
           }
           moreHref={ANKR_MATIC_LANDING}
-          stakedTvl={metrics?.matic.totalStaked}
+          stakedTvl={metrics?.matic.totalStakedUsd}
           title={t('features.polygon')}
-          token={Token.MATIC}
           onStakeClick={onTrackEnterStakingFlow(Token.MATIC)}
         />
 
@@ -93,9 +91,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
           isTvlLoading={loading}
           mainHref={BinanceRoutes.stake.generatePath()}
           moreHref={ANKR_BNB_LANDING}
-          stakedTvl={metrics?.bnb.totalStaked}
+          stakedTvl={metrics?.bnb.totalStakedUsd}
           title={t('features.binance')}
-          token={Token.BNB}
           onStakeClick={onTrackEnterStakingFlow(Token.BNB)}
         />
 
@@ -106,9 +103,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
           isTvlLoading={loading}
           mainHref={FantomRoutes.stake.generatePath()}
           moreHref={ANKR_FTM_LANDING}
-          stakedTvl={metrics?.ftm.totalStaked}
+          stakedTvl={metrics?.ftm.totalStakedUsd}
           title={t('features.fantom')}
-          token={Token.FTM}
           onStakeClick={onTrackEnterStakingFlow(Token.FTM)}
         />
 
@@ -119,9 +115,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
           isTvlLoading={loading}
           mainHref={AvalancheRoutes.stake.generatePath()}
           moreHref={ANKR_AVAX_LANDING}
-          stakedTvl={metrics?.avax.totalStaked}
+          stakedTvl={metrics?.avax.totalStakedUsd}
           title={t('features.avalanche')}
-          token={Token.AVAX}
           onStakeClick={onTrackEnterStakingFlow(Token.AVAX)}
         />
 
@@ -136,9 +131,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
               : undefined
           }
           moreHref={ANKR_DOT_LANDING}
-          stakedTvl={metrics?.dot.totalStaked}
+          stakedTvl={metrics?.dot.totalStakedUsd}
           title={t('features.polkadot')}
-          token={Token.DOT}
           onStakeClick={onTrackEnterStakingFlow(Token.DOT)}
         />
 
@@ -154,9 +148,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
                 : undefined
             }
             moreHref={ANKR_KSM_LANDING}
-            stakedTvl={metrics?.ksm.totalStaked}
+            stakedTvl={metrics?.ksm.totalStakedUsd}
             title={t('features.ksm')}
-            token={Token.KSM}
             onStakeClick={onTrackEnterStakingFlow(Token.KSM)}
           />
         )}
@@ -169,9 +162,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
             isTvlLoading={loading}
             mainHref={PolkadotRoutes.stake.generatePath(EPolkadotNetworks.WND)}
             moreHref={ANKR_DOT_LANDING}
-            stakedTvl={metrics?.wnd.totalStaked}
+            stakedTvl={metrics?.wnd.totalStakedUsd}
             title={t('features.wnd')}
-            token={Token.WND}
             onStakeClick={onTrackEnterStakingFlow(Token.WND)}
           />
         )}
@@ -188,9 +180,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
             isTvlLoading={loading}
             mainHref={EthereumSSVRoutes.stake.generatePath()}
             moreHref={ANKR_SSV_LANDING}
-            stakedTvl={metrics?.[EMetricsServiceName.ETH_SSV]?.totalStaked}
+            stakedTvl={metrics?.[EMetricsServiceName.ETH_SSV]?.totalStakedUsd}
             title={t('features.ethereum-ssv')}
-            token={Token.ETH}
             onStakeClick={onTrackEnterStakingFlow(Token.asETHc)}
           />
         )}
@@ -205,7 +196,6 @@ export const LiquidStakingTokens = (): JSX.Element => {
             moreHref=" "
             stakedTvl={ZERO}
             title={t('features.sui')}
-            token={Token.SUI}
             onStakeClick={onTrackEnterStakingFlow(Token.SUI)}
           />
         )}
@@ -221,9 +211,8 @@ export const LiquidStakingTokens = (): JSX.Element => {
             isTvlLoading={loading}
             mainHref={XDCRoutes.stake.generatePath()}
             moreHref=""
-            stakedTvl={metrics?.[EMetricsServiceName.XDC]?.totalStaked}
+            stakedTvl={metrics?.[EMetricsServiceName.XDC]?.totalStakedUsd}
             title={t('features.xdc')}
-            token={Token.XDC}
             onStakeClick={onTrackEnterStakingFlow(Token.ankrXDC)}
           />
         )}

@@ -2,10 +2,11 @@ import { t } from '@ankr.com/common';
 import { Box, Typography } from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
 
-import { featuresConfig } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { RoutesConfig as AnkrRoutes } from 'modules/stake-ankr/RoutesConfig';
 import { getMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
+import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTVL } from 'modules/stake-mgno/actions/getTVL';
 import { RoutesConfig as MgnoRoutes } from 'modules/stake-mgno/Routes';
 import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
@@ -29,6 +30,12 @@ export const DelegateStakingTokens = (): JSX.Element => {
     type: getTVL,
   });
 
+  const { data: mGNOPriceData, loading: isMGNOPriceLoading } = useQuery({
+    type: getMGNOPrice,
+  });
+
+  const mgnoTvlUsd = (mgnoTvl || ZERO).multipliedBy(mGNOPriceData || ZERO);
+
   return (
     <Box mb={6.5}>
       <Typography className={classes.title} variant="h3">
@@ -38,16 +45,14 @@ export const DelegateStakingTokens = (): JSX.Element => {
       <Features>
         <FeatureItem
           isDelegatedStaking
-          isIntegerTvl
           apy={metrics && +metrics.ankr.apy}
           iconSlot={<AnkrIcon />}
           isApyLoading={loading}
           isTvlLoading={loading}
           mainHref={AnkrRoutes.stake.generatePath()}
           manageHref={AnkrRoutes.main.generatePath()}
-          stakedTvl={metrics?.ankr.totalStaked}
+          stakedTvl={metrics?.ankr.totalStakedUsd}
           title={t('features.ankr')}
-          token={Token.ANKR}
           onManageClick={onTrackEnterDelegatedStakingFlow(
             Token.ANKR,
             'delegated_staking_manage',
@@ -64,12 +69,11 @@ export const DelegateStakingTokens = (): JSX.Element => {
             apy={mgnoApr?.toNumber() ?? 0}
             iconSlot={<MGNOIcon />}
             isApyLoading={isMGNOApyLoading}
-            isTvlLoading={isMGNOTvlLoading}
+            isTvlLoading={isMGNOTvlLoading || isMGNOPriceLoading}
             mainHref={MgnoRoutes.stake.generatePath()}
             manageHref={MgnoRoutes.main.generatePath()}
-            stakedTvl={mgnoTvl ?? undefined}
+            stakedTvl={mgnoTvlUsd ?? undefined}
             title={t('features.mgno')}
-            token={Token.mGNO}
             onManageClick={onTrackEnterDelegatedStakingFlow(
               Token.mGNO,
               'delegated_staking_manage',
