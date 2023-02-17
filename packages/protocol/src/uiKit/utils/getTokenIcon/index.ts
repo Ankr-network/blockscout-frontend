@@ -2,6 +2,7 @@ import { ChainID } from 'modules/chains/types';
 
 import aptosIcon from './aptos.svg';
 import arbitrumIcon from './arbitrum.svg';
+import arbitrumNovaIcon from './arbitrum-nova.svg';
 import avaxIcon from './avax.svg';
 import bscIcon from './bsc.svg';
 import bttcIcon from './bttc.svg';
@@ -34,6 +35,7 @@ import filecoinIcon from './filecoin.svg';
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
   [ChainID.ARBITRUM]: arbitrumIcon,
+  [ChainID.ARBITRUM_NOVA]: arbitrumNovaIcon,
   [ChainID.AVALANCHE]: avaxIcon,
   [ChainID.BSC]: bscIcon,
   [ChainID.BTTC]: bttcIcon,

@@ -34,6 +34,7 @@ export const chainGroups: ChainGroup[] = [
     pluralName: getName('standard-evm-api', true),
     chains: [
       ChainID.ARBITRUM,
+      ChainID.ARBITRUM_NOVA,
       ChainID.AVALANCHE,
       ChainID.AVALANCHE_EVM,
       ChainID.AVALANCHE_FUJI,
