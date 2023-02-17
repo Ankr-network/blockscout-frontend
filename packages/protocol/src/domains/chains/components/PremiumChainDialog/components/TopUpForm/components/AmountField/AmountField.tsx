@@ -10,6 +10,7 @@ import { TopUpCurrency } from '../../types';
 import { hasError } from './utils/hasError';
 import { useAmountFieldStyles } from './AmountFieldStyles';
 import { useAutoWidth } from './hooks/useAutoWidth';
+import { useKey } from './hooks/useKey';
 
 export interface AmountFieldProps {
   amount?: string;
@@ -38,6 +39,8 @@ export const AmountField = ({
 
   const { classes, cx } = useAmountFieldStyles({ autoWidth, isModified });
 
+  const key = useKey(validate);
+
   return (
     <Box className={cx(classes.root, className)}>
       <div className={classes.autoWidth} ref={autoWidthRef}>
@@ -48,6 +51,7 @@ export const AmountField = ({
         component={InputField}
         disabled={isDisabled}
         hasError={hasError}
+        key={key}
         name="amount"
         parse={parse}
         validate={validate}
