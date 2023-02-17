@@ -11,20 +11,14 @@ export const clearCookie = (name: string) => {
 };
 
 export const getCookieByName = (cookieName: string) => {
-  const cookie: Record<string, any> = {};
+  const cookies = Object.fromEntries(
+    new URLSearchParams(document.cookie.replace(/; /g, '&')),
+  );
 
-  document?.cookie?.split(';').forEach(el => {
-    const [key, value] = el.split('=');
+  const cookie = cookies[cookieName];
 
-    const trimmed = key.trim();
-
-    cookie[trimmed] = value;
-  });
-
-  const cookieData = cookie[cookieName];
-
-  if (cookieData) {
-    return safeParseJSON(cookieData);
+  if (cookie) {
+    return safeParseJSON(cookie);
   }
 
   return null;
