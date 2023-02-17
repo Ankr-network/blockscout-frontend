@@ -347,7 +347,8 @@
         "title": "{chainName} {rpcs, plural, =1 {Endpoint} other { Endpoints }}",
         "title-multichain": "Endpoint",
         "websocket-title": "WebSocket",
-        "network-postfix": "{name} by ANKR Protocol"
+        "network-postfix": "{name} by ANKR Protocol",
+        "upgrade-now": "Upgrade Now"
       },
       "upgrade-banner": {
         "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
