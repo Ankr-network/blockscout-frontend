@@ -36,7 +36,7 @@ export const getTxEventsHistoryGroup = async ({
   }));
 
   const safeFromWei = (value: string | number): BigNumber => {
-    const integerAmount = new BigNumber(value).integerValue().toString();
+    const integerAmount = new BigNumber(value).integerValue().toFixed();
     return new BigNumber(web3.utils.fromWei(integerAmount));
   };
 
