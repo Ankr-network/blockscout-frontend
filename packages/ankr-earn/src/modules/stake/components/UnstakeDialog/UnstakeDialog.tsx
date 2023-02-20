@@ -165,7 +165,10 @@ export const UnstakeDialog = ({
                       maxDecimals={maxAmountDecimals}
                       name={FieldsNames.amount}
                       tokenName={tokenName}
-                      onMaxClick={setMaxAmount(form, maxAmountValue.toFormat())}
+                      onMaxClick={setMaxAmount(
+                        form,
+                        maxAmountValue?.toFixed(maxAmountValue?.dp()),
+                      )}
                     />
                   </Box>
 
