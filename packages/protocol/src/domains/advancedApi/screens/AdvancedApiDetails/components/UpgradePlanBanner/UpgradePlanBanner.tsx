@@ -8,12 +8,12 @@ import { getBannerContent } from './utils';
 import { useUpgradePlanBannerStyles } from './useUpgradePlanBannerStyles';
 
 interface IUpgradePlanBannerProps {
-  hasPrivateAccess: boolean;
+  hasPremium: boolean;
   loading: boolean;
 }
 
 export const UpgradePlanBanner = ({
-  hasPrivateAccess,
+  hasPremium,
   loading,
 }: IUpgradePlanBannerProps) => {
   const { isLightTheme } = useThemes();
@@ -29,7 +29,7 @@ export const UpgradePlanBanner = ({
     actionHash,
     actionProps,
     actionText,
-  } = useMemo(() => getBannerContent(hasPrivateAccess), [hasPrivateAccess]);
+  } = useMemo(() => getBannerContent(hasPremium), [hasPremium]);
 
   if (loading) return <UpgradePlanBannerSkeleton />;
 
