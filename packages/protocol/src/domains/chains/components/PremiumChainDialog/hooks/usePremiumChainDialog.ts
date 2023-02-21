@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { Item } from '../types';
 import { useContentType } from './useContentType';
 import { useDialogProps } from './useDialogProps';
-import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler.ts';
+import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 
 export interface PremiumChainDialogHookParams {
   items: Item[];
@@ -20,7 +20,7 @@ export const usePremiumChainDialog = ({
 }: PremiumChainDialogHookParams) => {
   const { contentType, setDefault, setSignUp, setTopUp } = useContentType();
 
-  const premiumUpgradeHandler = usePremiumUpgradeHandler({
+  const { premiumUpgradeHandler, pricingLink } = usePremiumUpgradeHandler({
     setSignUp,
     setTopUp,
     onTrack,
@@ -38,5 +38,6 @@ export const usePremiumChainDialog = ({
     onClose,
     onTrack,
     premiumUpgradeHandler,
+    pricingLink,
   });
 };

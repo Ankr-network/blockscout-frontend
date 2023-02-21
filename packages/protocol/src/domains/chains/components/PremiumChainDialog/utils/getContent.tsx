@@ -4,7 +4,7 @@ import { ContentType, Item } from '../types';
 import { DefaultContent } from '../components/DefaultContent/DefaultContent';
 import { SignUpContent } from '../components/SignUpContent';
 import { TopUpForm } from '../components/TopUpForm';
-import { usePremiumUpgradeHandler } from '../hooks/usePremiumUpgradeHandler.ts';
+import { usePremiumUpgradeHandler } from '../hooks/usePremiumUpgradeHandler';
 
 const { DEFAULT, SIGN_UP, TOP_UP } = ContentType;
 
@@ -13,7 +13,10 @@ export interface ContentParams {
   isV2?: boolean;
   items: Item[];
   onTrack?: () => void;
-  premiumUpgradeHandler: ReturnType<typeof usePremiumUpgradeHandler>;
+  pricingLink: string;
+  premiumUpgradeHandler: ReturnType<
+    typeof usePremiumUpgradeHandler
+  >['premiumUpgradeHandler'];
   resetTitle: () => void;
 }
 
@@ -23,6 +26,7 @@ export const getContent = ({
   items,
   onTrack,
   premiumUpgradeHandler,
+  pricingLink,
   resetTitle,
 }: ContentParams) => {
   const contentMap: Record<ContentType, ReactNode> = {
@@ -31,6 +35,7 @@ export const getContent = ({
         isV2={isV2}
         items={items}
         onPremiumUpgradeButtonClick={premiumUpgradeHandler}
+        pricingLink={pricingLink}
         onTrack={onTrack}
       />
     ),

@@ -9,6 +9,7 @@ export interface DefaultContentParams {
   isV2?: boolean;
   items: Item[];
   onPremiumUpgradeButtonClick: () => void;
+  pricingLink: string;
   onTrack?: () => void;
 }
 
@@ -16,6 +17,7 @@ export const DefaultContent = ({
   isV2,
   items,
   onPremiumUpgradeButtonClick,
+  pricingLink,
   onTrack,
 }: DefaultContentParams) => {
   const { classes, cx } = useDefaultContentStyles();
@@ -63,6 +65,7 @@ export const DefaultContent = ({
               {renderButton({
                 className: cx(classes.button, title),
                 onClick: clickHandlersMap[title],
+                pricingLink,
               })}
             </div>
           </div>
