@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useContentType } from './useContentType';
+import { PRICING_PATH } from 'domains/pricing/Routes';
 
 export type PremiumUpgradeHandlerParams = Pick<
   ReturnType<typeof useContentType>,
@@ -15,15 +16,22 @@ export const usePremiumUpgradeHandler = ({
   setSignUp,
   setTopUp,
 }: PremiumUpgradeHandlerParams) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isFreePremium } = useAuth();
 
-  return useCallback(() => {
+  const premiumUpgradeHandler = useCallback(() => {
     onTrack();
+
+    if (isFreePremium) return;
 
     if (isLoggedIn) {
       setTopUp();
     } else {
       setSignUp();
     }
-  }, [isLoggedIn, onTrack, setSignUp, setTopUp]);
+  }, [isLoggedIn, isFreePremium, onTrack, setSignUp, setTopUp]);
+
+  return {
+    premiumUpgradeHandler,
+    pricingLink: isFreePremium ? PRICING_PATH : '',
+  };
 };

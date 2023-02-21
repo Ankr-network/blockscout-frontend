@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { root } from '../../const';
 import { t } from '@ankr.com/common';
-import { useWSPlaceHoderStyles } from './useWSPlaceHolderStyles';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { PremiumLabel } from '../PremiumLabel';
+import { useWSPlaceHoderStyles } from './useWSPlaceHolderStyles';
 import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 
 const label = t(`${root}.endpoints.upgrade-now`);

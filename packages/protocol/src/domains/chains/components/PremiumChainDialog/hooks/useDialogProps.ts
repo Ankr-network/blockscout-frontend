@@ -4,7 +4,7 @@ import { IDialogProps } from 'uiKit/Dialog';
 import { getContent } from '../utils/getContent';
 import { useDialogTitle } from './useDialogTitle';
 import { useHasBreakdown } from 'uiKit/Theme/useTheme';
-import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler.ts';
+import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 
 const getDefaultMaxWidth = (hasBreakdown: boolean) =>
   hasBreakdown ? 600 : 980;
@@ -15,7 +15,10 @@ export interface DialogPropsParams {
   items: Item[];
   onClose: () => void;
   onTrack?: () => void;
-  premiumUpgradeHandler: ReturnType<typeof usePremiumUpgradeHandler>;
+  premiumUpgradeHandler: ReturnType<
+    typeof usePremiumUpgradeHandler
+  >['premiumUpgradeHandler'];
+  pricingLink: string;
 }
 
 export const useDialogProps = ({
@@ -25,6 +28,7 @@ export const useDialogProps = ({
   onClose,
   onTrack,
   premiumUpgradeHandler,
+  pricingLink,
 }: DialogPropsParams): Omit<IDialogProps, 'open'> => {
   const hasBreakdown = useHasBreakdown(DIALOG_BREAKDOWN);
 
@@ -36,6 +40,7 @@ export const useDialogProps = ({
       isV2,
       items,
       onTrack,
+      pricingLink,
       premiumUpgradeHandler,
       resetTitle,
     }),
