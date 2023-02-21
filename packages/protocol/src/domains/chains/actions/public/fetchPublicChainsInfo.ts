@@ -13,6 +13,7 @@ export interface IFetchPublicChainsInfoResult {
 export const {
   endpoints: { chainsFetchPublicChainsInfo },
   useLazyChainsFetchPublicChainsInfoQuery,
+  useChainsFetchPublicChainsInfoQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPublicChainsInfo: build.query<

@@ -9,10 +9,12 @@ export const PublicChainsItem = ({
   chain,
   publicChain,
   chainId,
+  timeframe,
   ...props
 }: ChainsItemQueryProps) => {
   const { totalRequests, loading } = usePublicChainsItem({
     chain,
+    timeframe,
   });
 
   const { isHighlighted, totalRequestsStr, urls, dummyMessage } =
@@ -29,6 +31,7 @@ export const PublicChainsItem = ({
       dummyMessage={dummyMessage}
       urls={urls}
       hasPremiumDialog={chain.premiumOnly}
+      timeframe={timeframe}
     />
   );
 };

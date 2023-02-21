@@ -13,6 +13,7 @@ export interface IFetchPrivateChainsInfoResult {
 export const {
   endpoints: { chainsFetchPrivateChainsInfo },
   useLazyChainsFetchPrivateChainsInfoQuery,
+  useChainsFetchPrivateChainsInfoQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPrivateChainsInfo: build.query<
