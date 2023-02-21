@@ -4,8 +4,8 @@ import { MATIC_ETH_BLOCK_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk';
 
 import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
+import { IBaseHistoryData } from 'modules/stake/types';
 
 import { getPolygonOnEthereumSDK } from '../utils/getPolygonOnEthereumSDK';
 

@@ -4,12 +4,13 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
+import { ZERO } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import {
   IUseHistoryData,
   useHistory,
-} from 'modules/common/components/HistoryDialog/hooks/useHistory';
-import { ZERO } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
+} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
+import { useDialog } from 'modules/dialogs';
 import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthTotalHistory';
 
 import {
@@ -49,8 +50,13 @@ jest.mock('../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => ({
   useStakedMATICTxHistory: jest.fn(),
 }));
 
-jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
   useHistory: jest.fn(),
+}));
+
+jest.mock('modules/dialogs', () => ({
+  useDialog: jest.fn(),
+  EKnownDialogs: { history: 'history' },
 }));
 
 jest.mock('modules/stake-matic/eth/actions/getMaticOnEthTotalHistory', () => ({
@@ -107,6 +113,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     unstakeEvents: [],
   };
 
+  const defaultUseDialogHookData = {
+    handleOpen: jest.fn(),
+  };
+
   beforeEach(() => {
     (useStakedAMATICCData as jest.Mock).mockReturnValue(
       defaultStakedMATICHookData,
@@ -121,6 +131,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
     );
 
     (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
+
+    (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
 
     (useLazyGetMaticOnEthTotalHistoryQuery as jest.Mock).mockReturnValue([
       jest.fn(),
@@ -147,22 +159,5 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICC', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
-  });
-
-  test('should open history dialog properly', async () => {
-    render(
-      <MemoryRouter>
-        <StakedAMATICC />
-      </MemoryRouter>,
-    );
-
-    const menuButton = await screen.findByTestId('menu-button');
-    menuButton.click();
-
-    const historyButton = await screen.findByText('Staking history');
-    historyButton.click();
-
-    const historyDialog = await screen.findByTestId('history-dialog');
-    expect(historyDialog).toBeInTheDocument();
   });
 });

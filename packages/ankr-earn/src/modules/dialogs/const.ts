@@ -7,4 +7,5 @@ export enum EKnownDialogs {
   connect = 'connect',
   polkadotExtension = 'polkadotExtension',
   history = 'history',
+  polkadotHistory = 'polkadotHistory',
 }

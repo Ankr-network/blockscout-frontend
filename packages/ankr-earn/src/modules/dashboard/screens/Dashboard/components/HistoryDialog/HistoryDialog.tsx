@@ -1,13 +1,10 @@
 import { Token } from 'modules/common/types/token';
+import { HistoryDialog as HistoryDialogUI } from 'modules/dashboard/components/HistoryDialog';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
-import { Dialog } from 'uiKit/Dialog';
 
 import { HistoryDialogContent } from './HistoryDialogContent';
-import { useHistoryDialogStyles } from './useHistoryDialogStyles';
 
 export const HistoryDialog = (): JSX.Element => {
-  const classes = useHistoryDialogStyles();
-
   const {
     isOpened,
     context: defaultSelectedToken,
@@ -15,8 +12,8 @@ export const HistoryDialog = (): JSX.Element => {
   } = useDialog<Token>(EKnownDialogs.history);
 
   return (
-    <Dialog className={classes.root} open={isOpened} onClose={handleClose}>
+    <HistoryDialogUI isOpened={isOpened} onClose={handleClose}>
       <HistoryDialogContent defaultSelectedToken={defaultSelectedToken} />
-    </Dialog>
+    </HistoryDialogUI>
   );
 };

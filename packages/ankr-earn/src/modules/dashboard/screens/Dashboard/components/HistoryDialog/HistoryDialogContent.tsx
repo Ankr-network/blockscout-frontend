@@ -1,17 +1,22 @@
 import { t } from '@ankr.com/common';
 
-import { useHistory } from 'modules/common/components/HistoryDialog/hooks/useHistory';
-import { getNetworkByToken } from 'modules/common/components/HistoryDialog/utils/getNetworkByToken';
 import { Token } from 'modules/common/types/token';
 import {
   History,
+  HistoryFooter,
   HistorySelect,
   HistoryTable,
   HistoryTypeButtons,
 } from 'modules/dashboard/components/History';
+import { useHistory } from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
+import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+
+import { HISTORY_STEP_WEEKS } from '../../const';
+import { useTokenSelectOptions } from '../../hooks/liquid-tokens/useTokenSelectOptions';
+import { useHistoryTypeButtons } from '../../hooks/useHistoryTypeButtons';
 
 import { useHistoryTokenSelect } from './useHistoryTokenSelect';
-import { useHistoryTypeButtons } from './useHistoryTypeButtons';
+import { getNetworkByToken } from './utils/getNetworkByToken';
 
 interface IHistoryDialogContentProps {
   defaultSelectedToken: Token;
@@ -27,6 +32,8 @@ export const HistoryDialogContent = ({
     useHistoryTypeButtons();
 
   const networkByToken = getNetworkByToken(selectedToken);
+
+  const selectOptions = useTokenSelectOptions();
 
   const {
     stakeEvents,
@@ -44,20 +51,35 @@ export const HistoryDialogContent = ({
 
   const isFirstLoading = isLoading && !tableData.length;
 
-  const footerText =
-    weeksAmount > 2
-      ? t('history-dialog.date-range', { value: weeksAmount })
-      : undefined;
+  const isNotDefaultHisoryRange = weeksAmount > HISTORY_STEP_WEEKS;
+
+  const footerText = useLocaleMemo(() => {
+    if (isLoading) {
+      return t('history-dialog.loading-date-range');
+    }
+
+    if (isNotDefaultHisoryRange) {
+      return t('history-dialog.date-range', { value: weeksAmount });
+    }
+
+    return t('history-dialog.default-date-range');
+  }, [isLoading, weeksAmount]);
 
   return (
     <History
-      footerText={footerText}
+      footerSlot={
+        <HistoryFooter
+          footerText={footerText}
+          isLoading={isLoading}
+          onShowMoreClick={handleShowMore}
+        />
+      }
       isFirstLoading={isFirstLoading}
-      isLoading={isLoading}
       tableSlot={<HistoryTable data={tableData} token={selectedToken} />}
       tokenSelectSlot={
         <HistorySelect
           isDisabled={isLoading}
+          options={selectOptions}
           value={selectedToken}
           onChange={onTokenSelectChange}
         />
@@ -70,7 +92,6 @@ export const HistoryDialogContent = ({
           onUnstakedClick={onUnstakedClick}
         />
       }
-      onShowMoreClick={handleShowMore}
     />
   );
 };

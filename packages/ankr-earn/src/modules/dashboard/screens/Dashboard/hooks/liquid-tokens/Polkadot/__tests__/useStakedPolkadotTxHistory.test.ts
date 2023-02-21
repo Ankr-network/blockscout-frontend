@@ -4,13 +4,11 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { Token } from 'modules/common/types/token';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
 import { fetchTxHistory } from 'modules/stake-polkadot/actions/fetchTxHistory';
 import { ETxTypes } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
-import { getPolkadotTxLink } from 'modules/stake-polkadot/utils/getPolkadotTxLink';
 import { useAppDispatch } from 'store/useAppDispatch';
 
 import { useStakedPolkadotTxHistory } from '../useStakedPolkadotTxHistory';
@@ -96,24 +94,14 @@ describe('modules/dashboard/screens/Dashboard/hooks/useStakedPolkadotTxHistory',
       useStakedPolkadotTxHistory(EPolkadotNetworks.DOT),
     );
 
-    expect(result.current.hasHistory).toBe(false);
     expect(result.current.isHistoryDataLoading).toBe(true);
     expect(result.current.pendingUnstakeHistory).toStrictEqual(
       [] as IPendingTableRow[],
     );
-    expect(result.current.txHistory).toBeNull();
-
-    expect(result.current.transactionHistory).toStrictEqual({
-      staked: [],
-      stakedToken: Token.DOT,
-      unstaked: [],
-      unstakedToken: Token.aDOTb,
-    } as IHistoryDialogData);
   });
 
   it('Case 2: Checking on available data', () => {
     const {
-      completed: [COMPLETED_ONE, COMPLETED_TWO],
       pending: [PENDING_ONE, PENDING_TWO],
     } = defaultHistoryData;
 
@@ -124,9 +112,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/useStakedPolkadotTxHistory',
       useStakedPolkadotTxHistory(EPolkadotNetworks.DOT),
     );
 
-    expect(result.current.hasHistory).toBe(true);
     expect(result.current.isHistoryDataLoading).toBe(false);
-    expect(result.current.txHistory).toStrictEqual(defaultHistoryData);
 
     expect(result.current.pendingUnstakeHistory).toStrictEqual([
       {
@@ -142,27 +128,6 @@ describe('modules/dashboard/screens/Dashboard/hooks/useStakedPolkadotTxHistory',
         token: Token.aDOTb,
       },
     ] as IPendingTableRow[]);
-
-    expect(result.current.transactionHistory).toStrictEqual({
-      staked: [
-        {
-          amount: COMPLETED_ONE.txAmount,
-          date: COMPLETED_ONE.txDate,
-          hash: COMPLETED_ONE.txHash,
-          link: getPolkadotTxLink(EPolkadotNetworks.DOT, COMPLETED_ONE.txHash),
-        },
-      ],
-      stakedToken: Token.DOT,
-      unstaked: [
-        {
-          amount: COMPLETED_TWO.txAmount,
-          date: COMPLETED_TWO.txDate,
-          hash: COMPLETED_TWO.txHash,
-          link: getPolkadotTxLink(EPolkadotNetworks.DOT, COMPLETED_TWO.txHash),
-        },
-      ],
-      unstakedToken: Token.aDOTb,
-    } as IHistoryDialogData);
   });
 
   it('Case 3: Checking on history loading', () => {

@@ -3,10 +3,12 @@ import { ChangeEvent } from 'react';
 
 import { ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { IHistoryTableRow } from 'modules/dashboard/types';
 
 import { History } from './History';
+import { HistoryFooter } from './HistoryFooter';
 import { HistorySelect } from './HistorySelect';
-import { HistoryTable, IHistoryTableRow } from './HistoryTable';
+import { HistoryTable } from './HistoryTable';
 import { HistoryTypeButtons } from './HistoryTypeButtons';
 
 export default {
@@ -36,24 +38,34 @@ export const Default = (): JSX.Element => {
     console.log(e.target.value);
   };
 
+  const options = [
+    { label: 'aBNBc', value: Token.aBNBc },
+    { label: 'aETHc', value: Token.aETHc },
+  ];
+
   return (
     <Box maxWidth={600} mx="auto">
       <Paper>
         <Box py={4}>
           <History
-            footerText={undefined}
+            footerSlot={
+              <HistoryFooter
+                footerText="Some text"
+                isLoading={isLoading}
+                onShowMoreClick={onShowMoreClick}
+              />
+            }
             isFirstLoading={isFirstLoading}
-            isLoading={isLoading}
             tableSlot={<HistoryTable data={tableData} token={token} />}
             tokenSelectSlot={
               <HistorySelect
                 isDisabled={isLoading}
+                options={options}
                 value={token}
                 onChange={onTokenSelectChange}
               />
             }
             typeButtonsSlot={<HistoryTypeButtons isStakedActive />}
-            onShowMoreClick={onShowMoreClick}
           />
         </Box>
       </Paper>

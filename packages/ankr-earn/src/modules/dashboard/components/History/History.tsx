@@ -1,35 +1,26 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@material-ui/core';
 
-import { Button } from 'uiKit/Button';
 import { Spinner } from 'uiKit/Spinner';
 
 import { useHistoryStyles } from './useHistoryStyles';
 
 interface IHistoryProps {
-  isLoading?: boolean;
   isFirstLoading?: boolean;
+  footerSlot?: JSX.Element;
   typeButtonsSlot?: JSX.Element;
   tokenSelectSlot?: JSX.Element;
   tableSlot?: JSX.Element;
-  footerText?: string;
-  onShowMoreClick?: VoidFunction;
 }
 
 export const History = ({
-  isLoading = false,
   isFirstLoading = false,
+  footerSlot,
   typeButtonsSlot,
   tokenSelectSlot,
   tableSlot,
-  footerText,
-  onShowMoreClick,
 }: IHistoryProps): JSX.Element => {
   const classes = useHistoryStyles();
-
-  const defaultFooterText = isLoading
-    ? t('history-dialog.loading-date-range')
-    : t('history-dialog.default-date-range');
 
   return (
     <div className={classes.container} data-testid="history-dialog">
@@ -50,23 +41,7 @@ export const History = ({
           <>
             {tableSlot}
 
-            <div className={classes.footer}>
-              <Button
-                className={classes.showMoreButton}
-                disabled={isLoading}
-                isLoading={isLoading}
-                variant="outlined"
-                onClick={onShowMoreClick}
-              >
-                {isLoading
-                  ? t('history-dialog.loading-history')
-                  : t('history-dialog.show-more')}
-              </Button>
-
-              <Typography className={classes.footerText} color="textSecondary">
-                {footerText ?? defaultFooterText}
-              </Typography>
-            </div>
+            {footerSlot}
           </>
         )}
       </div>

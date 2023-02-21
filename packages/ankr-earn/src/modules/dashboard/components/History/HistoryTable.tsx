@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import { uid } from 'react-uid';
@@ -7,17 +6,11 @@ import { uid } from 'react-uid';
 import { LongFloat } from 'modules/common/components/LongFloat';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTokenName } from 'modules/common/utils/getTokenName';
+import { IHistoryTableRow } from 'modules/dashboard/types';
 import { NavLink } from 'uiKit/NavLink';
 import { Tooltip } from 'uiKit/Tooltip';
 
 import { useHistoryStyles } from './useHistoryStyles';
-
-export interface IHistoryTableRow {
-  amount?: BigNumber;
-  date?: Date;
-  hash?: string;
-  link?: string;
-}
 
 interface IHistoryTableProps {
   data?: IHistoryTableRow[];
@@ -43,7 +36,7 @@ export const HistoryTable = ({
 
           <th className={classes.th}>{t('history-dialog.hash')}</th>
 
-          <th className={classes.th}>{t('history-dialog.stake')}</th>
+          <th className={classes.th}>{t('history-dialog.amount')}</th>
         </tr>
       </thead>
 

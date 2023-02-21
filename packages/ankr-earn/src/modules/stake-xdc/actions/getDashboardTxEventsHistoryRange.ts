@@ -11,9 +11,9 @@ import { getProviderManager } from 'modules/api/getProviderManager';
 import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
-import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { XDC_PROVIDER_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { IBaseHistoryData } from 'modules/stake/types';
 
 import { XDC_BLOCK_14_DAYS_OFFSET } from '../const';
 

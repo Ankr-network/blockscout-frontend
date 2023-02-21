@@ -1,24 +1,24 @@
 import { ChangeEvent, useCallback } from 'react';
 
 import { Token } from 'modules/common/types/token';
-import { Select } from 'uiKit/Select';
+import { ISelectOption, Select } from 'uiKit/Select';
 
 import { useHistoryStyles } from './useHistoryStyles';
-import { useTokenSelectOptions } from './useTokenSelectOptions';
 
 interface IHistorySelectProps {
   isDisabled?: boolean;
+  options: ISelectOption[];
   value?: Token;
   onChange?: (event: ChangeEvent<{ value: unknown }>) => void;
 }
 
 export const HistorySelect = ({
   isDisabled,
+  options,
   value,
   onChange,
 }: IHistorySelectProps): JSX.Element => {
   const classes = useHistoryStyles();
-  const options = useTokenSelectOptions();
 
   const renderValue = useCallback(
     option => {

@@ -1,182 +1,185 @@
 import { alpha, makeStyles } from '@material-ui/core';
 
-export const useHistoryStyles = makeStyles(theme => ({
-  container: {
-    '&&': {
-      textAlign: 'center',
-      padding: theme.spacing(0, 3.75),
+export const useHistoryStyles = makeStyles(
+  theme => ({
+    container: {
+      '&&': {
+        textAlign: 'center',
+        padding: theme.spacing(0, 3.75),
+      },
     },
-  },
 
-  tableWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    maxHeight: 500,
-    height: '50vh',
-    overflowY: 'auto',
-  },
+    tableWrapper: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      maxHeight: 500,
+      height: '50vh',
+      overflowY: 'auto',
+    },
 
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-  },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+    },
 
-  header: {
-    marginBottom: theme.spacing(2.5),
-  },
+    header: {
+      marginBottom: theme.spacing(2.5),
+    },
 
-  transactionTypeWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: theme.spacing(3),
-  },
+    transactionTypeWrapper: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginBottom: theme.spacing(3),
+    },
 
-  transactionType: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 14,
-    fontWeight: 600,
-    width: 'auto',
-    background: alpha(theme.palette.text.secondary, 0.15),
-    borderRadius: 12,
-    padding: theme.spacing(0.5),
-  },
+    transactionType: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: 14,
+      fontWeight: 600,
+      width: 'auto',
+      background: alpha(theme.palette.text.secondary, 0.15),
+      borderRadius: 12,
+      padding: theme.spacing(0.5),
+    },
 
-  typeButton: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 36,
-    minWidth: 76,
-    background: 'none',
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(0.5),
-    padding: theme.spacing(0.5, 0.75),
-
-    '&:hover': {
+    typeButton: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 36,
+      minWidth: 76,
       background: 'none',
+      color: theme.palette.text.secondary,
+      marginRight: theme.spacing(0.5),
+      padding: theme.spacing(0.5, 0.75),
+
+      '&:hover': {
+        background: 'none',
+        color: theme.palette.primary.main,
+      },
+
+      '&:last-of-type': {
+        marginRight: 0,
+      },
+    },
+
+    typeButtonActive: {
       color: theme.palette.primary.main,
-    },
-
-    '&:last-of-type': {
-      marginRight: 0,
-    },
-  },
-
-  typeButtonActive: {
-    color: theme.palette.primary.main,
-    cursor: 'default',
-    background: theme.palette.background.paper,
-    borderRadius: 12,
-
-    '&:hover': {
+      cursor: 'default',
       background: theme.palette.background.paper,
-    },
-  },
+      borderRadius: 12,
 
-  networkSeparator: {
-    borderRight: `1px solid ${alpha(theme.palette.text.secondary, 0.15)}`,
-  },
-
-  th: {
-    backgroundColor: theme.palette.background.default,
-    color: theme.palette.text.secondary,
-    height: 40,
-    fontSize: 13,
-    fontWeight: 700,
-    textAlign: 'left',
-    padding: theme.spacing(0, 2.5),
-
-    '&:first-of-type': {
-      borderRadius: '6px 0 0 6px',
+      '&:hover': {
+        background: theme.palette.background.paper,
+      },
     },
 
-    '&:last-of-type': {
-      borderRadius: '0 6px 6px 0',
+    networkSeparator: {
+      borderRight: `1px solid ${alpha(theme.palette.text.secondary, 0.15)}`,
     },
-  },
 
-  tr: {
-    height: 50,
-    borderBottom: `1px solid ${theme.palette.background.default}`,
+    th: {
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.text.secondary,
+      height: 40,
+      fontSize: 13,
+      fontWeight: 700,
+      textAlign: 'left',
+      padding: theme.spacing(0, 2.5),
 
-    '&:last-of-type': {
-      borderBottom: `none`,
+      '&:first-of-type': {
+        borderRadius: '6px 0 0 6px',
+      },
+
+      '&:last-of-type': {
+        borderRadius: '0 6px 6px 0',
+      },
     },
-  },
 
-  td: {
-    fontSize: 13,
-    fontWeight: 400,
-    padding: theme.spacing(0, 2.5),
-    textAlign: 'left',
-    minHeight: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    verticalAlign: 'baseline',
-  },
+    tr: {
+      height: 50,
+      borderBottom: `1px solid ${theme.palette.background.default}`,
 
-  amount: {
-    cursor: 'pointer',
-    fontSize: 13,
-    fontWeight: 400,
-    marginRight: theme.spacing(1.5),
-    lineHeight: 4,
-  },
+      '&:last-of-type': {
+        borderBottom: `none`,
+      },
+    },
 
-  empty: {
-    margin: 'auto',
-    padding: theme.spacing(14, 0, 22),
-    textAlign: 'center',
-    color: theme.palette.action.disabledBackground,
-    fontSize: 22,
-  },
+    td: {
+      fontSize: 13,
+      fontWeight: 400,
+      padding: theme.spacing(0, 2.5),
+      textAlign: 'left',
+      minHeight: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+      verticalAlign: 'baseline',
+    },
 
-  txLink: {
-    fontSize: 13,
-    fontWeight: 400,
-    padding: 0,
-    height: 'auto',
-    width: 'auto',
-    minWidth: 0,
+    amount: {
+      cursor: 'pointer',
+      fontSize: 13,
+      fontWeight: 400,
+      marginRight: '0.3em',
+      lineHeight: 4,
+    },
 
-    color: theme.palette.primary.main,
+    empty: {
+      margin: 'auto',
+      padding: theme.spacing(14, 0, 22),
+      textAlign: 'center',
+      color: theme.palette.action.disabledBackground,
+      fontSize: 22,
+    },
 
-    transition: '0.2s all',
+    txLink: {
+      fontSize: 13,
+      fontWeight: 400,
+      padding: 0,
+      height: 'auto',
+      width: 'auto',
+      minWidth: 0,
 
-    '&:hover': {
-      background: 'none',
+      color: theme.palette.primary.main,
+
+      transition: '0.2s all',
+
+      '&:hover': {
+        background: 'none',
+        color: theme.palette.text.primary,
+      },
+    },
+
+    tokenValue: {
       color: theme.palette.text.primary,
+      textAlign: 'left',
     },
-  },
 
-  tokenValue: {
-    color: theme.palette.text.primary,
-    textAlign: 'left',
-  },
+    selectRoot: {
+      marginBottom: theme.spacing(2),
+    },
 
-  selectRoot: {
-    marginBottom: theme.spacing(2),
-  },
+    select: {
+      borderRadius: 12,
+    },
 
-  select: {
-    borderRadius: 12,
-  },
+    footer: {
+      marginTop: theme.spacing(4),
+    },
 
-  footer: {
-    marginTop: theme.spacing(4),
-  },
+    showMoreButton: {
+      fontSize: 16,
+      width: '100%',
+    },
 
-  showMoreButton: {
-    fontSize: 16,
-    width: '100%',
-  },
-
-  footerText: {
-    marginTop: theme.spacing(2),
-    fontSize: 13,
-    fontWeight: 400,
-  },
-}));
+    footerText: {
+      marginTop: theme.spacing(2),
+      fontSize: 13,
+      fontWeight: 400,
+    },
+  }),
+  { index: 1 },
+);

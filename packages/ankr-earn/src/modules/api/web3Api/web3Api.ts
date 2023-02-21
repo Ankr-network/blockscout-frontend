@@ -7,6 +7,7 @@ import { CacheTags as StakeETHCacheTags } from 'modules/stake-eth/const';
 import { CacheTags as StakeFTMCacheTags } from 'modules/stake-fantom/const';
 import { CacheTags as StakeMaticOnEthCacheTags } from 'modules/stake-matic/eth/const';
 import { CacheTags as StakeMaticOnPolygonCacheTags } from 'modules/stake-matic/polygon/const';
+import { CacheTags as StakePolkadotCacheTags } from 'modules/stake-polkadot/const';
 import { CacheTags as StakeXDCCacheTags } from 'modules/stake-xdc/const';
 
 export const web3Api = createApi({
@@ -25,5 +26,6 @@ export const web3Api = createApi({
     ...Object.values(StakeMaticOnPolygonCacheTags),
     ...Object.values(StakeMaticOnEthCacheTags),
     ...Object.values(StakeETHCacheTags),
+    ...Object.values(StakePolkadotCacheTags),
   ],
 });
