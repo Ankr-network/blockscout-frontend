@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Button } from '@mui/material';
+import { CSVLink } from 'react-csv';
 
 import { PrivateStatTopRequests } from 'multirpc-sdk';
 import { Download } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import { downloadCsv } from 'modules/common/utils/downloadCsv';
 import { Timeframe } from 'domains/chains/types';
 import { ItemHeader } from '../../../ItemHeader';
 import { useHeaderStyles } from './useHeaderStyles';
@@ -17,11 +17,6 @@ export interface HeaderProps {
 export const Header = ({ timeframe, data }: HeaderProps) => {
   const { classes } = useHeaderStyles();
 
-  const download = useCallback(() => {
-    const title = `${new Date().toLocaleDateString()}_method-calls`;
-    return downloadCsv(JSON.stringify(data), title);
-  }, [data]);
-
   return (
     <div className={classes.root}>
       <ItemHeader
@@ -33,9 +28,10 @@ export const Header = ({ timeframe, data }: HeaderProps) => {
           variant="text"
           className={classes.button}
           startIcon={<Download />}
-          onClick={download}
         >
-          {t('chain-item.method-calls.download-button')}
+          <CSVLink data={data}>
+            {t('chain-item.method-calls.download-button')}
+          </CSVLink>
         </Button>
       )}
     </div>
