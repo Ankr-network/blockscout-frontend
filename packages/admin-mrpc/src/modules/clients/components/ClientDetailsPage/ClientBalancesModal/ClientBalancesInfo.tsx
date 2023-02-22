@@ -9,7 +9,7 @@ interface IClientBalancesInfoProps {
 }
 
 export const ClientBalancesInfo = ({
-  currentClient,
+  currentClient: { voucherAmount, voucherExpiresDate, amountUsd },
   size = 3,
 }: IClientBalancesInfoProps) => {
   const { classes } = useStyles();
@@ -21,16 +21,19 @@ export const ClientBalancesInfo = ({
             Balance
           </Typography>
           <Typography variant="body2">
-            {renderBalance(currentClient.amount)}
+            {renderBalance(voucherAmount)} Voucher credits
           </Typography>
+          {voucherExpiresDate && (
+            <Typography variant="caption" component="p">
+              expires {voucherExpiresDate?.toLocaleString()}
+            </Typography>
+          )}
         </Grid>
         <Grid item xs={size}>
           <Typography variant="subtitle2" component="p">
             Equivalent in USD
           </Typography>
-          <Typography variant="body2">
-            {renderUSD(currentClient.amountUsd)}
-          </Typography>
+          <Typography variant="body2">{renderUSD(amountUsd)}</Typography>
         </Grid>
       </Grid>
     </Box>

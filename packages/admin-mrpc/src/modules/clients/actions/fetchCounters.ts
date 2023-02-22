@@ -4,6 +4,7 @@ import {
   ICountersEntity,
   IEmailBindingEntity,
 } from 'multirpc-sdk';
+import { secondsToMilliseconds } from 'date-fns';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { ClientMapped } from '../store/clientsSlice';
@@ -148,6 +149,13 @@ export const {
             voucherAmount: userBalances?.creditVoucherAmount
               ? new BigNumber(userBalances.creditVoucherAmount)
               : undefined,
+            voucherExpiresDate:
+              userBalances?.voucherExpiresAt &&
+              +userBalances?.voucherExpiresAt > 0
+                ? new Date(
+                    secondsToMilliseconds(+userBalances.voucherExpiresAt),
+                  )
+                : undefined,
           };
         });
 
