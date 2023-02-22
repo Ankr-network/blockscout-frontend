@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
@@ -23,10 +23,11 @@ export const UpgradePlanBanner = ({
 
   const {
     image,
-    planTitle,
     planDescription,
-    proposalTitle,
+    planTitle,
     proposalDescription,
+    proposalTitle,
+    renderButton,
   } = useMemo(() => getBannerContent(hasPremium), [hasPremium]);
 
   const { isOpened, onOpen, onClose } = useDialog();
@@ -54,15 +55,7 @@ export const UpgradePlanBanner = ({
             {proposalDescription}
           </Box>
         </Box>
-        <Button
-          className={classes.action}
-          color="info"
-          onClick={onOpen}
-          size="large"
-          variant="contained"
-        >
-          {t('advanced-api.banner.action-text')}
-        </Button>
+        {renderButton({ className: classes.action, onClick: onOpen })}
       </Paper>
       <PremiumChainDialog onClose={onClose} open={isOpened} />
     </Box>

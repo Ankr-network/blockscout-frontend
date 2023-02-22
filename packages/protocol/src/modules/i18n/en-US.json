@@ -435,18 +435,19 @@
     "breadcrumbs": "Advanced API",
     "banner": {
       "your-plan-badge": "Your plan",
-      "action-text": "Upgrade",
       "free": {
-        "plan-title": "Free",
+        "action-text": "Upgrade",
         "plan-description": "You have 50 free requests/min",
-        "proposal-title": "Premium",
-        "proposal-description": "• 1000+ requests/min\n• Support by API devs\n• 0.7 USD for 10K requests"
+        "plan-title": "Free",
+        "proposal-description": "• 1000+ requests/min\n• Support by API devs\n• 0.7 USD for 10K requests",
+        "proposal-title": "Premium"
       },
       "premium": {
-        "plan-title": "Premium",
+        "action-text": "Sales team",
         "plan-description": "You have 1000+ requests/min",
-        "proposal-title": "Enterprise",
-        "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!"
+        "plan-title": "Premium",
+        "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
+        "proposal-title": "Enterprise"
       }
     },
     "chain-overview": {
