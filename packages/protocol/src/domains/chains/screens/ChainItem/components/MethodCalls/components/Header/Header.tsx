@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button } from '@mui/material';
 
-import { ItemHeader } from '../../../ItemHeader';
+import { PrivateStatTopRequests } from 'multirpc-sdk';
 import { Download } from '@ankr.com/ui';
-import { Timeframe } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
+import { downloadCsv } from 'modules/common/utils/downloadCsv';
+import { Timeframe } from 'domains/chains/types';
+import { ItemHeader } from '../../../ItemHeader';
 import { useHeaderStyles } from './useHeaderStyles';
-
-const SHOW_DOWNLOAD_BUTTON = false;
 
 export interface HeaderProps {
   timeframe: Timeframe;
+  data?: PrivateStatTopRequests[];
 }
 
-export const Header = ({ timeframe }: HeaderProps) => {
+export const Header = ({ timeframe, data }: HeaderProps) => {
   const { classes } = useHeaderStyles();
+
+  const download = useCallback(() => {
+    const title = `${new Date().toLocaleDateString()}_method-calls`;
+    return downloadCsv(JSON.stringify(data), title);
+  }, [data]);
 
   return (
     <div className={classes.root}>
@@ -22,11 +28,12 @@ export const Header = ({ timeframe }: HeaderProps) => {
         timeframe={timeframe}
         title={t('chain-item.method-calls.title')}
       />
-      {SHOW_DOWNLOAD_BUTTON && (
+      {data && data.length > 0 && (
         <Button
           variant="text"
           className={classes.button}
           startIcon={<Download />}
+          onClick={download}
         >
           {t('chain-item.method-calls.download-button')}
         </Button>

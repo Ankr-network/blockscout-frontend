@@ -322,7 +322,13 @@
       "y-axis": "{value, number, ::compact-short}",
       "num-of-other-methods": "{num} other methods",
       "other-methods-text": "other methods",
-      "other-methods": "Other methods"
+      "other-methods": "Other methods",
+      "table": {
+        "method": "Method",
+        "count": "Requests Count",
+        "total-cost": "Total Cost",
+        "percentage": "Usage Percentage"
+      }
     },
     "requests-by-ip": {
       "title": "Requests by IP",

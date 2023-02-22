@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
+import { PrivateStatTopRequests } from 'multirpc-sdk';
 
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'domains/chains/types';
-import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 
 export interface PublicStats {
   countries: CountryMap;
@@ -25,7 +25,7 @@ export interface UsageData {
   totalCost?: number;
   totalRequests: BigNumber;
   totalRequestsHistory: Record<string, number>;
-  userTopRequests?: TopRequestsResultData;
+  userTopRequests?: PrivateStatTopRequests[];
   userTopRequestsIp?: UserRequestsByIpData[];
   isLoggedIn?: boolean;
 }

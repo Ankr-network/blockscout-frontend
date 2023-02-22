@@ -117,12 +117,6 @@ export interface ISubscriptionsItem {
   type: string;
 }
 
-export interface IMethod {
-  method: string;
-  count: number;
-  totalCost: string;
-}
-
 type ChartDate = string;
 export type PrivateStatTopRequestsData = Record<string, number | ChartDate>;
 
@@ -185,8 +179,8 @@ export interface PrivateStatCount {
 export type RPCRequestName = string;
 export interface PrivateStatTopRequests {
   method: RPCRequestName;
-  count: string;
-  totalCost: string;
+  count: number;
+  total_cost: number;
 }
 
 export interface IApiPrivateStats {

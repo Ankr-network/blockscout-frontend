@@ -1,9 +1,8 @@
 import BigNumber from 'bignumber.js';
 
+import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'domains/chains/types';
-import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
-import { PrivateStat } from 'multirpc-sdk';
 import { UsageData } from '../../types';
 import { makePrivateCountryMap } from '../../utils/makePrivateCountryMap';
 
@@ -16,7 +15,7 @@ export interface UsageDataParams {
   privateStats?: PrivateStat;
   day30PrivateStats?: PrivateStat;
   timeframe: Timeframe;
-  userTopRequests: TopRequestsResultData;
+  userTopRequests: PrivateStatTopRequests[];
   userTopRequestsIp: UserRequestsByIpData[];
 }
 
