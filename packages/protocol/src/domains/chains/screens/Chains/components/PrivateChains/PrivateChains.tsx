@@ -1,10 +1,9 @@
 import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
-import { UsageSummary } from './components/UsageSummary';
-import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { usePrivateChainsData } from './hooks/usePrivateChainsData';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePrivateChains } from './hooks/usePrivateChains';
 import { PrivateChainsList } from './components/PrivateChainsList';
+import { PrivateChainsTop } from './PrivateChainsTop';
 
 export const PrivateChains = () => {
   const {
@@ -26,13 +25,10 @@ export const PrivateChains = () => {
   return (
     <BaseChains
       top={
-        <>
-          <ExpiredTokenBanner />
-          <UsageSummary
-            timeframe={timeframe}
-            switchTimeframe={switchStatsTimeframe}
-          />
-        </>
+        <PrivateChainsTop
+          timeframe={timeframe}
+          switchStatsTimeframe={switchStatsTimeframe}
+        />
       }
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
       loading={loading}

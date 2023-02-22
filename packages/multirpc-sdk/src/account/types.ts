@@ -200,6 +200,12 @@ export interface PrivateStats {
   totalRequests?: number;
 }
 
+export type FreeRegisteredUserRequest = Record<string, number>;
+export type FreeRegisteredUserRequests = Record<
+  string,
+  FreeRegisteredUserRequest
+>;
+
 export type BlockchainID = string;
 export type PrivateStatsInternal = Partial<Record<BlockchainID, PrivateStat>>;
 

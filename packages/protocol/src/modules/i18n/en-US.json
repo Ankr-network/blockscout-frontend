@@ -125,6 +125,17 @@
     "title": "Premium Endpoints",
     "provider-title": "Dashboard"
   },
+  "failed-requests-banner": {
+    "title": "Requests",
+    "total-request": "Total Requests",
+    "rate-limit-rejections": "Rate Limit Rejections",
+    "total": "<em>{total, number, ::compact-short}</em> Total",
+    "rejected": "<em>{rejected, number, ::compact-short}</em> Rejected",
+    "value": "{value, number, ::compact-short}",
+    "rate": "({rate}%)",
+    "notice": "You could have avoided these rejects for just <em>$50</em> paid for Premium services",
+    "notice-button": "Get Premium for $10"
+  },
   "chains": {
     "breadcrumbs": "Endpoints",
     "user-free": "Free",

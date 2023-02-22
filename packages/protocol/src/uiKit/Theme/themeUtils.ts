@@ -27,3 +27,6 @@ export const bannerGradientLight = `linear-gradient(104.36deg, #FFFFFF 0.75%, rg
 export const bannerGradientDark = `linear-gradient(97.61deg, #5A87F2 6.28%, #301E49 55.65%, #9378FF 105.02%)`;
 
 export const stepLineColor = `linear-gradient(270deg, #EEA941 0%, #356DF3 100%)`;
+
+export const commonShadow =
+  '0px 5px 25px rgba(31, 34, 38, 0.1), 0px 10px 50px rgba(31, 34, 38, 0.1)';

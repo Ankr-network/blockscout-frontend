@@ -1,12 +1,4 @@
-import {
-  format,
-  getDate,
-  getHours,
-  getMonth,
-  getTime,
-  getYear,
-  isBefore,
-} from 'date-fns';
+import { format, isBefore } from 'date-fns';
 
 import { t } from '@ankr.com/common';
 import { calculateTotalRequests } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
@@ -19,27 +11,18 @@ import {
   PrivateTotalRequestsInfo,
 } from 'multirpc-sdk';
 import { Timeframe } from '../types';
+import {
+  ONE_HOUR_LIFETIME,
+  ONE_DAY_LIFETIME,
+  getNextStatsTimestamp,
+} from './timeframeUtils';
 
 export type TopRequestsResultData = {
   list: string[];
   data: PrivateStatTopRequestsData[];
 };
 
-const ONE_HOUR = 60 * 60 * 1000;
-const ONE_DAY = 24 * ONE_HOUR;
-
 const UNKNOWN_NAME = 'unknown';
-
-const getNextStatsTimestamp = (timeStamp: number, timeframe: Timeframe) => {
-  const year = getYear(timeStamp);
-  const month = getMonth(timeStamp);
-  const day = getDate(timeStamp);
-  const hour = getHours(timeStamp);
-
-  return timeframe === Timeframe.Week
-    ? getTime(new Date(year, month, day)) + ONE_DAY
-    : getTime(new Date(year, month, day, hour)) + ONE_HOUR;
-};
 
 const fillBarCounts = (
   oneStakeCounts: Record<string, PrivateStatCount>,
@@ -74,7 +57,8 @@ const calculateBarCounts = (
 
   const oneStakeCounts: Record<string, PrivateStatCount> = {};
   const countList: ICount[] = [];
-  const nextTime = timeframe === Timeframe.Day ? ONE_HOUR : ONE_DAY;
+  const nextTime =
+    timeframe === Timeframe.Day ? ONE_HOUR_LIFETIME : ONE_DAY_LIFETIME;
 
   Object.keys(counts).forEach(timestamp => {
     const item = counts[timestamp];
