@@ -69,6 +69,7 @@ export const FailedRequestsChart = ({ data }: IFailedRequestsChartProps) => {
           fill={theme.palette.grey[600]}
           stroke=""
           fontSize={12}
+          tickMargin={15}
         />
         <YAxis
           tick={{ fill: theme.palette.grey[600] }}
