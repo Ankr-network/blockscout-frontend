@@ -8,7 +8,6 @@ export const useHeaderStyles = makeStyles()((theme: Theme) => ({
     justifyContent: 'space-between',
   },
   button: {
-    width: 112,
     height: 32,
     border: `1px solid ${theme.palette.background.default}`,
     borderRadius: 11,

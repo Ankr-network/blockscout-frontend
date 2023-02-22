@@ -15,10 +15,7 @@ export interface DialogPropsParams {
   items: Item[];
   onClose: () => void;
   onTrack?: () => void;
-  premiumUpgradeHandler: ReturnType<
-    typeof usePremiumUpgradeHandler
-  >['premiumUpgradeHandler'];
-  pricingLink: string;
+  premiumUpgradeHandler: ReturnType<typeof usePremiumUpgradeHandler>;
 }
 
 export const useDialogProps = ({
@@ -28,7 +25,6 @@ export const useDialogProps = ({
   onClose,
   onTrack,
   premiumUpgradeHandler,
-  pricingLink,
 }: DialogPropsParams): Omit<IDialogProps, 'open'> => {
   const hasBreakdown = useHasBreakdown(DIALOG_BREAKDOWN);
 
@@ -40,7 +36,6 @@ export const useDialogProps = ({
       isV2,
       items,
       onTrack,
-      pricingLink,
       premiumUpgradeHandler,
       resetTitle,
     }),

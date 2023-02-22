@@ -11,7 +11,6 @@ export enum ContentType {
 export interface ButtonRendererParams {
   className: string;
   onClick?: () => void;
-  pricingLink: string;
 }
 
 export interface Item {

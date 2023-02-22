@@ -1,3 +1,4 @@
 {
-  "extends": "../../.common-eslintrc"
+  "extends": "../../.common-eslintrc",
+  "ignorePatterns": ["public/*.js"]
 }

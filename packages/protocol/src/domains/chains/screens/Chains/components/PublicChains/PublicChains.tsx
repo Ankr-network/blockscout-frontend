@@ -1,3 +1,5 @@
+import { OverlaySpinner } from '@ankr.com/ui';
+
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
 import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
@@ -14,6 +16,7 @@ export const PublicChains = () => {
     allChains,
     chains,
     sortType,
+    timeframe,
   });
 
   return (
@@ -22,7 +25,12 @@ export const PublicChains = () => {
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
     >
       <NoReactSnap
-        fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
+        fallback={
+          <>
+            <ReactSnapChainsLinksGenerator chains={allChains} />
+            <OverlaySpinner />
+          </>
+        }
       >
         <PublicChainsList
           timeframe={timeframe}

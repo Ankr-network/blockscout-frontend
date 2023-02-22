@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { Timeframe } from '../public';
 import { stringify } from 'qs';
 
 import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus } from '../common';
@@ -25,6 +26,7 @@ import {
   PrivateStatsInterval,
   IGetLatestRequestsResponse,
   IGetLatestRequestsRequest,
+  FreeRegisteredUserRequests,
   ICheckInstantJwtParticipantResponse,
   IGetOrCreateInstantJwt,
 } from './types';
@@ -138,6 +140,17 @@ export class AccountGateway {
     const { data } = await this.api.get<PrivateStats>(`/api/v1/auth/stats`, {
       params: { intervalType },
     });
+
+    return data;
+  }
+
+  async getFreeRegisteredUserRequests(
+    timeframe: Timeframe,
+    userToken: string,
+  ): Promise<FreeRegisteredUserRequests> {
+    const { data } = await this.api.get<FreeRegisteredUserRequests>(
+      `/api/v1/auth/stats/users/${userToken}/requests/${timeframe}`,
+    );
 
     return data;
   }
@@ -300,10 +313,9 @@ export class AccountGateway {
   }
 
   public async getOrCreateInstantJwt() {
-    const { data: response } =
-      await this.api.get<IGetOrCreateInstantJwt>(
-        '/api/v1/auth/devdao/getOrCreateJwtForUserAddress',
-      );
+    const { data: response } = await this.api.get<IGetOrCreateInstantJwt>(
+      '/api/v1/auth/devdao/getOrCreateJwtForUserAddress',
+    );
 
     return response;
   }

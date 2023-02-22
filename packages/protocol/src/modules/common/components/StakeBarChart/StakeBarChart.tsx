@@ -29,6 +29,8 @@ interface IStakebarProps {
 
 const NUMBER_OF_SHOW_X_TICK = 4;
 
+const FIRST_BAR_RADIUS: [number, number, number, number] = [8, 8, 0, 0];
+
 export const StakeBarChart = ({
   result,
   timeframe: timeframe_,
@@ -158,6 +160,7 @@ export const StakeBarChart = ({
             dataKey={name}
             stackId="method-calls"
             fill={COLOR_LIST[index]}
+            radius={index === 0 ? FIRST_BAR_RADIUS : 0}
           />
         ))}
       </BarChart>

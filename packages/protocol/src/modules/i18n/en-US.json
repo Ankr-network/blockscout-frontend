@@ -77,8 +77,7 @@
     "pricing": "Pricing",
     "docs": "Docs",
     "settings": "Settings",
-    "tools": "Tools",
-    "soon": "soon"
+    "tools": "Tools"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
@@ -124,6 +123,17 @@
     "breadcrumbs": "Premium Endpoints",
     "title": "Premium Endpoints",
     "provider-title": "Dashboard"
+  },
+  "failed-requests-banner": {
+    "title": "Requests",
+    "total-request": "Total Requests",
+    "rate-limit-rejections": "Rate Limit Rejections",
+    "total": "<em>{total, number, ::compact-short}</em> Total",
+    "rejected": "<em>{rejected, number, ::compact-short}</em> Rejected",
+    "value": "{value, number, ::compact-short}",
+    "rate": "({rate}%)",
+    "notice": "You could have avoided these rejects for just <em>$50</em> paid for Premium services",
+    "notice-button": "Get Premium for $10"
   },
   "chains": {
     "breadcrumbs": "Endpoints",
@@ -312,7 +322,13 @@
       "y-axis": "{value, number, ::compact-short}",
       "num-of-other-methods": "{num} other methods",
       "other-methods-text": "other methods",
-      "other-methods": "Other methods"
+      "other-methods": "Other methods",
+      "table": {
+        "method": "Method",
+        "count": "Requests Count",
+        "total-cost": "Total Cost",
+        "percentage": "Usage Percentage"
+      }
     },
     "requests-by-ip": {
       "title": "Requests by IP",
@@ -420,18 +436,18 @@
     "banner": {
       "your-plan-badge": "Your plan",
       "free": {
-        "plan-title": "Free",
+        "action-text": "Upgrade",
         "plan-description": "You have 50 free requests/min",
-        "proposal-title": "Premium",
+        "plan-title": "Free",
         "proposal-description": "• 1000+ requests/min\n• Support by API devs\n• 0.7 USD for 10K requests",
-        "action-text": "Upgrade"
+        "proposal-title": "Premium"
       },
       "premium": {
+        "action-text": "Sales team",
+        "plan-description": "You have 1000+ requests/min",
         "plan-title": "Premium",
-        "plan-description": "You have 50 free requests/min",
-        "proposal-title": "Enterprise",
         "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
-        "action-text": "Sales team"
+        "proposal-title": "Enterprise"
       }
     },
     "chain-overview": {
@@ -664,7 +680,8 @@
     "close": "Close",
     "submit": "Submit",
     "404": "404",
-    "page-not-found": "Page not found"
+    "page-not-found": "Page not found",
+    "soon": "soon"
   },
   "providers": {
     "endpoint": {

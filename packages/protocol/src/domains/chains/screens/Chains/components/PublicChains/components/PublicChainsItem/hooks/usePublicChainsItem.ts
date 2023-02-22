@@ -1,20 +1,21 @@
 import BigNumber from 'bignumber.js';
 
-import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
-import { Chain } from 'domains/chains/types';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
+import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { Chain, Timeframe } from 'domains/chains/types';
 
 export interface ChainsItemParams {
   chain: Chain;
   isMMIndex?: boolean;
+  timeframe: Timeframe;
 }
 
 export const usePublicChainsItem = ({
   chain: { id, frontChain: { id: frontChainId } = {} },
+  timeframe,
 }: ChainsItemParams) => {
-  const [, { data, isLoading: arePublicStatsLoading }] = useQueryEndpoint(
-    chainsFetchPublicRequestsCountStats,
-  );
+  const { data, isLoading: arePublicStatsLoading } =
+    useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
 
   const chainId = frontChainId || id;
 

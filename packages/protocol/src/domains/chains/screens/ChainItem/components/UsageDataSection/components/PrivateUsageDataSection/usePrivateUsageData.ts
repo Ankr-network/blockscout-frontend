@@ -1,3 +1,4 @@
+import { PrivateStatTopRequests } from 'multirpc-sdk';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
@@ -12,7 +13,6 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
-import { useUserTopRequests } from 'domains/chains/hooks/useUserTopRequests';
 
 export interface UsageDataParams {
   chain: IApiChain;
@@ -43,11 +43,20 @@ export const usePrivateUsageData = ({
     privateStatsError,
   } = usePrivateStats({ interval: timeframeToIntervalMap[timeframe] });
 
-  const userTopRequests = useUserTopRequests({
-    privateStats,
-    chainId: privateCheckedChainId,
-    timeframe,
-  });
+  const topRequests =
+    privateStats[privateCheckedChainId]?.total?.top_requests || [];
+  const othersInfo = privateStats[privateCheckedChainId]?.total?.others_info;
+  const othersInfoMapped: PrivateStatTopRequests | undefined =
+    othersInfo?.type_count
+      ? {
+          method: `${othersInfo.type_count} other methods`,
+          count: othersInfo.request_count || 0,
+          total_cost: othersInfo.total_cost || 0,
+        }
+      : undefined;
+  const userTopRequests: PrivateStatTopRequests[] = othersInfoMapped
+    ? [...topRequests, othersInfoMapped]
+    : topRequests;
 
   const [{ stats: day30PrivateStats = {} }, areDay30PrivateStatsLoading] =
     useMonthPrivateStats();

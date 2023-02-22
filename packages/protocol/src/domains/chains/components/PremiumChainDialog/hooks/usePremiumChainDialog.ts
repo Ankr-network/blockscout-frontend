@@ -20,7 +20,7 @@ export const usePremiumChainDialog = ({
 }: PremiumChainDialogHookParams) => {
   const { contentType, setDefault, setSignUp, setTopUp } = useContentType();
 
-  const { premiumUpgradeHandler, pricingLink } = usePremiumUpgradeHandler({
+  const premiumUpgradeHandler = usePremiumUpgradeHandler({
     setSignUp,
     setTopUp,
     onTrack,
@@ -38,6 +38,5 @@ export const usePremiumChainDialog = ({
     onClose,
     onTrack,
     premiumUpgradeHandler,
-    pricingLink,
   });
 };
