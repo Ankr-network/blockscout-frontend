@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
-import { NavLink } from 'react-router-dom';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { useMemo } from 'react';
+
+import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 import { UpgradePlanBannerSkeleton } from '../UpgradePlanBannerSkeleton';
 import { getBannerContent } from './utils';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { useUpgradePlanBannerStyles } from './useUpgradePlanBannerStyles';
 
 interface IUpgradePlanBannerProps {
@@ -25,11 +27,9 @@ export const UpgradePlanBanner = ({
     planDescription,
     proposalTitle,
     proposalDescription,
-    actionLink,
-    actionHash,
-    actionProps,
-    actionText,
   } = useMemo(() => getBannerContent(hasPremium), [hasPremium]);
+
+  const { isOpened, onOpen, onClose } = useDialog();
 
   if (loading) return <UpgradePlanBannerSkeleton />;
 
@@ -55,21 +55,16 @@ export const UpgradePlanBanner = ({
           </Box>
         </Box>
         <Button
-          component={actionProps ? Button : NavLink}
+          className={classes.action}
+          color="info"
+          onClick={onOpen}
           size="large"
           variant="contained"
-          color="info"
-          className={classes.action}
-          href={actionLink}
-          to={{
-            pathname: actionLink,
-            hash: actionHash,
-          }}
-          {...actionProps}
         >
-          {actionText}
+          {t('advanced-api.banner.action-text')}
         </Button>
       </Paper>
+      <PremiumChainDialog onClose={onClose} open={isOpened} />
     </Box>
   );
 };

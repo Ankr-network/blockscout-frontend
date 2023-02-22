@@ -13,10 +13,7 @@ export interface ContentParams {
   isV2?: boolean;
   items: Item[];
   onTrack?: () => void;
-  pricingLink: string;
-  premiumUpgradeHandler: ReturnType<
-    typeof usePremiumUpgradeHandler
-  >['premiumUpgradeHandler'];
+  premiumUpgradeHandler: ReturnType<typeof usePremiumUpgradeHandler>;
   resetTitle: () => void;
 }
 
@@ -26,7 +23,6 @@ export const getContent = ({
   items,
   onTrack,
   premiumUpgradeHandler,
-  pricingLink,
   resetTitle,
 }: ContentParams) => {
   const contentMap: Record<ContentType, ReactNode> = {
@@ -35,7 +31,6 @@ export const getContent = ({
         isV2={isV2}
         items={items}
         onPremiumUpgradeButtonClick={premiumUpgradeHandler}
-        pricingLink={pricingLink}
         onTrack={onTrack}
       />
     ),

@@ -36,25 +36,11 @@ const freeItem: Item = {
 const premiumItem: Item = {
   hasIntro: true,
   itemCount: 5,
-  renderButton: ({ className, onClick, pricingLink }) => {
-    if (pricingLink)
-      return (
-        <NavLink
-          className={className}
-          fullWidth
-          href={pricingLink}
-          variant="contained"
-        >
-          {t(`${intlRoot}.${Title.premium}.button`)}
-        </NavLink>
-      );
-
-    return (
-      <Button onClick={onClick}>
-        {t(`${intlRoot}.${Title.premium}.button`)}
-      </Button>
-    );
-  },
+  renderButton: ({ onClick }) => (
+    <Button onClick={onClick}>
+      {t(`${intlRoot}.${Title.premium}.button`)}
+    </Button>
+  ),
   title: Title.premium,
 };
 
