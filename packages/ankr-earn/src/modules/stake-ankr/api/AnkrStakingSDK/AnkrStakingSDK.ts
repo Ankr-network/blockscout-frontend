@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Memoize } from 'typescript-memoize';
 import { TransactionReceipt } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
 
 import {
   Address,
@@ -8,7 +9,11 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { MAX_UINT256, MAX_UINT256_SCALE } from '@ankr.com/staking-sdk';
+import {
+  ANKR_ABI,
+  MAX_UINT256,
+  MAX_UINT256_SCALE,
+} from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { getProviderManager } from 'modules/api/getProviderManager';
@@ -1002,13 +1007,17 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async getAllowance(): Promise<BigNumber> {
-    const ankrTokenContract = await this.getAnkrTokenContract();
+    const ankrTokenContract = await this.getAnkrTokenWriteContract();
 
     const allowance = await ankrTokenContract.methods
       .allowance(this.currentAccount, contractConfig.ankrTokenStaking)
       .call();
 
     return new BigNumber(allowance);
+  }
+
+  protected getAnkrTokenWriteContract(): Contract {
+    return this.writeProvider.createContract(ANKR_ABI, ankrToken);
   }
 
   public async checkAllowance(amount: BigNumber): Promise<boolean> {
