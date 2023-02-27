@@ -1,40 +1,20 @@
 import { Button, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
-import { useCallback } from 'react';
-
-import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/types';
 import {
   PremiumChainDialog,
   PremiumChainDialogV2,
 } from '../PremiumChainDialog';
-import { trackBannerRegister } from 'modules/analytics/mixpanel/utils/trackBannerRegister';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { useInfoBannerStyles } from './useInfoBannerStyles';
-import { useIsBannerV2 } from './useIsBannerV2';
+import { useBanner } from 'modules/common/components/UpgradePlanBanner/hooks/useBanner';
 
 const BANNER_PLAN_ITEM_COUNT = 2;
 
 export const InfoBanner = () => {
-  const { isBannerV2 } = useIsBannerV2();
   const { classes, cx } = useInfoBannerStyles();
 
-  const { isOpened, onOpen, onClose } = useDialog(isBannerV2);
-
-  const handleOpen = useCallback(() => {
-    onOpen();
-    trackBannerRegister({ type: BannerFreeToRegisterType.open });
-  }, [onOpen]);
-
-  const handleClose = useCallback(() => {
-    onClose();
-    trackBannerRegister({ type: BannerFreeToRegisterType.close });
-  }, [onClose]);
-
-  const handleUpgrade = useCallback(
-    () => trackBannerRegister({ type: BannerFreeToRegisterType.register }),
-    [],
-  );
+  const { isBannerV2, isOpened, handleOpen, handleClose, handleUpgrade } =
+    useBanner();
 
   return (
     <div className={classes.root}>

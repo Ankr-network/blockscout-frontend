@@ -197,7 +197,8 @@
       "list-2": "Free access for all chains",
       "list-3": "No login required",
       "button": "Current Plan",
-      "button-register": "Register now"
+      "button-register": "Register now",
+      "button-get-free": "Go to Free"
     },
     "premium": {
       "title": "Premium",
@@ -433,23 +434,6 @@
   },
   "advanced-api": {
     "breadcrumbs": "Advanced API",
-    "banner": {
-      "your-plan-badge": "Your plan",
-      "free": {
-        "action-text": "Upgrade",
-        "plan-description": "You have 50 free requests/min",
-        "plan-title": "Free",
-        "proposal-description": "• 1000+ requests/min\n• Support by API devs\n• 0.7 USD for 10K requests",
-        "proposal-title": "Premium"
-      },
-      "premium": {
-        "action-text": "Sales team",
-        "plan-description": "You have 1000+ requests/min",
-        "plan-title": "Premium",
-        "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
-        "proposal-title": "Enterprise"
-      }
-    },
     "chain-overview": {
       "title": "Single entry point",
       "description": "to the optimized, indexed, and cached data for eight EVM-compatible blockchains"
@@ -487,6 +471,38 @@
         "feature-6": "Transfers by wallet address",
         "linkText": "Code samples"
       }
+    }
+  },
+  "banner": {
+    "your-plan-badge": "Your plan",
+    "action-text": "Upgrade",
+    "free": {
+      "plan-title": "Free",
+      "plan-description": "You have <b>1,800</b> requests/min ",
+      "proposal-title": "Premium",
+      "proposal-description": "<b>90,000</b> requests/min. WebSockets. Archive calls and others features.",
+      "action-text": "Upgrade"
+    },
+    "premium": {
+      "plan-title": "Premium",
+      "plan-description": "You have <b>90,000</b> requests/min",
+      "proposal-title": "Enterprise",
+      "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
+      "action-text": "Request"
+    },
+    "free-advanced-api": {
+      "plan-title": "Free",
+      "plan-description": "You have 50 free requests/min",
+      "proposal-title": "Premium",
+      "proposal-description": "• 1000+ requests/min\n• Support by API devs\n• 0.7 USD for 10K requests",
+      "action-text": "Upgrade"
+    },
+    "premium-advanced-api": {
+      "plan-title": "Premium",
+      "plan-description": "You have <b>1000+</b> requests/min",
+      "proposal-title": "Enterprise",
+      "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
+      "action-text": "Request"
     }
   },
   "plan": {

@@ -11,7 +11,6 @@ const getDefaultMaxWidth = (hasBreakdown: boolean) =>
 
 export interface DialogPropsParams {
   contentType: ContentType;
-  isV2?: boolean;
   items: Item[];
   onClose: () => void;
   onTrack?: () => void;
@@ -20,7 +19,6 @@ export interface DialogPropsParams {
 
 export const useDialogProps = ({
   contentType,
-  isV2,
   items,
   onClose,
   onTrack,
@@ -33,11 +31,11 @@ export const useDialogProps = ({
   return {
     children: getContent({
       contentType,
-      isV2,
       items,
       onTrack,
       premiumUpgradeHandler,
       resetTitle,
+      onClose,
     }),
     maxPxWidth:
       contentType === ContentType.DEFAULT

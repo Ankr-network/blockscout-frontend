@@ -11,6 +11,8 @@ export enum ContentType {
 export interface ButtonRendererParams {
   className: string;
   onClick?: () => void;
+  variant: 'outlined' | 'contained';
+  color: 'primary' | 'secondary';
 }
 
 export interface Item {
@@ -18,6 +20,7 @@ export interface Item {
   itemCount: number;
   renderButton: ButtonRenderer;
   title: Title;
+  isHighlighted: boolean;
 }
 
 export interface PremiumChainDialogProps {
