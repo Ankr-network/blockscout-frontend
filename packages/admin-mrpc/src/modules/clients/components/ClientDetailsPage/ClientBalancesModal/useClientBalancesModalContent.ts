@@ -68,7 +68,7 @@ export const useClientBalancesModalContent = (
         return;
       }
 
-      let expiresAt = '0';
+      let expiresAt: string | undefined;
       if (validDuringDaysValue) {
         if (+validDuringDaysValue > 30) {
           toast.error('maximum is 30 days');
