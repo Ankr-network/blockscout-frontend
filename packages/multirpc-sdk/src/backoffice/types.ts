@@ -145,7 +145,7 @@ export interface IAddVoucherCreditsRequest {
   reasonId: string;
 
   /** unix timestamp in seconds indicating the expiration time of total creditVoucherAmount. “0” value indicates that there is no timeout for deletion */
-  expiresAt: string;
+  expiresAt?: string;
 }
 
 export interface IAddVoucherCreditsResponse {
