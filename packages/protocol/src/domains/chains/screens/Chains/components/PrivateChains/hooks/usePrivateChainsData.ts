@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
@@ -8,24 +6,10 @@ import { useSortType } from '../../../hooks/useSortType';
 import { useTimeframe } from '../../../hooks/useTimeframe';
 
 export const usePrivateChainsData = () => {
-  const {
-    loading: isConnecting,
-    isLoggedIn,
-    hasInfrastructureAccess,
-  } = useAuth();
+  const { loading: isConnecting, isLoggedIn } = useAuth();
 
-  const [
-    privateChains,
-    privateAllChains,
-    privateChainsLoading,
-    fetchPrivateChainsInfo,
-  ] = usePrivateChainsInfo();
-
-  useEffect(() => {
-    if (hasInfrastructureAccess) {
-      fetchPrivateChainsInfo();
-    }
-  }, [hasInfrastructureAccess, fetchPrivateChainsInfo]);
+  const [privateChains, privateAllChains, privateChainsLoading] =
+    usePrivateChainsInfo();
 
   const [timeframe, switchStatsTimeframe] = useTimeframe(isLoggedIn);
 

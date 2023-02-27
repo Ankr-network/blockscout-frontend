@@ -9,7 +9,6 @@ import {
 } from 'date-fns';
 
 import {
-  IMethod,
   PrivateStatCount,
   PrivateStatOthersInfo,
   PrivateStatTopRequests,
@@ -45,19 +44,14 @@ const getNextStatsTimestamp = (timeStamp: number, timeframe: Timeframe) => {
 const fillBarCounts = (
   oneStakeCounts: Record<string, PrivateStatCount>,
   timestamp: number,
-  topRequestsList: IMethod[],
+  topRequestsList: PrivateStatTopRequests[],
 ) => {
   const oneStakeItem = oneStakeCounts[timestamp];
 
   oneStakeCounts[timestamp] = {
     ...oneStakeItem,
     count: calculateTotalRequests(topRequestsList.map(item => item.count)),
-    top_requests: topRequestsList?.map(item => {
-      return {
-        ...item,
-        count: String(item.count),
-      };
-    }),
+    top_requests: topRequestsList,
   };
 };
 
@@ -94,7 +88,7 @@ const calculateBarCounts = (
     Number(countList[0].timestamp),
     timeframe,
   );
-  let topRequestsList: IMethod[] = [];
+  let topRequestsList: PrivateStatTopRequests[] = [];
 
   countList.forEach((count: ICount, index: number) => {
     const { timestamp, topRequests = [] } = count;
@@ -122,7 +116,7 @@ const calculateBarCounts = (
         topRequestsList.push({
           method,
           count: Number(topRequest.count),
-          totalCost: topRequest?.totalCost,
+          total_cost: topRequest?.total_cost,
         });
       }
     });
@@ -198,8 +192,8 @@ export const formatChartData = (
       if (!otherMethodItem && item?.others_info?.request_count) {
         topRequests.push({
           method: otherMethodName,
-          count: `${item?.others_info?.request_count}`,
-          totalCost: '',
+          count: item?.others_info?.request_count,
+          total_cost: 0,
         });
       }
     });

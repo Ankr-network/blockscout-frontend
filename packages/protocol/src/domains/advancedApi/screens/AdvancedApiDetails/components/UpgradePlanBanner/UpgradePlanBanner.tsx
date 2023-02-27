@@ -1,19 +1,21 @@
-import { useMemo } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { useMemo } from 'react';
+
+import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 import { UpgradePlanBannerSkeleton } from '../UpgradePlanBannerSkeleton';
 import { getBannerContent } from './utils';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { useUpgradePlanBannerStyles } from './useUpgradePlanBannerStyles';
 
 interface IUpgradePlanBannerProps {
-  hasPrivateAccess: boolean;
+  hasPremium: boolean;
   loading: boolean;
 }
 
 export const UpgradePlanBanner = ({
-  hasPrivateAccess,
+  hasPremium,
   loading,
 }: IUpgradePlanBannerProps) => {
   const { isLightTheme } = useThemes();
@@ -21,15 +23,14 @@ export const UpgradePlanBanner = ({
 
   const {
     image,
-    planTitle,
     planDescription,
-    proposalTitle,
+    planTitle,
     proposalDescription,
-    actionLink,
-    actionHash,
-    actionProps,
-    actionText,
-  } = useMemo(() => getBannerContent(hasPrivateAccess), [hasPrivateAccess]);
+    proposalTitle,
+    renderButton,
+  } = useMemo(() => getBannerContent(hasPremium), [hasPremium]);
+
+  const { isOpened, onOpen, onClose } = useDialog();
 
   if (loading) return <UpgradePlanBannerSkeleton />;
 
@@ -54,22 +55,9 @@ export const UpgradePlanBanner = ({
             {proposalDescription}
           </Box>
         </Box>
-        <Button
-          component={actionProps ? Button : NavLink}
-          size="large"
-          variant="contained"
-          color="info"
-          className={classes.action}
-          href={actionLink}
-          to={{
-            pathname: actionLink,
-            hash: actionHash,
-          }}
-          {...actionProps}
-        >
-          {actionText}
-        </Button>
+        {renderButton({ className: classes.action, onClick: onOpen })}
       </Paper>
+      <PremiumChainDialog onClose={onClose} open={isOpened} />
     </Box>
   );
 };

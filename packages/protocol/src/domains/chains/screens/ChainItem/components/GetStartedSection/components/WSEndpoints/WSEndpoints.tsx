@@ -1,30 +1,25 @@
+import { ReactNode } from 'react';
 import { Endpoint, EndpointProps } from '../Endpoint';
-import { EndpointGroup } from 'modules/endpoints/types';
-import { EndpointsHeader } from '../EndpointsHeader';
-import { root } from '../../const';
-import { t } from '@ankr.com/common';
-import { useWSEndpointsStyles } from './WSEndpointsStyles';
+import { useWsEdnpointsStyles } from './useWsEndpointsStyles';
 
 export interface WSEndpointsProps {
-  group: EndpointGroup;
+  title: ReactNode;
+  wss: string[];
   hasConnectWalletMessage: boolean;
   onCopyEndpoint: EndpointProps['onCopy'];
 }
 
-const title = t(`${root}.endpoints.websocket-title`);
-
 export const WSEndpoints = ({
-  group: { urls },
+  title,
+  wss,
   hasConnectWalletMessage,
   onCopyEndpoint,
 }: WSEndpointsProps) => {
-  const wss = urls.flatMap(({ ws }) => (ws ? [ws] : []));
+  const { classes } = useWsEdnpointsStyles();
 
-  const { classes } = useWSEndpointsStyles();
-
-  return wss.length ? (
-    <div className={classes.wsEndpoints}>
-      <EndpointsHeader title={title} />
+  return wss.length > 0 ? (
+    <div className={classes.root}>
+      {title}
       {wss.map(url => (
         <Endpoint
           hasConnectWalletMessage={hasConnectWalletMessage}

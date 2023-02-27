@@ -3,11 +3,7 @@ import { t } from '@ankr.com/common';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-
-const ONE_MINUTE_LIFETIME = 60 * 1000;
-const ONE_HOUR_LIFETIME = 60 * ONE_MINUTE_LIFETIME;
-const ONE_WEEK_HOURS = 7 * 24;
-const LIFETIME = ONE_HOUR_LIFETIME * ONE_WEEK_HOURS;
+import { LIFETIME } from 'domains/chains/utils/timeframeUtils';
 
 export const {
   endpoints: { authAuthorizeProvider },

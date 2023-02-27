@@ -9,12 +9,14 @@ interface ITooltipPayloadProps {
   name: string;
   tooltipTitle: string;
 }
+
 interface ITooltipPayload {
   color: string;
   name: string;
   value: number;
   payload: ITooltipPayloadProps;
 }
+
 interface ITooltipProps {
   active?: boolean;
   payload?: ITooltipPayload[];
@@ -36,49 +38,45 @@ export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
   );
   const { classes } = useTooltipStyles(maxMethodWidth);
 
-  if (active && payload?.length && label) {
-    const totalRequest = calculateTotalRequests(
-      payload.map(item => item.value),
-    );
+  if (!(active && payload?.length && label)) return null;
 
-    return (
-      <div className={classes.root}>
-        <Typography component="p" variant="body2" className={classes.label}>
-          {payload[0]?.payload?.tooltipTitle}
+  const totalRequest = calculateTotalRequests(payload.map(item => item.value));
+
+  return (
+    <div className={classes.root}>
+      <Typography component="p" variant="body2" className={classes.label}>
+        {payload[0]?.payload?.tooltipTitle}
+      </Typography>
+      <div className={classes.totalRow}>
+        <Typography variant="body2" className={classes.total}>
+          {t('chain-item.method-calls.total')}
         </Typography>
-        <div className={classes.totalRow}>
-          <Typography variant="body2" className={classes.total}>
-            {t('chain-item.method-calls.total')}
-          </Typography>
-          <Typography variant="body2" className={classes.text}>
-            {formatNumber(totalRequest)}
-          </Typography>
-        </div>
-        {payload &&
-          payload.reverse().map(item => (
-            <div className={classes.row} key={item.name}>
-              <Typography
-                component="div"
-                variant="body2"
-                className={classes.name}
-              >
-                <StatusCircle color={item.color} mr={0.75} />
-                {item.name.includes(
-                  t('chain-item.method-calls.other-methods-text'),
-                )
-                  ? t('chain-item.method-calls.other-methods')
-                  : item.name.length > MAX_METHOD_NUMBER_LENGTH
-                  ? `${item.name.substring(0, MAX_METHOD_NUMBER_LENGTH)}...`
-                  : item.name}
-              </Typography>
-              <Typography variant="body2" className={classes.text}>
-                {formatNumber(item.value)}
-              </Typography>
-            </div>
-          ))}
+        <Typography variant="body2" className={classes.text}>
+          {formatNumber(totalRequest)}
+        </Typography>
       </div>
-    );
-  }
-
-  return null;
+      {payload &&
+        payload.reverse().map(item => (
+          <div className={classes.row} key={item.name}>
+            <Typography
+              component="div"
+              variant="body2"
+              className={classes.name}
+            >
+              <StatusCircle color={item.color} mr={0.75} />
+              {item.name.includes(
+                t('chain-item.method-calls.other-methods-text'),
+              )
+                ? t('chain-item.method-calls.other-methods')
+                : item.name.length > MAX_METHOD_NUMBER_LENGTH
+                ? `${item.name.substring(0, MAX_METHOD_NUMBER_LENGTH)}...`
+                : item.name}
+            </Typography>
+            <Typography variant="body2" className={classes.text}>
+              {formatNumber(item.value)}
+            </Typography>
+          </div>
+        ))}
+    </div>
+  );
 };

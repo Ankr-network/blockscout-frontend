@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { Item } from '../types';
 import { useContentType } from './useContentType';
 import { useDialogProps } from './useDialogProps';
-import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler.ts';
+import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 
 export interface PremiumChainDialogHookParams {
   items: Item[];

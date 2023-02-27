@@ -1,3 +1,6 @@
+// not used in the app.
+// It's here if we want to use it again in the future with StakeBaeChart.
+
 import { PrivateStatsInternal } from 'multirpc-sdk';
 import { Timeframe } from '../types';
 

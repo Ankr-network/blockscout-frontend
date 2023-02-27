@@ -7,7 +7,7 @@ export const useGetStartedSectionStyles = makeStyles()((theme: Theme) => ({
     flexDirection: 'column',
     gap: theme.spacing(2 * 3.75),
 
-    paddingTop: theme.spacing(2 * 3.75),
+    paddingTop: theme.spacing(2 * 3.5),
   },
   requestComposer: {
     [theme.breakpoints.down('sm')]: {

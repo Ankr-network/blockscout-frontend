@@ -84,15 +84,7 @@ export const useBaseNavButtonStyles = makeStyles()((theme: Theme) => ({
     },
   },
   soon: {
-    display: 'inline-block',
     marginLeft: theme.spacing(1),
-    fontSize: 14,
-    lineHeight: '20.02px',
-    fontWeight: 400,
-    color: theme.palette.grey[600],
-    padding: theme.spacing(0.5, 2),
-    backgroundColor: theme.palette.background.default,
-    borderRadius: 8,
   },
   activeLink: {
     '&&': {

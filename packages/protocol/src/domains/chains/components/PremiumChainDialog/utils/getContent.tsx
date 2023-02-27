@@ -4,7 +4,7 @@ import { ContentType, Item } from '../types';
 import { DefaultContent } from '../components/DefaultContent/DefaultContent';
 import { SignUpContent } from '../components/SignUpContent';
 import { TopUpForm } from '../components/TopUpForm';
-import { usePremiumUpgradeHandler } from '../hooks/usePremiumUpgradeHandler.ts';
+import { usePremiumUpgradeHandler } from '../hooks/usePremiumUpgradeHandler';
 
 const { DEFAULT, SIGN_UP, TOP_UP } = ContentType;
 

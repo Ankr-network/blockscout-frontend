@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
-
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useChainsFetchPrivateChainsInfoQuery } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 
-export type PrivateChains = [IApiChain[], IApiChain[], boolean, () => void];
+export type PrivateChains = [IApiChain[], IApiChain[], boolean];
 
 const defaultData = {
   chains: [],
@@ -12,17 +9,8 @@ const defaultData = {
 };
 
 export const usePrivateChainsInfo = (): PrivateChains => {
-  const [
-    fetchPrivateChainsInfo,
-    { data: { chains, allChains } = defaultData, isLoading },
-    reset,
-  ] = useQueryEndpoint(chainsFetchPrivateChainsInfo);
+  const { data: { chains, allChains } = defaultData, isLoading } =
+    useChainsFetchPrivateChainsInfoQuery();
 
-  useEffect(() => reset, [reset]);
-
-  useEffect(() => {
-    fetchPrivateChainsInfo();
-  }, [fetchPrivateChainsInfo]);
-
-  return [chains, allChains, isLoading, fetchPrivateChainsInfo];
+  return [chains, allChains, isLoading];
 };

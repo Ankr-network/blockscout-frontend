@@ -30,6 +30,7 @@ import { SHORT_CACHE_TIME } from 'modules/stake-ankr/const';
 import { AnkrStakingReadSDK } from './AnkrStakingReadSDK';
 import {
   AMOUNT_FROM_QUEUE_SCALE,
+  ANKR_ESTIMATE_GAS_MULTIPLIER,
   ANKR_PROVIDER_READ_ID,
   ANKR_STAKING_MAX_DECIMALS_LENGTH,
   GAS_LIMIT_MULTIPLIER,
@@ -162,17 +163,33 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       ETH_SCALE_FACTOR,
     );
 
-    const data = stakingContract.methods
-      .delegate(validator, hexAmount)
-      .encodeABI();
+    const delegateTxn = stakingContract.methods.delegate(validator, hexAmount);
+
+    const gasLimit: number = await delegateTxn.estimateGas({
+      from: this.currentAccount,
+    });
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data, estimate: true },
+      {
+        data: delegateTxn.encodeABI(),
+        gasLimit: this.getIncreasedGasLimit(gasLimit).toString(),
+      },
     );
 
     return transactionHash;
+  }
+
+  /**
+   * Internal function to return increased gas limit.
+   *
+   * @private
+   * @param {number} gasLimit - initial gas limit
+   * @returns {number}
+   */
+  private getIncreasedGasLimit(gasLimit: number): number {
+    return Math.round(gasLimit * ANKR_ESTIMATE_GAS_MULTIPLIER);
   }
 
   /**
@@ -981,22 +998,29 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async approve(amount: BigNumber): Promise<IApproveResponse> {
-    const ankrTokenContract = await this.getAnkrTokenContract();
+    const ankrTokenContract = this.getAnkrTokenContract();
 
-    const data = ankrTokenContract.methods
-      .approve(
-        contractConfig.ankrTokenStaking,
-        convertNumberToHex(
-          amount,
-          MAX_UINT256.isEqualTo(amount) ? MAX_UINT256_SCALE : ETH_SCALE_FACTOR,
-        ),
-      )
-      .encodeABI();
+    const hexAmount = convertNumberToHex(
+      amount,
+      MAX_UINT256.isEqualTo(amount) ? MAX_UINT256_SCALE : ETH_SCALE_FACTOR,
+    );
+
+    const approveTxn = ankrTokenContract.methods.approve(
+      contractConfig.ankrTokenStaking,
+      hexAmount,
+    );
+
+    const gasLimit: number = await approveTxn.estimateGas({
+      from: this.currentAccount,
+    });
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       ankrToken,
-      { data, estimate: true },
+      {
+        data: approveTxn.encodeABI(),
+        gasLimit: this.getIncreasedGasLimit(gasLimit).toString(),
+      },
     );
 
     return {

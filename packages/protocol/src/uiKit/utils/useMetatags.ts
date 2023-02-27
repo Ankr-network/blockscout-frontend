@@ -108,6 +108,8 @@ export const getChainName = (chainId: ChainID) => {
     name = 'Sui Testnet';
   } else if (ADVANCED_API_PATH.includes(chainId)) {
     name = 'Advanced API';
+  } else if (chainId === ChainID.ARBITRUM_NOVA) {
+    name = 'Arbitrum Nova';
   } else if (chainId.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {
@@ -156,6 +158,7 @@ export const useMetatags = (
     const htmlElement = document.getElementsByTagName(
       'html',
     )[0] as HTMLHtmlElement;
+
     const bodyElement = document.getElementsByTagName(
       'body',
     )[0] as HTMLBodyElement;

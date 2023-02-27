@@ -1,9 +1,9 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { usePublicRequestsCountStats } from 'domains/chains/hooks/usePublicRequestsCountStats';
 import { usePublicChainsInfo } from './usePublicChainsInfo';
 import { useSortType } from '../../../hooks/useSortType';
 import { useTimeframe } from '../../../hooks/useTimeframe';
+import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 
 export const usePublicChainsData = () => {
   const { loading: isConnecting } = useAuth();
@@ -13,9 +13,7 @@ export const usePublicChainsData = () => {
 
   const [timeframe, switchStatsTimeframe] = useTimeframe();
 
-  usePublicRequestsCountStats({
-    interval: toTimeframeMap[timeframe],
-  });
+  useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
 
   const [sortType, setSortType] = useSortType();
 

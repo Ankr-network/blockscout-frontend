@@ -1,3 +1,4 @@
+import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
@@ -54,6 +55,7 @@ export const Stake = (): JSX.Element => {
       isApproveLoading={isApproveLoading}
       isStakeLoading={isStakeLoading}
       minAmount={minStake}
+      submitButtonLabel={t('stake-ankr.staking.submit')}
       tokenName={tokenIn}
       onApprovalSettingsFormSubmit={onApprovalSettingsFormSubmit}
       onApproveSubmit={onApproveSubmit}
