@@ -33,7 +33,9 @@ export const ButtonOptions = ({ client }: IButtonOptionsProps) => {
   ) => {
     /* fix: stopping event bubbling. row click opens client page */
     e.stopPropagation();
-    copyToClipboard(valueToCopy).then(() => toast.success('Copied'));
+    copyToClipboard(valueToCopy)
+      .then(() => toast.success('Copied'))
+      .catch(error => toast.error(`Copy error: ${error}`));
   };
 
   return (
