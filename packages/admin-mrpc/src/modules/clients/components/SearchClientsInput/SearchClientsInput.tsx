@@ -5,7 +5,7 @@ import { useSearchInputStyles } from './useSearchInputStyles';
 export const SearchClientsInput = () => {
   const { isLoading, searchValue, foundClients, onClientClick, onChange } =
     useSearchClientsInput();
-  const { classes } = useSearchInputStyles();
+  const { classes, cx } = useSearchInputStyles();
 
   return (
     <div className={classes.root}>
@@ -19,10 +19,9 @@ export const SearchClientsInput = () => {
         disableUnderline
         color="secondary"
       />
-      {foundClients?.length > 0 && (
+      {searchValue && (
         <ul className={classes.clientsList}>
-          {searchValue &&
-            foundClients.length > 0 &&
+          {foundClients.length > 0 &&
             foundClients.map(client => {
               const title = client.email
                 ? `${client.email}\n${client.address}`
@@ -48,6 +47,12 @@ export const SearchClientsInput = () => {
                 </li>
               );
             })}
+
+          {foundClients.length === 0 && (
+            <li className={cx(classes.clientItem, classes.notFound)}>
+              Nothing found
+            </li>
+          )}
         </ul>
       )}
     </div>
