@@ -19,7 +19,6 @@ import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAX
 import { RoutesConfig as StakeAvalancheRoutes } from 'modules/stake-avax/Routes';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { RoutesConfig as StakeBnbRoutes } from 'modules/stake-bnb/Routes';
-import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
@@ -92,11 +91,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     });
   const { data: ethMaticData, isFetching: isEthMaticDataLoading } =
     useGetMaticOnEthStatsQuery(undefined, {
-      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-    });
-
-  const { data: ethClaimableData, isFetching: isEthClaimableDataLoading } =
-    useGetETHClaimableDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
@@ -197,9 +191,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       },
       {
         name: Token.ETH,
-        amount: (ethData?.ethBalance ?? ZERO)
-          .plus(ethClaimableData?.claimableAETHB ?? ZERO)
-          .plus(ethClaimableData?.claimableAETHC ?? ZERO),
+        amount: ethData?.ethBalance ?? ZERO,
         apy: metrics?.eth.apy ?? ZERO,
         service: EMetricsServiceName.ETH,
         link: StakeEthRoutes.stake.generatePath(),
@@ -275,7 +267,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
     polygonMaticData,
     bnbData,
     ethData,
-    ethClaimableData,
     dotClaimableBalance,
     ksmClaimableBalance,
     wndClaimableBalance,
@@ -364,7 +355,6 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       isAvaxDataLoading ||
       isBnbDataLoading ||
       isEthDataLoading ||
-      isEthClaimableDataLoading ||
       isFtmDataLoading ||
       isLoadingAnkrBalanceData ||
       isLoadingDotBalance ||

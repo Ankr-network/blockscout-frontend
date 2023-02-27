@@ -216,12 +216,6 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
           )
           .plus(
             getTokenNativeAmount(
-              ethClaimableData?.claimableAETHC ?? ZERO,
-              ethData?.aETHcRatio,
-            ) ?? ZERO,
-          )
-          .plus(
-            getTokenNativeAmount(
               aETHcBridgeBalance ?? ZERO,
               ethData?.aETHcRatio,
             ) ?? ZERO,
