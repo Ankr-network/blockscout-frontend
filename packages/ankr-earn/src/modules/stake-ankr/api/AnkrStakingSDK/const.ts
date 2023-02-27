@@ -47,7 +47,7 @@ export const GAS_LIMIT_MULTIPLIER = 100_000;
  *
  * For more information please see [STAKAN-2547](https://ankrnetwork.atlassian.net/browse/STAKAN-2547)
  */
-export const GAS_LIMIT_PER_EPOCH = 10_000;
+export const GAS_LIMIT_PER_EPOCH = 13_000;
 
 export const ONE_DAY: Milliseconds = 1000 * 60 * 60 * 24;
 
@@ -56,3 +56,8 @@ export const ONE_DAY: Milliseconds = 1000 * 60 * 60 * 24;
  * We can't accurate calculate it for this method.
  */
 export const UNSTAKE_GAS_LIMIT = 300_000;
+
+/**
+ * Multiplier for gas limit calculation.
+ */
+export const ANKR_ESTIMATE_GAS_MULTIPLIER = 1.5;
