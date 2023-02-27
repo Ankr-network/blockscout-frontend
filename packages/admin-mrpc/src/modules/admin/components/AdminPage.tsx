@@ -10,6 +10,7 @@ import {
 import { LoadingButton } from '@ankr.com/ui';
 import { ClientsTable } from 'modules/clients/components/ClientsTable';
 import { useAdminPage } from './useAdminPage';
+import { filters } from '../const';
 
 export const AdminPage = () => {
   const {
@@ -20,7 +21,6 @@ export const AdminPage = () => {
     requestClients,
     isLoading,
     clientsDevDao,
-    filters,
     filter,
     handleSelectFilter,
   } = useAdminPage();

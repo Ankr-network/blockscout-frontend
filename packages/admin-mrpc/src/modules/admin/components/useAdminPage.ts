@@ -1,40 +1,11 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { addDays, format, millisecondsToSeconds, parseISO } from 'date-fns';
-import { SelectChangeEvent } from '@mui/material';
-import {
-  GetUsersRegistrationsFilter,
-  GetUsersRegistrationsRequest,
-} from 'multirpc-sdk';
+import { useCallback, useMemo } from 'react';
+import { GetUsersRegistrationsRequest } from 'multirpc-sdk';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
 import { useLazyGetUsersRegistrationsQuery } from '../actions/getUsersRegistrations';
-
-const filters: { value: GetUsersRegistrationsFilter; label: string }[] = [
-  {
-    value: 'devdao',
-    label: 'DevDao',
-  },
-  {
-    value: '',
-    label: 'All',
-  },
-];
-
-const formatDateToIsoString = (date: Date) => {
-  return format(date, "yyyy-MM-dd'T'HH:mm");
-};
-
-const formatDateParamToSeconds = (date: string) => {
-  return Math.floor(millisecondsToSeconds(parseISO(date).getTime()));
-};
-
-const MAX_RANGE_DAYS = 31;
+import { useFilters } from '../hooks/useFilters';
+import { useDatesRange } from '../hooks/useDatesRange';
+import { formatDateParamToSeconds } from '../utils/formatDateParamToSeconds';
 
 export const useAdminPage = () => {
   const {
@@ -58,33 +29,8 @@ export const useAdminPage = () => {
     },
   ]);
 
-  const [dateFrom, setDateFrom] = useState<string>('');
-  const [dateTo, setDateTo] = useState<string>('');
-
-  useEffect(() => {
-    const dateNow = new Date();
-    const dateYesterday = addDays(dateNow, -MAX_RANGE_DAYS);
-    const dateNowIsoString = formatDateToIsoString(dateNow);
-    const dateYesterdayIsoString = formatDateToIsoString(dateYesterday);
-
-    setDateFrom(dateYesterdayIsoString);
-    setDateTo(dateNowIsoString);
-  }, []);
-
-  const [filter, setFilter] =
-    React.useState<GetUsersRegistrationsFilter>('devdao');
-
-  const handleSelectFilter = (event: SelectChangeEvent) => {
-    setFilter(event.target.value as GetUsersRegistrationsFilter);
-  };
-
-  const onChangeFrom = (event: ChangeEvent<HTMLInputElement>) => {
-    setDateFrom(event.target.value);
-  };
-
-  const onChangeTo = (event: ChangeEvent<HTMLInputElement>) => {
-    setDateTo(event.target.value);
-  };
+  const { filter, handleSelectFilter } = useFilters();
+  const { dateFrom, dateTo, onChangeFrom, onChangeTo } = useDatesRange();
 
   const requestClients = useCallback(() => {
     if (!dateFrom || !dateTo) return;
@@ -127,7 +73,6 @@ export const useAdminPage = () => {
       isLoadingClients ||
       isFetchingClients,
     clientsDevDao,
-    filters,
     filter,
     handleSelectFilter,
   };
