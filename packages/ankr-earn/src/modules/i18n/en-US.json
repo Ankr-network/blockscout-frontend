@@ -1259,6 +1259,13 @@
         "btn": "Select provider"
       }
     },
+    "upgrade": {
+      "title": "ANKR Staking smart contracts have been upgraded!",
+      "description": "Your funds are safe. To manage your stakes, you need to migrate them.",
+      "info": "While migrating, separate stakes will merge into one, rewards will be claimed automatically to your wallet. You may migrate anytime, your rewards still keep accumulating even if you didn’t.",
+      "btn": "Migrate your stakes",
+      "img-alt": "Transfer icon"
+    },
     "errors": {
       "approve": "Failed to approve",
       "claim-all-rewards": "Failed to claim all rewards",

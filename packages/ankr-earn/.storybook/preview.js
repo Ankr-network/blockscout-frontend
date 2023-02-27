@@ -21,7 +21,7 @@ addDecorator((story, ctx) => (
           }
           .story-path {
             overflow-y: auto;
-            position: absolute;
+            position: fixed;
             bottom: 0;
             left: 0;
             max-width: 100vw;
