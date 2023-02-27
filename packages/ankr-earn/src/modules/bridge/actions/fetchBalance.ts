@@ -22,7 +22,7 @@ export const fetchBalance = createSmartAction<
       const sdk = await BridgeSDK.getInstance();
       const tokenAddr = getTokenAddr(token, network);
 
-      return retry(() => sdk.getBalance(tokenAddr), {
+      return retry(() => sdk.getBalance(tokenAddr, network), {
         retries: 1,
         minTimeout: 500,
       });

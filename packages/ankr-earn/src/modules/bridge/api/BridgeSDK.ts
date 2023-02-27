@@ -1,7 +1,11 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 
-import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
+import {
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+  Web3KeyWriteProvider,
+} from '@ankr.com/provider';
 import {
   ABI_ERC20,
   MATIC_SCALE_FACTOR,
@@ -20,6 +24,7 @@ import { convertFromWei } from 'modules/common/utils/numbers/convertFromWei';
 import { configFromEnv } from '../../api/config';
 import { AvailableBridgeTokens } from '../types';
 import { getBridgeAddr } from '../utils/getBridgeAddr';
+import { getReadProviderByNetworkId } from '../utils/getReadProviderByNetworkId';
 import { getTokenAddr } from '../utils/getTokenAddr';
 
 import ABI_BRIDGE from './contracts/CrossChainBridge.json';
@@ -45,21 +50,34 @@ export class BridgeSDK {
 
   public static async getInstance(): Promise<BridgeSDK> {
     const providerManager = getProviderManager();
-    const provider = await providerManager.getETHWriteProvider();
+    const writeProvider = await providerManager.getETHWriteProvider();
 
-    const isActualProvider = BridgeSDK.instance?.provider === provider;
+    const isActualProvider = BridgeSDK.instance?.provider === writeProvider;
 
     if (BridgeSDK.instance && isActualProvider) {
       return BridgeSDK.instance;
     }
 
-    return new BridgeSDK(provider);
+    return new BridgeSDK(writeProvider);
   }
 
-  public async getBalance(tokenAddr: string): Promise<BigNumber> {
-    const web3 = this.provider.getWeb3();
-    const tokenContract = this.provider.createContract(ABI_ERC20, tokenAddr);
+  private async getReadProvider(chainId: number): Promise<Web3KeyReadProvider> {
+    const providerManager = getProviderManager();
 
+    return providerManager.getETHReadProvider(
+      getReadProviderByNetworkId(chainId),
+    );
+  }
+
+  public async getBalance(
+    tokenAddr: string,
+    chainId: number,
+  ): Promise<BigNumber> {
+    const web3 = this.provider.getWeb3();
+
+    const readProvider = await this.getReadProvider(chainId);
+
+    const tokenContract = readProvider.createContract(ABI_ERC20, tokenAddr);
     const balance: string = await tokenContract.methods
       .balanceOf(this.provider.currentAccount)
       .call();
