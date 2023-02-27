@@ -26,8 +26,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          message: Build of `${{github.ref_name}}` for `${{github.event.inputs.environment}}` with API `${{github.event.inputs.api}}` has started
+        if: always()
       - uses: actions/checkout@v2
       - uses: nelonoel/branch-name@v1.0.1
       - uses: actions/setup-node@v3
@@ -51,6 +58,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build dev
+        id: build-DEV
         working-directory: ./packages/ankr-earn
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -62,6 +70,7 @@ jobs:
           yarn postbuild
 
       - name: Build stage
+        id: build-STAGE
         working-directory: ./packages/ankr-earn
         if: ${{ github.event.inputs.api == 'STAGE' }}
         run: |
@@ -96,3 +105,9 @@ jobs:
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
           echo "Invalidation ID is $INVALIDATION_ID"
           echo "CDN Invalidation request is sent."
+          
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: always()
