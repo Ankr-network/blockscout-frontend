@@ -1,11 +1,13 @@
 import { Button } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { useSecondaryTabStyles } from './SecondaryTabStyles';
 import { TabSize } from './types';
+import { useSecondaryTabStyles } from './SecondaryTabStyles';
 
 export interface SecondaryTabProps {
   className?: string;
+  disabled?: boolean;
+  endIcon?: ReactNode;
   isLast?: boolean;
   isSelected?: boolean;
   label: ReactNode | string;
@@ -16,6 +18,8 @@ export interface SecondaryTabProps {
 
 export const SecondaryTab = ({
   className,
+  disabled,
+  endIcon,
   isLast,
   isSelected,
   label,
@@ -32,10 +36,12 @@ export const SecondaryTab = ({
   return (
     <Button
       className={cx(className, classes.secondaryTab)}
-      onClick={onClick}
-      variant="contained"
-      startIcon={startIcon}
+      disabled={disabled}
+      endIcon={endIcon}
       fullWidth
+      onClick={onClick}
+      startIcon={startIcon}
+      variant="contained"
     >
       {label}
     </Button>

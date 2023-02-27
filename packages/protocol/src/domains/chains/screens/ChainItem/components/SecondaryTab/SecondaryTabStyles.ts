@@ -61,6 +61,12 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
 
                 color: theme.palette.primary.main,
               },
+
+              '&.Mui-disabled': {
+                backgroundColor: theme.palette.background.paper,
+
+                color: theme.palette.primary.main,
+              },
             }
           : {
               backgroundColor: 'transparent',
@@ -69,6 +75,11 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
               color: theme.palette.grey[600],
 
               '&:hover': {
+                backgroundColor: 'transparent',
+                color: theme.palette.grey[600],
+              },
+
+              '&.Mui-disabled': {
                 backgroundColor: 'transparent',
                 color: theme.palette.grey[600],
               },

@@ -1,6 +1,7 @@
 export enum ChainID {
   APTOS = 'aptos',
   ARBITRUM = 'arbitrum',
+  ARBITRUM_NOVA = 'arbitrumnova',
   AVALANCHE = 'avalanche',
   AVALANCHE_C = 'avalanche-c',
   AVALANCHE_EVM = 'avalanche-evm',

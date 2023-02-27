@@ -1,8 +1,5 @@
-import { useEffect } from 'react';
-
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { chainsFetchPublicChainsInfo } from 'domains/chains/actions/public/fetchPublicChainsInfo';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useChainsFetchPublicChainsInfoQuery } from 'domains/chains/actions/public/fetchPublicChainsInfo';
 
 export type PublicChains = [IApiChain[], IApiChain[], boolean];
 
@@ -12,14 +9,8 @@ const defaultData = {
 };
 
 export const usePublicChainsInfo = (): PublicChains => {
-  const [
-    fetchPublicChainsInfo,
-    { data: { chains, allChains } = defaultData, isLoading },
-  ] = useQueryEndpoint(chainsFetchPublicChainsInfo);
-
-  useEffect(() => {
-    fetchPublicChainsInfo();
-  }, [fetchPublicChainsInfo]);
+  const { data: { chains, allChains } = defaultData, isLoading } =
+    useChainsFetchPublicChainsInfoQuery();
 
   return [chains, allChains, isLoading];
 };

@@ -1,4 +1,3 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import {
   bannerGradientDark,
@@ -7,7 +6,7 @@ import {
 } from 'uiKit/Theme/themeUtils';
 
 export const useUpgradePlanBannerStyles = makeStyles<boolean>()(
-  (theme: Theme, isLightTheme: boolean) => ({
+  (theme, isLightTheme) => ({
     root: {
       marginBottom: theme.spacing(10),
       maxWidth: 940,

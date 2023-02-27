@@ -3,7 +3,7 @@ import { ChainType, Timeframe } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { usePrivateUsageData } from './usePrivateUsageData';
-import { PrivateUsageSection } from './components/PrivateUsageSection/PrivateUsageSection';
+import { PrivateUsageSection } from './components/PrivateUsageSection';
 
 export interface PrivateUsageDataSectionProps {
   chain: IApiChain;

@@ -23,9 +23,9 @@ interface TooltipProps {
 export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
   const { classes } = useStyles();
 
-  const isActive = active && payload && payload.length > 0;
+  if (!(active && payload && payload.length > 0)) return null;
 
-  return isActive ? (
+  return (
     <Box className={classes.tooltipRoot}>
       <div className={classes.value}>
         {formatNumber(payload[0].payload.value, currency)}{' '}
@@ -35,5 +35,5 @@ export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
         {t(`${root}.chart.medium-date`, { value: payload[0].payload.time })}
       </div>
     </Box>
-  ) : null;
+  );
 };

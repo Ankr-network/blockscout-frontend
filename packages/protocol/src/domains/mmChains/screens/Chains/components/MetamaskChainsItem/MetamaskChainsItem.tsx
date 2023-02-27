@@ -7,11 +7,13 @@ import { usePublicChainsItem } from 'domains/chains/screens/Chains/components/Pu
 export const MetamaskChainsItem = ({
   chain,
   chainId,
+  timeframe,
   publicChain,
   ...props
 }: ChainsItemQueryProps) => {
   const { totalRequests, loading } = usePublicChainsItem({
     chain,
+    timeframe,
   });
 
   const { isHighlighted, totalRequestsStr, urls } = useCommonChainsItemData(
@@ -22,6 +24,7 @@ export const MetamaskChainsItem = ({
   return (
     <ChainsItemBase
       {...props}
+      timeframe={timeframe}
       isHighlighted={isHighlighted}
       chain={chain}
       totalRequests={totalRequestsStr}

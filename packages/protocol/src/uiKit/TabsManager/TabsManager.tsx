@@ -27,7 +27,7 @@ export function TabsManager<TI = DefaultTabID>({
               <div
                 className={cx(classes.tab, classNameTab)}
                 key={id}
-                onClick={onSelect}
+                onClick={isDisabled ? undefined : onSelect}
                 role="tab"
                 tabIndex={index}
               >

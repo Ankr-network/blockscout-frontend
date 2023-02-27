@@ -1,28 +1,27 @@
 import { useMemo } from 'react';
 
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { SortType } from 'domains/chains/types';
-import { chainsFetchPublicRequestsCountStats } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { SortType, Timeframe } from 'domains/chains/types';
+import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { sortPublicChains, formatRequestsCount } from './utils';
 import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
 
 export interface ChainsParams {
   chains: IApiChain[];
   allChains: IApiChain[];
   sortType: SortType;
+  timeframe: Timeframe;
 }
 
 export const usePublicChains = ({
   chains,
   allChains,
   sortType,
+  timeframe,
 }: ChainsParams) => {
-  const [, { isLoading: arePublicStatsLoading }] = useQueryEndpoint(
-    chainsFetchPublicRequestsCountStats,
-  );
-
-  const [, { data }] = useQueryEndpoint(chainsFetchPublicRequestsCountStats);
+  const { data, isLoading: arePublicStatsLoading } =
+    useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
 
   const processedChains = useMemo(
     () =>
