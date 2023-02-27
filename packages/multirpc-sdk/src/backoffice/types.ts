@@ -35,11 +35,12 @@ export interface IBalancesEntity {
   amount: string; // deprecated. use creditAnkrAmount
   amountAnkr: string;
   amountUsd: string;
-  voucherAmount: string; // deprecated. use creditVoucherAmount
-  reference: string;
   creditAnkrAmount: string;
-  creditVoucherAmount: string;
   creditUsdAmount: string;
+  creditVoucherAmount: string;
+  reference: string;
+  voucherAmount: string; // deprecated. use creditVoucherAmount
+  voucherExpiresAt?: string;
 }
 
 export interface IBalancesRequest {

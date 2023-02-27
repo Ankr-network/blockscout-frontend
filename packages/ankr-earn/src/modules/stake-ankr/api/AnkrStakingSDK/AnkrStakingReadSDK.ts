@@ -310,6 +310,12 @@ export class AnkrStakingReadSDK {
     return stakingContract.methods.getValidators().call();
   }
 
+  @Memoize({
+    expiring: SHORT_CACHE_TIME,
+    hashFunction: (validator: Web3Address, epoch?: number) => {
+      return `${validator}${epoch ?? ''}`;
+    },
+  })
   protected async loadValidatorInfo(
     validator: Web3Address,
     epoch?: number,
@@ -427,10 +433,10 @@ export class AnkrStakingReadSDK {
 
     const rawData: IDelegatorEventData[] = blocks.map((block, index) => ({
       ...events[index],
-      timestamp: block.timestamp as number,
+      timestamp: +block.timestamp,
     }));
 
-    return rawData.map((event): IDelegatorDelegation => {
+    const result = rawData.map((event): IDelegatorDelegation => {
       const { validator, staker, amount, epoch } = event.returnValues;
       return {
         event,
@@ -441,6 +447,8 @@ export class AnkrStakingReadSDK {
         txDate: new Date(event.timestamp * 1_000),
       };
     });
+
+    return result;
   }
 
   @Memoize({
@@ -532,7 +540,7 @@ export class AnkrStakingReadSDK {
       timestamp: block.timestamp as number,
     }));
 
-    return rawData.map((event): IDelegatorDelegation => {
+    const result = rawData.map((event): IDelegatorDelegation => {
       const { validator, staker, amount, epoch } = event.returnValues;
       return {
         event,
@@ -543,6 +551,8 @@ export class AnkrStakingReadSDK {
         txDate: new Date(event.timestamp * 1_000),
       };
     });
+
+    return result;
   }
 
   public async getStakingRewards(
@@ -643,11 +653,15 @@ export class AnkrStakingReadSDK {
       calls,
     );
     const rewardEvents = blocks
-      .map((block, index) => ({
-        ...validatorDepositedEvents[index],
-        timestamp: block.timestamp as number,
-        txDate: new Date((block.timestamp as number) * 1_000),
-      }))
+      .map((block, index) => {
+        const timestamp = +block.timestamp;
+
+        return {
+          ...validatorDepositedEvents[index],
+          timestamp,
+          txDate: new Date(timestamp * 1_000),
+        };
+      })
       .filter(block => +block.returnValues.epoch === currentEpoch);
 
     const validators = await this.getActiveValidators(currentEpoch);
@@ -667,7 +681,7 @@ export class AnkrStakingReadSDK {
     const epochDurationDays = await this.getEpochDurationDays(blockNumber);
     const yearDays = new BigNumber(365);
 
-    return validators.map(x => {
+    const result = validators.map(x => {
       const rewards = rewardsMap.get(x.validator) ?? ZERO;
 
       return {
@@ -680,6 +694,8 @@ export class AnkrStakingReadSDK {
           : TEMPORARY_APY,
       };
     });
+
+    return result;
   }
 
   /**

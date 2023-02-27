@@ -11,7 +11,7 @@ import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
 import { useIsMDDown } from 'uiKit/Theme/useTheme';
 
-export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
+export const Breadcrumbs = ({ items, userLabel }: BreadcrumbsProps) => {
   const isMobile = useIsMDDown();
   const isLessThanMaxWidth = useMediaQuery('(max-width:1100px)');
 
@@ -58,12 +58,14 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
 
         return (
           <Typography
-            className={classes.typography}
+            className={classes.item}
             color="textPrimary"
             variant="h3"
             key={title}
+            component="div"
           >
             {capitalize(title)}
+            {userLabel}
           </Typography>
         );
       })}

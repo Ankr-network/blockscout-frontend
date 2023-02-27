@@ -28,7 +28,9 @@ import {
   ANKR_PROVIDER_READ_ID,
   ANKR_STAKING_MAX_DECIMALS_LENGTH,
   GAS_LIMIT_MULTIPLIER,
+  GAS_LIMIT_PER_EPOCH,
   ONE_DAY,
+  UNSTAKE_GAS_LIMIT,
 } from './const';
 import {
   IActiveStakingByValidator,
@@ -183,10 +185,17 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .undelegate(validator, hexAmount)
       .encodeABI();
 
+    const { epoch: currentEpoch } = await this.getChainParams();
+
+    const extendedGasLimit = await this.getExtendedGasLimit(
+      validator,
+      currentEpoch,
+    );
+
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data, estimate: true },
+      { data, extendedGasLimit, estimate: true },
     );
 
     return transactionHash;
@@ -198,9 +207,11 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   public async redelegate(validator: Web3Address): Promise<string> {
     const stakingContract = this.getAnkrTokenStakingContract();
 
-    const queue = await this.getDelegationQueue(validator);
-    const extendedGasLimit = AnkrStakingSDK.calcGasLimitBasedOnQueue(
-      queue.length,
+    const { epoch: currentEpoch } = await this.getChainParams();
+
+    const extendedGasLimit = await this.getExtendedGasLimit(
+      validator,
+      currentEpoch,
     );
 
     const data = stakingContract.methods
@@ -214,6 +225,35 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     );
 
     return transactionHash;
+  }
+
+  /**
+   * Calculate gas limit based on epoch diff or queue length
+   *
+   * @private
+   * @param {Web3Address} validator - validator address
+   * @param {number} currentEpoch - current epoch
+   * @return {Promise<number>} gas limit
+   */
+  private async getExtendedGasLimit(
+    validator: Web3Address,
+    currentEpoch: number,
+  ): Promise<number> {
+    const queue = await this.getDelegationQueue(validator);
+
+    const gasLimitBasedOnQueueLength = queue.length * GAS_LIMIT_MULTIPLIER;
+
+    const gasLimitBasedOnEpochDiff = queue.reduce((acc, item) => {
+      const { epoch } = item;
+      const epochDiff = currentEpoch - +epoch;
+      const additionalGasLimit = epochDiff * GAS_LIMIT_PER_EPOCH;
+
+      return acc + additionalGasLimit;
+    }, 0);
+
+    return gasLimitBasedOnEpochDiff < gasLimitBasedOnQueueLength
+      ? gasLimitBasedOnQueueLength
+      : gasLimitBasedOnEpochDiff;
   }
 
   /**
@@ -234,18 +274,6 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     return stakingContract.methods
       .getDelegateQueue(validator, this.currentAccount)
       .call();
-  }
-
-  /**
-   * Calculating the gas limit to be able to claim all ANKR rewards
-   * per transaction.
-   *
-   * @private
-   * @static
-   * @param  queueLength - the number of delegations in queue.
-   */
-  private static calcGasLimitBasedOnQueue(queueLength: number): number {
-    return queueLength * GAS_LIMIT_MULTIPLIER;
   }
 
   public async getMyClaimableStakingRewards(
@@ -347,10 +375,12 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
     const data = stakingContract.methods.multicall(inputs).encodeABI();
 
+    const extendedGasLimit = UNSTAKE_GAS_LIMIT * inputs.length;
+
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data, estimate: true },
+      { data, extendedGasLimit, estimate: true },
     );
 
     return transactionHash;
@@ -524,11 +554,12 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   ): Promise<IActiveStakingByValidator[]> {
     const { currentAccount } = this;
 
-    // ⬇️ download all data
-    const [activeValidators, delegationHistory] = await Promise.all([
-      this.getActiveValidators(),
-      this.getDelegationHistory({ staker: currentAccount }, latestBlockNumber),
-    ]);
+    const activeValidators = await this.getActiveValidators();
+
+    const delegationHistory = await this.getDelegationHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
 
     // geting the list of validators from delegations history without doubles
     const delegatingValidators = new Set(
@@ -733,15 +764,16 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
     const delegatorsFee = await this.getDelegatorsFee(allValidatorsAddresses);
 
-    const queuesPromise = allValidatorsAddresses.map(address =>
-      this.getDelegationQueue(address),
+    const { epoch: currentEpoch } = await this.getChainParams();
+
+    const gasLimitsPromise = allValidatorsAddresses.map(address =>
+      this.getExtendedGasLimit(address, currentEpoch),
     );
 
-    const queues = await Promise.all(queuesPromise);
+    const gasLimits = await Promise.all(gasLimitsPromise);
 
-    const totalQueuesLength = queues.reduce((acc, queue) => {
-      acc += queue.length;
-      return acc;
+    const extendedGasLimit = gasLimits.reduce((totalGasLimit, gasLimit) => {
+      return totalGasLimit + gasLimit;
     }, 0);
 
     const inputs = delegatorsFee.reduce<string[]>((acc, delegatorFee, i) => {
@@ -760,9 +792,6 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
     const data = stakingContract.methods.multicall(inputs).encodeABI();
 
-    const extendedGasLimit =
-      AnkrStakingSDK.calcGasLimitBasedOnQueue(totalQueuesLength);
-
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
@@ -779,9 +808,11 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .claimDelegatorFee(validator)
       .encodeABI();
 
-    const queue = await this.getDelegationQueue(validator);
-    const extendedGasLimit = AnkrStakingSDK.calcGasLimitBasedOnQueue(
-      queue.length,
+    const { epoch: currentEpoch } = await this.getChainParams();
+
+    const extendedGasLimit = await this.getExtendedGasLimit(
+      validator,
+      currentEpoch,
     );
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
@@ -800,9 +831,11 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .claimStakingRewards(validator)
       .encodeABI();
 
-    const queue = await this.getDelegationQueue(validator);
-    const extendedGasLimit = AnkrStakingSDK.calcGasLimitBasedOnQueue(
-      queue.length,
+    const { epoch: currentEpoch } = await this.getChainParams();
+
+    const extendedGasLimit = await this.getExtendedGasLimit(
+      validator,
+      currentEpoch,
     );
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
@@ -830,19 +863,18 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       return acc;
     }, []);
 
-    const queuesPromise = rewards.map(reward =>
-      this.getDelegationQueue(reward.validator.validator),
+    const { epoch: currentEpoch } = await this.getChainParams();
+
+    const gasLimitsPromise = rewards.map(reward =>
+      this.getExtendedGasLimit(reward.validator.validator, currentEpoch),
     );
 
-    const queues = await Promise.all(queuesPromise);
+    const gasLimits = await Promise.all(gasLimitsPromise);
 
-    const totalQueuesLength = queues.reduce((acc, queue) => {
-      acc += queue.length;
-      return acc;
+    const extendedGasLimit = gasLimits.reduce((totalGasLimit, gasLimit) => {
+      return totalGasLimit + gasLimit;
     }, 0);
 
-    const extendedGasLimit =
-      AnkrStakingSDK.calcGasLimitBasedOnQueue(totalQueuesLength);
     const data = stakingContract.methods.multicall(inputs).encodeABI();
 
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
@@ -861,13 +893,10 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .claimPendingUndelegates(validator)
       .encodeABI();
 
-    // ℹ️ the value is hardcoded, because we can't accurate calculate it for this method
-    const extendedGasLimit = 300_000;
-
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data, extendedGasLimit, estimate: true },
+      { data, extendedGasLimit: UNSTAKE_GAS_LIMIT, estimate: true },
     );
 
     return transactionHash;
@@ -907,35 +936,43 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   ): Promise<IHistoryData[]> {
     const { currentAccount } = this;
 
-    const [delegation, undelegation, claim] = await Promise.all([
-      this.getDelegationHistory({ staker: currentAccount }, latestBlockNumber),
-      this.getUndelegationHistory(
-        { staker: currentAccount },
-        latestBlockNumber,
-      ),
-      this.getClaimHistory({ staker: currentAccount }, latestBlockNumber),
-    ]);
+    const delegation = await this.getDelegationHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
 
-    return [
-      ...delegation.map(delegItem => ({
+    const undelegation = await this.getUndelegationHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
+
+    const claim = await this.getClaimHistory(
+      { staker: currentAccount },
+      latestBlockNumber,
+    );
+
+    const result = [
+      ...delegation.map<IHistoryData>(delegItem => ({
         date: delegItem.txDate,
         hash: delegItem.event?.transactionHash ?? '',
         event: delegItem.event?.event,
         amount: this.convertFromWei(delegItem.amount),
       })),
-      ...undelegation.map(undelegItem => ({
+      ...undelegation.map<IHistoryData>(undelegItem => ({
         date: undelegItem.txDate,
         hash: undelegItem.event?.transactionHash ?? '',
         event: undelegItem.event?.event,
         amount: this.convertFromWei(undelegItem.amount),
       })),
-      ...claim.map(claimItem => ({
+      ...claim.map<IHistoryData>(claimItem => ({
         date: claimItem.txDate,
         hash: claimItem.event?.transactionHash ?? '',
         event: claimItem.event?.event,
         amount: this.convertFromWei(claimItem.amount),
       })),
     ].sort((a, b) => b.date.getTime() - a.date.getTime());
+
+    return result;
   }
 
   public async approve(amount: BigNumber): Promise<IApproveResponse> {

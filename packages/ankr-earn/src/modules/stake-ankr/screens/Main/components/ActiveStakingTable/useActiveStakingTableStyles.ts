@@ -47,12 +47,20 @@ export const useActiveStakingTableStyles = makeStyles(
     },
 
     expandTable: {
+      padding: theme.spacing(0, 2),
       backgroundColor: theme.palette.background.default,
-      padding: theme.spacing(2),
+
+      [theme.breakpoints.up('md')]: {
+        padding: theme.spacing(2),
+      },
     },
 
     expandWrapper: {
-      padding: theme.spacing(3),
+      padding: theme.spacing(0, 1),
+
+      [theme.breakpoints.up('md')]: {
+        padding: theme.spacing(3),
+      },
     },
 
     row: {
@@ -70,9 +78,6 @@ export const useActiveStakingTableStyles = makeStyles(
     },
 
     expandedRow: {
-      margin: theme.spacing(2, 0, 2),
-      padding: theme.spacing(2),
-
       [theme.breakpoints.up('md')]: {
         borderBottom: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
 

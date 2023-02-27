@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface BreadcrumbItem {
   title: string;
   link?: string;
@@ -6,4 +8,5 @@ export interface BreadcrumbItem {
 
 export interface BreadcrumbsProps {
   items: BreadcrumbItem[];
+  userLabel: ReactNode;
 }

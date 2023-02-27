@@ -42,4 +42,17 @@ export const ANKR_HISTORY_BLOCK_RANGE = 3_000;
  */
 export const GAS_LIMIT_MULTIPLIER = 100_000;
 
+/**
+ * Is used for gas limit formula.
+ *
+ * For more information please see [STAKAN-2547](https://ankrnetwork.atlassian.net/browse/STAKAN-2547)
+ */
+export const GAS_LIMIT_PER_EPOCH = 10_000;
+
 export const ONE_DAY: Milliseconds = 1000 * 60 * 60 * 24;
+
+/**
+ * Hardcoded value for gas limit for unstake method.
+ * We can't accurate calculate it for this method.
+ */
+export const UNSTAKE_GAS_LIMIT = 300_000;

@@ -142,6 +142,8 @@ export const ClientInfo = ({
     <>{renderBalance(client?.amountUsd, 'equivalent in USD')}</>
   ) : null;
 
+  const voucherExpiresAtText = `expires at ${client?.voucherExpiresDate?.toLocaleDateString()}`;
+
   return (
     <>
       <Typography className={classes.clientAddress} variant="h6">
@@ -262,6 +264,11 @@ export const ClientInfo = ({
                 : renderBalance(client?.voucherAmount)}
             </b>
           </Typography>
+          {client?.voucherExpiresDate && (
+            <Typography variant="caption" component="p">
+              {isLoadingClients ? skeleton : voucherExpiresAtText}
+            </Typography>
+          )}
         </Grid>
 
         <Grid item xs={3} component={Paper} className={classes.gridItem}>

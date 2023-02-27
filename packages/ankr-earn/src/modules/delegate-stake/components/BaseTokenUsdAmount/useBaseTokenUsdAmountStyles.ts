@@ -5,6 +5,7 @@ export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
     alignItems: 'inherit',
 
     [theme.breakpoints.up('sm')]: {
+      width: '100%',
       display: 'flex',
       alignItems: 'inherit',
       justifyContent: 'inherit',
@@ -19,7 +20,11 @@ export const useBaseTokenUsdAmountStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(1),
 
     [theme.breakpoints.up('sm')]: {
-      marginBottom: 0,
+      margin: theme.spacing(0, 2, 0, 0),
+    },
+
+    [theme.breakpoints.up('md')]: {
+      margin: 0,
     },
   },
 
