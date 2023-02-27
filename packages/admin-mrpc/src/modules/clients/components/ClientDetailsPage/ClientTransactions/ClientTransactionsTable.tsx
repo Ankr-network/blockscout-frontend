@@ -32,7 +32,7 @@ export const ClientTransactionsTable = ({
     : transactions;
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer sx={{ pl: 6, pr: 6 }} component={Paper}>
       <Table size="small" aria-label="transactions table">
         <TableHead>
           <TableRow>
