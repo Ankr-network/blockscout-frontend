@@ -14,6 +14,7 @@ export const MetamaskChains = () => {
     allChains,
     chains,
     sortType,
+    timeframe,
   });
 
   const metamaskChains = useMetamaskChains(processedChains);

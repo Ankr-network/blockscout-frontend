@@ -44,6 +44,10 @@ export const useDefaultContentStyles = makeStyles<
       [`& .${classes.intro}`]: {
         display: 'block',
       },
+      [`& .${Title.premium}:hover`]: {
+        color: theme.palette.common.white,
+      },
+
       [`&.${classes.wrapperV2}`]: {
         border: `4px solid ${theme.palette.divider}`,
 

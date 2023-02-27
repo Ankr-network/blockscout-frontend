@@ -12,7 +12,7 @@ export const useDataUsageSectionStyles = makeStyles()((theme: Theme) => ({
     [theme.breakpoints.down('lg')]: {
       gap: theme.spacing(2 * 2),
 
-      marginTop: theme.spacing(2 * 2),
+      marginTop: theme.spacing(2 * 3.5),
     },
   },
   row: {

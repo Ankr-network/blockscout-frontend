@@ -4,7 +4,7 @@ import { IDialogProps } from 'uiKit/Dialog';
 import { getContent } from '../utils/getContent';
 import { useDialogTitle } from './useDialogTitle';
 import { useHasBreakdown } from 'uiKit/Theme/useTheme';
-import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler.ts';
+import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 
 const getDefaultMaxWidth = (hasBreakdown: boolean) =>
   hasBreakdown ? 600 : 980;

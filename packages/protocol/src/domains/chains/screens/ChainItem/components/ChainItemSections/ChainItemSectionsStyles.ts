@@ -6,10 +6,11 @@ export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
     marginBottom: theme.spacing(2 * 3),
   },
   tabs: {
+    minHeight: 44,
     overflowX: 'scroll',
 
-    '-ms-overflow-style': 'none',
-    'scrollbar-width': 'none',
+    MsOverflowStyle: 'none',
+    scrollbarWidth: 'none',
 
     '&::-webkit-scrollbar': {
       display: 'none',

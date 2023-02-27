@@ -35,6 +35,7 @@ export interface IApiChain {
   type: IBlockchainEntity['type'];
   urls: IApiChainURL[];
   premiumOnly?: boolean;
+  hasWsFeature: boolean;
 }
 
 const getSuiFrontChain = (testnet: IApiChain) => ({
@@ -58,6 +59,7 @@ export const filterMapChains = (
         extends: chainExtends,
         type,
         premiumOnly,
+        features,
       } = blockchain;
 
       return {
@@ -72,6 +74,7 @@ export const filterMapChains = (
           ws: wsURLs[index],
         })),
         premiumOnly,
+        hasWsFeature: features.includes('ws'),
       };
     });
 

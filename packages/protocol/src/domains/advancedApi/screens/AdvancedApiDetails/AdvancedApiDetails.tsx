@@ -8,7 +8,7 @@ import { ChainID } from 'modules/chains/types';
 import { UpgradePlanBanner } from './components/UpgradePlanBanner/UpgradePlanBanner';
 
 export const AdvancedApiDetails = () => {
-  const { hasPrivateAccess, loading } = useAuth();
+  const { hasPrivateAccess, hasPremium, loading } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -19,10 +19,7 @@ export const AdvancedApiDetails = () => {
   return (
     <>
       {/* Banner with "upgrade plan" should be hidden for enterprise */}
-      <UpgradePlanBanner
-        hasPrivateAccess={hasPrivateAccess}
-        loading={loading}
-      />
+      <UpgradePlanBanner hasPremium={hasPremium} loading={loading} />
 
       {hasPrivateAccess ? (
         <PrivateChainItemQuery chainId={ChainID.MULTICHAIN} loading={loading} />

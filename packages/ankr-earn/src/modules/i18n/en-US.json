@@ -1168,7 +1168,7 @@
     "staking": {
       "more-title": "Stake more ANKR",
       "approve": "Approve",
-      "submit": "Send",
+      "submit": "Stake",
       "provider-label": "Node Provider",
       "provider-placeholder": "Select node provider",
       "locking-period": "Locking period",

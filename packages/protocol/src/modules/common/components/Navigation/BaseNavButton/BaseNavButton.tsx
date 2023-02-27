@@ -1,13 +1,14 @@
-import { t } from '@ankr.com/common';
 import { Button, ButtonProps } from '@mui/material';
-import { isExternalPath } from 'modules/common/utils/isExternalPath';
+import { NavLink, NavLinkProps } from 'react-router-dom';
+import { useMemo } from 'react';
+
+import { NavigationItem } from './BaseNavButtonTypes';
+import { SoonLabel } from '../../SoonLabel';
 import {
   getCommonButtonProps,
   getExternalButtonProps,
 } from 'modules/layout/components/MainNavigation/utils/navigationUtils';
-import { useMemo } from 'react';
-import { NavLink, NavLinkProps } from 'react-router-dom';
-import { NavigationItem } from './BaseNavButtonTypes';
+import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
 
 interface IBaseNavButtonProps {
@@ -39,9 +40,7 @@ export const BaseNavButton = ({ item }: IBaseNavButtonProps) => {
       activeClassName={classes.activeLink}
     >
       {label}
-      {isComingSoon && (
-        <b className={classes.soon}>{t('main-navigation.soon')}</b>
-      )}
+      {isComingSoon && <SoonLabel className={classes.soon} />}
     </Button>
   );
 };
