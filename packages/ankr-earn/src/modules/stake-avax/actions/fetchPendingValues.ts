@@ -13,7 +13,10 @@ interface IFetchPendingValuesResponseData {
   pendingAavaxcUnstakes: BigNumber;
 }
 
-export const { useGetAVAXPendingValuesQuery } = web3Api.injectEndpoints({
+export const {
+  useGetAVAXPendingValuesQuery,
+  useLazyGetAVAXPendingValuesQuery,
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     getAVAXPendingValues: build.query<IFetchPendingValuesResponseData, void>({
       queryFn: queryFnNotifyWrapper<
