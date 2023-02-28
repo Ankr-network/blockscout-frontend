@@ -179,7 +179,7 @@ export const ClientUsageTable = ({
         ? TAB_INDEXES.map(tab => {
             return (
               <TabPanel key={tab} value={activeTimeframeTabIndex} index={+tab}>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} sx={{ pl: 6, pr: 6, mt: 6 }}>
                   <Table size="small" aria-label="actions table">
                     <TableHead>
                       <TableRow>

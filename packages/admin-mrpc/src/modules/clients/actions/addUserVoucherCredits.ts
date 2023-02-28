@@ -27,14 +27,18 @@ export const {
         };
       },
       onQueryStarted: async (
-        { address, amountType, amount },
+        { address, amountType, amount, expiresAt },
         { queryFulfilled },
       ) => {
         queryFulfilled
           .then(res => {
             const { data } = res;
             if (data.success) {
-              toast.success(`Added ${amount} ${amountType} for ${address}`);
+              toast.success(
+                `Added ${
+                  expiresAt ? `temporary` : ''
+                } ${amount} ${amountType} for ${address}`,
+              );
             } else {
               toast.error(
                 `Failed to add ${amount} ${amountType} for ${address}. Try again`,
