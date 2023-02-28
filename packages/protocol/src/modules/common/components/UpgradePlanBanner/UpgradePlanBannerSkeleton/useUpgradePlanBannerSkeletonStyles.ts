@@ -4,9 +4,6 @@ import { makeStyles } from 'tss-react/mui';
 export const useUpgradePlanBannerSkeletonStyles = makeStyles()(
   (theme: Theme) => ({
     root: {
-      maxWidth: 940,
-      marginLeft: 'auto',
-      marginRight: 'auto',
       width: '100%',
       height: 155,
       padding: theme.spacing(10),

@@ -1,3 +1,4 @@
+import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import {
   bannerGradientDark,
@@ -5,24 +6,14 @@ import {
   premiumText,
 } from 'uiKit/Theme/themeUtils';
 
-export const useUpgradePlanBannerStyles = makeStyles<boolean>()(
-  (theme, isLightTheme) => ({
-    root: {
-      marginBottom: theme.spacing(10),
-      maxWidth: 940,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-
-      [theme.breakpoints.down('md')]: {
-        marginBottom: theme.spacing(8),
-      },
-    },
+export const useUpgradePlanBannerContentStyles = makeStyles<boolean>()(
+  (theme: Theme, isLightTheme: boolean) => ({
     wrapper: {
       padding: theme.spacing(2 * 3.75),
       display: 'flex',
       alignItems: 'center',
       background: isLightTheme ? bannerGradientLight : bannerGradientDark,
-      justifyContent: 'flex-end',
+      justifyContent: 'space-between',
       overflow: 'hidden',
       position: 'relative',
 
@@ -46,6 +37,7 @@ export const useUpgradePlanBannerStyles = makeStyles<boolean>()(
     },
     plan: {
       width: '35%',
+      paddingRight: theme.spacing(5),
       [theme.breakpoints.down('md')]: {
         width: '60%',
         marginBottom: theme.spacing(8),

@@ -34,19 +34,6 @@ export class PAYGContractManager extends PAYGReadContractManager {
     return scaledAmount.isGreaterThan(scaledBalance);
   }
 
-  private async isAllowanceLessThanAmount(scaledAmount: BigNumber) {
-    const { currentAccount } = this.keyProvider;
-
-    // make sure user have enough allowance
-    const allowance = await (this.ankrTokenContract.methods as IAnkrToken)
-      .allowance(currentAccount, this.config.payAsYouGoContractAddress)
-      .call();
-
-    const scaledAllowance = new BigNumber(allowance);
-
-    return scaledAllowance.isLessThanOrEqualTo(scaledAmount);
-  }
-
   private async sendAllowance(scaledAmount: BigNumber) {
     const { currentAccount } = this.keyProvider;
 
@@ -99,16 +86,6 @@ export class PAYGContractManager extends PAYGReadContractManager {
     }
   }
 
-  private async canDeposit(scaledAmount: BigNumber) {
-    const isAllowanceLessThanAmount = await this.isAllowanceLessThanAmount(
-      scaledAmount,
-    );
-
-    if (!isAllowanceLessThanAmount) {
-      throw new Error(`User doesn't have enough allowance`);
-    }
-  }
-
   async getAllowance(amount: BigNumber) {
     const provider = this.keyProvider;
     const web3 = provider.getWeb3();
@@ -120,36 +97,32 @@ export class PAYGContractManager extends PAYGReadContractManager {
     return this.sendAllowance(scaledAmount);
   }
 
+  async getLastAllowanceValue() {
+    const provider = this.keyProvider;
+    const { currentAccount } = provider;
+
+    const allowance = await (this.ankrTokenContract.methods as IAnkrToken)
+      .allowance(currentAccount, this.config.payAsYouGoContractAddress)
+      .call();
+
+    return new BigNumber(allowance);
+  }
+
   async depositAnkr(
-    amount: BigNumber,
+    _amount: BigNumber,
     publicKey: string,
     // TODO expiresAfter
     expiresAfter = '31536000',
   ): Promise<IWeb3SendResult> {
-    const provider = this.keyProvider;
-    const web3 = provider.getWeb3();
+    const scaledAllowance = await this.getLastAllowanceValue();
 
-    const scaledAmount = new BigNumber(web3.utils.toWei(amount.toString(10)));
+    await this.canAllow(scaledAllowance);
 
-    await this.canAllow(scaledAmount);
-    await this.canDeposit(scaledAmount);
-
-    return this.sendDepositTransaction(scaledAmount, publicKey, expiresAfter);
-  }
-
-  async hasEnoughAllowance(amount: BigNumber): Promise<boolean> {
-    const { currentAccount } = this.keyProvider;
-    const scaledAmount = new BigNumber(
-      this.keyProvider.getWeb3().utils.toWei(amount.toString(10)),
+    return this.sendDepositTransaction(
+      scaledAllowance,
+      publicKey,
+      expiresAfter,
     );
-
-    const scaledAllowance = new BigNumber(
-      await (this.ankrTokenContract.methods as IAnkrToken)
-        .allowance(currentAccount, this.config.payAsYouGoContractAddress)
-        .call(),
-    );
-
-    return scaledAllowance.isGreaterThanOrEqualTo(scaledAmount);
   }
 
   async rejectAllowance() {
