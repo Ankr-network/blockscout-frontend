@@ -5,9 +5,11 @@ import { OverlaySpinner } from '@ankr.com/ui';
 
 import { PageHeader } from 'modules/common/components/PageHeader';
 import { useBaseChainsStyles } from './BaseChainsStyles';
+import { ReminderDialog } from '../ReminderDialog';
 
 interface BaseChainsProps {
   top?: ReactNode;
+  isShowReminderDialog?: boolean;
   loading: boolean;
   select: ReactNode;
   children: ReactNode;
@@ -15,6 +17,7 @@ interface BaseChainsProps {
 
 export const BaseChains = ({
   top,
+  isShowReminderDialog,
   loading,
   select,
   children,
@@ -28,6 +31,7 @@ export const BaseChains = ({
       <Box className={classes.container}>
         {loading ? <OverlaySpinner /> : children}
       </Box>
+      {isShowReminderDialog && <ReminderDialog />}
     </>
   );
 };

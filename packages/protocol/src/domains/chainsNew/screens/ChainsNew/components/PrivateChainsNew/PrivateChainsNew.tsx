@@ -1,11 +1,12 @@
 import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
-import { usePrivateChainsData } from './hooks/usePrivateChainsData';
-import { BaseChains } from 'domains/chains/components/BaseChains';
-import { usePrivateChains } from './hooks/usePrivateChains';
-import { PrivateChainsList } from './components/PrivateChainsList';
-import { PrivateChainsTop } from './PrivateChainsTop';
 
-export const PrivateChains = () => {
+import { BaseChains } from 'domains/chains/components/BaseChains';
+import { usePrivateChainsData } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
+import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
+import { ChainsNewList } from '../ChainsNewList';
+import { PrivateChainsTop } from 'domains/chains/screens/Chains/components/PrivateChains/PrivateChainsTop';
+
+export const PrivateChainsNew = () => {
   const {
     chains,
     allChains,
@@ -16,7 +17,7 @@ export const PrivateChains = () => {
     timeframe,
   } = usePrivateChainsData();
 
-  const { processedChains, chainsDictionary } = usePrivateChains({
+  const { processedChains } = usePrivateChains({
     allChains,
     chains,
     sortType,
@@ -30,14 +31,13 @@ export const PrivateChains = () => {
           switchStatsTimeframe={switchStatsTimeframe}
         />
       }
-      isShowReminderDialog
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
       loading={loading}
     >
-      <PrivateChainsList
+      <ChainsNewList
         timeframe={timeframe}
         chains={processedChains}
-        chainsDictionary={chainsDictionary}
+        switchTimeframe={switchStatsTimeframe}
       />
     </BaseChains>
   );

@@ -6,7 +6,7 @@ import { useTimeframe } from '../../../hooks/useTimeframe';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 
 export const usePublicChainsData = () => {
-  const { loading: isConnecting } = useAuth();
+  const { loading: isConnecting, isLoggedIn } = useAuth();
 
   const [publicChains, publicAllChains, publicChainsLoading] =
     usePublicChainsInfo();
@@ -18,6 +18,7 @@ export const usePublicChainsData = () => {
   const [sortType, setSortType] = useSortType();
 
   return {
+    isLoggedIn,
     chains: publicChains,
     allChains: publicAllChains,
     loading: isConnecting || publicChainsLoading,

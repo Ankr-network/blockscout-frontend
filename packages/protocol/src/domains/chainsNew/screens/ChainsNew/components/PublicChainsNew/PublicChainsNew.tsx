@@ -1,26 +1,24 @@
-import { OverlaySpinner } from '@ankr.com/ui';
-
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
 import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
 import { BaseChains } from 'domains/chains/components/BaseChains';
-import { usePublicChains } from './hooks/usePublicChains';
-import { usePublicChainsData } from './hooks/usePublicChainsData';
-import { PublicChainsList } from './components/PublicChainsList';
+import { usePublicChainsData } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChainsData';
+import { usePublicChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChains';
+import { ChainsNewList } from '../ChainsNewList';
 import { InfoBanner } from 'domains/chains/components/InfoBanner';
 
-export const PublicChains = () => {
+export const PublicChainsNew = () => {
   const {
-    isLoggedIn,
     chains,
     allChains,
     loading,
     setSortType,
     sortType,
     timeframe,
+    switchStatsTimeframe,
   } = usePublicChainsData();
 
-  const { processedChains, chainsDictionary } = usePublicChains({
+  const { processedChains } = usePublicChains({
     allChains,
     chains,
     sortType,
@@ -30,22 +28,16 @@ export const PublicChains = () => {
   return (
     <BaseChains
       loading={loading}
-      isShowReminderDialog={isLoggedIn}
       top={!loading && <InfoBanner />}
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
     >
       <NoReactSnap
-        fallback={
-          <>
-            <ReactSnapChainsLinksGenerator chains={allChains} />
-            <OverlaySpinner />
-          </>
-        }
+        fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        <PublicChainsList
+        <ChainsNewList
           timeframe={timeframe}
           chains={processedChains}
-          chainsDictionary={chainsDictionary}
+          switchTimeframe={switchStatsTimeframe}
         />
       </NoReactSnap>
     </BaseChains>

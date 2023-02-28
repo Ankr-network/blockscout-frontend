@@ -186,7 +186,8 @@
       "item-2": "WebSockets",
       "button": "Upgrade"
     },
-    "for-premium-only": "For Premium only"
+    "for-premium-only": "For Premium only",
+    "endpoints-and-more": "Endpoints & More"
   },
   "chain-item-dialog": {
     "title": "Plans that scale with you.",
