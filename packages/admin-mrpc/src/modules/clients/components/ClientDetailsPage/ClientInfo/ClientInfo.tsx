@@ -138,9 +138,9 @@ export const ClientInfo = ({
     ? `${formatNumber(totalData?.blockchainsInfo.totalCost)}`
     : NOT_FOUND_TEXT;
   const clientEmailText = client?.email || NOT_FOUND_TEXT;
-  const amountUsdText = client?.amountUsd ? (
-    <>{renderBalance(client?.amountUsd, 'equivalent in USD')}</>
-  ) : null;
+  const amountUsdText = client?.amountUsd
+    ? `${renderUSD(client?.amountUsd)} Equivalent in USD`
+    : null;
 
   const voucherExpiresAtText = `expires at ${client?.voucherExpiresDate?.toLocaleDateString()}`;
 
@@ -231,7 +231,9 @@ export const ClientInfo = ({
             Сurrent USD only Balance
           </Typography>
           <Typography variant="subtitle1" component="p">
-            <b>{isLoadingClients ? skeleton : renderUSD(client?.amountUsd)}</b>
+            <b>
+              {isLoadingClients ? skeleton : renderUSD(client?.creditUsdAmount)}
+            </b>
           </Typography>
         </Grid>
 
@@ -240,16 +242,16 @@ export const ClientInfo = ({
             Total Usage ANKR Credits
           </Typography>
           <Typography variant="subtitle1" component="p">
+            {isLoadingRevenue
+              ? skeleton
+              : `${renderBalance(revenueData?.totalCreditsAmount)}`}
+          </Typography>
+          <Typography variant="caption" component="p">
             {isLoadingRevenue ? (
               skeleton
             ) : (
-              <b>{renderUSD(revenueData?.totalUsdAmount)}</b>
+              <>{renderUSD(revenueData?.totalUsdAmount)} Equivalent in USD</>
             )}
-          </Typography>
-          <Typography variant="caption" component="p">
-            {isLoadingRevenue
-              ? skeleton
-              : `${renderBalance(revenueData?.totalCreditsAmount, 'Credits')}`}
           </Typography>
         </Grid>
 
@@ -261,7 +263,7 @@ export const ClientInfo = ({
             <b>
               {isLoadingClients
                 ? skeleton
-                : renderBalance(client?.voucherAmount)}
+                : renderBalance(client?.creditVoucherAmount)}
             </b>
           </Typography>
           {client?.voucherExpiresDate && (

@@ -1,15 +1,14 @@
-import BigNumber from 'bignumber.js';
 import {
   IBalancesEntity,
   ICountersEntity,
   IEmailBindingEntity,
 } from 'multirpc-sdk';
-import { secondsToMilliseconds } from 'date-fns';
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { ClientMapped } from '../store/clientsSlice';
 import { getClientType } from '../utils/getClientType';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
+import { mapBalances } from '../utils/mapBalances';
 import { ClientType } from '../types';
 
 interface IApiResponse {
@@ -120,6 +119,7 @@ export const {
           );
           return {
             ...client,
+            ...mapBalances(userBalances),
             address: client.address ? client.address.toLowerCase() : '',
             ttl: client.ttl && client.ttl > 0 ? client.ttl : undefined,
             clientType: getClientType({
@@ -137,25 +137,6 @@ export const {
                 email.address?.toLowerCase() === client.address?.toLowerCase(),
             )?.status,
             createdDate: new Date(client.timestamp),
-            amount: userBalances?.creditAnkrAmount
-              ? new BigNumber(userBalances.creditAnkrAmount)
-              : undefined,
-            amountAnkr: userBalances?.amountAnkr
-              ? new BigNumber(userBalances.amountAnkr)
-              : undefined,
-            amountUsd: userBalances?.amountUsd
-              ? new BigNumber(userBalances.amountUsd)
-              : undefined,
-            voucherAmount: userBalances?.creditVoucherAmount
-              ? new BigNumber(userBalances.creditVoucherAmount)
-              : undefined,
-            voucherExpiresDate:
-              userBalances?.voucherExpiresAt &&
-              +userBalances?.voucherExpiresAt > 0
-                ? new Date(
-                    secondsToMilliseconds(+userBalances.voucherExpiresAt),
-                  )
-                : undefined,
           };
         });
 
@@ -172,6 +153,7 @@ export const {
             );
             return {
               ...client,
+              ...mapBalances(userBalances),
               clientType: ClientType.PENDING,
               createdDate: undefined,
               user: undefined,
@@ -180,19 +162,6 @@ export const {
               monthly: 0,
               delta: 0,
               timestamp: 0,
-
-              amount: userBalances?.creditAnkrAmount
-                ? new BigNumber(userBalances.creditAnkrAmount)
-                : undefined,
-              amountAnkr: userBalances?.amountAnkr
-                ? new BigNumber(userBalances.amountAnkr)
-                : undefined,
-              amountUsd: userBalances?.amountUsd
-                ? new BigNumber(userBalances.amountUsd)
-                : undefined,
-              voucherAmount: userBalances?.creditVoucherAmount
-                ? new BigNumber(userBalances.creditVoucherAmount)
-                : undefined,
             };
           });
 

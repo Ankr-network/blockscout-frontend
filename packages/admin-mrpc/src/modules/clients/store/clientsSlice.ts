@@ -14,7 +14,9 @@ export type ClientMapped = Omit<ICountersEntity, 'user'> & {
   amount?: BigNumber;
   amountAnkr?: BigNumber;
   amountUsd?: BigNumber;
-  voucherAmount?: BigNumber;
+  creditAnkrAmount?: BigNumber;
+  creditUsdAmount?: BigNumber;
+  creditVoucherAmount?: BigNumber;
   reference?: string;
   voucherExpiresDate?: Date;
   createdDate: CreatedDate;

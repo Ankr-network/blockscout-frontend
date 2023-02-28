@@ -39,7 +39,7 @@ export interface IBalancesEntity {
   creditUsdAmount: string;
   creditVoucherAmount: string;
   reference: string;
-  voucherAmount: string; // deprecated. use creditVoucherAmount
+  // voucherAmount: string; // deprecated. use creditVoucherAmount
   voucherExpiresAt?: string;
 }
 

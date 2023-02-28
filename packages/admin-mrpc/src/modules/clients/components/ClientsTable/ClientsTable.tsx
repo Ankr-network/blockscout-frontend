@@ -122,7 +122,7 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
                   {renderBalance(row.amount)}
                 </TableCell>
                 <TableCell className={classes.cell}>
-                  {renderBalance(row.voucherAmount)}
+                  {renderBalance(row.creditVoucherAmount)}
                 </TableCell>
                 <TableCell className={classes.cell}>
                   {renderBalance(row.amountAnkr)}

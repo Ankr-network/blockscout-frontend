@@ -6,7 +6,7 @@ const NUMERIC_KEYS: (keyof ClientMapped)[] = [
   'amount',
   'amountAnkr',
   'amountUsd',
-  'voucherAmount',
+  'creditVoucherAmount',
   'ttl',
 ];
 
