@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Web3Address } from 'multirpc-sdk';
-import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
-import { useFetchCountersQuery } from '../../actions/fetchCounters';
-import { ClientMapped } from '../../store/clientsSlice';
+import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
+import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
+import { ClientMapped } from 'modules/clients/store/clientsSlice';
+import { clearSpaces } from 'modules/clients/utils/clearSpaces';
 
 export const useSearchClientsInput = () => {
   const history = useHistory();
@@ -22,21 +23,27 @@ export const useSearchClientsInput = () => {
     setFoundClients(clientsFiltered);
   }, [data, searchValue]);
 
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setSearchValue(e.target.value.toLowerCase());
-  };
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const newValueNormalized = clearSpaces(e.target.value.toLowerCase());
 
-  const onClientClick = (address?: Web3Address) => {
-    if (!address) {
-      return;
-    }
-    history.push({
-      pathname: ClientsRoutesConfig.clientInfo.generatePath(address),
-    });
-    setSearchValue('');
-  };
+      setSearchValue(newValueNormalized);
+    },
+    [],
+  );
+
+  const onClientClick = useCallback(
+    (address?: Web3Address) => {
+      if (!address) {
+        return;
+      }
+      history.push({
+        pathname: ClientsRoutesConfig.clientInfo.generatePath(address),
+      });
+      setSearchValue('');
+    },
+    [history],
+  );
 
   return {
     isLoading,

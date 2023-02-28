@@ -21,9 +21,14 @@ const routes = [
 interface ILayoutProps {
   children?: ReactChild;
   hasNoReactSnap?: boolean;
+  hasSecretRouteAccess?: boolean;
 }
 
-export const Layout = ({ children, hasNoReactSnap = false }: ILayoutProps) => {
+export const Layout = ({
+  children,
+  hasNoReactSnap = false,
+  hasSecretRouteAccess = false,
+}: ILayoutProps) => {
   const { classes } = useStyles();
 
   return (
@@ -31,7 +36,7 @@ export const Layout = ({ children, hasNoReactSnap = false }: ILayoutProps) => {
       <AppBar elevation={0} position="fixed" className={classes.appBar}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Header />
+            <Header hasSecretRouteAccess={hasSecretRouteAccess} />
           </Toolbar>
         </Container>
       </AppBar>

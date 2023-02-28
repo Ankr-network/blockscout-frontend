@@ -30,6 +30,9 @@ import {
   IGetUserRevenueResponse,
   GetUserAddressesRequest,
   GetUserAddressesResponse,
+  IGetAdminRolesResponse,
+  GetUsersRegistrationsRequest,
+  GetUsersRegistrationsResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -46,6 +49,8 @@ export interface IBackofficeGateway {
   getEmailBindings(
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
+
+  getAdminRoles(): Promise<IGetAdminRolesResponse>;
 
   getUserTotal(params: IGetUserTotalRequest): Promise<IGetUserTotalResponse>;
 
@@ -74,6 +79,10 @@ export interface IBackofficeGateway {
   getUserAddresses(
     params: GetUserAddressesRequest,
   ): Promise<GetUserAddressesResponse>;
+
+  getUsersRegistrations(
+    params: GetUsersRegistrationsRequest,
+  ): Promise<GetUsersRegistrationsResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,
