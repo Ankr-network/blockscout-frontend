@@ -19,68 +19,102 @@ export const dialogTitlesMap: Record<ContentType, string> = {
 const freeItem: Item = {
   hasIntro: false,
   itemCount: 3,
-  renderButton: ({ className }) => (
+  renderButton: ({ color, variant = 'contained', className }) => (
     <NavLink
+      color={color}
+      variant={variant}
       className={className}
       disabled
       fullWidth
       href={PRICING_PATH}
-      variant="contained"
     >
       {t(`${intlRoot}.${Title.free}.button`)}
     </NavLink>
   ),
   title: Title.free,
+  isHighlighted: false,
 };
 
 const premiumItem: Item = {
   hasIntro: true,
   itemCount: 5,
-  renderButton: ({ onClick }) => (
-    <Button onClick={onClick}>
+  renderButton: ({ color, variant, onClick }) => (
+    <Button color={color} variant={variant} onClick={onClick}>
       {t(`${intlRoot}.${Title.premium}.button`)}
     </Button>
   ),
   title: Title.premium,
+  isHighlighted: true,
 };
 
 const enterpriseItem: Item = {
   hasIntro: false,
   itemCount: 3,
-  renderButton: ({ className, onClick }) => (
+  renderButton: ({ color, variant = 'outlined', className, onClick }) => (
     <NavLink
+      color={color}
+      variant={variant}
       className={className}
       fullWidth
       href={MAIL_TO_SALES}
       onClick={onClick}
-      variant="outlined"
     >
       {t(`${intlRoot}.${Title.enterprise}.button`)}
     </NavLink>
   ),
   title: Title.enterprise,
+  isHighlighted: false,
 };
 
 export const items = [freeItem, premiumItem, enterpriseItem];
 
-export const itemsV2: Item[] = [
+export const itemsPremium: Item[] = [
   {
     ...freeItem,
-    renderButton: ({ onClick }) => (
-      <ConnectButton
-        buttonText={t(`${intlRoot}.${Title.free}.button-register`)}
-        onSuccess={onClick}
-        variant="contained"
-      />
-    ),
+    renderButton: () => null,
   },
   {
     ...premiumItem,
-    renderButton: ({ onClick }) => (
-      <Button onClick={onClick} variant="outlined">
+    renderButton: ({ color, variant = 'contained', className }) => (
+      <NavLink
+        color={color}
+        variant={variant}
+        className={className}
+        disabled
+        fullWidth
+        href={PRICING_PATH}
+      >
+        {t(`${intlRoot}.${Title.free}.button`)}
+      </NavLink>
+    ),
+    isHighlighted: false,
+  },
+  {
+    ...enterpriseItem,
+    isHighlighted: true,
+  },
+];
+
+export const itemsV2: Item[] = [
+  {
+    ...freeItem,
+    renderButton: ({ variant = 'contained', onClick }) => (
+      <ConnectButton
+        variant={variant}
+        buttonText={t(`${intlRoot}.${Title.free}.button-register`)}
+        onSuccess={onClick}
+      />
+    ),
+    isHighlighted: true,
+  },
+  {
+    ...premiumItem,
+    renderButton: ({ color, variant = 'outlined', onClick }) => (
+      <Button color={color} variant={variant} onClick={onClick}>
         {t(`${intlRoot}.${Title.premium}.button`)}
       </Button>
     ),
+    isHighlighted: false,
   },
   enterpriseItem,
 ];
