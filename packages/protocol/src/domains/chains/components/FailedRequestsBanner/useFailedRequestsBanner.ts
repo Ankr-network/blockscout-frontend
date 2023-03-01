@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyChainsFetchFreeRegisteredUserRequestsQuery } from 'domains/chains/actions/private/fetchFreeRegisteredUserRequests';
 import { Timeframe } from 'domains/chains/types';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const useFailedRequestsBanner = (timeframe: Timeframe) => {
   const { workerTokenData } = useAuth();
@@ -11,9 +11,9 @@ export const useFailedRequestsBanner = (timeframe: Timeframe) => {
   const [fetchUserRequests, userRequestsState] =
     useLazyChainsFetchFreeRegisteredUserRequestsQuery();
 
-  useEffect(() => {
+  useOnMount(() => {
     fetchUserRequests({ timeframe, userEndpointToken });
-  }, [fetchUserRequests, timeframe, userEndpointToken]);
+  });
 
   return { userRequestsState };
 };

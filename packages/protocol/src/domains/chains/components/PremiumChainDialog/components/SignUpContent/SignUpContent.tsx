@@ -5,9 +5,13 @@ import { useSignupDialog } from 'domains/auth/components/ConnectButton/Unconnect
 
 export interface SignUpContentProps {
   onGoogleSignUp: () => void;
+  onClose: () => void;
 }
 
-export const SignUpContent = ({ onGoogleSignUp }: SignUpContentProps) => {
+export const SignUpContent = ({
+  onClose,
+  onGoogleSignUp,
+}: SignUpContentProps) => {
   const { hasOauthLogin } = useAuth();
 
   const {
@@ -19,7 +23,7 @@ export const SignUpContent = ({ onGoogleSignUp }: SignUpContentProps) => {
   } = useSignupDialog({
     hasOauthLogin,
     onGoogleSignUp,
-    onManualClose: () => {},
+    onManualClose: onClose,
   });
 
   return (

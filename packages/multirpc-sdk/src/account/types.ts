@@ -181,6 +181,7 @@ export interface PrivateStatTopRequests {
   method: RPCRequestName;
   count: number;
   total_cost: number;
+  totalCost?: string; // used in backoffice stats response
 }
 
 export interface IApiPrivateStats {

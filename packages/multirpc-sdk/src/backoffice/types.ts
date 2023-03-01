@@ -1,4 +1,4 @@
-import { Milliseconds } from '@ankr.com/utils';
+import { Milliseconds, Timestamp } from '@ankr.com/utils';
 import {
   BlockchainID,
   IPaymentHistoryEntityType,
@@ -35,11 +35,12 @@ export interface IBalancesEntity {
   amount: string; // deprecated. use creditAnkrAmount
   amountAnkr: string;
   amountUsd: string;
-  voucherAmount: string; // deprecated. use creditVoucherAmount
-  reference: string;
   creditAnkrAmount: string;
-  creditVoucherAmount: string;
   creditUsdAmount: string;
+  creditVoucherAmount: string;
+  reference: string;
+  // voucherAmount: string; // deprecated. use creditVoucherAmount
+  voucherExpiresAt?: string;
 }
 
 export interface IBalancesRequest {
@@ -71,6 +72,11 @@ export interface IEmailBindingsRequest {
 export interface IEmailBindingsResponse {
   bindings?: IEmailBindingEntity[];
   cursor: string;
+}
+
+export interface IGetAdminRolesResponse {
+  roles: string;
+  roles_name: string;
 }
 
 export interface ICreateTestClientRequest {
@@ -137,6 +143,9 @@ export interface IAddVoucherCreditsRequest {
   amountType: IAmountType;
   amount: string;
   reasonId: string;
+
+  /** unix timestamp in seconds indicating the expiration time of total creditVoucherAmount. “0” value indicates that there is no timeout for deletion */
+  expiresAt?: string;
 }
 
 export interface IAddVoucherCreditsResponse {
@@ -222,6 +231,8 @@ export interface IGetUserRevenueResponse {
   ankrAmount: string;
   usdFact: string;
   ankrFact: string;
+  totalCreditsAmount: string;
+  totalUsdAmount: string;
 }
 
 export type GetUserAddressesRequest = {
@@ -235,6 +246,17 @@ export type IEthUserAddressV2 = Omit<
 export type GetUserAddressesResponse = {
   addresses: IEthUserAddressV2[];
 };
+
+export type GetUsersRegistrationsFilter = 'devdao' | '';
+export type GetUsersRegistrationsRequest = {
+  from: Timestamp;
+  to: Timestamp;
+  filter: GetUsersRegistrationsFilter;
+}
+
+export type GetUsersRegistrationsResponse = {
+  addresses: Web3Address[];
+}
 
 export type BlockchainFeature = 'rpc' | 'ws';
 
