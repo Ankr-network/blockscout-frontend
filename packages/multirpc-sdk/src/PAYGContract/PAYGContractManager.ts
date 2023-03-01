@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js';
+import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
 
 import { base64ToPrefixedHex } from '../common';
 import { IPAYGContractManagerConfig } from './types';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo } from './abi/IPayAsYouGo';
 import { PAYGReadContractManager } from './PAYGReadContractManager';
-import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
+import { roundDecimals } from './utils/roundDecimals';
 
 const GAS_LIMIT = '200000';
 
@@ -119,7 +120,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
     await this.canAllow(scaledAllowance);
 
     return this.sendDepositTransaction(
-      scaledAllowance,
+      roundDecimals(scaledAllowance),
       publicKey,
       expiresAfter,
     );
