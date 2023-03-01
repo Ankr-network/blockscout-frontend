@@ -138,9 +138,11 @@ export const ClientInfo = ({
     ? `${formatNumber(totalData?.blockchainsInfo.totalCost)}`
     : NOT_FOUND_TEXT;
   const clientEmailText = client?.email || NOT_FOUND_TEXT;
-  const voucherCreditsText = client?.voucherAmount ? (
-    <>{renderBalance(client?.voucherAmount, 'Voucher Credits')}</>
-  ) : null;
+  const amountUsdText = client?.amountUsd
+    ? `${renderUSD(client?.amountUsd)} Equivalent in USD`
+    : null;
+
+  const voucherExpiresAtText = `expires at ${client?.voucherExpiresDate?.toLocaleDateString()}`;
 
   return (
     <>
@@ -214,41 +216,61 @@ export const ClientInfo = ({
       >
         <Grid item xs={3} component={Paper} className={classes.gridItem}>
           <Typography variant="caption" color="textSecondary" component="p">
-            Current Funds Balance
-          </Typography>
-          <Typography variant="subtitle1" component="p">
-            <b>{isLoadingClients ? skeleton : renderUSD(client?.amountUsd)}</b>
-          </Typography>
-        </Grid>
-
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Current API Credit Balance
+            Total Balance
           </Typography>
           <Typography variant="subtitle1" component="p">
             <b>{isLoadingClients ? skeleton : renderBalance(client?.amount)}</b>
           </Typography>
           <Typography variant="caption" component="p">
-            {isLoadingClients ? skeleton : voucherCreditsText}
+            {isLoadingClients ? skeleton : amountUsdText}
           </Typography>
         </Grid>
 
         <Grid item xs={3} component={Paper} className={classes.gridItem}>
           <Typography variant="caption" color="textSecondary" component="p">
-            Total revenue
+            Сurrent USD only Balance
           </Typography>
           <Typography variant="subtitle1" component="p">
+            <b>
+              {isLoadingClients ? skeleton : renderUSD(client?.creditUsdAmount)}
+            </b>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Total Usage ANKR Credits
+          </Typography>
+          <Typography variant="subtitle1" component="p">
+            {isLoadingRevenue
+              ? skeleton
+              : `${renderBalance(revenueData?.totalCreditsAmount)}`}
+          </Typography>
+          <Typography variant="caption" component="p">
             {isLoadingRevenue ? (
               skeleton
             ) : (
-              <b>{renderUSD(revenueData?.usdFact)}</b>
+              <>{renderUSD(revenueData?.totalUsdAmount)} Equivalent in USD</>
             )}
           </Typography>
-          <Typography variant="caption" component="p">
-            {isLoadingRevenue
-              ? skeleton
-              : `${renderBalance(revenueData?.ankrFact, 'ANKR')}`}
+        </Grid>
+
+        <Grid item xs={3} component={Paper} className={classes.gridItem}>
+          <Typography variant="caption" color="textSecondary" component="p">
+            Voucher credits
           </Typography>
+          <Typography variant="subtitle1" component="p">
+            <b>
+              {isLoadingClients
+                ? skeleton
+                : renderBalance(client?.creditVoucherAmount)}
+            </b>
+          </Typography>
+          {client?.voucherExpiresDate && (
+            <Typography variant="caption" component="p">
+              {isLoadingClients ? skeleton : voucherExpiresAtText}
+            </Typography>
+          )}
         </Grid>
 
         <Grid item xs={3} component={Paper} className={classes.gridItem}>

@@ -5,19 +5,16 @@ import { usePremiumChainDialogStyles } from './PremiumChainDialogStyles';
 import { useWindowHeight } from 'hooks/useWindowHeight';
 
 export interface PremiumChainDialogBaseProps extends PremiumChainDialogProps {
-  isV2?: boolean;
   items: Item[];
 }
 
 export const PremiumChainDialogBase = ({
-  isV2,
   items,
   onClose,
   onTrack,
   open,
 }: PremiumChainDialogBaseProps) => {
   const { children, ...dialogProps } = usePremiumChainDialog({
-    isV2,
     items,
     onClose,
     onTrack,

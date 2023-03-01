@@ -43,7 +43,7 @@ export const columns: { key: Key; label: string }[] = [
   { key: 'email', label: 'Email' },
   { key: 'address', label: 'Wallet' },
   { key: 'amount', label: 'Total amount of Credits' },
-  { key: 'voucherAmount', label: 'Voucher credits' },
+  { key: 'creditVoucherAmount', label: 'Voucher credits' },
   { key: 'amountAnkr', label: 'Amount of ANKR' },
   { key: 'amountUsd', label: 'Balance in USD' },
   { key: 'clientType', label: 'Type of the User' },

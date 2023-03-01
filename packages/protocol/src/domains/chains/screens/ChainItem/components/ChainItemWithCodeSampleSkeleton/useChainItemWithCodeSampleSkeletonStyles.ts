@@ -6,10 +6,7 @@ export const useChainItemWithCodeSampleSkeletonStyles = makeStyles()(
     root: {
       marginBottom: theme.spacing(10),
       width: '100%',
-      maxWidth: 940,
       minHeight: 466,
-      marginLeft: 'auto',
-      marginRight: 'auto',
       display: 'flex',
       overflow: 'hidden',
 

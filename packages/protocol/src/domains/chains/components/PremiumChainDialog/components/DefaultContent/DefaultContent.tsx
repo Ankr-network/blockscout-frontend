@@ -1,24 +1,24 @@
 import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Item, Title } from '../../types';
 import { intlRoot } from '../../const';
 import { useDefaultContentStyles } from './DefaultContentStyles';
 
 export interface DefaultContentParams {
-  isV2?: boolean;
   items: Item[];
   onPremiumUpgradeButtonClick: () => void;
   onTrack?: () => void;
 }
 
 export const DefaultContent = ({
-  isV2,
   items,
   onPremiumUpgradeButtonClick,
   onTrack,
 }: DefaultContentParams) => {
-  const { classes, cx } = useDefaultContentStyles();
+  const { isLightTheme } = useThemes();
+  const { classes, cx } = useDefaultContentStyles(isLightTheme);
 
   const clickHandlersMap: Record<Title, (() => void) | undefined> = {
     [Title.free]: onTrack,
@@ -32,41 +32,49 @@ export const DefaultContent = ({
         {t(`${intlRoot}.title`)}
       </Typography>
       <div className={classes.container}>
-        {items.map(({ hasIntro, itemCount, renderButton, title }) => (
-          <div
-            className={cx(`${intlRoot}-${title}`, {
-              [classes.wrapperV2]: isV2,
-            })}
-            key={title}
-          >
-            <div className={classes.content}>
-              <div>
-                <Typography variant="h6" className={classes.title}>
-                  {t(`${intlRoot}.${title}.title`)}
-                </Typography>
-                {hasIntro && (
-                  <Typography className={classes.intro}>
-                    {tHTML(`${intlRoot}.${title}.intro`)}
-                  </Typography>
-                )}
-                <Typography className={classes.description}>
-                  {t(`${intlRoot}.${title}.description`)}
-                </Typography>
-                <div className={classes.list}>
-                  {new Array(itemCount).fill('').map((_, index) => (
-                    <div className={classes.item} key={index}>
-                      {t(`${intlRoot}.${title}.list-${index + 1}`)}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {renderButton({
-                className: cx(classes.button, title),
-                onClick: clickHandlersMap[title],
+        {items.map(
+          ({ hasIntro, itemCount, renderButton, title, isHighlighted }) => (
+            <div
+              className={cx(`${intlRoot}-${title}`, {
+                [classes.wrapperHighlighted]: isHighlighted,
               })}
+              key={title}
+            >
+              <div
+                className={cx(classes.content, {
+                  [classes.contentHighlighted]: isHighlighted,
+                })}
+              >
+                <div>
+                  <Typography variant="h6" className={classes.title}>
+                    {t(`${intlRoot}.${title}.title`)}
+                  </Typography>
+                  {hasIntro && (
+                    <Typography className={classes.intro}>
+                      {tHTML(`${intlRoot}.${title}.intro`)}
+                    </Typography>
+                  )}
+                  <Typography className={classes.description}>
+                    {t(`${intlRoot}.${title}.description`)}
+                  </Typography>
+                  <div className={classes.list}>
+                    {new Array(itemCount).fill('').map((_, index) => (
+                      <div className={classes.item} key={index}>
+                        {t(`${intlRoot}.${title}.list-${index + 1}`)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {renderButton({
+                  className: cx(classes.button, title),
+                  onClick: clickHandlersMap[title],
+                  variant: isHighlighted ? 'contained' : 'outlined',
+                  color: isHighlighted ? 'primary' : 'secondary',
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ),
+        )}
       </div>
     </div>
   );

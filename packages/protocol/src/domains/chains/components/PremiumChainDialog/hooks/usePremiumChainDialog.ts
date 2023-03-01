@@ -7,14 +7,12 @@ import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 
 export interface PremiumChainDialogHookParams {
   items: Item[];
-  isV2?: boolean;
   onClose: () => void;
   onTrack?: () => void;
 }
 
 export const usePremiumChainDialog = ({
   items,
-  isV2,
   onClose: handleClose,
   onTrack,
 }: PremiumChainDialogHookParams) => {
@@ -33,7 +31,6 @@ export const usePremiumChainDialog = ({
 
   return useDialogProps({
     contentType,
-    isV2,
     items,
     onClose,
     onTrack,
