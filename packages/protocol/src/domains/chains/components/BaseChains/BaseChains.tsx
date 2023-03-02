@@ -25,13 +25,13 @@ export const BaseChains = ({
   const { classes } = useBaseChainsStyles();
 
   return (
-    <>
+    <Box className={classes.root}>
       {top}
       <PageHeader title={t('chains.title')} select={select} />
       <Box className={classes.container}>
         {loading ? <OverlaySpinner /> : children}
       </Box>
       {isShowReminderDialog && <ReminderDialog />}
-    </>
+    </Box>
   );
 };

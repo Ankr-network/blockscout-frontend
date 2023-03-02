@@ -53,7 +53,7 @@ export const Routes = () => {
             hasGradient
             hasNoReactSnap
             disableGutters
-            hasMaxWidth={false}
+            hasPaddingBottom={false}
           >
             <PricingRoutes />
           </DefaultLayout>

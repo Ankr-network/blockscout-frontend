@@ -1,5 +1,6 @@
-import React, { ReactChild } from 'react';
+import { ReactChild } from 'react';
 import { Container } from '@mui/material';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
@@ -11,13 +12,15 @@ import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
+export const CONTENT_WIDTH = 940;
+
 export interface ILayoutProps {
   children?: ReactChild;
   disableGutters?: boolean;
   hasNoReactSnap?: boolean;
   hasError?: boolean;
   hasGradient?: boolean;
-  hasMaxWidth?: boolean;
+  hasPaddingBottom?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -26,13 +29,13 @@ export const DefaultLayout = ({
   hasNoReactSnap = false,
   hasError = false,
   hasGradient = false,
-  hasMaxWidth = true,
+  hasPaddingBottom = true,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
   const { classes } = useStyles({
     hasGradient: hasGradient || hasError,
-    hasPaddingBottom: hasMaxWidth,
+    hasPaddingBottom,
     isLightTheme,
   });
   const { hasPremium, loading } = useAuth();
@@ -49,11 +52,7 @@ export const DefaultLayout = ({
       <div className={classes.body}>
         {!hasError && <Header className={classes.header} />}
         <MobileHeader className={classes.mobileHeader} />
-        <Container
-          disableGutters={disableGutters}
-          className={classes.main}
-          maxWidth={hasMaxWidth && false}
-        >
+        <Container disableGutters={disableGutters} className={classes.main}>
           <Container
             disableGutters={!disableGutters}
             className={classes.mobileBreadcrumbs}

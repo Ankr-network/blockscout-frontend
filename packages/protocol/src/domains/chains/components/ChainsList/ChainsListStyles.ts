@@ -5,12 +5,8 @@ export const useChainListStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'grid',
     alignItems: 'center',
-    gridTemplateColumns: 'repeat(4, 1fr)',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: theme.spacing(2 * 3.5),
-
-    [`@media (max-width: 1930px)`]: {
-      gridTemplateColumns: 'repeat(3, 1fr)',
-    },
 
     [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',
