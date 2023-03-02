@@ -7,6 +7,8 @@ import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchNearLastBlockNumber } from 'domains/requestComposer/actions/near/fetchNearLastBlockNumber';
 
 export interface IHeaderProps {
+  hasBlockNumber?: boolean;
+  hasTitle?: boolean;
   publicUrl?: string;
 }
 
@@ -16,25 +18,31 @@ const options: Options = {
   },
 };
 
-export const NearHeader = ({ publicUrl }: IHeaderProps) => {
+export const NearHeader = ({
+  hasBlockNumber,
+  hasTitle,
+  publicUrl,
+}: IHeaderProps) => {
   const [fetchNearLastBlockNumber, { data = 0, isLoading }, reset] =
     useQueryEndpoint(chainsFetchNearLastBlockNumber, options);
 
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    if (publicUrl) {
+    if (publicUrl && hasBlockNumber) {
       const { unsubscribe } = fetchNearLastBlockNumber(publicUrl);
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [fetchNearLastBlockNumber, publicUrl]);
+  }, [fetchNearLastBlockNumber, hasBlockNumber, publicUrl]);
 
   return (
-    <Header chainName={ChainGroupID.NEAR}>
-      <BlockNumber<number> data={data} loading={isLoading} />
+    <Header chainName={ChainGroupID.NEAR} hasTitle={hasTitle}>
+      {hasBlockNumber && (
+        <BlockNumber<number> data={data} loading={isLoading} />
+      )}
     </Header>
   );
 };

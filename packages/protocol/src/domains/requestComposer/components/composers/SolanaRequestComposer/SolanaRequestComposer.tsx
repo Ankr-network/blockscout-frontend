@@ -9,12 +9,18 @@ import { useSolanaRequestLogger } from './hooks/useSolanaRequestLogger';
 export interface SolanaRequestComposerProps {
   className?: string;
   group: EndpointGroup;
+  hasBlockNumber?: boolean;
+  hasRequestHistory?: boolean;
+  hasTitle?: boolean;
   publicUrl?: string;
 }
 
 export const SolanaRequestComposer = ({
   className,
   group,
+  hasBlockNumber,
+  hasRequestHistory,
+  hasTitle,
   publicUrl,
 }: SolanaRequestComposerProps) => {
   const { clear, logger, logs } = useSolanaRequestLogger();
@@ -23,7 +29,14 @@ export const SolanaRequestComposer = ({
     <LoggerContext.Provider value={logger}>
       <RequestComposerTemplate
         className={className}
-        header={<SolanaHeader publicUrl={publicUrl} />}
+        hasRequestHistory={hasRequestHistory}
+        header={
+          <SolanaHeader
+            hasBlockNumber={hasBlockNumber}
+            hasTitle={hasTitle}
+            publicUrl={publicUrl}
+          />
+        }
         logger={<Logger clear={clear} logs={logs} />}
         menu={<SolanaMenu group={group} />}
       />

@@ -1,27 +1,32 @@
-import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-import { useCChainRequestLogger } from './hooks/useCChainRequestLogger';
 import { CChainMenu } from './CChainMenu/CChainMenu';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { Header } from '../../../Header';
 import { Logger } from '../../../Logger';
 import { RequestComposerTemplate } from '../../../RequestComposerTemplate';
-import { Header } from '../../../Header';
+import { useCChainRequestLogger } from './hooks/useCChainRequestLogger';
 
 export interface ICChainRequestComposerProps {
-  group: EndpointGroup;
   className?: string;
+  group: EndpointGroup;
+  hasRequestHistory?: boolean;
+  hasTitle?: boolean;
 }
 
 export const CChainRequestComposer = ({
-  group,
   className,
+  group,
+  hasRequestHistory,
+  hasTitle,
 }: ICChainRequestComposerProps) => {
   const { clear, logs } = useCChainRequestLogger();
 
   return (
     <RequestComposerTemplate
-      header={<Header chainName={ChainGroupID.C_CHAIN} />}
-      menu={<CChainMenu group={group} />}
-      logger={<Logger clear={clear} logs={logs} />}
       className={className}
+      hasRequestHistory={hasRequestHistory}
+      header={<Header chainName={ChainGroupID.C_CHAIN} hasTitle={hasTitle} />}
+      logger={<Logger clear={clear} logs={logs} />}
+      menu={<CChainMenu group={group} />}
     />
   );
 };
