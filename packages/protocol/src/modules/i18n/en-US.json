@@ -186,7 +186,8 @@
       "item-2": "WebSockets",
       "button": "Upgrade"
     },
-    "for-premium-only": "For Premium only"
+    "for-premium-only": "For Premium only",
+    "endpoints-and-more": "Endpoints & More"
   },
   "chain-item-dialog": {
     "title": "Plans that scale with you.",
@@ -285,6 +286,7 @@
       "learn-more": "Learn More"
     },
     "tabs": {
+      "debug-menu": "Debug Menu",
       "get-started": "Get Started",
       "infrastructure": "Infrastructure",
       "usage-data": "Usage Data"
@@ -390,6 +392,29 @@
           "web3-js": "Web3.js"
         },
         "title": "Connection code snippet"
+      }
+    },
+    "debug-menu": {
+      "learn-more": {
+        "title": "Learn More",
+        "blog": {
+          "title": "Blog",
+          "description-1": "How to Deploy and mint NFT",
+          "description-2": "Build & Deploy your own ERC-20",
+          "link": "See tutorials"
+        },
+        "docs": {
+          "title": "Docs",
+          "description-1": "Supporting methods",
+          "description-2": "Limitations and best practice",
+          "link": "Know more"
+        },
+        "discord": {
+          "title": "Discord",
+          "description-1": "Get community support",
+          "description-2": "See the hot topics",
+          "link": "Join now"
+        }
       }
     },
     "usage-data": {
@@ -1094,6 +1119,11 @@
       "errors": {
         "large-response": "Response too large to show"
       }
+    },
+    "requests-history": {
+      "expand-button": "Show last 10 requests",
+      "refresh-button": "Refresh",
+      "title": "Last 10 requests"
     },
     "sample-code": {
       "copy": "Copy",

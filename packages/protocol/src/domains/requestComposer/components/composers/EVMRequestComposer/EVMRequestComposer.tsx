@@ -1,26 +1,37 @@
 import { EVMHeader } from './EVMHeader/EVMHeader';
 import { EVMMenu } from './EVMMenu/EVMMenu';
+import { IRequestComposerMainProps } from '../RequestComposerTypes';
 import { Logger } from '../../Logger';
 import { LoggerContext } from '../const';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { useEVMRequestLogger } from './hooks/useEVMRequestLogger';
-import { IRequestComposerMainProps } from '../RequestComposerTypes';
 
 export const EVMRequestComposer = ({
-  group,
-  publicUrl,
-  className,
   chainId,
+  className,
+  group,
+  hasBlockNumber,
+  hasRequestHistory,
+  hasTitle,
+  publicUrl,
 }: IRequestComposerMainProps) => {
   const { clear, logger, logs } = useEVMRequestLogger();
 
   return (
     <LoggerContext.Provider value={logger}>
       <RequestComposerTemplate
-        header={<EVMHeader publicUrl={publicUrl} chainId={chainId} />}
-        menu={<EVMMenu group={group} />}
-        logger={<Logger clear={clear} logs={logs} />}
         className={className}
+        hasRequestHistory={hasRequestHistory}
+        header={
+          <EVMHeader
+            chainId={chainId}
+            hasBlockNumber={hasBlockNumber}
+            hasTitle={hasTitle}
+            publicUrl={publicUrl}
+          />
+        }
+        logger={<Logger clear={clear} logs={logs} />}
+        menu={<EVMMenu group={group} />}
       />
     </LoggerContext.Provider>
   );

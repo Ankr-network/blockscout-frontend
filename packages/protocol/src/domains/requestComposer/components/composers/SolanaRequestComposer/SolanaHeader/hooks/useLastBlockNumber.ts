@@ -9,21 +9,29 @@ const options: Options = {
   },
 };
 
-export const useLastBlockNumber = (url?: string): [number, boolean] => {
+export interface LastBlockNumberParams {
+  publicUrl?: string;
+  hasBlockNumber?: boolean;
+}
+
+export const useLastBlockNumber = ({
+  hasBlockNumber,
+  publicUrl,
+}: LastBlockNumberParams): [number, boolean] => {
   const [fetchSolanaLastBlockNumber, { data = 0, isLoading }, reset] =
     useQueryEndpoint(chainsFetchSolanaLastBlockNumber, options);
 
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    if (url) {
-      const { unsubscribe } = fetchSolanaLastBlockNumber(url);
+    if (publicUrl && hasBlockNumber) {
+      const { unsubscribe } = fetchSolanaLastBlockNumber(publicUrl);
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [fetchSolanaLastBlockNumber, url]);
+  }, [fetchSolanaLastBlockNumber, hasBlockNumber, publicUrl]);
 
   return [data, isLoading];
 };

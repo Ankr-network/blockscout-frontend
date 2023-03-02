@@ -7,6 +7,8 @@ import { chainsFetchLastBlockNumber } from 'domains/requestComposer/actions/fetc
 
 export interface HarmonyHeaderProps {
   chainName?: string;
+  hasBlockNumber?: boolean;
+  hasTitle?: boolean;
   publicUrl?: string;
 }
 
@@ -16,25 +18,32 @@ const options: Options = {
   },
 };
 
-export const HarmonyHeader = ({ publicUrl, chainName }: HarmonyHeaderProps) => {
+export const HarmonyHeader = ({
+  chainName,
+  hasBlockNumber,
+  hasTitle,
+  publicUrl,
+}: HarmonyHeaderProps) => {
   const [fetchLastBlockNumber, { data = 0, isLoading }, reset] =
     useQueryEndpoint(chainsFetchLastBlockNumber, options);
 
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    if (publicUrl) {
+    if (publicUrl && hasBlockNumber) {
       const { unsubscribe } = fetchLastBlockNumber(publicUrl);
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [fetchLastBlockNumber, publicUrl]);
+  }, [fetchLastBlockNumber, hasBlockNumber, publicUrl]);
 
   return (
-    <Header chainName={chainName}>
-      <BlockNumber<number> data={data} loading={isLoading} />
+    <Header chainName={chainName} hasTitle={hasTitle}>
+      {hasBlockNumber && (
+        <BlockNumber<number> data={data} loading={isLoading} />
+      )}
     </Header>
   );
 };
