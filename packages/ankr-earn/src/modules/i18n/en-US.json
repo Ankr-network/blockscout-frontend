@@ -143,7 +143,9 @@
     },
     "errors": {
       "tx-failed": "Transaction failed.",
-      "tx-receipt": "Failed to get transaction receipt"
+      "tx-receipt": "Failed to get transaction receipt",
+      "switch-failed": "Failed to switch the network",
+      "disconnect-failed": "Failed to disconnect the wallet"
     }
   },
   "chain": {
@@ -500,7 +502,9 @@
       "add-token": "Failed to add token to wallet",
       "max-safe-balance": "Failed to get max safe balance from Polkadot network",
       "account-full-balance": "Failed to get Polkadot account full balance data",
-      "txn-history": "Failed to get Polkadot transactions history"
+      "txn-history": "Failed to get Polkadot transactions history",
+      "wallet-switch": "Failed to change Polkadot wallet",
+      "wallet-connect": "Failed to connect Polkadot wallet"
     },
     "networks": {
       "DOT": "Polkadot",
@@ -643,7 +647,8 @@
       "tx-data": "Failed to get ETH transaction data",
       "tx-receipt": "Failed to get ETH transaction receipt",
       "stake": "Failed to stake ETH",
-      "min-stake": "Failed to get ETH minimum stake amount"
+      "min-stake": "Failed to get ETH minimum stake amount",
+      "wallet-connect": "Failed to connect ETH compatible wallet"
     }
   },
   "switcher": {
@@ -903,7 +908,11 @@
     "landing": "Landing",
     "all-assets": "All assets",
     "all-networks": "All networks",
-    "deposit": "Deposit"
+    "deposit": "Deposit",
+    "errors": {
+      "aggregator": "Failed to get DeFi aggregator data",
+      "no-data": "No data found"
+    }
   },
   "features": {
     "avalanche": "Avalanche (AVAX)",
@@ -1435,7 +1444,8 @@
       "tx-data": "Failed to get SUI transaction data",
       "tx-receipt": "Failed to get SUI transaction receipt",
       "stake": "Failed to stake SUI",
-      "unstake": "Failed to unstake SUI"
+      "unstake": "Failed to unstake SUI",
+      "connect-wallet": "Failed to connect SUI wallet"
     }
   },
   "convert": {

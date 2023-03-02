@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import {
   getTxReceipt,
@@ -9,7 +10,6 @@ import {
 import { ETH_SCALE_FACTOR } from 'modules/common/const';
 import { IApproveMutation } from 'modules/common/hooks/useApprove';
 
-import { getOnErrorWithCustomText } from '../../api/utils/getOnErrorWithCustomText';
 import { getBinanceSDK } from '../utils/getBinanceSDK';
 
 export const RECEIPT_NAME = 'useApproveABNBCUnstakeMutation';
@@ -28,7 +28,8 @@ export const {
 
           return { data: { ...data, amount } };
         },
-        getOnErrorWithCustomText(t('stake-bnb.errors.approve-unstake')),
+        error =>
+          getExtendedErrorText(error, t('stake-bnb.errors.approve-unstake')),
       ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

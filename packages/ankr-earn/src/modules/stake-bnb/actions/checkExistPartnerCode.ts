@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { getBinanceSDK } from '../utils/getBinanceSDK';
@@ -18,7 +18,8 @@ export const { useCheckExistPartnerCodeMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.checkExistPartnerCode(partnerCode) };
         },
-        getOnErrorWithCustomText(t('stake-bnb.errors.check-partner-code')),
+        error =>
+          getExtendedErrorText(error, t('stake-bnb.errors.check-partner-code')),
       ),
     }),
   }),

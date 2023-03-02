@@ -3,7 +3,7 @@ import axios from 'axios';
 import BigNumber from 'bignumber.js';
 
 import { configFromEnv } from 'modules/api/config';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 const { baseUrl } = configFromEnv().gatewayConfig;
@@ -20,15 +20,18 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     getAnkrPrice: build.query<BigNumber, void>({
-      queryFn: queryFnNotifyWrapper<void, never, BigNumber>(async () => {
-        const url = new URL(ANKR_RATE_URL, baseUrl).toString();
+      queryFn: queryFnNotifyWrapper<void, never, BigNumber>(
+        async () => {
+          const url = new URL(ANKR_RATE_URL, baseUrl).toString();
 
-        const { data: rawData } = await axios.get(url);
+          const { data: rawData } = await axios.get(url);
 
-        return {
-          data: new BigNumber((rawData as IGetANKRPrice).rate),
-        };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.ankr-price'))),
+          return {
+            data: new BigNumber((rawData as IGetANKRPrice).rate),
+          };
+        },
+        error => getExtendedErrorText(error, t('stake-ankr.errors.ankr-price')),
+      ),
     }),
   }),
 });

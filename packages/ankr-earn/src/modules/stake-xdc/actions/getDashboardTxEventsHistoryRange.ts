@@ -8,7 +8,7 @@ import {
 } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { XDC_PROVIDER_BY_ENV } from 'modules/common/const';
@@ -86,7 +86,11 @@ export const { useLazyGetDashboardTxEventsHistoryRangeQuery } =
               },
             };
           },
-          getOnErrorWithCustomText(t('stake-xdc.errors.tx-events-history')),
+          error =>
+            getExtendedErrorText(
+              error,
+              t('stake-xdc.errors.tx-events-history'),
+            ),
         ),
       }),
     }),

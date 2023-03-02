@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { push } from 'connected-react-router';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
 
@@ -22,9 +22,11 @@ export const { useClaimAllForValidatorMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.claimAllForValidator(provider) };
         },
-        getOnErrorWithCustomText(
-          t('stake-ankr.errors.claim-all-for-validator'),
-        ),
+        error =>
+          getExtendedErrorText(
+            error,
+            t('stake-ankr.errors.claim-all-for-validator'),
+          ),
       ),
 
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {

@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -23,17 +23,21 @@ export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
         IGetUnstakingDataArgs,
         never,
         IUnstakingData[]
-      >(async ({ usdPrice }, { getState }) => {
-        const sdk = await AnkrStakingSDK.getInstance();
+      >(
+        async ({ usdPrice }, { getState }) => {
+          const sdk = await AnkrStakingSDK.getInstance();
 
-        const { data: latestBlockNumber } = selectLatestBlockNumber(
-          getState() as RootState,
-        );
+          const { data: latestBlockNumber } = selectLatestBlockNumber(
+            getState() as RootState,
+          );
 
-        const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
+          const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
-        return { data: await sdk.getUnstaking(usdPrice, blockNumber) };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.unstaking-data'))),
+          return { data: await sdk.getUnstaking(usdPrice, blockNumber) };
+        },
+        error =>
+          getExtendedErrorText(error, t('stake-ankr.errors.unstaking-data')),
+      ),
       providesTags: [CacheTags.history],
     }),
   }),

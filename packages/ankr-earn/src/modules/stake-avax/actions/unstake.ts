@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 
 import { IWeb3SendResult } from '@ankr.com/provider';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
@@ -26,7 +26,7 @@ export const { useUnstakeAVAXMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.unstake(amount, token) };
         },
-        getOnErrorWithCustomText(t('stake-avax.errors.unstake')),
+        error => getExtendedErrorText(error, t('stake-avax.errors.unstake')),
       ),
 
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
