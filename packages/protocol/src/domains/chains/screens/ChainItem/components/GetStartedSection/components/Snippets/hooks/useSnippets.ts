@@ -1,4 +1,5 @@
 import { Language } from 'prism-react-renderer';
+import { useMemo } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getCode } from '../utils/getCode';
@@ -20,7 +21,10 @@ export const useSnippets = ({
   group,
   technology,
 }: SnippetsParams): Snippets => {
-  const [httpCode, wssCode] = getCode(technology, group);
+  const [httpCode, wssCode] = useMemo(
+    () => getCode(technology, group),
+    [technology, group],
+  );
   const language = languagesMap[technology];
 
   return { httpCode, language, wssCode };

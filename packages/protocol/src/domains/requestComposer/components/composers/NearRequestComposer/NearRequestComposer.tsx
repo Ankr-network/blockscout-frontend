@@ -1,25 +1,35 @@
-import { Logger } from '../../Logger';
-import { RequestComposerTemplate } from '../../RequestComposerTemplate';
-import { LoggerContext } from '../const';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
-import { useNearRequestLogger } from './hooks/useNearRequestLogger';
+import { Logger } from '../../Logger';
+import { LoggerContext } from '../const';
 import { NearHeader } from './NearHeader/NearHeader';
 import { NearMenu } from './NearMenu/NearMenu';
+import { RequestComposerTemplate } from '../../RequestComposerTemplate';
+import { useNearRequestLogger } from './hooks/useNearRequestLogger';
 
 export const NearRequestComposer = ({
-  group,
-  publicUrl,
   className,
+  group,
+  hasBlockNumber,
+  hasRequestHistory,
+  hasTitle,
+  publicUrl,
 }: IRequestComposerMainProps) => {
   const { clear, logger, logs } = useNearRequestLogger();
 
   return (
     <LoggerContext.Provider value={logger}>
       <RequestComposerTemplate
-        header={<NearHeader publicUrl={publicUrl} />}
-        menu={<NearMenu group={group} />}
-        logger={<Logger clear={clear} logs={logs} />}
         className={className}
+        hasRequestHistory={hasRequestHistory}
+        header={
+          <NearHeader
+            hasBlockNumber={hasBlockNumber}
+            hasTitle={hasTitle}
+            publicUrl={publicUrl}
+          />
+        }
+        logger={<Logger clear={clear} logs={logs} />}
+        menu={<NearMenu group={group} />}
       />
     </LoggerContext.Provider>
   );

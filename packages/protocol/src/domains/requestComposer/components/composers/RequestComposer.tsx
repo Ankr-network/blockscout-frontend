@@ -1,51 +1,70 @@
-import { ChainID } from 'modules/chains/types';
-import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
-
 import { AvalancheRequestComposer } from './AvalancheRequestComposer';
+import { ChainID } from 'modules/chains/types';
 import { EVMRequestComposer } from './EVMRequestComposer';
 import { HarmonyRequestComposer } from './HarmonyRequestComposer';
+import { IRequestComposerProps } from './RequestComposerTypes';
+import { NearRequestComposer } from './NearRequestComposer';
 import { SolanaRequestComposer } from './SolanaRequestComposer';
 import { TronRequestComposer } from './TronRequestComposer';
-import { NearRequestComposer } from './NearRequestComposer';
-import { IRequestComposerProps } from './RequestComposerTypes';
+import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 
 export const RequestComposer = ({
-  group,
-  publicUrl,
   chainId,
   className,
+  group,
+  hasBlockNumber = true,
+  hasRequestHistory,
+  hasTitle = true,
+  publicUrl,
 }: IRequestComposerProps) => {
   if (isGroupEvmBased(group)) {
     if (chainId === ChainID.HARMONY) {
       return (
         <HarmonyRequestComposer
-          group={group}
-          publicUrl={publicUrl}
           className={className}
+          group={group}
+          hasBlockNumber={hasBlockNumber}
+          hasRequestHistory={hasRequestHistory}
+          hasTitle={hasTitle}
+          publicUrl={publicUrl}
         />
       );
     }
 
     return (
       <EVMRequestComposer
-        group={group}
-        publicUrl={publicUrl}
-        className={className}
         chainId={chainId}
+        className={className}
+        group={group}
+        hasBlockNumber={hasBlockNumber}
+        hasRequestHistory={hasRequestHistory}
+        hasTitle={hasTitle}
+        publicUrl={publicUrl}
       />
     );
   }
 
   if (chainId === ChainID.AVALANCHE) {
-    return <AvalancheRequestComposer group={group} className={className} />;
+    return (
+      <AvalancheRequestComposer
+        className={className}
+        group={group}
+        hasBlockNumber={hasBlockNumber}
+        hasRequestHistory={hasRequestHistory}
+        hasTitle={hasTitle}
+      />
+    );
   }
 
   if (chainId === ChainID.NEAR) {
     return (
       <NearRequestComposer
-        group={group}
-        publicUrl={publicUrl}
         className={className}
+        group={group}
+        hasBlockNumber={hasBlockNumber}
+        hasRequestHistory={hasRequestHistory}
+        hasTitle={hasTitle}
+        publicUrl={publicUrl}
       />
     );
   }
@@ -53,9 +72,12 @@ export const RequestComposer = ({
   if (chainId === ChainID.TRON) {
     return (
       <TronRequestComposer
-        group={group}
-        publicUrl={publicUrl}
         className={className}
+        group={group}
+        hasBlockNumber={hasBlockNumber}
+        hasRequestHistory={hasRequestHistory}
+        hasTitle={hasTitle}
+        publicUrl={publicUrl}
       />
     );
   }
@@ -65,6 +87,9 @@ export const RequestComposer = ({
       <SolanaRequestComposer
         className={className}
         group={group}
+        hasBlockNumber={hasBlockNumber}
+        hasRequestHistory={hasRequestHistory}
+        hasTitle={hasTitle}
         publicUrl={publicUrl}
       />
     );

@@ -1,10 +1,13 @@
 import { EndpointGroup } from 'modules/endpoints/types';
 
 export interface IRequestComposerMainProps {
-  group: EndpointGroup;
-  publicUrl?: string;
-  className?: string;
   chainId?: string;
+  className?: string;
+  group: EndpointGroup;
+  hasBlockNumber?: boolean;
+  hasRequestHistory?: boolean;
+  hasTitle?: boolean;
+  publicUrl?: string;
 }
 
 export interface IRequestComposerProps extends IRequestComposerMainProps {
