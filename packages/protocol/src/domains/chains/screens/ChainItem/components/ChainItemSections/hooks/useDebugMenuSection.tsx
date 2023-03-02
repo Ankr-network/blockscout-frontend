@@ -31,11 +31,15 @@ export const useDebugMenuSection = ({
 
   const isMobile = useIsSMDown();
 
-  const isVisible = useMemo(
-    () =>
-      hasRequestComposer({ chainId, group }) && hasPrivateAccess && !isMobile,
-    [chainId, group, hasPrivateAccess, isMobile],
-  );
+  const isVisible = useMemo(() => {
+    if (chainId === ChainID.MULTICHAIN) {
+      return false;
+    }
+
+    return (
+      hasRequestComposer({ chainId, group }) && hasPrivateAccess && !isMobile
+    );
+  }, [chainId, group, hasPrivateAccess, isMobile]);
 
   return useMemo((): Tab<SectionID> | undefined => {
     if (!isVisible) {

@@ -12,7 +12,7 @@ import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-export const CONTENT_WIDTH = 940;
+export const CONTENT_WIDTH = 1120;
 
 export interface ILayoutProps {
   children?: ReactChild;

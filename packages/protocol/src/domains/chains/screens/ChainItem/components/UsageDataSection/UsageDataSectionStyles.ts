@@ -1,6 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
+import { MAX_WIDTH_TO_WRAP_TIMERAME_TABS } from '../ChainItemSections/const';
+
 export const useDataUsageSectionStyles = makeStyles()((theme: Theme) => ({
   usageDataSection: {
     display: 'flex',
@@ -26,7 +28,7 @@ export const useDataUsageSectionStyles = makeStyles()((theme: Theme) => ({
     '&&': {
       display: 'none',
 
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down(MAX_WIDTH_TO_WRAP_TIMERAME_TABS)]: {
         display: 'flex',
       },
     },
