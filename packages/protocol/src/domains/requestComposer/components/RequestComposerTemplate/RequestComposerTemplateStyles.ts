@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useRequestComposerStyles = makeStyles()((theme: Theme) => ({
+export const useRequestComposerStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -15,5 +14,12 @@ export const useRequestComposerStyles = makeStyles()((theme: Theme) => ({
   container: {
     display: 'flex',
     gap: theme.spacing(2 * 3.5),
+  },
+  right: {
+    display: 'grid',
+    gap: theme.spacing(6),
+
+    width: '60%',
+    height: 604,
   },
 }));

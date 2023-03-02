@@ -33,4 +33,5 @@ export interface Chain {
   type: IApiChain['type'];
   urls: IApiChainURL[];
   premiumOnly?: boolean;
+  coinName: string;
 }

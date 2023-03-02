@@ -1,29 +1,42 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { TronHeader } from './TronHeader';
 import { Logger } from '../../Logger';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
-import { useTronChainRequestLogger } from './hooks/useTronChainRequestLogger';
 import { TronChainMenu } from './TronChainMenu/TronChainMenu';
+import { TronHeader } from './TronHeader';
+import { useTronChainRequestLogger } from './hooks/useTronChainRequestLogger';
 
 export interface IRequestComposerProps {
-  group: EndpointGroup;
-  publicUrl?: string;
   className?: string;
+  group: EndpointGroup;
+  hasBlockNumber?: boolean;
+  hasRequestHistory?: boolean;
+  hasTitle?: boolean;
+  publicUrl?: string;
 }
 
 export const TronRequestComposer = ({
-  group,
-  publicUrl,
   className,
+  group,
+  hasBlockNumber,
+  hasRequestHistory,
+  hasTitle,
+  publicUrl,
 }: IRequestComposerProps) => {
   const { clear, logs } = useTronChainRequestLogger();
 
   return (
     <RequestComposerTemplate
-      header={<TronHeader publicUrl={publicUrl} />}
-      menu={<TronChainMenu group={group} />}
-      logger={<Logger clear={clear} logs={logs} />}
       className={className}
+      hasRequestHistory={hasRequestHistory}
+      header={
+        <TronHeader
+          hasBlockNumber={hasBlockNumber}
+          hasTitle={hasTitle}
+          publicUrl={publicUrl}
+        />
+      }
+      logger={<Logger clear={clear} logs={logs} />}
+      menu={<TronChainMenu group={group} />}
     />
   );
 };

@@ -1,36 +1,46 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { EndpointGroup } from 'modules/endpoints/types';
-import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+import { useMemo } from 'react';
+
 import { ChainID } from 'modules/chains/types';
 import { ConnectionSnippet } from './components/ConnectionSnippet';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { MultiChainBenefits } from './components/MultichainBenefits';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
 import { UpgradeBanner } from './components/UpgradeBanner';
-import { MultiChainBenefits } from './components/MultichainBenefits';
+import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
+import { removeWsUrlIfUserIsNotPremium } from './GetStartedSectionUtils';
 
 export interface GetStartedSectionProps {
-  group: EndpointGroup;
-  unfilteredGroup: EndpointGroup;
   chainId: string;
+  group: EndpointGroup;
+  hasUpgradeBanner: boolean;
+  publicUrl: string;
+  hasPremium: boolean;
 }
 
 export const GetStartedSection = ({
-  group,
-  unfilteredGroup,
   chainId,
+  group,
+  hasUpgradeBanner,
+  publicUrl,
+  hasPremium,
 }: GetStartedSectionProps) => {
-  const { hasPrivateAccess, loading } = useAuth();
-  const isUpgraded = hasPrivateAccess || loading;
   const isMultiChain = chainId === ChainID.MULTICHAIN;
+
   const { classes } = useGetStartedSectionStyles();
-  const publicUrl = unfilteredGroup?.urls[0]?.rpc;
+
+  const isEvmBased = useMemo(() => isGroupEvmBased(group), [group]);
+  const codeSnippetGroup = useMemo(
+    () => removeWsUrlIfUserIsNotPremium(group, hasPremium),
+    [group, hasPremium],
+  );
 
   return (
     <div className={classes.getStartedSection}>
       {isMultiChain && <MultiChainBenefits />}
-      {!isUpgraded && !isMultiChain && <UpgradeBanner />}
+      {hasUpgradeBanner && !isMultiChain && <UpgradeBanner />}
 
-      {isGroupEvmBased(group) && <ConnectionSnippet group={group} />}
+      {isEvmBased && <ConnectionSnippet group={codeSnippetGroup} />}
       <RequestComposer
         group={group}
         publicUrl={publicUrl}

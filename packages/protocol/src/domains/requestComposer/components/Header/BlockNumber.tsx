@@ -15,7 +15,7 @@ export function BlockNumber<T>({
   loading,
   chainId,
 }: IBlockNumberProps<T>) {
-  const { classes, cx } = useHeaderStyles();
+  const { classes, cx } = useHeaderStyles(false);
 
   return (
     <>

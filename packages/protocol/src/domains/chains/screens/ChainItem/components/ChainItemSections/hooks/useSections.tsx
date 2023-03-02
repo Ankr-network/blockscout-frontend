@@ -1,17 +1,18 @@
 import { useMemo } from 'react';
 
-import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { ChainType, Timeframe } from 'domains/chains/types';
-import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { SectionID } from '../types';
+import { Tab, useTabs } from 'modules/common/hooks/useTabs';
+import { useDebugMenuSection } from './useDebugMenuSection';
 import { useGetStartedSection } from './useGetStartedSection';
 import { useInfrastructureSection } from './useInfrastructureSection';
 import { useInitialSection } from './useInitialSection';
 import { useRedirect } from './useRedirect';
+import { useTabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { useTimeframe } from './useTimeframe';
 import { useUsageDataSection } from './useUsageDataSection';
-import { useTabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 
 export interface SectionsParams {
   chainType: ChainType;
@@ -35,6 +36,7 @@ export const useSections = ({
 }: SectionsParams): Sections => {
   const { chain } = data;
   const chainId = chain.id;
+  const publicUrl = unfilteredGroup?.urls[0]?.rpc;
 
   const { timeframe, timeframeTabs } = useTimeframe();
 
@@ -44,8 +46,16 @@ export const useSections = ({
     chainId,
     getSelectHandler,
     group,
-    unfilteredGroup,
+    publicUrl,
   });
+
+  const debugMenuSection = useDebugMenuSection({
+    chainId,
+    getSelectHandler,
+    group,
+    publicUrl,
+  });
+
   const usageDataSection = useUsageDataSection({
     chain,
     chainType,
@@ -54,6 +64,7 @@ export const useSections = ({
     timeframe,
     timeframeTabs,
   });
+
   const infrastructureSection = useInfrastructureSection({
     chain,
     getSelectHandler,
@@ -62,10 +73,18 @@ export const useSections = ({
 
   const tabs: Tab<SectionID>[] = useMemo(
     () =>
-      [getStartedSection, usageDataSection, infrastructureSection].filter(
-        (section): section is Tab<SectionID> => !!section,
-      ),
-    [getStartedSection, usageDataSection, infrastructureSection],
+      [
+        getStartedSection,
+        debugMenuSection,
+        usageDataSection,
+        infrastructureSection,
+      ].filter((section): section is Tab<SectionID> => !!section),
+    [
+      getStartedSection,
+      debugMenuSection,
+      usageDataSection,
+      infrastructureSection,
+    ],
   );
 
   const initialTabID = useInitialSection(tabs);

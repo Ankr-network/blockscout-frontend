@@ -6,15 +6,22 @@ import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchLastBlockNumber } from 'domains/requestComposer/actions/fetchLastBlockNumber';
 
 export interface HeaderProps {
-  publicUrl?: string;
   chainId?: string;
+  hasBlockNumber?: boolean;
+  hasTitle?: boolean;
+  publicUrl?: string;
 }
 
 const options: Options = {
   subscriptionOptions: { pollingInterval: 30_000 },
 };
 
-export const EVMHeader = ({ publicUrl, chainId }: HeaderProps) => {
+export const EVMHeader = ({
+  chainId,
+  hasBlockNumber,
+  hasTitle,
+  publicUrl,
+}: HeaderProps) => {
   const [fetchLastBlockNumber, { data, isLoading }, reset] = useQueryEndpoint(
     chainsFetchLastBlockNumber,
     options,
@@ -23,18 +30,20 @@ export const EVMHeader = ({ publicUrl, chainId }: HeaderProps) => {
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    if (publicUrl) {
+    if (publicUrl && hasBlockNumber) {
       const { unsubscribe } = fetchLastBlockNumber(publicUrl);
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [fetchLastBlockNumber, publicUrl]);
+  }, [fetchLastBlockNumber, hasBlockNumber, publicUrl]);
 
   return (
-    <Header>
-      <BlockNumber data={data} loading={isLoading} chainId={chainId} />
+    <Header hasTitle={hasTitle}>
+      {hasBlockNumber && (
+        <BlockNumber data={data} loading={isLoading} chainId={chainId} />
+      )}
     </Header>
   );
 };
