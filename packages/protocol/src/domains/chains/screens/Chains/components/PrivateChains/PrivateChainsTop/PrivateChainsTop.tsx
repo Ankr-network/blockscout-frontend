@@ -1,8 +1,8 @@
-import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
+import { Timeframe } from 'domains/chains/types';
+import { PrivateBanner } from '../components/PrivateBanner';
+import { UsageSummary } from '../components/UsageSummary';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { FailedRequestsBannerContainer } from 'domains/chains/components/FailedRequestsBanner/FailedRequestsBannerContainer';
-import { Timeframe } from 'domains/chains/types';
-import { UsageSummary } from '../components/UsageSummary';
 
 interface IPrivateChainsProps {
   timeframe: Timeframe;
@@ -17,7 +17,7 @@ export const PrivateChainsTop = ({
 
   return (
     <>
-      <ExpiredTokenBanner />
+      <PrivateBanner />
       <UsageSummary
         timeframe={timeframe}
         switchTimeframe={switchStatsTimeframe}

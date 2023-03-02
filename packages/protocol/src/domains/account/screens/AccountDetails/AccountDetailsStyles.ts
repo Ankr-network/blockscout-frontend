@@ -1,6 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
+import { CONTENT_WIDTH } from 'modules/layout/components/DefautLayout';
+
 export const ACCOUNT_MAX_WIDTH = 1050;
 const TOP1_WIDTH = 465;
 
@@ -8,7 +10,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: 940,
+    maxWidth: CONTENT_WIDTH,
     marginLeft: 'auto',
     marginRight: 'auto',
 

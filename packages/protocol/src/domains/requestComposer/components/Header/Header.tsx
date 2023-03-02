@@ -5,21 +5,25 @@ import { t } from '@ankr.com/common';
 import { useHeaderStyles } from './useHeaderStyles';
 
 interface IHeaderProps {
-  children?: ReactNode;
   chainName?: string;
+  children?: ReactNode;
+  hasTitle?: boolean;
 }
 
 export const Header = ({
-  children,
   chainName = t('request-composer.header.evm'),
+  children,
+  hasTitle,
 }: IHeaderProps) => {
-  const { classes } = useHeaderStyles();
+  const { classes } = useHeaderStyles(hasTitle);
 
   return (
     <div className={classes.root}>
-      <Typography className={classes.title}>
-        {t('request-composer.header.title')}
-      </Typography>
+      {hasTitle && (
+        <Typography className={classes.title}>
+          {t('request-composer.header.title')}
+        </Typography>
+      )}
       <div className={classes.info}>
         <div className={classes.define}>
           <Typography variant="body2" className={classes.label}>

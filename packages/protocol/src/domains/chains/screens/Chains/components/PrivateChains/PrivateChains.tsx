@@ -30,6 +30,7 @@ export const PrivateChains = () => {
           switchStatsTimeframe={switchStatsTimeframe}
         />
       }
+      shouldShowReminderDialog
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
       loading={loading}
     >

@@ -1,12 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
-import {
-  MAX_TWO_COLUMN_WIDTH,
-  NARROW_NOTICE_MARGIN,
-  NARROW_TWO_COLUMN_WIDTH,
-  NOTICE_MARGIN,
-  NOTICE_WIDTH,
-  ONE_ROW_SCREEN_WIDTH,
-} from '../../const';
+
+import { NARROW_TWO_COLUMN_WIDTH, ONE_ROW_SCREEN_WIDTH } from '../../const';
 
 export const useHeaderStyles = makeStyles()(theme => ({
   information: {
@@ -14,15 +8,11 @@ export const useHeaderStyles = makeStyles()(theme => ({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     marginBottom: 20,
-    width: `calc(100% - ${NOTICE_WIDTH + NOTICE_MARGIN}px)`,
-    [theme.breakpoints.down(NARROW_TWO_COLUMN_WIDTH)]: {
-      width: `calc(100% - ${NOTICE_WIDTH + NARROW_NOTICE_MARGIN}px)`,
+    width: '100%',
 
+    [theme.breakpoints.down(NARROW_TWO_COLUMN_WIDTH)]: {
       flexDirection: 'column',
       gap: theme.spacing(3.5),
-    },
-    [theme.breakpoints.down(MAX_TWO_COLUMN_WIDTH)]: {
-      width: '100%',
     },
   },
   title: {

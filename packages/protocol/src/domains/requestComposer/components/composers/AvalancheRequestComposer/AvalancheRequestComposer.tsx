@@ -1,22 +1,45 @@
+import { CChainRequestComposer } from './CChainRequestComposer';
 import { ChainGroupID } from 'modules/endpoints/types';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
-import { CChainRequestComposer } from './CChainRequestComposer';
 import { PChainRequestComposer } from './PChainRequestComposer';
 import { XChainRequestComposer } from './XChainRequestComposer';
 
 export const AvalancheRequestComposer = ({
-  group,
   className,
+  group,
+  hasRequestHistory,
+  hasTitle,
 }: IRequestComposerMainProps) => {
   switch (group.id) {
     case ChainGroupID.C_CHAIN:
-      return <CChainRequestComposer group={group} className={className} />;
+      return (
+        <CChainRequestComposer
+          className={className}
+          group={group}
+          hasRequestHistory={hasRequestHistory}
+          hasTitle={hasTitle}
+        />
+      );
 
     case ChainGroupID.P_CHAIN:
-      return <PChainRequestComposer group={group} className={className} />;
+      return (
+        <PChainRequestComposer
+          className={className}
+          group={group}
+          hasRequestHistory={hasRequestHistory}
+          hasTitle={hasTitle}
+        />
+      );
 
     case ChainGroupID.X_CHAIN:
-      return <XChainRequestComposer group={group} className={className} />;
+      return (
+        <XChainRequestComposer
+          className={className}
+          group={group}
+          hasRequestHistory={hasRequestHistory}
+          hasTitle={hasTitle}
+        />
+      );
 
     default:
       return null;

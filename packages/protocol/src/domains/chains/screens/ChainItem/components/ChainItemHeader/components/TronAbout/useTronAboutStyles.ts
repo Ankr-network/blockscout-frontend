@@ -9,6 +9,7 @@ export const useTronAboutStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 400,
     fontSize: 17,
     lineHeight: theme.spacing(2 * 3),
+    color: theme.palette.text.primary,
   },
   link: {
     fontWeight: 600,

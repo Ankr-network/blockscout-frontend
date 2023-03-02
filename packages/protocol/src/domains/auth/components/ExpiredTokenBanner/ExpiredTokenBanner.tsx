@@ -6,6 +6,7 @@ import { useExpiredTokenBannerStyles } from './ExpiredTokenBannerStyles';
 
 export const ExpiredTokenBanner = () => {
   const { classes } = useExpiredTokenBannerStyles();
+
   const { isTokenExpired } = useAuth();
 
   return isTokenExpired ? (

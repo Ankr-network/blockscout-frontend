@@ -17,6 +17,7 @@ const chain = {
   totalRequests: new BigNumber(10000),
   type: BlockchainType.Mainnet,
   urls: [{ rpc: 'chainLinkchainLinkchainLinkchainLinkchainLink' }],
+  coinName: 'coinName',
 };
 
 storiesOf('domains/chains/ChainsItem', module).add('Default', () => (

@@ -1,6 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
+import { MAX_WIDTH_TO_WRAP_TIMERAME_TABS } from './const';
+
 export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
   root: {
     marginBottom: theme.spacing(2 * 3),
@@ -18,7 +20,7 @@ export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
   },
   timeframe: {
     '&&': {
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down(MAX_WIDTH_TO_WRAP_TIMERAME_TABS)]: {
         display: 'none',
       },
     },
