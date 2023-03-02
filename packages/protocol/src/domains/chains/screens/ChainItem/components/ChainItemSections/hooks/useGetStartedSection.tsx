@@ -46,7 +46,7 @@ export const useGetStartedSection = ({
   unfilteredGroup,
 }: GetStartedSectionParams) => {
   // TODO: Remove after adding ChainFlow to GetStartedSection
-  const { hasPrivateAccess, loading } = useAuth();
+  const { hasPrivateAccess, loading, hasPremium } = useAuth();
 
   const isUpgraded = Boolean(hasPrivateAccess || loading);
   const isVisible = isSectionVisible(chainId, group, isUpgraded);
@@ -61,6 +61,8 @@ export const useGetStartedSection = ({
                 chainId={chainId}
                 group={group}
                 unfilteredGroup={unfilteredGroup}
+                hasPremium={hasPremium}
+                isUpgraded={hasPrivateAccess || loading}
               />
             ),
             onSelect: getSelectHandler(SectionID.GetStarted),
@@ -69,6 +71,15 @@ export const useGetStartedSection = ({
             ),
           }
         : undefined,
-    [chainId, getSelectHandler, group, isVisible, unfilteredGroup],
+    [
+      chainId,
+      getSelectHandler,
+      group,
+      isVisible,
+      unfilteredGroup,
+      hasPremium,
+      hasPrivateAccess,
+      loading,
+    ],
   );
 };
