@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { MouseEvent as ReactMouseEvent, useMemo } from 'react';
 
+import { DEFAULT_ROUNDING } from 'modules/common/const';
 import { TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { getTokenName } from 'modules/common/utils/getTokenName';
@@ -175,7 +176,7 @@ export const PortfolioChartLegend = ({
 
                 <Typography className={classes.legendItemSubtitle}>
                   {t('dashboard.portfolioUSD', {
-                    value: item.usdAmount.toFormat(),
+                    value: item.usdAmount.dp(DEFAULT_ROUNDING).toFormat(),
                   })}
 
                   <small>{item.percent}%</small>
