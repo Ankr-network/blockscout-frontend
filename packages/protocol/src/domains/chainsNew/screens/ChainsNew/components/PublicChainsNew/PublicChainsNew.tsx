@@ -38,6 +38,7 @@ export const PublicChainsNew = () => {
           timeframe={timeframe}
           chains={processedChains}
           switchTimeframe={switchStatsTimeframe}
+          isPublic
         />
       </NoReactSnap>
     </BaseChains>
