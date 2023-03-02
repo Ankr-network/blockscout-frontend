@@ -9,7 +9,7 @@ import { ReminderDialog } from '../ReminderDialog';
 
 interface BaseChainsProps {
   top?: ReactNode;
-  isShowReminderDialog?: boolean;
+  shouldShowReminderDialog?: boolean;
   loading: boolean;
   select: ReactNode;
   children: ReactNode;
@@ -17,7 +17,7 @@ interface BaseChainsProps {
 
 export const BaseChains = ({
   top,
-  isShowReminderDialog,
+  shouldShowReminderDialog,
   loading,
   select,
   children,
@@ -31,7 +31,7 @@ export const BaseChains = ({
       <Box className={classes.container}>
         {loading ? <OverlaySpinner /> : children}
       </Box>
-      {isShowReminderDialog && <ReminderDialog />}
+      {shouldShowReminderDialog && <ReminderDialog />}
     </Box>
   );
 };

@@ -5,7 +5,7 @@ import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePublicChainsData } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChainsData';
 import { usePublicChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChains';
 import { ChainsNewList } from '../ChainsNewList';
-import { InfoBanner } from 'domains/chains/components/InfoBanner';
+import { PublicBanner } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicBanner';
 
 export const PublicChainsNew = () => {
   const {
@@ -28,7 +28,7 @@ export const PublicChainsNew = () => {
   return (
     <BaseChains
       loading={loading}
-      top={!loading && <InfoBanner />}
+      top={<PublicBanner />}
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
     >
       <NoReactSnap

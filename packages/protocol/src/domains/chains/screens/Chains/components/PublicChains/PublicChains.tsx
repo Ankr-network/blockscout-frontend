@@ -7,7 +7,7 @@ import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePublicChains } from './hooks/usePublicChains';
 import { usePublicChainsData } from './hooks/usePublicChainsData';
 import { PublicChainsList } from './components/PublicChainsList';
-import { InfoBanner } from 'domains/chains/components/InfoBanner';
+import { PublicBanner } from './components/PublicBanner';
 
 export const PublicChains = () => {
   const {
@@ -30,8 +30,8 @@ export const PublicChains = () => {
   return (
     <BaseChains
       loading={loading}
-      isShowReminderDialog={isLoggedIn}
-      top={!loading && <InfoBanner />}
+      shouldShowReminderDialog={isLoggedIn}
+      top={<PublicBanner />}
       select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
     >
       <NoReactSnap
