@@ -8,6 +8,8 @@ import {
   IBlockchainEntity,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
+  IUpdateUserEmailRequest,
+  IUpdateUserEmailResponse,
   INodeEntity,
   IStatementRequest,
   IStatementResponse,
@@ -49,6 +51,10 @@ export interface IBackofficeGateway {
   getEmailBindings(
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
+
+  createUserEmail(params: IUpdateUserEmailRequest): Promise<IUpdateUserEmailResponse>
+
+  updateUserEmail(params: IUpdateUserEmailRequest): Promise<IUpdateUserEmailResponse>
 
   getAdminRoles(): Promise<IGetAdminRolesResponse>;
 

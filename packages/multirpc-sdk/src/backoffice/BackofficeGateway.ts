@@ -13,6 +13,8 @@ import {
   ICountersResponse,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
+  IUpdateUserEmailRequest,
+  IUpdateUserEmailResponse,
   INodeEntity,
   IStatementRequest,
   IStatementResponse,
@@ -91,6 +93,40 @@ export class BackofficeGateway implements IBackofficeGateway {
       '/users/emails',
       {
         params,
+      },
+    );
+
+    return response;
+  }
+
+  async createUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse> {
+    const { data: response } = await this.api.post<IUpdateUserEmailResponse>(
+      '/users/emails',
+      params,
+      {
+        params: {
+          address: params.address,
+          email: params.email,
+        },
+      },
+    );
+
+    return response;
+  }
+
+  async updateUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse> {
+    const { data: response } = await this.api.put<IUpdateUserEmailResponse>(
+      '/users/emails',
+      params,
+      {
+        params: {
+          address: params.address,
+          email: params.email,
+        },
       },
     );
 

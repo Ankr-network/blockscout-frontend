@@ -27,6 +27,7 @@ import { useClientInfo } from './useClientInfo';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { ClientEditProfileModal } from '../ClientEditProfileModal';
 import { ClientApiKeysModal } from '../ClientApiKeysModal';
+import { ClientEditEmailModal } from '../ClientEditEmailModal';
 
 interface IClientInfoProps {
   address: Web3Address;
@@ -178,6 +179,7 @@ export const ClientInfo = ({
       <Paper sx={{ p: 5 }}>
         <Typography variant="body2" component="p">
           <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
+          <ClientEditEmailModal currentClient={client} />
           {client?.status && (
             <>
               <br />
