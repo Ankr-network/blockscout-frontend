@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Contract, EventData, Filter } from 'web3-eth-contract';
 
-import { Days, Web3Address, Web3Uint256 } from 'modules/common/types';
+import { Seconds, Web3Address, Web3Uint256 } from 'modules/common/types';
 
 export interface IChainConfig {
   activeValidatorsLength: number;
@@ -18,7 +18,7 @@ export interface IChainConfig {
 export interface IChainParams {
   epoch: number;
   nextEpochBlock: number;
-  nextEpochIn: Days;
+  nextEpochIn: Seconds;
 }
 
 export type TValidatorPrettyStatus =
@@ -68,6 +68,7 @@ export enum EAnkrEvents {
   ValidatorAdded = 'ValidatorAdded',
   ValidatorRemoved = 'ValidatorRemoved',
   Delegated = 'Delegated',
+  Redelegated = 'Redelegated',
   Undelegated = 'Undelegated',
   Claimed = 'Claimed',
   ValidatorDeposited = 'ValidatorDeposited',
@@ -76,7 +77,6 @@ export enum EAnkrEvents {
 export interface IUnstakingData {
   provider: string;
   unstakeAmount: BigNumber;
-  usdUnstakeAmount: BigNumber;
   daysLeft: number;
 }
 
@@ -101,7 +101,7 @@ export interface IApyData {
 /**
  * Internal params for getting past events
  */
-export interface IGetPastEvents {
+export interface IGetPastEventsArgs {
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -145,4 +145,9 @@ export interface IDelegationQueueItem {
 export interface IQueueHistoryItem {
   amount: string;
   fromEpoch: number;
+}
+
+export interface IGetIsMigratedDelegator {
+  isMigrated?: boolean;
+  isMigrationNeeded: boolean;
 }

@@ -1,10 +1,9 @@
-import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { ANKR_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
+import { ZERO } from 'modules/common/const';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
 import { RoutesConfig } from 'modules/stake-ankr/RoutesConfig';
@@ -14,8 +13,6 @@ export interface IStakedANKRData {
   rewardsAmount: BigNumber;
   stakedUsdEquivalent: BigNumber;
   rewardsUsdEquivalent: BigNumber;
-  stakedTooltip: string;
-  network: string;
   manageLink: string;
   loading: boolean;
   address?: string;
@@ -29,7 +26,6 @@ export const useStakedANKRData = (): IStakedANKRData => {
     AvailableWriteProviders.ethCompatible,
   );
 
-  const network = t(`chain.${ANKR_NETWORK_BY_ENV}`);
   const stakedAmount = data?.totalDelegatedAmount ?? ZERO;
   const rewardsAmount =
     data?.claimableRewards.reduce(
@@ -46,8 +42,6 @@ export const useStakedANKRData = (): IStakedANKRData => {
     rewardsAmount,
     stakedUsdEquivalent,
     rewardsUsdEquivalent,
-    stakedTooltip: '',
-    network,
     manageLink: RoutesConfig.main.generatePath(),
     loading,
     address,

@@ -15,14 +15,18 @@ interface IGetUnstakingDataArgs {
   usdPrice: BigNumber;
 }
 
+export interface IExtendedUnstaking extends IUnstakingData {
+  usdUnstakeAmount: BigNumber;
+}
+
 // TODO Likelly bind to the current address: add providerTags argument
 export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getUnstakingData: build.query<IUnstakingData[], IGetUnstakingDataArgs>({
+    getUnstakingData: build.query<IExtendedUnstaking[], IGetUnstakingDataArgs>({
       queryFn: queryFnNotifyWrapper<
         IGetUnstakingDataArgs,
         never,
-        IUnstakingData[]
+        IExtendedUnstaking[]
       >(
         async ({ usdPrice }, { getState }) => {
           const sdk = await AnkrStakingSDK.getInstance();
@@ -33,7 +37,13 @@ export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
 
           const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
-          return { data: await sdk.getUnstaking(usdPrice, blockNumber) };
+          const unstakingData = await sdk.getUnstakingNew(blockNumber);
+
+          const data = unstakingData
+            .map(mapUnstakingData(usdPrice))
+            .sort((data1, data2) => data1.daysLeft - data2.daysLeft);
+
+          return { data };
         },
         error =>
           getExtendedErrorText(error, t('stake-ankr.errors.unstaking-data')),
@@ -42,3 +52,12 @@ export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
     }),
   }),
 });
+
+function mapUnstakingData(
+  usdPrice: BigNumber.Value,
+): (item: IUnstakingData) => IExtendedUnstaking {
+  return item => ({
+    ...item,
+    usdUnstakeAmount: item.unstakeAmount.multipliedBy(usdPrice),
+  });
+}

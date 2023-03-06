@@ -9,7 +9,9 @@ import { ZERO } from 'modules/common/const';
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 import {
   IActiveStakingByValidator,
+  IApyData,
   IDelegation,
+  IStakingReward,
 } from '../api/AnkrStakingSDK/types';
 import { CacheTags } from '../cacheTags';
 import { EProviderStatus } from '../const';
@@ -51,41 +53,26 @@ export const { useLazyGetActiveStakingDataQuery } = web3Api.injectEndpoints({
         async (_, { getState, dispatch }) => {
           const sdk = await AnkrStakingSDK.getInstance();
           const state = getState() as RootState;
-          const { data: ankrPrice = ZERO } = selectAnkrPrice(state);
+          const { data: tokenPrice = ZERO } = selectAnkrPrice(state);
 
-          const [
-            { data: allclaimableRewards = [] },
-            { data: apyByValidator = [] },
-          ] = await Promise.all([
-            dispatch(getAllclaimableRewards.initiate()),
-            dispatch(getAPY.initiate()),
-          ]);
+          const [{ data: allclaimableRewards }, { data: apyByValidator }] =
+            await Promise.all([
+              dispatch(getAllclaimableRewards.initiate()),
+              dispatch(getAPY.initiate()),
+            ]);
 
           const { data: latestBlockNumber } = selectLatestBlockNumber(state);
           const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
           const activeStaking = await sdk.getActiveStaking(blockNumber);
 
-          const data = activeStaking.map(activeStakingByValidator => {
-            const { validator } = activeStakingByValidator;
-
-            const { apy = ZERO } =
-              apyByValidator.find(apyItem => apyItem.validator === validator) ??
-              {};
-
-            const { amount: rewards = ZERO } =
-              allclaimableRewards.find(
-                reward => reward.validator.validator === validator,
-              ) ?? {};
-
-            const mapActiveStaking = getMapActiveStaking({
-              tokenPrice: ankrPrice,
-              apy,
-              rewards,
-            });
-
-            return mapActiveStaking(activeStakingByValidator);
-          });
+          const data = activeStaking.map(
+            getMapActiveStaking({
+              tokenPrice,
+              allclaimableRewards: allclaimableRewards ?? [],
+              apyByValidator: apyByValidator ?? [],
+            }),
+          );
 
           return { data };
         },
@@ -97,13 +84,17 @@ export const { useLazyGetActiveStakingDataQuery } = web3Api.injectEndpoints({
   }),
 });
 
-function getMapActiveStaking(args: {
+interface IGetMapActiveStakingArgs {
   tokenPrice: BigNumber;
-  rewards: BigNumber;
-  apy: BigNumber;
-}) {
-  const { tokenPrice, rewards, apy } = args;
+  allclaimableRewards: IStakingReward[];
+  apyByValidator: IApyData[];
+}
 
+function getMapActiveStaking({
+  tokenPrice,
+  allclaimableRewards,
+  apyByValidator,
+}: IGetMapActiveStakingArgs) {
   return (activeStaking: IActiveStakingByValidator): IActiveStakingData => {
     const {
       validator,
@@ -111,6 +102,15 @@ function getMapActiveStaking(args: {
       delegatedAmount,
       unlockedDelegatedByValidator,
     } = activeStaking;
+
+    const apy =
+      apyByValidator.find(apyItem => apyItem.validator === validator)?.apy ??
+      ZERO;
+
+    const rewards =
+      allclaimableRewards.find(
+        reward => reward.validator.validator === validator,
+      )?.amount ?? ZERO;
 
     const isOneDelegation = activeDelegations.length === 1;
     const { lockingPeriod = 0, totalLockPeriod = 0 } =

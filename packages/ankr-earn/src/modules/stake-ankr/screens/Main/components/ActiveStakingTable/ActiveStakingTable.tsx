@@ -104,15 +104,23 @@ export const ActiveStakingTable = (): JSX.Element | null => {
 
         {!isLoading &&
           data?.map((row, i) => {
-            const unstakeLink = row.isUnlocked
-              ? RoutesConfig.unstake.generatePath(row.provider)
-              : undefined;
+            const isZeroStake = row.stakeAmount.isZero();
+            const isZeroRewards = row.rewards.isZero();
+
+            const unstakeLink =
+              row.isUnlocked && !isZeroStake
+                ? RoutesConfig.unstake.generatePath(row.provider)
+                : undefined;
             const claimLink = !row.rewards.isZero()
               ? RoutesConfig.claimRewards.generatePath(row.provider)
               : undefined;
             const restakeLink = !row.rewards.isZero()
               ? RoutesConfig.restake.generatePath(row.provider)
               : undefined;
+
+            if (isZeroStake && isZeroRewards) {
+              return null;
+            }
 
             return (
               <TableRow

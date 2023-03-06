@@ -1,9 +1,9 @@
-import { t } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 import { Paper, Typography } from '@material-ui/core';
 
 import { Button } from 'uiKit/Button';
+import { InfoIcon } from 'uiKit/Icons/InfoIcon';
 
-import { ReactComponent as InfoIcon } from './assets/info-icon.svg';
 import transferImg from './assets/transfer.png';
 import transferImg2x from './assets/transfer@2x.png';
 import { useUpgradeInfoStyles } from './useUpgradeInfoStyles';
@@ -41,7 +41,7 @@ export const UpgradeInfo = ({
       <Typography className={classes.info} variant="body2">
         <InfoIcon className={classes.infoIcon} />
 
-        {t('stake-ankr.upgrade.info')}
+        {tHTML('stake-ankr.upgrade.info')}
       </Typography>
 
       <Button
