@@ -26,12 +26,15 @@ import {
   BAR_RADIUS,
 } from '../../const';
 import { useChartBar } from './hooks/useChartBar';
+import { useYAxisWidth } from 'modules/common/components/Chart/hooks/useYAxisWidth';
 
 interface IFailedRequestsChartProps {
   data: IFailedRequestsData[];
 }
 
 const BAR_MARGIN = { top: 5, right: 20, bottom: 5, left: -10 };
+
+const Y_AXIS_MARGIN = 10;
 
 export const FailedRequestsChart = ({ data }: IFailedRequestsChartProps) => {
   const theme = useTheme();
@@ -44,11 +47,14 @@ export const FailedRequestsChart = ({ data }: IFailedRequestsChartProps) => {
 
   const barMetaList = useChartBar(theme);
 
+  const [ref, yAxisWidth] = useYAxisWidth();
+
   return (
     <ResponsiveContainer
       width="100%"
       height={COMMON_HEIGHT}
       className={classes.root}
+      ref={ref}
     >
       <BarChart
         data={data}
@@ -79,6 +85,7 @@ export const FailedRequestsChart = ({ data }: IFailedRequestsChartProps) => {
               value: Math.abs(value),
             })
           }
+          width={yAxisWidth + Y_AXIS_MARGIN}
           fontSize={12}
         />
         <Tooltip cursor={false} content={<BarTooltip />} />

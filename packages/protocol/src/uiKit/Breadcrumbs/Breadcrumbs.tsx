@@ -9,11 +9,18 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from '@ankr.com/ui';
 import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
-import { useIsMDDown } from 'uiKit/Theme/useTheme';
+import { useHasBreakdown, useIsMDDown } from 'uiKit/Theme/useTheme';
 
-export const Breadcrumbs = ({ items, userLabel }: BreadcrumbsProps) => {
-  const isMobile = useIsMDDown();
+export const Breadcrumbs = ({
+  customBreakpoint = 0,
+  items,
+  userLabel,
+}: BreadcrumbsProps) => {
+  const isMDDown = useIsMDDown();
+  const hasCustomBreakpoint = useHasBreakdown(customBreakpoint);
   const isLessThanMaxWidth = useMediaQuery('(max-width:1100px)');
+
+  const isMobile = customBreakpoint ? hasCustomBreakpoint : isMDDown;
 
   const shouldShowMobileBreadcrumbs =
     isMobile || (isLessThanMaxWidth && items.length > 2);

@@ -35,6 +35,9 @@ export interface ITokenInfo {
 
 const WATCH_ASSET_TIMEOUT = 500;
 
+const CHAIN_NOT_ADDED_ERROR_CODE = 4902;
+const USER_REJECTED_ERROR_CODE = 4001;
+
 export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
   private walletMeta: IWalletMeta | undefined;
 
@@ -243,10 +246,10 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
         params: [{ chainId: config.chainId }],
       });
     } catch (switchError) {
-      const isChainNotAdded =
-        (switchError as { code?: number | string }).code === 4902;
+      const errorCode = (switchError as { code?: number | string }).code;
 
-      if (isChainNotAdded) {
+      if (errorCode === CHAIN_NOT_ADDED_ERROR_CODE) {
+        // chain isn't added
         return provider
           .request?.({
             /**
@@ -259,6 +262,12 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
             throw new Error('addError');
           });
       }
+
+      if (errorCode === USER_REJECTED_ERROR_CODE) {
+        // user rejected swtich network
+        throw new Error('User declined to switch network');
+      }
+
       // handle other "switch" errors
       throw new Error(
         'Switch network error. Perhaps the network is not added to the RPC Config.',
