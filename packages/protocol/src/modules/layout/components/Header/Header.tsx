@@ -13,16 +13,17 @@ export const IS_I18N_ENABLED = false;
 
 interface HeaderProps {
   className?: string;
+  isChainItemPage?: boolean;
 }
 
-export const Header = ({ className = '' }: HeaderProps) => {
+export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
   const { classes, cx } = useStyles();
   const { hasPremium, hasWeb3Connection } = useAuth();
 
   return (
     <header className={cx(classes.root, className)}>
       <Container className={classes.container}>
-        <Breadcrumbs />
+        <Breadcrumbs isChainItemPage={isChainItemPage} />
         <div className={classes.right}>
           {IS_I18N_ENABLED && <LocaleSwitcher className={classes.switcher} />}
           <NoReactSnap>
