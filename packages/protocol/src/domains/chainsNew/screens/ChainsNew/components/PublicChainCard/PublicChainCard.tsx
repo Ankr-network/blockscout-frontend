@@ -22,7 +22,7 @@ export const PublicChainCard = ({
     <BaseChainsCard
       chain={chain}
       timeframe={timeframe}
-      totalReqeusts={totalRequestsStr}
+      totalRequests={totalRequestsStr}
       loading={Boolean(loading)}
       {...props}
     />

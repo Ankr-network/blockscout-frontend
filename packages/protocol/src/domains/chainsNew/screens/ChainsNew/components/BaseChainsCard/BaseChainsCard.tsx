@@ -9,7 +9,7 @@ export interface IBaseChainCardProps {
   timeframe: Timeframe;
   chain: Chain;
   switchTimeframe: () => void;
-  totalReqeusts: string;
+  totalRequests: string;
   loading: boolean;
 }
 
@@ -17,7 +17,7 @@ export const BaseChainsCard = ({
   chain,
   timeframe,
   switchTimeframe,
-  totalReqeusts,
+  totalRequests,
   loading,
 }: IBaseChainCardProps) => {
   const { classes } = useChainCardStyles();
@@ -43,10 +43,10 @@ export const BaseChainsCard = ({
             <Skeleton className={classes.skeleton} />
           ) : (
             <>
-              {!!totalReqeusts && (
+              {!!totalRequests && (
                 <>
                   {t('chains.req', {
-                    value: totalReqeusts,
+                    value: totalRequests,
                   })}{' '}
                   <TimeframeSwitcher
                     timeframe={timeframe}

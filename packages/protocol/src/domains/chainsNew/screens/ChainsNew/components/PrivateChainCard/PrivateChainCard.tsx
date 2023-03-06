@@ -15,7 +15,7 @@ export const PrivateChainCard = ({ chain, ...props }: IChainCardProps) => {
   return (
     <BaseChainsCard
       chain={chain}
-      totalReqeusts={totalRequestsStr}
+      totalRequests={totalRequestsStr}
       loading={Boolean(loading)}
       {...props}
     />
