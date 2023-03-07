@@ -7,6 +7,7 @@ import { useCallback } from 'react';
 import { Radio } from 'ui';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
+import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
 
 import { ReactComponent as InstantIcon } from './assets/instant.svg';
 import { useFlashUnstakeStyles } from './useFlashUnstakeStyles';
@@ -89,7 +90,9 @@ export const FlashUnstake = ({
 
         <div className={classes.unstakeTagList}>
           <div className={classes.unstakeTag}>
-            {t('stake-bnb.unstake.standard-unstake-dur')}
+            {t('stake-bnb.unstake.standard-unstake-dur', {
+              period: UNSTAKE_DAY_INTERVALS_BY_TOKEN.BNB,
+            })}
           </div>
 
           <div className={classes.unstakeTag}>
