@@ -10,7 +10,7 @@ import { CacheTags } from '../cacheTags';
 
 type TMigrateDelegator = boolean;
 
-const SYNCRONIZATION_DELAY: Milliseconds = 7000;
+const ETH_BLOCK_MINING_TIME: Milliseconds = 15_000;
 
 export const MIGRATE_DELEGATOR_KEY = 'migrateDelegator';
 
@@ -27,23 +27,25 @@ export const { useMigrateDelegatorMutation } = web3Api.injectEndpoints({
           const { status } = await receiptPromise;
 
           // since we are using the AAPI there is a delay in the migration status update
-          await sleep(SYNCRONIZATION_DELAY);
+          await sleep(ETH_BLOCK_MINING_TIME);
 
           return { data: status };
         },
         error => getExtendedErrorText(error, t('stake-ankr.errors.migrate')),
       ),
       onQueryStarted: (_args, { dispatch, queryFulfilled }) =>
-        queryFulfilled.then(({ data }) => {
-          if (data) {
-            dispatch(
-              showNotification({
-                key: MIGRATE_DELEGATOR_KEY,
-                message: t('stake-ankr.success.migrate'),
-                variant: 'success',
-              }),
-            );
+        queryFulfilled.then(({ data: isMigrationSuccessful }) => {
+          if (!isMigrationSuccessful) {
+            return;
           }
+
+          dispatch(
+            showNotification({
+              key: MIGRATE_DELEGATOR_KEY,
+              message: t('stake-ankr.success.migrate'),
+              variant: 'success',
+            }),
+          );
         }),
     }),
   }),

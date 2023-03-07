@@ -461,7 +461,7 @@
       "instant": "It will be sent immediately",
       "instant-success": "You will receive BNB shortly",
       "no-comission": "No comission",
-      "standard-unstake-dur": "7-10 days",
+      "standard-unstake-dur": "{period} days",
       "standard-unstake": "Standard unstake",
       "flash-unstake": "Flash unstake",
       "instantly": "Instantly"

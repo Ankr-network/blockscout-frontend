@@ -1,19 +1,21 @@
 import { Chain, Timeframe } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
-import { ChainCard } from '../ChainCard';
+import { PrivateChainCard } from '../PrivateChainCard';
+import { PublicChainCard } from '../PublicChainCard';
 import { useChainsNewListStyles } from './useChainsNewListStyles';
 
-export interface ChainsNewListProps {
+export interface IChainsNewListProps {
   timeframe: Timeframe;
   chains: Chain[];
   switchTimeframe: () => void;
+  isPublic: boolean;
 }
 
 export const ChainsNewList = ({
-  timeframe,
   chains,
-  switchTimeframe,
-}: ChainsNewListProps) => {
+  isPublic,
+  ...props
+}: IChainsNewListProps) => {
   const { classes } = useChainsNewListStyles();
 
   return (
@@ -23,13 +25,10 @@ export const ChainsNewList = ({
         .map(item => {
           const { id } = item;
 
-          return (
-            <ChainCard
-              key={id}
-              chain={item}
-              timeframe={timeframe}
-              switchTimeframe={switchTimeframe}
-            />
+          return isPublic ? (
+            <PublicChainCard key={id} chain={item} {...props} />
+          ) : (
+            <PrivateChainCard key={id} chain={item} {...props} />
           );
         })}
     </div>
