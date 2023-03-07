@@ -55,13 +55,13 @@ const premiumUserBannerContentAdvancedApi = {
 };
 
 export const getBannerContent = (
-  isPremium: boolean,
+  hasPremium: boolean,
   isAdvancedApi: boolean,
 ) => {
   if (isAdvancedApi) {
-    return isPremium
+    return hasPremium
       ? premiumUserBannerContentAdvancedApi
       : freeUserBannerContentAdvancedApi;
   }
-  return isPremium ? premiumUserBannerContent : freeUserBannerContent;
+  return hasPremium ? premiumUserBannerContent : freeUserBannerContent;
 };

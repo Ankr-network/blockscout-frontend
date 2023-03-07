@@ -49,7 +49,7 @@ export const Endpoints = ({
         chainType={chainType}
         group={group}
         hasConnectWalletMessage={hasConnectWalletMessage}
-        isPremium={hasPremium}
+        hasPremium={hasPremium}
         onCopyEndpoint={onCopyEndpoint}
         publicChain={publicChain}
       />
