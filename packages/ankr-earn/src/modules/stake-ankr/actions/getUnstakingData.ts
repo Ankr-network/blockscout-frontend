@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -15,26 +15,49 @@ interface IGetUnstakingDataArgs {
   usdPrice: BigNumber;
 }
 
+export interface IExtendedUnstaking extends IUnstakingData {
+  usdUnstakeAmount: BigNumber;
+}
+
 // TODO Likelly bind to the current address: add providerTags argument
 export const { useGetUnstakingDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getUnstakingData: build.query<IUnstakingData[], IGetUnstakingDataArgs>({
+    getUnstakingData: build.query<IExtendedUnstaking[], IGetUnstakingDataArgs>({
       queryFn: queryFnNotifyWrapper<
         IGetUnstakingDataArgs,
         never,
-        IUnstakingData[]
-      >(async ({ usdPrice }, { getState }) => {
-        const sdk = await AnkrStakingSDK.getInstance();
+        IExtendedUnstaking[]
+      >(
+        async ({ usdPrice }, { getState }) => {
+          const sdk = await AnkrStakingSDK.getInstance();
 
-        const { data: latestBlockNumber } = selectLatestBlockNumber(
-          getState() as RootState,
-        );
+          const { data: latestBlockNumber } = selectLatestBlockNumber(
+            getState() as RootState,
+          );
 
-        const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
+          const blockNumber = latestBlockNumber ?? (await sdk.getBlockNumber());
 
-        return { data: await sdk.getUnstaking(usdPrice, blockNumber) };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.unstaking-data'))),
+          const unstakingData = await sdk.getUnstakingNew(blockNumber);
+
+          const data = unstakingData
+            .map(mapUnstakingData(usdPrice))
+            .sort((data1, data2) => data1.daysLeft - data2.daysLeft);
+
+          return { data };
+        },
+        error =>
+          getExtendedErrorText(error, t('stake-ankr.errors.unstaking-data')),
+      ),
       providesTags: [CacheTags.history],
     }),
   }),
 });
+
+function mapUnstakingData(
+  usdPrice: BigNumber.Value,
+): (item: IUnstakingData) => IExtendedUnstaking {
+  return item => ({
+    ...item,
+    usdUnstakeAmount: item.unstakeAmount.multipliedBy(usdPrice),
+  });
+}

@@ -67,10 +67,10 @@ export const METRICS_MOCK: IMetricsResponse = {
     },
     {
       serviceName: 'ankr',
-      totalStaked: '373399016.590406894683837891',
-      stakers: '0',
+      totalStaked: '97482596',
+      stakers: '867',
       apy: '9.5800886',
-      totalStakedUsd: '11664985.28',
+      totalStakedUsd: '3062903',
     },
     {
       serviceName: 'xdc',

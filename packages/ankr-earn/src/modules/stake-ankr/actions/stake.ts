@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { push } from 'connected-react-router';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
 import { resetForm } from 'modules/forms/store/formsSlice';
@@ -26,7 +26,7 @@ export const { useStakeANKRMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.delegate(provider, amount) };
         },
-        getOnErrorWithCustomText(t('stake-ankr.errors.stake')),
+        error => getExtendedErrorText(error, t('stake-ankr.errors.stake')),
       ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

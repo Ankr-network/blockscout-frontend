@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingReadSDK } from '../api/AnkrStakingSDK';
@@ -12,13 +12,16 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     getAPY: build.query<IApyData[], void>({
-      queryFn: queryFnNotifyWrapper<void, never, IApyData[]>(async () => {
-        const sdk = await AnkrStakingReadSDK.getInstance();
+      queryFn: queryFnNotifyWrapper<void, never, IApyData[]>(
+        async () => {
+          const sdk = await AnkrStakingReadSDK.getInstance();
 
-        const data = await sdk.getAPY();
+          const data = await sdk.getAPY();
 
-        return { data };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.apy'))),
+          return { data };
+        },
+        error => getExtendedErrorText(error, t('stake-ankr.errors.apy')),
+      ),
     }),
   }),
 });

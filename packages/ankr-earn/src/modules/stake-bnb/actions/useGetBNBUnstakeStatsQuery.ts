@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC, ONE } from 'modules/common/const';
 
@@ -25,44 +25,48 @@ export const { useGetBNBUnstakeStatsQuery } = web3Api.injectEndpoints({
         void,
         never,
         IFetchUnstakeStatsResponseData
-      >(async () => {
-        const sdk = await getBinanceSDK();
+      >(
+        async () => {
+          const sdk = await getBinanceSDK();
 
-        const [
-          minimumStake,
-          aBNBcRatio,
-          poolBalance,
-          unstakeFee,
-          swapPoolMaxFee,
-        ] = await Promise.all([
-          sdk.getMinimumStake(),
-          sdk.getACRatio(),
-          sdk.getBNBSwapPoolLiquidity(),
-          sdk.getSwapPoolUnstakeFee(),
-          sdk.getBNBSwapPoolMaxFee(),
-        ]);
+          const [
+            minimumStake,
+            aBNBcRatio,
+            poolBalance,
+            unstakeFee,
+            swapPoolMaxFee,
+          ] = await Promise.all([
+            sdk.getMinimumStake(),
+            sdk.getACRatio(),
+            sdk.getBNBSwapPoolLiquidity(),
+            sdk.getSwapPoolUnstakeFee(),
+            sdk.getBNBSwapPoolMaxFee(),
+          ]);
 
-        const maxBNBamount = calcMaxPoolUnstake({
-          poolBalance,
-          unstakeFee,
-          swapPoolMaxFee,
-        });
+          const maxBNBamount = calcMaxPoolUnstake({
+            poolBalance,
+            unstakeFee,
+            swapPoolMaxFee,
+          });
 
-        const data: IFetchUnstakeStatsResponseData = {
-          minAbnbbUnstake: minimumStake,
-          minAbnbcUnstake: minimumStake.multipliedBy(aBNBcRatio),
-          poolBalance,
-          unstakeFeePct: unstakeFee.dividedBy(100),
-          maxAnkrBnbAmount: maxBNBamount
-            .multipliedBy(aBNBcRatio)
-            .decimalPlaces(
-              BNB_UNSTAKING_MAX_DECIMALS_LEN,
-              BigNumber.ROUND_DOWN,
-            ),
-        };
+          const data: IFetchUnstakeStatsResponseData = {
+            minAbnbbUnstake: minimumStake,
+            minAbnbcUnstake: minimumStake.multipliedBy(aBNBcRatio),
+            poolBalance,
+            unstakeFeePct: unstakeFee.dividedBy(100),
+            maxAnkrBnbAmount: maxBNBamount
+              .multipliedBy(aBNBcRatio)
+              .decimalPlaces(
+                BNB_UNSTAKING_MAX_DECIMALS_LEN,
+                BigNumber.ROUND_DOWN,
+              ),
+          };
 
-        return { data };
-      }, getOnErrorWithCustomText(t('stake-bnb.errors.unstake-stats'))),
+          return { data };
+        },
+        error =>
+          getExtendedErrorText(error, t('stake-bnb.errors.unstake-stats')),
+      ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

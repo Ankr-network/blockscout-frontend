@@ -26,6 +26,7 @@ export interface IContractConfig {
   testAnkrToken: string;
   ankrTokenStaking: string;
   ankrStakingChainConfig: string;
+  ankrValidatorStorage: string;
   bridge: string;
   mGNOToken: string;
   gnosisStakingContract: string;
@@ -113,7 +114,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     ethereumPool: '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
     globalPoolDepositContract: '0x07b39F4fDE4A38bACe212b546dAc87C58DfE3fDC',
     ankrToken: '0x7feD49F5B0497A060cdcfF50BdBD22E5d07661d8',
-    testAnkrToken: '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
+    testAnkrToken: '0xAc42c2410c3dC3Ea8793f83747AD71f58631C60B',
     ETHContract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
     fethContract: '0xe64FCf6327bB016955EFd36e75a852085270c374',
@@ -122,10 +123,9 @@ const LOCAL_CONFIG: IStkrConfig = {
     aMaticbToken: '0x691EE9707B34771b0C280ffC48659b77F8aF7458',
     aMaticCToken: '0x148BF822CAE6a61B2F278801eF4369FddD2a80DF',
     bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
-    // AnkrTokenStakingProxy from https://cdn.staking.ankr.com/contracts/ankr-protocol/develop/addresses.json
-    ankrTokenStaking: '0x06C2b4dcB69155d1C7Da229AA578BD9b6477A507',
-    // StakingConfigProxy from https://cdn.staking.ankr.com/contracts/ankr-protocol/develop/addresses.json
-    ankrStakingChainConfig: '0x916C1e42c41C73941d8319267F0a0E9b592b6058',
+    ankrTokenStaking: '0xf835b81306840d5d2421d451338E5B1659316d87',
+    ankrStakingChainConfig: '0x017346046b8E74f1A1a65F0E397AE1499CF475EA',
+    ankrValidatorStorage: '0x8568dB06B7550778ADF1Ee13070b0EEC71d26FA9',
     mGNOToken: '0x4741cB111C61246c6282c97A163AaEfD130C88c3',
     gnosisStakingContract: '0x632173973cdF9CBe4B497541BAF2C5Db0Ec8Ba18',
     gnosisInsuranceContract: '0x9BdABc8743CCD8999E5D2c04E6873179CD61f27f',
@@ -222,6 +222,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     bridge: '0xc437DF90B37C1dB6657339E31BfE54627f0e7181',
     ankrTokenStaking: '0xaB15B0bdDc012092cb23f53953149a7F8C1f9E7f',
     ankrStakingChainConfig: '0x2d3F893c7c45C2BE3Ec63cf5385DeAfD7Ece6AAE',
+    ankrValidatorStorage: '0xa2d1AA68A184D6243D8DA9aE885742C635C5Cc8B',
     mGNOToken: '0x722fc4DAABFEaff81b97894fC623f91814a1BF68',
     gnosisStakingContract: '0xFd0f61255913825DA1c194b985F04982966c34d6',
     gnosisInsuranceContract: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',

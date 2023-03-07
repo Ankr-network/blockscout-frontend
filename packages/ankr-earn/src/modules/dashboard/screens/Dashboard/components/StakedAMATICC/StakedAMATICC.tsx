@@ -1,7 +1,5 @@
 import { t, tHTML } from '@ankr.com/common';
-import { useCallback } from 'react';
 
-import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
 import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -10,6 +8,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { UNSTAKE_PERIOD } from 'modules/stake-matic/common/const';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
@@ -22,11 +21,6 @@ const nativeToken = Token.MATIC;
 
 export const StakedAMATICC = (): JSX.Element => {
   const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
-  const {
-    isOpened: isOpenedHistory,
-    onClose: onCloseHistory,
-    onOpen: onOpenHistory,
-  } = useDialog();
 
   const {
     isOpened: isOpenedInfo,
@@ -53,6 +47,11 @@ export const StakedAMATICC = (): JSX.Element => {
     onAddTokenToWallet,
   } = useStakedAMATICCData();
 
+  const { handleOpen: handleOpenHistoryDialog } = useKnownDialog(
+    EKnownDialogs.history,
+    token,
+  );
+
   const { onAddStakingClick } = useStakedAMATICCAnalytics();
 
   const {
@@ -62,10 +61,6 @@ export const StakedAMATICC = (): JSX.Element => {
   } = useStakedMATICTxHistory();
 
   const tokenName = t('unit.amaticc');
-
-  const handleOpenHistoryDialog = useCallback(() => {
-    onOpenHistory();
-  }, [onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;
@@ -105,12 +100,6 @@ export const StakedAMATICC = (): JSX.Element => {
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
-      />
-
-      <NewHistoryDialog
-        open={isOpenedHistory}
-        token={token}
-        onClose={onCloseHistory}
       />
 
       <TokenInfoDialog

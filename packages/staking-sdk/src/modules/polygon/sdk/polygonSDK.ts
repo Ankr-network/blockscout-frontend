@@ -850,7 +850,7 @@ export class PolygonOnPolygonSDK implements IStakable {
    * @returns {Promise<BigNumber>} - allowance
    */
   public async getACAllowance(): Promise<BigNumber> {
-    const provider = await this.getProvider(true);
+    const provider = await this.getProvider();
     const web3 = provider.getWeb3();
     const acTokenContract = PolygonOnPolygonSDK.getACTokenContract(web3);
 

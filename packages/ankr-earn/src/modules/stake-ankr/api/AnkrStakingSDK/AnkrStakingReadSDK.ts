@@ -34,7 +34,9 @@ import {
 } from 'modules/stake-ankr/const';
 
 import ANKR_TOKEN_STAKING_ABI from '../contracts/AnkrTokenStaking.json';
+import ANKR_TOKEN_STAKING_V2_ABI from '../contracts/AnkrTokenStakingV2.json';
 import STAKING_CONFIG_ABI from '../contracts/StakingConfig.json';
+import VALIDATOR_STORAGE_ABI from '../contracts/ValidatorStorage.json';
 
 import {
   ANKR_HISTORY_BLOCK_RANGE,
@@ -50,7 +52,8 @@ import {
   IChainParams,
   IDelegatorDelegation,
   IDelegatorEventData,
-  IGetPastEvents,
+  IGetIsMigratedDelegator,
+  IGetPastEventsArgs,
   IValidator,
 } from './types';
 import { sortEventData } from './utils';
@@ -142,7 +145,7 @@ export class AnkrStakingReadSDK {
   public async getAllValidatorsAddresses(
     latestBlockNumber: number,
   ): Promise<Web3Address[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const validatorEvents = [
       EAnkrEvents.ValidatorAdded,
@@ -185,10 +188,12 @@ export class AnkrStakingReadSDK {
    * according to the current environment.
    *
    * @private
-   * @param {IGetPastEvents}
+   * @param {IGetPastEventsArgs} options - options for getting past events
    * @returns {Promise<EventData[]>}
    */
-  private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
+  private async getPastEvents(
+    options: IGetPastEventsArgs,
+  ): Promise<EventData[]> {
     return advancedAPIConfig.isActiveForEth
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
@@ -198,7 +203,7 @@ export class AnkrStakingReadSDK {
    * Internal function to get past events from indexed logs API.
    *
    * @private
-   * @param {IGetPastEvents}
+   * @param {IGetPastEventsArgs}
    * @returns {Promise<EventData[]>}
    */
   private async getPastEventsAPI({
@@ -207,7 +212,7 @@ export class AnkrStakingReadSDK {
     startBlock,
     latestBlockNumber,
     filter,
-  }: IGetPastEvents): Promise<EventData[]> {
+  }: IGetPastEventsArgs): Promise<EventData[]> {
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
     const { gatewayConfig } = configFromEnv();
@@ -232,7 +237,7 @@ export class AnkrStakingReadSDK {
    * Internal function to get past events, using the defined range.
    *
    * @private
-   * @param {IGetPastEvents}
+   * @param {IGetPastEventsArgs}
    * @returns {Promise<EventData[]>}
    */
   private async getPastEventsBlockchain({
@@ -242,7 +247,7 @@ export class AnkrStakingReadSDK {
     rangeStep,
     filter,
     latestBlockNumber,
-  }: IGetPastEvents): Promise<EventData[]> {
+  }: IGetPastEventsArgs): Promise<EventData[]> {
     return flatten(
       await batchEvents({
         contract,
@@ -255,9 +260,49 @@ export class AnkrStakingReadSDK {
     );
   }
 
-  protected getAnkrTokenStakingContract(): Contract {
+  /**
+   * Returns Ankr Token Staking contract.
+   *
+   * @return  {Promise<Contract>} Ankr Token Staking contract
+   */
+  protected async getAnkrTokenStakingContract(): Promise<Contract> {
+    const isMigrated = await this.getIsContractsMigrated();
+
+    return isMigrated
+      ? this.getAnkrTokenStakingContractV2()
+      : this.getAnkrTokenStakingContractV1();
+  }
+
+  /**
+   * Inner function for getting status of contracts migration.
+   * @note STAKAN-2571 should be removed after migration
+   *
+   * @return  {Promise<boolean>}  true if contracts are migrated, false otherwise
+   */
+  @Memoize({
+    expiring: LONG_CACHE_TIME,
+  })
+  protected async getIsContractsMigrated(): Promise<boolean> {
+    const contract = this.getAnkrTokenStakingContractV2();
+    try {
+      const migrationEpoch = '_MIGRATION_EPOCH';
+      await contract.methods[migrationEpoch]().call();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  protected getAnkrTokenStakingContractV1(): Contract {
     return this.readProvider.createContract(
       ANKR_TOKEN_STAKING_ABI,
+      contractConfig.ankrTokenStaking,
+    );
+  }
+
+  protected getAnkrTokenStakingContractV2(): Contract {
+    return this.readProvider.createContract(
+      ANKR_TOKEN_STAKING_V2_ABI,
       contractConfig.ankrTokenStaking,
     );
   }
@@ -293,21 +338,27 @@ export class AnkrStakingReadSDK {
       });
   }
 
-  protected async getStakingConfigContract(): Promise<Contract> {
-    return this.readProvider.createContract(
-      STAKING_CONFIG_ABI,
-      contractConfig.ankrStakingChainConfig,
-    );
-  }
-
   public async getActiveValidators(epoch?: number): Promise<IValidator[]> {
     const activeValidators = await this.getActiveValidatorsAddresses();
     return this.loadValidatorsInfo(activeValidators, epoch);
   }
 
   public async getActiveValidatorsAddresses(): Promise<Web3Address[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
-    return stakingContract.methods.getValidators().call();
+    const isMigrated = await this.getIsContractsMigrated();
+
+    // todo: STAKAN-2571 remove this check after migration
+    const contract = isMigrated
+      ? this.getValidatorStorageContract()
+      : await this.getAnkrTokenStakingContract();
+
+    return contract.methods.getValidators().call();
+  }
+
+  protected getValidatorStorageContract(): Contract {
+    return this.readProvider.createContract(
+      VALIDATOR_STORAGE_ABI,
+      contractConfig.ankrValidatorStorage,
+    );
   }
 
   @Memoize({
@@ -320,7 +371,7 @@ export class AnkrStakingReadSDK {
     validator: Web3Address,
     epoch?: number,
   ): Promise<IValidator> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const status = epoch
       ? await stakingContract.methods
@@ -348,7 +399,7 @@ export class AnkrStakingReadSDK {
 
   public async getChainConfig(): Promise<IChainConfig> {
     if (this.cachedChainConfig) return this.cachedChainConfig;
-    const stakingConfig = await this.getStakingConfigContract();
+    const stakingConfig = this.getStakingConfigContract();
     const {
       activeValidatorsLength,
       epochBlockInterval,
@@ -375,6 +426,13 @@ export class AnkrStakingReadSDK {
     return this.cachedChainConfig;
   }
 
+  protected getStakingConfigContract(): Contract {
+    return this.readProvider.createContract(
+      STAKING_CONFIG_ABI,
+      contractConfig.ankrStakingChainConfig,
+    );
+  }
+
   // TODO: add cache
   public async getChainParams(): Promise<IChainParams> {
     const { epochBlockInterval } = await this.getChainConfig();
@@ -389,12 +447,9 @@ export class AnkrStakingReadSDK {
     const nextEpochInSec =
       ((epoch + 1) * epochBlockInterval - blockNumber) * BLOCK_TIME;
 
-    const nextEpochInDays =
-      Math.floor((nextEpochInSec / 60 / 60 / 24) * 100) / 100;
-
     return {
       epoch,
-      nextEpochIn: nextEpochInDays,
+      nextEpochIn: nextEpochInSec,
       nextEpochBlock: endBlock,
     };
   }
@@ -409,19 +464,34 @@ export class AnkrStakingReadSDK {
     filter: Partial<IDelegationHistoryFilter> = {},
     latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
 
-    const events = await this.getPastEvents({
+    const getPastEventsArgs: IGetPastEventsArgs = {
       eventName: EAnkrEvents.Delegated,
       latestBlockNumber,
       contract: stakingContract,
       startBlock: ANKR_HISTORY_START_BLOCK,
       rangeStep: ANKR_HISTORY_BLOCK_RANGE,
       filter,
+    };
+
+    const delegatedEvents = await this.getPastEvents(getPastEventsArgs);
+
+    const redelegatedEvents = await this.getPastEvents({
+      ...getPastEventsArgs,
+      eventName: EAnkrEvents.Redelegated,
     });
 
-    const calls = events.map(
+    const events = [...redelegatedEvents, ...delegatedEvents];
+
+    const uniqueEvents = events.filter(
+      (event, index) =>
+        events.findIndex(e => e.transactionHash === event.transactionHash) ===
+        index,
+    );
+
+    const calls = uniqueEvents.map(
       event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
@@ -432,7 +502,7 @@ export class AnkrStakingReadSDK {
       await this.readProvider.executeBatchCalls<BlockTransactionObject>(calls);
 
     const rawData: IDelegatorEventData[] = blocks.map((block, index) => ({
-      ...events[index],
+      ...uniqueEvents[index],
       timestamp: +block.timestamp,
     }));
 
@@ -454,14 +524,14 @@ export class AnkrStakingReadSDK {
   @Memoize({
     expiring: SHORT_CACHE_TIME,
     hashFunction: (filter: Partial<IDelegationHistoryFilter>) => {
-      return `${filter.staker}`;
+      return `${filter.staker}${filter.validator}`;
     },
   })
   public async getUndelegationHistory(
     filter: Partial<IDelegationHistoryFilter> = {},
     latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
 
     const events = await this.getPastEvents({
@@ -513,7 +583,7 @@ export class AnkrStakingReadSDK {
     filter: { validator?: Web3Address; staker?: Web3Address } = {},
     latestBlockNumber: number,
   ): Promise<IDelegatorDelegation[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const web3 = this.readProvider.getWeb3();
 
     const events = await this.getPastEvents({
@@ -559,7 +629,7 @@ export class AnkrStakingReadSDK {
     validator: Web3Address,
     delegator: Web3Address,
   ): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     return stakingContract.methods
       .getStakingRewards(validator, delegator)
@@ -591,7 +661,7 @@ export class AnkrStakingReadSDK {
     },
   })
   public async getTotalTVL(): Promise<BigNumber> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const validators = await this.getAllValidators();
     const delegationsSet = await Promise.all(
       validators.map(validator =>
@@ -624,7 +694,7 @@ export class AnkrStakingReadSDK {
    * @returns array of APY info for each validator
    */
   public async getAPY(): Promise<IApyData[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const [{ epoch: currentEpoch }, blockNumber] = await Promise.all([
       this.getChainParams(),
@@ -793,5 +863,48 @@ export class AnkrStakingReadSDK {
       Math.ceil((nextEpochBlock - prevEpochBlock) * BLOCK_TIME) /
       SECONDS_IN_A_DAY
     );
+  }
+
+  /**
+   * Returns status of the user migration.
+   *
+   * @param {string} userAddress - user address
+   * @returns {Promise<boolean>}  true if user is migrated, false otherwise
+   */
+  @Memoize({
+    expiring: SHORT_CACHE_TIME,
+    hashFunction: (userAddress: string) => userAddress,
+  })
+  public async getIsMigratedDelegator(
+    userAddress: string,
+  ): Promise<IGetIsMigratedDelegator> {
+    const stakingContract = await this.getAnkrTokenStakingContract();
+    const latestBlockNumber = await this.getBlockNumber();
+
+    const delegatedEvents = await this.getPastEvents({
+      eventName: EAnkrEvents.Delegated,
+      latestBlockNumber,
+      contract: stakingContract,
+      startBlock: ANKR_HISTORY_START_BLOCK,
+      rangeStep: ANKR_HISTORY_BLOCK_RANGE,
+      filter: { staker: userAddress },
+    });
+
+    const zeroDelegatedEvents = delegatedEvents.length === 0;
+
+    if (zeroDelegatedEvents) {
+      return {
+        isMigrationNeeded: false,
+      };
+    }
+
+    const isMigrated: boolean = await stakingContract.methods
+      .isMigratedDelegator(userAddress)
+      .call();
+
+    return {
+      isMigrated,
+      isMigrationNeeded: true,
+    };
   }
 }

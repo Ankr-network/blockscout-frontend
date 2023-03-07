@@ -1,10 +1,8 @@
 import { tHTML } from '@ankr.com/common';
-import { useCallback } from 'react';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
 import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -13,21 +11,24 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedBNBTxHistory } from '../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
 
 import { useStakedABNBBData } from './useStakedABNBBData';
 
+const token = Token.aBNBb;
+const nativeToken = Token.BNB;
+
 export const StakedABNBB = (): JSX.Element => {
   const { binanceConfig } = configFromEnv();
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.BNB });
+  const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
 
-  const {
-    isOpened: isOpenedHistory,
-    onClose: onCloseHistory,
-    onOpen: onOpenHistory,
-  } = useDialog();
+  const { handleOpen: handleOpenHistoryDialog } = useKnownDialog(
+    EKnownDialogs.history,
+    token,
+  );
 
   const {
     isOpened: isOpenedInfo,
@@ -63,7 +64,7 @@ export const StakedABNBB = (): JSX.Element => {
     trackClickTrade({
       walletType: walletName,
       walletPublicAddress: address,
-      stakeToken: Token.aBNBb,
+      stakeToken: token,
       stakedBalance: amount?.toFixed(),
     });
   };
@@ -73,13 +74,9 @@ export const StakedABNBB = (): JSX.Element => {
       walletType: walletName,
       walletPublicAddress: address,
       accessPoint: 'add_stake',
-      tokenName: Token.aBNBb,
+      tokenName: token,
     });
   };
-
-  const handleOpenHistoryDialog = useCallback(() => {
-    onOpenHistory();
-  }, [onOpenHistory]);
 
   const preventHistoryLoading =
     !!pendingUnstakeHistoryABNBB.length || isHistoryDataLoading;
@@ -89,7 +86,7 @@ export const StakedABNBB = (): JSX.Element => {
     <Pending
       isLoading={isHistoryDataLoading}
       isUnstakeValueLoading={isPendingUnstakeLoading}
-      token={Token.aBNBb}
+      token={token}
       tooltip={
         <PendingTable
           data={pendingUnstakeHistoryABNBB}
@@ -114,7 +111,7 @@ export const StakedABNBB = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         switchLink={switchLink}
-        token={Token.aBNBb}
+        token={token}
         unstakeLink={unstakeLink}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
@@ -123,18 +120,12 @@ export const StakedABNBB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      <NewHistoryDialog
-        open={isOpenedHistory}
-        token={Token.aBNBb}
-        onClose={onCloseHistory}
-      />
-
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
         description={tHTML('dashboard.token-info.aBNBb', {
           ratio: ONE.toFormat(),
         })}
-        moreHref={getStakingOverviewUrl(Token.BNB)}
+        moreHref={getStakingOverviewUrl(nativeToken)}
         open={isOpenedInfo}
         tokenAddress={binanceConfig.aBNBbToken}
         tokenName={Token.aBNBb}

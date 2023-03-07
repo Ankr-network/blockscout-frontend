@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
@@ -32,7 +32,7 @@ export const { useGetBNBStakeStatsQuery } = web3Api.injectEndpoints({
 
           return { data };
         },
-        getOnErrorWithCustomText(t('stake-bnb.errors.stake-stats')),
+        error => getExtendedErrorText(error, t('stake-bnb.errors.stake-stats')),
       ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],

@@ -5,7 +5,7 @@ import { RootState } from 'store';
 import { IWeb3SendResult } from '@ankr.com/provider';
 import { TEthToken } from '@ankr.com/staking-sdk';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
@@ -25,7 +25,7 @@ export const { useClaimETHMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.claim(token) };
         },
-        getOnErrorWithCustomText(t('stake-ethereum.errors.claim')),
+        error => getExtendedErrorText(error, t('stake-ethereum.errors.claim')),
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled, getState }) {
         return queryFulfilled.then(response => {

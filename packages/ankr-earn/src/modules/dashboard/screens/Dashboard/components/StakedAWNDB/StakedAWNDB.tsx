@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -13,6 +12,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
@@ -20,16 +20,17 @@ import { WND_PROPS } from '../../const';
 import { useStakedPolkadotCard } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotCard';
 import { useStakedPolkadotTxHistory } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotTxHistory';
 
+const nativeToken = Token.WND;
+
 export const StakedAWNDB = (): JSX.Element => {
   const { polkadotConfig } = configFromEnv();
 
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.WND });
+  const { handleOpen: onOpenHistory } = useKnownDialog(
+    EKnownDialogs.polkadotHistory,
+    nativeToken,
+  );
 
-  const {
-    isOpened: isOpenedHistory,
-    onClose: onCloseHistory,
-    onOpen: onOpenHistory,
-  } = useDialog();
+  const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
 
   const {
     isOpened: isOpenedInfo,
@@ -37,12 +38,8 @@ export const StakedAWNDB = (): JSX.Element => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const {
-    isHistoryDataLoading,
-    pendingUnstakeHistory,
-    transactionHistory,
-    handleLoadTxHistory,
-  } = useStakedPolkadotTxHistory(EPolkadotNetworks.WND);
+  const { isHistoryDataLoading, pendingUnstakeHistory, handleLoadTxHistory } =
+    useStakedPolkadotTxHistory(EPolkadotNetworks.WND);
 
   const {
     address,
@@ -56,7 +53,6 @@ export const StakedAWNDB = (): JSX.Element => {
     stakeLink,
     tradeLink,
     unstakeLink,
-    unsupportedUnstakeHistoryTxt,
     usdAmount,
     walletName,
     handleAddTokenToWallet,
@@ -123,20 +119,12 @@ export const StakedAWNDB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      <HistoryDialog
-        history={transactionHistory}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        unsupportedUnstakeHistoryTxt={unsupportedUnstakeHistoryTxt}
-        onClose={onCloseHistory}
-      />
-
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
         description={tHTML('dashboard.token-info.aWNDb', {
           ratio: ONE.toFormat(),
         })}
-        moreHref={getStakingOverviewUrl(Token.WND)}
+        moreHref={getStakingOverviewUrl(nativeToken)}
         open={isOpenedInfo}
         tokenAddress={polkadotConfig.aWNDbToken ?? ''}
         tokenName={Token.aWNDb}

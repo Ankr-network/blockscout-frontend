@@ -5,7 +5,7 @@ import { RootState } from 'store';
 import { Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -78,7 +78,7 @@ export const { useLazyGetStakeDataQuery } = web3Api.injectEndpoints({
             },
           };
         },
-        getOnErrorWithCustomText(t('stake-xdc.errors.stake-data')),
+        error => getExtendedErrorText(error, t('stake-xdc.errors.stake-data')),
       ),
       providesTags: [CacheTags.stakeData],
     }),

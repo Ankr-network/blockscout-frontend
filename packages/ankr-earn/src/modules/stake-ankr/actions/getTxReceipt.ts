@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { TransactionReceipt } from 'web3-core';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -20,13 +20,17 @@ export const { useGetANKRTxReceiptQuery } = web3Api.injectEndpoints({
         IGetTxReceiptProps,
         never,
         TransactionReceipt | null
-      >(async ({ txHash }) => {
-        const sdk = await AnkrStakingSDK.getInstance();
+      >(
+        async ({ txHash }) => {
+          const sdk = await AnkrStakingSDK.getInstance();
 
-        return {
-          data: await sdk.fetchTxReceipt(txHash),
-        };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.txn-receipt'))),
+          return {
+            data: await sdk.fetchTxReceipt(txHash),
+          };
+        },
+        error =>
+          getExtendedErrorText(error, t('stake-ankr.errors.txn-receipt')),
+      ),
     }),
   }),
 });

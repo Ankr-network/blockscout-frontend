@@ -150,12 +150,16 @@ export abstract class Web3KeyWriteProvider extends Web3KeyReadProvider {
     };
 
     if (estimate) {
-      const estimatedGas = await web3.eth.estimateGas(tx);
+      try {
+        const estimatedGas = await web3.eth.estimateGas(tx);
 
-      if (extendedGasLimit) {
-        tx.gas = numberToHex(estimatedGas + extendedGasLimit);
-      } else {
-        tx.gas = numberToHex(estimatedGas);
+        if (extendedGasLimit) {
+          tx.gas = numberToHex(estimatedGas + extendedGasLimit);
+        } else {
+          tx.gas = numberToHex(estimatedGas);
+        }
+      } catch (e) {
+        throw new Error('Insufficient funds for gas fees');
       }
     }
 

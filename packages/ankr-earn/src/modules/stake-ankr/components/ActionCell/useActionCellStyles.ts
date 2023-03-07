@@ -2,7 +2,6 @@ import { alpha, makeStyles } from '@material-ui/core';
 
 export const useActionCellStyles = makeStyles(theme => ({
   chip: {
-    width: 100,
     height: 28,
     backgroundColor: alpha(theme.palette.primary.main, 0.1),
     color: theme.palette.primary.main,

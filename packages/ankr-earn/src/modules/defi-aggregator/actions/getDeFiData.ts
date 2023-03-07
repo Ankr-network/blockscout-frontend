@@ -1,7 +1,8 @@
+import { t } from '@ankr.com/common';
 import axios from 'axios';
 
 import { configFromEnv } from 'modules/api/config';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import {
@@ -26,22 +27,21 @@ export interface IDeFiItem {
   farmingRewards: string;
 }
 
-// todo: STAKAN-2484 use translations
-const ACTION_ERROR_TEXT = 'Failed to get DeFi aggregator data';
-const ERROR_NO_DATA = 'No data found';
-
 export const { useGetDeFiDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getDeFiData: build.query<IDeFiItem[], void>({
-      queryFn: queryFnNotifyWrapper<void, never, IDeFiItem[]>(async () => {
-        const url = new URL(DEFI_URL, baseURL).toString();
+      queryFn: queryFnNotifyWrapper<void, never, IDeFiItem[]>(
+        async () => {
+          const url = new URL(DEFI_URL, baseURL).toString();
 
-        const { data: rawData } = await axios.get<IDeFiItemResponse[]>(url);
+          const { data: rawData } = await axios.get<IDeFiItemResponse[]>(url);
 
-        if (!rawData.length) throw new Error(ERROR_NO_DATA);
+          if (!rawData.length) throw new Error(t('defi.errors.no-data'));
 
-        return { data: rawData.map(getMapDeFiItem(baseURL)) };
-      }, getOnErrorWithCustomText(ACTION_ERROR_TEXT)),
+          return { data: rawData.map(getMapDeFiItem(baseURL)) };
+        },
+        error => getExtendedErrorText(error, t('defi.errors.aggregator')),
+      ),
     }),
   }),
 });

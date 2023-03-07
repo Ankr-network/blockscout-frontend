@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { push } from 'connected-react-router';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
 
@@ -12,13 +12,20 @@ import { RoutesConfig } from '../RoutesConfig';
 export const { useClaimAllUnstakesMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
     claimAllUnstakes: build.mutation<TxHash, void>({
-      queryFn: queryFnNotifyWrapper<void, never, TxHash>(async () => {
-        const sdk = await AnkrStakingSDK.getInstance();
+      queryFn: queryFnNotifyWrapper<void, never, TxHash>(
+        async () => {
+          const sdk = await AnkrStakingSDK.getInstance();
 
-        return {
-          data: await sdk.claimAllUnstakes(),
-        };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.claim-all-unstakes'))),
+          return {
+            data: await sdk.claimAllUnstakes(),
+          };
+        },
+        error =>
+          getExtendedErrorText(
+            error,
+            t('stake-ankr.errors.claim-all-unstakes'),
+          ),
+      ),
 
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

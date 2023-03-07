@@ -12,6 +12,8 @@ import { BridgedEthBond } from '../BridgedEthBond';
 import { BridgedMaticBond } from '../BridgedMaticBond';
 import { BridgedMaticBondBSC } from '../BridgedMaticBondBSC';
 import { BridgedMaticCertBSC } from '../BridgedMaticCertBSC';
+import { HistoryDialog } from '../HistoryDialog';
+import { PolkadotHistoryDialog } from '../PolkadotHistoryDialog';
 import { StakedAAVAXB } from '../StakedAAVAXB';
 import { StakedAAVAXC } from '../StakedAAVAXC';
 import { StakedABNBB } from '../StakedABNBB';
@@ -136,6 +138,10 @@ export const LiquidStakedTokens = (
 
         {isAtLeaseOneLoading && <DashboardCardSkeleton />}
       </AssetsList>
+
+      <HistoryDialog />
+
+      <PolkadotHistoryDialog />
     </Box>
   );
 };
