@@ -483,9 +483,15 @@ export class AnkrStakingReadSDK {
       eventName: EAnkrEvents.Redelegated,
     });
 
-    const events = [...delegatedEvents, ...redelegatedEvents];
+    const events = [...redelegatedEvents, ...delegatedEvents];
 
-    const calls = events.map(
+    const uniqueEvents = events.filter(
+      (event, index) =>
+        events.findIndex(e => e.transactionHash === event.transactionHash) ===
+        index,
+    );
+
+    const calls = uniqueEvents.map(
       event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
@@ -496,7 +502,7 @@ export class AnkrStakingReadSDK {
       await this.readProvider.executeBatchCalls<BlockTransactionObject>(calls);
 
     const rawData: IDelegatorEventData[] = blocks.map((block, index) => ({
-      ...events[index],
+      ...uniqueEvents[index],
       timestamp: +block.timestamp,
     }));
 
