@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
@@ -18,11 +19,14 @@ export const useFormState = <TFormState>(
 ): IUseFormState<TFormState> => {
   const formState = useSelector(selectForms)[formId] as TFormState | undefined;
 
-  const setFormState = (state: TFormState) =>
-    setFormStateAction({
-      formId,
-      state,
-    });
+  const setFormState = useCallback(
+    (state: TFormState) =>
+      setFormStateAction({
+        formId,
+        state,
+      }),
+    [formId],
+  );
 
   return { formState, setFormState };
 };
