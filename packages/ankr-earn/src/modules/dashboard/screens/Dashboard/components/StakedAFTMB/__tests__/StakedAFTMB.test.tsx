@@ -3,11 +3,12 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
+import { ONE_ETH } from 'modules/common/const';
 import {
   IUseHistoryData,
   useHistory,
-} from 'modules/common/components/HistoryDialog/hooks/useHistory';
-import { ONE_ETH } from 'modules/common/const';
+} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
+import { useDialog } from 'modules/dialogs';
 
 import {
   IUseStakedFTMTxHistory,
@@ -32,8 +33,13 @@ jest.mock('../../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory', () => ({
   useStakedFTMTxHistory: jest.fn(),
 }));
 
-jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
   useHistory: jest.fn(),
+}));
+
+jest.mock('modules/dialogs', () => ({
+  useDialog: jest.fn(),
+  EKnownDialogs: { history: 'history' },
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
@@ -71,6 +77,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     unstakeEvents: [],
   };
 
+  const defaultUseDialogHookData = {
+    handleOpen: jest.fn(),
+  };
+
   beforeEach(() => {
     (useStakedAFTMBData as jest.Mock).mockReturnValue(
       defaultStakedAFTMBHookData,
@@ -81,6 +91,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     );
 
     (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
+
+    (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
   });
 
   afterEach(() => {
@@ -99,22 +111,5 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
-  });
-
-  test('should open history dialog properly', async () => {
-    render(
-      <MemoryRouter>
-        <StakedAFTMB />
-      </MemoryRouter>,
-    );
-
-    const menuButton = await screen.findByTestId('menu-button');
-    menuButton.click();
-
-    const historyButton = await screen.findByText('Staking history');
-    historyButton.click();
-
-    const historyDialog = await screen.findByTestId('history-dialog');
-    expect(historyDialog).toBeInTheDocument();
   });
 });

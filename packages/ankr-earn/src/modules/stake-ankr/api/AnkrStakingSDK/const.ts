@@ -1,7 +1,7 @@
 import { AvailableReadProviders } from '@ankr.com/provider';
 
 import { isMainnet } from 'modules/common/const';
-import { Milliseconds } from 'modules/common/types';
+import { Milliseconds, Seconds } from 'modules/common/types';
 
 import { TValidatorPrettyStatus } from './types';
 
@@ -40,7 +40,7 @@ export const ANKR_HISTORY_BLOCK_RANGE = 3_000;
  *
  * For more information please see [STAKAN-2462](https://ankrnetwork.atlassian.net/browse/STAKAN-2462)
  */
-export const GAS_LIMIT_MULTIPLIER = 100_000;
+export const GAS_LIMIT_MULTIPLIER = 130_000;
 
 /**
  * Is used for gas limit formula.
@@ -49,7 +49,8 @@ export const GAS_LIMIT_MULTIPLIER = 100_000;
  */
 export const GAS_LIMIT_PER_EPOCH = 13_000;
 
-export const ONE_DAY: Milliseconds = 1000 * 60 * 60 * 24;
+export const ONE_DAY_SEC: Seconds = 60 * 60 * 24;
+export const ONE_DAY_MS: Milliseconds = 1000 * ONE_DAY_SEC;
 
 /**
  * Hardcoded value for gas limit for unstake method.

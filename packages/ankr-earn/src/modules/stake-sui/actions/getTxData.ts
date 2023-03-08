@@ -7,7 +7,7 @@ import { TransactionReceipt } from 'web3-eth';
 import { IFetchTxData, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
@@ -25,34 +25,37 @@ export const { useGetSUITxDataQuery } = web3Api.injectEndpoints({
         IGetTxDataProps,
         never,
         IFetchTxData | null
-      >(async (args, { getState }) => {
-        const providerManager = getProviderManager();
+      >(
+        async (args, { getState }) => {
+          const providerManager = getProviderManager();
 
-        const { walletId } = selectEthProviderData(getState() as RootState);
+          const { walletId } = selectEthProviderData(getState() as RootState);
 
-        if (!walletId) {
+          if (!walletId) {
+            return {
+              data: null,
+            };
+          }
+
+          const provider = await providerManager.getProvider(
+            SUI_PROVIDER_ID,
+            walletId,
+          );
+
+          if (!(provider instanceof Web3KeyWriteProvider)) {
+            return {
+              data: null,
+            };
+          }
+
           return {
-            data: null,
+            data: await retry(() => getTxData(), {
+              retries: RETRIES_TO_GET_TX_DATA,
+            }),
           };
-        }
-
-        const provider = await providerManager.getProvider(
-          SUI_PROVIDER_ID,
-          walletId,
-        );
-
-        if (!(provider instanceof Web3KeyWriteProvider)) {
-          return {
-            data: null,
-          };
-        }
-
-        return {
-          data: await retry(() => getTxData(), {
-            retries: RETRIES_TO_GET_TX_DATA,
-          }),
-        };
-      }, getOnErrorWithCustomText(t('stake-sui.errors.tx-data'))),
+        },
+        error => getExtendedErrorText(error, t('stake-sui.errors.tx-data')),
+      ),
     }),
   }),
 });
@@ -64,35 +67,38 @@ export const { useGetSUITxReceiptQuery } = web3Api.injectEndpoints({
         IGetTxDataProps,
         never,
         TransactionReceipt | null
-      >(async ({ txHash }, { getState }) => {
-        const providerManager = getProviderManager();
+      >(
+        async ({ txHash }, { getState }) => {
+          const providerManager = getProviderManager();
 
-        const { walletId } = selectEthProviderData(getState() as RootState);
+          const { walletId } = selectEthProviderData(getState() as RootState);
 
-        if (!walletId) {
+          if (!walletId) {
+            return {
+              data: null,
+            };
+          }
+
+          const provider = await providerManager.getProvider(
+            SUI_PROVIDER_ID,
+            walletId,
+          );
+
+          if (!(provider instanceof Web3KeyWriteProvider)) {
+            return {
+              data: null,
+            };
+          }
+
           return {
-            data: null,
+            data: await getTxReceipt({
+              txHash,
+              provider,
+            }),
           };
-        }
-
-        const provider = await providerManager.getProvider(
-          SUI_PROVIDER_ID,
-          walletId,
-        );
-
-        if (!(provider instanceof Web3KeyWriteProvider)) {
-          return {
-            data: null,
-          };
-        }
-
-        return {
-          data: await getTxReceipt({
-            txHash,
-            provider,
-          }),
-        };
-      }, getOnErrorWithCustomText(t('stake-sui.errors.tx-receipt'))),
+        },
+        error => getExtendedErrorText(error, t('stake-sui.errors.tx-receipt')),
+      ),
     }),
   }),
 });

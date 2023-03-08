@@ -5,7 +5,7 @@ import { TransactionReceipt } from 'web3-eth';
 import { Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -24,35 +24,38 @@ export const { useGetTxReceiptQuery } = web3Api.injectEndpoints({
         IGetTxReceiptProps,
         never,
         TGetTxReceiptData
-      >(async ({ txHash }, { getState }) => {
-        const providerManager = getProviderManager();
+      >(
+        async ({ txHash }, { getState }) => {
+          const providerManager = getProviderManager();
 
-        const { walletId } = selectEthProviderData(getState() as RootState);
+          const { walletId } = selectEthProviderData(getState() as RootState);
 
-        if (!walletId) {
+          if (!walletId) {
+            return {
+              data: null,
+            };
+          }
+
+          const provider = await providerManager.getProvider(
+            XDC_PROVIDER_ID,
+            walletId,
+          );
+
+          if (!(provider instanceof Web3KeyReadProvider)) {
+            return {
+              data: null,
+            };
+          }
+
           return {
-            data: null,
+            data: await XDC.getTxReceipt({
+              provider,
+              txHash,
+            }),
           };
-        }
-
-        const provider = await providerManager.getProvider(
-          XDC_PROVIDER_ID,
-          walletId,
-        );
-
-        if (!(provider instanceof Web3KeyReadProvider)) {
-          return {
-            data: null,
-          };
-        }
-
-        return {
-          data: await XDC.getTxReceipt({
-            provider,
-            txHash,
-          }),
-        };
-      }, getOnErrorWithCustomText(t('stake-xdc.errors.tx-receipt'))),
+        },
+        error => getExtendedErrorText(error, t('stake-xdc.errors.tx-receipt')),
+      ),
     }),
   }),
 });

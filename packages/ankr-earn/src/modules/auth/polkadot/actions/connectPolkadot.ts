@@ -1,3 +1,5 @@
+import { t } from '@ankr.com/common';
+
 import {
   initProviderManagerPolkadot,
   PolkadotProvider,
@@ -5,14 +7,12 @@ import {
 } from 'polkadot';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { setProviderStatus } from 'modules/auth/common/store/authSlice';
 import { IConnect } from 'modules/auth/common/types';
 import { ExtraWriteProviders, Web3Address } from 'modules/common/types';
 
-// todo: STAKAN-2484 translations are not initialized at the moment, so we use a constant
-const ERROR_TEXT = 'Failed to connect Polkadot wallet';
 const providerId = ExtraWriteProviders.polkadotCompatible;
 
 export interface IConnectArgs {
@@ -34,38 +34,45 @@ export const {
         IConnectArgs | void,
         never,
         IConnectPolkadot
-      >(async ({ currentAccount } = {}) => {
-        await initProviderManagerPolkadot();
-        const providerManager = getProviderManager();
+      >(
+        async ({ currentAccount } = {}) => {
+          await initProviderManagerPolkadot();
+          const providerManager = getProviderManager();
 
-        const polkadotProvider =
-          await providerManager.getProvider<PolkadotProvider>(providerId);
+          const polkadotProvider =
+            await providerManager.getProvider<PolkadotProvider>(providerId);
 
-        const addresses = await polkadotProvider.getAccounts();
+          const addresses = await polkadotProvider.getAccounts();
 
-        const {
-          icon: walletIcon,
-          id: walletId,
-          name: walletName,
-        } = polkadotProvider.getWalletMeta();
+          const {
+            icon: walletIcon,
+            id: walletId,
+            name: walletName,
+          } = polkadotProvider.getWalletMeta();
 
-        if (currentAccount && addresses.includes(currentAccount)) {
-          polkadotProvider.currentAccount = currentAccount;
-        }
+          if (currentAccount && addresses.includes(currentAccount)) {
+            polkadotProvider.currentAccount = currentAccount;
+          }
 
-        const data: IConnectPolkadot = {
-          address: polkadotProvider.currentAccount ?? '',
-          addresses,
-          chainId: polkadotProvider.currentNetworkType ?? null,
-          isConnected: polkadotProvider.isConnected(),
-          providerId,
-          walletIcon,
-          walletId,
-          walletName,
-        };
+          const data: IConnectPolkadot = {
+            address: polkadotProvider.currentAccount ?? '',
+            addresses,
+            chainId: polkadotProvider.currentNetworkType ?? null,
+            isConnected: polkadotProvider.isConnected(),
+            providerId,
+            walletIcon,
+            walletId,
+            walletName,
+          };
 
-        return { data };
-      }, getOnErrorWithCustomText(ERROR_TEXT)),
+          return { data };
+        },
+        error =>
+          getExtendedErrorText(
+            error,
+            t('stake-polkadot.errors.wallet-connect'),
+          ),
+      ),
 
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

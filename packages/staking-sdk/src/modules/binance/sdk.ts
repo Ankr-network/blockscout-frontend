@@ -1671,7 +1671,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance
    */
   public async getACAllowance(): Promise<BigNumber> {
-    const aBNBcContract = await this.getABNBCContract(true);
+    const aBNBcContract = await this.getABNBCContract();
     const { binanceConfig } = configFromEnv();
 
     const allowance = await aBNBcContract.methods

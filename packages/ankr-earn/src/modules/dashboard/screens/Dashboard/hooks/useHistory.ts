@@ -5,14 +5,21 @@ import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
+import { IHistoryTableRow } from 'modules/dashboard/types';
 import { useLazyGetAVAXHistoryQuery } from 'modules/stake-avax/actions/fetchHistory';
 import { useLazyGetBNBHistoryQuery } from 'modules/stake-bnb/actions/fetchHistory';
 import { useLazyGetETHHistoryQuery } from 'modules/stake-eth/actions/getHistory';
 import { useLazyGetFTMHistoryQuery } from 'modules/stake-fantom/actions/getHistory';
 import { useLazyGetMaticOnEthHistoryQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthHistory';
 import { useLazyGetDashboardTxEventsHistoryRangeQuery } from 'modules/stake-xdc/actions/getDashboardTxEventsHistoryRange';
+import { IBaseHistoryData } from 'modules/stake/types';
 
-import { IBaseHistoryData, IHistoryData, IHistoryDialogRow } from '../types';
+import { HISTORY_STEP_WEEKS } from '../const';
+
+interface IHistoryData {
+  stakeEvents: IHistoryTableRow[];
+  unstakeEvents: IHistoryTableRow[];
+}
 
 export interface IUseHistoryData extends IHistoryData {
   loading: boolean;
@@ -35,7 +42,7 @@ const DEFAULT_HISTORY_DATA = {
 const mapTxns = (
   data: ITxEventsHistoryGroupItem,
   network: number,
-): IHistoryDialogRow => {
+): IHistoryTableRow => {
   return {
     date: data.txDate,
     link: getTxLinkByNetwork(data.txHash, network),
@@ -297,7 +304,7 @@ export const useHistory = ({
       isMaticEthHistoryLoading ||
       isEthHistoryLoading ||
       isXDCHistoryLoading,
-    weeksAmount: step * 2,
+    weeksAmount: step * HISTORY_STEP_WEEKS,
     handleShowMore,
   };
 };

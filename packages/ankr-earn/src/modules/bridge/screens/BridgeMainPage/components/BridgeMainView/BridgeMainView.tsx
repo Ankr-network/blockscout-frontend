@@ -110,7 +110,7 @@ export const BridgeMainView = (): JSX.Element => {
 
   const isDisabledForm = isBalanceLoading || isApproveLoading;
   const isSwitchNetworkShowed = isConnected && !isActualNetwork;
-  const isBalanceShowed = isConnected && isActualNetwork;
+  const isBalanceShowed = isConnected;
 
   const handleChangeFrom = useCallback(
     value => onChangeNetwork({ value } as IBridgeBlockchainPanelItem, 'from'),

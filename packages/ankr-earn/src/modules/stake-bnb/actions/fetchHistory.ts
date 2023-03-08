@@ -2,10 +2,10 @@ import { t } from '@ankr.com/common';
 
 import { BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET } from '@ankr.com/staking-sdk';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
+import { IBaseHistoryData } from 'modules/stake/types';
 
 import { getBinanceSDK } from '../utils/getBinanceSDK';
 
@@ -45,7 +45,7 @@ export const { useLazyGetBNBHistoryQuery } = web3Api.injectEndpoints({
             },
           };
         },
-        getOnErrorWithCustomText(t('stake-bnb.errors.history')),
+        error => getExtendedErrorText(error, t('stake-bnb.errors.history')),
       ),
     }),
   }),

@@ -2,6 +2,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { resetRequests } from '@redux-requests/core';
 import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
@@ -115,6 +116,10 @@ export const useAnkrStake = (): IUseAnkrStake => {
         sendAnalytics();
       });
   };
+
+  useEffect(() => {
+    return () => dispatch(setFormState({ amount: ZERO }));
+  }, [dispatch, setFormState]);
 
   return {
     faqItems,

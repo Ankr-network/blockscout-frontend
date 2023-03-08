@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import {
   getTxReceipt,
@@ -8,7 +9,6 @@ import {
 } from 'modules/common/actions/getTxReceipt';
 import { IApproveMutation } from 'modules/common/hooks/useApprove';
 
-import { getOnErrorWithCustomText } from '../../api/utils/getOnErrorWithCustomText';
 import { GnosisStakingSDK } from '../api/GnosisStakingSDK/GnosisStakingSDK';
 
 export const RECEIPT_NAME = 'useApproveMNGOStakeMutation';
@@ -25,7 +25,7 @@ export const {
           const result = await sdk.approve(amount);
           return { data: { ...result, amount } };
         },
-        getOnErrorWithCustomText(t('stake-mgno.errors.approve')),
+        error => getExtendedErrorText(error, t('stake-mgno.errors.approve')),
       ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

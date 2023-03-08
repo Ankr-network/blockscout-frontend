@@ -15,6 +15,7 @@ export interface IUseDiagolData<C> {
 
 export function useDialog<T = unknown>(
   modalId: EKnownDialogs,
+  contextArg?: T,
 ): IUseDiagolData<T> {
   const dispatch = useDispatch();
 
@@ -30,8 +31,8 @@ export function useDialog<T = unknown>(
   );
 
   const handleOpen = useCallback(
-    () => dispatch(openModalAction(modalId)),
-    [dispatch, modalId],
+    () => dispatch(openModalAction(modalId, contextArg)),
+    [dispatch, modalId, contextArg],
   );
 
   return {
