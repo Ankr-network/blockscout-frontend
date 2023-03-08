@@ -1,9 +1,5 @@
 import { EndpointType, TopUpCurrnecy } from './const';
 
-interface Connectable {
-  user_connected: boolean;
-}
-
 interface Billingable {
   billing: boolean;
 }
@@ -18,8 +14,11 @@ export interface AddEmailEvent extends Billingable, Walletable {
   email_address: string;
 }
 
-export interface ConnectWalletFlowEvent {
+export interface ConnectWalletFlowEvent extends Billingable, Walletable {
+  google_account?: string;
   sign_up: boolean;
+  web2_connect?: boolean;
+  web3_connect?: boolean;
 }
 
 export interface EnterBillingFlowEvent extends Billingable, Walletable {
@@ -58,19 +57,10 @@ export interface TopUpBalanceFlowEvent extends Billingable, Walletable {
   top_up_button: boolean;
 }
 
-export interface Web2ConnectEvent extends Connectable, Billingable {
-  google_account?: string;
-}
-
 export interface Web2ConnectTrackingParams {
   email?: string;
   hasPremium?: boolean;
 }
-
-export interface Web3ConnectEvent
-  extends Connectable,
-    Billingable,
-    Walletable {}
 
 export enum BannerFreeToRegisterType {
   open = 'open',

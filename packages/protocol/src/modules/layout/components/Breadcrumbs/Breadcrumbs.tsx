@@ -81,7 +81,7 @@ export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
     <BreadcrumbsBase
       customBreakpoint={customBreakpoint}
       items={breadcrumbs}
-      userLabel={isLoggedIn ? <UserLabel isPremium={hasPremium} /> : null}
+      userLabel={isLoggedIn ? <UserLabel hasPremium={hasPremium} /> : null}
     />
   );
 };

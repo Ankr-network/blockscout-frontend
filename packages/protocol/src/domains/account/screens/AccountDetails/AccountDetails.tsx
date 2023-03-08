@@ -18,7 +18,7 @@ import { Subscriptions } from './components/Subscriptions';
 export const AccountDetails = () => {
   const { classes } = useStyles();
   const { premiumUntil, isConnecting } = useAccountAuth();
-  const isPremium = !!premiumUntil;
+  const hasPremium = !!premiumUntil;
 
   const [, { data: balances }] = useQueryEndpoint(accountFetchBalance);
 
@@ -45,7 +45,7 @@ export const AccountDetails = () => {
           <Box className={classes.payments}>
             <PaymentsHistoryTable balances={balances!} />
           </Box>
-          {!isPremium && (
+          {!hasPremium && (
             <Box className={classes.expenseChart}>
               <ExpenseChart />
             </Box>

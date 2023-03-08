@@ -12,6 +12,11 @@ export const useSignupDialogStyles = makeStyles()((theme: Theme) => ({
   subtitle: {
     display: 'block',
     textAlign: 'center',
+
+    '& a': {
+      fontWeight: 500,
+      color: theme.palette.text.primary,
+    },
   },
   dialogTitle: {
     fontSize: theme.typography.fontSize * 2,
