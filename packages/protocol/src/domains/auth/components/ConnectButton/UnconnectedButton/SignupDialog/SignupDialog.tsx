@@ -23,11 +23,12 @@ export const SignupDialog = ({
   const {
     currentState,
     dialogTitle,
+    handleClose,
     loading,
     onDialogClose,
     onGoogleButtonClick,
     setWeb3State,
-  } = useSignupDialog({ onManualClose, hasOauthLogin });
+  } = useSignupDialog({ onClose, onManualClose, hasOauthLogin });
 
   return (
     <Dialog
@@ -43,7 +44,7 @@ export const SignupDialog = ({
       ) : (
         <SignupDialogContent
           currentState={currentState}
-          onDialogClose={onDialogClose}
+          onDialogClose={handleClose}
           onGoogleButtonClick={onGoogleButtonClick}
           onSuccess={onSuccess}
           setWeb3State={setWeb3State}
