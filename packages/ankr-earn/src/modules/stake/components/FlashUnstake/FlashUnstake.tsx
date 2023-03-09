@@ -8,6 +8,7 @@ import { Radio } from 'ui';
 
 import { DECIMAL_PLACES } from 'modules/common/const';
 import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
+import { Quote } from 'uiKit/Quote';
 
 import { ReactComponent as InstantIcon } from './assets/instant.svg';
 import { useFlashUnstakeStyles } from './useFlashUnstakeStyles';
@@ -27,19 +28,39 @@ export const FlashUnstake = ({
 }: FlashUnstakeProps): JSX.Element => {
   const classes = useFlashUnstakeStyles();
 
+  const isZeroPoolBalance = poolBalance.isZero();
+
   const onFlashUnstakeClick = useCallback(() => {
-    onChange(true);
-  }, [onChange]);
+    if (!isZeroPoolBalance) {
+      onChange(true);
+    }
+  }, [onChange, isZeroPoolBalance]);
 
   const onUnstakeClick = useCallback(() => {
     onChange(false);
   }, [onChange]);
 
   return (
-    <div className={classes.root}>
-      <Box className={classes.unstakeTypeBtn} onClick={onFlashUnstakeClick}>
+    <div
+      className={classNames(
+        classes.root,
+        isZeroPoolBalance && classes.rootZeroBalance,
+      )}
+    >
+      <Box
+        className={classNames(
+          classes.unstakeTypeBtn,
+          isZeroPoolBalance && classes.unstakeTypeBtnDisabled,
+        )}
+        onClick={onFlashUnstakeClick}
+      >
         <div className={classes.unstakeTopRow}>
-          <Radio disableRipple checked={value} color="primary" />
+          <Radio
+            disableRipple
+            checked={value}
+            color="primary"
+            disabled={isZeroPoolBalance}
+          />
 
           <span
             className={classNames(
@@ -72,6 +93,12 @@ export const FlashUnstake = ({
             })}
           </div>
         </div>
+
+        {isZeroPoolBalance && (
+          <div className={classes.quoteCont}>
+            <Quote>{t('stake-bnb.unstake.empty-pool')}</Quote>
+          </div>
+        )}
       </Box>
 
       <Box className={classes.unstakeTypeBtn} onClick={onUnstakeClick}>

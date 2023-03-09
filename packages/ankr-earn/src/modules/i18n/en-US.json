@@ -457,6 +457,7 @@
       "info": "You will receive BNB in about ~{value} {period}.",
       "period": "about {value} {period}",
       "pool-capacity": "Pool capacity: {value} ankrBNB",
+      "empty-pool": "Flash unstake liquidity will be added in the coming days",
       "comission": "{value}% comission",
       "instant": "It will be sent immediately",
       "instant-success": "You will receive BNB shortly",
