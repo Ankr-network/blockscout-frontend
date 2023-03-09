@@ -5,9 +5,9 @@ import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
   RECEIPT_NAME,
   useApproveBridgeMutation,
-} from 'modules/bridge/actions/approve';
+} from 'modules/bridge/actions/approveBridge';
+import { useLazyGetBridgeAllowanceQuery } from 'modules/bridge/actions/getBridgeAllowance';
 import { useLazyGetABRatioQuery } from 'modules/bridge/actions/getMaticABRatio';
-import { useLazyGetBridgeAllowanceQuery } from 'modules/bridge/actions/lazyGetBridgeAllowance';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { getTokenAddr } from 'modules/bridge/utils/getTokenAddr';
 import { SupportedChainIDS, ZERO } from 'modules/common/const';

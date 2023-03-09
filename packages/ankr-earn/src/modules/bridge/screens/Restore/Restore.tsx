@@ -1,8 +1,7 @@
 import { t } from '@ankr.com/common';
 import { Box, Paper, Typography } from '@material-ui/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import { goBack, push } from 'connected-react-router';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 
@@ -20,7 +19,7 @@ import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { InputField } from 'uiKit/InputField';
 
-import { fetchTransaction } from '../../actions/fetchTransaction';
+import { useFetchTransactionMutation } from '../../actions/fetchTransaction';
 import { RoutesConfig } from '../../RoutesConfig';
 import { AvailableBridgeTokens } from '../../types';
 import { getWithdrawalQuery } from '../../utils/getWithdrawalQuery';
@@ -45,10 +44,10 @@ const validate = (data: Partial<IRestoreFormData>) => {
 
 export const Restore = (): JSX.Element => {
   const classes = useRestoreStyles();
-  const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
   const { handleOpen: onOpenModal } = useDialog(EKnownDialogs.connect);
-  const { loading } = useQuery({ type: fetchTransaction.toString() });
+  const [fetchTransaction, { isLoading, isError, data }] =
+    useFetchTransactionMutation();
 
   const { isConnected } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
@@ -60,29 +59,31 @@ export const Restore = (): JSX.Element => {
 
   const onSubmit = useCallback(
     (formData: IRestoreFormData) => {
-      if (loading) {
+      if (isLoading) {
         return;
       }
 
-      dispatchRequest(fetchTransaction(formData)).then(({ error, data }) => {
-        if (!error && data) {
-          const query = getWithdrawalQuery(
-            {
-              tx: formData.tx,
-              token: data.token as AvailableBridgeTokens,
-              chainIdFrom: data.chainIdFrom,
-              chainIdTo: data.chainIdTo,
-              amount: data.amount.toString(10),
-            },
-            document.location.search,
-          );
-
-          dispatch(push(`${RoutesConfig.main.generatePath()}?${query}`));
-        }
-      });
+      fetchTransaction(formData);
     },
-    [dispatch, dispatchRequest, loading],
+    [fetchTransaction, isLoading],
   );
+
+  useEffect(() => {
+    if (!isError && data && !isLoading) {
+      const query = getWithdrawalQuery(
+        {
+          tx: data.tx,
+          token: data.token as AvailableBridgeTokens,
+          chainIdFrom: data.chainIdFrom,
+          chainIdTo: data.chainIdTo,
+          amount: data.amount.toString(10),
+        },
+        document.location.search,
+      );
+
+      dispatch(push(`${RoutesConfig.main.generatePath()}?${query}`));
+    }
+  }, [data, dispatch, isError, isLoading]);
 
   const renderForm = useCallback(
     ({ handleSubmit }: FormRenderProps<IRestoreFormData>) => {
@@ -113,7 +114,7 @@ export const Restore = (): JSX.Element => {
           </Box>
 
           {isConnected ? (
-            <Button fullWidth disabled={loading} size="large" type="submit">
+            <Button fullWidth disabled={isLoading} size="large" type="submit">
               {t('bridge.restore.submit')}
             </Button>
           ) : (
@@ -124,7 +125,7 @@ export const Restore = (): JSX.Element => {
         </form>
       );
     },
-    [classes.input, isConnected, loading, onOpenModal],
+    [classes.input, isConnected, isLoading, onOpenModal],
   );
 
   return (

@@ -1,15 +1,16 @@
 import { t } from '@ankr.com/common';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { watchAsset } from 'modules/bridge/actions/watchAsset';
+import { useAddBridgeTokenToWalletMutation } from 'modules/bridge/actions/addBridgeTokenToWallet';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
   ACTION_CACHE_SEC,
   BSC_NETWORK_BY_ENV,
+  POLYGON_NETWORK_BY_ENV,
   SupportedChainIDS,
   ZERO,
 } from 'modules/common/const';
@@ -31,8 +32,6 @@ export interface IStakedMaticData {
 }
 
 export const useBridgedMaticCertBSC = (): IStakedMaticData => {
-  const dispatchRequest = useDispatchRequest();
-
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchAMATICCBridgedBSC,
   });
@@ -62,14 +61,14 @@ export const useBridgedMaticCertBSC = (): IStakedMaticData => {
 
   const nativeAmount = getTokenNativeAmount(amount, commonData?.aMATICcRatio);
 
-  const onAddTokenClick = () => {
-    dispatchRequest(
-      watchAsset({
-        token: AvailableBridgeTokens.aMATICc,
-        chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
-      }),
-    );
-  };
+  const [addBridgeTokenToWallet] = useAddBridgeTokenToWalletMutation();
+
+  const onAddTokenClick = useCallback(() => {
+    addBridgeTokenToWallet({
+      token: AvailableBridgeTokens.aMATICb,
+      chainId: POLYGON_NETWORK_BY_ENV as unknown as SupportedChainIDS,
+    });
+  }, [addBridgeTokenToWallet]);
 
   return {
     amount,

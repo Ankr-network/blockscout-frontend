@@ -1,7 +1,5 @@
 import { t } from '@ankr.com/common';
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
 import { Transaction } from 'web3-core';
 import { AbiItem } from 'web3-utils';
@@ -10,8 +8,8 @@ import { Address } from '@ankr.com/provider';
 import { ABI_ERC20 } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { SupportedChainIDS } from 'modules/common/const';
-import { createWalletConnectionGuard } from 'modules/common/utils/createWalletConnectionGuard';
 
 const DEPOSIT_METHOD_HASH = '0x90d25074';
 
@@ -66,44 +64,45 @@ function parseTransaction(
   }
 }
 
-export const fetchTransaction = createSmartAction<
-  RequestAction<IFetchTransactionData>,
-  [IFetchTransactionArgs]
->('bridge/fetchTransaction', ({ tx }) => ({
-  request: {
-    promise: async () => {
-      const providerManager = getProviderManager();
-      const provider = await providerManager.getETHWriteProvider();
+export const { useFetchTransactionMutation } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    fetchTransaction: build.mutation<
+      IFetchTransactionData,
+      IFetchTransactionArgs
+    >({
+      queryFn: queryFnNotifyWrapper<
+        IFetchTransactionArgs,
+        never,
+        IFetchTransactionData
+      >(async ({ tx }) => {
+        const providerManager = getProviderManager();
+        const provider = await providerManager.getETHWriteProvider();
 
-      const web3 = provider.getWeb3();
+        const web3 = provider.getWeb3();
 
-      const transaction = await web3.eth.getTransaction(tx);
+        const transaction = await web3.eth.getTransaction(tx);
 
-      if (!transaction) {
-        throw new Error(t('bridge.errors.txn-not-found'));
-      }
+        if (!transaction) {
+          throw new Error(t('bridge.errors.txn-not-found'));
+        }
 
-      const data = parseTransaction(transaction, web3, provider.currentChain);
+        const data = parseTransaction(transaction, web3, provider.currentChain);
 
-      if (!data) {
-        throw new Error(t('bridge.errors.wrong-txn'));
-      }
+        if (!data) {
+          throw new Error(t('bridge.errors.wrong-txn'));
+        }
 
-      const tokenContract = new web3.eth.Contract(
-        ABI_ERC20 as AbiItem[],
-        data.token,
-      );
+        const tokenContract = new web3.eth.Contract(
+          ABI_ERC20 as AbiItem[],
+          data.token,
+        );
 
-      const token = await tokenContract.methods.symbol().call();
+        const token = await tokenContract.methods.symbol().call();
 
-      data.token = token;
+        data.token = token;
 
-      return data;
-    },
-  },
-  meta: {
-    showNotificationOnError: true,
-    additionalErrorText: t('bridge.errors.txn-data'),
-    onRequest: createWalletConnectionGuard,
-  },
-}));
+        return { data };
+      }),
+    }),
+  }),
+});

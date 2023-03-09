@@ -1,4 +1,3 @@
-import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { ReactText, useState } from 'react';
 
@@ -10,8 +9,7 @@ import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { getIsInjectedWallet } from 'modules/auth/eth/utils/walletTypeUtils';
-import { fetchBalance } from 'modules/bridge/actions/fetchBalance';
-import { useBalance } from 'modules/bridge/hooks/useBalance';
+import { useLazyGetBridgeBalanceQuery } from 'modules/bridge/actions/getBridgeBalance';
 import { useBlockchainPanelOptions } from 'modules/bridge/hooks/useBlockchainPanelOptions';
 import {
   AvailableBridgeTokens,
@@ -93,7 +91,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
     chainId: chainNum,
   } = useConnectedData(AvailableWriteProviders.ethCompatible);
 
-  const { balance, isBalanceLoading } = useBalance();
+  const [getBalance, { data: balance, isFetching: isBalanceLoading }] =
+    useLazyGetBridgeBalanceQuery();
   const networkAvailable = useBlockchainPanelOptions();
 
   const [tokenValue, setTokenValue] = useState<AvailableBridgeTokens>(
@@ -108,7 +107,6 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   );
 
   const [isSendAnother, setIsSendAnother] = useState(false);
-  const dispatchRequest = useDispatchRequest();
 
   const [switchNetwork] = useSwitchNetworkMutation();
 
@@ -151,7 +149,7 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
       walletType: walletName,
       token: tokenValue,
       amount: inputValue ? new BigNumber(inputValue) : ZERO,
-      balance,
+      balance: balance ?? ZERO,
       from,
       to,
     });
@@ -227,12 +225,8 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
       return;
     }
 
-    if (chainId) {
-      dispatchRequest(
-        fetchBalance({ token: tokenValue, network: swapNetworkItem.from }),
-      );
-    }
-  }, [dispatchRequest, tokenValue, isConnected, chainId, swapNetworkItem.from]);
+    getBalance({ token: tokenValue, network: swapNetworkItem.from });
+  }, [tokenValue, isConnected, swapNetworkItem.from]);
 
   useProviderEffect(() => {
     const newNetworksFrom = networkAvailable[tokenValue].from || [];

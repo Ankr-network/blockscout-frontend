@@ -1,11 +1,14 @@
 import { resetRequests } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import { deposit, IDepositArgs } from 'modules/bridge/actions/deposit';
+import {
+  IDepositArgs,
+  useBridgeDepositMutation,
+} from 'modules/bridge/actions/bridgeDeposit';
+import { DEPOSIT_ACTION_NAME } from 'modules/bridge/const';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { getWithdrawalQuery } from 'modules/bridge/utils/getWithdrawalQuery';
 import { SupportedChainIDS } from 'modules/common/const';
@@ -29,18 +32,14 @@ export const useDeposit = ({
   toChainId,
   token,
 }: IUseDepositArgs): IUseDeposit => {
-  const dispatchRequest = useDispatchRequest();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { loading: isDepositLoading } = useQuery({
-    type: deposit,
-  });
-
-  const depositActionName = deposit.toString();
+  const [deposit, { isLoading: isDepositLoading, reset: resetDeposit }] =
+    useBridgeDepositMutation();
 
   const { isLoading: isReceiptLoading, actionName: receiptActionName } =
-    useTxReceipt(depositActionName);
+    useTxReceipt(DEPOSIT_ACTION_NAME);
 
   const onSuccess: IDepositArgs['onSuccess'] = useCallback(
     ({ data }) => {
@@ -76,14 +75,15 @@ export const useDeposit = ({
       onSuccess,
     };
 
-    dispatchRequest(deposit(options));
-  }, [amount, dispatchRequest, fromChainId, onSuccess, toChainId, token]);
+    deposit(options);
+  }, [amount, deposit, fromChainId, onSuccess, toChainId, token]);
 
   useEffect(() => {
     return () => {
-      dispatch(resetRequests([receiptActionName, depositActionName]));
+      resetDeposit();
+      dispatch(resetRequests([receiptActionName]));
     };
-  }, [depositActionName, dispatch, receiptActionName]);
+  }, [dispatch, receiptActionName, resetDeposit]);
 
   return {
     isLoading: isReceiptLoading || isDepositLoading,

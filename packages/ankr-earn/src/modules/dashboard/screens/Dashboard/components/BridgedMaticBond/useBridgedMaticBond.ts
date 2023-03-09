@@ -1,11 +1,11 @@
 import { t } from '@ankr.com/common';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { watchAsset } from 'modules/bridge/actions/watchAsset';
+import { useAddBridgeTokenToWalletMutation } from 'modules/bridge/actions/addBridgeTokenToWallet';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
   ACTION_CACHE_SEC,
@@ -28,8 +28,6 @@ export interface IStakedMaticData {
 }
 
 export const useBridgedMaticBond = (): IStakedMaticData => {
-  const dispatchRequest = useDispatchRequest();
-
   const { data: commonData, isFetching: isCommonDataLoading } =
     useGetMaticOnPolygonCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
@@ -53,14 +51,14 @@ export const useBridgedMaticBond = (): IStakedMaticData => {
     [amount, metrics],
   );
 
-  const onAddTokenClick = () => {
-    dispatchRequest(
-      watchAsset({
-        token: AvailableBridgeTokens.aMATICb,
-        chainId: POLYGON_NETWORK_BY_ENV as unknown as SupportedChainIDS,
-      }),
-    );
-  };
+  const [addBridgeTokenToWallet] = useAddBridgeTokenToWalletMutation();
+
+  const onAddTokenClick = useCallback(() => {
+    addBridgeTokenToWallet({
+      token: AvailableBridgeTokens.aMATICb,
+      chainId: POLYGON_NETWORK_BY_ENV as unknown as SupportedChainIDS,
+    });
+  }, [addBridgeTokenToWallet]);
 
   return {
     amount,

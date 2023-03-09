@@ -1,10 +1,8 @@
-import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
-import { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
 
-import { notarize } from 'modules/bridge/actions/notarize';
-import { withdrawal } from 'modules/bridge/actions/withdrawal';
+import { useWithdrawalBridgeMutation } from 'modules/bridge/actions/withdrawalBridge';
+import { IBridgeNotarizeResponse } from 'modules/bridge/api/types';
+import { WITHDRAWAL_ACTION_NAME } from 'modules/bridge/const';
 import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 interface IUseWithdraw {
@@ -14,43 +12,27 @@ interface IUseWithdraw {
   onClick: () => void;
 }
 
-export const useWithdraw = (): IUseWithdraw => {
-  const dispatch = useDispatch();
-  const { data: txHash, loading: isWithdrawalLoading } = useQuery({
-    type: withdrawal,
-  });
+export const useWithdraw = (
+  notarizeData?: IBridgeNotarizeResponse,
+): IUseWithdraw => {
+  const [withdrawalBridge, { data: txHash, isLoading: isWithdrawalLoading }] =
+    useWithdrawalBridgeMutation();
 
-  const { data: notarizeData } = useQuery({
-    type: notarize,
-  });
-
-  const withdrawalActionName = withdrawal.toString();
-
-  const {
-    isLoading: isReceiptLoading,
-    isSuccessful,
-    actionName: receiptActionName,
-  } = useTxReceipt(withdrawalActionName);
+  const { isLoading: isReceiptLoading, isSuccessful } = useTxReceipt(
+    WITHDRAWAL_ACTION_NAME,
+  );
 
   const onClick = useCallback(() => {
     if (!notarizeData) {
       return;
     }
 
-    dispatch(
-      withdrawal(
-        notarizeData.encodedProof,
-        notarizeData.encodedReceipt,
-        notarizeData.signature,
-      ),
-    );
-  }, [dispatch, notarizeData]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetRequests([withdrawalActionName, receiptActionName]));
-    };
-  }, [dispatch, receiptActionName, withdrawalActionName]);
+    withdrawalBridge({
+      proof: notarizeData.encodedProof,
+      receipt: notarizeData.encodedReceipt,
+      signature: notarizeData.signature,
+    });
+  }, [notarizeData, withdrawalBridge]);
 
   return {
     isLoading: isWithdrawalLoading || isReceiptLoading,

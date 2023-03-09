@@ -28,7 +28,7 @@ import { getReadProviderByNetworkId } from '../utils/getReadProviderByNetworkId'
 import { getTokenAddr } from '../utils/getTokenAddr';
 
 import ABI_BRIDGE from './contracts/CrossChainBridge.json';
-import { IBridgeNotarizeResponse } from './types/types';
+import { IBridgeNotarizeResponse } from './types';
 
 export class BridgeSDK {
   private static instance?: BridgeSDK;

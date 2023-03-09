@@ -1,39 +1,39 @@
-import { t } from '@ankr.com/common';
-import { RequestAction } from '@redux-requests/core';
 import retry, { Options } from 'async-retry';
-import { createAction as createSmartAction } from 'redux-smart-actions';
 
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { SupportedChainIDS } from 'modules/common/const';
 
 import { BridgeSDK } from '../api/BridgeSDK';
-import { IBridgeNotarizeResponse } from '../api/types/types';
+import { IBridgeNotarizeResponse } from '../api/types';
 
-export const notarize = createSmartAction<
-  RequestAction<IBridgeNotarizeResponse, IBridgeNotarizeResponse>
->(
-  'bridge/notarize',
-  (transactionHash: string, chainIdFrom: SupportedChainIDS) => ({
-    request: {
-      promise: (async (): Promise<IBridgeNotarizeResponse> => {
-        const sdk = await BridgeSDK.getInstance();
+interface INotirize {
+  transactionHash: string;
+  chainIdFrom: SupportedChainIDS;
+}
 
-        const retryParams: Options = {
-          retries: 30,
-          factor: 1,
-          minTimeout: 10000,
-        };
+export const { useGetBridgeNotirizeQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getBridgeNotirize: build.query<IBridgeNotarizeResponse, INotirize>({
+      queryFn: queryFnNotifyWrapper<INotirize, never, IBridgeNotarizeResponse>(
+        async ({ transactionHash, chainIdFrom }) => {
+          const sdk = await BridgeSDK.getInstance();
 
-        const response = await retry(
-          async () => sdk.notarize(transactionHash, chainIdFrom),
-          retryParams,
-        );
+          const retryParams: Options = {
+            retries: 30,
+            factor: 1,
+            minTimeout: 10000,
+          };
 
-        return response.data;
-      })(),
-    },
-    meta: {
-      showNotificationOnError: true,
-      additionalErrorText: t('bridge.errors.notarize'),
-    },
+          const response = await retry(
+            async () => sdk.notarize(transactionHash, chainIdFrom),
+            retryParams,
+          );
+
+          return {
+            data: response.data,
+          };
+        },
+      ),
+    }),
   }),
-);
+});
