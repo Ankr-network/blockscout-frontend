@@ -14,14 +14,6 @@ interface IWatchAssetArgs {
   chainId: SupportedChainIDS;
 }
 
-export interface IBridgeWatchAsset {
-  type: 'ERC20';
-  address: string;
-  symbol: string;
-  decimals: number;
-  image?: string;
-}
-
 export const { useAddBridgeTokenToWalletMutation } = web3Api.injectEndpoints({
   endpoints: build => ({
     addBridgeTokenToWallet: build.mutation<boolean, IWatchAssetArgs>({

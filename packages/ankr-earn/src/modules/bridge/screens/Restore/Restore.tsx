@@ -19,7 +19,7 @@ import { Button } from 'uiKit/Button';
 import { CloseButton } from 'uiKit/CloseButton';
 import { InputField } from 'uiKit/InputField';
 
-import { useFetchTransactionMutation } from '../../actions/fetchTransaction';
+import { useLazyFetchTransactionQuery } from '../../actions/fetchTransaction';
 import { RoutesConfig } from '../../RoutesConfig';
 import { AvailableBridgeTokens } from '../../types';
 import { getWithdrawalQuery } from '../../utils/getWithdrawalQuery';
@@ -47,7 +47,7 @@ export const Restore = (): JSX.Element => {
   const dispatch = useDispatch();
   const { handleOpen: onOpenModal } = useDialog(EKnownDialogs.connect);
   const [fetchTransaction, { isLoading, isError, data }] =
-    useFetchTransactionMutation();
+    useLazyFetchTransactionQuery();
 
   const { isConnected } = useConnectedData(
     AvailableWriteProviders.ethCompatible,

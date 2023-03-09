@@ -27,13 +27,6 @@ export const { useLazyGetBridgeBalanceQuery } = web3Api.injectEndpoints({
             },
           );
 
-          console.log(
-            '@@@@@@@@@@getBridgeBalance',
-            token,
-            network,
-            balance.toString(),
-          );
-
           return {
             data: balance,
           };

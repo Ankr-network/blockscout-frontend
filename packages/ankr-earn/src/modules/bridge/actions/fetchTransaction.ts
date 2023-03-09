@@ -64,45 +64,48 @@ function parseTransaction(
   }
 }
 
-export const { useFetchTransactionMutation } = web3Api.injectEndpoints({
+export const { useLazyFetchTransactionQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchTransaction: build.mutation<
-      IFetchTransactionData,
-      IFetchTransactionArgs
-    >({
-      queryFn: queryFnNotifyWrapper<
-        IFetchTransactionArgs,
-        never,
-        IFetchTransactionData
-      >(async ({ tx }) => {
-        const providerManager = getProviderManager();
-        const provider = await providerManager.getETHWriteProvider();
+    fetchTransaction: build.query<IFetchTransactionData, IFetchTransactionArgs>(
+      {
+        queryFn: queryFnNotifyWrapper<
+          IFetchTransactionArgs,
+          never,
+          IFetchTransactionData
+        >(async ({ tx }) => {
+          const providerManager = getProviderManager();
+          const provider = await providerManager.getETHWriteProvider();
 
-        const web3 = provider.getWeb3();
+          const web3 = provider.getWeb3();
 
-        const transaction = await web3.eth.getTransaction(tx);
+          const transaction = await web3.eth.getTransaction(tx);
 
-        if (!transaction) {
-          throw new Error(t('bridge.errors.txn-not-found'));
-        }
+          if (!transaction) {
+            throw new Error(t('bridge.errors.txn-not-found'));
+          }
 
-        const data = parseTransaction(transaction, web3, provider.currentChain);
+          const data = parseTransaction(
+            transaction,
+            web3,
+            provider.currentChain,
+          );
 
-        if (!data) {
-          throw new Error(t('bridge.errors.wrong-txn'));
-        }
+          if (!data) {
+            throw new Error(t('bridge.errors.wrong-txn'));
+          }
 
-        const tokenContract = new web3.eth.Contract(
-          ABI_ERC20 as AbiItem[],
-          data.token,
-        );
+          const tokenContract = new web3.eth.Contract(
+            ABI_ERC20 as AbiItem[],
+            data.token,
+          );
 
-        const token = await tokenContract.methods.symbol().call();
+          const token = await tokenContract.methods.symbol().call();
 
-        data.token = token;
+          data.token = token;
 
-        return { data };
-      }),
-    }),
+          return { data };
+        }),
+      },
+    ),
   }),
 });
