@@ -173,7 +173,8 @@
   "audit-info": {
     "label": "Audited by",
     "beosin": "Beosin",
-    "peckshield": "PeckShield"
+    "peckshield": "PeckShield",
+    "veridise": "Veridise"
   },
   "not-found": {
     "title": "Page not found",
