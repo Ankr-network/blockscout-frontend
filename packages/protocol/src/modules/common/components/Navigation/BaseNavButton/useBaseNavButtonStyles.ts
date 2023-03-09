@@ -1,9 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const HEADER_HEIGHT_XS = 66;
-export const HEADER_HEIGHT_XL = 80;
-
 export const useBaseNavButtonStyles = makeStyles()((theme: Theme) => ({
   link: {
     width: '100%',

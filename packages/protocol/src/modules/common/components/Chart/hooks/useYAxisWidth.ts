@@ -4,7 +4,7 @@ const DEFAULT_WIDTH = 80;
 
 const Y_AXIS_CLASSNAME = 'recharts-yAxis';
 
-export type YAxisWidth = [
+type YAxisWidth = [
   MutableRefObject<MutableRefObject<HTMLElement> | undefined>,
   number,
 ];

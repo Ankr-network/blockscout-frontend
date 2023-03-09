@@ -18,12 +18,12 @@ import {
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UserLabel } from 'uiKit/Breadcrumbs/Components/UserLabel';
 
-export const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
+const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
   breadcrumbs: [],
   setBreadcrumbs: () => null,
 });
 
-export function BreadcrumbsProvider({ children }: BreadcrumbsProviderProps) {
+export const BreadcrumbsProvider = ({ children }: BreadcrumbsProviderProps) => {
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
 
   const handleSetBreadcrumbs = (newBreadcrumbs: BreadcrumbItem[]) => {
@@ -40,7 +40,7 @@ export function BreadcrumbsProvider({ children }: BreadcrumbsProviderProps) {
       {children}
     </BreadcrumbsContext.Provider>
   );
-}
+};
 
 export const useBreadcrumbs = () => {
   return React.useContext(BreadcrumbsContext);

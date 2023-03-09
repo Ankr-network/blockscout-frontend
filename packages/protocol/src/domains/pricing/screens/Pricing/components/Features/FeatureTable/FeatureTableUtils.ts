@@ -13,7 +13,7 @@ export interface IColumnHelper {
 
 export const COLUMNS_COUNT = 3;
 
-export const ROWS_COUNT = 10;
+const ROWS_COUNT = 10;
 
 export const FEATURE_TABLE_ROW = new Array(ROWS_COUNT)
   .fill('')

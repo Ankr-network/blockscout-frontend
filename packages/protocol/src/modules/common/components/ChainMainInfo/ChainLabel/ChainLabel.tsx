@@ -4,7 +4,7 @@ import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { useStyles } from './ChainLabelStyles';
 
-export interface ArchiveLabelProps {
+interface ArchiveLabelProps {
   className?: string;
   label: string;
   labelClassName?: string;
