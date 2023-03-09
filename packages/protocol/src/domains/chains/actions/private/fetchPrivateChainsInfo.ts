@@ -18,7 +18,7 @@ export const {
   endpoints: build => ({
     chainsFetchPrivateChainsInfo: build.query<
       IFetchPrivateChainsInfoResult,
-      void
+      boolean
     >({
       queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
         const [
