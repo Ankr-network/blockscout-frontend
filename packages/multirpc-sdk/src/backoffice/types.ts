@@ -128,6 +128,15 @@ export interface IUsageDetailEntity {
   totalCost: string;
 }
 
+export interface IWebsocketStatsRequest {
+  blockchain: string;
+}
+
+export interface IWebsocketStatsResponse {
+  [address: Web3Address]: number;
+  total: number;
+}
+
 export interface IUsageEntity {
   blockchain: string;
   details: IUsageDetailEntity[];

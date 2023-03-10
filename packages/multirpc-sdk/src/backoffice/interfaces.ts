@@ -20,6 +20,8 @@ import {
   IUserStatsRequest,
   IUserStatsByRangeRequest,
   IUserStatsResponse,
+  IWebsocketStatsRequest,
+  IWebsocketStatsResponse,
   ICountersResponse,
   ICountersRequest,
   IGetUserTotalRequest,
@@ -81,6 +83,8 @@ export interface IBackofficeGateway {
   getUserStatsByRange(
     params: IUserStatsByRangeRequest,
   ): Promise<IUserStatsResponse>;
+
+  getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse>
 
   getUserAddresses(
     params: GetUserAddressesRequest,

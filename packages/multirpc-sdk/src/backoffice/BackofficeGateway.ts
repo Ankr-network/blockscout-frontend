@@ -25,6 +25,8 @@ import {
   IUserStatsRequest,
   IUserStatsResponse,
   IUserStatsByRangeRequest,
+  IWebsocketStatsRequest,
+  IWebsocketStatsResponse,
   ICountersRequest,
   IGetUserTotalRequest,
   IGetUserTotalResponse,
@@ -245,6 +247,17 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getUserStats(params: IUserStatsRequest): Promise<IUserStatsResponse> {
     const { data: response } = await this.api.get<IUserStatsResponse>(
       '/users/stats',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse> {
+    const { data: response } = await this.api.get<IWebsocketStatsResponse>(
+      '/stats/websockets',
       {
         params,
       },

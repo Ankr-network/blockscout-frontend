@@ -9,10 +9,10 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@ankr.com/ui';
 import { ClientsTable } from 'modules/clients/components/ClientsTable';
-import { useAdminPage } from './useAdminPage';
-import { filters } from '../const';
+import { useDevDaoUsersList } from './useDevDaoUsersList';
+import { filters } from '../../const';
 
-export const AdminPage = () => {
+export const DevDaoUsersList = () => {
   const {
     dateFrom,
     onChangeFrom,
@@ -23,7 +23,7 @@ export const AdminPage = () => {
     clientsDevDao,
     filter,
     handleSelectFilter,
-  } = useAdminPage();
+  } = useDevDaoUsersList();
 
   return (
     <>

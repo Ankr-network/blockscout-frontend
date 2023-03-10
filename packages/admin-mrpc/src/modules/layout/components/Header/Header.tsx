@@ -26,7 +26,7 @@ export const Header = ({ hasSecretRouteAccess }: HeaderProps) => {
           to={AdminRoutesConfig.admin.generatePath()}
           sx={{ ml: 6 }}
         >
-          DevDao users
+          Admin requests
         </Button>
       )}
       <ConnectButton />

@@ -5,13 +5,17 @@ import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { ClientsPage } from 'modules/clients/components/ClientsPage';
 import { ClientDetailsPage } from 'modules/clients/components/ClientDetailsPage';
 import { AdminRoutesConfig } from 'modules/admin/AdminRoutesConfig';
-import { AdminPage } from 'modules/admin/components/AdminPage';
+import { AdminPageWrapper } from 'modules/admin/components/AdminPageWrapper';
 import { GuardAdminRoute } from 'modules/admin/components/GuardAdminRoute';
 import { useSecretRouteAccess } from 'modules/admin/hooks/useSecretRouteAccess';
 
 function AdminRoutes() {
   return (
-    <Route exact path={AdminRoutesConfig.admin.path} component={AdminPage} />
+    <Route
+      exact
+      path={AdminRoutesConfig.admin.path}
+      component={AdminPageWrapper}
+    />
   );
 }
 

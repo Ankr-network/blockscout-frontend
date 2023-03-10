@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useFetchBlockchainsQuery } from 'modules/clients/actions/fetchBlockchains';
-import { SelectChangeEvent } from '@mui/material';
+import { useChainSelect } from 'modules/common/components/ChainSelect/useChainSelect';
 
 export const useClientApiKeys = ({ token }: { token: string }) => {
-  const { data: blockchainsData, isLoading: isLoadingBlockchains } =
-    useFetchBlockchainsQuery({ token });
+  const {
+    selectedChainId,
+    handleSelectChain,
+    isLoadingBlockchains,
+    blockchainsData,
+    setSelectedChainId,
+  } = useChainSelect(token);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -14,10 +18,6 @@ export const useClientApiKeys = ({ token }: { token: string }) => {
     setOpen(false);
   };
 
-  const [selectedChainId, setSelectedChainId] = useState('');
-  const handleSelectChain = (event: SelectChangeEvent<string>) => {
-    setSelectedChainId(event.target.value as string);
-  };
   useEffect(() => {
     if (
       !isLoadingBlockchains &&
@@ -26,7 +26,7 @@ export const useClientApiKeys = ({ token }: { token: string }) => {
     ) {
       setSelectedChainId(blockchainsData[0].id);
     }
-  }, [blockchainsData, isLoadingBlockchains]);
+  }, [blockchainsData, isLoadingBlockchains, setSelectedChainId]);
 
   const selectedChain = blockchainsData?.find(
     chain => chain.id === selectedChainId,
