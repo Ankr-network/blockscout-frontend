@@ -32,8 +32,8 @@ describe('modules/dashboard/utils/getPortfolioUSDAmount', () => {
 
   const VALID_RESULTS = [
     '0.01',
-    '0.0115',
-    '99.9999999999999999999999999',
+    '0.01',
+    '100',
     '100',
     '100',
     '101',

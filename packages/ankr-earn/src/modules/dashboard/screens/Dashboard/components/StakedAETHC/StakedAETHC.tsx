@@ -1,10 +1,8 @@
 import { t, tHTML } from '@ankr.com/common';
-import { useCallback } from 'react';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
 import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -13,6 +11,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedTxHistoryETH } from '../../hooks/liquid-tokens/ETH/useStakedTxHistoryETH';
@@ -26,11 +25,11 @@ export const StakedAETHC = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
   const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
-  const {
-    isOpened: isOpenedHistory,
-    onOpen: onOpenHistory,
-    onClose: onCloseHistory,
-  } = useDialog();
+
+  const { handleOpen: handleOpenHistoryDialog } = useKnownDialog(
+    EKnownDialogs.history,
+    token,
+  );
 
   const {
     isOpened: isOpenedInfo,
@@ -62,10 +61,6 @@ export const StakedAETHC = (): JSX.Element => {
   } = useStakedTxHistoryETH();
 
   const tokenName = t('unit.aethc');
-
-  const handleOpenHistoryDialog = useCallback(() => {
-    onOpenHistory();
-  }, [onOpenHistory]);
 
   const onTradeClick = () => {
     trackClickTrade({
@@ -119,12 +114,6 @@ export const StakedAETHC = (): JSX.Element => {
         onHistoryBtnClick={handleOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
         onTradeClick={onTradeClick}
-      />
-
-      <NewHistoryDialog
-        open={isOpenedHistory}
-        token={token}
-        onClose={onCloseHistory}
       />
 
       <TokenInfoDialog

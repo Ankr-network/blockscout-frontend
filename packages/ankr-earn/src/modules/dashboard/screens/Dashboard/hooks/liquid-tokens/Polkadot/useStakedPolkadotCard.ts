@@ -18,7 +18,6 @@ import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTok
 import { fetchPolkadotPendingHistoryAmountSum } from 'modules/stake-polkadot/actions/fetchPolkadotPendingHistoryAmountSum';
 import { stake } from 'modules/stake-polkadot/actions/stake';
 import { unstake } from 'modules/stake-polkadot/actions/unstake';
-import { ETxTypes } from 'modules/stake-polkadot/api/PolkadotStakeSDK';
 import { RoutesConfig } from 'modules/stake-polkadot/Routes';
 import {
   EPolkadotNetworks,
@@ -39,26 +38,20 @@ interface IStakedPolkadotCard {
   address?: string;
   amount: BigNumber;
   isBalancesLoading: boolean;
+  isPendingUnstakeLoading: boolean;
   isShowedTradeLink: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
-  isPendingUnstakeLoading: boolean;
   network: string;
   pendingValue: BigNumber;
   stakeLink: string;
-  stakeType: string;
   tradeLink: string;
   unstakeLink: string;
-  unstakeType: string;
-  unsupportedUnstakeHistoryTxt: string;
   usdAmount?: BigNumber;
   walletName?: string;
   handleAddTokenToWallet: () => void;
 }
 
-/**
- *  TODO Add logic for this beta version (Polkadot Staking)
- */
 export const useStakedPolkadotCard = ({
   ethToken,
   network,
@@ -89,12 +82,6 @@ export const useStakedPolkadotCard = ({
   });
 
   const chainTitle = t(`chain.${ETH_NETWORK_BY_ENV}`);
-  const unsupportedUnstakeHistoryTxt = t(
-    'stake-polkadot.unsupported-unstake-history',
-    {
-      network,
-    },
-  );
 
   const amount = balance ?? ZERO;
   const pendingValue = pendingAmountSum ?? ZERO;
@@ -124,11 +111,8 @@ export const useStakedPolkadotCard = ({
     network: chainTitle,
     pendingValue,
     stakeLink: RoutesConfig.stake.generatePath(network, true),
-    stakeType: ETxTypes.Staked,
     tradeLink: DefiRoutes.defi.generatePath(ethToken),
     unstakeLink: RoutesConfig.unstake.generatePath(network),
-    unstakeType: ETxTypes.Unstaked,
-    unsupportedUnstakeHistoryTxt,
     usdAmount,
     walletName,
     handleAddTokenToWallet,

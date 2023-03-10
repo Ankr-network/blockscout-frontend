@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { RootState } from 'store';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -41,7 +41,7 @@ export const { useGetTotalInfoQuery } = web3Api.injectEndpoints({
             },
           };
         },
-        getOnErrorWithCustomText(t('stake-ankr.errors.total-info')),
+        error => getExtendedErrorText(error, t('stake-ankr.errors.total-info')),
       ),
     }),
   }),

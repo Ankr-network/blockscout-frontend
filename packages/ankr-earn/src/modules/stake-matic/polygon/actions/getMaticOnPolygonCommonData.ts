@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { PolygonOnPolygonSDK } from '@ankr.com/staking-sdk';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
@@ -19,26 +19,33 @@ export interface IGetCommonData {
 export const { useGetMaticOnPolygonCommonDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getMaticOnPolygonCommonData: build.query<IGetCommonData, void>({
-      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(async () => {
-        const sdk = await PolygonOnPolygonSDK.getInstance();
+      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(
+        async () => {
+          const sdk = await PolygonOnPolygonSDK.getInstance();
 
-        const [maticBondBalance, maticCertBalance, maticBalance, ratio] =
-          await Promise.all([
-            sdk.getABBalance(),
-            sdk.getACBalance(),
-            sdk.getMaticBalance(),
-            sdk.getACRatio(),
-          ]);
+          const [maticBondBalance, maticCertBalance, maticBalance, ratio] =
+            await Promise.all([
+              sdk.getABBalance(),
+              sdk.getACBalance(),
+              sdk.getMaticBalance(),
+              sdk.getACRatio(),
+            ]);
 
-        return {
-          data: {
-            maticBalance,
-            maticBondBalance,
-            maticCertBalance,
-            ratio,
-          },
-        };
-      }, getOnErrorWithCustomText(t('stake-matic-common.errors.common-data'))),
+          return {
+            data: {
+              maticBalance,
+              maticBondBalance,
+              maticCertBalance,
+              ratio,
+            },
+          };
+        },
+        error =>
+          getExtendedErrorText(
+            error,
+            t('stake-matic-common.errors.common-data'),
+          ),
+      ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),

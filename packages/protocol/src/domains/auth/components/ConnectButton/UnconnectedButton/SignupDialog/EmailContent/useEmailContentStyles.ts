@@ -27,7 +27,8 @@ export const useEmailContentStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 400,
 
     '& a': {
-      fontWeight: 700,
+      fontWeight: 500,
+      color: theme.palette.text.primary,
     },
   },
 }));

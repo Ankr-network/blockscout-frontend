@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TMaticSyntToken } from 'modules/stake-matic/common/types';
 
@@ -22,9 +22,11 @@ export const { useLazyGetMaticOnEthStakeGasFeeQuery } = web3Api.injectEndpoints(
 
             return { data: await sdk.getStakeGasFee(amount, token) };
           },
-          getOnErrorWithCustomText(
-            t('stake-matic-common.errors.stake-gas-fee'),
-          ),
+          error =>
+            getExtendedErrorText(
+              error,
+              t('stake-matic-common.errors.stake-gas-fee'),
+            ),
         ),
       }),
     }),

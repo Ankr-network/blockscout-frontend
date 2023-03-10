@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import {
   getTxReceipt,
@@ -31,12 +31,15 @@ export const {
         IBridgeApprovalArgs,
         never,
         IApproveMutation
-      >(async ({ amount, token, fromChainId }) => {
-        const sdk = await BridgeSDK.getInstance();
+      >(
+        async ({ amount, token, fromChainId }) => {
+          const sdk = await BridgeSDK.getInstance();
 
-        const results = await sdk.approve(amount, token, fromChainId);
-        return { data: { ...results, amount } };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.approve'))),
+          const results = await sdk.approve(amount, token, fromChainId);
+          return { data: { ...results, amount } };
+        },
+        error => getExtendedErrorText(error, t('stake-ankr.errors.approve')),
+      ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {
           const { transactionHash } = response.data;

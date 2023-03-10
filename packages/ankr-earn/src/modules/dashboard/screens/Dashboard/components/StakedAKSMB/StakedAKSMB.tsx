@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { HistoryDialog } from 'modules/common/components/HistoryDialog';
 import { featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -13,6 +12,7 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
@@ -20,16 +20,17 @@ import { KSM_PROPS } from '../../const';
 import { useStakedPolkadotCard } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotCard';
 import { useStakedPolkadotTxHistory } from '../../hooks/liquid-tokens/Polkadot/useStakedPolkadotTxHistory';
 
+const nativeToken = Token.KSM;
+
 export const StakedAKSMB = (): JSX.Element => {
   const { polkadotConfig } = configFromEnv();
 
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.KSM });
+  const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
 
-  const {
-    isOpened: isOpenedHistory,
-    onClose: onCloseHistory,
-    onOpen: onOpenHistory,
-  } = useDialog();
+  const { handleOpen: onOpenHistory } = useKnownDialog(
+    EKnownDialogs.polkadotHistory,
+    nativeToken,
+  );
 
   const {
     isOpened: isOpenedInfo,
@@ -37,12 +38,8 @@ export const StakedAKSMB = (): JSX.Element => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const {
-    isHistoryDataLoading,
-    pendingUnstakeHistory,
-    transactionHistory,
-    handleLoadTxHistory,
-  } = useStakedPolkadotTxHistory(EPolkadotNetworks.KSM);
+  const { isHistoryDataLoading, pendingUnstakeHistory, handleLoadTxHistory } =
+    useStakedPolkadotTxHistory(EPolkadotNetworks.KSM);
 
   const {
     address,
@@ -57,7 +54,6 @@ export const StakedAKSMB = (): JSX.Element => {
     stakeLink,
     tradeLink,
     unstakeLink,
-    unsupportedUnstakeHistoryTxt,
     usdAmount,
     walletName,
     handleAddTokenToWallet,
@@ -127,20 +123,12 @@ export const StakedAKSMB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      <HistoryDialog
-        history={transactionHistory}
-        isHistoryLoading={isHistoryDataLoading}
-        open={isOpenedHistory}
-        unsupportedUnstakeHistoryTxt={unsupportedUnstakeHistoryTxt}
-        onClose={onCloseHistory}
-      />
-
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
         description={tHTML('dashboard.token-info.aKSMb', {
           ratio: ONE.toFormat(),
         })}
-        moreHref={getStakingOverviewUrl(Token.KSM)}
+        moreHref={getStakingOverviewUrl(nativeToken)}
         open={isOpenedInfo}
         tokenAddress={polkadotConfig.aKSMbToken ?? ''}
         tokenName={Token.aKSMb}

@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import {
   getTxReceipt,
@@ -25,7 +25,11 @@ export const {
           const result = await sdk.approveMATICToken(amount);
           return { data: { ...result, amount } };
         },
-        getOnErrorWithCustomText(t('stake-matic-common.errors.approve-stake')),
+        error =>
+          getExtendedErrorText(
+            error,
+            t('stake-matic-common.errors.approve-stake'),
+          ),
       ),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

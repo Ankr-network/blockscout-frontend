@@ -351,7 +351,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
           ...item,
           isNative: false,
           amount: item.amount.round(),
-          usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
+          usdAmount: usdAmounts[index],
           yieldAmount: item.amount
             .multipliedBy(item.apy)
             .dividedBy(100)
@@ -393,7 +393,7 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       isMgnoPriceLoading ||
       isXDCDataLoading,
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
-    totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),
+    totalAmountUsd,
     totalYieldAmountUsd: totalYieldAmountUsd
       .minus(totalAmountUsd)
       .decimalPlaces(DEFAULT_ROUNDING),

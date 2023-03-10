@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
@@ -21,13 +21,20 @@ export const { useGetUnlockedDelegatedByValidatorQuery } =
           IGetUndelegatedAmountDataProps,
           never,
           BigNumber
-        >(async ({ validator }) => {
-          const sdk = await AnkrStakingSDK.getInstance();
+        >(
+          async ({ validator }) => {
+            const sdk = await AnkrStakingSDK.getInstance();
 
-          return {
-            data: await sdk.getUnlockedDelegatedByValidator(validator),
-          };
-        }, getOnErrorWithCustomText(t('stake-ankr.errors.unlocked-delegated-by-validator'))),
+            return {
+              data: await sdk.getUnlockedDelegatedByValidator(validator),
+            };
+          },
+          error =>
+            getExtendedErrorText(
+              error,
+              t('stake-ankr.errors.unlocked-delegated-by-validator'),
+            ),
+        ),
       }),
     }),
   });

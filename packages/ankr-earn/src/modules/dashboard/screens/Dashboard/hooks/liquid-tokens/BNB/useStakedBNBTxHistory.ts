@@ -5,11 +5,11 @@ import { useCallback, useMemo } from 'react';
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
+import { IHistoryDialogData } from 'modules/dashboard/types';
 import { useLazyGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { TBnbSyntToken } from 'modules/stake-bnb/types';
 

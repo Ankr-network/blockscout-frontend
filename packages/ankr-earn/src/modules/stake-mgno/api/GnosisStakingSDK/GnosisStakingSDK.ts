@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionObject } from 'web3-eth';
+import { Contract } from 'web3-eth-contract';
 
 import {
   IWeb3SendResult,
@@ -16,6 +17,8 @@ import { ETH_SCALE_FACTOR, ZERO } from 'modules/common/const';
 import { Web3Address } from 'modules/common/types';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { getProviderStatsUrl } from 'modules/stake-mgno/utils/getProviderStatsUrl';
+
+import MGNO_ABI from '../contracts/mGNO.json';
 
 import {
   GNOSIS_HISTORY_BLOCK_RANGE,
@@ -283,13 +286,20 @@ export class GnosisStakingSDK extends GnosisStakingReadSDK {
   }
 
   public async getAllowance(): Promise<BigNumber> {
-    const mgnoTokenContract = await this.getMgnoContract();
+    const mgnoTokenContract = await this.getMgnoWriteContract();
 
     const allowance = await mgnoTokenContract.methods
       .allowance(this.currentAccount, contractConfig.gnosisStakingContract)
       .call();
 
     return this.convertFromWei(allowance);
+  }
+
+  protected async getMgnoWriteContract(): Promise<Contract> {
+    return this.writeProvider.createContract(
+      MGNO_ABI,
+      contractConfig.mGNOToken,
+    );
   }
 
   public async checkAllowance(amount: BigNumber): Promise<boolean> {

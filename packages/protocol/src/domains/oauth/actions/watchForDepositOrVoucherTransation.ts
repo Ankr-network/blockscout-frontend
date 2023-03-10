@@ -1,10 +1,9 @@
-import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 import { timeout } from 'modules/common/utils/timeout';
-import { oauthHasDepositTransaction } from './hasDepositTransaction';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { EthAddressType } from 'multirpc-sdk';
-import { hasVoucherTransactionAndBalanceIsGreaterThanZero as oauthHasVoucherTransactionAndBalanceIsGreaterThanZero } from './hasVoucherTransactionAndBalanceIsGreaterThanZero';
+import { checkDepositOrVoucherTransaction } from './checkDepositOrVoucherTransaction';
 import { watchForVoucherTransactionAndNegativeBalance } from './watchForVoucherTransactionAndNegativeBalance';
 
 export const {
@@ -50,31 +49,17 @@ export const {
             break;
           }
 
-          const [
-            { data: hasDepositTransactionNew },
-            { data: hasVoucherTransaction },
-            // eslint-disable-next-line
-          ] = await Promise.all([
-            dispatch(oauthHasDepositTransaction.initiate()),
-            dispatch(
-              oauthHasVoucherTransactionAndBalanceIsGreaterThanZero.initiate(),
-            ),
-          ]);
-
-          const hasTransaction =
-            hasDepositTransactionNew || hasVoucherTransaction;
+          const {
+            data: {
+              hasTransaction = false,
+              hasVoucherTransaction = false,
+            } = {},
+            // eslint-disable-next-line no-await-in-loop
+          } = await dispatch(checkDepositOrVoucherTransaction.initiate());
 
           inProcess = !hasTransaction;
 
           if (hasTransaction) {
-            dispatch(
-              setAuthData({
-                hasDepositTransaction: hasDepositTransactionNew,
-                hasVoucherTransactionAndBalanceIsGreaterThanZero:
-                  hasVoucherTransaction,
-              }),
-            );
-
             if (hasVoucherTransaction) {
               dispatch(watchForVoucherTransactionAndNegativeBalance.initiate());
             }

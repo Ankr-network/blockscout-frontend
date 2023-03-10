@@ -4,12 +4,13 @@ import { MemoryRouter } from 'react-router';
 import { EEthereumNetworkId } from '@ankr.com/provider';
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
+import { ONE_ETH as ONE } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import {
   IUseHistoryData,
   useHistory,
-} from 'modules/common/components/HistoryDialog/hooks/useHistory';
-import { ONE_ETH as ONE } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
+} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
+import { useDialog } from 'modules/dialogs';
 
 import { StakedAAVAXB } from '..';
 import {
@@ -30,8 +31,13 @@ jest.mock('../../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory', () => ({
   useStakedAVAXTxHistory: jest.fn(),
 }));
 
-jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
   useHistory: jest.fn(),
+}));
+
+jest.mock('modules/dialogs', () => ({
+  useDialog: jest.fn(),
+  EKnownDialogs: { history: 'history' },
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
@@ -82,6 +88,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     unstakeEvents: [],
   };
 
+  const defaultUseDialogHookData = {
+    handleOpen: jest.fn(),
+  };
+
   beforeEach(() => {
     (useStakedAAVAXBData as jest.Mock).mockReturnValue(
       defaultStakedAAVAXBHookData,
@@ -92,6 +102,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     );
 
     (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
+
+    (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
   });
 
   afterEach(() => {
@@ -110,23 +122,5 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
 
     expect(symbol).toBeInTheDocument();
     expect(network).toBeInTheDocument();
-  });
-
-  test('should open history dialog properly', async () => {
-    render(
-      <MemoryRouter>
-        <StakedAAVAXB />
-      </MemoryRouter>,
-    );
-
-    const menuButton = await screen.findByTestId('menu-button');
-    menuButton.click();
-
-    // TODO: uncomment after splitting history
-    // const historyButton = await screen.findByText('Staking history');
-    // historyButton.click();
-
-    // const historyDialog = await screen.findByTestId('history-dialog');
-    // expect(historyDialog).toBeInTheDocument();
   });
 });

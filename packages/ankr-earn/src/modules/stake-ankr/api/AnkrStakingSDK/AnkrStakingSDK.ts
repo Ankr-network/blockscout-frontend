@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
+import flatten from 'lodash/flatten';
 import { Memoize } from 'typescript-memoize';
 import { TransactionReceipt } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
 
 import {
   Address,
@@ -8,7 +10,11 @@ import {
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
-import { MAX_UINT256, MAX_UINT256_SCALE } from '@ankr.com/staking-sdk';
+import {
+  ANKR_ABI,
+  MAX_UINT256,
+  MAX_UINT256_SCALE,
+} from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
 import { getProviderManager } from 'modules/api/getProviderManager';
@@ -30,7 +36,8 @@ import {
   ANKR_STAKING_MAX_DECIMALS_LENGTH,
   GAS_LIMIT_MULTIPLIER,
   GAS_LIMIT_PER_EPOCH,
-  ONE_DAY,
+  ONE_DAY_MS,
+  ONE_DAY_SEC,
   UNSTAKE_GAS_LIMIT,
 } from './const';
 import {
@@ -137,7 +144,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
   public async getAnkrBalance(): Promise<BigNumber> {
     const provider = await this.getProvider();
-    const ankrContract = await this.getAnkrTokenContract();
+    const ankrContract = this.getAnkrTokenContract();
 
     return (
       await provider.getErc20Balance(ankrContract, this.currentAccount)
@@ -151,7 +158,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     validator: Web3Address,
     amount: BigNumber,
   ): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const hexAmount = convertNumberToHex(
       amount.decimalPlaces(ANKR_STAKING_MAX_DECIMALS_LENGTH),
@@ -194,7 +201,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     validator: Web3Address,
     amount: BigNumber,
   ): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const hexAmount = convertNumberToHex(amount, ETH_SCALE_FACTOR);
 
@@ -222,7 +229,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
    * Also known as restake
    */
   public async redelegate(validator: Web3Address): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const { epoch: currentEpoch } = await this.getChainParams();
 
@@ -286,7 +293,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   private async getDelegationQueue(
     validator: Web3Address,
   ): Promise<IDelegationQueueItem[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     return stakingContract.methods
       .getDelegateQueue(validator, this.currentAccount)
@@ -375,7 +382,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     expiring: SHORT_CACHE_TIME,
   })
   public async claimAllUnstakes(): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const unstakes = await this.getAllClaimableUnstakes();
 
     const inputs = unstakes.reduce<string[]>((acc, unstake) => {
@@ -404,33 +411,30 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   private async getDelegatorFee(validator: Web3Address): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     return stakingContract.methods
       .getDelegatorFee(validator, this.currentAccount)
       .call();
   }
 
-  public async getUnstaking(
-    usdPrice: BigNumber,
+  /**
+   * Get unstaking data
+   *
+   * @public
+   * @param latestBlockNumber - latest block number
+   * @return {Promise<IUnstakingData[]>} unstaking data
+   */
+  public async getUnstakingNew(
     latestBlockNumber: number,
   ): Promise<IUnstakingData[]> {
-    const [
-      { undelegatePeriod, epochBlockInterval },
-      epochDuration,
-      activeValidators,
-      fullUndelegationHistory,
-    ] = await Promise.all([
-      this.getChainConfig(),
-      this.getEpochDurationDays(latestBlockNumber),
+    const [activeValidators, fullUndelegationHistory] = await Promise.all([
       this.getActiveValidators(),
       this.getUndelegationHistory(
         { staker: this.currentAccount },
         latestBlockNumber,
       ),
     ]);
-
-    const lockPeriodDays = undelegatePeriod * epochDuration;
 
     const undelegatingValidators = new Set(
       fullUndelegationHistory.map(undelegation => undelegation.validator),
@@ -440,100 +444,92 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       undelegatingValidators.has(validator.validator),
     );
 
-    const unlockedUndelegationsArr = await Promise.all(
-      activeValidators.map(validator =>
-        this.getClaimableUnstakes(validator.validator),
+    const result = await Promise.all(
+      usingValidators.map(async ({ validator }) =>
+        this.getUnstakingForValidator(validator, latestBlockNumber),
       ),
     );
 
-    const unlockedUndelegationsMap = new Map(
-      unlockedUndelegationsArr.map((delegation, index) => {
-        return [activeValidators[index].validator, delegation];
-      }),
-    );
+    return flatten(result);
+  }
 
-    return usingValidators.reduce<IUnstakingData[]>((result, validator) => {
-      const existingUndelegations = fullUndelegationHistory
-        .filter(undelegation => undelegation.validator === validator.validator)
-        .sort((a, b) => b.txDate.getTime() - a.txDate.getTime());
+  /**
+   * Get unstaking data for validator.
+   *
+   * @public
+   * @param validator - validator address
+   * @param latestBlockNumber - latest block number
+   * @return  {Promise<IUnstakingData[]>}  unstaking data
+   */
+  public async getUnstakingForValidator(
+    validator: Web3Address,
+    latestBlockNumber: number,
+  ): Promise<IUnstakingData[]> {
+    const { epoch: currentEpoch, nextEpochIn } = await this.getChainParams();
 
-      const totalUnlocked =
-        unlockedUndelegationsMap.get(validator.validator) ?? ZERO;
+    const isMigrated = await this.getIsContractsMigrated();
 
-      const unlockedRow: IUnstakingData = {
-        provider: validator.validator,
-        unstakeAmount: totalUnlocked,
-        usdUnstakeAmount: totalUnlocked.multipliedBy(usdPrice),
+    const result: IUnstakingData[] = [];
+
+    let totalLockedAmount = ZERO;
+
+    // todo: STAKAN-2571 remove after migration
+    if (isMigrated) {
+      const stakingContract = await this.getAnkrTokenStakingContract();
+
+      const pendingDelegatorFee = await stakingContract.methods
+        .getPendingDelegatorFee(validator, this.currentAccount)
+        .call();
+
+      totalLockedAmount = new BigNumber(pendingDelegatorFee);
+    } else {
+      const undelegationHistory = await this.getUndelegationHistory(
+        { staker: this.currentAccount, validator },
+        latestBlockNumber,
+      );
+
+      totalLockedAmount = undelegationHistory.reduce((acc, item) => {
+        if (item.epoch > currentEpoch) {
+          return acc.plus(item.amount);
+        }
+        return acc;
+      }, ZERO);
+    }
+
+    if (!totalLockedAmount.isZero()) {
+      const pendingUndelegates: IUnstakingData = {
+        provider: validator,
+        unstakeAmount: this.convertFromWei(totalLockedAmount.toFixed()),
+        daysLeft: nextEpochIn / ONE_DAY_SEC,
+      };
+
+      result.push(pendingUndelegates);
+    }
+
+    const [delegatorFee, stakingRewards] = await Promise.all([
+      this.getDelegatorFee(validator),
+      this.getStakingRewards(validator, this.currentAccount),
+    ]);
+
+    const unlockedAmount = new BigNumber(delegatorFee).minus(stakingRewards);
+
+    if (!unlockedAmount.isZero()) {
+      const unlockedUndelegates: IUnstakingData = {
+        provider: validator,
+        unstakeAmount: this.convertFromWei(unlockedAmount.toFixed()),
         daysLeft: 0,
       };
-      const lockedArr: IUnstakingData[] = [];
 
-      if (existingUndelegations.length > 0) {
-        const lastUndelegation = existingUndelegations[0];
+      result.push(unlockedUndelegates);
+    }
 
-        const blockNumber = lastUndelegation.event?.blockNumber ?? 0;
-        const secondsToStartFirstEpoch =
-          this.getEpochEndSecondsForBlockInterval(
-            blockNumber,
-            epochBlockInterval,
-          );
-        const daysToStartFirstEpoch = Math.trunc(
-          secondsToStartFirstEpoch / (60 * 60 * 24),
-        );
-
-        const totalLockingDays = daysToStartFirstEpoch + lockPeriodDays;
-        const lastUndelegationDaysLeft = this.calcLeftDays(
-          lastUndelegation.txDate,
-          totalLockingDays,
-        );
-
-        if (lastUndelegationDaysLeft > 0) {
-          for (let i = 0; i < existingUndelegations.length; i += 1) {
-            const undelegation = existingUndelegations[i];
-
-            const existedBlockNumber = lastUndelegation.event?.blockNumber ?? 0;
-            const existedSecondsToStartFirstEpoch =
-              this.getEpochEndSecondsForBlockInterval(
-                existedBlockNumber,
-                epochBlockInterval,
-              );
-            const existedDaysToStartFirstEpoch = Math.trunc(
-              existedSecondsToStartFirstEpoch / (60 * 60 * 24),
-            );
-            const existedTotalLockingDays =
-              existedDaysToStartFirstEpoch + lockPeriodDays;
-            const daysLeft = this.calcLeftDays(
-              undelegation.txDate,
-              existedTotalLockingDays,
-            );
-
-            if (daysLeft > 0) {
-              const amount = this.convertFromWei(undelegation.amount);
-
-              lockedArr.push({
-                provider: undelegation.validator,
-                unstakeAmount: amount,
-                usdUnstakeAmount: amount.multipliedBy(usdPrice),
-                daysLeft,
-              });
-            }
-          }
-        }
-      }
-
-      result.push(...lockedArr);
-
-      if (!unlockedRow.unstakeAmount.isZero()) {
-        result.unshift(unlockedRow);
-      }
-      return result;
-    }, []);
+    return result;
   }
 
   private calcLeftDays(startDate: Date, lockPeriod: Days): Days {
     const now = new Date();
     const diffTime = Math.abs(startDate.getTime() - now.getTime());
-    const pastDays = Math.floor(diffTime / ONE_DAY);
+    const pastDays = Math.floor(diffTime / ONE_DAY_MS);
     return lockPeriod - pastDays;
   }
 
@@ -541,7 +537,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     validator: Web3Address,
     delegator: Web3Address,
   ): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     return stakingContract.methods
       .getStakingRewards(validator, delegator)
@@ -549,7 +545,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   private async getDelegatorsFee(addresses: string[]): Promise<string[]> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const requests: Promise<string>[] = addresses.map(validatorAddress => {
       return stakingContract.methods
@@ -663,9 +659,20 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
 
   /**
    * @public
+   * @note STAKAN-2571 should be refactored after contracts migration
    * @return the filtered delegations history based on the delegations queue.
    */
   public async getDelegationsHistoryFromQueue(
+    validator: string,
+  ): Promise<IQueueHistoryItem[]> {
+    const isMigrated = await this.getIsContractsMigrated();
+
+    return isMigrated
+      ? this.getDelegationsHistoryFromQueueV2(validator)
+      : this.getDelegationsHistoryFromQueueV1(validator);
+  }
+
+  public async getDelegationsHistoryFromQueueV1(
     validator: string,
   ): Promise<IQueueHistoryItem[]> {
     let queue = await this.getDelegationQueue(validator);
@@ -714,6 +721,21 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     return history.filter(getIsNonZeroAmount);
   }
 
+  public async getDelegationsHistoryFromQueueV2(
+    validator: string,
+  ): Promise<IQueueHistoryItem[]> {
+    const queue = await this.getDelegationQueue(validator);
+
+    const filteredQueue = queue.filter(getIsNonZeroAmount);
+
+    const history = filteredQueue.map<IQueueHistoryItem>(item => ({
+      amount: item.amount,
+      fromEpoch: +item.epoch,
+    }));
+
+    return history;
+  }
+
   /**
    * 🧮 calculating lock period in days
    *
@@ -737,11 +759,15 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       this.getEpochDurationDays(latestBlockNumber),
     ]);
 
+    const nextEpochInDays = new BigNumber(nextEpochIn)
+      .dividedBy(ONE_DAY_SEC)
+      .decimalPlaces(DEFAULT_ROUNDING);
+
     const lockPeriodDays = lockPeriod * epochDurationDays;
     const willStartFromNextEpoch = currentEpoch < delegationEpoch;
 
     if (willStartFromNextEpoch) {
-      const totalDays = lockPeriodDays + nextEpochIn;
+      const totalDays = +nextEpochInDays.plus(lockPeriodDays);
 
       return {
         daysLeft: totalDays,
@@ -764,7 +790,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
         // as we add the number of days until the next epoch in,
         // we have to reduce the total locking period by ONE_EPOCH
         (unlockEpoch - currentEpoch - ONE_EPOCH) * epochDurationDays +
-        nextEpochIn,
+        +nextEpochInDays,
       totalDays: lockPeriodDays,
     };
   }
@@ -775,7 +801,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
    * @return  {Promise<string>} transaction hash
    */
   public async claimAll(): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const allValidatorsAddresses = await this.getActiveValidatorsAddresses();
 
@@ -819,7 +845,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async claimAllForValidator(validator: string): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const data = stakingContract.methods
       .claimDelegatorFee(validator)
@@ -842,7 +868,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async claimRewards(validator: Web3Address): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const data = stakingContract.methods
       .claimStakingRewards(validator)
@@ -865,7 +891,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async claimAllRewards(latestBlockNumber: number): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const rewards = await this.getMyClaimableStakingRewards(latestBlockNumber);
 
     const inputs = rewards.reduce<string[]>((acc, reward) => {
@@ -904,7 +930,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async claimUnstakes(validator: Web3Address): Promise<string> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const data = stakingContract.methods
       .claimPendingUndelegates(validator)
@@ -920,7 +946,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async getRestakableAmount(validator: Web3Address): Promise<BigNumber> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const data = await stakingContract.methods
       .calcAvailableForRedelegateAmount(validator, this.currentAccount)
       .call();
@@ -933,7 +959,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async getClaimableAmount(validator: Web3Address): Promise<BigNumber> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const claimbleRewards = await stakingContract.methods
       .getStakingRewards(validator, this.currentAccount)
       .call();
@@ -953,41 +979,33 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   ): Promise<IHistoryData[]> {
     const { currentAccount } = this;
 
-    const delegation = await this.getDelegationHistory(
+    const delegationHistory = await this.getDelegationHistory(
       { staker: currentAccount },
       latestBlockNumber,
     );
 
-    const undelegation = await this.getUndelegationHistory(
+    const undelegationHistory = await this.getUndelegationHistory(
       { staker: currentAccount },
       latestBlockNumber,
     );
 
-    const claim = await this.getClaimHistory(
+    const claimHistory = await this.getClaimHistory(
       { staker: currentAccount },
       latestBlockNumber,
     );
 
     const result = [
-      ...delegation.map<IHistoryData>(delegItem => ({
-        date: delegItem.txDate,
-        hash: delegItem.event?.transactionHash ?? '',
-        event: delegItem.event?.event,
-        amount: this.convertFromWei(delegItem.amount),
-      })),
-      ...undelegation.map<IHistoryData>(undelegItem => ({
-        date: undelegItem.txDate,
-        hash: undelegItem.event?.transactionHash ?? '',
-        event: undelegItem.event?.event,
-        amount: this.convertFromWei(undelegItem.amount),
-      })),
-      ...claim.map<IHistoryData>(claimItem => ({
-        date: claimItem.txDate,
-        hash: claimItem.event?.transactionHash ?? '',
-        event: claimItem.event?.event,
-        amount: this.convertFromWei(claimItem.amount),
-      })),
-    ].sort((a, b) => b.date.getTime() - a.date.getTime());
+      ...delegationHistory,
+      ...undelegationHistory,
+      ...claimHistory,
+    ]
+      .map<IHistoryData>(delegation => ({
+        date: delegation.txDate,
+        hash: delegation.event?.transactionHash ?? '',
+        event: delegation.event?.event,
+        amount: this.convertFromWei(delegation.amount),
+      }))
+      .sort((a, b) => b.date.getTime() - a.date.getTime());
 
     return result;
   }
@@ -1026,13 +1044,17 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   }
 
   public async getAllowance(): Promise<BigNumber> {
-    const ankrTokenContract = await this.getAnkrTokenContract();
+    const ankrTokenContract = await this.getAnkrTokenWriteContract();
 
     const allowance = await ankrTokenContract.methods
       .allowance(this.currentAccount, contractConfig.ankrTokenStaking)
       .call();
 
     return new BigNumber(allowance);
+  }
+
+  protected getAnkrTokenWriteContract(): Contract {
+    return this.writeProvider.createContract(ANKR_ABI, ankrToken);
   }
 
   public async checkAllowance(amount: BigNumber): Promise<boolean> {
@@ -1143,7 +1165,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
     },
   })
   public async getMyTotalDelegatedAmount(): Promise<BigNumber> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const validators = await this.getAllValidators();
 
     const delegationsSet = await Promise.all(
@@ -1178,7 +1200,7 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
   public async getDelegatedAmountByProvider(
     validator: string,
   ): Promise<BigNumber> {
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
     const validators = await this.getAllValidators();
 
     if (!validators.some(val => val.validator === validator)) return ZERO;
@@ -1216,12 +1238,26 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       return ZERO;
     }
 
-    const stakingContract = this.getAnkrTokenStakingContract();
+    const stakingContract = await this.getAnkrTokenStakingContract();
 
     const delegation = await stakingContract.methods
       .calcUnlockedDelegatedAmount(validator, this.currentAccount)
       .call();
 
     return this.convertFromWei(delegation);
+  }
+
+  public async migrateDelegator(): Promise<IWeb3SendResult> {
+    const contract = await this.getAnkrTokenStakingContract();
+    const txn = contract.methods.migrateDelegator(this.currentAccount);
+
+    return this.writeProvider.sendTransactionAsync(
+      this.currentAccount,
+      contractConfig.ankrTokenStaking,
+      {
+        data: txn.encodeABI(),
+        estimate: true,
+      },
+    );
   }
 }

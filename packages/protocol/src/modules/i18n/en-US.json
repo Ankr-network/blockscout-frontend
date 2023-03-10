@@ -101,7 +101,7 @@
   },
   "signup-modal": {
     "title": "Sign up method",
-    "description": "By continuing you agree to our terms of service and privacy policy.",
+    "description": "By continuing you agree to our terms of service and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>.",
     "oauth-title": "Email authentication",
     "wallet-install": "Install",
     "gmail-button": "Continue with Google",

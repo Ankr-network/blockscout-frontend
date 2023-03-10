@@ -1,5 +1,5 @@
 import { EthAddressType, IJwtToken, WorkerTokenData } from 'multirpc-sdk';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
 import { IWalletMeta } from '@ankr.com/provider';
@@ -80,5 +80,19 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
 
   return {};
 };
+
+export const selectHasPremium = createSelector(
+  selectAuthData,
+  ({
+    credentials,
+    hasDepositTransaction,
+    hasVoucherTransactionAndBalanceIsGreaterThanZero,
+  }) =>
+    Boolean(
+      credentials ||
+        hasDepositTransaction ||
+        hasVoucherTransactionAndBalanceIsGreaterThanZero,
+    ),
+);
 
 export const { setAuthData, resetAuthData } = authSlice.actions;

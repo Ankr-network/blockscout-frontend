@@ -1,10 +1,10 @@
-import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
 import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 
 import { useHistoryDialog } from './useHistoryDialog';
 import { useStakedAnkrXDC } from './useStakedAnkrXDC';
@@ -15,13 +15,10 @@ const TOKEN = Token.ankrXDC;
 export const StakedAnkrXDC = (): JSX.Element => {
   const {
     isHistoryDataLoading,
-    isOpenedHistory,
     isPendingUnstakeLoading,
     pendingUnstakeHistory,
     pendingValue,
-    onCloseHistoryDialog,
     onLoadTxHistory,
-    onOpenHistoryDialog,
   } = useHistoryDialog();
 
   const {
@@ -37,6 +34,11 @@ export const StakedAnkrXDC = (): JSX.Element => {
     usdAmount,
     onAddStakingClick,
   } = useStakedAnkrXDC();
+
+  const { handleOpen: onOpenHistoryDialog } = useKnownDialog(
+    EKnownDialogs.history,
+    token,
+  );
 
   const {
     description,
@@ -83,12 +85,6 @@ export const StakedAnkrXDC = (): JSX.Element => {
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={onOpenHistoryDialog}
         onTokenInfoClick={onOpenInfo}
-      />
-
-      <NewHistoryDialog
-        open={isOpenedHistory}
-        token={token}
-        onClose={onCloseHistoryDialog}
       />
 
       <TokenInfoDialog

@@ -14,7 +14,7 @@ import { ReactComponent as CopyIcon } from '../../../../assets/img/copy.svg';
 
 import { useTokenInfoDialogStyles as useStyles } from './useTokenInfoDialogStyles';
 
-export interface IHistoryDialogProps {
+export interface ITokenInfoDialogProps {
   open: boolean;
   tokenName: string;
   tokenAddress: string;
@@ -34,7 +34,7 @@ export const TokenInfoDialog = ({
   description,
   addTokenToWallet,
   onClose,
-}: IHistoryDialogProps): JSX.Element => {
+}: ITokenInfoDialogProps): JSX.Element => {
   const classes = useStyles();
   const [isAddressCopied, setIsAddressCopied] = useState(false);
   const isSMDown = useIsSMDown();

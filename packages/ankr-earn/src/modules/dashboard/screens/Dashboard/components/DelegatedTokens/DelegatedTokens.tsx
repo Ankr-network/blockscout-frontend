@@ -6,6 +6,7 @@ import { DashboardCardSkeleton } from 'modules/dashboard/components/DashboardCar
 import { StakedTokensTitle } from 'modules/dashboard/components/StakedTokensTitle';
 
 import { useDelegatedTokens } from '../../hooks/useDelegatedTokens';
+import { NotMigratedANKR } from '../NotMigratedANKR/NotMigratedANKR';
 import { StakedANKR } from '../StakedANKR';
 import { StakedMGNO } from '../StakedMGNO';
 
@@ -17,6 +18,7 @@ export const DelegatedTokens = (
   const {
     isANKRShowed,
     isMGNOShowed,
+    isAnkrMigrationNotificationShowed,
     isDelegatedTokensLoading: isAtLeaseOneLoading,
   } = useDelegatedTokens();
 
@@ -26,6 +28,8 @@ export const DelegatedTokens = (
 
       <AssetsList>
         {isANKRShowed && <StakedANKR />}
+
+        {isAnkrMigrationNotificationShowed && <NotMigratedANKR />}
 
         {isMGNOShowed && <StakedMGNO />}
 

@@ -1,4 +1,4 @@
 import { trackConnectWalletFlow } from './utils/trackConnectWalletFlow';
 
 export const trackSignUpFailure = () =>
-  trackConnectWalletFlow({ sign_up: false });
+  trackConnectWalletFlow({ billing: false, sign_up: false });

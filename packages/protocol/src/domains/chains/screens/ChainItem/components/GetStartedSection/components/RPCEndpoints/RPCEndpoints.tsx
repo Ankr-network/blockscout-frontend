@@ -14,7 +14,7 @@ export interface RPCEndpointsProps {
   chainType: ChainType;
   group: EndpointGroup;
   hasConnectWalletMessage: boolean;
-  isPremium: boolean;
+  hasPremium: boolean;
   onCopyEndpoint: EndpointProps['onCopy'];
   publicChain: IApiChain;
 }
@@ -25,7 +25,7 @@ export const RPCEndpoints = ({
   chainType,
   group,
   hasConnectWalletMessage,
-  isPremium,
+  hasPremium,
   onCopyEndpoint,
   publicChain,
 }: RPCEndpointsProps) => {
@@ -45,7 +45,7 @@ export const RPCEndpoints = ({
 
   return (
     <div className={classes.rpcEndpoints}>
-      <EndpointsHeader isPremium={isPremium} title={title} />
+      <EndpointsHeader hasPremium={hasPremium} title={title} />
       {rpcs.map(url => (
         <Endpoint
           chainType={chainType}

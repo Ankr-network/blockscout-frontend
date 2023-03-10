@@ -5,9 +5,9 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { EPolygonPoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { IHistoryDialogData } from 'modules/dashboard/types';
 import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 

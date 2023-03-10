@@ -4,6 +4,7 @@ import { Chip } from '@material-ui/core';
 import { NavLink } from 'uiKit/NavLink';
 
 import { useActionCellStyles } from './useActionCellStyles';
+import { useDaysLeftText } from './useDaysLeftText';
 
 interface IActionCellProps {
   claimLink: string;
@@ -15,18 +16,11 @@ export const ActionCell = ({
   daysLeft,
 }: IActionCellProps): JSX.Element => {
   const classes = useActionCellStyles();
+  const daysLeftText = useDaysLeftText(daysLeft);
 
   if (daysLeft > 0) {
     return (
-      <Chip
-        className={classes.chip}
-        color="primary"
-        label={
-          daysLeft === 1
-            ? t('stake-ankr.staking-table.left-day', { value: daysLeft })
-            : t('stake-ankr.staking-table.left-days', { value: daysLeft })
-        }
-      />
+      <Chip className={classes.chip} color="primary" label={daysLeftText} />
     );
   }
 
