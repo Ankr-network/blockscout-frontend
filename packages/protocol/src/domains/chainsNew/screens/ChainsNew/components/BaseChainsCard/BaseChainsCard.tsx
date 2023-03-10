@@ -2,35 +2,29 @@ import { t } from '@ankr.com/common';
 import { Button, Skeleton, Typography } from '@mui/material';
 import { useClickHandler } from 'domains/chains/components/ChainsItemBase/components/Card/hooks/useClickHandler';
 import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
-import { usePrivateChainsItem } from 'domains/chains/screens/Chains/components/PrivateChains/components/PrivateChainsItem/hooks/usePrivateChainsItem';
-import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
 import { Chain, Timeframe } from 'domains/chains/types';
 import { useChainCardStyles } from './useChainCardStyles';
 
-export interface IChainCardProps {
+export interface IBaseChainCardProps {
   timeframe: Timeframe;
   chain: Chain;
   switchTimeframe: () => void;
+  totalRequests: string;
+  loading: boolean;
 }
 
-export const ChainCard = ({
+export const BaseChainsCard = ({
   chain,
   timeframe,
   switchTimeframe,
-}: IChainCardProps) => {
+  totalRequests,
+  loading,
+}: IBaseChainCardProps) => {
   const { classes } = useChainCardStyles();
 
   const { name, icon, coinName, id } = chain;
 
   const onClick = useClickHandler(id);
-
-  const { totalRequests, loading } = usePrivateChainsItem({ chain });
-
-  const { totalRequestsStr } = useCommonChainsItemData(
-    chain,
-    totalRequests,
-    true,
-  );
 
   return (
     <div className={classes.root} onClick={onClick} role="button" tabIndex={0}>
@@ -52,7 +46,7 @@ export const ChainCard = ({
               {!!totalRequests && (
                 <>
                   {t('chains.req', {
-                    value: totalRequestsStr,
+                    value: totalRequests,
                   })}{' '}
                   <TimeframeSwitcher
                     timeframe={timeframe}

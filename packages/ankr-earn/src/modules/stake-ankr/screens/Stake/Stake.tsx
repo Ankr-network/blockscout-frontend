@@ -1,9 +1,10 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { AuditInfo, AuditInfoItem } from 'modules/common/components/AuditInfo';
 import { BuyAnkrLink } from 'modules/common/components/BuyAnkrLink';
 import { Faq } from 'modules/common/components/Faq';
-import { DUNE_ANALYTICS_LINK } from 'modules/common/const';
+import { AUDIT_LINKS, DUNE_ANALYTICS_LINK } from 'modules/common/const';
 import { Section } from 'modules/delegate-stake/components/Section';
 import { StakeForm } from 'modules/delegate-stake/components/StakeForm';
 import { Stats } from 'modules/delegate-stake/components/Stats';
@@ -82,6 +83,16 @@ export const Stake = (): JSX.Element => {
           additionalTooltip={additionalTooltip}
           additionalValue={additionalValue}
           amount={amount}
+          auditSlot={
+            <AuditInfo>
+              <AuditInfoItem link={AUDIT_LINKS.ankrBeosin} variant="beosin" />
+
+              <AuditInfoItem
+                link={AUDIT_LINKS.ankrVeridise}
+                variant="veridise"
+              />
+            </AuditInfo>
+          }
           balance={balance}
           balanceLinkSlot={<BuyAnkrLink />}
           closeHref={closeHref}

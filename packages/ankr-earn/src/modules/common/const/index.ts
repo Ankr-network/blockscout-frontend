@@ -4,3 +4,4 @@ export * from './featuresConfig';
 export * from './links';
 export * from './nativeTokenMap';
 export * from './supportedChainIDS';
+export * from './cache-tags';

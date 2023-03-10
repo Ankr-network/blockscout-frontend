@@ -11,6 +11,7 @@ import {
 } from '@ankr.com/provider';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { web3Api } from 'modules/api/web3Api';
 import {
   IProviderStatus,
   selectEthProviderData,
@@ -18,6 +19,7 @@ import {
   setChainId,
 } from 'modules/auth/common/store/authSlice';
 import { connectEthCompatible } from 'modules/auth/eth/actions/connectEthCompatible';
+import { CacheTags } from 'modules/common/const';
 import { RootState } from 'store/store';
 
 export const listenerMiddleware = createListenerMiddleware();
@@ -69,6 +71,8 @@ listenerMiddleware.startListening({
                 address: currentAddress,
               }),
             );
+
+            dispatch(web3Api.util.invalidateTags([CacheTags.account]));
             break;
           }
 

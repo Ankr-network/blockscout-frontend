@@ -141,7 +141,7 @@ export const Restore = (): JSX.Element => {
             onSubmit={onSubmit}
           />
 
-          <AuditInfo>
+          <AuditInfo mt={4}>
             <AuditInfoItem link={AUDIT_LINKS.bridge} variant="beosin" />
           </AuditInfo>
         </Box>

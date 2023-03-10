@@ -6,11 +6,13 @@ export const useAuditInfoStyles = makeStyles(theme => ({
     gridAutoColumns: 'max-content',
     gridAutoFlow: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     gap: '0 0.5em',
-    marginTop: theme.spacing(4),
 
     fontSize: 13,
     fontWeight: 400,
+    lineHeight: 1,
+    color: theme.palette.text.secondary,
   },
 
   item: {
@@ -20,6 +22,8 @@ export const useAuditInfoStyles = makeStyles(theme => ({
   },
 
   itemIcon: {
+    width: '1em',
+    height: '1em',
     marginLeft: '0.2em',
     fontSize: '1.24em',
   },

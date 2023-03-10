@@ -6,7 +6,11 @@ export const useUpgradeInfoStyles = makeStyles(theme => ({
     textAlign: 'center',
 
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(3, 5, 5),
+      padding: theme.spacing(3, 4, 5),
+    },
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(3, 6.25, 5),
     },
   },
 
@@ -46,24 +50,31 @@ export const useUpgradeInfoStyles = makeStyles(theme => ({
   },
 
   info: {
-    position: 'relative',
+    display: 'flex',
     marginBottom: theme.spacing(4),
-    padding: theme.spacing(2, 2, 2, 6.25),
+    padding: theme.spacing(2, 2, 2, 1),
 
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: 16,
     fontSize: 14,
     textAlign: 'left',
     fontWeight: 400,
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(4),
+    },
   },
 
   infoIcon: {
-    position: 'absolute',
-    top: theme.spacing(2),
-    left: theme.spacing(2),
+    flexShrink: 0,
     width: '1em',
     height: '1em',
+    marginRight: theme.spacing(0.5),
 
     fontSize: 24,
+
+    [theme.breakpoints.up('md')]: {
+      marginRight: theme.spacing(1.5),
+    },
   },
 }));

@@ -174,7 +174,7 @@ export const Routes = () => {
         exact
         path={[ChainsRoutesConfig.chainDetails.path]}
         render={() => (
-          <DefaultLayout>
+          <DefaultLayout isChainItemPage>
             <ChainDetailsRoutes />
           </DefaultLayout>
         )}

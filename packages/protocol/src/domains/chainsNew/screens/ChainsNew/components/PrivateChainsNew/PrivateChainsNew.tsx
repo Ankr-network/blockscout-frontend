@@ -38,6 +38,7 @@ export const PrivateChainsNew = () => {
         timeframe={timeframe}
         chains={processedChains}
         switchTimeframe={switchStatsTimeframe}
+        isPublic={false}
       />
     </BaseChains>
   );

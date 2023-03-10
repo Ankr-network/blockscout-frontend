@@ -264,7 +264,7 @@ export const TxView = ({
           </Button>
         )}
 
-        <AuditInfo>
+        <AuditInfo mt={4}>
           <AuditInfoItem link={AUDIT_LINKS.bridge} variant="beosin" />
         </AuditInfo>
       </Paper>

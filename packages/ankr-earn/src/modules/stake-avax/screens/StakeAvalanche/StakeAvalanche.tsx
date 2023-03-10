@@ -91,7 +91,7 @@ export const StakeAvalanche = (): JSX.Element => {
           <StakeForm
             isIntegerOnly
             auditSlot={
-              <AuditInfo>
+              <AuditInfo mt={4}>
                 <AuditInfoItem link={AUDIT_LINKS.avax} variant="beosin" />
               </AuditInfo>
             }
