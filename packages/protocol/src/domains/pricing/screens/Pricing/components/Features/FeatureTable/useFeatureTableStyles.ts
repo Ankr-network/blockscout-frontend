@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
   root: {
@@ -53,7 +53,7 @@ export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
       paddingBottom: theme.spacing(2 * 0.5),
     },
     '& th:nth-of-type(3)': {
-      background: premiumColor,
+      background: getPremiumColorGradient(theme),
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       '-webkit-box-decoration-break': 'clone',

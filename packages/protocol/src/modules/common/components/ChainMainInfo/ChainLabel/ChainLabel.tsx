@@ -27,7 +27,8 @@ export const ChainLabel = ({
           component="div"
           variant="body2"
         >
-          <StatusCircle mr={0.4} status="success" /> {label}
+          <StatusCircle mr={2} status="success" className={classes.circle} />
+          <span>{label}</span>
         </Typography>
       </TooltipWrapper>
     </div>

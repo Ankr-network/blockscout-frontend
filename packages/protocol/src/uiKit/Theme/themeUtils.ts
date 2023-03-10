@@ -1,4 +1,5 @@
-import { mainTheme as baseTheme } from '@ankr.com/ui';
+import { mainTheme as baseTheme, Themes } from '@ankr.com/ui';
+import { Theme } from '@mui/material';
 
 export const TypographyTheme =
   baseTheme.components?.MuiTypography?.styleOverrides;
@@ -19,7 +20,10 @@ export const getTypographTheme = (theme: any) => {
 export const commonLinear = `linear-gradient(to left, #013CD3, #6235D0, #AF34B1, #E85658, #FF7710)`;
 
 export const premiumText = `linear-gradient(269.98deg, #5F87F4 0.02%, #A963FF 49.89%, #FF862A 99.98%)`;
+
 export const premiumColor = `linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)`;
+export const premiumDarkThemeColor = `linear-gradient(269.98deg, #5F87F4 0.02%, #A963FF 49.89%, #FF862A 99.98%)`;
+
 export const premiumBackground = `linear-gradient(180deg, rgba(242, 245, 250, 0) 0%, #F2F5FA 100%), linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%)`;
 
 export const enterpriseColor = `linear-gradient(269.98deg, rgb(47, 98, 241) 0.02%, rgb(141, 48, 255) 49.89%, rgb(255, 119, 16) 99.98%)`;
@@ -30,3 +34,11 @@ export const stepLineColor = `linear-gradient(270deg, #EEA941 0%, #356DF3 100%)`
 
 export const commonShadow =
   '0px 5px 25px rgba(31, 34, 38, 0.1), 0px 10px 50px rgba(31, 34, 38, 0.1)';
+
+export const isLightTheme = (theme: Theme) => {
+  return theme.palette.mode === Themes.light;
+};
+
+export const getPremiumColorGradient = (theme: Theme) => {
+  return isLightTheme(theme) ? premiumColor : premiumDarkThemeColor;
+};

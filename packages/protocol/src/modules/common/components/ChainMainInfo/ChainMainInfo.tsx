@@ -45,7 +45,10 @@ export const ChainMainInfo = ({
                   {t('chains.req', {
                     value: totalRequests,
                   })}
-                  <Switcher value={timeframeToLabelMap[timeframe]} />
+                  <Switcher
+                    value={timeframeToLabelMap[timeframe]}
+                    className={classes.switcher}
+                  />
                 </>
               )}
             </>

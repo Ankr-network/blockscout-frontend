@@ -77,6 +77,8 @@ export const useStyles = makeStyles<Props>()(
     },
     mobileBreadcrumbs: {
       marginBottom: theme.spacing(2 * 2.5),
+      paddingLeft: 2,
+
       [theme.breakpoints.up('md')]: {
         display: 'none',
       },

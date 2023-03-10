@@ -5,9 +5,12 @@ import { getContent } from '../utils/getContent';
 import { useDialogTitle } from './useDialogTitle';
 import { useHasBreakdown } from 'uiKit/Theme/useTheme';
 import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
+import { SIGNUP_DIALOG_WIDTH } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+
+const LARGE_WIDTH = 980;
 
 const getDefaultMaxWidth = (hasBreakdown: boolean) =>
-  hasBreakdown ? 600 : 980;
+  hasBreakdown ? SIGNUP_DIALOG_WIDTH : LARGE_WIDTH;
 
 export interface DialogPropsParams {
   contentType: ContentType;
@@ -40,7 +43,7 @@ export const useDialogProps = ({
     maxPxWidth:
       contentType === ContentType.DEFAULT
         ? getDefaultMaxWidth(hasBreakdown)
-        : 600,
+        : SIGNUP_DIALOG_WIDTH,
     onClose,
     title,
   };

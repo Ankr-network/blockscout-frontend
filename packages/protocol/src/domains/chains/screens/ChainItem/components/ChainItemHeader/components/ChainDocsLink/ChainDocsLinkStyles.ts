@@ -1,14 +1,17 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useChainDocsLinkStyles = makeStyles()((theme: Theme) => ({
+export const useChainDocsLinkStyles = makeStyles()(theme => ({
   button: {
-    height: theme.spacing(2 * 5),
-    padding: theme.spacing(2 * 1, 2),
+    height: 48,
+    minHeight: 48,
+    padding: theme.spacing(3, 4),
 
-    border: `2px solid ${theme.palette.background.default}`,
-    boxShadow: 'none',
+    boxShadow: `inset 0 0 0 2px ${theme.palette.background.default} !important`,
     borderRadius: theme.spacing(2 * 1.75),
+
+    '&:hover': {
+      boxShadow: `inset 0 0 0 2px ${theme.palette.grey[100]} !important`,
+    },
   },
   iconSize: {
     '& > *:first-of-type': {

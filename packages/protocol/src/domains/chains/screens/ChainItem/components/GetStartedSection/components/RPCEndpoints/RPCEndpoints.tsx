@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
 
-import { ChainType } from 'domains/chains/types';
 import { Endpoint, EndpointProps } from '../Endpoint';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { ChainID } from 'modules/chains/types';
@@ -11,7 +10,6 @@ import { useRPCEndpointsStyles } from './RPCEndpointsStyles';
 import { useMemo } from 'react';
 
 export interface RPCEndpointsProps {
-  chainType: ChainType;
   group: EndpointGroup;
   hasConnectWalletMessage: boolean;
   hasPremium: boolean;
@@ -22,7 +20,6 @@ export interface RPCEndpointsProps {
 const header = `${root}.endpoints.title`;
 
 export const RPCEndpoints = ({
-  chainType,
   group,
   hasConnectWalletMessage,
   hasPremium,
@@ -48,12 +45,9 @@ export const RPCEndpoints = ({
       <EndpointsHeader hasPremium={hasPremium} title={title} />
       {rpcs.map(url => (
         <Endpoint
-          chainType={chainType}
-          group={group}
           hasConnectWalletMessage={hasConnectWalletMessage}
           key={url}
           onCopy={onCopyEndpoint}
-          publicChain={publicChain}
           url={url}
         />
       ))}

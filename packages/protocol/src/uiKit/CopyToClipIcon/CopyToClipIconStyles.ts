@@ -70,7 +70,7 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
     },
 
     copyIcon: {
-      fontSize: 16,
+      fontSize: 24,
       marginLeft: theme.spacing(2 * 1),
       color: theme.palette.primary.main,
       transition: 'color .3s',
@@ -80,12 +80,13 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       alignItems: 'center',
     },
     copyText: {
-      fontSize: 14,
+      fontSize: 16,
       color: theme.palette.primary.main,
       marginLeft: theme.spacing(2 * 1),
       fontWeight: 'bold',
       transition: 'color .3s',
       lineHeight: 1,
+      overflow: 'initial',
     },
   }),
 );
