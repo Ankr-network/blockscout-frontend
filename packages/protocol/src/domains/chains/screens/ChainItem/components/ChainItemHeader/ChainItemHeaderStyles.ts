@@ -25,15 +25,16 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
 
       flexDirection: shouldOnlyShowMobileSelector ? 'column' : undefined,
 
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
+        gap: theme.spacing(2 * 3.75),
       },
     },
     desktopGroupSelector: {
       '&&': {
         display: shouldOnlyShowMobileSelector ? 'none' : undefined,
 
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
           display: 'none !important',
         },
       },
@@ -42,7 +43,7 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
       '&&': {
         display: shouldOnlyShowMobileSelector ? 'flex' : 'none',
 
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
           display: 'flex',
         },
       },

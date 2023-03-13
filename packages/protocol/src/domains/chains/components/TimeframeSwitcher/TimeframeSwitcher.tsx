@@ -5,10 +5,19 @@ import { valuesMap } from './const';
 export interface TimeframeSwitcherProps {
   onSwitch: () => void;
   timeframe: Timeframe;
+  className?: string;
 }
 
 type Props = TimeframeSwitcherProps;
 
-export const TimeframeSwitcher = ({ onSwitch, timeframe }: Props) => (
-  <Switcher onClick={onSwitch} value={valuesMap[timeframe]} />
+export const TimeframeSwitcher = ({
+  onSwitch,
+  timeframe,
+  className,
+}: Props) => (
+  <Switcher
+    onClick={onSwitch}
+    value={valuesMap[timeframe]}
+    className={className}
+  />
 );

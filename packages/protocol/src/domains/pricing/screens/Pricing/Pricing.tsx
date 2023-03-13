@@ -76,7 +76,9 @@ export const Pricing = () => {
                   isUserAddress={isUserEthAddressType}
                 />
                 <SupportBlock />
-                {isMobile && <img src={mobile} alt="logos" />}
+                {isMobile && (
+                  <img src={mobile} alt="logos" className={classes.mobile} />
+                )}
               </div>
             </Box>
           </Box>

@@ -1,12 +1,5 @@
 import { PaymentHistoryTableTimeframe } from 'domains/account/types';
-import {
-  AggregatedPaymentHistoryTimeGroup,
-  IPaymentHistoryEntityType,
-} from 'multirpc-sdk';
-
-export const DEFAULT_LIMIT = 15;
-
-export const DEFAULT_TIME_GROUP = AggregatedPaymentHistoryTimeGroup.DAY;
+import { IPaymentHistoryEntityType } from 'multirpc-sdk';
 
 export const DEFAULT_TIMEFRAME = PaymentHistoryTableTimeframe.WEEK;
 
@@ -15,9 +8,6 @@ const DAY_OFFSET = 24 * 60 * 60 * 1000;
 export const WEEK_OFFSET = DAY_OFFSET * 7;
 export const MONTH_OFFSET = DAY_OFFSET * 31;
 export const YEAR_OFFSET = DAY_OFFSET * 365;
-
-export const MIN_ANKR_DECIMAL_PLACES = 2;
-export const MAX_ANKR_DECIMAL_PLACES = 5;
 
 export const MIN_USD_DECIMAL_PLACES = 2;
 export const MAX_USD_DECIMAL_PLACES = 7;

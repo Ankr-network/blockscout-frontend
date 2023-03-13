@@ -51,13 +51,19 @@ export const BaseChainsCard = ({
                   <TimeframeSwitcher
                     timeframe={timeframe}
                     onSwitch={switchTimeframe}
+                    className={classes.timeSwitcher}
                   />
                 </>
               )}
             </>
           )}
         </Typography>
-        <Button fullWidth className={classes.button} variant="outlined">
+        <Button
+          fullWidth
+          className={classes.button}
+          variant="outlined"
+          size="large"
+        >
           {t('chains.endpoints-and-more')}
         </Button>
       </div>

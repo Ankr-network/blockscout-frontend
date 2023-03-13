@@ -4,7 +4,9 @@
   "description": "SDK for Multi RPC",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "private": true,
   "keywords": [
     "ankr",
@@ -35,33 +37,14 @@
       "git add"
     ]
   },
-  "devDependencies": {
-    "@types/jest": "^27.0.2",
-    "@types/node": "^14.14.41",
-    "cpy-cli": "^3.1.1",
-    "eslint-config-prettier": "^7.2.0",
-    "jest": "27.0.0",
-    "lerna": "^3.22.1",
-    "prettier": "^2.2.1",
-    "ts-jest": "27.0.0",
-    "ts-node": "^7.0.1",
-    "rimraf": "3.0.2"
-  },
   "dependencies": {
     "@ankr.com/advanced-api": "*",
     "@ankr.com/provider": "*",
     "@ankr.com/common": "*",
     "@ankr.com/utils": "*",
-    "@faker-js/faker": "6.1.2",
-    "@types/lodash.flatten": "4.4.7",
-    "@types/lodash.orderby": "4.6.6",
-    "@types/node": "^14.14.41",
-    "@types/uuid": "8.3.4",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
     "bn.js": "5.2.0",
-    "ethereum-abi-types-generator": "1.3.2",
-    "ethereumjs-tx": "^2.1.2",
     "ethereumjs-util": "^7.0.7",
     "eth-sig-util": "^3.0.1",
     "lodash.flatten": "4.4.0",
@@ -74,11 +57,22 @@
     "web3-eth-contract": "1.7.0",
     "web3-utils": "1.7.0"
   },
+  "devDependencies": {
+    "@types/lodash.flatten": "4.4.7",
+    "@types/lodash.orderby": "4.6.6",
+    "@types/node": "^14.14.41",
+    "@types/uuid": "8.3.4",
+    "eslint-config-prettier": "^7.2.0",
+    "ethereum-abi-types-generator": "1.3.2",
+    "prettier": "^2.2.1",
+    "ts-node": "^7.0.1",
+    "rimraf": "3.0.2",
+    "source-map-explorer": "^2.5.2"
+  },
   "directories": {
     "test": "test"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "author": ""
+  }
 }

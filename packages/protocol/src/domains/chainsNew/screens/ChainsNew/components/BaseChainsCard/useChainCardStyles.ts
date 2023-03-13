@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { isLightTheme } from 'uiKit/Theme/themeUtils';
+
 export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
   (theme, _params, classes) => ({
     root: {
@@ -37,7 +39,7 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
       marginBottom: theme.spacing(1),
     },
     subtitle: {
-      color: theme.palette.text.primary,
+      color: theme.palette.grey[isLightTheme(theme) ? 800 : 500],
       display: 'block',
       fontSize: 14,
       lineHeight: '20.02px',
@@ -49,7 +51,7 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
       height: 80,
     },
     information: {
-      color: theme.palette.text.primary,
+      color: theme.palette.grey[isLightTheme(theme) ? 800 : 500],
       display: 'inline-block',
       fontSize: 14,
       lineHeight: '20.02px',
@@ -64,6 +66,12 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
 
       [theme.breakpoints.down('md')]: {
         bottom: 104,
+      },
+    },
+    timeSwitcher: {
+      '&&': {
+        fontSize: 12,
+        border: `2px solid ${theme.palette.background.default}`,
       },
     },
     skeleton: {

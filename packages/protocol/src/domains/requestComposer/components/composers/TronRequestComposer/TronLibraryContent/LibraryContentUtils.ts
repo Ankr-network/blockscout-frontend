@@ -15,10 +15,6 @@ export const renderGetaccountbalanceParameters = (parameters: any) => ({
 export const renderBroadcasttransactionParameters = (parameters: any) =>
   safeParseJSON(parameters.transaction);
 
-export const addVisibleParameter = (parameters: any) => {
-  parameters.visible = true;
-};
-
 export const formatParameters = (
   methodName: TronChainMethod,
   parameters: any,

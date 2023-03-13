@@ -168,9 +168,7 @@
     "private-stats": {
       "title": "Your stats",
       "stats": {
-        "total": "Total Requests Made",
-        "failovers": "Total Requests Recovered",
-        "successPercent": "Successful Requests %"
+        "total": "Total Requests Made"
       }
     },
     "free-plan": {
@@ -426,8 +424,8 @@
           "value": "{cached}%"
         },
         "cost": {
-          "title": "Credit Usage",
-          "value": "{cost, number, ::compact-short}"
+          "value": "{cost, number, ::compact-short}",
+          "title": "Credit Usage"
         },
         "billing-button": "Billing"
       },

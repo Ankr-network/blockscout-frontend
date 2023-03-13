@@ -1,11 +1,11 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const usePremiumBlockStyles = makeStyles<boolean>()(
   (theme: Theme, isLightTheme: boolean) => ({
     container: {
-      background: premiumColor,
+      background: getPremiumColorGradient(theme),
       borderRadius: theme.spacing(2 * 7.5),
       padding: theme.spacing(2 * 0.5),
       maxWidth: 810,

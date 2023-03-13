@@ -12,7 +12,7 @@ export const Navigation = ({ items, loading }: NavigationProps) => {
   return (
     <nav>
       {items.map((item: NavigationItem) => {
-        if (loading && !item.isDisabled) {
+        if (loading) {
           return (
             <Skeleton
               key={`skeleton-${item.label}`}

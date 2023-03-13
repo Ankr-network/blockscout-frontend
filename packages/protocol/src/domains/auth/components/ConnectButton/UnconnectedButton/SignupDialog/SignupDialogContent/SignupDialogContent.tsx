@@ -52,11 +52,7 @@ export const SignupDialogContent = ({
           >
             {t('signup-modal.web3.button')}
           </Button>
-          <Typography
-            className={classes.subtitle}
-            variant="body2"
-            color="textSecondary"
-          >
+          <Typography className={classes.subtitle} variant="subtitle2">
             {tHTML('signup-modal.description')}
           </Typography>
         </>

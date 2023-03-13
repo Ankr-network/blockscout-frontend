@@ -1,11 +1,9 @@
 import { makeStyles } from 'tss-react/mui';
 import {
-  ONE_ROW_SCREEN_WIDTH,
-  NARROW_TWO_COLUMN_WIDTH,
   NOTICE_WIDTH,
   NOTICE_MARGIN,
-  COMMON_HEIGHT,
-  NARROW_NOTICE_MARGIN,
+  CHART_HEIGHT,
+  LG_CHART_HEIGHT,
 } from './const';
 
 export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
@@ -14,18 +12,23 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
     padding: theme.spacing(7.5),
     borderRadius: 30,
     marginBottom: theme.spacing(10),
+
+    [theme.breakpoints.down('xl')]: {
+      padding: theme.spacing(5),
+    },
   },
   container: {
     position: 'relative',
     paddingRight: NOTICE_WIDTH + NOTICE_MARGIN,
-    [theme.breakpoints.down(NARROW_TWO_COLUMN_WIDTH)]: {
-      paddingRight: NOTICE_WIDTH + NARROW_NOTICE_MARGIN,
-    },
-    [theme.breakpoints.down(ONE_ROW_SCREEN_WIDTH)]: {
+    [theme.breakpoints.down('sm')]: {
       paddingRight: 0,
     },
   },
   chart: {
-    height: COMMON_HEIGHT,
+    height: CHART_HEIGHT,
+
+    [theme.breakpoints.down('xl')]: {
+      height: LG_CHART_HEIGHT,
+    },
   },
 }));

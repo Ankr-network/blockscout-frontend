@@ -8,7 +8,6 @@ import { CurrencyType } from './RateBlockTypes';
 
 const root = 'account.account-details.top-up';
 
-const AVARAGE_REQUESTS = 250;
 const BASE_NUMBER = 10;
 
 const getAnkrRate = (rate?: BigNumber, value?: string, decimals = 0) => {
@@ -92,30 +91,4 @@ export const getRate = (
     value,
     ankrToCreditsRate?.decimals,
   );
-};
-
-export const getRequests = (rates: CreditsRate[], value?: string) => {
-  const ankrToCreditsRate = getCurrencyRate(
-    rates,
-    CurrencyRateSymbol['CREDIT/ANKR'],
-  );
-
-  const rate = ankrToCreditsRate?.rate;
-  const decimals = ankrToCreditsRate?.decimals ?? 0;
-
-  if (!rate) {
-    return '';
-  }
-
-  const power = BASE_NUMBER * decimals || 1;
-
-  if (!value || !Number(value)) {
-    return rate.dividedBy(power).dividedBy(AVARAGE_REQUESTS).toNumber();
-  }
-
-  return rate
-    .multipliedBy(new BigNumber(value))
-    .dividedBy(power)
-    .dividedBy(AVARAGE_REQUESTS)
-    .toNumber();
 };

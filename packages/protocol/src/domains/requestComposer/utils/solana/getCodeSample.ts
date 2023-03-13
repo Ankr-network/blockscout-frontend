@@ -7,7 +7,7 @@ export interface CodeSampleParams {
   imports: Import[];
 }
 
-export interface Import {
+interface Import {
   items: string[];
   library: string;
 }

@@ -18,7 +18,11 @@ export const Header = ({ timeframe, switchTimeframe }: HeaderProps) => {
   return (
     <div className={classes.header}>
       <div className={classes.title}>{title}</div>
-      <TimeframeSwitcher timeframe={timeframe} onSwitch={switchTimeframe} />
+      <TimeframeSwitcher
+        timeframe={timeframe}
+        onSwitch={switchTimeframe}
+        className={classes.switcher}
+      />
     </div>
   );
 };

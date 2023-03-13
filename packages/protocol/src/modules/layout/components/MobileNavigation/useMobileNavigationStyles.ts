@@ -3,6 +3,8 @@ import { makeStyles } from 'tss-react/mui';
 
 export const MOBILE_NAVIGATION_HEIGHT = 80;
 
+const MAX_WIDTH_FOR_BIG_FONT_SIZE = 400;
+
 export const useMobileNavigationStyles = makeStyles<void, 'custom'>()(
   (theme: Theme, _params, classes) => ({
     root: {
@@ -40,9 +42,13 @@ export const useMobileNavigationStyles = makeStyles<void, 'custom'>()(
     link: {
       display: 'flex',
       flexDirection: 'column',
-      fontSize: 10,
+      fontSize: 14,
       padding: 0,
       color: theme.palette.grey[500],
+
+      [theme.breakpoints.down(MAX_WIDTH_FOR_BIG_FONT_SIZE)]: {
+        fontSize: 12,
+      },
 
       '&:hover': {
         color: theme.palette.primary.main,

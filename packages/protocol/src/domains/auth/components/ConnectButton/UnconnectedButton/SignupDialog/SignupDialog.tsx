@@ -4,6 +4,8 @@ import { useSignupDialogStyles } from './useSignupDialogStyles';
 import { SignupDialogContent } from './SignupDialogContent';
 import { useSignupDialog } from './useSignupDialog';
 
+export const SIGNUP_DIALOG_WIDTH = 620;
+
 interface SignupDialogProps {
   isOpen: boolean;
   onClose: () => void;
@@ -32,12 +34,13 @@ export const SignupDialog = ({
 
   return (
     <Dialog
-      maxPxWidth={618}
+      maxPxWidth={SIGNUP_DIALOG_WIDTH}
       onClose={onDialogClose}
       open={isOpen}
       title={dialogTitle}
       titleClassName={classes.dialogTitle}
       closeButtonClassName={classes.closeButton}
+      paperClassName={classes.paperRoot}
     >
       {loading ? (
         <EmailContentLoading />

@@ -26,6 +26,7 @@ export const PremiumChainDialogBase = ({
   return (
     <Dialog
       className={classes.root}
+      maxPxWidth={620}
       classes={{
         container: classes.dialogContainer,
       }}

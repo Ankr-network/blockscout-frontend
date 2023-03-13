@@ -1,6 +1,5 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
 
 export const useInfoBannerStyles = makeStyles<void, 'startIcon'>()(
   (theme: Theme, _params, classes) => ({
@@ -8,7 +7,8 @@ export const useInfoBannerStyles = makeStyles<void, 'startIcon'>()(
       display: 'flex',
       gridGap: theme.spacing(7.5),
       marginBottom: theme.spacing(6.5),
-      [theme.breakpoints.down('sm')]: {
+
+      [theme.breakpoints.down('xs')]: {
         flexDirection: 'column',
       },
     },
@@ -38,7 +38,7 @@ export const useInfoBannerStyles = makeStyles<void, 'startIcon'>()(
       justifyContent: 'center',
     },
     premium: {
-      background: premiumColor,
+      background: theme.palette.primary.main,
       padding: 2,
       [`& .${classes.startIcon}`]: {
         color: theme.palette.primary.main,

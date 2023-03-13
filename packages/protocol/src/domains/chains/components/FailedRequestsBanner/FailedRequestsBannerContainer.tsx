@@ -8,7 +8,7 @@ interface IFailedRequestsBannerContainerProps {
   timeframe: Timeframe;
 }
 
-const DEFAULT_FAILD_DATA = {
+const DEFAULT_FAILED_DATA = {
   total: '',
   rejectedRequestsCount: '',
   rate: '',
@@ -25,7 +25,7 @@ export const FailedRequestsBannerContainer = ({
       {({ data }) => (
         <FailedRequestsBanner
           timeframe={timeframe}
-          data={data ?? DEFAULT_FAILD_DATA}
+          data={data ?? DEFAULT_FAILED_DATA}
         />
       )}
     </Queries>

@@ -19,7 +19,7 @@ export const useIsTestnetPremimumOnly = (chain: IApiChain) => {
   return useMemo(() => isTestnetPremimumOnly(chain), [chain]);
 };
 
-export const TESTNET_ID = 'testnet';
+const TESTNET_ID = 'testnet';
 
 export const getPublicChainTypeTabs = (
   endpoints: Endpoints,
