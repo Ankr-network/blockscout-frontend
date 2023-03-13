@@ -1,4 +1,4 @@
-export interface ObjectWithError {
+interface ObjectWithError {
   error: string;
 }
 

@@ -62,6 +62,7 @@ export const getEndpointsList = (chainsRoutes: string[]): NavigationItem[] => [
     isComingSoon: true,
     label: t('main-navigation.enterprise'),
     onClick: () => track({ event: MixpanelEvent.SOON_ENTERPRISE }),
+    isDisabled: true,
   },
 ];
 
@@ -72,6 +73,7 @@ export const getToolsList = (): NavigationItem[] => [
     label: t('main-navigation.automate'),
     isComingSoon: true,
     onClick: () => track({ event: MixpanelEvent.SOON_AUTOMATE }),
+    isDisabled: true,
   },
 ];
 

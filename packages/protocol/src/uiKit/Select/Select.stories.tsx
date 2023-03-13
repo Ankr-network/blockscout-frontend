@@ -21,7 +21,7 @@ const items = [
   },
 ];
 
-export const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles()(() => ({
   root: {
     backgroundColor: 'grey',
     padding: 20,

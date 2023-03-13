@@ -69,5 +69,9 @@ export const usePricingStyles = makeStyles<boolean>()(
         paddingBottom: 0,
       },
     },
+
+    mobile: {
+      width: '100%',
+    },
   }),
 );

@@ -26,7 +26,7 @@ import {
 } from './types';
 import { useStyles } from './useStyles';
 
-export const DEFAULT_CELL_MIN_HEIGHT = 56;
+const DEFAULT_CELL_MIN_HEIGHT = 56;
 
 const DEFAULT_QUERY = {
   page: 1,

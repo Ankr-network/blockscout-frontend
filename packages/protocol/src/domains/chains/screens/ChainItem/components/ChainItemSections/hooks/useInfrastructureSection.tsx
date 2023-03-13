@@ -11,7 +11,7 @@ import { Tab } from 'modules/common/hooks/useTabs';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
-export interface InfrastructureSectionParams {
+interface InfrastructureSectionParams {
   chain: IApiChain;
   getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;

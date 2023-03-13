@@ -1,5 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useUserLabelStyles = makeStyles()(theme => ({
   root: {
@@ -19,7 +19,7 @@ export const useUserLabelStyles = makeStyles()(theme => ({
   },
   premium: {
     color: theme.palette.common.white,
-    background: premiumColor,
+    background: getPremiumColorGradient(theme),
     padding: theme.spacing(0.5, 2),
     borderRadius: 8,
   },

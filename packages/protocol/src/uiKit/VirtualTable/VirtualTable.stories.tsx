@@ -3,19 +3,18 @@
 import { storiesOf } from '@storybook/react';
 import { VirtualTableColumn, VirtualTable } from '.';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { faker } from '@faker-js/faker';
 import { useEffect, useState } from 'react';
 
 const createRow = (_: any, index: number) => ({
   number: index,
-  method: faker.random.arrayElement(['eth_GetBlockByNum', 'Batch (3)']),
-  errorCode: faker.random.arrayElement([200, 404, 500]),
-  httpCode: faker.random.arrayElement([200, 404, 500]),
-  responseTime: faker.datatype.number({ max: 1000 }),
-  dateTime: faker.datatype.datetime().toISOString(),
-  costUsd: faker.finance.amount(),
+  method: 'eth_GetBlockByNum, Batch (3)',
+  errorCode: 404,
+  httpCode: 500,
+  responseTime: 1000,
+  dateTime: '1111111',
+  costUsd: '2',
   rawParams: '["11573830", "true"]',
-  rawResult: faker.datatype.json(),
+  rawResult: 'true',
 });
 
 const createArray = <T extends Record<string, any>>(
@@ -102,16 +101,6 @@ storiesOf('ui/Table', module).add('Virtualized', () => {
 
     setRows([...rows, ...createArray(100000, createRow)]);
   };
-
-  // const handleSort = async () => {
-  //   await new Promise(r => setTimeout(r, 900));
-
-  //   setRows([...rows].reverse());
-  // };
-
-  // const renderExpand = () => {
-  //   return <div>test collapse</div>;
-  // };
 
   return (
     <div style={{ height: '100%' }}>

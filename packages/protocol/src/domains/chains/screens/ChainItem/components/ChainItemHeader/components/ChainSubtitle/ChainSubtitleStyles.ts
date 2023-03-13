@@ -5,6 +5,10 @@ export const useChainSubtitleStyles = makeStyles()((theme: Theme) => ({
   chainSubtitle: {
     display: 'flex',
     gap: theme.spacing(2 * 1),
+
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+    },
   },
   description: {
     fontWeight: 400,

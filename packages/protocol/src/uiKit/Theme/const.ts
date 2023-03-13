@@ -9,7 +9,3 @@ export const BREAKPOINTS = {
     WXGAPlus: 1600,
   },
 };
-
-export const BTN_TRANSITION_TIME = 0.25;
-export const TEN_SECONDS = 10 * 1000;
-export const NOTIFICATION_AUTO_HIDE_DURATION = 3000;

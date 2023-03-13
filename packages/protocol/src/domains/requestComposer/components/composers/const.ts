@@ -2,8 +2,6 @@ import { createContext } from 'react';
 
 import { UseLoggerResult } from '../Logger/hooks/useLogger';
 
-export const root = `request-composer`;
-
 const emptyFn = () => {};
 
 export const LoggerContext = createContext<UseLoggerResult>({

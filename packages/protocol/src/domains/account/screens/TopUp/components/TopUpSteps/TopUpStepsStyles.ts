@@ -22,6 +22,10 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     background: 'transparent',
     '&&': {
       padding: theme.spacing(2 * 2.5, 0),
+
+      span: {
+        marginBottom: 0,
+      },
     },
     maxWidth: 220,
     marginBottom: theme.spacing(2 * 7),

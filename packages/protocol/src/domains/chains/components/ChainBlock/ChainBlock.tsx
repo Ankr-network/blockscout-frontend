@@ -3,7 +3,7 @@ import { Typography, Skeleton } from '@mui/material';
 
 import { useChainBlockStyles } from './useChainBlockStyles';
 
-export interface IChainBlockProps {
+interface IChainBlockProps {
   className?: string;
   extra?: ReactNode;
   isLoading: boolean;

@@ -6,12 +6,6 @@ export const GEO_URL = map;
 const COLOR_DEFAULT = '#E8EEF5';
 const DARK_COLOR_DEFAULT = '#42464F';
 
-export const GEOGRAPHY_STYLES = {
-  default: { fill: COLOR_DEFAULT },
-  hover: { fill: COLOR_DEFAULT },
-  pressed: { fill: COLOR_DEFAULT, outline: 'none' },
-};
-
 const lightStrokeStyles = { strokeWidth: 0.5, stroke: '#fff' };
 const darkStrokeStyles = { strokeWidth: 0.5, stroke: '#1F2226' };
 

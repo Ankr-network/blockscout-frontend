@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useMetamaskButtonLabelStyles = makeStyles()((theme: Theme) => ({
+export const useMetamaskButtonLabelStyles = makeStyles()(theme => ({
   metamaskButtonLabel: {
     marginLeft: theme.spacing(2 * 1),
 
@@ -13,6 +12,10 @@ export const useMetamaskButtonLabelStyles = makeStyles()((theme: Theme) => ({
 
     [theme.breakpoints.down('md')]: {
       display: 'none',
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      display: 'block',
     },
   },
 }));

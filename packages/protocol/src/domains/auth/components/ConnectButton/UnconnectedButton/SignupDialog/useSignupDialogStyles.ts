@@ -12,6 +12,9 @@ export const useSignupDialogStyles = makeStyles()((theme: Theme) => ({
   subtitle: {
     display: 'block',
     textAlign: 'center',
+    fontSize: theme.typography.fontSize,
+    color: theme.palette.grey[700],
+    fontWeight: 400,
 
     '& a': {
       fontWeight: 500,
@@ -26,5 +29,8 @@ export const useSignupDialogStyles = makeStyles()((theme: Theme) => ({
   },
   closeButton: {
     alignSelf: 'flex-start',
+  },
+  paperRoot: {
+    width: '100%',
   },
 }));
