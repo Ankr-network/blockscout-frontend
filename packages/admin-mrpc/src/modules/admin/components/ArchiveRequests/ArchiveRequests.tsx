@@ -1,11 +1,12 @@
 import { CSVLink } from 'react-csv';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Input, Paper, Typography } from '@mui/material';
 import { LoadingButton } from '@ankr.com/ui';
 import { ChainSelect } from 'modules/common/components/ChainSelect/ChainSelect';
 import { useChainSelect } from 'modules/common/components/ChainSelect/useChainSelect';
-import { useWssStats } from './useWssStats';
+import { useArchiveRequestsStats } from './useArchiveRequestsStats';
+import { useUserName } from './useUserName';
 
-export const WssStats = () => {
+export const ArchiveRequests = () => {
   const {
     selectedChainId,
     handleSelectChain,
@@ -13,17 +14,40 @@ export const WssStats = () => {
     blockchainsData,
   } = useChainSelect();
 
-  const { dataWebsocketStats, isLoadingWebsocket, requestStats } = useWssStats({
-    blockchain: selectedChainId,
-  });
+  const { dataArchiveRequestsStats, isLoadingArchiveRequests, requestStats } =
+    useArchiveRequestsStats({
+      blockchain: selectedChainId,
+    });
 
-  const isLoading = isLoadingBlockchains || isLoadingWebsocket;
+  const { userInputValue, onChange } = useUserName();
+
+  const isLoading = isLoadingBlockchains || isLoadingArchiveRequests;
 
   return (
     <Paper sx={{ p: 8, mt: 8, mb: 8 }}>
       <Typography variant="h4" mb={6}>
-        Get Wss statistics
+        Get archive requests statistics
       </Typography>
+
+      <Typography variant="subtitle2" mb={2} display="block">
+        Requests for user (optional)
+      </Typography>
+      <Box sx={{ maxWidth: '380px' }}>
+        <Input
+          fullWidth
+          sx={theme => ({
+            backgroundColor: theme.palette.background.default,
+            mb: 4,
+          })}
+          placeholder="User address"
+          onChange={onChange}
+          value={userInputValue}
+          disabled={isLoading}
+          size="small"
+          disableUnderline
+          color="secondary"
+        />
+      </Box>
 
       <Typography variant="subtitle2" mb={2} display="block">
         Choose blockchain
@@ -50,21 +74,21 @@ export const WssStats = () => {
       <Box sx={{ mt: 6 }}>
         {isLoading && <>Loading...</>}
 
-        {!isLoading && dataWebsocketStats && (
+        {!isLoading && dataArchiveRequestsStats && (
           <>
             <Button size="large">
-              <CSVLink data={[dataWebsocketStats]}>Download CSV</CSVLink>
+              <CSVLink data={[dataArchiveRequestsStats]}>Download CSV</CSVLink>
             </Button>
             <br />
             <br />
             <Typography variant="body2">
-              {JSON.stringify(dataWebsocketStats, null, 2)}
+              {JSON.stringify(dataArchiveRequestsStats, null, 2)}
             </Typography>
           </>
         )}
       </Box>
 
-      {!isLoading && !dataWebsocketStats && <>No data</>}
+      {!isLoading && !dataArchiveRequestsStats && <>No data</>}
     </Paper>
   );
 };

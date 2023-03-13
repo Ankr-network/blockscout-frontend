@@ -137,6 +137,15 @@ export interface IWebsocketStatsResponse {
   total: number;
 }
 
+export interface IArchiveRequestsStatsRequest {
+  blockchain: string;
+  user?: string;
+}
+
+export interface IArchiveRequestsStatsResponse {
+  [timestamp: Timestamp]: number;
+}
+
 export interface IUsageEntity {
   blockchain: string;
   details: IUsageDetailEntity[];

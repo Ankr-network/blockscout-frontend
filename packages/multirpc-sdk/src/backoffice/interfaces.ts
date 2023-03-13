@@ -22,6 +22,8 @@ import {
   IUserStatsResponse,
   IWebsocketStatsRequest,
   IWebsocketStatsResponse,
+  IArchiveRequestsStatsRequest,
+  IArchiveRequestsStatsResponse,
   ICountersResponse,
   ICountersRequest,
   IGetUserTotalRequest,
@@ -85,6 +87,8 @@ export interface IBackofficeGateway {
   ): Promise<IUserStatsResponse>;
 
   getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse>
+
+  getArchiveRequestsStats(params: IArchiveRequestsStatsRequest): Promise<IArchiveRequestsStatsResponse>
 
   getUserAddresses(
     params: GetUserAddressesRequest,
