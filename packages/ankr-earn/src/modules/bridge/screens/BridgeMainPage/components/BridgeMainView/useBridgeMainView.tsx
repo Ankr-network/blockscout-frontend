@@ -223,16 +223,16 @@ export const useBridgeMainView = (): IUseBridgeMainView => {
   const isActualNetwork = swapNetworkItem.from === chainId;
 
   useProviderEffect(() => {
-    if (!isConnected || !isActualNetwork) {
+    if (!isConnected) {
       return;
     }
 
     if (chainId) {
       dispatchRequest(
-        fetchBalance({ token: tokenValue, network: chainId as number }),
+        fetchBalance({ token: tokenValue, network: swapNetworkItem.from }),
       );
     }
-  }, [dispatchRequest, tokenValue, isConnected, isActualNetwork, chainId]);
+  }, [dispatchRequest, tokenValue, isConnected, chainId, swapNetworkItem.from]);
 
   useProviderEffect(() => {
     const newNetworksFrom = networkAvailable[tokenValue].from || [];

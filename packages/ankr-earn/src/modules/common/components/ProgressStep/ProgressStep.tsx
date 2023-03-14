@@ -96,7 +96,7 @@ export const ProgressStep = ({
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Paper className={classes.root} component="div" variant="elevation">
-          {isPending ? <PendingLogo /> : <SuccessLogo />}
+          {!isError && (isPending ? <PendingLogo /> : <SuccessLogo />)}
 
           <Typography className={classes.title} variant="h2">
             {isError ? t('progress.errorTitle') : pageTitle}

@@ -18,7 +18,7 @@ const toHex = (num: number): PrefixedHex => {
 const addNamePostfix = (name: string) =>
   t('chain-item.get-started.endpoints.network-postfix', { name });
 
-export const flattenAllChainTypes = (chain: IApiChain): IApiChain[] => [
+const flattenAllChainTypes = (chain: IApiChain): IApiChain[] => [
   chain,
   ...(chain.extenders || []).flatMap(flattenAllChainTypes),
   ...(chain.extensions || []).flatMap(flattenAllChainTypes),

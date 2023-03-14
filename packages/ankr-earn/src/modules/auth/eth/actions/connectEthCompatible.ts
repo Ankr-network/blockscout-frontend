@@ -1,18 +1,17 @@
+import { t } from '@ankr.com/common';
+
 import {
   AvailableWriteProviders,
   EthereumWeb3KeyProvider,
 } from '@ankr.com/provider';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { setProviderStatus } from 'modules/auth/common/store/authSlice';
 import { IConnect } from 'modules/auth/common/types';
 
 const providerId = AvailableWriteProviders.ethCompatible;
-
-// todo: STAKAN-2484 translations are not initialized at the moment, so we use a constant
-const ERROR_TEXT = 'Failed to connect ETH compatible wallet';
 
 interface IConnectEthCompatible extends IConnect {
   chainId: number;
@@ -35,33 +34,40 @@ export const {
         IConnectArgs | void,
         never,
         IConnectEthCompatible
-      >(async ({ wallet } = {}) => {
-        const providerManager = getProviderManager();
+      >(
+        async ({ wallet } = {}) => {
+          const providerManager = getProviderManager();
 
-        const provider =
-          await providerManager.getProvider<EthereumWeb3KeyProvider>(
+          const provider =
+            await providerManager.getProvider<EthereumWeb3KeyProvider>(
+              providerId,
+              wallet,
+            );
+
+          const {
+            icon: walletIcon,
+            id: walletId,
+            name: walletName,
+          } = provider.getWalletMeta();
+
+          const data: IConnectEthCompatible = {
+            address: provider.currentAccount ?? '',
+            chainId: provider.currentChain,
+            isConnected: provider.isConnected(),
             providerId,
-            wallet,
-          );
+            walletIcon,
+            walletId,
+            walletName,
+          };
 
-        const {
-          icon: walletIcon,
-          id: walletId,
-          name: walletName,
-        } = provider.getWalletMeta();
-
-        const data: IConnectEthCompatible = {
-          address: provider.currentAccount ?? '',
-          chainId: provider.currentChain,
-          isConnected: provider.isConnected(),
-          providerId,
-          walletIcon,
-          walletId,
-          walletName,
-        };
-
-        return { data };
-      }, getOnErrorWithCustomText(ERROR_TEXT)),
+          return { data };
+        },
+        error =>
+          getExtendedErrorText(
+            error,
+            t('stake-ethereum.errors.wallet-connect'),
+          ),
+      ),
 
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

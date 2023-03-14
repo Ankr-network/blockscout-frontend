@@ -9,11 +9,6 @@ import {
 } from 'multirpc-sdk';
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
-export interface IFetchChainsResponseData {
-  chains: FetchBlockchainUrlsResult;
-  allChains: FetchBlockchainUrlsResult;
-}
-
 export interface IApiChainURL {
   rpc: string;
   ws?: string;

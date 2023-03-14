@@ -4,7 +4,7 @@ import { TransactionReceipt } from 'web3-eth';
 
 import { IFetchTxData } from '@ankr.com/staking-sdk';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 
@@ -27,7 +27,7 @@ export const { useGetFTMTxDataQuery } = web3Api.injectEndpoints({
             }),
           };
         },
-        getOnErrorWithCustomText(t('stake-fantom.errors.tx-data')),
+        error => getExtendedErrorText(error, t('stake-fantom.errors.tx-data')),
       ),
     }),
   }),
@@ -40,13 +40,17 @@ export const { useGetFTMTxReceiptQuery } = web3Api.injectEndpoints({
         IGetTxDataProps,
         never,
         TransactionReceipt | null
-      >(async ({ txHash }) => {
-        const sdk = await getFantomSDK();
+      >(
+        async ({ txHash }) => {
+          const sdk = await getFantomSDK();
 
-        return {
-          data: await sdk.fetchTxReceipt(txHash),
-        };
-      }, getOnErrorWithCustomText(t('stake-fantom.errors.tx-receipt'))),
+          return {
+            data: await sdk.fetchTxReceipt(txHash),
+          };
+        },
+        error =>
+          getExtendedErrorText(error, t('stake-fantom.errors.tx-receipt')),
+      ),
     }),
   }),
 });

@@ -1,4 +1,4 @@
-import { selectAuthData } from '../store/authSlice';
+import { selectAuthData, selectHasPremium } from '../store/authSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import { useOauth } from 'domains/oauth/hooks/useOauth';
 import { useWeb3Connection } from './useWeb3Connection';
@@ -6,6 +6,7 @@ import { EthAddressType } from 'multirpc-sdk';
 
 export const useAuth = () => {
   const authData = useAppSelector(selectAuthData);
+  const hasPremium = useAppSelector(selectHasPremium);
 
   const {
     loading: web3ConnectionLoading,
@@ -19,17 +20,9 @@ export const useAuth = () => {
     credentials,
     ethAddressType,
     hasOauthLogin,
-    hasDepositTransaction,
-    hasVoucherTransactionAndBalanceIsGreaterThanZero,
     hasWeb3Connection,
     workerTokenData,
   } = authData;
-
-  const hasPremium = Boolean(
-    credentials ||
-      hasDepositTransaction ||
-      hasVoucherTransactionAndBalanceIsGreaterThanZero,
-  );
 
   const isTokenExpired =
     credentials && !workerTokenData?.userEndpointToken && !hasOauthLogin;

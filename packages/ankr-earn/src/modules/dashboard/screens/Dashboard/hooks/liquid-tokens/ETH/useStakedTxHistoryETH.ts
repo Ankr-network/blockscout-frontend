@@ -4,15 +4,15 @@ import { useCallback, useState } from 'react';
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types';
 import { ETH_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
+import { IHistoryTableRow } from 'modules/dashboard/types';
 import { useLazyGetETHTotalHistoryQuery } from 'modules/stake-eth/actions/getTotalHistory';
 
 export interface IUseStakedFTMTxHistory {
-  stakedAETHB: IHistoryDialogRow[];
-  stakedAETHC: IHistoryDialogRow[];
+  stakedAETHB: IHistoryTableRow[];
+  stakedAETHC: IHistoryTableRow[];
   pendingUnstakeHistory: IPendingTableRow[];
   hasHistory: boolean;
   isHistoryLoading: boolean;
@@ -20,7 +20,7 @@ export interface IUseStakedFTMTxHistory {
   handleLoadTxHistory: () => void;
 }
 
-const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
+const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryTableRow => {
   return {
     date: data.txDate,
     link: getTxLinkByNetwork(data.txHash, ETH_NETWORK_BY_ENV),

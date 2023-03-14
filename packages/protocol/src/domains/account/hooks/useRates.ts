@@ -1,16 +1,7 @@
 import { useCallback } from 'react';
 
-import {
-  CreditsRate,
-  accountFetchCreditRates,
-} from 'domains/account/actions/rate/fetchCreditRates';
+import { accountFetchCreditRates } from 'domains/account/actions/rate/fetchCreditRates';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-
-export interface Rates {
-  handleFetchRates: () => void;
-  isRateLoading: boolean;
-  rates?: CreditsRate[];
-}
 
 export const useRates = () => {
   const [

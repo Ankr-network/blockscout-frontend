@@ -21,6 +21,7 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       justifyContent: 'space-between',
       boxShadow: `0 0 0 2px ${theme.palette.background.default}`,
       overflow: 'hidden',
+      height: size === 'm' ? 36 : 40,
     },
 
     message: {
@@ -35,9 +36,8 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       width: '100%',
       padding:
         size === 'm'
-          ? theme.spacing(2 * 1.25, 2 * 1.125, 2 * 1.125)
+          ? theme.spacing(2 * 1, 2 * 1.125, 2 * 1.125)
           : theme.spacing(2 * 1.25, 2 * 1.125),
-      lineHeight: 1.43,
 
       cursor: 'default',
     },
@@ -49,8 +49,8 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       width: '100%',
       padding:
         size === 'm'
-          ? theme.spacing(2 * 1, 2 * 1.125)
-          : theme.spacing(2 * 1.25, 2 * 1.6875),
+          ? theme.spacing(2 * 0.75, 2 * 1.125)
+          : theme.spacing(2 * 1, 2 * 1.6875),
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       background: theme.palette.background.default,
       minHeight: 36,
@@ -70,7 +70,7 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
     },
 
     copyIcon: {
-      fontSize: 16,
+      fontSize: 24,
       marginLeft: theme.spacing(2 * 1),
       color: theme.palette.primary.main,
       transition: 'color .3s',
@@ -80,12 +80,13 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       alignItems: 'center',
     },
     copyText: {
-      fontSize: 14,
+      fontSize: 16,
       color: theme.palette.primary.main,
       marginLeft: theme.spacing(2 * 1),
       fontWeight: 'bold',
       transition: 'color .3s',
       lineHeight: 1,
+      overflow: 'initial',
     },
   }),
 );

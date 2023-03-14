@@ -7,7 +7,7 @@ import { useCurrency } from './useCurrency';
 import { usePaymentHistory } from './usePaymentHistory';
 import { useTimeframe } from './useTimeframe';
 
-export interface Chart {
+interface Chart {
   currency: ChartCurrency;
   isLoading: boolean;
   setTimeframe: (timeframe: ChartTimeframe) => void;

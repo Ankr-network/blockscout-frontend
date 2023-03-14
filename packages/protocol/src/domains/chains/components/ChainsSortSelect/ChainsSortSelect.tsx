@@ -27,6 +27,7 @@ export const ChainsSortSelect = ({ sortType, onSelect }: IChainsSortSelect) => {
   return (
     <Select
       className={classes.root}
+      iconClassName={classes.icon}
       value={sortType}
       onChange={onChange}
       options={options}

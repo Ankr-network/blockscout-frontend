@@ -4,7 +4,6 @@ import { ChainID } from 'modules/chains/types';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { MobileChainDocsLink } from '../MobileChainDocsLink';
 import { useChainSubtitleStyles } from './ChainSubtitleStyles';
 
 export interface ChainDescriptionProps {
@@ -37,7 +36,6 @@ export const ChainSubtitle = ({
           tooltip={tooltip}
         />
       )}
-      <MobileChainDocsLink chainId={id} />
     </div>
   );
 };

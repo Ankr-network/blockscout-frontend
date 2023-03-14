@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 
 import { IStakeData } from '@ankr.com/staking-sdk';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 
 import { CacheTags } from '../const';
@@ -27,7 +27,7 @@ export const { useStakeBNBMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.stake(amount, token, undefined, code) };
         },
-        getOnErrorWithCustomText(t('stake-bnb.errors.stake')),
+        error => getExtendedErrorText(error, t('stake-bnb.errors.stake')),
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

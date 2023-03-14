@@ -1,35 +1,50 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { NARROW_TWO_COLUMN_WIDTH, ONE_ROW_SCREEN_WIDTH } from '../../const';
+import { NOTICE_WIDTH, NOTICE_MARGIN } from '../../const';
 
 export const useHeaderStyles = makeStyles()(theme => ({
   information: {
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 20,
-    width: '100%',
+    marginBottom: theme.spacing(5),
+    width: `calc(100% - ${NOTICE_WIDTH + NOTICE_MARGIN}px)`,
 
-    [theme.breakpoints.down(NARROW_TWO_COLUMN_WIDTH)]: {
+    [theme.breakpoints.down('xl')]: {
+      width: '100%',
+      marginBottom: theme.spacing(2 * 4.25),
+    },
+
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       gap: theme.spacing(3.5),
     },
   },
   title: {
-    color: theme.palette.text.primary,
     marginRight: theme.spacing(1),
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 24,
+    },
   },
-  infotitle: {
+  infoTitle: {
     display: 'flex',
     gap: theme.spacing(10),
     marginLeft: theme.spacing(3),
-    [theme.breakpoints.down(NARROW_TWO_COLUMN_WIDTH)]: {
+
+    [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
     },
-    [theme.breakpoints.down(ONE_ROW_SCREEN_WIDTH)]: {
+
+    [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       gap: theme.spacing(4),
     },
+  },
+  sectionTitle: {
+    display: 'flex',
+    alignItems: 'center',
   },
   text: {
     color: theme.palette.grey[600],
@@ -37,6 +52,10 @@ export const useHeaderStyles = makeStyles()(theme => ({
     lineHeight: '24px',
     fontWeight: 400,
     marginLeft: theme.spacing(3),
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
   info: {
     fontSize: 20,
@@ -44,9 +63,16 @@ export const useHeaderStyles = makeStyles()(theme => ({
     fontWeight: 700,
     color: theme.palette.grey[900],
     marginLeft: theme.spacing(3),
-    [theme.breakpoints.down(NARROW_TWO_COLUMN_WIDTH)]: {
+
+    [theme.breakpoints.down('md')]: {
       fontSize: 16,
       lineHeight: '24px',
+    },
+  },
+
+  switcher: {
+    '&&&': {
+      borderWidth: 2,
     },
   },
 }));

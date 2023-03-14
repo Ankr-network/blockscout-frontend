@@ -4,7 +4,7 @@ const DEFAULT_WIDTH = 80;
 
 const Y_AXIS_CLASSNAME = 'recharts-yAxis';
 
-export type YAxisWidth = [
+type YAxisWidth = [
   MutableRefObject<MutableRefObject<HTMLElement> | undefined>,
   number,
 ];
@@ -15,14 +15,18 @@ export const useYAxisWidth = (): YAxisWidth => {
 
   useEffect(() => {
     if (ref.current?.current) {
-      const observer = new MutationObserver(() => {
+      const callback = () => {
         const yAxis =
           ref.current?.current.getElementsByClassName(Y_AXIS_CLASSNAME)?.[0];
 
         if (yAxis) {
           setWidth(yAxis.getBoundingClientRect().width);
         }
-      });
+      };
+
+      callback();
+
+      const observer = new MutationObserver(callback);
 
       observer.observe(ref.current.current, { childList: true, subtree: true });
 

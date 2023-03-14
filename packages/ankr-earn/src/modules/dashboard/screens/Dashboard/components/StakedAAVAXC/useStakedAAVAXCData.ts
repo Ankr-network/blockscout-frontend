@@ -10,6 +10,7 @@ import {
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
+import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
   ACTION_CACHE_SEC,
   AVAX_NETWORK_BY_ENV,
@@ -20,7 +21,7 @@ import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmou
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
+import { useLazyGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
 import { useUnstakeAVAXMutation } from 'modules/stake-avax/actions/unstake';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
@@ -58,8 +59,11 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
     useGetAVAXCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
-  const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
-    useGetAVAXPendingValuesQuery();
+  const [
+    getAVAXPendingValues,
+    { data: pendingValues, isFetching: isPendingUnstakeLoading },
+  ] = useLazyGetAVAXPendingValuesQuery();
+
   const [addAVAXTokenToWallet] = useAddAVAXTokenToWalletMutation();
 
   const { data: metrics } = useQuery({
@@ -94,6 +98,10 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
   const handleAddTokenToWallet = useCallback(() => {
     addAVAXTokenToWallet(token);
   }, [addAVAXTokenToWallet]);
+
+  useProviderEffect(() => {
+    getAVAXPendingValues();
+  });
 
   return {
     address,

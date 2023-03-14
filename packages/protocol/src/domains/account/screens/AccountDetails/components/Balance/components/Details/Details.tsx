@@ -1,4 +1,3 @@
-import React from 'react';
 import BigNumber from 'bignumber.js';
 
 import { AccountMarker } from 'domains/account/components/AccountMarker';
@@ -23,7 +22,7 @@ export const Details = ({
   status,
   usdBalance,
 }: DetailsProps) => {
-  const isPremium = !!premiumUntil;
+  const hasPremium = !!premiumUntil;
 
   const { classes } = useStyles();
 
@@ -44,7 +43,8 @@ export const Details = ({
       )}
     </>
   );
-  const content = isPremium ? (
+
+  const content = hasPremium ? (
     <div className={classes.descriptions}>{descriptions}</div>
   ) : (
     descriptions

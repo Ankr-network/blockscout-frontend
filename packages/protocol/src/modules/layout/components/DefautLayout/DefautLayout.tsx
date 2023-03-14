@@ -21,6 +21,7 @@ export interface ILayoutProps {
   hasError?: boolean;
   hasGradient?: boolean;
   hasPaddingBottom?: boolean;
+  isChainItemPage?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -30,6 +31,7 @@ export const DefaultLayout = ({
   hasError = false,
   hasGradient = false,
   hasPaddingBottom = true,
+  isChainItemPage,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
@@ -50,15 +52,17 @@ export const DefaultLayout = ({
         chainsRoutes={chainsRoutes}
       />
       <div className={classes.body}>
-        {!hasError && <Header className={classes.header} />}
+        {!hasError && (
+          <Header
+            className={classes.header}
+            isChainItemPage={isChainItemPage}
+          />
+        )}
         <MobileHeader className={classes.mobileHeader} />
         <Container disableGutters={disableGutters} className={classes.main}>
-          <Container
-            disableGutters={!disableGutters}
-            className={classes.mobileBreadcrumbs}
-          >
+          <div className={classes.mobileBreadcrumbs}>
             <Breadcrumbs />
-          </Container>
+          </div>
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
       </div>

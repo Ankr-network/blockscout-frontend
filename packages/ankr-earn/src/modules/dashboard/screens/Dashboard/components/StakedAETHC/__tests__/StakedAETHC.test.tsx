@@ -3,11 +3,12 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
+import { ONE_ETH, ZERO } from 'modules/common/const';
 import {
   IUseHistoryData,
   useHistory,
-} from 'modules/common/components/HistoryDialog/hooks/useHistory';
-import { ONE_ETH, ZERO } from 'modules/common/const';
+} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
+import { useDialog } from 'modules/dialogs';
 
 import { StakedAETHC } from '..';
 import { useStakedTxHistoryETH } from '../../../hooks/liquid-tokens/ETH/useStakedTxHistoryETH';
@@ -32,8 +33,13 @@ jest.mock('../../../hooks/liquid-tokens/ETH/useStakedTxHistoryETH', () => ({
   useStakedTxHistoryETH: jest.fn(),
 }));
 
-jest.mock('modules/common/components/HistoryDialog/hooks/useHistory', () => ({
+jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
   useHistory: jest.fn(),
+}));
+
+jest.mock('modules/dialogs', () => ({
+  useDialog: jest.fn(),
+  EKnownDialogs: { history: 'history' },
 }));
 
 describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
@@ -67,6 +73,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     unstakeEvents: [],
   };
 
+  const defaultUseDialogHookData = {
+    handleOpen: jest.fn(),
+  };
+
   beforeEach(() => {
     (useStakedAETHCData as jest.Mock).mockReturnValue(
       defaultStakedAETHCHookData,
@@ -77,6 +87,8 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     );
 
     (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
+
+    (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
   });
 
   afterEach(() => {
@@ -97,23 +109,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     expect(network).toBeInTheDocument();
   });
 
-  test('should open history dialog properly', async () => {
-    render(
-      <MemoryRouter>
-        <StakedAETHC />
-      </MemoryRouter>,
-    );
-
-    const menuButton = await screen.findByTestId('menu-button');
-    menuButton.click();
-
-    const historyButton = await screen.findByText('Staking history');
-    historyButton.click();
-
-    const historyDialog = await screen.findByTestId('history-dialog');
-    expect(historyDialog).toBeInTheDocument();
-  });
-
   test('unstake should be with custom tooltip', async () => {
     render(
       <MemoryRouter>
@@ -121,7 +116,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
       </MemoryRouter>,
     );
 
-    const unstakeTitleBox = await screen.findByTitle(/after The Merge/);
+    const unstakeTitleBox = await screen.findByTitle(
+      /Unstaking will become available after Ethereum enables it in their network/,
+    );
 
     expect(unstakeTitleBox).toBeInTheDocument();
   });

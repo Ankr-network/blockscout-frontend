@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
@@ -30,7 +30,11 @@ export const { useGetMaticOnEthStakeStatsQuery } = web3Api.injectEndpoints({
             },
           };
         },
-        getOnErrorWithCustomText(t('stake-matic-common.errors.stake-stats')),
+        error =>
+          getExtendedErrorText(
+            error,
+            t('stake-matic-common.errors.stake-stats'),
+          ),
       ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],

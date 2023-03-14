@@ -13,9 +13,7 @@ export const usePremiumChainDialogStyles =
   makeStyles<PremiumChainDialogStylesParams>()((theme, { windowHeight }) => ({
     paperRoot: {
       margin: 0,
-      padding: theme.spacing(2 * 4.75, 2 * 4.75, 2 * 5.25, 2 * 4.75),
-      borderRadius: theme.spacing(2 * 5),
-      width: 1160,
+      width: '100%',
 
       [theme.breakpoints.up(DIALOG_BREAKDOWN)]: {
         [scaleMedia]: {

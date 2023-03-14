@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { push } from 'connected-react-router';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { TxHash } from 'modules/common/types';
 
@@ -22,7 +22,8 @@ export const { useClaimRewardsMutation } = web3Api.injectEndpoints({
 
           return { data: await sdk.claimRewards(provider) };
         },
-        getOnErrorWithCustomText(t('stake-ankr.errors.claim-rewards')),
+        error =>
+          getExtendedErrorText(error, t('stake-ankr.errors.claim-rewards')),
       ),
 
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {

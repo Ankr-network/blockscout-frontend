@@ -40,7 +40,7 @@ export const useStyles = makeStyles<Props>()(
 
       paddingLeft: SIDEBAR_WIDTH,
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         paddingLeft: 0,
       },
     },
@@ -50,7 +50,7 @@ export const useStyles = makeStyles<Props>()(
       position: 'relative',
       paddingTop: HEADER_HEIGHT,
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
         paddingBottom: 48 + MOBILE_NAVIGATION_HEIGHT,
       },
@@ -58,7 +58,7 @@ export const useStyles = makeStyles<Props>()(
     header: {
       '&&': {
         backgroundColor: `${theme.palette.background.default} !important`,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
           display: 'none',
         },
       },
@@ -66,18 +66,20 @@ export const useStyles = makeStyles<Props>()(
     mobileHeader: {
       display: 'none',
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         display: 'block',
       },
     },
     sidebar: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         display: 'none',
       },
     },
     mobileBreadcrumbs: {
       marginBottom: theme.spacing(2 * 2.5),
-      [theme.breakpoints.up('sm')]: {
+      paddingLeft: 2,
+
+      [theme.breakpoints.up('md')]: {
         display: 'none',
       },
     },

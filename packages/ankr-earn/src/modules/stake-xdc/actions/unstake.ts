@@ -6,7 +6,7 @@ import { RootState } from 'store';
 import { IUnstakeData, Web3KeyReadProvider, XDC } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -55,7 +55,7 @@ export const { useUnstakeMutation } = web3Api.injectEndpoints({
             }),
           };
         },
-        getOnErrorWithCustomText(t('stake-xdc.errors.unstake')),
+        error => getExtendedErrorText(error, t('stake-xdc.errors.unstake')),
       ),
       onQueryStarted: (args, { dispatch, queryFulfilled }) =>
         queryFulfilled.then(({ data }) => {

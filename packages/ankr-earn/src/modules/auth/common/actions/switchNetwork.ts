@@ -1,3 +1,5 @@
+import { t } from '@ankr.com/common';
+
 import {
   AvailableWriteProviders,
   EEthereumNetworkId,
@@ -10,7 +12,7 @@ import {
 } from 'polkadot';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { isEVMCompatible } from 'modules/auth/eth/utils/isEVMCompatible';
 import { isPolkadotCompatible } from 'modules/auth/polkadot/utils/isPolkadotCompatible';
@@ -21,9 +23,6 @@ import {
   ProvidersMap,
 } from '../../../common/types';
 import { setChainId } from '../store/authSlice';
-
-// todo: STAKAN-2484 translations are not initialized at the moment, so we use a constant
-const ERROR_TEXT = 'Failed to switch the network';
 
 interface ISwitchNetworkArgs {
   chainId: EEthereumNetworkId | EPolkadotNetworkId;
@@ -45,48 +44,51 @@ export const {
           ISwitchNetworkArgs,
           never,
           TSwitchNetwork
-        >(async ({ chainId, providerId }) => {
-          const provider = await getProviderManager<ProvidersMap>().getProvider(
-            providerId,
-          );
+        >(
+          async ({ chainId, providerId }) => {
+            const provider =
+              await getProviderManager<ProvidersMap>().getProvider(providerId);
 
-          switch (providerId) {
-            case AvailableWriteProviders.ethCompatible: {
-              if (isEVMCompatible(chainId)) {
-                await (provider as EthereumWeb3KeyProvider).switchNetwork(
-                  chainId,
-                );
-                return {
-                  data: true,
-                };
+            switch (providerId) {
+              case AvailableWriteProviders.ethCompatible: {
+                if (isEVMCompatible(chainId)) {
+                  await (provider as EthereumWeb3KeyProvider).switchNetwork(
+                    chainId,
+                  );
+                  return {
+                    data: true,
+                  };
+                }
+
+                break;
               }
 
-              break;
-            }
+              case ExtraWriteProviders.polkadotCompatible: {
+                if (isPolkadotCompatible(chainId)) {
+                  switchNetworkData = await (
+                    provider as PolkadotProvider
+                  ).switchNetwork(chainId);
 
-            case ExtraWriteProviders.polkadotCompatible: {
-              if (isPolkadotCompatible(chainId)) {
-                switchNetworkData = await (
-                  provider as PolkadotProvider
-                ).switchNetwork(chainId);
+                  return {
+                    data: true,
+                  };
+                }
 
-                return {
-                  data: true,
-                };
+                break;
               }
 
-              break;
+              case ExtraWriteProviders.suiCompatible:
+              default:
+                break;
             }
 
-            case ExtraWriteProviders.suiCompatible:
-            default:
-              break;
-          }
-
-          return {
-            data: false,
-          };
-        }, getOnErrorWithCustomText(ERROR_TEXT)),
+            return {
+              data: false,
+            };
+          },
+          error =>
+            getExtendedErrorText(error, t('common.errors.switch-failed')),
+        ),
 
         async onQueryStarted(
           { chainId, providerId },

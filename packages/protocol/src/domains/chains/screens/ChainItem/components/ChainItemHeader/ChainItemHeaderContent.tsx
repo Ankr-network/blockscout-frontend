@@ -62,7 +62,13 @@ export const ChainItemHeaderContent = ({
       {isMultiChain ? (
         <MultiChainOverview />
       ) : (
-        <ChainOverview chain={chain} isChainArchived={isChainArchived} />
+        <ChainOverview
+          chain={chain}
+          chainType={chainType}
+          group={group}
+          isChainArchived={isChainArchived}
+          publicChain={publicChain}
+        />
       )}
       {(withChainTypeSelector || withGroupSelector) && (
         <div className={classes.controls}>

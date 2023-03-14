@@ -1,30 +1,22 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { Box, Grid, Typography } from '@material-ui/core';
 
 import { trackDelegatedStakingFlow } from 'modules/analytics/tracking-actions/trackDelegatedStakingFlow';
-import { configFromEnv } from 'modules/api/config';
-import {
-  DEFAULT_ROUNDING,
-  DOCS_ANKR_TOKEN_STAKING_LINK,
-  ETH_NETWORK_BY_ENV,
-} from 'modules/common/const';
+import { DEFAULT_ROUNDING, ETH_NETWORK_BY_ENV } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { Amount } from 'modules/dashboard/components/Amount';
-import {
-  DashboardCard,
-  DashboardCardSkeleton,
-} from 'modules/dashboard/components/DashboardCard';
+import { DashboardCard } from 'modules/dashboard/components/DashboardCard';
 import { NetworkIconText } from 'modules/dashboard/components/NetworkIconText';
-import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { Menu } from 'uiKit/Menu';
 import { NavLink } from 'uiKit/NavLink';
+
+import { AnkrInfoDialog } from '../AnkrInfoDialog';
 
 import { useStakedANKRData } from './useStakedANKRData';
 import { useStakedANKRStyles } from './useStakedANKRStyles';
 
 export const StakedANKR = (): JSX.Element => {
-  const { contractConfig } = configFromEnv();
   const classes = useStakedANKRStyles();
 
   const {
@@ -38,9 +30,7 @@ export const StakedANKR = (): JSX.Element => {
     rewardsAmount,
     stakedUsdEquivalent,
     rewardsUsdEquivalent,
-    network,
     manageLink,
-    loading,
     address,
     walletName,
   } = useStakedANKRData();
@@ -52,10 +42,6 @@ export const StakedANKR = (): JSX.Element => {
   const rewardsUsdValue = t('unit.usd-value', {
     value: rewardsUsdEquivalent.decimalPlaces(DEFAULT_ROUNDING).toFormat(),
   });
-
-  if (loading) {
-    return <DashboardCardSkeleton />;
-  }
 
   const onClick = () => {
     trackDelegatedStakingFlow({
@@ -119,22 +105,11 @@ export const StakedANKR = (): JSX.Element => {
           </Box>
         }
         networkAndIconSlot={
-          <NetworkIconText
-            chainId={ETH_NETWORK_BY_ENV}
-            network={network}
-            token={Token.ANKR}
-          />
+          <NetworkIconText chainId={ETH_NETWORK_BY_ENV} token={Token.ANKR} />
         }
       />
 
-      <TokenInfoDialog
-        description={tHTML('dashboard.token-info.ANKR')}
-        moreHref={DOCS_ANKR_TOKEN_STAKING_LINK}
-        open={isOpenedInfo}
-        tokenAddress={contractConfig.ankrToken}
-        tokenName={Token.ANKR}
-        onClose={onCloseInfo}
-      />
+      <AnkrInfoDialog isOpened={isOpenedInfo} onClose={onCloseInfo} />
     </>
   );
 };

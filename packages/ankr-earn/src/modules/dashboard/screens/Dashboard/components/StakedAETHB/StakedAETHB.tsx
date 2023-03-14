@@ -1,10 +1,8 @@
 import { t, tHTML } from '@ankr.com/common';
-import { useCallback } from 'react';
 
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
 import { ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
@@ -13,21 +11,25 @@ import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedTxHistoryETH } from '../../hooks/liquid-tokens/ETH/useStakedTxHistoryETH';
 
 import { useStakedAETHBData } from './useStakedAETHBData';
 
+const token = Token.aETHb;
+const nativeToken = Token.ETH;
+
 export const StakedAETHB = (): JSX.Element => {
   const { contractConfig } = configFromEnv();
 
-  const unstakePendingData = useUnstakePendingTimestamp({ token: Token.ETH });
-  const {
-    isOpened: isOpenedHistory,
-    onOpen: onOpenHistory,
-    onClose: onCloseHistory,
-  } = useDialog();
+  const unstakePendingData = useUnstakePendingTimestamp({ token: nativeToken });
+
+  const { handleOpen: handleOpenHistoryDialog } = useKnownDialog(
+    EKnownDialogs.history,
+    token,
+  );
 
   const {
     isOpened: isOpenedInfo,
@@ -56,15 +58,11 @@ export const StakedAETHB = (): JSX.Element => {
     handleLoadTxHistory,
   } = useStakedTxHistoryETH();
 
-  const handleOpenHistoryDialog = useCallback(() => {
-    onOpenHistory();
-  }, [onOpenHistory]);
-
   const onTradeClick = () => {
     trackClickTrade({
       walletType: walletName,
       walletPublicAddress: address,
-      stakeToken: Token.aETHb,
+      stakeToken: token,
       stakedBalance: amount?.toFixed(),
     });
   };
@@ -74,14 +72,14 @@ export const StakedAETHB = (): JSX.Element => {
       walletType: walletName,
       walletPublicAddress: address,
       accessPoint: 'add_stake',
-      tokenName: Token.aETHb,
+      tokenName: token,
     });
   };
 
   const renderedPendingSlot = !pendingValue.isZero() && (
     <Pending
       isLoading={isHistoryLoading}
-      token={Token.aETHb}
+      token={token}
       tooltip={
         <PendingTable
           data={pendingUnstakeHistory}
@@ -104,7 +102,7 @@ export const StakedAETHB = (): JSX.Element => {
         pendingSlot={renderedPendingSlot}
         stakeLink={stakeLink}
         switchLink={switchLink}
-        token={Token.aETHb}
+        token={token}
         unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
@@ -113,21 +111,15 @@ export const StakedAETHB = (): JSX.Element => {
         onTradeClick={onTradeClick}
       />
 
-      <NewHistoryDialog
-        open={isOpenedHistory}
-        token={Token.aETHb}
-        onClose={onCloseHistory}
-      />
-
       <TokenInfoDialog
         addTokenToWallet={handleAddTokenToWallet}
         description={tHTML('dashboard.token-info.aETHb', {
           ratio: ONE.toFormat(),
         })}
-        moreHref={getStakingOverviewUrl(Token.ETH)}
+        moreHref={getStakingOverviewUrl(nativeToken)}
         open={isOpenedInfo}
         tokenAddress={contractConfig.fethContract}
-        tokenName={Token.aETHb}
+        tokenName={token}
         onClose={onCloseInfo}
       />
     </>

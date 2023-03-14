@@ -328,7 +328,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
           amount: item.amount.decimalPlaces(
             !SMALL_PRICE_TOKENS.includes(item.name) ? DECIMAL_PLACES : 0,
           ),
-          usdAmount: usdAmounts[index].decimalPlaces(DEFAULT_ROUNDING),
+          usdAmount: usdAmounts[index],
           yieldAmount: item.amount
             .multipliedBy(item.apy)
             .dividedBy(100)
@@ -367,7 +367,7 @@ export const usePortfolioNativeData = (): IUsePortfolioData => {
       isLoadingMgnoBalanceData ||
       isMgnoPriceLoading ||
       isXDCDataLoading,
-    totalAmountUsd: totalAmountUsd.decimalPlaces(DEFAULT_ROUNDING),
+    totalAmountUsd,
     apr: apr.decimalPlaces(DEFAULT_ROUNDING),
     totalYieldAmountUsd: totalYieldAmountUsd
       .minus(totalAmountUsd)

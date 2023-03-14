@@ -11,10 +11,7 @@ import {
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { Amount } from 'modules/dashboard/components/Amount';
-import {
-  DashboardCard,
-  DashboardCardSkeleton,
-} from 'modules/dashboard/components/DashboardCard';
+import { DashboardCard } from 'modules/dashboard/components/DashboardCard';
 import { NetworkIconText } from 'modules/dashboard/components/NetworkIconText';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { Menu } from 'uiKit/Menu';
@@ -38,16 +35,10 @@ export const StakedMGNO = (): JSX.Element => {
     stakedUsdEquivalent,
     rewardsAmount,
     rewardsUsdEquivalent,
-    network,
     manageLink,
-    loading,
     address,
     walletName,
   } = useStakedMGNOData();
-
-  if (loading) {
-    return <DashboardCardSkeleton />;
-  }
 
   const onClick = () => {
     trackDelegatedStakingFlow({
@@ -130,9 +121,7 @@ export const StakedMGNO = (): JSX.Element => {
             </Menu>
           </Box>
         }
-        networkAndIconSlot={
-          <NetworkIconText network={network} token={Token.mGNO} />
-        }
+        networkAndIconSlot={<NetworkIconText token={Token.mGNO} />}
       />
 
       <TokenInfoDialog

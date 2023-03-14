@@ -1,20 +1,14 @@
-import { NewHistoryDialog } from 'modules/common/components/HistoryDialog/NewHistoryDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
+import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 
 import { useStakedAnkrSUIData } from './useStakedAnkrSUIData';
 
 export const StakedAnkrSUI = (): JSX.Element => {
-  const {
-    isOpened: isOpenedHistory,
-    onClose: onCloseHistory,
-    onOpen: onOpenHistory,
-  } = useDialog();
-
   const {
     isOpened: isOpenedInfo,
     onClose: onCloseInfo,
@@ -38,6 +32,11 @@ export const StakedAnkrSUI = (): JSX.Element => {
     usdAmount,
     onAddTokenToWallet,
   } = useStakedAnkrSUIData();
+
+  const { handleOpen: onOpenHistory } = useKnownDialog(
+    EKnownDialogs.history,
+    token,
+  );
 
   const renderedPendingSlot = (!pendingValue.isZero() ||
     isPendingUnstakeLoading) && (
@@ -68,12 +67,6 @@ export const StakedAnkrSUI = (): JSX.Element => {
         usdAmount={usdAmount}
         onHistoryBtnClick={onOpenHistory}
         onTokenInfoClick={onOpenInfo}
-      />
-
-      <NewHistoryDialog
-        open={isOpenedHistory}
-        token={Token.SUI}
-        onClose={onCloseHistory}
       />
 
       <TokenInfoDialog

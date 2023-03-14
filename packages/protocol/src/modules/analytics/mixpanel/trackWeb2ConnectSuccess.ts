@@ -1,16 +1,13 @@
 import { Web2ConnectTrackingParams } from './types';
 import { trackConnectWalletFlow } from './utils/trackConnectWalletFlow';
-import { trackWeb2Connect } from './utils/trackWeb2Connect';
 
 export const trackWeb2ConnectSuccess = ({
   email: google_account,
   hasPremium: billing = false,
-}: Web2ConnectTrackingParams) => {
-  trackWeb2Connect({
+}: Web2ConnectTrackingParams) =>
+  trackConnectWalletFlow({
     billing,
     google_account,
-    user_connected: true,
+    sign_up: true,
+    web2_connect: true,
   });
-
-  trackConnectWalletFlow({ sign_up: true });
-};

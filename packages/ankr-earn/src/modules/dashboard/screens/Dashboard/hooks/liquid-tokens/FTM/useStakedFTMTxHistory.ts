@@ -4,18 +4,18 @@ import { useCallback } from 'react';
 
 import { ITxEventsHistoryGroupItem } from '@ankr.com/staking-sdk';
 
-import { IHistoryDialogRow } from 'modules/common/components/HistoryDialog/types';
 import { FTM_NETWORK_BY_ENV, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
 import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
+import { IHistoryTableRow } from 'modules/dashboard/types';
 import { useLazyGetFTMTotalHistoryDataQuery } from 'modules/stake-fantom/actions/getTotalHistoryData';
 
 export interface IUseStakedFTMTxHistory {
-  stakedAFTMB: IHistoryDialogRow[];
-  stakedAFTMC: IHistoryDialogRow[];
-  unstakedAFTMB: IHistoryDialogRow[];
-  unstakedAFTMC: IHistoryDialogRow[];
+  stakedAFTMB: IHistoryTableRow[];
+  stakedAFTMC: IHistoryTableRow[];
+  unstakedAFTMB: IHistoryTableRow[];
+  unstakedAFTMC: IHistoryTableRow[];
   pendingUnstakeHistoryAFTMB: IPendingTableRow[];
   pendingUnstakeHistoryAFTMC: IPendingTableRow[];
   hasHistory: boolean;
@@ -24,7 +24,7 @@ export interface IUseStakedFTMTxHistory {
   handleLoadTxHistory: () => void;
 }
 
-const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryDialogRow => {
+const mapTxns = (data: ITxEventsHistoryGroupItem): IHistoryTableRow => {
   return {
     date: data.txDate,
     link: getTxLinkByNetwork(data.txHash, FTM_NETWORK_BY_ENV),

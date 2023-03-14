@@ -1,6 +1,6 @@
 import mixpanel, { Callback, Dict, RequestOptions } from 'mixpanel-browser';
 
-export interface TrackMixpanelParams {
+interface TrackMixpanelParams {
   event: string;
   options?: RequestOptions | Callback;
   properties?: Dict;

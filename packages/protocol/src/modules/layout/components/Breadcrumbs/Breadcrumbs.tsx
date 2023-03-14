@@ -18,12 +18,12 @@ import {
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UserLabel } from 'uiKit/Breadcrumbs/Components/UserLabel';
 
-export const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
+const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
   breadcrumbs: [],
   setBreadcrumbs: () => null,
 });
 
-export function BreadcrumbsProvider({ children }: BreadcrumbsProviderProps) {
+export const BreadcrumbsProvider = ({ children }: BreadcrumbsProviderProps) => {
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
 
   const handleSetBreadcrumbs = (newBreadcrumbs: BreadcrumbItem[]) => {
@@ -40,7 +40,7 @@ export function BreadcrumbsProvider({ children }: BreadcrumbsProviderProps) {
       {children}
     </BreadcrumbsContext.Provider>
   );
-}
+};
 
 export const useBreadcrumbs = () => {
   return React.useContext(BreadcrumbsContext);
@@ -62,15 +62,26 @@ export const useSetBreadcrumbs = (breadcrumbs: BreadcrumbItem[]) => {
   return { setBreadcrumbs };
 };
 
-export const Breadcrumbs = () => {
+export interface BreadcrumbsProps {
+  isChainItemPage?: boolean;
+}
+
+const CHAIN_PAGE_CUSTOM_BREAKPOINT = 1050;
+
+export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
   const { breadcrumbs } = useContext(BreadcrumbsContext);
 
   const { hasPremium, isLoggedIn } = useAuth();
 
+  const customBreakpoint = isChainItemPage
+    ? CHAIN_PAGE_CUSTOM_BREAKPOINT
+    : undefined;
+
   return (
     <BreadcrumbsBase
+      customBreakpoint={customBreakpoint}
       items={breadcrumbs}
-      userLabel={isLoggedIn ? <UserLabel isPremium={hasPremium} /> : null}
+      userLabel={isLoggedIn ? <UserLabel hasPremium={hasPremium} /> : null}
     />
   );
 };

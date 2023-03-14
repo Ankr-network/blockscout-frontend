@@ -622,7 +622,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<BigNumber>} - allowance in wei
    */
   public async getACAllowance(): Promise<BigNumber> {
-    const maticTokenContract = await this.getMaticTokenContract(true);
+    const maticTokenContract = await this.getMaticTokenContract();
     const { contractConfig } = configFromEnv();
 
     const allowance = await maticTokenContract.methods

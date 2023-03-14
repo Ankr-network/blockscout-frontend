@@ -58,4 +58,9 @@ export const useStyles = makeStyles<{
     height: 21,
     transform: 'none',
   },
+  switcher: {
+    '&&&': {
+      borderWidth: 2,
+    },
+  },
 }));

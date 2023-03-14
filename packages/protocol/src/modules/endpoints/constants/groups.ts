@@ -3,7 +3,7 @@ import { ChainID } from 'modules/chains/types';
 import { t } from '@ankr.com/common';
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
-export const getName = (key: string, isPlural?: boolean) =>
+const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
     plural: isPlural ? t('chain-item.header.plural') : '',
   });

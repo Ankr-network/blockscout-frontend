@@ -1,36 +1,46 @@
 import { alpha, makeStyles } from '@material-ui/core';
 
 export const useNetworkChooserStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bodyArea: {
+  paper: {
     position: 'relative',
-    width: 620,
-    padding: theme.spacing(6.25, 6.25, 6.25, 6.25),
-  },
-  headerArea: {
-    margin: theme.spacing(0, 7, 0, 7),
+    padding: theme.spacing(8, 0, 5),
     textAlign: 'center',
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(6.25, 0, 11),
+    },
   },
-  chooseArea: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: theme.spacing(8, 0, 5, 0),
+
+  container: {
+    maxWidth: 410,
+    width: '100%',
+    margin: '0 auto',
   },
+
+  title: {
+    margin: theme.spacing(0, 0, 4),
+
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: theme.spacing(8),
+    },
+  },
+
   chooseItemArea: {
-    width: 176,
-    height: 180,
+    width: '100%',
+    height: '100%',
+    margin: '0 auto',
     padding: theme.spacing(2.5, 2.5, 2.5, 2.5),
+    display: 'flex',
+
     color: theme.palette.text.primary,
     border: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
     borderRadius: 18,
     cursor: 'pointer',
+
+    [theme.breakpoints.up('sm')]: {
+      maxWidth: 176,
+      minHeight: 176,
+    },
 
     '&:hover': {
       backgroundColor: alpha(theme.palette.text.secondary, 0.2),
@@ -42,9 +52,6 @@ export const useNetworkChooserStyles = makeStyles(theme => ({
       justifyContent: 'center',
       alignItems: 'center',
     },
-  },
-  chooseItemAreaSecond: {
-    margin: theme.spacing(0, 0, 0, 5),
   },
 
   closeBtn: {
@@ -69,14 +76,11 @@ export const useNetworkChooserStyles = makeStyles(theme => ({
   },
 
   chooseItemIcon: {
-    size: 70,
+    fontSize: 70,
   },
+
   chooseItemTitle: {
     margin: theme.spacing(2.5, 0, 0, 0),
     fontWeight: 700,
-  },
-  chooseItemBalance: {
-    margin: theme.spacing(1, 0, 0, 0),
-    fontWeight: 400,
   },
 }));

@@ -4,6 +4,8 @@ import { useSignupDialogStyles } from './useSignupDialogStyles';
 import { SignupDialogContent } from './SignupDialogContent';
 import { useSignupDialog } from './useSignupDialog';
 
+export const SIGNUP_DIALOG_WIDTH = 620;
+
 interface SignupDialogProps {
   isOpen: boolean;
   onClose: () => void;
@@ -23,27 +25,29 @@ export const SignupDialog = ({
   const {
     currentState,
     dialogTitle,
+    handleClose,
     loading,
     onDialogClose,
     onGoogleButtonClick,
     setWeb3State,
-  } = useSignupDialog({ onManualClose, hasOauthLogin });
+  } = useSignupDialog({ onClose, onManualClose, hasOauthLogin });
 
   return (
     <Dialog
-      maxPxWidth={618}
+      maxPxWidth={SIGNUP_DIALOG_WIDTH}
       onClose={onDialogClose}
       open={isOpen}
       title={dialogTitle}
       titleClassName={classes.dialogTitle}
       closeButtonClassName={classes.closeButton}
+      paperClassName={classes.paperRoot}
     >
       {loading ? (
         <EmailContentLoading />
       ) : (
         <SignupDialogContent
           currentState={currentState}
-          onDialogClose={onDialogClose}
+          onDialogClose={handleClose}
           onGoogleButtonClick={onGoogleButtonClick}
           onSuccess={onSuccess}
           setWeb3State={setWeb3State}

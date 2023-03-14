@@ -16,8 +16,6 @@ export const useStyles = makeStyles<boolean>()(
           /* just icon "back" for breadcrumbs link */
 
           padding: 10,
-          border: `1px solid ${theme.palette.grey[500]}`,
-          borderRadius: '50%',
           width: 36,
           height: 36,
           display: 'inline-flex',
@@ -53,6 +51,11 @@ export const useStyles = makeStyles<boolean>()(
 
       [theme.breakpoints.down('md')]: {
         display: 'none',
+      },
+    },
+    muiSeparator: {
+      [theme.breakpoints.down('md')]: {
+        margin: 0,
       },
     },
     breadcrumbsRoot: {

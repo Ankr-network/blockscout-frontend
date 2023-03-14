@@ -3,9 +3,9 @@ import { act, renderHook } from '@testing-library/react-hooks';
 
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
-import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { IHistoryDialogData } from 'modules/dashboard/types';
 import { useLazyGetAVAXTotalHistoryDataQuery } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 
 import { useStakedAVAXTxHistory } from '../useStakedAVAXTxHistory';

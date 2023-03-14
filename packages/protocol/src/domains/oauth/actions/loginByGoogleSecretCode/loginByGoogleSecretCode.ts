@@ -8,12 +8,12 @@ import {
   getEthUserAddress,
   getSecreteCodeAndState,
   getTrackingParams,
+  trackLoginSuccess,
 } from './loginByGoogleSecretCodeUtils';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
 import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 import { trackWeb2ConnectFailure } from 'modules/analytics/mixpanel/trackWeb2ConnectFailure';
-import { trackWeb2ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb2ConnectSuccess';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
 import { loginSyntheticJwt } from './loginSyntheticJwtToken';
@@ -93,7 +93,7 @@ export const {
             }),
           );
 
-          trackWeb2ConnectSuccess(getTrackingParams(getState as GetState));
+          await trackLoginSuccess({ dispatch, getState });
 
           return { data: {} };
         },

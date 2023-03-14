@@ -2,10 +2,10 @@ import { t } from '@ankr.com/common';
 
 import { AVAX_HISTORY_2_WEEKS_OFFSET } from '@ankr.com/staking-sdk';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { IBaseHistoryData } from 'modules/common/components/HistoryDialog/types';
 import { Token } from 'modules/common/types/token';
+import { IBaseHistoryData } from 'modules/stake/types';
 
 import { getAvalancheSDK } from '../utils/getAvalancheSDK';
 
@@ -44,7 +44,7 @@ export const { useLazyGetAVAXHistoryQuery } = web3Api.injectEndpoints({
             },
           };
         },
-        getOnErrorWithCustomText(t('stake-avax.errors.history')),
+        error => getExtendedErrorText(error, t('stake-avax.errors.history')),
       ),
     }),
   }),

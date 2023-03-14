@@ -1,8 +1,9 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { CacheTags } from 'modules/common/const';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
@@ -16,18 +17,23 @@ interface IGetCommonData {
 export const { useGetCommonDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
     getCommonData: build.query<IGetCommonData, void>({
-      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(async () => {
-        const sdk = await AnkrStakingSDK.getInstance();
-        const provider = await sdk.getProvider();
+      queryFn: queryFnNotifyWrapper<void, never, IGetCommonData>(
+        async () => {
+          const sdk = await AnkrStakingSDK.getInstance();
+          const provider = await sdk.getProvider();
 
-        const [ankrBalance, minStake, lockingPeriod] = await Promise.all([
-          sdk.getAnkrBalance(),
-          sdk.getMinimumStake(),
-          sdk.getLockingPeriodDays(await provider.getBlockNumber()),
-        ]);
+          const [ankrBalance, minStake, lockingPeriod] = await Promise.all([
+            sdk.getAnkrBalance(),
+            sdk.getMinimumStake(),
+            sdk.getLockingPeriodDays(await provider.getBlockNumber()),
+          ]);
 
-        return { data: { ankrBalance, minStake, lockingPeriod } };
-      }, getOnErrorWithCustomText(t('stake-ankr.errors.common-data'))),
+          return { data: { ankrBalance, minStake, lockingPeriod } };
+        },
+        error =>
+          getExtendedErrorText(error, t('stake-ankr.errors.common-data')),
+      ),
+      providesTags: [CacheTags.account],
     }),
   }),
 });

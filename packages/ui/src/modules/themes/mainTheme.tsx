@@ -69,6 +69,7 @@ export const PALETTE: PaletteOptions = {
     800: '#1F2226',
     900: '#DFE3EB',
   },
+  divider: '#E0E6EF',
 };
 
 export const defaultTheme = createTheme({

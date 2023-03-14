@@ -13,8 +13,11 @@ import ReminderIcon from './assets/reminder.png';
 import { useReminderDialogStyles } from './useReminderDialogStyles';
 import { ConfirmReminderDialog } from '../ConfirmReminderDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export const ReminderDialog = () => {
+  const { isLightTheme } = useThemes();
+
   const { isOpened, onOpen, onClose } = useDialog();
   const { address } = useAuth();
 
@@ -24,7 +27,7 @@ export const ReminderDialog = () => {
     onClose: onCloseConfirm,
   } = useDialog();
 
-  const { classes } = useReminderDialogStyles();
+  const { classes } = useReminderDialogStyles(isLightTheme);
 
   const dispatch = useDispatch();
 

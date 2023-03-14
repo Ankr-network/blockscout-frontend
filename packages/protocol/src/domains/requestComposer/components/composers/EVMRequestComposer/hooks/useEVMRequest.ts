@@ -12,14 +12,6 @@ import {
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
-export interface EVMRequest {
-  error: unknown;
-  method?: [EVMMethod];
-  response?: [EVMMethodResponse];
-  time: number;
-  withResponse: boolean;
-}
-
 const defaultData = {
   response: undefined,
   error: undefined,

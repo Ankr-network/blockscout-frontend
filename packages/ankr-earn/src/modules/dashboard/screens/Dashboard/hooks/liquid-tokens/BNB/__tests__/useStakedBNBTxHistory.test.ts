@@ -3,9 +3,9 @@ import { act, renderHook } from '@testing-library/react-hooks';
 
 import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
 
-import { IHistoryDialogData } from 'modules/common/components/HistoryDialog';
 import { ONE_ETH } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { IHistoryDialogData } from 'modules/dashboard/types';
 import { useLazyGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
 import { useAppDispatch } from 'store/useAppDispatch';
 

@@ -7,7 +7,7 @@ import { SUI_PROVIDER_ID } from 'sui';
 import { IStakeData, Web3KeyWriteProvider } from '@ankr.com/staking-sdk';
 
 import { getProviderManager } from 'modules/api/getProviderManager';
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
 
@@ -53,7 +53,7 @@ export const { useUnstakeSUIMutation } = web3Api.injectEndpoints({
             data: await unstake(),
           };
         },
-        getOnErrorWithCustomText(t('stake-sui.errors.unstake')),
+        error => getExtendedErrorText(error, t('stake-sui.errors.unstake')),
       ),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         return queryFulfilled.then(response => {

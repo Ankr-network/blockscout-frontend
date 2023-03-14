@@ -23,7 +23,7 @@ export const Plans = () => {
       <Plan
         root={premiumRoot}
         features={premiumFeatures}
-        isPremium
+        hasPremium
         href={`#${PREMIUM_BLOCK_ANCHOR}`}
         link={
           <NavLink

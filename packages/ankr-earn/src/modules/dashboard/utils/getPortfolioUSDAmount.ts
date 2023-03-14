@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+import { DEFAULT_ROUNDING } from 'modules/common/const';
+
 const TARGET_AMOUNT = 100;
 
 export const getPortfolioUSDAmount = (amount: BigNumber): string => {
@@ -9,5 +11,5 @@ export const getPortfolioUSDAmount = (amount: BigNumber): string => {
 
   return amount.isGreaterThanOrEqualTo(TARGET_AMOUNT)
     ? amount.toFormat(0)
-    : amount.toFormat();
+    : amount.dp(DEFAULT_ROUNDING).toFormat();
 };

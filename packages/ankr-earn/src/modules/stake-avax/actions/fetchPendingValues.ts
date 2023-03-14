@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { getOnErrorWithCustomText } from 'modules/api/utils/getOnErrorWithCustomText';
+import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 
@@ -13,24 +13,32 @@ interface IFetchPendingValuesResponseData {
   pendingAavaxcUnstakes: BigNumber;
 }
 
-export const { useGetAVAXPendingValuesQuery } = web3Api.injectEndpoints({
+export const {
+  useGetAVAXPendingValuesQuery,
+  useLazyGetAVAXPendingValuesQuery,
+} = web3Api.injectEndpoints({
   endpoints: build => ({
     getAVAXPendingValues: build.query<IFetchPendingValuesResponseData, void>({
       queryFn: queryFnNotifyWrapper<
         void,
         never,
         IFetchPendingValuesResponseData
-      >(async () => {
-        const sdk = await getAvalancheSDK();
-        const { pendingBond, pendingCertificate } = await sdk.getPendingData();
+      >(
+        async () => {
+          const sdk = await getAvalancheSDK();
+          const { pendingBond, pendingCertificate } =
+            await sdk.getPendingData();
 
-        return {
-          data: {
-            pendingAavaxbUnstakes: pendingBond,
-            pendingAavaxcUnstakes: pendingCertificate,
-          },
-        };
-      }, getOnErrorWithCustomText(t('stake-avax.errors.pending-values'))),
+          return {
+            data: {
+              pendingAavaxbUnstakes: pendingBond,
+              pendingAavaxcUnstakes: pendingCertificate,
+            },
+          };
+        },
+        error =>
+          getExtendedErrorText(error, t('stake-avax.errors.pending-values')),
+      ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],
     }),
