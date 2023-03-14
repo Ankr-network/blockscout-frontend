@@ -26,20 +26,7 @@ export const Endpoints = ({
 }: EndpointsProps) => {
   const { classes } = useEndpointsStyles();
 
-  const {
-    hasOauthLogin,
-    hasWeb3Connection,
-    isUserEthAddressType,
-    hasPrivateAccess,
-    hasPremium,
-  } = useAuth();
-
-  const hasConnectWalletMessage = Boolean(
-    hasOauthLogin &&
-      !hasWeb3Connection &&
-      hasPrivateAccess &&
-      isUserEthAddressType,
-  );
+  const { hasConnectWalletMessage, hasPremium } = useAuth();
 
   const onCopyEndpoint = useCopyEndpointHandler(chainType);
 

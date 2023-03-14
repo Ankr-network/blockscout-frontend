@@ -18,6 +18,7 @@ export type IDialogProps = Omit<
   'BackdropProps' | 'PaperProps'
 > & {
   onClose: () => void;
+  shouldHideCloseButton?: boolean;
   initialTitle?: string;
   title?: string;
   maxPxWidth?: number;
@@ -29,6 +30,7 @@ export type IDialogProps = Omit<
 export const Dialog = ({
   children,
   onClose,
+  shouldHideCloseButton = false,
   initialTitle = '',
   title,
   maxPxWidth,
@@ -78,7 +80,7 @@ export const Dialog = ({
         <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
           {dialogTitle.title}
 
-          {onClose ? (
+          {!shouldHideCloseButton && (
             <IconButton
               aria-label="close"
               className={cx(classes.closeButton, closeButtonClassName)}
@@ -86,7 +88,7 @@ export const Dialog = ({
             >
               <Close />
             </IconButton>
-          ) : null}
+          )}
         </MuiDialogTitle>
 
         <MuiDialogContent className={classes.dialogContent}>

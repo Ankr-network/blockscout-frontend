@@ -12,7 +12,7 @@ export const ChainItem = () => {
   return (
     <NoReactSnap>
       {hasPrivateAccess ? (
-        <PrivateChainItemQuery chainId={chainId} loading={loading} />
+        <PrivateChainItemQuery chainId={chainId} />
       ) : (
         <PublicChainItemQuery chainId={chainId} loading={loading} />
       )}

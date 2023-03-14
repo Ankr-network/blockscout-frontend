@@ -1,32 +1,42 @@
-import { GetState } from 'store';
 import { IApiChain, filterMapChains } from '../../api/queryChains';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { web3Api } from 'store/queries';
+import { IBlockchainEntity } from 'multirpc-sdk';
 
 export interface FetchPrivateChainsResult {
   allChains: IApiChain[];
   chains: IApiChain[];
 }
 
+let cachedChains: IBlockchainEntity[] | null = null;
+
+const getBlockchains = async () => {
+  if (!cachedChains) {
+    const publicService = MultiService.getService();
+
+    cachedChains = await publicService.getPublicGateway().getBlockchains();
+  }
+
+  return cachedChains;
+};
+
 export const {
   useLazyChainsFetchPrivateChainsQuery,
   endpoints: { chainsFetchPrivateChains },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchPrivateChains: build.query<FetchPrivateChainsResult, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
+    chainsFetchPrivateChains: build.query<
+      FetchPrivateChainsResult,
+      string | undefined
+    >({
+      queryFn: createNotifyingQueryFn(async (userEndpointToken?: string) => {
         const publicService = MultiService.getService();
-        const { workerTokenData } = credentialsGuard(getState as GetState);
 
-        const chains = await publicService.getPublicGateway().getBlockchains();
+        const chains = await getBlockchains();
 
-        const formattedPrivateChains = workerTokenData?.userEndpointToken
-          ? publicService.formatPrivateEndpoints(
-              chains,
-              workerTokenData?.userEndpointToken,
-            )
+        const formattedPrivateChains = userEndpointToken
+          ? publicService.formatPrivateEndpoints(chains, userEndpointToken)
           : publicService.formatPublicEndpoints(chains);
 
         const formattedPublicChains =

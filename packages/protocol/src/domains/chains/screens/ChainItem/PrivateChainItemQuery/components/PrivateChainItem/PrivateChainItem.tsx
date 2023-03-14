@@ -6,7 +6,6 @@ import { ChainItemHeader } from '../../../components/ChainItemHeader';
 import { ChainItemSections } from '../../../components/ChainItemSections';
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
-import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 
 export interface ChainItemProps {
@@ -39,7 +38,6 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   return (
     <>
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
-      <ExpiredTokenBanner />
       <ChainItemHeader
         chain={chain}
         publicChain={publicChain}

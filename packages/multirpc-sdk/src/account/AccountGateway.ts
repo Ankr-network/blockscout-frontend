@@ -30,6 +30,7 @@ import {
   ICheckInstantJwtParticipantResponse,
   IGetOrCreateInstantJwt,
 } from './types';
+import { IJwtTokenLimitResponse, IJwtTokenResponse } from '../oauth';
 
 export class AccountGateway {
   public api: AxiosInstance;
@@ -316,6 +317,40 @@ export class AccountGateway {
     const { data: response } = await this.api.get<IGetOrCreateInstantJwt>(
       '/api/v1/auth/devdao/getOrCreateJwtForUserAddress',
     );
+
+    return response;
+  }
+
+  async getAllowedJwtTokensCount(): Promise<number> {
+    const { data } = await this.api.get<IJwtTokenLimitResponse>(
+      '/api/v1/auth/jwt/allowedCount',
+    );
+
+    return data.jwtLimit;
+  }
+
+  async getAllJwtToken(): Promise<IJwtTokenResponse[]> {
+    const { data } = await this.api.get<IJwtTokenResponse[]>(
+      '/api/v1/auth/jwt/all',
+    );
+
+    return data;
+  }
+
+  async createJwtToken(index: number): Promise<IJwtTokenResponse> {
+    const { data } = await this.api.post<IJwtTokenResponse>(
+      `/api/v1/auth/jwt/additional`,
+      null,
+      { params: { index } },
+    );
+
+    return data;
+  }
+
+  async deleteJwtToken(index: number) {
+    const { data: response } = await this.api.delete(`/api/v1/auth/jwt`, {
+      params: { index },
+    });
 
     return response;
   }
