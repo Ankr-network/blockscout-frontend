@@ -20,11 +20,7 @@ export const SignUpContent = ({
     onGoogleButtonClick,
     loading,
     onDialogClose,
-  } = useSignupDialog({
-    hasOauthLogin,
-    onGoogleSignUp,
-    onManualClose: onClose,
-  });
+  } = useSignupDialog({ hasOauthLogin, onClose, onGoogleSignUp });
 
   return (
     <>

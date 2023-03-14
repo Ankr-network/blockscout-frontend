@@ -8,9 +8,11 @@ const defaultData = {
   allChains: [],
 };
 
-export const usePrivateChainsInfo = (): PrivateChains => {
+export const usePrivateChainsInfo = (
+  hasWeb3Connection: boolean,
+): PrivateChains => {
   const { data: { chains, allChains } = defaultData, isLoading } =
-    useChainsFetchPrivateChainsInfoQuery();
+    useChainsFetchPrivateChainsInfoQuery(hasWeb3Connection);
 
   return [chains, allChains, isLoading];
 };

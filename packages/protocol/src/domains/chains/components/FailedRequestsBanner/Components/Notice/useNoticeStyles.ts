@@ -1,19 +1,26 @@
 import { makeStyles } from 'tss-react/mui';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
-import { COMMON_HEIGHT, NOTICE_WIDTH, ONE_ROW_SCREEN_WIDTH } from '../../const';
+
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+import { CHART_HEIGHT, LG_CHART_HEIGHT, NOTICE_WIDTH } from '../../const';
 
 export const useNoticeStyles = makeStyles()(theme => ({
   notice: {
     width: NOTICE_WIDTH,
-    background: premiumColor,
+    background: getPremiumColorGradient(theme),
     borderRadius: theme.spacing(5),
     padding: 2,
     position: 'absolute',
     right: 0,
-    height: COMMON_HEIGHT,
-    top: 0,
+    height: `${CHART_HEIGHT + 50}px`,
+    top: -50,
 
-    [theme.breakpoints.down(ONE_ROW_SCREEN_WIDTH)]: {
+    [theme.breakpoints.down('xl')]: {
+      height: LG_CHART_HEIGHT,
+
+      top: 0,
+    },
+
+    [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(6),
       position: 'relative',
       width: '100%',
@@ -31,7 +38,7 @@ export const useNoticeStyles = makeStyles()(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: '20.2px',
 
     '& em': {

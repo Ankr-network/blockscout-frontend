@@ -101,7 +101,7 @@
   },
   "signup-modal": {
     "title": "Sign up method",
-    "description": "By continuing you agree to our terms of service and privacy policy.",
+    "description": "By continuing you agree to our terms of service and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>.",
     "oauth-title": "Email authentication",
     "wallet-install": "Install",
     "gmail-button": "Continue with Google",
@@ -168,9 +168,7 @@
     "private-stats": {
       "title": "Your stats",
       "stats": {
-        "total": "Total Requests Made",
-        "failovers": "Total Requests Recovered",
-        "successPercent": "Successful Requests %"
+        "total": "Total Requests Made"
       }
     },
     "free-plan": {
@@ -426,8 +424,8 @@
           "value": "{cached}%"
         },
         "cost": {
-          "title": "Credit Usage",
-          "value": "{cost, number, ::compact-short}"
+          "value": "{cost, number, ::compact-short}",
+          "title": "Credit Usage"
         },
         "billing-button": "Billing"
       },

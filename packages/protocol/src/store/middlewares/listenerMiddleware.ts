@@ -40,16 +40,6 @@ listenerMiddleware.startListening({
   ),
   effect: async (_action, { dispatch }) => {
     dispatch(watchForDepositOrVoucherTransation.initiate());
-  },
-});
-
-listenerMiddleware.startListening({
-  matcher: isAnyOf(
-    oauthLoginByGoogleSecretCode.matchFulfilled,
-    oauthAutoLogin.matchFulfilled,
-    authConnect.matchFulfilled,
-  ),
-  effect: async (_action, { dispatch }) => {
     dispatch(watchForVoucherTransactionAndNegativeBalance.initiate());
   },
 });

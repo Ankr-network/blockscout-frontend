@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
-export interface PrivateStatsParams {
+interface PrivateStatsParams {
   interval: PrivateStatsInterval;
   requestKey?: string;
 }
 
-export interface PrivateStatsReturn {
+interface PrivateStatsReturn {
   arePrivateStatsLoading: boolean;
   data: PrivateStats;
   privateStatsError: any;

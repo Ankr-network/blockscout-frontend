@@ -7,7 +7,6 @@ import App from './App';
 import { initializeMixpanel } from 'modules/analytics/mixpanel/initialize';
 import { initializeSentry } from 'modules/sentry';
 import { initializeLocale } from 'modules/i18n/utils/initialize';
-import { reportWebVitals } from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
@@ -33,8 +32,3 @@ if (rootElement?.hasChildNodes()) {
 if (!isReactSnap) {
   serviceWorkerRegistration.register();
 }
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

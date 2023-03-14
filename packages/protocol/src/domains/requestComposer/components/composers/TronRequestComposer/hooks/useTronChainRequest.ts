@@ -12,7 +12,7 @@ import {
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
-export const defaultData: FetchTronChainRequestResult = {
+const defaultData: FetchTronChainRequestResult = {
   error: undefined,
   response: undefined,
   time: 0,

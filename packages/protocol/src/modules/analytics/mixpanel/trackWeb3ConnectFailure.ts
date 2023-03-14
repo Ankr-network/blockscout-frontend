@@ -1,5 +1,4 @@
 import { trackConnectWalletFlow } from './utils/trackConnectWalletFlow';
-import { trackWeb3Connect } from './utils/trackWeb3Connect';
 
 export interface Web3ConnectFailureTrackingParams {
   walletName: string;
@@ -7,12 +6,10 @@ export interface Web3ConnectFailureTrackingParams {
 
 export const trackWeb3ConnectFailure = ({
   walletName: wallet_type,
-}: Web3ConnectFailureTrackingParams) => {
-  trackWeb3Connect({
+}: Web3ConnectFailureTrackingParams) =>
+  trackConnectWalletFlow({
     billing: false,
-    user_connected: false,
+    sign_up: false,
     wallet_type,
+    web3_connect: true,
   });
-
-  trackConnectWalletFlow({ sign_up: false });
-};

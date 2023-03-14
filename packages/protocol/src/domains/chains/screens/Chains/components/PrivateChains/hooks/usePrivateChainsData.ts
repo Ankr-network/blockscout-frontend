@@ -6,10 +6,10 @@ import { useSortType } from '../../../hooks/useSortType';
 import { useTimeframe } from '../../../hooks/useTimeframe';
 
 export const usePrivateChainsData = () => {
-  const { loading: isConnecting, isLoggedIn } = useAuth();
+  const { loading: isConnecting, isLoggedIn, hasWeb3Connection } = useAuth();
 
   const [privateChains, privateAllChains, privateChainsLoading] =
-    usePrivateChainsInfo();
+    usePrivateChainsInfo(hasWeb3Connection);
 
   const [timeframe, switchStatsTimeframe] = useTimeframe(isLoggedIn);
 

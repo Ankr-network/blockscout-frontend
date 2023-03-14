@@ -2,8 +2,6 @@ import BigNumber from 'bignumber.js';
 
 import { t } from '@ankr.com/common';
 
-export const CURRENCY = 'ANKR';
-
 const MIN_AMOUNT = 0;
 
 export const validateAmount = (value: string) => {

@@ -7,10 +7,10 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     height: 24,
     minWidth: 'auto',
     padding: theme.spacing(1, 2),
-
     borderRadius: 18,
+
     '&&': {
-      border: '1px solid rgba(0, 0, 0, 0.12)',
+      border: `2px solid ${theme.palette.background.default}`,
     },
 
     color: theme.palette.grey[600],

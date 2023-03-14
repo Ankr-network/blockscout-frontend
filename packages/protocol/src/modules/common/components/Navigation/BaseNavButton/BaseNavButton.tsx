@@ -10,15 +10,18 @@ import {
 } from 'modules/layout/components/MainNavigation/utils/navigationUtils';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface IBaseNavButtonProps {
   item: NavigationItem;
 }
 
 export const BaseNavButton = ({ item }: IBaseNavButtonProps) => {
-  const { classes, cx } = useBaseNavButtonStyles();
+  const { isLightTheme } = useThemes();
 
-  const { label, href, isComingSoon, StartIcon, ActiveIcon } = item;
+  const { classes, cx } = useBaseNavButtonStyles(isLightTheme);
+
+  const { label, href, isComingSoon, StartIcon, ActiveIcon, isDisabled } = item;
 
   const isExternalHref = useMemo(() => href && isExternalPath(href), [href]);
 
@@ -33,7 +36,11 @@ export const BaseNavButton = ({ item }: IBaseNavButtonProps) => {
   return (
     <Button
       {...props}
-      className={cx(classes.link, isComingSoon && classes.comingSoon)}
+      className={cx(
+        classes.link,
+        isComingSoon && classes.comingSoon,
+        isDisabled && classes.disabled,
+      )}
       startIcon={<StartIcon />}
       endIcon={ActiveIcon && <ActiveIcon className={classes.activeLink} />}
       LinkComponent={isExternalHref ? 'a' : NavLink}

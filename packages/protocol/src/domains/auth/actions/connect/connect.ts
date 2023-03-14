@@ -1,15 +1,11 @@
-import { EWalletId } from '@ankr.com/provider';
+import { EWalletId, getWalletName } from '@ankr.com/provider';
 
-import { GetState, RootState } from 'store';
+import { GetState } from 'store';
 import { disconnectService, switchChain } from './connectUtils';
 import { getCachedData, makeAuthorization } from './makeAuthorization';
 import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import {
-  IAuthSlice,
-  resetAuthData,
-  selectAuthData,
-} from '../../store/authSlice';
+import { IAuthSlice, resetAuthData } from '../../store/authSlice';
 import { trackWeb3ConnectFailure } from 'modules/analytics/mixpanel/trackWeb3ConnectFailure';
 import { trackWeb3ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb3ConnectSuccess';
 import { web3Api } from 'store/queries';
@@ -78,19 +74,17 @@ export const {
           return { data: authData };
         },
       ),
-      onQueryStarted: async (_args, { dispatch, getState, queryFulfilled }) => {
+      onQueryStarted: async ({ walletId }, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
         } catch {
+          trackWeb3ConnectFailure({
+            walletName: getWalletName(walletId as EWalletId),
+          });
+
           disconnectService();
 
           dispatch(resetAuthData());
-
-          const { trackingWalletName: walletName } = selectAuthData(
-            getState() as RootState,
-          );
-
-          trackWeb3ConnectFailure({ walletName: walletName! });
         }
       },
     }),

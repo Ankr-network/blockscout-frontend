@@ -1,8 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const SIDEBAR_WIDTH = 220;
-
 export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',

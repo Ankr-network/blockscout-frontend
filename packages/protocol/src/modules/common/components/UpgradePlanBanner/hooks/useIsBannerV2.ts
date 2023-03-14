@@ -1,24 +1,16 @@
-import { useMemo } from 'react';
-import { useLocation } from 'react-router';
-import qs from 'query-string';
 import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useQueryParams } from 'modules/common/hooks/useQueryParams';
+
+const BANNER_CODE = 'banner';
 
 export const useIsBannerV2 = () => {
-  const { search } = useLocation();
-  const isBannerV2 = useMemo(() => {
-    const { banner } = qs.parse(search);
-    return banner === BannerFreeToRegisterType.register;
-  }, [search]);
-
+  const params = useQueryParams();
   const { isLoggedIn } = useAuth();
-  if (isLoggedIn) {
-    return {
-      isBannerV2: false,
-    };
-  }
+
+  const banner = params.get(BANNER_CODE);
 
   return {
-    isBannerV2,
+    isBannerV2: !isLoggedIn && banner === BannerFreeToRegisterType.register,
   };
 };

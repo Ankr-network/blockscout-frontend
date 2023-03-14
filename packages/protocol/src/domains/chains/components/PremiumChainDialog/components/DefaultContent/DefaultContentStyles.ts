@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 import { DIALOG_BREAKDOWN } from '../../const';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useDefaultContentStyles = makeStyles<boolean>()(
   (theme, isLightTheme) => ({
@@ -11,7 +11,7 @@ export const useDefaultContentStyles = makeStyles<boolean>()(
       fontSize: 35,
     },
     wrapperHighlighted: {
-      background: premiumColor,
+      background: getPremiumColorGradient(theme),
       padding: '4px',
       borderRadius: '42px',
     },

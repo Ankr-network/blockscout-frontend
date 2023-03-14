@@ -46,10 +46,9 @@ export const Endpoints = ({
   return (
     <Box className={classes.endpointsList}>
       <RPCEndpoints
-        chainType={chainType}
         group={group}
         hasConnectWalletMessage={hasConnectWalletMessage}
-        isPremium={hasPremium}
+        hasPremium={hasPremium}
         onCopyEndpoint={onCopyEndpoint}
         publicChain={publicChain}
       />
