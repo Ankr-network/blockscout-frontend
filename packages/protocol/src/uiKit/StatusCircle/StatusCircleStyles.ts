@@ -10,16 +10,13 @@ type StatusCircleStylesProps = {
 
 const getSize = (size: StatusCircleStylesProps['size']) => {
   switch (size) {
-    case 'sm': {
-      return 6;
-    }
-
     case 'md': {
       return 12;
     }
 
+    case 'sm':
     default: {
-      return 6;
+      return 8;
     }
   }
 };

@@ -8,6 +8,7 @@ import { IStakeSubmitPayload } from 'modules/delegate-stake/components/StakeForm
 import { useGetCommonDataQuery } from 'modules/stake-ankr/actions/getCommonData';
 import { useGetProvidersQuery } from 'modules/stake-ankr/actions/getProviders';
 import { useGetUnlockedDelegatedByValidatorQuery } from 'modules/stake-ankr/actions/getUnlockedDelegatedByValidator';
+import { MIN_ANKR_UNSTAKE_AMOUNT } from 'modules/stake-ankr/const';
 import { getDemoProviderName } from 'modules/stake-ankr/utils/getDemoProviderName';
 
 import { useUnstakeANKRMutation } from '../../../actions/unstake';
@@ -96,7 +97,7 @@ export const useAnkrUnstake = (): IUseAnkrUnstake => {
       isDelegatedAmountLoading ||
       isUnstakeLoading,
     availableUnstake,
-    minAmount: data?.minStake ?? ZERO,
+    minAmount: MIN_ANKR_UNSTAKE_AMOUNT,
     tokenIn: t('unit.ankr'),
     closeHref: RoutesConfig.main.generatePath(),
     providerId: initialProvider ?? '',

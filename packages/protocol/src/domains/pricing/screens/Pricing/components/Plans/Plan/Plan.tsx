@@ -8,20 +8,20 @@ import { PremiumLabel } from 'domains/chains/screens/ChainItem/components/GetSta
 interface PlanProps {
   features: ReactNode[];
   root: string;
-  isPremium?: boolean;
+  hasPremium?: boolean;
   link?: ReactNode;
   href?: string;
 }
 
-export const Plan = ({ features, root, isPremium, link, href }: PlanProps) => {
+export const Plan = ({ features, root, hasPremium, link, href }: PlanProps) => {
   const { classes, cx } = usePlansStyles();
 
   return (
-    <Box className={cx(classes.plan, isPremium ? classes.premium : '')}>
+    <Box className={cx(classes.plan, hasPremium ? classes.premium : '')}>
       <Box className={classes.wrapper}>
         <Box className={classes.container}>
           <Box className={classes.titleWrapper}>
-            {isPremium ? (
+            {hasPremium ? (
               <PremiumLabel size="l" className={classes.premiumTitle} />
             ) : (
               <Typography
@@ -37,7 +37,7 @@ export const Plan = ({ features, root, isPremium, link, href }: PlanProps) => {
           <Typography
             className={classes.label}
             variant="h4"
-            color={isPremium ? 'textPrimary' : 'textSecondary'}
+            color={hasPremium ? 'textPrimary' : 'textSecondary'}
             component="div"
           >
             {tHTML(`${root}.label`)}
@@ -67,7 +67,7 @@ export const Plan = ({ features, root, isPremium, link, href }: PlanProps) => {
             })}
           </Box>
         </Box>
-        <Button disabled={!isPremium} href={href} className={classes.button}>
+        <Button disabled={!hasPremium} href={href} className={classes.button}>
           {tHTML(`${root}.button`)}
         </Button>
       </Box>

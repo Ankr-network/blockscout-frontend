@@ -1,13 +1,5 @@
 import { IAggregatedPaymentHistoryRequest } from 'multirpc-sdk';
 
-export enum ExpenseChartTimeframe {
-  OneWeek,
-  OneMonth,
-  ThreeMonth,
-  OneYear,
-  All,
-}
-
 export enum ChartCurrency {
   ANKR,
   USD,

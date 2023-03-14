@@ -12,10 +12,14 @@ const colorsMap: Record<DialogTitleColor, string> = {
 interface IUseStylesProps {
   dialogTitleColor: DialogTitleColor;
   maxPxWidth?: number;
+  isLightTheme: boolean;
 }
 
 export const useStyles = makeStyles<IUseStylesProps>()(
-  (theme: Theme, props: IUseStylesProps) => ({
+  (
+    theme: Theme,
+    { dialogTitleColor, maxPxWidth, isLightTheme }: IUseStylesProps,
+  ) => ({
     root: {
       display: 'fixed',
     },
@@ -26,13 +30,13 @@ export const useStyles = makeStyles<IUseStylesProps>()(
 
     paper: {
       '&&': {
-        maxWidth: props.maxPxWidth || 'unset',
+        maxWidth: maxPxWidth || 'unset',
       },
       background: theme.palette.background.paper,
       boxShadow:
         '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 0px 50px rgba(31, 34, 38, 0.1)',
-      borderRadius: 30,
-      padding: theme.spacing(2 * 4, 2 * 5, 2 * 5, 2 * 5),
+      borderRadius: 40,
+      padding: theme.spacing(2 * 5),
 
       [theme.breakpoints.down('xs')]: {
         borderRadius: 20,
@@ -43,12 +47,11 @@ export const useStyles = makeStyles<IUseStylesProps>()(
     dialogTitle: {
       padding: 0,
       marginBottom: theme.spacing(2 * 3),
-      letterSpacing: '0.05em',
 
       fontSize: 34,
       fontWeight: 700,
       minHeight: 40,
-      color: colorsMap[props.dialogTitleColor],
+      color: colorsMap[dialogTitleColor],
       position: 'relative',
 
       [theme.breakpoints.down('xs')]: {
@@ -65,7 +68,11 @@ export const useStyles = makeStyles<IUseStylesProps>()(
     },
 
     closeButton: {
-      border: `2px solid ${theme.palette.background.default}`,
+      border: `2px solid ${
+        isLightTheme
+          ? theme.palette.background.default
+          : theme.palette.grey[100]
+      }`,
       borderRadius: 14,
       width: 40,
       height: 40,
@@ -85,6 +92,7 @@ export const useStyles = makeStyles<IUseStylesProps>()(
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
+        color: isLightTheme ? undefined : theme.palette.common.white,
       },
     },
   }),

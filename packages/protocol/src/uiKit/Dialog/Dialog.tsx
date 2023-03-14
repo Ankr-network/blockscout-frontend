@@ -7,6 +7,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { useLayoutEffect, useMemo, useState } from 'react';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { DialogContext } from './DialogContext';
 import { useStyles } from './DialogStyles';
@@ -36,6 +37,8 @@ export const Dialog = ({
   closeButtonClassName,
   ...props
 }: IDialogProps) => {
+  const { isLightTheme } = useThemes();
+
   const [dialogTitle, setDialogTitle] = useState<DialogTitle>({
     title: initialTitle,
     color: DialogTitleColor.Regular,
@@ -53,6 +56,7 @@ export const Dialog = ({
   const { classes, cx } = useStyles({
     dialogTitleColor: dialogTitle.color || DialogTitleColor.Regular,
     maxPxWidth,
+    isLightTheme,
   });
 
   return (

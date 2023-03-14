@@ -4,7 +4,7 @@ import { t } from '@ankr.com/common';
 import { Dialog } from 'uiKit/Dialog';
 import { useCancelSubscriptionDialogStyles } from './useCancelSubscriptionDialogStyles';
 
-export interface ICancelSubscriptionDialogProps {
+interface ICancelSubscriptionDialogProps {
   open: boolean;
   onSuccess: () => void;
   onClose: () => void;

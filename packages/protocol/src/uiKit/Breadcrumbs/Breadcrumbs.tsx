@@ -35,6 +35,7 @@ export const Breadcrumbs = ({
         root: classes.breadcrumbsRoot,
         ol: classes.breadcrumbs,
         li: classes.breadcrumbsLi,
+        separator: classes.muiSeparator,
       }}
     >
       {items.map((item, index) => {

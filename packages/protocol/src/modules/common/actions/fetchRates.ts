@@ -4,7 +4,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getAnkrUsdt } from 'modules/api/sdk';
 import { web3Api } from 'store/queries';
 
-export interface IRates {
+interface IRates {
   ankrUsdt: BigNumber;
 }
 

@@ -60,12 +60,9 @@ export const DefaultLayout = ({
         )}
         <MobileHeader className={classes.mobileHeader} />
         <Container disableGutters={disableGutters} className={classes.main}>
-          <Container
-            disableGutters={!disableGutters}
-            className={classes.mobileBreadcrumbs}
-          >
+          <div className={classes.mobileBreadcrumbs}>
             <Breadcrumbs />
-          </Container>
+          </div>
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
       </div>

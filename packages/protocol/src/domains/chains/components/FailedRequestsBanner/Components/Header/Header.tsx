@@ -22,14 +22,14 @@ export const Header = ({
 
   return (
     <div className={classes.information}>
-      <Typography variant="h6" component="div">
+      <Typography variant="subtitle1" component="div" className={classes.title}>
         <span className={classes.title}>
           {t(`${intlFailedRequestsBannerRoot}.title`)}
         </span>
-        <Switcher value={switchValue} />
+        <Switcher value={switchValue} className={classes.switcher} />
       </Typography>
-      <div className={classes.infotitle}>
-        <div>
+      <div className={classes.infoTitle}>
+        <div className={classes.sectionTitle}>
           <StatusCircle size="md" />
           <Typography className={classes.text}>
             {t(`${intlFailedRequestsBannerRoot}.total-request`)}
@@ -40,7 +40,7 @@ export const Header = ({
             })}
           </Typography>
         </div>
-        <div>
+        <div className={classes.sectionTitle}>
           <StatusCircle size="md" status="error" />
           <Typography className={classes.text}>
             {t(`${intlFailedRequestsBannerRoot}.rate-limit-rejections`)}

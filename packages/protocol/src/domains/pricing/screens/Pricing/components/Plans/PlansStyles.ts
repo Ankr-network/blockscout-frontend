@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const usePlansStyles = makeStyles<void, 'container'>()(
   (theme: Theme, _params, classes) => ({
@@ -41,7 +41,7 @@ export const usePlansStyles = makeStyles<void, 'container'>()(
       },
     },
     premium: {
-      background: premiumColor,
+      background: getPremiumColorGradient(theme),
 
       [`& .${classes.container}`]: {
         background: theme.palette.background.paper,

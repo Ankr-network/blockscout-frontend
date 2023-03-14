@@ -12,7 +12,6 @@ import { IAuthSlice } from '../store/authSlice';
 
 type HandleConnect = (
   walletId: string,
-  isAutoConnect?: boolean,
 ) => ReturnType<Trigger<AuthConnectParams, IAuthSlice>>;
 
 export interface Web3Connection {

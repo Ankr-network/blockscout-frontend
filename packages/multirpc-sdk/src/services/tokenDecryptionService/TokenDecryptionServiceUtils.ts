@@ -1,6 +1,12 @@
 import { Web3KeyWriteProvider } from '@ankr.com/provider';
-import * as ethUtil from 'ethereumjs-util';
-import * as sigUtil from 'eth-sig-util';
+import {
+  hashPersonalMessage as ethHashPersonalMessage,
+  bufferToHex,
+  fromRpcSig,
+  ecrecover,
+  publicToAddress,
+} from 'ethereumjs-util';
+import { getEncryptionPublicKey as ethGetEncryptionPublicKey } from 'eth-sig-util';
 
 const removeHexPrefix = (hex: string): string => {
   return hex.toLowerCase().replace('0x', '');
@@ -8,22 +14,22 @@ const removeHexPrefix = (hex: string): string => {
 
 const hashPersonalMessage = (msg: string): string => {
   const buffer = Buffer.from(msg);
-  const result = ethUtil.hashPersonalMessage(buffer);
-  const hash = ethUtil.bufferToHex(result);
+  const result = ethHashPersonalMessage(buffer);
+  const hash = bufferToHex(result);
 
   return hash;
 };
 
 const recoverPublicKey = (sig: string, hash: string): string => {
-  const sigParams = ethUtil.fromRpcSig(sig);
+  const sigParams = fromRpcSig(sig);
   const hashBuffer = Buffer.from(hash.replace('0x', ''), 'hex');
-  const result = ethUtil.ecrecover(
+  const result = ecrecover(
     hashBuffer,
     sigParams.v,
     sigParams.r,
     sigParams.s,
   );
-  const signer = ethUtil.bufferToHex(ethUtil.publicToAddress(result));
+  const signer = bufferToHex(publicToAddress(result));
 
   return signer;
 };
@@ -65,7 +71,7 @@ export const getEncryptionPublicKey = async (
   derivedPrivateKey = removeHexPrefix(derivedPrivateKey);
 
   const derivedEncryptionPublicKey =
-    sigUtil.getEncryptionPublicKey(derivedPrivateKey);
+    ethGetEncryptionPublicKey(derivedPrivateKey);
 
   return {
     privateKey: derivedPrivateKey,

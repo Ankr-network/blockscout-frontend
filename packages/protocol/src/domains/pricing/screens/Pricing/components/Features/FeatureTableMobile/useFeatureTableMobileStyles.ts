@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { premiumColor } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureTableMobileStyles = makeStyles()((theme: Theme) => ({
   title: {
@@ -53,7 +53,7 @@ export const useFeatureTableMobileStyles = makeStyles()((theme: Theme) => ({
     display: 'block',
   },
   liner: {
-    background: premiumColor,
+    background: getPremiumColorGradient(theme),
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     '-webkit-box-decoration-break': 'clone',

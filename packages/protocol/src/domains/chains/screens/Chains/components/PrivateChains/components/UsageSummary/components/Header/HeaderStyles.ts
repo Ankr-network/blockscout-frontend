@@ -14,4 +14,9 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     fontSize: theme.spacing(2 * 2),
     lineHeight: theme.spacing(2 * 3),
   },
+  switcher: {
+    '&&&': {
+      border: `2px solid ${theme.palette.grey[300]}`,
+    },
+  },
 }));
