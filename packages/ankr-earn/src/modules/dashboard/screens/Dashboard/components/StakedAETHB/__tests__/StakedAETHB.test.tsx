@@ -115,7 +115,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHB', () => {
       </MemoryRouter>,
     );
 
-    const unstakeTitleBox = await screen.findByTitle(/after The Merge/);
+    const unstakeTitleBox = await screen.findByTitle(
+      /Unstaking will become available after Ethereum enables it in their network/,
+    );
 
     expect(unstakeTitleBox).toBeInTheDocument();
   });

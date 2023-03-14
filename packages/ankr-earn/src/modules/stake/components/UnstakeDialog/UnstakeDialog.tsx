@@ -176,85 +176,83 @@ export const UnstakeDialog = ({
                     renderFormFooter(amount, new BigNumber(maxAmountValue))}
                 </Container>
 
-                <div className={classes.footer}>
-                  <Container className={classes.container}>
-                    {isExternalAllowed && (
-                      <div className={classes.externalWrapper}>
-                        <div className={classes.checkboxArea}>
-                          <Field
-                            component={CheckboxField}
-                            name={FieldsNames.isToExternalAddress}
-                            type="checkbox"
+                <Container className={classes.container}>
+                  {isExternalAllowed && (
+                    <div className={classes.externalWrapper}>
+                      <div className={classes.checkboxArea}>
+                        <Field
+                          component={CheckboxField}
+                          name={FieldsNames.isToExternalAddress}
+                          type="checkbox"
+                        >
+                          <Typography
+                            className={classes.checkboxTxt}
+                            color="textSecondary"
+                            variant="body2"
                           >
-                            <Typography
-                              className={classes.checkboxTxt}
-                              color="textSecondary"
-                              variant="body2"
-                            >
-                              {t('unstake-dialog.send-external-wallet')}
-                            </Typography>
-                          </Field>
-                        </div>
-
-                        {values.isToExternalAddress && (
-                          <div className={classes.addressArea}>
-                            <Typography
-                              className={classes.labelTxt}
-                              color="textPrimary"
-                              variant="body2"
-                            >
-                              {t('stake-polkadot.unstake.external-wallet')}
-                            </Typography>
-
-                            <Field
-                              fullWidth
-                              className={classes.addressField}
-                              component={InputField}
-                              disabled={isDisabled}
-                              name={FieldsNames.externalAddress}
-                              type="string"
-                            />
-                          </div>
-                        )}
+                            {t('unstake-dialog.send-external-wallet')}
+                          </Typography>
+                        </Field>
                       </div>
-                    )}
 
-                    <Box mb={4}>
-                      {endDate && (
-                        <Typography className={classes.info} variant="body2">
-                          {t('unstake-dialog.info', { token })}
-
-                          <Timer
-                            className={classes.timer}
-                            component="span"
-                            endTime={endDate}
-                          />
-                        </Typography>
-                      )}
-
-                      {endText && <Notice>{endText}</Notice>}
-                    </Box>
-
-                    {renderFormApproveButtons ? (
-                      renderFormApproveButtons(amount)
-                    ) : (
-                      <Grid container spacing={3}>
-                        <Grid item xs>
-                          <Button
-                            fullWidth
-                            color="primary"
-                            disabled={isUnstakeBtnDisabled}
-                            isLoading={isLoading}
-                            size="large"
-                            type="submit"
+                      {values.isToExternalAddress && (
+                        <div className={classes.addressArea}>
+                          <Typography
+                            className={classes.labelTxt}
+                            color="textPrimary"
+                            variant="body2"
                           >
-                            <>{t('unstake-dialog.btn')}</>
-                          </Button>
-                        </Grid>
-                      </Grid>
+                            {t('stake-polkadot.unstake.external-wallet')}
+                          </Typography>
+
+                          <Field
+                            fullWidth
+                            className={classes.addressField}
+                            component={InputField}
+                            disabled={isDisabled}
+                            name={FieldsNames.externalAddress}
+                            type="string"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <Box mb={4}>
+                    {endDate && (
+                      <Typography className={classes.info} variant="body2">
+                        {t('unstake-dialog.info', { token })}
+
+                        <Timer
+                          className={classes.timer}
+                          component="span"
+                          endTime={endDate}
+                        />
+                      </Typography>
                     )}
-                  </Container>
-                </div>
+
+                    {endText && <Notice>{endText}</Notice>}
+                  </Box>
+
+                  {renderFormApproveButtons ? (
+                    renderFormApproveButtons(amount)
+                  ) : (
+                    <Grid container spacing={3}>
+                      <Grid item xs>
+                        <Button
+                          fullWidth
+                          color="primary"
+                          disabled={isUnstakeBtnDisabled}
+                          isLoading={isLoading}
+                          size="large"
+                          type="submit"
+                        >
+                          <>{t('unstake-dialog.btn')}</>
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )}
+                </Container>
 
                 <OnChange name={FieldsNames.amount}>
                   {() => {

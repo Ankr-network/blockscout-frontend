@@ -209,17 +209,10 @@ export class AnkrStakingSDK extends AnkrStakingReadSDK {
       .undelegate(validator, hexAmount)
       .encodeABI();
 
-    const { epoch: currentEpoch } = await this.getChainParams();
-
-    const extendedGasLimit = await this.getExtendedGasLimit(
-      validator,
-      currentEpoch,
-    );
-
     const { transactionHash } = await this.writeProvider.sendTransactionAsync(
       this.currentAccount,
       contractConfig.ankrTokenStaking,
-      { data, extendedGasLimit, estimate: true },
+      { data, estimate: true },
     );
 
     return transactionHash;

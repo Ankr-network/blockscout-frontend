@@ -5,7 +5,7 @@ import {
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { ZERO } from 'modules/common/const';
@@ -21,6 +21,7 @@ import {
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { Container } from 'uiKit/Container';
+import { QueryLoadingAbsolute } from 'uiKit/QueryLoading';
 
 import { useFlashUnstakeBinanceApprovalForm } from './hooks/useFlashUnstakeBinanceApprovalForm';
 import { useUnstakeBinanceApprovalForm } from './hooks/useUnstakeBinanceApprovalForm';
@@ -54,7 +55,11 @@ export const UnstakeBinance = (): JSX.Element => {
 
   const isFlashUnstakeAllowed = selectedToken === Token.aBNBc;
 
-  const [isFlash, setIsFlash] = useState(isFlashUnstakeAllowed);
+  const isZeroPoolBalance = poolBalance.isZero();
+
+  const [isFlash, setIsFlash] = useState(
+    isFlashUnstakeAllowed && !isZeroPoolBalance,
+  );
 
   const onIsFlashChange = useCallback(
     (isFlashValue: boolean) => {
@@ -109,6 +114,10 @@ export const UnstakeBinance = (): JSX.Element => {
       dispatch(resetRequests());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    setIsFlash(!isZeroPoolBalance);
+  }, [isZeroPoolBalance]);
 
   const onRenderFormFooter = (amount: BigNumber): JSX.Element => {
     const value = amount;
@@ -185,6 +194,10 @@ export const UnstakeBinance = (): JSX.Element => {
   const isDisabled =
     (isFlash ? isSwapPoolApproveLoading : isApproveLoading) ||
     (isFlash ? isFlashUnstakeLoading : isUnstakeLoading);
+
+  if (isFetchStatsLoading) {
+    return <QueryLoadingAbsolute />;
+  }
 
   return (
     <Box component="section" py={{ xs: 6, sm: 10 }}>

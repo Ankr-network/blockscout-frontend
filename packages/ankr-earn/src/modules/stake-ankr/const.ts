@@ -30,3 +30,8 @@ export enum EProviderStatus {
 
 export const SHORT_CACHE_TIME: Milliseconds = 1_000 * 10;
 export const LONG_CACHE_TIME: Milliseconds = 1_000 * 300;
+
+/**
+ * Minimum amount of ANKR to unstake.
+ */
+export const MIN_ANKR_UNSTAKE_AMOUNT = new BigNumber(0.00000001);

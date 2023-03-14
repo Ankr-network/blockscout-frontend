@@ -110,7 +110,7 @@ export const StakeFantom = (): JSX.Element => {
         <StakeForm
           isMaxBtnShowed
           auditSlot={
-            <AuditInfo>
+            <AuditInfo mt={4}>
               <AuditInfoItem link={AUDIT_LINKS.ftm} variant="beosin" />
             </AuditInfo>
           }

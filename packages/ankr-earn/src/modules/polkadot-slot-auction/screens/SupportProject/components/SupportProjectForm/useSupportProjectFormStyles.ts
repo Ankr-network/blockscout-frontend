@@ -85,7 +85,7 @@ export const useSupportProjectFormStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(4, 0, 0, 0),
-    borderTop: '1px solid #e0e6ef',
+    borderTop: `1px solid ${theme.palette.divider}`,
   },
   disclaimerInput: {
     margin: theme.spacing(0, 0, 5.5, 1.125),
