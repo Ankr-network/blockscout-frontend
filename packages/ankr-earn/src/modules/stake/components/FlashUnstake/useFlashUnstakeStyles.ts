@@ -7,14 +7,19 @@ export const useFlashUnstakeStyles = makeStyles(({ spacing, palette }) => ({
     gap: spacing(1.5),
     width: '100%',
   },
+  rootZeroBalance: {
+    flexDirection: 'column-reverse',
+  },
   unstakeTypeBtn: {
     cursor: 'pointer',
     padding: spacing(2, 2.5),
     width: '100%',
-    height: spacing(11),
     background: palette.common.white,
     border: `1px solid ${palette.grey['400']}`,
     borderRadius: 12,
+  },
+  unstakeTypeBtnDisabled: {
+    cursor: 'default',
   },
   unstakeTagList: {
     display: 'flex',
@@ -60,5 +65,15 @@ export const useFlashUnstakeStyles = makeStyles(({ spacing, palette }) => ({
   },
   instantIcon: {
     marginRight: spacing(0.75),
+  },
+  quoteCont: {
+    '&:before': {
+      content: '""',
+      display: 'block',
+      height: 1,
+      width: '100%',
+      background: palette.divider,
+      margin: spacing(1.5, 0),
+    },
   },
 }));

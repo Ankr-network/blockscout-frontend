@@ -144,7 +144,7 @@ export const StakeBinance = (): JSX.Element => {
 
         <StakeForm
           auditSlot={
-            <AuditInfo>
+            <AuditInfo mt={4}>
               <AuditInfoItem link={AUDIT_LINKS.bnbBeosin} variant="beosin" />
 
               <AuditInfoItem
