@@ -2,24 +2,11 @@ import { IApiChain, filterMapChains } from '../../api/queryChains';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { IBlockchainEntity } from 'multirpc-sdk';
 
 export interface FetchPrivateChainsResult {
   allChains: IApiChain[];
   chains: IApiChain[];
 }
-
-let cachedChains: IBlockchainEntity[] | null = null;
-
-const getBlockchains = async () => {
-  if (!cachedChains) {
-    const publicService = MultiService.getService();
-
-    cachedChains = await publicService.getPublicGateway().getBlockchains();
-  }
-
-  return cachedChains;
-};
 
 export const {
   useLazyChainsFetchPrivateChainsQuery,
@@ -33,14 +20,15 @@ export const {
       queryFn: createNotifyingQueryFn(async (userEndpointToken?: string) => {
         const publicService = MultiService.getService();
 
-        const chains = await getBlockchains();
+        const chains = await publicService.getPublicGateway().getBlockchains();
 
         const formattedPrivateChains = userEndpointToken
-          ? publicService.formatPrivateEndpoints(chains, userEndpointToken)
-          : publicService.formatPublicEndpoints(chains);
+          ? publicService.formatPrivateEndpoints([...chains], userEndpointToken)
+          : publicService.formatPublicEndpoints([...chains]);
 
-        const formattedPublicChains =
-          publicService.formatPublicEndpoints(chains);
+        const formattedPublicChains = publicService.formatPublicEndpoints([
+          ...chains,
+        ]);
 
         return {
           data: {
