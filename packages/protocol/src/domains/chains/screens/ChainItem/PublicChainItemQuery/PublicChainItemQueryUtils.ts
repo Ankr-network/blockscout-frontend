@@ -4,7 +4,7 @@ import { chainsFetchPublicChain } from 'domains/chains/actions/public/fetchPubli
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { POLLING_OPTIONS } from '../constants/pollingOptions';
 
-export const usePublicChainItemQuery = (chainId: string, loading: boolean) => {
+export const usePublicChainItemQuery = (chainId: string, loading?: boolean) => {
   const [fetchPublicChain, fetchChainState, reset] = useQueryEndpoint(
     chainsFetchPublicChain,
     POLLING_OPTIONS,

@@ -98,46 +98,52 @@ export const formatPrivateUrls = (
   config: IConfig,
   tokenHash = '',
 ) => {
-  return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
-    const hasRPC = blockchain.features.includes('rpc');
-    const hasWS = blockchain.features.includes('ws');
+  return [...blockchains].reduce<FetchBlockchainUrlsResult>(
+    (result, blockchain) => {
+      const hasRPC = blockchain.features.includes('rpc');
+      const hasWS = blockchain.features.includes('ws');
 
-    const paths = getPaths(blockchain);
-    const isAptos =
-      blockchain.id === 'aptos' || blockchain.id === 'aptos_testnet';
+      const paths = getPaths(blockchain);
+      const isAptos =
+        blockchain.id === 'aptos' || blockchain.id === 'aptos_testnet';
 
-    const rpcURLs: string[] = hasRPC
-      ? paths.map(path => {
-          let url = config.privateRpcUrl
-            .replace('{blockchain}', path)
-            .replace('{user}', tokenHash);
+      const rpcURLs: string[] = hasRPC
+        ? paths.map(path => {
+            const { privateRpcUrl } = config;
+            let url = privateRpcUrl
+              .replace('{blockchain}', path)
+              .replace('{user}', tokenHash);
 
-          if (isAptos) {
-            url += `${url.endsWith('/') ? '' : '/'}v1`;
-          }
+            if (isAptos) {
+              url += `${url.endsWith('/') ? '' : '/'}v1`;
+            }
 
-          return url;
-        }) || []
-      : [];
+            return url;
+          }) || []
+        : [];
 
-    const wsURLs: string[] = hasWS
-      ? paths.map(path => {
-          let url = config.privateWsUrl
-            .replace('{blockchain}', path)
-            .replace('{user}', tokenHash);
+      const wsURLs: string[] = hasWS
+        ? paths.map(path => {
+            const { privateWsUrl } = config;
 
-          if (isAptos) {
-            url += `${url.endsWith('/') ? '' : '/'}v1`;
-          }
+            let url = privateWsUrl
+              .replace('{blockchain}', path)
+              .replace('{user}', tokenHash);
 
-          return url;
-        }) || []
-      : [];
+            if (isAptos) {
+              url += `${url.endsWith('/') ? '' : '/'}v1`;
+            }
 
-    result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
+            return url;
+          }) || []
+        : [];
 
-    return result;
-  }, {});
+      result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
+
+      return result;
+    },
+    {},
+  );
 };
 
 export const parseJwtToken = (token = '') => {

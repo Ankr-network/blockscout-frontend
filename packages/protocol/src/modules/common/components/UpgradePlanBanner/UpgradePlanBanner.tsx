@@ -6,8 +6,8 @@ import {
 } from 'domains/chains/components/PremiumChainDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBanner } from './hooks/useBanner';
-import { UpgradePlanBannerSkeleton } from './UpgradePlanBannerSkeleton';
 import { UpgradePlanBannerContent } from './UpgradePlanBannerContent';
+import { BannerSkeleton } from '../BannerSkeleton';
 
 interface UpgradePlanBannerProps {
   isAdvancedApi?: boolean;
@@ -20,7 +20,7 @@ export const UpgradePlanBanner = ({
   const { isBannerV2, isOpened, handleOpen, handleClose, handleUpgrade } =
     useBanner();
 
-  if (loading) return <UpgradePlanBannerSkeleton />;
+  if (loading) return <BannerSkeleton />;
 
   return (
     <Box sx={{ mb: 10 }}>

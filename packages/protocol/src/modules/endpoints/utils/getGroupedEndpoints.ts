@@ -53,6 +53,10 @@ const getEndpointGroups = (
   chains.forEach(chain_ => {
     const chainID = chain_.id;
 
+    if (chainID === ChainID.AVALANCHE) {
+      return;
+    }
+
     const urls = flatChainUrls(chain_);
     const urlsCount = getUrlsCount(urls);
 
@@ -77,30 +81,50 @@ const getEndpointGroups = (
   return endpointGroups;
 };
 
+interface GetGroupParams {
+  groups: ChainGroup[];
+  fallback: EndpointGroup;
+  nets?: IApiChain[];
+}
+
+const getGroups = ({ groups, fallback, nets }: GetGroupParams) => {
+  const endpointGroup = (nets || []).flatMap(net =>
+    getEndpointGroups(net, groups, fallback),
+  );
+
+  if (fallback.urlsCount) {
+    endpointGroup.push(fallback);
+  }
+
+  return endpointGroup;
+};
+
+const getFallback = (chain: IApiChain) => {
+  const { frontChain: { name: frontChainName } = {} } = chain;
+  const chainName = frontChainName || chain.name;
+
+  return getFallbackEndpointGroup(chainName);
+};
+
 export const getGroupedEndpoints = (
   chain: IApiChain,
   groups: ChainGroup[],
 ): GroupedEndpoints => {
-  const { frontChain: { name: frontChainName } = {} } = chain;
-  const mainnetFallback = getFallbackEndpointGroup(
-    frontChainName || chain.name,
-  );
-  const mainnetGroups = getEndpointGroups(chain, groups, mainnetFallback);
-  if (mainnetFallback.urlsCount) mainnetGroups.push(mainnetFallback);
-
-  const testnetFallback = getFallbackEndpointGroup(
-    frontChainName || chain.name,
-  );
-  const testnetGroups = (chain.testnets || []).flatMap(testnet =>
-    getEndpointGroups(testnet, groups, testnetFallback),
-  );
-  if (testnetFallback.urlsCount) testnetGroups.push(testnetFallback);
-
-  const devnetFallback = getFallbackEndpointGroup(frontChainName || chain.name);
-  const devnetGroups = (chain.devnets || []).flatMap(devnet =>
-    getEndpointGroups(devnet, groups, devnetFallback),
-  );
-  if (devnetFallback.urlsCount) devnetGroups.push(devnetFallback);
+  const mainnetGroups = getGroups({
+    groups,
+    fallback: getFallback(chain),
+    nets: [chain],
+  });
+  const testnetGroups = getGroups({
+    groups,
+    fallback: getFallback(chain),
+    nets: chain.testnets,
+  });
+  const devnetGroups = getGroups({
+    groups,
+    fallback: getFallback(chain),
+    nets: chain.devnets,
+  });
 
   return {
     mainnet: mainnetGroups,

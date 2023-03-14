@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
@@ -34,7 +34,9 @@ export const UpgradePlanBannerContent = ({
 
   return (
     <Paper className={classes.wrapper}>
-      <img className={classes.image} src={image} alt="" />
+      <Box className={classes.image}>
+        <img src={image} alt="" />
+      </Box>
       <Box className={classes.plan}>
         <Typography variant="subtitle1" className={classes.planTitle}>
           {planTitle}

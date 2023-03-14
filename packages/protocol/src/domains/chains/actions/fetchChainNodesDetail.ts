@@ -6,6 +6,18 @@ import { web3Api } from 'store/queries';
 import { ChainID } from 'modules/chains/types';
 import { checkAvalancheOrSecretAndGetChainId } from '../utils/chainsUtils';
 
+let cachedNodeDetails: INodesDetailEntity[] | null = null;
+
+const getNodesDetail = async () => {
+  if (!cachedNodeDetails) {
+    cachedNodeDetails = await MultiService.getService()
+      .getPublicGateway()
+      .getNodesDetail();
+  }
+
+  return cachedNodeDetails;
+};
+
 export const {
   endpoints: { chainsFetchChainNodesDetail },
   useLazyChainsFetchChainNodesDetailQuery,
@@ -16,9 +28,7 @@ export const {
       ChainID | void
     >({
       queryFn: createNotifyingQueryFn(async chainId => {
-        const data = await MultiService.getService()
-          .getPublicGateway()
-          .getNodesDetail();
+        const data = await getNodesDetail();
 
         const nodesDetail = chainId
           ? data.filter(

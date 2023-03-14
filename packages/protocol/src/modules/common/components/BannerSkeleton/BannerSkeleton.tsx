@@ -1,8 +1,8 @@
-import { useUpgradePlanBannerSkeletonStyles } from './useUpgradePlanBannerSkeletonStyles';
+import { useBannerSkeletonStyles } from './useBannerSkeletonStyles';
 import { Paper, Skeleton } from '@mui/material';
 
-export const UpgradePlanBannerSkeleton = () => {
-  const { classes } = useUpgradePlanBannerSkeletonStyles();
+export const BannerSkeleton = () => {
+  const { classes } = useBannerSkeletonStyles();
 
   return (
     <Paper className={classes.root}>

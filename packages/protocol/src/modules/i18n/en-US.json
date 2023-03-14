@@ -187,6 +187,39 @@
     "for-premium-only": "For Premium only",
     "endpoints-and-more": "Endpoints & More"
   },
+  "jwt-token": {
+    "default-project-name": "Primary",
+    "add-new-project": "Add new project",
+    "name": "Name",
+    "unique-token": "Unique Token",
+    "add": "Add",
+    "additional": "Additional #{index}",
+    "create": "Create",
+    "close": "Close",
+    "initial": {
+      "title": "Add Project"
+    },
+    "success": {
+      "title": "You've successfully added a new project!",
+      "project-name": "Project Name",
+      "unique-token": "Unique Token"
+    },
+    "failed": {
+      "title": "Oops! Something went wrong.",
+      "info": "Please try again later or contact our support team",
+      "try-again": "Try again"
+    },
+    "delete-project": {
+      "title": "Are you sure want to delete the project?",
+      "info": "This action can't be undone!",
+      "delete": "Delete",
+      "cancel": "Cancel"
+    },
+    "view-project": {
+      "button": "Done",
+      "delete-project": "Delete project"
+    }
+  },
   "chain-item-dialog": {
     "title": "Plans that scale with you.",
     "free": {
