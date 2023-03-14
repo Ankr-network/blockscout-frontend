@@ -62,7 +62,7 @@ export const useMainSwitcherStyles = makeStyles(theme => ({
   },
 
   hr: {
-    backgroundColor: '#E0E6EF',
+    backgroundColor: theme.palette.divider,
     height: 1,
     width: '100%',
 

@@ -132,7 +132,7 @@ export const Stake = (): JSX.Element => {
 
         <StakeForm
           auditSlot={
-            <AuditInfo>
+            <AuditInfo mt={4}>
               <AuditInfoItem link={AUDIT_LINKS.matic} variant="beosin" />
             </AuditInfo>
           }

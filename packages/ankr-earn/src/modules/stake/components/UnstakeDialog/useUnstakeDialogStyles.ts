@@ -13,13 +13,10 @@ export const useUnstakeDialogStyles = makeStyles(theme => ({
     },
   },
 
-  footer: {
-    marginTop: theme.spacing(4),
-  },
-
   container: {
     maxWidth: 520 + theme.spacing(4),
     padding: theme.spacing(0, 2),
+    marginBottom: theme.spacing(2.5),
 
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(0, 4),
@@ -79,7 +76,7 @@ export const useUnstakeDialogStyles = makeStyles(theme => ({
   },
 
   checkboxArea: {
-    padding: theme.spacing(2.5, 0, 2.5, 0),
+    paddingBottom: theme.spacing(2.5),
     borderBottom: `1px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
 
     '& label': {

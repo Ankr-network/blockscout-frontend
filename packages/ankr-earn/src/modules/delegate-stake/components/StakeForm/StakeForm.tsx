@@ -11,6 +11,7 @@ import { NodeProviderField } from 'modules/delegate-stake/components/NodeProvide
 import { setMaxAmount } from 'modules/delegate-stake/utils/setMaxAmount';
 import { StakeDescriptionContainer } from 'modules/stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from 'modules/stake/components/StakeDescriptionName';
+import { StakeDescriptionSeparator } from 'modules/stake/components/StakeDescriptionSeparator';
 import {
   StakeFormBox,
   StakeFormFooter,
@@ -27,6 +28,7 @@ import { useStakeFormStyles } from './useStakeFormStyles';
 
 interface IStakeFormProps {
   amount?: BigNumber;
+  auditSlot?: ReactNode;
   balance?: BigNumber;
   minAmount?: BigNumber;
   maxAmount?: BigNumber;
@@ -53,6 +55,7 @@ interface IStakeFormProps {
 
 export const StakeForm = ({
   amount = ZERO,
+  auditSlot,
   balance = ZERO,
   minAmount = ZERO,
   maxAmount = balance,
@@ -181,6 +184,14 @@ export const StakeForm = ({
           {renderFormApproveButtons(amount)}
 
           {quoteText && <Quote pt={1}>{quoteText}</Quote>}
+
+          {auditSlot && (
+            <>
+              <StakeDescriptionSeparator mb={3} mt={4} />
+
+              {auditSlot}
+            </>
+          )}
         </StakeFormFooter>
 
         <OnChange name={EFieldsNames.amount}>

@@ -173,7 +173,8 @@
   "audit-info": {
     "label": "Audited by",
     "beosin": "Beosin",
-    "peckshield": "PeckShield"
+    "peckshield": "PeckShield",
+    "veridise": "Veridise"
   },
   "not-found": {
     "title": "Page not found",
@@ -457,6 +458,7 @@
       "info": "You will receive BNB in about ~{value} {period}.",
       "period": "about {value} {period}",
       "pool-capacity": "Pool capacity: {value} ankrBNB",
+      "empty-pool": "Flash unstake liquidity will be added in the coming days",
       "comission": "{value}% comission",
       "instant": "It will be sent immediately",
       "instant-success": "You will receive BNB shortly",
@@ -635,7 +637,7 @@
     "token-select-label": "Choose token",
     "unclaimed-label": "Unclaimed ETH balance",
     "unclaimed-descr": "Your unclaimed staked ETH balance will be converted to {token} on top of the selected amount of ETH to be staked.",
-    "unstake-tooltip": "Unstaking will be enabled after The Merge of 'Eth1' and 'Eth2' into a single chain and withdrawal activation. Expected ~Q3/Q4 2022.",
+    "unstake-tooltip": "Unstaking will become available after Ethereum enables it in their network, which is going to be on April 15, 2023.",
     "amount-tooltip": "Amount must be multiple of {step}",
     "errors": {
       "add-token": "Failed to add token to wallet",
@@ -908,7 +910,7 @@
     "liquidity-pool": "Liquidity pool",
     "farming": "Farming",
     "vault": "Vault",
-    "landing": "Landing",
+    "lending": "Lending",
     "all-assets": "All assets",
     "all-networks": "All networks",
     "deposit": "Deposit",
