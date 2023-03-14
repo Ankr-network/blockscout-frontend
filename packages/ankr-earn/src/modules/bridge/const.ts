@@ -1,7 +1,8 @@
 import { getUniqueId } from '@ankr.com/common';
 
-export const CacheTags = {
+export const BridgeCacheTags = {
   common: getUniqueId(),
+  notirize: `bridge-notirize-${getUniqueId()}`,
 };
 
 export const APPROVE_ACTION_NAME = 'bridge/approve';

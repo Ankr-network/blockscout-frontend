@@ -1,4 +1,6 @@
-import { useCallback } from 'react';
+import { resetRequests } from '@redux-requests/core';
+import { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { useWithdrawalBridgeMutation } from 'modules/bridge/actions/withdrawalBridge';
 import { IBridgeNotarizeResponse } from 'modules/bridge/api/types';
@@ -15,12 +17,16 @@ interface IUseWithdraw {
 export const useWithdraw = (
   notarizeData?: IBridgeNotarizeResponse,
 ): IUseWithdraw => {
+  const dispatch = useDispatch();
+
   const [withdrawalBridge, { data: txHash, isLoading: isWithdrawalLoading }] =
     useWithdrawalBridgeMutation();
 
-  const { isLoading: isReceiptLoading, isSuccessful } = useTxReceipt(
-    WITHDRAWAL_ACTION_NAME,
-  );
+  const {
+    isLoading: isReceiptLoading,
+    isSuccessful,
+    actionName,
+  } = useTxReceipt(WITHDRAWAL_ACTION_NAME);
 
   const onClick = useCallback(() => {
     if (!notarizeData) {
@@ -33,6 +39,12 @@ export const useWithdraw = (
       signature: notarizeData.signature,
     });
   }, [notarizeData, withdrawalBridge]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetRequests([actionName]));
+    };
+  }, [actionName, dispatch]);
 
   return {
     isLoading: isWithdrawalLoading || isReceiptLoading,

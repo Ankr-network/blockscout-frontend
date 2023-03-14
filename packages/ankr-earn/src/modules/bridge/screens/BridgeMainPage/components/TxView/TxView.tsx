@@ -10,7 +10,7 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useAddBridgeTokenToWalletMutation } from 'modules/bridge/actions/addBridgeTokenToWallet';
-import { useGetBridgeNotirizeQuery } from 'modules/bridge/actions/notarize';
+import { useGetBridgeNotirizeQuery } from 'modules/bridge/actions/getBridgeNotirize';
 import { Notification } from 'modules/bridge/components/Notification';
 import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';

@@ -9,7 +9,7 @@ import {
 import { SupportedChainIDS } from 'modules/common/const';
 
 import { BridgeSDK } from '../api/BridgeSDK';
-import { DEPOSIT_ACTION_NAME } from '../const';
+import { BridgeCacheTags, DEPOSIT_ACTION_NAME } from '../const';
 import { AvailableBridgeTokens } from '../types';
 import { getTokenAddr } from '../utils/getTokenAddr';
 
@@ -42,6 +42,7 @@ export const { useBridgeDepositMutation } = web3Api.injectEndpoints({
           );
         });
       },
+      invalidatesTags: [BridgeCacheTags.notirize],
     }),
   }),
 });

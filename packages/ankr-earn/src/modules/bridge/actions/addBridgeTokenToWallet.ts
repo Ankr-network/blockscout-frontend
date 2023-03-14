@@ -5,7 +5,7 @@ import { ETH_DECIMALS, SupportedChainIDS } from 'modules/common/const';
 import { getTokenSymbol } from 'modules/common/utils/getTokenSymbol';
 
 import { BridgeSDK } from '../api/BridgeSDK';
-import { CacheTags } from '../const';
+import { BridgeCacheTags } from '../const';
 import { AvailableBridgeTokens } from '../types';
 import { getTokenAddr } from '../utils/getTokenAddr';
 
@@ -31,7 +31,7 @@ export const { useAddBridgeTokenToWalletMutation } = web3Api.injectEndpoints({
           return { data: await sdk.provider.addTokenToWallet(tokenInfo) };
         },
       ),
-      invalidatesTags: [CacheTags.common],
+      invalidatesTags: [BridgeCacheTags.common],
     }),
   }),
 });

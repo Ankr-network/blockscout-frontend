@@ -5,6 +5,7 @@ import { SupportedChainIDS } from 'modules/common/const';
 
 import { BridgeSDK } from '../api/BridgeSDK';
 import { IBridgeNotarizeResponse } from '../api/types';
+import { BridgeCacheTags } from '../const';
 
 interface INotirize {
   transactionHash: string;
@@ -34,6 +35,7 @@ export const { useGetBridgeNotirizeQuery } = web3Api.injectEndpoints({
           };
         },
       ),
+      providesTags: [BridgeCacheTags.notirize],
     }),
   }),
 });
