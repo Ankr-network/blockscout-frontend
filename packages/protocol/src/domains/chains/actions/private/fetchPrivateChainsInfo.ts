@@ -10,6 +10,11 @@ export interface IFetchPrivateChainsInfoResult {
   allChains: IApiChain[];
 }
 
+interface Params {
+  userEndpointToken?: string;
+  hasWeb3Connection?: boolean;
+}
+
 export const {
   endpoints: { chainsFetchPrivateChainsInfo },
   useLazyChainsFetchPrivateChainsInfoQuery,
@@ -18,26 +23,28 @@ export const {
   endpoints: build => ({
     chainsFetchPrivateChainsInfo: build.query<
       IFetchPrivateChainsInfoResult,
-      boolean
+      Params
     >({
-      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
-        const [
-          { data: { chains = [], allChains = [] } = {} },
-          { data: nodes },
-        ] = await Promise.all([
-          dispatch(chainsFetchPrivateChains.initiate()),
-          dispatch(chainsFetchChainNodesDetail.initiate()),
-        ]);
+      queryFn: createNotifyingQueryFn(
+        async ({ userEndpointToken }, { dispatch }) => {
+          const [
+            { data: { chains = [], allChains = [] } = {} },
+            { data: nodes },
+          ] = await Promise.all([
+            dispatch(chainsFetchPrivateChains.initiate(userEndpointToken)),
+            dispatch(chainsFetchChainNodesDetail.initiate()),
+          ]);
 
-        const addIsArchive = getAddIsArchiveCB(nodes);
+          const addIsArchive = getAddIsArchiveCB(nodes);
 
-        return {
-          data: {
-            chains: chains.map(addIsArchive),
-            allChains: allChains.map(addIsArchive),
-          },
-        };
-      }),
+          return {
+            data: {
+              chains: chains.map(addIsArchive),
+              allChains: allChains.map(addIsArchive),
+            },
+          };
+        },
+      ),
     }),
   }),
 });

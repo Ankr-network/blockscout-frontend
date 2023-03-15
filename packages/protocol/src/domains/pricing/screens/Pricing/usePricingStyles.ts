@@ -64,7 +64,7 @@ export const usePricingStyles = makeStyles<boolean>()(
       [theme.breakpoints.between(768, 960)]: {
         backgroundSize: '40% auto',
       },
-      [theme.breakpoints.down(768)]: {
+      [theme.breakpoints.down('sm')]: {
         marginBottom: theme.spacing(2 * -6),
         paddingBottom: 0,
       },

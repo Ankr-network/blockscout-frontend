@@ -1,20 +1,11 @@
-import { useEffect } from 'react';
-
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { SecuritySettings } from './components/SecuritySettings';
-import {
-  SecuritySettings as TSecuritySettings,
-  useLazyInfrastructureFetchSecuritySettingsQuery,
-} from 'domains/infrastructure/actions/fetchSecuritySettings';
+import { SecuritySettings as TSecuritySettings } from 'domains/infrastructure/actions/fetchSecuritySettings';
 import { SecuritySettingsSkeleton } from './components/SecuritySettings/SecuritySettingsSkeleton';
+import { useSecuritySettings } from '../../hooks/useSecuritySettings';
 
 export const SecuritySettingsQuery = ({ chainId }: { chainId: string }) => {
-  const [fetchSecuritySettings, state] =
-    useLazyInfrastructureFetchSecuritySettingsQuery();
-
-  useEffect(() => {
-    fetchSecuritySettings(chainId);
-  }, [fetchSecuritySettings, chainId]);
+  const { state } = useSecuritySettings(chainId);
 
   return (
     <Queries<TSecuritySettings>

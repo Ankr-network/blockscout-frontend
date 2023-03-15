@@ -24,15 +24,25 @@ export const useUpgradePlanBannerContentStyles = makeStyles<boolean>()(
     },
     image: {
       width: 150,
+      minWidth: 150,
       marginTop: theme.spacing(-2 * 3.75),
-      marginBottom: theme.spacing(-2 * 3.75),
+      marginBottom: theme.spacing(-2 * 4.5),
       marginRight: theme.spacing(3.75),
+
+      '& img': {
+        width: '100%',
+        height: 146,
+      },
 
       [theme.breakpoints.down('md')]: {
         position: 'absolute',
         right: '-85px',
         top: '30px',
         width: 206,
+
+        '& img': {
+          height: 205,
+        },
       },
     },
     plan: {

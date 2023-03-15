@@ -24,7 +24,7 @@ export const Endpoint = ({
     <>
       <CopyToClipIcon
         className={classes.copyToClip}
-        copyText={hasConnectWalletMessage ? undefined : 'Copy'}
+        copyText={hasConnectWalletMessage ? undefined : t('common.copy')}
         hideIcon={hasConnectWalletMessage}
         message={t('common.copy-message')}
         onClick={hasConnectWalletMessage ? onOpen : undefined}
