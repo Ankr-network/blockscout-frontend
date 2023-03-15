@@ -289,6 +289,25 @@ export type GetUsersRegistrationsResponse = {
   addresses: Web3Address[];
 }
 
+export type UserGroupRole = 'OWNER' | 'DEV' | 'FINANCE';
+
+export type SetUserGroupRequest = {
+  groupAddress: Web3Address;
+  userAddress: Web3Address;
+  role: Lowercase<UserGroupRole>;
+}
+
+export type GroupMember = {
+  address: Web3Address;
+  role: UserGroupRole;
+}
+
+export type SetUserGroupResponse = {
+  name: string;
+  address: Web3Address;
+  members: GroupMember[];
+}
+
 export type BlockchainFeature = 'rpc' | 'ws';
 
 export enum BlockchainType {

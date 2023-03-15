@@ -5,6 +5,7 @@ import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { CreateTestPremiumUser } from 'modules/clients/components/CreateTestPremiumUser';
 import { SearchClientsInput } from 'modules/clients/components/SearchClientsInput';
 import { AdminRoutesConfig } from 'modules/admin/AdminRoutesConfig';
+import { SetUserGroup } from 'modules/groups/components/SetUserGroup/SetUserGroup';
 import { Logo } from '../Logo';
 
 interface HeaderProps {
@@ -19,13 +20,10 @@ export const Header = ({ hasSecretRouteAccess }: HeaderProps) => {
       <Logo />
       {address && <CreateTestPremiumUser />}
       {address && <SearchClientsInput />}
+      {address && <SetUserGroup />}
 
       {hasSecretRouteAccess && (
-        <Button
-          component={NavLink}
-          to={AdminRoutesConfig.admin.generatePath()}
-          sx={{ ml: 6 }}
-        >
+        <Button component={NavLink} to={AdminRoutesConfig.admin.generatePath()}>
           Admin requests
         </Button>
       )}

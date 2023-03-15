@@ -39,6 +39,8 @@ import {
   IGetAdminRolesResponse,
   GetUsersRegistrationsRequest,
   GetUsersRegistrationsResponse,
+  SetUserGroupRequest,
+  SetUserGroupResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -97,6 +99,10 @@ export interface IBackofficeGateway {
   getUsersRegistrations(
     params: GetUsersRegistrationsRequest,
   ): Promise<GetUsersRegistrationsResponse>;
+
+  setUserGroup(
+    params: SetUserGroupRequest,
+  ): Promise<SetUserGroupResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,

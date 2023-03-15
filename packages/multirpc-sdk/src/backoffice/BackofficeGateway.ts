@@ -43,6 +43,8 @@ import {
   IGetAdminRolesResponse,
   GetUsersRegistrationsRequest,
   GetUsersRegistrationsResponse,
+  SetUserGroupRequest,
+  SetUserGroupResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -219,6 +221,17 @@ export class BackofficeGateway implements IBackofficeGateway {
       {
         params,
       },
+    );
+
+    return response;
+  }
+
+  async setUserGroup(
+    body: SetUserGroupRequest,
+  ): Promise<SetUserGroupResponse> {
+    const { data: response } = await this.api.post<SetUserGroupResponse>(
+      '/users/group/addUser',
+      body,
     );
 
     return response;
