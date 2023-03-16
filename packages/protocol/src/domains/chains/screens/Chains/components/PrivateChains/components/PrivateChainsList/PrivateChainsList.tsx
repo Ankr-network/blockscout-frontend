@@ -1,8 +1,9 @@
 import { ChainsListProps } from 'domains/chains/components/ChainsList';
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
-import { useChainListStyles } from 'domains/chains/components/ChainsList/ChainsListStyles';
+import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 import { PrivateChainsItem } from '../PrivateChainsItem';
+import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 
 export const PrivateChainsList = ({
   timeframe,
@@ -10,6 +11,10 @@ export const PrivateChainsList = ({
   chainsDictionary,
 }: ChainsListProps) => {
   const { classes } = useChainListStyles();
+
+  if (chains.length === 0) {
+    return <NoResult />;
+  }
 
   return (
     <div className={classes.root}>
