@@ -8,17 +8,20 @@ import {
   formatChains,
   getChainsDictionary,
 } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { filteredByNameChains } from '../../PublicChains/hooks/utils';
 
 export interface ChainsParams {
   chains: IApiChain[];
   allChains: IApiChain[];
   sortType: SortType;
+  searchContent: string;
 }
 
 export const usePrivateChains = ({
   chains,
   allChains,
   sortType,
+  searchContent,
 }: ChainsParams) => {
   const [stats] = usePrivateStats();
 
@@ -28,8 +31,8 @@ export const usePrivateChains = ({
         chains: formatChains(chains),
         sortType,
         stats,
-      }),
-    [stats, chains, sortType],
+      }).filter(item => filteredByNameChains(item, searchContent)),
+    [stats, chains, sortType, searchContent],
   );
 
   const chainsDictionary = useMemo(

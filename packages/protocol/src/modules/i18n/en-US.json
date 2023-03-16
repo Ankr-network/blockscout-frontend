@@ -753,7 +753,9 @@
     "submit": "Submit",
     "404": "404",
     "page-not-found": "Page not found",
-    "soon": "soon"
+    "soon": "soon",
+    "search": "Search",
+    "no-search-result": "Nothing found for your request"
   },
   "providers": {
     "endpoint": {

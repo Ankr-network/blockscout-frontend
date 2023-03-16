@@ -4,6 +4,7 @@ import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { usePrivateChainsInfo } from './usePrivateChainsInfo';
 import { useSortType } from '../../../hooks/useSortType';
 import { useTimeframe } from '../../../hooks/useTimeframe';
+import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 
 export const usePrivateChainsData = () => {
   const { loading: isConnecting, isLoggedIn, hasWeb3Connection } = useAuth();
@@ -19,6 +20,8 @@ export const usePrivateChainsData = () => {
 
   const [sortType, setSortType] = useSortType();
 
+  const [searchContent, setSearchContent] = useSearch();
+
   return {
     chains: privateChains,
     allChains: privateAllChains,
@@ -27,5 +30,7 @@ export const usePrivateChainsData = () => {
     sortType,
     switchStatsTimeframe,
     timeframe,
+    searchContent,
+    setSearchContent,
   };
 };
