@@ -35,6 +35,20 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.AVALANCHE_FUJI_EVM]: AVALANCHE_FUJI,
 
+  [ChainID.ARBITRUM]: {
+    chainId: 42161,
+    chainName: 'Arbitrum',
+    nativeCurrency: {
+      name: 'Arbitrum One',
+      symbol: 'AETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: [
+      'https://arbiscan.io/',
+      'https://explorer.arbitrum.io/',
+    ],
+  },
+
   [ChainID.BSC]: {
     chainId: 56,
     chainName: 'BSC',
