@@ -234,7 +234,7 @@
     },
     "premium": {
       "title": "Premium",
-      "intro": "from <em>0.1 USD</em> for 10K requests",
+      "intro": "from <em>0.1 USD</em> for 10K requests ",
       "description": "For Web3 projects looking for fast, reliable infrastructure to scale operations to the next level.",
       "list-1": "WebSockets",
       "list-2": "Advanced Developer APIs",

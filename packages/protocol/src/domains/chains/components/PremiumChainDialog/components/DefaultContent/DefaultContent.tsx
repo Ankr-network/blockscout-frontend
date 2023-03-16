@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
+import { Check } from '@ankr.com/ui';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Item, Title } from '../../types';
@@ -60,6 +61,7 @@ export const DefaultContent = ({
                   <div className={classes.list}>
                     {new Array(itemCount).fill('').map((_, index) => (
                       <div className={classes.item} key={index}>
+                        <Check className={classes.check} />{' '}
                         {t(`${intlRoot}.${title}.list-${index + 1}`)}
                       </div>
                     ))}
