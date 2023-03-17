@@ -5,7 +5,6 @@ import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { ONE_ETH as ONE } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { IHistoryDialogData } from 'modules/dashboard/types';
 import { useLazyGetAVAXTotalHistoryDataQuery } from 'modules/stake-avax/actions/fetchTotalHistoryData';
 
 import { useStakedAVAXTxHistory } from '../useStakedAVAXTxHistory';
@@ -101,7 +100,6 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
 
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 
-    expect(result.current.hasHistory).toBe(true);
     expect(result.current.pendingUnstakeHistoryAAVAXB).toStrictEqual([
       {
         id: 1,
@@ -110,26 +108,6 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
         timerSlot: `${date}, ${time}`,
       },
     ]);
-    expect(result.current.transactionHistoryAAVAXB).toStrictEqual({
-      staked: [
-        {
-          amount: ONE,
-          date: NOW,
-          hash: 'txHash1',
-          link: 'https://testnet.snowtrace.io/tx/txHash1',
-        },
-      ],
-      stakedToken: Token.aAVAXb,
-      unstaked: [
-        {
-          amount: ONE.multipliedBy(2),
-          date: NOW,
-          hash: 'txHash2',
-          link: 'https://testnet.snowtrace.io/tx/txHash2',
-        },
-      ],
-      unstakedToken: Token.aAVAXb,
-    } as IHistoryDialogData);
   });
 
   test('should handle load history data', () => {
@@ -154,14 +132,7 @@ describe('modules/dashboard/screens/Dashboard/hooks/liquid-tokens/AVAX/useStaked
 
     const { result } = renderHook(() => useStakedAVAXTxHistory());
 
-    expect(result.current.hasHistory).toBe(false);
     expect(result.current.isHistoryDataLoading).toBe(true);
     expect(result.current.pendingUnstakeHistoryAAVAXB).toStrictEqual([]);
-    expect(result.current.transactionHistoryAAVAXB).toStrictEqual({
-      staked: [],
-      stakedToken: Token.aAVAXb,
-      unstaked: [],
-      unstakedToken: Token.aAVAXb,
-    } as IHistoryDialogData);
   });
 });

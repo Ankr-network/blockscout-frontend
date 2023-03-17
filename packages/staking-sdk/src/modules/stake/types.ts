@@ -84,3 +84,23 @@ export interface IPartnerClaimHistoryData {
   date: Date;
   amount: BigNumber;
 }
+
+/**
+ * Transaction history item. Used in history module.
+ */
+export interface ITxHistoryItem {
+  txAmount: BigNumber;
+  txDate: Date;
+  txHash: string;
+  txType: string | null;
+  isBond: boolean;
+  isPending?: boolean;
+}
+
+/**
+ * Transaction history.
+ */
+export interface ITxHistory {
+  stakeHistory: ITxHistoryItem[];
+  unstakeHistory: ITxHistoryItem[];
+}

@@ -18,8 +18,6 @@ export const AVAX_MAX_BLOCK_RANGE = 3_000;
 // Note: 750_000 blocks = ~26 days
 export const AVAX_MAX_HISTORY_RANGE = AVAX_MAX_BLOCK_RANGE * 250;
 
-export const AVAX_MAX_PARALLEL_REQ = 100;
-
 export const CacheTags = {
   common: `stake-avax-${getUniqueId()}`,
 };

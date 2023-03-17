@@ -2,14 +2,12 @@ import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
-import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
-  TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
@@ -18,11 +16,13 @@ import {
   advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
+  getIsSameReadProvider,
   isMainnet,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
 } from '../common';
+import { GetBlocksManager } from '../common/GetBlocksManager';
 import { AAVAXB_ABI, AAVAXC_ABI, AVALANCHE_POOL_ABI } from '../contracts';
 import {
   getFilteredContractEvents,
@@ -32,8 +32,9 @@ import {
   IStakable,
   IStakeData,
   ITxEventsHistoryData,
-  ITxEventsHistoryGroupItem,
+  ITxHistory,
   ITxHistoryEventData,
+  ITxHistoryItem,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { batchEvents, convertNumberToHex } from '../utils';
@@ -44,6 +45,7 @@ import {
   AVAX_ESTIMATE_GAS_MULTIPLIER,
   AVAX_HISTORY_2_WEEKS_OFFSET,
   AVAX_MAX_BLOCK_RANGE,
+  AVAX_POOL_START_BLOCK,
   AVAX_SCALE_FACTOR,
   GAS_FEE_MULTIPLIER,
 } from './const';
@@ -61,7 +63,10 @@ import {
  *
  * @class
  */
-export class AvalancheSDK implements ISwitcher, IStakable {
+export class AvalancheSDK
+  extends GetBlocksManager
+  implements ISwitcher, IStakable
+{
   /**
    * apiUrl — URL of the advanced API.
    *
@@ -125,6 +130,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     writeProvider,
     apiUrl,
   }: IAvalancheSDKArgs) {
+    super();
     AvalancheSDK.instance = this;
 
     this.apiUrl = apiUrl;
@@ -271,14 +277,16 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     filter,
     rangeStep,
   }: IGetPastEvents): Promise<EventData[]> {
-    return flatten(await batchEvents({
-      contract,
-      eventName,
-      rangeStep,
-      startBlock,
-      filter,
-      latestBlockNumber,
-    }));
+    return flatten(
+      await batchEvents({
+        contract,
+        eventName,
+        rangeStep,
+        startBlock,
+        filter,
+        latestBlockNumber,
+      }),
+    );
   }
 
   /**
@@ -314,37 +322,29 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    *
    * @private
    * @param {EventData[]} [rawEvents] - events
-   * @returns {Promise<ITxEventsHistoryGroupItem[]>}
+   * @returns {Promise<ITxHistoryItem[]>}
    */
   private async getTxEventsHistoryGroup(
     rawEvents?: EventData[],
-  ): Promise<ITxEventsHistoryGroupItem[]> {
+  ): Promise<ITxHistoryItem[]> {
     if (!Array.isArray(rawEvents) || !rawEvents.length) {
       return [];
     }
 
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
+    const blocksHashes = rawEvents.map(event => event.blockHash);
 
-    const calls = rawEvents.map(
-      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
-        web3.eth.getBlock.request(event.blockHash, false, callback),
-    );
+    const blocks = await this.getBlocks(web3, blocksHashes);
 
-    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
-      calls,
-    );
-
-    const rawData: ITxHistoryEventData[] = blocks.map((block, index) => ({
+    const rawData = blocks.map<ITxHistoryEventData>((block, index) => ({
       ...rawEvents[index],
-      timestamp: block.timestamp as number,
+      timestamp: +block.timestamp,
     }));
 
     return rawData
       .sort((a, b) => b.timestamp - a.timestamp)
-      .map(
+      .map<ITxHistoryItem>(
         ({
           event,
           returnValues = { amount: '0' },
@@ -355,6 +355,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
           txDate: new Date(timestamp * 1_000),
           txHash: transactionHash,
           txType: this.getTxType(event),
+          isBond: returnValues.isRebasing,
         }),
       );
   }
@@ -419,13 +420,21 @@ export class AvalancheSDK implements ISwitcher, IStakable {
         providerManager.getETHReadProvider(AVALANCHE_READ_PROVIDER_ID),
     ]);
 
-    const addrHasNotBeenUpdated =
+    const isAddrActual =
       AvalancheSDK.instance?.currentAccount === writeProvider.currentAccount;
-    const hasNewProvider =
-      AvalancheSDK.instance?.writeProvider === writeProvider &&
-      AvalancheSDK.instance?.readProvider === readProvider;
 
-    if (AvalancheSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
+    const isSameWriteProvider =
+      AvalancheSDK.instance?.writeProvider === writeProvider;
+
+    const isSameReadProvider = getIsSameReadProvider(
+      AvalancheSDK.instance?.readProvider,
+      readProvider,
+    );
+
+    const isInstanceActual =
+      isAddrActual && isSameWriteProvider && isSameReadProvider;
+
+    if (AvalancheSDK.instance && isInstanceActual) {
       return AvalancheSDK.instance;
     }
 
@@ -861,6 +870,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
+   * @deprecated Use `getFullTxHistory` instead. This method will be removed.
    * @note Currently returns data for the last 26 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
@@ -879,6 +889,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
+   * @deprecated Use `getTxHistoryRange` instead. This method will be removed.
    * @note Currently returns data for block range.
    * @param {number} from - from block
    * @param {number} to - to block
@@ -948,7 +959,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
     } as const;
 
     const [stakeBondEvents, unstakeBondEvents] =
-      stakeAndUnstakeBondEvents.reduce<ITxEventsHistoryGroupItem[][]>(
+      stakeAndUnstakeBondEvents.reduce<ITxHistoryItem[][]>(
         (result, event) => {
           const isStakeEvent =
             event.txType === EAvalanchePoolEventsMap.StakePending;
@@ -965,7 +976,7 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       );
 
     const [stakeCertEvents, unstakeCertEvents] =
-      stakeAndUnstakeCertEvents.reduce<ITxEventsHistoryGroupItem[][]>(
+      stakeAndUnstakeCertEvents.reduce<ITxHistoryItem[][]>(
         (result, event) => {
           const isStakeEvent =
             event.txType === EAvalanchePoolEventsMap.StakePending;
@@ -999,6 +1010,74 @@ export class AvalancheSDK implements ISwitcher, IStakable {
       })),
       unstakeBond: unstakeBondEvents,
       unstakeCertificate: unstakeCertEvents,
+    };
+  }
+
+  /**
+   * Get transaction history for all period that starts from contract creation.
+   *
+   * @note Amount of certificate event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @public
+   * @return  {Promise<ITxHistory>} full transaction history.
+   */
+  public async getFullTxHistory(): Promise<ITxHistory> {
+    const latestBlockNumber = await this.getLatestBlock();
+
+    const { stakeHistory, unstakeHistory } = await this.getTxHistoryRange(
+      AVAX_POOL_START_BLOCK,
+      latestBlockNumber,
+    );
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
+   * Get transaction history for block range.
+   *
+   * @note Amount of each event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @param {number} from - from block number
+   * @param {number} to - to block number
+   * @returns {Promise<ITxHistory>} - transaction history
+   */
+  public async getTxHistoryRange(
+    from: number,
+    to: number,
+  ): Promise<ITxHistory> {
+    const avalanchePoolContract = await this.getAvalanchePoolContract(true);
+
+    const getStakePastEventsArgs: IGetPastEvents = {
+      latestBlockNumber: to,
+      startBlock: from,
+      contract: avalanchePoolContract,
+      eventName: EAvalanchePoolEvents.StakePending,
+      filter: { staker: this.currentAccount },
+      provider: this.readProvider,
+      rangeStep: AVAX_MAX_BLOCK_RANGE,
+    };
+
+    const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
+      this.getPastEvents(getStakePastEventsArgs),
+      this.getPastEvents({
+        ...getStakePastEventsArgs,
+        eventName: EAvalanchePoolEvents.AvaxClaimPending,
+      }),
+    ]);
+
+    const [stakeHistory, unstakeHistory] = await Promise.all([
+      this.getTxEventsHistoryGroup(stakeRawEvents),
+      this.getTxEventsHistoryGroup(unstakeRawEvents),
+    ]);
+
+    return {
+      stakeHistory,
+      unstakeHistory,
     };
   }
 

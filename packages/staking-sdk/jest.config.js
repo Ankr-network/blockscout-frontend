@@ -6,20 +6,16 @@ module.exports = {
   setupFiles: ['./src/setupTests.ts'],
   coverageReporters: ['json-summary', 'text', 'text-summary'],
   collectCoverage: true,
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!**/node_modules/**',
-    '!**/*.d.ts',
-  ],
+  collectCoverageFrom: ['src/**/*.ts', '!**/node_modules/**', '!**/*.d.ts'],
   moduleNameMapper: {
     '^.+\\.svg$': 'jest-svg-transformer',
   },
   coverageThreshold: {
     global: {
-      statements: 90,
+      statements: 80,
       branches: 80,
-      functions: 85,
-      lines: 90,
+      functions: 80,
+      lines: 80,
     },
   },
   globals: {

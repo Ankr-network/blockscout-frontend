@@ -70,7 +70,6 @@ interface IPolygonConfig {
 
 export interface IGatewayConfig {
   baseUrl: string;
-  ankrApiBaseUrl: string;
 }
 
 interface IXDCConfig {
@@ -149,7 +148,6 @@ const LOCAL_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
-    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain_public/',
   },
 };
 
@@ -240,7 +238,6 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   gatewayConfig: {
     baseUrl: 'https://api.staking.ankr.com/',
-    ankrApiBaseUrl: 'https://staging.multi-rpc.com/multichain_public/',
   },
 };
 

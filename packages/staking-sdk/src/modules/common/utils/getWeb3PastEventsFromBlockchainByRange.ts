@@ -1,29 +1,7 @@
-import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { EventData } from 'web3-eth-contract';
 
-import { Web3KeyReadProvider } from '@ankr.com/provider';
-
-import { IGetPastEvents } from '../stake';
-
-import {
-  IWeb3LatestBlockNumberProps,
-  IWeb3ReadableAmountFromWeiProps,
-} from './types';
-
-/**
- * Get the latest block number from Web3.
- *
- * @param {Provider} provider - current selected provider
- * @returns {Promise<number>}
- */
-export const getWeb3LatestBlockNumber = <Provider extends Web3KeyReadProvider>({
-  provider,
-}: IWeb3LatestBlockNumberProps<Provider>): Promise<number> => {
-  const web3 = provider.getWeb3();
-
-  return web3.eth.getBlockNumber();
-};
+import { IGetPastEvents } from '../../stake';
 
 /**
  * Get past events from blockchain by block range.
@@ -62,22 +40,4 @@ export const getWeb3PastEventsFromBlockchainByRange = async ({
   const pastEvents = await Promise.all(eventsPromises);
 
   return flatten(pastEvents);
-};
-
-/**
- * Get human-readable amount from Wei.
- *
- * @param {string} amount - target amount
- * @param {Provider} provider - current selected provider
- * @returns {BigNumber}
- */
-export const getWeb3ReadableAmountFromWei = <
-  Provider extends Web3KeyReadProvider,
->({
-  amount,
-  provider,
-}: IWeb3ReadableAmountFromWeiProps<Provider>): BigNumber => {
-  const web3 = provider.getWeb3();
-
-  return new BigNumber(web3.utils.fromWei(amount));
 };
