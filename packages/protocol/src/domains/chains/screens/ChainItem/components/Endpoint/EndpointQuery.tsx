@@ -13,6 +13,7 @@ import { Queries } from 'modules/common/components/Queries/Queries';
 import { getChainById } from './EndpointUtils';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
+import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 
 export const EndpointQuery = ({ chainId }: { chainId: string }) => {
   const { providerData } = useProvider();
@@ -20,9 +21,10 @@ export const EndpointQuery = ({ chainId }: { chainId: string }) => {
     useLazyChainsFetchPremiumChainFeaturesQuery();
   const [fetchEndpoints, endpointsState] =
     useLazyInfrastructureFetchEndpointsQuery();
+  const userEndpointToken = useUserEndpointToken();
 
   useOnMount(() => {
-    fetchPremiumChainFeatures(chainId);
+    fetchPremiumChainFeatures({ chainId, userEndpointToken });
     fetchEndpoints();
   });
 

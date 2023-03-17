@@ -32,7 +32,10 @@ export class WorkerGateway {
   }
 
   async importJwtToken(jwtToken?: string): Promise<IImportJWTTokenResult> {
-    const { data } = await this.api.post('/api/v1/jwt', { jwtToken });
+    const { data } = await this.api.post('/api/v1/jwt', {
+      jwtToken,
+      createNew: 'yes',
+    });
 
     return data;
   }

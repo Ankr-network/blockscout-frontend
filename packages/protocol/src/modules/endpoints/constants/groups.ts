@@ -57,6 +57,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.OPTIMISM_TESTNET,
       ChainID.POLYGON,
       ChainID.POLYGON_MUMBAI,
+      ChainID.POLYGON_ZKEVM,
       ChainID.HECO,
       ChainID.HECO_TESTNET,
       ChainID.KLAYTN,

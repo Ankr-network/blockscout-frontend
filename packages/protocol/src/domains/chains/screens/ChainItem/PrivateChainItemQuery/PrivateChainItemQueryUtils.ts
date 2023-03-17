@@ -1,33 +1,18 @@
 import { useEffect } from 'react';
 
-import { chainsFetchPrivateChain } from 'domains/chains/actions/private/fetchPrivateChain';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useLazyChainsFetchPremiumChainFeaturesQuery } from 'domains/chains/actions/private/fetchPremiumChainFeatures';
-import { POLLING_OPTIONS } from '../constants/pollingOptions';
+import { useLazyChainsFetchPrivateChainQuery } from 'domains/chains/actions/private/fetchPrivateChain';
+import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
+import { ChainID } from 'modules/chains/types';
 
-export const usePrivateChainItemQuery = (chainId: string, loading: boolean) => {
-  const [fetchPremiumChainFeatures] =
-    useLazyChainsFetchPremiumChainFeaturesQuery();
+export const usePrivateChainItemQuery = (chainId: string) => {
+  const userEndpointToken = useUserEndpointToken();
 
-  const [fetchPrivateChain, fetchChainState, reset] = useQueryEndpoint(
-    chainsFetchPrivateChain,
-    POLLING_OPTIONS,
-  );
+  const [fetchPrivateChain, fetchChainState] =
+    useLazyChainsFetchPrivateChainQuery();
 
   useEffect(() => {
-    fetchPremiumChainFeatures(chainId);
-
-    if (!loading) {
-      const { unsubscribe } = fetchPrivateChain(chainId);
-
-      return () => {
-        reset();
-        unsubscribe();
-      };
-    }
-
-    return () => {};
-  }, [chainId, fetchPrivateChain, fetchPremiumChainFeatures, reset, loading]);
+    fetchPrivateChain({ chainId: chainId as ChainID, userEndpointToken });
+  }, [chainId, userEndpointToken, fetchPrivateChain]);
 
   return fetchChainState;
 };

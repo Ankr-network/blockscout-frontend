@@ -1,4 +1,4 @@
 export interface ChainItemProps {
   chainId: string;
-  loading: boolean;
+  loading?: boolean;
 }

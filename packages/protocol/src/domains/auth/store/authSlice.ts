@@ -26,7 +26,9 @@ export interface IAuthSlice {
   isInstantJwtParticipant?: boolean;
 }
 
-const initialState: IAuthSlice = {};
+const initialState: IAuthSlice = {
+  address: '',
+};
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -78,7 +80,7 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
     };
   }
 
-  return {};
+  return { address: '' };
 };
 
 export const selectHasPremium = createSelector(

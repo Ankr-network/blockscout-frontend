@@ -1,17 +1,25 @@
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
-import { useLabel } from './hooks/useLabel';
 import { useLabelStyles } from './LabelStyles';
 
 export interface LabelProps {
-  isSui: boolean;
+  label: string;
+  tooltip: string;
+  isStatusIndicatorVisible: boolean;
 }
 
-export const Label = ({ isSui }: LabelProps) => {
-  const [label, tooltip] = useLabel(isSui);
-
+export const Label = ({
+  label,
+  tooltip,
+  isStatusIndicatorVisible,
+}: LabelProps) => {
   const { classes } = useLabelStyles();
 
   return (
-    <ChainLabel className={classes.root} label={label} tooltip={tooltip} />
+    <ChainLabel
+      className={classes.root}
+      label={label}
+      tooltip={tooltip}
+      isStatusIndicatorVisible={isStatusIndicatorVisible}
+    />
   );
 };

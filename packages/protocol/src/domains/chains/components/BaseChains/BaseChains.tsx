@@ -1,25 +1,23 @@
-import { Box } from '@mui/material';
 import { ReactNode } from 'react';
-import { t } from '@ankr.com/common';
-import { OverlaySpinner } from '@ankr.com/ui';
+import { Box } from '@mui/material';
 
-import { PageHeader } from 'modules/common/components/PageHeader';
 import { useBaseChainsStyles } from './BaseChainsStyles';
 import { ReminderDialog } from '../ReminderDialog';
+import { ChainsSkeleton } from 'domains/chains/screens/Chains/components/ChainsSkeleton';
 
 interface BaseChainsProps {
   top?: ReactNode;
   shouldShowReminderDialog?: boolean;
   loading: boolean;
-  select: ReactNode;
   children: ReactNode;
+  baseChainsHeader: ReactNode;
 }
 
 export const BaseChains = ({
   top,
   shouldShowReminderDialog,
   loading,
-  select,
+  baseChainsHeader,
   children,
 }: BaseChainsProps) => {
   const { classes } = useBaseChainsStyles();
@@ -27,10 +25,15 @@ export const BaseChains = ({
   return (
     <Box className={classes.root}>
       {top}
-      <PageHeader title={t('chains.title')} select={select} />
-      <Box className={classes.container}>
-        {loading ? <OverlaySpinner /> : children}
-      </Box>
+
+      {loading ? (
+        <ChainsSkeleton />
+      ) : (
+        <>
+          {baseChainsHeader}
+          {children}
+        </>
+      )}
       {shouldShowReminderDialog && <ReminderDialog />}
     </Box>
   );

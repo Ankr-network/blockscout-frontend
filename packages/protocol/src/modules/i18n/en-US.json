@@ -150,6 +150,8 @@
     "req": "{value, number, ::compact-short} req",
     "archive": "Archive",
     "beta": "BETA",
+    "soon": "Soon",
+    "coming-soon": "Coming Soon",
     "connect-wallet": "Connect wallet to copy Endpoint",
     "archive-tooltip-text": "Archived Mode makes it&nbsp;possible to&nbsp;reference a&nbsp;complete history of&nbsp;data kept on&nbsp;full nodes stretching back to&nbsp;the genesis block. This is&nbsp;necessary to&nbsp;complete queries to&nbsp;a&nbsp;distant historical state, such as&nbsp;a&nbsp;past account balance at&nbsp;block #4,000,000. It&nbsp;is&nbsp;especially useful for services like block explorers, wallet vendors, and chain analytics.",
     "add-endpoint": {
@@ -187,6 +189,39 @@
     "for-premium-only": "For Premium only",
     "endpoints-and-more": "Endpoints & More"
   },
+  "jwt-token": {
+    "default-project-name": "Primary",
+    "add-new-project": "Add new project",
+    "name": "Name",
+    "unique-token": "Unique Token",
+    "add": "Add",
+    "additional": "Additional #{index}",
+    "create": "Create",
+    "close": "Close",
+    "initial": {
+      "title": "Add Project"
+    },
+    "success": {
+      "title": "You've successfully added a new project!",
+      "project-name": "Project Name",
+      "unique-token": "Unique Token"
+    },
+    "failed": {
+      "title": "Oops! Something went wrong.",
+      "info": "Please try again later or contact our support team",
+      "try-again": "Try again"
+    },
+    "delete-project": {
+      "title": "Are you sure want to delete the project?",
+      "info": "This action can't be undone!",
+      "delete": "Delete",
+      "cancel": "Cancel"
+    },
+    "view-project": {
+      "button": "Done",
+      "delete-project": "Delete project"
+    }
+  },
   "chain-item-dialog": {
     "title": "Plans that scale with you.",
     "free": {
@@ -201,7 +236,7 @@
     },
     "premium": {
       "title": "Premium",
-      "intro": "from <em>0.1 USD</em> for 10K requests",
+      "intro": "from <em>0.1 USD</em> for 10K requests ",
       "description": "For Web3 projects looking for fast, reliable infrastructure to scale operations to the next level.",
       "list-1": "WebSockets",
       "list-2": "Advanced Developer APIs",
@@ -720,7 +755,9 @@
     "submit": "Submit",
     "404": "404",
     "page-not-found": "Page not found",
-    "soon": "soon"
+    "soon": "soon",
+    "search": "Search",
+    "no-search-result": "Nothing found for your request"
   },
   "providers": {
     "endpoint": {

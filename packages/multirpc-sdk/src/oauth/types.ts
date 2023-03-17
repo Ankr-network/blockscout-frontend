@@ -28,7 +28,10 @@ export interface IEthUserAddressWithDeprecatedPublicKey {
   public_key?: string; // deprecated. will be used only camelCase for publicKey. now is used by accounting gateway in user/addresses/api/v1/auth/googleOauth/getAllMyEthAddresses
   publicKey?: string; // used for backoffice GetUserAddressesResponse
 }
-export type IEthUserAddress = Omit<IEthUserAddressWithDeprecatedPublicKey, 'publicKey'>
+export type IEthUserAddress = Omit<
+  IEthUserAddressWithDeprecatedPublicKey,
+  'publicKey'
+>;
 
 export interface IETHAddressesResponse {
   addresses: IEthUserAddress[];
@@ -45,4 +48,14 @@ export interface IDecodeJwtTokenResponse {
 
 export interface ISyntheticJwtTokenResponse {
   jwt_data: string;
+}
+
+export interface IJwtTokenResponse {
+  index: number;
+  jwt_data: string;
+  is_encrypted: boolean;
+}
+
+export interface IJwtTokenLimitResponse {
+  jwtLimit: number;
 }
