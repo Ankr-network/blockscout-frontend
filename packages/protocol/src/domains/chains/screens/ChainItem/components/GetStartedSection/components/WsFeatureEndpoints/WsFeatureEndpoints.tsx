@@ -1,8 +1,10 @@
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { WSEndpoints } from '../WSEndpoints';
-import { WSPlaceHolder } from '../WSPlaceHolder';
+import { EndpointPlaceholder } from '../EndpointPlaceholder';
 import { useWsFeatureEndpoints } from './useWsFeatureEndpoints';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 
 interface IWsFeatureEndpointsProps {
   title: string;
@@ -20,6 +22,7 @@ export const WsFeatureEndpoints = ({
   onCopyEndpoint,
 }: IWsFeatureEndpointsProps) => {
   const { hasWsFeature, wss } = useWsFeatureEndpoints(group);
+  const { isOpened, onOpen, onClose } = useDialog();
 
   if (!hasWsFeature) return null;
 
@@ -33,7 +36,13 @@ export const WsFeatureEndpoints = ({
           onCopyEndpoint={onCopyEndpoint}
         />
       ) : (
-        <WSPlaceHolder title={<EndpointsHeader title={title} />} />
+        <>
+          <EndpointPlaceholder
+            title={<EndpointsHeader title={title} />}
+            onClick={onOpen}
+          />
+          <PremiumChainDialog open={isOpened} onClose={onClose} />
+        </>
       )}
     </>
   );

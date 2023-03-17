@@ -18,6 +18,7 @@ const chain = {
   type: BlockchainType.Mainnet,
   urls: [{ rpc: 'chainLinkchainLinkchainLinkchainLinkchainLink' }],
   coinName: 'coinName',
+  isComingSoon: false,
 };
 
 storiesOf('domains/chains/ChainsItem', module).add('Default', () => (

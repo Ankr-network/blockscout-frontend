@@ -2,7 +2,7 @@ import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
 import { IApiChain } from '../../api/queryChains';
-import { ChainsRoutesConfig } from '../../routes/routesConfig';
+import { ChainsRoutesConfig } from '../../routes';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';

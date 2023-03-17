@@ -16,4 +16,5 @@ type PropsToPick =
 export interface ContentProps extends Pick<ChainsItemBaseProps, PropsToPick> {
   isArchive: ChainsItemBaseProps['chain']['isArchive'];
   isSui: boolean;
+  isComingSoon: boolean;
 }

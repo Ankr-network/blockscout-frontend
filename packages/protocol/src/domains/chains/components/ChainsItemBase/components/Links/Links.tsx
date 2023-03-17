@@ -1,30 +1,29 @@
 import { Box, Typography } from '@mui/material';
 import { Lock } from '@ankr.com/ui';
 import { ReactNode } from 'react';
-import { t } from '@ankr.com/common';
 
 import { useLinksStyles } from './LinksStyles';
 
 export interface LinksProps {
   children: ReactNode;
-  hasPremiumDialog?: boolean;
+  inactiveMessage?: string;
 }
 
-export const Links = ({ children, hasPremiumDialog }: LinksProps) => {
+export const Links = ({ children, inactiveMessage }: LinksProps) => {
   const { classes } = useLinksStyles();
 
-  const premiumOnlyContent = (
-    <Box className={classes.premiumOnlyContent}>
-      <Typography className={classes.premiumOnlyText} variant="subtitle1">
-        {t('chains.for-premium-only')}
+  const inactiveContent = (
+    <Box className={classes.content}>
+      <Typography className={classes.text} variant="subtitle1">
+        {inactiveMessage}
       </Typography>
-      <Lock className={classes.premiumOnlyIcon} />
+      <Lock className={classes.icon} />
     </Box>
   );
 
   return (
     <div className={classes.root}>
-      {hasPremiumDialog ? premiumOnlyContent : children}
+      {inactiveMessage ? inactiveContent : children}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useWSPlaceHoderStyles = makeStyles()(theme => ({
+export const useEndpointPlaceholderStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -11,7 +11,6 @@ export const useWSPlaceHoderStyles = makeStyles()(theme => ({
     padding: '10px 13.5px',
     backgroundColor: theme.palette.background.default,
     minHeight: 36,
-    cursor: 'pointer',
     borderRadius: theme.spacing(3.5),
   },
 }));

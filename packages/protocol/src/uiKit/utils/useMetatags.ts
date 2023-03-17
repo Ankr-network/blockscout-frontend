@@ -106,6 +106,8 @@ export const getChainName = (chainId: ChainID) => {
     name = renderETHName(chainId);
   } else if (chainId === ChainID.SUI) {
     name = 'Sui Testnet';
+  } else if (chainId === ChainID.POLYGON_ZKEVM) {
+    name = 'zkEVM';
   } else if (ADVANCED_API_PATH.includes(chainId)) {
     name = 'Advanced API';
   } else if (chainId === ChainID.ARBITRUM_NOVA) {

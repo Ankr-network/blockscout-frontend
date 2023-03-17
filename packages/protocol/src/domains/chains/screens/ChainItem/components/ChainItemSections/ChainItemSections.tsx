@@ -29,6 +29,10 @@ export const ChainItemSections = ({
 
   const { classes } = useChainItemSectionsStyles();
 
+  if (data.chain.isComingSoon) {
+    return null;
+  }
+
   const additionalContent =
     section?.id === SectionID.UsageData ? (
       <TimeframeTabs

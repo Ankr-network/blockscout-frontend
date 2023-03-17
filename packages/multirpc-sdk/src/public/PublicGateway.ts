@@ -2,12 +2,12 @@ import axios, { AxiosInstance } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import {
-  IWorkerGlobalStatus,
-  Timeframe,
   Config,
-  IRate,
-  IWorkerPublicStats,
   INodesDetailEntity,
+  IRate,
+  IWorkerGlobalStatus,
+  IWorkerPublicStats,
+  Timeframe,
 } from './types';
 import { IPublicGateway } from './interfaces';
 import { IBlockchainEntity } from '../backoffice';
@@ -37,6 +37,7 @@ export class PublicGateway implements IPublicGateway {
     const { data } = await this.api.get<IBlockchainEntity[]>(
       '/api/v1/blockchain',
     );
+
     return data;
   }
 
