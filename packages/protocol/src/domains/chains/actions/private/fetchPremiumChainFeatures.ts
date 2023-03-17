@@ -19,7 +19,6 @@ interface FetchPremiumChainFeaturesParams {
 export const {
   endpoints: { chainsFetchPremiumChainFeatures },
   useLazyChainsFetchPremiumChainFeaturesQuery,
-  useChainsFetchPremiumChainFeaturesQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPremiumChainFeatures: build.query<

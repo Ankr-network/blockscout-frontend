@@ -1,7 +1,7 @@
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
+import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePublicChains } from './hooks/usePublicChains';
@@ -17,6 +17,8 @@ export const PublicChains = () => {
     loading,
     setSortType,
     sortType,
+    searchContent,
+    setSearchContent,
     timeframe,
   } = usePublicChainsData();
 
@@ -25,6 +27,7 @@ export const PublicChains = () => {
     chains,
     sortType,
     timeframe,
+    searchContent,
   });
 
   return (
@@ -32,7 +35,14 @@ export const PublicChains = () => {
       loading={loading}
       shouldShowReminderDialog={isLoggedIn}
       top={<PublicBanner />}
-      select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
+      baseChainsHeader={
+        <BaseChainsHeader
+          sortType={sortType}
+          setSortType={setSortType}
+          searchContent={searchContent}
+          setSearchContent={setSearchContent}
+        />
+      }
     >
       <NoReactSnap
         fallback={

@@ -44,6 +44,7 @@ export enum ChainID {
   POLKADOT = 'polkadot',
   POLYGON = 'polygon',
   POLYGON_MUMBAI = 'polygon_mumbai',
+  POLYGON_ZKEVM = 'polygon_zkevm',
   SECRET = 'scrt',
   SECRET_COSMOS = 'scrt_cosmos',
   SECRET_COSMOS_GRPC_WEB = 'scrt-cosmos-grpc-web',

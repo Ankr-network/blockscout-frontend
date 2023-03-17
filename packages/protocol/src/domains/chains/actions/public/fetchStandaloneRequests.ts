@@ -15,7 +15,6 @@ export interface StandaloneStats {
 }
 
 export const {
-  useChainsFetchStandaloneRequestsQuery,
   endpoints: { chainsFetchStandaloneRequests },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

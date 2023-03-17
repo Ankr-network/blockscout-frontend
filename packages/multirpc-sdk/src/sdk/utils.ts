@@ -1,5 +1,5 @@
 import { FetchBlockchainUrlsResult } from './types';
-import { IBlockchainEntity } from '../backoffice';
+import { BlockchainFeature, IBlockchainEntity } from '../backoffice';
 import { IConfig } from '../common';
 
 const ENABLED_SECRET_NETWORK_IDS = new Set<string>([
@@ -39,7 +39,7 @@ export const formatPublicUrls = (
   }, {});
 
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
-    const hasRPC = blockchain.features.includes('rpc');
+    const hasRPC = blockchain.features.includes(BlockchainFeature.RPC);
 
     if (blockchain.id === 'avalanche') {
       blockchain.paths = avalancheEvmItem?.paths ?? [];
@@ -100,8 +100,8 @@ export const formatPrivateUrls = (
 ) => {
   return [...blockchains].reduce<FetchBlockchainUrlsResult>(
     (result, blockchain) => {
-      const hasRPC = blockchain.features.includes('rpc');
-      const hasWS = blockchain.features.includes('ws');
+      const hasRPC = blockchain.features.includes(BlockchainFeature.RPC);
+      const hasWS = blockchain.features.includes(BlockchainFeature.WS);
 
       const paths = getPaths(blockchain);
       const isAptos =

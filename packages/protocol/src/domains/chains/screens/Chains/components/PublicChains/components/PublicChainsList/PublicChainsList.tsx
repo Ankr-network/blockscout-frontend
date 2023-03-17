@@ -1,6 +1,7 @@
 import { ChainsListProps } from 'domains/chains/components/ChainsList';
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
-import { useChainListStyles } from 'domains/chains/components/ChainsList/ChainsListStyles';
+import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
+import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 import { PublicChainsItem } from '../PublicChainsItem';
 
@@ -10,6 +11,10 @@ export const PublicChainsList = ({
   chainsDictionary,
 }: ChainsListProps) => {
   const { classes } = useChainListStyles();
+
+  if (chains.length === 0) {
+    return <NoResult />;
+  }
 
   return (
     <div className={classes.root}>

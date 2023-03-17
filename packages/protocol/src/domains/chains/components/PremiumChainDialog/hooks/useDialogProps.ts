@@ -7,7 +7,7 @@ import { useHasBreakdown } from 'uiKit/Theme/useTheme';
 import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 import { SIGNUP_DIALOG_WIDTH } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 
-const LARGE_WIDTH = 980;
+const LARGE_WIDTH = 1200;
 
 const getDefaultMaxWidth = (hasBreakdown: boolean) =>
   hasBreakdown ? SIGNUP_DIALOG_WIDTH : LARGE_WIDTH;

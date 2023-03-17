@@ -5,7 +5,7 @@ import { useChainsItemBaseStyles } from './ChainsItemBaseStyles';
 import { useContent } from './hooks/useContent';
 
 export const ChainsItemBase = ({
-  chain: { id: chainId, isArchive },
+  chain: { id: chainId, isArchive, isComingSoon },
   chainsItemButton,
   chainsItemLink,
   description,
@@ -34,6 +34,7 @@ export const ChainsItemBase = ({
     period,
     timeframe,
     totalRequests,
+    isComingSoon,
   });
 
   return hasPremiumDialog ? (

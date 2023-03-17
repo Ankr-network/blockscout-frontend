@@ -6,7 +6,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: theme.spacing(2 * 4),
   },
   left: {
     display: 'flex',
