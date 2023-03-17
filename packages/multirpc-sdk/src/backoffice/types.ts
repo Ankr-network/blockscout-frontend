@@ -252,13 +252,17 @@ export type GetUsersRegistrationsRequest = {
   from: Timestamp;
   to: Timestamp;
   filter: GetUsersRegistrationsFilter;
-}
+};
 
 export type GetUsersRegistrationsResponse = {
   addresses: Web3Address[];
-}
+};
 
-export type BlockchainFeature = 'rpc' | 'ws';
+export enum BlockchainFeature {
+  RPC = 'rpc',
+  WS = 'ws',
+  ComingSoon = 'coming soon',
+}
 
 export enum BlockchainType {
   Mainnet = 'mainnet',
@@ -279,7 +283,7 @@ export interface IBlockchainEntity {
   type: BlockchainType;
 }
 
-export type LoggerScale = Record<BlockchainID, number>
+export type LoggerScale = Record<BlockchainID, number>;
 
 export interface ICountersEntity {
   hourly: number;

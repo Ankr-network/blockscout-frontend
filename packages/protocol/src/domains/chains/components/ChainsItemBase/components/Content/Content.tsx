@@ -5,6 +5,37 @@ import { ContentProps } from './types';
 import { Label } from '../Label';
 import { Links } from '../Links';
 import { useContentStyles } from './ContentStyles';
+import { useMemo } from 'react';
+import { t, tHTML } from '@ankr.com/common';
+
+const useLabel = (isSui: boolean, isComingSoon: boolean) => {
+  return useMemo(() => {
+    if (isSui) {
+      return [t('chains.beta'), ''];
+    }
+
+    if (isComingSoon) {
+      return [t('chains.soon'), ''];
+    }
+
+    return [t('chains.archive'), tHTML('chains.archive-tooltip-text')];
+  }, [isComingSoon, isSui]);
+};
+
+const useInactiveMessage = (
+  hasPremiumDialog: boolean,
+  isComingSoon: boolean,
+) => {
+  if (hasPremiumDialog) {
+    return t('chains.for-premium-only');
+  }
+
+  if (isComingSoon) {
+    return t('chains.coming-soon');
+  }
+
+  return undefined;
+};
 
 export const Content = ({
   chainsItemButton,
@@ -20,10 +51,15 @@ export const Content = ({
   period,
   timeframe,
   totalRequests,
+  isComingSoon,
 }: ContentProps) => {
-  const hasLabel = isArchive || isSui;
+  const hasLabel = isArchive || isSui || isComingSoon;
+
+  const [label, tooltip] = useLabel(isSui, isComingSoon);
 
   const { classes } = useContentStyles();
+
+  const inactiveMessage = useInactiveMessage(!!hasPremiumDialog, isComingSoon);
 
   return (
     <>
@@ -36,13 +72,21 @@ export const Content = ({
         }
         isHighlighted={isHighlighted}
         isLoading={isLoading}
-        label={hasLabel && <Label isSui={isSui} />}
+        label={
+          hasLabel && (
+            <Label
+              label={label}
+              tooltip={tooltip}
+              isStatusIndicatorVisible={!isComingSoon}
+            />
+          )
+        }
         logoSrc={logoSrc}
         name={name}
         timeframe={timeframe}
         totalRequests={totalRequests}
       />
-      <Links hasPremiumDialog={hasPremiumDialog}>{chainsItemLink}</Links>
+      <Links inactiveMessage={inactiveMessage}>{chainsItemLink}</Links>
       <Buttons>{chainsItemButton}</Buttons>
     </>
   );

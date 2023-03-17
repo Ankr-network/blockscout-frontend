@@ -16,6 +16,7 @@ import hecoIcon from './heco.svg';
 import iotexIcon from './iotex.svg';
 import klaytnIcon from './klaytn.svg';
 import polygonIcon from './polygon.svg';
+import polygonZkevmIcon from './polygon-zkevm.svg';
 import kusamaIcon from './kusama.svg';
 import metisIcon from './metis.svg';
 import moonbeamIcon from './moonbeam.svg';
@@ -57,6 +58,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.OPTIMISM]: optimisimIcon,
   [ChainID.POLKADOT]: polkadotIcon,
   [ChainID.POLYGON]: polygonIcon,
+  [ChainID.POLYGON_ZKEVM]: polygonZkevmIcon,
   [ChainID.SECRET]: secretIcon,
   [ChainID.SOLANA]: solIcon,
   [ChainID.SYSCOIN]: syscoinIcon,

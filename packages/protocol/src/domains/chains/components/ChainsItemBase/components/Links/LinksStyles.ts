@@ -11,7 +11,7 @@ export const useLinksStyles = makeStyles<void, 'copyItem'>()(
         marginBottom: theme.spacing(3),
       },
     },
-    premiumOnlyContent: {
+    content: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -22,7 +22,7 @@ export const useLinksStyles = makeStyles<void, 'copyItem'>()(
 
       background: theme.palette.background.default,
     },
-    premiumOnlyText: {
+    text: {
       display: 'inline',
 
       width: 'fit-content',
@@ -34,7 +34,7 @@ export const useLinksStyles = makeStyles<void, 'copyItem'>()(
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     },
-    premiumOnlyIcon: {
+    icon: {
       color: theme.palette.grey[600],
     },
     copyItem: {

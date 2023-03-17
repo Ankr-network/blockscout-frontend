@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { ChainID } from 'modules/chains/types';
 
 import {
+  BlockchainFeature,
   BlockchainType,
   BlockchainUrls,
   FetchBlockchainUrlsResult,
@@ -31,6 +32,7 @@ export interface IApiChain {
   urls: IApiChainURL[];
   premiumOnly?: boolean;
   hasWsFeature: boolean;
+  isComingSoon: boolean;
 }
 
 const getSuiFrontChain = (testnet: IApiChain) => ({
@@ -69,7 +71,8 @@ export const filterMapChains = (
           ws: wsURLs[index],
         })),
         premiumOnly,
-        hasWsFeature: features.includes('ws'),
+        hasWsFeature: features.includes(BlockchainFeature.WS),
+        isComingSoon: features.includes(BlockchainFeature.ComingSoon),
       };
     });
 

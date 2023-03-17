@@ -2,7 +2,7 @@ import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
 import { IApiChain } from '../../api/queryChains';
-import { ChainsRoutesConfig } from '../../routes/routesConfig';
+import { ChainsRoutesConfig } from '../../routes';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -17,7 +17,6 @@ export interface IChainItemDetails {
 
 export const {
   endpoints: { chainsFetchPublicChain },
-  useLazyChainsFetchPublicChainQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPublicChain: build.query<IChainItemDetails, string>({
