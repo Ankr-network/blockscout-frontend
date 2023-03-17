@@ -74,6 +74,15 @@ export interface IEmailBindingsResponse {
   cursor: string;
 }
 
+export interface IUpdateUserEmailRequest {
+  address: Web3Address;
+  email: string;
+}
+
+export interface IUpdateUserEmailResponse {
+  binding: IEmailBindingEntity;
+}
+
 export interface IGetAdminRolesResponse {
   roles: string;
   roles_name: string;
@@ -117,6 +126,24 @@ export interface IUsageDetailEntity {
   count: string;
   method: string;
   totalCost: string;
+}
+
+export interface IWebsocketStatsRequest {
+  blockchain: string;
+}
+
+export interface IWebsocketStatsResponse {
+  [address: Web3Address]: number;
+  total: number;
+}
+
+export interface IArchiveRequestsStatsRequest {
+  blockchain: string;
+  user?: string;
+}
+
+export interface IArchiveRequestsStatsResponse {
+  [timestamp: Timestamp]: number;
 }
 
 export interface IUsageEntity {
@@ -166,10 +193,12 @@ export interface IUpdateVoucherCreditsResponse {
 export interface IGetUserTotalRequest {
   address: Web3Address;
 }
+
 interface ChainTotal {
   totalCost: string;
   totalCount: string;
 }
+
 export interface IGetUserTotalResponse {
   blockchainsInfo: {
     blockchains?: {
@@ -219,6 +248,7 @@ export interface IUpdateUserProfileRequest {
   companyType?: string;
   name?: string;
 }
+
 export type IUpdateUserProfileResponse = IUserProfileResponse;
 
 export interface IGetUserRevenueRequest {
@@ -243,6 +273,7 @@ export type IEthUserAddressV2 = Omit<
   IEthUserAddressWithDeprecatedPublicKey,
   'public_key'
 >;
+
 export type GetUserAddressesResponse = {
   addresses: IEthUserAddressV2[];
 };
@@ -257,6 +288,25 @@ export type GetUsersRegistrationsRequest = {
 export type GetUsersRegistrationsResponse = {
   addresses: Web3Address[];
 };
+
+export type UserGroupRole = 'OWNER' | 'DEV' | 'FINANCE';
+
+export type SetUserGroupRequest = {
+  groupAddress: Web3Address;
+  userAddress: Web3Address;
+  role: Lowercase<UserGroupRole>;
+}
+
+export type GroupMember = {
+  address: Web3Address;
+  role: UserGroupRole;
+}
+
+export type SetUserGroupResponse = {
+  name: string;
+  address: Web3Address;
+  members: GroupMember[];
+}
 
 export enum BlockchainFeature {
   RPC = 'rpc',

@@ -13,6 +13,8 @@ import {
   ICountersResponse,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
+  IUpdateUserEmailRequest,
+  IUpdateUserEmailResponse,
   INodeEntity,
   IStatementRequest,
   IStatementResponse,
@@ -23,6 +25,10 @@ import {
   IUserStatsRequest,
   IUserStatsResponse,
   IUserStatsByRangeRequest,
+  IWebsocketStatsRequest,
+  IWebsocketStatsResponse,
+  IArchiveRequestsStatsRequest,
+  IArchiveRequestsStatsResponse,
   ICountersRequest,
   IGetUserTotalRequest,
   IGetUserTotalResponse,
@@ -37,6 +43,8 @@ import {
   IGetAdminRolesResponse,
   GetUsersRegistrationsRequest,
   GetUsersRegistrationsResponse,
+  SetUserGroupRequest,
+  SetUserGroupResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -91,6 +99,40 @@ export class BackofficeGateway implements IBackofficeGateway {
       '/users/emails',
       {
         params,
+      },
+    );
+
+    return response;
+  }
+
+  async createUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse> {
+    const { data: response } = await this.api.post<IUpdateUserEmailResponse>(
+      '/users/emails',
+      params,
+      {
+        params: {
+          address: params.address,
+          email: params.email,
+        },
+      },
+    );
+
+    return response;
+  }
+
+  async updateUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse> {
+    const { data: response } = await this.api.put<IUpdateUserEmailResponse>(
+      '/users/emails',
+      params,
+      {
+        params: {
+          address: params.address,
+          email: params.email,
+        },
       },
     );
 
@@ -184,6 +226,17 @@ export class BackofficeGateway implements IBackofficeGateway {
     return response;
   }
 
+  async setUserGroup(
+    body: SetUserGroupRequest,
+  ): Promise<SetUserGroupResponse> {
+    const { data: response } = await this.api.post<SetUserGroupResponse>(
+      '/users/group/addUser',
+      body,
+    );
+
+    return response;
+  }
+
   async createTestPremiumUser(
     body: ICreateTestClientRequest,
   ): Promise<ICreateTestClientResponse> {
@@ -209,6 +262,28 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getUserStats(params: IUserStatsRequest): Promise<IUserStatsResponse> {
     const { data: response } = await this.api.get<IUserStatsResponse>(
       '/users/stats',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse> {
+    const { data: response } = await this.api.get<IWebsocketStatsResponse>(
+      '/stats/websockets',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getArchiveRequestsStats(params: IArchiveRequestsStatsRequest): Promise<IArchiveRequestsStatsResponse> {
+    const { data: response } = await this.api.get<IArchiveRequestsStatsResponse>(
+      '/stats/archives',
       {
         params,
       },

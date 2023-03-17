@@ -8,6 +8,8 @@ import {
   IBlockchainEntity,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
+  IUpdateUserEmailRequest,
+  IUpdateUserEmailResponse,
   INodeEntity,
   IStatementRequest,
   IStatementResponse,
@@ -18,6 +20,10 @@ import {
   IUserStatsRequest,
   IUserStatsByRangeRequest,
   IUserStatsResponse,
+  IWebsocketStatsRequest,
+  IWebsocketStatsResponse,
+  IArchiveRequestsStatsRequest,
+  IArchiveRequestsStatsResponse,
   ICountersResponse,
   ICountersRequest,
   IGetUserTotalRequest,
@@ -33,6 +39,8 @@ import {
   IGetAdminRolesResponse,
   GetUsersRegistrationsRequest,
   GetUsersRegistrationsResponse,
+  SetUserGroupRequest,
+  SetUserGroupResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -49,6 +57,10 @@ export interface IBackofficeGateway {
   getEmailBindings(
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
+
+  createUserEmail(params: IUpdateUserEmailRequest): Promise<IUpdateUserEmailResponse>
+
+  updateUserEmail(params: IUpdateUserEmailRequest): Promise<IUpdateUserEmailResponse>
 
   getAdminRoles(): Promise<IGetAdminRolesResponse>;
 
@@ -76,6 +88,10 @@ export interface IBackofficeGateway {
     params: IUserStatsByRangeRequest,
   ): Promise<IUserStatsResponse>;
 
+  getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse>
+
+  getArchiveRequestsStats(params: IArchiveRequestsStatsRequest): Promise<IArchiveRequestsStatsResponse>
+
   getUserAddresses(
     params: GetUserAddressesRequest,
   ): Promise<GetUserAddressesResponse>;
@@ -83,6 +99,10 @@ export interface IBackofficeGateway {
   getUsersRegistrations(
     params: GetUsersRegistrationsRequest,
   ): Promise<GetUsersRegistrationsResponse>;
+
+  setUserGroup(
+    params: SetUserGroupRequest,
+  ): Promise<SetUserGroupResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,

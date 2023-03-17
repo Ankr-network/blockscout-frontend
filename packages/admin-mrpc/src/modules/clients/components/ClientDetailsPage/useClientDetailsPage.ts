@@ -45,8 +45,11 @@ export const useClientDetailsPage = () => {
 
   const [isCurrentDayIncluded, setIsCurrentDayIncluded] = useState(false);
 
-  const { data: clients, isLoading: isLoadingClients } =
-    useFetchCountersQuery();
+  const {
+    data: clients,
+    isLoading: isLoadingClients,
+    isFetching: isFetchingClients,
+  } = useFetchCountersQuery();
   const { data: transactionsData, isLoading: isLoadingTransactions } =
     useFetchUserTransactionsQuery({ address });
   const {
@@ -94,7 +97,7 @@ export const useClientDetailsPage = () => {
   };
 
   return {
-    isLoadingClients,
+    isLoadingClients: isLoadingClients || isFetchingClients,
     currentClient,
     address,
     statsData: isRangePeriodValue ? statsByRangeData : statsData,
