@@ -22,6 +22,7 @@ export const useContent = ({
   period,
   timeframe,
   totalRequests,
+  isComingSoon,
 }: ContentParams) => {
   const isSui = useMemo(() => isSuiChain(chainId), [chainId]);
 
@@ -41,6 +42,7 @@ export const useContent = ({
         period={period}
         timeframe={timeframe}
         totalRequests={totalRequests}
+        isComingSoon={isComingSoon}
       />
     ),
     [
@@ -49,6 +51,7 @@ export const useContent = ({
       description,
       hasPremiumDialog,
       isArchive,
+      isComingSoon,
       isHighlighted,
       isLoading,
       isSui,

@@ -148,7 +148,7 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
       );
 
       const workerTokenData: WorkerTokenData = {
-        signedToken: jwtData,
+        signedToken: decryptedToken,
         userEndpointToken: token,
         tier,
       };

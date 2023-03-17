@@ -31,6 +31,19 @@ export const useAuth = () => {
     !hasPremium && hasOauthLogin && workerTokenData?.userEndpointToken,
   );
 
+  const hasPrivateAccess = Boolean(
+    credentials || workerTokenData?.userEndpointToken,
+  );
+
+  const isUserEthAddressType = ethAddressType === EthAddressType.User;
+
+  const hasConnectWalletMessage = Boolean(
+    hasOauthLogin &&
+      !hasWeb3Connection &&
+      hasPrivateAccess &&
+      isUserEthAddressType,
+  );
+
   return {
     loading: web3ConnectionLoading || autologinLoading,
     ...rest,
@@ -41,15 +54,14 @@ export const useAuth = () => {
       : authData?.credentials,
     hasWeb3Connection: Boolean(hasWeb3Connection),
     isLoggedIn: Boolean(hasOauthLogin || hasWeb3Connection),
-    isUserEthAddressType: ethAddressType === EthAddressType.User,
+    isUserEthAddressType,
     isTokenExpired,
     hasPremium, // web3 premium user or gauth premium user has access to billing
     isFreePremium, // gauth user with private endpoints, without topups
-    hasPrivateAccess: Boolean(
-      credentials || workerTokenData?.userEndpointToken,
-    ), // web3 premium user or any gauth user has access to private statistics
+    hasPrivateAccess, // web3 premium user or any gauth user has access to private statistics
     hasInfrastructureAccess: Boolean(
       hasPremium && workerTokenData?.userEndpointToken,
     ), // web3 premium user with active premium or gauth premium user has access to infrastructure
+    hasConnectWalletMessage,
   };
 };

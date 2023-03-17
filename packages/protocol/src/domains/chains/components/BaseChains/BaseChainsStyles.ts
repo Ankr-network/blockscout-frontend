@@ -8,8 +8,12 @@ export const useBaseChainsStyles = makeStyles()(() => ({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  container: {
-    minHeight: 80,
+  content: {
     position: 'relative',
+  },
+  search: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
 }));

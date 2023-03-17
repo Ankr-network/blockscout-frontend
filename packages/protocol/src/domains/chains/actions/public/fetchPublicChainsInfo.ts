@@ -10,34 +10,31 @@ export interface IFetchPublicChainsInfoResult {
   allChains: IApiChain[];
 }
 
-export const {
-  endpoints: { chainsFetchPublicChainsInfo },
-  useLazyChainsFetchPublicChainsInfoQuery,
-  useChainsFetchPublicChainsInfoQuery,
-} = web3Api.injectEndpoints({
-  endpoints: build => ({
-    chainsFetchPublicChainsInfo: build.query<
-      IFetchPublicChainsInfoResult,
-      void
-    >({
-      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
-        const [
-          { data: { chains = [], allChains = [] } = {} },
-          { data: nodes },
-        ] = await Promise.all([
-          dispatch(chainsFetchPublicChains.initiate()),
-          dispatch(chainsFetchChainNodesDetail.initiate()),
-        ]);
+export const { endpoints, useChainsFetchPublicChainsInfoQuery } =
+  web3Api.injectEndpoints({
+    endpoints: build => ({
+      chainsFetchPublicChainsInfo: build.query<
+        IFetchPublicChainsInfoResult,
+        void
+      >({
+        queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
+          const [
+            { data: { chains = [], allChains = [] } = {} },
+            { data: nodes },
+          ] = await Promise.all([
+            dispatch(chainsFetchPublicChains.initiate()),
+            dispatch(chainsFetchChainNodesDetail.initiate()),
+          ]);
 
-        const addIsArchive = getAddIsArchiveCB(nodes);
+          const addIsArchive = getAddIsArchiveCB(nodes);
 
-        return {
-          data: {
-            chains: chains.map(addIsArchive),
-            allChains: allChains.map(addIsArchive),
-          },
-        };
+          return {
+            data: {
+              chains: chains.map(addIsArchive),
+              allChains: allChains.map(addIsArchive),
+            },
+          };
+        }),
       }),
     }),
-  }),
-});
+  });

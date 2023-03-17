@@ -1,8 +1,9 @@
+import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
+import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 import { Chain, Timeframe } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
 import { PrivateChainCard } from '../PrivateChainCard';
 import { PublicChainCard } from '../PublicChainCard';
-import { useChainsNewListStyles } from './useChainsNewListStyles';
 
 export interface IChainsNewListProps {
   timeframe: Timeframe;
@@ -16,7 +17,11 @@ export const ChainsNewList = ({
   isPublic,
   ...props
 }: IChainsNewListProps) => {
-  const { classes } = useChainsNewListStyles();
+  const { classes } = useChainListStyles();
+
+  if (chains.length === 0) {
+    return <NoResult />;
+  }
 
   return (
     <div className={classes.root}>

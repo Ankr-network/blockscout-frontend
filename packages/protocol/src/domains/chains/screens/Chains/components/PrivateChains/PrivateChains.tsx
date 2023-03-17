@@ -1,6 +1,6 @@
-import { ChainsSortSelect } from 'domains/chains/components/ChainsSortSelect';
 import { usePrivateChainsData } from './hooks/usePrivateChainsData';
 import { BaseChains } from 'domains/chains/components/BaseChains';
+import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { usePrivateChains } from './hooks/usePrivateChains';
 import { PrivateChainsList } from './components/PrivateChainsList';
 import { PrivateChainsTop } from './PrivateChainsTop';
@@ -14,12 +14,15 @@ export const PrivateChains = () => {
     sortType,
     switchStatsTimeframe,
     timeframe,
+    searchContent,
+    setSearchContent,
   } = usePrivateChainsData();
 
   const { processedChains, chainsDictionary } = usePrivateChains({
     allChains,
     chains,
     sortType,
+    searchContent,
   });
 
   return (
@@ -30,9 +33,16 @@ export const PrivateChains = () => {
           switchStatsTimeframe={switchStatsTimeframe}
         />
       }
-      shouldShowReminderDialog
-      select={<ChainsSortSelect sortType={sortType} onSelect={setSortType} />}
       loading={loading}
+      shouldShowReminderDialog
+      baseChainsHeader={
+        <BaseChainsHeader
+          sortType={sortType}
+          setSortType={setSortType}
+          searchContent={searchContent}
+          setSearchContent={setSearchContent}
+        />
+      }
     >
       <PrivateChainsList
         timeframe={timeframe}

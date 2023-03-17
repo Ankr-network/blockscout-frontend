@@ -22,6 +22,8 @@ import { requestComposerSlice } from 'domains/requestComposer/store/requestCompo
 import { rootSaga } from './rootSaga';
 import { web3Api } from './queries';
 import { userConfigPersistConfig } from 'domains/auth/storage/userConfigPersistConfig';
+import { jwtTokenManagerPersistConfig } from 'domains/jwtToken/storage/jwtTokenManagerPersistConfig';
+import { jwtTokenManagerSlice } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -31,6 +33,10 @@ const rootReducer = combineReducers({
   theme: persistReducer(themePersistConfig, themeSlice.reducer),
   auth: persistReducer(authPersistConfig, authSlice.reducer),
   userConfig: persistReducer(userConfigPersistConfig, userConfigSlice.reducer),
+  jwtTokenManager: persistReducer(
+    jwtTokenManagerPersistConfig,
+    jwtTokenManagerSlice.reducer,
+  ),
   accountTopUp: persistReducer(
     accountTopUpPersistConfig,
     accountTopUpSlice.reducer,

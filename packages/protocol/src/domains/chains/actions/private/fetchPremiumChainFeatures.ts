@@ -1,8 +1,7 @@
-import { GetState, RootState } from 'store';
+import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { chainsFetchPublicChains } from '../public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { filterMapChains, IApiChain } from '../../api/queryChains';
 import { web3Api } from 'store/queries';
 
@@ -12,53 +11,61 @@ export interface PremiumFeatures {
   publicChains: IApiChain[];
 }
 
+interface FetchPremiumChainFeaturesParams {
+  chainId: string;
+  userEndpointToken?: string;
+}
+
 export const {
   endpoints: { chainsFetchPremiumChainFeatures },
   useLazyChainsFetchPremiumChainFeaturesQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchPremiumChainFeatures: build.query<PremiumFeatures, string>({
-      queryFn: createNotifyingQueryFn(async (chainId, { getState }) => {
-        const publicService = MultiService.getService();
+    chainsFetchPremiumChainFeatures: build.query<
+      PremiumFeatures,
+      FetchPremiumChainFeaturesParams
+    >({
+      queryFn: createNotifyingQueryFn(
+        async ({ chainId, userEndpointToken }, { getState }) => {
+          const publicService = MultiService.getService();
 
-        let { data: { chains: publicChains = [] } = {} } =
-          chainsFetchPublicChains.select()(getState() as RootState);
+          let { data: { chains: publicChains = [] } = {} } =
+            chainsFetchPublicChains.select()(getState() as RootState);
 
-        const blockchains = await publicService
-          .getPublicGateway()
-          .getBlockchains();
+          const blockchains = await publicService
+            .getPublicGateway()
+            .getBlockchains();
 
-        if (!publicChains) {
-          const formattedPublicChains =
-            await publicService.formatPublicEndpoints(blockchains);
+          if (!publicChains) {
+            const formattedPublicChains =
+              await publicService.formatPublicEndpoints(blockchains);
 
-          publicChains = filterMapChains(
-            formattedPublicChains,
-            ({ blockchain }) => !blockchain.premiumOnly,
+            publicChains = filterMapChains(
+              formattedPublicChains,
+              ({ blockchain }) => !blockchain.premiumOnly,
+            );
+          }
+
+          const formattedPrivateChains = publicService.formatPrivateEndpoints(
+            blockchains,
+            userEndpointToken,
           );
-        }
 
-        const { workerTokenData } = credentialsGuard(getState as GetState);
+          const privateChains = filterMapChains(formattedPrivateChains);
 
-        const formattedPrivateChains = publicService.formatPrivateEndpoints(
-          blockchains,
-          workerTokenData?.userEndpointToken,
-        );
+          const privateChainDetails = privateChains.find(
+            item => item.id === chainId,
+          );
 
-        const privateChains = filterMapChains(formattedPrivateChains);
-
-        const privateChainDetails = privateChains.find(
-          item => item.id === chainId,
-        );
-
-        return {
-          data: {
-            publicChains,
-            privateChains,
-            privateChainDetails,
-          },
-        };
-      }),
+          return {
+            data: {
+              publicChains,
+              privateChains,
+              privateChainDetails,
+            },
+          };
+        },
+      ),
     }),
   }),
 });

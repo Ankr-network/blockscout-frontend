@@ -9,6 +9,7 @@ interface ArchiveLabelProps {
   label: string;
   labelClassName?: string;
   tooltip?: string;
+  isStatusIndicatorVisible?: boolean;
 }
 
 export const ChainLabel = ({
@@ -16,6 +17,7 @@ export const ChainLabel = ({
   label,
   tooltip = '',
   labelClassName,
+  isStatusIndicatorVisible = true,
 }: ArchiveLabelProps) => {
   const { classes, cx } = useStyles();
 
@@ -27,7 +29,9 @@ export const ChainLabel = ({
           component="div"
           variant="body2"
         >
-          <StatusCircle mr={2} status="success" className={classes.circle} />
+          {isStatusIndicatorVisible && (
+            <StatusCircle mr={2} status="success" className={classes.circle} />
+          )}
           <span>{label}</span>
         </Typography>
       </TooltipWrapper>

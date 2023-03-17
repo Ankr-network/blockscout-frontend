@@ -36,52 +36,49 @@ const fetchStandaloneStats = async (
   return results;
 };
 
-export const {
-  endpoints: { chainsFetchPublicRequestsCountStats },
-  useChainsFetchPublicRequestsCountStatsQuery,
-  useLazyChainsFetchPublicRequestsCountStatsQuery,
-} = web3Api.injectEndpoints({
-  endpoints: build => ({
-    chainsFetchPublicRequestsCountStats: build.query<
-      Record<ChainID, string>,
-      Timeframe
-    >({
-      queryFn: createNotifyingQueryFn(async (timeframe, { dispatch }) => {
-        const totalRequestsData = (
-          await MultiService.getService()
-            .getPublicGateway()
-            .getPublicTimeframesStats(timeframe)
-        ).totalRequests;
+export const { useChainsFetchPublicRequestsCountStatsQuery } =
+  web3Api.injectEndpoints({
+    endpoints: build => ({
+      chainsFetchPublicRequestsCountStats: build.query<
+        Record<ChainID, string>,
+        Timeframe
+      >({
+        queryFn: createNotifyingQueryFn(async (timeframe, { dispatch }) => {
+          const totalRequestsData = (
+            await MultiService.getService()
+              .getPublicGateway()
+              .getPublicTimeframesStats(timeframe)
+          ).totalRequests;
 
-        if (isReactSnap) {
-          return { data: totalRequestsData };
-        }
-
-        const results = await fetchStandaloneStats(dispatch, timeframe);
-
-        const standaloneStats = results.map(item => {
-          return {
-            chainId: item.data?.chainId,
-            requests: item.data?.data?.totalRequests ?? 0,
-          };
-        });
-
-        Object.keys(totalRequestsData).forEach(key => {
-          if (key in STANDALONE_CHAINS) {
-            const standaloneData = standaloneStats.find(
-              item => item.chainId === key,
-            );
-
-            const totalRequests = new BigNumber(totalRequestsData[key])
-              .plus(standaloneData?.requests ?? 0)
-              .toString();
-
-            totalRequestsData[key] = totalRequests;
+          if (isReactSnap) {
+            return { data: totalRequestsData };
           }
-        });
 
-        return { data: totalRequestsData };
+          const results = await fetchStandaloneStats(dispatch, timeframe);
+
+          const standaloneStats = results.map(item => {
+            return {
+              chainId: item.data?.chainId,
+              requests: item.data?.data?.totalRequests ?? 0,
+            };
+          });
+
+          Object.keys(totalRequestsData).forEach(key => {
+            if (key in STANDALONE_CHAINS) {
+              const standaloneData = standaloneStats.find(
+                item => item.chainId === key,
+              );
+
+              const totalRequests = new BigNumber(totalRequestsData[key])
+                .plus(standaloneData?.requests ?? 0)
+                .toString();
+
+              totalRequestsData[key] = totalRequests;
+            }
+          });
+
+          return { data: totalRequestsData };
+        }),
       }),
     }),
-  }),
-});
+  });

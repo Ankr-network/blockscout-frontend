@@ -1,6 +1,7 @@
 import { MultiService } from 'modules/api/MultiService';
 import { JwtTokenFullData } from 'multirpc-sdk';
 import { web3Api } from 'store/queries';
+import { decryptJwt } from './utils/decryptJwt';
 
 export const {
   endpoints: { authFetchInstantJwtParticipantToken },
@@ -15,21 +16,7 @@ export const {
           .getAccountGateway()
           .getOrCreateInstantJwt();
 
-        if (isEncrypted) {
-          const web3Service = await MultiService.getWeb3Service();
-
-          const jwtTokenData = await web3Service.upgradeInstantJwtToken(
-            jwtData,
-          );
-
-          return { data: jwtTokenData };
-        }
-
-        const web3ReadService = await MultiService.getWeb3ReadService();
-
-        const jwtTokenData = await web3ReadService.upgradeSyntheticJwtToken(
-          jwtData,
-        );
+        const jwtTokenData = await decryptJwt(jwtData, isEncrypted);
 
         return { data: jwtTokenData };
       },
