@@ -1,8 +1,9 @@
 import { configFromEnv } from 'modules/api/config';
 import { ZERO_ADDR } from 'modules/common/const';
 import { Env } from 'modules/common/types';
+import { Token } from 'modules/common/types/token';
 
-import { TOpenOceanNetworks, TOpenOceanTokens } from '../types';
+import { TOpenOceanChains } from '../types';
 
 type Address = string;
 
@@ -30,53 +31,53 @@ const {
 } = configFromEnv(Env.Production);
 
 export const getTokenAddress = (
-  token: TOpenOceanTokens,
-  network?: TOpenOceanNetworks,
+  token: Token,
+  network?: TOpenOceanChains,
 ): Address => {
-  const isPolygonNetwork = network === 'POLYGON';
+  const isPolygonNetwork = network === 'polygon';
 
   switch (token) {
-    case 'AVAX':
+    case Token.AVAX:
       return ZERO_ADDR;
 
-    case 'FTM':
+    case Token.FTM:
       return FTMContract;
 
-    case 'MATIC':
+    case Token.MATIC:
       return isPolygonNetwork ? MATICInPolygonContract : MATICInETHContract;
 
-    case 'aAVAXb':
+    case Token.aAVAXb:
       return aAVAXbContract;
 
-    case 'ankrAVAX':
+    case Token.aAVAXc:
       return aAVAXcContract;
 
-    case 'aBNBb':
+    case Token.aBNBb:
       return aBNBbContract;
 
-    case 'ankrBNB':
+    case Token.aBNBc:
       return aBNBcContract;
 
-    case 'aETHb':
+    case Token.aETHb:
       return aETHbContract;
 
-    case 'ankrETH':
+    case Token.aETHc:
       return aETHcContract;
 
-    case 'aFTMb':
+    case Token.aFTMb:
       return aFTMbContract;
 
-    case 'ankrFTM':
+    case Token.aFTMc:
       return aFTMcContract;
 
-    case 'aMATICb':
+    case Token.aMATICb:
       return isPolygonNetwork ? aMATICbInPolygonContract : aMATICbInETHContract;
 
-    case 'ankrMATIC':
+    case Token.aMATICc:
       return isPolygonNetwork ? aMATICcInPolygonContract : aMATICcInETHContract;
 
-    case 'BNB':
-    case 'ETH':
+    case Token.BNB:
+    case Token.ETH:
     default:
       return ETHContract;
   }
