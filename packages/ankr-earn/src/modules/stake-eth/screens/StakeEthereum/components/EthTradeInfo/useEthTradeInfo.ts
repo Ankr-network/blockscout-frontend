@@ -1,4 +1,5 @@
 import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
 import { IUseTradeInfo, useTradeInfo } from 'modules/stake/hooks/useTradeInfo';
 
@@ -8,9 +9,9 @@ export const useEthTradeInfo = (): IUseTradeInfo => {
   });
 
   return useTradeInfo({
-    baseToken: 'ETH',
-    network: 'ETH',
-    targetToken: 'ankrETH',
+    baseToken: Token.ETH,
+    network: 'eth',
+    targetToken: Token.aETHc,
     ratio: commonData?.aETHcRatio,
   });
 };

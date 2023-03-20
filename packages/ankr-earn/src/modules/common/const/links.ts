@@ -74,11 +74,6 @@ export const ANKR_1INCH_BUY_LINK =
 export const CONVERT_MGNO_MANUAL_LINK =
   'https://www.ankr.com/docs/staking/delegated-staking/mgno/stake-mgno/#swap-the-bridged-gno-to-mgno';
 
-export const OPENOCEAN_CLASSIC_URL = 'https://app.openocean.finance/CLASSIC#';
-
-export const OPENOCEAN_QUOTE_URL =
-  'https://open-api.openocean.finance/v1/cross/quote';
-
 /**
  * Base dev URL for the BFF (Backend For Fronend) service
  */
