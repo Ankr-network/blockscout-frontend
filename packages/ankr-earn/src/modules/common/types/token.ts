@@ -30,3 +30,35 @@ export enum Token {
   ankrXDC = 'ankrXDC',
   XDC = 'XDC',
 }
+
+export type TToken =
+  | 'ETH'
+  | 'aETHb'
+  | 'aETH'
+  | 'ankrETH'
+  | 'asETHc'
+  | 'AVAX'
+  | 'aAVAXb'
+  | 'ankrAVAX'
+  | 'MATIC'
+  | 'aMATICb'
+  | 'ankrMATIC'
+  | 'BNB'
+  | 'aBNBb'
+  | 'ankrBNB'
+  | 'FTM'
+  | 'aFTMb'
+  | 'ankrFTM'
+  | 'DOT'
+  | 'aDOTb'
+  | 'KSM'
+  | 'aKSMb'
+  | 'WND'
+  | 'aWNDb'
+  | 'ANKR'
+  | 'mGNO'
+  | 'xDAI'
+  | 'SUI'
+  | 'ankrSUI'
+  | 'ankrXDC'
+  | 'XDC';

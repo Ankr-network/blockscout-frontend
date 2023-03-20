@@ -4,16 +4,15 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { trackGetTokenDiscount } from 'modules/analytics/tracking-actions/trackGetTokenDiscount';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-
-import { TOpenOceanTokens } from '../api/getOpenOceanQuote';
+import { TToken } from 'modules/common/types/token';
 
 interface IUseStakeTradeAnalytics {
   onTrackGetSyntToken: () => void;
 }
 
 export const useStakeTradeAnalytics = (
-  stakeToken: TOpenOceanTokens,
-  synthToken: TOpenOceanTokens,
+  stakeToken: TToken,
+  synthToken: TToken,
 ): IUseStakeTradeAnalytics => {
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,

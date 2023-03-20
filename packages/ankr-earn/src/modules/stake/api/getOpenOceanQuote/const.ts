@@ -1,5 +1,5 @@
-export const OPENOCEAN_QUOTE_URL =
-  'https://open-api.openocean.finance/v1/cross/quote';
+export const OPENOCEAN_QUOTE_URL_V3 =
+  'https://open-api.openocean.finance/v3/:chain/quote';
 
 export const OPENOCEAN_CLASSIC_URL = 'https://app.openocean.finance/CLASSIC#';
 
