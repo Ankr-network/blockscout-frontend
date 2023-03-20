@@ -1,11 +1,11 @@
 import { t } from '@ankr.com/common';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { watchAsset } from 'modules/bridge/actions/watchAsset';
+import { useAddBridgeTokenToWalletMutation } from 'modules/bridge/actions/addBridgeTokenToWallet';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import {
   ACTION_CACHE_SEC,
@@ -31,8 +31,6 @@ export interface IStakedBridgeAETHCData {
 }
 
 export const useStakedBridgeAETHCData = (): IStakedBridgeAETHCData => {
-  const dispatchRequest = useDispatchRequest();
-
   const { data: statsData, loading: isBalancesLoading } = useQuery({
     type: fetchAETHCBridged,
   });
@@ -62,14 +60,14 @@ export const useStakedBridgeAETHCData = (): IStakedBridgeAETHCData => {
 
   const nativeAmount = getTokenNativeAmount(amount, commonData?.aETHcRatio);
 
-  const onAddTokenClick = () => {
-    dispatchRequest(
-      watchAsset({
-        token: AvailableBridgeTokens.aETHc,
-        chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
-      }),
-    );
-  };
+  const [addBridgeTokenToWallet] = useAddBridgeTokenToWalletMutation();
+
+  const onAddTokenClick = useCallback(() => {
+    addBridgeTokenToWallet({
+      token: AvailableBridgeTokens.aETHc,
+      chainId: BSC_NETWORK_BY_ENV as unknown as SupportedChainIDS,
+    });
+  }, [addBridgeTokenToWallet]);
 
   return {
     amount,
