@@ -1,4 +1,5 @@
 import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { Token } from 'modules/common/types/token';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { IUseTradeInfo, useTradeInfo } from 'modules/stake/hooks/useTradeInfo';
 
@@ -8,9 +9,9 @@ export const useBnbTradeInfo = (): IUseTradeInfo => {
   });
 
   return useTradeInfo({
-    baseToken: 'BNB',
-    network: 'BSC',
-    targetToken: 'ankrBNB',
+    baseToken: Token.BNB,
+    network: 'bsc',
+    targetToken: Token.aBNBc,
     ratio: statsData?.aBNBcRatio,
   });
 };
