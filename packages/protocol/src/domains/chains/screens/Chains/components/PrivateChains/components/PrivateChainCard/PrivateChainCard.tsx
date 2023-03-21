@@ -1,7 +1,7 @@
-import { usePrivateChainsItem } from 'domains/chains/screens/Chains/components/PrivateChains/components/PrivateChainsItem/hooks/usePrivateChainsItem';
+import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
-import { BaseChainsCard } from '../BaseChainsCard';
-import { IChainCardProps } from '../PublicChainCard';
+import { BaseChainsCard } from '../../../BaseChainsCard';
+import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
 
 export const PrivateChainCard = ({ chain, ...props }: IChainCardProps) => {
   const { totalRequests, loading } = usePrivateChainsItem({ chain });

@@ -1,7 +1,7 @@
-import { usePublicChainsItem } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicChainsItem/hooks/usePublicChainsItem';
+import { usePublicChainsItem } from './hooks/usePublicChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
 import { Chain, Timeframe } from 'domains/chains/types';
-import { BaseChainsCard } from '../BaseChainsCard';
+import { BaseChainsCard } from '../../../BaseChainsCard';
 
 export interface IChainCardProps {
   chain: Chain;

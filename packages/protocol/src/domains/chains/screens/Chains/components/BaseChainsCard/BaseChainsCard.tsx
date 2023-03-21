@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Button, Skeleton, Typography } from '@mui/material';
+
 import { useClickHandler } from 'domains/chains/components/ChainsItemBase/components/Card/hooks/useClickHandler';
 import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
 import { Chain, Timeframe } from 'domains/chains/types';

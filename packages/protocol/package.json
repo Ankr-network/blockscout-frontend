@@ -160,8 +160,7 @@
       "/account/failure/",
       "/settings/confirmation",
       "/oauth/",
-      "/mm/",
-      "/new-chains/"
+      "/mm/"
     ],
     "inlineCss": true
   }

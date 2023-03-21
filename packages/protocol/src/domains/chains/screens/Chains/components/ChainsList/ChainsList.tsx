@@ -2,21 +2,21 @@ import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 import { Chain, Timeframe } from 'domains/chains/types';
 import { ChainID } from 'modules/chains/types';
-import { PrivateChainCard } from '../PrivateChainCard';
-import { PublicChainCard } from '../PublicChainCard';
+import { PrivateChainCard } from '../PrivateChains/components/PrivateChainCard';
+import { PublicChainCard } from '../PublicChains/components/PublicChainCard';
 
-export interface IChainsNewListProps {
+export interface IChainsListProps {
   timeframe: Timeframe;
   chains: Chain[];
   switchTimeframe: () => void;
   isPublic: boolean;
 }
 
-export const ChainsNewList = ({
+export const ChainsList = ({
   chains,
   isPublic,
   ...props
-}: IChainsNewListProps) => {
+}: IChainsListProps) => {
   const { classes } = useChainListStyles();
 
   if (chains.length === 0) {
