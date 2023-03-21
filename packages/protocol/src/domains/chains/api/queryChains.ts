@@ -8,7 +8,6 @@ import {
   FetchBlockchainUrlsResult,
   IBlockchainEntity,
 } from 'multirpc-sdk';
-import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
 export interface IApiChainURL {
   rpc: string;
@@ -21,7 +20,6 @@ export interface IApiChain {
   extenders?: IApiChain[];
   extensions?: IApiChain[];
   frontChain?: Partial<IApiChain>;
-  icon: string;
   id: ChainID;
   isArchive?: boolean;
   name: IBlockchainEntity['name'];
@@ -63,7 +61,6 @@ export const filterMapChains = (
         coinName,
         chainExtends,
         id: id as ChainID,
-        icon: getChainIcon(id),
         name,
         type,
         urls: rpcURLs.map<IApiChainURL>((url, index) => ({

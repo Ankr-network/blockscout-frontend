@@ -1,21 +1,17 @@
 import { EVMLibraryID, EVMMethod } from '../constants';
-import { EVMMethodResponse, MethodsRequest } from '../types';
+import {
+  EVMMethodResponse,
+  FetchRequestParams,
+  FetchRequestResult,
+} from '../types';
 import { RPC_CALLS_CONFIG } from '../utils/RPCCallsConfig';
 import { buildProvider } from '../utils/buildProvider';
 import { setEVMMethod } from '../store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
-export interface FetchEVMRequestParams {
-  libraryID: EVMLibraryID;
-  params: MethodsRequest<EVMMethod>;
-  web3URL: string;
-}
+export type FetchEVMRequestParams = FetchRequestParams<EVMLibraryID, EVMMethod>;
 
-export interface FetchEVMRequestResult {
-  response?: [EVMMethodResponse];
-  error?: unknown;
-  time: number;
-}
+export type FetchEVMRequestResult = FetchRequestResult<EVMMethodResponse>;
 
 export const {
   endpoints: { requestComposerFetchEVMRequest },

@@ -1,12 +1,15 @@
 import { useSelector } from 'react-redux';
-import { selectIsSwitched, selectTheme } from 'modules/layout/store/themeSlice';
-import { Themes } from '@ankr.com/ui';
+
+import {
+  selectIsLightTheme,
+  selectIsSwitched,
+  selectTheme,
+} from 'modules/layout/store/themeSlice';
 
 export const useThemes = () => {
   const themes = useSelector(selectTheme);
+  const isLightTheme = useSelector(selectIsLightTheme);
   const isSwitched = useSelector(selectIsSwitched);
-
-  const isLightTheme = themes === Themes.light;
 
   return {
     themes,
