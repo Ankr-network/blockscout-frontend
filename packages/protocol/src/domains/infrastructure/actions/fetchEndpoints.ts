@@ -4,12 +4,10 @@ import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
-import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 import { web3Api } from 'store/queries';
 
 export interface UserEndpoint {
   id: string;
-  icon: string;
   name: string;
   requestUrl: string;
   scheme: string;
@@ -27,7 +25,6 @@ export const mapEndpoints = (endpoints: IWorkerEndpoint[]): Endpoints => {
 
     return {
       ...other,
-      icon: getChainIcon(blockchain),
       name: blockchain,
       requestUrl,
     };

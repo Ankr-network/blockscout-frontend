@@ -1,7 +1,8 @@
 import { usePublicChainsItem } from './hooks/usePublicChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
 import { Chain, Timeframe } from 'domains/chains/types';
-import { BaseChainsCard } from '../../../BaseChainsCard';
+import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
+import { PremiumOnlyChainCard } from '../../../PremiumOnlyChainCard';
 
 export interface IChainCardProps {
   chain: Chain;
@@ -14,17 +15,25 @@ export const PublicChainCard = ({
   timeframe,
   ...props
 }: IChainCardProps) => {
-  const { totalRequests, loading } = usePublicChainsItem({ chain, timeframe });
+  const { totalRequests, loading = false } = usePublicChainsItem({
+    chain,
+    timeframe,
+  });
 
   const { totalRequestsStr } = useCommonChainsItemData(chain, totalRequests);
+  const { premiumOnly } = chain;
 
-  return (
-    <BaseChainsCard
-      chain={chain}
-      timeframe={timeframe}
-      totalRequests={totalRequestsStr}
-      loading={Boolean(loading)}
-      {...props}
-    />
-  );
+  const cardProps: IBaseChainCardProps = {
+    chain,
+    loading,
+    timeframe,
+    totalRequests: totalRequestsStr,
+    ...props,
+  };
+
+  if (premiumOnly) {
+    return <PremiumOnlyChainCard {...cardProps} />;
+  }
+
+  return <BaseChainsCard {...cardProps} />;
 };

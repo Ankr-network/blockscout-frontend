@@ -1,37 +1,49 @@
 import { ChainID } from 'modules/chains/types';
 
-import aptosIcon from './aptos.svg';
-import arbitrumIcon from './arbitrum.svg';
-import arbitrumNovaIcon from './arbitrum-nova.svg';
-import avaxIcon from './avax.svg';
-import bscIcon from './bsc.svg';
-import bttcIcon from './bttc.svg';
-import celoIcon from './celo.svg';
-import defaultIcon from './default-icon.svg';
-import ethIcon from './eth.svg';
-import ftmIcon from './ftm.svg';
-import gnosisIcon from './gnosis.svg';
-import harmonyIcon from './harmony.svg';
-import hecoIcon from './heco.svg';
-import iotexIcon from './iotex.svg';
-import klaytnIcon from './klaytn.svg';
-import polygonIcon from './polygon.svg';
+import aptosIcon from './icons/aptos.svg';
+import arbitrumIcon from './icons/arbitrum.svg';
+import arbitrumNovaIcon from './icons/arbitrum-nova.svg';
+import avaxIcon from './icons/avax.svg';
+import bscIcon from './icons/bsc.svg';
+import bttcIcon from './icons/bttc.svg';
+import celoIcon from './icons/celo.svg';
+import defaultIcon from './icons/default-icon.svg';
+import ethIcon from './icons/eth.svg';
+import filecoinIcon from './icons/filecoin.svg';
+import ftmIcon from './icons/ftm.svg';
+import gnosisIcon from './icons/gnosis.svg';
+import harmonyIcon from './icons/harmony.svg';
+import hecoIcon from './icons/heco.svg';
+import iotexIcon from './icons/iotex.svg';
+import klaytnIcon from './icons/klaytn.svg';
+import kusamaIcon from './icons/kusama.svg';
+import metisIcon from './icons/metis.svg';
+import moonbeamIcon from './icons/moonbeam.svg';
+import multichainIcon from './icons/multichain.svg';
+import nearIcon from './icons/near.svg';
+import nervosIcon from './icons/nervos.svg';
+import optimisimIcon from './icons/optimism.svg';
+import polkadotIcon from './icons/polkadot.svg';
+import polygonIcon from './icons/polygon.svg';
+import secretIcon from './icons/secret.svg';
+import solIcon from './icons/sol.svg';
+import stakeIcon from './icons/stake.svg';
+import suiIcon from './icons/sui.svg';
+import syscoinIcon from './icons/syscoin.svg';
+import tronIcon from './icons/tron.svg';
 import polygonZkevmIcon from './polygon-zkevm.svg';
-import kusamaIcon from './kusama.svg';
-import metisIcon from './metis.svg';
-import moonbeamIcon from './moonbeam.svg';
-import multichainIcon from './multichain.svg';
-import nearIcon from './near.svg';
-import nervosIcon from './nervos.svg';
-import optimisimIcon from './optimism.svg';
-import polkadotIcon from './polkadot.svg';
-import secretIcon from './secret.svg';
-import solIcon from './sol.svg';
-import stakeIcon from './stake.svg';
-import suiIcon from './sui.svg';
-import syscoinIcon from './syscoin.svg';
-import tronIcon from './tron.svg';
-import filecoinIcon from './filecoin.svg';
+
+import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
+import bttcIconDark from './darkModeIcons/bttc.svg';
+import celoIconDark from './darkModeIcons/celo.svg';
+import ethIconDark from './darkModeIcons/eth.svg';
+import kusamaIconDark from './darkModeIcons/kusama.svg';
+import moonbeamIconDark from './darkModeIcons/moonbeam.svg';
+import nearIconDark from './darkModeIcons/near.svg';
+import nervosIconDark from './darkModeIcons/nervos.svg';
+import secretIconDark from './darkModeIcons/secret.svg';
+import solIconDark from './darkModeIcons/sol.svg';
+import suiIconDark from './darkModeIcons/sui.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -68,6 +80,24 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SUI]: suiIcon,
 };
 
-export function getChainIcon(name: string) {
-  return chainIcons[name as keyof typeof chainIcons] || defaultIcon;
+const darkModeChainIcons: Partial<Record<ChainID, string>> = {
+  ...chainIcons,
+  [ChainID.ARBITRUM_NOVA]: arbitrumNovaIconDark,
+  [ChainID.BTTC]: bttcIconDark,
+  [ChainID.CELO]: celoIconDark,
+  [ChainID.ETH]: ethIconDark,
+  [ChainID.KUSAMA]: kusamaIconDark,
+  [ChainID.MOONBEAM]: moonbeamIconDark,
+  [ChainID.NEAR]: nearIconDark,
+  [ChainID.NERVOS]: nervosIconDark,
+  [ChainID.NERVOS_GW]: nervosIconDark,
+  [ChainID.SECRET]: secretIconDark,
+  [ChainID.SOLANA]: solIconDark,
+  [ChainID.SUI]: suiIconDark,
+};
+
+export function getChainIcon(name: string, isLightTheme: boolean) {
+  const iconMap = isLightTheme ? chainIcons : darkModeChainIcons;
+
+  return iconMap[name as keyof typeof chainIcons] || defaultIcon;
 }

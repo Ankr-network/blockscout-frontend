@@ -187,7 +187,8 @@
       "button": "Upgrade"
     },
     "for-premium-only": "For Premium only",
-    "endpoints-and-more": "Endpoints & More"
+    "endpoints-and-more": "Endpoints & More",
+    "premium-only": "Premium Only"
   },
   "jwt-token": {
     "default-project-name": "Primary",

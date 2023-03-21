@@ -31,7 +31,6 @@ storiesOf('domains/chains/ChainsItem', module).add('Default', () => (
           isLoading={chain.isLoading}
           hasPrivateAccess={false}
           links={chain.urls}
-          logoSrc={chain.icon}
           name={chain.name}
           period="24h"
           timeframe={Timeframe.Month}
