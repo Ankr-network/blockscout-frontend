@@ -325,3 +325,12 @@ export interface IGetOrCreateInstantJwt {
   jwt_data: string;
   is_encrypted: boolean;
 }
+
+export interface UserGroup {
+  groupAddress: string;
+  groupName: string;
+}
+
+export interface IUserGroupsResponse {
+  groups: UserGroup[];
+}

@@ -19,6 +19,8 @@ export const {
         resetEndpoint('chainsFetchPremiumChainFeatures', dispatch);
         resetEndpoint('infrastructureFetchProvider', dispatch);
         resetEndpoint('accountFetchAccountBalance', dispatch);
+        resetEndpoint('fetchGroups', dispatch);
+        resetEndpoint('shouldShowUserGroupDialog', dispatch);
 
         return { data: true };
       }),

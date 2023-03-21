@@ -11,5 +11,5 @@ export type DialogTitle = {
 export interface IDialogContext {
   dialogTitle: DialogTitle;
   setDialogTitle: (title: DialogTitle) => void;
-  closeDialog: () => void;
+  closeDialog?: () => void;
 }
