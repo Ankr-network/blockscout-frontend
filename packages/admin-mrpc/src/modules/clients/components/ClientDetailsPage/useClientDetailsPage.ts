@@ -4,7 +4,6 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
-import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
 import { useFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
@@ -28,6 +27,7 @@ function isRangePeriod(
 
 export const useClientDetailsPage = () => {
   const { address } = ClientsRoutesConfig.clientInfo.useParams();
+
   useSetBreadcrumbs([
     {
       title: 'clients',
@@ -41,6 +41,7 @@ export const useClientDetailsPage = () => {
   const [periodStatement, setPeriodStatement] = useState<
     PrivateStatsInterval | CustomRange
   >(PrivateStatsInterval.DAY);
+
   const isRangePeriodValue = isRangePeriod(periodStatement);
 
   const [isCurrentDayIncluded, setIsCurrentDayIncluded] = useState(false);
@@ -50,8 +51,7 @@ export const useClientDetailsPage = () => {
     isLoading: isLoadingClients,
     isFetching: isFetchingClients,
   } = useFetchCountersQuery();
-  const { data: transactionsData, isLoading: isLoadingTransactions } =
-    useFetchUserTransactionsQuery({ address });
+
   const {
     data: statsData,
     isLoading: isLoadingStats,
@@ -63,6 +63,7 @@ export const useClientDetailsPage = () => {
       : (periodStatement as PrivateStatsInterval),
     current: isCurrentDayIncluded,
   });
+
   const {
     data: statsByRangeData,
     isLoading: isLoadingStatsByRange,
@@ -101,14 +102,12 @@ export const useClientDetailsPage = () => {
     currentClient,
     address,
     statsData: isRangePeriodValue ? statsByRangeData : statsData,
-    isLoadingTransactions,
     isLoadingStats: isRangePeriodValue ? isLoadingStatsByRange : isLoadingStats,
     periodStatement,
     totalData,
     isLoadingTotal,
     value,
     handleChange,
-    transactionsData,
     updateTimeframeParam,
     isFetchingStats: isRangePeriodValue
       ? isFetchingStatsByRange

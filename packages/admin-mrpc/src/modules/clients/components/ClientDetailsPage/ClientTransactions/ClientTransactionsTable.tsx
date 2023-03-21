@@ -6,30 +6,40 @@ import {
   TableCell,
   TableBody,
   TableContainer,
-  Button,
 } from '@mui/material';
-import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
-import { MappedTransaction } from '../../../actions/fetchUserTransactions';
-import { useState } from 'react';
+import { Web3Address } from 'multirpc-sdk';
+import {
+  formatNumber,
+  renderBalance,
+  renderUSD,
+} from 'modules/common/utils/renderBalance';
+import { useTransactions } from './useTransactions';
+import { LoadingButton, OverlaySpinner } from '@ankr.com/ui';
 
 interface IClientTransactionsTable {
-  transactions: MappedTransaction[];
+  address: Web3Address;
 }
 
-const MAX_TRANSACTIONS_COUNT = 500;
-
 export const ClientTransactionsTable = ({
-  transactions,
+  address,
 }: IClientTransactionsTable) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const {
+    loadMore,
+    isLoadingTransactions,
+    isFetchingTransactions,
+    transactionsData,
+  } = useTransactions({ address });
 
-  if (transactions.length <= 0) {
-    return null;
+  if (isLoadingTransactions) {
+    return <OverlaySpinner size={50} />;
   }
 
-  const transactionsToRender = isCollapsed
-    ? transactions.slice(0, MAX_TRANSACTIONS_COUNT)
-    : transactions;
+  if (
+    transactionsData?.transactions &&
+    transactionsData.transactions.length <= 0
+  ) {
+    return <>Not found</>;
+  }
 
   return (
     <TableContainer sx={{ pl: 6, pr: 6 }} component={Paper}>
@@ -57,9 +67,9 @@ export const ClientTransactionsTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {transactionsToRender.map(tx => (
+          {transactionsData?.transactions.map(tx => (
             <TableRow key={tx.timestamp}>
-              <TableCell>{renderBalance(tx.amount)}</TableCell>
+              <TableCell>{formatNumber(tx.amount)}</TableCell>
               <TableCell>{renderBalance(tx.amountAnkr)}</TableCell>
               <TableCell>{renderUSD(tx.amountUsd)}</TableCell>
               <TableCell>{tx.blockchain}</TableCell>
@@ -69,16 +79,18 @@ export const ClientTransactionsTable = ({
           ))}
         </TableBody>
       </Table>
-      {isCollapsed && transactionsToRender.length >= MAX_TRANSACTIONS_COUNT && (
-        <Button
+
+      {transactionsData?.cursor && transactionsData?.cursor > 0 && (
+        <LoadingButton
           sx={{ margin: '20px auto' }}
           size="medium"
           fullWidth
           color="secondary"
-          onClick={() => setIsCollapsed(false)}
+          onClick={loadMore}
+          loading={isFetchingTransactions}
         >
-          Show all
-        </Button>
+          Load more
+        </LoadingButton>
       )}
     </TableContainer>
   );
