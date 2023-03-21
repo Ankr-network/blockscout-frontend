@@ -1,25 +1,33 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useRequestComposerStyles = makeStyles()(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
+export interface StylesProps {
+  hasRequestHistory: boolean;
+  isExpanded: boolean;
+}
 
-    padding: theme.spacing(2 * 3.75),
+export const useRequestComposerStyles = makeStyles<StylesProps>()(
+  (theme, { hasRequestHistory, isExpanded }) => ({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
 
-    borderRadius: theme.spacing(2 * 3.75),
+      padding: theme.spacing(2 * 3.75),
 
-    backgroundColor: theme.palette.background.paper,
-  },
-  container: {
-    display: 'flex',
-    gap: theme.spacing(2 * 3.5),
-  },
-  right: {
-    display: 'grid',
-    gap: theme.spacing(6),
+      borderRadius: theme.spacing(2 * 3.75),
 
-    width: '60%',
-    height: 604,
-  },
-}));
+      backgroundColor: theme.palette.background.paper,
+    },
+    container: {
+      display: 'flex',
+      gap: theme.spacing(2 * 3.5),
+    },
+    right: {
+      display: 'grid',
+      gridTemplateRows: isExpanded ? '1fr 1fr' : '1fr',
+      gap: theme.spacing(6),
+
+      width: '60%',
+      height: !hasRequestHistory || isExpanded ? 604 : undefined,
+    },
+  }),
+);

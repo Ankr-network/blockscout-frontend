@@ -2,7 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useEmptyMessageStyles = makeStyles()(theme => ({
   root: {
-    height: theme.spacing(52),
+    height: '100%',
   },
   message: {
     display: 'flex',
@@ -11,6 +11,7 @@ export const useEmptyMessageStyles = makeStyles()(theme => ({
 
     height: '100%',
 
+    whiteSpace: 'pre-wrap',
     textAlign: 'center',
     color: theme.palette.grey[600],
 

@@ -1,9 +1,11 @@
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { CountdownContext } from '../../const';
 import { Header } from '../../../Header';
 import { Logger } from '../../../Logger';
 import { PChainMenu } from './PChainMenu';
 import { RequestComposerTemplate } from '../../../RequestComposerTemplate';
 import { usePChainRequestLogger } from './hooks/usePChainRequestLogger';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export interface IPChainRequestComposerProps {
   className?: string;
@@ -20,13 +22,17 @@ export const PChainRequestComposer = ({
 }: IPChainRequestComposerProps) => {
   const { clear, logs } = usePChainRequestLogger();
 
+  const countdown = useRequestCountdown();
+
   return (
-    <RequestComposerTemplate
-      className={className}
-      hasRequestHistory={hasRequestHistory}
-      header={<Header chainName={ChainGroupID.P_CHAIN} hasTitle={hasTitle} />}
-      logger={<Logger clear={clear} logs={logs} />}
-      menu={<PChainMenu group={group} />}
-    />
+    <CountdownContext.Provider value={countdown}>
+      <RequestComposerTemplate
+        className={className}
+        hasRequestHistory={hasRequestHistory}
+        header={<Header chainName={ChainGroupID.P_CHAIN} hasTitle={hasTitle} />}
+        logger={<Logger clear={clear} logs={logs} />}
+        menu={<PChainMenu group={group} />}
+      />
+    </CountdownContext.Provider>
   );
 };

@@ -484,6 +484,7 @@
           }
         },
         "empty": "No data available",
+        "integrated-empty": "To see the requests click on the\nRefresh button",
         "unknown": "unknown",
         "error": "Something went wrong, please, reload the page",
         "error-code": "(code {code})"

@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { Box } from '@mui/material';
 
+import { CountdownContext } from '../../../const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';
 import { EVMMethodsForm } from '../EVMMethodsForm';
@@ -20,15 +21,17 @@ export const LibraryContent = ({ group, libraryID }: ILibraryContentProps) => {
     requestComposerFetchEVMRequest,
   );
 
+  const { start } = useContext(CountdownContext);
+
   const handleSubmit = useCallback(
     (params: MethodsRequest<EVMMethod>) => {
       // We have to reset the request before sending because RTK query considers
       // values of reference data types with different references but with the
       // same inner values as equal values.
       reset();
-      fetchEVMRequest({ libraryID, params, web3URL });
+      fetchEVMRequest({ libraryID, params, web3URL }).then(start);
     },
-    [fetchEVMRequest, libraryID, reset, web3URL],
+    [fetchEVMRequest, libraryID, reset, start, web3URL],
   );
 
   return (
