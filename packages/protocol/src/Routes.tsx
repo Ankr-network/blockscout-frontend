@@ -31,8 +31,6 @@ import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { useAutoconnect } from './useAutoconnect';
 import { GuardPremiumRoute } from 'domains/auth/components/GuardAuthRoute/GuardPremiumRoute';
 import { useWeb3ThemeSwitcher } from './useWeb3ThemeSwitcher';
-import { ChainsNewRoutesConfig } from 'domains/chainsNew/routes/routesConfig';
-import { ChainsNewRoutes } from 'domains/chainsNew/routes';
 
 export const Routes = () => {
   const { hasPremium, isUserEthAddressType, authorizationToken } = useAuth();
@@ -135,16 +133,6 @@ export const Routes = () => {
         render={() => (
           <DefaultLayout>
             <MMChainsRoutes />
-          </DefaultLayout>
-        )}
-      />
-
-      <Route
-        exact
-        path={[ChainsNewRoutesConfig.chiansNew.path]}
-        render={() => (
-          <DefaultLayout>
-            <ChainsNewRoutes />
           </DefaultLayout>
         )}
       />

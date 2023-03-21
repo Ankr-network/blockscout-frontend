@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 
+import { CountdownContext } from '../../const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import {
   Method,
@@ -28,15 +29,17 @@ export const LibraryContent = ({ group, libraryID }: ILibraryContentProps) => {
 
   const web3HttpUrl = group.urls[0].rpc;
 
+  const { start } = useContext(CountdownContext);
+
   const queryTronRequest = useCallback(
     (web3URL: string, method: Method, params?: any) => {
       // We have to reset the request before sending because RTK query considers
       // values of reference data types with different references but with the
       // same inner values as equal values.
       reset();
-      fetchTronChainRequest({ method, params, web3URL });
+      fetchTronChainRequest({ method, params, web3URL }).then(start);
     },
-    [fetchTronChainRequest, reset],
+    [fetchTronChainRequest, reset, start],
   );
 
   const handleSubmit = useCallback(

@@ -4,23 +4,21 @@ import {
   AvalancheLibraryID,
   XChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
-import { MethodsRequest } from 'domains/requestComposer/types';
+import {
+  FetchRequestParams,
+  FetchRequestResult,
+} from 'domains/requestComposer/types';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/x-chain/RPCCallsConfig';
 import { XChainMethodResponse } from 'domains/requestComposer/types/avalanche';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
-export interface FetchXChainRequestParams {
-  libraryID: AvalancheLibraryID;
-  params: MethodsRequest<XChainMethod>;
-  web3URL: string;
-}
+export type FetchXChainRequestParams = FetchRequestParams<
+  AvalancheLibraryID,
+  XChainMethod
+>;
 
-export interface FetchXChainRequestResult {
-  error?: unknown;
-  response?: [XChainMethodResponse];
-  time: number;
-}
+export type FetchXChainRequestResult = FetchRequestResult<XChainMethodResponse>;
 
 export const {
   endpoints: { requestComposerFetchXChainRequest },

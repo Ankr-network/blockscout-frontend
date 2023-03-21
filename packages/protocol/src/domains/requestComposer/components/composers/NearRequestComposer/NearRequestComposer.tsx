@@ -1,10 +1,11 @@
+import { CountdownContext, LoggerContext } from '../const';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
 import { Logger } from '../../Logger';
-import { LoggerContext } from '../const';
 import { NearHeader } from './NearHeader/NearHeader';
 import { NearMenu } from './NearMenu/NearMenu';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { useNearRequestLogger } from './hooks/useNearRequestLogger';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export const NearRequestComposer = ({
   className,
@@ -16,21 +17,25 @@ export const NearRequestComposer = ({
 }: IRequestComposerMainProps) => {
   const { clear, logger, logs } = useNearRequestLogger();
 
+  const countdown = useRequestCountdown();
+
   return (
     <LoggerContext.Provider value={logger}>
-      <RequestComposerTemplate
-        className={className}
-        hasRequestHistory={hasRequestHistory}
-        header={
-          <NearHeader
-            hasBlockNumber={hasBlockNumber}
-            hasTitle={hasTitle}
-            publicUrl={publicUrl}
-          />
-        }
-        logger={<Logger clear={clear} logs={logs} />}
-        menu={<NearMenu group={group} />}
-      />
+      <CountdownContext.Provider value={countdown}>
+        <RequestComposerTemplate
+          className={className}
+          hasRequestHistory={hasRequestHistory}
+          header={
+            <NearHeader
+              hasBlockNumber={hasBlockNumber}
+              hasTitle={hasTitle}
+              publicUrl={publicUrl}
+            />
+          }
+          logger={<Logger clear={clear} logs={logs} />}
+          menu={<NearMenu group={group} />}
+        />
+      </CountdownContext.Provider>
     </LoggerContext.Provider>
   );
 };

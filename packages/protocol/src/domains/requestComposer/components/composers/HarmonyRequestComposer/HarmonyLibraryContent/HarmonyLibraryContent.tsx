@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 
+import { CountdownContext } from '../../const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { HARMONY_CALL_CONFIG } from 'domains/requestComposer/utils/harmony/RPCCallConfig';
 import { HarmonyApiVersionTabs } from '../HarmonyApiVersionTabs';
@@ -32,15 +33,17 @@ export const HarmonyLibraryContent = ({
 
   const web3HttpUrl = group.urls[0].rpc;
 
+  const { start } = useContext(CountdownContext);
+
   const queryHarmonyReqeust = useCallback(
     (web3URL, method, params) => {
       // We have to reset the request before sending because RTK query considers
       // values of reference data types with different references but with the
       // same inner values as equal values.
       reset();
-      fetchHarmonyChainReqeust({ web3URL, method, params });
+      fetchHarmonyChainReqeust({ web3URL, method, params }).then(start);
     },
-    [fetchHarmonyChainReqeust, reset],
+    [fetchHarmonyChainReqeust, reset, start],
   );
 
   const handleSubmit = useCallback(

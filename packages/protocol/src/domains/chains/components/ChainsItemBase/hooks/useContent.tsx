@@ -3,8 +3,9 @@ import { useMemo } from 'react';
 
 import { Content, ContentProps } from '../components/Content';
 import { isSuiChain } from '../components/Label/utils/isSuiChain';
+import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
-export interface ContentParams extends Omit<ContentProps, 'isSui'> {
+export interface ContentParams extends Omit<ContentProps, 'isSui' | 'logoSrc'> {
   chainId: ChainID;
 }
 
@@ -17,7 +18,6 @@ export const useContent = ({
   isArchive,
   isHighlighted,
   isLoading,
-  logoSrc,
   name,
   period,
   timeframe,
@@ -25,6 +25,7 @@ export const useContent = ({
   isComingSoon,
 }: ContentParams) => {
   const isSui = useMemo(() => isSuiChain(chainId), [chainId]);
+  const logoSrc = useChainIcon(chainId);
 
   return useMemo(
     () => (

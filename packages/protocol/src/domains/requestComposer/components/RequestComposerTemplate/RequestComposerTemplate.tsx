@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 
 import { RequestsHistory } from '../RequestsHistory';
 import { useRequestComposerStyles } from './RequestComposerTemplateStyles';
+import { useRequestsHistory } from './hooks/useRequestsHistory';
 
 export interface IRequestComposerProps {
   className?: string;
@@ -14,12 +15,18 @@ export interface IRequestComposerProps {
 
 export const RequestComposerTemplate = ({
   className,
-  hasRequestHistory,
+  hasRequestHistory = false,
   header,
   logger,
   menu,
 }: IRequestComposerProps) => {
-  const { classes, cx } = useRequestComposerStyles();
+  const requestsHistoryProps = useRequestsHistory();
+  const { isExpanded } = requestsHistoryProps;
+
+  const { classes, cx } = useRequestComposerStyles({
+    hasRequestHistory,
+    isExpanded,
+  });
 
   return (
     <Box className={cx(classes.root, className)}>
@@ -28,7 +35,7 @@ export const RequestComposerTemplate = ({
         {menu}
         <div className={classes.right}>
           {logger}
-          {hasRequestHistory && <RequestsHistory />}
+          {hasRequestHistory && <RequestsHistory {...requestsHistoryProps} />}
         </div>
       </Box>
     </Box>

@@ -1,28 +1,26 @@
-import { OverlaySpinner } from '@ankr.com/ui';
-
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePublicChains } from './hooks/usePublicChains';
 import { usePublicChainsData } from './hooks/usePublicChainsData';
-import { PublicChainsList } from './components/PublicChainsList';
+import { ChainsList } from '../ChainsList';
 import { PublicBanner } from './components/PublicBanner';
 
 export const PublicChains = () => {
   const {
-    isLoggedIn,
     chains,
     allChains,
     loading,
     setSortType,
     sortType,
+    timeframe,
+    switchStatsTimeframe,
     searchContent,
     setSearchContent,
-    timeframe,
   } = usePublicChainsData();
 
-  const { processedChains, chainsDictionary } = usePublicChains({
+  const { processedChains } = usePublicChains({
     allChains,
     chains,
     sortType,
@@ -33,7 +31,6 @@ export const PublicChains = () => {
   return (
     <BaseChains
       loading={loading}
-      shouldShowReminderDialog={isLoggedIn}
       top={<PublicBanner />}
       baseChainsHeader={
         <BaseChainsHeader
@@ -45,17 +42,13 @@ export const PublicChains = () => {
       }
     >
       <NoReactSnap
-        fallback={
-          <>
-            <ReactSnapChainsLinksGenerator chains={allChains} />
-            <OverlaySpinner />
-          </>
-        }
+        fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        <PublicChainsList
+        <ChainsList
           timeframe={timeframe}
           chains={processedChains}
-          chainsDictionary={chainsDictionary}
+          switchTimeframe={switchStatsTimeframe}
+          isPublic
         />
       </NoReactSnap>
     </BaseChains>

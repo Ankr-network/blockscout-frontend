@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 
+import { CountdownContext } from 'domains/requestComposer/components/composers/const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { MethodsRequest } from 'domains/requestComposer/types';
 import {
@@ -24,14 +25,16 @@ export const useSubmitCallback = ({
 
   const web3URL = group.urls[0].rpc;
 
+  const { start } = useContext(CountdownContext);
+
   return useCallback(
     (params: MethodsRequest<SolanaMethod>) => {
       // We have to reset the request before sending because RTK query considers
       // values of reference data types with different references but with the
       // same inner values as equal values.
       reset();
-      fetchSolanaRequest({ libraryID, params, web3URL });
+      fetchSolanaRequest({ libraryID, params, web3URL }).then(start);
     },
-    [fetchSolanaRequest, libraryID, reset, web3URL],
+    [fetchSolanaRequest, libraryID, reset, start, web3URL],
   );
 };

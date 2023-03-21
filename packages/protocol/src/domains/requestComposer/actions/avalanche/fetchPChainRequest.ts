@@ -5,23 +5,21 @@ import {
   AvalancheLibraryID,
   PChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
-import { MethodsRequest } from 'domains/requestComposer/types';
+import {
+  FetchRequestParams,
+  FetchRequestResult,
+} from 'domains/requestComposer/types';
 import { PChainMethodResponse } from 'domains/requestComposer/types/avalanche';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/p-chain/RPCCallsConfig';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
-export interface FetchPChainRequestParams {
-  libraryID: AvalancheLibraryID;
-  params: MethodsRequest<PChainMethod>;
-  web3URL: string;
-}
+export type FetchPChainRequestParams = FetchRequestParams<
+  AvalancheLibraryID,
+  PChainMethod
+>;
 
-export interface FetchPChainRequestResult {
-  error?: unknown;
-  response?: [PChainMethodResponse];
-  time: number;
-}
+export type FetchPChainRequestResult = FetchRequestResult<PChainMethodResponse>;
 
 const MAX_BYTES_SIZE = 10_000_000;
 

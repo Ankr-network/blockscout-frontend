@@ -4,7 +4,10 @@ import {
   HarmonyMethod,
   HarmonyMethodResponse,
 } from 'domains/requestComposer/constants/harmony';
-import { MethodsRequest } from 'domains/requestComposer/types';
+import {
+  FetchRequestResult,
+  MethodsRequest,
+} from 'domains/requestComposer/types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getHarmonyChainRequestResult } from './utils/getHarmonyChainRequestResult';
 import { setHarmonyMethod } from 'domains/requestComposer/store/requestComposerSlice';
@@ -16,11 +19,8 @@ export interface FetchHarmonyChainRequestParams {
   web3URL: string;
 }
 
-export interface FetchHarmonyChainRequestResult {
-  error?: unknown;
-  response?: [HarmonyMethodResponse];
-  time: number;
-}
+export type FetchHarmonyChainRequestResult =
+  FetchRequestResult<HarmonyMethodResponse>;
 
 const jsonrpc = '2.0';
 const id = 1;

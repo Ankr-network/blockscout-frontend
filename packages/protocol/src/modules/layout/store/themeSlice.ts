@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 import { Themes } from '@ankr.com/ui';
 
@@ -26,6 +26,11 @@ export const themeSlice = createSlice({
 });
 
 export const selectTheme = (state: RootState) => state.theme.theme;
+
+export const selectIsLightTheme = createSelector(
+  selectTheme,
+  theme => theme === Themes.light,
+);
 
 export const selectIsSwitched = (state: RootState) => state.theme.isSwitched;
 

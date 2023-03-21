@@ -36,6 +36,18 @@ export interface ABIOutput {
   type: string;
 }
 
+export interface FetchRequestParams<LibraryID, Method> {
+  libraryID: LibraryID;
+  params: MethodsRequest<Method>;
+  web3URL: string;
+}
+
+export interface FetchRequestResult<Response> {
+  error?: unknown;
+  response?: [Response];
+  time: number;
+}
+
 export interface MethodsRequest<T> {
   methodName: T;
   params: string[];
