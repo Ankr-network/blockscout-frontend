@@ -20,48 +20,53 @@ interface IRequestResponse {
   cursor?: number;
 }
 
-let transactionsCollection: ITransactionsEntity[] = [];
-
 export const {
   useFetchUserTransactionsQuery,
   useLazyFetchUserTransactionsQuery,
   endpoints: { fetchUserTransactions },
 } = web3Api.injectEndpoints({
-  endpoints: build => ({
-    fetchUserTransactions: build.query<IRequestResponse, IRequestParams>({
-      queryFn: async ({ address, cursor = 0, limit = 100 }) => {
-        if (cursor === 0) {
-          transactionsCollection = [];
-        }
+  endpoints: build => {
+    let transactionsCollection: ITransactionsEntity[] = [];
 
-        const service = await MultiService.getWeb3Service();
-        const backofficeGateway = await service.getBackofficeGateway();
-        await authorizeBackoffice();
+    return {
+      fetchUserTransactions: build.query<IRequestResponse, IRequestParams>({
+        queryFn: async ({ address, cursor = 0, limit = 100 }) => {
+          if (cursor === 0) {
+            transactionsCollection = [];
+          }
 
-        const { transactions = [], cursor: responseCursor } =
-          await backofficeGateway.getTransactions({
-            cursor,
-            address,
-            limit,
-          });
+          const service = await MultiService.getWeb3Service();
+          const backofficeGateway = await service.getBackofficeGateway();
+          await authorizeBackoffice();
 
-        if (cursor === 0) {
-          transactionsCollection = [...transactions];
-        } else {
-          transactionsCollection = [...transactionsCollection, ...transactions];
-        }
+          const { transactions = [], cursor: responseCursor } =
+            await backofficeGateway.getTransactions({
+              cursor,
+              address,
+              limit,
+            });
 
-        return {
-          data: {
-            transactions: transactionsCollection?.map(transaction => ({
-              ...transaction,
-              createdDate: new Date(+transaction.timestamp),
-            })),
-            cursor: Number(responseCursor),
-          },
-        };
-      },
-    }),
-  }),
+          if (cursor === 0) {
+            transactionsCollection = [...transactions];
+          } else {
+            transactionsCollection = [
+              ...transactionsCollection,
+              ...transactions,
+            ];
+          }
+
+          return {
+            data: {
+              transactions: transactionsCollection?.map(transaction => ({
+                ...transaction,
+                createdDate: new Date(+transaction.timestamp),
+              })),
+              cursor: Number(responseCursor),
+            },
+          };
+        },
+      }),
+    };
+  },
   overrideExisting: true,
 });

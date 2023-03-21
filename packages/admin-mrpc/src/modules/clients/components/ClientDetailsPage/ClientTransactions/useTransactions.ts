@@ -1,8 +1,10 @@
 import { Web3Address } from 'multirpc-sdk';
 import { useLazyFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useTransactions = ({ address }: { address: Web3Address }) => {
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
+
   const [
     fetchTransactions,
     {
@@ -13,7 +15,11 @@ export const useTransactions = ({ address }: { address: Web3Address }) => {
   ] = useLazyFetchUserTransactionsQuery();
 
   useEffect(() => {
-    fetchTransactions({ address });
+    setIsFirstLoading(true);
+  }, [address, setIsFirstLoading]);
+
+  useEffect(() => {
+    fetchTransactions({ address }).then(() => setIsFirstLoading(false));
   }, [address, fetchTransactions]);
 
   const loadMore = useCallback(
@@ -23,7 +29,7 @@ export const useTransactions = ({ address }: { address: Web3Address }) => {
 
   return {
     loadMore,
-    isLoadingTransactions,
+    isLoadingTransactions: isLoadingTransactions || isFirstLoading,
     isFetchingTransactions,
     transactionsData,
   };
