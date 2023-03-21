@@ -649,6 +649,7 @@
       "tx-data": "Failed to get ETH transaction data",
       "tx-receipt": "Failed to get ETH transaction receipt",
       "stake": "Failed to stake ETH",
+      "unstake": "Failed to unstake ETH",
       "min-stake": "Failed to get ETH minimum stake amount",
       "wallet-connect": "Failed to connect ETH compatible wallet"
     }
@@ -711,7 +712,7 @@
     "btn": "Unstake",
     "get-ankr": "Get ANKR",
     "amount": "Amount",
-    "eta": "You will get your {token} in {period}",
+    "eta": "You will receive {token} in about {period} days",
     "success": {
       "title": "Unstake in progress",
       "description": "You will receive {token} in {period}",

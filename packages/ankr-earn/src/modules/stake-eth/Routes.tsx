@@ -4,7 +4,11 @@ import { TEthToken } from '@ankr.com/staking-sdk';
 
 import { GuardETHRoute } from 'modules/auth/eth/components/GuardETHRoute';
 import { PageNotFound } from 'modules/common/components/PageNotFound';
-import { STAKING_PATH } from 'modules/common/const';
+import {
+  featuresConfig,
+  STAKING_PATH,
+  UNSTAKE_PATH,
+} from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { loadComponent } from 'modules/common/utils/loadComponent';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
@@ -22,6 +26,8 @@ const CLAIM_ETH_ROOT_PATH = `${STAKING_PATH}claim/ethereum/`;
 const STEP_CLAIM_ETH_PATH = `${CLAIM_ETH_ROOT_PATH}:tokenOut/:txHash/`;
 const STEP_CLAIM_ETH_WITH_AMOUNT_PATH = `${STEP_CLAIM_ETH_PATH}?amount=:amount?`;
 const TEST_STAKE_PATH = `${ROOT}without-claim/`;
+const UNSTAKE_ETH_PATH = `${UNSTAKE_PATH}ethereum/`;
+const UNSTAKE_ETH_BY_TOKEN_PATH = `${UNSTAKE_ETH_PATH}?token=:token?`;
 
 interface IClaimStepsGeneratePathArgs {
   amount?: string;
@@ -58,6 +64,18 @@ export const RoutesConfig = createRouteConfig(
       path: STEP_STAKE_ETH_PATH,
       generatePath: (options: { txHash: string; tokenOut: TEthToken }) =>
         generatePath(STEP_STAKE_ETH_PATH, options),
+    },
+
+    unstake: {
+      path: UNSTAKE_ETH_PATH,
+      generatePath: (token?: TEthToken) => {
+        return token
+          ? generatePath(UNSTAKE_ETH_BY_TOKEN_PATH, { token })
+          : generatePath(UNSTAKE_ETH_PATH);
+      },
+      useParams: () => ({
+        token: useQueryParams().get('token') ?? undefined,
+      }),
     },
 
     claim: {
@@ -103,9 +121,19 @@ const ClaimSteps = loadComponent(() =>
   ),
 );
 
+const UnstakeEthereum = loadComponent(() =>
+  import('./screens/UnstakeEthereum').then(module => module.UnstakeEthereum),
+);
+
 export function getRoutes(): JSX.Element {
   return (
-    <Route path={[RoutesConfig.root, RoutesConfig.claim.path]}>
+    <Route
+      path={[
+        RoutesConfig.root,
+        RoutesConfig.claim.path,
+        RoutesConfig.unstake.path,
+      ]}
+    >
       <Switch>
         <GuardETHRoute
           exact
@@ -126,6 +154,18 @@ export function getRoutes(): JSX.Element {
             <StakeSteps />
           </DefaultLayout>
         </GuardETHRoute>
+
+        {featuresConfig.isETHUnstakeActive && (
+          <GuardETHRoute
+            exact
+            availableNetworks={ETH_STAKING_NETWORKS}
+            path={RoutesConfig.unstake.path}
+          >
+            <DefaultLayout>
+              <UnstakeEthereum />
+            </DefaultLayout>
+          </GuardETHRoute>
+        )}
 
         <GuardETHRoute
           exact
