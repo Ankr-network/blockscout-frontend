@@ -25,13 +25,13 @@ import nervosIcon from './icons/nervos.svg';
 import optimisimIcon from './icons/optimism.svg';
 import polkadotIcon from './icons/polkadot.svg';
 import polygonIcon from './icons/polygon.svg';
+import polygonZkevmIcon from './icons/polygon-zkevm.svg';
 import secretIcon from './icons/secret.svg';
 import solIcon from './icons/sol.svg';
 import stakeIcon from './icons/stake.svg';
 import suiIcon from './icons/sui.svg';
 import syscoinIcon from './icons/syscoin.svg';
 import tronIcon from './icons/tron.svg';
-import polygonZkevmIcon from './polygon-zkevm.svg';
 
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
