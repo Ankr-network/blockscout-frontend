@@ -41,6 +41,16 @@ import {
   GetUsersRegistrationsResponse,
   SetUserGroupRequest,
   SetUserGroupResponse,
+  DeleteFromUserGroupRequest,
+  DeleteFromUserGroupResponse,
+  GetUserGroupsRequest,
+  GetUserGroupsResponse,
+  GetUserGroupRequest,
+  GetUserGroupResponse,
+  DeleteUserGroupRequest,
+  DeleteUserGroupResponse,
+  CreateUserGroupRequest,
+  CreateUserGroupResponse,
 } from './types';
 
 export interface IBackofficeGateway {
@@ -103,6 +113,26 @@ export interface IBackofficeGateway {
   setUserGroup(
     params: SetUserGroupRequest,
   ): Promise<SetUserGroupResponse>;
+
+  deleteFromUserGroup(
+    params: DeleteFromUserGroupRequest,
+  ): Promise<DeleteFromUserGroupResponse>;
+
+  getUserGroups(
+    params: GetUserGroupsRequest,
+  ): Promise<GetUserGroupsResponse>;
+
+  getUserGroup(
+    params: GetUserGroupRequest,
+  ): Promise<GetUserGroupResponse>;
+
+  deleteUserGroup(
+    params: DeleteUserGroupRequest,
+  ): Promise<DeleteUserGroupResponse>;
+
+  createUserGroup(
+    params: CreateUserGroupRequest,
+  ): Promise<CreateUserGroupResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,

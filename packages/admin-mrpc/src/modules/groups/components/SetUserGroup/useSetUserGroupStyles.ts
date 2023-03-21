@@ -21,11 +21,6 @@ export const useSetUserGroupStyles = makeStyles()((theme: Theme) => ({
   form: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
     },
-  },
-  input: {
-    width: '100%',
-    marginBottom: theme.spacing(2),
   },
 }));

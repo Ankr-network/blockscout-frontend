@@ -4,7 +4,6 @@ import {
   Box,
   Card,
   Skeleton,
-  Grid,
   Paper,
   Input,
 } from '@mui/material';
@@ -13,21 +12,21 @@ import { Spinner } from 'ui';
 import { IEthUserAddressV2, Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
-import {
-  formatNumber,
-  renderBalance,
-  renderUSD,
-} from 'modules/common/utils/renderBalance';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
 
 import { UserTypeTag } from '../../UserTypeTag';
 import { ClientBalancesModal } from '../ClientBalancesModal';
 import { useClientInfo } from './useClientInfo';
+import { useClientGroups } from './useClientGroups';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { ClientEditProfileModal } from '../ClientEditProfileModal';
 import { ClientApiKeysModal } from '../ClientApiKeysModal';
 import { ClientEditEmailModal } from '../ClientEditEmailModal';
+import { ClientBalances } from './ClientBalances';
+import { useClientAddresses } from './useClientAddresses';
+import { ClientUserGroups } from './ClientUserGroups';
+import { NOT_FOUND_TEXT } from '../const';
 
 interface IClientInfoProps {
   address: Web3Address;
@@ -55,11 +54,12 @@ export const ClientInfo = ({
     userName,
     revenueData,
     isLoadingRevenue,
-
-    userAddressesData,
-    isLoadingUserAddresses,
-    isErrorUserAddresses,
   } = useClientInfo({ address });
+
+  const { userAddressesData, isLoadingUserAddresses, isErrorUserAddresses } =
+    useClientAddresses({ address });
+
+  const { userGroups, isLoadingUserGroups } = useClientGroups({ address });
 
   const { classes } = useStyles();
 
@@ -129,21 +129,7 @@ export const ClientInfo = ({
     );
   };
 
-  const NOT_FOUND_TEXT = 'Not found';
-  const statsFromText = totalData?.startedDate
-    ? `from ${totalData.startedDate.toLocaleString()}`
-    : undefined;
-  const totalRequestsText =
-    formatNumber(totalData?.blockchainsInfo?.totalCount) || NOT_FOUND_TEXT;
-  const totalCostText = Number(totalData?.blockchainsInfo?.totalCost)
-    ? `${formatNumber(totalData?.blockchainsInfo.totalCost)}`
-    : NOT_FOUND_TEXT;
   const clientEmailText = client?.email || NOT_FOUND_TEXT;
-  const amountUsdText = client?.amountUsd
-    ? `${renderUSD(client?.amountUsd)} Equivalent in USD`
-    : null;
-
-  const voucherExpiresAtText = `expires at ${client?.voucherExpiresDate?.toLocaleDateString()}`;
 
   return (
     <>
@@ -172,7 +158,7 @@ export const ClientInfo = ({
         onKeyDown={handleKeyDownInputComment}
         value={commentInputValue}
         disabled={isLoadingProfile || isLoadingEditProfile}
-        placeholder="No comment added..."
+        placeholder="Add comment..."
       />
       <br />
       <br />
@@ -210,97 +196,20 @@ export const ClientInfo = ({
         userAddressesData?.addresses.map(mapAddresses)
       )}
 
-      <Grid
-        className={classes.gridContainer}
-        container
-        spacing={5}
-        wrap="nowrap"
-      >
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Total Balance
-          </Typography>
-          <Typography variant="subtitle1" component="p">
-            <b>{isLoadingClients ? skeleton : renderBalance(client?.amount)}</b>
-          </Typography>
-          <Typography variant="caption" component="p">
-            {isLoadingClients ? skeleton : amountUsdText}
-          </Typography>
-        </Grid>
+      <ClientBalances
+        totalData={totalData}
+        client={client}
+        isLoadingClients={isLoadingClients}
+        skeleton={skeleton}
+        isLoadingRevenue={isLoadingRevenue}
+        revenueData={revenueData}
+        isLoadingTotal={isLoadingTotal}
+      />
 
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Сurrent USD only Balance
-          </Typography>
-          <Typography variant="subtitle1" component="p">
-            <b>
-              {isLoadingClients ? skeleton : renderUSD(client?.creditUsdAmount)}
-            </b>
-          </Typography>
-        </Grid>
-
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Total Usage ANKR Credits
-          </Typography>
-          <Typography variant="subtitle1" component="p">
-            {isLoadingRevenue
-              ? skeleton
-              : `${renderBalance(revenueData?.totalCreditsAmount)}`}
-          </Typography>
-          <Typography variant="caption" component="p">
-            {isLoadingRevenue ? (
-              skeleton
-            ) : (
-              <>{renderUSD(revenueData?.totalUsdAmount)} Equivalent in USD</>
-            )}
-          </Typography>
-        </Grid>
-
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Voucher credits
-          </Typography>
-          <Typography variant="subtitle1" component="p">
-            <b>
-              {isLoadingClients
-                ? skeleton
-                : renderBalance(client?.creditVoucherAmount)}
-            </b>
-          </Typography>
-          {client?.voucherExpiresDate && (
-            <Typography variant="caption" component="p">
-              {isLoadingClients ? skeleton : voucherExpiresAtText}
-            </Typography>
-          )}
-        </Grid>
-
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Total cost
-          </Typography>
-
-          <Typography variant="subtitle1" component="p">
-            <b>{isLoadingTotal ? skeleton : totalCostText}</b>
-          </Typography>
-          <Typography variant="caption" component="p">
-            {isLoadingTotal ? skeleton : statsFromText}
-          </Typography>
-        </Grid>
-
-        <Grid item xs={3} component={Paper} className={classes.gridItem}>
-          <Typography variant="caption" color="textSecondary" component="p">
-            Total requests
-          </Typography>
-
-          <Typography variant="subtitle1" component="p">
-            <b>{isLoadingTotal ? skeleton : totalRequestsText}</b>
-          </Typography>
-          <Typography variant="caption" component="p">
-            {isLoadingTotal ? skeleton : statsFromText}
-          </Typography>
-        </Grid>
-      </Grid>
+      <ClientUserGroups
+        userGroups={userGroups}
+        isLoadingUserGroups={isLoadingUserGroups}
+      />
     </>
   );
 };

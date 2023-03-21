@@ -119,7 +119,8 @@
     ],
     "include": [
       "/clients",
-      "/admin"
+      "/admin",
+      "/groups"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

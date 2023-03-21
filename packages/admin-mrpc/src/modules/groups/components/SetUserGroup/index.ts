@@ -1,1 +1,2 @@
-export * from './SetUserGroup';
+export * from './SetUserGroupModal';
+export * from './SetUserGroupContent';

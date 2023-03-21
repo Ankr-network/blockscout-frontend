@@ -45,6 +45,16 @@ import {
   GetUsersRegistrationsResponse,
   SetUserGroupRequest,
   SetUserGroupResponse,
+  DeleteFromUserGroupRequest,
+  DeleteFromUserGroupResponse,
+  CreateUserGroupRequest,
+  CreateUserGroupResponse,
+  GetUserGroupsRequest,
+  GetUserGroupsResponse,
+  GetUserGroupRequest,
+  GetUserGroupResponse,
+  DeleteUserGroupRequest,
+  DeleteUserGroupResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -235,6 +245,67 @@ export class BackofficeGateway implements IBackofficeGateway {
     );
 
     return response;
+  }
+
+  async deleteFromUserGroup(
+    params: DeleteFromUserGroupRequest,
+  ): Promise<DeleteFromUserGroupResponse> {
+    const { data } = await this.api.delete<DeleteFromUserGroupResponse>(
+      '/users/group/user', {
+      params,
+    });
+
+    return data;
+  }
+
+  async createUserGroup(
+    body: CreateUserGroupRequest,
+  ): Promise<CreateUserGroupResponse> {
+    const { data: response } = await this.api.post<SetUserGroupResponse>(
+      '/users/group/new',
+      body,
+    );
+
+    return response;
+  }
+
+  async getUserGroups(
+    params: GetUserGroupsRequest,
+  ): Promise<GetUserGroupsResponse> {
+    const { data: response } = await this.api.get<GetUserGroupsResponse>(
+      '/users/groups',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getUserGroup(
+    params: GetUserGroupRequest,
+  ): Promise<GetUserGroupResponse> {
+    const { data: response } = await this.api.get<GetUserGroupResponse>(
+      '/users/group',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async deleteUserGroup(
+    params: DeleteUserGroupRequest,
+  ): Promise<DeleteUserGroupResponse> {
+    const { data } = await this.api.delete<DeleteUserGroupResponse>(
+      '/users/group',
+      {
+        params,
+      }
+    );
+
+    return data;
   }
 
   async createTestPremiumUser(

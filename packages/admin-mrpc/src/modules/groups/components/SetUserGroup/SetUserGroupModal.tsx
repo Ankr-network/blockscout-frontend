@@ -3,7 +3,8 @@ import { useSetUserGroup } from './useSetUserGroup';
 import { useSetUserGroupStyles } from './useSetUserGroupStyles';
 import { SetUserGroupContent } from './SetUserGroupContent';
 
-export const SetUserGroup = () => {
+// component can be used on user details page
+export const SetUserGroupModal = () => {
   const { classes } = useSetUserGroupStyles();
   const {
     handleSubmit,
@@ -26,12 +27,14 @@ export const SetUserGroup = () => {
         onClose={handleClose}
         aria-labelledby="add-new-client-modal"
       >
-        <SetUserGroupContent
-          handleSubmit={handleSubmit}
-          role={role}
-          handleSelectRole={handleSelectRole}
-          isLoading={isLoading}
-        />
+        <div className={classes.paper}>
+          <SetUserGroupContent
+            handleSubmit={handleSubmit}
+            role={role}
+            handleSelectRole={handleSelectRole}
+            isLoading={isLoading}
+          />
+        </div>
       </Modal>
     </>
   );

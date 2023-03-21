@@ -1,8 +1,9 @@
-import { UserGroupRole, Web3Address } from 'multirpc-sdk';
-import { useSetUserGroupMutation } from '../../actions/setUserGroup';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { SelectChangeEvent } from '@mui/material';
+import { UserGroupRole, Web3Address } from 'multirpc-sdk';
+import { useModal } from 'modules/common/hooks/useModal';
+import { useSetUserGroupMutation } from '../../actions/setUserGroup';
+import { useUserRole } from '../UserRoleSelect/useUserRole';
 
 export enum FormElementItems {
   groupAddress = 'groupAddress',
@@ -18,48 +19,23 @@ export interface FormElements {
   };
 }
 
-type IRole = {
-  value: UserGroupRole;
-  label: string;
-};
-
-export const roles: IRole[] = [
-  {
-    value: 'DEV',
-    label: 'DEV',
-  },
-  {
-    value: 'OWNER',
-    label: 'OWNER',
-  },
-  {
-    value: 'FINANCE',
-    label: 'FINANCE',
-  },
-];
-
 export const useSetUserGroup = () => {
   const [setUserGroup, { isLoading }] = useSetUserGroupMutation();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const { role, handleSelectRole } = useUserRole();
 
-  const [role, setRole] = useState<UserGroupRole>(roles[0].value);
-  const handleSelectRole = (e: SelectChangeEvent<UserGroupRole>) => {
-    setRole(e.target.value as UserGroupRole);
-  };
+  const { open, handleOpen, handleClose } = useModal();
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement> & { target: FormElements }) => {
+    (
+      e: FormEvent<HTMLFormElement> & {
+        target: HTMLFormElement & FormElements;
+      },
+    ) => {
       e.preventDefault();
       const {
-        groupAddress: { value: groupAddressValue },
-        userAddress: { value: userAddressValue },
+        [FormElementItems.groupAddress]: { value: groupAddressValue },
+        [FormElementItems.userAddress]: { value: userAddressValue },
       } = e.target.elements;
       if (groupAddressValue && userAddressValue && role) {
         setUserGroup({
@@ -70,14 +46,15 @@ export const useSetUserGroup = () => {
           if (res && 'error' in res) {
             toast.error('check address and try again');
           } else {
-            setOpen(false);
+            e.target.reset();
+            handleClose();
           }
         });
       } else {
         toast.error('all params are required');
       }
     },
-    [role, setUserGroup],
+    [handleClose, role, setUserGroup],
   );
 
   return {

@@ -50,6 +50,12 @@ export const useClientsTableStyles = makeStyles()((theme: Theme) => ({
       backgroundColor: theme.palette.grey['100'],
     },
   },
+  rowActive: {
+    td: {
+      transition: 'background-color .3s',
+      backgroundColor: theme.palette.secondary.dark,
+    },
+  },
   btnOptions: {
     padding: theme.spacing(1),
     minWidth: 0,

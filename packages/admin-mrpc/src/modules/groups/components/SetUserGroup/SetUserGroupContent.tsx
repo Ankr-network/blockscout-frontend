@@ -1,22 +1,14 @@
 import { FormEvent } from 'react';
-import {
-  Button,
-  Input,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from '@mui/material';
-import { UserGroupRole } from 'multirpc-sdk';
-import { FormElementItems, FormElements, roles } from './useSetUserGroup';
+import { Button, Typography } from '@mui/material';
+import { UserSelectProps } from '../UserRoleSelect';
+import { FormElements } from './useSetUserGroup';
 import { useSetUserGroupStyles } from './useSetUserGroupStyles';
+import { UserManageFormFields } from '../UserManageFormFields/UserManageFormFields';
 
-interface SetUserGroupContentProps {
+interface SetUserGroupContentProps extends UserSelectProps {
   handleSubmit: (
-    e: FormEvent<HTMLFormElement> & { target: FormElements },
+    e: FormEvent<HTMLFormElement> & { target: HTMLFormElement & FormElements },
   ) => void;
-  role: UserGroupRole;
-  handleSelectRole: (e: SelectChangeEvent<UserGroupRole>) => void;
   isLoading: boolean;
 }
 
@@ -29,8 +21,8 @@ export const SetUserGroupContent = ({
   const { classes } = useSetUserGroupStyles();
 
   return (
-    <div className={classes.paper}>
-      <Typography variant="h6" id="add-user-to-group-modal" mb={4}>
+    <>
+      <Typography variant="h6" mb={4}>
         Add user to group
       </Typography>
 
@@ -40,52 +32,7 @@ export const SetUserGroupContent = ({
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <Typography ml={2} variant="subtitle2">
-          User Role:
-        </Typography>
-        <Select
-          sx={theme => ({ backgroundColor: theme.palette.background.paper })}
-          fullWidth
-          required
-          labelId="role-label"
-          id={FormElementItems.role}
-          value={role}
-          label="Role"
-          onChange={handleSelectRole}
-          variant="outlined"
-        >
-          {roles.map(item => (
-            <MenuItem
-              key={item.value}
-              sx={{ width: '100%', p: 8 }}
-              value={item.value}
-            >
-              <Typography variant="body2">{item.label}</Typography>
-            </MenuItem>
-          ))}
-        </Select>
-
-        <Typography display="block" mt={4} ml={2} variant="subtitle2">
-          Group ETH Address:
-        </Typography>
-        <Input
-          required
-          className={classes.input}
-          name={FormElementItems.groupAddress}
-          id={FormElementItems.groupAddress}
-          placeholder="Group address"
-        />
-
-        <Typography display="block" mt={4} ml={2} variant="subtitle2">
-          User ETH Address:
-        </Typography>
-        <Input
-          required
-          className={classes.input}
-          name={FormElementItems.userAddress}
-          id={FormElementItems.userAddress}
-          placeholder="User Address"
-        />
+        <UserManageFormFields role={role} handleSelectRole={handleSelectRole} />
 
         <Button
           disabled={isLoading}
@@ -97,6 +44,6 @@ export const SetUserGroupContent = ({
           Add client to group
         </Button>
       </form>
-    </div>
+    </>
   );
 };

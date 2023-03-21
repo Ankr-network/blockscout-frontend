@@ -302,11 +302,58 @@ export type GroupMember = {
   role: UserGroupRole;
 }
 
-export type SetUserGroupResponse = {
+type UserGroupResponse = {
   name: string;
   address: Web3Address;
-  members: GroupMember[];
+  members?: GroupMember[];
 }
+
+export type SetUserGroupResponse = UserGroupResponse;
+
+export type DeleteFromUserGroupRequest = {
+  group_address: Web3Address;
+  user_address: Web3Address;
+}
+
+export type DeleteFromUserGroupResponse = UserGroupResponse;
+
+export type CreateUserGroupRequest = {
+  ownerAddress: Web3Address;
+  groupName: string;
+}
+
+export type CreateUserGroupResponse = UserGroupResponse;
+
+/** Gets the list for groups filtered by participant’s ETH address (optional parameter),
+ * returns ALL groups if not set */
+export type GetUserGroupsRequest = {
+  user_address?: Web3Address;
+}
+
+export type UserGroupItem = {
+  group_name: string;
+  group_address: Web3Address;
+}
+
+export type GetUserGroupsResponse = {
+  groups: UserGroupItem[]
+};
+
+export type GetUserGroupRequest = {
+  address: Web3Address;
+}
+
+export type GetUserGroupResponse = UserGroupResponse;
+
+export type DeleteUserGroupRequest = {
+  address: Web3Address;
+
+  /** removeMembers: the value "true" allows you to delete a non-empty group by removing users from it automatically.
+   * If set as false or not set, the group will be deleted ONLY if it is empty (has no members) */
+  removeMembers?: boolean;
+}
+
+export type DeleteUserGroupResponse = UserGroupResponse;
 
 export enum BlockchainFeature {
   RPC = 'rpc',
