@@ -3,7 +3,6 @@ import { web3Api } from 'store/queries';
 import { UserGroup } from 'multirpc-sdk';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
-import { timeout } from 'modules/common/utils/timeout';
 
 const getPersonalUserGroup = (groupAddress: string): UserGroup => {
   return {
