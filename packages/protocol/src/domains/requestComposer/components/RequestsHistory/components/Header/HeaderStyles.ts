@@ -15,23 +15,4 @@ export const useHeaderStyles = makeStyles()(theme => ({
     fontSize: theme.spacing(4),
     lineHeight: theme.spacing(6),
   },
-  refreshButton: {
-    overflow: 'visible',
-
-    padding: 0,
-    minWidth: 'auto',
-
-    '&&': {
-      border: 'none',
-      boxShadow: 'none',
-      minHeight: 24,
-      height: 24,
-    },
-
-    transition: 'color .3s, background-color .3s',
-
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-  },
 }));

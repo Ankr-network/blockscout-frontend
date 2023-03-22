@@ -26,7 +26,6 @@ export const MetamaskChainsList = ({
             <MetamaskChainsItem
               chain={item}
               links={urls}
-              logoSrc={item.icon}
               name={name}
               period={PERIOD}
               publicChain={chainsDictionary[id]}

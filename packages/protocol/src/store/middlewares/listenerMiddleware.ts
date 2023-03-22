@@ -12,6 +12,7 @@ import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
 import { oauthSignout } from 'domains/oauth/actions/signout';
 import { watchForVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForVoucherTransactionAndNegativeBalance';
 import { oauthLoginByGoogleSecretCode } from 'domains/oauth/actions/loginByGoogleSecretCode';
+import { shouldShowUserGroupDialog } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -87,5 +88,16 @@ listenerMiddleware.startListening({
   matcher: isAnyOf(authDisconnect.matchFulfilled, oauthSignout.matchFulfilled),
   effect: async (_action, { cancelActiveListeners }) => {
     cancelActiveListeners();
+  },
+});
+
+listenerMiddleware.startListening({
+  matcher: isAnyOf(
+    oauthLoginByGoogleSecretCode.matchFulfilled,
+    authConnect.matchFulfilled,
+    oauthAutoLogin.matchFulfilled,
+  ),
+  effect: async (_action, { dispatch }) => {
+    dispatch(shouldShowUserGroupDialog.initiate());
   },
 });

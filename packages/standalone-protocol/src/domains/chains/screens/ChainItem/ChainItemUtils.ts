@@ -1,11 +1,19 @@
 import { useEffect, useMemo } from 'react';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { ChainId } from 'domains/chains/api/chain';
+import { ChainId, POLYGON_ZKEVM_CHAIN_NAME } from 'domains/chains/api/chain';
+
+const renderChainName = (chainId: ChainId) => {
+  if (chainId === ChainId.POLYGON_ZKEVM) {
+    return POLYGON_ZKEVM_CHAIN_NAME;
+  }
+
+  return chainId.charAt(0).toUpperCase() + chainId.slice(1);
+};
 
 export const useMetatags = (chainId: ChainId) => {
   useEffect(() => {
-    const name = chainId.charAt(0).toUpperCase() + chainId.slice(1);
+    const name = renderChainName(chainId);
     const descriptionTag = document.getElementById(
       'meta-description',
     ) as HTMLMetaElement;

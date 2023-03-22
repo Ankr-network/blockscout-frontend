@@ -2,9 +2,10 @@ import { EVMHeader } from './EVMHeader/EVMHeader';
 import { EVMMenu } from './EVMMenu/EVMMenu';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
 import { Logger } from '../../Logger';
-import { LoggerContext } from '../const';
+import { CountdownContext, LoggerContext } from '../const';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { useEVMRequestLogger } from './hooks/useEVMRequestLogger';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export const EVMRequestComposer = ({
   chainId,
@@ -17,22 +18,26 @@ export const EVMRequestComposer = ({
 }: IRequestComposerMainProps) => {
   const { clear, logger, logs } = useEVMRequestLogger();
 
+  const countdown = useRequestCountdown();
+
   return (
     <LoggerContext.Provider value={logger}>
-      <RequestComposerTemplate
-        className={className}
-        hasRequestHistory={hasRequestHistory}
-        header={
-          <EVMHeader
-            chainId={chainId}
-            hasBlockNumber={hasBlockNumber}
-            hasTitle={hasTitle}
-            publicUrl={publicUrl}
-          />
-        }
-        logger={<Logger clear={clear} logs={logs} />}
-        menu={<EVMMenu group={group} />}
-      />
+      <CountdownContext.Provider value={countdown}>
+        <RequestComposerTemplate
+          className={className}
+          hasRequestHistory={hasRequestHistory}
+          header={
+            <EVMHeader
+              chainId={chainId}
+              hasBlockNumber={hasBlockNumber}
+              hasTitle={hasTitle}
+              publicUrl={publicUrl}
+            />
+          }
+          logger={<Logger clear={clear} logs={logs} />}
+          menu={<EVMMenu group={group} />}
+        />
+      </CountdownContext.Provider>
     </LoggerContext.Provider>
   );
 };

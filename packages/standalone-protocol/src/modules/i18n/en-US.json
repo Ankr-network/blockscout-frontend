@@ -23,8 +23,12 @@
       "title": "Your Instant RPC Gateway to {name}",
       "description": "Experience unrestricted access to a decentralized {name} RPC for developers and DeFi users."
     },
+    "common": {
+      "coming-soon": "coming soon..."
+    },
     "header": {
       "title": "Your Instant RPC<br /><span>Gateway To <span>{name}</span><span>",
+      "no-break-title": "Your Instant RPC Gateway To <span>{name}</span>",
       "description": "Fastest, free-est, and most reliable RPC endpoint"
     },
     "rate-limit-banner": "If&nbsp;your volume exceeds 1M&nbsp;daily requests, our enterprise-grade service is&nbsp;for you.<br/>Contact&nbsp;us and switch to&nbsp;fast, secure, and dedicated infrastructure. Contact&nbsp;<a class=\"link\" href=\"mailto:sales@ankr.com\">sales@ankr.com</a>",

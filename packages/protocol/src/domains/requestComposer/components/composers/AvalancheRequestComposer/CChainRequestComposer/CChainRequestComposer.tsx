@@ -1,9 +1,11 @@
 import { CChainMenu } from './CChainMenu/CChainMenu';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { CountdownContext } from '../../const';
 import { Header } from '../../../Header';
 import { Logger } from '../../../Logger';
 import { RequestComposerTemplate } from '../../../RequestComposerTemplate';
 import { useCChainRequestLogger } from './hooks/useCChainRequestLogger';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export interface ICChainRequestComposerProps {
   className?: string;
@@ -20,13 +22,17 @@ export const CChainRequestComposer = ({
 }: ICChainRequestComposerProps) => {
   const { clear, logs } = useCChainRequestLogger();
 
+  const countdown = useRequestCountdown();
+
   return (
-    <RequestComposerTemplate
-      className={className}
-      hasRequestHistory={hasRequestHistory}
-      header={<Header chainName={ChainGroupID.C_CHAIN} hasTitle={hasTitle} />}
-      logger={<Logger clear={clear} logs={logs} />}
-      menu={<CChainMenu group={group} />}
-    />
+    <CountdownContext.Provider value={countdown}>
+      <RequestComposerTemplate
+        className={className}
+        hasRequestHistory={hasRequestHistory}
+        header={<Header chainName={ChainGroupID.C_CHAIN} hasTitle={hasTitle} />}
+        logger={<Logger clear={clear} logs={logs} />}
+        menu={<CChainMenu group={group} />}
+      />
+    </CountdownContext.Provider>
   );
 };

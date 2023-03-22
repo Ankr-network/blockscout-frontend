@@ -1,6 +1,9 @@
 import { Connection } from '@solana/web3.js';
 
-import { MethodsRequest } from 'domains/requestComposer/types';
+import {
+  FetchRequestParams,
+  FetchRequestResult,
+} from 'domains/requestComposer/types';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
 import {
   SolanaLibraryID,
@@ -10,17 +13,12 @@ import { SolanaMethodResponse } from 'domains/requestComposer/types/solana';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
-export interface FetchSolanaRequestParams {
-  libraryID: SolanaLibraryID;
-  params: MethodsRequest<SolanaMethod>;
-  web3URL: string;
-}
+export type FetchSolanaRequestParams = FetchRequestParams<
+  SolanaLibraryID,
+  SolanaMethod
+>;
 
-export interface FetchSolanaRequestResult {
-  response?: [SolanaMethodResponse];
-  error?: unknown;
-  time: number;
-}
+export type FetchSolanaRequestResult = FetchRequestResult<SolanaMethodResponse>;
 
 export const {
   endpoints: { requestComposerFetchSolanaRequest },

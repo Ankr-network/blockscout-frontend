@@ -8,6 +8,8 @@ import { hasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 
 const { REACT_APP_CHAIN_ID } = process.env;
 
+const POLYGON_ZKEVM_TITLE_WIDTH = 1068;
+
 interface HeaderStylesProps {
   chainId?: string;
   bannerHeight: number;
@@ -64,6 +66,23 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       fontSize: 50,
     },
 
+    [`&.${ChainId.POLYGON_ZKEVM}`]: {
+      width: POLYGON_ZKEVM_TITLE_WIDTH,
+      position: 'relative',
+      left: '50%',
+      marginLeft: -POLYGON_ZKEVM_TITLE_WIDTH / 2,
+
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+        position: 'static',
+        marginLeft: 0,
+      },
+
+      '& span span': {
+        color: theme.palette.primary.main,
+      },
+    },
+
     [`&.${ChainId.Harmony}`]: {
       background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
       '-webkit-background-clip': 'text',
@@ -95,6 +114,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       color: theme.palette.text.primary,
     },
     [`&.${ChainId.Moonbeam} span`]: {
+      color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.POLYGON_ZKEVM} span`]: {
       color: theme.palette.text.primary,
     },
 

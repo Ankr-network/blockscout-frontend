@@ -187,7 +187,8 @@
       "button": "Upgrade"
     },
     "for-premium-only": "For Premium only",
-    "endpoints-and-more": "Endpoints & More"
+    "endpoints-and-more": "Endpoints & More",
+    "premium-only": "Premium Only"
   },
   "jwt-token": {
     "default-project-name": "Primary",
@@ -484,6 +485,7 @@
           }
         },
         "empty": "No data available",
+        "integrated-empty": "To see the requests click on the\nRefresh button",
         "unknown": "unknown",
         "error": "Something went wrong, please, reload the page",
         "error-code": "(code {code})"
@@ -1561,6 +1563,13 @@
         "hmy_isBlockSigner": "Returns true if the validator signed a particular block.",
         "hmy_getBlockSigners": "Returns list of block signers"
       }
+    }
+  },
+  "user-group": {
+    "modal": {
+      "title": "Choose an account to proceed",
+      "button": "Continue",
+      "checkbox": "Remember my choice"
     }
   }
 }

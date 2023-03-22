@@ -1,6 +1,9 @@
 import { connect } from 'near-api-js';
 
-import { MethodsRequest } from 'domains/requestComposer/types';
+import {
+  FetchRequestParams,
+  FetchRequestResult,
+} from 'domains/requestComposer/types';
 import {
   NearLibraryID,
   NearMethod,
@@ -11,17 +14,12 @@ import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/near/RPCCallsCon
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
-export interface FetchNearRequestParams {
-  libraryID: NearLibraryID;
-  params: MethodsRequest<NearMethod>;
-  web3URL: string;
-}
+export type FetchNearRequestParams = FetchRequestParams<
+  NearLibraryID,
+  NearMethod
+>;
 
-export type FetchNearRequestResult = {
-  response?: [NearMethodResponse];
-  error?: unknown;
-  time: number;
-};
+export type FetchNearRequestResult = FetchRequestResult<NearMethodResponse>;
 
 export const {
   endpoints: { requestComposerFetchNearRequest },

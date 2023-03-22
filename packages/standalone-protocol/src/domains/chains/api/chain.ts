@@ -20,7 +20,10 @@ export enum ChainId {
   Secret = 'scrt',
   Filecoin = 'filecoin',
   Klaytn = 'klaytn',
+  POLYGON_ZKEVM = 'polygon_zkevm',
 }
+
+export const POLYGON_ZKEVM_CHAIN_NAME = 'Polygon zkEVM';
 
 const STANDALONE_CHAINS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
 

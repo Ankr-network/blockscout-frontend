@@ -42,4 +42,18 @@ export const useStyles = makeStyles<Theme>(theme => ({
     color: theme.palette.grey['500'],
     marginTop: 6,
   },
+  soon: {
+    width: '100%',
+    height: theme.spacing(9),
+    backgroundColor: theme.palette.action.disabledBackground,
+    borderRadius: theme.spacing(1.5),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: theme.spacing(0, 4),
+    fontSize: 24,
+    lineHeight: 1,
+    fontWeight: 400,
+    color: theme.palette.common.black,
+  },
 }));

@@ -29,6 +29,7 @@ import {
   FreeRegisteredUserRequests,
   ICheckInstantJwtParticipantResponse,
   IGetOrCreateInstantJwt,
+  IUserGroupsResponse,
 } from './types';
 import { IJwtTokenLimitResponse, IJwtTokenResponse } from '../oauth';
 
@@ -351,6 +352,14 @@ export class AccountGateway {
     const { data: response } = await this.api.delete(`/api/v1/auth/jwt`, {
       params: { index },
     });
+
+    return response;
+  }
+
+  public async getUserGroups() {
+    const { data: response } = await this.api.get<IUserGroupsResponse>(
+      '/api/v1/auth/group',
+    );
 
     return response;
   }
