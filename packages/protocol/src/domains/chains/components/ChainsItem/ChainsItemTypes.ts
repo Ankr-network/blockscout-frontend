@@ -10,7 +10,6 @@ export interface ChainsItemQueryProps {
   chainId: ChainID;
   description?: string;
   links: IApiChainURL[];
-  logoSrc: string;
   name: string;
   period: string;
   timeframe: Timeframe;

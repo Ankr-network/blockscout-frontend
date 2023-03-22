@@ -7,6 +7,7 @@ import { SignupButton } from 'domains/auth/components/SignupButton';
 import { useStyles } from './useStyles';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ThemeSwitcher } from '../ThemeSwitcher';
+import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
 
 interface HeaderProps {
   className?: string;
@@ -25,6 +26,7 @@ export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
           <NoReactSnap>
             <div className={classes.buttons}>
               {hasPremium && <AccountDetailsButton />}
+              <UserGroupDialog />
               <SignupButton />
               {hasWeb3Connection && <ThemeSwitcher />}
             </div>

@@ -2,7 +2,7 @@ import { usePrivateChainsData } from './hooks/usePrivateChainsData';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { usePrivateChains } from './hooks/usePrivateChains';
-import { PrivateChainsList } from './components/PrivateChainsList';
+import { ChainsList } from '../ChainsList';
 import { PrivateChainsTop } from './PrivateChainsTop';
 
 export const PrivateChains = () => {
@@ -18,7 +18,7 @@ export const PrivateChains = () => {
     setSearchContent,
   } = usePrivateChainsData();
 
-  const { processedChains, chainsDictionary } = usePrivateChains({
+  const { processedChains } = usePrivateChains({
     allChains,
     chains,
     sortType,
@@ -34,7 +34,6 @@ export const PrivateChains = () => {
         />
       }
       loading={loading}
-      shouldShowReminderDialog
       baseChainsHeader={
         <BaseChainsHeader
           sortType={sortType}
@@ -44,10 +43,11 @@ export const PrivateChains = () => {
         />
       }
     >
-      <PrivateChainsList
+      <ChainsList
         timeframe={timeframe}
         chains={processedChains}
-        chainsDictionary={chainsDictionary}
+        switchTimeframe={switchStatsTimeframe}
+        isPublic={false}
       />
     </BaseChains>
   );

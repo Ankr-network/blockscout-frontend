@@ -1,15 +1,8 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  MenuItem,
-  Modal,
-  Typography,
-  Select,
-} from '@mui/material';
+import { Box, Button, Modal, Typography } from '@mui/material';
 
 import { ReactComponent as IconCopy } from 'assets/img/copy.svg';
 import { IApiChain, IApiChainURL } from 'modules/clients/utils/queryChains';
+import { ChainSelect } from 'modules/common/components/ChainSelect/ChainSelect';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { useClientApiKeys } from './useClientApiKeys';
@@ -78,33 +71,12 @@ export const ClientApiKeysModal = ({ token }: { token: string }) => {
       <Typography variant="h5">API Keys</Typography>
       <br />
       <Box>
-        <FormControl fullWidth>
-          <Select
-            sx={{ mb: 2 }}
-            id="chain-select"
-            value={selectedChainId}
-            label="Chain"
-            onChange={handleSelectChain}
-            disabled={isLoadingBlockchains}
-          >
-            {blockchainsData?.map(chain => {
-              return (
-                <MenuItem key={chain.id} value={chain.id}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <img
-                      style={{ marginRight: 5 }}
-                      width={20}
-                      height={20}
-                      src={chain.icon}
-                      alt={chain.id}
-                    />
-                    {chain.id}
-                  </Box>
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+        <ChainSelect
+          selectedChainId={selectedChainId}
+          handleSelectChain={handleSelectChain}
+          isLoadingBlockchains={isLoadingBlockchains}
+          blockchainsData={blockchainsData}
+        />
       </Box>
 
       {mapChain(selectedChain)}

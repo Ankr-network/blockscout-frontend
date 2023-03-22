@@ -15,4 +15,5 @@ export const getRoleByResponse: Record<ApiAdminRole, AdminRoles> = {
   'payments admin': AdminRoles.USER_ROLE_PAYMENTS_ADMIN,
   'user profile admin': AdminRoles.USER_ROLE_USER_PROFILE_ADMIN,
   'product manager': AdminRoles.USER_ROLE_PRODUCT_MANAGER,
+  'user group manager': AdminRoles.USER_ROLE_USER_GROUP_MANAGER,
 };

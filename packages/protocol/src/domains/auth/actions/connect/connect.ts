@@ -5,7 +5,7 @@ import { disconnectService, switchChain } from './connectUtils';
 import { getCachedData, makeAuthorization } from './makeAuthorization';
 import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { IAuthSlice, resetAuthData } from '../../store/authSlice';
+import { IAuthSlice, resetAuthData, setAuthData } from '../../store/authSlice';
 import { trackWeb3ConnectFailure } from 'modules/analytics/mixpanel/trackWeb3ConnectFailure';
 import { trackWeb3ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb3ConnectSuccess';
 import { web3Api } from 'store/queries';
@@ -37,7 +37,11 @@ export const {
           const { hasWeb3Connection, address: cachedAddress } = cachedData;
           let { hasOauthLogin } = cachedData;
 
-          if (hasWeb3Connection) return { data: cachedData };
+          if (hasWeb3Connection) {
+            dispatch(setAuthData({ hasWeb3Autoconnect: true }));
+
+            return { data: cachedData };
+          }
 
           const provider = web3Service.getKeyProvider();
           const { currentAccount: providerAddress } = provider;

@@ -1,0 +1,70 @@
+import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { UserGroup } from 'multirpc-sdk';
+
+import { useUserGroupDialogContentStyles } from './useUserGroupDialogContentStyles';
+import { AccountList } from '../AccountList';
+import { useUserGroupSelect } from 'domains/userGroup/hooks/useUserGroupSelect';
+import { UserGroupsSkeleton } from '../UserGroupsSkeleton';
+
+const HAS_CHECKBOX = false;
+
+interface UserGroupDialogContentProps {
+  groups: UserGroup[];
+  isLoading: boolean;
+}
+
+export const UserGroupDialogContent = ({
+  groups,
+  isLoading,
+}: UserGroupDialogContentProps) => {
+  const { classes } = useUserGroupDialogContentStyles();
+
+  const {
+    selectedAddress,
+    shouldRemind,
+    handleGroupSelect,
+    handleRememberChoice,
+    handleSetUserGroup: handleSave,
+  } = useUserGroupSelect();
+
+  return (
+    <>
+      {isLoading ? (
+        <UserGroupsSkeleton />
+      ) : (
+        <AccountList
+          groups={groups}
+          onSelect={handleGroupSelect}
+          selectedGroupAddress={selectedAddress}
+        />
+      )}
+      <Button
+        fullWidth
+        className={classes.button}
+        onClick={handleSave}
+        // @ts-ignore
+        size="extraLarge"
+        disabled={selectedAddress === undefined || isLoading}
+      >
+        {t('user-group.modal.button')}
+      </Button>
+      {HAS_CHECKBOX && (
+        <FormControlLabel
+          onChange={handleRememberChoice}
+          label={
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              className={classes.label}
+            >
+              {t('user-group.modal.checkbox')}
+            </Typography>
+          }
+          control={<Checkbox size="small" checked={shouldRemind} />}
+          className={classes.checkbox}
+        />
+      )}
+    </>
+  );
+};

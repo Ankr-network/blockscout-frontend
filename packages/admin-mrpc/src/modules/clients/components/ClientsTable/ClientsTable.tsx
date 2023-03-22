@@ -14,7 +14,11 @@ import {
 } from '@mui/material';
 
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
-import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
+import {
+  formatNumber,
+  renderBalance,
+  renderUSD,
+} from 'modules/common/utils/renderBalance';
 
 import { ClientMapped } from '../../store/clientsSlice';
 import { UserTypeTag } from '../UserTypeTag';
@@ -30,7 +34,13 @@ import { getTtlString } from '../UserTypeTag/const';
 
 const MAX_ON_PAGE = 50;
 
-export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
+export const ClientsTable = ({
+  clients = [],
+  activeItemAddress,
+}: {
+  clients?: ClientMapped[];
+  activeItemAddress?: string;
+}) => {
   const history = useHistory();
   const { classes, cx } = useClientsTableStyles();
   const {
@@ -101,52 +111,57 @@ export const ClientsTable = ({ clients }: { clients: ClientMapped[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {collapsedData.map(row => (
-              <TableRow
-                className={cx(
-                  classes.row,
-                  Boolean(row.address) && classes.rowClickable,
-                )}
-                key={row.user || row.address}
-                onClick={() => handleRowClick(row)}
-              >
-                <TableCell title={row.email} className={classes.cell}>
-                  {row.email}
-                </TableCell>
-                <Tooltip title={row.address || ''}>
-                  <TableCell className={classes.cell}>
-                    <>{shrinkAddress(row.address) || 'No information'}</>
+            {collapsedData.map(row => {
+              const isActive = row.address === activeItemAddress;
+
+              return (
+                <TableRow
+                  className={cx(
+                    classes.row,
+                    Boolean(row.address) && classes.rowClickable,
+                    isActive && classes.rowActive,
+                  )}
+                  key={row.user || row.address}
+                  onClick={() => handleRowClick(row)}
+                >
+                  <TableCell title={row.email} className={classes.cell}>
+                    {row.email}
                   </TableCell>
-                </Tooltip>
-                <TableCell className={classes.cell}>
-                  {renderBalance(row.amount)}
-                </TableCell>
-                <TableCell className={classes.cell}>
-                  {renderBalance(row.creditVoucherAmount)}
-                </TableCell>
-                <TableCell className={classes.cell}>
-                  {renderBalance(row.amountAnkr)}
-                </TableCell>
-                <TableCell className={classes.cell}>
-                  {renderUSD(row.amountUsd)}
-                </TableCell>
-                <TableCell className={classes.cell}>
-                  <UserTypeTag
-                    clientType={row.clientType}
-                    clientTtl={row.ttl}
-                  />
-                </TableCell>
-                <TableCell className={classes.cell}>
-                  {row.ttl && row.ttl > 0 ? getTtlString(row.ttl) : '-'}
-                </TableCell>
-                <TableCell className={classes.cell}>
-                  {row.createdDate?.toLocaleDateString() || 'unknown'}
-                </TableCell>
-                <TableCell className={classes.cell}>
-                  <ButtonOptions client={row} />
-                </TableCell>
-              </TableRow>
-            ))}
+                  <Tooltip title={row.address || ''}>
+                    <TableCell className={classes.cell}>
+                      <>{shrinkAddress(row.address) || 'No information'}</>
+                    </TableCell>
+                  </Tooltip>
+                  <TableCell className={classes.cell}>
+                    {formatNumber(row.amount)}
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    {formatNumber(row.creditVoucherAmount)}
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    {renderBalance(row.amountAnkr)}
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    {renderUSD(row.amountUsd)}
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    <UserTypeTag
+                      clientType={row.clientType}
+                      clientTtl={row.ttl}
+                    />
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    {row.ttl && row.ttl > 0 ? getTtlString(row.ttl) : '-'}
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    {row.createdDate?.toLocaleDateString() || 'unknown'}
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    <ButtonOptions client={row} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
         {isCollapsed && isShowMore && (

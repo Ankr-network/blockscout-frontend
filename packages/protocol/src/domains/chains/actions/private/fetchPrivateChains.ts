@@ -17,7 +17,7 @@ export const {
       FetchPrivateChainsResult,
       string | undefined
     >({
-      queryFn: createNotifyingQueryFn(async (userEndpointToken?: string) => {
+      queryFn: createNotifyingQueryFn(async userEndpointToken => {
         const publicService = MultiService.getService();
 
         const chains = await publicService.getPublicGateway().getBlockchains();

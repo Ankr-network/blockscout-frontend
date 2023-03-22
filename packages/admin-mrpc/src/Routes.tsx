@@ -5,13 +5,37 @@ import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { ClientsPage } from 'modules/clients/components/ClientsPage';
 import { ClientDetailsPage } from 'modules/clients/components/ClientDetailsPage';
 import { AdminRoutesConfig } from 'modules/admin/AdminRoutesConfig';
-import { AdminPage } from 'modules/admin/components/AdminPage';
+import { AdminPageWrapper } from 'modules/admin/components/AdminPageWrapper';
 import { GuardAdminRoute } from 'modules/admin/components/GuardAdminRoute';
 import { useSecretRouteAccess } from 'modules/admin/hooks/useSecretRouteAccess';
+import { GroupsPageWrapper } from 'modules/groups/components/GroupsPageWrapper';
+import { GroupsRoutesConfig } from 'modules/groups/GroupsRoutesConfig';
+import { GroupDetails } from 'modules/groups/components/GroupDetails';
+
+function GroupsRoutes() {
+  return (
+    <>
+      <Route
+        exact
+        path={GroupsRoutesConfig.groups.path}
+        component={GroupsPageWrapper}
+      />
+      <Route
+        exact
+        path={GroupsRoutesConfig.groupDetails.path}
+        component={GroupDetails}
+      />
+    </>
+  );
+}
 
 function AdminRoutes() {
   return (
-    <Route exact path={AdminRoutesConfig.admin.path} component={AdminPage} />
+    <Route
+      exact
+      path={AdminRoutesConfig.admin.path}
+      component={AdminPageWrapper}
+    />
   );
 }
 
@@ -47,6 +71,19 @@ export const Routes = () => {
         render={() => (
           <Layout hasSecretRouteAccess={hasSecretRouteAccess}>
             <ClientsRoutes />
+          </Layout>
+        )}
+      />
+
+      <Route
+        exact
+        path={[
+          GroupsRoutesConfig.groups.path,
+          GroupsRoutesConfig.groupDetails.path,
+        ]}
+        render={() => (
+          <Layout hasSecretRouteAccess={hasSecretRouteAccess}>
+            <GroupsRoutes />
           </Layout>
         )}
       />

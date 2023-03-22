@@ -5,22 +5,20 @@ import {
   CChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
 import { CChainMethodResponse } from 'domains/requestComposer/types/avalanche';
+import {
+  FetchRequestParams,
+  FetchRequestResult,
+} from 'domains/requestComposer/types';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
-import { MethodsRequest } from 'domains/requestComposer/types';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
-export interface FetchCChainRequestParams {
-  libraryID: AvalancheLibraryID;
-  params: MethodsRequest<CChainMethod>;
-  web3URL: string;
-}
+export type FetchCChainRequestParams = FetchRequestParams<
+  AvalancheLibraryID,
+  CChainMethod
+>;
 
-export type FetchCChainRequestResult = {
-  error?: unknown;
-  response?: [CChainMethodResponse];
-  time: number;
-};
+export type FetchCChainRequestResult = FetchRequestResult<CChainMethodResponse>;
 
 export const {
   endpoints: { requestComposerFetchCChainRequest },

@@ -3,7 +3,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { filterMapChains, IApiChain } from '../utils/queryChains';
 
 interface IRequestParams {
-  token: string;
+  token?: string;
 }
 
 export const {

@@ -3,7 +3,6 @@ import { Web3Address } from 'multirpc-sdk';
 import { useFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
 import { useUpdateUserProfileMutation } from 'modules/clients/actions/updateUserProfile';
 import { useFetchUserRevenueQuery } from 'modules/clients/actions/fetchUserRevenue';
-import { useFetchUserAddressesQuery } from 'modules/clients/actions/fetchUserAddresses';
 
 export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const {
@@ -13,14 +12,6 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
     refetch: refetchProfileData,
     isError: isErrorProfile,
   } = useFetchUserProfileQuery({ address });
-
-  const {
-    data: userAddressesData,
-    isLoading: isLoadingUserAddresses,
-    isFetching: isFetchingUserAddresses,
-    refetch: refetchUserAddressesData,
-    isError: isErrorUserAddresses,
-  } = useFetchUserAddressesQuery({ address });
 
   const { data: revenueData, isLoading: isLoadingRevenue } =
     useFetchUserRevenueQuery({ address });
@@ -88,10 +79,5 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
     userName: !isErrorProfile && profileData?.user?.name,
     revenueData,
     isLoadingRevenue,
-
-    userAddressesData,
-    isLoadingUserAddresses: isFetchingUserAddresses || isLoadingUserAddresses,
-    refetchUserAddressesData,
-    isErrorUserAddresses,
   };
 };

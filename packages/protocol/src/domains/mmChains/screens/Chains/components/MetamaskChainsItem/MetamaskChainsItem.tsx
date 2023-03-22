@@ -2,7 +2,7 @@ import { ChainsItemBase } from 'domains/chains/components/ChainsItemBase';
 import { ChainsItemQueryProps } from 'domains/chains/components/ChainsItem';
 import { MetamaskChainsItemLink } from './MetamaskChainsItemLink';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
-import { usePublicChainsItem } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicChainsItem/hooks/usePublicChainsItem';
+import { usePublicChainsItem } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicChainCard/hooks/usePublicChainsItem';
 
 export const MetamaskChainsItem = ({
   chain,

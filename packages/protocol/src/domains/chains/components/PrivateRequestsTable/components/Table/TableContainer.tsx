@@ -21,7 +21,7 @@ export const TableContainer = ({
   }
 
   if (areRequestsEmpty(data)) {
-    return <EmptyMessage />;
+    return <EmptyMessage variant={variant} />;
   }
 
   if (isUninitialized || !data) {

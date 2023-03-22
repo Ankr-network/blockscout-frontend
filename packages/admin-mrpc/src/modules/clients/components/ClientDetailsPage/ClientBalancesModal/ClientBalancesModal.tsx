@@ -2,8 +2,8 @@ import { Button, MenuItem, Modal } from '@mui/material';
 
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
+import { useModal } from 'modules/common/hooks/useModal';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
-import { useClientBalancesModal } from './useClientBalancesModal';
 import { ClientBalancesModalContent } from './ClientBalancesModalContent';
 
 export const ClientBalancesModal = ({
@@ -14,7 +14,7 @@ export const ClientBalancesModal = ({
   isMenuElement?: boolean;
 }) => {
   const { classes } = useStyles();
-  const { open, handleOpen, handleClose } = useClientBalancesModal();
+  const { open, handleOpen, handleClose } = useModal();
 
   const handleClickMenuButton = (e: React.MouseEvent<HTMLLIElement>) => {
     e.stopPropagation();
