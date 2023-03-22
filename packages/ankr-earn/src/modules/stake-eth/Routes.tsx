@@ -28,11 +28,19 @@ const STEP_CLAIM_ETH_WITH_AMOUNT_PATH = `${STEP_CLAIM_ETH_PATH}?amount=:amount?`
 const TEST_STAKE_PATH = `${ROOT}without-claim/`;
 const UNSTAKE_ETH_PATH = `${UNSTAKE_PATH}ethereum/`;
 const UNSTAKE_ETH_BY_TOKEN_PATH = `${UNSTAKE_ETH_PATH}?token=:token?`;
+const UNSTAKE_ETH_STEP_PATH = `${UNSTAKE_ETH_PATH}status/`;
+const UNSTAKE_ETH_STEP_PATH_WITH_PARAMS = `${UNSTAKE_ETH_STEP_PATH}?txHash=:txHash&token=:token&amount=:amount`;
 
 interface IClaimStepsGeneratePathArgs {
   amount?: string;
   tokenOut?: string;
   txHash?: string;
+}
+
+interface IUnstakeStepPathParams {
+  txHash: string;
+  token: string;
+  amount: string;
 }
 
 export const RoutesConfig = createRouteConfig(
@@ -76,6 +84,25 @@ export const RoutesConfig = createRouteConfig(
       useParams: () => ({
         token: useQueryParams().get('token') ?? undefined,
       }),
+    },
+
+    unstakeSteps: {
+      path: UNSTAKE_ETH_STEP_PATH,
+      generatePath: (options: IUnstakeStepPathParams) =>
+        generatePath(
+          UNSTAKE_ETH_STEP_PATH_WITH_PARAMS,
+          options as unknown as Record<string, string>,
+        ),
+
+      useParams: (): Partial<IUnstakeStepPathParams> => {
+        const queryParams = useQueryParams();
+
+        return {
+          txHash: queryParams.get('txHash') ?? undefined,
+          token: queryParams.get('token') ?? undefined,
+          amount: queryParams.get('amount') ?? undefined,
+        };
+      },
     },
 
     claim: {
@@ -125,6 +152,12 @@ const UnstakeEthereum = loadComponent(() =>
   import('./screens/UnstakeEthereum').then(module => module.UnstakeEthereum),
 );
 
+const UnstakeEthereumSteps = loadComponent(() =>
+  import('./screens/UnstakeEthereumSteps').then(
+    module => module.UnstakeEthereumSteps,
+  ),
+);
+
 export function getRoutes(): JSX.Element {
   return (
     <Route
@@ -163,6 +196,18 @@ export function getRoutes(): JSX.Element {
           >
             <DefaultLayout>
               <UnstakeEthereum />
+            </DefaultLayout>
+          </GuardETHRoute>
+        )}
+
+        {featuresConfig.isETHUnstakeActive && (
+          <GuardETHRoute
+            exact
+            availableNetworks={ETH_STAKING_NETWORKS}
+            path={RoutesConfig.unstakeSteps.path}
+          >
+            <DefaultLayout>
+              <UnstakeEthereumSteps />
             </DefaultLayout>
           </GuardETHRoute>
         )}

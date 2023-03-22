@@ -18,7 +18,10 @@ import { NavLink } from 'uiKit/NavLink';
 import { useUnstakeSuccessHook } from './useUnstakeSuccessHook';
 import { useUnstakeSuccessStyles } from './useUnstakeSuccessStyles';
 
+export const UNSTAKE_TXN_FAIL_CODE = 'tx-fail';
+
 interface IUnstakeSuccessProps {
+  error?: Error;
   infoText?: string;
   period?: string;
   title?: string;
@@ -27,10 +30,12 @@ interface IUnstakeSuccessProps {
   destinationAddress?: string;
   txHash?: string;
   isLoading?: boolean;
+  isReceiptPending?: boolean;
   onClose?: () => void;
 }
 
 export const UnstakeSuccess = ({
+  error,
   infoText,
   period,
   title,
@@ -39,6 +44,7 @@ export const UnstakeSuccess = ({
   destinationAddress,
   txHash,
   isLoading = false,
+  isReceiptPending = false,
   onClose,
 }: IUnstakeSuccessProps): JSX.Element => {
   const classes = useUnstakeSuccessStyles();
@@ -50,23 +56,30 @@ export const UnstakeSuccess = ({
     handleCopyDestinationAddress,
   } = useUnstakeSuccessHook();
 
+  const isError = Boolean(error);
+
+  const pageTitle = title ?? t('unstake-dialog.success.title');
+
+  const successInfoText = isReceiptPending
+    ? t('unstake-dialog.success.pending-descr')
+    : infoText ??
+      t('unstake-dialog.success.description', { token: tokenName, period });
+
+  const errorText =
+    error?.message === UNSTAKE_TXN_FAIL_CODE
+      ? t('progress.errorTxFail')
+      : t('progress.errorGeneralInfo');
+
   return (
     <Box component="section" py={{ xs: 5, md: 10 }}>
       <Container>
         <Paper className={classes.root}>
           <Typography className={classes.title} component="h2" variant="h1">
-            {typeof title === 'string'
-              ? title
-              : t('unstake-dialog.success.title')}
+            {isError ? t('progress.errorTitle') : pageTitle}
           </Typography>
 
           <Typography className={classes.text}>
-            {typeof infoText === 'string'
-              ? infoText
-              : t('unstake-dialog.success.description', {
-                  token: tokenName,
-                  period,
-                })}
+            {isError ? errorText : successInfoText}
           </Typography>
 
           <div className={classes.table}>

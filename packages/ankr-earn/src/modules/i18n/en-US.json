@@ -651,7 +651,8 @@
       "stake": "Failed to stake ETH",
       "unstake": "Failed to unstake ETH",
       "min-stake": "Failed to get ETH minimum stake amount",
-      "wallet-connect": "Failed to connect ETH compatible wallet"
+      "wallet-connect": "Failed to connect ETH compatible wallet",
+      "tx-hash-undefined": "Transaction hash is undefined"
     }
   },
   "switcher": {
@@ -715,6 +716,7 @@
     "eta": "You will receive {token} in about {period} days",
     "success": {
       "title": "Unstake in progress",
+      "pending-descr": "Transaction is pending...",
       "description": "You will receive {token} in {period}",
       "return": "Go to dashboard"
     },
