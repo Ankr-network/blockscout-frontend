@@ -55,7 +55,9 @@ function getMapDeFiItem(baseUrl: string) {
     baseRewards: item.baseRewards,
     protocolLink: item.protocolLink,
     protocolName: item.protocolName,
-    protocolIcon: new URL(item.protocolIcon.url, baseUrl).toString(),
+    protocolIcon: item.protocolIcon
+      ? new URL(item.protocolIcon.url, baseUrl).toString()
+      : '',
     farmingRewards: item.farmingRewards ?? '',
   });
 }
