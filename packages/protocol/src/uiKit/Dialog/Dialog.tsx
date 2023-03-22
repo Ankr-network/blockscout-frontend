@@ -6,7 +6,7 @@ import {
   DialogTitle as MuiDialogTitle,
   IconButton,
 } from '@mui/material';
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState, useCallback } from 'react';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { DialogContext } from './DialogContext';
@@ -17,7 +17,7 @@ export type IDialogProps = Omit<
   MuiDialogProps,
   'BackdropProps' | 'PaperProps'
 > & {
-  onClose: () => void;
+  onClose?: () => void;
   shouldHideCloseButton?: boolean;
   initialTitle?: string;
   title?: string;
@@ -46,13 +46,19 @@ export const Dialog = ({
     color: DialogTitleColor.Regular,
   });
 
+  const handleClose = useCallback(() => {
+    if (typeof onClose === 'function') {
+      onClose();
+    }
+  }, [onClose]);
+
   useLayoutEffect(() => {
     setDialogTitle({ title });
   }, [title]);
 
   const value: IDialogContext = useMemo(
-    () => ({ dialogTitle, setDialogTitle, closeDialog: onClose }),
-    [dialogTitle, onClose],
+    () => ({ dialogTitle, setDialogTitle, closeDialog: handleClose }),
+    [dialogTitle, handleClose],
   );
 
   const { classes, cx } = useStyles({
@@ -75,7 +81,7 @@ export const Dialog = ({
           },
         }}
         {...props}
-        onClose={onClose}
+        onClose={handleClose}
       >
         <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
           {dialogTitle.title}
@@ -84,7 +90,7 @@ export const Dialog = ({
             <IconButton
               aria-label="close"
               className={cx(classes.closeButton, closeButtonClassName)}
-              onClick={onClose}
+              onClick={handleClose}
             >
               <Close />
             </IconButton>
