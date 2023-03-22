@@ -1,6 +1,6 @@
 {
   "name": "admin-mrpc",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -119,7 +119,8 @@
     ],
     "include": [
       "/clients",
-      "/admin"
+      "/admin",
+      "/groups"
     ],
     "skipThirdPartyRequests": true,
     "inlineCss": true

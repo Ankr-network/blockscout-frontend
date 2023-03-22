@@ -2,12 +2,12 @@ import { useCallback, useMemo } from 'react';
 import { GetUsersRegistrationsRequest } from 'multirpc-sdk';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
-import { useLazyGetUsersRegistrationsQuery } from '../actions/getUsersRegistrations';
-import { useFilters } from '../hooks/useFilters';
-import { useDatesRange } from '../hooks/useDatesRange';
-import { formatDateParamToSeconds } from '../utils/formatDateParamToSeconds';
+import { useLazyGetUsersRegistrationsQuery } from '../../actions/getUsersRegistrations';
+import { useFilters } from '../../hooks/useFilters';
+import { useDatesRange } from '../../hooks/useDatesRange';
+import { formatDateParamToSeconds } from '../../utils/formatDateParamToSeconds';
 
-export const useAdminPage = () => {
+export const useDevDaoUsersList = () => {
   const {
     data: clients,
     isLoading: isLoadingClients,

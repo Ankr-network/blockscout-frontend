@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useModal } from 'modules/common/hooks/useModal';
 import { useUpdateUserProfileMutation } from 'modules/clients/actions/updateUserProfile';
 import { useFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
@@ -22,13 +23,7 @@ export const useClientEditProfile = (currentClient: ClientMapped) => {
 
   const isLoading = isLoadingUpdateProfile;
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const { open, handleOpen, handleClose } = useModal();
 
   const [commentValue, setCommentValue] = useState('');
   const [nameValue, setNameValue] = useState('');
