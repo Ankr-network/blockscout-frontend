@@ -1,8 +1,6 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
-import { Spinner } from 'ui';
-
 import { ClientTransactionsTable } from './ClientTransactions';
 import { ClientInfo } from './ClientInfo';
 import { ClientUsageTable } from './ClientUsageTable';
@@ -46,14 +44,12 @@ export const ClientDetailsPage = () => {
     currentClient,
     address,
     statsData,
-    isLoadingTransactions,
     isLoadingStats,
     periodStatement,
     totalData,
     isLoadingTotal,
     value,
     handleChange,
-    transactionsData,
     updateTimeframeParam,
     isFetchingStats,
     handleSwitchCurrent,
@@ -92,12 +88,7 @@ export const ClientDetailsPage = () => {
             }}
           >
             <Tab className={classes.tab} disableRipple label="Usage" />
-            <Tab
-              className={classes.tab}
-              disableRipple
-              label="Billing"
-              disabled={!transactionsData?.transactions}
-            />
+            <Tab className={classes.tab} disableRipple label="Billing" />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -116,16 +107,7 @@ export const ClientDetailsPage = () => {
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {transactionsData?.transactions &&
-          transactionsData?.transactions?.length > 0 ? (
-            <ClientTransactionsTable
-              transactions={transactionsData?.transactions}
-            />
-          ) : isLoadingTransactions ? (
-            <Spinner className={classes.spinnerTransactions} size={50} />
-          ) : (
-            'Not found'
-          )}
+          <ClientTransactionsTable address={address} />
         </TabPanel>
       </>
     </>

@@ -13,6 +13,8 @@ import {
   ICountersResponse,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
+  IUpdateUserEmailRequest,
+  IUpdateUserEmailResponse,
   INodeEntity,
   IStatementRequest,
   IStatementResponse,
@@ -23,6 +25,10 @@ import {
   IUserStatsRequest,
   IUserStatsResponse,
   IUserStatsByRangeRequest,
+  IWebsocketStatsRequest,
+  IWebsocketStatsResponse,
+  IArchiveRequestsStatsRequest,
+  IArchiveRequestsStatsResponse,
   ICountersRequest,
   IGetUserTotalRequest,
   IGetUserTotalResponse,
@@ -37,6 +43,18 @@ import {
   IGetAdminRolesResponse,
   GetUsersRegistrationsRequest,
   GetUsersRegistrationsResponse,
+  SetUserGroupRequest,
+  SetUserGroupResponse,
+  DeleteFromUserGroupRequest,
+  DeleteFromUserGroupResponse,
+  CreateUserGroupRequest,
+  CreateUserGroupResponse,
+  GetUserGroupsRequest,
+  GetUserGroupsResponse,
+  GetUserGroupRequest,
+  GetUserGroupResponse,
+  DeleteUserGroupRequest,
+  DeleteUserGroupResponse,
 } from './types';
 
 export class BackofficeGateway implements IBackofficeGateway {
@@ -91,6 +109,40 @@ export class BackofficeGateway implements IBackofficeGateway {
       '/users/emails',
       {
         params,
+      },
+    );
+
+    return response;
+  }
+
+  async createUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse> {
+    const { data: response } = await this.api.post<IUpdateUserEmailResponse>(
+      '/users/emails',
+      params,
+      {
+        params: {
+          address: params.address,
+          email: params.email,
+        },
+      },
+    );
+
+    return response;
+  }
+
+  async updateUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse> {
+    const { data: response } = await this.api.put<IUpdateUserEmailResponse>(
+      '/users/emails',
+      params,
+      {
+        params: {
+          address: params.address,
+          email: params.email,
+        },
       },
     );
 
@@ -184,6 +236,78 @@ export class BackofficeGateway implements IBackofficeGateway {
     return response;
   }
 
+  async setUserGroup(
+    body: SetUserGroupRequest,
+  ): Promise<SetUserGroupResponse> {
+    const { data: response } = await this.api.post<SetUserGroupResponse>(
+      '/users/group/addUser',
+      body,
+    );
+
+    return response;
+  }
+
+  async deleteFromUserGroup(
+    params: DeleteFromUserGroupRequest,
+  ): Promise<DeleteFromUserGroupResponse> {
+    const { data } = await this.api.delete<DeleteFromUserGroupResponse>(
+      '/users/group/user', {
+      params,
+    });
+
+    return data;
+  }
+
+  async createUserGroup(
+    body: CreateUserGroupRequest,
+  ): Promise<CreateUserGroupResponse> {
+    const { data: response } = await this.api.post<SetUserGroupResponse>(
+      '/users/group/new',
+      body,
+    );
+
+    return response;
+  }
+
+  async getUserGroups(
+    params: GetUserGroupsRequest,
+  ): Promise<GetUserGroupsResponse> {
+    const { data: response } = await this.api.get<GetUserGroupsResponse>(
+      '/users/groups',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getUserGroup(
+    params: GetUserGroupRequest,
+  ): Promise<GetUserGroupResponse> {
+    const { data: response } = await this.api.get<GetUserGroupResponse>(
+      '/users/group',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async deleteUserGroup(
+    params: DeleteUserGroupRequest,
+  ): Promise<DeleteUserGroupResponse> {
+    const { data } = await this.api.delete<DeleteUserGroupResponse>(
+      '/users/group',
+      {
+        params,
+      }
+    );
+
+    return data;
+  }
+
   async createTestPremiumUser(
     body: ICreateTestClientRequest,
   ): Promise<ICreateTestClientResponse> {
@@ -209,6 +333,28 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getUserStats(params: IUserStatsRequest): Promise<IUserStatsResponse> {
     const { data: response } = await this.api.get<IUserStatsResponse>(
       '/users/stats',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse> {
+    const { data: response } = await this.api.get<IWebsocketStatsResponse>(
+      '/stats/websockets',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getArchiveRequestsStats(params: IArchiveRequestsStatsRequest): Promise<IArchiveRequestsStatsResponse> {
+    const { data: response } = await this.api.get<IArchiveRequestsStatsResponse>(
+      '/stats/archives',
       {
         params,
       },

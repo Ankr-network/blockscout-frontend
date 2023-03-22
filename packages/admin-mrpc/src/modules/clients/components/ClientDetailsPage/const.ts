@@ -12,3 +12,5 @@ export const timeframeTextMap: Record<
   [CustomRange.current]: 'current month',
   [CustomRange.previous]: 'previous month',
 };
+
+export const NOT_FOUND_TEXT = 'Not found';
