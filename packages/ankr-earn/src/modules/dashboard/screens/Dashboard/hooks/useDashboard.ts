@@ -26,7 +26,6 @@ import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBala
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
-import { getDashboardData as getSSVOnETHDashboardData } from 'modules/stake-ssv/actions/getDashboardData';
 import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
@@ -46,7 +45,6 @@ const resetRequests = () =>
     getMGNOMaxApr.toString(),
     getMGNOPrice.toString(),
     getMgnoBalance.toString(),
-    getSSVOnETHDashboardData.toString(),
     getUnstakeDate.toString(),
   ]);
 
@@ -99,10 +97,6 @@ export const useDashboard = (): void => {
       dispatch(getMGNOMaxApr());
       dispatch(getMGNOPrice());
       dispatch(getMgnoBalance());
-    }
-
-    if (featuresConfig.ssvStaking) {
-      dispatch(getSSVOnETHDashboardData());
     }
 
     if (featuresConfig.xdcActive) {

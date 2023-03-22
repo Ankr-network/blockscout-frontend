@@ -1,13 +1,14 @@
 import { t } from '@ankr.com/common';
 import { useQuery } from '@redux-requests/react';
+import { skipToken } from '@reduxjs/toolkit/query';
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { getDashboardData } from 'modules/stake-ssv/actions/getDashboardData';
+import { useGetDashboardDataQuery } from 'modules/stake-ssv/actions/getDashboardData';
 import { SSV_ETH_NETWORK_BY_ENV } from 'modules/stake-ssv/const';
 import { RoutesConfig as EthereumSSVRoutes } from 'modules/stake-ssv/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -26,9 +27,8 @@ export interface IUseStakedASETHCData {
 }
 
 export const useStakedASETHC = (): IUseStakedASETHCData => {
-  const { data: dashboardData, loading: isDashboardDataLoading } = useQuery({
-    type: getDashboardData,
-  });
+  const { data: dashboardData, isLoading: isDashboardDataLoading } =
+    useGetDashboardDataQuery(featuresConfig.ssvStaking ? undefined : skipToken);
 
   const { data: metrics } = useQuery({
     type: getMetrics,
@@ -42,15 +42,18 @@ export const useStakedASETHC = (): IUseStakedASETHCData => {
 
   const nativeAmount = getTokenNativeAmount(amount, ratio);
 
+  const totalStaked = metrics?.[EMetricsServiceName.ETH_SSV]?.totalStaked;
+  const totalStakedUsd = metrics?.[EMetricsServiceName.ETH_SSV]?.totalStakedUsd;
+
   const usdAmount = useMemo(
     () =>
       getUSDAmount({
         amount,
         ratio,
-        totalStaked: metrics?.[EMetricsServiceName.ETH_SSV]?.totalStaked,
-        totalStakedUsd: metrics?.[EMetricsServiceName.ETH_SSV]?.totalStakedUsd,
+        totalStaked,
+        totalStakedUsd,
       }),
-    [amount, metrics, ratio],
+    [amount, totalStaked, totalStakedUsd, ratio],
   );
 
   return {

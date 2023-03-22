@@ -61,13 +61,13 @@ export const Stake = (): JSX.Element => {
 
   return (
     <section className={classes.root}>
-      {getStakeDataError !== null && (
+      {getStakeDataError && (
         <StakeContainer>
           <QueryError error={getStakeDataError} />
         </StakeContainer>
       )}
 
-      {getStakeDataError === null && (
+      {!getStakeDataError && (
         <StakeContainer>
           <StakeForm
             balance={ethBalance}
