@@ -228,6 +228,15 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         color: theme.palette.primary.main,
       },
     },
+
+    [`&.${ChainId.POLYGON_ZKEVM}`]: {
+      '& $content': {
+        padding: 0,
+      },
+      '& $contentBackground': {
+        backgroundColor: theme.palette.grey[300],
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied

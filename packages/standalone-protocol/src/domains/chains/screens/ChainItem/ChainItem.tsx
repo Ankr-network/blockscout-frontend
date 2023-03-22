@@ -21,14 +21,28 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
 
   const isStandalone = isStandaloneChain(chainId);
 
+  const isComingSoon = Boolean(data?.chain?.isComingSoon);
+
   return (
     <ThemeProvider theme={getTheme(chainId)}>
       <Container className={classes.main}>
         <CrossMenu chainId={chainId} className={classes.menu} />
         <Header chainId={chainId} />
-        <CopyButtons data={data} chainId={chainId} />
-        <ChainItemDetailsQuery chainId={chainId} isStandalone={isStandalone} />
-        <ChainNodesTableQuery chainId={chainId} isStandalone={isStandalone} />
+        <CopyButtons
+          isComingSoon={isComingSoon}
+          data={data}
+          chainId={chainId}
+        />
+        <ChainItemDetailsQuery
+          isComingSoon={isComingSoon}
+          chainId={chainId}
+          isStandalone={isStandalone}
+        />
+        <ChainNodesTableQuery
+          isComingSoon={isComingSoon}
+          chainId={chainId}
+          isStandalone={isStandalone}
+        />
       </Container>
     </ThemeProvider>
   );
