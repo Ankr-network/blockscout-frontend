@@ -24,6 +24,8 @@ import { web3Api } from './queries';
 import { userConfigPersistConfig } from 'domains/auth/storage/userConfigPersistConfig';
 import { jwtTokenManagerPersistConfig } from 'domains/jwtToken/storage/jwtTokenManagerPersistConfig';
 import { jwtTokenManagerSlice } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { userGroupPersistConfig } from 'domains/userGroup/storage/userGroupPersistConfig';
+import { userGroupSlice } from 'domains/userGroup/store/userGroupSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -45,6 +47,7 @@ const rootReducer = combineReducers({
   requestComposer: requestComposerSlice.reducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,
+  userGroup: persistReducer(userGroupPersistConfig, userGroupSlice.reducer),
 });
 
 export const store = configureStore({

@@ -24,6 +24,7 @@ export interface IAuthSlice {
   walletMeta?: IWalletMeta;
   workerTokenData?: WorkerTokenData;
   isInstantJwtParticipant?: boolean;
+  hasWeb3Autoconnect?: boolean;
 }
 
 const initialState: IAuthSlice = {

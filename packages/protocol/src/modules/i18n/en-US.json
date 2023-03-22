@@ -1564,5 +1564,12 @@
         "hmy_getBlockSigners": "Returns list of block signers"
       }
     }
+  },
+  "user-group": {
+    "modal": {
+      "title": "Choose an account to proceed",
+      "button": "Continue",
+      "checkbox": "Remember my choice"
+    }
   }
 }

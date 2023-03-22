@@ -41,6 +41,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       border: `2px solid ${theme.palette.background.default}`,
     },
 
+    [`&.${ChainId.POLYGON_ZKEVM} $block`]: {
+      border: `2px solid ${theme.palette.action.disabledBackground}`,
+    },
+
     [`&.${ChainId.Nervos} $block`]: {
       borderRadius: 0,
       position: 'relative',

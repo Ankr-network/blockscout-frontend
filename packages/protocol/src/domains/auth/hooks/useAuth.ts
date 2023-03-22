@@ -17,6 +17,7 @@ export const useAuth = () => {
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
   const {
+    address = '',
     credentials,
     ethAddressType,
     hasOauthLogin,
@@ -49,6 +50,7 @@ export const useAuth = () => {
     ...rest,
     ...authData,
     ...oauthRest,
+    address,
     credentials: hasWeb3Connection
       ? connectData?.credentials
       : authData?.credentials,

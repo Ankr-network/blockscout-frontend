@@ -11,12 +11,14 @@ import { fetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDet
 import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
 
 interface ChainItemProps {
+  isComingSoon: boolean;
   chainId: ChainId;
   isStandalone: boolean;
 }
 
 export const ChainNodesTableQuery = ({
   chainId,
+  isComingSoon,
   isStandalone,
 }: ChainItemProps) => {
   const dispatchRequest = useDispatchRequest();
@@ -27,6 +29,8 @@ export const ChainNodesTableQuery = ({
   });
 
   const spinner = useSpinner(chainId);
+
+  if (isComingSoon) return null;
 
   return (
     <Queries<ResponseData<typeof fetchChainNodesDetail>>

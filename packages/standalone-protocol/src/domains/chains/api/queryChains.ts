@@ -11,6 +11,11 @@ export interface IApiChain {
   rpcUrls: string[];
   wsUrls: string[];
   requests?: number;
+  isComingSoon?: boolean;
+}
+
+enum BlockchainFeature {
+  ComingSoon = 'coming soon',
 }
 
 export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
@@ -20,7 +25,7 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
 
   return chainsArray.map(item => {
     const { blockchain, rpcURLs, wsURLs } = item;
-    const { id, name } = blockchain;
+    const { id, name, features } = blockchain;
 
     return {
       id,
@@ -28,6 +33,7 @@ export const mapChains = (data: IFetchChainsResponseData): IApiChain[] => {
       name,
       rpcUrls: rpcURLs,
       wsUrls: wsURLs,
+      isComingSoon: features.includes(BlockchainFeature.ComingSoon),
     };
   });
 };

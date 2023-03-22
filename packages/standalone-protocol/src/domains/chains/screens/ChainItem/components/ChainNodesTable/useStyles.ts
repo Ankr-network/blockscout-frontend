@@ -29,6 +29,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: theme.palette.grey[600],
       borderRadius: 0,
     },
+
+    [`&.${ChainId.POLYGON_ZKEVM}`]: {
+      border: `2px solid ${theme.palette.grey[300]}`,
+    },
+
+    [`&.${ChainId.POLYGON_ZKEVM} $description`]: {
+      fontWeight: 400,
+    },
   },
   header: {
     padding: theme.spacing(2, 0),
