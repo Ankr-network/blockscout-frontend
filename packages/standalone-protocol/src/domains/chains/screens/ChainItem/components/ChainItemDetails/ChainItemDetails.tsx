@@ -14,6 +14,7 @@ import {
 import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemDetailsProps {
+  isComingSoon: boolean;
   totalRequests?: BigNumber;
   totalCached?: BigNumber;
   className?: string;
@@ -23,6 +24,7 @@ interface ChainItemDetailsProps {
 }
 
 export const ChainItemDetails = ({
+  isComingSoon,
   totalRequests,
   totalCached,
   timeframe,
@@ -39,21 +41,27 @@ export const ChainItemDetails = ({
     >
       <DetailsBlock
         title={t('chain-item.details.total-requests')}
-        value={formatNumber(totalRequests)}
+        value={isComingSoon ? '--' : formatNumber(totalRequests)}
         className={classes.block}
         loading={loading}
         description={t('chain-item.details.timeframe')}
       />
       <DetailsBlock
         title={t('chain-item.details.cached-requests')}
-        value={getCachedRequestPercent(totalRequests, totalCached)}
+        value={
+          isComingSoon
+            ? '--'
+            : getCachedRequestPercent(totalRequests, totalCached)
+        }
         className={classes.block}
         loading={loading}
         description={t('chain-item.details.timeframe')}
       />
       <DetailsBlock
         title={t('chain-item.details.average-requests')}
-        value={getAvarageRequests(timeframe, totalRequests)}
+        value={
+          isComingSoon ? '--' : getAvarageRequests(timeframe, totalRequests)
+        }
         className={classes.block}
         loading={loading}
         description={t('chain-item.details.timeframe')}

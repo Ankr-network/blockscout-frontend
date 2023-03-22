@@ -16,6 +16,7 @@ import { nervosTheme } from '../../themes/nervosTheme';
 import { filecoinTheme } from '../../themes/filecoinTheme';
 import { fantomTheme } from 'modules/themes/fantomTheme';
 import { bscTheme } from 'modules/themes/bscTheme';
+import { polygonZkevmTheme } from 'modules/themes/polygonZkevmTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -27,6 +28,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Polygon:
       return polygonTheme;
+
+    case ChainId.POLYGON_ZKEVM:
+      return polygonZkevmTheme;
 
     case ChainId.Near:
       return nearTheme;

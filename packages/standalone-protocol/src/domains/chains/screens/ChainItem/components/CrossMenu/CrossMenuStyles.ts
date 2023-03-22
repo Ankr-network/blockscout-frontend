@@ -48,6 +48,9 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.Filecoin}`]: {
       borderRight: `1px solid ${theme.palette.text.secondary}`,
     },
+    [`&.${ChainId.POLYGON_ZKEVM}`]: {
+      backgroundColor: theme.palette.action.disabledBackground,
+    },
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -56,6 +59,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     display: 'block',
     width: `calc(100% - 20px)`,
     paddingBottom: 0,
+
+    [`&.${ChainId.POLYGON_ZKEVM}`]: {
+      backgroundColor: theme.palette.background.paper,
+    },
 
     '&&': {
       borderRight: 'none',

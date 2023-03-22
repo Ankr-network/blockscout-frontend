@@ -16,6 +16,7 @@ import { useHasAnkrsInfo } from './ChainItemUtils';
 import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
 
 interface ChainItemProps {
+  isComingSoon: boolean;
   chainId: ChainId;
   isStandalone: boolean;
 }
@@ -23,6 +24,7 @@ interface ChainItemProps {
 const TIMEFRAME: Timeframe = '24h';
 
 export const ChainItemDetailsQuery = ({
+  isComingSoon,
   chainId,
   isStandalone,
 }: ChainItemProps) => {
@@ -55,6 +57,7 @@ export const ChainItemDetailsQuery = ({
           <>
             <ChainItemDetails
               className={classes.details}
+              isComingSoon={isComingSoon}
               totalCached={totalCached}
               totalRequests={totalRequests}
               timeframe={TIMEFRAME}
@@ -62,13 +65,15 @@ export const ChainItemDetailsQuery = ({
               chainId={chainId}
             />
             {hasInfo && <Info />}
-            <ChainRequestsChart
-              totalRequestsHistory={totalRequestsHistory}
-              totalCachedHistory={totalCachedHistory}
-              className={classNames(classes.chart, chainId)}
-              loading={IS_REACT_SNAP || (loading && !data)}
-              chainId={chainId}
-            />
+            {!isComingSoon && (
+              <ChainRequestsChart
+                totalRequestsHistory={totalRequestsHistory}
+                totalCachedHistory={totalCachedHistory}
+                className={classNames(classes.chart, chainId)}
+                loading={IS_REACT_SNAP || (loading && !data)}
+                chainId={chainId}
+              />
+            )}
           </>
         );
       }}

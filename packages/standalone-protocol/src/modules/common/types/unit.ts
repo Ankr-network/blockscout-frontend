@@ -1,4 +1,5 @@
 import { ChainId } from 'domains/chains/api/chain';
+import { tHTML } from 'modules/i18n/utils/intl';
 
 export type Bytes = number;
 export type Timestamp = number;
@@ -22,5 +23,18 @@ export const renderChainName = (chainId?: ChainId | string): string => {
     return 'Secret';
   }
 
+  if (chainId === ChainId.POLYGON_ZKEVM) {
+    return 'polygon zkevm';
+  }
+
   return chainId ?? '';
+};
+
+export const renderTitle = (chainId: ChainId): string => {
+  const shouldRenderNoBreakTitle = chainId === ChainId.POLYGON_ZKEVM;
+  const titleIntl = shouldRenderNoBreakTitle ? 'no-break-title' : 'title';
+
+  return tHTML(`chain-item.header.${titleIntl}`, {
+    name: renderChainName(chainId),
+  });
 };

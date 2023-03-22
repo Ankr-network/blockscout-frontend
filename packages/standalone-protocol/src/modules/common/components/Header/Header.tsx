@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useHasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 import { Banner } from 'domains/chains/screens/ChainItem/components/Banner';
 import { useDimensions } from 'modules/common/hooks/useDimensions';
-import { renderChainName } from 'modules/common/types/unit';
+import { renderTitle } from 'modules/common/types/unit';
 import { tHTML } from 'modules/i18n/utils/intl';
 import { MutableRefObject, useRef } from 'react';
 import { HeaderLogo } from './HeaderLogo';
@@ -23,7 +23,7 @@ export const Header = ({ chainId }: HeaderProps) => {
       <Banner chainId={chainId} ref={bannerRef} />
       <HeaderLogo chainId={chainId} hasInfo={hasInfo} />
       <Typography className={classNames(classes.title, chainId)} variant="h1">
-        {tHTML('chain-item.header.title', { name: renderChainName(chainId) })}
+        {renderTitle(chainId)}
       </Typography>
 
       <Typography

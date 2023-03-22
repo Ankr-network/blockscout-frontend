@@ -76,6 +76,14 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
         },
       },
     },
+
+    [`&.${ChainId.POLYGON_ZKEVM} `]: {
+      borderRadius: 0,
+      '& $content': {
+        borderRadius: theme.spacing(1.5),
+        border: `2px solid ${theme.palette.grey[300]}`,
+      },
+    },
   },
 
   message: {
