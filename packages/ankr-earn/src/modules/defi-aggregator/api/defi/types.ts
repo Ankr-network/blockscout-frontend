@@ -53,5 +53,5 @@ export interface IDeFiItemResponse {
   updated_at: string;
   farmingRewards?: string;
   protocolName: string;
-  protocolIcon: IProtocolIcon;
+  protocolIcon?: IProtocolIcon;
 }
