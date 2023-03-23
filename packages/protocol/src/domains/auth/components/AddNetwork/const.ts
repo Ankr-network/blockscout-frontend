@@ -40,7 +40,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     chainName: 'Arbitrum',
     nativeCurrency: {
       name: 'Arbitrum One',
-      symbol: 'AETH',
+      symbol: 'ETH',
       decimals: 18,
     },
     blockExplorerUrls: [
