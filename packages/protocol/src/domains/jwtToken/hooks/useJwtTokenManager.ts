@@ -1,8 +1,9 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
   IUserJwtToken,
-  useFetchAllJwtTokenRequestsQuery,
+  useLazyFetchAllJwtTokenRequestsQuery,
 } from 'domains/jwtToken/action/getAllJwtToken';
+import { useEffect } from 'react';
 import {
   getallowedAddProjectTokenIndex,
   MINIMAL_TOKENS_LIMIT,
@@ -15,10 +16,18 @@ const defaultData: IUserJwtToken = {
 };
 
 export const useJwtTokenManager = () => {
-  const { hasConnectWalletMessage } = useAuth();
+  const { hasConnectWalletMessage, loading } = useAuth();
 
-  const { data: { jwtTokens, maxTokensLimit } = defaultData, isLoading } =
-    useFetchAllJwtTokenRequestsQuery();
+  const [
+    fetchAllJwtTokens,
+    { data: { jwtTokens, maxTokensLimit } = defaultData, isLoading },
+  ] = useLazyFetchAllJwtTokenRequestsQuery();
+
+  useEffect(() => {
+    if (!loading) {
+      fetchAllJwtTokens();
+    }
+  }, [loading, fetchAllJwtTokens]);
 
   const shouldShowTokenManager = maxTokensLimit >= MINIMAL_TOKENS_LIMIT;
 
