@@ -4,6 +4,7 @@ import { RootState } from 'store';
 import { userGroupFetchGroups } from './fetchGroups';
 import { selectUserGroupConfigByAddress } from '../store/userGroupSlice';
 
+// TODO change this action to hook. Resolve the problem, when store(localstorage) is faster then data in actions
 export const {
   endpoints: { shouldShowUserGroupDialog },
   useShouldShowUserGroupDialogQuery,
@@ -22,9 +23,17 @@ export const {
           return { data: false };
         }
 
-        const { data: userGroups } = await dispatch(
-          userGroupFetchGroups.initiate(),
-        );
+        let userGroups;
+
+        const { data: cachedUserGroups } = userGroupFetchGroups.select()(state);
+
+        if (!cachedUserGroups) {
+          const { data } = await dispatch(userGroupFetchGroups.initiate());
+          userGroups = data;
+        } else {
+          userGroups = cachedUserGroups;
+        }
+
         const hasGroups = Boolean(userGroups && userGroups?.length > 1);
 
         const isAutoconnectButUserHasntSelectedGroup =
@@ -38,7 +47,7 @@ export const {
           return { data: false };
         }
 
-        return { data: hasGroups };
+        return { data: hasGroups && !selectedGroupAddress };
       },
     }),
   }),

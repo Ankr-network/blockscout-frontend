@@ -32,6 +32,22 @@ export const userGroupSlice = createSlice({
         ...other,
       };
     },
+    resetUserGroupConfig: (
+      state,
+      action: PayloadAction<Address | undefined>,
+    ) => {
+      const address = action.payload ?? '';
+      const config = state.userGroupConfig[address];
+
+      if (config) {
+        const { shouldRemind, selectedGroupAddress } = config;
+
+        state.userGroupConfig[address] = {
+          selectedGroupAddress: shouldRemind ? selectedGroupAddress : undefined,
+          shouldRemind,
+        };
+      }
+    },
   },
 });
 
@@ -44,4 +60,5 @@ export const selectUserGroupConfigByAddress = createSelector(
   ({ address = '' }, userGroupConfig) => userGroupConfig[address] ?? {},
 );
 
-export const { setUserGroupConfig } = userGroupSlice.actions;
+export const { setUserGroupConfig, resetUserGroupConfig } =
+  userGroupSlice.actions;
