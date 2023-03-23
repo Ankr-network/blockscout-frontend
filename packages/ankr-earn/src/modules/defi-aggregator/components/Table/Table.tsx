@@ -159,13 +159,15 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
 
                 <ScrollableTable.Cell noWrap>
                   <div className={styles.vertAligned}>
-                    <span className={styles.vertAligned}>
-                      <img
-                        alt={item.protocolIcon}
-                        className={styles.tokenIcon}
-                        src={item.protocolIcon}
-                      />
-                    </span>
+                    {item.protocolIcon && (
+                      <span className={styles.vertAligned}>
+                        <img
+                          alt={item.protocolIcon}
+                          className={styles.tokenIcon}
+                          src={item.protocolIcon}
+                        />
+                      </span>
+                    )}
 
                     <span>{item.protocolName}</span>
                   </div>
