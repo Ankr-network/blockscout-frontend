@@ -7,14 +7,17 @@ export const useStatStyles = makeStyles()((theme: Theme) => ({
     justifyContent: 'space-between',
     alignItems: 'baseline',
     gap: theme.spacing(2 * 2),
-    margin: theme.spacing(2 * 1.5, 0),
+
+    borderRadius: 24,
+    padding: theme.spacing(2 * 2.5),
+    backgroundColor: theme.palette.background.paper,
 
     flex: 1,
   },
   main: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(2 * 1.25),
+    gap: theme.spacing(2 * 1.5),
 
     flex: 1,
 
@@ -42,7 +45,7 @@ export const useStatStyles = makeStyles()((theme: Theme) => ({
 
     [theme.breakpoints.down('lg')]: {
       fontSize: theme.spacing(2 * 2),
-      lineHeight: `${theme.spacing(2 * 2.5)}px`,
+      lineHeight: `${theme.spacing(2 * 2.5)}`,
     },
 
     [theme.breakpoints.down('xs')]: {

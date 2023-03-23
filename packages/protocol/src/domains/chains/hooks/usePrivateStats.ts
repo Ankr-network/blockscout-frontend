@@ -7,6 +7,7 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 interface PrivateStatsParams {
   interval: PrivateStatsInterval;
   requestKey?: string;
+  userEndpointToken?: string;
 }
 
 interface PrivateStatsReturn {
@@ -18,6 +19,7 @@ interface PrivateStatsReturn {
 export const usePrivateStats = ({
   interval,
   requestKey,
+  userEndpointToken,
 }: PrivateStatsParams): PrivateStatsReturn => {
   const [
     fetchPrivateStats,
@@ -28,8 +30,8 @@ export const usePrivateStats = ({
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    fetchPrivateStats(interval);
-  }, [fetchPrivateStats, interval, requestKey]);
+    fetchPrivateStats({ interval, userEndpointToken });
+  }, [fetchPrivateStats, interval, requestKey, userEndpointToken]);
 
   return { arePrivateStatsLoading, data, privateStatsError };
 };

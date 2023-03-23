@@ -14,11 +14,11 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
       [TabSize.Medium]: {
         padding: theme.spacing(2 * 0.75, 2 * 2),
 
-        borderRadius: theme.spacing(2 * 1.5),
-
         fontWeight: 600,
         fontSize: theme.spacing(2 * 2),
         lineHeight: theme.spacing(2 * 3),
+        height: 44,
+        borderRadius: 15,
 
         [theme.breakpoints.down('lg')]: {
           padding: theme.spacing(2 * 0.5, 2 * 2),

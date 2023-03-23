@@ -8,12 +8,14 @@ export interface TimeframeTabsProps {
   className?: string;
   timeframe: Timeframe;
   tabs: Tab<Timeframe>[];
+  size?: TabSize;
 }
 
 export const TimeframeTabs = ({
   className,
   tabs,
   timeframe,
+  size = TabSize.Small,
 }: TimeframeTabsProps) => {
   const { classes, cx } = useTimeframeTabsStyles();
 
@@ -27,7 +29,7 @@ export const TimeframeTabs = ({
           key={id}
           label={timeframeToLabelMap[id]}
           onClick={onSelect}
-          size={TabSize.Small}
+          size={size}
         />
       ))}
     </div>

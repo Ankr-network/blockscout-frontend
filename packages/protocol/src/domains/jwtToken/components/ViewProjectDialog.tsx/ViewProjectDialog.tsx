@@ -3,15 +3,13 @@ import { t } from '@ankr.com/common';
 import { Button, Typography } from '@mui/material';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import {
-  jwtTokenIntlRoot,
-  PRIMARY_TOKEN_INDEX,
-} from 'domains/jwtToken/utils/utils';
+import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
 import { Dialog } from 'uiKit/Dialog';
 import { useViewProjectDialogStyles } from './useViewProjectDialogStyles';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { ConnectWalletsContent } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/ConnectWalletsContent';
+import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 
 interface IShowProjectDialogProps {
   shouldConnectWallet: boolean;
@@ -30,15 +28,7 @@ export const ViewProjectDialog = ({
 }: IShowProjectDialogProps) => {
   const { classes } = useViewProjectDialogStyles();
 
-  const title = useMemo(
-    () =>
-      token?.index === PRIMARY_TOKEN_INDEX
-        ? t(`${jwtTokenIntlRoot}.default-project-name`)
-        : t(`${jwtTokenIntlRoot}.additional`, {
-            index: token?.index,
-          }),
-    [token?.index],
-  );
+  const title = useMemo(() => renderProjectName(token?.index), [token?.index]);
 
   const {
     isOpened: isLoginOpened,
