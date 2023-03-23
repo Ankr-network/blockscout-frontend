@@ -15,36 +15,40 @@ const CACHE_COUNT_LIMIT = 2000;
 const IS_LOG_ENABLED = false;
 
 /**
- * Class to get blocks by hashes. It uses cache to avoid unnecessary requests.
+ * Class to get blocks by blockNumber. It uses cache to avoid unnecessary requests.
  *
  * @class
  * @example
  * const getBlocksManager = new GetBlocksManager();
- * const blocks = await getBlocksManager.getBlocks(web3, blocksHashes);
+ * const blocks = await getBlocksManager.getBlocks(web3, blockNumbers);
  */
 export class GetBlocksManager {
   /**
    * Cache for blocks.
    *
-   * @type {Record<string, BlockTransactionObject>}
+   * @type {Record<number, BlockTransactionObject>}
    * @private
    */
-  private cachedBlocks: Record<string, BlockTransactionObject> = {};
+  private cachedBlocks: Record<number, BlockTransactionObject> = {};
 
   /**
-   * Internal function to get blocks by hashes. It uses cache to avoid unnecessary requests.
+   * Internal function to get blocks by block number. It uses cache to avoid unnecessary requests.
    *
    * @public
    * @param  {Web3}  web3 - web3 instance.
-   * @param  {string[]}  blocksHashes - blocks hashes to get.
+   * @param  {number[]}  blockNumbers - block numbers to get.
    * @return  {Promise<BlockTransactionObject[]>}  blocks data.
    */
   public async getBlocks(
     web3: Web3,
-    blocksHashes: string[],
+    blockNumbers: number[],
   ): Promise<BlockTransactionObject[]> {
-    const blocksFromCache = this.getBlocksFromCache(blocksHashes);
-    const isAllBlocksFromCache = blocksFromCache.length === blocksHashes.length;
+    if (!blockNumbers.length) {
+      return [];
+    }
+
+    const blocksFromCache = this.getBlocksFromCache(blockNumbers);
+    const isAllBlocksFromCache = blocksFromCache.length === blockNumbers.length;
 
     this.log(
       'cachedBlocks in the beginning:',
@@ -56,16 +60,16 @@ export class GetBlocksManager {
       return blocksFromCache;
     }
 
-    // We are collecting blocks hashes to get from blockchain.
-    const blocksHashesToGet = blocksHashes.filter(
-      blockHash => !this.cachedBlocks[blockHash],
+    // We are collecting blocks numbers to get from blockchain.
+    const blockNumbersToGet = blockNumbers.filter(
+      blockNumber => !this.cachedBlocks[blockNumber],
     );
 
-    const calls = blocksHashesToGet.map(
-      blockHash => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
+    const calls = blockNumbersToGet.map(
+      blockNumber => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
-        web3.eth.getBlock.request(blockHash, false, callback),
+        web3.eth.getBlock.request(blockNumber, false, callback),
     );
 
     const blocks = await this.executeBatchCalls<BlockTransactionObject>(
@@ -85,20 +89,25 @@ export class GetBlocksManager {
   }
 
   /**
-   * Returns blocks from cache by specified hashes.
+   * Returns blocks from cache by specified numbers.
    *
    * @private
-   * @param {string[]} blocksHashes - blocks hashes
+   * @param {number[]} blocksNumbers - blocks numbers
    * @return  {BlockTransactionObject[]} blocks data.
    */
-  private getBlocksFromCache(blocksHashes: string[]): BlockTransactionObject[] {
-    return blocksHashes.reduce<BlockTransactionObject[]>((acc, blockHash) => {
-      if (this.cachedBlocks[blockHash]) {
-        acc.push(this.cachedBlocks[blockHash]);
-      }
+  private getBlocksFromCache(
+    blocksNumbers: number[],
+  ): BlockTransactionObject[] {
+    return blocksNumbers.reduce<BlockTransactionObject[]>(
+      (acc, blockNumber) => {
+        if (this.cachedBlocks[blockNumber]) {
+          acc.push(this.cachedBlocks[blockNumber]);
+        }
 
-      return acc;
-    }, []);
+        return acc;
+      },
+      [],
+    );
   }
 
   /**
@@ -112,7 +121,7 @@ export class GetBlocksManager {
     this.optimizeCachedBlocks(blocks.length);
 
     blocks.forEach(block => {
-      this.cachedBlocks[block.hash] = block;
+      this.cachedBlocks[block.number] = block;
     });
   }
 
@@ -134,7 +143,7 @@ export class GetBlocksManager {
       this.log('limit reached, removing keys count', keysToRemove.length);
 
       keysToRemove.forEach(key => {
-        delete this.cachedBlocks[key];
+        delete this.cachedBlocks[+key];
       });
     }
   }

@@ -17,11 +17,13 @@ import {
   configFromEnv,
   Env,
   ETH_SCALE_FACTOR,
+  getIsSameReadProvider,
   isMainnet,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
 } from '../common';
+import { GetBlocksManager } from '../common/GetBlocksManager';
 import { AFTMB_ABI, AFTMC_ABI, FANTOM_POOL_ABI } from '../contracts';
 import {
   getFilteredContractEvents,
@@ -31,6 +33,9 @@ import {
   IStakable,
   IStakeData,
   ITxEventsHistoryData,
+  ITxHistory,
+  ITxHistoryEventData,
+  ITxHistoryItem,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { batchEvents } from '../utils';
@@ -41,6 +46,7 @@ import {
   FANTOM_ESTIMATE_GAS_MULTIPLIER,
   FANTOM_GAS_FEE_MULTIPLIER,
   FANTOM_MAX_BLOCK_RANGE,
+  FANTOM_POOL_START_BLOCK,
   FANTOM_PROVIDER_READ_ID,
 } from './const';
 import {
@@ -58,7 +64,10 @@ import {
  *
  * @class
  */
-export class FantomSDK implements ISwitcher, IStakable {
+export class FantomSDK
+  extends GetBlocksManager
+  implements ISwitcher, IStakable
+{
   /**
    * instance — SDK instance.
    *
@@ -118,6 +127,7 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @private
    */
   private constructor({ readProvider, writeProvider, apiUrl }: IFantomSDKArgs) {
+    super();
     FantomSDK.instance = this;
     const { gatewayConfig } = configFromEnv(
       isMainnet ? Env.Production : Env.Develop,
@@ -151,13 +161,21 @@ export class FantomSDK implements ISwitcher, IStakable {
         providerManager.getETHReadProvider(FANTOM_PROVIDER_READ_ID),
     ]);
 
-    const addrHasNotBeenUpdated =
+    const isAddrActual =
       FantomSDK.instance?.currentAccount === writeProvider.currentAccount;
-    const hasNewProvider =
-      FantomSDK.instance?.writeProvider === writeProvider &&
-      FantomSDK.instance?.readProvider === readProvider;
 
-    if (FantomSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
+    const isSameWriteProvider =
+      FantomSDK.instance?.writeProvider === writeProvider;
+
+    const isSameReadProvider = getIsSameReadProvider(
+      FantomSDK.instance?.readProvider,
+      readProvider,
+    );
+
+    const isInstanceActual =
+      isAddrActual && isSameWriteProvider && isSameReadProvider;
+
+    if (FantomSDK.instance && isInstanceActual) {
       return FantomSDK.instance;
     }
 
@@ -231,7 +249,9 @@ export class FantomSDK implements ISwitcher, IStakable {
    * @returns {BigNumber}
    */
   private convertFromWei(amount: string): BigNumber {
-    return new BigNumber(this.readProvider.getWeb3().utils.fromWei(amount));
+    const integerAmount = new BigNumber(amount).integerValue().toFixed();
+    const web3 = this.readProvider.getWeb3();
+    return new BigNumber(web3.utils.fromWei(integerAmount));
   }
 
   /**
@@ -280,8 +300,118 @@ export class FantomSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Get transaction history for all period that starts from contract creation.
+   *
+   * @note Amount of certificate event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @public
+   * @return  {Promise<ITxHistory>} full transaction history.
+   */
+  public async getFullTxHistory(): Promise<ITxHistory> {
+    const latestBlockNumber = await this.getLatestBlock();
+
+    const { stakeHistory, unstakeHistory } = await this.getTxHistoryRange(
+      FANTOM_POOL_START_BLOCK,
+      latestBlockNumber,
+    );
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
+   * Get transaction history for block range.
+   *
+   * @note Amount of each event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @param {number} from - from block number
+   * @param {number} to - to block number
+   * @returns {Promise<ITxHistory>} - transaction history
+   */
+  public async getTxHistoryRange(
+    from: number,
+    to: number,
+  ): Promise<ITxHistory> {
+    const provider = await this.getProvider();
+    const fantomPoolContract = this.getFantomPoolContract(provider);
+
+    const getStakePastEventsArgs: IGetPastEvents = {
+      latestBlockNumber: to,
+      startBlock: from,
+      contract: fantomPoolContract,
+      eventName: EFantomPoolEvents.StakeReceived,
+      filter: { staker: this.currentAccount },
+      provider,
+      rangeStep: FANTOM_MAX_BLOCK_RANGE,
+    };
+
+    const stakeRawEvents = await this.getPastEvents(getStakePastEventsArgs);
+
+    const unstakeRawEvents = await this.getPastEvents({
+      ...getStakePastEventsArgs,
+      eventName: EFantomPoolEvents.TokensBurned,
+    });
+
+    const stakeHistory = await this.getTxEventsHistoryGroup(stakeRawEvents);
+    const unstakeHistory = await this.getTxEventsHistoryGroup(unstakeRawEvents);
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
+   * Internal function to return transaction history group from events.
+   *
+   * @private
+   * @param {EventData[]} [rawEvents] - events
+   * @returns {Promise<ITxHistoryItem[]>}
+   */
+  private async getTxEventsHistoryGroup(
+    rawEvents?: EventData[],
+  ): Promise<ITxHistoryItem[]> {
+    if (!Array.isArray(rawEvents) || !rawEvents.length) {
+      return [];
+    }
+
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const blockNumbers = rawEvents.map(event => event.blockNumber);
+
+    const blocks = await this.getBlocks(web3, blockNumbers);
+
+    const rawData = blocks.map<ITxHistoryEventData>((block, index) => ({
+      ...rawEvents[index],
+      timestamp: +block.timestamp,
+    }));
+
+    return rawData
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .map<ITxHistoryItem>(
+        ({
+          event,
+          returnValues = { amount: '0' },
+          timestamp,
+          transactionHash,
+        }) => ({
+          txAmount: this.convertFromWei(returnValues.amount),
+          txDate: new Date(timestamp * 1_000),
+          txHash: transactionHash,
+          txType: event,
+          isBond: returnValues.isRebasing,
+        }),
+      );
+  }
+
+  /**
    * Get transaction history.
    *
+   * @deprecated Use `getTxHistory` instead. This method will be removed.
    * @public
    * @note Currently returns data for the last 7 days.
    * @returns {Promise<ITxEventsHistoryData>}
@@ -311,6 +441,7 @@ export class FantomSDK implements ISwitcher, IStakable {
   /**
    * Get transaction history.
    *
+   * @deprecated Use `getTxHistoryRange` instead. This method will be removed.
    * @public
    * @note Currently returns data for block range.
    * @param {number} from - from block
@@ -491,14 +622,16 @@ export class FantomSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    return flatten(await batchEvents({
-      contract,
-      eventName,
-      rangeStep,
-      startBlock,
-      filter,
-      latestBlockNumber,
-    }));
+    return flatten(
+      await batchEvents({
+        contract,
+        eventName,
+        rangeStep,
+        startBlock,
+        filter,
+        latestBlockNumber,
+      }),
+    );
   }
 
   /**

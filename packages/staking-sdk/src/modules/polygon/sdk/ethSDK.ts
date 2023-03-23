@@ -3,14 +3,12 @@ import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-core';
-import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
-  TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
@@ -21,11 +19,14 @@ import {
   configFromEnv,
   ETH_NETWORK_BY_ENV,
   ETH_SCALE_FACTOR,
+  getIsSameReadProvider,
+  isMainnet,
   MAX_UINT256,
   MAX_UINT256_SCALE,
   ProviderManagerSingleton,
   ZERO,
 } from '../../common';
+import { GetBlocksManager } from '../../common/GetBlocksManager';
 import ABI_AMATICB from '../../contracts/aMATICb.json';
 import ABI_AMATICC from '../../contracts/aMATICc.json';
 import ABI_ERC20 from '../../contracts/IERC20.json';
@@ -39,8 +40,9 @@ import {
   IStakable,
   IStakeData,
   ITxEventsHistoryData,
-  ITxEventsHistoryGroupItem,
+  ITxHistory,
   ITxHistoryEventData,
+  ITxHistoryItem,
 } from '../../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../../switcher';
 import { batchEvents, convertNumberToHex } from '../../utils';
@@ -48,6 +50,7 @@ import {
   MATIC_ETH_BLOCK_2_WEEKS_OFFSET,
   MATIC_ON_ETH_PROVIDER_READ_ID,
   MAX_BLOCK_RANGE,
+  POOL_CONTRACT_START_BLOCK,
 } from '../const';
 import {
   EMaticSDKErrorCodes,
@@ -64,7 +67,10 @@ import {
  *
  * @class
  */
-export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
+export class PolygonOnEthereumSDK
+  extends GetBlocksManager
+  implements ISwitcher, IStakable
+{
   /**
    * instance — SDK instance.
    *
@@ -128,6 +134,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     readProvider,
     apiUrl,
   }: IPolygonSDKArgs) {
+    super();
     PolygonOnEthereumSDK.instance = this;
     const config = configFromEnv();
 
@@ -159,18 +166,22 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
         providerManager.getETHReadProvider(MATIC_ON_ETH_PROVIDER_READ_ID),
     ])) as unknown as [Web3KeyWriteProvider, Web3KeyReadProvider];
 
-    const addressHasNotBeenUpdated =
+    const isAddrActual =
       PolygonOnEthereumSDK.instance?.currentAccount ===
       writeProvider.currentAccount;
-    const hasNewProvider =
-      PolygonOnEthereumSDK.instance?.writeProvider === writeProvider &&
-      PolygonOnEthereumSDK.instance?.readProvider === readProvider;
 
-    if (
-      PolygonOnEthereumSDK.instance &&
-      addressHasNotBeenUpdated &&
-      hasNewProvider
-    ) {
+    const isSameWriteProvider =
+      PolygonOnEthereumSDK.instance?.writeProvider === writeProvider;
+
+    const isSameReadProvider = getIsSameReadProvider(
+      PolygonOnEthereumSDK.instance?.readProvider,
+      readProvider,
+    );
+
+    const isInstanceActual =
+      isAddrActual && isSameWriteProvider && isSameReadProvider;
+
+    if (PolygonOnEthereumSDK.instance && isInstanceActual) {
       return PolygonOnEthereumSDK.instance;
     }
 
@@ -361,7 +372,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * @returns {Promise<EventData[]>}
    */
   private async getPastEvents(options: IGetPastEvents): Promise<EventData[]> {
-    return advancedAPIConfig.isActiveForPolygon
+    return advancedAPIConfig.isActiveForEth
       ? this.getPastEventsAPI(options)
       : this.getPastEventsBlockchain(options);
   }
@@ -387,7 +398,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       apiUrl: this.apiUrl,
       fromBlock: startBlock,
       toBlock: latestBlockNumber,
-      blockchain: 'eth',
+      blockchain: isMainnet ? 'eth' : 'eth_goerli',
       contract,
       web3,
       eventName,
@@ -410,58 +421,57 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    return flatten(await batchEvents({
-      contract,
-      eventName,
-      rangeStep,
-      startBlock,
-      filter,
-      latestBlockNumber,
-    }));
+    return flatten(
+      await batchEvents({
+        contract,
+        eventName,
+        rangeStep,
+        startBlock,
+        filter,
+        latestBlockNumber,
+      }),
+    );
   }
 
   /**
    * Internal function to return transaction history group from events.
-   * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
    * @param {EventData[]} [rawEvents] - events
-   * @returns {Promise<ITxEventsHistoryGroupItem[]>}
+   * @returns {Promise<ITxHistoryItem[]>}
    */
   private async getTxEventsHistoryGroup(
     rawEvents?: EventData[],
-  ): Promise<ITxEventsHistoryGroupItem[]> {
+  ): Promise<ITxHistoryItem[]> {
     if (!Array.isArray(rawEvents) || !rawEvents.length) {
       return [];
     }
 
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
+    const blockNumbers = rawEvents.map(event => event.blockNumber);
 
-    const calls = rawEvents.map(
-      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
-        web3.eth.getBlock.request(event.blockHash, false, callback),
-    );
-
-    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
-      calls,
-    );
+    const blocks = await this.getBlocks(web3, blockNumbers);
 
     const rawData: ITxHistoryEventData[] = blocks.map((block, index) => ({
       ...rawEvents[index],
-      timestamp: block.timestamp as number,
+      timestamp: +block.timestamp,
     }));
 
     return rawData
       .sort((a, b) => b.timestamp - a.timestamp)
-      .map(
-        ({ event, returnValues: { amount }, timestamp, transactionHash }) => ({
-          txAmount: this.convertFromWei(amount),
+      .map<ITxHistoryItem>(
+        ({
+          event,
+          returnValues = { amount: '0' },
+          timestamp,
+          transactionHash,
+        }) => ({
+          txAmount: this.convertFromWei(returnValues.amount),
           txDate: new Date(timestamp * 1_000),
           txHash: transactionHash,
           txType: this.getTxType(event),
+          isBond: returnValues.isRebasing,
         }),
       );
   }
@@ -490,7 +500,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
 
     const amountHex = convertNumberToHex(
       amount,
-      amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale
+      amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale,
     );
 
     return maticTokenContract.methods
@@ -626,10 +636,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     const { contractConfig } = configFromEnv();
 
     const allowance = await maticTokenContract.methods
-      .allowance(
-        this.currentAccount,
-        contractConfig.polygonPool,
-      )
+      .allowance(this.currentAccount, contractConfig.polygonPool)
       .call();
 
     return this.convertFromWei(allowance);
@@ -661,7 +668,10 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
     const maxScale = amount.isEqualTo(MAX_UINT256) ? 1 : scale;
 
     const data = aMaticCTokenContract.methods
-      .approve(contractConfig.aMaticbToken, convertNumberToHex(amount, maxScale))
+      .approve(
+        contractConfig.aMaticbToken,
+        convertNumberToHex(amount, maxScale),
+      )
       .encodeABI();
 
     return this.writeProvider.sendTransactionAsync(
@@ -874,7 +884,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
       filter: { staker: this.currentAccount },
     });
 
-    const ratio = await this.getACRatio()
+    const ratio = await this.getACRatio();
 
     return {
       stakeRawEvents,
@@ -885,9 +895,76 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Get transaction history for all period that starts from contract creation.
+   *
+   * @note Amount of certificate event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @public
+   * @return  {Promise<ITxHistory>} full transaction history.
+   */
+  public async getFullTxHistory(): Promise<ITxHistory> {
+    const latestBlockNumber = await this.getLatestBlock();
+
+    const { stakeHistory, unstakeHistory } = await this.getTxHistoryRange(
+      POOL_CONTRACT_START_BLOCK,
+      latestBlockNumber,
+    );
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
+   * Get transaction history for block range.
+   *
+   * @note Amount of each event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @param {number} from - from block number
+   * @param {number} to - to block number
+   * @returns {Promise<ITxHistory>} - transaction history
+   */
+  public async getTxHistoryRange(
+    from: number,
+    to: number,
+  ): Promise<ITxHistory> {
+    const polygonPoolContract = await this.getPolygonPoolContract(true);
+
+    const getStakePastEventsArgs: IGetPastEvents = {
+      latestBlockNumber: to,
+      startBlock: from,
+      contract: polygonPoolContract,
+      eventName: EPolygonPoolEvents.StakePendingV2,
+      filter: { staker: this.currentAccount },
+      provider: this.readProvider,
+      rangeStep: MAX_BLOCK_RANGE,
+    };
+
+    const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
+      this.getPastEvents(getStakePastEventsArgs),
+      this.getPastEvents({
+        ...getStakePastEventsArgs,
+        eventName: EPolygonPoolEvents.TokensBurned,
+      }),
+    ]);
+
+    const stakeHistory = await this.getTxEventsHistoryGroup(stakeRawEvents);
+    const unstakeHistory = await this.getTxEventsHistoryGroup(unstakeRawEvents);
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
    * Get transaction history.
    *
    * @public
+   * @deprecated Use `getTxHistory` instead. This method will be removed.
    * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
@@ -906,6 +983,7 @@ export class PolygonOnEthereumSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
+   * @deprecated Use `getTxHistoryRange` instead. This method will be removed.
    * @note Currently returns data for block range.
    * @param {number} from - from block
    * @param {number} to - to block

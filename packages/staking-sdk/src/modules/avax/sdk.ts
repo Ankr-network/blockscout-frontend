@@ -16,13 +16,13 @@ import {
   advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
+  GetBlocksManager,
   getIsSameReadProvider,
   isMainnet,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
 } from '../common';
-import { GetBlocksManager } from '../common/GetBlocksManager';
 import { AAVAXB_ABI, AAVAXC_ABI, AVALANCHE_POOL_ABI } from '../contracts';
 import {
   getFilteredContractEvents,
@@ -318,7 +318,6 @@ export class AvalancheSDK
 
   /**
    * Internal function to return transaction history group from events.
-   * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
    * @param {EventData[]} [rawEvents] - events
@@ -333,9 +332,9 @@ export class AvalancheSDK
 
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
-    const blocksHashes = rawEvents.map(event => event.blockHash);
+    const blockNumbers = rawEvents.map(event => event.blockNumber);
 
-    const blocks = await this.getBlocks(web3, blocksHashes);
+    const blocks = await this.getBlocks(web3, blockNumbers);
 
     const rawData = blocks.map<ITxHistoryEventData>((block, index) => ({
       ...rawEvents[index],

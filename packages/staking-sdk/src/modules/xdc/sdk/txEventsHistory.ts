@@ -1,7 +1,6 @@
-import { BlockTransactionObject } from 'web3-eth';
 import { EventData } from 'web3-eth-contract';
 
-import { TWeb3BatchCallback, Web3KeyReadProvider } from '@ankr.com/provider';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import {
   currentEnv,
@@ -10,17 +9,21 @@ import {
   ITxEventsHistoryRangeProps,
   IWeb3TxEventsHistoryGroupProps,
 } from '../../common';
+import { GetBlocksManager } from '../../common/GetBlocksManager';
 import {
   getFilteredContractEvents,
   ITxEventsHistoryData,
-  ITxEventsHistoryGroupItem,
+  ITxHistory,
   ITxHistoryEventData,
+  ITxHistoryItem,
 } from '../../stake';
 import { XDC_BLOCK_1_DAY_RANGE } from '../const';
 import { EXDCStakingPoolEvents } from '../types';
 
 import { getXDCStakingPoolContract } from './contracts';
 import { getPendingUnstakesAmount } from './getPendingUnstakesAmount';
+
+const blockManager = new GetBlocksManager();
 
 /**
  * Get transaction history group from events.
@@ -33,7 +36,7 @@ export const getTxEventsHistoryGroup = async ({
   provider,
   rawEvents,
 }: IWeb3TxEventsHistoryGroupProps<Web3KeyReadProvider>): Promise<
-  ITxEventsHistoryGroupItem[]
+  ITxHistoryItem[]
 > => {
   if (!Array.isArray(rawEvents) || !rawEvents.length) {
     return [];
@@ -41,16 +44,9 @@ export const getTxEventsHistoryGroup = async ({
 
   const web3 = provider.getWeb3();
 
-  const calls = rawEvents.map(
-    event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
-      web3.eth.getBlock.request(event.blockNumber, false, callback),
-  );
+  const blockNumbers = rawEvents.map(event => event.blockNumber);
 
-  const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
-    calls,
-  );
+  const blocks = await blockManager.getBlocks(web3, blockNumbers);
 
   const rawData: ITxHistoryEventData[] = blocks.map((block, index) => ({
     ...rawEvents[index],
@@ -59,19 +55,22 @@ export const getTxEventsHistoryGroup = async ({
 
   return rawData
     .sort((a, b) => b.timestamp - a.timestamp)
-    .map(({ event, returnValues: { shares }, timestamp, transactionHash }) => ({
+    .map(({ event, returnValues, timestamp, transactionHash }) => ({
       txAmount: getWeb3ReadableAmountFromWei<Web3KeyReadProvider>({
-        amount: shares,
+        amount: returnValues.shares,
         provider,
       }),
       txDate: new Date(timestamp * 1_000),
       txHash: transactionHash,
       txType: event ?? null,
+      isBond: returnValues.isRebasing,
     }));
 };
 
 /**
  * Get transaction history for block range.
+ *
+ * @deprecated use `getTxHistoryRange` instead
  *
  * @param {string} address - current user address
  * @param {Env | undefined} [env = currentEnv] - current selected environment
@@ -183,5 +182,68 @@ export const getTxEventsHistoryRange = async ({
     pendingCertificate,
     unstakeBond: [],
     unstakeCertificate,
+  };
+};
+
+/**
+ * Get transaction history for block range.
+ *
+ * @param {string} address - current user address
+ * @param {Env | undefined} [env = currentEnv] - current selected environment
+ * @param {number} from - from block number
+ * @param {Web3KeyReadProvider} provider - current selected provider
+ * @param {number} to - to block number
+ * @returns {Promise<ITxEventsHistoryData>}
+ */
+export const getTxHistoryRange = async ({
+  address,
+  env = currentEnv,
+  from,
+  provider,
+  to,
+}: ITxEventsHistoryRangeProps<Web3KeyReadProvider>): Promise<ITxHistory> => {
+  const xdcStakingPoolContract = getXDCStakingPoolContract({
+    env,
+    provider,
+  });
+
+  const stakeRawEvents = await getWeb3PastEventsFromBlockchainByRange({
+    contract: xdcStakingPoolContract,
+    eventName: EXDCStakingPoolEvents.Staked,
+    filter: {
+      staker: address,
+    },
+    latestBlockNumber: to,
+    provider,
+    rangeStep: XDC_BLOCK_1_DAY_RANGE,
+    startBlock: from,
+  });
+
+  const unstakeRawEvents = await getWeb3PastEventsFromBlockchainByRange({
+    contract: xdcStakingPoolContract,
+    eventName: EXDCStakingPoolEvents.Unstaked,
+    filter: {
+      ownerAddress: address,
+      receiverAddress: address,
+    },
+    latestBlockNumber: to,
+    provider,
+    rangeStep: XDC_BLOCK_1_DAY_RANGE,
+    startBlock: from,
+  });
+
+  const stakeHistory = await getTxEventsHistoryGroup({
+    provider,
+    rawEvents: stakeRawEvents,
+  });
+
+  const unstakeHistory = await getTxEventsHistoryGroup({
+    provider,
+    rawEvents: unstakeRawEvents,
+  });
+
+  return {
+    stakeHistory,
+    unstakeHistory,
   };
 };
