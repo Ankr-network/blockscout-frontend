@@ -30,9 +30,11 @@ export const useDeleteProject = (
         setDeleteProjectStep(DeleteProjectStep.failed);
       } else {
         setDeleteProjectStep(DeleteProjectStep.initial);
+
         if (viewTokenIndex === selectTokenIndex) {
           setSelectedIndex(0);
         }
+
         onClose();
       }
 

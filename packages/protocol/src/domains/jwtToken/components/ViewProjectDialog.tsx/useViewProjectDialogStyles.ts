@@ -18,7 +18,7 @@ export const useViewProjectDialogStyles = makeStyles()(theme => ({
     fontSize: 16,
     lineHeight: '24px',
     fontWeight: 700,
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(5),
   },
   filed: {
     marginBottom: theme.spacing(5),

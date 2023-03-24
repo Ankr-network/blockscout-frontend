@@ -17,23 +17,36 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
+interface FetchPrivateStatsParams {
+  interval: PrivateStatsInterval;
+  userEndpointToken?: string;
+}
+
 export const {
   endpoints: { chainsFetchPrivateStats },
   useChainsFetchPrivateStatsQuery,
   useLazyChainsFetchPrivateStatsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchPrivateStats: build.query<PrivateStats, PrivateStatsInterval>({
-      queryFn: createNotifyingQueryFn(async (interval, { getState }) => {
-        await authorizationGuard(getState as GetState);
-        const service = MultiService.getService();
+    chainsFetchPrivateStats: build.query<PrivateStats, FetchPrivateStatsParams>(
+      {
+        queryFn: createNotifyingQueryFn(
+          async ({ interval, userEndpointToken }, { getState }) => {
+            await authorizationGuard(getState as GetState);
+            const service = MultiService.getService();
+            const accountGateway = service.getAccountGateway();
 
-        const data = await service
-          .getAccountGateway()
-          .getPrivateStats(interval);
+            const data = await (userEndpointToken
+              ? accountGateway.getPrivateStatsByPremiumId(
+                  interval,
+                  userEndpointToken,
+                )
+              : accountGateway.getPrivateStats(interval));
 
-        return { data: getPrivateStats(data) };
-      }),
-    }),
+            return { data: getPrivateStats(data) };
+          },
+        ),
+      },
+    ),
   }),
 });

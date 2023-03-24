@@ -2,19 +2,13 @@ import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
-import { ContentType, Item, Title } from './types';
+import { Item, Title } from './types';
 import { MAIL_TO_SALES, PRICING_PATH } from 'domains/pricing/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
 export const intlRoot = 'chain-item-dialog';
 
 export const DIALOG_BREAKDOWN = 840;
-
-export const dialogTitlesMap: Record<ContentType, string> = {
-  [ContentType.DEFAULT]: '',
-  [ContentType.SIGN_UP]: 'Login to continue',
-  [ContentType.TOP_UP]: t('account.account-details.top-up.title'),
-};
 
 const freeItem: Item = {
   hasIntro: false,

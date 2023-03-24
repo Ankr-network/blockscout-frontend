@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { t } from '@ankr.com/common';
 
 import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { useCostButtonStyles } from './CostButtonStyles';
-import { t } from '@ankr.com/common';
 
 export const CostButton = () => {
   const { classes } = useCostButtonStyles();
@@ -14,6 +14,7 @@ export const CostButton = () => {
       component={NavLink}
       to={PATH_ACCOUNT}
       variant="text"
+      size="large"
     >
       {t('chain-item.usage-data.usage-summary.billing-button')}
     </Button>
