@@ -11,7 +11,9 @@ export const usePrivateChainItemQuery = (chainId: string) => {
     useLazyChainsFetchPrivateChainQuery();
 
   useEffect(() => {
-    fetchPrivateChain({ chainId: chainId as ChainID, userEndpointToken });
+    if (userEndpointToken) {
+      fetchPrivateChain({ chainId: chainId as ChainID, userEndpointToken });
+    }
   }, [chainId, userEndpointToken, fetchPrivateChain]);
 
   return fetchChainState;
