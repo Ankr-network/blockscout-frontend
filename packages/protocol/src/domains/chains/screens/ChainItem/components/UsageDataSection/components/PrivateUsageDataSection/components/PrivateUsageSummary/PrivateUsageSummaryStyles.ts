@@ -4,14 +4,14 @@ import { makeStyles } from 'tss-react/mui';
 export const useUsageSummaryStyles = makeStyles()((theme: Theme) => ({
   usageSummary: {
     display: 'flex',
-    flexDirection: 'column',
-
     width: '100%',
-    padding: theme.spacing(2 * 3.75),
+    gap: theme.spacing(2 * 3.75),
+    margin: theme.spacing(2 * 1.5, 0),
 
-    borderRadius: 24,
-
-    backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      gap: theme.spacing(2 * 2),
+    },
   },
   stat: {
     flex: 1,

@@ -4,7 +4,11 @@ import { Payload } from 'recharts/types/component/DefaultLegendContent';
 
 import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
 import { Timeframe } from 'domains/chains/types';
-import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
+
+export type TopRequestsResultData = {
+  list: string[];
+  data: PrivateStatTopRequestsData[];
+};
 
 export const useStakeBarChart = (
   result: TopRequestsResultData,

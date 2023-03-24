@@ -221,6 +221,9 @@
     "view-project": {
       "button": "Done",
       "delete-project": "Delete project"
+    },
+    "select": {
+      "all-projects": "All projects"
     }
   },
   "chain-item-dialog": {

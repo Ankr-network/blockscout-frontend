@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 
-import { CostButton } from './components/CostButton';
 import { Stat } from './components/Stat';
 import { Timeframe } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
@@ -40,12 +39,7 @@ export const PrivateUsageSummary = ({
     <div className={cx(className, classes.usageSummary)}>
       <Stat loading={loading} title={totalTitle} value={total} />
       <Stat loading={loading} title={averageTitle} value={average} />
-      <Stat
-        extra={<CostButton />}
-        loading={loading}
-        title={costTitle}
-        value={cost}
-      />
+      <Stat loading={loading} title={costTitle} value={cost} />
     </div>
   );
 };
