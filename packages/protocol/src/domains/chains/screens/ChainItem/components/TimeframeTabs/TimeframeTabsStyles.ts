@@ -5,10 +5,11 @@ export const useTimeframeTabsStyles = makeStyles()((theme: Theme) => ({
   timeframeTabs: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     gap: theme.spacing(2 * 0.25),
 
     border: `2px solid ${theme.palette.divider}`,
-    borderRadius: 15,
+    borderRadius: 11,
 
     backgroundColor: theme.palette.grey[100],
   },
