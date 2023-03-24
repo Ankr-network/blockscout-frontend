@@ -15,7 +15,7 @@ export const {
 
           await service.deleteJwtToken(tokenIndex);
 
-          dispatch(fetchAllJwtTokenRequests.initiate());
+          dispatch(fetchAllJwtTokenRequests.initiate(undefined));
 
           return { data: null };
         },
