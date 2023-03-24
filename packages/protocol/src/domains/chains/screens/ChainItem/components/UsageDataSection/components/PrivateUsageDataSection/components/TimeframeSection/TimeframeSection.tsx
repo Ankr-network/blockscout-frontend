@@ -25,6 +25,7 @@ export const TimeframeSection = ({
         <ProjectSelect />
         <TimeframeTabs
           className={classes.timeframe}
+          tabClassName={classes.tab}
           tabs={tabs}
           timeframe={timeframe}
           size={TabSize.Medium}

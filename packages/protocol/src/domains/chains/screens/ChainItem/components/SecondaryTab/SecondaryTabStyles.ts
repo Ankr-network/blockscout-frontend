@@ -18,7 +18,7 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
         fontSize: theme.spacing(2 * 2),
         lineHeight: theme.spacing(2 * 3),
         height: 44,
-        borderRadius: 15,
+        borderRadius: theme.spacing(3),
 
         [theme.breakpoints.down('lg')]: {
           padding: theme.spacing(2 * 0.5, 2 * 2),

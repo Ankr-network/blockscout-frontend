@@ -20,6 +20,13 @@ export const useTimeframeSectionStyles = makeStyles()((theme: Theme) => ({
     },
   },
   timeframe: {
-    borderRadius: 17,
+    '&&': {
+      borderRadius: 17,
+    },
+  },
+  tab: {
+    '&&': {
+      borderRadius: 15,
+    },
   },
 }));
