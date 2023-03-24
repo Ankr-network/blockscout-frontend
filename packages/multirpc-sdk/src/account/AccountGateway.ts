@@ -146,6 +146,20 @@ export class AccountGateway {
     return data;
   }
 
+  async getPrivateStatsByPremiumId(
+    intervalType: PrivateStatsInterval,
+    premiumID: string,
+  ): Promise<PrivateStats> {
+    const { data } = await this.api.get<PrivateStats>(
+      `/api/v1/auth/statsPremiumID`,
+      {
+        params: { intervalType, premiumID },
+      },
+    );
+
+    return data;
+  }
+
   async getFreeRegisteredUserRequests(
     timeframe: Timeframe,
     userToken: string,

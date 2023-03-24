@@ -1,14 +1,10 @@
 import { useCallback } from 'react';
-import { t } from '@ankr.com/common';
 import { Button, Typography } from '@mui/material';
-
 import { Warning } from '@ankr.com/ui';
+
 import { useCardStyles } from './useCardStyles';
-import {
-  jwtTokenIntlRoot,
-  PRIMARY_TOKEN_INDEX,
-  renderToken,
-} from 'domains/jwtToken/utils/utils';
+import { renderToken } from 'domains/jwtToken/utils/utils';
+import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 
 interface ICardProps {
   isSelected: boolean;
@@ -50,9 +46,7 @@ export const Card = ({
       onClick={handleSelect}
     >
       <Typography className={classes.name}>
-        {tokenIndex === PRIMARY_TOKEN_INDEX
-          ? t(`${jwtTokenIntlRoot}.default-project-name`)
-          : t(`${jwtTokenIntlRoot}.additional`, { index: tokenIndex })}
+        {renderProjectName(tokenIndex)}
       </Typography>
       <div className={classes.row}>
         <Typography className={classes.token}>

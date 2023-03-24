@@ -34,6 +34,7 @@ export const PrivateChains = () => {
         />
       }
       loading={loading}
+      shouldShowReminderDialog
       baseChainsHeader={
         <BaseChainsHeader
           sortType={sortType}

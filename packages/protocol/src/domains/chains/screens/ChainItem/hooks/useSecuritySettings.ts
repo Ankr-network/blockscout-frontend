@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 import { useLazyInfrastructureFetchSecuritySettingsQuery } from 'domains/infrastructure/actions/fetchSecuritySettings';
-import { useSelectTokenSelector } from 'domains/jwtToken/hooks/useSelectTokenSelector';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
+import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
 export const useSecuritySettings = (chainId: string) => {
   const { jwtTokens } = useJwtTokenManager();
@@ -10,7 +10,7 @@ export const useSecuritySettings = (chainId: string) => {
   const [fetchSecuritySettings, state] =
     useLazyInfrastructureFetchSecuritySettingsQuery();
 
-  const { tokenIndex } = useSelectTokenSelector();
+  const { tokenIndex } = useTokenManagerConfigSelector();
 
   useEffect(() => {
     fetchSecuritySettings({

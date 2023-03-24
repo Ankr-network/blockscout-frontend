@@ -18,7 +18,7 @@ export const renderTokenReview = (token?: string) => {
   return token ? `${token.substring(0, 20)}...` : '';
 };
 
-export const getallowedAddProjectTokenIndex = (
+export const getAllowedAddProjectTokenIndex = (
   maxTokensLimit: number,
   decryptedTokens: JwtManagerToken[],
 ) => {
