@@ -1,11 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
   IUserJwtToken,
   useLazyFetchAllJwtTokenRequestsQuery,
 } from 'domains/jwtToken/action/getAllJwtToken';
-import { useEffect } from 'react';
 import {
   getAllowedAddProjectTokenIndex,
   PRIMARY_TOKEN_INDEX,
