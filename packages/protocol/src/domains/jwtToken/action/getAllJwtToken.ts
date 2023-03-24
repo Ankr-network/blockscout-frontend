@@ -5,11 +5,16 @@ import { RootState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { formatJwtTokensAndDecrypt } from './getAllJwtTokenUtils';
-import { getSortedJwtTokens, PRIMARY_TOKEN_INDEX } from '../utils/utils';
+import {
+  getSortedJwtTokens,
+  PRIMARY_TOKEN_INDEX,
+  MINIMAL_TOKENS_LIMIT,
+} from '../utils/utils';
 
 export interface IUserJwtToken {
   jwtTokens: JwtManagerToken[];
   maxTokensLimit: number;
+  shouldShowTokenManager: boolean;
 }
 
 export const {
@@ -20,9 +25,9 @@ export const {
   endpoints: build => ({
     fetchAllJwtTokenRequests: build.query<IUserJwtToken, void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
-        const service = MultiService.getService().getAccountGateway();
+        const accountGateway = MultiService.getService().getAccountGateway();
 
-        const result = await service.getAllJwtToken();
+        const result = await accountGateway.getAllJwtToken();
 
         const primaryData = result.find(
           item => item.index === PRIMARY_TOKEN_INDEX,
@@ -36,7 +41,7 @@ export const {
           });
         }
 
-        const maxTokensLimit = await service.getAllowedJwtTokensCount();
+        const maxTokensLimit = await accountGateway.getAllowedJwtTokensCount();
         const state = getState() as RootState;
 
         const { workerTokenData } = selectAuthData(state);
@@ -45,10 +50,13 @@ export const {
           workerTokenData?.userEndpointToken,
         );
 
+        const shouldShowTokenManager = maxTokensLimit >= MINIMAL_TOKENS_LIMIT;
+
         return {
           data: {
             jwtTokens: getSortedJwtTokens(decryptedTokens),
             maxTokensLimit,
+            shouldShowTokenManager,
           },
         };
       }),

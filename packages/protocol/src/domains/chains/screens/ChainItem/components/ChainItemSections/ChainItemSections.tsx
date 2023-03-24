@@ -6,6 +6,7 @@ import { TabsManager } from 'uiKit/TabsManager';
 import { TimeframeTabs } from '../TimeframeTabs';
 import { useChainItemSectionsStyles } from './ChainItemSectionsStyles';
 import { useSections } from './hooks/useSections';
+import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
 export interface IChainItemTabsProps {
   chainType: ChainType;
@@ -20,6 +21,8 @@ export const ChainItemSections = ({
   group,
   unfilteredGroup,
 }: IChainItemTabsProps) => {
+  const { shouldShowTokenManager } = useTokenManagerConfigSelector();
+
   const { section, sections, timeframe, timeframeTabs } = useSections({
     chainType,
     data,
@@ -34,7 +37,7 @@ export const ChainItemSections = ({
   }
 
   const additionalContent =
-    section?.id === SectionID.UsageData ? (
+    section?.id === SectionID.UsageData && !shouldShowTokenManager ? (
       <TimeframeTabs
         className={classes.timeframe}
         tabs={timeframeTabs}

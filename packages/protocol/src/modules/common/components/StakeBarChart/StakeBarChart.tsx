@@ -17,10 +17,9 @@ import { useStakeBarChartStyles } from './useStakBarChartStyles';
 import { Tooltip as StakeBarTooltip } from './Tooltip';
 import { COLOR_LIST } from './StakeBarChartUtils';
 import { StatusCircle } from 'uiKit/StatusCircle';
-import { TopRequestsResultData } from 'domains/chains/utils/userTopRequestsUtils';
 import { Timeframe } from 'domains/chains/types';
 import { useTimeframe } from 'domains/chains/hooks/useTimeframe';
-import { useStakeBarChart } from 'modules/common/hooks/useStakeBarChart';
+import { TopRequestsResultData, useStakeBarChart } from 'modules/common';
 
 interface IStakebarProps {
   result: TopRequestsResultData;

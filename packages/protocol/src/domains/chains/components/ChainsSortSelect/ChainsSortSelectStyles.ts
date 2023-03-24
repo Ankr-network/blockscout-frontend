@@ -5,6 +5,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     border: `2px solid ${theme.palette.grey[300]}`,
     letterSpacing: '0.02em',
+    wordBreak: 'keep-all',
+    whiteSpace: 'nowrap',
 
     fontWeight: 400,
     fontSize: 11,

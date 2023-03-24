@@ -13,7 +13,19 @@ interface ISetTokenIndexPayload {
   address?: Address;
 }
 
-export type IJwtTokenManagerSlice = Record<Address, number>;
+interface ISetSelectedProjectPayload {
+  selectedProject?: string;
+  address?: Address;
+}
+
+interface ITokenManagerConfigPayload {
+  shouldShowTokenManager?: boolean;
+  selectedProject?: string;
+  address?: Address;
+  tokenIndex: number;
+}
+
+export type IJwtTokenManagerSlice = Record<Address, ITokenManagerConfigPayload>;
 
 const initialState: IJwtTokenManagerSlice = {};
 
@@ -27,12 +39,31 @@ export const jwtTokenManagerSlice = createSlice({
     ) => {
       const { tokenIndex, address = '' } = action.payload;
 
-      state[address] = tokenIndex;
+      state[address] = {
+        ...state[address],
+        address,
+        tokenIndex,
+      };
+    },
+    setSelectedProject: (
+      state,
+      action: PayloadAction<ISetSelectedProjectPayload>,
+    ) => {
+      const { address = '', selectedProject } = action.payload;
+
+      state[address] = {
+        ...state[address],
+        address,
+        selectedProject,
+      };
     },
   },
 });
 
-export const selectTokenIndex = (state: RootState, currentAccount = '') =>
-  state.jwtTokenManager[currentAccount];
+export const selectTokenManagerConfig = (
+  state: RootState,
+  currentAccount = '',
+) => state.jwtTokenManager[currentAccount] ?? {};
 
-export const { setSelectedTokenIndex } = jwtTokenManagerSlice.actions;
+export const { setSelectedTokenIndex, setSelectedProject } =
+  jwtTokenManagerSlice.actions;
