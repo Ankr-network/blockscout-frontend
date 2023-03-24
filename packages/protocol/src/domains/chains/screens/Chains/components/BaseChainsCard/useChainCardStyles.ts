@@ -71,7 +71,10 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
     timeSwitcher: {
       '&&': {
         fontSize: 12,
-        border: `2px solid ${theme.palette.background.default}`,
+      },
+      '&:hover': {
+        color: theme.palette.grey[600],
+        backgroundColor: 'inherit',
       },
     },
     skeleton: {
