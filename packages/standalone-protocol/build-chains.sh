@@ -24,7 +24,7 @@ for NAME in ${NAMES}; do
 
   if [ $NAME = polygon_zkevm ]; then
     # build version with public path
-    REACT_APP_CHAIN_ID=${NAME} node ./changeHomepage.js
+    REACT_APP_CHAIN_ID=zkevm node ./changeHomepage.js
     REACT_APP_CHAIN_ID=${NAME} REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE=true yarn build:${ENV}
     yarn postbuild
     node ./clearHomepage.js
