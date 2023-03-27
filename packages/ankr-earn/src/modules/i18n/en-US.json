@@ -688,7 +688,7 @@
     "errors": {
       "tx-receipt": "Failed to get transaction receipt",
       "tx-data": "Failed to get transaction data",
-      "add-token-to-wallet": "Failed to add {token} to wallet"
+      "add-token-to-wallet": "Failed to add token to wallet"
     }
   },
   "progress": {

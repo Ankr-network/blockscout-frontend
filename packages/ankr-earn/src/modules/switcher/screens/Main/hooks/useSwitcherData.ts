@@ -1,4 +1,4 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
@@ -6,9 +6,9 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO, ETH_SCALE_FACTOR } from 'modules/common/const';
+import { ZERO, ETH_SCALE_FACTOR, ACTION_CACHE_SEC } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { getSwitcherData } from 'modules/switcher/actions/getSwitcherData';
+import { useGetSwitcherDataQuery } from 'modules/switcher/actions/getSwitcherData';
 import {
   AvailableSwitcherToken,
   AvailableSwitchNetwork,
@@ -36,12 +36,24 @@ export const useSwitcherData = ({
   from,
 }: ISwitcherHookDataArgs): ISwitcherHookData => {
   const dispatchRequest = useDispatchRequest();
-  const { data, loading: isDataLoading } = useQuery({
-    type: getSwitcherData,
-  });
 
   const { chainId, isConnected } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
+  );
+
+  const {
+    data,
+    isFetching: isDataLoading,
+    refetch: statsRefetch,
+  } = useGetSwitcherDataQuery(
+    {
+      chainId: CHAIN_ID_BY_TOKEN[from as AvailableSwitcherToken],
+      token: from as AvailableSwitcherToken,
+    },
+    {
+      skip: !isConnected,
+      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
+    },
   );
 
   const ratio = useMemo(() => data?.ratio ?? new BigNumber(1), [data?.ratio]);
@@ -66,13 +78,7 @@ export const useSwitcherData = ({
 
   useProviderEffect(() => {
     if (!isConnected) return;
-
-    dispatchRequest(
-      getSwitcherData({
-        chainId: CHAIN_ID_BY_TOKEN[from as AvailableSwitcherToken],
-        token: from,
-      }),
-    );
+    statsRefetch();
   }, [from, dispatchRequest]);
 
   return {

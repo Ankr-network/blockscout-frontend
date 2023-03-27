@@ -1,4 +1,4 @@
-import { t } from '@ankr.com/common';
+import { getUniqueId } from '@ankr.com/common';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
@@ -46,28 +46,6 @@ export const TOKEN_ADDRESSES: Record<AvailableSwitcherToken, string> = {
   [Token.aFTMc]: fantomConfig.aftmcToken,
   [Token.aAVAXb]: avalancheConfig.aAVAXb,
   [Token.aAVAXc]: avalancheConfig.aAVAXc,
-};
-
-export const TOKEN_TOOLTIPS_FROM: Record<AvailableSwitcherToken, string> = {
-  [Token.aETHb]: t('switcher.tooltips.aETHb'),
-  [Token.aETHc]: t('switcher.tooltips.aETHb'),
-  [Token.aMATICb]: t('switcher.tooltips.aMATICb'),
-  [Token.aMATICc]: t('switcher.tooltips.aMATICb'),
-  [Token.aFTMb]: t('switcher.tooltips.aFTMb'),
-  [Token.aFTMc]: t('switcher.tooltips.aFTMb'),
-  [Token.aAVAXb]: t('switcher.tooltips.aAVAXb'),
-  [Token.aAVAXc]: t('switcher.tooltips.aAVAXb'),
-};
-
-export const TOKEN_TOOLTIPS_TO: Record<AvailableSwitcherToken, string> = {
-  [Token.aETHb]: t('switcher.tooltips.aETHc'),
-  [Token.aETHc]: t('switcher.tooltips.aETHc'),
-  [Token.aMATICb]: t('switcher.tooltips.aMATICc'),
-  [Token.aMATICc]: t('switcher.tooltips.aMATICc'),
-  [Token.aFTMb]: t('switcher.tooltips.aFTMc'),
-  [Token.aFTMc]: t('switcher.tooltips.aFTMc'),
-  [Token.aAVAXb]: t('switcher.tooltips.aAVAXc'),
-  [Token.aAVAXc]: t('switcher.tooltips.aAVAXc'),
 };
 
 export type AvailableSwitchNetwork =
@@ -172,4 +150,10 @@ export const SWITCHER_TOKENS_PAIR: Record<
   [Token.aMATICc]: Token.aMATICb,
   [Token.aFTMc]: Token.aFTMb,
   [Token.aAVAXc]: Token.aAVAXb,
+};
+
+export const POLING_INTERVAL = 5_000;
+
+export const SwitcherCacheTags = {
+  common: getUniqueId(),
 };
