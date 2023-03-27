@@ -555,5 +555,15 @@
       "Protocol": "https",
       "ReplaceKeyPrefixWith": "rpc/polygon_zkevm/"
     }
+  },
+  {
+    "Condition": {
+      "KeyPrefixEquals": "rpc/polygon/polygon_zkevm_testnet/"
+    },
+    "Redirect": {
+      "HostName": "www.ankr.com",
+      "Protocol": "https",
+      "ReplaceKeyPrefixWith": "rpc/polygon_zkevm/polygon_zkevm_testnet/"
+    }
   }
 ]
