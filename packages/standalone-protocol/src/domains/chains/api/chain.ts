@@ -25,6 +25,8 @@ export enum ChainId {
 
 export const POLYGON_ZKEVM_CHAIN_NAME = 'Polygon zkEVM';
 
+export const POLYGON_NAME = 'Polygon PoS';
+
 const STANDALONE_CHAINS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
 
 export const isStandaloneChain = (chainId: ChainId) => {
