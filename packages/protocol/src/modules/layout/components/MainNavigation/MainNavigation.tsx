@@ -14,6 +14,7 @@ interface IMainNavigationProps {
   chainsRoutes: string[];
   hasPremium: boolean;
   loading: boolean;
+  onAAPIClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
 }
@@ -22,12 +23,13 @@ export const MainNavigation = ({
   loading,
   hasPremium,
   chainsRoutes,
+  onAAPIClick,
   onDocsClick,
   onSettingsClick,
 }: IMainNavigationProps) => {
   const endpointsItems = useMemo(
-    () => getEndpointsList(chainsRoutes),
-    [chainsRoutes],
+    () => getEndpointsList(chainsRoutes, onAAPIClick),
+    [chainsRoutes, onAAPIClick],
   );
 
   const toolsItems = useMemo(() => getToolsList(), []);

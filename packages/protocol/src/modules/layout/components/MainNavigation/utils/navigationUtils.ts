@@ -21,6 +21,7 @@ export type IsActive = (match: any, location: History['location']) => boolean;
 export interface NavigationListParams {
   chainsRoutes: string[];
   hasPremium: boolean;
+  onAAPIClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
 }
@@ -37,16 +38,20 @@ const isDashboardActive = (
   return chainsRoutes.some(route => location.pathname.includes(route));
 };
 
-const getAdvancedApiList = () => [
+const getAdvancedApiList = (onAAPIClick: () => void): NavigationItem[] => [
   {
     StartIcon: AdvancedApi,
     ActiveIcon: AdvancedApi,
     href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
     label: t('main-navigation.advanced-api'),
+    onClick: onAAPIClick,
   },
 ];
 
-export const getEndpointsList = (chainsRoutes: string[]): NavigationItem[] => [
+export const getEndpointsList = (
+  chainsRoutes: string[],
+  onAAPIClick: () => void,
+): NavigationItem[] => [
   {
     StartIcon: Block,
     ActiveIcon: Block,
@@ -55,7 +60,7 @@ export const getEndpointsList = (chainsRoutes: string[]): NavigationItem[] => [
       isDashboardActive(match, location, chainsRoutes),
     label: t('main-navigation.endpoints'),
   },
-  ...getAdvancedApiList(),
+  ...getAdvancedApiList(onAAPIClick),
   {
     StartIcon: Diamonds,
     ActiveIcon: Diamonds,
@@ -117,11 +122,12 @@ export const getSettingList = (
 export const getNavigationList = ({
   chainsRoutes,
   hasPremium,
+  onAAPIClick,
   onDocsClick,
   onSettingsClick,
 }: NavigationListParams): NavigationItem[] => [
-  getEndpointsList(chainsRoutes)[0],
-  ...getAdvancedApiList(),
+  getEndpointsList(chainsRoutes, onAAPIClick)[0],
+  ...getAdvancedApiList(onAAPIClick),
   ...getMenuList(hasPremium, onDocsClick),
   ...getSettingList(onSettingsClick),
 ];

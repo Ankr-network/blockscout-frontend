@@ -1,6 +1,7 @@
 import { Logo } from '../Logo';
 import { MainNavigation } from '../MainNavigation';
 import { useStyles } from './SideBarStyles';
+import { useTrackAAPI } from 'modules/layout/hooks/useTrackAAPI';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
 import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
 
@@ -19,6 +20,7 @@ export const SideBar = ({
 }: SidebarProps) => {
   const { classes, cx } = useStyles();
 
+  const onAAPIClick = useTrackAAPI();
   const onDocsClick = useTrackDocs();
   const onSettingsClick = useTrackSettings();
 
@@ -29,6 +31,7 @@ export const SideBar = ({
         chainsRoutes={chainsRoutes}
         hasPremium={hasPremium}
         loading={loading}
+        onAAPIClick={onAAPIClick}
         onDocsClick={onDocsClick}
         onSettingsClick={onSettingsClick}
       />
