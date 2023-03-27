@@ -10,9 +10,12 @@ import { initializeLocale } from 'modules/i18n/utils/initialize';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
-initializeSentry();
-initializeMixpanel();
-initGoogleGtm();
+if (!isReactSnap) {
+  initializeSentry();
+  initializeMixpanel();
+  initGoogleGtm();
+}
+
 initializeLocale();
 
 const rootElement = document.getElementById('root');
