@@ -1,7 +1,8 @@
 import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
-import { BaseChainsCard } from '../../../BaseChainsCard';
+import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
+import { ComingSoonChainCard } from '../../../ComingSoonChainCard';
 
 export const PrivateChainCard = ({ chain, ...props }: IChainCardProps) => {
   const { totalRequests, loading } = usePrivateChainsItem({ chain });
@@ -12,12 +13,18 @@ export const PrivateChainCard = ({ chain, ...props }: IChainCardProps) => {
     true,
   );
 
-  return (
-    <BaseChainsCard
-      chain={chain}
-      totalRequests={totalRequestsStr}
-      loading={Boolean(loading)}
-      {...props}
-    />
-  );
+  const { isComingSoon } = chain;
+
+  const cardProps: IBaseChainCardProps = {
+    chain,
+    loading,
+    totalRequests: totalRequestsStr,
+    ...props,
+  };
+
+  if (isComingSoon) {
+    return <ComingSoonChainCard {...cardProps} />;
+  }
+
+  return <BaseChainsCard {...cardProps} />;
 };
