@@ -7,7 +7,7 @@ const tagManagerArgs = {
 };
 
 export function initGoogleGtm() {
-  if (GTM_ID && navigator.userAgent !== 'ReactSnap') {
+  if (GTM_ID) {
     TagManager.initialize(tagManagerArgs);
   }
 }
