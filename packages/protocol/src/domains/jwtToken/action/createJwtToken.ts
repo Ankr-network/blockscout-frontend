@@ -19,7 +19,7 @@ export const {
 
           const newDecryptedToken = await formatTokenAndDecryptJwt(jwtToken);
 
-          dispatch(fetchAllJwtTokenRequests.initiate());
+          dispatch(fetchAllJwtTokenRequests.initiate(undefined));
 
           return { data: newDecryptedToken };
         },
