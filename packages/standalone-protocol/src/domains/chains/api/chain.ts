@@ -39,9 +39,12 @@ const stagingUrls = {
   [ChainId.BSC]: 'https://staging.bscrpc.com/',
   [ChainId.Polygon]: 'https://staging.polygon-rpc.com/',
   [ChainId.Fantom]: 'https://staging.ftm.tools/',
+  [ChainId.POLYGON_ZKEVM]: 'https://staging.polygon-rpc.com/',
 };
 
-export const getStandaloneUrl = (chainId: StandaloneType) => {
+export const getStandaloneUrl = (
+  chainId: StandaloneType | ChainId.POLYGON_ZKEVM,
+) => {
   if (API_ENV === 'prod') return '/';
 
   return stagingUrls[chainId];
