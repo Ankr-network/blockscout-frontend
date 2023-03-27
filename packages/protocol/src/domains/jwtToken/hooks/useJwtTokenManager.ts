@@ -1,9 +1,9 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
   IUserJwtToken,
-  useLazyFetchAllJwtTokenRequestsQuery,
+  useFetchAllJwtTokenRequestsQuery,
 } from 'domains/jwtToken/action/getAllJwtToken';
 import {
   getAllowedAddProjectTokenIndex,
@@ -19,19 +19,10 @@ const defaultData: IUserJwtToken = {
 export const useJwtTokenManager = () => {
   const { hasConnectWalletMessage, loading } = useAuth();
 
-  const [
-    fetchAllJwtTokens,
-    {
-      data: { jwtTokens, maxTokensLimit, shouldShowTokenManager } = defaultData,
-      isLoading,
-    },
-  ] = useLazyFetchAllJwtTokenRequestsQuery();
-
-  useEffect(() => {
-    if (!loading) {
-      fetchAllJwtTokens();
-    }
-  }, [loading, fetchAllJwtTokens]);
+  const {
+    data: { jwtTokens, maxTokensLimit, shouldShowTokenManager } = defaultData,
+    isLoading,
+  } = useFetchAllJwtTokenRequestsQuery(loading);
 
   const allowedAddProjectTokenIndex = useMemo(
     () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwtTokens),

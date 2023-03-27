@@ -23,8 +23,10 @@ export const {
   endpoints: { fetchAllJwtTokenRequests },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchAllJwtTokenRequests: build.query<IUserJwtToken, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
+    fetchAllJwtTokenRequests: build.query<IUserJwtToken, boolean | undefined>({
+      queryFn: createNotifyingQueryFn(async (loading, { getState }) => {
+        if (loading) return { data: undefined };
+
         const accountGateway = MultiService.getService().getAccountGateway();
 
         const result = await accountGateway.getAllJwtToken();
