@@ -10,6 +10,7 @@ import { Header } from 'modules/common/components/Header';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId, isStandaloneChain } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
+import { tHTML } from 'modules/i18n/utils/intl';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
@@ -36,7 +37,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
         />
         {isPolygon && (
           <Typography className={classes.zkEvmText} variant="body2">
-            <b>zkEVM</b> will be available soon
+            {tHTML('chain-item.polygon-zk-evm.description')}
           </Typography>
         )}
         <ChainItemDetailsQuery

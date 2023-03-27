@@ -23,7 +23,7 @@ export const CopyButtons = ({
 }: ICopyButtonsProps) => {
   const chain = data?.chain;
   const formattedChain = useMemo(() => formatChain(chain), [chain]);
-  const netLink = getLink();
+  const netLink = getLink(chainId);
   const isXSDown = useIsXSDown();
   const classes = useStyles();
 

@@ -120,5 +120,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     '& b': {
       color: theme.palette.primary.main,
     },
+
+    '& a': {
+      color: theme.palette.primary.main,
+    },
   },
 }));

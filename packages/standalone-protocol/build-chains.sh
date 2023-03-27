@@ -1,4 +1,4 @@
-# NAMES="polygon_zkevm"
+# NAMES="zkevm"
 # NAMES comes from workflow NAMES
 
 # $ENV prod || stage
@@ -22,10 +22,10 @@ for NAME in ${NAMES}; do
   yarn postbuild
   mv build build-chains/${NAME}
 
-  if [ $NAME = polygon_zkevm ]; then
+  if [ $NAME = zkevm ]; then
     # build version with public path
-    REACT_APP_CHAIN_ID=zkevm node ./changeHomepage.js
-    REACT_APP_CHAIN_ID=${NAME} REACT_APP_IS_BUILD_FOR_ERIGON_WITH_HOMEPAGE=true yarn build:${ENV}
+    REACT_APP_CHAIN_ID=${NAME} node ./changeHomepage.js
+    REACT_APP_CHAIN_ID=${NAME} yarn build:${ENV}
     yarn postbuild
     node ./clearHomepage.js
 
