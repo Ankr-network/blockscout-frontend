@@ -10,7 +10,10 @@ import { MobileNavigation } from '../MobileNavigation';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
+import { ConnectWalletDialog } from '../ConnectWalletDialog';
+import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { useTransitionToFreeWatcher } from 'domains/auth/hooks/useTransitionToFreeWatcher';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -40,16 +43,18 @@ export const DefaultLayout = ({
     hasPaddingBottom,
     isLightTheme,
   });
-  const { hasPremium, loading } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
+
+  useTransitionToFreeWatcher();
 
   return (
     <div className={classes.root}>
       <SideBar
-        className={classes.sidebar}
-        loading={loading}
-        hasPremium={hasPremium}
         chainsRoutes={chainsRoutes}
+        className={classes.sidebar}
+        isLoggedIn={isLoggedIn}
+        loading={loading}
       />
       <div className={classes.body}>
         {!hasError && (
@@ -65,11 +70,13 @@ export const DefaultLayout = ({
           </div>
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
+        <ConnectWalletDialog />
+        <StatusTransitionDialog />
       </div>
       <MobileNavigation
-        loading={loading}
-        hasPremium={hasPremium}
         chainsRoutes={chainsRoutes}
+        isLoggedIn={isLoggedIn}
+        loading={loading}
       />
     </div>
   );

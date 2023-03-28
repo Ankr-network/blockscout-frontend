@@ -85,7 +85,7 @@ export const useDefaultContentStyles = makeStyles<boolean>()(
       marginTop: theme.spacing(2 * 2),
       '&:hover': {
         color: isLightTheme
-          ? theme.palette.background.paper
+          ? theme.palette.text.secondary
           : theme.palette.text.primary,
       },
     },

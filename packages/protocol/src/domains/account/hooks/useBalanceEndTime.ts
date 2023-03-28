@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 
 import { Trigger, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { accountFetchBalanceEndTime } from '../actions/fetchBalanceEndTime';
+import { fetchPremiumStatus } from 'domains/auth/actions/fetchPremiumStatus';
+import { useAppSelector } from 'store/useAppSelector';
 
 export interface BalanceEndTime {
   endTime: number;
@@ -20,6 +22,8 @@ export const useBalanceEndTime = (
   isConnected: boolean,
   needRequery?: boolean,
 ): BalanceEndTime => {
+  const { data: status } = useAppSelector(fetchPremiumStatus.select(''));
+
   const [
     fetchBalanceEndTime,
     { data: endTime = -1, isLoading, isUninitialized },
@@ -32,6 +36,10 @@ export const useBalanceEndTime = (
   useEffect(() => {
     fetch(Boolean(needRequery), fetchBalanceEndTime);
   }, [fetchBalanceEndTime, needRequery]);
+
+  useEffect(() => {
+    fetch(isConnected, fetchBalanceEndTime);
+  }, [fetchBalanceEndTime, isConnected, status]);
 
   return { endTime, isLoading };
 };

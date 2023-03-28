@@ -9,6 +9,7 @@ import {
   getChainsDictionary,
 } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { filteredByNameChains } from '../../PublicChains/hooks/utils';
+import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 
 export interface ChainsParams {
   chains: IApiChain[];
@@ -31,7 +32,9 @@ export const usePrivateChains = ({
         chains: formatChains(chains),
         sortType,
         stats,
-      }).filter(item => filteredByNameChains(item, searchContent)),
+      })
+        .filter(item => filteredByNameChains(item, searchContent))
+        .filter(excludeMultiChain),
     [stats, chains, sortType, searchContent],
   );
 

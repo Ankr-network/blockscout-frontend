@@ -1,8 +1,9 @@
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
-import { useFetchSubscriptions } from './useFetchSubscriptions';
 import { ISubscriptionsResponse } from 'multirpc-sdk';
-import { useLazyCancelSubscriptionQuery } from 'domains/account/utils/cancelSubscription';
 import { useCallback } from 'react';
+
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useFetchSubscriptions } from './useFetchSubscriptions';
+import { useLazyCancelSubscriptionQuery } from 'domains/account/utils/cancelSubscription';
 
 export interface IUseSubscriptions {
   subscriptions: ISubscriptionsResponse;
@@ -11,7 +12,7 @@ export interface IUseSubscriptions {
 }
 
 export const useSubscriptions = (): IUseSubscriptions => {
-  const { isConnecting, hasPremium } = useAccountAuth();
+  const { hasPremium, loading: isConnecting } = useAuth();
 
   const [fetchSubscriptionsData, subscriptions, isLoading] =
     useFetchSubscriptions({
@@ -29,8 +30,8 @@ export const useSubscriptions = (): IUseSubscriptions => {
   );
 
   return {
-    subscriptions,
-    isLoading: isConnecting || isLoading,
     cancelSubscription,
+    isLoading: isConnecting || isLoading,
+    subscriptions,
   };
 };

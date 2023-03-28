@@ -25,10 +25,11 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
         },
       },
     },
-    maininfo: {
+    mainInfo: {
       display: 'flex',
       alignItems: 'flex-start',
       justifyContent: 'space-between',
+      position: 'relative',
     },
     title: {
       color: theme.palette.text.primary,
@@ -45,6 +46,11 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
       lineHeight: '20.02px',
       fontWeight: 400,
       marginBottom: theme.spacing(1.5),
+    },
+    badge: {
+      position: 'absolute',
+      right: 0,
+      top: 0,
     },
     icon: {
       width: 80,
@@ -71,7 +77,10 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
     timeSwitcher: {
       '&&': {
         fontSize: 12,
-        border: `2px solid ${theme.palette.background.default}`,
+      },
+      '&:hover': {
+        color: theme.palette.grey[600],
+        backgroundColor: 'inherit',
       },
     },
     skeleton: {

@@ -29,6 +29,7 @@ import { useLazyTopUpGetLastLockedFundsEventQuery } from 'domains/account/action
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
+import { useConnectButton } from 'domains/chains/components/PremiumChainDialog/components/TopUpForm/hooks/useConnectButton';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -78,6 +79,8 @@ export const useRenderForm = ({
   validateAmount,
   isWalletConnected,
 }: RenderFormParams) => {
+  const { buttonText, hasConnectButton } = useConnectButton();
+
   return useCallback(
     ({
       handleSubmit,
@@ -85,6 +88,33 @@ export const useRenderForm = ({
       form: { change, submit },
       values,
     }: FormRenderProps<TopUpFormValues>) => {
+      const button = isWalletConnected ? (
+        <Button
+          color="primary"
+          fullWidth
+          type="submit"
+          disabled={validating}
+          className={classes.button}
+        >
+          {t('account.account-details.top-up.top-up')}
+        </Button>
+      ) : (
+        <ConnectButton
+          variant="contained"
+          buttonText={t('common.submit')}
+          onSuccess={submit}
+          className={classes.button}
+        />
+      );
+
+      const connectWalletButton = hasConnectButton && (
+        <ConnectButton
+          buttonText={buttonText}
+          className={classes.button}
+          variant="contained"
+        />
+      );
+
       return (
         <form
           autoComplete="off"
@@ -104,33 +134,18 @@ export const useRenderForm = ({
             value={values[AmountInputField.amount]}
             currency={ANKR_CURRENCY}
           />
-          {isWalletConnected ? (
-            <Button
-              color="primary"
-              fullWidth
-              type="submit"
-              disabled={validating}
-              className={classes.button}
-            >
-              {t('account.account-details.top-up.top-up')}
-            </Button>
-          ) : (
-            <ConnectButton
-              variant="contained"
-              buttonText={t('common.submit')}
-              onSuccess={submit}
-              className={classes.button}
-            />
-          )}
+          {connectWalletButton || button}
         </form>
       );
     },
     [
+      buttonText,
       classes.button,
       classes.amount,
       classes.form,
       validateAmount,
       isWalletConnected,
+      hasConnectButton,
     ],
   );
 };

@@ -4,7 +4,8 @@ import { EthAddressType, IEthUserAddress } from 'multirpc-sdk';
 import { GetState } from 'store';
 import { Web2ConnectTrackingParams } from 'modules/analytics/mixpanel/types';
 import { checkDepositOrVoucherTransaction } from '../checkDepositOrVoucherTransaction';
-import { selectAuthData, selectHasPremium } from 'domains/auth/store/authSlice';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { selectHasPremium } from 'domains/auth/store/selectors';
 import { trackWeb2ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb2ConnectSuccess';
 
 export interface SecreteCodeAndState {

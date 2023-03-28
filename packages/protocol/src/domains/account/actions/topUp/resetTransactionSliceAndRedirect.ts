@@ -5,6 +5,7 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BaseRoute } from 'modules/router/utils/createRouteConfig';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { GetState } from 'store';
+import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { TopUpOrigin } from 'domains/account/types';
 import {
@@ -29,7 +30,11 @@ export const resetTransactionSliceAndRedirect = async (
     ? topUpOriginRoutesMap[topUpOrigin]
     : AccountRoutesConfig.accountDetails;
 
-  dispatch(push(route.generatePath()));
+  dispatch(
+    push<PostTopUpLocationState>(route.generatePath(), {
+      origin: AccountRoutesConfig.topUp.path,
+    }),
+  );
 
   dispatch(resetTransaction({ address }));
 };
