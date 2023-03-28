@@ -2,7 +2,6 @@ import { ChainsListProps } from 'domains/chains/components/ChainsList/ChainsList
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
-import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 import { MetamaskChainsItem } from '../MetamaskChainsItem';
 
 export const MetamaskChainsList = ({
@@ -18,7 +17,7 @@ export const MetamaskChainsList = ({
 
   return (
     <div className={classes.root}>
-      {excludeMultiChain(chains).map(item => {
+      {chains.map(item => {
         const { id, name, urls } = item;
 
         return (

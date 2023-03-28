@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { t } from '@ankr.com/common';
 import { OverlaySpinner } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 
 import { AccountDetailsTopUp } from './components/AccountDetailsTopUp';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -8,17 +8,20 @@ import { Balance } from './components/Balance';
 import { ExpenseChart } from './components/ExpenseChart';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable/PaymentsHistoryTable';
+import { Subscriptions } from './components/Subscriptions';
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useStyles } from './AccountDetailsStyles';
-import { Subscriptions } from './components/Subscriptions';
 
 export const AccountDetails = () => {
   const { classes } = useStyles();
-  const { premiumUntil, isConnecting } = useAccountAuth();
-  const hasPremium = !!premiumUntil;
+  const { isLoggedIn, isOldPremium, loading: isConnecting } = useAuth();
+
+  // We only show the expense chart for registered users
+  // but not for old premium users who registered before PAYG model
+  const hasExpenseChart = isLoggedIn && !isOldPremium;
 
   const [, { data: balances }] = useQueryEndpoint(accountFetchBalance);
 
@@ -45,7 +48,7 @@ export const AccountDetails = () => {
           <Box className={classes.payments}>
             <PaymentsHistoryTable balances={balances!} />
           </Box>
-          {!hasPremium && (
+          {hasExpenseChart && (
             <Box className={classes.expenseChart}>
               <ExpenseChart />
             </Box>

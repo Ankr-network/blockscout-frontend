@@ -2,6 +2,7 @@ import { web3Api } from 'store/queries';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
 import { userGroupFetchGroups } from './fetchGroups';
+import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
 import { selectUserGroupConfigByAddress } from '../store/userGroupSlice';
 
 // TODO change this action to hook. Resolve the problem, when store(localstorage) is faster then data in actions
@@ -14,6 +15,12 @@ export const {
     shouldShowUserGroupDialog: build.query<boolean, void>({
       queryFn: async (_arg, { dispatch, getState }) => {
         const state = getState() as RootState;
+
+        const isWeb3UserWithEmailBound = selectIsWeb3UserWithEmailBound(state);
+
+        if (isWeb3UserWithEmailBound) {
+          return { data: false };
+        }
 
         const { hasWeb3Autoconnect } = selectAuthData(state);
         const { shouldRemind, selectedGroupAddress } =

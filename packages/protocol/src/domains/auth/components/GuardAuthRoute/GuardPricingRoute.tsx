@@ -1,19 +1,18 @@
-import { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { AccountRoutes, PATH_ACCOUNT } from 'domains/account/Routes';
 
 export interface IGuardRoute extends RouteProps {
-  hasPremium: boolean;
+  hasAuthData: boolean;
 }
 
 export const GuardPricingRoute = ({
-  hasPremium,
+  hasAuthData,
   ...routeProps
 }: IGuardRoute) => {
   const { address } = useAuth();
@@ -21,21 +20,17 @@ export const GuardPricingRoute = ({
   const history = useHistory();
 
   useEffect(() => {
-    if (hasPremium) {
+    if (hasAuthData) {
       history.replace(PATH_ACCOUNT);
     }
-  }, [history, hasPremium]);
+  }, [history, hasAuthData]);
 
   useOnMount(() => {
-    if (!address || !hasPremium) setBreadcrumbs([]);
+    if (!address || !hasAuthData) setBreadcrumbs([]);
   });
 
-  if (hasPremium) {
-    return (
-      <DefaultLayout>
-        <AccountRoutes />
-      </DefaultLayout>
-    );
+  if (hasAuthData) {
+    return null;
   }
 
   return <Route {...routeProps} />;

@@ -34,6 +34,15 @@ export interface IWorkerEndpoint {
   user: string;
 }
 
+export interface GetPremiumStatusResult {
+  status: PremiumStatus;
+}
+
+export enum PremiumStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
+
 export type RestrictedDomains = string[];
 
 export type RestrictedIps = string[];

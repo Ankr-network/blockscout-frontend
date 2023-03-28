@@ -23,42 +23,50 @@ const getUsdBalance = ({ usdBalance: usd }: GetDescriptionsParams) =>
   usd.gt(0) ? `~$${formatBalance(usd)}` : '';
 
 const descriptionsMap: Record<AccountType, [Getter, Getter]> = {
-  [AccountType.NEW]: [getUsdBalance, () => t(`${root}.new.extra`)],
-  [AccountType.PAYG_ACTIVE]: [
+  [AccountType.FREEMIUM]: [getUsdBalance, () => t(`${root}.freemium.extra`)],
+  [AccountType.FREEMIUM_TRANSITION]: [
+    getUsdBalance,
+    () => t(`${root}.freemium-transition.extra`),
+  ],
+  [AccountType.PREMIUM_TRANSITION]: [
+    getUsdBalance,
+    () => t(`${root}.premium-transition.extra`),
+  ],
+  [AccountType.PREMIUM_ACTIVE]: [
     getUsdBalance,
     ({ endTime: [time, period, quantifier] }) =>
-      t(`${root}.payg-active.extra`, {
+      t(`${root}.premium-active.extra`, {
         time,
         period: getPeriod(time, period),
         quantifier: getQuantifier(quantifier),
       }),
   ],
-  [AccountType.PAYG_INACTIVE]: [
+  [AccountType.PREMIUM_INACTIVE]: [
     getUsdBalance,
-    () => t(`${root}.payg-inactive.extra`),
+    () => t(`${root}.premium-inactive.extra`),
   ],
-  [AccountType.PAYG_UNKNOWN]: [getUsdBalance, () => ''],
-  [AccountType.PAYG_UNKNOWN_WITH_BALANCE]: [getUsdBalance, () => ''],
-  [AccountType.PAYG_WARNING]: [
+  [AccountType.PREMIUM_UNKNOWN]: [getUsdBalance, () => ''],
+  [AccountType.PREMIUM_UNKNOWN_WITH_BALANCE]: [getUsdBalance, () => ''],
+  [AccountType.PREMIUM_WARNING]: [
     getUsdBalance,
     ({ endTime: [time, period, quantifier] }) =>
-      t(`${root}.payg-warning.extra`, {
+      t(`${root}.premium-warning.extra`, {
         time,
         period: getPeriod(time, period),
         quantifier: getQuantifier(quantifier),
       }),
   ],
-  [AccountType.PAYG_WARNING_ZERO]: [
+  [AccountType.PREMIUM_WARNING_ZERO]: [
     getUsdBalance,
-    () => t(`${root}.payg-warning-zero.extra`),
+    () => t(`${root}.premium-warning-zero.extra`),
   ],
-  [AccountType.PREMIUM]: [
-    ({ premiumUntil: date }) => t(`${root}.premium.main`, { date }),
-    () => t(`${root}.premium.extra`),
+  [AccountType.OLD_PREMIUM]: [
+    ({ premiumUntil: date }) => t(`${root}.old-premium.main`, { date }),
+    () => t(`${root}.old-premium.extra`),
   ],
-  [AccountType.PREMIUM_EXPIRED]: [
-    () => t(`${root}.premium-expired.main`),
-    () => t(`${root}.premium-expired.extra`),
+  [AccountType.OLD_PREMIUM_EXPIRED]: [
+    () => t(`${root}.old-premium-expired.main`),
+    () => t(`${root}.old-premium-expired.extra`),
   ],
 };
 

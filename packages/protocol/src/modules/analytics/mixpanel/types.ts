@@ -14,6 +14,8 @@ export interface AddEmailEvent extends Billingable, Walletable {
   email_address: string;
 }
 
+export interface ClickAAPIEvent extends Billingable, Walletable {}
+
 export interface ConnectWalletFlowEvent extends Billingable, Walletable {
   google_account?: string;
   sign_up: boolean;

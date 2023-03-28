@@ -12,29 +12,31 @@ import { useMainNavigationStyles } from './useMainNavigationStyles';
 
 interface IMainNavigationProps {
   chainsRoutes: string[];
-  hasPremium: boolean;
+  isLoggedIn: boolean;
   loading: boolean;
+  onAAPIClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
 }
 
 export const MainNavigation = ({
-  loading,
-  hasPremium,
   chainsRoutes,
+  isLoggedIn,
+  loading,
+  onAAPIClick,
   onDocsClick,
   onSettingsClick,
 }: IMainNavigationProps) => {
   const endpointsItems = useMemo(
-    () => getEndpointsList(chainsRoutes),
-    [chainsRoutes],
+    () => getEndpointsList(chainsRoutes, onAAPIClick),
+    [chainsRoutes, onAAPIClick],
   );
 
   const toolsItems = useMemo(() => getToolsList(), []);
 
   const menuItems = useMemo(
-    () => getMenuList(hasPremium, onDocsClick),
-    [hasPremium, onDocsClick],
+    () => getMenuList(isLoggedIn, onDocsClick),
+    [isLoggedIn, onDocsClick],
   );
 
   const settingItems = useMemo(
