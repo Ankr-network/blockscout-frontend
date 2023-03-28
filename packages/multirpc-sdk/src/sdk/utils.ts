@@ -39,7 +39,9 @@ export const formatPublicUrls = (
   }, {});
 
   return blockchains.reduce<FetchBlockchainUrlsResult>((result, blockchain) => {
-    const hasRPC = blockchain.features.includes(BlockchainFeature.RPC);
+    const hasRPC =
+      blockchain.features.includes(BlockchainFeature.RPC) ||
+      blockchain.features.includes(BlockchainFeature.ComingSoon);
 
     if (blockchain.id === 'avalanche') {
       blockchain.paths = avalancheEvmItem?.paths ?? [];
@@ -100,7 +102,9 @@ export const formatPrivateUrls = (
 ) => {
   return [...blockchains].reduce<FetchBlockchainUrlsResult>(
     (result, blockchain) => {
-      const hasRPC = blockchain.features.includes(BlockchainFeature.RPC);
+      const hasRPC =
+        blockchain.features.includes(BlockchainFeature.RPC) ||
+        blockchain.features.includes(BlockchainFeature.ComingSoon);
       const hasWS = blockchain.features.includes(BlockchainFeature.WS);
 
       const paths = getPaths(blockchain);

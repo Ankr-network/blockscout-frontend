@@ -15,9 +15,8 @@ import { ReactComponent as SecretLogo } from 'assets/img/logo/secret.svg';
 import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
 import { ReactComponent as FilecoinLogo } from 'assets/img/logo/filecoin.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
-// import { ReactComponent as PolygonZkemvLogo } from 'assets/img/logo/polygon-zkemv.svg';
-// import { ChainId, POLYGON_ZKEVM_CHAIN_NAME } from 'domains/chains/api/chain';
-import { ChainId } from 'domains/chains/api/chain';
+import { ReactComponent as PolygonZkemvLogo } from 'assets/img/logo/polygon-zkemv.svg';
+import { ChainId, POLYGON_ZKEVM_CHAIN_NAME } from 'domains/chains/api/chain';
 
 export const MENU_LIST = [
   {
@@ -68,12 +67,12 @@ export const MENU_LIST = [
     logo: <AvalancheLogo />,
     url: 'https://avalanche.public-rpc.com/',
   },
-  // {
-  //   chainId: ChainId.POLYGON_ZKEVM,
-  //   name: POLYGON_ZKEVM_CHAIN_NAME,
-  //   logo: <PolygonZkemvLogo />,
-  //   url: 'https://polygonzkemv.public-rpc.com',
-  // },
+  {
+    chainId: ChainId.POLYGON_ZKEVM,
+    name: POLYGON_ZKEVM_CHAIN_NAME,
+    logo: <PolygonZkemvLogo />,
+    url: 'https://polygon-rpc.com/zkevm/',
+  },
   {
     chainId: ChainId.IoTeX,
     name: 'IoTeX',

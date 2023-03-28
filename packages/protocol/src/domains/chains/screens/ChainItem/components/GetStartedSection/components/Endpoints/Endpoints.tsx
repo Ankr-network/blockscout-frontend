@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { useMemo } from 'react';
 
 import { t } from '@ankr.com/common';
 import { root } from '../../const';
@@ -22,6 +23,22 @@ export interface EndpointsProps {
 const title = t(`${root}.endpoints.websocket-title`);
 const header = `${root}.endpoints.title`;
 
+const checkComingSoonLabel = (publicChain: IApiChain, chainType: ChainType) => {
+  switch (chainType) {
+    case ChainType.Mainnet:
+      return publicChain.isComingSoon;
+
+    case ChainType.Testnet:
+      return publicChain?.testnets?.[0]?.isComingSoon;
+
+    case ChainType.Devnet:
+      return publicChain?.devnets?.[0]?.isComingSoon;
+
+    default:
+      return false;
+  }
+};
+
 export const Endpoints = ({
   publicChain,
   chainType,
@@ -33,9 +50,14 @@ export const Endpoints = ({
 
   const onCopyEndpoint = useCopyEndpointHandler(chainType);
 
+  const hasComingSoonLabel = useMemo(
+    () => checkComingSoonLabel(publicChain, chainType),
+    [publicChain, chainType],
+  );
+
   return (
     <Box className={classes.endpointsList}>
-      {publicChain.isComingSoon ? (
+      {hasComingSoonLabel ? (
         <EndpointPlaceholder
           title={
             <EndpointsHeader
