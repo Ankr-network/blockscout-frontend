@@ -20,7 +20,7 @@ export type IsActive = (match: any, location: History['location']) => boolean;
 
 export interface NavigationListParams {
   chainsRoutes: string[];
-  hasPremium: boolean;
+  isLoggedIn: boolean;
   onAAPIClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
@@ -83,10 +83,10 @@ export const getToolsList = (): NavigationItem[] => [
 ];
 
 export const getMenuList = (
-  hasPremium: boolean,
+  isLoggedIn: boolean,
   onDocsClick: () => void,
 ): NavigationItem[] => [
-  hasPremium
+  isLoggedIn
     ? {
         StartIcon: Wallet,
         ActiveIcon: Wallet,
@@ -121,14 +121,14 @@ export const getSettingList = (
 
 export const getNavigationList = ({
   chainsRoutes,
-  hasPremium,
+  isLoggedIn,
   onAAPIClick,
   onDocsClick,
   onSettingsClick,
 }: NavigationListParams): NavigationItem[] => [
   getEndpointsList(chainsRoutes, onAAPIClick)[0],
   ...getAdvancedApiList(onAAPIClick),
-  ...getMenuList(hasPremium, onDocsClick),
+  ...getMenuList(isLoggedIn, onDocsClick),
   ...getSettingList(onSettingsClick),
 ];
 

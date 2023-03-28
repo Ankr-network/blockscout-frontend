@@ -7,6 +7,7 @@ import { AccountMarker } from '../AccountMarker';
 import { Balance } from '../Balance';
 import { useStyles } from './AccountDetailsButtonStyles';
 import { useAccountData } from './hooks/useAccountData';
+import { CircularProgress } from '@mui/material';
 
 export interface AccountDetailsButtonProps {
   isMobile?: boolean;
@@ -15,9 +16,9 @@ export interface AccountDetailsButtonProps {
 export const AccountDetailsButton = ({
   isMobile = false,
 }: AccountDetailsButtonProps) => {
-  const { balance, isLoading, status } = useAccountData();
+  const { balance, hasStatusTransition, isLoading, status } = useAccountData();
 
-  const { classes } = useStyles(isMobile);
+  const { classes } = useStyles({ hasStatusTransition, isMobile });
 
   return (
     <LoadableButton<'a', LinkProps>
@@ -26,6 +27,9 @@ export const AccountDetailsButton = ({
       loading={isLoading}
       to={AccountRoutesConfig.accountDetails.path}
       variant="text"
+      endIcon={
+        !isLoading && hasStatusTransition && <CircularProgress size={20} />
+      }
     >
       <div className={classes.content}>
         <AccountMarker status={status} />

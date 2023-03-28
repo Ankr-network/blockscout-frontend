@@ -1,8 +1,12 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles<boolean>()(
-  (theme: Theme, isMobile: boolean) => ({
+export interface UseStylesParams {
+  hasStatusTransition: boolean;
+  isMobile: boolean;
+}
+
+export const useStyles = makeStyles<UseStylesParams>()(
+  (theme, { hasStatusTransition, isMobile }) => ({
     accountDetailsButtonRoot: isMobile
       ? {
           padding: theme.spacing(2 * 1.25, 2 * 1.5),
@@ -31,6 +35,8 @@ export const useStyles = makeStyles<boolean>()(
         },
     balance: {
       display: 'inline-block',
+
+      color: hasStatusTransition ? theme.palette.grey[600] : undefined,
     },
     currency: {
       display: isMobile ? 'none' : '',

@@ -8,14 +8,14 @@ import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
 interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
-  hasPremium: boolean;
+  isLoggedIn: boolean;
   loading: boolean;
 }
 
 export const SideBar = ({
   chainsRoutes,
   className = '',
-  hasPremium,
+  isLoggedIn,
   loading,
 }: SidebarProps) => {
   const { classes, cx } = useStyles();
@@ -29,7 +29,7 @@ export const SideBar = ({
       <Logo />
       <MainNavigation
         chainsRoutes={chainsRoutes}
-        hasPremium={hasPremium}
+        isLoggedIn={isLoggedIn}
         loading={loading}
         onAAPIClick={onAAPIClick}
         onDocsClick={onDocsClick}

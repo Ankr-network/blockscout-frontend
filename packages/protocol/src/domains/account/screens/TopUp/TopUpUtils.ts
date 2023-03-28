@@ -21,9 +21,9 @@ const topUpOriginRoutesMap: Record<TopUpOrigin, BaseRoute> = {
   [TopUpOrigin.PRICING]: PricingRoutesConfig.pricing,
 };
 
-export const useTopUpOriginRoute = (hasPrivateAccess: boolean) => {
+export const useTopUpOriginRoute = (isLoggedIn: boolean) => {
   const topUpOrigin = useSelector(selectTopUpOrigin);
-  const defaultTopUpOrigin = hasPrivateAccess
+  const defaultTopUpOrigin = isLoggedIn
     ? TopUpOrigin.BILLING
     : TopUpOrigin.PRICING;
 

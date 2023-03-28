@@ -6,7 +6,13 @@ import {
   DialogTitle as MuiDialogTitle,
   IconButton,
 } from '@mui/material';
-import { useLayoutEffect, useMemo, useState, useCallback } from 'react';
+import {
+  ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { DialogContext } from './DialogContext';
@@ -15,12 +21,12 @@ import { DialogTitle, DialogTitleColor, IDialogContext } from './types';
 
 export type IDialogProps = Omit<
   MuiDialogProps,
-  'BackdropProps' | 'PaperProps'
+  'BackdropProps' | 'PaperProps' | 'title'
 > & {
   onClose?: () => void;
   shouldHideCloseButton?: boolean;
   initialTitle?: string;
-  title?: string;
+  title?: ReactNode;
   maxPxWidth?: number;
   paperClassName?: string;
   titleClassName?: string;
@@ -83,19 +89,21 @@ export const Dialog = ({
         {...props}
         onClose={handleClose}
       >
-        <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
-          {dialogTitle.title}
+        {(dialogTitle.title || !shouldHideCloseButton) && (
+          <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
+            {dialogTitle.title}
 
-          {!shouldHideCloseButton && (
-            <IconButton
-              aria-label="close"
-              className={cx(classes.closeButton, closeButtonClassName)}
-              onClick={handleClose}
-            >
-              <Close />
-            </IconButton>
-          )}
-        </MuiDialogTitle>
+            {!shouldHideCloseButton && (
+              <IconButton
+                aria-label="close"
+                className={cx(classes.closeButton, closeButtonClassName)}
+                onClick={handleClose}
+              >
+                <Close />
+              </IconButton>
+            )}
+          </MuiDialogTitle>
+        )}
 
         <MuiDialogContent className={classes.dialogContent}>
           {children}

@@ -1,10 +1,18 @@
+import { EthAddressType } from 'multirpc-sdk';
+
+import { RootState } from 'store';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { timeout } from 'modules/common/utils/timeout';
-import { web3Api } from 'store/queries';
-import { RootState } from 'store';
-import { EthAddressType } from 'multirpc-sdk';
 import { checkDepositOrVoucherTransaction } from './checkDepositOrVoucherTransaction';
+import {
+  selectHasPremium,
+  selectHasPrivateAccess,
+} from 'domains/auth/store/selectors';
 import { watchForVoucherTransactionAndNegativeBalance } from './watchForVoucherTransactionAndNegativeBalance';
+import { web3Api } from 'store/queries';
+
+const checkFreemiumUserWatching = (state: RootState) =>
+  !(selectHasPremium(state) && selectHasPrivateAccess(state));
 
 export const {
   endpoints: { watchForDepositOrVoucherTransation },
@@ -14,6 +22,7 @@ export const {
   endpoints: build => ({
     watchForDepositOrVoucherTransation: build.query<boolean, void>({
       queryFn: async (_args, { getState, dispatch }) => {
+        const state = getState() as RootState;
         const {
           // oauth
           hasDepositTransaction,
@@ -33,10 +42,15 @@ export const {
         const shouldNotWatchForTransactionWeb3User =
           !hasWeb3Connection || !isInstantJwtParticipant;
 
-        if (
-          shouldNotWatchForTransactionOauthUser &&
-          shouldNotWatchForTransactionWeb3User
-        ) {
+        const shouldNotWatchForTransactionFreemiumUser =
+          checkFreemiumUserWatching(state);
+
+        const shouldNotWatch =
+          (shouldNotWatchForTransactionOauthUser &&
+            shouldNotWatchForTransactionWeb3User) ||
+          shouldNotWatchForTransactionFreemiumUser;
+
+        if (shouldNotWatch) {
           return { data: true };
         }
 

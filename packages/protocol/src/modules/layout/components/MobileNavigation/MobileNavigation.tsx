@@ -9,17 +9,17 @@ import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
 import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
 
 interface MobileHeaderProps {
-  className?: string;
-  loading: boolean;
-  hasPremium: boolean;
   chainsRoutes: string[];
+  className?: string;
+  isLoggedIn: boolean;
+  loading: boolean;
 }
 
 export const MobileNavigation = ({
-  className = '',
-  loading,
-  hasPremium,
   chainsRoutes,
+  className = '',
+  isLoggedIn,
+  loading,
 }: MobileHeaderProps) => {
   const { classes, cx } = useMobileNavigationStyles();
 
@@ -29,7 +29,7 @@ export const MobileNavigation = ({
 
   const items = getNavigationList({
     chainsRoutes,
-    hasPremium,
+    isLoggedIn,
     onAAPIClick,
     onDocsClick,
     onSettingsClick,

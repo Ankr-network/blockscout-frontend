@@ -1,10 +1,12 @@
+import { ReactNode } from 'react';
+
 export enum DialogTitleColor {
   Regular = 'REGULAR',
   ERROR = 'ERROR',
 }
 
 export type DialogTitle = {
-  title?: string;
+  title?: ReactNode;
   color?: DialogTitleColor;
 };
 

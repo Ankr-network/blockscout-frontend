@@ -12,7 +12,7 @@ import { useMainNavigationStyles } from './useMainNavigationStyles';
 
 interface IMainNavigationProps {
   chainsRoutes: string[];
-  hasPremium: boolean;
+  isLoggedIn: boolean;
   loading: boolean;
   onAAPIClick: () => void;
   onDocsClick: () => void;
@@ -20,9 +20,9 @@ interface IMainNavigationProps {
 }
 
 export const MainNavigation = ({
-  loading,
-  hasPremium,
   chainsRoutes,
+  isLoggedIn,
+  loading,
   onAAPIClick,
   onDocsClick,
   onSettingsClick,
@@ -35,8 +35,8 @@ export const MainNavigation = ({
   const toolsItems = useMemo(() => getToolsList(), []);
 
   const menuItems = useMemo(
-    () => getMenuList(hasPremium, onDocsClick),
-    [hasPremium, onDocsClick],
+    () => getMenuList(isLoggedIn, onDocsClick),
+    [isLoggedIn, onDocsClick],
   );
 
   const settingItems = useMemo(
