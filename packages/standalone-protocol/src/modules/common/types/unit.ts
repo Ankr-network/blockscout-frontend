@@ -23,6 +23,10 @@ export const renderChainName = (chainId?: ChainId | string): string => {
     return 'Secret';
   }
 
+  if (chainId === ChainId.Polygon) {
+    return 'polygon pos';
+  }
+
   if (chainId === ChainId.POLYGON_ZKEVM) {
     return 'polygon zkevm';
   }

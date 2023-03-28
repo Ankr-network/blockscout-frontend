@@ -1,9 +1,17 @@
 import { useEffect, useMemo } from 'react';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { ChainId, POLYGON_ZKEVM_CHAIN_NAME } from 'domains/chains/api/chain';
+import {
+  ChainId,
+  POLYGON_ZKEVM_CHAIN_NAME,
+  POLYGON_NAME,
+} from 'domains/chains/api/chain';
 
 const renderChainName = (chainId: ChainId) => {
+  if (chainId === ChainId.Polygon) {
+    return POLYGON_NAME;
+  }
+
   if (chainId === ChainId.POLYGON_ZKEVM) {
     return POLYGON_ZKEVM_CHAIN_NAME;
   }
