@@ -48,6 +48,9 @@
       "eth-based": "For Ethereum-based and Polyjuice methods",
       "godwoken-based": "For Godwoken methods"
     },
+    "polygon-zk-evm": {
+      "description": "If you are looking for <b>zkevm</b> go to <a href=\"https://polygon-rpc.com/zkevm\" target=\"_blank\" rel=\"noopener noreferrer\">https://polygon-rpc.com/zkevm</a>"
+    },
     "details": {
       "average-requests": "Average Requests/sec",
       "bandwidth": "Bandwidth",

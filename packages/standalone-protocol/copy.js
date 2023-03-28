@@ -1,3 +1,4 @@
+/* eslint-disable */
 const fs = require('fs');
 
 function copy({ input, output, find, replace }) {

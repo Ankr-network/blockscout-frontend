@@ -1,4 +1,4 @@
-# NAMES="avalanche klaytn"
+# NAMES="zkevm"
 # NAMES comes from workflow NAMES
 
 # $ENV prod || stage
@@ -21,4 +21,17 @@ for NAME in ${NAMES}; do
   REACT_APP_CHAIN_ID=${NAME} yarn build:${ENV}:turbo
   yarn postbuild
   mv build build-chains/${NAME}
+
+  if [ $NAME = zkevm ]; then
+    # build version with public path
+    REACT_APP_CHAIN_ID=${NAME} node ./changeHomepage.js
+    REACT_APP_CHAIN_ID=${NAME} yarn build:${ENV}
+    yarn postbuild
+    node ./clearHomepage.js
+
+    # move to folder
+    mkdir -p build-chains/polygon
+    mv build build-chains/polygon
+    mv build-chains/polygon/build build-chains/polygon/zkevm
+  fi
 done
