@@ -6,15 +6,17 @@ export const {
   useOauthHasDepositTransactionQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    oauthHasDepositTransaction: build.query<boolean, void>({
-      queryFn: async () => {
+    oauthHasDepositTransaction: build.query<boolean, boolean | void>({
+      queryFn: async shouldCheckVoucherTopUp => {
         const service = MultiService.getService();
 
         const { transactions } = await service
           .getAccountGateway()
           .getPaymentHistory({
             limit: 1,
-            type: ['TRANSACTION_TYPE_DEPOSIT'],
+            type: shouldCheckVoucherTopUp
+              ? ['TRANSACTION_TYPE_DEPOSIT', 'TRANSACTION_TYPE_VOUCHER_TOPUP']
+              : ['TRANSACTION_TYPE_DEPOSIT'],
           });
 
         return {

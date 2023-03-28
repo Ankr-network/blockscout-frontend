@@ -71,7 +71,7 @@ const CHAIN_PAGE_CUSTOM_BREAKPOINT = 1050;
 export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
   const { breadcrumbs } = useContext(BreadcrumbsContext);
 
-  const { hasPremium, isLoggedIn } = useAuth();
+  const { hasPremium, hasStatusTransition, isLoggedIn } = useAuth();
 
   const customBreakpoint = isChainItemPage
     ? CHAIN_PAGE_CUSTOM_BREAKPOINT
@@ -81,7 +81,14 @@ export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
     <BreadcrumbsBase
       customBreakpoint={customBreakpoint}
       items={breadcrumbs}
-      userLabel={isLoggedIn ? <UserLabel hasPremium={hasPremium} /> : null}
+      userLabel={
+        isLoggedIn && (
+          <UserLabel
+            hasPremium={hasPremium}
+            hasStatusTransition={hasStatusTransition}
+          />
+        )
+      }
     />
   );
 };

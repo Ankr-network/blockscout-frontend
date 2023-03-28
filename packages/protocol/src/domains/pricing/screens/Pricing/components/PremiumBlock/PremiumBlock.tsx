@@ -13,7 +13,7 @@ import { PRICING_PLANS_LINK } from 'domains/account/actions/topUp/const';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface PremiumBlockProps {
-  hasPrivateAccess: boolean;
+  hasUserEndpointToken: boolean;
   hasOauthLogin?: boolean;
   hasWeb3Connection?: boolean;
   address?: string;
@@ -25,7 +25,7 @@ export const PREMIUM_BLOCK_ANCHOR = 'premiumBlock';
 export const PremiumBlock = ({
   hasOauthLogin,
   hasWeb3Connection,
-  hasPrivateAccess,
+  hasUserEndpointToken,
   address,
   isUserAddress,
 }: PremiumBlockProps) => {
@@ -36,7 +36,7 @@ export const PremiumBlock = ({
     shouldShowConnectWalletButton({
       hasOauthLogin,
       hasWeb3Connection,
-      hasPrivateAccess,
+      hasUserEndpointToken,
       isUserAddress,
     });
 

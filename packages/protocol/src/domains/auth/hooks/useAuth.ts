@@ -1,12 +1,48 @@
-import { selectAuthData, selectHasPremium } from '../store/authSlice';
+import { selectAuthData } from '../store/authSlice';
+import {
+  selectHasConnectWalletMessage,
+  selectHasFreemium,
+  selectHasFreeToPremiumTransition,
+  selectHasInfrastructureAccess,
+  selectHasPremium,
+  selectHasPremiumToFreeTransition,
+  selectHasPrivateAccess,
+  selectHasStatusTransition,
+  selectHasUserEndpointToken,
+  selectHasWeb3Connection,
+  selectIsLoggedIn,
+  selectIsOldPremium,
+  selectIsTokenExpired,
+  selectIsUserEthAddressType,
+  selectPremiumUntilDate,
+} from '../store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useOauth } from 'domains/oauth/hooks/useOauth';
 import { useWeb3Connection } from './useWeb3Connection';
-import { EthAddressType } from 'multirpc-sdk';
+import { usePremiumStatus } from './usePremiumStatus';
 
 export const useAuth = () => {
   const authData = useAppSelector(selectAuthData);
+
+  const hasConnectWalletMessage = useAppSelector(selectHasConnectWalletMessage);
+  const hasFreeToPremiumTransition = useAppSelector(
+    selectHasFreeToPremiumTransition,
+  );
+  const hasInfrastructureAccess = useAppSelector(selectHasInfrastructureAccess);
   const hasPremium = useAppSelector(selectHasPremium);
+  const hasPremiumToFreeTransition = useAppSelector(
+    selectHasPremiumToFreeTransition,
+  );
+  const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
+  const hasStatusTransition = useAppSelector(selectHasStatusTransition);
+  const hasUserEndpointToken = useAppSelector(selectHasUserEndpointToken);
+  const hasWeb3Connection = useAppSelector(selectHasWeb3Connection);
+  const isFreePremium = useAppSelector(selectHasFreemium);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isOldPremium = useAppSelector(selectIsOldPremium);
+  const isTokenExpired = useAppSelector(selectIsTokenExpired);
+  const isUserEthAddressType = useAppSelector(selectIsUserEthAddressType);
+  const premiumUntil = useAppSelector(selectPremiumUntilDate);
 
   const {
     loading: web3ConnectionLoading,
@@ -16,37 +52,12 @@ export const useAuth = () => {
 
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
-  const {
-    address = '',
-    credentials,
-    ethAddressType,
-    hasOauthLogin,
-    hasWeb3Connection,
-    workerTokenData,
-  } = authData;
+  const { isLoading: premiumStatusLoading } = usePremiumStatus();
 
-  const isTokenExpired =
-    credentials && !workerTokenData?.userEndpointToken && !hasOauthLogin;
-
-  const isFreePremium = Boolean(
-    !hasPremium && hasOauthLogin && workerTokenData?.userEndpointToken,
-  );
-
-  const hasPrivateAccess = Boolean(
-    credentials || workerTokenData?.userEndpointToken,
-  );
-
-  const isUserEthAddressType = ethAddressType === EthAddressType.User;
-
-  const hasConnectWalletMessage = Boolean(
-    hasOauthLogin &&
-      !hasWeb3Connection &&
-      hasPrivateAccess &&
-      isUserEthAddressType,
-  );
+  const { address = '' } = authData;
 
   return {
-    loading: web3ConnectionLoading || autologinLoading,
+    loading: web3ConnectionLoading || autologinLoading || premiumStatusLoading,
     ...rest,
     ...authData,
     ...oauthRest,
@@ -55,15 +66,19 @@ export const useAuth = () => {
       ? connectData?.credentials
       : authData?.credentials,
     hasWeb3Connection: Boolean(hasWeb3Connection),
-    isLoggedIn: Boolean(hasOauthLogin || hasWeb3Connection),
+    isLoggedIn,
+    isOldPremium,
     isUserEthAddressType,
     isTokenExpired,
     hasPremium, // web3 premium user or gauth premium user has access to billing
     isFreePremium, // gauth user with private endpoints, without topups
+    hasUserEndpointToken,
     hasPrivateAccess, // web3 premium user or any gauth user has access to private statistics
-    hasInfrastructureAccess: Boolean(
-      hasPremium && workerTokenData?.userEndpointToken,
-    ), // web3 premium user with active premium or gauth premium user has access to infrastructure
+    hasInfrastructureAccess, // web3 premium user with active premium or gauth premium user has access to infrastructure
+    premiumUntil,
+    hasFreeToPremiumTransition,
+    hasPremiumToFreeTransition,
+    hasStatusTransition,
     hasConnectWalletMessage,
   };
 };

@@ -1,39 +1,43 @@
 import { Route, Switch } from 'react-router-dom';
 
-import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
-import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
-import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
-import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
-import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
-import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
-import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
-import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
 import {
-  GuardAuthRoute,
-  GuardPremiumEndpointRoute,
-} from './domains/auth/components/GuardAuthRoute';
-import { useAuth } from './domains/auth/hooks/useAuth';
+  AdvancedApiRoutes,
+  AdvancedApiRoutesConfig,
+} from './domains/advancedApi/routes';
+import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import {
   ChainDetailsRoutes,
   ChainPrivateRoutes,
   ChainsRoutes,
   ChainsRoutesConfig,
 } from './domains/chains/routes';
-import {
-  AdvancedApiRoutes,
-  AdvancedApiRoutesConfig,
-} from './domains/advancedApi/routes';
+import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';
-import { PageNotFound } from './modules/router/components/PageNotFound';
+import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
+import {
+  GuardAuthRoute,
+  GuardPremiumEndpointRoute,
+} from './domains/auth/components/GuardAuthRoute';
+import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
+import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
+import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
+import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
+import { PageNotFound } from './modules/router/components/PageNotFound';
+import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { useAuth } from './domains/auth/hooks/useAuth';
 import { useAutoconnect } from './useAutoconnect';
-import { GuardPremiumRoute } from 'domains/auth/components/GuardAuthRoute/GuardPremiumRoute';
 import { useWeb3ThemeSwitcher } from './useWeb3ThemeSwitcher';
 
 export const Routes = () => {
-  const { hasPremium, isUserEthAddressType, authorizationToken } = useAuth();
+  const {
+    authorizationToken,
+    hasPremium,
+    hasPrivateAccess,
+    isUserEthAddressType,
+  } = useAuth();
 
   const hasAuthData = Boolean(authorizationToken);
 
@@ -45,7 +49,7 @@ export const Routes = () => {
       <GuardPricingRoute
         exact
         path={[PricingRoutesConfig.pricing.path]}
-        hasPremium={hasPremium}
+        hasAuthData={hasAuthData}
         render={() => (
           <DefaultLayout
             hasGradient
@@ -60,20 +64,10 @@ export const Routes = () => {
       <GuardAuthRoute
         exact
         path={[
+          AccountRoutesConfig.accountDetails.path,
           AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.cardPaymentFailure.path,
         ]}
-        hasAuthData={hasAuthData}
-        hasPremium={hasPremium}
-        render={() => (
-          <DefaultLayout>
-            <AccountRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <GuardPremiumRoute
-        exact
-        path={AccountRoutesConfig.accountDetails.path}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
@@ -88,6 +82,7 @@ export const Routes = () => {
         isUserEthAddressType={isUserEthAddressType}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
+        hasPrivateAccess={hasPrivateAccess}
         render={() => (
           <DefaultLayout>
             <AccountRoutes />

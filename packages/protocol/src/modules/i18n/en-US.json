@@ -941,27 +941,33 @@
           "title": "Withdraw"
         },
         "descriptions": {
-          "new": {
+          "freemium": {
             "extra": "Top up your balance to use our service."
           },
-          "premium": {
+          "freemium-transition": {
+            "extra": "Updating"
+          },
+          "premium-transition": {
+            "extra": "Updating"
+          },
+          "old-premium": {
             "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
             "extra": "Then you'll have to Top Up your balance to continue using premium features."
           },
-          "premium-expired": {
+          "old-premium-expired": {
             "main": "Your premium subscription is ended.",
             "extra": "Top up your balance to continue using our service."
           },
-          "payg-active": {
+          "premium-active": {
             "extra": "Enough for {quantifier}{time} {period}, based on your current usage."
           },
-          "payg-inactive": {
+          "premium-inactive": {
             "extra": "Top up your balance to continue using our service."
           },
-          "payg-warning": {
+          "premium-warning": {
             "extra": "Enough for just {quantifier}{time} {period}, based on your current usage."
           },
-          "payg-warning-zero": {
+          "premium-warning-zero": {
             "extra": "Based on the current usage, it may not be enough for your needs. Top Up your balance to continue taking full advantage of our service."
           },
           "periods": {
@@ -1032,7 +1038,7 @@
       "title": "Top Up"
     },
     "card-payment-success": {
-      "breadcrumbs": "Pricing",
+      "breadcrumbs": "Billing",
       "pricing": {
         "title": "Everything looks good!",
         "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min."
@@ -1567,6 +1573,18 @@
         "hmy_getBlockSigners": "Returns list of block signers"
       }
     }
+  },
+  "status-transition-dialog": {
+    "title": "Transaction in process!",
+    "description": "All done well! It takes time to credit funds, your <span>Premium</span> status will appear soon.",
+    "button": "Continue"
+  },
+  "connect-wallet-dialog": {
+    "title": "Connect wallet for\nrelated account",
+    "description": "Please connect the wallet related to your account to unlock all features",
+    "connect-button": "Connect Wallet",
+    "logout-button": "Logout",
+    "address-description": "Connected address"
   },
   "user-group": {
     "modal": {

@@ -27,7 +27,7 @@ export const useCardStyles = makeStyles<boolean, 'view'>()(
       },
 
       [`&:hover .${classes.view}`]: {
-        display: 'flex',
+        visibility: 'visible',
       },
     },
     row: {
@@ -49,7 +49,8 @@ export const useCardStyles = makeStyles<boolean, 'view'>()(
       minWidth: 40,
       minHeight: 40,
       padding: 0,
-      display: isSelected ? 'flex' : 'none',
+      display: 'flex',
+      visibility: isSelected ? 'visible' : 'hidden',
       marginTop: -10,
       marginRight: -10,
 

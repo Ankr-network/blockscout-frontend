@@ -1,13 +1,13 @@
 import { Container } from '@mui/material';
 
-import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton/AccountDetailsButton';
+import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { SignupButton } from 'domains/auth/components/SignupButton';
-import { useStyles } from './useStyles';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useStyles } from './useStyles';
 
 interface HeaderProps {
   className?: string;
@@ -16,7 +16,7 @@ interface HeaderProps {
 
 export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
   const { classes, cx } = useStyles();
-  const { hasPremium, hasWeb3Connection } = useAuth();
+  const { hasWeb3Connection, isLoggedIn } = useAuth();
 
   return (
     <header className={cx(classes.root, className)}>
@@ -25,7 +25,7 @@ export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
         <div className={classes.right}>
           <NoReactSnap>
             <div className={classes.buttons}>
-              {hasPremium && <AccountDetailsButton />}
+              {isLoggedIn && <AccountDetailsButton />}
               <UserGroupDialog />
               <SignupButton />
               {hasWeb3Connection && <ThemeSwitcher />}

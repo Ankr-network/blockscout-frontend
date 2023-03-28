@@ -3,6 +3,7 @@ import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/use
 import { Chain, Timeframe } from 'domains/chains/types';
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { PremiumOnlyChainCard } from '../../../PremiumOnlyChainCard';
+import { ComingSoonChainCard } from '../../../ComingSoonChainCard';
 
 export interface IChainCardProps {
   chain: Chain;
@@ -21,7 +22,7 @@ export const PublicChainCard = ({
   });
 
   const { totalRequestsStr } = useCommonChainsItemData(chain, totalRequests);
-  const { premiumOnly } = chain;
+  const { premiumOnly, isComingSoon } = chain;
 
   const cardProps: IBaseChainCardProps = {
     chain,
@@ -30,6 +31,10 @@ export const PublicChainCard = ({
     totalRequests: totalRequestsStr,
     ...props,
   };
+
+  if (isComingSoon) {
+    return <ComingSoonChainCard {...cardProps} />;
+  }
 
   if (premiumOnly) {
     return <PremiumOnlyChainCard {...cardProps} />;

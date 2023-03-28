@@ -13,6 +13,7 @@ import {
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
 import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
+import { setOauthLoginTimestamp } from 'domains/auth/store/authSlice';
 import { trackWeb2ConnectFailure } from 'modules/analytics/mixpanel/trackWeb2ConnectFailure';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
@@ -94,6 +95,8 @@ export const {
           );
 
           await trackLoginSuccess({ dispatch, getState });
+
+          dispatch(setOauthLoginTimestamp(new Date().toISOString()));
 
           return { data: {} };
         },

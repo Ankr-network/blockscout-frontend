@@ -3,10 +3,10 @@ import { Button, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { useClickHandler } from 'domains/chains/components/ChainsItemBase/components/Card/hooks/useClickHandler';
-import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
 import { Chain, Timeframe } from 'domains/chains/types';
 import { useChainCardStyles } from './useChainCardStyles';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
+import { Information } from './Information';
 
 export interface IBaseChainCardProps {
   timeframe: Timeframe;
@@ -18,6 +18,7 @@ export interface IBaseChainCardProps {
   switchTimeframe: () => void;
   totalRequests: string;
   loading: boolean;
+  badge?: ReactNode;
 }
 
 export const BaseChainsCard = ({
@@ -30,6 +31,7 @@ export const BaseChainsCard = ({
   switchTimeframe,
   totalRequests,
   loading,
+  badge,
 }: IBaseChainCardProps) => {
   const { classes, cx } = useChainCardStyles();
 
@@ -46,34 +48,27 @@ export const BaseChainsCard = ({
       role="button"
       tabIndex={0}
     >
-      <div className={classes.maininfo}>
+      <div className={classes.mainInfo}>
         <div>
           <Typography className={classes.title}>{name}</Typography>
           <Typography className={classes.subtitle}>
             {coinName.toUpperCase()}
           </Typography>
         </div>
-        <img src={icon} className={classes.icon} alt="ethereum" />
+        {badge && <div className={classes.badge}>{badge}</div>}
+        <img src={icon} className={classes.icon} alt={id} />
       </div>
       <div>
         <Typography className={classes.information}>
           {loading ? (
             <Skeleton className={classes.skeleton} />
           ) : (
-            <>
-              {!!totalRequests && (
-                <>
-                  {t('chains.req', {
-                    value: totalRequests,
-                  })}{' '}
-                  <TimeframeSwitcher
-                    timeframe={timeframe}
-                    onSwitch={switchTimeframe}
-                    className={classes.timeSwitcher}
-                  />
-                </>
-              )}
-            </>
+            <Information
+              timeframe={timeframe}
+              switchTimeframe={switchTimeframe}
+              totalRequests={totalRequests}
+              timeframeClassName={classes.timeSwitcher}
+            />
           )}
         </Typography>
         <Button

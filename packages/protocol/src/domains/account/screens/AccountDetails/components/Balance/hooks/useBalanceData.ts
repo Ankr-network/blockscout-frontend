@@ -2,8 +2,8 @@ import { Balance } from 'domains/account/actions/balance/types';
 import { BalanceData } from '../types';
 import { Currency } from 'domains/account/types';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useAccountType } from './useAccountType';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
 import { useCurrency } from './useCurrency';
@@ -19,26 +19,24 @@ const balancesMap: BalanceMap = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isConnected, isConnecting, isNew, premiumUntil, hasPrivateAccess } =
-    useAccountAuth();
+  const { isLoggedIn, loading: isConnecting, premiumUntil } = useAuth();
+  const isConnected = isLoggedIn && !isConnecting;
 
   const {
     isLoadingInitially: isBalanceLoading,
     usdBalance,
     ...balance
-  } = useBalance(hasPrivateAccess);
+  } = useBalance();
 
   const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
     useBalanceEndTime(isConnected);
 
   const [currency, switchCurrency] = useCurrency();
 
-  const { accountType } = useAccountType(
-    balance.ankrBalance,
-    isNew,
-    premiumUntil,
+  const accountType = useAccountType({
+    ankrBalance: balance.ankrBalance,
     isConnected,
-  );
+  });
 
   return {
     accountType,

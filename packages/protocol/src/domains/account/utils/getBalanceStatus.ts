@@ -1,18 +1,19 @@
 import { AccountType, BalanceStatus } from 'domains/account/types';
 
-const { GREEN, RED, YELLOW } = BalanceStatus;
+const { GREEN, GREY, RED, YELLOW } = BalanceStatus;
 
 const statusesMap: Record<AccountType, BalanceStatus> = {
-  [AccountType.NEW]: RED,
-  [AccountType.PAYG_ACTIVE]: GREEN,
-  [AccountType.PAYG_INACTIVE]: RED,
-  [AccountType.PAYG_UNKNOWN]: RED,
-  [AccountType.PAYG_UNKNOWN_WITH_BALANCE]: GREEN,
-  [AccountType.PAYG_WARNING]: YELLOW,
-  [AccountType.PAYG_WARNING_ZERO]: YELLOW,
-  [AccountType.PREMIUM]: GREEN,
-  [AccountType.PREMIUM_EXPIRED]: RED,
+  [AccountType.FREEMIUM]: RED,
+  [AccountType.FREEMIUM_TRANSITION]: GREY,
+  [AccountType.PREMIUM_TRANSITION]: GREY,
+  [AccountType.PREMIUM_ACTIVE]: GREEN,
+  [AccountType.PREMIUM_INACTIVE]: RED,
+  [AccountType.PREMIUM_UNKNOWN]: RED,
+  [AccountType.PREMIUM_UNKNOWN_WITH_BALANCE]: GREEN,
+  [AccountType.PREMIUM_WARNING]: YELLOW,
+  [AccountType.PREMIUM_WARNING_ZERO]: YELLOW,
+  [AccountType.OLD_PREMIUM]: GREEN,
+  [AccountType.OLD_PREMIUM_EXPIRED]: RED,
 };
 
-export const getBalanceStatus = (type: AccountType): BalanceStatus =>
-  statusesMap[type];
+export const getBalanceStatus = (type: AccountType) => statusesMap[type];

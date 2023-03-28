@@ -1,7 +1,6 @@
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 import { Chain, Timeframe } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
 import { PrivateChainCard } from '../PrivateChains/components/PrivateChainCard';
 import { PublicChainCard } from '../PublicChains/components/PublicChainCard';
 
@@ -25,17 +24,15 @@ export const ChainsList = ({
 
   return (
     <div className={classes.root}>
-      {chains
-        .filter(item => item.id !== ChainID.MULTICHAIN)
-        .map(item => {
-          const { id } = item;
+      {chains.map(item => {
+        const { id } = item;
 
-          return isPublic ? (
-            <PublicChainCard key={id} chain={item} {...props} />
-          ) : (
-            <PrivateChainCard key={id} chain={item} {...props} />
-          );
-        })}
+        return isPublic ? (
+          <PublicChainCard key={id} chain={item} {...props} />
+        ) : (
+          <PrivateChainCard key={id} chain={item} {...props} />
+        );
+      })}
     </div>
   );
 };
