@@ -188,7 +188,14 @@
     },
     "for-premium-only": "For Premium only",
     "endpoints-and-more": "Endpoints & More",
-    "premium-only": "Premium Only"
+    "premium-only": "Premium Only",
+    "upgrade-premium": {
+      "title": "Premium",
+      "item-1": "<em>90,000</em> requests/min",
+      "item-2": "WebSockets",
+      "item-3": "Archive calls and other features",
+      "button": "Upgrade"
+    }
   },
   "jwt-token": {
     "default-project-name": "Primary",

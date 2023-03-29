@@ -7,6 +7,7 @@ import { getOptionsByTabs } from './utils/getOptionsByTabs';
 
 export interface MobileGroupSelectorProps {
   className?: string;
+  rootClassName?: string;
   groupID: ChainGroupID;
   groups: EndpointGroup[];
   onGroupSelect: (id: ChainGroupID) => void;
@@ -16,6 +17,7 @@ export interface MobileGroupSelectorProps {
 
 export const MobileGroupSelector = ({
   className,
+  rootClassName,
   groupID,
   groups,
   onGroupSelect,
@@ -42,6 +44,7 @@ export const MobileGroupSelector = ({
           paper: classes.menuPaper,
         },
       }}
+      rootClassName={rootClassName}
       className={cx(className, classes.mobileGroupSelector)}
       classes={{
         select: classes.select,
