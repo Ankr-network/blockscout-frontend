@@ -44,6 +44,12 @@ export const MENU_LIST = [
     url: ' https://polygon-rpc.com/',
   },
   {
+    chainId: ChainId.POLYGON_ZKEVM,
+    name: POLYGON_ZKEVM_CHAIN_NAME,
+    logo: <PolygonZkemvLogo />,
+    url: 'https://polygon-rpc.com/zkevm/',
+  },
+  {
     chainId: ChainId.Nervos,
     name: 'Nervos',
     logo: <NervosLogo />,
@@ -66,12 +72,6 @@ export const MENU_LIST = [
     name: 'Avalanche',
     logo: <AvalancheLogo />,
     url: 'https://avalanche.public-rpc.com/',
-  },
-  {
-    chainId: ChainId.POLYGON_ZKEVM,
-    name: POLYGON_ZKEVM_CHAIN_NAME,
-    logo: <PolygonZkemvLogo />,
-    url: 'https://polygon-rpc.com/zkevm/',
   },
   {
     chainId: ChainId.IoTeX,
