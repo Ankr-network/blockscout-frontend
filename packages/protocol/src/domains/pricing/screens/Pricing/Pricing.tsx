@@ -23,12 +23,12 @@ export const Pricing = () => {
   const { classes } = usePricingStyles(isLightTheme);
   const isMobile = useIsXSDown();
   const {
-    hasPrivateAccess,
     loading,
     hasWeb3Connection,
     hasOauthLogin,
     address,
     isUserEthAddressType,
+    hasUserEndpointToken,
   } = useAuth();
 
   useSetBreadcrumbs([
@@ -71,7 +71,7 @@ export const Pricing = () => {
                 <PremiumBlock
                   hasWeb3Connection={hasWeb3Connection}
                   hasOauthLogin={hasOauthLogin}
-                  hasPrivateAccess={hasPrivateAccess}
+                  hasUserEndpointToken={hasUserEndpointToken}
                   address={address}
                   isUserAddress={isUserEthAddressType}
                 />

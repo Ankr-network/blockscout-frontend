@@ -2,7 +2,7 @@ import { ChartCurrency, ChartTimeframe } from '../types';
 import { Formatters, useFormatters } from './useFormatters';
 import { IChartData } from 'modules/common/components/Chart';
 import { getTransactions } from '../utils/getTransactions';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCurrency } from './useCurrency';
 import { usePaymentHistory } from './usePaymentHistory';
 import { useTimeframe } from './useTimeframe';
@@ -19,7 +19,7 @@ interface Chart {
 }
 
 export const useChart = (): Chart => {
-  const { isConnecting, hasPrivateAccess } = useAccountAuth();
+  const { hasPrivateAccess, loading: isConnecting } = useAuth();
 
   const [currency, switchCurrency] = useCurrency();
   const [timeframe, setTimeframe] = useTimeframe();

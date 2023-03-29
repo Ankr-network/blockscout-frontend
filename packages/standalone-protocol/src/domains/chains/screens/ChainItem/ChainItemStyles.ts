@@ -29,7 +29,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     },
   },
   details: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(3),
   },
   chart: {
     marginTop: theme.spacing(6),
@@ -111,6 +111,18 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     '& svg': {
       maxWidth: 80,
+    },
+  },
+  zkEvmText: {
+    margin: theme.spacing(3, 0),
+    textAlign: 'center',
+
+    '& b': {
+      color: theme.palette.primary.main,
+    },
+
+    '& a': {
+      color: theme.palette.primary.main,
     },
   },
 }));

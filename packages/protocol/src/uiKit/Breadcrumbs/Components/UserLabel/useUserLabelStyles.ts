@@ -23,4 +23,9 @@ export const useUserLabelStyles = makeStyles()(theme => ({
     padding: theme.spacing(0.5, 2),
     borderRadius: 8,
   },
+  transition: {
+    background: theme.palette.grey[100],
+
+    color: theme.palette.grey[600],
+  },
 }));

@@ -9,7 +9,7 @@ export const useConnectButton = () => {
   const {
     address,
     hasOauthLogin,
-    hasPrivateAccess,
+    hasUserEndpointToken,
     hasWeb3Connection,
     isUserEthAddressType,
   } = useAuth();
@@ -18,11 +18,16 @@ export const useConnectButton = () => {
     () =>
       shouldShowConnectWalletButton({
         hasOauthLogin,
+        hasUserEndpointToken,
         hasWeb3Connection,
-        hasPrivateAccess,
         isUserAddress: isUserEthAddressType,
       }),
-    [hasOauthLogin, hasPrivateAccess, hasWeb3Connection, isUserEthAddressType],
+    [
+      hasOauthLogin,
+      hasUserEndpointToken,
+      hasWeb3Connection,
+      isUserEthAddressType,
+    ],
   );
 
   return {

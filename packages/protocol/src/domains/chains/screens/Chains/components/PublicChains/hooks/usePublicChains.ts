@@ -10,6 +10,7 @@ import {
 } from './utils';
 import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 
 export interface ChainsParams {
   chains: IApiChain[];
@@ -35,7 +36,9 @@ export const usePublicChains = ({
         chains: formatRequestsCount(chains, data),
         sortType,
         isLoading: arePublicStatsLoading,
-      }).filter(item => filteredByNameChains(item, searchContent)),
+      })
+        .filter(item => filteredByNameChains(item, searchContent))
+        .filter(excludeMultiChain),
     [searchContent, chains, data, sortType, arePublicStatsLoading],
   );
 

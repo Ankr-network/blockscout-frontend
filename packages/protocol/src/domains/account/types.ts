@@ -6,20 +6,23 @@ import { TopUpTrackingParams } from 'modules/analytics/mixpanel/trackTopUp';
 
 export enum BalanceStatus {
   GREEN,
+  GREY,
   RED,
   YELLOW,
 }
 
 export enum AccountType {
-  NEW,
-  PAYG_ACTIVE,
-  PAYG_INACTIVE,
-  PAYG_UNKNOWN,
-  PAYG_UNKNOWN_WITH_BALANCE,
-  PAYG_WARNING,
-  PAYG_WARNING_ZERO,
-  PREMIUM,
-  PREMIUM_EXPIRED,
+  FREEMIUM,
+  FREEMIUM_TRANSITION,
+  OLD_PREMIUM,
+  OLD_PREMIUM_EXPIRED,
+  PREMIUM_ACTIVE,
+  PREMIUM_INACTIVE,
+  PREMIUM_TRANSITION,
+  PREMIUM_UNKNOWN,
+  PREMIUM_UNKNOWN_WITH_BALANCE,
+  PREMIUM_WARNING,
+  PREMIUM_WARNING_ZERO,
 }
 
 export enum Currency {

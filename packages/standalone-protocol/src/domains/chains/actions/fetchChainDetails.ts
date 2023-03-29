@@ -46,7 +46,7 @@ export const fetchChainDetails = createSmartAction<
       onRequest: () => {
         return {
           promise: (async () => {
-            if (isStandalone) {
+            if (isStandalone || chainId === ChainId.POLYGON_ZKEVM) {
               const url = getStandaloneUrl(chainId as StandaloneType);
 
               return MultiService.getService()

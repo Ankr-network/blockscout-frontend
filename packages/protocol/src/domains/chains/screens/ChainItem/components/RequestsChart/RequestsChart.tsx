@@ -1,15 +1,15 @@
-import { useMemo } from 'react';
 import { OverlaySpinner } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { Chart } from 'modules/common/components/Chart';
 import { ItemHeader } from '../ItemHeader';
 import { Placeholder } from './components/Placeholder';
 import { RequestsChartProps } from './types';
 import { Tooltip } from './components/Tooltip';
-import { t } from '@ankr.com/common';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useRequestsChart } from './hooks/useRequestsChart';
 import { useRequestsChartStyles } from './RequestsChartStyles';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 
 const title = t('chain-item.usage-data.chart.title');
 
@@ -17,7 +17,7 @@ export const RequestsChart = (props: RequestsChartProps) => {
   const { chartProps, timeframe, withChart, withPlaceholder, withPreloader } =
     useRequestsChart(props);
 
-  const { hasPrivateAccess } = useAccountAuth();
+  const { hasPrivateAccess } = useAuth();
 
   const { classes } = useRequestsChartStyles();
 

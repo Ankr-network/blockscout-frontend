@@ -16,12 +16,13 @@ import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const TopUpQuery = () => {
-  const { loading, hasPrivateAccess, isWalletConnected } = useAuth();
+  const { loading, hasPrivateAccess, isLoggedIn, isWalletConnected } =
+    useAuth();
   const [getInitialStep, { data = TopUpStep.start, isLoading }] =
     useQueryEndpoint(topUpGetInitialStep);
   const [reset] = useLazyTopUpResetQuery();
   const history = useHistory();
-  const routesConfig = useTopUpOriginRoute(hasPrivateAccess);
+  const routesConfig = useTopUpOriginRoute(isLoggedIn);
 
   useCheckConfirmedEmail(hasPrivateAccess, isWalletConnected);
 

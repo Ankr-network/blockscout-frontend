@@ -15,7 +15,7 @@ export const useSubmitTrackingHandler = (): TrackTopUpSubmit => {
     trackingWalletName: walletName,
   } = useAuth();
 
-  const { creditBalance } = useBalance(hasPrivateAccess);
+  const { creditBalance } = useBalance();
 
   const { rates } = useRates();
 

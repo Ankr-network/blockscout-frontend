@@ -24,6 +24,8 @@ export const useHeaderStyles = makeStyles()(theme => ({
   title: {
     marginRight: theme.spacing(1),
 
+    color: theme.palette.grey[900],
+
     [theme.breakpoints.down('sm')]: {
       fontSize: 24,
     },

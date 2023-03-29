@@ -1,8 +1,8 @@
 import { EthAddressType, IJwtToken, WorkerTokenData } from 'multirpc-sdk';
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IWalletMeta } from '@ankr.com/provider';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
-import { IWalletMeta } from '@ankr.com/provider';
 import { clearCookie, getCookieByName, setCookie } from './cookie';
 
 const WORKER_TOKEN_DATA_KEY = 'WORKER_TOKEN_DATA_KEY';
@@ -25,10 +25,12 @@ export interface IAuthSlice {
   workerTokenData?: WorkerTokenData;
   isInstantJwtParticipant?: boolean;
   hasWeb3Autoconnect?: boolean;
+  oauthLoginTimestamps?: Record<string, string>;
 }
 
 const initialState: IAuthSlice = {
   address: '',
+  oauthLoginTimestamps: {},
 };
 
 export const authSlice = createSlice({
@@ -53,6 +55,16 @@ export const authSlice = createSlice({
       });
     },
 
+    setOauthLoginTimestamp: (state, { payload }: PayloadAction<string>) => {
+      const { email } = state;
+
+      if (email) {
+        state.oauthLoginTimestamps = {
+          ...(state.oauthLoginTimestamps ?? {}),
+          [email]: state.oauthLoginTimestamps?.[email] ?? payload,
+        };
+      }
+    },
     resetAuthData: state => {
       clearCookie(WORKER_TOKEN_DATA_KEY);
       WORKER_TOKEN_DATA = undefined;
@@ -60,9 +72,17 @@ export const authSlice = createSlice({
       Object.keys(state).forEach(key => {
         const objKey = key as keyof IAuthSlice;
 
+        if (key === 'oauthLoginTimestamps') return;
+
         // @ts-ignore
         state[objKey] = undefined;
       });
+    },
+    resetOauthLoginTimestamp: state => {
+      // updates selectors cache
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      state = { ...state };
     },
   },
 });
@@ -84,18 +104,9 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
   return { address: '' };
 };
 
-export const selectHasPremium = createSelector(
-  selectAuthData,
-  ({
-    credentials,
-    hasDepositTransaction,
-    hasVoucherTransactionAndBalanceIsGreaterThanZero,
-  }) =>
-    Boolean(
-      credentials ||
-        hasDepositTransaction ||
-        hasVoucherTransactionAndBalanceIsGreaterThanZero,
-    ),
-);
-
-export const { setAuthData, resetAuthData } = authSlice.actions;
+export const {
+  setAuthData,
+  setOauthLoginTimestamp,
+  resetAuthData,
+  resetOauthLoginTimestamp,
+} = authSlice.actions;

@@ -1,4 +1,4 @@
-import { Container } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import { useStyles } from './ChainItemStyles';
@@ -10,6 +10,7 @@ import { Header } from 'modules/common/components/Header';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId, isStandaloneChain } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
+import { tHTML } from 'modules/i18n/utils/intl';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
@@ -22,6 +23,7 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   const isStandalone = isStandaloneChain(chainId);
 
   const isComingSoon = Boolean(data?.chain?.isComingSoon);
+  const isPolygon = chainId === ChainId.Polygon;
 
   return (
     <ThemeProvider theme={getTheme(chainId)}>
@@ -33,6 +35,11 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
           data={data}
           chainId={chainId}
         />
+        {isPolygon && (
+          <Typography className={classes.zkEvmText} variant="body2">
+            {tHTML('chain-item.polygon-zk-evm.description')}
+          </Typography>
+        )}
         <ChainItemDetailsQuery
           isComingSoon={isComingSoon}
           chainId={chainId}

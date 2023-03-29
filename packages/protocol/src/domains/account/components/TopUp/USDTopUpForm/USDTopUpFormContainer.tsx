@@ -1,7 +1,6 @@
 import { TopUpEmailDialog } from '../ANKRTopUpForm/TopUpEmailDialog';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { USDTopUpForm } from './USDTopUpForm';
-import { useAccountAuth } from 'domains/account/hooks/useAccountAuth';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useOnTopUpSubmit } from './USDTopUpFormUtils';
 
@@ -12,8 +11,6 @@ export interface USDTopUpFormContainerProps {
 export const USDTopUpFormContainer = ({
   trackSubmit,
 }: USDTopUpFormContainerProps) => {
-  const { isOldPremium, hasPrivateAccess } = useAccountAuth();
-
   const emailData = useEmailData();
 
   const { onSubmit, isLoading, ...dialogProps } = useOnTopUpSubmit(
@@ -27,7 +24,7 @@ export const USDTopUpFormContainer = ({
       <USDTopUpForm
         onSubmit={onSubmit}
         isLoading={isLoading}
-        shouldUseDefaultValue={!hasPrivateAccess || isOldPremium}
+        shouldUseDefaultValue
       />
       <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
     </>

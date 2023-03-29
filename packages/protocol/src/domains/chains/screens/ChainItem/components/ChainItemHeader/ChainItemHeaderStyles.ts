@@ -3,10 +3,6 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useChainItemHeaderStyles = makeStyles()((theme: Theme) => ({
   chainItemHeader: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2 * 3.75),
-
     marginBottom: theme.spacing(2 * 7.5),
     padding: theme.spacing(2 * 3.75),
 
@@ -22,6 +18,7 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
       display: 'flex',
       gap: theme.spacing(2 * 1.5),
       alignItems: 'flex-start',
+      marginTop: theme.spacing(8),
 
       flexDirection: shouldOnlyShowMobileSelector ? 'column' : undefined,
 
@@ -39,6 +36,11 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
         },
       },
     },
+    rootMobileGroupSelector: {
+      '&&': {
+        marginBottom: theme.spacing(8),
+      },
+    },
     mobileGroupSelector: {
       '&&': {
         display: shouldOnlyShowMobileSelector ? 'flex' : 'none',
@@ -46,6 +48,17 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
         [theme.breakpoints.down('sm')]: {
           display: 'flex',
         },
+      },
+    },
+    content: {
+      display: 'flex',
+      alignItems: 'stretch',
+      alignContent: 'center',
+      justifyContent: 'center',
+      gap: theme.spacing(7.5),
+
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
       },
     },
   }),

@@ -13,13 +13,13 @@ export interface UseCurrencyTabsResult {
 }
 
 export const useCurrencyTabs = (): UseCurrencyTabsResult => {
-  const { isFreePremium } = useAuth();
+  const { isUserEthAddressType } = useAuth();
 
   const tabs: Tab<TopUpCurrency>[] = useMemo(
     () => [
       {
         id: TopUpCurrency.ANKR,
-        isDisabled: isFreePremium,
+        isDisabled: !isUserEthAddressType,
         title: (isSelected: boolean, isDisabled: boolean) =>
           renderTabTitle({
             currency: TopUpCurrency.ANKR,
@@ -33,7 +33,7 @@ export const useCurrencyTabs = (): UseCurrencyTabsResult => {
           renderTabTitle({ currency: TopUpCurrency.USD, isSelected }),
       },
     ],
-    [isFreePremium],
+    [isUserEthAddressType],
   );
 
   const [currencyTabs, selectedTab, selectCurrency] = useTabs({ tabs });

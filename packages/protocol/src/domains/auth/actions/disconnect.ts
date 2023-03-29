@@ -24,6 +24,7 @@ export const {
         resetEndpoint('chainsFetchPremiumChainFeatures', dispatch);
         resetEndpoint('infrastructureFetchProvider', dispatch);
         resetEndpoint('accountFetchAccountBalance', dispatch);
+        resetEndpoint('fetchPremiumStatus', dispatch);
         resetEndpoint('userGroupFetchGroups', dispatch);
         resetEndpoint('shouldShowUserGroupDialog', dispatch);
 

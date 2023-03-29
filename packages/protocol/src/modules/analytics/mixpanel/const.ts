@@ -7,6 +7,7 @@ export enum EndpointType {
 export enum MixpanelEvent {
   ADD_EMAIL = 'add-email',
   BANNER_FREE_TO_REGISTER = 'banner_free_to_register',
+  CLICK_AAPI = 'click_aapi',
   CONNECT_WALLET_FLOW = 'connect_wallet_flow',
   ENTER_BILLING_FLOW = 'enter_billing_flow',
   ENTER_ENDPOINTS_FLOW = 'enter_endpoints_flow',
