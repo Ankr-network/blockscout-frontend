@@ -35,14 +35,17 @@ export const useChainItemHeaderSkeletonStyles = makeStyles()(
       width: theme.spacing(2 * 21.5),
       height: theme.spacing(2 * 5),
       marginBottom: theme.spacing(2 * 0.5),
+      borderRadius: theme.spacing(3),
     },
     subtitle: {
       width: theme.spacing(2 * 15.75),
       height: theme.spacing(2 * 3),
+      borderRadius: theme.spacing(3),
     },
     docs: {
       width: theme.spacing(2 * 10),
       height: theme.spacing(2 * 4),
+      borderRadius: theme.spacing(3),
     },
     controls: {
       display: 'flex',
@@ -55,6 +58,7 @@ export const useChainItemHeaderSkeletonStyles = makeStyles()(
     chainTypeSelector: {
       width: theme.spacing(2 * 38.5),
       height: theme.spacing(2 * 5),
+      borderRadius: theme.spacing(3),
 
       [theme.breakpoints.down('md')]: {
         width: theme.spacing(2 * 38),
@@ -64,6 +68,7 @@ export const useChainItemHeaderSkeletonStyles = makeStyles()(
     groupSelector: {
       width: theme.spacing(2 * 58.75),
       height: theme.spacing(2 * 5),
+      borderRadius: theme.spacing(3),
 
       [theme.breakpoints.down('md')]: {
         width: '100%',

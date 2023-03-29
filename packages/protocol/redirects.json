@@ -1,0 +1,18 @@
+[
+  {
+    "from": "rpc/public/index.html",
+    "to": "/rpc/"
+  },
+  {
+    "from": "rpc/polygon/polygon_zkevm_testnet/index.html",
+    "to": "/rpc/polygon_zkevm/polygon_zkevm_testnet/"
+  },
+  {
+    "from": "rpc/polygon/polygon_zkevm/index.html",
+    "to": "/rpc/polygon_zkevm/"
+  },
+  {
+    "from": "rpc/aptos_testnet/index.html",
+    "to": "/rpc/aptos/"
+  }
+]

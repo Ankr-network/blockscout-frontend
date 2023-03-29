@@ -10,6 +10,7 @@ import { ChainOverview } from './components/ChainOverview';
 import { MobileGroupSelector } from './components/MobileGroupSelector';
 import { chainsWithMobileOnlySelector } from './const';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
+import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;
@@ -84,6 +85,7 @@ export const ChainItemHeaderContent = ({
             visible={withGroupSelector}
           />
           <MobileGroupSelector
+            rootClassName={classes.rootMobileGroupSelector}
             className={classes.mobileGroupSelector}
             groupID={groupID}
             groups={groups}
@@ -93,11 +95,14 @@ export const ChainItemHeaderContent = ({
           />
         </div>
       )}
-      <Endpoints
-        publicChain={publicChain}
-        chainType={chainType}
-        group={group}
-      />
+      <div className={classes.content}>
+        <Endpoints
+          publicChain={publicChain}
+          chainType={chainType}
+          group={group}
+        />
+        <PremiumContent />
+      </div>
     </>
   );
 };
