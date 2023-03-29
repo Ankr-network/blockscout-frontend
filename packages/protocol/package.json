@@ -1,5 +1,5 @@
 {
-  "name": "ankr-mrpc-web",
+  "name": "ankr-protocol-web",
   "version": "1.45.1",
   "private": true,
   "scripts": {
