@@ -4,16 +4,9 @@ import { MemoryRouter } from 'react-router';
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { ONE_ETH } from 'modules/common/const';
-import {
-  IUseHistoryData,
-  useHistory,
-} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
 import { useDialog } from 'modules/dialogs';
 
-import {
-  IUseStakedFTMTxHistory,
-  useStakedFTMTxHistory,
-} from '../../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory';
+import { useStakedFTMTxHistory } from '../../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory';
 import { StakedAFTMB } from '../StakedAFTMB';
 import { IStakedAFTMBData, useStakedAFTMBData } from '../useStakedAFTMBData';
 
@@ -31,10 +24,6 @@ jest.mock('../useStakedAFTMBData', () => ({
 
 jest.mock('../../../hooks/liquid-tokens/FTM/useStakedFTMTxHistory', () => ({
   useStakedFTMTxHistory: jest.fn(),
-}));
-
-jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
-  useHistory: jest.fn(),
 }));
 
 jest.mock('modules/dialogs', () => ({
@@ -56,27 +45,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
     handleAddTokenToWallet: jest.fn(),
   };
 
-  const defaultStakedFTMTxHistory: IUseStakedFTMTxHistory = {
-    stakedAFTMB: [],
-    stakedAFTMC: [],
-    unstakedAFTMB: [],
-    unstakedAFTMC: [],
-    pendingUnstakeHistoryAFTMB: [],
-    pendingUnstakeHistoryAFTMC: [],
-    hasHistory: false,
-    isHistoryLoading: false,
-    pendingValue: ONE_ETH.dividedBy(10 ** 17),
-    handleLoadTxHistory: jest.fn(),
-  };
-
-  const defaultUseHistoryHookData: IUseHistoryData = {
-    loading: false,
-    weeksAmount: 1,
-    handleShowMore: jest.fn(),
-    stakeEvents: [],
-    unstakeEvents: [],
-  };
-
   const defaultUseDialogHookData = {
     handleOpen: jest.fn(),
   };
@@ -86,11 +54,7 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAFTMB', () => {
       defaultStakedAFTMBHookData,
     );
 
-    (useStakedFTMTxHistory as jest.Mock).mockReturnValue(
-      defaultStakedFTMTxHistory,
-    );
-
-    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
+    (useStakedFTMTxHistory as jest.Mock).mockReturnValue({});
 
     (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
   });

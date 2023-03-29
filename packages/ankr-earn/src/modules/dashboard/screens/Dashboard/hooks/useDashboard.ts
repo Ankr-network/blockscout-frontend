@@ -15,7 +15,6 @@ import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBr
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
 import { getPartnerCode } from 'modules/referrals/actions/getPartnerCode';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
-import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { useGetETHClaimableDataQuery } from 'modules/stake-eth/actions/getClaimableData';
 import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonData';
@@ -26,7 +25,7 @@ import { getBalance as getMgnoBalance } from 'modules/stake-mgno/actions/getBala
 import { getMaxApr as getMGNOMaxApr } from 'modules/stake-mgno/actions/getMaxApr';
 import { getMGNOPrice } from 'modules/stake-mgno/actions/getMGNOPrice';
 import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/getTotalInfo';
-import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
+import { useGetXdcDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { getUnstakeDate } from 'modules/stake/actions/getUnstakeDate';
 import { UNSTAKE_UPDATE_INTERVAL } from 'modules/stake/const';
@@ -56,7 +55,6 @@ export const useDashboard = (): void => {
   const { refetch: getAVAXCommonDataRefetch } = useGetAVAXCommonDataQuery();
   const { refetch: getFTMCommonDataRefetch } = useGetFTMCommonDataQuery();
 
-  const { refetch: getBNBPendingValuesRefetch } = useGetBNBPendingValuesQuery();
   const { refetch: getBNBStatsRefetch } = useGetBNBStatsQuery();
   const { refetch: getMATICETHStatsRefetch } = useGetMaticOnEthStatsQuery();
 
@@ -81,7 +79,6 @@ export const useDashboard = (): void => {
     dispatch(getUnstakeDate({ poll: UNSTAKE_UPDATE_INTERVAL }));
     getAVAXCommonDataRefetch();
     getFTMCommonDataRefetch();
-    getBNBPendingValuesRefetch();
     getBNBStatsRefetch();
     getETHClaimableDataRefetch();
     getETHCommonDataRefetch();

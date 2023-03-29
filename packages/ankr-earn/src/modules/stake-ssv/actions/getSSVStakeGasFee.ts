@@ -8,7 +8,7 @@ import { getProviderManager } from 'modules/api/getProviderManager';
 import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
-import { CacheTags, ZERO } from 'modules/common/const';
+import { WalletCacheTags, ZERO } from 'modules/common/const';
 
 import { SSV_PROVIDER_ID } from '../const';
 
@@ -49,7 +49,7 @@ export const { useLazyGetSSVStakeGasFeeQuery } = web3Api.injectEndpoints({
         error =>
           getExtendedErrorText(error, t('stake-ssv.errors.stake-gas-fee')),
       ),
-      providesTags: [CacheTags.account],
+      providesTags: [WalletCacheTags.account],
     }),
   }),
 });

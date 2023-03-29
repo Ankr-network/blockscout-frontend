@@ -38,6 +38,7 @@ export interface ITxEventsHistoryRangeProps<T> {
   from: number;
   provider: T;
   to: number;
+  isUnstakeOnly?: boolean;
 }
 
 export interface IWeb3BalanceProps<T> {

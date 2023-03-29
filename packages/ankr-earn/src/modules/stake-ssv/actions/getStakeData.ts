@@ -9,9 +9,9 @@ import { getProviderManager } from 'modules/api/getProviderManager';
 import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
-import { CacheTags } from 'modules/common/const';
+import { WalletCacheTags } from 'modules/common/const';
 
-import { SSV_PROVIDER_ID, SSVCacheTags } from '../const';
+import { SSVCacheTags, SSV_PROVIDER_ID } from '../const';
 
 type TGetStakeData = IGetStakeData | null;
 
@@ -77,7 +77,7 @@ export const { useGetSSVStakeDataQuery } = web3Api.injectEndpoints({
         error =>
           getExtendedErrorText(error, t('stake-ssv.errors.get-stake-data')),
       ),
-      providesTags: [CacheTags.account, SSVCacheTags.stakeData],
+      providesTags: [WalletCacheTags.account, SSVCacheTags.stakeData],
     }),
   }),
 });

@@ -8,7 +8,7 @@ import { getProviderManager } from 'modules/api/getProviderManager';
 import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
 import { selectEthProviderData } from 'modules/auth/common/store/authSlice';
-import { CacheTags } from 'modules/common/const';
+import { WalletCacheTags } from 'modules/common/const';
 
 import { SSV_ETH_PROVIDER_BY_ENV } from '../const';
 
@@ -58,7 +58,7 @@ export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
         error =>
           getExtendedErrorText(error, t('stake-ssv.errors.get-dashboard-data')),
       ),
-      providesTags: [CacheTags.account],
+      providesTags: [WalletCacheTags.account],
     }),
   }),
 });

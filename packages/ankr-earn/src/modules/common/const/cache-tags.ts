@@ -1,5 +1,5 @@
 import { getUniqueId } from '@ankr.com/common';
 
-export const CacheTags = {
+export const WalletCacheTags = {
   account: `account-${getUniqueId()}`,
 };

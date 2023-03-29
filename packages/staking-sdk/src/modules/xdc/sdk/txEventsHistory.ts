@@ -193,6 +193,7 @@ export const getTxEventsHistoryRange = async ({
  * @param {number} from - from block number
  * @param {Web3KeyReadProvider} provider - current selected provider
  * @param {number} to - to block number
+ * @param {boolean | undefined} isUnstakeOnly - if true, only unstake events will be returned
  * @returns {Promise<ITxEventsHistoryData>}
  */
 export const getTxHistoryRange = async ({
@@ -201,22 +202,11 @@ export const getTxHistoryRange = async ({
   from,
   provider,
   to,
+  isUnstakeOnly = false,
 }: ITxEventsHistoryRangeProps<Web3KeyReadProvider>): Promise<ITxHistory> => {
   const xdcStakingPoolContract = getXDCStakingPoolContract({
     env,
     provider,
-  });
-
-  const stakeRawEvents = await getWeb3PastEventsFromBlockchainByRange({
-    contract: xdcStakingPoolContract,
-    eventName: EXDCStakingPoolEvents.Staked,
-    filter: {
-      staker: address,
-    },
-    latestBlockNumber: to,
-    provider,
-    rangeStep: XDC_BLOCK_1_DAY_RANGE,
-    startBlock: from,
   });
 
   const unstakeRawEvents = await getWeb3PastEventsFromBlockchainByRange({
@@ -232,14 +222,33 @@ export const getTxHistoryRange = async ({
     startBlock: from,
   });
 
-  const stakeHistory = await getTxEventsHistoryGroup({
-    provider,
-    rawEvents: stakeRawEvents,
-  });
-
   const unstakeHistory = await getTxEventsHistoryGroup({
     provider,
     rawEvents: unstakeRawEvents,
+  });
+
+  if (isUnstakeOnly) {
+    return {
+      stakeHistory: [],
+      unstakeHistory,
+    };
+  }
+
+  const stakeRawEvents = await getWeb3PastEventsFromBlockchainByRange({
+    contract: xdcStakingPoolContract,
+    eventName: EXDCStakingPoolEvents.Staked,
+    filter: {
+      staker: address,
+    },
+    latestBlockNumber: to,
+    provider,
+    rangeStep: XDC_BLOCK_1_DAY_RANGE,
+    startBlock: from,
+  });
+
+  const stakeHistory = await getTxEventsHistoryGroup({
+    provider,
+    rawEvents: stakeRawEvents,
   });
 
   return {

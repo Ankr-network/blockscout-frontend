@@ -13,7 +13,7 @@ import {
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { useLazyAddTokenToWalletQuery } from 'modules/stake-xdc/actions/addTokenToWallet';
-import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
+import { useGetXdcDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 interface IUseTokenInfoDialogData {
@@ -36,7 +36,7 @@ export const useTokenInfoDialog = (): IUseTokenInfoDialogData => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const { data: dashboardData } = useGetDashboardDataQuery(undefined, {
+  const { data: dashboardData } = useGetXdcDashboardDataQuery(undefined, {
     refetchOnMountOrArgChange: ACTION_CACHE_SEC,
   });
 

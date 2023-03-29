@@ -38,7 +38,7 @@ import {
   ITxHistoryItem,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
-import { batchEvents } from '../utils';
+import { batchEvents, sleep } from '../utils';
 import { convertNumberToHex } from '../utils/converters';
 
 import {
@@ -302,7 +302,7 @@ export class FantomSDK
   /**
    * Get transaction history for all period that starts from contract creation.
    *
-   * @note Amount of certificate event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * @note Amount of certificate event is in FTM. If you need ankrFTM, multiply by ratio.
    * Pending status is not specified.
    *
    * @public
@@ -325,39 +325,51 @@ export class FantomSDK
   /**
    * Get transaction history for block range.
    *
-   * @note Amount of each event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * @note Amount of each event is in FTM. If you need ankrFTM, multiply by ratio.
    * Pending status is not specified.
    *
-   * @param {number} from - from block number
-   * @param {number} to - to block number
+   * @param {number} lowestBlock - from block number
+   * @param {number} highestBlock - to block number
+   * @param {boolean | undefined} isUnstakeOnly - if true, only unstake events will be returned
    * @returns {Promise<ITxHistory>} - transaction history
    */
   public async getTxHistoryRange(
-    from: number,
-    to: number,
+    lowestBlock: number,
+    highestBlock: number,
+    isUnstakeOnly = false,
   ): Promise<ITxHistory> {
     const provider = await this.getProvider();
     const fantomPoolContract = this.getFantomPoolContract(provider);
 
-    const getStakePastEventsArgs: IGetPastEvents = {
-      latestBlockNumber: to,
-      startBlock: from,
+    const getUnstakePastEventsArgs: IGetPastEvents = {
+      eventName: EFantomPoolEvents.TokensBurned,
+      latestBlockNumber: highestBlock,
+      startBlock: lowestBlock,
       contract: fantomPoolContract,
-      eventName: EFantomPoolEvents.StakeReceived,
       filter: { staker: this.currentAccount },
       provider,
       rangeStep: FANTOM_MAX_BLOCK_RANGE,
     };
 
-    const stakeRawEvents = await this.getPastEvents(getStakePastEventsArgs);
-
-    const unstakeRawEvents = await this.getPastEvents({
-      ...getStakePastEventsArgs,
-      eventName: EFantomPoolEvents.TokensBurned,
-    });
-
-    const stakeHistory = await this.getTxEventsHistoryGroup(stakeRawEvents);
+    const unstakeRawEvents = await this.getPastEvents(getUnstakePastEventsArgs);
     const unstakeHistory = await this.getTxEventsHistoryGroup(unstakeRawEvents);
+
+    if (isUnstakeOnly) {
+      return {
+        stakeHistory: [],
+        unstakeHistory,
+      };
+    }
+
+    if (!advancedAPIConfig.isActiveForFantom) {
+      await sleep(500);
+    }
+
+    const stakeRawEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      eventName: EFantomPoolEvents.StakeReceived,
+    });
+    const stakeHistory = await this.getTxEventsHistoryGroup(stakeRawEvents);
 
     return {
       stakeHistory,

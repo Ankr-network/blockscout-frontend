@@ -897,7 +897,7 @@ export class PolygonOnEthereumSDK
   /**
    * Get transaction history for all period that starts from contract creation.
    *
-   * @note Amount of certificate event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * @note Amount of certificate event is in ETH. If you need ankrETH, multiply by ratio.
    * Pending status is not specified.
    *
    * @public
@@ -920,39 +920,47 @@ export class PolygonOnEthereumSDK
   /**
    * Get transaction history for block range.
    *
-   * @note Amount of each event is in AVAX. If you need ankrAVAX, multiply by ratio.
+   * @note Amount of each event is in ETH. If you need ankrETH, multiply by ratio.
    * Pending status is not specified.
    *
-   * @param {number} from - from block number
-   * @param {number} to - to block number
+   * @param {number} lowestBlock - from block number
+   * @param {number} highestBlock - to block number
+   * @param {boolean | undefined} isUnstakeOnly - if true, only unstake events will be returned
    * @returns {Promise<ITxHistory>} - transaction history
    */
   public async getTxHistoryRange(
-    from: number,
-    to: number,
+    lowestBlock: number,
+    highestBlock: number,
+    isUnstakeOnly = false,
   ): Promise<ITxHistory> {
     const polygonPoolContract = await this.getPolygonPoolContract(true);
 
-    const getStakePastEventsArgs: IGetPastEvents = {
-      latestBlockNumber: to,
-      startBlock: from,
+    const getUnstakePastEventsArgs: IGetPastEvents = {
+      eventName: EPolygonPoolEvents.TokensBurned,
+      latestBlockNumber: highestBlock,
+      startBlock: lowestBlock,
       contract: polygonPoolContract,
-      eventName: EPolygonPoolEvents.StakePendingV2,
       filter: { staker: this.currentAccount },
       provider: this.readProvider,
       rangeStep: MAX_BLOCK_RANGE,
     };
 
-    const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
-      this.getPastEvents(getStakePastEventsArgs),
-      this.getPastEvents({
-        ...getStakePastEventsArgs,
-        eventName: EPolygonPoolEvents.TokensBurned,
-      }),
-    ]);
+    const unstakeRawEvents = await this.getPastEvents(getUnstakePastEventsArgs);
+    const unstakeHistory = await this.getTxEventsHistoryGroup(unstakeRawEvents);
+
+    if (isUnstakeOnly) {
+      return {
+        stakeHistory: [],
+        unstakeHistory,
+      };
+    }
+
+    const stakeRawEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      eventName: EPolygonPoolEvents.StakePendingV2,
+    });
 
     const stakeHistory = await this.getTxEventsHistoryGroup(stakeRawEvents);
-    const unstakeHistory = await this.getTxEventsHistoryGroup(unstakeRawEvents);
 
     return {
       stakeHistory,

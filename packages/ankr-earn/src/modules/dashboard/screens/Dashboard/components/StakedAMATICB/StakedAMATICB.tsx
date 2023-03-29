@@ -14,7 +14,7 @@ import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
+import { useStakedMaticTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
 
 import { useStakedAMATICBData } from './useStakedAMATICBData';
 
@@ -37,11 +37,8 @@ export const StakedAMATICB = (): JSX.Element | null => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const {
-    isHistoryDataLoading,
-    pendingUnstakeHistoryAMATICB,
-    handleLoadTxHistory,
-  } = useStakedMATICTxHistory();
+  const { isHistoryDataLoading, pendingBondAmount, pendingBondUnstakeHistory } =
+    useStakedMaticTxHistory();
 
   const {
     address,
@@ -51,7 +48,6 @@ export const StakedAMATICB = (): JSX.Element | null => {
     isStakeLoading,
     isUnstakeLoading,
     network,
-    pendingValue,
     stakeLink,
     switchLink,
     unstakeLink,
@@ -78,18 +74,17 @@ export const StakedAMATICB = (): JSX.Element | null => {
     });
   };
 
-  const renderedPendingSlot = !pendingValue.isZero() && (
+  const renderedPendingSlot = !pendingBondAmount.isZero() && (
     <Pending
       isLoading={isHistoryDataLoading}
       token={token}
       tooltip={
         <PendingTable
-          data={pendingUnstakeHistoryAMATICB}
+          data={pendingBondUnstakeHistory}
           unstakeLabel={unstakePendingData.label}
         />
       }
-      value={pendingValue}
-      onLoadHistory={handleLoadTxHistory}
+      value={pendingBondAmount}
     />
   );
 

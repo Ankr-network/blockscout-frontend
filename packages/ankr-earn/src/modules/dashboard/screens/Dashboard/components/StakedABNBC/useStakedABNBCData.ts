@@ -16,7 +16,6 @@ import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmou
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useStakeBNBMutation } from 'modules/stake-bnb/actions/stake';
 import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
@@ -31,12 +30,10 @@ export interface IStakedABNBCData {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
   isLoading: boolean;
-  isPendingUnstakeLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   nativeAmount?: BigNumber;
   network: string;
-  pendingValue: BigNumber;
   ratio: BigNumber;
   stakeLink: string;
   token: Token;
@@ -53,10 +50,6 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     useGetBNBStatsQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
-  const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
-    useGetBNBPendingValuesQuery(undefined, {
-      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-    });
 
   const { data: metrics } = useQuery({
     type: getMetrics,
@@ -70,7 +63,6 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
 
   const amount = statsData?.aBNBcBalance ?? ZERO;
 
-  const pendingValue = pendingValues?.pendingAbnbcUnstakes ?? ZERO;
   const usdAmount = useMemo(
     () =>
       getUSDAmount({
@@ -94,12 +86,10 @@ export const useStakedABNBCData = (): IStakedABNBCData => {
     amount,
     chainId,
     isLoading: isCommonDataLoading,
-    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
     nativeAmount,
     network,
-    pendingValue,
     ratio: statsData?.aBNBcRatio ?? ZERO,
     stakeLink: StakeBNBRoutes.stake.generatePath(),
     tradeLink: DeFiRoutes.defi.generatePath(newTokenName),

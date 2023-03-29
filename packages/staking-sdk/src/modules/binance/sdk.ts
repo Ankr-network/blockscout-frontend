@@ -1086,35 +1086,30 @@ export class BinanceSDK
    * @note Amount of each event is in BNB. If you need ankrBNB, multiply by ratio.
    * Pending status is not specified.
    *
-   * @param {number} from - from block number
-   * @param {number} to - to block number
+   * @param {number} lowestBlock - from block number
+   * @param {number} highestBlock - to block number
+   * @param {boolean | undefined} isUnstakeOnly - if true, only unstake events will be returned
    * @returns {Promise<ITxHistory>} - transaction history
    */
   public async getTxHistoryRange(
-    from: number,
-    to: number,
+    lowestBlock: number,
+    highestBlock: number,
+    isUnstakeOnly = false,
   ): Promise<ITxHistory> {
     const binancePoolContract = await this.getBinancePoolContract(true);
 
-    const getStakePastEventsArgs: IGetPastEvents = {
-      latestBlockNumber: to,
-      startBlock: from,
+    const getUnstakePastEventsArgs: IGetPastEvents = {
+      latestBlockNumber: highestBlock,
+      startBlock: lowestBlock,
       contract: binancePoolContract,
-      eventName: EBinancePoolEvents.Staked,
-      filter: { staker: this.currentAccount },
+      eventName: EBinancePoolEvents.UnstakePending,
       provider: this.readProvider,
       rangeStep: BNB_MAX_BLOCK_RANGE,
     };
 
-    const stakeRawEvents = await this.getPastEvents(getStakePastEventsArgs);
-
-    if (!advancedAPIConfig.isActiveForBinance) {
-      await sleep(500);
-    }
-
     const unstakeRawEvents = await this.getPastEvents({
-      ...getStakePastEventsArgs,
-      eventName: EBinancePoolEvents.UnstakePending,
+      ...getUnstakePastEventsArgs,
+      filter: { claimer: this.currentAccount },
     });
 
     if (!advancedAPIConfig.isActiveForBinance) {
@@ -1122,7 +1117,7 @@ export class BinanceSDK
     }
 
     const rebasingEvents = await this.getPastEvents({
-      ...getStakePastEventsArgs,
+      ...getUnstakePastEventsArgs,
       eventName: EBinancePoolEvents.IsRebasing,
     });
 
@@ -1144,13 +1139,31 @@ export class BinanceSDK
       };
     };
 
-    const updatedStakeEvents = stakeRawEvents.map(mapEvent);
     const updatedUnstakeEvents = unstakeRawEvents.map(mapEvent);
+    const unstakeHistory = await this.getTxEventsHistoryGroup(
+      updatedUnstakeEvents,
+    );
 
-    const [stakeHistory, unstakeHistory] = await Promise.all([
-      this.getTxEventsHistoryGroup(updatedStakeEvents),
-      this.getTxEventsHistoryGroup(updatedUnstakeEvents),
-    ]);
+    if (isUnstakeOnly) {
+      return {
+        stakeHistory: [],
+        unstakeHistory,
+      };
+    }
+
+    if (!advancedAPIConfig.isActiveForBinance) {
+      await sleep(500);
+    }
+
+    const stakeRawEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      eventName: EBinancePoolEvents.Staked,
+      filter: { delegator: this.currentAccount },
+    });
+
+    const updatedStakeEvents = stakeRawEvents.map(mapEvent);
+
+    const stakeHistory = await this.getTxEventsHistoryGroup(updatedStakeEvents);
 
     return {
       stakeHistory,

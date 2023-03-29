@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
+import { featuresConfig } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 type TLabelType = string;
@@ -53,10 +54,14 @@ export const useTokenSelectOptions = (): ITokenSelectOption[] => {
         label: t('unit.ankrmatic'),
         value: Token.aMATICc,
       },
-      {
-        label: t('unit.ankrxdc'),
-        value: Token.ankrXDC,
-      },
+      ...(featuresConfig.xdcActive
+        ? [
+            {
+              label: t('unit.ankrxdc'),
+              value: Token.ankrXDC,
+            },
+          ]
+        : []),
     ],
     [],
   );

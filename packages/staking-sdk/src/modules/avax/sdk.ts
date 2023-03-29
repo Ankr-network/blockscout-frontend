@@ -1041,38 +1041,47 @@ export class AvalancheSDK
    * @note Amount of each event is in AVAX. If you need ankrAVAX, multiply by ratio.
    * Pending status is not specified.
    *
-   * @param {number} from - from block number
-   * @param {number} to - to block number
+   * @param {number} lowestBlock - from block number
+   * @param {number} highestBlock - to block number
+   * @param {boolean | undefined} isUnstakeOnly - if true, only unstake events will be returned
    * @returns {Promise<ITxHistory>} - transaction history
    */
   public async getTxHistoryRange(
-    from: number,
-    to: number,
+    lowestBlock: number,
+    highestBlock: number,
+    isUnstakeOnly = false,
   ): Promise<ITxHistory> {
     const avalanchePoolContract = await this.getAvalanchePoolContract(true);
 
-    const getStakePastEventsArgs: IGetPastEvents = {
-      latestBlockNumber: to,
-      startBlock: from,
+    const getUnstakePastEventsArgs: IGetPastEvents = {
+      latestBlockNumber: highestBlock,
+      startBlock: lowestBlock,
       contract: avalanchePoolContract,
-      eventName: EAvalanchePoolEvents.StakePending,
-      filter: { staker: this.currentAccount },
+      eventName: EAvalanchePoolEvents.AvaxClaimPending,
       provider: this.readProvider,
       rangeStep: AVAX_MAX_BLOCK_RANGE,
     };
 
-    const [stakeRawEvents, unstakeRawEvents] = await Promise.all([
-      this.getPastEvents(getStakePastEventsArgs),
-      this.getPastEvents({
-        ...getStakePastEventsArgs,
-        eventName: EAvalanchePoolEvents.AvaxClaimPending,
-      }),
-    ]);
+    const unstakeRawEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      filter: { claimer: this.currentAccount },
+    });
+    const unstakeHistory = await this.getTxEventsHistoryGroup(unstakeRawEvents);
 
-    const [stakeHistory, unstakeHistory] = await Promise.all([
-      this.getTxEventsHistoryGroup(stakeRawEvents),
-      this.getTxEventsHistoryGroup(unstakeRawEvents),
-    ]);
+    if (isUnstakeOnly) {
+      return {
+        stakeHistory: [],
+        unstakeHistory,
+      };
+    }
+
+    const stakeRawEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      filter: { staker: this.currentAccount },
+      eventName: EAvalanchePoolEvents.StakePending,
+    });
+
+    const stakeHistory = await this.getTxEventsHistoryGroup(stakeRawEvents);
 
     return {
       stakeHistory,

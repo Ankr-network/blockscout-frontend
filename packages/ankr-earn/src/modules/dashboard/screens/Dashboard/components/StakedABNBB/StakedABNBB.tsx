@@ -41,11 +41,9 @@ export const StakedABNBB = (): JSX.Element => {
     amount,
     chainId,
     isBalancesLoading,
-    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
     network,
-    pendingValue,
     stakeLink,
     switchLink,
     unstakeLink,
@@ -54,11 +52,8 @@ export const StakedABNBB = (): JSX.Element => {
     handleAddTokenToWallet,
   } = useStakedABNBBData();
 
-  const {
-    isHistoryDataLoading,
-    pendingUnstakeHistoryABNBB,
-    handleLoadTxHistory,
-  } = useStakedBNBTxHistory();
+  const { pendingBondUnstakeHistory, isHistoryDataLoading, pendingBondAmount } =
+    useStakedBNBTxHistory();
 
   const onTradeClick = () => {
     trackClickTrade({
@@ -78,23 +73,19 @@ export const StakedABNBB = (): JSX.Element => {
     });
   };
 
-  const preventHistoryLoading =
-    !!pendingUnstakeHistoryABNBB.length || isHistoryDataLoading;
-
-  const renderedPendingSlot = (!pendingValue.isZero() ||
-    isPendingUnstakeLoading) && (
+  const renderedPendingSlot = (!pendingBondAmount.isZero() ||
+    isHistoryDataLoading) && (
     <Pending
       isLoading={isHistoryDataLoading}
-      isUnstakeValueLoading={isPendingUnstakeLoading}
+      isUnstakeValueLoading={isHistoryDataLoading}
       token={token}
       tooltip={
         <PendingTable
-          data={pendingUnstakeHistoryABNBB}
+          data={pendingBondUnstakeHistory}
           unstakeLabel={unstakePendingData.label}
         />
       }
-      value={pendingValue}
-      onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
+      value={pendingBondAmount}
     />
   );
 

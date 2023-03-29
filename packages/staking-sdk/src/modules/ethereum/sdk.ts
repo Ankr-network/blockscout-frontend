@@ -662,20 +662,20 @@ export class EthereumSDK
    * @note Amount of each event is in BNB. If you need ankrBNB, multiply by ratio.
    * Pending status is not specified.
    *
-   * @param {number} from - from block number
-   * @param {number} to - to block number
+   * @param {number} lowestBlock - from block number
+   * @param {number} highestBlock - to block number
    * @returns {Promise<ITxHistory>} - transaction history
    */
   public async getTxHistoryRange(
-    from: number,
-    to: number,
+    lowestBlock: number,
+    highestBlock: number,
   ): Promise<ITxHistory> {
     const provider = await this.getProvider();
     const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
 
     const getStakePastEventsArgs: IGetPastEvents = {
-      latestBlockNumber: to,
-      startBlock: from,
+      latestBlockNumber: highestBlock,
+      startBlock: lowestBlock,
       contract: ethPoolContract,
       eventName: EPoolEvents.RewardClaimed,
       filter: { staker: this.currentAccount },

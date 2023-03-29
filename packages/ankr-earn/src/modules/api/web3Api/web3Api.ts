@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { BridgeCacheTags } from 'modules/bridge/const';
+import { WalletCacheTags } from 'modules/common/const';
 import { CacheTags as StakeANKRCacheTags } from 'modules/stake-ankr/cacheTags';
 import { CacheTags as StakeAVAXCacheTags } from 'modules/stake-avax/const';
 import { CacheTags as StakeBNBCacheTags } from 'modules/stake-bnb/const';
@@ -20,6 +21,7 @@ export const web3Api = createApi({
   endpoints: () => ({}),
   reducerPath: 'web3Api',
   tagTypes: [
+    ...Object.values(WalletCacheTags),
     ...Object.values(StakeAVAXCacheTags),
     ...Object.values(StakeANKRCacheTags),
     ...Object.values(StakeBNBCacheTags),

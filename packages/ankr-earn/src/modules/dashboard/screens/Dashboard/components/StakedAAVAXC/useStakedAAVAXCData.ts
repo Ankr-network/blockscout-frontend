@@ -10,7 +10,6 @@ import {
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
   ACTION_CACHE_SEC,
   AVAX_NETWORK_BY_ENV,
@@ -21,7 +20,6 @@ import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmou
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { RoutesConfig as DeFiRoutes } from 'modules/defi-aggregator/Routes';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { useLazyGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
 import { useUnstakeAVAXMutation } from 'modules/stake-avax/actions/unstake';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
@@ -37,12 +35,10 @@ export interface IStakedAVAXData {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
   isBalancesLoading: boolean;
-  isPendingUnstakeLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   nativeAmount?: BigNumber;
   network: string;
-  pendingValue: BigNumber;
   ratio: BigNumber;
   stakeLink: string;
   stakeType: string;
@@ -59,10 +55,6 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
     useGetAVAXCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
-  const [
-    getAVAXPendingValues,
-    { data: pendingValues, isFetching: isPendingUnstakeLoading },
-  ] = useLazyGetAVAXPendingValuesQuery();
 
   const [addAVAXTokenToWallet] = useAddAVAXTokenToWalletMutation();
 
@@ -80,7 +72,6 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
   const chainId = AVAX_NETWORK_BY_ENV;
 
   const amount = statsData?.aAVAXcBalance ?? ZERO;
-  const pendingValue = pendingValues?.pendingAavaxcUnstakes ?? ZERO;
 
   const usdAmount = useMemo(
     () =>
@@ -99,21 +90,15 @@ export const useStakedAAVAXCData = (): IStakedAVAXData => {
     addAVAXTokenToWallet(token);
   }, [addAVAXTokenToWallet]);
 
-  useProviderEffect(() => {
-    getAVAXPendingValues();
-  });
-
   return {
     address,
     amount,
     chainId,
     isBalancesLoading,
-    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
     nativeAmount,
     network,
-    pendingValue,
     ratio: statsData?.aAVAXcRatio ?? ZERO,
     stakeLink: StakeAvalancheRoutes.stake.generatePath(),
     stakeType: EAvalanchePoolEventsMap.StakePending,

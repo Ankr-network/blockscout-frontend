@@ -583,7 +583,8 @@
       "history": "Failed to get MATIC historical data",
       "stake-gas-fee": "Failed to get MATIC stake gas fee",
       "stake": "Failed to stake MATIC",
-      "unstake": "Failed to unstake MATIC"
+      "unstake": "Failed to unstake MATIC",
+      "pending-values": "Failed to get MATIC pending values"
     }
   },
   "stake-matic-eth": {

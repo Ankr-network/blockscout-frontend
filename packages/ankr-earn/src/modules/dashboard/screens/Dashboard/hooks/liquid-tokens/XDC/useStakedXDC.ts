@@ -1,6 +1,6 @@
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
+import { useGetXdcDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
 
 interface IUseStakedXDCData {
   isStakedXDCCertShowed: boolean;
@@ -9,13 +9,15 @@ interface IUseStakedXDCData {
 
 export const useStakedXDC = (): IUseStakedXDCData => {
   const { data: dashboardData, isFetching: isXDCDataLoading } =
-    useGetDashboardDataQuery(undefined, {
+    useGetXdcDashboardDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
   const isStakedXDCCertShowed = getIsBalancePositive(
     dashboardData?.ankrXDCBalance,
   );
+
+  // todo: update visibility state based on pending unstake amount
 
   return {
     isStakedXDCCertShowed,

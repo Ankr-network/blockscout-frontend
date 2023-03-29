@@ -30,7 +30,7 @@ export const HistoryTable = ({
 
   return (
     <table className={classes.table}>
-      <thead>
+      <thead className={classes.thead}>
         <tr>
           <th className={classes.th}>{t('history-dialog.date')}</th>
 

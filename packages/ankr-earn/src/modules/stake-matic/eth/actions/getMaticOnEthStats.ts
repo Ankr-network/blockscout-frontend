@@ -12,8 +12,6 @@ export interface IStatsResponseData {
   maticBalance: BigNumber;
   aMATICbBalance: BigNumber;
   aMATICcBalance: BigNumber;
-  pendingBond: BigNumber;
-  pendingCertificate: BigNumber;
   aMATICcRatio: BigNumber;
 }
 
@@ -24,27 +22,19 @@ export const { useGetMaticOnEthStatsQuery } = web3Api.injectEndpoints({
         async () => {
           const sdk = await getPolygonOnEthereumSDK();
 
-          const [
-            maticBalance,
-            aMATICbBalance,
-            aMATICcBalance,
-            aMATICcRatio,
-            { pendingBond, pendingCertificate },
-          ] = await Promise.all([
-            sdk.getMaticBalance(),
-            sdk.getABBalance(),
-            sdk.getACBalance(),
-            sdk.getACRatio(),
-            sdk.getPendingData(),
-          ]);
+          const [maticBalance, aMATICbBalance, aMATICcBalance, aMATICcRatio] =
+            await Promise.all([
+              sdk.getMaticBalance(),
+              sdk.getABBalance(),
+              sdk.getACBalance(),
+              sdk.getACRatio(),
+            ]);
 
           return {
             data: {
               maticBalance,
               aMATICbBalance,
               aMATICcBalance,
-              pendingBond,
-              pendingCertificate,
               aMATICcRatio,
             },
           };

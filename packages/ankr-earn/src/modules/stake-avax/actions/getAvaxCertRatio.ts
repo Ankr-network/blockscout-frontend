@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
-
-import { ITxEventsHistoryData } from '@ankr.com/staking-sdk';
+import BigNumber from 'bignumber.js';
 
 import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
@@ -9,16 +8,19 @@ import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { CacheTags } from '../const';
 import { getAvalancheSDK } from '../utils/getAvalancheSDK';
 
-export const { useLazyGetAVAXTotalHistoryDataQuery } = web3Api.injectEndpoints({
+export const { useGetAvaxCertRatioQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getAVAXTotalHistoryData: build.query<ITxEventsHistoryData, void>({
-      queryFn: queryFnNotifyWrapper<void, never, ITxEventsHistoryData>(
+    getAvaxCertRatio: build.query<BigNumber, void>({
+      queryFn: queryFnNotifyWrapper<void, never, BigNumber>(
         async () => {
           const sdk = await getAvalancheSDK();
+          const data = await sdk.getACRatio();
 
-          return { data: await sdk.getTxEventsHistory() };
+          return { data };
         },
-        error => getExtendedErrorText(error, t('stake-avax.errors.history')),
+        error =>
+          // todo: use actual error text
+          getExtendedErrorText(error, t('stake-avax.errors.common-data')),
       ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
       providesTags: [CacheTags.common],

@@ -4,17 +4,13 @@ import { MemoryRouter } from 'react-router';
 import { EEthereumNetworkId } from '@ankr.com/provider';
 import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
-import { ONE_ETH as ONE } from 'modules/common/const';
+import { ONE_ETH as ONE, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import {
-  IUseHistoryData,
-  useHistory,
-} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
 import { useDialog } from 'modules/dialogs';
 
 import { StakedAAVAXB } from '..';
 import {
-  ITxHistoryData,
+  IStakedAVAXTxHistory,
   useStakedAVAXTxHistory,
 } from '../../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory';
 import { IStakedAAVAXBData, useStakedAAVAXBData } from '../useStakedAAVAXBData';
@@ -31,10 +27,6 @@ jest.mock('../../../hooks/liquid-tokens/AVAX/useStakedAVAXTxHistory', () => ({
   useStakedAVAXTxHistory: jest.fn(),
 }));
 
-jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
-  useHistory: jest.fn(),
-}));
-
 jest.mock('modules/dialogs', () => ({
   useDialog: jest.fn(),
   EKnownDialogs: { history: 'history' },
@@ -46,7 +38,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
   const defaultStakedAAVAXBHookData: IStakedAAVAXBData = {
     amount: ONE.dividedBy(10 ** 18),
     chainId: EEthereumNetworkId.avalancheTestnet,
-    pendingValue: ONE.dividedBy(10 ** 17),
     network: networkName,
     switchLink: 'trade',
     unstakeLink: 'unstake',
@@ -57,22 +48,14 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     isStakeLoading: false,
     isUnstakeLoading: false,
     handleAddTokenToWallet: jest.fn(),
-    isPendingUnstakeLoading: false,
   };
 
-  const defaultTxHistoryHookData: ITxHistoryData = {
-    pendingUnstakeHistoryAAVAXB: [],
+  const defaultTxHistoryHookData: IStakedAVAXTxHistory = {
+    pendingCertUnstakeHistory: [],
+    pendingBondUnstakeHistory: [],
     isHistoryDataLoading: false,
-    handleLoadTxHistory: jest.fn(),
-    pendingUnstakeHistoryAAVAXC: [],
-  };
-
-  const defaultUseHistoryHookData: IUseHistoryData = {
-    loading: false,
-    weeksAmount: 1,
-    handleShowMore: jest.fn(),
-    stakeEvents: [],
-    unstakeEvents: [],
+    pendingBondAmount: ZERO,
+    pendingCertAmount: ZERO,
   };
 
   const defaultUseDialogHookData = {
@@ -87,8 +70,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAAVAXB', () => {
     (useStakedAVAXTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
-
-    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
 
     (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
   });

@@ -1,75 +1,53 @@
 import { t } from '@ankr.com/common';
-import { useCallback, useMemo } from 'react';
 
-import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
+import { ONE, ZERO } from 'modules/common/const';
+import { Seconds } from 'modules/common/types';
+import { LONG_CACHE_TIME } from 'modules/stake-ankr/const';
+import { useGetAvaxCertRatioQuery } from 'modules/stake-avax/actions/getAvaxCertRatio';
+import { useGetAvaxPendingHistoryQuery } from 'modules/stake-avax/actions/getAvaxPendingHistory';
+import { useGetAvaxPendingUnstakesQuery } from 'modules/stake-avax/actions/getAvaxPendingUnstakes';
 
-import { Token } from 'modules/common/types/token';
-import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { useLazyGetAVAXTotalHistoryDataQuery } from 'modules/stake-avax/actions/fetchTotalHistoryData';
+import { IPendingHistoryData, usePendingHistory } from '../usePendingHistory';
 
-export interface ITxHistoryData {
+const BLOCK_TIME: Seconds = 5;
+
+export interface IStakedAVAXTxHistory extends IPendingHistoryData {
   isHistoryDataLoading: boolean;
-  pendingUnstakeHistoryAAVAXB: IPendingTableRow[];
-  pendingUnstakeHistoryAAVAXC: IPendingTableRow[];
-  handleLoadTxHistory: () => void;
 }
 
-export const useStakedAVAXTxHistory = (): ITxHistoryData => {
-  const [refetchTotalHistory, { data, isFetching: isHistoryDataLoading }] =
-    useLazyGetAVAXTotalHistoryDataQuery();
+export const useStakedAVAXTxHistory = (): IStakedAVAXTxHistory => {
+  const { data: pendingAvaxHistory, isFetching: isHistoryDataLoading } =
+    useGetAvaxPendingHistoryQuery(undefined, {
+      refetchOnMountOrArgChange: BLOCK_TIME,
+    });
 
-  const pendingUnstakeAAVAXB = useMemo(
-    () =>
-      data?.pendingBond?.filter(
-        ({ txType }) => txType === EAvalanchePoolEventsMap.AvaxClaimPending,
-      ) ?? [],
-    [data?.pendingBond],
+  const { data: certRatio = ONE } = useGetAvaxCertRatioQuery(undefined, {
+    refetchOnMountOrArgChange: LONG_CACHE_TIME,
+  });
+
+  const { data: pendingAmount = ZERO } = useGetAvaxPendingUnstakesQuery(
+    undefined,
+    { refetchOnMountOrArgChange: BLOCK_TIME },
   );
 
-  const pendingUnstakeAAVAXC = useMemo(
-    () =>
-      data?.pendingCertificate?.filter(
-        ({ txType }) => txType === EAvalanchePoolEventsMap.AvaxClaimPending,
-      ) ?? [],
-    [data?.pendingCertificate],
-  );
-
-  const pendingUnstakeHistoryAAVAXB = pendingUnstakeAAVAXB
-    ? pendingUnstakeAAVAXB.map((transaction, index) => {
-        const date = t('format.date', { value: transaction.txDate });
-        const time = t('format.time-short', { value: transaction.txDate });
-
-        return {
-          id: index + 1,
-          token: Token.aAVAXb,
-          amount: transaction.txAmount,
-          timerSlot: `${date}, ${time}`,
-        };
-      })
-    : [];
-
-  const pendingUnstakeHistoryAAVAXC = pendingUnstakeAAVAXC
-    ? pendingUnstakeAAVAXC.map((transaction, index) => {
-        const date = t('format.date', { value: transaction.txDate });
-        const time = t('format.time-short', { value: transaction.txDate });
-
-        return {
-          id: index + 1,
-          token: Token.aAVAXc,
-          amount: transaction.txAmount,
-          timerSlot: `${date}, ${time}`,
-        };
-      })
-    : [];
-
-  const handleLoadTxHistory = useCallback(() => {
-    refetchTotalHistory();
-  }, [refetchTotalHistory]);
+  const {
+    pendingBondUnstakeHistory,
+    pendingCertUnstakeHistory,
+    pendingBondAmount,
+    pendingCertAmount,
+  } = usePendingHistory({
+    unstakeHistory: pendingAvaxHistory?.unstakeHistory,
+    certRatio,
+    pendingAmount,
+    bondTokenName: t('unit.aavaxb'),
+    certTokenName: t('unit.ankravax'),
+  });
 
   return {
     isHistoryDataLoading,
-    pendingUnstakeHistoryAAVAXB,
-    pendingUnstakeHistoryAAVAXC,
-    handleLoadTxHistory,
+    pendingBondUnstakeHistory,
+    pendingCertUnstakeHistory,
+    pendingBondAmount,
+    pendingCertAmount,
   };
 };
