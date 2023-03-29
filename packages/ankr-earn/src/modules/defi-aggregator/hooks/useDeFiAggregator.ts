@@ -76,7 +76,8 @@ export const useDeFiAggregator = (
       result = assets.reduce((acc: IDeFiItem[], asset) => {
         acc.push(
           ...result.filter(item => {
-            return item.assets.toUpperCase().includes(asset.toUpperCase());
+            const itemParts = item.assets.split('/');
+            return itemParts.some(part => part.includes(asset));
           }),
         );
         return acc;
@@ -94,7 +95,11 @@ export const useDeFiAggregator = (
       }, []);
     }
 
-    return result;
+    const uniqueArray = Array.from(
+      new Map(result.map(item => [item.id, item])).values(),
+    );
+
+    return uniqueArray;
   }, [assets, data, networks, types]);
 
   const handleChangeNetworks = useCallback(
