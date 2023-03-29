@@ -1,6 +1,6 @@
 {
   "name": "ankr-earn",
-  "version": "4.19.0a",
+  "version": "4.21.0",
   "private": true,
   "homepage": "/staking",
   "main": "src/index.ts",
