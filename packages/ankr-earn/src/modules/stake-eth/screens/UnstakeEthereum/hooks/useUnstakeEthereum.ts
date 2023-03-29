@@ -49,13 +49,9 @@ export const useUnstakeEthereum = (): IUseUnstakeEthereum => {
       }
 
       const amount = new BigNumber(formAmount);
-      unstake({ amount, token: selectedToken })
-        .unwrap()
-        .then(() => {
-          console.log('sendAnalytics');
 
-          // sendAnalytics(amount, selectedToken);
-        });
+      // todo: STAKAN-2608 add analytics
+      unstake({ amount, token: selectedToken });
     },
     [selectedToken, unstake],
   );
