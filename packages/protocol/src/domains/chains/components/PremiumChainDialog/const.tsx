@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { Item, Title } from './types';
-import { MAIL_TO_SALES, PRICING_PATH } from 'domains/pricing/Routes';
+import { PRICING_PATH } from 'domains/pricing/Routes';
 import { NavLink } from 'uiKit/NavLink';
 
 export const intlRoot = 'chain-item-dialog';
@@ -45,16 +45,15 @@ const enterpriseItem: Item = {
   hasIntro: false,
   itemCount: 3,
   renderButton: ({ color, variant = 'outlined', className, onClick }) => (
-    <NavLink
+    <Button
       color={color}
       variant={variant}
       className={className}
       fullWidth
-      href={MAIL_TO_SALES}
       onClick={onClick}
     >
       {t(`${intlRoot}.${Title.enterprise}.button`)}
-    </NavLink>
+    </Button>
   ),
   title: Title.enterprise,
   isHighlighted: false,
