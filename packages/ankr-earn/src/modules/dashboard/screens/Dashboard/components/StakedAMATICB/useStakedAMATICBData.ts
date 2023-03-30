@@ -35,7 +35,6 @@ export interface IStakedAMATICBData {
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   network: string;
-  pendingValue: BigNumber;
   stakeLink: string;
   switchLink: string;
   unstakeLink: string;
@@ -65,7 +64,6 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
   const chainId = ETH_NETWORK_BY_ENV;
 
   const amount = statsData?.aMATICbBalance ?? ZERO;
-  const pendingValue = statsData?.pendingBond ?? ZERO;
   const usdAmount = useMemo(
     () =>
       getUSDAmount({
@@ -88,7 +86,6 @@ export const useStakedAMATICBData = (): IStakedAMATICBData => {
     isStakeLoading,
     isUnstakeLoading,
     network,
-    pendingValue,
     stakeLink: StakeMaticEthRoutes.stake.generatePath(true),
     switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeMaticEthRoutes.unstake.generatePath(),

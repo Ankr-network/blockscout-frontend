@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { ISelectOption } from 'modules/common/components/MultiSelect';
+import { AnkrIcon } from 'uiKit/Icons/AnkrIcon';
 
 import { AAvaxCIcon } from '../../../uiKit/Icons/AAvaxCIcon';
 import { ABNBCIcon } from '../../../uiKit/Icons/ABNBCIcon';
@@ -20,6 +21,7 @@ export enum TokenAsset {
   aAVAXb = 'aAVAXb',
   ankrAVAX = 'ankrAVAX',
   aFTMb = 'aFTMb',
+  ANKR = 'ANKR',
 }
 
 export const useTokenAssets = (): ISelectOption[] => [
@@ -52,5 +54,10 @@ export const useTokenAssets = (): ISelectOption[] => [
     label: t('unit.aavaxc'),
     value: TokenAsset.ankrAVAX,
     icon: <AAvaxCIcon />,
+  },
+  {
+    label: t('unit.ankr'),
+    value: TokenAsset.ANKR,
+    icon: <AnkrIcon />,
   },
 ];

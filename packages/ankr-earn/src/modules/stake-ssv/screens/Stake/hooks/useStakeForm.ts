@@ -3,13 +3,10 @@ import {
   abortRequests,
   resetRequests as resetReduxRequests,
 } from '@redux-requests/core';
-import {
-  useDispatchRequest,
-  useMutation,
-  useQuery,
-} from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
+import { skipToken } from '@reduxjs/toolkit/query';
 import BigNumber from 'bignumber.js';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 import { EthereumSSV } from '@ankr.com/staking-sdk';
@@ -17,12 +14,12 @@ import { EthereumSSV } from '@ankr.com/staking-sdk';
 import { trackStake } from 'modules/analytics/tracking-actions/trackStake';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { ZERO } from 'modules/common/const';
+import { featuresConfig, ZERO } from 'modules/common/const';
 import { FormErrors } from 'modules/common/types/FormErrors';
 import { Token } from 'modules/common/types/token';
-import { getStakeData } from 'modules/stake-ssv/actions/getStakeData';
-import { getStakeGasFee } from 'modules/stake-ssv/actions/getStakeGasFee';
-import { stake } from 'modules/stake-ssv/actions/stake';
+import { useLazyGetSSVStakeGasFeeQuery } from 'modules/stake-ssv/actions/getSSVStakeGasFee';
+import { useGetSSVStakeDataQuery } from 'modules/stake-ssv/actions/getStakeData';
+import { useStakeSSVMutation } from 'modules/stake-ssv/actions/stakeSSV';
 import { getFAQ, IFAQItem } from 'modules/stake/actions/getFAQ';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import {
@@ -40,7 +37,7 @@ interface IUseStakeFormData {
   ) => FormErrors<IStakeFormPayload>;
   faqItems: IFAQItem[];
   gasFee: BigNumber;
-  getStakeDataError?: Error;
+  getStakeDataError?: boolean;
   isGasFeeLoading: boolean;
   isStakeDataLoading: boolean;
   isStakeLoading: boolean;
@@ -55,27 +52,20 @@ interface IUseStakeFormData {
 const TOKEN_IN = Token.ETH;
 const TOKEN_OUT = Token.asETHc;
 
-const resetGasFeeRequest = () =>
-  resetReduxRequests([getStakeGasFee.toString()]);
-
 const resetMainRequests = () =>
-  resetReduxRequests([
-    getFAQ.toString(),
-    getMetrics.toString(),
-    getStakeData.toString(),
-    getStakeGasFee.toString(),
-  ]);
+  resetReduxRequests([getFAQ.toString(), getMetrics.toString()]);
 
 export const useStakeForm = (): IUseStakeFormData => {
   const dispatch = useAppDispatch();
-
-  const dispatchRequest = useDispatchRequest();
 
   const { address, walletName } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
   );
 
-  const { loading: isStakeLoading } = useMutation({ type: stake });
+  const [
+    stakeSSV,
+    { isLoading: isStakeLoading, data: resData, isError: resErr },
+  ] = useStakeSSVMutation();
 
   const { data: faqItems } = useQuery<IFAQItem[]>({
     defaultData: [],
@@ -84,15 +74,14 @@ export const useStakeForm = (): IUseStakeFormData => {
 
   const {
     data: stakeData,
-    error: stakeDataError,
-    loading: isStakeDataLoading,
-  } = useQuery({
-    type: getStakeData,
-  });
+    isError: stakeDataError,
+    isLoading: isStakeDataLoading,
+  } = useGetSSVStakeDataQuery(
+    featuresConfig.ssvStaking ? undefined : skipToken,
+  );
 
-  const { data: gasFee, loading: isGasFeeLoading } = useQuery({
-    type: getStakeGasFee,
-  });
+  const [getStakeGasFee, { data: gasFee, isLoading: isGasFeeLoading }] =
+    useLazyGetSSVStakeGasFeeQuery();
 
   const [amount, setAmount] = useState(ZERO);
 
@@ -133,7 +122,7 @@ export const useStakeForm = (): IUseStakeFormData => {
     return errors;
   };
 
-  const sendAnalytics = (): void => {
+  const sendAnalytics = useCallback((): void => {
     trackStake({
       address,
       amount,
@@ -144,55 +133,57 @@ export const useStakeForm = (): IUseStakeFormData => {
       walletType: walletName,
       willGetAmount: amount,
     });
-  };
+  }, [address, amount, asETHcBalance, ethBalance, walletName]);
 
-  const onFormChange = (
-    { amount: formAmount }: IStakeFormPayload,
-    // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
-    isInvalid: boolean,
-  ): void => {
-    setIsError(isInvalid);
+  const onFormChange = useCallback(
+    (
+      { amount: formAmount }: IStakeFormPayload,
+      // TODO: https://ankrnetwork.atlassian.net/browse/STAKAN-1482
+      isInvalid: boolean,
+    ): void => {
+      setIsError(isInvalid);
 
-    setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
+      setAmount(formAmount ? new BigNumber(formAmount) : ZERO);
 
-    if (isInvalid) {
-      dispatch(resetGasFeeRequest());
-    } else if (formAmount) {
-      const readyAmount = new BigNumber(formAmount);
+      if (!isInvalid && formAmount) {
+        const readyAmount = new BigNumber(formAmount);
 
-      dispatch(
         getStakeGasFee({
           amount: readyAmount,
-        }),
-      );
-    }
-  };
+        });
+      }
+    },
+    [getStakeGasFee],
+  );
 
-  const onFormSubmit = async (data: IStakeSubmitPayload): Promise<void> => {
-    const { data: resData, error: resErr } = await dispatchRequest(
-      stake({
+  const onFormSubmit = useCallback(
+    (data: IStakeSubmitPayload): void => {
+      stakeSSV({
         amount: new BigNumber(data.amount),
-        token: TOKEN_OUT,
-      }),
-    );
+      });
+    },
+    [stakeSSV],
+  );
 
+  useEffect(() => {
     if (!resData || resErr) {
       setAmount(ZERO);
-
-      dispatch(resetGasFeeRequest());
-
-      return;
     }
+  }, [dispatch, resData, resErr]);
 
-    sendAnalytics();
-  };
+  useEffect(() => {
+    if (resData && !isStakeLoading && !resErr) {
+      setAmount(ZERO);
+
+      sendAnalytics();
+    }
+  }, [dispatch, resData, isStakeLoading, resErr, sendAnalytics]);
 
   useProviderEffect(() => {
     dispatch(resetMainRequests());
 
     dispatch(getFAQ(Token.asETHc));
     dispatch(getMetrics());
-    dispatch(getStakeData());
 
     return () => {
       dispatch(abortRequests());

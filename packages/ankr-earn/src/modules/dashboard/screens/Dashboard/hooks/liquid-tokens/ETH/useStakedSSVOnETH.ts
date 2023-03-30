@@ -1,7 +1,8 @@
-import { useQuery } from '@redux-requests/react';
+import { skipToken } from '@reduxjs/toolkit/query';
 
+import { featuresConfig } from 'modules/common/const';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { getDashboardData } from 'modules/stake-ssv/actions/getDashboardData';
+import { useGetDashboardDataQuery } from 'modules/stake-ssv/actions/getDashboardData';
 
 interface IUseStakedSSVOnETHData {
   isSSVOnETHDataLoading: boolean;
@@ -9,9 +10,8 @@ interface IUseStakedSSVOnETHData {
 }
 
 export const useStakedSSVOnETH = (): IUseStakedSSVOnETHData => {
-  const { data: dashboardData, loading: isSSVOnETHDataLoading } = useQuery({
-    type: getDashboardData,
-  });
+  const { data: dashboardData, isLoading: isSSVOnETHDataLoading } =
+    useGetDashboardDataQuery(featuresConfig.ssvStaking ? undefined : skipToken);
 
   const isStakedSSVOnETHCertShowed = getIsBalancePositive(
     dashboardData?.asETHcBalance,

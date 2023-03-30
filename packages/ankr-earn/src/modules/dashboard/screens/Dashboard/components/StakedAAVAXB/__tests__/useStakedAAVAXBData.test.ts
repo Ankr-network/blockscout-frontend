@@ -5,7 +5,6 @@ import { EAvalanchePoolEventsMap } from '@ankr.com/staking-sdk';
 
 import { ONE_ETH as ONE, ZERO } from 'modules/common/const';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 
 import { useStakedAAVAXBData } from '../useStakedAAVAXBData';
@@ -32,10 +31,6 @@ jest.mock('modules/stake-avax/Routes', () => ({
 
 jest.mock('modules/stake-avax/actions/addAVAXTokenToWallet', () => ({
   useAddAVAXTokenToWalletMutation: jest.fn(),
-}));
-
-jest.mock('modules/stake-avax/actions/fetchPendingValues', () => ({
-  useGetAVAXPendingValuesQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-avax/actions/stake', () => ({
@@ -68,11 +63,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
       data: undefined,
     });
 
-    (useGetAVAXPendingValuesQuery as jest.Mock).mockReturnValue({
-      isFetching: false,
-      data: undefined,
-    });
-
     (useAddAVAXTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
   });
 
@@ -80,11 +70,10 @@ describe('modules/dashboard/screens/Dashboard/components/StakedTokens/hooks/useS
     jest.resetAllMocks();
   });
 
-  test('should return amount and pending value', () => {
+  test('should return amount', () => {
     const { result } = renderHook(() => useStakedAAVAXBData());
 
     expect(result.current.amount).toStrictEqual(ZERO);
-    expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.isUnstakeLoading).toBe(false);

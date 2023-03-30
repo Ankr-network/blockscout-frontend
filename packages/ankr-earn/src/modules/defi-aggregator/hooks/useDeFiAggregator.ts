@@ -8,7 +8,7 @@ import { TRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 import { IDeFiItem, useGetDeFiDataQuery } from '../actions/getDeFiData';
 
-import { StakingType } from './useStakingTypes';
+import { OStakingType } from './useStakingTypes';
 import { TokenAsset } from './useTokenAssets';
 import { TokenNetwork } from './useTokenNetworks';
 
@@ -47,7 +47,7 @@ export const useDeFiAggregator = (
     params?.assets?.length ? params.assets : [TokenAsset.All],
   );
   const [types, setTypes] = useState<string[]>(
-    params?.types?.length ? params.types : [StakingType.All],
+    params?.types?.length ? params.types : [OStakingType.all],
   );
 
   const {
@@ -61,7 +61,7 @@ export const useDeFiAggregator = (
   const filteredData = useMemo<IDeFiItem[]>(() => {
     let result = data ?? [];
 
-    if (!types.includes(TokenAsset.All)) {
+    if (!types.includes(OStakingType.all)) {
       result = types.reduce((acc: IDeFiItem[], type) => {
         acc.push(
           ...result.filter(item => {
@@ -76,7 +76,8 @@ export const useDeFiAggregator = (
       result = assets.reduce((acc: IDeFiItem[], asset) => {
         acc.push(
           ...result.filter(item => {
-            return item.assets.toUpperCase().includes(asset.toUpperCase());
+            const itemParts = item.assets.split('/');
+            return itemParts.some(part => part.includes(asset));
           }),
         );
         return acc;
@@ -94,7 +95,11 @@ export const useDeFiAggregator = (
       }, []);
     }
 
-    return result;
+    const uniqueArray = Array.from(
+      new Map(result.map(item => [item.id, item])).values(),
+    );
+
+    return uniqueArray;
   }, [assets, data, networks, types]);
 
   const handleChangeNetworks = useCallback(
@@ -119,7 +124,7 @@ export const useDeFiAggregator = (
       query.delete('types');
 
       value.forEach(v => {
-        if (v !== TokenNetwork.All) {
+        if (v !== OStakingType.all) {
           query.append('types', v);
         }
       });

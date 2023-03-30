@@ -1,20 +1,24 @@
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { useDispatchRequest } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
+import { useGetSwitcherDataQuery } from 'modules/switcher/actions/getSwitcherData';
 
 import { useSwitcherData } from '..';
 
 jest.mock('@redux-requests/react', () => ({
   useDispatchRequest: jest.fn(),
-  useQuery: jest.fn(),
 }));
 
 jest.mock('modules/auth/common/hooks/useConnectedData', () => ({
   useConnectedData: jest.fn(),
+}));
+
+jest.mock('modules/switcher/actions/getSwitcherData', () => ({
+  useGetSwitcherDataQuery: jest.fn(),
 }));
 
 describe('modules/switcher/screens/Main/useSwitcherData', () => {
@@ -22,9 +26,9 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
     const dispatchRequest = jest.fn(() => Promise.resolve({}));
     (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
 
-    (useQuery as jest.Mock).mockReturnValue({
+    (useGetSwitcherDataQuery as jest.Mock).mockReturnValue({
       data: null,
-      loading: false,
+      isFetching: false,
     });
 
     (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
@@ -57,9 +61,9 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
 
   describe('allowance', () => {
     test('should check allowance', () => {
-      (useQuery as jest.Mock).mockReturnValue({
+      (useGetSwitcherDataQuery as jest.Mock).mockReturnValue({
         data: { allowance: ZERO, acBalance: ZERO, abBalance: ZERO },
-        loading: false,
+        isFetching: false,
       });
 
       const { result } = renderHook(() =>
@@ -70,9 +74,9 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
     });
 
     test('should check allowance and return false for ab tokens', () => {
-      (useQuery as jest.Mock).mockReturnValue({
+      (useGetSwitcherDataQuery as jest.Mock).mockReturnValue({
         data: { allowance: ZERO, acBalance: ZERO, abBalance: ZERO },
-        loading: false,
+        isFetching: false,
       });
 
       const { result } = renderHook(() =>
@@ -83,9 +87,9 @@ describe('modules/switcher/screens/Main/useSwitcherData', () => {
     });
 
     test('should check allowance for non-zero values', () => {
-      (useQuery as jest.Mock).mockReturnValue({
+      (useGetSwitcherDataQuery as jest.Mock).mockReturnValue({
         data: { allowance: ONE_ETH, acBalance: ZERO, abBalance: ZERO },
-        loading: false,
+        isFetching: false,
       });
 
       const { result } = renderHook(() =>

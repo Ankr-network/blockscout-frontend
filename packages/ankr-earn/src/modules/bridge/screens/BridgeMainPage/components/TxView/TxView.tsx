@@ -1,7 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Box, Paper } from '@material-ui/core';
-import { resetRequests } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { skipToken } from '@reduxjs/toolkit/query';
 import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
@@ -10,10 +9,8 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { deposit } from 'modules/bridge/actions/deposit';
-import { notarize } from 'modules/bridge/actions/notarize';
-import { watchAsset } from 'modules/bridge/actions/watchAsset';
-import { withdrawal } from 'modules/bridge/actions/withdrawal';
+import { useAddBridgeTokenToWalletMutation } from 'modules/bridge/actions/addBridgeTokenToWallet';
+import { useGetBridgeNotirizeQuery } from 'modules/bridge/actions/getBridgeNotirize';
 import { Notification } from 'modules/bridge/components/Notification';
 import { Transaction } from 'modules/bridge/components/Transaction';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
@@ -23,7 +20,6 @@ import { getTokenName } from 'modules/common/utils/getTokenName';
 import { isFirefox } from 'modules/common/utils/isFirefox';
 import { RoutesConfig as DashboardRoutes } from 'modules/dashboard/Routes';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
-import { useAppDispatch } from 'store/useAppDispatch';
 import { Button } from 'uiKit/Button';
 import { CloseIcon } from 'uiKit/Icons/CloseIcon';
 import { Quote } from 'uiKit/Quote';
@@ -54,20 +50,28 @@ export const TxView = ({
 }: ITxViewProps): JSX.Element => {
   const classes = useTxViewStyles();
   const { stepTitle, stepsCount, stepText, currentStep, setStep } = useSteps();
-  const dispatch = useAppDispatch();
+
+  const { isConnected } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
+
+  const { isLoading: isNotarizeLoading, data: notarizeData } =
+    useGetBridgeNotirizeQuery(
+      !isConnected
+        ? skipToken
+        : {
+            transactionHash: tx,
+            chainIdFrom,
+          },
+    );
 
   const {
     isLoading: isWithdrawalLoading,
     isReceived,
     txHash: withdrawalTxHash,
     onClick: onWithdrawlClick,
-  } = useWithdraw();
+  } = useWithdraw(notarizeData);
 
-  const { loading: isNotarizeLoading, data: notarizeData } = useQuery({
-    type: notarize,
-  });
-
-  const dispatchRequest = useDispatchRequest();
   const history = useHistory();
   const { chainId, isInjected } = useConnectedData(
     AvailableWriteProviders.ethCompatible,
@@ -76,16 +80,15 @@ export const TxView = ({
   const [switchNetwork, { isLoading: isSwitchNetworkPending }] =
     useSwitchNetworkMutation();
 
+  const [addBridgeTokenToWallet] = useAddBridgeTokenToWalletMutation();
+
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
-  const { isConnected } = useConnectedData(
-    AvailableWriteProviders.ethCompatible,
-  );
 
   const isNotarizeCompleted = !!notarizeData;
   const tokenName = getTokenName(token);
 
   const onAddTokenClick = () => {
-    dispatchRequest(watchAsset({ token, chainId: chainIdTo }));
+    addBridgeTokenToWallet({ token, chainId: chainIdTo });
   };
 
   const onSwitchNetworkClick = () => {
@@ -97,14 +100,6 @@ export const TxView = ({
 
   const onCloseClick = () => {
     history.push(DashboardRoutes.dashboard.generatePath());
-
-    dispatch(
-      resetRequests([
-        notarize.toString(),
-        withdrawal.toString(),
-        deposit.toString(),
-      ]),
-    );
   };
 
   const isWrongNetwork = chainId !== chainIdTo;
@@ -113,21 +108,6 @@ export const TxView = ({
   const showConnectBtn = !isConnected;
   const showAddTokenBtn = isConnected && isReceived && isInjected && !isFirefox;
   const showSwitchNetworkBtn = isConnected && isWrongNetwork && isInjected;
-
-  useEffect(() => {
-    if (isNotarizeCompleted || !isConnected) {
-      return;
-    }
-
-    dispatchRequest(notarize(tx, chainIdFrom));
-  }, [
-    chainIdFrom,
-    dispatchRequest,
-    isConnected,
-    isNotarizeCompleted,
-    setStep,
-    tx,
-  ]);
 
   useEffect(() => {
     if (

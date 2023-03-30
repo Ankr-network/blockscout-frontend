@@ -3,7 +3,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { trackClickTrade } from 'modules/analytics/tracking-actions/trackClickTrade';
 import { trackEnterStakingFlow } from 'modules/analytics/tracking-actions/trackEnterStakingFlow';
 import { configFromEnv } from 'modules/api/config';
-import { ONE } from 'modules/common/const';
+import { featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
@@ -12,6 +12,7 @@ import { PendingTable } from 'modules/dashboard/components/PendingTable';
 import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
+import { RoutesConfig as StakeEthRoutes } from 'modules/stake-eth/Routes';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
 import { useStakedTxHistoryETH } from '../../hooks/liquid-tokens/ETH/useStakedTxHistoryETH';
@@ -103,7 +104,16 @@ export const StakedAETHB = (): JSX.Element => {
         stakeLink={stakeLink}
         switchLink={switchLink}
         token={token}
-        unstakeTooltip={t('stake-ethereum.unstake-tooltip')}
+        unstakeLink={
+          featuresConfig.isETHUnstakeActive
+            ? StakeEthRoutes.unstake.generatePath(Token.aETHb)
+            : undefined
+        }
+        unstakeTooltip={
+          featuresConfig.isETHUnstakeActive
+            ? undefined
+            : t('stake-ethereum.unstake-tooltip')
+        }
         usdAmount={usdAmount}
         onAddStakingClick={onAddStakingClick}
         onHistoryBtnClick={handleOpenHistoryDialog}

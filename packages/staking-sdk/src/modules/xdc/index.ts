@@ -9,7 +9,10 @@ export * from './sdk/getStakeGasFee';
 export * from './sdk/getXDCPoolAmount';
 export * from './sdk/stake';
 export * from './sdk/txData';
+export {
+  getTxEventsHistoryRange,
+  getTxHistoryRange,
+} from './sdk/txEventsHistory';
 export * from './sdk/unstake';
 export * from './sdk/utils';
 export * from './types';
-export { getTxEventsHistoryRange } from './sdk/txEventsHistory';

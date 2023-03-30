@@ -35,7 +35,7 @@ import { fetchPolkadotAccountFullBalance } from 'modules/stake-polkadot/actions/
 import { RoutesConfig as StakePolkadotRoutes } from 'modules/stake-polkadot/Routes';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
-import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
+import { useGetXdcDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { RoutesConfig as StakeXDCRoutes } from 'modules/stake-xdc/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';

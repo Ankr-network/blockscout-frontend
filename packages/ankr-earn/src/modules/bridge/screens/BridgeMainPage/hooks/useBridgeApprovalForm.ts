@@ -1,13 +1,16 @@
 import BigNumber from 'bignumber.js';
 import { useCallback, useEffect } from 'react';
 
+import { AvailableWriteProviders } from '@ankr.com/provider';
+
+import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import {
   RECEIPT_NAME,
   useApproveBridgeMutation,
-} from 'modules/bridge/actions/approve';
+} from 'modules/bridge/actions/approveBridge';
+import { useLazyGetBridgeAllowanceQuery } from 'modules/bridge/actions/getBridgeAllowance';
 import { useLazyGetABRatioQuery } from 'modules/bridge/actions/getMaticABRatio';
-import { useLazyGetBridgeAllowanceQuery } from 'modules/bridge/actions/lazyGetBridgeAllowance';
 import { AvailableBridgeTokens } from 'modules/bridge/types';
 import { getTokenAddr } from 'modules/bridge/utils/getTokenAddr';
 import { SupportedChainIDS, ZERO } from 'modules/common/const';
@@ -27,6 +30,10 @@ export const useBridgeApprovalForm = ({
   fromChainId,
   isActualNetwork,
 }: IUseBridgeApprovalForm): IUseApprovalForm => {
+  const { isConnected } = useConnectedData(
+    AvailableWriteProviders.ethCompatible,
+  );
+
   const [
     approveAction,
     {
@@ -44,8 +51,11 @@ export const useBridgeApprovalForm = ({
   const [getABRatio, { data: aBRatio }] = useLazyGetABRatioQuery();
 
   useProviderEffect(() => {
+    if (!isConnected) {
+      return;
+    }
     getABRatio();
-  }, [getABRatio]);
+  }, [getABRatio, isConnected]);
 
   const allowanceWei = convertToWei(initialAllowance ?? ZERO);
 
@@ -80,10 +90,10 @@ export const useBridgeApprovalForm = ({
   }, [getAllowance, token, fromChainId]);
 
   useEffect(() => {
-    if (isActualNetwork) {
+    if (isActualNetwork && isConnected) {
       getAllowanceCb();
     }
-  }, [token, getAllowanceCb, isActualNetwork]);
+  }, [token, getAllowanceCb, isActualNetwork, isConnected]);
 
   return useApprovalForm({
     isApproveLoading,

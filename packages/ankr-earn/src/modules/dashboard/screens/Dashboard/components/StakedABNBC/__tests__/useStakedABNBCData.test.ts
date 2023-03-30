@@ -8,7 +8,6 @@ import BigNumber from 'bignumber.js';
 
 import { Token } from 'modules/common/types/token';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 
 import { useStakedABNBCData } from '../useStakedABNBCData';
@@ -28,10 +27,6 @@ jest.mock('modules/stake-bnb/Routes', () => ({
 
 jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
   useAddBNBTokenToWalletMutation: jest.fn(),
-}));
-
-jest.mock('modules/stake-bnb/actions/fetchPendingValues', () => ({
-  useGetBNBPendingValuesQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
@@ -62,11 +57,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBC/useStakedAB
 
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
-
-    (useGetBNBPendingValuesQuery as jest.Mock).mockReturnValue({
-      isFetching: false,
-      data: undefined,
-    });
 
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
 

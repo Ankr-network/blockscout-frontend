@@ -12,4 +12,5 @@ export const nativeTokenMap: Partial<Record<Token, Token>> = {
   [Token.aFTMc]: Token.FTM,
   [Token.aMATICb]: Token.MATIC,
   [Token.aMATICc]: Token.MATIC,
+  [Token.asETHc]: Token.ETH,
 };

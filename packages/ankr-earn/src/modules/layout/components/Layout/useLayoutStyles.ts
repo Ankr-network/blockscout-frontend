@@ -6,7 +6,7 @@ export const useLayoutStyles = makeStyles(theme => ({
     flexDirection: 'column',
     minHeight: '100vh',
     justifyContent: 'space-between',
-    minWidth: 375,
+    minWidth: 360,
     background: theme.palette.background.default,
   },
 
