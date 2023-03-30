@@ -7,23 +7,23 @@ export type PremiumUpgradeHandlerParams = Pick<
   ReturnType<typeof useContentType>,
   'setSignUp' | 'setTopUp'
 > & {
-  onTrack?: () => void;
+  onUpgrade?: () => void;
 };
 
 export const usePremiumUpgradeHandler = ({
-  onTrack = () => {},
+  onUpgrade = () => {},
   setSignUp,
   setTopUp,
 }: PremiumUpgradeHandlerParams) => {
   const { isLoggedIn } = useAuth();
 
   return useCallback(() => {
-    onTrack();
+    onUpgrade();
 
     if (isLoggedIn) {
       setTopUp();
     } else {
       setSignUp();
     }
-  }, [isLoggedIn, onTrack, setSignUp, setTopUp]);
+  }, [isLoggedIn, onUpgrade, setSignUp, setTopUp]);
 };

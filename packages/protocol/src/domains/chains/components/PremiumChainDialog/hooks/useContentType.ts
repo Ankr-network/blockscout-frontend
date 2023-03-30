@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { ContentType } from '../types';
+import { trackSignUpModalOpen } from 'modules/analytics/mixpanel/trackSignUpModalOpen';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
 const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
@@ -17,7 +18,11 @@ export const useContentType = ({ defaultState }: UseContentTypeProps) => {
     () => setContentType(defaultState || DEFAULT),
     [defaultState],
   );
-  const setSignUp = useCallback(() => setContentType(SIGN_UP), []);
+  const setSignUp = useCallback(() => {
+    setContentType(SIGN_UP);
+
+    trackSignUpModalOpen();
+  }, []);
   const setTopUp = useCallback(() => setContentType(TOP_UP), []);
   const setContactSales = useCallback(
     () => setContentType(CONTACT_SALES_FORM),

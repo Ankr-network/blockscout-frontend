@@ -16,7 +16,7 @@ export interface DialogPropsParams {
   contentType: ContentType;
   items: Item[];
   onClose: () => void;
-  onTrack?: () => void;
+  onUpgrade?: () => void;
   premiumUpgradeHandler: ReturnType<typeof usePremiumUpgradeHandler>;
   contactFormHandler: () => void;
   onSubmitContactForm: () => void;
@@ -27,7 +27,7 @@ export const useDialogProps = ({
   contentType,
   items,
   onClose,
-  onTrack,
+  onUpgrade,
   premiumUpgradeHandler,
   contactFormHandler,
   onSubmitContactForm,
@@ -41,7 +41,7 @@ export const useDialogProps = ({
     children: getContent({
       contentType: defaultState ?? contentType,
       items,
-      onTrack,
+      onUpgrade,
       premiumUpgradeHandler,
       contactFormHandler,
       resetTitle,

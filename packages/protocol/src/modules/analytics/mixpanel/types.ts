@@ -16,13 +16,6 @@ export interface AddEmailEvent extends Billingable, Walletable {
 
 export interface ClickAAPIEvent extends Billingable, Walletable {}
 
-export interface ConnectWalletFlowEvent extends Billingable, Walletable {
-  google_account?: string;
-  sign_up: boolean;
-  web2_connect?: boolean;
-  web3_connect?: boolean;
-}
-
 export interface EnterBillingFlowEvent extends Billingable, Walletable {
   // displayed credits
   balance?: string;
@@ -59,7 +52,7 @@ export interface TopUpBalanceFlowEvent extends Billingable, Walletable {
   top_up_button: boolean;
 }
 
-export interface Web2ConnectTrackingParams {
+export interface Web2SignUpTrackingParams {
   email?: string;
   hasPremium?: boolean;
 }

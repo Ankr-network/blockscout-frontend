@@ -27,7 +27,7 @@ export interface Item {
 
 export interface PremiumChainDialogProps {
   onClose: () => void;
-  onTrack?: () => void;
+  onUpgrade?: () => void;
   open: boolean;
   defaultState?: ContentType;
 }
