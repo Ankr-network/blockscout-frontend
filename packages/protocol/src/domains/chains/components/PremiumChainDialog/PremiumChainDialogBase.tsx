@@ -11,15 +11,15 @@ export interface PremiumChainDialogBaseProps extends PremiumChainDialogProps {
 export const PremiumChainDialogBase = ({
   items,
   onClose,
-  onTrack,
+  onUpgrade,
   open,
   defaultState,
 }: PremiumChainDialogBaseProps) => {
   const { children, ...dialogProps } = usePremiumChainDialog({
+    defaultState,
     items,
     onClose,
-    onTrack,
-    defaultState,
+    onUpgrade,
   });
 
   const windowHeight = useWindowHeight();

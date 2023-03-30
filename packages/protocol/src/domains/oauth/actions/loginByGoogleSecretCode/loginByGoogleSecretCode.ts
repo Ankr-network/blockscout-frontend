@@ -14,7 +14,7 @@ import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErro
 import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
 import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 import { setOauthLoginTimestamp } from 'domains/auth/store/authSlice';
-import { trackWeb2ConnectFailure } from 'modules/analytics/mixpanel/trackWeb2ConnectFailure';
+import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
 import { loginSyntheticJwt } from './loginSyntheticJwtToken';
@@ -101,7 +101,7 @@ export const {
           return { data: {} };
         },
         errorHandler: (error, _args, { getState }) => {
-          trackWeb2ConnectFailure(getTrackingParams(getState as GetState));
+          trackWeb2SignUpFailure(getTrackingParams(getState as GetState));
 
           if (isAxiosAccountError(error)) {
             return { error: getAxiosAccountErrorMessage(error) };

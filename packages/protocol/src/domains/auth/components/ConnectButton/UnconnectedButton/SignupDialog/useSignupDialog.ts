@@ -1,20 +1,20 @@
-import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { SignupDialogState } from './SignupDialogContent';
 import { t } from '@ankr.com/common';
+
+import { SignupDialogState } from './SignupDialogContent';
+import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
+import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
 
 interface SignupDialogHookProps {
   hasOauthLogin?: boolean;
   onClose: () => void;
   onGoogleSignUp?: () => void;
-  onManualClose?: () => void;
 }
 
 export const useSignupDialog = ({
   onClose,
   hasOauthLogin,
   onGoogleSignUp = () => {},
-  onManualClose = () => {},
 }: SignupDialogHookProps) => {
   const { handleFetchLoginParams, loading } = useOauthLoginParams();
 
@@ -53,8 +53,8 @@ export const useSignupDialog = ({
   const onDialogClose = useCallback(() => {
     handleClose();
 
-    onManualClose();
-  }, [handleClose, onManualClose]);
+    trackSignUpModalClose();
+  }, [handleClose]);
 
   const onGoogleButtonClick = useCallback(() => {
     handleFetchLoginParams();

@@ -14,7 +14,7 @@ export interface ContentParams {
   contentType: ContentType;
   items: Item[];
   onClose: () => void;
-  onTrack?: () => void;
+  onUpgrade?: () => void;
   premiumUpgradeHandler: ReturnType<typeof usePremiumUpgradeHandler>;
   contactFormHandler: ReturnType<typeof useContactFormHandler>;
   resetTitle: () => void;
@@ -25,7 +25,7 @@ export const getContent = ({
   contentType,
   items,
   onClose,
-  onTrack,
+  onUpgrade,
   premiumUpgradeHandler,
   contactFormHandler,
   resetTitle,
@@ -35,9 +35,9 @@ export const getContent = ({
     [DEFAULT]: (
       <DefaultContent
         items={items}
-        onPremiumUpgradeButtonClick={premiumUpgradeHandler}
         onEnterpriseUpgradeButtonClick={contactFormHandler}
-        onTrack={onTrack}
+        onPremiumUpgradeButtonClick={premiumUpgradeHandler}
+        onUpgrade={onUpgrade}
       />
     ),
     [SIGN_UP]: <SignUpContent onClose={onClose} onGoogleSignUp={resetTitle} />,

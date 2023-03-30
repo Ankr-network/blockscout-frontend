@@ -1,18 +1,18 @@
 import { useCallback } from 'react';
 
 interface ContactFormHandlerParams {
-  onTrack?: () => void;
+  onUpgrade?: () => void;
   setContactSales: () => void;
 }
 
 export const useContactFormHandler = ({
-  onTrack = () => {},
+  onUpgrade = () => {},
   setContactSales,
 }: ContactFormHandlerParams) => {
   const contactFormHandler = useCallback(() => {
-    onTrack();
+    onUpgrade();
     setContactSales();
-  }, [setContactSales, onTrack]);
+  }, [setContactSales, onUpgrade]);
 
   return contactFormHandler;
 };
