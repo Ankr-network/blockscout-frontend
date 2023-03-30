@@ -2,7 +2,7 @@ import { Box, Select as SelectComponent, SelectProps } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
 import _difference from 'lodash/difference';
-import React, { ChangeEvent, ReactNode, useMemo } from 'react';
+import { ChangeEvent, ReactNode, useCallback, useMemo } from 'react';
 import { Field } from 'react-final-form';
 import { uid } from 'react-uid';
 
@@ -10,6 +10,8 @@ import { ReactComponent as IconArrow } from './assets/icon-arrow.svg';
 import { ReactComponent as IconChecked } from './assets/icon-checked.svg';
 import { useStyles } from './MultiSelectStyles';
 import { getIntersecion } from './utils/getIntersection';
+
+const MAX_SELECT_OPTIONS = 5;
 
 export interface ISelectOption {
   label: string;
@@ -45,6 +47,10 @@ export const MultiSelect = ({
 }: IMultiSelectProps): JSX.Element => {
   const classes = useStyles();
 
+  const withIcons = useMemo(() => {
+    return options.some(option => option.icon);
+  }, [options]);
+
   const items = useMemo(() => {
     return options.map(option => {
       const isSelected = value.some(v => option.value === v);
@@ -74,34 +80,40 @@ export const MultiSelect = ({
     });
   }, [classes.option, options, value]);
 
-  const renderValue = (values: unknown) => {
-    const opts = getIntersecion<ISelectOption>(options, values as string[]);
-    const separate = opts.find(opt => opt.separate);
+  const renderValue = useCallback(
+    (values: unknown) => {
+      const opts = getIntersecion<ISelectOption>(options, values as string[]);
+      const separate = opts.find(opt => opt.separate);
+      const shouldRenderInnerLabel =
+        !withIcons || (innerLabel && opts.length < MAX_SELECT_OPTIONS);
 
-    return (
-      <Box alignItems="center" display="flex" flexWrap="nowrap">
-        {separate ? (
-          separate.label
-        ) : (
-          <>
-            {opts.map(opt => (
-              <span key={uid(opt)} className={classes.icon}>
-                {opt.icon}
-              </span>
-            ))}
+      return (
+        <Box alignItems="center" display="flex" flexWrap="nowrap">
+          {separate ? (
+            separate.label
+          ) : (
+            <>
+              {withIcons &&
+                opts.map(opt => (
+                  <span key={uid(opt)} className={classes.icon}>
+                    {opt.icon}
+                  </span>
+                ))}
 
-            {innerLabel && opts.length && opts.length < 5 && (
-              <Box ml={1.2}>
-                {opts.length === 1
-                  ? opts[0]?.label
-                  : `${opts.length} ${innerLabel}`}
-              </Box>
-            )}
-          </>
-        )}
-      </Box>
-    );
-  };
+              {shouldRenderInnerLabel && (
+                <Box ml={withIcons ? 1.2 : 0}>
+                  {opts.length === 1
+                    ? opts[0]?.label
+                    : `${opts.length} ${innerLabel}`}
+                </Box>
+              )}
+            </>
+          )}
+        </Box>
+      );
+    },
+    [classes.icon, innerLabel, options, withIcons],
+  );
 
   const selectProps = useMemo(
     (): SelectProps => ({

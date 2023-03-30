@@ -1,40 +1,51 @@
 import { t } from '@ankr.com/common';
 
-export enum StakingType {
-  All = 'All',
-  LiquidStaking = 'Liquid Staking',
-  LiquidityPool = 'liquidityPool',
-  Farming = 'farming',
-  Vault = 'vault',
-  Lending = 'landing',
-}
+export const OStakingType = {
+  all: 'all',
+  liquidityPool: 'liquidityPool',
+  stablePool: 'stablePool',
+  volatilePool: 'volatilePool',
+  farming: 'farming',
+  vault: 'vault',
+  landing: 'landing',
+} as const;
+
+type TStakingType = typeof OStakingType[keyof typeof OStakingType];
 
 export type StakingTypeOption = {
   label: string;
-  value: StakingType;
+  value: TStakingType;
   separate?: boolean;
 };
 
 export const useStakingTypes = (): StakingTypeOption[] => [
   {
-    label: t('defi.all'),
-    value: StakingType.All,
+    label: t('defi.all-types'),
+    value: OStakingType.all,
     separate: true,
   },
   {
     label: t('defi.liquidity-pool'),
-    value: StakingType.LiquidityPool,
+    value: OStakingType.liquidityPool,
+  },
+  {
+    label: t('defi.stable-pool'),
+    value: OStakingType.stablePool,
+  },
+  {
+    label: t('defi.volatile-pool'),
+    value: OStakingType.volatilePool,
   },
   {
     label: t('defi.farming'),
-    value: StakingType.Farming,
+    value: OStakingType.farming,
   },
   {
     label: t('defi.vault'),
-    value: StakingType.Vault,
+    value: OStakingType.vault,
   },
   {
     label: t('defi.lending'),
-    value: StakingType.Lending,
+    value: OStakingType.landing,
   },
 ];
