@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { format } from 'date-fns';
 import { uid } from 'react-uid';
 
-import { LongFloat } from 'modules/common/components/LongFloat';
 import { getShortTxHash } from 'modules/common/utils/getShortStr';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { IHistoryTableRow } from 'modules/dashboard/types';
@@ -76,10 +75,9 @@ export const HistoryTable = ({
                     })}
                   >
                     <span>
-                      <LongFloat
-                        className={classNames(classes.amount)}
-                        value={amount}
-                      />
+                      <span className={classNames(classes.amount)}>
+                        {amount.round().toFormat()}
+                      </span>
 
                       {tokenName}
                     </span>
