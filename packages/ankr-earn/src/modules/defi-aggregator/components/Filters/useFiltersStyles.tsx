@@ -33,33 +33,4 @@ export const useFiltersStyles = makeStyles(theme => ({
       width: '100%',
     },
   },
-  tabs: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    gap: theme.spacing(1.5),
-
-    [theme.breakpoints.down('md')]: {
-      flexFlow: 'row wrap',
-    },
-  },
-  tab: {
-    padding: '10px 14px',
-    height: 'min-content',
-    background: theme.palette.common.white,
-    color: theme.palette.grey['500'],
-    borderRadius: '12px',
-    cursor: 'pointer',
-    transition: 'all .1s ease',
-    userSelect: 'none',
-    whiteSpace: 'nowrap',
-
-    '&:hover': {
-      color: theme.palette.common.white,
-      background: theme.palette.primary.main,
-    },
-  },
-  tabActive: {
-    color: theme.palette.common.white,
-    background: theme.palette.primary.main,
-  },
 }));

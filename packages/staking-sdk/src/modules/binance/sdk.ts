@@ -1,14 +1,12 @@
 import { getPastEvents } from '@ankr.com/advanced-api';
 import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
-import { BlockTransactionObject } from 'web3-eth';
 import { Contract, EventData } from 'web3-eth-contract';
 import { AbiItem, Unit } from 'web3-utils';
 
 import {
   EEthereumNetworkId,
   IWeb3SendResult,
-  TWeb3BatchCallback,
   Web3KeyReadProvider,
   Web3KeyWriteProvider,
 } from '@ankr.com/provider';
@@ -17,13 +15,15 @@ import {
   advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
+  getIsSameReadProvider,
   isMainnet,
   MAX_UINT256,
+  MAX_UINT256_SCALE,
   ProviderManagerSingleton,
   ZERO,
   ZERO_EVENT_HASH,
-  MAX_UINT256_SCALE,
 } from '../common';
+import { GetBlocksManager } from '../common/GetBlocksManager';
 import {
   ABI_ABNBB,
   ABI_ABNBC,
@@ -43,15 +43,17 @@ import {
   IStakable,
   IStakeData,
   ITxEventsHistoryData,
-  ITxEventsHistoryGroupItem,
+  ITxHistory,
+  ITxHistoryItem,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
-import { convertNumberToHex } from '../utils';
+import { convertNumberToHex, sleep } from '../utils';
 import { batchEvents } from '../utils/batchEvents';
 
 import {
   BINANCE_HISTORY_2_WEEKS_BLOCK_OFFSET,
   BINANCE_PARTNERS_CONTRACT_START_BLOCK,
+  BINANCE_POOL_CONTRACT_START_BLOCK,
   BINANCE_READ_PROVIDER_ID,
   BNB_ESTIMATE_GAS_MULTIPLIER,
   BNB_GAS_FEE_SAFE_LIMIT,
@@ -71,7 +73,6 @@ import {
   TBnbSyntToken,
 } from './types';
 
-
 /**
  * BinanceSDK allows you to interact with Binance Liquid Staking smart contracts on BNB Smart Chain: aBNBb, aBNBc, WBNB, and BinancePool.
  *
@@ -79,7 +80,10 @@ import {
  *
  * @class
  */
-export class BinanceSDK implements ISwitcher, IStakable {
+export class BinanceSDK
+  extends GetBlocksManager
+  implements ISwitcher, IStakable
+{
   /**
    * instance — SDK instance.
    *
@@ -143,6 +147,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
     writeProvider,
     apiUrl,
   }: IBinanceSDKArgs) {
+    super();
     BinanceSDK.instance = this;
 
     this.apiUrl = apiUrl;
@@ -172,13 +177,21 @@ export class BinanceSDK implements ISwitcher, IStakable {
         providerManager.getETHReadProvider(BINANCE_READ_PROVIDER_ID),
     ]);
 
-    const addrHasNotBeenUpdated =
+    const isAddrActual =
       BinanceSDK.instance?.currentAccount === writeProvider.currentAccount;
-    const hasNewProvider =
-      BinanceSDK.instance?.writeProvider === writeProvider &&
-      BinanceSDK.instance?.readProvider === readProvider;
 
-    if (BinanceSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
+    const isSameWriteProvider =
+      BinanceSDK.instance?.writeProvider === writeProvider;
+
+    const isSameReadProvider = getIsSameReadProvider(
+      BinanceSDK.instance?.readProvider,
+      readProvider,
+    );
+
+    const isInstanceActual =
+      isAddrActual && isSameWriteProvider && isSameReadProvider;
+
+    if (BinanceSDK.instance && isInstanceActual) {
       return BinanceSDK.instance;
     }
 
@@ -305,14 +318,16 @@ export class BinanceSDK implements ISwitcher, IStakable {
     filter,
     latestBlockNumber,
   }: IGetPastEvents): Promise<EventData[]> {
-    return flatten(await batchEvents({
-      contract,
-      eventName,
-      rangeStep,
-      startBlock,
-      filter,
-      latestBlockNumber,
-    }));
+    return flatten(
+      await batchEvents({
+        contract,
+        eventName,
+        rangeStep,
+        startBlock,
+        filter,
+        latestBlockNumber,
+      }),
+    );
   }
 
   /**
@@ -342,46 +357,43 @@ export class BinanceSDK implements ISwitcher, IStakable {
 
   /**
    * Internal function to return transaction history group from events.
-   * TODO: reuse it from stake/api/getTxEventsHistoryGroup
    *
    * @private
    * @param {EventData[]} [rawEvents] - events
-   * @returns {Promise<ITxEventsHistoryGroupItem[]>}
+   * @returns {Promise<ITxHistoryItem[]>}
    */
   private async getTxEventsHistoryGroup(
     rawEvents?: EventData[],
-  ): Promise<ITxEventsHistoryGroupItem[]> {
+  ): Promise<ITxHistoryItem[]> {
     if (!Array.isArray(rawEvents) || !rawEvents.length) {
       return [];
     }
 
     const provider = await this.getProvider();
     const web3 = provider.getWeb3();
+    const blockNumbers = rawEvents.map(event => event.blockNumber);
 
-    const calls = rawEvents.map(
-      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
-        web3.eth.getBlock.request(event.blockHash, false, callback),
-    );
-
-    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
-      calls,
-    );
+    const blocks = await this.getBlocks(web3, blockNumbers);
 
     const rawData = blocks.map((block, index) => ({
       ...rawEvents[index],
-      timestamp: block.timestamp as number,
+      timestamp: +block.timestamp,
     }));
 
     return rawData
       .sort((a, b) => b.timestamp - a.timestamp)
-      .map(
-        ({ event, returnValues: { amount }, timestamp, transactionHash }) => ({
-          txAmount: this.convertFromWei(amount),
+      .map<ITxHistoryItem>(
+        ({
+          event,
+          returnValues = { amount: '0' },
+          timestamp,
+          transactionHash,
+        }) => ({
+          txAmount: this.convertFromWei(returnValues.amount),
           txDate: new Date(timestamp * 1_000),
           txHash: transactionHash,
           txType: this.getTxType(event),
+          isBond: returnValues.isRebasing,
         }),
       );
   }
@@ -726,7 +738,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
   ): Promise<IEventsBatch> {
     const binancePoolContract = await this.getBinancePoolContract(true);
 
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await sleep(500);
 
     const unstakeRawEvents = await this.getPastEvents({
       provider: this.readProvider,
@@ -738,7 +750,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
       filter: { claimer: this.currentAccount },
     });
 
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await sleep(500);
 
     const rebasingEvents = await this.getPastEvents({
       provider: this.readProvider,
@@ -925,6 +937,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
+   * @deprecated Use `getTxHistory` instead. This method will be removed.
    * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
@@ -943,6 +956,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
+   * @deprecated Use `getTxHistoryRange` instead. This method will be removed.
    * @note Currently returns data for block range.
    * @param {number} from - from block
    * @param {number} to - to block
@@ -1016,10 +1030,16 @@ export class BinanceSDK implements ISwitcher, IStakable {
       abnbcHashSet.has(x.transactionHash),
     );
 
-    const completedBond = await this.getTxEventsHistoryGroup(completedABNBBEvents);
-    const completedCertificate = await this.getTxEventsHistoryGroup(completedABNBCEvents);
+    const completedBond = await this.getTxEventsHistoryGroup(
+      completedABNBBEvents,
+    );
+    const completedCertificate = await this.getTxEventsHistoryGroup(
+      completedABNBCEvents,
+    );
     const pendingBond = await this.getTxEventsHistoryGroup(pendingABNBBEvents);
-    const pendingCertificate = await this.getTxEventsHistoryGroup(pendingABNBCEvents);
+    const pendingCertificate = await this.getTxEventsHistoryGroup(
+      pendingABNBCEvents,
+    );
 
     return {
       completedBond,
@@ -1034,6 +1054,120 @@ export class BinanceSDK implements ISwitcher, IStakable {
       })),
       unstakeBond: [],
       unstakeCertificate: [],
+    };
+  }
+
+  /**
+   * Get transaction history for all period that starts from contract creation.
+   *
+   * @note Amount of certificate event is in BNB. If you need ankrBNB, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @public
+   * @return  {Promise<ITxHistory>} full transaction history.
+   */
+  public async getFullTxHistory(): Promise<ITxHistory> {
+    const latestBlockNumber = await this.getLatestBlock();
+
+    const { stakeHistory, unstakeHistory } = await this.getTxHistoryRange(
+      BINANCE_POOL_CONTRACT_START_BLOCK,
+      latestBlockNumber,
+    );
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
+   * Get transaction history for block range.
+   *
+   * @note Amount of each event is in BNB. If you need ankrBNB, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @param {number} lowestBlock - from block number
+   * @param {number} highestBlock - to block number
+   * @param {boolean | undefined} isUnstakeOnly - if true, only unstake events will be returned
+   * @returns {Promise<ITxHistory>} - transaction history
+   */
+  public async getTxHistoryRange(
+    lowestBlock: number,
+    highestBlock: number,
+    isUnstakeOnly = false,
+  ): Promise<ITxHistory> {
+    const binancePoolContract = await this.getBinancePoolContract(true);
+
+    const getUnstakePastEventsArgs: IGetPastEvents = {
+      latestBlockNumber: highestBlock,
+      startBlock: lowestBlock,
+      contract: binancePoolContract,
+      eventName: EBinancePoolEvents.UnstakePending,
+      provider: this.readProvider,
+      rangeStep: BNB_MAX_BLOCK_RANGE,
+    };
+
+    const unstakeRawEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      filter: { claimer: this.currentAccount },
+    });
+
+    if (!advancedAPIConfig.isActiveForBinance) {
+      await sleep(500);
+    }
+
+    const rebasingEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      eventName: EBinancePoolEvents.IsRebasing,
+    });
+
+    const abnbcHashSet = new Set<string>(
+      rebasingEvents
+        .filter(x => x.raw.data === ZERO_EVENT_HASH)
+        .map(y => y.transactionHash),
+    );
+
+    const mapEvent = (event: EventData) => {
+      const isRebasing = !abnbcHashSet.has(event.transactionHash);
+
+      return {
+        ...event,
+        returnValues: {
+          ...event.returnValues,
+          isRebasing,
+        },
+      };
+    };
+
+    const updatedUnstakeEvents = unstakeRawEvents.map(mapEvent);
+    const unstakeHistory = await this.getTxEventsHistoryGroup(
+      updatedUnstakeEvents,
+    );
+
+    if (isUnstakeOnly) {
+      return {
+        stakeHistory: [],
+        unstakeHistory,
+      };
+    }
+
+    if (!advancedAPIConfig.isActiveForBinance) {
+      await sleep(500);
+    }
+
+    const stakeRawEvents = await this.getPastEvents({
+      ...getUnstakePastEventsArgs,
+      eventName: EBinancePoolEvents.Staked,
+      filter: { delegator: this.currentAccount },
+    });
+
+    const updatedStakeEvents = stakeRawEvents.map(mapEvent);
+
+    const stakeHistory = await this.getTxEventsHistoryGroup(updatedStakeEvents);
+
+    return {
+      stakeHistory,
+      unstakeHistory,
     };
   }
 
@@ -1283,16 +1417,8 @@ export class BinanceSDK implements ISwitcher, IStakable {
       filter: { code },
     });
 
-    const calls = events.map(
-      event => (callback: TWeb3BatchCallback<BlockTransactionObject>) =>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore https://github.com/ChainSafe/web3.js/issues/4655
-        web3.eth.getBlock.request(event.blockHash, false, callback),
-    );
-
-    const blocks = await provider.executeBatchCalls<BlockTransactionObject>(
-      calls,
-    );
+    const blockNumbers = events.map(event => event.blockNumber);
+    const blocks = await this.getBlocks(web3, blockNumbers);
 
     const data = blocks.map((block, index) => ({
       ...events[index],
@@ -1599,7 +1725,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
     if (!this.writeProvider.isConnected()) {
       await this.writeProvider.connect();
     }
-    const hexAmount = convertNumberToHex(amount, amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale);
+    const hexAmount = convertNumberToHex(
+      amount,
+      amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale,
+    );
 
     const { binanceConfig } = configFromEnv();
     const aBNBcContract = await this.getABNBCContract();
@@ -1630,7 +1759,10 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const acTokenContract = await this.getABNBCContract();
     const { binanceConfig } = configFromEnv();
 
-    const amountHex = convertNumberToHex(amount, amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale);
+    const amountHex = convertNumberToHex(
+      amount,
+      amount.isEqualTo(MAX_UINT256) ? MAX_UINT256_SCALE : scale,
+    );
     const txn = acTokenContract.methods.approve(
       binanceConfig.swapPool,
       amountHex,
@@ -1675,10 +1807,7 @@ export class BinanceSDK implements ISwitcher, IStakable {
     const { binanceConfig } = configFromEnv();
 
     const allowance = await aBNBcContract.methods
-      .allowance(
-        this.currentAccount,
-        binanceConfig.aBNBbToken,
-      )
+      .allowance(this.currentAccount, binanceConfig.aBNBbToken)
       .call();
 
     return this.convertFromWei(allowance);

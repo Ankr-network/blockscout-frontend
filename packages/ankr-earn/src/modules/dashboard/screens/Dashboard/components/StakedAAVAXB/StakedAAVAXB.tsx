@@ -37,22 +37,17 @@ export const StakedAAVAXB = (): JSX.Element => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const {
-    pendingUnstakeHistoryAAVAXB,
-    isHistoryDataLoading,
-    handleLoadTxHistory,
-  } = useStakedAVAXTxHistory();
+  const { pendingBondUnstakeHistory, isHistoryDataLoading, pendingBondAmount } =
+    useStakedAVAXTxHistory();
 
   const {
     address,
     amount,
     chainId,
     isBalancesLoading,
-    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
     network,
-    pendingValue,
     stakeLink,
     switchLink,
     unstakeLink,
@@ -79,20 +74,19 @@ export const StakedAAVAXB = (): JSX.Element => {
     });
   };
 
-  const renderedPendingSlot = (!pendingValue.isZero() ||
-    isPendingUnstakeLoading) && (
+  const renderedPendingSlot = (!pendingBondAmount.isZero() ||
+    isHistoryDataLoading) && (
     <Pending
       isLoading={isHistoryDataLoading}
-      isUnstakeValueLoading={isPendingUnstakeLoading}
+      isUnstakeValueLoading={isHistoryDataLoading}
       token={token}
       tooltip={
         <PendingTable
-          data={pendingUnstakeHistoryAAVAXB}
+          data={pendingBondUnstakeHistory}
           unstakeLabel={unstakePendingData.label}
         />
       }
-      value={pendingValue}
-      onLoadHistory={handleLoadTxHistory}
+      value={pendingBondAmount}
     />
   );
 

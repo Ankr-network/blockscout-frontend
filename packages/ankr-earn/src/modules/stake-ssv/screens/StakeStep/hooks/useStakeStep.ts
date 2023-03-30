@@ -1,16 +1,15 @@
 import { resetRequests, stopPolling } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { EthereumSSV } from '@ankr.com/staking-sdk';
 
 import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
-import { addTokenToWallet } from 'modules/stake-ssv/actions/addTokenToWallet';
-import { getTxData } from 'modules/stake-ssv/actions/getTxData';
-import { getTxReceipt } from 'modules/stake-ssv/actions/getTxReceipt';
+import { useAddSSVTokenToWalletMutation } from 'modules/stake-ssv/actions/addTokenToWallet';
+import { useLazyGetSSVTxDataQuery } from 'modules/stake-ssv/actions/getSSVTxData';
+import { useLazyGetSSVTxReceiptQuery } from 'modules/stake-ssv/actions/getSSVTxReceipt';
 import { TSSVToken } from 'modules/stake-ssv/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 
@@ -35,13 +34,12 @@ export const useStakeStep = (): IUseStakeStepData => {
 
   const { tokenOut, txHash } = useParams<IStakeStepRouteData>();
 
-  const {
-    data: txData,
-    error,
-    loading: isLoading,
-  } = useQuery({ type: getTxData });
+  const [getTxData, { data: txData, error, isLoading }] =
+    useLazyGetSSVTxDataQuery();
 
-  const { data: receipt } = useQuery({ type: getTxReceipt });
+  const [getTxReceipt, { data: receipt }] = useLazyGetSSVTxReceiptQuery();
+
+  const [addTokenToWallet] = useAddSSVTokenToWalletMutation();
 
   const isPending = !!txData?.isPending;
 
@@ -50,19 +48,19 @@ export const useStakeStep = (): IUseStakeStepData => {
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
-  const onAddTokenClick = (): void => {
-    dispatch(addTokenToWallet(tokenOut as unknown as EthereumSSV.ESSVTokens));
-  };
+  const onAddTokenClick = useCallback((): void => {
+    addTokenToWallet(tokenOut as unknown as EthereumSSV.ESSVTokens);
+  }, [addTokenToWallet, tokenOut]);
 
   useEffect(() => {
     if (receipt) {
       dispatch(stopPolling([getTxReceipt.toString()]));
     }
-  }, [dispatch, receipt]);
+  }, [dispatch, getTxReceipt, receipt]);
 
   useProviderEffect(() => {
-    dispatch(getTxData({ txHash }));
-    dispatch(getTxReceipt({ txHash }));
+    getTxData({ txHash });
+    getTxReceipt({ txHash });
 
     return () => {
       dispatch(
@@ -78,7 +76,7 @@ export const useStakeStep = (): IUseStakeStepData => {
   return {
     amount: txAmount,
     destinationAddress: txData?.destinationAddress,
-    error: error || txFailError,
+    error: (error as Error) || txFailError,
     isLoading,
     isPending,
     tokenName: tokenOut,

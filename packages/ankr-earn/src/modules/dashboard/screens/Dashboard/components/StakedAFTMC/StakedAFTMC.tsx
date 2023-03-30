@@ -36,8 +36,8 @@ export const StakedAFTMC = (): JSX.Element | null => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const { pendingUnstakeHistoryAFTMC, isHistoryLoading, handleLoadTxHistory } =
-    useStakedFTMTxHistory(token);
+  const { pendingCertUnstakeHistory, isHistoryDataLoading } =
+    useStakedFTMTxHistory();
 
   const {
     address,
@@ -80,16 +80,15 @@ export const StakedAFTMC = (): JSX.Element | null => {
 
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
-      isLoading={isHistoryLoading}
+      isLoading={isHistoryDataLoading}
       token={tokenName}
       tooltip={
         <PendingTable
-          data={pendingUnstakeHistoryAFTMC}
+          data={pendingCertUnstakeHistory}
           unstakeLabel={unstakePendingData.label}
         />
       }
       value={pendingUnstakes}
-      onLoadHistory={handleLoadTxHistory}
     />
   );
 

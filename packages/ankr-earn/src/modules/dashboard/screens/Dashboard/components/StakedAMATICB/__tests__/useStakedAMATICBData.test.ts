@@ -75,7 +75,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB/useStaked
     const { result } = renderHook(() => useStakedAMATICBData());
 
     expect(result.current.amount).toStrictEqual(ONE_ETH);
-    expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.isUnstakeLoading).toBe(false);

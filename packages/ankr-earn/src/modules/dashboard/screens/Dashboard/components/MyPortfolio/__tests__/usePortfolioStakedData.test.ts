@@ -12,7 +12,7 @@ import { useGetETHCommonDataQuery } from 'modules/stake-eth/actions/getCommonDat
 import { useGetFTMCommonDataQuery } from 'modules/stake-fantom/actions/getCommonData';
 import { useGetMaticOnEthStatsQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthStats';
 import { useGetMaticOnPolygonCommonDataQuery } from 'modules/stake-matic/polygon/actions/getMaticOnPolygonCommonData';
-import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
+import { useGetXdcDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
 
 import { usePortfolioStakedData } from '../usePortfolioStakedData';
 
@@ -53,7 +53,7 @@ jest.mock('modules/stake-eth/actions/getCommonData', () => ({
 }));
 
 jest.mock('modules/stake-xdc/actions/getDashboardData', () => ({
-  useGetDashboardDataQuery: jest.fn(),
+  useGetXdcDashboardDataQuery: jest.fn(),
 }));
 
 jest.mock(
@@ -106,7 +106,7 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
       isFetching: false,
       data: undefined,
     });
-    (useGetDashboardDataQuery as jest.Mock).mockReturnValue({
+    (useGetXdcDashboardDataQuery as jest.Mock).mockReturnValue({
       isFetching: false,
       data: undefined,
     });

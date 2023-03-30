@@ -34,7 +34,6 @@ export interface IStakedAMATICCData {
   isUnstakeLoading: boolean;
   nativeAmount?: BigNumber;
   network: string;
-  pendingValue: BigNumber;
   ratio: BigNumber;
   stakeLink: string;
   token: Token;
@@ -64,8 +63,6 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
 
   const amount = statsData?.aMATICcBalance ?? ZERO;
 
-  const pendingValue = statsData?.pendingCertificate ?? ZERO;
-
   const usdAmount = useMemo(
     () =>
       getUSDAmount({
@@ -93,7 +90,6 @@ export const useStakedAMATICCData = (): IStakedAMATICCData => {
     isUnstakeLoading,
     nativeAmount,
     network,
-    pendingValue,
     ratio: statsData?.aMATICcRatio ?? ZERO,
     stakeLink: StakeMaticEthRoutes.stake.generatePath(),
     token,

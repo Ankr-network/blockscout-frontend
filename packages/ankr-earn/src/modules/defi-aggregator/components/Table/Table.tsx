@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
 import { Box } from '@material-ui/core';
-import _capitalize from 'lodash/capitalize';
 import { useMemo, useState } from 'react';
 import { uid } from 'react-uid';
 
@@ -53,35 +52,20 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
     });
   }, [data, sortKey, sortOrder]);
 
-  const renderTableHeadCell = (title: string) => {
-    const isSelected = sortKey === title.toLowerCase();
-
-    const handleClick = () => {
-      if (!isSelected) {
-        setSortKey(title.toLowerCase() as keyof IDeFiItem);
-        setSortOrder('asc');
-      } else if (sortOrder === 'desc') {
-        setSortOrder('asc');
-      } else {
-        setSortOrder('desc');
-      }
-    };
-
-    return (
-      <ScrollableTable.HeadCell
-        sortDirection={isSelected ? sortOrder : null}
-        onClick={handleClick}
-      >
-        {_capitalize(title)}
-      </ScrollableTable.HeadCell>
-    );
+  const handleSortClick = (key: keyof IDeFiItem) => () => {
+    if (sortKey === key) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortKey(key);
+      setSortOrder('asc');
+    }
   };
 
   const onDepositClick = (item: IDeFiItem) => {
     trackClickDefiAggregator({
       assets: item.assets,
       network: item.network,
-      protocol: item.protocol,
+      protocol: item.protocolName,
       type: item.type,
       rewards: item.baseRewards,
       walletType: walletName,
@@ -98,11 +82,26 @@ export const Table = ({ data }: ITableProps): JSX.Element => {
               {t('defi.assets')}
             </ScrollableTable.HeadCell>
 
-            {renderTableHeadCell(t('defi.network'))}
+            <ScrollableTable.HeadCell
+              sortDirection={sortKey === 'network' ? sortOrder : null}
+              onClick={handleSortClick('network')}
+            >
+              {t('defi.network')}
+            </ScrollableTable.HeadCell>
 
-            {renderTableHeadCell(t('defi.protocol'))}
+            <ScrollableTable.HeadCell
+              sortDirection={sortKey === 'protocolName' ? sortOrder : null}
+              onClick={handleSortClick('protocolName')}
+            >
+              {t('defi.protocol')}
+            </ScrollableTable.HeadCell>
 
-            {renderTableHeadCell(t('defi.type'))}
+            <ScrollableTable.HeadCell
+              sortDirection={sortKey === 'type' ? sortOrder : null}
+              onClick={handleSortClick('type')}
+            >
+              {t('defi.type')}
+            </ScrollableTable.HeadCell>
 
             <ScrollableTable.HeadCell>
               {t('defi.base-rewards')}

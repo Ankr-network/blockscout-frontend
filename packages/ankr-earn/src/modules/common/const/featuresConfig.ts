@@ -69,4 +69,8 @@ export const featuresConfig = {
    * https://ankrnetwork.atlassian.net/browse/STAKAN-2431
    */
   isPolkadotMaintenanceActive: false,
+  /**
+   * https://ankrnetwork.atlassian.net/browse/STAKAN-2593
+   */
+  isETHUnstakeActive: !isMainnet,
 };

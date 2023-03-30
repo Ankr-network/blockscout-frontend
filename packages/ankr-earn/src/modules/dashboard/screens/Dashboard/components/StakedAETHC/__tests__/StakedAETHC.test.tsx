@@ -4,10 +4,6 @@ import { MemoryRouter } from 'react-router';
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
-import {
-  IUseHistoryData,
-  useHistory,
-} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
 import { useDialog } from 'modules/dialogs';
 
 import { StakedAETHC } from '..';
@@ -31,10 +27,6 @@ jest.mock('../useStakedAETHCData', () => ({
 
 jest.mock('../../../hooks/liquid-tokens/ETH/useStakedTxHistoryETH', () => ({
   useStakedTxHistoryETH: jest.fn(),
-}));
-
-jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
-  useHistory: jest.fn(),
 }));
 
 jest.mock('modules/dialogs', () => ({
@@ -65,14 +57,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     handleLoadTxHistory: jest.fn(),
   };
 
-  const defaultUseHistoryHookData: IUseHistoryData = {
-    loading: false,
-    weeksAmount: 1,
-    handleShowMore: jest.fn(),
-    stakeEvents: [],
-    unstakeEvents: [],
-  };
-
   const defaultUseDialogHookData = {
     handleOpen: jest.fn(),
   };
@@ -85,8 +69,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAETHC', () => {
     (useStakedTxHistoryETH as jest.Mock).mockReturnValue(
       defaultStakedTxHistoryData,
     );
-
-    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
 
     (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
   });

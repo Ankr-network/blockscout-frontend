@@ -9,16 +9,15 @@ import {
   DEFI_URL,
   IDeFiItemResponse,
   TDeFiNetwork,
-  TDeFiProtocol,
   TDeFiType,
 } from '../api/defi';
 
 const baseURL = configFromEnv().gatewayConfig.strapiUrl;
 
 export interface IDeFiItem {
+  id: string;
   assets: string;
   network: TDeFiNetwork;
-  protocol: TDeFiProtocol;
   type: TDeFiType;
   baseRewards: string;
   protocolLink: string;
@@ -48,13 +47,13 @@ export const { useGetDeFiDataQuery } = web3Api.injectEndpoints({
 
 function getMapDeFiItem(baseUrl: string) {
   return (item: IDeFiItemResponse): IDeFiItem => ({
+    id: item.id.toString(),
     assets: item.assets,
     network: item.network,
-    protocol: item.protocol,
     type: item.type,
     baseRewards: item.baseRewards,
     protocolLink: item.protocolLink,
-    protocolName: item.protocolName,
+    protocolName: item.protocolName.trim(),
     protocolIcon: item.protocolIcon
       ? new URL(item.protocolIcon.url, baseUrl).toString()
       : '',

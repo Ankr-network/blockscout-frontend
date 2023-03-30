@@ -3,18 +3,13 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { ONE_ETH } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
-import {
-  IUseHistoryData,
-  useHistory,
-} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
+import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/dialogs';
 import { useLazyGetMaticOnEthTotalHistoryQuery } from 'modules/stake-matic/eth/actions/getMaticOnEthTotalHistory';
 
 import {
-  ITxHistoryData,
-  useStakedMATICTxHistory,
+  IStakedMaticTxHistory,
+  useStakedMaticTxHistory,
 } from '../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
 import { StakedAMATICB } from '../StakedAMATICB';
 import {
@@ -46,11 +41,7 @@ jest.mock('../useStakedAMATICBData', () => ({
 }));
 
 jest.mock('../../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory', () => ({
-  useStakedMATICTxHistory: jest.fn(),
-}));
-
-jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
-  useHistory: jest.fn(),
+  useStakedMaticTxHistory: jest.fn(),
 }));
 
 jest.mock('modules/dialogs', () => ({
@@ -62,7 +53,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
   const defaultStakedMaticHookData: IStakedAMATICBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
     chainId: EEthereumNetworkId.goerli,
-    pendingValue: ONE_ETH.dividedBy(10 ** 17),
     network: 'Ethereum Mainnet',
     switchLink: 'switch',
     unstakeLink: 'unstake',
@@ -73,32 +63,12 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
     handleAddTokenToWallet: jest.fn(),
   };
 
-  const defaultTxHistoryHookData: ITxHistoryData = {
-    pendingUnstakeHistoryAMATICB: [],
-    transactionHistoryAMATICB: {
-      staked: [],
-      stakedToken: Token.aMATICb,
-      unstaked: [],
-      unstakedToken: Token.aMATICb,
-    },
-    pendingUnstakeHistoryAMATICC: [],
-    transactionHistoryAMATICC: {
-      staked: [],
-      stakedToken: Token.aMATICc,
-      unstaked: [],
-      unstakedToken: Token.aMATICc,
-    },
-    hasHistory: false,
+  const defaultStakedMaticTxHistory: IStakedMaticTxHistory = {
+    pendingCertUnstakeHistory: [],
+    pendingBondUnstakeHistory: [],
     isHistoryDataLoading: false,
-    handleLoadTxHistory: jest.fn(),
-  };
-
-  const defaultUseHistoryHookData: IUseHistoryData = {
-    loading: false,
-    weeksAmount: 1,
-    handleShowMore: jest.fn(),
-    stakeEvents: [],
-    unstakeEvents: [],
+    pendingBondAmount: ZERO,
+    pendingCertAmount: ZERO,
   };
 
   const defaultUseDialogHookData = {
@@ -110,11 +80,9 @@ describe('modules/dashboard/screens/Dashboard/components/StakedAMATICB', () => {
       defaultStakedMaticHookData,
     );
 
-    (useStakedMATICTxHistory as jest.Mock).mockReturnValue(
-      defaultTxHistoryHookData,
+    (useStakedMaticTxHistory as jest.Mock).mockReturnValue(
+      defaultStakedMaticTxHistory,
     );
-
-    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
 
     (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
 

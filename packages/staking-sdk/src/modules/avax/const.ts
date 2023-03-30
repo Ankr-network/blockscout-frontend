@@ -1,6 +1,6 @@
 import {
-  AvailableWriteProviders,
   AvailableReadProviders,
+  AvailableWriteProviders,
 } from '@ankr.com/provider';
 
 import { isMainnet } from '../common';
@@ -17,6 +17,16 @@ export const AVALANCHE_WRITE_PROVIDER_ID =
 export const AVALANCHE_READ_PROVIDER_ID = isMainnet
   ? AvailableReadProviders.avalancheChain
   : AvailableReadProviders.avalancheChainTest;
+
+const AVAX_POOL_START_BLOCK_MAINNET = 1696977;
+const AVAX_POOL_START_BLOCK_TESTNET = 178962;
+
+/**
+ * Avalanche pool start block. Block number when the pool was deployed.
+ */
+export const AVAX_POOL_START_BLOCK = isMainnet
+  ? AVAX_POOL_START_BLOCK_MAINNET
+  : AVAX_POOL_START_BLOCK_TESTNET;
 
 /**
  * AVAX token decimals
@@ -39,11 +49,6 @@ export const AVAX_MAX_BLOCK_RANGE = 3_000;
  * @note 404_000 blocks = ~14 days
  */
 export const AVAX_HISTORY_2_WEEKS_OFFSET = AVAX_MAX_BLOCK_RANGE * 135;
-
-/**
- * Max block parallel requests to rpc
- */
-export const AVAX_MAX_PARALLEL_REQ = 100;
 
 /**
  * Even with this multiplier, the gas estimate is two times less

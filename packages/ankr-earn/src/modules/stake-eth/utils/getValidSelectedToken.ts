@@ -1,9 +1,9 @@
-import { TEthToken } from '@ankr.com/staking-sdk';
-
 import { Token } from 'modules/common/types/token';
 
-export function getValidSelectedToken(token?: string | null): TEthToken {
+import { TEthSyntToken } from '../types';
+
+export function getValidSelectedToken(token?: string | null): TEthSyntToken {
   const isValidToken = token === Token.aETHb || token === Token.aETHc;
 
-  return isValidToken ? (token as TEthToken) : Token.aETHb;
+  return isValidToken ? (token as TEthSyntToken) : Token.aETHb;
 }

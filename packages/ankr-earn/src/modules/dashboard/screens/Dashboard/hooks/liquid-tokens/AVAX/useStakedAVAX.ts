@@ -1,11 +1,12 @@
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useGetUSDAmount } from '../../useGetUSDAmount';
+
+import { useStakedAVAXTxHistory } from './useStakedAVAXTxHistory';
 
 interface IUseStakedAVAX {
   isStakedAvaxBondShowed: boolean;
@@ -20,8 +21,9 @@ export const useStakedAVAX = (
     useGetAVAXCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
-  const { data: avaxPendingValues, isFetching: isAvaxPendingValuesLoading } =
-    useGetAVAXPendingValuesQuery();
+
+  const { isHistoryDataLoading, pendingBondAmount, pendingCertAmount } =
+    useStakedAVAXTxHistory();
 
   const usdAAVAXbAmount = useGetUSDAmount(
     avaxCommon?.aAVAXbBalance,
@@ -29,7 +31,7 @@ export const useStakedAVAX = (
   );
 
   const usdAAVAXbUnstakedAmount = useGetUSDAmount(
-    avaxPendingValues?.pendingAavaxbUnstakes,
+    pendingBondAmount,
     EMetricsServiceName.AVAX,
   );
 
@@ -39,17 +41,17 @@ export const useStakedAVAX = (
   );
 
   const usdAAVAXcUnstakedAmount = useGetUSDAmount(
-    avaxPendingValues?.pendingAavaxcUnstakes,
+    pendingCertAmount,
     EMetricsServiceName.AVAX,
   );
 
   const isStakedAvaxBondShowed =
     getIsBalancePositive(avaxCommon?.aAVAXbBalance) ||
-    getIsBalancePositive(avaxPendingValues?.pendingAavaxbUnstakes);
+    getIsBalancePositive(pendingBondAmount);
 
   const isStakedAvaxCertShowed =
     getIsBalancePositive(avaxCommon?.aAVAXcBalance) ||
-    getIsBalancePositive(avaxPendingValues?.pendingAavaxcUnstakes);
+    getIsBalancePositive(pendingCertAmount);
 
   return {
     isStakedAvaxBondShowed: filterTokensBySmallBalance(
@@ -62,6 +64,6 @@ export const useStakedAVAX = (
       isStakedAvaxCertShowed,
       isSmallBalancesVisible,
     ),
-    isAvaxCommonLoading: isAvaxPendingValuesLoading || isAvaxCommonLoading,
+    isAvaxCommonLoading: isHistoryDataLoading || isAvaxCommonLoading,
   };
 };

@@ -1,22 +1,23 @@
-import { stopPolling, resetRequests } from '@redux-requests/core';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import BigNumber from 'bignumber.js';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useParams } from 'react-router';
 
 import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
 import { TxErrorCodes } from 'modules/common/components/ProgressStep';
 import { Token } from 'modules/common/types/token';
-import { getTxData, getTxReceipt } from 'modules/switcher/actions/getTxData';
-import { addSwitcherTokenToWallet } from 'modules/switcher/actions/wallet';
+import { useAddSwitchTokenToWalletMutation } from 'modules/switcher/actions/addSwitchTokenToWallet';
+import {
+  useGetSwitcherTxDataQuery,
+  useGetSwitcherTxReceiptQuery,
+} from 'modules/switcher/actions/getSwitcherTxData';
 import {
   AvailableSwitchNetwork,
   AvailableSwitcherToken,
+  POLING_INTERVAL,
 } from 'modules/switcher/const';
-import { useAppDispatch } from 'store/useAppDispatch';
 
 export interface ITransactionStepHookData {
   isLoading: boolean;
@@ -25,7 +26,7 @@ export interface ITransactionStepHookData {
   symbol: Token;
   destinationAddress?: string;
   amount?: BigNumber;
-  error?: Error;
+  error?: FetchBaseQueryError | Error;
   handleAddTokenToWallet: () => void;
 }
 
@@ -38,55 +39,42 @@ interface ISuccessPathParams {
 export const useTransactionStepHook = (): ITransactionStepHookData => {
   const { chainId } = useConnectedData(AvailableWriteProviders.ethCompatible);
   const { txHash, to, from } = useParams<ISuccessPathParams>();
-  const { loading: isLoading, data, error } = useQuery({ type: getTxData });
-  const { data: receipt } = useQuery({ type: getTxReceipt });
-  const dispatchRequest = useDispatchRequest();
-  const dispatch = useAppDispatch();
+  const [addSwitcherTokenToWallet] = useAddSwitchTokenToWalletMutation();
+  const {
+    isFetching: isLoading,
+    data,
+    error,
+  } = useGetSwitcherTxDataQuery({
+    txHash,
+    chainId: chainId as AvailableSwitchNetwork,
+    token: from as AvailableSwitcherToken,
+  });
+  const { data: receipt } = useGetSwitcherTxReceiptQuery(
+    {
+      chainId: chainId as AvailableSwitchNetwork,
+      txHash,
+      token: from as AvailableSwitcherToken,
+    },
+    {
+      pollingInterval: POLING_INTERVAL,
+    },
+  );
 
   const txFailError =
     receipt?.status === false ? new Error(TxErrorCodes.TX_FAILED) : undefined;
 
-  useProviderEffect(() => {
-    dispatchRequest(
-      getTxData({
-        chainId: chainId as AvailableSwitchNetwork,
-        txHash,
-        token: from,
-      }),
-    );
-    dispatchRequest(
-      getTxReceipt({
-        chainId: chainId as AvailableSwitchNetwork,
-        txHash,
-        token: from,
-      }),
-    );
-
-    return () => {
-      dispatch(resetRequests([getTxData.toString(), getTxReceipt.toString()]));
-    };
-  }, [chainId, txHash, from, dispatch]);
-
-  useEffect(() => {
-    if (receipt) {
-      dispatch(stopPolling([getTxReceipt.toString()]));
-    }
-  }, [dispatch, receipt]);
-
   const handleAddTokenToWallet = useCallback(() => {
-    dispatchRequest(
-      addSwitcherTokenToWallet({
-        chainId: chainId as AvailableSwitchNetwork,
-        swapOption: to as AvailableSwitcherToken,
-      }),
-    );
-  }, [chainId, to, dispatchRequest]);
+    addSwitcherTokenToWallet({
+      chainId: chainId as AvailableSwitchNetwork,
+      swapOption: to as AvailableSwitcherToken,
+    });
+  }, [addSwitcherTokenToWallet, chainId, to]);
 
   return {
     txHash,
     symbol: to,
     isLoading,
-    error: error || txFailError,
+    error: (error as FetchBaseQueryError) || txFailError,
     isPending: !receipt,
     amount: data?.amount,
     destinationAddress: data?.destinationAddress,

@@ -31,7 +31,7 @@ import { getTotalInfo as getMGNOTotalInfo } from 'modules/stake-mgno/actions/get
 import { fetchETHTokenBalance } from 'modules/stake-polkadot/actions/fetchETHTokenBalance';
 import { EPolkadotNetworks } from 'modules/stake-polkadot/types';
 import { getPolkadotRequestKey } from 'modules/stake-polkadot/utils/getPolkadotRequestKey';
-import { useGetDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
+import { useGetXdcDashboardDataQuery as getXDCDashboardData } from 'modules/stake-xdc/actions/getDashboardData';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 

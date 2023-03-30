@@ -1,3 +1,5 @@
+import { getUniqueId } from '@ankr.com/common';
+
 import {
   AvailableReadProviders,
   AvailableWriteProviders,
@@ -23,3 +25,8 @@ export const SSV_PROVIDER_ID = AvailableWriteProviders.ethCompatible;
 export const SSV_STAKING_AMOUNT_STEP = 0.5;
 
 export const SSV_STAKING_NETWORKS = [SSV_ETH_NETWORK_BY_ENV];
+
+export const SSVCacheTags = {
+  common: `ssv-common-${getUniqueId()}`,
+  stakeData: `ssv-stake-data-${getUniqueId()}`,
+};

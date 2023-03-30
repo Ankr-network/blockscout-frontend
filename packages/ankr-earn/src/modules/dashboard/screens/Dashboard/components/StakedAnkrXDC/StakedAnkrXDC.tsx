@@ -6,20 +6,16 @@ import { StakingAsset } from 'modules/dashboard/components/StakingAsset';
 import { TokenInfoDialog } from 'modules/dashboard/components/TokenInfoDialog';
 import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 
-import { useHistoryDialog } from './useHistoryDialog';
+import { useStakedXDCTxHistory } from '../../hooks/liquid-tokens/XDC/useStakedXDCTxHistory';
+
 import { useStakedAnkrXDC } from './useStakedAnkrXDC';
 import { useTokenInfoDialog } from './useTokenInfoDialog';
 
 const TOKEN = Token.ankrXDC;
 
 export const StakedAnkrXDC = (): JSX.Element => {
-  const {
-    isHistoryDataLoading,
-    isPendingUnstakeLoading,
-    pendingUnstakeHistory,
-    pendingValue,
-    onLoadTxHistory,
-  } = useHistoryDialog();
+  const { isHistoryDataLoading, pendingAmount, pendingUnstakeHistory } =
+    useStakedXDCTxHistory();
 
   const {
     amount,
@@ -51,17 +47,16 @@ export const StakedAnkrXDC = (): JSX.Element => {
     onOpenInfo,
   } = useTokenInfoDialog();
 
-  const renderedPendingSlot = (!pendingValue.isZero() ||
-    isPendingUnstakeLoading) && (
+  const renderedPendingSlot = (!pendingAmount.isZero() ||
+    isHistoryDataLoading) && (
     <Pending
       isLoading={isHistoryDataLoading}
-      isUnstakeValueLoading={isPendingUnstakeLoading}
+      isUnstakeValueLoading={isHistoryDataLoading}
       token={TOKEN}
       tooltip={
         <PendingTable data={pendingUnstakeHistory} unstakeLabel={periodLabel} />
       }
-      value={pendingValue}
-      onLoadHistory={onLoadTxHistory}
+      value={pendingAmount}
     />
   );
 

@@ -1,14 +1,14 @@
 import { tHTML } from '@ankr.com/common';
-import { useDispatchRequest, useQuery } from '@redux-requests/react';
-import { useMemo } from 'react';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { useCallback, useMemo } from 'react';
 
 import { EthereumSSV } from '@ankr.com/staking-sdk';
 
 import { configFromEnv } from 'modules/api/config';
-import { DECIMAL_PLACES, ONE } from 'modules/common/const';
+import { DECIMAL_PLACES, featuresConfig, ONE } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { addTokenToWallet } from 'modules/stake-ssv/actions/addTokenToWallet';
-import { getDashboardData } from 'modules/stake-ssv/actions/getDashboardData';
+import { useAddSSVTokenToWalletMutation } from 'modules/stake-ssv/actions/addTokenToWallet';
+import { useGetDashboardDataQuery } from 'modules/stake-ssv/actions/getDashboardData';
 
 export interface IUseTokenInfoDialogData {
   description: string;
@@ -23,17 +23,17 @@ export interface IUseTokenInfoDialogData {
 const { contractConfig } = configFromEnv();
 
 export function useTokenInfoDialog(): IUseTokenInfoDialogData {
-  const dispatchRequest = useDispatchRequest();
-
   const {
     isOpened: isOpenedInfo,
     onClose: onCloseInfo,
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const { data: dashboardData } = useQuery({
-    type: getDashboardData,
-  });
+  const { data: dashboardData } = useGetDashboardDataQuery(
+    featuresConfig.ssvStaking ? undefined : skipToken,
+  );
+
+  const [addTokenToWallet] = useAddSSVTokenToWalletMutation();
 
   const value = useMemo(
     () =>
@@ -51,9 +51,9 @@ export function useTokenInfoDialog(): IUseTokenInfoDialogData {
     [value],
   );
 
-  const onAddToken = (): void => {
-    dispatchRequest(addTokenToWallet(EthereumSSV.ESSVTokens.asETHc));
-  };
+  const onAddToken = useCallback((): void => {
+    addTokenToWallet(EthereumSSV.ESSVTokens.asETHc);
+  }, [addTokenToWallet]);
 
   return {
     description,

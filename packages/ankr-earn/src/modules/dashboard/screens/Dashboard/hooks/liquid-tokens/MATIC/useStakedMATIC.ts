@@ -7,6 +7,8 @@ import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useGetUSDAmount } from '../../useGetUSDAmount';
 
+import { useStakedMaticTxHistory } from './useStakedMaticTxHistory';
+
 interface IUseStakedMATIC {
   isStakedMaticCertPolygonShowed: boolean;
   isStakedMaticBondEthereumShowed: boolean;
@@ -28,6 +30,9 @@ export const useStakedMATIC = (
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
+  const { isHistoryDataLoading, pendingBondAmount, pendingCertAmount } =
+    useStakedMaticTxHistory();
+
   const amountAMATICb = maticEthCommon?.aMATICbBalance;
 
   const usdAMATICbAmount = useGetUSDAmount(
@@ -36,7 +41,7 @@ export const useStakedMATIC = (
   );
 
   const usdAMATICbPendingAmount = useGetUSDAmount(
-    maticEthCommon?.pendingBond,
+    pendingBondAmount,
     EMetricsServiceName.MATIC,
   );
 
@@ -48,7 +53,7 @@ export const useStakedMATIC = (
   );
 
   const usdAMATICcPendingAmount = useGetUSDAmount(
-    maticEthCommon?.pendingCertificate,
+    pendingCertAmount,
     EMetricsServiceName.MATIC,
   );
 
@@ -63,11 +68,11 @@ export const useStakedMATIC = (
 
   const isStakedMaticBondEthereumShowed =
     getIsBalancePositive(maticEthCommon?.aMATICbBalance) ||
-    getIsBalancePositive(maticEthCommon?.pendingBond);
+    getIsBalancePositive(pendingBondAmount);
 
   const isStakedMaticCertEthereumShowed =
     getIsBalancePositive(maticEthCommon?.aMATICcBalance) ||
-    getIsBalancePositive(maticEthCommon?.pendingCertificate);
+    getIsBalancePositive(pendingCertAmount);
 
   return {
     isStakedMaticCertPolygonShowed: filterTokensBySmallBalance(
@@ -86,6 +91,6 @@ export const useStakedMATIC = (
       isSmallBalancesVisible,
     ),
     isMaticPolygonCommonLoading,
-    isMaticEthCommonLoading,
+    isMaticEthCommonLoading: isMaticEthCommonLoading || isHistoryDataLoading,
   };
 };
