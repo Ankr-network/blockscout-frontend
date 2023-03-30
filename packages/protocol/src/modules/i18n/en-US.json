@@ -575,6 +575,10 @@
       "action-text": "Request"
     }
   },
+  "contact-sales-form": {
+    "title": "Fill the form",
+    "success": "Thank You"
+  },
   "plan": {
     "breadcrumbs": "Pricing",
     "unlock-btn": "Connect Wallet",

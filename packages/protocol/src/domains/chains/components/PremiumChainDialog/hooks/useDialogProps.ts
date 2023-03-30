@@ -18,6 +18,9 @@ export interface DialogPropsParams {
   onClose: () => void;
   onTrack?: () => void;
   premiumUpgradeHandler: ReturnType<typeof usePremiumUpgradeHandler>;
+  contactFormHandler: () => void;
+  onSubmitContactForm: () => void;
+  defaultState?: ContentType;
 }
 
 export const useDialogProps = ({
@@ -26,19 +29,24 @@ export const useDialogProps = ({
   onClose,
   onTrack,
   premiumUpgradeHandler,
+  contactFormHandler,
+  onSubmitContactForm,
+  defaultState,
 }: DialogPropsParams): Omit<IDialogProps, 'open'> => {
   const hasBreakdown = useHasBreakdown(DIALOG_BREAKDOWN);
 
-  const { resetTitle, title } = useDialogTitle(contentType);
+  const { resetTitle, title } = useDialogTitle(defaultState || contentType);
 
   return {
     children: getContent({
-      contentType,
+      contentType: defaultState ?? contentType,
       items,
       onTrack,
       premiumUpgradeHandler,
+      contactFormHandler,
       resetTitle,
       onClose,
+      onSubmitContactForm,
     }),
     maxPxWidth:
       contentType === ContentType.DEFAULT
@@ -46,5 +54,6 @@ export const useDialogProps = ({
         : SIGNUP_DIALOG_WIDTH,
     onClose,
     title,
+    contentType,
   };
 };

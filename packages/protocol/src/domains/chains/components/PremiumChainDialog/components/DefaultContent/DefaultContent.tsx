@@ -10,12 +10,14 @@ import { useDefaultContentStyles } from './DefaultContentStyles';
 export interface DefaultContentParams {
   items: Item[];
   onPremiumUpgradeButtonClick: () => void;
+  onEnterpriseUpgradeButtonClick: () => void;
   onTrack?: () => void;
 }
 
 export const DefaultContent = ({
   items,
   onPremiumUpgradeButtonClick,
+  onEnterpriseUpgradeButtonClick,
   onTrack,
 }: DefaultContentParams) => {
   const { isLightTheme } = useThemes();
@@ -24,7 +26,7 @@ export const DefaultContent = ({
   const clickHandlersMap: Record<Title, (() => void) | undefined> = {
     [Title.free]: onTrack,
     [Title.premium]: onPremiumUpgradeButtonClick,
-    [Title.enterprise]: onTrack,
+    [Title.enterprise]: onEnterpriseUpgradeButtonClick,
   };
 
   return (

@@ -1,11 +1,12 @@
-import { Box, Typography } from '@mui/material';
-
+import { Box, Button, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
-import { NavLink } from 'uiKit/NavLink';
+import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
+import { ContentType } from 'domains/chains/components/PremiumChainDialog/types';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { useEnterpriseBlockStyles } from './useEnterpriseBlockStyles';
-import { MAIL_TO_SALES } from 'domains/pricing/Routes';
 
 export const EnterpriseBlock = () => {
+  const { isOpened, onOpen, onClose } = useDialog();
   const { classes } = useEnterpriseBlockStyles();
 
   return (
@@ -22,14 +23,19 @@ export const EnterpriseBlock = () => {
           {tHTML('plan.enterprise-block.title')}
         </Typography>
       </Box>
-      <NavLink
+      <Button
         className={classes.link}
-        href={MAIL_TO_SALES}
         color="primary"
         variant="text"
+        onClick={onOpen}
       >
         {t('plan.enterprise-block.link')}
-      </NavLink>
+      </Button>
+      <PremiumChainDialog
+        onClose={onClose}
+        open={isOpened}
+        defaultState={ContentType.CONTACT_SALES_FORM}
+      />
     </Box>
   );
 };

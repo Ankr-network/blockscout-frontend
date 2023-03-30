@@ -1,5 +1,5 @@
 import { t, tHTML } from '@ankr.com/common';
-import { MAIL_TO_SALES, PricingRoutesConfig } from 'domains/pricing/Routes';
+import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { PREMIUM_BLOCK_ANCHOR } from 'domains/pricing/screens/Pricing/components/PremiumBlock';
 import imgPremium from './assets/premium.png';
 import imgFree from './assets/free.png';
@@ -23,9 +23,9 @@ const premiumUserBannerContent = {
   proposalTitle: t('banner.premium.proposal-title'),
   proposalDescription: tHTML('banner.premium.proposal-description'),
   actionText: t('banner.premium.action-text'),
-  actionLink: MAIL_TO_SALES,
+  actionLink: undefined,
   actionHash: undefined,
-  actionProps: { target: '_blank' },
+  actionProps: undefined,
 };
 
 const freeUserBannerContentAdvancedApi = {
@@ -49,9 +49,9 @@ const premiumUserBannerContentAdvancedApi = {
     'banner.premium-advanced-api.proposal-description',
   ),
   actionText: t('banner.premium-advanced-api.action-text'),
-  actionLink: MAIL_TO_SALES,
+  actionLink: undefined,
   actionHash: undefined,
-  actionProps: { target: '_blank' },
+  actionProps: undefined,
 };
 
 export const getBannerContent = (
