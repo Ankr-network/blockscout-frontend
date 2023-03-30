@@ -36,8 +36,8 @@ export const StakedAFTMB = (): JSX.Element | null => {
     onOpen: onOpenInfo,
   } = useDialog();
 
-  const { pendingUnstakeHistoryAFTMB, isHistoryLoading, handleLoadTxHistory } =
-    useStakedFTMTxHistory(token);
+  const { isHistoryDataLoading, pendingBondUnstakeHistory } =
+    useStakedFTMTxHistory();
 
   const {
     address,
@@ -76,16 +76,15 @@ export const StakedAFTMB = (): JSX.Element | null => {
 
   const renderedPendingSlot = !pendingUnstakes.isZero() && (
     <Pending
-      isLoading={isHistoryLoading}
+      isLoading={isHistoryDataLoading}
       token={token}
       tooltip={
         <PendingTable
-          data={pendingUnstakeHistoryAFTMB}
+          data={pendingBondUnstakeHistory}
           unstakeLabel={unstakePendingData.label}
         />
       }
       value={pendingUnstakes}
-      onLoadHistory={handleLoadTxHistory}
     />
   );
 

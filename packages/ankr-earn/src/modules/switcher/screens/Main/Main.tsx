@@ -12,11 +12,7 @@ import { AmountInput } from 'modules/common/components/AmountField';
 import { TransactionInfo } from 'modules/common/components/TransactionInfo';
 import { getTokenName } from 'modules/common/utils/getTokenName';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
-import {
-  CHAIN_ID_BY_TOKEN,
-  TOKEN_TOOLTIPS_FROM,
-  TOKEN_TOOLTIPS_TO,
-} from 'modules/switcher/const';
+import { CHAIN_ID_BY_TOKEN } from 'modules/switcher/const';
 import { Button } from 'uiKit/Button';
 import { Container } from 'uiKit/Container';
 import { QuestionIcon } from 'uiKit/Icons/QuestionIcon';
@@ -32,6 +28,7 @@ import {
   useSwitcherForm,
   useSwitcherUrlParams,
 } from './hooks';
+import { useTokenTooltips } from './hooks/useTokenTooltips';
 import { useMainSwitcherStyles } from './useMainSwitcherStyles';
 import { getFromLabel, getToLabel } from './utils/labels';
 
@@ -83,6 +80,8 @@ export const Main = (): JSX.Element => {
   });
 
   const { handleOpen: handleConnectOpen } = useDialog(EKnownDialogs.connect);
+
+  const { from: fromTooltips, to: toTooltips } = useTokenTooltips();
 
   const canShowSpinner = isDataLoading && !abBalance && !acBalance;
   const fromTokenName = getTokenName(from);
@@ -136,7 +135,7 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={TOKEN_TOOLTIPS_FROM[from]}>
+              <Tooltip title={fromTooltips[from] || ''}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }
@@ -155,7 +154,7 @@ export const Main = (): JSX.Element => {
             className={classes.chip}
             clickable={false}
             deleteIcon={
-              <Tooltip title={TOKEN_TOOLTIPS_TO[to]}>
+              <Tooltip title={toTooltips[to] || ''}>
                 <QuestionIcon className={classes.infoIcon} />
               </Tooltip>
             }

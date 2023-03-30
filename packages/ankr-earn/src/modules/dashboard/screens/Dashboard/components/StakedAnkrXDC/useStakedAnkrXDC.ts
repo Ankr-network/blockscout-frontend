@@ -13,7 +13,7 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getTokenNativeAmount } from 'modules/dashboard/utils/getTokenNativeAmount';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
-import { useGetDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
+import { useGetXdcDashboardDataQuery } from 'modules/stake-xdc/actions/getDashboardData';
 import { XDC_PROVIDER_ID } from 'modules/stake-xdc/const';
 import { RoutesConfig as XDCRoutes } from 'modules/stake-xdc/Routes';
 import { getMetrics } from 'modules/stake/actions/getMetrics';
@@ -39,7 +39,7 @@ export const useStakedAnkrXDC = (): IUseStakedAnkrXDCData => {
   const { address, walletName } = useConnectedData(XDC_PROVIDER_ID);
 
   const { data: dashboardData, isFetching: isDashboardDataLoading } =
-    useGetDashboardDataQuery(undefined, {
+    useGetXdcDashboardDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 

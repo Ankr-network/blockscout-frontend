@@ -3,16 +3,11 @@ import { MemoryRouter } from 'react-router';
 
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { ONE_ETH } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
-import {
-  IUseHistoryData,
-  useHistory,
-} from 'modules/dashboard/screens/Dashboard/hooks/useHistory';
+import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/dialogs';
 
 import {
-  ITxHistoryData,
+  IStakedBNBTxHistory,
   useStakedBNBTxHistory,
 } from '../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory';
 import { StakedABNBB } from '../StakedABNBB';
@@ -30,10 +25,6 @@ jest.mock('../../../hooks/liquid-tokens/BNB/useStakedBNBTxHistory', () => ({
   useStakedBNBTxHistory: jest.fn(),
 }));
 
-jest.mock('modules/dashboard/screens/Dashboard/hooks/useHistory', () => ({
-  useHistory: jest.fn(),
-}));
-
 jest.mock('modules/dialogs', () => ({
   useDialog: jest.fn(),
   EKnownDialogs: { history: 'history' },
@@ -43,7 +34,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
   const defaultStakedBNBHookData: IStakedABNBBData = {
     amount: ONE_ETH.dividedBy(10 ** 18),
     chainId: EEthereumNetworkId.smartchainTestnet,
-    pendingValue: ONE_ETH.dividedBy(10 ** 17),
     network: 'Ethereum Mainnet',
     switchLink: 'trade',
     unstakeLink: 'unstake',
@@ -51,36 +41,15 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
     isBalancesLoading: false,
     isStakeLoading: false,
     isUnstakeLoading: false,
-    isPendingUnstakeLoading: false,
     handleAddTokenToWallet: jest.fn(),
   };
 
-  const defaultTxHistoryHookData: ITxHistoryData = {
-    pendingUnstakeHistoryABNBB: [],
-    pendingUnstakeHistoryABNBC: [],
-    transactionHistoryABNBB: {
-      staked: [],
-      stakedToken: Token.aBNBb,
-      unstaked: [],
-      unstakedToken: Token.aBNBb,
-    },
-    transactionHistoryABNBC: {
-      staked: [],
-      stakedToken: Token.aBNBc,
-      unstaked: [],
-      unstakedToken: Token.aBNBc,
-    },
-    hasHistory: false,
+  const defaultTxHistoryHookData: IStakedBNBTxHistory = {
+    pendingCertUnstakeHistory: [],
+    pendingBondUnstakeHistory: [],
     isHistoryDataLoading: false,
-    handleLoadTxHistory: jest.fn(),
-  };
-
-  const defaultUseHistoryHookData: IUseHistoryData = {
-    loading: false,
-    weeksAmount: 1,
-    handleShowMore: jest.fn(),
-    stakeEvents: [],
-    unstakeEvents: [],
+    pendingBondAmount: ZERO,
+    pendingCertAmount: ZERO,
   };
 
   const defaultUseDialogHookData = {
@@ -93,8 +62,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB', () => {
     (useStakedBNBTxHistory as jest.Mock).mockReturnValue(
       defaultTxHistoryHookData,
     );
-
-    (useHistory as jest.Mock).mockReturnValue(defaultUseHistoryHookData);
 
     (useDialog as jest.Mock).mockReturnValue(defaultUseDialogHookData);
   });

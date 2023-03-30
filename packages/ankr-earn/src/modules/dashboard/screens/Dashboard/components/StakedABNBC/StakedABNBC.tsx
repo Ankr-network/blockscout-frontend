@@ -1,8 +1,9 @@
-import { t, tHTML } from '@ankr.com/common';
+import { tHTML } from '@ankr.com/common';
 
 import { ONE, ZERO } from 'modules/common/const';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Token } from 'modules/common/types/token';
+import { getTokenName } from 'modules/common/utils/getTokenName';
 import { getStakingOverviewUrl } from 'modules/common/utils/links/getStakingOverviewUrl';
 import { Pending } from 'modules/dashboard/components/Pending';
 import { PendingTable } from 'modules/dashboard/components/PendingTable';
@@ -31,12 +32,10 @@ export const StakedABNBC = (): JSX.Element => {
     amount,
     chainId,
     isLoading,
-    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
     nativeAmount,
     network,
-    pendingValue,
     ratio,
     stakeLink,
     token,
@@ -54,31 +53,24 @@ export const StakedABNBC = (): JSX.Element => {
 
   const { onAddStakingClick } = useStakedABNBCAnalytics();
 
-  const {
-    isHistoryDataLoading,
-    pendingUnstakeHistoryABNBC,
-    handleLoadTxHistory,
-  } = useStakedBNBTxHistory();
+  const { isHistoryDataLoading, pendingCertAmount, pendingCertUnstakeHistory } =
+    useStakedBNBTxHistory();
 
-  const tokenName = t('unit.abnbc');
+  const tokenName = getTokenName(token);
 
-  const preventHistoryLoading =
-    !!pendingUnstakeHistoryABNBC.length || isHistoryDataLoading;
-
-  const renderedPendingSlot = (!pendingValue.isZero() ||
-    isPendingUnstakeLoading) && (
+  const renderedPendingSlot = (!pendingCertAmount.isZero() ||
+    isHistoryDataLoading) && (
     <Pending
       isLoading={isHistoryDataLoading}
-      isUnstakeValueLoading={isPendingUnstakeLoading}
+      isUnstakeValueLoading={isHistoryDataLoading}
       token={tokenName}
       tooltip={
         <PendingTable
-          data={pendingUnstakeHistoryABNBC}
+          data={pendingCertUnstakeHistory}
           unstakeLabel={unstakePendingData.label}
         />
       }
-      value={pendingValue}
-      onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
+      value={pendingCertAmount}
     />
   );
 

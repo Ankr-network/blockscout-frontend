@@ -1,11 +1,14 @@
-import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
-import { createAction } from 'redux-smart-actions';
 
-import { withStore } from 'modules/common/utils/withStore';
+import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
+import { ACTION_CACHE_SEC } from 'modules/common/const';
 
 import { SwitcherSDK } from '../api/SwitcherSDK';
-import { AvailableSwitcherToken, AvailableSwitchNetwork } from '../const';
+import {
+  AvailableSwitcherToken,
+  AvailableSwitchNetwork,
+  SwitcherCacheTags,
+} from '../const';
 
 export interface IGetSwitcherDataArgs {
   chainId: AvailableSwitchNetwork;
@@ -19,19 +22,25 @@ export interface IGetSwitcherData {
   allowance: BigNumber;
 }
 
-export const getSwitcherData = createAction<
-  RequestAction<IGetSwitcherData, IGetSwitcherData>
->('switcher/getSwitcherData', ({ chainId, token }: IGetSwitcherDataArgs) => ({
-  request: {
-    promise: async (): Promise<IGetSwitcherData | undefined> => {
-      const sdk = await SwitcherSDK.getInstance();
+export const { useGetSwitcherDataQuery } = web3Api.injectEndpoints({
+  endpoints: build => ({
+    getSwitcherData: build.query<
+      IGetSwitcherData | undefined,
+      IGetSwitcherDataArgs
+    >({
+      queryFn: queryFnNotifyWrapper<
+        IGetSwitcherDataArgs,
+        never,
+        IGetSwitcherData | undefined
+      >(async ({ chainId, token }) => {
+        const sdk = await SwitcherSDK.getInstance();
 
-      return sdk.getCommonData({ chainId, token });
-    },
-  },
-  meta: {
-    asMutation: false,
-    showNotificationOnError: false,
-    onRequest: withStore,
-  },
-}));
+        return {
+          data: await sdk.getCommonData({ chainId, token }),
+        };
+      }),
+      keepUnusedDataFor: ACTION_CACHE_SEC,
+      providesTags: [SwitcherCacheTags.common],
+    }),
+  }),
+});

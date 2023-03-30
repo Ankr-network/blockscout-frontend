@@ -19,7 +19,7 @@ import {
   setChainId,
 } from 'modules/auth/common/store/authSlice';
 import { connectEthCompatible } from 'modules/auth/eth/actions/connectEthCompatible';
-import { CacheTags } from 'modules/common/const';
+import { WalletCacheTags } from 'modules/common/const';
 import { RootState } from 'store/store';
 
 export const listenerMiddleware = createListenerMiddleware();
@@ -72,7 +72,7 @@ listenerMiddleware.startListening({
               }),
             );
 
-            dispatch(web3Api.util.invalidateTags([CacheTags.account]));
+            dispatch(web3Api.util.invalidateTags([WalletCacheTags.account]));
             break;
           }
 

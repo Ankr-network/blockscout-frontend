@@ -25,6 +25,16 @@ jest.mock('modules/common/hooks/useTxReceipt', () => ({
   useTxReceipt: jest.fn(),
 }));
 
+jest.mock('modules/bridge/actions/bridgeDeposit', () => ({
+  useBridgeDepositMutation: () => [
+    jest.fn(),
+    {
+      isLoading: false,
+      reset: jest.fn(),
+    },
+  ],
+}));
+
 describe('modules/bridge/screens/BridgeMainPage/components/BridgeMainView/useDeposit', () => {
   const defaultDepositData = {
     loading: false,

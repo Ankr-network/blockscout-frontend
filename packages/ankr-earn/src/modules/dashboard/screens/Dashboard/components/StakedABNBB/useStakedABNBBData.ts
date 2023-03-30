@@ -17,7 +17,6 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useStakeBNBMutation } from 'modules/stake-bnb/actions/stake';
 import { useUnstakeBNBMutation } from 'modules/stake-bnb/actions/unstake';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
@@ -33,11 +32,9 @@ export interface IStakedABNBBData {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
   isBalancesLoading: boolean;
-  isPendingUnstakeLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   network: string;
-  pendingValue: BigNumber;
   stakeLink: string;
   switchLink: string;
   unstakeLink: string;
@@ -50,10 +47,6 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   const [addBNBTokenToWallet] = useAddBNBTokenToWalletMutation();
   const { data: statsData, isFetching: isCommonDataLoading } =
     useGetBNBStatsQuery(undefined, {
-      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-    });
-  const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
-    useGetBNBPendingValuesQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
@@ -71,7 +64,6 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
   const chainId = BSC_NETWORK_BY_ENV;
 
   const amount = statsData?.aBNBbBalance ?? ZERO;
-  const pendingValue = pendingValues?.pendingAbnbbUnstakes ?? ZERO;
 
   const usdAmount = useMemo(
     () =>
@@ -92,11 +84,9 @@ export const useStakedABNBBData = (): IStakedABNBBData => {
     amount,
     chainId,
     isBalancesLoading: isCommonDataLoading,
-    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
     network,
-    pendingValue,
     stakeLink: StakeBinanceRoutes.stake.generatePath(true),
     switchLink: SwitchRoutes.main.generatePath(token),
     unstakeLink: StakeBinanceRoutes.unstake.generatePath(),

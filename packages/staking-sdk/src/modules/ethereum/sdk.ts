@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import flatten from 'lodash/flatten';
 import { TransactionReceipt } from 'web3-core';
 import { Contract, EventData } from 'web3-eth-contract';
+import { Unit } from 'web3-utils';
 
 import {
   AvailableReadProviders,
@@ -16,11 +17,13 @@ import {
   advancedAPIConfig,
   configFromEnv,
   ETH_SCALE_FACTOR,
+  getIsSameReadProvider,
   isMainnet,
   MAX_UINT256,
   ProviderManagerSingleton,
   ZERO,
 } from '../common';
+import { GetBlocksManager } from '../common/GetBlocksManager';
 import {
   AETHB_ABI,
   AETHC_ABI,
@@ -34,6 +37,8 @@ import {
   IStakable,
   IStakeData,
   ITxEventsHistoryData,
+  ITxHistory,
+  ITxHistoryItem,
 } from '../stake';
 import { IFetchTxData, IShareArgs, ISwitcher } from '../switcher';
 import { batchEvents, convertNumberToHex } from '../utils';
@@ -42,6 +47,7 @@ import {
   ETH_BLOCK_2_WEEKS_OFFSET,
   ETH_GAS_LIMIT_MULTIPLIER,
   ETH_HISTORY_RANGE_STEP,
+  ETH_POOL_START_BLOCK,
   ETH_STAKE_GAS_FEE_MULTIPLIER,
   METHOD_NAME_BY_SYMBOL,
   TOKENS_CONFIG_BY_SYMBOL,
@@ -60,7 +66,10 @@ import {
  *
  * @class
  */
-export class EthereumSDK implements ISwitcher, IStakable {
+export class EthereumSDK
+  extends GetBlocksManager
+  implements ISwitcher, IStakable
+{
   /**
    * instance — SDK instance.
    *
@@ -112,6 +121,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * @private
    */
   private constructor({ readProvider, writeProvider, apiUrl }: IEthSDKArgs) {
+    super();
     EthereumSDK.instance = this;
 
     this.apiUrl = apiUrl;
@@ -145,13 +155,21 @@ export class EthereumSDK implements ISwitcher, IStakable {
         ),
     ]);
 
-    const addrHasNotBeenUpdated =
+    const isAddrActual =
       EthereumSDK.instance?.currentAccount === writeProvider.currentAccount;
-    const hasNewProvider =
-      EthereumSDK.instance?.writeProvider === writeProvider &&
-      EthereumSDK.instance?.readProvider === readProvider;
 
-    if (EthereumSDK.instance && addrHasNotBeenUpdated && hasNewProvider) {
+    const isSameWriteProvider =
+      EthereumSDK.instance?.writeProvider === writeProvider;
+
+    const isSameReadProvider = getIsSameReadProvider(
+      EthereumSDK.instance?.readProvider,
+      readProvider,
+    );
+
+    const isInstanceActual =
+      isAddrActual && isSameWriteProvider && isSameReadProvider;
+
+    if (EthereumSDK.instance && isInstanceActual) {
       return EthereumSDK.instance;
     }
 
@@ -616,9 +634,148 @@ export class EthereumSDK implements ISwitcher, IStakable {
   }
 
   /**
+   * Get transaction history for all period that starts from contract creation.
+   *
+   * @note Amount of certificate event is in BNB. If you need ankrBNB, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @public
+   * @return  {Promise<ITxHistory>} full transaction history.
+   */
+  public async getFullTxHistory(): Promise<ITxHistory> {
+    const latestBlockNumber = await this.getLatestBlock();
+
+    const { stakeHistory, unstakeHistory } = await this.getTxHistoryRange(
+      ETH_POOL_START_BLOCK,
+      latestBlockNumber,
+    );
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
+   * Get transaction history for block range.
+   *
+   * @note Amount of each event is in BNB. If you need ankrBNB, multiply by ratio.
+   * Pending status is not specified.
+   *
+   * @param {number} lowestBlock - from block number
+   * @param {number} highestBlock - to block number
+   * @returns {Promise<ITxHistory>} - transaction history
+   */
+  public async getTxHistoryRange(
+    lowestBlock: number,
+    highestBlock: number,
+  ): Promise<ITxHistory> {
+    const provider = await this.getProvider();
+    const ethPoolContract = EthereumSDK.getEthPoolContract(provider);
+
+    const getStakePastEventsArgs: IGetPastEvents = {
+      latestBlockNumber: highestBlock,
+      startBlock: lowestBlock,
+      contract: ethPoolContract,
+      eventName: EPoolEvents.RewardClaimed,
+      filter: { staker: this.currentAccount },
+      provider: this.readProvider,
+      rangeStep: ETH_HISTORY_RANGE_STEP,
+    };
+
+    const [stakeRawEvents, ratio] = await Promise.all([
+      this.getPastEvents(getStakePastEventsArgs),
+      this.getACRatio(),
+    ]);
+
+    const mapEvent = (event: EventData): EventData => ({
+      ...event,
+      returnValues: {
+        ...event.returnValues,
+        amount: new BigNumber(event.returnValues.amount)
+          .dividedBy(ratio)
+          .multipliedBy(ETH_SCALE_FACTOR)
+          .toFixed(),
+      },
+    });
+
+    const stakeRawEventsMapped = stakeRawEvents.map(mapEvent);
+
+    const stakeHistory = await this.getTxEventsHistoryGroup(
+      stakeRawEventsMapped,
+    );
+
+    // TODO: add unstake history when it will be implemented
+    const unstakeHistory: ITxHistoryItem[] = [];
+
+    return {
+      stakeHistory,
+      unstakeHistory,
+    };
+  }
+
+  /**
+   * Internal function to return transaction history group from events.
+   *
+   * @private
+   * @param {EventData[]} [rawEvents] - events
+   * @returns {Promise<ITxHistoryItem[]>}
+   */
+  private async getTxEventsHistoryGroup(
+    rawEvents?: EventData[],
+  ): Promise<ITxHistoryItem[]> {
+    if (!Array.isArray(rawEvents) || !rawEvents.length) {
+      return [];
+    }
+
+    const provider = await this.getProvider();
+    const web3 = provider.getWeb3();
+    const blockNumbers = rawEvents.map(event => event.blockNumber);
+
+    const blocks = await this.getBlocks(web3, blockNumbers);
+
+    const rawData = blocks.map((block, index) => ({
+      ...rawEvents[index],
+      timestamp: +block.timestamp,
+    }));
+
+    return rawData
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .map<ITxHistoryItem>(
+        ({
+          event,
+          returnValues = { amount: '0' },
+          timestamp,
+          transactionHash,
+        }) => ({
+          txAmount: this.convertFromWei(returnValues.amount),
+          txDate: new Date(timestamp * 1_000),
+          txHash: transactionHash,
+          txType: event,
+          isBond: !returnValues.isAETH,
+        }),
+      );
+  }
+
+  /**
+   * Internal function to convert wei value to human readable format.
+   *
+   * @private
+   * @param {string} amount - value in wei
+   * @param {Unit} unit - units
+   * @returns {BigNumber}
+   */
+  private convertFromWei(amount: string, unit?: Unit): BigNumber {
+    const web3 = this.readProvider.getWeb3();
+    const integerAmount = new BigNumber(amount).integerValue().toFixed();
+    return new BigNumber(web3.utils.fromWei(integerAmount, unit));
+  }
+
+  /**
    * Get transaction history.
    *
    * @public
+   * @deprecated use `getTxHistory` instead. This method will be removed in the next major release.
    * @note Currently returns data for the last 14 days.
    * @returns {Promise<ITxEventsHistoryData>}
    */
@@ -636,6 +793,7 @@ export class EthereumSDK implements ISwitcher, IStakable {
    * Get transaction history.
    *
    * @public
+   * @deprecated use `getTxHistoryRange` instead. This method will be removed in the next major release.
    * @note Currently returns data for block range.
    * @param {number} from - from block
    * @param {number} to - to block
@@ -771,14 +929,16 @@ export class EthereumSDK implements ISwitcher, IStakable {
     rangeStep,
     filter,
   }: IGetPastEvents): Promise<EventData[]> {
-    return flatten(await batchEvents({
-      contract,
-      eventName,
-      rangeStep,
-      startBlock,
-      filter,
-      latestBlockNumber,
-    }));
+    return flatten(
+      await batchEvents({
+        contract,
+        eventName,
+        rangeStep,
+        startBlock,
+        filter,
+        latestBlockNumber,
+      }),
+    );
   }
 
   /**

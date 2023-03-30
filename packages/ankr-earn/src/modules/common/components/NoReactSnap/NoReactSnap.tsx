@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 
+import { getIsReactSnap } from 'modules/common/utils/getIsReactSnap';
+
 interface INoReactSnapProps {
   children?: ReactNode;
   fallback?: ReactNode;
@@ -14,7 +16,7 @@ export const NoReactSnap = ({
   children,
   fallback,
 }: INoReactSnapProps): JSX.Element | null => {
-  const isReactSnap = navigator.userAgent === 'ReactSnap';
+  const isReactSnap = getIsReactSnap();
 
   if (isReactSnap && fallback) {
     return <>{fallback}</>;

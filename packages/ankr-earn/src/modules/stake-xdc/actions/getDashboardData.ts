@@ -20,9 +20,9 @@ interface IGetDashboardData {
 
 const { getAnkrXDCBalance, getAnkrXDCRatio, getXDCBalance } = XDC;
 
-export const { useGetDashboardDataQuery } = web3Api.injectEndpoints({
+export const { useGetXdcDashboardDataQuery } = web3Api.injectEndpoints({
   endpoints: build => ({
-    getDashboardData: build.query<TGetDashboardData, void>({
+    getXdcDashboardData: build.query<TGetDashboardData, void>({
       queryFn: queryFnNotifyWrapper<void, never, TGetDashboardData>(
         async (args, { getState }) => {
           // TODO Please remove it (development only)

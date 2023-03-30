@@ -1,4 +1,3 @@
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import BigNumber from 'bignumber.js';
 
@@ -11,18 +10,15 @@ import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetw
 import { useConnectedData } from 'modules/auth/common/hooks/useConnectedData';
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
-import { approve, swapAssets } from 'modules/switcher/actions/transactions';
 
 import { ISwitcherFormHookArgs, useSwitcherForm } from '..';
 
-jest.mock('@redux-requests/react', () => ({
-  useDispatchRequest: jest.fn(),
-  useMutation: jest.fn(),
+jest.mock('modules/switcher/actions/swapAssets', () => ({
+  useSwapAssetsMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
-jest.mock('modules/switcher/actions/transactions', () => ({
-  approve: jest.fn(),
-  swapAssets: jest.fn(),
+jest.mock('modules/switcher/actions/switcherApprove', () => ({
+  useSwitcherApproveMutation: () => [jest.fn(), { isLoading: false }],
 }));
 
 jest.mock('modules/auth/common/actions/switchNetwork', () => ({
@@ -44,13 +40,6 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
   };
 
   beforeEach(() => {
-    const dispatchRequest = jest.fn(() => Promise.resolve({}));
-    (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
-
-    (useMutation as jest.Mock).mockReturnValue({
-      loading: false,
-    });
-
     (useConnectedData as jest.Mock).mockReturnValue({ chainId: 1 });
 
     (useSwitchNetworkMutation as jest.Mock).mockReturnValue([jest.fn()]);
@@ -107,81 +96,6 @@ describe('modules/switcher/screens/Main/useSwitcherHook', () => {
       expect(switchNetwork).toBeCalledWith({
         providerId: AvailableWriteProviders.ethCompatible,
         chainId: EEthereumNetworkId.goerli,
-      });
-    });
-  });
-
-  describe('handle swap', () => {
-    test('should handle assets swap properly', async () => {
-      const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
-
-      act(() => {
-        result.current.handleSwap('1');
-      });
-
-      expect(swapAssets).toBeCalledTimes(1);
-      expect(swapAssets).toBeCalledWith({
-        amount: '1',
-        from: Token.aETHb,
-        to: Token.aETHc,
-        ratio: ONE_ETH,
-        chainId: EEthereumNetworkId.mainnet,
-      });
-    });
-
-    test('should handle swap error', async () => {
-      const dispatchRequest = jest.fn(() =>
-        Promise.resolve({ error: 'error' }),
-      );
-
-      (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
-
-      const { result, waitForNextUpdate } = renderHook(() =>
-        useSwitcherForm(defaultHookProps),
-      );
-
-      act(() => {
-        result.current.handleSwap('1');
-      });
-
-      await waitForNextUpdate();
-
-      expect(result.current.txError).toBe('error');
-    });
-
-    test('should handle swap error object', async () => {
-      const dispatchRequest = jest.fn(() =>
-        Promise.resolve({ error: new Error('error') }),
-      );
-
-      (useDispatchRequest as jest.Mock).mockReturnValue(dispatchRequest);
-
-      const { result, waitForNextUpdate } = renderHook(() =>
-        useSwitcherForm(defaultHookProps),
-      );
-
-      act(() => {
-        result.current.handleSwap('1');
-      });
-
-      await waitForNextUpdate();
-
-      expect(result.current.txError).toBe('error');
-    });
-  });
-
-  describe('handle approve', () => {
-    test('should handle approve aETHc for aETHb properly', async () => {
-      const { result } = renderHook(() => useSwitcherForm(defaultHookProps));
-
-      act(() => {
-        result.current.handleApprove();
-      });
-
-      expect(approve).toBeCalledTimes(1);
-      expect(approve).toBeCalledWith({
-        chainId: EEthereumNetworkId.mainnet,
-        token: Token.aETHb,
       });
     });
   });

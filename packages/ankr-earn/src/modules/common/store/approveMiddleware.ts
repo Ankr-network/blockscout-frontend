@@ -1,6 +1,6 @@
 import { Middleware } from 'redux';
 
-import { approveBridge } from 'modules/bridge/actions/approve';
+import { approveBridge } from 'modules/bridge/actions/approveBridge';
 import { approveAnkr } from 'modules/stake-ankr/actions/approve';
 import { approveABNBCForSwapPool } from 'modules/stake-bnb/actions/approveABNBCForSwapPool';
 import { approveABNBCUnstake } from 'modules/stake-bnb/actions/approveABNBCUnstake';
