@@ -3,7 +3,7 @@ import { selectTokenManagerConfig } from 'domains/jwtToken/store/jwtTokenManager
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { RootState } from 'store';
 import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
-import { fetchAllJwtTokenRequests } from 'domains/jwtToken/action/getAllJwtToken';
+import { fetchAllowedJwtTokensCount } from 'domains/jwtToken/action/getAllowedJwtTokensCount';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const useTokenManagerConfigSelector = () => {
@@ -13,7 +13,7 @@ export const useTokenManagerConfigSelector = () => {
     selectTokenManagerConfig(state, address),
   );
 
-  const [, { data }] = useQueryEndpoint(fetchAllJwtTokenRequests);
+  const [, { data }] = useQueryEndpoint(fetchAllowedJwtTokensCount);
 
   return {
     ...config,

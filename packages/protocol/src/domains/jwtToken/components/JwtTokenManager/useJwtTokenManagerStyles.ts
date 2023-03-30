@@ -17,7 +17,7 @@ export const useJwtTokenManagerStyles = makeStyles()(theme => ({
   },
   item: {
     width: theme.spacing(52),
-    height: theme.spacing(20),
+    height: theme.spacing(21),
     borderRadius: 20,
     backgroundColor: theme.palette.background.paper,
   },
