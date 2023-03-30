@@ -3,17 +3,18 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from 'store';
 
-import { NoReactSnap } from 'modules/common/components/NoReactSnap';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
-import { Zendesk } from 'modules/common/components/Zendesk';
 import { Spinner } from 'uiKit/Spinner';
 
 import packageJson from '../package.json';
 
+import { useJiraServiceDesk } from './modules/common/hooks/useJiraServiceDesk';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
 
 function App(): JSX.Element {
+  useJiraServiceDesk();
+
   return (
     <Router basename={packageJson.homepage}>
       <Provider store={store}>
@@ -22,10 +23,6 @@ function App(): JSX.Element {
             <ScrollToTop />
 
             <Routes />
-
-            <NoReactSnap>
-              <Zendesk />
-            </NoReactSnap>
           </AppBase>
         </PersistGate>
       </Provider>

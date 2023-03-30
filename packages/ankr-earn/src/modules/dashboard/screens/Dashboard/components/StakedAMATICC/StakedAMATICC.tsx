@@ -12,7 +12,7 @@ import { EKnownDialogs, useDialog as useKnownDialog } from 'modules/dialogs';
 import { UNSTAKE_PERIOD } from 'modules/stake-matic/common/const';
 import { useUnstakePendingTimestamp } from 'modules/stake/hooks/useUnstakePendingTimestamp';
 
-import { useStakedMATICTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
+import { useStakedMaticTxHistory } from '../../hooks/liquid-tokens/MATIC/useStakedMaticTxHistory';
 
 import { useStakedAMATICCAnalytics } from './useStakedAMATICCAnalytics';
 import { useStakedAMATICCData } from './useStakedAMATICCData';
@@ -36,7 +36,6 @@ export const StakedAMATICC = (): JSX.Element => {
     isUnstakeLoading,
     nativeAmount,
     network,
-    pendingValue,
     ratio,
     stakeLink,
     token,
@@ -54,29 +53,22 @@ export const StakedAMATICC = (): JSX.Element => {
 
   const { onAddStakingClick } = useStakedAMATICCAnalytics();
 
-  const {
-    isHistoryDataLoading,
-    pendingUnstakeHistoryAMATICC,
-    handleLoadTxHistory,
-  } = useStakedMATICTxHistory();
+  const { isHistoryDataLoading, pendingCertAmount, pendingCertUnstakeHistory } =
+    useStakedMaticTxHistory();
 
   const tokenName = t('unit.amaticc');
 
-  const preventHistoryLoading =
-    !!pendingUnstakeHistoryAMATICC?.length || isHistoryDataLoading;
-
-  const renderedPendingSlot = !pendingValue.isZero() && (
+  const renderedPendingSlot = !pendingCertAmount.isZero() && (
     <Pending
       isLoading={isHistoryDataLoading}
       token={tokenName}
       tooltip={
         <PendingTable
-          data={pendingUnstakeHistoryAMATICC}
+          data={pendingCertUnstakeHistory}
           unstakeLabel={unstakePendingData.label}
         />
       }
-      value={pendingValue}
-      onLoadHistory={preventHistoryLoading ? undefined : handleLoadTxHistory}
+      value={pendingCertAmount}
     />
   );
 

@@ -1,11 +1,12 @@
 import { ACTION_CACHE_SEC } from 'modules/common/const';
 import { filterTokensBySmallBalance } from 'modules/dashboard/utils/filterTokensBySmallBalance';
 import { getIsBalancePositive } from 'modules/dashboard/utils/getIsBalancePositive';
-import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 import { EMetricsServiceName } from 'modules/stake/api/metrics';
 
 import { useGetUSDAmount } from '../../useGetUSDAmount';
+
+import { useStakedBNBTxHistory } from './useStakedBNBTxHistory';
 
 interface IUseStakedBNB {
   isStakedOldAEthShowed: boolean;
@@ -20,10 +21,8 @@ export const useStakedBNB = (isSmallBalancesVisible = true): IUseStakedBNB => {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
 
-  const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
-    useGetBNBPendingValuesQuery(undefined, {
-      refetchOnMountOrArgChange: ACTION_CACHE_SEC,
-    });
+  const { isHistoryDataLoading, pendingBondAmount, pendingCertAmount } =
+    useStakedBNBTxHistory();
 
   const usdStakedOldAEthAmount = useGetUSDAmount(
     bnbCommon?.aETHBalance,
@@ -36,7 +35,7 @@ export const useStakedBNB = (isSmallBalancesVisible = true): IUseStakedBNB => {
   );
 
   const usdStakedBnbBondPendingAmount = useGetUSDAmount(
-    pendingValues?.pendingAbnbbUnstakes,
+    pendingBondAmount,
     EMetricsServiceName.BNB,
   );
 
@@ -46,7 +45,7 @@ export const useStakedBNB = (isSmallBalancesVisible = true): IUseStakedBNB => {
   );
 
   const usdStakedBnbCertPendingAmount = useGetUSDAmount(
-    pendingValues?.pendingAbnbcUnstakes,
+    pendingCertAmount,
     EMetricsServiceName.BNB,
   );
 
@@ -54,11 +53,11 @@ export const useStakedBNB = (isSmallBalancesVisible = true): IUseStakedBNB => {
 
   const isStakedBnbBondShowed =
     getIsBalancePositive(bnbCommon?.aBNBbBalance) ||
-    getIsBalancePositive(pendingValues?.pendingAbnbbUnstakes);
+    getIsBalancePositive(pendingBondAmount);
 
   const isStakedBnbCertShowed =
     getIsBalancePositive(bnbCommon?.aBNBcBalance) ||
-    getIsBalancePositive(pendingValues?.pendingAbnbcUnstakes);
+    getIsBalancePositive(pendingCertAmount);
 
   return {
     isStakedOldAEthShowed: filterTokensBySmallBalance(
@@ -76,6 +75,6 @@ export const useStakedBNB = (isSmallBalancesVisible = true): IUseStakedBNB => {
       isStakedBnbCertShowed,
       isSmallBalancesVisible,
     ),
-    isBnbCommonLoading: isPendingUnstakeLoading || isBnbCommonLoading,
+    isBnbCommonLoading: isHistoryDataLoading || isBnbCommonLoading,
   };
 };

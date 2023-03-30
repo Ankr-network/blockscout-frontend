@@ -44,6 +44,9 @@ export interface IDeFiItemResponse {
   id: number;
   assets: string;
   network: TDeFiNetwork;
+  /**
+   * @deprecated Use `protocolName` instead
+   */
   protocol: TDeFiProtocol;
   type: TDeFiType;
   baseRewards: string;

@@ -1,10 +1,10 @@
 import { resetRequests } from '@redux-requests/core';
-import { useQuery } from '@redux-requests/react';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { notarize } from 'modules/bridge/actions/notarize';
-import { withdrawal } from 'modules/bridge/actions/withdrawal';
+import { useWithdrawalBridgeMutation } from 'modules/bridge/actions/withdrawalBridge';
+import { IBridgeNotarizeResponse } from 'modules/bridge/api/types';
+import { WITHDRAWAL_ACTION_NAME } from 'modules/bridge/const';
 import { useTxReceipt } from 'modules/common/hooks/useTxReceipt';
 
 interface IUseWithdraw {
@@ -14,43 +14,37 @@ interface IUseWithdraw {
   onClick: () => void;
 }
 
-export const useWithdraw = (): IUseWithdraw => {
+export const useWithdraw = (
+  notarizeData?: IBridgeNotarizeResponse,
+): IUseWithdraw => {
   const dispatch = useDispatch();
-  const { data: txHash, loading: isWithdrawalLoading } = useQuery({
-    type: withdrawal,
-  });
 
-  const { data: notarizeData } = useQuery({
-    type: notarize,
-  });
-
-  const withdrawalActionName = withdrawal.toString();
+  const [withdrawalBridge, { data: txHash, isLoading: isWithdrawalLoading }] =
+    useWithdrawalBridgeMutation();
 
   const {
     isLoading: isReceiptLoading,
     isSuccessful,
-    actionName: receiptActionName,
-  } = useTxReceipt(withdrawalActionName);
+    actionName,
+  } = useTxReceipt(WITHDRAWAL_ACTION_NAME);
 
   const onClick = useCallback(() => {
     if (!notarizeData) {
       return;
     }
 
-    dispatch(
-      withdrawal(
-        notarizeData.encodedProof,
-        notarizeData.encodedReceipt,
-        notarizeData.signature,
-      ),
-    );
-  }, [dispatch, notarizeData]);
+    withdrawalBridge({
+      proof: notarizeData.encodedProof,
+      receipt: notarizeData.encodedReceipt,
+      signature: notarizeData.signature,
+    });
+  }, [notarizeData, withdrawalBridge]);
 
   useEffect(() => {
     return () => {
-      dispatch(resetRequests([withdrawalActionName, receiptActionName]));
+      dispatch(resetRequests([actionName]));
     };
-  }, [dispatch, receiptActionName, withdrawalActionName]);
+  }, [actionName, dispatch]);
 
   return {
     isLoading: isWithdrawalLoading || isReceiptLoading,

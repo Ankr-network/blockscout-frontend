@@ -1,6 +1,6 @@
 import { Middleware } from 'redux';
 
-import { getBridgeAllowance } from 'modules/bridge/actions/lazyGetBridgeAllowance';
+import { getBridgeAllowance } from 'modules/bridge/actions/getBridgeAllowance';
 import { getAnkrAllowance } from 'modules/stake-ankr/actions/getAnkrAllowance';
 import { getBNBAllowance } from 'modules/stake-bnb/actions/useLazyGetBNBAllowanceQuery';
 import { getBNBSwapPoolAllowance } from 'modules/stake-bnb/actions/useLazyGetBNBSwapPoolAllowanceQuery';

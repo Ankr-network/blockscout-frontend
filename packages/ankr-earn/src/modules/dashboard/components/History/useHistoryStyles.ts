@@ -23,6 +23,12 @@ export const useHistoryStyles = makeStyles(
       borderCollapse: 'collapse',
     },
 
+    thead: {
+      position: 'sticky',
+      top: 0,
+      zIndex: 1,
+    },
+
     header: {
       marginBottom: theme.spacing(2.5),
     },

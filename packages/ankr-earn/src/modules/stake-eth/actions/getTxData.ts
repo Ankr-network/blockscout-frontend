@@ -9,6 +9,8 @@ import { RETRIES_TO_GET_TX_DATA } from 'modules/common/const';
 
 import { getEthereumSDK } from '../utils/getEthereumSDK';
 
+const UNDEFINED_TX_HASH_ERROR_KEY = 'stake-ethereum.errors.tx-hash-undefined';
+
 export interface IGetSwitcherData {
   amount?: BigNumber;
   isPending: boolean;
@@ -16,7 +18,7 @@ export interface IGetSwitcherData {
 }
 
 interface IGetTxDataArgs {
-  txHash: string;
+  txHash?: string;
   shouldDecodeAmount?: boolean;
 }
 
@@ -25,6 +27,10 @@ export const { useGetETHTxDataQuery } = web3Api.injectEndpoints({
     getETHTxData: build.query<IGetSwitcherData, IGetTxDataArgs>({
       queryFn: queryFnNotifyWrapper<IGetTxDataArgs, never, IGetSwitcherData>(
         async ({ txHash, shouldDecodeAmount }) => {
+          if (!txHash) {
+            throw new Error(t(UNDEFINED_TX_HASH_ERROR_KEY));
+          }
+
           const sdk = await getEthereumSDK();
 
           const data = await retry(
@@ -50,6 +56,10 @@ export const { useGetETHTxReceiptQuery } = web3Api.injectEndpoints({
         TransactionReceipt | null
       >(
         async ({ txHash }) => {
+          if (!txHash) {
+            throw new Error(t(UNDEFINED_TX_HASH_ERROR_KEY));
+          }
+
           const sdk = await getEthereumSDK();
 
           return {

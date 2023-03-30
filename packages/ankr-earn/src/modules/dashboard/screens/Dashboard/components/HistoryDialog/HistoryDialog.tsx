@@ -2,7 +2,7 @@ import { Token } from 'modules/common/types/token';
 import { HistoryDialog as HistoryDialogUI } from 'modules/dashboard/components/HistoryDialog';
 import { EKnownDialogs, useDialog } from 'modules/dialogs';
 
-import { HistoryDialogContent } from './HistoryDialogContent';
+import { HistoryDialogContent } from './components/HistoryDialogContent';
 
 export const HistoryDialog = (): JSX.Element => {
   const {

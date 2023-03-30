@@ -7,7 +7,6 @@ import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ONE_ETH, ZERO } from 'modules/common/const';
 import { useAddBNBTokenToWalletMutation } from 'modules/stake-bnb/actions/addBNBTokenToWallet';
-import { useGetBNBPendingValuesQuery } from 'modules/stake-bnb/actions/fetchPendingValues';
 import { useGetBNBStatsQuery } from 'modules/stake-bnb/actions/useGetBNBStatsQuery';
 
 import { useStakedABNBBData } from '../useStakedABNBBData';
@@ -35,10 +34,6 @@ jest.mock('modules/switcher/Routes', () => ({
 
 jest.mock('modules/stake-bnb/actions/addBNBTokenToWallet', () => ({
   useAddBNBTokenToWalletMutation: jest.fn(),
-}));
-
-jest.mock('modules/stake-bnb/actions/fetchPendingValues', () => ({
-  useGetBNBPendingValuesQuery: jest.fn(),
 }));
 
 jest.mock('modules/stake-bnb/actions/useGetBNBStatsQuery', () => ({
@@ -70,11 +65,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB/useStakedAB
   beforeEach(() => {
     (useQuery as jest.Mock).mockReturnValue(defaultStatsData);
 
-    (useGetBNBPendingValuesQuery as jest.Mock).mockReturnValue({
-      isFetching: false,
-      data: undefined,
-    });
-
     (useMutation as jest.Mock).mockReturnValue(defaultMutationData);
 
     (useAddBNBTokenToWalletMutation as jest.Mock).mockReturnValue([jest.fn()]);
@@ -95,7 +85,6 @@ describe('modules/dashboard/screens/Dashboard/components/StakedABNBB/useStakedAB
     const { result } = renderHook(() => useStakedABNBBData());
 
     expect(result.current.amount).toStrictEqual(ONE_ETH);
-    expect(result.current.pendingValue).toStrictEqual(ZERO);
     expect(result.current.isBalancesLoading).toBe(false);
     expect(result.current.isStakeLoading).toBe(false);
     expect(result.current.isUnstakeLoading).toBe(false);

@@ -1,5 +1,4 @@
 import { t } from '@ankr.com/common';
-import { useDispatchRequest, useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo, useState } from 'react';
 import { number, object } from 'yup';
@@ -8,8 +7,9 @@ import { AvailableWriteProviders } from '@ankr.com/provider';
 
 import { useSwitchNetworkMutation } from 'modules/auth/common/actions/switchNetwork';
 import { TValidationHandler, validate } from 'modules/common/utils/validation';
-import { approve, swapAssets } from 'modules/switcher/actions/transactions';
+import { useSwitcherApproveMutation } from 'modules/switcher/actions/switcherApprove';
 
+import { useSwapAssetsMutation } from '../../../actions/swapAssets';
 import {
   CHAIN_ID_BY_TOKEN,
   AvailableSwitcherToken,
@@ -58,9 +58,9 @@ export const useSwitcherForm = ({
   chainId,
   onSuccessSwap,
 }: ISwitcherFormHookArgs): ISwitcherFormHookData => {
-  const dispatchRequest = useDispatchRequest();
-  const { loading: isApproveLoading } = useMutation({ type: approve });
-  const { loading: isSwapLoading } = useMutation({ type: swapAssets });
+  const [approve, { isLoading: isApproveLoading }] =
+    useSwitcherApproveMutation();
+  const [swapAssets, { isLoading: isSwapLoading }] = useSwapAssetsMutation();
 
   const [switchNetwork] = useSwitchNetworkMutation();
 
@@ -68,13 +68,14 @@ export const useSwitcherForm = ({
   const [txError, setTxError] = useState('');
 
   const handleApprove = useCallback(() => {
-    dispatchRequest(approve({ chainId, token: from })).then(response => {
-      if (response.error) {
-        setTxHash(response.data?.transactionHash ?? '');
-        setTxError(response.error.message ?? response.error);
-      }
-    });
-  }, [chainId, from, dispatchRequest]);
+    approve({ chainId, token: from })
+      .then(() => {
+        setTxHash('');
+      })
+      .catch(error => {
+        setTxError(error.message ?? error);
+      });
+  }, [approve, chainId, from]);
 
   const calculateValueWithRatio = useCallback(
     (total: BigNumber) => {
@@ -96,18 +97,17 @@ export const useSwitcherForm = ({
 
   const handleSwap = useCallback(
     async amount => {
-      await dispatchRequest(
-        swapAssets({ amount, ratio, from, to, chainId }),
-      ).then(response => {
-        if (response.error) {
-          setTxHash(response.data?.transactionHash ?? '');
-          setTxError(response.error.message ?? response.error);
-        } else {
+      swapAssets({ amount, ratio, from, to, chainId })
+        .unwrap()
+        .then(data => {
+          setTxHash(data?.transactionHash ?? '');
           onSuccessSwap({ amount });
-        }
-      });
+        })
+        .catch(error => {
+          setTxError(error.message ?? error);
+        });
     },
-    [chainId, ratio, from, to, dispatchRequest, onSuccessSwap],
+    [swapAssets, ratio, from, to, chainId, onSuccessSwap],
   );
 
   const handleClearTx = useCallback(() => {

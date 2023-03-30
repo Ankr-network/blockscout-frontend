@@ -1,155 +1,53 @@
 import { t } from '@ankr.com/common';
-import BigNumber from 'bignumber.js';
-import { useCallback, useMemo } from 'react';
 
-import { EBinancePoolEventsMap } from '@ankr.com/staking-sdk';
+import { ONE, ZERO } from 'modules/common/const';
+import { Seconds } from 'modules/common/types';
+import { LONG_CACHE_TIME } from 'modules/stake-ankr/const';
+import { useGetBnbCertRatioQuery } from 'modules/stake-bnb/actions/getBnbCertRatio';
+import { useGetBnbPendingHistoryQuery } from 'modules/stake-bnb/actions/getBnbPendingHistory';
+import { useGetBnbPendingUnstakesQuery } from 'modules/stake-bnb/actions/getBnbPendingUnstakes';
 
-import { useProviderEffect } from 'modules/auth/common/hooks/useProviderEffect';
-import { BSC_NETWORK_BY_ENV } from 'modules/common/const';
-import { Token } from 'modules/common/types/token';
-import { getTxLinkByNetwork } from 'modules/common/utils/links/getTxLinkByNetwork';
-import { IPendingTableRow } from 'modules/dashboard/components/PendingTable';
-import { IHistoryDialogData } from 'modules/dashboard/types';
-import { useLazyGetBNBTotalHistoryQuery } from 'modules/stake-bnb/actions/fetchTotalHistory';
-import { TBnbSyntToken } from 'modules/stake-bnb/types';
+import { IPendingHistoryData, usePendingHistory } from '../usePendingHistory';
 
-import { ITxEventsHistoryGroupItem } from '../../../types';
+const BLOCK_TIME: Seconds = 3;
 
-interface IGetHistoryTransactionsArgs {
-  type: EBinancePoolEventsMap;
-  data?: ITxEventsHistoryGroupItem[];
-}
-
-interface IUnstakeHistory {
-  id: number;
-  token: Token;
-  amount: BigNumber;
-  timerSlot: string;
-}
-
-const getCompletedTransactions = ({
-  data,
-  type,
-}: IGetHistoryTransactionsArgs):
-  | IHistoryDialogData['staked']
-  | IHistoryDialogData['unstaked'] => {
-  if (!data) return [];
-
-  return data
-    .filter(({ txType }) => txType === type)
-    .map(({ txDate, txHash, txAmount }) => ({
-      date: txDate,
-      hash: txHash,
-      link: getTxLinkByNetwork(txHash, BSC_NETWORK_BY_ENV),
-      amount: txAmount,
-    }));
-};
-
-export interface ITxHistoryData {
-  transactionHistoryABNBB: IHistoryDialogData;
-  transactionHistoryABNBC: IHistoryDialogData;
-  pendingUnstakeHistoryABNBB: IPendingTableRow[];
-  pendingUnstakeHistoryABNBC: IPendingTableRow[];
-  hasHistory: boolean;
+export interface IStakedBNBTxHistory extends IPendingHistoryData {
   isHistoryDataLoading: boolean;
-  handleLoadTxHistory: () => void;
 }
 
-export const useStakedBNBTxHistory = (): ITxHistoryData => {
-  const [
-    refetchTotalHistory,
-    { data: txHistory, isFetching: isHistoryDataLoading },
-  ] = useLazyGetBNBTotalHistoryQuery();
-
-  const stakedABNBB = useMemo(() => {
-    return getCompletedTransactions({
-      data: txHistory?.completedBond,
-      type: EBinancePoolEventsMap.Staked,
+export const useStakedBNBTxHistory = (): IStakedBNBTxHistory => {
+  const { data: pendingBnbHistory, isFetching: isHistoryDataLoading } =
+    useGetBnbPendingHistoryQuery(undefined, {
+      refetchOnMountOrArgChange: BLOCK_TIME,
     });
-  }, [txHistory?.completedBond]);
 
-  const stakedABNBC = useMemo(() => {
-    return getCompletedTransactions({
-      data: txHistory?.completedCertificate,
-      type: EBinancePoolEventsMap.Staked,
-    });
-  }, [txHistory?.completedCertificate]);
+  const { data: certRatio = ONE } = useGetBnbCertRatioQuery(undefined, {
+    refetchOnMountOrArgChange: LONG_CACHE_TIME,
+  });
 
-  const unstakedABNBB = useMemo(() => {
-    return getCompletedTransactions({
-      data: txHistory?.completedBond,
-      type: EBinancePoolEventsMap.UnstakePending,
-    });
-  }, [txHistory?.completedBond]);
-
-  const unstakedABNBC = useMemo(() => {
-    return getCompletedTransactions({
-      data: txHistory?.completedCertificate,
-      type: EBinancePoolEventsMap.UnstakePending,
-    });
-  }, [txHistory?.completedCertificate]);
-
-  const preparePendingUnstakes = (
-    pendingHistory: ITxEventsHistoryGroupItem[],
-    token: TBnbSyntToken,
-  ): IUnstakeHistory[] => {
-    return pendingHistory
-      ? pendingHistory.map((transaction, index) => {
-          const date = t('format.date', { value: transaction.txDate });
-          const time = t('format.time-short', { value: transaction.txDate });
-
-          return {
-            id: index + 1,
-            token,
-            amount: transaction.txAmount,
-            timerSlot: `${date}, ${time}`,
-          };
-        })
-      : [];
-  };
-
-  const pendingUnstakeHistoryABNBB = useMemo(
-    () => preparePendingUnstakes(txHistory?.pendingBond ?? [], Token.aBNBb),
-    [txHistory?.pendingBond],
+  const { data: pendingAmount = ZERO } = useGetBnbPendingUnstakesQuery(
+    undefined,
+    { refetchOnMountOrArgChange: BLOCK_TIME },
   );
 
-  const pendingUnstakeHistoryABNBC = useMemo(
-    () =>
-      preparePendingUnstakes(txHistory?.pendingCertificate ?? [], Token.aBNBc),
-    [txHistory?.pendingCertificate],
-  );
-
-  const hasHistory =
-    !!stakedABNBB?.length ||
-    !!stakedABNBC?.length ||
-    !!unstakedABNBB?.length ||
-    !!unstakedABNBC?.length;
-
-  useProviderEffect(() => {
-    refetchTotalHistory();
-  }, []);
-
-  const handleLoadTxHistory = useCallback(() => {
-    refetchTotalHistory();
-  }, [refetchTotalHistory]);
+  const {
+    pendingBondUnstakeHistory,
+    pendingCertUnstakeHistory,
+    pendingBondAmount,
+    pendingCertAmount,
+  } = usePendingHistory({
+    unstakeHistory: pendingBnbHistory?.unstakeHistory,
+    certRatio,
+    pendingAmount,
+    bondTokenName: t('unit.abnbb'),
+    certTokenName: t('unit.ankrbnb'),
+  });
 
   return {
     isHistoryDataLoading,
-    pendingUnstakeHistoryABNBB,
-    pendingUnstakeHistoryABNBC,
-    hasHistory,
-    transactionHistoryABNBB: {
-      staked: stakedABNBB,
-      stakedToken: Token.aBNBb,
-      unstaked: unstakedABNBB,
-      unstakedToken: Token.aBNBb,
-    },
-    transactionHistoryABNBC: {
-      staked: stakedABNBC,
-      stakedToken: Token.aBNBc,
-      unstaked: unstakedABNBC,
-      unstakedToken: Token.aBNBc,
-    },
-    handleLoadTxHistory,
+    pendingBondUnstakeHistory,
+    pendingCertUnstakeHistory,
+    pendingBondAmount,
+    pendingCertAmount,
   };
 };

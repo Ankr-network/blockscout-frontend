@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { CacheTags } from 'modules/common/const';
+import { WalletCacheTags } from 'modules/common/const';
 
 import { AnkrStakingSDK } from '../api/AnkrStakingSDK';
 
@@ -33,7 +33,7 @@ export const { useGetCommonDataQuery } = web3Api.injectEndpoints({
         error =>
           getExtendedErrorText(error, t('stake-ankr.errors.common-data')),
       ),
-      providesTags: [CacheTags.account],
+      providesTags: [WalletCacheTags.account],
     }),
   }),
 });

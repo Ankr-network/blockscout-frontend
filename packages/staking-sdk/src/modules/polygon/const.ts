@@ -13,7 +13,7 @@ export const MAX_BLOCK_RANGE = isMainnet ? 2_000 : 3_000;
 /**
  * Start block to check events for PolygonPool
  */
-export const POOL_CONTRACT_START_BLOCK = isMainnet ? 13_396_826 : 5_653_297;
+export const POOL_CONTRACT_START_BLOCK = isMainnet ? 13_396_826 : 6_735_811;
 
 /**
  * Block offset to get 14 days history events

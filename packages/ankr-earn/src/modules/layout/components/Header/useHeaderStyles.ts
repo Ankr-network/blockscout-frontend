@@ -31,6 +31,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
 
   logo: {
     marginLeft: theme.spacing(-2),
+    padding: theme.spacing(0, 0, 0, 1.5),
   },
 
   leftSide: {

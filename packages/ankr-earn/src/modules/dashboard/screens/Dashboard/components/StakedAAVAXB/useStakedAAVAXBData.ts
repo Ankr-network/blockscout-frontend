@@ -18,7 +18,6 @@ import {
 import { Token } from 'modules/common/types/token';
 import { getUSDAmount } from 'modules/dashboard/utils/getUSDAmount';
 import { useAddAVAXTokenToWalletMutation } from 'modules/stake-avax/actions/addAVAXTokenToWallet';
-import { useGetAVAXPendingValuesQuery } from 'modules/stake-avax/actions/fetchPendingValues';
 import { useStakeAVAXMutation } from 'modules/stake-avax/actions/stake';
 import { useUnstakeAVAXMutation } from 'modules/stake-avax/actions/unstake';
 import { useGetAVAXCommonDataQuery } from 'modules/stake-avax/actions/useGetAVAXCommonDataQuery';
@@ -34,11 +33,9 @@ export interface IStakedAAVAXBData {
   amount: BigNumber;
   chainId: EEthereumNetworkId;
   isBalancesLoading: boolean;
-  isPendingUnstakeLoading: boolean;
   isStakeLoading: boolean;
   isUnstakeLoading: boolean;
   network: string;
-  pendingValue: BigNumber;
   stakeLink: string;
   stakeType: string;
   switchLink: string;
@@ -54,9 +51,6 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     useGetAVAXCommonDataQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_CACHE_SEC,
     });
-
-  const { data: pendingValues, isFetching: isPendingUnstakeLoading } =
-    useGetAVAXPendingValuesQuery();
 
   const [addAVAXTokenToWallet] = useAddAVAXTokenToWalletMutation();
 
@@ -74,7 +68,6 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
   const network = t(`chain.${AVAX_NETWORK_BY_ENV}`);
   const chainId = AVAX_NETWORK_BY_ENV;
   const amount = statsData?.aAVAXbBalance ?? ZERO;
-  const pendingValue = pendingValues?.pendingAavaxbUnstakes ?? ZERO;
 
   const usdAmount = useMemo(
     () =>
@@ -95,11 +88,9 @@ export const useStakedAAVAXBData = (): IStakedAAVAXBData => {
     amount,
     chainId,
     isBalancesLoading,
-    isPendingUnstakeLoading,
     isStakeLoading,
     isUnstakeLoading,
     network,
-    pendingValue,
     stakeLink: StakeAvalancheRoutes.stake.generatePath(true),
     stakeType: EAvalanchePoolEventsMap.StakePending,
     switchLink: SwitchRoutes.main.generatePath(token),
