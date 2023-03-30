@@ -20,6 +20,10 @@ export const UpgradePlanBanner = ({
   const { isBannerV2, isOpened, handleOpen, handleClose, handleUpgrade } =
     useBanner();
 
+  // Upgrade plan banner should be hidden for premium users on chains page
+  // as we are now showing them the request banner with the same call to action
+  if (hasPremium && !isAdvancedApi) return null;
+
   if (loading) return <BannerSkeleton />;
 
   return (

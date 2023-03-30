@@ -4,7 +4,7 @@ import {
   NOTICE_MARGIN,
   CHART_HEIGHT,
   LG_CHART_HEIGHT,
-} from './const';
+} from '../RequestsChart/const';
 
 export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
   root: {

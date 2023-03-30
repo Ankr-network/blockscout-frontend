@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useFailedRequestsChartStyles = makeStyles()(() => ({
+export const useRequestsChartStyles = makeStyles()(() => ({
   root: {
     '& .recharts-legend-wrapper': {
       display: 'none',

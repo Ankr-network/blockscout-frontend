@@ -1,11 +1,11 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { NOTICE_WIDTH, NOTICE_MARGIN } from '../../const';
+import { NOTICE_WIDTH, NOTICE_MARGIN } from '../../../RequestsChart/const';
 
 export const useHeaderStyles = makeStyles()(theme => ({
   information: {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'center',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: theme.spacing(5),
@@ -75,6 +75,15 @@ export const useHeaderStyles = makeStyles()(theme => ({
   switcher: {
     '&&&': {
       borderWidth: 2,
+    },
+  },
+
+  timeframeTabs: {
+    marginRight: 'auto',
+    marginLeft: theme.spacing(3),
+    height: 32,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 'auto',
     },
   },
 }));
