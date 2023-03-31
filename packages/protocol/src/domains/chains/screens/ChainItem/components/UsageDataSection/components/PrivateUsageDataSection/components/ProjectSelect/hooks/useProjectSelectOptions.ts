@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import {
   jwtTokenIntlRoot,
@@ -9,6 +9,7 @@ import {
 } from 'domains/jwtToken/utils/utils';
 import { SelectOption } from '../ProjectSelect';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+import { fetchAllJwtTokenRequests } from 'domains/jwtToken/action/getAllJwtToken';
 
 export const ALL_PROJECTS_VALUE = 'All';
 
@@ -37,7 +38,9 @@ const getSelectItems = (
 export const useProjectSelectOptions = (
   shouldDisablePrimaryProject?: boolean,
 ) => {
-  const { jwtTokens } = useJwtTokenManager();
+  const [, { data: { jwtTokens } = { jwtTokens: [] } }] = useQueryEndpoint(
+    fetchAllJwtTokenRequests,
+  );
 
   const options = useMemo(
     () => getSelectItems(jwtTokens, shouldDisablePrimaryProject),

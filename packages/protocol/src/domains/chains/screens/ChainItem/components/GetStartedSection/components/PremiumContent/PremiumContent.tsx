@@ -6,8 +6,12 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
-export const PremiumContent = () => {
-  const { classes } = usePremiumContentStyles();
+interface IPremiumContentProps {
+  isMultiChain: boolean;
+}
+
+export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
+  const { classes } = usePremiumContentStyles(isMultiChain);
 
   const { hasPremium } = useAuth();
 
