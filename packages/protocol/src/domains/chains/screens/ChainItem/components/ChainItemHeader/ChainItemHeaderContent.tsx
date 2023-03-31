@@ -95,13 +95,13 @@ export const ChainItemHeaderContent = ({
           />
         </div>
       )}
-      <div className={classes.content}>
+      <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints
           publicChain={publicChain}
           chainType={chainType}
           group={group}
         />
-        <PremiumContent />
+        <PremiumContent isMultiChain={isMultiChain} />
       </div>
     </>
   );
