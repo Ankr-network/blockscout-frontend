@@ -79,6 +79,7 @@ export const hasAnkrsInfo = (chainId: ChainId) => {
     ChainId.Fantom,
     ChainId.Secret,
     ChainId.Klaytn,
+    ChainId.POLYGON_ZKEVM,
   ].includes(chainId);
 };
 
