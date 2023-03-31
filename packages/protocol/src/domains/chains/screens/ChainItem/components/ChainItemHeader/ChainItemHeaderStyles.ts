@@ -61,5 +61,8 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
         flexDirection: 'column',
       },
     },
+    multiChainContent: {
+      width: '100%',
+    },
   }),
 );
