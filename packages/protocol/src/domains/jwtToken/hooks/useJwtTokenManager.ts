@@ -49,7 +49,7 @@ export const useJwtTokenManager = () => {
     allowedAddProjectTokenIndex > PRIMARY_TOKEN_INDEX;
 
   return {
-    isLoading: shouldShowTokenManager ? isLoading : isLoading,
+    isLoading,
     enableAddProject,
     hasConnectWalletMessage,
     shouldShowTokenManager: shouldShowTokenManager && isSuccess,

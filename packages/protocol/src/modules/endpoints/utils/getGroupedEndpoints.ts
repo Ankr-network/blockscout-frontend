@@ -53,10 +53,6 @@ const getEndpointGroups = (
   chains.forEach(chain_ => {
     const chainID = chain_.id;
 
-    if (chainID === ChainID.AVALANCHE) {
-      return;
-    }
-
     const urls = flatChainUrls(chain_);
     const urlsCount = getUrlsCount(urls);
 
