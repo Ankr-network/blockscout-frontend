@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 import { useLazyInfrastructureFetchSecuritySettingsQuery } from 'domains/infrastructure/actions/fetchSecuritySettings';
-import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+import { fetchAllJwtTokenRequests } from 'domains/jwtToken/action/getAllJwtToken';
 
 export const useSecuritySettings = (chainId: string) => {
-  const { jwtTokens } = useJwtTokenManager();
+  const [, { data: { jwtTokens } = { jwtTokens: [] } }] = useQueryEndpoint(
+    fetchAllJwtTokenRequests,
+  );
 
   const [fetchSecuritySettings, state] =
     useLazyInfrastructureFetchSecuritySettingsQuery();
