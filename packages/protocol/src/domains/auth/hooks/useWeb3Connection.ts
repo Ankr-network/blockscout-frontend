@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { AuthConnectParams, authConnect } from '../actions/connect';
+import { ChainID } from 'modules/chains/types';
 import {
   IChainParams,
   useLazyAuthAddNetworkQuery,
@@ -16,7 +17,7 @@ type HandleConnect = (
 
 export interface Web3Connection {
   connectData?: IAuthSlice;
-  handleAddNetwork: (params: IChainParams) => void;
+  handleAddNetwork: (params: IChainParams, chainID: ChainID) => void;
   handleConnect: HandleConnect;
   handleDisconnect: () => void;
   isWalletConnected: boolean;
@@ -43,8 +44,8 @@ export const useWeb3Connection = (): Web3Connection => {
   }, [disconnect]);
 
   const handleAddNetwork = useCallback(
-    (chainParams: IChainParams) => {
-      addNetwork(chainParams);
+    (chainParams: IChainParams, chainID: ChainID) => {
+      addNetwork({ chainParams, chainID });
     },
     [addNetwork],
   );

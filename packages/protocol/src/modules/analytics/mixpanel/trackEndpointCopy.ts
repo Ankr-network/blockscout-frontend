@@ -1,6 +1,8 @@
 import { ChainType } from 'domains/chains/types';
+import { EndpointCopyEventProps } from './types';
+import { MixpanelEvent } from './const';
 import { getEndpointType } from './utils/getEndpointType';
-import { trackEnterEndpointsFlow } from './utils/trackEnterEndpointsFlow';
+import { track } from './utils/track';
 
 export interface EndpointCopyTrackingParams {
   chainType: ChainType;
@@ -9,15 +11,20 @@ export interface EndpointCopyTrackingParams {
   walletName: string;
 }
 
+const event = MixpanelEvent.ENTER_ENDPOINTS_FLOW;
+
 export const trackEndpointCopy = ({
   chainType,
   endpointUrl: click_copy_url,
   hasPremium: billing = false,
   walletName: wallet_type,
 }: EndpointCopyTrackingParams) =>
-  trackEnterEndpointsFlow({
-    billing,
-    click_copy_url,
-    endpoints_type: getEndpointType(chainType),
-    wallet_type,
+  track<EndpointCopyEventProps>({
+    event,
+    properties: {
+      billing,
+      click_copy_url,
+      endpoints_type: getEndpointType(chainType),
+      wallet_type,
+    },
   });

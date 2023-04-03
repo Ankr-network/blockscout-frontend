@@ -1,4 +1,5 @@
 import { MixpanelEvent } from './const';
+import { Web3SignUpEventProps } from './types';
 import { track } from './utils/track';
 
 export interface Web3SignUpFailureTrackingParams {
@@ -10,7 +11,7 @@ const event = MixpanelEvent.SIGN_UP_FAILIED;
 export const trackWeb3SignUpFailure = ({
   walletName: wallet_type,
 }: Web3SignUpFailureTrackingParams) =>
-  track({
+  track<Web3SignUpEventProps>({
     event,
-    properties: { wallet_type, web3_connect: true },
+    properties: { billing: false, wallet_type, web3_connect: true },
   });

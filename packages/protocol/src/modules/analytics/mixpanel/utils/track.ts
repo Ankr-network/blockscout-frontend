@@ -1,12 +1,18 @@
 import mixpanel, { Callback, Dict, RequestOptions } from 'mixpanel-browser';
 
-interface TrackMixpanelParams {
+interface TrackMixpanelParams<Props> {
   event: string;
   options?: RequestOptions | Callback;
-  properties?: Dict;
+  properties?: Properties<Props>;
 }
 
-export const track = ({ event, options, properties }: TrackMixpanelParams) => {
+type Properties<P> = P extends Dict ? P : undefined;
+
+export const track = <Props>({
+  event,
+  options,
+  properties,
+}: TrackMixpanelParams<Props>) => {
   try {
     mixpanel.track(event, properties, options);
   } catch (error) {
