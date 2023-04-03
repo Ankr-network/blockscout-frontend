@@ -1,3 +1,9 @@
+export enum BannerFreeToRegisterType {
+  open = 'open',
+  register = 'register',
+  close = 'close',
+}
+
 export enum EndpointType {
   Devnet = 'devnet',
   Mainnet = 'mainnet',
@@ -6,6 +12,7 @@ export enum EndpointType {
 
 export enum MixpanelEvent {
   ADD_EMAIL = 'add-email',
+  ADD_NETWORK_IN_MM = 'add_network_in_mm',
   BANNER_FREE_TO_REGISTER = 'banner_free_to_register',
   CLICK_AAPI = 'click_aapi',
   ENTER_BILLING_FLOW = 'enter_billing_flow',

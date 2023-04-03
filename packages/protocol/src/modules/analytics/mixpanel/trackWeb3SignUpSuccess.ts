@@ -1,4 +1,5 @@
 import { MixpanelEvent } from './const';
+import { Web3SignUpEventProps } from './types';
 import { track } from './utils/track';
 
 export interface Web3SignUpSuccessTrackingParams {
@@ -14,7 +15,7 @@ export const trackWeb3SignUpSuccess = ({
   hasPremium: billing,
   walletName: wallet_type,
 }: Web3SignUpSuccessTrackingParams) =>
-  track({
+  track<Web3SignUpEventProps>({
     event,
     properties: {
       billing,

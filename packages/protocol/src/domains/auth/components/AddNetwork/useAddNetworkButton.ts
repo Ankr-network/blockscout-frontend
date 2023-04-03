@@ -4,7 +4,7 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from '../../hooks/useAuth';
-import { getMetamaskNetwork } from './AddNetworkUtils';
+import { getFlattenChain, getMetamaskNetwork } from './AddNetworkUtils';
 
 interface IUseAddNetworkButtonParams {
   publicChain: IApiChain;
@@ -19,9 +19,17 @@ export const useAddNetworkButton = ({
 }: IUseAddNetworkButtonParams) => {
   const { handleAddNetwork, loading } = useAuth();
 
+  const { flatChain, flatChainId } = useMemo(() => {
+    if (group && chainType) {
+      return getFlattenChain(publicChain, chainType, group);
+    }
+
+    return { flatChain: publicChain, flatChainId: publicChain.id };
+  }, [publicChain, chainType, group]);
+
   const metamaskNetwork = useMemo(
-    () => getMetamaskNetwork(publicChain, chainType, group),
-    [publicChain, chainType, group],
+    () => getMetamaskNetwork(flatChain!),
+    [flatChain],
   );
 
   const handleButtonClick = metamaskNetwork
@@ -30,7 +38,7 @@ export const useAddNetworkButton = ({
         event.preventDefault();
         event.stopPropagation();
 
-        return handleAddNetwork(metamaskNetwork);
+        return handleAddNetwork(metamaskNetwork, flatChainId);
       }
     : undefined;
 

@@ -1,5 +1,7 @@
+import { ChainTabSelectEventProps } from './types';
+import { MixpanelEvent } from './const';
 import { SectionID } from 'domains/chains/screens/ChainItem/components/ChainItemSections/types';
-import { trackChainTabSelect as trackChainTabSelectUtil } from './utils/trackChainTabSelect';
+import { track } from './utils/track';
 
 export interface ChainTabSelectTrackingParams {
   address?: string;
@@ -8,15 +10,20 @@ export interface ChainTabSelectTrackingParams {
   walletName?: string;
 }
 
+const event = MixpanelEvent.SELECT_CHAIN_TAB;
+
 export const trackChainTabSelect = ({
   address: wallet_public_address,
   hasPremium: billing = false,
   tabName: tab_name,
   walletName: wallet_type,
 }: ChainTabSelectTrackingParams) =>
-  trackChainTabSelectUtil({
-    billing,
-    tab_name,
-    wallet_public_address,
-    wallet_type,
+  track<ChainTabSelectEventProps>({
+    event,
+    properties: {
+      billing,
+      tab_name,
+      wallet_public_address,
+      wallet_type,
+    },
   });

@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
+
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { trackBannerRegister } from 'modules/analytics/mixpanel/utils/trackBannerRegister';
-import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/types';
+import { trackBannerRegister } from 'modules/analytics/mixpanel/trackBannerRegister';
+import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/const';
 import { useIsBannerV2 } from './useIsBannerV2';
 
 export const useBanner = () => {
@@ -10,16 +11,16 @@ export const useBanner = () => {
 
   const handleOpen = useCallback(() => {
     onOpen();
-    trackBannerRegister({ type: BannerFreeToRegisterType.open });
+    trackBannerRegister(BannerFreeToRegisterType.open);
   }, [onOpen]);
 
   const handleClose = useCallback(() => {
     onClose();
-    trackBannerRegister({ type: BannerFreeToRegisterType.close });
+    trackBannerRegister(BannerFreeToRegisterType.close);
   }, [onClose]);
 
   const handleUpgrade = useCallback(
-    () => trackBannerRegister({ type: BannerFreeToRegisterType.register }),
+    () => trackBannerRegister(BannerFreeToRegisterType.register),
     [],
   );
 

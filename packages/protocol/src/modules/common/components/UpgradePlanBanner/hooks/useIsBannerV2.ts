@@ -1,4 +1,4 @@
-import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/types';
+import { BannerFreeToRegisterType } from 'modules/analytics/mixpanel/const';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
 
