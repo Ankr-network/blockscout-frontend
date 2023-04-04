@@ -15,6 +15,7 @@ export const PrivateChainsTop = ({
   timeframe,
   switchStatsTimeframe,
 }: IPrivateChainsProps) => {
+
   const { isFreePremium, hasUserEndpointToken, hasPremium } = useAuth();
 
   return (
@@ -27,6 +28,7 @@ export const PrivateChainsTop = ({
       {isFreePremium && hasUserEndpointToken && (
         <FailedRequestsBannerContainer timeframe={Timeframe.Month} />
       )}
+
       {hasPremium && hasUserEndpointToken && <RequestsBannerContainer />}
       <JwtTokenManager />
     </>
