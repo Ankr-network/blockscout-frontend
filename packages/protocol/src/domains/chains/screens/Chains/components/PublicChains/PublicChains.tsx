@@ -5,7 +5,7 @@ import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePublicChains } from './hooks/usePublicChains';
 import { usePublicChainsData } from './hooks/usePublicChainsData';
 import { ChainsList } from '../ChainsList';
-import { PublicBanner } from './components/PublicBanner';
+import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 
 export const PublicChains = () => {
   const {
@@ -31,7 +31,7 @@ export const PublicChains = () => {
   return (
     <BaseChains
       loading={loading}
-      top={<PublicBanner />}
+      top={<UpgradePlanBanner isPublicUser />}
       baseChainsHeader={
         <BaseChainsHeader
           sortType={sortType}

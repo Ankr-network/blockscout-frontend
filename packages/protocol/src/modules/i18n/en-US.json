@@ -554,7 +554,7 @@
         "feature-2": "All ERC20 tokens with metadata",
         "feature-3": "Token USD price",
         "feature-4": "Token holders",
-        "feature-5": "Token’s balance by wallet address",
+        "feature-5": "Token's balance by wallet address",
         "feature-6": "Transfers by wallet address",
         "linkText": "Code samples"
       }
@@ -563,6 +563,25 @@
   "banner": {
     "your-plan-badge": "Your plan",
     "action-text": "Upgrade",
+    "public": {
+      "plan-title": "Public",
+      "plan-description": "You have <b>300</b> requests/min",
+      "proposal-title": "Free",
+      "proposal-description": "<b>1,000</b> requests/min.<br />Personal Endpoint and Prioritized traffic",
+      "action-text": "Upgrade",
+
+      "public": {
+        "title": "Public",
+        "your-plan": "Your plan",
+        "info": "You have <em>300</em> requests/min "
+      },
+      "free": {
+        "title": "Free",
+        "info-1": "<em>90,000</em> requests/min.",
+        "info-2": "WebSockets. Archive calls and others features."
+      },
+      "button": "Upgrade"
+    },
     "free": {
       "plan-title": "Free",
       "plan-description": "You have <b>1,800</b> requests/min ",

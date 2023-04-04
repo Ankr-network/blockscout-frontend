@@ -8,12 +8,14 @@ import { getBannerContent } from '../utils';
 interface IBannerContentProps {
   hasPremium: boolean;
   isAdvancedApi: boolean;
+  isPublicUser: boolean;
   handleOpen: () => void;
 }
 
 export const UpgradePlanBannerContent = ({
   hasPremium,
   isAdvancedApi,
+  isPublicUser,
   handleOpen,
 }: IBannerContentProps) => {
   const { isLightTheme } = useThemes();
@@ -28,8 +30,8 @@ export const UpgradePlanBannerContent = ({
     actionProps = {},
     actionText,
   } = useMemo(
-    () => getBannerContent(hasPremium, isAdvancedApi),
-    [hasPremium, isAdvancedApi],
+    () => getBannerContent(hasPremium, isAdvancedApi, isPublicUser),
+    [hasPremium, isAdvancedApi, isPublicUser],
   );
 
   return (
