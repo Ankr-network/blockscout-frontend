@@ -289,12 +289,12 @@ export type GetUsersRegistrationsResponse = {
   addresses: Web3Address[];
 };
 
-export type UserGroupRole = 'OWNER' | 'DEV' | 'FINANCE';
+export type UserGroupRole = 'GROUP_ROLE_OWNER' | 'GROUP_ROLE_DEV' | 'GROUP_ROLE_FINANCE';
 
 export type SetUserGroupRequest = {
   groupAddress: Web3Address;
   userAddress: Web3Address;
-  role: Lowercase<UserGroupRole>;
+  role: UserGroupRole;
 }
 
 export type GroupMember = {

@@ -58,7 +58,11 @@ function ClientsRoutes() {
 }
 
 export const Routes = () => {
-  const { hasSecretRouteAccess, isLoadingAdminRoles } = useSecretRouteAccess();
+  const {
+    hasTestDriveTokenCreationAccess,
+    hasSecretRouteAccess,
+    isLoadingAdminRoles,
+  } = useSecretRouteAccess();
 
   return (
     <Switch>
@@ -69,7 +73,10 @@ export const Routes = () => {
           ClientsRoutesConfig.clientInfo.path,
         ]}
         render={() => (
-          <Layout hasSecretRouteAccess={hasSecretRouteAccess}>
+          <Layout
+            hasSecretRouteAccess={hasSecretRouteAccess}
+            hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
+          >
             <ClientsRoutes />
           </Layout>
         )}
@@ -82,7 +89,10 @@ export const Routes = () => {
           GroupsRoutesConfig.groupDetails.path,
         ]}
         render={() => (
-          <Layout hasSecretRouteAccess={hasSecretRouteAccess}>
+          <Layout
+            hasSecretRouteAccess={hasSecretRouteAccess}
+            hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
+          >
             <GroupsRoutes />
           </Layout>
         )}
@@ -94,7 +104,10 @@ export const Routes = () => {
         hasSecretRouteAccess={hasSecretRouteAccess}
         isLoading={isLoadingAdminRoles}
         render={() => (
-          <Layout hasSecretRouteAccess={hasSecretRouteAccess}>
+          <Layout
+            hasSecretRouteAccess={hasSecretRouteAccess}
+            hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
+          >
             <AdminRoutes />
           </Layout>
         )}
@@ -104,7 +117,10 @@ export const Routes = () => {
 
       <Route
         render={() => (
-          <Layout>
+          <Layout
+            hasSecretRouteAccess={hasSecretRouteAccess}
+            hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
+          >
             <PageNotFound />
           </Layout>
         )}
