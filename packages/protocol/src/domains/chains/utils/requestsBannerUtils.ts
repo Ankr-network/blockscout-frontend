@@ -1,26 +1,25 @@
-import {
-  FreeRegisteredUserRequest,
-  FreeRegisteredUserRequests,
-} from 'multirpc-sdk';
+import { UserRequest, UserRequestsResponse } from 'multirpc-sdk';
 import BigNumber from 'bignumber.js';
 import { format } from 'date-fns';
 import { Timeframe } from '../types';
 import { getCurrentTimestamp } from './timeframeUtils';
 
-const FAILED_STATUS = '429';
+const SUCCESS_STATUS_CODE_FIRST_SYMBOL = '2';
 
-export interface IFailedRequestsData {
+export interface IRequestsData {
   name: string;
   timestamp: number;
   total: number;
   rejectedRequestsCount: number;
+  successRequestsCount: number;
 }
 
-export interface IFailedRequestsBannerResponse {
+export interface IRequestsBannerResponse {
   total: string;
   rejectedRequestsCount: string;
+  successRequestsCount: string;
   rate: string;
-  list: IFailedRequestsData[];
+  list: IRequestsData[];
 }
 
 const getChartLabelFormat = (timeframe: Timeframe) => {
@@ -38,13 +37,20 @@ const getChartLabelFormat = (timeframe: Timeframe) => {
 
 const PERCENT = 100;
 
-const getTotalRequests = (list: IFailedRequestsData[]) =>
+const getTotalRequests = (list: IRequestsData[]) =>
   list.reduce(
     (acc, item) => new BigNumber(acc).plus(new BigNumber(item.total)),
     new BigNumber(0),
   );
 
-const getRejectedRequests = (list: IFailedRequestsData[]) =>
+const getSuccessRequests = (list: IRequestsData[]) =>
+  list.reduce(
+    (acc, item) =>
+      new BigNumber(acc).plus(new BigNumber(item.successRequestsCount)),
+    new BigNumber(0),
+  );
+
+const getRejectedRequests = (list: IRequestsData[]) =>
   list.reduce(
     (acc, item) =>
       new BigNumber(acc).minus(new BigNumber(item.rejectedRequestsCount)),
@@ -60,21 +66,22 @@ const getPercentOfRejectedRequests = (
     : rejectedRequestsCount.dividedBy(total).times(PERCENT).toFixed(0);
 
 export const handleData = (
-  result: FreeRegisteredUserRequests,
+  result: UserRequestsResponse,
   timeframe: Timeframe,
 ) => {
-  const record: Record<number, IFailedRequestsData> = {};
+  const record: Record<number, IRequestsData> = {};
 
   Object.keys(result).forEach(timestamp => {
     const nextTimestamp = getCurrentTimestamp(Number(timestamp), timeframe);
 
-    const item: FreeRegisteredUserRequest = result[timestamp];
+    const item: UserRequest = result[timestamp];
 
     if (!(nextTimestamp in record)) {
-      const info: IFailedRequestsData = {
+      const info: IRequestsData = {
         timestamp: Number(nextTimestamp),
         name: format(Number(nextTimestamp), getChartLabelFormat(timeframe)),
         total: 0,
+        successRequestsCount: 0,
         rejectedRequestsCount: 0,
       };
       record[nextTimestamp] = info;
@@ -88,22 +95,32 @@ export const handleData = (
       record[nextTimestamp] = {
         ...recordItem,
         total: new BigNumber(recordItem.total).plus(amount).toNumber(),
+        successRequestsCount: new BigNumber(recordItem.successRequestsCount)
+          .plus(
+            status.startsWith(SUCCESS_STATUS_CODE_FIRST_SYMBOL) ? amount : 0,
+          )
+          .toNumber(),
         rejectedRequestsCount: new BigNumber(recordItem.rejectedRequestsCount)
-          .minus(status === FAILED_STATUS ? amount : 0)
+          .minus(
+            !status.startsWith(SUCCESS_STATUS_CODE_FIRST_SYMBOL) ? amount : 0,
+          )
           .toNumber(),
       };
     });
   });
 
-  const list: IFailedRequestsData[] = Object.values(record);
+  const list: IRequestsData[] = Object.values(record);
 
   const totalRequests = getTotalRequests(list);
 
   const rejectedRequests = getRejectedRequests(list);
 
+  const successRequests = getSuccessRequests(list);
+
   return {
     total: totalRequests.toString(),
     rejectedRequestsCount: rejectedRequests.toString(),
+    successRequestsCount: successRequests.toString(),
     rate: getPercentOfRejectedRequests(totalRequests, rejectedRequests),
     list,
   };

@@ -135,6 +135,14 @@
     "notice": "You could have avoided these rejects for just <em>$50</em> paid for Premium services",
     "notice-button": "Get Premium for $10"
   },
+  "requests-banner": {
+    "title": "Requests",
+    "total-request": "Total Requests",
+    "successRequestsCount": "<em>{successRequestsCount, number, ::compact-short}</em> Total",
+    "value": "{value, number, ::compact-short}",
+    "notice": "Special requirements? Everything possible with <em>Ankr Enterprise!</em>",
+    "notice-button": "Let's talk"
+  },
   "chains": {
     "breadcrumbs": "Endpoints",
     "user-free": "Free",

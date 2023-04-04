@@ -1,4 +1,11 @@
-import { getDate, getHours, getMonth, getTime, getYear } from 'date-fns';
+import {
+  getDate,
+  getHours,
+  getMinutes,
+  getMonth,
+  getTime,
+  getYear,
+} from 'date-fns';
 import { Timeframe } from '../types';
 
 export const ONE_MINUTE_LIFETIME = 60 * 1000;
@@ -15,8 +22,17 @@ export const getCurrentTimestamp = (
   const month = getMonth(timeStamp);
   const day = getDate(timeStamp);
   const hour = getHours(timeStamp);
+  const minute = getMinutes(timeStamp);
 
-  return timeframe === Timeframe.Week
-    ? getTime(new Date(year, month, day))
-    : getTime(new Date(year, month, day, hour));
+  switch (timeframe) {
+    case Timeframe.Hour:
+      return getTime(new Date(year, month, day, hour, minute));
+    case Timeframe.Day:
+      return getTime(new Date(year, month, day, hour));
+
+    case Timeframe.Week:
+    case Timeframe.Month:
+    default:
+      return getTime(new Date(year, month, day));
+  }
 };

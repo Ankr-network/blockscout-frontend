@@ -1,24 +1,21 @@
 import { useCallback } from 'react';
-import { useTheme } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { useTheme } from '@mui/material';
 import {
   IRequestsChartProps,
   RequestsChart,
 } from '../../../RequestsChart/RequestsChart';
-import {
-  Tooltip as BarTooltip,
-  intlFailedRequestsBannerRoot,
-} from '../Tooltip';
+import { Tooltip as BarTooltip } from '../Tooltip';
 import { useChartBar } from './hooks/useChartBar';
 
-export const FailedRequestsChart = ({ data }: IRequestsChartProps) => {
+export const RequestsChartWrapper = ({ data }: IRequestsChartProps) => {
   const theme = useTheme();
 
   const barMetaList = useChartBar(theme);
 
   const tickFormatter = useCallback(
     (value: number) =>
-      t(`${intlFailedRequestsBannerRoot}.value`, {
+      t(`requests-banner.value`, {
         value: Math.abs(value),
       }),
     [],
@@ -30,7 +27,6 @@ export const FailedRequestsChart = ({ data }: IRequestsChartProps) => {
       tickFormatter={tickFormatter}
       data={data}
       tooltipContent={<BarTooltip />}
-      yAxisScale="linear"
     />
   );
 };
