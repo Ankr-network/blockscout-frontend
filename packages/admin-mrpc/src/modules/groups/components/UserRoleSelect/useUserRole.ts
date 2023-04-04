@@ -9,16 +9,16 @@ type IRole = {
 
 export const roles: IRole[] = [
   {
-    value: 'GROUP_ROLE_DEV',
-    label: 'developer',
+    value: 'DEV',
+    label: 'DEV',
   },
   {
-    value: 'GROUP_ROLE_FINANCE',
-    label: 'finance manager',
+    value: 'OWNER',
+    label: 'OWNER',
   },
   {
-    value: 'GROUP_ROLE_OWNER',
-    label: 'owner',
+    value: 'FINANCE',
+    label: 'FINANCE',
   },
 ];
 
