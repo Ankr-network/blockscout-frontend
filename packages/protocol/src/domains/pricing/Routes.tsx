@@ -6,8 +6,6 @@ import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PRICING_PATH = '/pricing';
 
-export const MAIL_TO_SALES = 'mailto:sales@ankr.com';
-
 export const PricingRoutesConfig = createRouteConfig(
   {
     pricing: {

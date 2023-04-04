@@ -2,5 +2,5 @@ import { RequestsCountry } from '../RequestsMapTypes';
 
 export interface StatsMapProps {
   data: RequestsCountry[];
-  setCountry: (country: string) => void;
+  setCountry?: (country: string) => void;
 }

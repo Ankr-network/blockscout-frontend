@@ -3,6 +3,7 @@ import { FailedRequestsBanner } from './FailedRequestsBanner';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { IFailedRequestsBannerResponse } from 'domains/chains/utils/failedRequestsBannerUtils';
 import { useFailedRequestsBanner } from './useFailedRequestsBanner';
+import { FailedRequestsBannerSkeleton } from './FailedRequestsBannerSkeleton';
 
 interface IFailedRequestsBannerContainerProps {
   timeframe: Timeframe;
@@ -21,7 +22,10 @@ export const FailedRequestsBannerContainer = ({
   const { userRequestsState } = useFailedRequestsBanner(timeframe);
 
   return (
-    <Queries<IFailedRequestsBannerResponse> queryStates={[userRequestsState]}>
+    <Queries<IFailedRequestsBannerResponse>
+      queryStates={[userRequestsState]}
+      spinner={<FailedRequestsBannerSkeleton />}
+    >
       {({ data }) => (
         <FailedRequestsBanner
           timeframe={timeframe}

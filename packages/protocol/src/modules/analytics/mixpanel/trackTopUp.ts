@@ -1,4 +1,6 @@
-import { trackTopUpBalanceFlow } from './utils/trackTopUpBalanceFlow';
+import { MixpanelEvent } from './const';
+import { TopUpEventProps } from './types';
+import { track } from './utils/track';
 
 export interface TopUpTrackingParams {
   address?: string;
@@ -10,6 +12,8 @@ export interface TopUpTrackingParams {
   walletName?: string;
 }
 
+const event = MixpanelEvent.TOP_UP_BALANCE_FLOW;
+
 export const trackTopUp = ({
   address: wallet_public_address,
   hasPremium: billing = false,
@@ -19,13 +23,16 @@ export const trackTopUp = ({
   isTransactionConfirmed: confirm_and_sign = false,
   walletName: wallet_type,
 }: TopUpTrackingParams) =>
-  trackTopUpBalanceFlow({
-    accept_and_proceed,
-    billing,
-    confirm_and_sign,
-    confirm_transaction,
-    done_button,
-    top_up_button: true,
-    wallet_public_address,
-    wallet_type,
+  track<TopUpEventProps>({
+    event,
+    properties: {
+      accept_and_proceed,
+      billing,
+      confirm_and_sign,
+      confirm_transaction,
+      done_button,
+      top_up_button: true,
+      wallet_public_address,
+      wallet_type,
+    },
   });
