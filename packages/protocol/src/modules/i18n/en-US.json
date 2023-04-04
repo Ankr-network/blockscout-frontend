@@ -904,7 +904,14 @@
     },
     "settings-screen": {
       "breadcrumbs": "Settings",
-      "change-email-button": "Change Email"
+      "change-email-button": "Change Email",
+      "connect-wallet": "Connect Wallet"
+    },
+    "2fa": {
+      "title": "Two-Factor Verification",
+      "info": "Looks like you didn't enable two-factor authentication in your Gmail! This is very insecure, go to your Gmail account settings and enable two factor authentication to protect your Ankr RPC access.",
+      "button": "Set up 2FA",
+      "off": "Off"
     },
     "confirmation-screen": {
       "breadcrumbs": "Confirm Email"

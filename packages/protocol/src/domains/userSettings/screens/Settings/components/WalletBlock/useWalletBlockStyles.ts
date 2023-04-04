@@ -1,15 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles()((theme: Theme) => ({
-  row: {
-    display: 'flex',
-    gap: theme.spacing(8),
-
-    [theme.breakpoints.down('lg')]: {
-      flexDirection: 'column',
-    },
-  },
+export const usesWalletBlockStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -34,18 +25,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 700,
     display: 'flex',
     alignItems: 'center',
-  },
-  email: {
-    fontSize: 34,
-    fontWeight: 700,
-
-    [theme.breakpoints.down('md')]: {
-      fontSize: 30,
-    },
-
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 20,
-    },
   },
   item: {
     display: 'flex',

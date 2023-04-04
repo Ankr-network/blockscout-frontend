@@ -1,7 +1,7 @@
 import { Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import { IGetActiveEmailBindingResponse } from 'multirpc-sdk';
-import { ChangeEmailDialog } from './components/ChangeEmailDialog';
 import { EmailSkeleton } from './components/Skeleton';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -9,6 +9,8 @@ import { useEmailBlock } from './useEmailBlock';
 import { useLazyUserSettingsGetActiveEmailBindingQuery } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useStyles } from './EmailBlockStyles';
+import { ChangeEmailDialog } from './components/ChangeEmailDialog';
+import { WalletBlock } from '../WalletBlock';
 
 export const EmailBlock = () => {
   const { classes } = useStyles();
@@ -29,22 +31,33 @@ export const EmailBlock = () => {
 
   return (
     <>
-      <Paper className={classes.root}>
-        <Typography className={classes.email} variant="h4">
-          <Queries<IGetActiveEmailBindingResponse>
-            queryStates={[activeEmailBindingState]}
-            spinner={<EmailSkeleton />}
-          >
-            {({ data: { email } = {} }) => email}
-          </Queries>
-        </Typography>
+      <div className={classes.row}>
+        <Paper className={classes.root}>
+          <Typography className={classes.email} variant="h4">
+            <Queries<IGetActiveEmailBindingResponse>
+              queryStates={[activeEmailBindingState]}
+              spinner={<EmailSkeleton />}
+            >
+              {({ data: { email } = {} }) => (
+                <Typography className={classes.text}>{email}</Typography>
+              )}
+            </Queries>
+          </Typography>
 
-        {!hasOauthLogin && (
-          <Button variant="outlined" onClick={openChangeEmailDialog}>
-            {t('user-settings.settings-screen.change-email-button')}
-          </Button>
-        )}
-      </Paper>
+          {!hasOauthLogin && (
+            <Button
+              size="large"
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              onClick={openChangeEmailDialog}
+            >
+              {t('user-settings.settings-screen.change-email-button')}
+            </Button>
+          )}
+        </Paper>
+        <WalletBlock />
+      </div>
 
       <ChangeEmailDialog
         open={isChangeEmailDialogOpen}

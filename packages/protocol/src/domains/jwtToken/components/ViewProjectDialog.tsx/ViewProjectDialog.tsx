@@ -2,14 +2,15 @@ import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
 import { Button, Typography } from '@mui/material';
 
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
 import { Dialog } from 'uiKit/Dialog';
 import { useViewProjectDialogStyles } from './useViewProjectDialogStyles';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { ConnectWalletsContent } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/ConnectWalletsContent';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 
 interface IShowProjectDialogProps {
   shouldConnectWallet: boolean;
@@ -27,6 +28,8 @@ export const ViewProjectDialog = ({
   handleDeleteProject,
 }: IShowProjectDialogProps) => {
   const { classes } = useViewProjectDialogStyles();
+
+  const { hasOauthLogin } = useAuth();
 
   const title = useMemo(() => renderProjectName(token?.index), [token?.index]);
 
@@ -91,16 +94,12 @@ export const ViewProjectDialog = ({
           )}
         </div>
       </Dialog>
-      <Dialog
-        maxPxWidth={600}
+
+      <SignupDialog
         onClose={handleClose}
-        open={isLoginOpened}
-        title={t('signup-modal.web3.title')}
-        titleClassName={classes.title}
-        closeButtonClassName={classes.closeButton}
-      >
-        <ConnectWalletsContent onClose={handleClose} />
-      </Dialog>
+        isOpen={isLoginOpened}
+        hasOauthLogin={hasOauthLogin}
+      />
     </>
   );
 };
