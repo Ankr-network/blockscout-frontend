@@ -34,13 +34,13 @@ export const UpgradePlanBanner = ({
         <PremiumChainDialogV2
           open={isOpened}
           onClose={handleClose}
-          onTrack={handleUpgrade}
+          onUpgrade={handleUpgrade}
         />
       ) : (
         <PremiumChainDialog
           open={isOpened}
           onClose={handleClose}
-          onTrack={handleUpgrade}
+          onUpgrade={handleUpgrade}
         />
       )}
     </Box>

@@ -4,7 +4,6 @@ import { UsageSummary } from '../components/UsageSummary';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { FailedRequestsBannerContainer } from 'domains/chains/components/FailedRequestsBanner/FailedRequestsBannerContainer';
 import { JwtTokenManager } from 'domains/jwtToken/components/JwtTokenManager';
-import { JwtTokenManagerSkeleton } from 'domains/jwtToken/components/JwtTokenManager/JwtTokenManagerSkeleton';
 
 interface IPrivateChainsProps {
   timeframe: Timeframe;
@@ -15,25 +14,19 @@ export const PrivateChainsTop = ({
   timeframe,
   switchStatsTimeframe,
 }: IPrivateChainsProps) => {
-  const { isFreePremium, hasUserEndpointToken, loading } = useAuth();
+  const { isFreePremium, hasUserEndpointToken } = useAuth();
 
   return (
     <>
       <PrivateBanner />
-      {loading ? (
-        <JwtTokenManagerSkeleton />
-      ) : (
-        <>
-          <UsageSummary
-            timeframe={timeframe}
-            switchTimeframe={switchStatsTimeframe}
-          />
-          {isFreePremium && hasUserEndpointToken && (
-            <FailedRequestsBannerContainer timeframe={Timeframe.Month} />
-          )}
-          <JwtTokenManager />
-        </>
+      <UsageSummary
+        timeframe={timeframe}
+        switchTimeframe={switchStatsTimeframe}
+      />
+      {isFreePremium && hasUserEndpointToken && (
+        <FailedRequestsBannerContainer timeframe={Timeframe.Month} />
       )}
+      <JwtTokenManager />
     </>
   );
 };

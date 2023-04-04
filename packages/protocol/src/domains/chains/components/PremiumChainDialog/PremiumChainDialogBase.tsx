@@ -1,5 +1,5 @@
 import { Dialog } from 'uiKit/Dialog';
-import { Item, PremiumChainDialogProps } from './types';
+import { ContentType, Item, PremiumChainDialogProps } from './types';
 import { usePremiumChainDialog } from './hooks/usePremiumChainDialog';
 import { usePremiumChainDialogStyles } from './PremiumChainDialogStyles';
 import { useWindowHeight } from 'hooks/useWindowHeight';
@@ -11,17 +11,26 @@ export interface PremiumChainDialogBaseProps extends PremiumChainDialogProps {
 export const PremiumChainDialogBase = ({
   items,
   onClose,
-  onTrack,
+  onUpgrade,
   open,
+  defaultState,
 }: PremiumChainDialogBaseProps) => {
   const { children, ...dialogProps } = usePremiumChainDialog({
+    defaultState,
     items,
     onClose,
-    onTrack,
+    onUpgrade,
   });
 
   const windowHeight = useWindowHeight();
-  const { classes } = usePremiumChainDialogStyles({ windowHeight });
+  const { classes, cx } = usePremiumChainDialogStyles({ windowHeight });
+  const { contentType } = dialogProps;
+  const { CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } = ContentType;
+  const isContactSalesPopup =
+    defaultState === CONTACT_SALES_FORM ||
+    defaultState === CONTACT_SALES_SUCCESS ||
+    contentType === CONTACT_SALES_FORM ||
+    contentType === CONTACT_SALES_SUCCESS;
 
   return (
     <Dialog
@@ -31,7 +40,9 @@ export const PremiumChainDialogBase = ({
         container: classes.dialogContainer,
       }}
       open={open}
-      paperClassName={classes.paperRoot}
+      paperClassName={cx(classes.paperRoot, {
+        [classes.dialogContainerWhite]: isContactSalesPopup,
+      })}
       titleClassName={classes.title}
       {...dialogProps}
     >

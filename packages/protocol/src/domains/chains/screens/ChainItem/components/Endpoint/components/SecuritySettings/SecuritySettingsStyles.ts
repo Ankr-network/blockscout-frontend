@@ -10,7 +10,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   tooltipWrapper: {
     marginBottom: theme.spacing(2 * 2),
-    alignItems: 'flex-end',
   },
   container: {
     display: 'grid',

@@ -64,6 +64,7 @@ export interface INodeDetailEntity {
     continent: string;
     country: string;
   };
+  isPremium?: boolean;
 }
 
 export interface INodesDetailEntity {

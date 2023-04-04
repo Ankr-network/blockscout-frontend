@@ -1,4 +1,6 @@
-import { trackAAPIClick as trackAAPIClickUtil } from './utils/trackAAPIClick';
+import { AAPIClickEventProps } from './types';
+import { MixpanelEvent } from './const';
+import { track } from './utils/track';
 
 export interface AAPIClickTrackingParams {
   address?: string;
@@ -6,13 +8,18 @@ export interface AAPIClickTrackingParams {
   walletName?: string;
 }
 
+const event = MixpanelEvent.CLICK_AAPI;
+
 export const trackAAPIClick = ({
   address: wallet_public_address,
   hasPremium: billing = false,
   walletName: wallet_type,
 }: AAPIClickTrackingParams) =>
-  trackAAPIClickUtil({
-    billing,
-    wallet_public_address,
-    wallet_type,
+  track<AAPIClickEventProps>({
+    event,
+    properties: {
+      billing,
+      wallet_public_address,
+      wallet_type,
+    },
   });

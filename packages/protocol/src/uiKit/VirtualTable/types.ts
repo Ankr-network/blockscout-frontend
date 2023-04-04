@@ -8,7 +8,7 @@ export interface VirtualTableQuery {
   orderBy?: string;
 }
 export interface VirtualTableProps<T extends Record<string, any>> {
-  classes?: { root?: string; container?: string };
+  classes?: { root?: string; container?: string; head?: string };
   cols: VirtualTableColumn<T>[];
   emptyMessage?: string;
   initializing?: boolean;

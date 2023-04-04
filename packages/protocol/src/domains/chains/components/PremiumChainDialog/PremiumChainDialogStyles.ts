@@ -47,4 +47,20 @@ export const usePremiumChainDialogStyles =
 
       fontSize: 28,
     },
+
+    /* fix for contact form (embedded hubspot widget) */
+    dialogContainerWhite: {
+      maxWidth: 600,
+      backgroundColor: 'white',
+      color: 'black',
+      fill: 'black',
+      '& button': {
+        '&:hover': {
+          backgroundColor: 'lightgray',
+        },
+      },
+      '& svg': {
+        color: 'black',
+      },
+    },
   }));

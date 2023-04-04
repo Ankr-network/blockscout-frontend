@@ -6,20 +6,15 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { Amount, CurrencySymbol } from '../components/Amount';
 import { Deduction } from '../components/Deduction';
 import {
-  MAX_CREDIT_DECIMAL_PLACES,
   MAX_USD_DECIMAL_PLACES,
-  MIN_CREDIT_DECIMAL_PLACES,
   MIN_USD_DECIMAL_PLACES,
   PAYMENT_HISTORY_TYPE,
 } from '../const';
 import { formatPaymentHistoryAmount } from '../utils/formatPaymentHistoryAmount';
 import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDirection';
 import { useTransactionsDownloader } from './useTransactionsDownloader';
-import {
-  getAmount,
-  hasCreditAmount,
-  isCreditAmount,
-} from '../utils/amountUtils';
+import { getAmount, isCreditAmount } from '../utils/amountUtils';
+import { getCreditsValue } from '../utils/getCreditsValue';
 
 export const useColumns = () => {
   const downloadTransactions = useTransactionsDownloader();
@@ -103,23 +98,16 @@ export const useColumns = () => {
         align: 'right',
         field: 'credit',
         headerName: t('account.payment-table.head.col-4'),
-        render: ({ creditUsdAmount, creditAnkrAmount, type, amount }) => {
-          return (
-            <Amount
-              direction={getPaymentHistoryItemDirection(type)}
-              value={formatPaymentHistoryAmount(
-                hasCreditAmount(creditAnkrAmount, creditUsdAmount)
-                  ? amount
-                  : Number(creditUsdAmount) > 0
-                  ? creditUsdAmount
-                  : creditAnkrAmount,
-
-                MIN_CREDIT_DECIMAL_PLACES,
-                MAX_CREDIT_DECIMAL_PLACES,
-              )}
-            />
-          );
-        },
+        render: ({ creditUsdAmount, creditAnkrAmount, type, amount = '0' }) => (
+          <Amount
+            direction={getPaymentHistoryItemDirection(type)}
+            value={getCreditsValue({
+              creditUsdAmount,
+              creditAnkrAmount,
+              amount,
+            })}
+          />
+        ),
         sortable: false,
       },
     ],

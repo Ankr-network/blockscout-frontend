@@ -25,7 +25,7 @@ export const UpgradePlanBannerContent = ({
     planDescription,
     proposalTitle,
     proposalDescription,
-    actionProps,
+    actionProps = {},
     actionText,
   } = useMemo(
     () => getBannerContent(hasPremium, isAdvancedApi),
