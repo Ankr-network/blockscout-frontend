@@ -16,6 +16,7 @@ import {
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { authCheckInstantJwtParticipant } from '../instantJwt/checkInstantJwtParticipant';
 import { authFetchInstantJwtParticipantToken } from '../instantJwt/fetchInstantJwtParticipantToken';
+import { fetchPremiumStatus } from '../fetchPremiumStatus';
 
 export const getCachedData = (
   service: MultiRpcSdk,
@@ -131,6 +132,12 @@ export const makeAuthorization = async (
   }
 
   const { jwtToken: credentials, workerTokenData } = jwtTokenFullData;
+
+  if (workerTokenData?.userEndpointToken) {
+    await dispatch(
+      fetchPremiumStatus.initiate(workerTokenData.userEndpointToken),
+    );
+  }
 
   if (workerTokenData) {
     service.getWorkerGateway().addJwtToken(workerTokenData.signedToken);

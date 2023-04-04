@@ -5,9 +5,9 @@ import { useCallback, useState } from 'react';
 import { LoadableButton } from 'uiKit/LoadableButton';
 import { SignupDialog } from './SignupDialog';
 import { timeout } from 'modules/common/utils/timeout';
-import { trackSignUpFailure } from 'modules/analytics/mixpanel/trackSignUpFailure';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useStyles } from '../useStyles';
+import { trackSignUpModalOpen } from 'modules/analytics/mixpanel/trackSignUpModalOpen';
 
 interface UnconnectedButtonProps {
   buttonText?: string;
@@ -32,11 +32,11 @@ export const UnconnectedButton = ({
     await timeout(300);
   }, []);
 
-  const onManualClose = useCallback(async () => {
-    await handleClose();
+  const handleOpen = useCallback(() => {
+    setIsOpened(true);
 
-    trackSignUpFailure();
-  }, [handleClose]);
+    trackSignUpModalOpen();
+  }, []);
 
   const handleSuccess = useCallback(() => {
     setIsOpened(false);
@@ -54,7 +54,7 @@ export const UnconnectedButton = ({
         disableElevation={false}
         disabled={loading}
         loading={loading}
-        onClick={() => setIsOpened(true)}
+        onClick={handleOpen}
         variant={variant}
       >
         {buttonText || t('header.wallet-button')}
@@ -64,7 +64,6 @@ export const UnconnectedButton = ({
         hasOauthLogin={hasOauthLogin}
         isOpen={isOpened}
         onClose={handleClose}
-        onManualClose={onManualClose}
         onSuccess={handleSuccess}
       />
     </>

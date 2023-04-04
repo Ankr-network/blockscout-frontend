@@ -19,7 +19,7 @@ export const useTooltipWrapperStyles = makeStyles()((theme: Theme) => ({
     width: 20,
     height: 20,
     position: 'relative',
-    top: -2,
+    top: 0,
 
     '& circle': {
       fill: theme.palette.background.default,

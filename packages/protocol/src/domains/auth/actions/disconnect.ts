@@ -2,6 +2,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetAuthData, selectAuthData } from 'domains/auth/store/authSlice';
 import { resetEndpoint } from 'store/utils/resetEndpoint';
 import { topUpReset } from 'domains/account/actions/topUp/reset';
+import { trackSignOut } from 'modules/analytics/mixpanel/trackSignOut';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { resetUserGroupConfig } from 'domains/userGroup/store/userGroupSlice';
@@ -27,6 +28,8 @@ export const {
         resetEndpoint('fetchPremiumStatus', dispatch);
         resetEndpoint('userGroupFetchGroups', dispatch);
         resetEndpoint('shouldShowUserGroupDialog', dispatch);
+
+        trackSignOut();
 
         return { data: true };
       }),

@@ -9,7 +9,6 @@ export const SIGNUP_DIALOG_WIDTH = 620;
 interface SignupDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onManualClose?: () => void;
   onSuccess?: () => void;
   hasOauthLogin?: boolean;
 }
@@ -17,7 +16,6 @@ interface SignupDialogProps {
 export const SignupDialog = ({
   isOpen = false,
   onClose,
-  onManualClose = onClose,
   onSuccess,
   hasOauthLogin,
 }: SignupDialogProps) => {
@@ -30,7 +28,7 @@ export const SignupDialog = ({
     onDialogClose,
     onGoogleButtonClick,
     setWeb3State,
-  } = useSignupDialog({ onClose, onManualClose, hasOauthLogin });
+  } = useSignupDialog({ onClose, hasOauthLogin });
 
   return (
     <Dialog

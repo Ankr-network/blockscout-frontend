@@ -13,16 +13,17 @@ export const getGeogrpahyStyles = (
   geo: any,
   data: RequestsCountry[],
   isLightTheme: boolean,
+  hasHover: boolean,
 ) => {
-  const hasColor = data.find(
+  const countryColor = data.find(
     item => item.isoA2 === geo?.properties?.ISO_A2,
   )?.color;
 
   const strokeStyles = isLightTheme ? lightStrokeStyles : darkStrokeStyles;
 
-  const cursorStyle = hasColor ? 'pointer' : 'default';
+  const cursorStyle = countryColor && hasHover ? 'pointer' : 'default';
   const fillColor =
-    hasColor || (isLightTheme ? COLOR_DEFAULT : DARK_COLOR_DEFAULT);
+    countryColor || (isLightTheme ? COLOR_DEFAULT : DARK_COLOR_DEFAULT);
 
   return {
     default: { fill: fillColor, ...strokeStyles, cursor: cursorStyle },
@@ -37,7 +38,7 @@ export const getGeogrpahyStyles = (
       cursor: cursorStyle,
       ...strokeStyles,
     },
-    hasColor,
+    hasColor: Boolean(countryColor),
   };
 };
 

@@ -2,11 +2,11 @@ import { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { EthAddressType, IEthUserAddress } from 'multirpc-sdk';
 
 import { GetState } from 'store';
-import { Web2ConnectTrackingParams } from 'modules/analytics/mixpanel/types';
+import { Web2SignUpTrackingParams } from 'modules/analytics/mixpanel/types';
 import { checkDepositOrVoucherTransaction } from '../checkDepositOrVoucherTransaction';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { selectHasPremium } from 'domains/auth/store/selectors';
-import { trackWeb2ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb2ConnectSuccess';
+import { trackWeb2SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb2SignUpSuccess';
 
 export interface SecreteCodeAndState {
   code: string | null;
@@ -45,7 +45,7 @@ export const getEthUserAddress = (addresses: IEthUserAddress[]) => {
 
 export const getTrackingParams = (
   getState: GetState,
-): Web2ConnectTrackingParams => {
+): Web2SignUpTrackingParams => {
   const state = getState();
   const { email } = selectAuthData(state);
   const hasPremium = selectHasPremium(state);
@@ -59,5 +59,5 @@ export const trackLoginSuccess = async ({
 }: Pick<BaseQueryApi, 'dispatch' | 'getState'>) => {
   await dispatch(checkDepositOrVoucherTransaction.initiate());
 
-  trackWeb2ConnectSuccess(getTrackingParams(getState as GetState));
+  trackWeb2SignUpSuccess(getTrackingParams(getState as GetState));
 };
