@@ -22,12 +22,14 @@ interface ILayoutProps {
   children?: ReactChild;
   hasNoReactSnap?: boolean;
   hasSecretRouteAccess?: boolean;
+  hasTestDriveTokenCreationAccess?: boolean;
 }
 
 export const Layout = ({
   children,
   hasNoReactSnap = false,
   hasSecretRouteAccess = false,
+  hasTestDriveTokenCreationAccess = false,
 }: ILayoutProps) => {
   const { classes } = useStyles();
 
@@ -36,7 +38,10 @@ export const Layout = ({
       <AppBar elevation={0} position="fixed" className={classes.appBar}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Header hasSecretRouteAccess={hasSecretRouteAccess} />
+            <Header
+              hasSecretRouteAccess={hasSecretRouteAccess}
+              hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
+            />
           </Toolbar>
         </Container>
       </AppBar>
