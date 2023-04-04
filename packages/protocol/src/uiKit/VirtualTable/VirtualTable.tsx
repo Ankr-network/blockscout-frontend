@@ -93,7 +93,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
         className={cx(classes.container, tableClasses?.container)}
         style={{ minWidth, minHeight }}
       >
-        <TableHead />
+        <TableHead className={tableClasses?.head} />
         <div className={classes.listContainer}>{content}</div>
         {isMoreRowsAvailable && <PaginationMore text={moreBtnText} />}
       </Paper>

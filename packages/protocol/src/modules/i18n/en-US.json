@@ -402,6 +402,15 @@
         "weight": "Weight"
       }
     },
+    "locations": {
+      "header": "Available Locations",
+      "empty": "No data available",
+      "head": {
+        "location": "Location",
+        "free": "Free",
+        "premium": "Premium"
+      }
+    },
     "requests-table": {
       "header": "Most recent requests",
       "head": {

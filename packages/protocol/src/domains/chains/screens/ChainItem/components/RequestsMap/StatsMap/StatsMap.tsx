@@ -1,4 +1,3 @@
-import React from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 
 import { ANTARCTICA, GEO_URL, getGeogrpahyStyles } from './StatsMapUtils';
@@ -16,7 +15,20 @@ export const StatsMap = ({ data, setCountry }: StatsMapProps) => {
             return geographies
               .filter(d => d.properties.ISO_A2 !== ANTARCTICA)
               .map(geo => {
-                const styles = getGeogrpahyStyles(geo, data, isLightTheme);
+                const hasHandleMouseMove = typeof setCountry === 'function';
+
+                const styles = getGeogrpahyStyles(
+                  geo,
+                  data,
+                  isLightTheme,
+                  hasHandleMouseMove,
+                );
+
+                const handleMouseMove = (value: any) => {
+                  if (hasHandleMouseMove) {
+                    setCountry(value);
+                  }
+                };
 
                 return (
                   <Geography
@@ -25,10 +37,10 @@ export const StatsMap = ({ data, setCountry }: StatsMapProps) => {
                     style={styles}
                     onMouseEnter={() => {
                       if (styles.hasColor) {
-                        setCountry(geo.properties.ISO_A2);
+                        handleMouseMove(geo.properties.ISO_A2);
                       }
                     }}
-                    onMouseLeave={() => setCountry('')}
+                    onMouseLeave={() => handleMouseMove('')}
                   />
                 );
               });
