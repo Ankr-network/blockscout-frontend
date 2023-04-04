@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
+import {
+  IUserJwtToken,
+  fetchAllJwtTokenRequests,
+} from 'domains/jwtToken/action/getAllJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import {
@@ -9,7 +13,6 @@ import {
 } from 'domains/jwtToken/utils/utils';
 import { SelectOption } from '../ProjectSelect';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
-import { fetchAllJwtTokenRequests } from 'domains/jwtToken/action/getAllJwtToken';
 
 export const ALL_PROJECTS_VALUE = 'All';
 
@@ -35,10 +38,12 @@ const getSelectItems = (
   return [getAllProjectsItem(), ...items];
 };
 
+const defaultJWTTokens: IUserJwtToken = { jwtTokens: [] };
+
 export const useProjectSelectOptions = (
   shouldDisablePrimaryProject?: boolean,
 ) => {
-  const [, { data: { jwtTokens } = { jwtTokens: [] } }] = useQueryEndpoint(
+  const [, { data: { jwtTokens } = defaultJWTTokens }] = useQueryEndpoint(
     fetchAllJwtTokenRequests,
   );
 
