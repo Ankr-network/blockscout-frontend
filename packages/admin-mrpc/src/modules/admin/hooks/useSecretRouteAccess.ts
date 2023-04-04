@@ -12,7 +12,15 @@ export const useSecretRouteAccess = () => {
     );
   }, [adminRoles]);
 
+  const hasTestDriveTokenCreationAccess = useMemo(() => {
+    return adminRoles?.some(
+      role => role === AdminRoles.USER_ROLE_TEST_DRIVE_TOKEN_CREATOR,
+    );
+  }, [adminRoles]);
+
   return {
+    adminRoles,
+    hasTestDriveTokenCreationAccess,
     hasSecretRouteAccess,
     isLoadingAdminRoles,
   };
