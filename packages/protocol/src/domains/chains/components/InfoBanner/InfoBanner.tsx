@@ -69,12 +69,12 @@ export const InfoBanner = () => {
         <PremiumChainDialogV2
           open={isOpened}
           onClose={handleClose}
-          onTrack={handleUpgrade}
+          onUpgrade={handleUpgrade}
         />
       ) : (
         <PremiumChainDialog
           onClose={handleClose}
-          onTrack={handleUpgrade}
+          onUpgrade={handleUpgrade}
           open={isOpened}
         />
       )}

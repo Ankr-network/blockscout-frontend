@@ -394,6 +394,15 @@
         "weight": "Weight"
       }
     },
+    "locations": {
+      "header": "Available Locations",
+      "empty": "No data available",
+      "head": {
+        "location": "Location",
+        "free": "Free",
+        "premium": "Premium"
+      }
+    },
     "requests-table": {
       "header": "Most recent requests",
       "head": {
@@ -574,6 +583,10 @@
       "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
       "action-text": "Request"
     }
+  },
+  "contact-sales-form": {
+    "title": "Fill the form",
+    "success": "Thank You"
   },
   "plan": {
     "breadcrumbs": "Pricing",

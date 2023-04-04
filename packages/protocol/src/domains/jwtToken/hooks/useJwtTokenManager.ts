@@ -1,10 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
   IUserJwtToken,
-  useFetchAllJwtTokenRequestsQuery,
+  useLazyFetchAllJwtTokenRequestsQuery,
 } from 'domains/jwtToken/action/getAllJwtToken';
+import { useFetchAllowedJwtTokensCountQuery } from '../action/getAllowedJwtTokensCount';
 import {
   getAllowedAddProjectTokenIndex,
   PRIMARY_TOKEN_INDEX,
@@ -12,6 +13,9 @@ import {
 
 const defaultData: IUserJwtToken = {
   jwtTokens: [],
+};
+
+const defaultAllowJwtTokenInfo = {
   maxTokensLimit: 0,
   shouldShowTokenManager: false,
 };
@@ -20,9 +24,20 @@ export const useJwtTokenManager = () => {
   const { hasConnectWalletMessage, loading } = useAuth();
 
   const {
-    data: { jwtTokens, maxTokensLimit, shouldShowTokenManager } = defaultData,
-    isLoading,
-  } = useFetchAllJwtTokenRequestsQuery(loading);
+    data: { maxTokensLimit, shouldShowTokenManager } = defaultAllowJwtTokenInfo,
+    isSuccess,
+  } = useFetchAllowedJwtTokensCountQuery();
+
+  const [
+    fetchAllJwtTokenRequestsQuery,
+    { data: { jwtTokens } = defaultData, isLoading },
+  ] = useLazyFetchAllJwtTokenRequestsQuery();
+
+  useEffect(() => {
+    if (!loading && shouldShowTokenManager) {
+      fetchAllJwtTokenRequestsQuery(loading);
+    }
+  }, [shouldShowTokenManager, loading, fetchAllJwtTokenRequestsQuery]);
 
   const allowedAddProjectTokenIndex = useMemo(
     () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwtTokens),
@@ -34,10 +49,10 @@ export const useJwtTokenManager = () => {
     allowedAddProjectTokenIndex > PRIMARY_TOKEN_INDEX;
 
   return {
-    isLoading,
+    isLoading: shouldShowTokenManager ? isLoading : isLoading,
     enableAddProject,
     hasConnectWalletMessage,
-    shouldShowTokenManager,
+    shouldShowTokenManager: shouldShowTokenManager && isSuccess,
     allowedAddProjectTokenIndex,
     jwtTokens,
   };

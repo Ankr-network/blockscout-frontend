@@ -47,7 +47,7 @@ const getMappedNetwork = (
   };
 };
 
-const getFlattenChain = (
+export const getFlattenChain = (
   publicChain: IApiChain,
   chainType: ChainType,
   group: EndpointGroup,

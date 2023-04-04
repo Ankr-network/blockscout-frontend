@@ -1,13 +1,14 @@
 import { EWalletId, getWalletName } from '@ankr.com/provider';
 
-import { GetState } from 'store';
+import { GetState, RootState } from 'store';
 import { disconnectService, switchChain } from './connectUtils';
 import { getCachedData, makeAuthorization } from './makeAuthorization';
 import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { IAuthSlice, resetAuthData, setAuthData } from '../../store/authSlice';
-import { trackWeb3ConnectFailure } from 'modules/analytics/mixpanel/trackWeb3ConnectFailure';
-import { trackWeb3ConnectSuccess } from 'modules/analytics/mixpanel/trackWeb3ConnectSuccess';
+import { selectHasPremium } from 'domains/auth/store/selectors';
+import { trackWeb3SignUpFailure } from 'modules/analytics/mixpanel/trackWeb3SignUpFailure';
+import { trackWeb3SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb3SignUpSuccess';
 import { web3Api } from 'store/queries';
 import { AuthConnectParams } from './types';
 
@@ -63,15 +64,13 @@ export const {
             hasOauthLogin,
           );
 
-          const {
-            address,
-            credentials,
-            trackingWalletName: walletName,
-          } = authData;
+          const { address, trackingWalletName: walletName } = authData;
 
-          trackWeb3ConnectSuccess({
+          const hasPremium = selectHasPremium(getState() as RootState);
+
+          trackWeb3SignUpSuccess({
             address,
-            credentials,
+            hasPremium,
             walletName: walletName!,
           });
 
@@ -82,7 +81,7 @@ export const {
         try {
           await queryFulfilled;
         } catch {
-          trackWeb3ConnectFailure({
+          trackWeb3SignUpFailure({
             walletName: getWalletName(walletId as EWalletId),
           });
 

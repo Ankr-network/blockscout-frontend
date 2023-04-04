@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { Callback } from 'mixpanel-browser';
 
-import { TopUpCurrnecy } from './const';
-import { trackEnterBillingFlow } from './utils/trackEnterBillingFlow';
+import { MixpanelEvent, TopUpCurrnecy } from './const';
+import { TopUpSubmitEventProps } from './types';
+import { track } from './utils/track';
 
 export interface TopUpSubmitTrackingParams {
   address?: string;
@@ -15,10 +16,12 @@ export interface TopUpSubmitTrackingParams {
   walletName?: string;
 }
 
+const event = MixpanelEvent.ENTER_BILLING_FLOW;
+
 export const trackTopUpSubmit = ({
   address: wallet_public_address,
   amount: token_amount,
-  callback,
+  callback: options,
   creditBalance,
   currency: token_button,
   hasPremium: billing = false,
@@ -30,8 +33,10 @@ export const trackTopUpSubmit = ({
     ? [token_amount, undefined]
     : [undefined, creditBalance.plus(token_amount).toNumber()];
 
-  return trackEnterBillingFlow(
-    {
+  return track<TopUpSubmitEventProps>({
+    event,
+    options,
+    properties: {
       balance: creditBalance.toFormat(),
       billing,
       replenishment_balance,
@@ -41,6 +46,5 @@ export const trackTopUpSubmit = ({
       wallet_public_address,
       wallet_type,
     },
-    callback,
-  );
+  });
 };

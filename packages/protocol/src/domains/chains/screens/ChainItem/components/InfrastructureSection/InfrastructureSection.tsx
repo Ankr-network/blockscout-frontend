@@ -11,6 +11,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useInfrastructureSectionStyles } from './InfrastructureSectionStyles';
 import { useLazyInfrastructureFetchEndpointsQuery } from 'domains/infrastructure/actions/fetchEndpoints';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
+import { ChainNodesLocations } from '../ChainNodesLocations';
 
 export interface InfrastructureSectionProps {
   chain: IApiChain;
@@ -18,6 +19,8 @@ export interface InfrastructureSectionProps {
   withMyEndpoints?: boolean;
   withNodes?: boolean;
 }
+
+const HAS_NODES_TABLE = false;
 
 export const InfrastructureSection = ({
   chain,
@@ -73,11 +76,15 @@ export const InfrastructureSection = ({
         </>
       )}
 
-      {withNodes && (
+      {HAS_NODES_TABLE && withNodes && (
         <div className={classes.table}>
           <ChainNodesTableQuery chainId={chainId} />
         </div>
       )}
+
+      <div className={classes.table}>
+        <ChainNodesLocations chainId={chainId} />
+      </div>
     </div>
   );
 };

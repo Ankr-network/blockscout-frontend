@@ -215,7 +215,11 @@ export const Col = ({ col, rowData, rowIndex, colIndex }: ColProps) => {
   );
 };
 
-export const TableHead = () => {
+interface TableHeadProps {
+  className?: string;
+}
+
+export const TableHead = ({ className }: TableHeadProps) => {
   const { query, cols, colWidths, setColsWidthCalculated, handleSort } =
     useTable();
   const { classes, cx } = useStyles();
@@ -238,7 +242,10 @@ export const TableHead = () => {
   }, [cols]);
 
   return (
-    <div ref={headRowRef} className={cx(classes.row, classes.rowHead)}>
+    <div
+      ref={headRowRef}
+      className={cx(classes.row, classes.rowHead, className)}
+    >
       {cols.map((col, index) => {
         return (
           <div
