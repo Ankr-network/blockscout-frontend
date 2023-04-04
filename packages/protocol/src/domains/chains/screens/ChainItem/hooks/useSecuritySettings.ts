@@ -1,12 +1,17 @@
 import { useEffect } from 'react';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
+import {
+  IUserJwtToken,
+  fetchAllJwtTokenRequests,
+} from 'domains/jwtToken/action/getAllJwtToken';
 import { useLazyInfrastructureFetchSecuritySettingsQuery } from 'domains/infrastructure/actions/fetchSecuritySettings';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { fetchAllJwtTokenRequests } from 'domains/jwtToken/action/getAllJwtToken';
+
+const defaultJWTTokens: IUserJwtToken = { jwtTokens: [] };
 
 export const useSecuritySettings = (chainId: string) => {
-  const [, { data: { jwtTokens } = { jwtTokens: [] } }] = useQueryEndpoint(
+  const [, { data: { jwtTokens } = defaultJWTTokens }] = useQueryEndpoint(
     fetchAllJwtTokenRequests,
   );
 

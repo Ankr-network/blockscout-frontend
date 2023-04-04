@@ -10,15 +10,19 @@ import { Logo } from '../Logo';
 
 interface HeaderProps {
   hasSecretRouteAccess?: boolean;
+  hasTestDriveTokenCreationAccess?: boolean;
 }
 
-export const Header = ({ hasSecretRouteAccess }: HeaderProps) => {
+export const Header = ({
+  hasSecretRouteAccess,
+  hasTestDriveTokenCreationAccess,
+}: HeaderProps) => {
   const address = useAppSelector(store => store.auth.address);
 
   return (
     <>
       <Logo />
-      {address && <CreateTestPremiumUser />}
+      {address && hasTestDriveTokenCreationAccess && <CreateTestPremiumUser />}
       {address && <SearchClientsInput />}
       {address && (
         <Button
