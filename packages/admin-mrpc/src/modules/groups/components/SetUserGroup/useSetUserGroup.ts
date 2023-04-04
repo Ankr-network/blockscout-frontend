@@ -41,7 +41,7 @@ export const useSetUserGroup = () => {
         setUserGroup({
           groupAddress: groupAddressValue.toLowerCase(),
           userAddress: userAddressValue.toLowerCase(),
-          role: role.toLowerCase() as Lowercase<UserGroupRole>,
+          role,
         }).then(res => {
           if (res && 'error' in res) {
             toast.error('check address and try again');
