@@ -1,20 +1,20 @@
 import { Box, Typography } from '@mui/material';
-import { ReactNode } from 'react';
 
 import { getAvatarTitle } from './AvatarUtils';
 import { useAvatarStyles } from './useAvatarStyles';
 
 interface AvatarProps {
-  name: string;
   avatarColor: string;
-  icon?: ReactNode;
+  className?: string;
+  icon?: JSX.Element;
+  name: string;
 }
 
-export const Avatar = ({ name, icon, avatarColor }: AvatarProps) => {
-  const { classes } = useAvatarStyles(avatarColor);
+export const Avatar = ({ name, icon, avatarColor, className }: AvatarProps) => {
+  const { classes, cx } = useAvatarStyles(avatarColor);
 
   return (
-    <Box className={classes.root}>
+    <Box className={cx(classes.root, className)}>
       {icon || (
         <Typography
           variant="body1"

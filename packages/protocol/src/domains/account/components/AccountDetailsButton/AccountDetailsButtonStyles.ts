@@ -13,6 +13,10 @@ export const useStyles = makeStyles<UseStylesParams>()(
           border: `2px solid ${theme.palette.divider}`,
           borderRadius: theme.spacing(2 * 1.5),
           backgroundColor: theme.palette.background.paper,
+
+          [theme.breakpoints.down('xs')]: {
+            minWidth: 40,
+          },
         }
       : {
           backgroundColor: theme.palette.background.paper,
@@ -27,6 +31,10 @@ export const useStyles = makeStyles<UseStylesParams>()(
           fontWeight: 600,
           fontSize: 11,
           lineHeight: theme.spacing(2 * 2),
+
+          [theme.breakpoints.down('xs')]: {
+            display: 'none',
+          },
         }
       : {
           fontWeight: 600,
