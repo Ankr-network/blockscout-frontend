@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
-import { ReactComponent as NoResultIcon } from './assets/noResult.svg';
+import imgNoResult from './assets/noResult.png';
 import { useChainListStyles } from './useChainListStyles';
 
 export const NoResult = () => {
@@ -8,7 +8,7 @@ export const NoResult = () => {
 
   return (
     <div className={classes.container}>
-      <NoResultIcon />
+      <img src={imgNoResult} alt={t('common.no-search-result')} />
       <Typography className={classes.text}>
         {t('common.no-search-result')}
       </Typography>

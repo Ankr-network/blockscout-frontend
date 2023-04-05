@@ -7,9 +7,6 @@ export const useViewProjectDialogStyles = makeStyles()(theme => ({
     fontSize: 28,
     lineHeight: 1.15,
   },
-  closeButton: {
-    alignSelf: 'flex-start',
-  },
   content: {
     marginTop: theme.spacing(5),
   },

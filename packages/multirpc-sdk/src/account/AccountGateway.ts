@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Timeframe } from '../public';
 import { stringify } from 'qs';
 
 import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus } from '../common';
@@ -26,10 +25,11 @@ import {
   PrivateStatsInterval,
   IGetLatestRequestsResponse,
   IGetLatestRequestsRequest,
-  FreeRegisteredUserRequests,
+  UserRequestsResponse,
   ICheckInstantJwtParticipantResponse,
   IGetOrCreateInstantJwt,
   IUserGroupsResponse,
+  IApiGetUserRequestsParams,
 } from './types';
 import { IJwtTokenLimitResponse, IJwtTokenResponse } from '../oauth';
 
@@ -160,11 +160,10 @@ export class AccountGateway {
     return data;
   }
 
-  async getFreeRegisteredUserRequests(
-    timeframe: Timeframe,
-    userToken: string,
-  ): Promise<FreeRegisteredUserRequests> {
-    const { data } = await this.api.get<FreeRegisteredUserRequests>(
+  async getUserRequests(
+    { timeframe, userToken }: IApiGetUserRequestsParams
+  ): Promise<UserRequestsResponse> {
+    const { data } = await this.api.get<UserRequestsResponse>(
       `/api/v1/auth/stats/users/${userToken}/requests/${timeframe}`,
     );
 

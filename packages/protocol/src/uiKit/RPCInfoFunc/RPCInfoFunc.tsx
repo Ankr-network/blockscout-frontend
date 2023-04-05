@@ -9,7 +9,7 @@ import { Chain } from 'domains/chains/types';
 interface IPRCInfoFunProps {
   size?: 'm' | 'l';
   info: string;
-  publicChain: Chain;
+  chain: Chain;
   textColor?: TypographyTypeMap['props']['color'];
 }
 
@@ -17,12 +17,12 @@ export const RPCInfoFun = ({
   info,
   size = 'm',
   textColor = 'textSecondary',
-  publicChain,
+  chain,
 }: IPRCInfoFunProps) => {
   const { classes } = useRPCInfoFunStyle(size);
 
   const { handleButtonClick, loading } = useAddNetworkButton({
-    publicChain: publicChain as IApiChain,
+    chain: chain as IApiChain,
   });
 
   const handleClick = useCallback(

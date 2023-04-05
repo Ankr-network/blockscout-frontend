@@ -64,7 +64,9 @@ export const MethodCallsTable = ({ data }: IMethodCallsTableProps) => {
               <TableRow key={method}>
                 <TableCell className={classes.cell}>{method}</TableCell>
                 <TableCell className={classes.cell}>{count}</TableCell>
-                <TableCell className={classes.cell}>{total_cost}</TableCell>
+                <TableCell className={classes.cell}>
+                  {total_cost ?? 0}
+                </TableCell>
                 <TableCell className={classes.cell}>
                   <Box
                     className={classes.progressbar}

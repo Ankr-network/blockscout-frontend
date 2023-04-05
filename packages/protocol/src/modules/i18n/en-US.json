@@ -135,6 +135,14 @@
     "notice": "You could have avoided these rejects for just <em>$50</em> paid for Premium services",
     "notice-button": "Get Premium for $10"
   },
+  "requests-banner": {
+    "title": "Requests",
+    "total-request": "Total Requests",
+    "successRequestsCount": "<em>{successRequestsCount, number, ::compact-short}</em> Total",
+    "value": "{value, number, ::compact-short}",
+    "notice": "Special requirements? Everything possible with <em>Ankr Enterprise!</em>",
+    "notice-button": "Let's talk"
+  },
   "chains": {
     "breadcrumbs": "Endpoints",
     "user-free": "Free",
@@ -546,7 +554,7 @@
         "feature-2": "All ERC20 tokens with metadata",
         "feature-3": "Token USD price",
         "feature-4": "Token holders",
-        "feature-5": "Token’s balance by wallet address",
+        "feature-5": "Token's balance by wallet address",
         "feature-6": "Transfers by wallet address",
         "linkText": "Code samples"
       }
@@ -555,6 +563,25 @@
   "banner": {
     "your-plan-badge": "Your plan",
     "action-text": "Upgrade",
+    "public": {
+      "plan-title": "Public",
+      "plan-description": "You have <b>300</b> requests/min",
+      "proposal-title": "Free",
+      "proposal-description": "<b>1,000</b> requests/min.<br />Personal Endpoint and Prioritized traffic",
+      "action-text": "Upgrade",
+
+      "public": {
+        "title": "Public",
+        "your-plan": "Your plan",
+        "info": "You have <em>300</em> requests/min "
+      },
+      "free": {
+        "title": "Free",
+        "info-1": "<em>90,000</em> requests/min.",
+        "info-2": "WebSockets. Archive calls and others features."
+      },
+      "button": "Upgrade"
+    },
     "free": {
       "plan-title": "Free",
       "plan-description": "You have <b>1,800</b> requests/min ",
@@ -877,7 +904,14 @@
     },
     "settings-screen": {
       "breadcrumbs": "Settings",
-      "change-email-button": "Change Email"
+      "change-email-button": "Change Email",
+      "connect-wallet": "Connect Wallet"
+    },
+    "2fa": {
+      "title": "Two-Factor Verification",
+      "info": "Looks like you didn't enable two-factor authentication in your Gmail! This is very insecure, go to your Gmail account settings and enable two factor authentication to protect your Ankr RPC access.",
+      "button": "Set up 2FA",
+      "off": "Off"
     },
     "confirmation-screen": {
       "breadcrumbs": "Confirm Email"

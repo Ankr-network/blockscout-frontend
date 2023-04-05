@@ -3,6 +3,17 @@ import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { PREMIUM_BLOCK_ANCHOR } from 'domains/pricing/screens/Pricing/components/PremiumBlock';
 import imgPremium from './assets/premium.png';
 import imgFree from './assets/free.png';
+import imgPublic from './assets/public.png';
+
+const publicUserBannerContent = {
+  image: imgPublic,
+  planTitle: t('banner.public.plan-title'),
+  planDescription: tHTML('banner.public.plan-description'),
+  proposalTitle: t('banner.public.proposal-title'),
+  proposalDescription: tHTML('banner.public.proposal-description'),
+  actionText: t('banner.public.action-text'),
+  actionProps: undefined,
+};
 
 const freeUserBannerContent = {
   image: imgFree,
@@ -57,7 +68,12 @@ const premiumUserBannerContentAdvancedApi = {
 export const getBannerContent = (
   hasPremium: boolean,
   isAdvancedApi: boolean,
+  isPublicUser: boolean,
 ) => {
+  if (isPublicUser) {
+    return publicUserBannerContent;
+  }
+
   if (isAdvancedApi) {
     return hasPremium
       ? premiumUserBannerContentAdvancedApi

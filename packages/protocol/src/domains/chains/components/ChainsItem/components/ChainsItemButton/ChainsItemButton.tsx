@@ -3,15 +3,15 @@ import { Chain } from 'domains/chains/types';
 import { useChainsItemButtonStyles } from './useChainsItemButtonStyles';
 
 interface IChainsItemButtonProps {
-  publicChain: Chain;
+  chain: Chain;
 }
 
-export const ChainsItemButton = ({ publicChain }: IChainsItemButtonProps) => {
+export const ChainsItemButton = ({ chain }: IChainsItemButtonProps) => {
   const { classes } = useChainsItemButtonStyles();
 
   return (
     <AddNetworkButton
-      publicChain={publicChain}
+      chain={chain}
       size="medium"
       className={classes.buttonAddNetwork}
     />
