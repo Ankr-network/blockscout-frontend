@@ -1,4 +1,5 @@
 import { EmailConfirmationStatus, Web3Address } from '../common';
+import { Timeframe } from '../public';
 
 export interface AccountError {
   code: AccountErrorCode;
@@ -195,11 +196,16 @@ export interface PrivateStats {
   totalRequests?: number;
 }
 
-export type FreeRegisteredUserRequest = Record<string, number>;
-export type FreeRegisteredUserRequests = Record<
+export type UserRequest = Record<string, number>;
+export type UserRequestsResponse = Record<
   string,
-  FreeRegisteredUserRequest
+  UserRequest
 >;
+
+export type IApiGetUserRequestsParams = {
+  timeframe: Timeframe,
+  userToken: string,
+}
 
 export type BlockchainID = string;
 export type PrivateStatsInternal = Partial<Record<BlockchainID, PrivateStat>>;

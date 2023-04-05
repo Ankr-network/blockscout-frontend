@@ -60,10 +60,12 @@ export const useUpgradePlanBannerContentStyles = makeStyles<boolean>()(
     },
     yourPlanBadge: {
       background: theme.palette.background.paper,
-      padding: theme.spacing(0.8, 2.5),
-      borderRadius: theme.shape.borderRadius,
+      padding: theme.spacing(0.75, 1.875),
+      borderRadius: 8,
       whiteSpace: 'nowrap',
       marginLeft: theme.spacing(2),
+      fontSize: 12,
+      lineHeight: '16.2px',
       fontWeight: 500,
     },
     planDescription: {

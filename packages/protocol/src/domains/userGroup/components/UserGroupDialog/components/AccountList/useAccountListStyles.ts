@@ -15,8 +15,8 @@ export const useAccountsListStyles = makeStyles()((theme: Theme) => ({
       gridTemplateColumns: `calc(100% - ${theme.spacing(1)})`,
     },
   },
-  personalAvatar: {
-    color: theme.palette.background.paper,
-    fontSize: 32,
+  avatar: {
+    width: 48,
+    height: 48,
   },
 }));

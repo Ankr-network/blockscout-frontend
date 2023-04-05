@@ -3,11 +3,11 @@ import { t } from '@ankr.com/common';
 import { Switcher } from 'modules/common/components/Switcher';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { intlFailedRequestsBannerRoot } from '../Tooltip';
-import { useHeaderStyles } from './useHeaderStyles';
+import { useHeaderStyles } from '../../../RequestsBannerContainer/components/Header/useHeaderStyles';
 
 interface IFailedRequestsHeaderProps {
   switchValue: string;
-  total: string;
+  total?: string;
   rate: string;
   rejectedRequestsCount: string;
 }

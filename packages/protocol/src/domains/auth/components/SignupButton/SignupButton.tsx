@@ -1,10 +1,10 @@
 import { Box, Button, MenuItem, Typography } from '@mui/material';
+import { Google, WalletIcon, Logout } from '@ankr.com/ui';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
-import { Google, WalletIcon, Logout } from '@ankr.com/ui';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useSignupButtonStyles } from './useSignupButtonStyles';
 import { shrinkEmailAddress } from './SignupButtonUtils';
@@ -50,7 +50,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
     return <UnconnectedButton variant="contained" onSuccess={handleClose} />;
   }
 
-  let buttonContent = (
+  let desktopButtonContent = (
     <>
       {!isMobile && (
         <WalletIcon icon={walletMeta?.icon} className={classes.walletIcon} />
@@ -58,17 +58,25 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
       {shrinkAddress(address)}
     </>
   );
+  let mobileButtonContent = (
+    <WalletIcon
+      className={classes.mobileButtonContent}
+      icon={walletMeta?.icon}
+    />
+  );
 
   let top;
   let bottom;
 
   if (hasOauthLogin && !hasWeb3Connection) {
-    buttonContent = (
+    desktopButtonContent = (
       <>
         {!isMobile && <Google className={classes.walletIcon} />}
         {shrinkEmailAddress(email)}
       </>
     );
+
+    mobileButtonContent = <Google className={classes.mobileButtonContent} />;
 
     top = (
       <MenuItem disabled={loading} className={classes.top}>
@@ -159,6 +167,16 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
   }
 
   if (hasOauthLogin && hasWeb3Connection) {
+    mobileButtonContent = (
+      <>
+        <WalletIcon
+          className={classes.mobileButtonContent}
+          icon={walletMeta?.icon}
+        />
+        <Google className={classes.walletIconSmall} />
+      </>
+    );
+
     top = (
       <MenuItem disabled={loading} className={classes.top}>
         <Box className={classes.email}>
@@ -210,7 +228,10 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
         disabled={loading}
         onClick={handleOpen}
       >
-        {buttonContent}
+        <div className={classes.desktopButtonContent}>
+          {desktopButtonContent}
+        </div>
+        {mobileButtonContent}
       </Button>
       <SignupMenu
         isOpened={open}

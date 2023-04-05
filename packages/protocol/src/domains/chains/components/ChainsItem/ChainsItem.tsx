@@ -32,7 +32,7 @@ export const ChainsItem = ({
           />
         }
         chainsItemButton={
-          publicChain && <ChainsItemButton publicChain={publicChain} />
+          publicChain && <ChainsItemButton chain={publicChain} />
         }
       />
       <SignupDialog isOpen={isOpened} onClose={onClose} hasOauthLogin />

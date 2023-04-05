@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { useCallback } from 'react';
-import { Avatar as PersonalIcon } from '@ankr.com/ui';
 import { UserGroup } from 'multirpc-sdk';
 
 import { AccountItem } from '../AccountItem';
+import { Avatar } from 'domains/userGroup/components/Avatar';
+import { PersonalIcon } from 'domains/userGroup/components/PersonalIcon';
+import { getAvatarColor } from 'domains/userGroup/utils/getAvatarColor';
 import { useAccountsListStyles } from './useAccountListStyles';
-import { AVATAR_COLORS } from './AccountListUtils';
-import { Avatar } from '../Avatar';
 
 interface AccountListProps {
   selectedGroupAddress?: string;
@@ -36,11 +36,10 @@ export const AccountList = ({
           isSelected={selectedGroupAddress === groupAddress}
         >
           <Avatar
+            className={classes.avatar}
+            avatarColor={getAvatarColor(index)}
+            icon={index === 0 ? <PersonalIcon /> : undefined}
             name={groupName}
-            avatarColor={AVATAR_COLORS[index]}
-            icon={
-              index === 0 && <PersonalIcon className={classes.personalAvatar} />
-            }
           />
         </AccountItem>
       ))}

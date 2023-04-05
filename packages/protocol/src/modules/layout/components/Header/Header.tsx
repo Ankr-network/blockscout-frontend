@@ -6,6 +6,9 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { SignupButton } from 'domains/auth/components/SignupButton';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
+import { UserGroupSelector } from 'domains/userGroup/components/UserGroupSelector';
+import { selectHasUserGroups } from 'domains/userGroup/store/userGroupSlice';
+import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useStyles } from './useStyles';
 
@@ -18,6 +21,8 @@ export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
   const { classes, cx } = useStyles();
   const { hasWeb3Connection, isLoggedIn } = useAuth();
 
+  const hasUserGroups = useAppSelector(selectHasUserGroups);
+
   return (
     <header className={cx(classes.root, className)}>
       <Container className={classes.container}>
@@ -29,6 +34,7 @@ export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
               <UserGroupDialog />
               <SignupButton />
               {hasWeb3Connection && <ThemeSwitcher />}
+              {hasUserGroups && <UserGroupSelector />}
             </div>
           </NoReactSnap>
         </div>

@@ -1,34 +1,16 @@
 import { tHTML } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-import { useTooltipStyles } from './useTooltipStyles';
+import { ITooltipProps } from '../../../RequestsChart';
+import { useTooltipStyles } from '../../../RequestsBannerContainer/components/Tooltip/useTooltipStyles';
 
 export const intlFailedRequestsBannerRoot = 'failed-requests-banner';
-
-export interface IErrorItemPaylod {
-  name: string;
-  total: number;
-  rejectedRequestsCount: number;
-}
-
-export interface ITooltipPayload {
-  color: string;
-  name: string;
-  value: number;
-  payload: IErrorItemPaylod;
-}
-
-interface ITooltipProps {
-  active?: boolean;
-  payload?: ITooltipPayload[];
-  label?: string;
-}
 
 export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
   const { classes } = useTooltipStyles();
 
   if (!(active && payload?.length && label)) return null;
 
-  const { total, rejectedRequestsCount, name } = payload[0]?.payload;
+  const { total, rejectedRequestsCount, name } = payload[0]?.payload ?? {};
 
   return (
     <div className={classes.root}>

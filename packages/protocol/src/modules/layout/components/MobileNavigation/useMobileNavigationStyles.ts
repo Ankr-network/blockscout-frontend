@@ -25,7 +25,7 @@ export const useMobileNavigationStyles = makeStyles<void, 'custom'>()(
         '& svg:nth-of-type(2)': {
           display: 'none',
         },
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
           display: 'flex',
         },
       },
