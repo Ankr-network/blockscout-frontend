@@ -2,7 +2,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { Button } from '@mui/material';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
-import { useNoticeStyles } from '../../../FailedRequestsBanner/Components/Notice/useNoticeStyles';
+import { useNoticeStyles } from './useNoticeStyles';
 
 export const Notice = () => {
   const { classes } = useNoticeStyles(true);

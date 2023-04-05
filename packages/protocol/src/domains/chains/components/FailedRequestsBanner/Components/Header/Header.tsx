@@ -7,7 +7,7 @@ import { useHeaderStyles } from '../../../RequestsBannerContainer/components/Hea
 
 interface IFailedRequestsHeaderProps {
   switchValue: string;
-  total: string;
+  total?: string;
   rate: string;
   rejectedRequestsCount: string;
 }

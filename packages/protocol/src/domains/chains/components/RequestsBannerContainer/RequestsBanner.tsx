@@ -1,33 +1,29 @@
 import { Timeframe } from 'domains/chains/types';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
 import { useFailedRequestsBannerStyles as useRequestsBannerStyles } from '../FailedRequestsBanner/useFailedRequestsBannerStyles';
-import { Tab } from 'modules/common/hooks/useTabs';
 import { Notice } from './components/Notice';
 import { Header } from './components/Header';
 import { RequestsChartWrapper } from './components/RequestsChartWrapper';
+import { valuesMap } from '../TimeframeSwitcher/const';
 
 interface IRequestsBannerProps {
   timeframe: Timeframe;
-  timeframeTabs: Tab<Timeframe>[];
   data: IRequestsBannerResponse;
+  total?: string;
 }
 
 export const RequestsBanner = ({
   timeframe,
-  timeframeTabs,
   data,
+  total,
 }: IRequestsBannerProps) => {
   const { classes } = useRequestsBannerStyles();
 
-  const { successRequestsCount, list } = data;
+  const { list } = data;
 
   return (
     <div className={classes.root}>
-      <Header
-        timeframe={timeframe}
-        timeframeTabs={timeframeTabs}
-        total={successRequestsCount}
-      />
+      <Header timeframeValue={valuesMap[timeframe]} total={total} />
       <div className={classes.container}>
         <div className={classes.chart}>
           <RequestsChartWrapper data={list} />

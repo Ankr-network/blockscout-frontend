@@ -5,14 +5,12 @@ import { Timeframe } from 'domains/chains/types';
 
 export interface IInformationProps {
   timeframe: Timeframe;
-  switchTimeframe: () => void;
   totalRequests: string;
   timeframeClassName: string;
 }
 
 export const Information = ({
   timeframe,
-  switchTimeframe,
   totalRequests,
   timeframeClassName,
 }: IInformationProps) => {
@@ -25,11 +23,7 @@ export const Information = ({
       {t('chains.req', {
         value: totalRequests,
       })}{' '}
-      <TimeframeSwitcher
-        timeframe={timeframe}
-        onSwitch={switchTimeframe}
-        className={timeframeClassName}
-      />
+      <TimeframeSwitcher timeframe={timeframe} className={timeframeClassName} />
     </>
   );
 };

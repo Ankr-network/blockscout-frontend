@@ -17,7 +17,7 @@ export const FailedRequestsBanner = ({
 }: IFailedRequestsBannerProps) => {
   const { classes } = useFailedRequestsBannerStyles();
 
-  const { total, rate, rejectedRequestsCount, list } = data;
+  const { rate, total, rejectedRequestsCount, list } = data;
 
   return (
     <div className={classes.root}>

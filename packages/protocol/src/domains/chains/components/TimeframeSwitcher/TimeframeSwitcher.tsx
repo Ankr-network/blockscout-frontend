@@ -3,7 +3,7 @@ import { Timeframe } from 'domains/chains/types';
 import { valuesMap } from './const';
 
 export interface TimeframeSwitcherProps {
-  onSwitch: () => void;
+  onSwitch?: () => void;
   timeframe: Timeframe;
   className?: string;
 }

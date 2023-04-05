@@ -15,7 +15,6 @@ export const PublicChains = () => {
     setSortType,
     sortType,
     timeframe,
-    switchStatsTimeframe,
     searchContent,
     setSearchContent,
   } = usePublicChainsData();
@@ -44,12 +43,7 @@ export const PublicChains = () => {
       <NoReactSnap
         fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        <ChainsList
-          timeframe={timeframe}
-          chains={processedChains}
-          switchTimeframe={switchStatsTimeframe}
-          isPublic
-        />
+        <ChainsList timeframe={timeframe} chains={processedChains} isPublic />
       </NoReactSnap>
     </BaseChains>
   );

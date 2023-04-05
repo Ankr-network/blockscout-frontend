@@ -12,10 +12,9 @@ export const PrivateChains = () => {
     loading,
     setSortType,
     sortType,
-    switchStatsTimeframe,
-    timeframe,
     searchContent,
     setSearchContent,
+    timeframe,
   } = usePrivateChainsData();
 
   const { processedChains } = usePrivateChains({
@@ -27,12 +26,7 @@ export const PrivateChains = () => {
 
   return (
     <BaseChains
-      top={
-        <PrivateChainsTop
-          timeframe={timeframe}
-          switchStatsTimeframe={switchStatsTimeframe}
-        />
-      }
+      top={<PrivateChainsTop timeframe={timeframe} />}
       loading={loading}
       shouldShowReminderDialog
       baseChainsHeader={
@@ -47,7 +41,6 @@ export const PrivateChains = () => {
       <ChainsList
         timeframe={timeframe}
         chains={processedChains}
-        switchTimeframe={switchStatsTimeframe}
         isPublic={false}
       />
     </BaseChains>

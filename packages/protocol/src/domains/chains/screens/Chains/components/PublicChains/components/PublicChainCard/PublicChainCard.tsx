@@ -8,7 +8,6 @@ import { ComingSoonChainCard } from '../../../ComingSoonChainCard';
 export interface IChainCardProps {
   chain: Chain;
   timeframe: Timeframe;
-  switchTimeframe: () => void;
 }
 
 export const PublicChainCard = ({

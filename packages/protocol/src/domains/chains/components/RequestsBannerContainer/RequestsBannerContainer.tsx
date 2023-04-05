@@ -1,12 +1,19 @@
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
-import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
 import { useRequestsBanner } from '../../hooks/useRequestsBanner';
 import { DEFAULT_EMPTY_DATA } from './const';
 import { RequestsBanner } from './RequestsBanner';
+import { Timeframe } from 'domains/chains/types';
 
-export const RequestsBannerContainer = () => {
-  const { timeframe, timeframeTabs } = useTimeframe();
+interface IRequestsBannerContainerProps {
+  total?: string;
+  timeframe: Timeframe;
+}
+
+export const RequestsBannerContainer = ({
+  total,
+  timeframe,
+}: IRequestsBannerContainerProps) => {
   const { userRequestsState } = useRequestsBanner(timeframe);
 
   return (
@@ -18,11 +25,7 @@ export const RequestsBannerContainer = () => {
         if (isError) return null;
 
         return (
-          <RequestsBanner
-            timeframe={timeframe}
-            timeframeTabs={timeframeTabs}
-            data={data}
-          />
+          <RequestsBanner timeframe={timeframe} data={data} total={total} />
         );
       }}
     </Queries>
