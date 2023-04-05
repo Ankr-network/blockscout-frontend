@@ -4,6 +4,7 @@ import { useRequestsBanner } from '../../hooks/useRequestsBanner';
 import { DEFAULT_EMPTY_DATA } from './const';
 import { RequestsBanner } from './RequestsBanner';
 import { Timeframe } from 'domains/chains/types';
+import { FailedRequestsBannerSkeleton } from '../FailedRequestsBanner/FailedRequestsBannerSkeleton';
 
 interface IRequestsBannerContainerProps {
   total?: string;
@@ -20,6 +21,7 @@ export const RequestsBannerContainer = ({
     <Queries<IRequestsBannerResponse>
       disableErrorRender
       queryStates={[userRequestsState]}
+      spinner={<FailedRequestsBannerSkeleton />}
     >
       {({ data = DEFAULT_EMPTY_DATA, isError }) => {
         if (isError) return null;
