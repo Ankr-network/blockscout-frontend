@@ -6,13 +6,14 @@ import { GradientedText } from 'modules/common/components/GradientedText';
 import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { usePremiumOnlyChainCardStyles } from './PremiumOnlyChainCardStyles';
-
-const buttonText = t('chains.premium-only');
+import { useLocaleMemo } from '../../../../../../modules/i18n/utils/useLocaleMemo';
 
 export const PremiumOnlyChainCard = (props: IBaseChainCardProps) => {
   const { isOpened, onOpen, onClose } = useDialog();
 
   const { classes, theme } = usePremiumOnlyChainCardStyles();
+
+  const buttonText = useLocaleMemo(() => t('chains.premium-only'), []);
 
   return (
     <>

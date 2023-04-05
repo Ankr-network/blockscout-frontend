@@ -1,14 +1,13 @@
 import { ChainsItemBase } from 'domains/chains/components/ChainsItemBase';
 import { ChainsItemQueryProps } from 'domains/chains/components/ChainsItem';
-import { MetamaskChainsItemLink } from './MetamaskChainsItemLink';
+import { ChainItemLink } from './ChainItemLink';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
 import { usePublicChainsItem } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicChainCard/hooks/usePublicChainsItem';
 
-export const MetamaskChainsItem = ({
+export const ChainItem = ({
   chain,
   chainId,
   timeframe,
-  publicChain,
   ...props
 }: ChainsItemQueryProps) => {
   const { totalRequests, loading } = usePublicChainsItem({
@@ -29,9 +28,7 @@ export const MetamaskChainsItem = ({
       chain={chain}
       totalRequests={totalRequestsStr}
       isLoading={loading}
-      chainsItemLink={
-        <MetamaskChainsItemLink publicChain={publicChain} urls={urls} />
-      }
+      chainsItemLink={<ChainItemLink chain={chain} urls={urls} />}
     />
   );
 };

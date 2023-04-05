@@ -66,7 +66,7 @@ export const getFlattenChain = (
   return { flatChainId, flatChain };
 };
 
-export const getMetamaskNetwork = (
+export const getNetworkConfiguration = (
   publicChain: IApiChain,
   chainType?: ChainType,
   group?: EndpointGroup,

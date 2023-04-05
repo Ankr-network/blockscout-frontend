@@ -68,7 +68,6 @@ export const ChainItemHeaderContent = ({
           chainType={chainType}
           group={group}
           isChainArchived={isChainArchived}
-          publicChain={publicChain}
         />
       )}
       {(withChainTypeSelector || withGroupSelector) && (

@@ -7,7 +7,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { useAddNetworkButton } from './useAddNetworkButton';
 
 interface IAddNetworkProps {
-  publicChain: Chain;
+  chain: Chain;
   chainType?: ChainType;
   group?: EndpointGroup;
   className?: string;
@@ -17,7 +17,7 @@ interface IAddNetworkProps {
 }
 
 export const AddNetworkButton = ({
-  publicChain,
+  chain,
   chainType,
   group,
   className,
@@ -26,7 +26,7 @@ export const AddNetworkButton = ({
   size,
 }: IAddNetworkProps) => {
   const { handleButtonClick, loading } = useAddNetworkButton({
-    publicChain: publicChain as IApiChain,
+    chain: chain as IApiChain,
     chainType,
     group,
   });
