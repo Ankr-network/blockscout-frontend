@@ -1,13 +1,22 @@
-import { ChainsListProps } from 'domains/chains/components/ChainsList/ChainsListTypes';
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
-import { MetamaskChainsItem } from '../MetamaskChainsItem';
+import { ChainItem } from '../ChainItem';
+import { Chain, Timeframe } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
-export const MetamaskChainsList = ({
+interface ChainsListProps {
+  timeframe: Timeframe;
+  chains: Chain[];
+  chainsDictionary: Partial<Record<ChainID, Chain>>;
+  hasPremium?: boolean;
+}
+
+export const ChainsList = ({
   timeframe,
   chains,
   chainsDictionary,
+  hasPremium,
 }: ChainsListProps) => {
   const { classes } = useChainListStyles();
 
@@ -22,7 +31,7 @@ export const MetamaskChainsList = ({
 
         return (
           <div className={classes.wrapper} key={id}>
-            <MetamaskChainsItem
+            <ChainItem
               chain={item}
               links={urls}
               name={name}
@@ -30,6 +39,7 @@ export const MetamaskChainsList = ({
               publicChain={chainsDictionary[id]}
               timeframe={timeframe}
               chainId={id}
+              hasPremiumDialog={item.premiumOnly && !hasPremium}
             />
           </div>
         );

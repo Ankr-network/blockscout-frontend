@@ -1,12 +1,16 @@
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { BaseChains } from 'domains/chains/components/BaseChains';
-import { usePublicChainsData } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChainsData';
-import { usePublicChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChains';
-import { MetamaskChainsList } from '../MetamaskChainsList';
-import { useMetamaskChains } from './MetamaskChainsUtils';
+import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
+import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
+import { usePrivateChains } from '../../../../../chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
+import { usePrivateChainsData } from '../../../../../chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
 
-export const MetamaskChains = () => {
+interface IPrivateChainsProps {
+  hasPremium: boolean;
+}
+
+export const PrivateChains = ({ hasPremium }: IPrivateChainsProps) => {
   const {
     chains,
     allChains,
@@ -16,17 +20,16 @@ export const MetamaskChains = () => {
     timeframe,
     searchContent,
     setSearchContent,
-  } = usePublicChainsData();
+  } = usePrivateChainsData();
 
-  const { processedChains, chainsDictionary } = usePublicChains({
+  const { processedChains, chainsDictionary } = usePrivateChains({
     allChains,
     chains,
     sortType,
-    timeframe,
     searchContent,
   });
 
-  const metamaskChains = useMetamaskChains(processedChains);
+  const networksConfigurations = useNetworksConfigurations(processedChains);
 
   return (
     <BaseChains
@@ -41,10 +44,11 @@ export const MetamaskChains = () => {
       }
     >
       <NoReactSnap>
-        <MetamaskChainsList
+        <ChainsList
           timeframe={timeframe}
-          chains={metamaskChains}
+          chains={networksConfigurations}
           chainsDictionary={chainsDictionary}
+          hasPremium={hasPremium}
         />
       </NoReactSnap>
     </BaseChains>
