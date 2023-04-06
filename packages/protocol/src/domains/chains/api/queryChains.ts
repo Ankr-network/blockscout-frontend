@@ -17,6 +17,7 @@ export interface IApiChainURL {
 export interface IApiChain {
   coinName: IBlockchainEntity['coinName'];
   chainExtends?: IBlockchainEntity['extends'];
+  beacons?: IApiChain[];
   extenders?: IApiChain[];
   extensions?: IApiChain[];
   frontChain?: Partial<IApiChain>;
@@ -88,10 +89,25 @@ export const filterMapChains = (
     {},
   );
 
+  const beacons = chains.reduce<Record<string, IApiChain[]>>(
+    (result, chain) => {
+      const { chainExtends, type } = chain;
+
+      if (type === BlockchainType.Beacon && chainExtends) {
+        result[chainExtends] = result[chainExtends]
+          ? [...result[chainExtends], chain]
+          : [chain];
+      }
+
+      return result;
+    },
+    {},
+  );
+
   const extendedChains = chains.reduce<IApiChain[]>((result, chain) => {
     const { id, type } = chain;
 
-    if (type !== BlockchainType.Extension) {
+    if (type !== BlockchainType.Extension && type !== BlockchainType.Beacon) {
       const evmExtension = (extensions[id] || []).find(extension =>
         extension.id.includes('evm'),
       );
@@ -106,6 +122,7 @@ export const filterMapChains = (
               ),
             ]
           : extensions[id],
+        beacons: beacons[id],
       });
     }
 

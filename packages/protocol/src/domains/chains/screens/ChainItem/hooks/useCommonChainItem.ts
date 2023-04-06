@@ -19,7 +19,7 @@ export const useCommonChainItem = ({
   const name = useMemo(() => getChainName(chainId), [chainId]);
   const endpoints = useGroupedEndpoints(chain);
   const netId = useNetId();
-  const publicEndpoints = useGroupedEndpoints(publicChain);
+  const publicEndpoints = useGroupedEndpoints(chain);
 
   return {
     chain: processChain(chain),
