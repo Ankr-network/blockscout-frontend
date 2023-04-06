@@ -52,7 +52,7 @@ export const ChainItemHeaderContent = ({
   isMultiChain,
   selectGroup,
 }: ChainItemHeaderContentProps) => {
-  const { hasBeacon } = useBeaconContext();
+  const { beaconGroup, hasBeacon } = useBeaconContext();
 
   const shouldOnlyShowMobileSelector = useMemo(
     () => chainsWithMobileOnlySelector.has(chain.id),
@@ -82,7 +82,7 @@ export const ChainItemHeaderContent = ({
           isChainArchived={isChainArchived}
         />
       )}
-      {(withChainTypeSelector || withGroupSelector) && (
+      {(withChainTypeSelector || withGroupSelector || Boolean(beaconGroup)) && (
         <div className={classes.controls}>
           <SecondaryTabs
             selectedTab={chainTypeTab}
