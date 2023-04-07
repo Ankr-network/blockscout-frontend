@@ -10,6 +10,7 @@ import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { ChainID } from 'modules/chains/types';
 
 interface InfrastructureSectionParams {
   chain: IApiChain;
@@ -27,7 +28,8 @@ export const useInfrastructureSection = ({
   const { hasPrivateAccess } = useAuth();
 
   const isNotCustomizedChain = chain.type !== BlockchainType.Customized;
-  const isVisible = hasPrivateAccess || isNotCustomizedChain;
+  const isVisible =
+    hasPrivateAccess || isNotCustomizedChain || chain.id === ChainID.MULTICHAIN;
 
   return useMemo(
     (): Tab<SectionID> | undefined =>
