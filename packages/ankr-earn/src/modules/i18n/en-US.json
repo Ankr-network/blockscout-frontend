@@ -1348,7 +1348,7 @@
       "history": "History"
     },
     "staking": {
-      "lock-info": "mGNO will remain locked and illiquid until ~Q4 2023.<br/>This is due to Gnosis plans to enable withdrawals with the upcoming Ethereum Shanghai upgrade. Shanghai is planned in 6–12 months from The Merge that is expected in ~Q3/Q4 2022.",
+      "lock-info": "mGNO will remain locked and illiquid till after April 12.<br/>This is due to Gnosis plans to enable withdrawals after the Ethereum Shanghai upgrade. However, Gnosis hasn’t announced the exact date and time yet. We’ll update you when Gnosis decides on it.",
       "slashing-protection": "New slashing protection",
       "slashing-protection-tooltip": "Validator can make a deposit that protects their and your stake slashing. The protection level of this validator is dynamically calculated by the ratio of the total amount of all delegated stakes to the size of the insurance pool."
     },
