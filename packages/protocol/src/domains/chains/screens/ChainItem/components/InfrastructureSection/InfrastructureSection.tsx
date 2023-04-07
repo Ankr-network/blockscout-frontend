@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
+import { ChainType } from 'domains/chains/types';
 import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointQuery } from '../Endpoint/EndpointQuery';
@@ -7,7 +8,9 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { SecuritySettingsQuery } from '../Endpoint/SecuritySettingsQuery';
 import { TrafficFlow } from '../Endpoint/components/TrafficFlow';
 import { canAddEndpoint } from '../Endpoint/EndpointUtils';
+import { getStatsChainId } from '../ChainItemSections/utils/getStatsChainId';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
 import { useInfrastructureSectionStyles } from './InfrastructureSectionStyles';
 import { useLazyInfrastructureFetchEndpointsQuery } from 'domains/infrastructure/actions/fetchEndpoints';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
@@ -15,6 +18,7 @@ import { ChainNodesLocations } from '../ChainNodesLocations';
 
 export interface InfrastructureSectionProps {
   chain: IApiChain;
+  chainType: ChainType;
   group: EndpointGroup;
   withMyEndpoints?: boolean;
   withNodes?: boolean;
@@ -24,11 +28,20 @@ const HAS_NODES_TABLE = false;
 
 export const InfrastructureSection = ({
   chain,
+  chainType,
   group,
   withMyEndpoints = true,
   withNodes = true,
 }: InfrastructureSectionProps) => {
   const [fetchEndpoints] = useLazyInfrastructureFetchEndpointsQuery();
+  const { hasBeacon } = useBeaconContext();
+
+  const chainId = getStatsChainId({
+    publicChain: chain,
+    chainType,
+    group,
+    hasBeacon,
+  });
 
   const { classes } = useInfrastructureSectionStyles();
 
@@ -42,7 +55,6 @@ export const InfrastructureSection = ({
     isLoading: providerLoading,
     handleFetchProvider,
   } = useProvider();
-  const { chains } = group;
 
   useEffect(() => {
     if (hasInfrastructureAccess) {
@@ -51,8 +63,6 @@ export const InfrastructureSection = ({
       });
     }
   }, [handleFetchProvider, fetchEndpoints, hasInfrastructureAccess]);
-
-  const chainId = useMemo(() => chains[0]?.id, [chains]);
 
   return (
     <div>
@@ -65,7 +75,7 @@ export const InfrastructureSection = ({
           {!authLoading && !providerLoading && workerTokenData && (
             <>
               {workerTokenData && Boolean(providerData) && withMyEndpoints && (
-                <EndpointQuery chainId={chain.id} />
+                <EndpointQuery chainId={chainId} />
               )}
 
               {workerTokenData && workerTokenData?.userEndpointToken && (

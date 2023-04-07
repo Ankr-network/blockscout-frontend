@@ -18,6 +18,7 @@ export interface EndpointsProps {
   publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
+  hasBeacon: boolean;
 }
 
 const title = t(`${root}.endpoints.websocket-title`);
@@ -43,10 +44,11 @@ export const Endpoints = ({
   publicChain,
   chainType,
   group,
+  hasBeacon,
 }: EndpointsProps) => {
   const { classes } = useEndpointsStyles();
 
-  const { hasConnectWalletMessage, hasPremium } = useAuth();
+  const { hasConnectWalletMessage, hasPremium, hasPrivateAccess } = useAuth();
 
   const onCopyEndpoint = useCopyEndpointHandler(chainType);
 
@@ -70,8 +72,10 @@ export const Endpoints = ({
         <>
           <RPCEndpoints
             group={group}
+            hasBeacon={hasBeacon}
             hasConnectWalletMessage={hasConnectWalletMessage}
             hasPremium={hasPremium}
+            hasPrivateAccess={hasPrivateAccess}
             onCopyEndpoint={onCopyEndpoint}
             publicChain={publicChain}
           />

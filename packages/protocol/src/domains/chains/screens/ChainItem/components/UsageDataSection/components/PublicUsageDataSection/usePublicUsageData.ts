@@ -4,7 +4,7 @@ import { ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { checkPublicSecretChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
-import { getChainId } from '../../utils/getChainId';
+import { getChainId } from '../../../ChainItemSections/utils/getChainId';
 import { usePublicStats } from './usePublicStats';
 
 export interface UsageDataParams {

@@ -7,14 +7,15 @@ import {
   checkPrivateSecretChainsAndGetChainId,
   timeframeToIntervalMap,
 } from '../../const';
-import { getChainId } from '../../utils/getChainId';
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
+import { getStatsChainId } from '../../../ChainItemSections/utils/getStatsChainId';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { ChainID } from 'modules/chains/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
 
 export interface UsageDataParams {
   chain: IApiChain;
@@ -51,10 +52,13 @@ export const usePrivateUsageData = ({
 }: UsageDataParams): UsageData => {
   const { loading: isConnecting } = useAuth();
 
-  const chainId = getChainId({
+  const { hasBeacon } = useBeaconContext();
+
+  const chainId = getStatsChainId({
+    publicChain: chain,
     chainType,
     group,
-    publicChain: chain,
+    hasBeacon,
   });
 
   const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);

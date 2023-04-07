@@ -6,6 +6,7 @@ import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
 export interface HasRequestComposerParams {
   chainId: ChainID;
   group: EndpointGroup;
+  hasBeacon: boolean;
 }
 
 const isAvalancheChain = (id: ChainGroupID) =>
@@ -16,10 +17,12 @@ const isAvalancheChain = (id: ChainGroupID) =>
 export const hasRequestComposer = ({
   chainId,
   group,
+  hasBeacon,
 }: HasRequestComposerParams) =>
-  chainId === ChainID.MULTICHAIN ||
-  chainId === ChainID.TRON ||
-  chainId === ChainID.NEAR ||
-  isGroupEvmBased(group) ||
-  isAvalancheChain(group.id) ||
-  isGroupSolanaBased(group);
+  (chainId === ChainID.MULTICHAIN ||
+    chainId === ChainID.TRON ||
+    chainId === ChainID.NEAR ||
+    isGroupEvmBased(group) ||
+    isAvalancheChain(group.id) ||
+    isGroupSolanaBased(group)) &&
+  !hasBeacon;
