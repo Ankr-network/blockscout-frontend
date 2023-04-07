@@ -2,7 +2,11 @@ import { getUniqueId } from '@ankr.com/common';
 
 import { AvailableReadProviders } from '@ankr.com/provider';
 
-import { FTM_NETWORK_BY_ENV, isMainnet } from 'modules/common/const';
+import {
+  ETH_DECIMALS,
+  FTM_NETWORK_BY_ENV,
+  isMainnet,
+} from 'modules/common/const';
 import { Days } from 'modules/common/types';
 import { Token } from 'modules/common/types/token';
 import { UNSTAKE_DAY_INTERVALS_BY_TOKEN } from 'modules/stake/const';
@@ -22,6 +26,8 @@ export const FANTOM_STAKING_NETWORKS = [FTM_NETWORK_BY_ENV];
 export const FANTOM_UNSTAKE_PERIOD: Days = Number(
   UNSTAKE_DAY_INTERVALS_BY_TOKEN[Token.FTM],
 );
+
+export const FANTOM_SCALE_FACTOR = 10 ** ETH_DECIMALS;
 
 export const CacheTags = {
   common: `stake-ftm-${getUniqueId()}`,

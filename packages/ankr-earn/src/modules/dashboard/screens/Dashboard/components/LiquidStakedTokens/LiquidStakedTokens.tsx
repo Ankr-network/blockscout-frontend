@@ -8,6 +8,8 @@ import { StakedTokensTitle } from 'modules/dashboard/components/StakedTokensTitl
 
 import { useLiquidStakedTokens } from '../../hooks/liquid-tokens/useLiquidStakedTokens';
 import { BridgedAETHCBSC } from '../BridgedAETHCBSC';
+import { BridgedAnkrETHAVAX } from '../BridgedAnkrETHAVAX';
+import { BridgedAnkrETHFTM } from '../BridgedAnkrETHFTM';
 import { BridgedEthBond } from '../BridgedEthBond';
 import { BridgedMaticBond } from '../BridgedMaticBond';
 import { BridgedMaticBondBSC } from '../BridgedMaticBondBSC';
@@ -70,6 +72,8 @@ export const LiquidStakedTokens = (
     isBridgedMaticBondPolygonShowed,
     isBridgedMaticBondBscShowed,
     isBridgedMaticCertBscShowed,
+    isBridgedEthAvaxShowed,
+    isBridgedEthFtmShowed,
     isStakedTokensLoading: isAtLeaseOneLoading,
   } = useLiquidStakedTokens();
 
@@ -135,6 +139,10 @@ export const LiquidStakedTokens = (
         {isBridgedEthBondBscShowed && <BridgedEthBond />}
 
         {isBridgedEthCertBscShowed && <BridgedAETHCBSC />}
+
+        {isBridgedEthAvaxShowed && <BridgedAnkrETHAVAX />}
+
+        {isBridgedEthFtmShowed && <BridgedAnkrETHFTM />}
 
         {isAtLeaseOneLoading && <DashboardCardSkeleton />}
       </AssetsList>
