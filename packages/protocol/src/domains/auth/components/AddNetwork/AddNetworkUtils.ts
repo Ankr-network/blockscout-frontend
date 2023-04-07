@@ -7,8 +7,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { PrefixedHex } from 'multirpc-sdk';
 import { IChainParams } from '../../actions/addNetwork';
 import { NETWORK_INFO_MAP } from './const';
-// TODO
-import { getChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/utils/getChainId';
+import { getChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getChainId';
 import { getChainById } from 'domains/chains/screens/ChainItem/components/Endpoint/EndpointUtils';
 
 const toHex = (num: number): PrefixedHex => {

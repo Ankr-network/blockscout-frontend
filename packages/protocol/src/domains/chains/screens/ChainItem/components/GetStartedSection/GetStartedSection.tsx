@@ -9,6 +9,7 @@ import { UpgradeBanner } from './components/UpgradeBanner';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 import { removeWsUrlIfUserIsNotPremium } from './GetStartedSectionUtils';
+import { useBeaconContext } from '../../hooks/useBeaconContext';
 
 export interface GetStartedSectionProps {
   chainId: string;
@@ -26,6 +27,7 @@ export const GetStartedSection = ({
   hasPremium,
 }: GetStartedSectionProps) => {
   const isMultiChain = chainId === ChainID.MULTICHAIN;
+  const { hasBeacon } = useBeaconContext();
 
   const { classes } = useGetStartedSectionStyles();
 
@@ -40,13 +42,17 @@ export const GetStartedSection = ({
       {isMultiChain && <MultiChainBenefits />}
       {hasUpgradeBanner && !isMultiChain && <UpgradeBanner />}
 
-      {isEvmBased && <ConnectionSnippet group={codeSnippetGroup} />}
-      <RequestComposer
-        group={group}
-        publicUrl={publicUrl}
-        chainId={chainId}
-        className={classes.requestComposer}
-      />
+      {!hasBeacon && isEvmBased && (
+        <ConnectionSnippet group={codeSnippetGroup} />
+      )}
+      {!hasBeacon && (
+        <RequestComposer
+          group={group}
+          publicUrl={publicUrl}
+          chainId={chainId}
+          className={classes.requestComposer}
+        />
+      )}
     </div>
   );
 };

@@ -67,6 +67,7 @@ export const useSections = ({
 
   const infrastructureSection = useInfrastructureSection({
     chain,
+    chainType,
     getSelectHandler,
     group,
   });
