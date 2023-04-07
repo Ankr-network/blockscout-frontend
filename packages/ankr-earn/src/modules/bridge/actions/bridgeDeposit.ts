@@ -28,7 +28,6 @@ export const { useBridgeDepositMutation } = web3Api.injectEndpoints({
         async ({ amount, token, fromChainId, toChainId }) => {
           const sdk = await BridgeSDK.getInstance();
           const fromToken = getTokenAddr(token, fromChainId);
-
           return { data: await sdk.deposit(amount, fromToken, toChainId) };
         },
       ),

@@ -11,6 +11,8 @@ import {
 import { iconByTokenMap, TIcon } from 'modules/common/icons';
 import { Token } from 'modules/common/types/token';
 import { fetchAETHBBridged } from 'modules/dashboard/actions/fetchAETHBBridged';
+import { useFetchAETHBBridgedAVAXQuery } from 'modules/dashboard/actions/fetchAETHBBridgedAVAX';
+import { useFetchAETHBBridgedFTMQuery } from 'modules/dashboard/actions/fetchAETHBBridgedFTM';
 import { fetchAETHCBridged } from 'modules/dashboard/actions/fetchAETHCBridged';
 import { fetchAMATICBBridgedBSC } from 'modules/dashboard/actions/fetchAMATICBBridgedBSC';
 import { fetchAMATICCBridgedBSC } from 'modules/dashboard/actions/fetchAMATICCBridgedBSC';
@@ -138,6 +140,16 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       type: fetchAETHCBridged,
     });
 
+  const {
+    data: aETHbBridgeAVAXBalance,
+    isLoading: isETHbBridgeAVAXBalanceLoading,
+  } = useFetchAETHBBridgedAVAXQuery();
+
+  const {
+    data: aETHbBridgeFTMBalance,
+    isLoading: isETHbBridgeFTMBalanceLoading,
+  } = useFetchAETHBBridgedFTMQuery();
+
   const { data: ankrData, isFetching: isLoadingAnkrData } =
     useGetTotalInfoQuery();
 
@@ -208,6 +220,8 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
         amount: (ethData?.aETHbBalance ?? ZERO)
           .plus(ethClaimableData?.claimableAETHB ?? ZERO)
           .plus(aETHbBridgeBalance ?? ZERO)
+          .plus(aETHbBridgeFTMBalance ?? ZERO)
+          .plus(aETHbBridgeAVAXBalance ?? ZERO)
           .plus(
             getTokenNativeAmount(
               ethData?.aETHcBalance ?? ZERO,
@@ -279,25 +293,39 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
 
     return data;
   }, [
-    metrics,
-    avaxData,
-    ftmData,
+    maticEthData?.aMATICbBalance,
+    maticEthData?.aMATICcBalance,
+    maticEthData?.aMATICcRatio,
     aMATICbBridgeBscBalance,
+    maticPolygonBalances?.maticBondBalance,
+    maticPolygonBalances?.maticCertBalance,
     aMATICcBridgeBscBalance,
+    metrics,
+    avaxData?.aAVAXbBalance,
+    avaxData?.aAVAXcBalance,
+    avaxData?.aAVAXcRatio,
+    bnbData?.aBNBbBalance,
+    bnbData?.aBNBcBalance,
+    bnbData?.aBNBcRatio,
+    ethData?.aETHbBalance,
+    ethData?.aETHcBalance,
+    ethData?.aETHcRatio,
+    ethClaimableData?.claimableAETHB,
+    aETHbBridgeBalance,
+    aETHbBridgeFTMBalance,
+    aETHbBridgeAVAXBalance,
+    aETHcBridgeBalance,
+    ftmData?.aFTMbBalance,
+    ftmData?.aFTMcBalance,
+    ftmData?.aFTMcRatio,
     aDOTbBalance,
     aKSMbBalance,
     aWNDbBalance,
-    maticEthData,
-    aETHbBridgeBalance,
-    aETHcBridgeBalance,
-    bnbData,
-    ethData,
-    ethClaimableData,
-    ankrData,
-    maticPolygonBalances,
+    ankrData?.totalDelegatedAmount,
     maxMgnoApr,
-    mgnoData,
-    xdcData,
+    mgnoData?.myTotalDelegatedAmount,
+    xdcData?.ankrXDCBalance,
+    xdcData?.ankrXDCRatio,
   ]);
 
   const usdAmounts = stakedData.map(item => {
@@ -384,6 +412,8 @@ export const usePortfolioStakedData = (): IUsePortfolioData => {
       isDotBalanceLoading ||
       isKsmBalanceLoading ||
       isWndBalanceLoading ||
+      isETHbBridgeFTMBalanceLoading ||
+      isETHbBridgeAVAXBalanceLoading ||
       isETHbBridgeBalanceLoading ||
       isETHcBridgeBalanceLoading ||
       isLoadingAnkrData ||
