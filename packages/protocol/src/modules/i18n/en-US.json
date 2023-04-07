@@ -331,7 +331,8 @@
         "solana-api": "Solana API{plural}",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
-      }
+      },
+      "beacon-label": "Beacon"
     },
     "about-tron": {
       "about": "The new TronGrid REST API provides user-friendly read APIs with significantly reduced latency, improved consistency, improved availability, and added partition tolerance.",

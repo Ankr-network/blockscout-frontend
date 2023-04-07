@@ -5,11 +5,5 @@ import { chainGroups } from '../constants/groups';
 import { GroupedEndpoints } from '../types';
 import { getGroupedEndpoints } from '../utils/getGroupedEndpoints';
 
-export const useGroupedEndpoints = (chain: IApiChain): GroupedEndpoints => {
-  const endpoints = useMemo(
-    () => getGroupedEndpoints(chain, chainGroups),
-    [chain],
-  );
-
-  return endpoints;
-};
+export const useGroupedEndpoints = (chain: IApiChain): GroupedEndpoints =>
+  useMemo(() => getGroupedEndpoints({ chain, groups: chainGroups }), [chain]);

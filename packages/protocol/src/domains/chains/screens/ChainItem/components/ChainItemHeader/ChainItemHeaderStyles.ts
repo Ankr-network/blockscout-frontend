@@ -17,13 +17,14 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
     controls: {
       display: 'flex',
       gap: theme.spacing(2 * 1.5),
-      alignItems: 'flex-start',
+      alignItems: shouldOnlyShowMobileSelector ? 'flex-start' : 'center',
       marginTop: theme.spacing(8),
 
       flexDirection: shouldOnlyShowMobileSelector ? 'column' : undefined,
 
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
+        alignItems: 'flex-start',
         gap: theme.spacing(2 * 3.75),
       },
     },
@@ -38,11 +39,6 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
     },
     rootMobileGroupSelector: {
       '&&': {
-        marginBottom: theme.spacing(8),
-      },
-    },
-    mobileGroupSelector: {
-      '&&': {
         display: shouldOnlyShowMobileSelector ? 'flex' : 'none',
 
         [theme.breakpoints.down('sm')]: {
@@ -56,6 +52,8 @@ export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
       alignContent: 'center',
       justifyContent: 'center',
       gap: theme.spacing(7.5),
+
+      marginTop: theme.spacing(8),
 
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',

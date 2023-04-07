@@ -1,18 +1,21 @@
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { Endpoint, EndpointProps } from '../Endpoint';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { ChainID } from 'modules/chains/types';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { IApiChain } from 'domains/chains/api/queryChains';
+import { Placeholder } from './components/Placeholder';
 import { root } from '../../const';
 import { useRPCEndpointsStyles } from './RPCEndpointsStyles';
-import { useMemo } from 'react';
 
 export interface RPCEndpointsProps {
   group: EndpointGroup;
+  hasBeacon: boolean;
   hasConnectWalletMessage: boolean;
   hasPremium: boolean;
+  hasPrivateAccess: boolean;
   onCopyEndpoint: EndpointProps['onCopy'];
   publicChain: IApiChain;
 }
@@ -21,8 +24,10 @@ const header = `${root}.endpoints.title`;
 
 export const RPCEndpoints = ({
   group,
+  hasBeacon,
   hasConnectWalletMessage,
   hasPremium,
+  hasPrivateAccess,
   onCopyEndpoint,
   publicChain,
 }: RPCEndpointsProps) => {
@@ -40,9 +45,17 @@ export const RPCEndpoints = ({
 
   const { classes } = useRPCEndpointsStyles();
 
+  const endpointsHeader = (
+    <EndpointsHeader hasPremium={hasPremium} title={title} />
+  );
+
+  if (!hasPrivateAccess && hasBeacon) {
+    return <Placeholder title={endpointsHeader} />;
+  }
+
   return (
     <div className={classes.rpcEndpoints}>
-      <EndpointsHeader hasPremium={hasPremium} title={title} />
+      {endpointsHeader}
       {rpcs.map(url => (
         <Endpoint
           hasConnectWalletMessage={hasConnectWalletMessage}
