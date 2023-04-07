@@ -38,6 +38,8 @@ interface IUseLiquidStakedTokens {
   isStakedXDCCertShowed: boolean;
   isBridgedEthCertBscShowed: boolean;
   isBridgedEthBondBscShowed: boolean;
+  isBridgedEthFtmShowed: boolean;
+  isBridgedEthAvaxShowed: boolean;
   isBridgedMaticBondPolygonShowed: boolean;
   isBridgedMaticBondBscShowed: boolean;
   isBridgedMaticCertBscShowed: boolean;
@@ -63,7 +65,11 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
 
   const {
     isBridgedEthBondBSCLoading,
+    isBridgedEthAVAXLoading,
+    isBridgedEthFTMLoading,
     isBridgedEthBondBscShowed,
+    isBridgedEthAvaxShowed,
+    isBridgedEthFtmShowed,
     isBridgedEthCertBSCLoading,
     isBridgedEthCertBscShowed,
   } = useBridgedETH(isSmallBalancesVisible);
@@ -139,6 +145,8 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isUnclaimedWndBondLoading ||
     isBridgedEthBondBSCLoading ||
     isSuiCommonLoading ||
+    isBridgedEthAVAXLoading ||
+    isBridgedEthFTMLoading ||
     isXDCDataLoading;
 
   const liquidAssetsState = {
@@ -171,6 +179,8 @@ export const useLiquidStakedTokens = (): IUseLiquidStakedTokens => {
     isStakedMaticCertPolygonShowed,
     isBridgedMaticBondBscShowed,
     isBridgedMaticCertBscShowed,
+    isBridgedEthAvaxShowed,
+    isBridgedEthFtmShowed,
   };
 
   const isLiquidAssetsShowed = Object.keys(liquidAssetsState).reduce(

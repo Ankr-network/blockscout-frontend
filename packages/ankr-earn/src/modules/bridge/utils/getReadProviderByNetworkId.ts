@@ -18,6 +18,14 @@ export const getReadProviderByNetworkId = (
       return AvailableReadProviders.polygon;
     case SupportedChainIDS.POLYGON_MUMBAI_TESTNET:
       return AvailableReadProviders.mumbai;
+    case SupportedChainIDS.AVAX:
+      return AvailableReadProviders.avalancheChain;
+    case SupportedChainIDS.AVAX_TESTNET:
+      return AvailableReadProviders.avalancheChainTest;
+    case SupportedChainIDS.FANTOM_OPERA:
+      return AvailableReadProviders.ftmOpera;
+    case SupportedChainIDS.FANTOM_TESTNET:
+      return AvailableReadProviders.ftmTestnet;
     default:
       throw new Error('Unsupported network');
   }

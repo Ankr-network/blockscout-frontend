@@ -3,8 +3,10 @@ import { t } from '@ankr.com/common';
 import { currentEnv, SupportedChainIDS } from 'modules/common/const';
 import { Env } from 'modules/common/types';
 import { useLocaleMemo } from 'modules/i18n/hooks/useLocaleMemo';
+import { AvaxIcon } from 'uiKit/Icons/AvaxIcon';
 import { BSCIcon } from 'uiKit/Icons/BSCIcon';
 import { EthIcon } from 'uiKit/Icons/EthIcon';
+import { FantomIcon } from 'uiKit/Icons/FantomIcon';
 import { MaticIcon } from 'uiKit/Icons/MaticIcon';
 
 import { AvailableBridgeTokens, IBridgeBlockchainPanelItem } from '../types';
@@ -40,6 +42,16 @@ export const useBlockchainPanelOptions = (): Record<
           icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
           value: SupportedChainIDS.POLYGON,
         };
+        const avaxNet = {
+          label: t(`chain.${SupportedChainIDS.AVAX}`),
+          icon: <AvaxIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.AVAX,
+        };
+        const ftmNet = {
+          label: t(`chain.${SupportedChainIDS.FANTOM_OPERA}`),
+          icon: <FantomIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.FANTOM_OPERA,
+        };
         return {
           [AvailableBridgeTokens.aMATICb]: {
             from: [mainNet, polygonNet, bscNet],
@@ -54,8 +66,8 @@ export const useBlockchainPanelOptions = (): Record<
             to: [mainNet],
           },
           [AvailableBridgeTokens.aETHc]: {
-            from: [mainNet, bscNet],
-            to: [mainNet, bscNet],
+            from: [mainNet, bscNet, avaxNet, ftmNet],
+            to: [mainNet, bscNet, avaxNet, ftmNet],
           },
         };
       }
@@ -77,6 +89,16 @@ export const useBlockchainPanelOptions = (): Record<
           icon: <MaticIcon {...DEFAULT_ICON_PROPS} />,
           value: SupportedChainIDS.POLYGON_MUMBAI_TESTNET,
         };
+        const avaxNet = {
+          label: t(`chain.${SupportedChainIDS.AVAX}`),
+          icon: <AvaxIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.AVAX_TESTNET,
+        };
+        const ftmNet = {
+          label: t(`chain.${SupportedChainIDS.FANTOM_TESTNET}`),
+          icon: <FantomIcon {...DEFAULT_ICON_PROPS} />,
+          value: SupportedChainIDS.FANTOM_TESTNET,
+        };
         return {
           [AvailableBridgeTokens.aMATICb]: {
             from: [goerliNet, polygonNet, bscNet],
@@ -91,8 +113,8 @@ export const useBlockchainPanelOptions = (): Record<
             to: [goerliNet],
           },
           [AvailableBridgeTokens.aETHc]: {
-            from: [bscNet, goerliNet],
-            to: [bscNet, goerliNet],
+            from: [goerliNet, bscNet, avaxNet, ftmNet],
+            to: [goerliNet, bscNet, avaxNet, ftmNet],
           },
         };
       }

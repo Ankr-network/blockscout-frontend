@@ -13,7 +13,6 @@ export const {
       queryFn: queryFnNotifyWrapper<string, never, BigNumber>(
         async tokenAddress => {
           const sdk = await BridgeSDK.getInstance();
-
           const result = await sdk.getAllowance(tokenAddress);
 
           return { data: result };

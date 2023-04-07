@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { getExtendedErrorText } from 'modules/api/utils/getExtendedErrorText';
 import { queryFnNotifyWrapper, web3Api } from 'modules/api/web3Api';
-import { ACTION_CACHE_SEC } from 'modules/common/const';
+import { ACTION_CACHE_SEC, WalletCacheTags } from 'modules/common/const';
 
 import { CacheTags } from '../const';
 import { getFantomSDK } from '../utils/getFantomSDK';
@@ -60,7 +60,7 @@ export const { useGetFTMCommonDataQuery } = web3Api.injectEndpoints({
           getExtendedErrorText(error, t('stake-fantom.errors.common-data')),
       ),
       keepUnusedDataFor: ACTION_CACHE_SEC,
-      providesTags: [CacheTags.common],
+      providesTags: [CacheTags.common, WalletCacheTags.account],
     }),
   }),
 });
