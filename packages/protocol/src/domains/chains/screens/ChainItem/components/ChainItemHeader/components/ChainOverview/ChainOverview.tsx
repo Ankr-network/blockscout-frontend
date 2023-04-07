@@ -16,7 +16,6 @@ export interface ChainOverviewProps {
   chainType: ChainType;
   group: EndpointGroup;
   isChainArchived: boolean;
-  publicChain: IApiChain;
 }
 
 export const ChainOverview = ({
@@ -24,7 +23,6 @@ export const ChainOverview = ({
   chainType,
   group,
   isChainArchived,
-  publicChain,
 }: ChainOverviewProps) => {
   const { classes } = useChainOverviewStyles();
   const { id } = chain;
@@ -41,13 +39,13 @@ export const ChainOverview = ({
         </div>
         <div className={classes.right}>
           <ChainDocsLink chain={chain} />
-          {publicChain && (
+          {chain && (
             <AddNetworkButton
               chainType={chainType}
               className={classes.addNetworkButton}
               group={group}
               label={<MetamaskButtonLabel />}
-              publicChain={publicChain}
+              chain={chain}
             />
           )}
         </div>

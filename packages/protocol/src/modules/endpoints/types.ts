@@ -40,6 +40,7 @@ export interface EndpointGroup {
   urls: IApiChainURL[];
   urlsCount: number;
   chains: IApiChain[];
+  beacons?: EndpointGroup[];
 }
 
 export interface GroupedEndpoints {

@@ -1,5 +1,5 @@
 import { Timeframe } from 'domains/chains/types';
-import { IFailedRequestsBannerResponse } from 'domains/chains/utils/failedRequestsBannerUtils';
+import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
 import { valuesMap } from '../TimeframeSwitcher/const';
 import { FailedRequestsChart } from './Components/FailedRequestsChart';
 import { Header } from './Components/Header';
@@ -8,7 +8,7 @@ import { useFailedRequestsBannerStyles } from './useFailedRequestsBannerStyles';
 
 interface IFailedRequestsBannerProps {
   timeframe: Timeframe;
-  data: IFailedRequestsBannerResponse;
+  data: IRequestsBannerResponse;
 }
 
 export const FailedRequestsBanner = ({
@@ -17,7 +17,7 @@ export const FailedRequestsBanner = ({
 }: IFailedRequestsBannerProps) => {
   const { classes } = useFailedRequestsBannerStyles();
 
-  const { total, rate, rejectedRequestsCount, list } = data;
+  const { rate, total, rejectedRequestsCount, list } = data;
 
   return (
     <div className={classes.root}>

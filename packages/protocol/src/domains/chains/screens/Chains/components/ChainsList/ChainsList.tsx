@@ -7,7 +7,6 @@ import { PublicChainCard } from '../PublicChains/components/PublicChainCard';
 export interface IChainsListProps {
   timeframe: Timeframe;
   chains: Chain[];
-  switchTimeframe: () => void;
   isPublic: boolean;
 }
 
