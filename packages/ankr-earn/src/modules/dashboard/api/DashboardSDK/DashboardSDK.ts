@@ -11,6 +11,7 @@ import { ZERO } from 'modules/common/const';
 import { Token } from 'modules/common/types/token';
 
 import {
+  avaxTokenConfig,
   bscTokenConfig,
   EMPTY_CONTRACT_DATA,
   ethereumTokenConfig,
@@ -105,6 +106,10 @@ export class DashboardSDK {
       case EEthereumNetworkId.fantomTestnet: {
         return fantomTokenConfig[token] || EMPTY_CONTRACT_DATA;
       }
+
+      case EEthereumNetworkId.avalanche:
+      case EEthereumNetworkId.avalancheTestnet:
+        return avaxTokenConfig[token] || EMPTY_CONTRACT_DATA;
 
       default: {
         return EMPTY_CONTRACT_DATA;

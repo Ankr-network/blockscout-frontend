@@ -11,6 +11,7 @@ import {
 
 import { configFromEnv } from 'modules/api/config';
 import {
+  AVAX_PROVIDER_BY_ENV,
   BSC_PROVIDER_BY_ENV,
   ETH_PROVIDER_BY_ENV,
   FTM_PROVIDER_BY_ENV,
@@ -100,5 +101,18 @@ export const fantomTokenConfig: TNetworkTokenConfig = {
     abi: AFTMC_ABI,
     address: config.fantomConfig.aftmcToken,
     providerName: FTM_PROVIDER_BY_ENV,
+  },
+  [Token.aETHb]: {
+    abi: AETHB_ABI,
+    address: config.fantomConfig.ankrETHToken,
+    providerName: FTM_PROVIDER_BY_ENV,
+  },
+};
+
+export const avaxTokenConfig: TNetworkTokenConfig = {
+  [Token.aETHb]: {
+    abi: AETHB_ABI,
+    address: config.avalancheConfig.ankrETHToken,
+    providerName: AVAX_PROVIDER_BY_ENV,
   },
 };
