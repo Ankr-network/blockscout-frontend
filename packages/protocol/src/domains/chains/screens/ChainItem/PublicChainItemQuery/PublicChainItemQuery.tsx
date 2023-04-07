@@ -6,6 +6,7 @@ import { useStyles } from '../ChainItemStyles';
 import { PublicChainItem } from './components/PublicChainItem';
 import { usePublicChainItemQuery } from './PublicChainItemQueryUtils';
 import { ChainItemProps } from '../ChainItemTypes';
+import { PremiumOnlyChainGuard } from '../components/PremiumOnlyChainGuard';
 
 export const PublicChainItemQuery = ({ chainId, loading }: ChainItemProps) => {
   const { classes } = useStyles();
@@ -13,23 +14,25 @@ export const PublicChainItemQuery = ({ chainId, loading }: ChainItemProps) => {
   const fetchChainState = usePublicChainItemQuery(chainId, loading);
 
   return (
-    <div className={classes.root}>
-      <Queries<IChainItemDetails>
-        isPreloadDisabled
-        queryStates={[fetchChainState]}
-      >
-        {({ data, isLoading, isUninitialized }) => {
-          if ((isLoading && isUninitialized) || !data) {
-            return (
-              <ChainItemSkeleton
-                withCodeSample={chainId === ChainID.MULTICHAIN}
-              />
-            );
-          }
+    <PremiumOnlyChainGuard chain={fetchChainState.data?.chain}>
+      <div className={classes.root}>
+        <Queries<IChainItemDetails>
+          isPreloadDisabled
+          queryStates={[fetchChainState]}
+        >
+          {({ data, isLoading, isUninitialized }) => {
+            if ((isLoading && isUninitialized) || !data) {
+              return (
+                <ChainItemSkeleton
+                  withCodeSample={chainId === ChainID.MULTICHAIN}
+                />
+              );
+            }
 
-          return <PublicChainItem data={data} />;
-        }}
-      </Queries>
-    </div>
+            return <PublicChainItem data={data} />;
+          }}
+        </Queries>
+      </div>
+    </PremiumOnlyChainGuard>
   );
 };

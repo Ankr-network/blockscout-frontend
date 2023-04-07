@@ -38,6 +38,8 @@ export const useStyles = makeStyles<void, 'icon'>()(
 
     icon: {
       transition: 'color .3s',
+      width: 24,
+      height: 24,
     },
   }),
 );
