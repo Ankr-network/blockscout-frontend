@@ -62,8 +62,8 @@ export const useBlockchainPanelOptions = (): Record<
             to: [mainNet, bscNet, polygonNet],
           },
           [AvailableBridgeTokens.aETHb]: {
-            from: [mainNet],
-            to: [bscNet],
+            from: [bscNet],
+            to: [mainNet],
           },
           [AvailableBridgeTokens.aETHc]: {
             from: [mainNet, bscNet, avaxNet, ftmNet],
@@ -109,8 +109,8 @@ export const useBlockchainPanelOptions = (): Record<
             to: [polygonNet, bscNet, goerliNet],
           },
           [AvailableBridgeTokens.aETHb]: {
-            from: [goerliNet],
-            to: [bscNet],
+            from: [bscNet],
+            to: [goerliNet],
           },
           [AvailableBridgeTokens.aETHc]: {
             from: [goerliNet, bscNet, avaxNet, ftmNet],
