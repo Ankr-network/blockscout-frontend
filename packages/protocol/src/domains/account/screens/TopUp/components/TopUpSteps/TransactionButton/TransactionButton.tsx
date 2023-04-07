@@ -31,7 +31,6 @@ export const TransactionButton = ({
         href={getExplorerLink(transactionHash)}
         className={classes.link}
         tabIndex={0}
-        size="small"
         startIcon={<ExternalLink className={classes.icon} />}
       />
     </Box>

@@ -23,7 +23,9 @@ export const TopUpSteps = ({
   transactionHash,
   walletMeta,
 }: ITopUpStepsProps) => {
-  const { classes } = useStyles();
+  const isWalletConnect = walletMeta?.id === 'walletconnect';
+
+  const { classes } = useStyles(isWalletConnect);
 
   return (
     <Container className={classes.root}>

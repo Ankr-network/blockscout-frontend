@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles()((theme: Theme) => ({
+export const useStyles = makeStyles<boolean>()((theme, isWalletConnect) => ({
   root: {
     minHeight: '100%',
     display: 'flex',
@@ -39,7 +38,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
 
     '& .icon': {
       verticalAlign: 'middle',
-      width: 32,
+      width: isWalletConnect ? undefined : 32,
       height: 40,
     },
 
