@@ -25,6 +25,11 @@ export const useGroupItemStyles = makeStyles<boolean>()(
 
         fontWeight: 600,
       },
+
+      '&:hover': {
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.grey[100],
+      },
     },
     startIcon: {
       '&&': {
