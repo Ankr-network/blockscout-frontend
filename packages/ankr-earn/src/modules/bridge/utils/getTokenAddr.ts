@@ -26,6 +26,20 @@ const polygonTokenAddressesMap = {
   [AvailableBridgeTokens.aETHc]: ZERO_ADDR,
 };
 
+const avalancheTokenAddressesMap = {
+  [AvailableBridgeTokens.aMATICb]: ZERO_ADDR,
+  [AvailableBridgeTokens.aMATICc]: ZERO_ADDR,
+  [AvailableBridgeTokens.aETHb]: ZERO_ADDR,
+  [AvailableBridgeTokens.aETHc]: config.avalancheConfig.ankrETHToken,
+};
+
+const fantomTokenAddressesMap = {
+  [AvailableBridgeTokens.aMATICb]: ZERO_ADDR,
+  [AvailableBridgeTokens.aMATICc]: ZERO_ADDR,
+  [AvailableBridgeTokens.aETHb]: ZERO_ADDR,
+  [AvailableBridgeTokens.aETHc]: config.fantomConfig.ankrETHToken,
+};
+
 export const getTokenAddr = (
   token: AvailableBridgeTokens,
   networkId: SupportedChainIDS,
@@ -38,6 +52,14 @@ export const getTokenAddr = (
     case SupportedChainIDS.POLYGON_MUMBAI_TESTNET:
     case SupportedChainIDS.POLYGON:
       return polygonTokenAddressesMap[token];
+
+    case SupportedChainIDS.AVAX:
+    case SupportedChainIDS.AVAX_TESTNET:
+      return avalancheTokenAddressesMap[token];
+
+    case SupportedChainIDS.FANTOM_OPERA:
+    case SupportedChainIDS.FANTOM_TESTNET:
+      return fantomTokenAddressesMap[token];
 
     default:
       return ethTokenAddressesMap[token];

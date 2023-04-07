@@ -2,6 +2,8 @@ import { useQuery } from '@redux-requests/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import { ZERO } from 'modules/common/const';
+import { useFetchAETHBBridgedAVAXQuery } from 'modules/dashboard/actions/fetchAETHBBridgedAVAX';
+import { useFetchAETHBBridgedFTMQuery } from 'modules/dashboard/actions/fetchAETHBBridgedFTM';
 import { useGetAnkrPriceQuery } from 'modules/stake-ankr/actions/getANKRPrice';
 import { useGetMaxApyQuery } from 'modules/stake-ankr/actions/getMaxApy';
 import { useGetTotalInfoQuery } from 'modules/stake-ankr/actions/getTotalInfo';
@@ -54,6 +56,14 @@ jest.mock('modules/stake-eth/actions/getCommonData', () => ({
 
 jest.mock('modules/stake-xdc/actions/getDashboardData', () => ({
   useGetXdcDashboardDataQuery: jest.fn(),
+}));
+
+jest.mock('modules/dashboard/actions/fetchAETHBBridgedFTM', () => ({
+  useFetchAETHBBridgedFTMQuery: jest.fn(),
+}));
+
+jest.mock('modules/dashboard/actions/fetchAETHBBridgedAVAX', () => ({
+  useFetchAETHBBridgedAVAXQuery: jest.fn(),
 }));
 
 jest.mock(
@@ -115,6 +125,14 @@ describe('modules/dashboard/screens/Dashboard/components/MyPortfolio/usePortfoli
       data: undefined,
     });
     (useGetMaticOnEthStatsQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useFetchAETHBBridgedAVAXQuery as jest.Mock).mockReturnValue({
+      isFetching: false,
+      data: undefined,
+    });
+    (useFetchAETHBBridgedFTMQuery as jest.Mock).mockReturnValue({
       isFetching: false,
       data: undefined,
     });

@@ -39,9 +39,11 @@ export interface IContractConfig {
 }
 
 export interface IAvalancheConfig {
+  bridge: string;
   avalanchePool: string;
   aAVAXb: string;
   aAVAXc: string;
+  ankrETHToken: string;
 }
 
 export interface IBinanceConfig {
@@ -58,10 +60,12 @@ export interface IBinanceConfig {
 }
 
 export interface IFantomConfig {
+  bridge: string;
   fantomPool: string;
   aftmbToken: string;
   aftmcToken: string;
   ftmToken: string;
+  ankrETHToken: string;
 }
 
 interface IPolkadotConfig {
@@ -141,6 +145,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
     aAVAXb: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
     aAVAXc: '0x22f70fE6C3949cDcA413A6D441D7972255440660',
+    ankrETHToken: '0x6b135755a8f540ed6b86404842e7467018a9a57a',
+    bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
   },
   binanceConfig: {
     aBNBbToken: '0xab56897fe4e9f0757e02b54c27e81b9ddd6a30ae',
@@ -159,6 +165,8 @@ const LOCAL_CONFIG: IStkrConfig = {
     aftmbToken: '0x65Bc73117C1c8A1E421858650dDA32dcc50B8eE6',
     aftmcToken: '0x5DA48feC18C1EE2C36308E1e2D569668a0Cd8Edd',
     ftmToken: ZERO_ADDR,
+    ankrETHToken: '0x6b135755a8f540ed6b86404842e7467018a9a57a',
+    bridge: '0x840bCaEcb232b9F3a04F641458B49FD768C6e3aE',
   },
   polkadotConfig: {
     aDOTbToken: null,
@@ -237,6 +245,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
     aAVAXb: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
     aAVAXc: '0xc3344870d52688874b06d844e0c36cc39fc727f6',
+    ankrETHToken: '0x12d8ce035c5de3ce39b1fdd4c1d5a745eaba3b8c',
+    bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',
   },
   binanceConfig: {
     aBNBbToken: '0xfe39985D7eFF914c50A06bA0cFfcCA8361e00C0e',
@@ -255,6 +265,8 @@ const MAINNET_CONFIG: IStkrConfig = {
     aftmbToken: '0xB42bF10ab9Df82f9a47B86dd76EEE4bA848d0Fa2',
     aftmcToken: '0xCfC785741Dc0e98ad4c9F6394Bb9d43Cd1eF5179',
     ftmToken: ZERO_ADDR,
+    ankrETHToken: '0x12d8ce035c5de3ce39b1fdd4c1d5a745eaba3b8c',
+    bridge: '0x31BE0FA706E391a88C3A09cC13112bd55E0887f5',
   },
   polkadotConfig: {
     aDOTbToken: '0x5cc56c266143f29a5054b9ae07f3ac3513a7965e',

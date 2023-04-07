@@ -2,7 +2,6 @@ import { t } from '@ankr.com/common';
 
 export const OStakingType = {
   all: 'all',
-  liquidityPool: 'liquidityPool',
   stablePool: 'stablePool',
   volatilePool: 'volatilePool',
   farming: 'farming',
@@ -23,10 +22,6 @@ export const useStakingTypes = (): StakingTypeOption[] => [
     label: t('defi.all-types'),
     value: OStakingType.all,
     separate: true,
-  },
-  {
-    label: t('defi.liquidity-pool'),
-    value: OStakingType.liquidityPool,
   },
   {
     label: t('defi.stable-pool'),

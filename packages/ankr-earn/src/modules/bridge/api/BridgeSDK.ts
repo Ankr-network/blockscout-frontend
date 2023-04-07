@@ -20,6 +20,8 @@ import {
 } from 'modules/common/const';
 import { convertNumberToHex } from 'modules/common/utils/numbers/converters';
 import { convertFromWei } from 'modules/common/utils/numbers/convertFromWei';
+import { AVAX_SCALE_FACTOR } from 'modules/stake-avax/const';
+import { FANTOM_SCALE_FACTOR } from 'modules/stake-fantom/const';
 
 import { configFromEnv } from '../../api/config';
 import { AvailableBridgeTokens } from '../types';
@@ -140,6 +142,12 @@ export class BridgeSDK {
       case SupportedChainIDS.POLYGON:
       case SupportedChainIDS.POLYGON_MUMBAI_TESTNET:
         return MATIC_SCALE_FACTOR;
+      case SupportedChainIDS.AVAX:
+      case SupportedChainIDS.AVAX_TESTNET:
+        return AVAX_SCALE_FACTOR;
+      case SupportedChainIDS.FANTOM_OPERA:
+      case SupportedChainIDS.FANTOM_TESTNET:
+        return FANTOM_SCALE_FACTOR;
       default:
         throw new Error('Unsupported chain');
     }
