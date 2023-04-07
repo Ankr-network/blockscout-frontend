@@ -5,7 +5,7 @@ import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePublicChains } from './hooks/usePublicChains';
 import { usePublicChainsData } from './hooks/usePublicChainsData';
 import { ChainsList } from '../ChainsList';
-import { PublicBanner } from './components/PublicBanner';
+import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 
 export const PublicChains = () => {
   const {
@@ -15,7 +15,6 @@ export const PublicChains = () => {
     setSortType,
     sortType,
     timeframe,
-    switchStatsTimeframe,
     searchContent,
     setSearchContent,
   } = usePublicChainsData();
@@ -31,7 +30,7 @@ export const PublicChains = () => {
   return (
     <BaseChains
       loading={loading}
-      top={<PublicBanner />}
+      top={<UpgradePlanBanner isPublicUser />}
       baseChainsHeader={
         <BaseChainsHeader
           sortType={sortType}
@@ -44,12 +43,7 @@ export const PublicChains = () => {
       <NoReactSnap
         fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        <ChainsList
-          timeframe={timeframe}
-          chains={processedChains}
-          switchTimeframe={switchStatsTimeframe}
-          isPublic
-        />
+        <ChainsList timeframe={timeframe} chains={processedChains} isPublic />
       </NoReactSnap>
     </BaseChains>
   );

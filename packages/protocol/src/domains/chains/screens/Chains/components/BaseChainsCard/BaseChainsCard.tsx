@@ -15,7 +15,6 @@ export interface IBaseChainCardProps {
   chain: Chain;
   className?: string;
   onClick?: () => void;
-  switchTimeframe: () => void;
   totalRequests: string;
   loading: boolean;
   badge?: ReactNode;
@@ -28,7 +27,6 @@ export const BaseChainsCard = ({
   className,
   onClick,
   timeframe,
-  switchTimeframe,
   totalRequests,
   loading,
   badge,
@@ -65,7 +63,6 @@ export const BaseChainsCard = ({
           ) : (
             <Information
               timeframe={timeframe}
-              switchTimeframe={switchTimeframe}
               totalRequests={totalRequests}
               timeframeClassName={classes.timeSwitcher}
             />

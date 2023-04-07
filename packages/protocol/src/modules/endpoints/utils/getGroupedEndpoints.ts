@@ -63,6 +63,22 @@ const getEndpointGroups = (
       targetEndpointGroup.urls.push(...urls);
       targetEndpointGroup.urlsCount += urlsCount;
       targetEndpointGroup.chainName = chain.name;
+
+      if (chain_.beacons) {
+        targetEndpointGroup.beacons = chain_.beacons.map(beacon => {
+          const beaconUrls = flatChainUrls(beacon);
+
+          return {
+            chainName: beacon.name,
+            chains: [beacon],
+            id: targetEndpointGroup.id,
+            name: targetEndpointGroup.name,
+            pluralName: beacon.name,
+            urls: beaconUrls,
+            urlsCount: getUrlsCount(beaconUrls),
+          };
+        });
+      }
     } else if (fallbackEndpointGroup) {
       fallbackEndpointGroup.chains.push(chain_);
       fallbackEndpointGroup.urls.push(...urls);
@@ -83,8 +99,8 @@ interface GetGroupParams {
   nets?: IApiChain[];
 }
 
-const getGroups = ({ groups, fallback, nets }: GetGroupParams) => {
-  const endpointGroup = (nets || []).flatMap(net =>
+const getGroups = ({ fallback, groups, nets = [] }: GetGroupParams) => {
+  const endpointGroup = nets.flatMap(net =>
     getEndpointGroups(net, groups, fallback),
   );
 
@@ -102,10 +118,15 @@ const getFallback = (chain: IApiChain) => {
   return getFallbackEndpointGroup(chainName);
 };
 
-export const getGroupedEndpoints = (
-  chain: IApiChain,
-  groups: ChainGroup[],
-): GroupedEndpoints => {
+export interface GetGrouppedEndpointsParams {
+  chain: IApiChain;
+  groups: ChainGroup[];
+}
+
+export const getGroupedEndpoints = ({
+  chain,
+  groups,
+}: GetGrouppedEndpointsParams): GroupedEndpoints => {
   const mainnetGroups = getGroups({
     groups,
     fallback: getFallback(chain),

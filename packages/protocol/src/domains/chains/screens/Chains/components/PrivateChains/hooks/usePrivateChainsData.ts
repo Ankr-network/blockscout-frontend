@@ -3,16 +3,16 @@ import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToInte
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { usePrivateChainsInfo } from './usePrivateChainsInfo';
 import { useSortType } from '../../../hooks/useSortType';
-import { useTimeframe } from '../../../hooks/useTimeframe';
 import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
+import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
+import { Timeframe } from 'domains/chains/types';
 
 export const usePrivateChainsData = () => {
-  const { loading: isConnecting, isLoggedIn, hasWeb3Connection } = useAuth();
+  const { timeframe, timeframeTabs } = useTimeframe(Timeframe.Month);
+  const { loading: isConnecting, hasWeb3Connection } = useAuth();
 
   const [privateChains, privateAllChains, privateChainsLoading] =
     usePrivateChainsInfo(hasWeb3Connection);
-
-  const [timeframe, switchStatsTimeframe] = useTimeframe(isLoggedIn);
 
   usePrivateStats({
     interval: timeframeToIntervalMap[timeframe],
@@ -28,8 +28,8 @@ export const usePrivateChainsData = () => {
     loading: isConnecting || privateChainsLoading,
     setSortType,
     sortType,
-    switchStatsTimeframe,
     timeframe,
+    timeframeTabs,
     searchContent,
     setSearchContent,
   };

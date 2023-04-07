@@ -62,7 +62,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.BSC_TESTNET_CHAPEL]: {
     chainId: 97, // * the only BSC testnet
-    chainName: 'BSC testnet',
+    chainName: 'BSC Testnet',
     nativeCurrency: {
       name: 'Smart Chain - Testnet',
       symbol: 'BNB',
@@ -121,9 +121,9 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.FANTOM_TESTNET]: {
     chainId: 4002, // * 0xfa2
-    chainName: 'Fantom testnet',
+    chainName: 'Fantom Testnet',
     nativeCurrency: {
-      name: 'Fantom testnet',
+      name: 'Fantom Testnet',
       symbol: 'FTM',
       decimals: 18,
     },
@@ -174,16 +174,27 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://iotexscan.io/'],
   },
 
-  // [ChainID.METIS]: {
-  //   chainId: 1088,
-  //   chainName: 'Metis Andromeda Mainnet',
-  //   nativeCurrency: {
-  //     name: 'Metis Andromeda',
-  //     symbol: 'METIS',
-  //     decimals: 18,
-  //   },
-  //   blockExplorerUrls: ['https://andromeda-explorer.metis.io/'],
-  // },
+  [ChainID.IOTEX_TESTNET]: {
+    chainId: 4690,
+    chainName: 'IoTeX Testnet',
+    nativeCurrency: {
+      name: 'IoTeX Testnet',
+      symbol: 'IOTX',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://testnet.iotexscan.io/'],
+  },
+
+  [ChainID.METIS]: {
+    chainId: 1088,
+    chainName: 'Metis Andromeda Mainnet',
+    nativeCurrency: {
+      name: 'Metis Andromeda',
+      symbol: 'METIS',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://andromeda-explorer.metis.io/'],
+  },
 
   [ChainID.MOONBEAM]: {
     chainId: 1284,
@@ -242,7 +253,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.POLYGON_MUMBAI]: {
     chainId: 80001,
-    chainName: 'Mumbai testnet',
+    chainName: 'Mumbai Testnet',
     nativeCurrency: {
       name: 'MATIC',
       symbol: 'MATIC',
@@ -282,5 +293,27 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://baobab.scope.klaytn.com/'],
+  },
+
+  [ChainID.HECO]: {
+    chainId: 128,
+    chainName: 'Heco',
+    nativeCurrency: {
+      name: 'HT',
+      symbol: 'HT',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://hecoinfo.com/'],
+  },
+
+  [ChainID.HECO_TESTNET]: {
+    chainId: 256,
+    chainName: 'HECO Testnet',
+    nativeCurrency: {
+      name: 'HT',
+      symbol: 'HT',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
   },
 };

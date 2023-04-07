@@ -10,7 +10,7 @@ export interface TimeframeResult {
   timeframeTabs: Tab<Timeframe>[];
 }
 
-export const useTimeframe = (): TimeframeResult => {
+export const useTimeframe = (initialTimeframe?: Timeframe): TimeframeResult => {
   const { hasPrivateAccess } = useAuth();
 
   const [tabs, initialTabID] = useMemo(() => {
@@ -18,8 +18,10 @@ export const useTimeframe = (): TimeframeResult => {
       ? [usageTimeframe, Timeframe.Day]
       : [usageTimeframe, Timeframe.Month];
 
-    return [timeframes.map<Tab<Timeframe>>(id => ({ id })), initial];
-  }, [hasPrivateAccess]);
+    const timeframesResult = timeframes.map<Tab<Timeframe>>(id => ({ id }));
+
+    return [timeframesResult, initialTimeframe || initial];
+  }, [hasPrivateAccess, initialTimeframe]);
 
   const [timeframeTabs, timeframeTab] = useTabs<Timeframe>({
     initialTabID,

@@ -6,6 +6,7 @@ import { EmailBlock } from './components/EmailBlock';
 import { NotificationsBlock } from './components/NotificationsBlock';
 import { useEmailBannerProps, useSettingsBreadcrumbs } from './SettingsUtils';
 import { useEmailData } from './hooks/useSettings';
+import { TwoFABlock } from './components/TwoFABlock';
 
 export const SettingsQuery = () => {
   const emailData = useEmailData();
@@ -23,6 +24,7 @@ export const SettingsQuery = () => {
     return (
       <>
         <EmailBlock />
+        <TwoFABlock />
         <NotificationsBlock />
       </>
     );

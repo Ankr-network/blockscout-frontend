@@ -6,7 +6,7 @@ import { intlFailedRequestsBannerRoot } from '../Tooltip';
 import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 
 export const Notice = () => {
-  const { classes } = useNoticeStyles();
+  const { classes } = useNoticeStyles(false);
 
   const { isOpened, onOpen, onClose } = useDialog();
 

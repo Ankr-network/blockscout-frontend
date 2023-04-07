@@ -4,16 +4,16 @@ import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from '../../hooks/useAuth';
-import { getFlattenChain, getMetamaskNetwork } from './AddNetworkUtils';
+import { getFlattenChain, getNetworkConfiguration } from './AddNetworkUtils';
 
 interface IUseAddNetworkButtonParams {
-  publicChain: IApiChain;
+  chain: IApiChain;
   chainType?: ChainType;
   group?: EndpointGroup;
 }
 
 export const useAddNetworkButton = ({
-  publicChain,
+  chain,
   chainType,
   group,
 }: IUseAddNetworkButtonParams) => {
@@ -21,24 +21,24 @@ export const useAddNetworkButton = ({
 
   const { flatChain, flatChainId } = useMemo(() => {
     if (group && chainType) {
-      return getFlattenChain(publicChain, chainType, group);
+      return getFlattenChain(chain, chainType, group);
     }
 
-    return { flatChain: publicChain, flatChainId: publicChain.id };
-  }, [publicChain, chainType, group]);
+    return { flatChain: chain, flatChainId: chain.id };
+  }, [chain, chainType, group]);
 
-  const metamaskNetwork = useMemo(
-    () => getMetamaskNetwork(flatChain!),
+  const networkConfiguration = useMemo(
+    () => getNetworkConfiguration(flatChain!),
     [flatChain],
   );
 
-  const handleButtonClick = metamaskNetwork
+  const handleButtonClick = networkConfiguration
     ? (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         /* stop propagation for click event to avoid parent element click */
         event.preventDefault();
         event.stopPropagation();
 
-        return handleAddNetwork(metamaskNetwork, flatChainId);
+        return handleAddNetwork(networkConfiguration, flatChainId);
       }
     : undefined;
 

@@ -5,12 +5,13 @@ import { processChain } from 'domains/chains/screens/ChainItem/utils/processChai
 import { usePrivateChainType } from './usePrivateChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
+import { useBeacon } from 'domains/chains/screens/ChainItem/hooks/useBeacon';
 
 export const usePrivateChainItem = ({
   chain,
   unfilteredChain: publicChain,
 }: IChainItemDetails): ChainItem => {
-  const { name, endpoints, netId, publicEndpoints } = useCommonChainItem({
+  const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
     publicChain,
   });
@@ -28,6 +29,7 @@ export const usePrivateChainItem = ({
       netId,
     },
   );
+  const beaconContext = useBeacon(group);
 
   const publicGroups = publicEndpoints[chainType];
 
@@ -36,6 +38,7 @@ export const usePrivateChainItem = ({
     getFallbackEndpointGroup(chain.name);
 
   return {
+    beaconContext,
     chain: processChain(chain),
     publicChain: processChain(publicChain),
     chainType,

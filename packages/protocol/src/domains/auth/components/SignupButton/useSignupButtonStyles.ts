@@ -1,8 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useSignupButtonStyles = makeStyles<boolean>()(
-  (theme: Theme, isMobile: boolean) => ({
+export const useSignupButtonStyles = makeStyles<boolean, 'walletIconSmall'>()(
+  (theme: Theme, isMobile: boolean, classes) => ({
     menuButton: isMobile
       ? {
           fontSize: 12,
@@ -14,6 +14,13 @@ export const useSignupButtonStyles = makeStyles<boolean>()(
           borderRadius: theme.spacing(2 * 1.5),
 
           color: theme.palette.text.primary,
+
+          [theme.breakpoints.down('xs')]: {
+            padding: theme.spacing(),
+            minWidth: 40,
+
+            color: theme.palette.grey[600],
+          },
         }
       : {
           position: 'relative',
@@ -137,6 +144,25 @@ export const useSignupButtonStyles = makeStyles<boolean>()(
     },
     subtitle: {
       fontSize: 14,
+    },
+    desktopButtonContent: {
+      display: 'none',
+
+      [theme.breakpoints.up('xs')]: {
+        display: 'flex',
+      },
+    },
+    mobileButtonContent: {
+      display: 'none',
+
+      [theme.breakpoints.down('xs')]: {
+        display: 'block',
+      },
+
+      [`+ .${classes.walletIconSmall}`]: {
+        bottom: 2,
+        right: 1,
+      },
     },
   }),
 );

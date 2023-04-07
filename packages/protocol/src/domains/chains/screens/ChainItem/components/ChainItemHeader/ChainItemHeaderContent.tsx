@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+
+import { BeaconSwitch } from './components/BeaconSwitch';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { IApiChain } from 'domains/chains/api/queryChains';
@@ -11,6 +13,8 @@ import { MobileGroupSelector } from './components/MobileGroupSelector';
 import { chainsWithMobileOnlySelector } from './const';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
+import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
+import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;
@@ -27,7 +31,9 @@ export interface ChainItemHeaderProps {
   selectGroup: (id: ChainGroupID) => void;
 }
 
-interface ChainItemHeaderContentProps extends ChainItemHeaderProps {
+type OmittedProps = Omit<ChainItemHeaderProps, 'toggleBeacon'>;
+
+interface ChainItemHeaderContentProps extends OmittedProps {
   isMultiChain: boolean;
 }
 
@@ -43,12 +49,18 @@ export const ChainItemHeaderContent = ({
   groupTab,
   groupTabs,
   isChainArchived,
-  selectGroup,
   isMultiChain,
+  selectGroup,
 }: ChainItemHeaderContentProps) => {
+  const { beaconGroup, hasBeacon } = useBeaconContext();
+
   const shouldOnlyShowMobileSelector = useMemo(
     () => chainsWithMobileOnlySelector.has(chain.id),
     [chain.id],
+  );
+  const endpointsGroup = useMemo(
+    () => getEndpointsGroup({ group, hasBeacon }),
+    [group, hasBeacon],
   );
 
   const { classes } = useChainItemHeaderContentStyles(
@@ -68,10 +80,9 @@ export const ChainItemHeaderContent = ({
           chainType={chainType}
           group={group}
           isChainArchived={isChainArchived}
-          publicChain={publicChain}
         />
       )}
-      {(withChainTypeSelector || withGroupSelector) && (
+      {(withChainTypeSelector || withGroupSelector || Boolean(beaconGroup)) && (
         <div className={classes.controls}>
           <SecondaryTabs
             selectedTab={chainTypeTab}
@@ -86,20 +97,21 @@ export const ChainItemHeaderContent = ({
           />
           <MobileGroupSelector
             rootClassName={classes.rootMobileGroupSelector}
-            className={classes.mobileGroupSelector}
             groupID={groupID}
             groups={groups}
             onGroupSelect={selectGroup}
             visible={withGroupSelector}
             fullWidth
           />
+          <BeaconSwitch />
         </div>
       )}
       <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints
+          hasBeacon={hasBeacon}
           publicChain={publicChain}
           chainType={chainType}
-          group={group}
+          group={endpointsGroup}
         />
         <PremiumContent isMultiChain={isMultiChain} />
       </div>
