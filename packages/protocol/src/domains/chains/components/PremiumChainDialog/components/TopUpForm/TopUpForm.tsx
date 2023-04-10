@@ -17,7 +17,8 @@ export const TopUpForm = () => {
 
   return (
     <GuardUserGroup
-      blockName={BlockWithPermission.Disabled}
+      blockName={BlockWithPermission.Billing}
+      isDisabled // access disabled if group is selected (until https://ankrnetwork.atlassian.net/browse/MRPC-2703 will be resolved)
       placeholder={
         <Typography>{tHTML('error.group-role-restricted')}</Typography>
       }
