@@ -47,6 +47,12 @@ export const useBaseNavButtonStyles = makeStyles<boolean>()(
           strokeWidth: 2,
           color: theme.palette.primary.main,
         },
+        '&& span:nth-of-type(1)': {
+          display: 'none',
+        },
+        '&& span:nth-of-type(2)': {
+          display: 'flex',
+        },
       },
 
       [theme.breakpoints.down('sm')]: {
