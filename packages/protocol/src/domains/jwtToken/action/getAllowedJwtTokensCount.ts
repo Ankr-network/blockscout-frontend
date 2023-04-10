@@ -2,6 +2,8 @@ import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { MINIMAL_TOKENS_LIMIT } from '../utils/utils';
+import { GetState } from 'store';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 export interface IAllowedJwtTokenInfo {
   maxTokensLimit: number;
@@ -14,10 +16,13 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllowedJwtTokensCount: build.query<IAllowedJwtTokenInfo, void>({
-      queryFn: createNotifyingQueryFn(async () => {
+      queryFn: createNotifyingQueryFn(async (_, { getState }) => {
         const service = MultiService.getService().getAccountGateway();
+        const group = getSelectedGroupAddress(getState as GetState);
 
-        const maxTokensLimit = await service.getAllowedJwtTokensCount();
+        const maxTokensLimit = await service.getAllowedJwtTokensCount({
+          group,
+        });
 
         const shouldShowTokenManager = maxTokensLimit >= MINIMAL_TOKENS_LIMIT;
 

@@ -1,13 +1,12 @@
 import { Address } from '@ankr.com/provider';
-import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
-import { selectAuthData } from 'domains/auth/store/authSlice';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { RootState } from 'store';
-import { userGroupFetchGroups } from '../actions/fetchGroups';
+import { GroupUserRole } from 'multirpc-sdk';
 
 interface UserGroupConfig {
   shouldRemind?: boolean;
   selectedGroupAddress?: Address;
+  selectedGroupRole?: GroupUserRole;
 }
 
 export interface IUserGroupSlice {
@@ -41,58 +40,18 @@ export const userGroupSlice = createSlice({
       const config = state.userGroupConfig[address];
 
       if (config) {
-        const { shouldRemind, selectedGroupAddress } = config;
+        const { shouldRemind, selectedGroupAddress, selectedGroupRole } =
+          config;
 
         state.userGroupConfig[address] = {
           selectedGroupAddress: shouldRemind ? selectedGroupAddress : undefined,
+          selectedGroupRole: shouldRemind ? selectedGroupRole : undefined,
           shouldRemind,
         };
       }
     },
   },
 });
-
-export const selectUserGroupConfig = (state: RootState) =>
-  state.userGroup.userGroupConfig;
-
-export const selectUserGroupConfigByAddress = createSelector(
-  selectAuthData,
-  selectUserGroupConfig,
-  ({ address = '' }, userGroupConfig) => userGroupConfig[address] ?? {},
-);
-
-export const selectUserGroups = createSelector(
-  userGroupFetchGroups.select(),
-  ({ data: userGroups = [] }) => userGroups,
-);
-
-export const selectHasUserGroups = createSelector(
-  selectUserGroups,
-  userGroups => userGroups.length > 1,
-);
-
-export const selectSelectedUserGroup = createSelector(
-  selectUserGroupConfigByAddress,
-  selectUserGroups,
-  ({ selectedGroupAddress }, groups) =>
-    groups.find(({ groupAddress }) => groupAddress === selectedGroupAddress),
-);
-
-export const selectIsSelectedUserGroupPersonal = createSelector(
-  selectSelectedUserGroup,
-  selectUserGroups,
-  (selectedGroup, [firstGroup]) =>
-    firstGroup?.groupAddress === selectedGroup?.groupAddress,
-);
-
-export const selectSelectedUserGroupIndex = createSelector(
-  selectSelectedUserGroup,
-  selectUserGroups,
-  (selectedGroup, groups) =>
-    groups.findIndex(
-      group => group.groupAddress === selectedGroup?.groupAddress,
-    ) ?? 0,
-);
 
 export const { setUserGroupConfig, resetUserGroupConfig } =
   userGroupSlice.actions;

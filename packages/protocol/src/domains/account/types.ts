@@ -1,5 +1,9 @@
 import { Callback } from 'mixpanel-browser';
-import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
+import {
+  IPaymentHistoryEntity,
+  IPaymentHistoryEntityType,
+  IApiUserGroupParams,
+} from 'multirpc-sdk';
 
 import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
 import { TopUpTrackingParams } from 'modules/analytics/mixpanel/trackTopUp';
@@ -36,7 +40,7 @@ export interface PaymentHistory {
   transactionsCursor: number;
 }
 
-export interface PaymentHistoryParams {
+export interface PaymentHistoryParams extends IApiUserGroupParams {
   deductionsCursor?: number;
   from: number;
   limit: number;

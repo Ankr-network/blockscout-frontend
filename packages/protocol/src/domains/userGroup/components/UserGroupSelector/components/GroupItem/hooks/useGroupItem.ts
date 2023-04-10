@@ -3,18 +3,15 @@ import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
 
 import { GroupItemProps } from '../types';
-import {
-  selectSelectedUserGroup,
-  setUserGroupConfig,
-} from 'domains/userGroup/store/userGroupSlice';
-import { useAppSelector } from 'store/useAppSelector';
+import { setUserGroupConfig } from 'domains/userGroup/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useGroupItem = ({ group, onSelect }: GroupItemProps) => {
-  const selectedGroup = useAppSelector(selectSelectedUserGroup);
+  const { group: selectedGroup } = useSelectedUserGroup();
   const { address } = useAuth();
 
-  const { groupAddress } = group;
+  const { groupAddress, userRole } = group;
   const isSelected = groupAddress === selectedGroup?.groupAddress;
 
   const dispatch = useDispatch();
@@ -28,9 +25,14 @@ export const useGroupItem = ({ group, onSelect }: GroupItemProps) => {
       setUserGroupConfig({
         address,
         selectedGroupAddress: groupAddress,
+        selectedGroupRole: userRole,
       }),
     );
-  }, [address, dispatch, groupAddress, onSelect]);
+
+    // we should refetch all data on changing the user group
+    // TODO: remove page reload here and refetch all group data on group change
+    window.location.reload();
+  }, [address, dispatch, groupAddress, onSelect, userRole]);
 
   return { isSelected, onClick };
 };

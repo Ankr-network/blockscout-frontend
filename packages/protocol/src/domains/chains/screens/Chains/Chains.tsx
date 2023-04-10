@@ -5,9 +5,11 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
+import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
 
 export const Chains = () => {
   const { hasPrivateAccess } = useAuth();
+  const { isFinanceRole } = usePermissionsAndRole();
 
   useSetBreadcrumbs([
     {
@@ -15,7 +17,7 @@ export const Chains = () => {
     },
   ]);
 
-  if (hasPrivateAccess) {
+  if (hasPrivateAccess && !isFinanceRole) {
     return <PrivateChains />;
   }
 

@@ -1,1 +1,1 @@
-export * from './AccountDetailsButton';
+export { AccountDetailsButtonWithGuardUserGroup as AccountDetailsButton } from './AccountDetailsButtonWithGuardUserGroup';

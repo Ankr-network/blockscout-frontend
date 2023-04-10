@@ -7,7 +7,7 @@ import { SignupButton } from 'domains/auth/components/SignupButton';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
 import { UserGroupSelector } from 'domains/userGroup/components/UserGroupSelector';
-import { selectHasUserGroups } from 'domains/userGroup/store/userGroupSlice';
+import { selectHasUserGroups } from 'domains/userGroup/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useStyles } from './useStyles';

@@ -1,5 +1,7 @@
 import { web3Api } from 'store/queries';
 import { MultiService } from 'modules/api/MultiService';
+import { GetState } from 'store';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 export const {
   endpoints: { oauthHasDepositTransaction },
@@ -7,8 +9,9 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     oauthHasDepositTransaction: build.query<boolean, boolean | void>({
-      queryFn: async shouldCheckVoucherTopUp => {
+      queryFn: async (shouldCheckVoucherTopUp, { getState }) => {
         const service = MultiService.getService();
+        const group = getSelectedGroupAddress(getState as GetState);
 
         const { transactions } = await service
           .getAccountGateway()
@@ -17,6 +20,7 @@ export const {
             type: shouldCheckVoucherTopUp
               ? ['TRANSACTION_TYPE_DEPOSIT', 'TRANSACTION_TYPE_VOUCHER_TOPUP']
               : ['TRANSACTION_TYPE_DEPOSIT'],
+            group,
           });
 
         return {

@@ -13,7 +13,6 @@ import { Breadcrumbs } from '../Breadcrumbs';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { useTransitionToFreeWatcher } from 'domains/auth/hooks/useTransitionToFreeWatcher';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -45,8 +44,6 @@ export const DefaultLayout = ({
   });
   const { isLoggedIn, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
-
-  useTransitionToFreeWatcher();
 
   return (
     <div className={classes.root}>

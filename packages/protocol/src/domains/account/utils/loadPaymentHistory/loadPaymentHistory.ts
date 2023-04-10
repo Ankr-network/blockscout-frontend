@@ -8,6 +8,7 @@ export const loadPaymentHistory = async ({
   to,
   transactionsCursor = 0,
   types = [],
+  group,
 }: PaymentHistoryParams): Promise<PaymentHistory> => {
   const {
     deductionsCursor: nextDeductionsCursor,
@@ -20,6 +21,7 @@ export const loadPaymentHistory = async ({
     to,
     transactionsCursor,
     types,
+    group,
   });
 
   return {

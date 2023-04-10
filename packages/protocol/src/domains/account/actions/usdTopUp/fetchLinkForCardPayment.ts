@@ -1,10 +1,11 @@
 import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { RootState } from 'store';
+import { GetState, RootState } from 'store';
 import { USD_CURRENCY } from './const';
 import { accountFetchPublicKey } from '../fetchPublicKey';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+import { getSelectedGroupAddress } from '../../../userGroup/utils/getSelectedGroupAddress';
 
 export const ONE_TIME_PAYMENT_ID = 'one_time';
 
@@ -26,7 +27,7 @@ export const {
     >({
       queryFn: async ({ amount, id }, { dispatch, getState }) => {
         const service = MultiService.getService();
-
+        const group = getSelectedGroupAddress(getState as GetState);
         const { hasWeb3Connection } = selectAuthData(getState() as RootState);
 
         const encryptionPublicKey = hasWeb3Connection
@@ -42,6 +43,7 @@ export const {
               currency: USD_CURRENCY,
               product_price_id: id,
               public_key: encryptionPublicKey,
+              group,
             });
 
           return { data: url };
@@ -52,6 +54,7 @@ export const {
           .getLinkForCardPayment({
             amount,
             publicKey: encryptionPublicKey,
+            group,
           });
 
         return { data: url };

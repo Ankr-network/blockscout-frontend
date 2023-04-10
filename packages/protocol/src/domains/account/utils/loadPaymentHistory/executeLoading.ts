@@ -19,6 +19,7 @@ export const executeLoading = async ({
   to,
   transactionsCursor: loadedTransactionsCursor = 0,
   types = [],
+  group,
 }: ExecuteLoadingParams): Promise<PaymentHistory> => {
   const {
     deductions: loadingDeductions,
@@ -31,6 +32,7 @@ export const executeLoading = async ({
     deductionsCursor: loadedDeductionsCursor,
     transactionsCursor: loadedTransactionsCursor,
     types,
+    group,
   });
 
   const { deductions, loadMore, paymentHistory, transactions } =
@@ -54,6 +56,7 @@ export const executeLoading = async ({
       to,
       transactionsCursor: loadingTransactionsCursor,
       types,
+      group,
     });
   }
 

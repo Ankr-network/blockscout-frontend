@@ -6,6 +6,8 @@ import {
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { fetchAllPaymentHistory } from '../utils/fetchAllPaymentHistory';
 import { web3Api } from 'store/queries';
+import { GetState } from 'store';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 export const {
   useLazyAccountFetchExpenseChartDataQuery,
@@ -13,8 +15,10 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     accountFetchExpenseChartData: build.query<Response, Request>({
-      queryFn: createNotifyingQueryFn(async params => {
-        const data = await fetchAllPaymentHistory(params);
+      queryFn: createNotifyingQueryFn(async (params, { getState }) => {
+        const group = getSelectedGroupAddress(getState as GetState);
+        const data = await fetchAllPaymentHistory({ ...params, group });
+
         return { data };
       }),
     }),
