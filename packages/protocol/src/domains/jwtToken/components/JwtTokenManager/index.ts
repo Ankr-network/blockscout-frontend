@@ -1,1 +1,1 @@
-export * from './JwtTokenManager';
+export { JwtTokenManagerWithGuardUserGroup as JwtTokenManager } from './JwtTokenManagerWithGuardUserGroup';

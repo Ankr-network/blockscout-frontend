@@ -3,7 +3,15 @@ import { ButtonProps } from '@mui/material';
 import { History } from 'history';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { CoinStack, Gear, Doc, Block, Wallet, AdvancedApi } from '@ankr.com/ui';
+import {
+  CoinStack,
+  Gear,
+  Doc,
+  Block,
+  Wallet,
+  AdvancedApi,
+  BoldAdvancedApi,
+} from '@ankr.com/ui';
 import { Diamonds } from 'uiKit/Icons/Diamonds';
 import { Automate } from 'uiKit/Icons/Automate';
 import { t } from '@ankr.com/common';
@@ -41,7 +49,7 @@ const isDashboardActive = (
 const getAdvancedApiList = (onAAPIClick: () => void): NavigationItem[] => [
   {
     StartIcon: AdvancedApi,
-    ActiveIcon: AdvancedApi,
+    ActiveIcon: BoldAdvancedApi,
     href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
     label: t('main-navigation.advanced-api'),
     onClick: onAAPIClick,

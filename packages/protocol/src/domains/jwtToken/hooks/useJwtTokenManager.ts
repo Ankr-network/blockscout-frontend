@@ -5,6 +5,7 @@ import {
   IUserJwtToken,
   useLazyFetchAllJwtTokenRequestsQuery,
 } from 'domains/jwtToken/action/getAllJwtToken';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useFetchAllowedJwtTokensCountQuery } from '../action/getAllowedJwtTokensCount';
 import {
   getAllowedAddProjectTokenIndex,
@@ -22,16 +23,24 @@ const defaultAllowJwtTokenInfo = {
 
 export const useJwtTokenManager = () => {
   const { hasConnectWalletMessage, loading } = useAuth();
+  const { group } = useSelectedUserGroup();
 
   const {
     data: { maxTokensLimit, shouldShowTokenManager } = defaultAllowJwtTokenInfo,
     isSuccess,
+    refetch: refetchAllowedJwtTokensCount,
   } = useFetchAllowedJwtTokensCountQuery();
 
   const [
     fetchAllJwtTokenRequestsQuery,
     { data: { jwtTokens } = defaultData, isLoading },
   ] = useLazyFetchAllJwtTokenRequestsQuery();
+
+  useEffect(() => {
+    refetchAllowedJwtTokensCount();
+    // we need to refetch allowed jwt count on group change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [group?.groupAddress]);
 
   useEffect(() => {
     if (!loading && shouldShowTokenManager) {
@@ -49,7 +58,7 @@ export const useJwtTokenManager = () => {
     allowedAddProjectTokenIndex > PRIMARY_TOKEN_INDEX;
 
   return {
-    isLoading: shouldShowTokenManager ? isLoading : isLoading,
+    isLoading,
     enableAddProject,
     hasConnectWalletMessage,
     shouldShowTokenManager: shouldShowTokenManager && isSuccess,

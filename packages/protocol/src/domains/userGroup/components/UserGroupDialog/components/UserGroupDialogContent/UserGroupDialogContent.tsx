@@ -7,8 +7,6 @@ import { AccountList } from '../AccountList';
 import { useUserGroupSelect } from 'domains/userGroup/hooks/useUserGroupSelect';
 import { UserGroupsSkeleton } from '../UserGroupsSkeleton';
 
-const HAS_CHECKBOX = false;
-
 interface UserGroupDialogContentProps {
   groups: UserGroup[];
   isLoading: boolean;
@@ -49,22 +47,21 @@ export const UserGroupDialogContent = ({
       >
         {t('user-group.modal.button')}
       </Button>
-      {HAS_CHECKBOX && (
-        <FormControlLabel
-          onChange={handleRememberChoice}
-          label={
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              className={classes.label}
-            >
-              {t('user-group.modal.checkbox')}
-            </Typography>
-          }
-          control={<Checkbox size="small" checked={shouldRemind} />}
-          className={classes.checkbox}
-        />
-      )}
+
+      <FormControlLabel
+        onChange={handleRememberChoice}
+        label={
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            className={classes.label}
+          >
+            {t('user-group.modal.checkbox')}
+          </Typography>
+        }
+        control={<Checkbox size="small" checked={shouldRemind} />}
+        className={classes.checkbox}
+      />
     </>
   );
 };

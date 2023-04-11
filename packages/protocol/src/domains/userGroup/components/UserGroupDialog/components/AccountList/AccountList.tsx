@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useCallback } from 'react';
-import { UserGroup } from 'multirpc-sdk';
+import { UserGroup, GroupUserRole } from 'multirpc-sdk';
 
 import { AccountItem } from '../AccountItem';
 import { Avatar } from 'domains/userGroup/components/Avatar';
@@ -10,7 +10,7 @@ import { useAccountsListStyles } from './useAccountListStyles';
 
 interface AccountListProps {
   selectedGroupAddress?: string;
-  onSelect: (selectedGroupAddress: string) => void;
+  onSelect: (selectedGroupAddress: string, userRole: GroupUserRole) => void;
   groups: UserGroup[];
 }
 
@@ -22,17 +22,18 @@ export const AccountList = ({
   const { classes } = useAccountsListStyles();
 
   const handleClick = useCallback(
-    (newGroupAddress: string) => onSelect(newGroupAddress),
+    (newGroupAddress: string, userRole: GroupUserRole) =>
+      onSelect(newGroupAddress, userRole),
     [onSelect],
   );
 
   return (
     <Box className={classes.root}>
-      {groups.map(({ groupAddress, groupName }, index) => (
+      {groups.map(({ groupAddress, groupName, userRole }, index) => (
         <AccountItem
           key={groupAddress}
           name={groupName}
-          onClick={() => handleClick(groupAddress)}
+          onClick={() => handleClick(groupAddress, userRole)}
           isSelected={selectedGroupAddress === groupAddress}
         >
           <Avatar
