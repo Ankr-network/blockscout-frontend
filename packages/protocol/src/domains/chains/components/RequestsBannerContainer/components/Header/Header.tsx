@@ -16,7 +16,7 @@ export const Header = ({ total, timeframeValue }: IRequestsHeaderProps) => {
     <div className={classes.information}>
       <Typography variant="h6" component="div" className={classes.title}>
         <span className={classes.title}>{t(`requests-banner.title`)}</span>
-        <Switcher value={timeframeValue} className={classes.switcher} />
+        <Switcher value={timeframeValue} />
       </Typography>
 
       {total && (

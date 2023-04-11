@@ -72,12 +72,6 @@ export const useHeaderStyles = makeStyles()(theme => ({
     },
   },
 
-  switcher: {
-    '&&&': {
-      borderWidth: 2,
-    },
-  },
-
   timeframeTabs: {
     marginRight: 'auto',
     marginLeft: theme.spacing(3),

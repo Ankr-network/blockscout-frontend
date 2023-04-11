@@ -26,7 +26,7 @@ export const Header = ({
         <span className={classes.title}>
           {t(`${intlFailedRequestsBannerRoot}.title`)}
         </span>
-        <Switcher value={switchValue} className={classes.switcher} />
+        <Switcher value={switchValue} />
       </Typography>
       <div className={classes.infoTitle}>
         <div className={classes.sectionTitle}>
