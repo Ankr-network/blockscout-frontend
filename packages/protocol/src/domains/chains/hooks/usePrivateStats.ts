@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 interface PrivateStatsParams {
   interval: PrivateStatsInterval;
@@ -21,6 +22,7 @@ export const usePrivateStats = ({
   requestKey,
   userEndpointToken,
 }: PrivateStatsParams): PrivateStatsReturn => {
+  const { selectedGroupAddress } = useSelectedUserGroup();
   const [
     fetchPrivateStats,
     { data = {}, isLoading: arePrivateStatsLoading, error: privateStatsError },
@@ -31,7 +33,13 @@ export const usePrivateStats = ({
 
   useEffect(() => {
     fetchPrivateStats({ interval, userEndpointToken });
-  }, [fetchPrivateStats, interval, requestKey, userEndpointToken]);
+  }, [
+    fetchPrivateStats,
+    interval,
+    requestKey,
+    userEndpointToken,
+    selectedGroupAddress,
+  ]);
 
   return { arePrivateStatsLoading, data, privateStatsError };
 };

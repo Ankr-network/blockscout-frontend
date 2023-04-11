@@ -42,7 +42,13 @@ export const BaseNavButton = ({ item }: IBaseNavButtonProps) => {
         isDisabled && classes.disabled,
       )}
       startIcon={<StartIcon />}
-      endIcon={ActiveIcon && <ActiveIcon className={classes.activeLink} />}
+      endIcon={
+        ActiveIcon ? (
+          <ActiveIcon className={classes.activeLink} />
+        ) : (
+          <StartIcon className={classes.activeLink} />
+        )
+      }
       LinkComponent={isExternalHref ? 'a' : NavLink}
       activeClassName={classes.activeLink}
     >

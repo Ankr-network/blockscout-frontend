@@ -5,7 +5,7 @@ import { topUpReset } from 'domains/account/actions/topUp/reset';
 import { trackSignOut } from 'modules/analytics/mixpanel/trackSignOut';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
-import { resetUserGroupConfig } from 'domains/userGroup/store/userGroupSlice';
+import { resetUserGroupConfig } from 'domains/userGroup/store';
 
 export const {
   useLazyAuthDisconnectQuery,

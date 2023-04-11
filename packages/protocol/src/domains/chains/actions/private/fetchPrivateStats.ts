@@ -9,6 +9,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -33,6 +34,7 @@ export const {
         queryFn: createNotifyingQueryFn(
           async ({ interval, userEndpointToken }, { getState }) => {
             await authorizationGuard(getState as GetState);
+            const group = getSelectedGroupAddress(getState as GetState);
             const service = MultiService.getService();
             const accountGateway = service.getAccountGateway();
 
@@ -40,8 +42,9 @@ export const {
               ? accountGateway.getPrivateStatsByPremiumId(
                   interval,
                   userEndpointToken,
+                  group,
                 )
-              : accountGateway.getPrivateStats(interval));
+              : accountGateway.getPrivateStats(interval, group));
 
             return { data: getPrivateStats(data) };
           },

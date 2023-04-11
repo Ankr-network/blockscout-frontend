@@ -11,6 +11,7 @@ import {
 } from '../store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from './useAuth';
+import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
 
 const options: Options = { subscriptionOptions: { pollingInterval: 15_000 } };
 
@@ -24,6 +25,8 @@ export const useTransitionToFreeWatcher = () => {
     useAppSelector(selectHasTransitionToFreeWatcher) &&
     hasPremiumToFreeTransition;
 
+  const { isDevRole } = usePermissionsAndRole();
+
   const { isLoggedIn } = useAuth();
 
   const dispatch = useDispatch();
@@ -31,17 +34,19 @@ export const useTransitionToFreeWatcher = () => {
   const [trigger] = useQueryEndpoint(oauthHasDepositTransaction, options);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !isDevRole) {
       const { unsubscribe } = trigger(true);
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [isLoggedIn, trigger]);
+  }, [isLoggedIn, trigger, isDevRole]);
+
+  const shouldWatch = hasWatcher || !isDevRole;
 
   useEffect(() => {
-    if (hasWatcher) {
+    if (shouldWatch) {
       const timeoutId = setTimeout(
         () => dispatch(resetOauthLoginTimestamp()),
         timeToReset,
@@ -51,5 +56,5 @@ export const useTransitionToFreeWatcher = () => {
     }
 
     return () => {};
-  }, [dispatch, hasWatcher, timeToReset]);
+  }, [dispatch, hasWatcher, timeToReset, shouldWatch]);
 };

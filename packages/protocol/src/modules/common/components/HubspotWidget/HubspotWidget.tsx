@@ -12,6 +12,7 @@ export const HubspotWidget = (props: HubspotWidgetProps) => {
       {...props}
       // form needs jquery for submit action
       onReady={loadJquery}
+      onSubmit={() => {}}
     />
   );
 };

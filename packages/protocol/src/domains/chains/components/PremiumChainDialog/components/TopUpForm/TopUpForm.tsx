@@ -1,3 +1,7 @@
+import { Typography } from '@mui/material';
+import { tHTML } from '@ankr.com/common';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AmountForm } from './components/AmountForm';
 import { CurrencySelector } from './components/CurrencySelector';
 import { TopUpEmailDialog } from 'domains/account/components/TopUp/ANKRTopUpForm/TopUpEmailDialog';
@@ -12,11 +16,19 @@ export const TopUpForm = () => {
   const { classes } = useTopUpFormStyles();
 
   return (
-    <div className={classes.root}>
-      <CurrencySelector {...currencyProps} />
-      {usdPriceProps && <USDPriceSelector {...usdPriceProps} />}
-      <AmountForm {...amountProps} />
-      <TopUpEmailDialog {...emailDialogProps} />
-    </div>
+    <GuardUserGroup
+      blockName={BlockWithPermission.Billing}
+      isDisabled // access disabled if group is selected (until https://ankrnetwork.atlassian.net/browse/MRPC-2703 will be resolved)
+      placeholder={
+        <Typography>{tHTML('error.group-role-restricted')}</Typography>
+      }
+    >
+      <div className={classes.root}>
+        <CurrencySelector {...currencyProps} />
+        {usdPriceProps && <USDPriceSelector {...usdPriceProps} />}
+        <AmountForm {...amountProps} />
+        <TopUpEmailDialog {...emailDialogProps} />
+      </div>
+    </GuardUserGroup>
   );
 };

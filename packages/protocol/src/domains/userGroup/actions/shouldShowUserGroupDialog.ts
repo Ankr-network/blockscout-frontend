@@ -3,7 +3,7 @@ import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
 import { userGroupFetchGroups } from './fetchGroups';
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
-import { selectUserGroupConfigByAddress } from '../store/userGroupSlice';
+import { selectUserGroupConfigByAddress } from '../store';
 
 // TODO change this action to hook. Resolve the problem, when store(localstorage) is faster then data in actions
 export const {
@@ -26,19 +26,19 @@ export const {
         const { shouldRemind, selectedGroupAddress } =
           selectUserGroupConfigByAddress(state);
 
-        if (shouldRemind) {
-          return { data: false };
-        }
+        const { data: cachedUserGroups } = userGroupFetchGroups.select()(state);
 
         let userGroups;
-
-        const { data: cachedUserGroups } = userGroupFetchGroups.select()(state);
 
         if (!cachedUserGroups) {
           const { data } = await dispatch(userGroupFetchGroups.initiate());
           userGroups = data;
         } else {
           userGroups = cachedUserGroups;
+        }
+
+        if (shouldRemind) {
+          return { data: false };
         }
 
         const hasGroups = Boolean(userGroups && userGroups?.length > 1);

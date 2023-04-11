@@ -25,7 +25,7 @@ import { userConfigPersistConfig } from 'domains/auth/storage/userConfigPersistC
 import { jwtTokenManagerPersistConfig } from 'domains/jwtToken/storage/jwtTokenManagerPersistConfig';
 import { jwtTokenManagerSlice } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { userGroupPersistConfig } from 'domains/userGroup/storage/userGroupPersistConfig';
-import { userGroupSlice } from 'domains/userGroup/store/userGroupSlice';
+import { userGroupSlice } from 'domains/userGroup/store';
 
 const sagaMiddleware = createSagaMiddleware();
 

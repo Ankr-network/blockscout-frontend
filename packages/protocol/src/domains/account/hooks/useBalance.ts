@@ -37,5 +37,9 @@ export const useBalance = (): Balance => {
     return () => {};
   }, [fetchBalance, isLoggedIn]);
 
-  return { ...(balances || defaultBalance), isLoading, isLoadingInitially };
+  return {
+    ...(balances || defaultBalance),
+    isLoading,
+    isLoadingInitially,
+  };
 };

@@ -1,3 +1,5 @@
+import { IApiUserGroupParams } from '../account';
+
 export interface IOauthLoginParams {
   client_id: string;
   oauth_url: string;
@@ -54,6 +56,10 @@ export interface IJwtTokenResponse {
   index: number;
   jwt_data: string;
   is_encrypted: boolean;
+}
+
+export interface IJwtTokenRequestParams extends IApiUserGroupParams {
+  index: number;
 }
 
 export interface IJwtTokenLimitResponse {

@@ -4,6 +4,8 @@ import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { formatTokenAndDecryptJwt } from './getAllJwtTokenUtils';
 import { fetchAllJwtTokenRequests } from './getAllJwtToken';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
+import { GetState } from 'store';
 
 export const {
   useLazyCreateJwtTokenQuery,
@@ -12,10 +14,13 @@ export const {
   endpoints: build => ({
     createJwtToken: build.query<JwtManagerToken, number>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (tokenIndex, { dispatch }) => {
+        queryFn: async (tokenIndex, { dispatch, getState }) => {
           const service = MultiService.getService().getAccountGateway();
-
-          const jwtToken = await service.createJwtToken(tokenIndex);
+          const group = getSelectedGroupAddress(getState as GetState);
+          const jwtToken = await service.createJwtToken({
+            index: tokenIndex,
+            group,
+          });
 
           const newDecryptedToken = await formatTokenAndDecryptJwt(jwtToken);
 

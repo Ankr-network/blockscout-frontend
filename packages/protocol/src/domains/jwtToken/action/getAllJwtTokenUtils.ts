@@ -5,7 +5,10 @@ import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
 
 const DECRYPTED_TOKENS: Record<string, string> = {};
 
-const getUserEndpointToken = async (jwtData: string, isEncrypted: boolean) => {
+export const getUserEndpointToken = async (
+  jwtData: string,
+  isEncrypted: boolean,
+) => {
   if (DECRYPTED_TOKENS[jwtData]) {
     return DECRYPTED_TOKENS[jwtData];
   }

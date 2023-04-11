@@ -1,11 +1,12 @@
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { MultiService } from 'modules/api/MultiService';
-import { RootState } from 'store';
+import { GetState, RootState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { formatJwtTokensAndDecrypt } from './getAllJwtTokenUtils';
 import { getSortedJwtTokens, PRIMARY_TOKEN_INDEX } from '../utils/utils';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 export interface IUserJwtToken {
   jwtTokens: JwtManagerToken[];
@@ -20,10 +21,10 @@ export const {
     fetchAllJwtTokenRequests: build.query<IUserJwtToken, boolean | void>({
       queryFn: createNotifyingQueryFn(async (loading, { getState }) => {
         if (loading) return { data: { jwtTokens: [] } };
-
+        const group = getSelectedGroupAddress(getState as GetState);
         const accountGateway = MultiService.getService().getAccountGateway();
 
-        const result = await accountGateway.getAllJwtToken();
+        const result = await accountGateway.getAllJwtToken({ group });
 
         const primaryData = result.find(
           item => item.index === PRIMARY_TOKEN_INDEX,

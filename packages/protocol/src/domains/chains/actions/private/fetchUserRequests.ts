@@ -14,7 +14,6 @@ interface FetchUserRequestsParams {
 
 export const {
   useLazyChainsFetchUserRequestsQuery,
-  useChainsFetchUserRequestsQuery,
   endpoints: { chainsFetchUserRequests },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
