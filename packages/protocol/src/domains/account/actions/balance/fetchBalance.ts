@@ -6,6 +6,7 @@ import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 import { web3Api } from 'store/queries';
 
 const ANKR_TO_CREDITS_RATE = 1_000_000;
@@ -31,17 +32,19 @@ const getBalance = ({
 };
 
 export const {
-  useLazyAccountFetchBalanceQuery,
   endpoints: { accountFetchBalance },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     accountFetchBalance: build.query<Balance, void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
         await authorizationGuard(getState as GetState);
+        const group = getSelectedGroupAddress(getState as GetState);
 
         const service = MultiService.getService();
 
-        const data = await service.getAccountGateway().getAnkrBalance();
+        const data = await service
+          .getAccountGateway()
+          .getAnkrBalance({ group });
 
         const balance = getBalance(data);
 

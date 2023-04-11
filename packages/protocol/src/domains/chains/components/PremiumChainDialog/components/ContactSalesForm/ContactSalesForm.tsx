@@ -10,7 +10,7 @@ export const ContactSalesForm = ({ onSubmit }: ContactSalesFormProps) => {
       portalId="25013502"
       formId="de33113f-1826-4514-acf1-c70add2af899"
       loading={<div>Loading...</div>}
-      onSubmit={onSubmit}
+      onFormSubmitted={onSubmit}
     />
   );
 };

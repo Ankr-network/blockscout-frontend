@@ -63,5 +63,11 @@ export const useAccountData = (): AccountData => {
 
   const isLoading = isBalanceLoading || isConnecting || isBalanceEndTimeLoading;
 
-  return { accountType, balance, hasStatusTransition, isLoading, status };
+  return {
+    accountType,
+    balance,
+    hasStatusTransition,
+    isLoading,
+    status,
+  };
 };

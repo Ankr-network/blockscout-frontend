@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.45.5",
+  "version": "1.45.6",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -30,7 +30,7 @@
     "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "*",
-    "@ankr.com/ui": "^0.7.17",
+    "@ankr.com/ui": "^0.8.0",
     "@ankr.com/utils": "^1.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -91,6 +91,7 @@
     "web3modal": "^1.9.4"
   },
   "devDependencies": {
+    "@ankr.com/ci": "^1.1.4",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
@@ -126,8 +127,7 @@
     "react-snap": "^1.23.0",
     "rimraf": "3.0.2",
     "source-map-explorer": "^2.5.2",
-    "ts-prune": "^0.10.3",
-    "@ankr.com/ci": "^1.1.4"
+    "ts-prune": "^0.10.3"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

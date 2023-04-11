@@ -1,6 +1,7 @@
 import { EthAddressType, IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 import { IWalletMeta } from '@ankr.com/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { MultiService } from 'modules/api/MultiService';
 
 import { RootState } from 'store';
 import { clearCookie, getCookieByName, setCookie } from './cookie';
@@ -93,6 +94,12 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
   if (state.auth) {
     if (WORKER_TOKEN_DATA === undefined) {
       WORKER_TOKEN_DATA = getCookieByName(WORKER_TOKEN_DATA_KEY);
+
+      const service = MultiService.getService();
+
+      if (state.auth?.authorizationToken) {
+        service.getAccountGateway().addToken(state.auth?.authorizationToken);
+      }
     }
 
     return {

@@ -4,13 +4,14 @@ import {
   IPaymentHistoryEntity,
   IPaymentHistoryEntityType,
   IPaymentHistoryResponse,
+  IApiUserGroupParams,
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { getDeductionsTypes } from './getDeductionsTypes';
 import { parseTypes } from './parseTypes';
 
-export interface FetchPaymentHistoryParams {
+export interface FetchPaymentHistoryParams extends IApiUserGroupParams {
   deductionsCursor: number;
   from: number;
   to: number;
@@ -45,6 +46,7 @@ export const fetchPaymentHistory = async ({
   to,
   transactionsCursor,
   types,
+  group,
 }: FetchPaymentHistoryParams): Promise<FetchedPaymentHistory> => {
   const service = MultiService.getService();
 
@@ -60,6 +62,7 @@ export const fetchPaymentHistory = async ({
           order: 'desc',
           to,
           type: getDeductionsTypes(types),
+          group,
         })
       : defaultRequest,
     deductionsCursor >= 0 && withDeductions
@@ -70,6 +73,7 @@ export const fetchPaymentHistory = async ({
           time_group: AggregatedPaymentHistoryTimeGroup.DAY,
           to,
           types: ['TRANSACTION_TYPE_DEDUCTION'],
+          group,
         })
       : defaultRequest,
   ];

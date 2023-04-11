@@ -1,6 +1,10 @@
 import { EmailConfirmationStatus, Web3Address } from '../common';
 import { Timeframe } from '../public';
 
+export interface IApiUserGroupParams {
+  group?: Web3Address;
+}
+
 export interface AccountError {
   code: AccountErrorCode;
   message: string;
@@ -22,6 +26,19 @@ export enum AccountErrorCode {
 
 export interface AccountErrorResponse {
   error: AccountError;
+}
+
+export enum PermissionErrorCode {
+  Permission = 'permission'
+}
+
+export interface PermissionError {
+  code: PermissionErrorCode;
+  message: string;
+}
+
+export interface PermissionErrorResponse {
+  error: PermissionError;
 }
 
 export type IPaymentHistoryEntityType =
@@ -47,7 +64,7 @@ export interface IPaymentHistoryEntity {
   creditVoucherAmount: string;
 }
 
-export interface IPaymentHistoryRequest {
+export interface IPaymentHistoryRequest extends IApiUserGroupParams {
   cursor?: number;
   from?: number;
   limit: number;
@@ -74,13 +91,17 @@ export interface IBalanceEndTimeResult {
   NumberOfDaysEstimate: number;
 }
 
-export interface IDailyChargingParams {
+export interface IDailyChargingParams extends IApiUserGroupParams {
   day_offset: number;
+}
+
+export interface IApiBalanceEndTimeRequestParams extends IApiUserGroupParams {
+  blockchains?: string[];
 }
 
 export type IDailyChargingResponse = string;
 
-export interface IAggregatedPaymentHistoryRequest {
+export interface IAggregatedPaymentHistoryRequest extends IApiUserGroupParams {
   blockchains?: string[];
   cursor?: number;
   from?: number;
@@ -116,6 +137,10 @@ export interface ISubscriptionsItem {
   status: string;
   subscriptionId: string;
   type: string;
+}
+
+export interface IApiCancelSubscriptionRequestParams extends IApiUserGroupParams {
+  subscription_id: string;
 }
 
 type ChartDate = string;
@@ -275,12 +300,12 @@ export interface ICanPayByCardResponse {
   isEligible: boolean;
 }
 
-export interface IGetLinkForCardPaymentRequest {
+export interface IGetLinkForCardPaymentRequest extends IApiUserGroupParams {
   amount: string;
   publicKey?: string;
 }
 
-export interface IGetLinkForRecurrentCardPaymentRequest {
+export interface IGetLinkForRecurrentCardPaymentRequest extends IApiUserGroupParams {
   currency: string;
   product_price_id: string;
   public_key?: string;
@@ -332,9 +357,20 @@ export interface IGetOrCreateInstantJwt {
   is_encrypted: boolean;
 }
 
+export interface IGetGroupJwtRequestParams {
+  group: Web3Address;
+}
+
+export interface IGetGroupJwtResponse {
+  jwt_data: string;
+}
+
+export type GroupUserRole = 'GROUP_ROLE_OWNER' | 'GROUP_ROLE_DEV' | 'GROUP_ROLE_FINANCE'
+
 export interface UserGroup {
   groupAddress: string;
   groupName: string;
+  userRole: GroupUserRole;
 }
 
 export interface IUserGroupsResponse {

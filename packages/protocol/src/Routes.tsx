@@ -30,6 +30,9 @@ import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useAuth } from './domains/auth/hooks/useAuth';
 import { useAutoconnect } from './useAutoconnect';
 import { useWeb3ThemeSwitcher } from './useWeb3ThemeSwitcher';
+import { GuardUserGroup } from './domains/userGroup/components/GuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useTransitionToFreeWatcher } from 'domains/auth/hooks/useTransitionToFreeWatcher';
 
 export const Routes = () => {
   const {
@@ -43,6 +46,7 @@ export const Routes = () => {
 
   useAutoconnect();
   useWeb3ThemeSwitcher();
+  useTransitionToFreeWatcher();
 
   return (
     <Switch>
@@ -71,9 +75,14 @@ export const Routes = () => {
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
         render={() => (
-          <DefaultLayout>
-            <AccountRoutes />
-          </DefaultLayout>
+          <GuardUserGroup
+            shouldRedirect
+            blockName={BlockWithPermission.Billing}
+          >
+            <DefaultLayout>
+              <AccountRoutes />
+            </DefaultLayout>
+          </GuardUserGroup>
         )}
       />
       <GuardCardPaymentSuccessAuthRoute
@@ -136,9 +145,14 @@ export const Routes = () => {
         exact
         path={AdvancedApiRoutesConfig.advancedApi.path}
         render={() => (
-          <DefaultLayout>
-            <AdvancedApiRoutes />
-          </DefaultLayout>
+          <GuardUserGroup
+            shouldRedirect
+            blockName={BlockWithPermission.ChainItem}
+          >
+            <DefaultLayout>
+              <AdvancedApiRoutes />
+            </DefaultLayout>
+          </GuardUserGroup>
         )}
       />
 
@@ -157,9 +171,14 @@ export const Routes = () => {
         exact
         path={[ChainsRoutesConfig.chainDetails.path]}
         render={() => (
-          <DefaultLayout isChainItemPage>
-            <ChainDetailsRoutes />
-          </DefaultLayout>
+          <GuardUserGroup
+            shouldRedirect
+            blockName={BlockWithPermission.ChainItem}
+          >
+            <DefaultLayout isChainItemPage>
+              <ChainDetailsRoutes />
+            </DefaultLayout>
+          </GuardUserGroup>
         )}
       />
       <Route

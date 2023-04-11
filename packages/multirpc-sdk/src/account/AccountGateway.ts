@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { stringify } from 'qs';
 
-import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus } from '../common';
+import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus, Web3Address } from '../common';
 import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
@@ -29,9 +29,18 @@ import {
   ICheckInstantJwtParticipantResponse,
   IGetOrCreateInstantJwt,
   IUserGroupsResponse,
+  IApiUserGroupParams,
   IApiGetUserRequestsParams,
+  IApiCancelSubscriptionRequestParams,
+  IApiBalanceEndTimeRequestParams,
+  IGetGroupJwtRequestParams,
+  IGetGroupJwtResponse,
 } from './types';
-import { IJwtTokenLimitResponse, IJwtTokenResponse } from '../oauth';
+import {
+  IJwtTokenRequestParams,
+  IJwtTokenLimitResponse,
+  IJwtTokenResponse
+} from '../oauth';
 
 export class AccountGateway {
   public api: AxiosInstance;
@@ -54,9 +63,12 @@ export class AccountGateway {
     this.api = axios.create({ ...this.config, ...AXIOS_DEFAULT_CONFIG });
   }
 
-  public async getAnkrBalance(): Promise<IBalance> {
+  public async getAnkrBalance(
+    params: IApiUserGroupParams
+  ): Promise<IBalance> {
     const { data: response } = await this.api.get<IBalance>(
       '/api/v1/auth/balance',
+      { params }
     );
 
     return response;
@@ -93,18 +105,21 @@ export class AccountGateway {
     return response;
   }
 
-  public async getSubscriptions(): Promise<ISubscriptionsResponse> {
+  public async getSubscriptions(
+    params: IApiUserGroupParams
+  ): Promise<ISubscriptionsResponse> {
     const { data: response } = await this.api.get<ISubscriptionsResponse>(
       '/api/v1/auth/payment/getMySubscriptions',
+      { params }
     );
 
     return response;
   }
 
-  async cancelSubscription(subscriptionId: string): Promise<void> {
+  async cancelSubscription(params: IApiCancelSubscriptionRequestParams): Promise<void> {
     const { data: response } = await this.api.post<void>(
       '/api/v1/auth/payment/cancelSubscription',
-      { subscription_id: subscriptionId },
+      params,
     );
 
     return response;
@@ -123,13 +138,13 @@ export class AccountGateway {
     return response;
   }
 
-  async getBalanceEndTime(blockchains?: string[]): Promise<number> {
+  async getBalanceEndTime(params: IApiBalanceEndTimeRequestParams): Promise<number> {
     const {
       data: { NumberOfDaysEstimate },
     } = await this.api.get<IBalanceEndTimeResult>(
       '/api/v1/auth/numberOfDaysEstimate',
       {
-        params: { blockchains },
+        params
       },
     );
 
@@ -138,9 +153,10 @@ export class AccountGateway {
 
   async getPrivateStats(
     intervalType: PrivateStatsInterval,
+    group?: string,
   ): Promise<PrivateStats> {
     const { data } = await this.api.get<PrivateStats>(`/api/v1/auth/stats`, {
-      params: { intervalType },
+      params: { intervalType, group },
     });
 
     return data;
@@ -149,11 +165,12 @@ export class AccountGateway {
   async getPrivateStatsByPremiumId(
     intervalType: PrivateStatsInterval,
     premiumID: string,
+    group?: Web3Address,
   ): Promise<PrivateStats> {
     const { data } = await this.api.get<PrivateStats>(
       `/api/v1/auth/statsPremiumID`,
       {
-        params: { intervalType, premiumID },
+        params: { intervalType, premiumID, group },
       },
     );
 
@@ -262,9 +279,12 @@ export class AccountGateway {
     return response;
   }
 
-  public async canPayByCard(): Promise<ICanPayByCardResponse> {
+  public async canPayByCard(
+    params: IApiUserGroupParams
+  ): Promise<ICanPayByCardResponse> {
     const { data: response } = await this.api.get<ICanPayByCardResponse>(
       '/api/v1/auth/payment/isEligibleForCardPayment',
+      { params }
     );
 
     return response;
@@ -294,10 +314,13 @@ export class AccountGateway {
     return response;
   }
 
-  public async getUSDSubscriptionPrices() {
+  public async getUSDSubscriptionPrices(
+    params: IApiUserGroupParams
+  ) {
     const { data: response } =
       await this.api.get<IGetSubscriptionPricesResponse>(
         '/api/v1/auth/payment/getSubscriptionPrices',
+        { params },
       );
 
     return response;
@@ -335,38 +358,49 @@ export class AccountGateway {
     return response;
   }
 
-  async getAllowedJwtTokensCount(): Promise<number> {
+  async getAllowedJwtTokensCount(params: IApiUserGroupParams): Promise<number> {
     const { data } = await this.api.get<IJwtTokenLimitResponse>(
       '/api/v1/auth/jwt/allowedCount',
+      { params }
     );
 
     return data.jwtLimit;
   }
 
-  async getAllJwtToken(): Promise<IJwtTokenResponse[]> {
+  async getAllJwtToken(params: IApiUserGroupParams): Promise<IJwtTokenResponse[]> {
     const { data } = await this.api.get<IJwtTokenResponse[]>(
       '/api/v1/auth/jwt/all',
+      { params }
     );
 
     return data;
   }
 
-  async createJwtToken(index: number): Promise<IJwtTokenResponse> {
+  async createJwtToken(params: IJwtTokenRequestParams): Promise<IJwtTokenResponse> {
     const { data } = await this.api.post<IJwtTokenResponse>(
       `/api/v1/auth/jwt/additional`,
       null,
-      { params: { index } },
+      { params },
     );
 
     return data;
   }
 
-  async deleteJwtToken(index: number) {
+  async deleteJwtToken(params: IJwtTokenRequestParams) {
     const { data: response } = await this.api.delete(`/api/v1/auth/jwt`, {
-      params: { index },
+      params,
     });
 
     return response;
+  }
+
+  async getGroupJwtToken(params: IGetGroupJwtRequestParams): Promise<IGetGroupJwtResponse> {
+    const { data } = await this.api.get<IGetGroupJwtResponse>(
+      `/api/v1/auth/group/jwt`,
+      { params }
+    );
+
+    return data;
   }
 
   public async getUserGroups() {

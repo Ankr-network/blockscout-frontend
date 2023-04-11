@@ -1,6 +1,8 @@
 import { web3Api } from 'store/queries';
 import { MultiService } from 'modules/api/MultiService';
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
+import { GetState } from 'store';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 export const {
   endpoints: { hasVoucherTransactionAndBalanceIsGreaterThanZero },
@@ -11,14 +13,16 @@ export const {
       boolean,
       void
     >({
-      queryFn: async (_args, { dispatch }) => {
+      queryFn: async (_args, { dispatch, getState }) => {
         const service = MultiService.getService();
+        const group = getSelectedGroupAddress(getState as GetState);
 
         const { transactions } = await service
           .getAccountGateway()
           .getPaymentHistory({
             limit: 1,
             type: ['TRANSACTION_TYPE_VOUCHER_TOPUP'],
+            group,
           });
 
         const hasTransaction = Boolean(

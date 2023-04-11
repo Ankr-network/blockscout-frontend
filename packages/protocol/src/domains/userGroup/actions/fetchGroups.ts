@@ -3,11 +3,13 @@ import { web3Api } from 'store/queries';
 import { UserGroup } from 'multirpc-sdk';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
+import { PERSONAL_GROUP_NAME } from '../constants/groups';
 
 const getPersonalUserGroup = (groupAddress: string): UserGroup => {
   return {
     groupAddress,
-    groupName: 'Personal',
+    userRole: 'GROUP_ROLE_OWNER',
+    groupName: PERSONAL_GROUP_NAME,
   };
 };
 

@@ -6,6 +6,7 @@ import { getAxiosAccountErrorMessage } from './getAxiosAccountErrorMessage';
 import { isAxiosAccountEmailError } from './isAxiosAccountEmailError';
 import { isAxiosAccountError } from './isAxiosAccountError';
 import { isAxiosAuthError } from './isAxiosAuthError';
+import { isAxiosPermissionError } from './isAxiosPermissionError';
 
 export const createNotifyingQueryFn = queryFnWrapper({
   onNotification({ api: { dispatch }, error }) {
@@ -16,6 +17,10 @@ export const createNotifyingQueryFn = queryFnWrapper({
 
       if (isAxiosAuthError(error)) {
         message = extractMessage(error.response?.data, 'error.expired-session');
+      }
+
+      if (isAxiosPermissionError(error)) {
+        message = extractMessage(error.response?.data, 'error.permission');
       }
 
       if (isAxiosAccountError(error)) {
