@@ -40,7 +40,7 @@ export const useDebugMenuSection = ({
     }
 
     return (
-      hasRequestComposer({ chainId, group, hasBeacon }) &&
+      hasRequestComposer({ chainId, group, hasBeacon, hasPrivateAccess }) &&
       hasPrivateAccess &&
       !isMobile
     );

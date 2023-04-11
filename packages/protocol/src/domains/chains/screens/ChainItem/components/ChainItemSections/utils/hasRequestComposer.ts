@@ -2,11 +2,13 @@ import { ChainID } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
+import { BlockchainType } from 'multirpc-sdk';
 
 export interface HasRequestComposerParams {
   chainId: ChainID;
   group: EndpointGroup;
   hasBeacon: boolean;
+  hasPrivateAccess?: boolean;
 }
 
 const isAvalancheChain = (id: ChainGroupID) =>
@@ -18,11 +20,28 @@ export const hasRequestComposer = ({
   chainId,
   group,
   hasBeacon,
-}: HasRequestComposerParams) =>
-  (chainId === ChainID.MULTICHAIN ||
+  hasPrivateAccess,
+}: HasRequestComposerParams) => {
+  const { chains } = group;
+
+  const isMainnetForPremiumOnly =
+    chains[0]?.type === BlockchainType.Mainnet &&
+    chains[0]?.isMainnetPremiumOnly;
+
+  const isSolana = isGroupSolanaBased(group);
+  const shouldHideRequestComposerForFree =
+    isMainnetForPremiumOnly && !hasPrivateAccess;
+
+  if (isSolana && shouldHideRequestComposerForFree) {
+    return false;
+  }
+
+  return (
+    chainId === ChainID.MULTICHAIN ||
     chainId === ChainID.TRON ||
     chainId === ChainID.NEAR ||
     isGroupEvmBased(group) ||
     isAvalancheChain(group.id) ||
-    isGroupSolanaBased(group)) &&
-  !hasBeacon;
+    (isGroupSolanaBased(group) && !hasBeacon)
+  );
+};

@@ -32,6 +32,7 @@ export interface IApiChain {
   premiumOnly?: boolean;
   hasWsFeature: boolean;
   isComingSoon: boolean;
+  isMainnetPremiumOnly?: boolean;
 }
 
 const getSuiFrontChain = (testnet: IApiChain) => ({
@@ -71,6 +72,7 @@ export const filterMapChains = (
         premiumOnly,
         hasWsFeature: features.includes(BlockchainFeature.WS),
         isComingSoon: features.includes(BlockchainFeature.ComingSoon),
+        isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,
       };
     });
 
@@ -192,16 +194,33 @@ export const filterMapChains = (
     return result;
   }, {});
 
-  return chainsWithTestnetsOrDevnets.reduce<IApiChain[]>((result, chain) => {
-    const { chainExtends, id } = chain;
+  const resultedChains = chainsWithTestnetsOrDevnets.reduce<IApiChain[]>(
+    (result, chain) => {
+      const { chainExtends, id } = chain;
 
-    if (!chainExtends) {
-      result.push({
-        ...chain,
-        extenders: extenders[id],
-      });
-    }
+      if (!chainExtends) {
+        result.push({
+          ...chain,
+          extenders: extenders[id],
+        });
+      }
 
-    return result;
-  }, []);
+      return result;
+    },
+    [],
+  );
+
+  resultedChains.forEach(item => {
+    const isAllTestnetsForPremium =
+      item.testnets?.every(el => el.premiumOnly) ?? true;
+    const isAllDevnetsForPremium =
+      item.devnets?.every(el => el.premiumOnly) ?? true;
+
+    item.premiumOnly =
+      item.isMainnetPremiumOnly &&
+      isAllTestnetsForPremium &&
+      isAllDevnetsForPremium;
+  });
+
+  return resultedChains;
 };
