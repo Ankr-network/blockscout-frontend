@@ -1,9 +1,13 @@
+import { IApiUserGroupParams } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { GetState } from 'store';
-import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 import { getUserEndpointToken } from 'domains/jwtToken/action/getAllJwtTokenUtils';
-import { getSelectedGroupAddress } from '../utils/getSelectedGroupAddress';
+import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
+
+interface GroupJwtData {
+  jwtToken?: string;
+  jwtData?: string;
+}
 
 export const {
   endpoints: { userGroupFetchGroupJwt },
@@ -11,10 +15,11 @@ export const {
   useUserGroupFetchGroupJwtQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    userGroupFetchGroupJwt: build.query<string | null, void>({
-      queryFn: async (_arg, { getState }) => {
-        await authorizationGuard(getState as GetState);
-        const group = getSelectedGroupAddress(getState as GetState);
+    userGroupFetchGroupJwt: build.query<
+      GroupJwtData | null,
+      IApiUserGroupParams
+    >({
+      queryFn: async ({ group }) => {
         const service = MultiService.getService();
         const accountGateway = service.getAccountGateway();
 
@@ -28,7 +33,14 @@ export const {
           false,
         );
 
-        return { data: decryptedToken };
+        await makeWorkerGatewayAuthorization(response?.jwt_data);
+
+        return {
+          data: {
+            jwtToken: decryptedToken,
+            jwtData: response?.jwt_data,
+          },
+        };
       },
     }),
   }),
