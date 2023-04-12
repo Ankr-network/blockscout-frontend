@@ -135,9 +135,14 @@ export const Routes = () => {
         exact
         path={[MMChainsRoutesConfig.mmChains.path]}
         render={() => (
-          <DefaultLayout>
-            <MMChainsRoutes />
-          </DefaultLayout>
+          <GuardUserGroup
+            shouldRedirect
+            blockName={BlockWithPermission.UsageData}
+          >
+            <DefaultLayout>
+              <MMChainsRoutes />
+            </DefaultLayout>
+          </GuardUserGroup>
         )}
       />
 
