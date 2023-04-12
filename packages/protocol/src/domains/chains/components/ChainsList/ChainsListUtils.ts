@@ -23,6 +23,7 @@ export const formatChains = (data: IApiChain[]): Chain[] => {
       urls,
       premiumOnly,
       isComingSoon,
+      isMainnetPremiumOnly,
     } = item;
 
     return {
@@ -37,6 +38,7 @@ export const formatChains = (data: IApiChain[]): Chain[] => {
       urls,
       premiumOnly,
       isComingSoon,
+      isMainnetPremiumOnly,
       ...frontChain,
       id,
     };
