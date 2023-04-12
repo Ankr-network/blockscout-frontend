@@ -317,7 +317,18 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
   },
 
-  [ChainID.MANTLE]: {
+  // [ChainID.MANTLE]: {
+  //   chainId: 5000,
+  //   chainName: 'Mantle',
+  //   nativeCurrency: {
+  //     name: 'BIT',
+  //     symbol: 'BIT',
+  //     decimals: 18,
+  //   },
+  //   blockExplorerUrls: ['https://explorer.testnet.mantle.xyz/'],
+  // },
+
+  [ChainID.MANTLE_TESTNET]: {
     chainId: 5001,
     chainName: 'Mantle Testnet',
     nativeCurrency: {
