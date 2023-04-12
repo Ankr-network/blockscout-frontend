@@ -1,8 +1,7 @@
 import { WorkerTokenData } from 'multirpc-sdk';
 
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useUserGroupFetchGroupJwtQuery } from 'domains/userGroup/actions/fetchGroupJwt';
+import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
@@ -28,14 +27,12 @@ const getJwtToken = (
 
 export const useJwtTokenForWorkerRequests = () => {
   const { workerTokenData } = useAuth();
-  const { selectedGroupAddress } = useSelectedUserGroup();
   const [
     ,
     { data: { jwtTokens } = defaultJWTTokens, isLoading: isLoadingAllJwt },
   ] = useQueryEndpoint(fetchAllJwtTokenRequests);
 
-  const { data: groupToken, isLoading: isLoadingGroupToken } =
-    useUserGroupFetchGroupJwtQuery({ group: selectedGroupAddress });
+  const { groupToken, isLoadingGroupToken } = useGroupJwtToken();
 
   const { tokenIndex } = useTokenManagerConfigSelector();
 
@@ -45,7 +42,7 @@ export const useJwtTokenForWorkerRequests = () => {
   );
 
   return {
-    jwtToken: selectedGroupAddress ? groupToken?.jwtData : jwtToken,
+    jwtToken: groupToken?.jwtData || jwtToken,
     isLoading: isLoadingAllJwt || isLoadingGroupToken,
   };
 };

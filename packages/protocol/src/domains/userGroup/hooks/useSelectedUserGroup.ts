@@ -10,6 +10,13 @@ export const useSelectedUserGroup = () => {
   const index = useAppSelector(selectSelectedUserGroupIndex);
   const isPersonal = useAppSelector(selectIsSelectedUserGroupPersonal);
   const selectedGroupAddress = isPersonal ? undefined : group?.groupAddress;
+  const isGroupSelected = Boolean(selectedGroupAddress);
 
-  return { group, index, isPersonal, selectedGroupAddress };
+  return {
+    group,
+    index,
+    isPersonal,
+    selectedGroupAddress,
+    isGroupSelected,
+  };
 };

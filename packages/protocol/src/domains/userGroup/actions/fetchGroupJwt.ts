@@ -29,16 +29,16 @@ export const {
 
         const response = await accountGateway.getGroupJwtToken({ group });
         const decryptedToken = await getUserEndpointToken(
-          response?.jwt_data,
+          response.jwt_data,
           false,
         );
 
-        await makeWorkerGatewayAuthorization(response?.jwt_data);
+        await makeWorkerGatewayAuthorization(response.jwt_data);
 
         return {
           data: {
             jwtToken: decryptedToken,
-            jwtData: response?.jwt_data,
+            jwtData: response.jwt_data,
           },
         };
       },
