@@ -11,11 +11,11 @@ export interface BalanceEndTime {
   isLoading: boolean;
 }
 
-type Fetcher = Trigger<string[] | undefined, number>;
+type Fetcher = Trigger<string[] | void, number>;
 
 const fetch = (shouldFetch: boolean, fetcher: Fetcher) => {
   if (shouldFetch) {
-    fetcher(undefined);
+    fetcher();
   }
 };
 
