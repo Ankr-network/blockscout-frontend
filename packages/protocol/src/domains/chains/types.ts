@@ -34,4 +34,5 @@ export interface Chain {
   premiumOnly?: boolean;
   coinName: string;
   isComingSoon: boolean;
+  isMainnetPremiumOnly?: boolean;
 }

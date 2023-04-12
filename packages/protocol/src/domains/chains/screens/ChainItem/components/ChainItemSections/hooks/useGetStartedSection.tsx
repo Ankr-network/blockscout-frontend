@@ -42,6 +42,7 @@ export const useGetStartedSection = ({
       chainId,
       group,
       hasBeacon,
+      hasPrivateAccess,
     });
     const isVisible = hasUpgradeBanner || hasRequestComposer;
 
@@ -58,6 +59,7 @@ export const useGetStartedSection = ({
           hasUpgradeBanner={hasUpgradeBanner}
           publicUrl={publicUrl}
           hasPremium={hasPremium}
+          hasRequestComposer={hasRequestComposer}
         />
       ),
       onSelect: getSelectHandler(SectionID.GetStarted),
@@ -73,5 +75,6 @@ export const useGetStartedSection = ({
     hasUpgradeBanner,
     publicUrl,
     hasPremium,
+    hasPrivateAccess,
   ]);
 };

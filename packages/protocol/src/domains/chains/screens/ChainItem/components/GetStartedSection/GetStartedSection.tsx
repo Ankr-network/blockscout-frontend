@@ -17,6 +17,7 @@ export interface GetStartedSectionProps {
   hasUpgradeBanner: boolean;
   publicUrl: string;
   hasPremium: boolean;
+  hasRequestComposer: boolean;
 }
 
 export const GetStartedSection = ({
@@ -25,6 +26,7 @@ export const GetStartedSection = ({
   hasUpgradeBanner,
   publicUrl,
   hasPremium,
+  hasRequestComposer,
 }: GetStartedSectionProps) => {
   const isMultiChain = chainId === ChainID.MULTICHAIN;
   const { hasBeacon } = useBeaconContext();
@@ -45,7 +47,7 @@ export const GetStartedSection = ({
       {!hasBeacon && isEvmBased && (
         <ConnectionSnippet group={codeSnippetGroup} />
       )}
-      {!hasBeacon && (
+      {!hasBeacon && hasRequestComposer && (
         <RequestComposer
           group={group}
           publicUrl={publicUrl}
