@@ -29,7 +29,7 @@ export const useStyles = makeStyles<void, 'cellThead' | 'row'>()(
       },
     },
     subtitle2: {
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: 400,
     },
 

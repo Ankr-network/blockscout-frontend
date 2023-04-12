@@ -54,6 +54,9 @@ export const ProjectSelect = ({
   return (
     <FormControl sx={{ width: SELECT_WIDTH }}>
       <Select
+        inputProps={{
+          className: classes.inputRoot,
+        }}
         value={selectedOption}
         onChange={handleChange}
         renderValue={renderValue}

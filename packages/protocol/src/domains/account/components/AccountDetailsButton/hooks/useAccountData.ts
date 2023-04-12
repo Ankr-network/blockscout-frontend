@@ -1,12 +1,12 @@
+import { useEffect, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
-import { useMemo } from 'react';
 
 import { AccountType, BalanceStatus } from 'domains/account/types';
 import { getAccountType } from 'domains/account/utils/getAccountType';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
-import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
+import { useLazyAccountFetchBalanceEndTimeQuery } from 'domains/account/actions/fetchBalanceEndTime';
 
 export interface AccountData {
   accountType: AccountType;
@@ -32,8 +32,16 @@ export const useAccountData = (): AccountData => {
   const { creditBalance: balance, isLoadingInitially: isBalanceLoading } =
     useBalance();
 
-  const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
-    useBalanceEndTime(hasPrivateAccess);
+  const [
+    accountFetchBalanceEndTimeQuery,
+    { data: balanceEndTime = -1, isLoading: isBalanceEndTimeLoading },
+  ] = useLazyAccountFetchBalanceEndTimeQuery();
+
+  useEffect(() => {
+    if (hasPrivateAccess) {
+      accountFetchBalanceEndTimeQuery();
+    }
+  }, [accountFetchBalanceEndTimeQuery, hasPrivateAccess]);
 
   const accountType = useMemo(
     () =>

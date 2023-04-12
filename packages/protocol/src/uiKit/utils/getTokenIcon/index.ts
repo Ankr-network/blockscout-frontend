@@ -32,6 +32,7 @@ import stakeIcon from './icons/stake.svg';
 import suiIcon from './icons/sui.svg';
 import syscoinIcon from './icons/syscoin.svg';
 import tronIcon from './icons/tron.svg';
+import mantleIcon from './icons/mantle.svg';
 
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
@@ -44,6 +45,7 @@ import nervosIconDark from './darkModeIcons/nervos.svg';
 import secretIconDark from './darkModeIcons/secret.svg';
 import solIconDark from './darkModeIcons/sol.svg';
 import suiIconDark from './darkModeIcons/sui.svg';
+import mantleIconDark from './darkModeIcons/mantle.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -78,6 +80,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.XDAI]: stakeIcon,
   [ChainID.FILECOIN]: filecoinIcon,
   [ChainID.SUI]: suiIcon,
+  [ChainID.MANTLE]: mantleIcon,
 };
 
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {
@@ -94,6 +97,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SECRET]: secretIconDark,
   [ChainID.SOLANA]: solIconDark,
   [ChainID.SUI]: suiIconDark,
+  [ChainID.MANTLE]: mantleIconDark,
 };
 
 export function getChainIcon(name: string, isLightTheme: boolean) {

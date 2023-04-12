@@ -171,7 +171,9 @@ export const filterMapChains = (
           testnets: testnets[id],
           devnets: devnets[id],
           frontChain:
-            id === 'sui' ? getSuiFrontChain(testnets[id]?.[0]) : undefined,
+            id === 'sui' || id === 'mantle'
+              ? getSuiFrontChain(testnets[id]?.[0])
+              : undefined,
         });
       }
 

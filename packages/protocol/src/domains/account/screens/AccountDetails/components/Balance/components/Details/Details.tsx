@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AccountMarker } from 'domains/account/components/AccountMarker';
 import { AccountType, BalanceStatus } from 'domains/account/types';
 import { getDescriptions } from './utils/getDescriptions';
@@ -38,9 +40,11 @@ export const Details = ({
       {description && (
         <span className={classes.description}>{description}</span>
       )}
-      {extraDescription && (
-        <span className={classes.extraDescription}>{extraDescription}</span>
-      )}
+      <GuardUserGroup blockName={BlockWithPermission.Status}>
+        {extraDescription && (
+          <span className={classes.extraDescription}>{extraDescription}</span>
+        )}
+      </GuardUserGroup>
     </>
   );
 
@@ -52,9 +56,11 @@ export const Details = ({
 
   return (
     <div className={classes.detailsRoot}>
-      <div className={classes.marker}>
-        <AccountMarker status={status} />
-      </div>
+      <GuardUserGroup blockName={BlockWithPermission.Status}>
+        <div className={classes.marker}>
+          <AccountMarker status={status} />
+        </div>
+      </GuardUserGroup>
       {content}
     </div>
   );

@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useChainItemHeaderStyles = makeStyles()((theme: Theme) => ({
+export const useChainItemHeaderStyles = makeStyles()(theme => ({
   chainItemHeader: {
     marginBottom: theme.spacing(2 * 7.5),
     padding: theme.spacing(2 * 3.75),
@@ -12,55 +11,50 @@ export const useChainItemHeaderStyles = makeStyles()((theme: Theme) => ({
   },
 }));
 
-export const useChainItemHeaderContentStyles = makeStyles<boolean>()(
-  (theme: Theme, shouldOnlyShowMobileSelector: boolean) => ({
-    controls: {
-      display: 'flex',
-      gap: theme.spacing(2 * 1.5),
-      alignItems: shouldOnlyShowMobileSelector ? 'flex-start' : 'center',
-      marginTop: theme.spacing(8),
+export const useChainItemHeaderContentStyles = makeStyles()(theme => ({
+  controls: {
+    display: 'flex',
+    gap: theme.spacing(2 * 1.5),
+    alignItems: 'center',
 
-      flexDirection: shouldOnlyShowMobileSelector ? 'column' : undefined,
+    marginTop: theme.spacing(8),
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: theme.spacing(2 * 3.75),
+    },
+  },
+  desktopGroupSelector: {
+    '&&': {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none !important',
+      },
+    },
+  },
+  rootMobileGroupSelector: {
+    '&&': {
+      display: 'none',
 
       [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: theme.spacing(2 * 3.75),
+        display: 'flex',
       },
     },
-    desktopGroupSelector: {
-      '&&': {
-        display: shouldOnlyShowMobileSelector ? 'none' : undefined,
+  },
+  content: {
+    display: 'flex',
+    alignItems: 'stretch',
+    alignContent: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing(7.5),
 
-        [theme.breakpoints.down('sm')]: {
-          display: 'none !important',
-        },
-      },
-    },
-    rootMobileGroupSelector: {
-      '&&': {
-        display: shouldOnlyShowMobileSelector ? 'flex' : 'none',
+    marginTop: theme.spacing(8),
 
-        [theme.breakpoints.down('sm')]: {
-          display: 'flex',
-        },
-      },
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
     },
-    content: {
-      display: 'flex',
-      alignItems: 'stretch',
-      alignContent: 'center',
-      justifyContent: 'center',
-      gap: theme.spacing(7.5),
-
-      marginTop: theme.spacing(8),
-
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-      },
-    },
-    multiChainContent: {
-      width: '100%',
-    },
-  }),
-);
+  },
+  multiChainContent: {
+    width: '100%',
+  },
+}));
