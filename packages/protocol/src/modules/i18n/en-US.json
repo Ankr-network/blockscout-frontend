@@ -327,9 +327,9 @@
         "nervos-evm": "Standard EVM and Polyjuice API{plural}",
         "nervos-gw": "Godwoken API{plural}",
         "nervos-ckb": "Nervos CKB Endpoint{plural}",
-        "scrt-rpc": "Secret Network RPC Endpoint{plural}",
-        "scrt-rest": "Secret Network GRPC-Gateway/REST Endpoint{plural}",
-        "scrt-cosmos-rest": "Secret Network RPC & GRPC-Web Endpoint{plural}",
+        "scrt-rpc": "Tendermint JSON-RPC",
+        "scrt-rest": "Tendermint REST",
+        "scrt-cosmos-rest": "Cosmos REST",
         "solana-api": "Solana API{plural}",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"

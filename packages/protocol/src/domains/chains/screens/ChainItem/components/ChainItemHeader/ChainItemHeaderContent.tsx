@@ -10,7 +10,6 @@ import { SecondaryTabs } from '../SecondaryTabs';
 import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
 import { MobileGroupSelector } from './components/MobileGroupSelector';
-import { chainsWithMobileOnlySelector } from './const';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
 import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
@@ -54,18 +53,12 @@ export const ChainItemHeaderContent = ({
 }: ChainItemHeaderContentProps) => {
   const { beaconGroup, hasBeacon } = useBeaconContext();
 
-  const shouldOnlyShowMobileSelector = useMemo(
-    () => chainsWithMobileOnlySelector.has(chain.id),
-    [chain.id],
-  );
   const endpointsGroup = useMemo(
     () => getEndpointsGroup({ group, hasBeacon }),
     [group, hasBeacon],
   );
 
-  const { classes } = useChainItemHeaderContentStyles(
-    shouldOnlyShowMobileSelector,
-  );
+  const { classes } = useChainItemHeaderContentStyles();
 
   const withChainTypeSelector = chainTypeTabs.length > 1;
   const withGroupSelector = groupTabs.length > 1;
