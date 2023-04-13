@@ -46,6 +46,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.FANTOM,
       ChainID.FANTOM_TESTNET,
       ChainID.GNOSIS,
+      ChainID.GNOSIS_BEACON,
       ChainID.GNOSIS_TESTNET,
       ChainID.HARMONY,
       ChainID.IOTEX,
@@ -89,7 +90,7 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.ETH_MAINNET,
     name: getName('etherium-endpoint'),
     pluralName: getName('etherium-endpoint', true),
-    chains: [ChainID.ETH],
+    chains: [ChainID.ETH, ChainID.ETH_BEACON],
   },
   {
     id: ChainGroupID.RINKEBY,
@@ -113,13 +114,13 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.GOERLI,
     name: 'Goerli',
     pluralName: 'Goerli',
-    chains: [ChainID.ETH_GOERLI],
+    chains: [ChainID.ETH_GOERLI, ChainID.ETH_GOERLI_BEACON],
   },
   {
     id: ChainGroupID.SEPOLIA,
     name: 'Sepolia',
     pluralName: 'Sepolia',
-    chains: [ChainID.ETH_SEPOLIA],
+    chains: [ChainID.ETH_SEPOLIA, ChainID.ETH_SEPOLIA_BEACON],
   },
   {
     id: ChainGroupID.NEAR,

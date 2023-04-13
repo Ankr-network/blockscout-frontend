@@ -29,7 +29,7 @@ export const usePrivateChainItem = ({
       netId,
     },
   );
-  const beaconContext = useBeacon(group);
+  const beaconContext = useBeacon({ group, netId });
 
   const publicGroups = publicEndpoints[chainType];
 

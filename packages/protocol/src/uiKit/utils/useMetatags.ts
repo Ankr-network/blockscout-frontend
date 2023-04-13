@@ -1,10 +1,15 @@
+import { Theme, capitalize } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { useEffect } from 'react';
+
 import { INDEX_PATH } from 'domains/chains/routes';
 import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { ChainID } from 'modules/chains/types';
-import { t } from '@ankr.com/common';
-import { useEffect } from 'react';
 import packageJson from '../../../package.json';
-import { capitalize, Theme } from '@mui/material';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { isBeacon } from 'modules/chains/utils/isBeacon';
+import { selectBeacons } from 'domains/chains/store/chainsSlice';
+import { useAppSelector } from 'store/useAppSelector';
 
 const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
 
@@ -91,7 +96,7 @@ const getTestnetChainName = (chainId: string) => {
   return testnetChainName;
 };
 
-export const getChainName = (chainId: ChainID) => {
+export const getChainName = (chainId: ChainID, beacons: IApiChain[] = []) => {
   let name = capitalize(chainId);
 
   if (chainId.includes(ChainID.BSC)) {
@@ -118,6 +123,12 @@ export const getChainName = (chainId: ChainID) => {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {
     name = getSubchainName(renderPrefix(chainId));
+  }
+
+  if (isBeacon(chainId)) {
+    const beacon = beacons.find(({ id }) => id === chainId);
+
+    name = beacon?.name ?? name;
   }
 
   return name;
@@ -154,6 +165,8 @@ export const useMetatags = (
   currentTheme: Theme,
 ) => {
   const currentThemeColor = currentTheme.palette.background.default;
+
+  const beacons = useAppSelector(selectBeacons);
 
   useEffect(() => {
     const themeTag = document.getElementById('meta-theme') as HTMLMetaElement;
@@ -204,7 +217,10 @@ export const useMetatags = (
 
     if (location.indexOf('chain-item') > -1) {
       const lastIndex = pathname.lastIndexOf('/');
-      name = getChainName(pathname.substring(lastIndex + 1) as ChainID);
+      name = getChainName(
+        pathname.substring(lastIndex + 1) as ChainID,
+        beacons,
+      );
     }
 
     document.title = t(`meta.${location}title`, { chainId: name });
@@ -236,5 +252,5 @@ export const useMetatags = (
     }
 
     return () => {};
-  }, [rawPathname, chainsRoutes, currentThemeColor]);
+  }, [rawPathname, chainsRoutes, currentThemeColor, beacons]);
 };
