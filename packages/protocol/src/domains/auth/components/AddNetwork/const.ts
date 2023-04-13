@@ -338,4 +338,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://explorer.testnet.mantle.xyz/'],
   },
+
+  [ChainID.ROLLUX_TESTNET]: {
+    chainId: 57000,
+    chainName: 'Rollux Testnet',
+    nativeCurrency: {
+      name: 'TSYS',
+      symbol: 'TSYS',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://rollux.tanenbaum.io/'],
+  },
 };

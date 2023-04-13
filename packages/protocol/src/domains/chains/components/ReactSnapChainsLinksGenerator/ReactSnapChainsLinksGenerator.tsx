@@ -9,10 +9,11 @@ interface ISubChainLinksGeneratorProps
   rootChainID: IApiChain['id'];
 }
 
-const flatBeacons = (chains: IApiChain[]) =>
+const flatProtocolSubchains = (chains: IApiChain[]) =>
   chains.reduce<IApiChain[]>((acc, cur) => {
     acc.push(cur);
     acc.concat(cur.beacons ?? []);
+    acc.concat(cur.opnodes ?? []);
 
     return acc;
   }, []);
@@ -32,13 +33,15 @@ const SubChainLinksGenerator = ({
           devnets = [],
           extensions = [],
           extenders = [],
+          opnodes = [],
         }) => {
-          const subchains = flatBeacons([
+          const subchains = flatProtocolSubchains([
             ...testnets,
             ...devnets,
             ...extensions,
             ...extenders,
             ...beacons,
+            ...opnodes,
           ]);
 
           return (

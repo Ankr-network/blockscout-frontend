@@ -18,6 +18,7 @@ export interface IApiChain {
   coinName: IBlockchainEntity['coinName'];
   chainExtends?: IBlockchainEntity['extends'];
   beacons?: IApiChain[];
+  opnodes?: IApiChain[];
   extenders?: IApiChain[];
   extensions?: IApiChain[];
   frontChain?: Partial<IApiChain>;
@@ -35,10 +36,13 @@ export interface IApiChain {
   isMainnetPremiumOnly?: boolean;
 }
 
-const getSuiFrontChain = (testnet: IApiChain) => ({
-  id: testnet.id,
-  name: testnet.name,
-  urls: testnet.urls,
+// testnets, which we should show as mainnets
+const FRONTCHAINS = [ChainID.SUI, ChainID.MANTLE, ChainID.ROLLUX];
+
+const getFrontChain = ({ id, name, urls }: IApiChain) => ({
+  id,
+  name,
+  urls,
 });
 
 export const filterMapChains = (
@@ -106,10 +110,29 @@ export const filterMapChains = (
     {},
   );
 
+  const opnodes = chains.reduce<Record<string, IApiChain[]>>(
+    (result, chain) => {
+      const { chainExtends, type } = chain;
+
+      if (type === BlockchainType.Opnode && chainExtends) {
+        result[chainExtends] = result[chainExtends]
+          ? [...result[chainExtends], chain]
+          : [chain];
+      }
+
+      return result;
+    },
+    {},
+  );
+
   const extendedChains = chains.reduce<IApiChain[]>((result, chain) => {
     const { id, type } = chain;
 
-    if (type !== BlockchainType.Extension && type !== BlockchainType.Beacon) {
+    if (
+      type !== BlockchainType.Extension &&
+      type !== BlockchainType.Beacon &&
+      type !== BlockchainType.Opnode
+    ) {
       const evmExtension = (extensions[id] || []).find(extension =>
         extension.id.includes('evm'),
       );
@@ -125,6 +148,7 @@ export const filterMapChains = (
             ]
           : extensions[id],
         beacons: beacons[id],
+        opnodes: opnodes[id],
       });
     }
 
@@ -170,10 +194,13 @@ export const filterMapChains = (
           ...chain,
           testnets: testnets[id],
           devnets: devnets[id],
-          frontChain:
-            id === 'sui' || id === 'mantle'
-              ? getSuiFrontChain(testnets[id]?.[0])
-              : undefined,
+          opnodes:
+            id === ChainID.ROLLUX
+              ? opnodes[ChainID.ROLLUX_TESTNET]
+              : opnodes[id],
+          frontChain: FRONTCHAINS.includes(id)
+            ? getFrontChain(testnets[id]?.[0])
+            : undefined,
         });
       }
 

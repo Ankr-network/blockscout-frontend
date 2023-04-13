@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { BeaconContext } from '../../../constants/BeaconContext';
+import { ChainProtocolContext } from '../../../constants/ChainProtocolContext';
 import { ChainItemHeader } from '../../../components/ChainItemHeader';
 import { ChainItemSections } from '../../../components/ChainItemSections';
 import { H1Tag } from 'uiKit/H1Tag';
@@ -19,7 +19,7 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
   const { isOpened, onOpen, onClose } = useDialog();
 
   const {
-    beaconContext,
+    chainProtocolContext,
     chain,
     publicChain,
     chainType,
@@ -43,7 +43,7 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
   useChainItemBreadcrumbs(chain.name);
 
   return (
-    <BeaconContext.Provider value={beaconContext}>
+    <ChainProtocolContext.Provider value={chainProtocolContext}>
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader
         chain={chain}
@@ -66,6 +66,6 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
         unfilteredGroup={unfilteredGroup}
       />
       <PremiumChainDialog open={isOpened} onClose={onClose} />
-    </BeaconContext.Provider>
+    </ChainProtocolContext.Provider>
   );
 };

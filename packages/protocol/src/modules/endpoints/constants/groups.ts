@@ -64,6 +64,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.HECO_TESTNET,
       ChainID.KLAYTN,
       ChainID.KLAYTN_TESTNET,
+      ChainID.ROLLUX,
+      ChainID.ROLLUX_TESTNET,
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
     ],
@@ -88,8 +90,8 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.ETH_MAINNET,
-    name: getName('etherium-endpoint'),
-    pluralName: getName('etherium-endpoint', true),
+    name: getName('ethereum-endpoint'),
+    pluralName: getName('ethereum-endpoint', true),
     chains: [ChainID.ETH, ChainID.ETH_BEACON],
   },
   {

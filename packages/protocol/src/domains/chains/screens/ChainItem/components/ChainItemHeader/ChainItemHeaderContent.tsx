@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { BeaconSwitch } from './components/BeaconSwitch';
+import { ChainProtocolSwitch } from './components/ChainProtocolSwitch';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { IApiChain } from 'domains/chains/api/queryChains';
@@ -13,7 +13,7 @@ import { MobileGroupSelector } from './components/MobileGroupSelector';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
 import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
-import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;
@@ -51,11 +51,12 @@ export const ChainItemHeaderContent = ({
   isMultiChain,
   selectGroup,
 }: ChainItemHeaderContentProps) => {
-  const { beaconGroup, hasBeacon } = useBeaconContext();
+  const { protocolGroup, isChainProtocolSwitchEnabled } =
+    useChainProtocolContext();
 
   const endpointsGroup = useMemo(
-    () => getEndpointsGroup({ group, hasBeacon }),
-    [group, hasBeacon],
+    () => getEndpointsGroup({ group, isChainProtocolSwitchEnabled }),
+    [group, isChainProtocolSwitchEnabled],
   );
 
   const { classes } = useChainItemHeaderContentStyles();
@@ -75,7 +76,9 @@ export const ChainItemHeaderContent = ({
           isChainArchived={isChainArchived}
         />
       )}
-      {(withChainTypeSelector || withGroupSelector || Boolean(beaconGroup)) && (
+      {(withChainTypeSelector ||
+        withGroupSelector ||
+        Boolean(protocolGroup)) && (
         <div className={classes.controls}>
           <SecondaryTabs
             selectedTab={chainTypeTab}
@@ -96,12 +99,12 @@ export const ChainItemHeaderContent = ({
             visible={withGroupSelector}
             fullWidth
           />
-          <BeaconSwitch />
+          <ChainProtocolSwitch />
         </div>
       )}
       <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints
-          hasBeacon={hasBeacon}
+          isChainProtocolSwitchEnabled={isChainProtocolSwitchEnabled}
           publicChain={publicChain}
           chainType={chainType}
           group={endpointsGroup}

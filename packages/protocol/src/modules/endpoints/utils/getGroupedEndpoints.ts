@@ -79,6 +79,22 @@ const getEndpointGroups = (
           };
         });
       }
+
+      if (chain_.opnodes) {
+        targetEndpointGroup.opnodes = chain_.opnodes.map(opnode => {
+          const opnodeUrls = flatChainUrls(opnode);
+
+          return {
+            chainName: opnode.name,
+            chains: [opnode],
+            id: targetEndpointGroup.id,
+            name: targetEndpointGroup.name,
+            pluralName: opnode.name,
+            urls: opnodeUrls,
+            urlsCount: getUrlsCount(opnodeUrls),
+          };
+        });
+      }
     } else if (fallbackEndpointGroup) {
       fallbackEndpointGroup.chains.push(chain_);
       fallbackEndpointGroup.urls.push(...urls);

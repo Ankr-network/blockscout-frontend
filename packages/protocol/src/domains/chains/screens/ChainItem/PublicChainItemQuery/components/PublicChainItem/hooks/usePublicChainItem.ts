@@ -1,4 +1,4 @@
-import { BeaconContextValue } from 'domains/chains/screens/ChainItem/constants/BeaconContext';
+import { ChainProtocolContextValue } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
@@ -8,12 +8,12 @@ import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { useIsTestnetPremimumOnly } from './utils';
 import { processChain } from 'domains/chains/screens/ChainItem/utils/processChain';
-import { useBeacon } from 'domains/chains/screens/ChainItem/hooks/useBeacon';
+import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
 import { usePublicChainType } from './usePublicChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 
 export interface ChainItem {
-  beaconContext: BeaconContextValue;
+  chainProtocolContext: ChainProtocolContextValue;
   chain: IApiChain;
   publicChain: IApiChain;
   chainType: ChainType;
@@ -62,7 +62,7 @@ export const usePublicChainItem = ({
     },
   );
 
-  const beaconContext = useBeacon({ group, netId });
+  const chainProtocolContext = useChainProtocol({ group, netId });
 
   const publicGroups = publicEndpoints[chainType];
 
@@ -71,7 +71,7 @@ export const usePublicChainItem = ({
     getFallbackEndpointGroup(chain.name);
 
   return {
-    beaconContext,
+    chainProtocolContext,
     chain: processChain(chain),
     publicChain: processChain(publicChain),
     chainType,

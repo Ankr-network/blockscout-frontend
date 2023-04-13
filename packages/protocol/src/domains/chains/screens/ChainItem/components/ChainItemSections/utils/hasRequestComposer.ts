@@ -7,7 +7,7 @@ import { BlockchainType } from 'multirpc-sdk';
 export interface HasRequestComposerParams {
   chainId: ChainID;
   group: EndpointGroup;
-  hasBeacon: boolean;
+  isChainProtocolSwitchEnabled: boolean;
   hasPrivateAccess?: boolean;
 }
 
@@ -19,7 +19,7 @@ const isAvalancheChain = (id: ChainGroupID) =>
 export const hasRequestComposer = ({
   chainId,
   group,
-  hasBeacon,
+  isChainProtocolSwitchEnabled,
   hasPrivateAccess,
 }: HasRequestComposerParams) => {
   const { chains } = group;
@@ -42,6 +42,6 @@ export const hasRequestComposer = ({
     chainId === ChainID.NEAR ||
     isGroupEvmBased(group) ||
     isAvalancheChain(group.id) ||
-    (isGroupSolanaBased(group) && !hasBeacon)
+    (isGroupSolanaBased(group) && !isChainProtocolSwitchEnabled)
   );
 };

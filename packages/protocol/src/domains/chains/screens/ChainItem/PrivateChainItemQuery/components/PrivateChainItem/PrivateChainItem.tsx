@@ -7,7 +7,7 @@ import { ChainItemSections } from '../../../components/ChainItemSections';
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
-import { BeaconContext } from '../../../constants/BeaconContext';
+import { ChainProtocolContext } from '../../../constants/ChainProtocolContext';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
@@ -15,7 +15,7 @@ export interface ChainItemProps {
 
 export const PrivateChainItem = ({ data }: ChainItemProps) => {
   const {
-    beaconContext,
+    chainProtocolContext,
     chain,
     publicChain,
     chainType,
@@ -36,7 +36,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   useChainItemBreadcrumbs(chain.name);
 
   return (
-    <BeaconContext.Provider value={beaconContext}>
+    <ChainProtocolContext.Provider value={chainProtocolContext}>
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader
         chain={chain}
@@ -58,6 +58,6 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
         group={group}
         unfilteredGroup={unfilteredGroup}
       />
-    </BeaconContext.Provider>
+    </ChainProtocolContext.Provider>
   );
 };
