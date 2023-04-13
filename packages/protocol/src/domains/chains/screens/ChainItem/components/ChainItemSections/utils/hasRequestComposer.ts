@@ -37,11 +37,12 @@ export const hasRequestComposer = ({
   }
 
   return (
-    chainId === ChainID.MULTICHAIN ||
-    chainId === ChainID.TRON ||
-    chainId === ChainID.NEAR ||
-    isGroupEvmBased(group) ||
-    isAvalancheChain(group.id) ||
-    (isGroupSolanaBased(group) && !isChainProtocolSwitchEnabled)
+    (chainId === ChainID.MULTICHAIN ||
+      chainId === ChainID.TRON ||
+      chainId === ChainID.NEAR ||
+      isGroupEvmBased(group) ||
+      isAvalancheChain(group.id) ||
+      isGroupSolanaBased(group)) &&
+    !isChainProtocolSwitchEnabled
   );
 };
