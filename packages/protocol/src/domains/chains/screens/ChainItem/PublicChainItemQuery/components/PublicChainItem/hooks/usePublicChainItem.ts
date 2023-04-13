@@ -30,13 +30,13 @@ export interface ChainItem {
 }
 
 type PublicChainItemParams = IChainItemDetails & {
-  onBlockedTestnetClick: () => void;
+  onBlockedTabClick: () => void;
 };
 
 export const usePublicChainItem = ({
   chain,
   unfilteredChain: publicChain,
-  onBlockedTestnetClick,
+  onBlockedTabClick,
 }: PublicChainItemParams): ChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -50,7 +50,8 @@ export const usePublicChainItem = ({
     endpoints,
     netId,
     isBlockedTestnet: Boolean(isTestnetPremimumOnly),
-    onBlockedTestnetClick,
+    isBlockedMainnet: chain?.isMainnetPremiumOnly,
+    onBlockedTabClick,
   });
 
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(

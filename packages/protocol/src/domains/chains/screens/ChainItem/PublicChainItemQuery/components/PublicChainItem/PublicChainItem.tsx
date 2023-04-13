@@ -35,7 +35,7 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
     selectGroup,
   } = usePublicChainItem({
     ...data,
-    onBlockedTestnetClick: onOpen,
+    onBlockedTabClick: onOpen,
   });
 
   useRedirectToAdvancedApi();
