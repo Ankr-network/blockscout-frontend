@@ -104,7 +104,6 @@ export const ChainItemHeaderContent = ({
       )}
       <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints
-          isChainProtocolSwitchEnabled={isChainProtocolSwitchEnabled}
           publicChain={publicChain}
           chainType={chainType}
           group={endpointsGroup}

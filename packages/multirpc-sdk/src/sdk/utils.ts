@@ -33,6 +33,10 @@ export const formatPublicUrls = (
     item => item.id === 'aptos_testnet',
   );
 
+  const gnosisBeaconItem = blockchainsApiResponse.find(
+    item => item.id === 'gnosis_beacon',
+  );
+
   const secretItemsMap = blockchainsApiResponse.reduce<
     Partial<Record<string, IBlockchainEntity>>
   >((map, item) => {
@@ -88,6 +92,12 @@ export const formatPublicUrls = (
       blockchain.paths = zetaChainItem?.paths ? [zetaChainItem.paths[0]] : [];
     }
 
+    if (blockchain.id === 'gnosis_beacon') {
+      blockchain.paths = gnosisBeaconItem?.paths
+        ? [gnosisBeaconItem.paths[0]]
+        : [];
+    }
+
     const rpcURLs: string[] = hasRPC
       ? blockchain?.paths?.map(path =>
           publicRpcUrl.replace('{blockchain}', path),
@@ -101,16 +111,34 @@ export const formatPublicUrls = (
   }, {});
 };
 
-const getPaths = (blockchain: IBlockchainEntity) => {
-  const isTron = blockchain.id === 'tron';
-  const isAptos = blockchain.id === 'aptos';
-  const isAptosTestnet = blockchain.id === 'aptos_testnet';
-  const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.has(blockchain.id);
-  const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(blockchain.id);
+const shouldUsePremiumHttpUrl = (id: string) => {
+  const isTron = id === 'tron';
+  const isAptos = id === 'aptos';
+  const isAptosTestnet = id === 'aptos_testnet';
+  const isGnosisBeacon = id === 'gnosis_beacon';
+  const isEthBeacon = id === 'eth_beacon';
+  const isEthGoerliBeacon = id === 'eth_goerli_beacon';
+  const isEthSepoliaBeacon = id === 'eth_sepolia_beacon';
+  const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(id);
+  const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.has(id);
 
+  return (
+    isTron ||
+    isAptos ||
+    isAptosTestnet ||
+    isEnabledSecret ||
+    isGnosisBeacon ||
+    isEthBeacon ||
+    isEthGoerliBeacon ||
+    isEthSepoliaBeacon ||
+    isZetaChain
+  );
+};
+
+const getPaths = (blockchain: IBlockchainEntity) => {
   let paths = blockchain?.paths ?? [];
 
-  if (isTron || isAptos || isAptosTestnet || isEnabledSecret || isZetaChain) {
+  if (shouldUsePremiumHttpUrl(blockchain.id)) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
   }
 
