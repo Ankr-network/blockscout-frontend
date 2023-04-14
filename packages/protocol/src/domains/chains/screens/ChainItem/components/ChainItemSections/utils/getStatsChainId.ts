@@ -1,5 +1,6 @@
 import { ChainIdParams, getChainId } from './getChainId';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { ChainID } from 'modules/chains/types';
 import { ChainProtocol } from '../../../constants/ChainProtocolContext';
 
 export interface StatsChainIdParams extends ChainIdParams {
@@ -26,7 +27,12 @@ export const getStatsChainId = ({
   publicChain,
   chainProtocol,
 }: StatsChainIdParams) => {
-  const chainId = getChainId({ chainType, group, publicChain });
+  const chainId = getChainId({
+    chainType,
+    group,
+    keepEVMChainID: publicChain.id === ChainID.ZETACHAIN,
+    publicChain,
+  });
 
   if (isChainProtocolSwitchEnabled) {
     return getProtocolChainId(group, chainProtocol) ?? chainId;

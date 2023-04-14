@@ -34,6 +34,7 @@ import syscoinIcon from './icons/syscoin.svg';
 import tronIcon from './icons/tron.svg';
 import rolluxIcon from './icons/rollux.svg';
 import mantleIcon from './icons/mantle.svg';
+import zetachainIcon from './icons/zetachain.svg';
 
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
@@ -83,6 +84,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.FILECOIN]: filecoinIcon,
   [ChainID.SUI]: suiIcon,
   [ChainID.MANTLE]: mantleIcon,
+  [ChainID.ZETACHAIN]: zetachainIcon,
 };
 
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {

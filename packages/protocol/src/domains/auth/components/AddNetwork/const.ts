@@ -25,6 +25,17 @@ const AVALANCHE_FUJI: NetworkInfo = {
   blockExplorerUrls: ['https://testnet.snowtrace.io/'],
 };
 
+const ZETACHAIN: NetworkInfo = {
+  chainId: 7001,
+  chainName: 'ZetaChain Testnet',
+  nativeCurrency: {
+    name: 'ZETA',
+    symbol: 'ZETA',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.zetachain.com/'],
+};
+
 export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   // ? https://support.avax.network/en/articles/6077308-what-are-the-differences-between-the-x-p-and-c-chains
   [ChainID.AVALANCHE]: AVALANCHE,
@@ -349,4 +360,5 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://rollux.tanenbaum.io/'],
   },
+  [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
 };

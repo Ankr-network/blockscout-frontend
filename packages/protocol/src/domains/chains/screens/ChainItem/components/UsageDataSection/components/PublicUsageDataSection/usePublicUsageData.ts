@@ -2,7 +2,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { checkPublicSecretChainsAndGetChainId } from '../../const';
+import { checkPublicChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
 import { getChainId } from '../../../ChainItemSections/utils/getChainId';
 import { usePublicStats } from './usePublicStats';
@@ -25,10 +25,11 @@ export const usePublicUsageData = ({
     publicChain: chain,
     chainType,
     group,
+    keepEVMChainID: true,
     withExceptions: true,
   });
 
-  const publicCheckedChainId = checkPublicSecretChainsAndGetChainId(chainId);
+  const publicCheckedChainId = checkPublicChainsAndGetChainId(chainId);
 
   const {
     countries,

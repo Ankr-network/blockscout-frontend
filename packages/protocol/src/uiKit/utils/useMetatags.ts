@@ -121,6 +121,16 @@ export const getChainName = (chainId: ChainID, beacons: IApiChain[] = []) => {
     name = 'Advanced API';
   } else if (chainId === ChainID.ARBITRUM_NOVA) {
     name = 'Arbitrum Nova';
+  } else if (chainId === ChainID.ZETACHAIN) {
+    name = 'ZetaChain testnet';
+  } else if (chainId === ChainID.ZETACHAIN_COSMOS_REST_TESTNET) {
+    name = 'ZetaChain Cosmos REST testnet';
+  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET) {
+    name = 'ZetaChain Tendermint REST testnet';
+  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET) {
+    name = 'ZetaChain Tendermint JSON-RPC testnet';
+  } else if (chainId === ChainID.ZETACHAIN_EVM_TESTNET) {
+    name = 'ZetaChain EVM RPC testnet';
   } else if (chainId.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {

@@ -4,7 +4,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { UsageData } from '../../types';
 import {
-  checkPrivateSecretChainsAndGetChainId,
+  checkPrivateChainsAndGetChainId,
   timeframeToIntervalMap,
 } from '../../const';
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
@@ -63,7 +63,7 @@ export const usePrivateUsageData = ({
     chainProtocol,
   });
 
-  const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);
+  const privateCheckedChainId = checkPrivateChainsAndGetChainId(chainId);
 
   const { selectedProject: userEndpointToken } =
     useTokenManagerConfigSelector();

@@ -68,6 +68,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ROLLUX_TESTNET,
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
+      ChainID.ZETACHAIN_EVM_TESTNET,
     ],
   },
   {
@@ -150,21 +151,21 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.SECRET_RPC,
-    name: getName('scrt-rpc'),
-    pluralName: getName('scrt-rpc', true),
-    chains: [ChainID.SECRET_RPC],
+    name: getName('tendermint-rpc'),
+    pluralName: getName('tendermint-rpc', true),
+    chains: [ChainID.SECRET_RPC, ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET],
   },
   {
     id: ChainGroupID.SECRET_REST,
-    name: getName('scrt-rest'),
-    pluralName: getName('scrt-rest', true),
-    chains: [ChainID.SECRET_REST],
+    name: getName('tendermint-rest'),
+    pluralName: getName('tendermint-rest', true),
+    chains: [ChainID.SECRET_REST, ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET],
   },
   {
     id: ChainGroupID.SECRET_COSMOS_REST,
-    name: getName('scrt-cosmos-rest'),
-    pluralName: getName('scrt-cosmos-rest', true),
-    chains: [ChainID.SECRET_COSMOS_REST],
+    name: getName('cosmos-rest'),
+    pluralName: getName('cosmos-rest', true),
+    chains: [ChainID.SECRET_COSMOS_REST, ChainID.ZETACHAIN_COSMOS_REST_TESTNET],
   },
   {
     id: ChainGroupID.SOLANA,

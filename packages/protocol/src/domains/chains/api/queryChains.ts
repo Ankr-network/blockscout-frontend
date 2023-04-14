@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { ChainID } from 'modules/chains/types';
-
 import {
   BlockchainFeature,
   BlockchainType,
@@ -8,6 +7,8 @@ import {
   FetchBlockchainUrlsResult,
   IBlockchainEntity,
 } from 'multirpc-sdk';
+
+import { isTestnetOnlyChain } from '../utils/isTestnetOnlyChain';
 
 export interface IApiChainURL {
   rpc: string;
@@ -35,9 +36,6 @@ export interface IApiChain {
   isComingSoon: boolean;
   isMainnetPremiumOnly?: boolean;
 }
-
-// testnets, which we should show as mainnets
-const FRONTCHAINS = [ChainID.SUI, ChainID.MANTLE, ChainID.ROLLUX];
 
 const getFrontChain = ({ id, name, urls }: IApiChain) => ({
   id,
@@ -198,7 +196,7 @@ export const filterMapChains = (
             id === ChainID.ROLLUX
               ? opnodes[ChainID.ROLLUX_TESTNET]
               : opnodes[id],
-          frontChain: FRONTCHAINS.includes(id)
+          frontChain: isTestnetOnlyChain(id)
             ? getFrontChain(testnets[id]?.[0])
             : undefined,
         });

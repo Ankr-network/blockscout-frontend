@@ -71,6 +71,12 @@ export enum ChainID {
   FILECOIN = 'filecoin',
   MANTLE = 'mantle',
   MANTLE_TESTNET = 'mantle_testnet',
+  ZETACHAIN = 'zetachain',
+  ZETACHAIN_COSMOS_REST_TESTNET = 'zetachain-cosmos-rest-testnet',
+  ZETACHAIN_EVM_TESTNET = 'zetachain-evm-testnet',
+  ZETACHAIN_TENDERMINT_REST_TESTNET = 'zetachain-tendermint-rest-testnet',
+  ZETACHAIN_TENDERMINT_RPC_TESTNET = 'zetachain-tendermint-rpc-testnet',
+  ZETACHAIN_TESTNET = 'zetachain-testnet',
 
   UNDEFINED = '',
 }

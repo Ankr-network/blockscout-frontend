@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { Chain, Timeframe } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 export interface ChainsItemParams {
   chain: Chain;
@@ -17,7 +18,7 @@ export const usePublicChainsItem = ({
   const { data, isLoading: arePublicStatsLoading } =
     useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
 
-  const chainId = frontChainId || id;
+  const chainId = id === ChainID.ZETACHAIN ? id : frontChainId || id;
 
   return {
     totalRequests: new BigNumber(data?.[chainId] ?? 0),
