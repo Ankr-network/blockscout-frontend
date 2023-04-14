@@ -18,7 +18,6 @@ export interface EndpointsProps {
   publicChain: IApiChain;
   chainType: ChainType;
   group: EndpointGroup;
-  isChainProtocolSwitchEnabled: boolean;
 }
 
 const title = t(`${root}.endpoints.websocket-title`);
@@ -44,7 +43,6 @@ export const Endpoints = ({
   publicChain,
   chainType,
   group,
-  isChainProtocolSwitchEnabled,
 }: EndpointsProps) => {
   const { classes } = useEndpointsStyles();
 
@@ -72,7 +70,6 @@ export const Endpoints = ({
         <>
           <RPCEndpoints
             group={group}
-            isChainProtocolSwitchEnabled={isChainProtocolSwitchEnabled}
             hasConnectWalletMessage={hasConnectWalletMessage}
             hasPremium={hasPremium}
             hasPrivateAccess={hasPrivateAccess}
