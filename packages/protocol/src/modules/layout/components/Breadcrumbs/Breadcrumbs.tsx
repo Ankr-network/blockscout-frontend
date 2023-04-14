@@ -17,6 +17,8 @@ import {
 } from './BreadcrumbsTypes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UserLabel } from 'uiKit/Breadcrumbs/Components/UserLabel';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
   breadcrumbs: [],
@@ -83,10 +85,12 @@ export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
       items={breadcrumbs}
       userLabel={
         isLoggedIn && (
-          <UserLabel
-            hasPremium={hasPremium}
-            hasStatusTransition={hasStatusTransition}
-          />
+          <GuardUserGroup blockName={BlockWithPermission.Status}>
+            <UserLabel
+              hasPremium={hasPremium}
+              hasStatusTransition={hasStatusTransition}
+            />
+          </GuardUserGroup>
         )
       }
     />

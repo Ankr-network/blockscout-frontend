@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
 import { Options } from 'hooks/useQueryEndpoint';
-import { selectUserEndpointToken } from '../store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { useLazyFetchPremiumStatusQuery } from '../actions/fetchPremiumStatus';
+import { selectUserEndpointToken } from 'domains/auth/store/selectors';
+import { useLazyFetchPremiumStatusQuery } from 'domains/auth/actions/fetchPremiumStatus';
+import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
 
 const options: Options['subscriptionOptions'] = {
   pollingInterval: 30_000,
@@ -12,10 +13,18 @@ const options: Options['subscriptionOptions'] = {
 export const usePremiumStatus = () => {
   const userEndpointToken = useAppSelector(selectUserEndpointToken);
 
+  const { groupToken, isLoadingGroupToken } = useGroupJwtToken();
+
   const [fetch, { data: status, isLoading }] =
     useLazyFetchPremiumStatusQuery(options);
 
   useEffect(() => {
+    if (groupToken?.jwtToken) {
+      const { unsubscribe } = fetch(groupToken?.jwtToken);
+
+      return unsubscribe;
+    }
+
     if (userEndpointToken) {
       const { unsubscribe } = fetch(userEndpointToken);
 
@@ -23,7 +32,7 @@ export const usePremiumStatus = () => {
     }
 
     return () => {};
-  }, [fetch, userEndpointToken]);
+  }, [fetch, userEndpointToken, groupToken]);
 
-  return { status, isLoading };
+  return { status, isLoading: isLoadingGroupToken || isLoading };
 };

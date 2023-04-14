@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { ChainID } from 'modules/chains/types';
-
 import {
   BlockchainFeature,
   BlockchainType,
@@ -8,6 +7,8 @@ import {
   FetchBlockchainUrlsResult,
   IBlockchainEntity,
 } from 'multirpc-sdk';
+
+import { isTestnetOnlyChain } from '../utils/isTestnetOnlyChain';
 
 export interface IApiChainURL {
   rpc: string;
@@ -18,6 +19,7 @@ export interface IApiChain {
   coinName: IBlockchainEntity['coinName'];
   chainExtends?: IBlockchainEntity['extends'];
   beacons?: IApiChain[];
+  opnodes?: IApiChain[];
   extenders?: IApiChain[];
   extensions?: IApiChain[];
   frontChain?: Partial<IApiChain>;
@@ -32,12 +34,13 @@ export interface IApiChain {
   premiumOnly?: boolean;
   hasWsFeature: boolean;
   isComingSoon: boolean;
+  isMainnetPremiumOnly?: boolean;
 }
 
-const getSuiFrontChain = (testnet: IApiChain) => ({
-  id: testnet.id,
-  name: testnet.name,
-  urls: testnet.urls,
+const getFrontChain = ({ id, name, urls }: IApiChain) => ({
+  id,
+  name,
+  urls,
 });
 
 export const filterMapChains = (
@@ -71,6 +74,7 @@ export const filterMapChains = (
         premiumOnly,
         hasWsFeature: features.includes(BlockchainFeature.WS),
         isComingSoon: features.includes(BlockchainFeature.ComingSoon),
+        isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,
       };
     });
 
@@ -104,10 +108,29 @@ export const filterMapChains = (
     {},
   );
 
+  const opnodes = chains.reduce<Record<string, IApiChain[]>>(
+    (result, chain) => {
+      const { chainExtends, type } = chain;
+
+      if (type === BlockchainType.Opnode && chainExtends) {
+        result[chainExtends] = result[chainExtends]
+          ? [...result[chainExtends], chain]
+          : [chain];
+      }
+
+      return result;
+    },
+    {},
+  );
+
   const extendedChains = chains.reduce<IApiChain[]>((result, chain) => {
     const { id, type } = chain;
 
-    if (type !== BlockchainType.Extension && type !== BlockchainType.Beacon) {
+    if (
+      type !== BlockchainType.Extension &&
+      type !== BlockchainType.Beacon &&
+      type !== BlockchainType.Opnode
+    ) {
       const evmExtension = (extensions[id] || []).find(extension =>
         extension.id.includes('evm'),
       );
@@ -123,6 +146,7 @@ export const filterMapChains = (
             ]
           : extensions[id],
         beacons: beacons[id],
+        opnodes: opnodes[id],
       });
     }
 
@@ -168,8 +192,13 @@ export const filterMapChains = (
           ...chain,
           testnets: testnets[id],
           devnets: devnets[id],
-          frontChain:
-            id === 'sui' ? getSuiFrontChain(testnets[id]?.[0]) : undefined,
+          opnodes:
+            id === ChainID.ROLLUX
+              ? opnodes[ChainID.ROLLUX_TESTNET]
+              : opnodes[id],
+          frontChain: isTestnetOnlyChain(id)
+            ? getFrontChain(testnets[id]?.[0])
+            : undefined,
         });
       }
 
@@ -192,16 +221,33 @@ export const filterMapChains = (
     return result;
   }, {});
 
-  return chainsWithTestnetsOrDevnets.reduce<IApiChain[]>((result, chain) => {
-    const { chainExtends, id } = chain;
+  const resultedChains = chainsWithTestnetsOrDevnets.reduce<IApiChain[]>(
+    (result, chain) => {
+      const { chainExtends, id } = chain;
 
-    if (!chainExtends) {
-      result.push({
-        ...chain,
-        extenders: extenders[id],
-      });
-    }
+      if (!chainExtends) {
+        result.push({
+          ...chain,
+          extenders: extenders[id],
+        });
+      }
 
-    return result;
-  }, []);
+      return result;
+    },
+    [],
+  );
+
+  resultedChains.forEach(item => {
+    const isAllTestnetsForPremium =
+      item.testnets?.every(el => el.premiumOnly) ?? true;
+    const isAllDevnetsForPremium =
+      item.devnets?.every(el => el.premiumOnly) ?? true;
+
+    item.premiumOnly =
+      item.isMainnetPremiumOnly &&
+      isAllTestnetsForPremium &&
+      isAllDevnetsForPremium;
+  });
+
+  return resultedChains;
 };

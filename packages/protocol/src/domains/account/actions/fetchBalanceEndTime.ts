@@ -7,9 +7,10 @@ import { web3Api } from 'store/queries';
 
 export const {
   endpoints: { accountFetchBalanceEndTime },
+  useLazyAccountFetchBalanceEndTimeQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    accountFetchBalanceEndTime: build.query<number, string[] | undefined>({
+    accountFetchBalanceEndTime: build.query<number, string[] | void>({
       queryFn: createNotifyingQueryFn(async (blockchains, { getState }) => {
         await authorizationGuard(getState as GetState);
         const group = getSelectedGroupAddress(getState as GetState);
@@ -17,7 +18,7 @@ export const {
 
         const endTime = await service
           .getAccountGateway()
-          .getBalanceEndTime({ blockchains, group });
+          .getBalanceEndTime({ blockchains: blockchains ?? undefined, group });
 
         return { data: endTime };
       }),

@@ -10,7 +10,7 @@ import { TrafficFlow } from '../Endpoint/components/TrafficFlow';
 import { canAddEndpoint } from '../Endpoint/EndpointUtils';
 import { getStatsChainId } from '../ChainItemSections/utils/getStatsChainId';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { useInfrastructureSectionStyles } from './InfrastructureSectionStyles';
 import { useLazyInfrastructureFetchEndpointsQuery } from 'domains/infrastructure/actions/fetchEndpoints';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
@@ -34,13 +34,15 @@ export const InfrastructureSection = ({
   withNodes = true,
 }: InfrastructureSectionProps) => {
   const [fetchEndpoints] = useLazyInfrastructureFetchEndpointsQuery();
-  const { hasBeacon } = useBeaconContext();
+  const { isChainProtocolSwitchEnabled, chainProtocol } =
+    useChainProtocolContext();
 
   const chainId = getStatsChainId({
     publicChain: chain,
     chainType,
     group,
-    hasBeacon,
+    isChainProtocolSwitchEnabled,
+    chainProtocol,
   });
 
   const { classes } = useInfrastructureSectionStyles();

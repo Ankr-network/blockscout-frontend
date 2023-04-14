@@ -20,20 +20,32 @@ export const useIsTestnetPremimumOnly = (chain: IApiChain) => {
 };
 
 const TESTNET_ID = 'testnet';
+const MAINNET_ID = 'mainnet';
 
-export const getPublicChainTypeTabs = (
-  endpoints: Endpoints,
-  isBlockedTestnet: boolean,
-  onBlockedTestnetClick: () => void,
-): Tab<Type>[] =>
+interface GetPublicChainTypeTabsParams {
+  endpoints: Endpoints;
+  isBlockedTestnet: boolean;
+  isBlockedMainnet?: boolean;
+  onBlockedTabClick: () => void;
+}
+
+export const getPublicChainTypeTabs = ({
+  endpoints,
+  isBlockedTestnet,
+  isBlockedMainnet,
+  onBlockedTabClick,
+}: GetPublicChainTypeTabsParams): Tab<Type>[] =>
   chainTypeTabs
     .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]].length > 0)
     .map<Tab<Type>>(({ id, title }, index, list) => {
       const blockedTestnet = isBlockedTestnet && id === TESTNET_ID;
+      const blockedMainnet = isBlockedMainnet && id === MAINNET_ID;
+      const isBlocked = blockedTestnet || blockedMainnet;
+
       return {
         id,
         title: (isSelected: boolean) => {
-          const label = blockedTestnet ? (
+          const label = isBlocked ? (
             <LockedTab title={title} />
           ) : (
             title?.toString() ?? ''
@@ -42,12 +54,12 @@ export const getPublicChainTypeTabs = (
           return (
             <SecondaryTab
               isLast={index === list.length - 1}
-              isSelected={!blockedTestnet && isSelected}
+              isSelected={!isBlocked && isSelected}
               label={label}
-              onClick={() => blockedTestnet && onBlockedTestnetClick()}
+              onClick={() => isBlocked && onBlockedTabClick()}
             />
           );
         },
-        isDisabled: blockedTestnet,
+        isDisabled: isBlocked,
       };
     });

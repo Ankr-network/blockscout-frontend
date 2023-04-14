@@ -11,7 +11,7 @@ import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { checkUpgradeBanner } from '../utils/checkUpgradeBanner';
 import { hasRequestComposer as hasRequestComposerFn } from '../utils/hasRequestComposer';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 
 export interface GetStartedSectionParams {
   chainId: ChainID;
@@ -35,13 +35,14 @@ export const useGetStartedSection = ({
     [hasPrivateAccess, isConnecting],
   );
 
-  const { hasBeacon } = useBeaconContext();
+  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
   return useMemo((): Tab<SectionID> | undefined => {
     const hasRequestComposer = hasRequestComposerFn({
       chainId,
       group,
-      hasBeacon,
+      isChainProtocolSwitchEnabled,
+      hasPrivateAccess,
     });
     const isVisible = hasUpgradeBanner || hasRequestComposer;
 
@@ -58,6 +59,7 @@ export const useGetStartedSection = ({
           hasUpgradeBanner={hasUpgradeBanner}
           publicUrl={publicUrl}
           hasPremium={hasPremium}
+          hasRequestComposer={hasRequestComposer}
         />
       ),
       onSelect: getSelectHandler(SectionID.GetStarted),
@@ -69,9 +71,10 @@ export const useGetStartedSection = ({
     chainId,
     getSelectHandler,
     group,
-    hasBeacon,
+    isChainProtocolSwitchEnabled,
     hasUpgradeBanner,
     publicUrl,
     hasPremium,
+    hasPrivateAccess,
   ]);
 };

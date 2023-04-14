@@ -3,6 +3,7 @@ export enum BlockWithPermission {
   UsageData, // access to the Telemetry,
   Billing, // access to the Billing information (account details page)
   Payment, // access to the payment form
+  Status, // access to account status information
 }
 
 export const OWNER_PERMISSIONS = [
@@ -10,11 +11,13 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.UsageData,
   BlockWithPermission.Billing,
   BlockWithPermission.Payment,
+  BlockWithPermission.Status,
 ];
 
 export const DEVELOPER_PERMISSIONS = [
   BlockWithPermission.ChainItem,
   BlockWithPermission.UsageData,
+  BlockWithPermission.Status,
 ];
 
 export const FINANCE_PERMISSIONS = [

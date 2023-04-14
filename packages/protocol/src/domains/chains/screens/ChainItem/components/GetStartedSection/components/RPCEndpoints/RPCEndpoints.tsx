@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
+import { BlockchainType } from 'multirpc-sdk';
 
 import { Endpoint, EndpointProps } from '../Endpoint';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -12,7 +13,7 @@ import { useRPCEndpointsStyles } from './RPCEndpointsStyles';
 
 export interface RPCEndpointsProps {
   group: EndpointGroup;
-  hasBeacon: boolean;
+  isChainProtocolSwitchEnabled: boolean;
   hasConnectWalletMessage: boolean;
   hasPremium: boolean;
   hasPrivateAccess: boolean;
@@ -24,14 +25,14 @@ const header = `${root}.endpoints.title`;
 
 export const RPCEndpoints = ({
   group,
-  hasBeacon,
+  isChainProtocolSwitchEnabled,
   hasConnectWalletMessage,
   hasPremium,
   hasPrivateAccess,
   onCopyEndpoint,
   publicChain,
 }: RPCEndpointsProps) => {
-  const { urls, chainName } = group;
+  const { urls, chainName, chains } = group;
 
   const isMultiChain = publicChain.id === ChainID.MULTICHAIN;
   const rpcs = urls.flatMap(({ rpc }) => [rpc]);
@@ -49,7 +50,14 @@ export const RPCEndpoints = ({
     <EndpointsHeader hasPremium={hasPremium} title={title} />
   );
 
-  if (!hasPrivateAccess && hasBeacon) {
+  const isMainnetForPremiumOnly =
+    chains[0]?.type === BlockchainType.Mainnet &&
+    chains[0]?.isMainnetPremiumOnly;
+
+  if (
+    (!hasPrivateAccess && isChainProtocolSwitchEnabled) ||
+    (!hasPrivateAccess && isMainnetForPremiumOnly)
+  ) {
     return <Placeholder title={endpointsHeader} />;
   }
 

@@ -33,18 +33,28 @@ const addExceptions = (
     ? { ...decomposed, ...(exceptions[chain.id] || {}) }
     : decomposed;
 
+const getTestnets = (chain: IApiChain, keepEVMChainID: boolean) => {
+  const testnets = getSubchainsIds(chain.testnets);
+
+  if (keepEVMChainID) {
+    return testnets;
+  }
+
+  // subchain ids with `-evm` suffix refer to their parent chain
+  return testnets.map(id => id.replace('-evm', '') as ChainID);
+};
+
 export const decomposeChainIntoIds = (
   chain: IApiChain,
   withExceptions?: boolean,
+  keepEVMChainID = false,
 ): DecomposedChainIds => {
   const mainnets = flatChains(chain)
     .filter(({ urls }) => urls.length > 0)
     .map(({ id }) => id)
     .map(id => id.replace('-evm', '') as ChainID);
 
-  const testnets = getSubchainsIds(chain.testnets)
-    // subchain ids with `-evm` suffix refer to their parent chain
-    .map(id => id.replace('-evm', '') as ChainID);
+  const testnets = getTestnets(chain, keepEVMChainID);
 
   const devnets = getSubchainsIds(chain.devnets);
 

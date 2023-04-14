@@ -4,7 +4,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { UsageData } from '../../types';
 import {
-  checkPrivateSecretChainsAndGetChainId,
+  checkPrivateChainsAndGetChainId,
   timeframeToIntervalMap,
 } from '../../const';
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
@@ -15,7 +15,7 @@ import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { ChainID } from 'modules/chains/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 
 export interface UsageDataParams {
   chain: IApiChain;
@@ -52,16 +52,18 @@ export const usePrivateUsageData = ({
 }: UsageDataParams): UsageData => {
   const { loading: isConnecting } = useAuth();
 
-  const { hasBeacon } = useBeaconContext();
+  const { isChainProtocolSwitchEnabled, chainProtocol } =
+    useChainProtocolContext();
 
   const chainId = getStatsChainId({
     publicChain: chain,
     chainType,
     group,
-    hasBeacon,
+    isChainProtocolSwitchEnabled,
+    chainProtocol,
   });
 
-  const privateCheckedChainId = checkPrivateSecretChainsAndGetChainId(chainId);
+  const privateCheckedChainId = checkPrivateChainsAndGetChainId(chainId);
 
   const { selectedProject: userEndpointToken } =
     useTokenManagerConfigSelector();

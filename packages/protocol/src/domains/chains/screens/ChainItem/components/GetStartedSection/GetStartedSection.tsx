@@ -9,7 +9,7 @@ import { UpgradeBanner } from './components/UpgradeBanner';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 import { removeWsUrlIfUserIsNotPremium } from './GetStartedSectionUtils';
-import { useBeaconContext } from '../../hooks/useBeaconContext';
+import { useChainProtocolContext } from '../../hooks/useChainProtocolContext';
 
 export interface GetStartedSectionProps {
   chainId: string;
@@ -17,6 +17,7 @@ export interface GetStartedSectionProps {
   hasUpgradeBanner: boolean;
   publicUrl: string;
   hasPremium: boolean;
+  hasRequestComposer: boolean;
 }
 
 export const GetStartedSection = ({
@@ -25,9 +26,10 @@ export const GetStartedSection = ({
   hasUpgradeBanner,
   publicUrl,
   hasPremium,
+  hasRequestComposer,
 }: GetStartedSectionProps) => {
   const isMultiChain = chainId === ChainID.MULTICHAIN;
-  const { hasBeacon } = useBeaconContext();
+  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
   const { classes } = useGetStartedSectionStyles();
 
@@ -42,10 +44,10 @@ export const GetStartedSection = ({
       {isMultiChain && <MultiChainBenefits />}
       {hasUpgradeBanner && !isMultiChain && <UpgradeBanner />}
 
-      {!hasBeacon && isEvmBased && (
+      {!isChainProtocolSwitchEnabled && isEvmBased && (
         <ConnectionSnippet group={codeSnippetGroup} />
       )}
-      {!hasBeacon && (
+      {!isChainProtocolSwitchEnabled && hasRequestComposer && (
         <RequestComposer
           group={group}
           publicUrl={publicUrl}

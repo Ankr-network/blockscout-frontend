@@ -1,12 +1,10 @@
-import { GetState, RootState } from 'store';
+import { GetState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { infrastructureFetchRestrictedDomains } from './fetchRestrictedDomains';
 import { infrastructureFetchRestrictedIps } from './fetchRestrictedIps';
 import { web3Api } from 'store/queries';
 import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { selectAuthData } from 'domains/auth/store/authSlice';
 
 export interface SecuritySettings {
   domains: string[];
@@ -15,23 +13,8 @@ export interface SecuritySettings {
 
 interface ISecuritySettingsParams {
   chainId: string;
-  selectedJwtTokenIndex: number;
-  jwtTokens: JwtManagerToken[];
+  jwtToken: string;
 }
-
-const getJwtToken = (
-  state: RootState,
-  jwtTokens: JwtManagerToken[],
-  selectedTokenIndex: number,
-) => {
-  const { workerTokenData } = selectAuthData(state);
-
-  if (selectedTokenIndex > 0) {
-    return jwtTokens.find(item => item.index === selectedTokenIndex)?.jwtData;
-  }
-
-  return workerTokenData?.signedToken;
-};
 
 export const {
   endpoints: { infrastructureFetchSecuritySettings },
@@ -43,17 +26,8 @@ export const {
       ISecuritySettingsParams
     >({
       queryFn: createNotifyingQueryFn(
-        async (
-          { chainId, selectedJwtTokenIndex, jwtTokens },
-          { getState, dispatch },
-        ) => {
+        async ({ chainId, jwtToken }, { getState, dispatch }) => {
           credentialsGuard(getState as GetState);
-
-          const jwtToken = getJwtToken(
-            getState() as RootState,
-            jwtTokens,
-            selectedJwtTokenIndex,
-          );
 
           await makeWorkerGatewayAuthorization(jwtToken);
 

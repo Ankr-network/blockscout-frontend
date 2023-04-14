@@ -8,7 +8,7 @@ import {
   StandalonePublicGateway,
 } from '../public';
 import { OauthGateway } from '../oauth';
-import { RpcGateway } from '../rpc/RpcGateway';
+import { RpcGateway } from '../rpc';
 import { WorkerGateway } from '../worker';
 import { formatPrivateUrls, formatPublicUrls } from './utils';
 

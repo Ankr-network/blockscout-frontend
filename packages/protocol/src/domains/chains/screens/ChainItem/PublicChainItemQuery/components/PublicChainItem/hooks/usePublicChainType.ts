@@ -12,7 +12,8 @@ export interface ChainTypeParams {
   endpoints: GroupedEndpoints;
   netId?: string;
   isBlockedTestnet: boolean;
-  onBlockedTestnetClick: () => void;
+  isBlockedMainnet?: boolean;
+  onBlockedTabClick: () => void;
 }
 
 export interface ChainTypeResult {
@@ -26,20 +27,26 @@ export const usePublicChainType = ({
   endpoints,
   netId,
   isBlockedTestnet,
-  onBlockedTestnetClick,
+  isBlockedMainnet,
+  onBlockedTabClick,
 }: ChainTypeParams): ChainTypeResult => {
   const tabs = useMemo(
     () =>
-      getPublicChainTypeTabs(
+      getPublicChainTypeTabs({
         endpoints,
         isBlockedTestnet,
-        onBlockedTestnetClick,
-      ),
-    [endpoints, isBlockedTestnet, onBlockedTestnetClick],
+        isBlockedMainnet,
+        onBlockedTabClick,
+      }),
+    [endpoints, isBlockedTestnet, onBlockedTabClick, isBlockedMainnet],
   );
 
   const [chainTypeTabs, chainTypeTab] = useTabs<ChainType>({
-    initialTabID: getInitialChainType(chain, netId),
+    initialTabID: getInitialChainType(
+      chain,
+      netId,
+      chain?.isMainnetPremiumOnly,
+    ),
     tabs,
   });
 
