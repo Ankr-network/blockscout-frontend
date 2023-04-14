@@ -56,6 +56,7 @@ export const getFlattenChain = (
     chainType,
     group,
     withExceptions: false,
+    keepEVMChainID: publicChain.id === ChainID.ZETACHAIN,
   }) as ChainID;
 
   const flatChains = flattenAllChainTypes(publicChain);

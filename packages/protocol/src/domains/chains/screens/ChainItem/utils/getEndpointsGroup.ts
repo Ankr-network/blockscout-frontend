@@ -1,18 +1,18 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { getBeaconGroup } from './getBeaconGroup';
+import { getBeaconOrOpnodeGroup } from './getBeaconGroup';
 
 export interface EndpointsGroupParams {
   group: EndpointGroup;
-  hasBeacon?: boolean;
+  isChainProtocolSwitchEnabled?: boolean;
 }
 
 export const getEndpointsGroup = ({
   group,
-  hasBeacon,
+  isChainProtocolSwitchEnabled,
 }: EndpointsGroupParams) => {
-  if (!hasBeacon) {
+  if (!isChainProtocolSwitchEnabled) {
     return group;
   }
 
-  return getBeaconGroup(group) ?? group;
+  return getBeaconOrOpnodeGroup(group) ?? group;
 };

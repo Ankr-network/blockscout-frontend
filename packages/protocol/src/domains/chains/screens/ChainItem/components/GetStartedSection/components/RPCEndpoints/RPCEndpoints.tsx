@@ -13,7 +13,7 @@ import { useRPCEndpointsStyles } from './RPCEndpointsStyles';
 
 export interface RPCEndpointsProps {
   group: EndpointGroup;
-  hasBeacon: boolean;
+  isChainProtocolSwitchEnabled: boolean;
   hasConnectWalletMessage: boolean;
   hasPremium: boolean;
   hasPrivateAccess: boolean;
@@ -25,7 +25,7 @@ const header = `${root}.endpoints.title`;
 
 export const RPCEndpoints = ({
   group,
-  hasBeacon,
+  isChainProtocolSwitchEnabled,
   hasConnectWalletMessage,
   hasPremium,
   hasPrivateAccess,
@@ -55,7 +55,7 @@ export const RPCEndpoints = ({
     chains[0]?.isMainnetPremiumOnly;
 
   if (
-    (!hasPrivateAccess && hasBeacon) ||
+    (!hasPrivateAccess && isChainProtocolSwitchEnabled) ||
     (!hasPrivateAccess && isMainnetForPremiumOnly)
   ) {
     return <Placeholder title={endpointsHeader} />;

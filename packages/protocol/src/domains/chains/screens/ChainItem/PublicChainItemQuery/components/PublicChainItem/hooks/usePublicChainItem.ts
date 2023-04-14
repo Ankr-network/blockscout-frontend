@@ -1,4 +1,4 @@
-import { BeaconContextValue } from 'domains/chains/screens/ChainItem/constants/BeaconContext';
+import { ChainProtocolContextValue } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
@@ -8,12 +8,12 @@ import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { useIsTestnetPremimumOnly } from './utils';
 import { processChain } from 'domains/chains/screens/ChainItem/utils/processChain';
-import { useBeacon } from 'domains/chains/screens/ChainItem/hooks/useBeacon';
+import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
 import { usePublicChainType } from './usePublicChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 
 export interface ChainItem {
-  beaconContext: BeaconContextValue;
+  chainProtocolContext: ChainProtocolContextValue;
   chain: IApiChain;
   publicChain: IApiChain;
   chainType: ChainType;
@@ -30,13 +30,13 @@ export interface ChainItem {
 }
 
 type PublicChainItemParams = IChainItemDetails & {
-  onBlockedTestnetClick: () => void;
+  onBlockedTabClick: () => void;
 };
 
 export const usePublicChainItem = ({
   chain,
   unfilteredChain: publicChain,
-  onBlockedTestnetClick,
+  onBlockedTabClick,
 }: PublicChainItemParams): ChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -50,7 +50,8 @@ export const usePublicChainItem = ({
     endpoints,
     netId,
     isBlockedTestnet: Boolean(isTestnetPremimumOnly),
-    onBlockedTestnetClick,
+    isBlockedMainnet: chain?.isMainnetPremiumOnly,
+    onBlockedTabClick,
   });
 
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
@@ -62,7 +63,7 @@ export const usePublicChainItem = ({
     },
   );
 
-  const beaconContext = useBeacon(group);
+  const chainProtocolContext = useChainProtocol({ group, netId });
 
   const publicGroups = publicEndpoints[chainType];
 
@@ -71,7 +72,7 @@ export const usePublicChainItem = ({
     getFallbackEndpointGroup(chain.name);
 
   return {
-    beaconContext,
+    chainProtocolContext,
     chain: processChain(chain),
     publicChain: processChain(publicChain),
     chainType,

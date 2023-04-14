@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useBeaconSwitchStyles = makeStyles<void, 'switchTrack'>()(
+export const useChainProtocolSwitchStyles = makeStyles<void, 'switchTrack'>()(
   (theme, _params, classes) => ({
     root: {
       gap: theme.spacing(2),

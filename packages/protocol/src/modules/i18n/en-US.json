@@ -323,18 +323,19 @@
         "c-chain": "C-Chain{plural}",
         "p-chain": "P-Chain{plural}",
         "x-chain": "X-Chain{plural}",
-        "etherium-endpoint": "Ethereum Endpoint{plural}",
+        "ethereum-endpoint": "Ethereum Endpoint{plural}",
         "nervos-evm": "Standard EVM and Polyjuice API{plural}",
         "nervos-gw": "Godwoken API{plural}",
         "nervos-ckb": "Nervos CKB Endpoint{plural}",
-        "scrt-rpc": "Tendermint JSON-RPC",
-        "scrt-rest": "Tendermint REST",
-        "scrt-cosmos-rest": "Cosmos REST",
+        "tendermint-rpc": "Tendermint JSON-RPC",
+        "tendermint-rest": "Tendermint REST",
+        "cosmos-rest": "Cosmos REST",
         "solana-api": "Solana API{plural}",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
       },
-      "beacon-label": "Beacon"
+      "beacon-label": "Beacon",
+      "opnode-label": "Op-node"
     },
     "about-tron": {
       "about": "The new TronGrid REST API provides user-friendly read APIs with significantly reduced latency, improved consistency, improved availability, and added partition tolerance.",
@@ -572,7 +573,6 @@
       "proposal-title": "Free",
       "proposal-description": "<b>1,000</b> requests/min.<br />Personal Endpoint and Prioritized traffic",
       "action-text": "Upgrade",
-
       "public": {
         "title": "Public",
         "your-plan": "Your plan",

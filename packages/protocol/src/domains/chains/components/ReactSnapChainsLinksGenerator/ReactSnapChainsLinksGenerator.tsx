@@ -9,6 +9,15 @@ interface ISubChainLinksGeneratorProps
   rootChainID: IApiChain['id'];
 }
 
+const flatProtocolSubchains = (chains: IApiChain[]) =>
+  chains.reduce<IApiChain[]>((acc, cur) => {
+    acc.push(cur);
+    acc.concat(cur.beacons ?? []);
+    acc.concat(cur.opnodes ?? []);
+
+    return acc;
+  }, []);
+
 const SubChainLinksGenerator = ({
   chains,
   rootChainID,
@@ -19,17 +28,21 @@ const SubChainLinksGenerator = ({
         ({
           name,
           id,
+          beacons = [],
           testnets = [],
           devnets = [],
           extensions = [],
           extenders = [],
+          opnodes = [],
         }) => {
-          const subchains = [
+          const subchains = flatProtocolSubchains([
             ...testnets,
             ...devnets,
             ...extensions,
             ...extenders,
-          ];
+            ...beacons,
+            ...opnodes,
+          ]);
 
           return (
             <Fragment key={name}>
@@ -68,6 +81,7 @@ export const ReactSnapChainsLinksGenerator = ({
         ({
           name,
           id,
+          beacons = [],
           testnets = [],
           devnets = [],
           extensions = [],
@@ -86,7 +100,13 @@ export const ReactSnapChainsLinksGenerator = ({
 
             <SubChainLinksGenerator
               rootChainID={id}
-              chains={[...testnets, ...devnets, ...extensions, ...extenders]}
+              chains={[
+                ...testnets,
+                ...devnets,
+                ...extensions,
+                ...extenders,
+                ...beacons,
+              ]}
             />
           </Fragment>
         ),

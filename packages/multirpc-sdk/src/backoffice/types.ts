@@ -368,6 +368,7 @@ export enum BlockchainType {
   Devnet = 'devnet',
   Customized = 'customized',
   Beacon = 'beacon',
+  Opnode = 'opnode',
 }
 
 export interface IBlockchainEntity {
