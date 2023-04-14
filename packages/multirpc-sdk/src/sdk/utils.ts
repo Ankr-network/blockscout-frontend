@@ -8,6 +8,11 @@ const ENABLED_SECRET_NETWORK_IDS = new Set<string>([
   'scrt-rest',
 ]);
 
+const ENABLED_ZETACHAIN_IDS = [
+  'zetachain-tendermint-rest-testnet',
+  'zetachain-cosmos-rest-testnet',
+];
+
 export const formatPublicUrls = (
   blockchainsApiResponse: IBlockchainEntity[],
   publicRpcUrl: string,
@@ -32,6 +37,16 @@ export const formatPublicUrls = (
     Partial<Record<string, IBlockchainEntity>>
   >((map, item) => {
     if (ENABLED_SECRET_NETWORK_IDS.has(item.id)) {
+      map[item.id] = item;
+    }
+
+    return map;
+  }, {});
+
+  const zetaChainItemsMap = blockchainsApiResponse.reduce<
+    Partial<Record<string, IBlockchainEntity>>
+  >((map, item) => {
+    if (ENABLED_ZETACHAIN_IDS.includes(item.id)) {
       map[item.id] = item;
     }
 
@@ -67,6 +82,12 @@ export const formatPublicUrls = (
       blockchain.paths = secretItem?.paths ? [secretItem.paths[0]] : [];
     }
 
+    if (ENABLED_ZETACHAIN_IDS.includes(blockchain.id)) {
+      const zetaChainItem = zetaChainItemsMap[blockchain.id];
+
+      blockchain.paths = zetaChainItem?.paths ? [zetaChainItem.paths[0]] : [];
+    }
+
     const rpcURLs: string[] = hasRPC
       ? blockchain?.paths?.map(path =>
           publicRpcUrl.replace('{blockchain}', path),
@@ -85,10 +106,11 @@ const getPaths = (blockchain: IBlockchainEntity) => {
   const isAptos = blockchain.id === 'aptos';
   const isAptosTestnet = blockchain.id === 'aptos_testnet';
   const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.has(blockchain.id);
+  const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(blockchain.id);
 
   let paths = blockchain?.paths ?? [];
 
-  if (isTron || isAptos || isAptosTestnet || isEnabledSecret) {
+  if (isTron || isAptos || isAptosTestnet || isEnabledSecret || isZetaChain) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
   }
 
