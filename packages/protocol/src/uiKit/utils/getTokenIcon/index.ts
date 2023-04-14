@@ -32,7 +32,9 @@ import stakeIcon from './icons/stake.svg';
 import suiIcon from './icons/sui.svg';
 import syscoinIcon from './icons/syscoin.svg';
 import tronIcon from './icons/tron.svg';
+import rolluxIcon from './icons/rollux.svg';
 import mantleIcon from './icons/mantle.svg';
+import zetachainIcon from './icons/zetachain.svg';
 
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
@@ -73,6 +75,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.POLKADOT]: polkadotIcon,
   [ChainID.POLYGON]: polygonIcon,
   [ChainID.POLYGON_ZKEVM]: polygonZkevmIcon,
+  [ChainID.ROLLUX]: rolluxIcon,
   [ChainID.SECRET]: secretIcon,
   [ChainID.SOLANA]: solIcon,
   [ChainID.SYSCOIN]: syscoinIcon,
@@ -81,6 +84,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.FILECOIN]: filecoinIcon,
   [ChainID.SUI]: suiIcon,
   [ChainID.MANTLE]: mantleIcon,
+  [ChainID.ZETACHAIN]: zetachainIcon,
 };
 
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {

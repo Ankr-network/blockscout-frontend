@@ -13,6 +13,7 @@ export interface ChainIdParams {
   chainType: ChainType;
   group: EndpointGroup;
   withExceptions?: boolean;
+  keepEVMChainID?: boolean;
 }
 
 const chainTypesMap: Record<ChainType, keyof DecomposedChainIds> = {
@@ -26,8 +27,13 @@ export const getChainId = ({
   chainType,
   group,
   withExceptions,
+  keepEVMChainID,
 }: ChainIdParams): ChainID => {
-  const decomposed = decomposeChainIntoIds(publicChain, withExceptions);
+  const decomposed = decomposeChainIntoIds(
+    publicChain,
+    withExceptions,
+    keepEVMChainID,
+  );
   const chainIds = decomposed[chainTypesMap[chainType]];
 
   // In general case we may get more than one chain id for a specific group,

@@ -1,0 +1,62 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import {
+  ChainProtocolContextValue,
+  ChainProtocol,
+} from '../constants/ChainProtocolContext';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { getBeaconGroup, getOpnodeGroup } from '../utils/getBeaconGroup';
+import { IApiChain } from 'domains/chains/api/queryChains';
+import { ChainID } from 'modules/chains/types';
+import { isBeacon, isOpnode } from 'modules/chains/utils/isBeacon';
+
+const getChainProtocol = (
+  beaconGroup?: EndpointGroup,
+  opnodeGroup?: EndpointGroup | IApiChain,
+) => {
+  if (beaconGroup) return ChainProtocol.Beacon;
+
+  if (opnodeGroup) return ChainProtocol.Opnode;
+
+  return undefined;
+};
+
+export interface ChainProtocolParams {
+  group: EndpointGroup;
+  netId?: ChainID;
+}
+
+export const useChainProtocol = ({
+  group,
+  netId,
+}: ChainProtocolParams): ChainProtocolContextValue => {
+  const [isChainProtocolSwitchEnabled, setChainTypeSwitch] = useState(
+    isBeacon(netId) || isOpnode(netId),
+  );
+
+  const toggleChainProtocolSwitch = useCallback(
+    () => setChainTypeSwitch(value => !value),
+    [],
+  );
+
+  const beaconGroup = useMemo(() => getBeaconGroup(group), [group]);
+  const opnodeGroup = useMemo(() => getOpnodeGroup(group), [group]);
+  const protocolGroup = beaconGroup || opnodeGroup;
+  const chainProtocol = useMemo(
+    () => getChainProtocol(beaconGroup, opnodeGroup),
+    [beaconGroup, opnodeGroup],
+  );
+
+  useEffect(() => {
+    if (isChainProtocolSwitchEnabled && !protocolGroup) {
+      toggleChainProtocolSwitch();
+    }
+  }, [protocolGroup, toggleChainProtocolSwitch, isChainProtocolSwitchEnabled]);
+
+  return {
+    protocolGroup,
+    isChainProtocolSwitchEnabled,
+    toggleChainProtocolSwitch,
+    chainProtocol,
+  };
+};

@@ -10,7 +10,7 @@ import { Tab } from 'modules/common/hooks/useTabs';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { hasRequestComposer } from '../utils/hasRequestComposer';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBeaconContext } from 'domains/chains/screens/ChainItem/hooks/useBeaconContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 export interface DebugMenuSectionParams {
@@ -30,7 +30,7 @@ export const useDebugMenuSection = ({
 }: DebugMenuSectionParams) => {
   const { hasPrivateAccess } = useAuth();
 
-  const { hasBeacon } = useBeaconContext();
+  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
   const isMobile = useIsSMDown();
 
@@ -40,11 +40,22 @@ export const useDebugMenuSection = ({
     }
 
     return (
-      hasRequestComposer({ chainId, group, hasBeacon, hasPrivateAccess }) &&
+      hasRequestComposer({
+        chainId,
+        group,
+        isChainProtocolSwitchEnabled,
+        hasPrivateAccess,
+      }) &&
       hasPrivateAccess &&
       !isMobile
     );
-  }, [chainId, group, hasBeacon, hasPrivateAccess, isMobile]);
+  }, [
+    chainId,
+    group,
+    isChainProtocolSwitchEnabled,
+    hasPrivateAccess,
+    isMobile,
+  ]);
 
   return useMemo((): Tab<SectionID> | undefined => {
     if (!isVisible) {
