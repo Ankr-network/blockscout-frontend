@@ -19,12 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: ${{secrets.PUSH_TO_PROTECTED_BRANCH_GITHUB_CREDENTIALS}}
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - uses: nelonoel/branch-name@v1.0.1
       - uses: actions/setup-node@v3
         with:
