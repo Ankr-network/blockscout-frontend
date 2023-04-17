@@ -4,16 +4,19 @@ import { web3Api } from 'store/queries';
 import { decryptJwt } from './utils/decryptJwt';
 
 export const {
-  endpoints: { authFetchInstantJwtParticipantToken },
+  endpoints: { authFetchDevdaoInstantJwtParticipantToken },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    authFetchInstantJwtParticipantToken: build.query<JwtTokenFullData, void>({
+    authFetchDevdaoInstantJwtParticipantToken: build.query<
+      JwtTokenFullData,
+      void
+    >({
       queryFn: async () => {
         const service = await MultiService.getService();
 
         const { jwt_data: jwtData, is_encrypted: isEncrypted } = await service
           .getAccountGateway()
-          .getOrCreateInstantJwt();
+          .getOrCreateDevdaoInstantJwt();
 
         const jwtTokenData = await decryptJwt(jwtData, isEncrypted);
 
