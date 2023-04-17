@@ -337,10 +337,6 @@
       "beacon-label": "Beacon",
       "opnode-label": "Op-node"
     },
-    "about-tron": {
-      "about": "The new TronGrid REST API provides user-friendly read APIs with significantly reduced latency, improved consistency, improved availability, and added partition tolerance.",
-      "learn-more": "Learn More"
-    },
     "tabs": {
       "debug-menu": "Debug Menu",
       "get-started": "Get Started",
