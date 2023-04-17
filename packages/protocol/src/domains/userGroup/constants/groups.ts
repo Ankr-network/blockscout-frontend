@@ -4,6 +4,7 @@ export enum BlockWithPermission {
   Billing, // access to the Billing information (account details page)
   Payment, // access to the payment form
   Status, // access to account status information
+  JwtManager, // permissions to create or delete project
 }
 
 export const OWNER_PERMISSIONS = [
@@ -12,6 +13,7 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.Billing,
   BlockWithPermission.Payment,
   BlockWithPermission.Status,
+  BlockWithPermission.JwtManager,
 ];
 
 export const DEVELOPER_PERMISSIONS = [

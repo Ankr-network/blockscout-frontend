@@ -8,6 +8,7 @@ import {
   useProjectSelectOptions,
 } from './useProjectSelectOptions';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { SelectOption } from '../ProjectSelect';
 
 const useResetIfSelectedProjectWasDeleted = (
@@ -34,7 +35,9 @@ const useResetIfSelectedProjectWasDeleted = (
 };
 
 export const useProjectSelect = () => {
-  const { address, hasConnectWalletMessage } = useAuth();
+  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { address: currentUserAddress, hasConnectWalletMessage } = useAuth();
+  const address = selectedGroupAddress || currentUserAddress;
   const dispatch = useDispatch();
 
   const options = useProjectSelectOptions(hasConnectWalletMessage);
