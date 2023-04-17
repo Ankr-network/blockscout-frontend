@@ -40,8 +40,11 @@ export const useUserGroupSelect = () => {
     );
     dispatch(shouldShowUserGroupDialog.initiate());
 
-    // we should refetch all data on changing the user group
-    window.location.reload();
+    const isPersonalGroup = address === selectedGroupAddress;
+    if (!isPersonalGroup) {
+      // we should refetch all data after user selects a group in modal
+      window.location.reload();
+    }
   }, [
     dispatch,
     address,
