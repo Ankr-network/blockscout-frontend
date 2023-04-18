@@ -77,14 +77,31 @@ const getJwtTokenFullDataWithOauthLogin = (
   return web3Service.getIssuedJwtTokenOrIssue(currentAccount);
 };
 
-const getJwtTokenFullData = async (dispatch: AppDispatch) => {
+const getJwtTokenFullData = async (
+  web3Service: MultiRpcWeb3Sdk,
+  dispatch: AppDispatch,
+  currentAccount: string,
+) => {
   const isParticipant = await isInstantJwtParticipant(dispatch);
+
+  if (isParticipant) {
+    dispatch(setAuthData({ isInstantJwtParticipant: true }));
+
+    return dispatch(
+      authFetchDevdaoInstantJwtParticipantToken.initiate(),
+    ).unwrap();
+  }
+
+  const isOldPremiumAndActiveToken =
+    await web3Service.isOldPremiumAndActiveToken(currentAccount);
+
+  if (isOldPremiumAndActiveToken) {
+    return web3Service.getOldPremiumJwtToken(currentAccount);
+  }
 
   dispatch(setAuthData({ isInstantJwtParticipant: true }));
 
-  return isParticipant
-    ? dispatch(authFetchDevdaoInstantJwtParticipantToken.initiate()).unwrap()
-    : dispatch(authFetchInstantJwtParticipantToken.initiate()).unwrap();
+  return dispatch(authFetchInstantJwtParticipantToken.initiate()).unwrap();
 };
 
 export const makeAuthorization = async (
@@ -107,7 +124,11 @@ export const makeAuthorization = async (
     await setWeb3UserAuthorizationToken(service, dispatch);
     fetchUserEmail(dispatch);
 
-    jwtTokenFullData = await getJwtTokenFullData(dispatch);
+    jwtTokenFullData = await getJwtTokenFullData(
+      web3Service,
+      dispatch,
+      currentAccount,
+    );
   }
 
   const { jwtToken: credentials, workerTokenData } = jwtTokenFullData;
