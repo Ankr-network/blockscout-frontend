@@ -1,9 +1,10 @@
 import { t, tHTML } from '@ankr.com/common';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
-import { PREMIUM_BLOCK_ANCHOR } from 'domains/pricing/screens/Pricing/components/PremiumBlock';
 import imgPremium from './assets/premium.png';
 import imgFree from './assets/free.png';
 import imgPublic from './assets/public.png';
+
+const PREMIUM_BLOCK_ANCHOR = 'premiumBlock';
 
 const publicUserBannerContent = {
   image: imgPublic,

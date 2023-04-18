@@ -32,6 +32,8 @@ export const bannerGradientDark = `linear-gradient(97.61deg, #5A87F2 6.28%, #301
 
 export const stepLineColor = `linear-gradient(270deg, #EEA941 0%, #356DF3 100%)`;
 
+export const plansPremiumColor = `linear-gradient(269.98deg, #2F62F1 -188.21%, #8D30FF -44.43%, #FF7710 99.98%)`;
+
 export const commonShadow =
   '0px 5px 25px rgba(31, 34, 38, 0.1), 0px 10px 50px rgba(31, 34, 38, 0.1)';
 

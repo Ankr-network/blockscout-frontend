@@ -616,182 +616,121 @@
   },
   "plan": {
     "breadcrumbs": "Pricing",
-    "unlock-btn": "Connect Wallet",
-    "learn-more": "Learn More",
-    "more-questions": "Have more questions?</br>Let's hear them!",
-    "contact-discord": "Contact Support",
-    "header": {
-      "title": "Ship fast, Scale and Save with Developer-first pricing",
-      "sub-title": "Pricing",
-      "cost": "{value, number, ::compact-short}",
-      "period": "year",
-      "until": "Valid until the end of 2022",
-      "sub-title2": "Limited-time, developer-first pricing that crushes the competition"
-    },
     "plans": {
-      "basic-plan": {
-        "title": "Public",
-        "label": "Free",
-        "description": "Smaller projects and individual developers can receive the best rates of any free tier in the industry.",
-        "features": {
-          "requests": "Instant RPC requests",
-          "chains": "Free access for most chains",
-          "login": "No Credit Card required"
-        },
-        "button": "Current Plan"
-      },
-      "premium-plan": {
-        "title": "Premium",
-        "label": "Pay as You Go",
-        "description": "For Web3 projects looking for fast, reliable infrastructure to scale operations to the next level.",
-        "link": "Learn more about Pay as You Go",
-        "features": {
-          "websockets": "WebSockets",
-          "api": "Advanced Developer APIs",
-          "requests": "1,500 reqs/sec",
-          "endpoints": "Dedicated endpoints"
-        },
-        "button": "Get Started with Premium"
-      }
-    },
-    "premium-block": {
-      "block-title": "Start Building with Ankr",
-      "title": "Please make a&nbsp;deposit to get all Premium features",
-      "value": "{requests, number, ::compact-short}",
-      "pricing": "{amount}&nbsp;<img src=\"{src}\" alt=\"{alt}\" class=\"icon\" />&nbsp;≈ {requests} requests",
-      "ankr": "ankr",
-      "pricing-info": "How to calculate price?",
-      "pricing-link": "Learn more about Pay as You Go",
-      "button": "Create Account",
-      "min": "Should be at least {value} ANKR",
-      "balance": "Your balance is not sufficient",
-      "amount": "Your balance: {value} ANKR"
-    },
-    "enterprise-block": {
-      "label": "Have special requirements?",
-      "title": "Get Enterprise-Grade Service",
-      "link": "Talk to Sales"
-    },
-    "features-block": {
-      "feature1": "WebSockets (WS) Capabilities",
-      "feature2": "More Requests To Power Your Project",
-      "feature3": "View Blockchain Analytics",
-      "feature4": "Globally Distributed Multi-Chain Infrastructure",
-      "feature5": "Prioritized Requests During Peak Traffic",
-      "feature6": "Dedicated Endpoints For All Supported Chains",
-      "feature-full1": "Provide a constant stream of blockchain data to your application so your applications and platforms can be updated in real-time.",
-      "feature-full2": "Scale your application to handle any amount of blockchain requests. Our premium plan serves dApps and platforms of all sizes.",
-      "feature-full3": "See all on-chain activity and stay up to date on network activity with our analytics tools.",
-      "feature-full4": "Our infrastructure is ready to serve your needs with lightning-fast and reliable returns no matter your location. Ankr removes the need for developers to run their own blockchain nodes, freeing up more time and money to focus on building!",
-      "feature-full5": "Ankr Protocol will always prioritize our Premium users to ensure they receive every resource they need to develop and connect with chains.",
-      "feature-full6": "Access to dedicated endpoints ensures that your project always has node resources to power it at the highest level of performance.  Build easier on any network with multi-chain infrastructure ready to handle any application’s needs."
-    },
-    "table": {
-      "header": {
-        "column-1": "Key features",
-        "column-2": "Public",
-        "column-3": "Premium"
-      },
-      "header-summary": {
-        "column-1": "Compare plans",
-        "column-2": "Free",
-        "column-3": "Pay as You Go"
-      },
-      "header-button": {
-        "column-2": "Current Plan",
-        "column-3": "Get Started",
-        "column-4": "Talk to Sales"
-      },
-      "body-row": {
-        "row-1-1": "Requests/sec",
-        "row-1-2": "Archive data",
-        "row-1-3": "Usage Stats and Reports",
-        "row-1-4": "Exclusive Blockchain Endpoints",
-        "row-1-5": "WebSockets",
-        "row-1-6": "Support Polkadot, Kusama & Heco ",
-        "row-1-7": "Batch Requests",
-        "row-1-8": "Batch Size <em>eth_getLogs</em>",
-        "row-1-9": "Advanced APIs",
-        "row-1-10": "Customer Support",
-        "row-2-1": "1800 requests/min across all provided endpoints.",
-        "row-2-8": "10 per batch",
-        "row-2-9": "50 requests/min",
-        "row-2-10": "Discord and Support Portal",
-        "row-3-1": "Defaults to 1,500 requests/sec per chain. 4,000 requests/sec for Solana chain. Upgradeable on request.",
-        "row-3-8": "Up to 1,000",
-        "row-3-9": "1,000+ requests/min",
-        "row-3-10": "Dedicated support"
-      },
-      "tip": {
-        "1-2": "1-2",
-        "1-4": "1-4",
-        "1-7": "1-7",
-        "1-11": "1-11",
-        "2-1": "2-1"
-      },
-      "to-learn-more": "Want to learn more? ",
-      "ankr-doc": "Ankr RPC Docs",
-      "sales-mail": "mailto:sales@ankr.com",
-      "what-is-included": "What's included",
-      "public": {
-        "item-1": "1800 requests/min across all provided endpoints.",
-        "item-2": "Archive data",
-        "item-3": "Batch Requests",
-        "item-4": "10 per batch for eth_getlogs",
-        "item-5": "50 requests/min for Advanced APIs",
-        "item-6": "Discord and Support Portal"
+      "free": {
+        "title": "Free",
+        "price": "<em>$0</em>forever free",
+        "info-1": "<em>30</em> requests per second",
+        "info-2": "<em>23</em> chains",
+        "info-3": "<em>10</em> regions",
+        "info-4": "Community support",
+        "button": "Start for Free"
       },
       "premium": {
-        "item-1": "Defaults to 1,500 requests/sec per chain. 4,000 requests/sec for Solana chain. Upgradeable on request.",
-        "item-2": "Archive data",
-        "item-3": "Usage Stats and Reports",
-        "item-4": "Exclusive Blockchain Endpoints",
-        "item-5": "Detailed Statistics",
-        "item-6": "WebSockets",
-        "item-7": "Support Polkadot, Kusama & Heco",
-        "item-8": "Batch Requests",
-        "item-9": "Up to 1,000 batch for eth_getlogs",
-        "item-10": "1,000+ requests/min for Advanced APIs",
-        "item-11": "Dedicated support"
-      }
-    },
-    "deposit": {
-      "breadcrumbs": "Deposit",
-      "title": "Annual plan",
-      "subtitle": "Deposit&nbsp;<b>10,000</b> ANKR&nbsp;to&nbsp;get access to <b>Premium&nbsp;features</b>",
-      "remaining-block": "Remaining blocks: {value, number}",
-      "advantages": {
-        "private-endpoints": "Exclusive endpoints",
-        "prioritized-requests": "Prioritized requests in&nbsp;times of&nbsp;congestion",
-        "websockets": "WSS (Websockets)"
+        "title": "Premium",
+        "tip": "PAY-AS-YOU-GO",
+        "price": "<em>$10</em> per 100M credits",
+        "info-1": "<em>1500</em> requests per second",
+        "info-2": "<em>30</em> chains",
+        "info-3": "<em>40</em> regions",
+        "info-4": "Support portal",
+        "button": "Get Started"
       },
-      "agreement": {
-        "text": "I&nbsp;understand that my&nbsp;wallet app will deposit these tokens and&nbsp;I will incur a&nbsp;gas fee. The deposit is&nbsp;non-refundable. Ankr cannot assist with lost passwords for wallet apps.",
-        "button": "Deposit"
+      "enterprise": {
+        "title": "Enterprise",
+        "tip": "Special requirements?",
+        "price": "<em>From $1000</em>",
+        "info-1": "<em>15000</em> requests per second",
+        "info-2": "<em>Custom</em> chains",
+        "info-3": "<em>Custom</em> regions",
+        "info-4": "Engineering team support",
+        "button": "Contact Sales"
+      }
+    },
+    "plan-comparison": {
+      "title": "Plan Comparison",
+      "public": {
+        "title": "Public",
+        "summary": "Free",
+        "text-4": "Multiple",
+        "text-5": "Normal",
+        "text-6": "Low",
+        "text-9": "10 in 1 min",
+        "text-10": "in 24H"
       },
-      "validation": {
-        "checkbox": "Please, check this box to proceed"
-      }
+      "personal-free": {
+        "title": "Personal Free",
+        "summary": "Sign Up",
+        "text-4": "Multiple",
+        "text-5": "Normal",
+        "text-6": "Low",
+        "text-9": "10 in 1 min",
+        "text-10": "in 24H"
+      },
+      "premium": {
+        "title": "Premium",
+        "summary": "Pay as You Go",
+        "text-4": "Global",
+        "text-5": "High",
+        "text-6": "Low",
+        "text-9": "1000 in 1 min",
+        "text-10": "in 24H"
+      },
+      "enterprise": {
+        "title": "Enterprise",
+        "summary": "Custom",
+        "text-4": "Custom",
+        "text-5": "High",
+        "text-6": "The lowest",
+        "text-9": "5000 in 1 min",
+        "text-10": "in 4H"
+      },
+      "name-1": "Personalised statistics",
+      "name-2": "Private endpoint",
+      "name-3": "Multiple endpoints",
+      "name-4": "Node locations",
+      "name-5": "Request priority",
+      "name-6": "Latency",
+      "name-7": "Archive requests",
+      "name-8": "Batch requests",
+      "name-9": "eth_getlogs",
+      "name-10": "Support response",
+      "name-11": "Telemetry",
+      "name-12": "Debug mode",
+      "name-13": "Multiuser access",
+      "name-14": "IP and Domain whitelisting",
+      "name-15": "Smart contract whitelisting",
+      "name-16": "WSS",
+      "name-17": "Trace and debug calls",
+      "name-18": "Personal account manager",
+      "name-19": "Engineer support",
+      "name-20": "Pay in different crypto",
+      "name-21": "Dedicated infrastructure"
     },
-    "deposit-success": {
-      "title": "Deposited Successfully",
-      "subtitle": "We&nbsp;need your email so&nbsp;you can receive updates.",
-      "email-form": {
-        "alerts-label": "Important system alerts, protocol &amp;&nbsp;feature updates",
-        "marketings-label": "Marketing emails",
-        "done-button": "Done",
-        "skip-button": "Skip"
-      }
-    },
-    "pro": {
-      "title": "Congratulations!",
-      "subtitle": "<b>You have access</b> to all premium features"
-    },
-    "connect-wallet": {
-      "title": "Already Premium?",
-      "subtitle": "Connect wallet"
-    },
-    "email-content": "For account setup, Ankr needs an&nbsp;email for important notifications and service updates. Don&rsquo;t worry, your info is&nbsp;highly secured and never shared&nbsp;&mdash; use an&nbsp;anonymous address if&nbsp;you wish!"
+    "scale-plan": {
+      "title": "Plans that scale with you",
+      "pay-as-you-go": "PAY-AS-YOU-GO",
+      "intro": "is a consumption based model that fits all your needs",
+      "item-1": "No commitment",
+      "item-2": "Cost efficient",
+      "item-3": "Right-sizing resources",
+      "item-4": "High scalability",
+      "header-1": "API Type",
+      "header-2": "Credits for 1000 req",
+      "header-3": "USD for 1000 req",
+      "row-1-column-1": "ETH & EVM compartible",
+      "row-1-column-2": "2000",
+      "row-1-column-3": "$0.02",
+      "row-2-column-1": "Solana",
+      "row-2-column-2": "5000",
+      "row-2-column-3": "$0.05",
+      "row-3-column-1": "Advanced API",
+      "row-3-column-2": "7000",
+      "row-3-column-3": "$0.07",
+      "row-4-column-1": "Others",
+      "row-4-column-2": "1000",
+      "row-4-column-3": "$0.01"
+    }
   },
   "oauth": {
     "breadcrumbs": "Google auth",
