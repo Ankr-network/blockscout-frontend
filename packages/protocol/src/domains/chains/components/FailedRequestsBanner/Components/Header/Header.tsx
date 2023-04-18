@@ -10,6 +10,7 @@ interface IFailedRequestsHeaderProps {
   total?: string;
   rate: string;
   rejectedRequestsCount: string;
+  hasOffset?: boolean;
 }
 
 export const Header = ({
@@ -17,11 +18,16 @@ export const Header = ({
   total,
   rate,
   rejectedRequestsCount,
+  hasOffset,
 }: IFailedRequestsHeaderProps) => {
-  const { classes } = useHeaderStyles();
+  const { classes, cx } = useHeaderStyles();
 
   return (
-    <div className={classes.information}>
+    <div
+      className={cx(classes.information, {
+        [classes.informationOffset]: hasOffset,
+      })}
+    >
       <Typography variant="subtitle1" component="div" className={classes.title}>
         <span className={classes.title}>
           {t(`${intlFailedRequestsBannerRoot}.title`)}

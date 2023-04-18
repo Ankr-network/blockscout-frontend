@@ -7,13 +7,22 @@ import { useHeaderStyles } from './useHeaderStyles';
 interface IRequestsHeaderProps {
   total?: string;
   timeframeValue: string;
+  hasOffset?: boolean;
 }
 
-export const Header = ({ total, timeframeValue }: IRequestsHeaderProps) => {
-  const { classes } = useHeaderStyles();
+export const Header = ({
+  total,
+  timeframeValue,
+  hasOffset,
+}: IRequestsHeaderProps) => {
+  const { classes, cx } = useHeaderStyles();
 
   return (
-    <div className={classes.information}>
+    <div
+      className={cx(classes.information, {
+        [classes.informationOffset]: hasOffset,
+      })}
+    >
       <Typography variant="h6" component="div" className={classes.title}>
         <span className={classes.title}>{t(`requests-banner.title`)}</span>
         <Switcher value={timeframeValue} />

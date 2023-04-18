@@ -135,11 +135,17 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   );
 };
 
+const isBeacon = (id: string) =>  id.includes('beacon');
+
 const getPaths = (blockchain: IBlockchainEntity) => {
   let paths = blockchain?.paths ?? [];
 
   if (shouldUsePremiumHttpUrl(blockchain.id)) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
+
+    if (isBeacon(blockchain.id) && !blockchain.paths?.[1]) {
+      paths = blockchain.paths?.[0] ? [blockchain.paths[0]] : [];
+    }
   }
 
   return paths;

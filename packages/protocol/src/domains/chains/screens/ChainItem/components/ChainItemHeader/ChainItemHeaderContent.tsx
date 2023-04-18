@@ -14,6 +14,8 @@ import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
 import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 export interface ChainItemHeaderProps {
   chain: IApiChain;
@@ -108,7 +110,9 @@ export const ChainItemHeaderContent = ({
           chainType={chainType}
           group={endpointsGroup}
         />
-        <PremiumContent isMultiChain={isMultiChain} />
+        <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
+          <PremiumContent isMultiChain={isMultiChain} />
+        </GuardUserGroup>
       </div>
     </>
   );
