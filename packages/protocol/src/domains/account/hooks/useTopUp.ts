@@ -8,6 +8,7 @@ import {
 } from 'domains/account/store/accountTopUpSlice';
 import { topUpCheckAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
 import { topUpDeposit } from '../actions/topUp/deposit';
+import { topUpDepositForUser } from '../actions/topUp/depositForUser';
 import { topUpLogin } from '../actions/topUp/login';
 import { topUpRedirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
 import { topUpRejectAllowance } from '../actions/topUp/rejectAllowance';
@@ -18,12 +19,21 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
+import { useSelectedUserGroup } from '../../userGroup/hooks/useSelectedUserGroup';
 
 export const useTopUp = () => {
+  const { selectedGroupAddress } = useSelectedUserGroup();
+
   const dispatch = useAppDispatch();
 
   const [deposit, { isLoading: loadingDeposit }, depositReset] =
     useQueryEndpoint(topUpDeposit);
+
+  const [
+    depositForUser,
+    { isLoading: loadingDepositForUser },
+    depositForUserReset,
+  ] = useQueryEndpoint(topUpDepositForUser);
 
   const [fetchPublicKey, { isLoading: loadingFetchPublicKey }] =
     useQueryEndpoint(accountFetchPublicKey);
@@ -69,12 +79,26 @@ export const useTopUp = () => {
     [sendAllowance, amount],
   );
 
-  const handleDeposit = useCallback(() => deposit(amount), [deposit, amount]);
+  const handleDeposit = useCallback(() => {
+    if (selectedGroupAddress) {
+      return depositForUser({ amount, targetAddress: selectedGroupAddress });
+    }
+    return deposit(amount);
+  }, [selectedGroupAddress, depositForUser, amount, deposit]);
 
   const handleResetDeposit = useCallback(() => {
-    depositReset();
+    if (selectedGroupAddress) {
+      depositForUserReset();
+    } else {
+      depositReset();
+    }
     waitTransactionConfirmingReset();
-  }, [depositReset, waitTransactionConfirmingReset]);
+  }, [
+    depositForUserReset,
+    depositReset,
+    selectedGroupAddress,
+    waitTransactionConfirmingReset,
+  ]);
 
   const handleWaitTransactionConfirming = useCallback(
     () => waitTransactionConfirming(),
@@ -116,6 +140,7 @@ export const useTopUp = () => {
     loadingGetAllowance ||
     loadingFetchPublicKey ||
     loadingDeposit ||
+    loadingDepositForUser ||
     loadingWaitTransactionConfirming ||
     loadingLogin ||
     loadingCheckAllowanceTransaction;

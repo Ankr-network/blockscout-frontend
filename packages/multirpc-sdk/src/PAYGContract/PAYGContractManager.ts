@@ -9,6 +9,7 @@ import { PAYGReadContractManager } from './PAYGReadContractManager';
 import { roundDecimals } from './utils/roundDecimals';
 
 const GAS_LIMIT = '200000';
+const DEPOSIT_EXPIRATION = '31536000';
 
 export class PAYGContractManager extends PAYGReadContractManager {
   constructor(
@@ -77,6 +78,33 @@ export class PAYGContractManager extends PAYGReadContractManager {
     );
   }
 
+  private async sendDepositTransactionForUser(
+    scaledAmount: BigNumber,
+    publicKey: string,
+    targetAddress: string,
+    expiresAfter: string,
+  ) {
+    const { currentAccount } = this.keyProvider;
+
+    const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
+      .depositForUser(
+        scaledAmount.toString(10),
+        expiresAfter,
+        targetAddress,
+        base64ToPrefixedHex(publicKey),
+      )
+      .encodeABI();
+
+    return this.keyProvider.sendTransactionAsync(
+      currentAccount,
+      this.config.payAsYouGoContractAddress,
+      {
+        data,
+        estimate: true,
+      },
+    );
+  }
+
   private async canAllow(scaledAmount: BigNumber) {
     const isGreaterThanBalance = await this.isAmountGreaterThanBalance(
       scaledAmount,
@@ -112,8 +140,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
   async depositAnkr(
     _amount: BigNumber,
     publicKey: string,
-    // TODO expiresAfter
-    expiresAfter = '31536000',
+    expiresAfter = DEPOSIT_EXPIRATION,
   ): Promise<IWeb3SendResult> {
     const scaledAllowance = await this.getLastAllowanceValue();
 
@@ -122,6 +149,24 @@ export class PAYGContractManager extends PAYGReadContractManager {
     return this.sendDepositTransaction(
       roundDecimals(scaledAllowance),
       publicKey,
+      expiresAfter,
+    );
+  }
+
+  async depositAnkrForUser(
+    _amount: BigNumber,
+    publicKey: string,
+    targetAddress: string,
+    expiresAfter = DEPOSIT_EXPIRATION,
+  ): Promise<IWeb3SendResult> {
+    const scaledAllowance = await this.getLastAllowanceValue();
+
+    await this.canAllow(scaledAllowance);
+
+    return this.sendDepositTransactionForUser(
+      roundDecimals(scaledAllowance),
+      publicKey,
+      targetAddress,
       expiresAfter,
     );
   }

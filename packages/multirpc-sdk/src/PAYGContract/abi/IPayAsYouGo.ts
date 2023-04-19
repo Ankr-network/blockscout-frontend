@@ -209,6 +209,22 @@ export interface IPayAsYouGo {
   ): MethodReturnContext;
   /**
    * Payable: false
+   * Constant: false
+   * StateMutability: nonpayable
+   * Type: function
+   * @param amount Type: uint256, Indexed: false
+   * @param timeout Type: uint64, Indexed: false
+   * @param user Type: address, Indexed: false
+   * @param publicKey Type: bytes32, Indexed: false
+   */
+  depositForUser(
+    amount: string,
+    timeout: string,
+    user: string,
+    publicKey: string | number[],
+  ): MethodReturnContext;
+  /**
+   * Payable: false
    * Constant: true
    * StateMutability: view
    * Type: function

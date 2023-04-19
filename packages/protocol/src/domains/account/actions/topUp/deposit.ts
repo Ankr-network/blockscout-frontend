@@ -9,6 +9,8 @@ import {
   setTopUpTransaction,
 } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
+import { GetState } from 'store';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
 export const {
   endpoints: { topUpDeposit },
@@ -16,32 +18,36 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     topUpDeposit: build.query<IWeb3SendResult, BigNumber>({
-      queryFn: createNotifyingQueryFn(async (amount, { dispatch }) => {
-        const service = await MultiService.getWeb3Service();
-        const provider = service.getKeyProvider();
-        const { currentAccount: address } = provider;
+      queryFn: createNotifyingQueryFn(
+        async (amount, { getState, dispatch }) => {
+          const service = await MultiService.getWeb3Service();
 
-        const publicKey = await dispatch(
-          accountFetchPublicKey.initiate(),
-        ).unwrap();
-
-        const depositResponse = await service
-          .getContractService()
-          .depositAnkrToPAYG(amount, publicKey);
-
-        dispatch(setAllowanceTransaction({ address }));
-
-        if (depositResponse.transactionHash) {
-          dispatch(
-            setTopUpTransaction({
-              address,
-              topUpTransactionHash: depositResponse.transactionHash,
-            }),
+          const address = await getCurrentTransactionAddress(
+            getState as GetState,
           );
-        }
 
-        return { data: depositResponse };
-      }),
+          const publicKey = await dispatch(
+            accountFetchPublicKey.initiate(),
+          ).unwrap();
+
+          const depositResponse = await service
+            .getContractService()
+            .depositAnkrToPAYG(amount, publicKey);
+
+          dispatch(setAllowanceTransaction({ address }));
+
+          if (depositResponse.transactionHash) {
+            dispatch(
+              setTopUpTransaction({
+                address,
+                topUpTransactionHash: depositResponse.transactionHash,
+              }),
+            );
+          }
+
+          return { data: depositResponse };
+        },
+      ),
     }),
   }),
 });
