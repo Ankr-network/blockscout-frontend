@@ -730,7 +730,12 @@
       "row-4-column-1": "Others",
       "row-4-column-2": "1000",
       "row-4-column-3": "$0.01"
-    }
+    },
+    "premium-block": {
+      "min": "Should be at least {value} ANKR",
+      "balance": "Your balance is not sufficient"
+    },
+    "email-content": "For account setup, Ankr needs an&nbsp;email for important notifications and service updates. Don&rsquo;t worry, your info is&nbsp;highly secured and never shared&nbsp;&mdash; use an&nbsp;anonymous address if&nbsp;you wish!"
   },
   "oauth": {
     "breadcrumbs": "Google auth",
