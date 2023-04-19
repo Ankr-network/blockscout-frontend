@@ -3,11 +3,11 @@ import { timeout } from 'modules/common/utils/timeout';
 import { ETH_BLOCK_TIME } from './const';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 
-const hasPendingTransaction = async () => {
+const hasPendingTransaction = async (address: string) => {
   const service = await MultiService.getWeb3Service();
 
   const provider = service.getKeyProvider();
-  const { currentAccount: address } = provider;
+
   const web3 = getWeb3Instance();
 
   const infuraNodeBlockNumber: number = await provider
@@ -29,14 +29,14 @@ const hasPendingTransaction = async () => {
   return latestTransactionCount !== pendingTransactionCount;
 };
 
-export const waitForPendingTransaction = async () => {
+export const waitForPendingTransaction = async (address: string) => {
   await timeout();
 
   let inProcess = true;
 
   while (inProcess) {
     // eslint-disable-next-line
-    inProcess = await hasPendingTransaction();
+    inProcess = await hasPendingTransaction(address);
 
     if (inProcess) {
       // eslint-disable-next-line

@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import { MultiService } from 'modules/api/MultiService';
 import { useLazyAccountRedirectIfWalletConnectFailedQuery } from '../actions/balance/redirectIfWalletConnectFailed';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useSelectedUserGroup } from '../../userGroup/hooks/useSelectedUserGroup';
 
 export const useAddress = () => {
+  const { selectedGroupAddress } = useSelectedUserGroup();
   const [address, setAddress] = useState('');
 
   const { isWalletConnected } = useAuth();
@@ -13,16 +15,20 @@ export const useAddress = () => {
 
   useEffect(() => {
     const getWeb3Address = async () => {
-      try {
-        const service = await MultiService.getWeb3Service();
+      if (selectedGroupAddress) {
+        setAddress(selectedGroupAddress);
+      } else {
+        try {
+          const service = await MultiService.getWeb3Service();
 
-        const provider = service.getKeyProvider();
-        const { currentAccount } = provider;
+          const provider = service.getKeyProvider();
+          const { currentAccount } = provider;
 
-        setAddress(currentAccount);
-      } catch (e) {
-        setAddress('');
-        redirectIfWalletConnectFailed();
+          setAddress(currentAccount);
+        } catch (e) {
+          setAddress('');
+          redirectIfWalletConnectFailed();
+        }
       }
     };
 
@@ -31,7 +37,7 @@ export const useAddress = () => {
     }
 
     return () => setAddress('');
-  }, [isWalletConnected, redirectIfWalletConnectFailed]);
+  }, [isWalletConnected, redirectIfWalletConnectFailed, selectedGroupAddress]);
 
   return address;
 };

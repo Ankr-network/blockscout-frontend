@@ -6,6 +6,7 @@ import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedi
 import { setRejectAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { web3Api } from 'store/queries';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
 export const {
   useLazyTopUpRejectAllowanceQuery,
@@ -15,8 +16,10 @@ export const {
     topUpRejectAllowance: build.query<boolean, void>({
       queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
         const service = await MultiService.getWeb3Service();
-        const provider = service.getKeyProvider();
-        const { currentAccount: address } = provider;
+
+        const address = await getCurrentTransactionAddress(
+          getState as GetState,
+        );
 
         const rejectAllowanceResponse = await service
           .getContractService()

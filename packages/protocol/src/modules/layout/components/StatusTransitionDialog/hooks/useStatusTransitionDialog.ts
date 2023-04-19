@@ -5,6 +5,8 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from '../types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
 const { cardPaymentSuccess, topUp } = AccountRoutesConfig;
 
@@ -15,12 +17,20 @@ export const useStatusTransitionDialog = () => {
   } = useHistory<PostTopUpLocationState>();
   const origin = state?.origin;
 
+  const hasStatusAccess = useGuardUserGroup({
+    blockName: BlockWithPermission.Status,
+  });
+
   const shouldShowDialog = useMemo(() => {
     const isRedirectedFromSuccessTopUp =
       origin === cardPaymentSuccess.path || origin === topUp.path;
 
-    return hasFreeToPremiumTransition && isRedirectedFromSuccessTopUp;
-  }, [hasFreeToPremiumTransition, origin]);
+    return (
+      hasFreeToPremiumTransition &&
+      isRedirectedFromSuccessTopUp &&
+      hasStatusAccess
+    );
+  }, [hasFreeToPremiumTransition, origin, hasStatusAccess]);
 
   const { isOpened, onClose, onOpen } = useDialog(shouldShowDialog);
 

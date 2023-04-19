@@ -294,24 +294,28 @@ export class AccountGateway {
   }
 
   public async getLinkForCardPayment(
-    params: IGetLinkForCardPaymentRequest,
+    body: IGetLinkForCardPaymentRequest,
+    params: IApiUserGroupParams,
   ): Promise<IGetLinkForCardPaymentResponse> {
     const { data: response } =
       await this.api.post<IGetLinkForCardPaymentResponse>(
         '/api/v1/auth/payment/depositWithCard',
-        params,
+        body,
+        { params }
       );
 
     return response;
   }
 
   public async getLinkForRecurrentCardPayment(
-    params: IGetLinkForRecurrentCardPaymentRequest,
+    body: IGetLinkForRecurrentCardPaymentRequest,
+    params: IApiUserGroupParams,
   ): Promise<IGetLinkForCardPaymentResponse> {
     const { data: response } =
       await this.api.post<IGetLinkForCardPaymentResponse>(
         '/api/v1/auth/payment/subscribeOnRecurrentPayments',
-        params,
+        body,
+        { params }
       );
 
     return response;
