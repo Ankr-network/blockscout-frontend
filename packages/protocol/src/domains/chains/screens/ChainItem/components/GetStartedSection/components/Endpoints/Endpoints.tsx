@@ -5,8 +5,8 @@ import { t } from '@ankr.com/common';
 import { root } from '../../const';
 import { ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { Feature, MainEndpoints } from '../MainEndpoints';
 import { IApiChain } from 'domains/chains/api/queryChains';
-import { RPCEndpoints } from '../RPCEndpoints';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
 import { useEndpointsStyles } from './EndpointsStyles';
@@ -68,7 +68,17 @@ export const Endpoints = ({
         />
       ) : (
         <>
-          <RPCEndpoints
+          <MainEndpoints
+            feature={Feature.RPC}
+            group={group}
+            hasConnectWalletMessage={hasConnectWalletMessage}
+            hasPremium={hasPremium}
+            hasPrivateAccess={hasPrivateAccess}
+            onCopyEndpoint={onCopyEndpoint}
+            publicChain={publicChain}
+          />
+          <MainEndpoints
+            feature={Feature.REST}
             group={group}
             hasConnectWalletMessage={hasConnectWalletMessage}
             hasPremium={hasPremium}

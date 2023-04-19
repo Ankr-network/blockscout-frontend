@@ -131,6 +131,8 @@ export const getChainName = (chainId: ChainID, beacons: IApiChain[] = []) => {
     name = 'ZetaChain Tendermint JSON-RPC testnet';
   } else if (chainId === ChainID.ZETACHAIN_EVM_TESTNET) {
     name = 'ZetaChain EVM RPC testnet';
+  } else if (chainId === ChainID.TRON_JSON_RPC) {
+    name = 'Tron JSON-RPC';
   } else if (chainId.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {
