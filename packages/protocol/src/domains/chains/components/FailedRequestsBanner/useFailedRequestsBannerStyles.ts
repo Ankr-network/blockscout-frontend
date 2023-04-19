@@ -19,6 +19,8 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
   },
   container: {
     position: 'relative',
+  },
+  containerWithNotice: {
     paddingRight: NOTICE_WIDTH + NOTICE_MARGIN,
     [theme.breakpoints.down('sm')]: {
       paddingRight: 0,

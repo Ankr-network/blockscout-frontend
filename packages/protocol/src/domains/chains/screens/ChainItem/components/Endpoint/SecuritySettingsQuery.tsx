@@ -5,7 +5,7 @@ import { SecuritySettingsSkeleton } from './components/SecuritySettings/Security
 import { useSecuritySettings } from '../../hooks/useSecuritySettings';
 
 export const SecuritySettingsQuery = ({ chainId }: { chainId: string }) => {
-  const { state } = useSecuritySettings(chainId);
+  const { state, jwtToken } = useSecuritySettings(chainId);
 
   return (
     <Queries<TSecuritySettings>
@@ -13,7 +13,7 @@ export const SecuritySettingsQuery = ({ chainId }: { chainId: string }) => {
       spinner={<SecuritySettingsSkeleton />}
     >
       {({ data = { domains: [], ips: [] } }) => (
-        <SecuritySettings data={data} chainId={chainId} />
+        <SecuritySettings data={data} chainId={chainId} jwtToken={jwtToken} />
       )}
     </Queries>
   );

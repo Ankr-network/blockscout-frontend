@@ -5,6 +5,9 @@ import { Notice } from './components/Notice';
 import { Header } from './components/Header';
 import { RequestsChartWrapper } from './components/RequestsChartWrapper';
 import { valuesMap } from '../TimeframeSwitcher/const';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useGuardUserGroup } from '../../../userGroup/hooks/useGuardUserGroup';
 
 interface IRequestsBannerProps {
   timeframe: Timeframe;
@@ -17,18 +20,33 @@ export const RequestsBanner = ({
   data,
   total,
 }: IRequestsBannerProps) => {
-  const { classes } = useRequestsBannerStyles();
+  const { cx, classes } = useRequestsBannerStyles();
+
+  const upgradePlanPermission = BlockWithPermission.UpgradePlan;
+  const hasUpgradePlanAccess = useGuardUserGroup({
+    blockName: upgradePlanPermission,
+  });
 
   const { list } = data;
 
   return (
     <div className={classes.root}>
-      <Header timeframeValue={valuesMap[timeframe]} total={total} />
-      <div className={classes.container}>
+      <Header
+        timeframeValue={valuesMap[timeframe]}
+        total={total}
+        hasOffset={hasUpgradePlanAccess}
+      />
+      <div
+        className={cx(classes.container, {
+          [classes.containerWithNotice]: hasUpgradePlanAccess,
+        })}
+      >
         <div className={classes.chart}>
           <RequestsChartWrapper data={list} />
         </div>
-        <Notice />
+        <GuardUserGroup blockName={upgradePlanPermission}>
+          <Notice />
+        </GuardUserGroup>
       </div>
     </div>
   );

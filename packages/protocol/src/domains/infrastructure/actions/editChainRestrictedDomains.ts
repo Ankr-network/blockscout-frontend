@@ -7,10 +7,12 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { MultiService } from 'modules/api/MultiService';
 import { checkWhitelistSecretChainsAndGetChainId } from '../const';
+import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
 
 export interface EditChainRestrictedDomainsParams {
   chainId: string;
   domains: string[];
+  jwtToken: string;
 }
 
 export const {
@@ -23,8 +25,10 @@ export const {
       EditChainRestrictedDomainsParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ chainId, domains }, { getState }) => {
+        async ({ chainId, domains, jwtToken }, { getState }) => {
           credentialsGuard(getState as GetState);
+
+          await makeWorkerGatewayAuthorization(jwtToken);
 
           const service = MultiService.getService();
 

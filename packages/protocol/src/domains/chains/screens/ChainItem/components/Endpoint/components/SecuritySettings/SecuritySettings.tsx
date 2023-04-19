@@ -9,7 +9,11 @@ import { MAX_IP_COUNT } from './IpsForm/IpsForm';
 import { useStyles } from './SecuritySettingsStyles';
 import { SecuritySettingsProps } from './SecuritySettingsTypes';
 
-export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
+export const SecuritySettings = ({
+  data,
+  chainId,
+  jwtToken,
+}: SecuritySettingsProps) => {
   const { classes } = useStyles();
 
   return (
@@ -38,7 +42,11 @@ export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
               })}
             </Typography>
           </Typography>
-          <DomainsForm data={data.domains} chainId={chainId} />
+          <DomainsForm
+            data={data.domains}
+            chainId={chainId}
+            jwtToken={jwtToken}
+          />
         </div>
 
         <div>
@@ -55,7 +63,7 @@ export const SecuritySettings = ({ data, chainId }: SecuritySettingsProps) => {
               })}
             </Typography>
           </Typography>
-          <IpsForm data={data.ips} chainId={chainId} />
+          <IpsForm data={data.ips} chainId={chainId} jwtToken={jwtToken} />
         </div>
       </div>
     </div>

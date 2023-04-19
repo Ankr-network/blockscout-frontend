@@ -34,6 +34,36 @@ export class MultiRpcWeb3Sdk {
     return this.keyProvider;
   }
 
+  public async isOldPremiumAndActiveToken(user: Web3Address) {
+    const tokenIssuerService = this.getTokenIssuerService();
+
+    const allTokens = await tokenIssuerService.getAllIssuedJwtTokens(user);
+    const transactionHashes =
+      await tokenIssuerService.getAllLatestUserTierAssignedEventLogHashes(user);
+
+    const isNewUserWithPAYGTransaction =
+      (!allTokens || allTokens?.length === 0) && Boolean(transactionHashes);
+
+    if (isNewUserWithPAYGTransaction) return false;
+
+    const premiumToken = allTokens?.[0];
+
+    const parsedToken = parseJwtToken(premiumToken?.signing_data);
+    const isPremium = parsedToken?.sub?.tier === Tier.Premium;
+    const isExpiredToken =
+      Number(premiumToken?.expires_at) * DATE_MULTIPLIER < Date.now();
+
+    return isPremium && !isExpiredToken;
+  }
+
+  public async getOldPremiumJwtToken(
+    user: Web3Address,
+  ): Promise<JwtTokenFullData> {
+    const tokenIssuerService = this.getTokenIssuerService();
+
+    return tokenIssuerService.getIssuedJwtTokenOrIssue(user);
+  }
+
   public async shouldIssueToken(user: Web3Address) {
     const tokenIssuerService = this.getTokenIssuerService();
 

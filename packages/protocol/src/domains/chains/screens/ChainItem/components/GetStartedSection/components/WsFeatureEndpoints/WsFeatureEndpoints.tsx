@@ -5,6 +5,8 @@ import { EndpointPlaceholder } from '../EndpointPlaceholder';
 import { useWsFeatureEndpoints } from './useWsFeatureEndpoints';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 interface IWsFeatureEndpointsProps {
   title: string;
@@ -24,7 +26,11 @@ export const WsFeatureEndpoints = ({
   const { hasWsFeature, wss } = useWsFeatureEndpoints(group);
   const { isOpened, onOpen, onClose } = useDialog();
 
-  if (!hasWsFeature) return null;
+  const hasAccessToGroupWs = useGuardUserGroup({
+    blockName: BlockWithPermission.UpgradePlan,
+  });
+
+  if (!hasWsFeature || (!hasPremium && !hasAccessToGroupWs)) return null;
 
   return (
     <>

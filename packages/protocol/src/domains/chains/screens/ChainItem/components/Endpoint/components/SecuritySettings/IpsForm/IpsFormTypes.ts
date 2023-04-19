@@ -15,4 +15,5 @@ export interface IpsFormProps {
 
 export interface IpsFormContainerProps extends Omit<IpsFormProps, 'onSubmit'> {
   chainId: string;
+  jwtToken: string;
 }

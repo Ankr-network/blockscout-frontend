@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setSelectedTokenIndex } from 'domains/jwtToken/store/jwtTokenManagerSlice';
@@ -18,6 +18,10 @@ export const useSelectTokenIndex = () => {
     },
     [dispatch, address],
   );
+
+  useEffect(() => {
+    handleTokenIndexSelect(tokenIndex);
+  }, [handleTokenIndexSelect, tokenIndex]);
 
   return {
     tokenIndex: currentTokenIndex,

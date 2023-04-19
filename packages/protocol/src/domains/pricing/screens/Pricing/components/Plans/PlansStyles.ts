@@ -1,123 +1,142 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+import { plansPremiumColor, premiumColor } from 'uiKit/Theme/themeUtils';
 
-export const usePlansStyles = makeStyles<void, 'container'>()(
-  (theme: Theme, _params, classes) => ({
+export const usePlansStyles = makeStyles<void, 'tip' | 'plan'>()(
+  (theme, _params, classes) => ({
     root: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(2, 1fr)',
-      columnGap: theme.spacing(2 * 3.75),
-      rowGap: theme.spacing(2 * 2),
-      marginTop: theme.spacing(2 * 5),
-      position: 'relative',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gap: theme.spacing(5),
+      marginBottom: theme.spacing(30),
 
       [theme.breakpoints.down('md')]: {
         gridTemplateColumns: '1fr',
+        marginBottom: theme.spacing(20),
+      },
+
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: theme.spacing(10),
+      },
+    },
+    container: {
+      position: 'relative',
+      padding: theme.spacing(0.5),
+      borderRadius: 42,
+
+      [`&.premium`]: {
+        background: premiumColor,
+
+        [`& .${classes.plan}`]: {
+          height: '100%',
+          borderRadius: 40,
+        },
+
+        [`& .${classes.tip}`]: {
+          background: plansPremiumColor,
+        },
+      },
+
+      [`&.enterprise .${classes.tip}`]: {
+        backgroundColor: theme.palette.grey[900],
       },
     },
     plan: {
       background: theme.palette.background.paper,
-      borderRadius: 40,
-      padding: theme.spacing(2 * 0.5),
-      position: 'relative',
+      padding: theme.spacing(7.5),
+      borderRadius: 42,
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
 
       [theme.breakpoints.down('xs')]: {
         borderRadius: 28,
       },
     },
-    wrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      height: '100%',
-      background: theme.palette.background.paper,
-      borderRadius: 36,
-      padding: theme.spacing(2 * 4.5),
-
-      [theme.breakpoints.down('xs')]: {
-        padding: theme.spacing(2 * 3),
-        borderRadius: 24,
+    tip: {
+      textTransform: 'uppercase',
+      color: theme.palette.common.white,
+      fontSize: 14,
+      lineHeight: '24px',
+      fontWeight: 500,
+      position: 'absolute',
+      top: theme.spacing(-3),
+      left: theme.spacing(7.5),
+      height: theme.spacing(6),
+      borderRadius: 9,
+      padding: theme.spacing(0, 2.25),
+    },
+    row: {
+      [theme.breakpoints.down('md')]: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
       },
-    },
-    premium: {
-      background: getPremiumColorGradient(theme),
-
-      [`& .${classes.container}`]: {
-        background: theme.palette.background.paper,
-      },
-    },
-
-    container: {
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-    },
-    titleWrapper: {
-      marginBottom: theme.spacing(2 * 1),
-
-      color: theme.palette.text.primary,
-    },
-    title: {
-      fontSize: 35,
 
       [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      },
+    },
+    title: {
+      marginBottom: theme.spacing(8),
+
+      [theme.breakpoints.down('md')]: {
+        fontSize: 35,
+        marginBottom: theme.spacing(6),
+      },
+    },
+    price: {
+      display: 'block',
+      color: theme.palette.text.secondary,
+      marginBottom: theme.spacing(8),
+
+      '& em': {
+        color: theme.palette.text.primary,
+        fontStyle: 'normal',
         fontSize: 28,
+        lineHeight: '32.2px',
+        fontWeight: 700,
+        marginRight: theme.spacing(2),
       },
     },
-    premiumTitle: {
-      '& span': {
-        lineHeight: 1.167,
+    list: {
+      [theme.breakpoints.down('md')]: {
+        display: 'flex',
+        flexWrap: 'wrap',
       },
     },
-    label: {
-      marginBottom: theme.spacing(2 * 1),
-      fontSize: 20,
-
-      [theme.breakpoints.down('xs')]: {
-        fontSize: 16,
-      },
-    },
-    description: {
-      fontWeight: 400,
-
+    info: {
       color: theme.palette.text.primary,
-
-      [theme.breakpoints.down('xs')]: {
-        fontSize: 14,
-      },
-    },
-    features: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      marginTop: theme.spacing(2 * 3.5),
-      marginBottom: theme.spacing(2 * 5),
-    },
-    feature: {
-      background: theme.palette.background.default,
-      borderRadius: 20,
-      padding: theme.spacing(2 * 1, 2 * 2),
-      display: 'inline-block',
-      marginBottom: theme.spacing(2 * 0.5),
-      '&:nth-of-type(2n+1)': {
-        marginRight: theme.spacing(2 * 0.5),
-      },
-    },
-    featureText: {
+      display: 'block',
+      marginBottom: theme.spacing(2),
+      fontSize: 18,
+      lineHeight: '27px',
       fontWeight: 600,
 
-      color: theme.palette.text.primary,
-    },
-    link: {
-      padding: 0,
-      height: 'auto',
-      '&:hover': {
-        color: theme.palette.primary.main,
-        background: 'none',
+      [theme.breakpoints.down('md')]: {
+        width: '50%',
+      },
+
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
+
+      '& em': {
+        fontStyle: 'normal',
+        fontWeight: 800,
       },
     },
     button: {
-      '&:hover': {
-        color: theme.palette.background.paper,
+      fontSize: 20,
+      lineHeight: '28px',
+      height: theme.spacing(15),
+      borderRadius: 20,
+      marginTop: theme.spacing(16),
+
+      [theme.breakpoints.down('md')]: {
+        marginTop: theme.spacing(6),
       },
     },
   }),

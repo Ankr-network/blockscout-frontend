@@ -1,6 +1,5 @@
 import { ANKRTopUpForm } from './ANKRTopUpForm';
 import {
-  useCheckLoginStep,
   useCheckBrokenTransaction,
   useOnTopUpSubmit,
 } from './ANKRTopUpFormUtils';
@@ -17,8 +16,6 @@ export const ANKRTopUpFormContainer = ({
   useCheckBrokenTransaction();
   const { isWalletConnected } = useAuth();
 
-  const { hasLoginStep } = useCheckLoginStep();
-
   const emailData = useEmailData();
 
   const { onSubmit, ...dialogProps } = useOnTopUpSubmit(
@@ -30,7 +27,7 @@ export const ANKRTopUpFormContainer = ({
   return (
     <>
       <ANKRTopUpForm
-        hasLoginStep={hasLoginStep}
+        hasLoginStep={false}
         initialValues={initialValues}
         isWalletConnected={isWalletConnected}
         onSubmit={onSubmit}

@@ -7,10 +7,12 @@ import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { web3Api } from 'store/queries';
+import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
 
 export interface EditChainRestrictedIpsParams {
   chainId: string;
   ips: string[];
+  jwtToken: string;
 }
 
 export const {
@@ -23,8 +25,10 @@ export const {
       EditChainRestrictedIpsParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ chainId, ips }, { getState }) => {
+        async ({ chainId, ips, jwtToken }, { getState }) => {
           credentialsGuard(getState as GetState);
+
+          await makeWorkerGatewayAuthorization(jwtToken);
 
           const service = MultiService.getService();
 

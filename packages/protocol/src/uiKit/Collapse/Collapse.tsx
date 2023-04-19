@@ -9,7 +9,7 @@ import { useStyles } from './CollapseStyles';
 export interface CollapseProps {
   className?: string;
   content: ReactNode;
-  header: ReactNode;
+  header?: ReactNode;
   isCollapsed?: boolean;
   isCollapsible?: boolean;
   onCollapse?: (isCollapsed: boolean) => void;
@@ -38,7 +38,7 @@ export const Collapse = ({
   return (
     <>
       <Box className={cx(className, classes.header)} onClick={onClick}>
-        {header}
+        {header && header}
         {isCollapsible &&
           (!isCollapsed && uncollapsedIcon ? (
             uncollapsedIcon

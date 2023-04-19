@@ -15,5 +15,5 @@ export const useSecuritySettings = (chainId: string) => {
     });
   }, [fetchSecuritySettings, chainId, jwtToken]);
 
-  return { state };
+  return { state, jwtToken };
 };
