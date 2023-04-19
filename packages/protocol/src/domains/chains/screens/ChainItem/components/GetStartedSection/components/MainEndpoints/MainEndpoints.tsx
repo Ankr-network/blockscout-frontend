@@ -1,0 +1,44 @@
+import { Endpoint } from '../Endpoint';
+import { EndpointsHeader } from '../EndpointsHeader';
+import { MainEndpointsProps } from './types';
+import { Placeholder } from './components/Placeholder';
+import { useMainEndpoints } from './hooks/useMainEndpoints';
+import { useMainEndpointsStyles } from './MainEndpointsStyles';
+
+export const MainEndpoints = ({
+  hasConnectWalletMessage,
+  hasPremium,
+  onCopyEndpoint,
+  ...rest
+}: MainEndpointsProps) => {
+  const { flattenURLs, hasFeature, hasPlaceholder, title } =
+    useMainEndpoints(rest);
+
+  const { classes } = useMainEndpointsStyles();
+
+  const endpointsHeader = (
+    <EndpointsHeader hasPremium={hasPremium} title={title} />
+  );
+
+  if (hasPlaceholder) {
+    return <Placeholder title={endpointsHeader} />;
+  }
+
+  if (!hasFeature) {
+    return null;
+  }
+
+  return (
+    <div className={classes.root}>
+      {endpointsHeader}
+      {flattenURLs.map(url => (
+        <Endpoint
+          hasConnectWalletMessage={hasConnectWalletMessage}
+          key={url}
+          onCopy={onCopyEndpoint}
+          url={url!}
+        />
+      ))}
+    </div>
+  );
+};

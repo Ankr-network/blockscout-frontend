@@ -361,4 +361,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   [ChainID.ZETACHAIN]: ZETACHAIN,
 
   [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
+
+  [ChainID.TRON_JSON_RPC]: {
+    chainId: 728126428,
+    chainName: 'Tron JSON-RPC',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://tronscan.org/'],
+  },
 };

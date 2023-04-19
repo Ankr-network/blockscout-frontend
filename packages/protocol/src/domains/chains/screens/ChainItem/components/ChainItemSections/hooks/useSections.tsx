@@ -36,7 +36,8 @@ export const useSections = ({
 }: SectionsParams): Sections => {
   const { chain } = data;
   const chainId = chain.id;
-  const publicUrl = unfilteredGroup?.urls[0]?.rpc;
+  const publicUrl =
+    unfilteredGroup?.urls[0]?.rpc ?? unfilteredGroup?.urls[0]?.rest;
 
   const { timeframe, timeframeTabs } = useTimeframe();
 

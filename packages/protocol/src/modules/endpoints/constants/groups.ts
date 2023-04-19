@@ -179,4 +179,16 @@ export const chainGroups: ChainGroup[] = [
     pluralName: getName('solana-api', true),
     chains: [ChainID.SOLANA_DEVNET],
   },
+  {
+    id: ChainGroupID.REST_API,
+    name: getName('rest-api'),
+    pluralName: getName('rest-api', true),
+    chains: [ChainID.TRON],
+  },
+  {
+    id: ChainGroupID.JSON_RPC,
+    name: getName('json-rpc'),
+    pluralName: getName('json-rpc', true),
+    chains: [ChainID.TRON_JSON_RPC],
+  },
 ];

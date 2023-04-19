@@ -62,6 +62,8 @@ export const formatPublicUrls = (
       blockchain.features.includes(BlockchainFeature.RPC) ||
       blockchain.features.includes(BlockchainFeature.ComingSoon);
 
+    const hasREST = blockchain.features.includes(BlockchainFeature.REST);
+
     if (blockchain.id === 'avalanche') {
       blockchain.paths = avalancheEvmItem?.paths ?? [];
     }
@@ -98,6 +100,12 @@ export const formatPublicUrls = (
         : [];
     }
 
+    const restURLs = hasREST
+      ? blockchain?.paths?.map(path =>
+          publicRpcUrl.replace('{blockchain}', path),
+        ) || []
+      : [];
+
     const rpcURLs: string[] = hasRPC
       ? blockchain?.paths?.map(path =>
           publicRpcUrl.replace('{blockchain}', path),
@@ -105,7 +113,7 @@ export const formatPublicUrls = (
       : [];
     const wsURLs: string[] = [];
 
-    result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
+    result[blockchain.id] = { blockchain, restURLs, rpcURLs, wsURLs };
 
     return result;
   }, {});
@@ -162,10 +170,26 @@ export const formatPrivateUrls = (
         blockchain.features.includes(BlockchainFeature.RPC) ||
         blockchain.features.includes(BlockchainFeature.ComingSoon);
       const hasWS = blockchain.features.includes(BlockchainFeature.WS);
+      const hasREST = blockchain.features.includes(BlockchainFeature.REST);
 
       const paths = getPaths(blockchain);
       const isAptos =
         blockchain.id === 'aptos' || blockchain.id === 'aptos_testnet';
+
+      const restURLs: string[] = hasREST
+        ? paths.map(path => {
+            const { privateRpcUrl } = config;
+            let url = privateRpcUrl
+              .replace('{blockchain}', path)
+              .replace('{user}', tokenHash);
+
+            if (isAptos) {
+              url += `${url.endsWith('/') ? '' : '/'}v1`;
+            }
+
+            return url;
+          }) || []
+        : [];
 
       const rpcURLs: string[] = hasRPC
         ? paths.map(path => {
@@ -198,7 +222,7 @@ export const formatPrivateUrls = (
           }) || []
         : [];
 
-      result[blockchain.id] = { blockchain, rpcURLs, wsURLs };
+      result[blockchain.id] = { blockchain, restURLs, rpcURLs, wsURLs };
 
       return result;
     },
