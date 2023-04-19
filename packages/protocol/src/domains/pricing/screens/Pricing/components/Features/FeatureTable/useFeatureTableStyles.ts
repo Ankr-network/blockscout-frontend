@@ -1,145 +1,72 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
-export const useFeatureTableStyles = makeStyles()((theme: Theme) => ({
+export const useFeatureTableStyles = makeStyles()(theme => ({
   root: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.spacing(7.5),
+    padding: theme.spacing(7.5),
+  },
+  table: {
+    borderCollapse: 'collapse',
+
     '& th, & td': {
       padding: 0,
       backgroundColor: 'transparent',
       textAlign: 'center',
     },
-    '& tr th:first-of-type, & tr td:first-of-type': {
-      textAlign: 'left',
-    },
-    '& tr td:not(:first-of-type)': {
-      width: 290,
-      maxWidth: 290,
-      padding: theme.spacing(2 * 2.5, 2 * 2.1875),
-    },
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: theme.spacing(10),
 
-    '& th': {
-      borderBottom: 'none',
-    },
-    '& td': {
-      padding: theme.spacing(2 * 2.5, 0),
-      borderBottomColor: theme.palette.divider,
-    },
-    '& th:first-of-type, & td:first-of-type': {
-      paddingLeft: 0,
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-    },
-    '& th:last-of-type,  & td:last-of-type': {
-      paddingRight: 0,
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-    '& a': {
-      '& svg': {
-        color: 'inherit',
-      },
-      '&:hover, &:hover svg': {
-        color: theme.palette.primary.main,
-      },
+    [theme.breakpoints.down('md')]: {
+      fontSize: 42,
+      marginBottom: theme.spacing(8),
     },
   },
   header: {
-    '& th': {
-      fontSize: 28,
-      lineHeight: '32.2px',
-      fontWeight: 700,
-      color: theme.palette.text.primary,
-      paddingBottom: theme.spacing(2 * 0.5),
-    },
-    '& th:nth-of-type(3)': {
-      background: getPremiumColorGradient(theme),
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      '-webkit-box-decoration-break': 'clone',
-    },
-  },
-  headerSummary: {
-    '& th': {
-      fontSize: 16,
-      lineHeight: 1.5,
-      fontWeight: 700,
-      color: theme.palette.grey[600],
-      paddingBottom: theme.spacing(2 * 2.5),
-    },
-    '& th:first-of-type': {
-      fontWeight: 400,
-    },
-    '& th:last-child': {
-      color: theme.palette.text.primary,
-    },
-  },
-  button: {
-    '& th': {
-      paddingBottom: theme.spacing(2 * 2.5),
-    },
-    '& button, & a': {
-      fontSize: 16,
-      '&:hover': {
-        color: theme.palette.background.paper,
-      },
-    },
-  },
-  cellRow: {
-    '&:first-of-type td': {
-      borderTop: `1px solid ${theme.palette.divider}`,
-    },
-    '& td': {
-      lineHeight: theme.spacing(2 * 3),
-      fontWeight: 400,
-      fontSize: 16,
-    },
-    '& td:first-of-type': {
-      fontWeight: 700,
-    },
-    '& td em': {
-      fontStyle: 'normal',
-      fontWeight: 400,
-    },
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
 
-    '&:last-child td': {
+    [`& th`]: {
       borderBottom: 'none',
     },
-  },
-  tip: {
-    verticalAlign: 'bottom',
-    marginLeft: theme.spacing(2 * 0.5),
-  },
-  checkIcon: {
-    width: 24,
-    height: 24,
-    color: theme.palette.primary.main,
-  },
-  crossIcon: {
-    width: 24,
-    height: 24,
-    color: theme.palette.grey[600],
-  },
-  link: {
-    padding: 0,
-    height: 'auto',
-    fontSize: 16,
-    alignSelf: 'center',
-    background: 'none',
-    position: 'relative',
-    top: -1,
 
-    '&:hover': {
-      background: 'none',
+    [`& tr:first-of-type th`]: {
+      color: theme.palette.common.black,
+      marginBottom: theme.spacing(1),
+
+      [`&.premium`]: {
+        background: getPremiumColorGradient(theme),
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        '-webkit-box-decoration-break': 'clone',
+      },
+
+      [`&.enterprise`]: {
+        color: theme.palette.primary.main,
+      },
+    },
+
+    [`& tr:last-of-type th`]: {
+      color: theme.palette.text.secondary,
+      paddingBottom: theme.spacing(7.5),
+    },
+  },
+  row: {
+    '& td': {
+      borderBottom: `1px solid ${theme.palette.grey[100]}`,
     },
 
     '& svg': {
-      marginLeft: theme.spacing(2 * 1),
-      color: theme.palette.grey[600],
+      display: 'block',
+      margin: '0 auto',
     },
-
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 14,
+  },
+  name: {
+    '&&': {
+      textAlign: 'left',
+      padding: theme.spacing(4, 0),
     },
   },
 }));

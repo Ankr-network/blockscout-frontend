@@ -5,9 +5,12 @@ import { RootState } from 'store';
 import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
 import { fetchAllowedJwtTokensCount } from 'domains/jwtToken/action/getAllowedJwtTokensCount';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useTokenManagerConfigSelector = () => {
-  const { address } = useAuth();
+  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { address: currentUserAddress } = useAuth();
+  const address = selectedGroupAddress || currentUserAddress;
 
   const config = useAppSelector((state: RootState) =>
     selectTokenManagerConfig(state, address),

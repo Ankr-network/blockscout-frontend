@@ -1,20 +1,7 @@
-import { tHTML } from '@ankr.com/common';
+import { INTL_ROOT } from '../../const';
 
-const root = 'plan.plans';
+export const INTL_PLANS_ROOT = `${INTL_ROOT}.plans`;
 
-export const basicRoot = `${root}.basic-plan`;
-export const basicFeatures = [
-  tHTML(`${basicRoot}.features.requests`),
-  tHTML(`${basicRoot}.features.login`),
-  tHTML(`${basicRoot}.features.chains`),
-];
+export const PLAN_LIST = ['free', 'premium', 'enterprise'];
 
-export const premiumRoot = `${root}.premium-plan`;
-export const premiumFeatures = [
-  tHTML(`${premiumRoot}.features.websockets`),
-  tHTML(`${premiumRoot}.features.api`),
-  tHTML(`${premiumRoot}.features.requests`),
-  tHTML(`${premiumRoot}.features.endpoints`),
-];
-
-export const premiumLink = tHTML(`${premiumRoot}.link`);
+export const TIP_LIST = [PLAN_LIST[1], PLAN_LIST[2]];

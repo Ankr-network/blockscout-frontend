@@ -2,11 +2,12 @@ import { makeStyles } from 'tss-react/mui';
 
 export interface UseStylesParams {
   hasStatusTransition: boolean;
+  hasStatusAccess: boolean;
   isMobile: boolean;
 }
 
 export const useStyles = makeStyles<UseStylesParams>()(
-  (theme, { hasStatusTransition, isMobile }) => ({
+  (theme, { hasStatusTransition, hasStatusAccess, isMobile }) => ({
     accountDetailsButtonRoot: isMobile
       ? {
           padding: theme.spacing(2 * 1.25, 2 * 1.5),
@@ -15,6 +16,7 @@ export const useStyles = makeStyles<UseStylesParams>()(
           backgroundColor: theme.palette.background.paper,
 
           [theme.breakpoints.down('xs')]: {
+            display: hasStatusAccess ? 'inline-flex' : 'none',
             minWidth: 40,
           },
         }

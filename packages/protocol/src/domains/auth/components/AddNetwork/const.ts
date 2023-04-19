@@ -25,6 +25,28 @@ const AVALANCHE_FUJI: NetworkInfo = {
   blockExplorerUrls: ['https://testnet.snowtrace.io/'],
 };
 
+const MANTLE: NetworkInfo = {
+  chainId: 5001,
+  chainName: 'Mantle Testnet',
+  nativeCurrency: {
+    name: 'BIT',
+    symbol: 'BIT',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.testnet.mantle.xyz/'],
+};
+
+const ROLLUX: NetworkInfo = {
+  chainId: 57000,
+  chainName: 'Rollux Testnet',
+  nativeCurrency: {
+    name: 'TSYS',
+    symbol: 'TSYS',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://rollux.tanenbaum.io/'],
+};
+
 const ZETACHAIN: NetworkInfo = {
   chainId: 7001,
   chainName: 'ZetaChain Testnet',
@@ -328,37 +350,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
   },
 
-  // [ChainID.MANTLE]: {
-  //   chainId: 5000,
-  //   chainName: 'Mantle',
-  //   nativeCurrency: {
-  //     name: 'BIT',
-  //     symbol: 'BIT',
-  //     decimals: 18,
-  //   },
-  //   blockExplorerUrls: ['https://explorer.testnet.mantle.xyz/'],
-  // },
+  [ChainID.MANTLE]: MANTLE,
 
-  [ChainID.MANTLE_TESTNET]: {
-    chainId: 5001,
-    chainName: 'Mantle Testnet',
-    nativeCurrency: {
-      name: 'BIT',
-      symbol: 'BIT',
-      decimals: 18,
-    },
-    blockExplorerUrls: ['https://explorer.testnet.mantle.xyz/'],
-  },
+  [ChainID.MANTLE_TESTNET]: MANTLE,
 
-  [ChainID.ROLLUX_TESTNET]: {
-    chainId: 57000,
-    chainName: 'Rollux Testnet',
-    nativeCurrency: {
-      name: 'TSYS',
-      symbol: 'TSYS',
-      decimals: 18,
-    },
-    blockExplorerUrls: ['https://rollux.tanenbaum.io/'],
-  },
+  [ChainID.ROLLUX]: ROLLUX,
+
+  [ChainID.ROLLUX_TESTNET]: ROLLUX,
+
+  [ChainID.ZETACHAIN]: ZETACHAIN,
+
   [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
 };

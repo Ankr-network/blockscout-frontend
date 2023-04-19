@@ -4,7 +4,7 @@ import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
 import { push } from 'connected-react-router';
 import { t } from '@ankr.com/common';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -17,15 +17,11 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { AmountField } from './AmountField';
 import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
-import { MultiService } from 'modules/api/MultiService';
 import { NavLink } from 'uiKit/NavLink';
 import { RateBlock } from './RateBlock';
 import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
-import { oauthSignout } from 'domains/oauth/actions/signout';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
-import { useLazyTopUpGetLastLockedFundsEventQuery } from 'domains/account/actions/topUp/getLastLockedFundsEvent';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
@@ -148,67 +144,6 @@ export const useRenderForm = ({
       hasConnectButton,
     ],
   );
-};
-
-export const useCheckLoginStep = () => {
-  const dispatch = useDispatch();
-
-  const [getLastLockedFundsEvent, { data: lastLockedFundsEvent, isLoading }] =
-    useLazyTopUpGetLastLockedFundsEventQuery();
-
-  const { isWalletConnected, workerTokenData, isTokenExpired } = useAuth();
-  const { handleSetAmount } = useTopUp();
-
-  const [hasLoginStep, setHasLoginStep] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (isWalletConnected) getLastLockedFundsEvent();
-  }, [getLastLockedFundsEvent, isWalletConnected]);
-
-  useEffect(() => {
-    const checkAmountAndSetTokenIssuanceStep = async () => {
-      const service = await MultiService.getWeb3Service();
-      const keyProvider = service.getKeyProvider();
-      const { currentAccount: address } = keyProvider;
-
-      if (!lastLockedFundsEvent) return;
-
-      if (lastLockedFundsEvent && isTokenExpired) {
-        dispatch(oauthSignout.initiate());
-
-        return;
-      }
-
-      const value = keyProvider
-        .getWeb3()
-        .utils.fromWei(lastLockedFundsEvent.returnValues?.amount);
-
-      if (!value) return;
-
-      const amount = new BigNumber(value);
-      const shouldIssueToken = await service.shouldIssueToken(address);
-
-      if (shouldIssueToken) {
-        setHasLoginStep(true);
-        handleSetAmount(amount);
-      }
-    };
-
-    if (isWalletConnected) checkAmountAndSetTokenIssuanceStep();
-  }, [
-    hasLoginStep,
-    lastLockedFundsEvent,
-    handleSetAmount,
-    isWalletConnected,
-    workerTokenData,
-    isTokenExpired,
-    dispatch,
-  ]);
-
-  return {
-    hasLoginStep,
-    isLoading,
-  };
 };
 
 export const useCheckBrokenTransaction = () => {

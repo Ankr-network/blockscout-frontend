@@ -6,6 +6,7 @@ export interface DomainsFormProps {
 export interface DomainsFormContainerProps
   extends Omit<DomainsFormProps, 'onSubmit'> {
   chainId: string;
+  jwtToken: string;
 }
 
 export enum DomainsFormFields {

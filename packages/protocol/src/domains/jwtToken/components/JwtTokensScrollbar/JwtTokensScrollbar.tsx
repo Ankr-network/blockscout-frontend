@@ -1,6 +1,8 @@
 import { useRef, useEffect, useCallback } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AddProject } from '../AddProject';
 import { Card } from '../Card';
 import { useJwtTokenManagerStyles } from '../JwtTokenManager/useJwtTokenManagerStyles';
@@ -60,7 +62,11 @@ export const JwtTokensScrollbar = ({
           />
         );
       })}
-      {enableAddProject && <AddProject onOpen={onOpen} />}
+      {enableAddProject && (
+        <GuardUserGroup blockName={BlockWithPermission.JwtManager}>
+          <AddProject onOpen={onOpen} />
+        </GuardUserGroup>
+      )}
     </Scrollbars>
   );
 };

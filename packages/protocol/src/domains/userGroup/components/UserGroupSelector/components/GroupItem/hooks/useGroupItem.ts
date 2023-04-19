@@ -29,7 +29,7 @@ export const useGroupItem = ({ group, onSelect }: GroupItemProps) => {
       }),
     );
 
-    // we should refetch all data on changing the user group
+    // we should refetch all data on changing the user group (userGroupSelect)
     // TODO: remove page reload here and refetch all group data on group change
     window.location.reload();
   }, [address, dispatch, groupAddress, onSelect, userRole]);

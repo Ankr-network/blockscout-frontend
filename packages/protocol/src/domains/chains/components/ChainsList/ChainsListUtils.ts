@@ -3,6 +3,7 @@ import { BlockchainType } from 'multirpc-sdk';
 import { ChainMap } from './ChainsListTypes';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { Chain } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 export const PERIOD = '24h';
 
@@ -41,6 +42,7 @@ export const formatChains = (data: IApiChain[]): Chain[] => {
       isMainnetPremiumOnly,
       ...frontChain,
       id,
+      ...(id === ChainID.ZETACHAIN ? { urls } : {}),
     };
   });
 };

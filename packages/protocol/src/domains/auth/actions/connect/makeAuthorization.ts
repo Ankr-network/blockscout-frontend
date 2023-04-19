@@ -14,9 +14,10 @@ import {
   setAuthData,
 } from 'domains/auth/store/authSlice';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
-import { authCheckInstantJwtParticipant } from '../instantJwt/checkInstantJwtParticipant';
-import { authFetchInstantJwtParticipantToken } from '../instantJwt/fetchInstantJwtParticipantToken';
+import { authCheckDevdaoInstantJwtParticipant } from '../instantJwt/checkDevdaoInstantJwtParticipant';
+import { authFetchDevdaoInstantJwtParticipantToken } from '../instantJwt/fetchDevdaoInstantJwtParticipantToken';
 import { fetchPremiumStatus } from '../fetchPremiumStatus';
+import { authFetchInstantJwtParticipantToken } from '../instantJwt/fetchInstantJwtParticipantToken';
 
 export const getCachedData = (
   service: MultiRpcSdk,
@@ -54,23 +55,10 @@ const setWeb3UserAuthorizationToken = async (
 
 const isInstantJwtParticipant = async (dispatch: AppDispatch) => {
   const isParticipant = await dispatch(
-    authCheckInstantJwtParticipant.initiate(),
+    authCheckDevdaoInstantJwtParticipant.initiate(),
   ).unwrap();
 
-  dispatch(setAuthData({ isInstantJwtParticipant: isParticipant }));
-
   return isParticipant;
-};
-
-const getWeb3UserJwtTokenFullData = (
-  web3Service: MultiRpcWeb3Sdk,
-  dispatch: AppDispatch,
-  currentAccount: string,
-  isParticipant: boolean,
-) => {
-  return isParticipant
-    ? dispatch(authFetchInstantJwtParticipantToken.initiate()).unwrap()
-    : web3Service.getIssuedJwtTokenOrIssue(currentAccount);
 };
 
 const fetchUserEmail = (dispatch: AppDispatch) => {
@@ -96,12 +84,24 @@ const getJwtTokenFullData = async (
 ) => {
   const isParticipant = await isInstantJwtParticipant(dispatch);
 
-  return getWeb3UserJwtTokenFullData(
-    web3Service,
-    dispatch,
-    currentAccount,
-    isParticipant,
-  );
+  if (isParticipant) {
+    dispatch(setAuthData({ isInstantJwtParticipant: true }));
+
+    return dispatch(
+      authFetchDevdaoInstantJwtParticipantToken.initiate(),
+    ).unwrap();
+  }
+
+  const isOldPremiumAndActiveToken =
+    await web3Service.isOldPremiumAndActiveToken(currentAccount);
+
+  if (isOldPremiumAndActiveToken) {
+    return web3Service.getOldPremiumJwtToken(currentAccount);
+  }
+
+  dispatch(setAuthData({ isInstantJwtParticipant: true }));
+
+  return dispatch(authFetchInstantJwtParticipantToken.initiate()).unwrap();
 };
 
 export const makeAuthorization = async (
