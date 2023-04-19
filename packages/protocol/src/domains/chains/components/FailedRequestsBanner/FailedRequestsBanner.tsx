@@ -5,6 +5,9 @@ import { FailedRequestsChart } from './Components/FailedRequestsChart';
 import { Header } from './Components/Header';
 import { Notice } from './Components/Notice';
 import { useFailedRequestsBannerStyles } from './useFailedRequestsBannerStyles';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
 interface IFailedRequestsBannerProps {
   timeframe: Timeframe;
@@ -15,7 +18,12 @@ export const FailedRequestsBanner = ({
   timeframe,
   data,
 }: IFailedRequestsBannerProps) => {
-  const { classes } = useFailedRequestsBannerStyles();
+  const { classes, cx } = useFailedRequestsBannerStyles();
+
+  const upgradePlanPermission = BlockWithPermission.UpgradePlan;
+  const hasUpgradePlanAccess = useGuardUserGroup({
+    blockName: upgradePlanPermission,
+  });
 
   const { rate, total, rejectedRequestsCount, list } = data;
 
@@ -26,12 +34,19 @@ export const FailedRequestsBanner = ({
         total={total}
         rate={rate}
         rejectedRequestsCount={rejectedRequestsCount}
+        hasOffset={hasUpgradePlanAccess}
       />
-      <div className={classes.container}>
+      <div
+        className={cx(classes.container, {
+          [classes.containerWithNotice]: hasUpgradePlanAccess,
+        })}
+      >
         <div className={classes.chart}>
           <FailedRequestsChart data={list} />
         </div>
-        <Notice />
+        <GuardUserGroup blockName={upgradePlanPermission}>
+          <Notice />
+        </GuardUserGroup>
       </div>
     </div>
   );

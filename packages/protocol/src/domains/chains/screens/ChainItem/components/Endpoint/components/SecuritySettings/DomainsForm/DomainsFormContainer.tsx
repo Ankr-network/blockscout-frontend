@@ -7,14 +7,15 @@ import { DomainsFormContainerProps } from './DomainsFormTypes';
 export const DomainsFormContainer = ({
   data,
   chainId,
+  jwtToken,
 }: DomainsFormContainerProps) => {
   const [editChainRestrictedDomains] =
     useLazyInfrastructureEditChainRestrictedDomainsQuery();
   const onSubmit = useCallback(
     async (domains: string[]) => {
-      await editChainRestrictedDomains({ chainId, domains });
+      await editChainRestrictedDomains({ chainId, domains, jwtToken });
     },
-    [editChainRestrictedDomains, chainId],
+    [editChainRestrictedDomains, chainId, jwtToken],
   );
 
   return <DomainsForm onSubmit={onSubmit} data={data} />;

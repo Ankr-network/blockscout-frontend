@@ -4,6 +4,7 @@ import { usePublicChainsData } from 'domains/chains/screens/Chains/components/Pu
 import { usePublicChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChains';
 import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
+import { proccessTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
 import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
 
 export const PublicChains = () => {
@@ -20,7 +21,7 @@ export const PublicChains = () => {
 
   const { processedChains, chainsDictionary } = usePublicChains({
     allChains,
-    chains,
+    chains: proccessTestnetOnlyChains(chains),
     sortType,
     timeframe,
     searchContent,

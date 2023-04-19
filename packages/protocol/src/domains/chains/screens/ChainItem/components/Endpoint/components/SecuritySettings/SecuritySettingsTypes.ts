@@ -3,4 +3,5 @@ import { SecuritySettings } from 'domains/infrastructure/actions/fetchSecuritySe
 export interface SecuritySettingsProps {
   chainId: string;
   data: SecuritySettings;
+  jwtToken: string;
 }

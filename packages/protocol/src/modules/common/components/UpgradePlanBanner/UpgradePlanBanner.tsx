@@ -9,6 +9,8 @@ import { useBanner } from './hooks/useBanner';
 import { UpgradePlanBannerContent } from './UpgradePlanBannerContent';
 import { BannerSkeleton } from '../BannerSkeleton';
 import { ContentType } from 'domains/chains/components/PremiumChainDialog/types';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 interface UpgradePlanBannerProps {
   isAdvancedApi?: boolean;
@@ -47,29 +49,31 @@ export const UpgradePlanBanner = ({
   if (loading) return <BannerSkeleton />;
 
   return (
-    <Box sx={{ mb: 10 }}>
-      <UpgradePlanBannerContent
-        hasPremium={hasPremium}
-        handleOpen={handleOpen}
-        isAdvancedApi={isAdvancedApi}
-        isPublicUser={isPublicUser}
-      />
+    <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
+      <Box sx={{ mb: 10 }}>
+        <UpgradePlanBannerContent
+          hasPremium={hasPremium}
+          handleOpen={handleOpen}
+          isAdvancedApi={isAdvancedApi}
+          isPublicUser={isPublicUser}
+        />
 
-      {isBannerV2 ? (
-        <PremiumChainDialogV2
-          open={isOpened}
-          defaultState={defaultState}
-          onClose={handleClose}
-          onUpgrade={handleUpgrade}
-        />
-      ) : (
-        <PremiumChainDialog
-          open={isOpened}
-          defaultState={defaultState}
-          onClose={handleClose}
-          onUpgrade={handleUpgrade}
-        />
-      )}
-    </Box>
+        {isBannerV2 ? (
+          <PremiumChainDialogV2
+            open={isOpened}
+            defaultState={defaultState}
+            onClose={handleClose}
+            onUpgrade={handleUpgrade}
+          />
+        ) : (
+          <PremiumChainDialog
+            open={isOpened}
+            defaultState={defaultState}
+            onClose={handleClose}
+            onUpgrade={handleUpgrade}
+          />
+        )}
+      </Box>
+    </GuardUserGroup>
   );
 };

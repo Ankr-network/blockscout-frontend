@@ -41,8 +41,12 @@ export const useJwtTokenForWorkerRequests = () => {
     [jwtTokens, tokenIndex, workerTokenData],
   );
 
+  const shouldUseGroupToken = useMemo(() => {
+    return tokenIndex === 0 && groupToken?.jwtData;
+  }, [tokenIndex, groupToken]);
+
   return {
-    jwtToken: groupToken?.jwtData || jwtToken,
+    jwtToken: shouldUseGroupToken ? groupToken?.jwtData : jwtToken,
     isLoading: isLoadingAllJwt || isLoadingGroupToken,
   };
 };

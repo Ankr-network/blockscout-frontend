@@ -1,56 +1,72 @@
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 
-import { t, tHTML } from '@ankr.com/common';
-import { COLUMNS_COUNT, intlRoot } from './FeatureTableUtils';
+import { t } from '@ankr.com/common';
+import {
+  COLUMNS_COUNT,
+  FEATURE_TABLE_ROW,
+  INTL_PLAN_COMPARISON_ROOT,
+  PLAN_COMPARISON,
+} from './FeatureTableUtils';
 import { useFeatureTableStyles } from './useFeatureTableStyles';
-import { LearnMore } from '../LearnMore/LearnMore';
-import { PREMIUM_BLOCK_ANCHOR } from '../../PremiumBlock';
-import { TableContent } from './TableContent';
+import { FeatureItem } from '../FeatureContent';
 
 export const FeatureTable = () => {
   const { classes } = useFeatureTableStyles();
 
   return (
-    <Table className={classes.root}>
-      <TableHead>
-        <TableRow className={classes.header}>
-          {new Array(COLUMNS_COUNT).fill('').map((_, index) => (
-            <TableCell key={`header-${index}`}>
-              {tHTML(`${intlRoot}.header.column-${index + 1}`)}
-            </TableCell>
-          ))}
-        </TableRow>
-        <TableRow className={classes.headerSummary}>
-          {new Array(COLUMNS_COUNT).fill('').map((_, index) => (
-            <TableCell key={`summary-${index}`}>
-              {tHTML(`${intlRoot}.header-summary.column-${index + 1}`)}
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        <TableContent />
-        <TableRow className={classes.cellRow}>
-          <TableCell>
-            <LearnMore />
-          </TableCell>
-          <TableCell className={classes.button}>
-            <Button disabled>{t(`${intlRoot}.header-button.column-2`)}</Button>
-          </TableCell>
-          <TableCell className={classes.button}>
-            <Button href={`#${PREMIUM_BLOCK_ANCHOR}`}>
-              {t(`${intlRoot}.header-button.column-3`)}
-            </Button>
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+    <>
+      <Typography variant="h3" className={classes.title}>
+        {t(`${INTL_PLAN_COMPARISON_ROOT}.title`)}
+      </Typography>
+      <div className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead className={classes.header}>
+            <TableRow>
+              <TableCell />
+              {PLAN_COMPARISON.map(name => (
+                <TableCell key={`title-${name}`} className={name}>
+                  <Typography variant="subtitle1">
+                    {t(`${INTL_PLAN_COMPARISON_ROOT}.${name}.title`)}
+                  </Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell />
+              {PLAN_COMPARISON.map(name => (
+                <TableCell key={`summary-${name}`}>
+                  <Typography variant="body2">
+                    {t(`${INTL_PLAN_COMPARISON_ROOT}.${name}.summary`)}
+                  </Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {new Array(COLUMNS_COUNT).fill('').map((_, rowIndex) => (
+              <TableRow key={`column-${rowIndex}`} className={classes.row}>
+                <TableCell className={classes.name}>
+                  <Typography variant="subtitle2">
+                    {t(`${INTL_PLAN_COMPARISON_ROOT}.name-${rowIndex + 1}`)}
+                  </Typography>
+                </TableCell>
+                {FEATURE_TABLE_ROW.map(index => (
+                  <TableCell>
+                    {FeatureItem({ index, rowIndex: rowIndex + 1 })}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 };

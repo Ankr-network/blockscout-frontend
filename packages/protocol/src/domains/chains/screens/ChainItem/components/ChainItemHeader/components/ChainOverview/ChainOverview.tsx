@@ -8,8 +8,6 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { MetamaskButtonLabel } from 'domains/chains/components/MetamaskButtonLabel';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
-import { TronAbout } from '../TronAbout';
-import { ChainID } from 'modules/chains/types';
 
 export interface ChainOverviewProps {
   chain: IApiChain;
@@ -25,7 +23,6 @@ export const ChainOverview = ({
   isChainArchived,
 }: ChainOverviewProps) => {
   const { classes } = useChainOverviewStyles();
-  const { id } = chain;
 
   return (
     <div>
@@ -50,7 +47,6 @@ export const ChainOverview = ({
           )}
         </div>
       </div>
-      {id === ChainID.TRON && <TronAbout />}
     </div>
   );
 };

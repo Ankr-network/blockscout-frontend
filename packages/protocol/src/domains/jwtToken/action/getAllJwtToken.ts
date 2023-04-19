@@ -4,7 +4,10 @@ import { MultiService } from 'modules/api/MultiService';
 import { GetState, RootState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { formatJwtTokensAndDecrypt } from './getAllJwtTokenUtils';
+import {
+  formatJwtTokensAndDecrypt,
+  getUserEndpointToken,
+} from './getAllJwtTokenUtils';
 import { getSortedJwtTokens, PRIMARY_TOKEN_INDEX } from '../utils/utils';
 import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
@@ -40,10 +43,23 @@ export const {
 
         const state = getState() as RootState;
 
+        const groupToken =
+          group &&
+          primaryData &&
+          (await getUserEndpointToken(
+            primaryData?.jwt_data,
+            primaryData?.is_encrypted,
+          ));
+
         const { workerTokenData } = selectAuthData(state);
+
+        const primaryEndpointToken = group
+          ? groupToken
+          : workerTokenData?.userEndpointToken;
+
         const decryptedTokens = await formatJwtTokensAndDecrypt(
           result,
-          workerTokenData?.userEndpointToken,
+          primaryEndpointToken,
         );
 
         return {
@@ -54,4 +70,5 @@ export const {
       }),
     }),
   }),
+  overrideExisting: true,
 });

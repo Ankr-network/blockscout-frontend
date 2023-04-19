@@ -11,6 +11,8 @@ import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 interface IShowProjectDialogProps {
   shouldConnectWallet: boolean;
@@ -81,16 +83,18 @@ export const ViewProjectDialog = ({
             {t(`${jwtTokenIntlRoot}.view-project.button`)}
           </Button>
           {Boolean(token?.index) && (
-            <Button
-              fullWidth
-              size="large"
-              variant="outlined"
-              color="error"
-              onClick={handleDeleteProject}
-              className={classes.button}
-            >
-              {t(`${jwtTokenIntlRoot}.view-project.delete-project`)}
-            </Button>
+            <GuardUserGroup blockName={BlockWithPermission.JwtManager}>
+              <Button
+                fullWidth
+                size="large"
+                variant="outlined"
+                color="error"
+                onClick={handleDeleteProject}
+                className={classes.button}
+              >
+                {t(`${jwtTokenIntlRoot}.view-project.delete-project`)}
+              </Button>
+            </GuardUserGroup>
           )}
         </div>
       </Dialog>

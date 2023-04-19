@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { NOTICE_WIDTH, NOTICE_MARGIN } from '../../../RequestsChart/const';
+import { NOTICE_WIDTH, NOTICE_MARGIN } from '../../../RequestsChart';
 
 export const useHeaderStyles = makeStyles()(theme => ({
   information: {
@@ -9,16 +9,21 @@ export const useHeaderStyles = makeStyles()(theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: theme.spacing(5),
-    width: `calc(100% - ${NOTICE_WIDTH + NOTICE_MARGIN}px)`,
 
     [theme.breakpoints.down('xl')]: {
-      width: '100%',
       marginBottom: theme.spacing(2 * 4.25),
     },
 
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       gap: theme.spacing(3.5),
+    },
+  },
+  informationOffset: {
+    width: `calc(100% - ${NOTICE_WIDTH + NOTICE_MARGIN}px)`,
+
+    [theme.breakpoints.down('xl')]: {
+      width: '100%',
     },
   },
   title: {

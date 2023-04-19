@@ -2,17 +2,16 @@ import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
 export const {
-  endpoints: { authCheckInstantJwtParticipant },
-  useAuthCheckInstantJwtParticipantQuery,
+  endpoints: { authCheckDevdaoInstantJwtParticipant },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    authCheckInstantJwtParticipant: build.query<boolean, void>({
+    authCheckDevdaoInstantJwtParticipant: build.query<boolean, void>({
       queryFn: async () => {
         const service = await MultiService.getService();
 
         const { is_participant: isParticipant } = await service
           .getAccountGateway()
-          .checkInstantJwtParticipant();
+          .checkDevdaoInstantJwtParticipant();
 
         return { data: isParticipant };
       },

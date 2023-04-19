@@ -28,6 +28,7 @@ export const AccountDetailsButton = ({
 
   const { classes } = useStyles({
     hasStatusTransition: isStatusTransitionActive,
+    hasStatusAccess,
     isMobile,
   });
 
