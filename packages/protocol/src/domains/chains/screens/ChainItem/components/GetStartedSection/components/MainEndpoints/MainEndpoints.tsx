@@ -20,12 +20,12 @@ export const MainEndpoints = ({
     <EndpointsHeader hasPremium={hasPremium} title={title} />
   );
 
-  if (hasPlaceholder) {
-    return <Placeholder title={endpointsHeader} />;
-  }
-
   if (!hasFeature) {
     return null;
+  }
+
+  if (hasPlaceholder) {
+    return <Placeholder title={endpointsHeader} />;
   }
 
   return (
