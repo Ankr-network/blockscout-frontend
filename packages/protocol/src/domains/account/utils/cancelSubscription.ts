@@ -17,7 +17,7 @@ export const {
 
         const data = await service
           .getAccountGateway()
-          .cancelSubscription({ subscription_id: subscriptionId, group });
+          .cancelSubscription({ subscription_id: subscriptionId }, { group });
 
         return { data };
       },

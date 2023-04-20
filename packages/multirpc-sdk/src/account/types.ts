@@ -139,7 +139,7 @@ export interface ISubscriptionsItem {
   type: string;
 }
 
-export interface IApiCancelSubscriptionRequestParams extends IApiUserGroupParams {
+export interface IApiCancelSubscriptionRequestParams {
   subscription_id: string;
 }
 
