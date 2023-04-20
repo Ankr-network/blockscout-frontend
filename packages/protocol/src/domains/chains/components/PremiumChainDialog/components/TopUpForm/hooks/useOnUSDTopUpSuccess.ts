@@ -7,10 +7,12 @@ import { TopUpOrigin, TrackTopUpSubmit } from 'domains/account/types';
 import { TopUpSuccessHandler } from '../types';
 import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const defaultUSDPrice = ONE_TIME_PAYMENT_ID;
 
 export const useOnUSDTopUpSuccess = (trackSubmit?: TrackTopUpSubmit) => {
+  const { selectedGroupAddress } = useSelectedUserGroup();
   const {
     handleFetchLinkForCardPayment,
     isFetchLinkForCardPaymentLoading: isLoading,
@@ -20,10 +22,11 @@ export const useOnUSDTopUpSuccess = (trackSubmit?: TrackTopUpSubmit) => {
 
   const onSuccess: TopUpSuccessHandler = useCallback(
     async ({ amount, usdPrice = defaultUSDPrice }) => {
-      const { data: url } = await handleFetchLinkForCardPayment(
+      const { data: url } = await handleFetchLinkForCardPayment({
         amount,
-        usdPrice,
-      );
+        id: usdPrice,
+        groupAddress: selectedGroupAddress,
+      });
 
       const redirect = () => {
         if (url) {
@@ -39,7 +42,12 @@ export const useOnUSDTopUpSuccess = (trackSubmit?: TrackTopUpSubmit) => {
         redirect();
       }
     },
-    [dispatch, handleFetchLinkForCardPayment, trackSubmit],
+    [
+      dispatch,
+      handleFetchLinkForCardPayment,
+      trackSubmit,
+      selectedGroupAddress,
+    ],
   );
 
   return { isLoading, onSuccess };

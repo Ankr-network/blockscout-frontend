@@ -48,6 +48,7 @@ export const PublicUsageDataSection = ({
         <>
           <TimeframeTabs
             className={classes.timeframe}
+            disabled={loading}
             tabs={timeframeTabs}
             timeframe={timeframe}
           />

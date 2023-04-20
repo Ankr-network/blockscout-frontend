@@ -11,6 +11,7 @@ import {
 import { isTestnetOnlyChain } from '../utils/isTestnetOnlyChain';
 
 export interface IApiChainURL {
+  rest?: string;
   rpc: string;
   ws?: string;
 }
@@ -32,6 +33,8 @@ export interface IApiChain {
   type: IBlockchainEntity['type'];
   urls: IApiChainURL[];
   premiumOnly?: boolean;
+  hasRESTFeature: boolean;
+  hasRPCFeature: boolean;
   hasWsFeature: boolean;
   isComingSoon: boolean;
   isMainnetPremiumOnly?: boolean;
@@ -43,6 +46,18 @@ const getFrontChain = ({ id, name, urls }: IApiChain) => ({
   urls,
 });
 
+const getURLs = ({ restURLs, rpcURLs, wsURLs }: BlockchainUrls) => {
+  const template = new Array(Math.max(restURLs.length, rpcURLs.length)).fill(
+    '',
+  );
+
+  return template.map<IApiChainURL>((_, index) => ({
+    rpc: rpcURLs[index],
+    ws: wsURLs[index],
+    rest: restURLs[index],
+  }));
+};
+
 export const filterMapChains = (
   data: FetchBlockchainUrlsResult = {}, // TODO: fix action types
   filterCB: (urls: BlockchainUrls) => boolean = () => true,
@@ -50,7 +65,7 @@ export const filterMapChains = (
   const chains = Object.values(data)
     .filter(filterCB)
     .map<IApiChain>(chain => {
-      const { blockchain, rpcURLs, wsURLs } = chain;
+      const { blockchain } = chain;
       const {
         coinName,
         id,
@@ -67,11 +82,10 @@ export const filterMapChains = (
         id: id as ChainID,
         name,
         type,
-        urls: rpcURLs.map<IApiChainURL>((url, index) => ({
-          rpc: url,
-          ws: wsURLs[index],
-        })),
+        urls: getURLs(chain),
         premiumOnly,
+        hasRESTFeature: features.includes(BlockchainFeature.REST),
+        hasRPCFeature: features.includes(BlockchainFeature.RPC),
         hasWsFeature: features.includes(BlockchainFeature.WS),
         isComingSoon: features.includes(BlockchainFeature.ComingSoon),
         isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,

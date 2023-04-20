@@ -139,7 +139,7 @@ export interface ISubscriptionsItem {
   type: string;
 }
 
-export interface IApiCancelSubscriptionRequestParams extends IApiUserGroupParams {
+export interface IApiCancelSubscriptionRequestParams {
   subscription_id: string;
 }
 
@@ -300,12 +300,12 @@ export interface ICanPayByCardResponse {
   isEligible: boolean;
 }
 
-export interface IGetLinkForCardPaymentRequest extends IApiUserGroupParams {
+export interface IGetLinkForCardPaymentRequest {
   amount: string;
   publicKey?: string;
 }
 
-export interface IGetLinkForRecurrentCardPaymentRequest extends IApiUserGroupParams {
+export interface IGetLinkForRecurrentCardPaymentRequest {
   currency: string;
   product_price_id: string;
   public_key?: string;

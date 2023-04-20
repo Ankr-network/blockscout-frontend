@@ -16,6 +16,9 @@ const isAvalancheChain = (id: ChainGroupID) =>
   id === ChainGroupID.P_CHAIN ||
   id === ChainGroupID.X_CHAIN;
 
+const isTronRestApi = (chainID: ChainID, groupID: ChainGroupID) =>
+  chainID === ChainID.TRON && groupID === ChainGroupID.REST_API;
+
 export const hasRequestComposer = ({
   chainId,
   group,
@@ -38,8 +41,8 @@ export const hasRequestComposer = ({
 
   return (
     (chainId === ChainID.MULTICHAIN ||
-      chainId === ChainID.TRON ||
       chainId === ChainID.NEAR ||
+      isTronRestApi(chainId, group.id) ||
       isGroupEvmBased(group) ||
       isAvalancheChain(group.id) ||
       isGroupSolanaBased(group)) &&

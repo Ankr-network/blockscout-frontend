@@ -23,7 +23,7 @@ export const TronSampleCode = ({
   args,
   libraryID,
 }: ISampleCodeProps) => {
-  const httpUrl = useMemo(() => group.urls[0].rpc, [group]);
+  const httpUrl = useMemo(() => group.urls[0].rest, [group]);
 
   const code = useMemo(() => {
     const argResult = formatParameters(title, args);

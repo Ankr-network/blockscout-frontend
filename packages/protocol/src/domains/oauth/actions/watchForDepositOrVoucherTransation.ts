@@ -1,6 +1,6 @@
 import { EthAddressType } from 'multirpc-sdk';
 
-import { RootState } from 'store';
+import { GetState, RootState } from 'store';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { timeout } from 'modules/common/utils/timeout';
 import { checkDepositOrVoucherTransaction } from './checkDepositOrVoucherTransaction';
@@ -10,6 +10,7 @@ import {
 } from 'domains/auth/store/selectors';
 import { watchForVoucherTransactionAndNegativeBalance } from './watchForVoucherTransactionAndNegativeBalance';
 import { web3Api } from 'store/queries';
+import { getSelectedGroupAddress } from '../../userGroup/utils/getSelectedGroupAddress';
 
 const checkFreemiumUserWatching = (state: RootState) =>
   !(selectHasPremium(state) && selectHasPrivateAccess(state));
@@ -45,9 +46,16 @@ export const {
         const shouldNotWatchForTransactionFreemiumUser =
           checkFreemiumUserWatching(state);
 
+        const { selectedGroupRole } = getSelectedGroupAddress(
+          getState as GetState,
+        );
+        const shouldNotWatchForTransactionDevRole =
+          selectedGroupRole === 'GROUP_ROLE_DEV';
+
         const shouldNotWatch =
           (shouldNotWatchForTransactionOauthUser &&
             shouldNotWatchForTransactionWeb3User) ||
+          shouldNotWatchForTransactionDevRole ||
           shouldNotWatchForTransactionFreemiumUser;
 
         if (shouldNotWatch) {

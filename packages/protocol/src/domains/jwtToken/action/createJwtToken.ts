@@ -16,7 +16,9 @@ export const {
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async (tokenIndex, { dispatch, getState }) => {
           const service = MultiService.getService().getAccountGateway();
-          const group = getSelectedGroupAddress(getState as GetState);
+          const { selectedGroupAddress: group } = getSelectedGroupAddress(
+            getState as GetState,
+          );
           const jwtToken = await service.createJwtToken({
             index: tokenIndex,
             group,

@@ -31,6 +31,18 @@ export class ContractService extends ContractReadService {
     );
   }
 
+  public async depositAnkrToPAYGForUser(
+    amount: BigNumber | BigNumber.Value,
+    publicKey: string,
+    targetAddress: string,
+  ): Promise<IWeb3SendResult> {
+    return this.PAYGContractManager.depositAnkrForUser(
+      new BigNumber(amount),
+      publicKey,
+      targetAddress,
+    );
+  }
+
   public async sendAllowanceForPAYG(
     amount: BigNumber | BigNumber.Value,
   ): Promise<IWeb3SendResult> {

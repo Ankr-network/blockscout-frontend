@@ -4,6 +4,7 @@ import {
   OneTimePaymentIdType,
   useLazyUsdTopUpFetchLinkForCardPaymentQuery,
 } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import { Web3Address } from 'multirpc-sdk';
 
 export const useCardPayment = () => {
   const [
@@ -12,8 +13,15 @@ export const useCardPayment = () => {
   ] = useLazyUsdTopUpFetchLinkForCardPaymentQuery();
 
   const handleFetchLinkForCardPayment = useCallback(
-    (amount: string, id?: string | OneTimePaymentIdType) =>
-      fetchLinkForCardPayment({ amount, id }),
+    ({
+      amount,
+      id,
+      groupAddress,
+    }: {
+      amount: string;
+      id?: string | OneTimePaymentIdType;
+      groupAddress?: Web3Address;
+    }) => fetchLinkForCardPayment({ amount, id, groupAddress }),
     [fetchLinkForCardPayment],
   );
 

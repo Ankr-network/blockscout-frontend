@@ -1,11 +1,11 @@
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 
 import { GetState } from 'store';
-import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
 import { resetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
 const getLastAllowanceTransaction = async (
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
@@ -35,9 +35,7 @@ export const checkAllowanceStep = async (
   rejectAllowanceTransactionHash?: string,
   allowanceTransactionHash?: string,
 ) => {
-  const service = await MultiService.getWeb3Service();
-  const provider = service.getKeyProvider();
-  const { currentAccount: address } = provider;
+  const address = await getCurrentTransactionAddress(getState as GetState);
 
   if (rejectAllowanceTransactionHash) {
     await dispatch(
