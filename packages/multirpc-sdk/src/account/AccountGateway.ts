@@ -115,11 +115,13 @@ export class AccountGateway {
   }
 
   async cancelSubscription(
-    params: IApiCancelSubscriptionRequestParams,
+    body: IApiCancelSubscriptionRequestParams,
+    params: IApiUserGroupParams,
   ): Promise<void> {
     const { data: response } = await this.api.post<void>(
       '/api/v1/auth/payment/cancelSubscription',
-      params,
+      body,
+      { params }
     );
 
     return response;
