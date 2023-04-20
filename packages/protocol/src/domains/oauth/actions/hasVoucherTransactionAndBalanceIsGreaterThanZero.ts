@@ -15,7 +15,9 @@ export const {
     >({
       queryFn: async (_args, { dispatch, getState }) => {
         const service = MultiService.getService();
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
 
         const { transactions } = await service
           .getAccountGateway()

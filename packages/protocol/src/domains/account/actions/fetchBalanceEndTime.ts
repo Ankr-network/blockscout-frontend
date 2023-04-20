@@ -13,7 +13,9 @@ export const {
     accountFetchBalanceEndTime: build.query<number, string[] | void>({
       queryFn: createNotifyingQueryFn(async (blockchains, { getState }) => {
         await authorizationGuard(getState as GetState);
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
         const service = MultiService.getService();
 
         const endTime = await service

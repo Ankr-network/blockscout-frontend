@@ -38,7 +38,9 @@ export const {
     accountFetchBalance: build.query<Balance, void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
         await authorizationGuard(getState as GetState);
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
 
         const service = MultiService.getService();
 

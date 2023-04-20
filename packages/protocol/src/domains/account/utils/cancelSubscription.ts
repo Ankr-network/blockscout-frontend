@@ -11,7 +11,9 @@ export const {
     cancelSubscription: build.query<void, string>({
       queryFn: async (subscriptionId, { getState }) => {
         const service = MultiService.getService();
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
 
         const data = await service
           .getAccountGateway()

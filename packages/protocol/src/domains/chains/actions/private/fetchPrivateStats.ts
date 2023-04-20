@@ -34,7 +34,9 @@ export const {
         queryFn: createNotifyingQueryFn(
           async ({ interval, userEndpointToken }, { getState }) => {
             await authorizationGuard(getState as GetState);
-            const group = getSelectedGroupAddress(getState as GetState);
+            const { selectedGroupAddress: group } = getSelectedGroupAddress(
+              getState as GetState,
+            );
             const service = MultiService.getService();
             const accountGateway = service.getAccountGateway();
 

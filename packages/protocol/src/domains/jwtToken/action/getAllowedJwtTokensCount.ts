@@ -18,7 +18,9 @@ export const {
     fetchAllowedJwtTokensCount: build.query<IAllowedJwtTokenInfo, void>({
       queryFn: createNotifyingQueryFn(async (_, { getState }) => {
         const service = MultiService.getService().getAccountGateway();
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
 
         const maxTokensLimit = await service.getAllowedJwtTokensCount({
           group,
