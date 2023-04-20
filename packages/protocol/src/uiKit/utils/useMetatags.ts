@@ -41,7 +41,9 @@ const renderSecretName = (chainId: ChainID) => {
   if (chainId === ChainID.SECRET_COSMOS_REST) {
     name = 'Secret Cosmos REST';
   } else if (chainId === ChainID.SECRET_REST) {
-    name = 'Secret Tendermint REST';
+    name = 'Secret Network GRPC-Gateway/REST';
+  } else if (chainId === ChainID.SECRET_RPC) {
+    name = 'Secret Network RPC & GRPC-Web';
   }
 
   return name;
