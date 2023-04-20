@@ -46,6 +46,7 @@ export const PublicChains = () => {
           timeframe={timeframe}
           chains={networksConfigurations}
           chainsDictionary={chainsDictionary}
+          isPublic
         />
       </NoReactSnap>
     </BaseChains>
