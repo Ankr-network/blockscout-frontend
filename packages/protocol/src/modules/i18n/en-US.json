@@ -741,7 +741,7 @@
   },
   "oauth": {
     "breadcrumbs": "Google auth",
-    "secret-code-error": "Wrong secrete code. Try to sign up again",
+    "secret-code-error": "Wrong secret code. Try to sign up again",
     "eth-address-error": "No ethUserAddress"
   },
   "common": {
