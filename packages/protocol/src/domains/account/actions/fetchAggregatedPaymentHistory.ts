@@ -16,7 +16,9 @@ export const {
   endpoints: build => ({
     accountFetchAggregatedPaymentHistory: build.query<Response, Request>({
       queryFn: createNotifyingQueryFn(async (params, { getState }) => {
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
         const service = MultiService.getService();
 
         const data = await service

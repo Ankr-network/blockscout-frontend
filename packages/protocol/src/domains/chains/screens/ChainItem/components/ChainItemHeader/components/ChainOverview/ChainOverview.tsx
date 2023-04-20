@@ -8,6 +8,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { MetamaskButtonLabel } from 'domains/chains/components/MetamaskButtonLabel';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 
 export interface ChainOverviewProps {
   chain: IApiChain;
@@ -23,6 +24,7 @@ export const ChainOverview = ({
   isChainArchived,
 }: ChainOverviewProps) => {
   const { classes } = useChainOverviewStyles();
+  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
   return (
     <div>
@@ -36,7 +38,7 @@ export const ChainOverview = ({
         </div>
         <div className={classes.right}>
           <ChainDocsLink chain={chain} />
-          {chain && (
+          {chain && !isChainProtocolSwitchEnabled && (
             <AddNetworkButton
               chainType={chainType}
               className={classes.addNetworkButton}

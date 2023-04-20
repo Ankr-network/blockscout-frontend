@@ -16,7 +16,9 @@ export const {
       PaymentHistoryParams
     >({
       queryFn: createNotifyingQueryFn(async (params, { getState }) => {
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
         const data = await loadPaymentHistory({ ...params, group });
 
         return { data };

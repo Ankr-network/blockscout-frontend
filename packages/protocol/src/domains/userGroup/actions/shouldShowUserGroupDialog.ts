@@ -3,7 +3,7 @@ import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
 import { userGroupFetchGroups } from './fetchGroups';
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
-import { selectUserGroupConfigByAddress } from '../store';
+import { resetUserGroupConfig, selectUserGroupConfigByAddress } from '../store';
 
 // TODO change this action to hook. Resolve the problem, when store(localstorage) is faster then data in actions
 export const {
@@ -22,7 +22,8 @@ export const {
           return { data: false };
         }
 
-        const { hasWeb3Autoconnect } = selectAuthData(state);
+        const { hasWeb3Autoconnect, address: userAddress } =
+          selectAuthData(state);
         const { shouldRemind, selectedGroupAddress } =
           selectUserGroupConfigByAddress(state);
 
@@ -37,14 +38,29 @@ export const {
           userGroups = cachedUserGroups;
         }
 
+        const hasGroups = Boolean(userGroups && userGroups?.length > 1);
+
+        const isUserStillGroupMember = Boolean(
+          userGroups?.find(
+            ({ groupAddress }) => groupAddress === selectedGroupAddress,
+          ),
+        );
+
+        if (hasGroups && selectedGroupAddress && !isUserStillGroupMember) {
+          // if user is not a member of the selected group any longer, we should reset the config
+          dispatch(resetUserGroupConfig(userAddress));
+          return { data: true };
+        }
+
         if (shouldRemind) {
           return { data: false };
         }
 
-        const hasGroups = Boolean(userGroups && userGroups?.length > 1);
+        const isUserHasGroupsAndNotSelectedGroupAddress =
+          hasGroups && !selectedGroupAddress;
 
         const isAutoconnectButUserHasntSelectedGroup =
-          hasWeb3Autoconnect && hasGroups && !selectedGroupAddress;
+          hasWeb3Autoconnect && isUserHasGroupsAndNotSelectedGroupAddress;
 
         if (isAutoconnectButUserHasntSelectedGroup) {
           return { data: true };
@@ -54,7 +70,7 @@ export const {
           return { data: false };
         }
 
-        return { data: hasGroups && !selectedGroupAddress };
+        return { data: isUserHasGroupsAndNotSelectedGroupAddress };
       },
     }),
   }),

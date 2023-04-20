@@ -13,7 +13,9 @@ export const {
   endpoints: build => ({
     accountFetchSubscriptionsData: build.query<ISubscriptionsResponse, void>({
       queryFn: createNotifyingQueryFn(async (_, { getState }) => {
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
         const data = await fetchSubscriptions({ group });
 
         return { data };

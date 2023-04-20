@@ -27,7 +27,7 @@ export const LibraryContent = ({ group, libraryID }: ILibraryContentProps) => {
     requestComposerFetchTronChainRequest,
   );
 
-  const web3HttpUrl = group.urls[0].rpc;
+  const web3HttpUrl = group.urls[0].rest;
 
   const { start } = useContext(CountdownContext);
 

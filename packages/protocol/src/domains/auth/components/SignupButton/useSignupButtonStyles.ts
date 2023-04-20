@@ -24,7 +24,11 @@ export const useSignupButtonStyles = makeStyles<boolean, 'walletIconSmall'>()(
         }
       : {
           position: 'relative',
+
+          flexShrink: 0,
+
           width: 'auto',
+
           backgroundColor: theme.palette.background.paper,
         },
     button: {
@@ -160,8 +164,14 @@ export const useSignupButtonStyles = makeStyles<boolean, 'walletIconSmall'>()(
       },
 
       [`+ .${classes.walletIconSmall}`]: {
+        display: 'none',
+
         bottom: 2,
-        right: 1,
+        right: 0,
+
+        [theme.breakpoints.down('xs')]: {
+          display: 'block',
+        },
       },
     },
   }),

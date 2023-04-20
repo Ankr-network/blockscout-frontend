@@ -63,6 +63,7 @@ export enum ChainID {
   SOLANA_DEVNET = 'solana_devnet',
   SYSCOIN = 'syscoin',
   TRON = 'tron',
+  TRON_JSON_RPC = 'tron_jsonrpc',
   XDAI = 'xdai',
   KLAYTN = 'klaytn',
   SUI = 'sui',

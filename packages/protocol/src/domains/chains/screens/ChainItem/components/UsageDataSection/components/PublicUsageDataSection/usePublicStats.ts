@@ -35,6 +35,7 @@ export const usePublicStats = ({
         countries,
       } = defaultData,
       error,
+      isFetching,
       isLoading,
       isUninitialized,
     },
@@ -58,7 +59,7 @@ export const usePublicStats = ({
   return {
     countries,
     error,
-    isLoading,
+    isLoading: isLoading || isFetching,
     isUninitialized,
     totalCached,
     totalRequests,

@@ -16,6 +16,7 @@ import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { timeout } from 'modules/common/utils/timeout';
 import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { web3Api } from 'store/queries';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
 export interface WaitTransactionConfirmingResult {
   error?: unknown;
@@ -81,7 +82,10 @@ export const {
         const state: any = getState();
         const service = await MultiService.getWeb3Service();
         const provider = service.getKeyProvider();
-        const { currentAccount: address } = provider;
+
+        const address = await getCurrentTransactionAddress(
+          getState as GetState,
+        );
 
         const transaction = selectTransaction(state, address);
 
@@ -113,7 +117,7 @@ export const {
         }
 
         // step 2: there're no receipt. we should wait
-        await waitForPendingTransaction();
+        await waitForPendingTransaction(address);
 
         // step 3: trying to take a receipt again
         let transactionHash = initialTransactionHash;
