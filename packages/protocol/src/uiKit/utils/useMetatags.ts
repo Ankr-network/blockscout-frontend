@@ -38,12 +38,12 @@ const renderNervosName = (chainId: ChainID) => {
 const renderSecretName = (chainId: ChainID) => {
   let name = capitalize(chainId);
 
-  if (chainId === ChainID.SECRET_COSMOS_REST) {
-    name = 'Secret Cosmos REST';
+  if (chainId === ChainID.SECRET) {
+    name = 'Secret';
   } else if (chainId === ChainID.SECRET_REST) {
-    name = 'Secret Network GRPC-Gateway/REST';
-  } else if (chainId === ChainID.SECRET_RPC) {
-    name = 'Secret Network RPC & GRPC-Web';
+    name = 'Secret Tendermint REST';
+  } else if (chainId === ChainID.SECRET_COSMOS_REST) {
+    name = 'Secret Cosmos REST';
   }
 
   return name;
