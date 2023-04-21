@@ -1,4 +1,4 @@
-import { NavLinkProps } from 'react-router-dom';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 import { ButtonProps } from '@mui/material';
 import { History } from 'history';
 
@@ -140,35 +140,42 @@ export const getNavigationList = ({
   ...getSettingList(onSettingsClick),
 ];
 
-export const getButtonProps = (props: NavigationItem): ButtonProps => ({
+export const getExternalButtonProps = ({
+  ActiveIcon,
+  StartIcon,
+  isActive,
+  isComingSoon,
+  isDisabled,
+  ...props
+}: NavigationItem): ButtonProps<'a', { component: 'a' }> => ({
   ...props,
-  disabled: !props.isComingSoon && (!props.href || props.isDisabled),
+  component: 'a',
+  disabled: !isComingSoon && (!props.href || isDisabled),
+  href: props.href,
   key: props.label,
   onClick: props.onClick,
+  rel: 'noopener noreferrer',
+  target: '_blank',
   variant: 'text',
 });
 
-export const getExternalButtonProps = (
-  props: NavigationItem,
-): ButtonProps | NavLinkProps => {
-  const buttonProps = getButtonProps(props);
-
-  return {
-    ...buttonProps,
-    href: props.href,
-    rel: 'noopener noreferrer',
-    target: '_blank',
-  };
-};
-
 export const getCommonButtonProps = (
-  props: NavigationItem,
-): ButtonProps | NavLinkProps => {
-  const buttonProps = getButtonProps(props);
-
-  return {
-    ...buttonProps,
-    to: props.href,
-    isActive: props.isActive,
-  };
-};
+  {
+    ActiveIcon,
+    StartIcon,
+    isActive,
+    isComingSoon,
+    isDisabled,
+    ...props
+  }: NavigationItem,
+  activeClassName: string,
+): ButtonProps<NavLink, NavLinkProps> => ({
+  ...props,
+  activeClassName,
+  disabled: !isComingSoon && (!props.href || isDisabled),
+  isActive,
+  key: props.label,
+  onClick: props.onClick,
+  to: props.href ?? '',
+  variant: 'text',
+});
