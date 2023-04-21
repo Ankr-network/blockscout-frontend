@@ -7,7 +7,11 @@ export const getChainById = (
   chains: IApiChain[],
   chainId: string,
 ): IApiChain | undefined => {
-  const chain = chains?.find(item => item.id === chainId);
+  const chain = chains?.find(item => {
+    const isBeacon = Boolean(getChainById(item.beacons ?? [], chainId));
+
+    return item.id === chainId || isBeacon;
+  });
 
   return chain;
 };

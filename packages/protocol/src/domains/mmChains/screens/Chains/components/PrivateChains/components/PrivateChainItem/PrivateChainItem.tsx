@@ -1,20 +1,16 @@
-import { ChainsItemBase } from 'domains/chains/components/ChainsItemBase';
 import { ChainsItemQueryProps } from 'domains/chains/components/ChainsItem';
-import { ChainItemLink } from './ChainItemLink';
+import { ChainsItemBase } from 'domains/chains/components/ChainsItemBase';
+import { usePrivateChainsItem } from 'domains/chains/screens/Chains/components/PrivateChains/components/PrivateChainCard/hooks/usePrivateChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
-import { usePublicChainsItem } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicChainCard/hooks/usePublicChainsItem';
+import { ChainItemLink } from '../../../ChainItem/ChainItemLink';
 
-export const ChainItem = ({
+export const PrivateChainItem = ({
   chain,
   chainId,
   timeframe,
-  isPublic,
   ...props
 }: ChainsItemQueryProps) => {
-  const { totalRequests, loading } = usePublicChainsItem({
-    chain,
-    timeframe,
-  });
+  const { totalRequests, loading } = usePrivateChainsItem({ chain });
 
   const { isHighlighted, totalRequestsStr, urls } = useCommonChainsItemData(
     chain,
@@ -25,9 +21,9 @@ export const ChainItem = ({
     <ChainsItemBase
       {...props}
       timeframe={timeframe}
+      totalRequests={totalRequestsStr}
       isHighlighted={isHighlighted}
       chain={chain}
-      totalRequests={totalRequestsStr}
       isLoading={loading}
       chainsItemLink={<ChainItemLink chain={chain} urls={urls} />}
     />

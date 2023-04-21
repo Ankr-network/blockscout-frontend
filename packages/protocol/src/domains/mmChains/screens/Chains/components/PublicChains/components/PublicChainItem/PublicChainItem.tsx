@@ -1,14 +1,13 @@
-import { ChainsItemBase } from 'domains/chains/components/ChainsItemBase';
 import { ChainsItemQueryProps } from 'domains/chains/components/ChainsItem';
-import { ChainItemLink } from './ChainItemLink';
-import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
+import { ChainsItemBase } from 'domains/chains/components/ChainsItemBase';
 import { usePublicChainsItem } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicChainCard/hooks/usePublicChainsItem';
+import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
+import { ChainItemLink } from '../../../ChainItem/ChainItemLink';
 
-export const ChainItem = ({
+export const PublicChainItem = ({
   chain,
   chainId,
   timeframe,
-  isPublic,
   ...props
 }: ChainsItemQueryProps) => {
   const { totalRequests, loading } = usePublicChainsItem({
@@ -25,9 +24,9 @@ export const ChainItem = ({
     <ChainsItemBase
       {...props}
       timeframe={timeframe}
+      totalRequests={totalRequestsStr}
       isHighlighted={isHighlighted}
       chain={chain}
-      totalRequests={totalRequestsStr}
       isLoading={loading}
       chainsItemLink={<ChainItemLink chain={chain} urls={urls} />}
     />

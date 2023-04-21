@@ -43,7 +43,7 @@ export const useRequestsByIPStyles = makeStyles()((theme: Theme) => ({
   },
   legendText: {
     fontWeight: 400,
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: theme.spacing(2 * 2.5),
     color: theme.palette.grey[600],
   },
