@@ -7,6 +7,7 @@ export const useRateBlockStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 400,
     marginBottom: theme.spacing(2 * 0.5),
     display: 'block',
+    height: theme.spacing(8),
 
     [theme.breakpoints.down('sm')]: {
       order: 1,
@@ -14,7 +15,7 @@ export const useRateBlockStyles = makeStyles()((theme: Theme) => ({
     },
   },
   skeleton: {
-    height: 32,
+    height: theme.spacing(8),
     marginTop: theme.spacing(2 * -0.875),
     width: '60%',
     margin: 'auto',
