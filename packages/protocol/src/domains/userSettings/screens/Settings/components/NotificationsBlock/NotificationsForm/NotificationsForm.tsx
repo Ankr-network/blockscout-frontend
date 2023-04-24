@@ -27,7 +27,7 @@ export const NotificationsForm = () => {
         type="checkbox"
         label={
           <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-balance-3-days')}
+            {t('user-settings.notifications.form.low-credits-100M')}
           </Typography>
         }
       />
@@ -37,7 +37,7 @@ export const NotificationsForm = () => {
         type="checkbox"
         label={
           <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-balance-7-days')}
+            {t('user-settings.notifications.form.low-credits-50M')}
           </Typography>
         }
       />
