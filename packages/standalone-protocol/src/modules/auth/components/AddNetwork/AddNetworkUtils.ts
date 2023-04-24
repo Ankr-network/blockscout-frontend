@@ -51,6 +51,17 @@ const POLYGON_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://polygonscan.com/'],
 };
 
+const POLYGON_ZK_EVM_NETWORK_PARAMS = {
+  chainId: 1101,
+  chainName: 'Polygon zkEVM',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://zkevm.polygonscan.com/'],
+};
+
 // celo
 const CELO_NETWORK_PARAMS = {
   chainId: 42220,
@@ -158,6 +169,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, FANTOM_NETWORK_PARAMS);
     case 'polygon':
       return mapParams(chain, POLYGON_NETWORK_PARAMS);
+    case 'zkevm':
+      return mapParams(chain, POLYGON_ZK_EVM_NETWORK_PARAMS);
     case 'solana':
       return undefined;
     case 'xdai':

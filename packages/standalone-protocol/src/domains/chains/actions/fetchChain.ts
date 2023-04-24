@@ -4,11 +4,14 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { Store } from 'store';
 import { ChainId } from '../api/chain';
 import { IApiChain } from '../api/queryChains';
+import { isPolygonZkEvm } from './fetchChainUtils';
 import { fetchPublicChains } from './fetchPublicChains';
 
 export interface IChainItemDetails {
   chain?: IApiChain;
 }
+
+const CHAIN_ID_FOR_BLOCKCHAINS_LIST = 'polygon_zkevm';
 
 export const fetchChain = createSmartAction<
   RequestAction<null, IChainItemDetails>
@@ -31,7 +34,11 @@ export const fetchChain = createSmartAction<
             fetchPublicChains(),
           );
 
-          const chain = chains?.find(item => item.id === chainId);
+          const currentChainId = isPolygonZkEvm(chainId)
+            ? CHAIN_ID_FOR_BLOCKCHAINS_LIST
+            : chainId;
+
+          const chain = chains?.find(item => item.id === currentChainId);
 
           const location = window?.location.origin;
           const rpcUrl =
@@ -44,6 +51,7 @@ export const fetchChain = createSmartAction<
           return {
             chain: {
               ...chain,
+              id: chainId,
               rpcUrls: [rpcUrl],
             },
           };
