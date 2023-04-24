@@ -1,5 +1,5 @@
-import { Button, ButtonProps } from '@mui/material';
-import { NavLink, NavLinkProps } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import { useMemo } from 'react';
 
 import { NavigationItem } from './BaseNavButtonTypes';
@@ -25,32 +25,35 @@ export const BaseNavButton = ({ item }: IBaseNavButtonProps) => {
 
   const isExternalHref = useMemo(() => href && isExternalPath(href), [href]);
 
-  const props: ButtonProps | NavLinkProps | any = useMemo(
-    () =>
-      isExternalHref
-        ? getExternalButtonProps(item)
-        : getCommonButtonProps(item),
-    [item, isExternalHref],
-  );
+  if (isExternalHref) {
+    return (
+      <Button
+        {...getExternalButtonProps(item)}
+        className={cx(
+          classes.link,
+          isComingSoon && classes.comingSoon,
+          isDisabled && classes.disabled,
+        )}
+        endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
+        startIcon={<StartIcon />}
+      >
+        {label}
+        {isComingSoon && <SoonLabel className={classes.soon} />}
+      </Button>
+    );
+  }
 
   return (
     <Button
-      {...props}
+      {...getCommonButtonProps(item, classes.activeLink)}
       className={cx(
         classes.link,
         isComingSoon && classes.comingSoon,
         isDisabled && classes.disabled,
       )}
+      component={NavLink}
+      endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
       startIcon={<StartIcon />}
-      endIcon={
-        ActiveIcon ? (
-          <ActiveIcon className={classes.activeLink} />
-        ) : (
-          <StartIcon className={classes.activeLink} />
-        )
-      }
-      LinkComponent={isExternalHref ? 'a' : NavLink}
-      activeClassName={classes.activeLink}
     >
       {label}
       {isComingSoon && <SoonLabel className={classes.soon} />}

@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 
-import { ChainType, Timeframe } from 'domains/chains/types';
+import { Chain, ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -11,7 +10,7 @@ import { UsageDataSection } from '../../UsageDataSection';
 import { t } from '@ankr.com/common';
 
 export interface UsageDataSectionParams {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;

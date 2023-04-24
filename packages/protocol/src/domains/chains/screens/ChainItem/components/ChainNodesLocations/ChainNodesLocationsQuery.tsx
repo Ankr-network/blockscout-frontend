@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { ChainNodesLocations } from './ChainNodesLocations';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';

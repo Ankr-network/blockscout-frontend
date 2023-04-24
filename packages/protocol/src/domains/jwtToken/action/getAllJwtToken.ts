@@ -24,7 +24,9 @@ export const {
     fetchAllJwtTokenRequests: build.query<IUserJwtToken, boolean | void>({
       queryFn: createNotifyingQueryFn(async (loading, { getState }) => {
         if (loading) return { data: { jwtTokens: [] } };
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
         const accountGateway = MultiService.getService().getAccountGateway();
 
         const result = await accountGateway.getAllJwtToken({ group });

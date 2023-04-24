@@ -5,6 +5,8 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 import { setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+import { GetState } from 'store';
 
 export interface Deposit {
   address: string;
@@ -18,10 +20,12 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     topUpLogin: build.query<Deposit, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
+      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
         const service = await MultiService.getWeb3Service();
-        const provider = service.getKeyProvider();
-        const { currentAccount: address } = provider;
+
+        const address = await getCurrentTransactionAddress(
+          getState as GetState,
+        );
 
         const { jwtToken: credentials, workerTokenData } =
           await service.issueJwtToken(address);

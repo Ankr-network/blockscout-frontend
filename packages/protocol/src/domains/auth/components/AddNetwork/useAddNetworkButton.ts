@@ -1,49 +1,28 @@
 import { useMemo } from 'react';
 
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainType } from 'domains/chains/types';
-import { EndpointGroup } from 'modules/endpoints/types';
-import { useAuth } from '../../hooks/useAuth';
-import { getFlattenChain, getNetworkConfiguration } from './AddNetworkUtils';
-
-interface IUseAddNetworkButtonParams {
-  chain: IApiChain;
-  chainType?: ChainType;
-  group?: EndpointGroup;
-}
+import { getNetworkParams } from './AddNetworkUtils';
+import { useAddNetwork } from 'domains/auth/hooks/useAddNetwork';
+import { IUseAddNetworkButtonParams } from './types';
 
 export const useAddNetworkButton = ({
   chain,
   chainType,
   group,
 }: IUseAddNetworkButtonParams) => {
-  const { handleAddNetwork, loading } = useAuth();
+  const { handleAddNetwork } = useAddNetwork();
 
-  const { flatChain, flatChainId } = useMemo(() => {
-    if (group && chainType) {
-      return getFlattenChain(chain, chainType, group);
-    }
-
-    return { flatChain: chain, flatChainId: chain.id };
-  }, [chain, chainType, group]);
-
-  const networkConfiguration = useMemo(
-    () => getNetworkConfiguration(flatChain!),
-    [flatChain],
+  const { chainId, networkConfiguration } = useMemo(
+    () => getNetworkParams({ chain, chainType, group }),
+    [chain, chainType, group],
   );
 
-  const handleButtonClick = networkConfiguration
-    ? (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        /* stop propagation for click event to avoid parent element click */
-        event.preventDefault();
-        event.stopPropagation();
+  if (!networkConfiguration) return null;
 
-        return handleAddNetwork(networkConfiguration, flatChainId);
-      }
-    : undefined;
+  return (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    /* stop propagation for click event to avoid parent element click */
+    event.preventDefault();
+    event.stopPropagation();
 
-  return {
-    loading,
-    handleButtonClick,
+    return handleAddNetwork(networkConfiguration, chainId);
   };
 };

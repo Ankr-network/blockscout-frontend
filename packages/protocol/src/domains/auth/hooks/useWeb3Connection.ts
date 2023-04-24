@@ -1,11 +1,6 @@
 import { useCallback } from 'react';
 
 import { AuthConnectParams, authConnect } from '../actions/connect';
-import { ChainID } from 'modules/chains/types';
-import {
-  IChainParams,
-  useLazyAuthAddNetworkQuery,
-} from '../actions/addNetwork';
 import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 import { Trigger, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { authDisconnect } from '../actions/disconnect';
@@ -17,7 +12,6 @@ type HandleConnect = (
 
 export interface Web3Connection {
   connectData?: IAuthSlice;
-  handleAddNetwork: (params: IChainParams, chainID: ChainID) => void;
   handleConnect: HandleConnect;
   handleDisconnect: () => void;
   isWalletConnected: boolean;
@@ -25,8 +19,6 @@ export interface Web3Connection {
 }
 
 export const useWeb3Connection = (): Web3Connection => {
-  const [addNetwork] = useLazyAuthAddNetworkQuery();
-
   const [connect, { data: connectData, isLoading: isConnecting }] =
     useQueryEndpoint(authConnect);
   const [disconnect, { isLoading: isDisconnecting }] =
@@ -43,16 +35,8 @@ export const useWeb3Connection = (): Web3Connection => {
     disconnect();
   }, [disconnect]);
 
-  const handleAddNetwork = useCallback(
-    (chainParams: IChainParams, chainID: ChainID) => {
-      addNetwork({ chainParams, chainID });
-    },
-    [addNetwork],
-  );
-
   return {
     connectData,
-    handleAddNetwork,
     handleConnect,
     handleDisconnect,
     isWalletConnected: Boolean(connectData?.address),

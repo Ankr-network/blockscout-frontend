@@ -2,13 +2,14 @@ import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { chainsFetchPublicChains } from '../public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { filterMapChains, IApiChain } from '../../api/queryChains';
 import { web3Api } from 'store/queries';
+import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
+import { Chain } from 'domains/chains/types';
 
 export interface PremiumFeatures {
-  privateChainDetails: IApiChain | undefined;
-  privateChains: IApiChain[];
-  publicChains: IApiChain[];
+  privateChainDetails?: Chain;
+  privateChains: Chain[];
+  publicChains: Chain[];
 }
 
 interface FetchPremiumChainFeaturesParams {
@@ -40,10 +41,9 @@ export const {
             const formattedPublicChains =
               await publicService.formatPublicEndpoints(blockchains);
 
-            publicChains = filterMapChains(
+            publicChains = formatChainsConfigToChains(
               formattedPublicChains,
-              ({ blockchain }) => !blockchain.premiumOnly,
-            );
+            ).filter(({ premiumOnly }) => !premiumOnly);
           }
 
           const formattedPrivateChains = publicService.formatPrivateEndpoints(
@@ -51,7 +51,9 @@ export const {
             userEndpointToken,
           );
 
-          const privateChains = filterMapChains(formattedPrivateChains);
+          const privateChains = formatChainsConfigToChains(
+            formattedPrivateChains,
+          );
 
           const privateChainDetails = privateChains.find(
             item => item.id === chainId,

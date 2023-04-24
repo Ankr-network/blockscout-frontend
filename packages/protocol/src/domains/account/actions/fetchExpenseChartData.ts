@@ -16,7 +16,9 @@ export const {
   endpoints: build => ({
     accountFetchExpenseChartData: build.query<Response, Request>({
       queryFn: createNotifyingQueryFn(async (params, { getState }) => {
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
         const data = await fetchAllPaymentHistory({ ...params, group });
 
         return { data };

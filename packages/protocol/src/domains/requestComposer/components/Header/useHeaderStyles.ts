@@ -54,7 +54,7 @@ export const useHeaderStyles = makeStyles<boolean | undefined>()(
       padding: theme.spacing(2 * 0.25, 2 * 1),
     },
     blockNumber: {
-      width: 90,
+      minWidth: 90,
     },
     skeleton: {
       height: 24,

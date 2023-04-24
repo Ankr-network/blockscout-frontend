@@ -10,6 +10,10 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       fontSize: 12,
       color: theme.palette.text.primary,
     },
+
+    svg: {
+      overflow: 'visible',
+    },
   },
   loading: {
     opacity: 0.5,

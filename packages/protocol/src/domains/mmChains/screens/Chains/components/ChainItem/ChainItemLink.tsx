@@ -1,10 +1,9 @@
 import { RPCInfoFun } from 'uiKit/RPCInfoFunc/RPCInfoFunc';
-import { IApiChainURL } from 'domains/chains/api/queryChains';
-import { Chain } from 'domains/chains/types';
+import { Chain, ChainURL } from 'domains/chains/types';
 
 interface ChainsItemLinkProps {
   chain?: Chain;
-  urls: IApiChainURL[];
+  urls: ChainURL[];
 }
 
 export const ChainItemLink = ({ chain, urls }: ChainsItemLinkProps) => {

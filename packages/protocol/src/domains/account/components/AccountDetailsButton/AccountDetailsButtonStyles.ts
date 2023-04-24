@@ -21,6 +21,8 @@ export const useStyles = makeStyles<UseStylesParams>()(
           },
         }
       : {
+          flexShrink: 0,
+
           backgroundColor: theme.palette.background.paper,
         },
     content: {

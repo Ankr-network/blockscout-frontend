@@ -1,11 +1,15 @@
 import { Milliseconds, Timestamp } from '@ankr.com/utils';
 import {
-  BlockchainID,
   IPaymentHistoryEntityType,
   PrivateStats,
   PrivateStatsInterval,
 } from '../account';
-import { EmailConfirmationStatus, Network, Web3Address } from '../common';
+import {
+  EmailConfirmationStatus,
+  Network,
+  Web3Address,
+  BlockchainID,
+} from '../common';
 import { IEthUserAddressWithDeprecatedPublicKey } from '../oauth';
 
 export interface ITransactionsEntity {
@@ -289,38 +293,41 @@ export type GetUsersRegistrationsResponse = {
   addresses: Web3Address[];
 };
 
-export type UserGroupRole = 'GROUP_ROLE_OWNER' | 'GROUP_ROLE_DEV' | 'GROUP_ROLE_FINANCE';
+export type UserGroupRole =
+  | 'GROUP_ROLE_OWNER'
+  | 'GROUP_ROLE_DEV'
+  | 'GROUP_ROLE_FINANCE';
 
 export type SetUserGroupRequest = {
   groupAddress: Web3Address;
   userAddress: Web3Address;
   role: UserGroupRole;
-}
+};
 
 export type GroupMember = {
   address: Web3Address;
   role: UserGroupRole;
-}
+};
 
 type UserGroupResponse = {
   name: string;
   address: Web3Address;
   members?: GroupMember[];
-}
+};
 
 export type SetUserGroupResponse = UserGroupResponse;
 
 export type DeleteFromUserGroupRequest = {
   group_address: Web3Address;
   user_address: Web3Address;
-}
+};
 
 export type DeleteFromUserGroupResponse = UserGroupResponse;
 
 export type CreateUserGroupRequest = {
   ownerAddress: Web3Address;
   groupName: string;
-}
+};
 
 export type CreateUserGroupResponse = UserGroupResponse;
 
@@ -328,20 +335,20 @@ export type CreateUserGroupResponse = UserGroupResponse;
  * returns ALL groups if not set */
 export type GetUserGroupsRequest = {
   user_address?: Web3Address;
-}
+};
 
 export type UserGroupItem = {
   group_name: string;
   group_address: Web3Address;
-}
+};
 
 export type GetUserGroupsResponse = {
-  groups: UserGroupItem[]
+  groups: UserGroupItem[];
 };
 
 export type GetUserGroupRequest = {
   address: Web3Address;
-}
+};
 
 export type GetUserGroupResponse = UserGroupResponse;
 
@@ -351,36 +358,9 @@ export type DeleteUserGroupRequest = {
   /** removeMembers: the value "true" allows you to delete a non-empty group by removing users from it automatically.
    * If set as false or not set, the group will be deleted ONLY if it is empty (has no members) */
   removeMembers?: boolean;
-}
+};
 
 export type DeleteUserGroupResponse = UserGroupResponse;
-
-export enum BlockchainFeature {
-  RPC = 'rpc',
-  WS = 'ws',
-  ComingSoon = 'coming soon',
-}
-
-export enum BlockchainType {
-  Mainnet = 'mainnet',
-  Extension = 'extension',
-  Testnet = 'testnet',
-  Devnet = 'devnet',
-  Customized = 'customized',
-  Beacon = 'beacon',
-  Opnode = 'opnode',
-}
-
-export interface IBlockchainEntity {
-  coinName: string;
-  extends?: string;
-  id: string;
-  features: BlockchainFeature[];
-  name: string;
-  paths?: string[];
-  premiumOnly?: boolean;
-  type: BlockchainType;
-}
 
 export type LoggerScale = Record<BlockchainID, number>;
 

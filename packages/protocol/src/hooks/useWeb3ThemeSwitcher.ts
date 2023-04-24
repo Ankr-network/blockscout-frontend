@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAuth } from './domains/auth/hooks/useAuth';
+import { useAuth } from '../domains/auth/hooks/useAuth';
 import { useThemeSwitcher } from 'modules/layout/hooks/useThemeSwitcher';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Themes } from '@ankr.com/ui';

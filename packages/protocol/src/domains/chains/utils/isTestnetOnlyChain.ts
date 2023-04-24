@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 
 const { MANTLE, ROLLUX, SUI, ZETACHAIN } = ChainID;
 const testnetOnlyChains: ChainID[] = [MANTLE, ROLLUX, SUI, ZETACHAIN];

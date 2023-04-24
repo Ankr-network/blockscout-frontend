@@ -3,15 +3,15 @@ import BigNumber from 'bignumber.js';
 import {
   BlockchainType,
   BlockchainUrls,
-  FetchBlockchainUrlsResult,
+  ChainsConfig,
   IBlockchainEntity,
 } from 'multirpc-sdk';
 import { ChainID } from '../types';
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
 export interface IFetchChainsResponseData {
-  chains: FetchBlockchainUrlsResult;
-  allChains: FetchBlockchainUrlsResult;
+  chains: ChainsConfig;
+  allChains: ChainsConfig;
 }
 
 export interface IApiChainURL {
@@ -36,7 +36,7 @@ export interface IApiChain {
 }
 
 export const filterMapChains = (
-  data: FetchBlockchainUrlsResult = {},
+  data: ChainsConfig = {},
   filterCB: (urls: BlockchainUrls) => boolean = () => true,
 ): IApiChain[] => {
   const chains = Object.values(data)

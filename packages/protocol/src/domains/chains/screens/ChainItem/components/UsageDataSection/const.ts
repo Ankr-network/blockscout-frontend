@@ -1,5 +1,4 @@
-import { Timeframe } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Timeframe } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 

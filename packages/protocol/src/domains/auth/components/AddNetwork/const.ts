@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { NetworkInfo } from './types';
 
 // * ChainID: must be decimal (convert hex to decimal if needed)
@@ -295,6 +295,28 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
   },
 
+  [ChainID.POLYGON_ZKEVM]: {
+    chainId: 1101,
+    chainName: 'Polygon zkEVM',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://zkevm.polygonscan.com/'],
+  },
+
+  [ChainID.POLYGON_ZKEVM_TESTNET]: {
+    chainId: 1442,
+    chainName: 'Polygon zkEVM testnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://testnet-zkevm.polygonscan.com/'],
+  },
+
   [ChainID.SYSCOIN]: {
     chainId: 57,
     chainName: 'Syscoin Mainnet',
@@ -361,4 +383,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   [ChainID.ZETACHAIN]: ZETACHAIN,
 
   [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
+
+  [ChainID.TRON_JSON_RPC]: {
+    chainId: 728126428,
+    chainName: 'Tron JSON-RPC',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://tronscan.org/'],
+  },
 };

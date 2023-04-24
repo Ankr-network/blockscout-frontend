@@ -1,5 +1,4 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainType, Timeframe } from 'domains/chains/types';
+import { Chain, ChainType, Timeframe } from 'domains/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -11,7 +10,7 @@ import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
 import { PublicUsageSummary } from './components/PublicUsageSummary';
 
 export interface PublicUsageDataSectionProps {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   group: EndpointGroup;
   timeframe: Timeframe;
@@ -48,6 +47,7 @@ export const PublicUsageDataSection = ({
         <>
           <TimeframeTabs
             className={classes.timeframe}
+            disabled={loading}
             tabs={timeframeTabs}
             timeframe={timeframe}
           />

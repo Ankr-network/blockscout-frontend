@@ -37,7 +37,9 @@ export const {
     usdTopUpFetchUSDSubscriptionPrices: build.query<SubscriptionPrice[], void>({
       queryFn: createNotifyingQueryFn(async (_, { getState }) => {
         const service = MultiService.getService();
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
         const { productPrices } = await service
           .getAccountGateway()
           .getUSDSubscriptionPrices({ group });

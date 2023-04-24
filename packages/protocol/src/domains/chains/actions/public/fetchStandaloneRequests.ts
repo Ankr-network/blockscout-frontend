@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { IWorkerGlobalStatus } from 'multirpc-sdk';
 import { web3Api } from 'store/queries';
 

@@ -3,6 +3,7 @@ import { ChainGroupID } from 'modules/endpoints/types';
 const {
   ETH_MAINNET,
   GOERLI,
+  JSON_RPC,
   KOVAN,
   NERVOS_EVM,
   RINKEBY,
@@ -14,6 +15,7 @@ const {
 export const evmGroups: ChainGroupID[] = [
   ETH_MAINNET,
   GOERLI,
+  JSON_RPC,
   KOVAN,
   NERVOS_EVM,
   RINKEBY,

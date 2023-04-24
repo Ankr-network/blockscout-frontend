@@ -1,13 +1,17 @@
 import { IProvider } from 'multirpc-sdk';
 
 import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 
 export const getChainById = (
-  chains: IApiChain[],
+  chains: Chain[],
   chainId: string,
-): IApiChain | undefined => {
-  const chain = chains?.find(item => item.id === chainId);
+): Chain | undefined => {
+  const chain = chains?.find(item => {
+    const isBeacon = Boolean(getChainById(item.beacons ?? [], chainId));
+
+    return item.id === chainId || isBeacon;
+  });
 
   return chain;
 };

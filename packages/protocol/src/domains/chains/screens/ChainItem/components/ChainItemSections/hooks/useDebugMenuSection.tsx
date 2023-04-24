@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { DebugMenuSection } from '../../DebugMenuSection';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { PrimaryTab } from '../../PrimaryTab';

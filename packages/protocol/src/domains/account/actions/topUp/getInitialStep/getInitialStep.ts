@@ -1,5 +1,4 @@
 import { GetState, RootState } from 'store';
-import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
 import { areHashesEmpty } from './initialStepChecksUtils';
 import { authConnect, AuthConnectParams } from 'domains/auth/actions/connect';
@@ -10,6 +9,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { selectAccount } from 'domains/account/store/accountTopUpSlice';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { web3Api } from 'store/queries';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
 export const {
   endpoints: { topUpGetInitialStep },
@@ -18,9 +18,9 @@ export const {
   endpoints: build => ({
     topUpGetInitialStep: build.query<TopUpStep, void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
-        const service = await MultiService.getWeb3Service();
-        const provider = service.getKeyProvider();
-        const { currentAccount: address } = provider;
+        const address = await getCurrentTransactionAddress(
+          getState as GetState,
+        );
 
         const stepForTheFirstTopUp = await checkFirstTopUpStep(
           address,

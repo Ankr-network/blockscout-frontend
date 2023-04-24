@@ -1,11 +1,11 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { ChainGroupID } from '../types';
 import { getGroupById } from './getGroupById';
 
-const { C_CHAIN, FALLBACK, NERVOS_CKB, NERVOS_GW, P_CHAIN, X_CHAIN } =
+const { C_CHAIN, FALLBACK, JSON_RPC, NERVOS_CKB, NERVOS_GW, P_CHAIN, X_CHAIN } =
   ChainGroupID;
 
-const exceptions = [C_CHAIN, NERVOS_CKB, NERVOS_GW, P_CHAIN, X_CHAIN];
+const exceptions = [C_CHAIN, JSON_RPC, NERVOS_CKB, NERVOS_GW, P_CHAIN, X_CHAIN];
 
 export const filterChainIdsByGroup = (
   chainIds: ChainID[],

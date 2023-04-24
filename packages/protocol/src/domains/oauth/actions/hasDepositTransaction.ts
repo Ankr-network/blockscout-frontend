@@ -11,7 +11,9 @@ export const {
     oauthHasDepositTransaction: build.query<boolean, boolean | void>({
       queryFn: async (shouldCheckVoucherTopUp, { getState }) => {
         const service = MultiService.getService();
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
 
         const { transactions } = await service
           .getAccountGateway()

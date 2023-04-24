@@ -45,7 +45,7 @@ export const AccountDetails = () => {
               <Balance />
               <Subscriptions />
             </Box>
-            <GuardUserGroup isDisabled blockName={BlockWithPermission.Billing}>
+            <GuardUserGroup blockName={BlockWithPermission.Billing}>
               <AccountDetailsTopUp className={classes.topUp} />
             </GuardUserGroup>
           </Box>

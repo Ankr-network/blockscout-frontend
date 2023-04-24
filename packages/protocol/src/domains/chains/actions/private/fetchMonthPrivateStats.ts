@@ -25,7 +25,9 @@ export const {
     chainsFetchMonthPrivateStats: build.query<IApiPrivateStats, void>({
       queryFn: createNotifyingQueryFn(async (_, { getState }) => {
         const service = MultiService.getService();
-        const group = getSelectedGroupAddress(getState as GetState);
+        const { selectedGroupAddress: group } = getSelectedGroupAddress(
+          getState as GetState,
+        );
 
         const result = await service
           .getAccountGateway()

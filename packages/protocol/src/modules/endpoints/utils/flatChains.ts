@@ -1,10 +1,10 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 
 export const flatChains = ({
   extenders = [],
   extensions = [],
   ...chain
-}: IApiChain): IApiChain[] => [
+}: Chain): Chain[] => [
   chain,
   ...extenders.flatMap(flatChains),
   ...extensions.flatMap(flatChains),

@@ -1,5 +1,4 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
@@ -9,7 +8,7 @@ const getName = (key: string, isPlural?: boolean) =>
   });
 
 export const getFallbackEndpointGroup = (
-  endpointName: IApiChain['name'],
+  endpointName: Chain['name'],
 ): EndpointGroup => {
   const name = t('chain-item.header.endpoint-groups.fallback', {
     chain: endpointName,
@@ -178,5 +177,17 @@ export const chainGroups: ChainGroup[] = [
     name: getName('solana-api'),
     pluralName: getName('solana-api', true),
     chains: [ChainID.SOLANA_DEVNET],
+  },
+  {
+    id: ChainGroupID.REST_API,
+    name: getName('rest-api'),
+    pluralName: getName('rest-api', true),
+    chains: [ChainID.TRON],
+  },
+  {
+    id: ChainGroupID.JSON_RPC,
+    name: getName('json-rpc'),
+    pluralName: getName('json-rpc', true),
+    chains: [ChainID.TRON_JSON_RPC],
   },
 ];

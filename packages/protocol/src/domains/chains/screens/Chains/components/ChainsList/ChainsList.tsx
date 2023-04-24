@@ -1,6 +1,6 @@
+import { Timeframe, Chain } from 'domains/chains/types';
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
-import { Chain, Timeframe } from 'domains/chains/types';
 import { PrivateChainCard } from '../PrivateChains/components/PrivateChainCard';
 import { PublicChainCard } from '../PublicChains/components/PublicChainCard';
 

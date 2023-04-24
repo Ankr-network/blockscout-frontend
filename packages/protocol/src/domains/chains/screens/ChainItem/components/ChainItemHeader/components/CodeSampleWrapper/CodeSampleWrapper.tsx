@@ -1,6 +1,6 @@
 import { Box, Button, Paper } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { CodeHighlighter } from 'modules/common/components/CodeHighlighter';
 import { ChainDocsLink } from '../ChainDocsLink';
 import { useStyles } from './CodeSampleWrapperStyles';
@@ -10,7 +10,7 @@ import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { CodeType, mapLanguageByCodeType, getSnippetByCodeType } from './const';
 
 interface CodeSampleWrapperProps {
-  chain: IApiChain;
+  chain: Chain;
   header: ReactNode;
   url?: string;
 }

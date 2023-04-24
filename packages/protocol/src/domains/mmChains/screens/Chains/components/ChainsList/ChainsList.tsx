@@ -1,15 +1,16 @@
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
-import { ChainItem } from '../ChainItem';
-import { Chain, Timeframe } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain, Timeframe } from 'domains/chains/types';
+import { PublicChainItem } from '../PublicChains/components/PublicChainItem';
+import { PrivateChainItem } from '../PrivateChains/components/PrivateChainItem';
 
 interface ChainsListProps {
   timeframe: Timeframe;
   chains: Chain[];
   chainsDictionary: Partial<Record<ChainID, Chain>>;
   hasPremium?: boolean;
+  isPublic?: boolean;
 }
 
 export const ChainsList = ({
@@ -17,6 +18,7 @@ export const ChainsList = ({
   chains,
   chainsDictionary,
   hasPremium,
+  isPublic,
 }: ChainsListProps) => {
   const { classes } = useChainListStyles();
 
@@ -29,9 +31,22 @@ export const ChainsList = ({
       {chains.map(item => {
         const { id, name, urls } = item;
 
-        return (
+        return isPublic ? (
           <div className={classes.wrapper} key={id}>
-            <ChainItem
+            <PublicChainItem
+              chain={item}
+              links={urls}
+              name={name}
+              period={PERIOD}
+              publicChain={chainsDictionary[id]}
+              timeframe={timeframe}
+              chainId={id}
+              hasPremiumDialog={item.premiumOnly && !hasPremium}
+            />
+          </div>
+        ) : (
+          <div className={classes.wrapper} key={id}>
+            <PrivateChainItem
               chain={item}
               links={urls}
               name={name}

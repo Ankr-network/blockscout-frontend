@@ -1,4 +1,4 @@
-import { BlockchainID } from '../account';
+import { BlockchainID } from '../common';
 
 export interface ICountry<T> {
   country: string;
@@ -30,8 +30,6 @@ export interface IWorkerGlobalStatus<T = number> {
 export interface IWorkerPublicStats {
   totalRequests: Record<BlockchainID, string>;
 }
-
-export type Timeframe = '1h' | '24h' | '7d' | '30d';
 
 export interface Config {
   workerUrl: string;

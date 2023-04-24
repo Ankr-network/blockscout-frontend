@@ -1,9 +1,8 @@
 import BigNumber from 'bignumber.js';
 
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
+import { ChainID, Chain, Timeframe } from 'domains/chains/types';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { Chain, Timeframe } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
 
 export interface ChainsItemParams {
   chain: Chain;
@@ -12,7 +11,7 @@ export interface ChainsItemParams {
 }
 
 export const usePublicChainsItem = ({
-  chain: { id, frontChain: { id: frontChainId } = {} },
+  chain: { id, chainWithoutMainnet: { id: frontChainId } = {} },
   timeframe,
 }: ChainsItemParams) => {
   const { data, isLoading: arePublicStatsLoading } =

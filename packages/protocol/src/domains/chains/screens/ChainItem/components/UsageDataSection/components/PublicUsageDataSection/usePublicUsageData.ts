@@ -1,6 +1,5 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainType, Timeframe } from 'domains/chains/types';
+import { Chain, ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { checkPublicChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
@@ -8,7 +7,7 @@ import { getChainId } from '../../../ChainItemSections/utils/getChainId';
 import { usePublicStats } from './usePublicStats';
 
 export interface UsageDataParams {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   group: EndpointGroup;
   timeframe: Timeframe;

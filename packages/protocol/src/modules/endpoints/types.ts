@@ -1,5 +1,4 @@
-import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain, ChainURL } from 'domains/chains/types';
 
 export interface ChainGroup {
   id: ChainGroupID;
@@ -12,12 +11,14 @@ export enum ChainGroupID {
   C_CHAIN = 'c-chain',
   ETH_MAINNET = 'eth-mainnet',
   GOERLI = 'goerli',
+  JSON_RPC = 'json-rpc',
   KOVAN = 'kovan',
   NEAR = 'near',
   NERVOS_CKB = 'nervos-ckb',
   NERVOS_EVM = 'nervos-evm',
   NERVOS_GW = 'nervos-gw',
   P_CHAIN = 'p-chain',
+  REST_API = 'rest-api',
   RINKEBY = 'rinkeby',
   ROPSTEN = 'ropsten',
   SECRET_RPC = 'scrt-rpc',
@@ -37,9 +38,9 @@ export interface EndpointGroup {
   id: ChainGroupID;
   name: ChainGroup['name'];
   pluralName: ChainGroup['pluralName'];
-  urls: IApiChainURL[];
+  urls: ChainURL[];
   urlsCount: number;
-  chains: IApiChain[];
+  chains: Chain[];
   beacons?: EndpointGroup[];
   opnodes?: EndpointGroup[];
 }

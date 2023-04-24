@@ -2,7 +2,7 @@ import { Timeframe } from 'multirpc-sdk';
 import BigNumber from 'bignumber.js';
 
 import { AppDispatch } from 'store';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { STANDALONE_CHAINS } from '../../utils/statsUtils';
 import { MultiService } from 'modules/api/MultiService';
 import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';

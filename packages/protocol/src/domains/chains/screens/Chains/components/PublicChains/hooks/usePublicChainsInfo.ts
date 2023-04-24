@@ -1,7 +1,7 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { useChainsFetchPublicChainsInfoQuery } from 'domains/chains/actions/public/fetchPublicChainsInfo';
 
-export type PublicChains = [IApiChain[], IApiChain[], boolean];
+export type PublicChains = [Chain[], Chain[], boolean];
 
 const defaultData = {
   chains: [],

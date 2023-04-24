@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { IPrivateEndpoint } from 'multirpc-sdk';
 
-import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
+import { Chain, ChainURL } from 'domains/chains/types';
 
 export const initialValues = {};
 
@@ -17,15 +17,15 @@ export const formatDataForRequest = (
   };
 };
 
-export const usePrivateUrls = (privateChain?: IApiChain) => {
+export const usePrivateUrls = (privateChain?: Chain) => {
   return useMemo(
     () =>
       [
         ...(privateChain?.urls || []),
-        ...(privateChain?.extensions || []).flatMap<IApiChainURL>(
+        ...(privateChain?.extensions || []).flatMap<ChainURL>(
           ({ urls }) => urls,
         ),
-        ...(privateChain?.extenders || []).flatMap<IApiChainURL>(
+        ...(privateChain?.extenders || []).flatMap<ChainURL>(
           ({ urls }) => urls,
         ),
       ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
@@ -33,17 +33,15 @@ export const usePrivateUrls = (privateChain?: IApiChain) => {
   );
 };
 
-export const usePublicUrls = (publicChain?: IApiChain) => {
+export const usePublicUrls = (publicChain?: Chain) => {
   return useMemo(
     () =>
       [
         ...(publicChain?.urls || []),
-        ...(publicChain?.extensions || []).flatMap<IApiChainURL>(
+        ...(publicChain?.extensions || []).flatMap<ChainURL>(
           ({ urls }) => urls,
         ),
-        ...(publicChain?.extenders || []).flatMap<IApiChainURL>(
-          ({ urls }) => urls,
-        ),
+        ...(publicChain?.extenders || []).flatMap<ChainURL>(({ urls }) => urls),
       ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
     [publicChain],
   );

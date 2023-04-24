@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { MultiService } from 'modules/api/MultiService';
 import { calculateRPCAndStandaloneStats } from '../../utils/calculateRPCAndStandaloneStats';
 import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';

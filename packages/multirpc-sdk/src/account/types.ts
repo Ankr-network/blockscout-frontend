@@ -1,5 +1,9 @@
-import { EmailConfirmationStatus, Web3Address } from '../common';
-import { Timeframe } from '../public';
+import {
+  EmailConfirmationStatus,
+  Web3Address,
+  BlockchainID,
+  Timeframe,
+} from '../common';
 
 export interface IApiUserGroupParams {
   group?: Web3Address;
@@ -139,7 +143,7 @@ export interface ISubscriptionsItem {
   type: string;
 }
 
-export interface IApiCancelSubscriptionRequestParams extends IApiUserGroupParams {
+export interface IApiCancelSubscriptionRequestParams {
   subscription_id: string;
 }
 
@@ -232,7 +236,6 @@ export type IApiGetUserRequestsParams = {
   userToken: string,
 }
 
-export type BlockchainID = string;
 export type PrivateStatsInternal = Partial<Record<BlockchainID, PrivateStat>>;
 
 export enum PrivateStatsInterval {
@@ -300,12 +303,12 @@ export interface ICanPayByCardResponse {
   isEligible: boolean;
 }
 
-export interface IGetLinkForCardPaymentRequest extends IApiUserGroupParams {
+export interface IGetLinkForCardPaymentRequest {
   amount: string;
   publicKey?: string;
 }
 
-export interface IGetLinkForRecurrentCardPaymentRequest extends IApiUserGroupParams {
+export interface IGetLinkForRecurrentCardPaymentRequest {
   currency: string;
   product_price_id: string;
   public_key?: string;

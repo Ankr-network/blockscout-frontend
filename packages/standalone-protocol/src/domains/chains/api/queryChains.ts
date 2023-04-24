@@ -1,8 +1,8 @@
-import { FetchBlockchainUrlsResult } from 'multirpc-sdk';
+import { ChainsConfig } from 'multirpc-sdk';
 import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
 
 export interface IFetchChainsResponseData {
-  chains: FetchBlockchainUrlsResult;
+  chains: ChainsConfig;
 }
 export interface IApiChain {
   id: string;

@@ -1,4 +1,4 @@
-import { IApiChain } from '../../api/queryChains';
+import { Chain } from '../../types';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -6,8 +6,8 @@ import { getAddIsArchiveCB } from '../../utils/addIsArchive';
 import { web3Api } from 'store/queries';
 
 export interface IFetchPublicChainsInfoResult {
-  chains: IApiChain[];
-  allChains: IApiChain[];
+  chains: Chain[];
+  allChains: Chain[];
 }
 
 export const { endpoints, useChainsFetchPublicChainsInfoQuery } =

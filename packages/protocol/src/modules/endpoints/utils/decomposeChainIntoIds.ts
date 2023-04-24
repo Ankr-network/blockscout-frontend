@@ -1,5 +1,4 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain } from 'domains/chains/types';
 import { flatChains } from './flatChains';
 
 export interface DecomposedChainIds {
@@ -18,14 +17,14 @@ const exceptions: Partial<Record<ChainID, Partial<DecomposedChainIds>>> = {
   },
 };
 
-const getSubchainsIds = (subchains: IApiChain[] = []): ChainID[] =>
+const getSubchainsIds = (subchains: Chain[] = []): ChainID[] =>
   subchains
     .flatMap(chain => flatChains(chain))
     .filter(({ urls }) => urls.length > 0)
     .map(({ id }) => id);
 
 const addExceptions = (
-  chain: IApiChain,
+  chain: Chain,
   decomposed: DecomposedChainIds,
   withExceptions?: boolean,
 ) =>
@@ -33,7 +32,7 @@ const addExceptions = (
     ? { ...decomposed, ...(exceptions[chain.id] || {}) }
     : decomposed;
 
-const getTestnets = (chain: IApiChain, keepEVMChainID: boolean) => {
+const getTestnets = (chain: Chain, keepEVMChainID: boolean) => {
   const testnets = getSubchainsIds(chain.testnets);
 
   if (keepEVMChainID) {
@@ -45,7 +44,7 @@ const getTestnets = (chain: IApiChain, keepEVMChainID: boolean) => {
 };
 
 export const decomposeChainIntoIds = (
-  chain: IApiChain,
+  chain: Chain,
   withExceptions?: boolean,
   keepEVMChainID = false,
 ): DecomposedChainIds => {

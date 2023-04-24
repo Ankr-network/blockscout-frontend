@@ -22,6 +22,7 @@ import { TrackTopUpSubmit } from 'domains/account/types';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const validateAmount = (value: string) => {
   if (!value) {
@@ -124,6 +125,7 @@ export const useOnTopUpSubmit = (
   pendingEmail?: string,
   trackSubmit?: TrackTopUpSubmit,
 ) => {
+  const { selectedGroupAddress } = useSelectedUserGroup();
   const { handleFetchLinkForCardPayment, isFetchLinkForCardPaymentLoading } =
     useCardPayment();
 
@@ -136,7 +138,11 @@ export const useOnTopUpSubmit = (
 
       dispatch(resetTopUpOrigin());
 
-      const { data: url } = await handleFetchLinkForCardPayment(amount, id);
+      const { data: url } = await handleFetchLinkForCardPayment({
+        amount,
+        id,
+        groupAddress: selectedGroupAddress,
+      });
 
       if (typeof trackSubmit === 'function') {
         trackSubmit(amount, TopUpCurrnecy.USD, () => {
@@ -148,7 +154,12 @@ export const useOnTopUpSubmit = (
         window.location.href = url;
       }
     },
-    [dispatch, handleFetchLinkForCardPayment, trackSubmit],
+    [
+      dispatch,
+      handleFetchLinkForCardPayment,
+      trackSubmit,
+      selectedGroupAddress,
+    ],
   );
 
   const onClose = useCallback(() => {
