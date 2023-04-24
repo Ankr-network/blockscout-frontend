@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { NetworkInfo } from './types';
 
 // * ChainID: must be decimal (convert hex to decimal if needed)

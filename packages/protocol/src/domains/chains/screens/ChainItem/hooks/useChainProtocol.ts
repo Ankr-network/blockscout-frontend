@@ -6,13 +6,12 @@ import {
 } from '../constants/ChainProtocolContext';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getBeaconGroup, getOpnodeGroup } from '../utils/getBeaconGroup';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainID } from 'modules/chains/types';
-import { isBeacon, isOpnode } from 'modules/chains/utils/isBeacon';
+import { ChainID } from 'domains/chains/types';
+import { isBeacon, isOpnode } from 'domains/chains/utils/isBeacon';
 
 const getChainProtocol = (
   beaconGroup?: EndpointGroup,
-  opnodeGroup?: EndpointGroup | IApiChain,
+  opnodeGroup?: EndpointGroup,
 ) => {
   if (beaconGroup) return ChainProtocol.Beacon;
 

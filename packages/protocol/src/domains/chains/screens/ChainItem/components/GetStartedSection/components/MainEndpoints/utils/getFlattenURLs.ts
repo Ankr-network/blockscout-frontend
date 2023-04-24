@@ -1,8 +1,8 @@
-import { IApiChainURL } from 'domains/chains/api/queryChains';
+import { ChainURL } from 'domains/chains/types';
 
 export interface FlattenURLsParams {
-  urlKey: keyof IApiChainURL;
-  urls: IApiChainURL[];
+  urlKey: keyof ChainURL;
+  urls: ChainURL[];
 }
 
 export const getFlattenURLs = ({ urlKey, urls }: FlattenURLsParams) => {

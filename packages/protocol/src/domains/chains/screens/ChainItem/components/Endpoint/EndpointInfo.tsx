@@ -2,7 +2,7 @@ import { IProvider } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
 import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
-import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
+import { Chain, ChainURL } from 'domains/chains/types';
 import { UserEndpoints } from './components/UserEndpoints';
 import { canAddEndpoint, getLimit, hasLimit } from './EndpointUtils';
 import { getChainName } from './utils/getChainName';
@@ -11,9 +11,9 @@ import { useStyles } from './EndpointStyles';
 export interface EndpointInfoProps {
   chainId: string;
   endpoints: Endpoints;
-  privateChain: IApiChain;
+  privateChain: Chain;
   providerData: IProvider | null;
-  publicChain?: IApiChain;
+  publicChain?: Chain;
 }
 
 export const EndpointInfo = ({
@@ -36,10 +36,10 @@ export const EndpointInfo = ({
     () =>
       [
         ...(privateChain?.urls || []),
-        ...(privateChain?.extensions || []).flatMap<IApiChainURL>(
+        ...(privateChain?.extensions || []).flatMap<ChainURL>(
           ({ urls }) => urls,
         ),
-        ...(privateChain?.extenders || []).flatMap<IApiChainURL>(
+        ...(privateChain?.extenders || []).flatMap<ChainURL>(
           ({ urls }) => urls,
         ),
       ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
@@ -50,12 +50,10 @@ export const EndpointInfo = ({
     () =>
       [
         ...(publicChain?.urls || []),
-        ...(publicChain?.extensions || []).flatMap<IApiChainURL>(
+        ...(publicChain?.extensions || []).flatMap<ChainURL>(
           ({ urls }) => urls,
         ),
-        ...(publicChain?.extenders || []).flatMap<IApiChainURL>(
-          ({ urls }) => urls,
-        ),
+        ...(publicChain?.extenders || []).flatMap<ChainURL>(({ urls }) => urls),
       ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])),
     [publicChain],
   );

@@ -1,8 +1,8 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { useChainTitleStyles } from './ChainTitleStyles';
 
 export interface ChainTitleProps {
-  chain: IApiChain;
+  chain: Chain;
 }
 
 export const ChainTitle = ({ chain: { name } }: ChainTitleProps) => {

@@ -1,16 +1,14 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { AXIOS_DEFAULT_CONFIG } from '../common';
+import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity, Timeframe } from '../common';
 import {
   Config,
   INodesDetailEntity,
   IRate,
   IWorkerGlobalStatus,
   IWorkerPublicStats,
-  Timeframe,
 } from './types';
 import { IPublicGateway } from './interfaces';
-import { IBlockchainEntity } from '../backoffice';
 import { convertStatsToNumber } from './utils';
 
 export class PublicGateway implements IPublicGateway {

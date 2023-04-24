@@ -1,5 +1,5 @@
 import { Chain, SortType } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 
 export interface SortChainsParams {
   chains: Chain[];

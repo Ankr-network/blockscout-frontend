@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { Chain, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAddNetworkButton } from './useAddNetworkButton';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 interface IAddNetworkProps {
   chain: Chain;
@@ -25,8 +25,10 @@ export const AddNetworkButton = ({
   label,
   size,
 }: IAddNetworkProps) => {
-  const { handleButtonClick, loading } = useAddNetworkButton({
-    chain: chain as IApiChain,
+  const { loading } = useAuth();
+
+  const handleButtonClick = useAddNetworkButton({
+    chain,
     chainType,
     group,
   });

@@ -1,9 +1,8 @@
-import { ChainType } from 'domains/chains/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain, ChainType } from 'domains/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 
 const checkSubnets = (
-  nets: IApiChain[],
+  nets: Chain[],
   subnetTab: ChainType,
   netId?: string,
   isMainnetPremiumOnly?: boolean,
@@ -15,7 +14,7 @@ const checkSubnets = (
 };
 
 export const getInitialChainType = (
-  { id, devnets = [], testnets = [] }: IApiChain,
+  { id, devnets = [], testnets = [] }: Chain,
   netId?: string,
   isMainnetPremiumOnly?: boolean,
 ): ChainType => {

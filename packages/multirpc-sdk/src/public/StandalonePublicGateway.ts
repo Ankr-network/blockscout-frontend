@@ -1,7 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { IWorkerGlobalStatus, Timeframe, INodesDetailEntity } from './types';
+import { IWorkerGlobalStatus, INodesDetailEntity } from './types';
 import { convertStatsToNumber } from './utils';
+import { Timeframe } from '../common';
 
 export class StandalonePublicGateway {
   public api: AxiosInstance;

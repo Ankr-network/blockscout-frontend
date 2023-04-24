@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { setOriginChainURL } from 'domains/chains/store/chainsSlice';
 

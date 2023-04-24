@@ -1,8 +1,8 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { getEVMTestnet } from './getEVMTestnet';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
+import { Chain } from 'domains/chains/types';
 
-const addEVMUrls = (chain: IApiChain): IApiChain => {
+const addEVMUrls = (chain: Chain): Chain => {
   const { testnets = [] } = chain;
 
   const { urls } = getEVMTestnet(testnets) ?? chain;
@@ -10,7 +10,7 @@ const addEVMUrls = (chain: IApiChain): IApiChain => {
   return { ...chain, urls };
 };
 
-export const proccessTestnetOnlyChains = (chains: IApiChain[]) =>
+export const proccessTestnetOnlyChains = (chains: Chain[]) =>
   chains.map(chain => {
     const { id, testnets } = chain;
 

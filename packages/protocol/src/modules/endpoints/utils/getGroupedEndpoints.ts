@@ -1,5 +1,4 @@
-import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain, ChainURL } from 'domains/chains/types';
 import { getFallbackEndpointGroup } from '../constants/groups';
 import { ChainGroup, EndpointGroup, GroupedEndpoints } from '../types';
 import { flatChains } from './flatChains';
@@ -8,13 +7,13 @@ const flatChainUrls = ({
   extenders = [],
   extensions = [],
   urls,
-}: IApiChain): IApiChainURL[] => [
+}: Chain): ChainURL[] => [
   ...urls,
   ...extensions.flatMap(({ urls: urls_ }) => urls_),
   ...extenders.flatMap(({ urls: urls_ }) => urls_),
 ];
 
-const getUrlsCount = (urls: IApiChainURL[]) =>
+const getUrlsCount = (urls: ChainURL[]) =>
   urls.flatMap(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc])).length;
 
 const getChainToEndpointGroupMap = (
@@ -42,7 +41,7 @@ const getChainToEndpointGroupMap = (
 };
 
 const getEndpointGroups = (
-  chain: IApiChain,
+  chain: Chain,
   chainGroups: ChainGroup[],
   fallbackEndpointGroup?: EndpointGroup,
 ): EndpointGroup[] => {
@@ -112,7 +111,7 @@ const getEndpointGroups = (
 interface GetGroupParams {
   groups: ChainGroup[];
   fallback: EndpointGroup;
-  nets?: IApiChain[];
+  nets?: Chain[];
 }
 
 const getGroups = ({ fallback, groups, nets = [] }: GetGroupParams) => {
@@ -127,15 +126,15 @@ const getGroups = ({ fallback, groups, nets = [] }: GetGroupParams) => {
   return endpointGroup;
 };
 
-const getFallback = (chain: IApiChain) => {
-  const { frontChain: { name: frontChainName } = {} } = chain;
+const getFallback = (chain: Chain) => {
+  const { chainWithoutMainnet: { name: frontChainName } = {} } = chain;
   const chainName = frontChainName || chain.name;
 
   return getFallbackEndpointGroup(chainName);
 };
 
 export interface GetGrouppedEndpointsParams {
-  chain: IApiChain;
+  chain: Chain;
   groups: ChainGroup[];
 }
 

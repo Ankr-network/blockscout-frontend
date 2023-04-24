@@ -1,6 +1,6 @@
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointProps } from '../Endpoint';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 
 export enum Feature {
   REST,
@@ -14,5 +14,5 @@ export interface MainEndpointsProps {
   hasPremium: boolean;
   hasPrivateAccess: boolean;
   onCopyEndpoint: EndpointProps['onCopy'];
-  publicChain: IApiChain;
+  publicChain: Chain;
 }

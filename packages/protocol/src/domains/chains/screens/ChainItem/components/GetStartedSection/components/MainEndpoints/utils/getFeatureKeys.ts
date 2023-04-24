@@ -1,7 +1,7 @@
 import { Feature } from '../types';
-import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
+import { Chain, ChainURL } from 'domains/chains/types';
 
-const keysMap: Record<Feature, [keyof IApiChain, keyof IApiChainURL]> = {
+const keysMap: Record<Feature, [keyof Chain, keyof ChainURL]> = {
   [Feature.REST]: ['hasRESTFeature', 'rest'],
   [Feature.RPC]: ['hasRPCFeature', 'rpc'],
 };

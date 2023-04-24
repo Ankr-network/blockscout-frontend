@@ -5,7 +5,6 @@ import {
   IAddVoucherCreditsResponse,
   IBalancesRequest,
   IBalancesResponse,
-  IBlockchainEntity,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
   IUpdateUserEmailRequest,
@@ -52,6 +51,7 @@ import {
   CreateUserGroupRequest,
   CreateUserGroupResponse,
 } from './types';
+import { IBlockchainEntity } from '../common';
 
 export interface IBackofficeGateway {
   addToken(token: string): void;

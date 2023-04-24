@@ -1,4 +1,4 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { RootState } from 'store';
 import { chainsFetchPublicChains } from 'domains/chains/actions/public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -10,7 +10,7 @@ export const {
   endpoints: { infrastructureFetchAvailableChains },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    infrastructureFetchAvailableChains: build.query<IApiChain[], void>({
+    infrastructureFetchAvailableChains: build.query<Chain[], void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
         const { data: { chains = [] } = {} } = await dispatch(
           chainsFetchPublicChains.initiate(),
@@ -29,7 +29,7 @@ export const {
 
           const data = blockchains
             .map(item => chains?.find(el => el.id === item))
-            .filter(Boolean) as IApiChain[];
+            .filter(Boolean) as Chain[];
 
           return { data };
         }

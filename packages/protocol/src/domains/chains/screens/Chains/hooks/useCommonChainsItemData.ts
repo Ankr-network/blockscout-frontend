@@ -2,17 +2,14 @@ import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { IApiChainURL } from 'domains/chains/api/queryChains';
+import { Chain, ChainURL } from 'domains/chains/types';
 import { BlockchainType } from 'multirpc-sdk';
-import { Chain } from 'domains/chains/types';
 
 export const getUrls = (chain: Chain) => {
   return [
     ...chain.urls,
-    ...(chain.extensions || []).flatMap<IApiChainURL>(
-      extension => extension.urls,
-    ),
-    ...(chain.extenders || []).flatMap<IApiChainURL>(extender => extender.urls),
+    ...(chain.extensions || []).flatMap<ChainURL>(extension => extension.urls),
+    ...(chain.extenders || []).flatMap<ChainURL>(extender => extender.urls),
   ];
 };
 

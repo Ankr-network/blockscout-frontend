@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { Chain } from '../types';
 
 export const excludeMultiChain = (chain: Chain) =>

@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { checkWhitelistSecretChainsAndGetChainId } from '../const';

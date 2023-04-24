@@ -1,13 +1,13 @@
 import { Button } from '@mui/material';
 
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { Doc } from '@ankr.com/ui';
 import { getChainDocsLink } from '../../utils/getChainDocsLink';
 import { t } from '@ankr.com/common';
 import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
 
 export interface ChainDocsLinkProps {
-  chain: IApiChain;
+  chain: Chain;
   className?: string;
   variant?: 'contained' | 'outlined';
   size?: 'small' | 'medium' | 'large';

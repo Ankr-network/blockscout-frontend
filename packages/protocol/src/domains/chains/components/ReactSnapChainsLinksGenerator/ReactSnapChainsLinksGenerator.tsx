@@ -1,4 +1,4 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { Fragment } from 'react';
 
@@ -6,11 +6,11 @@ import { NavLink } from 'uiKit/NavLink';
 
 interface ISubChainLinksGeneratorProps
   extends IReactSnapChainsLinksGeneratorProps {
-  rootChainID: IApiChain['id'];
+  rootChainID: Chain['id'];
 }
 
-const flatProtocolSubchains = (chains: IApiChain[]) =>
-  chains.reduce<IApiChain[]>((acc, cur) => {
+const flatProtocolSubchains = (chains: Chain[]) =>
+  chains.reduce<Chain[]>((acc, cur) => {
     acc.push(cur);
     acc.concat(cur.beacons ?? []);
     acc.concat(cur.opnodes ?? []);
@@ -69,7 +69,7 @@ const SubChainLinksGenerator = ({
 };
 
 interface IReactSnapChainsLinksGeneratorProps {
-  chains: IApiChain[];
+  chains: Chain[];
 }
 
 export const ReactSnapChainsLinksGenerator = ({

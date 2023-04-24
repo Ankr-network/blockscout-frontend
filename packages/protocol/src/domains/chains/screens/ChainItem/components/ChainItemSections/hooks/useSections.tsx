@@ -18,7 +18,7 @@ export interface SectionsParams {
   chainType: ChainType;
   data: IChainItemDetails;
   group: EndpointGroup;
-  unfilteredGroup: EndpointGroup;
+  publicUrl: string;
 }
 
 export interface Sections {
@@ -32,12 +32,10 @@ export const useSections = ({
   chainType,
   data,
   group,
-  unfilteredGroup,
+  publicUrl,
 }: SectionsParams): Sections => {
   const { chain } = data;
   const chainId = chain.id;
-  const publicUrl =
-    unfilteredGroup?.urls[0]?.rpc ?? unfilteredGroup?.urls[0]?.rest;
 
   const { timeframe, timeframeTabs } = useTimeframe();
 

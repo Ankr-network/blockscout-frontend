@@ -3,15 +3,14 @@ import { ChainDocsLink } from '../ChainDocsLink';
 import { ChainLogo } from '../ChainLogo';
 import { ChainSubtitle } from '../ChainSubtitle';
 import { ChainTitle } from '../ChainTitle';
-import { ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { MetamaskButtonLabel } from 'domains/chains/components/MetamaskButtonLabel';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 
 export interface ChainOverviewProps {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   group: EndpointGroup;
   isChainArchived: boolean;

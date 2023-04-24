@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface PremiumOnlyChainGuardProps {
-  chain?: IApiChain;
+  chain?: Chain;
   children: JSX.Element;
 }
 

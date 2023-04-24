@@ -1,12 +1,7 @@
 import BigNumber from 'bignumber.js';
 
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { Chain, SortType } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
-import {
-  extractCustomizedChains,
-  formatChains,
-} from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { ChainID, SortType, Chain } from 'domains/chains/types';
+import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { SortPublicChainsParams } from '../PublicChainsTypes';
 
 const publicChainsSorter = (a: Chain, b: Chain) =>
@@ -79,19 +74,17 @@ export const sortPublicChains = ({
 };
 
 export const formatRequestsCount = (
-  chains: IApiChain[],
+  chains: Chain[],
   data?: Record<ChainID, string>,
 ) => {
-  return formatChains(
-    chains.map(item => {
-      const { id, frontChain: { id: frontChainId } = {} } = item;
+  return chains.map(item => {
+    const { id, chainWithoutMainnet: { id: frontChainId } = {} } = item;
 
-      return {
-        ...item,
-        totalRequests: new BigNumber(data?.[frontChainId ?? id] ?? 0),
-      };
-    }),
-  );
+    return {
+      ...item,
+      totalRequests: new BigNumber(data?.[frontChainId ?? id] ?? 0),
+    };
+  });
 };
 
 export const filteredByNameChains = (chains: Chain, searchContent: string) =>

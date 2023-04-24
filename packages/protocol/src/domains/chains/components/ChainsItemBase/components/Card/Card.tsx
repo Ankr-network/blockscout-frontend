@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { useClickHandler } from './hooks/useClickHandler';
 
 export interface CardProps {

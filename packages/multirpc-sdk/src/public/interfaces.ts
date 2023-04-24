@@ -1,9 +1,9 @@
-import { IBlockchainEntity } from '../backoffice';
+
+import { IBlockchainEntity, Timeframe } from '../common';
 import {
   IRate,
   IWorkerGlobalStatus,
   IWorkerPublicStats,
-  Timeframe,
   INodesDetailEntity,
 } from './types';
 

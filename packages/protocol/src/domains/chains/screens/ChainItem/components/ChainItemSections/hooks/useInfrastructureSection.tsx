@@ -2,19 +2,17 @@ import { BlockchainType } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainID, Chain, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { InfrastructureSection } from '../../InfrastructureSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { ChainID } from 'modules/chains/types';
 
 interface InfrastructureSectionParams {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;

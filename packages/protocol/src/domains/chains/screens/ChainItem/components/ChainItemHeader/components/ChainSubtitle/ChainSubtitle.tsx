@@ -1,14 +1,13 @@
 import { t, tHTML } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { ChainID } from 'modules/chains/types';
+import { Chain, ChainID } from 'domains/chains/types';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { useChainSubtitleStyles } from './ChainSubtitleStyles';
 
 export interface ChainDescriptionProps {
-  chain: IApiChain;
+  chain: Chain;
   isChainArchived: boolean;
 }
 

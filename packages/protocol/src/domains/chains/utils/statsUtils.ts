@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { API_ENV } from 'modules/common/utils/environment';
 
 const PROD_STANDALONE_CHAINS: Record<string, string> = {
