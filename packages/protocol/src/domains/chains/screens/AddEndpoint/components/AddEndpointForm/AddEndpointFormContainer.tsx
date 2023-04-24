@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { AddEndpointForm } from './AddEndpointForm';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import {
   formatDataForRequest,
@@ -15,8 +15,8 @@ import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainIt
 export interface AddEndpointFormProps {
   chainId: string;
   scheme: string;
-  privateChain?: IApiChain;
-  publicChain?: IApiChain;
+  privateChain?: Chain;
+  publicChain?: Chain;
   userEndpoints?: UserEndpoint[];
 }
 

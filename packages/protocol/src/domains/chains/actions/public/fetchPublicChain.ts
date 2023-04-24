@@ -1,7 +1,7 @@
 import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
-import { IApiChain } from '../../api/queryChains';
+import { Chain } from '../../types';
 import { ChainsRoutesConfig } from '../../routes';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPublicChains } from './fetchPublicChains';
@@ -10,8 +10,8 @@ import { web3Api } from 'store/queries';
 import { isChainArchived } from 'domains/chains/screens/ChainItem/utils/isChainArchived';
 
 export interface IChainItemDetails {
-  chain: IApiChain;
-  unfilteredChain: IApiChain;
+  chain: Chain;
+  unfilteredChain: Chain;
   isChainArchived: boolean;
 }
 

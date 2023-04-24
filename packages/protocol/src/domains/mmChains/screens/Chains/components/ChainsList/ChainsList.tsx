@@ -1,8 +1,7 @@
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
-import { Chain, Timeframe } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain, Timeframe } from 'domains/chains/types';
 import { PublicChainItem } from '../PublicChains/components/PublicChainItem';
 import { PrivateChainItem } from '../PrivateChains/components/PrivateChainItem';
 

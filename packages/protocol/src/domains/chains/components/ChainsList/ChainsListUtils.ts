@@ -1,54 +1,12 @@
 import { BlockchainType } from 'multirpc-sdk';
 
 import { ChainMap } from './ChainsListTypes';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { Chain } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
 
 export const PERIOD = '24h';
 
-export const formatChains = (data: IApiChain[]): Chain[] => {
-  if (!Array.isArray(data) || data.length === 0) return [];
-
-  return data.map(item => {
-    const {
-      coinName,
-      extenders,
-      extensions,
-      frontChain = {},
-      id,
-      isArchive,
-      name,
-      totalRequests,
-      type,
-      urls,
-      premiumOnly,
-      isComingSoon,
-      isMainnetPremiumOnly,
-    } = item;
-
-    return {
-      coinName,
-      extenders,
-      extensions,
-      frontChain,
-      isArchive,
-      name,
-      totalRequests,
-      type,
-      urls,
-      premiumOnly,
-      isComingSoon,
-      isMainnetPremiumOnly,
-      ...frontChain,
-      id,
-      ...(id === ChainID.ZETACHAIN ? { urls } : {}),
-    };
-  });
-};
-
-export const extractCustomizedChains = (chains: Chain[]) =>
-  chains.reduce<[Chain[], Chain[]]>(
+export const extractCustomizedChains = (chains: Chain[]) => {
+  return chains.reduce<[Chain[], Chain[]]>(
     (acc, chain) => {
       if (chain.type === BlockchainType.Customized) {
         acc[1].push(chain);
@@ -60,14 +18,10 @@ export const extractCustomizedChains = (chains: Chain[]) =>
     },
     [[], []],
   );
+};
 
-export const getChainId = ({
-  id,
-  frontChain: { id: frontChainId } = {},
-}: Chain) => frontChainId || id;
-
-export const getChainsDictionary = (allChains: IApiChain[]): ChainMap => {
-  return formatChains(allChains).reduce<ChainMap>((map, chain) => {
+export const getChainsDictionary = (allChains: Chain[]): ChainMap => {
+  return allChains.reduce<ChainMap>((map, chain) => {
     map[chain.id] = chain;
 
     return map;

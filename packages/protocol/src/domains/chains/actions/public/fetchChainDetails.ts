@@ -1,7 +1,7 @@
 import { Timeframe } from 'multirpc-sdk';
 
-import { ChainID } from 'modules/chains/types';
-import { IApiChain } from '../../api/queryChains';
+import { ChainID } from 'domains/chains/types';
+import { Chain } from '../../types';
 import {
   IApiChainDetails,
   chainsFetchChainTimeframeData,
@@ -10,7 +10,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 const addTotalRequests = (
-  chain: IApiChain,
+  chain: Chain,
   chainId: ChainID,
   mutationData: IApiChainDetails,
 ) => {

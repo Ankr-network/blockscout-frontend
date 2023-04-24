@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';

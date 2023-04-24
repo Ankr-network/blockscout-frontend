@@ -3,8 +3,7 @@ import { useMemo } from 'react';
 import { ChainProtocolSwitch } from './components/ChainProtocolSwitch';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'domains/chains/types';
 import { Endpoints } from '../GetStartedSection/components/Endpoints';
 import { SecondaryTabs } from '../SecondaryTabs';
 import { MultiChainOverview } from './components/MultichainOverview';
@@ -18,8 +17,8 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 export interface ChainItemHeaderProps {
-  chain: IApiChain;
-  publicChain: IApiChain;
+  chain: Chain;
+  publicChain: Chain;
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];

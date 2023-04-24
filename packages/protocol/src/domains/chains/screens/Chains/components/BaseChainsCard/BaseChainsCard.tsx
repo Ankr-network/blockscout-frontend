@@ -3,7 +3,7 @@ import { Button, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { useClickHandler } from 'domains/chains/components/ChainsItemBase/components/Card/hooks/useClickHandler';
-import { Chain, Timeframe } from 'domains/chains/types';
+import { Timeframe, Chain } from 'domains/chains/types';
 import { useChainCardStyles } from './useChainCardStyles';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 import { Information } from './Information';

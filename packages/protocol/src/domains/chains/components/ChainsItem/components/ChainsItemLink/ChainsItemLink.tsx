@@ -1,9 +1,8 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainType, ChainURL } from 'domains/chains/types';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { IApiChainURL } from 'domains/chains/api/queryChains';
 import { useChainsItemLinkStyles } from './useChainsItemLinkStyles';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
 
@@ -12,7 +11,7 @@ interface IChainsItemLinkProps {
   dummyMessage: string;
   hasConnectWalletMessage?: boolean;
   onConnectWallet?: () => void;
-  urls: IApiChainURL[];
+  urls: ChainURL[];
 }
 
 export const ChainsItemLink = ({

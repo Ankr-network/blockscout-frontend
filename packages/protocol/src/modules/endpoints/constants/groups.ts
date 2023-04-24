@@ -1,5 +1,4 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
@@ -9,7 +8,7 @@ const getName = (key: string, isPlural?: boolean) =>
   });
 
 export const getFallbackEndpointGroup = (
-  endpointName: IApiChain['name'],
+  endpointName: Chain['name'],
 ): EndpointGroup => {
   const name = t('chain-item.header.endpoint-groups.fallback', {
     chain: endpointName,

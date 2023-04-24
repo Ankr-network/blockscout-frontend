@@ -1,10 +1,12 @@
 import { SortPrivateChainsParams } from '../PrivateChainsTypes';
-import {
-  extractCustomizedChains,
-  getChainId,
-} from 'domains/chains/components/ChainsList/ChainsListUtils';
-import { Chain, SortType } from 'domains/chains/types';
+import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { SortType, Chain } from 'domains/chains/types';
 import { chainsUsageSorter } from '../../PublicChains/hooks/utils';
+
+const getChainId = ({
+  id,
+  chainWithoutMainnet: { id: frontChainId } = {},
+}: Chain) => frontChainId || id;
 
 export const sortPrivateChains = ({
   chains: rawChains = [],

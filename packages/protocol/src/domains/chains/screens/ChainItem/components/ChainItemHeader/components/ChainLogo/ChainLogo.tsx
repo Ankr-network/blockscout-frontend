@@ -1,9 +1,9 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 import { useChainLogoStyles } from './ChainLogoStyles';
 
 export interface ChainLogoProps {
-  chain: IApiChain;
+  chain: Chain;
 }
 
 export const ChainLogo = ({ chain: { id, name } }: ChainLogoProps) => {

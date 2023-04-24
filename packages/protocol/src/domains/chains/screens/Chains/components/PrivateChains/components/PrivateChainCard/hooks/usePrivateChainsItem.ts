@@ -10,7 +10,7 @@ export interface ChainsItemParams {
 }
 
 export const usePrivateChainsItem = ({
-  chain: { id, frontChain: { id: frontChainId } = {} },
+  chain: { id, chainWithoutMainnet: { id: frontChainId } = {} },
 }: ChainsItemParams) => {
   const { hasConnectWalletMessage } = useAuth();
 

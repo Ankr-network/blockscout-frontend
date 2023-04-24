@@ -1,4 +1,4 @@
-import { ChainType, Timeframe } from 'domains/chains/types';
+import { Chain, ChainType, Timeframe } from 'domains/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { MethodCalls } from '../../../MethodCalls';
@@ -11,14 +11,13 @@ import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
 import { LastUserRequests } from '../../../LastUserRequests';
 import { usePrivateUsageData } from './usePrivateUsageData';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { TimeframeSection } from './components/TimeframeSection';
 
 const IS_LAST_USER_REQUESTS_BLOCK_ENABLED = false;
 
 interface PrivateUsageDataSectionProps {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   group: EndpointGroup;
   timeframeTabs: Tab<Timeframe>[];

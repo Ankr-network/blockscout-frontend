@@ -1,7 +1,7 @@
 import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { useStyles } from '../ChainItemStyles';
 import { PublicChainItem } from './components/PublicChainItem';
 import { usePublicChainItemQuery } from './PublicChainItemQueryUtils';

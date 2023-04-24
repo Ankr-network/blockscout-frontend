@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useLazyChainsFetchPrivateChainQuery } from 'domains/chains/actions/private/fetchPrivateChain';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 
 export const usePrivateChainItemQuery = (chainId: string) => {
   const userEndpointToken = useUserEndpointToken();

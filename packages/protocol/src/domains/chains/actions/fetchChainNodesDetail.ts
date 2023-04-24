@@ -3,7 +3,7 @@ import { INodesDetailEntity } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { checkAvalancheOrSecretAndGetChainId } from '../utils/chainsUtils';
 
 let cachedNodeDetails: INodesDetailEntity[] | null = null;

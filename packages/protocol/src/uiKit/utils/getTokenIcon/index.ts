@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 
 import aptosIcon from './icons/aptos.svg';
 import arbitrumIcon from './icons/arbitrum.svg';

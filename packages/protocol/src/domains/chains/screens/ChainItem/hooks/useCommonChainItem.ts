@@ -3,12 +3,12 @@ import { useMemo } from 'react';
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { useNetId } from './useNetId';
 import { processChain } from '../utils/processChain';
-import { getChainName } from 'uiKit/utils/useMetatags';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { getChainName } from 'uiKit/utils/metatags';
+import { Chain } from 'domains/chains/types';
 
 export interface ICommonChainItemParams {
-  chain: IApiChain;
-  publicChain: IApiChain;
+  chain: Chain;
+  publicChain: Chain;
 }
 
 export const useCommonChainItem = ({

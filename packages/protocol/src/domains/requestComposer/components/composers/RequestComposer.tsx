@@ -1,5 +1,5 @@
 import { AvalancheRequestComposer } from './AvalancheRequestComposer';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { EVMRequestComposer } from './EVMRequestComposer';
 import { HarmonyRequestComposer } from './HarmonyRequestComposer';
 import { IRequestComposerProps } from './RequestComposerTypes';

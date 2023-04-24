@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { v4 } from 'uuid';
-import { AXIOS_DEFAULT_CONFIG } from '../common';
 import { IBackofficeGateway } from './interfaces';
 import {
   ICreateTestClientRequest,
@@ -9,7 +8,6 @@ import {
   IAddVoucherCreditsResponse,
   IBalancesRequest,
   IBalancesResponse,
-  IBlockchainEntity,
   ICountersResponse,
   IEmailBindingsRequest,
   IEmailBindingsResponse,
@@ -56,6 +54,7 @@ import {
   DeleteUserGroupRequest,
   DeleteUserGroupResponse,
 } from './types';
+import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
 
 export class BackofficeGateway implements IBackofficeGateway {
   public api: AxiosInstance;

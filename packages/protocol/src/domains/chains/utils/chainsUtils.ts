@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 
 const SUBNETS_CHAINS_LIST = [ChainID.SECRET, ChainID.AVALANCHE];
 
