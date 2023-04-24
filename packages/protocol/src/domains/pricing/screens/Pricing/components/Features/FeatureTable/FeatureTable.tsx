@@ -58,7 +58,7 @@ export const FeatureTable = () => {
                   </Typography>
                 </TableCell>
                 {FEATURE_TABLE_ROW.map(index => (
-                  <TableCell>
+                  <TableCell key={`column-${rowIndex}-row-${index + 1}`}>
                     {FeatureItem({ index, rowIndex: rowIndex + 1 })}
                   </TableCell>
                 ))}
