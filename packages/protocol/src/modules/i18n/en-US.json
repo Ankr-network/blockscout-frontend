@@ -410,8 +410,11 @@
       "head": {
         "location": "Location",
         "free": "Free",
-        "premium": "Premium"
-      }
+        "premium": "Premium",
+        "count": "x3"
+      },
+      "upgrade-info": "Get more locations on <em>Premium!</em>",
+      "upgrade": "Upgrade"
     },
     "requests-table": {
       "header": "Most recent requests",
