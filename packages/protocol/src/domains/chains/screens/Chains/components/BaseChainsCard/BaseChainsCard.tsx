@@ -18,6 +18,7 @@ export interface IBaseChainCardProps {
   totalRequests: string;
   loading: boolean;
   badge?: ReactNode;
+  hasTotalRequestsLabel?: boolean;
 }
 
 export const BaseChainsCard = ({
@@ -30,6 +31,7 @@ export const BaseChainsCard = ({
   totalRequests,
   loading,
   badge,
+  hasTotalRequestsLabel = true,
 }: IBaseChainCardProps) => {
   const { classes, cx } = useChainCardStyles();
 
@@ -57,17 +59,19 @@ export const BaseChainsCard = ({
         <img src={icon} className={classes.icon} alt={id} />
       </div>
       <div>
-        <Typography className={classes.information}>
-          {loading ? (
-            <Skeleton className={classes.skeleton} />
-          ) : (
-            <Information
-              timeframe={timeframe}
-              totalRequests={totalRequests}
-              timeframeClassName={classes.timeSwitcher}
-            />
-          )}
-        </Typography>
+        {hasTotalRequestsLabel && (
+          <Typography className={classes.information}>
+            {loading ? (
+              <Skeleton className={classes.skeleton} />
+            ) : (
+              <Information
+                timeframe={timeframe}
+                totalRequests={totalRequests}
+                timeframeClassName={classes.timeSwitcher}
+              />
+            )}
+          </Typography>
+        )}
         <Button
           className={cx(classes.button, buttonClassName)}
           fullWidth

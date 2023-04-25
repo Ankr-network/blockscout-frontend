@@ -1,12 +1,17 @@
-import { INodesDetailEntity } from 'multirpc-sdk';
-
 export interface LocationsTableProps {
-  loading: boolean;
-  nodesDetail: INodesDetailEntity[];
+  nodesRows: IContinentsCount[];
 }
 
 export interface ProviderRow {
   continent: string;
   isFree?: boolean;
   isPremium?: boolean;
+}
+
+export interface IContinentsCount {
+  continent: string;
+  isPremium: boolean;
+  count: number;
+  freePercent: string;
+  premiumPercent: string;
 }

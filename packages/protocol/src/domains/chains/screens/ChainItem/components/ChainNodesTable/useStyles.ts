@@ -36,7 +36,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     marginBottom: theme.spacing(2 * 0.375),
   },
   preloader: {
-    height: theme.spacing(2 * 8.25),
+    height: theme.spacing(14),
   },
   subtitle2: {
     fontSize: 12,

@@ -52,6 +52,7 @@ export const Content = ({
   timeframe,
   totalRequests,
   isComingSoon,
+  hasTotalRequestsLabel,
 }: ContentProps) => {
   const hasLabel = isArchive || isSui || isComingSoon;
 
@@ -85,6 +86,7 @@ export const Content = ({
         name={name}
         timeframe={timeframe}
         totalRequests={totalRequests}
+        hasTotalRequestsLabel={hasTotalRequestsLabel}
       />
       <Links inactiveMessage={inactiveMessage}>{chainsItemLink}</Links>
       <Buttons>{chainsItemButton}</Buttons>

@@ -26,7 +26,11 @@ export const ScalePlans = () => {
       <div className={classes.content}>
         <div className={classes.list}>
           {new Array(ROW_COUNTS).fill('').map((_, index) => (
-            <Typography variant="subtitle1" className={classes.item}>
+            <Typography
+              variant="subtitle1"
+              className={classes.item}
+              key={`column-${index + 1}`}
+            >
               <div className={classes.check}>
                 <Check />
               </div>

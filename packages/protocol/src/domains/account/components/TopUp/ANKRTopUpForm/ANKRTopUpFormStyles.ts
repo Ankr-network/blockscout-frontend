@@ -19,7 +19,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     },
   },
   amount: {
-    paddingTop: 30,
+    paddingTop: theme.spacing(15),
     marginTop: 'auto',
     marginBottom: 'auto',
     [theme.breakpoints.down('sm')]: {

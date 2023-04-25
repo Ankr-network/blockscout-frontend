@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { t } from '@ankr.com/common';
 
 import { Chain, ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -7,7 +8,7 @@ import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { UsageDataSection } from '../../UsageDataSection';
-import { t } from '@ankr.com/common';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface UsageDataSectionParams {
   chain: Chain;
@@ -18,8 +19,6 @@ export interface UsageDataSectionParams {
   timeframeTabs: Tab<Timeframe>[];
 }
 
-const label = t('chain-item.tabs.usage-data');
-
 export const useUsageDataSection = ({
   chain,
   chainType,
@@ -28,8 +27,13 @@ export const useUsageDataSection = ({
   timeframe,
   timeframeTabs,
 }: UsageDataSectionParams) => {
-  return useMemo(
-    (): Tab<SectionID> => ({
+  const { hasPremium, hasPrivateAccess, isLoggedIn } = useAuth();
+  const shouldHideUsageData = !hasPremium && isLoggedIn;
+
+  return useMemo(() => {
+    if (shouldHideUsageData) return null;
+
+    return {
       id: SectionID.UsageData,
       content: (
         <UsageDataSection
@@ -38,13 +42,25 @@ export const useUsageDataSection = ({
           group={group}
           timeframe={timeframe}
           timeframeTabs={timeframeTabs}
+          hasPrivateAccess={hasPrivateAccess}
         />
       ),
       onSelect: getSelectHandler(SectionID.UsageData),
       title: (isSelected: boolean) => (
-        <PrimaryTab isSelected={isSelected} label={label} />
+        <PrimaryTab
+          isSelected={isSelected}
+          label={t('chain-item.tabs.usage-data')}
+        />
       ),
-    }),
-    [chain, chainType, getSelectHandler, group, timeframe, timeframeTabs],
-  );
+    };
+  }, [
+    chain,
+    chainType,
+    getSelectHandler,
+    group,
+    timeframe,
+    timeframeTabs,
+    shouldHideUsageData,
+    hasPrivateAccess,
+  ]);
 };

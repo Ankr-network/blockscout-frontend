@@ -28,37 +28,39 @@ export const useDebugMenuSection = ({
   getSelectHandler,
   publicUrl,
 }: DebugMenuSectionParams) => {
-  const { hasPrivateAccess } = useAuth();
+  const { hasPremium, hasPrivateAccess } = useAuth();
 
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
   const isMobile = useIsSMDown();
 
-  const isVisible = useMemo(() => {
-    if (chainId === ChainID.MULTICHAIN) {
+  const shouldShowDebugMenu = useMemo(() => {
+    if (
+      chainId === ChainID.MULTICHAIN ||
+      !hasPremium ||
+      !hasPrivateAccess ||
+      isMobile
+    ) {
       return false;
     }
 
-    return (
-      hasRequestComposer({
-        chainId,
-        group,
-        isChainProtocolSwitchEnabled,
-        hasPrivateAccess,
-      }) &&
-      hasPrivateAccess &&
-      !isMobile
-    );
+    return hasRequestComposer({
+      chainId,
+      group,
+      isChainProtocolSwitchEnabled,
+      hasPrivateAccess,
+    });
   }, [
     chainId,
     group,
     isChainProtocolSwitchEnabled,
     hasPrivateAccess,
     isMobile,
+    hasPremium,
   ]);
 
   return useMemo((): Tab<SectionID> | undefined => {
-    if (!isVisible) {
+    if (!shouldShowDebugMenu) {
       return undefined;
     }
 
@@ -76,5 +78,5 @@ export const useDebugMenuSection = ({
         <PrimaryTab isSelected={isSelected} label={label} />
       ),
     };
-  }, [chainId, getSelectHandler, group, isVisible, publicUrl]);
+  }, [chainId, getSelectHandler, group, shouldShowDebugMenu, publicUrl]);
 };

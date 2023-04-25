@@ -22,6 +22,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     color: theme.palette.text.primary,
   },
   preloader: {
-    height: theme.spacing(2 * 8.25),
+    height: theme.spacing(14),
   },
 }));

@@ -16,6 +16,7 @@ export const ChainsItemBase = ({
   period,
   timeframe,
   totalRequests,
+  hasTotalRequestsLabel,
 }: ChainsItemBaseProps) => {
   const { classes } = useChainsItemBaseStyles(isHighlighted);
 
@@ -33,6 +34,7 @@ export const ChainsItemBase = ({
     timeframe,
     totalRequests,
     isComingSoon,
+    hasTotalRequestsLabel,
   });
 
   return hasPremiumDialog ? (

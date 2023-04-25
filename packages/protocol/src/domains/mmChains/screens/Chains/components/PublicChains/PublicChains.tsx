@@ -6,6 +6,9 @@ import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { proccessTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
 import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
+import { PublicChainItem } from './components/PublicChainItem';
+import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 
 export const PublicChains = () => {
   const {
@@ -28,6 +31,7 @@ export const PublicChains = () => {
   });
 
   const networksConfigurations = useNetworksConfigurations(processedChains);
+  const { classes } = useChainListStyles();
 
   return (
     <BaseChains
@@ -42,12 +46,26 @@ export const PublicChains = () => {
       }
     >
       <NoReactSnap>
-        <ChainsList
-          timeframe={timeframe}
-          chains={networksConfigurations}
-          chainsDictionary={chainsDictionary}
-          isPublic
-        />
+        <ChainsList chains={networksConfigurations}>
+          {networksConfigurations.map(item => {
+            const { id, name, urls } = item;
+
+            return (
+              <div className={classes.wrapper} key={id}>
+                <PublicChainItem
+                  chain={item}
+                  links={urls}
+                  name={name}
+                  period={PERIOD}
+                  publicChain={chainsDictionary[id]}
+                  timeframe={timeframe}
+                  chainId={id}
+                  hasPremiumDialog={item.premiumOnly}
+                />
+              </div>
+            );
+          })}
+        </ChainsList>
       </NoReactSnap>
     </BaseChains>
   );
