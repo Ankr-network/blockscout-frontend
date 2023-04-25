@@ -40,7 +40,7 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
         background: getPremiumColorGradient(theme),
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        '-webkit-box-decoration-break': 'clone',
+        WebkitBoxDecorationBreak: 'clone',
       },
 
       [`&.enterprise`]: {

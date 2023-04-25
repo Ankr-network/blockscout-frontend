@@ -4,7 +4,14 @@ import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
 import { ComingSoonChainCard } from '../../../ComingSoonChainCard';
 
-export const PrivateChainCard = ({ chain, ...props }: IChainCardProps) => {
+interface PrivateChainCardProps extends IChainCardProps {
+  hasTotalRequestsLabel?: boolean;
+}
+
+export const PrivateChainCard = ({
+  chain,
+  ...props
+}: PrivateChainCardProps) => {
   const { totalRequests, loading } = usePrivateChainsItem({ chain });
 
   const { totalRequestsStr } = useCommonChainsItemData(
