@@ -23,6 +23,7 @@ export const useContent = ({
   timeframe,
   totalRequests,
   isComingSoon,
+  hasTotalRequestsLabel,
 }: ContentParams) => {
   const isSui = useMemo(() => isSuiChain(chainId), [chainId]);
   const logoSrc = useChainIcon(chainId);
@@ -44,6 +45,7 @@ export const useContent = ({
         timeframe={timeframe}
         totalRequests={totalRequests}
         isComingSoon={isComingSoon}
+        hasTotalRequestsLabel={hasTotalRequestsLabel}
       />
     ),
     [
@@ -61,6 +63,7 @@ export const useContent = ({
       period,
       timeframe,
       totalRequests,
+      hasTotalRequestsLabel,
     ],
   );
 };

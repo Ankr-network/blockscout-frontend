@@ -1,37 +1,20 @@
-import { Timeframe, Chain } from 'domains/chains/types';
+import { ReactNode } from 'react';
+
+import { Chain } from 'domains/chains/types';
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
-import { PrivateChainCard } from '../PrivateChains/components/PrivateChainCard';
-import { PublicChainCard } from '../PublicChains/components/PublicChainCard';
 
 export interface IChainsListProps {
-  timeframe: Timeframe;
   chains: Chain[];
-  isPublic: boolean;
+  children: ReactNode;
 }
 
-export const ChainsList = ({
-  chains,
-  isPublic,
-  ...props
-}: IChainsListProps) => {
+export const ChainsList = ({ chains, children }: IChainsListProps) => {
   const { classes } = useChainListStyles();
 
   if (chains.length === 0) {
     return <NoResult />;
   }
 
-  return (
-    <div className={classes.root}>
-      {chains.map(item => {
-        const { id } = item;
-
-        return isPublic ? (
-          <PublicChainCard key={id} chain={item} {...props} />
-        ) : (
-          <PrivateChainCard key={id} chain={item} {...props} />
-        );
-      })}
-    </div>
-  );
+  return <div className={classes.root}>{children}</div>;
 };
