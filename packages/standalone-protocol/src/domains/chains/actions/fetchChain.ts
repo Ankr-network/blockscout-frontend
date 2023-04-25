@@ -4,8 +4,9 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { Store } from 'store';
 import { ChainId } from '../api/chain';
 import { IApiChain } from '../api/queryChains';
-import { isPolygonZkEvm } from './fetchChainUtils';
+import { getRPCUrl, isPolygonZkEvm } from './fetchChainUtils';
 import { fetchPublicChains } from './fetchPublicChains';
+import { isDev } from 'modules/common/utils/isProd';
 
 export interface IChainItemDetails {
   chain?: IApiChain;
@@ -34,15 +35,14 @@ export const fetchChain = createSmartAction<
             fetchPublicChains(),
           );
 
-          const currentChainId = isPolygonZkEvm(chainId)
-            ? CHAIN_ID_FOR_BLOCKCHAINS_LIST
-            : chainId;
+          const currentChainId =
+            isPolygonZkEvm(chainId) && isDev()
+              ? CHAIN_ID_FOR_BLOCKCHAINS_LIST
+              : chainId;
 
           const chain = chains?.find(item => item.id === currentChainId);
 
-          const location = window?.location.origin;
-          const rpcUrl =
-            chainId === ChainId.Nervos ? `${location}/nervos` : location;
+          const rpcUrl = getRPCUrl(chainId);
 
           if (!chain) {
             return { chain };
