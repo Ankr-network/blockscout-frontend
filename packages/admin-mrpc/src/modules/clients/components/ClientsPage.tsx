@@ -1,7 +1,7 @@
 import { Spinner } from 'ui';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useFetchCountersQuery } from '../actions/fetchCounters';
 import { ClientsTable } from './ClientsTable';
+import { useLazyFetchClients } from '../hooks/useLazyFetchClients';
 
 export const ClientsPage = () => {
   useSetBreadcrumbs([
@@ -10,7 +10,7 @@ export const ClientsPage = () => {
     },
   ]);
 
-  const { data, isLoading } = useFetchCountersQuery();
+  const { data, isLoading } = useLazyFetchClients();
 
   return (
     <>

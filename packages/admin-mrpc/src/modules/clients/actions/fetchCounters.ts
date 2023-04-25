@@ -18,6 +18,7 @@ interface IApiResponse {
 
 export const {
   useFetchCountersQuery,
+  useLazyFetchCountersQuery,
   endpoints: { fetchCounters },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
