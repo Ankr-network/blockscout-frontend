@@ -1,44 +1,59 @@
+import { alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useLocationsTableStyles = makeStyles()(theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
-    '& th': {
-      paddingTop: 0,
-    },
-
-    '& th, & td': {
-      borderBottom: 'none',
-    },
-    '& th:first-of-type, & td:first-of-type': {
-      paddingLeft: 0,
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-    },
-    '& th:last-of-type,  & td:last-of-type': {
-      paddingRight: 0,
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
+    width: '100%',
   },
-  header: {
-    fontSize: 16,
-    padding: 0,
-  },
-
-  tableContainer: {
-    '&&': {
-      padding: 0,
-    },
-  },
-
-  icon: {
-    color: theme.palette.grey[600],
-  },
-  activeIcon: {
-    color: theme.palette.primary.main,
-  },
-  tableHead: {
+  title: {
+    color: theme.palette.text.secondary,
+    display: 'block',
     fontSize: 14,
+    lineHeight: '20.02px',
+    fontWeight: 400,
+    paddingBottom: theme.spacing(3),
+    marginBottom: theme.spacing(4),
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
+  },
+  row: {
+    color: theme.palette.text.primary,
+    display: 'flex',
+    alignItems: 'center',
+    paddingBottom: theme.spacing(4),
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
+    marginBottom: theme.spacing(4),
+    paddingRight: theme.spacing(3),
+  },
+  continent: {
+    width: '50%',
+  },
+  indicate: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1),
+    width: '50%',
+  },
+  free: {
+    height: theme.spacing(2),
+    backgroundColor: alpha(theme.palette.primary.main, 0.2),
+    borderRadius: theme.spacing(0.5),
+  },
+  premium: {
+    height: theme.spacing(2),
+    background: getPremiumColorGradient(theme),
+    borderRadius: theme.spacing(0.5),
+  },
+  premiumItem: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  count: {
+    fontSize: 12,
+    marginLeft: theme.spacing(1),
+    background: getPremiumColorGradient(theme),
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    WebkitBoxDecorationBreak: 'clone',
   },
 }));
