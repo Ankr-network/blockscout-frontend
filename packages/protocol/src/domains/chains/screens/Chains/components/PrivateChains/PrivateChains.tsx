@@ -4,8 +4,12 @@ import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { usePrivateChains } from './hooks/usePrivateChains';
 import { ChainsList } from '../ChainsList';
 import { PrivateChainsTop } from './PrivateChainsTop';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { PrivateChainCard } from './components/PrivateChainCard';
 
 export const PrivateChains = () => {
+  const { hasPremium } = useAuth();
+
   const {
     chains,
     allChains,
@@ -38,11 +42,20 @@ export const PrivateChains = () => {
         />
       }
     >
-      <ChainsList
-        timeframe={timeframe}
-        chains={processedChains}
-        isPublic={false}
-      />
+      <ChainsList chains={processedChains}>
+        {processedChains.map(item => {
+          const { id } = item;
+
+          return (
+            <PrivateChainCard
+              key={id}
+              chain={item}
+              timeframe={timeframe}
+              hasTotalRequestsLabel={hasPremium}
+            />
+          );
+        })}
+      </ChainsList>
     </BaseChains>
   );
 };

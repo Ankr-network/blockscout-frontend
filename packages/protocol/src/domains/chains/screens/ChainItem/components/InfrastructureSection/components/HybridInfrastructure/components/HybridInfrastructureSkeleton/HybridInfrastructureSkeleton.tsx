@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Skeleton } from '@mui/material';
-import { useStyles } from './EndpointStyles';
+import { useStyles } from '../EndpointInfo/EndpointStyles';
 
-export const EndpointQuerySkeleton = () => {
+export const HybridInfrastructureSkeleton = () => {
   const { classes } = useStyles();
 
   return (

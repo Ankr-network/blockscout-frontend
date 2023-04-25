@@ -12,4 +12,5 @@ export interface ChainMainInfoProps {
   name: string;
   timeframe?: Timeframe;
   totalRequests?: string;
+  hasTotalRequestsLabel?: boolean;
 }

@@ -18,6 +18,7 @@ export const ChainMainInfo = ({
   name,
   timeframe = Timeframe.Month,
   totalRequests = '',
+  hasTotalRequestsLabel = true,
 }: ChainMainInfoProps) => {
   const { themes } = useThemes();
 
@@ -35,25 +36,27 @@ export const ChainMainInfo = ({
           {name}
         </Typography>
         {label}
-        <div className={classes.req}>
-          {isLoading ? (
-            <Skeleton className={classes.skeleton} />
-          ) : (
-            <>
-              {!!totalRequests && (
-                <>
-                  {t('chains.req', {
-                    value: totalRequests,
-                  })}
-                  <Switcher
-                    value={timeframeToLabelMap[timeframe]}
-                    className={classes.switcher}
-                  />
-                </>
-              )}
-            </>
-          )}
-        </div>
+        {hasTotalRequestsLabel && (
+          <div className={classes.req}>
+            {isLoading ? (
+              <Skeleton className={classes.skeleton} />
+            ) : (
+              <>
+                {!!totalRequests && (
+                  <>
+                    {t('chains.req', {
+                      value: totalRequests,
+                    })}
+                    <Switcher
+                      value={timeframeToLabelMap[timeframe]}
+                      className={classes.switcher}
+                    />
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        )}
         {description}
       </div>
     </div>

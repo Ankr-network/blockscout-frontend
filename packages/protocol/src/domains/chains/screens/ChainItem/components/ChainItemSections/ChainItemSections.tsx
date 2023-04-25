@@ -63,6 +63,7 @@ export const ChainItemSections = ({
         selectedTab={section}
         tabs={sections}
         additionalContent={additionalContent}
+        allowSingleTab
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import { IProvider } from 'multirpc-sdk';
 
 import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
-import { Chain } from 'domains/chains/types';
+import { Chain, ChainURL } from 'domains/chains/types';
 
 export const getChainById = (
   chains: Chain[],
@@ -59,4 +59,29 @@ export const canAddEndpoint = (
   }
 
   return true;
+};
+
+export const getUrls = (chain?: Chain) => {
+  return [
+    ...(chain?.urls || []),
+    ...(chain?.extensions || []).flatMap<ChainURL>(({ urls }) => urls),
+    ...(chain?.extenders || []).flatMap<ChainURL>(({ urls }) => urls),
+  ].flatMap<string>(({ rpc, ws }) => (ws ? [rpc, ws] : [rpc]));
+};
+
+export interface ChainNameParams {
+  chainId: string;
+  privateChain?: Chain;
+  publicChain?: Chain;
+}
+
+export const getChainName = ({
+  chainId,
+  privateChain,
+  publicChain,
+}: ChainNameParams) => {
+  const { name, chainWithoutMainnet: { name: frontChainName = '' } = {} } =
+    privateChain || publicChain || {};
+
+  return frontChainName || name || chainId;
 };

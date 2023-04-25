@@ -4,14 +4,21 @@ import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { proccessTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
 import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
-import { usePrivateChains } from '../../../../../chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
-import { usePrivateChainsData } from '../../../../../chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
+import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
+import { usePrivateChainsData } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
+import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
+import { PrivateChainItem } from './components/PrivateChainItem';
 
 interface IPrivateChainsProps {
   hasPremium: boolean;
+  hasTotalRequestsLabel?: boolean;
 }
 
-export const PrivateChains = ({ hasPremium }: IPrivateChainsProps) => {
+export const PrivateChains = ({
+  hasPremium,
+  hasTotalRequestsLabel,
+}: IPrivateChainsProps) => {
   const {
     chains,
     allChains,
@@ -31,6 +38,7 @@ export const PrivateChains = ({ hasPremium }: IPrivateChainsProps) => {
   });
 
   const networksConfigurations = useNetworksConfigurations(processedChains);
+  const { classes } = useChainListStyles();
 
   return (
     <BaseChains
@@ -45,12 +53,27 @@ export const PrivateChains = ({ hasPremium }: IPrivateChainsProps) => {
       }
     >
       <NoReactSnap>
-        <ChainsList
-          timeframe={timeframe}
-          chains={networksConfigurations}
-          chainsDictionary={chainsDictionary}
-          hasPremium={hasPremium}
-        />
+        <ChainsList chains={networksConfigurations}>
+          {networksConfigurations.map(item => {
+            const { id, name, urls } = item;
+
+            return (
+              <div className={classes.wrapper} key={id}>
+                <PrivateChainItem
+                  chain={item}
+                  links={urls}
+                  name={name}
+                  period={PERIOD}
+                  publicChain={chainsDictionary[id]}
+                  timeframe={timeframe}
+                  chainId={id}
+                  hasPremiumDialog={item.premiumOnly && !hasPremium}
+                  hasTotalRequestsLabel={hasTotalRequestsLabel}
+                />
+              </div>
+            );
+          })}
+        </ChainsList>
       </NoReactSnap>
     </BaseChains>
   );
