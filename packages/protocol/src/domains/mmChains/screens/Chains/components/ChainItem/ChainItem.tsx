@@ -8,6 +8,7 @@ export const ChainItem = ({
   chain,
   chainId,
   timeframe,
+  isPublic,
   ...props
 }: ChainsItemQueryProps) => {
   const { totalRequests, loading } = usePublicChainsItem({

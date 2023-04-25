@@ -1,5 +1,4 @@
-import { IApiChain, IApiChainURL } from 'domains/chains/api/queryChains';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, Chain, ChainURL } from 'domains/chains/types';
 
 export interface ChainGroup {
   id: ChainGroupID;
@@ -39,9 +38,9 @@ export interface EndpointGroup {
   id: ChainGroupID;
   name: ChainGroup['name'];
   pluralName: ChainGroup['pluralName'];
-  urls: IApiChainURL[];
+  urls: ChainURL[];
   urlsCount: number;
-  chains: IApiChain[];
+  chains: Chain[];
   beacons?: EndpointGroup[];
   opnodes?: EndpointGroup[];
 }

@@ -1,16 +1,15 @@
 import { AccountGateway } from '../account';
-import { FetchBlockchainUrlsResult } from './types';
-import { IBlockchainEntity } from '../backoffice';
-import { IConfig } from '../common';
+import { ChainsConfig } from './buildUrls/types';
+import { IConfig, IBlockchainEntity } from '../common';
 import {
   IPublicGateway,
   PublicGateway,
-  StandalonePublicGateway,
+  StandalonePublicGateway
 } from '../public';
 import { OauthGateway } from '../oauth';
 import { RpcGateway } from '../rpc';
 import { WorkerGateway } from '../worker';
-import { formatPrivateUrls, formatPublicUrls } from './utils';
+import { buildPrivateUrls, buildPublicUrls } from './buildUrls';
 
 export class MultiRpcSdk {
   private publicGateway?: IPublicGateway;
@@ -82,16 +81,23 @@ export class MultiRpcSdk {
     return this.accountGateway;
   }
 
-  public formatPublicEndpoints(
-    blockchains: IBlockchainEntity[],
-  ): FetchBlockchainUrlsResult {
-    return formatPublicUrls(blockchains, this.config.publicRpcUrl);
+  public formatPublicEndpoints(blockchains: IBlockchainEntity[]): ChainsConfig {
+    const { publicRpcUrl } = this.config;
+
+    return buildPublicUrls(blockchains, publicRpcUrl);
   }
 
   public formatPrivateEndpoints(
     blockchains: IBlockchainEntity[],
     userEndpointToken?: string,
-  ): FetchBlockchainUrlsResult {
-    return formatPrivateUrls(blockchains, this.config, userEndpointToken);
+  ): ChainsConfig {
+    const { privateRpcUrl, privateWsUrl } = this.config;
+
+    return buildPrivateUrls({
+      blockchains,
+      privateRpcUrl,
+      privateWsUrl,
+      userEndpointToken,
+    });
   }
 }

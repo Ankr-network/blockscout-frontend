@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainType, Chain } from 'domains/chains/types';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { getPublicChainTypeTabs } from './utils';
 import { getInitialChainType } from 'domains/chains/screens/ChainItem/utils/getInitialChainType';
 
 export interface ChainTypeParams {
-  chain: IApiChain;
+  chain: Chain;
   endpoints: GroupedEndpoints;
   netId?: string;
   isBlockedTestnet: boolean;

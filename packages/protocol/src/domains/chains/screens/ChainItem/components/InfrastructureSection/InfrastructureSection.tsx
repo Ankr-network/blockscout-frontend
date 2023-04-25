@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 
-import { ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'domains/chains/types';
 import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointQuery } from '../Endpoint/EndpointQuery';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { SecuritySettingsQuery } from '../Endpoint/SecuritySettingsQuery';
 import { TrafficFlow } from '../Endpoint/components/TrafficFlow';
 import { canAddEndpoint } from '../Endpoint/EndpointUtils';
@@ -17,7 +16,7 @@ import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { ChainNodesLocations } from '../ChainNodesLocations';
 
 export interface InfrastructureSectionProps {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   group: EndpointGroup;
   withMyEndpoints?: boolean;

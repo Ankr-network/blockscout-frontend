@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainType, Chain } from 'domains/chains/types';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { useTabs } from 'modules/common/hooks/useTabs';
-import { IApiChain } from 'domains/chains/api/queryChains';
 import { getInitialChainType } from 'domains/chains/screens/ChainItem/utils/getInitialChainType';
 import { getPrivateChainTypeTabs } from './utils';
 import { ChainTypeResult } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainType';
 
 export interface ChainTypeParams {
-  chain: IApiChain;
+  chain: Chain;
   endpoints: GroupedEndpoints;
   netId?: string;
 }

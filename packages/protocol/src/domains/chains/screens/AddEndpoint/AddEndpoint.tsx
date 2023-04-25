@@ -19,7 +19,7 @@ import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';
 import { getScheme } from './AddEndpointUtils';
 import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 
 export const AddEndpoint = () => {

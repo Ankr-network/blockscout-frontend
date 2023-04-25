@@ -1,5 +1,9 @@
-import { EmailConfirmationStatus, Web3Address } from '../common';
-import { Timeframe } from '../public';
+import {
+  EmailConfirmationStatus,
+  Web3Address,
+  BlockchainID,
+  Timeframe,
+} from '../common';
 
 export interface IApiUserGroupParams {
   group?: Web3Address;
@@ -232,7 +236,6 @@ export type IApiGetUserRequestsParams = {
   userToken: string,
 }
 
-export type BlockchainID = string;
 export type PrivateStatsInternal = Partial<Record<BlockchainID, PrivateStat>>;
 
 export enum PrivateStatsInterval {

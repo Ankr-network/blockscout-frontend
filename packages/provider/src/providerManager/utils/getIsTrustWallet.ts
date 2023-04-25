@@ -1,6 +1,7 @@
 interface IGlobalTrustWallet {
   isMetaMask: boolean;
   isTrustWallet: boolean;
+  isTrust: boolean;
   enable: () => void;
   request: (args: unknown) => unknown;
 }
@@ -8,7 +9,7 @@ interface IGlobalTrustWallet {
 export const getIsTrustWallet = (
   trustwallet: IGlobalTrustWallet,
 ): trustwallet is IGlobalTrustWallet => {
-  return !!trustwallet?.isTrustWallet;
+  return !!trustwallet?.isTrustWallet || !!trustwallet?.isTrust;
 };
 
 export const getIsTrustWalletInjected = (): boolean => {
@@ -16,5 +17,5 @@ export const getIsTrustWalletInjected = (): boolean => {
     trustwallet: IGlobalTrustWallet;
   };
 
-  return !!trustwallet?.isTrustWallet;
+  return !!trustwallet?.isTrustWallet || !!trustwallet?.isTrust;
 };

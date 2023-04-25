@@ -1,6 +1,4 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { ChainType } from 'domains/chains/types';
-import { ChainID } from 'modules/chains/types';
+import { ChainID, ChainType, Chain } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import {
@@ -13,7 +11,7 @@ import { useMemo } from 'react';
 import { getGroupTabs } from '../utils/getGroupTabs';
 
 export interface GroupParams {
-  chain: IApiChain;
+  chain: Chain;
   chainType: ChainType;
   endpoints: GroupedEndpoints;
   netId?: ChainID;

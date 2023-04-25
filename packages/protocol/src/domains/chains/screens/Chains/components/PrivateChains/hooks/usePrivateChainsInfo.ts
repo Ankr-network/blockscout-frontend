@@ -1,9 +1,9 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 import { useLazyChainsFetchPrivateChainsInfoQuery } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 import { useEffect } from 'react';
 
-export type PrivateChains = [IApiChain[], IApiChain[], boolean];
+export type PrivateChains = [Chain[], Chain[], boolean];
 
 const defaultData = {
   chains: [],

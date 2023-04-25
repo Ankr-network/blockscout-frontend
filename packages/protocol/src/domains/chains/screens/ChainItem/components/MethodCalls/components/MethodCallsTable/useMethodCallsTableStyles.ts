@@ -33,7 +33,10 @@ export const useMethodCallsTableStyles = makeStyles()((theme: Theme) => ({
     marginBottom: theme.spacing(2),
     paddingBottom: theme.spacing(3),
 
-    b: { fontWeight: '400' },
+    b: {
+      fontSize: 14,
+      fontWeight: '400',
+    },
   },
   noData: {
     height: theme.spacing(2 * 30),

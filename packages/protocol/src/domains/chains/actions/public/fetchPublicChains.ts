@@ -1,11 +1,12 @@
-import { IApiChain, filterMapChains } from '../../api/queryChains';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
+import { Chain } from 'domains/chains/types';
 
 export interface FetchPublicChainsResult {
-  chains: IApiChain[];
-  allChains: IApiChain[];
+  chains: Chain[];
+  allChains: Chain[];
 }
 
 export const {
@@ -22,8 +23,8 @@ export const {
 
         return {
           data: {
-            chains: filterMapChains(formattedPublicChains),
-            allChains: filterMapChains(formattedPublicChains),
+            chains: formatChainsConfigToChains(formattedPublicChains),
+            allChains: formatChainsConfigToChains(formattedPublicChains),
           },
         };
       }),

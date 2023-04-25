@@ -1,7 +1,7 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 
-export const processChain = (chain: IApiChain): IApiChain => ({
+export const processChain = (chain: Chain): Chain => ({
   ...chain,
-  ...chain.frontChain,
+  ...chain.chainWithoutMainnet,
   id: chain.id,
 });

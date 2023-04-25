@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { ConnectionSnippet } from './components/ConnectionSnippet';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { MultiChainBenefits } from './components/MultichainBenefits';

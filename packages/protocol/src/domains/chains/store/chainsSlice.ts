@@ -1,7 +1,7 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
-import { IApiChain } from '../api/queryChains';
+import { Chain } from '../types';
 import { ChainsRoutesConfig } from '../routes';
 import { chainsFetchPublicChains } from '../actions/public/fetchPublicChains';
 
@@ -25,7 +25,7 @@ export const chainsSlilce = createSlice({
 export const selectChainsOriginURL = (state: RootState) =>
   state.chainsOriginURL.originURL;
 
-const getBeacons = (chains: IApiChain[] = []): IApiChain[] =>
+const getBeacons = (chains: Chain[] = []): Chain[] =>
   chains.flatMap(
     ({
       beacons = [],

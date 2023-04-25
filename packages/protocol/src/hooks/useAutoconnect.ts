@@ -1,6 +1,6 @@
 import { useOauth } from 'domains/oauth/hooks/useOauth';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useAuth } from './domains/auth/hooks/useAuth';
+import { useAuth } from '../domains/auth/hooks/useAuth';
 
 export const useAutoconnect = () => {
   const {

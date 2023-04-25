@@ -1,9 +1,9 @@
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain } from 'domains/chains/types';
 
 export interface ChainNameParams {
   chainId: string;
-  privateChain?: IApiChain;
-  publicChain?: IApiChain;
+  privateChain?: Chain;
+  publicChain?: Chain;
 }
 
 export const getChainName = ({
@@ -11,7 +11,7 @@ export const getChainName = ({
   privateChain,
   publicChain,
 }: ChainNameParams) => {
-  const { name, frontChain: { name: frontChainName = '' } = {} } =
+  const { name, chainWithoutMainnet: { name: frontChainName = '' } = {} } =
     privateChain || publicChain || {};
 
   return frontChainName || name || chainId;

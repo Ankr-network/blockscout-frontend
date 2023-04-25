@@ -1,11 +1,11 @@
-import { IApiChain } from '../../api/queryChains';
+import { Chain } from '../../types';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { LatestRequest } from 'multirpc-sdk';
 
 export interface IFetchPrivateChainsInfoResult {
-  chains: IApiChain[];
-  allChains: IApiChain[];
+  chains: Chain[];
+  allChains: Chain[];
 }
 
 export const {

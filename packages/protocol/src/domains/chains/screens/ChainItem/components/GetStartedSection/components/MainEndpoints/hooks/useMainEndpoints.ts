@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { Feature, MainEndpointsProps } from '../types';
 import { getFeatureKeys } from '../utils/getFeatureKeys';
 import { getFlattenURLs } from '../utils/getFlattenURLs';

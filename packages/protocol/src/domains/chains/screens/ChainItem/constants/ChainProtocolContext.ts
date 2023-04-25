@@ -1,7 +1,6 @@
 import { createContext } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
-import { IApiChain } from 'domains/chains/api/queryChains';
 
 export enum ChainProtocol {
   Beacon = 'beacon',
@@ -9,7 +8,7 @@ export enum ChainProtocol {
 }
 
 export interface ChainProtocolContextValue {
-  protocolGroup?: EndpointGroup | IApiChain;
+  protocolGroup?: EndpointGroup;
   isChainProtocolSwitchEnabled: boolean;
   toggleChainProtocolSwitch: () => void;
   chainProtocol?: ChainProtocol;

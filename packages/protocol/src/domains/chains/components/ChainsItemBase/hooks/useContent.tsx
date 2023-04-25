@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { useMemo } from 'react';
 
 import { Content, ContentProps } from '../components/Content';

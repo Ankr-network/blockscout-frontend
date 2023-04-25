@@ -1,6 +1,6 @@
 import { ChainIdParams, getChainId } from './getChainId';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { ChainProtocol } from '../../../constants/ChainProtocolContext';
 
 export interface StatsChainIdParams extends ChainIdParams {

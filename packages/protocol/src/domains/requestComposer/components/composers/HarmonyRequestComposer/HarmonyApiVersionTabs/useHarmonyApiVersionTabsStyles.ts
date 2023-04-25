@@ -7,6 +7,7 @@ export const useHarmonyApiVersionTabsStyles = makeStyles()((theme: Theme) => ({
     marginTop: theme.spacing(2 * 2),
   },
   title: {
+    color: theme.palette.text.primary,
     marginRight: theme.spacing(2 * 1),
     fontSize: 16,
     fontWeight: 700,

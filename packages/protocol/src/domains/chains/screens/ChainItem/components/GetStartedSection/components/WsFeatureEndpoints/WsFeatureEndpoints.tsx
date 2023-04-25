@@ -23,14 +23,14 @@ export const WsFeatureEndpoints = ({
   hasConnectWalletMessage,
   onCopyEndpoint,
 }: IWsFeatureEndpointsProps) => {
-  const { hasWsFeature, wss } = useWsFeatureEndpoints(group);
+  const { hasWSFeature, wss } = useWsFeatureEndpoints(group);
   const { isOpened, onOpen, onClose } = useDialog();
 
   const hasAccessToGroupWs = useGuardUserGroup({
     blockName: BlockWithPermission.UpgradePlan,
   });
 
-  if (!hasWsFeature || (!hasPremium && !hasAccessToGroupWs)) return null;
+  if (!hasWSFeature || (!hasPremium && !hasAccessToGroupWs)) return null;
 
   return (
     <>

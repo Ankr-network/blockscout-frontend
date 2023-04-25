@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
-import { IApiChain } from 'domains/chains/api/queryChains';
-import { SortType, Timeframe } from 'domains/chains/types';
+import { Chain, SortType, Timeframe } from 'domains/chains/types';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import {
   sortPublicChains,
@@ -13,8 +12,8 @@ import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap'
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 
 export interface ChainsParams {
-  chains: IApiChain[];
-  allChains: IApiChain[];
+  chains: Chain[];
+  allChains: Chain[];
   sortType: SortType;
   timeframe: Timeframe;
   searchContent: string;

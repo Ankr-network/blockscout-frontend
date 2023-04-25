@@ -1,8 +1,7 @@
 import { ChainProtocolContextValue } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
-import { IApiChain } from 'domains/chains/api/queryChains';
+import { Chain, ChainType } from 'domains/chains/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
-import { ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
@@ -14,8 +13,8 @@ import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCo
 
 export interface ChainItem {
   chainProtocolContext: ChainProtocolContextValue;
-  chain: IApiChain;
-  publicChain: IApiChain;
+  chain: Chain;
+  publicChain: Chain;
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
