@@ -8,11 +8,13 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const GuardPremiumEndpointRoute = (props: RouteProps) => {
   const history = useHistory();
-  const { loading, hasPrivateAccess } = useAuth();
+  const { loading, hasPrivateAccess, isLoggedIn } = useAuth();
   const [, fetchChainState] = useQueryEndpoint(chainsFetchPrivateChain);
 
   const shouldRedirect =
-    !hasPrivateAccess && fetchChainState?.data?.chain?.premiumOnly;
+    isLoggedIn &&
+    !hasPrivateAccess &&
+    fetchChainState?.data?.chain?.premiumOnly;
 
   useEffect(() => {
     if (shouldRedirect) {
