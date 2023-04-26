@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useModal } from 'modules/common/hooks/useModal';
 import { useUpdateUserProfileMutation } from 'modules/clients/actions/updateUserProfile';
-import { useFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
+import { useLazyFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 
 interface FormElements {
@@ -15,13 +15,16 @@ interface FormElements {
 export const useClientEditProfile = (currentClient: ClientMapped) => {
   const [updateUserProfile, { isLoading: isLoadingUpdateProfile }] =
     useUpdateUserProfileMutation();
-  const {
-    data: profileData,
-    isLoading: isLoadingProfileData,
-    refetch: refetchProfileData,
-  } = useFetchUserProfileQuery({ address: currentClient.address! });
+  const [
+    fetchProfileData,
+    { data: profileData, isLoading: isLoadingProfileData },
+  ] = useLazyFetchUserProfileQuery();
 
-  const isLoading = isLoadingUpdateProfile;
+  useEffect(() => {
+    fetchProfileData({ address: currentClient.address! });
+  }, [currentClient.address, fetchProfileData]);
+
+  const isLoading = isLoadingUpdateProfile || isLoadingProfileData;
 
   const { open, handleOpen, handleClose } = useModal();
 
@@ -29,18 +32,21 @@ export const useClientEditProfile = (currentClient: ClientMapped) => {
   const [nameValue, setNameValue] = useState('');
 
   useEffect(() => {
-    if (!isLoadingProfileData && profileData?.user?.comment) {
-      if (profileData?.user?.comment) {
-        setCommentValue(profileData.user.comment);
-      }
-      if (profileData?.user?.name) {
-        setNameValue(profileData.user.name);
-      }
+    if (profileData?.user?.comment) {
+      setCommentValue(profileData.user.comment);
+    } else {
+      setCommentValue('');
+    }
+    if (profileData?.user?.name) {
+      setNameValue(profileData.user.name);
+    } else {
+      setNameValue('');
     }
   }, [
     profileData?.user?.comment,
     profileData?.user?.name,
     isLoadingProfileData,
+    currentClient.address,
   ]);
 
   const handleSubmit = (
@@ -68,7 +74,7 @@ export const useClientEditProfile = (currentClient: ClientMapped) => {
 
     const handleResponse = (res: any) => {
       if ('id' in res?.data?.user) {
-        refetchProfileData();
+        fetchProfileData({ address: currentClient.address! });
         handleClose();
       }
     };
