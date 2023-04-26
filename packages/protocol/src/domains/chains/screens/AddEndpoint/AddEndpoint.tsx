@@ -15,12 +15,12 @@ import {
   useLazyChainsFetchPublicChainsQuery,
 } from 'domains/chains/actions/public/fetchPublicChains';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { getChainById } from '../ChainItem/components/Endpoint/EndpointUtils';
 import { getScheme } from './AddEndpointUtils';
 import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainID } from 'domains/chains/types';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
+import { getChainById } from '../ChainItem/utils/getChainById';
 
 export const AddEndpoint = () => {
   const { chainId } = ChainsRoutesConfig.addEndpoint.useParams();

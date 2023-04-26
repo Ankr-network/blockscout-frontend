@@ -1,1 +1,0 @@
-export { LocaleSwitcherMobile } from './LocaleSwitcherMobile';

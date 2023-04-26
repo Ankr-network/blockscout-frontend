@@ -6,6 +6,7 @@ import { usePublicChains } from './hooks/usePublicChains';
 import { usePublicChainsData } from './hooks/usePublicChainsData';
 import { ChainsList } from '../ChainsList';
 import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
+import { PublicChainCard } from './components/PublicChainCard';
 
 export const PublicChains = () => {
   const {
@@ -43,7 +44,15 @@ export const PublicChains = () => {
       <NoReactSnap
         fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        <ChainsList timeframe={timeframe} chains={processedChains} isPublic />
+        <ChainsList chains={processedChains}>
+          {processedChains.map(item => {
+            const { id } = item;
+
+            return (
+              <PublicChainCard key={id} chain={item} timeframe={timeframe} />
+            );
+          })}
+        </ChainsList>
       </NoReactSnap>
     </BaseChains>
   );

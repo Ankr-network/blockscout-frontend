@@ -31,7 +31,7 @@ export const useUSDSubscriptionPricesTabsStyles = makeStyles<boolean>()(
       },
     },
     skeleton: {
-      height: 32,
+      height: theme.spacing(12),
       transform: 'none',
       marginBottom: theme.spacing(2 * 1.5),
       borderRadius: theme.spacing(2 * 1.25),

@@ -17,4 +17,5 @@ export interface ContentProps extends Pick<ChainsItemBaseProps, PropsToPick> {
   isSui: boolean;
   isComingSoon: boolean;
   logoSrc: string;
+  hasTotalRequestsLabel?: boolean;
 }

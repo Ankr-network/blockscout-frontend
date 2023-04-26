@@ -12,14 +12,10 @@
   "settings": {
     "import/core-modules": [
       "ui",
-      "polkadot",
       "ankr-academy",
-      "ankr-earn",
       "multirpc-sdk",
       "common",
-      "@ankr.com/global-menu",
-      "@ankr.com/provider",
-      "@ankr.com/staking-sdk"
+      "@ankr.com/global-menu"
     ]
   },
   "extends": [

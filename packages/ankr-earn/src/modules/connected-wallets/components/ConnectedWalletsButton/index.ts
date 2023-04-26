@@ -1,1 +1,0 @@
-export { ConnectedWalletsButton } from './ConnectedWalletsButton';

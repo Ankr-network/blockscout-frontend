@@ -14,6 +14,7 @@ export interface ChainsItemQueryProps {
   timeframe: Timeframe;
   hasPremiumDialog?: boolean;
   isPublic?: boolean;
+  hasTotalRequestsLabel?: boolean;
 }
 
 export interface ChainsItemProps extends Omit<ChainsItemQueryProps, 'chainId'> {
