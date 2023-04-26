@@ -9,9 +9,6 @@ on:
         required: true
         options:
           - ankr-global-menu
-          - ankr-infra
-          - provider
-          - staking-sdk
           - common
 
 jobs:

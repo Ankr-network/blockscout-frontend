@@ -40,8 +40,8 @@
   "dependencies": {
     "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
-    "@ankr.com/provider": "*",
-    "@ankr.com/staking-sdk": "*",
+    "@ankr.com/provider": "^1.10.2",
+    "@ankr.com/staking-sdk": "^1.2.5",
     "@ankr.com/ui": "^0.7.1",
     "@ankr.com/utils": "^1.0.0",
     "@emotion/cache": "^11.10.3",

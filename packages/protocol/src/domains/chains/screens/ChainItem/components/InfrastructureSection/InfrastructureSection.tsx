@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { Chain, ChainType } from 'domains/chains/types';
 import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { EndpointQuery } from '../Endpoint/EndpointQuery';
-import { SecuritySettingsQuery } from '../Endpoint/SecuritySettingsQuery';
-import { TrafficFlow } from '../Endpoint/components/TrafficFlow';
-import { canAddEndpoint } from '../Endpoint/EndpointUtils';
+import { HybridInfrastructure } from './components/HybridInfrastructure';
+import { SecuritySection } from './components/SecuritySection';
+import { TrafficFlow } from './components/TrafficFlow';
+import { canAddEndpoint } from './components/HybridInfrastructure/components/EndpointInfo/EndpointUtils';
 import { getStatsChainId } from '../ChainItemSections/utils/getStatsChainId';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
@@ -50,6 +50,7 @@ export const InfrastructureSection = ({
     hasInfrastructureAccess,
     loading: authLoading,
     workerTokenData,
+    hasPremium,
   } = useAuth();
   const {
     providerData,
@@ -65,6 +66,12 @@ export const InfrastructureSection = ({
     }
   }, [handleFetchProvider, fetchEndpoints, hasInfrastructureAccess]);
 
+  const hasHybridInfrastructure =
+    workerTokenData && Boolean(providerData) && withMyEndpoints;
+
+  const hasSecuritySettings =
+    workerTokenData && workerTokenData?.userEndpointToken && hasPremium;
+
   return (
     <div>
       {chainId && (
@@ -75,13 +82,11 @@ export const InfrastructureSection = ({
 
           {!authLoading && !providerLoading && workerTokenData && (
             <>
-              {workerTokenData && Boolean(providerData) && withMyEndpoints && (
-                <EndpointQuery chainId={chainId} />
+              {hasHybridInfrastructure && (
+                <HybridInfrastructure chainId={chainId} />
               )}
 
-              {workerTokenData && workerTokenData?.userEndpointToken && (
-                <SecuritySettingsQuery chainId={chainId} />
-              )}
+              {hasSecuritySettings && <SecuritySection chainId={chainId} />}
             </>
           )}
         </>

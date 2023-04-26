@@ -95,7 +95,8 @@ export const useStyles = makeStyles<void, 'rowColumn' | 'row'>()(
     },
     empty: {
       textAlign: 'center',
-      padding: theme.spacing(2 * 3),
+      height: theme.spacing(14),
+      lineHeight: '56px',
 
       fontSize: theme.spacing(2 * 1.75),
     },

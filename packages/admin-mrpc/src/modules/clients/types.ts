@@ -4,6 +4,7 @@ import {
   IUsageEntity,
   Web3Address,
 } from 'multirpc-sdk';
+import BigNumber from 'bignumber.js';
 
 export type TCountersEntityWithAddress = ICountersEntity & {
   address: Web3Address;
@@ -23,6 +24,16 @@ export type ClientEntity = IBalancesEntity & {
   type: ClientType;
   ttl?: number;
   email?: string;
+};
+
+export type ClientBalancesMapped = {
+  amount?: BigNumber;
+  amountAnkr?: BigNumber;
+  amountUsd?: BigNumber;
+  creditVoucherAmount?: BigNumber;
+  creditAnkrAmount?: BigNumber;
+  creditUsdAmount?: BigNumber;
+  voucherExpiresDate?: Date;
 };
 
 export type PremiumPlanClientEntity = ICountersEntity & {

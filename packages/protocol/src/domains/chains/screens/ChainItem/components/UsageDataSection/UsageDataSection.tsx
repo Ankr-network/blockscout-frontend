@@ -1,4 +1,3 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { Chain, ChainType, Timeframe } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -11,14 +10,16 @@ export interface UsageDataSectionProps {
   group: EndpointGroup;
   timeframe: Timeframe;
   timeframeTabs: Tab<Timeframe>[];
+  hasPrivateAccess?: boolean;
 }
 
-export const UsageDataSection = (props: UsageDataSectionProps) => {
-  const { hasPrivateAccess } = useAuth();
-
+export const UsageDataSection = ({
+  hasPrivateAccess,
+  ...others
+}: UsageDataSectionProps) => {
   return hasPrivateAccess ? (
-    <PrivateUsageDataSection {...props} />
+    <PrivateUsageDataSection {...others} />
   ) : (
-    <PublicUsageDataSection {...props} />
+    <PublicUsageDataSection {...others} />
   );
 };
