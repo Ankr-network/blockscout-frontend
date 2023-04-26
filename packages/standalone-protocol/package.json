@@ -29,7 +29,7 @@
   },
   "homepage": "/",
   "dependencies": {
-    "@ankr.com/provider": "*",
+    "@ankr.com/provider": "^1.10.2",
     "ui": "*",
     "multirpc-sdk": "*",
     "@loadable/component": "^5.14.1",
