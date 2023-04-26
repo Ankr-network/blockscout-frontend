@@ -2,9 +2,11 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { WSEndpoints } from '../WSEndpoints';
 import { EndpointPlaceholder } from '../EndpointPlaceholder';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 import { useWsFeatureEndpoints } from './useWsFeatureEndpoints';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
@@ -24,7 +26,7 @@ export const WsFeatureEndpoints = ({
   onCopyEndpoint,
 }: IWsFeatureEndpointsProps) => {
   const { hasWSFeature, wss } = useWsFeatureEndpoints(group);
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
   const hasAccessToGroupWs = useGuardUserGroup({
     blockName: BlockWithPermission.UpgradePlan,
@@ -47,7 +49,7 @@ export const WsFeatureEndpoints = ({
             title={<EndpointsHeader title={title} />}
             onClick={onOpen}
           />
-          <PremiumChainDialog open={isOpened} onClose={onClose} />
+          <UpgradePlanDialog open={isOpened} onClose={onClose} />
         </>
       )}
     </>

@@ -1,13 +1,16 @@
-import { t, tHTML } from '@ankr.com/common';
 import { Button } from '@mui/material';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
+import { t, tHTML } from '@ankr.com/common';
+
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 import { useNoticeStyles } from './useNoticeStyles';
 
 export const Notice = () => {
   const { classes } = useNoticeStyles(true);
 
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
   return (
     <div className={classes.notice}>
@@ -22,7 +25,7 @@ export const Notice = () => {
           {t(`requests-banner.notice-button`)}
         </Button>
       </div>
-      <PremiumChainDialog open={isOpened} onClose={onClose} />
+      <UpgradePlanDialog open={isOpened} onClose={onClose} />
     </div>
   );
 };

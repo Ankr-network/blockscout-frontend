@@ -18,7 +18,6 @@ import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { DialogContext } from './DialogContext';
 import { useStyles } from './DialogStyles';
 import { DialogTitle, DialogTitleColor, IDialogContext } from './types';
-import { ContentType } from 'domains/chains/components/PremiumChainDialog/types';
 
 export type IDialogProps = Omit<
   MuiDialogProps,
@@ -32,7 +31,6 @@ export type IDialogProps = Omit<
   paperClassName?: string;
   titleClassName?: string;
   closeButtonClassName?: string;
-  contentType?: ContentType;
 };
 
 export const Dialog = ({

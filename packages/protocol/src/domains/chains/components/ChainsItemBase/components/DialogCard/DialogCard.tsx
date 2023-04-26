@@ -1,7 +1,9 @@
 import { ReactNode } from 'react';
 
-import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
-import { useDialog } from 'modules/common/hooks/useDialog';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 
 export interface DialogCardProps {
   children: ReactNode;
@@ -9,14 +11,14 @@ export interface DialogCardProps {
 }
 
 export const DialogCard = ({ children, className }: DialogCardProps) => {
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
   return (
     <>
       <div className={className} onClick={onOpen} role="button" tabIndex={0}>
         {children}
       </div>
-      <PremiumChainDialog onClose={onClose} open={isOpened} />
+      <UpgradePlanDialog onClose={onClose} open={isOpened} />
     </>
   );
 };

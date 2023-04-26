@@ -1,16 +1,19 @@
 import { useCallback } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-
 import { t, tHTML } from '@ankr.com/common';
+
 import { usePlansStyles } from './PlansStyles';
 import { INTL_PLANS_ROOT, PLAN_LIST, TIP_LIST } from './PlansUtils';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
-import { ContentType } from 'domains/chains/components/PremiumChainDialog/types';
 import { useHistory } from 'react-router';
 import { INDEX_PATH } from 'domains/chains/routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import {
+  ContentType,
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 
 const INFO_COUNTS = 4;
 
@@ -20,7 +23,7 @@ export const Plans = () => {
   const history = useHistory();
 
   const { isLoggedIn, hasOauthLogin } = useAuth();
-  const { isOpened, onClose, onOpen } = useDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
   const {
     isOpened: isSignupOpend,
     onClose: onCloseSignup,
@@ -87,10 +90,10 @@ export const Plans = () => {
           </div>
         </div>
       ))}
-      <PremiumChainDialog
-        open={isOpened}
-        onClose={onClose}
+      <UpgradePlanDialog
         defaultState={ContentType.CONTACT_SALES_FORM}
+        onClose={onClose}
+        open={isOpened}
       />
       <SignupDialog
         isOpen={isSignupOpend}
