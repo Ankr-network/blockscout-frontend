@@ -6,28 +6,6 @@ on:
       - main
 
 jobs:
-  update-stage-staking:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: stage-staking
-
-      - name: Reset stage-staking branch
-        run: |
-          git fetch origin main:main
-          git reset --hard main
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          commit-message: 'chore: update stage-staking'
-          title: 'chore: update stage-staking'
-          branch: chore/update-stage-staking
-          labels: |
-            staking
-          base: stage-staking
-
   update-stage-protocol:
     runs-on: ubuntu-latest
     steps:

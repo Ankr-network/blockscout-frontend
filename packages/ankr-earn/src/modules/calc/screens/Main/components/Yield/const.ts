@@ -1,1 +1,0 @@
-export const YIELD_DAYS_UPDATE_THROTTLE_SPEED = 100;
