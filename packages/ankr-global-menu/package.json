@@ -1,10 +1,11 @@
 {
 	"name": "@ankr.com/global-menu",
-	"version": "1.4.3",
+	"version": "1.4.4",
 	"main": "./build/index.js",
 	"types": "./src/index.ts",
 	"files": [
-		"build"
+		"build",
+		"src"
 	],
 	"license": "MIT",
 	"private": false,
@@ -39,6 +40,7 @@
 		"react-router-dom": "^5.2.0"
 	},
 	"devDependencies": {
+		"@ankr.com/infra": "*",
 		"@storybook/addon-actions": "^6.3.8",
 		"@storybook/addon-essentials": "^6.3.8",
 		"@storybook/addon-links": "^6.3.8",
