@@ -38,8 +38,8 @@
     ]
   },
   "dependencies": {
-    "@ankr.com/advanced-api": "*",
-    "@ankr.com/provider": "*",
+    "@ankr.com/advanced-api": "^1.1.0",
+    "@ankr.com/provider": "^1.10.2",
     "@ankr.com/common": "*",
     "@ankr.com/utils": "*",
     "axios": "^0.21.1",
