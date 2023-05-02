@@ -8,7 +8,7 @@ interface IApiRequestParams {
 }
 
 export const {
-  useFetchUserProfileQuery,
+  useLazyFetchUserProfileQuery,
   endpoints: { fetchUserProfile },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

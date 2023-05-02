@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { millisecondsToSeconds } from 'date-fns';
 
 import { IAmountType } from 'multirpc-sdk';
-import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
+import { useLazyFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
 import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 import { useAddUserVoucherCreditsMutation } from 'modules/clients/actions/addUserVoucherCredits';
 import { useSubtractUserVoucherCreditsMutation } from 'modules/clients/actions/subtractUserVoucherCredits';
@@ -29,7 +29,7 @@ export const useClientBalancesModalContent = (
     useAddUserVoucherCreditsMutation();
   const [subtractUserVoucherCredits, { isLoading: isLoadingSubtractCredits }] =
     useSubtractUserVoucherCreditsMutation();
-  const { refetch: refetchClients } = useFetchCountersQuery();
+  const [refetchClients] = useLazyFetchCountersQuery();
   const { refetch: refetchTransactions } = useFetchUserTransactionsQuery({
     address: address!,
   });

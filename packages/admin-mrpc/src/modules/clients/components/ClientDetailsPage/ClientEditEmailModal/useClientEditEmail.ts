@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import { useModal } from 'modules/common/hooks/useModal';
 import { useCreateUserEmailMutation } from 'modules/clients/actions/createUserEmail';
 import { useUpdateUserEmailMutation } from 'modules/clients/actions/updateUserEmail';
-import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
+import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
 
 export interface FormElements {
   elements: {
@@ -22,10 +22,10 @@ export const useClientEditEmail = (currentClient?: ClientMapped) => {
     useCreateUserEmailMutation();
 
   const {
-    refetch: refetchClients,
+    fetchClients,
     isFetching: isFetchingClients,
     isLoading: isLoadingClients,
-  } = useFetchCountersQuery();
+  } = useLazyFetchClients();
 
   const isLoading =
     isLoadingUpdateEmail ||
@@ -46,11 +46,11 @@ export const useClientEditEmail = (currentClient?: ClientMapped) => {
   const handleResponse = useCallback(
     (res: any) => {
       if (res?.data && 'email' in res?.data?.binding) {
-        refetchClients();
+        fetchClients(undefined, true);
         handleClose();
       }
     },
-    [handleClose, refetchClients],
+    [handleClose, fetchClients],
   );
 
   const handleSubmit = useCallback(

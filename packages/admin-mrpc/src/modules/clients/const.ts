@@ -1,0 +1,1 @@
+export const MAX_EMAILS_REQUEST_COUNT = 500;

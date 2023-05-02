@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { IBalancesEntity } from 'multirpc-sdk';
 import { secondsToMilliseconds } from 'date-fns';
+import { ClientBalancesMapped } from '../types';
 
 const CREDITS_TO_USD_RATE = 10000000;
 
@@ -8,7 +9,9 @@ const creditsToUsd = (creditsCount: BigNumber) => {
   return creditsCount.dividedBy(CREDITS_TO_USD_RATE);
 };
 
-export const mapBalances = (userBalances?: IBalancesEntity) => {
+export const mapBalances = (
+  userBalances?: IBalancesEntity,
+): ClientBalancesMapped => {
   return {
     amount: userBalances?.amount
       ? new BigNumber(userBalances.amount)

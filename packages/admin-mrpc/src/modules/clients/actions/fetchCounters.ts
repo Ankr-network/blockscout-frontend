@@ -10,6 +10,7 @@ import { getClientType } from '../utils/getClientType';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 import { mapBalances } from '../utils/mapBalances';
 import { ClientType } from '../types';
+import { MAX_EMAILS_REQUEST_COUNT } from '../const';
 
 interface IApiResponse {
   counters?: ClientMapped[];
@@ -18,6 +19,7 @@ interface IApiResponse {
 
 export const {
   useFetchCountersQuery,
+  useLazyFetchCountersQuery,
   endpoints: { fetchCounters },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -64,7 +66,7 @@ export const {
               const emails =
                 // eslint-disable-next-line no-await-in-loop
                 await backofficeGateway.getEmailBindings({
-                  limit: 500,
+                  limit: MAX_EMAILS_REQUEST_COUNT,
                   cursor,
                 });
               cursor = emails.cursor;
@@ -91,7 +93,7 @@ export const {
               const balances =
                 // eslint-disable-next-line no-await-in-loop
                 await backofficeGateway.getBalances({
-                  limit: 500,
+                  limit: MAX_EMAILS_REQUEST_COUNT,
                   cursor: +cursor,
                 });
               cursor = balances.cursor;
@@ -108,9 +110,11 @@ export const {
           }
         };
 
-        await fetchAllCounters();
-        await fetchAllEmails();
-        await fetchAllBalances();
+        await Promise.all([
+          fetchAllCounters(),
+          fetchAllEmails(),
+          fetchAllBalances()
+        ])
 
         const clients = countersCollection.map(client => {
           const userBalances = balancesCollection.find(
