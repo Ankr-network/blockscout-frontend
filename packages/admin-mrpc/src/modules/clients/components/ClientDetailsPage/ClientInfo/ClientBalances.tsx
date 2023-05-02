@@ -2,14 +2,14 @@ import { Grid, Paper, Typography } from '@mui/material';
 import { formatNumber, renderUSD } from 'modules/common/utils/renderBalance';
 import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
 import { RevenueDataMapped } from 'modules/clients/actions/fetchUserRevenue';
-import { ClientMapped } from 'modules/clients/store/clientsSlice';
+import { ClientBalancesMapped } from 'modules/clients/types';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
-import { useClientBalances } from './useClientBalances';
+import { useClientBalancesTexts } from './useClientBalancesTexts';
 
 interface IClientBalances {
   totalData?: IGetUserTotalMapped;
-  client: ClientMapped;
-  isLoadingClients?: boolean;
+  clientBalances?: ClientBalancesMapped;
+  isLoadingBalances?: boolean;
   skeleton: JSX.Element;
   isLoadingRevenue: boolean;
   revenueData?: RevenueDataMapped;
@@ -18,8 +18,8 @@ interface IClientBalances {
 
 export const ClientBalances = ({
   totalData,
-  client,
-  isLoadingClients,
+  isLoadingBalances,
+  clientBalances,
   skeleton,
   isLoadingRevenue,
   revenueData,
@@ -33,7 +33,7 @@ export const ClientBalances = ({
     totalCostText,
     amountUsdText,
     voucherExpiresAtText,
-  } = useClientBalances({ totalData, client });
+  } = useClientBalancesTexts({ totalData, clientBalances });
 
   return (
     <Grid className={classes.gridContainer} container spacing={5} wrap="nowrap">
@@ -42,10 +42,14 @@ export const ClientBalances = ({
           Total Balance
         </Typography>
         <Typography variant="subtitle1" component="p">
-          <b>{isLoadingClients ? skeleton : formatNumber(client?.amount)}</b>
+          <b>
+            {isLoadingBalances
+              ? skeleton
+              : formatNumber(clientBalances?.amount)}
+          </b>
         </Typography>
         <Typography variant="caption" component="p">
-          {isLoadingClients ? skeleton : amountUsdText}
+          {isLoadingBalances ? skeleton : amountUsdText}
         </Typography>
       </Grid>
 
@@ -55,7 +59,9 @@ export const ClientBalances = ({
         </Typography>
         <Typography variant="subtitle1" component="p">
           <b>
-            {isLoadingClients ? skeleton : renderUSD(client?.creditUsdAmount)}
+            {isLoadingBalances
+              ? skeleton
+              : renderUSD(clientBalances?.creditUsdAmount)}
           </b>
         </Typography>
       </Grid>
@@ -84,14 +90,14 @@ export const ClientBalances = ({
         </Typography>
         <Typography variant="subtitle1" component="p">
           <b>
-            {isLoadingClients
+            {isLoadingBalances
               ? skeleton
-              : formatNumber(client?.creditVoucherAmount)}
+              : formatNumber(clientBalances?.creditVoucherAmount)}
           </b>
         </Typography>
-        {client?.voucherExpiresDate && (
+        {clientBalances?.voucherExpiresDate && (
           <Typography variant="caption" component="p">
-            {isLoadingClients ? skeleton : voucherExpiresAtText}
+            {isLoadingBalances ? skeleton : voucherExpiresAtText}
           </Typography>
         )}
       </Grid>

@@ -47,6 +47,7 @@ export const useLayoutStyles = makeStyles()(theme => {
       minHeight: theme.mixins.toolbar.minHeight,
     },
     content: {
+      marginTop: theme.spacing(20),
       flexGrow: 1,
       background: theme.palette.background.default,
       minHeight: '100vh',

@@ -2,9 +2,9 @@ import { useCallback, useMemo, useState } from 'react';
 import { Web3Address } from 'multirpc-sdk';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
-import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
-import { GroupsRoutesConfig } from '../../GroupsRoutesConfig';
-import { useGetUserGroupQuery } from '../../actions/getUserGroup';
+import { GroupsRoutesConfig } from 'modules/groups/GroupsRoutesConfig';
+import { useGetUserGroupQuery } from 'modules/groups/actions/getUserGroup';
+import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
 
 export const useGroupDetails = () => {
   const { address } = GroupsRoutesConfig.groupDetails.useParams();
@@ -21,7 +21,7 @@ export const useGroupDetails = () => {
   const { data: groupDetails, isLoading: isLoadingGroupDetails } =
     useGetUserGroupQuery({ address });
 
-  const { data: clientsData } = useFetchCountersQuery();
+  const { data: clientsData } = useLazyFetchClients();
 
   const groupClients = useMemo(() => {
     return clientsData?.counters?.filter(client => {

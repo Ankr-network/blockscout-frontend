@@ -1,11 +1,15 @@
 import React, { ReactChild } from 'react';
 import { Drawer, AppBar, Toolbar, List, Container } from '@mui/material';
 import { NavLink } from 'ui';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { SearchClientsInput } from 'modules/clients/components/SearchClientsInput';
+import { SearchEmailBindingsInput } from 'modules/clients/components/SearchEmailBindingsInput';
+import { useAppSelector } from 'modules/../store/useAppSelector';
 import { Header } from '../Header';
 import { useLayoutStyles as useStyles } from './LayoutStyles';
+import { HideOnScroll } from '../HideOnScrollWrapper';
 
 const routes = [
   {
@@ -33,18 +37,28 @@ export const Layout = ({
 }: ILayoutProps) => {
   const { classes } = useStyles();
 
+  const address = useAppSelector(store => store.auth.address);
+
   return (
     <div className={classes.wrapper}>
-      <AppBar elevation={0} position="fixed" className={classes.appBar}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Header
-              hasSecretRouteAccess={hasSecretRouteAccess}
-              hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
-            />
-          </Toolbar>
-        </Container>
-      </AppBar>
+      <HideOnScroll>
+        <AppBar elevation={0} position="fixed" className={classes.appBar}>
+          <Container maxWidth="xl">
+              <Toolbar disableGutters>
+                <Header
+                  address={address}
+                  hasSecretRouteAccess={hasSecretRouteAccess}
+                  hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
+                />
+              </Toolbar>
+            <Toolbar disableGutters>
+              {address && <SearchClientsInput />}
+              {address && <SearchEmailBindingsInput filterType="email" />}
+              {address && <SearchEmailBindingsInput filterType="address" />}
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </HideOnScroll>
 
       <Drawer
         className={classes.drawer}

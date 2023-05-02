@@ -3,11 +3,11 @@ import { PrivateStatsInterval } from 'multirpc-sdk';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
-import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
 import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
 import { useFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
 import { currentMonthParams, previousMonthParams } from '../../utils/dates';
+import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
 
 export enum CustomRange {
   current = 'current',
@@ -50,7 +50,7 @@ export const useClientDetailsPage = () => {
     data: clients,
     isLoading: isLoadingClients,
     isFetching: isFetchingClients,
-  } = useFetchCountersQuery();
+  } = useLazyFetchClients();
 
   const {
     data: statsData,
