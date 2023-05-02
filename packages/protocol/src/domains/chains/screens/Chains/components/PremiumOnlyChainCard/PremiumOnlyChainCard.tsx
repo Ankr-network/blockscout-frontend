@@ -3,13 +3,15 @@ import { t } from '@ankr.com/common';
 import { BaseChainsCard, IBaseChainCardProps } from '../BaseChainsCard';
 import { GradientedBorder } from 'modules/common/components/GradientedBorder';
 import { GradientedText } from 'modules/common/components/GradientedText';
-import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
-import { useDialog } from 'modules/common/hooks/useDialog';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { usePremiumOnlyChainCardStyles } from './PremiumOnlyChainCardStyles';
-import { useLocaleMemo } from '../../../../../../modules/i18n/utils/useLocaleMemo';
 
 export const PremiumOnlyChainCard = (props: IBaseChainCardProps) => {
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
   const { classes, theme } = usePremiumOnlyChainCardStyles();
 
@@ -32,7 +34,7 @@ export const PremiumOnlyChainCard = (props: IBaseChainCardProps) => {
           onClick={onOpen}
         />
       </GradientedBorder>
-      <PremiumChainDialog onClose={onClose} open={isOpened} />
+      <UpgradePlanDialog onClose={onClose} open={isOpened} />
     </>
   );
 };

@@ -900,8 +900,9 @@
         },
         "marketing": "Ankr RPC updates and marketing materials",
         "low-balance": "Running out of funds",
-        "low-balance-3-days": "Less than 3 days balance left",
-        "low-balance-7-days": "Less than 7 days balance left"
+        "low-credits-info": "Less than 100M credits left",
+        "low-credits-warn": "Less than 50M credits left",
+        "low-credits-alarm": "Less than 10M credits left"
       },
       "success": "Settings Saved"
     },
