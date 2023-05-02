@@ -33,7 +33,7 @@ export interface AccountErrorResponse {
 }
 
 export enum PermissionErrorCode {
-  Permission = 'permission'
+  Permission = 'permission',
 }
 
 export interface PermissionError {
@@ -226,15 +226,12 @@ export interface PrivateStats {
 }
 
 export type UserRequest = Record<string, number>;
-export type UserRequestsResponse = Record<
-  string,
-  UserRequest
->;
+export type UserRequestsResponse = Record<string, UserRequest>;
 
 export type IApiGetUserRequestsParams = {
-  timeframe: Timeframe,
-  userToken: string,
-}
+  timeframe: Timeframe;
+  userToken: string;
+};
 
 export type PrivateStatsInternal = Partial<Record<BlockchainID, PrivateStat>>;
 
@@ -289,14 +286,22 @@ export interface IEmailResponse {
   error?: IEmailResponseError;
 }
 
+interface ICreditThreshold {
+  value: number;
+}
+
 export interface INotificationsSettings {
   deposit?: boolean;
   withdraw?: boolean;
   voucher?: boolean;
   low_balance?: boolean;
   marketing?: boolean;
-  balance_7days?: boolean;
-  balance_3days?: boolean;
+  credit_info?: boolean;
+  credit_warn?: boolean;
+  credit_alarm?: boolean;
+  credit_info_threshold?: ICreditThreshold;
+  credit_warn_threshold?: ICreditThreshold;
+  credit_alarm_threshold?: ICreditThreshold;
 }
 
 export interface ICanPayByCardResponse {
@@ -368,7 +373,10 @@ export interface IGetGroupJwtResponse {
   jwt_data: string;
 }
 
-export type GroupUserRole = 'GROUP_ROLE_OWNER' | 'GROUP_ROLE_DEV' | 'GROUP_ROLE_FINANCE'
+export type GroupUserRole =
+  | 'GROUP_ROLE_OWNER'
+  | 'GROUP_ROLE_DEV'
+  | 'GROUP_ROLE_FINANCE';
 
 export interface UserGroup {
   groupAddress: string;

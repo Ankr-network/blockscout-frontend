@@ -23,21 +23,31 @@ export const NotificationsForm = () => {
       />
       <Field
         component={CheckboxField}
-        name={NotificationsFormFields.lowBalance3days}
+        name={NotificationsFormFields.lowCreditsInfo}
         type="checkbox"
         label={
           <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-credits-100M')}
+            {t('user-settings.notifications.form.low-credits-info')}
           </Typography>
         }
       />
       <Field
         component={CheckboxField}
-        name={NotificationsFormFields.lowBalance7days}
+        name={NotificationsFormFields.lowCreditsWarn}
         type="checkbox"
         label={
           <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-credits-50M')}
+            {t('user-settings.notifications.form.low-credits-warn')}
+          </Typography>
+        }
+      />
+      <Field
+        component={CheckboxField}
+        name={NotificationsFormFields.lowCreditsAlarm}
+        type="checkbox"
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t('user-settings.notifications.form.low-credits-alarm')}
           </Typography>
         }
       />
