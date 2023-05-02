@@ -1,16 +1,16 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Box } from '@mui/material';
-import {
-  PremiumChainDialog,
-  PremiumChainDialogV2,
-} from 'domains/chains/components/PremiumChainDialog';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBanner } from './hooks/useBanner';
-import { UpgradePlanBannerContent } from './UpgradePlanBannerContent';
+
 import { BannerSkeleton } from '../BannerSkeleton';
-import { ContentType } from 'domains/chains/components/PremiumChainDialog/types';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import {
+  ContentType,
+  UpgradePlanDialog,
+  useURLBasedUpgradePlanDialog,
+} from '../UpgradePlanDialog';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { UpgradePlanBannerContent } from './UpgradePlanBannerContent';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 interface UpgradePlanBannerProps {
   isAdvancedApi?: boolean;
@@ -23,11 +23,12 @@ export const UpgradePlanBanner = ({
 }: UpgradePlanBannerProps) => {
   const { hasPremium, loading, hasWeb3Connection, hasPrivateAccess } =
     useAuth();
-  const { isBannerV2, isOpened, handleOpen, handleClose, handleUpgrade } =
-    useBanner();
+
+  const { isDefault, isOpened, onClose, onOpen, type } =
+    useURLBasedUpgradePlanDialog();
 
   const defaultState = useMemo(() => {
-    if (!isPublicUser || isBannerV2) {
+    if (!isPublicUser || !isDefault) {
       return undefined;
     }
 
@@ -40,7 +41,7 @@ export const UpgradePlanBanner = ({
     }
 
     return undefined;
-  }, [isPublicUser, isBannerV2, hasWeb3Connection, hasPrivateAccess]);
+  }, [isPublicUser, isDefault, hasWeb3Connection, hasPrivateAccess]);
 
   // Upgrade plan banner should be hidden for premium users on chains page
   // as we are now showing them the request banner with the same call to action
@@ -53,26 +54,16 @@ export const UpgradePlanBanner = ({
       <Box sx={{ mb: 10 }}>
         <UpgradePlanBannerContent
           hasPremium={hasPremium}
-          handleOpen={handleOpen}
+          handleOpen={onOpen}
           isAdvancedApi={isAdvancedApi}
           isPublicUser={isPublicUser}
         />
-
-        {isBannerV2 ? (
-          <PremiumChainDialogV2
-            open={isOpened}
-            defaultState={defaultState}
-            onClose={handleClose}
-            onUpgrade={handleUpgrade}
-          />
-        ) : (
-          <PremiumChainDialog
-            open={isOpened}
-            defaultState={defaultState}
-            onClose={handleClose}
-            onUpgrade={handleUpgrade}
-          />
-        )}
+        <UpgradePlanDialog
+          defaultState={defaultState}
+          onClose={onClose}
+          open={isOpened}
+          type={type}
+        />
       </Box>
     </GuardUserGroup>
   );

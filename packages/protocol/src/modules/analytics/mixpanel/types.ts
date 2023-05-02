@@ -1,4 +1,8 @@
-import { BannerFreeToRegisterType, EndpointType, TopUpCurrnecy } from './const';
+import { EndpointType, TopUpCurrnecy } from './const';
+import {
+  PlanID,
+  UpgradePlanDialogType,
+} from 'modules/common/components/UpgradePlanDialog';
 
 interface Billingable {
   billing: boolean;
@@ -22,10 +26,6 @@ export interface AddNetworkInMMEventProps extends Billingable, Walletable {
   network: string;
   web2_connect?: boolean;
   web3_connect?: boolean;
-}
-
-export interface BannerFreeToRegisterEventProps {
-  type: BannerFreeToRegisterType;
 }
 
 export interface ChainTabSelectEventProps extends Billingable, Walletable {
@@ -62,6 +62,11 @@ export interface TopUpSubmitEventProps extends Billingable, Walletable {
   token_button: TopUpCurrnecy;
   // credits on the balance after top up, for the second and following top ups
   top_up_balance?: number;
+}
+
+export interface UpgradePlanModalEventProps {
+  plan?: PlanID;
+  type: UpgradePlanDialogType;
 }
 
 export interface Web2SignUpEventProps extends Billingable {

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Chain, ChainURL, Timeframe } from 'domains/chains/types';
-import { ChainID } from 'domains/chains/types';
+import { Chain, ChainID, ChainURL, Timeframe } from 'domains/chains/types';
 
 export interface ChainsItemQueryProps {
   chain: Chain;

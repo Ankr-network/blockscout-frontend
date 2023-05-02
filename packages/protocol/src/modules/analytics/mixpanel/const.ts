@@ -1,9 +1,3 @@
-export enum BannerFreeToRegisterType {
-  open = 'open',
-  register = 'register',
-  close = 'close',
-}
-
 export enum EndpointType {
   Devnet = 'devnet',
   Mainnet = 'mainnet',
@@ -13,7 +7,6 @@ export enum EndpointType {
 export enum MixpanelEvent {
   ADD_EMAIL = 'add-email',
   ADD_NETWORK_IN_MM = 'add_network_in_mm',
-  BANNER_FREE_TO_REGISTER = 'banner_free_to_register',
   CLICK_AAPI = 'click_aapi',
   ENTER_BILLING_FLOW = 'enter_billing_flow',
   ENTER_ENDPOINTS_FLOW = 'enter_endpoints_flow',
@@ -29,6 +22,9 @@ export enum MixpanelEvent {
   SOON_AUTOMATE = 'soon_automate',
   SOON_ENTERPRISE = 'soon_enterprise',
   TOP_UP_BALANCE_FLOW = 'top_up_balance_flow',
+  UPGRADE_PLAN_MODAL_CLICKED = 'upgrade_plan_modal_clicked',
+  UPGRADE_PLAN_MODAL_CLOSED = 'upgrade_plan_modal_closed',
+  UPGRADE_PLAN_MODAL_OPENED = 'upgrade_plan_modal_opened',
 }
 
 export enum TopUpCurrnecy {

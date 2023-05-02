@@ -1,10 +1,13 @@
-import { t, tHTML } from '@ankr.com/common';
 import { Button, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
-import { usePremiumContentStyles } from './usePremiumContentStyles';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { PremiumChainDialog } from 'domains/chains/components/PremiumChainDialog';
+import { t, tHTML } from '@ankr.com/common';
+
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { usePremiumContentStyles } from './usePremiumContentStyles';
 
 interface IPremiumContentProps {
   isMultiChain: boolean;
@@ -15,7 +18,7 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
 
   const { hasPremium } = useAuth();
 
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
   if (hasPremium) return null;
 
@@ -43,7 +46,7 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
           </Button>
         </div>
       </div>
-      <PremiumChainDialog onClose={onClose} open={isOpened} />
+      <UpgradePlanDialog onClose={onClose} open={isOpened} />
     </>
   );
 };

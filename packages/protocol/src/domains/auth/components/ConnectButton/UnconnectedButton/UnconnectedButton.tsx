@@ -12,6 +12,7 @@ import { trackSignUpModalOpen } from 'modules/analytics/mixpanel/trackSignUpModa
 interface UnconnectedButtonProps {
   buttonText?: string;
   className?: string;
+  onOpen?: () => void;
   onSuccess?: () => void;
   variant?: ButtonTypeMap['props']['variant'];
 }
@@ -19,6 +20,7 @@ interface UnconnectedButtonProps {
 export const UnconnectedButton = ({
   buttonText,
   className,
+  onOpen = () => {},
   onSuccess,
   variant = 'text',
 }: UnconnectedButtonProps) => {
@@ -35,8 +37,10 @@ export const UnconnectedButton = ({
   const handleOpen = useCallback(() => {
     setIsOpened(true);
 
+    onOpen();
+
     trackSignUpModalOpen();
-  }, []);
+  }, [onOpen]);
 
   const handleSuccess = useCallback(() => {
     setIsOpened(false);

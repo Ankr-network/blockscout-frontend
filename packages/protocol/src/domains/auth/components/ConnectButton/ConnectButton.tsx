@@ -8,6 +8,7 @@ interface ConnectButtonProps {
   isMobile?: boolean;
   variant?: ButtonTypeMap['props']['variant'];
   buttonText?: string;
+  onOpen?: () => void;
   onSuccess?: () => void;
   className?: string;
 }
@@ -16,6 +17,7 @@ export const ConnectButton = ({
   isMobile = false,
   variant = 'text',
   buttonText,
+  onOpen,
   onSuccess,
   className,
 }: ConnectButtonProps) => {
@@ -29,6 +31,7 @@ export const ConnectButton = ({
     <UnconnectedButton
       variant={variant}
       buttonText={buttonText}
+      onOpen={onOpen}
       onSuccess={onSuccess}
       className={className}
     />

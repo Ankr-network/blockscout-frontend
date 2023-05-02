@@ -25,7 +25,7 @@ import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
-import { useConnectButton } from 'domains/chains/components/PremiumChainDialog/components/TopUpForm/hooks/useConnectButton';
+import { useConnectButton } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/hooks/useConnectButton';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
