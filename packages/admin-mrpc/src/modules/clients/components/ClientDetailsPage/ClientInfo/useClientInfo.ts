@@ -1,33 +1,44 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Web3Address } from 'multirpc-sdk';
-import { useFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
+import { useLazyFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
 import { useUpdateUserProfileMutation } from 'modules/clients/actions/updateUserProfile';
 import { useFetchUserRevenueQuery } from 'modules/clients/actions/fetchUserRevenue';
 
 export const useClientInfo = ({ address }: { address: Web3Address }) => {
-  const {
-    data: profileData,
-    isLoading: isLoadingProfile,
-    isFetching: isFetchingProfile,
-    refetch: refetchProfileData,
-    isError: isErrorProfile,
-  } = useFetchUserProfileQuery({ address });
+  const [
+    fetchProfileData,
+    {
+      data: profileData,
+      isLoading: isLoadingProfile,
+      isFetching: isFetchingProfile,
+      isError: isErrorProfile,
+    },
+  ] = useLazyFetchUserProfileQuery();
 
-  const { data: revenueData, isLoading: isLoadingRevenue } =
-    useFetchUserRevenueQuery({ address });
+  const {
+    data: revenueData,
+    isLoading: isLoadingRevenue,
+    refetch: refetchRevenue,
+  } = useFetchUserRevenueQuery({ address });
 
   const [updateUserProfile, { isLoading: isLoadingUpdateProfile }] =
     useUpdateUserProfileMutation();
 
-  const [commentInputValue, setCommentInputValue] = useState('');
+  const [commentInputValue, setCommentInputValue] = useState(
+    profileData?.user?.comment,
+  );
 
   useEffect(() => {
-    refetchProfileData();
-  }, [address, refetchProfileData]);
+    refetchRevenue();
+    fetchProfileData({ address });
+    setCommentInputValue(profileData?.user?.comment);
+  }, [address, profileData?.user?.comment, fetchProfileData, refetchRevenue]);
 
   useEffect(() => {
     if (profileData?.user?.comment) {
       setCommentInputValue(profileData.user.comment);
+    } else {
+      setCommentInputValue('');
     }
     if (isErrorProfile) {
       setCommentInputValue('');
@@ -36,10 +47,10 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
 
   const handleUpdateProfile = useCallback(() => {
     updateUserProfile({ address, comment: commentInputValue }).then(res => {
-      refetchProfileData();
+      fetchProfileData({ address });
       return res;
     });
-  }, [address, commentInputValue, updateUserProfile, refetchProfileData]);
+  }, [address, commentInputValue, updateUserProfile, fetchProfileData]);
 
   const onChangeComment = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

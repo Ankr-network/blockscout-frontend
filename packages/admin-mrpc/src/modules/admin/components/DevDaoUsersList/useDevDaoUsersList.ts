@@ -1,18 +1,18 @@
 import { useCallback, useMemo } from 'react';
 import { GetUsersRegistrationsRequest } from 'multirpc-sdk';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
-import { useLazyGetUsersRegistrationsQuery } from '../../actions/getUsersRegistrations';
-import { useFilters } from '../../hooks/useFilters';
-import { useDatesRange } from '../../hooks/useDatesRange';
-import { formatDateParamToSeconds } from '../../utils/formatDateParamToSeconds';
+import { useLazyGetUsersRegistrationsQuery } from 'modules/admin/actions/getUsersRegistrations';
+import { useFilters } from 'modules/admin/hooks/useFilters';
+import { useDatesRange } from 'modules/admin/hooks/useDatesRange';
+import { formatDateParamToSeconds } from 'modules/admin/utils/formatDateParamToSeconds';
+import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
 
 export const useDevDaoUsersList = () => {
   const {
     data: clients,
     isLoading: isLoadingClients,
     isFetching: isFetchingClients,
-  } = useFetchCountersQuery();
+  } = useLazyFetchClients();
 
   const [
     handleGetUsersRegistrations,

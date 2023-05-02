@@ -2,10 +2,12 @@ import { Theme } from '@mui/material/styles';
 
 import { makeStyles } from 'tss-react/mui';
 
-const INPUT_WIDTH = 270;
+const INPUT_WIDTH = 300;
 
 export const useSearchInputStyles = makeStyles()((theme: Theme) => ({
-  root: {},
+  root: {
+    marginRight: theme.spacing(4),
+  },
   input: {
     width: INPUT_WIDTH,
   },
@@ -26,6 +28,7 @@ export const useSearchInputStyles = makeStyles()((theme: Theme) => ({
   },
   clientItem: {
     listStyle: 'none',
+
   },
   clientButton: {
     textAlign: 'left',
@@ -33,5 +36,13 @@ export const useSearchInputStyles = makeStyles()((theme: Theme) => ({
     justifyContent: 'flex-start',
     textTransform: 'none',
     borderRadius: 0,
+
+    display: 'inline-block',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+  },
+  tooltipWrapper: {
+    whiteSpace: 'break-spaces',
   },
 }));

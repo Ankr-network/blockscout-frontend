@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
-import { Button, Input, Tooltip } from '@mui/material';
+import { Input } from '@mui/material';
+import { IEmailBindingEntity } from 'multirpc-sdk';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { useSearchClientsInput } from './useSearchClientsInput';
+import { ClientTooltip } from './ClientTooltip';
 import { useSearchInputStyles } from './useSearchInputStyles';
 
 export const SearchClientsInput = () => {
@@ -13,26 +15,19 @@ export const SearchClientsInput = () => {
     (client: ClientMapped) => {
       const title = client.email
         ? `${client.email}\n${client.address}`
-        : client.address;
+        : client.address || client.user || '';
 
       return (
-        <li key={client.user || client.address} className={classes.clientItem}>
-          <Tooltip
-            placement="left"
-            title={title || client.user || client.address}
-          >
-            <Button
-              variant="text"
-              className={classes.clientButton}
-              onClick={() => onClientClick(client.address)}
-            >
-              {client.email || client.address}
-            </Button>
-          </Tooltip>
-        </li>
+        <ClientTooltip
+          key={client.user || client.address}
+          title={title}
+          client={client as IEmailBindingEntity}
+          classes={classes}
+          onClientClick={onClientClick}
+        />
       );
     },
-    [classes.clientButton, classes.clientItem, onClientClick],
+    [classes, onClientClick],
   );
 
   return (

@@ -2,26 +2,22 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Web3Address } from 'multirpc-sdk';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
-import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { clearSpaces } from 'modules/clients/utils/clearSpaces';
-import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
+import { useLazyFetchUsersEmailsQuery } from '../../actions/fetchUsersEmails';
 
-export const useSearchClientsInput = () => {
+export const useSearchEmailBindingsInput = (filterType: 'email' | 'address') => {
   const history = useHistory();
-  const { data, isLoading } = useLazyFetchClients();
-  const [searchValue, setSearchValue] = useState('');
-  const [foundClients, setFoundClients] = useState<ClientMapped[]>([]);
 
-  useEffect(() => {
-    const clients = data?.counters || [];
-    const clientsFiltered = clients.filter(
-      client =>
-        client.email?.includes(searchValue) ||
-        client.address?.includes(searchValue) ||
-        client.user?.includes(searchValue),
-    );
-    setFoundClients(clientsFiltered);
-  }, [data, searchValue]);
+  const [searchValue, setSearchValue] = useState('');
+  const [fetchClients, {data: foundClients = [], isLoading: isRequestLoading, isFetching: isRequestFetching}] = useLazyFetchUsersEmailsQuery()
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(()=> {
+    const loadingState = isRequestLoading || isRequestFetching;
+    setIsLoading(loadingState);
+  },[
+    isRequestLoading, isRequestFetching
+  ])
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -31,6 +27,14 @@ export const useSearchClientsInput = () => {
     },
     [],
   );
+
+  useEffect(()=>{
+    if (searchValue) {
+      setIsLoading(true);
+      // searching with timeout to have an offset for typing
+      setTimeout(() => fetchClients({filter: searchValue, filter_type: filterType}), 1000);
+    }
+  },[fetchClients, filterType, searchValue]);
 
   const onClientClick = useCallback(
     (address?: Web3Address) => {

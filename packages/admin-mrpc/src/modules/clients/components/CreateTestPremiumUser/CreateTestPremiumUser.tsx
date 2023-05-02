@@ -6,7 +6,7 @@ import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';
 import { ReactComponent as PlusIcon } from './assets/plus.svg';
-import { useFetchCountersQuery } from '../../actions/fetchCounters';
+import { useLazyFetchCountersQuery } from '../../actions/fetchCounters';
 
 const DAYS_TO_SECONDS_MULTIPLY_VALUE = 86400;
 
@@ -23,7 +23,7 @@ export const CreateTestPremiumUser = () => {
   const history = useHistory();
   const [createTestPremiumUser, { isLoading }] =
     useCreateTestPremiumUserMutation();
-  const { refetch: refetchClients } = useFetchCountersQuery();
+  const [refetchClients] = useLazyFetchCountersQuery();
   const { classes } = useCreateTestPremiumUserStyles();
 
   const [open, setOpen] = useState(false);

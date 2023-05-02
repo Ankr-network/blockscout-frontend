@@ -26,6 +26,7 @@ import { ClientEditEmailModal } from '../ClientEditEmailModal';
 import { ClientBalances } from './ClientBalances';
 import { useClientAddresses } from './useClientAddresses';
 import { ClientUserGroups } from './ClientUserGroups';
+import { useClientBalances } from './useClientBalances';
 import { NOT_FOUND_TEXT } from '../const';
 
 interface IClientInfoProps {
@@ -60,6 +61,12 @@ export const ClientInfo = ({
     useClientAddresses({ address });
 
   const { userGroups, isLoadingUserGroups } = useClientGroups({ address });
+
+  const { clientBalances, isLoadingBalances } = useClientBalances({
+    client,
+    isLoadingClients,
+    address,
+  });
 
   const { classes } = useStyles();
 
@@ -198,8 +205,8 @@ export const ClientInfo = ({
 
       <ClientBalances
         totalData={totalData}
-        client={client}
-        isLoadingClients={isLoadingClients}
+        clientBalances={clientBalances}
+        isLoadingBalances={isLoadingBalances}
         skeleton={skeleton}
         isLoadingRevenue={isLoadingRevenue}
         revenueData={revenueData}

@@ -20,7 +20,7 @@ function App() {
   return (
     <Router>
       <Provider store={store}>
-        <ToastContainer />
+        <ToastContainer position="bottom-right" />
         <AppBase>
           <ScrollToTop />
           <BreadcrumbsProvider>
