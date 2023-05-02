@@ -6,7 +6,7 @@ export interface PremiumBalanceThresholds {
 // in credits
 const PRODUCTION_THRESHOLDS: PremiumBalanceThresholds = {
   freemiumToPremium: 100_000_000,
-  premiumToFreemium: 30_000_000,
+  premiumToFreemium: 1,
 };
 
 const STAGING_THRESHOLDS: PremiumBalanceThresholds = {
