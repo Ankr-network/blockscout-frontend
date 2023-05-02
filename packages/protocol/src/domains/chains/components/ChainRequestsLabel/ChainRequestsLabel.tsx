@@ -19,6 +19,10 @@ export const ChainRequestsLabel = ({
 }: ChainRequestsLabelProps) => {
   const { classes, cx } = useChainRequestsLabelStyles();
 
+  if (!description && !label) {
+    return null;
+  }
+
   return (
     <div className={cx(classes.root, className)}>
       <Typography

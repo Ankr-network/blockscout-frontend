@@ -19,9 +19,6 @@ export interface EndpointsProps {
   group: EndpointGroup;
 }
 
-const title = t(`${root}.endpoints.websocket-title`);
-const header = `${root}.endpoints.title`;
-
 const checkComingSoonLabel = (publicChain: Chain, chainType: ChainType) => {
   switch (chainType) {
     case ChainType.Mainnet:
@@ -58,12 +55,15 @@ export const Endpoints = ({
     <Box className={classes.endpointsList}>
       {hasComingSoonLabel ? (
         <EndpointPlaceholder
+          label={t('chains.coming-soon')}
           title={
             <EndpointsHeader
-              title={t(header, { chainName: group.chainName, rpcs: 1 })}
+              title={t(`${root}.endpoints.title`, {
+                chainName: group.chainName,
+                urls: 1,
+              })}
             />
           }
-          label={t('chains.coming-soon')}
         />
       ) : (
         <>
@@ -86,7 +86,7 @@ export const Endpoints = ({
             publicChain={publicChain}
           />
           <WsFeatureEndpoints
-            title={title}
+            title={t(`${root}.endpoints.websocket-title`)}
             hasPremium={hasPremium}
             hasConnectWalletMessage={hasConnectWalletMessage}
             onCopyEndpoint={onCopyEndpoint}

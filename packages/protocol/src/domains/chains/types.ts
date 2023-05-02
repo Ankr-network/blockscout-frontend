@@ -34,6 +34,7 @@ export interface Chain extends MainBlockchainEntity {
   id: ChainID;
   isArchive?: boolean;
   isComingSoon: boolean;
+  isMainnetComingSoon?: boolean;
   isMainnetPremiumOnly?: boolean;
   extenders?: Chain[];
   extensions?: Chain[];

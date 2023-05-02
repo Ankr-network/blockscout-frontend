@@ -190,4 +190,10 @@ export const chainGroups: ChainGroup[] = [
     pluralName: getName('json-rpc', true),
     chains: [ChainID.TRON_JSON_RPC],
   },
+  {
+    id: ChainGroupID.SUI,
+    name: getName('sui'),
+    pluralName: getName('sui', true),
+    chains: [ChainID.SUI, ChainID.SUI_TESTNET],
+  },
 ];

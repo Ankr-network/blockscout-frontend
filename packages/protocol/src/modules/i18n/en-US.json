@@ -332,6 +332,7 @@
         "cosmos-rest": "Cosmos REST",
         "solana-api": "Solana API{plural}",
         "rest-api": "REST API",
+        "sui": "Sui API{plural}",
         "json-rpc": "JSON-RPC",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
