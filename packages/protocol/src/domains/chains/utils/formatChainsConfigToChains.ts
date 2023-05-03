@@ -217,6 +217,8 @@ const getApiChains = (data: ChainsConfig) => {
       features,
     } = blockchain;
 
+    const isComingSoon = features.includes(BlockchainFeature.ComingSoon);
+
     return {
       coinName,
       chainExtends,
@@ -228,7 +230,8 @@ const getApiChains = (data: ChainsConfig) => {
       hasRESTFeature: features.includes(BlockchainFeature.REST),
       hasRPCFeature: features.includes(BlockchainFeature.RPC),
       hasWSFeature: features.includes(BlockchainFeature.WS),
-      isComingSoon: features.includes(BlockchainFeature.ComingSoon),
+      isComingSoon,
+      isMainnetComingSoon: type === BlockchainType.Mainnet && isComingSoon,
       isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,
     } as Chain;
   });

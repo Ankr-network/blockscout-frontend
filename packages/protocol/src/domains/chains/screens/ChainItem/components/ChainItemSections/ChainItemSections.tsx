@@ -42,8 +42,15 @@ export const ChainItemSections = ({
   });
 
   const { classes } = useChainItemSectionsStyles();
+  const { chains } = group;
 
-  if (data.chain.isComingSoon) {
+  const isMainnetComingSoon =
+    chainType === ChainType.Mainnet && chains[0]?.isMainnetComingSoon;
+
+  const isTestnetComingSoon =
+    chainType === ChainType.Testnet && chains[0]?.testnets?.[0]?.isComingSoon;
+
+  if (isMainnetComingSoon || isTestnetComingSoon) {
     return null;
   }
 
