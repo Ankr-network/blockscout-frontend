@@ -4,8 +4,7 @@ import { useSelectedUserGroup } from './useSelectedUserGroup';
 export const useGroupJwtToken = () => {
   const { selectedGroupJwt } = useSelectedUserGroup();
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const [_fetch, { isLoading: isLoadingGroupToken }] =
+  const [, { isLoading: isLoadingGroupToken }] =
     useLazyUserGroupFetchGroupJwtQuery();
 
   return {
