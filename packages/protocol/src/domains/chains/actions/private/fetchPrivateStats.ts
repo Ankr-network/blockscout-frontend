@@ -1,5 +1,6 @@
 import {
   IApiPrivateStats,
+  IApiUserGroupParams,
   PrivateStats,
   PrivateStatsInterval,
 } from 'multirpc-sdk';
@@ -9,7 +10,6 @@ import { MultiService } from 'modules/api/MultiService';
 import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -18,7 +18,7 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
-interface FetchPrivateStatsParams {
+interface FetchPrivateStatsParams extends IApiUserGroupParams {
   interval: PrivateStatsInterval;
   userEndpointToken?: string;
 }
@@ -32,11 +32,8 @@ export const {
     chainsFetchPrivateStats: build.query<PrivateStats, FetchPrivateStatsParams>(
       {
         queryFn: createNotifyingQueryFn(
-          async ({ interval, userEndpointToken }, { getState }) => {
+          async ({ interval, userEndpointToken, group }, { getState }) => {
             await authorizationGuard(getState as GetState);
-            const { selectedGroupAddress: group } = getSelectedGroupAddress(
-              getState as GetState,
-            );
             const service = MultiService.getService();
             const accountGateway = service.getAccountGateway();
 

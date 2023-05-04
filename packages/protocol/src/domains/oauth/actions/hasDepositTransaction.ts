@@ -1,19 +1,22 @@
 import { web3Api } from 'store/queries';
 import { MultiService } from 'modules/api/MultiService';
-import { GetState } from 'store';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
+interface IOAuthHasDepositTransactionParams extends IApiUserGroupParams {
+  shouldCheckVoucherTopUp?: boolean;
+}
 
 export const {
   endpoints: { oauthHasDepositTransaction },
   useOauthHasDepositTransactionQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    oauthHasDepositTransaction: build.query<boolean, boolean | void>({
-      queryFn: async (shouldCheckVoucherTopUp, { getState }) => {
+    oauthHasDepositTransaction: build.query<
+      boolean,
+      IOAuthHasDepositTransactionParams
+    >({
+      queryFn: async ({ shouldCheckVoucherTopUp, group }) => {
         const service = MultiService.getService();
-        const { selectedGroupAddress: group } = getSelectedGroupAddress(
-          getState as GetState,
-        );
 
         const { transactions } = await service
           .getAccountGateway()

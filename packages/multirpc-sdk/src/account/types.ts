@@ -228,7 +228,7 @@ export interface PrivateStats {
 export type UserRequest = Record<string, number>;
 export type UserRequestsResponse = Record<string, UserRequest>;
 
-export type IApiGetUserRequestsParams = {
+export type IApiGetUserRequestsParams = IApiUserGroupParams & {
   timeframe: Timeframe;
   userToken: string;
 };

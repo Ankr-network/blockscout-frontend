@@ -12,10 +12,8 @@ const { cardPaymentSuccess, topUp } = AccountRoutesConfig;
 
 export const useStatusTransitionDialog = () => {
   const { hasFreeToPremiumTransition } = useAuth();
-  const {
-    location: { state },
-  } = useHistory<PostTopUpLocationState>();
-  const origin = state?.origin;
+  const history = useHistory<PostTopUpLocationState>();
+  const origin = history?.location?.state?.origin;
 
   const hasStatusAccess = useGuardUserGroup({
     blockName: BlockWithPermission.Status,

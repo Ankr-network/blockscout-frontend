@@ -1,6 +1,10 @@
-import { EthAddressType } from 'multirpc-sdk';
+import {
+  EthAddressType,
+  GroupUserRole,
+  IApiUserGroupParams,
+} from 'multirpc-sdk';
 
-import { GetState, RootState } from 'store';
+import { RootState } from 'store';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { timeout } from 'modules/common/utils/timeout';
 import { checkDepositOrVoucherTransaction } from './checkDepositOrVoucherTransaction';
@@ -10,7 +14,10 @@ import {
 } from 'domains/auth/store/selectors';
 import { watchForVoucherTransactionAndNegativeBalance } from './watchForVoucherTransactionAndNegativeBalance';
 import { web3Api } from 'store/queries';
-import { getSelectedGroupAddress } from '../../userGroup/utils/getSelectedGroupAddress';
+
+interface IRequestParams extends IApiUserGroupParams {
+  userGroupRole?: GroupUserRole;
+}
 
 const checkFreemiumUserWatching = (state: RootState) =>
   !(selectHasPremium(state) && selectHasPrivateAccess(state));
@@ -21,8 +28,8 @@ export const {
   useWatchForDepositOrVoucherTransationQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    watchForDepositOrVoucherTransation: build.query<boolean, void>({
-      queryFn: async (_args, { getState, dispatch }) => {
+    watchForDepositOrVoucherTransation: build.query<boolean, IRequestParams>({
+      queryFn: async ({ group, userGroupRole }, { getState, dispatch }) => {
         const state = getState() as RootState;
         const {
           // oauth
@@ -46,11 +53,8 @@ export const {
         const shouldNotWatchForTransactionFreemiumUser =
           checkFreemiumUserWatching(state);
 
-        const { selectedGroupRole } = getSelectedGroupAddress(
-          getState as GetState,
-        );
         const shouldNotWatchForTransactionDevRole =
-          selectedGroupRole === 'GROUP_ROLE_DEV';
+          userGroupRole === 'GROUP_ROLE_DEV';
 
         const shouldNotWatch =
           (shouldNotWatchForTransactionOauthUser &&
@@ -77,13 +81,19 @@ export const {
               hasVoucherTransaction = false,
             } = {},
             // eslint-disable-next-line no-await-in-loop
-          } = await dispatch(checkDepositOrVoucherTransaction.initiate());
+          } = await dispatch(
+            checkDepositOrVoucherTransaction.initiate({ group }),
+          );
 
           inProcess = !hasTransaction;
 
           if (hasTransaction) {
             if (hasVoucherTransaction) {
-              dispatch(watchForVoucherTransactionAndNegativeBalance.initiate());
+              dispatch(
+                watchForVoucherTransactionAndNegativeBalance.initiate({
+                  group,
+                }),
+              );
             }
 
             break;

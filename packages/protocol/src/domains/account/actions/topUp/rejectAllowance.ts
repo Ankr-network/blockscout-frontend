@@ -7,13 +7,14 @@ import { setRejectAllowanceTransaction } from 'domains/account/store/accountTopU
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+import { IApiUserGroupParams } from 'multirpc-sdk';
 
 export const {
   useLazyTopUpRejectAllowanceQuery,
   endpoints: { topUpRejectAllowance },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    topUpRejectAllowance: build.query<boolean, void>({
+    topUpRejectAllowance: build.query<boolean, IApiUserGroupParams>({
       queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
         const service = await MultiService.getWeb3Service();
 
@@ -49,14 +50,17 @@ export const {
 
         return { data: true };
       }),
-      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
         dispatch(
-          accountFetchBalance.initiate(undefined, {
-            subscribe: false,
-            forceRefetch: true,
-          }),
+          accountFetchBalance.initiate(
+            { group },
+            {
+              subscribe: false,
+              forceRefetch: true,
+            },
+          ),
         );
       },
     }),

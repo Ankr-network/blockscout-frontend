@@ -1,4 +1,4 @@
-import { EthAddressType } from 'multirpc-sdk';
+import { EthAddressType, IApiUserGroupParams } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { GetState } from 'store';
@@ -27,91 +27,93 @@ export const {
   useLazyOauthLoginByGoogleSecretCodeQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    oauthLoginByGoogleSecretCode: build.query<EmptyObject, void>({
-      queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (_args, { dispatch, getState }) => {
-          const { code, state } = getSecreteCodeAndState();
+    oauthLoginByGoogleSecretCode: build.query<EmptyObject, IApiUserGroupParams>(
+      {
+        queryFn: createQueryFnWithErrorHandler({
+          queryFn: async ({ group }, { dispatch, getState }) => {
+            const { code, state } = getSecreteCodeAndState();
 
-          if (!code) {
-            throw new Error('Wrong secret code');
-          }
+            if (!code) {
+              throw new Error('Wrong secret code');
+            }
 
-          const secretCodeData = buildSecretCodeData(code, state || '');
+            const secretCodeData = buildSecretCodeData(code, state || '');
 
-          const service = MultiService.getService();
+            const service = MultiService.getService();
 
-          const loginUserByGoogleSecretCodeResult = await service
-            .getOauthGateway()
-            .loginUserByGoogleSecretCode(secretCodeData);
+            const loginUserByGoogleSecretCodeResult = await service
+              .getOauthGateway()
+              .loginUserByGoogleSecretCode(secretCodeData);
 
-          const { access_token: authorizationToken } =
-            loginUserByGoogleSecretCodeResult;
+            const { access_token: authorizationToken } =
+              loginUserByGoogleSecretCodeResult;
 
-          const { addresses } = await service
-            .getOauthGateway()
-            .getETHAddresses(authorizationToken);
+            const { addresses } = await service
+              .getOauthGateway()
+              .getETHAddresses(authorizationToken);
 
-          const ethUserAddress = getEthUserAddress(addresses);
+            const ethUserAddress = getEthUserAddress(addresses);
 
-          if (!ethUserAddress) {
-            throw new Error('No ethUserAddress');
-          }
+            if (!ethUserAddress) {
+              throw new Error('No ethUserAddress');
+            }
 
-          const {
-            address,
-            type: ethAddressType,
-            public_key: encryptionPublicKey,
-          } = ethUserAddress;
-
-          const web3ReadService = await MultiService.getWeb3ReadService();
-
-          web3ReadService.getOauthGateway().addToken(authorizationToken);
-          service.getOauthGateway().addToken(authorizationToken);
-          service.getAccountGateway().addToken(authorizationToken);
-
-          if (ethAddressType === EthAddressType.Generated) {
-            await loginSyntheticJwt(dispatch, {
+            const {
               address,
-              authorizationToken,
-              encryptionPublicKey,
-              ethAddressType,
-            });
-          }
+              type: ethAddressType,
+              public_key: encryptionPublicKey,
+            } = ethUserAddress;
 
-          if (ethAddressType === EthAddressType.User) {
-            await loginUserJwt(dispatch, {
-              address,
-              authorizationToken,
-              encryptionPublicKey,
-              ethAddressType,
-            });
-          }
+            const web3ReadService = await MultiService.getWeb3ReadService();
 
-          await dispatch(
-            userSettingsGetActiveEmailBinding.initiate({
-              params: undefined as void,
-              shouldNotify: false,
-            }),
-          );
+            web3ReadService.getOauthGateway().addToken(authorizationToken);
+            service.getOauthGateway().addToken(authorizationToken);
+            service.getAccountGateway().addToken(authorizationToken);
 
-          await trackLoginSuccess({ dispatch, getState });
+            if (ethAddressType === EthAddressType.Generated) {
+              await loginSyntheticJwt(dispatch, {
+                address,
+                authorizationToken,
+                encryptionPublicKey,
+                ethAddressType,
+              });
+            }
 
-          dispatch(setOauthLoginTimestamp(new Date().toISOString()));
+            if (ethAddressType === EthAddressType.User) {
+              await loginUserJwt(dispatch, {
+                address,
+                authorizationToken,
+                encryptionPublicKey,
+                ethAddressType,
+              });
+            }
 
-          return { data: {} };
-        },
-        errorHandler: (error, _args, { getState }) => {
-          trackWeb2SignUpFailure(getTrackingParams(getState as GetState));
+            await dispatch(
+              userSettingsGetActiveEmailBinding.initiate({
+                params: undefined as void,
+                shouldNotify: false,
+              }),
+            );
 
-          if (isAxiosAccountError(error)) {
-            return { error: getAxiosAccountErrorMessage(error) };
-          }
+            await trackLoginSuccess({ dispatch, getState, group });
 
-          return {
-            error: new Error(t('oauth.secret-code-error')),
-          };
-        },
-      }),
-    }),
+            dispatch(setOauthLoginTimestamp(new Date().toISOString()));
+
+            return { data: {} };
+          },
+          errorHandler: (error, _args, { getState }) => {
+            trackWeb2SignUpFailure(getTrackingParams(getState as GetState));
+
+            if (isAxiosAccountError(error)) {
+              return { error: getAxiosAccountErrorMessage(error) };
+            }
+
+            return {
+              error: new Error(t('oauth.secret-code-error')),
+            };
+          },
+        }),
+      },
+    ),
   }),
 });

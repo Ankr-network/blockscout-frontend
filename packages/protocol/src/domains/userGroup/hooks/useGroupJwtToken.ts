@@ -1,14 +1,15 @@
-import { useUserGroupFetchGroupJwtQuery } from '../actions/fetchGroupJwt';
+import { useLazyUserGroupFetchGroupJwtQuery } from 'domains/userGroup/actions/fetchGroupJwt';
 import { useSelectedUserGroup } from './useSelectedUserGroup';
 
 export const useGroupJwtToken = () => {
-  const { selectedGroupAddress, isGroupSelected } = useSelectedUserGroup();
+  const { selectedGroupJwt } = useSelectedUserGroup();
 
-  const { data: groupToken, isLoading: isLoadingGroupToken } =
-    useUserGroupFetchGroupJwtQuery({ group: selectedGroupAddress });
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const [_fetch, { isLoading: isLoadingGroupToken }] =
+    useLazyUserGroupFetchGroupJwtQuery();
 
   return {
-    groupToken: isGroupSelected ? groupToken : undefined,
+    groupToken: selectedGroupJwt,
     isLoadingGroupToken,
   };
 };

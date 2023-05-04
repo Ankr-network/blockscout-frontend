@@ -1,11 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { ProductPrice } from 'multirpc-sdk';
+import { IApiUserGroupParams, ProductPrice } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
-import { GetState } from 'store';
 
 export interface SubscriptionPrice extends Omit<ProductPrice, 'amount'> {
   amount: string;
@@ -34,12 +32,12 @@ export const {
   useUsdTopUpFetchUSDSubscriptionPricesQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    usdTopUpFetchUSDSubscriptionPrices: build.query<SubscriptionPrice[], void>({
-      queryFn: createNotifyingQueryFn(async (_, { getState }) => {
+    usdTopUpFetchUSDSubscriptionPrices: build.query<
+      SubscriptionPrice[],
+      IApiUserGroupParams
+    >({
+      queryFn: createNotifyingQueryFn(async ({ group }) => {
         const service = MultiService.getService();
-        const { selectedGroupAddress: group } = getSelectedGroupAddress(
-          getState as GetState,
-        );
         const { productPrices } = await service
           .getAccountGateway()
           .getUSDSubscriptionPrices({ group });

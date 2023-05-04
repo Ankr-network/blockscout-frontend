@@ -1,9 +1,8 @@
-import { GetState } from 'store';
+import { RootState } from 'store';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store/selectors';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 
-export const getSelectedGroupAddress = (getState: GetState) => {
-  const state = getState();
+export const getSelectedGroupAddress = (state: RootState) => {
   const { address } = selectAuthData(state);
   const { selectedGroupAddress, selectedGroupRole } =
     selectUserGroupConfigByAddress(state);

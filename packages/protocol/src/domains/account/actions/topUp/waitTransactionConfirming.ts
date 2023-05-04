@@ -1,4 +1,4 @@
-import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
+import { CONFIRMATION_BLOCKS, IApiUserGroupParams } from 'multirpc-sdk';
 import { TransactionReceipt } from 'web3-core';
 import { t } from '@ankr.com/common';
 
@@ -76,7 +76,7 @@ export const {
   endpoints: build => ({
     topUpWaitTransactionConfirming: build.query<
       WaitTransactionConfirmingResult,
-      void
+      IApiUserGroupParams
     >({
       queryFn: async (_args, { getState, dispatch }) => {
         const state: any = getState();
@@ -181,10 +181,10 @@ export const {
 
         return { data: {} };
       },
-      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
-        dispatch(accountFetchBalance.initiate(undefined));
+        dispatch(accountFetchBalance.initiate({ group }));
       },
     }),
   }),

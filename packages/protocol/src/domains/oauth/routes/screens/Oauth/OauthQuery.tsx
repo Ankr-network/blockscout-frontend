@@ -10,15 +10,17 @@ import {
   useLazyOauthLoginByGoogleSecretCodeQuery,
 } from 'domains/oauth/actions/loginByGoogleSecretCode';
 import { useOauthStyles } from './useOauthStyles';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const OauthQuery = () => {
   const [loginUser, state] = useLazyOauthLoginByGoogleSecretCodeQuery();
   const history = useHistory();
   const { classes } = useOauthStyles();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   useOnMount(() => {
     const login = async () => {
-      const { error } = await loginUser();
+      const { error } = await loginUser({ group });
 
       if (!error) {
         history.push(ChainsRoutesConfig.chains.generatePath());

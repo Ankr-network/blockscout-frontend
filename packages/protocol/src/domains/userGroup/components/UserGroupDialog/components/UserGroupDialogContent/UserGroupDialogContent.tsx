@@ -24,7 +24,7 @@ export const UserGroupDialogContent = ({
     handleGroupSelect,
     handleRememberChoice,
     handleSetUserGroup: handleSave,
-  } = useUserGroupSelect();
+  } = useUserGroupSelect(groups, isLoading);
 
   return (
     <>

@@ -184,9 +184,13 @@ export class AccountGateway {
   async getUserRequests({
     timeframe,
     userToken,
+    group,
   }: IApiGetUserRequestsParams): Promise<UserRequestsResponse> {
     const { data } = await this.api.get<UserRequestsResponse>(
       `/api/v1/auth/stats/users/${userToken}/requests/${timeframe}`,
+      {
+        params: { group },
+      }
     );
 
     return data;

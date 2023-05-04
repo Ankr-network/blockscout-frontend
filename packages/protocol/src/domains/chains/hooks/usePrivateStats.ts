@@ -22,7 +22,7 @@ export const usePrivateStats = ({
   requestKey,
   userEndpointToken,
 }: PrivateStatsParams): PrivateStatsReturn => {
-  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
   const [
     fetchPrivateStats,
     { data = {}, isLoading: arePrivateStatsLoading, error: privateStatsError },
@@ -32,14 +32,8 @@ export const usePrivateStats = ({
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    fetchPrivateStats({ interval, userEndpointToken });
-  }, [
-    fetchPrivateStats,
-    interval,
-    requestKey,
-    userEndpointToken,
-    selectedGroupAddress,
-  ]);
+    fetchPrivateStats({ interval, userEndpointToken, group });
+  }, [fetchPrivateStats, interval, requestKey, userEndpointToken, group]);
 
   return { arePrivateStatsLoading, data, privateStatsError };
 };

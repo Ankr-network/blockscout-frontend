@@ -2,6 +2,7 @@ import { Address } from '@ankr.com/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { GroupUserRole } from 'multirpc-sdk';
+import { GroupJwtData } from '../types';
 
 interface UserGroupConfig {
   shouldRemind?: boolean;
@@ -11,10 +12,12 @@ interface UserGroupConfig {
 
 export interface IUserGroupSlice {
   userGroupConfig: Record<Address, UserGroupConfig>;
+  userGroupJwt: Record<Address, GroupJwtData>;
 }
 
 const initialState: IUserGroupSlice = {
   userGroupConfig: {},
+  userGroupJwt: {},
 };
 
 export const userGroupSlice = createSlice({
@@ -29,6 +32,17 @@ export const userGroupSlice = createSlice({
 
       state.userGroupConfig[address] = {
         ...(state.userGroupConfig[address] || {}),
+        ...other,
+      };
+    },
+    setUserGroupJwt: (
+      state,
+      action: PayloadAction<GroupJwtData & { groupAddress: Address }>,
+    ) => {
+      const { groupAddress, ...other } = action?.payload;
+
+      state.userGroupJwt[groupAddress] = {
+        ...(state.userGroupJwt[groupAddress] || {}),
         ...other,
       };
     },
@@ -50,8 +64,23 @@ export const userGroupSlice = createSlice({
         };
       }
     },
+    resetUserGroupJwt: (state, action: PayloadAction<Address | undefined>) => {
+      const address = action.payload ?? '';
+      const token = state.userGroupJwt[address];
+
+      if (token) {
+        state.userGroupJwt[address] = {
+          jwtData: undefined,
+          jwtToken: undefined,
+        };
+      }
+    },
   },
 });
 
-export const { setUserGroupConfig, resetUserGroupConfig } =
-  userGroupSlice.actions;
+export const {
+  setUserGroupConfig,
+  resetUserGroupConfig,
+  setUserGroupJwt,
+  resetUserGroupJwt,
+} = userGroupSlice.actions;

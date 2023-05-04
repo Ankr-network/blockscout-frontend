@@ -6,15 +6,17 @@ import { downloadCsv } from 'modules/common/utils/downloadCsv';
 import { useLazyAccountFetchDailyChargingQuery } from 'domains/account/actions/fetchDailyCharging';
 import { getDailyChargingRequest } from '../utils/getDailyChargingRequest';
 import { t } from '@ankr.com/common';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useTransactionsDownloader = (): TransactionsDownloader => {
   const [fetchDailyCharging] = useLazyAccountFetchDailyChargingQuery();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   return useCallback(
     async (timestamp: string) => {
       const query = getDailyChargingRequest(timestamp);
 
-      const { data: csv } = await fetchDailyCharging(query);
+      const { data: csv } = await fetchDailyCharging({ ...query, group });
 
       if (csv) {
         const date = new Date(Number(timestamp));
@@ -27,6 +29,6 @@ export const useTransactionsDownloader = (): TransactionsDownloader => {
         downloadCsv(csv, title);
       }
     },
-    [fetchDailyCharging],
+    [fetchDailyCharging, group],
   );
 };

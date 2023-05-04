@@ -12,6 +12,7 @@ import {
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from './useAuth';
 import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const options: Options = { subscriptionOptions: { pollingInterval: 15_000 } };
 
@@ -33,15 +34,17 @@ export const useTransitionToFreeWatcher = () => {
 
   const [trigger] = useQueryEndpoint(oauthHasDepositTransaction, options);
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   useEffect(() => {
     if (isLoggedIn && !isDevRole) {
-      const { unsubscribe } = trigger(true);
+      const { unsubscribe } = trigger({ shouldCheckVoucherTopUp: true, group });
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [isLoggedIn, trigger, isDevRole]);
+  }, [isLoggedIn, trigger, isDevRole, group]);
 
   const shouldWatch = hasWatcher || !isDevRole;
 

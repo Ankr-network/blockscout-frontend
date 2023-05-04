@@ -1,13 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setUserGroupConfig } from 'domains/userGroup/store';
+import {
+  resetUserGroupConfig,
+  setUserGroupConfig,
+} from 'domains/userGroup/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useUserGroupConfig } from './useUserGroupConfig';
 import { shouldShowUserGroupDialog } from '../actions/shouldShowUserGroupDialog';
-import { GroupUserRole } from 'multirpc-sdk';
+import { GroupUserRole, UserGroup } from 'multirpc-sdk';
 
-export const useUserGroupSelect = () => {
+export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
   const { address } = useAuth();
   const dispatch = useDispatch();
 
@@ -29,6 +32,22 @@ export const useUserGroupSelect = () => {
     savedShouldRemind,
   );
 
+  useEffect(() => {
+    if (savedSelectedGroupAddress && !isLoading && groups.length > 0) {
+      const group = groups.find(
+        ({ groupAddress }) => groupAddress === savedSelectedGroupAddress,
+      );
+
+      /* we need to reset config in case if user was removed from group */
+      if (!group) {
+        dispatch(resetUserGroupConfig(address));
+        setSelectedGroupAddress(undefined);
+        setSelectedGroupRole(undefined);
+        setShouldRemind(undefined);
+      }
+    }
+  }, [address, dispatch, groups, isLoading, savedSelectedGroupAddress]);
+
   const handleSetUserGroup = useCallback(() => {
     dispatch(
       setUserGroupConfig({
@@ -39,12 +58,6 @@ export const useUserGroupSelect = () => {
       }),
     );
     dispatch(shouldShowUserGroupDialog.initiate());
-
-    const isPersonalGroup = address === selectedGroupAddress;
-    if (!isPersonalGroup) {
-      // we should refetch all data after user selects a group in modal
-      window.location.reload();
-    }
   }, [
     dispatch,
     address,

@@ -3,7 +3,11 @@ import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
 import { userGroupFetchGroups } from './fetchGroups';
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
-import { resetUserGroupConfig, selectUserGroupConfigByAddress } from '../store';
+import {
+  resetUserGroupConfig,
+  selectUserGroupConfigByAddress,
+  resetUserGroupJwt,
+} from '../store';
 
 // TODO change this action to hook. Resolve the problem, when store(localstorage) is faster then data in actions
 export const {
@@ -49,6 +53,8 @@ export const {
         if (hasGroups && selectedGroupAddress && !isUserStillGroupMember) {
           // if user is not a member of the selected group any longer, we should reset the config
           dispatch(resetUserGroupConfig(userAddress));
+          dispatch(resetUserGroupJwt(userAddress));
+
           return { data: true };
         }
 
