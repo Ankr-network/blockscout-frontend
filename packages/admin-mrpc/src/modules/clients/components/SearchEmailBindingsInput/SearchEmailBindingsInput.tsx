@@ -9,7 +9,9 @@ interface ISearchEmailBindingsInputProps {
   filterType: 'email' | 'address';
 }
 
-export const SearchEmailBindingsInput = ({filterType}: ISearchEmailBindingsInputProps) => {
+export const SearchEmailBindingsInput = ({
+  filterType,
+}: ISearchEmailBindingsInputProps) => {
   const { isLoading, searchValue, foundClients, onClientClick, onChange } =
     useSearchEmailBindingsInput(filterType);
   const { classes, cx } = useSearchInputStyles();
@@ -38,10 +40,8 @@ export const SearchEmailBindingsInput = ({filterType}: ISearchEmailBindingsInput
 
     if (isLoading) {
       return (
-        <li className={cx(classes.clientItem, classes.notFound)}>
-          Loading...
-        </li>
-      )
+        <li className={cx(classes.clientItem, classes.notFound)}>Loading...</li>
+      );
     }
 
     if (foundClients.length <= 0) {
@@ -49,11 +49,19 @@ export const SearchEmailBindingsInput = ({filterType}: ISearchEmailBindingsInput
         <li className={cx(classes.clientItem, classes.notFound)}>
           Nothing found
         </li>
-      )
+      );
     }
 
     return foundClients.map(renderClient);
-  },[classes.clientItem, classes.notFound, cx, foundClients, isLoading, renderClient, searchValue])
+  }, [
+    classes.clientItem,
+    classes.notFound,
+    cx,
+    foundClients,
+    isLoading,
+    renderClient,
+    searchValue,
+  ]);
 
   return (
     <div className={classes.root}>
@@ -67,9 +75,7 @@ export const SearchEmailBindingsInput = ({filterType}: ISearchEmailBindingsInput
         color="secondary"
       />
 
-      <ul className={classes.clientsList}>
-        {renderSearchResult}
-      </ul>
+      <ul className={classes.clientsList}>{renderSearchResult}</ul>
     </div>
   );
 };

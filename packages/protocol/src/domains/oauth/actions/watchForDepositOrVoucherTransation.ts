@@ -54,7 +54,7 @@ export const {
           checkFreemiumUserWatching(state);
 
         const shouldNotWatchForTransactionDevRole =
-          userGroupRole === 'GROUP_ROLE_DEV';
+          userGroupRole === GroupUserRole.dev;
 
         const shouldNotWatch =
           (shouldNotWatchForTransactionOauthUser &&

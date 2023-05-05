@@ -25,13 +25,11 @@ export const {
       queryFn: async ({ timeframe, userToken, group }) => {
         const service = MultiService.getService();
 
-        const result = await service
-          .getAccountGateway()
-          .getUserRequests({
-            timeframe: valuesMap[timeframe],
-            userToken,
-            group,
-          });
+        const result = await service.getAccountGateway().getUserRequests({
+          timeframe: valuesMap[timeframe],
+          userToken,
+          group,
+        });
 
         return {
           data: handleData(result, timeframe),

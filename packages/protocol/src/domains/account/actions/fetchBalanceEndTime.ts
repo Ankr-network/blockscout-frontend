@@ -24,12 +24,10 @@ export const {
 
           const service = MultiService.getService();
 
-          const endTime = await service
-            .getAccountGateway()
-            .getBalanceEndTime({
-              blockchains: blockchains ?? undefined,
-              group,
-            });
+          const endTime = await service.getAccountGateway().getBalanceEndTime({
+            blockchains: blockchains ?? undefined,
+            group,
+          });
 
           return { data: endTime };
         },

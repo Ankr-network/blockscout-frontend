@@ -373,10 +373,11 @@ export interface IGetGroupJwtResponse {
   jwt_data: string;
 }
 
-export type GroupUserRole =
-  | 'GROUP_ROLE_OWNER'
-  | 'GROUP_ROLE_DEV'
-  | 'GROUP_ROLE_FINANCE';
+export enum GroupUserRole {
+  dev = 'GROUP_ROLE_DEV',
+  finance = 'GROUP_ROLE_FINANCE',
+  owner = 'GROUP_ROLE_OWNER',
+}
 
 export interface UserGroup {
   groupAddress: string;

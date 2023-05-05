@@ -834,6 +834,11 @@
     "common": {
       "email-value-fallback": "the email provided"
     },
+    "settings-tab": {
+      "general": "General",
+      "my-company": "My Company"
+    },
+    "remove-from-team": "Remove from team",
     "email-banner": {
       "add-step": {
         "title": "Add your Email",

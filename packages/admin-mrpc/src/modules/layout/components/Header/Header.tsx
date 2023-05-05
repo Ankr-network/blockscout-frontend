@@ -17,7 +17,6 @@ export const Header = ({
   hasSecretRouteAccess,
   hasTestDriveTokenCreationAccess,
 }: HeaderProps) => {
-
   return (
     <>
       <Logo />
