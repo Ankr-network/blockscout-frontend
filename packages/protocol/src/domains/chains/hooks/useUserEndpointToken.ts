@@ -10,7 +10,7 @@ export const useUserEndpointToken = () => {
   const { jwtTokens } = useJwtTokenManager();
   const { groupToken } = useGroupJwtToken();
 
-  if (groupToken && tokenIndex === PRIMARY_TOKEN_INDEX) {
+  if (groupToken?.jwtToken && tokenIndex === PRIMARY_TOKEN_INDEX) {
     return groupToken.jwtToken;
   }
 
