@@ -33,6 +33,7 @@ import { useWeb3ThemeSwitcher } from './hooks/useWeb3ThemeSwitcher';
 import { GuardUserGroup } from './domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useTransitionToFreeWatcher } from 'domains/auth/hooks/useTransitionToFreeWatcher';
+import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 
 export const Routes = () => {
   const {
@@ -41,6 +42,8 @@ export const Routes = () => {
     hasPrivateAccess,
     isUserEthAddressType,
   } = useAuth();
+
+  usePremiumStatusSubscription();
 
   const hasAuthData = Boolean(authorizationToken);
 
