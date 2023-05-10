@@ -8,7 +8,12 @@ interface ClientTooltipProps {
   classes: Record<'clientItem' | 'clientButton' | 'tooltipWrapper', string>;
 }
 
-export const ClientTooltip = ({title, client, onClientClick, classes}: ClientTooltipProps) => {
+export const ClientTooltip = ({
+  title,
+  client,
+  onClientClick,
+  classes,
+}: ClientTooltipProps) => {
   return (
     <li className={classes.clientItem}>
       <Tooltip
@@ -26,4 +31,4 @@ export const ClientTooltip = ({title, client, onClientClick, classes}: ClientToo
       </Tooltip>
     </li>
   );
-}
+};

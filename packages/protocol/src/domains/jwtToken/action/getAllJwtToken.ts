@@ -1,7 +1,7 @@
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { MultiService } from 'modules/api/MultiService';
-import { GetState, RootState } from 'store';
+import { RootState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import {
@@ -9,10 +9,14 @@ import {
   getUserEndpointToken,
 } from './getAllJwtTokenUtils';
 import { getSortedJwtTokens, PRIMARY_TOKEN_INDEX } from '../utils/utils';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
+import { IApiUserGroupParams } from 'multirpc-sdk';
 
 export interface IUserJwtToken {
   jwtTokens: JwtManagerToken[];
+}
+
+interface IRequestParams extends IApiUserGroupParams {
+  loading?: boolean;
 }
 
 export const {
@@ -21,55 +25,55 @@ export const {
   endpoints: { fetchAllJwtTokenRequests },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchAllJwtTokenRequests: build.query<IUserJwtToken, boolean | void>({
-      queryFn: createNotifyingQueryFn(async (loading, { getState }) => {
-        if (loading) return { data: { jwtTokens: [] } };
-        const { selectedGroupAddress: group } = getSelectedGroupAddress(
-          getState as GetState,
-        );
-        const accountGateway = MultiService.getService().getAccountGateway();
+    fetchAllJwtTokenRequests: build.query<IUserJwtToken, IRequestParams>({
+      queryFn: createNotifyingQueryFn(
+        async ({ loading, group }, { getState }) => {
+          if (loading) return { data: { jwtTokens: [] } };
 
-        const result = await accountGateway.getAllJwtToken({ group });
+          const accountGateway = MultiService.getService().getAccountGateway();
 
-        const primaryData = result.find(
-          item => item.index === PRIMARY_TOKEN_INDEX,
-        );
+          const result = await accountGateway.getAllJwtToken({ group });
 
-        if (!primaryData) {
-          result.push({
-            index: PRIMARY_TOKEN_INDEX,
-            jwt_data: '',
-            is_encrypted: false,
-          });
-        }
+          const primaryData = result.find(
+            item => item.index === PRIMARY_TOKEN_INDEX,
+          );
 
-        const state = getState() as RootState;
+          if (!primaryData) {
+            result.push({
+              index: PRIMARY_TOKEN_INDEX,
+              jwt_data: '',
+              is_encrypted: false,
+            });
+          }
 
-        const groupToken =
-          group &&
-          primaryData &&
-          (await getUserEndpointToken(
-            primaryData?.jwt_data,
-            primaryData?.is_encrypted,
-          ));
+          const state = getState() as RootState;
 
-        const { workerTokenData } = selectAuthData(state);
+          const groupToken =
+            group &&
+            primaryData &&
+            (await getUserEndpointToken(
+              primaryData?.jwt_data,
+              primaryData?.is_encrypted,
+            ));
 
-        const primaryEndpointToken = group
-          ? groupToken
-          : workerTokenData?.userEndpointToken;
+          const { workerTokenData } = selectAuthData(state);
 
-        const decryptedTokens = await formatJwtTokensAndDecrypt(
-          result,
-          primaryEndpointToken,
-        );
+          const primaryEndpointToken = group
+            ? groupToken
+            : workerTokenData?.userEndpointToken;
 
-        return {
-          data: {
-            jwtTokens: getSortedJwtTokens(decryptedTokens),
-          },
-        };
-      }),
+          const decryptedTokens = await formatJwtTokensAndDecrypt(
+            result,
+            primaryEndpointToken,
+          );
+
+          return {
+            data: {
+              jwtTokens: getSortedJwtTokens(decryptedTokens),
+            },
+          };
+        },
+      ),
     }),
   }),
   overrideExisting: true,

@@ -5,7 +5,10 @@ import { topUpReset } from 'domains/account/actions/topUp/reset';
 import { trackSignOut } from 'modules/analytics/mixpanel/trackSignOut';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
-import { resetUserGroupConfig } from 'domains/userGroup/store';
+import {
+  resetUserGroupConfig,
+  resetUserGroupJwt,
+} from 'domains/userGroup/store';
 
 export const {
   useLazyAuthDisconnectQuery,
@@ -16,6 +19,7 @@ export const {
       queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
         const { address } = selectAuthData(getState() as RootState);
         dispatch(resetUserGroupConfig(address));
+        dispatch(resetUserGroupJwt(address));
 
         dispatch(resetAuthData());
 

@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 import { createJwtToken } from 'domains/jwtToken/action/createJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { jwtTokenIntlRoot } from '../utils/utils';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export enum AddProjectStep {
   initial = 'initial',
@@ -26,9 +27,11 @@ export const useAddProject = (tokenIndex: number) => {
   const [createJwtTokenQuery, { isLoading }, reset] =
     useQueryEndpoint(createJwtToken);
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   const handleCreate = useCallback(() => {
     const create = async () => {
-      const { data, error } = await createJwtTokenQuery(tokenIndex);
+      const { data, error } = await createJwtTokenQuery({ tokenIndex, group });
 
       if (error) {
         setAddProjectStep(AddProjectStep.failed);
@@ -53,6 +56,7 @@ export const useAddProject = (tokenIndex: number) => {
     setSuccessProjectName,
     setUserEndpointToken,
     reset,
+    group,
   ]);
 
   return {

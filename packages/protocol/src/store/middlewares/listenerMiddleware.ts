@@ -1,6 +1,7 @@
 import { EventProvider, ProviderEvents } from '@ankr.com/provider';
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 
+import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { authConnect } from 'domains/auth/actions/connect';
 import { authDisconnect } from 'domains/auth/actions/disconnect';
@@ -13,6 +14,8 @@ import { oauthSignout } from 'domains/oauth/actions/signout';
 import { watchForVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForVoucherTransactionAndNegativeBalance';
 import { oauthLoginByGoogleSecretCode } from 'domains/oauth/actions/loginByGoogleSecretCode';
 import { shouldShowUserGroupDialog } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
+import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
+import { userGroupFetchGroupJwt } from 'domains/userGroup/actions/fetchGroupJwt';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -39,9 +42,14 @@ listenerMiddleware.startListening({
     oauthAutoLogin.matchFulfilled,
     authConnect.matchFulfilled,
   ),
-  effect: async (_action, { dispatch }) => {
-    dispatch(watchForDepositOrVoucherTransation.initiate());
-    dispatch(watchForVoucherTransactionAndNegativeBalance.initiate());
+  effect: async (_action, { dispatch, getState }) => {
+    const { selectedGroupAddress: group, selectedGroupRole: userGroupRole } =
+      getSelectedGroupAddress(getState() as RootState);
+
+    dispatch(
+      watchForDepositOrVoucherTransation.initiate({ userGroupRole, group }),
+    );
+    dispatch(watchForVoucherTransactionAndNegativeBalance.initiate({ group }));
   },
 });
 
@@ -99,5 +107,26 @@ listenerMiddleware.startListening({
   ),
   effect: async (_action, { dispatch }) => {
     dispatch(shouldShowUserGroupDialog.initiate());
+  },
+});
+
+// we need to get new groupToken for selected group once is has been changed
+listenerMiddleware.startListening({
+  predicate: (action, currentState, prevState) => {
+    const { selectedGroupAddress: currentSelectedGroupAddress } =
+      getSelectedGroupAddress(currentState as RootState);
+    const { selectedGroupAddress: prevSelectedGroupAddress } =
+      getSelectedGroupAddress(prevState as RootState);
+
+    return currentSelectedGroupAddress !== prevSelectedGroupAddress;
+  },
+  effect: async (_action, { dispatch, getState }) => {
+    const { selectedGroupAddress: group } = getSelectedGroupAddress(
+      getState() as RootState,
+    );
+
+    if (group) {
+      dispatch(userGroupFetchGroupJwt.initiate({ group }));
+    }
   },
 });

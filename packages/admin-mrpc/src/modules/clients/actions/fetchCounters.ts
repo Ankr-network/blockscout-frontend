@@ -113,8 +113,8 @@ export const {
         await Promise.all([
           fetchAllCounters(),
           fetchAllEmails(),
-          fetchAllBalances()
-        ])
+          fetchAllBalances(),
+        ]);
 
         const clients = countersCollection.map(client => {
           const userBalances = balancesCollection.find(

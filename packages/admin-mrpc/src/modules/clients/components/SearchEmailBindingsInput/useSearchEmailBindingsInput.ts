@@ -5,19 +5,26 @@ import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { clearSpaces } from 'modules/clients/utils/clearSpaces';
 import { useLazyFetchUsersEmailsQuery } from '../../actions/fetchUsersEmails';
 
-export const useSearchEmailBindingsInput = (filterType: 'email' | 'address') => {
+export const useSearchEmailBindingsInput = (
+  filterType: 'email' | 'address',
+) => {
   const history = useHistory();
 
   const [searchValue, setSearchValue] = useState('');
-  const [fetchClients, {data: foundClients = [], isLoading: isRequestLoading, isFetching: isRequestFetching}] = useLazyFetchUsersEmailsQuery()
+  const [
+    fetchClients,
+    {
+      data: foundClients = [],
+      isLoading: isRequestLoading,
+      isFetching: isRequestFetching,
+    },
+  ] = useLazyFetchUsersEmailsQuery();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(()=> {
+  useEffect(() => {
     const loadingState = isRequestLoading || isRequestFetching;
     setIsLoading(loadingState);
-  },[
-    isRequestLoading, isRequestFetching
-  ])
+  }, [isRequestLoading, isRequestFetching]);
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -28,13 +35,16 @@ export const useSearchEmailBindingsInput = (filterType: 'email' | 'address') => 
     [],
   );
 
-  useEffect(()=>{
+  useEffect(() => {
     if (searchValue) {
       setIsLoading(true);
       // searching with timeout to have an offset for typing
-      setTimeout(() => fetchClients({filter: searchValue, filter_type: filterType}), 1000);
+      setTimeout(
+        () => fetchClients({ filter: searchValue, filter_type: filterType }),
+        1000,
+      );
     }
-  },[fetchClients, filterType, searchValue]);
+  }, [fetchClients, filterType, searchValue]);
 
   const onClientClick = useCallback(
     (address?: Web3Address) => {

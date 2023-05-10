@@ -2,6 +2,7 @@ import { hasVoucherTransactionAndBalanceIsGreaterThanZero as oauthHasVoucherTran
 import { oauthHasDepositTransaction } from './hasDepositTransaction';
 import { setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+import { IApiUserGroupParams } from 'multirpc-sdk';
 
 export interface CheckDepositOrVoucherTransactionResult {
   hasDepositTransaction: boolean;
@@ -15,16 +16,23 @@ export const {
   endpoints: build => ({
     checkDepositOrVoucherTransaction: build.query<
       CheckDepositOrVoucherTransactionResult,
-      void
+      IApiUserGroupParams
     >({
-      queryFn: async (_args, { dispatch }) => {
+      queryFn: async ({ group }, { dispatch }) => {
         const [
           { data: hasDepositTransaction = false },
           { data: hasVoucherTransaction = false },
         ] = await Promise.all([
-          dispatch(oauthHasDepositTransaction.initiate()),
           dispatch(
-            oauthHasVoucherTransactionAndBalanceIsGreaterThanZero.initiate(),
+            oauthHasDepositTransaction.initiate({
+              shouldCheckVoucherTopUp: false,
+              group,
+            }),
+          ),
+          dispatch(
+            oauthHasVoucherTransactionAndBalanceIsGreaterThanZero.initiate({
+              group,
+            }),
           ),
         ]);
 

@@ -44,13 +44,15 @@ export const Layout = ({
       <HideOnScroll>
         <AppBar elevation={0} position="fixed" className={classes.appBar}>
           <Container maxWidth="xl">
-              <Toolbar disableGutters>
-                <Header
-                  address={address}
-                  hasSecretRouteAccess={hasSecretRouteAccess}
-                  hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
-                />
-              </Toolbar>
+            <Toolbar disableGutters>
+              <Header
+                address={address}
+                hasSecretRouteAccess={hasSecretRouteAccess}
+                hasTestDriveTokenCreationAccess={
+                  hasTestDriveTokenCreationAccess
+                }
+              />
+            </Toolbar>
             <Toolbar disableGutters>
               {address && <SearchClientsInput />}
               {address && <SearchEmailBindingsInput filterType="email" />}

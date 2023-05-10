@@ -2,6 +2,7 @@ import {
   selectIsSelectedUserGroupPersonal,
   selectSelectedUserGroup,
   selectSelectedUserGroupIndex,
+  selectUserGroupJwtBySelectedGroupAddress,
 } from 'domains/userGroup/store';
 import { useAppSelector } from 'store/useAppSelector';
 
@@ -11,6 +12,9 @@ export const useSelectedUserGroup = () => {
   const isPersonal = useAppSelector(selectIsSelectedUserGroupPersonal);
   const selectedGroupAddress = isPersonal ? undefined : group?.groupAddress;
   const isGroupSelected = Boolean(selectedGroupAddress);
+  const selectedGroupJwt = useAppSelector(
+    selectUserGroupJwtBySelectedGroupAddress,
+  );
 
   return {
     group,
@@ -18,5 +22,6 @@ export const useSelectedUserGroup = () => {
     isPersonal,
     selectedGroupAddress,
     isGroupSelected,
+    selectedGroupJwt,
   };
 };

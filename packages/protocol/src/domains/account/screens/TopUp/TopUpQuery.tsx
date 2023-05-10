@@ -14,6 +14,7 @@ import {
 import { useLazyTopUpResetQuery } from 'domains/account/actions/topUp/reset';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const TopUpQuery = () => {
   const { loading, hasPrivateAccess, isLoggedIn, isWalletConnected } =
@@ -26,15 +27,24 @@ export const TopUpQuery = () => {
 
   useCheckConfirmedEmail(hasPrivateAccess, isWalletConnected);
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   useEffect(() => {
     if (!isWalletConnected) {
       const link = routesConfig.generatePath();
 
       history.push(link);
     } else if (!loading) {
-      getInitialStep();
+      getInitialStep({ group });
     }
-  }, [loading, isWalletConnected, history, routesConfig, getInitialStep]);
+  }, [
+    loading,
+    isWalletConnected,
+    history,
+    routesConfig,
+    getInitialStep,
+    group,
+  ]);
 
   useOnUnmount(() => {
     reset();

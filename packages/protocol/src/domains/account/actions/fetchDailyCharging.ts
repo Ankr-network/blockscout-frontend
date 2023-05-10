@@ -3,8 +3,6 @@ import { IDailyChargingParams, IDailyChargingResponse } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { GetState } from 'store';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 export const {
   useLazyAccountFetchDailyChargingQuery,
@@ -15,15 +13,10 @@ export const {
       IDailyChargingResponse,
       IDailyChargingParams
     >({
-      queryFn: createNotifyingQueryFn(async (params, { getState }) => {
-        const { selectedGroupAddress: group } = getSelectedGroupAddress(
-          getState as GetState,
-        );
+      queryFn: createNotifyingQueryFn(async params => {
         const service = MultiService.getService();
 
-        const data = await service
-          .getAccountGateway()
-          .getDailyCharging({ ...params, group });
+        const data = await service.getAccountGateway().getDailyCharging(params);
 
         return { data };
       }),

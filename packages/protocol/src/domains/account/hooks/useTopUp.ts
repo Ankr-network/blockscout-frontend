@@ -19,7 +19,7 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
-import { useSelectedUserGroup } from '../../userGroup/hooks/useSelectedUserGroup';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useTopUp = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
@@ -101,8 +101,8 @@ export const useTopUp = () => {
   ]);
 
   const handleWaitTransactionConfirming = useCallback(
-    () => waitTransactionConfirming(),
-    [waitTransactionConfirming],
+    () => waitTransactionConfirming({ group: selectedGroupAddress }),
+    [waitTransactionConfirming, selectedGroupAddress],
   );
 
   const handleLogin = useCallback(() => login(), [login]);
@@ -121,7 +121,7 @@ export const useTopUp = () => {
   const trackTopUp = useTopUpTrackingHandler();
 
   const handleRejectAllowance = useCallback(() => {
-    const result = rejectAllowance();
+    const result = rejectAllowance({ group: selectedGroupAddress });
 
     trackTopUp({
       isAllowanceConfirmed: true,
@@ -129,7 +129,7 @@ export const useTopUp = () => {
     });
 
     return result;
-  }, [rejectAllowance, trackTopUp]);
+  }, [rejectAllowance, trackTopUp, selectedGroupAddress]);
 
   const handleRedirectIfCredentials = useCallback(
     () => redirectIfCredentials(),

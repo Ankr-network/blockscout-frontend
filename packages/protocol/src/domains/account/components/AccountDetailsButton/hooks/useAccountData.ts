@@ -7,6 +7,7 @@ import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useLazyAccountFetchBalanceEndTimeQuery } from 'domains/account/actions/fetchBalanceEndTime';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export interface AccountData {
   accountType: AccountType;
@@ -37,11 +38,13 @@ export const useAccountData = (): AccountData => {
     { data: balanceEndTime = -1, isLoading: isBalanceEndTimeLoading },
   ] = useLazyAccountFetchBalanceEndTimeQuery();
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   useEffect(() => {
     if (hasPrivateAccess) {
-      accountFetchBalanceEndTimeQuery();
+      accountFetchBalanceEndTimeQuery({ group });
     }
-  }, [accountFetchBalanceEndTimeQuery, hasPrivateAccess]);
+  }, [accountFetchBalanceEndTimeQuery, hasPrivateAccess, group]);
 
   const accountType = useMemo(
     () =>

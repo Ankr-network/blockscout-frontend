@@ -8,6 +8,7 @@ import { getPremiumBalanceThresholds } from '../utils/getPremiumBalanceThreshold
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { oauthHasDepositTransaction } from 'domains/oauth/actions/hasDepositTransaction';
 import { selectAuthData } from './authSlice';
+import { selectSelectedUserGroupRole } from 'domains/userGroup/store';
 
 export const selectCredentials = createSelector(
   selectAuthData,
@@ -117,7 +118,7 @@ export const selectIsWeb3UserWithEmailBound = createSelector(
 );
 
 export const selectHasZeroBalance = createSelector(
-  accountFetchBalance.select(),
+  accountFetchBalance.select({ group: undefined }),
   ({ data: { creditBalance } = {} }) => creditBalance?.isZero() ?? true,
 );
 
@@ -137,7 +138,10 @@ export const selectTimeToResetTransitionToFree = createSelector(
 );
 
 export const selectHasDepositTransaction = createSelector(
-  oauthHasDepositTransaction.select(),
+  oauthHasDepositTransaction.select({
+    shouldCheckVoucherTopUp: false,
+    group: undefined,
+  }),
   ({ data: hasDepositTransaction = false }) => hasDepositTransaction,
 );
 
@@ -163,7 +167,7 @@ export const selectIsTransitionToFreeWatcherEnded = createSelector(
 const { freemiumToPremium, premiumToFreemium } = getPremiumBalanceThresholds();
 
 export const selectHasFreeToPremiumTransition = createSelector(
-  accountFetchBalance.select(),
+  accountFetchBalance.select({ group: undefined }),
   selectHasFreemium,
   selectIsWeb3UserWithEmailBound,
   ({ data: { creditBalance } = {} }, hasFreemium, isWeb3UserWithEmailBound) =>
@@ -175,7 +179,7 @@ export const selectHasFreeToPremiumTransition = createSelector(
 );
 
 export const selectHasPremiumToFreeTransition = createSelector(
-  accountFetchBalance.select(),
+  accountFetchBalance.select({ group: undefined }),
   selectHasPremium,
   selectIsTransitionToFreeWatcherEnded,
   ({ data: { creditBalance } = {} }, hasPremium, isWatcherEnded) =>
@@ -187,8 +191,10 @@ export const selectHasPremiumToFreeTransition = createSelector(
 export const selectHasStatusTransition = createSelector(
   selectHasFreeToPremiumTransition,
   selectHasPremiumToFreeTransition,
-  (hasFreeToPremiumTransition, hasPremiumToFreeTransition) =>
-    hasFreeToPremiumTransition || hasPremiumToFreeTransition,
+  selectSelectedUserGroupRole,
+  (hasFreeToPremiumTransition, hasPremiumToFreeTransition, userRole) =>
+    userRole !== 'GROUP_ROLE_DEV' &&
+    (hasFreeToPremiumTransition || hasPremiumToFreeTransition),
 );
 
 export const selectHasConnectWalletMessage = createSelector(

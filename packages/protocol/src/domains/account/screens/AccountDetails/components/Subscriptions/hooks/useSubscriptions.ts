@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useFetchSubscriptions } from './useFetchSubscriptions';
 import { useLazyCancelSubscriptionQuery } from 'domains/account/utils/cancelSubscription';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export interface IUseSubscriptions {
   subscriptions: ISubscriptionsResponse;
@@ -13,6 +14,7 @@ export interface IUseSubscriptions {
 
 export const useSubscriptions = (): IUseSubscriptions => {
   const { hasPremium, loading: isConnecting } = useAuth();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const [fetchSubscriptionsData, subscriptions, isLoading] =
     useFetchSubscriptions({
@@ -23,10 +25,10 @@ export const useSubscriptions = (): IUseSubscriptions => {
 
   const cancelSubscription = useCallback(
     async (subscriptionId: string) => {
-      await cancelSubscriptionInternal(subscriptionId);
-      fetchSubscriptionsData();
+      await cancelSubscriptionInternal({ subscriptionId, group });
+      fetchSubscriptionsData({ group });
     },
-    [cancelSubscriptionInternal, fetchSubscriptionsData],
+    [cancelSubscriptionInternal, fetchSubscriptionsData, group],
   );
 
   return {

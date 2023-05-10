@@ -10,13 +10,13 @@ import { useUserGroupConfig } from './useUserGroupConfig';
 
 const getPermissions = (role?: GroupUserRole) => {
   switch (role) {
-    case 'GROUP_ROLE_DEV':
+    case GroupUserRole.dev:
       return DEVELOPER_PERMISSIONS;
 
-    case 'GROUP_ROLE_FINANCE':
+    case GroupUserRole.finance:
       return FINANCE_PERMISSIONS;
 
-    case 'GROUP_ROLE_OWNER':
+    case GroupUserRole.owner:
     default:
       return OWNER_PERMISSIONS;
   }
@@ -29,9 +29,9 @@ export const usePermissionsAndRole = () => {
     [selectedGroupRole],
   );
 
-  const isDevRole = selectedGroupRole === 'GROUP_ROLE_DEV';
-  const isFinanceRole = selectedGroupRole === 'GROUP_ROLE_FINANCE';
-  const isOwnerRole = selectedGroupRole === 'GROUP_ROLE_OWNER';
+  const isDevRole = selectedGroupRole === GroupUserRole.dev;
+  const isFinanceRole = selectedGroupRole === GroupUserRole.finance;
+  const isOwnerRole = selectedGroupRole === GroupUserRole.owner;
 
   return {
     permissions,

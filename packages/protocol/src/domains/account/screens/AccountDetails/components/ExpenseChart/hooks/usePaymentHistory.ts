@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { ChartTimeframe } from '../types';
 import { getTimeframeBorders } from '../utils/getTimeframeBorders';
 import { useLazyAccountFetchExpenseChartDataQuery } from 'domains/account/actions/fetchExpenseChartData';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const defaultData: IAggregatedPaymentHistoryResponse = {
   transactions: [],
@@ -28,6 +29,8 @@ export const usePaymentHistory = ({
   const [fetchExpenseChartData, { data = defaultData, isLoading }] =
     useLazyAccountFetchExpenseChartDataQuery();
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   useEffect(() => {
     if (hasPrivateAccess) {
       const borders = getTimeframeBorders(timeframe);
@@ -36,9 +39,10 @@ export const usePaymentHistory = ({
         ...borders,
         time_group: AggregatedPaymentHistoryTimeGroup.DAY,
         types: ['TRANSACTION_TYPE_DEDUCTION'],
+        group,
       });
     }
-  }, [fetchExpenseChartData, hasPrivateAccess, timeframe]);
+  }, [fetchExpenseChartData, hasPrivateAccess, timeframe, group]);
 
   const { transactions = [] } = data;
 

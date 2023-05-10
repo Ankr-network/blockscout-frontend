@@ -9,27 +9,25 @@ export const {
   endpoints: { fetchUsersEmails },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchUsersEmails: build.query<
-      IEmailBindingEntity[],
-      IEmailBindingsRequest
-    >({
-      queryFn: async ({ filter_type, filter  }) => {
-        const service = await MultiService.getWeb3Service();
-        const backofficeGateway = await service.getBackofficeGateway();
-        await authorizeBackoffice();
+    fetchUsersEmails: build.query<IEmailBindingEntity[], IEmailBindingsRequest>(
+      {
+        queryFn: async ({ filter_type, filter }) => {
+          const service = await MultiService.getWeb3Service();
+          const backofficeGateway = await service.getBackofficeGateway();
+          await authorizeBackoffice();
 
-        const emails =
-          await backofficeGateway.getEmailBindings({
+          const emails = await backofficeGateway.getEmailBindings({
             limit: MAX_EMAILS_REQUEST_COUNT,
             filter,
             filter_type,
           });
 
-        return {
-          data: emails.bindings || [],
-        };
+          return {
+            data: emails.bindings || [],
+          };
+        },
       },
-    }),
+    ),
   }),
   overrideExisting: true,
 });

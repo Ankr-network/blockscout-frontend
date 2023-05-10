@@ -1,15 +1,21 @@
+import { useMemo } from 'react';
 import { OverlaySpinner } from '@ankr.com/ui';
 
+import { selectUserGroups } from 'domains/userGroup/store';
+import { useAppSelector } from 'store/useAppSelector';
 import { AddEmailBannerCard } from 'domains/userSettings/components/AddEmailBanner';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
-import { EmailBlock } from './components/EmailBlock';
-import { NotificationsBlock } from './components/NotificationsBlock';
 import { useEmailBannerProps, useSettingsBreadcrumbs } from './SettingsUtils';
 import { useEmailData } from './hooks/useSettings';
-import { TwoFABlock } from './components/TwoFABlock';
+import { SettingsTabs } from './components/SettingsTabs';
+import { GeneralSettings } from './components/GeneralSettings';
 
 export const SettingsQuery = () => {
   const emailData = useEmailData();
+
+  const groups = useAppSelector(selectUserGroups);
+
+  const hasGroupTabs = useMemo(() => groups.length > 1, [groups]);
 
   useSettingsBreadcrumbs();
 
@@ -21,13 +27,11 @@ export const SettingsQuery = () => {
   }
 
   if (confirmedEmail) {
-    return (
-      <>
-        <EmailBlock />
-        <TwoFABlock />
-        <NotificationsBlock />
-      </>
-    );
+    if (hasGroupTabs) {
+      return <SettingsTabs />;
+    }
+
+    return <GeneralSettings />;
   }
 
   if (!bannerProps) {

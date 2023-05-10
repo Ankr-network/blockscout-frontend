@@ -3,8 +3,6 @@ import { PaymentHistory, PaymentHistoryParams } from 'domains/account/types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { loadPaymentHistory } from '../utils/loadPaymentHistory';
 import { web3Api } from 'store/queries';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
-import { GetState } from 'store';
 
 export const {
   endpoints: { accountFetchPaymentHistory },
@@ -15,11 +13,8 @@ export const {
       PaymentHistory,
       PaymentHistoryParams
     >({
-      queryFn: createNotifyingQueryFn(async (params, { getState }) => {
-        const { selectedGroupAddress: group } = getSelectedGroupAddress(
-          getState as GetState,
-        );
-        const data = await loadPaymentHistory({ ...params, group });
+      queryFn: createNotifyingQueryFn(async params => {
+        const data = await loadPaymentHistory(params);
 
         return { data };
       }),

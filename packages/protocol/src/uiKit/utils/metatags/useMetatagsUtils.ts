@@ -118,6 +118,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = renderSecretName(chainId);
   } else if (chainId.includes(ChainID.ETH)) {
     name = renderETHName(chainId);
+  } else if (chainId.includes(ChainID.SCROLL)) {
+    name = 'Scroll testnet';
   } else if (chainId === ChainID.MANTLE) {
     name = 'Mantle Testnet';
   } else if (chainId === ChainID.POLYGON_ZKEVM) {
@@ -132,6 +134,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = renderZetaChainName(chainId);
   } else if (chainId === ChainID.TRON_JSON_RPC) {
     name = 'Tron JSON-RPC';
+  } else if (chainId === ChainID.BASE) {
+    name = 'Base Goerli testnet';
   } else if (chainId.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {

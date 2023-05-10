@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { jwtTokenIntlRoot } from '../utils/utils';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export enum DeleteProjectStep {
   initial = 'initial',
@@ -22,9 +23,14 @@ export const useDeleteProject = (
   const [deleteProject, { isLoading }, reset] =
     useQueryEndpoint(deleteJwtToken);
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   const handleDelete = useCallback(() => {
     const deleteAction = async () => {
-      const { error } = await deleteProject(viewTokenIndex);
+      const { error } = await deleteProject({
+        tokenIndex: viewTokenIndex,
+        group,
+      });
 
       if (error) {
         setDeleteProjectStep(DeleteProjectStep.failed);
@@ -50,6 +56,7 @@ export const useDeleteProject = (
     onClose,
     setDeleteProjectStep,
     reset,
+    group,
   ]);
 
   const title = useMemo(

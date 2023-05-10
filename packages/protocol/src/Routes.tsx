@@ -1,38 +1,40 @@
 import { Route, Switch } from 'react-router-dom';
 
-import { AccountRoutes, AccountRoutesConfig } from './domains/account/Routes';
+import { AccountRoutes, AccountRoutesConfig } from 'domains/account/Routes';
 import {
   AdvancedApiRoutes,
   AdvancedApiRoutesConfig,
-} from './domains/advancedApi/routes';
+} from 'domains/advancedApi/routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import {
   ChainDetailsRoutes,
   ChainPrivateRoutes,
   ChainsRoutes,
   ChainsRoutesConfig,
-} from './domains/chains/routes';
+} from 'domains/chains/routes';
 import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
-import { DefaultLayout } from './modules/layout/components/DefautLayout';
+import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
 import {
   GuardAuthRoute,
   GuardPremiumEndpointRoute,
-} from './domains/auth/components/GuardAuthRoute';
+} from 'domains/auth/components/GuardAuthRoute';
 import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
 import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
 import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
-import { PageNotFound } from './modules/router/components/PageNotFound';
+import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { useAuth } from './domains/auth/hooks/useAuth';
-import { useAutoconnect } from './hooks/useAutoconnect';
-import { useWeb3ThemeSwitcher } from './hooks/useWeb3ThemeSwitcher';
-import { GuardUserGroup } from './domains/userGroup/components/GuardUserGroup';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useAutoconnect } from 'hooks/useAutoconnect';
+import { useWeb3ThemeSwitcher } from 'hooks/useWeb3ThemeSwitcher';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useTransitionToFreeWatcher } from 'domains/auth/hooks/useTransitionToFreeWatcher';
+import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
+import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 
 export const Routes = () => {
   const {
@@ -44,6 +46,8 @@ export const Routes = () => {
 
   const hasAuthData = Boolean(authorizationToken);
 
+  usePremiumStatusSubscription();
+  useBalanceSubscription();
   useAutoconnect();
   useWeb3ThemeSwitcher();
   useTransitionToFreeWatcher();

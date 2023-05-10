@@ -1,8 +1,7 @@
+import { IApiUserGroupParams } from 'multirpc-sdk';
 import { web3Api } from 'store/queries';
 import { MultiService } from 'modules/api/MultiService';
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
-import { GetState } from 'store';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 
 export const {
   endpoints: { hasVoucherTransactionAndBalanceIsGreaterThanZero },
@@ -11,13 +10,10 @@ export const {
   endpoints: build => ({
     hasVoucherTransactionAndBalanceIsGreaterThanZero: build.query<
       boolean,
-      void
+      IApiUserGroupParams
     >({
-      queryFn: async (_args, { dispatch, getState }) => {
+      queryFn: async ({ group }, { dispatch }) => {
         const service = MultiService.getService();
-        const { selectedGroupAddress: group } = getSelectedGroupAddress(
-          getState as GetState,
-        );
 
         const { transactions } = await service
           .getAccountGateway()
@@ -31,7 +27,9 @@ export const {
           Array.isArray(transactions) && transactions?.length > 0,
         );
 
-        const balance = await dispatch(accountFetchBalance.initiate()).unwrap();
+        const balance = await dispatch(
+          accountFetchBalance.initiate({ group }),
+        ).unwrap();
 
         return {
           data: hasTransaction && balance?.creditBalance?.isGreaterThan(0),
