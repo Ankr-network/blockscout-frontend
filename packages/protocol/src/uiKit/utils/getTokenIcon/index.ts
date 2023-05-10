@@ -35,6 +35,7 @@ import tronIcon from './icons/tron.svg';
 import rolluxIcon from './icons/rollux.svg';
 import mantleIcon from './icons/mantle.svg';
 import zetachainIcon from './icons/zetachain.svg';
+import baseIcon from './icons/base.png';
 import scrollIcon from './icons/scroll.png';
 
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
@@ -86,6 +87,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SUI]: suiIcon,
   [ChainID.MANTLE]: mantleIcon,
   [ChainID.ZETACHAIN]: zetachainIcon,
+  [ChainID.BASE]: baseIcon,
   [ChainID.SCROLL]: scrollIcon,
 };
 

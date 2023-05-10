@@ -58,6 +58,17 @@ const ZETACHAIN: NetworkInfo = {
   blockExplorerUrls: ['https://explorer.zetachain.com/'],
 };
 
+const BASECHAIN: NetworkInfo = {
+  chainId: 84531,
+  chainName: 'Base Goerli',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://goerli.basescan.org/'],
+};
+
 const SCROLLCHAIN: NetworkInfo = {
   chainId: 534353,
   chainName: 'Scroll Testnet',
@@ -406,6 +417,8 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://tronscan.org/'],
   },
 
+  [ChainID.BASE]: BASECHAIN,
+  [ChainID.BASE_TESTNET]: BASECHAIN,
   [ChainID.SCROLL]: SCROLLCHAIN,
   [ChainID.SCROLL_TESTNET]: SCROLLCHAIN,
 };

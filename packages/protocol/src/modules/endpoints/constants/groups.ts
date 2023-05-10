@@ -68,6 +68,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
       ChainID.ZETACHAIN_EVM_TESTNET,
+      ChainID.BASE,
+      ChainID.BASE_TESTNET,
       ChainID.SCROLL,
       ChainID.SCROLL_TESTNET,
     ],
