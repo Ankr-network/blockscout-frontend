@@ -58,6 +58,17 @@ const ZETACHAIN: NetworkInfo = {
   blockExplorerUrls: ['https://explorer.zetachain.com/'],
 };
 
+const SCROLLCHAIN: NetworkInfo = {
+  chainId: 534353,
+  chainName: 'Scroll Testnet',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://blockscout.scroll.io/'],
+};
+
 export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   // ? https://support.avax.network/en/articles/6077308-what-are-the-differences-between-the-x-p-and-c-chains
   [ChainID.AVALANCHE]: AVALANCHE,
@@ -394,4 +405,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://tronscan.org/'],
   },
+
+  [ChainID.SCROLL]: SCROLLCHAIN,
+  [ChainID.SCROLL_TESTNET]: SCROLLCHAIN,
 };
