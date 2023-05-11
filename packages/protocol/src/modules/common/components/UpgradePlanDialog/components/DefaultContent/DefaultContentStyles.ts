@@ -9,6 +9,7 @@ export const useDefaultContentStyles = makeStyles<boolean>()(
       textAlign: 'center',
       margin: theme.spacing(0, 0, 2 * 5.75, 0),
       fontSize: 35,
+      color: theme.palette.text.primary,
     },
     wrapperHighlighted: {
       background: getPremiumColorGradient(theme),
