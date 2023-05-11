@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
 import { push } from 'connected-react-router';
@@ -26,6 +26,7 @@ import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpT
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useConnectButton } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/hooks/useConnectButton';
+import { MILLION_ANKR_TOKENS } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/components/AmountField';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();
@@ -83,7 +84,10 @@ export const useRenderForm = ({
       validating,
       form: { change, submit },
       values,
+      valid,
     }: FormRenderProps<TopUpFormValues>) => {
+      const amountValue = new BigNumber(values?.amount || 0);
+
       const button = isWalletConnected ? (
         <Button
           color="primary"
@@ -126,6 +130,15 @@ export const useRenderForm = ({
             validate={validateAmount}
             maxLength={ANKR_MAX_DIGITS}
           />
+          {amountValue.isGreaterThanOrEqualTo(MILLION_ANKR_TOKENS) && valid && (
+            <Typography
+              variant="body2"
+              className={classes.info}
+              textAlign="center"
+            >
+              {t('account.account-details.top-up.info')}
+            </Typography>
+          )}
           <RateBlock
             value={values[AmountInputField.amount]}
             currency={ANKR_CURRENCY}
@@ -142,6 +155,7 @@ export const useRenderForm = ({
       validateAmount,
       isWalletConnected,
       hasConnectButton,
+      classes.info,
     ],
   );
 };

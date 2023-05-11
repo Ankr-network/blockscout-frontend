@@ -26,6 +26,7 @@ export const Rate = ({
   return (
     <div className={classes.root}>
       {t('account.account-details.top-up.credits-rate', {
+        symbol: currency === TopUpCurrency.USD ? '$' : '',
         amount,
         credits,
         currency,

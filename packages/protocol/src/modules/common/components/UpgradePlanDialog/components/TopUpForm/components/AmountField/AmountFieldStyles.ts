@@ -82,5 +82,9 @@ export const useAmountFieldStyles = makeStyles<AmountFieldStylesParams>()(
         boxShadow: 'none',
       },
     },
+    info: {
+      color: theme.palette.text.primary,
+      fontSize: 14,
+    },
   }),
 );

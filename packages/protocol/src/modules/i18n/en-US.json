@@ -942,7 +942,8 @@
         "ankr-credits-rate": "{ankrValue} ANKR ≈ {creditsValue, number, ::compact-short} Credits",
         "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits",
         "usd-one-time": "One time",
-        "credits-rate": "${amount} {currency} ≈ {credits, number, ::compact-short} Credits"
+        "credits-rate": "{symbol}{amount} {currency} ≈ {credits, number, ::compact-short} Credits",
+        "info": "You will get 40% for free"
       },
       "balance": {
         "title": "Balance",
