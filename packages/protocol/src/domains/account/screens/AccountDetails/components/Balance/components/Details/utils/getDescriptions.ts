@@ -28,10 +28,6 @@ const descriptionsMap: Record<AccountType, [Getter, Getter]> = {
     getUsdBalance,
     () => t(`${root}.freemium-transition.extra`),
   ],
-  [AccountType.PREMIUM_TRANSITION]: [
-    getUsdBalance,
-    () => t(`${root}.premium-transition.extra`),
-  ],
   [AccountType.PREMIUM_ACTIVE]: [
     getUsdBalance,
     ({ endTime: [time, period, quantifier] }) =>

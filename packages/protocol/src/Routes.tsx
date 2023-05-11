@@ -32,7 +32,6 @@ import { useAutoconnect } from 'hooks/useAutoconnect';
 import { useWeb3ThemeSwitcher } from 'hooks/useWeb3ThemeSwitcher';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { useTransitionToFreeWatcher } from 'domains/auth/hooks/useTransitionToFreeWatcher';
 import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 
@@ -50,7 +49,6 @@ export const Routes = () => {
   useBalanceSubscription();
   useAutoconnect();
   useWeb3ThemeSwitcher();
-  useTransitionToFreeWatcher();
 
   return (
     <Switch>

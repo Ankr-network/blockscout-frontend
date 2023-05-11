@@ -1,10 +1,12 @@
-import { EthAddressType, PremiumStatus, Tier } from 'multirpc-sdk';
+import { EthAddressType, Tier } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { TIME_TO_WAIT_FOR_STATUS_TRANSITION } from './const';
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
-import { fetchPremiumStatus } from '../actions/fetchPremiumStatus';
-import { getPremiumBalanceThresholds } from '../utils/getPremiumBalanceThresholds';
+import {
+  defaultPremiumStatusData,
+  fetchPremiumStatus,
+} from '../actions/fetchPremiumStatus';
+import { getPremiumActivationThreshold } from '../utils/getPremiumActivationThreshold';
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { oauthHasDepositTransaction } from 'domains/oauth/actions/hasDepositTransaction';
 import { selectAuthData } from './authSlice';
@@ -32,13 +34,13 @@ export const selectIsTokenExpired = createSelector(
 export const selectHasFreemium = createSelector(
   fetchPremiumStatus.select(''),
   selectIsLoggedIn,
-  ({ data: status = PremiumStatus.INACTIVE }, isLoggedIn) =>
-    isLoggedIn && status === PremiumStatus.INACTIVE,
+  ({ data: { isFreemium } = defaultPremiumStatusData }, isLoggedIn) =>
+    isLoggedIn && isFreemium,
 );
 
 export const selectHasPremium = createSelector(
   fetchPremiumStatus.select(''),
-  ({ data: status }) => status === PremiumStatus.ACTIVE,
+  ({ data: { isFreemium } = defaultPremiumStatusData }) => !isFreemium,
 );
 
 export const selectIsOldPremium = createSelector(
@@ -122,21 +124,6 @@ export const selectHasZeroBalance = createSelector(
   ({ data: { creditBalance } = {} }) => creditBalance?.isZero() ?? true,
 );
 
-export const selectOauthLoginTimestamp = createSelector(
-  selectAuthData,
-  ({ email = '', oauthLoginTimestamps = {} }) => oauthLoginTimestamps[email],
-);
-
-// in ms
-export const selectTimeToResetTransitionToFree = createSelector(
-  selectOauthLoginTimestamp,
-  timestamp =>
-    timestamp
-      ? TIME_TO_WAIT_FOR_STATUS_TRANSITION -
-        (Date.now() - new Date(timestamp).getTime())
-      : 0,
-);
-
 export const selectHasDepositTransaction = createSelector(
   oauthHasDepositTransaction.select({
     shouldCheckVoucherTopUp: false,
@@ -152,19 +139,7 @@ export const selectIsNewUser = createSelector(
     hasZeroBalance && !hasDepositTransaction,
 );
 
-export const selectHasTransitionToFreeWatcher = createSelector(
-  selectIsNewUser,
-  selectTimeToResetTransitionToFree,
-  (isNewUser, timeToReset) => isNewUser && timeToReset > 0,
-);
-
-export const selectIsTransitionToFreeWatcherEnded = createSelector(
-  selectIsNewUser,
-  selectTimeToResetTransitionToFree,
-  (isNewUser, timeToReset) => isNewUser && timeToReset <= 0,
-);
-
-const { freemiumToPremium, premiumToFreemium } = getPremiumBalanceThresholds();
+const freeToPremiumThreshold = getPremiumActivationThreshold();
 
 export const selectHasFreeToPremiumTransition = createSelector(
   accountFetchBalance.select({ group: undefined }),
@@ -174,27 +149,15 @@ export const selectHasFreeToPremiumTransition = createSelector(
     Boolean(
       !isWeb3UserWithEmailBound &&
         hasFreemium &&
-        creditBalance?.gte(freemiumToPremium),
+        creditBalance?.gte(freeToPremiumThreshold),
     ),
-);
-
-export const selectHasPremiumToFreeTransition = createSelector(
-  accountFetchBalance.select({ group: undefined }),
-  selectHasPremium,
-  selectIsTransitionToFreeWatcherEnded,
-  ({ data: { creditBalance } = {} }, hasPremium, isWatcherEnded) =>
-    hasPremium &&
-    Boolean(creditBalance?.lt(premiumToFreemium)) &&
-    !isWatcherEnded,
 );
 
 export const selectHasStatusTransition = createSelector(
   selectHasFreeToPremiumTransition,
-  selectHasPremiumToFreeTransition,
   selectSelectedUserGroupRole,
-  (hasFreeToPremiumTransition, hasPremiumToFreeTransition, userRole) =>
-    userRole !== 'GROUP_ROLE_DEV' &&
-    (hasFreeToPremiumTransition || hasPremiumToFreeTransition),
+  (hasFreeToPremiumTransition, userRole) =>
+    userRole !== 'GROUP_ROLE_DEV' && hasFreeToPremiumTransition,
 );
 
 export const selectHasConnectWalletMessage = createSelector(

@@ -7,7 +7,6 @@ export interface AccountTypeParams {
   balanceEndTime: number;
   hasFreeToPremiumTransition: boolean;
   hasPremium: boolean;
-  hasPremiumToFreeTransition: boolean;
   isFreePremium: boolean;
   isOldPremium: boolean;
   isTokenExpired: boolean;
@@ -26,9 +25,6 @@ const isFreemium = ({ isFreePremium }: PartialParams) => Boolean(isFreePremium);
 
 const isFreemiumTransition: Condition = ({ hasFreeToPremiumTransition }) =>
   hasFreeToPremiumTransition;
-
-const isPremiumTransition: Condition = ({ hasPremiumToFreeTransition }) =>
-  hasPremiumToFreeTransition;
 
 const isPremiumActive: Condition = ({ balance, balanceEndTime, ...rest }) =>
   isPremium(rest) &&
@@ -66,7 +62,6 @@ const isOldPremiumExpired: Condition = ({ isOldPremium, isTokenExpired }) =>
 
 const conditionsMap = new Map<AccountType, Condition>([
   [AccountType.FREEMIUM_TRANSITION, isFreemiumTransition],
-  [AccountType.PREMIUM_TRANSITION, isPremiumTransition],
   [AccountType.FREEMIUM, isFreemium],
   [AccountType.PREMIUM_ACTIVE, isPremiumActive],
   [AccountType.PREMIUM_INACTIVE, isPremiumInactive],
