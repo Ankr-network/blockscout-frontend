@@ -44,6 +44,7 @@ export const useUpgradePlanDialogStyles =
       alignItems: 'center',
 
       marginBottom: theme.spacing(10),
+      color: theme.palette.text.primary,
 
       fontSize: 28,
     },
