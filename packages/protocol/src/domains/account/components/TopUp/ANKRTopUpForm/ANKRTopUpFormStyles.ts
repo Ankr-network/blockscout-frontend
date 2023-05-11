@@ -46,4 +46,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       maxWidth: '100%',
     },
   },
+  info: {
+    color: theme.palette.text.primary,
+    fontSize: 14,
+  },
 }));
