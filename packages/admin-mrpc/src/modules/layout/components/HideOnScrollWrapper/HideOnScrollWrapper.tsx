@@ -14,4 +14,4 @@ export const HideOnScroll = (props: Props) => {
       {children}
     </Slide>
   );
-}
+};

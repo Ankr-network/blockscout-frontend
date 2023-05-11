@@ -28,7 +28,6 @@ export const useSearchInputStyles = makeStyles()((theme: Theme) => ({
   },
   clientItem: {
     listStyle: 'none',
-
   },
   clientButton: {
     textAlign: 'left',

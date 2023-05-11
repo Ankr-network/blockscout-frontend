@@ -1,1 +1,1 @@
-export * from './HideOnScrollWrapper'
+export * from './HideOnScrollWrapper';

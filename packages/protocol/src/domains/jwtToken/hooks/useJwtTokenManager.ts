@@ -6,11 +6,12 @@ import {
   useLazyFetchAllJwtTokenRequestsQuery,
 } from 'domains/jwtToken/action/getAllJwtToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useFetchAllowedJwtTokensCountQuery } from '../action/getAllowedJwtTokensCount';
+import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
 import {
   getAllowedAddProjectTokenIndex,
   PRIMARY_TOKEN_INDEX,
 } from '../utils/utils';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 const defaultData: IUserJwtToken = {
   jwtTokens: [],
@@ -23,13 +24,24 @@ const defaultAllowJwtTokenInfo = {
 
 export const useJwtTokenManager = () => {
   const { hasConnectWalletMessage, loading } = useAuth();
-  const { group } = useSelectedUserGroup();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const {
-    data: { maxTokensLimit, shouldShowTokenManager } = defaultAllowJwtTokenInfo,
-    isSuccess,
-    refetch: refetchAllowedJwtTokensCount,
-  } = useFetchAllowedJwtTokensCountQuery();
+  const [
+    triggerFetchAllowedJwtTokensCount,
+    {
+      data: {
+        maxTokensLimit,
+        shouldShowTokenManager,
+      } = defaultAllowJwtTokenInfo,
+      isSuccess,
+    },
+    reset,
+  ] = useQueryEndpoint(fetchAllowedJwtTokensCount);
+
+  useEffect(() => {
+    triggerFetchAllowedJwtTokensCount({ group });
+    return reset;
+  }, [group, triggerFetchAllowedJwtTokensCount, reset]);
 
   const [
     fetchAllJwtTokenRequestsQuery,
@@ -37,16 +49,10 @@ export const useJwtTokenManager = () => {
   ] = useLazyFetchAllJwtTokenRequestsQuery();
 
   useEffect(() => {
-    refetchAllowedJwtTokensCount();
-    // we need to refetch allowed jwt count on group change
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [group?.groupAddress]);
-
-  useEffect(() => {
     if (!loading && shouldShowTokenManager) {
-      fetchAllJwtTokenRequestsQuery(loading);
+      fetchAllJwtTokenRequestsQuery({ loading, group });
     }
-  }, [shouldShowTokenManager, loading, fetchAllJwtTokenRequestsQuery]);
+  }, [shouldShowTokenManager, loading, fetchAllJwtTokenRequestsQuery, group]);
 
   const allowedAddProjectTokenIndex = useMemo(
     () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwtTokens),

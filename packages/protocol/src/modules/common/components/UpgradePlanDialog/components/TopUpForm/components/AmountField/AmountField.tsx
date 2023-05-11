@@ -1,6 +1,8 @@
-import { Box } from '@mui/material';
-import { Field } from 'react-final-form';
+import { Box, Typography } from '@mui/material';
+import { Field, useForm } from 'react-final-form';
 import { FieldValidator } from 'final-form';
+import { t } from '@ankr.com/common';
+import BigNumber from 'bignumber.js';
 
 import { AmountParser } from '../../hooks/useAmountParser';
 import { CurrencySymbol } from './components/CurrencySymbol';
@@ -11,6 +13,8 @@ import { hasError } from './utils/hasError';
 import { useAmountFieldStyles } from './AmountFieldStyles';
 import { useAutoWidth } from './hooks/useAutoWidth';
 import { useKey } from './hooks/useKey';
+
+export const MILLION_ANKR_TOKENS = 1_000_000;
 
 export interface AmountFieldProps {
   amount?: string;
@@ -40,6 +44,11 @@ export const AmountField = ({
   const { classes, cx } = useAmountFieldStyles({ autoWidth, isModified });
 
   const key = useKey(validate);
+  const amountValue = new BigNumber(amount || 0);
+
+  const form = useForm();
+
+  const isValid = form.getState().valid;
 
   return (
     <Box className={cx(classes.root, className)}>
@@ -67,6 +76,13 @@ export const AmountField = ({
           ),
         }}
       />
+      {currency === TopUpCurrency.ANKR &&
+        isValid &&
+        amountValue.isGreaterThanOrEqualTo(MILLION_ANKR_TOKENS) && (
+          <Typography variant="body2" className={classes.info}>
+            {t('account.account-details.top-up.info')}
+          </Typography>
+        )}
       <Rate {...rateProps} />
     </Box>
   );

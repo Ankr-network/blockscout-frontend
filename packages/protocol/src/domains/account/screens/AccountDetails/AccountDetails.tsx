@@ -11,11 +11,11 @@ import { PaymentsHistoryTable } from './components/PaymentsHistoryTable';
 import { Subscriptions } from './components/Subscriptions';
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useStyles } from './AccountDetailsStyles';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const AccountDetails = () => {
   const { classes } = useStyles();

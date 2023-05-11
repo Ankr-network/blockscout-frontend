@@ -1,19 +1,19 @@
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { GetState } from 'store';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
+interface IRequestParams extends IApiUserGroupParams {
+  subscriptionId: string;
+}
 
 export const {
   useLazyCancelSubscriptionQuery,
   endpoints: { cancelSubscription },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    cancelSubscription: build.query<void, string>({
-      queryFn: async (subscriptionId, { getState }) => {
+    cancelSubscription: build.query<void, IRequestParams>({
+      queryFn: async ({ subscriptionId, group }) => {
         const service = MultiService.getService();
-        const { selectedGroupAddress: group } = getSelectedGroupAddress(
-          getState as GetState,
-        );
 
         const data = await service
           .getAccountGateway()

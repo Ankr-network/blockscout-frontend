@@ -34,6 +34,7 @@ export interface Chain extends MainBlockchainEntity {
   id: ChainID;
   isArchive?: boolean;
   isComingSoon: boolean;
+  isMainnetComingSoon?: boolean;
   isMainnetPremiumOnly?: boolean;
   extenders?: Chain[];
   extensions?: Chain[];
@@ -132,6 +133,10 @@ export enum ChainID {
   ZETACHAIN_TENDERMINT_REST_TESTNET = 'zetachain-tendermint-rest-testnet',
   ZETACHAIN_TENDERMINT_RPC_TESTNET = 'zetachain-tendermint-rpc-testnet',
   ZETACHAIN_TESTNET = 'zetachain-testnet',
+  BASE = 'base',
+  BASE_TESTNET = 'base_goerli',
+  SCROLL = 'scroll',
+  SCROLL_TESTNET = 'scroll_testnet',
 
   UNDEFINED = '',
 }

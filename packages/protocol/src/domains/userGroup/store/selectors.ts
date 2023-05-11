@@ -7,6 +7,9 @@ import { RootState } from 'store';
 export const selectUserGroupConfig = (state: RootState) =>
   state.userGroup.userGroupConfig;
 
+export const selectUserGroupJwt = (state: RootState) =>
+  state.userGroup.userGroupJwt;
+
 export const selectUserGroupConfigByAddress = createSelector(
   selectAuthData,
   selectUserGroupConfig,
@@ -28,6 +31,28 @@ export const selectSelectedUserGroup = createSelector(
   selectUserGroups,
   ({ selectedGroupAddress }, groups) =>
     groups.find(({ groupAddress }) => groupAddress === selectedGroupAddress),
+);
+
+export const selectSelectedUserGroupRole = createSelector(
+  selectUserGroupConfigByAddress,
+  selectUserGroups,
+  ({ selectedGroupAddress }, groups) =>
+    groups.find(({ groupAddress }) => groupAddress === selectedGroupAddress)
+      ?.userRole,
+);
+
+export const selectAllUserGroupsJwtTokens = createSelector(
+  selectUserGroupJwt,
+  userGroupJwt => userGroupJwt,
+);
+
+export const selectUserGroupJwtBySelectedGroupAddress = createSelector(
+  selectSelectedUserGroup,
+  selectUserGroupJwt,
+  (selectedGroup, userGroupJwt) =>
+    selectedGroup?.groupAddress
+      ? userGroupJwt[selectedGroup?.groupAddress]
+      : {},
 );
 
 export const selectIsSelectedUserGroupPersonal = createSelector(

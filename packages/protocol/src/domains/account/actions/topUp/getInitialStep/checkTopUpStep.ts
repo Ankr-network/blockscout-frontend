@@ -2,10 +2,12 @@ import { AppDispatch } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { TopUpStep } from '../const';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
+import { Web3Address } from 'multirpc-sdk';
 
 export const checkTopUpStep = async (
   dispatch: AppDispatch,
   topUpTransactionHash?: string,
+  group?: Web3Address,
 ) => {
   const service = await MultiService.getWeb3Service();
 
@@ -17,7 +19,7 @@ export const checkTopUpStep = async (
 
   if (transactionReceipt) return null;
 
-  dispatch(topUpWaitTransactionConfirming.initiate());
+  dispatch(topUpWaitTransactionConfirming.initiate({ group }));
 
   return TopUpStep.waitTransactionConfirming;
 };

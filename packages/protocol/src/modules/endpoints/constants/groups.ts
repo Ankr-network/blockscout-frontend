@@ -68,6 +68,10 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
       ChainID.ZETACHAIN_EVM_TESTNET,
+      ChainID.BASE,
+      ChainID.BASE_TESTNET,
+      ChainID.SCROLL,
+      ChainID.SCROLL_TESTNET,
     ],
   },
   {
@@ -189,5 +193,11 @@ export const chainGroups: ChainGroup[] = [
     name: getName('json-rpc'),
     pluralName: getName('json-rpc', true),
     chains: [ChainID.TRON_JSON_RPC],
+  },
+  {
+    id: ChainGroupID.SUI,
+    name: getName('sui'),
+    pluralName: getName('sui', true),
+    chains: [ChainID.SUI, ChainID.SUI_TESTNET],
   },
 ];

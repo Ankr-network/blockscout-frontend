@@ -2,25 +2,25 @@ import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { fetchAllJwtTokenRequests } from './getAllJwtToken';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
-import { GetState } from 'store';
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
+interface IRequestParams extends IApiUserGroupParams {
+  tokenIndex: number;
+}
 
 export const {
   useLazyDeleteJwtTokenQuery,
   endpoints: { deleteJwtToken },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    deleteJwtToken: build.query<null, number>({
+    deleteJwtToken: build.query<null, IRequestParams>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (tokenIndex, { dispatch, getState }) => {
+        queryFn: async ({ tokenIndex, group }, { dispatch }) => {
           const service = MultiService.getService().getAccountGateway();
-          const { selectedGroupAddress: group } = getSelectedGroupAddress(
-            getState as GetState,
-          );
 
           await service.deleteJwtToken({ index: tokenIndex, group });
 
-          dispatch(fetchAllJwtTokenRequests.initiate());
+          dispatch(fetchAllJwtTokenRequests.initiate({ group }));
 
           return { data: null };
         },

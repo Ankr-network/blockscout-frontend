@@ -6,6 +6,7 @@ import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
 import { accountFetchPaymentHistory } from '../actions/fetchTransactions';
 import { getTransactionsRequest } from '../screens/AccountDetails/components/PaymentsHistoryTable/utils/getTransactionsRequest';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const TIMEOUT = 30000;
 
@@ -17,6 +18,8 @@ export const useUpdatePaymentHistory = (
   const [fetchTransactions, , reset] = useQueryEndpoint(
     accountFetchPaymentHistory,
   );
+
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const amount = useRef(balances?.ankrBalance);
 
@@ -30,7 +33,10 @@ export const useUpdatePaymentHistory = (
     if (isBalancesChanged) {
       timeoutId = setTimeout(() => {
         reset();
-        fetchTransactions(getTransactionsRequest({ timeframe, paymentType }));
+        fetchTransactions({
+          ...getTransactionsRequest({ timeframe, paymentType }),
+          group,
+        });
         amount.current = balances.ankrBalance;
       }, TIMEOUT);
     }
@@ -45,5 +51,6 @@ export const useUpdatePaymentHistory = (
     paymentType,
     reset,
     timeframe,
+    group,
   ]);
 };

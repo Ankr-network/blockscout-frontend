@@ -332,6 +332,7 @@
         "cosmos-rest": "Cosmos REST",
         "solana-api": "Solana API{plural}",
         "rest-api": "REST API",
+        "sui": "Sui API{plural}",
         "json-rpc": "JSON-RPC",
         "fallback": "{chain} Endpoint{plural}",
         "empty": "Endpoints will be available soon"
@@ -833,6 +834,11 @@
     "common": {
       "email-value-fallback": "the email provided"
     },
+    "settings-tab": {
+      "general": "General",
+      "my-company": "My Company"
+    },
+    "remove-from-team": "Remove from team",
     "email-banner": {
       "add-step": {
         "title": "Add your Email",
@@ -936,7 +942,8 @@
         "ankr-credits-rate": "{ankrValue} ANKR ≈ {creditsValue, number, ::compact-short} Credits",
         "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits",
         "usd-one-time": "One time",
-        "credits-rate": "${amount} {currency} ≈ {credits, number, ::compact-short} Credits"
+        "credits-rate": "{symbol}{amount} {currency} ≈ {credits, number, ::compact-short} Credits",
+        "info": "You will get 40% for free"
       },
       "balance": {
         "title": "Balance",

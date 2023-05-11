@@ -1,3 +1,5 @@
+import { GroupUserRole } from 'multirpc-sdk';
+
 export enum BlockWithPermission {
   ChainItem, // access to the chain item page
   UsageData, // access to the Telemetry,
@@ -30,3 +32,15 @@ export const FINANCE_PERMISSIONS = [
 ];
 
 export const PERSONAL_GROUP_NAME = 'Personal';
+
+enum GroupUser {
+  Developer = 'Developer',
+  Financial = 'Financial Manager',
+  Admin = 'Admin',
+}
+
+export const GroupUserRoleMap: Record<GroupUserRole, GroupUser> = {
+  [GroupUserRole.dev]: GroupUser.Developer,
+  [GroupUserRole.finance]: GroupUser.Financial,
+  [GroupUserRole.owner]: GroupUser.Admin,
+};

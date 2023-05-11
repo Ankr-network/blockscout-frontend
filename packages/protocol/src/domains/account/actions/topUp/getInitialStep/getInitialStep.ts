@@ -10,58 +10,66 @@ import { selectAccount } from 'domains/account/store/accountTopUpSlice';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+import { IApiUserGroupParams } from 'multirpc-sdk';
 
 export const {
   endpoints: { topUpGetInitialStep },
   useLazyTopUpGetInitialStepQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    topUpGetInitialStep: build.query<TopUpStep, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
-        const address = await getCurrentTransactionAddress(
-          getState as GetState,
-        );
+    topUpGetInitialStep: build.query<TopUpStep, IApiUserGroupParams>({
+      queryFn: createNotifyingQueryFn(
+        async ({ group }, { getState, dispatch }) => {
+          const address = await getCurrentTransactionAddress(
+            getState as GetState,
+          );
 
-        const stepForTheFirstTopUp = await checkFirstTopUpStep(
-          address,
-          getState as GetState,
-          dispatch,
-        );
+          const stepForTheFirstTopUp = await checkFirstTopUpStep(
+            address,
+            getState as GetState,
+            dispatch,
+            group,
+          );
 
-        if (stepForTheFirstTopUp) return { data: stepForTheFirstTopUp };
+          if (stepForTheFirstTopUp) return { data: stepForTheFirstTopUp };
 
-        const transaction = selectAccount(getState() as RootState, address);
+          const transaction = selectAccount(getState() as RootState, address);
 
-        if (areHashesEmpty(transaction)) return { data: TopUpStep.start };
+          if (areHashesEmpty(transaction)) return { data: TopUpStep.start };
 
-        const allowanceStep = await checkAllowanceStep(
-          dispatch,
-          getState as GetState,
-          transaction?.rejectAllowanceTransactionHash,
-          transaction?.allowanceTransactionHash,
-        );
+          const allowanceStep = await checkAllowanceStep(
+            dispatch,
+            getState as GetState,
+            transaction?.rejectAllowanceTransactionHash,
+            transaction?.allowanceTransactionHash,
+          );
 
-        if (allowanceStep) return { data: allowanceStep };
+          if (allowanceStep) return { data: allowanceStep };
 
-        const topUpStep = await checkTopUpStep(
-          dispatch,
-          transaction?.topUpTransactionHash,
-        );
+          const topUpStep = await checkTopUpStep(
+            dispatch,
+            transaction?.topUpTransactionHash,
+            group,
+          );
 
-        if (topUpStep) return { data: topUpStep };
+          if (topUpStep) return { data: topUpStep };
 
-        const { data: connectData } = authConnect.select(
-          undefined as unknown as AuthConnectParams,
-        )(getState() as RootState);
+          const { data: connectData } = authConnect.select(
+            undefined as unknown as AuthConnectParams,
+          )(getState() as RootState);
 
-        if (connectData?.credentials || connectData?.isInstantJwtParticipant) {
-          dispatch(topUpWaitTransactionConfirming.initiate());
+          if (
+            connectData?.credentials ||
+            connectData?.isInstantJwtParticipant
+          ) {
+            dispatch(topUpWaitTransactionConfirming.initiate({ group }));
 
-          return { data: TopUpStep.waitTransactionConfirming };
-        }
+            return { data: TopUpStep.waitTransactionConfirming };
+          }
 
-        return { data: TopUpStep.login };
-      }),
+          return { data: TopUpStep.login };
+        },
+      ),
     }),
   }),
 });

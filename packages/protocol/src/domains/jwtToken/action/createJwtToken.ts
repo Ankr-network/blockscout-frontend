@@ -4,21 +4,21 @@ import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { formatTokenAndDecryptJwt } from './getAllJwtTokenUtils';
 import { fetchAllJwtTokenRequests } from './getAllJwtToken';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
-import { GetState } from 'store';
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
+interface IRequestParams extends IApiUserGroupParams {
+  tokenIndex: number;
+}
 
 export const {
   useLazyCreateJwtTokenQuery,
   endpoints: { createJwtToken },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    createJwtToken: build.query<JwtManagerToken, number>({
+    createJwtToken: build.query<JwtManagerToken, IRequestParams>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (tokenIndex, { dispatch, getState }) => {
+        queryFn: async ({ tokenIndex, group }, { dispatch }) => {
           const service = MultiService.getService().getAccountGateway();
-          const { selectedGroupAddress: group } = getSelectedGroupAddress(
-            getState as GetState,
-          );
           const jwtToken = await service.createJwtToken({
             index: tokenIndex,
             group,
@@ -26,7 +26,7 @@ export const {
 
           const newDecryptedToken = await formatTokenAndDecryptJwt(jwtToken);
 
-          dispatch(fetchAllJwtTokenRequests.initiate());
+          dispatch(fetchAllJwtTokenRequests.initiate({ group }));
 
           return { data: newDecryptedToken };
         },

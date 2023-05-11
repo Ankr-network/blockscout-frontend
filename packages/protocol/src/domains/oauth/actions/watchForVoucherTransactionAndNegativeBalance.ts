@@ -3,6 +3,7 @@ import { timeout } from 'modules/common/utils/timeout';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
+import { IApiUserGroupParams } from 'multirpc-sdk';
 
 export const {
   endpoints: { watchForVoucherTransactionAndNegativeBalance },
@@ -10,8 +11,11 @@ export const {
   useWatchForVoucherTransactionAndNegativeBalanceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    watchForVoucherTransactionAndNegativeBalance: build.query<boolean, void>({
-      queryFn: async (_args, { getState, dispatch }) => {
+    watchForVoucherTransactionAndNegativeBalance: build.query<
+      boolean,
+      IApiUserGroupParams
+    >({
+      queryFn: async ({ group }, { getState, dispatch }) => {
         const authData = selectAuthData(getState() as RootState);
 
         if (
@@ -39,7 +43,7 @@ export const {
 
           // eslint-disable-next-line
           const balance = await dispatch(
-            accountFetchBalance.initiate(),
+            accountFetchBalance.initiate({ group }),
           ).unwrap();
 
           inProcess = Boolean(balance?.creditBalance?.isGreaterThan(0));

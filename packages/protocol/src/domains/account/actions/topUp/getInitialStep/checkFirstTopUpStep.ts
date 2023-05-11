@@ -5,11 +5,13 @@ import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
 import { MultiService } from 'modules/api/MultiService';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+import { Web3Address } from 'multirpc-sdk';
 
 export const checkFirstTopUpStep = async (
   address: string,
   getState: GetState,
   dispatch: AppDispatch,
+  group?: Web3Address,
 ) => {
   const service = await MultiService.getWeb3Service();
   const keyProvider = service.getKeyProvider();
@@ -47,7 +49,7 @@ export const checkFirstTopUpStep = async (
     return TopUpStep.login;
   }
 
-  dispatch(topUpWaitTransactionConfirming.initiate());
+  dispatch(topUpWaitTransactionConfirming.initiate({ group }));
 
   return TopUpStep.waitTransactionConfirming;
 };
