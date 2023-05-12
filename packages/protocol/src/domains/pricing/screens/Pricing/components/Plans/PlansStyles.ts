@@ -38,6 +38,7 @@ export const usePlansStyles = makeStyles<void, 'tip' | 'plan'>()(
       },
 
       [`&.enterprise .${classes.tip}`]: {
+        color: theme.palette.background.paper,
         backgroundColor: theme.palette.grey[900],
       },
     },

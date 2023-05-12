@@ -34,7 +34,7 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
     },
 
     [`& tr:first-of-type th`]: {
-      color: theme.palette.common.black,
+      color: theme.palette.text.primary,
       marginBottom: theme.spacing(1),
 
       [`&.premium`]: {
