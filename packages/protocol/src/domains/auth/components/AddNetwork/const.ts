@@ -148,6 +148,30 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://explorer.celo.org'],
   },
 
+  /* https://docs.chiliz.com/chiliz-chain-mainnet/connect-to-chiliz-chain/connect-using-rpc */
+  [ChainID.CHILIZ]: {
+    chainId: 88888,
+    chainName: 'Chiliz Chain Mainnet',
+    nativeCurrency: {
+      name: 'Chiliz (Mainnet)',
+      symbol: 'CHZ',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://scan.chiliz.com/'],
+  },
+
+  /* https://docs.chiliz.com/chiliz-chain-testnets/spicy-testnet/install-and-develop/install-and-use-metamask */
+  [ChainID.CHILIZ_TESTNET]: {
+    chainId: 88882,
+    chainName: 'Chiliz Spicy Testnet',
+    nativeCurrency: {
+      name: 'Chiliz Spicy Testnet',
+      symbol: 'CHZ',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['http://spicy-explorer.chiliz.com/'],
+  },
+
   // * ChainID.ETH, ChainID.ETH_GOERLI, ChainID.ETH_RINKEBY, ChainID.ETH_ROPSTEN
   // * Can't be added as they are default Metamask chains
 

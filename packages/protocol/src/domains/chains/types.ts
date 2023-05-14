@@ -71,6 +71,8 @@ export enum ChainID {
   BSC_TESTNET_CHAPEL = 'bsc_testnet_chapel',
   BTTC = 'bttc',
   CELO = 'celo',
+  CHILIZ = 'chiliz',
+  CHILIZ_TESTNET = 'chiliz_testnet',
   ETH = 'eth',
   ETH_BEACON = 'eth_beacon',
   ETH_GOERLI = 'eth_goerli',

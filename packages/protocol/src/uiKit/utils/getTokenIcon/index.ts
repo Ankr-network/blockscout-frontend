@@ -7,6 +7,7 @@ import avaxIcon from './icons/avax.svg';
 import bscIcon from './icons/bsc.svg';
 import bttcIcon from './icons/bttc.svg';
 import celoIcon from './icons/celo.svg';
+import chilizIcon from './icons/chiliz.svg';
 import defaultIcon from './icons/default-icon.svg';
 import ethIcon from './icons/eth.svg';
 import filecoinIcon from './icons/filecoin.svg';
@@ -59,6 +60,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.BSC]: bscIcon,
   [ChainID.BTTC]: bttcIcon,
   [ChainID.CELO]: celoIcon,
+  [ChainID.CHILIZ]: chilizIcon,
   [ChainID.ETH]: ethIcon,
   [ChainID.FANTOM]: ftmIcon,
   [ChainID.GNOSIS]: gnosisIcon,
