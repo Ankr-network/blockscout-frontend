@@ -93,6 +93,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       color: theme.palette.primary.main,
     },
 
+    [`&.${ChainId.Chiliz} span span span`]: {
+      color: theme.palette.primary.main,
+    },
+
     [`&.${ChainId.BSC} span`]: {
       color: theme.palette.primary.main,
     },

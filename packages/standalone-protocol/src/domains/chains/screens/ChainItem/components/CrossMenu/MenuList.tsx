@@ -16,6 +16,7 @@ import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
 import { ReactComponent as FilecoinLogo } from 'assets/img/logo/filecoin.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
 import { ReactComponent as PolygonZkemvLogo } from 'assets/img/logo/polygon-zkemv.svg';
+import { ReactComponent as ChilizLogo } from 'assets/img/logo/chiliz.svg';
 import { ChainId, POLYGON_ZKEVM_CHAIN_NAME } from 'domains/chains/api/chain';
 
 export const MENU_LIST = [
@@ -78,6 +79,12 @@ export const MENU_LIST = [
     name: 'IoTeX',
     logo: <IoTexLogo />,
     url: 'https://iotexrpc.com/',
+  },
+  {
+    chainId: ChainId.Chiliz,
+    name: 'Chiliz',
+    logo: <ChilizLogo />,
+    url: 'https://chiliz.public-rpc.com/',
   },
   {
     chainId: ChainId.Moonbeam,

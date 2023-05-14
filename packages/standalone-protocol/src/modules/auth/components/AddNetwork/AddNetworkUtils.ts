@@ -143,6 +143,17 @@ const GNOSIS_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
 };
 
+const CHILIZ_NETWORK_PARAMS = {
+  chainId: 88888,
+  chainName: 'Chiliz Chain Mainnet',
+  nativeCurrency: {
+    name: 'Chiliz (Mainnet)',
+    symbol: 'CHZ',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://scan.chiliz.com/'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -191,6 +202,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, KLAYTN_NETWORK_PARAMS);
     case 'bsc':
       return mapParams(chain, BSC_NETWORK_PARAMS);
+    case 'chiliz':
+      return mapParams(chain, CHILIZ_NETWORK_PARAMS);
     default:
       return undefined;
   }
