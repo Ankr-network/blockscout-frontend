@@ -6,6 +6,8 @@ import { useChainNodesLocationsStyles } from './useChainNodesLocationsStyles';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UpgradeInfo } from './components/UpgradeInfo';
 import { LocationsTableContainer } from './components/LocationsTable/LocationsTableContainer';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 export const ChainNodesLocations = ({
   loading,
@@ -34,7 +36,11 @@ export const ChainNodesLocations = ({
       <div className={classes.container}>
         <LocationsTableContainer loading={loading} nodesDetail={nodesDetail} />
       </div>
-      {!hasPremium && <UpgradeInfo />}
+      {!hasPremium && (
+        <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
+          <UpgradeInfo />
+        </GuardUserGroup>
+      )}
     </div>
   );
 };
