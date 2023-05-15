@@ -3,6 +3,8 @@ import { NetworkInfo } from './types';
 
 // * ChainID: must be decimal (convert hex to decimal if needed)
 
+export const TRON_RESET_API_GROUP_ID = 'rest-api';
+
 const AVALANCHE: NetworkInfo = {
   chainId: 43114,
   chainName: 'Avalanche',
@@ -56,6 +58,17 @@ const ZETACHAIN: NetworkInfo = {
     decimals: 18,
   },
   blockExplorerUrls: ['https://explorer.zetachain.com/'],
+};
+
+const TRON_CHAIN_JSON_RPC: NetworkInfo = {
+  chainId: 728126428,
+  chainName: 'Tron JSON-RPC',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://tronscan.org/'],
 };
 
 const BASECHAIN: NetworkInfo = {
@@ -430,19 +443,13 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
 
-  [ChainID.TRON_JSON_RPC]: {
-    chainId: 728126428,
-    chainName: 'Tron JSON-RPC',
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    blockExplorerUrls: ['https://tronscan.org/'],
-  },
+  [ChainID.TRON]: TRON_CHAIN_JSON_RPC,
+
+  [ChainID.TRON_JSON_RPC]: TRON_CHAIN_JSON_RPC,
 
   [ChainID.BASE]: BASECHAIN,
   [ChainID.BASE_TESTNET]: BASECHAIN,
+
   [ChainID.SCROLL]: SCROLLCHAIN,
   [ChainID.SCROLL_TESTNET]: SCROLLCHAIN,
 };
