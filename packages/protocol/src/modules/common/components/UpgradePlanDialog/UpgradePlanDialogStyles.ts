@@ -52,7 +52,7 @@ export const useUpgradePlanDialogStyles =
     /* fix for contact form (embedded hubspot widget) */
     dialogContainerWhite: {
       maxWidth: 600,
-      backgroundColor: 'white',
+      backgroundColor: theme.palette.common.white,
       color: 'black',
       fill: 'black',
       '& button': {
@@ -63,5 +63,8 @@ export const useUpgradePlanDialogStyles =
       '& svg': {
         color: 'black',
       },
+    },
+    dialogTitleBlack: {
+      color: theme.palette.common.black,
     },
   }));

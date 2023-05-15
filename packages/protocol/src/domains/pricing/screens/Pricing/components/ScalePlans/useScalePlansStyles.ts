@@ -23,6 +23,7 @@ export const useScalePlansStyles = makeStyles()(theme => ({
     },
   },
   title: {
+    color: theme.palette.text.primary,
     marginBottom: theme.spacing(5),
 
     [theme.breakpoints.down(MAX_WIDTH)]: {
@@ -34,6 +35,7 @@ export const useScalePlansStyles = makeStyles()(theme => ({
     },
   },
   intro: {
+    color: theme.palette.text.primary,
     diaply: 'inline-block',
     lineHeight: '34px',
 
@@ -91,6 +93,7 @@ export const useScalePlansStyles = makeStyles()(theme => ({
     },
   },
   item: {
+    color: theme.palette.text.primary,
     display: 'flex',
     marginBottom: theme.spacing(4),
     alignItems: 'center',
@@ -130,6 +133,7 @@ export const useScalePlansStyles = makeStyles()(theme => ({
   headerItem: {
     flexShrink: 0,
     letterSpacing: -1,
+    color: theme.palette.text.primary,
 
     [`&:first-of-type`]: {
       width: theme.spacing(52),
@@ -186,6 +190,7 @@ export const useScalePlansStyles = makeStyles()(theme => ({
     },
   },
   cell: {
+    color: theme.palette.text.primary,
     display: 'block',
     marginBottom: theme.spacing(1),
     flexShrink: 0,

@@ -24,7 +24,7 @@ export const usePlansStyles = makeStyles<void, 'tip' | 'plan'>()(
       borderRadius: 42,
 
       [`&.premium`]: {
-        color: theme.palette.common.white,
+        color: theme.palette.text.primary,
         background: premiumColor,
 
         [`& .${classes.plan}`]: {
@@ -82,6 +82,7 @@ export const usePlansStyles = makeStyles<void, 'tip' | 'plan'>()(
       },
     },
     title: {
+      color: theme.palette.text.primary,
       marginBottom: theme.spacing(8),
 
       [theme.breakpoints.down('md')]: {
