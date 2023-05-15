@@ -9,6 +9,7 @@ import { secretTheme } from 'modules/themes/secretTheme';
 import { syscoinTheme } from 'modules/themes/syscoinTheme';
 import { arbitrumTheme } from '../../themes/arbitrumTheme';
 import { avalancheTheme } from '../../themes/avalancheTheme';
+import { chilizTheme } from '../../themes/chilizTheme';
 import { mainTheme } from '../../themes/mainTheme';
 import { moonbeamTheme } from '../../themes/moonbeamTheme';
 import { nearTheme } from '../../themes/nearTheme';
@@ -43,6 +44,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Avalanche:
       return avalancheTheme;
+
+    case ChainId.Chiliz:
+      return chilizTheme;
 
     case ChainId.Nervos:
       return nervosTheme;

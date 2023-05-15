@@ -37,6 +37,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.POLYGON_ZKEVM} $description`]: {
       fontWeight: 400,
     },
+
+    [`&.${ChainId.Chiliz}`]: {
+      border: `1px solid ${theme.palette.grey['200']}`,
+    },
   },
   header: {
     padding: theme.spacing(2, 0),

@@ -9,7 +9,7 @@ import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 import { ChainId } from 'domains/chains/api/chain';
-import { useIsMDDown } from 'ui';
+import { useIsMDDown } from 'modules/themes/useTheme';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 
 interface INervosButtonsProps {

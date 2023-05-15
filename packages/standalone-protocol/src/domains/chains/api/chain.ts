@@ -5,6 +5,7 @@ export enum ChainId {
   Arbitrum = 'arbitrum',
   BSC = 'bsc',
   Celo = 'celo',
+  Chiliz = 'chiliz',
   Ethereum = 'eth',
   Fantom = 'fantom',
   Harmony = 'harmony',

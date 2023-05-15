@@ -237,6 +237,13 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         backgroundColor: theme.palette.grey[300],
       },
     },
+
+    [`&.${ChainId.Chiliz}`]: {
+      '& $content': {
+        padding: 0,
+        backgroundColor: theme.palette.grey[300],
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied

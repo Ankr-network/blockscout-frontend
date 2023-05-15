@@ -1,7 +1,6 @@
 import { ThemeColors } from 'web3modal';
 import { fade, lighten } from '@material-ui/core';
-
-import { PALETTE } from 'ui';
+import { PALETTE } from '../themes/const';
 
 export const web3ModalTheme = {
   background: PALETTE.background?.default,

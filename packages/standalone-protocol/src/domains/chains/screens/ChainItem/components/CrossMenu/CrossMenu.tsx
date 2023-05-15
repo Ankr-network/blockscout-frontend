@@ -3,7 +3,7 @@ import { IconButton } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useIsMDUp } from 'ui';
+import { useIsMDUp } from 'modules/themes/useTheme';
 import { ReactComponent as MenuIcon } from 'assets/img/menu.svg';
 import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';

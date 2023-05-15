@@ -45,6 +45,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       border: `2px solid ${theme.palette.action.disabledBackground}`,
     },
 
+    [`&.${ChainId.Chiliz} $block`]: {
+      border: `2px solid ${theme.palette.grey['200']}`,
+    },
+
     [`&.${ChainId.Nervos} $block`]: {
       borderRadius: 0,
       position: 'relative',
