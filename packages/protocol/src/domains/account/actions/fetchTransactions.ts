@@ -19,34 +19,39 @@ export const {
         return { data };
       }),
       onQueryStarted: async (
-        _args,
+        { isPaginationRequest },
         { dispatch, queryFulfilled, getCacheEntry },
       ) => {
-        const { data: { list: loaded = [] } = {}, endpointName } =
-          getCacheEntry();
+        if (isPaginationRequest) {
+          const { data: { list: loaded = [] } = {}, endpointName } =
+            getCacheEntry();
 
-        const {
-          data: {
-            list: loading = [],
+          const {
+            data: {
+              list: loading = [],
+              deductionsCursor,
+              transactionsCursor,
+            } = {},
+          } = await queryFulfilled;
+
+          const newState = {
             deductionsCursor,
+            list: [...loaded, ...loading],
             transactionsCursor,
-          } = {},
-        } = await queryFulfilled;
+          };
 
-        dispatch(
-          web3Api.util.updateQueryData(
-            endpointName as unknown as never,
-            undefined as unknown as never,
-            state => {
-              Object.assign(state, {
-                deductionsCursor,
-                list: [...loaded, ...loading],
-                transactionsCursor,
-              });
-            },
-          ),
-        );
+          dispatch(
+            web3Api.util.updateQueryData(
+              endpointName as unknown as never,
+              undefined as unknown as never,
+              state => {
+                Object.assign(state, newState);
+              },
+            ),
+          );
+        }
       },
     }),
   }),
+  overrideExisting: true,
 });
