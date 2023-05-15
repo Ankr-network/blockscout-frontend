@@ -1,13 +1,16 @@
+import { useMemo } from 'react';
+
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
 import { ChainDocsLink } from '../ChainDocsLink';
 import { ChainLogo } from '../ChainLogo';
 import { ChainSubtitle } from '../ChainSubtitle';
 import { ChainTitle } from '../ChainTitle';
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { MetamaskButtonLabel } from 'domains/chains/components/MetamaskButtonLabel';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
 
 export interface ChainOverviewProps {
   chain: Chain;
@@ -25,6 +28,11 @@ export const ChainOverview = ({
   const { classes } = useChainOverviewStyles();
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
+  const isTronRestApi = useMemo(
+    () => chain.id === ChainID.TRON && group.id === TRON_RESET_API_GROUP_ID,
+    [chain, group],
+  );
+
   return (
     <div>
       <div className={classes.chainOverview}>
@@ -37,7 +45,7 @@ export const ChainOverview = ({
         </div>
         <div className={classes.right}>
           <ChainDocsLink chain={chain} />
-          {chain && !isChainProtocolSwitchEnabled && (
+          {chain && !isChainProtocolSwitchEnabled && !isTronRestApi && (
             <AddNetworkButton
               chainType={chainType}
               className={classes.addNetworkButton}

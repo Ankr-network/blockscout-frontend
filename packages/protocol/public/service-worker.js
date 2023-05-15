@@ -1,6 +1,5 @@
 (function () {
   const ENDPOINTS = [
-    '/api/v1/blockchain/detail',
     '/api/v1/stats/all/30d',
     '/api/v1/stats/bsc/30d',
     '/api/v1/stats/fantom/30d',
@@ -30,7 +29,7 @@
 
           return response || fetchPromise;
         });
-      })
+      }),
     );
   });
 })();

@@ -5,6 +5,7 @@ const chainIdToDocsChainIdMap: Record<string, string> = {
   arbitrum: 'arbitrum',
   bsc: 'bnb-smart-chain',
   celo: 'celo',
+  // chiliz: 'chiliz', // TODO: uncomment when docs are ready
   eth: 'ethereum',
   fantom: 'fantom',
   gnosis: 'gnosis',
