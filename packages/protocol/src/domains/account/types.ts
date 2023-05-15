@@ -48,6 +48,7 @@ export interface PaymentHistoryParams extends IApiUserGroupParams {
   to: number;
   transactionsCursor?: number;
   types?: IPaymentHistoryEntityType[];
+  isPaginationRequest?: boolean;
 }
 
 export enum PaymentHistoryTableTimeframe {
