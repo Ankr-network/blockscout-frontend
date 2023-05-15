@@ -40,6 +40,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       border: `1px solid ${theme.palette.grey['200']}`,
     },
 
+    [`&.${ChainId.Chiliz}`]: {
+      border: `1px solid ${theme.palette.grey['200']}`,
+    },
+
     [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
     },
