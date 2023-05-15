@@ -95,7 +95,6 @@ export const useRenderForm = (
               fullWidth
               type="submit"
               disabled={validating || isLoading}
-              className={classes.button}
               loading={isLoading}
             >
               {t(
@@ -109,7 +108,6 @@ export const useRenderForm = (
       );
     },
     [
-      classes.button,
       classes.rootForm,
       classes.form,
       classes.amount,

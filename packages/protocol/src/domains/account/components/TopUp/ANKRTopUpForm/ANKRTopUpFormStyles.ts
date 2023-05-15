@@ -11,11 +11,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     height: '100%',
     [theme.breakpoints.down('sm')]: {
       gap: 6,
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'unset',
-      justifyContent: 'unset',
-      height: 'unset',
     },
   },
   amount: {
@@ -36,14 +31,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     '&:hover': {
       color: theme.palette.background.paper,
       backgroundColor: theme.palette.primary.dark,
-    },
-
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: 86,
-    },
-
-    [theme.breakpoints.down('xs')]: {
-      maxWidth: '100%',
     },
   },
   info: {

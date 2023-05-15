@@ -34,13 +34,4 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       marginBottom: 'unset',
     },
   },
-  button: {
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: 86,
-    },
-
-    [theme.breakpoints.down('xs')]: {
-      maxWidth: '100%',
-    },
-  },
 }));
