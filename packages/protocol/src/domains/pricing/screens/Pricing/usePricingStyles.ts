@@ -35,6 +35,7 @@ export const usePricingStyles = makeStyles<boolean>()(
     title: {
       textAlign: 'center',
       marginBottom: theme.spacing(13),
+      color: theme.palette.text.primary,
 
       [theme.breakpoints.down('md')]: {
         fontSize: 42,

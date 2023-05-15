@@ -8,6 +8,7 @@ export const useFeatureContentStyles = makeStyles()(theme => ({
   },
   header: {
     width: '100%',
+    color: theme.palette.text.primary,
 
     [`& .premium`]: {
       background: getPremiumColorGradient(theme),
@@ -21,6 +22,7 @@ export const useFeatureContentStyles = makeStyles()(theme => ({
     },
   },
   summary: {
+    color: theme.palette.text.primary,
     display: 'block',
     marginTop: theme.spacing(1),
   },
