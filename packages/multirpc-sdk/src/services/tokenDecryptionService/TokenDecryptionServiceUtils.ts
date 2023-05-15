@@ -23,12 +23,7 @@ const hashPersonalMessage = (msg: string): string => {
 const recoverPublicKey = (sig: string, hash: string): string => {
   const sigParams = fromRpcSig(sig);
   const hashBuffer = Buffer.from(hash.replace('0x', ''), 'hex');
-  const result = ecrecover(
-    hashBuffer,
-    sigParams.v,
-    sigParams.r,
-    sigParams.s,
-  );
+  const result = ecrecover(hashBuffer, sigParams.v, sigParams.r, sigParams.s);
   const signer = bufferToHex(publicToAddress(result));
 
   return signer;
@@ -82,5 +77,6 @@ export const getEncryptionPublicKey = async (
 export const base64StrToUtf8String = (str: string) => {
   return Buffer.from(str, 'base64').toString('utf8');
 };
+export const USER_DENIED_MESSAGE_SIGNATURE_CODE = -32603;
 
 export const METAMASK_REJECTED_OPERATION_CODE = 4001;
