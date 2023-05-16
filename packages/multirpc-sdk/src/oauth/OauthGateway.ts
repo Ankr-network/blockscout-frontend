@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { AXIOS_DEFAULT_CONFIG } from '../common';
+import { AXIOS_DEFAULT_CONFIG, createTOTPHeaders } from '../common';
 import {
   IOauthLoginParams,
   IOauthLoginResponse,
@@ -41,10 +41,14 @@ export class OauthGateway {
 
   async loginUserByGoogleSecretCode(
     body: ISecreteCodeLoginParams,
+    totp?: string,
   ): Promise<IOauthLoginResponse> {
     const { data } = await this.api.post<IOauthLoginResponse>(
       '/api/v1/googleOauth/loginUserByGoogleSecretCode',
       body,
+      {
+        headers: createTOTPHeaders(totp),
+      }
     );
 
     return data;
@@ -74,9 +78,12 @@ export class OauthGateway {
     return data;
   }
 
-  async getSyntheticJwtToken(): Promise<ISyntheticJwtTokenResponse> {
+  async getSyntheticJwtToken(totp?: string): Promise<ISyntheticJwtTokenResponse> {
     const { data } = await this.api.get<ISyntheticJwtTokenResponse>(
       '/api/v1/auth/jwt/getMySyntheticJwt',
+      {
+        headers: createTOTPHeaders(totp),
+      },
     );
 
     return data;

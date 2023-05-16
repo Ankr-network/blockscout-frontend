@@ -17,6 +17,9 @@ import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { themePersistConfig } from 'modules/layout/storage/themePersistConfig';
 import { themeSlice } from 'modules/layout/store/themeSlice';
 import { listenerMiddleware } from './middlewares/listenerMiddleware';
+import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
+import { oauthLoginInitiatorListenerMiddleware } from './middlewares/oauthLoginInitiatorListenerMiddleware';
+
 import { notificationSlice } from '../domains/notification/store/notificationSlice';
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
 import { rootSaga } from './rootSaga';
@@ -25,6 +28,7 @@ import { userConfigPersistConfig } from 'domains/auth/storage/userConfigPersistC
 import { jwtTokenManagerPersistConfig } from 'domains/jwtToken/storage/jwtTokenManagerPersistConfig';
 import { jwtTokenManagerSlice } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { userGroupPersistConfig } from 'domains/userGroup/storage/userGroupPersistConfig';
+import { userSettingsSlice } from 'domains/userSettings/store/userSettingsSlice';
 import { userGroupSlice } from 'domains/userGroup/store';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -48,6 +52,7 @@ const rootReducer = combineReducers({
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,
   userGroup: persistReducer(userGroupPersistConfig, userGroupSlice.reducer),
+  userSettings: userSettingsSlice.reducer,
 });
 
 export const store = configureStore({
@@ -58,6 +63,9 @@ export const store = configureStore({
     })
       .concat(web3Api.middleware)
       .prepend(listenerMiddleware.middleware)
+      .prepend(authConnectInitiatorListenerMiddleware.middleware)
+      .prepend(oauthLoginInitiatorListenerMiddleware.middleware)
+
       .concat(sagaMiddleware)
       .concat(routerMiddleware(historyInstance)),
 });

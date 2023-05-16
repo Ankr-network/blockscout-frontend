@@ -3,6 +3,7 @@ import { queryFnWrapper } from '@ankr.com/utils';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { extractMessage } from 'modules/common/utils/extractError';
 import { getAxiosAccountErrorMessage } from './getAxiosAccountErrorMessage';
+import { is2FAError } from './is2FAError';
 import { isAxiosAccountEmailError } from './isAxiosAccountEmailError';
 import { isAxiosAccountError } from './isAxiosAccountError';
 import { isAxiosAuthError } from './isAxiosAuthError';
@@ -10,7 +11,7 @@ import { isAxiosPermissionError } from './isAxiosPermissionError';
 
 export const createNotifyingQueryFn = queryFnWrapper({
   onNotification({ api: { dispatch }, error }) {
-    const shouldNotify = !isAxiosAccountEmailError(error);
+    const shouldNotify = !isAxiosAccountEmailError(error) || is2FAError(error);
 
     if (shouldNotify) {
       let message = extractMessage(error);

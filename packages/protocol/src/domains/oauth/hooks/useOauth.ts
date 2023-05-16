@@ -3,6 +3,7 @@ import {
   useLazyOauthAutoLoginQuery,
 } from '../actions/autoLogin';
 import { useLazyOauthLoginByGoogleSecretCodeQuery } from '../actions/loginByGoogleSecretCode';
+import { useLazyOauthLoginJwtQuery } from '../actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { useLazyOauthSignoutQuery } from '../actions/signout';
 
 export interface OAuth {
@@ -17,13 +18,14 @@ export const useOauth = (): OAuth => {
     useLazyOauthAutoLoginQuery();
 
   const [handleSignout] = useLazyOauthSignoutQuery();
-  const [, { isLoading: loginUserLoading }] =
+  const [, { isLoading: loginUserLoading1 }] =
     useLazyOauthLoginByGoogleSecretCodeQuery();
+  const [, { isLoading: loginUserLoading2 }] = useLazyOauthLoginJwtQuery();
 
   return {
     data,
     handleLogin,
     handleSignout,
-    loading: autoLoginLoading || loginUserLoading,
+    loading: autoLoginLoading || loginUserLoading1 || loginUserLoading2,
   };
 };

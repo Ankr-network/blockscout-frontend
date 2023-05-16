@@ -10,7 +10,6 @@ import { setUserGroupJwt } from '../store';
 export const {
   endpoints: { userGroupFetchGroupJwt },
   useLazyUserGroupFetchGroupJwtQuery,
-  useUserGroupFetchGroupJwtQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userGroupFetchGroupJwt: build.query<

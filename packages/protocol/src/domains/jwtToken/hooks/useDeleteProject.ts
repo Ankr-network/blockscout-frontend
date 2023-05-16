@@ -4,6 +4,7 @@ import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { jwtTokenIntlRoot } from '../utils/utils';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { is2FAError } from 'store/utils/is2FAError';
 
 export enum DeleteProjectStep {
   initial = 'initial',
@@ -28,11 +29,13 @@ export const useDeleteProject = (
   const handleDelete = useCallback(() => {
     const deleteAction = async () => {
       const { error } = await deleteProject({
-        tokenIndex: viewTokenIndex,
-        group,
+        params: {
+          tokenIndex: viewTokenIndex,
+          group,
+        },
       });
 
-      if (error) {
+      if (error && !is2FAError(error)) {
         setDeleteProjectStep(DeleteProjectStep.failed);
       } else {
         setDeleteProjectStep(DeleteProjectStep.initial);

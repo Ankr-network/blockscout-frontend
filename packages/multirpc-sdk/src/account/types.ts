@@ -7,6 +7,7 @@ import {
 
 export interface IApiUserGroupParams {
   group?: Web3Address;
+  totp?: string;
 }
 
 export interface AccountError {
@@ -21,11 +22,13 @@ export enum AccountErrorCode {
   FailedPrecondition = 'failed_precondition',
   InternalError = 'internal_error',
   InvalidArgument = 'invalid_argument',
+  NotFound = 'not_found',
   NothingTodo = 'nothing_todo',
   Unavailable = 'unavailable',
   WrongFormat = 'wrong_format',
   WrongState = 'wrong_state',
-  NotFound = 'not_found',
+  TwoFARequired = '2fa_required',
+  TwoFAWrong = '2fa_wrong',
 }
 
 export interface AccountErrorResponse {
@@ -387,4 +390,39 @@ export interface UserGroup {
 
 export interface IUserGroupsResponse {
   groups: UserGroup[];
+}
+
+export interface InitTwoFAResponse {
+  passcode: string;
+  qr_code: string;
+  issuer: string;
+  account: string;
+}
+
+export enum TwoFAStatus {
+  None = 'none',
+  Pending = 'pending',
+  Enabled = 'enabled',
+}
+
+interface TOTP {
+  type: 'TOTP';
+  status: TwoFAStatus;
+}
+
+export interface TwoFAStatusResponse {
+  '2FAs': TOTP[];
+}
+
+export interface ConfirmTwoFARequestParams {
+  totp: string;
+}
+
+export type ConfirmTwoFAResponse = Record<string, unknown>;
+
+export type DisableTwoFAResponse = Record<string, unknown>;
+
+export interface EmailBindingParams {
+  email: string;
+  totp?: string;
 }

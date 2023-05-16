@@ -35,14 +35,10 @@ import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 
 export const Routes = () => {
-  const {
-    authorizationToken,
-    hasPremium,
-    hasPrivateAccess,
-    isUserEthAddressType,
-  } = useAuth();
+  const { hasPremium, hasPrivateAccess, isUserEthAddressType, isLoggedIn } =
+    useAuth();
 
-  const hasAuthData = Boolean(authorizationToken);
+  const hasAuthData = Boolean(isLoggedIn);
 
   usePremiumStatusSubscription();
   useBalanceSubscription();

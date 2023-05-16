@@ -4,7 +4,7 @@ import { useAuth } from '../domains/auth/hooks/useAuth';
 
 export const useAutoconnect = () => {
   const {
-    handleConnect,
+    handleAutoconnect,
     authorizationToken,
     walletMeta,
     hasOauthLogin,
@@ -13,13 +13,13 @@ export const useAutoconnect = () => {
   const { handleLogin } = useOauth();
 
   useOnMount(() => {
-    const login = async () => {
+    const login = () => {
       if (hasOauthLogin) {
-        await handleLogin();
+        handleLogin();
       }
 
       if (hasWeb3Connection) {
-        await handleConnect(walletMeta?.id ?? '');
+        handleAutoconnect(walletMeta?.id ?? '');
       }
     };
 

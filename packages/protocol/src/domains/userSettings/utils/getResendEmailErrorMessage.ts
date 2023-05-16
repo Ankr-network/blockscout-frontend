@@ -27,6 +27,8 @@ const messageGettersMap: Record<AccountErrorCode, ErrorMessageGetter> = {
   [AccountErrorCode.WrongState]: () => tooManyRequestsError,
   [AccountErrorCode.NotFound]: () =>
     t('user-settings.errors.change-inexistent'),
+  [AccountErrorCode.TwoFARequired]: () => '',
+  [AccountErrorCode.TwoFAWrong]: () => '',
 };
 
 export const getResendEmailErrorMessage = (error: unknown, email?: string) =>

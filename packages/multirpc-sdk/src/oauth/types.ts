@@ -60,6 +60,7 @@ export interface IJwtTokenResponse {
 
 export interface IJwtTokenRequestParams extends IApiUserGroupParams {
   index: number;
+  totp?: string;
 }
 
 export interface IJwtTokenLimitResponse {
