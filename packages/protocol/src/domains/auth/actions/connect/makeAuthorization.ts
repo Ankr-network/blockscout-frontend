@@ -38,7 +38,7 @@ export const getCachedData = (
   return authData;
 };
 
-const setWeb3UserAuthorizationToken = async (
+export const setWeb3UserAuthorizationToken = async (
   service: MultiRpcSdk,
   dispatch: AppDispatch,
 ) => {
@@ -81,6 +81,7 @@ const getJwtTokenFullData = async (
   web3Service: MultiRpcWeb3Sdk,
   dispatch: AppDispatch,
   currentAccount: string,
+  totp?: string,
 ) => {
   const isParticipant = await isInstantJwtParticipant(dispatch);
 
@@ -88,7 +89,10 @@ const getJwtTokenFullData = async (
     dispatch(setAuthData({ isInstantJwtParticipant: true }));
 
     return dispatch(
-      authFetchDevdaoInstantJwtParticipantToken.initiate(),
+      authFetchDevdaoInstantJwtParticipantToken.initiate({
+        params: null,
+        totp,
+      }),
     ).unwrap();
   }
 
@@ -101,7 +105,9 @@ const getJwtTokenFullData = async (
 
   dispatch(setAuthData({ isInstantJwtParticipant: true }));
 
-  return dispatch(authFetchInstantJwtParticipantToken.initiate()).unwrap();
+  return dispatch(
+    authFetchInstantJwtParticipantToken.initiate({ params: null, totp }),
+  ).unwrap();
 };
 
 export const makeAuthorization = async (
@@ -110,6 +116,7 @@ export const makeAuthorization = async (
   dispatch: AppDispatch,
   walletId: EWalletId,
   hasOauthLogin?: boolean,
+  totp?: string,
 ): Promise<IAuthSlice> => {
   const { currentAccount } = web3Service.getKeyProvider();
 
@@ -121,13 +128,11 @@ export const makeAuthorization = async (
       currentAccount,
     );
   } else {
-    await setWeb3UserAuthorizationToken(service, dispatch);
-    fetchUserEmail(dispatch);
-
     jwtTokenFullData = await getJwtTokenFullData(
       web3Service,
       dispatch,
       currentAccount,
+      totp,
     );
   }
 
@@ -156,6 +161,8 @@ export const makeAuthorization = async (
     walletMeta,
     workerTokenData,
   };
+
+  fetchUserEmail(dispatch);
 
   dispatch(setAuthData(authData));
 

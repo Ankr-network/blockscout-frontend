@@ -1,11 +1,12 @@
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
+import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { fetchAllJwtTokenRequests } from './getAllJwtToken';
-import { IApiUserGroupParams } from 'multirpc-sdk';
+import { web3Api } from 'store/queries';
 
-interface IRequestParams extends IApiUserGroupParams {
+interface DeleteJwtTokenParams {
   tokenIndex: number;
+  group?: string;
 }
 
 export const {
@@ -13,23 +14,28 @@ export const {
   endpoints: { deleteJwtToken },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    deleteJwtToken: build.query<null, IRequestParams>({
-      queryFn: createQueryFnWithErrorHandler({
-        queryFn: async ({ tokenIndex, group }, { dispatch }) => {
-          const service = MultiService.getService().getAccountGateway();
+    deleteJwtToken: build.query<null, TwoFAQueryFnParams<DeleteJwtTokenParams>>(
+      {
+        queryFn: createQueryFnWithErrorHandler({
+          queryFn: async (
+            { params: { tokenIndex, group }, totp },
+            { dispatch },
+          ) => {
+            const service = MultiService.getService().getAccountGateway();
 
-          await service.deleteJwtToken({ index: tokenIndex, group });
+            await service.deleteJwtToken({ index: tokenIndex, group, totp });
 
-          dispatch(fetchAllJwtTokenRequests.initiate({ group }));
+            dispatch(fetchAllJwtTokenRequests.initiate({ group }));
 
-          return { data: null };
-        },
-        errorHandler: error => {
-          return {
-            error,
-          };
-        },
-      }),
-    }),
+            return { data: null };
+          },
+          errorHandler: error => {
+            return {
+              error,
+            };
+          },
+        }),
+      },
+    ),
   }),
 });

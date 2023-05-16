@@ -13,6 +13,7 @@ import { Breadcrumbs } from '../Breadcrumbs';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -69,6 +70,7 @@ export const DefaultLayout = ({
         </Container>
         <ConnectWalletDialog />
         <StatusTransitionDialog />
+        <TwoFADialog />
       </div>
       <MobileNavigation
         chainsRoutes={chainsRoutes}

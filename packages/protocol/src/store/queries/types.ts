@@ -34,3 +34,13 @@ export type QueryReturn<Result> = QueryReturnValue<
   Result,
   BaseQueryError<BaseQueryFn>
 >;
+
+export type TwoFAQueryFnParams<Params> = Params extends void
+  ? void | {
+      params?: Params;
+      totp?: string;
+    }
+  : {
+      params: Params;
+      totp?: string;
+    };

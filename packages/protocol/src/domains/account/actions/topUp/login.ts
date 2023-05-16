@@ -49,7 +49,7 @@ export const {
 
         dispatch(
           web3Api.util.updateQueryData(
-            'authConnect' as unknown as never,
+            'authMakeAuthorization' as unknown as never,
             undefined as unknown as never,
             connectData => {
               Object.assign(connectData, data);

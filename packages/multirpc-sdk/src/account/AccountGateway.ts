@@ -1,7 +1,12 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { stringify } from 'qs';
 
-import { AXIOS_DEFAULT_CONFIG, EmailConfirmationStatus, Web3Address } from '../common';
+import {
+  AXIOS_DEFAULT_CONFIG,
+  EmailConfirmationStatus,
+  Web3Address,
+  createTOTPHeaders,
+} from '../common';
 import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
@@ -35,12 +40,19 @@ import {
   IApiBalanceEndTimeRequestParams,
   IGetGroupJwtRequestParams,
   IGetGroupJwtResponse,
+  InitTwoFAResponse,
+  TwoFAStatusResponse,
+  ConfirmTwoFARequestParams,
+  ConfirmTwoFAResponse,
+  DisableTwoFAResponse,
+  EmailBindingParams,
 } from './types';
 import {
   IJwtTokenRequestParams,
   IJwtTokenLimitResponse,
-  IJwtTokenResponse
+  IJwtTokenResponse,
 } from '../oauth';
+
 
 export class AccountGateway {
   public api: AxiosInstance;
@@ -116,12 +128,15 @@ export class AccountGateway {
 
   async cancelSubscription(
     body: IApiCancelSubscriptionRequestParams,
-    params: IApiUserGroupParams,
+    { totp, ...params }: IApiUserGroupParams,
   ): Promise<void> {
     const { data: response } = await this.api.post<void>(
       '/api/v1/auth/payment/cancelSubscription',
       body,
-      { params }
+      {
+        headers: createTOTPHeaders(totp),
+        params,
+      },
     );
 
     return response;
@@ -218,24 +233,32 @@ export class AccountGateway {
     return response;
   }
 
-  async addNewEmailBinding(email: string): Promise<IEmailResponse> {
+  async addNewEmailBinding({
+    email,
+    totp
+  }: EmailBindingParams): Promise<IEmailResponse> {
     const { data: response } = await this.api.post<IEmailResponse>(
       '/api/v1/auth/email/bind',
       null,
       {
         params: { email },
+        headers: createTOTPHeaders(totp),
       },
     );
 
     return response;
   }
 
-  async editEmailBinding(email: string): Promise<IEmailResponse> {
+  async editEmailBinding({
+    email,
+    totp
+  }: EmailBindingParams): Promise<IEmailResponse> {
     const { data: response } = await this.api.patch<IEmailResponse>(
       '/api/v1/auth/email/bind',
       null,
       {
         params: { email },
+        headers: createTOTPHeaders(totp),
       },
     );
 
@@ -307,7 +330,7 @@ export class AccountGateway {
       await this.api.post<IGetLinkForCardPaymentResponse>(
         '/api/v1/auth/payment/depositWithCard',
         body,
-        { params }
+        { params },
       );
 
     return response;
@@ -321,7 +344,7 @@ export class AccountGateway {
       await this.api.post<IGetLinkForCardPaymentResponse>(
         '/api/v1/auth/payment/subscribeOnRecurrentPayments',
         body,
-        { params }
+        { params },
       );
 
     return response;
@@ -361,17 +384,23 @@ export class AccountGateway {
     return response;
   }
 
-  public async getOrCreateDevdaoInstantJwt() {
+  public async getOrCreateDevdaoInstantJwt(totp?: string) {
     const { data: response } = await this.api.get<IGetOrCreateInstantJwt>(
       '/api/v1/auth/devdao/getOrCreateJwtForUserAddress',
+      {
+        headers: createTOTPHeaders(totp),
+      },
     );
 
     return response;
   }
 
-  public async getOrCreateInstantJwt() {
+  public async getOrCreateInstantJwt(totp?: string) {
     const { data: response } = await this.api.get<IGetOrCreateInstantJwt>(
       '/api/v1/auth/getOrCreateJwtForUserAddress',
+      {
+        headers: createTOTPHeaders(totp),
+      },
     );
 
     return response;
@@ -409,8 +438,9 @@ export class AccountGateway {
     return data;
   }
 
-  async deleteJwtToken(params: IJwtTokenRequestParams) {
+  async deleteJwtToken({ totp, ...params }: IJwtTokenRequestParams) {
     const { data: response } = await this.api.delete(`/api/v1/auth/jwt`, {
+      headers: createTOTPHeaders(totp),
       params,
     });
 
@@ -431,6 +461,45 @@ export class AccountGateway {
   public async getUserGroups() {
     const { data: response } = await this.api.get<IUserGroupsResponse>(
       '/api/v1/auth/group',
+    );
+
+    return response;
+  }
+
+  async initTwoFA(): Promise<InitTwoFAResponse> {
+    const { data: response } = await this.api.post<InitTwoFAResponse>(
+      '/api/v1/auth/2fa/init',
+    );
+
+    return response;
+  }
+
+  async getTwoFAStatus(): Promise<TwoFAStatusResponse> {
+    const { data: response } = await this.api.get<TwoFAStatusResponse>(
+      '/api/v1/auth/2fa/status',
+    );
+
+    return response;
+  }
+
+  async confirmTwoFA(
+    body: ConfirmTwoFARequestParams,
+  ): Promise<ConfirmTwoFAResponse> {
+    const { data: response } = await this.api.post<ConfirmTwoFAResponse>(
+      '/api/v1/auth/2fa/confirm',
+      body,
+    );
+
+    return response;
+  }
+
+  async disableTwoFA(totp: string) {
+    const { data: response } = await this.api.post<DisableTwoFAResponse>(
+      '/api/v1/auth/2fa/clear',
+      null,
+      {
+        headers: createTOTPHeaders(totp),
+      },
     );
 
     return response;

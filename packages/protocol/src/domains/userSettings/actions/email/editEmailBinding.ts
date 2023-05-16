@@ -1,11 +1,12 @@
 import { IEmailResponse } from 'multirpc-sdk';
 
+import { MultiService } from 'modules/api/MultiService';
+import { TwoFAQueryFnParams } from 'store/queries/types';
+import { web3Api } from 'store/queries';
 import {
   ConditionallyNotifyingQueryFnParams,
   createConditionallyNotifyingQueryFn,
 } from 'store/utils/createConditionallyNotifyingQueryFn';
-import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
 
 interface EditEmailBindingParams {
   email: string;
@@ -18,15 +19,22 @@ export const {
   endpoints: build => ({
     userSettingsEditEmailBinding: build.query<
       IEmailResponse,
-      ConditionallyNotifyingQueryFnParams<EditEmailBindingParams>
+      ConditionallyNotifyingQueryFnParams<
+        TwoFAQueryFnParams<EditEmailBindingParams>
+      >
     >({
-      queryFn: createConditionallyNotifyingQueryFn(async ({ email }) => {
-        const service = MultiService.getService();
+      queryFn: createConditionallyNotifyingQueryFn(
+        async ({ params: { email }, totp }) => {
+          const service = MultiService.getService();
 
-        const data = await service.getAccountGateway().editEmailBinding(email);
+          const data = await service.getAccountGateway().editEmailBinding({
+            email,
+            totp,
+          });
 
-        return { data };
-      }),
+          return { data };
+        },
+      ),
     }),
   }),
 });

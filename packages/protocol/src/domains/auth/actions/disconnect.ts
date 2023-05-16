@@ -26,6 +26,11 @@ export const {
         dispatch(topUpReset.initiate());
 
         resetEndpoint('authConnect', dispatch);
+        resetEndpoint('authMakeAuthorization', dispatch);
+
+        resetEndpoint('oauthLoginByGoogleSecretCode', dispatch);
+        resetEndpoint('oauthLoginJwt', dispatch);
+
         resetEndpoint('chainsFetchPremiumChainFeatures', dispatch);
         resetEndpoint('infrastructureFetchProvider', dispatch);
         resetEndpoint('accountFetchAccountBalance', dispatch);

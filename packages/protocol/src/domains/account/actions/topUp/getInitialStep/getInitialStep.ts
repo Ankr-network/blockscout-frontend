@@ -1,7 +1,7 @@
 import { GetState, RootState } from 'store';
 import { TopUpStep } from '../const';
 import { areHashesEmpty } from './initialStepChecksUtils';
-import { authConnect, AuthConnectParams } from 'domains/auth/actions/connect';
+import { AuthConnectParams } from 'domains/auth/actions/connect';
 import { checkAllowanceStep } from './checkAllowanceStep';
 import { checkFirstTopUpStep } from './checkFirstTopUpStep';
 import { checkTopUpStep } from './checkTopUpStep';
@@ -11,6 +11,7 @@ import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { IApiUserGroupParams } from 'multirpc-sdk';
+import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
 
 export const {
   endpoints: { topUpGetInitialStep },
@@ -54,7 +55,7 @@ export const {
 
           if (topUpStep) return { data: topUpStep };
 
-          const { data: connectData } = authConnect.select(
+          const { data: connectData } = authMakeAuthorization.select(
             undefined as unknown as AuthConnectParams,
           )(getState() as RootState);
 

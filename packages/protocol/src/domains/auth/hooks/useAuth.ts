@@ -44,11 +44,7 @@ export const useAuth = () => {
   const isUserEthAddressType = useAppSelector(selectIsUserEthAddressType);
   const premiumUntil = useAppSelector(selectPremiumUntilDate);
 
-  const {
-    loading: web3ConnectionLoading,
-    connectData,
-    ...rest
-  } = useWeb3Connection();
+  const { loading: web3ConnectionLoading, ...rest } = useWeb3Connection();
 
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
@@ -62,10 +58,8 @@ export const useAuth = () => {
     ...authData,
     ...oauthRest,
     address,
-    credentials: hasWeb3Connection
-      ? connectData?.credentials
-      : authData?.credentials,
     hasWeb3Connection: Boolean(hasWeb3Connection),
+    isWalletConnected: Boolean(address),
     isLoggedIn,
     isOldPremium,
     isUserEthAddressType,

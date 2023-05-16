@@ -3,24 +3,52 @@ import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { authConnect } from 'domains/auth/actions/connect';
 import { authDisconnect } from 'domains/auth/actions/disconnect';
 import { disconnectService } from 'domains/auth/actions/connect/connectUtils';
+import { getEndpointByName } from 'store/utils/getEndpointByName';
+import { is2FARejectedAction } from 'store/matchers/is2FARejectedAction';
 import { isAuthRejectedAction } from 'store/matchers/isAuthRejectedAction';
-import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
-import { watchForDepositOrVoucherTransation } from 'domains/oauth/actions/watchForDepositOrVoucherTransation';
 import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
 import { oauthSignout } from 'domains/oauth/actions/signout';
-import { watchForVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForVoucherTransactionAndNegativeBalance';
-import { oauthLoginByGoogleSecretCode } from 'domains/oauth/actions/loginByGoogleSecretCode';
+import {
+  setTwoFAErrorMessage,
+  setIsTwoFADialogOpened,
+  setTwoFACode,
+  setTwoFAEndpoint,
+  selectTwoFAEndpoint,
+} from 'domains/userSettings/store/userSettingsSlice';
 import { shouldShowUserGroupDialog } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
+import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
+import { watchForDepositOrVoucherTransation } from 'domains/oauth/actions/watchForDepositOrVoucherTransation';
+import { watchForVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForVoucherTransactionAndNegativeBalance';
 import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
-import { userGroupFetchGroupJwt } from 'domains/userGroup/actions/fetchGroupJwt';
+import { is2FAError } from 'store/utils/is2FAError';
+import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
+import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
+import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
+import { authAutoConnect } from 'domains/auth/actions/connect/authAutoConnect';
 
 export const listenerMiddleware = createListenerMiddleware();
 
 const isProvider = (provider: unknown): provider is EventProvider =>
   !!provider && typeof provider === 'object' && 'on' in provider;
+
+const getParams = (savedParams: any, totp: string) => {
+  if ('params' in savedParams?.params) {
+    return {
+      ...savedParams,
+      params: {
+        ...savedParams.params,
+        totp,
+      },
+    };
+  }
+
+  return {
+    ...savedParams,
+    totp,
+  };
+};
 
 listenerMiddleware.startListening({
   matcher: isAuthRejectedAction,
@@ -30,7 +58,7 @@ listenerMiddleware.startListening({
 });
 
 listenerMiddleware.startListening({
-  matcher: authConnect.matchFulfilled,
+  matcher: authMakeAuthorization.matchFulfilled,
   effect: async (_action, { dispatch }) => {
     dispatch(usdTopUpWatchForTheFirstCardPayment.initiate());
   },
@@ -38,9 +66,9 @@ listenerMiddleware.startListening({
 
 listenerMiddleware.startListening({
   matcher: isAnyOf(
-    oauthLoginByGoogleSecretCode.matchFulfilled,
+    oauthLoginJwt.matchFulfilled,
     oauthAutoLogin.matchFulfilled,
-    authConnect.matchFulfilled,
+    authMakeAuthorization.matchFulfilled,
   ),
   effect: async (_action, { dispatch, getState }) => {
     const { selectedGroupAddress: group, selectedGroupRole: userGroupRole } =
@@ -75,7 +103,7 @@ listenerMiddleware.startListening({
 });
 
 listenerMiddleware.startListening({
-  matcher: authConnect.matchFulfilled,
+  matcher: authMakeAuthorization.matchFulfilled,
   effect: async (_action, { dispatch }) => {
     const service = await MultiService.getWeb3Service();
     const provider = service.getKeyProvider().getWeb3().currentProvider;
@@ -101,8 +129,9 @@ listenerMiddleware.startListening({
 
 listenerMiddleware.startListening({
   matcher: isAnyOf(
-    oauthLoginByGoogleSecretCode.matchFulfilled,
-    authConnect.matchFulfilled,
+    authMakeAuthorization.matchFulfilled,
+    authAutoConnect.matchFulfilled,
+    oauthLoginJwt.matchFulfilled,
     oauthAutoLogin.matchFulfilled,
   ),
   effect: async (_action, { dispatch }) => {
@@ -110,23 +139,36 @@ listenerMiddleware.startListening({
   },
 });
 
-// we need to get new groupToken for selected group once is has been changed
 listenerMiddleware.startListening({
-  predicate: (action, currentState, prevState) => {
-    const { selectedGroupAddress: currentSelectedGroupAddress } =
-      getSelectedGroupAddress(currentState as RootState);
-    const { selectedGroupAddress: prevSelectedGroupAddress } =
-      getSelectedGroupAddress(prevState as RootState);
+  matcher: is2FARejectedAction,
+  effect: async (
+    {
+      meta: {
+        arg: { endpointName, originalArgs: params = {} },
+      },
+    },
+    { take, dispatch, getState },
+  ) => {
+    dispatch(setIsTwoFADialogOpened(true));
+    // we need to use saved endpoint name for every iteration of listener
+    dispatch(setTwoFAEndpoint({ endpointName, params }));
 
-    return currentSelectedGroupAddress !== prevSelectedGroupAddress;
-  },
-  effect: async (_action, { dispatch, getState }) => {
-    const { selectedGroupAddress: group } = getSelectedGroupAddress(
-      getState() as RootState,
+    const [{ payload: totp }] = await take(setTwoFACode.match);
+
+    const { endpointName: savedEndpointName, params: savedParams = {} } =
+      selectTwoFAEndpoint(getState() as RootState) || {};
+
+    dispatch(setIsTwoFADialogOpened(false));
+
+    const { error } = await dispatch(
+      getEndpointByName(savedEndpointName || endpointName).initiate(
+        getParams(savedParams, totp),
+      ),
     );
 
-    if (group) {
-      dispatch(userGroupFetchGroupJwt.initiate({ group }));
+    if (is2FAError(error)) {
+      const message = getAxiosAccountErrorMessage(error);
+      dispatch(setTwoFAErrorMessage(message));
     }
   },
 });

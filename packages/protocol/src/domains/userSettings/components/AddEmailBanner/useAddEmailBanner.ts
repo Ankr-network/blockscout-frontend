@@ -13,7 +13,7 @@ export const useAddEmailBanner = ({
     title,
     contentState,
     setContentState,
-    submittedData,
+    submittedEmail,
     onFormSubmit,
     onAddEmailSubmitSuccess,
   } = useContent({
@@ -28,7 +28,7 @@ export const useAddEmailBanner = ({
       formDisabled,
       contentState,
       onFormStateChange: setContentState,
-      submittedData,
+      submittedEmail,
       onFormSubmit,
       onAddEmailSubmitSuccess,
       fillStepContent,
