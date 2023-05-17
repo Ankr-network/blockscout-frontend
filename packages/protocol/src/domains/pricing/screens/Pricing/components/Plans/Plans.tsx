@@ -22,8 +22,13 @@ export const Plans = () => {
 
   const history = useHistory();
 
-  const { isLoggedIn, hasOauthLogin } = useAuth();
+  const { isLoggedIn, hasOauthLogin, hasPremium } = useAuth();
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
+  const {
+    isOpened: isTopupOpened,
+    onClose: onCloseTopup,
+    onOpen: onOpenTopup,
+  } = useUpgradePlanDialog();
   const {
     isOpened: isSignupOpend,
     onClose: onCloseSignup,
@@ -39,7 +44,11 @@ export const Plans = () => {
         history.replace(INDEX_PATH);
       } else if (isPremiumUser) {
         if (isLoggedIn) {
-          history.replace(INDEX_PATH);
+          if (!hasPremium) {
+            onOpenTopup();
+          } else {
+            history.replace(INDEX_PATH);
+          }
         } else {
           onOpenSigup();
         }
@@ -47,7 +56,15 @@ export const Plans = () => {
         onOpen();
       }
     },
-    [isLoggedIn, history, onOpen, onOpenSigup],
+    [isLoggedIn, hasPremium, history, onOpen, onOpenSigup, onOpenTopup],
+  );
+
+  const getButtonState = useCallback(
+    (name: string) => {
+      const isFreeUser = name === PLAN_LIST[0];
+      return isFreeUser && hasPremium;
+    },
+    [hasPremium],
   );
 
   return (
@@ -84,12 +101,18 @@ export const Plans = () => {
               fullWidth
               className={classes.button}
               onClick={() => renderClick(name)}
+              disabled={getButtonState(name)}
             >
               {t(`${INTL_PLANS_ROOT}.${name}.button`)}
             </Button>
           </div>
         </div>
       ))}
+      <UpgradePlanDialog
+        defaultState={ContentType.TOP_UP}
+        onClose={onCloseTopup}
+        open={isTopupOpened}
+      />
       <UpgradePlanDialog
         defaultState={ContentType.CONTACT_SALES_FORM}
         onClose={onClose}

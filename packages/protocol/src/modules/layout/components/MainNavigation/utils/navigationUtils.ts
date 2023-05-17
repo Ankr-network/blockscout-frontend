@@ -93,27 +93,35 @@ export const getToolsList = (): NavigationItem[] => [
 export const getMenuList = (
   isLoggedIn: boolean,
   onDocsClick: () => void,
-): NavigationItem[] => [
-  isLoggedIn
-    ? {
-        StartIcon: Wallet,
-        ActiveIcon: Wallet,
-        href: AccountRoutesConfig.accountDetails.generatePath(),
-        label: t('main-navigation.billing'),
-      }
-    : {
-        StartIcon: CoinStack,
-        ActiveIcon: CoinStack,
-        href: PricingRoutesConfig.pricing.generatePath(),
-        label: t('main-navigation.pricing'),
-      },
-  {
-    StartIcon: Doc,
-    href: DOC_URL,
-    label: t('main-navigation.docs'),
-    onClick: onDocsClick,
-  },
-];
+): NavigationItem[] => {
+  const menuList = [
+    {
+      StartIcon: CoinStack,
+      ActiveIcon: CoinStack,
+      href: PricingRoutesConfig.pricing.generatePath(),
+      label: t('main-navigation.pricing'),
+    },
+    {
+      StartIcon: Doc,
+      href: DOC_URL,
+      label: t('main-navigation.docs'),
+      onClick: onDocsClick,
+    },
+  ];
+
+  const billingItem = {
+    StartIcon: Wallet,
+    ActiveIcon: Wallet,
+    href: AccountRoutesConfig.accountDetails.generatePath(),
+    label: t('main-navigation.billing'),
+  };
+
+  if (isLoggedIn) {
+    menuList.splice(1, 0, billingItem);
+  }
+
+  return menuList;
+};
 
 export const getSettingList = (
   onSettingsClick: () => void,

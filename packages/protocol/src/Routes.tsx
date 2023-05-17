@@ -21,7 +21,6 @@ import {
 } from 'domains/auth/components/GuardAuthRoute';
 import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
 import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
-import { GuardPricingRoute } from 'domains/auth/components/GuardAuthRoute/GuardPricingRoute';
 import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
@@ -37,14 +36,10 @@ import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 
 export const Routes = () => {
-  const {
-    authorizationToken,
-    hasPremium,
-    hasPrivateAccess,
-    isUserEthAddressType,
-  } = useAuth();
+  const { hasPremium, hasPrivateAccess, isUserEthAddressType, isLoggedIn } =
+    useAuth();
 
-  const hasAuthData = Boolean(authorizationToken);
+  const hasAuthData = Boolean(isLoggedIn);
 
   usePremiumStatusSubscription();
   useBalanceSubscription();
@@ -54,17 +49,11 @@ export const Routes = () => {
 
   return (
     <Switch>
-      <GuardPricingRoute
+      <Route
         exact
-        path={[PricingRoutesConfig.pricing.path]}
-        hasAuthData={hasAuthData}
+        path={PricingRoutesConfig.pricing.path}
         render={() => (
-          <DefaultLayout
-            hasGradient
-            hasNoReactSnap
-            disableGutters
-            hasPaddingBottom={false}
-          >
+          <DefaultLayout hasGradient hasNoReactSnap hasPaddingBottom={false}>
             <PricingRoutes />
           </DefaultLayout>
         )}

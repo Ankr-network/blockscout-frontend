@@ -37,7 +37,9 @@ export const UpgradePlanDialog = ({
       paperClassName={cx(classes.paperRoot, {
         [classes.dialogContainerWhite]: isContactSalesPopup,
       })}
-      titleClassName={classes.title}
+      titleClassName={cx(classes.title, {
+        [classes.dialogTitleBlack]: isContactSalesPopup,
+      })}
       {...dialogProps}
     />
   );

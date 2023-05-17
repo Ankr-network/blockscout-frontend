@@ -1,4 +1,7 @@
-import { METAMASK_REJECTED_OPERATION_CODE } from 'multirpc-sdk';
+import {
+  METAMASK_REJECTED_OPERATION_CODE,
+  USER_DENIED_MESSAGE_SIGNATURE_CODE,
+} from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -26,7 +29,12 @@ export const {
 
           key = publicKey;
         } catch (error: any) {
-          if (error?.code !== METAMASK_REJECTED_OPERATION_CODE) {
+          const isRejectOperationError =
+            error?.code === METAMASK_REJECTED_OPERATION_CODE;
+          const isDeniedMessageSignatureError =
+            error?.code === USER_DENIED_MESSAGE_SIGNATURE_CODE;
+
+          if (!isRejectOperationError && !isDeniedMessageSignatureError) {
             key = await service
               .getTokenDecryptionService()
               .requestMetamaskEncryptionKey();

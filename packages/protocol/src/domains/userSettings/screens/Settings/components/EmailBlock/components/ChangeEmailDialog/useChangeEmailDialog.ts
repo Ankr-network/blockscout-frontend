@@ -1,10 +1,9 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   AddEmailFormContentState,
   IAddEmailFormData,
 } from 'domains/userSettings/components/AddEmailForm/types';
-import { IUseAddEmailFormProps } from 'domains/userSettings/components/AddEmailForm/hooks/useAddEmailForm';
 
 export const useChangeEmailDialog = () => {
   const [submittedData, setSubmittedData] = useState<
@@ -19,20 +18,15 @@ export const useChangeEmailDialog = () => {
     setSubmittedData(formData);
   }, []);
 
-  const formProps = useMemo<IUseAddEmailFormProps>(
-    () => ({
-      contentState,
-      submittedData,
-      onFormStateChange: setContentState,
-      onFormSubmit,
-    }),
-    [contentState, onFormSubmit, submittedData],
-  );
-
   return {
     contentState,
     email: submittedData?.email,
 
-    formProps,
+    formProps: {
+      contentState,
+      submittedEmail: submittedData?.email,
+      onFormStateChange: setContentState,
+      onFormSubmit,
+    },
   };
 };

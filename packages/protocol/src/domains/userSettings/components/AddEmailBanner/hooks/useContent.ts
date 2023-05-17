@@ -20,7 +20,7 @@ interface IUseContentResult {
   contentState: AddEmailFormContentState;
   setContentState: (state: AddEmailFormContentState) => void;
 
-  submittedData?: IAddEmailFormData;
+  submittedEmail?: string;
   onFormSubmit: (formData?: IAddEmailFormData) => void;
   onAddEmailSubmitSuccess: () => void;
 }
@@ -32,9 +32,9 @@ export const useContent = ({
 }: IUseContentParams): IUseContentResult => {
   const [getEmailBindings] = useLazyUserSettingsGetEmailBindingsQuery();
 
-  const [submittedData, setSubmittedData] = useState<
-    IAddEmailFormData | undefined
-  >(initialSubmittedData);
+  const [submittedEmail, setSubmittedEmail] = useState<string | undefined>(
+    initialSubmittedData?.email,
+  );
 
   const [contentState, setContentState] =
     useState<AddEmailFormContentState>(initialContentState);
@@ -42,7 +42,7 @@ export const useContent = ({
   const title = useMemo(() => stateToTitle[contentState], [contentState]);
 
   const onFormSubmit = useCallback((formData?: IAddEmailFormData) => {
-    setSubmittedData(formData);
+    setSubmittedEmail(formData?.email);
   }, []);
 
   const onAddEmailSubmitSuccess = useCallback(() => {
@@ -56,7 +56,7 @@ export const useContent = ({
   }, [initialContentState]);
 
   useEffect(() => {
-    setSubmittedData(initialSubmittedData);
+    setSubmittedEmail(initialSubmittedData?.email);
   }, [initialSubmittedData]);
 
   return {
@@ -65,7 +65,7 @@ export const useContent = ({
     contentState,
     setContentState,
 
-    submittedData,
+    submittedEmail,
     onFormSubmit,
     onAddEmailSubmitSuccess,
   };

@@ -13,7 +13,7 @@ export interface IAddEmailBannerContentProps {
   onFormStateChange: (state: AddEmailFormContentState) => void;
   onFormSubmit: (data: IAddEmailFormData | undefined) => void;
   onAddEmailSubmitSuccess?: () => void;
-  submittedData: IAddEmailFormData | undefined;
+  submittedEmail?: string;
   formDisabled?: boolean;
   fillStepContent?: ReactNode;
 }
@@ -23,7 +23,7 @@ export const AddEmailBannerContent = ({
   onFormStateChange,
   onFormSubmit,
   onAddEmailSubmitSuccess,
-  submittedData,
+  submittedEmail,
   formDisabled,
   fillStepContent,
 }: IAddEmailBannerContentProps) => {
@@ -35,7 +35,7 @@ export const AddEmailBannerContent = ({
         onFormStateChange={onFormStateChange}
         onFormSubmit={onFormSubmit}
         onAddEmailSubmitSuccess={onAddEmailSubmitSuccess}
-        submittedData={submittedData}
+        submittedEmail={submittedEmail}
       />
     ),
     [
@@ -44,7 +44,7 @@ export const AddEmailBannerContent = ({
       onFormStateChange,
       onFormSubmit,
       onAddEmailSubmitSuccess,
-      submittedData,
+      submittedEmail,
     ],
   );
 
@@ -54,9 +54,7 @@ export const AddEmailBannerContent = ({
       return <FillStep content={fillStepContent}>{addEmailForm}</FillStep>;
 
     case AddEmailFormContentState.SUCCESS:
-      return (
-        <SuccessStep email={submittedData?.email}>{addEmailForm}</SuccessStep>
-      );
+      return <SuccessStep email={submittedEmail}>{addEmailForm}</SuccessStep>;
 
     default:
       return null;

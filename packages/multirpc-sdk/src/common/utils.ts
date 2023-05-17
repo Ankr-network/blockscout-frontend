@@ -23,3 +23,7 @@ export const configFromEnv = (env: Environment): IConfig => {
 
   return config;
 };
+
+export const createTOTPHeaders = (totp?: string) => totp
+  ? { 'x-ankr-totp-token': totp }
+  : {};

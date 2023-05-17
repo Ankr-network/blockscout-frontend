@@ -1,51 +1,60 @@
-import { Button, Paper, Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
-import { Dot, TriangleWarning } from '@ankr.com/ui';
+import { Paper, Typography } from '@mui/material';
+import { t, tHTML } from '@ankr.com/common';
+import { Dot } from '@ankr.com/ui';
+import { Queries } from 'modules/common/components/Queries/Queries';
 
 import { useTwoFABlockStyles } from './useTwoFABlockStyles';
-import { SoonLabel } from 'modules/common/components/SoonLabel';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-
-const intl = 'user-settings.2fa';
-
-const IS_AVAIABLE = false;
+import { TwoFASwitch } from './components/TwoFASwitch';
+import { USER_SETTINGS_INTL_ROOT } from './constants';
+import { useTwoFAStatusQuery } from './TwoFABlockUtils';
+import { UserSettingsTwoFAStatusResult } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
+import { TwoFABlockSkeleton } from './components/TwoFABlockSkeleton';
+import { TwoFAStatus } from 'multirpc-sdk';
 
 export const TwoFABlock = () => {
   const { classes } = useTwoFABlockStyles();
-
-  const { hasOauthLogin } = useAuth();
-
-  if (!hasOauthLogin) {
-    return null;
-  }
+  const fetchTwoFAStatusState = useTwoFAStatusQuery();
 
   return (
     <Paper className={classes.root}>
-      <div className={classes.row}>
-        <Typography className={classes.title}>{t(`${intl}.title`)}</Typography>
-        {IS_AVAIABLE && (
-          <div className={classes.status}>
-            <Dot className={classes.off} />
-            {t(`${intl}.off`)}
-          </div>
-        )}
-        <SoonLabel />
-      </div>
-      {IS_AVAIABLE && (
-        <div className={classes.info}>
-          <div className={classes.row}>
-            <div className={classes.circle}>
-              <TriangleWarning />
-            </div>
-            {t(`${intl}.info`)}
-          </div>
-          <Button size="large" color="warning" className={classes.button}>
-            <Typography noWrap className={classes.text}>
-              {t(`${intl}.button`)}
-            </Typography>
-          </Button>
-        </div>
-      )}
+      <Queries<UserSettingsTwoFAStatusResult>
+        queryStates={[fetchTwoFAStatusState]}
+        spinner={<TwoFABlockSkeleton />}
+      >
+        {({ data }) => {
+          const isEnabled = data?.status === TwoFAStatus.Enabled;
+
+          return (
+            <>
+              <div className={classes.top}>
+                <Typography className={classes.title}>
+                  {t(`${USER_SETTINGS_INTL_ROOT}.title`)}
+                </Typography>
+
+                <div className={classes.status}>
+                  <Dot className={isEnabled ? classes.on : classes.off} />
+                  {t(`${USER_SETTINGS_INTL_ROOT}.${isEnabled ? 'on' : 'off'}`)}
+                </div>
+              </div>
+
+              <div className={classes.info}>
+                <div className={classes.bottom}>
+                  <TwoFASwitch isEnabled={isEnabled} />
+                </div>
+                <div className={classes.description}>
+                  <Typography
+                    // @ts-ignore
+                    variant="body3"
+                    color="textSecondary"
+                  >
+                    {tHTML(`${USER_SETTINGS_INTL_ROOT}.info`)}
+                  </Typography>
+                </div>
+              </div>
+            </>
+          );
+        }}
+      </Queries>
     </Paper>
   );
 };

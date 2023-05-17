@@ -163,7 +163,6 @@ export interface IConfig {
   privateRpcUrl: string;
   privateWsUrl: string;
   publicRpcUrl: string;
-  publicWsUrl: string;
   consensusUrl: string;
   workerUrl: string;
   accountUrl: string;
@@ -173,6 +172,7 @@ export interface IConfig {
   payAsYouGoContractAddress: string;
   payAsYouGoContractCreationBlockNumber: number;
   premiumPlanContractCreationBlockNumber: number;
+  advancedApiUrl: string;
 }
 
 export type Environment = 'staging' | 'prod';

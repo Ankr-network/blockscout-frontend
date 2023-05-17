@@ -1,33 +1,27 @@
 import { Button } from '@mui/material';
-import { Field, FormRenderProps, useForm } from 'react-final-form';
+import { Field } from 'react-final-form';
 
 import { t } from '@ankr.com/common';
 import { InputField } from 'modules/form/components/InputField';
 import { emailValidator } from 'modules/form/utils/validators/emailValidator';
-import { AddEmailFormFields, IAddEmailFormData } from '../../types';
+import { AddEmailFormFields } from '../../types';
 import { useStyles } from './FillStepStyles';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 interface IFillStep {
-  handleSubmit: FormRenderProps<IAddEmailFormData>['handleSubmit'];
-  hasValidationErrors: FormRenderProps<IAddEmailFormData>['hasValidationErrors'];
-  validating: FormRenderProps<IAddEmailFormData>['validating'];
+  handleSubmit: () => void;
+  isSubmitButtonDisabled?: boolean;
   formDisabled?: boolean;
-  submittedData: IAddEmailFormData | undefined;
-  isWalletConnected: boolean;
 }
 
 export const FillStep = ({
   handleSubmit,
-  hasValidationErrors,
-  validating,
+  isSubmitButtonDisabled,
   formDisabled,
-  submittedData,
-  isWalletConnected,
 }: IFillStep) => {
   const { classes } = useStyles();
-
-  const form = useForm();
+  const { isWalletConnected } = useAuth();
 
   return (
     <form onSubmit={handleSubmit} className={classes.inputRow}>
@@ -36,8 +30,7 @@ export const FillStep = ({
           name={AddEmailFormFields.email}
           type="email"
           validate={emailValidator}
-          disabled={!!formDisabled}
-          initialValue={submittedData?.[AddEmailFormFields.email]}
+          disabled={formDisabled}
           component={InputField}
           className={classes.emailTextfield}
           InputProps={{ classes: { root: classes.emailInputRoot } }}
@@ -51,7 +44,7 @@ export const FillStep = ({
           className={classes.submitButton}
           size="large"
           type="submit"
-          disabled={validating || hasValidationErrors}
+          disabled={isSubmitButtonDisabled}
         >
           {t('common.submit')}
         </Button>
@@ -59,7 +52,7 @@ export const FillStep = ({
         <ConnectButton
           variant="contained"
           buttonText={t('common.submit')}
-          onSuccess={form.submit}
+          onSuccess={handleSubmit}
         />
       )}
     </form>

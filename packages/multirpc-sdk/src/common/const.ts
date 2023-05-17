@@ -18,7 +18,6 @@ export const STAGING_CONFIG: IConfig = {
   privateRpcUrl: 'https://staging.multi-rpc.com/{blockchain}/{user}',
   privateWsUrl: 'wss://staging.multi-rpc.com/{blockchain}/ws/{user}',
   publicRpcUrl: 'https://staging.multi-rpc.com/{blockchain}',
-  publicWsUrl: '',
   consensusUrl: 'https://staging.protocol.ankr.com/',
   workerUrl: 'https://staging.multi-rpc.com/',
   accountUrl: 'https://staging.multirpc.ankr.com/',
@@ -29,6 +28,8 @@ export const STAGING_CONFIG: IConfig = {
   payAsYouGoContractAddress: '0x43FC63725b9f9A74EE4eD420635e78231456b52f',
   premiumPlanContractCreationBlockNumber: 6_708_096,
   payAsYouGoContractCreationBlockNumber: 6_895_851,
+  advancedApiUrl:
+    'https://rpc.ankr.com/multichain/22f47d3ba3a58db992435834a85b79b0ab4a36666acfc6da518fb793a90b3834',
 };
 
 export const PROD_CONFIG: IConfig = {
@@ -38,7 +39,6 @@ export const PROD_CONFIG: IConfig = {
   privateRpcUrl: 'https://rpc.ankr.com/{blockchain}/{user}',
   privateWsUrl: 'wss://rpc.ankr.com/{blockchain}/ws/{user}',
   publicRpcUrl: 'https://rpc.ankr.com/{blockchain}',
-  publicWsUrl: '',
   consensusUrl: 'https://mainnet.protocol.ankr.com/',
   workerUrl: 'https://next.multi-rpc.com/',
   accountUrl: 'https://mainnet.multirpc.ankr.com/',
@@ -49,6 +49,8 @@ export const PROD_CONFIG: IConfig = {
   payAsYouGoContractAddress: '0x3d0BB8803a6C1Fee1b3E8bf730534574623cB70f',
   premiumPlanContractCreationBlockNumber: 13_468_996,
   payAsYouGoContractCreationBlockNumber: 14_787_826,
+  advancedApiUrl:
+    'https://rpc.ankr.com/multichain/22f47d3ba3a58db992435834a85b79b0ab4a36666acfc6da518fb793a90b3834',
 };
 
 export const DATE_MULTIPLIER = 1_000_000;

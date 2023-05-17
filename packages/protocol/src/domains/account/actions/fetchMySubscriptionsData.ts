@@ -2,7 +2,7 @@ import { IApiUserGroupParams, ISubscriptionsResponse } from 'multirpc-sdk';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { fetchSubscriptions } from '../utils/fetchSubscriptions';
+import { fetchSubscriptions } from './subscriptions/fetchSubscriptions';
 
 export const {
   useLazyAccountFetchSubscriptionsDataQuery,

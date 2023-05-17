@@ -1,6 +1,9 @@
 import { Web3KeyWriteProvider } from '@ankr.com/provider';
 
-import { METAMASK_REJECTED_OPERATION_CODE } from './TokenDecryptionServiceUtils';
+import {
+  METAMASK_REJECTED_OPERATION_CODE,
+  USER_DENIED_MESSAGE_SIGNATURE_CODE,
+} from './TokenDecryptionServiceUtils';
 import { Base64, DATE_MULTIPLIER } from '../../common';
 import { MetamaskDecryptionService } from './MetamaskDecryptionService';
 import { DecryptionService } from './DecryptionService';
@@ -35,8 +38,20 @@ export class TokenDecryptionService {
     privateKey: Base64;
     publicKey: Base64;
   }> {
-    const { privateKey, publicKey } =
-      await this.getDecryptionService().requestEncryptionKeys();
+    let privateKey = '';
+    let publicKey = '';
+
+    try {
+      const { privateKey: privateString, publicKey: publicString } =
+        await this.getDecryptionService().requestEncryptionKeys();
+
+      privateKey = privateString;
+      publicKey = publicString;
+    } catch (error: any) {
+      if (error?.code === USER_DENIED_MESSAGE_SIGNATURE_CODE) {
+        throw new Error(error);
+      }
+    }
 
     this.privateKey = privateKey;
     this.publicKey = publicKey;

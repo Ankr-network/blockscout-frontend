@@ -19,6 +19,7 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
   title: {
     textAlign: 'center',
     marginBottom: theme.spacing(10),
+    color: theme.palette.text.primary,
 
     [theme.breakpoints.down('md')]: {
       fontSize: 42,
@@ -33,7 +34,7 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
     },
 
     [`& tr:first-of-type th`]: {
-      color: theme.palette.common.black,
+      color: theme.palette.text.primary,
       marginBottom: theme.spacing(1),
 
       [`&.premium`]: {

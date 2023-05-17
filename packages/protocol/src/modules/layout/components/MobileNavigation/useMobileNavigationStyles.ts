@@ -45,6 +45,7 @@ export const useMobileNavigationStyles = makeStyles<void, 'custom'>()(
       fontSize: 14,
       padding: 0,
       color: theme.palette.grey[500],
+      textAlign: 'center',
 
       [theme.breakpoints.down(MAX_WIDTH_FOR_BIG_FONT_SIZE)]: {
         fontSize: 12,

@@ -1,11 +1,26 @@
+import { useEffect } from 'react';
+
 import { useLazyUserGroupFetchGroupJwtQuery } from 'domains/userGroup/actions/fetchGroupJwt';
 import { useSelectedUserGroup } from './useSelectedUserGroup';
 
-export const useGroupJwtToken = () => {
-  const { selectedGroupJwt } = useSelectedUserGroup();
+let savedSelectedGroupAddress = '';
 
-  const [, { isLoading: isLoadingGroupToken }] =
+export const useGroupJwtToken = () => {
+  const { selectedGroupJwt, selectedGroupAddress } = useSelectedUserGroup();
+
+  const [fetchGroupJwt, { isLoading: isLoadingGroupToken }] =
     useLazyUserGroupFetchGroupJwtQuery();
+
+  useEffect(() => {
+    if (
+      selectedGroupAddress &&
+      selectedGroupAddress !== savedSelectedGroupAddress
+    ) {
+      savedSelectedGroupAddress = selectedGroupAddress;
+
+      fetchGroupJwt({ group: selectedGroupAddress });
+    }
+  }, [selectedGroupAddress, fetchGroupJwt]);
 
   return {
     groupToken: selectedGroupJwt,

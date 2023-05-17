@@ -1,26 +1,77 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useCallback } from 'react';
-import { Form, FormRenderProps } from 'react-final-form';
+import { useCallback, useMemo } from 'react';
+import { FormSpy, Form, FormRenderProps } from 'react-final-form';
 
-import { AddEmailFormContentState, IAddEmailFormData } from './types';
-import { FillStep } from './components/FillStep';
 import {
-  IUseAddEmailFormProps,
-  useAddEmailForm,
-} from './hooks/useAddEmailForm';
+  AddEmailFormContentState,
+  AddEmailFormFields,
+  IAddEmailFormData,
+} from './types';
+import { FillStep } from './components/FillStep';
+import { useAddEmailForm } from './hooks/useAddEmailForm';
 import { SuccessStep } from './components/SuccessStep';
 import { initialFormData } from './const';
+import { useSuccessStepsProps } from './hooks/useSuccessStepsProps';
+import { useChangeEmailForm } from './hooks/useChangeEmailForm';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { userSettingsAddNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
+import { getAddEmailErrorMessage } from 'domains/userSettings/utils/getAddEmailErrorMessage';
+import { is2FAError } from 'store/utils/is2FAError';
+import { userSettingsEditEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
+import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
-export const AddEmailForm = (props: IUseAddEmailFormProps) => {
-  const {
-    contentState,
-    onSubmit,
-    successStepProps,
-    formDisabled,
-    submittedData,
-  } = useAddEmailForm(props);
+export interface IUseAddEmailFormProps {
+  contentState: AddEmailFormContentState;
+  formDisabled?: boolean;
+  onAddEmailSubmitSuccess?: () => void;
+  onFormStateChange: (state: AddEmailFormContentState) => void;
+  onFormSubmit: (data?: IAddEmailFormData) => void;
+  submittedEmail?: string;
+}
 
-  const { isWalletConnected } = useAuth();
+let shouldValidateSubmitError = false;
+
+export const AddEmailForm = ({
+  formDisabled,
+  contentState,
+  onAddEmailSubmitSuccess,
+  onFormStateChange,
+  onFormSubmit,
+  submittedEmail,
+}: IUseAddEmailFormProps) => {
+  const [
+    ,
+    { error: addEmailError, isLoading: isAddEmailLoading },
+    addNewEmailReset,
+  ] = useQueryEndpoint(userSettingsAddNewEmailBinding);
+  const [
+    ,
+    { error: changeEmailError, isLoading: isChangeEmailLoading },
+    changeEmailReset,
+  ] = useQueryEndpoint(userSettingsEditEmailBinding);
+
+  useOnUnmount(() => {
+    shouldValidateSubmitError = false;
+  });
+
+  const onAddEmailFormSubmit = useAddEmailForm({
+    onAddEmailSubmitSuccess,
+    onFormStateChange,
+    onFormSubmit: data => {
+      shouldValidateSubmitError = true;
+      onFormSubmit(data);
+    },
+  });
+
+  const onChangeEmailFormSubmit = useChangeEmailForm({
+    onFormStateChange,
+    onFormSubmit,
+  });
+
+  const successStepProps = useSuccessStepsProps({
+    onFormStateChange,
+    onFormSubmit,
+    submittedEmail,
+  });
 
   const renderForm = useCallback(
     ({
@@ -32,14 +83,23 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
         case AddEmailFormContentState.ADD_EMAIL:
         case AddEmailFormContentState.CHANGE_EMAIL:
           return (
-            <FillStep
-              submittedData={submittedData}
-              formDisabled={formDisabled}
-              handleSubmit={handleSubmit}
-              validating={validating}
-              hasValidationErrors={hasValidationErrors}
-              isWalletConnected={isWalletConnected}
-            />
+            <>
+              <FillStep
+                formDisabled={formDisabled}
+                handleSubmit={handleSubmit}
+                isSubmitButtonDisabled={validating || hasValidationErrors}
+              />
+              <FormSpy
+                subscription={{ modifiedSinceLastSubmit: true }}
+                onChange={({ modifiedSinceLastSubmit }) => {
+                  if (modifiedSinceLastSubmit) {
+                    shouldValidateSubmitError = false;
+                    addNewEmailReset();
+                    changeEmailReset();
+                  }
+                }}
+              />
+            </>
           );
 
         case AddEmailFormContentState.SUCCESS:
@@ -52,17 +112,47 @@ export const AddEmailForm = (props: IUseAddEmailFormProps) => {
     [
       contentState,
       formDisabled,
-      submittedData,
       successStepProps,
-      isWalletConnected,
+      addNewEmailReset,
+      changeEmailReset,
     ],
   );
+
+  const onSubmit = useMemo(() => {
+    if (contentState === AddEmailFormContentState.ADD_EMAIL) {
+      return onAddEmailFormSubmit;
+    }
+
+    if (contentState === AddEmailFormContentState.CHANGE_EMAIL) {
+      return onChangeEmailFormSubmit;
+    }
+
+    return () => undefined;
+  }, [contentState, onAddEmailFormSubmit, onChangeEmailFormSubmit]);
+
+  const validate = (values: any) => {
+    const error =
+      shouldValidateSubmitError && (!isAddEmailLoading || !isChangeEmailLoading)
+        ? addEmailError || changeEmailError
+        : null;
+
+    if (error && !is2FAError(error)) {
+      const emailErrorMessage = getAddEmailErrorMessage(error, values.email);
+
+      return {
+        [AddEmailFormFields.email]: emailErrorMessage,
+      };
+    }
+
+    return {};
+  };
 
   return (
     <Form
       initialValues={initialFormData}
-      onSubmit={onSubmit}
       render={renderForm}
+      onSubmit={onSubmit}
+      validate={validate}
     />
   );
 };

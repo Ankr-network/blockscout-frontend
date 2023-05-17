@@ -6,7 +6,13 @@ export const useTwoFABlockStyles = makeStyles()(theme => ({
     padding: theme.spacing(7.5),
     borderRadius: 30,
   },
-  row: {
+  top: {
+    display: 'flex',
+    alignItems: 'center',
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
+    paddingBottom: theme.spacing(8),
+  },
+  bottom: {
     display: 'flex',
     alignItems: 'center',
   },
@@ -38,46 +44,34 @@ export const useTwoFABlockStyles = makeStyles()(theme => ({
   off: {
     color: theme.palette.error.main,
   },
+  on: {
+    color: theme.palette.success.main,
+  },
   info: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: theme.spacing(5),
     marginTop: theme.spacing(8),
-    color: theme.palette.grey[800],
-    border: `2px solid ${theme.palette.warning.main}`,
-    padding: theme.spacing(5),
-    borderRadius: 30,
+  },
+  description: {
+    marginTop: theme.spacing(0.5),
+    marginLeft: theme.spacing(12),
 
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
+    '& span': {
+      letterSpacing: 'normal',
+    },
+
+    '& a': {
+      color: theme.palette.primary.main,
     },
   },
-  circle: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: theme.spacing(12),
-    height: theme.spacing(12),
-    borderRadius: '50%',
-    backgroundColor: theme.palette.warning.light,
-    flexShrink: 0,
-    marginRight: theme.spacing(5),
-
-    '& svg': {
-      color: theme.palette.warning.main,
-    },
+  topSkeleton: {
+    height: 24,
+    width: 200,
+    transform: 'none',
+    borderRadius: theme.spacing(2 * 1),
   },
-  text: {
-    fontSize: 16,
-    lineheight: '24px',
-    fontWeight: 600,
-  },
-  button: {
-    flexShrink: 0,
-
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
+  bottomSkeleton: {
+    height: 24,
+    width: '50%',
+    transform: 'none',
+    borderRadius: theme.spacing(2 * 1),
   },
 }));

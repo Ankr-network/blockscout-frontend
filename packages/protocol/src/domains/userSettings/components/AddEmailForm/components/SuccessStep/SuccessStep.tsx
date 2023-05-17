@@ -36,11 +36,11 @@ export const SuccessStep = ({
           width={150}
         >
           {isSuccess =>
-            isSuccess
-              ? t(
-                  'user-settings.email-banner.success-step.resend-email-button-sent',
-                )
-              : t('user-settings.email-banner.success-step.resend-email-button')
+            t(
+              `user-settings.email-banner.success-step.${
+                isSuccess ? 'resend-email-button-sent' : 'resend-email-button'
+              }`,
+            )
           }
         </AnimatedButton>
 

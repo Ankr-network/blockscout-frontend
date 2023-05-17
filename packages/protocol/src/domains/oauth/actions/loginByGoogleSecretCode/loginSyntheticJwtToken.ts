@@ -5,13 +5,14 @@ import { IAuthSlice, setAuthData } from 'domains/auth/store/authSlice';
 export const loginSyntheticJwt = async (
   dispatch: AppDispatch,
   authData: IAuthSlice,
+  totp?: string,
 ) => {
   const service = MultiService.getService();
   const web3ReadService = await MultiService.getWeb3ReadService();
 
   const syntheticTokenData = await service
     .getOauthGateway()
-    .getSyntheticJwtToken();
+    .getSyntheticJwtToken(totp);
 
   const { jwtToken, workerTokenData } =
     await web3ReadService.upgradeSyntheticJwtToken(
