@@ -1,11 +1,14 @@
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { Box, Button, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 
+import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
+import { TopUpOrigin } from 'domains/account/types';
 import { usePlansStyles } from './PlansStyles';
 import { INTL_PLANS_ROOT, PLAN_LIST, TIP_LIST } from './PlansUtils';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useHistory } from 'react-router';
 import { INDEX_PATH } from 'domains/chains/routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
@@ -32,31 +35,48 @@ export const Plans = () => {
   const {
     isOpened: isSignupOpend,
     onClose: onCloseSignup,
-    onOpen: onOpenSigup,
+    onOpen: onOpenSignupDialog,
   } = useDialog();
 
-  const renderClick = useCallback(
+  const dispatch = useDispatch();
+
+  const handleClick = useCallback(
     (name: string) => {
       const isFreeUser = name === PLAN_LIST[0];
-      const isPremiumUser = name === PLAN_LIST[1];
+      const isEnterpriseUser = name === PLAN_LIST[2];
 
       if (isFreeUser) {
         history.replace(INDEX_PATH);
-      } else if (isPremiumUser) {
-        if (isLoggedIn) {
-          if (!hasPremium) {
-            onOpenTopup();
-          } else {
-            history.replace(INDEX_PATH);
-          }
-        } else {
-          onOpenSigup();
-        }
-      } else {
-        onOpen();
+        return;
       }
+
+      if (isEnterpriseUser) {
+        onOpen();
+        return;
+      }
+
+      if (!isLoggedIn) {
+        onOpenSignupDialog();
+        return;
+      }
+
+      if (hasPremium) {
+        history.replace(INDEX_PATH);
+        return;
+      }
+
+      dispatch(setTopUpOrigin(TopUpOrigin.PRICING));
+      onOpenTopup();
     },
-    [isLoggedIn, hasPremium, history, onOpen, onOpenSigup, onOpenTopup],
+    [
+      isLoggedIn,
+      hasPremium,
+      history,
+      onOpen,
+      onOpenSignupDialog,
+      onOpenTopup,
+      dispatch,
+    ],
   );
 
   const getButtonState = useCallback(
@@ -100,7 +120,7 @@ export const Plans = () => {
             <Button
               fullWidth
               className={classes.button}
-              onClick={() => renderClick(name)}
+              onClick={() => handleClick(name)}
               disabled={getButtonState(name)}
             >
               {t(`${INTL_PLANS_ROOT}.${name}.button`)}
