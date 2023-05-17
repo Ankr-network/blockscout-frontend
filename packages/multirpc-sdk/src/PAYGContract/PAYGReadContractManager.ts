@@ -49,6 +49,7 @@ export class PAYGReadContractManager {
       },
       startBlock,
       latestBlockNumber,
+      apiUrl: this.config.advancedApiUrl,
     });
   }
 
