@@ -4,4 +4,5 @@ export interface IPAYGContractManagerConfig {
   payAsYouGoAnkrTokenContractAddress: PrefixedHex;
   payAsYouGoContractAddress: PrefixedHex;
   payAsYouGoContractCreationBlockNumber: number;
+  advancedApiUrl: string;
 }

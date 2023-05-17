@@ -23,4 +23,5 @@ export interface IGetPastEvents {
   latestBlockNumber: number;
   rangeStep?: number;
   filter?: Filter;
+  apiUrl: string;
 }
