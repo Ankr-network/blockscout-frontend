@@ -1,8 +1,8 @@
-import { push } from 'connected-react-router';
-import { t } from '@ankr.com/common';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { push } from 'connected-react-router';
 import { useHistory } from 'react-router';
+import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
