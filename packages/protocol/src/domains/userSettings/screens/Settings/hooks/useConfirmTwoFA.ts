@@ -2,9 +2,12 @@ import { userSettingsConfirmTwoFA } from 'domains/userSettings/actions/twoFA/con
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const useConfirmTwoFA = () => {
-  const [handleConfirm] = useQueryEndpoint(userSettingsConfirmTwoFA);
+  const [handleConfirm, { isLoading }] = useQueryEndpoint(
+    userSettingsConfirmTwoFA,
+  );
 
   return {
     handleConfirm,
+    isLoading,
   };
 };
