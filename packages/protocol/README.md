@@ -11,6 +11,7 @@
 
 ### evm compatible
 - add chainId to evm chainGroups standard-evm packages/protocol/src/modules/endpoints/constants/groups.ts
+- check network config here: https://chainlist.org/
 - add metamask config packages/protocol/src/domains/auth/components/AddNetwork/const.ts
 
 ### chain without mainnet (testnet, devnet, etc)
