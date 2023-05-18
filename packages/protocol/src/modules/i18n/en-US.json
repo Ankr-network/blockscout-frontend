@@ -73,7 +73,7 @@
     "two-fa": "Two factor authentication code is required"
   },
   "main-navigation": {
-    "advanced-api": "Advanced API",
+    "advanced-api": "Advanced APIs",
     "endpoints": "Endpoints",
     "enterprise": "Enterprise",
     "automate": "Automate",
@@ -151,7 +151,7 @@
     "breadcrumbs": "Endpoints",
     "user-free": "Free",
     "user-premium": "Premium",
-    "title": "Choose Your Network",
+    "title": "Select Chain",
     "more-details": "More",
     "links": {
       "public": "{number} public links",
@@ -432,9 +432,9 @@
       "endpoints": {
         "add-network-label": "Add network",
         "premium-label": "Premium",
-        "title": "{chainName} {urls, plural, =1 {Endpoint} other { Endpoints }}",
+        "title": "HTTPS {urls, plural, =1 {Endpoint} other { Endpoints }}",
         "title-multichain": "Endpoint",
-        "websocket-title": "WebSocket",
+        "websocket-title": "WSS Endpoint",
         "network-postfix": "{name} by ANKR Protocol",
         "upgrade-now": "Upgrade Now"
       },
@@ -528,7 +528,7 @@
     }
   },
   "advanced-api": {
-    "breadcrumbs": "Advanced API",
+    "breadcrumbs": "Advanced APIs",
     "chain-overview": {
       "title": "Single entry point",
       "description": "to the optimized, indexed, and cached data for eight EVM-compatible blockchains"

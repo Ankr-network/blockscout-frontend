@@ -93,6 +93,17 @@ const SCROLLCHAIN: NetworkInfo = {
   blockExplorerUrls: ['https://blockscout.scroll.io/'],
 };
 
+const ARBITRUM_NOVA: NetworkInfo = {
+  chainId: 42170,
+  chainName: 'Arbitrum Nova',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://nova-explorer.arbitrum.io'],
+};
+
 export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   // ? https://support.avax.network/en/articles/6077308-what-are-the-differences-between-the-x-p-and-c-chains
   [ChainID.AVALANCHE]: AVALANCHE,
@@ -116,6 +127,8 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       'https://explorer.arbitrum.io/',
     ],
   },
+
+  [ChainID.ARBITRUM_NOVA]: ARBITRUM_NOVA,
 
   [ChainID.BSC]: {
     chainId: 56,

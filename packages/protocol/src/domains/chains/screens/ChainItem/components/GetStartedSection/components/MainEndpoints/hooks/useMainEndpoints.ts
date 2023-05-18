@@ -18,7 +18,7 @@ export const useMainEndpoints = ({
   hasPrivateAccess,
   publicChain,
 }: MainEndpointsHookParams) => {
-  const { urls, chainName, chains: [subchain] = [] } = group;
+  const { urls, chains: [subchain] = [] } = group;
   const isMultiChain = publicChain.id === ChainID.MULTICHAIN;
 
   const hasPlaceholder = useMemo(
@@ -37,8 +37,8 @@ export const useMainEndpoints = ({
   );
 
   const title = useMemo(
-    () => getTitle({ chainName, isMultiChain, urlsCount }),
-    [isMultiChain, chainName, urlsCount],
+    () => getTitle({ isMultiChain, urlsCount }),
+    [isMultiChain, urlsCount],
   );
 
   const hasFeature = subchain?.[featureKey];

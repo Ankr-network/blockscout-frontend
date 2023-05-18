@@ -38,7 +38,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   topUp: {
     flex: 1,
     minWidth: 460,
-    minHeight: 362,
+    minHeight: 396,
     background: theme.palette.background.paper,
 
     [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {

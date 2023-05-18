@@ -1,9 +1,8 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { PaymentHistory, PaymentHistoryParams } from '../types';
-import { accountFetchPaymentHistory } from 'domains/account/actions/fetchTransactions';
+import { useLazyAccountFetchPaymentHistoryQuery } from 'domains/account/actions/fetchTransactions';
 import { getTransactionsRequest } from '../utils/getTransactionsRequest';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const defaultData = {
@@ -26,10 +25,13 @@ export const useTransactions = ({
       } = defaultData,
       isLoading,
     },
-    reset,
-  ] = useQueryEndpoint(accountFetchPaymentHistory);
+  ] = useLazyAccountFetchPaymentHistoryQuery();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const groupRef = useRef(group);
+  const timeframeRef = useRef(timeframe);
+  const paymentTypeRef = useRef(paymentType);
 
   const hasMore = deductionsCursor > 0 || transactionsCursor > 0;
 
@@ -42,6 +44,7 @@ export const useTransactions = ({
           timeframe,
           transactionsCursor,
         }),
+        isPaginationRequest: true,
         group,
       });
     }
@@ -56,13 +59,27 @@ export const useTransactions = ({
   ]);
 
   useEffect(() => {
-    fetchTransactions({
-      ...getTransactionsRequest({ paymentType, timeframe }),
+    const isGroupChanged = groupRef.current !== group;
+    const isTimeframeChanged = timeframeRef.current !== timeframe;
+    const isPaymentTypeChanged = paymentTypeRef.current !== paymentType;
+    const requestParams = {
       group,
-    });
+      ...getTransactionsRequest({ paymentType, timeframe }),
+    };
+    const request = fetchTransactions(requestParams);
 
-    return reset;
-  }, [fetchTransactions, paymentType, reset, timeframe, group]);
+    if (isGroupChanged || isTimeframeChanged || isPaymentTypeChanged) {
+      request.abort();
+      groupRef.current = group;
+      timeframeRef.current = timeframe;
+      paymentTypeRef.current = paymentType;
+
+      // We need this timeout in order to refetch new data after the first request is aborted in case of changing group, timeframe or payment type
+      setTimeout(request.refetch, 0);
+    }
+
+    return request.abort;
+  }, [fetchTransactions, paymentType, timeframe, group]);
 
   const initializing = isLoading && transactions.length === 0;
 

@@ -127,7 +127,7 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   } else if (chainId === ChainID.ROLLUX) {
     name = 'Rollux Testnet';
   } else if (ADVANCED_API_PATH.includes(chainId)) {
-    name = 'Advanced API';
+    name = 'Advanced APIs';
   } else if (chainId === ChainID.ARBITRUM_NOVA) {
     name = 'Arbitrum Nova';
   } else if (chainId.includes(ChainID.ZETACHAIN)) {
