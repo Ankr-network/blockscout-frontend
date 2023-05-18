@@ -1,7 +1,8 @@
 import { tHTML } from '@ankr.com/common';
 import { useCallback, useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Warning } from '@ankr.com/ui';
+import { LoadingButton } from 'uiKit/LoadingButton';
 
 import { useTwoFAInputStyles } from './TwoFAInputStyles';
 import { AuthCodeInput } from '../AuthCodeInput';
@@ -14,6 +15,7 @@ interface TwoFAInputProps {
   onConfirm: (value: string) => void;
   errorMessage?: string;
   onReset?: () => void;
+  isLoading?: boolean;
 }
 
 export const TwoFAInput = ({
@@ -21,6 +23,7 @@ export const TwoFAInput = ({
   onConfirm,
   errorMessage,
   onReset,
+  isLoading,
 }: TwoFAInputProps) => {
   const { classes } = useTwoFAInputStyles();
 
@@ -72,15 +75,16 @@ export const TwoFAInput = ({
             </Typography>
           </Box>
         )}
-        <Button
+        <LoadingButton
           fullWidth
           size="large"
           className={classes.button}
-          disabled={!isFullLengthCode}
+          disabled={!isFullLengthCode || isLoading}
+          loading={isLoading}
           onClick={() => onConfirm(result)}
         >
           {buttonText}
-        </Button>
+        </LoadingButton>
       </form>
     </Box>
   );

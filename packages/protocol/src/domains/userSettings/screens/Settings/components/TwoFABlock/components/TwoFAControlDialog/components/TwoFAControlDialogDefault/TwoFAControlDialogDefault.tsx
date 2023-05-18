@@ -26,8 +26,8 @@ export const TwoFAControlDialogDefault = ({
 
   const isEnabled = status === TwoFAStatus.Enabled;
 
-  const { handleConfirm } = useConfirmTwoFA();
-  const { handleDisable } = useDisableTwoFA();
+  const { handleConfirm, isLoading: isConfirmLoading } = useConfirmTwoFA();
+  const { handleDisable, isLoading: isDisableLoading } = useDisableTwoFA();
 
   const onConfirm = useCallback(
     async (totp: string) => {
@@ -54,6 +54,7 @@ export const TwoFAControlDialogDefault = ({
       onConfirm={onConfirm}
       errorMessage={errorMessage}
       onReset={() => setErrorMessage('')}
+      isLoading={isConfirmLoading || isDisableLoading}
       buttonText={t(
         `${USER_SETTINGS_INTL_ROOT}.control-dialog.${
           isEnabled ? 'deactivate' : 'activate'

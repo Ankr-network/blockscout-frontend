@@ -2,9 +2,12 @@ import { userSettingDisableTwoFA } from 'domains/userSettings/actions/twoFA/disa
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const useDisableTwoFA = () => {
-  const [handleDisable] = useQueryEndpoint(userSettingDisableTwoFA);
+  const [handleDisable, { isLoading }] = useQueryEndpoint(
+    userSettingDisableTwoFA,
+  );
 
   return {
     handleDisable,
+    isLoading,
   };
 };
