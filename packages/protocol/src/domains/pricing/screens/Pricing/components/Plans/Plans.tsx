@@ -10,7 +10,9 @@ import { usePlansStyles } from './PlansStyles';
 import { INTL_PLANS_ROOT, PLAN_LIST, TIP_LIST } from './PlansUtils';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { INDEX_PATH } from 'domains/chains/routes';
+import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import {
   ContentType,
@@ -24,6 +26,8 @@ export const Plans = () => {
   const { classes, cx } = usePlansStyles();
 
   const history = useHistory();
+
+  const { isFinanceRole } = usePermissionsAndRole();
 
   const { isLoggedIn, hasOauthLogin, hasPremium } = useAuth();
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
@@ -60,6 +64,11 @@ export const Plans = () => {
         return;
       }
 
+      if (isFinanceRole) {
+        history.replace(PATH_ACCOUNT);
+        return;
+      }
+
       if (hasPremium) {
         history.replace(INDEX_PATH);
         return;
@@ -69,6 +78,7 @@ export const Plans = () => {
       onOpenTopup();
     },
     [
+      isFinanceRole,
       isLoggedIn,
       hasPremium,
       history,
@@ -82,9 +92,9 @@ export const Plans = () => {
   const getButtonState = useCallback(
     (name: string) => {
       const isFreeUser = name === PLAN_LIST[0];
-      return isFreeUser && hasPremium;
+      return isFreeUser && (isFinanceRole || hasPremium);
     },
-    [hasPremium],
+    [hasPremium, isFinanceRole],
   );
 
   return (

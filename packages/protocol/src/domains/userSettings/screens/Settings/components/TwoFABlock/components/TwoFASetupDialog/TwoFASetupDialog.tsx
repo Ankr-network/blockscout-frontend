@@ -31,7 +31,7 @@ export const TwoFASetupDialog = ({
   const { isQRCodeSetup, setQRCodeVariant, setManualVariant } =
     useTwoFASetupVariant();
 
-  const { twoFAsetupDataState, fetch } = useTwoFASetupData();
+  const { twoFAsetupDataState, fetch } = useTwoFASetupData(open);
 
   const { classes } = useTwoFASetupDialogStyles();
 
@@ -59,9 +59,9 @@ export const TwoFASetupDialog = ({
       open={open}
       onClose={handleClose}
       title={<span className={classes.title}>{title}</span>}
+      paperClassName={classes.paperRoot}
     >
       <Queries<UserSettingsSetupTwoFAResult>
-        isPreloadDisabled
         queryStates={[twoFAsetupDataState]}
         disableErrorRender
       >
