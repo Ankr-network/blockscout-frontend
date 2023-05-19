@@ -103,7 +103,10 @@ listenerMiddleware.startListening({
 });
 
 listenerMiddleware.startListening({
-  matcher: authMakeAuthorization.matchFulfilled,
+  matcher: isAnyOf(
+    authMakeAuthorization.matchFulfilled,
+    authAutoConnect.matchFulfilled,
+  ),
   effect: async (_action, { dispatch }) => {
     const service = await MultiService.getWeb3Service();
     const provider = service.getKeyProvider().getWeb3().currentProvider;

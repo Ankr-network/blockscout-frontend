@@ -9,7 +9,7 @@ export const {
   endpoints: build => ({
     authAutoConnect: build.query<null, AuthConnectParams>({
       queryFn: async ({ params: { walletId } }, { dispatch }) => {
-        dispatch(createWeb3Service.initiate({ params: { walletId } }));
+        await dispatch(createWeb3Service.initiate({ params: { walletId } }));
 
         return {
           data: null,
