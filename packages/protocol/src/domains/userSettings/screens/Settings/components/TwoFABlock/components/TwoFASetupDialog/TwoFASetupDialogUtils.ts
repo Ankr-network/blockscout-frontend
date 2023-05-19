@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from '@ankr.com/common';
 
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { userSettingsSetupTwoFA } from 'domains/userSettings/actions/twoFA/setupTwoFA';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { USER_SETTINGS_INTL_ROOT } from '../../constants';
 
 enum TwoFASetup {
@@ -30,14 +29,14 @@ export const useTwoFASetupVariant = () => {
   };
 };
 
-export const useTwoFASetupData = () => {
+export const useTwoFASetupData = (open: boolean) => {
   const [loadQRCodeInfo, twoFAsetupDataState] = useQueryEndpoint(
     userSettingsSetupTwoFA,
   );
 
-  useOnMount(() => {
-    loadQRCodeInfo();
-  });
+  useEffect(() => {
+    if (open) loadQRCodeInfo();
+  }, [open, loadQRCodeInfo]);
 
   return { twoFAsetupDataState, fetch: loadQRCodeInfo };
 };
