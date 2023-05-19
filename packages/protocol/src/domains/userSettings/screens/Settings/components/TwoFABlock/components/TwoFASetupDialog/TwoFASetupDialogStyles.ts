@@ -2,7 +2,6 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useTwoFASetupDialogStyles = makeStyles()(theme => ({
   root: {
-    minWidth: 520,
     display: 'flex',
     flexDirection: 'column',
 
@@ -19,5 +18,8 @@ export const useTwoFASetupDialogStyles = makeStyles()(theme => ({
   title: {
     display: 'inline-block',
     paddingRight: theme.spacing(8),
+  },
+  paperRoot: {
+    width: '100%',
   },
 }));
