@@ -4,6 +4,8 @@ import { isProd } from 'modules/common/utils/isProd';
 
 const { REACT_APP_SENTRY_DSN, REACT_APP_NAME, REACT_APP_VERSION } = process.env;
 
+const HAS_SENTRY_REPLAY = false;
+
 export const initializeSentry = () => {
   const DEBUG = !isProd();
 
@@ -12,7 +14,11 @@ export const initializeSentry = () => {
       debug: DEBUG,
       dsn: REACT_APP_SENTRY_DSN,
       environment: window?.location?.host,
-      integrations: [new Integrations.BrowserTracing(), new Sentry.Replay()],
+      // @ts-ignore
+      integrations: [
+        new Integrations.BrowserTracing(),
+        HAS_SENTRY_REPLAY ? new Sentry.Replay() : null,
+      ].filter(Boolean),
       release: `${REACT_APP_NAME}-${REACT_APP_VERSION}`,
       beforeSend(event) {
         if (DEBUG) {
