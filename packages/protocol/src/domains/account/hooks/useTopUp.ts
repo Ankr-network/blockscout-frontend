@@ -20,6 +20,7 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
 
 export const useTopUp = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
@@ -59,6 +60,10 @@ export const useTopUp = () => {
 
   const [, { isLoading: loadingCheckAllowanceTransaction }] = useQueryEndpoint(
     topUpCheckAllowanceTransaction,
+  );
+
+  const [handleResetTransactionSliceAndRedirect] = useQueryEndpoint(
+    topUpResetTransactionSliceAndRedirect,
   );
 
   const address = useAddress();
@@ -162,5 +167,6 @@ export const useTopUp = () => {
     loading,
     loadingWaitTransactionConfirming,
     trackTopUp,
+    handleResetTransactionSliceAndRedirect,
   };
 };

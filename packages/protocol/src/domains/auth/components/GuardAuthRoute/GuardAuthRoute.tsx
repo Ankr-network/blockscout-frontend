@@ -1,13 +1,18 @@
-import { Route } from 'react-router-dom';
-
-import { useGuardAuth, IGuardRoute } from 'domains/auth/hooks/useGuardAuth';
+import { Route, RouteProps } from 'react-router-dom';
 import { OverlaySpinner } from '@ankr.com/ui';
+
+import {
+  useGuardAuth,
+  GuardAuthRouteParams,
+} from 'domains/auth/hooks/useGuardAuth';
+
+interface GuardAuthRouteProps extends GuardAuthRouteParams, RouteProps {}
 
 export const GuardAuthRoute = ({
   hasPremium,
   hasAuthData,
   ...routeProps
-}: IGuardRoute) => {
+}: GuardAuthRouteProps) => {
   const { loading } = useGuardAuth({
     hasPremium,
     hasAuthData,

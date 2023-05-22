@@ -6,10 +6,12 @@ import { IPAYGContractManagerConfig } from './types';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo } from './abi/IPayAsYouGo';
 import { PAYGReadContractManager } from './PAYGReadContractManager';
-import { roundDecimals } from './utils/roundDecimals';
+import { formatFromWei, roundDecimals } from '../utils/roundDecimals';
 
 const GAS_LIMIT = '200000';
 const DEPOSIT_EXPIRATION = '31536000';
+export const DEPOSIT_ERROR =
+  'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
 
 export class PAYGContractManager extends PAYGReadContractManager {
   constructor(
@@ -27,20 +29,14 @@ export class PAYGContractManager extends PAYGReadContractManager {
       .call();
   }
 
-  private async isAmountGreaterThanBalance(scaledAmount: BigNumber) {
-    // make sure user have enough balance
-    const balance = await this.getCurrentAccountBalance();
-
-    const scaledBalance = new BigNumber(balance);
-
-    return scaledAmount.isGreaterThan(scaledBalance);
-  }
-
-  private async sendAllowance(scaledAmount: BigNumber) {
+  private async sendAllowance(allowanceValue: BigNumber) {
     const { currentAccount } = this.keyProvider;
 
     const data = await (this.ankrTokenContract.methods as IAnkrToken)
-      .approve(this.config.payAsYouGoContractAddress, scaledAmount.toString(10))
+      .approve(
+        this.config.payAsYouGoContractAddress,
+        allowanceValue.toString(10),
+      )
       .encodeABI();
 
     return this.keyProvider.sendTransactionAsync(
@@ -54,7 +50,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
   }
 
   private async sendDepositTransaction(
-    scaledAmount: BigNumber,
+    depositValue: BigNumber,
     publicKey: string,
     expiresAfter: string,
   ) {
@@ -62,7 +58,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
 
     const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
       .deposit(
-        scaledAmount.toString(10),
+        depositValue.toString(10),
         expiresAfter,
         base64ToPrefixedHex(publicKey),
       )
@@ -79,7 +75,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
   }
 
   private async sendDepositTransactionForUser(
-    scaledAmount: BigNumber,
+    depositValue: BigNumber,
     publicKey: string,
     targetAddress: string,
     expiresAfter: string,
@@ -88,7 +84,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
 
     const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
       .depositForUser(
-        scaledAmount.toString(10),
+        depositValue.toString(10),
         expiresAfter,
         targetAddress,
         base64ToPrefixedHex(publicKey),
@@ -105,28 +101,41 @@ export class PAYGContractManager extends PAYGReadContractManager {
     );
   }
 
-  private async canAllow(scaledAmount: BigNumber) {
-    const isGreaterThanBalance = await this.isAmountGreaterThanBalance(
-      scaledAmount,
-    );
+  private async throwErrorIfValueIsGreaterThanBalance(value: BigNumber) {
+    const balance = await this.getCurrentAccountBalance();
 
-    if (isGreaterThanBalance) {
+    if (value.isGreaterThan(new BigNumber(balance))) {
       throw new Error(`You don't have enough Ankr tokens`);
     }
   }
 
-  async getAllowance(amount: BigNumber) {
-    const provider = this.keyProvider;
-    const web3 = provider.getWeb3();
+  private throwErrorIfValueIsLessThanZero(value: BigNumber) {
+    if (value.isZero()) {
+      throw new Error(`Deposit value can not be equal to 0`);
+    }
 
-    const scaledAmount = new BigNumber(web3.utils.toWei(amount.toString(10)));
-
-    await this.canAllow(scaledAmount);
-
-    return this.sendAllowance(scaledAmount);
+    if (!value.isGreaterThan(0)) {
+      throw new Error(`Deposit value should be more than 0`);
+    }
   }
 
-  async getLastAllowanceValue() {
+  private throwErrorIfDepositIsGreaterThanAllowance(
+    deposit: BigNumber,
+    allowance: BigNumber,
+  ) {
+    if (deposit.isGreaterThan(allowance)) {
+      throw new Error(`${DEPOSIT_ERROR} (${formatFromWei(allowance)})`);
+    }
+  }
+
+  async setAllowance(amount: BigNumber) {
+    this.throwErrorIfValueIsLessThanZero(amount);
+    await this.throwErrorIfValueIsGreaterThanBalance(amount);
+
+    return this.sendAllowance(amount);
+  }
+
+  async getAllowanceValue() {
     const provider = this.keyProvider;
     const { currentAccount } = provider;
 
@@ -138,33 +147,43 @@ export class PAYGContractManager extends PAYGReadContractManager {
   }
 
   async depositAnkr(
-    _amount: BigNumber,
+    depositValue: BigNumber,
     publicKey: string,
     expiresAfter = DEPOSIT_EXPIRATION,
   ): Promise<IWeb3SendResult> {
-    const scaledAllowance = await this.getLastAllowanceValue();
+    const allowanceValue = await this.getAllowanceValue();
 
-    await this.canAllow(scaledAllowance);
+    this.throwErrorIfValueIsLessThanZero(depositValue);
+    await this.throwErrorIfValueIsGreaterThanBalance(depositValue);
+    this.throwErrorIfDepositIsGreaterThanAllowance(
+      depositValue,
+      allowanceValue,
+    );
 
     return this.sendDepositTransaction(
-      roundDecimals(scaledAllowance),
+      roundDecimals(depositValue),
       publicKey,
       expiresAfter,
     );
   }
 
   async depositAnkrForUser(
-    _amount: BigNumber,
+    depositValue: BigNumber,
     publicKey: string,
     targetAddress: string,
     expiresAfter = DEPOSIT_EXPIRATION,
   ): Promise<IWeb3SendResult> {
-    const scaledAllowance = await this.getLastAllowanceValue();
+    const allowanceValue = await this.getAllowanceValue();
 
-    await this.canAllow(scaledAllowance);
+    this.throwErrorIfValueIsLessThanZero(depositValue);
+    await this.throwErrorIfValueIsGreaterThanBalance(depositValue);
+    this.throwErrorIfDepositIsGreaterThanAllowance(
+      depositValue,
+      allowanceValue,
+    );
 
     return this.sendDepositTransactionForUser(
-      roundDecimals(scaledAllowance),
+      roundDecimals(depositValue),
       publicKey,
       targetAddress,
       expiresAfter,
@@ -173,27 +192,5 @@ export class PAYGContractManager extends PAYGReadContractManager {
 
   async rejectAllowance() {
     return this.sendAllowance(new BigNumber(0));
-  }
-
-  async withdrawAnkr(amount: BigNumber): Promise<IWeb3SendResult> {
-    const provider = this.keyProvider;
-    const { currentAccount } = provider;
-
-    const scaledAmount = new BigNumber(
-      provider.getWeb3().utils.toWei(amount.toString(10)),
-    );
-
-    const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
-      .withdraw(scaledAmount.toString(10))
-      .encodeABI();
-
-    return provider.sendTransactionAsync(
-      currentAccount,
-      this.config.payAsYouGoContractAddress,
-      {
-        data,
-        gasLimit: GAS_LIMIT,
-      },
-    );
   }
 }

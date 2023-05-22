@@ -2,8 +2,8 @@ import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { accountFetchBalance } from '../balance/fetchBalance';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
-import { setRejectAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
+import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
+import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
@@ -30,9 +30,9 @@ export const {
           rejectAllowanceResponse?.transactionHash;
 
         dispatch(
-          setRejectAllowanceTransaction({
+          setAllowanceTransaction({
             address,
-            rejectAllowanceTransactionHash,
+            allowanceTransactionHash: rejectAllowanceTransactionHash,
           }),
         );
 
@@ -42,11 +42,7 @@ export const {
           ),
         );
 
-        resetTransactionSliceAndRedirect(
-          dispatch,
-          getState as GetState,
-          address,
-        );
+        dispatch(topUpResetTransactionSliceAndRedirect.initiate());
 
         return { data: true };
       }),

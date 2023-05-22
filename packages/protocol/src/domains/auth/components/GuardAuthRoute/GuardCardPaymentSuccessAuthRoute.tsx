@@ -1,12 +1,17 @@
 import { useEffect, useMemo } from 'react';
 import { OverlaySpinner } from '@ankr.com/ui';
-import { Route, useHistory } from 'react-router-dom';
+import { Route, RouteProps, useHistory } from 'react-router-dom';
 
-import { useGuardAuth, IGuardRoute } from 'domains/auth/hooks/useGuardAuth';
+import {
+  useGuardAuth,
+  GuardAuthRouteParams,
+} from 'domains/auth/hooks/useGuardAuth';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
 
-interface IGuardCardPaymentSuccessAuthRoute extends IGuardRoute {
+interface GuardCardPaymentSuccessAuthRouteProps
+  extends GuardAuthRouteParams,
+    RouteProps {
   hasPrivateAccess: boolean;
   isUserEthAddressType: boolean;
 }
@@ -17,7 +22,7 @@ export const GuardCardPaymentSuccessAuthRoute = ({
   hasPrivateAccess,
   isUserEthAddressType,
   ...routeProps
-}: IGuardCardPaymentSuccessAuthRoute) => {
+}: GuardCardPaymentSuccessAuthRouteProps) => {
   const history = useHistory<PostTopUpLocationState>();
 
   const isPageForbidden = useMemo(() => {

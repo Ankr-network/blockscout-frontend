@@ -187,17 +187,17 @@ export const useInitialValues = (
       hasLoginStep,
   );
 
-  const initialValues = useMemo(
-    () =>
-      isTopUpInProcess
-        ? {
-            [AmountInputField.amount]: new BigNumber(
-              transaction?.amount ?? 0,
-            ).toString(10),
-          }
-        : defaultInitialValues,
-    [transaction?.amount, isTopUpInProcess, defaultInitialValues],
-  );
+  const initialValues = useMemo(() => {
+    if (isTopUpInProcess) {
+      return {
+        [AmountInputField.amount]: new BigNumber(
+          transaction?.amount ?? 0,
+        ).toString(10),
+      };
+    }
+
+    return defaultInitialValues;
+  }, [transaction?.amount, isTopUpInProcess, defaultInitialValues]);
 
   return { transaction, isTopUpInProcess, initialValues };
 };
