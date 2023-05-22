@@ -49,7 +49,9 @@ export const useAuth = () => {
   const { address = '' } = authData;
 
   return {
-    loading: web3ConnectionLoading || autologinLoading || premiumStatusLoading,
+    loading: hasWeb3Connection
+      ? web3ConnectionLoading || premiumStatusLoading
+      : autologinLoading || premiumStatusLoading,
     ...rest,
     ...authData,
     ...oauthRest,

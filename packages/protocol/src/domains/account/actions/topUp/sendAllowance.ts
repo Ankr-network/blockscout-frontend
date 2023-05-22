@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js';
+import { formatToWei } from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { resetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
+import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { web3Api } from 'store/queries';
@@ -25,7 +26,7 @@ export const {
 
           const allowanceResponse = await service
             .getContractService()
-            .sendAllowanceForPAYG(amount);
+            .setAllowanceForPAYG(formatToWei(amount));
 
           const { transactionHash: allowanceTransactionHash } =
             allowanceResponse;
@@ -49,11 +50,7 @@ export const {
               }),
             );
           } else {
-            resetTransactionSliceAndRedirect(
-              dispatch,
-              getState as GetState,
-              address,
-            );
+            dispatch(topUpResetTransactionSliceAndRedirect.initiate());
           }
 
           return { data: true };

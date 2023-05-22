@@ -7,7 +7,6 @@ import { TopUpOrigin } from '../types';
 export interface ITransaction {
   allowanceTransactionHash?: string;
   topUpTransactionHash?: string;
-  rejectAllowanceTransactionHash?: string;
   amount?: BigNumber;
 }
 
@@ -35,16 +34,6 @@ export const accountTopUpSlice = createSlice({
       state[action.payload.address] = {
         ...state[action.payload.address],
         allowanceTransactionHash: action.payload.allowanceTransactionHash,
-      };
-    },
-    setRejectAllowanceTransaction: (
-      state,
-      action: PayloadAction<ISetTransactionPayload>,
-    ) => {
-      state[action.payload.address] = {
-        ...state[action.payload.address],
-        rejectAllowanceTransactionHash:
-          action.payload.rejectAllowanceTransactionHash,
       };
     },
     setTopUpOrigin: (state, { payload }: PayloadAction<TopUpOrigin>) => {
@@ -98,7 +87,6 @@ export const {
   resetTransaction,
   setAllowanceTransaction,
   setAmount,
-  setRejectAllowanceTransaction,
   setTopUpOrigin,
   setTopUpTransaction,
 } = accountTopUpSlice.actions;

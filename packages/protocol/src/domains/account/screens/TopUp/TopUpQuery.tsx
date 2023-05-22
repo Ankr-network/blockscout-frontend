@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { Loader } from 'domains/account/components/Loader';
@@ -17,44 +17,51 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const TopUpQuery = () => {
-  const { loading, hasPrivateAccess, isLoggedIn, isWalletConnected } =
-    useAuth();
-  const [getInitialStep, { data = TopUpStep.start, isLoading }] =
-    useQueryEndpoint(topUpGetInitialStep);
+  const { hasPrivateAccess, isLoggedIn, isWalletConnected } = useAuth();
+  const [
+    getInitialStep,
+    {
+      data: initialStep = TopUpStep.start,
+      isLoading: isInitialStepLoading,
+      isUninitialized: isInitialStepUninitialized,
+    },
+  ] = useQueryEndpoint(topUpGetInitialStep);
   const [reset] = useLazyTopUpResetQuery();
   const history = useHistory();
   const routesConfig = useTopUpOriginRoute(isLoggedIn);
 
   useCheckConfirmedEmail(hasPrivateAccess, isWalletConnected);
+  useTopUpBreadcrumbs(routesConfig);
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  useEffect(() => {
-    if (!isWalletConnected) {
-      const link = routesConfig.generatePath();
+  const redirect = useCallback(() => {
+    const link = routesConfig.generatePath();
 
-      history.push(link);
-    } else if (!loading) {
+    history.push(link);
+  }, [history, routesConfig]);
+
+  useEffect(() => {
+    if (isWalletConnected) {
       getInitialStep({ group });
+    } else {
+      redirect();
     }
-  }, [
-    loading,
-    isWalletConnected,
-    history,
-    routesConfig,
-    getInitialStep,
-    group,
-  ]);
+  }, [isWalletConnected, redirect, getInitialStep, group]);
 
   useOnUnmount(() => {
     reset();
   });
 
-  useTopUpBreadcrumbs(routesConfig);
+  if (
+    isInitialStepLoading ||
+    isInitialStepUninitialized ||
+    initialStep === null
+  ) {
+    return <Loader />;
+  }
 
-  return isLoading ? (
-    <Loader />
-  ) : (
-    <TopUp initialStep={data} hasPrivateAccess={hasPrivateAccess} />
+  return (
+    <TopUp initialStep={initialStep} hasPrivateAccess={hasPrivateAccess} />
   );
 };

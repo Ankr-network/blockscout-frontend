@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import { useHistory } from 'react-router';
 import { t } from '@ankr.com/common';
+import { DEPOSIT_ERROR } from 'multirpc-sdk';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { TopUpOrigin } from 'domains/account/types';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
@@ -13,13 +13,7 @@ import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSet
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { BaseRoute } from 'modules/router/utils/createRouteConfig';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-
-const topUpOriginRoutesMap: Record<TopUpOrigin, BaseRoute> = {
-  [TopUpOrigin.BILLING]: AccountRoutesConfig.accountDetails,
-  [TopUpOrigin.ENDPOINTS]: ChainsRoutesConfig.chains,
-  [TopUpOrigin.PRICING]: PricingRoutesConfig.pricing,
-};
+import { topUpOriginRoutesMap } from 'domains/account/actions/topUp/resetTransactionSliceAndRedirect';
 
 export const useTopUpOriginRoute = (isLoggedIn: boolean) => {
   const topUpOrigin = useSelector(selectTopUpOrigin);
@@ -61,6 +55,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     loading,
     loadingWaitTransactionConfirming,
     trackTopUp,
+    handleResetTransactionSliceAndRedirect,
   } = useTopUp();
   const history = useHistory();
 
@@ -98,6 +93,10 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
               isAllowanceConfirmed: true,
               isTopUpAccepted: true,
             });
+
+            if ((error as Error).message?.includes(DEPOSIT_ERROR)) {
+              handleResetTransactionSliceAndRedirect();
+            }
           } else {
             // move to waitTransactionConfirming
             setStep(oldStep => ++oldStep);
@@ -159,6 +158,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     history,
     step,
     trackTopUp,
+    handleResetTransactionSliceAndRedirect,
   ]);
 
   return {

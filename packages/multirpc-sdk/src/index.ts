@@ -8,3 +8,5 @@ export * from './backoffice';
 export * from './public';
 export * from './oauth';
 export * from './services';
+export * from './utils';
+export { DEPOSIT_ERROR } from './PAYGContract'
