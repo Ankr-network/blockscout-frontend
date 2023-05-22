@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
 import { push } from 'connected-react-router';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {

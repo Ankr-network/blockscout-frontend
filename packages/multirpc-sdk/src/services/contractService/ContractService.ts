@@ -22,31 +22,28 @@ export class ContractService extends ContractReadService {
   }
 
   public async depositAnkrToPAYG(
-    amount: BigNumber | BigNumber.Value,
+    amount: BigNumber,
     publicKey: string,
   ): Promise<IWeb3SendResult> {
-    return this.PAYGContractManager.depositAnkr(
-      new BigNumber(amount),
-      publicKey,
-    );
+    return this.PAYGContractManager.depositAnkr(amount, publicKey);
   }
 
   public async depositAnkrToPAYGForUser(
-    amount: BigNumber | BigNumber.Value,
+    amount: BigNumber,
     publicKey: string,
     targetAddress: string,
   ): Promise<IWeb3SendResult> {
     return this.PAYGContractManager.depositAnkrForUser(
-      new BigNumber(amount),
+      amount,
       publicKey,
       targetAddress,
     );
   }
 
-  public async sendAllowanceForPAYG(
-    amount: BigNumber | BigNumber.Value,
+  public async setAllowanceForPAYG(
+    amount: BigNumber,
   ): Promise<IWeb3SendResult> {
-    return this.PAYGContractManager.getAllowance(new BigNumber(amount));
+    return this.PAYGContractManager.setAllowance(amount);
   }
 
   public async rejectAllowanceForPAYG(): Promise<IWeb3SendResult> {
@@ -64,10 +61,8 @@ export class ContractService extends ContractReadService {
     return transactionReceipt;
   }
 
-  async withdrawAnkr(
-    amount: BigNumber | BigNumber.Value,
-  ): Promise<IWeb3SendResult> {
-    return this.PAYGContractManager.withdrawAnkr(new BigNumber(amount));
+  async getAllowanceValue(): Promise<BigNumber> {
+    return this.PAYGContractManager.getAllowanceValue();
   }
 
   async getLatestAllowanceEvent(

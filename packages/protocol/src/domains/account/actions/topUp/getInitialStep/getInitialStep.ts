@@ -1,26 +1,48 @@
+import { IApiUserGroupParams, formatToWei, formatFromWei } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import BigNumber from 'bignumber.js';
+
 import { GetState, RootState } from 'store';
 import { TopUpStep } from '../const';
-import { areHashesEmpty } from './initialStepChecksUtils';
-import { AuthConnectParams } from 'domains/auth/actions/connect';
-import { checkAllowanceStep } from './checkAllowanceStep';
 import { checkFirstTopUpStep } from './checkFirstTopUpStep';
-import { checkTopUpStep } from './checkTopUpStep';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { selectAccount } from 'domains/account/store/accountTopUpSlice';
+import {
+  makeNotification,
+  shouldNotify,
+} from 'store/utils/createNotifyingQueryFn';
+import {
+  selectAccount,
+  setAllowanceTransaction,
+} from 'domains/account/store/accountTopUpSlice';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
-import { IApiUserGroupParams } from 'multirpc-sdk';
-import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
+import { topUpResetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
+import { MultiService } from 'modules/api/MultiService';
+import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
+import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+
+const ONE_ANKR_TOKEN = new BigNumber(1);
+// 1 check the first top up
+// 2 has deposit transaction - wait transaction
+
+// 3 has allowance
+// 3a allowance is less than 1 ankr from previous deposit - ignore this allowance, show 0 step
+// 3b allowance is less than depositValue  - redirect
+// 3c has deposit amount - deposit
+// 3d no deposit amount - redirect
+
+// 4 no allowance
+// 4a - has deposit amount - first step
+// 4b - no deposit amount - redirect
 
 export const {
   endpoints: { topUpGetInitialStep },
   useLazyTopUpGetInitialStepQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    topUpGetInitialStep: build.query<TopUpStep, IApiUserGroupParams>({
-      queryFn: createNotifyingQueryFn(
-        async ({ group }, { getState, dispatch }) => {
+    topUpGetInitialStep: build.query<TopUpStep | null, IApiUserGroupParams>({
+      queryFn: createQueryFnWithErrorHandler({
+        queryFn: async ({ group }, { getState, dispatch }) => {
           const address = await getCurrentTransactionAddress(
             getState as GetState,
           );
@@ -34,43 +56,76 @@ export const {
 
           if (stepForTheFirstTopUp) return { data: stepForTheFirstTopUp };
 
+          // deposit transaction
           const transaction = selectAccount(getState() as RootState, address);
 
-          if (areHashesEmpty(transaction)) return { data: TopUpStep.start };
-
-          const allowanceStep = await checkAllowanceStep(
-            dispatch,
-            getState as GetState,
-            transaction?.rejectAllowanceTransactionHash,
-            transaction?.allowanceTransactionHash,
-          );
-
-          if (allowanceStep) return { data: allowanceStep };
-
-          const topUpStep = await checkTopUpStep(
-            dispatch,
-            transaction?.topUpTransactionHash,
-            group,
-          );
-
-          if (topUpStep) return { data: topUpStep };
-
-          const { data: connectData } = authMakeAuthorization.select(
-            undefined as unknown as AuthConnectParams,
-          )(getState() as RootState);
-
-          if (
-            connectData?.credentials ||
-            connectData?.isInstantJwtParticipant
-          ) {
+          if (transaction?.topUpTransactionHash) {
             dispatch(topUpWaitTransactionConfirming.initiate({ group }));
 
             return { data: TopUpStep.waitTransactionConfirming };
           }
 
-          return { data: TopUpStep.login };
+          // allowance
+          if (transaction?.allowanceTransactionHash) {
+            await dispatch(
+              topUpCheckAllowanceTransaction.initiate(
+                transaction?.allowanceTransactionHash,
+              ),
+            );
+
+            dispatch(setAllowanceTransaction({ address }));
+          }
+
+          const service = await MultiService.getWeb3Service();
+
+          const depositValue = transaction?.amount;
+          const hasDepositValue = depositValue && !depositValue.isZero();
+
+          const allowanceValue = await service
+            .getContractService()
+            .getAllowanceValue();
+          const hasAllowance = allowanceValue && !allowanceValue.isZero();
+
+          if (hasAllowance) {
+            if (hasDepositValue) {
+              if (allowanceValue.isLessThan(formatToWei(ONE_ANKR_TOKEN))) {
+                return { data: TopUpStep.start };
+              }
+
+              if (allowanceValue.isLessThan(formatToWei(depositValue))) {
+                dispatch(topUpResetTransactionSliceAndRedirect.initiate());
+
+                throw new Error(
+                  t('top-up-steps.errors.allowance-is-less-than-deposit', {
+                    allowance: formatFromWei(allowanceValue),
+                  }),
+                );
+              }
+
+              return { data: TopUpStep.deposit };
+            }
+
+            dispatch(topUpResetTransactionSliceAndRedirect.initiate());
+
+            throw new Error(t('top-up-steps.errors.enter-deposit-value'));
+          }
+
+          if (hasDepositValue) {
+            return { data: TopUpStep.start };
+          }
+
+          dispatch(topUpResetTransactionSliceAndRedirect.initiate());
+
+          throw new Error(t('top-up-steps.errors.enter-deposit-value'));
         },
-      ),
+        errorHandler: (error: unknown, _params, { dispatch }) => {
+          if (shouldNotify(error)) {
+            makeNotification(error, dispatch, { autoHideDuration: null });
+          }
+
+          return { error };
+        },
+      }),
     }),
   }),
 });

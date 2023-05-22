@@ -1,4 +1,4 @@
-import { RouteProps, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import { useEffect } from 'react';
 
 import { PRICING_PATH } from 'domains/pricing/Routes';
@@ -6,12 +6,15 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
-export interface IGuardRoute extends RouteProps {
+export interface GuardAuthRouteParams {
   hasPremium: boolean;
   hasAuthData: boolean;
 }
 
-export const useGuardAuth = ({ hasAuthData, hasPremium }: IGuardRoute) => {
+export const useGuardAuth = ({
+  hasAuthData,
+  hasPremium,
+}: GuardAuthRouteParams) => {
   const { address, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();

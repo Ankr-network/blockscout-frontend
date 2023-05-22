@@ -1,14 +1,11 @@
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { Web3Address } from 'multirpc-sdk';
+import { Web3Address, formatToWei } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { accountFetchPublicKey } from '../fetchPublicKey';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import {
-  setAllowanceTransaction,
-  setTopUpTransaction,
-} from 'domains/account/store/accountTopUpSlice';
+import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
 
 interface IDepositForUserRequestParams {
@@ -35,7 +32,11 @@ export const {
 
           const depositResponse = await service
             .getContractService()
-            .depositAnkrToPAYGForUser(amount, publicKey, targetAddress);
+            .depositAnkrToPAYGForUser(
+              formatToWei(amount),
+              publicKey,
+              targetAddress,
+            );
 
           return { data: depositResponse };
         },
@@ -45,8 +46,6 @@ export const {
         { dispatch, queryFulfilled },
       ) => {
         const { data: depositResponse } = await queryFulfilled;
-
-        dispatch(setAllowanceTransaction({ address: targetAddress }));
 
         if (depositResponse.transactionHash) {
           dispatch(
