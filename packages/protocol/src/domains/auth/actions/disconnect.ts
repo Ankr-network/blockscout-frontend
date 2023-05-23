@@ -1,7 +1,5 @@
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetAuthData, selectAuthData } from 'domains/auth/store/authSlice';
-import { resetEndpoint } from 'store/utils/resetEndpoint';
-import { topUpReset } from 'domains/account/actions/topUp/reset';
 import { trackSignOut } from 'modules/analytics/mixpanel/trackSignOut';
 import { web3Api } from 'store/queries';
 import { RootState } from 'store';
@@ -23,20 +21,7 @@ export const {
 
         dispatch(resetAuthData());
 
-        dispatch(topUpReset.initiate());
-
-        resetEndpoint('authConnect', dispatch);
-        resetEndpoint('authMakeAuthorization', dispatch);
-
-        resetEndpoint('oauthLoginByGoogleSecretCode', dispatch);
-        resetEndpoint('oauthLoginJwt', dispatch);
-
-        resetEndpoint('chainsFetchPremiumChainFeatures', dispatch);
-        resetEndpoint('infrastructureFetchProvider', dispatch);
-        resetEndpoint('accountFetchAccountBalance', dispatch);
-        resetEndpoint('fetchPremiumStatus', dispatch);
-        resetEndpoint('userGroupFetchGroups', dispatch);
-        resetEndpoint('shouldShowUserGroupDialog', dispatch);
+        dispatch(web3Api.util.resetApiState());
 
         trackSignOut();
 
