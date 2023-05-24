@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   CardContent,
   Typography,
@@ -14,6 +15,7 @@ import { IEthUserAddressV2, Web3Address } from 'multirpc-sdk';
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
+import { ICountersError } from 'modules/clients/actions/fetchCounters';
 
 import { UserTypeTag } from '../../UserTypeTag';
 import { ClientBalancesModal } from '../ClientBalancesModal';
@@ -35,6 +37,7 @@ interface IClientInfoProps {
   isLoadingClients?: boolean;
   totalData?: IGetUserTotalMapped;
   isLoadingTotal?: boolean;
+  clientsErrors?: ICountersError[];
 }
 
 export const ClientInfo = ({
@@ -43,6 +46,7 @@ export const ClientInfo = ({
   isLoadingClients,
   totalData,
   isLoadingTotal,
+  clientsErrors,
 }: IClientInfoProps) => {
   const [client] = currentClient;
   const {
@@ -70,14 +74,17 @@ export const ClientInfo = ({
 
   const { classes } = useStyles();
 
-  const skeleton = (
-    <Skeleton
-      animation="wave"
-      style={{ display: 'inline-block' }}
-      variant="rectangular"
-      width={100}
-      height={16}
-    />
+  const skeleton = useMemo(
+    () => (
+      <Skeleton
+        animation="wave"
+        style={{ display: 'inline-block' }}
+        variant="rectangular"
+        width={100}
+        height={16}
+      />
+    ),
+    [],
   );
 
   const renderMainInfo = (user: ClientMapped) => (
@@ -136,7 +143,29 @@ export const ClientInfo = ({
     );
   };
 
-  const clientEmailText = client?.email || NOT_FOUND_TEXT;
+  const renderClientEmail = useMemo(() => {
+    if (client?.email) {
+      return (
+        <>
+          <b>Email:</b> {client?.email}
+        </>
+      );
+    }
+
+    if (isLoadingClients) {
+      return skeleton;
+    }
+
+    if (
+      clientsErrors &&
+      clientsErrors.length > 0 &&
+      clientsErrors.find(error => error.type === 'email')
+    ) {
+      return <Typography color="error">Client email loading error</Typography>;
+    }
+
+    return NOT_FOUND_TEXT;
+  }, [client?.email, isLoadingClients, clientsErrors, skeleton]);
 
   return (
     <>
@@ -171,7 +200,7 @@ export const ClientInfo = ({
       <br />
       <Paper sx={{ p: 5 }}>
         <Typography variant="body2" component="p">
-          <b>Email:</b> {isLoadingClients ? skeleton : clientEmailText}
+          {renderClientEmail}
           <ClientEditEmailModal currentClient={client} />
           {client?.status && (
             <>
