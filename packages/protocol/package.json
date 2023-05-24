@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.48.4",
+  "version": "1.48.4a",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",

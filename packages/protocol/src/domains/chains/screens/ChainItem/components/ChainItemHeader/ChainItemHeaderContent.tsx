@@ -15,6 +15,7 @@ import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { useChainItemPlaceholder } from './useChainItemPlaceholder';
 
 export interface ChainItemHeaderProps {
   chain: Chain;
@@ -61,6 +62,7 @@ export const ChainItemHeaderContent = ({
   );
 
   const { classes } = useChainItemHeaderContentStyles();
+  const { placeholder } = useChainItemPlaceholder(isMultiChain);
 
   const withChainTypeSelector = chainTypeTabs.length > 1;
   const withGroupSelector = groupTabs.length > 1;
@@ -108,6 +110,7 @@ export const ChainItemHeaderContent = ({
           publicChain={publicChain}
           chainType={chainType}
           group={endpointsGroup}
+          placeholder={placeholder}
         />
         <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
           <PremiumContent isMultiChain={isMultiChain} />

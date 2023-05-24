@@ -15,4 +15,12 @@ export const useEndpointsStyles = makeStyles()((theme: Theme) => ({
       width: '100%',
     },
   },
+  placeholderLabel: {
+    '& span': {
+      background: 'none',
+      WebkitBackgroundClip: 'initial',
+      WebkitTextFillColor: 'initial',
+      color: theme.palette.text.primary,
+    },
+  },
 }));
