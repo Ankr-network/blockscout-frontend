@@ -9,12 +9,14 @@ interface IEndpointProps {
   title: ReactNode;
   label?: string;
   onClick?: () => void;
+  labelClassName?: string;
 }
 
 export const EndpointPlaceholder = ({
   title,
   label = t(`${root}.endpoints.upgrade-now`),
   onClick,
+  labelClassName,
 }: IEndpointProps) => {
   const { classes } = useEndpointPlaceholderStyles();
 
@@ -30,7 +32,7 @@ export const EndpointPlaceholder = ({
           cursor: onClick ? 'pointer' : 'auto',
         }}
       >
-        <PremiumLabel label={label} />
+        <PremiumLabel label={label} className={labelClassName} />
       </Box>
     </div>
   );
