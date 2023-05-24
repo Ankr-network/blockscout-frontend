@@ -17,6 +17,7 @@ export interface EndpointsProps {
   publicChain: Chain;
   chainType: ChainType;
   group: EndpointGroup;
+  placeholder?: string;
 }
 
 const checkComingSoonLabel = (publicChain: Chain, chainType: ChainType) => {
@@ -39,6 +40,7 @@ export const Endpoints = ({
   publicChain,
   chainType,
   group,
+  placeholder,
 }: EndpointsProps) => {
   const { classes } = useEndpointsStyles();
 
@@ -51,9 +53,9 @@ export const Endpoints = ({
     [publicChain, chainType],
   );
 
-  return (
-    <Box className={classes.endpointsList}>
-      {hasComingSoonLabel ? (
+  const renderContent = useMemo(() => {
+    if (hasComingSoonLabel) {
+      return (
         <EndpointPlaceholder
           label={t('chains.coming-soon')}
           title={
@@ -65,35 +67,63 @@ export const Endpoints = ({
             />
           }
         />
-      ) : (
-        <>
-          <MainEndpoints
-            feature={Feature.RPC}
-            group={group}
-            hasConnectWalletMessage={hasConnectWalletMessage}
-            hasPremium={hasPremium}
-            hasPrivateAccess={hasPrivateAccess}
-            onCopyEndpoint={onCopyEndpoint}
-            publicChain={publicChain}
-          />
-          <MainEndpoints
-            feature={Feature.REST}
-            group={group}
-            hasConnectWalletMessage={hasConnectWalletMessage}
-            hasPremium={hasPremium}
-            hasPrivateAccess={hasPrivateAccess}
-            onCopyEndpoint={onCopyEndpoint}
-            publicChain={publicChain}
-          />
-          <WsFeatureEndpoints
-            title={t(`${root}.endpoints.websocket-title`)}
-            hasPremium={hasPremium}
-            hasConnectWalletMessage={hasConnectWalletMessage}
-            onCopyEndpoint={onCopyEndpoint}
-            group={group}
-          />
-        </>
-      )}
-    </Box>
-  );
+      );
+    }
+
+    if (placeholder) {
+      return (
+        <EndpointPlaceholder
+          label={placeholder}
+          labelClassName={classes.placeholderLabel}
+          title={
+            <EndpointsHeader
+              title={t('chain-item.get-started.endpoints.title-multichain')}
+            />
+          }
+        />
+      );
+    }
+
+    return (
+      <>
+        <MainEndpoints
+          feature={Feature.RPC}
+          group={group}
+          hasConnectWalletMessage={hasConnectWalletMessage}
+          hasPremium={hasPremium}
+          hasPrivateAccess={hasPrivateAccess}
+          onCopyEndpoint={onCopyEndpoint}
+          publicChain={publicChain}
+        />
+        <MainEndpoints
+          feature={Feature.REST}
+          group={group}
+          hasConnectWalletMessage={hasConnectWalletMessage}
+          hasPremium={hasPremium}
+          hasPrivateAccess={hasPrivateAccess}
+          onCopyEndpoint={onCopyEndpoint}
+          publicChain={publicChain}
+        />
+        <WsFeatureEndpoints
+          title={t(`${root}.endpoints.websocket-title`)}
+          hasPremium={hasPremium}
+          hasConnectWalletMessage={hasConnectWalletMessage}
+          onCopyEndpoint={onCopyEndpoint}
+          group={group}
+        />
+      </>
+    );
+  }, [
+    classes.placeholderLabel,
+    group,
+    hasComingSoonLabel,
+    hasConnectWalletMessage,
+    hasPremium,
+    hasPrivateAccess,
+    onCopyEndpoint,
+    placeholder,
+    publicChain,
+  ]);
+
+  return <Box className={classes.endpointsList}>{renderContent}</Box>;
 };

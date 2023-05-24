@@ -436,7 +436,8 @@
         "title-multichain": "Endpoint",
         "websocket-title": "WSS Endpoint",
         "network-postfix": "{name} by ANKR Protocol",
-        "upgrade-now": "Upgrade Now"
+        "upgrade-now": "Upgrade Now",
+        "login-to-proceed": "Login to proceed"
       },
       "upgrade-banner": {
         "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
