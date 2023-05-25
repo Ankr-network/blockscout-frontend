@@ -6,14 +6,14 @@ import { Timeframe } from 'domains/chains/types';
 import { UsageData } from '../../types';
 import { makePrivateCountryMap } from '../../utils/makePrivateCountryMap';
 
-const SHOULD_SHOW_ONLY_PREMIUM_30D_COUNTRIES = true;
+export const SHOULD_SHOW_ONLY_PREMIUM_7D_COUNTRIES = true;
 
 export interface UsageDataParams {
   isConnecting: boolean;
   arePrivateStatsLoading: boolean;
   privateStatsError: any;
   privateStats?: PrivateStat;
-  day30PrivateStats?: PrivateStat;
+  weekPrivateStats?: PrivateStat;
   timeframe: Timeframe;
   userTopRequests: PrivateStatTopRequests[];
   userTopRequestsIp: UserRequestsByIpData[];
@@ -21,7 +21,7 @@ export interface UsageDataParams {
 
 export const getPrivateUsageData = ({
   arePrivateStatsLoading,
-  day30PrivateStats,
+  weekPrivateStats,
   isConnecting,
   privateStats,
   privateStatsError,
@@ -36,14 +36,13 @@ export const getPrivateUsageData = ({
     countries_count: { top_countries: privateCountries = [] } = {},
   } = privateStats || {};
 
-  const {
-    countries_count: { top_countries: day30PrivateCountries = [] } = {},
-  } = day30PrivateStats || {};
+  const { countries_count: { top_countries: weekPrivateCountries = [] } = {} } =
+    weekPrivateStats || {};
 
   const privateUsageData: UsageData = {
     countries: makePrivateCountryMap(
-      SHOULD_SHOW_ONLY_PREMIUM_30D_COUNTRIES
-        ? day30PrivateCountries
+      SHOULD_SHOW_ONLY_PREMIUM_7D_COUNTRIES
+        ? weekPrivateCountries
         : privateCountries,
     ),
     error: privateStatsError,

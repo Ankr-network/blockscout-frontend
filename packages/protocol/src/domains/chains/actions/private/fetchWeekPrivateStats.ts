@@ -17,11 +17,11 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
 };
 
 export const {
-  useLazyChainsFetchMonthPrivateStatsQuery,
-  endpoints: { chainsFetchMonthPrivateStats },
+  useLazyChainsFetchWeekPrivateStatsQuery,
+  endpoints: { chainsFetchWeekPrivateStats },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchMonthPrivateStats: build.query<
+    chainsFetchWeekPrivateStats: build.query<
       IApiPrivateStats,
       IApiUserGroupParams
     >({
@@ -30,7 +30,7 @@ export const {
 
         const result = await service
           .getAccountGateway()
-          .getPrivateStats(PrivateStatsInterval.MONTH, group);
+          .getPrivateStats(PrivateStatsInterval.WEEK, group);
 
         return { data: getPrivateStats(result) };
       }),
