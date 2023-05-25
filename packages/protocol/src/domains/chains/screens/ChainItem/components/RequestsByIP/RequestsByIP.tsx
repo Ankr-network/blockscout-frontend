@@ -12,11 +12,13 @@ import { useRequestsByIPStyles } from './useRequestsByIPStyles';
 interface IUserRequestsByIpProps {
   loading: boolean;
   data?: UserRequestsByIpData[];
+  timeframe: Timeframe;
 }
 
 export const RequestsByIP = ({
   loading,
   data = [],
+  timeframe,
 }: IUserRequestsByIpProps) => {
   const { classes } = useRequestsByIPStyles();
 
@@ -37,9 +39,8 @@ export const RequestsByIP = ({
   return (
     <div className={classes.root}>
       <div className={classes.titleRow}>
-        {/* Since request by ip only support 30d by backend, so hard code it first. When backend support all the timeframe should be remove it  */}
         <ItemHeader
-          timeframe={Timeframe.Month}
+          timeframe={timeframe}
           title={t('chain-item.requests-by-ip.title')}
         />
       </div>

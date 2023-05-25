@@ -1,7 +1,7 @@
 import { PrivateStatsInternal } from 'multirpc-sdk';
 
 interface IUserRequestsByIpPrarms {
-  day30PrivateStats: PrivateStatsInternal;
+  weekPrivateStats: PrivateStatsInternal;
   chainId: string;
 }
 
@@ -13,11 +13,11 @@ export interface UserRequestsByIpData {
 const MAX_NUM_OF_TOP_REQUEST_IP = 5;
 
 export const useUserRequestsByIp = ({
-  day30PrivateStats,
+  weekPrivateStats,
   chainId,
 }: IUserRequestsByIpPrarms): UserRequestsByIpData[] => {
-  if (day30PrivateStats && chainId in day30PrivateStats) {
-    const topIps = day30PrivateStats[chainId]?.ips_count?.top_ips ?? [];
+  if (weekPrivateStats && chainId in weekPrivateStats) {
+    const topIps = weekPrivateStats[chainId]?.ips_count?.top_ips ?? [];
 
     const chainData = [...topIps]
       .sort((a, b) => Number(b.count) - Number(a.count))
