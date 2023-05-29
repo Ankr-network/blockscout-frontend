@@ -21,7 +21,7 @@ export const SignupDialogDefaultContent = ({
 
   const onSubmit = useCallback(
     ({ state, hasMarketing }: SignupFormValues) => {
-      handleSetSignupSettings(hasMarketing);
+      handleSetSignupSettings(Boolean(hasMarketing));
 
       if (state === SignupDialogState.WEB2) {
         onGoogleButtonClick();
