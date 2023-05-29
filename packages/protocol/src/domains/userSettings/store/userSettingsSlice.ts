@@ -6,14 +6,20 @@ interface TwoFAEndpoint {
   params: any;
 }
 
+interface SignupSettings {
+  hasTerms?: boolean;
+  hasMarketing?: boolean;
+}
+
 interface UserSettingsSlice {
   isOpened?: boolean;
   twoFACode?: string;
   errorMessage?: string;
   endpoint?: TwoFAEndpoint;
+  signupSettings: SignupSettings;
 }
 
-const initialState: UserSettingsSlice = {};
+const initialState: UserSettingsSlice = { signupSettings: {} };
 
 export const userSettingsSlice = createSlice({
   name: 'userSettings',
@@ -34,6 +40,15 @@ export const userSettingsSlice = createSlice({
     ) => {
       state.endpoint = action.payload;
     },
+    setSignupSettings: (state, action: PayloadAction<SignupSettings>) => {
+      const { hasMarketing, hasTerms } = action.payload;
+
+      state.signupSettings = {
+        ...state.signupSettings,
+        hasMarketing,
+        hasTerms,
+      };
+    },
   },
 });
 
@@ -49,9 +64,13 @@ export const selectTwoFACode = (state: RootState) =>
 export const selectTwoFAEndpoint = (state: RootState) =>
   state.userSettings.endpoint;
 
+export const selectSignupSettings = (state: RootState) =>
+  state.userSettings.signupSettings ?? {};
+
 export const {
   setIsTwoFADialogOpened,
   setTwoFACode,
   setTwoFAErrorMessage,
   setTwoFAEndpoint,
+  setSignupSettings,
 } = userSettingsSlice.actions;

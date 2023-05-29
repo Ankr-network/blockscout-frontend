@@ -9,7 +9,7 @@ const initialState = {
   originURL: ChainsRoutesConfig.chains.path,
 };
 
-export const chainsSlilce = createSlice({
+export const chainsSlice = createSlice({
   name: 'chains/originURL',
   initialState,
   reducers: {
@@ -47,4 +47,4 @@ export const selectBeacons = createSelector(
   ({ data: { chains = [] } = {} }) => getBeacons(chains),
 );
 
-export const { setOriginChainURL } = chainsSlilce.actions;
+export const { setOriginChainURL } = chainsSlice.actions;

@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-
 import { FORM_ERROR } from 'final-form';
 
 import {

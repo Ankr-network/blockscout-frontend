@@ -10,7 +10,7 @@ import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
 import { userConfigSlice } from 'domains/auth/store/userConfigSlice';
 import { authSlice } from 'domains/auth/store/authSlice';
-import { chainsSlilce } from 'domains/chains/store/chainsSlice';
+import { chainsSlice } from 'domains/chains/store/chainsSlice';
 import { historyInstance } from '../modules/common/utils/historyInstance';
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
@@ -29,6 +29,7 @@ import { jwtTokenManagerPersistConfig } from 'domains/jwtToken/storage/jwtTokenM
 import { jwtTokenManagerSlice } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { userGroupPersistConfig } from 'domains/userGroup/storage/userGroupPersistConfig';
 import { userSettingsSlice } from 'domains/userSettings/store/userSettingsSlice';
+import { userSettingsPersistConfig } from 'domains/userSettings/storage/userSettingsPersistConfig';
 import { userGroupSlice } from 'domains/userGroup/store';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -47,12 +48,15 @@ const rootReducer = combineReducers({
     accountTopUpPersistConfig,
     accountTopUpSlice.reducer,
   ),
-  chainsOriginURL: chainsSlilce.reducer,
+  chainsOriginURL: chainsSlice.reducer,
   requestComposer: requestComposerSlice.reducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,
   userGroup: persistReducer(userGroupPersistConfig, userGroupSlice.reducer),
-  userSettings: userSettingsSlice.reducer,
+  userSettings: persistReducer(
+    userSettingsPersistConfig,
+    userSettingsSlice.reducer,
+  ),
 });
 
 export const store = configureStore({
