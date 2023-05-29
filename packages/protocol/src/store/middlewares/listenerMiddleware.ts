@@ -27,6 +27,7 @@ import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMes
 import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
 import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { authAutoConnect } from 'domains/auth/actions/connect/authAutoConnect';
+import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -103,10 +104,7 @@ listenerMiddleware.startListening({
 });
 
 listenerMiddleware.startListening({
-  matcher: isAnyOf(
-    authMakeAuthorization.matchFulfilled,
-    authAutoConnect.matchFulfilled,
-  ),
+  matcher: isAnyOf(createWeb3Service.matchFulfilled),
   effect: async (_action, { dispatch }) => {
     const service = await MultiService.getWeb3Service();
     const provider = service.getKeyProvider().getWeb3().currentProvider;
