@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from '@ankr.com/common';
 
-import { SignupDialogState } from './SignupDialogContent';
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
 import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
+import { SignupDialogState } from './SignupDialogContent/SignupDialogDefaultContent';
 
 interface SignupDialogHookProps {
   hasOauthLogin?: boolean;
@@ -19,7 +19,7 @@ export const useSignupDialog = ({
   const { handleFetchLoginParams, loading } = useOauthLoginParams();
 
   const [currentState, setCurrentState] = useState<SignupDialogState>(
-    SignupDialogState.MAIN,
+    SignupDialogState.DEFAULT,
   );
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const useSignupDialog = ({
     onClose();
 
     if (!hasOauthLogin) {
-      setCurrentState(SignupDialogState.MAIN);
+      setCurrentState(SignupDialogState.DEFAULT);
     }
   }, [hasOauthLogin, onClose]);
 

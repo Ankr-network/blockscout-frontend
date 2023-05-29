@@ -1,16 +1,18 @@
 import { Box, Button, Typography } from '@mui/material';
 
 import { t, tHTML } from '@ankr.com/common';
-import { useEmailContentStyles } from './useEmailContentStyles';
+import { useSignupDialogWeb2ContentStyles } from './useSignupDialogWeb2ContentStyles';
 import { Google, Mark } from '@ankr.com/ui';
 import { InfoBanner } from 'modules/common/components/InfoBanner';
 
-interface EmailContentProps {
+interface SignupDialogWeb2ContentProps {
   onClick: () => void;
 }
 
-export const EmailContent = ({ onClick }: EmailContentProps) => {
-  const { classes } = useEmailContentStyles();
+export const SignupDialogWeb2Content = ({
+  onClick,
+}: SignupDialogWeb2ContentProps) => {
+  const { classes } = useSignupDialogWeb2ContentStyles();
 
   return (
     <Box className={classes.root}>

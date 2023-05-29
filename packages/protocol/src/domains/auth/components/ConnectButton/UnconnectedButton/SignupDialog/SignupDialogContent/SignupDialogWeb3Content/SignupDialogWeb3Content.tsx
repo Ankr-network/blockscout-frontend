@@ -1,20 +1,20 @@
 import { Box, ButtonBase, Grid, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { uid } from 'react-uid';
+import { t } from '@ankr.com/common';
 
-import { useConnectWalletsModalStyles } from './useConnectWalletsContentStyles';
-import { ETH_COMPATIBLE_WALLETS } from './ConnectWalletsContentUtils';
+import { useSignupDialogWeb3ContentStyles } from './useSignupDialogWeb3ContentStyles';
+import { ETH_COMPATIBLE_WALLETS } from './SignupDialogWeb3ContentUtils';
 import {
   IConnectWalletsModalProps,
   IOnWalletItemClickArgs,
-} from './ConnectWalletsContentTypes';
-import { t } from '@ankr.com/common';
+} from './SignupDialogWeb3ContentTypes';
 
-export const ConnectWalletsContent = ({
+export const SignupDialogWeb3Content = ({
   onConnect,
   onClose,
 }: IConnectWalletsModalProps) => {
-  const { classes } = useConnectWalletsModalStyles();
+  const { classes } = useSignupDialogWeb3ContentStyles();
 
   const onWalletItemClick =
     ({ href, isInjected, walletId }: IOnWalletItemClickArgs) =>

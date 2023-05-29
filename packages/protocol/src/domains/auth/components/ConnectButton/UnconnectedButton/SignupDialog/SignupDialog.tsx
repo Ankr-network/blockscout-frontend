@@ -1,5 +1,5 @@
 import { Dialog } from 'uiKit/Dialog';
-import { EmailContentLoading } from './EmailContentLoading';
+import { LoadingState } from './LoadingState';
 import { useSignupDialogStyles } from './useSignupDialogStyles';
 import { SignupDialogContent } from './SignupDialogContent';
 import { useSignupDialog } from './useSignupDialog';
@@ -41,7 +41,7 @@ export const SignupDialog = ({
       paperClassName={classes.paperRoot}
     >
       {loading ? (
-        <EmailContentLoading />
+        <LoadingState />
       ) : (
         <SignupDialogContent
           currentState={currentState}

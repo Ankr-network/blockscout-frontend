@@ -1,4 +1,4 @@
-import { EmailContentLoading } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/EmailContentLoading';
+import { LoadingState } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/LoadingState';
 import { SignupDialogContent } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/SignupDialogContent';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/useSignupDialog';
@@ -25,7 +25,7 @@ export const SignUpContent = ({
   return (
     <>
       {loading ? (
-        <EmailContentLoading />
+        <LoadingState />
       ) : (
         <SignupDialogContent
           currentState={currentState}

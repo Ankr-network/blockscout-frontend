@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material';
-
-import { useEmailContentLoadingStyles } from './useEmailContentLoadingStyles';
 import { Google } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
-export const EmailContentLoading = () => {
-  const { classes } = useEmailContentLoadingStyles();
+import { useLoadingStateStyles } from './useLoadingStateStyles';
+
+export const LoadingState = () => {
+  const { classes } = useLoadingStateStyles();
 
   return (
     <Box className={classes.root}>

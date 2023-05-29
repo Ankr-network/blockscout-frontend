@@ -8,7 +8,7 @@ import {
   TrustWallet,
   WalletConnect,
 } from '@ankr.com/ui';
-import { IWalletItem } from './ConnectWalletsContentTypes';
+import { IWalletItem } from './SignupDialogWeb3ContentTypes';
 
 export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
   [

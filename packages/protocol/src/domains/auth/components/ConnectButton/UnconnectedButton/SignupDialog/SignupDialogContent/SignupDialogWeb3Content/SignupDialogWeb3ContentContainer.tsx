@@ -1,16 +1,16 @@
-import { ConnectWalletsContent } from './ConnectWalletsContent';
+import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCallback } from 'react';
 
-export interface ConnectWalletsContentContainerProps {
+export interface SignupDialogWeb3ContentContainerProps {
   onClose: () => void;
   onSuccess?: () => void;
 }
 
-export const ConnectWalletsContentContainer = ({
+export const SignupDialogWeb3ContentContainer = ({
   onClose,
   onSuccess,
-}: ConnectWalletsContentContainerProps) => {
+}: SignupDialogWeb3ContentContainerProps) => {
   const { handleConnect } = useAuth();
 
   const onConnect = useCallback(
@@ -24,5 +24,5 @@ export const ConnectWalletsContentContainer = ({
     [handleConnect, onSuccess],
   );
 
-  return <ConnectWalletsContent onConnect={onConnect} onClose={onClose} />;
+  return <SignupDialogWeb3Content onConnect={onConnect} onClose={onClose} />;
 };

@@ -13,6 +13,7 @@ import { trackWeb3SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb3Sign
 import { web3Api } from 'store/queries';
 import { authConnect } from './connect';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
 export const {
   endpoints: { authMakeAuthorization },
@@ -82,6 +83,13 @@ export const {
             });
 
             disconnectService();
+
+            dispatch(
+              NotificationActions.showNotification({
+                message: errorData?.error?.message,
+                severity: 'error',
+              }),
+            );
 
             dispatch(resetAuthData());
           }
