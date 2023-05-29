@@ -37,7 +37,7 @@ export const useSetSignupSettings = () => {
   const dispatch = useDispatch();
 
   return useCallback(
-    hasMarketing => {
+    (hasMarketing: boolean) => {
       dispatch(setSignupSettings({ hasMarketing }));
     },
     [dispatch],
