@@ -25,7 +25,10 @@ export const {
           const { hasMarketing } =
             selectSignupSettings(getState() as RootState) || {};
 
-          if (data?.marketing !== hasMarketing) {
+          if (
+            typeof hasMarketing === 'boolean' &&
+            data?.marketing !== hasMarketing
+          ) {
             const { data: updatedData } = await dispatch(
               userSettingsEditNotificationSettings.initiate({
                 ...data,
