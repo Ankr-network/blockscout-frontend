@@ -105,7 +105,6 @@
   },
   "signup-modal": {
     "title": "Sign up method",
-    "description": "By continuing you agree to our terms of service and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>.",
     "oauth-title": "Email authentication",
     "wallet-install": "Install",
     "gmail-button": "Continue with Google",
@@ -121,6 +120,11 @@
     "web3": {
       "title": "Continue with Ethereum Wallet",
       "button": "Continue with ETH Wallet"
+    },
+    "form": {
+      "terms-of-service": "I agree to  <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>",
+      "marketing-emails": "I agree to receive marketing communications from Ankr",
+      "no-terms-error": "Agree with our terms of service and privacy policy"
     }
   },
   "dashboard": {

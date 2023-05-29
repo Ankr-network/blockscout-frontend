@@ -33,6 +33,7 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
+import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
 
 export const Routes = () => {
   const { hasPremium, hasPrivateAccess, isUserEthAddressType, isLoggedIn } =
@@ -44,6 +45,7 @@ export const Routes = () => {
   useBalanceSubscription();
   useAutoconnect();
   useWeb3ThemeSwitcher();
+  useCheckChangedSignupUserSettingsAndUpdate();
 
   return (
     <Switch>

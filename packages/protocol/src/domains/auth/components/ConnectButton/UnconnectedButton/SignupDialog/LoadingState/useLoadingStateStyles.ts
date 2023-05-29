@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useEmailContentLoadingStyles = makeStyles()((theme: Theme) => ({
+export const useLoadingStateStyles = makeStyles()(theme => ({
   root: {
     textAlign: 'center',
   },

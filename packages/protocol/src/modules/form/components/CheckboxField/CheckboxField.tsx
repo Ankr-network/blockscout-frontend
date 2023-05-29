@@ -9,16 +9,20 @@ import { hasError } from '../../utils/hasError';
 interface ISwitchFieldProps extends FieldRenderProps<HTMLElement> {
   label: string;
   children?: ReactNode;
+  shouldHideError?: boolean;
 }
 
 export const CheckboxField = ({
   label,
   input,
   meta,
+  shouldHideError,
+  className = '',
 }: ISwitchFieldProps & any) => {
   return (
     <>
       <FormControlLabel
+        className={className}
         label={
           typeof label === 'string' ? (
             <Typography variant="caption" color="textSecondary">
@@ -36,7 +40,7 @@ export const CheckboxField = ({
           />
         }
       />
-      {hasError(meta) && (
+      {!shouldHideError && hasError(meta) && (
         <FormHelperText error>{getErrorText(meta)}</FormHelperText>
       )}
     </>

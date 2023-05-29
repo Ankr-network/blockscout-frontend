@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useEmailContentStyles = makeStyles()((theme: Theme) => ({
+export const useSignupDialogWeb2ContentStyles = makeStyles()(theme => ({
   root: {
     marginTop: theme.spacing(2 * 5),
   },
