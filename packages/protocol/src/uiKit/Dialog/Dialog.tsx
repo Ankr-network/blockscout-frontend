@@ -31,12 +31,14 @@ export type IDialogProps = Omit<
   paperClassName?: string;
   titleClassName?: string;
   closeButtonClassName?: string;
+  canCloseDialogByClickOutside?: boolean;
 };
 
 export const Dialog = ({
   children,
   onClose,
   shouldHideCloseButton = false,
+  canCloseDialogByClickOutside = true,
   initialTitle = '',
   title,
   maxPxWidth,
@@ -87,7 +89,7 @@ export const Dialog = ({
           },
         }}
         {...props}
-        onClose={handleClose}
+        onClose={canCloseDialogByClickOutside ? handleClose : undefined}
       >
         {(dialogTitle.title || !shouldHideCloseButton) && (
           <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>

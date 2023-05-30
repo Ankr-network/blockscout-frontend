@@ -284,16 +284,14 @@
       "sign-up-title": "Login to continue"
     }
   },
-  "reminder-dialog": {
-    "title": "Friendly reminder",
-    "content": "Check your email settings to customize notifications you receive from Ankr",
-    "customize": "Customize",
-    "skip": "Skip for now"
-  },
-  "confirm-reminder-dialog": {
-    "title": "Okay!",
-    "message": "You will be able to customise your preference in",
-    "settings": "Settings"
+  "negative-balance-terms-of-services": {
+    "title": "Allow Negative Credit Balance",
+    "text-1": "If you forget to top up your ANKR credits, we allow your account to incur a negative balance of up to",
+    "balance": "-50 million credits",
+    "text-2": "If you reach this limit, your account will be temporarily suspended. To unsuspend the account, the top-up sum will need to cover the negative balance.",
+    "tip": "This lets us continue your service uninterrupted while providing reminder alerts to fund your account.",
+    "confirm-button": "Agree & Continue",
+    "contact-button": "Contact support"
   },
   "chain-item": {
     "chain-types": {
