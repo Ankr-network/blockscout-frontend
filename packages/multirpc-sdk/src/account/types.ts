@@ -426,3 +426,11 @@ export interface EmailBindingParams {
   email: string;
   totp?: string;
 }
+
+export interface NegativeBalanceTermsOfServicesStatusParams {
+  group: Web3Address;
+}
+
+export interface NegativeBalanceTermsOfServicesStatusResponse {
+  tosAccepted: boolean;
+}

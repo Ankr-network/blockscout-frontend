@@ -32,7 +32,6 @@ export const PrivateChains = () => {
     <BaseChains
       top={<PrivateChainsTop timeframe={timeframe} />}
       loading={loading}
-      shouldShowReminderDialog
       baseChainsHeader={
         <BaseChainsHeader
           sortType={sortType}

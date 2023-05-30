@@ -51,7 +51,6 @@ export const userSettingsSlice = createSlice({
     },
   },
 });
-
 export const selectIsTwoFADialogOpened = (state: RootState) =>
   state.userSettings.isOpened;
 
