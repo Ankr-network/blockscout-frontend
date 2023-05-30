@@ -14,6 +14,7 @@ import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
+import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -71,6 +72,7 @@ export const DefaultLayout = ({
         <ConnectWalletDialog />
         <StatusTransitionDialog />
         <TwoFADialog />
+        <NegativeBalanceTermsOfServicesDialog />
       </div>
       <MobileNavigation
         chainsRoutes={chainsRoutes}

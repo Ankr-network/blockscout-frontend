@@ -2,12 +2,10 @@ import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 
 import { useBaseChainsStyles } from './BaseChainsStyles';
-import { ReminderDialog } from '../ReminderDialog';
 import { ChainsSkeleton } from 'domains/chains/screens/Chains/components/ChainsSkeleton';
 
 interface BaseChainsProps {
   top?: ReactNode;
-  shouldShowReminderDialog?: boolean;
   loading: boolean;
   children: ReactNode;
   baseChainsHeader: ReactNode;
@@ -15,7 +13,6 @@ interface BaseChainsProps {
 
 export const BaseChains = ({
   top,
-  shouldShowReminderDialog,
   loading,
   baseChainsHeader,
   children,
@@ -34,7 +31,6 @@ export const BaseChains = ({
           {children}
         </>
       )}
-      {shouldShowReminderDialog && <ReminderDialog />}
     </Box>
   );
 };

@@ -46,13 +46,14 @@ import {
   ConfirmTwoFAResponse,
   DisableTwoFAResponse,
   EmailBindingParams,
+  NegativeBalanceTermsOfServicesStatusResponse,
+  NegativeBalanceTermsOfServicesStatusParams,
 } from './types';
 import {
   IJwtTokenRequestParams,
   IJwtTokenLimitResponse,
   IJwtTokenResponse,
 } from '../oauth';
-
 
 export class AccountGateway {
   public api: AxiosInstance;
@@ -205,7 +206,7 @@ export class AccountGateway {
       `/api/v1/auth/stats/users/${userToken}/requests/${timeframe}`,
       {
         params: { group },
-      }
+      },
     );
 
     return data;
@@ -235,7 +236,7 @@ export class AccountGateway {
 
   async addNewEmailBinding({
     email,
-    totp
+    totp,
   }: EmailBindingParams): Promise<IEmailResponse> {
     const { data: response } = await this.api.post<IEmailResponse>(
       '/api/v1/auth/email/bind',
@@ -251,7 +252,7 @@ export class AccountGateway {
 
   async editEmailBinding({
     email,
-    totp
+    totp,
   }: EmailBindingParams): Promise<IEmailResponse> {
     const { data: response } = await this.api.patch<IEmailResponse>(
       '/api/v1/auth/email/bind',
@@ -501,6 +502,28 @@ export class AccountGateway {
         headers: createTOTPHeaders(totp),
       },
     );
+
+    return response;
+  }
+
+  async getNegativeBalanceTermsOfServicesStatus(
+    params?: NegativeBalanceTermsOfServicesStatusParams,
+  ) {
+    const { data: response } =
+      await this.api.get<NegativeBalanceTermsOfServicesStatusResponse>(
+        '/api/v1/auth/tos/status',
+        { params },
+      );
+
+    return response;
+  }
+
+  async acceptNegativeBalanceTermsOfServices(params?: string): Promise<void> {
+    const api = `/api/v1/auth/tos/accept`;
+    const url = params ? `${api}?group=${params}` : api;
+    const { data: response } = await this.api.post<void>(url, {
+      tosAccepted: true,
+    });
 
     return response;
   }

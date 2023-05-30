@@ -4,7 +4,7 @@ import { IConfig, IBlockchainEntity } from '../common';
 import {
   IPublicGateway,
   PublicGateway,
-  StandalonePublicGateway
+  StandalonePublicGateway,
 } from '../public';
 import { OauthGateway } from '../oauth';
 import { RpcGateway } from '../rpc';
