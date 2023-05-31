@@ -44,7 +44,7 @@ export const DefaultLayout = ({
     hasPaddingBottom,
     isLightTheme,
   });
-  const { isLoggedIn, loading } = useAuth();
+  const { isLoggedIn, loading, hasPremium } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
 
   return (
@@ -53,6 +53,7 @@ export const DefaultLayout = ({
         chainsRoutes={chainsRoutes}
         className={classes.sidebar}
         isLoggedIn={isLoggedIn}
+        hasPremium={hasPremium}
         loading={loading}
       />
       <div className={classes.body}>
@@ -78,6 +79,7 @@ export const DefaultLayout = ({
         chainsRoutes={chainsRoutes}
         isLoggedIn={isLoggedIn}
         loading={loading}
+        hasPremium={hasPremium}
       />
     </div>
   );

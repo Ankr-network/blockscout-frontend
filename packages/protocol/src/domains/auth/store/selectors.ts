@@ -10,6 +10,11 @@ import { oauthHasDepositTransaction } from 'domains/oauth/actions/hasDepositTran
 import { selectAuthData } from './authSlice';
 import { selectSelectedUserGroupRole } from 'domains/userGroup/store';
 
+export const selectAddress = createSelector(
+  selectAuthData,
+  ({ address = '' }) => address,
+);
+
 export const selectCredentials = createSelector(
   selectAuthData,
   ({ credentials }) => credentials,

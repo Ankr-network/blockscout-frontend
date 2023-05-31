@@ -225,6 +225,7 @@ export interface IApiPrivateStats {
 export interface PrivateStats {
   error?: string;
   stats?: PrivateStatsInternal;
+  total_requests?: number;
   totalRequests?: number;
 }
 
@@ -425,6 +426,33 @@ export type DisableTwoFAResponse = Record<string, unknown>;
 export interface EmailBindingParams {
   email: string;
   totp?: string;
+}
+
+export interface TotalStatsResponse {
+  blockchains_info: TotalStatsBlockchainsInfo;
+}
+
+export interface TotalStatsBlockchainsInfo {
+  blockchains: TotalStatsBlockchains;
+  premium_tokens: TotalStatsPremiumTokens;
+  started_ms: number;
+  total_cost: number;
+  total_count: number;
+}
+
+export type TotalStatsBlockchains = Record<BlockchainID, TotalStatsBlockchain>;
+
+export type UserEndpointToken = string;
+
+export type TotalStatsPremiumTokens =
+  Record<UserEndpointToken, TotalStatsPremiumToken>;
+
+export type TotalStatsPremiumToken =
+  Omit<TotalStatsBlockchainsInfo, 'premium_tokens'>;
+
+export interface TotalStatsBlockchain {
+  total_cost: number;
+  total_count: number;
 }
 
 export interface NegativeBalanceTermsOfServicesStatusParams {

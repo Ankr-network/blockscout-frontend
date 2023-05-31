@@ -12,13 +12,16 @@ import { useRequestsByIPStyles } from './useRequestsByIPStyles';
 interface IUserRequestsByIpProps {
   loading: boolean;
   data?: UserRequestsByIpData[];
+  className?: string;
+  timeframe: Timeframe;
 }
 
 export const RequestsByIP = ({
   loading,
   data = [],
+  className,
 }: IUserRequestsByIpProps) => {
-  const { classes } = useRequestsByIPStyles();
+  const { cx, classes } = useRequestsByIPStyles();
 
   const maxCounts = useMemo(
     () => Math.max(...data.map(item => item.count)),
@@ -35,7 +38,7 @@ export const RequestsByIP = ({
   );
 
   return (
-    <div className={classes.root}>
+    <div className={cx(classes.root, className)}>
       <div className={classes.titleRow}>
         {/* Since request by ip only support 30d by backend, so hard code it first. When backend support all the timeframe should be remove it  */}
         <ItemHeader

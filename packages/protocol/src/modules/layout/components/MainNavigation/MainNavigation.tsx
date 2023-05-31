@@ -3,6 +3,7 @@ import { Divider, Typography } from '@mui/material';
 import { Navigation } from 'modules/common/components/Navigation';
 import { useMemo } from 'react';
 import {
+  getCommonMenuList,
   getEndpointsList,
   getMenuList,
   getSettingList,
@@ -12,8 +13,10 @@ import { useMainNavigationStyles } from './useMainNavigationStyles';
 interface IMainNavigationProps {
   chainsRoutes: string[];
   isLoggedIn: boolean;
+  hasPremium: boolean;
   loading: boolean;
   onAAPIClick: () => void;
+  onDashboardClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
 }
@@ -21,14 +24,21 @@ interface IMainNavigationProps {
 export const MainNavigation = ({
   chainsRoutes,
   isLoggedIn,
+  hasPremium,
   loading,
   onAAPIClick,
+  onDashboardClick,
   onDocsClick,
   onSettingsClick,
 }: IMainNavigationProps) => {
   const endpointsItems = useMemo(
-    () => getEndpointsList(chainsRoutes, onAAPIClick),
+    () => getEndpointsList({ chainsRoutes, onAAPIClick }),
     [chainsRoutes, onAAPIClick],
+  );
+
+  const commonItem = useMemo(
+    () => getCommonMenuList(onDashboardClick),
+    [onDashboardClick],
   );
 
   const menuItems = useMemo(
@@ -45,6 +55,7 @@ export const MainNavigation = ({
 
   return (
     <div className={classes.root}>
+      {hasPremium && <Navigation loading={loading} items={commonItem} />}
       <Typography className={classes.tip}>
         {t('main-navigation.endpoints')}
       </Typography>

@@ -12,35 +12,6 @@ export const useChainItemHeaderStyles = makeStyles()(theme => ({
 }));
 
 export const useChainItemHeaderContentStyles = makeStyles()(theme => ({
-  controls: {
-    display: 'flex',
-    gap: theme.spacing(2 * 1.5),
-    alignItems: 'center',
-
-    marginTop: theme.spacing(8),
-
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      gap: theme.spacing(2 * 3.75),
-    },
-  },
-  desktopGroupSelector: {
-    '&&': {
-      [theme.breakpoints.down('sm')]: {
-        display: 'none !important',
-      },
-    },
-  },
-  rootMobileGroupSelector: {
-    '&&': {
-      display: 'none',
-
-      [theme.breakpoints.down('sm')]: {
-        display: 'flex',
-      },
-    },
-  },
   content: {
     display: 'flex',
     alignItems: 'stretch',

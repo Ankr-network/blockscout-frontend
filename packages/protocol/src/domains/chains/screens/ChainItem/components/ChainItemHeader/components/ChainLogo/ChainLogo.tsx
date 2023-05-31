@@ -4,14 +4,22 @@ import { useChainLogoStyles } from './ChainLogoStyles';
 
 export interface ChainLogoProps {
   chain: Chain;
+  className?: string;
 }
 
-export const ChainLogo = ({ chain: { id, name } }: ChainLogoProps) => {
-  const { classes } = useChainLogoStyles();
+export const ChainLogo = ({
+  chain: { id, name },
+  className,
+}: ChainLogoProps) => {
+  const { classes, cx } = useChainLogoStyles();
 
   const icon = useChainIcon(id);
 
   return icon ? (
-    <img alt={`${name} logo`} className={classes.chainLogo} src={icon} />
+    <img
+      alt={`${name} logo`}
+      className={cx(classes.chainLogo, className)}
+      src={icon}
+    />
   ) : null;
 };

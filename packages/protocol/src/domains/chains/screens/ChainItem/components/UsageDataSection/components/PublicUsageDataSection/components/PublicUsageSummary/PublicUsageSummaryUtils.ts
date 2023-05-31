@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
-import { formatTotalRequests } from './utils/formatTotalRequests';
-import { getRequestsAverage } from './utils/getRequestsAverage';
+import { formatTotalRequests } from 'domains/chains/utils//formatTotalRequests';
 import { getCachedRequestsPercent } from './utils/getCachedRequestsPercent';
+import { getRequestsAverage } from 'domains/chains/utils/getRequestsAverage';
 
 export interface UsageSummaryParams {
   cachedRequests?: BigNumber;

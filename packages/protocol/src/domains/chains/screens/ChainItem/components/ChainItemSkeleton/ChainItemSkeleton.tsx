@@ -1,6 +1,6 @@
 import { ChainItemHeaderSkeleton } from '../ChainItemHeader/components/ChainItemHeaderSkeleton';
-import { RequestsChartSkeleton } from '../RequestsChart/RequestsChartSkeleton';
 import { ChainItemWithCodeSampleSkeleton } from '../ChainItemWithCodeSampleSkeleton';
+import { RequestsChartSkeleton } from 'modules/common/components/RequestsChart/RequestsChartSkeleton';
 import { useChainItemSkeletonStyles } from './useChainItemSkeletonStyles';
 
 export const ChainItemSkeleton = ({

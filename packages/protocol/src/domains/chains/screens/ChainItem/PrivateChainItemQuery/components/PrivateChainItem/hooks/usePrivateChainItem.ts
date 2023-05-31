@@ -6,21 +6,35 @@ import { usePrivateChainType } from './usePrivateChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
+import { ChainType } from 'domains/chains/types';
+import { getPrivateChainTypeSelector } from './utils';
+
+interface ChainTypeItem {
+  value: ChainType;
+  label: string;
+}
+
+interface PrivateChainItem extends ChainItem {
+  chainTypes: ChainTypeItem[];
+  selectType: (id: ChainType) => void;
+}
 
 export const usePrivateChainItem = ({
   chain,
   unfilteredChain: publicChain,
-}: IChainItemDetails): ChainItem => {
+}: IChainItemDetails): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
     publicChain,
   });
 
-  const { chainType, chainTypeTab, chainTypeTabs } = usePrivateChainType({
-    chain,
-    endpoints,
-    netId,
-  });
+  const { chainType, chainTypeTab, chainTypeTabs, selectType } =
+    usePrivateChainType({
+      chain,
+      endpoints,
+      netId,
+    });
+
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
     {
       chain,
@@ -37,6 +51,8 @@ export const usePrivateChainItem = ({
     publicGroups.find(gr => gr.id === groupID) ||
     getFallbackEndpointGroup(chain.name);
 
+  const chainTypes = getPrivateChainTypeSelector(endpoints);
+
   return {
     chainProtocolContext,
     chain: processChain(chain),
@@ -52,5 +68,7 @@ export const usePrivateChainItem = ({
     name,
     selectGroup,
     unfilteredGroup,
+    chainTypes,
+    selectType,
   };
 };
