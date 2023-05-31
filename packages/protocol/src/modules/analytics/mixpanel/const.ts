@@ -19,7 +19,6 @@ export enum MixpanelEvent {
   SIGN_UP_MODAL_CLOSED = 'sign_up_modal_closed',
   SIGN_UP_MODAL_OPENED = 'sign_up_modal_opened',
   SIGN_UP_SUCCEEDED = 'sign_up_succeeded',
-  SOON_AUTOMATE = 'soon_automate',
   SOON_ENTERPRISE = 'soon_enterprise',
   TOP_UP_BALANCE_FLOW = 'top_up_balance_flow',
   UPGRADE_PLAN_MODAL_CLICKED = 'upgrade_plan_modal_clicked',

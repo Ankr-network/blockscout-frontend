@@ -76,12 +76,10 @@
     "advanced-api": "Advanced APIs",
     "endpoints": "Endpoints",
     "enterprise": "Enterprise",
-    "automate": "Automate",
     "billing": "Billing",
     "pricing": "Pricing",
     "docs": "Docs",
-    "settings": "Settings",
-    "tools": "Tools"
+    "settings": "Settings"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
