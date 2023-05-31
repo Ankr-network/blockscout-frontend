@@ -17,7 +17,7 @@ export const useDashboardStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: theme.spacing(3),
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(3),
 
     [theme.breakpoints.down('md')]: {
       flexWrap: 'wrap',
