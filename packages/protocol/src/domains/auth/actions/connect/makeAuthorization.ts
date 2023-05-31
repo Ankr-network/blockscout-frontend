@@ -62,7 +62,7 @@ const isInstantJwtParticipant = async (dispatch: AppDispatch) => {
 };
 
 const fetchUserEmail = (dispatch: AppDispatch) => {
-  dispatch(
+  return dispatch(
     userSettingsGetActiveEmailBinding.initiate({
       params: undefined,
       shouldNotify: false,
@@ -162,7 +162,7 @@ export const makeAuthorization = async (
     workerTokenData,
   };
 
-  fetchUserEmail(dispatch);
+  await fetchUserEmail(dispatch);
 
   dispatch(setAuthData(authData));
 
