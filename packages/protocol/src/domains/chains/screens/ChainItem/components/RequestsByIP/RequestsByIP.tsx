@@ -12,15 +12,17 @@ import { useRequestsByIPStyles } from './useRequestsByIPStyles';
 interface IUserRequestsByIpProps {
   loading: boolean;
   data?: UserRequestsByIpData[];
+  className?: string;
   timeframe: Timeframe;
 }
 
 export const RequestsByIP = ({
   loading,
   data = [],
+  className,
   timeframe,
 }: IUserRequestsByIpProps) => {
-  const { classes } = useRequestsByIPStyles();
+  const { cx, classes } = useRequestsByIPStyles();
 
   const maxCounts = useMemo(
     () => Math.max(...data.map(item => item.count)),
@@ -37,7 +39,7 @@ export const RequestsByIP = ({
   );
 
   return (
-    <div className={classes.root}>
+    <div className={cx(classes.root, className)}>
       <div className={classes.titleRow}>
         <ItemHeader
           timeframe={timeframe}

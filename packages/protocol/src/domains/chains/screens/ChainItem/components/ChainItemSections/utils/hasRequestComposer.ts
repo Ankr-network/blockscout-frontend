@@ -31,7 +31,7 @@ export const hasRequestComposer = ({
     chains[0]?.type === BlockchainType.Mainnet &&
     chains[0]?.isMainnetPremiumOnly;
 
-  const isSolana = isGroupSolanaBased(group);
+  const isSolana = isGroupSolanaBased(group.id);
   const shouldHideRequestComposerForFree =
     isMainnetForPremiumOnly && !hasPrivateAccess;
 
@@ -45,7 +45,7 @@ export const hasRequestComposer = ({
       isTronRestApi(chainId, group.id) ||
       isGroupEvmBased(group) ||
       isAvalancheChain(group.id) ||
-      isGroupSolanaBased(group)) &&
+      isGroupSolanaBased(group.id)) &&
     !isChainProtocolSwitchEnabled
   );
 };

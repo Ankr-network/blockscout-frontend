@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
+import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
-import { t } from '@ankr.com/common';
-import { getRequestsAverage } from '../../../PublicUsageDataSection/components/PublicUsageSummary/utils/getRequestsAverage';
-import { formatTotalRequests } from '../../../PublicUsageDataSection/components/PublicUsageSummary/utils/formatTotalRequests';
+import { formatTotalRequests } from 'domains/chains/utils/formatTotalRequests';
+import { getRequestsAverage } from 'domains/chains/utils/getRequestsAverage';
 
 export interface UsageSummaryParams {
   timeframe: Timeframe;

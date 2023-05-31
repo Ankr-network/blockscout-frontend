@@ -1,5 +1,6 @@
 import { selectAuthData } from '../store/authSlice';
 import {
+  selectAddress,
   selectHasConnectWalletMessage,
   selectHasFreemium,
   selectHasFreeToPremiumTransition,
@@ -39,14 +40,13 @@ export const useAuth = () => {
   const isTokenExpired = useAppSelector(selectIsTokenExpired);
   const isUserEthAddressType = useAppSelector(selectIsUserEthAddressType);
   const premiumUntil = useAppSelector(selectPremiumUntilDate);
+  const address = useAppSelector(selectAddress);
 
   const { loading: web3ConnectionLoading, ...rest } = useWeb3Connection();
 
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
   const { isLoading: premiumStatusLoading } = usePremiumStatus();
-
-  const { address = '' } = authData;
 
   return {
     loading: hasWeb3Connection

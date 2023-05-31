@@ -27,9 +27,11 @@ export interface IChartProps {
   xAxisTickFormatter?: BaseAxisProps['tickFormatter'];
   yAxisTickFormatter?: BaseAxisProps['tickFormatter'];
   loading?: boolean;
+  hasFixedHeight?: boolean;
 }
 
 const ANIMATION_DURATION = 500;
+const FIXED_HEIGHT = 270;
 
 export const Chart = ({
   data,
@@ -37,6 +39,7 @@ export const Chart = ({
   xAxisTickFormatter,
   yAxisTickFormatter = () => '',
   loading,
+  hasFixedHeight = true,
 }: IChartProps) => {
   const [ref, yAxisWidth] = useYAxisWidth();
 
@@ -47,7 +50,7 @@ export const Chart = ({
     <ResponsiveContainer
       className={classes.root}
       width="99%"
-      height={270}
+      height={hasFixedHeight ? FIXED_HEIGHT : undefined}
       ref={ref}
     >
       <AreaChart

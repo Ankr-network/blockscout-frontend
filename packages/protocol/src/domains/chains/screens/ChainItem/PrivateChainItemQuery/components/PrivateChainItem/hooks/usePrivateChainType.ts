@@ -20,7 +20,7 @@ export const usePrivateChainType = ({
 }: ChainTypeParams): ChainTypeResult => {
   const tabs = useMemo(() => getPrivateChainTypeTabs(endpoints), [endpoints]);
 
-  const [chainTypeTabs, chainTypeTab] = useTabs<ChainType>({
+  const [chainTypeTabs, chainTypeTab, selectType] = useTabs<ChainType>({
     initialTabID: getInitialChainType(chain, netId),
     tabs,
   });
@@ -29,5 +29,6 @@ export const usePrivateChainType = ({
     chainType: chainTypeTab?.id ?? ChainType.Mainnet,
     chainTypeTab,
     chainTypeTabs,
+    selectType,
   };
 };

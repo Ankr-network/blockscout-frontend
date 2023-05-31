@@ -2,6 +2,10 @@ import { Route, Switch } from 'react-router-dom';
 
 import { AccountRoutes, AccountRoutesConfig } from 'domains/account/Routes';
 import {
+  DashboardRoutesConfig,
+  DashboardRoutes,
+} from 'domains/dashboard/routes';
+import {
   AdvancedApiRoutes,
   AdvancedApiRoutesConfig,
 } from 'domains/advancedApi/routes';
@@ -31,6 +35,7 @@ import { useAutoconnect } from 'hooks/useAutoconnect';
 import { useWeb3ThemeSwitcher } from 'hooks/useWeb3ThemeSwitcher';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardPremiumRoute } from 'domains/userGroup/components/GuardPremiumRoute';
 import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
@@ -58,6 +63,26 @@ export const Routes = () => {
           </DefaultLayout>
         )}
       />
+
+      <GuardAuthRoute
+        exact
+        path={DashboardRoutesConfig.dashboard.path}
+        hasAuthData={hasAuthData}
+        hasPremium={hasPremium}
+        render={() => (
+          <GuardUserGroup
+            shouldRedirect
+            blockName={BlockWithPermission.UsageData}
+          >
+            <GuardPremiumRoute hasPremium={hasPremium}>
+              <DefaultLayout hasNoReactSnap>
+                <DashboardRoutes />
+              </DefaultLayout>
+            </GuardPremiumRoute>
+          </GuardUserGroup>
+        )}
+      />
+
       <GuardAuthRoute
         exact
         path={[

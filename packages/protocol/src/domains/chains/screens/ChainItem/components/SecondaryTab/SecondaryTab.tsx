@@ -35,7 +35,7 @@ export const SecondaryTab = ({
 
   return (
     <Button
-      className={cx(className, classes.secondaryTab)}
+      className={cx(classes.secondaryTab, className)}
       disabled={disabled}
       endIcon={endIcon}
       fullWidth
