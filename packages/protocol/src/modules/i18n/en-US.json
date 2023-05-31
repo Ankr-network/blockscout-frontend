@@ -73,15 +73,14 @@
     "two-fa": "Two factor authentication code is required"
   },
   "main-navigation": {
+    "dashboard": "Dashboard",
     "advanced-api": "Advanced APIs",
     "endpoints": "Endpoints",
     "enterprise": "Enterprise",
-    "automate": "Automate",
     "billing": "Billing",
     "pricing": "Pricing",
     "docs": "Docs",
-    "settings": "Settings",
-    "tools": "Tools"
+    "settings": "Settings"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
@@ -130,7 +129,73 @@
   "dashboard": {
     "breadcrumbs": "Premium Endpoints",
     "title": "Premium Endpoints",
-    "provider-title": "Dashboard"
+    "provider-title": "Dashboard",
+    "all": "All Chains",
+    "no-data": "No data available",
+    "empty": {
+      "title": "Send your request",
+      "description": "Once you start sending requests, your data will be available here",
+      "button": "Start building"
+    },
+    "requests-chart": {
+      "title": "Requests",
+      "timeframes": {
+        "month": "30 d",
+        "week": "7 d",
+        "day": "24 h",
+        "hour": "1 h"
+      },
+      "requests": "{timeframe} Requests <strong>{requests, number, ::compact-short}</strong>",
+      "all-requests": "All time Requests <strong>{requests, number, ::compact-short}</strong>"
+    },
+    "requests-by-ip": {
+      "header": "Requests by IP",
+      "ip": "IP",
+      "requests": "HTTP",
+      "count": "{count, number, ::compact-short}"
+    },
+    "chain-calls": {
+      "title": "Chain Calls",
+      "others": "Others"
+    },
+    "projects": {
+      "title": "Projects"
+    },
+    "pie-chart": {
+      "percent": "{value, number, ::percent}",
+      "one-decimal-percent": "{value, number, ::percent .0}",
+      "amount": "{amount, number, ::compact-short}"
+    },
+    "top-countries": {
+      "title": "Top Countries",
+      "country": "Country",
+      "requests": "Requests",
+      "count": "{count, number, ::compact-short}"
+    },
+    "usage-history": {
+      "title": "Usage History",
+      "calls": "Calls",
+      "month": "Month",
+      "calls-number": "{calls, number, ::compact-short}"
+    },
+    "method-calls": {
+      "title": "Method Calls",
+      "block-height": "Block Height",
+      "average": "Average Req/Sec",
+      "method": "Method",
+      "requests": "Requests",
+      "usage": "Usage",
+      "other": "other methods"
+    }
+  },
+  "requests-chart": {
+    "date": "{value, date, medium}",
+    "time": "{value, time, short}",
+    "calls-count": "{value, number, ::compact-short}",
+    "placeholder": {
+      "title": "Send your request",
+      "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
+    }
   },
   "failed-requests-banner": {
     "title": "Requests",
@@ -504,14 +569,7 @@
         "billing-button": "Billing"
       },
       "chart": {
-        "title": "Requests",
-        "date": "{value, date, medium}",
-        "time": "{value, time, short}",
-        "calls-count": "{value, number, ::compact-short}",
-        "placeholder": {
-          "title": "Send your request",
-          "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
-        }
+        "title": "Requests"
       },
       "last-requests": {
         "title": "Last 10 Requests",
@@ -529,6 +587,9 @@
         "error-code": "(code {code})"
       }
     }
+  },
+  "main-dashboard": {
+    "breadcrumbs": "Dashboard"
   },
   "advanced-api": {
     "breadcrumbs": "Advanced APIs",

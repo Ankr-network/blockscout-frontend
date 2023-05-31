@@ -1,0 +1,51 @@
+import { makeStyles } from 'tss-react/mui';
+
+export const SELECT_WIDTH = 200;
+
+export const useChainSelectorStyles = makeStyles()(theme => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    columnGap: theme.spacing(2),
+  },
+  form: {
+    width: 'auto',
+  },
+  value: {
+    fontWeight: 600,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    columnGap: theme.spacing(2),
+  },
+  menuItem: {
+    maxWidth: SELECT_WIDTH,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  inputRoot: {
+    '&&': {
+      marginLeft: theme.spacing(3),
+    },
+  },
+  select: {
+    '&:focus': {
+      backgroundColor: 'transparent',
+    },
+  },
+  icon: {
+    width: 24,
+    height: 24,
+  },
+  iconChain: {
+    width: 24,
+    height: 24,
+    marginRight: theme.spacing(2),
+  },
+  content: {
+    '& > div': {
+      marginTop: 0,
+    },
+  },
+}));

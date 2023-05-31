@@ -18,7 +18,7 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
-interface FetchPrivateStatsParams extends IApiUserGroupParams {
+export interface FetchPrivateStatsParams extends IApiUserGroupParams {
   interval: PrivateStatsInterval;
   userEndpointToken?: string;
 }

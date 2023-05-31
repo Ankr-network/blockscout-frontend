@@ -11,7 +11,7 @@ export const useChainProtocolSwitchStyles = makeStyles<void, 'switchTrack'>()(
       },
     },
     switchTrack: {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.secondary.dark,
     },
     label: {
       letterSpacing: '-0.01em',

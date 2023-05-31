@@ -15,13 +15,14 @@ export interface IUserJwtToken {
   jwtTokens: JwtManagerToken[];
 }
 
-interface IRequestParams extends IApiUserGroupParams {
+export interface IRequestParams extends IApiUserGroupParams {
   loading?: boolean;
 }
 
 export const {
-  useLazyFetchAllJwtTokenRequestsQuery,
   endpoints: { fetchAllJwtTokenRequests },
+  useFetchAllJwtTokenRequestsQuery,
+  useLazyFetchAllJwtTokenRequestsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllJwtTokenRequests: build.query<IUserJwtToken, IRequestParams>({

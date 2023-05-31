@@ -32,6 +32,8 @@ export interface ChainTabSelectEventProps extends Billingable, Walletable {
   tab_name: string;
 }
 
+export interface DashboardClickEventProps extends Billingable, Walletable {}
+
 export interface DocsClickEventProps extends Billingable, Walletable {
   docs_button: boolean;
 }

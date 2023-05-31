@@ -12,6 +12,7 @@ export interface ChainsParams {
   allChains: Chain[];
   sortType: SortType;
   searchContent: string;
+  includeMultichain?: boolean;
 }
 
 export const usePrivateChains = ({
@@ -19,6 +20,7 @@ export const usePrivateChains = ({
   allChains,
   sortType,
   searchContent,
+  includeMultichain = false,
 }: ChainsParams) => {
   const [stats] = usePrivateStats();
 
@@ -30,8 +32,8 @@ export const usePrivateChains = ({
         stats,
       })
         .filter(item => filteredByNameChains(item, searchContent))
-        .filter(excludeMultiChain),
-    [stats, chains, sortType, searchContent],
+        .filter(includeMultichain ? Boolean : excludeMultiChain),
+    [stats, chains, sortType, searchContent, includeMultichain],
   );
 
   const chainsDictionary = useMemo(

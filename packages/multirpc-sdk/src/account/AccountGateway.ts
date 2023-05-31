@@ -46,6 +46,7 @@ import {
   ConfirmTwoFAResponse,
   DisableTwoFAResponse,
   EmailBindingParams,
+  TotalStatsResponse,
   NegativeBalanceTermsOfServicesStatusResponse,
   NegativeBalanceTermsOfServicesStatusParams,
 } from './types';
@@ -506,6 +507,14 @@ export class AccountGateway {
     return response;
   }
 
+  async getUserTotalStats() {
+    const { data: response } = await this.api.get<TotalStatsResponse>(
+      '/api/v1/auth/stats/totals',
+    );
+
+    return response.blockchains_info;
+  }
+  
   async getNegativeBalanceTermsOfServicesStatus(
     params?: NegativeBalanceTermsOfServicesStatusParams,
   ) {

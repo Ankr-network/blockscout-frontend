@@ -19,6 +19,7 @@ export interface ChainTypeResult {
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
+  selectType: (id: ChainType) => void;
 }
 
 export const usePublicChainType = ({
@@ -40,7 +41,7 @@ export const usePublicChainType = ({
     [endpoints, isBlockedTestnet, onBlockedTabClick, isBlockedMainnet],
   );
 
-  const [chainTypeTabs, chainTypeTab] = useTabs<ChainType>({
+  const [chainTypeTabs, chainTypeTab, selectType] = useTabs<ChainType>({
     initialTabID: getInitialChainType(
       chain,
       netId,
@@ -53,5 +54,6 @@ export const usePublicChainType = ({
     chainType: chainTypeTab?.id ?? ChainType.Mainnet,
     chainTypeTab,
     chainTypeTabs,
+    selectType,
   };
 };

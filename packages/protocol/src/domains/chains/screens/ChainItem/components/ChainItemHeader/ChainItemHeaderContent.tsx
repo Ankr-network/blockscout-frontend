@@ -1,20 +1,18 @@
 import { useMemo } from 'react';
 
-import { ChainProtocolSwitch } from './components/ChainProtocolSwitch';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { Chain, ChainType } from 'domains/chains/types';
 import { Endpoints } from '../GetStartedSection/components/Endpoints';
-import { SecondaryTabs } from '../SecondaryTabs';
 import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
-import { MobileGroupSelector } from './components/MobileGroupSelector';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
 import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { ChainSelectorContent } from './components/ChainSelectorContent';
 import { useChainItemPlaceholder } from './useChainItemPlaceholder';
 
 export interface ChainItemHeaderProps {
@@ -64,9 +62,6 @@ export const ChainItemHeaderContent = ({
   const { classes } = useChainItemHeaderContentStyles();
   const { placeholder } = useChainItemPlaceholder(isMultiChain);
 
-  const withChainTypeSelector = chainTypeTabs.length > 1;
-  const withGroupSelector = groupTabs.length > 1;
-
   return (
     <>
       {isMultiChain ? (
@@ -79,32 +74,16 @@ export const ChainItemHeaderContent = ({
           isChainArchived={isChainArchived}
         />
       )}
-      {(withChainTypeSelector ||
-        withGroupSelector ||
-        Boolean(protocolGroup)) && (
-        <div className={classes.controls}>
-          <SecondaryTabs
-            selectedTab={chainTypeTab}
-            tabs={chainTypeTabs}
-            visible={withChainTypeSelector}
-          />
-          <SecondaryTabs
-            className={classes.desktopGroupSelector}
-            selectedTab={groupTab}
-            tabs={groupTabs}
-            visible={withGroupSelector}
-          />
-          <MobileGroupSelector
-            rootClassName={classes.rootMobileGroupSelector}
-            groupID={groupID}
-            groups={groups}
-            onGroupSelect={selectGroup}
-            visible={withGroupSelector}
-            fullWidth
-          />
-          <ChainProtocolSwitch />
-        </div>
-      )}
+      <ChainSelectorContent
+        protocolGroup={protocolGroup}
+        chainTypeTabs={chainTypeTabs}
+        chainTypeTab={chainTypeTab}
+        groups={groups}
+        groupID={groupID}
+        groupTabs={groupTabs}
+        groupTab={groupTab}
+        selectGroup={selectGroup}
+      />
       <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints
           publicChain={publicChain}

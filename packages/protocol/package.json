@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.49.1",
+  "version": "1.49.2",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -30,7 +30,7 @@
     "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "^1.10.2",
-    "@ankr.com/ui": "^0.8.0",
+    "@ankr.com/ui": "^0.8.3",
     "@ankr.com/utils": "^1.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -156,6 +156,7 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
+      "/dashboard/",
       "/account/",
       "/account/topup/",
       "/account/withdraw/",
