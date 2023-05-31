@@ -12,6 +12,7 @@ import { useGroupSelector } from './hooks/useGroupSelector';
 import { useGroupSelectorStyles } from './useGroupSelectorStyles';
 import { getOptionsByTabs } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/MobileGroupSelector/utils/getOptionsByTabs';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
+import { useSelectorVisibility } from '../ChainSelector/useSelectorVisibility';
 
 interface IGroupSelectorProps extends SelectMenuProps {
   groupID: ChainGroupID;
@@ -41,6 +42,8 @@ export const GroupSelector = ({
     [onGroupSelect],
   );
 
+  const selectProps = useSelectorVisibility();
+
   if (options?.length <= 1) {
     return null;
   }
@@ -54,7 +57,7 @@ export const GroupSelector = ({
         onChange={onChange}
         renderValue={renderValue}
         classes={{ select: classes.select }}
-        size="small"
+        {...selectProps}
       >
         {options.map(item => (
           <MenuItem

@@ -22,7 +22,7 @@ export const useBasePieChartStyles = makeStyles()(theme => ({
     },
 
     [theme.breakpoints.down('xl')]: {
-      padding: theme.spacing(5),
+      minHeight: 190,
     },
   },
   title: {

@@ -19,6 +19,7 @@ import { useDashboardProjects } from './hooks/useDashboardProjects';
 import { useDashboardStyles } from './useDashboardStyles';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useLastMonthStats } from './hooks/useLastMonthStats';
+import { useSelectorVisibility } from './components/ChainSelector/useSelectorVisibility';
 
 export const Dashboard = () => {
   useSetBreadcrumbs([
@@ -67,6 +68,8 @@ export const Dashboard = () => {
 
   const classNameMenuItem: string = classes.menuItemWrapper;
   const menuProps: Partial<MenuProps> = {
+    style: { position: 'absolute' },
+    disableScrollLock: true,
     classes: {
       paper: classes.menuPaper,
     },
@@ -80,6 +83,8 @@ export const Dashboard = () => {
     },
   };
 
+  const selectProps = useSelectorVisibility();
+
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <div className={classes.root}>
@@ -90,6 +95,7 @@ export const Dashboard = () => {
                 <ProjectSelect
                   classNameMenuItem={classNameMenuItem}
                   menuProps={menuProps}
+                  selectProps={selectProps}
                 />
               </div>
             )}
