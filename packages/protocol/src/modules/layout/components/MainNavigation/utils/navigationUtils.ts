@@ -13,7 +13,6 @@ import {
   BoldAdvancedApi,
 } from '@ankr.com/ui';
 import { Diamonds } from 'uiKit/Icons/Diamonds';
-import { Automate } from 'uiKit/Icons/Automate';
 import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -75,17 +74,6 @@ export const getEndpointsList = (
     isComingSoon: true,
     label: t('main-navigation.enterprise'),
     onClick: () => track({ event: MixpanelEvent.SOON_ENTERPRISE }),
-    isDisabled: true,
-  },
-];
-
-export const getToolsList = (): NavigationItem[] => [
-  {
-    StartIcon: Automate,
-    ActiveIcon: Automate,
-    label: t('main-navigation.automate'),
-    isComingSoon: true,
-    onClick: () => track({ event: MixpanelEvent.SOON_AUTOMATE }),
     isDisabled: true,
   },
 ];

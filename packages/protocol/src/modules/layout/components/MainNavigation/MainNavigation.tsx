@@ -6,7 +6,6 @@ import {
   getEndpointsList,
   getMenuList,
   getSettingList,
-  getToolsList,
 } from './utils/navigationUtils';
 import { useMainNavigationStyles } from './useMainNavigationStyles';
 
@@ -32,8 +31,6 @@ export const MainNavigation = ({
     [chainsRoutes, onAAPIClick],
   );
 
-  const toolsItems = useMemo(() => getToolsList(), []);
-
   const menuItems = useMemo(
     () => getMenuList(isLoggedIn, onDocsClick),
     [isLoggedIn, onDocsClick],
@@ -52,10 +49,6 @@ export const MainNavigation = ({
         {t('main-navigation.endpoints')}
       </Typography>
       <Navigation loading={loading} items={endpointsItems} />
-      <Typography className={classes.tip}>
-        {t('main-navigation.tools')}
-      </Typography>
-      <Navigation loading={loading} items={toolsItems} />
       <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
       <Navigation loading={loading} items={menuItems} />
       <div className={classes.setting}>
