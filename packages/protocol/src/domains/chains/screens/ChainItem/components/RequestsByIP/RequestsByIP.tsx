@@ -13,7 +13,6 @@ interface IUserRequestsByIpProps {
   loading: boolean;
   data?: UserRequestsByIpData[];
   className?: string;
-  timeframe: Timeframe;
 }
 
 export const RequestsByIP = ({
