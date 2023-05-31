@@ -11,6 +11,7 @@ import { Chain, ChainID } from 'domains/chains/types';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { useChainSelectorStyles } from './useChainSelectorStyles';
 import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
+import { useSelectorVisibility } from './useSelectorVisibility';
 
 interface IChainSelectorProps extends SelectMenuProps {
   selectedChainId: ChainID;
@@ -31,6 +32,8 @@ export const ChainSelector = ({
 }: IChainSelectorProps) => {
   const { classes } = useChainSelectorStyles();
 
+  const selectProps = useSelectorVisibility();
+
   return (
     <div className={classes.root}>
       <FormControl className={classes.form}>
@@ -46,7 +49,7 @@ export const ChainSelector = ({
             select: classes.select,
           }}
           displayEmpty
-          size="small"
+          {...selectProps}
         >
           {options.map(item => {
             const currentChain = chains.find(({ id }) => id === item.value);

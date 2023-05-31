@@ -12,6 +12,7 @@ import { ChainType } from 'domains/chains/types';
 import { useTypeSelector } from './hooks/useTypeSelector';
 import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
+import { useSelectorVisibility } from '../ChainSelector/useSelectorVisibility';
 
 interface ITypeSelectorProps extends SelectMenuProps {
   chainType: ChainType;
@@ -39,6 +40,8 @@ export const TypeSelector = ({
     [onTypeSelect],
   );
 
+  const selectProps = useSelectorVisibility();
+
   if (chainTypes.length <= 1) {
     return null;
   }
@@ -52,7 +55,7 @@ export const TypeSelector = ({
         onChange={onChange}
         classes={{ select: classes.select }}
         MenuProps={menuProps}
-        size="small"
+        {...selectProps}
       >
         {chainTypes.map(item => (
           <MenuItem

@@ -7,6 +7,7 @@ import {
   MenuProps,
 } from '@mui/material';
 import { Select } from '@ankr.com/ui';
+import { SelectInputProps } from '@mui/material/Select/SelectInput';
 
 import { useProjectSelectStyles } from './ProjectSelectStyles';
 
@@ -18,6 +19,7 @@ export interface SelectOption {
 
 export interface SelectMenuProps {
   menuProps?: Partial<MenuProps>;
+  selectProps?: Partial<SelectInputProps>;
   classNameMenuItem?: string;
 }
 
@@ -33,6 +35,7 @@ export const ProjectSelect = ({
   selectedOption,
   menuProps,
   classNameMenuItem,
+  selectProps,
 }: ProjectSelectProps) => {
   const { classes } = useProjectSelectStyles();
 
@@ -72,7 +75,8 @@ export const ProjectSelect = ({
         classes={{
           select: classes.select,
         }}
-        size="small"
+        size="medium"
+        {...selectProps}
       >
         {options.map(({ value, title, isDisabled }) => (
           <MenuItem
