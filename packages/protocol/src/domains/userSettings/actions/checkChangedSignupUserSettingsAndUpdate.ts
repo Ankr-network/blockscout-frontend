@@ -6,6 +6,7 @@ import { selectSignupSettings } from '../store/userSettingsSlice';
 import { RootState } from 'store';
 import { userSettingsEditNotificationSettings } from './notifications/editNotificationSettings';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
 export const {
   endpoints: { checkChangedSignupUserSettingsAndUpdate },
@@ -18,17 +19,24 @@ export const {
     >({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async (_arg, { dispatch, getState }) => {
-          const { data } = await dispatch(
-            userSettingsFetchNotificationSettings.initiate(),
-          );
+          const { email } = selectAuthData(getState() as RootState);
+
+          if (!email) {
+            return { data: {} };
+          }
 
           const { hasMarketing } =
             selectSignupSettings(getState() as RootState) || {};
 
-          if (
-            typeof hasMarketing === 'boolean' &&
-            data?.marketing !== hasMarketing
-          ) {
+          if (typeof hasMarketing !== 'boolean') {
+            return { data: {} };
+          }
+
+          const { data } = await dispatch(
+            userSettingsFetchNotificationSettings.initiate(),
+          );
+
+          if (data?.marketing !== hasMarketing) {
             const { data: updatedData } = await dispatch(
               userSettingsEditNotificationSettings.initiate({
                 ...data,
