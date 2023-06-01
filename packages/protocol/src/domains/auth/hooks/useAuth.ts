@@ -49,9 +49,7 @@ export const useAuth = () => {
   const { isLoading: premiumStatusLoading } = usePremiumStatus();
 
   return {
-    loading: hasWeb3Connection
-      ? web3ConnectionLoading || premiumStatusLoading
-      : autologinLoading || premiumStatusLoading,
+    loading: web3ConnectionLoading || autologinLoading || premiumStatusLoading,
     ...rest,
     ...authData,
     ...oauthRest,
