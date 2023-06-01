@@ -24,16 +24,12 @@ export const RequestsByIpWidget = ({ className, data }: RequestsByIpProps) => {
   } = useNoDataContainerStyles(data.length === 0);
 
   return (
-    <ScrollableContainer
-      View={Paper}
-      className={className}
-      viewClassName={cx(classes.root, container)}
-    >
+    <Paper className={cx(classes.root, container, className)}>
       <Timeframe30DTitle className={classes.title}>
         {text('header')}
       </Timeframe30DTitle>
       <NoDataGuard data={data}>
-        <>
+        <ScrollableContainer>
           <div className={cx(classes.row, classes.rowHeader)}>
             <Typography variant="caption">{text('ip')}</Typography>
             <Typography variant="caption">{text('requests')}</Typography>
@@ -48,8 +44,8 @@ export const RequestsByIpWidget = ({ className, data }: RequestsByIpProps) => {
               </Typography>
             </div>
           ))}
-        </>
+        </ScrollableContainer>
       </NoDataGuard>
-    </ScrollableContainer>
+    </Paper>
   );
 };

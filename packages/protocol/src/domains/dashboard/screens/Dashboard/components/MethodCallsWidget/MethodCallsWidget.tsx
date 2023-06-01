@@ -8,13 +8,13 @@ import { Download } from '@ankr.com/ui';
 import { ChainID, Timeframe } from 'domains/chains/types';
 import { Chart } from '../BasePieChart/components/Chart';
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
+import { ScrollableContainer } from '../ScrollableContainer';
 import { Title } from '../Title';
 import { getColor } from '../BasePieChart/utils/getColor';
 import { getRequestsAverage } from 'domains/chains/utils/getRequestsAverage';
 import { mapChartData, mapRequests } from './MethodCallsWidgetUtils';
 import { selectBlockHeight } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { ScrollableContainer } from '../ScrollableContainer';
 import { useMethodCallsWidgetStyles } from './MethodCallsWidgetStyles';
 
 interface IMethodCallsProps {
@@ -47,11 +47,7 @@ export const MethodCallsWidget = ({
   } = useNoDataContainerStyles(requestsMapped.length === 0);
 
   return (
-    <ScrollableContainer
-      View={Paper}
-      className={className}
-      viewClassName={cx(classes.root, container)}
-    >
+    <Paper className={cx(classes.root, container, className)}>
       <div className={classes.header}>
         <Title>{t('dashboard.method-calls.title')}</Title>
 
@@ -64,7 +60,7 @@ export const MethodCallsWidget = ({
         )}
       </div>
       <NoDataGuard data={requestsMapped}>
-        <>
+        <ScrollableContainer>
           <div className={classes.chartWrapper}>
             <div className={classes.chartElement}>
               <Chart
@@ -125,8 +121,8 @@ export const MethodCallsWidget = ({
               </Typography>
             </div>
           ))}
-        </>
+        </ScrollableContainer>
       </NoDataGuard>
-    </ScrollableContainer>
+    </Paper>
   );
 };

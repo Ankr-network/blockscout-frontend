@@ -9,7 +9,7 @@ export const useMethodCallsWidgetStyles = makeStyles()(theme => {
       backgroundImage: 'none',
       padding: offsetValue,
       paddingBottom: 0,
-      overflow: 'auto',
+      overflow: 'hidden',
       position: 'relative',
 
       /* TODO: reuse this styles in other scrollable widgets */
