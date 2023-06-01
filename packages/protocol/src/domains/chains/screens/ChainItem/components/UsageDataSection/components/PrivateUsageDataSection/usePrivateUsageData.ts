@@ -9,7 +9,7 @@ import {
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
 import { getStatsChainId } from '../../../ChainItemSections/utils/getStatsChainId';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useWeekPrivateStats } from 'domains/chains/hooks/useWeekPrivateStats';
+import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
@@ -80,11 +80,11 @@ export const usePrivateUsageData = ({
     privateCheckedChainId,
   );
 
-  const [{ stats: weekPrivateStats = {} }, areDay30PrivateStatsLoading] =
-    useWeekPrivateStats();
+  const [{ stats: day30PrivateStats = {} }, areDay30PrivateStatsLoading] =
+    useMonthPrivateStats();
 
   const userTopRequestsIp = useUserRequestsByIp({
-    weekPrivateStats,
+    day30PrivateStats,
     chainId: privateCheckedChainId,
   });
 
@@ -94,7 +94,7 @@ export const usePrivateUsageData = ({
       arePrivateStatsLoading || areDay30PrivateStatsLoading,
     privateStatsError,
     privateStats: privateStats[privateCheckedChainId],
-    weekPrivateStats: weekPrivateStats[privateCheckedChainId], // TODO: remove upon backend support for other timeframes
+    day30PrivateStats: day30PrivateStats[privateCheckedChainId], // TODO: remove upon backend support for other timeframes
     timeframe,
     userTopRequests,
     userTopRequestsIp,
