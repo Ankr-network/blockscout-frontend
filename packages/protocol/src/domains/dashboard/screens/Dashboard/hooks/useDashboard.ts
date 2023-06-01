@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useIsMDDown } from 'uiKit/Theme/useTheme';
+
+import { INDEX_PATH } from 'domains/chains/routes';
+import { IS_DASHBOARD_HIDDEN_ON_MOBILE } from '../const';
 import { SortType } from 'domains/chains/types';
 import { proccessTestnetOnlyChains } from 'domains/mmChains/screens/Chains/utils/processTestnetOnlyChains';
 import { useChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
-import { useFetchUserTotalStatsQuery } from 'domains/dashboard/actions/fetchUserTotalStats';
+import { useIsMDDown } from 'uiKit/Theme/useTheme';
 import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
 import { usePrivateChainsData } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
-import { INDEX_PATH } from 'domains/chains/routes';
-import { IS_DASHBOARD_HIDDEN_ON_MOBILE } from '../const';
+import { useUserTotalStats } from './useUserTotalStats';
 
 export const useDashboard = () => {
   const history = useHistory();
@@ -33,7 +34,7 @@ export const useDashboard = () => {
     includeMultichain: true,
   });
 
-  useFetchUserTotalStatsQuery();
+  useUserTotalStats();
   useChainsFetchChainNodesDetailQuery();
 
   return {

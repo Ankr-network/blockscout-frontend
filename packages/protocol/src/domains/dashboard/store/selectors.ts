@@ -191,7 +191,7 @@ export const selectProjectsStats = createSelector(
 );
 
 export const selectTotalStats = createSelector(
-  fetchUserTotalStats.select(),
+  fetchUserTotalStats.select({}),
   selectSelectedProject,
   ({ data }, project) =>
     project ? data?.premium_tokens?.[maskUserEndpointToken(project)] : data,
@@ -207,6 +207,6 @@ export const selectAllTimeTotalRequestsNumber = createSelector(
 );
 
 export const selectTotalStatsLoading = createSelector(
-  fetchUserTotalStats.select(),
+  fetchUserTotalStats.select({}),
   ({ isLoading }) => isLoading,
 );
