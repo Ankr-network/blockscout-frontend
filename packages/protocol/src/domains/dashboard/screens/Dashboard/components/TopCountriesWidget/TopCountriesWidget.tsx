@@ -28,14 +28,12 @@ export const TopCountriesWidget = ({
   } = useNoDataContainerStyles(data.length === 0);
 
   return (
-    <ScrollableContainer
-      View={Paper}
-      viewClassName={cx(classes.root, container)}
-      className={className}
-    >
-      <Timeframe30DTitle>{text('title')}</Timeframe30DTitle>
+    <Paper className={cx(classes.root, container, className)}>
+      <Timeframe30DTitle className={classes.title}>
+        {text('title')}
+      </Timeframe30DTitle>
       <NoDataGuard data={data}>
-        <>
+        <ScrollableContainer>
           <div className={cx(classes.row, classes.rowHeader)}>
             <Typography variant="caption">{text('country')}</Typography>
             <Typography variant="caption">{text('requests')}</Typography>
@@ -58,8 +56,8 @@ export const TopCountriesWidget = ({
               </div>
             );
           })}
-        </>
+        </ScrollableContainer>
       </NoDataGuard>
-    </ScrollableContainer>
+    </Paper>
   );
 };

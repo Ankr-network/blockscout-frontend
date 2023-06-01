@@ -2,6 +2,9 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useBasePieChartStyles = makeStyles()(theme => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+
     padding: theme.spacing(6),
     borderRadius: 30,
 

@@ -1,5 +1,5 @@
-import { Box, Paper, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
+import { Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { LocationsWidgetProps } from './types';
@@ -19,16 +19,12 @@ export const LocationsWidget = ({
   } = useNoDataContainerStyles(locations.length === 0);
 
   return (
-    <ScrollableContainer
-      View={Paper}
-      className={className}
-      viewClassName={cx(classes.root, container)}
-    >
+    <Paper className={cx(classes.root, container, className)}>
       <Title className={classes.title}>
         {t('chain-item.locations.header')}
       </Title>
       <NoDataGuard data={locations} isLoading={isLoading}>
-        <Box>
+        <ScrollableContainer>
           <Typography variant="caption" className={classes.details}>
             {t('chain-item.locations.head.location')}
           </Typography>
@@ -44,8 +40,8 @@ export const LocationsWidget = ({
               {location.continent}
             </Typography>
           ))}
-        </Box>
+        </ScrollableContainer>
       </NoDataGuard>
-    </ScrollableContainer>
+    </Paper>
   );
 };

@@ -4,9 +4,9 @@ import { Chart } from './components/Chart';
 import { Legend } from './components/Legend';
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
 import { PieChartData } from './types';
+import { ScrollableContainer } from '../ScrollableContainer';
 import { Title } from '../Title';
 import { useBasePieChartStyles } from './BasePieChartStyles';
-import { ScrollableContainer } from '../ScrollableContainer';
 
 export interface BasePieChartProps {
   amount: string;
@@ -29,18 +29,16 @@ export const BasePieChart = ({
   } = useNoDataContainerStyles(data.length === 0);
 
   return (
-    <ScrollableContainer
-      View={Paper}
-      className={className}
-      viewClassName={cx(classes.root, container)}
-    >
+    <Paper className={cx(classes.root, container, className)}>
       <Title className={classes.title}>{title}</Title>
       <NoDataGuard data={data} isLoading={isLoading}>
-        <div className={classes.content}>
-          <Chart className={classes.chart} amount={amount} data={data} />
-          <Legend data={data} />
-        </div>
+        <ScrollableContainer>
+          <div className={classes.content}>
+            <Chart className={classes.chart} amount={amount} data={data} />
+            <Legend data={data} />
+          </div>
+        </ScrollableContainer>
       </NoDataGuard>
-    </ScrollableContainer>
+    </Paper>
   );
 };
