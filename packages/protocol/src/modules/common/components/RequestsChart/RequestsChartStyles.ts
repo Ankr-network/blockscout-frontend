@@ -23,6 +23,7 @@ export const useRequestsChartStyles = makeStyles()(theme => ({
   },
   content: {
     position: 'relative',
+    overflow: 'hidden',
 
     height: '100%',
   },

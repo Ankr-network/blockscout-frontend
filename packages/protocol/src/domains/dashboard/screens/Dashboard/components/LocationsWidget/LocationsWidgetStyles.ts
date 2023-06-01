@@ -5,11 +5,16 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
 
   return {
     root: {
+      display: 'flex',
+      flexDirection: 'column',
+
       backgroundImage: 'none',
-      padding: offsetValue,
+      padding: theme.spacing(6, 3, 6, 6),
       paddingBottom: 0,
       overflow: 'auto',
       position: 'relative',
+
+      borderRadius: theme.spacing(7.5),
 
       '&:after': {
         content: '""',
@@ -24,6 +29,7 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
     },
     title: {
       marginBottom: theme.spacing(4),
+      paddingRight: theme.spacing(3),
     },
     details: {
       display: 'flex',

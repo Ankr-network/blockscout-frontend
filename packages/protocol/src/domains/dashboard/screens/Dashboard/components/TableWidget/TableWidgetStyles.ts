@@ -5,11 +5,16 @@ export const useTableWidgetStyles = makeStyles()(theme => {
 
   return {
     root: {
+      display: 'flex',
+      flexDirection: 'column',
+
       backgroundImage: 'none',
-      padding: offsetValue,
+      padding: theme.spacing(6, 3, 6, 6),
       paddingBottom: 0,
       overflow: 'auto',
       position: 'relative',
+
+      borderRadius: theme.spacing(7.5),
 
       /* TODO: reuse this styles in other scrollable widgets */
       '&:after': {
@@ -25,6 +30,7 @@ export const useTableWidgetStyles = makeStyles()(theme => {
     },
     title: {
       marginBottom: theme.spacing(4),
+      paddingRight: theme.spacing(3),
     },
     row: {
       display: 'flex',

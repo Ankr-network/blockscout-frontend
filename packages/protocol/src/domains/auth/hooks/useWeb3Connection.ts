@@ -7,10 +7,8 @@ import { authDisconnect } from '../actions/disconnect';
 import { authMakeAuthorization } from '../actions/connect/authMakeAuthorization';
 import { authConnectInitiator } from '../actions/connect/connectInitiator';
 import { authAutoConnect } from '../actions/connect/authAutoConnect';
-import { createWeb3Service } from '../actions/connect/createWeb3Service';
 
 export const useWeb3Connection = () => {
-  const [, { isUninitialized }] = useQueryEndpoint(createWeb3Service);
   const [, { isLoading: isMakeAuthorizationLoading }] = useQueryEndpoint(
     authMakeAuthorization,
   );
@@ -43,8 +41,7 @@ export const useWeb3Connection = () => {
     isAuthConnectLoading ||
     isMakeAuthorizationLoading ||
     isConnectInitiatorLoading ||
-    isDisconnectLoading ||
-    isUninitialized;
+    isDisconnectLoading;
 
   return {
     handleConnect,
