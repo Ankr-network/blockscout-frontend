@@ -13,7 +13,6 @@ import { usePrivateUsageData } from './usePrivateUsageData';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { TimeframeSection } from './components/TimeframeSection';
-import { locationsTimeframeFallback } from '../../utils/locationsTimeframeFallback';
 
 const IS_LAST_USER_REQUESTS_BLOCK_ENABLED = false;
 
@@ -96,17 +95,14 @@ export const PrivateUsageDataSection = ({
             />
           )}
           {userTopRequestsIp && !shouldHideIpsAndRequestsMap && (
-            <RequestsByIP
-              data={userTopRequestsIp}
-              loading={loading}
-              timeframe={locationsTimeframeFallback(timeframe)}
-            />
+            <RequestsByIP data={userTopRequestsIp} loading={loading} />
           )}
           {!shouldHideIpsAndRequestsMap && (
             <RequestsMap
               loading={loading}
               countries={countries}
-              timeframe={locationsTimeframeFallback(timeframe)}
+              // Since request by ip only support 30d by backend, so hard code it first. When backend support all the timeframe should be remove it
+              timeframe={Timeframe.Month}
             />
           )}
         </>
