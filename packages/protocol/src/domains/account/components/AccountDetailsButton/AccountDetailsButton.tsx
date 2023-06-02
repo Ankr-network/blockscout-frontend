@@ -14,10 +14,12 @@ import { useStyles } from './AccountDetailsButtonStyles';
 
 export interface AccountDetailsButtonProps {
   isMobile?: boolean;
+  isMobileSideBar?: boolean;
 }
 
 export const AccountDetailsButton = ({
   isMobile = false,
+  isMobileSideBar = false,
 }: AccountDetailsButtonProps) => {
   const { balance, hasStatusTransition, isLoading, status } = useAccountData();
 
@@ -30,6 +32,7 @@ export const AccountDetailsButton = ({
     hasStatusTransition: isStatusTransitionActive,
     hasStatusAccess,
     isMobile,
+    isMobileSideBar,
   });
 
   return (
@@ -50,9 +53,11 @@ export const AccountDetailsButton = ({
         </GuardUserGroup>
         <span className={classes.label}>
           <Balance balance={balance} className={classes.balance} />
-          <span className={classes.currency}>
-            &nbsp;{t('account.currencies.credit')}
-          </span>
+          {!isMobileSideBar && (
+            <span className={classes.currency}>
+              &nbsp;{t('account.currencies.credit')}
+            </span>
+          )}
         </span>
       </div>
     </LoadableButton>

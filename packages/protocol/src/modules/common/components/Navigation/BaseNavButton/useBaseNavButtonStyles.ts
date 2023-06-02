@@ -1,11 +1,15 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 export const HEADER_HEIGHT_XS = 66;
 export const HEADER_HEIGHT_XL = 80;
 
-export const useBaseNavButtonStyles = makeStyles<boolean>()(
-  (theme: Theme, isLightTheme: boolean) => ({
+interface IBaseNavButtonProps {
+  isLightTheme: boolean;
+  isMobileSiderBar: boolean;
+}
+
+export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
+  (theme, { isLightTheme, isMobileSiderBar }) => ({
     link: {
       width: '100%',
       height: 48,
@@ -57,11 +61,11 @@ export const useBaseNavButtonStyles = makeStyles<boolean>()(
 
       [theme.breakpoints.down('sm')]: {
         position: 'relative',
-        color: theme.palette.text.primary,
+        color: theme.palette.text.secondary,
 
         '&:after': {
           content: '""',
-          display: 'flex',
+          display: isMobileSiderBar ? 'none' : 'flex',
           position: 'absolute',
           background: theme.palette.background.default,
           height: 2,
@@ -72,12 +76,14 @@ export const useBaseNavButtonStyles = makeStyles<boolean>()(
       },
 
       [`&.Mui-disabled`]: {
-        backgroundColor: 'transparent',
-        color: theme.palette.grey[400],
-        fontWeight: 400,
-        '& svg': {
-          color: 'inherit',
-          backgroundColor: 'inherit',
+        '&&': {
+          backgroundColor: 'transparent',
+          color: theme.palette.grey[400],
+          fontWeight: 400,
+          '& svg': {
+            color: 'inherit',
+            backgroundColor: 'inherit',
+          },
         },
       },
     },
@@ -94,8 +100,12 @@ export const useBaseNavButtonStyles = makeStyles<boolean>()(
       marginLeft: theme.spacing(1),
     },
     disabled: {
-      cursor: 'default',
-      color: theme.palette.grey[isLightTheme ? 400 : 700],
+      '&&': {
+        cursor: 'default',
+        color: theme.palette.grey[isLightTheme ? 400 : 700],
+        backgroundColor: 'transparent',
+        fontWeight: 400,
+      },
     },
     activeLink: {
       '&&': {

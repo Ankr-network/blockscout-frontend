@@ -6,8 +6,12 @@ import { useThemeSwitcher } from 'modules/layout/hooks/useThemeSwitcher';
 import { useThemeSwitcherStyles } from './useThemeSwitcherStyles';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-export const ThemeSwitcher = () => {
-  const { classes } = useThemeSwitcherStyles();
+interface ThemeSwitchProps {
+  isMobileSideBar: boolean;
+}
+
+export const ThemeSwitcher = ({ isMobileSideBar }: ThemeSwitchProps) => {
+  const { classes } = useThemeSwitcherStyles(isMobileSideBar);
 
   const { isLightTheme } = useThemes();
 

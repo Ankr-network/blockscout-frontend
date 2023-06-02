@@ -60,7 +60,7 @@ export const Routes = () => {
         exact
         path={PricingRoutesConfig.pricing.path}
         render={() => (
-          <DefaultLayout hasGradient hasNoReactSnap hasPaddingBottom={false}>
+          <DefaultLayout hasGradient hasNoReactSnap>
             <PricingRoutes />
           </DefaultLayout>
         )}
