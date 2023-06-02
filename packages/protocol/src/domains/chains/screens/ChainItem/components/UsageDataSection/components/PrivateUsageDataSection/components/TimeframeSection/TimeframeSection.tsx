@@ -7,6 +7,8 @@ import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/Timef
 import { ProjectSelect } from 'modules/common/components/ProjectSelect';
 import { TabSize } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { CostButton } from '../PrivateUsageSummary/components/CostButton';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 interface TimeframeSectionProps {
   tabs: Tab<Timeframe>[];
@@ -31,7 +33,9 @@ export const TimeframeSection = ({
           size={TabSize.Medium}
         />
       </Box>
-      <CostButton />
+      <GuardUserGroup blockName={BlockWithPermission.Billing}>
+        <CostButton />
+      </GuardUserGroup>
     </Box>
   );
 };
