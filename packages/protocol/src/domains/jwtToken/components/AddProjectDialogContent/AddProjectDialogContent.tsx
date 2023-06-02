@@ -43,7 +43,7 @@ export const AddProjectDialogContent = ({
         <FailedContent
           isLoading={isLoading}
           onClose={handleCloseDialog}
-          tryAgain={handleCreate}
+          onTryAgain={handleCreate}
         />
       )}
     </>

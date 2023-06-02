@@ -350,10 +350,10 @@
     }
   },
   "negative-balance-terms-of-services": {
-    "title": "Allow Negative Credit Balance",
-    "text-1": "If you forget to top up your ANKR credits, we allow your account to incur a negative balance of up to",
-    "balance": "-50 million credits",
-    "text-2": "If you reach this limit, your account will be temporarily suspended. To unsuspend the account, the top-up sum will need to cover the negative balance.",
+    "title": "Allow Negative Account Balance",
+    "text-1": "We allow the account to go into a negative balance to avoid service interruption if you forget to top up the credits.",
+    "balance": "-50 million credits allowed.",
+    "text-2": "Upon reaching this limit, the account will be temporarily suspended. Cover the negative balance to continue using RPC Service.",
     "tip": "This lets us continue your service uninterrupted while providing reminder alerts to fund your account.",
     "confirm-button": "Agree & Continue",
     "contact-button": "Contact support"

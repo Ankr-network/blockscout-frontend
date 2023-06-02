@@ -4,7 +4,6 @@ import {
   NegativeBalanceTermsOfServicesStatusResponse,
 } from 'multirpc-sdk';
 import { web3Api } from 'store/queries';
-import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
 export const {
   endpoints: { fetchNegativeBalanceTermsOfServicesStatus },
@@ -15,17 +14,15 @@ export const {
       NegativeBalanceTermsOfServicesStatusResponse,
       NegativeBalanceTermsOfServicesStatusParams | undefined
     >({
-      queryFn: createQueryFnWithErrorHandler({
-        queryFn: async params => {
-          const service = MultiService.getService();
+      queryFn: async params => {
+        const service = MultiService.getService();
 
-          const data = await service
-            .getAccountGateway()
-            .getNegativeBalanceTermsOfServicesStatus(params);
+        const data = await service
+          .getAccountGateway()
+          .getNegativeBalanceTermsOfServicesStatus(params);
 
-          return { data };
-        },
-      }),
+        return { data };
+      },
     }),
   }),
 });

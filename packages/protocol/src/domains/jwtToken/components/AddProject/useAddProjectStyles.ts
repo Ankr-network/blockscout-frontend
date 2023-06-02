@@ -2,7 +2,8 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useAddProjectStyles = makeStyles()(theme => ({
   root: {
-    width: theme.spacing(52),
+    flexShrink: 0,
+    width: theme.spacing(51),
     height: theme.spacing(21),
     borderRadius: 20,
     padding: theme.spacing(4.5),

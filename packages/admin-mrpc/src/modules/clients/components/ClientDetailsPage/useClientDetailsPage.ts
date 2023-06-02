@@ -115,5 +115,6 @@ export const useClientDetailsPage = () => {
     handleSwitchCurrent,
     isCurrentDayIncluded,
     isRangePeriod: isRangePeriodValue,
+    clientsErrors: clients?.errors,
   };
 };

@@ -12,9 +12,15 @@ import { mapBalances } from '../utils/mapBalances';
 import { ClientType } from '../types';
 import { MAX_EMAILS_REQUEST_COUNT } from '../const';
 
+export interface ICountersError {
+  type: 'email' | 'balances' | 'counters';
+  error: unknown;
+}
+
 interface IApiResponse {
   counters?: ClientMapped[];
   cursor?: string;
+  errors?: ICountersError[];
 }
 
 export const {
@@ -28,8 +34,11 @@ export const {
         let emailsCollection: IEmailBindingEntity[] = [];
         let countersCollection: ICountersEntity[] = [];
         let balancesCollection: IBalancesEntity[] = [];
+        let errorsCollection: ICountersError[] = [];
+
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
+
         await authorizeBackoffice();
 
         // TODO: tmp fix while waiting for backend features with filtered and sorted request for counters
@@ -51,6 +60,15 @@ export const {
             } catch (e) {
               // eslint-disable-next-line no-console
               console.warn(e);
+
+              errorsCollection = [
+                ...errorsCollection,
+                {
+                  type: 'counters',
+                  error: e,
+                },
+              ];
+
               break;
             }
           }
@@ -78,6 +96,15 @@ export const {
             } catch (e) {
               // eslint-disable-next-line no-console
               console.warn(e);
+
+              errorsCollection = [
+                ...errorsCollection,
+                {
+                  type: 'email',
+                  error: e,
+                },
+              ];
+
               break;
             }
           }
@@ -105,6 +132,15 @@ export const {
             } catch (e) {
               // eslint-disable-next-line no-console
               console.warn(e);
+
+              errorsCollection = [
+                ...errorsCollection,
+                {
+                  type: 'balances',
+                  error: e,
+                },
+              ];
+
               break;
             }
           }
@@ -172,6 +208,7 @@ export const {
         return {
           data: {
             counters: [...clients, ...newClientsPending],
+            errors: errorsCollection,
           },
         };
       },

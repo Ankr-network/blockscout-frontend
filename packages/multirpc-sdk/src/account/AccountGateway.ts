@@ -507,9 +507,10 @@ export class AccountGateway {
     return response;
   }
 
-  async getUserTotalStats() {
+  async getUserTotalStats(group?: Web3Address) {
     const { data: response } = await this.api.get<TotalStatsResponse>(
       '/api/v1/auth/stats/totals',
+      { params: { group } },
     );
 
     return response.blockchains_info;

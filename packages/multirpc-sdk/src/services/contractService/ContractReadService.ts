@@ -22,6 +22,8 @@ export class ContractReadService {
       user,
     );
 
-    return events?.[events.length - 1];
+    const sortedEvent = events?.sort((a, b) => a.blockNumber - b.blockNumber);
+
+    return sortedEvent?.[sortedEvent.length - 1];
   }
 }

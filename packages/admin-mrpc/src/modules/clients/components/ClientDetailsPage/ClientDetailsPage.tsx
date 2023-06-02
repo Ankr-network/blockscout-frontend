@@ -55,6 +55,7 @@ export const ClientDetailsPage = () => {
     handleSwitchCurrent,
     isCurrentDayIncluded,
     isRangePeriod,
+    clientsErrors,
   } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
@@ -73,6 +74,7 @@ export const ClientDetailsPage = () => {
         isLoadingClients={isLoadingClients}
         totalData={totalData}
         isLoadingTotal={isLoadingTotal}
+        clientsErrors={clientsErrors}
       />
 
       <>

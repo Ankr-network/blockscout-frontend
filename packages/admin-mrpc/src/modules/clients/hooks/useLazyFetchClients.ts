@@ -2,7 +2,7 @@ import { useLazyFetchCountersQuery } from '../actions/fetchCounters';
 import { useEffect } from 'react';
 
 export const useLazyFetchClients = () => {
-  const [fetchClients, { data, isLoading, isFetching }] =
+  const [fetchClients, { data, isLoading, isFetching, error }] =
     useLazyFetchCountersQuery();
 
   useEffect(() => {
@@ -16,5 +16,6 @@ export const useLazyFetchClients = () => {
     data,
     isLoading,
     isFetching,
+    error,
   };
 };
