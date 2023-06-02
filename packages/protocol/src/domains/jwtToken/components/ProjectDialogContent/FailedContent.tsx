@@ -7,13 +7,13 @@ import { useProjectDialogContentStyles } from './useProjectDialogContentStyles';
 interface IFailedContentProps {
   isLoading: boolean;
   onClose: () => void;
-  tryAgain: () => void;
+  onTryAgain: () => void;
 }
 
 export const FailedContent = ({
   isLoading,
   onClose,
-  tryAgain,
+  onTryAgain,
 }: IFailedContentProps) => {
   const { classes } = useProjectDialogContentStyles();
 
@@ -27,7 +27,7 @@ export const FailedContent = ({
           fullWidth
           size="large"
           color="error"
-          onClick={tryAgain}
+          onClick={onTryAgain}
           loading={isLoading}
         >
           {t(`${jwtTokenIntlRoot}.failed.try-again`)}

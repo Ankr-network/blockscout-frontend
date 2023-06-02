@@ -7,6 +7,7 @@ import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAnd
 import { fetchNegativeBalanceTermsOfServicesStatus } from 'domains/userSettings/actions/negativeBalanceTermsOfServices/fetchNegativeBalanceTermsOfServicesStatus';
 import { acceptNegativeBalanceTermsOfServices } from 'domains/userSettings/actions/negativeBalanceTermsOfServices/acceptNegativeBalanceTermsOfServices';
 import { shouldShowNegativeBalanceOfServiceDialog } from 'domains/userSettings/utils/shouldShowNegativeBalanceOfServiceDialog';
+import { useHasUserGroupDialog } from 'modules/common/components/UpgradePlanDialog/hooks/useHasUserGroupDialog';
 
 export const useNegativeBalanceTermsOfServices = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
@@ -14,14 +15,17 @@ export const useNegativeBalanceTermsOfServices = () => {
   const { address, isLoggedIn, hasPremium, loading: authLoading } = useAuth();
   const { isFinanceRole, isDevRole } = usePermissionsAndRole();
 
+  const shouldShowUserGroupDialog = useHasUserGroupDialog();
+
   const [
     fetchTermsOfServices,
     { data: { tosAccepted } = { tosAccepted: false }, isLoading },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);
 
-  const [acceptNegativeBalanceTermsOfServicesAction] = useQueryEndpoint(
-    acceptNegativeBalanceTermsOfServices,
-  );
+  const [
+    acceptNegativeBalanceTermsOfServicesAction,
+    { isLoading: isAcceptLoading },
+  ] = useQueryEndpoint(acceptNegativeBalanceTermsOfServices);
 
   useEffect(() => {
     if (address) {
@@ -41,6 +45,7 @@ export const useNegativeBalanceTermsOfServices = () => {
         isLoggedIn,
         authLoading,
         isLoading,
+        shouldShowUserGroupDialog,
         tosAccepted,
         isDevRole,
         hasPremium,
@@ -50,6 +55,7 @@ export const useNegativeBalanceTermsOfServices = () => {
       isLoggedIn,
       authLoading,
       isLoading,
+      shouldShowUserGroupDialog,
       tosAccepted,
       isDevRole,
       hasPremium,
@@ -58,6 +64,7 @@ export const useNegativeBalanceTermsOfServices = () => {
   );
 
   return {
+    isAcceptLoading,
     shouldShowDialog,
     acceptNegativeBalanceTermsOfServices:
       acceptNegativeBalanceTermsOfServicesAction,

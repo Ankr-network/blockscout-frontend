@@ -1,16 +1,26 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useNegativeBalanceTermsOfServices } from './useNegativeBalanceTermsOfServices';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+export enum DialogView {
+  default = 'default',
+  failed = 'failed',
+}
 
 export const useNegativeBalanceTermsOfServicesDialog = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
 
   const { isOpened, onOpen, onClose } = useDialog();
 
-  const { shouldShowDialog, acceptNegativeBalanceTermsOfServices } =
-    useNegativeBalanceTermsOfServices();
+  const {
+    isAcceptLoading,
+    shouldShowDialog,
+    acceptNegativeBalanceTermsOfServices,
+  } = useNegativeBalanceTermsOfServices();
+
+  const [dialogView, setDialogView] = useState(DialogView.default);
 
   useEffect(() => {
     if (shouldShowDialog) {
@@ -20,17 +30,32 @@ export const useNegativeBalanceTermsOfServicesDialog = () => {
     }
   }, [shouldShowDialog, onOpen, onClose]);
 
-  const handleClose = useCallback(async () => {
+  const handleTryAgain = useCallback(async () => {
     const { error } = await acceptNegativeBalanceTermsOfServices(
-      selectedGroupAddress || undefined,
+      selectedGroupAddress,
     );
-    if (!error) {
+
+    if (error) {
+      setDialogView(DialogView.failed);
+    } else {
       onClose();
     }
-  }, [selectedGroupAddress, acceptNegativeBalanceTermsOfServices, onClose]);
+  }, [
+    selectedGroupAddress,
+    setDialogView,
+    acceptNegativeBalanceTermsOfServices,
+    onClose,
+  ]);
+
+  const handleCloseFailedDialog = useCallback(() => {
+    setDialogView(DialogView.default);
+  }, []);
 
   return {
+    dialogView,
+    isAcceptLoading,
     isOpened,
-    handleClose,
+    handleTryAgain,
+    handleCloseFailedDialog,
   };
 };

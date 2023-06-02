@@ -19,6 +19,9 @@ export const {
 
             return { data };
           },
+          errorHandler: error => {
+            return { error };
+          },
         }),
       },
     ),

@@ -2,6 +2,7 @@ export const shouldShowNegativeBalanceOfServiceDialog = (
   isLoggedIn: boolean,
   authLoading: boolean,
   isLoading: boolean,
+  shouldShowUserGroupDialog: boolean,
   tosAccepted: boolean,
   isDevRole: boolean,
   hasPremium: boolean,
@@ -10,6 +11,8 @@ export const shouldShowNegativeBalanceOfServiceDialog = (
   if (!isLoggedIn) return false;
 
   if (authLoading || isLoading) return false;
+
+  if (shouldShowUserGroupDialog) return false;
 
   if (tosAccepted) return false;
 

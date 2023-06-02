@@ -30,7 +30,7 @@ export const DeleteProjectDialogContent = ({
         <FailedContent
           isLoading={isLoading}
           onClose={handleCloseFailedContent}
-          tryAgain={handleDelete}
+          onTryAgain={handleDelete}
         />
       )}
     </>
