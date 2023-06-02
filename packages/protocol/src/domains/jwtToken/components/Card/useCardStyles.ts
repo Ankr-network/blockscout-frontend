@@ -3,7 +3,8 @@ import { makeStyles } from 'tss-react/mui';
 export const useCardStyles = makeStyles<boolean, 'view'>()(
   (theme, isSelected, classes) => ({
     root: {
-      width: theme.spacing(52),
+      flexShrink: 0,
+      width: theme.spacing(51),
       height: theme.spacing(21),
       borderRadius: 20,
       padding: theme.spacing(4, 5, 0, 5),
