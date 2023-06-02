@@ -6,6 +6,7 @@ import {
   selectHasFreeToPremiumTransition,
   selectHasInfrastructureAccess,
   selectHasPremium,
+  selectHasPremiumToFreeTransition,
   selectHasPrivateAccess,
   selectHasStatusTransition,
   selectHasUserEndpointToken,
@@ -30,6 +31,9 @@ export const useAuth = () => {
   );
   const hasInfrastructureAccess = useAppSelector(selectHasInfrastructureAccess);
   const hasPremium = useAppSelector(selectHasPremium);
+  const hasPremiumToFreeTransition = useAppSelector(
+    selectHasPremiumToFreeTransition,
+  );
   const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
   const hasStatusTransition = useAppSelector(selectHasStatusTransition);
   const hasUserEndpointToken = useAppSelector(selectHasUserEndpointToken);
@@ -67,6 +71,7 @@ export const useAuth = () => {
     hasInfrastructureAccess, // web3 premium user with active premium or gauth premium user has access to infrastructure
     premiumUntil,
     hasFreeToPremiumTransition,
+    hasPremiumToFreeTransition,
     hasStatusTransition,
     hasConnectWalletMessage,
   };

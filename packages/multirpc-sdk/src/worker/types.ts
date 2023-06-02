@@ -34,14 +34,8 @@ export interface IWorkerEndpoint {
   user: string;
 }
 
-export interface GetPremiumStatusRawResult {
-  freemium: boolean;
-  status: PremiumStatus;
-}
-
 export interface GetPremiumStatusResult {
-  isFreemium: GetPremiumStatusRawResult['freemium'];
-  status: GetPremiumStatusRawResult['status'];
+  status: PremiumStatus;
 }
 
 export enum PremiumStatus {

@@ -21,6 +21,7 @@ export const useAccountData = (): AccountData => {
   const {
     hasFreeToPremiumTransition,
     hasPremium,
+    hasPremiumToFreeTransition,
     hasPrivateAccess,
     hasStatusTransition,
     isFreePremium,
@@ -52,6 +53,7 @@ export const useAccountData = (): AccountData => {
         balanceEndTime,
         hasFreeToPremiumTransition,
         hasPremium,
+        hasPremiumToFreeTransition,
         isFreePremium,
         isOldPremium,
         isTokenExpired,
@@ -61,6 +63,7 @@ export const useAccountData = (): AccountData => {
       balanceEndTime,
       hasFreeToPremiumTransition,
       hasPremium,
+      hasPremiumToFreeTransition,
       isFreePremium,
       isOldPremium,
       isTokenExpired,

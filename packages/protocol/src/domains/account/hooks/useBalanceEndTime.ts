@@ -5,10 +5,7 @@ import {
   accountFetchBalanceEndTime,
   IRequestBalanceEndTimeParams,
 } from '../actions/fetchBalanceEndTime';
-import {
-  defaultPremiumStatusData,
-  fetchPremiumStatus,
-} from 'domains/auth/actions/fetchPremiumStatus';
+import { fetchPremiumStatus } from 'domains/auth/actions/fetchPremiumStatus';
 import { useAppSelector } from 'store/useAppSelector';
 import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -34,9 +31,7 @@ export const useBalanceEndTime = (
   isConnected: boolean,
   needRequery?: boolean,
 ): BalanceEndTime => {
-  const { data: { isFreemium } = defaultPremiumStatusData } = useAppSelector(
-    fetchPremiumStatus.select(''),
-  );
+  const { data: status } = useAppSelector(fetchPremiumStatus.select(''));
   const { isDevRole } = usePermissionsAndRole();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
@@ -58,7 +53,7 @@ export const useBalanceEndTime = (
 
   useEffect(() => {
     fetch(isConnected && !isDevRole, fetchBalanceEndTime, { group });
-  }, [fetchBalanceEndTime, isConnected, isFreemium, isDevRole, group]);
+  }, [fetchBalanceEndTime, isConnected, status, isDevRole, group]);
 
   return { endTime, isLoading };
 };

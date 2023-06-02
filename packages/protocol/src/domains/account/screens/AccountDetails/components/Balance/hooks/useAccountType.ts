@@ -17,6 +17,7 @@ export const useAccountType = ({
   const {
     hasFreeToPremiumTransition,
     hasPremium,
+    hasPremiumToFreeTransition,
     isFreePremium,
     isOldPremium,
     isTokenExpired,
@@ -40,6 +41,7 @@ export const useAccountType = ({
         balanceEndTime,
         hasFreeToPremiumTransition,
         hasPremium,
+        hasPremiumToFreeTransition,
         isFreePremium,
         isOldPremium,
         isTokenExpired,
@@ -49,6 +51,7 @@ export const useAccountType = ({
       balanceEndTime,
       hasFreeToPremiumTransition,
       hasPremium,
+      hasPremiumToFreeTransition,
       isFreePremium,
       isOldPremium,
       isTokenExpired,
