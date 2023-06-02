@@ -1,8 +1,13 @@
 import { INotificationsSettings } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { t } from '@ankr.com/common';
+import { RootState } from 'store';
+import {
+  selectSignupSettings,
+  setSignupSettings,
+} from 'domains/userSettings/store/userSettingsSlice';
 import { web3Api } from 'store/queries';
 
 export const {
@@ -14,12 +19,21 @@ export const {
       INotificationsSettings,
       INotificationsSettings
     >({
-      queryFn: async settings => {
+      queryFn: async (settings, { dispatch, getState }) => {
         const service = MultiService.getService();
 
         const data = await service
           .getAccountGateway()
           .editNotificationSettings(settings);
+
+        const signUpSettings = selectSignupSettings(getState() as RootState);
+
+        dispatch(
+          setSignupSettings({
+            ...signUpSettings,
+            hasMarketing: data?.marketing,
+          }),
+        );
 
         return { data };
       },
