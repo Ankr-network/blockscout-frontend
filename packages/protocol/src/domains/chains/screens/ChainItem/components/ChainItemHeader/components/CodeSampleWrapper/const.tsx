@@ -1,6 +1,6 @@
 import { ChainTypeTab } from 'modules/common/components/ChainTypeTab';
 import { Tab } from 'uiKit/TabsManager';
-import { jsCodeSample } from './templates/jsCodeSample';
+import { getJsCodeSample } from './templates/getJsCodeSample';
 import { t } from '@ankr.com/common';
 import { Language } from 'prism-react-renderer';
 import { getShellCodeSampleWithUrl } from './templates/getShellCodeSampleWithUrl';
@@ -39,7 +39,7 @@ export const getSnippetByCodeType = (codeType: CodeType, url?: string) => {
   switch (codeType) {
     default:
     case CodeType.ANKRJS:
-      return jsCodeSample;
+      return getJsCodeSample(url);
     case CodeType.SHELL:
       return getShellCodeSampleWithUrl(url);
   }

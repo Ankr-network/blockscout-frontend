@@ -1,8 +1,10 @@
-export const jsCodeSample = `// npm install @ankr.com/ankr.js
+export const getJsCodeSample = (
+  url?: string,
+) => `// npm install @ankr.com/ankr.js
 import { AnkrProvider } from '@ankr.com/ankr.js';
 
 // Setup provider AnkrProvider
-const provider = new AnkrProvider()
+const provider = new AnkrProvider(${url ? `'${url}'` : ''});
 
 // Get token balances of address with USD prices among multiple chains
 const balances = async () => {
