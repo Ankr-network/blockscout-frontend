@@ -2,10 +2,12 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useBasePieChartStyles = makeStyles()(theme => ({
   root: {
+    overflow: 'hidden',
+
     display: 'flex',
     flexDirection: 'column',
 
-    padding: theme.spacing(6),
+    padding: theme.spacing(6, 3, 6, 6),
     borderRadius: 30,
 
     /* TODO: reuse this styles in other scrollable widgets */
@@ -22,10 +24,6 @@ export const useBasePieChartStyles = makeStyles()(theme => ({
       width: '100%',
       height: 24,
       backgroundColor: theme.palette.background.paper,
-    },
-
-    [theme.breakpoints.down('xl')]: {
-      minHeight: 190,
     },
   },
   title: {
