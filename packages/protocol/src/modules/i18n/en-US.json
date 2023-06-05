@@ -80,7 +80,9 @@
     "billing": "Billing",
     "pricing": "Pricing",
     "docs": "Docs",
-    "settings": "Settings"
+    "settings": "Settings",
+    "tools": "Tools",
+    "logout": "Logout"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",

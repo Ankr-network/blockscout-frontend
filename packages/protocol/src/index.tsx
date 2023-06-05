@@ -1,3 +1,4 @@
+import 'core-js/es/object/from-entries';
 import { hydrate, render } from 'react-dom';
 import { initGoogleGtm } from '@ankr.com/common';
 

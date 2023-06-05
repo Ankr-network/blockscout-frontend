@@ -4,10 +4,14 @@ export interface UseStylesParams {
   hasStatusTransition: boolean;
   hasStatusAccess: boolean;
   isMobile: boolean;
+  isMobileSideBar: boolean;
 }
 
 export const useStyles = makeStyles<UseStylesParams>()(
-  (theme, { hasStatusTransition, hasStatusAccess, isMobile }) => ({
+  (
+    theme,
+    { hasStatusTransition, hasStatusAccess, isMobile, isMobileSideBar },
+  ) => ({
     accountDetailsButtonRoot: isMobile
       ? {
           padding: theme.spacing(2 * 1.25, 2 * 1.5),
@@ -22,7 +26,9 @@ export const useStyles = makeStyles<UseStylesParams>()(
         }
       : {
           flexShrink: 0,
-
+          border: isMobileSideBar
+            ? `2px solid ${theme.palette.grey[100]}`
+            : 'none',
           backgroundColor: theme.palette.background.paper,
         },
     content: {

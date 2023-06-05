@@ -5,13 +5,16 @@ import { useTrackAAPI } from 'modules/layout/hooks/useTrackAAPI';
 import { useTrackDashboard } from 'modules/layout/hooks/useTrackDashboard';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
 import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
-interface SidebarProps {
+export interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
   isLoggedIn: boolean;
   hasPremium: boolean;
   loading: boolean;
+  hasLogo: boolean;
+  isMobileSiderBar?: boolean;
 }
 
 export const SideBar = ({
@@ -20,8 +23,12 @@ export const SideBar = ({
   isLoggedIn,
   hasPremium,
   loading,
+  hasLogo,
+  isMobileSiderBar = false,
 }: SidebarProps) => {
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useStyles(isMobileSiderBar);
+
+  const { handleDisconnect } = useAuth();
 
   const onAAPIClick = useTrackAAPI();
   const onDocsClick = useTrackDocs();
@@ -30,7 +37,7 @@ export const SideBar = ({
 
   return (
     <aside className={cx(classes.root, className)}>
-      <Logo />
+      {hasLogo && <Logo />}
       <MainNavigation
         chainsRoutes={chainsRoutes}
         hasPremium={hasPremium}
@@ -40,6 +47,8 @@ export const SideBar = ({
         onDashboardClick={onDashboardClick}
         onDocsClick={onDocsClick}
         onSettingsClick={onSettingsClick}
+        onSignoutClick={handleDisconnect}
+        isMobileSiderBar={isMobileSiderBar}
       />
     </aside>
   );

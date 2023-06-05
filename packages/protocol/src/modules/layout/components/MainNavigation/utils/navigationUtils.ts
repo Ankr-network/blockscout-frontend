@@ -12,6 +12,7 @@ import {
   Wallet,
   AdvancedApi,
   BoldAdvancedApi,
+  Logout,
 } from '@ankr.com/ui';
 import { Diamonds } from 'uiKit/Icons/Diamonds';
 import { t } from '@ankr.com/common';
@@ -140,6 +141,16 @@ export const getSettingList = (
   },
 ];
 
+export const getLogoutItem = (onClick: () => void): NavigationItem[] => [
+  {
+    StartIcon: Logout,
+    ActiveIcon: Logout,
+    label: t('main-navigation.logout'),
+    isEnabled: true,
+    onClick,
+  },
+];
+
 export const getNavigationList = ({
   chainsRoutes,
   isLoggedIn,
@@ -159,11 +170,12 @@ export const getExternalButtonProps = ({
   isActive,
   isComingSoon,
   isDisabled,
+  isEnabled,
   ...props
 }: NavigationItem): ButtonProps<'a', { component: 'a' }> => ({
   ...props,
   component: 'a',
-  disabled: !isComingSoon && (!props.href || isDisabled),
+  disabled: !isEnabled && !isComingSoon && (!props.href || isDisabled),
   href: props.href,
   key: props.label,
   onClick: props.onClick,
@@ -179,13 +191,14 @@ export const getCommonButtonProps = (
     isActive,
     isComingSoon,
     isDisabled,
+    isEnabled,
     ...props
   }: NavigationItem,
   activeClassName: string,
 ): ButtonProps<NavLink, NavLinkProps> => ({
   ...props,
   activeClassName,
-  disabled: !isComingSoon && (!props.href || isDisabled),
+  disabled: !isEnabled && !isComingSoon && (!props.href || isDisabled),
   isActive,
   key: props.label,
   onClick: props.onClick,

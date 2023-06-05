@@ -1,12 +1,12 @@
-import { Button, Fade, Menu, MenuItem } from '@mui/material';
 import { useCallback } from 'react';
-
+import { Button, Fade, Menu, MenuItem } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { WalletIcon } from '@ankr.com/ui';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { useStyles } from '../useStyles';
-import { WalletIcon } from '@ankr.com/ui';
 
 interface ConnectedButtonProps {
   isMobile: boolean;

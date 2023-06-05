@@ -1,7 +1,8 @@
-import { Box, Button, MenuItem, Typography } from '@mui/material';
-import { Google, WalletIcon, Logout } from '@ankr.com/ui';
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
+import { Box, Button, MenuItem, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { Google, WalletIcon, Logout } from '@ankr.com/ui';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
@@ -10,15 +11,18 @@ import { useSignupButtonStyles } from './useSignupButtonStyles';
 import { shrinkEmailAddress } from './SignupButtonUtils';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { SignupMenu } from './SignupMenu';
-import { t } from '@ankr.com/common';
 import { SignupDialog } from '../ConnectButton/UnconnectedButton/SignupDialog';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 
 interface SignupButtonProps {
   isMobile?: boolean;
+  isMobileSideBar?: boolean;
 }
 
-export const SignupButton = ({ isMobile }: SignupButtonProps) => {
+export const SignupButton = ({
+  isMobile = false,
+  isMobileSideBar = false,
+}: SignupButtonProps) => {
   const {
     hasOauthLogin,
     hasWeb3Connection,
@@ -32,7 +36,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
   } = useAuth();
   const history = useHistory();
 
-  const { classes } = useSignupButtonStyles(!!isMobile);
+  const { classes } = useSignupButtonStyles({ isMobile, isMobileSideBar });
   const { open, anchorEl, handleOpen, handleClose } = useMenu();
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -52,7 +56,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
 
   let desktopButtonContent = (
     <>
-      {!isMobile && (
+      {!isMobile && !isMobileSideBar && (
         <WalletIcon icon={walletMeta?.icon} className={classes.walletIcon} />
       )}
       {shrinkAddress(address)}
@@ -71,7 +75,9 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
   if (hasOauthLogin && !hasWeb3Connection) {
     desktopButtonContent = (
       <>
-        {!isMobile && <Google className={classes.walletIcon} />}
+        {!isMobile && !isMobileSideBar && (
+          <Google className={classes.walletIcon} />
+        )}
         {shrinkEmailAddress(email)}
       </>
     );
@@ -231,7 +237,7 @@ export const SignupButton = ({ isMobile }: SignupButtonProps) => {
         <div className={classes.desktopButtonContent}>
           {desktopButtonContent}
         </div>
-        {mobileButtonContent}
+        {!isMobileSideBar && mobileButtonContent}
       </Button>
       <SignupMenu
         isOpened={open}

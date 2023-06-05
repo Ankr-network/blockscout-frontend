@@ -14,12 +14,19 @@ import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface IBaseNavButtonProps {
   item: NavigationItem;
+  isMobileSiderBar?: boolean;
 }
 
-export const BaseNavButton = ({ item }: IBaseNavButtonProps) => {
+export const BaseNavButton = ({
+  item,
+  isMobileSiderBar = false,
+}: IBaseNavButtonProps) => {
   const { isLightTheme } = useThemes();
 
-  const { classes, cx } = useBaseNavButtonStyles(isLightTheme);
+  const { classes, cx } = useBaseNavButtonStyles({
+    isLightTheme,
+    isMobileSiderBar,
+  });
 
   const { label, href, isComingSoon, StartIcon, ActiveIcon, isDisabled } = item;
 

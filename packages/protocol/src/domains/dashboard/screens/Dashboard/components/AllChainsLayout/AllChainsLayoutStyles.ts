@@ -14,7 +14,7 @@ export const useAllChainsLayoutStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('xl')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',
-      gridTemplateRows: '282px 176px 289px',
+      gridTemplateRows: '282px 190px repeat(2, 289px)',
       gridGap: theme.spacing(3),
       gridTemplateAreas: `
         "requests    requests"

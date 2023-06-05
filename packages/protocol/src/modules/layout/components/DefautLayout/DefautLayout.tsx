@@ -6,7 +6,6 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
-import { MobileNavigation } from '../MobileNavigation';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
@@ -24,7 +23,6 @@ export interface ILayoutProps {
   hasNoReactSnap?: boolean;
   hasError?: boolean;
   hasGradient?: boolean;
-  hasPaddingBottom?: boolean;
   isChainItemPage?: boolean;
 }
 
@@ -34,14 +32,12 @@ export const DefaultLayout = ({
   hasNoReactSnap = false,
   hasError = false,
   hasGradient = false,
-  hasPaddingBottom = true,
   isChainItemPage,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
   const { classes } = useStyles({
     hasGradient: hasGradient || hasError,
-    hasPaddingBottom,
     isLightTheme,
   });
   const { isLoggedIn, loading, hasPremium } = useAuth();
@@ -55,6 +51,7 @@ export const DefaultLayout = ({
         isLoggedIn={isLoggedIn}
         hasPremium={hasPremium}
         loading={loading}
+        hasLogo
       />
       <div className={classes.body}>
         {!hasError && (
@@ -63,7 +60,13 @@ export const DefaultLayout = ({
             isChainItemPage={isChainItemPage}
           />
         )}
-        <MobileHeader className={classes.mobileHeader} />
+        <MobileHeader
+          className={classes.mobileHeader}
+          chainsRoutes={chainsRoutes}
+          isLoggedIn={isLoggedIn}
+          hasPremium={hasPremium}
+          loading={loading}
+        />
         <Container disableGutters={disableGutters} className={classes.main}>
           <div className={classes.mobileBreadcrumbs}>
             <Breadcrumbs />
@@ -75,12 +78,6 @@ export const DefaultLayout = ({
         <TwoFADialog />
         <NegativeBalanceTermsOfServicesDialog />
       </div>
-      <MobileNavigation
-        chainsRoutes={chainsRoutes}
-        isLoggedIn={isLoggedIn}
-        loading={loading}
-        hasPremium={hasPremium}
-      />
     </div>
   );
 };

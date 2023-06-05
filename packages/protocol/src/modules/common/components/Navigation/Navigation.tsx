@@ -6,7 +6,11 @@ import {
 } from './BaseNavButton/BaseNavButtonTypes';
 import { useNavigationStyles } from './useNavigationStyles';
 
-export const Navigation = ({ items, loading }: NavigationProps) => {
+export const Navigation = ({
+  items,
+  loading,
+  isMobileSiderBar,
+}: NavigationProps) => {
   const { classes } = useNavigationStyles();
 
   return (
@@ -22,7 +26,13 @@ export const Navigation = ({ items, loading }: NavigationProps) => {
           );
         }
 
-        return <BaseNavButton key={`button-${item.label}`} item={item} />;
+        return (
+          <BaseNavButton
+            key={`button-${item.label}`}
+            item={item}
+            isMobileSiderBar={isMobileSiderBar}
+          />
+        );
       })}
     </nav>
   );

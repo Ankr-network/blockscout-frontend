@@ -1,10 +1,12 @@
-import { t } from '@ankr.com/common';
-import { Divider, Typography } from '@mui/material';
-import { Navigation } from 'modules/common/components/Navigation';
 import { useMemo } from 'react';
+import { Divider, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+
+import { Navigation } from 'modules/common/components/Navigation';
 import {
   getCommonMenuList,
   getEndpointsList,
+  getLogoutItem,
   getMenuList,
   getSettingList,
 } from './utils/navigationUtils';
@@ -15,10 +17,12 @@ interface IMainNavigationProps {
   isLoggedIn: boolean;
   hasPremium: boolean;
   loading: boolean;
+  isMobileSiderBar: boolean;
   onAAPIClick: () => void;
   onDashboardClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
+  onSignoutClick: () => void;
 }
 
 export const MainNavigation = ({
@@ -26,10 +30,12 @@ export const MainNavigation = ({
   isLoggedIn,
   hasPremium,
   loading,
+  isMobileSiderBar,
   onAAPIClick,
   onDashboardClick,
   onDocsClick,
   onSettingsClick,
+  onSignoutClick,
 }: IMainNavigationProps) => {
   const endpointsItems = useMemo(
     () => getEndpointsList({ chainsRoutes, onAAPIClick }),
@@ -51,20 +57,54 @@ export const MainNavigation = ({
     [onSettingsClick],
   );
 
-  const { classes } = useMainNavigationStyles();
+  const logoutItems = useMemo(
+    () => getLogoutItem(onSignoutClick),
+    [onSignoutClick],
+  );
+
+  const { classes } = useMainNavigationStyles(isMobileSiderBar);
 
   return (
     <div className={classes.root}>
-      {hasPremium && <Navigation loading={loading} items={commonItem} />}
-      <Typography className={classes.tip}>
-        {t('main-navigation.endpoints')}
-      </Typography>
-      <Navigation loading={loading} items={endpointsItems} />
-      <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
-      <Navigation loading={loading} items={menuItems} />
-      <div className={classes.setting}>
-        <Navigation loading={loading} items={settingItems} />
+      <div>
+        {hasPremium && (
+          <Navigation
+            loading={loading}
+            items={commonItem}
+            isMobileSiderBar={isMobileSiderBar}
+          />
+        )}
+        <Typography className={classes.tip}>
+          {t('main-navigation.endpoints')}
+        </Typography>
+        <Navigation
+          loading={loading}
+          items={endpointsItems}
+          isMobileSiderBar={isMobileSiderBar}
+        />
+        <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
+        <Navigation
+          loading={loading}
+          items={menuItems}
+          isMobileSiderBar={isMobileSiderBar}
+        />
+        <div className={classes.setting}>
+          <Navigation
+            loading={loading}
+            items={settingItems}
+            isMobileSiderBar={isMobileSiderBar}
+          />
+        </div>
       </div>
+      {isLoggedIn && isMobileSiderBar && (
+        <div className={classes.logout}>
+          <Navigation
+            loading={loading}
+            items={logoutItems}
+            isMobileSiderBar={isMobileSiderBar}
+          />
+        </div>
+      )}
     </div>
   );
 };

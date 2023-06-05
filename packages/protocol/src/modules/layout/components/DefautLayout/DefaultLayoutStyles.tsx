@@ -3,7 +3,6 @@ import { makeStyles } from 'tss-react/mui';
 
 import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
-import { MOBILE_NAVIGATION_HEIGHT } from '../MobileNavigation';
 import { SIDEBAR_WIDTH } from '../SideBar';
 import { premiumBackground } from 'uiKit/Theme/themeUtils';
 
@@ -11,12 +10,11 @@ export const MOBILE_LAYOUT_PADDING = 30;
 
 interface Props {
   hasGradient?: boolean;
-  hasPaddingBottom?: boolean;
   isLightTheme: boolean;
 }
 
 export const useStyles = makeStyles<Props>()(
-  (theme: Theme, { hasGradient, hasPaddingBottom, isLightTheme }: Props) => ({
+  (theme: Theme, { hasGradient, isLightTheme }: Props) => ({
     root: {
       display: 'flex',
       minWidth: 375,
@@ -46,13 +44,11 @@ export const useStyles = makeStyles<Props>()(
     },
     main: {
       flexGrow: 1,
-      paddingBottom: hasPaddingBottom ? theme.spacing(2 * 6) : 0,
       position: 'relative',
       paddingTop: HEADER_HEIGHT,
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
-        paddingBottom: 48 + MOBILE_NAVIGATION_HEIGHT,
       },
     },
     header: {
