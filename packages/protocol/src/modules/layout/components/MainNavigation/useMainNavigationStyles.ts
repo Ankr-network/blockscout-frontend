@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useMainNavigationStyles = makeStyles<boolean>()(
-  (theme, isMobile) => ({
+  (theme, isMobileSiderBar) => ({
     root: {
       height: '100%',
       display: 'flex',
@@ -9,19 +9,22 @@ export const useMainNavigationStyles = makeStyles<boolean>()(
       justifyContent: 'space-between',
     },
     tip: {
-      fontSize: isMobile ? 14 : 12,
+      fontSize: isMobileSiderBar ? 14 : 12,
       fontWeight: 700,
       color: theme.palette.grey[500],
       margin: theme.spacing(3),
       display: 'block',
     },
     setting: {
-      position: isMobile ? 'relative' : 'absolute',
+      position: isMobileSiderBar ? 'relative' : 'absolute',
       bottom: 0,
       width: '100%',
-      borderTop: isMobile ? `1px solid ${theme.palette.grey[100]}` : 'none',
-      marginTop: isMobile ? theme.spacing(3) : 0,
-      paddingTop: isMobile ? theme.spacing(3) : 0,
+      borderTop: isMobileSiderBar
+        ? `1px solid ${theme.palette.grey[100]}`
+        : 'none',
+      marginTop: isMobileSiderBar ? theme.spacing(3) : 0,
+      paddingTop: isMobileSiderBar ? theme.spacing(3) : 0,
+      paddingRight: isMobileSiderBar ? 0 : theme.spacing(8),
     },
     logout: {
       width: '100%',
