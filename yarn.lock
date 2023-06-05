@@ -10459,6 +10459,11 @@ core-js@^3.0.4, core-js@^3.8.2:
   resolved "https://registry.npmjs.org/core-js/-/core-js-3.25.0.tgz"
   integrity sha512-CVU1xvJEfJGhyCpBrzzzU1kjCfgsGUxhEvwUV2e/cOedYWHdmluamx+knDnmhqALddMG16fZvIqvs9aijsHHaA==
 
+core-js@^3.30.2:
+  version "3.30.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.30.2.tgz#6528abfda65e5ad728143ea23f7a14f0dcf503fc"
+  integrity sha512-uBJiDmwqsbJCWHAwjrx3cvjbMXP7xD72Dmsn5LOJpiRmE3WbBbN5rCqQ2Qh6Ek6/eOrjlWngEynBWo4VxerQhg==
+
 core-js@^3.6.5:
   version "3.19.3"
   resolved "https://registry.npmjs.org/core-js/-/core-js-3.19.3.tgz"
