@@ -1,5 +1,7 @@
-import { ChainsItemQueryProps } from 'domains/chains/components/ChainsItem';
-import { ChainsItemBase } from 'domains/chains/components/ChainsItemBase';
+import {
+  ChainsItemBase,
+  ChainsItemQueryProps,
+} from 'domains/chains/components/ChainsItemBase';
 import { usePrivateChainsItem } from 'domains/chains/screens/Chains/components/PrivateChains/components/PrivateChainCard/hooks/usePrivateChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
 import { ChainItemLink } from '../../../ChainItem/ChainItemLink';
