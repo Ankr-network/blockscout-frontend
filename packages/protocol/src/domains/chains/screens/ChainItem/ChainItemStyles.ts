@@ -16,4 +16,13 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       paddingBottom: theme.spacing(2 * 3.5),
     },
   },
+  banner: {
+    maxWidth: CONTENT_WIDTH,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
+    backgroundImage: 'none',
+    marginBottom: theme.spacing(10),
+    display: 'block',
+  },
 }));
