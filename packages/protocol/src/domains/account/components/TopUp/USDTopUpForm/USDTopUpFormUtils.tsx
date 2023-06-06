@@ -85,6 +85,7 @@ export const useRenderForm = (
               currency={USD_CURRENCY}
               validate={validateAmount}
               maxLength={6}
+              isUSD
             />
             <RateBlock
               value={values[AmountInputField.amount]}
