@@ -8,7 +8,7 @@ export const useTooltipWrapperStyles = makeStyles()((theme: Theme) => ({
     alignItems: 'center',
     cursor: 'pointer',
     '&:hover $informationIcon': {
-      color: 'black',
+      color: theme.palette.common.black,
     },
   },
   informationIcon: {

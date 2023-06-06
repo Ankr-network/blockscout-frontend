@@ -33,12 +33,14 @@ export const {
 
         const { groups } = await service.getAccountGateway().getUserGroups();
 
+        if (groups.length === 0) {
+          return { data: groups };
+        }
+
         const personalUserAddress = getAddress(getState() as RootState);
         const personalUserGroup = getPersonalUserGroup(personalUserAddress);
 
-        const groupsWithPersonal = [personalUserGroup, ...groups];
-
-        return { data: groupsWithPersonal };
+        return { data: [personalUserGroup, ...groups] };
       },
     }),
   }),
