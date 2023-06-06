@@ -12,4 +12,7 @@ export const useSettingsTabsStyles = makeStyles()(theme => ({
       borderRadius: 15,
     },
   },
+  disabled: {
+    opacity: 0.5,
+  },
 }));

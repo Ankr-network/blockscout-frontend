@@ -70,7 +70,8 @@
     "not-supported-chain": "Unsupported chain",
     "permission": "You do not have enough permissions to get all the data",
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
-    "two-fa": "Two factor authentication code is required"
+    "two-fa": "Two factor authentication code is required",
+    "hubspot": "Hubspot form. No such element {selector}"
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -905,9 +906,20 @@
     },
     "settings-tab": {
       "general": "General",
-      "my-company": "My Company"
+      "my-company": "My Company",
+      "my-business": "My Business"
     },
     "remove-from-team": "Remove from team",
+    "business-settings": {
+      "title": "Create your business",
+      "description": "Create your own business and invite users to your team",
+      "button": "Create business account",
+      "invite-users": {
+        "title": "Invite new users to Ankr Team",
+        "description": "Invite users to the team you already created",
+        "button": "Invite new users"
+      }
+    },
     "email-banner": {
       "add-step": {
         "title": "Add your Email",

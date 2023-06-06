@@ -53,15 +53,16 @@ export const useUpgradePlanDialogStyles =
     dialogContainerWhite: {
       maxWidth: 600,
       backgroundColor: theme.palette.common.white,
-      color: 'black',
-      fill: 'black',
+      color: theme.palette.common.black,
+      fill: theme.palette.common.black,
+
       '& button': {
         '&:hover': {
           backgroundColor: 'lightgray',
         },
       },
       '& svg': {
-        color: 'black',
+        color: theme.palette.common.black,
       },
     },
     dialogTitleBlack: {
