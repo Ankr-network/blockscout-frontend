@@ -1090,16 +1090,16 @@
             "extra": "Top up your balance to continue using our service."
           },
           "premium-active": {
-            "extra": "Enough for {quantifier}{time} {period}, based on your current usage."
+            "extra": "High balance range (≈{requests, number, ::compact-short} requests available) — no worry in the world."
+          },
+          "premium-warning": {
+            "extra": "Medium balance range (≈{requests, number, ::compact-short} requests available) — topping up might be a good idea."
+          },
+          "premium-min-balance": {
+            "extra": "Low balance range (≈{requests, number, ::compact-short} requests available) — topping up is required to prevent account suspension."
           },
           "premium-inactive": {
             "extra": "Top up your balance to continue using our service."
-          },
-          "premium-warning": {
-            "extra": "Enough for just {quantifier}{time} {period}, based on your current usage."
-          },
-          "premium-warning-zero": {
-            "extra": "Based on the current usage, it may not be enough for your needs. Top Up your balance to continue taking full advantage of our service."
           },
           "periods": {
             "day": "day{plural}",

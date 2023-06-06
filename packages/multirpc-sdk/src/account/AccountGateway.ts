@@ -11,7 +11,6 @@ import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
   IBalance,
-  IBalanceEndTimeResult,
   ICanPayByCardResponse,
   IDailyChargingParams,
   IDailyChargingResponse,
@@ -37,7 +36,6 @@ import {
   IApiUserGroupParams,
   IApiGetUserRequestsParams,
   IApiCancelSubscriptionRequestParams,
-  IApiBalanceEndTimeRequestParams,
   IGetGroupJwtRequestParams,
   IGetGroupJwtResponse,
   InitTwoFAResponse,
@@ -155,21 +153,6 @@ export class AccountGateway {
     );
 
     return response;
-  }
-
-  async getBalanceEndTime(
-    params: IApiBalanceEndTimeRequestParams,
-  ): Promise<number> {
-    const {
-      data: { NumberOfDaysEstimate },
-    } = await this.api.get<IBalanceEndTimeResult>(
-      '/api/v1/auth/numberOfDaysEstimate',
-      {
-        params,
-      },
-    );
-
-    return NumberOfDaysEstimate;
   }
 
   async getPrivateStats(

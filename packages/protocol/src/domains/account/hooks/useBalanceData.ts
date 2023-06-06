@@ -1,12 +1,11 @@
 import { Balance } from 'domains/account/actions/balance/types';
-import { BalanceData } from '../types';
+import { BalanceData } from '../screens/AccountDetails/components/Balance/types';
 import { Currency } from 'domains/account/types';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
-import { useAccountType } from './useAccountType';
+import { useAccountType } from './useAccountType/useAccountType';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
-import { useBalanceEndTime } from 'domains/account/hooks/useBalanceEndTime';
-import { useCurrency } from './useCurrency';
+import { useCurrency } from '../screens/AccountDetails/components/Balance/hooks/useCurrency';
 
 type BalanceMap = Record<
   Currency,
@@ -19,8 +18,7 @@ const balancesMap: BalanceMap = {
 };
 
 export const useBalanceData = (): BalanceData => {
-  const { isLoggedIn, loading: isConnecting, premiumUntil } = useAuth();
-  const isConnected = isLoggedIn && !isConnecting;
+  const { loading: isConnecting, premiumUntil } = useAuth();
 
   const {
     isLoadingInitially: isBalanceLoading,
@@ -28,22 +26,16 @@ export const useBalanceData = (): BalanceData => {
     ...balance
   } = useBalance();
 
-  const { endTime: balanceEndTime, isLoading: isBalanceEndTimeLoading } =
-    useBalanceEndTime(isConnected);
-
   const [currency, switchCurrency] = useCurrency();
 
-  const accountType = useAccountType({
-    ankrBalance: balance.ankrBalance,
-    isConnected,
-  });
+  const accountType = useAccountType(balance.creditBalance);
 
   return {
     accountType,
     balance: balance[balancesMap[currency]],
-    balanceEndTime,
+    creditBalance: balance.creditBalance,
     currency,
-    isLoading: isConnecting || isBalanceLoading || isBalanceEndTimeLoading,
+    isLoading: isConnecting || isBalanceLoading,
     premiumUntil,
     status: getBalanceStatus(accountType),
     switchCurrency,
