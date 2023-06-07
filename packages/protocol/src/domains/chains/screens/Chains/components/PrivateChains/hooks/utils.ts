@@ -1,12 +1,9 @@
+import { Chain, SortType } from 'domains/chains/types';
 import { SortPrivateChainsParams } from '../PrivateChainsTypes';
-import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
-import { SortType, Chain } from 'domains/chains/types';
+import { aggregateTotalRequestsNumber } from '../utils/aggregateTotalRequestsNumber';
 import { chainsUsageSorter } from '../../PublicChains/hooks/utils';
-
-const getChainId = ({
-  id,
-  chainWithoutMainnet: { id: frontChainId } = {},
-}: Chain) => frontChainId || id;
+import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { getChainIDs } from '../utils/getChainIDs';
 
 export const sortPrivateChains = ({
   chains: rawChains = [],
@@ -18,8 +15,8 @@ export const sortPrivateChains = ({
   const [chains, customizedChains] = extractCustomizedChains(rawChains);
 
   const privateChainsUsageSorter = (a: Chain, b: Chain) =>
-    (stats[getChainId(b)]?.total_requests || 0) -
-    (stats[getChainId(a)]?.total_requests || 0);
+    aggregateTotalRequestsNumber({ ids: getChainIDs(b), stats }) -
+    aggregateTotalRequestsNumber({ ids: getChainIDs(a), stats });
 
   const noStatsSorter =
     sortType === SortType.Usage ? chainsUsageSorter : () => 0;

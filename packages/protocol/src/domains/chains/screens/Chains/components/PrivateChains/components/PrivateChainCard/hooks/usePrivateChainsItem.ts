@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { Chain } from 'domains/chains/types';
+import { getChainIDs } from '../../../utils/getChainIDs';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from './usePrivateStats';
 
 export interface ChainsItemParams {
@@ -9,14 +11,13 @@ export interface ChainsItemParams {
   isMMIndex?: boolean;
 }
 
-export const usePrivateChainsItem = ({
-  chain: { id, chainWithoutMainnet: { id: frontChainId } = {} },
-}: ChainsItemParams) => {
+export const usePrivateChainsItem = ({ chain }: ChainsItemParams) => {
   const { hasConnectWalletMessage } = useAuth();
 
-  const chainId = frontChainId || id;
+  const ids = useMemo(() => getChainIDs(chain), [chain]);
   const [privateTotalRequests = 0, arePrivateStatsLoading] =
-    usePrivateStats(chainId);
+    usePrivateStats(ids);
+
   return {
     totalRequests: new BigNumber(privateTotalRequests),
     loading: arePrivateStatsLoading,
