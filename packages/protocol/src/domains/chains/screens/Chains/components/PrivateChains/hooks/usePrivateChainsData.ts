@@ -8,7 +8,7 @@ import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainI
 import { Timeframe } from 'domains/chains/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
-export const usePrivateChainsData = () => {
+export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const { timeframe, timeframeTabs } = useTimeframe(Timeframe.Month);
   const { loading: isConnecting, hasWeb3Connection } = useAuth();
 
@@ -21,7 +21,7 @@ export const usePrivateChainsData = () => {
   const { arePrivateStatsLoading: isLoading, privateStatsError: error } =
     usePrivateStats({
       interval: timeframeToIntervalMap[timeframe],
-      userEndpointToken,
+      userEndpointToken: ignoreJwtManager ? undefined : userEndpointToken,
     });
 
   const [sortType, setSortType] = useSortType();

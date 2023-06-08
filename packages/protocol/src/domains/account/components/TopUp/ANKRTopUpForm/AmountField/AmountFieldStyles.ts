@@ -1,12 +1,13 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-interface IHeight {
+interface AmountFieldStylesProps {
+  pristine?: boolean;
   size: 'm' | 'l';
+  isUSD?: boolean;
 }
 
-export const useStyles = makeStyles<IHeight>()(
-  (theme: Theme, props: IHeight) => ({
+export const useAmountFieldStyles = makeStyles<AmountFieldStylesProps>()(
+  (theme, { isUSD, pristine, size }) => ({
     formGroup: {
       [theme.breakpoints.down('sm')]: {
         width: 'auto',
@@ -16,7 +17,7 @@ export const useStyles = makeStyles<IHeight>()(
     inputBase: {
       fontSize: 14,
       borderRadius: 12,
-      maxHeight: props.size === 'l' ? 48 : 44,
+      maxHeight: size === 'l' ? 48 : 44,
       '& + p': {
         fontSize: 12,
         lineHeight: 1.6,
@@ -24,11 +25,25 @@ export const useStyles = makeStyles<IHeight>()(
       },
     },
     input: {
-      minHeight: props.size === 'l' ? 48 : 44,
+      minHeight: size === 'l' ? 48 : 44,
+
+      ...(isUSD
+        ? {
+            color: theme.palette.grey[pristine ? 400 : 900],
+          }
+        : {}),
     },
     subtitle: {
       fontSize: 16,
       fontWeight: 400,
     },
+    disabled: isUSD
+      ? {
+          '&&': {
+            color: theme.palette.grey[900],
+            WebkitTextFillColor: theme.palette.grey[900],
+          },
+        }
+      : {},
   }),
 );

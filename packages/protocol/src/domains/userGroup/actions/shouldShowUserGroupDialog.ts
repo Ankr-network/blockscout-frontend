@@ -26,10 +26,18 @@ export const {
           return { data: false };
         }
 
-        const { hasWeb3Autoconnect, address: userAddress } =
-          selectAuthData(state);
+        const {
+          hasWeb3Autoconnect,
+          address: userAddress,
+          hasWeb3Connection,
+          hasOauthLogin,
+        } = selectAuthData(state);
         const { shouldRemind, selectedGroupAddress } =
           selectUserGroupConfigByAddress(state);
+
+        if (!hasOauthLogin && !hasWeb3Connection) {
+          return { data: false };
+        }
 
         const { data: cachedUserGroups } = userGroupFetchGroups.select()(state);
 
