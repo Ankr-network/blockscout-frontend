@@ -11,14 +11,14 @@ export interface ChainsItemParams {
 }
 
 export const usePublicChainsItem = ({
-  chain: { id, chainWithoutMainnet: { id: frontChainId } = {} },
+  chain: { id },
   timeframe,
 }: ChainsItemParams) => {
   const { data, isLoading: arePublicStatsLoading } =
     useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
 
   return {
-    totalRequests: new BigNumber(data?.[frontChainId ?? id] ?? 0),
+    totalRequests: new BigNumber(data?.[id] ?? 0),
     loading: arePublicStatsLoading,
   };
 };
