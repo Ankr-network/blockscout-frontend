@@ -5,23 +5,24 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AccountMarker } from 'domains/account/components/AccountMarker';
 import { AccountType, BalanceStatus } from 'domains/account/types';
 import { getDescriptions } from './utils/getDescriptions';
+import { parseDays } from './utils/parseDays';
 
 import { useStyles } from './DetailsStyles';
 
 export interface DetailsProps {
   accountType: AccountType;
+  balanceEndTime: number;
   premiumUntil?: Date;
   status: BalanceStatus;
   usdBalance: BigNumber;
-  creditBalance: BigNumber;
 }
 
 export const Details = ({
   accountType,
+  balanceEndTime,
   premiumUntil,
   status,
   usdBalance,
-  creditBalance,
 }: DetailsProps) => {
   const hasPremium = !!premiumUntil;
 
@@ -29,9 +30,9 @@ export const Details = ({
 
   const [description, extraDescription] = getDescriptions({
     accountType,
+    endTime: parseDays(balanceEndTime),
     premiumUntil,
     usdBalance,
-    creditBalance,
   });
 
   const descriptions = (

@@ -6,10 +6,10 @@ export type BalanceData = {
   accountType: AccountType;
   balance: BigNumber;
   currency: Currency;
+  balanceEndTime: number;
   isLoading?: boolean;
   premiumUntil?: Date;
   status: BalanceStatus;
   switchCurrency: () => void;
   usdBalance: BigNumber;
-  creditBalance: BigNumber;
 };

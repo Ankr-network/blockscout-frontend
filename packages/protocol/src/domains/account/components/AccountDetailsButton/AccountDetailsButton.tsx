@@ -9,7 +9,7 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { AccountMarker } from '../AccountMarker';
 import { Balance } from '../Balance';
-import { useAccountData } from '../../hooks/useAccountData';
+import { useAccountData } from './hooks/useAccountData';
 import { useStyles } from './AccountDetailsButtonStyles';
 
 export interface AccountDetailsButtonProps {
@@ -35,8 +35,6 @@ export const AccountDetailsButton = ({
     isMobileSideBar,
   });
 
-  const hasEndIcon = !showLoading && isStatusTransitionActive;
-
   return (
     <LoadableButton<'a', LinkProps>
       className={classes.accountDetailsButtonRoot}
@@ -44,7 +42,10 @@ export const AccountDetailsButton = ({
       loading={showLoading}
       to={AccountRoutesConfig.accountDetails.path}
       variant="text"
-      endIcon={hasEndIcon && <CircularProgress size={20} />}
+      endIcon={
+        !showLoading &&
+        isStatusTransitionActive && <CircularProgress size={20} />
+      }
     >
       <div className={classes.content}>
         <GuardUserGroup blockName={statusBlockName}>
