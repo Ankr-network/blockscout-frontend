@@ -19,7 +19,7 @@ export const PrivateChains = () => {
     searchContent,
     setSearchContent,
     timeframe,
-  } = usePrivateChainsData();
+  } = usePrivateChainsData(true);
 
   const { processedChains } = usePrivateChains({
     allChains,
