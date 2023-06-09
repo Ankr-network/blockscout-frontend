@@ -5,7 +5,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { ProjectsStatsParams } from '../types';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { selectProjects } from 'domains/jwtToken/store/selectors';
+import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { web3Api } from 'store/queries';
 
 export interface AllProjectsStats {
@@ -37,7 +37,7 @@ export const {
           const service = MultiService.getService();
           const api = service.getAccountGateway();
 
-          const projects = selectProjects(getState() as RootState);
+          const projects = selectJwtTokens(getState() as RootState);
 
           const data = await Promise.all(
             projects.map(project =>

@@ -5,24 +5,28 @@ import {
   useDeleteProject,
 } from 'domains/jwtToken/hooks/useDeleteProject';
 import { useDeleteProjectDialogStyles } from './useDeleteProjectDialogStyles';
-import { DeleteProjectDialogContent } from '../DeleteProjectDialogContent/DeleteProjectDialogContent';
+import { DeleteProjectContent } from '../ProjectDialogContent/DeleteProjectContent';
+import { FailedContent } from '../ProjectDialogContent/FailedContent';
 
 interface IDeleteProjectDialogProps {
-  viewTokenIndex: number;
-  selectedTokenIndex: number;
-  setSelectedIndex: (index: number) => void;
+  tokenIndex: number;
+  onSuccess: () => void;
   open: boolean;
   onClose: () => void;
 }
 
 export const DeleteProjectDialog = ({
-  viewTokenIndex,
-  selectedTokenIndex,
-  setSelectedIndex,
+  tokenIndex,
+  onSuccess,
   open,
   onClose,
 }: IDeleteProjectDialogProps) => {
   const { classes } = useDeleteProjectDialogStyles();
+
+  const handleSuccess = useCallback(() => {
+    onSuccess();
+    onClose();
+  }, [onSuccess, onClose]);
 
   const {
     isLoading,
@@ -30,17 +34,17 @@ export const DeleteProjectDialog = ({
     deleteProjectStep,
     setDeleteProjectStep,
     handleDelete,
-  } = useDeleteProject(
-    viewTokenIndex,
-    selectedTokenIndex,
-    onClose,
-    setSelectedIndex,
-  );
+  } = useDeleteProject(tokenIndex, handleSuccess);
+
+  const isFailedStep = deleteProjectStep === DeleteProjectStep.failed;
 
   const handleClose = useCallback(() => {
-    setDeleteProjectStep(DeleteProjectStep.initial);
+    if (isFailedStep) {
+      setDeleteProjectStep(DeleteProjectStep.initial);
+    }
+
     onClose();
-  }, [setDeleteProjectStep, onClose]);
+  }, [setDeleteProjectStep, onClose, isFailedStep]);
 
   return (
     <Dialog
@@ -50,15 +54,22 @@ export const DeleteProjectDialog = ({
       onClose={onClose}
       title={title}
       titleClassName={classes.title}
-      shouldHideCloseButton={deleteProjectStep === DeleteProjectStep.failed}
+      shouldHideCloseButton={isFailedStep}
     >
-      <DeleteProjectDialogContent
-        isLoading={isLoading}
-        deleteProjectStep={deleteProjectStep}
-        handleDelete={handleDelete}
-        handleCloseInitContent={onClose}
-        handleCloseFailedContent={handleClose}
-      />
+      {deleteProjectStep === DeleteProjectStep.initial && (
+        <DeleteProjectContent
+          isLoading={isLoading}
+          handleDelete={handleDelete}
+          onClose={handleClose}
+        />
+      )}
+      {isFailedStep && (
+        <FailedContent
+          isLoading={isLoading}
+          onClose={handleClose}
+          onTryAgain={handleDelete}
+        />
+      )}
     </Dialog>
   );
 };

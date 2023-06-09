@@ -1,13 +1,19 @@
 import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
+
 import { Dialog } from 'uiKit/Dialog';
-import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+import {
+  jwtTokenIntlRoot,
+  renderTokenReview,
+} from 'domains/jwtToken/utils/utils';
 import { useAddProjectDialogStyles } from './useAddProjectDialogStyles';
 import {
   AddProjectStep,
   useAddProject,
 } from 'domains/jwtToken/hooks/useAddProject';
-import { AddProjectDialogContent } from '../AddProjectDialogContent/AddProjectDialogContent';
+import { AddProjectContent } from '../ProjectDialogContent';
+import { SuccessContent } from '../ProjectDialogContent/SuccessContent';
+import { FailedContent } from '../ProjectDialogContent/FailedContent';
 
 interface IAddProjectDialogProps {
   allowedAddProjectTokenIndex: number;
@@ -37,6 +43,8 @@ export const AddProjectDialog = ({
     setAddProjectStep(AddProjectStep.initial);
   }, [handleClose, setAddProjectStep]);
 
+  const isInitialStep = addProjectStep === AddProjectStep.initial;
+
   return (
     <Dialog
       maxPxWidth={600}
@@ -44,23 +52,33 @@ export const AddProjectDialog = ({
       open={isOpen}
       onClose={handleCloseDialog}
       title={t(`${jwtTokenIntlRoot}.${addProjectStep}.title`)}
+      shouldHideCloseButton={!isInitialStep}
       titleClassName={cx(
         classes.title,
-        addProjectStep === AddProjectStep.initial
-          ? classes.initial
-          : classes.status,
+        isInitialStep ? classes.initial : classes.status,
       )}
-      shouldHideCloseButton={addProjectStep !== AddProjectStep.initial}
     >
-      <AddProjectDialogContent
-        isLoading={isLoading}
-        projectName={projectName}
-        successProjectName={successProjectName}
-        userEndpointToken={userEndpointToken}
-        addProjectStep={addProjectStep}
-        handleCreate={handleCreate}
-        handleCloseDialog={handleCloseDialog}
-      />
+      {isInitialStep && (
+        <AddProjectContent
+          isLoading={isLoading}
+          projectName={projectName}
+          handleCreate={handleCreate}
+        />
+      )}
+      {addProjectStep === AddProjectStep.success && (
+        <SuccessContent
+          projectName={successProjectName}
+          jwtToken={renderTokenReview(userEndpointToken)}
+          onClick={handleCloseDialog}
+        />
+      )}
+      {addProjectStep === AddProjectStep.failed && (
+        <FailedContent
+          isLoading={isLoading}
+          onClose={handleCloseDialog}
+          onTryAgain={handleCreate}
+        />
+      )}
     </Dialog>
   );
 };

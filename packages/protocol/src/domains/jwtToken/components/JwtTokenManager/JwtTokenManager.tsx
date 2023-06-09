@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useJwtTokenManagerStyles } from './useJwtTokenManagerStyles';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
@@ -10,14 +10,19 @@ import { ViewProjectDialog } from '../ViewProjectDialog.tsx';
 import { JwtTokensScrollbar } from '../JwtTokensScrollbar';
 import { JwtTokenManagerSkeleton } from './JwtTokenManagerSkeleton';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { AddProject } from '../AddProject';
+import { Card } from '../Card';
 
 export const JwtTokenManager = () => {
   const { classes } = useJwtTokenManagerStyles();
 
-  const { tokenIndex: selectedTokenIndex, handleTokenIndexSelect } =
+  const { tokenIndex: selectedProjectIndex, handleSelectTokenIndex } =
     useSelectTokenIndex();
 
-  const [viewTokenIndex, setViewTokenIndex] = useState(selectedTokenIndex);
+  const [openedProjectIndex, setOpenedProjectIndex] =
+    useState(selectedProjectIndex);
 
   const {
     isLoading,
@@ -25,64 +30,94 @@ export const JwtTokenManager = () => {
     shouldShowTokenManager,
     allowedAddProjectTokenIndex,
     jwtTokens,
-    enableAddProject,
+    enableAddProject: canAddProject,
   } = useJwtTokenManager();
 
-  const shouldConnectWallet =
-    hasConnectWalletMessage && viewTokenIndex === PRIMARY_TOKEN_INDEX;
-
-  const { isOpened, onOpen, onClose } = useDialog();
+  const {
+    isOpened: isAddProjectDialogOpened,
+    onOpen: onOpenAddProjectDialog,
+    onClose: onAddProjectDialogClose,
+  } = useDialog();
 
   const {
     isOpened: isDeleteProjectOpened,
-    onOpen: onOpenDeleteProject,
-    onClose: onCloseDeleteProject,
+    onOpen: onDeleteProjectOpen,
+    onClose: onDeleteProjectClose,
   } = useDialog();
 
   const {
     isOpened: isViewProjectOpened,
-    onOpen: onOpenViewProject,
-    onClose: onCloseViewProject,
+    onOpen: onProjectOpen,
+    onClose: onProjectClose,
   } = useDialog();
 
-  const handleDeleteProject = useCallback(() => {
-    onCloseViewProject();
-    onOpenDeleteProject();
-  }, [onCloseViewProject, onOpenDeleteProject]);
+  const handleDeleteProjectOpen = useCallback(() => {
+    onProjectClose();
+    onDeleteProjectOpen();
+  }, [onProjectClose, onDeleteProjectOpen]);
+
+  const openedProject = useMemo(
+    () => jwtTokens.find(item => item.index === openedProjectIndex),
+    [jwtTokens, openedProjectIndex],
+  );
+
+  const handleDeleteProjectSuccess = useCallback(() => {
+    if (openedProjectIndex === selectedProjectIndex) {
+      handleSelectTokenIndex(PRIMARY_TOKEN_INDEX);
+    }
+  }, [openedProjectIndex, selectedProjectIndex, handleSelectTokenIndex]);
 
   if (isLoading) return <JwtTokenManagerSkeleton />;
 
   if (!shouldShowTokenManager) return null;
 
+  const shouldConnectWallet =
+    hasConnectWalletMessage && selectedProjectIndex === PRIMARY_TOKEN_INDEX;
+
   return (
     <div className={classes.root}>
-      <JwtTokensScrollbar
-        jwtTokens={jwtTokens}
-        selectedTokenIndex={selectedTokenIndex}
-        onOpen={onOpen}
-        setViewTokenIndex={setViewTokenIndex}
-        onOpenViewProject={onOpenViewProject}
-        handleTokenIndexSelect={handleTokenIndexSelect}
-        enableAddProject={enableAddProject}
-      />
+      <JwtTokensScrollbar jwtTokens={jwtTokens}>
+        {jwtTokens.map(token => {
+          const { index, userEndpointToken } = token;
+
+          return (
+            <Card
+              key={index}
+              isSelected={index === selectedProjectIndex}
+              tokenIndex={index}
+              userEndpointToken={userEndpointToken}
+              onProjectSelect={() => handleSelectTokenIndex(index)}
+              onProjectView={() => {
+                setOpenedProjectIndex(index);
+                onProjectOpen();
+              }}
+            />
+          );
+        })}
+        {canAddProject && (
+          <GuardUserGroup blockName={BlockWithPermission.JwtManager}>
+            <AddProject onOpen={onOpenAddProjectDialog} />
+          </GuardUserGroup>
+        )}
+      </JwtTokensScrollbar>
       <AddProjectDialog
         allowedAddProjectTokenIndex={allowedAddProjectTokenIndex}
-        isOpen={isOpened}
-        handleClose={onClose}
+        isOpen={isAddProjectDialogOpened}
+        handleClose={onAddProjectDialogClose}
       />
       <DeleteProjectDialog
-        viewTokenIndex={viewTokenIndex}
-        selectedTokenIndex={selectedTokenIndex}
-        setSelectedIndex={handleTokenIndexSelect}
         open={isDeleteProjectOpened}
-        onClose={onCloseDeleteProject}
+        tokenIndex={openedProjectIndex}
+        onSuccess={handleDeleteProjectSuccess}
+        onClose={onDeleteProjectClose}
       />
       <ViewProjectDialog
         shouldConnectWallet={shouldConnectWallet}
-        token={jwtTokens.find(item => item.index === viewTokenIndex)}
+        endpointToken={openedProject?.userEndpointToken}
+        tokenIndex={openedProject?.index}
         isOpened={isViewProjectOpened}
-        onClose={onCloseViewProject}
-        handleDeleteProject={handleDeleteProject}
+        onClose={onProjectClose}
+        handleDeleteProjectOpen={handleDeleteProjectOpen}
       />
     </div>
   );
