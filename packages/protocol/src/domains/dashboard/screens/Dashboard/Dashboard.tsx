@@ -64,6 +64,8 @@ export const Dashboard = () => {
 
   useLastMonthStats(Boolean(selectedChainId));
 
+  const selectProps = useSelectorVisibility();
+
   const { classes } = useDashboardStyles();
 
   const classNameMenuItem: string = classes.menuItemWrapper;
@@ -82,8 +84,6 @@ export const Dashboard = () => {
       horizontal: 'center',
     },
   };
-
-  const selectProps = useSelectorVisibility();
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>

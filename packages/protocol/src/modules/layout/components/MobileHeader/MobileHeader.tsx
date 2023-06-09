@@ -9,7 +9,6 @@ interface MobileHeaderProps {
   className?: string;
   chainsRoutes: string[];
   isLoggedIn: boolean;
-  hasPremium: boolean;
   loading: boolean;
 }
 
@@ -17,7 +16,6 @@ export const MobileHeader = ({
   className = '',
   chainsRoutes,
   isLoggedIn,
-  hasPremium,
   loading,
 }: MobileHeaderProps) => {
   const { classes, cx } = useStyles();
@@ -31,7 +29,6 @@ export const MobileHeader = ({
           <MobileMenu
             chainsRoutes={chainsRoutes}
             isLoggedIn={isLoggedIn}
-            hasPremium={hasPremium}
             loading={loading}
             hasLogo={false}
           />

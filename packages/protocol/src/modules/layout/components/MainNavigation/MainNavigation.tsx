@@ -15,7 +15,6 @@ import { useMainNavigationStyles } from './useMainNavigationStyles';
 interface IMainNavigationProps {
   chainsRoutes: string[];
   isLoggedIn: boolean;
-  hasPremium: boolean;
   loading: boolean;
   isMobileSiderBar: boolean;
   onAAPIClick: () => void;
@@ -28,7 +27,6 @@ interface IMainNavigationProps {
 export const MainNavigation = ({
   chainsRoutes,
   isLoggedIn,
-  hasPremium,
   loading,
   isMobileSiderBar,
   onAAPIClick,
@@ -67,7 +65,7 @@ export const MainNavigation = ({
   return (
     <div className={classes.root}>
       <div>
-        {hasPremium && (
+        {isLoggedIn && (
           <Navigation
             loading={loading}
             items={commonItem}

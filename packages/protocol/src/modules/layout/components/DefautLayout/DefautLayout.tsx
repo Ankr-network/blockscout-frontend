@@ -40,7 +40,7 @@ export const DefaultLayout = ({
     hasGradient: hasGradient || hasError,
     isLightTheme,
   });
-  const { isLoggedIn, loading, hasPremium } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
   const chainsRoutes = usePublicChainsRoutes();
 
   return (
@@ -49,7 +49,6 @@ export const DefaultLayout = ({
         chainsRoutes={chainsRoutes}
         className={classes.sidebar}
         isLoggedIn={isLoggedIn}
-        hasPremium={hasPremium}
         loading={loading}
         hasLogo
       />
@@ -64,7 +63,6 @@ export const DefaultLayout = ({
           className={classes.mobileHeader}
           chainsRoutes={chainsRoutes}
           isLoggedIn={isLoggedIn}
-          hasPremium={hasPremium}
           loading={loading}
         />
         <Container disableGutters={disableGutters} className={classes.main}>
