@@ -10,7 +10,7 @@ export const useChainSelectorStyles = makeStyles()(theme => ({
     columnGap: theme.spacing(2),
   },
   form: {
-    width: 'auto',
+    width: SELECT_WIDTH,
   },
   value: {
     fontWeight: 600,
