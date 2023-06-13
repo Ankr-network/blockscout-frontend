@@ -148,5 +148,9 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = beacon?.name ?? name;
   }
 
+  if (chainId === ChainID.ZKSYNC_ERA) {
+    name = 'zkSync Era';
+  }
+
   return name;
 };
