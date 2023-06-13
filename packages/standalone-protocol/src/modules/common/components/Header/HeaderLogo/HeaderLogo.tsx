@@ -16,7 +16,7 @@ export const HeaderLogo = ({ chainId, hasInfo }: HeaderLogoProps) => {
 
   return (
     <Box className={classes.header}>
-      <CrossMenu chainId={chainId} className={classes.menu} />
+      <CrossMenu chainId={chainId} className={classes.menu} isMobileSiderBar />
       {hasInfo && (
         <a
           className={classes.link}

@@ -1,6 +1,8 @@
 import { Container, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 
+import { tHTML } from 'modules/i18n/utils/intl';
+import classNames from 'classnames';
 import { useStyles } from './ChainItemStyles';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
 import { ChainItemDetailsQuery } from './ChainItemDetailsQuery';
@@ -10,7 +12,6 @@ import { Header } from 'modules/common/components/Header';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId, isStandaloneChain } from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
-import { tHTML } from 'modules/i18n/utils/intl';
 
 interface IChainItemUIProps {
   data?: IChainItemDetails;
@@ -27,30 +28,32 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
 
   return (
     <ThemeProvider theme={getTheme(chainId)}>
-      <Container className={classes.main}>
-        <CrossMenu chainId={chainId} className={classes.menu} />
-        <Header chainId={chainId} />
-        <CopyButtons
-          isComingSoon={isComingSoon}
-          data={data}
-          chainId={chainId}
-        />
-        {isPolygon && (
-          <Typography className={classes.zkEvmText} variant="body2">
-            {tHTML('chain-item.polygon-zk-evm.description')}
-          </Typography>
-        )}
-        <ChainItemDetailsQuery
-          isComingSoon={isComingSoon}
-          chainId={chainId}
-          isStandalone={isStandalone}
-        />
-        <ChainNodesTableQuery
-          isComingSoon={isComingSoon}
-          chainId={chainId}
-          isStandalone={isStandalone}
-        />
-      </Container>
+      <div className={classNames(classes.container, chainId)}>
+        <Container className={classes.main}>
+          <CrossMenu chainId={chainId} className={classes.menu} />
+          <Header chainId={chainId} />
+          <CopyButtons
+            isComingSoon={isComingSoon}
+            data={data}
+            chainId={chainId}
+          />
+          {isPolygon && (
+            <Typography className={classes.zkEvmText} variant="body2">
+              {tHTML('chain-item.polygon-zk-evm.description')}
+            </Typography>
+          )}
+          <ChainItemDetailsQuery
+            isComingSoon={isComingSoon}
+            chainId={chainId}
+            isStandalone={isStandalone}
+          />
+          <ChainNodesTableQuery
+            isComingSoon={isComingSoon}
+            chainId={chainId}
+            isStandalone={isStandalone}
+          />
+        </Container>
+      </div>
     </ThemeProvider>
   );
 };

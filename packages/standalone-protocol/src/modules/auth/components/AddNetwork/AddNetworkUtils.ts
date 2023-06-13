@@ -154,6 +154,18 @@ const CHILIZ_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://scan.chiliz.com/'],
 };
 
+// https://docs.tenet.org/mainnet-beta/tenet-mainnet
+const TENET_NETWORK_PARAMS = {
+  chainId: 1559,
+  chainName: 'Tenet Mainnet',
+  nativeCurrency: {
+    name: 'Tenet Mainnet',
+    symbol: 'TENET',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://tenetscan.io/'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -204,6 +216,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, BSC_NETWORK_PARAMS);
     case 'chiliz':
       return mapParams(chain, CHILIZ_NETWORK_PARAMS);
+    case 'tenet':
+      return mapParams(chain, TENET_NETWORK_PARAMS);
     default:
       return undefined;
   }

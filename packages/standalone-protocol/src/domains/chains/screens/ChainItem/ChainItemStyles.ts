@@ -2,6 +2,9 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChainId } from 'domains/chains/api/chain';
 import { MENU_WIDTH } from './components/CrossMenu/CrossMenuStyles';
+import tenetBackground from './assets/tenetBackground.png';
+
+const MAX_WIDTH = 1110;
 
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -22,8 +25,28 @@ export const useStyles = makeStyles<Theme>(theme => ({
       display: 'none',
     },
   },
+  container: {
+    [`&.${ChainId.Tenet}`]: {
+      backgroundImage: `url(${tenetBackground})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: `calc(50% + ${MAX_WIDTH / 2}px) 20%`,
+
+      [theme.breakpoints.down('md')]: {
+        backgroundPosition: '200% 20%',
+      },
+
+      [theme.breakpoints.down(760)]: {
+        backgroundPosition: '320% 20%',
+      },
+
+      [theme.breakpoints.down(700)]: {
+        backgroundPosition: '5px 20%',
+      },
+    },
+  },
   main: {
-    maxWidth: 1110,
+    maxWidth: MAX_WIDTH,
+
     [theme.breakpoints.up('md')]: {
       paddingLeft: `${MENU_WIDTH + 24}px !important`,
     },
