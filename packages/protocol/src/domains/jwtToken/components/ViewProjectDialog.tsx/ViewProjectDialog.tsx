@@ -3,7 +3,6 @@ import { t } from '@ankr.com/common';
 import { Button, Typography } from '@mui/material';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
 import { Dialog } from 'uiKit/Dialog';
 import { useViewProjectDialogStyles } from './useViewProjectDialogStyles';
@@ -16,24 +15,26 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 interface IShowProjectDialogProps {
   shouldConnectWallet: boolean;
-  token?: JwtManagerToken;
   isOpened: boolean;
   onClose: () => void;
-  handleDeleteProject: () => void;
+  handleDeleteProjectOpen: () => void;
+  tokenIndex?: number;
+  endpointToken?: string;
 }
 
 export const ViewProjectDialog = ({
   shouldConnectWallet,
-  token,
+  tokenIndex,
+  endpointToken,
   isOpened,
   onClose,
-  handleDeleteProject,
+  handleDeleteProjectOpen,
 }: IShowProjectDialogProps) => {
   const { classes } = useViewProjectDialogStyles();
 
   const { hasOauthLogin } = useAuth();
 
-  const title = useMemo(() => renderProjectName(token?.index), [token?.index]);
+  const title = useMemo(() => renderProjectName(tokenIndex), [tokenIndex]);
 
   const {
     isOpened: isLoginOpened,
@@ -41,12 +42,12 @@ export const ViewProjectDialog = ({
     onClose: onCloseLogin,
   } = useDialog();
 
-  const handleLogin = useCallback(() => {
+  const handleLoginDialogOpen = useCallback(() => {
     onClose();
     onOpenLogin();
   }, [onClose, onOpenLogin]);
 
-  const handleClose = useCallback(() => {
+  const handleLoginDialogClose = useCallback(() => {
     onClose();
     onCloseLogin();
   }, [onClose, onCloseLogin]);
@@ -73,23 +74,23 @@ export const ViewProjectDialog = ({
             text={
               shouldConnectWallet
                 ? t('chains.connect-wallet')
-                : token?.userEndpointToken ?? ''
+                : endpointToken ?? ''
             }
             textColor="textPrimary"
-            onClick={shouldConnectWallet ? handleLogin : undefined}
+            onClick={shouldConnectWallet ? handleLoginDialogOpen : undefined}
             hideIcon={shouldConnectWallet}
           />
           <Button fullWidth size="large" onClick={onClose}>
             {t(`${jwtTokenIntlRoot}.view-project.button`)}
           </Button>
-          {Boolean(token?.index) && (
+          {Boolean(tokenIndex) && (
             <GuardUserGroup blockName={BlockWithPermission.JwtManager}>
               <Button
                 fullWidth
                 size="large"
                 variant="outlined"
                 color="error"
-                onClick={handleDeleteProject}
+                onClick={handleDeleteProjectOpen}
                 className={classes.button}
               >
                 {t(`${jwtTokenIntlRoot}.view-project.delete-project`)}
@@ -100,7 +101,7 @@ export const ViewProjectDialog = ({
       </Dialog>
 
       <SignupDialog
-        onClose={handleClose}
+        onClose={handleLoginDialogClose}
         isOpen={isLoginOpened}
         hasOauthLogin={hasOauthLogin}
       />

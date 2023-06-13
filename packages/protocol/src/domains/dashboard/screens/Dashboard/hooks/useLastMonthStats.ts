@@ -8,12 +8,11 @@ export const useLastMonthStats = (isChainSelected: boolean) => {
   const [fetch] = useLazyFetchLastMonthStatsQuery();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { selectedProject: userEndpointToken } =
-    useTokenManagerConfigSelector();
+  const { selectedProjectEndpointToken } = useTokenManagerConfigSelector();
 
   useEffect(() => {
     if (!isChainSelected) {
-      fetch({ group, userEndpointToken });
+      fetch({ group, userEndpointToken: selectedProjectEndpointToken });
     }
-  }, [fetch, group, isChainSelected, userEndpointToken]);
+  }, [fetch, group, isChainSelected, selectedProjectEndpointToken]);
 };

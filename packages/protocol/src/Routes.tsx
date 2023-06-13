@@ -35,7 +35,6 @@ import { useAutoconnect } from 'hooks/useAutoconnect';
 import { useWeb3ThemeSwitcher } from 'hooks/useWeb3ThemeSwitcher';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardPremiumRoute } from 'domains/userGroup/components/GuardPremiumRoute';
 import { useTransitionToFreeWatcher } from 'domains/auth/hooks/useTransitionToFreeWatcher';
 import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
@@ -76,11 +75,9 @@ export const Routes = () => {
             shouldRedirect
             blockName={BlockWithPermission.UsageData}
           >
-            <GuardPremiumRoute hasPremium={hasPremium}>
-              <DefaultLayout hasNoReactSnap>
-                <DashboardRoutes />
-              </DefaultLayout>
-            </GuardPremiumRoute>
+            <DefaultLayout hasNoReactSnap>
+              <DashboardRoutes />
+            </DefaultLayout>
           </GuardUserGroup>
         )}
       />

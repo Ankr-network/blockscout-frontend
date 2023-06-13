@@ -1,5 +1,4 @@
 import React, { ReactChild } from 'react';
-import classNames from 'classnames';
 
 import { Themes } from 'modules/themes/types';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
@@ -21,7 +20,7 @@ export const DefaultLayout = ({
   const classes = useStyles();
 
   return (
-    <div className={classNames(classes.root)}>
+    <div className={classes.root}>
       <div className={classes.body}>
         <div className={classes.container}>
           {withNoReactSnap ? (

@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { t } from '@ankr.com/common';
+
 import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { jwtTokenIntlRoot } from '../utils/utils';
@@ -11,12 +12,13 @@ export enum DeleteProjectStep {
   failed = 'failed',
 }
 
-export const useDeleteProject = (
-  viewTokenIndex: number,
-  selectTokenIndex: number,
-  onClose: () => void,
-  setSelectedIndex: (index: number) => void,
-) => {
+const getTitle = (deleteProjectStep: DeleteProjectStep) => {
+  return deleteProjectStep === DeleteProjectStep.initial
+    ? t(`${jwtTokenIntlRoot}.delete-project.title`)
+    : t(`${jwtTokenIntlRoot}.${deleteProjectStep}.title`);
+};
+
+export const useDeleteProject = (tokenIndex: number, onSuccess: () => void) => {
   const [deleteProjectStep, setDeleteProjectStep] = useState(
     DeleteProjectStep.initial,
   );
@@ -26,49 +28,33 @@ export const useDeleteProject = (
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const handleDelete = useCallback(() => {
-    const deleteAction = async () => {
-      const { error } = await deleteProject({
-        params: {
-          tokenIndex: viewTokenIndex,
-          group,
-        },
-      });
+  const handleDelete = useCallback(async () => {
+    const { error } = await deleteProject({
+      params: {
+        tokenIndex,
+        group,
+      },
+    });
 
-      if (error && !is2FAError(error)) {
-        setDeleteProjectStep(DeleteProjectStep.failed);
-      } else {
-        setDeleteProjectStep(DeleteProjectStep.initial);
+    if (error && !is2FAError(error)) {
+      setDeleteProjectStep(DeleteProjectStep.failed);
+    } else {
+      setDeleteProjectStep(DeleteProjectStep.initial);
 
-        if (viewTokenIndex === selectTokenIndex) {
-          setSelectedIndex(0);
-        }
+      onSuccess();
+    }
 
-        onClose();
-      }
-
-      reset();
-    };
-
-    deleteAction();
+    reset();
   }, [
-    viewTokenIndex,
-    selectTokenIndex,
+    tokenIndex,
     deleteProject,
-    setSelectedIndex,
-    onClose,
+    onSuccess,
     setDeleteProjectStep,
     reset,
     group,
   ]);
 
-  const title = useMemo(
-    () =>
-      deleteProjectStep === DeleteProjectStep.initial
-        ? t(`${jwtTokenIntlRoot}.delete-project.title`)
-        : t(`${jwtTokenIntlRoot}.${deleteProjectStep}.title`),
-    [deleteProjectStep],
-  );
+  const title = useMemo(() => getTitle(deleteProjectStep), [deleteProjectStep]);
 
   return {
     title,

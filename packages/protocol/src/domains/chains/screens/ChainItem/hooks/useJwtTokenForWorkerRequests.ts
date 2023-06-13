@@ -1,4 +1,5 @@
 import { WorkerTokenData } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
@@ -9,7 +10,7 @@ import {
   IUserJwtToken,
   fetchAllJwtTokenRequests,
 } from 'domains/jwtToken/action/getAllJwtToken';
-import { useMemo } from 'react';
+import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 
 const defaultJWTTokens: IUserJwtToken = { jwtTokens: [] };
 
@@ -18,7 +19,7 @@ const getJwtToken = (
   selectedTokenIndex: number,
   workerTokenData?: WorkerTokenData,
 ) => {
-  if (selectedTokenIndex > 0) {
+  if (selectedTokenIndex > PRIMARY_TOKEN_INDEX) {
     return jwtTokens.find(item => item.index === selectedTokenIndex)?.jwtData;
   }
 
@@ -42,7 +43,7 @@ export const useJwtTokenForWorkerRequests = () => {
   );
 
   const shouldUseGroupToken = useMemo(() => {
-    return tokenIndex === 0 && groupToken?.jwtData;
+    return tokenIndex === PRIMARY_TOKEN_INDEX && groupToken?.jwtData;
   }, [tokenIndex, groupToken]);
 
   return {

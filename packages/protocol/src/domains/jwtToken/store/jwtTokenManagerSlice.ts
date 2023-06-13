@@ -33,6 +33,7 @@ export const jwtTokenManagerSlice = createSlice({
   name: 'jwtTokenManager',
   initialState,
   reducers: {
+    // uses for jwt manager component
     setSelectedTokenIndex: (
       state,
       action: PayloadAction<ISetTokenIndexPayload>,
@@ -45,7 +46,8 @@ export const jwtTokenManagerSlice = createSlice({
         tokenIndex,
       };
     },
-    setSelectedProject: (
+    // uses for selects, when we need only endpoint token
+    setSelectedProjectEndpointToken: (
       state,
       action: PayloadAction<ISetSelectedProjectPayload>,
     ) => {
@@ -65,5 +67,5 @@ export const selectTokenManagerConfig = (
   currentAccount = '',
 ) => state.jwtTokenManager[currentAccount] ?? {};
 
-export const { setSelectedTokenIndex, setSelectedProject } =
+export const { setSelectedTokenIndex, setSelectedProjectEndpointToken } =
   jwtTokenManagerSlice.actions;

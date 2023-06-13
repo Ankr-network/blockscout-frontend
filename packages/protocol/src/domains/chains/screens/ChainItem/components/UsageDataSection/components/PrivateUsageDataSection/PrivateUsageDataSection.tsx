@@ -48,9 +48,10 @@ export const PrivateUsageDataSection = ({
     timeframe,
   });
 
-  const { shouldShowTokenManager, selectedProject } =
+  const { shouldShowTokenManager, selectedProjectEndpointToken } =
     useTokenManagerConfigSelector();
-  const shouldHideIpsAndRequestsMap = shouldShowTokenManager && selectedProject;
+  const shouldHideIpsAndRequestsMap =
+    shouldShowTokenManager && selectedProjectEndpointToken;
 
   const { classes } = useDataUsageSectionStyles();
 

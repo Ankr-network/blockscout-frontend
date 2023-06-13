@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { setSelectedProject } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { setSelectedProjectEndpointToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import {
   ALL_PROJECTS_VALUE,
   useProjectSelectOptions,
@@ -24,7 +24,7 @@ const useResetIfSelectedProjectWasDeleted = (
 
       if (!hasOption) {
         dispatch(
-          setSelectedProject({
+          setSelectedProjectEndpointToken({
             address,
             selectedProject: undefined,
           }),
@@ -41,14 +41,18 @@ export const useProjectSelect = () => {
   const dispatch = useDispatch();
 
   const options = useProjectSelectOptions(hasConnectWalletMessage);
-  const { selectedProject: selectedOption } = useTokenManagerConfigSelector();
+  const { selectedProjectEndpointToken } = useTokenManagerConfigSelector();
 
-  useResetIfSelectedProjectWasDeleted(options, address, selectedOption);
+  useResetIfSelectedProjectWasDeleted(
+    options,
+    address,
+    selectedProjectEndpointToken,
+  );
 
   const handleSetOption = useCallback(
     (value: string) => {
       dispatch(
-        setSelectedProject({
+        setSelectedProjectEndpointToken({
           address,
           selectedProject: value === ALL_PROJECTS_VALUE ? undefined : value,
         }),
@@ -60,6 +64,6 @@ export const useProjectSelect = () => {
   return {
     options,
     handleSetOption,
-    selectedOption: selectedOption || options[0].value,
+    selectedOption: selectedProjectEndpointToken || options[0].value,
   };
 };

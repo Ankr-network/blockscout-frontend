@@ -1,35 +1,46 @@
 import { ReactComponent as ArbitrumLogo } from 'assets/img/logo/arbitrum.svg';
+import { ReactComponent as ArbitrumMobileLogo } from 'assets/img/logo/arbitrumMobile.svg';
 import { ReactComponent as AvalancheLogo } from 'assets/img/logo/avalanche.svg';
 import { ReactComponent as BinanceLogo } from 'assets/img/logo/binance.svg';
 import { ReactComponent as EthereumLogo } from 'assets/img/logo/ethereum.svg';
+import { ReactComponent as EthereumMobileLogo } from 'assets/img/logo/ethereumMobile.svg';
 import { ReactComponent as FantomLogo } from 'assets/img/logo/fantom.svg';
 import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
 import { ReactComponent as HarmonyLogo } from 'assets/img/logo/harmony.svg';
+import { ReactComponent as HarmonyMobileLogo } from 'assets/img/logo/harmonyMobile.svg';
 import { ReactComponent as IoTexLogo } from 'assets/img/logo/iotex.svg';
 import { ReactComponent as KlaytnLogo } from 'assets/img/logo/klaytn.svg';
+import { ReactComponent as KlaytnMobileLogo } from 'assets/img/logo/klaytnMobile.svg';
 import { ReactComponent as MoonBeamLogo } from 'assets/img/logo/moonbeam.svg';
+import { ReactComponent as MoonBeamMobileLogo } from 'assets/img/logo/moonbeamMobile.svg';
 import { ReactComponent as NearLogo } from 'assets/img/logo/near.svg';
 import { ReactComponent as NervosLogo } from 'assets/img/logo/nervos.svg';
 import { ReactComponent as PolygonLogo } from 'assets/img/logo/polygon.svg';
+import { ReactComponent as PolygonMobileLogo } from 'assets/img/logo/polygonMobile.svg';
 import { ReactComponent as SecretLogo } from 'assets/img/logo/secret.svg';
 import { ReactComponent as SolanaLogo } from 'assets/img/logo/solana.svg';
+import { ReactComponent as SolanaMobileLogo } from 'assets/img/logo/solanaMobile.svg';
 import { ReactComponent as FilecoinLogo } from 'assets/img/logo/filecoin.svg';
 import { ReactComponent as SyscoinLogo } from 'assets/img/logo/syscoin.svg';
-import { ReactComponent as PolygonZkemvLogo } from 'assets/img/logo/polygon-zkemv.svg';
+import { ReactComponent as SyscoinMobileLogo } from 'assets/img/logo/syscoinMobile.svg';
+import { ReactComponent as PolygonZkemvLogo } from 'assets/img/logo/polygonZkemv.svg';
+import { ReactComponent as PolygonZkemvMobileLogo } from 'assets/img/logo/polygonZkemvMobile.svg';
+import { ReactComponent as TenetLogo } from 'assets/img/logo/tenet.svg';
+import { ReactComponent as TenetMobileLogo } from 'assets/img/logo/tenetMobile.svg';
 import { ReactComponent as ChilizLogo } from 'assets/img/logo/chiliz.svg';
 import { ChainId, POLYGON_ZKEVM_CHAIN_NAME } from 'domains/chains/api/chain';
 
-export const MENU_LIST = [
+export const getMenuList = (isMobileSiderBar: boolean) => [
   {
     chainId: ChainId.Ethereum,
     name: 'Ethereum',
-    logo: <EthereumLogo />,
+    logo: isMobileSiderBar ? <EthereumMobileLogo /> : <EthereumLogo />,
     url: 'https://eth.public-rpc.com/',
   },
   {
     chainId: ChainId.Solana,
     name: 'Solana',
-    logo: <SolanaLogo />,
+    logo: isMobileSiderBar ? <SolanaMobileLogo /> : <SolanaLogo />,
     url: 'https://solana.public-rpc.com/',
   },
   {
@@ -41,13 +52,13 @@ export const MENU_LIST = [
   {
     chainId: ChainId.Polygon,
     name: 'Polygon',
-    logo: <PolygonLogo />,
+    logo: isMobileSiderBar ? <PolygonMobileLogo /> : <PolygonLogo />,
     url: ' https://polygon-rpc.com/',
   },
   {
     chainId: ChainId.POLYGON_ZKEVM,
     name: POLYGON_ZKEVM_CHAIN_NAME,
-    logo: <PolygonZkemvLogo />,
+    logo: isMobileSiderBar ? <PolygonZkemvMobileLogo /> : <PolygonZkemvLogo />,
     url: 'https://polygon-rpc.com/zkevm/',
   },
   {
@@ -59,7 +70,7 @@ export const MENU_LIST = [
   {
     chainId: ChainId.Harmony,
     name: 'Harmony',
-    logo: <HarmonyLogo />,
+    logo: isMobileSiderBar ? <HarmonyMobileLogo /> : <HarmonyLogo />,
     url: 'https://harmony.public-rpc.com/',
   },
   {
@@ -81,6 +92,12 @@ export const MENU_LIST = [
     url: 'https://iotexrpc.com/',
   },
   {
+    chainId: ChainId.Tenet,
+    name: 'Tenet',
+    logo: isMobileSiderBar ? <TenetMobileLogo /> : <TenetLogo />,
+    url: 'https://tenet.public-rpc.com/',
+  },
+  {
     chainId: ChainId.Chiliz,
     name: 'Chiliz',
     logo: <ChilizLogo />,
@@ -89,13 +106,13 @@ export const MENU_LIST = [
   {
     chainId: ChainId.Moonbeam,
     name: 'MoonBeam',
-    logo: <MoonBeamLogo />,
+    logo: isMobileSiderBar ? <MoonBeamMobileLogo /> : <MoonBeamLogo />,
     url: 'https://moonbeam.public-rpc.com/',
   },
   {
     chainId: ChainId.Arbitrum,
     name: 'Arbitrum',
-    logo: <ArbitrumLogo />,
+    logo: isMobileSiderBar ? <ArbitrumMobileLogo /> : <ArbitrumLogo />,
     url: 'https://arbitrum.public-rpc.com/',
   },
   {
@@ -113,7 +130,7 @@ export const MENU_LIST = [
   {
     chainId: ChainId.Syscoin,
     name: 'Syscoin',
-    logo: <SyscoinLogo />,
+    logo: isMobileSiderBar ? <SyscoinMobileLogo /> : <SyscoinLogo />,
     url: 'https://syscoin.public-rpc.com/',
   },
   {
@@ -131,7 +148,7 @@ export const MENU_LIST = [
   {
     chainId: ChainId.Klaytn,
     name: 'Klaytn',
-    logo: <KlaytnLogo />,
+    logo: isMobileSiderBar ? <KlaytnMobileLogo /> : <KlaytnLogo />,
     url: 'https://klaytn.public-rpc.com/',
   },
 ];

@@ -63,8 +63,7 @@ export const usePrivateUsageData = ({
 
   const privateCheckedChainId = checkPrivateChainsAndGetChainId(chainId);
 
-  const { selectedProject: userEndpointToken } =
-    useTokenManagerConfigSelector();
+  const { selectedProjectEndpointToken } = useTokenManagerConfigSelector();
 
   const {
     arePrivateStatsLoading,
@@ -72,7 +71,7 @@ export const usePrivateUsageData = ({
     privateStatsError,
   } = usePrivateStats({
     interval: timeframeToIntervalMap[timeframe],
-    userEndpointToken,
+    userEndpointToken: selectedProjectEndpointToken,
   });
 
   const userTopRequests = getUserTopRequest(

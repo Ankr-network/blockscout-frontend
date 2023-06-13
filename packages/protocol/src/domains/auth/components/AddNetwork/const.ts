@@ -104,6 +104,18 @@ const ARBITRUM_NOVA: NetworkInfo = {
   blockExplorerUrls: ['https://nova-explorer.arbitrum.io'],
 };
 
+// https://docs.tenet.org/mainnet-beta/tenet-mainnet
+const TENET: NetworkInfo = {
+  chainId: 1559,
+  chainName: 'Tenet Mainnet',
+  nativeCurrency: {
+    name: 'Tenet Mainnet',
+    symbol: 'TENET',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://tenetscan.io/'],
+};
+
 export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   // ? https://support.avax.network/en/articles/6077308-what-are-the-differences-between-the-x-p-and-c-chains
   [ChainID.AVALANCHE]: AVALANCHE,
@@ -442,6 +454,20 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
+  },
+
+  [ChainID.TENET]: TENET,
+
+  // https://era.zksync.io/docs/dev/fundamentals/interacting.html#connecting-to-zksync-era-on-metamask
+  [ChainID.ZKSYNC_ERA]: {
+    chainId: 324,
+    chainName: 'zkSync Era Mainnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.zksync.io/'],
   },
 
   [ChainID.MANTLE]: MANTLE,

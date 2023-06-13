@@ -121,6 +121,8 @@ export enum ChainID {
   SYSCOIN = 'syscoin',
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
+  TENET = 'tenet',
+  TENET_EVN = 'tenet-evm',
   XDAI = 'xdai',
   KLAYTN = 'klaytn',
   SUI = 'sui',
@@ -139,6 +141,7 @@ export enum ChainID {
   BASE_TESTNET = 'base_goerli',
   SCROLL = 'scroll',
   SCROLL_TESTNET = 'scroll_testnet',
+  ZKSYNC_ERA = 'zksync_era',
 
   UNDEFINED = '',
 }

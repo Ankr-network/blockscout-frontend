@@ -10,32 +10,25 @@ interface ICardProps {
   isSelected: boolean;
   userEndpointToken: string;
   tokenIndex: number;
-  setViewTokenIndex: (index: number) => void;
-  setSelectedIndex: (index: number) => void;
-  onOpenViewProject: () => void;
+  onProjectSelect: () => void;
+  onProjectView: () => void;
 }
 
 export const Card = ({
   isSelected,
-  setSelectedIndex,
+  onProjectSelect,
   userEndpointToken,
   tokenIndex,
-  setViewTokenIndex,
-  onOpenViewProject,
+  onProjectView,
 }: ICardProps) => {
   const { classes } = useCardStyles(isSelected);
 
-  const handleSelect = useCallback(() => {
-    setSelectedIndex(tokenIndex);
-  }, [tokenIndex, setSelectedIndex]);
-
-  const handleViewProject = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-      setViewTokenIndex(tokenIndex);
-      onOpenViewProject();
+  const handleProjectView = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onProjectView();
     },
-    [tokenIndex, setViewTokenIndex, onOpenViewProject],
+    [onProjectView],
   );
 
   return (
@@ -43,7 +36,7 @@ export const Card = ({
       className={classes.root}
       role="button"
       tabIndex={0}
-      onClick={handleSelect}
+      onClick={onProjectSelect}
     >
       <Typography className={classes.name}>
         {renderProjectName(tokenIndex)}
@@ -56,7 +49,7 @@ export const Card = ({
           className={classes.view}
           variant="text"
           color="secondary"
-          onClick={handleViewProject}
+          onClick={handleProjectView}
         >
           <Warning />
         </Button>

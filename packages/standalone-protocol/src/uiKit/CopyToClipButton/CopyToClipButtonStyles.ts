@@ -1,5 +1,6 @@
 import { darken, makeStyles, Theme } from '@material-ui/core';
 import { ChainId } from 'domains/chains/api/chain';
+import { TENET_LINEAR_GRADIENT_COLOR } from 'modules/themes/tenetTheme';
 
 interface CopyToClipProps {
   isCopied: boolean;
@@ -242,6 +243,12 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       '& $content': {
         padding: 0,
         backgroundColor: theme.palette.grey[300],
+      },
+    },
+
+    [`&.${ChainId.Tenet}`]: {
+      '& $button': {
+        background: TENET_LINEAR_GRADIENT_COLOR,
       },
     },
   },

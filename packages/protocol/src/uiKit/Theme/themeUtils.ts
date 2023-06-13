@@ -41,6 +41,9 @@ export const isLightTheme = (theme: Theme) => {
   return theme.palette.mode === Themes.light;
 };
 
+export const getPremiumColorGradientHover = (theme: Theme) => {
+  return isLightTheme(theme) ? premiumDarkThemeColor : premiumColor;
+};
 export const getPremiumColorGradient = (theme: Theme) => {
   return isLightTheme(theme) ? premiumColor : premiumDarkThemeColor;
 };

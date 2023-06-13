@@ -130,6 +130,11 @@
     }
   },
   "dashboard": {
+    "placeholder": {
+      "title": "Unlock access to your personal dashboard with&nbsp;",
+      "premium": "Premium",
+      "button": "Upgrade Now"
+    },
     "breadcrumbs": "Premium Endpoints",
     "title": "Premium Endpoints",
     "provider-title": "Dashboard",

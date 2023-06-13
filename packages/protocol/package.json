@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.50.2",
+  "version": "1.50.3",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -15,6 +15,7 @@
     "format": "lint-staged",
     "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
     "lint:js:fix": "yarn lint:js --fix",
+    "pre-commit": "npm run lint",
     "types": "tsc --noEmit -p tsconfig.json",
     "check-circular-dependency": "madge --circular src",
     "storybook": "start-storybook -p 6006 -s public",

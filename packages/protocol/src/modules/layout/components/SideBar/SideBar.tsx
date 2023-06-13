@@ -11,7 +11,6 @@ export interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
   isLoggedIn: boolean;
-  hasPremium: boolean;
   loading: boolean;
   hasLogo: boolean;
   isMobileSiderBar?: boolean;
@@ -21,7 +20,6 @@ export const SideBar = ({
   chainsRoutes,
   className = '',
   isLoggedIn,
-  hasPremium,
   loading,
   hasLogo,
   isMobileSiderBar = false,
@@ -40,7 +38,6 @@ export const SideBar = ({
       {hasLogo && <Logo />}
       <MainNavigation
         chainsRoutes={chainsRoutes}
-        hasPremium={hasPremium}
         isLoggedIn={isLoggedIn}
         loading={loading}
         onAAPIClick={onAAPIClick}

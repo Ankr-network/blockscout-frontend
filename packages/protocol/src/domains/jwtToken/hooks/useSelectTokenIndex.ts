@@ -11,7 +11,7 @@ export const useSelectTokenIndex = () => {
 
   const [currentTokenIndex, setIndex] = useState(tokenIndex);
 
-  const handleTokenIndexSelect = useCallback(
+  const handleSelectTokenIndex = useCallback(
     (newIndex: number) => {
       setIndex(newIndex);
       dispatch(setSelectedTokenIndex({ tokenIndex: newIndex, address }));
@@ -20,11 +20,11 @@ export const useSelectTokenIndex = () => {
   );
 
   useEffect(() => {
-    handleTokenIndexSelect(tokenIndex);
-  }, [handleTokenIndexSelect, tokenIndex]);
+    handleSelectTokenIndex(tokenIndex);
+  }, [handleSelectTokenIndex, tokenIndex]);
 
   return {
     tokenIndex: currentTokenIndex,
-    handleTokenIndexSelect,
+    handleSelectTokenIndex,
   };
 };

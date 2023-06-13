@@ -8,9 +8,9 @@ import { RootState } from 'store';
 import { selectAddress } from 'domains/auth/store/selectors';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
-export const selectTokenManager = (state: RootState) => state.jwtTokenManager;
+const selectJwtTokenManager = (state: RootState) => state.jwtTokenManager;
 
-export const selectProjects = createSelector(
+export const selectJwtTokens = createSelector(
   fetchAllJwtTokenRequests.select(undefined as unknown as IRequestParams),
   ({ data: { jwtTokens = [] } = {} }) => jwtTokens,
 );
@@ -21,13 +21,8 @@ export const selectProjectAddress = createSelector(
   (address, { selectedGroupAddress }) => selectedGroupAddress || address,
 );
 
-export const selectSelectedConfig = createSelector(
-  selectTokenManager,
-  selectProjectAddress,
-  (manager, address) => manager[address],
-);
-
 export const selectSelectedProject = createSelector(
-  selectSelectedConfig,
-  config => config?.selectedProject,
+  selectJwtTokenManager,
+  selectProjectAddress,
+  (jwtTokenManager, address) => jwtTokenManager[address]?.selectedProject,
 );

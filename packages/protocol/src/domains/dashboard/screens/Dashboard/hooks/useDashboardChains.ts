@@ -23,11 +23,11 @@ export const useDashboardChains = ({
   const [selectedChainId, setSelectedChainId] = useState<ChainID>(defaultValue);
 
   const { selectedGroupAddress } = useSelectedUserGroup();
-  const { selectedProject } = useTokenManagerConfigSelector();
+  const { selectedProjectEndpointToken } = useTokenManagerConfigSelector();
 
   useEffect(() => {
     setSelectedChainId(defaultValue);
-  }, [selectedGroupAddress, selectedProject, defaultValue]);
+  }, [selectedGroupAddress, selectedProjectEndpointToken, defaultValue]);
 
   const handleChange = useCallback((event: SelectChangeEvent<ChainID>) => {
     const { value } = event.target;

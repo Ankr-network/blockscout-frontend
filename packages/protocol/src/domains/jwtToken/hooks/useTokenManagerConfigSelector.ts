@@ -20,6 +20,7 @@ export const useTokenManagerConfigSelector = () => {
 
   return {
     ...config,
+    selectedProjectEndpointToken: config.selectedProject,
     address,
     tokenIndex: config.tokenIndex ?? PRIMARY_TOKEN_INDEX,
     shouldShowTokenManager: data?.shouldShowTokenManager,

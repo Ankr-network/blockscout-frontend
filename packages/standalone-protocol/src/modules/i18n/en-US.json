@@ -27,7 +27,7 @@
       "coming-soon": "coming soon..."
     },
     "header": {
-      "title": "Your Instant RPC<br /><span>Gateway To <span>{name}</span><span>",
+      "title": "Your Instant RPC<br /><span>Gateway To <span class=\"chainId\">{name}</span><span>",
       "no-break-title": "Your Instant RPC Gateway To <span>{name}</span>",
       "description": "Fastest, free-est, and most reliable RPC endpoint"
     },
