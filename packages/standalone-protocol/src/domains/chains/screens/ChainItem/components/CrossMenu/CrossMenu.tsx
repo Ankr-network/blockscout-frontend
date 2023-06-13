@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { IconButton } from '@material-ui/core';
 import classNames from 'classnames';
 
@@ -9,15 +9,25 @@ import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';
 import { PROTOCOL_URL } from 'Routes';
 import { useCrossMenuStyles } from './CrossMenuStyles';
-import { MENU_LIST } from './MenuList';
+import { getMenuList } from './MenuList';
 
 interface ICrossMenuProps {
   chainId: string;
   className?: string;
+  isMobileSiderBar?: boolean;
 }
 
-export const CrossMenu = ({ chainId, className }: ICrossMenuProps) => {
+export const CrossMenu = ({
+  chainId,
+  className,
+  isMobileSiderBar = false,
+}: ICrossMenuProps) => {
   const classes = useCrossMenuStyles();
+
+  const menuList = useMemo(
+    () => getMenuList(isMobileSiderBar),
+    [isMobileSiderBar],
+  );
 
   const [open, setOpen] = useState(false);
 
@@ -55,7 +65,7 @@ export const CrossMenu = ({ chainId, className }: ICrossMenuProps) => {
           <CloseIcon />
         </IconButton>
         <div className={classes.menu}>
-          {MENU_LIST.map(item => (
+          {menuList.map(item => (
             <a
               key={item.chainId}
               className={classes.item}

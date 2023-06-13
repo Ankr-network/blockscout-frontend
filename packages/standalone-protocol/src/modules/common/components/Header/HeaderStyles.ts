@@ -5,6 +5,7 @@ import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMen
 import { HEADER_HEIGHT } from './HeaderLogo/HeaderLogoStyles';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 import { hasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
+import { TENET_LINEAR_GRADIENT_COLOR } from 'modules/themes/tenetTheme';
 
 const { REACT_APP_CHAIN_ID } = process.env;
 
@@ -85,8 +86,8 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
 
     [`&.${ChainId.Harmony}`]: {
       background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
     },
 
     [`&.${ChainId.Avalanche} span span`]: {
@@ -103,14 +104,20 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
 
     [`&.${ChainId.Fantom}`]: {
       background: `linear-gradient(to right, #ec4574, #7db6e0)`,
-      '-webkit-background-clip': 'text',
-      '-webkit-text-fill-color': 'transparent',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
 
       '& > span > span': {
         background: `linear-gradient(to right, #7db6e0, #8dfbc5)`,
-        '-webkit-background-clip': 'text',
-        '-webkit-text-fill-color': 'transparent',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
       },
+    },
+
+    [`&.${ChainId.Tenet} .chainId`]: {
+      background: TENET_LINEAR_GRADIENT_COLOR,
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
     },
   },
   description: {

@@ -1,7 +1,7 @@
 import { Theme, fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChainId } from 'domains/chains/api/chain';
-import { MENU_LIST } from './MenuList';
+import { getMenuList } from './MenuList';
 
 export const ANKR_LINK_HEIGHT = 65;
 export const MENU_WIDTH = 60;
@@ -9,6 +9,9 @@ export const MENU_WIDTH = 60;
 const ITEM_HEIGHT = 48;
 const ANKR_HEIGHT = 66;
 const MENU_TOP = 60;
+
+const menuList = getMenuList(false);
+const MENU_ITEMS = menuList.length;
 
 export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
   dropMenu: {
@@ -103,10 +106,10 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     },
   },
   menu: {
-    height: MENU_LIST.length * ITEM_HEIGHT,
+    height: MENU_ITEMS * ITEM_HEIGHT,
     position: 'fixed',
     top: `calc(50% - ${ANKR_HEIGHT / 2}px)`,
-    marginTop: `-${(MENU_LIST.length * ITEM_HEIGHT) / 2}px`,
+    marginTop: `-${(MENU_ITEMS * ITEM_HEIGHT) / 2}px`,
     width: 56,
     '&::-webkit-scrollbar': {
       width: 6,
@@ -116,7 +119,7 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
       backgroundColor: fade(theme.palette.text.primary, 0.2),
       borderRadius: 3,
     },
-    [`@media(max-height:${MENU_LIST.length * ITEM_HEIGHT + ANKR_HEIGHT}px)`]: {
+    [`@media(max-height:${MENU_ITEMS * ITEM_HEIGHT + ANKR_HEIGHT}px)`]: {
       top: 0,
       marginTop: 0,
       height: `calc(100vh - ${ANKR_HEIGHT}px)`,
@@ -199,6 +202,7 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
     position: 'absolute',
     top: 6,
     left: 62,
+    color: theme.palette.text.primary,
     backgroundColor: theme.palette.background.default,
     display: 'none',
 

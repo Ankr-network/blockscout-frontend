@@ -18,6 +18,7 @@ import { filecoinTheme } from '../../themes/filecoinTheme';
 import { fantomTheme } from 'modules/themes/fantomTheme';
 import { bscTheme } from 'modules/themes/bscTheme';
 import { polygonZkevmTheme } from 'modules/themes/polygonZkevmTheme';
+import { tenetTheme } from 'modules/themes/tenetTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -74,6 +75,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.BSC:
       return bscTheme;
+
+    case ChainId.Tenet:
+      return tenetTheme;
 
     default:
       return mainTheme;

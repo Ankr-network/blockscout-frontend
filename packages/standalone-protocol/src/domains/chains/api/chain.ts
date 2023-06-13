@@ -19,6 +19,7 @@ export enum ChainId {
   Gnosis = 'gnosis',
   Syscoin = 'syscoin',
   Secret = 'scrt',
+  Tenet = 'tenet',
   Filecoin = 'filecoin',
   Klaytn = 'klaytn',
   POLYGON_ZKEVM = 'zkevm',
