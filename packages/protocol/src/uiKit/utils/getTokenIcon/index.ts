@@ -38,6 +38,7 @@ import mantleIcon from './icons/mantle.svg';
 import zetachainIcon from './icons/zetachain.svg';
 import baseIcon from './icons/base.png';
 import scrollIcon from './icons/scroll.png';
+import zksyncEraIcon from './icons/zksync_era.svg';
 
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
@@ -51,6 +52,7 @@ import secretIconDark from './darkModeIcons/secret.svg';
 import solIconDark from './darkModeIcons/sol.svg';
 import suiIconDark from './darkModeIcons/sui.svg';
 import mantleIconDark from './darkModeIcons/mantle.svg';
+import zksyncEraIconDark from './darkModeIcons/zksync_era.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -91,6 +93,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ZETACHAIN]: zetachainIcon,
   [ChainID.BASE]: baseIcon,
   [ChainID.SCROLL]: scrollIcon,
+  [ChainID.ZKSYNC_ERA]: zksyncEraIcon,
 };
 
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {
@@ -108,6 +111,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SOLANA]: solIconDark,
   [ChainID.SUI]: suiIconDark,
   [ChainID.MANTLE]: mantleIconDark,
+  [ChainID.ZKSYNC_ERA]: zksyncEraIconDark,
 };
 
 export function getChainIcon(name: string, isLightTheme: boolean) {

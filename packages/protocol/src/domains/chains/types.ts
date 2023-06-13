@@ -139,6 +139,7 @@ export enum ChainID {
   BASE_TESTNET = 'base_goerli',
   SCROLL = 'scroll',
   SCROLL_TESTNET = 'scroll_testnet',
+  ZKSYNC_ERA = 'zksync_era',
 
   UNDEFINED = '',
 }

@@ -444,6 +444,18 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
   },
 
+  // https://era.zksync.io/docs/dev/fundamentals/interacting.html#connecting-to-zksync-era-on-metamask
+  [ChainID.ZKSYNC_ERA]: {
+    chainId: 324,
+    chainName: 'zkSync Era Mainnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.zksync.io/'],
+  },
+
   [ChainID.MANTLE]: MANTLE,
 
   [ChainID.MANTLE_TESTNET]: MANTLE,
