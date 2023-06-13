@@ -74,6 +74,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.BASE_TESTNET,
       ChainID.SCROLL,
       ChainID.SCROLL_TESTNET,
+      ChainID.TENET,
       ChainID.ZKSYNC_ERA,
     ],
   },

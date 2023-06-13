@@ -51,7 +51,9 @@ export const decomposeChainIntoIds = (
   const mainnets = flatChains(chain)
     .filter(({ urls }) => urls.length > 0)
     .map(({ id }) => id)
-    .map(id => id.replace('-evm', '') as ChainID);
+    .map(id =>
+      id === ChainID.TENET_EVN ? id : (id.replace('-evm', '') as ChainID),
+    );
 
   const testnets = getTestnets(chain, keepEVMChainID);
 
