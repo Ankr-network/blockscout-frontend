@@ -122,7 +122,7 @@ export enum ChainID {
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
   TENET = 'tenet',
-  TENET_EVN = 'tenet-evm',
+  TENET_EVM = 'tenet-evm',
   XDAI = 'xdai',
   KLAYTN = 'klaytn',
   SUI = 'sui',

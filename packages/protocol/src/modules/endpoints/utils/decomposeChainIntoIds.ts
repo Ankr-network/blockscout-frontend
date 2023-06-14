@@ -15,6 +15,9 @@ const exceptions: Partial<Record<ChainID, Partial<DecomposedChainIds>>> = {
   [ChainID.NERVOS]: {
     mainnets: [ChainID.NERVOS],
   },
+  [ChainID.TENET]: {
+    mainnets: [ChainID.TENET],
+  },
 };
 
 const getSubchainsIds = (subchains: Chain[] = []): ChainID[] =>
@@ -52,7 +55,7 @@ export const decomposeChainIntoIds = (
     .filter(({ urls }) => urls.length > 0)
     .map(({ id }) => id)
     .map(id =>
-      id === ChainID.TENET_EVN ? id : (id.replace('-evm', '') as ChainID),
+      id === ChainID.TENET_EVM ? id : (id.replace('-evm', '') as ChainID),
     );
 
   const testnets = getTestnets(chain, keepEVMChainID);
