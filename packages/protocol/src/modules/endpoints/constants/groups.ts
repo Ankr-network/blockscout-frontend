@@ -74,7 +74,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.BASE_TESTNET,
       ChainID.SCROLL,
       ChainID.SCROLL_TESTNET,
-      ChainID.TENET,
       ChainID.ZKSYNC_ERA,
     ],
   },
@@ -137,6 +136,12 @@ export const chainGroups: ChainGroup[] = [
     name: 'Near',
     pluralName: 'Near',
     chains: [ChainID.NEAR],
+  },
+  {
+    id: ChainGroupID.TENET_EVM,
+    name: getName('tenet-evm'),
+    pluralName: getName('tenet-evm', true),
+    chains: [ChainID.TENET],
   },
   {
     id: ChainGroupID.NERVOS_EVM,
