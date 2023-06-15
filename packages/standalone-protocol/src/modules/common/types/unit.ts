@@ -15,6 +15,10 @@ export function convertBytesToMegabytes(value: Bytes, fixed = 0) {
 }
 
 export const renderChainName = (chainId?: ChainId | string): string => {
+  if (chainId === ChainId.Tenet) {
+    return 'Tenet';
+  }
+
   if (chainId === ChainId.Ethereum) {
     return 'Ethereum';
   }
