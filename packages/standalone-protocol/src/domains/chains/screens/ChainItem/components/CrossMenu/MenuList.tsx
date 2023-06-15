@@ -28,7 +28,11 @@ import { ReactComponent as PolygonZkemvMobileLogo } from 'assets/img/logo/polygo
 import { ReactComponent as TenetLogo } from 'assets/img/logo/tenet.svg';
 import { ReactComponent as TenetMobileLogo } from 'assets/img/logo/tenetMobile.svg';
 import { ReactComponent as ChilizLogo } from 'assets/img/logo/chiliz.svg';
-import { ChainId, POLYGON_ZKEVM_CHAIN_NAME } from 'domains/chains/api/chain';
+import {
+  ChainId,
+  POLYGON_ZKEVM_CHAIN_NAME,
+  TENET_NAME,
+} from 'domains/chains/api/chain';
 
 export const getMenuList = (isMobileSiderBar: boolean) => [
   {
@@ -93,9 +97,9 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
   },
   {
     chainId: ChainId.Tenet,
-    name: 'Tenet',
+    name: TENET_NAME,
     logo: isMobileSiderBar ? <TenetMobileLogo /> : <TenetLogo />,
-    url: 'https://tenet.public-rpc.com/',
+    url: 'https://tenet_evm.public-rpc.com/',
   },
   {
     chainId: ChainId.Chiliz,
