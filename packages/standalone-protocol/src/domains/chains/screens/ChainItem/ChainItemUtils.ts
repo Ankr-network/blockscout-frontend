@@ -3,8 +3,9 @@ import { useEffect, useMemo } from 'react';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import {
   ChainId,
-  POLYGON_ZKEVM_CHAIN_NAME,
   POLYGON_NAME,
+  POLYGON_ZKEVM_CHAIN_NAME,
+  TENET_NAME,
 } from 'domains/chains/api/chain';
 
 const renderChainName = (chainId: ChainId) => {
@@ -14,6 +15,10 @@ const renderChainName = (chainId: ChainId) => {
 
   if (chainId === ChainId.POLYGON_ZKEVM) {
     return POLYGON_ZKEVM_CHAIN_NAME;
+  }
+
+  if (chainId === ChainId.Tenet) {
+    return TENET_NAME;
   }
 
   return chainId.charAt(0).toUpperCase() + chainId.slice(1);

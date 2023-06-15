@@ -19,7 +19,7 @@ export enum ChainId {
   Gnosis = 'gnosis',
   Syscoin = 'syscoin',
   Secret = 'scrt',
-  Tenet = 'tenet',
+  Tenet = 'tenet_evm',
   Filecoin = 'filecoin',
   Klaytn = 'klaytn',
   POLYGON_ZKEVM = 'zkevm',
@@ -28,6 +28,8 @@ export enum ChainId {
 export const POLYGON_ZKEVM_CHAIN_NAME = 'Polygon zkEVM';
 
 export const POLYGON_NAME = 'Polygon PoS';
+
+export const TENET_NAME = 'Tenet';
 
 const STANDALONE_CHAINS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
 
@@ -50,4 +52,14 @@ export const getStandaloneUrl = (
   if (API_ENV === 'prod') return '/';
 
   return stagingUrls[chainId];
+};
+
+type ChainIDLinkMap = Partial<Record<ChainId, ChainId>>;
+
+export const MAP_CHAIN_ID_TO_NODE_DETAILS_ID: ChainIDLinkMap = {
+  [ChainId.Tenet]: 'tenet-evm' as ChainId,
+};
+
+export const MAP_CHAIN_ID_TO_DETAILS_ID: ChainIDLinkMap = {
+  [ChainId.Tenet]: 'tenet' as ChainId,
 };

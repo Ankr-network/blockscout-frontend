@@ -10,7 +10,12 @@ import { ChainNodesTableQuery } from './ChainNodesTableQuery';
 import { CopyButtons } from './components/CopyButtons';
 import { Header } from 'modules/common/components/Header';
 import { getTheme } from 'modules/common/utils/getTheme';
-import { ChainId, isStandaloneChain } from 'domains/chains/api/chain';
+import {
+  ChainId,
+  isStandaloneChain,
+  MAP_CHAIN_ID_TO_NODE_DETAILS_ID,
+  MAP_CHAIN_ID_TO_DETAILS_ID,
+} from 'domains/chains/api/chain';
 import { CrossMenu } from './components/CrossMenu';
 
 interface IChainItemUIProps {
@@ -44,12 +49,12 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
           )}
           <ChainItemDetailsQuery
             isComingSoon={isComingSoon}
-            chainId={chainId}
+            chainId={MAP_CHAIN_ID_TO_DETAILS_ID[chainId] || chainId}
             isStandalone={isStandalone}
           />
           <ChainNodesTableQuery
             isComingSoon={isComingSoon}
-            chainId={chainId}
+            chainId={MAP_CHAIN_ID_TO_NODE_DETAILS_ID[chainId] || chainId}
             isStandalone={isStandalone}
           />
         </Container>
