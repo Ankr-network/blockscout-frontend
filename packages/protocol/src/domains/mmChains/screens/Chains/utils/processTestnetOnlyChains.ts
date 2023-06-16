@@ -10,7 +10,7 @@ const addEVMUrls = (chain: Chain): Chain => {
   return { ...chain, urls };
 };
 
-export const proccessTestnetOnlyChains = (chains: Chain[]) =>
+export const processTestnetOnlyChains = (chains: Chain[]) =>
   chains.map(chain => {
     const { id, testnets } = chain;
 

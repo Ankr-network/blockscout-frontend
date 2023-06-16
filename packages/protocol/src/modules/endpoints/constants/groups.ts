@@ -132,6 +132,16 @@ export const chainGroups: ChainGroup[] = [
     chains: [ChainID.ETH_SEPOLIA, ChainID.ETH_SEPOLIA_BEACON],
   },
   {
+    id: ChainGroupID.HORIZEN,
+    name: 'Horizen',
+    pluralName: 'Horizen',
+    chains: [
+      ChainID.HORIZEN,
+      ChainID.HORIZEN_TESTNET,
+      ChainID.HORIZEN_TESTNET_EVM,
+    ],
+  },
+  {
     id: ChainGroupID.NEAR,
     name: 'Near',
     pluralName: 'Near',

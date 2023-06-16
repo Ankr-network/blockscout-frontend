@@ -6,6 +6,7 @@ import { getFeatureKeys } from '../utils/getFeatureKeys';
 import { getFlattenURLs } from '../utils/getFlattenURLs';
 import { getTitle } from '../utils/getTitle';
 import { hasPlaceholder as checkPlaceholder } from '../utils/hasPlaceholder';
+import { getSubChainFromGroup } from 'domains/chains/utils/getSubChainFromGroup';
 
 export type MainEndpointsHookParams = Omit<
   MainEndpointsProps,
@@ -18,12 +19,14 @@ export const useMainEndpoints = ({
   hasPrivateAccess,
   publicChain,
 }: MainEndpointsHookParams) => {
-  const { urls, chains: [subchain] = [] } = group;
+  const { urls } = group;
   const isMultiChain = publicChain.id === ChainID.MULTICHAIN;
 
+  const subChain = getSubChainFromGroup(group);
+
   const hasPlaceholder = useMemo(
-    () => checkPlaceholder(subchain, hasPrivateAccess),
-    [hasPrivateAccess, subchain],
+    () => checkPlaceholder(subChain, hasPrivateAccess),
+    [hasPrivateAccess, subChain],
   );
 
   const [featureKey, urlKey] = useMemo(
@@ -41,7 +44,7 @@ export const useMainEndpoints = ({
     [isMultiChain, urlsCount],
   );
 
-  const hasFeature = subchain?.[featureKey];
+  const hasFeature = subChain?.[featureKey];
 
   return { flattenURLs, hasFeature, hasPlaceholder, title };
 };

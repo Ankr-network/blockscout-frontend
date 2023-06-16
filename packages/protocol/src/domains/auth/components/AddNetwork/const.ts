@@ -280,6 +280,18 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://explorer.harmony.one/'],
   },
 
+  /* https://chainlist.org/?chain=1663&testnets=true&search=horizen */
+  [ChainID.HORIZEN_TESTNET]: {
+    chainId: 1663, // 0x67f
+    chainName: 'Horizen Gobi Testnet',
+    nativeCurrency: {
+      name: 'Horizen',
+      symbol: 'tZEN',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://yuma-testnet.horizenlabs.io/ethv1/'],
+  },
+
   [ChainID.IOTEX]: {
     chainId: 4689,
     chainName: 'IoTeX Mainnet',

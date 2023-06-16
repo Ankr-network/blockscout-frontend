@@ -11,6 +11,7 @@ export enum ChainGroupID {
   C_CHAIN = 'c-chain',
   ETH_MAINNET = 'eth-mainnet',
   GOERLI = 'goerli',
+  HORIZEN = 'horizen',
   JSON_RPC = 'json-rpc',
   KOVAN = 'kovan',
   NEAR = 'near',
