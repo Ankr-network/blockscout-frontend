@@ -8,6 +8,12 @@ export const useMainNavigationStyles = makeStyles<boolean>()(
       flexDirection: 'column',
       justifyContent: 'space-between',
     },
+    main: {
+      height: isMobileSiderBar ? 'auto' : '100%',
+      display: isMobileSiderBar ? 'block' : 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    },
     tip: {
       fontSize: isMobileSiderBar ? 14 : 12,
       fontWeight: 700,
@@ -16,15 +22,12 @@ export const useMainNavigationStyles = makeStyles<boolean>()(
       display: 'block',
     },
     setting: {
-      position: isMobileSiderBar ? 'relative' : 'absolute',
-      bottom: 0,
       width: '100%',
       borderTop: isMobileSiderBar
         ? `1px solid ${theme.palette.grey[100]}`
         : 'none',
       marginTop: isMobileSiderBar ? theme.spacing(3) : 0,
       paddingTop: isMobileSiderBar ? theme.spacing(3) : 0,
-      paddingRight: isMobileSiderBar ? 0 : theme.spacing(8),
     },
     logout: {
       width: '100%',
