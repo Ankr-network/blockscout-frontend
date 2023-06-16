@@ -31,7 +31,7 @@ export const useChainLayoutStyles = makeStyles()(theme => ({
   },
   requests: {
     gridArea: 'requests',
-    padding: theme.spacing(6),
+    padding: theme.spacing(5),
   },
   calls: {
     gridArea: 'calls',
