@@ -457,6 +457,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   },
 
   [ChainID.TENET]: TENET,
+  [ChainID.TENET_EVM]: TENET,
 
   // https://era.zksync.io/docs/dev/fundamentals/interacting.html#connecting-to-zksync-era-on-metamask
   [ChainID.ZKSYNC_ERA]: {
