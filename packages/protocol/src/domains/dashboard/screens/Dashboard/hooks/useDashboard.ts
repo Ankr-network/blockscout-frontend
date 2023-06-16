@@ -1,5 +1,5 @@
 import { SortType } from 'domains/chains/types';
-import { proccessTestnetOnlyChains } from 'domains/mmChains/screens/Chains/utils/processTestnetOnlyChains';
+import { processTestnetOnlyChains } from 'domains/mmChains/screens/Chains/utils/processTestnetOnlyChains';
 import { useChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
 import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
 import { usePrivateChainsData } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
@@ -11,7 +11,7 @@ export const useDashboard = () => {
 
   const { processedChains } = usePrivateChains({
     allChains,
-    chains: proccessTestnetOnlyChains(chains),
+    chains: processTestnetOnlyChains(chains),
     sortType: SortType.Name,
     searchContent: '',
     includeMultichain: true,

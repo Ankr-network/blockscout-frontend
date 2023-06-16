@@ -27,10 +27,13 @@ export const getStatsChainId = ({
   publicChain,
   chainProtocol,
 }: StatsChainIdParams) => {
+  const keepEVMChainID =
+    publicChain.id === ChainID.ZETACHAIN || publicChain.id === ChainID.HORIZEN;
+
   const chainId = getChainId({
     chainType,
     group,
-    keepEVMChainID: publicChain.id === ChainID.ZETACHAIN,
+    keepEVMChainID,
     publicChain,
   });
 

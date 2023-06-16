@@ -21,7 +21,6 @@ export const useStyles = makeStyles<Props>()(
       background: theme.palette.background.default,
       fontVariantNumeric: 'tabular-nums',
     },
-    darkTheme: {},
     gradient: {
       background: 'none',
     },
@@ -46,9 +45,11 @@ export const useStyles = makeStyles<Props>()(
       flexGrow: 1,
       position: 'relative',
       paddingTop: HEADER_HEIGHT,
+      paddingBottom: 2 * MOBILE_LAYOUT_PADDING,
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
+        paddingBottom: MOBILE_LAYOUT_PADDING,
       },
     },
     header: {

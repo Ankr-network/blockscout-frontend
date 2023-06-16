@@ -14,6 +14,7 @@ import filecoinIcon from './icons/filecoin.svg';
 import ftmIcon from './icons/ftm.svg';
 import gnosisIcon from './icons/gnosis.svg';
 import harmonyIcon from './icons/harmony.svg';
+import horizenIcon from './icons/horizen.svg';
 import hecoIcon from './icons/heco.svg';
 import iotexIcon from './icons/iotex.svg';
 import klaytnIcon from './icons/klaytn.svg';
@@ -69,6 +70,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.FANTOM]: ftmIcon,
   [ChainID.GNOSIS]: gnosisIcon,
   [ChainID.HARMONY]: harmonyIcon,
+  [ChainID.HORIZEN]: horizenIcon,
   [ChainID.HECO]: hecoIcon,
   [ChainID.IOTEX]: iotexIcon,
   [ChainID.KLAYTN]: klaytnIcon,

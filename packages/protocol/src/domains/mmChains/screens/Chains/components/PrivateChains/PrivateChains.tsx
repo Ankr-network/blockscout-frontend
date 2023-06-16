@@ -2,7 +2,7 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
-import { proccessTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
+import { processTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
 import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
 import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
 import { usePrivateChainsData } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
@@ -32,7 +32,7 @@ export const PrivateChains = ({
 
   const { processedChains, chainsDictionary } = usePrivateChains({
     allChains,
-    chains: proccessTestnetOnlyChains(chains),
+    chains: processTestnetOnlyChains(chains),
     sortType,
     searchContent,
   });
