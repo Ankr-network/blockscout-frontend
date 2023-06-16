@@ -367,7 +367,6 @@
     "contact-button": "Contact support"
   },
   "chain-item": {
-    "banner-optimism": "Optimism Mainnet will be updated to Bedrock June 6, 2023. During the update the transactions will not be processed.",
     "chain-types": {
       "mainnet": "Mainnet",
       "testnet": "Testnet",
