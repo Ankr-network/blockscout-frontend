@@ -9,6 +9,7 @@ import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';
 import { PROTOCOL_URL } from 'Routes';
 import { useCrossMenuStyles } from './CrossMenuStyles';
+import { isSafari } from 'modules/common/utils/browserDetect';
 import { getMenuList } from './MenuList';
 
 interface ICrossMenuProps {
@@ -17,11 +18,14 @@ interface ICrossMenuProps {
   isMobileSiderBar?: boolean;
 }
 
+const IS_SAFARI = isSafari();
+
 export const CrossMenu = ({
   chainId,
   className,
   isMobileSiderBar = false,
 }: ICrossMenuProps) => {
+  
   const classes = useCrossMenuStyles();
 
   const menuList = useMemo(
@@ -46,6 +50,14 @@ export const CrossMenu = ({
     }
   }, [isNotMobile]);
 
+  const [clientTop, setClientTop] = useState(0);
+
+  const handleMouseMove = useCallback(event => {
+    const offsetTop = IS_SAFARI ? event.target.offsetTop : 0;
+    const offsetY = event.clientY - offsetTop;
+    setClientTop(offsetY);
+  }, []);
+
   return (
     <div data-test-id="cross-menu" className={className}>
       <IconButton
@@ -64,7 +76,7 @@ export const CrossMenu = ({
         >
           <CloseIcon />
         </IconButton>
-        <div className={classes.menu}>
+        <div className={classes.menu} onMouseMove={handleMouseMove}>
           {menuList.map(item => (
             <a
               key={item.chainId}
@@ -85,7 +97,10 @@ export const CrossMenu = ({
               >
                 {item.logo}
               </div>
-              <div className={classNames(classes.name, chainId)}>
+              <div
+                className={classNames(classes.name, chainId)}
+                style={{ top: clientTop }}
+              >
                 {item.name}
               </div>
             </a>
