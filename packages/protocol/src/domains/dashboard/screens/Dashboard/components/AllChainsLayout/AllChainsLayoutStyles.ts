@@ -32,7 +32,7 @@ export const useAllChainsLayoutStyles = makeStyles()(theme => ({
   },
   requests: {
     gridArea: 'requests',
-    padding: theme.spacing(6),
+    padding: theme.spacing(5),
 
     [theme.breakpoints.down('sm')]: {
       maxHeight: 300,

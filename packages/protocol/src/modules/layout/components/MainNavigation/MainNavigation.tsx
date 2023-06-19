@@ -64,28 +64,30 @@ export const MainNavigation = ({
 
   return (
     <div className={classes.root}>
-      <div>
-        {isLoggedIn && (
+      <div className={classes.main}>
+        <div>
+          {isLoggedIn && (
+            <Navigation
+              loading={loading}
+              items={commonItem}
+              isMobileSiderBar={isMobileSiderBar}
+            />
+          )}
+          <Typography className={classes.tip}>
+            {t('main-navigation.endpoints')}
+          </Typography>
           <Navigation
             loading={loading}
-            items={commonItem}
+            items={endpointsItems}
             isMobileSiderBar={isMobileSiderBar}
           />
-        )}
-        <Typography className={classes.tip}>
-          {t('main-navigation.endpoints')}
-        </Typography>
-        <Navigation
-          loading={loading}
-          items={endpointsItems}
-          isMobileSiderBar={isMobileSiderBar}
-        />
-        <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
-        <Navigation
-          loading={loading}
-          items={menuItems}
-          isMobileSiderBar={isMobileSiderBar}
-        />
+          <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
+          <Navigation
+            loading={loading}
+            items={menuItems}
+            isMobileSiderBar={isMobileSiderBar}
+          />
+        </div>
         <div className={classes.setting}>
           <Navigation
             loading={loading}

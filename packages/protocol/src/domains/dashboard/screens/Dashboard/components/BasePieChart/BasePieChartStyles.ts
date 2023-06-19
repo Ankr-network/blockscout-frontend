@@ -7,7 +7,7 @@ export const useBasePieChartStyles = makeStyles()(theme => ({
     display: 'flex',
     flexDirection: 'column',
 
-    padding: theme.spacing(6, 3, 6, 6),
+    padding: theme.spacing(5, 2, 5, 5),
     borderRadius: 30,
 
     /* TODO: reuse this styles in other scrollable widgets */
@@ -22,7 +22,7 @@ export const useBasePieChartStyles = makeStyles()(theme => ({
       left: 0,
       bottom: -1,
       width: '100%',
-      height: 24,
+      height: 20,
       backgroundColor: theme.palette.background.paper,
     },
   },

@@ -216,7 +216,7 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, BSC_NETWORK_PARAMS);
     case 'chiliz':
       return mapParams(chain, CHILIZ_NETWORK_PARAMS);
-    case 'tenet':
+    case 'tenet_evm':
       return mapParams(chain, TENET_NETWORK_PARAMS);
     default:
       return undefined;

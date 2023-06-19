@@ -1,9 +1,4 @@
-import {
-  EthAddressType,
-  JwtTokenFullData,
-  MultiRpcSdk,
-  MultiRpcWeb3Sdk,
-} from 'multirpc-sdk';
+import { EthAddressType, MultiRpcSdk, MultiRpcWeb3Sdk } from 'multirpc-sdk';
 import { EWalletId, getWalletName } from '@ankr.com/provider';
 
 import { AppDispatch, GetState } from 'store';
@@ -70,13 +65,6 @@ const fetchUserEmail = (dispatch: AppDispatch) => {
   );
 };
 
-const getJwtTokenFullDataWithOauthLogin = (
-  web3Service: MultiRpcWeb3Sdk,
-  currentAccount: string,
-) => {
-  return web3Service.getIssuedJwtTokenOrIssue(currentAccount);
-};
-
 const getJwtTokenFullData = async (
   web3Service: MultiRpcWeb3Sdk,
   dispatch: AppDispatch,
@@ -120,21 +108,12 @@ export const makeAuthorization = async (
 ): Promise<IAuthSlice> => {
   const { currentAccount } = web3Service.getKeyProvider();
 
-  let jwtTokenFullData: JwtTokenFullData = {};
-
-  if (hasOauthLogin) {
-    jwtTokenFullData = await getJwtTokenFullDataWithOauthLogin(
-      web3Service,
-      currentAccount,
-    );
-  } else {
-    jwtTokenFullData = await getJwtTokenFullData(
-      web3Service,
-      dispatch,
-      currentAccount,
-      totp,
-    );
-  }
+  const jwtTokenFullData = await getJwtTokenFullData(
+    web3Service,
+    dispatch,
+    currentAccount,
+    totp,
+  );
 
   const { jwtToken: credentials, workerTokenData } = jwtTokenFullData;
 

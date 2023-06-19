@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useTableWidgetStyles = makeStyles()(theme => {
-  const offsetValue = theme.spacing(6);
+  const offsetValue = theme.spacing(5);
 
   return {
     root: {
@@ -9,7 +9,7 @@ export const useTableWidgetStyles = makeStyles()(theme => {
       flexDirection: 'column',
 
       backgroundImage: 'none',
-      padding: theme.spacing(6, 3, 6, 6),
+      padding: theme.spacing(5, 2, 5, 5),
       paddingBottom: 0,
       overflow: 'auto',
       position: 'relative',

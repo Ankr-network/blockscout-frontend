@@ -15,8 +15,11 @@ export const useStyles = makeStyles<boolean>()((theme, isMobileSiderBar) => ({
     height: isMobileSiderBar
       ? `calc(100% - ${MOBILE_HEADER_HEIGHT}px)`
       : '100%',
-    padding: isMobileSiderBar ? theme.spacing(8, 4, 0, 4) : theme.spacing(8, 4),
+    padding: isMobileSiderBar
+      ? theme.spacing(8, 4, 0, 4)
+      : theme.spacing(8, 4, 4, 4),
 
     backgroundColor: theme.palette.background.paper,
+    overflow: 'auto',
   },
 }));

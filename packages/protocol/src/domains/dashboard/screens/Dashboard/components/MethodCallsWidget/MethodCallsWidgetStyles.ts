@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useMethodCallsWidgetStyles = makeStyles()(theme => {
-  const offsetValue = theme.spacing(6);
+  const offsetValue = theme.spacing(5);
 
   return {
     root: {
