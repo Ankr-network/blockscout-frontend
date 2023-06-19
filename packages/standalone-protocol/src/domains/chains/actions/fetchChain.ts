@@ -2,9 +2,9 @@ import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { Store } from 'store';
-import { ChainId } from '../api/chain';
+import { ChainId, MAP_CHAIN_ID_TO_DETAILS_ID } from '../api/chain';
 import { IApiChain } from '../api/queryChains';
-import { getRPCUrl, isPolygonZkEvm } from './fetchChainUtils';
+import { getRPCUrl, isPolygonZkEvm, isTenetEvm } from './fetchChainUtils';
 import { fetchPublicChains } from './fetchPublicChains';
 import { isDev } from 'modules/common/utils/isProd';
 
@@ -35,10 +35,13 @@ export const fetchChain = createSmartAction<
             fetchPublicChains(),
           );
 
-          const currentChainId =
-            isPolygonZkEvm(chainId) && isDev()
-              ? CHAIN_ID_FOR_BLOCKCHAINS_LIST
-              : chainId;
+          let currentChainId = chainId;
+
+          if (isPolygonZkEvm(chainId) && isDev()) {
+            currentChainId = CHAIN_ID_FOR_BLOCKCHAINS_LIST as ChainId;
+          } else if (isTenetEvm(chainId)) {
+            currentChainId = MAP_CHAIN_ID_TO_DETAILS_ID[chainId] as ChainId;
+          }
 
           const chain = chains?.find(item => item.id === currentChainId);
 

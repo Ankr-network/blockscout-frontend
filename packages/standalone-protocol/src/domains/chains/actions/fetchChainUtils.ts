@@ -4,6 +4,10 @@ export const isPolygonZkEvm = (chainId: string) => {
   return chainId === ChainId.POLYGON_ZKEVM;
 };
 
+export const isTenetEvm = (chainId: string) => {
+  return chainId === ChainId.Tenet;
+};
+
 export const getRPCUrl = (chainId: ChainId) => {
   const location = window?.location.origin;
 
