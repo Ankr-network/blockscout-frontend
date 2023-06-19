@@ -25,7 +25,6 @@ export const CrossMenu = ({
   className,
   isMobileSiderBar = false,
 }: ICrossMenuProps) => {
-  
   const classes = useCrossMenuStyles();
 
   const menuList = useMemo(

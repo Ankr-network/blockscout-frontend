@@ -1,6 +1,6 @@
 {
   "name": "standalone-protocol",
-  "version": "1.50.4",
+  "version": "1.50.5",
   "private": true,
   "scripts": {
     "types": "tsc --noEmit -p tsconfig.json",
