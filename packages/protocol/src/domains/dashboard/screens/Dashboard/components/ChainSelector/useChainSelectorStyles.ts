@@ -21,8 +21,6 @@ export const useChainSelectorStyles = makeStyles()(theme => ({
   },
   menuItem: {
     maxWidth: SELECT_WIDTH,
-    display: 'flex',
-    alignItems: 'center',
   },
   inputRoot: {
     '&&': {
