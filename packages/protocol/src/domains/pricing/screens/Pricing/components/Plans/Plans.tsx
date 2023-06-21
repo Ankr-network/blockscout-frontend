@@ -138,11 +138,13 @@ export const Plans = () => {
           </div>
         </div>
       ))}
-      <UpgradePlanDialog
-        defaultState={ContentType.TOP_UP}
-        onClose={onCloseTopup}
-        open={isTopupOpened}
-      />
+      {isLoggedIn && (
+        <UpgradePlanDialog
+          defaultState={ContentType.TOP_UP}
+          onClose={onCloseTopup}
+          open={isTopupOpened}
+        />
+      )}
       <UpgradePlanDialog
         defaultState={ContentType.CONTACT_SALES_FORM}
         onClose={onClose}
