@@ -1,3 +1,4 @@
+import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
 import { ExpandButton } from './components/ExpandButton';
 import { RequestsTable } from './components/RequestsTable';
 
@@ -5,7 +6,7 @@ export interface RequestsHistoryProps {
   expand: () => void;
   isExpanded: boolean;
   isRefreshing: boolean;
-  refresh: () => void;
+  refresh: ({ group }: IPrivateLastRequestParams) => void;
 }
 
 export const RequestsHistory = ({

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { privateLatestRequests } from '../actions/private/fetchPrivateLatestRequests';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export interface PrivateLatestRequestsParams {
   hasPolling?: boolean;
@@ -19,13 +20,15 @@ export const usePrivateLatestRequests = ({
   const [fetchPrivateLatestRequests, latestRequestsState, reset] =
     useQueryEndpoint(privateLatestRequests, hasPolling ? options : undefined);
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    const { unsubscribe } = fetchPrivateLatestRequests();
+    const { unsubscribe } = fetchPrivateLatestRequests({ group });
 
     return unsubscribe;
-  }, [fetchPrivateLatestRequests]);
+  }, [fetchPrivateLatestRequests, group]);
 
   return latestRequestsState;
 };

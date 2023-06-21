@@ -515,7 +515,7 @@ export class AccountGateway {
 
     return response.blockchains_info;
   }
-  
+
   async getNegativeBalanceTermsOfServicesStatus(
     params?: NegativeBalanceTermsOfServicesStatusParams,
   ) {

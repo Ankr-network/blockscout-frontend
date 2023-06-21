@@ -6,10 +6,11 @@ import {
   PrivateRequestsTable,
   TableVariant,
 } from 'domains/chains/components/PrivateRequestsTable';
+import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
 
 export interface RequestsTableProps {
   isRefreshing: boolean;
-  refresh: () => void;
+  refresh: ({ group }: IPrivateLastRequestParams) => void;
 }
 
 export const RequestsTable = ({

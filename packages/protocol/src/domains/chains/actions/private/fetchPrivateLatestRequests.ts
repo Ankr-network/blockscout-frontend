@@ -1,11 +1,15 @@
 import { Chain } from '../../types';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { LatestRequest } from 'multirpc-sdk';
+import { LatestRequest, Web3Address } from 'multirpc-sdk';
 
 export interface IFetchPrivateChainsInfoResult {
   chains: Chain[];
   allChains: Chain[];
+}
+
+export interface IPrivateLastRequestParams {
+  group?: Web3Address;
 }
 
 export const {
@@ -13,13 +17,16 @@ export const {
   useLazyPrivateLatestRequestsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    privateLatestRequests: build.query<LatestRequest[], void>({
-      queryFn: async () => {
+    privateLatestRequests: build.query<
+      LatestRequest[],
+      IPrivateLastRequestParams
+    >({
+      queryFn: async ({ group }) => {
         const service = MultiService.getService();
 
         const { user_requests: userRequests } = await service
           .getAccountGateway()
-          .getLatestRequests();
+          .getLatestRequests({ group, limit: 10 });
 
         return {
           data: userRequests,
