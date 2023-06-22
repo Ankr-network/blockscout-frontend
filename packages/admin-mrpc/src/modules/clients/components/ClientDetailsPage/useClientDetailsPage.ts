@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
-import { useFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
+import { useLazyFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
-import { useFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
+import { useLazyFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
 import { currentMonthParams, previousMonthParams } from '../../utils/dates';
 import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
 
@@ -52,26 +52,19 @@ export const useClientDetailsPage = () => {
     isFetching: isFetchingClients,
   } = useLazyFetchClients();
 
-  const {
-    data: statsData,
-    isLoading: isLoadingStats,
-    isFetching: isFetchingStats,
-  } = useFetchUserStatsQuery({
-    address,
-    interval: isRangePeriodValue
-      ? undefined
-      : (periodStatement as PrivateStatsInterval),
-    current: isCurrentDayIncluded,
-  });
+  const [
+    fetchStats,
+    { data: statsData, isLoading: isLoadingStats, isFetching: isFetchingStats },
+  ] = useLazyFetchUserStatsQuery();
 
-  const {
-    data: statsByRangeData,
-    isLoading: isLoadingStatsByRange,
-    isFetching: isFetchingStatsByRange,
-  } = useFetchUserStatsByRangeQuery({
-    address,
-    ...requestParams[periodStatement as CustomRange],
-  });
+  const [
+    fetchStatsByRange,
+    {
+      data: statsByRangeData,
+      isLoading: isLoadingStatsByRange,
+      isFetching: isFetchingStatsByRange,
+    },
+  ] = useLazyFetchUserStatsByRangeQuery();
 
   const { data: totalData, isLoading: isLoadingTotal } = useFetchUserTotalQuery(
     { address },
@@ -86,6 +79,28 @@ export const useClientDetailsPage = () => {
   const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    if (isRangePeriodValue) {
+      fetchStatsByRange({
+        address,
+        ...requestParams[periodStatement as CustomRange],
+      });
+    } else {
+      fetchStats({
+        address,
+        interval: periodStatement,
+        current: isCurrentDayIncluded,
+      });
+    }
+  }, [
+    fetchStats,
+    fetchStatsByRange,
+    isRangePeriodValue,
+    periodStatement,
+    address,
+    isCurrentDayIncluded,
+  ]);
 
   const updateTimeframeParam = (
     timeframe: PrivateStatsInterval | CustomRange,
