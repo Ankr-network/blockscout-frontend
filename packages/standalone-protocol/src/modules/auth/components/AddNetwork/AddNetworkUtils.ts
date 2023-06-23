@@ -1,3 +1,4 @@
+import { ChainId } from 'domains/chains/api/chain';
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
 import { IChainParams } from 'modules/auth/actions/addNetwork';
 
@@ -166,6 +167,17 @@ const TENET_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://tenetscan.io/'],
 };
 
+const ZKSYNC_ERA_PRARMS = {
+  chainId: 324,
+  chainName: 'zkSync Era Mainnet',
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.zksync.io/'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -218,6 +230,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, CHILIZ_NETWORK_PARAMS);
     case 'tenet_evm':
       return mapParams(chain, TENET_NETWORK_PARAMS);
+    case ChainId.ZksyncEra:
+      return mapParams(chain, ZKSYNC_ERA_PRARMS);
     default:
       return undefined;
   }
