@@ -111,7 +111,6 @@ export enum ChainID {
   POLYGON_ZKEVM = 'polygon_zkevm',
   POLYGON_ZKEVM_TESTNET = 'polygon_zkevm_testnet',
   ROLLUX = 'rollux',
-  ROLLUX_OPNODE = 'rollux_opnode',
   ROLLUX_TESTNET = 'rollux_testnet',
   ROLLUX_OPNODE_TESTNET = 'rollux_opnode_testnet',
   SECRET = 'scrt',
