@@ -8,6 +8,8 @@ import { ReactComponent as FantomLogo } from 'assets/img/logo/fantom.svg';
 import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
 import { ReactComponent as HarmonyLogo } from 'assets/img/logo/harmony.svg';
 import { ReactComponent as HarmonyMobileLogo } from 'assets/img/logo/harmonyMobile.svg';
+import { ReactComponent as HorizenLogo } from 'assets/img/logo/horizen.svg';
+import { ReactComponent as HorizenMobileLogo } from 'assets/img/logo/horizenMobile.svg';
 import { ReactComponent as IoTexLogo } from 'assets/img/logo/iotex.svg';
 import { ReactComponent as KlaytnLogo } from 'assets/img/logo/klaytn.svg';
 import { ReactComponent as KlaytnMobileLogo } from 'assets/img/logo/klaytnMobile.svg';
@@ -28,10 +30,14 @@ import { ReactComponent as PolygonZkemvMobileLogo } from 'assets/img/logo/polygo
 import { ReactComponent as TenetLogo } from 'assets/img/logo/tenet.svg';
 import { ReactComponent as TenetMobileLogo } from 'assets/img/logo/tenetMobile.svg';
 import { ReactComponent as ChilizLogo } from 'assets/img/logo/chiliz.svg';
+import { ReactComponent as ZksyncEraLogo } from 'assets/img/logo/zksync_era.svg';
+import { ReactComponent as ZksyncEraMobileLogo } from 'assets/img/logo/zksync_era_mobile.svg';
 import {
   ChainId,
+  HORIZEN_TESTNET_NAME,
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
+  ZKSYNC_ERA_NAME,
 } from 'domains/chains/api/chain';
 
 export const getMenuList = (isMobileSiderBar: boolean) => [
@@ -78,6 +84,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     url: 'https://harmony.public-rpc.com/',
   },
   {
+    chainId: ChainId.HORIZEN_TESTNET_EVM,
+    name: HORIZEN_TESTNET_NAME,
+    logo: isMobileSiderBar ? <HorizenMobileLogo /> : <HorizenLogo />,
+    url: 'https://horizen_testnet_evm.public-rpc.com/',
+  },
+  {
     chainId: ChainId.Fantom,
     name: 'Fantom',
     logo: <FantomLogo />,
@@ -100,6 +112,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: TENET_NAME,
     logo: isMobileSiderBar ? <TenetMobileLogo /> : <TenetLogo />,
     url: 'https://tenet_evm.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.ZksyncEra,
+    name: ZKSYNC_ERA_NAME,
+    logo: isMobileSiderBar ? <ZksyncEraMobileLogo /> : <ZksyncEraLogo />,
+    url: 'https://zksync_era.public-rpc.com/',
   },
   {
     chainId: ChainId.Chiliz,

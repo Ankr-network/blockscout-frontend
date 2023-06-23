@@ -1,4 +1,8 @@
-import { ChainId } from 'domains/chains/api/chain';
+import {
+  ChainId,
+  ZKSYNC_ERA_NAME,
+  HORIZEN_TESTNET_NAME,
+} from 'domains/chains/api/chain';
 import { tHTML } from 'modules/i18n/utils/intl';
 
 export type Bytes = number;
@@ -19,6 +23,10 @@ export const renderChainName = (chainId?: ChainId | string): string => {
     return 'Tenet';
   }
 
+  if (chainId === ChainId.HORIZEN_TESTNET_EVM) {
+    return HORIZEN_TESTNET_NAME;
+  }
+
   if (chainId === ChainId.Ethereum) {
     return 'Ethereum';
   }
@@ -33,6 +41,10 @@ export const renderChainName = (chainId?: ChainId | string): string => {
 
   if (chainId === ChainId.POLYGON_ZKEVM) {
     return 'polygon zkevm';
+  }
+
+  if (chainId === ChainId.ZksyncEra) {
+    return ZKSYNC_ERA_NAME;
   }
 
   return chainId ?? '';

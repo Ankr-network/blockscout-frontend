@@ -19,7 +19,7 @@ interface IApiResponse {
 }
 
 export const {
-  useFetchUserStatsByRangeQuery,
+  useLazyFetchUserStatsByRangeQuery,
   endpoints: { fetchUserStatsByRange },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

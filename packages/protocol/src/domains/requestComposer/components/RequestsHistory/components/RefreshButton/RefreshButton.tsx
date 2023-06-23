@@ -6,12 +6,13 @@ import { intlRoot } from '../../const';
 import { useRefreshButtonStyles } from './RefreshButtonStyles';
 import { useRefreshButton } from './hooks/useRefreshButton';
 import { RefreshButtonIcon } from '../RefreshButtonIcon';
+import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
 
 const refreshButton = t(`${intlRoot}.refresh-button`);
 
 export interface RefreshButtonProps {
   isRefreshing: boolean;
-  onRefresh: () => void;
+  onRefresh: ({ group }: IPrivateLastRequestParams) => void;
 }
 
 export const RefreshButton = ({

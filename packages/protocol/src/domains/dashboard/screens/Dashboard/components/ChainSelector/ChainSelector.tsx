@@ -60,17 +60,21 @@ export const ChainSelector = ({
                 className={classNameMenuItem}
                 value={item.value}
               >
-                <Typography variant="body2" className={classes.menuItem} noWrap>
-                  <>
-                    {currentChain && (
-                      <ChainLogo
-                        className={classes.iconChain}
-                        chain={currentChain}
-                      />
-                    )}
+                <>
+                  {currentChain && (
+                    <ChainLogo
+                      className={classes.iconChain}
+                      chain={currentChain}
+                    />
+                  )}
+                  <Typography
+                    variant="body2"
+                    className={classes.menuItem}
+                    noWrap
+                  >
                     {item.label}
-                  </>
-                </Typography>
+                  </Typography>
+                </>
               </MenuItem>
             );
           })}

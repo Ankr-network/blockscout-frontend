@@ -344,6 +344,7 @@ export interface IGetLatestRequestsRequest {
   from_ms?: number;
   to_ms?: number;
   cursor?: number;
+  group?: Web3Address;
   limit: number;
 }
 
@@ -444,11 +445,15 @@ export type TotalStatsBlockchains = Record<BlockchainID, TotalStatsBlockchain>;
 
 export type UserEndpointToken = string;
 
-export type TotalStatsPremiumTokens =
-  Record<UserEndpointToken, TotalStatsPremiumToken>;
+export type TotalStatsPremiumTokens = Record<
+  UserEndpointToken,
+  TotalStatsPremiumToken
+>;
 
-export type TotalStatsPremiumToken =
-  Omit<TotalStatsBlockchainsInfo, 'premium_tokens'>;
+export type TotalStatsPremiumToken = Omit<
+  TotalStatsBlockchainsInfo,
+  'premium_tokens'
+>;
 
 export interface TotalStatsBlockchain {
   total_cost: number;

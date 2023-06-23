@@ -10,7 +10,10 @@ const beacons: ChainID[] = [
 export const isBeacon = (chainID?: ChainID) =>
   !!chainID && beacons.includes(chainID);
 
-const opnodes: ChainID[] = [ChainID.ROLLUX_OPNODE_TESTNET];
+const opnodes: ChainID[] = [
+  ChainID.ROLLUX_OPNODE,
+  ChainID.ROLLUX_OPNODE_TESTNET,
+];
 
 export const isOpnode = (chainID?: ChainID) =>
   !!chainID && opnodes.includes(chainID);

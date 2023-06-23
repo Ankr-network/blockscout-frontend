@@ -3,12 +3,18 @@ import { useEffect, useMemo } from 'react';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import {
   ChainId,
+  HORIZEN_TESTNET_NAME,
   POLYGON_NAME,
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
+  ZKSYNC_ERA_NAME,
 } from 'domains/chains/api/chain';
 
 const renderChainName = (chainId: ChainId) => {
+  if (chainId === ChainId.HORIZEN_TESTNET_EVM) {
+    return HORIZEN_TESTNET_NAME;
+  }
+
   if (chainId === ChainId.Polygon) {
     return POLYGON_NAME;
   }
@@ -19,6 +25,10 @@ const renderChainName = (chainId: ChainId) => {
 
   if (chainId === ChainId.Tenet) {
     return TENET_NAME;
+  }
+
+  if (chainId === ChainId.ZksyncEra) {
+    return ZKSYNC_ERA_NAME;
   }
 
   return chainId.charAt(0).toUpperCase() + chainId.slice(1);

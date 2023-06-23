@@ -4,7 +4,12 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { Store } from 'store';
 import { ChainId, MAP_CHAIN_ID_TO_DETAILS_ID } from '../api/chain';
 import { IApiChain } from '../api/queryChains';
-import { getRPCUrl, isPolygonZkEvm, isTenetEvm } from './fetchChainUtils';
+import {
+  getRPCUrl,
+  isHorizenTestnetEvm,
+  isPolygonZkEvm,
+  isTenetEvm,
+} from './fetchChainUtils';
 import { fetchPublicChains } from './fetchPublicChains';
 import { isDev } from 'modules/common/utils/isProd';
 
@@ -40,6 +45,8 @@ export const fetchChain = createSmartAction<
           if (isPolygonZkEvm(chainId) && isDev()) {
             currentChainId = CHAIN_ID_FOR_BLOCKCHAINS_LIST as ChainId;
           } else if (isTenetEvm(chainId)) {
+            currentChainId = MAP_CHAIN_ID_TO_DETAILS_ID[chainId] as ChainId;
+          } else if (isHorizenTestnetEvm(chainId)) {
             currentChainId = MAP_CHAIN_ID_TO_DETAILS_ID[chainId] as ChainId;
           }
 

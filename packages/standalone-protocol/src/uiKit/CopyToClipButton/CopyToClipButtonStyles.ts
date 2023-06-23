@@ -1,6 +1,7 @@
 import { darken, makeStyles, Theme } from '@material-ui/core';
 import { ChainId } from 'domains/chains/api/chain';
 import { TENET_LINEAR_GRADIENT_COLOR } from 'modules/themes/tenetTheme';
+import { Themes } from 'modules/themes/types';
 
 interface CopyToClipProps {
   isCopied: boolean;
@@ -43,6 +44,18 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       '& $button': {
         color: theme.palette.common.white,
         background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
+      },
+    },
+
+    [`&.${ChainId.HORIZEN_TESTNET_EVM}`]: {
+      '& $content': {
+        padding: 0,
+        borderRadius: 12,
+        border: '2px solid #21293B',
+      },
+      '& $button': {
+        color: theme.palette.common.white,
+        background: `linear-gradient(270deg, #69D693 0%, #469DDF 100%)`,
       },
     },
 
@@ -251,6 +264,44 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         background: TENET_LINEAR_GRADIENT_COLOR,
       },
     },
+
+    [`&.${ChainId.ZksyncEra}`]:
+      theme.palette.type === Themes.dark
+        ? {
+            '& $contentBackground': {
+              position: 'relative',
+
+              height: 72,
+              padding: 0,
+
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                '& $button': {
+                  backgroundColor: theme.palette.primary.light,
+                },
+              },
+            },
+            '& $text': {
+              display: 'flex',
+              alignItems: 'center',
+
+              width: '100%',
+              height: '100%',
+
+              border: `2px solid ${theme.palette.background.paper}`,
+              borderRadius: '12px',
+
+              color: theme.palette.background.paper,
+              backgroundColor: theme.palette.common.white,
+            },
+
+            '& $button': {
+              position: 'absolute',
+              right: 0,
+            },
+          }
+        : {},
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied
