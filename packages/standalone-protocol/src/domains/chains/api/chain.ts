@@ -8,6 +8,7 @@ export enum ChainId {
   Chiliz = 'chiliz',
   Ethereum = 'eth',
   Fantom = 'fantom',
+  HORIZEN_TESTNET_EVM = 'horizen_testnet_evm',
   Harmony = 'harmony',
   IoTeX = 'iotex',
   Near = 'near',
@@ -25,6 +26,8 @@ export enum ChainId {
   Klaytn = 'klaytn',
   POLYGON_ZKEVM = 'zkevm',
 }
+
+export const HORIZEN_TESTNET_NAME = 'Horizen EON testnet';
 
 export const POLYGON_ZKEVM_CHAIN_NAME = 'Polygon zkEVM';
 
@@ -60,9 +63,11 @@ export const getStandaloneUrl = (
 type ChainIDLinkMap = Partial<Record<ChainId, ChainId>>;
 
 export const MAP_CHAIN_ID_TO_NODE_DETAILS_ID: ChainIDLinkMap = {
+  [ChainId.HORIZEN_TESTNET_EVM]: 'horizen-testnet-evm' as ChainId,
   [ChainId.Tenet]: 'tenet-evm' as ChainId,
 };
 
 export const MAP_CHAIN_ID_TO_DETAILS_ID: ChainIDLinkMap = {
+  [ChainId.HORIZEN_TESTNET_EVM]: 'horizen' as ChainId,
   [ChainId.Tenet]: 'tenet' as ChainId,
 };

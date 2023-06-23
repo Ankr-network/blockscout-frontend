@@ -1,4 +1,8 @@
-import { ChainId, ZKSYNC_ERA_NAME } from 'domains/chains/api/chain';
+import {
+  ChainId,
+  ZKSYNC_ERA_NAME,
+  HORIZEN_TESTNET_NAME,
+} from 'domains/chains/api/chain';
 import { tHTML } from 'modules/i18n/utils/intl';
 
 export type Bytes = number;
@@ -17,6 +21,10 @@ export function convertBytesToMegabytes(value: Bytes, fixed = 0) {
 export const renderChainName = (chainId?: ChainId | string): string => {
   if (chainId === ChainId.Tenet) {
     return 'Tenet';
+  }
+
+  if (chainId === ChainId.HORIZEN_TESTNET_EVM) {
+    return HORIZEN_TESTNET_NAME;
   }
 
   if (chainId === ChainId.Ethereum) {

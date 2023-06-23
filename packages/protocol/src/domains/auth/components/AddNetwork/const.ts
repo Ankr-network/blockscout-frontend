@@ -300,7 +300,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       symbol: 'tZEN',
       decimals: 18,
     },
-    blockExplorerUrls: ['https://yuma-testnet.horizenlabs.io/ethv1/'],
+    blockExplorerUrls: ['https://gobi-testnet.horizenlabs.io/ethv1'],
   },
 
   [ChainID.IOTEX]: {

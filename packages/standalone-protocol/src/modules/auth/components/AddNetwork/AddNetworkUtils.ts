@@ -167,7 +167,19 @@ const TENET_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://tenetscan.io/'],
 };
 
-const ZKSYNC_ERA_PRARMS = {
+// https://docs.tenet.org/mainnet-beta/tenet-mainnet
+const HORIZEN_NETWORK_PARAMS = {
+  chainId: 1663, // 0x67f
+  chainName: 'Horizen Gobi Testnet',
+  nativeCurrency: {
+    name: 'Horizen',
+    symbol: 'tZEN',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://gobi-testnet.horizenlabs.io/ethv1'],
+};
+
+const ZKSYNC_ERA_PARAMS = {
   chainId: 324,
   chainName: 'zkSync Era Mainnet',
   nativeCurrency: {
@@ -230,8 +242,11 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, CHILIZ_NETWORK_PARAMS);
     case 'tenet_evm':
       return mapParams(chain, TENET_NETWORK_PARAMS);
+    case 'horizen_testnet_evm':
+      return mapParams(chain, HORIZEN_NETWORK_PARAMS);
     case ChainId.ZksyncEra:
-      return mapParams(chain, ZKSYNC_ERA_PRARMS);
+      return mapParams(chain, ZKSYNC_ERA_PARAMS);
+
     default:
       return undefined;
   }

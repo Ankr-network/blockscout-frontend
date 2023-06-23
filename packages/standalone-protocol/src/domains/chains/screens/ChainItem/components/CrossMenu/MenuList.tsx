@@ -8,6 +8,8 @@ import { ReactComponent as FantomLogo } from 'assets/img/logo/fantom.svg';
 import { ReactComponent as GnosisLogo } from 'assets/img/logo/gnosis.svg';
 import { ReactComponent as HarmonyLogo } from 'assets/img/logo/harmony.svg';
 import { ReactComponent as HarmonyMobileLogo } from 'assets/img/logo/harmonyMobile.svg';
+import { ReactComponent as HorizenLogo } from 'assets/img/logo/horizen.svg';
+import { ReactComponent as HorizenMobileLogo } from 'assets/img/logo/horizenMobile.svg';
 import { ReactComponent as IoTexLogo } from 'assets/img/logo/iotex.svg';
 import { ReactComponent as KlaytnLogo } from 'assets/img/logo/klaytn.svg';
 import { ReactComponent as KlaytnMobileLogo } from 'assets/img/logo/klaytnMobile.svg';
@@ -32,6 +34,7 @@ import { ReactComponent as ZksyncEraLogo } from 'assets/img/logo/zksync_era.svg'
 import { ReactComponent as ZksyncEraMobileLogo } from 'assets/img/logo/zksync_era_mobile.svg';
 import {
   ChainId,
+  HORIZEN_TESTNET_NAME,
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
   ZKSYNC_ERA_NAME,
@@ -79,6 +82,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: 'Harmony',
     logo: isMobileSiderBar ? <HarmonyMobileLogo /> : <HarmonyLogo />,
     url: 'https://harmony.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.HORIZEN_TESTNET_EVM,
+    name: HORIZEN_TESTNET_NAME,
+    logo: isMobileSiderBar ? <HorizenMobileLogo /> : <HorizenLogo />,
+    url: 'https://horizen_testnet_evm.public-rpc.com/',
   },
   {
     chainId: ChainId.Fantom,

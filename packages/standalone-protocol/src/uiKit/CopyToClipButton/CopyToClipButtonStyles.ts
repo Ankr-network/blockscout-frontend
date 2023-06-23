@@ -47,6 +47,18 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
+    [`&.${ChainId.HORIZEN_TESTNET_EVM}`]: {
+      '& $content': {
+        padding: 0,
+        borderRadius: 12,
+        border: '2px solid #21293B',
+      },
+      '& $button': {
+        color: theme.palette.common.white,
+        background: `linear-gradient(270deg, #69D693 0%, #469DDF 100%)`,
+      },
+    },
+
     [`&.${ChainId.Near}`]: {
       borderRadius: 36,
       boxShadow: `0 0 0 1px ${theme.palette.primary.main}`,
