@@ -1,7 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { ChainId } from 'domains/chains/api/chain';
 import { RequestsLog } from './ChainRequestsChartTypes';
-import { Themes } from 'modules/themes/types';
 
 export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {
@@ -32,11 +31,6 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
 
     case ChainId.POLYGON_ZKEVM:
       return theme.palette.common.black;
-
-    case ChainId.ZksyncEra:
-      return theme.palette.type === Themes.light
-        ? theme.palette.primary.main
-        : theme.palette.common.white;
 
     default:
       return theme.palette.primary.main;

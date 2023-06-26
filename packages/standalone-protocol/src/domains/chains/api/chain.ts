@@ -21,7 +21,6 @@ export enum ChainId {
   Syscoin = 'syscoin',
   Secret = 'scrt',
   Tenet = 'tenet_evm',
-  ZksyncEra = 'zksync_era',
   Filecoin = 'filecoin',
   Klaytn = 'klaytn',
   POLYGON_ZKEVM = 'zkevm',
@@ -34,8 +33,6 @@ export const POLYGON_ZKEVM_CHAIN_NAME = 'Polygon zkEVM';
 export const POLYGON_NAME = 'Polygon PoS';
 
 export const TENET_NAME = 'Tenet';
-
-export const ZKSYNC_ERA_NAME = 'zkSync Era';
 
 const STANDALONE_CHAINS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
 
