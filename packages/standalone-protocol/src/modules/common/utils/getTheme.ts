@@ -20,6 +20,7 @@ import { fantomTheme } from 'modules/themes/fantomTheme';
 import { bscTheme } from 'modules/themes/bscTheme';
 import { polygonZkevmTheme } from 'modules/themes/polygonZkevmTheme';
 import { tenetTheme } from 'modules/themes/tenetTheme';
+import { rolluxTheme } from 'modules/themes/rolluxTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -82,6 +83,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Tenet:
       return tenetTheme;
+
+    case ChainId.Rollux:
+      return rolluxTheme;
 
     default:
       return mainTheme;

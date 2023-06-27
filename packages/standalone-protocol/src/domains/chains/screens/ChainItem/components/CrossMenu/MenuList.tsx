@@ -36,6 +36,8 @@ import {
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
 } from 'domains/chains/api/chain';
+import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
+import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
 
 export const getMenuList = (isMobileSiderBar: boolean) => [
   {
@@ -73,6 +75,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: 'Nervos',
     logo: <NervosLogo />,
     url: 'https://nervos.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Rollux,
+    name: 'Rollux',
+    logo: isMobileSiderBar ? <RolluxMobileLogo /> : <RolluxLogo />,
+    url: 'https://rollux.public-rpc.com/',
   },
   {
     chainId: ChainId.Harmony,

@@ -41,6 +41,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.Chiliz}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
     },
+
+    [`&.${ChainId.Rollux}`]: {
+      border: `1px solid ${theme.palette.common.black}`,
+      borderRadius: 0,
+    },
   },
   header: {
     padding: theme.spacing(2, 0),

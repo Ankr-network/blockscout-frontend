@@ -119,6 +119,24 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     },
+
+    [`&.${ChainId.Rollux}`]: {
+      color: theme.palette.common.white,
+      textShadow: `
+        -1px -1px 0 ${theme.palette.common.black},
+        0   -1px 0 ${theme.palette.common.black},
+        1px -1px 0 ${theme.palette.common.black},
+        1px  0   0 ${theme.palette.common.black},
+        1px  1px 0 ${theme.palette.common.black},
+        0    1px 0 ${theme.palette.common.black},
+        -1px  1px 0 ${theme.palette.common.black},
+        -1px  0   0 ${theme.palette.common.black}`,
+
+      '& > span > span span': {
+        color: theme.palette.common.black,
+        textShadow: 'none',
+      },
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
@@ -129,6 +147,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     },
 
     [`&.${ChainId.POLYGON_ZKEVM} span`]: {
+      color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.Rollux} span`]: {
       color: theme.palette.text.primary,
     },
 

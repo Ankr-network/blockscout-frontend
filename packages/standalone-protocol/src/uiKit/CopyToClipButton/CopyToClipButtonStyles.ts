@@ -263,6 +263,32 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         background: TENET_LINEAR_GRADIENT_COLOR,
       },
     },
+
+    [`&.${ChainId.Rollux}`]: {
+      borderRadius: 0,
+
+      '& $content': {
+        padding: 0,
+      },
+      '& $text': {
+        border: `2px solid ${theme.palette.grey[300]}`,
+        backgroundColor: theme.palette.grey[600],
+        padding: theme.spacing(0, 0, 0, 4),
+        height: '100%',
+        borderRightWidth: 0,
+        display: 'flex',
+        alignItems: 'center',
+      },
+      '& $button': {
+        backgroundColor: theme.palette.common.black,
+        borderRadius: 0,
+        color: theme.palette.primary.main,
+
+        '&:hover': {
+          color: theme.palette.primary.main,
+        },
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied

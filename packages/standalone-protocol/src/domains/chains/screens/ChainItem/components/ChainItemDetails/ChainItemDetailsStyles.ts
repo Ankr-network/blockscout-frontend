@@ -88,6 +88,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
       borderRadius: 0,
       backgroundColor: theme.palette.primary.light,
     },
+
+    [`&.${ChainId.Rollux} $block`]: {
+      borderRadius: 0,
+      border: `1px solid ${theme.palette.common.black}`,
+    },
   },
 
   block: {},

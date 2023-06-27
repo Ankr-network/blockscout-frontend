@@ -62,6 +62,9 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.POLYGON_ZKEVM:
       return theme.palette.primary.main;
 
+    case ChainId.Rollux:
+      return '#EACF5E';
+
     default:
       return theme.palette.primary.dark;
   }

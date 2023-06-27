@@ -39,6 +39,17 @@ const MANTLE: NetworkInfo = {
 };
 
 const ROLLUX: NetworkInfo = {
+  chainId: 570,
+  chainName: 'Rollux Mainnet',
+  nativeCurrency: {
+    name: 'SYS',
+    symbol: 'SYS',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.rollux.com'],
+};
+
+const ROLLUX_TESTNET: NetworkInfo = {
   chainId: 57000,
   chainName: 'Rollux Testnet',
   nativeCurrency: {
@@ -489,7 +500,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.ROLLUX]: ROLLUX,
 
-  [ChainID.ROLLUX_TESTNET]: ROLLUX,
+  [ChainID.ROLLUX_TESTNET]: ROLLUX_TESTNET,
 
   [ChainID.ZETACHAIN]: ZETACHAIN,
 
