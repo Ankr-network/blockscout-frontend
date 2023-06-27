@@ -137,8 +137,7 @@ const addExtensions = (
         ...chain,
         testnets: testnets[id],
         devnets: devnets[id],
-        opnodes:
-          id === ChainID.ROLLUX ? opnodes[ChainID.ROLLUX_TESTNET] : opnodes[id],
+        opnodes: opnodes[id],
         chainWithoutMainnet: isTestnetOnlyChain(id)
           ? getChainWithoutMainnet(testnets[id]?.[0])
           : undefined,

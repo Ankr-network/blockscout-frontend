@@ -1,7 +1,7 @@
 import { t, tHTML } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain } from 'domains/chains/types';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { useChainSubtitleStyles } from './ChainSubtitleStyles';
@@ -11,17 +11,18 @@ export interface ChainDescriptionProps {
   isChainArchived: boolean;
 }
 
-const checkBetaLabel = (id: ChainID) => {
-  return id === ChainID.SUI || id === ChainID.ROLLUX;
+const checkBetaLabel = () => {
+  // We will use beta label for future chains
+  return false;
 };
 
 export const ChainSubtitle = ({
-  chain: { coinName, id },
+  chain: { coinName },
   isChainArchived,
 }: ChainDescriptionProps) => {
   const { classes } = useChainSubtitleStyles();
 
-  const hasBetaLabel = useMemo(() => checkBetaLabel(id), [id]);
+  const hasBetaLabel = useMemo(() => checkBetaLabel(), []);
 
   const [label, tooltip] = hasBetaLabel
     ? [t('chains.beta'), '']
