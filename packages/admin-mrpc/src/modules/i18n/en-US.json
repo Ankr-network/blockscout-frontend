@@ -8,5 +8,11 @@
     "access-token-error": "Access token error",
     "insufficient-permissions": "Insufficient permissions"
   },
-  "clientsTitle": "Clients"
+  "clients-title": "Clients",
+  "client-details": {
+    "groups": {
+      "title": "User Groups:",
+      "no-groups": "No user groups found"
+    }
+  }
 }

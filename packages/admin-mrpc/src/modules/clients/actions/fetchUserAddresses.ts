@@ -7,7 +7,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 
 export const {
-  useFetchUserAddressesQuery,
+  useLazyFetchUserAddressesQuery,
   endpoints: { fetchUserAddresses },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

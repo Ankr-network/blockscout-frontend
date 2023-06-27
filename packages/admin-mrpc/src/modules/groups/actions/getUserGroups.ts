@@ -11,7 +11,6 @@ export type UserGroupItemMapped = {
 export type UserGroupsList = UserGroupItemMapped[];
 
 export const {
-  useGetUserGroupsQuery,
   useLazyGetUserGroupsQuery,
   endpoints: { getUserGroups },
 } = web3Api.injectEndpoints({
