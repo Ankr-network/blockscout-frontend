@@ -6,7 +6,6 @@ import { HEADER_HEIGHT } from './HeaderLogo/HeaderLogoStyles';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 import { hasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 import { TENET_LINEAR_GRADIENT_COLOR } from 'modules/themes/tenetTheme';
-import { Themes } from 'modules/themes/types';
 
 const { REACT_APP_CHAIN_ID } = process.env;
 
@@ -120,13 +119,6 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     },
-
-    [`&.${ChainId.ZksyncEra} .chainId`]: {
-      color:
-        theme.palette.type === Themes.light
-          ? theme.palette.primary.main
-          : undefined,
-    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
@@ -138,13 +130,6 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
 
     [`&.${ChainId.POLYGON_ZKEVM} span`]: {
       color: theme.palette.text.primary,
-    },
-
-    [`&.${ChainId.ZksyncEra} span`]: {
-      color:
-        theme.palette.type === Themes.light
-          ? theme.palette.grey['500']
-          : theme.palette.text.primary,
     },
 
     '& span': {

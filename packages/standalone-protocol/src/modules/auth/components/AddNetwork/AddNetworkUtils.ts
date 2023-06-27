@@ -1,4 +1,3 @@
-import { ChainId } from 'domains/chains/api/chain';
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
 import { IChainParams } from 'modules/auth/actions/addNetwork';
 
@@ -179,17 +178,6 @@ const HORIZEN_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://gobi-testnet.horizenlabs.io/ethv1'],
 };
 
-const ZKSYNC_ERA_PARAMS = {
-  chainId: 324,
-  chainName: 'zkSync Era Mainnet',
-  nativeCurrency: {
-    name: 'ETH',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://explorer.zksync.io/'],
-};
-
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -244,8 +232,6 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, TENET_NETWORK_PARAMS);
     case 'horizen_testnet_evm':
       return mapParams(chain, HORIZEN_NETWORK_PARAMS);
-    case ChainId.ZksyncEra:
-      return mapParams(chain, ZKSYNC_ERA_PARAMS);
 
     default:
       return undefined;
