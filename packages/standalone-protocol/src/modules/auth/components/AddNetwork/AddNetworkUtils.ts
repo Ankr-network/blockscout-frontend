@@ -166,6 +166,17 @@ const TENET_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://tenetscan.io/'],
 };
 
+const ROLLUX_NETWORK_PARAMS = {
+  chainId: 570,
+  chainName: 'Rollux Mainnet',
+  nativeCurrency: {
+    name: 'SYS',
+    symbol: 'SYS',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.rollux.com/'],
+};
+
 // https://docs.tenet.org/mainnet-beta/tenet-mainnet
 const HORIZEN_NETWORK_PARAMS = {
   chainId: 1663, // 0x67f
@@ -230,6 +241,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, CHILIZ_NETWORK_PARAMS);
     case 'tenet_evm':
       return mapParams(chain, TENET_NETWORK_PARAMS);
+    case 'rollux':
+      return mapParams(chain, ROLLUX_NETWORK_PARAMS);
     case 'horizen_testnet_evm':
       return mapParams(chain, HORIZEN_NETWORK_PARAMS);
 

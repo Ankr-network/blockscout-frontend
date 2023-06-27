@@ -36,6 +36,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.POLYGON_ZKEVM}`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
     },
+
+    [`&.${ChainId.Rollux}`]: {
+      border: `1px solid ${theme.palette.common.black}`,
+      borderRadius: 0,
+    },
   },
   link: {
     width: '100%',

@@ -25,6 +25,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: theme.palette.grey[600],
       borderRadius: 0,
     },
+    [`&.${ChainId.Rollux}`]: {
+      border: `1px solid ${theme.palette.common.black}`,
+      borderRadius: 0,
+    },
 
     [`&.${ChainId.POLYGON_ZKEVM}`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
