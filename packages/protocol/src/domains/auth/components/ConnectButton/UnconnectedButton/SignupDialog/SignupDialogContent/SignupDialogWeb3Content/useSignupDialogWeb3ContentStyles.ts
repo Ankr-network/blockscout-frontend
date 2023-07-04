@@ -76,8 +76,8 @@ export const useSignupDialogWeb3ContentStyles = makeStyles()(
       fontSize: 13,
       fontWeight: 700,
 
-      [theme.breakpoints.up('md')]: {
-        marginTop: theme.spacing(1),
+      [theme.breakpoints.up('sm')]: {
+        margin: theme.spacing(1, 0, 0, 0),
       },
     },
   }),

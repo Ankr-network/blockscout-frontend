@@ -57,7 +57,6 @@ export const SignupDialogWeb3Content = ({
                     onClick={onWalletItemClick({
                       href,
                       isInjected,
-
                       walletId,
                     })}
                   >
