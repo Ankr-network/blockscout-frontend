@@ -94,16 +94,8 @@ export interface IBalance {
   balance_voucher: string;
 }
 
-export interface IBalanceEndTimeResult {
-  NumberOfDaysEstimate: number;
-}
-
 export interface IDailyChargingParams extends IApiUserGroupParams {
   day_offset: number;
-}
-
-export interface IApiBalanceEndTimeRequestParams extends IApiUserGroupParams {
-  blockchains?: string[];
 }
 
 export type IDailyChargingResponse = string;
