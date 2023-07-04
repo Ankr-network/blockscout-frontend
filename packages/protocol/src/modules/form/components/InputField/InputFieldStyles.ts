@@ -16,4 +16,7 @@ export const useInputFieldStyles = makeStyles()(() => ({
       minHeight: '95px !important',
     },
   },
+  input: {
+    transition: 'none',
+  },
 }));
