@@ -128,6 +128,7 @@ export interface ISubscriptionsResponse {
 export interface ISubscriptionsItem {
   amount: string;
   currency: string;
+  currentPeriodEnd: string;
   customerId: string;
   id: string;
   productId: string;
@@ -458,4 +459,38 @@ export interface NegativeBalanceTermsOfServicesStatusParams {
 
 export interface NegativeBalanceTermsOfServicesStatusResponse {
   tosAccepted: boolean;
+}
+
+export interface BundlePaymentPlan {
+  bundle: BundlePlan;
+  price: ProductPrice;
+}
+
+export interface BundlePlan {
+  active: boolean;
+  bundle_id: string;
+  created_at: number;
+  duration: number;
+  limits: BundleLimit[];
+  name: string;
+  price_id: string;
+  product_id: string;
+  updated_at: number;
+}
+
+export interface BundleLimit {
+  blockchain_path: string;
+  limit?: number;
+  type: BundleLimitType;
+}
+
+export enum BundleLimitType {
+  UNKNOWN = 0,
+  QTY = 1,
+  COST = 2,
+}
+
+export interface GetLinkForBundlePaymentRequest {
+  product_id: string;
+  product_price_id: string;
 }

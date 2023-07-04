@@ -26,7 +26,7 @@ const labelGettersMap: Record<TopUpAction, LabelGetter> = {
   [TopUpAction.CONTINUE]: isMobile =>
     t(
       `account.account-details.top-up.${
-        isMobile ? 'continue' : 'continue-button'
+        isMobile ? 'continue-mobile' : 'continue-desktop'
       }`,
     ),
 };

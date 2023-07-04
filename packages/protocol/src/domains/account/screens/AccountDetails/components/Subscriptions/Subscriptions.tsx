@@ -1,21 +1,29 @@
-import { useCallback, useState } from 'react';
-import { t } from '@ankr.com/common';
-import { Typography } from '@mui/material';
-
-import { useSubscriptions } from './hooks/useSubscriptions';
-import { useSubscriptionsStyles } from './useSubscriptionsStyles';
+import { ISubscriptionsItem } from 'multirpc-sdk';
 import { Refresh } from '@ankr.com/ui';
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { useCallback, useEffect, useState } from 'react';
 
 import { CancelSubscriptionDialog } from './CancelSubscriptionDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { ISubscriptionsItem } from 'multirpc-sdk';
+import { useSubscriptions } from './hooks/useSubscriptions';
+import { useSubscriptionsStyles } from './useSubscriptionsStyles';
 
-export const Subscriptions = () => {
-  const { classes } = useSubscriptionsStyles();
+export interface SubscriptionsProps {
+  className?: string;
+  setHasSubscriptions: (hasSubscriptions: boolean) => void;
+}
+
+export const Subscriptions = ({
+  className,
+  setHasSubscriptions,
+}: SubscriptionsProps) => {
+  const { classes, cx } = useSubscriptionsStyles();
 
   const { isOpened, onOpen, onClose } = useDialog();
-  const { subscriptions, cancelSubscription } = useSubscriptions();
   const [selectedItem, setSelectedItem] = useState<ISubscriptionsItem>();
+  const { subscriptions, cancelSubscription } = useSubscriptions(selectedItem);
+  const hasSubscriptions = subscriptions.length > 0;
 
   const handleOpen = useCallback(
     (item: ISubscriptionsItem) => {
@@ -32,19 +40,23 @@ export const Subscriptions = () => {
     cancelSubscription(selectedItem.subscriptionId).then(onClose);
   }, [selectedItem, cancelSubscription, onClose]);
 
-  if (!subscriptions || subscriptions.items.length === 0) {
+  useEffect(() => {
+    setHasSubscriptions(hasSubscriptions);
+  }, [hasSubscriptions, setHasSubscriptions]);
+
+  if (!hasSubscriptions) {
     return null;
   }
 
   return (
     <>
-      <div className={classes.root}>
+      <div className={cx(classes.root, className)}>
         <Typography className={classes.title} variant="h5">
           {t('account.account-details.subscriptions.top-up-subscriptions', {
-            value: subscriptions?.items.length,
+            value: subscriptions.length,
           })}
         </Typography>
-        {subscriptions?.items?.map(item => (
+        {subscriptions.map(item => (
           <div key={item.id} className={classes.item}>
             <div className={classes.textContainer}>
               {item.type === 'recurring' && <Refresh />}

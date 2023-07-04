@@ -1,37 +1,46 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
-import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/AccountDetails/AccountDetailsStyles';
 
-export const useStyles = makeStyles()((theme: Theme) => ({
-  rootForm: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
-  },
-  pricesTabsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    flex: 1,
-  },
+export const useStyles = makeStyles()(theme => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
-    flex: 1.5,
     justifyContent: 'space-between',
 
-    [theme.breakpoints.down('sm')]: {
-      gap: 6,
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'unset',
-    },
+    flexGrow: 1,
   },
-  amount: {
-    flex: 1,
-    [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
-      marginBottom: 'unset',
-    },
+  amountLabel: {
+    marginBottom: theme.spacing(2),
+
+    color: theme.palette.text.primary,
+    letterSpacing: '-0.01em',
+
+    lineHeight: '135%',
+  },
+  tabs: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  tab: {
+    borderRadius: 17,
+  },
+  bottom: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    gap: theme.spacing(3),
+  },
+  button: {
+    height: 48,
+
+    borderRadius: 17,
+  },
+  cancelLabel: {
+    color: theme.palette.grey[600],
+
+    textAlign: 'center',
+
+    fontSize: 14,
+    lineHeight: '140%',
   },
 }));

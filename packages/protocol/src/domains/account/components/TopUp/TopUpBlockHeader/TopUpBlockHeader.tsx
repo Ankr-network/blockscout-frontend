@@ -1,6 +1,7 @@
 import { Button, Typography, Box } from '@mui/material';
-
+import { ExternalLink } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+
 import { PRICING_PLANS_LINK } from 'domains/account/actions/topUp/const';
 import { useTopUpBlockHeaderStyles } from './TopUpBlockHeaderStyles';
 
@@ -14,8 +15,12 @@ export const TopUpBlockHeader = () => {
       </Typography>
       <Button
         className={classes.link}
-        href={PRICING_PLANS_LINK}
+        classes={{
+          endIcon: classes.endIcon,
+        }}
         color="primary"
+        endIcon={<ExternalLink />}
+        href={PRICING_PLANS_LINK}
         target="_blank"
         variant="text"
       >

@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { Button, Typography } from '@mui/material';
 import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
+import { TopUp } from '@ankr.com/ui';
 import { push } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 import { useCallback, useMemo, useState } from 'react';
@@ -18,7 +19,6 @@ import { AmountField } from './AmountField';
 import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { NavLink } from 'uiKit/NavLink';
-import { RateBlock } from './RateBlock';
 import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
@@ -35,16 +35,22 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
     ({ values }: FormRenderProps<TopUpFormValues>) => {
       return (
         <form autoComplete="off" className={classes.form}>
-          <AmountField
-            name={AmountInputField.amount}
-            isDisabled
-            currency={ANKR_CURRENCY}
-            maxLength={ANKR_MAX_DIGITS}
-          />
-          <RateBlock
-            value={values[AmountInputField.amount]}
-            currency={ANKR_CURRENCY}
-          />
+          <div>
+            <Typography
+              className={classes.amountLabel}
+              component="div"
+              variant="subtitle2"
+            >
+              {t('account.account-details.top-up.ankr-amount-label')}
+            </Typography>
+            <AmountField
+              amount={values.amount}
+              name={AmountInputField.amount}
+              isDisabled
+              currency={ANKR_CURRENCY}
+              maxLength={ANKR_MAX_DIGITS}
+            />
+          </div>
           <NavLink
             color="primary"
             variant="contained"
@@ -54,14 +60,14 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
           >
             {t(
               `account.account-details.top-up.${
-                isMobile ? 'continue' : 'continue-button'
+                isMobile ? 'continue-mobile' : 'continue-desktop'
               }`,
             )}
           </NavLink>
         </form>
       );
     },
-    [classes.button, classes.form, isMobile],
+    [classes, isMobile],
   );
 };
 
@@ -90,11 +96,12 @@ export const useRenderForm = ({
 
       const button = isWalletConnected ? (
         <Button
-          color="primary"
-          fullWidth
-          type="submit"
-          disabled={validating}
           className={classes.button}
+          color="primary"
+          disabled={validating}
+          fullWidth
+          startIcon={<TopUp />}
+          type="submit"
         >
           {t('account.account-details.top-up.top-up')}
         </Button>
@@ -118,45 +125,42 @@ export const useRenderForm = ({
       return (
         <form
           autoComplete="off"
-          onSubmit={handleSubmit}
           className={classes.form}
+          onSubmit={handleSubmit}
         >
-          <AmountField
-            className={classes.amount}
-            name={AmountInputField.amount}
-            change={change}
-            maxDecimals={ANKR_MAX_DECIMALS}
-            currency={ANKR_CURRENCY}
-            validate={validateAmount}
-            maxLength={ANKR_MAX_DIGITS}
-          />
-          {amountValue.isGreaterThanOrEqualTo(MILLION_ANKR_TOKENS) && valid && (
+          <div>
             <Typography
-              variant="body2"
-              className={classes.info}
-              textAlign="center"
+              className={classes.amountLabel}
+              component="div"
+              variant="subtitle2"
             >
-              {t('account.account-details.top-up.info')}
+              {t('account.account-details.top-up.ankr-amount-label')}
             </Typography>
-          )}
-          <RateBlock
-            value={values[AmountInputField.amount]}
-            currency={ANKR_CURRENCY}
-          />
+            <AmountField
+              amount={values?.amount}
+              change={change}
+              className={classes.amount}
+              currency={ANKR_CURRENCY}
+              maxDecimals={ANKR_MAX_DECIMALS}
+              maxLength={ANKR_MAX_DIGITS}
+              name={AmountInputField.amount}
+              validate={validateAmount}
+            />
+            {amountValue.isGreaterThanOrEqualTo(MILLION_ANKR_TOKENS) && valid && (
+              <Typography
+                variant="body2"
+                className={classes.info}
+                textAlign="center"
+              >
+                {t('account.account-details.top-up.info')}
+              </Typography>
+            )}
+          </div>
           {connectWalletButton || button}
         </form>
       );
     },
-    [
-      buttonText,
-      classes.button,
-      classes.amount,
-      classes.form,
-      validateAmount,
-      isWalletConnected,
-      hasConnectButton,
-      classes.info,
-    ],
+    [buttonText, classes, hasConnectButton, isWalletConnected, validateAmount],
   );
 };
 

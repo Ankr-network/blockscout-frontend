@@ -4,17 +4,12 @@ export type LoadingButtonProps = ButtonProps & {
   loading?: boolean;
 };
 
-export const LoadingButton = ({
-  loading,
-
-  ...props
-}: LoadingButtonProps) => {
-  return (
-    <Button
-      {...props}
-      startIcon={
-        loading ? <CircularProgress size={18} color="inherit" /> : null
-      }
-    />
+export const LoadingButton = ({ loading, ...props }: LoadingButtonProps) => {
+  const startIcon = loading ? (
+    <CircularProgress size={18} color="inherit" />
+  ) : (
+    props.startIcon
   );
+
+  return <Button {...props} startIcon={startIcon} />;
 };

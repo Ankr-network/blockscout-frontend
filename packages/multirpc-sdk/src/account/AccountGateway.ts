@@ -47,6 +47,8 @@ import {
   TotalStatsResponse,
   NegativeBalanceTermsOfServicesStatusResponse,
   NegativeBalanceTermsOfServicesStatusParams,
+  BundlePaymentPlan,
+  GetLinkForBundlePaymentRequest,
 } from './types';
 import {
   IJwtTokenRequestParams,
@@ -519,5 +521,45 @@ export class AccountGateway {
     });
 
     return response;
+  }
+
+  async getBundlePaymentPlans() {
+    const { data } =
+      await this.api.get<BundlePaymentPlan[]>('/api/v1/auth/bundles');
+
+    return data;
+  }
+
+  async getLinkForBundlePayment(
+    body: GetLinkForBundlePaymentRequest,
+    params: IApiUserGroupParams,
+  ): Promise<IGetLinkForCardPaymentResponse> {
+    const { data } = await this.api.post<IGetLinkForCardPaymentResponse>(
+      '/api/v1/auth/myBundles/subscribe',
+      body,
+      { params },
+    );
+
+    return data;
+  }
+
+  async getMyBundles(group?: Web3Address) {
+    const { data } = await this.api.get<ISubscriptionsResponse>(
+      '/api/v1/auth/myBundles',
+      { params: { group } },
+    );
+
+    return data.items;
+  }
+
+  async cancelBundleSubscription(
+    subscription_id: string,
+    { totp, ...params }: IApiUserGroupParams,
+  ) {
+    await this.api.post(
+      '/api/v1/auth/myBundles/unsubscribe',
+      { subscription_id },
+      { headers: createTOTPHeaders(totp), params },
+    );
   }
 }

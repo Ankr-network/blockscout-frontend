@@ -2,8 +2,8 @@ import { FormGroup, Typography } from '@mui/material';
 import { Field, useFormState } from 'react-final-form';
 import { t } from '@ankr.com/common';
 
+import { Currency } from '../../types';
 import { InputField } from 'modules/form/components/InputField';
-import { useAmountFieldStyles } from './AmountFieldStyles';
 import {
   MAX_DECIMALS,
   MAX_LENGTH,
@@ -11,11 +11,15 @@ import {
   validateAmount,
 } from './AmountFieldUtils';
 import { OnChange } from 'modules/form/utils/OnChange';
+import { useAmountFieldStyles } from './AmountFieldStyles';
+import { useCredits } from './hooks/useCredits';
 
 export interface AmountFieldProps<T> {
+  amount: string;
   change?: (name: T, value: string) => void;
   className?: string;
-  currency: string;
+  currency: Currency;
+  isBundlePayment?: boolean;
   isDisabled?: boolean;
   isUSD?: boolean;
   maxDecimals?: number;
@@ -26,9 +30,11 @@ export interface AmountFieldProps<T> {
 }
 
 export function AmountField<T extends string>({
+  amount,
   change,
   className,
   currency,
+  isBundlePayment,
   isDisabled,
   isUSD,
   maxDecimals = MAX_DECIMALS,
@@ -38,6 +44,8 @@ export function AmountField<T extends string>({
   validate = validateAmount,
 }: AmountFieldProps<T>) {
   const { pristine } = useFormState();
+
+  const credits = useCredits({ amount, currency });
 
   const { classes, cx } = useAmountFieldStyles({ isUSD, pristine, size });
 
@@ -61,6 +69,9 @@ export function AmountField<T extends string>({
           endAdornment: (
             <Typography variant="subtitle1" className={classes.subtitle}>
               {currency}
+              {!isBundlePayment && (
+                <span className={classes.credits}> {credits}</span>
+              )}
             </Typography>
           ),
         }}

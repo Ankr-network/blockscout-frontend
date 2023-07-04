@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+import { useState } from 'react';
 
 import { AccountDetailsTopUp } from './components/AccountDetailsTopUp';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -18,7 +19,8 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export const AccountDetails = () => {
-  const { classes } = useStyles();
+  const [hasSubscriptions, setHasSubscriptions] = useState(false);
+
   const { isLoggedIn, isOldPremium, loading: isConnecting } = useAuth();
 
   // We only show the expense chart for registered users
@@ -33,6 +35,8 @@ export const AccountDetails = () => {
     },
   ]);
 
+  const { classes } = useStyles(hasSubscriptions);
+
   return (
     <>
       {isConnecting ? (
@@ -41,10 +45,11 @@ export const AccountDetails = () => {
         <Box className={classes.root}>
           <ExpiredTokenBanner />
           <Box className={classes.top}>
-            <Box className={classes.top1column}>
-              <Balance />
-              <Subscriptions />
-            </Box>
+            <Balance className={classes.balance} />
+            <Subscriptions
+              className={classes.subscriptions}
+              setHasSubscriptions={setHasSubscriptions}
+            />
             <GuardUserGroup blockName={BlockWithPermission.Billing}>
               <AccountDetailsTopUp className={classes.topUp} />
             </GuardUserGroup>

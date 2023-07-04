@@ -1,5 +1,6 @@
 import { AnyAction, isAnyOf } from '@reduxjs/toolkit';
 
+import { cancelBundleSubscription } from 'domains/account/actions/bundles/cancelBundleSubscription';
 import { cancelSubscription } from 'domains/account/actions/subscriptions/cancelSubscription';
 import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { is2FAError } from 'store/utils/is2FAError';
@@ -11,6 +12,7 @@ import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuth
 // a 2FA error has been caught somewhere inside or in child endpoints.
 const matcher = isAnyOf(
   authMakeAuthorization.matchRejected,
+  cancelBundleSubscription.matchRejected,
   cancelSubscription.matchRejected,
   deleteJwtToken.matchRejected,
   oauthLoginJwt.matchRejected,
