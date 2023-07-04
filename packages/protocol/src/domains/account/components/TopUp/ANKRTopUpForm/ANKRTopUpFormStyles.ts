@@ -1,37 +1,34 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/AccountDetails/AccountDetailsStyles';
-
-export const useStyles = makeStyles()((theme: Theme) => ({
+export const useStyles = makeStyles()(theme => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '100%',
-    [theme.breakpoints.down('sm')]: {
-      gap: 6,
-    },
+
+    flexGrow: 1,
+  },
+  amountLabel: {
+    marginBottom: theme.spacing(2),
+
+    color: theme.palette.text.primary,
+    letterSpacing: '-0.01em',
+
+    lineHeight: '135%',
   },
   amount: {
-    paddingTop: theme.spacing(15),
     marginTop: 'auto',
     marginBottom: 'auto',
     [theme.breakpoints.down('sm')]: {
       marginTop: 'unset',
       marginBottom: 'unset',
     },
-    [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
-      paddingTop: 'unset',
-    },
   },
   button: {
     width: '100%',
+    height: 48,
 
-    '&:hover': {
-      color: theme.palette.background.paper,
-      backgroundColor: theme.palette.primary.dark,
-    },
+    borderRadius: 17,
   },
   info: {
     color: theme.palette.text.primary,

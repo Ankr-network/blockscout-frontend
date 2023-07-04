@@ -1,14 +1,16 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useSubscriptionsStyles = makeStyles()((theme: Theme) => ({
+export const useSubscriptionsStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2 * 3.5),
-    borderRadius: theme.spacing(2 * 3),
+    gap: theme.spacing(5),
+
+    padding: theme.spacing(7),
+    maxHeight: '100%',
+
+    borderRadius: theme.spacing(6),
     background: theme.palette.background.paper,
-    gap: theme.spacing(2 * 2.5),
   },
   title: {
     fontSize: 14,
@@ -19,11 +21,13 @@ export const useSubscriptionsStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    gap: theme.spacing(2 * 1.5),
+    gap: theme.spacing(3),
+
+    flexWrap: 'wrap',
   },
   textContainer: {
     display: 'flex',
-    gap: theme.spacing(2 * 1.5),
+    gap: theme.spacing(3),
   },
   text: {
     fontSize: 20,

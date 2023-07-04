@@ -15,13 +15,21 @@ export const useAmountFieldStyles = makeStyles<AmountFieldStylesProps>()(
       },
     },
     inputBase: {
-      fontSize: 14,
-      borderRadius: 12,
+      padding: theme.spacing(0, 4),
       maxHeight: size === 'l' ? 48 : 44,
+
+      borderRadius: 17,
+
+      fontSize: 14,
+
       '& + p': {
         fontSize: 12,
         lineHeight: 1.6,
-        marginTop: theme.spacing(2 * 0.5),
+        marginTop: theme.spacing(),
+      },
+
+      '&&': {
+        minHeight: 46,
       },
     },
     input: {
@@ -34,6 +42,8 @@ export const useAmountFieldStyles = makeStyles<AmountFieldStylesProps>()(
         : {}),
     },
     subtitle: {
+      textWrap: 'nowrap',
+
       fontSize: 16,
       fontWeight: 400,
     },
@@ -45,5 +55,10 @@ export const useAmountFieldStyles = makeStyles<AmountFieldStylesProps>()(
           },
         }
       : {},
+    credits: {
+      color: theme.palette.grey[600],
+
+      WebkitTextFillColor: theme.palette.grey[600],
+    },
   }),
 );

@@ -1,13 +1,17 @@
 import BigNumber from 'bignumber.js';
-import { Box } from '@mui/material';
 import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
+import { TopUp } from '@ankr.com/ui';
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { t } from '@ankr.com/common';
 
 import { AmountField } from '../ANKRTopUpForm/AmountField';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
+import { BUNDLE_500$_PRICE_ID } from 'domains/account/actions/bundles/const';
+import { BundlePaymentBanner } from './BundlePaymentBanner';
+import { BundlePaymentDialog } from './BundlePaymentDialog';
 import {
   DEFAULT_USD_VALUE_STRING,
   MAX_USD_DECIMALS,
@@ -16,12 +20,12 @@ import {
 } from 'domains/account/actions/usdTopUp/const';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
-import { RateBlock } from '../ANKRTopUpForm/RateBlock';
 import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const validateAmount = (value: string) => {
@@ -49,6 +53,8 @@ export const useRenderForm = (
   isLoading: boolean,
   shouldUseDefaultValue: boolean,
 ) => {
+  const { isOpened, onClose, onOpen } = useDialog();
+
   return useCallback(
     ({
       handleSubmit,
@@ -65,57 +71,71 @@ export const useRenderForm = (
       };
 
       const canEditAmount = values.id === ONE_TIME_PAYMENT_ID;
+      const isBundlePayment = values.id === BUNDLE_500$_PRICE_ID;
+      const amount = values[AmountInputField.amount];
 
       return (
         <form
-          className={classes.rootForm}
           autoComplete="off"
+          className={classes.form}
           onSubmit={handleSubmit}
         >
-          <div className={classes.pricesTabsContainer}>
-            <USDSubscriptionPricesTabs onChange={handleAmountChange} />
-          </div>
-          <Box className={classes.form}>
-            <AmountField<AmountInputField.amount>
-              className={classes.amount}
-              name={AmountInputField.amount}
-              change={change}
-              maxDecimals={MAX_USD_DECIMALS}
-              isDisabled={!canEditAmount}
-              currency={USD_CURRENCY}
-              validate={validateAmount}
-              maxLength={6}
-              isUSD
-            />
-            <RateBlock
-              value={values[AmountInputField.amount]}
-              currency={USD_CURRENCY}
-            />
-            <LoadingButton
-              color="primary"
-              fullWidth
-              type="submit"
-              disabled={validating || isLoading}
-              loading={isLoading}
+          <div>
+            <Typography
+              className={classes.amountLabel}
+              component="div"
+              variant="subtitle2"
             >
-              {t(
-                canEditAmount
-                  ? 'account.account-details.top-up.top-up'
-                  : 'account.account-details.top-up.subscribe',
-              )}
+              {t('account.account-details.top-up.amount-label')}
+            </Typography>
+            <USDSubscriptionPricesTabs
+              className={classes.tabs}
+              onChange={handleAmountChange}
+              tabClassName={classes.tab}
+            />
+            <AmountField<AmountInputField.amount>
+              amount={amount}
+              change={change}
+              currency={USD_CURRENCY}
+              isBundlePayment={isBundlePayment}
+              isDisabled={!canEditAmount}
+              isUSD
+              maxDecimals={MAX_USD_DECIMALS}
+              maxLength={6}
+              name={AmountInputField.amount}
+              validate={validateAmount}
+            />
+            {isBundlePayment && <BundlePaymentBanner onClick={onOpen} />}
+          </div>
+          <div className={classes.bottom}>
+            <LoadingButton
+              className={classes.button}
+              color="primary"
+              disabled={validating || isLoading}
+              fullWidth
+              loading={isLoading}
+              startIcon={<TopUp />}
+              onClick={isBundlePayment ? onOpen : handleSubmit}
+            >
+              {t('account.account-details.top-up.top-up')}
             </LoadingButton>
-          </Box>
+            {!canEditAmount && (
+              <div className={classes.cancelLabel}>
+                {t('account.account-details.top-up.cancel-label')}
+              </div>
+            )}
+          </div>
+          <BundlePaymentDialog
+            isOpened={isOpened}
+            loading={isLoading}
+            onButtonClick={handleSubmit}
+            onClose={onClose}
+            validating={validating}
+          />
         </form>
       );
     },
-    [
-      classes.rootForm,
-      classes.form,
-      classes.amount,
-      classes.pricesTabsContainer,
-      isLoading,
-      shouldUseDefaultValue,
-    ],
+    [classes, isLoading, isOpened, onClose, onOpen, shouldUseDefaultValue],
   );
 };
 

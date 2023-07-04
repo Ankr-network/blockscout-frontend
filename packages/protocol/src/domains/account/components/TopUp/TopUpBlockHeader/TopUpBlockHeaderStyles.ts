@@ -6,23 +6,33 @@ export const useTopUpBlockHeaderStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: theme.spacing(2 * 2),
+    marginBottom: theme.spacing(5),
   },
   title: {
-    fontSize: 14,
+    color: theme.palette.text.secondary,
+
+    letterSpacing: '-0.01em',
+
+    fontSize: 16,
     fontWeight: 700,
-    lineHeight: theme.spacing(2 * 3.25),
-    color: theme.palette.text.primary,
+    lineHeight: '135%',
   },
   link: {
-    fontSize: 14,
     height: 'auto',
-    padding: '0',
     minWidth: 'auto',
-    lineHeight: theme.spacing(2 * 3.25),
+    minHeight: 'unset',
+    padding: '0',
+
+    fontSize: 14,
+    fontWeight: 500,
+    lineHeight: '143%',
+
     '&:hover': {
       color: theme.palette.grey[900],
       backgroundColor: 'transparent',
     },
+  },
+  endIcon: {
+    margin: 0,
   },
 }));

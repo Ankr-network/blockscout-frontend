@@ -1,39 +1,56 @@
-import { ISubscriptionsResponse } from 'multirpc-sdk';
-import { useCallback } from 'react';
+import { ISubscriptionsItem } from 'multirpc-sdk';
+import { useCallback, useMemo } from 'react';
 
+import { selectIsMyBundleBySubscriptionId } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useCancelBundleSubscriptionMutation } from 'domains/account/actions/bundles/cancelBundleSubscription';
 import { useFetchSubscriptions } from './useFetchSubscriptions';
 import { useLazyCancelSubscriptionQuery } from 'domains/account/actions/subscriptions/cancelSubscription';
+import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-export interface IUseSubscriptions {
-  subscriptions: ISubscriptionsResponse;
-  isLoading: boolean;
-  cancelSubscription: (subscriptionId: string) => Promise<void>;
-}
-
-export const useSubscriptions = (): IUseSubscriptions => {
+export const useSubscriptions = (currentSubscription?: ISubscriptionsItem) => {
   const { hasPremium, loading: isConnecting } = useAuth();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [, subscriptions, isLoading] = useFetchSubscriptions({
-    hasPremium,
-  });
+  const [, subscriptionsResponse, subscriptionsLoading] = useFetchSubscriptions(
+    { hasPremium },
+  );
+
+  const { bundles, loading: bundlesLoading } = useMyBundles();
+
+  const subscriptions = useMemo(
+    () => [...(subscriptionsResponse?.items ?? []), ...bundles],
+    [subscriptionsResponse, bundles],
+  );
 
   const [cancelSubscriptionInternal] = useLazyCancelSubscriptionQuery();
+  const [cancelBundleSubscription] = useCancelBundleSubscriptionMutation();
+
+  const isBundle = useAppSelector(state =>
+    selectIsMyBundleBySubscriptionId(
+      state,
+      currentSubscription?.subscriptionId,
+    ),
+  );
 
   const cancelSubscription = useCallback(
     async (subscriptionId: string) => {
-      await cancelSubscriptionInternal({
-        params: { subscriptionId, group },
-      });
+      if (isBundle) {
+        await cancelBundleSubscription({
+          params: { subscriptionId, group },
+        });
+      } else {
+        await cancelSubscriptionInternal({
+          params: { subscriptionId, group },
+        });
+      }
     },
-    [cancelSubscriptionInternal, group],
+    [cancelBundleSubscription, cancelSubscriptionInternal, group, isBundle],
   );
 
-  return {
-    cancelSubscription,
-    isLoading: isConnecting || isLoading,
-    subscriptions,
-  };
+  const loading = isConnecting || subscriptionsLoading || bundlesLoading;
+
+  return { cancelSubscription, loading, subscriptions };
 };

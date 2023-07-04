@@ -1,12 +1,10 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { CONTENT_WIDTH } from 'modules/layout/components/DefautLayout';
 
-export const ACCOUNT_MAX_WIDTH = 1050;
-const TOP1_WIDTH = 465;
+export const ACCOUNT_MAX_WIDTH = 1340;
 
-export const useStyles = makeStyles()((theme: Theme) => ({
+export const useStyles = makeStyles<boolean>()((theme, hasSubscriptions) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -15,46 +13,62 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     marginRight: 'auto',
 
     [theme.breakpoints.down('xs')]: {
-      paddingBottom: theme.spacing(2 * 3.5),
+      paddingBottom: theme.spacing(7),
     },
   },
   top: {
-    gap: theme.spacing(2 * 1.5, 2 * 3),
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: '1fr 600px',
+    gridTemplateRows: '1fr',
+    gridTemplateAreas: hasSubscriptions
+      ? `
+          "balance       top-up"
+          "subscriptions top-up"
+        `
+      : `
+          "balance top-up"
+          "balance top-up"
+        `,
+    gap: theme.spacing(7.5),
+
+    height: 490,
+
     [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
-      flexDirection: 'column',
-    },
-  },
-  top1column: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: `calc(100% - ${TOP1_WIDTH}px)`,
-    gap: theme.spacing(2 * 3),
-    [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
-      width: 'unset',
-      gap: theme.spacing(2 * 1.5),
+      gridTemplateColumns: '1fr',
+      gridTemplateRows: hasSubscriptions ? '220px auto 490px' : '220px 490px',
+      gridTemplateAreas: hasSubscriptions
+        ? `
+            "balance"
+            "subscriptions"
+            "top-up"
+          `
+        : `
+            "balance"
+            "top-up"
+          `,
+
+      height: 'unset',
     },
   },
   topUp: {
-    flex: 1,
-    minWidth: 460,
-    minHeight: 396,
+    gridArea: 'top-up',
     background: theme.palette.background.paper,
-
-    [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
-      minWidth: 'unset',
-      minHeight: 'unset',
-    },
+  },
+  balance: {
+    gridArea: 'balance',
+  },
+  subscriptions: {
+    gridArea: 'subscriptions',
   },
   payments: {
-    marginTop: theme.spacing(2 * 5),
+    marginTop: theme.spacing(10),
 
     [theme.breakpoints.down('sm')]: {
-      paddingBottom: theme.spacing(2 * 4),
+      paddingBottom: theme.spacing(8),
     },
   },
   expenseChart: {
-    marginTop: theme.spacing(2 * 5.25),
+    marginTop: theme.spacing(10.5),
 
     [theme.breakpoints.down('sm')]: {
       marginTop: 0,

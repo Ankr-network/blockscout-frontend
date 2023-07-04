@@ -13,6 +13,7 @@ import { TrackTopUpSubmit } from 'domains/account/types';
 export interface TopUpTabsParams {
   ankrTopupTab?: Tab<TopUpTabID>;
   icon?: ReactNode;
+  tabClassName: string;
   trackSubmit: TrackTopUpSubmit;
 }
 
@@ -38,6 +39,7 @@ export const useTopUpTabs = ({
   ankrTopupTab,
   icon,
   trackSubmit,
+  tabClassName,
 }: TopUpTabsParams) => {
   const initialTabID = ankrTopupTab ? TopUpTabID.ANKR : TopUpTabID.USD;
 
@@ -48,6 +50,7 @@ export const useTopUpTabs = ({
         content: <USDTopUpForm trackSubmit={trackSubmit} />,
         title: (isSelected: boolean) => (
           <SecondaryTab
+            className={tabClassName}
             isSelected={isSelected}
             label={TopUpTabID.USD}
             startIcon={icon}
@@ -61,7 +64,7 @@ export const useTopUpTabs = ({
     }
 
     return tabs;
-  }, [ankrTopupTab, trackSubmit, icon]);
+  }, [ankrTopupTab, trackSubmit, icon, tabClassName]);
 
   return useTabs({
     initialTabID,
