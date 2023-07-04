@@ -6,7 +6,6 @@ export interface AccountTypeParams {
   balance: BigNumber;
   hasFreeToPremiumTransition: boolean;
   hasPremium: boolean;
-  hasPremiumToFreeTransition: boolean;
   isFreePremium: boolean;
   isOldPremium: boolean;
   isTokenExpired: boolean;

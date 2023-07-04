@@ -26,12 +26,10 @@ export interface IAuthSlice {
   workerTokenData?: WorkerTokenData;
   isInstantJwtParticipant?: boolean;
   hasWeb3Autoconnect?: boolean;
-  oauthLoginTimestamps?: Record<string, string>;
 }
 
 const initialState: IAuthSlice = {
   address: '',
-  oauthLoginTimestamps: {},
 };
 
 export const authSlice = createSlice({
@@ -55,17 +53,6 @@ export const authSlice = createSlice({
         state[objKey] = action.payload[objKey];
       });
     },
-
-    setOauthLoginTimestamp: (state, { payload }: PayloadAction<string>) => {
-      const { email } = state;
-
-      if (email) {
-        state.oauthLoginTimestamps = {
-          ...(state.oauthLoginTimestamps ?? {}),
-          [email]: state.oauthLoginTimestamps?.[email] ?? payload,
-        };
-      }
-    },
     resetAuthData: state => {
       clearCookie(WORKER_TOKEN_DATA_KEY);
       WORKER_TOKEN_DATA = undefined;
@@ -73,17 +60,9 @@ export const authSlice = createSlice({
       Object.keys(state).forEach(key => {
         const objKey = key as keyof IAuthSlice;
 
-        if (key === 'oauthLoginTimestamps') return;
-
         // @ts-ignore
         state[objKey] = undefined;
       });
-    },
-    resetOauthLoginTimestamp: state => {
-      // updates selectors cache
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      state = { ...state };
     },
   },
 });
@@ -111,9 +90,4 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
   return { address: '' };
 };
 
-export const {
-  setAuthData,
-  setOauthLoginTimestamp,
-  resetAuthData,
-  resetOauthLoginTimestamp,
-} = authSlice.actions;
+export const { setAuthData, resetAuthData } = authSlice.actions;

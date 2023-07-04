@@ -11,7 +11,6 @@ export const useAccountType = (balance: BigNumber) => {
     isFreePremium,
     isOldPremium,
     isTokenExpired,
-    hasPremiumToFreeTransition,
   } = useAuth();
 
   return useMemo(
@@ -23,7 +22,6 @@ export const useAccountType = (balance: BigNumber) => {
         isFreePremium,
         isOldPremium,
         isTokenExpired,
-        hasPremiumToFreeTransition,
       }),
     [
       balance,
@@ -32,7 +30,6 @@ export const useAccountType = (balance: BigNumber) => {
       isFreePremium,
       isOldPremium,
       isTokenExpired,
-      hasPremiumToFreeTransition,
     ],
   );
 };

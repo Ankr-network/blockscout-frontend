@@ -2,12 +2,12 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 import {
+  GetPremiumStatusRawResult,
   GetPremiumStatusResult,
   IImportJWTTokenResult,
   IPrivateEndpoint,
   IProvider,
   IWorkerEndpoint,
-  PremiumStatus,
   RestrictedDomains,
   RestrictedIps,
 } from './types';
@@ -116,11 +116,15 @@ export class WorkerGateway {
     return data;
   }
 
-  async getPremiumStatus(userEndpointToken: string): Promise<PremiumStatus> {
-    const { data: { status } } = await this.api.get<GetPremiumStatusResult>(
+  async getPremiumStatus(
+    userEndpointToken: string,
+  ): Promise<GetPremiumStatusResult> {
+    const {
+      data: { freemium: isFreemium, status },
+    } = await this.api.get<GetPremiumStatusRawResult>(
       `/api/v1/user/status/${userEndpointToken}`,
     );
 
-    return status;
+    return { isFreemium, status };
   }
 }

@@ -1082,9 +1082,6 @@
           "freemium-transition": {
             "extra": "Updating"
           },
-          "premium-transition": {
-            "extra": "Updating"
-          },
           "old-premium": {
             "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
             "extra": "Then you'll have to Top Up your balance to continue using premium features."
