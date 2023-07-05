@@ -47,8 +47,6 @@ export const useAmountFieldStyles = makeStyles<AmountFieldStylesParams>()(
 
       textOverflow: 'ellipsis',
 
-      transition: 'none',
-
       fontSize: '63px !important',
       fontWeight: '700 !important',
       lineHeight: '72px !important',
