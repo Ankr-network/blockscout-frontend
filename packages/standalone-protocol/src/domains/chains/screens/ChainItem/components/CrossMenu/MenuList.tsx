@@ -30,11 +30,14 @@ import { ReactComponent as PolygonZkemvMobileLogo } from 'assets/img/logo/polygo
 import { ReactComponent as TenetLogo } from 'assets/img/logo/tenet.svg';
 import { ReactComponent as TenetMobileLogo } from 'assets/img/logo/tenetMobile.svg';
 import { ReactComponent as ChilizLogo } from 'assets/img/logo/chiliz.svg';
+import { ReactComponent as ZksyncEraLogo } from 'assets/img/logo/zksync_era.svg';
+import { ReactComponent as ZksyncEraMobileLogo } from 'assets/img/logo/zksync_era_mobile.svg';
 import {
   ChainId,
   HORIZEN_TESTNET_NAME,
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
+  ZKSYNC_ERA_NAME,
 } from 'domains/chains/api/chain';
 import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
@@ -117,6 +120,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: TENET_NAME,
     logo: isMobileSiderBar ? <TenetMobileLogo /> : <TenetLogo />,
     url: 'https://tenet_evm.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.ZksyncEra,
+    name: ZKSYNC_ERA_NAME,
+    logo: isMobileSiderBar ? <ZksyncEraMobileLogo /> : <ZksyncEraLogo />,
+    url: 'https://zksync_era.public-rpc.com/',
   },
   {
     chainId: ChainId.Chiliz,

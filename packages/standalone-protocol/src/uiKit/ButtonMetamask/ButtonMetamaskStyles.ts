@@ -1,6 +1,7 @@
 import { darken, lighten, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { ChainId } from 'domains/chains/api/chain';
+import { Themes } from 'modules/themes/types';
 
 export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
   button: {
@@ -58,6 +59,19 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
         backgroundColor: darken('#303C4A', 0.2),
       },
     },
+
+    [`&.${ChainId.ZksyncEra}`]:
+      theme.palette.type === Themes.dark
+        ? {
+            border: `2px solid ${theme.palette.background.paper}`,
+
+            background: theme.palette.background.default,
+
+            '&:hover': {
+              backgroundColor: lighten(theme.palette.background.default, 0.1),
+            },
+          }
+        : {},
 
     '&:hover': {
       backgroundColor: theme.palette.background.paper,
