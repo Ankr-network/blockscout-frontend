@@ -4,9 +4,11 @@ import { INodesDetailEntity, INodeDetailEntity } from 'multirpc-sdk';
 import { IContinentsCount } from './LocationsTableProps';
 
 const PREMIUM_MULTIPLIER = 3;
+const HUNDRED_PERCENT = 100;
 
 export const getRows = (
   nodesDetail: INodesDetailEntity[],
+  shouldShowRealNodesRatio: boolean,
 ): IContinentsCount[] => {
   if (!Array.isArray(nodesDetail) || nodesDetail.length === 0) return [];
 
@@ -14,6 +16,7 @@ export const getRows = (
 
   const formattedNodes = nodes.map((item: INodeDetailEntity) => {
     const { location, isPremium } = item;
+
     const { continent } = location;
 
     return {
@@ -29,9 +32,11 @@ export const getRows = (
     const continetScoreItem = {
       continent,
       isPremium: isPremium ?? false,
-      count: PREMIUM_MULTIPLIER,
+      freeCount: PREMIUM_MULTIPLIER,
+      premiumCount: PREMIUM_MULTIPLIER,
       freePercent: '0',
       premiumPercent: '0',
+      multiplier: 3,
     };
 
     const existContinentScoreItem = continentsScore.find(
@@ -39,7 +44,11 @@ export const getRows = (
     );
 
     if (existContinentScoreItem) {
-      existContinentScoreItem.count += PREMIUM_MULTIPLIER;
+      if (!existContinentScoreItem.isPremium) {
+        existContinentScoreItem.freeCount += PREMIUM_MULTIPLIER;
+      }
+      existContinentScoreItem.premiumCount += PREMIUM_MULTIPLIER;
+
       existContinentScoreItem.isPremium = isPremium ?? false;
     } else {
       continentsScore.push(continetScoreItem);
@@ -47,22 +56,38 @@ export const getRows = (
   });
 
   const maxScore = continentsScore.reduce(
-    (acc, item) => new BigNumber(acc).plus(item.count),
+    (acc, item) =>
+      new BigNumber(acc).plus(item.freeCount).plus(item.premiumCount),
     new BigNumber(0),
   );
 
-  const result = continentsScore.map(item => {
-    const score = new BigNumber(item.count);
+  return continentsScore.map(item => {
+    const freeScore = new BigNumber(item.freeCount);
+    const premiumScore = new BigNumber(item.premiumCount);
 
-    const premiumPercent = score.div(maxScore).multipliedBy(100);
+    const freePercent = shouldShowRealNodesRatio
+      ? freeScore.div(maxScore).multipliedBy(HUNDRED_PERCENT)
+      : freeScore
+          .plus(premiumScore)
+          .div(maxScore)
+          .div(PREMIUM_MULTIPLIER)
+          .multipliedBy(HUNDRED_PERCENT);
+
+    const premiumPercent = shouldShowRealNodesRatio
+      ? premiumScore.div(maxScore).multipliedBy(HUNDRED_PERCENT)
+      : premiumScore
+          .plus(freeScore)
+          .div(maxScore)
+          .multipliedBy(HUNDRED_PERCENT);
 
     return {
       ...item,
       continent: t(`continents.${item.continent}`),
-      freePercent: `${premiumPercent.div(3).toFixed(0)}%`,
+      freePercent: `${freePercent.toFixed(0)}%`,
       premiumPercent: `${premiumPercent.toFixed(0)}%`,
+      multiplier: shouldShowRealNodesRatio
+        ? premiumPercent.dividedBy(freePercent).integerValue().toNumber()
+        : 3,
     };
   });
-
-  return result;
 };

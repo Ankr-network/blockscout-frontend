@@ -11,13 +11,17 @@ import { getRows } from './LocationsTableUtils';
 
 export const LocationsTableContainer = ({
   loading,
+  shouldShowRealNodesRatio,
   nodesDetail,
 }: ChainNodesLocationsProps) => {
   const { classes } = useChainNodesLocationsStyles();
 
   const isMobile = useIsXSDown();
 
-  const nodesRows = useMemo(() => getRows(nodesDetail), [nodesDetail]);
+  const nodesRows = useMemo(
+    () => getRows(nodesDetail, shouldShowRealNodesRatio),
+    [shouldShowRealNodesRatio, nodesDetail],
+  );
 
   const rowSize = useMemo(() => Math.ceil(nodesRows.length / 2), [nodesRows]);
 
@@ -34,17 +38,28 @@ export const LocationsTableContainer = ({
   }
 
   if (isMobile) {
-    return <LocationsTable nodesRows={nodesRows} />;
+    return (
+      <LocationsTable
+        shouldShowRealNodesRatio={shouldShowRealNodesRatio}
+        nodesRows={nodesRows}
+      />
+    );
   }
 
   return (
     <div className={classes.row}>
       <div className={classes.nodes}>
-        <LocationsTable nodesRows={nodesRows.slice(0, rowSize)} />
+        <LocationsTable
+          shouldShowRealNodesRatio={shouldShowRealNodesRatio}
+          nodesRows={nodesRows.slice(0, rowSize)}
+        />
       </div>
       {nodesRows.length > 1 && (
         <div className={classes.nodes}>
-          <LocationsTable nodesRows={nodesRows.slice(rowSize)} />
+          <LocationsTable
+            shouldShowRealNodesRatio={shouldShowRealNodesRatio}
+            nodesRows={nodesRows.slice(rowSize)}
+          />
         </div>
       )}
     </div>

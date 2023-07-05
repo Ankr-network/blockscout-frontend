@@ -490,7 +490,7 @@
         "location": "Location",
         "free": "Free",
         "premium": "Premium",
-        "count": "x3"
+        "custom-count": "x{value}"
       },
       "upgrade-info": "Get more locations on <em>Premium!</em>",
       "upgrade": "Upgrade"
