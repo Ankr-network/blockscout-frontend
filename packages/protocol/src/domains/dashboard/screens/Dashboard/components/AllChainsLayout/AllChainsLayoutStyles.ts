@@ -5,8 +5,8 @@ export const useAllChainsLayoutStyles = makeStyles()(theme => ({
     display: 'grid',
 
     gridTemplateColumns: 'repeat(2, 1fr) repeat(4, 200px)',
-    gridTemplateRows: 'repeat(2, 32vh)',
-    gridGap: theme.spacing(4),
+    gridTemplateRows: 'repeat(2, calc(50vh - 88px))',
+    gridGap: theme.spacing(3),
     gridTemplateAreas: `
       "requests    requests    requests  requests  calls   projects"
       "ip-requests ip-requests locations countries history history"
