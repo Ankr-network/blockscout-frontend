@@ -23,7 +23,7 @@ export const AccountDetailsButton = ({
 }: AccountDetailsButtonProps) => {
   const { balance, hasStatusTransition, isLoading, status } = useAccountData();
 
-  const statusBlockName = BlockWithPermission.Status;
+  const statusBlockName = BlockWithPermission.AccountStatus;
   const hasStatusAccess = useGuardUserGroup({ blockName: statusBlockName });
   const showLoading = hasStatusAccess && isLoading;
   const isStatusTransitionActive = hasStatusAccess && hasStatusTransition;

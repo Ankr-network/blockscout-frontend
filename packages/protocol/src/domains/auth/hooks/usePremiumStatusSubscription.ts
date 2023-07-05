@@ -19,7 +19,7 @@ export const usePremiumStatusSubscription = () => {
   const [fetch] = useLazyFetchPremiumStatusQuery(options);
 
   const hasAccess = useGuardUserGroup({
-    blockName: BlockWithPermission.Status,
+    blockName: BlockWithPermission.AccountStatus,
   });
 
   useEffect(() => {

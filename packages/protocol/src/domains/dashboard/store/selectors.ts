@@ -6,7 +6,6 @@ import {
   FetchPrivateStatsParams as PrivateStatsParams,
   chainsFetchPrivateStats,
 } from 'domains/chains/actions/private/fetchPrivateStats';
-import { ProjectsStatsParams } from '../types';
 import { RootState } from 'store';
 import { aggregateIPRequests } from './utils/aggregateIPRequests';
 import { aggregateMethodCallsRequests } from './utils/aggregateMethodCallsRequests';
@@ -16,7 +15,10 @@ import { aggregateUsageHistory } from './utils/aggregateUsageHistory';
 import { chainsFetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
 import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
-import { fetchAllProjectsStats } from '../actions/fetchAllProjectsStats';
+import {
+  AllProjectsStatsParams,
+  fetchAllProjectsStats,
+} from '../actions/fetchAllProjectsStats';
 import { fetchAllProjectsTotalRequests } from '../actions/fetchAllProjectsTotalRequests';
 import { fetchUserTotalStats } from '../actions/fetchUserTotalStats';
 import { getAllChainsIPRequests } from './utils/getAllChainsIPRequests';
@@ -185,7 +187,7 @@ export const selectProjectsTotalRequestNumber = createSelector(
 );
 
 export const selectProjectsStats = createSelector(
-  fetchAllProjectsStats.select(undefined as unknown as ProjectsStatsParams),
+  fetchAllProjectsStats.select(undefined as unknown as AllProjectsStatsParams),
   selectProjectsTotalRequestNumber,
   ({ data = [] }, totalRequests) => getProjectsStats(data, totalRequests),
 );

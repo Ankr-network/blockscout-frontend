@@ -5,7 +5,8 @@ export enum BlockWithPermission {
   UsageData, // access to the Telemetry,
   Billing, // access to the Billing information (account details page)
   Payment, // access to the payment form
-  Status, // access to account status information
+  AccountStatus, // access to account status information
+  TosStatus, // access to the TOS status information
   JwtManager, // permissions to create or delete project
   UpgradePlan, // permissions to upgrade current plan
 }
@@ -15,7 +16,8 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.UsageData,
   BlockWithPermission.Billing,
   BlockWithPermission.Payment,
-  BlockWithPermission.Status,
+  BlockWithPermission.AccountStatus,
+  BlockWithPermission.TosStatus,
   BlockWithPermission.JwtManager,
   BlockWithPermission.UpgradePlan,
 ];
@@ -23,12 +25,13 @@ export const OWNER_PERMISSIONS = [
 export const DEVELOPER_PERMISSIONS = [
   BlockWithPermission.ChainItem,
   BlockWithPermission.UsageData,
-  BlockWithPermission.Status,
+  BlockWithPermission.AccountStatus,
 ];
 
 export const FINANCE_PERMISSIONS = [
   BlockWithPermission.Billing,
   BlockWithPermission.Payment,
+  BlockWithPermission.TosStatus,
 ];
 
 export const PERSONAL_GROUP_NAME = 'Personal';
