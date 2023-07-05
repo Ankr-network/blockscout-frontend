@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 
 import { AmountField } from '../ANKRTopUpForm/AmountField';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
-import { BUNDLE_500$_PRICE_ID } from 'domains/account/actions/bundles/const';
 import { BundlePaymentBanner } from './BundlePaymentBanner';
 import { BundlePaymentDialog } from './BundlePaymentDialog';
 import {
@@ -23,10 +22,13 @@ import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkF
 import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
+import { checkBundleByPriceId } from './utils/checkBundleByPriceId';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
+import { selectBundlePaymentPlans } from 'domains/account/store/selectors';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useAppSelector } from 'store/useAppSelector';
 
 export const validateAmount = (value: string) => {
   if (!value) {
@@ -55,6 +57,8 @@ export const useRenderForm = (
 ) => {
   const { isOpened, onClose, onOpen } = useDialog();
 
+  const bundles = useAppSelector(selectBundlePaymentPlans);
+
   return useCallback(
     ({
       handleSubmit,
@@ -71,7 +75,7 @@ export const useRenderForm = (
       };
 
       const canEditAmount = values.id === ONE_TIME_PAYMENT_ID;
-      const isBundlePayment = values.id === BUNDLE_500$_PRICE_ID;
+      const isBundlePayment = checkBundleByPriceId(values.id, bundles);
       const amount = values[AmountInputField.amount];
 
       return (
@@ -135,7 +139,15 @@ export const useRenderForm = (
         </form>
       );
     },
-    [classes, isLoading, isOpened, onClose, onOpen, shouldUseDefaultValue],
+    [
+      bundles,
+      classes,
+      isLoading,
+      isOpened,
+      onClose,
+      onOpen,
+      shouldUseDefaultValue,
+    ],
   );
 };
 
