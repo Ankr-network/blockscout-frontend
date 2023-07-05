@@ -1,17 +1,16 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/AccountDetails/AccountDetailsStyles';
 
 export const useUSDSubscriptionPricesTabsStyles = makeStyles<boolean>()(
-  (theme: Theme, hasTabs: boolean) => ({
+  (theme, hasTabs) => ({
     root: {
-      borderRadius: theme.spacing(2 * 1.5),
+      borderRadius: 17,
 
       background: theme.palette.background.default,
 
       border: hasTabs ? `2px solid ${theme.palette.background.default}` : '',
-      marginBottom: hasTabs ? theme.spacing(2 * 1.5) : '0',
+      marginBottom: hasTabs ? theme.spacing(3) : '0',
 
       '& > div': {
         width: '100%',
@@ -21,10 +20,10 @@ export const useUSDSubscriptionPricesTabsStyles = makeStyles<boolean>()(
         },
 
         '& button': {
-          padding: theme.spacing(2 * 0.75),
+          padding: theme.spacing(1.5),
 
           [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
-            padding: theme.spacing(2 * 0.75, 0),
+            padding: theme.spacing(1.5, 0),
             marginRight: 0,
           },
         },
@@ -33,8 +32,8 @@ export const useUSDSubscriptionPricesTabsStyles = makeStyles<boolean>()(
     skeleton: {
       height: theme.spacing(12),
       transform: 'none',
-      marginBottom: theme.spacing(2 * 1.5),
-      borderRadius: theme.spacing(2 * 1.25),
+      marginBottom: theme.spacing(3),
+      borderRadius: theme.spacing(2.5),
     },
   }),
 );

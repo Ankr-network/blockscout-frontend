@@ -37,11 +37,14 @@ export const InputField = ({
   isHelperTextVisible,
   meta,
   showLimitCounter = false,
+  InputProps = {},
   ...rest
 }: IFieldProps & TextFieldProps) => {
   const { classes, cx } = useInputFieldStyles();
 
   const maxLength: number | null = rest.inputProps?.maxLength ?? null;
+
+  const inputClasses = InputProps.classes ?? {};
 
   return (
     <TextField
@@ -58,6 +61,13 @@ export const InputField = ({
       onBlur={onBlur}
       className={cx(classes.root, rest.className)}
       onWheel={(event: any) => event.target.blur()}
+      InputProps={{
+        ...InputProps,
+        classes: {
+          ...inputClasses,
+          input: cx(classes.input, InputProps.classes?.input),
+        },
+      }}
       {...rest}
     />
   );

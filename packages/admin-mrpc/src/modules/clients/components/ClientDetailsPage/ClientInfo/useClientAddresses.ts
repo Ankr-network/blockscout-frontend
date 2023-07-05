@@ -1,19 +1,25 @@
+import { useEffect } from 'react';
 import { Web3Address } from 'multirpc-sdk';
-import { useFetchUserAddressesQuery } from 'modules/clients/actions/fetchUserAddresses';
+import { useLazyFetchUserAddressesQuery } from 'modules/clients/actions/fetchUserAddresses';
 
 export const useClientAddresses = ({ address }: { address: Web3Address }) => {
-  const {
-    data: userAddressesData,
-    isLoading: isLoadingUserAddresses,
-    isFetching: isFetchingUserAddresses,
-    refetch: refetchUserAddressesData,
-    isError: isErrorUserAddresses,
-  } = useFetchUserAddressesQuery({ address });
+  const [
+    fetch,
+    {
+      data: userAddressesData,
+      isLoading: isLoadingUserAddresses,
+      isFetching: isFetchingUserAddresses,
+      isError: isErrorUserAddresses,
+    },
+  ] = useLazyFetchUserAddressesQuery();
+
+  useEffect(() => {
+    fetch({ address });
+  }, [address, fetch]);
 
   return {
     userAddressesData,
     isLoadingUserAddresses: isFetchingUserAddresses || isLoadingUserAddresses,
-    refetchUserAddressesData,
     isErrorUserAddresses,
   };
 };

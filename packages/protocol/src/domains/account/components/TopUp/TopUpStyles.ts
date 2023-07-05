@@ -1,48 +1,40 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 interface TopUpStyleProps {
   canPayOnlyByCard?: boolean;
 }
 
-export const useTopUpStyles = makeStyles<TopUpStyleProps>()(
-  (theme: Theme, props) => ({
-    root: {
-      borderRadius: 24,
-      padding: theme.spacing(2 * 2.5, 2 * 3.75, 2 * 3.25),
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
+export const useTopUpStyles = makeStyles<TopUpStyleProps>()((theme, props) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
 
-      [theme.breakpoints.down('lg')]: {
-        padding: theme.spacing(2 * 2, 2 * 3, 2 * 3),
-        minWidth: 'auto',
-      },
+    borderRadius: 30,
+    padding: theme.spacing(7.5),
+  },
+  tab: {
+    borderRadius: 17,
+  },
+  tabs: {
+    display: 'inline-flex',
 
-      [theme.breakpoints.down('md')]: {
-        padding: theme.spacing(2 * 2, 2 * 3, 2 * 0.5),
-        minWidth: '100%',
-      },
-    },
-    tabs: {
-      display: 'inline-flex',
+    width: '100%',
 
-      border: props.canPayOnlyByCard
-        ? ''
-        : `2px solid ${theme.palette.background.default}`,
-      borderRadius: theme.spacing(2 * 1.75),
+    border: props.canPayOnlyByCard
+      ? ''
+      : `2px solid ${theme.palette.background.default}`,
+    borderRadius: 17,
 
-      background: theme.palette.background.default,
+    background: theme.palette.background.default,
 
-      marginBottom: theme.spacing(2 * 1.5),
+    marginBottom: theme.spacing(4),
+
+    '& > div': {
+      width: '100%',
 
       '& > div': {
         width: '100%',
-
-        '& > div': {
-          width: '100%',
-        },
       },
     },
-  }),
-);
+  },
+}));

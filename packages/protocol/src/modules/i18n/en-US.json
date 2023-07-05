@@ -1062,13 +1062,30 @@
         "placeholder": "Amount",
         "top-up": "Top Up",
         "subscribe": "Subscribe",
-        "continue-button": "Continue Top Up",
-        "continue": "Continue",
-        "ankr-credits-rate": "{ankrValue} ANKR ≈ {creditsValue, number, ::compact-short} Credits",
-        "usd-credits-rate": "${usdValue} ≈ {creditsValue, number, ::compact-short} Credits",
+        "continue-desktop": "Continue Top Up",
+        "continue-mobile": "Continue",
         "usd-one-time": "One time",
         "credits-rate": "{symbol}{amount} {currency} ≈ {credits, number, ::compact-short} Credits",
-        "info": "You will get 40% for free"
+        "info": "You will get 40% for free",
+        "amount-label": "Select the amount",
+        "ankr-amount-label": "Amount",
+        "credits": "({credits, number, ::compact-short} Credits)",
+        "cancel-label": "You can cancel anytime",
+        "bundle-banner": {
+          "top": "Get more advantages with our",
+          "bottom": "special offer",
+          "button": "Learn more"
+        },
+        "bundle-dialog": {
+          "title": "Unlock new possibilities for your project",
+          "description": "Subscribe to Ankr’s Premium RPC plan for $500 per month and unleash a variety of benefits.",
+          "requests": "30M monthly requests <span>(Limit resets based on your service start date)<span>",
+          "domains": "10 Whitelisted domains",
+          "addresses": "20 Whitelisted IP addresses",
+          "management": "Team management",
+          "methods": "All EVM-compatible methods for all chains <span>(Solana and Advanced APIs not included)<span>",
+          "button": "Subscribe now"
+        }
       },
       "balance": {
         "title": "Balance",
@@ -1082,9 +1099,6 @@
           "freemium-transition": {
             "extra": "Updating"
           },
-          "premium-transition": {
-            "extra": "Updating"
-          },
           "old-premium": {
             "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
             "extra": "Then you'll have to Top Up your balance to continue using premium features."
@@ -1094,16 +1108,16 @@
             "extra": "Top up your balance to continue using our service."
           },
           "premium-active": {
-            "extra": "Enough for {quantifier}{time} {period}, based on your current usage."
+            "extra": "High balance range (≈{requests, number, ::compact-short} requests available) — no worry in the world."
+          },
+          "premium-warning": {
+            "extra": "Medium balance range (≈{requests, number, ::compact-short} requests available) — topping up might be a good idea."
+          },
+          "premium-min-balance": {
+            "extra": "Low balance range (≈{requests, number, ::compact-short} requests available) — topping up is required to prevent account suspension."
           },
           "premium-inactive": {
             "extra": "Top up your balance to continue using our service."
-          },
-          "premium-warning": {
-            "extra": "Enough for just {quantifier}{time} {period}, based on your current usage."
-          },
-          "premium-warning-zero": {
-            "extra": "Based on the current usage, it may not be enough for your needs. Top Up your balance to continue taking full advantage of our service."
           },
           "periods": {
             "day": "day{plural}",

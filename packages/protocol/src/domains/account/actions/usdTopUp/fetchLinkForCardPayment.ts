@@ -1,10 +1,12 @@
 import { Web3Address } from 'multirpc-sdk';
+
 import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { RootState } from 'store';
 import { USD_CURRENCY } from './const';
 import { accountFetchPublicKey } from '../fetchPublicKey';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
+import { selectBundlePaymentByPriceId } from 'domains/account/store/selectors';
 import { web3Api } from 'store/queries';
 
 export const ONE_TIME_PAYMENT_ID = 'one_time';
@@ -27,8 +29,10 @@ export const {
       FetchLinkForCardPaymentParams
     >({
       queryFn: async ({ amount, id, groupAddress }, { dispatch, getState }) => {
-        const service = MultiService.getService();
-        const { hasWeb3Connection } = selectAuthData(getState() as RootState);
+        const state = getState() as RootState;
+
+        const api = MultiService.getService().getAccountGateway();
+        const { hasWeb3Connection } = selectAuthData(state);
 
         const encryptionPublicKey =
           hasWeb3Connection && !groupAddress
@@ -37,26 +41,37 @@ export const {
 
         const isRecurrentPaymentId = id && id !== ONE_TIME_PAYMENT_ID;
 
-        if (isRecurrentPaymentId) {
-          const { url } = await service
-            .getAccountGateway()
-            .getLinkForRecurrentCardPayment(
-              {
-                currency: USD_CURRENCY,
-                product_price_id: id,
-                public_key: encryptionPublicKey,
-              },
-              { group: groupAddress },
-            );
+        const bundlePayment = selectBundlePaymentByPriceId(state, id);
+
+        if (bundlePayment) {
+          const { bundle } = bundlePayment;
+
+          const { url } = await api.getLinkForBundlePayment(
+            {
+              product_id: bundle.product_id,
+              product_price_id: bundle.price_id,
+            },
+            { group: groupAddress },
+          );
 
           return { data: url };
         }
 
-        const { url } = await service.getAccountGateway().getLinkForCardPayment(
-          {
-            amount,
-            publicKey: encryptionPublicKey,
-          },
+        if (isRecurrentPaymentId) {
+          const { url } = await api.getLinkForRecurrentCardPayment(
+            {
+              currency: USD_CURRENCY,
+              product_price_id: id,
+              public_key: encryptionPublicKey,
+            },
+            { group: groupAddress },
+          );
+
+          return { data: url };
+        }
+
+        const { url } = await api.getLinkForCardPayment(
+          { amount, publicKey: encryptionPublicKey },
           { group: groupAddress },
         );
 

@@ -1,23 +1,20 @@
 import { useEffect } from 'react';
 import { Web3Address } from 'multirpc-sdk';
-import { useGetUserGroupsQuery } from 'modules/groups/actions/getUserGroups';
+import { useLazyGetUserGroupsQuery } from 'modules/groups/actions/getUserGroups';
 
 interface ClientGroupProps {
   address: Web3Address;
 }
 
 export const useClientGroups = ({ address }: ClientGroupProps) => {
-  const {
-    data = [],
-    isLoading,
-    refetch,
-  } = useGetUserGroupsQuery({
-    user_address: address,
-  });
+  const [fetch, { data = [], isLoading, isFetching }] =
+    useLazyGetUserGroupsQuery();
 
   useEffect(() => {
-    refetch();
-  }, [refetch, address]);
+    fetch({
+      user_address: address,
+    });
+  }, [fetch, address]);
 
-  return { userGroups: data, isLoadingUserGroups: isLoading };
+  return { userGroups: data, isLoadingUserGroups: isLoading || isFetching };
 };

@@ -8,7 +8,10 @@ import {
 } from 'domains/account/components/TopUp/TopUpUtils';
 import { useSubmitTrackingHandler } from './hooks/useSubmitTrackingHandler';
 
-export const useAccountDetailsTopUpTabs = (canPayOnlyByCard: boolean) => {
+export const useAccountDetailsTopUpTabs = (
+  canPayOnlyByCard: boolean,
+  tabClassName: string,
+) => {
   const trackSubmit = useSubmitTrackingHandler();
 
   const ankrTopupTab = canPayOnlyByCard
@@ -18,6 +21,7 @@ export const useAccountDetailsTopUpTabs = (canPayOnlyByCard: boolean) => {
         content: <AccountDetailsAnkrTopUpForm trackSubmit={trackSubmit} />,
         title: (isSelected: boolean) => (
           <SecondaryTab
+            className={tabClassName}
             isSelected={isSelected}
             label={TopUpTabID.ANKR}
             startIcon={<Ankr />}
@@ -25,5 +29,10 @@ export const useAccountDetailsTopUpTabs = (canPayOnlyByCard: boolean) => {
         ),
       };
 
-  return useTopUpTabs({ ankrTopupTab, trackSubmit, icon: <CreditCard /> });
+  return useTopUpTabs({
+    ankrTopupTab,
+    trackSubmit,
+    icon: <CreditCard />,
+    tabClassName,
+  });
 };

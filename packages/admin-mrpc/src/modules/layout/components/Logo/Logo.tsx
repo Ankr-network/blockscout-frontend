@@ -21,7 +21,7 @@ export const Logo = () => {
       <Link className={classes.root} to={ClientsRoutesConfig.clients.path}>
         <AnkrLogoIcon className={classes.logo} />
         <Typography variant="body2" color="primary" className={classes.title}>
-          {t('clientsTitle')}
+          {t('clients-title')}
         </Typography>
       </Link>
     </div>

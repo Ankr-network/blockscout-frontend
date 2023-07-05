@@ -27,6 +27,7 @@ export const useStyles = makeStyles<boolean>()(
           fontSize: 28,
           fontWeight: 'bold',
           lineHeight: 1.167,
+          letterSpacing: '-0.02em',
           color: theme.palette.grey[600],
           '&.custom-link:hover': {
             color: theme.palette.primary.main,

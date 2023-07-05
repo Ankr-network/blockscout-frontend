@@ -1,18 +1,21 @@
-import React from 'react';
 import { Box } from '@mui/material';
 
 import { Balance } from './Balance';
 import { BalanceSkeleton } from './components/Skeleton';
-import { useBalanceData } from './hooks/useBalanceData';
+import { useBalanceData } from 'domains/account/hooks/useBalanceData';
 import { useStyles } from './BalanceStyles';
 
-export const BalanceContainer = () => {
+export interface BalanceContainerProps {
+  className?: string;
+}
+
+export const BalanceContainer = ({ className }: BalanceContainerProps) => {
   const { isLoading, ...props } = useBalanceData();
 
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
-    <Box className={classes.balanceRoot}>
+    <Box className={cx(classes.balanceRoot, className)}>
       {isLoading ? <BalanceSkeleton /> : <Balance {...props} />}
     </Box>
   );
