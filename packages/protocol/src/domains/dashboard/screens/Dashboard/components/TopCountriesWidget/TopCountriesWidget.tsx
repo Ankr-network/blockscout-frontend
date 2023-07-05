@@ -29,7 +29,11 @@ export const TopCountriesWidget = ({
 
   return (
     <Paper className={cx(classes.root, container, className)}>
-      <Timeframe30DTitle className={classes.title}>
+      <Timeframe30DTitle
+        className={cx(classes.title, {
+          [classes.isHidden]: data.length > 0,
+        })}
+      >
         {text('title')}
       </Timeframe30DTitle>
       <NoDataGuard data={data}>

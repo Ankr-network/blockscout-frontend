@@ -31,6 +31,11 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
       marginBottom: theme.spacing(4),
       paddingRight: theme.spacing(3),
     },
+    isHidden: {
+      [theme.breakpoints.up('xl')]: {
+        display: 'none',
+      },
+    },
     details: {
       display: 'flex',
       color: theme.palette.text.secondary,

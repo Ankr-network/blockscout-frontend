@@ -25,7 +25,11 @@ export const RequestsByIpWidget = ({ className, data }: RequestsByIpProps) => {
 
   return (
     <Paper className={cx(classes.root, container, className)}>
-      <Timeframe30DTitle className={classes.title}>
+      <Timeframe30DTitle
+        className={cx(classes.title, {
+          [classes.isHidden]: data.length > 0,
+        })}
+      >
         {text('header')}
       </Timeframe30DTitle>
       <NoDataGuard data={data}>
