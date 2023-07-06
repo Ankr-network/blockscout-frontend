@@ -53,7 +53,7 @@ export const useStyles = makeStyles<Props>()(
       },
     },
     dashboardMain: {
-      paddingTop: 84,
+      paddingTop: theme.spacing(21),
       paddingBottom: theme.spacing(3),
 
       [theme.breakpoints.down('md')]: {

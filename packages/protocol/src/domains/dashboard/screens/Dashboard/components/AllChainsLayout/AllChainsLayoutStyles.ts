@@ -1,11 +1,14 @@
 import { makeStyles } from 'tss-react/mui';
 
+export const dashboardGridTemplateColumns = 'repeat(2, 1fr) repeat(4, 200px)';
+export const dashboardGridTemplateRows = 'repeat(2, calc(50vh - 88px))';
+
 export const useAllChainsLayoutStyles = makeStyles()(theme => ({
   root: {
     display: 'grid',
 
-    gridTemplateColumns: 'repeat(2, 1fr) repeat(4, 200px)',
-    gridTemplateRows: 'repeat(2, calc(50vh - 88px))',
+    gridTemplateColumns: dashboardGridTemplateColumns,
+    gridTemplateRows: dashboardGridTemplateRows,
     gridGap: theme.spacing(3),
     gridTemplateAreas: `
       "requests    requests    requests  requests  calls   projects"
@@ -15,7 +18,6 @@ export const useAllChainsLayoutStyles = makeStyles()(theme => ({
     [theme.breakpoints.down('xl')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',
       gridTemplateRows: '282px 190px repeat(2, 289px)',
-      gridGap: theme.spacing(3),
       gridTemplateAreas: `
         "requests    requests"
         "calls       projects"
@@ -59,7 +61,5 @@ export const useAllChainsLayoutStyles = makeStyles()(theme => ({
   },
   methods: {
     gridArea: 'methods',
-
-    backgroundColor: 'silver',
   },
 }));
