@@ -1,3 +1,5 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+
 import {
   selectBundlePaymentPlans,
   selectBundlePaymentPlansLoading,
@@ -5,8 +7,14 @@ import {
 import { useAppSelector } from 'store/useAppSelector';
 import { useFetchBundlePaymentPlansQuery } from '../actions/bundles/fetchBundlePaymentPlans';
 
-export const useBundlePaymentPlans = () => {
-  useFetchBundlePaymentPlansQuery();
+export interface BundlePaymentPlansParams {
+  skipFetching?: boolean;
+}
+
+export const useBundlePaymentPlans = ({
+  skipFetching = false,
+}: BundlePaymentPlansParams | void = {}) => {
+  useFetchBundlePaymentPlansQuery(skipFetching ? skipToken : undefined);
 
   const bundles = useAppSelector(selectBundlePaymentPlans);
   const loading = useAppSelector(selectBundlePaymentPlansLoading);

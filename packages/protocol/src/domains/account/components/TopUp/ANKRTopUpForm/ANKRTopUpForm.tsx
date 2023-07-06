@@ -14,6 +14,7 @@ export const ANKRTopUpForm = ({
   initialValues: defaultInitialValues,
   isWalletConnected,
   onSubmit,
+  trackSubmit,
   validateAmount,
 }: TopUpFormProps) => {
   const { classes } = useStyles();
@@ -27,6 +28,7 @@ export const ANKRTopUpForm = ({
     classes,
     validateAmount,
     isWalletConnected,
+    trackSubmit,
   });
   const renderDisabledForm = useRenderDisabledForm(classes);
 

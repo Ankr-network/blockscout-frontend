@@ -3,6 +3,7 @@ import { TopUp } from 'domains/account/components/TopUp';
 import { useAccountDetailsTopUpTabs } from './AccountDetailsTopupUtils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useTopUpStyles } from 'domains/account/components/TopUp/TopUpStyles';
+import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
 
 interface IAccountDetailsTopUpProps {
   className?: string;
@@ -16,6 +17,8 @@ export const AccountDetailsTopUp = ({
   const canPayOnlyByCard = !isUserEthAddressType;
 
   const { classes } = useTopUpStyles({ canPayOnlyByCard });
+
+  useBundlePaymentPlans();
 
   const [tabs, selectedTab] = useAccountDetailsTopUpTabs(
     canPayOnlyByCard,

@@ -8,13 +8,19 @@ import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkF
 import { DEFAULT_USD_VALUE_STRING } from 'domains/account/actions/usdTopUp/const';
 
 export const USDTopUpForm = ({
-  onSubmit,
   isLoading,
+  onSubmit,
   shouldUseDefaultValue,
+  trackSubmit,
 }: TopUpFormProps) => {
   const { classes } = useStyles();
 
-  const renderForm = useRenderForm(classes, isLoading, shouldUseDefaultValue);
+  const renderForm = useRenderForm(
+    classes,
+    isLoading,
+    shouldUseDefaultValue,
+    trackSubmit,
+  );
 
   const initialValues = useMemo(
     () => ({

@@ -22,6 +22,11 @@ export const selectBundlePaymentPlans = createSelector(
     })),
 );
 
+export const selectFirstBundlePaymentPlan = createSelector(
+  selectBundlePaymentPlans,
+  ([bundle]): BundlePaymentPlan | undefined => bundle,
+);
+
 export const selectBundlePaymentPlansLoading = createSelector(
   selectBundlePaymentPlansState,
   ({ isLoading }) => isLoading,

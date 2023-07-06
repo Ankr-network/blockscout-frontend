@@ -13,7 +13,9 @@ const initialTabID = ONE_TIME_PAYMENT_ID;
 
 export const useUSDPaymentTabs = (onChange: OnChange, tabClassName: string) => {
   const { prices, loading: pricesLoading } = usePrices();
-  const { bundles, loading: bundlesLoading } = useBundlePaymentPlans();
+  const { bundles, loading: bundlesLoading } = useBundlePaymentPlans({
+    skipFetching: true,
+  });
 
   const rawTabs = useMemo(
     () => getUSDPaymentTabs({ bundles, prices, onChange, tabClassName }),
