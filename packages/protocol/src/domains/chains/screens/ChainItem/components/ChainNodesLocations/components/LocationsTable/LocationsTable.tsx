@@ -29,9 +29,11 @@ export const LocationsTable = ({ nodesRows }: LocationsTableProps) => {
                 className={classes.premium}
                 style={{ width: `${item.premiumPercent}` }}
               />
-              {!item.isPremium && (
+              {!item.isPremium && item.multiplier > 1 && (
                 <Typography className={classes.count}>
-                  {t('chain-item.locations.head.count')}
+                  {t('chain-item.locations.head.custom-count', {
+                    value: item.multiplier,
+                  })}
                 </Typography>
               )}
             </div>

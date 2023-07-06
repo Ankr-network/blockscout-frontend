@@ -16,7 +16,7 @@ export const useStatusTransitionDialog = () => {
   const origin = history?.location?.state?.origin;
 
   const hasStatusAccess = useGuardUserGroup({
-    blockName: BlockWithPermission.Status,
+    blockName: BlockWithPermission.AccountStatus,
   });
 
   const shouldShowDialog = useMemo(() => {

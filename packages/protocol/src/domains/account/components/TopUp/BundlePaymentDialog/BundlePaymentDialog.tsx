@@ -3,26 +3,26 @@ import { LoadingButton } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
+import { TrackTopUpSubmit } from 'domains/account/types';
 import { intlRoot } from './const';
+import { useBundlePayment } from './hooks/useBundlePayment';
 import { useBundlePaymentDialogStyles } from './BundlePaymentDialogStyles';
 
 import unlock from './assets/unlock-icon.png';
 
 export interface BundlePaymentDialogProps {
   isOpened?: boolean;
-  loading: boolean;
   onClose: () => void;
-  validating: boolean;
-  onButtonClick: () => void;
+  trackSubmit?: TrackTopUpSubmit;
 }
 
 export const BundlePaymentDialog = ({
   isOpened = false,
-  loading,
-  onButtonClick,
   onClose,
-  validating,
+  trackSubmit,
 }: BundlePaymentDialogProps) => {
+  const { isLoading, subscribe } = useBundlePayment(trackSubmit);
+
   const { classes } = useBundlePaymentDialogStyles();
 
   return (
@@ -64,10 +64,9 @@ export const BundlePaymentDialog = ({
         </List>
         <LoadingButton
           className={classes.button}
-          disabled={loading || validating}
           fullWidth
-          loading={loading}
-          onClick={onButtonClick}
+          loading={isLoading}
+          onClick={subscribe}
         >
           {t(`${intlRoot}.button`)}
         </LoadingButton>

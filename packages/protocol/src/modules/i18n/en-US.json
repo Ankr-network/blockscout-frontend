@@ -121,7 +121,9 @@
     },
     "web3": {
       "title": "Continue with Ethereum Wallet",
-      "button": "Continue with ETH Wallet"
+      "button": "Continue with ETH Wallet",
+      "tooltip-message": "Wallet integration is being updated. For now, please connect an extension-based wallet.",
+      "unconnect-meesage": "Wallet integration is currently being updated. In the meantime, please use the desktop version."
     },
     "form": {
       "terms-of-service": "I agree to <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">Ankr's terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>",
@@ -490,7 +492,7 @@
         "location": "Location",
         "free": "Free",
         "premium": "Premium",
-        "count": "x3"
+        "custom-count": "x{value}"
       },
       "upgrade-info": "Get more locations on <em>Premium!</em>",
       "upgrade": "Upgrade"

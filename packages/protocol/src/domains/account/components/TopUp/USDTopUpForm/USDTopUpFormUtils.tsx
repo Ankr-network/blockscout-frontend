@@ -9,8 +9,8 @@ import { useDispatch } from 'react-redux';
 
 import { AmountField } from '../ANKRTopUpForm/AmountField';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
-import { BundlePaymentBanner } from './BundlePaymentBanner';
-import { BundlePaymentDialog } from './BundlePaymentDialog';
+import { BundlePaymentBanner } from '../BundlePaymentBanner';
+import { BundlePaymentDialog } from '../BundlePaymentDialog';
 import {
   DEFAULT_USD_VALUE_STRING,
   MAX_USD_DECIMALS,
@@ -54,6 +54,7 @@ export const useRenderForm = (
   classes: ClassNameMap,
   isLoading: boolean,
   shouldUseDefaultValue: boolean,
+  trackSubmit?: TrackTopUpSubmit,
 ) => {
   const { isOpened, onClose, onOpen } = useDialog();
 
@@ -101,7 +102,7 @@ export const useRenderForm = (
               amount={amount}
               change={change}
               currency={USD_CURRENCY}
-              isBundlePayment={isBundlePayment}
+              isBundlePayment={checkBundleByPriceId(values.id, bundles)}
               isDisabled={!canEditAmount}
               isUSD
               maxDecimals={MAX_USD_DECIMALS}
@@ -109,7 +110,7 @@ export const useRenderForm = (
               name={AmountInputField.amount}
               validate={validateAmount}
             />
-            {isBundlePayment && <BundlePaymentBanner onClick={onOpen} />}
+            <BundlePaymentBanner onClick={onOpen} />
           </div>
           <div className={classes.bottom}>
             <LoadingButton
@@ -131,10 +132,8 @@ export const useRenderForm = (
           </div>
           <BundlePaymentDialog
             isOpened={isOpened}
-            loading={isLoading}
-            onButtonClick={handleSubmit}
             onClose={onClose}
-            validating={validating}
+            trackSubmit={trackSubmit}
           />
         </form>
       );
@@ -147,6 +146,7 @@ export const useRenderForm = (
       onClose,
       onOpen,
       shouldUseDefaultValue,
+      trackSubmit,
     ],
   );
 };

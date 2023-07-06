@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { BundleIcon } from '../BundleIcon';
+import { BundleIcon } from '../USDTopUpForm/BundleIcon';
 import { GradientedText } from 'modules/common/components/GradientedText';
 import { intlRoot } from './const';
 import { useBundlePaymentBannerStyles } from './BundlePaymentBannerStyles';

@@ -3,14 +3,16 @@ import { AccountGateway, IApiPrivateStats } from 'multirpc-sdk';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { ProjectsStatsParams } from '../types';
-import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { web3Api } from 'store/queries';
 
 export interface AllProjectsStats {
   index: JwtManagerToken['index'];
   stats?: IApiPrivateStats;
+}
+
+export interface AllProjectsStatsParams extends ProjectsStatsParams {
+  projects: JwtManagerToken[];
 }
 
 const getProjectStatsPromise = async (
@@ -28,27 +30,26 @@ const getProjectStatsPromise = async (
 
 export const {
   endpoints: { fetchAllProjectsStats },
-  useFetchAllProjectsStatsQuery,
+  useLazyFetchAllProjectsStatsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchAllProjectsStats: build.query<AllProjectsStats[], ProjectsStatsParams>(
-      {
-        queryFn: createNotifyingQueryFn(async (params, { getState }) => {
-          const service = MultiService.getService();
-          const api = service.getAccountGateway();
+    fetchAllProjectsStats: build.query<
+      AllProjectsStats[],
+      AllProjectsStatsParams
+    >({
+      queryFn: createNotifyingQueryFn(async params => {
+        const service = MultiService.getService();
+        const api = service.getAccountGateway();
 
-          const projects = selectJwtTokens(getState() as RootState);
+        const data = await Promise.all(
+          params.projects.map(project =>
+            getProjectStatsPromise(project, params, api),
+          ),
+        );
 
-          const data = await Promise.all(
-            projects.map(project =>
-              getProjectStatsPromise(project, params, api),
-            ),
-          );
-
-          return { data };
-        }),
-      },
-    ),
+        return { data };
+      }),
+    }),
   }),
   overrideExisting: true,
 });

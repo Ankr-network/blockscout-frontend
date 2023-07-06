@@ -85,7 +85,7 @@ export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
       items={breadcrumbs}
       userLabel={
         isLoggedIn && (
-          <GuardUserGroup blockName={BlockWithPermission.Status}>
+          <GuardUserGroup blockName={BlockWithPermission.AccountStatus}>
             <UserLabel
               hasPremium={hasPremium}
               hasStatusTransition={hasStatusTransition}

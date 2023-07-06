@@ -39,7 +39,7 @@ export const Details = ({
       {description && (
         <span className={classes.description}>{description}</span>
       )}
-      <GuardUserGroup blockName={BlockWithPermission.Status}>
+      <GuardUserGroup blockName={BlockWithPermission.AccountStatus}>
         {extraDescription && (
           <span className={classes.extraDescription}>{extraDescription}</span>
         )}
@@ -55,7 +55,7 @@ export const Details = ({
 
   return (
     <div className={classes.detailsRoot}>
-      <GuardUserGroup blockName={BlockWithPermission.Status}>
+      <GuardUserGroup blockName={BlockWithPermission.AccountStatus}>
         <div className={classes.marker}>
           <AccountMarker status={status} />
         </div>

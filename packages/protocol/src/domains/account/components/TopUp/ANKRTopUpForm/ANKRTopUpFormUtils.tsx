@@ -17,6 +17,8 @@ import {
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { AmountField } from './AmountField';
 import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
+import { BundlePaymentDialog } from '../BundlePaymentDialog';
+import { BundlePaymentBanner } from '../BundlePaymentBanner';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { NavLink } from 'uiKit/NavLink';
 import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
@@ -26,6 +28,7 @@ import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpT
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useConnectButton } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/hooks/useConnectButton';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { MILLION_ANKR_TOKENS } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/components/AmountField';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
@@ -73,16 +76,19 @@ export const useRenderDisabledForm = (classes: ClassNameMap) => {
 
 interface RenderFormParams {
   classes: ClassNameMap;
-  validateAmount?: any;
   isWalletConnected: boolean;
+  trackSubmit?: TrackTopUpSubmit;
+  validateAmount?: any;
 }
 
 export const useRenderForm = ({
   classes,
-  validateAmount,
   isWalletConnected,
+  trackSubmit,
+  validateAmount,
 }: RenderFormParams) => {
   const { buttonText, hasConnectButton } = useConnectButton();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   return useCallback(
     ({
@@ -155,12 +161,28 @@ export const useRenderForm = ({
                 {t('account.account-details.top-up.info')}
               </Typography>
             )}
+            <BundlePaymentBanner onClick={onOpen} />
           </div>
           {connectWalletButton || button}
+          <BundlePaymentDialog
+            isOpened={isOpened}
+            onClose={onClose}
+            trackSubmit={trackSubmit}
+          />
         </form>
       );
     },
-    [buttonText, classes, hasConnectButton, isWalletConnected, validateAmount],
+    [
+      buttonText,
+      classes,
+      hasConnectButton,
+      isOpened,
+      isWalletConnected,
+      onClose,
+      onOpen,
+      trackSubmit,
+      validateAmount,
+    ],
   );
 };
 

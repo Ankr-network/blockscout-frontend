@@ -1,4 +1,5 @@
 export interface LocationsTableProps {
+  shouldShowRealNodesRatio: boolean;
   nodesRows: IContinentsCount[];
 }
 
@@ -11,7 +12,9 @@ export interface ProviderRow {
 export interface IContinentsCount {
   continent: string;
   isPremium: boolean;
-  count: number;
+  freeCount: number;
+  premiumCount: number;
   freePercent: string;
   premiumPercent: string;
+  multiplier: number;
 }

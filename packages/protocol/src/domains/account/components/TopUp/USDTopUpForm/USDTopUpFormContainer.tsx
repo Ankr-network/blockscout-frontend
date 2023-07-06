@@ -22,9 +22,10 @@ export const USDTopUpFormContainer = ({
   return (
     <>
       <USDTopUpForm
-        onSubmit={onSubmit}
         isLoading={isLoading}
+        onSubmit={onSubmit}
         shouldUseDefaultValue
+        trackSubmit={trackSubmit}
       />
       <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
     </>

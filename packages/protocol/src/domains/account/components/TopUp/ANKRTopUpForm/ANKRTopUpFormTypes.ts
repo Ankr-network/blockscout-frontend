@@ -18,7 +18,8 @@ export interface AnkrTopUpFormContainerProps {
 
 export interface TopUpFormProps
   extends Omit<AnkrTopUpFormContainerProps, 'trackSubmit'> {
-  onSubmit: (data: TopUpFormValues) => void;
   hasLoginStep: boolean;
   isWalletConnected: boolean;
+  onSubmit: (data: TopUpFormValues) => void;
+  trackSubmit?: TrackTopUpSubmit;
 }

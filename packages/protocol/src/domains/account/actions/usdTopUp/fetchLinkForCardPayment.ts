@@ -5,6 +5,7 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 import { RootState } from 'store';
 import { USD_CURRENCY } from './const';
 import { accountFetchPublicKey } from '../fetchPublicKey';
+import { fetchLinkForBundlePayment } from '../bundles/fetchLinkForBundlePayment';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { selectBundlePaymentByPriceId } from 'domains/account/store/selectors';
 import { web3Api } from 'store/queries';
@@ -46,13 +47,13 @@ export const {
         if (bundlePayment) {
           const { bundle } = bundlePayment;
 
-          const { url } = await api.getLinkForBundlePayment(
-            {
-              product_id: bundle.product_id,
-              product_price_id: bundle.price_id,
-            },
-            { group: groupAddress },
-          );
+          const url = await dispatch(
+            fetchLinkForBundlePayment.initiate({
+              productId: bundle.product_id,
+              priceId: bundle.price_id,
+              group: groupAddress,
+            }),
+          ).unwrap();
 
           return { data: url };
         }

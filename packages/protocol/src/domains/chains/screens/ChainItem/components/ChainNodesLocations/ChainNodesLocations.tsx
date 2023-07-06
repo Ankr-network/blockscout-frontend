@@ -11,6 +11,7 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 export const ChainNodesLocations = ({
   loading,
+  shouldShowRealNodesRatio,
   nodesDetail,
 }: ChainNodesLocationsProps) => {
   const { classes, cx } = useChainNodesLocationsStyles();
@@ -34,7 +35,11 @@ export const ChainNodesLocations = ({
         </div>
       </div>
       <div className={classes.container}>
-        <LocationsTableContainer loading={loading} nodesDetail={nodesDetail} />
+        <LocationsTableContainer
+          loading={loading}
+          shouldShowRealNodesRatio={shouldShowRealNodesRatio}
+          nodesDetail={nodesDetail}
+        />
       </div>
       {!hasPremium && (
         <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>

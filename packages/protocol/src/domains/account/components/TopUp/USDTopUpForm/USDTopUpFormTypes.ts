@@ -1,3 +1,5 @@
+import { TrackTopUpSubmit } from 'domains/account/types';
+
 export enum AmountInputField {
   amount = 'amount',
   id = 'id',
@@ -9,7 +11,8 @@ export interface TopUpFormValues {
 }
 
 export interface TopUpFormProps {
-  onSubmit: (data: TopUpFormValues) => void;
   isLoading: boolean;
+  onSubmit: (data: TopUpFormValues) => void;
   shouldUseDefaultValue: boolean;
+  trackSubmit?: TrackTopUpSubmit;
 }
