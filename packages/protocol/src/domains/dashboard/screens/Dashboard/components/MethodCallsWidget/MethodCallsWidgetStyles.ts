@@ -57,8 +57,8 @@ export const useMethodCallsWidgetStyles = makeStyles()(theme => {
     },
     row: {
       display: 'flex',
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
       gap: theme.spacing(1),
       borderTop: `1px solid ${theme.palette.grey[100]}`,
     },

@@ -28,7 +28,7 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
       },
     },
     title: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
       paddingRight: theme.spacing(3),
     },
     isHidden: {
@@ -44,10 +44,16 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
     },
     locationItem: {
       display: 'flex',
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
       borderTop: `1px solid ${theme.palette.grey[100]}`,
       alignItems: 'center',
+
+      '&:nth-child(2)': {
+        [theme.breakpoints.up('xl')]: {
+          borderTop: 'none',
+        },
+      },
     },
     checkIcon: {
       color: theme.palette.primary.main,

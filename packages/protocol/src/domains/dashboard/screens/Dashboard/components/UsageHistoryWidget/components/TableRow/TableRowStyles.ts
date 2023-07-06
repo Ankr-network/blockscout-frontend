@@ -8,16 +8,22 @@ export interface UseTableRowStylesParams {
 
 export const useTableRowStyles = makeStyles<UseTableRowStylesParams>()(
   (theme, { isFirst, length, opacity }) => ({
+    row: {
+      borderBottom: `1px solid ${theme.palette.grey[100]}`,
+      display: 'flex',
+
+      '&:last-of-type': {
+        [theme.breakpoints.up('xl')]: {
+          borderBottom: 'none',
+        },
+      },
+    },
     cell: {
+      width: '33%',
       display: 'flex',
       alignItems: 'center',
-
-      padding: theme.spacing(2, 0),
-
-      borderTop: `1px solid ${theme.palette.grey[100]}`,
-
+      padding: theme.spacing(1, 0),
       color: isFirst ? theme.palette.primary.main : theme.palette.grey[800],
-
       fontWeight: isFirst ? 700 : 500,
       fontSize: 12,
       lineHeight: '16px',
@@ -25,9 +31,7 @@ export const useTableRowStyles = makeStyles<UseTableRowStylesParams>()(
     line: {
       width: `${length}%`,
       height: 8,
-
       borderRadius: 8,
-
       backgroundColor: theme.palette.primary.main,
       opacity,
     },

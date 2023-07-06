@@ -11,13 +11,19 @@ export interface TableProps {
 }
 
 export const Table = ({ data }: TableProps) => {
-  const { classes } = useTableSyles();
+  const { classes, cx } = useTableSyles();
 
   const formatted = useMemo(() => formatData(data), [data]);
 
   return (
-    <div className={classes.root}>
-      <HeadRow />
+    <div>
+      <div
+        className={cx({
+          [classes.isHidden]: data.length > 0,
+        })}
+      >
+        <HeadRow />
+      </div>
       {formatted.map(item => (
         <TableRow data={item} key={item.month} />
       ))}

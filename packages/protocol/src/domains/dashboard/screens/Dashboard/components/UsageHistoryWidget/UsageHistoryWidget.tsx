@@ -23,13 +23,7 @@ export const UsageHistoryWidget = ({
 
   return (
     <Paper className={cx(classes.root, container, className)}>
-      <Title
-        className={cx({
-          [classes.isHidden]: data.length > 0,
-        })}
-      >
-        {getText('title')}
-      </Title>
+      <Title>{getText('title')}</Title>
       <NoDataGuard data={data}>
         <Table data={data} />
       </NoDataGuard>

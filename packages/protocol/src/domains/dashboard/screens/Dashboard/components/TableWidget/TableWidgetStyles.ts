@@ -29,7 +29,7 @@ export const useTableWidgetStyles = makeStyles()(theme => {
       },
     },
     title: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
       paddingRight: theme.spacing(3),
     },
     isHidden: {
@@ -40,10 +40,16 @@ export const useTableWidgetStyles = makeStyles()(theme => {
     row: {
       display: 'flex',
       justifyContent: 'space-between',
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
       gap: theme.spacing(2),
       borderTop: `1px solid ${theme.palette.grey[100]}`,
+
+      '&:nth-child(2)': {
+        [theme.breakpoints.up('xl')]: {
+          borderTop: 'none',
+        },
+      },
     },
     rowHeader: {
       color: theme.palette.text.secondary,

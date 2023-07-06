@@ -25,16 +25,16 @@ export const RequestsByIpWidget = ({ className, data }: RequestsByIpProps) => {
 
   return (
     <Paper className={cx(classes.root, container, className)}>
-      <Timeframe30DTitle
-        className={cx(classes.title, {
-          [classes.isHidden]: data.length > 0,
-        })}
-      >
+      <Timeframe30DTitle className={classes.title}>
         {text('header')}
       </Timeframe30DTitle>
       <NoDataGuard data={data}>
         <ScrollableContainer>
-          <div className={cx(classes.row, classes.rowHeader)}>
+          <div
+            className={cx(classes.row, classes.rowHeader, {
+              [classes.isHidden]: data.length > 0,
+            })}
+          >
             <Typography variant="caption">{text('ip')}</Typography>
             <Typography variant="caption">{text('requests')}</Typography>
           </div>
