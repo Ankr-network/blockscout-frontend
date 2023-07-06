@@ -8,7 +8,11 @@ import {
   TrustWallet,
   WalletConnect,
 } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
+
 import { IWalletItem } from './SignupDialogWeb3ContentTypes';
+
+const getTooltipMessage = () => t('signup-modal.web3.tooltip-message');
 
 export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
   [
@@ -24,11 +28,14 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
     },
     {
       href: '',
+      isFirstConnectWallet: true,
       icon: <WalletConnect />,
       isHidden: false,
       isInjected: true,
       title: 'WalletConnect',
       walletId: EWalletId.walletconnect,
+      isDisabled: true,
+      getTooltipMessage,
     },
     {
       href: '',
@@ -37,6 +44,8 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
       isInjected: true,
       title: 'imToken',
       walletId: EWalletId.imtoken,
+      isDisabled: true,
+      getTooltipMessage,
     },
   ],
   [
@@ -47,6 +56,8 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
       isInjected: true,
       title: 'Math Wallet',
       walletId: EWalletId.math,
+      isDisabled: true,
+      getTooltipMessage,
     },
     {
       href: '',
@@ -55,6 +66,8 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
       isInjected: true,
       title: 'Trust Wallet',
       walletId: EWalletId.trustViaWalletConnect,
+      isDisabled: true,
+      getTooltipMessage,
     },
     {
       href: '',
@@ -63,6 +76,8 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
       isInjected: true,
       title: 'Huobi Wallet',
       walletId: EWalletId.huobi,
+      isDisabled: true,
+      getTooltipMessage,
     },
   ],
 ];

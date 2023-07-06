@@ -1,8 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useSignupDialogWeb3ContentStyles = makeStyles()(
-  (theme: Theme) => ({
+export const useSignupDialogWeb3ContentStyles = makeStyles<boolean>()(
+  (theme: Theme, isMobileView) => ({
     root: {
       '& div:first-of-type': {
         marginBottom: theme.spacing(3),
@@ -15,6 +15,19 @@ export const useSignupDialogWeb3ContentStyles = makeStyles()(
 
       [theme.breakpoints.up('xl')]: {
         fontSize: 30,
+      },
+    },
+
+    message: {
+      fontSize: 14,
+      fontWeight: 400,
+      lineHeight: '19.6px',
+      color: theme.palette.text.primary,
+      margin: theme.spacing(0, 0, 0, 3),
+      display: isMobileView ? 'block' : 'none',
+
+      [theme.breakpoints.down('sm')]: {
+        display: 'block',
       },
     },
 
@@ -36,37 +49,51 @@ export const useSignupDialogWeb3ContentStyles = makeStyles()(
       cursor: 'pointer',
       transition: 'background 0.2s',
 
-      [theme.breakpoints.up('sm')]: {
-        height: 144,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: theme.spacing(0),
-      },
-
       '& svg': {
-        fontSize: 64,
+        fontSize: 48,
       },
 
       '&:hover': {
         backgroundColor: theme.palette.background.default,
       },
+
+      [theme.breakpoints.up('sm')]: {
+        height: theme.spacing(30),
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: theme.spacing(0),
+      },
+
+      [theme.breakpoints.down('xs')]: {
+        justifyContent: 'center',
+        height: theme.spacing(15),
+
+        '& svg': {
+          fontSize: 28,
+        },
+      },
     },
 
     walletItemDisabled: {
-      backgroundColor: theme.palette.action.disabledBackground,
-      borderColor: theme.palette.action.disabledBackground,
+      opacity: 0.5,
+      cursor: 'not-allowed',
 
       '&:hover': {
-        backgroundColor: theme.palette.action.disabledBackground,
+        backgroundColor: 'transparent',
       },
     },
 
     walletItemTitle: {
-      fontSize: 14,
+      fontSize: 16,
       marginLeft: theme.spacing(2),
+      fontWeight: 600,
 
       [theme.breakpoints.up('md')]: {
         marginTop: theme.spacing(4.5),
+      },
+
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 20,
       },
     },
 
@@ -79,6 +106,10 @@ export const useSignupDialogWeb3ContentStyles = makeStyles()(
       [theme.breakpoints.up('sm')]: {
         margin: theme.spacing(1, 0, 0, 0),
       },
+    },
+
+    tooltip: {
+      color: theme.palette.grey[900],
     },
   }),
 );

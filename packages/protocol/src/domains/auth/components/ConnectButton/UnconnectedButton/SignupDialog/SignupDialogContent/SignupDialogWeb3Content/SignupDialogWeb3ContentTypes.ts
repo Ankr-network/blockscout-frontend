@@ -16,4 +16,7 @@ export interface IWalletItem extends IOnWalletItemClickArgs {
   icon: ReactNode;
   isHidden: boolean;
   title: string;
+  isDisabled?: boolean;
+  getTooltipMessage?: () => void;
+  isFirstConnectWallet?: boolean;
 }

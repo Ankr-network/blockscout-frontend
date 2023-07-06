@@ -1,7 +1,6 @@
-import { Box, ButtonBase, Grid, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { uid } from 'react-uid';
-import { t } from '@ankr.com/common';
+import { Box, ButtonBase, Grid, Tooltip, Typography } from '@mui/material';
 
 import { useSignupDialogWeb3ContentStyles } from './useSignupDialogWeb3ContentStyles';
 import { ETH_COMPATIBLE_WALLETS } from './SignupDialogWeb3ContentUtils';
@@ -9,12 +8,16 @@ import {
   IConnectWalletsModalProps,
   IOnWalletItemClickArgs,
 } from './SignupDialogWeb3ContentTypes';
+import { WalletItemContent } from './components/WalletItemContent';
+import { t } from '@ankr.com/common';
+import { isMobile } from 'web3modal';
 
 export const SignupDialogWeb3Content = ({
   onConnect,
   onClose,
 }: IConnectWalletsModalProps) => {
-  const { classes } = useSignupDialogWeb3ContentStyles();
+  const isMobileView = isMobile();
+  const { cx, classes } = useSignupDialogWeb3ContentStyles(isMobileView);
 
   const onWalletItemClick =
     ({ href, isInjected, walletId }: IOnWalletItemClickArgs) =>
@@ -36,49 +39,77 @@ export const SignupDialogWeb3Content = ({
         {ETH_COMPATIBLE_WALLETS.map(walletsGroup => (
           <Fragment key={uid(walletsGroup)}>
             {walletsGroup.map(walletItem => {
-              const { href, icon, isHidden, isInjected, title, walletId } =
-                walletItem;
+              const {
+                href,
+                icon,
+                isHidden,
+                isInjected,
+                title,
+                walletId,
+                isDisabled,
+                getTooltipMessage,
+                isFirstConnectWallet,
+              } = walletItem;
 
               if (isHidden) {
                 return null;
               }
 
               return (
-                <Grid
-                  sx={{ flexBasis: '100%' }}
-                  key={uid(walletItem)}
-                  padding={2}
-                  item
-                  sm={4}
-                  xs={12}
-                >
-                  <ButtonBase
-                    className={classes.walletItem}
-                    onClick={onWalletItemClick({
-                      href,
-                      isInjected,
-                      walletId,
-                    })}
-                  >
-                    {icon}
-
-                    <Typography
-                      className={classes.walletItemTitle}
-                      variant="h5"
-                    >
-                      {title}
+                <Fragment key={walletId}>
+                  {isFirstConnectWallet && (
+                    <Typography className={classes.message}>
+                      {t('signup-modal.web3.unconnect-meesage')}
                     </Typography>
-
-                    {!isInjected && (
-                      <Typography
-                        className={classes.walletItemInstall}
-                        variant="subtitle2"
+                  )}
+                  <Grid
+                    sx={{ flexBasis: '100%' }}
+                    key={uid(walletItem)}
+                    padding={2}
+                    item
+                    sm={4}
+                    xs={12}
+                  >
+                    {isDisabled && typeof getTooltipMessage === 'function' ? (
+                      <Tooltip
+                        title={getTooltipMessage()}
+                        placement="top"
+                        classes={{ tooltip: classes.tooltip }}
                       >
-                        {t('signup-modal.wallet-install')}
-                      </Typography>
+                        <div
+                          className={cx(
+                            classes.walletItem,
+                            isDisabled && classes.walletItemDisabled,
+                          )}
+                        >
+                          <WalletItemContent
+                            icon={icon}
+                            name={title}
+                            isInjected={isInjected}
+                          />
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <ButtonBase
+                        className={cx(
+                          classes.walletItem,
+                          isDisabled && classes.walletItemDisabled,
+                        )}
+                        onClick={onWalletItemClick({
+                          href,
+                          isInjected,
+                          walletId,
+                        })}
+                      >
+                        <WalletItemContent
+                          icon={icon}
+                          name={title}
+                          isInjected={isInjected}
+                        />
+                      </ButtonBase>
                     )}
-                  </ButtonBase>
-                </Grid>
+                  </Grid>
+                </Fragment>
               );
             })}
           </Fragment>
