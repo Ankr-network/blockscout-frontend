@@ -29,6 +29,10 @@ export const useMethodCallsWidgetStyles = makeStyles()(theme => {
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    title: {
+      fontSize: 14,
+      lineHeight: '22px',
+    },
     chartWrapper: {
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),

@@ -18,7 +18,8 @@ export const useHeaderStyles = makeStyles()(theme => ({
   },
   title: {
     color: theme.palette.grey[900],
-    fontSize: 16,
+    fontSize: 14,
+    lineHeight: '22px',
   },
   requests: {
     display: 'flex',

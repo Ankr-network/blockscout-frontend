@@ -31,6 +31,7 @@ export const useTableWidgetStyles = makeStyles()(theme => {
     title: {
       marginBottom: theme.spacing(2),
       paddingRight: theme.spacing(3),
+      fontSize: 14,
     },
     isHidden: {
       [theme.breakpoints.up('xl')]: {
