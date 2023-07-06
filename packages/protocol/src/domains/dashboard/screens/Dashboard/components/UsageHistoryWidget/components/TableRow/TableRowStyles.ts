@@ -23,10 +23,9 @@ export const useTableRowStyles = makeStyles<UseTableRowStylesParams>()(
       display: 'flex',
       alignItems: 'center',
       padding: theme.spacing(1, 0),
-      color: isFirst ? theme.palette.primary.main : theme.palette.grey[800],
-      fontWeight: isFirst ? 700 : 500,
+      color: isFirst ? theme.palette.primary.main : theme.palette.text.primary,
+      fontWeight: isFirst ? 700 : 400,
       fontSize: 12,
-      lineHeight: '16px',
     },
     line: {
       width: `${length}%`,

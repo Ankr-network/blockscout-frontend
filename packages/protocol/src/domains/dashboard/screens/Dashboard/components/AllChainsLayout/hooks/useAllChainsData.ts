@@ -10,7 +10,6 @@ import {
   selectTopCountries,
   selectTotalRequests,
   selectTotalRequestsNumber,
-  selectUsageHistory,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 
@@ -24,7 +23,6 @@ export const useAllChainsData = (timeframe: Timeframe) => {
   const areLocationsLoading = useAppSelector(selectLocationsLoading);
   const requests = useAppSelector(selectTotalRequests);
   const totalRequestsNumber = useAppSelector(selectTotalRequestsNumber);
-  const usageHistory = useAppSelector(selectUsageHistory);
 
   const requestsChartData = useMemo(
     () => getChartDataByRequests({ isLoggedIn: true, requests, timeframe }),
@@ -39,6 +37,5 @@ export const useAllChainsData = (timeframe: Timeframe) => {
     locations,
     requestsChartData,
     totalRequestsNumber,
-    usageHistory,
   };
 };

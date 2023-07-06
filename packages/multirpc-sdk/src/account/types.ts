@@ -1,3 +1,4 @@
+import { Timestamp } from '@ankr.com/utils/dist';
 import {
   EmailConfirmationStatus,
   Web3Address,
@@ -349,6 +350,15 @@ export interface LatestRequest {
   ip: string;
   country: string;
 }
+
+export interface StatsByRangeRequest extends IApiUserGroupParams {
+  from?: Timestamp;
+  to?: Timestamp;
+  monthly?: boolean;
+  token?: string;
+}
+
+export type StatsByRangeResponse = Record<string, number>;
 
 export interface IGetLatestRequestsResponse {
   user_requests: LatestRequest[];

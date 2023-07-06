@@ -4,7 +4,7 @@ export const useUsageHistoryWidgetStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(4),
+    gap: theme.spacing(2),
     padding: theme.spacing(5),
 
     borderRadius: 30,

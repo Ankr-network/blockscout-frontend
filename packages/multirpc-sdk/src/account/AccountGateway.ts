@@ -49,12 +49,15 @@ import {
   NegativeBalanceTermsOfServicesStatusParams,
   BundlePaymentPlan,
   GetLinkForBundlePaymentRequest,
+  StatsByRangeRequest,
+  StatsByRangeResponse,
 } from './types';
 import {
   IJwtTokenRequestParams,
   IJwtTokenLimitResponse,
   IJwtTokenResponse,
 } from '../oauth';
+import { IUserStatsByRangeRequest, IUserStatsResponse } from '../backoffice';
 
 export class AccountGateway {
   public api: AxiosInstance;
@@ -362,6 +365,27 @@ export class AccountGateway {
     return response;
   }
 
+  /**
+   * Returns total stats for each day between from and to
+   * In case of empty params, to would be now, and from would be now - 180 days
+   * Query Params (all are optional):
+   * - from milliseconds
+   * - to milliseconds
+   * - monthly if set true returns aggregated stats by month
+   * - token if set, returns only stats for specified premium-token */
+  async getUserStatsByRange(
+    params: StatsByRangeRequest,
+  ): Promise<StatsByRangeResponse> {
+    const { data: response } = await this.api.get<StatsByRangeResponse>(
+      '/api/v1/auth/stats/totals/range',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
   public async checkDevdaoInstantJwtParticipant() {
     const { data: response } =
       await this.api.get<ICheckInstantJwtParticipantResponse>(
@@ -524,8 +548,9 @@ export class AccountGateway {
   }
 
   async getBundlePaymentPlans() {
-    const { data } =
-      await this.api.get<BundlePaymentPlan[]>('/api/v1/auth/bundles');
+    const { data } = await this.api.get<BundlePaymentPlan[]>(
+      '/api/v1/auth/bundles',
+    );
 
     return data;
   }

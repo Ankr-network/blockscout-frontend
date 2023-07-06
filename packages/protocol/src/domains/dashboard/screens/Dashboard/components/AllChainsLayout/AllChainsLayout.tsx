@@ -9,6 +9,7 @@ import { TopCountriesWidget } from '../TopCountriesWidget';
 import { UsageHistoryWidget } from '../UsageHistoryWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
+import { useMonthlyStats } from '../../hooks/useMonthlyStats';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
   const { classes } = useAllChainsLayoutStyles();
@@ -21,8 +22,9 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     locations,
     requestsChartData,
     totalRequestsNumber,
-    usageHistory,
   } = useAllChainsData(timeframe);
+
+  const { data: monthlyStats = [] } = useMonthlyStats();
 
   return (
     <EmptyLayoutGuard data={requestsChartData}>
@@ -43,7 +45,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           locations={locations}
         />
         <TopCountriesWidget className={classes.countries} data={countries} />
-        <UsageHistoryWidget className={classes.history} data={usageHistory} />
+        <UsageHistoryWidget className={classes.history} data={monthlyStats} />
       </div>
     </EmptyLayoutGuard>
   );
