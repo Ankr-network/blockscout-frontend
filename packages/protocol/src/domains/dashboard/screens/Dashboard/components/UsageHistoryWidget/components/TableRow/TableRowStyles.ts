@@ -11,6 +11,11 @@ export const useTableRowStyles = makeStyles<UseTableRowStylesParams>()(
     row: {
       borderBottom: `1px solid ${theme.palette.grey[100]}`,
       display: 'flex',
+      padding: theme.spacing(1, 0),
+      fontSize: 12,
+      lineHeight: '20px',
+      color: isFirst ? theme.palette.primary.main : theme.palette.text.primary,
+      fontWeight: isFirst ? 700 : 400,
 
       '&:last-of-type': {
         [theme.breakpoints.up('xl')]: {
@@ -22,10 +27,6 @@ export const useTableRowStyles = makeStyles<UseTableRowStylesParams>()(
       width: '33%',
       display: 'flex',
       alignItems: 'center',
-      padding: theme.spacing(1, 0),
-      color: isFirst ? theme.palette.primary.main : theme.palette.text.primary,
-      fontWeight: isFirst ? 700 : 400,
-      fontSize: 12,
     },
     line: {
       width: `${length}%`,
