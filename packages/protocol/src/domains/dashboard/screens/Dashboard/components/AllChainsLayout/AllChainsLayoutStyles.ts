@@ -1,6 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const dashboardGridTemplateColumns = 'repeat(2, 1fr) repeat(4, 200px)';
+export const dashboardGridTemplateColumns =
+  'repeat(2, 1fr) repeat(4, minmax(200px, 1fr))';
 export const dashboardGridTemplateRows = 'repeat(2, calc(50vh - 88px))';
 
 export const useAllChainsLayoutStyles = makeStyles()(theme => ({
