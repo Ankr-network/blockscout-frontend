@@ -17,9 +17,4 @@ export const useUsageHistoryWidgetStyles = makeStyles()(theme => ({
       padding: theme.spacing(5),
     },
   },
-  isHidden: {
-    [theme.breakpoints.up('xl')]: {
-      display: 'none',
-    },
-  },
 }));

@@ -3,6 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 export const dashboardGridTemplateColumns =
   'repeat(2, 1fr) repeat(4, minmax(200px, 1fr))';
 export const dashboardGridTemplateRows = 'repeat(2, calc(50vh - 88px))';
+export const dashboardGridTemplateRowsWideScreens = 'repeat(2, 30vh)';
 
 export const useAllChainsLayoutStyles = makeStyles()(theme => ({
   root: {
@@ -15,6 +16,11 @@ export const useAllChainsLayoutStyles = makeStyles()(theme => ({
       "requests    requests    requests  requests  calls   projects"
       "ip-requests ip-requests locations countries history history"
     `,
+
+    /* for wide screens */
+    '@media screen and (min-height: 900px)': {
+      gridTemplateRows: dashboardGridTemplateRowsWideScreens,
+    },
 
     [theme.breakpoints.down('xl')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',

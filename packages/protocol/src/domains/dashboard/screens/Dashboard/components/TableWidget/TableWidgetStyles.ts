@@ -37,6 +37,11 @@ export const useTableWidgetStyles = makeStyles()(theme => {
       [theme.breakpoints.up('xl')]: {
         display: 'none',
       },
+
+      /* for wide screens */
+      '@media screen and (min-height: 900px)': {
+        display: 'flex',
+      },
     },
     row: {
       display: 'flex',
@@ -49,6 +54,11 @@ export const useTableWidgetStyles = makeStyles()(theme => {
       '&:nth-child(2)': {
         [theme.breakpoints.up('xl')]: {
           borderTop: 'none',
+        },
+
+        /* for wide screens */
+        '@media screen and (min-height: 900px)': {
+          borderTop: `1px solid ${theme.palette.grey[100]}`,
         },
       },
     },

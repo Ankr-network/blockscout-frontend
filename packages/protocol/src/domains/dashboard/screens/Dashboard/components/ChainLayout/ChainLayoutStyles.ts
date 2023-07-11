@@ -2,6 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 import {
   dashboardGridTemplateColumns,
   dashboardGridTemplateRows,
+  dashboardGridTemplateRowsWideScreens,
 } from '../AllChainsLayout/AllChainsLayoutStyles';
 
 export const useChainLayoutStyles = makeStyles()(theme => ({
@@ -15,6 +16,11 @@ export const useChainLayoutStyles = makeStyles()(theme => ({
       "requests    requests    requests  requests  methods methods"
       "ip-requests ip-requests locations countries methods methods"
     `,
+
+    /* for wide screens */
+    '@media screen and (min-height: 900px)': {
+      gridTemplateRows: dashboardGridTemplateRowsWideScreens,
+    },
 
     [theme.breakpoints.down('xl')]: {
       gridTemplateColumns: 'minmax(max-content, 1fr) repeat(2, 200px)',

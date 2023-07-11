@@ -35,12 +35,17 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
       [theme.breakpoints.up('xl')]: {
         display: 'none',
       },
+
+      /* for wide screens */
+      '@media screen and (min-height: 900px)': {
+        display: 'flex',
+      },
     },
     details: {
       display: 'flex',
       color: theme.palette.text.secondary,
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
     },
     locationItem: {
       display: 'flex',
@@ -52,6 +57,11 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
       '&:nth-child(2)': {
         [theme.breakpoints.up('xl')]: {
           borderTop: 'none',
+        },
+
+        /* for wide screens */
+        '@media screen and (min-height: 900px)': {
+          borderTop: `1px solid ${theme.palette.grey[100]}`,
         },
       },
     },

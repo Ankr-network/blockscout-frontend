@@ -4,6 +4,7 @@ export const useHeadRowStyles = makeStyles()(theme => ({
   row: {
     borderBottom: `1px solid ${theme.palette.grey[100]}`,
     display: 'flex',
+    width: '100%',
   },
   cell: {
     width: '33%',

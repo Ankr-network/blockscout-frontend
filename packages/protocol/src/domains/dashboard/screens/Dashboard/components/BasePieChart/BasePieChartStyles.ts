@@ -42,5 +42,10 @@ export const useBasePieChartStyles = makeStyles()(theme => ({
   chart: {
     width: 100,
     height: 100,
+
+    [theme.breakpoints.up('xl')]: {
+      width: 120,
+      height: 120,
+    },
   },
 }));

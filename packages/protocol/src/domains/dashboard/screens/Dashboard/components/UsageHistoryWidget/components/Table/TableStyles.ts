@@ -5,5 +5,10 @@ export const useTableSyles = makeStyles()(theme => ({
     [theme.breakpoints.up('xl')]: {
       display: 'none',
     },
+
+    /* for wide screens */
+    '@media screen and (min-height: 900px)': {
+      display: 'flex',
+    },
   },
 }));
