@@ -2,11 +2,11 @@ import { Paper, Typography } from '@mui/material';
 
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
 import { ScrollableContainer } from '../ScrollableContainer';
-import { Timeframe30DTitle } from '../Timeframe30DTitle';
+import { Title } from '../Title';
 import { text } from './utils/text';
 import { useTableWidgetStyles } from '../TableWidget/TableWidgetStyles';
 
-interface TopCountriesData {
+export interface TopCountriesData {
   country: string;
   count: number;
 }
@@ -29,9 +29,7 @@ export const TopCountriesWidget = ({
 
   return (
     <Paper className={cx(classes.root, container, className)}>
-      <Timeframe30DTitle className={classes.title}>
-        {text('title')}
-      </Timeframe30DTitle>
+      <Title className={classes.title}>{text('title')}</Title>
       <NoDataGuard data={data}>
         <ScrollableContainer>
           <div

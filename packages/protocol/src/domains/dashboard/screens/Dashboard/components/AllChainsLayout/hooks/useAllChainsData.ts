@@ -4,21 +4,18 @@ import { Timeframe } from 'domains/chains/types';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
   selectAllTimeTotalRequestsNumber,
-  selectIPRequests,
   selectLocations,
   selectLocationsLoading,
-  selectTopCountries,
   selectTotalRequests,
   selectTotalRequestsNumber,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { useTop10Stats } from './useTop10Stats';
 
 export const useAllChainsData = (timeframe: Timeframe) => {
   const allTimeTotalRequestsNumber = useAppSelector(
     selectAllTimeTotalRequestsNumber,
   );
-  const countries = useAppSelector(selectTopCountries);
-  const ipRequests = useAppSelector(selectIPRequests);
   const locations = useAppSelector(selectLocations);
   const areLocationsLoading = useAppSelector(selectLocationsLoading);
   const requests = useAppSelector(selectTotalRequests);
@@ -28,6 +25,8 @@ export const useAllChainsData = (timeframe: Timeframe) => {
     () => getChartDataByRequests({ isLoggedIn: true, requests, timeframe }),
     [requests, timeframe],
   );
+
+  const { countries, ipRequests } = useTop10Stats(timeframe);
 
   return {
     allTimeTotalRequestsNumber,

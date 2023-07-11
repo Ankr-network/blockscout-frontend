@@ -159,7 +159,7 @@
       "all-requests": "All time Requests <strong>{requests, number, ::compact-short}</strong>"
     },
     "requests-by-ip": {
-      "header": "Requests by IP",
+      "title": "Requests by IP",
       "ip": "IP",
       "requests": "HTTP",
       "count": "{count, number, ::compact-short}"

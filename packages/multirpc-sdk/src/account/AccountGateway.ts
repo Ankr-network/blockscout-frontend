@@ -51,13 +51,14 @@ import {
   GetLinkForBundlePaymentRequest,
   StatsByRangeRequest,
   StatsByRangeResponse,
+  Top10StatsResponse,
+  Top10StatsParams,
 } from './types';
 import {
   IJwtTokenRequestParams,
   IJwtTokenLimitResponse,
   IJwtTokenResponse,
 } from '../oauth';
-import { IUserStatsByRangeRequest, IUserStatsResponse } from '../backoffice';
 
 export class AccountGateway {
   public api: AxiosInstance;
@@ -180,6 +181,17 @@ export class AccountGateway {
       `/api/v1/auth/statsPremiumID`,
       {
         params: { intervalType, premiumID, group },
+      },
+    );
+
+    return data;
+  }
+
+  async getTop10Stats(params: Top10StatsParams): Promise<Top10StatsResponse> {
+    const { data } = await this.api.get<Top10StatsResponse>(
+      `/api/v1/auth/stats/top10`,
+      {
+        params,
       },
     );
 
