@@ -36,6 +36,14 @@ export enum ChainGroupID {
   FALLBACK = 'FALLBACK',
 }
 
+export const nonEvmGroupsList = [
+  ChainGroupID.C_CHAIN,
+  ChainGroupID.X_CHAIN,
+  ChainGroupID.P_CHAIN,
+  ChainGroupID.NERVOS_CKB,
+  ChainGroupID.NERVOS_GW,
+];
+
 export interface EndpointGroup {
   chainName: string;
   id: ChainGroupID;

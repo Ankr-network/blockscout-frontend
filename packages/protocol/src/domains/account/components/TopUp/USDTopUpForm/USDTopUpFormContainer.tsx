@@ -2,7 +2,7 @@ import { TopUpEmailDialog } from '../ANKRTopUpForm/TopUpEmailDialog';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { USDTopUpForm } from './USDTopUpForm';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
-import { useOnTopUpSubmit } from './USDTopUpFormUtils';
+import { useOnTopUpSubmit } from './hooks/useOnTopUpSubmit';
 
 export interface USDTopUpFormContainerProps {
   trackSubmit: TrackTopUpSubmit;

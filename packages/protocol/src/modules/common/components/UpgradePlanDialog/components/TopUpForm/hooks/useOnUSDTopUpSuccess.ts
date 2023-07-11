@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
-import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
+import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TopUpOrigin, TrackTopUpSubmit } from 'domains/account/types';
 import { TopUpSuccessHandler } from '../types';
 import {
@@ -10,27 +10,18 @@ import {
   setTopUpOrigin,
 } from 'domains/account/store/accountTopUpSlice';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const defaultUSDPrice = ONE_TIME_PAYMENT_ID;
 
 export const useOnUSDTopUpSuccess = (trackSubmit?: TrackTopUpSubmit) => {
-  const { selectedGroupAddress } = useSelectedUserGroup();
-  const {
-    handleFetchLinkForCardPayment,
-    isFetchLinkForCardPaymentLoading: isLoading,
-  } = useCardPayment();
+  const { handleFetchPaymentLink, isLoading } = useCardPayment();
 
   const dispatch = useDispatch();
   const topUpOrigin = useSelector(selectTopUpOrigin);
 
   const onSuccess: TopUpSuccessHandler = useCallback(
-    async ({ amount, usdPrice = defaultUSDPrice }) => {
-      const { data: url } = await handleFetchLinkForCardPayment({
-        amount,
-        id: usdPrice,
-        groupAddress: selectedGroupAddress,
-      });
+    async ({ amount, usdPrice: id = defaultUSDPrice }) => {
+      const url = await handleFetchPaymentLink(amount, id);
 
       const redirect = () => {
         if (url) {
@@ -41,18 +32,12 @@ export const useOnUSDTopUpSuccess = (trackSubmit?: TrackTopUpSubmit) => {
       };
 
       if (trackSubmit) {
-        trackSubmit(amount, TopUpCurrnecy.USD, redirect);
+        trackSubmit(amount, TopUpCurrency.USD, redirect);
       } else {
         redirect();
       }
     },
-    [
-      topUpOrigin,
-      dispatch,
-      handleFetchLinkForCardPayment,
-      trackSubmit,
-      selectedGroupAddress,
-    ],
+    [topUpOrigin, dispatch, handleFetchPaymentLink, trackSubmit],
   );
 
   return { isLoading, onSuccess };

@@ -1,28 +1,23 @@
 import { useAppSelector } from 'store/useAppSelector';
 import { selectTokenManagerConfig } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { RootState } from 'store';
 import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
-import { fetchAllowedJwtTokensCount } from 'domains/jwtToken/action/getAllowedJwtTokensCount';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { selectCurrentAddress } from 'domains/auth/store';
+import { useJwtManager } from './useJwtManager';
 
 export const useTokenManagerConfigSelector = () => {
-  const { selectedGroupAddress } = useSelectedUserGroup();
-  const { address: currentUserAddress } = useAuth();
-  const address = selectedGroupAddress || currentUserAddress;
+  const address = useAppSelector(selectCurrentAddress);
 
-  const config = useAppSelector((state: RootState) =>
+  const config = useAppSelector(state =>
     selectTokenManagerConfig(state, address),
   );
 
-  const [, { data }] = useQueryEndpoint(fetchAllowedJwtTokensCount);
+  const { hasReadAccess: shouldShowTokenManager } = useJwtManager();
 
   return {
     ...config,
     selectedProjectEndpointToken: config.selectedProject,
     address,
     tokenIndex: config.tokenIndex ?? PRIMARY_TOKEN_INDEX,
-    shouldShowTokenManager: data?.shouldShowTokenManager,
+    shouldShowTokenManager,
   };
 };

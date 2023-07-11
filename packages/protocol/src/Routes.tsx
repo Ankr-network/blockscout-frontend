@@ -24,7 +24,6 @@ import {
   GuardPremiumEndpointRoute,
 } from 'domains/auth/components/GuardAuthRoute';
 import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
-import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
 import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
@@ -38,10 +37,13 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { ProjectsRoutes } from 'domains/projects/routes/Routes';
+import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 export const Routes = () => {
-  const { hasPremium, hasPrivateAccess, isUserEthAddressType, isLoggedIn } =
-    useAuth();
+  const { hasPremium, isLoggedIn } = useAuth();
 
   const hasAuthData = Boolean(isLoggedIn);
 
@@ -50,6 +52,7 @@ export const Routes = () => {
   useAutoconnect();
   useWeb3ThemeSwitcher();
   useCheckChangedSignupUserSettingsAndUpdate();
+  useJwtManagerInitializer(!isReactSnap && isLoggedIn);
 
   return (
     <Switch>
@@ -60,6 +63,26 @@ export const Routes = () => {
           <DefaultLayout hasGradient hasNoReactSnap>
             <PricingRoutes />
           </DefaultLayout>
+        )}
+      />
+
+      <GuardAuthRoute
+        exact
+        path={[
+          ProjectsRoutesConfig.projects.path,
+          ProjectsRoutesConfig.newProject.path,
+        ]}
+        hasAuthData={hasAuthData}
+        hasPremium={hasPremium}
+        render={() => (
+          <GuardUserGroup
+            shouldRedirect
+            blockName={BlockWithPermission.UsageData}
+          >
+            <DefaultLayout hasNoReactSnap>
+              <ProjectsRoutes />
+            </DefaultLayout>
+          </GuardUserGroup>
         )}
       />
 
@@ -100,13 +123,11 @@ export const Routes = () => {
           </GuardUserGroup>
         )}
       />
-      <GuardCardPaymentSuccessAuthRoute
+      <GuardAuthRoute
         exact
         path={AccountRoutesConfig.cardPaymentSuccess.path}
-        isUserEthAddressType={isUserEthAddressType}
         hasAuthData={hasAuthData}
         hasPremium={hasPremium}
-        hasPrivateAccess={hasPrivateAccess}
         render={() => (
           <DefaultLayout>
             <AccountRoutes />

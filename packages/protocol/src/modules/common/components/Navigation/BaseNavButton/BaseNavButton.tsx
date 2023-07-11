@@ -11,6 +11,7 @@ import {
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { t } from '@ankr.com/common';
 
 interface IBaseNavButtonProps {
   item: NavigationItem;
@@ -28,7 +29,15 @@ export const BaseNavButton = ({
     isMobileSiderBar,
   });
 
-  const { label, href, isComingSoon, StartIcon, ActiveIcon, isDisabled } = item;
+  const {
+    label,
+    href,
+    isComingSoon,
+    isNew,
+    StartIcon,
+    ActiveIcon,
+    isDisabled,
+  } = item;
 
   const isExternalHref = useMemo(() => href && isExternalPath(href), [href]);
 
@@ -45,6 +54,9 @@ export const BaseNavButton = ({
         startIcon={<StartIcon />}
       >
         {label}
+        {isNew && (
+          <SoonLabel className={classes.soon} label={t('common.new')} />
+        )}
         {isComingSoon && <SoonLabel className={classes.soon} />}
       </Button>
     );
@@ -63,6 +75,7 @@ export const BaseNavButton = ({
       startIcon={<StartIcon />}
     >
       {label}
+      {isNew && <SoonLabel className={classes.soon} label={t('common.new')} />}
       {isComingSoon && <SoonLabel className={classes.soon} />}
     </Button>
   );

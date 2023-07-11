@@ -95,7 +95,7 @@ export const JwtTokenManager = () => {
           );
         })}
         {canAddProject && (
-          <GuardUserGroup blockName={BlockWithPermission.JwtManager}>
+          <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
             <AddProject onOpen={onOpenAddProjectDialog} />
           </GuardUserGroup>
         )}

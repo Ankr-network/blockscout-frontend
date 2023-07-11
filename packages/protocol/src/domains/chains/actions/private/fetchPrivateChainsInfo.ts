@@ -12,7 +12,6 @@ export interface IFetchPrivateChainsInfoResult {
 
 interface Params {
   userEndpointToken?: string;
-  hasWeb3Connection?: boolean;
 }
 
 export const {

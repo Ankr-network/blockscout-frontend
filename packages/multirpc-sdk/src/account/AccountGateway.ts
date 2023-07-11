@@ -49,12 +49,17 @@ import {
   NegativeBalanceTermsOfServicesStatusParams,
   BundlePaymentPlan,
   GetLinkForBundlePaymentRequest,
-} from './types';
-import {
   IJwtTokenRequestParams,
   IJwtTokenLimitResponse,
   IJwtTokenResponse,
-} from '../oauth';
+  IUpdateWhitelistModeRequestParams,
+  IUpdateWhitelistModeParams,
+  IUpdateWhitelistModeResponse,
+  IUpdateWhitelistParams,
+  IUpdateWhitelistParamsResponse,
+  IGetWhitelistParams,
+  IGetWhitelistParamsResponse,
+} from './types';
 
 export class AccountGateway {
   public api: AxiosInstance;
@@ -523,9 +528,21 @@ export class AccountGateway {
     return response;
   }
 
+  async getWhitelist(
+    queryParams: IGetWhitelistParams,
+  ): Promise<IGetWhitelistParamsResponse> {
+    const { data } = await this.api.get<IGetWhitelistParamsResponse>(
+      '/api/v1/auth/whitelist',
+      { params: queryParams },
+    );
+
+    return data;
+  }
+
   async getBundlePaymentPlans() {
-    const { data } =
-      await this.api.get<BundlePaymentPlan[]>('/api/v1/auth/bundles');
+    const { data } = await this.api.get<BundlePaymentPlan[]>(
+      '/api/v1/auth/bundles',
+    );
 
     return data;
   }
@@ -561,5 +578,47 @@ export class AccountGateway {
       { subscription_id },
       { headers: createTOTPHeaders(totp), params },
     );
+  }
+
+  async updateWhitelistMode(
+    bodyParams: IUpdateWhitelistModeRequestParams,
+    queryParams: IUpdateWhitelistModeParams,
+    totp?: string,
+  ): Promise<IUpdateWhitelistModeResponse> {
+    const { data } = await this.api.patch<IUpdateWhitelistModeResponse>(
+      '/api/v1/auth/whitelist/mode',
+      bodyParams,
+      { headers: createTOTPHeaders(totp), params: queryParams },
+    );
+
+    return data;
+  }
+
+  async addAddressToWhitelist(
+    item: string,
+    queryParams: IUpdateWhitelistParams,
+    totp?: string,
+  ): Promise<IUpdateWhitelistParamsResponse> {
+    const { data } = await this.api.post<IUpdateWhitelistParamsResponse>(
+      '/api/v1/auth/whitelist',
+      { item },
+      { headers: createTOTPHeaders(totp), params: queryParams },
+    );
+
+    return data;
+  }
+
+  async updateWhitelist(
+    bodyParams: string[],
+    queryParams: IUpdateWhitelistParams,
+    totp?: string,
+  ): Promise<IUpdateWhitelistParamsResponse> {
+    const { data } = await this.api.patch<IUpdateWhitelistParamsResponse>(
+      '/api/v1/auth/whitelist',
+      bodyParams,
+      { headers: createTOTPHeaders(totp), params: queryParams },
+    );
+
+    return data;
   }
 }

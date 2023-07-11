@@ -1,7 +1,7 @@
 import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
-import { Chain } from '../../types';
+import { Chain, ChainType } from '../../types';
 import { ChainsRoutesConfig } from '../../routes';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
@@ -9,11 +9,14 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { isChainArchived } from 'domains/chains/screens/ChainItem/utils/isChainArchived';
 import { ChainID } from 'domains/chains/types';
+import { ChainGroupID } from 'modules/endpoints/types';
 
 export interface IChainItemDetails {
   chain: Chain;
   unfilteredChain: Chain;
   isChainArchived: boolean;
+  selectedType?: ChainType;
+  selectedGroupId?: ChainGroupID;
 }
 
 interface FetchPrivateChainParams {

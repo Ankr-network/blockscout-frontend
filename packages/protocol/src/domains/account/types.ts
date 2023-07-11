@@ -5,7 +5,7 @@ import {
   IApiUserGroupParams,
 } from 'multirpc-sdk';
 
-import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
+import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TopUpTrackingParams } from 'modules/analytics/mixpanel/trackTopUp';
 
 export enum BalanceStatus {
@@ -64,7 +64,7 @@ export type PaymentType = IPaymentHistoryEntityType | 'ALL';
 
 export type TrackTopUpSubmit = (
   amount: string,
-  currency: TopUpCurrnecy,
+  currency: TopUpCurrency,
   callback?: Callback,
 ) => void;
 
@@ -76,4 +76,5 @@ export enum TopUpOrigin {
   BILLING,
   ENDPOINTS,
   PRICING,
+  PROJECTS,
 }

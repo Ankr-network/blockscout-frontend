@@ -17,6 +17,7 @@ export const {
     chainsFetchPublicChains: build.query<FetchPublicChainsResult, void>({
       queryFn: createNotifyingQueryFn(async () => {
         const service = MultiService.getService();
+
         const chains = await service.getPublicGateway().getBlockchains();
 
         const formattedPublicChains = service.formatPublicEndpoints(chains);
