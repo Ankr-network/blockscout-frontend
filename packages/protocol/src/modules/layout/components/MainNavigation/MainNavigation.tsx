@@ -5,7 +5,7 @@ import { t } from '@ankr.com/common';
 import { Navigation } from 'modules/common/components/Navigation';
 import {
   getCommonMenuList,
-  getEndpointsList,
+  getPremiumEndpointsList,
   getLogoutItem,
   getMenuList,
   getSettingList,
@@ -14,9 +14,10 @@ import { useMainNavigationStyles } from './useMainNavigationStyles';
 
 interface IMainNavigationProps {
   chainsRoutes: string[];
+  hasJwtManagerAccess: boolean;
   isLoggedIn: boolean;
-  loading: boolean;
   isMobileSiderBar: boolean;
+  loading: boolean;
   onAAPIClick: () => void;
   onDashboardClick: () => void;
   onDocsClick: () => void;
@@ -26,9 +27,10 @@ interface IMainNavigationProps {
 
 export const MainNavigation = ({
   chainsRoutes,
+  hasJwtManagerAccess,
   isLoggedIn,
-  loading,
   isMobileSiderBar,
+  loading,
   onAAPIClick,
   onDashboardClick,
   onDocsClick,
@@ -36,8 +38,13 @@ export const MainNavigation = ({
   onSignoutClick,
 }: IMainNavigationProps) => {
   const endpointsItems = useMemo(
-    () => getEndpointsList({ chainsRoutes, onAAPIClick }),
-    [chainsRoutes, onAAPIClick],
+    () =>
+      getPremiumEndpointsList({
+        chainsRoutes,
+        hasJwtManagerAccess,
+        onAAPIClick,
+      }),
+    [chainsRoutes, hasJwtManagerAccess, onAAPIClick],
   );
 
   const commonItem = useMemo(

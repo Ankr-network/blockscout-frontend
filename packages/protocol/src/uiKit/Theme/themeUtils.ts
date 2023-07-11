@@ -20,6 +20,13 @@ export const getTypographTheme = (theme: any) => {
 export const commonLinear = `linear-gradient(to left, #013CD3, #6235D0, #AF34B1, #E85658, #FF7710)`;
 
 export const premiumText = `linear-gradient(269.98deg, #5F87F4 0.02%, #A963FF 49.89%, #FF862A 99.98%)`;
+export const premiumTextStyles = {
+  display: 'inline',
+  width: 'fit-content',
+  background: premiumText,
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+};
 
 export const premiumColor = `linear-gradient(270.26deg, #013CD3 0.23%, #6235D0 26.13%, #AF34B1 49.87%, #E85658 76.96%, #FF7710 99.78%)`;
 export const premiumDarkThemeColor = `linear-gradient(269.98deg, #5F87F4 0.02%, #A963FF 49.89%, #FF862A 99.98%)`;

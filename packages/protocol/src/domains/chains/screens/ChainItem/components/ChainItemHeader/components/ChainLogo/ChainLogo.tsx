@@ -5,13 +5,15 @@ import { useChainLogoStyles } from './ChainLogoStyles';
 export interface ChainLogoProps {
   chain: Chain;
   className?: string;
+  size?: number;
 }
 
 export const ChainLogo = ({
   chain: { id, name },
+  size,
   className,
 }: ChainLogoProps) => {
-  const { classes, cx } = useChainLogoStyles();
+  const { classes, cx } = useChainLogoStyles(size);
 
   const icon = useChainIcon(id);
 

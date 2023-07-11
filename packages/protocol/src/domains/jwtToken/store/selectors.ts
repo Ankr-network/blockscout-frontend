@@ -1,28 +1,42 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import {
-  IRequestParams,
-  fetchAllJwtTokenRequests,
-} from '../action/getAllJwtToken';
 import { RootState } from 'store';
-import { selectAddress } from 'domains/auth/store/selectors';
-import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
+import { fetchAllJwtTokenRequests } from '../action/getAllJwtToken';
+import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
+import { selectCurrentAddress, selectIsLoggedIn } from 'domains/auth/store';
+import { MINIMAL_TOKENS_LIMIT } from '../utils/utils';
 
 const selectJwtTokenManager = (state: RootState) => state.jwtTokenManager;
 
 export const selectJwtTokens = createSelector(
-  fetchAllJwtTokenRequests.select(undefined as unknown as IRequestParams),
+  fetchAllJwtTokenRequests.select({}),
   ({ data: { jwtTokens = [] } = {} }) => jwtTokens,
-);
-
-export const selectProjectAddress = createSelector(
-  selectAddress,
-  selectUserGroupConfigByAddress,
-  (address, { selectedGroupAddress }) => selectedGroupAddress || address,
 );
 
 export const selectSelectedProject = createSelector(
   selectJwtTokenManager,
-  selectProjectAddress,
+  selectCurrentAddress,
   (jwtTokenManager, address) => jwtTokenManager[address]?.selectedProject,
+);
+
+export const selectAllowedJwtsCountState = createSelector(
+  fetchAllowedJwtTokensCount.select({}),
+  state => state,
+);
+
+export const selectAllowedJwtsCount = createSelector(
+  selectAllowedJwtsCountState,
+  ({ data = 0 }) => data,
+);
+
+export const selectHasJwtManagerAccess = createSelector(
+  selectAllowedJwtsCountState,
+  selectAllowedJwtsCount,
+  selectIsLoggedIn,
+  ({ isLoading, isSuccess, isUninitialized }, allowedJwtsCount, isLoggedIn) =>
+    isLoggedIn &&
+    !isUninitialized &&
+    !isLoading &&
+    isSuccess &&
+    allowedJwtsCount >= MINIMAL_TOKENS_LIMIT,
 );

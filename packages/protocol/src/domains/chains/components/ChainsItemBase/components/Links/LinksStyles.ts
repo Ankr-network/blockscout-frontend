@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { premiumText } from 'uiKit/Theme/themeUtils';
+import { premiumTextStyles } from 'uiKit/Theme/themeUtils';
 
 export const useLinksStyles = makeStyles<void, 'copyItem'>()(
   (theme, _params, classes) => ({
@@ -23,16 +23,8 @@ export const useLinksStyles = makeStyles<void, 'copyItem'>()(
       background: theme.palette.background.default,
     },
     text: {
-      display: 'inline',
-
-      width: 'fit-content',
-
-      background: premiumText,
-
       fontSize: 12,
-
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
+      ...premiumTextStyles,
     },
     icon: {
       color: theme.palette.grey[600],

@@ -1,3 +1,4 @@
+import { Address } from '@ankr.com/provider';
 import {
   EmailConfirmationStatus,
   Web3Address,
@@ -308,6 +309,7 @@ export interface ICanPayByCardResponse {
 export interface IGetLinkForCardPaymentRequest {
   amount: string;
   publicKey?: string;
+  reason?: string;
 }
 
 export interface IGetLinkForRecurrentCardPaymentRequest {
@@ -461,6 +463,62 @@ export interface NegativeBalanceTermsOfServicesStatusResponse {
   tosAccepted: boolean;
 }
 
+export interface IJwtTokenResponse {
+  index: number;
+  jwt_data: string;
+  is_encrypted: boolean;
+}
+
+export interface IJwtTokenRequestParams extends IApiUserGroupParams {
+  index: number;
+  totp?: string;
+}
+
+export interface IJwtTokenLimitResponse {
+  jwtLimit: number;
+}
+
+type UserEndpointTokenMode = 'ip' | 'referer' | 'address';
+
+export interface IUpdateWhitelistModeParams extends IApiUserGroupParams {
+  token: string; // endpointToken
+  type: UserEndpointTokenMode;
+}
+
+export interface IUpdateWhitelistModeRequestParams {
+  whitelist: boolean;
+  prohibit_by_default: boolean;
+}
+
+export interface IUpdateWhitelistModeResponse
+  extends IUpdateWhitelistModeRequestParams {}
+
+export interface IUpdateWhitelistParams extends IUpdateWhitelistModeParams {
+  blockchain: string;
+}
+
+export interface ListItem {
+  type: UserEndpointTokenMode;
+  list: string[];
+}
+
+export interface IUpdateWhitelistParamsResponse
+  extends IUpdateWhitelistModeRequestParams {
+  lists: ListItem[];
+}
+
+export interface IGetWhitelistParams extends IUpdateWhitelistModeParams {
+  group?: Address;
+}
+
+export interface WhitelistItem extends ListItem {
+  blockchain: string;
+}
+
+export interface IGetWhitelistParamsResponse
+  extends IUpdateWhitelistModeRequestParams {
+  lists: WhitelistItem[];
+}
 export interface BundlePaymentPlan {
   bundle: BundlePlan;
   price: ProductPrice;

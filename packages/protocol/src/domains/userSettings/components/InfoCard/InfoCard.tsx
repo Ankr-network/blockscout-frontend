@@ -7,7 +7,7 @@ import { Align } from './types';
 interface IInfoCardProps {
   title: string;
   description: ReactNode;
-  actionSlot?: ReactNode;
+  children?: ReactNode;
   align: Align;
   titleClassName?: string;
   descriptionClassName?: string;
@@ -16,7 +16,7 @@ interface IInfoCardProps {
 export const InfoCard = ({
   title,
   description,
-  actionSlot,
+  children,
   align,
   titleClassName,
   descriptionClassName,
@@ -33,7 +33,7 @@ export const InfoCard = ({
         {description}
       </Typography>
 
-      {actionSlot}
+      {children}
     </Paper>
   );
 };

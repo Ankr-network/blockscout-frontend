@@ -8,7 +8,13 @@ export interface VirtualTableQuery {
   orderBy?: string;
 }
 export interface VirtualTableProps<T extends Record<string, any>> {
-  classes?: { root?: string; container?: string; head?: string };
+  classes?: {
+    root?: string;
+    container?: string;
+    head?: string;
+    rowContainer?: string;
+    row?: string;
+  };
   cols: VirtualTableColumn<T>[];
   emptyMessage?: string;
   initializing?: boolean;
@@ -23,6 +29,8 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   preloader?: ReactNode;
   renderExpand?: (rowData: T, recalculateRows: () => void) => React.ReactNode;
   rows: T[];
+  searchContent?: string;
+  searchKey?: string;
 }
 
 export interface VirtualTableColumn<T> {

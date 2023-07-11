@@ -15,6 +15,7 @@ export interface GroupParams {
   chainType: ChainType;
   endpoints: GroupedEndpoints;
   netId?: ChainID;
+  selectedGroupId?: ChainGroupID;
 }
 
 export interface GroupResult {
@@ -31,13 +32,14 @@ export const useGroup = ({
   chainType,
   endpoints,
   netId,
+  selectedGroupId,
 }: GroupParams): GroupResult => {
   const groups = endpoints[chainType];
 
   const tabs = useMemo(() => getGroupTabs(groups), [groups]);
 
   const [groupTabs, groupTab, selectGroup] = useTabs({
-    initialTabID: getGroupIdByChainId(netId),
+    initialTabID: selectedGroupId || getGroupIdByChainId(netId),
     tabs,
   });
   const groupID = groupTab?.id ?? ChainGroupID.FALLBACK;

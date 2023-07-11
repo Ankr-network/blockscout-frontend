@@ -284,22 +284,29 @@ export const TableHead = ({ className }: TableHeadProps) => {
 interface RowProps {
   style?: CSSProperties;
   index: number;
+  rowContainerClass?: string;
+  rowClass?: string;
 }
 
-export const Row = ({ style, index }: RowProps) => {
+export const Row = ({
+  style,
+  index,
+  rowContainerClass,
+  rowClass,
+}: RowProps) => {
   const { rows, cols, expandedRow, renderExpand, recalculateRows } = useTable();
   const { classes, cx } = useStyles();
 
   const rowData = rows[index];
 
   return (
-    <div style={style} className={classes.vRow}>
+    <div style={style} className={cx(classes.vRow)}>
       <div
-        className={cx(classes.rowColumn, {
+        className={cx(classes.rowColumn, rowContainerClass, {
           [classes.rowExpanded]: expandedRow === index,
         })}
       >
-        <div className={cx(classes.row)}>
+        <div className={cx(classes.row, rowClass)}>
           {cols.map((col, colIndex) => (
             <Col
               key={col.field}
@@ -320,7 +327,10 @@ export const Row = ({ style, index }: RowProps) => {
   );
 };
 
-export const useRowRenderer = () => {
+export const useRowRenderer = (
+  rowContainerClass?: string,
+  rowClass?: string,
+) => {
   const { cache } = useTable();
 
   const rowRenderer: ListRowRenderer = useCallback(
@@ -333,12 +343,17 @@ export const useRowRenderer = () => {
           rowIndex={index}
           parent={parent}
         >
-          <Row index={index} style={style} />
+          <Row
+            index={index}
+            style={style}
+            rowContainerClass={rowContainerClass}
+            rowClass={rowClass}
+          />
         </CellMeasurer>
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [rowContainerClass, rowClass],
   );
 
   return rowRenderer;
@@ -362,3 +377,16 @@ export const useWindowScroller = () => {
 
   return windowScrollerRef;
 };
+
+export const getSearchedRows = (
+  rows: any[],
+  searchContent?: string,
+  searchKey?: string,
+) =>
+  searchContent && searchKey
+    ? rows.filter(
+        item =>
+          item[searchKey].toLowerCase().indexOf(searchContent.toLowerCase()) >
+          -1,
+      )
+    : rows;

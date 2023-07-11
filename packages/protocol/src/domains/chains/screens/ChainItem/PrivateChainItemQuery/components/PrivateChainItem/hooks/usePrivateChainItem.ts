@@ -22,6 +22,8 @@ interface PrivateChainItem extends ChainItem {
 export const usePrivateChainItem = ({
   chain,
   unfilteredChain: publicChain,
+  selectedType,
+  selectedGroupId,
 }: IChainItemDetails): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -33,6 +35,7 @@ export const usePrivateChainItem = ({
       chain,
       endpoints,
       netId,
+      selectedType,
     });
 
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
@@ -41,6 +44,7 @@ export const usePrivateChainItem = ({
       chainType,
       endpoints,
       netId,
+      selectedGroupId,
     },
   );
   const chainProtocolContext = useChainProtocol({ group, netId });

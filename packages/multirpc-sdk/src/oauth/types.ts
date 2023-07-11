@@ -1,5 +1,3 @@
-import { IApiUserGroupParams } from '../account';
-
 export interface IOauthLoginParams {
   client_id: string;
   oauth_url: string;
@@ -26,7 +24,7 @@ export enum EthAddressType {
 export interface IEthUserAddressWithDeprecatedPublicKey {
   address: string;
   type: EthAddressType;
-  //TODO: remove snake_case after this tasks: https://ankrnetwork.atlassian.net/browse/MRPC-1922 https://ankrnetwork.atlassian.net/browse/MRPC-1923
+  // TODO: remove snake_case after this tasks: https://ankrnetwork.atlassian.net/browse/MRPC-1922 https://ankrnetwork.atlassian.net/browse/MRPC-1923
   public_key?: string; // deprecated. will be used only camelCase for publicKey. now is used by accounting gateway in user/addresses/api/v1/auth/googleOauth/getAllMyEthAddresses
   publicKey?: string; // used for backoffice GetUserAddressesResponse
 }
@@ -50,19 +48,4 @@ export interface IDecodeJwtTokenResponse {
 
 export interface ISyntheticJwtTokenResponse {
   jwt_data: string;
-}
-
-export interface IJwtTokenResponse {
-  index: number;
-  jwt_data: string;
-  is_encrypted: boolean;
-}
-
-export interface IJwtTokenRequestParams extends IApiUserGroupParams {
-  index: number;
-  totp?: string;
-}
-
-export interface IJwtTokenLimitResponse {
-  jwtLimit: number;
 }

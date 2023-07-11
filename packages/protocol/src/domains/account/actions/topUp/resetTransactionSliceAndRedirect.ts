@@ -1,12 +1,8 @@
 import { push } from 'connected-react-router';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { BaseRoute } from 'modules/router/utils/createRouteConfig';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { GetState, RootState } from 'store';
 import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
-import { PricingRoutesConfig } from 'domains/pricing/Routes';
-import { TopUpOrigin } from 'domains/account/types';
 import {
   resetTransaction,
   selectTopUpOrigin,
@@ -14,12 +10,7 @@ import {
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
-
-export const topUpOriginRoutesMap: Record<TopUpOrigin, BaseRoute> = {
-  [TopUpOrigin.BILLING]: AccountRoutesConfig.accountDetails,
-  [TopUpOrigin.ENDPOINTS]: ChainsRoutesConfig.chains,
-  [TopUpOrigin.PRICING]: PricingRoutesConfig.pricing,
-};
+import { topUpOriginRoutesMap } from 'domains/account/screens/CardPaymentSuccess/utils/getOriginRoute';
 
 export const {
   endpoints: { topUpResetTransactionSliceAndRedirect },

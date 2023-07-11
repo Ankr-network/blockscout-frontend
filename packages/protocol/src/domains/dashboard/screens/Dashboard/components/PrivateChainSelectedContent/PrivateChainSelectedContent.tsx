@@ -16,6 +16,7 @@ export interface IPrivateChainSelectedContentProps extends SelectMenuProps {
   groupID: ChainGroupID;
   selectGroup: (id: ChainGroupID) => void;
   isTestnetOnlyChain?: boolean;
+  ignoreProtocol?: boolean;
 }
 
 export const PrivateChainSelectedContent = ({
@@ -28,6 +29,7 @@ export const PrivateChainSelectedContent = ({
   isTestnetOnlyChain,
   menuProps,
   classNameMenuItem,
+  ignoreProtocol,
 }: IPrivateChainSelectedContentProps) => {
   const { protocolGroup } = useChainProtocolContext();
 
@@ -65,7 +67,7 @@ export const PrivateChainSelectedContent = ({
         menuProps={menuProps}
         classNameMenuItem={classNameMenuItem}
       />
-      <ChainProtocolSwitch />
+      {!ignoreProtocol && <ChainProtocolSwitch />}
     </div>
   );
 };

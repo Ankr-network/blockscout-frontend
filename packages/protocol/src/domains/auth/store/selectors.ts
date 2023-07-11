@@ -10,7 +10,10 @@ import { getPremiumActivationThreshold } from '../utils/getPremiumActivationThre
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { oauthHasDepositTransaction } from 'domains/oauth/actions/hasDepositTransaction';
 import { selectAuthData } from './authSlice';
-import { selectSelectedUserGroupRole } from 'domains/userGroup/store';
+import {
+  selectSelectedUserGroupRole,
+  selectUserGroupConfigByAddress,
+} from 'domains/userGroup/store';
 
 export const selectAddress = createSelector(
   selectAuthData,
@@ -175,4 +178,10 @@ export const selectHasConnectWalletMessage = createSelector(
     !hasWeb3Connection &&
     hasPrivateAccess &&
     isUserEthAddressType,
+);
+
+export const selectCurrentAddress = createSelector(
+  selectAddress,
+  selectUserGroupConfigByAddress,
+  (address, { selectedGroupAddress }) => selectedGroupAddress || address,
 );
