@@ -7,6 +7,7 @@ import { RequestsWidget } from '../RequestsWidget';
 import { TopCountriesWidget } from '../TopCountriesWidget';
 import { useChainData } from './hooks/useChainData';
 import { useChainLayoutStyles } from './ChainLayoutStyles';
+import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
 export const ChainLayout = ({
   selectedChainId,
@@ -26,7 +27,9 @@ export const ChainLayout = ({
     methodCalls,
   } = useChainData({ statsChainId, timeframe, selectedChainId });
 
-  const { classes } = useChainLayoutStyles();
+  const { hasSelectedProject } = useProjectSelect();
+
+  const { classes } = useChainLayoutStyles(hasSelectedProject);
 
   return (
     <EmptyLayoutGuard data={requestsChartData}>
@@ -45,13 +48,20 @@ export const ChainLayout = ({
           timeframe={timeframe}
           chainId={detailsChainId}
         />
-        <RequestsByIpWidget className={classes.ipRequests} data={ipRequests} />
+        {!hasSelectedProject && (
+          <RequestsByIpWidget
+            className={classes.ipRequests}
+            data={ipRequests}
+          />
+        )}
         <LocationsWidget
           className={classes.locations}
           isLoading={areLocationsLoading}
           locations={locations}
         />
-        <TopCountriesWidget className={classes.countries} data={countries} />
+        {!hasSelectedProject && (
+          <TopCountriesWidget className={classes.countries} data={countries} />
+        )}
       </div>
     </EmptyLayoutGuard>
   );

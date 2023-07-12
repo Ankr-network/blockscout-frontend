@@ -61,9 +61,14 @@ export const useProjectSelect = () => {
     [dispatch, address],
   );
 
+  const selectedOption = selectedProjectEndpointToken || options[0].value;
+
+  const hasSelectedProject = selectedOption !== ALL_PROJECTS_VALUE;
+
   return {
     options,
     handleSetOption,
-    selectedOption: selectedProjectEndpointToken || options[0].value,
+    selectedOption,
+    hasSelectedProject,
   };
 };

@@ -9,10 +9,13 @@ import { TopCountriesWidget } from '../TopCountriesWidget';
 import { UsageHistoryWidget } from '../UsageHistoryWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
+import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 import { useMonthlyStats } from '../../hooks/useMonthlyStats';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
-  const { classes } = useAllChainsLayoutStyles();
+  const { hasSelectedProject } = useProjectSelect();
+
+  const { classes } = useAllChainsLayoutStyles(hasSelectedProject);
 
   const {
     allTimeTotalRequestsNumber,
@@ -38,13 +41,20 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
         />
         <ChainCallsWidget className={classes.calls} />
         <ProjectsWidget className={classes.projects} timeframe={timeframe} />
-        <RequestsByIpWidget className={classes.ipRequests} data={ipRequests} />
+        {!hasSelectedProject && (
+          <RequestsByIpWidget
+            className={classes.ipRequests}
+            data={ipRequests}
+          />
+        )}
         <LocationsWidget
           className={classes.locations}
           isLoading={areLocationsLoading}
           locations={locations}
         />
-        <TopCountriesWidget className={classes.countries} data={countries} />
+        {!hasSelectedProject && (
+          <TopCountriesWidget className={classes.countries} data={countries} />
+        )}
         <UsageHistoryWidget className={classes.history} data={monthlyStats} />
       </div>
     </EmptyLayoutGuard>
