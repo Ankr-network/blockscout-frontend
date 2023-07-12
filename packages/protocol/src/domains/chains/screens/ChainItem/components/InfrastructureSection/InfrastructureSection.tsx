@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { Chain, ChainType } from 'domains/chains/types';
 import { ChainNodesTableQuery } from '../ChainNodesTable';
@@ -14,6 +14,7 @@ import { useInfrastructureSectionStyles } from './InfrastructureSectionStyles';
 import { useLazyInfrastructureFetchEndpointsQuery } from 'domains/infrastructure/actions/fetchEndpoints';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { ChainNodesLocations } from '../ChainNodesLocations';
+import { checkPrivateChainsAndGetChainId } from '../UsageDataSection/const';
 
 export interface InfrastructureSectionProps {
   chain: Chain;
@@ -72,21 +73,28 @@ export const InfrastructureSection = ({
   const hasSecuritySettings =
     workerTokenData && workerTokenData?.userEndpointToken && hasPremium;
 
+  const resultChainId = useMemo(
+    () => checkPrivateChainsAndGetChainId(chainId),
+    [chainId],
+  );
+
   return (
     <div>
-      {chainId && (
+      {resultChainId && (
         <>
-          {canAddEndpoint(providerData, chainId) && withMyEndpoints && (
+          {canAddEndpoint(providerData, resultChainId) && withMyEndpoints && (
             <TrafficFlow />
           )}
 
           {!authLoading && !providerLoading && workerTokenData && (
             <>
               {hasHybridInfrastructure && (
-                <HybridInfrastructure chainId={chainId} />
+                <HybridInfrastructure chainId={resultChainId} />
               )}
 
-              {hasSecuritySettings && <SecuritySection chainId={chainId} />}
+              {hasSecuritySettings && (
+                <SecuritySection chainId={resultChainId} />
+              )}
             </>
           )}
         </>

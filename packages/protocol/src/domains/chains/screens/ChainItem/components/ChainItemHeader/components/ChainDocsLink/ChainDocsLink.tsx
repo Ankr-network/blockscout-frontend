@@ -5,6 +5,7 @@ import { Doc } from '@ankr.com/ui';
 import { getChainDocsLink } from '../../utils/getChainDocsLink';
 import { t } from '@ankr.com/common';
 import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 
 export interface ChainDocsLinkProps {
   chain: Chain;
@@ -19,9 +20,16 @@ export const ChainDocsLink = ({
   variant = 'outlined',
   size = 'medium',
 }: ChainDocsLinkProps) => {
-  const link = getChainDocsLink(id);
-
   const { classes, cx } = useChainDocsLinkStyles();
+
+  const { chainProtocol, isChainProtocolSwitchEnabled } =
+    useChainProtocolContext();
+
+  const link = getChainDocsLink(
+    id,
+    isChainProtocolSwitchEnabled,
+    chainProtocol,
+  );
 
   return (
     <Button
