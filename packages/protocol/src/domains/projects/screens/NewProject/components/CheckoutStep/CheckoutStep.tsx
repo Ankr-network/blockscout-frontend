@@ -1,5 +1,5 @@
 import { useForm } from 'react-final-form';
-import { Typography } from '@mui/material';
+import { Typography, capitalize } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { Check } from '@ankr.com/ui';
 import { Variant } from '@mui/material/styles/createTypography';
@@ -7,9 +7,9 @@ import { useMemo } from 'react';
 
 import { useCheckoutStepStyles } from './useCheckoutStepStyles';
 import { newProjectIntlRoot } from 'domains/projects/const';
-import { getCheckoutValues } from './CheckoutStepUtils';
 import { renderAmount } from '../../utils/renderAmount';
 import { NewProjectFormValues } from '../NewProjectForm/NewProjectFormTypes';
+import { shouldShowGroupId } from '../ChainItem/ChainItemUtils';
 
 export const CheckoutStep = () => {
   const { classes } = useCheckoutStepStyles();
@@ -25,7 +25,8 @@ export const CheckoutStep = () => {
     contractAddress,
     planName,
     planPrice,
-  } = useMemo(() => getCheckoutValues(values), [values]);
+    groupId,
+  } = values;
   const renderedPlanPrice = useMemo(() => renderAmount(planPrice), [planPrice]);
 
   return (
@@ -64,7 +65,10 @@ export const CheckoutStep = () => {
               color="textSecondary"
               className={classes.chainType}
             >
-              {chainType}
+              {chainType}{' '}
+              {groupId &&
+                shouldShowGroupId(chainType, groupId) &&
+                capitalize(groupId)}
             </Typography>
           </div>
         </div>
