@@ -1,5 +1,5 @@
+import { useEffect, useRef } from 'react';
 import { PrivateStats, PrivateStatsInterval } from 'multirpc-sdk';
-import { useEffect } from 'react';
 
 import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
@@ -29,9 +29,17 @@ export const usePrivateStats = ({
     reset,
   ] = useQueryEndpoint(chainsFetchPrivateStats);
 
+  const groupRef = useRef(group);
+
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
+    const isGroupChanged = groupRef.current !== group;
+
+    if (isGroupChanged) {
+      groupRef.current = group;
+      fetchPrivateStats({ interval, userEndpointToken: undefined, group });
+    }
     fetchPrivateStats({ interval, userEndpointToken, group });
   }, [fetchPrivateStats, interval, requestKey, userEndpointToken, group]);
 
