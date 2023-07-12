@@ -2,7 +2,7 @@ import { RadioGroupItem } from '@ankr.com/ui';
 import { SxProps, Theme } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { SubscriptionPrice } from 'domains/account/actions/usdTopUp/fetchUSDSubscriptionPrices';
 
 const getStyles =

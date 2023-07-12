@@ -10,10 +10,10 @@ import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenMa
 
 export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const { timeframe, timeframeTabs } = useTimeframe(Timeframe.Month);
-  const { loading: isConnecting, hasWeb3Connection } = useAuth();
+  const { loading: isConnecting } = useAuth();
 
   const [privateChains, privateAllChains, privateChainsLoading] =
-    usePrivateChainsInfo(hasWeb3Connection);
+    usePrivateChainsInfo();
 
   const { selectedProject: userEndpointToken } =
     useTokenManagerConfigSelector();

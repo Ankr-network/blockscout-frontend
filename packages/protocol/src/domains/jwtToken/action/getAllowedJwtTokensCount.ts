@@ -1,37 +1,20 @@
-import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
-import { MINIMAL_TOKENS_LIMIT } from '../utils/utils';
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
-export interface IAllowedJwtTokenInfo {
-  maxTokensLimit: number;
-  shouldShowTokenManager: boolean;
-}
+import { MultiService } from 'modules/api/MultiService';
+import { web3Api } from 'store/queries';
 
 export const {
   useLazyFetchAllowedJwtTokensCountQuery,
   endpoints: { fetchAllowedJwtTokensCount },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchAllowedJwtTokensCount: build.query<
-      IAllowedJwtTokenInfo,
-      IApiUserGroupParams
-    >({
+    fetchAllowedJwtTokensCount: build.query<number, IApiUserGroupParams>({
       queryFn: async ({ group }) => {
-        const service = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountGateway();
 
-        const maxTokensLimit = await service.getAllowedJwtTokensCount({
-          group,
-        });
+        const data = await api.getAllowedJwtTokensCount({ group });
 
-        const shouldShowTokenManager = maxTokensLimit >= MINIMAL_TOKENS_LIMIT;
-
-        return {
-          data: {
-            maxTokensLimit,
-            shouldShowTokenManager,
-          },
-        };
+        return { data };
       },
     }),
   }),

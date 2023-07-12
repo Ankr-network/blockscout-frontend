@@ -8,12 +8,11 @@ export const ConnectWalletCard = () => {
       title={t('user-settings.connect-wallet-card.title')}
       description={t('user-settings.connect-wallet-card.description')}
       align="center"
-      actionSlot={
-        <ConnectButton
-          variant="contained"
-          buttonText={t('user-settings.connect-wallet-card.button')}
-        />
-      }
-    />
+    >
+      <ConnectButton
+        variant="contained"
+        buttonText={t('user-settings.connect-wallet-card.button')}
+      />
+    </InfoCard>
   );
 };

@@ -11,17 +11,19 @@ export interface ChainTypeParams {
   chain: Chain;
   endpoints: GroupedEndpoints;
   netId?: string;
+  selectedType?: ChainType;
 }
 
 export const usePrivateChainType = ({
   chain,
   endpoints,
   netId,
+  selectedType,
 }: ChainTypeParams): ChainTypeResult => {
   const tabs = useMemo(() => getPrivateChainTypeTabs(endpoints), [endpoints]);
 
   const [chainTypeTabs, chainTypeTab, selectType] = useTabs<ChainType>({
-    initialTabID: getInitialChainType(chain, netId),
+    initialTabID: getInitialChainType({ chain, netId, selectedType }),
     tabs,
   });
 

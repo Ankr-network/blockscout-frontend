@@ -19,6 +19,3 @@ export const fallbackChain: Chain = {
   type: BlockchainType.Mainnet,
   features: [BlockchainFeature.RPC],
 };
-
-// until mobile version is ready, we hide the dashboard on mobile
-export const IS_DASHBOARD_HIDDEN_ON_MOBILE = true;

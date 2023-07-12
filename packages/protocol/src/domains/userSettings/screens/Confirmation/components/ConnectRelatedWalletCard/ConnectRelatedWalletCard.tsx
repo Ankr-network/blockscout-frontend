@@ -12,11 +12,10 @@ export const ConnectRelatedWalletCard = () => {
       title={t('user-settings.connect-related-wallet-card.title')}
       description={t('user-settings.connect-related-wallet-card.description')}
       align="center"
-      actionSlot={
-        <Button onClick={handleDisconnect}>
-          {t('user-settings.connect-related-wallet-card.change-wallet-button')}
-        </Button>
-      }
-    />
+    >
+      <Button onClick={handleDisconnect}>
+        {t('user-settings.connect-related-wallet-card.change-wallet-button')}
+      </Button>
+    </InfoCard>
   );
 };

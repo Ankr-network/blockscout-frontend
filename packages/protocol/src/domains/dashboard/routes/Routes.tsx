@@ -3,7 +3,7 @@ import loadable, { LoadableComponent } from '@loadable/component';
 
 import { OverlaySpinner } from '@ankr.com/ui';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useRedirectForSmallDevices } from '../screens/Dashboard/hooks/useRedirectForSmallDevices';
+import { useRedirectForSmallDevices } from '../../../hooks/useRedirectForSmallDevices';
 import { DashboardRoutesConfig } from './routesConfig';
 
 const LoadableDashboardContainer: LoadableComponent<any> = loadable(

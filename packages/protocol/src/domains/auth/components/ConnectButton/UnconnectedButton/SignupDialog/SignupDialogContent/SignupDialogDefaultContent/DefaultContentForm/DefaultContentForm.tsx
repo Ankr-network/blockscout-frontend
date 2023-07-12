@@ -70,6 +70,7 @@ export const DefaultContentForm = ({
         type="checkbox"
         shouldHideError
         className={classes.formLabel}
+        subscription={{ value: true }}
         label={
           <Typography
             variant={'subtitle3' as Variant}

@@ -1,4 +1,3 @@
-import { MenuProps } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
@@ -13,9 +12,10 @@ import { TabSize } from 'domains/chains/screens/ChainItem/components/SecondaryTa
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 import { fallbackChain } from './const';
 import { useDashboard } from './hooks/useDashboard';
-import { useDashboardChainSelector } from './hooks/useDashboardChainSelector';
-import { useDashboardChains } from './hooks/useDashboardChains';
+import { useChainSelectorGroups } from './hooks/useChainSelectorGroups';
+import { useChainsSelector } from './hooks/useChainsSelector';
 import { useDashboardProjects } from './hooks/useDashboardProjects';
+import { usePrivateChainSelector } from './hooks/usePrivateChainSelector';
 import { useDashboardStyles } from './useDashboardStyles';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useLastMonthStats } from './hooks/useLastMonthStats';
@@ -43,7 +43,7 @@ export const Dashboard = () => {
     chain,
     unfilteredChain,
     isTestnetOnlyChainSelected,
-  } = useDashboardChains({ chains: networksConfigurations, allChains });
+  } = useChainsSelector({ chains: networksConfigurations, allChains });
 
   const {
     statsChainId,
@@ -55,7 +55,7 @@ export const Dashboard = () => {
     groups,
     groupID,
     selectGroup,
-  } = useDashboardChainSelector({
+  } = useChainSelectorGroups({
     chain: chain || fallbackChain,
     unfilteredChain: unfilteredChain || fallbackChain,
   });
@@ -68,22 +68,7 @@ export const Dashboard = () => {
 
   const { classes } = useDashboardStyles();
 
-  const classNameMenuItem: string = classes.menuItemWrapper;
-  const menuProps: Partial<MenuProps> = {
-    style: { position: 'absolute' },
-    disableScrollLock: true,
-    classes: {
-      paper: classes.menuPaper,
-    },
-    anchorOrigin: {
-      vertical: 'bottom',
-      horizontal: 'center',
-    },
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'center',
-    },
-  };
+  const { classNameMenuItem, menuProps } = usePrivateChainSelector();
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>

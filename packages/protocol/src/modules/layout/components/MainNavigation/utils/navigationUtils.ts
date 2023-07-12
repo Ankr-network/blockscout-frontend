@@ -10,6 +10,7 @@ import {
   Doc,
   Block,
   Wallet,
+  Projects,
   AdvancedApi,
   BoldAdvancedApi,
   Logout,
@@ -25,12 +26,17 @@ import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 import { track } from 'modules/analytics/mixpanel/utils/track';
 import { MixpanelEvent } from 'modules/analytics/mixpanel/const';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 export type IsActive = (match: any, location: History['location']) => boolean;
 
-export interface EndpointListParams {
+interface EndpointListParams {
   chainsRoutes: string[];
   onAAPIClick: () => void;
+}
+
+export interface PremiumEndpointListParams extends EndpointListParams {
+  hasJwtManagerAccess: boolean;
 }
 
 export interface NavigationListParams extends EndpointListParams {
@@ -63,15 +69,13 @@ export const getCommonMenuList = (
   },
 ];
 
-const getAdvancedApiList = (onAAPIClick: () => void): NavigationItem[] => [
-  {
-    StartIcon: AdvancedApi,
-    ActiveIcon: BoldAdvancedApi,
-    href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
-    label: t('main-navigation.advanced-api'),
-    onClick: onAAPIClick,
-  },
-];
+const getProjectsItem = () => ({
+  StartIcon: Projects,
+  ActiveIcon: Projects,
+  href: ProjectsRoutesConfig.projects.generatePath(),
+  label: t('main-navigation.projects'),
+  isNew: true,
+});
 
 export const getEndpointsList = ({
   chainsRoutes,
@@ -85,7 +89,13 @@ export const getEndpointsList = ({
       isDashboardActive(match, location, chainsRoutes),
     label: t('main-navigation.endpoints'),
   },
-  ...getAdvancedApiList(onAAPIClick),
+  {
+    StartIcon: AdvancedApi,
+    ActiveIcon: BoldAdvancedApi,
+    href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
+    label: t('main-navigation.advanced-api'),
+    onClick: onAAPIClick,
+  },
   {
     StartIcon: Diamonds,
     ActiveIcon: Diamonds,
@@ -95,6 +105,18 @@ export const getEndpointsList = ({
     isDisabled: true,
   },
 ];
+
+export const getPremiumEndpointsList = ({
+  chainsRoutes,
+  hasJwtManagerAccess,
+  onAAPIClick,
+}: PremiumEndpointListParams): NavigationItem[] => {
+  const endpoints = getEndpointsList({ chainsRoutes, onAAPIClick });
+
+  if (hasJwtManagerAccess) endpoints.splice(1, 0, getProjectsItem());
+
+  return endpoints;
+};
 
 export const getMenuList = (
   isLoggedIn: boolean,
@@ -149,19 +171,6 @@ export const getLogoutItem = (onClick: () => void): NavigationItem[] => [
     isEnabled: true,
     onClick,
   },
-];
-
-export const getNavigationList = ({
-  chainsRoutes,
-  isLoggedIn,
-  onAAPIClick,
-  onDocsClick,
-  onSettingsClick,
-}: NavigationListParams): NavigationItem[] => [
-  getEndpointsList({ chainsRoutes, onAAPIClick })[0],
-  ...getAdvancedApiList(onAAPIClick),
-  ...getMenuList(isLoggedIn, onDocsClick),
-  ...getSettingList(onSettingsClick),
 ];
 
 export const getExternalButtonProps = ({

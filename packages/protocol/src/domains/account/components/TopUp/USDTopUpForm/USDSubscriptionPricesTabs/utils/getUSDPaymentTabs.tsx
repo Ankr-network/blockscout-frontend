@@ -2,7 +2,7 @@ import { BundlePaymentPlan, ProductPrice } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { BundleLabel } from '../components/BundleLabel';
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { USDSubscriptionPricesTabsProps } from '../USDSubscriptionPricesTabsTypes';

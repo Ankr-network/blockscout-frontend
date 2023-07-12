@@ -16,6 +16,7 @@ export interface IUserJwtToken {
 }
 
 export interface IRequestParams extends IApiUserGroupParams {
+  shouldIgnoreTokenDecryption?: boolean;
   loading?: boolean;
 }
 
@@ -27,12 +28,29 @@ export const {
   endpoints: build => ({
     fetchAllJwtTokenRequests: build.query<IUserJwtToken, IRequestParams>({
       queryFn: createNotifyingQueryFn(
-        async ({ loading, group }, { getState }) => {
+        async (
+          { loading, group, shouldIgnoreTokenDecryption },
+          { getState },
+        ) => {
           if (loading) return { data: { jwtTokens: [] } };
 
           const accountGateway = MultiService.getService().getAccountGateway();
 
           const result = await accountGateway.getAllJwtToken({ group });
+
+          if (shouldIgnoreTokenDecryption) {
+            const mappedResult: JwtManagerToken[] = result.map(item => ({
+              index: item.index,
+              userEndpointToken: '',
+              jwtData: '',
+            }));
+
+            return {
+              data: {
+                jwtTokens: getSortedJwtTokens(mappedResult),
+              },
+            };
+          }
 
           const primaryData = result.find(
             item => item.index === PRIMARY_TOKEN_INDEX,

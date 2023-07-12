@@ -3,11 +3,18 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
-export const useClickHandler = () => {
+export const useClickHandler = (isWhitelistReason: boolean) => {
   const dispatch = useDispatch();
 
   return useCallback(() => {
-    dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
-  }, [dispatch]);
+    dispatch(
+      push(
+        isWhitelistReason
+          ? ProjectsRoutesConfig.newProject.generatePath()
+          : AccountRoutesConfig.accountDetails.generatePath(),
+      ),
+    );
+  }, [dispatch, isWhitelistReason]);
 };

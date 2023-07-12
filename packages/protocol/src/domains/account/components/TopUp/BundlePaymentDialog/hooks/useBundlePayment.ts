@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
+import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { selectFirstBundlePaymentPlan } from 'domains/account/store/selectors';
@@ -28,7 +28,7 @@ export const useBundlePayment = (trackSubmit?: TrackTopUpSubmit) => {
       const { data: url } = await fetchLink({ group, priceId, productId });
 
       if (trackSubmit && amount) {
-        trackSubmit(amount, TopUpCurrnecy.USD, () => {
+        trackSubmit(amount, TopUpCurrency.USD, () => {
           if (url) {
             window.location.href = url;
           }

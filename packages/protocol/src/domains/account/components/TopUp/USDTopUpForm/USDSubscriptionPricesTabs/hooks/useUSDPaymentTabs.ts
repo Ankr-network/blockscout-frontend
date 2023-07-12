@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { USDSubscriptionPricesTabsProps } from '../USDSubscriptionPricesTabsTypes';
 import { getUSDPaymentTabs } from '../utils/getUSDPaymentTabs';
 import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
