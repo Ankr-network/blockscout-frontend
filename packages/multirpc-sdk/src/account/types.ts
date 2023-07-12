@@ -1,3 +1,4 @@
+import { Timestamp } from '@ankr.com/utils/dist';
 import {
   EmailConfirmationStatus,
   Web3Address,
@@ -222,6 +223,22 @@ export interface PrivateStats {
   totalRequests?: number;
 }
 
+export interface Top10StatsParams extends IApiUserGroupParams {
+  /* backend does not support h1 and h24 interval for this endpoint */
+  intervalType: PrivateStatsInterval.WEEK | PrivateStatsInterval.MONTH;
+  blockchain?: string;
+}
+
+export interface Top10StatItem {
+  key: string;
+  value: number;
+}
+
+export interface Top10StatsResponse {
+  ips: Top10StatItem[];
+  countries: Top10StatItem[];
+}
+
 export type UserRequest = Record<string, number>;
 export type UserRequestsResponse = Record<string, UserRequest>;
 
@@ -349,6 +366,15 @@ export interface LatestRequest {
   ip: string;
   country: string;
 }
+
+export interface StatsByRangeRequest extends IApiUserGroupParams {
+  from?: Timestamp;
+  to?: Timestamp;
+  monthly?: boolean;
+  token?: string;
+}
+
+export type StatsByRangeResponse = Record<string, number>;
 
 export interface IGetLatestRequestsResponse {
   user_requests: LatestRequest[];

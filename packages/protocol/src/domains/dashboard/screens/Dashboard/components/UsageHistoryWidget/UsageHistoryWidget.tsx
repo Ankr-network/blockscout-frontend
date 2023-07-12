@@ -1,9 +1,10 @@
 import { Paper } from '@mui/material';
 
+import { UsageHistoryData } from 'domains/dashboard/store/types';
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
+import { ScrollableContainer } from '../ScrollableContainer';
 import { Table } from './components/Table';
 import { Title } from '../Title';
-import { UsageHistoryData } from 'domains/dashboard/store/types';
 import { getText } from './utils/text';
 import { useUsageHistoryWidgetStyles } from './UsageHistoryWidgetStyles';
 
@@ -25,7 +26,9 @@ export const UsageHistoryWidget = ({
     <Paper className={cx(classes.root, container, className)}>
       <Title>{getText('title')}</Title>
       <NoDataGuard data={data}>
-        <Table data={data} />
+        <ScrollableContainer>
+          <Table data={data} />
+        </ScrollableContainer>
       </NoDataGuard>
     </Paper>
   );

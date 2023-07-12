@@ -35,6 +35,7 @@ import { sortIPRequests } from './utils/sortIPRequests';
 import { sortTopCountries } from './utils/sortTopCountries';
 import { fetchLastMonthStats } from '../actions/fetchLastMonthStats';
 import { findDetailsById } from './utils/findDetailsById';
+import { fetchMonthlyUsageHistory } from '../actions/fetchMonthlyUsageHistory';
 
 export const selectStatsData = createSelector(
   chainsFetchPrivateStats.select(undefined as unknown as PrivateStatsParams),
@@ -141,6 +142,11 @@ export const selectUsageHistory = createSelector(
 
     return getUsageHistoryData(aggregateUsageHistory(requests));
   },
+);
+
+export const selectMonthlyUsageHistory = createSelector(
+  fetchMonthlyUsageHistory.select({}),
+  ({ data = [] }) => data,
 );
 
 export const selectLocations = createSelector(

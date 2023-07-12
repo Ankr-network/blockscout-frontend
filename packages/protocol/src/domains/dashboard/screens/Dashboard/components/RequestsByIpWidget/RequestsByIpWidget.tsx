@@ -3,7 +3,7 @@ import { Paper, Typography } from '@mui/material';
 
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
 import { ScrollableContainer } from '../ScrollableContainer';
-import { Timeframe30DTitle } from '../Timeframe30DTitle';
+import { Title } from '../Title';
 import { text } from './utils/text';
 import { useTableWidgetStyles } from '../TableWidget/TableWidgetStyles';
 
@@ -25,12 +25,14 @@ export const RequestsByIpWidget = ({ className, data }: RequestsByIpProps) => {
 
   return (
     <Paper className={cx(classes.root, container, className)}>
-      <Timeframe30DTitle className={classes.title}>
-        {text('header')}
-      </Timeframe30DTitle>
+      <Title className={classes.title}>{text('title')}</Title>
       <NoDataGuard data={data}>
         <ScrollableContainer>
-          <div className={cx(classes.row, classes.rowHeader)}>
+          <div
+            className={cx(classes.row, classes.rowHeader, {
+              [classes.isHidden]: data.length > 0,
+            })}
+          >
             <Typography variant="caption">{text('ip')}</Typography>
             <Typography variant="caption">{text('requests')}</Typography>
           </div>

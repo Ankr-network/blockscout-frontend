@@ -16,8 +16,8 @@ export const useDashboardStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    gap: theme.spacing(3),
-    marginBottom: theme.spacing(3),
+    gap: theme.spacing(2.5),
+    marginBottom: theme.spacing(2.5),
 
     [theme.breakpoints.down('md')]: {
       flexWrap: 'wrap',
@@ -28,8 +28,8 @@ export const useDashboardStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1.5),
     gap: theme.spacing(3),
     paddingLeft: theme.spacing(),
     paddingRight: theme.spacing(),

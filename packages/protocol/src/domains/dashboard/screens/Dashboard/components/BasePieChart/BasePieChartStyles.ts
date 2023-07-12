@@ -27,12 +27,12 @@ export const useBasePieChartStyles = makeStyles()(theme => ({
     },
   },
   title: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
   content: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(4),
+    gap: theme.spacing(2),
 
     [theme.breakpoints.down('xl')]: {
       flexDirection: 'row',
@@ -42,5 +42,10 @@ export const useBasePieChartStyles = makeStyles()(theme => ({
   chart: {
     width: 100,
     height: 100,
+
+    [theme.breakpoints.up('xl')]: {
+      width: 120,
+      height: 120,
+    },
   },
 }));

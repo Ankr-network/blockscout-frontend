@@ -5,10 +5,10 @@ export const HeadRow = () => {
   const { classes } = useHeadRowStyles();
 
   return (
-    <>
+    <div className={classes.row}>
       <div className={classes.cell}>{getText('month')}</div>
       <div className={classes.cell}>{getText('calls')}</div>
       <div className={classes.cell} />
-    </>
+    </div>
   );
 };

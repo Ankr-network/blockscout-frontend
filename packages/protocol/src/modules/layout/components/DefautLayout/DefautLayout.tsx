@@ -24,6 +24,7 @@ export interface ILayoutProps {
   hasError?: boolean;
   hasGradient?: boolean;
   isChainItemPage?: boolean;
+  isDashboardPage?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -33,10 +34,11 @@ export const DefaultLayout = ({
   hasError = false,
   hasGradient = false,
   isChainItemPage,
+  isDashboardPage = false,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
-  const { classes } = useStyles({
+  const { classes, cx } = useStyles({
     hasGradient: hasGradient || hasError,
     isLightTheme,
   });
@@ -55,7 +57,9 @@ export const DefaultLayout = ({
       <div className={classes.body}>
         {!hasError && (
           <Header
-            className={classes.header}
+            className={cx(classes.header, {
+              [classes.dashboardHeader]: isDashboardPage,
+            })}
             isChainItemPage={isChainItemPage}
           />
         )}
@@ -65,7 +69,12 @@ export const DefaultLayout = ({
           isLoggedIn={isLoggedIn}
           loading={loading}
         />
-        <Container disableGutters={disableGutters} className={classes.main}>
+        <Container
+          disableGutters={disableGutters}
+          className={cx(classes.main, {
+            [classes.dashboardMain]: isDashboardPage,
+          })}
+        >
           <div className={classes.mobileBreadcrumbs}>
             <Breadcrumbs />
           </div>

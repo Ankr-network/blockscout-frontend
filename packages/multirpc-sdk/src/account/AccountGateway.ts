@@ -49,6 +49,10 @@ import {
   NegativeBalanceTermsOfServicesStatusParams,
   BundlePaymentPlan,
   GetLinkForBundlePaymentRequest,
+  StatsByRangeRequest,
+  StatsByRangeResponse,
+  Top10StatsResponse,
+  Top10StatsParams,
 } from './types';
 import {
   IJwtTokenRequestParams,
@@ -177,6 +181,17 @@ export class AccountGateway {
       `/api/v1/auth/statsPremiumID`,
       {
         params: { intervalType, premiumID, group },
+      },
+    );
+
+    return data;
+  }
+
+  async getTop10Stats(params: Top10StatsParams): Promise<Top10StatsResponse> {
+    const { data } = await this.api.get<Top10StatsResponse>(
+      `/api/v1/auth/stats/top10`,
+      {
+        params,
       },
     );
 
@@ -362,6 +377,27 @@ export class AccountGateway {
     return response;
   }
 
+  /**
+   * Returns total stats for each day between from and to
+   * In case of empty params, to would be now, and from would be now - 180 days
+   * Query Params (all are optional):
+   * - from milliseconds
+   * - to milliseconds
+   * - monthly if set true returns aggregated stats by month
+   * - token if set, returns only stats for specified premium-token */
+  async getUserStatsByRange(
+    params: StatsByRangeRequest,
+  ): Promise<StatsByRangeResponse> {
+    const { data: response } = await this.api.get<StatsByRangeResponse>(
+      '/api/v1/auth/stats/totals/range',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
   public async checkDevdaoInstantJwtParticipant() {
     const { data: response } =
       await this.api.get<ICheckInstantJwtParticipantResponse>(
@@ -524,8 +560,9 @@ export class AccountGateway {
   }
 
   async getBundlePaymentPlans() {
-    const { data } =
-      await this.api.get<BundlePaymentPlan[]>('/api/v1/auth/bundles');
+    const { data } = await this.api.get<BundlePaymentPlan[]>(
+      '/api/v1/auth/bundles',
+    );
 
     return data;
   }

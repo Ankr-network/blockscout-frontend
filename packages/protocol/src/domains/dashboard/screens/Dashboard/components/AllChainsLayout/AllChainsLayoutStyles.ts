@@ -1,64 +1,87 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useAllChainsLayoutStyles = makeStyles()(theme => ({
-  root: {
-    display: 'grid',
+export const dashboardGridTemplateColumns =
+  'repeat(2, 1fr) repeat(4, minmax(200px, 1fr))';
+export const dashboardGridTemplateRows = 'repeat(2, calc(50vh - 88px))';
+export const dashboardGridTemplateRowsWideScreens = 'repeat(2, 30vh)';
 
-    gridTemplateColumns: 'repeat(2, 1fr) repeat(4, 200px)',
-    gridTemplateRows: 'repeat(2, 32vh)',
-    gridGap: theme.spacing(4),
-    gridTemplateAreas: `
+export const useAllChainsLayoutStyles = makeStyles<boolean>()(
+  (theme, hasSelectedProject) => ({
+    root: {
+      display: 'grid',
+
+      gridTemplateColumns: dashboardGridTemplateColumns,
+      gridTemplateRows: dashboardGridTemplateRows,
+      gridGap: theme.spacing(3),
+      gridTemplateAreas: hasSelectedProject
+        ? `
+      "requests    requests    requests  requests  calls   projects"
+      "locations locations locations locations history history"
+    `
+        : `
       "requests    requests    requests  requests  calls   projects"
       "ip-requests ip-requests locations countries history history"
     `,
 
-    [theme.breakpoints.down('xl')]: {
-      gridTemplateColumns: 'repeat(2, 1fr)',
-      gridTemplateRows: '282px 190px repeat(2, 289px)',
-      gridGap: theme.spacing(3),
-      gridTemplateAreas: `
+      /* for wide screens */
+      '@media screen and (min-height: 900px)': {
+        gridTemplateRows: dashboardGridTemplateRowsWideScreens,
+      },
+
+      [theme.breakpoints.down('xl')]: {
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gridTemplateRows: hasSelectedProject
+          ? '282px 190px 289px'
+          : '282px 190px repeat(2, 289px)',
+        gridTemplateAreas: hasSelectedProject
+          ? `
+        "requests    requests"
+        "calls       projects"
+        "locations history"
+      `
+          : `
         "requests    requests"
         "calls       projects"
         "ip-requests locations"
         "countries   history"
       `,
-    },
+      },
 
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      flexDirection: 'column',
+      [theme.breakpoints.down('sm')]: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: theme.spacing(3),
+      },
+    },
+    requests: {
+      gridArea: 'requests',
+      padding: theme.spacing(5),
       gap: theme.spacing(3),
-    },
-  },
-  requests: {
-    gridArea: 'requests',
-    padding: theme.spacing(5),
 
-    [theme.breakpoints.down('sm')]: {
-      maxHeight: 300,
+      [theme.breakpoints.down('sm')]: {
+        maxHeight: 300,
+      },
     },
-  },
-  calls: {
-    gridArea: 'calls',
-  },
-  projects: {
-    gridArea: 'projects',
-  },
-  ipRequests: {
-    gridArea: 'ip-requests',
-  },
-  locations: {
-    gridArea: 'locations',
-  },
-  countries: {
-    gridArea: 'countries',
-  },
-  history: {
-    gridArea: 'history',
-  },
-  methods: {
-    gridArea: 'methods',
-
-    backgroundColor: 'silver',
-  },
-}));
+    calls: {
+      gridArea: 'calls',
+    },
+    projects: {
+      gridArea: 'projects',
+    },
+    ipRequests: {
+      gridArea: 'ip-requests',
+    },
+    locations: {
+      gridArea: 'locations',
+    },
+    countries: {
+      gridArea: 'countries',
+    },
+    history: {
+      gridArea: 'history',
+    },
+    methods: {
+      gridArea: 'methods',
+    },
+  }),
+);
