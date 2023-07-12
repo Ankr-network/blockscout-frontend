@@ -13,7 +13,9 @@ import { selectCurrentAddress } from 'domains/auth/store';
 
 export const useProjectConfig = () => {
   const dispatch = useDispatch();
-  const { step: projectStep, project } = useAppSelector(selectNewProjectConfig);
+  const { step: projectStep, project = {} } = useAppSelector(
+    selectNewProjectConfig,
+  );
   const address = useAppSelector(selectCurrentAddress);
 
   const handleSetStepConfig = useCallback(

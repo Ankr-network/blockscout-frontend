@@ -13,7 +13,7 @@ export const WhitelistStep = () => {
   const { chain } = useWhitelist();
   const { getState } = useForm<NewProjectFormValues>();
   const {
-    values: { chainType },
+    values: { chainType, groupId },
   } = getState();
 
   return (
@@ -23,7 +23,7 @@ export const WhitelistStep = () => {
       </Typography>
       {chain && (
         <div className={classes.chainItemWrapper}>
-          <ChainItem chain={chain} chainType={chainType} />
+          <ChainItem chain={chain} chainType={chainType} groupId={groupId} />
         </div>
       )}
       <Typography variant="body2" component="p" className={classes.plug}>

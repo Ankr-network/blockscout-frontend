@@ -25,7 +25,7 @@ export enum ChainGroupID {
   SECRET_RPC = 'scrt-rpc',
   SECRET_REST = 'scrt-rest',
   SECRET_COSMOS_REST = 'scrt-cosmos-rest',
-  SEPOLIA = 'eth_sepolia',
+  SEPOLIA = 'sepolia',
   SOLANA = 'solana',
   SOLANA_DEVNET = 'solana_devnet',
   STANDARD_EVM = 'standard-evm',

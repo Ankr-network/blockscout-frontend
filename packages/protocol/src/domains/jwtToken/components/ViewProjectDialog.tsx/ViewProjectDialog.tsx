@@ -84,7 +84,7 @@ export const ViewProjectDialog = ({
             {t(`${jwtTokenIntlRoot}.view-project.button`)}
           </Button>
           {Boolean(tokenIndex) && (
-            <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
+            <GuardUserGroup blockName={BlockWithPermission.JwtManagerWrite}>
               <Button
                 fullWidth
                 size="large"
