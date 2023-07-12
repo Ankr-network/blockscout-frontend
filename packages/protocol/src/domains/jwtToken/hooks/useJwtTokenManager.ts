@@ -28,7 +28,12 @@ export const useJwtTokenManager = (shouldIgnoreTokenDecryption?: boolean) => {
 
   const [
     fetchAllJwtTokenRequestsQuery,
-    { data: { jwtTokens } = defaultData, isLoading, isFetching },
+    {
+      data: { jwtTokens } = defaultData,
+      isLoading,
+      isFetching,
+      isUninitialized,
+    },
   ] = useLazyFetchAllJwtTokenRequestsQuery();
 
   useEffect(() => {
@@ -60,6 +65,8 @@ export const useJwtTokenManager = (shouldIgnoreTokenDecryption?: boolean) => {
   return {
     isLoading,
     isFetching,
+    isUninitialized,
+    isLoaded: !isUninitialized && !isLoading,
     enableAddProject,
     hasConnectWalletMessage,
     shouldShowTokenManager,
