@@ -1,3 +1,7 @@
+import {
+  BSC_CHAIN_NAME,
+  TRON_CHAIN_NAME,
+} from 'domains/auth/utils/mappingchainName';
 import { ChainID } from 'domains/chains/types';
 import { NetworkInfo } from './types';
 
@@ -73,7 +77,7 @@ const ZETACHAIN: NetworkInfo = {
 
 const TRON_CHAIN_JSON_RPC: NetworkInfo = {
   chainId: 728126428,
-  chainName: 'Tron JSON-RPC',
+  chainName: `${TRON_CHAIN_NAME} JSON-RPC`,
   nativeCurrency: {
     name: 'Ether',
     symbol: 'ETH',
@@ -155,7 +159,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.BSC]: {
     chainId: 56,
-    chainName: 'BSC',
+    chainName: BSC_CHAIN_NAME,
     nativeCurrency: {
       name: 'Smart Chain',
       symbol: 'BNB',
@@ -166,7 +170,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.BSC_TESTNET_CHAPEL]: {
     chainId: 97, // * the only BSC testnet
-    chainName: 'BSC Testnet',
+    chainName: `${BSC_CHAIN_NAME} Testnet`,
     nativeCurrency: {
       name: 'Smart Chain - Testnet',
       symbol: 'BNB',

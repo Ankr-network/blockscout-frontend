@@ -40,7 +40,7 @@
       "title": "Your Instant RPC Gateway to {chainId}",
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description": "Start calling BSC now with our free public RPC endpoint"
+      "og-description": "Start calling BNB Smart Chain now with our free public RPC endpoint"
     },
     "chain-item-fantom": {
       "title": "Your Instant RPC Gateway to {chainId}",
