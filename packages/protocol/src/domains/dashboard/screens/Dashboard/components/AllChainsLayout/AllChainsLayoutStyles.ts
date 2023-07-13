@@ -1,24 +1,49 @@
 import { makeStyles } from 'tss-react/mui';
 
+export const dashboardGridTemplateColumns =
+  'repeat(2, 1fr) repeat(4, minmax(200px, 1fr))';
+export const dashboardGridTemplateRows = 'repeat(2, calc(50vh - 88px))';
+export const dashboardGridTemplateRowsWideScreens = 'repeat(2, 30vh)';
+
 export const useAllChainsLayoutStyles = makeStyles<boolean>()(
   (theme, hasSelectedProject) => ({
-    firstLine: {
+    root: {
       display: 'grid',
 
-      gridTemplateColumns: 'repeat(2, 1fr) repeat(4, 200px)',
-      gridTemplateRows: 'repeat(1, 32vh)',
-      gridGap: theme.spacing(4),
-      gridTemplateAreas: `
+      gridTemplateColumns: dashboardGridTemplateColumns,
+      gridTemplateRows: dashboardGridTemplateRows,
+      gridGap: theme.spacing(3),
+      gridTemplateAreas: hasSelectedProject
+        ? `
       "requests    requests    requests  requests  calls   projects"
+      "locations locations locations locations history history"
+    `
+        : `
+      "requests    requests    requests  requests  calls   projects"
+      "ip-requests ip-requests locations countries history history"
     `,
+
+      /* for wide screens */
+      '@media screen and (min-height: 900px)': {
+        gridTemplateRows: dashboardGridTemplateRowsWideScreens,
+      },
 
       [theme.breakpoints.down('xl')]: {
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gridTemplateRows: '282px 190px',
-        gridGap: theme.spacing(3),
-        gridTemplateAreas: `
+        gridTemplateRows: hasSelectedProject
+          ? '282px 190px 289px'
+          : '282px 190px repeat(2, 289px)',
+        gridTemplateAreas: hasSelectedProject
+          ? `
         "requests    requests"
         "calls       projects"
+        "locations history"
+      `
+          : `
+        "requests    requests"
+        "calls       projects"
+        "ip-requests locations"
+        "countries   history"
       `,
       },
 
@@ -28,20 +53,10 @@ export const useAllChainsLayoutStyles = makeStyles<boolean>()(
         gap: theme.spacing(3),
       },
     },
-    secondLine: {
-      marginTop: theme.spacing(4),
-      display: 'flex',
-      alignItems: 'cetenr',
-      gridGap: theme.spacing(3),
-      height: theme.spacing(70),
-
-      '& > div': {
-        width: hasSelectedProject ? '50%' : '25%',
-      },
-    },
     requests: {
       gridArea: 'requests',
       padding: theme.spacing(5),
+      gap: theme.spacing(3),
 
       [theme.breakpoints.down('sm')]: {
         maxHeight: 300,
@@ -67,8 +82,6 @@ export const useAllChainsLayoutStyles = makeStyles<boolean>()(
     },
     methods: {
       gridArea: 'methods',
-
-      backgroundColor: 'silver',
     },
   }),
 );

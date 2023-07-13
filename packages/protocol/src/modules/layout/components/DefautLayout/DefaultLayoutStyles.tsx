@@ -52,12 +52,26 @@ export const useStyles = makeStyles<Props>()(
         paddingBottom: MOBILE_LAYOUT_PADDING,
       },
     },
+    dashboardMain: {
+      paddingTop: theme.spacing(21),
+      paddingBottom: theme.spacing(3),
+
+      [theme.breakpoints.down('md')]: {
+        paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
+        paddingBottom: MOBILE_LAYOUT_PADDING,
+      },
+    },
     header: {
       '&&': {
         backgroundColor: `${theme.palette.background.default} !important`,
         [theme.breakpoints.down('md')]: {
           display: 'none',
         },
+      },
+    },
+    dashboardHeader: {
+      '&&': {
+        paddingBottom: theme.spacing(4),
       },
     },
     mobileHeader: {

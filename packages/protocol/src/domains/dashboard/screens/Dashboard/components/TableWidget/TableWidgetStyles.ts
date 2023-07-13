@@ -29,16 +29,38 @@ export const useTableWidgetStyles = makeStyles()(theme => {
       },
     },
     title: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
       paddingRight: theme.spacing(3),
+      fontSize: 14,
+    },
+    isHidden: {
+      [theme.breakpoints.up('xl')]: {
+        display: 'none',
+      },
+
+      /* for wide screens */
+      '@media screen and (min-height: 900px)': {
+        display: 'flex',
+      },
     },
     row: {
       display: 'flex',
       justifyContent: 'space-between',
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
       gap: theme.spacing(2),
       borderTop: `1px solid ${theme.palette.grey[100]}`,
+
+      '&:nth-child(2)': {
+        [theme.breakpoints.up('xl')]: {
+          borderTop: 'none',
+        },
+
+        /* for wide screens */
+        '@media screen and (min-height: 900px)': {
+          borderTop: `1px solid ${theme.palette.grey[100]}`,
+        },
+      },
     },
     rowHeader: {
       color: theme.palette.text.secondary,

@@ -12,12 +12,12 @@ export const TableRow = ({ data }: TableRowProps) => {
   const { classes } = useTableRowStyles({ length, isFirst, opacity });
 
   return (
-    <>
+    <div className={classes.row}>
       <div className={classes.cell}>{month}</div>
       <div className={classes.cell}>{getText('calls-number', { calls })}</div>
       <div className={classes.cell}>
         <div className={classes.line} />
       </div>
-    </>
+    </div>
   );
 };

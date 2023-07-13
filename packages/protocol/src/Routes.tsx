@@ -96,7 +96,7 @@ export const Routes = () => {
             shouldRedirect
             blockName={BlockWithPermission.UsageData}
           >
-            <DefaultLayout hasNoReactSnap>
+            <DefaultLayout hasNoReactSnap isDashboardPage>
               <DashboardRoutes />
             </DefaultLayout>
           </GuardUserGroup>

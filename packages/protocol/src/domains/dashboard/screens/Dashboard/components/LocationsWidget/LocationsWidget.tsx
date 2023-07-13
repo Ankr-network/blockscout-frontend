@@ -20,12 +20,17 @@ export const LocationsWidget = ({
 
   return (
     <Paper className={cx(classes.root, container, className)}>
-      <Title className={classes.title}>
+      <Title className={cx(classes.title)}>
         {t('chain-item.locations.header')}
       </Title>
       <NoDataGuard data={locations} isLoading={isLoading}>
         <ScrollableContainer>
-          <Typography variant="caption" className={classes.details}>
+          <Typography
+            variant="caption"
+            className={cx(classes.details, {
+              [classes.isHidden]: locations.length > 0,
+            })}
+          >
             {t('chain-item.locations.head.location')}
           </Typography>
           {locations.map((location, index) => (

@@ -9,7 +9,7 @@ export const useHeaderStyles = makeStyles()(theme => ({
     letterSpacing: '-0.01em',
 
     fontWeight: 700,
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: '24px',
 
     [theme.breakpoints.down('xs')]: {
@@ -18,10 +18,12 @@ export const useHeaderStyles = makeStyles()(theme => ({
   },
   title: {
     color: theme.palette.grey[900],
+    fontSize: 14,
+    lineHeight: '22px',
   },
   requests: {
     display: 'flex',
-    gap: theme.spacing(8),
+    gap: theme.spacing(4),
 
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',

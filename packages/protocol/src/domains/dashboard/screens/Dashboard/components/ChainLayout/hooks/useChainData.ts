@@ -5,19 +5,19 @@ import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByReque
 import {
   selectAllTimeTotalRequestsNumber,
   selectChainStats,
-  selectIPRequestsByChainID,
   selectLocationsByChainID,
   selectLocationsLoading,
   selectMethodCallsByChainID,
-  selectTopCountriesByChainID,
   selectTotalRequestsByChainID,
   selectTotalRequestsNumberByChainID,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { useTop10Stats } from '../../AllChainsLayout/hooks/useTop10Stats';
 
 export const useChainData = ({
   statsChainId,
   timeframe,
+  selectedChainId,
 }: Omit<ChainLayoutProps, 'detailsChainId'>) => {
   const allTimeTotalRequestsNumber = useAppSelector(state =>
     selectAllTimeTotalRequestsNumber(state, statsChainId),
@@ -25,14 +25,6 @@ export const useChainData = ({
 
   const chainStats = useAppSelector(state =>
     selectChainStats(state, statsChainId),
-  );
-
-  const countries = useAppSelector(state =>
-    selectTopCountriesByChainID(state, statsChainId),
-  );
-
-  const ipRequests = useAppSelector(state =>
-    selectIPRequestsByChainID(state, statsChainId),
   );
 
   const locations = useAppSelector(state =>
@@ -57,6 +49,8 @@ export const useChainData = ({
     () => getChartDataByRequests({ isLoggedIn: true, requests, timeframe }),
     [requests, timeframe],
   );
+
+  const { countries, ipRequests } = useTop10Stats(timeframe, selectedChainId);
 
   return {
     allTimeTotalRequestsNumber,

@@ -10,6 +10,7 @@ import { UsageHistoryWidget } from '../UsageHistoryWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
+import { useMonthlyStats } from '../../hooks/useMonthlyStats';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
   const { hasSelectedProject } = useProjectSelect();
@@ -24,43 +25,37 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     locations,
     requestsChartData,
     totalRequestsNumber,
-    usageHistory,
   } = useAllChainsData(timeframe);
+
+  const { data: monthlyStats = [] } = useMonthlyStats();
 
   return (
     <EmptyLayoutGuard data={requestsChartData}>
-      <div>
-        <div className={classes.firstLine}>
-          <RequestsWidget
-            allTimeRequestsNumber={allTimeTotalRequestsNumber}
-            className={classes.requests}
-            data={requestsChartData}
-            timeframe={timeframe}
-            totalRequestsNumber={totalRequestsNumber}
+      <div className={classes.root}>
+        <RequestsWidget
+          allTimeRequestsNumber={allTimeTotalRequestsNumber}
+          className={classes.requests}
+          data={requestsChartData}
+          timeframe={timeframe}
+          totalRequestsNumber={totalRequestsNumber}
+        />
+        <ChainCallsWidget className={classes.calls} />
+        <ProjectsWidget className={classes.projects} timeframe={timeframe} />
+        {!hasSelectedProject && (
+          <RequestsByIpWidget
+            className={classes.ipRequests}
+            data={ipRequests}
           />
-          <ChainCallsWidget className={classes.calls} />
-          <ProjectsWidget className={classes.projects} timeframe={timeframe} />
-        </div>
-        <div className={classes.secondLine}>
-          {!hasSelectedProject && (
-            <RequestsByIpWidget
-              className={classes.ipRequests}
-              data={ipRequests}
-            />
-          )}
-          <LocationsWidget
-            className={classes.locations}
-            isLoading={areLocationsLoading}
-            locations={locations}
-          />
-          {!hasSelectedProject && (
-            <TopCountriesWidget
-              className={classes.countries}
-              data={countries}
-            />
-          )}
-          <UsageHistoryWidget className={classes.history} data={usageHistory} />
-        </div>
+        )}
+        <LocationsWidget
+          className={classes.locations}
+          isLoading={areLocationsLoading}
+          locations={locations}
+        />
+        {!hasSelectedProject && (
+          <TopCountriesWidget className={classes.countries} data={countries} />
+        )}
+        <UsageHistoryWidget className={classes.history} data={monthlyStats} />
       </div>
     </EmptyLayoutGuard>
   );

@@ -1,13 +1,18 @@
 import { makeStyles } from 'tss-react/mui';
+import {
+  dashboardGridTemplateColumns,
+  dashboardGridTemplateRows,
+  dashboardGridTemplateRowsWideScreens,
+} from '../AllChainsLayout/AllChainsLayoutStyles';
 
 export const useChainLayoutStyles = makeStyles<boolean>()(
   (theme, hasSelectedProject) => ({
     root: {
       display: 'grid',
 
-      gridTemplateColumns: 'repeat(2, 1fr) repeat(4, 200px)',
-      gridTemplateRows: 'repeat(2, 32vh)',
-      gridGap: theme.spacing(4),
+      gridTemplateColumns: dashboardGridTemplateColumns,
+      gridTemplateRows: dashboardGridTemplateRows,
+      gridGap: theme.spacing(3),
       gridTemplateAreas: hasSelectedProject
         ? `
       "requests    requests    requests  requests  methods methods"
@@ -17,6 +22,11 @@ export const useChainLayoutStyles = makeStyles<boolean>()(
       "requests    requests    requests  requests  methods methods"
       "ip-requests ip-requests locations countries methods methods"
     `,
+
+      /* for wide screens */
+      '@media screen and (min-height: 900px)': {
+        gridTemplateRows: dashboardGridTemplateRowsWideScreens,
+      },
 
       [theme.breakpoints.down('xl')]: {
         gridTemplateColumns: 'minmax(max-content, 1fr) repeat(2, 200px)',

@@ -49,7 +49,9 @@ export const MethodCallsWidget = ({
   return (
     <Paper className={cx(classes.root, container, className)}>
       <div className={classes.header}>
-        <Title>{t('dashboard.method-calls.title')}</Title>
+        <Title className={classes.title}>
+          {t('dashboard.method-calls.title')}
+        </Title>
 
         {requests && requests.length > 0 && (
           <Button variant="text" startIcon={<Download />}>

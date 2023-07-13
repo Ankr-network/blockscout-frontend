@@ -7,7 +7,7 @@ export const useTitleStyles = makeStyles()(theme => ({
     letterSpacing: '-0.01em',
 
     fontWeight: 700,
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: '22px',
   },
 }));
