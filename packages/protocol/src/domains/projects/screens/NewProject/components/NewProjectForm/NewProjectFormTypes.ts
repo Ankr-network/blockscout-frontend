@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 import { NewProjectStep } from 'domains/projects/types';
 import {
   ChainStepFields,
@@ -11,11 +9,12 @@ import {
 
 export interface NewProjectFormProps {
   step: NewProjectStep;
-  children: ReactNode;
   onSubmit: (
     step: NewProjectStep,
     stepValues: NewProjectType[NewProjectStep],
   ) => void;
+  onBackClick: () => void;
+  isLoading: boolean;
 }
 
 export interface NewProjectFormValues {

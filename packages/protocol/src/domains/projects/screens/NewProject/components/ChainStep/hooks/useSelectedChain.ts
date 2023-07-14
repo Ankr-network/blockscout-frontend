@@ -1,21 +1,33 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-final-form';
 
 import { ChainID } from 'domains/chains/types';
 import { useChainStepTableStyles } from '../useChainStepTableStyles';
+import { ChainStepFields } from '../../../../../store';
 
 export const useSelectedChain = () => {
   const { classes, cx } = useChainStepTableStyles();
 
-  const form = useForm();
+  const { getState, change } = useForm();
 
-  const { values } = form.getState();
+  const { values } = getState();
 
   const defaultSelectedChainId = values.chainId;
 
   const [selectedChainId, setSelectedChainId] = useState<ChainID | undefined>(
     defaultSelectedChainId,
   );
+
+  useEffect(() => {
+    /* setting up initial values for chain related form data if user unselects a chain */
+    if (!selectedChainId) {
+      change(ChainStepFields.chainId, undefined);
+      change(ChainStepFields.subChainId, undefined);
+      change(ChainStepFields.chainType, undefined);
+      change(ChainStepFields.groupId, undefined);
+      change(ChainStepFields.chainName, undefined);
+    }
+  }, [change, selectedChainId]);
 
   const getColumnWrapperClassName = useCallback(
     (id: ChainID, className?: string) => {

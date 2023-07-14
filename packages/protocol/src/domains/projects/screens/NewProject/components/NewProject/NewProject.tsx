@@ -4,7 +4,6 @@ import { Paper } from '@mui/material';
 
 import { useNewProjectStyles } from './useNewProjectStyles';
 import { NewProjectForm } from '../NewProjectForm';
-import { Footer } from '../Footer';
 import { Header } from '../Header';
 import { NewProjectStep } from 'domains/projects/types';
 import { NewProjectType } from 'domains/projects/store';
@@ -59,9 +58,12 @@ export const NewProject = () => {
         step={currentStep}
         amount={project ? project[NewProjectStep.Plan]?.planPrice : ''}
       />
-      <NewProjectForm step={currentStep} onSubmit={handleSubmit}>
-        <Footer onBackClick={handleBackClick} isLoading={isLoading} />
-      </NewProjectForm>
+      <NewProjectForm
+        step={currentStep}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        onBackClick={handleBackClick}
+      />
     </Paper>
   );
 };

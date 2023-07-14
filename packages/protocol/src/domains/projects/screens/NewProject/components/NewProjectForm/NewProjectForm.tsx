@@ -1,6 +1,7 @@
 import { Form, FormRenderProps } from 'react-final-form';
 import { useCallback } from 'react';
 
+import { NewProjectStep } from 'domains/projects/types';
 import { NewProjectFormContent } from '../NewProjectFormContent';
 import {
   NewProjectFormProps,
@@ -8,26 +9,39 @@ import {
 } from './NewProjectFormTypes';
 import { useHandleSubmit } from './hooks/useHandleSubmit';
 import { useInitialValues } from './hooks/useInitialValues';
+import { Footer } from '../Footer';
 
 export const NewProjectForm = ({
   step,
-  children,
   onSubmit,
+  onBackClick,
+  isLoading,
 }: NewProjectFormProps) => {
   const handleFormSubmit = useHandleSubmit(step, onSubmit);
 
   const initialValues = useInitialValues();
 
   const renderForm = useCallback(
-    ({ handleSubmit }: FormRenderProps<NewProjectFormValues>) => {
+    ({
+      form: { getState },
+      handleSubmit,
+    }: FormRenderProps<NewProjectFormValues>) => {
+      const selectedChain = getState().values?.chainId;
+
       return (
         <form onSubmit={handleSubmit}>
           <NewProjectFormContent step={step} />
-          {children}
+          <Footer
+            isNextButtonDisabled={
+              step === NewProjectStep.Chain && !selectedChain
+            }
+            onBackClick={onBackClick}
+            isLoading={isLoading}
+          />
         </form>
       );
     },
-    [step, children],
+    [step, onBackClick, isLoading],
   );
 
   return (
