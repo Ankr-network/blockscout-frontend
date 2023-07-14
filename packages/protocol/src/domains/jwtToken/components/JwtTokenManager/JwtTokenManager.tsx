@@ -7,13 +7,12 @@ import { AddProjectDialog } from '../AddProjectDialog';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { DeleteProjectDialog } from '../DeleteProjectDialog';
 import { ViewProjectDialog } from '../ViewProjectDialog.tsx';
-import { JwtTokensScrollbar } from '../JwtTokensScrollbar';
 import { JwtTokenManagerSkeleton } from './JwtTokenManagerSkeleton';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AddProject } from '../AddProject';
-import { Card } from '../Card';
+import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
 
 export const JwtTokenManager = () => {
   const { classes } = useJwtTokenManagerStyles();
@@ -76,30 +75,20 @@ export const JwtTokenManager = () => {
 
   return (
     <div className={classes.root}>
-      <JwtTokensScrollbar jwtTokens={jwtTokens}>
-        {jwtTokens.map(token => {
-          const { index, userEndpointToken } = token;
-
-          return (
-            <Card
-              key={index}
-              isSelected={index === selectedProjectIndex}
-              tokenIndex={index}
-              userEndpointToken={userEndpointToken}
-              onProjectSelect={() => handleSelectTokenIndex(index)}
-              onProjectView={() => {
-                setOpenedProjectIndex(index);
-                onProjectOpen();
-              }}
-            />
-          );
-        })}
+      <UserEndpointsScrollbarWrapper
+        jwtTokens={jwtTokens}
+        selectedProjectIndex={selectedProjectIndex}
+        handleSelectTokenIndex={handleSelectTokenIndex}
+        setOpenedProjectIndex={setOpenedProjectIndex}
+        onProjectOpen={onProjectOpen}
+      >
         {canAddProject && (
           <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
             <AddProject onOpen={onOpenAddProjectDialog} />
           </GuardUserGroup>
         )}
-      </JwtTokensScrollbar>
+      </UserEndpointsScrollbarWrapper>
+
       <AddProjectDialog
         allowedAddProjectTokenIndex={allowedAddProjectTokenIndex}
         isOpen={isAddProjectDialogOpened}

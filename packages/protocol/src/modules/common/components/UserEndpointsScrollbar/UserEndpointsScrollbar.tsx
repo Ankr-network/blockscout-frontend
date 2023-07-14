@@ -2,28 +2,28 @@ import { useRef, useEffect, useCallback, ReactNode } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { useJwtTokenManagerStyles } from '../JwtTokenManager/useJwtTokenManagerStyles';
+import { useUserEndpointsScrollbarStyles } from './useUserEndpointsScrollbarStyles';
 
 export interface ViewProps {
   style: React.CSSProperties;
 }
 
-interface JwtTokensScrollbarProps {
+interface UserEndpointsScrollbarProps {
   children: ReactNode;
   jwtTokens: JwtManagerToken[];
 }
 
-export const JwtTokensScrollbar = ({
+export const UserEndpointsScrollbar = ({
   jwtTokens,
   children,
-}: JwtTokensScrollbarProps) => {
-  const { classes } = useJwtTokenManagerStyles();
+}: UserEndpointsScrollbarProps) => {
+  const { classes } = useUserEndpointsScrollbarStyles();
 
   const instance = useRef<Scrollbars>(null);
 
   useEffect(() => {
     instance.current?.scrollToBottom();
-  }, [jwtTokens]);
+  }, [jwtTokens, children]);
 
   const renderView = useCallback(
     ({ style }: ViewProps) => (

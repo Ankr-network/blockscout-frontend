@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useCardStyles = makeStyles<boolean, 'view'>()(
+export const useUserEndpointCardStyles = makeStyles<boolean, 'view'>()(
   (theme, isSelected, classes) => ({
     root: {
       flexShrink: 0,
