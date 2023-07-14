@@ -1,3 +1,4 @@
+import { DEFAULT_PAGE_HEADER_WIDTH } from 'domains/chains/components/BaseChainsHeader/useBaseChainsHeaderStyles';
 import { makeStyles } from 'tss-react/mui';
 
 export const useChainsSkeletonStyles = makeStyles()(theme => ({
@@ -27,16 +28,55 @@ export const useChainsSkeletonStyles = makeStyles()(theme => ({
     justifyContent: 'space-between',
     marginBottom: theme.spacing(5),
   },
+  header: {
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: theme.spacing(7),
+    marginBottom: theme.spacing(7.5),
+
+    [theme.breakpoints.down('lg')]: {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+    },
+
+    [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: `repeat(${DEFAULT_PAGE_HEADER_WIDTH}px 1fr)`,
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr',
+      gap: theme.spacing(5),
+    },
+  },
+  sort: {
+    width: theme.spacing(71.5),
+    height: theme.spacing(12),
+    borderRadius: 17,
+    backgroundColor: theme.palette.background.paper,
+
+    gridColumnStart: 1,
+    gridColumnEnd: 3,
+
+    [theme.breakpoints.down('lg')]: {
+      gridColumnEnd: 2,
+    },
+  },
+  search: {
+    width: theme.spacing(89),
+    height: theme.spacing(12),
+    borderRadius: 17,
+    backgroundColor: theme.palette.background.paper,
+  },
   name: {
-    width: 166,
-    height: 44,
+    width: theme.spacing(41.5),
+    height: theme.spacing(11),
   },
   icon: {
-    width: 56,
-    height: 56,
+    width: theme.spacing(14),
+    height: theme.spacing(14),
   },
   content: {
     width: '100%',
-    height: 54,
+    height: theme.spacing(13.5),
   },
 }));

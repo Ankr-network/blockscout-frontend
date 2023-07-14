@@ -29,30 +29,27 @@ export const PublicChains = () => {
   });
 
   return (
-    <BaseChains
-      loading={loading}
-      top={<UpgradePlanBanner isPublicUser />}
-      baseChainsHeader={
-        <BaseChainsHeader
-          sortType={sortType}
-          setSortType={setSortType}
-          searchContent={searchContent}
-          setSearchContent={setSearchContent}
-        />
-      }
-    >
+    <BaseChains loading={loading} top={<UpgradePlanBanner isPublicUser />}>
       <NoReactSnap
         fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
-        <ChainsList chains={processedChains}>
-          {processedChains.map(item => {
-            const { id } = item;
+        <>
+          <BaseChainsHeader
+            sortType={sortType}
+            setSortType={setSortType}
+            searchContent={searchContent}
+            setSearchContent={setSearchContent}
+          />
+          <ChainsList chains={processedChains}>
+            {processedChains.map(item => {
+              const { id } = item;
 
-            return (
-              <PublicChainCard key={id} chain={item} timeframe={timeframe} />
-            );
-          })}
-        </ChainsList>
+              return (
+                <PublicChainCard key={id} chain={item} timeframe={timeframe} />
+              );
+            })}
+          </ChainsList>
+        </>
       </NoReactSnap>
     </BaseChains>
   );
