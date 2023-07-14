@@ -205,22 +205,15 @@
       },
       "plan-step": {
         "title": "Choose your Plan",
-        "price": "${price} <span>per month</span>",
-        "pre-second-requests": "15000 <span>requests per second</span>",
-        "monthly-requests": "30M <span>monthly requests</span>",
-        "chains": "Custom <span>chains</span>",
-        "regions": "Custom <span>regions</span>",
-        "domain": "10 <span>Whitelisted domains</span>",
-        "contract": "3 <span>Whitelisted Smart Contracts</span>",
-        "support-type": {
-          "engineering-team": "Engineering team support",
-          "portal": "All EVM-compatible methods for all chains"
+        "early-adopters": {
+          "name": "Early Adopters (limited time offer)",
+          "price": "$10 <span>per smart contract</span>",
+          "description": "<ul><li>One-time payment</span></li><li>Available for EVM-compatible chains</li><li>Replace contract address for free within 2 months</li></ul>"
         },
-        "premium-plan": {
-          "name": "Grow"
-        },
-        "enterprise-plan": {
-          "name": "Enterprise"
+        "grow": {
+          "name": "Grow",
+          "price": "$500 <span>per month</span>",
+          "description": "<ul><li>30M <span>monthly requests</span></li><li>10 <span>Whitelisted domains</span></li><li>3 <span>Whitelisted Smart Contracts</span></li><li>All EVM-compatible methods for all chains</span></li></ul>"
         }
       }
     },

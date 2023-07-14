@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 
 import { Plan, PlanName } from 'domains/projects/types';
 import { PlanFeatures } from '../PlanFeatures';
-import { newProjectIntlRoot } from 'domains/projects/const';
 import { usePlanCardStyles } from './PlanCardStyles';
 
 export interface PlanProps {
@@ -18,7 +17,7 @@ export const PlanCard = ({
   onClick: select,
   plan,
 }: PlanProps) => {
-  const { disabled = false, monthUSDPrice: price, name, title } = plan;
+  const { disabled, name, title, price, description } = plan;
 
   const onClick = useCallback(() => {
     if (!disabled) {
@@ -39,10 +38,8 @@ export const PlanCard = ({
         {t(title)}
         <Radio checked={isSelected} disabled={disabled} />
       </div>
-      <div className={classes.price}>
-        {tHTML(`${newProjectIntlRoot}.plan-step.price`, { price })}
-      </div>
-      <PlanFeatures hasSoonLabel={disabled} plan={plan} />
+      <div className={classes.price}>{tHTML(price)}</div>
+      <PlanFeatures hasSoonLabel={disabled} description={description} />
     </Box>
   );
 };

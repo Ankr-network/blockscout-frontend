@@ -10,7 +10,7 @@ import { plans } from '../const';
 
 const initialState: NewProjectSlice = {};
 
-const { name: defaultPlanName, monthUSDPrice: defaultMonthUSDPrice } = plans[0];
+const { name: defaultPlanName, USDPrice: defaultUSDPrice } = plans[0];
 
 const DEFAULT_NEW_PROJECT: NewProjectConfig = {
   step: NewProjectStep.Chain,
@@ -30,7 +30,7 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
     },
     [NewProjectStep.Plan]: {
       planName: defaultPlanName,
-      planPrice: defaultMonthUSDPrice,
+      planPrice: defaultUSDPrice,
     },
     [NewProjectStep.Checkout]: {
       isCheckedOut: false,

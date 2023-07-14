@@ -6,25 +6,15 @@ export enum NewProjectStep {
 }
 
 export enum PlanName {
-  Enterprise = 'enterprise',
-  Premium = 'premium',
-}
-
-export enum PlanSupportType {
-  EngineeringTeam,
-  Portal,
-}
-
-export enum PlanRequestsType {
-  Monthly = 'monthly',
-  PerMonth = 'per-month',
+  EarlyAdopters = 'Early Adopters',
+  Grow = 'Grow',
 }
 
 export interface Plan {
-  disabled?: boolean;
-  monthUSDPrice: string;
   name: PlanName;
-  requestsType: PlanRequestsType;
-  support: PlanSupportType;
   title: string;
+  price: string;
+  description: string;
+  USDPrice: string;
+  disabled?: boolean;
 }

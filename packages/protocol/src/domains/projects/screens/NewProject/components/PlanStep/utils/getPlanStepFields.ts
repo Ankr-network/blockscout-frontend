@@ -5,7 +5,7 @@ import { plans } from 'domains/projects/const';
 type PlanStepFields = NonNullable<NewProjectType[NewProjectStep.Plan]>;
 
 export const getPlanStepFields = (name: PlanName): PlanStepFields => {
-  const { name: planName, monthUSDPrice: planPrice } =
+  const { name: planName, USDPrice: planPrice } =
     plans.find(plan => plan.name === name) ?? plans[0];
 
   return { planName, planPrice };

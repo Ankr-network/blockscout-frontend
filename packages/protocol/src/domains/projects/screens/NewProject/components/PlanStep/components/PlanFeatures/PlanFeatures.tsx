@@ -1,31 +1,22 @@
-import { Plan } from 'domains/projects/types';
+import { tHTML } from '@ankr.com/common';
+
 import { SoonLabel } from 'modules/common/components/SoonLabel';
-import {
-  get2ndFeatureByPlanName,
-  get3rdFeatureByPlanName,
-  getRequestsFromType,
-} from './utils/getCustomableValue';
-import { getSupportType } from './utils/getSupportType';
 import { usePlanFeaturesStyles } from './PlanFeaturesStyles';
 
 export interface PlanFeaturesProps {
-  plan: Plan;
+  description: string;
   hasSoonLabel?: boolean;
 }
 
-export const PlanFeatures = ({ hasSoonLabel, plan }: PlanFeaturesProps) => {
-  const { name, requestsType, support } = plan;
-
+export const PlanFeatures = ({
+  hasSoonLabel,
+  description,
+}: PlanFeaturesProps) => {
   const { classes } = usePlanFeaturesStyles();
 
   return (
     <div className={classes.root}>
-      <div className={classes.features}>
-        {getRequestsFromType(requestsType)}
-        {get2ndFeatureByPlanName(name)}
-        {get3rdFeatureByPlanName(name)}
-        {getSupportType(support)}
-      </div>
+      <div className={classes.features}>{tHTML(description)}</div>
       {hasSoonLabel && <SoonLabel className={classes.soonLabel} />}
     </div>
   );

@@ -19,9 +19,18 @@ export const usePlanFeaturesStyles = makeStyles()(theme => ({
     fontSize: 16,
     lineHeight: '22px',
 
-    span: {
-      span: {
-        fontWeight: 400,
+    '& ul': {
+      padding: 0,
+      margin: 0,
+
+      listStyle: 'none',
+
+      '& li': {
+        marginBottom: theme.spacing(1),
+
+        '& span': {
+          fontWeight: 400,
+        },
       },
     },
   },
