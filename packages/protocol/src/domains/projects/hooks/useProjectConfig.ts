@@ -46,5 +46,7 @@ export const useProjectConfig = () => {
     handleResetConfig,
     projectStep,
     project,
+    canEditProject:
+      typeof projectStep === 'number' && projectStep !== NewProjectStep.Chain,
   };
 };

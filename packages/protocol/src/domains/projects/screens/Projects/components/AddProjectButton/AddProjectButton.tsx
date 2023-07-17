@@ -5,7 +5,11 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { NavLink } from 'uiKit/NavLink';
 import { useAddProjectButtonStyles } from './useAddProjectButtonStyles';
 
-export const AddProjectButton = () => {
+interface AddProjectButtonProps {
+  canEditProject: boolean;
+}
+
+export const AddProjectButton = ({ canEditProject }: AddProjectButtonProps) => {
   const { classes } = useAddProjectButtonStyles();
 
   return (
@@ -15,7 +19,11 @@ export const AddProjectButton = () => {
       fullWidth
       startIcon={<Plus />}
     >
-      {t('projects.list-project.add-project')}
+      {t(
+        `projects.list-project.${
+          canEditProject ? 'edit-project' : 'add-project'
+        }`,
+      )}
     </NavLink>
   );
 };

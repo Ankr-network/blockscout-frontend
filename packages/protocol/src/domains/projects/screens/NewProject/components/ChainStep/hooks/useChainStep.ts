@@ -18,7 +18,7 @@ export const useChainStep = () => {
 
   const savedTokenIndex = useRef(projectTokenIndex);
 
-  const { isLoading, allowedAddProjectTokenIndex, enableAddProject } =
+  const { isLoading, allowedAddProjectTokenIndex, enableAddProject, isLoaded } =
     useJwtTokenManager(true);
 
   const currentTokenIndex =
@@ -28,7 +28,7 @@ export const useChainStep = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isLoading && !enableAddProject) {
+    if (isLoaded && !enableAddProject) {
       dispatch(
         NotificationActions.showNotification({
           message: t('projects.new-project.notifications.limit'),
@@ -38,13 +38,7 @@ export const useChainStep = () => {
 
       push(ProjectsRoutesConfig.projects.generatePath());
     }
-  }, [
-    isLoading,
-    allowedAddProjectTokenIndex,
-    push,
-    dispatch,
-    enableAddProject,
-  ]);
+  }, [isLoaded, allowedAddProjectTokenIndex, push, dispatch, enableAddProject]);
 
   const { projectName } = useAddProject(currentTokenIndex);
 

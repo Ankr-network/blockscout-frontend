@@ -7,7 +7,7 @@ import { ProjectsRoutesConfig } from './routesConfig';
 import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
 
 const LoadableProjectsContainer: LoadableComponent<any> = loadable(
-  async () => import('../screens/Projects').then(module => module.Projects),
+  async () => import('../screens/Projects').then(module => module.ProjectsPage),
   {
     fallback: <OverlaySpinner />,
   },

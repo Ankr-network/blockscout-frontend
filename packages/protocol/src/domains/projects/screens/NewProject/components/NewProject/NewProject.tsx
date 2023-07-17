@@ -10,7 +10,6 @@ import { NewProjectType } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useIsLoading } from './hooks/useIsLoading';
-import { useProjectResetIfTokenIndexChanged } from './hooks/useProjectResetIfTokenIndexChanged';
 
 export const NewProject = () => {
   const { classes } = useNewProjectStyles();
@@ -19,10 +18,6 @@ export const NewProject = () => {
 
   const [currentStep, setCurrentStep] = useState<NewProjectStep>(
     projectStep || NewProjectStep.Chain,
-  );
-
-  useProjectResetIfTokenIndexChanged(() =>
-    setCurrentStep(NewProjectStep.Chain),
   );
 
   const { push } = useHistory();

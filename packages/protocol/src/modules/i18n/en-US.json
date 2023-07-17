@@ -148,7 +148,8 @@
       "active": "Active",
       "installed": "Installed",
       "not-installed": "Not installed",
-      "add-project": "Add Project"
+      "add-project": "Add Project",
+      "edit-project": "Continue project configuration"
     },
     "new-project": {
       "breadcrumbs": "Create project",
