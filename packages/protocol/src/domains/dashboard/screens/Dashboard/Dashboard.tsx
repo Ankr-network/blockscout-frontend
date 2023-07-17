@@ -136,7 +136,6 @@ export const Dashboard = () => {
             {selectedChainId ? (
               <ChainLayout
                 statsChainId={statsChainId}
-                selectedChainId={selectedChainId}
                 detailsChainId={detailsChainId}
                 timeframe={timeframe}
               />

@@ -10,7 +10,6 @@ import { useChainLayoutStyles } from './ChainLayoutStyles';
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
 export const ChainLayout = ({
-  selectedChainId,
   statsChainId,
   detailsChainId,
   timeframe,
@@ -25,7 +24,7 @@ export const ChainLayout = ({
     requestsChartData,
     totalRequestsNumber,
     methodCalls,
-  } = useChainData({ statsChainId, timeframe, selectedChainId });
+  } = useChainData({ statsChainId, timeframe });
 
   const { hasSelectedProject } = useProjectSelect();
 
