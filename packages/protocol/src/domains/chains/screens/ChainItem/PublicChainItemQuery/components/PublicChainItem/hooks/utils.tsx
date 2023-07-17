@@ -18,9 +18,6 @@ export const useIsTestnetPremimumOnly = (chain: Chain) => {
   return useMemo(() => isTestnetPremimumOnly(chain), [chain]);
 };
 
-const TESTNET_ID = 'testnet';
-const MAINNET_ID = 'mainnet';
-
 interface GetPublicChainTypeTabsParams {
   endpoints: Endpoints;
   isBlockedTestnet: boolean;
@@ -37,8 +34,8 @@ export const getPublicChainTypeTabs = ({
   return chainTypeTabs
     .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map<Tab<ChainType>>(({ id, title }, index, list) => {
-      const blockedTestnet = isBlockedTestnet && id === TESTNET_ID;
-      const blockedMainnet = isBlockedMainnet && id === MAINNET_ID;
+      const blockedTestnet = isBlockedTestnet && id === ChainType.Testnet;
+      const blockedMainnet = isBlockedMainnet && id === ChainType.Mainnet;
       const isBlocked = blockedTestnet || blockedMainnet;
 
       return {

@@ -10,6 +10,10 @@ import { PrivateChainSelectedContent } from './components/PrivateChainSelectedCo
 import { ProjectSelect } from 'modules/common/components/ProjectSelect';
 import { TabSize } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 import { fallbackChain } from './const';
 import { useDashboard } from './hooks/useDashboard';
 import { useChainSelectorGroups } from './hooks/useChainSelectorGroups';
@@ -23,6 +27,8 @@ import { useSelectorVisibility } from './components/ChainSelector/useSelectorVis
 import { SubTypeSelector } from './components/SubTypeSelector';
 
 export const Dashboard = () => {
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+
   useSetBreadcrumbs([
     { title: t(DashboardRoutesConfig.dashboard.breadcrumbs) },
   ]);
@@ -62,6 +68,7 @@ export const Dashboard = () => {
   } = useChainSelectorGroups({
     chain: chain || fallbackChain,
     unfilteredChain: unfilteredChain || fallbackChain,
+    onBlockedTabClick: onOpen,
   });
 
   const { shouldShowTokenManager } = useDashboardProjects();
@@ -145,6 +152,7 @@ export const Dashboard = () => {
           </>
         )}
       </div>
+      <UpgradePlanDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
   );
 };

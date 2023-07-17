@@ -50,6 +50,7 @@ export const PrivateChains = () => {
                 chain={item}
                 timeframe={timeframe}
                 hasTotalRequestsLabel={hasPremium}
+                hasPremium={hasPremium}
               />
             );
           })}

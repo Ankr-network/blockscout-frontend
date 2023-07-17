@@ -7,24 +7,47 @@ import {
 } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
 import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { LockedTab } from 'domains/chains/screens/ChainItem/components/LockedTab';
 
-export const getPrivateChainTypeTabs = (
-  endpoints: GroupedEndpoints,
-): Tab<Type>[] =>
+interface GetPrivateChainTypeTabsParams {
+  endpoints: GroupedEndpoints;
+  isBlockedTestnet: boolean;
+  isBlockedMainnet?: boolean;
+  onBlockedTabClick: () => void;
+}
+
+export const getPrivateChainTypeTabs = ({
+  endpoints,
+  isBlockedTestnet,
+  isBlockedMainnet,
+  onBlockedTabClick,
+}: GetPrivateChainTypeTabsParams): Tab<Type>[] =>
   chainTypeTabs
     .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map<Tab<Type>>(({ id, title }, index, list) => {
+      const blockedTestnet = isBlockedTestnet && id === Type.Testnet;
+      const blockedMainnet = isBlockedMainnet && id === Type.Mainnet;
+      const isBlocked = blockedTestnet || blockedMainnet;
+
       return {
         id,
         title: (isSelected: boolean) => {
+          const label = isBlocked ? (
+            <LockedTab title={title} />
+          ) : (
+            title?.toString() ?? ''
+          );
+
           return (
             <SecondaryTab
               isLast={index === list.length - 1}
-              isSelected={isSelected}
-              label={title?.toString() ?? ''}
+              isSelected={!isBlocked && isSelected}
+              label={label}
+              onClick={() => isBlocked && onBlockedTabClick()}
             />
           );
         },
+        isDisabled: isBlocked,
       };
     });
 

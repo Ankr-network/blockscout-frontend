@@ -6,12 +6,14 @@ import { usePrivateChainType } from './usePrivateChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 import { ChainSubType, ChainType } from 'domains/chains/types';
 import {
   getPrivateChainSubTypeSelector,
   getPrivateChainTypeSelector,
 } from './utils';
+import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 
 interface ChainTypeItem {
   value: ChainType;
@@ -30,23 +32,35 @@ interface PrivateChainItem extends ChainItem {
   selectSubType: (id: ChainSubType) => void;
 }
 
+type PrivateChainItemParams = IChainItemDetails & {
+  onBlockedTabClick: () => void;
+};
+
 export const usePrivateChainItem = ({
   chain,
   unfilteredChain: publicChain,
   selectedType,
   selectedGroupId,
-}: IChainItemDetails): PrivateChainItem => {
+  onBlockedTabClick,
+}: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
     publicChain,
   });
+
+  const { hasPremium } = useAuth();
+
+  const isTestnetPremimumOnly = useIsTestnetPremimumOnly(chain);
 
   const { chainType, chainTypeTab, chainTypeTabs, selectType } =
     usePrivateChainType({
       chain,
       endpoints,
       netId,
+      isBlockedTestnet: !hasPremium && Boolean(isTestnetPremimumOnly),
+      isBlockedMainnet: !hasPremium && chain?.isMainnetPremiumOnly,
       selectedType,
+      onBlockedTabClick,
     });
 
   const { chainSubType, chainSubTypeTab, chainSubTypeTabs, selectSubType } =

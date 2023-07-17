@@ -12,11 +12,13 @@ import { PrivateChainItem } from './components/PrivateChainItem';
 
 interface IPrivateChainsProps {
   hasPremium: boolean;
+  isFreePremium: boolean;
   hasTotalRequestsLabel?: boolean;
 }
 
 export const PrivateChains = ({
   hasPremium,
+  isFreePremium,
   hasTotalRequestsLabel,
 }: IPrivateChainsProps) => {
   const {
@@ -64,7 +66,9 @@ export const PrivateChains = ({
                     publicChain={chainsDictionary[id]}
                     timeframe={timeframe}
                     chainId={id}
-                    hasPremiumDialog={item.premiumOnly && !hasPremium}
+                    hasPremiumDialog={
+                      item.premiumOnly && (!hasPremium || isFreePremium)
+                    }
                     hasTotalRequestsLabel={hasTotalRequestsLabel}
                   />
                 </div>

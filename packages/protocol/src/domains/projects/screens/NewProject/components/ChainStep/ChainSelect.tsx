@@ -3,6 +3,10 @@ import { Box } from '@mui/material';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { PrivateChainSelectedContent } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent';
 import { Chain } from 'domains/chains/types';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 import { useChainsSelector } from './hooks/useChainsSelector';
 
 interface ChainSelectProps {
@@ -14,6 +18,8 @@ export const ChainSelect = ({
   chain: { id: nestedSelectedChainId },
   className,
 }: ChainSelectProps) => {
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+
   const {
     chainProtocolContext,
     chainTypes,
@@ -25,7 +31,7 @@ export const ChainSelect = ({
     menuProps,
     chainType,
     groupId,
-  } = useChainsSelector(nestedSelectedChainId);
+  } = useChainsSelector(nestedSelectedChainId, onOpen);
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
@@ -43,6 +49,7 @@ export const ChainSelect = ({
           ignoreProtocol
         />
       </Box>
+      <UpgradePlanDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
   );
 };

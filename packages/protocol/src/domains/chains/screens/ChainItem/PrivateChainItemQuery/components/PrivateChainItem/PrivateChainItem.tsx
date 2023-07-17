@@ -8,12 +8,18 @@ import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 import { ChainProtocolContext } from '../../../constants/ChainProtocolContext';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
 }
 
 export const PrivateChainItem = ({ data }: ChainItemProps) => {
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+
   const {
     chainProtocolContext,
     chain,
@@ -32,7 +38,10 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     groupTabs,
     name,
     selectGroup,
-  } = usePrivateChainItem({ ...data });
+  } = usePrivateChainItem({
+    ...data,
+    onBlockedTabClick: onOpen,
+  });
 
   useRedirectToAdvancedApi();
 
@@ -65,6 +74,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
         group={group}
         unfilteredGroup={unfilteredGroup}
       />
+      <UpgradePlanDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
   );
 };

@@ -11,7 +11,10 @@ import { ChainStepFields } from 'domains/projects/store';
 import { filterNonEvmGroups } from 'modules/endpoints/utils/filterNonEvmGroups';
 import { ChainGroupID } from 'modules/endpoints/types';
 
-export const useChainsSelector = (nestedSelectedChainId: ChainID) => {
+export const useChainsSelector = (
+  nestedSelectedChainId: ChainID,
+  onBlockedTabClick: () => void,
+) => {
   const { processedChains: chains, allChains } = useChains();
 
   const {
@@ -47,6 +50,7 @@ export const useChainsSelector = (nestedSelectedChainId: ChainID) => {
     unfilteredChain: unfilteredChain || fallbackChain,
     selectedType: savedChainType.current,
     selectedGroupId: savedGroupId.current,
+    onBlockedTabClick,
   });
 
   useEffect(() => {

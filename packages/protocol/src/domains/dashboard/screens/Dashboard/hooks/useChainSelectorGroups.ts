@@ -9,6 +9,7 @@ interface IDashboardChainSelector {
   unfilteredChain: Chain;
   selectedType?: ChainType;
   selectedGroupId?: ChainGroupID;
+  onBlockedTabClick: () => void;
 }
 
 export const useChainSelectorGroups = ({
@@ -16,6 +17,7 @@ export const useChainSelectorGroups = ({
   unfilteredChain,
   selectedType,
   selectedGroupId,
+  onBlockedTabClick,
 }: IDashboardChainSelector) => {
   const {
     chainProtocolContext,
@@ -36,6 +38,7 @@ export const useChainSelectorGroups = ({
     isChainArchived: false,
     selectedType,
     selectedGroupId,
+    onBlockedTabClick,
   });
 
   const mappedChainId = getStatsChainId({

@@ -11,8 +11,10 @@ export const MainEndpoints = ({
   onCopyEndpoint,
   ...rest
 }: MainEndpointsProps) => {
-  const { flattenURLs, hasFeature, hasPlaceholder, title } =
-    useMainEndpoints(rest);
+  const { flattenURLs, hasFeature, hasPlaceholder, title } = useMainEndpoints({
+    ...rest,
+    hasPremium,
+  });
 
   const { classes } = useMainEndpointsStyles();
 

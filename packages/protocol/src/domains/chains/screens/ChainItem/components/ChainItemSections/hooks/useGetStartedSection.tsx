@@ -31,8 +31,8 @@ export const useGetStartedSection = ({
   const { hasPrivateAccess, loading: isConnecting, hasPremium } = useAuth();
 
   const hasUpgradeBanner = useMemo(
-    () => checkUpgradeBanner({ hasPrivateAccess, isConnecting }),
-    [hasPrivateAccess, isConnecting],
+    () => checkUpgradeBanner({ hasPrivateAccess, hasPremium, isConnecting }),
+    [hasPrivateAccess, isConnecting, hasPremium],
   );
 
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
