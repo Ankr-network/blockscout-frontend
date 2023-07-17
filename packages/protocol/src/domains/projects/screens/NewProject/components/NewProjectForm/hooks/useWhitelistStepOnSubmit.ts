@@ -10,7 +10,8 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 export const useWhitelistStepOnSubmit = () => {
   const dispatch = useDispatch();
   const { handleCreateJwtToken } = useCreateJwtToken();
-  const [updateWhitelistMode] = useLazyUpdateWhitelistModeQuery();
+  const [updateWhitelistMode, { isSuccess }] =
+    useLazyUpdateWhitelistModeQuery();
   const { selectedGroupAddress: groupAddress } = useSelectedUserGroup();
 
   return useCallback(
@@ -29,13 +30,21 @@ export const useWhitelistStepOnSubmit = () => {
       }
 
       if (data?.userEndpointToken) {
-        await updateWhitelistMode({
+        if (isSuccess) {
+          return data?.userEndpointToken;
+        }
+
+        const { isError } = await updateWhitelistMode({
           params: {
             userEndpointToken: data.userEndpointToken,
             prohibitByDefault: true,
             groupAddress,
           },
         });
+
+        if (isError) {
+          return false;
+        }
 
         return data?.userEndpointToken;
       }
@@ -49,6 +58,12 @@ export const useWhitelistStepOnSubmit = () => {
 
       return false;
     },
-    [dispatch, updateWhitelistMode, handleCreateJwtToken, groupAddress],
+    [
+      dispatch,
+      updateWhitelistMode,
+      handleCreateJwtToken,
+      groupAddress,
+      isSuccess,
+    ],
   );
 };
