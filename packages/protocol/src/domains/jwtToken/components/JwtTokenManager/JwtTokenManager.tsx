@@ -82,7 +82,7 @@ export const JwtTokenManager = () => {
         setOpenedProjectIndex={setOpenedProjectIndex}
         onProjectOpen={onProjectOpen}
       >
-        {canAddProject && (
+        {jwtTokens.length > 0 && canAddProject && (
           <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
             <AddProject onOpen={onOpenAddProjectDialog} />
           </GuardUserGroup>
