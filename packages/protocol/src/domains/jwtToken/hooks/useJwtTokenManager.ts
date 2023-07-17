@@ -58,7 +58,6 @@ export const useJwtTokenManager = (shouldIgnoreTokenDecryption?: boolean) => {
   );
 
   const enableAddProject =
-    jwtTokens.length > 0 &&
     jwtTokens.length < maxTokensLimit &&
     allowedAddProjectTokenIndex > PRIMARY_TOKEN_INDEX &&
     hasWriteAccess;
