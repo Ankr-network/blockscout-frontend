@@ -1,4 +1,4 @@
-import { ChainID, Chain } from 'domains/chains/types';
+import { Chain, ChainID } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
@@ -70,6 +70,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
       ChainID.ZETACHAIN_EVM_TESTNET,
+      ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
       ChainID.BASE,
       ChainID.BASE_TESTNET,
       ChainID.SCROLL,
@@ -175,19 +176,31 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.SECRET_RPC,
     name: getName('tendermint-rpc'),
     pluralName: getName('tendermint-rpc', true),
-    chains: [ChainID.SECRET_RPC, ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET],
+    chains: [
+      ChainID.SECRET_RPC,
+      ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
+      ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
+    ],
   },
   {
     id: ChainGroupID.SECRET_REST,
     name: getName('tendermint-rest'),
     pluralName: getName('tendermint-rest', true),
-    chains: [ChainID.SECRET_REST, ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET],
+    chains: [
+      ChainID.SECRET_REST,
+      ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
+      ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
+    ],
   },
   {
     id: ChainGroupID.SECRET_COSMOS_REST,
     name: getName('cosmos-rest'),
     pluralName: getName('cosmos-rest', true),
-    chains: [ChainID.SECRET_COSMOS_REST, ChainID.ZETACHAIN_COSMOS_REST_TESTNET],
+    chains: [
+      ChainID.SECRET_COSMOS_REST,
+      ChainID.ZETACHAIN_COSMOS_REST_TESTNET,
+      ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
+    ],
   },
   {
     id: ChainGroupID.SOLANA,

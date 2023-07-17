@@ -104,6 +104,14 @@ const renderZetaChainName = (chainId: ChainID) => {
     name = 'ZetaChain Tendermint JSON-RPC testnet';
   } else if (chainId === ChainID.ZETACHAIN_EVM_TESTNET) {
     name = 'ZetaChain EVM RPC testnet';
+  } else if (chainId === ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 Cosmos REST testnet';
+  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 Tendermint REST testnet';
+  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 Tendermint JSON-RPC testnet';
+  } else if (chainId === ChainID.ZETACHAIN_EVM_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 EVM RPC testnet';
   }
 
   return name;

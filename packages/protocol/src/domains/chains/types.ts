@@ -7,6 +7,11 @@ export enum ChainType {
   Devnet = 'devnet',
 }
 
+export enum ChainSubType {
+  Athens2 = 'athens2',
+  Athens3 = 'athens3',
+}
+
 export enum SortType {
   Name = 'name',
   Usage = 'usage',
@@ -139,13 +144,37 @@ export enum ChainID {
   XDAI = 'xdai',
   SUI = 'sui',
   SUI_TESTNET = 'sui_testnet',
+
   ZETACHAIN = 'zetachain',
+  /* Athens-2 */
   ZETACHAIN_COSMOS_REST_TESTNET = 'zetachain-cosmos-rest-testnet',
   ZETACHAIN_EVM_TESTNET = 'zetachain-evm-testnet',
   ZETACHAIN_TENDERMINT_REST_TESTNET = 'zetachain-tendermint-rest-testnet',
   ZETACHAIN_TENDERMINT_RPC_TESTNET = 'zetachain-tendermint-rpc-testnet',
   ZETACHAIN_TESTNET = 'zetachain-testnet',
+
+  /* Athens-3 */
+  ZETACHAIN_COSMOS_REST_ATHENS_TESTNET = 'zetachain-cosmos-rest-athens-testnet',
+  ZETACHAIN_EVM_ATHENS_TESTNET = 'zetachain-evm-athens-testnet',
+  ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET = 'zetachain-tendermint-rest-athens-testnet',
+  ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET = 'zetachain-tendermint-rpc-athens-testnet',
+  ZETACHAIN_ATHENS_TESTNET = 'zetachain-athens-testnet',
+
   ZKSYNC_ERA = 'zksync_era',
 
   UNDEFINED = '',
 }
+
+export const ChainsAthens2 = [
+  ChainID.ZETACHAIN_COSMOS_REST_TESTNET,
+  ChainID.ZETACHAIN_EVM_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
+];
+
+export const ChainsAthens3 = [
+  ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
+  ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
+];

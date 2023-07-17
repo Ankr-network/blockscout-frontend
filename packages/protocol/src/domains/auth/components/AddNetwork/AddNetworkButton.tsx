@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAddNetworkButton } from './useAddNetworkButton';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -9,6 +9,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 interface IAddNetworkProps {
   chain: Chain;
   chainType?: ChainType;
+  chainSubType?: ChainSubType;
   group?: EndpointGroup;
   className?: string;
   hasPlusIcon?: boolean;
@@ -19,6 +20,7 @@ interface IAddNetworkProps {
 export const AddNetworkButton = ({
   chain,
   chainType,
+  chainSubType,
   group,
   className,
   hasPlusIcon,
@@ -30,6 +32,7 @@ export const AddNetworkButton = ({
   const handleButtonClick = useAddNetworkButton({
     chain,
     chainType,
+    chainSubType,
     group,
   });
 

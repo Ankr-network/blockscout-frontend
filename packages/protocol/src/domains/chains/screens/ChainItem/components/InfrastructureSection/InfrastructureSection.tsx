@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
 import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { HybridInfrastructure } from './components/HybridInfrastructure';
@@ -19,6 +19,7 @@ import { checkPrivateChainsAndGetChainId } from '../UsageDataSection/const';
 export interface InfrastructureSectionProps {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   group: EndpointGroup;
   withMyEndpoints?: boolean;
   withNodes?: boolean;
@@ -29,6 +30,7 @@ const HAS_NODES_TABLE = false;
 export const InfrastructureSection = ({
   chain,
   chainType,
+  chainSubType,
   group,
   withMyEndpoints = true,
   withNodes = true,
@@ -40,6 +42,7 @@ export const InfrastructureSection = ({
   const chainId = getStatsChainId({
     publicChain: chain,
     chainType,
+    chainSubType,
     group,
     isChainProtocolSwitchEnabled,
     chainProtocol,

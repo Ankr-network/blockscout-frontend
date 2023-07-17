@@ -1,4 +1,4 @@
-import { EndpointInfo } from './components/EndpointInfo/EndpointInfo';
+import { EndpointInfo } from './components/EndpointInfo';
 import { HybridInfrastructureSkeleton } from './components/HybridInfrastructureSkeleton';
 import {
   Endpoints,

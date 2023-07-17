@@ -6,17 +6,28 @@ import { usePrivateChainType } from './usePrivateChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { ChainType } from 'domains/chains/types';
-import { getPrivateChainTypeSelector } from './utils';
+import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
+import { ChainSubType, ChainType } from 'domains/chains/types';
+import {
+  getPrivateChainSubTypeSelector,
+  getPrivateChainTypeSelector,
+} from './utils';
 
 interface ChainTypeItem {
   value: ChainType;
   label: string;
 }
 
+interface ChainSubTypeItem {
+  value: ChainSubType;
+  label: string;
+}
+
 interface PrivateChainItem extends ChainItem {
   chainTypes: ChainTypeItem[];
   selectType: (id: ChainType) => void;
+  chainSubTypes: ChainSubTypeItem[];
+  selectSubType: (id: ChainSubType) => void;
 }
 
 export const usePrivateChainItem = ({
@@ -38,10 +49,17 @@ export const usePrivateChainItem = ({
       selectedType,
     });
 
+  const { chainSubType, chainSubTypeTab, chainSubTypeTabs, selectSubType } =
+    useChainSubType({
+      chain,
+      netId,
+    });
+
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
     {
       chain,
       chainType,
+      chainSubType,
       endpoints,
       netId,
       selectedGroupId,
@@ -56,6 +74,7 @@ export const usePrivateChainItem = ({
     getFallbackEndpointGroup(chain.name);
 
   const chainTypes = getPrivateChainTypeSelector(endpoints);
+  const chainSubTypes = getPrivateChainSubTypeSelector();
 
   return {
     chainProtocolContext,
@@ -64,6 +83,11 @@ export const usePrivateChainItem = ({
     chainType,
     chainTypeTab,
     chainTypeTabs,
+    chainSubType,
+    chainSubTypeTab,
+    chainSubTypeTabs,
+    chainSubTypes,
+    selectSubType,
     group,
     groups,
     groupID,

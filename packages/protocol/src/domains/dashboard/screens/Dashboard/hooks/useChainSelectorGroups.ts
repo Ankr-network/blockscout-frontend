@@ -21,6 +21,9 @@ export const useChainSelectorGroups = ({
     chainProtocolContext,
     publicChain,
     chainType,
+    chainSubType,
+    chainSubTypes,
+    selectSubType,
     group,
     groups,
     groupID,
@@ -38,6 +41,7 @@ export const useChainSelectorGroups = ({
   const mappedChainId = getStatsChainId({
     publicChain,
     chainType,
+    chainSubType,
     group,
     isChainProtocolSwitchEnabled:
       chainProtocolContext.isChainProtocolSwitchEnabled,
@@ -51,6 +55,9 @@ export const useChainSelectorGroups = ({
     chainType,
     chainTypes,
     selectType,
+    chainSubType,
+    chainSubTypes,
+    selectSubType,
     group,
     groups,
     groupID,

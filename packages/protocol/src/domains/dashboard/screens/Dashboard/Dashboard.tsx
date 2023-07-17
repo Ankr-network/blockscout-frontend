@@ -20,6 +20,7 @@ import { useDashboardStyles } from './useDashboardStyles';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useLastMonthStats } from './hooks/useLastMonthStats';
 import { useSelectorVisibility } from './components/ChainSelector/useSelectorVisibility';
+import { SubTypeSelector } from './components/SubTypeSelector';
 
 export const Dashboard = () => {
   useSetBreadcrumbs([
@@ -52,6 +53,9 @@ export const Dashboard = () => {
     chainType,
     chainTypes,
     selectType,
+    chainSubType,
+    chainSubTypes,
+    selectSubType,
     groups,
     groupID,
     selectGroup,
@@ -93,6 +97,15 @@ export const Dashboard = () => {
               menuProps={menuProps}
               chains={networksConfigurations}
             />
+            {chainSubType && (
+              <SubTypeSelector
+                chainSubType={chainSubType}
+                chainSubTypes={chainSubTypes}
+                onSubTypeSelect={selectSubType}
+                menuProps={menuProps}
+                classNameMenuItem={classNameMenuItem}
+              />
+            )}
             {showAdditionalSelect && (
               <PrivateChainSelectedContent
                 chainType={chainType}

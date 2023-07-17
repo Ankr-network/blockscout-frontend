@@ -7,13 +7,14 @@ import { IUseAddNetworkButtonParams } from './types';
 export const useAddNetworkButton = ({
   chain,
   chainType,
+  chainSubType,
   group,
 }: IUseAddNetworkButtonParams) => {
   const { handleAddNetwork } = useAddNetwork();
 
   const { chainId, networkConfiguration } = useMemo(
-    () => getNetworkParams({ chain, chainType, group }),
-    [chain, chainType, group],
+    () => getNetworkParams({ chain, chainType, chainSubType, group }),
+    [chain, chainType, chainSubType, group],
   );
 
   if (!networkConfiguration) return null;

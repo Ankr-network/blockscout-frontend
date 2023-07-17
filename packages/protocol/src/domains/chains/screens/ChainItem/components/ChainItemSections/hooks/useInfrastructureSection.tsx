@@ -2,7 +2,7 @@ import { BlockchainType } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { ChainID, Chain, ChainType } from 'domains/chains/types';
+import { ChainID, Chain, ChainType, ChainSubType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { InfrastructureSection } from '../../InfrastructureSection';
 import { PrimaryTab } from '../../PrimaryTab';
@@ -14,6 +14,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 interface InfrastructureSectionParams {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;
 }
@@ -23,6 +24,7 @@ const label = t('chain-item.tabs.infrastructure');
 export const useInfrastructureSection = ({
   chain,
   chainType,
+  chainSubType,
   getSelectHandler,
   group,
 }: InfrastructureSectionParams) => {
@@ -41,6 +43,7 @@ export const useInfrastructureSection = ({
               <InfrastructureSection
                 chain={chain}
                 chainType={chainType}
+                chainSubType={chainSubType}
                 group={group}
                 withMyEndpoints={isNotCustomizedChain}
                 withNodes={isNotCustomizedChain}
@@ -55,6 +58,7 @@ export const useInfrastructureSection = ({
     [
       chain,
       chainType,
+      chainSubType,
       getSelectHandler,
       group,
       isNotCustomizedChain,

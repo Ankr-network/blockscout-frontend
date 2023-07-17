@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainType, Timeframe } from 'domains/chains/types';
+import {
+  Chain,
+  ChainSubType,
+  ChainType,
+  Timeframe,
+} from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
@@ -13,6 +18,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 export interface UsageDataSectionParams {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;
   timeframe: Timeframe;
@@ -22,6 +28,7 @@ export interface UsageDataSectionParams {
 export const useUsageDataSection = ({
   chain,
   chainType,
+  chainSubType,
   getSelectHandler,
   group,
   timeframe,
@@ -39,6 +46,7 @@ export const useUsageDataSection = ({
         <UsageDataSection
           chain={chain}
           chainType={chainType}
+          chainSubType={chainSubType}
           group={group}
           timeframe={timeframe}
           timeframeTabs={timeframeTabs}
@@ -56,6 +64,7 @@ export const useUsageDataSection = ({
   }, [
     chain,
     chainType,
+    chainSubType,
     getSelectHandler,
     group,
     timeframe,

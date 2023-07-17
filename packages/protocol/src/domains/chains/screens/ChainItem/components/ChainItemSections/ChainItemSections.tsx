@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainSubType, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { SectionID } from './types';
@@ -14,6 +14,7 @@ import { getPublicUrl } from 'domains/chains/utils/chainsUtils';
 
 export interface IChainItemTabsProps {
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   data: IChainItemDetails;
   group: EndpointGroup;
   unfilteredGroup: EndpointGroup;
@@ -21,6 +22,7 @@ export interface IChainItemTabsProps {
 
 export const ChainItemSections = ({
   chainType,
+  chainSubType,
   data,
   group,
   unfilteredGroup,
@@ -36,6 +38,7 @@ export const ChainItemSections = ({
 
   const { section, sections, timeframe, timeframeTabs } = useSections({
     chainType,
+    chainSubType,
     data,
     group,
     publicUrl: isLoggedIn ? getPublicUrl(rpcUrl) : rpcUrl,

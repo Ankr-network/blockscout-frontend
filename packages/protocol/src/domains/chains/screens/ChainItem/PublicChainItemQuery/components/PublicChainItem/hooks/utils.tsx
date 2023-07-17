@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainType, Chain } from 'domains/chains/types';
+import { Chain, ChainType } from 'domains/chains/types';
 import { GroupedEndpoints as Endpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
@@ -35,7 +35,7 @@ export const getPublicChainTypeTabs = ({
   onBlockedTabClick,
 }: GetPublicChainTypeTabsParams): Tab<ChainType>[] => {
   return chainTypeTabs
-    .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]].length > 0)
+    .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map<Tab<ChainType>>(({ id, title }, index, list) => {
       const blockedTestnet = isBlockedTestnet && id === TESTNET_ID;
       const blockedMainnet = isBlockedMainnet && id === MAINNET_ID;

@@ -1,6 +1,6 @@
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EndpointProps } from '../Endpoint';
-import { Chain } from 'domains/chains/types';
+import { Chain, ChainSubType } from 'domains/chains/types';
 
 export enum Feature {
   REST,
@@ -9,6 +9,7 @@ export enum Feature {
 
 export interface MainEndpointsProps {
   feature?: Feature;
+  chainSubType?: ChainSubType;
   group: EndpointGroup;
   hasConnectWalletMessage: boolean;
   hasPremium: boolean;

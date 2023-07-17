@@ -1,4 +1,4 @@
-import { ChainType } from 'domains/chains/types';
+import { ChainSubType, ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { SecondaryTabs } from '../../../SecondaryTabs';
@@ -10,6 +10,8 @@ interface IChainSelectorContentProps {
   protocolGroup?: EndpointGroup;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
+  chainSubTypeTab?: Tab<ChainSubType>;
+  chainSubTypeTabs: Tab<ChainSubType>[];
   groups: EndpointGroup[];
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
@@ -21,6 +23,8 @@ export const ChainSelectorContent = ({
   protocolGroup,
   chainTypeTab,
   chainTypeTabs,
+  chainSubTypeTabs,
+  chainSubTypeTab,
   groups,
   groupID,
   groupTab,
@@ -30,6 +34,7 @@ export const ChainSelectorContent = ({
   const { classes } = useChainSelectorContentStyles();
 
   const withChainTypeSelector = chainTypeTabs.length > 1;
+  const withChainSubTypeSelector = chainSubTypeTabs?.length > 1;
   const withGroupSelector = groupTabs.length > 1;
 
   const isVisible =
@@ -43,6 +48,11 @@ export const ChainSelectorContent = ({
         selectedTab={chainTypeTab}
         tabs={chainTypeTabs}
         visible={withChainTypeSelector}
+      />
+      <SecondaryTabs
+        selectedTab={chainSubTypeTab}
+        tabs={chainSubTypeTabs}
+        visible={withChainSubTypeSelector}
       />
       <SecondaryTabs
         className={classes.desktopGroupSelector}

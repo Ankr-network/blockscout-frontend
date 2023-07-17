@@ -1,6 +1,12 @@
 import { t } from '@ankr.com/common';
 import { flatNetworkURLs } from 'domains/auth/utils/flatNetworkURLs';
-import { ChainID, Chain, ChainURL, ChainType } from 'domains/chains/types';
+import {
+  ChainID,
+  Chain,
+  ChainURL,
+  ChainType,
+  ChainSubType,
+} from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { PrefixedHex } from 'multirpc-sdk';
 import { IChainParams } from '../../actions/addNetwork';
@@ -49,10 +55,12 @@ export const getFlattenChain = (
   publicChain: Chain,
   chainType: ChainType,
   group: EndpointGroup,
+  chainSubType?: ChainSubType,
 ) => {
   const flatChainId = getChainId({
     publicChain,
     chainType,
+    chainSubType,
     group,
     withExceptions: false,
     keepEVMChainID: publicChain.id === ChainID.ZETACHAIN,
@@ -82,16 +90,17 @@ export const getNetworkConfiguration = (
     return getMappedNetwork(flatChain, flatChainId);
   }
 
-  return getMappedNetwork(publicChain, publicChain.id as ChainID);
+  return getMappedNetwork(publicChain, publicChain?.id as ChainID);
 };
 
 const getFlattenChainAndId = ({
   chain,
   chainType,
+  chainSubType,
   group,
 }: IUseAddNetworkButtonParams) => {
   if (group && chainType) {
-    return getFlattenChain(chain, chainType, group);
+    return getFlattenChain(chain, chainType, group, chainSubType);
   }
 
   return { flatChain: chain, flatChainId: chain.id };
@@ -100,11 +109,13 @@ const getFlattenChainAndId = ({
 export const getNetworkParams = ({
   chain,
   chainType,
+  chainSubType,
   group,
 }: IUseAddNetworkButtonParams) => {
   const { flatChain, flatChainId } = getFlattenChainAndId({
     chain,
     chainType,
+    chainSubType,
     group,
   });
 

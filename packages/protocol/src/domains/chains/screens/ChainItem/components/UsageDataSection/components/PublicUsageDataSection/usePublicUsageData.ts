@@ -1,5 +1,10 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { Chain, ChainType, Timeframe } from 'domains/chains/types';
+import {
+  Chain,
+  ChainSubType,
+  ChainType,
+  Timeframe,
+} from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { checkPublicChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
@@ -9,6 +14,7 @@ import { usePublicStats } from './usePublicStats';
 export interface UsageDataParams {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   group: EndpointGroup;
   timeframe: Timeframe;
 }
@@ -16,6 +22,7 @@ export interface UsageDataParams {
 export const usePublicUsageData = ({
   chain,
   chainType,
+  chainSubType,
   group,
   timeframe,
 }: UsageDataParams): UsageData => {
@@ -23,6 +30,7 @@ export const usePublicUsageData = ({
   const chainId = getChainId({
     publicChain: chain,
     chainType,
+    chainSubType,
     group,
     keepEVMChainID: true,
     withExceptions: true,

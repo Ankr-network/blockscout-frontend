@@ -22,6 +22,7 @@ const getProtocolChainId = (group: EndpointGroup, type?: ChainProtocol) => {
 
 export const getStatsChainId = ({
   chainType,
+  chainSubType,
   group,
   isChainProtocolSwitchEnabled,
   publicChain,
@@ -32,6 +33,7 @@ export const getStatsChainId = ({
 
   const chainId = getChainId({
     chainType,
+    chainSubType,
     group,
     keepEVMChainID,
     publicChain,

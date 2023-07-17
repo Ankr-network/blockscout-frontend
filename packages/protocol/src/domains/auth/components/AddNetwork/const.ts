@@ -66,7 +66,7 @@ const ROLLUX_TESTNET: NetworkInfo = {
 
 const ZETACHAIN: NetworkInfo = {
   chainId: 7001,
-  chainName: 'ZetaChain Testnet',
+  chainName: 'ZetaChain Athens Testnet',
   nativeCurrency: {
     name: 'ZETA',
     symbol: 'ZETA',
@@ -509,6 +509,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   [ChainID.ZETACHAIN]: ZETACHAIN,
 
   [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
+  [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]: ZETACHAIN,
 
   [ChainID.TRON]: TRON_CHAIN_JSON_RPC,
 

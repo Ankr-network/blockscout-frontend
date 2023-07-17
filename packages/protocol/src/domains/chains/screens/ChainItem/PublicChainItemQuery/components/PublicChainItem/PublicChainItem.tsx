@@ -1,17 +1,17 @@
 import { t } from '@ankr.com/common';
 
-import { ChainItemHeader } from '../../../components/ChainItemHeader';
-import { ChainItemSections } from '../../../components/ChainItemSections';
-import { ChainProtocolContext } from '../../../constants/ChainProtocolContext';
 import { H1Tag } from 'uiKit/H1Tag';
+import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
+import { ChainItemSections } from 'domains/chains/screens/ChainItem/components/ChainItemSections';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
+import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainItem/hooks/useChainItemBreadcrumbs';
+import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainItem/hooks/useRedirectToAdvancedApi';
 import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { usePublicChainItem } from './hooks/usePublicChainItem';
-import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
@@ -27,6 +27,9 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
     chainType,
     chainTypeTab,
     chainTypeTabs,
+    chainSubType,
+    chainSubTypeTab,
+    chainSubTypeTabs,
     group,
     groups,
     unfilteredGroup,
@@ -53,6 +56,9 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
         chainType={chainType}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
+        chainSubType={chainSubType}
+        chainSubTypeTab={chainSubTypeTab}
+        chainSubTypeTabs={chainSubTypeTabs}
         group={group}
         groups={groups}
         groupID={groupID}
@@ -63,6 +69,7 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
       />
       <ChainItemSections
         chainType={chainType}
+        chainSubType={chainSubType}
         data={data}
         group={group}
         unfilteredGroup={unfilteredGroup}
