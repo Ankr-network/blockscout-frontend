@@ -21,6 +21,12 @@ export const useMainNavigationStyles = makeStyles<boolean>()(
       margin: theme.spacing(3),
       display: 'block',
     },
+    skeleton: {
+      height: theme.spacing(6),
+      borderRadius: theme.spacing(1.5),
+      margin: theme.spacing(3),
+      backgroundColor: theme.palette.background.default,
+    },
     setting: {
       width: '100%',
       borderTop: isMobileSiderBar

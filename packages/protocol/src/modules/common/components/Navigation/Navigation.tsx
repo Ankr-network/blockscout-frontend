@@ -1,39 +1,19 @@
-import { Skeleton } from '@mui/material';
 import { BaseNavButton } from './BaseNavButton';
 import {
   NavigationItem,
   NavigationProps,
 } from './BaseNavButton/BaseNavButtonTypes';
-import { useNavigationStyles } from './useNavigationStyles';
 
-export const Navigation = ({
-  items,
-  loading,
-  isMobileSiderBar,
-}: NavigationProps) => {
-  const { classes } = useNavigationStyles();
-
+export const Navigation = ({ items, isMobileSiderBar }: NavigationProps) => {
   return (
     <nav>
-      {items.map((item: NavigationItem) => {
-        if (loading) {
-          return (
-            <Skeleton
-              key={`skeleton-${item.label}`}
-              className={classes.skeleton}
-              variant="rectangular"
-            />
-          );
-        }
-
-        return (
-          <BaseNavButton
-            key={`button-${item.label}`}
-            item={item}
-            isMobileSiderBar={isMobileSiderBar}
-          />
-        );
-      })}
+      {items.map((item: NavigationItem) => (
+        <BaseNavButton
+          key={`button-${item.label}`}
+          item={item}
+          isMobileSiderBar={isMobileSiderBar}
+        />
+      ))}
     </nav>
   );
 };
