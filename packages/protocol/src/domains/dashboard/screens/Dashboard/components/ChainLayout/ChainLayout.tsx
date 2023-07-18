@@ -24,7 +24,7 @@ export const ChainLayout = ({
     requestsChartData,
     totalRequestsNumber,
     methodCalls,
-  } = useChainData({ statsChainId, timeframe });
+  } = useChainData({ statsChainId, detailsChainId, timeframe });
 
   const { hasSelectedProject } = useProjectSelect();
 
