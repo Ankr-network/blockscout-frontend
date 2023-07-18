@@ -9,6 +9,7 @@ import { ChainID } from 'domains/chains/types';
 import { isTestnetOnlyChain } from './isTestnetOnlyChain';
 import { GroupedBlockchainType, Chain, ChainURL } from '../types';
 import { isEvmExtension } from './isEvmExtension';
+import { mappingChainName } from 'domains/auth/utils/mappingchainName';
 
 const getChainWithoutMainnet = ({ id, name, urls }: Chain) => ({
   id,
@@ -222,7 +223,7 @@ const getApiChains = (data: ChainsConfig) => {
       coinName,
       chainExtends,
       id: id as ChainID,
-      name,
+      name: mappingChainName(id as ChainID, name),
       type,
       premiumOnly,
       urls: getURLs(chain),

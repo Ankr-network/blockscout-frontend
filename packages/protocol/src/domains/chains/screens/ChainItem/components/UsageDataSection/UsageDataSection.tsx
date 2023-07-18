@@ -1,4 +1,9 @@
-import { Chain, ChainType, Timeframe } from 'domains/chains/types';
+import {
+  Chain,
+  ChainSubType,
+  ChainType,
+  Timeframe,
+} from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { PrivateUsageDataSection } from './components/PrivateUsageDataSection';
@@ -7,6 +12,7 @@ import { PublicUsageDataSection } from './components/PublicUsageDataSection';
 export interface UsageDataSectionProps {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   group: EndpointGroup;
   timeframe: Timeframe;
   timeframeTabs: Tab<Timeframe>[];

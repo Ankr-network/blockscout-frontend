@@ -42,11 +42,11 @@ export const usePublicChainType = ({
   );
 
   const [chainTypeTabs, chainTypeTab, selectType] = useTabs<ChainType>({
-    initialTabID: getInitialChainType(
+    initialTabID: getInitialChainType({
       chain,
       netId,
-      chain?.isMainnetPremiumOnly,
-    ),
+      isMainnetPremiumOnly: chain?.isMainnetPremiumOnly,
+    }),
     tabs,
   });
 

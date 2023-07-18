@@ -34,38 +34,36 @@ export const PublicChains = () => {
   const { classes } = useChainListStyles();
 
   return (
-    <BaseChains
-      loading={loading}
-      baseChainsHeader={
-        <BaseChainsHeader
-          sortType={sortType}
-          setSortType={setSortType}
-          searchContent={searchContent}
-          setSearchContent={setSearchContent}
-        />
-      }
-    >
+    <BaseChains loading={loading}>
       <NoReactSnap>
-        <ChainsList chains={networksConfigurations}>
-          {networksConfigurations.map(item => {
-            const { id, name, urls } = item;
+        <>
+          <BaseChainsHeader
+            sortType={sortType}
+            setSortType={setSortType}
+            searchContent={searchContent}
+            setSearchContent={setSearchContent}
+          />
+          <ChainsList chains={networksConfigurations}>
+            {networksConfigurations.map(item => {
+              const { id, name, urls } = item;
 
-            return (
-              <div className={classes.wrapper} key={id}>
-                <PublicChainItem
-                  chain={item}
-                  links={urls}
-                  name={name}
-                  period={PERIOD}
-                  publicChain={chainsDictionary[id]}
-                  timeframe={timeframe}
-                  chainId={id}
-                  hasPremiumDialog={item.premiumOnly}
-                />
-              </div>
-            );
-          })}
-        </ChainsList>
+              return (
+                <div className={classes.wrapper} key={id}>
+                  <PublicChainItem
+                    chain={item}
+                    links={urls}
+                    name={name}
+                    period={PERIOD}
+                    publicChain={chainsDictionary[id]}
+                    timeframe={timeframe}
+                    chainId={id}
+                    hasPremiumDialog={item.premiumOnly}
+                  />
+                </div>
+              );
+            })}
+          </ChainsList>
+        </>
       </NoReactSnap>
     </BaseChains>
   );

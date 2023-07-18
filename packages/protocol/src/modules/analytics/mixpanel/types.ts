@@ -1,4 +1,4 @@
-import { EndpointType, TopUpCurrnecy } from './const';
+import { EndpointType, TopUpCurrency } from './const';
 import {
   PlanID,
   UpgradePlanDialogType,
@@ -61,7 +61,7 @@ export interface TopUpSubmitEventProps extends Billingable, Walletable {
   // credits on the balance after top up, for the first top up
   replenishment_balance?: number;
   token_amount: number;
-  token_button: TopUpCurrnecy;
+  token_button: TopUpCurrency;
   // credits on the balance after top up, for the second and following top ups
   top_up_balance?: number;
 }

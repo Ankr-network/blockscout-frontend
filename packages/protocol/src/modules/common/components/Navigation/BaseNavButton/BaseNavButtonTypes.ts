@@ -13,10 +13,10 @@ export interface NavigationItem {
   onClick?: () => void;
   isComingSoon?: boolean;
   isEnabled?: boolean;
+  isNew?: boolean;
 }
 
 export interface NavigationProps {
   items: NavigationItem[];
-  loading?: boolean;
   isMobileSiderBar?: boolean;
 }

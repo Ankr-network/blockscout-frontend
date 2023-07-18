@@ -1,4 +1,3 @@
-import { MenuProps } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
@@ -11,17 +10,25 @@ import { PrivateChainSelectedContent } from './components/PrivateChainSelectedCo
 import { ProjectSelect } from 'modules/common/components/ProjectSelect';
 import { TabSize } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 import { fallbackChain } from './const';
 import { useDashboard } from './hooks/useDashboard';
-import { useDashboardChainSelector } from './hooks/useDashboardChainSelector';
-import { useDashboardChains } from './hooks/useDashboardChains';
+import { useChainSelectorGroups } from './hooks/useChainSelectorGroups';
+import { useChainsSelector } from './hooks/useChainsSelector';
 import { useDashboardProjects } from './hooks/useDashboardProjects';
+import { usePrivateChainSelector } from './hooks/usePrivateChainSelector';
 import { useDashboardStyles } from './useDashboardStyles';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useLastMonthStats } from './hooks/useLastMonthStats';
 import { useSelectorVisibility } from './components/ChainSelector/useSelectorVisibility';
+import { SubTypeSelector } from './components/SubTypeSelector';
 
 export const Dashboard = () => {
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+
   useSetBreadcrumbs([
     { title: t(DashboardRoutesConfig.dashboard.breadcrumbs) },
   ]);
@@ -43,7 +50,7 @@ export const Dashboard = () => {
     chain,
     unfilteredChain,
     isTestnetOnlyChainSelected,
-  } = useDashboardChains({ chains: networksConfigurations, allChains });
+  } = useChainsSelector({ chains: networksConfigurations, allChains });
 
   const {
     statsChainId,
@@ -52,12 +59,16 @@ export const Dashboard = () => {
     chainType,
     chainTypes,
     selectType,
+    chainSubType,
+    chainSubTypes,
+    selectSubType,
     groups,
     groupID,
     selectGroup,
-  } = useDashboardChainSelector({
+  } = useChainSelectorGroups({
     chain: chain || fallbackChain,
     unfilteredChain: unfilteredChain || fallbackChain,
+    onBlockedTabClick: onOpen,
   });
 
   const { shouldShowTokenManager } = useDashboardProjects();
@@ -68,22 +79,7 @@ export const Dashboard = () => {
 
   const { classes } = useDashboardStyles();
 
-  const classNameMenuItem: string = classes.menuItemWrapper;
-  const menuProps: Partial<MenuProps> = {
-    style: { position: 'absolute' },
-    disableScrollLock: true,
-    classes: {
-      paper: classes.menuPaper,
-    },
-    anchorOrigin: {
-      vertical: 'bottom',
-      horizontal: 'center',
-    },
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'center',
-    },
-  };
+  const { classNameMenuItem, menuProps } = usePrivateChainSelector();
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
@@ -108,6 +104,15 @@ export const Dashboard = () => {
               menuProps={menuProps}
               chains={networksConfigurations}
             />
+            {chainSubType && (
+              <SubTypeSelector
+                chainSubType={chainSubType}
+                chainSubTypes={chainSubTypes}
+                onSubTypeSelect={selectSubType}
+                menuProps={menuProps}
+                classNameMenuItem={classNameMenuItem}
+              />
+            )}
             {showAdditionalSelect && (
               <PrivateChainSelectedContent
                 chainType={chainType}
@@ -138,7 +143,6 @@ export const Dashboard = () => {
             {selectedChainId ? (
               <ChainLayout
                 statsChainId={statsChainId}
-                selectedChainId={selectedChainId}
                 detailsChainId={detailsChainId}
                 timeframe={timeframe}
               />
@@ -148,6 +152,7 @@ export const Dashboard = () => {
           </>
         )}
       </div>
+      <UpgradePlanDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
   );
 };

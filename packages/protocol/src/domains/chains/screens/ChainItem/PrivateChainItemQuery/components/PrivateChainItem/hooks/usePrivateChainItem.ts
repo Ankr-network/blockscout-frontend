@@ -6,32 +6,66 @@ import { usePrivateChainType } from './usePrivateChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { ChainType } from 'domains/chains/types';
-import { getPrivateChainTypeSelector } from './utils';
+import { ChainSubType, ChainType } from 'domains/chains/types';
+import {
+  getPrivateChainSubTypeSelector,
+  getPrivateChainTypeSelector,
+} from './utils';
+import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 
 interface ChainTypeItem {
   value: ChainType;
   label: string;
 }
 
+interface ChainSubTypeItem {
+  value: ChainSubType;
+  label: string;
+}
+
 interface PrivateChainItem extends ChainItem {
   chainTypes: ChainTypeItem[];
   selectType: (id: ChainType) => void;
+  chainSubTypes: ChainSubTypeItem[];
+  selectSubType: (id: ChainSubType) => void;
 }
+
+type PrivateChainItemParams = IChainItemDetails & {
+  onBlockedTabClick: () => void;
+};
 
 export const usePrivateChainItem = ({
   chain,
   unfilteredChain: publicChain,
-}: IChainItemDetails): PrivateChainItem => {
+  selectedType,
+  selectedGroupId,
+  onBlockedTabClick,
+}: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
     publicChain,
   });
 
+  const { hasPremium } = useAuth();
+
+  const isTestnetPremimumOnly = useIsTestnetPremimumOnly(chain);
+
   const { chainType, chainTypeTab, chainTypeTabs, selectType } =
     usePrivateChainType({
       chain,
       endpoints,
+      netId,
+      isBlockedTestnet: !hasPremium && Boolean(isTestnetPremimumOnly),
+      isBlockedMainnet: !hasPremium && chain?.isMainnetPremiumOnly,
+      selectedType,
+      onBlockedTabClick,
+    });
+
+  const { chainSubType, chainSubTypeTab, chainSubTypeTabs, selectSubType } =
+    useChainSubType({
+      chain,
       netId,
     });
 
@@ -39,8 +73,10 @@ export const usePrivateChainItem = ({
     {
       chain,
       chainType,
+      chainSubType,
       endpoints,
       netId,
+      selectedGroupId,
     },
   );
   const chainProtocolContext = useChainProtocol({ group, netId });
@@ -52,6 +88,7 @@ export const usePrivateChainItem = ({
     getFallbackEndpointGroup(chain.name);
 
   const chainTypes = getPrivateChainTypeSelector(endpoints);
+  const chainSubTypes = getPrivateChainSubTypeSelector();
 
   return {
     chainProtocolContext,
@@ -60,6 +97,11 @@ export const usePrivateChainItem = ({
     chainType,
     chainTypeTab,
     chainTypeTabs,
+    chainSubType,
+    chainSubTypeTab,
+    chainSubTypeTabs,
+    chainSubTypes,
+    selectSubType,
     group,
     groups,
     groupID,

@@ -18,7 +18,8 @@ export const Chains = () => {
   if (hasPrivateAccess) {
     return (
       <PrivateChains
-        hasPremium={hasPremium || isFreePremium}
+        hasPremium={hasPremium}
+        isFreePremium={isFreePremium}
         hasTotalRequestsLabel={hasPremium}
       />
     );

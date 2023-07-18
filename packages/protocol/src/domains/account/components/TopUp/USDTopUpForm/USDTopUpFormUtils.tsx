@@ -4,8 +4,7 @@ import { FormRenderProps } from 'react-final-form';
 import { TopUp } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
 
 import { AmountField } from '../ANKRTopUpForm/AmountField';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
@@ -18,16 +17,12 @@ import {
   USD_THRESHOLD_VALUE,
 } from 'domains/account/actions/usdTopUp/const';
 import { LoadingButton } from 'uiKit/LoadingButton';
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
-import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
-import { TrackTopUpSubmit } from 'domains/account/types';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
+import { TrackTopUpSubmit } from 'domains/account/types';
 import { checkBundleByPriceId } from './utils/checkBundleByPriceId';
-import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { selectBundlePaymentPlans } from 'domains/account/store/selectors';
-import { useCardPayment } from 'domains/account/hooks/useCardPayment';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useAppSelector } from 'store/useAppSelector';
 
 export const validateAmount = (value: string) => {
@@ -149,69 +144,4 @@ export const useRenderForm = (
       trackSubmit,
     ],
   );
-};
-
-export const useOnTopUpSubmit = (
-  confirmedEmail?: string,
-  pendingEmail?: string,
-  trackSubmit?: TrackTopUpSubmit,
-) => {
-  const { selectedGroupAddress } = useSelectedUserGroup();
-  const { handleFetchLinkForCardPayment, isFetchLinkForCardPaymentLoading } =
-    useCardPayment();
-
-  const [showEmailBanner, setShowEmailBanner] = useState(false);
-  const dispatch = useDispatch();
-
-  const onSuccess = useCallback(
-    async (data: TopUpFormValues) => {
-      const { id, amount } = data;
-
-      dispatch(resetTopUpOrigin());
-
-      const { data: url } = await handleFetchLinkForCardPayment({
-        amount,
-        id,
-        groupAddress: selectedGroupAddress,
-      });
-
-      if (typeof trackSubmit === 'function') {
-        trackSubmit(amount, TopUpCurrnecy.USD, () => {
-          if (url) {
-            window.location.href = url;
-          }
-        });
-      } else if (url) {
-        window.location.href = url;
-      }
-    },
-    [
-      dispatch,
-      handleFetchLinkForCardPayment,
-      trackSubmit,
-      selectedGroupAddress,
-    ],
-  );
-
-  const onClose = useCallback(() => {
-    setShowEmailBanner(false);
-  }, []);
-
-  const onSubmit = useCallback(
-    (data: TopUpFormValues) => {
-      if (!confirmedEmail || pendingEmail) {
-        setShowEmailBanner(true);
-      } else {
-        onSuccess(data);
-      }
-    },
-    [confirmedEmail, onSuccess, pendingEmail],
-  );
-
-  return {
-    onSubmit,
-    isOpened: showEmailBanner,
-    onClose,
-    isLoading: isFetchLinkForCardPaymentLoading,
-  };
 };

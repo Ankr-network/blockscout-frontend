@@ -6,53 +6,51 @@ import {
   useLazyFetchAllJwtTokenRequestsQuery,
 } from 'domains/jwtToken/action/getAllJwtToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
 import {
   getAllowedAddProjectTokenIndex,
   PRIMARY_TOKEN_INDEX,
 } from '../utils/utils';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useJwtManager } from './useJwtManager';
 
 const defaultData: IUserJwtToken = {
   jwtTokens: [],
 };
 
-const defaultAllowJwtTokenInfo = {
-  maxTokensLimit: 0,
-  shouldShowTokenManager: false,
-};
+export const useJwtTokenManager = (shouldIgnoreTokenDecryption?: boolean) => {
+  const {
+    allowedJwtsCount: maxTokensLimit,
+    hasReadAccess: shouldShowTokenManager,
+    hasWriteAccess,
+  } = useJwtManager();
 
-export const useJwtTokenManager = () => {
   const { hasConnectWalletMessage, loading } = useAuth();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const [
-    triggerFetchAllowedJwtTokensCount,
-    {
-      data: {
-        maxTokensLimit,
-        shouldShowTokenManager,
-      } = defaultAllowJwtTokenInfo,
-      isSuccess,
-    },
-    reset,
-  ] = useQueryEndpoint(fetchAllowedJwtTokensCount);
-
-  useEffect(() => {
-    triggerFetchAllowedJwtTokensCount({ group });
-    return reset;
-  }, [group, triggerFetchAllowedJwtTokensCount, reset]);
-
-  const [
     fetchAllJwtTokenRequestsQuery,
-    { data: { jwtTokens } = defaultData, isLoading },
+    {
+      data: { jwtTokens } = defaultData,
+      isLoading,
+      isFetching,
+      isUninitialized,
+    },
   ] = useLazyFetchAllJwtTokenRequestsQuery();
 
   useEffect(() => {
     if (!loading && shouldShowTokenManager) {
-      fetchAllJwtTokenRequestsQuery({ loading, group });
+      fetchAllJwtTokenRequestsQuery({
+        loading,
+        group,
+        shouldIgnoreTokenDecryption,
+      });
     }
-  }, [shouldShowTokenManager, loading, fetchAllJwtTokenRequestsQuery, group]);
+  }, [
+    shouldShowTokenManager,
+    loading,
+    fetchAllJwtTokenRequestsQuery,
+    group,
+    shouldIgnoreTokenDecryption,
+  ]);
 
   const allowedAddProjectTokenIndex = useMemo(
     () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwtTokens),
@@ -61,13 +59,17 @@ export const useJwtTokenManager = () => {
 
   const enableAddProject =
     jwtTokens.length < maxTokensLimit &&
-    allowedAddProjectTokenIndex > PRIMARY_TOKEN_INDEX;
+    allowedAddProjectTokenIndex > PRIMARY_TOKEN_INDEX &&
+    hasWriteAccess;
 
   return {
     isLoading,
+    isFetching,
+    isUninitialized,
+    isLoaded: !isUninitialized && !isLoading,
     enableAddProject,
     hasConnectWalletMessage,
-    shouldShowTokenManager: shouldShowTokenManager && isSuccess,
+    shouldShowTokenManager,
     allowedAddProjectTokenIndex,
     jwtTokens,
   };

@@ -7,6 +7,11 @@ export enum ChainType {
   Devnet = 'devnet',
 }
 
+export enum ChainSubType {
+  Athens2 = 'athens2',
+  Athens3 = 'athens3',
+}
+
 export enum SortType {
   Name = 'name',
   Usage = 'usage',
@@ -69,6 +74,8 @@ export enum ChainID {
   AVALANCHE_X = 'avalanche-x',
   BSC = 'bsc',
   BSC_TESTNET_CHAPEL = 'bsc_testnet_chapel',
+  BASE = 'base',
+  BASE_TESTNET = 'base_goerli',
   BTTC = 'bttc',
   CELO = 'celo',
   CHILIZ = 'chiliz',
@@ -84,6 +91,7 @@ export enum ChainID {
   ETH_SEPOLIA_BEACON = 'eth_sepolia_beacon',
   FANTOM = 'fantom',
   FANTOM_TESTNET = 'fantom_testnet',
+  FILECOIN = 'filecoin',
   GNOSIS = 'gnosis',
   GNOSIS_BEACON = 'gnosis_beacon',
   GNOSIS_TESTNET = 'gnosis_testnet',
@@ -95,7 +103,11 @@ export enum ChainID {
   HECO_TESTNET = 'heco_testnet',
   IOTEX = 'iotex',
   IOTEX_TESTNET = 'iotex_testnet',
+  KLAYTN = 'klaytn',
+  KLAYTN_TESTNET = 'klaytn_testnet',
   KUSAMA = 'kusama',
+  MANTLE = 'mantle',
+  MANTLE_TESTNET = 'mantle_testnet',
   METIS = 'metis',
   MOONBEAM = 'moonbeam',
   MULTICHAIN = 'multichain',
@@ -112,8 +124,10 @@ export enum ChainID {
   POLYGON_ZKEVM_TESTNET = 'polygon_zkevm_testnet',
   ROLLUX = 'rollux',
   ROLLUX_OPNODE = 'rollux_opnode',
-  ROLLUX_TESTNET = 'rollux_testnet',
   ROLLUX_OPNODE_TESTNET = 'rollux_opnode_testnet',
+  ROLLUX_TESTNET = 'rollux_testnet',
+  SCROLL = 'scroll',
+  SCROLL_TESTNET = 'scroll_testnet',
   SECRET = 'scrt',
   SECRET_COSMOS = 'scrt_cosmos',
   SECRET_COSMOS_GRPC_WEB = 'scrt-cosmos-grpc-web',
@@ -128,24 +142,39 @@ export enum ChainID {
   TENET = 'tenet',
   TENET_EVM = 'tenet-evm',
   XDAI = 'xdai',
-  KLAYTN = 'klaytn',
   SUI = 'sui',
   SUI_TESTNET = 'sui_testnet',
-  KLAYTN_TESTNET = 'klaytn_testnet',
-  FILECOIN = 'filecoin',
-  MANTLE = 'mantle',
-  MANTLE_TESTNET = 'mantle_testnet',
+
   ZETACHAIN = 'zetachain',
+  /* Athens-2 */
   ZETACHAIN_COSMOS_REST_TESTNET = 'zetachain-cosmos-rest-testnet',
   ZETACHAIN_EVM_TESTNET = 'zetachain-evm-testnet',
   ZETACHAIN_TENDERMINT_REST_TESTNET = 'zetachain-tendermint-rest-testnet',
   ZETACHAIN_TENDERMINT_RPC_TESTNET = 'zetachain-tendermint-rpc-testnet',
   ZETACHAIN_TESTNET = 'zetachain-testnet',
-  BASE = 'base',
-  BASE_TESTNET = 'base_goerli',
-  SCROLL = 'scroll',
-  SCROLL_TESTNET = 'scroll_testnet',
+
+  /* Athens-3 */
+  ZETACHAIN_COSMOS_REST_ATHENS_TESTNET = 'zetachain-cosmos-rest-athens-testnet',
+  ZETACHAIN_EVM_ATHENS_TESTNET = 'zetachain-evm-athens-testnet',
+  ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET = 'zetachain-tendermint-rest-athens-testnet',
+  ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET = 'zetachain-tendermint-rpc-athens-testnet',
+  ZETACHAIN_ATHENS_TESTNET = 'zetachain-athens-testnet',
+
   ZKSYNC_ERA = 'zksync_era',
 
   UNDEFINED = '',
 }
+
+export const ChainsAthens2 = [
+  ChainID.ZETACHAIN_COSMOS_REST_TESTNET,
+  ChainID.ZETACHAIN_EVM_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
+];
+
+export const ChainsAthens3 = [
+  ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
+  ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
+];

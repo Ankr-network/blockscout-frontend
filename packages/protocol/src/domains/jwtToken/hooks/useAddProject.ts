@@ -1,9 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import { t } from '@ankr.com/common';
-import { createJwtToken } from 'domains/jwtToken/action/createJwtToken';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
 import { jwtTokenIntlRoot } from '../utils/utils';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useCreateJwtToken } from './useCreateJwtToken';
 
 export enum AddProjectStep {
   initial = 'initial',
@@ -24,39 +23,32 @@ export const useAddProject = (tokenIndex: number) => {
     [tokenIndex],
   );
 
-  const [createJwtTokenQuery, { isLoading }, reset] =
-    useQueryEndpoint(createJwtToken);
+  const { handleCreateJwtToken, resetCreateJwtToken, isLoading } =
+    useCreateJwtToken();
 
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const handleCreate = useCallback(async () => {
+    const { data, error } = await handleCreateJwtToken(tokenIndex);
 
-  const handleCreate = useCallback(() => {
-    const create = async () => {
-      const { data, error } = await createJwtTokenQuery({ tokenIndex, group });
+    if (error) {
+      setAddProjectStep(AddProjectStep.failed);
+    } else {
+      setSuccessProjectName(
+        t(`${jwtTokenIntlRoot}.additional`, {
+          index: data?.index,
+        }),
+      );
+      setUserEndpointToken(data?.userEndpointToken ?? '');
+      setAddProjectStep(AddProjectStep.success);
+    }
 
-      if (error) {
-        setAddProjectStep(AddProjectStep.failed);
-      } else {
-        setSuccessProjectName(
-          t(`${jwtTokenIntlRoot}.additional`, {
-            index: data?.index,
-          }),
-        );
-        setUserEndpointToken(data?.userEndpointToken ?? '');
-        setAddProjectStep(AddProjectStep.success);
-      }
-
-      reset();
-    };
-
-    create();
+    resetCreateJwtToken();
   }, [
-    tokenIndex,
-    createJwtTokenQuery,
+    handleCreateJwtToken,
+    resetCreateJwtToken,
     setAddProjectStep,
     setSuccessProjectName,
     setUserEndpointToken,
-    reset,
-    group,
+    tokenIndex,
   ]);
 
   return {

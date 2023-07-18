@@ -10,9 +10,7 @@ const defaultData = {
   allChains: [],
 };
 
-export const usePrivateChainsInfo = (
-  hasWeb3Connection: boolean,
-): PrivateChains => {
+export const usePrivateChainsInfo = (): PrivateChains => {
   const userEndpointToken = useUserEndpointToken();
 
   const [
@@ -23,9 +21,8 @@ export const usePrivateChainsInfo = (
   useEffect(() => {
     fetchPrivateChainsInfo({
       userEndpointToken,
-      hasWeb3Connection,
     });
-  }, [fetchPrivateChainsInfo, userEndpointToken, hasWeb3Connection]);
+  }, [fetchPrivateChainsInfo, userEndpointToken]);
 
   return [chains, allChains, isLoading];
 };

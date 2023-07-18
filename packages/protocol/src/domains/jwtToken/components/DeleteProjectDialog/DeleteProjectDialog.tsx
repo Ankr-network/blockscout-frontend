@@ -10,7 +10,7 @@ import { FailedContent } from '../ProjectDialogContent/FailedContent';
 
 interface IDeleteProjectDialogProps {
   tokenIndex: number;
-  onSuccess: () => void;
+  onSuccess?: () => void;
   open: boolean;
   onClose: () => void;
 }
@@ -24,7 +24,9 @@ export const DeleteProjectDialog = ({
   const { classes } = useDeleteProjectDialogStyles();
 
   const handleSuccess = useCallback(() => {
-    onSuccess();
+    if (typeof onSuccess === 'function') {
+      onSuccess();
+    }
     onClose();
   }, [onSuccess, onClose]);
 

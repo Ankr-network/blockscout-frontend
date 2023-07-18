@@ -12,9 +12,14 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
     padding: theme.spacing(7.5),
     borderRadius: 30,
     marginBottom: theme.spacing(10),
+    minHeight: theme.spacing(65),
 
     [theme.breakpoints.down('xl')]: {
       padding: theme.spacing(5),
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      minHeight: theme.spacing(117.5),
     },
   },
   container: {
@@ -41,6 +46,7 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(10),
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.spacing(7.5),
+    minHeight: theme.spacing(65),
 
     [theme.breakpoints.down('xl')]: {
       padding: theme.spacing(5),
@@ -48,6 +54,7 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
+      minHeight: theme.spacing(117.5),
     },
   },
   holder: {

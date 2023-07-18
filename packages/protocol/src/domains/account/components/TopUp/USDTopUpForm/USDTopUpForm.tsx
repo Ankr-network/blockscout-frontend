@@ -4,7 +4,7 @@ import { Form } from 'react-final-form';
 import { useStyles } from './USDTopUpFormStyles';
 import { AmountInputField, TopUpFormProps } from './USDTopUpFormTypes';
 import { useRenderForm } from './USDTopUpFormUtils';
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForCardPayment';
+import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { DEFAULT_USD_VALUE_STRING } from 'domains/account/actions/usdTopUp/const';
 
 export const USDTopUpForm = ({

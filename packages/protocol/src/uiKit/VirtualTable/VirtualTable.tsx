@@ -4,6 +4,7 @@ import { AutoSizer, List, WindowScroller } from 'react-virtualized';
 import { VirtualTableProps } from './types';
 import { useStyles } from './useStyles';
 import {
+  getSearchedRows,
   PaginationMore,
   TableContext,
   TableHead,
@@ -28,7 +29,10 @@ function VirtualTableInternal<T extends Record<string, any>>(
   } = props;
   const { classes, cx } = useStyles();
   const { cache, ref, rows } = useTable();
-  const rowRenderer = useRowRenderer();
+  const rowRenderer = useRowRenderer(
+    tableClasses?.rowContainer,
+    tableClasses?.row,
+  );
   const isEmpty = rows.length === 0;
 
   const windowScrollerRef = useWindowScroller();
@@ -94,7 +98,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
         style={{ minWidth, minHeight }}
       >
         <TableHead className={tableClasses?.head} />
-        <div className={classes.listContainer}>{content}</div>
+        <div className={cx(classes.listContainer)}>{content}</div>
         {isMoreRowsAvailable && <PaginationMore text={moreBtnText} />}
       </Paper>
     </div>
@@ -104,7 +108,18 @@ function VirtualTableInternal<T extends Record<string, any>>(
 export function VirtualTable<T extends Record<string, any>>(
   props: VirtualTableProps<T>,
 ) {
-  const { onChangePage, onSort, rows, cols, renderExpand, loading } = props;
+  const {
+    onChangePage,
+    onSort,
+    rows,
+    cols,
+    renderExpand,
+    loading,
+    searchContent,
+    searchKey,
+  } = props;
+
+  const searchedRows = getSearchedRows(rows, searchContent, searchKey);
 
   const context = useTableContext({
     cols,
@@ -112,7 +127,7 @@ export function VirtualTable<T extends Record<string, any>>(
     onChangePage,
     onSort,
     renderExpand,
-    rows,
+    rows: searchedRows,
   });
 
   useEffect(() => {

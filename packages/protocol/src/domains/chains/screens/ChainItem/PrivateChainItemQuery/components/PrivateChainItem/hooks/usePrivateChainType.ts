@@ -11,17 +11,39 @@ export interface ChainTypeParams {
   chain: Chain;
   endpoints: GroupedEndpoints;
   netId?: string;
+  selectedType?: ChainType;
+  isBlockedTestnet: boolean;
+  isBlockedMainnet?: boolean;
+  onBlockedTabClick: () => void;
 }
 
 export const usePrivateChainType = ({
   chain,
   endpoints,
   netId,
+  selectedType,
+  isBlockedTestnet,
+  isBlockedMainnet,
+  onBlockedTabClick,
 }: ChainTypeParams): ChainTypeResult => {
-  const tabs = useMemo(() => getPrivateChainTypeTabs(endpoints), [endpoints]);
+  const tabs = useMemo(
+    () =>
+      getPrivateChainTypeTabs({
+        endpoints,
+        isBlockedTestnet,
+        isBlockedMainnet,
+        onBlockedTabClick,
+      }),
+    [endpoints, isBlockedTestnet, isBlockedMainnet, onBlockedTabClick],
+  );
 
   const [chainTypeTabs, chainTypeTab, selectType] = useTabs<ChainType>({
-    initialTabID: getInitialChainType(chain, netId),
+    initialTabID: getInitialChainType({
+      chain,
+      netId,
+      selectedType,
+      isMainnetPremiumOnly: chain?.isMainnetPremiumOnly,
+    }),
     tabs,
   });
 

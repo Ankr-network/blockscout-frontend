@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
 import { Endpoints } from '../GetStartedSection/components/Endpoints';
 import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
@@ -21,6 +21,9 @@ export interface ChainItemHeaderProps {
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
+  chainSubType?: ChainSubType;
+  chainSubTypeTab?: Tab<ChainSubType>;
+  chainSubTypeTabs: Tab<ChainSubType>[];
   group: EndpointGroup;
   groups: EndpointGroup[];
   groupID: ChainGroupID;
@@ -42,6 +45,9 @@ export const ChainItemHeaderContent = ({
   chainType,
   chainTypeTab,
   chainTypeTabs,
+  chainSubType,
+  chainSubTypeTab,
+  chainSubTypeTabs,
   group,
   groups,
   groupID,
@@ -70,6 +76,7 @@ export const ChainItemHeaderContent = ({
         <ChainOverview
           chain={chain}
           chainType={chainType}
+          chainSubType={chainSubType}
           group={group}
           isChainArchived={isChainArchived}
         />
@@ -78,6 +85,8 @@ export const ChainItemHeaderContent = ({
         protocolGroup={protocolGroup}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
+        chainSubTypeTabs={chainSubTypeTabs}
+        chainSubTypeTab={chainSubTypeTab}
         groups={groups}
         groupID={groupID}
         groupTabs={groupTabs}

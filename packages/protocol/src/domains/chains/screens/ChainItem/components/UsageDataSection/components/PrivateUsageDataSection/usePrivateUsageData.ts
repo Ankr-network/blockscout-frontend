@@ -1,5 +1,11 @@
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
-import { ChainID, Chain, ChainType, Timeframe } from 'domains/chains/types';
+import {
+  ChainID,
+  Chain,
+  ChainType,
+  Timeframe,
+  ChainSubType,
+} from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { UsageData } from '../../types';
 import {
@@ -18,6 +24,7 @@ import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/
 export interface UsageDataParams {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   group: EndpointGroup;
   timeframe: Timeframe;
 }
@@ -45,6 +52,7 @@ const getUserTopRequest = (
 export const usePrivateUsageData = ({
   chain,
   chainType,
+  chainSubType,
   group,
   timeframe,
 }: UsageDataParams): UsageData => {
@@ -56,6 +64,7 @@ export const usePrivateUsageData = ({
   const chainId = getStatsChainId({
     publicChain: chain,
     chainType,
+    chainSubType,
     group,
     isChainProtocolSwitchEnabled,
     chainProtocol,

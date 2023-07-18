@@ -13,11 +13,25 @@ const checkSubnets = (
   return isSubnetTab || isMainnetDisabledAndNets ? subnetTab : undefined;
 };
 
-export const getInitialChainType = (
-  { id, devnets = [], testnets = [] }: Chain,
-  netId?: string,
-  isMainnetPremiumOnly?: boolean,
-): ChainType => {
+interface GetInitialChainTypeParams {
+  chain: Chain;
+  netId?: string;
+  isMainnetPremiumOnly?: boolean;
+  selectedType?: ChainType;
+}
+
+export const getInitialChainType = ({
+  chain,
+  netId,
+  isMainnetPremiumOnly,
+  selectedType,
+}: GetInitialChainTypeParams): ChainType => {
+  if (selectedType) {
+    return selectedType;
+  }
+
+  const { id, devnets = [], testnets = [] } = chain;
+
   if (isTestnetOnlyChain(id)) {
     return ChainType.Testnet;
   }

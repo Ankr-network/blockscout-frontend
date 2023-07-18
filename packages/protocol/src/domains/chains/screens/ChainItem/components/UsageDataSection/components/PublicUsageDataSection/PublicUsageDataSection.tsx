@@ -1,4 +1,9 @@
-import { Chain, ChainType, Timeframe } from 'domains/chains/types';
+import {
+  Chain,
+  ChainSubType,
+  ChainType,
+  Timeframe,
+} from 'domains/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -12,6 +17,7 @@ import { PublicUsageSummary } from './components/PublicUsageSummary';
 export interface PublicUsageDataSectionProps {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   group: EndpointGroup;
   timeframe: Timeframe;
   timeframeTabs: Tab<Timeframe>[];
@@ -20,6 +26,7 @@ export interface PublicUsageDataSectionProps {
 export const PublicUsageDataSection = ({
   chain,
   chainType,
+  chainSubType,
   group,
   timeframe,
   timeframeTabs,
@@ -35,7 +42,7 @@ export const PublicUsageDataSection = ({
     totalRequests,
     totalRequestsHistory,
     isLoggedIn,
-  } = usePublicUsageData({ chain, chainType, group, timeframe });
+  } = usePublicUsageData({ chain, chainType, chainSubType, group, timeframe });
 
   return (
     <div className={classes.usageDataSection}>

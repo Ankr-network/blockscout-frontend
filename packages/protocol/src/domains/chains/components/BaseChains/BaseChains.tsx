@@ -8,29 +8,15 @@ interface BaseChainsProps {
   top?: ReactNode;
   loading: boolean;
   children: ReactNode;
-  baseChainsHeader: ReactNode;
 }
 
-export const BaseChains = ({
-  top,
-  loading,
-  baseChainsHeader,
-  children,
-}: BaseChainsProps) => {
+export const BaseChains = ({ top, loading, children }: BaseChainsProps) => {
   const { classes } = useBaseChainsStyles();
 
   return (
     <Box className={classes.root}>
       {top}
-
-      {loading ? (
-        <ChainsSkeleton />
-      ) : (
-        <>
-          {baseChainsHeader}
-          {children}
-        </>
-      )}
+      {loading ? <ChainsSkeleton /> : <>{children}</>}
     </Box>
   );
 };

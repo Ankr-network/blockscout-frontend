@@ -5,18 +5,20 @@ import { t } from '@ankr.com/common';
 import { Navigation } from 'modules/common/components/Navigation';
 import {
   getCommonMenuList,
-  getEndpointsList,
+  getPremiumEndpointsList,
   getLogoutItem,
   getMenuList,
   getSettingList,
 } from './utils/navigationUtils';
 import { useMainNavigationStyles } from './useMainNavigationStyles';
+import { MainNavigationSkeleton } from './MainNavigationSkeletion';
 
 interface IMainNavigationProps {
   chainsRoutes: string[];
+  hasJwtManagerAccess: boolean;
   isLoggedIn: boolean;
-  loading: boolean;
   isMobileSiderBar: boolean;
+  loading: boolean;
   onAAPIClick: () => void;
   onDashboardClick: () => void;
   onDocsClick: () => void;
@@ -26,9 +28,10 @@ interface IMainNavigationProps {
 
 export const MainNavigation = ({
   chainsRoutes,
+  hasJwtManagerAccess,
   isLoggedIn,
-  loading,
   isMobileSiderBar,
+  loading,
   onAAPIClick,
   onDashboardClick,
   onDocsClick,
@@ -36,8 +39,13 @@ export const MainNavigation = ({
   onSignoutClick,
 }: IMainNavigationProps) => {
   const endpointsItems = useMemo(
-    () => getEndpointsList({ chainsRoutes, onAAPIClick }),
-    [chainsRoutes, onAAPIClick],
+    () =>
+      getPremiumEndpointsList({
+        chainsRoutes,
+        hasJwtManagerAccess,
+        onAAPIClick,
+      }),
+    [chainsRoutes, hasJwtManagerAccess, onAAPIClick],
   );
 
   const commonItem = useMemo(
@@ -62,13 +70,21 @@ export const MainNavigation = ({
 
   const { classes } = useMainNavigationStyles(isMobileSiderBar);
 
+  if (loading) {
+    return (
+      <MainNavigationSkeleton
+        isMobileSiderBar={isMobileSiderBar}
+        isLoggedIn={isLoggedIn}
+      />
+    );
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.main}>
         <div>
           {isLoggedIn && (
             <Navigation
-              loading={loading}
               items={commonItem}
               isMobileSiderBar={isMobileSiderBar}
             />
@@ -77,20 +93,14 @@ export const MainNavigation = ({
             {t('main-navigation.endpoints')}
           </Typography>
           <Navigation
-            loading={loading}
             items={endpointsItems}
             isMobileSiderBar={isMobileSiderBar}
           />
           <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
-          <Navigation
-            loading={loading}
-            items={menuItems}
-            isMobileSiderBar={isMobileSiderBar}
-          />
+          <Navigation items={menuItems} isMobileSiderBar={isMobileSiderBar} />
         </div>
         <div className={classes.setting}>
           <Navigation
-            loading={loading}
             items={settingItems}
             isMobileSiderBar={isMobileSiderBar}
           />
@@ -98,11 +108,7 @@ export const MainNavigation = ({
       </div>
       {isLoggedIn && isMobileSiderBar && (
         <div className={classes.logout}>
-          <Navigation
-            loading={loading}
-            items={logoutItems}
-            isMobileSiderBar={isMobileSiderBar}
-          />
+          <Navigation items={logoutItems} isMobileSiderBar={isMobileSiderBar} />
         </div>
       )}
     </div>

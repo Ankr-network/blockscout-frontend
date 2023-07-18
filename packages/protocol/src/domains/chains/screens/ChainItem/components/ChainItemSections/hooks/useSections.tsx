@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainType, Timeframe } from 'domains/chains/types';
+import { ChainSubType, ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { SectionID } from '../types';
@@ -16,6 +16,7 @@ import { useUsageDataSection } from './useUsageDataSection';
 
 export interface SectionsParams {
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   data: IChainItemDetails;
   group: EndpointGroup;
   publicUrl: string;
@@ -30,6 +31,7 @@ export interface Sections {
 
 export const useSections = ({
   chainType,
+  chainSubType,
   data,
   group,
   publicUrl,
@@ -58,6 +60,7 @@ export const useSections = ({
   const usageDataSection = useUsageDataSection({
     chain,
     chainType,
+    chainSubType,
     getSelectHandler,
     group,
     timeframe,
@@ -67,6 +70,7 @@ export const useSections = ({
   const infrastructureSection = useInfrastructureSection({
     chain,
     chainType,
+    chainSubType,
     getSelectHandler,
     group,
   });

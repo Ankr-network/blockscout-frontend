@@ -10,13 +10,14 @@ import { getSubChainFromGroup } from 'domains/chains/utils/getSubChainFromGroup'
 
 export type MainEndpointsHookParams = Omit<
   MainEndpointsProps,
-  'hasConnectWalletMessage' | 'hasPremium' | 'onCopyEndpoint'
+  'hasConnectWalletMessage' | 'onCopyEndpoint'
 >;
 
 export const useMainEndpoints = ({
   feature = Feature.RPC,
   group,
   hasPrivateAccess,
+  hasPremium,
   publicChain,
 }: MainEndpointsHookParams) => {
   const { urls } = group;
@@ -25,8 +26,8 @@ export const useMainEndpoints = ({
   const subChain = getSubChainFromGroup(group);
 
   const hasPlaceholder = useMemo(
-    () => checkPlaceholder(subChain, hasPrivateAccess),
-    [hasPrivateAccess, subChain],
+    () => checkPlaceholder(subChain, hasPrivateAccess && hasPremium),
+    [hasPrivateAccess, subChain, hasPremium],
   );
 
   const [featureKey, urlKey] = useMemo(

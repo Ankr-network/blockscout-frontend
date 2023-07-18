@@ -8,9 +8,11 @@ import { useCardPaymentFailureStyles } from './useCardPaymentFailureStyles';
 import { useClickHandler } from './hooks/useClickHandler';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTrackFailureTopUp } from './hooks/useTrackFailureTopUp';
+import { useIsWhitelistReason } from '../CardPaymentSuccess/hooks/useIsWhitelistReason';
 
 export const CardPaymentFailure = () => {
   useTrackFailureTopUp();
+  const isWhitelistReason = useIsWhitelistReason();
 
   useSetBreadcrumbs([
     {
@@ -18,7 +20,7 @@ export const CardPaymentFailure = () => {
     },
   ]);
 
-  const onClick = useClickHandler();
+  const onClick = useClickHandler(isWhitelistReason);
 
   const { classes } = useCardPaymentFailureStyles();
 
@@ -30,12 +32,11 @@ export const CardPaymentFailure = () => {
         description={t('account.card-payment-failure.description')}
         descriptionClassName={classes.description}
         align="center"
-        actionSlot={
-          <Button onClick={onClick} variant="outlined" size="large">
-            {t('account.card-payment-failure.button')}
-          </Button>
-        }
-      />
+      >
+        <Button onClick={onClick} variant="outlined" size="large">
+          {t('account.card-payment-failure.button')}
+        </Button>
+      </InfoCard>
     </CenterContainer>
   );
 };

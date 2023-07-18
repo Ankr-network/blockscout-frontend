@@ -58,27 +58,29 @@ export const AddProjectDialog = ({
         isInitialStep ? classes.initial : classes.status,
       )}
     >
-      {isInitialStep && (
-        <AddProjectContent
-          isLoading={isLoading}
-          projectName={projectName}
-          handleCreate={handleCreate}
-        />
-      )}
-      {addProjectStep === AddProjectStep.success && (
-        <SuccessContent
-          projectName={successProjectName}
-          jwtToken={renderTokenReview(userEndpointToken)}
-          onClick={handleCloseDialog}
-        />
-      )}
-      {addProjectStep === AddProjectStep.failed && (
-        <FailedContent
-          isLoading={isLoading}
-          onClose={handleCloseDialog}
-          onTryAgain={handleCreate}
-        />
-      )}
+      <>
+        {isInitialStep && (
+          <AddProjectContent
+            isLoading={isLoading}
+            projectName={projectName}
+            handleCreate={handleCreate}
+          />
+        )}
+        {addProjectStep === AddProjectStep.success && (
+          <SuccessContent
+            projectName={successProjectName}
+            jwtToken={renderTokenReview(userEndpointToken)}
+            onClick={handleCloseDialog}
+          />
+        )}
+        {addProjectStep === AddProjectStep.failed && (
+          <FailedContent
+            isLoading={isLoading}
+            onClose={handleCloseDialog}
+            onTryAgain={handleCreate}
+          />
+        )}
+      </>
     </Dialog>
   );
 };

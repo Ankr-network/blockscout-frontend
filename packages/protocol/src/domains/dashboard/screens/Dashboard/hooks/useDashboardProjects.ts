@@ -1,19 +1,7 @@
-import { useEffect } from 'react';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { useLazyFetchAllowedJwtTokensCountQuery } from 'domains/jwtToken/action/getAllowedJwtTokensCount';
+import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 
 export const useDashboardProjects = () => {
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-  const { shouldShowTokenManager } = useTokenManagerConfigSelector();
+  const { hasReadAccess: shouldShowTokenManager } = useJwtManager();
 
-  const [fetchJwtTokens] = useLazyFetchAllowedJwtTokensCountQuery();
-
-  useEffect(() => {
-    fetchJwtTokens({ group });
-  }, [group, fetchJwtTokens]);
-
-  return {
-    shouldShowTokenManager,
-  };
+  return { shouldShowTokenManager };
 };

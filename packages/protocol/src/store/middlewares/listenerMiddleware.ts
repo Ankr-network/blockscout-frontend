@@ -28,6 +28,10 @@ import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuth
 import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { authAutoConnect } from 'domains/auth/actions/connect/authAutoConnect';
 import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
+import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
+import { resetConfig, selectNewProjectConfig } from 'domains/projects/store';
+import { NewProjectStep } from 'domains/projects/types';
+import { selectCurrentAddress } from 'domains/auth/store';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -170,6 +174,29 @@ listenerMiddleware.startListening({
     if (is2FAError(error)) {
       const message = getAxiosAccountErrorMessage(error);
       dispatch(setTwoFAErrorMessage(message));
+    }
+  },
+});
+
+listenerMiddleware.startListening({
+  matcher: deleteJwtToken.matchFulfilled,
+  effect: async (
+    {
+      meta: {
+        arg: { originalArgs = {} },
+      },
+    },
+    { dispatch, getState },
+  ) => {
+    const deletedTokenIndex = originalArgs?.params?.tokenIndex;
+
+    const { project } = selectNewProjectConfig(getState() as RootState);
+    const newProjectTokenIndex = project?.[NewProjectStep.Chain]?.tokenIndex;
+
+    if (deletedTokenIndex === newProjectTokenIndex) {
+      const address = selectCurrentAddress(getState() as RootState);
+
+      dispatch(resetConfig(address));
     }
   },
 });

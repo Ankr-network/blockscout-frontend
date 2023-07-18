@@ -8,12 +8,18 @@ import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 import { ChainProtocolContext } from '../../../constants/ChainProtocolContext';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 
 export interface ChainItemProps {
   data: IChainItemDetails;
 }
 
 export const PrivateChainItem = ({ data }: ChainItemProps) => {
+  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+
   const {
     chainProtocolContext,
     chain,
@@ -22,6 +28,9 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     chainTypeTab,
     chainTypeTabs,
     group,
+    chainSubType,
+    chainSubTypeTab,
+    chainSubTypeTabs,
     groups,
     unfilteredGroup,
     groupID,
@@ -29,7 +38,10 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     groupTabs,
     name,
     selectGroup,
-  } = usePrivateChainItem({ ...data });
+  } = usePrivateChainItem({
+    ...data,
+    onBlockedTabClick: onOpen,
+  });
 
   useRedirectToAdvancedApi();
 
@@ -44,6 +56,9 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
         chainType={chainType}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
+        chainSubType={chainSubType}
+        chainSubTypeTab={chainSubTypeTab}
+        chainSubTypeTabs={chainSubTypeTabs}
         group={group}
         groups={groups}
         groupID={groupID}
@@ -54,10 +69,12 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
       />
       <ChainItemSections
         chainType={chainType}
+        chainSubType={chainSubType}
         data={data}
         group={group}
         unfilteredGroup={unfilteredGroup}
       />
+      <UpgradePlanDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
   );
 };

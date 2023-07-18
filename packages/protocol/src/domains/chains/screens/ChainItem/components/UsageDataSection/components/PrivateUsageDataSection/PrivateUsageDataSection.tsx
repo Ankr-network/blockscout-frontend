@@ -1,4 +1,9 @@
-import { Chain, ChainType, Timeframe } from 'domains/chains/types';
+import {
+  Chain,
+  ChainSubType,
+  ChainType,
+  Timeframe,
+} from 'domains/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { MethodCalls } from '../../../MethodCalls';
@@ -19,6 +24,7 @@ const IS_LAST_USER_REQUESTS_BLOCK_ENABLED = false;
 interface PrivateUsageDataSectionProps {
   chain: Chain;
   chainType: ChainType;
+  chainSubType?: ChainSubType;
   group: EndpointGroup;
   timeframeTabs: Tab<Timeframe>[];
   timeframe: Timeframe;
@@ -27,6 +33,7 @@ interface PrivateUsageDataSectionProps {
 export const PrivateUsageDataSection = ({
   chain,
   chainType,
+  chainSubType,
   group,
   timeframeTabs,
   timeframe,
@@ -44,6 +51,7 @@ export const PrivateUsageDataSection = ({
   } = usePrivateUsageData({
     chain,
     chainType,
+    chainSubType,
     group,
     timeframe,
   });

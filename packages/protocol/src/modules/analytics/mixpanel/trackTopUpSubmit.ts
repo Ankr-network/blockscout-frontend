@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Callback } from 'mixpanel-browser';
 
-import { MixpanelEvent, TopUpCurrnecy } from './const';
+import { MixpanelEvent, TopUpCurrency } from './const';
 import { TopUpSubmitEventProps } from './types';
 import { track } from './utils/track';
 
@@ -10,7 +10,7 @@ export interface TopUpSubmitTrackingParams {
   amount: number;
   callback: Callback;
   creditBalance: BigNumber;
-  currency: TopUpCurrnecy;
+  currency: TopUpCurrency;
   hasPremium?: boolean;
   isNew: boolean;
   walletName?: string;

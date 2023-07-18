@@ -13,8 +13,8 @@ import { loginUserJwt } from './loginUserJwt';
 import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
+import { AccountRoutesConfig } from 'domains/account/Routes';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -91,7 +91,7 @@ export const {
       onQueryStarted: async (_arg, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
-        dispatch(push(ChainsRoutesConfig.chains.generatePath()));
+        dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
       },
     }),
   }),

@@ -1,6 +1,6 @@
 import { ChainProtocolContextValue } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
@@ -10,6 +10,7 @@ import { processChain } from 'domains/chains/screens/ChainItem/utils/processChai
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
 import { usePublicChainType } from './usePublicChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
+import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 
 export interface ChainItem {
   chainProtocolContext: ChainProtocolContextValue;
@@ -18,6 +19,9 @@ export interface ChainItem {
   chainType: ChainType;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
+  chainSubType?: ChainSubType;
+  chainSubTypeTab?: Tab<ChainSubType>;
+  chainSubTypeTabs: Tab<ChainSubType>[];
   group: EndpointGroup;
   groups: EndpointGroup[];
   groupID: ChainGroupID;
@@ -53,10 +57,16 @@ export const usePublicChainItem = ({
     onBlockedTabClick,
   });
 
+  const { chainSubType, chainSubTypeTab, chainSubTypeTabs } = useChainSubType({
+    chain,
+    netId,
+  });
+
   const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
     {
       chain,
       chainType,
+      chainSubType,
       endpoints,
       netId,
     },
@@ -77,6 +87,9 @@ export const usePublicChainItem = ({
     chainType,
     chainTypeTab,
     chainTypeTabs,
+    chainSubType,
+    chainSubTypeTab,
+    chainSubTypeTabs,
     group,
     groups,
     groupID,

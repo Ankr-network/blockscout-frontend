@@ -5,11 +5,6 @@ export const useJwtTokenManagerStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(7.5),
     height: theme.spacing(24),
   },
-  container: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    gap: 20,
-  },
   skeleton: {
     display: 'flex',
     gap: theme.spacing(5),

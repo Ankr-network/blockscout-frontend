@@ -21,7 +21,7 @@ import { BundlePaymentDialog } from '../BundlePaymentDialog';
 import { BundlePaymentBanner } from '../BundlePaymentBanner';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { NavLink } from 'uiKit/NavLink';
-import { TopUpCurrnecy } from 'modules/analytics/mixpanel/const';
+import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
@@ -256,7 +256,7 @@ export const useOnTopUpSubmit = (
       } else {
         onSuccess();
 
-        trackSubmit(data.amount, TopUpCurrnecy.ANKR);
+        trackSubmit(data.amount, TopUpCurrency.ANKR);
       }
     },
     [handleSetAmount, confirmedEmail, onSuccess, pendingEmail, trackSubmit],

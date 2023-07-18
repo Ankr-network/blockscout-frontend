@@ -3,13 +3,16 @@ import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/use
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
 import { ComingSoonChainCard } from '../../../ComingSoonChainCard';
+import { PremiumOnlyChainCard } from '../../../PremiumOnlyChainCard';
 
 interface PrivateChainCardProps extends IChainCardProps {
+  hasPremium: boolean;
   hasTotalRequestsLabel?: boolean;
 }
 
 export const PrivateChainCard = ({
   chain,
+  hasPremium,
   ...props
 }: PrivateChainCardProps) => {
   const { totalRequests, loading } = usePrivateChainsItem({ chain });
@@ -20,7 +23,7 @@ export const PrivateChainCard = ({
     true,
   );
 
-  const { isComingSoon } = chain;
+  const { isComingSoon, premiumOnly } = chain;
 
   const cardProps: IBaseChainCardProps = {
     chain,
@@ -31,6 +34,10 @@ export const PrivateChainCard = ({
 
   if (isComingSoon) {
     return <ComingSoonChainCard {...cardProps} />;
+  }
+
+  if (premiumOnly && !hasPremium) {
+    return <PremiumOnlyChainCard {...cardProps} />;
   }
 
   return <BaseChainsCard {...cardProps} />;

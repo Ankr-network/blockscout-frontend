@@ -1,6 +1,10 @@
 import { capitalize } from '@mui/material';
 
 import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
+import {
+  BSC_CHAIN_NAME,
+  mappingChainName,
+} from 'domains/auth/utils/mappingchainName';
 import { Chain, ChainID } from 'domains/chains/types';
 import { isBeacon } from 'domains/chains/utils/isBeacon';
 
@@ -8,7 +12,7 @@ const renderPrefix = (name: ChainID) => {
   let renderedName = name as string;
 
   if (name.includes(ChainID.BSC)) {
-    renderedName = name.replace(ChainID.BSC, 'BSC');
+    renderedName = name.replace(ChainID.BSC, BSC_CHAIN_NAME);
   }
 
   return renderedName;
@@ -100,6 +104,14 @@ const renderZetaChainName = (chainId: ChainID) => {
     name = 'ZetaChain Tendermint JSON-RPC testnet';
   } else if (chainId === ChainID.ZETACHAIN_EVM_TESTNET) {
     name = 'ZetaChain EVM RPC testnet';
+  } else if (chainId === ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 Cosmos REST testnet';
+  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 Tendermint REST testnet';
+  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 Tendermint JSON-RPC testnet';
+  } else if (chainId === ChainID.ZETACHAIN_EVM_ATHENS_TESTNET) {
+    name = 'ZetaChain Athens-3 EVM RPC testnet';
   }
 
   return name;
@@ -108,9 +120,7 @@ const renderZetaChainName = (chainId: ChainID) => {
 export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   let name = capitalize(chainId);
 
-  if (chainId.includes(ChainID.BSC)) {
-    name = renderPrefix(chainId);
-  }
+  name = mappingChainName(chainId, name);
 
   if (chainId.includes(ChainID.NERVOS)) {
     name = renderNervosName(chainId);

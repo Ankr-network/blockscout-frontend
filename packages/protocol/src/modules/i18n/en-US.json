@@ -40,7 +40,7 @@
       "title": "Your Instant RPC Gateway to {chainId}",
       "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description": "Start calling BSC now with our free public RPC endpoint"
+      "og-description": "Start calling BNB Smart Chain now with our free public RPC endpoint"
     },
     "chain-item-fantom": {
       "title": "Your Instant RPC Gateway to {chainId}",
@@ -71,10 +71,12 @@
     "permission": "You do not have enough permissions to get all the data",
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
     "two-fa": "Two factor authentication code is required",
-    "hubspot": "Hubspot form. No such element {selector}"
+    "hubspot": "Hubspot form. No such element {selector}",
+    "common": "Oops! Something went wrong."
   },
   "main-navigation": {
     "dashboard": "Dashboard",
+    "projects": "Projects",
     "advanced-api": "Advanced APIs",
     "endpoints": "Endpoints",
     "enterprise": "Enterprise",
@@ -87,6 +89,7 @@
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
+    "projects": "Projects",
     "public-rpcs": "Public RPCs",
     "account-details": "Account Details",
     "plan": "Premium Plan",
@@ -130,6 +133,92 @@
       "marketing-emails": "I agree to receive marketing communications from Ankr",
       "no-terms-error": "To continue, you must agree with our Terms of Service and Privacy Policy"
     }
+  },
+  "projects": {
+    "breadcrumbs": "Projects",
+    "list-project": {
+      "title": "My Projects",
+      "how-to-get-started": "How to get started",
+      "table": {
+        "column-1": "Name",
+        "column-2": "Project status",
+        "column-3": "White list",
+        "column-4": "Connected chains"
+      },
+      "active": "Active",
+      "installed": "Installed",
+      "not-installed": "Not installed",
+      "add-project": "Add Project",
+      "edit-project": "Continue project configuration"
+    },
+    "new-project": {
+      "breadcrumbs": "Create project",
+      "title": "Configure your Project",
+      "footer": {
+        "back-button": "Back",
+        "next-button": "Next"
+      },
+      "steps": {
+        "0": "Project",
+        "1": "White List",
+        "2": "Plan",
+        "3": "Checkout"
+      },
+      "chain": {
+        "mainnet": "Mainnet",
+        "testnet": "Testnet"
+      },
+      "notifications": {
+        "limit": "You have reached the maximum number of projects."
+      },
+      "step-1": {
+        "title": "Create a Name and Select Chains",
+        "name": "Name",
+        "chainsPlaceholder": "My Project",
+        "chains": "Chains",
+        "premium": "Premium",
+        "error-message": {
+          "required": "Please select chain first"
+        }
+      },
+      "step-2": {
+        "title": "Set up White List",
+        "plug": "There are only three methods supported for whitelisting on the chosen blockchain: \neth_call, eth_getLogs, eth_sendRawTransaction. \nAll other methods and blockchains are prohibited.",
+        "label": "Smart contract address",
+        "placeholder": "0x000000",
+        "btn": "Add",
+        "success-message": "Smart contract address added successfully",
+        "error-message": {
+          "required": "Smart contract address is required",
+          "invalid": "Smart contract address is invalid",
+          "token-index-error": "Token index is not defined"
+        }
+      },
+      "checkout-step": {
+        "title": "Checkout",
+        "project": "Project",
+        "network": "Network",
+        "whitelist": "White List",
+        "plan": "Plan",
+        "price": "Final Price",
+        "prohibited": "There are only three methods supported for whitelisting on&nbsp;the chosen blockchain: eth_call, eth_getLogs, eth_sendRawTransaction. All other methods and blockchains are prohibited.",
+        "unprohibited": "All requests not prohibited"
+      },
+      "plan-step": {
+        "title": "Choose your Plan",
+        "early-adopters": {
+          "name": "Early Adopters (limited time offer)",
+          "price": "$10 <span>per smart contract</span>",
+          "description": "<ul><li>One-time payment</span></li><li>Available for EVM-compatible chains</li><li>Replace contract address for free within 2 months</li></ul>"
+        },
+        "grow": {
+          "name": "Grow",
+          "price": "$500 <span>per month</span>",
+          "description": "<ul><li>30M <span>monthly requests</span></li><li>10 <span>Whitelisted domains</span></li><li>3 <span>Whitelisted Smart Contracts</span></li><li>All EVM-compatible methods for all chains</span></li></ul>"
+        }
+      }
+    },
+    "final-price": "Final Price: <span>${usdValue}.00</span>"
   },
   "dashboard": {
     "placeholder": {
@@ -375,6 +464,10 @@
       "devnet": "Devnet"
     },
     "banner-zksync_era": "<b>Warning</b>: The zkSync Era node is&nbsp;still in&nbsp;<em>alpha</em> and subject to&nbsp;further updates. Users may experience downtime. If&nbsp;you notice discrepancies from the <a target=\"_blank\" href=\"https://era.zksync.io/docs/dev/building-on-zksync/interacting.html#quickstart-on-zksync\">main node API</a> please report directly to&nbsp;<a target=\"_blank\" href=\"https://zksync.io/contact\">Matter Labs</a>.",
+    "chain-subtypes": {
+      "athens2": "Athens-2",
+      "athens3": "Athens-3"
+    },
     "banner": {
       "plan": "Premium Plan.",
       "more": "Learn more",
@@ -834,8 +927,10 @@
     "404": "404",
     "page-not-found": "Page not found",
     "soon": "soon",
+    "new": "new",
     "search": "Search",
-    "no-search-result": "Nothing found for your request"
+    "no-search-result": "Nothing found for your request",
+    "no-data": "No data available"
   },
   "providers": {
     "endpoint": {

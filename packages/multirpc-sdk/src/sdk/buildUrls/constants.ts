@@ -7,6 +7,8 @@ export const ENABLED_SECRET_NETWORK_IDS = [
 export const ENABLED_ZETACHAIN_IDS = [
   'zetachain-tendermint-rest-testnet',
   'zetachain-cosmos-rest-testnet',
+  'zetachain-tendermint-rest-athens-testnet',
+  'zetachain-cosmos-rest-athens-testnet',
 ];
 
 export const APTOS_IDS = ['aptos', 'aptos_testnet'];

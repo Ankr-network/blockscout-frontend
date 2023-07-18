@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-const DEFAULT_PAGE_HEADER_WIDTH = 910;
+export const DEFAULT_PAGE_HEADER_WIDTH = 910;
 
 export const useBaseChainsHeaderStyles = makeStyles()(theme => ({
   root: {

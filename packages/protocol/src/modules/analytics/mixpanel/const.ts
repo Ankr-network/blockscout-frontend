@@ -27,7 +27,7 @@ export enum MixpanelEvent {
   UPGRADE_PLAN_MODAL_OPENED = 'upgrade_plan_modal_opened',
 }
 
-export enum TopUpCurrnecy {
+export enum TopUpCurrency {
   ANKR = 'ANKR',
   USD = 'USD',
 }

@@ -1,35 +1,66 @@
 import { ChainType as Type } from 'domains/chains/types';
-import {
-  GroupedEndpoints as Endpoints,
-  GroupedEndpoints,
-} from 'modules/endpoints/types';
+import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { chainTypeTabs } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
+import {
+  chainSubTypeTabs,
+  chainTypeTabs,
+} from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
 import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { LockedTab } from 'domains/chains/screens/ChainItem/components/LockedTab';
 
-export const getPrivateChainTypeTabs = (endpoints: Endpoints): Tab<Type>[] =>
+interface GetPrivateChainTypeTabsParams {
+  endpoints: GroupedEndpoints;
+  isBlockedTestnet: boolean;
+  isBlockedMainnet?: boolean;
+  onBlockedTabClick: () => void;
+}
+
+export const getPrivateChainTypeTabs = ({
+  endpoints,
+  isBlockedTestnet,
+  isBlockedMainnet,
+  onBlockedTabClick,
+}: GetPrivateChainTypeTabsParams): Tab<Type>[] =>
   chainTypeTabs
-    .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]].length > 0)
+    .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map<Tab<Type>>(({ id, title }, index, list) => {
+      const blockedTestnet = isBlockedTestnet && id === Type.Testnet;
+      const blockedMainnet = isBlockedMainnet && id === Type.Mainnet;
+      const isBlocked = blockedTestnet || blockedMainnet;
+
       return {
         id,
         title: (isSelected: boolean) => {
+          const label = isBlocked ? (
+            <LockedTab title={title} />
+          ) : (
+            title?.toString() ?? ''
+          );
+
           return (
             <SecondaryTab
               isLast={index === list.length - 1}
-              isSelected={isSelected}
-              label={title?.toString() ?? ''}
+              isSelected={!isBlocked && isSelected}
+              label={label}
+              onClick={() => isBlocked && onBlockedTabClick()}
             />
           );
         },
+        isDisabled: isBlocked,
       };
     });
 
 export const getPrivateChainTypeSelector = (endpoints: GroupedEndpoints) =>
   chainTypeTabs
-    .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]].length > 0)
+    .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map(({ id, title }) => ({
       value: id,
       label: title as string,
     }));
+
+export const getPrivateChainSubTypeSelector = () =>
+  chainSubTypeTabs.map(({ id, title }) => ({
+    value: id,
+    label: title as string,
+  }));

@@ -32,29 +32,30 @@ export const PrivateChains = () => {
     <BaseChains
       top={<PrivateChainsTop timeframe={timeframe} />}
       loading={loading}
-      baseChainsHeader={
+    >
+      <>
         <BaseChainsHeader
           sortType={sortType}
           setSortType={setSortType}
           searchContent={searchContent}
           setSearchContent={setSearchContent}
         />
-      }
-    >
-      <ChainsList chains={processedChains}>
-        {processedChains.map(item => {
-          const { id } = item;
+        <ChainsList chains={processedChains}>
+          {processedChains.map(item => {
+            const { id } = item;
 
-          return (
-            <PrivateChainCard
-              key={id}
-              chain={item}
-              timeframe={timeframe}
-              hasTotalRequestsLabel={hasPremium}
-            />
-          );
-        })}
-      </ChainsList>
+            return (
+              <PrivateChainCard
+                key={id}
+                chain={item}
+                timeframe={timeframe}
+                hasTotalRequestsLabel={hasPremium}
+                hasPremium={hasPremium}
+              />
+            );
+          })}
+        </ChainsList>
+      </>
     </BaseChains>
   );
 };

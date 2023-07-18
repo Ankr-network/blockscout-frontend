@@ -16,9 +16,9 @@ import { useTop10Stats } from '../../AllChainsLayout/hooks/useTop10Stats';
 
 export const useChainData = ({
   statsChainId,
+  detailsChainId,
   timeframe,
-  selectedChainId,
-}: Omit<ChainLayoutProps, 'detailsChainId'>) => {
+}: ChainLayoutProps) => {
   const allTimeTotalRequestsNumber = useAppSelector(state =>
     selectAllTimeTotalRequestsNumber(state, statsChainId),
   );
@@ -28,7 +28,7 @@ export const useChainData = ({
   );
 
   const locations = useAppSelector(state =>
-    selectLocationsByChainID(state, statsChainId),
+    selectLocationsByChainID(state, detailsChainId),
   );
 
   const areLocationsLoading = useAppSelector(selectLocationsLoading);
@@ -50,7 +50,7 @@ export const useChainData = ({
     [requests, timeframe],
   );
 
-  const { countries, ipRequests } = useTop10Stats(timeframe, selectedChainId);
+  const { countries, ipRequests } = useTop10Stats(timeframe, statsChainId);
 
   return {
     allTimeTotalRequestsNumber,
