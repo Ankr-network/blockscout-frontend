@@ -6,24 +6,16 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
-export interface GuardAuthRouteParams {
-  hasPremium: boolean;
-  hasAuthData: boolean;
-}
-
-export const useGuardAuth = ({
-  hasAuthData,
-  hasPremium,
-}: GuardAuthRouteParams) => {
-  const { address, loading } = useAuth();
+export const useGuardAuth = () => {
+  const { address, loading, hasPremium, isLoggedIn } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();
 
   useEffect(() => {
-    if (!hasAuthData) {
+    if (!isLoggedIn) {
       history.replace(PRICING_PATH);
     }
-  }, [history, hasAuthData]);
+  }, [history, isLoggedIn]);
 
   useOnMount(() => {
     if (!address || !hasPremium) setBreadcrumbs([]);
@@ -31,5 +23,6 @@ export const useGuardAuth = ({
 
   return {
     loading,
+    hasAuthData: isLoggedIn,
   };
 };

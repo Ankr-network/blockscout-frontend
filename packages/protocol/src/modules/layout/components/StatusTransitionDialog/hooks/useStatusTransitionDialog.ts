@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from '../types';
@@ -32,11 +32,16 @@ export const useStatusTransitionDialog = () => {
 
   const { isOpened, onClose, onOpen } = useDialog(shouldShowDialog);
 
+  const handleClose = useCallback(() => {
+    history.replace(history?.location?.pathname, {});
+    onClose();
+  }, [onClose, history]);
+
   useEffect(() => {
     if (shouldShowDialog) {
       onOpen();
     }
   }, [onOpen, shouldShowDialog]);
 
-  return { isOpened, onClose, onOpen };
+  return { isOpened, onClose: handleClose, onOpen };
 };

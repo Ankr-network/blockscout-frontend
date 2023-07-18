@@ -41,13 +41,14 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
 
 export const Routes = () => {
-  const { hasPremium, isLoggedIn } = useAuth();
+  const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
 
   const hasAuthData = Boolean(isLoggedIn);
 
-  usePremiumStatusSubscription();
+  const { isUninitialized } = usePremiumStatusSubscription();
   useBalanceSubscription();
   useAutoconnect();
   useWeb3ThemeSwitcher();
@@ -72,8 +73,6 @@ export const Routes = () => {
           ProjectsRoutesConfig.projects.path,
           ProjectsRoutesConfig.newProject.path,
         ]}
-        hasAuthData={hasAuthData}
-        hasPremium={hasPremium}
         render={() => (
           <GuardUserGroup
             shouldRedirect
@@ -89,8 +88,6 @@ export const Routes = () => {
       <GuardAuthRoute
         exact
         path={DashboardRoutesConfig.dashboard.path}
-        hasAuthData={hasAuthData}
-        hasPremium={hasPremium}
         render={() => (
           <GuardUserGroup
             shouldRedirect
@@ -110,8 +107,6 @@ export const Routes = () => {
           AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.cardPaymentFailure.path,
         ]}
-        hasAuthData={hasAuthData}
-        hasPremium={hasPremium}
         render={() => (
           <GuardUserGroup
             shouldRedirect
@@ -123,11 +118,12 @@ export const Routes = () => {
           </GuardUserGroup>
         )}
       />
-      <GuardAuthRoute
+      <GuardCardPaymentSuccessAuthRoute
         exact
         path={AccountRoutesConfig.cardPaymentSuccess.path}
-        hasAuthData={hasAuthData}
         hasPremium={hasPremium}
+        hasPrivateAccess={hasPrivateAccess}
+        isUninitialized={isUninitialized}
         render={() => (
           <DefaultLayout>
             <AccountRoutes />

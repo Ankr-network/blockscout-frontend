@@ -51,6 +51,11 @@ export const selectHasPremium = createSelector(
   ({ data: { isFreemium } = defaultPremiumStatusData }) => !isFreemium,
 );
 
+export const selectPremiumStatusLoading = createSelector(
+  fetchPremiumStatus.select(''),
+  ({ isLoading }) => isLoading,
+);
+
 export const selectIsOldPremium = createSelector(
   selectAuthData,
   selectIsTokenExpired,
