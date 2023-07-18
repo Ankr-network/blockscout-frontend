@@ -9,6 +9,6 @@ export const useBlockchainIconStyles = makeStyles()(theme => ({
   icon: {
     width: theme.spacing(7),
     height: theme.spacing(7),
-    marginLeft: theme.spacing(-3.5),
+    marginLeft: theme.spacing(-2),
   },
 }));
