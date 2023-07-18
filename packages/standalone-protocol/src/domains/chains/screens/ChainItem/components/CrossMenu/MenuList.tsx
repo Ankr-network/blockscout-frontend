@@ -42,7 +42,9 @@ import {
 import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
 
-export const getMenuList = (isMobileSiderBar: boolean) => [
+const SHOULD_SHOW_ZYSYNC_ERA = false;
+
+const getCommonList = (isMobileSiderBar: boolean) => [
   {
     chainId: ChainId.Ethereum,
     name: 'Ethereum',
@@ -122,12 +124,6 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     url: 'https://tenet_evm.public-rpc.com/',
   },
   {
-    chainId: ChainId.ZksyncEra,
-    name: ZKSYNC_ERA_NAME,
-    logo: isMobileSiderBar ? <ZksyncEraMobileLogo /> : <ZksyncEraLogo />,
-    url: 'https://zksync_era.public-rpc.com/',
-  },
-  {
     chainId: ChainId.Chiliz,
     name: 'Chiliz',
     logo: <ChilizLogo />,
@@ -182,3 +178,21 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     url: 'https://klaytn.public-rpc.com/',
   },
 ];
+
+const getZkSyncEraItem = (isMobileSiderBar: boolean) => ({
+  chainId: ChainId.ZksyncEra,
+  name: ZKSYNC_ERA_NAME,
+  logo: isMobileSiderBar ? <ZksyncEraMobileLogo /> : <ZksyncEraLogo />,
+  url: 'https://zksync_era.public-rpc.com/',
+});
+
+export const getMenuList = (isMobileSiderBar: boolean) => {
+  const commonList = getCommonList(isMobileSiderBar);
+  const zkSyncEraItem = getZkSyncEraItem(isMobileSiderBar);
+
+  if (SHOULD_SHOW_ZYSYNC_ERA) {
+    commonList.splice(13, 0, zkSyncEraItem);
+  }
+
+  return commonList;
+};
