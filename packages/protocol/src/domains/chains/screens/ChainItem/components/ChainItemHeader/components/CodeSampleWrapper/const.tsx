@@ -4,7 +4,7 @@ import { getJsCodeSample } from './templates/getJsCodeSample';
 import { t } from '@ankr.com/common';
 import { Language } from 'prism-react-renderer';
 import { getShellCodeSampleWithUrl } from './templates/getShellCodeSampleWithUrl';
-import { getPythonCodeSample } from './templates/getPytonCodeSample';
+import { getPythonCodeSample } from './templates/getPythonCodeSample';
 
 export enum CodeType {
   'ANKRJS' = 'ANKRJS',
