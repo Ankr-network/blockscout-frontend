@@ -81,7 +81,7 @@ export const DefaultLayout = ({
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
         <ConnectWalletDialog />
-        <StatusTransitionDialog />
+        {isLoggedIn && <StatusTransitionDialog />}
         <TwoFADialog />
         <NegativeBalanceTermsOfServicesDialog />
       </div>

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from '../types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
@@ -19,16 +20,18 @@ export const useStatusTransitionDialog = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
+  const { bundles } = useMyBundles();
+
   const shouldShowDialog = useMemo(() => {
     const isRedirectedFromSuccessTopUp =
       origin === cardPaymentSuccess.path || origin === topUp.path;
 
     return (
-      hasFreeToPremiumTransition &&
+      (hasFreeToPremiumTransition || bundles) &&
       isRedirectedFromSuccessTopUp &&
       hasStatusAccess
     );
-  }, [hasFreeToPremiumTransition, origin, hasStatusAccess]);
+  }, [hasFreeToPremiumTransition, bundles, origin, hasStatusAccess]);
 
   const { isOpened, onClose, onOpen } = useDialog(shouldShowDialog);
 
