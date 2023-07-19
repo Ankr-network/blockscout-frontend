@@ -8,7 +8,6 @@ import {
 } from '../actions/fetchPremiumStatus';
 import { getPremiumActivationThreshold } from '../utils/getPremiumActivationThreshold';
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
-import { oauthHasDepositTransaction } from 'domains/oauth/actions/hasDepositTransaction';
 import { selectAuthData } from './authSlice';
 import {
   selectSelectedUserGroupRole,
@@ -135,21 +134,6 @@ export const selectIsWeb3UserWithEmailBound = createSelector(
 export const selectHasZeroBalance = createSelector(
   accountFetchBalance.select({ group: undefined }),
   ({ data: { creditBalance } = {} }) => creditBalance?.isZero() ?? true,
-);
-
-export const selectHasDepositTransaction = createSelector(
-  oauthHasDepositTransaction.select({
-    shouldCheckVoucherTopUp: false,
-    group: undefined,
-  }),
-  ({ data: hasDepositTransaction = false }) => hasDepositTransaction,
-);
-
-export const selectIsNewUser = createSelector(
-  selectHasZeroBalance,
-  selectHasDepositTransaction,
-  (hasZeroBalance, hasDepositTransaction) =>
-    hasZeroBalance && !hasDepositTransaction,
 );
 
 const freeToPremiumThreshold = getPremiumActivationThreshold();

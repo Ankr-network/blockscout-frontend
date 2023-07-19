@@ -1,13 +1,8 @@
 import { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
-import {
-  EthAddressType,
-  IApiUserGroupParams,
-  IEthUserAddress,
-} from 'multirpc-sdk';
+import { EthAddressType, IEthUserAddress } from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { Web2SignUpTrackingParams } from 'modules/analytics/mixpanel/types';
-import { checkDepositOrVoucherTransaction } from '../checkDepositOrVoucherTransaction';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { selectHasPremium } from 'domains/auth/store/selectors';
 import { trackWeb2SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb2SignUpSuccess';
@@ -58,11 +53,7 @@ export const getTrackingParams = (
 };
 
 export const trackLoginSuccess = async ({
-  dispatch,
   getState,
-  group,
-}: Pick<BaseQueryApi, 'dispatch' | 'getState'> & IApiUserGroupParams) => {
-  await dispatch(checkDepositOrVoucherTransaction.initiate({ group }));
-
+}: Pick<BaseQueryApi, 'getState'>) => {
   trackWeb2SignUpSuccess(getTrackingParams(getState as GetState));
 };
