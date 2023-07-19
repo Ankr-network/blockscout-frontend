@@ -16,6 +16,7 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('xl')]: {
       padding: theme.spacing(5),
+      minHeight: theme.spacing(72.5),
     },
 
     [theme.breakpoints.down('sm')]: {
@@ -50,6 +51,7 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('xl')]: {
       padding: theme.spacing(5),
+      minHeight: theme.spacing(72.5),
     },
 
     [theme.breakpoints.down('sm')]: {
