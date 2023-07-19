@@ -1,4 +1,3 @@
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
@@ -44,39 +43,35 @@ export const PrivateChains = ({
 
   return (
     <BaseChains loading={loading}>
-      <NoReactSnap>
-        <>
-          <BaseChainsHeader
-            sortType={sortType}
-            setSortType={setSortType}
-            searchContent={searchContent}
-            setSearchContent={setSearchContent}
-          />
-          <ChainsList chains={networksConfigurations}>
-            {networksConfigurations.map(item => {
-              const { id, name, urls } = item;
+      <BaseChainsHeader
+        sortType={sortType}
+        setSortType={setSortType}
+        searchContent={searchContent}
+        setSearchContent={setSearchContent}
+      />
+      <ChainsList chains={networksConfigurations}>
+        {networksConfigurations.map(item => {
+          const { id, name, urls } = item;
 
-              return (
-                <div className={classes.wrapper} key={id}>
-                  <PrivateChainItem
-                    chain={item}
-                    links={urls}
-                    name={name}
-                    period={PERIOD}
-                    publicChain={chainsDictionary[id]}
-                    timeframe={timeframe}
-                    chainId={id}
-                    hasPremiumDialog={
-                      item.premiumOnly && (!hasPremium || isFreePremium)
-                    }
-                    hasTotalRequestsLabel={hasTotalRequestsLabel}
-                  />
-                </div>
-              );
-            })}
-          </ChainsList>
-        </>
-      </NoReactSnap>
+          return (
+            <div className={classes.wrapper} key={id}>
+              <PrivateChainItem
+                chain={item}
+                links={urls}
+                name={name}
+                period={PERIOD}
+                publicChain={chainsDictionary[id]}
+                timeframe={timeframe}
+                chainId={id}
+                hasPremiumDialog={
+                  item.premiumOnly && (!hasPremium || isFreePremium)
+                }
+                hasTotalRequestsLabel={hasTotalRequestsLabel}
+              />
+            </div>
+          );
+        })}
+      </ChainsList>
     </BaseChains>
   );
 };

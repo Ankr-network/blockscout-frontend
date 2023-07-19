@@ -6,9 +6,9 @@ import { ChainID } from 'domains/chains/types';
 import { STANDALONE_CHAINS } from '../../utils/statsUtils';
 import { MultiService } from 'modules/api/MultiService';
 import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
 // RTK Query will never run an endpoint if it has already run.
 // Here we have few calls of the same endpoint but with different args,
@@ -43,41 +43,44 @@ export const { useChainsFetchPublicRequestsCountStatsQuery } =
         Record<ChainID, string>,
         Timeframe
       >({
-        queryFn: createNotifyingQueryFn(async (timeframe, { dispatch }) => {
-          const totalRequestsData = (
-            await MultiService.getService()
-              .getPublicGateway()
-              .getPublicTimeframesStats(timeframe)
-          ).totalRequests;
-
-          if (isReactSnap) {
-            return { data: totalRequestsData };
-          }
-
-          const results = await fetchStandaloneStats(dispatch, timeframe);
-
-          const standaloneStats = results.map(item => {
-            return {
-              chainId: item.data?.chainId,
-              requests: item.data?.data?.totalRequests ?? 0,
-            };
-          });
-
-          Object.keys(totalRequestsData).forEach(key => {
-            if (key in STANDALONE_CHAINS) {
-              const standaloneData = standaloneStats.find(
-                item => item.chainId === key,
-              );
-
-              const totalRequests = new BigNumber(totalRequestsData[key])
-                .plus(standaloneData?.requests ?? 0)
-                .toString();
-
-              totalRequestsData[key] = totalRequests;
+        queryFn: createQueryFnWithErrorHandler({
+          queryFn: async (timeframe, { dispatch }) => {
+            if (isReactSnap) {
+              return { data: {} };
             }
-          });
 
-          return { data: totalRequestsData };
+            const totalRequestsData = (
+              await MultiService.getService()
+                .getPublicGateway()
+                .getPublicTimeframesStats(timeframe)
+            ).totalRequests;
+
+            const results = await fetchStandaloneStats(dispatch, timeframe);
+
+            const standaloneStats = results.map(item => {
+              return {
+                chainId: item.data?.chainId,
+                requests: item.data?.data?.totalRequests ?? 0,
+              };
+            });
+
+            Object.keys(totalRequestsData).forEach(key => {
+              if (key in STANDALONE_CHAINS) {
+                const standaloneData = standaloneStats.find(
+                  item => item.chainId === key,
+                );
+
+                const totalRequests = new BigNumber(totalRequestsData[key])
+                  .plus(standaloneData?.requests ?? 0)
+                  .toString();
+
+                totalRequestsData[key] = totalRequests;
+              }
+            });
+
+            return { data: totalRequestsData };
+          },
+          errorHandler: error => ({ error }),
         }),
       }),
     }),
