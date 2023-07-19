@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { OauthQuery } from './OauthQuery';
@@ -11,9 +10,5 @@ export const Oauth = () => {
     },
   ]);
 
-  return (
-    <Box>
-      <OauthQuery />
-    </Box>
-  );
+  return <OauthQuery />;
 };
