@@ -11,6 +11,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { topUpOriginRoutesMap } from 'domains/account/screens/CardPaymentSuccess/utils/getOriginRoute';
+import { selectHasBundles } from 'domains/account/store/selectors';
 
 export const {
   endpoints: { topUpResetTransactionSliceAndRedirect },
@@ -23,6 +24,7 @@ export const {
         );
 
         const topUpOrigin = selectTopUpOrigin(getState() as RootState);
+        const hasBundles = selectHasBundles(getState() as RootState);
 
         const route = topUpOrigin
           ? topUpOriginRoutesMap[topUpOrigin]
@@ -30,7 +32,7 @@ export const {
 
         dispatch(
           push<PostTopUpLocationState>(route.generatePath(), {
-            origin: AccountRoutesConfig.topUp.path,
+            origin: hasBundles ? undefined : AccountRoutesConfig.topUp.path,
           }),
         );
 

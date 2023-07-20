@@ -11,7 +11,7 @@ export const useChainCardStyles = makeStyles<void, 'button' | 'information'>()(
       backgroundColor: theme.palette.background.paper,
       borderRadius: 30,
       padding: theme.spacing(5),
-      minHeight: 208,
+      minHeight: theme.spacing(52),
       cursor: 'pointer',
       position: 'relative',
       overflow: 'hidden',

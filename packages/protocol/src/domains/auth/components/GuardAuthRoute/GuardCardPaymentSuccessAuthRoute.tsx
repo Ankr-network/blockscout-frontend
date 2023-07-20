@@ -5,6 +5,7 @@ import { Route, RouteProps, useHistory } from 'react-router-dom';
 import { useGuardAuth } from 'domains/auth/hooks/useGuardAuth';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
+import { useHasBundles } from 'domains/account/hooks/useHasBundles';
 
 interface GuardCardPaymentSuccessAuthRouteProps extends RouteProps {
   hasPrivateAccess: boolean;
@@ -21,6 +22,7 @@ export const GuardCardPaymentSuccessAuthRoute = ({
   const history = useHistory<PostTopUpLocationState>();
 
   const { loading } = useGuardAuth();
+  const { hasBundles, isLoaded } = useHasBundles();
 
   const isPageForbidden = useMemo(() => {
     const isFreeUserWithJWT = !hasPremium && hasPrivateAccess;
@@ -29,12 +31,23 @@ export const GuardCardPaymentSuccessAuthRoute = ({
   }, [hasPremium, hasPrivateAccess]);
 
   useEffect(() => {
-    if (isPageForbidden && !loading && !isUninitialized) {
+    if (isPageForbidden && !loading && !isUninitialized && isLoaded) {
       history.replace(AccountRoutesConfig.accountDetails.generatePath(), {
-        origin: AccountRoutesConfig.cardPaymentSuccess.path,
+        origin:
+          hasBundles && hasPremium
+            ? undefined
+            : AccountRoutesConfig.cardPaymentSuccess.path,
       });
     }
-  }, [history, isPageForbidden, loading, isUninitialized]);
+  }, [
+    history,
+    isPageForbidden,
+    loading,
+    isUninitialized,
+    hasBundles,
+    isLoaded,
+    hasPremium,
+  ]);
 
   return loading ? <OverlaySpinner /> : <Route {...routeProps} />;
 };

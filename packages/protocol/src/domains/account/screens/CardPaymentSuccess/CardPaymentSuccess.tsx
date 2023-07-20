@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
@@ -38,7 +39,10 @@ export const CardPaymentSuccess = () => {
 
   const { classes } = useCardPaymentSuccessStyles();
 
-  const { button, description, title } = getInfoCardParams(hasPremium);
+  const { button, description, title } = useMemo(
+    () => getInfoCardParams(hasPremium),
+    [hasPremium],
+  );
 
   return (
     <CenterContainer>
