@@ -27,7 +27,7 @@ export const useStatusTransitionDialog = () => {
       origin === cardPaymentSuccess.path || origin === topUp.path;
 
     return (
-      (hasFreeToPremiumTransition || bundles) &&
+      (hasFreeToPremiumTransition || bundles?.length > 0) &&
       isRedirectedFromSuccessTopUp &&
       hasStatusAccess
     );
