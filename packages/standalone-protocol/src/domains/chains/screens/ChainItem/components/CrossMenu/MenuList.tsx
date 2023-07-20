@@ -42,7 +42,7 @@ import {
 import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
 
-const SHOULD_SHOW_ZYSYNC_ERA = false;
+const SHOULD_SHOW_ZYSYNC_ERA = true;
 
 const getCommonList = (isMobileSiderBar: boolean) => [
   {
