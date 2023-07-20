@@ -130,8 +130,6 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = renderETHName(chainId);
   } else if (chainId.includes(ChainID.SCROLL)) {
     name = 'Scroll testnet';
-  } else if (chainId === ChainID.MANTLE) {
-    name = 'Mantle Testnet';
   } else if (chainId === ChainID.POLYGON_ZKEVM) {
     name = 'zkEVM';
   } else if (ADVANCED_API_PATH.includes(chainId)) {

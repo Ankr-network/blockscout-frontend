@@ -32,6 +32,17 @@ const AVALANCHE_FUJI: NetworkInfo = {
 };
 
 const MANTLE: NetworkInfo = {
+  chainId: 5000,
+  chainName: 'Mantle Mainnet',
+  nativeCurrency: {
+    name: 'BIT',
+    symbol: 'BIT',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.mantle.xyz'],
+};
+
+const MANTLE_TESTNET: NetworkInfo = {
   chainId: 5001,
   chainName: 'Mantle Testnet',
   nativeCurrency: {
@@ -500,7 +511,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.MANTLE]: MANTLE,
 
-  [ChainID.MANTLE_TESTNET]: MANTLE,
+  [ChainID.MANTLE_TESTNET]: MANTLE_TESTNET,
 
   [ChainID.ROLLUX]: ROLLUX,
 
