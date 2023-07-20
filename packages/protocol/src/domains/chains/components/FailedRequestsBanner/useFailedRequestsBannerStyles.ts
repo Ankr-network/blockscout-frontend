@@ -6,6 +6,8 @@ import {
   LG_CHART_HEIGHT,
 } from '../RequestsChart';
 
+const BANNER_HEIGHT = 290;
+
 export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -16,6 +18,7 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('xl')]: {
       padding: theme.spacing(5),
+      minHeight: BANNER_HEIGHT,
     },
 
     [theme.breakpoints.down('sm')]: {
@@ -50,6 +53,7 @@ export const useFailedRequestsBannerStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('xl')]: {
       padding: theme.spacing(5),
+      minHeight: BANNER_HEIGHT,
     },
 
     [theme.breakpoints.down('sm')]: {

@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from '../types';
@@ -7,6 +7,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { useHasBundles } from 'domains/account/hooks/useHasBundles';
 
 const { cardPaymentSuccess, topUp } = AccountRoutesConfig;
 
@@ -19,18 +20,31 @@ export const useStatusTransitionDialog = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
+  const { hasBundles, isLoaded } = useHasBundles();
+
   const shouldShowDialog = useMemo(() => {
     const isRedirectedFromSuccessTopUp =
       origin === cardPaymentSuccess.path || origin === topUp.path;
 
     return (
-      hasFreeToPremiumTransition &&
+      (hasFreeToPremiumTransition || (hasBundles && isLoaded)) &&
       isRedirectedFromSuccessTopUp &&
       hasStatusAccess
     );
-  }, [hasFreeToPremiumTransition, origin, hasStatusAccess]);
+  }, [
+    hasFreeToPremiumTransition,
+    hasBundles,
+    origin,
+    hasStatusAccess,
+    isLoaded,
+  ]);
 
   const { isOpened, onClose, onOpen } = useDialog(shouldShowDialog);
+
+  const handleClose = useCallback(() => {
+    history.replace(history?.location?.pathname, {});
+    onClose();
+  }, [onClose, history]);
 
   useEffect(() => {
     if (shouldShowDialog) {
@@ -38,5 +52,5 @@ export const useStatusTransitionDialog = () => {
     }
   }, [onOpen, shouldShowDialog]);
 
-  return { isOpened, onClose, onOpen };
+  return { isOpened, onClose: handleClose, onOpen };
 };

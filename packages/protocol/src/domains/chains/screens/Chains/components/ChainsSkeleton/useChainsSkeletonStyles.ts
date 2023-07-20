@@ -9,7 +9,7 @@ export const useChainsSkeletonStyles = makeStyles()(theme => ({
   },
   skeleton: {
     width: `calc((100% - ${theme.spacing(15)}) / 3)`,
-    height: theme.spacing(55),
+    height: theme.spacing(52),
     backgroundColor: theme.palette.background.paper,
     borderRadius: 30,
     padding: theme.spacing(5),

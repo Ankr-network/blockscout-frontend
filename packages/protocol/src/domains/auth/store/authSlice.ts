@@ -17,8 +17,6 @@ export interface IAuthSlice {
   encryptionPublicKey?: string;
   ethAddressType?: EthAddressType;
   hasOauthLogin?: boolean;
-  hasDepositTransaction?: boolean;
-  hasVoucherTransactionAndBalanceIsGreaterThanZero?: boolean;
   hasWeb3Connection?: boolean;
   isCardPayment?: boolean;
   trackingWalletName?: string;

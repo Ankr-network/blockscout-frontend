@@ -17,7 +17,7 @@ export const usePremiumStatusSubscription = () => {
 
   const { groupToken } = useGroupJwtToken();
 
-  const [fetch] = useLazyFetchPremiumStatusQuery(options);
+  const [fetch, { isUninitialized }] = useLazyFetchPremiumStatusQuery(options);
 
   const hasAccess = useGuardUserGroup({
     blockName: BlockWithPermission.AccountStatus,
@@ -37,7 +37,7 @@ export const usePremiumStatusSubscription = () => {
     }
 
     return () => {};
-
-    // return unsubscribeCallback;
   }, [fetch, groupToken?.jwtToken, hasAccess, userEndpointToken]);
+
+  return { isUninitialized };
 };

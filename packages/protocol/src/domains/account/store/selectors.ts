@@ -49,9 +49,19 @@ export const selectMyBundles = createSelector(
   ({ data }) => data || [],
 );
 
+export const selectHasBundles = createSelector(
+  selectMyBundlesState,
+  ({ data }) => Number(data?.length) > 0,
+);
+
 export const selectMyBundlesLoading = createSelector(
   selectMyBundlesState,
   ({ isLoading }) => isLoading,
+);
+
+export const selectMyBundlesIsLoaded = createSelector(
+  selectMyBundlesState,
+  ({ isUninitialized, isLoading }) => !isUninitialized && !isLoading,
 );
 
 export const selectIsMyBundleBySubscriptionId = createSelector(

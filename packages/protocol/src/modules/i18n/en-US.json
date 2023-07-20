@@ -699,12 +699,13 @@
     "breadcrumbs": "Advanced APIs",
     "chain-overview": {
       "title": "Single entry point",
-      "description": "to the optimized, indexed, and cached data for eight EVM-compatible blockchains"
+      "description": "Access optimized, indexed, and cached data for nine EVM-compatible blockchains."
     },
     "js-sdk": "JS SDK",
     "python-sdk": "Python SDK",
     "tabs": {
       "ankr-js": "Ankr JS",
+      "ankr-py": "Ankr Py",
       "shell": "Shell"
     },
     "benefits": {

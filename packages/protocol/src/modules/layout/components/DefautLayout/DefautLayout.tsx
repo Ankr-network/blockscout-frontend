@@ -14,6 +14,8 @@ import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -81,7 +83,11 @@ export const DefaultLayout = ({
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
         <ConnectWalletDialog />
-        <StatusTransitionDialog />
+        {isLoggedIn && (
+          <GuardUserGroup blockName={BlockWithPermission.Billing}>
+            <StatusTransitionDialog />
+          </GuardUserGroup>
+        )}
         <TwoFADialog />
         <NegativeBalanceTermsOfServicesDialog />
       </div>

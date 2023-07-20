@@ -19,9 +19,6 @@ import {
 } from 'domains/userSettings/store/userSettingsSlice';
 import { shouldShowUserGroupDialog } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
-import { watchForDepositOrVoucherTransation } from 'domains/oauth/actions/watchForDepositOrVoucherTransation';
-import { watchForVoucherTransactionAndNegativeBalance } from 'domains/oauth/actions/watchForVoucherTransactionAndNegativeBalance';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
 import { is2FAError } from 'store/utils/is2FAError';
 import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
 import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
@@ -66,23 +63,6 @@ listenerMiddleware.startListening({
   matcher: authMakeAuthorization.matchFulfilled,
   effect: async (_action, { dispatch }) => {
     dispatch(usdTopUpWatchForTheFirstCardPayment.initiate());
-  },
-});
-
-listenerMiddleware.startListening({
-  matcher: isAnyOf(
-    oauthLoginJwt.matchFulfilled,
-    oauthAutoLogin.matchFulfilled,
-    authMakeAuthorization.matchFulfilled,
-  ),
-  effect: async (_action, { dispatch, getState }) => {
-    const { selectedGroupAddress: group, selectedGroupRole: userGroupRole } =
-      getSelectedGroupAddress(getState() as RootState);
-
-    dispatch(
-      watchForDepositOrVoucherTransation.initiate({ userGroupRole, group }),
-    );
-    dispatch(watchForVoucherTransactionAndNegativeBalance.initiate({ group }));
   },
 });
 

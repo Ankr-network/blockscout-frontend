@@ -32,10 +32,7 @@ export const {
       TwoFAQueryFnParams<OauthLoginByGoogleSecretCodeParams>
     >({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (
-          { params: { group }, totp },
-          { dispatch, getState },
-        ) => {
+        queryFn: async ({ totp }, { dispatch, getState }) => {
           const {
             data: {
               address,
@@ -76,7 +73,7 @@ export const {
             }),
           );
 
-          await trackLoginSuccess({ dispatch, getState, group });
+          await trackLoginSuccess({ getState });
 
           return { data: {} };
         },

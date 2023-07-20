@@ -14,6 +14,8 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AddProject } from '../AddProject';
 import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
 
+const CAN_ADD_PROJECT_FROM_JWT_MANAGER = false;
+
 export const JwtTokenManager = () => {
   const { classes } = useJwtTokenManagerStyles();
 
@@ -82,11 +84,13 @@ export const JwtTokenManager = () => {
         setOpenedProjectIndex={setOpenedProjectIndex}
         onProjectOpen={onProjectOpen}
       >
-        {jwtTokens.length > 0 && canAddProject && (
-          <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
-            <AddProject onOpen={onOpenAddProjectDialog} />
-          </GuardUserGroup>
-        )}
+        {CAN_ADD_PROJECT_FROM_JWT_MANAGER &&
+          jwtTokens.length > 0 &&
+          canAddProject && (
+            <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
+              <AddProject onOpen={onOpenAddProjectDialog} />
+            </GuardUserGroup>
+          )}
       </UserEndpointsScrollbarWrapper>
 
       <AddProjectDialog

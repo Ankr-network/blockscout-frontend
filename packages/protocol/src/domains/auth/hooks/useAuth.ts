@@ -19,7 +19,6 @@ import {
 import { useAppSelector } from 'store/useAppSelector';
 import { useOauth } from 'domains/oauth/hooks/useOauth';
 import { useWeb3Connection } from './useWeb3Connection';
-import { usePremiumStatus } from './usePremiumStatus';
 
 export const useAuth = () => {
   const authData = useAppSelector(selectAuthData);
@@ -46,10 +45,8 @@ export const useAuth = () => {
 
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
-  const { isLoading: premiumStatusLoading } = usePremiumStatus();
-
   return {
-    loading: web3ConnectionLoading || autologinLoading || premiumStatusLoading,
+    loading: web3ConnectionLoading || autologinLoading,
     ...rest,
     ...authData,
     ...oauthRest,
