@@ -10,7 +10,8 @@ import {
   Doc,
   Block,
   Wallet,
-  Projects,
+  Folder,
+  BoldFolder,
   AdvancedApi,
   BoldAdvancedApi,
   Logout,
@@ -70,8 +71,8 @@ export const getCommonMenuList = (
 ];
 
 const getProjectsItem = () => ({
-  StartIcon: Projects,
-  ActiveIcon: Projects,
+  StartIcon: Folder,
+  ActiveIcon: BoldFolder,
   href: ProjectsRoutesConfig.projects.generatePath(),
   label: t('main-navigation.projects'),
   isNew: true,

@@ -106,10 +106,10 @@
   resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.7.1.tgz#8e285d7ccc4d71b51992862f73e0c9b27f4e099e"
   integrity sha512-Sglw9X1NTvYrS5RSehtAXv9xHt/96Ta7nKSEfow7J4drz1WCKpiY1cKHwB1/Y0tFQ8WDqHYfJuaINOPSS8m8kg==
 
-"@ankr.com/ui@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.9.3.tgz#4b7b4025d490dfc4cb2b9ba3db9c031f9a285648"
-  integrity sha512-JMqSmBtovkDr5AVE9TGGMLp+NEALCa0deaRq1c1e3srsTVip08K9ziZR5rNWk81YKTY8weASx8qqtX0Mhb2pFA==
+"@ankr.com/ui@^0.9.7":
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.9.7.tgz#f82e9c7ac9b38224cacbd8dd5c8c58c8fe2f268a"
+  integrity sha512-IRFdW/sXJz7QYbjQRFLkS72N7+zkv2FbuurdyDJzORsRP7QeQwfaXeOXbO5E0RN8vKw08aJ1huqzow0L4OvdDA==
 
 "@ankr.com/utils@*", "@ankr.com/utils@^1.0.0", "@ankr.com/utils@^1.1.1":
   version "1.1.1"
