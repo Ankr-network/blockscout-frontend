@@ -20,7 +20,7 @@ export const useStatusTransitionDialog = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
-  const { bundles } = useMyBundles();
+  const { bundles } = useMyBundles({ shouldFetch: false });
 
   const shouldShowDialog = useMemo(() => {
     const isRedirectedFromSuccessTopUp =

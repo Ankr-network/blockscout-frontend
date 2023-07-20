@@ -42,6 +42,7 @@ import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
+import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 
 export const Routes = () => {
   const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
@@ -54,6 +55,7 @@ export const Routes = () => {
   useWeb3ThemeSwitcher();
   useCheckChangedSignupUserSettingsAndUpdate();
   useJwtManagerInitializer(!isReactSnap && isLoggedIn);
+  useMyBundles({ shouldFetch: !isReactSnap && isLoggedIn });
 
   return (
     <Switch>
