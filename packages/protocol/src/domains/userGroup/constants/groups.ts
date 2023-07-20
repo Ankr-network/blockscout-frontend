@@ -35,6 +35,7 @@ export const FINANCE_PERMISSIONS = [
   BlockWithPermission.Billing,
   BlockWithPermission.Payment,
   BlockWithPermission.TosStatus,
+  BlockWithPermission.AccountStatus,
 ];
 
 export const PERSONAL_GROUP_NAME = 'Personal';
